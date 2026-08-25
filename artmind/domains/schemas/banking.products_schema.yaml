@@ -170,8 +170,12 @@ entity_types:
       - calculated_per (interest calculation rule)
     guidance: |-
       INTEREST_RATE_TIER entities include rate_value, balance_min, balance_max, rate_basis.
-      Each tier is its own entity -- include the rate value AND the balance range in the name (e.g. "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)"), never a single entity per product covering all tiers.
-      Naming: include the rate and tier range in the name. RIGHT:   { "name": "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)" }
+      Each tier is its own entity -- never a single entity per product covering all tiers.
+      Naming: identify the TIER, never its current rate. The rate and the balance range go in
+      properties -- the rate is revised every month, and a name carrying it cannot be matched
+      to the same tier in the next schedule. The tier ordinal IS identity and stays.
+        RIGHT:   { "name": "SmartSaver Tier 1 Rate", "rate_value": 4.50, "balance_min": "£0", "balance_max": "£10,000" }
+        WRONG:   { "name": "SmartSaver Tier 1 Rate -- 4.50% AER (£0-£10,000)" }
   FEE:
     kind: recurrent
     description: A specific charge levied on the customer for a transaction type, service, or event. Capture

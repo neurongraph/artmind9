@@ -83,10 +83,13 @@ entity_types:
       - earned_by
     guidance: |-
       Each interest rate tier captured as a separate RATE_ENTRY with product and rate value.
-      RATE_ENTRY names include product, tier, rate value, and effective date.
       RATE_ENTRY entities include rate_value, balance range, effective_date, rate_basis.
       RATE_ENTRY tier ordering captured (higher_tier_than between all adjacent tiers).
-      Naming: include the product, tier, and rate in the name. RIGHT:   { "name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15" }
+      Naming: identify the TIER, never its current rate. The rate and the effective date go
+      in properties -- they are precisely what changes each month, and a name carrying them
+      cannot be recognised as the same tier in next month's schedule.
+        RIGHT:   { "name": "SmartSaver Account Tier 1 Rate", "rate_value": 4.50, "effective_date": "2026-01-15" }
+        WRONG:   { "name": "SmartSaver Account Tier 1 Rate -- 4.50% AER (£0-£10,000), effective 2026-01-15" }
   INCIDENT_TYPE:
     kind: recurrent
     description: 'A named category or scenario of operational incident, security event, or system failure
@@ -211,9 +214,12 @@ entity_types:
       - triggers_communication_to
     guidance: |-
       Each severity level captured as a separate SEVERITY_LEVEL with impact threshold.
-      SEVERITY_LEVEL names include severity number and key threshold.
       SEVERITY_LEVEL entities include level_number, impact thresholds, response_time_target.
-      Naming: include the level name and its key threshold. RIGHT:   { "name": "Severity 1 (Critical) — >£100,000 impact or >4-hour system outage" }
+      Naming: identify the LEVEL, never its current thresholds. The severity number and its
+      label are identity and belong in the name; the impact and outage thresholds are values
+      that get revised, and belong in properties.
+        RIGHT:   { "name": "Severity 1 (Critical)", "impact_threshold": ">£100,000", "response_time_target": "4 hours" }
+        WRONG:   { "name": "Severity 1 (Critical) -- >£100,000 impact or >4-hour system outage" }
   RESPONSE_ACTION:
     kind: recurrent
     description: A specific action, procedure, or step required during incident response, business continuity,

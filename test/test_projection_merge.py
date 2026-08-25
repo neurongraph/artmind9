@@ -248,15 +248,53 @@ def test_agreement_is_never_a_conflict_for_either_kind():
         assert result["temporal_props"] == []
 
 
-def test_a_same_instant_disagreement_wins_over_temporal_variation():
+def test_a_property_can_be_BOTH_temporal_and_conflicted():
     """Three observations: two share an instant and disagree, one is later.
-    The same-instant disagreement makes it a conflict, not history."""
+
+    The property genuinely varies over time AND is disputed at one instant.
+    These are independent facts and both are recorded — recording only the
+    conflict would answer "does this rate change over time?" with no, and a
+    single bad extraction inside one document would erase the whole temporal
+    history. This is the shape the live run hit."""
     result = merge_observations([
         obs(id="1", doc_id="a", _kind="recurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", rate_value=4.70),
         obs(id="2", doc_id="b", _kind="recurrent", _doc_valid_from="2026-01-15", _valid_from="2026-01-01", rate_value=4.65),
         obs(id="3", doc_id="c", _kind="recurrent", _doc_valid_from="2026-02-01", _valid_from="2026-02-01", rate_value=4.60),
     ])
     assert [c["property"] for c in result["conflicts"]] == ["rate_value"]
+    assert result["temporal_props"] == ["rate_value"]
+
+
+def test_a_disagreement_at_a_SINGLE_instant_is_a_conflict_only():
+    """Nothing varies over time here — there is only one instant."""
+    result = merge_observations([
+        obs(id="1", doc_id="a", _kind="recurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", rate_value=4.70),
+        obs(id="2", doc_id="b", _kind="recurrent", _doc_valid_from="2026-01-15", _valid_from="2026-01-01", rate_value=5.25),
+    ])
+    assert [c["property"] for c in result["conflicts"]] == ["rate_value"]
+    assert result["temporal_props"] == []
+
+
+def test_the_same_dispute_repeated_at_every_instant_is_not_temporal_variation():
+    """Both instants carry the same two values, so nothing changed between
+    them — it is one unresolved disagreement, twice."""
+    result = merge_observations([
+        obs(id="1", doc_id="a", _kind="recurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", rate_value=4.70),
+        obs(id="2", doc_id="b", _kind="recurrent", _doc_valid_from="2026-01-02", _valid_from="2026-01-01", rate_value=5.25),
+        obs(id="3", doc_id="c", _kind="recurrent", _doc_valid_from="2026-02-01", _valid_from="2026-02-01", rate_value=4.70),
+        obs(id="4", doc_id="d", _kind="recurrent", _doc_valid_from="2026-02-02", _valid_from="2026-02-01", rate_value=5.25),
+    ])
+    assert [c["property"] for c in result["conflicts"]] == ["rate_value"]
+    assert result["temporal_props"] == []
+
+
+def test_an_occurrent_property_is_never_temporal_even_when_it_varies():
+    """A completed event's attributes do not drift."""
+    result = merge_observations([
+        obs(doc_id="a", _kind="occurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", attendee_count=12),
+        obs(doc_id="b", _kind="occurrent", _doc_valid_from="2026-02-01", _valid_from="2026-02-01", attendee_count=15),
+    ])
+    assert [c["property"] for c in result["conflicts"]] == ["attendee_count"]
     assert result["temporal_props"] == []
 
 

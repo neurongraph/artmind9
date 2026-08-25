@@ -156,6 +156,12 @@ def merge_observations(
     A scalar is never unioned: `rate_value: [3.75, 4.60, 4.50]` cannot answer
     "what is the rate?". The winner answers it, `_temporal_props` declares that
     it varies, and the observations hold the history.
+
+    **Temporal variation and conflict are independent**, not alternatives. A
+    recurrent property that takes different values at different instants goes
+    into `_temporal_props`; a property with two values at the *same* instant
+    raises a `:Conflict`. With three or more observations both can be true at
+    once, and both are recorded.
     """
     if not observations:
         raise ValueError("merge_observations called with no observations")
@@ -246,13 +252,27 @@ def merge_observations(
             for observation in contributing:
                 by_valid_from[observation.get("_valid_from") or ""].append(observation[prop_key])
 
+            # Temporal variation and conflict are INDEPENDENT facts, and with
+            # three or more observations a property can be both. `rate_value`
+            # across Jan(4.70, 5.25) / Feb(4.60) / Mar(4.50) genuinely varies
+            # over time AND is disputed within January. Recording only the
+            # conflict would answer "does this rate change over time?" with no.
+            #
+            # An earlier version made them mutually exclusive, and a single
+            # bad extraction inside one document was enough to erase
+            # `rate_value` from `_temporal_props` entirely.
             same_instant_disagreement = _conflicting_values(by_valid_from)
-            if kind == "recurrent" and not same_instant_disagreement:
+            varies_across_instants = (
+                len({frozenset(_hashable(v) for v in vals) for vals in by_valid_from.values()}) > 1
+            )
+
+            if kind == "recurrent" and varies_across_instants:
                 # The thing changed. That is history, not a defect.
                 temporal_props.append(prop_key)
-            else:
-                # occurrent (a completed event's attributes do not drift), or
-                # two sources disagreeing at the same instant.
+
+            # occurrent (a completed event's attributes do not drift), or two
+            # sources disagreeing at the same instant.
+            if kind != "recurrent" or same_instant_disagreement:
                 conflicts.append(
                     {
                         "property": prop_key,

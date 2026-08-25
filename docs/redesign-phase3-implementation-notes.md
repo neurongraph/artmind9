@@ -118,16 +118,50 @@ never declared. Occurrent is the conservative default: two observations that
 disagree raise a `:Conflict` rather than being silently recorded as history. A
 missed conflict is invisible; a spurious one is reviewable.
 
-### Conflict beats temporal variation when both apply
+### Conflict and temporal variation are independent, and both are recorded
 
-Three observations where two share a `valid_from` and disagree, and a third is
-later: the same-instant disagreement wins and the property is a conflict, not
-history. "At the same instant" is the spec's own definition, and a real
-disagreement being filed as history is the worse failure.
+Your call, after the live run surfaced it. The spec's table reads as a 2×2
+because it describes *a pair* of observations; with three or more, a recurrent
+property can be both at once.
+
+The first implementation made them exclusive (`if/else`), and the live run
+showed why that is wrong: `rate_value` across January (4.70, plus a
+mis-extracted 5.25 that was really SmartSaver *Plus*), February (4.60) and
+March (4.50) both varies over time and is disputed within January. Under
+exclusivity the conflict won and `_temporal_props` lost `rate_value` entirely —
+so a single bad extraction inside one document erased the property's whole
+temporal history, and "does this rate change over time?" answered no.
+
+Now: **"varies" is decided across instants, "conflicts" within one.** A
+property lands in `_temporal_props` when a recurrent class takes different
+values at different instants, and raises a `:Conflict` when any single instant
+carries more than one value. Occurrent classes never get `_temporal_props` — a
+completed event's attributes do not drift.
 
 A conflicted property still gets the winner's value on the `:Entity` — a
 resolvable answer beats no answer, and the `:Conflict` node carries the dispute
 with `EVIDENCE` edges to every contributing observation.
+
+### Four schemas were instructing the extractor to break the naming rule
+
+Also your call, and the second half of the same live finding. `meta.yaml`'s
+recurrent naming rule reaches the prompt now, but a class's own `guidance` is
+rendered *after* it and gets the last word — and four recurrent classes were
+using that last word to demand the opposite, with worked `RIGHT:` examples:
+
+| Schema | Class | Was |
+|---|---|---|
+| `banking.reference` | `RATE_ENTRY` | *"names include product, tier, rate value, and effective date"* |
+| `banking.reference` | `SEVERITY_LEVEL` | *"names include severity number and key threshold"* |
+| `banking.products` | `INTEREST_RATE_TIER` | *"include the rate value AND the balance range in the name"* |
+| `banking.risk_governance` | `RISK_METRIC` | *"names include both target and actual values"* |
+
+Each now names the thing and puts the value in properties, with a RIGHT/WRONG
+pair — models copy examples more readily than they follow prose.
+`test/test_schema_naming_guidance.py` reads the shipped schemas and fails if the
+contradiction returns, so a future schema edit is caught here rather than in a
+corpus six weeks later. It found `INTEREST_RATE_TIER` and `SEVERITY_LEVEL`,
+which a first hand-written scan had missed.
 
 ### Projection conflicts are marked `_source: 'projection'`
 
