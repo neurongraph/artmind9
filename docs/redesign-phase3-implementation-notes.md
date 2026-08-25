@@ -282,7 +282,32 @@ Phase 8 re-ingest, not here. Verified both ways: seeding 17 legacy entities
 reproduces the original failure and now passes with a note, while a *projected*
 entity carrying `" | "` still fails the gate.
 
-**5. A leftover `:Conflict` broke test isolation** once the real
+**5. A Phase 2 leftover made every vault-native metadata-only re-ingest fail,
+and the failure was silently destructive.** `ingest_to_kg`'s back-compat branch
+built `MARKDOWNS_DIR / f"{stem}.md"` by hand. Phase 2 stopped copying
+vault-native markdown into the data dir — the vault file *is* the markdown, and
+`markdown_path_for` exists to be the one place that knows — but this call site
+was missed.
+
+The chain on the live run: an unchanged vault file returns the `metadata_only`
+tier with no `chunks_dir` → the back-compat branch → "Markdown not found" →
+no observations written. The deferred full rebuild then found every key those
+documents fed with zero `latest` observations and **correctly deleted 25
+entities**. The projection behaved exactly as specified; the run emptied it and
+refilled nothing.
+
+Two guards, because the projection cannot defend against this and should not
+try:
+
+- the gate script now **aborts before the rebuild** if any document failed to
+  commit, since a rebuild there is guaranteed destructive;
+- and it resets `_content_sha256` on the vault files it is about to re-ingest.
+  Deleting a document's observations while leaving frontmatter asserting the
+  content is unchanged is an inconsistency the script itself created — the fast
+  path is right to skip extraction when the graph *does* hold the prior
+  version's observations.
+
+**6. A leftover `:Conflict` broke test isolation** once the real
 `observation_id`/`conflict_id` constraints were applied to the harness. The
 fixture cleaned by domain, and pairwise conflicts carry none. Fixed by cleaning
 `c.domain IS NULL` too — and the live fixture now applies the **real**

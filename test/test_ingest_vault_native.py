@@ -158,3 +158,58 @@ def test_touched_path_is_set_for_git_batching(vault):
     v, doc = vault
     result = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
     assert result["touched_path"] == doc
+
+
+# ── the metadata-only path must not look in MARKDOWNS_DIR ───────────────────
+
+
+def test_ingest_to_kg_resolves_a_vault_native_markdown_at_its_vault_path(tmp_path, monkeypatch):
+    """Phase 2 stopped copying vault-native markdown into the data dir — the
+    vault file IS the markdown. `ingest_to_kg`'s back-compat branch still built
+    `MARKDOWNS_DIR / f"{stem}.md"` by hand, so any vault-native re-ingest that
+    reached it died on "Markdown not found".
+
+    That is how a live run lost data: an unchanged file returns the
+    `metadata_only` tier with no `chunks_dir`, fell into this branch, failed,
+    wrote no observations — and the deferred full rebuild then correctly
+    deleted every entity whose observations had been cleaned.
+    """
+    import artmind.ingest as ing
+
+    vault_file = tmp_path / "vault" / "rates.md"
+    vault_file.parent.mkdir(parents=True)
+    vault_file.write_text("---\n_artmind_id: abc\n---\n\n# Rates\n\nBody text.\n", encoding="utf-8")
+
+    # Point MARKDOWNS_DIR somewhere that definitively does NOT hold a copy.
+    monkeypatch.setattr(ing, "MARKDOWNS_DIR", tmp_path / "data" / "markdowns")
+    (tmp_path / "data" / "markdowns").mkdir(parents=True)
+
+    seen: dict = {}
+    monkeypatch.setattr(ing, "extract_kg", lambda fr, *a, **k: seen.setdefault("fr", fr) and None or None)
+    monkeypatch.setattr(ing, "_persist_chunks", lambda chunks, d: d.mkdir(parents=True, exist_ok=True))
+
+    # No chunks_dir — exactly what the metadata_only fast path returns.
+    file_result = {
+        "artmind_id": "abc",
+        "version": 1,
+        "registered_path": str(vault_file),
+        "source_type": "md",
+    }
+    ing.ingest_to_kg(file_result, "banking.reference", stage_only=True)
+
+    assert "chunks_dir" in file_result, (
+        "the vault file should have been chunked; instead the markdown lookup failed"
+    )
+
+
+def test_the_markdown_lookup_uses_the_shared_resolver():
+    """A guard on the fix, not the symptom: hand-building the path here is what
+    broke, and `markdown_path_for` exists to be the one place that knows."""
+    import inspect
+
+    import artmind.ingest as ing
+
+    src = inspect.getsource(ing.ingest_to_kg)
+    back_compat = src[src.index("Back-compat: if ingest_file didn't split chunks"):]
+    assert "markdown_path_for(" in back_compat
+    assert 'MARKDOWNS_DIR / f"{registered_path.stem}.md"' not in back_compat

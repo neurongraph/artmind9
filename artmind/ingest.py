@@ -1505,7 +1505,18 @@ def ingest_to_kg(
     # Back-compat: if ingest_file didn't split chunks yet, do it now.
     if "chunks_dir" not in file_result:
         registered_path = Path(file_result["registered_path"])
-        md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+        # `markdown_path_for` exists precisely to replace hand-built
+        # `MARKDOWNS_DIR / f"{stem}.md"` paths, which are wrong for a
+        # vault-native document: Phase 2 stopped copying those into the data
+        # dir, so the vault file IS the markdown. This call site was missed,
+        # and it turned every metadata-only vault-native re-ingest that reached
+        # here into "Markdown not found".
+        source_type = file_result.get(
+            "source_type", "md" if "artmind_id" in file_result else "other"
+        )
+        md_file = markdown_path_for(
+            source_type, vault_path=registered_path, stem=registered_path.stem
+        )
         if not md_file.exists():
             logger.error("Markdown not found: {}", md_file)
             return False

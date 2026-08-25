@@ -261,6 +261,39 @@ def run_fixtures(gate: Gate) -> None:
     print(f"\nDeferred full rebuild: {summary}\n")
 
 
+def _reset_content_fingerprint(paths: list[Path]) -> int:
+    """Drop `_content_sha256` from the vault files this run is about to ingest.
+
+    `_clean` has just deleted these documents' observations from the graph. The
+    vault frontmatter still claims a content hash, so the next ingest compares
+    equal, returns the `metadata_only` fast path, and writes NO observations —
+    and the deferred full rebuild then correctly deletes every entity whose
+    observations are gone. A clean run empties the projection and refills
+    nothing.
+
+    That is not a bug in the fast path: it is right to skip extraction when the
+    graph already holds the prior version's observations. It is a bug to delete
+    that graph state while leaving the fingerprint asserting it is present. So
+    the two are reset together.
+    """
+    from artmind.document_identity import serialize_frontmatter
+    from artmind.ingest import _parse_md_frontmatter
+
+    reset = 0
+    for path in paths:
+        try:
+            meta, body = _parse_md_frontmatter(path.read_text(encoding="utf-8"))
+        except Exception as e:
+            print(f"  (could not read {path.name}: {e})")
+            continue
+        if "_content_sha256" not in meta:
+            continue
+        meta.pop("_content_sha256", None)
+        path.write_text(f"---\n{serialize_frontmatter(meta)}---\n\n{body}", encoding="utf-8")
+        reset += 1
+    return reset
+
+
 def run_full(gate: Gate, vault: Path) -> None:
     """The real thing: chunk extraction, the name vocabulary's ANN, the
     per-document canonicalization pass, and the post-commit embed sweep all
@@ -314,23 +347,47 @@ def run_full(gate: Gate, vault: Path) -> None:
     if len(sources) != 3:
         raise SystemExit(f"Expected 3 rate schedules in {CORPUS}, found {len(sources)}")
 
-    print(f"Ingesting {len(sources)} document(s) | text={text_model} embed={embed_model}\n")
     vault.mkdir(parents=True, exist_ok=True)
-
-    for source in sources:
-        target = vault / source.name
+    targets = [vault / s.name for s in sources]
+    for source, target in zip(sources, targets):
         if not target.exists():
             shutil.copy2(source, target)
+
+    reset = _reset_content_fingerprint(targets)
+    print(f"Reset the content fingerprint on {reset} vault file(s) — the graph state "
+          f"they described was just cleaned.")
+    print(f"Ingesting {len(sources)} document(s) | text={text_model} embed={embed_model}\n")
+
+    commits = 0
+    for source in sources:
+        target = vault / source.name
         result = ingest_file(target, image_model, DOMAIN, chunk_size=6000)
         ok = result.get("status") == "ok"
         gate.check(f"ingest {source.name}", ok, result.get("error", ""))
         if not ok:
             continue
         # Deferred, exactly like a directory ingest: one full rebuild at the end.
-        gate.check(
-            f"extract+commit {source.name}",
-            ingest_to_kg(result, DOMAIN, text_model, embed_model, 6000, defer_rebuild=True),
+        committed = ingest_to_kg(
+            result, DOMAIN, text_model, embed_model, 6000, defer_rebuild=True
         )
+        gate.check(f"extract+commit {source.name}", committed)
+        if committed:
+            commits += 1
+
+    # A deferred full rebuild after a failed extraction is GUARANTEED
+    # destructive: `_clean` removed these documents' observations, so every key
+    # they fed now has zero and the rebuild correctly deletes its :Entity. The
+    # projection is behaving properly; running it here would not be. Abort with
+    # the graph as extraction left it, and say how to restore.
+    if commits < len(sources):
+        print(
+            f"\n  {RED}ABORTED before the projection rebuild{RESET} — "
+            f"{len(sources) - commits} of {len(sources)} document(s) failed to commit.\n"
+            f"  A full rebuild now would delete every entity these documents fed,\n"
+            f"  because their observations were cleaned and never rewritten.\n"
+            f"  Fix the extraction failure above, then re-run; or restore from your snapshot."
+        )
+        return
 
     summary = rebuild_projection(DOMAIN)
     print(f"\nDeferred full rebuild + embed sweep: {summary}\n")
