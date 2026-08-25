@@ -142,6 +142,46 @@ A conflicted property still gets the winner's value on the `:Entity` — a
 resolvable answer beats no answer, and the `:Conflict` node carries the dispute
 with `EVIDENCE` edges to every contributing observation.
 
+### Temporal variation is measured over each instant's winner
+
+A refinement of the above, from the second live run. Comparing each instant's
+full value *set* let one bad extraction manufacture history: January's three
+chunks read the Tier 2 lower bound as 10001, 10000, 10001 while February and
+March both said 10001, so `balance_min` "varied" — when the range never
+changed and the misread was already reported as a conflict.
+
+The value **at** an instant is the winner among that instant's observations,
+which is the same rule the Entity uses to answer "what is it now". So that is
+what "did it change?" compares. A genuinely varying property still lands in
+`_temporal_props` even when one of its instants is disputed.
+
+### The name vocabulary must not put a separator between two names
+
+Also from the second live run, and squarely a bug in my own prompt rendering.
+`render_vocabulary` joined names with `" · "`, and the extractor read a
+rendered line back as a single entity name:
+
+    Bank of England Base Rate - 4.00%, effective 2026-01-15 · Next Rate Review
+    - February 15, 2026
+
+Two vocabulary entries glued together by the separator. Now one name per line.
+Anything that can be mistaken for part of a name does not belong in a list a
+model is asked to copy names out of.
+
+### The gate counts contributing documents, not observations
+
+The phase plan says "three `:Observation` nodes behind it", written before real
+chunking was in play. The spec is one observation per *(doc_version, **chunk**,
+entity-identity)*, and January's long-form schedule mentions the Tier 2 rate in
+three separate chunks — so three documents legitimately produce five
+observations. Counting observations would make the exit gate a function of
+`chunk_size`.
+
+What the criterion is actually asserting is "all three schedules feed this one
+entity", so the gate counts **distinct `doc_id`s** and reports the observation
+count alongside. Flagged rather than assumed, since this is a change to a
+stated exit criterion.
+
 ### Four schemas were instructing the extractor to break the naming rule
 
 Also your call, and the second half of the same live finding. `meta.yaml`'s

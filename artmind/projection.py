@@ -116,11 +116,11 @@ def _choose_name(observations: list[dict]) -> str:
     return max(set(names), key=lambda n: (len(n), frequency[n], n))
 
 
-def _conflicting_values(values_by_valid_from: dict[str, list]) -> bool:
+def _conflicting_values(observations_by_valid_from: dict[str, list], prop_key: str) -> bool:
     """True when any single valid-time instant carries more than one distinct
     value -- the definition of a conflict, as opposed to history."""
-    for values in values_by_valid_from.values():
-        distinct = {_hashable(v) for v in values}
+    for observations in observations_by_valid_from.values():
+        distinct = {_hashable(o[prop_key]) for o in observations}
         if len(distinct) > 1:
             return True
     return False
@@ -250,7 +250,7 @@ def merge_observations(
         if len(distinct) > 1:
             by_valid_from: dict[str, list] = defaultdict(list)
             for observation in contributing:
-                by_valid_from[observation.get("_valid_from") or ""].append(observation[prop_key])
+                by_valid_from[observation.get("_valid_from") or ""].append(observation)
 
             # Temporal variation and conflict are INDEPENDENT facts, and with
             # three or more observations a property can be both. `rate_value`
@@ -261,9 +261,20 @@ def merge_observations(
             # An earlier version made them mutually exclusive, and a single
             # bad extraction inside one document was enough to erase
             # `rate_value` from `_temporal_props` entirely.
-            same_instant_disagreement = _conflicting_values(by_valid_from)
+            same_instant_disagreement = _conflicting_values(by_valid_from, prop_key)
+            # Variation is measured over each instant's WINNER, not over its
+            # full set of values. Comparing sets lets one bad extraction
+            # manufacture history: January reading a boundary as both 10001 and
+            # 10000 made `balance_min` differ from February's {10001} and land
+            # in `_temporal_props`, when the range never actually changed. The
+            # value AT an instant is the winner among that instant's
+            # observations -- the same rule the Entity uses to answer "what is
+            # it now" -- so that is what "did it change?" must compare.
             varies_across_instants = (
-                len({frozenset(_hashable(v) for v in vals) for vals in by_valid_from.values()}) > 1
+                len({
+                    _hashable(_winner(obs_at_instant)[prop_key])
+                    for obs_at_instant in by_valid_from.values()
+                }) > 1
             )
 
             if kind == "recurrent" and varies_across_instants:

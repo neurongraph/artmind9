@@ -439,3 +439,36 @@ def test_all_four_sets_union():
 
 def test_no_inputs_is_an_empty_set_not_an_error():
     assert affected_keys() == set()
+
+
+def test_a_disputed_instant_does_not_manufacture_temporal_variation():
+    """From the live run. January's three chunks read the Tier 2 lower bound as
+    10001, 10000, 10001; February and March both say 10001. The range never
+    changed — one chunk misread it, and that is already a conflict.
+
+    Comparing each instant's full value SET would see {10001, 10000} vs {10001}
+    and call it variation. Comparing each instant's WINNER — the same rule the
+    Entity uses to answer "what is it now" — correctly says it did not vary."""
+    result = merge_observations([
+        obs(id="1", doc_id="jan", _doc_valid_from="2026-01-15", _valid_from="2026-01-15", balance_min="10001"),
+        obs(id="2", doc_id="jan", _doc_valid_from="2026-01-15", _valid_from="2026-01-15", balance_min="10000"),
+        obs(id="3", doc_id="jan", _doc_valid_from="2026-01-15", _valid_from="2026-01-15", balance_min="10001"),
+        obs(id="4", doc_id="feb", _doc_valid_from="2026-02-01", _valid_from="2026-02-01", balance_min="10001"),
+        obs(id="5", doc_id="mar", _doc_valid_from="2026-03-01", _valid_from="2026-03-01", balance_min="10001"),
+    ])
+    assert result["temporal_props"] == [], "the boundary never changed"
+    assert [c["property"] for c in result["conflicts"]] == ["balance_min"], "but January disagreed with itself"
+
+
+def test_a_disputed_instant_does_not_hide_genuine_temporal_variation():
+    """The converse, and the reason this is a refinement rather than a revert:
+    a property that really does change each month still lands in
+    `_temporal_props` even when one instant is disputed."""
+    result = merge_observations([
+        obs(id="1", doc_id="jan", _doc_valid_from="2026-01-15", _valid_from="2026-01-15", rate_value=4.70),
+        obs(id="2", doc_id="jan", _doc_valid_from="2026-01-15", _valid_from="2026-01-15", rate_value=5.25),
+        obs(id="3", doc_id="feb", _doc_valid_from="2026-02-01", _valid_from="2026-02-01", rate_value=4.60),
+        obs(id="4", doc_id="mar", _doc_valid_from="2026-03-01", _valid_from="2026-03-01", rate_value=4.50),
+    ])
+    assert result["temporal_props"] == ["rate_value"]
+    assert [c["property"] for c in result["conflicts"]] == ["rate_value"]

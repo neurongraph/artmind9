@@ -7,7 +7,8 @@ Ingests the three `interest_rate_schedule_*` documents from
     ONE :Entity for "SmartSaver Account Tier 2 Rate"
       holding rate_value 4.50          (March — the latest valid_from)
       with _temporal_props including "rate_value"
-      backed by three :Observation nodes via AGGREGATES
+      backed by all three documents via AGGREGATES (one observation per
+        chunk, so three documents produce three or more observations)
       and NO :Conflict                 (the three windows do not overlap)
 
 Two modes, because the two halves of the pipeline have different dependencies:
@@ -452,18 +453,29 @@ def assert_gate(gate: Gate) -> None:
         )
 
         # 4. Three observations behind it, via AGGREGATES.
+        # The phase plan says "three :Observation nodes behind it", written
+        # before real chunking was in play. The spec is one observation per
+        # (doc_version, CHUNK, entity-identity), and January's long-form
+        # schedule mentions the Tier 2 rate in three separate chunks — so three
+        # documents legitimately produce five observations.
+        #
+        # What the gate is actually asserting is "all three schedules feed this
+        # one entity", so it counts DOCUMENTS and reports the observation count
+        # alongside. Counting observations would make the gate a function of
+        # the chunk size.
         behind = session.run(
             """
             MATCH (:Entity {id: $id})-[:AGGREGATES]->(o:Observation)
-            RETURN count(o) AS c, collect(o.rate_value) AS rates,
-                   collect(o._doc_valid_from) AS dates
+            RETURN count(o) AS observations, count(DISTINCT o.doc_id) AS documents,
+                   collect(o.rate_value) AS rates, collect(o._doc_valid_from) AS dates
             """,
             id=eid,
         ).single()
         gate.check(
-            "three :Observation nodes behind it via AGGREGATES",
-            behind["c"] == 3,
-            f"count={behind['c']}, rates={behind['rates']}, dates={sorted(d for d in behind['dates'] if d)}",
+            "all THREE documents feed it via AGGREGATES",
+            behind["documents"] == 3,
+            f"documents={behind['documents']}, observations={behind['observations']}, "
+            f"rates={behind['rates']}, dates={sorted(d for d in behind['dates'] if d)}",
         )
 
         # 5. No conflict — the three windows do not overlap.

@@ -104,13 +104,28 @@ def retrieve_vocabulary(
 
 
 def render_vocabulary(vocabulary: list[dict]) -> str:
-    """The vocabulary block appended to the entities prompt."""
+    """The vocabulary block appended to the entities prompt.
+
+    **One name per line.** An earlier version joined them with `" · "`, and the
+    live run showed the extractor reading a rendered line back as a single
+    entity name:
+
+        Bank of England Base Rate - 4.00%, effective 2026-01-15 · Next Rate
+        Review - February 15, 2026
+
+    That is two vocabulary entries glued together by the separator. Anything
+    that can be mistaken for part of a name — an inline separator most of all —
+    does not belong in a list a model is asked to copy names out of.
+    """
     if not vocabulary:
         return ""
     by_class: dict[str, list[str]] = {}
     for item in vocabulary:
         by_class.setdefault(item["entity_class"], []).append(item["name"])
-    lines = [f"  {cls}: " + " · ".join(sorted(set(names))) for cls, names in sorted(by_class.items())]
+    lines: list[str] = []
+    for cls, names in sorted(by_class.items()):
+        lines.append(f"  {cls}:")
+        lines.extend(f"    - {name}" for name in sorted(set(names)))
     return "\n".join(lines)
 
 

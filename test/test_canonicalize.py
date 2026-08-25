@@ -307,3 +307,29 @@ def test_a_returned_name_matching_nothing_is_reported(monkeypatch):
     )
     assert out == {"Real Name": "Real Name"}
     assert any("matched nothing" in str(w) for w in warnings)
+
+
+def test_the_vocabulary_never_puts_a_separator_between_two_names():
+    """The live run caught the extractor reading a rendered vocabulary LINE
+    back as one entity name:
+
+        'Bank of England Base Rate — 4.00%, effective 2026-01-15 ·
+         Next Rate Review — February 15, 2026'
+
+    That is two vocabulary entries glued by the ` · ` separator the renderer
+    used. One name per line: anything that can be mistaken for part of a name
+    does not belong in a list a model is asked to copy names out of."""
+    from artmind.canonicalize import render_vocabulary
+
+    rendered = render_vocabulary([
+        {"name": "Bank of England Base Rate", "entity_class": "RATE_ENTRY"},
+        {"name": "Next Rate Review", "entity_class": "RATE_ENTRY"},
+    ])
+    assert " · " not in rendered
+    name_lines = [ln for ln in rendered.splitlines() if ln.strip().startswith("- ")]
+    assert len(name_lines) == 2, "each name gets its own line"
+    for line in name_lines:
+        assert line.count("-") >= 1
+    # every line carries exactly one name
+    assert "Bank of England Base Rate" in name_lines[0]
+    assert "Next Rate Review" in name_lines[1]
