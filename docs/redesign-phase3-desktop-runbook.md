@@ -63,7 +63,7 @@ If either is 0, `artmind init` did not overwrite — re-run it.
 just dev-test
 ```
 
-**Expect: 1155 passed, 14 skipped.** The 14 skips are the live projection
+**Expect: 1579 passed, 14 skipped.** The 14 skips are the live projection
 tests; Step 2 turns them on.
 
 ---
@@ -189,7 +189,7 @@ Deferred full rebuild + embed sweep: {'rebuilt': ..., 'embedded': N>0}
   PASS  exactly ONE :Entity for the aggregate key
   PASS  rate_value is 4.50 (March, the latest valid_from)
   PASS  _temporal_props includes "rate_value"
-  PASS  three :Observation nodes behind it via AGGREGATES
+  PASS  all THREE documents feed it via AGGREGATES
   PASS  no :Conflict (the three windows are disjoint)
   ...
 EXIT GATE PASSED
@@ -212,10 +212,44 @@ grep -E "Name vocabulary|Canonicalization" ~/.artmind/logs/artmind_ingestion.log
 |---|---|---|
 | `Name vocabulary: N existing name(s) across M recurrent class(es)` | N > 0 on documents 2 and 3 | the ANN found names the first document created — **this is the leg with the least coverage; if N is 0 every time, tell me** |
 | `Name vocabulary: embedding failed` / `ANN query failed` | absent | it degraded to empty and the vocabulary leg did not run at all |
-| `Canonicalization: X name(s) -> Y canonical (Z rewritten)` | one line **per document**, Y < X | the pass ran once per document and actually collapsed names |
+| `Canonicalization: X name(s) -> Y canonical (Z rewritten)` | one line **per document** | the pass ran once per document, not once per chunk |
+
+**A low `Z rewritten` is now the good outcome, not the bad one.** Before the
+schema guidance was fixed, the extractor emitted names carrying rates and dates
+and the pass had to repair every one. With the guidance corrected it names
+things properly at source, so there is little left to rewrite — on the second
+live run, documents 2 and 3 reported `0 rewritten` while every raw name was
+already `SmartSaver Account Tier 2 Rate`. Read `Z` together with the actual
+names in `phase3_inspect.py`: clean names and `Z = 0` is the target state;
+measurement-laden names and `Z = 0` means the pass is not firing.
 
 Three `Canonicalization:` lines total, not one per chunk. More than three means
 trap 10 regressed.
+
+---
+
+## Step 5.5 — read back the whole picture
+
+The gate asserts six things about one entity. The inspector shows you everything
+around it, which is what you need when the gate fails for a reason the assertion
+text does not explain.
+
+```bash
+uv run python scripts/phase3_inspect.py --domain banking.reference
+```
+
+It prints four sections, all scoped to projected entities (`e.key IS NOT NULL`),
+so Phase 0 baseline nodes in the same domain cannot contaminate the reading:
+
+| Section | Read it for |
+|---|---|
+| **Projected entities** | the names the real extractor produced. Names carrying a rate or a date are flagged — that is schema guidance fighting the naming rule, not a projection bug |
+| **Conflicts** | each `:Conflict` with its evidence and the distinct `valid_from` instants. Same instant, different values = a real disagreement in the corpus. Different instants = trap 9 regressed and temporal change is being miscalled a conflict |
+| **Tier 2 observations** | raw `name` vs the canonical name it aggregated under — this is the only place the canonicalization mapping is visible end to end |
+| **Embedding health** | how many projected entities carry an embedding and how many are `embedding_stale`. A stale count that never drops means the sweep is not running |
+
+Send me this output alongside the gate result — a gate failure is usually
+diagnosable from the conflicts section alone.
 
 ---
 
@@ -280,12 +314,13 @@ observations) — that is the GC rule, and it is already covered live in
 
 ## What to send back
 
-Whatever happens, these four:
+Whatever happens, these five:
 
 1. the full output of Step 4
 2. the `grep` output from Step 5
-3. the entity names from Step 6
-4. `just dev-test` result from Step 1
+3. the `phase3_inspect.py` output from Step 5.5
+4. the entity names from Step 6
+5. `just dev-test` result from Step 1
 
 If Step 4 fails, also `tail -100 ~/.artmind/logs/artmind_ingestion.log` — the failure will
 almost certainly be in extraction or the vocabulary ANN, and the staged JSON
@@ -304,9 +339,11 @@ especially) tells the rest of the story.
 2. **The canonicalization model returns a shape the parser rejects.** It
    accepts both a JSON array of `{name, canonical_name}` and a flat
    `{name: canonical}` object, and falls back to identity mapping on anything
-   else — which degrades quality without failing. Step 5's `Z rewritten` count
-   is how you tell: a `0 rewritten` on every document means the mapping was
-   discarded.
+   else — which degrades quality without failing. `Z rewritten` alone no longer
+   tells you: since the schema guidance was corrected, `0 rewritten` is the
+   expected healthy reading. Tell them apart in Step 5.5 — the Tier 2 section
+   shows raw name against canonical name, so a discarded mapping looks like
+   measurement-laden raw names that were aggregated verbatim.
 3. **A local model ignoring the recurrent naming rule.** Recoverable (the key
    function strips measurement tails), but it will show up as noisier names in
-   Step 6.
+   Step 5.5's flagged entities and in Step 6.
