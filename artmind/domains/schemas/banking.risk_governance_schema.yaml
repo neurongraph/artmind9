@@ -387,9 +387,12 @@ entity_types:
       - tracks_false_positive_rate_of
     guidance: |-
       Each quantitative metric or KRI threshold captured as RISK_METRIC.
-      RISK_METRIC names include both target and actual values when stated.
       RISK_METRIC entities include target_threshold AND actual_value when both stated.
-      Naming: include the metric name, threshold, and actual value in the name where both are stated. RIGHT:   { "name": "Capital Ratio — Target >15%, Actual 18.2%" }
+      Naming: identify the METRIC, never its current reading. Target and actual values go in
+      properties -- they are what changes between reports, and a name carrying them cannot be
+      matched to the same metric in the next one.
+        RIGHT:   { "name": "Capital Ratio", "target_threshold": ">15%", "actual_value": "18.2%" }
+        WRONG:   { "name": "Capital Ratio -- Target >15%, Actual 18.2%" }
   REGULATORY_UPDATE:
     kind: occurrent
     description: A new regulation, amended regulation, FCA/PRA circular, compliance bulletin, enforcement

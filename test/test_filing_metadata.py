@@ -24,7 +24,13 @@ class _Rec:
 
 
 class _RecordingSession:
-    """Records every run(); returns empty results so any query 'succeeds'."""
+    """Records every run() and the parameters it was given.
+
+    Recording is the point: an empty result means no query can be "verified"
+    by its return value, so these tests assert on what was actually SENT —
+    the pattern `test_update.py` established after a mocked session hid a real
+    defect in `update confirm`.
+    """
 
     def __init__(self, runs):
         self.runs = runs
@@ -32,6 +38,17 @@ class _RecordingSession:
     def run(self, cypher, **kwargs):
         self.runs.append((cypher, kwargs))
         return _Rec(single=None, data=[])
+
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    execute_read = execute_write
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
 
 
 class _Driver:
@@ -67,14 +84,13 @@ def _stage_doc_dir(tmp_path: Path, document: dict, chunk: dict) -> Path:
 def _run_write(tmp_path: Path, monkeypatch) -> list:
     runs: list = []
     session = _RecordingSession(runs)
-    monkeypatch.setattr(
-        ing,
-        "GraphDatabase",
-        type("G", (), {"driver": staticmethod(lambda *a, **k: _Driver(session))}),
-    )
+    # The commit path opens its session through graph_query.neo4j_session()
+    # and runs one unit of work under execute_write(), so that is what gets
+    # patched — the old GraphDatabase.driver() seam no longer exists.
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda *a, **k: 0)
-    assert ing._write_to_neo4j(tmp_path) is True
+    assert ing._write_to_neo4j(tmp_path) is not None
     return runs
 
 

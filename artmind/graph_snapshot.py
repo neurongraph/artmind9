@@ -16,7 +16,16 @@ from utils.functions import load_env
 
 # ── constants ─────────────────────────────────────────────────────────────────
 
-BASE_LABELS = ("Document", "DocChunk", "Entity", "UserChat")
+# :Observation is included because the projection is DERIVED from it. A
+# snapshot that exported :Entity without its backing observations would import
+# entities that nothing asserts, and the first rebuild — which runs inside the
+# next commit — would delete every one of them.
+#
+# Phase 5 inverts this properly: export sources only (Document, DocChunk,
+# UserChat, Observation, :Synthesis) and rebuild the projection on import, so
+# there is no way to import a stale projection at all. Until then, exporting
+# both halves keeps a snapshot round-trip honest.
+BASE_LABELS = ("Document", "DocChunk", "Entity", "UserChat", "Observation")
 
 _ENTITY_MATCH_KEYS = ("name", "entity_class", "domain")
 _ID_MATCH_KEYS = ("id",)

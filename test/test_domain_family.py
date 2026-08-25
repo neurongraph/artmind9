@@ -58,30 +58,6 @@ def test_expand_domain_family_leaves_childless_domain_unchanged(monkeypatch):
     assert gq.expand_domain_family("banking.policy") == ["banking.policy"]
 
 
-def test_normalize_time_loops_every_concrete_child(monkeypatch):
-    """A parent-scoped run previously touched only nodes stamped exactly 'banking'
-    — normally none, since abstract parents hold no documents.
-    """
-    import artmind.temporal as t
-
-    monkeypatch.setattr(t, "expand_domain_family", lambda d: ["banking", "banking.policy"])
-    seen = []
-
-    def fake_one(domain, dry_run=False):
-        seen.append(domain)
-        return {"domain": domain, "documents": 1, "entities": 2,
-                "deterministic": 3, "llm": 0, "dry_run": dry_run}
-
-    monkeypatch.setattr(t, "_normalize_time_one_domain", fake_one)
-
-    out = t.normalize_time("banking", dry_run=False)
-
-    assert seen == ["banking", "banking.policy"]
-    assert out["documents"] == 2
-    assert out["entities"] == 4
-    assert out["deterministic"] == 6
-    assert out["domains_processed"] == ["banking", "banking.policy"]
-    assert out["domain"] == "banking"
 
 
 def test_detect_conflicts_expands_domains_before_pairing(monkeypatch):
@@ -116,3 +92,15 @@ def test_detect_conflicts_expands_domains_before_pairing(monkeypatch):
 
     assert seen["domains"] == ["banking", "banking.policy", "banking.cases"]
     assert report["domains_requested"] == ["banking"]
+
+
+def test_normalize_time_is_gone():
+    """Date lifting moved into ingest in Phase 3: the projection's winner rule
+    needs each document's valid_from at observation-write time, inside the
+    commit transaction, so a backfill command that ran afterwards was both too
+    late and (being a swallow-and-warn hook) invisible when it failed."""
+    import artmind.temporal as t
+
+    assert not hasattr(t, "normalize_time")
+    assert not hasattr(t, "_normalize_time_one_domain")
+    assert not hasattr(t, "normalize_ingested_document")

@@ -116,9 +116,13 @@ artmind before killing, so it won't touch an unrelated process on that port.
   `artmind init`. The chat UI agent's `cwd` is the run folder
   (`artmind/webui/agent.py`), so this copy is what it actually reads.
 
-`init` (`_seed_tree()` in `artmind/setup.py`) **overwrites** skills and `.opencode/` on
-every run — they're package assets — while seeding `.env` and `domains/schemas/` only
-when absent, so user data survives. So a skill edit reaches the chat UI via:
+`init` (`_seed_tree()` in `artmind/setup.py`) **overwrites** skills, `.opencode/` **and
+`domains/schemas/`** on every run — all three are package assets — while seeding `.env`
+only when absent, so user credentials survive. Schemas are overwritten deliberately:
+they carry the extraction prompts, and a prompt fix that never reached the run folder
+would look like a model failure. Keep local schema edits in
+`artmind/domains/schemas/`, not in the run folder. So a skill or schema edit reaches
+the chat UI and the extractor via:
 
 ```bash
 artmind init      # or just dev-install, which runs it

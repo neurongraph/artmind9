@@ -129,6 +129,15 @@ Decided by the class's declared `kind` plus the documents' `valid_from`:
 A completed event's attributes do not drift. Two sources disagreeing about a past
 meeting's attendee count is a defect in the corpus, not history.
 
+**The two outcomes are independent, not alternatives.** The table reads as a
+2×2 because it describes *a pair* of observations; with three or more, a
+recurrent property can be both. `rate_value` across January (4.70 and a
+mis-extracted 5.25), February (4.60) and March (4.50) genuinely varies over
+time *and* is disputed within January — so it lands in `_temporal_props` **and**
+raises a `:Conflict`. Treating them as exclusive means one bad extraction inside
+one document erases a property's entire temporal history, which is how this was
+found. "Varies" is decided across instants; "conflicts" is decided within one.
+
 ---
 
 ## 3. Synthesize — separate, LLM, always explicit

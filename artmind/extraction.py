@@ -96,10 +96,13 @@ def entities_list_text(entities: list[dict]) -> str:
     return "\n".join(f"{e['id']} ({e['entity_class']}): {e['name']}" for e in entities)
 
 
-def build_entities_prompt(text: str, schema: dict) -> str:
+def build_entities_prompt(text: str, schema: dict, vocabulary: list | None = None) -> str:
+    """`vocabulary` is the retrieved name vocabulary (see
+    `artmind.canonicalize.retrieve_vocabulary`) — omitted, the prompt renders
+    exactly as before."""
     from artmind.prompt_builder import assemble_entities_prompt
 
-    return assemble_entities_prompt(schema).replace("{text}", text)
+    return assemble_entities_prompt(schema, vocabulary=vocabulary).replace("{text}", text)
 
 
 def build_properties_prompt(text: str, entities: list[dict], schema: dict) -> str:

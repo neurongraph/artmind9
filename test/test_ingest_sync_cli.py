@@ -105,8 +105,9 @@ def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
     seen = {}
     monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
 
-    def fake_kg(result, domain, tm, em, cs, stage_only=False, replace=False):
+    def fake_kg(result, domain, tm, em, cs, stage_only=False, defer_rebuild=False):
         seen["stage_only"] = stage_only
+        seen["defer_rebuild"] = defer_rebuild
         return True
 
     monkeypatch.setattr(cli, "ingest_to_kg", fake_kg)
@@ -127,8 +128,9 @@ def test_ingest_sync_default_stage_only_false(monkeypatch, tmp_path):
     seen = {}
     monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
 
-    def fake_kg(result, domain, tm, em, cs, stage_only=False, replace=False):
+    def fake_kg(result, domain, tm, em, cs, stage_only=False, defer_rebuild=False):
         seen["stage_only"] = stage_only
+        seen["defer_rebuild"] = defer_rebuild
         return True
 
     monkeypatch.setattr(cli, "ingest_to_kg", fake_kg)
@@ -180,3 +182,61 @@ def test_ingest_async_default_stage_only_false(monkeypatch, tmp_path):
     result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general"])
     assert result.exit_code == 0
     assert seen["stage_only"] is False
+
+
+# ── trap 11: a directory defers the projection to one rebuild at the end ────
+
+
+def test_a_single_file_rebuilds_incrementally(monkeypatch, tmp_path):
+    """One file: the rebuild is a step inside its own commit."""
+    import artmind.cli as cli_mod
+
+    deferred: list = []
+    monkeypatch.setattr(
+        cli_mod, "ingest_to_kg",
+        lambda *a, **k: deferred.append(k.get("defer_rebuild")) or True,
+    )
+    monkeypatch.setattr(
+        cli_mod, "ingest_file",
+        lambda f, *a, **k: {"status": "ok", "domain": "general", "touched_path": None},
+    )
+    monkeypatch.setattr(cli_mod, "collect_ingest_files", lambda p: [tmp_path / "a.md"])
+    rebuilds: list = []
+    monkeypatch.setattr("artmind.ingest.rebuild_projection", lambda d: rebuilds.append(d) or {})
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["ingest", "sync", str(tmp_path), "--domain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert deferred == [False], "a single file rebuilds inside its own commit"
+    assert rebuilds == [], "and needs no separate full rebuild"
+
+
+def test_a_directory_defers_to_one_full_rebuild_at_the_end(monkeypatch, tmp_path):
+    """Rebuilding per document would recompute the same aggregates once per
+    contributing file, and would sweep embeddings against descriptions the next
+    file is about to change."""
+    import artmind.cli as cli_mod
+
+    deferred: list = []
+    monkeypatch.setattr(
+        cli_mod, "ingest_to_kg",
+        lambda *a, **k: deferred.append(k.get("defer_rebuild")) or True,
+    )
+    monkeypatch.setattr(
+        cli_mod, "ingest_file",
+        lambda f, *a, **k: {"status": "ok", "domain": "general", "touched_path": None},
+    )
+    monkeypatch.setattr(
+        cli_mod, "collect_ingest_files",
+        lambda p: [tmp_path / "a.md", tmp_path / "b.md", tmp_path / "c.md"],
+    )
+    rebuilds: list = []
+    monkeypatch.setattr("artmind.ingest.rebuild_projection", lambda d: rebuilds.append(d) or {})
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["ingest", "sync", str(tmp_path), "--domain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert deferred == [True, True, True], "every per-document commit defers"
+    assert rebuilds == ["general"], "exactly one full rebuild, at the end"

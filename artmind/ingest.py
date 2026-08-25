@@ -35,6 +35,7 @@ from artmind.extraction import (
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
 )
+from artmind.canonicalize import canonicalize_document
 from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import (
@@ -1085,34 +1086,8 @@ def _flatten_props(props: dict) -> dict:
     return result
 
 
-def _merge_prop_value(existing, incoming):
-    """Merge a single property value: union lists, append strings, keep existing scalars."""
-    if existing is None:
-        return incoming
-    if isinstance(existing, list) and isinstance(incoming, list):
-        result = list(existing)
-        for item in incoming:
-            if item not in result:
-                result.append(item)
-        return result
-    if isinstance(existing, list):
-        return existing if incoming in existing else existing + [incoming]
-    if isinstance(incoming, list):
-        return incoming if existing in incoming else [existing] + incoming
-    if isinstance(existing, str) and isinstance(incoming, str):
-        return (
-            existing
-            if (not incoming or incoming in existing)
-            else f"{existing} | {incoming}"
-        )
-    return existing  # numbers, bools — keep existing
 
 
-def _merge_props_dicts(existing: dict, incoming: dict) -> dict:
-    result = dict(existing)
-    for key, val in incoming.items():
-        result[key] = _merge_prop_value(result.get(key), val)
-    return result
 
 
 # Properties never tracked in the per-document provenance ledger (A1e): fixed
@@ -1128,134 +1103,16 @@ _UNTRACKED_PROP_KEYS = frozenset(
 _LEGACY_SOURCE = "__legacy__"
 
 
-def _parse_prop_sources(raw) -> dict:
-    """Decode a node's ``_prop_sources`` JSON string into a ledger dict.
-
-    Tolerates the property being absent (pre-A1e node) or malformed — either
-    yields an empty ledger, so the entity is simply re-seeded from its current
-    clean values on the next touch rather than erroring the whole write."""
-    if not raw:
-        return {}
-    try:
-        parsed = json.loads(raw)
-        return parsed if isinstance(parsed, dict) else {}
-    except (ValueError, TypeError):
-        return {}
 
 
-def _ledger_upsert(ledger: dict, key: str, doc_id: str, value) -> None:
-    """Record ``doc_id``'s contribution of ``value`` to property ``key``.
-
-    Idempotent per document: re-ingesting the same doc replaces its prior
-    contribution in place (so a re-feed does not double-append), otherwise the
-    contribution is appended — preserving first-seen document order, which is
-    the order ``_fold_ledger`` merges in."""
-    contributions = ledger.setdefault(key, [])
-    for entry in contributions:
-        if entry[0] == doc_id:
-            entry[1] = value
-            return
-    contributions.append([doc_id, value])
 
 
-def _fold_ledger(contributions: list) -> object:
-    """Recompute a property's clean materialized value from its ledger.
-
-    Folds each document's contribution through ``_merge_prop_value`` in
-    first-seen order — reproducing exactly the accretive result a plain ingest
-    would have produced, so the stored clean value is unchanged on fresh ingest
-    yet becomes an un-mergeable-by-hand quantity that purge can rebuild after
-    dropping a source. Returns ``None`` for an empty ledger (property removed)."""
-    result = None
-    for _doc_id, value in contributions:
-        result = _merge_prop_value(result, value)
-    return result
 
 
 def _ensure_neo4j_schema(session, embedding_dim: int = 768) -> None:
     _setup_neo4j(session, embedding_dim)
 
 
-def _upsert_entity(
-    session, entity: dict, extra_props: dict | None, doc_id: str | None = None
-) -> None:
-    """Merge Entity node by (entity_class, name, domain), maintaining a per-document
-    property-provenance ledger (A1e).
-
-    The clean merged value of each accretive property stays materialized on the
-    node exactly as a plain ingest would leave it (``"A | B"``), so every value-
-    parsing consumer — consolidate, entity_history, temporal, snapshots — keeps
-    working. Alongside it, ``_prop_sources`` records which document contributed
-    which raw value, so a later purge can drop one document's share and recompute
-    the clean value (see ``_fold_ledger``). ``doc_id`` is the contributing
-    document's physical id, threaded from ``_write_to_neo4j``; a falsy value maps
-    to a distinct ``__unknown__`` source rather than the never-purged legacy one."""
-    entity_class = entity["entity_class"]
-    name = entity["name"]
-    source = doc_id or "__unknown__"
-
-    incoming = _flatten_props(
-        {
-            "name": name,
-            "entity_class": entity_class,
-            "domain": entity.get("domain"),
-            "type": entity.get("type"),
-            "description": entity.get("description"),
-            "aliases": entity.get("aliases"),
-            "context": entity.get("context"),
-        }
-    )
-    if extra_props:
-        incoming.update(_flatten_props(extra_props))
-
-    domain = incoming.get("domain", "")
-    tracked = {k: v for k, v in incoming.items() if k not in _UNTRACKED_PROP_KEYS}
-
-    rec = session.run(
-        "MATCH (n:Entity {name: $name, entity_class: $ec, domain: $domain}) RETURN properties(n) AS p",
-        name=name,
-        ec=entity_class,
-        domain=domain,
-    ).single()
-
-    if rec:
-        existing = dict(rec["p"])
-        ledger = _parse_prop_sources(existing.get("_prop_sources"))
-        for key, value in tracked.items():
-            # Migrate a pre-ledger clean value as an un-attributable legacy base
-            # the first time this property is ledgered, so today's accretive
-            # result is preserved rather than silently replaced.
-            if key not in ledger and existing.get(key) is not None:
-                ledger[key] = [[_LEGACY_SOURCE, existing[key]]]
-            _ledger_upsert(ledger, key, source, value)
-        merged = existing
-        for key, contributions in ledger.items():
-            folded = _fold_ledger(contributions)
-            if folded in (None, "", []):
-                merged.pop(key, None)
-            else:
-                merged[key] = folded
-        merged["_prop_sources"] = json.dumps(ledger, ensure_ascii=False)
-        if "id" not in merged:
-            merged["id"] = uuid.uuid4().hex
-        session.run(
-            "MATCH (n:Entity {name: $name, entity_class: $ec, domain: $domain}) SET n = $props",
-            name=name,
-            ec=entity_class,
-            domain=domain,
-            props=merged,
-        )
-    else:
-        ledger: dict = {}
-        for key, value in tracked.items():
-            _ledger_upsert(ledger, key, source, value)
-        incoming["_prop_sources"] = json.dumps(ledger, ensure_ascii=False)
-        incoming["id"] = uuid.uuid4().hex
-        label_str = f"{_sanitize_label(entity_class)}:Entity"
-        session.run(
-            f"CREATE (n:{label_str}) SET n = $props",
-            props=incoming,
-        )
 
 
 def entity_embedding_text(name: str, description: str | None) -> str:
@@ -1263,44 +1120,71 @@ def entity_embedding_text(name: str, description: str | None) -> str:
     return f"{name}: {description}" if description else name
 
 
-def embed_missing_entity_embeddings(session, domain: str, embed_model: str) -> int:
-    """Embed name+description for all entities in the domain that lack an embedding.
+def embed_missing_entity_embeddings(
+    session, domain: str, embed_model: str, keys: list | None = None
+) -> int:
+    """The post-commit embed sweep.
 
-    Idempotent backfill — also picks up entities written before embeddings existed.
-    Returns the number of entities embedded. Failures are logged and skipped so a
-    down embedding service never blocks a graph write.
+    Matches on ``embedding IS NULL OR embedding_stale`` and clears the flag as
+    it writes. Runs **after** the commit, outside any transaction, because it
+    calls the embedding service — which is exactly why the rebuild cannot do
+    this itself and marks `embedding_stale` instead.
+
+    **It never nulls an embedding.** A null embedding is absent from the
+    `entity_embedding` vector index, which makes the entity invisible to
+    `entity-resolve`'s vector leg rather than merely less accurate. A stale
+    embedding still finds the entity; a null one deletes it from semantic
+    search. So a failure here skips that entity and leaves the flag set for
+    the next sweep.
+
+    Scoped to `keys` when given — an incremental ingest sweeps only what it
+    dirtied, not the whole domain.
     """
+    scope = ""
+    params: dict = {"domain": domain}
+    if keys:
+        scope = " AND e.key IN $keys"
+        params["keys"] = [k if isinstance(k, str) else "|".join(k) for k in keys]
+
     rows = session.run(
-        """
+        f"""
         MATCH (e:Entity)
         WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-          AND e.embedding IS NULL AND e.name IS NOT NULL
+          AND e.name IS NOT NULL
+          AND (e.embedding IS NULL OR e.embedding_stale){scope}
         RETURN e.id AS id, e.name AS name, e.description AS description
         """,
-        domain=domain,
+        **params,
     ).data()
-    count = 0
+
+    count, failed = 0, 0
     for row in rows:
         try:
             embedding = _embed_text(
                 embed_model, entity_embedding_text(row["name"], row.get("description"))
             )
         except Exception as e:
+            failed += 1
             logger.warning("Entity embedding failed for {!r}: {}", row["name"], e)
             continue
+        # Written together with clearing the flag, so an entity is never left
+        # claiming to be fresh while holding an old vector.
         session.run(
-            "MATCH (e:Entity {id: $id}) SET e.embedding = $embedding",
+            "MATCH (e:Entity {id: $id}) SET e.embedding = $embedding, e.embedding_stale = false",
             id=row["id"],
             embedding=embedding,
         )
         count += 1
-    if count:
-        logger.debug("Neo4j: embedded {} entity node(s)", count)
+    if count or failed:
+        logger.info(
+            "Embed sweep: {} entity node(s) embedded, {} skipped (still marked stale)",
+            count, failed,
+        )
     return count
 
 
 def embed_entities_backfill(domain: str) -> dict:
-    """Backfill embeddings for all entities in a domain that lack one."""
+    """Backfill embeddings for all entities in a domain that lack one or are stale."""
     from artmind.graph_query import neo4j_session
 
     env = load_env()
@@ -1310,353 +1194,80 @@ def embed_entities_backfill(domain: str) -> dict:
     return {"domain": domain, "entities_embedded": embedded}
 
 
-def _write_to_neo4j(doc_kg_dir: Path) -> bool:
-    """Read the extracted JSON files and write/merge everything into Neo4j."""
-    env = load_env()
-    uri = env.get("ARTMIND_KG_NEO4J_URI", "neo4j://127.0.0.1:7687")
-    user = env.get("ARTMIND_KG_NEO4J_USERNAME", "neo4j")
-    password = env.get("ARTMIND_KG_NEO4J_PASSWORD", "")
-    database = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
-    embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
+def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
+    """Move everything the previous version of ``doc_id`` asserted out of
+    ``latest`` — the version/status transition that replaces the old
+    hard-retraction.
 
-    def _load(name: str):
-        return json.loads((doc_kg_dir / name).read_text(encoding="utf-8"))
+    Assertion-time only: an observation demoted to ``history`` keeps the
+    valid-time window it always had, stays queryable by asking for it, and
+    stays out of every index. Nothing is deleted, so provenance survives a
+    re-ingest.
 
-    try:
-        document = _load("document.json")
-        chunks = _load("chunks.json")
-        entities = _load("entities.json")
-        properties_list = _load("properties.json")
-        relationships = _load("relationships.json")
-    except Exception as e:
-        logger.error("Failed to load KG JSON files from {}: {}", doc_kg_dir, e)
-        return False
+    **No entity GC happens here.** Which entities should now disappear is the
+    projection's business, decided by the zero-latest-observations rule over
+    the affected keys. Doing it here is how the old code ended up with three
+    competing, silently-failing GC mechanisms.
 
-    # Index: entity-scoped-id → extra properties dict (from properties.json)
-    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
+    Runs inside the caller's transaction.
+    """
+    result = {"observations_demoted": 0, "chunks": 0, "edges_retracted": 0, "edges_deleted": 0}
 
-    driver = GraphDatabase.driver(uri, auth=(user, password))
-    try:
-        with driver.session(database=database) as session:
-            _ensure_neo4j_schema(session, embedding_dim)
+    rec = tx.run(
+        """
+        MATCH (o:Observation {doc_id: $doc_id})
+        WHERE o._status = 'latest'
+        SET o._status = 'history'
+        RETURN count(o) AS n
+        """,
+        doc_id=doc_id,
+    ).single()
+    result["observations_demoted"] = int(rec["n"]) if rec else 0
 
-            # ── Document ──────────────────────────────────────────────
-            session.run(
-                "MERGE (d:Document {id: $id}) SET d += $props",
-                id=document["id"],
-                props=_flatten_props(document),
-            )
+    # Edge provenance (A1b) still works the pre-redesign way; Phase 4 collapses
+    # 249 relationship types into one `RELATES_TO {rel_type}` and rebuilds edge
+    # provenance from observations, at which point this drops out.
+    rec = tx.run(
+        """
+        MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
+        WHERE $doc_id IN coalesce(r.doc_ids, [])
+        SET r.doc_ids   = [x IN r.doc_ids WHERE x <> $doc_id],
+            r.chunk_ids = [x IN coalesce(r.chunk_ids, [])
+                           WHERE NOT x STARTS WITH ($doc_id + '_')]
+        RETURN count(r) AS n
+        """,
+        domain=domain, doc_id=doc_id,
+    ).single()
+    result["edges_retracted"] = int(rec["n"]) if rec else 0
 
-            # ── DocChunks + PART_OF Document ──────────────────────────
-            for chunk in chunks:
-                embedding = chunk.get("embedding", [])
-                props = _flatten_props(
-                    {k: v for k, v in chunk.items() if k != "embedding"}
-                )
-                session.run(
-                    """
-                    MERGE (c:DocChunk {id: $id})
-                    SET c += $props, c.embedding = $embedding
-                    WITH c
-                    MATCH (d:Document {id: $doc_id})
-                    MERGE (c)-[:PART_OF]->(d)
-                    """,
-                    id=chunk["id"],
-                    props=props,
-                    embedding=embedding,
-                    doc_id=chunk["doc_id"],
-                )
-            logger.debug("Neo4j: upserted {} DocChunk(s)", len(chunks))
+    rec = tx.run(
+        """
+        MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
+        WHERE r.doc_ids IS NOT NULL AND size(r.doc_ids) = 0
+        DELETE r
+        RETURN count(r) AS n
+        """,
+        domain=domain,
+    ).single()
+    result["edges_deleted"] = int(rec["n"]) if rec else 0
 
-            # ── Entity nodes ──────────────────────────────────────────
-            for entity in entities:
-                _upsert_entity(
-                    session,
-                    entity,
-                    props_by_id.get(entity["id"]),
-                    doc_id=document["id"],
-                )
-            logger.debug("Neo4j: upserted {} entity node(s)", len(entities))
-
-            # ── Relationships ─────────────────────────────────────────
-            rel_count = 0
-            for rel in relationships:
-                rel_type = re.sub(r"[^A-Za-z0-9_]", "_", rel["rel_type"]).upper()
-                source_name = rel.get("source_name", "")
-                target_name = rel.get("target_name", "")
-                target_id = rel.get("target_id", "")
-                is_bidi = rel.get("bidirectional", False)
-                rel_props = _flatten_props(
-                    {
-                        k: v
-                        for k, v in rel.items()
-                        if k
-                        not in {
-                            "source_id",
-                            "source_name",
-                            "target_id",
-                            "target_name",
-                            "rel_type",
-                            "chunk_id",
-                            "doc_id",
-                            "bidirectional",
-                        }
-                    }
-                )
-
-                domain = rel.get("domain") or document.get("domain", "")
-                # Provenance (A1b): accumulate which doc/chunk contributed this
-                # edge. Passed as (possibly empty) lists so the Cypher union never
-                # inserts a blank entry. chunk_id is "{doc_id}_{seq:03d}", the
-                # prefix A1d's retraction filters on.
-                rel_doc_id = rel.get("doc_id") or document.get("id", "")
-                rel_doc_ids = [rel_doc_id] if rel_doc_id else []
-                rel_chunk_ids = [rel["chunk_id"]] if rel.get("chunk_id") else []
-                try:
-                    if rel_type == "EXTRACTED_FROM":
-                        # Entity → DocChunk (matched by chunk id + domain)
-                        if source_name and target_id:
-                            session.run(
-                                """
-                                MATCH (e:Entity {name: $src, domain: $domain})
-                                MATCH (c:DocChunk {id: $tgt_id})
-                                CALL apoc.merge.relationship(e, $type, {}, $props, c, {}) YIELD rel
-                                RETURN rel
-                                """,
-                                src=source_name,
-                                tgt_id=target_id,
-                                type=rel_type,
-                                props=rel_props,
-                                domain=domain,
-                            )
-                            rel_count += 1
-                    elif rel_type in RESERVED_REL_TYPES:
-                        # System-managed edge type — only the audited temporal
-                        # helpers may create these. An LLM-extracted relationship
-                        # normalizing to one of these must never be written here.
-                        logger.warning(
-                            "Neo4j: reserved relationship type skipped ({} -[{}]-> {}); "
-                            "only audited helpers may create this edge type",
-                            source_name,
-                            rel_type,
-                            target_name,
-                        )
-                    else:
-                        # Entity → Entity (matched by canonical name + domain)
-                        if source_name and target_name:
-                            session.run(
-                                """
-                                MATCH (src:Entity {name: $src, domain: $domain})
-                                MATCH (tgt:Entity {name: $tgt, domain: $domain})
-                                CALL apoc.merge.relationship(src, $type, {}, {}, tgt, {}) YIELD rel
-                                SET rel += $props
-                                SET rel.doc_ids   = apoc.coll.toSet(coalesce(rel.doc_ids, [])   + $doc_ids)
-                                SET rel.chunk_ids = apoc.coll.toSet(coalesce(rel.chunk_ids, []) + $chunk_ids)
-                                RETURN rel
-                                """,
-                                src=source_name,
-                                tgt=target_name,
-                                type=rel_type,
-                                props=rel_props,
-                                doc_ids=rel_doc_ids,
-                                chunk_ids=rel_chunk_ids,
-                                domain=domain,
-                            )
-                            rel_count += 1
-                            if is_bidi:
-                                session.run(
-                                    """
-                                    MATCH (src:Entity {name: $src, domain: $domain})
-                                    MATCH (tgt:Entity {name: $tgt, domain: $domain})
-                                    CALL apoc.merge.relationship(tgt, $type, {}, {}, src, {}) YIELD rel
-                                    SET rel += $props
-                                    SET rel.doc_ids   = apoc.coll.toSet(coalesce(rel.doc_ids, [])   + $doc_ids)
-                                    SET rel.chunk_ids = apoc.coll.toSet(coalesce(rel.chunk_ids, []) + $chunk_ids)
-                                    RETURN rel
-                                    """,
-                                    src=source_name,
-                                    tgt=target_name,
-                                    type=rel_type,
-                                    props=rel_props,
-                                    doc_ids=rel_doc_ids,
-                                    chunk_ids=rel_chunk_ids,
-                                    domain=domain,
-                                )
-                                rel_count += 1
-                except Exception as e:
-                    logger.warning(
-                        "Neo4j: relationship skipped ({} -[{}]-> {}): {}",
-                        source_name,
-                        rel_type,
-                        target_name or target_id,
-                        e,
-                    )
-
-            logger.debug("Neo4j: created/merged {} relationship(s)", rel_count)
-
-            # ── Entity embeddings (name + description, used by entity-resolve) ─
-            embed_model = env.get(
-                "ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"
-            )
-            embed_missing_entity_embeddings(
-                session, document.get("domain", ""), embed_model
-            )
-
-        logger.info(
-            "Neo4j ingestion complete: {}", document.get("name", doc_kg_dir.name)
-        )
-        return True
-    except Exception as e:
-        logger.error("Neo4j ingestion failed: {}", e)
-        return False
-    finally:
-        driver.close()
-
-
-def _rollback_property_ledger(session, doc_id: str, entity_ids: list) -> int:
-    """Drop ``doc_id``'s contributions from each entity's ``_prop_sources`` ledger
-    and recompute the clean materialized value (A1d, the un-merge A1e enables).
-
-    For every touched entity, remove the retracted document's entries per
-    property and re-fold the survivors through ``_fold_ledger`` — reproducing
-    exactly the accretive value the remaining sources would have produced. A
-    property whose ledger empties is removed from the node; a ``__legacy__``
-    (un-attributable pre-ledger) contribution is never dropped, so pre-existing
-    data survives. The embedding and every property this document never touched
-    are left untouched. Returns the number of entities updated.
-
-    ``SET e += $props`` with a ``null`` map value removes that property — the
-    mechanism used to drop an emptied property while preserving the node."""
-    if not entity_ids:
-        return 0
-    rows = session.run(
-        "MATCH (e:Entity) WHERE e.id IN $ids RETURN e.id AS id, e._prop_sources AS ps",
-        ids=entity_ids,
-    ).data()
-    updated = 0
-    for row in rows:
-        ledger = _parse_prop_sources(row["ps"])
-        if not ledger:
-            continue
-        prop_updates: dict = {}
-        for key in list(ledger.keys()):
-            kept = [c for c in ledger[key] if c[0] != doc_id]
-            if len(kept) == len(ledger[key]):
-                continue  # this document never contributed to this property
-            if kept:
-                ledger[key] = kept
-                folded = _fold_ledger(kept)
-                prop_updates[key] = folded if folded not in (None, "", []) else None
-            else:
-                del ledger[key]
-                prop_updates[key] = None  # emptied → remove the property
-        if not prop_updates:
-            continue
-        prop_updates["_prop_sources"] = (
-            json.dumps(ledger, ensure_ascii=False) if ledger else None
-        )
-        session.run(
-            "MATCH (e:Entity {id: $id}) SET e += $props",
-            id=row["id"],
-            props=prop_updates,
-        )
-        updated += 1
-    return updated
+    rec = tx.run(
+        "MATCH (c:DocChunk {doc_id: $doc_id}) DETACH DELETE c RETURN count(c) AS n",
+        doc_id=doc_id,
+    ).single()
+    result["chunks"] = int(rec["n"]) if rec else 0
+    return result
 
 
 def _retract_document_from_neo4j(domain: str, doc_id: str) -> dict:
-    """Hard-retract exactly one document's contributions from the graph (A1d).
-
-    Scoped and shared-entity-safe — unlike the domain-wide orphan sweep it
-    replaces, this touches only what ``doc_id`` put there:
-
-    1. Edge provenance (A1b): drop ``doc_id`` from every edge's ``doc_ids`` and
-       its chunks from ``chunk_ids``; delete only edges the retraction leaves
-       with no contributing document (a shared edge another doc still backs
-       survives).
-    2. Property ledger (A1e): for each entity this document's chunks fed, drop
-       the document's ledger contributions and recompute the clean value — the
-       actual removal of stale property text (see ``_rollback_property_ledger``).
-    3. Delete this document's DocChunks.
-    4. Scoped entity GC: delete only the touched entities now lacking any
-       EXTRACTED_FROM — a shared entity another document still cites survives.
-
-    Deliberately does NOT delete the Document node: idempotent re-ingest reuses
-    it (``version+1``), and purge deletes it separately after retracting."""
+    """Session-level wrapper around `_retract_prior_version`, for the callers
+    that still retract outside an ingest transaction (`_purge_from_neo4j` and
+    friends). Those commands are replaced by `docs retire` / `docs archive` in
+    Phase 5; this keeps them working until then."""
     from artmind.graph_query import neo4j_session
 
-    result = {
-        "edges_retracted": 0,
-        "edges_deleted": 0,
-        "entities_ledger_rolled_back": 0,
-        "chunks": 0,
-        "gc_entities": 0,
-    }
     with neo4j_session() as session:
-        # 1a. Remove this document from each edge's accretive provenance.
-        rec = session.run(
-            """
-            MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
-            WHERE $doc_id IN coalesce(r.doc_ids, [])
-            SET r.doc_ids   = [x IN r.doc_ids WHERE x <> $doc_id],
-                r.chunk_ids = [x IN coalesce(r.chunk_ids, [])
-                               WHERE NOT x STARTS WITH ($doc_id + '_')]
-            RETURN count(r) AS n
-            """,
-            domain=domain,
-            doc_id=doc_id,
-        ).single()
-        result["edges_retracted"] = int(rec["n"]) if rec else 0
-        # 1b. Delete edges the retraction left with no contributing document.
-        #     Only retraction ever empties doc_ids (fresh A1b edges carry >=1;
-        #     pre-A1b edges have doc_ids null, excluded here), so this is a safe,
-        #     idempotent cleanup of exactly what 1a emptied.
-        rec = session.run(
-            """
-            MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
-            WHERE r.doc_ids IS NOT NULL AND size(r.doc_ids) = 0
-            DELETE r
-            RETURN count(r) AS n
-            """,
-            domain=domain,
-        ).single()
-        result["edges_deleted"] = int(rec["n"]) if rec else 0
-
-        # 2. Collect the entities this document's chunks fed BEFORE deleting the
-        #    chunks (the EXTRACTED_FROM edges vanish with them), then roll back
-        #    their property ledgers.
-        rec = session.run(
-            """
-            MATCH (e:Entity)-[:EXTRACTED_FROM]->(:DocChunk {doc_id: $doc_id})
-            RETURN collect(DISTINCT e.id) AS ids
-            """,
-            doc_id=doc_id,
-        ).single()
-        touched_ids = list(rec["ids"]) if rec and rec["ids"] else []
-        result["entities_ledger_rolled_back"] = _rollback_property_ledger(
-            session, doc_id, touched_ids
-        )
-
-        # 3. Delete this document's chunks.
-        rec = session.run(
-            "MATCH (c:DocChunk {doc_id: $doc_id}) DETACH DELETE c RETURN count(c) AS n",
-            doc_id=doc_id,
-        ).single()
-        result["chunks"] = int(rec["n"]) if rec else 0
-
-        # 4. Scoped GC: only the touched entities that lost their last source.
-        if touched_ids:
-            rec = session.run(
-                """
-                MATCH (e:Entity)
-                WHERE e.id IN $ids AND NOT (e)-[:EXTRACTED_FROM]->(:DocChunk)
-                DETACH DELETE e
-                RETURN count(e) AS n
-                """,
-                ids=touched_ids,
-            ).single()
-            result["gc_entities"] = int(rec["n"]) if rec else 0
-    return result
+        return session.execute_write(lambda tx: _retract_prior_version(tx, domain, doc_id))
 
 
 def _purge_from_neo4j(domain: str, document_name: str) -> dict:
@@ -1837,6 +1448,7 @@ def ingest_to_kg(
     embed_model: str = "nomic-embed-text:latest",
     chunk_size: int = 6000,
     stage_only: bool = False,
+    defer_rebuild: bool = False,
 ) -> bool:
     """Orchestrate KG extraction and (unless stage_only) commit for one document.
 
@@ -1893,7 +1505,18 @@ def ingest_to_kg(
     # Back-compat: if ingest_file didn't split chunks yet, do it now.
     if "chunks_dir" not in file_result:
         registered_path = Path(file_result["registered_path"])
-        md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+        # `markdown_path_for` exists precisely to replace hand-built
+        # `MARKDOWNS_DIR / f"{stem}.md"` paths, which are wrong for a
+        # vault-native document: Phase 2 stopped copying those into the data
+        # dir, so the vault file IS the markdown. This call site was missed,
+        # and it turned every metadata-only vault-native re-ingest that reached
+        # here into "Markdown not found".
+        source_type = file_result.get(
+            "source_type", "md" if "artmind_id" in file_result else "other"
+        )
+        md_file = markdown_path_for(
+            source_type, vault_path=registered_path, stem=registered_path.stem
+        )
         if not md_file.exists():
             logger.error("Markdown not found: {}", md_file)
             return False
@@ -1911,7 +1534,7 @@ def ingest_to_kg(
     if stage_only:
         logger.info("Staged (not committed): {}", doc_kg_dir)
         return True
-    return commit_to_graph(doc_kg_dir, domain)
+    return commit_to_graph(doc_kg_dir, domain, defer_rebuild=defer_rebuild)
 
 
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
@@ -1937,6 +1560,126 @@ def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> in
             provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
             override = 4 if provider == "openrouter" else 1
     return max(1, min(override, chunk_count)) if chunk_count > 0 else 1
+
+
+def _document_valid_time(md_file: Path, frontmatter: dict, schema: dict) -> dict:
+    """The document's valid-time window, resolved at ingest.
+
+    Frontmatter first (Phase 2's `_valid_from` / `_valid_to` are part of the
+    system contract), then the document's own header table via the schema's
+    `temporal.document` mapping, then the schema default.
+
+    Emitted with `_`-prefixed names because artmind owns them — the underscore
+    IS the rule, and an LLM-extracted `status` colliding with the system's own
+    is exactly what row 9 of the scorecard counts.
+    """
+    from artmind.temporal import lift_document_dates
+
+    out: dict = {}
+    if frontmatter.get("_valid_from"):
+        out["_valid_from"] = str(frontmatter["_valid_from"])
+    if frontmatter.get("_valid_to"):
+        out["_valid_to"] = str(frontmatter["_valid_to"])
+    if frontmatter.get("_valid_time_source"):
+        out["_valid_time_source"] = str(frontmatter["_valid_time_source"])
+    if out.get("_valid_from"):
+        out.setdefault("_valid_time_source", "frontmatter")
+        return out
+
+    temporal = schema.get("temporal") or {}
+    mapping = temporal.get("document") or {}
+    defaults = temporal.get("defaults") or {}
+    body = ""
+    if md_file.exists():
+        try:
+            _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        except Exception as e:
+            logger.warning("Could not read {} for valid-time lifting: {}", md_file, e)
+
+    lifted = lift_document_dates(body, frontmatter, mapping, defaults) if mapping else {}
+    if lifted.get("valid_from"):
+        out["_valid_from"] = lifted["valid_from"]
+    if lifted.get("valid_to"):
+        out["_valid_to"] = lifted["valid_to"]
+    if lifted.get("time_source"):
+        out["_valid_time_source"] = lifted["time_source"]
+    if lifted.get("version"):
+        # The document's own "| Version | 2.1 |" header — a string with no
+        # system meaning, kept apart from the integer `_version`.
+        out["declared_version"] = lifted["version"]
+
+    out.setdefault("_status", "latest")
+    return out
+
+
+def _build_observations(
+    entities: list[dict],
+    properties: list[dict],
+    canonical_names: dict[str, str],
+    schema: dict,
+    document: dict,
+) -> list[dict]:
+    """Turn this document version's extraction output into Observation props.
+
+    One observation per (chunk, extracted-entity-identity). The entity's own
+    schema-declared date property (a property tagged `temporal: valid_from`)
+    overrides the document's for the observation's **fact-level** valid time,
+    while `_doc_valid_from` always carries the document's — the two axes the
+    rebuild needs to tell a conflict from ordinary history.
+    """
+    from artmind.observations import build_observation, class_kind
+    from artmind.temporal import _entity_temporal_mapping, parse_iso
+
+    props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
+    entity_dates = _entity_temporal_mapping(schema)
+    doc_valid_from = document.get("_valid_from")
+    doc_valid_to = document.get("_valid_to")
+    doc_id = document["id"]
+    doc_version = document.get("version") or 1
+
+    observations: list[dict] = []
+    seen: set[str] = set()
+    for entity in entities:
+        chunk_id = entity.get("chunk_id") or ""
+        raw_name = entity.get("name") or ""
+        canonical = canonical_names.get(raw_name) or raw_name
+        if not canonical or not chunk_id:
+            continue
+
+        domain_props = dict(props_by_id.get(entity.get("id"), {}))
+
+        # A fact carrying its own dates overrides the document's.
+        fact_valid_from, fact_valid_to = None, None
+        for canon_key, prop_name in (entity_dates.get(entity.get("entity_class") or "") or {}).items():
+            parsed = parse_iso(str(domain_props.get(prop_name))) if domain_props.get(prop_name) else None
+            if not parsed:
+                continue
+            if canon_key == "valid_from":
+                fact_valid_from = parsed
+            elif canon_key == "valid_to":
+                fact_valid_to = parsed
+
+        observation = build_observation(
+            entity,
+            canonical_name=canonical,
+            domain_props=domain_props,
+            doc_id=doc_id,
+            doc_version=int(doc_version) if str(doc_version).isdigit() else 1,
+            chunk_id=chunk_id,
+            kind=class_kind(schema, entity.get("entity_class") or ""),
+            doc_valid_from=doc_valid_from,
+            valid_from=fact_valid_from,
+            valid_to=fact_valid_to or doc_valid_to,
+            valid_time_source=("property" if fact_valid_from else document.get("_valid_time_source")),
+        )
+        # Two chunks asserting the same identity produce the same id only when
+        # they ARE the same chunk; within one chunk, a repeated entity is one
+        # observation, not several.
+        if observation["id"] in seen:
+            continue
+        seen.add(observation["id"])
+        observations.append(observation)
+    return observations
 
 
 def extract_kg(
@@ -2023,6 +1766,29 @@ def extract_kg(
         resumed_doc_id = next(iter(existing.values()))["doc_id"] if existing else None
         doc_id, version = _resolve_doc_identity(domain, logical_id, resumed_doc_id)
 
+    # ── name vocabulary, retrieved ONCE before any chunk extracts ─────────
+    # Cross-document drift control: showing the extractor names already in use
+    # stops a new document coining a fresh one for something the graph knows.
+    # Restricted to recurrent classes — an occurrent entity is a completed
+    # event, and offering existing event names invites folding two distinct
+    # incidents into one. Never fatal: no vocabulary is the pre-redesign
+    # behaviour, so a down embed service costs quality, not the ingest.
+    vocabulary: list = []
+    try:
+        from artmind.canonicalize import retrieve_vocabulary
+        from artmind.graph_query import read_session
+
+        seed_text = "\n\n".join(
+            f.read_text(encoding="utf-8")[:1500] for f in sorted(chunks_dir.glob("chunk_*.md"))[:3]
+        )
+        with read_session() as vocab_session:
+            vocabulary = retrieve_vocabulary(
+                vocab_session, domain=domain, schema=schema,
+                seed_text=seed_text, embed_model=embed_model,
+            )
+    except Exception as e:
+        logger.warning("Name vocabulary unavailable, extracting without it ({})", e)
+
     chunk_files = sorted(chunks_dir.glob("chunk_*.md"))
     chunk_count = len(chunk_files)
     logger.info(
@@ -2080,7 +1846,7 @@ def extract_kg(
             raw_entities, ok = _llm_extract(
                 f"chunk_{seq:03d}_entities",
                 text_model,
-                build_entities_prompt(chunk_text, schema),
+                build_entities_prompt(chunk_text, schema, vocabulary=vocabulary),
                 doc_kg_dir,
             )
             _update_chunk_step(doc_sha256, seq, "entities", "ok" if ok else "failed")
@@ -2310,6 +2076,28 @@ def extract_kg(
     if meta.get("date"):
         document["date"] = str(meta["date"])
 
+    # ── valid time, derived HERE rather than by a post-write hook ──────────
+    # The projection's winner rule is "latest source-document valid_from", so
+    # every observation needs its document's valid_from at write time, inside
+    # the commit transaction. Deriving it afterwards (as `normalize_time` did)
+    # is too late: the rebuild has already run, and the hook that computed it
+    # swallowed its own exceptions.
+    document_dates = _document_valid_time(md_file, meta, schema)
+    document.update(document_dates)
+
+    # ── per-document canonicalization: ONE call, after ALL chunks ──────────
+    # Intra-document drift control. Chunks extracted in parallel and could not
+    # see each other, so the same thing may carry several names; this is the
+    # first point at which anything can see the whole document's output.
+    canonical_names = canonicalize_document(
+        all_entities, schema=schema, vocabulary=vocabulary,
+        model=text_model, debug_dir=doc_kg_dir,
+    )
+
+    all_observations = _build_observations(
+        all_entities, all_properties, canonical_names, schema, document,
+    )
+
     def _write_json(filename: str, obj: object) -> None:
         (doc_kg_dir / filename).write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -2318,6 +2106,7 @@ def extract_kg(
     _write_json("entities.json", all_entities)
     _write_json("properties.json", all_properties)
     _write_json("relationships.json", all_relationships)
+    _write_json("observations.json", all_observations)
 
     elapsed = time.monotonic() - t0
     final_statuses = _get_chunk_statuses(doc_sha256)
@@ -2326,10 +2115,12 @@ def extract_kg(
         if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
     )
     logger.info(
-        "KG extraction done in {:.1f}s | chunks={} entities={} properties={} relationships={} | chunks_with_failures={}",
+        "KG extraction done in {:.1f}s | chunks={} entities={} observations={} "
+        "properties={} relationships={} | chunks_with_failures={}",
         elapsed,
         chunk_count,
         len(all_entities),
+        len(all_observations),
         len(all_properties),
         len(all_relationships),
         failed_count,
@@ -2337,190 +2128,335 @@ def extract_kg(
     return doc_kg_dir
 
 
-def write_to_graph(doc_kg_dir: Path) -> bool:
-    """Write merged KG JSON files to Neo4j. Safe to re-run after fixing Neo4j issues."""
-    return _write_to_neo4j(doc_kg_dir)
+def _write_observations(tx, observations: list[dict], doc_id: str) -> int:
+    """Write this document version's observations.
 
+    Immutable records: written whole, never merged into and never patched. The
+    id is deterministic (chunk + canonical name + class + domain), so a
+    re-write of the same content replaces in place rather than duplicating.
 
-def _reassert_superseding_properties(doc_kg_dir: Path, domain: str) -> dict:
-    # NOTE: unchanged behaviour — history capture is handled by the caller
-    # (commit_to_graph) via artmind.entity_history, so this function keeps its
-    # single job of re-asserting the superseding document's own values.
-    """Overwrite merged entity properties with the superseding document's own values.
-
-    _upsert_entity's merge is accretive — strings become "old | new" and
-    numbers/booleans keep the existing value — which is right for peer documents
-    but wrong once THIS document is known to supersede a contributor of those
-    values. Called from commit_to_graph only after detect_supersession applied a
-    SUPERSEDES edge for this document. Scoped to the domain properties this
-    document itself asserts (properties.json); name/description/aliases/context
-    live in entities.json and keep their accretive behaviour (consolidation's
-    job). Matches by (name, entity_class, domain), the same key _upsert_entity
-    merges on. Idempotent.
+    `SET o = $props` — a full replace, not `+=` — because an observation is a
+    complete statement of what one chunk said. A `+=` would let a property
+    from a previous version of the same chunk survive into this one.
     """
-    try:
-        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
-        properties_path = doc_kg_dir / "properties.json"
-        properties_list = (
-            json.loads(properties_path.read_text(encoding="utf-8")) if properties_path.exists() else []
+    for observation in observations:
+        tx.run(
+            "MERGE (o:Observation {id: $id}) SET o = $props",
+            id=observation["id"],
+            props=observation,
         )
-    except Exception as e:
-        logger.warning("reassert_superseding_properties: could not load staged JSON: {}", e)
-        return {"entities_reasserted": 0}
+        chunk_id = observation.get("chunk_id")
+        if chunk_id:
+            tx.run(
+                """
+                MATCH (o:Observation {id: $id})
+                MATCH (c:DocChunk {id: $chunk_id})
+                MERGE (o)-[:EXTRACTED_FROM]->(c)
+                """,
+                id=observation["id"], chunk_id=chunk_id,
+            )
+    logger.debug("Neo4j: wrote {} observation(s) for {}", len(observations), doc_id)
+    return len(observations)
 
-    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
+
+def _write_relationships(tx, relationships: list[dict], document: dict, entity_ids: dict) -> int:
+    """Entity->Entity edges, resolved through the projection.
+
+    Endpoints are matched by the **deterministic entity id** computed from the
+    extracted name's aggregate key, not by `(name, domain)`. Names are
+    projection output now — the Entity's name is the longest canonical name
+    across its observations, which is frequently not what any single chunk
+    said — so a name match would silently miss.
+
+    Phase 4 collapses these 249 relationship types into one
+    `RELATES_TO {rel_type}`; this keeps the existing shape until then.
+    """
+    written = 0
+    for rel in relationships:
+        rel_type = re.sub(r"[^A-Za-z0-9_]", "_", rel.get("rel_type", "")).upper()
+        if not rel_type or rel_type == "EXTRACTED_FROM":
+            # Entity->DocChunk provenance is carried by observations now.
+            continue
+        if rel_type in RESERVED_REL_TYPES:
+            logger.warning(
+                "Neo4j: reserved relationship type skipped ({} -[{}]-> {}); "
+                "only audited helpers may create this edge type",
+                rel.get("source_name"), rel_type, rel.get("target_name"),
+            )
+            continue
+
+        source_id = entity_ids.get(rel.get("source_name"))
+        target_id = entity_ids.get(rel.get("target_name"))
+        if not source_id or not target_id or source_id == target_id:
+            continue
+
+        rel_props = _flatten_props({
+            k: v for k, v in rel.items()
+            if k not in {
+                "source_id", "source_name", "target_id", "target_name",
+                "rel_type", "chunk_id", "doc_id", "bidirectional",
+            }
+        })
+        rel_doc_id = rel.get("doc_id") or document.get("id", "")
+        pairs = [(source_id, target_id)]
+        if rel.get("bidirectional"):
+            pairs.append((target_id, source_id))
+
+        for src, tgt in pairs:
+            try:
+                tx.run(
+                    """
+                    MATCH (s:Entity {id: $src})
+                    MATCH (t:Entity {id: $tgt})
+                    CALL apoc.merge.relationship(s, $type, {}, {}, t, {}) YIELD rel
+                    SET rel += $props
+                    SET rel.doc_ids   = apoc.coll.toSet(coalesce(rel.doc_ids, [])   + $doc_ids)
+                    SET rel.chunk_ids = apoc.coll.toSet(coalesce(rel.chunk_ids, []) + $chunk_ids)
+                    RETURN rel
+                    """,
+                    src=src, tgt=tgt, type=rel_type, props=rel_props,
+                    doc_ids=[rel_doc_id] if rel_doc_id else [],
+                    chunk_ids=[rel["chunk_id"]] if rel.get("chunk_id") else [],
+                )
+                written += 1
+            except Exception as e:
+                logger.warning(
+                    "Neo4j: relationship skipped ({} -[{}]-> {}): {}",
+                    rel.get("source_name"), rel_type, rel.get("target_name"), e,
+                )
+    return written
+
+
+def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
+    """Everything one document's commit does to the graph, in ONE transaction.
+
+    Order matters: the prior version is demoted *before* the new observations
+    land (so a re-ingest replaces rather than accretes), the affected key set
+    is captured from **both** versions, and the projection rebuild runs last —
+    inside this same transaction.
+
+    **A failure anywhere here fails the whole commit**, deliberately. The
+    pre-redesign temporal and supersession hooks caught their own exceptions
+    and logged a warning, which meant a broken projection looked exactly like
+    a healthy one from the outside. A silently-skipped projection is a
+    silently-stale query layer.
+    """
+    from artmind import projection, same_as
+    from artmind.observations import aggregate_key, entity_id
+
+    document = staged["document"]
+    domain = staged["domain"]
+    doc_id = document["id"]
+    summary: dict = {}
+
+    # 1. The prior version's keys — set 2 of the affected-key union. Captured
+    #    BEFORE anything changes, because a rename between versions strands the
+    #    old key and nothing else would ever name it again.
+    prior_keys = projection.keys_for_document(tx, doc_id)
+
+    # 2. Demote the prior version.
+    summary["retracted"] = _retract_prior_version(tx, domain, doc_id)
+
+    # 3. Document + chunks.
+    tx.run(
+        "MERGE (d:Document {id: $id}) SET d += $props",
+        id=doc_id, props=_flatten_props(document),
+    )
+    for chunk in staged["chunks"]:
+        tx.run(
+            """
+            MERGE (c:DocChunk {id: $id})
+            SET c += $props, c.embedding = $embedding
+            WITH c
+            MATCH (d:Document {id: $doc_id})
+            MERGE (c)-[:PART_OF]->(d)
+            """,
+            id=chunk["id"],
+            props=_flatten_props({k: v for k, v in chunk.items() if k != "embedding"}),
+            embedding=chunk.get("embedding", []),
+            doc_id=chunk["doc_id"],
+        )
+    summary["chunks"] = len(staged["chunks"])
+
+    # 4. Observations.
+    observations = staged["observations"]
+    summary["observations"] = _write_observations(tx, observations, doc_id)
+
+    incoming_keys = {
+        (o["key"].split("|")[0], o["key"].split("|")[1], o["key"].split("|")[2])
+        for o in observations if o.get("key") and o["key"].count("|") == 2
+    }
+
+    # 5. The affected-key union, then the rebuild.
+    keys = projection.affected_keys(
+        incoming=list(incoming_keys),
+        prior=list(prior_keys),
+        same_as_groups=same_as.groups_touching(incoming_keys | prior_keys),
+    )
+    if defer_rebuild:
+        # Directory ingest: one full rebuild at the end instead of N incremental
+        # ones. The keys still have to come back to the caller, since the sweep
+        # is scoped to them.
+        summary["deferred_keys"] = sorted(keys)
+        summary["projection"] = {"deferred": True}
+    else:
+        summary["projection"] = projection.rebuild(tx, keys)
+        summary["deferred_keys"] = []
+    summary["affected_keys"] = sorted(keys)
+
+    # 6. Relationships, after the rebuild so both endpoints exist.
+    entity_ids = {}
+    for observation in observations:
+        key = aggregate_key(
+            observation.get("canonical_name"), observation.get("entity_class", ""),
+            observation.get("domain", ""),
+        )
+        entity_ids[observation.get("name")] = entity_id(key)
+        entity_ids[observation.get("canonical_name")] = entity_id(key)
+    summary["relationships"] = _write_relationships(
+        tx, staged["relationships"], document, entity_ids
+    )
+    return summary
+
+
+def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
+    """Read the staged JSON one document's commit needs."""
+    def _load(name: str, default=None):
+        path = doc_kg_dir / name
+        if not path.exists():
+            return default
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    try:
+        return {
+            "domain": domain,
+            "document": _load("document.json"),
+            "chunks": _load("chunks.json", []),
+            "observations": _load("observations.json", []),
+            "relationships": _load("relationships.json", []),
+        }
+    except Exception as e:
+        logger.error("Failed to load KG JSON files from {}: {}", doc_kg_dir, e)
+        return None
+
+
+def _write_to_neo4j(doc_kg_dir: Path, domain: str | None = None, defer_rebuild: bool = False) -> dict | None:
+    """Commit one staged document to Neo4j in a single transaction.
+
+    Returns the commit summary, or None if the staged files could not be read.
+    A Neo4j failure **raises** — it is the caller's job to decide what a failed
+    commit means, and the old `return False` let callers treat a failed graph
+    write as a soft outcome.
+    """
+    env = load_env()
+    embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
+
+    staged = _load_staged(doc_kg_dir, domain or "")
+    if not staged or not staged.get("document"):
+        return None
+    staged["domain"] = domain or staged["document"].get("domain", "")
+
     from artmind.graph_query import neo4j_session
 
-    reasserted = 0
     with neo4j_session() as session:
-        for e in entities:
-            props = _flatten_props(props_by_id.get(e["id"], {}))
-            if not props:
-                continue
-            rec = session.run(
-                "MATCH (n:Entity {name:$name, entity_class:$ec, domain:$domain}) "
-                "SET n += $props RETURN count(n) AS matched",
-                name=e["name"],
-                ec=e["entity_class"],
-                domain=e.get("domain") or domain,
-                props=props,
-            ).single()
-            reasserted += rec["matched"] if rec else 0
-    if reasserted:
-        logger.info(
-            "reassert_superseding_properties: {} entity node(s) updated from {}",
-            reasserted, doc_kg_dir.name,
-        )
-    return {"entities_reasserted": reasserted}
+        _ensure_neo4j_schema(session, embedding_dim)
+        summary = session.execute_write(_commit_document_tx, staged, defer_rebuild)
+
+    logger.info(
+        "Neo4j commit: {} — {} chunk(s), {} observation(s), projection {}",
+        staged["document"].get("name", doc_kg_dir.name),
+        summary["chunks"], summary["observations"], summary["projection"],
+    )
+    return summary
 
 
-def _incoming_property_values(doc_kg_dir: Path, domain: str) -> dict:
-    """The property values this document asserts, keyed by entity identity.
-
-    The comparison side of the history snapshot: capture_prior_values supplies
-    what the graph held, this supplies what the document says, and only the
-    differences become :EntityVersion nodes.
-
-    entities.json ids are chunk-scoped — the same logical entity mentioned in
-    multiple chunks appears as multiple entries sharing one (name, entity_class,
-    domain) identity but different chunk-scoped ids and different property
-    subsets. Merge (not overwrite) property dicts across those entries so no
-    chunk's asserted keys are dropped; a literal key collision lets the later
-    chunk win, mirroring _reassert_superseding_properties' own behaviour — it
-    issues one unconditional `SET n += $props` per entities.json entry, so the
-    last-processed chunk's value for a given key is what actually lands on the
-    node (unlike _upsert_entity's merge, which keeps the existing scalar).
-    """
+def write_to_graph(doc_kg_dir: Path, domain: str | None = None) -> bool:
+    """Write staged KG JSON to Neo4j. Safe to re-run after fixing Neo4j issues."""
     try:
-        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
-        properties_path = doc_kg_dir / "properties.json"
-        properties_list = (
-            json.loads(properties_path.read_text(encoding="utf-8"))
-            if properties_path.exists() else []
-        )
+        return _write_to_neo4j(doc_kg_dir, domain) is not None
     except Exception as e:
-        logger.warning("_incoming_property_values: could not load staged JSON: {}", e)
-        return {}
-    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
-    out: dict = {}
-    for e in entities:
-        props = _flatten_props(props_by_id.get(e["id"], {}))
-        if not props:
-            continue
-        identity = (e["name"], e["entity_class"], e.get("domain") or domain)
-        out.setdefault(identity, {}).update(props)
-    return out
-
-
-def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
-    """Complete commit of staged KG JSON to Neo4j: capture prior values, write,
-    then the per-document self-asserted-truth hooks (temporal normalization,
-    then supersession).
-
-    This is the single convergence point for all three ingestion sources
-    (extract, pull-from-repo, import-bundle). Cross-document judgment steps
-    (merge/conflicts/consolidate) are deliberately NOT run here — see
-    artmind.refine_pipeline. Hooks are best-effort: a down hook logs a warning
-    but does not fail the commit, since the graph write already succeeded.
-
-    Re-ingesting a known identity is always a replace now (`--replace` is
-    gone): the reused ``doc_id``'s prior contributions are hard-retracted
-    *before* the write, so the re-commit replaces them in place rather than
-    accreting onto them (a second "desc | desc" append). For a document
-    that's genuinely new, every retraction MATCH finds nothing — a safe
-    no-op. Retraction runs before prior-value capture so history reflects
-    the rewritten, not doubled, state.
-    """
-    from artmind import entity_history
-
-    # 0a. Retract this doc_id's old edges/chunks/property-ledger entries
-    #     first, then the write below re-adds this version's under the same
-    #     id. Shared entities/edges another document still backs survive.
-    try:
-        doc_id = json.loads(
-            (doc_kg_dir / "document.json").read_text(encoding="utf-8")
-        ).get("id")
-        if doc_id:
-            retracted = _retract_document_from_neo4j(domain, doc_id)
-            logger.info(
-                "commit_to_graph: retracted prior version of {} — {}",
-                doc_id, retracted,
-            )
-    except Exception as e:
-        logger.warning(
-            "commit_to_graph: retraction failed for {}: {}", doc_kg_dir, e
-        )
-
-    # 0. Prior-value capture, for the entity history zone. Must precede the
-    #    write: _upsert_entity's merge is accretive, so afterwards the live
-    #    node holds "old | new" rather than the clean prior value. Gated on a
-    #    pure-local check so documents that declare no supersession — the
-    #    overwhelming majority — pay no Neo4j read at all.
-    prior: dict = {}
-    try:
-        document_name = json.loads(
-            (doc_kg_dir / "document.json").read_text(encoding="utf-8")
-        ).get("name")
-        if document_name and entity_history.supersession_possible(document_name, domain):
-            prior = entity_history.capture_prior_values(doc_kg_dir, domain)
-    except Exception as e:
-        logger.warning("commit_to_graph: prior-value capture failed for {}: {}", doc_kg_dir, e)
-
-    ok = write_to_graph(doc_kg_dir)
-    if not ok:
+        logger.error("Neo4j write failed for {}: {}", doc_kg_dir, e)
         return False
 
-    # 1. Temporal normalization (additive, idempotent, per-document).
-    try:
-        from artmind.temporal import normalize_ingested_document
-        normalize_ingested_document(doc_kg_dir, domain)
-    except Exception as e:
-        logger.warning("commit_to_graph: temporal hook failed for {}: {}", doc_kg_dir, e)
 
-    # 2. Supersession from this document's own declaration (must follow temporal
-    #    so canonical dates/version exist). Scoped to just this document. When a
-    #    SUPERSEDES edge was applied, snapshot the prior values this document
-    #    overwrites, then re-assert its own values over the accretive merge —
-    #    the superseding version's values win (see _reassert_superseding_properties).
-    try:
-        from artmind.temporal import detect_supersession
-        document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
-        sup_report = detect_supersession(domain, only_doc_name=document.get("name"))
-        applied = (sup_report or {}).get("applied")
-        if applied:
-            if prior:
-                try:
-                    entity_history.snapshot_changed_values(
-                        prior,
-                        _incoming_property_values(doc_kg_dir, domain),
-                        applied[0].get("effective"),
-                        document.get("id"),
-                    )
-                except Exception as e:
-                    logger.warning("commit_to_graph: history snapshot failed for {}: {}", doc_kg_dir, e)
-            _reassert_superseding_properties(doc_kg_dir, domain)
-    except Exception as e:
-        logger.warning("commit_to_graph: supersession hook failed for {}: {}", doc_kg_dir, e)
+def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) -> bool:
+    """Commit one staged document: chunks, observations and the projection
+    rebuild, in a single transaction, followed by the post-commit embed sweep.
 
+    This is the single convergence point for all three ingestion sources
+    (extract, pull-from-repo, import-bundle).
+
+    **The rebuild is a step inside this commit, not a hook after it.** The
+    pre-redesign version ran temporal normalization and supersession detection
+    here as best-effort hooks that caught their own exceptions and logged a
+    warning — so a broken projection was indistinguishable from a healthy one.
+    Now a projection failure fails the commit and nothing lands.
+
+    The **embed sweep** deliberately runs after the transaction has committed:
+    it calls the embedding service, which a transaction cannot do. It is
+    scoped to the keys this commit dirtied, and it never nulls an embedding —
+    an entity it cannot embed keeps its old vector and stays flagged for the
+    next sweep.
+
+    `defer_rebuild` is the directory path: per-document observation writes,
+    then one full rebuild at the end (see `rebuild_projection`).
+    """
+    try:
+        summary = _write_to_neo4j(doc_kg_dir, domain, defer_rebuild=defer_rebuild)
+    except Exception as e:
+        logger.error("commit_to_graph: transaction failed for {}: {}", doc_kg_dir, e)
+        return False
+    if summary is None:
+        return False
+
+    if not defer_rebuild:
+        _sweep_embeddings(domain, summary.get("affected_keys") or [])
     return True
 
+
+def _sweep_embeddings(domain: str, keys: list) -> int:
+    """Post-commit embed sweep, scoped to the affected keys.
+
+    Never fatal: the commit already succeeded and the graph is correct. An
+    entity the sweep could not embed keeps `embedding_stale = true` and is
+    picked up next time — which is the whole point of flagging rather than
+    nulling.
+    """
+    if not keys:
+        return 0
+    try:
+        from artmind.graph_query import neo4j_session
+
+        env = load_env()
+        embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
+        with neo4j_session() as session:
+            return embed_missing_entity_embeddings(session, domain, embed_model, keys=keys)
+    except Exception as e:
+        logger.warning(
+            "Embed sweep skipped for {} ({}); entities stay marked stale and will be "
+            "picked up by the next sweep", domain, e,
+        )
+        return 0
+
+
+def rebuild_projection(domain: str | None = None, keys: list | None = None) -> dict:
+    """Rebuild the projection outside an ingest — the deferred directory path,
+    and the recovery path for drift.
+
+    A full rebuild when `keys` is omitted. The embed sweep follows, since a
+    rebuild leaves everything it touched flagged stale.
+    """
+    from artmind import projection
+    from artmind.graph_query import neo4j_session
+
+    domains = [domain] if domain else None
+    with neo4j_session() as session:
+        if keys:
+            summary = session.execute_write(lambda tx: projection.rebuild(tx, keys))
+            swept_keys = list(keys)
+        else:
+            summary = session.execute_write(lambda tx: projection.full_rebuild(tx, domains))
+            swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
+    if domain:
+        summary["embedded"] = _sweep_embeddings(domain, swept_keys)
+    return summary

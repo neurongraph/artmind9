@@ -1,11 +1,21 @@
-"""Deterministic date parsing and document-date lifting (no Neo4j)."""
+"""Deterministic date parsing and document-date lifting (no Neo4j).
+
+Phase 3 moved date lifting out of the post-write `normalize_ingested_document`
+hook and into ingest itself: the projection's winner rule is "latest source
+document valid_from", so every observation needs its document's date at write
+time, inside the commit transaction. The pure parsing helpers below are
+unchanged and are still what does the work — see
+`test_observation_valid_time.py` for where they are now called from.
+
+`apply_node_supersession` and `_stamp_chunk_valid_from` are gone. Both wrote
+entity/chunk properties the projection now owns and would overwrite.
+"""
 import json
 from unittest.mock import MagicMock, patch
 
 import pytest
 
 from artmind.temporal import (
-    apply_node_supersession,
     canonical_entity_dates,
     parse_iso,
     lift_document_dates,
@@ -159,202 +169,14 @@ def test_canonical_entity_dates_no_mapping_returns_empty():
     assert canonical_entity_dates(entity, {}, anchor=None) == {}
 
 
-def test_normalize_ingested_document_merges_properties_json(tmp_path, monkeypatch):
-    # Reproduces the real ingest.extract_kg() output shape: entities.json entries
-    # are flat (no "properties" key); the domain-specific values live in a
-    # separate properties.json keyed by entity id, merged at Neo4j-write time.
-    # A prior version of normalize_ingested_document never merged properties.json,
-    # so canonical_entity_dates always saw an empty properties dict and every
-    # entity's temporal mapping silently no-opped.
-    import artmind.temporal as temporal
-
-    doc_kg_dir = tmp_path
-    (doc_kg_dir / "document.json").write_text(
-        json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8"
-    )
-    (doc_kg_dir / "entities.json").write_text(
-        json.dumps([{"id": "ent-1", "name": "Fee Policy", "entity_class": "POLICY"}]),
-        encoding="utf-8",
-    )
-    (doc_kg_dir / "properties.json").write_text(
-        json.dumps([{"id": "ent-1", "properties": {"effective_date": "2026-06-01"}}]),
-        encoding="utf-8",
-    )
-
-    monkeypatch.setattr(
-        temporal, "load_schema",
-        lambda domain: {
-            "entity_types": {
-                "POLICY": {"properties": {"effective_date": {"temporal": "valid_from"}}}
-            }
-        },
-    )
-
-    entity_runs = []
-
-    class FakeResult:
-        def __init__(self, matched):
-            self._matched = matched
-
-        def single(self):
-            return {"matched": self._matched}
-
-    class FakeSession:
-        def run(self, cypher, **kwargs):
-            if "Entity" in cypher:
-                entity_runs.append((cypher, kwargs))
-            return FakeResult(matched=1)
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSessionContext())
-
-    result = temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
-
-    assert result["entities"] == 1
-    assert len(entity_runs) == 1
-    cypher, kwargs = entity_runs[0]
-    assert kwargs["props"]["valid_from"] == "2026-06-01"
-    # Graph Entity nodes get a fresh uuid id from _upsert_entity — the staged
-    # extraction id ("ent-1") never lands on any node. The hook must therefore
-    # match by the same key _upsert_entity merges on: (name, entity_class, domain).
-    assert "{id:" not in cypher
-    assert "name:$name" in cypher and "entity_class:$entity_class" in cypher and "domain:$domain" in cypher
-    assert kwargs["name"] == "Fee Policy"
-    assert kwargs["entity_class"] == "POLICY"
-    assert kwargs["domain"] == "banking_policy"
 
 
-def test_normalize_ingested_document_counts_only_matched_entities(tmp_path, monkeypatch):
-    # The written["entities"] count must reflect nodes the MATCH actually found,
-    # not merely attempts — a no-op SET (e.g. entity not yet in the graph) must
-    # not inflate the count.
-    import artmind.temporal as temporal
-
-    doc_kg_dir = tmp_path
-    (doc_kg_dir / "document.json").write_text(
-        json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8"
-    )
-    (doc_kg_dir / "entities.json").write_text(
-        json.dumps([{"id": "ent-1", "name": "Fee Policy", "entity_class": "POLICY"}]),
-        encoding="utf-8",
-    )
-    (doc_kg_dir / "properties.json").write_text(
-        json.dumps([{"id": "ent-1", "properties": {"effective_date": "2026-06-01"}}]),
-        encoding="utf-8",
-    )
-
-    monkeypatch.setattr(
-        temporal, "load_schema",
-        lambda domain: {
-            "entity_types": {
-                "POLICY": {"properties": {"effective_date": {"temporal": "valid_from"}}}
-            }
-        },
-    )
-
-    class FakeResult:
-        def single(self):
-            return {"matched": 0}
-
-    class FakeSession:
-        def run(self, cypher, **kwargs):
-            return FakeResult()
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSessionContext())
-
-    result = temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
-
-    assert result["entities"] == 0
 
 
-def test_stamp_chunk_valid_from_writes_to_chunks():
-    # asof_predicate is NULL-safe, so a chunk with no valid_from always passes the
-    # "in force yet?" half of the filter. Stamping it is what lets --asOf hide
-    # not-yet-effective content, the counterpart to apply_supersession's valid_to.
-    import artmind.temporal as temporal
-
-    session = MagicMock()
-    temporal._stamp_chunk_valid_from(session, "doc-1", "2026-06-01")
-
-    session.run.assert_called_once()
-    cypher, kwargs = session.run.call_args[0][0], session.run.call_args[1]
-    assert "DocChunk" in cypher
-    assert "c.valid_from" in cypher
-    assert kwargs == {"docId": "doc-1", "validFrom": "2026-06-01"}
 
 
-def test_stamp_chunk_valid_from_is_noop_without_a_date():
-    import artmind.temporal as temporal
-
-    session = MagicMock()
-    temporal._stamp_chunk_valid_from(session, "doc-1", None)
-    temporal._stamp_chunk_valid_from(session, "doc-1", "")
-
-    session.run.assert_not_called()
 
 
-def test_normalize_ingested_document_propagates_valid_from_to_chunks(tmp_path, monkeypatch):
-    # Document.valid_from is stamped by normalize_*, not at _write_to_neo4j
-    # (document.json carries no valid_from), so chunk propagation has to happen
-    # here too or chunk-level --asOf stays half-inert.
-    import artmind.temporal as temporal
-
-    doc_kg_dir = tmp_path
-    (doc_kg_dir / "document.json").write_text(
-        json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8"
-    )
-    (doc_kg_dir / "entities.json").write_text(json.dumps([]), encoding="utf-8")
-    (doc_kg_dir / "properties.json").write_text(json.dumps([]), encoding="utf-8")
-
-    monkeypatch.setattr(
-        temporal, "load_schema",
-        lambda domain: {
-            "temporal": {
-                "document": {"valid_from": ["Effective Date"]},
-                "defaults": {"valid_from": "ingestion_date"},
-            }
-        },
-    )
-
-    calls = []
-
-    class FakeResult:
-        def single(self):
-            return {"matched": 0}
-
-    class FakeSession:
-        def run(self, cypher, **kwargs):
-            calls.append((cypher, kwargs))
-            return FakeResult()
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSessionContext())
-
-    temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
-
-    chunk_writes = [(c, k) for c, k in calls if "DocChunk" in c and "c.valid_from" in c]
-    assert len(chunk_writes) == 1, calls
-    assert chunk_writes[0][1]["docId"] == "doc-1"
-    assert chunk_writes[0][1]["validFrom"]
 
 
 def test_asof_predicate_shape():
@@ -425,47 +247,5 @@ def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):
     assert any("node.valid_from" in c and "node.valid_to" in c for c in captured_cyphers)
 
 
-def test_apply_node_supersession_writes_edge_and_retires_older():
-    captured = {}
-
-    def run_side_effect(cypher, **kwargs):
-        captured["cypher"] = cypher
-        captured["kwargs"] = kwargs
-        mock_result = MagicMock()
-        mock_result.single.return_value = {
-            "newer_id": "newer-uuid", "older_id": "older-uuid", "older_name": "James Chen",
-        }
-        return mock_result
-
-    with patch("artmind.temporal.neo4j_session") as mock_ctx:
-        mock_session = mock_ctx.return_value.__enter__.return_value
-        mock_session.run.side_effect = run_side_effect
-
-        result = apply_node_supersession(
-            newer_id="newer-uuid",
-            older_id="4:abc:123",
-            effective="2026-07-18",
-            detected_by="user_update",
-            source_chat_id="chat-1",
-            reason="role holder changed",
-        )
-
-    assert result == {"newer": "newer-uuid", "older": "older-uuid", "effective": "2026-07-18"}
-    cypher = captured["cypher"]
-    assert "SUPERSEDES" in cypher
-    assert "older.valid_to" in cypher and "older.superseded_by" in cypher
-    assert "older.status" in cypher
-    kwargs = captured["kwargs"]
-    assert kwargs["newerId"] == "newer-uuid"
-    assert kwargs["olderRef"] == "4:abc:123"
-    assert kwargs["sourceChatId"] == "chat-1"
-    assert kwargs["reason"] == "role holder changed"
 
 
-def test_apply_node_supersession_raises_when_unresolved():
-    with patch("artmind.temporal.neo4j_session") as mock_ctx:
-        mock_session = mock_ctx.return_value.__enter__.return_value
-        mock_session.run.return_value.single.return_value = None
-
-        with pytest.raises(ValueError):
-            apply_node_supersession(newer_id="missing", older_id="4:abc:999")
