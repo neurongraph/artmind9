@@ -479,15 +479,58 @@ def assert_gate(gate: Gate) -> None:
         )
 
         # 5. No conflict — the three windows do not overlap.
+        #
+        # The parenthetical names what this is really testing: the three
+        # schedules must not disagree with each other. But a :Conflict can also
+        # arise WITHIN one document, and that is designed behaviour, not a
+        # projection defect — docs/projection-pipeline.md's own worked example
+        # is January disputing itself. January's schedule is 22 chunks and
+        # describes the Tier 2 rate in four places (the rate table, the
+        # competitor comparison, a savings strategy, an FAQ), so it has ample
+        # room to disagree with itself.
+        #
+        # So the two are counted separately: a conflict whose evidence spans
+        # more than one doc_id is cross-document and contradicts the disjoint
+        # -windows claim; one confined to a single doc_id is intra-document.
+        # Both are reported with the values in dispute, because "conflicts on
+        # ['balance_max']" does not tell you whether the sources disagree about
+        # the world or the extractor merely wrote 50000 one place and "£50k"
+        # another.
         conflicts = session.run(
-            "MATCH (c:Conflict)-[:CONFLICT_OF]->(:Entity {id: $id}) RETURN collect(c.property) AS p",
+            """
+            MATCH (c:Conflict {_source: 'projection'})-[:CONFLICT_OF]->(:Entity {id: $id})
+            OPTIONAL MATCH (c)-[:EVIDENCE]->(o:Observation)
+            RETURN c.property AS property, c.values AS values,
+                   count(DISTINCT o.doc_id) AS docs
+            ORDER BY property
+            """,
             id=eid,
-        ).single()["p"]
+        ).data()
+        cross = [c for c in conflicts if (c["docs"] or 0) > 1]
+        within = [c for c in conflicts if (c["docs"] or 0) <= 1]
+
+        def _describe(rows):
+            return "; ".join(f"{r['property']}={r['values']}" for r in rows)
+
         gate.check(
-            "no :Conflict (the three windows are disjoint)",
-            not conflicts,
-            f"conflicts on {conflicts}" if conflicts else "",
+            "no CROSS-DOCUMENT :Conflict (the three windows are disjoint)",
+            not cross,
+            _describe(cross) if cross else (
+                f"{len(within)} intra-document conflict(s), none across documents"
+            ),
         )
+        if within:
+            print(
+                f"\n  note: {len(within)} conflict(s) confined to a single document — "
+                "designed behaviour, not a window overlap:"
+            )
+            for row in within:
+                print(f"        {row['property']} = {row['values']}")
+            print(
+                "        Each is one document describing the same fact two ways.\n"
+                "        Worth reading as corpus/extractor quality, not projection\n"
+                "        correctness — see the Conflicts section of phase3_inspect.py."
+            )
 
         # ── invariants the gate does not name but the phase depends on ──
         labels = session.run(

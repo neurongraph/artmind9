@@ -145,13 +145,15 @@ entity_types:
       rate_format:
         hint: AER | Gross | APR
       balance_min:
-        hint: lower bound of balance range, £
+        hint: numeric, no currency symbol or thousands separators, e.g., 10001
       balance_max:
-        hint: upper bound of balance range, £ or "unlimited"
+        hint: numeric, no currency symbol or thousands separators, e.g., 50000; the
+          string "unlimited" if the tier has no upper bound
       rate_type:
         hint: fixed | variable | tiered_variable
       rate_basis:
-        hint: e.g., "BoE Base Rate + 2.5% margin"
+        hint: the variation formula only, e.g., "BoE Base Rate + 2.50% margin". Not the
+          rate type ("Variable") and not the quoting basis ("AER") -- those are rate_format.
       review_frequency:
         hint: how often rate is reviewed
       effective_date:

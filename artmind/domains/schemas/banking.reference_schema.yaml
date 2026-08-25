@@ -43,20 +43,23 @@ entity_types:
       rate_format:
         hint: AER | Gross | APR
       balance_min:
-        hint: lower bound of balance range
+        hint: numeric, no currency symbol or thousands separators, e.g., 10001
       balance_max:
-        hint: upper bound, or "unlimited"
+        hint: numeric, no currency symbol or thousands separators, e.g., 50000; the
+          string "unlimited" if the tier has no upper bound
       effective_date:
         hint: when this rate applies from
         temporal: valid_from
       next_review_date:
         hint: when rate is next reviewed
       rate_basis:
-        hint: formula, e.g., "BoE Base Rate + 2.50% margin"
+        hint: the variation formula only, e.g., "BoE Base Rate + 2.50% margin". Not the
+          rate type ("Variable") and not the quoting basis ("AER") -- those are rate_format.
       current_boe_rate:
         hint: Bank of England base rate at time of publication
       calculation_example:
-        hint: the example from the document verbatim
+        hint: the worked example for THIS tier, verbatim. Omit it when the document's
+          example is for a different tier -- do not borrow another tier's example.
       accrual_method:
         hint: daily | monthly
       payment_frequency:
