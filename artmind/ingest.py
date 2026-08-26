@@ -1,7 +1,6 @@
 import json
 import re
 import shutil
-import sqlite3
 import time
 import uuid
 import datetime as _datetime
@@ -15,16 +14,26 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind.db import _get_db
+from artmind.derived_markdown import (
+    decide as _decide_promotion,
+    derived_markdown_path,
+    is_promoted as _is_promoted,
+    markdown_was_edited as _markdown_was_edited,
+)
 from artmind.document_identity import (
     build_frontmatter,
     canonical_path,
+    compute_content_sha256,
     decide_version,
     markdown_path_for,
+    mint_artmind_id,
     resolve_identity,
     write_document,
 )
 from artmind.setup import _setup_neo4j
+from artmind.vault_git import commit_paths as _vault_commit_paths
 from artmind.vault_git import current_commit as _vault_current_commit
+from artmind.vault_git import move_path as _vault_move_path
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -40,7 +49,6 @@ from artmind.llm_providers import describe_image_ollama, describe_image_openrout
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import (
     ARTMIND_VAULT_DIR,
-    DB_PATH,
     DOMAIN_SCHEMAS_DIR,
     KG_DIR,
     MARKDOWNS_DIR,
@@ -82,33 +90,6 @@ def _compute_sha256(file_path: Path) -> str:
         for chunk in iter(lambda: f.read(4096), b""):
             h.update(chunk)
     return h.hexdigest()
-
-
-# ── document registry helpers ──────────────────────────────────────────────────
-
-
-def _sha256_in_registry(file_sha256: str) -> bool:
-    if not DB_PATH.exists():
-        return False
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT 1 FROM documents WHERE sha256 = ?", (file_sha256,))
-    found = cursor.fetchone() is not None
-    conn.close()
-    return found
-
-
-def _filename_in_registry(filename: str) -> bool:
-    if not DB_PATH.exists():
-        return False
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT 1 FROM documents WHERE UPPER(filename) = ?", (filename.upper(),)
-    )
-    found = cursor.fetchone() is not None
-    conn.close()
-    return found
 
 
 # ── kg_chunk_status helpers ────────────────────────────────────────────────────
@@ -168,41 +149,45 @@ def _update_chunk_step(doc_sha256: str, chunk_seq: int, step: str, status: str) 
 
 
 def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
-    """Reconstruct file_result from the registry for CLI retry commands."""
+    """Reconstruct file_result from the registry for CLI retry commands.
+
+    Phase 5 dropped the registry's `filename` column (docs/redesign-phase-
+    plan.md, "E") -- it was never anything but `Path(path).name`. Matched in
+    Python rather than SQL (no portable basename function in plain sqlite3),
+    against every row in the domain -- registries are small enough that this
+    doesn't matter.
+    """
     conn = _get_db()
     try:
-        row = conn.execute(
-            "SELECT filename, sha256, path, artmind_id FROM documents"
-            " WHERE UPPER(filename) = ? AND domain = ?",
-            (document_name.upper(), domain),
-        ).fetchone()
-        if not row:
-            # Try prefix match (user may omit extension)
-            row = conn.execute(
-                "SELECT filename, sha256, path, artmind_id FROM documents"
-                " WHERE UPPER(filename) LIKE ? AND domain = ? LIMIT 1",
-                (document_name.upper() + "%", domain),
-            ).fetchone()
-        if not row:
-            return None
-        filename, doc_sha256, registered_path_str, artmind_id = row
-        registered_path = Path(registered_path_str)
-        chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
-        chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
-        result = {
-            "status": "ok",
-            "filename": filename,
-            "sha256": doc_sha256,
-            "registered_path": registered_path_str,
-            "domain": domain,
-            "chunks_dir": str(chunks_dir),
-            "chunk_count": chunk_count,
-        }
-        if artmind_id:
-            result["artmind_id"] = artmind_id
-        return result
+        rows = conn.execute(
+            "SELECT path, content_sha256, artmind_id FROM documents WHERE domain = ?",
+            (domain,),
+        ).fetchall()
     finally:
         conn.close()
+    target = document_name.upper()
+    matches = [r for r in rows if Path(r[0]).name.upper() == target]
+    if not matches:
+        # Prefix match (user may omit extension)
+        matches = [r for r in rows if Path(r[0]).name.upper().startswith(target)]
+    if not matches:
+        return None
+    registered_path_str, doc_sha256, artmind_id = matches[0]
+    registered_path = Path(registered_path_str)
+    chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+    chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
+    result = {
+        "status": "ok",
+        "filename": registered_path.name,
+        "sha256": doc_sha256,
+        "registered_path": registered_path_str,
+        "domain": domain,
+        "chunks_dir": str(chunks_dir),
+        "chunk_count": chunk_count,
+    }
+    if artmind_id:
+        result["artmind_id"] = artmind_id
+    return result
 
 
 def _canonical_key(source: Path, domain: str) -> str:
@@ -273,23 +258,39 @@ def _resolve_doc_identity(
     return (resumed_doc_id or uuid.uuid4().hex), 1
 
 
-def _register_document(domain: str, file_path: Path, artmind_id: str | None = None) -> str:
+def _register_document(
+    domain: str,
+    file_path: Path,
+    artmind_id: str | None = None,
+    *,
+    content_sha256: str | None = None,
+) -> str:
     """Record a document in the path <-> id cache; return the resolved path.
 
     Phase 2 (docs/document-identity.md): the registry is bookkeeping, not
-    identity. For a binary/tabular source (``artmind_id=None``) real identity
-    continuity still runs entirely through Neo4j's `logical_id` lookup
-    (`_resolve_doc_identity`) — this row exists only so `_find_registered_
-    documents`/`docs purge`/`retry-job` have something to look up by
-    filename. For a vault-native source, ``artmind_id`` is the real identity
-    and this row *is* the path <-> id cache the resolution table reads.
+    identity. For a plain binary/tabular source (``artmind_id=None``) real
+    identity continuity still runs entirely through Neo4j's `logical_id`
+    lookup (`_resolve_doc_identity`) — this row exists only so `retry-job`
+    has something to look up by path. For a vault-native source, or a
+    binary's derived/promoted markdown (`artmind/derived_markdown.py`,
+    `_ingest_binary_derived` — which does NOT register the original binary
+    itself, only its derived markdown; "has this binary been converted
+    before" is answered by the filesystem, not this registry, see that
+    function's docstring), ``artmind_id`` is the real identity and this row
+    *is* the path <-> id cache the resolution table reads.
+
+    ``content_sha256``, when given, is the caller's already-computed
+    body-only hash (`decide_version`'s `_content_sha256` for a vault-native
+    document, or the derived body's hash for a binary's derived markdown) —
+    the registry stores exactly that number, not a second, disagreeing one.
+    Omitted (a plain binary/tabular source with no separable body), this
+    falls back to a whole-file hash.
 
     No duplicate guard: re-ingesting a known identity is always a replace
     now (`--replace`/`--force` are gone), and a copied template with an
     unedited body is a legitimate new document, not an error.
     """
-    filename = file_path.name
-    file_sha256 = _compute_sha256(file_path)
+    resolved_content_sha256 = content_sha256 if content_sha256 is not None else _compute_sha256(file_path)
     # `canonical_path`, not a raw `.resolve()` -- this MUST match exactly what
     # `resolve_identity`'s registry lookups key on (vault-relative when the
     # file is vault-native), or a `move`/`refuse` decision compares apples to
@@ -297,27 +298,44 @@ def _register_document(domain: str, file_path: Path, artmind_id: str | None = No
     # looked up there) and every re-ingest of a known identity misreads as a
     # brand-new file at a colliding id.
     resolved_path = canonical_path(file_path)
+    now = datetime.now().isoformat()
     conn = _get_db()
     try:
         if artmind_id is not None:
             conn.execute(
                 """
-                INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO documents (artmind_id, domain, path, content_sha256, last_ingested_at)
+                VALUES (?, ?, ?, ?, ?)
                 ON CONFLICT(artmind_id) DO UPDATE SET
                     domain = excluded.domain,
-                    filename = excluded.filename,
                     path = excluded.path,
-                    sha256 = excluded.sha256,
-                    added_at = excluded.added_at
+                    content_sha256 = excluded.content_sha256,
+                    last_ingested_at = excluded.last_ingested_at
                 """,
-                (artmind_id, domain, filename, resolved_path, file_sha256, datetime.now().isoformat()),
+                (artmind_id, domain, resolved_path, resolved_content_sha256, now),
             )
         else:
+            # No `artmind_id` to `ON CONFLICT` against (a path-only row is a
+            # plain binary original or a csv/xlsx — there's no UNIQUE(path)
+            # either, since a vault-native path and a data-dir original path
+            # live in disjoint namespaces and could otherwise collide under
+            # one constraint). Delete-then-insert keeps re-ingesting an
+            # unchanged file from accumulating a fresh duplicate row on every
+            # run.
+            #
+            # Deliberately NOT scoped by `domain`: a path is already a
+            # natural unique key (one file, one row) independent of which
+            # domain it's currently tagged with — re-registering it under a
+            # *different* domain (a re-home) must update that same row, not
+            # leave a stale duplicate behind under the old domain.
             conn.execute(
-                "INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)"
-                " VALUES (NULL, ?, ?, ?, ?, ?)",
-                (domain, filename, resolved_path, file_sha256, datetime.now().isoformat()),
+                "DELETE FROM documents WHERE artmind_id IS NULL AND path = ?",
+                (resolved_path,),
+            )
+            conn.execute(
+                "INSERT INTO documents (artmind_id, domain, path, content_sha256, last_ingested_at)"
+                " VALUES (NULL, ?, ?, ?, ?)",
+                (domain, resolved_path, resolved_content_sha256, now),
             )
         conn.commit()
         return resolved_path
@@ -414,6 +432,18 @@ def _is_vault_native_markdown(source: Path) -> bool:
         return False
 
 
+def _is_promotable_binary(source: Path) -> bool:
+    """A true binary source (pdf/pptx/docx, ...) with a vault configured to
+    mirror its derived markdown into — eligible for Phase 5 derived-markdown
+    promotion (docs/document-identity.md, "Derived-markdown promotion"). An
+    ad-hoc `.md` outside the vault is already markdown; there's no derived
+    copy of it to promote, so it stays on the pre-Phase-2 path-keyed flow.
+    Without a vault configured there's nowhere to mirror derived output into
+    either, so binaries fall back to the same pre-Phase-2 flow in that case.
+    """
+    return source.suffix.lower() != ".md" and ARTMIND_VAULT_DIR is not None
+
+
 def ingest_file(
     source: Path,
     image_model: str,
@@ -439,6 +469,11 @@ def ingest_file(
         return _ingest_vault_native(
             source, domain=domain, job_id=job_id, chunk_size=chunk_size,
             set_domain=set_domain, fork=fork, adopt=adopt,
+        )
+    if _is_promotable_binary(source):
+        return _ingest_binary_derived(
+            source, image_model, domain or "general", job_id, chunk_size,
+            set_domain=set_domain,
         )
     return _ingest_binary_or_adhoc(source, image_model, domain or "general", job_id, chunk_size)
 
@@ -499,7 +534,10 @@ def _ingest_vault_native(
         body=body,
     )
     write_document(source, new_meta, body)
-    _register_document(effective_domain, source, resolution.artmind_id)
+    _register_document(
+        effective_domain, source, resolution.artmind_id,
+        content_sha256=version_decision.content_sha256,
+    )
 
     if job_id:
         _update_job_file_status(
@@ -555,6 +593,78 @@ def _ingest_vault_native(
     return file_result
 
 
+def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str | None, dict]:
+    """Run docling on `dest_path` (already copied into `documents/originals/`),
+    describe any extracted images, and return the resulting markdown body.
+
+    Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
+    side effect (unchanged from the pre-Phase-5 shape other code may still
+    read that path for) and also returns it directly, since Phase 5's
+    derived-markdown promotion writes the same body into the vault instead of
+    (or in addition to) that data-dir copy.
+
+    Returns `(body, {})` on success, or `(None, {"status": ..., "error": ...})`
+    on failure — the caller merges the error dict into its own `file_result`.
+    """
+    dest_filename = dest_path.name
+    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
+
+    logger.info("Converting to markdown via docling: {}", dest_filename)
+    t0 = time.monotonic()
+    cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
+    returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
+    elapsed = time.monotonic() - t0
+    if returncode != 0:
+        combined = (stderr or "") + (stdout or "")
+        if "exceeds size limit" in combined or "max_image_decoded_size" in combined:
+            logger.warning(
+                "Skipping {} — docling rejected oversized image (file too large to convert)",
+                dest_filename,
+            )
+            return None, {"status": "skipped", "error": "Oversized image: docling size limit exceeded"}
+        logger.error(
+            "Docling failed for {} in {:.1f}s: {}",
+            dest_filename, elapsed, stderr or stdout,
+        )
+        return None, {"status": "failed", "error": "Docling conversion failed"}
+
+    if not md_file.exists():
+        logger.error("Expected markdown not created: {}", md_file)
+        return None, {"status": "failed", "error": "Markdown file not created"}
+
+    md_size_kb = md_file.stat().st_size / 1024
+    logger.info(
+        "Docling conversion done in {:.1f}s — markdown: {:.1f} KB", elapsed, md_size_kb,
+    )
+
+    md_content = md_file.read_text(encoding="utf-8")
+    artifacts_dir = MARKDOWNS_DIR / f"{dest_path.stem}_artifacts"
+    if artifacts_dir.exists():
+        images = sorted(
+            f for f in artifacts_dir.iterdir() if f.suffix.lower() in IMAGE_EXTENSIONS
+        )
+        if images:
+            logger.info("Found {} image(s) to describe in artifacts", len(images))
+            for idx, image in enumerate(images, start=1):
+                logger.info("Image [{}/{}]: {}", idx, len(images), image.name)
+                description = _describe_image(image, image_model)
+                if description:
+                    image.with_name(image.name + "_desc.md").write_text(
+                        description, encoding="utf-8"
+                    )
+                    md_content = _replace_image_ref(md_content, image.name, description)
+                else:
+                    logger.error("No description produced for image: {}", image.name)
+            md_file.write_text(md_content, encoding="utf-8")
+            logger.debug("Markdown updated with {} image description(s)", len(images))
+        else:
+            logger.debug("Artifacts dir exists but contains no images")
+    else:
+        logger.debug("No artifacts directory for {}", dest_filename)
+
+    return md_content, {}
+
+
 def _ingest_binary_or_adhoc(
     source: Path,
     image_model: str,
@@ -603,74 +713,10 @@ def _ingest_binary_or_adhoc(
         shutil.copy2(dest_path, md_file)
         logger.info("Source is markdown — skipping docling conversion")
     else:
-        logger.info("Converting to markdown via docling: {}", dest_filename)
-        t0 = time.monotonic()
-        cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
-        returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
-        elapsed = time.monotonic() - t0
-        if returncode != 0:
-            combined = (stderr or "") + (stdout or "")
-            if "exceeds size limit" in combined or "max_image_decoded_size" in combined:
-                logger.warning(
-                    "Skipping {} — docling rejected oversized image (file too large to convert)",
-                    dest_filename,
-                )
-                file_result["status"] = "skipped"
-                file_result["error"] = "Oversized image: docling size limit exceeded"
-                return file_result
-            logger.error(
-                "Docling failed for {} in {:.1f}s: {}",
-                dest_filename,
-                elapsed,
-                stderr or stdout,
-            )
-            file_result["error"] = "Docling conversion failed"
+        body, err = _convert_binary_via_docling(dest_path, image_model)
+        if body is None:
+            file_result.update(err)
             return file_result
-
-        if not md_file.exists():
-            logger.error("Expected markdown not created: {}", md_file)
-            file_result["error"] = "Markdown file not created"
-            return file_result
-
-        md_size_kb = md_file.stat().st_size / 1024
-        logger.info(
-            "Docling conversion done in {:.1f}s — markdown: {:.1f} KB",
-            elapsed,
-            md_size_kb,
-        )
-
-        artifacts_dir = MARKDOWNS_DIR / f"{dest_path.stem}_artifacts"
-        if artifacts_dir.exists():
-            images = sorted(
-                f
-                for f in artifacts_dir.iterdir()
-                if f.suffix.lower() in IMAGE_EXTENSIONS
-            )
-            if images:
-                logger.info("Found {} image(s) to describe in artifacts", len(images))
-                md_content = md_file.read_text(encoding="utf-8")
-                for idx, image in enumerate(images, start=1):
-                    logger.info("Image [{}/{}]: {}", idx, len(images), image.name)
-                    description = _describe_image(image, image_model)
-                    if description:
-                        image.with_name(image.name + "_desc.md").write_text(
-                            description, encoding="utf-8"
-                        )
-                        md_content = _replace_image_ref(
-                            md_content, image.name, description
-                        )
-                    else:
-                        logger.error(
-                            "No description produced for image: {}", image.name
-                        )
-                md_file.write_text(md_content, encoding="utf-8")
-                logger.debug(
-                    "Markdown updated with {} image description(s)", len(images)
-                )
-            else:
-                logger.debug("Artifacts dir exists but contains no images")
-        else:
-            logger.debug("No artifacts directory for {}", dest_filename)
 
     registered_path = _register_document(domain, dest_path)
     elapsed_total = time.monotonic() - t_file_start
@@ -696,6 +742,253 @@ def _ingest_binary_or_adhoc(
     file_result["registered_path"] = str(registered_path)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
+    return file_result
+
+
+def _ingest_binary_derived(
+    source: Path,
+    image_model: str,
+    domain: str,
+    job_id: str | None,
+    chunk_size: int,
+    *,
+    set_domain: str | None = None,
+) -> dict:
+    """Ingest a true binary source (pdf/pptx/docx) whose derived markdown is
+    mirrored into the vault (docs/document-identity.md, "Derived-markdown
+    promotion"; docs/redesign-phase-plan.md, Phase 5 "D"). Extends
+    `_artmind_id` to binary sources: the derived document IS the graph's
+    `Document.id` from here on (`file_result["artmind_id"]`, read by the
+    extraction entry point the same way a vault-native document already is)
+    — one identity, not the old two-tier logical_id/physical-id scheme
+    `_ingest_binary_or_adhoc` still uses for an ad-hoc `.md` or a vault-less
+    install.
+
+    Every ingest of the same original (matched by domain+filename, unchanged
+    in spirit from Phase 2's `_canonical_key` — a binary source stays
+    path-keyed, per docs/document-identity.md's "sources that cannot carry
+    frontmatter" table) runs the 2x2 from the spec:
+
+        markdown edited?  binary changed?  -> action
+        no                no               -> no_op
+        no                yes              -> convert (reconvert, safe)
+        yes               no               -> promote (stop deriving it)
+        yes               yes              -> collision (refuse, report both)
+
+    A prior derived document that was already promoted refuses reconversion
+    outright, before this 2x2 ever runs — see docs/document-identity.md's
+    promote table, "re-converting the binary: refused".
+
+    "Has this binary been converted before" is answered by the FILESYSTEM,
+    at two deterministic, domain+stem-scoped locations — not the registry.
+    Promotion's whole point is to move the file out of `_derived/`, so
+    `_derived/<domain>/<stem>.md` existing means "not yet promoted" and NOT
+    existing does not mean "never converted"; the second location,
+    `<domain>/<stem>.md`, is where promotion moves it to (this module's own
+    choice of target — docs/document-identity.md specifies the promotion but
+    not a destination folder). Both are scoped by `domain`, so re-ingesting
+    under a genuinely different domain without `--setDomain` reads as a
+    fresh document, the same limitation `_ingest_vault_native` accepts for
+    `--domain` before a file's own frontmatter can be consulted — except a
+    binary has no frontmatter to consult until AFTER this lookup finds it.
+    """
+    file_size_kb = source.stat().st_size / 1024
+    logger.info(
+        "── Ingest start: {} ({:.1f} KB, domain={})", source.name, file_size_kb, domain
+    )
+    file_result = {"filename": source.name, "status": "failed"}
+    t_file_start = time.monotonic()
+
+    stem = source.stem
+    effective_domain = set_domain or domain
+    dest_path = ORIGINALS_DIR / source.name
+    orig_registry_path = canonical_path(dest_path)
+
+    if job_id:
+        _update_job_file_status(
+            job_id, str(source.resolve()), status="processing",
+            current_step="ingest_file", started_at=datetime.now().isoformat(),
+        )
+
+    # Compare against the PRIOR run's data-dir copy before it's overwritten --
+    # `dest_path` already persists "the last original we saw" with no
+    # registry round-trip needed. Absent (first-ever ingest of this
+    # filename+domain) is not "changed", it's handled by `current_path is
+    # None` below instead.
+    binary_changed = dest_path.exists() and _compute_sha256(dest_path) != _compute_sha256(source)
+
+    ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, dest_path)
+    logger.debug("Copied original to: {}", dest_path)
+
+    derived_path = derived_markdown_path(ARTMIND_VAULT_DIR, effective_domain, stem)
+    promoted_path_guess = ARTMIND_VAULT_DIR / effective_domain / f"{stem}.md"
+
+    existing_meta: dict = {}
+    existing_body = ""
+    current_path: Path | None = None
+    already_promoted = False
+    if derived_path.exists():
+        current_path = derived_path
+        existing_meta, existing_body = _parse_md_frontmatter(derived_path.read_text(encoding="utf-8"))
+    elif promoted_path_guess.exists():
+        candidate_meta, candidate_body = _parse_md_frontmatter(
+            promoted_path_guess.read_text(encoding="utf-8")
+        )
+        if _is_promoted(candidate_meta):
+            current_path, existing_meta, existing_body = promoted_path_guess, candidate_meta, candidate_body
+            already_promoted = True
+        # else: an unrelated hand-authored document happens to occupy this
+        # domain+stem path -- treated as "never converted" (a fresh
+        # conversion below); a later promotion attempt would then fail loudly
+        # (git mv refuses to overwrite a tracked file) rather than clobber it.
+
+    if already_promoted:
+        file_result["error"] = (
+            f"{stem!r} was already promoted to vault-native at {current_path} "
+            "-- reconverting the binary is refused (docs/document-identity.md, "
+            '"Derived-markdown promotion"). Ingest that file directly instead.'
+        )
+        file_result["promoted_path"] = str(current_path)
+        logger.warning(file_result["error"])
+        return file_result
+
+    if current_path is None:
+        action = "convert"
+    else:
+        markdown_edited = _markdown_was_edited(existing_body, existing_meta.get("_derived_sha256"))
+        action = _decide_promotion(
+            markdown_edited=markdown_edited, binary_changed=binary_changed
+        ).action
+
+    if action == "collision":
+        file_result["error"] = (
+            f"{stem!r}: both the original binary and its derived markdown "
+            f"({current_path}) changed since the last ingest -- "
+            "artmind will not guess which side wins (docs/document-identity.md, "
+            '"Derived-markdown promotion", collision). Resolve by hand: either '
+            "revert the markdown edit and re-ingest the binary, or promote the "
+            "markdown manually and discard the new binary."
+        )
+        logger.warning(file_result["error"])
+        return file_result
+
+    if action == "no_op":
+        file_result["status"] = "ok"
+        file_result["domain"] = effective_domain
+        file_result["artmind_id"] = existing_meta.get("_artmind_id")
+        file_result["version"] = int(existing_meta.get("_version") or 1)
+        file_result["registered_path"] = str(current_path)
+        file_result["tier"] = "no_op"
+        file_result["chunk_count"] = 0
+        logger.info(
+            "── Ingest done in {:.1f}s: {} (no_op — neither the binary nor its "
+            "derived markdown changed)", time.monotonic() - t_file_start, source.name,
+        )
+        return file_result
+
+    promoted = False
+    if action == "promote":
+        promoted_path = promoted_path_guess
+        if not _vault_move_path(current_path, promoted_path):
+            file_result["error"] = (
+                f"promotion of {current_path} to {promoted_path} failed "
+                "(git mv) — see log"
+            )
+            return file_result
+
+        version_decision = decide_version(existing_body, existing_meta)
+        promoted_meta = build_frontmatter(
+            existing_meta,
+            artmind_id=existing_meta["_artmind_id"],
+            version=version_decision.version,
+            content_sha256=version_decision.content_sha256,
+            domain=effective_domain,
+            source_commit=_vault_current_commit(),
+            source_path=existing_meta.get("_source_path") or orig_registry_path,
+            source_type="md",
+            ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
+            body=existing_body,
+        )
+        promoted_meta.pop("_derived_sha256", None)
+        write_document(promoted_path, promoted_meta, existing_body)
+        _vault_commit_paths(
+            [promoted_path],
+            f"artmind: promote {stem} to vault-native "
+            f"(was derived from {existing_meta.get('_source_type', 'a binary source')})",
+        )
+        logger.warning(
+            "Promoted {} to vault-native at {} — a human edited the derived "
+            "markdown; artmind will no longer reconvert the original binary "
+            "for this document.", stem, promoted_path,
+        )
+
+        registered_path = promoted_path
+        body = existing_body
+        artmind_id = existing_meta["_artmind_id"]
+        version = version_decision.version
+        promoted = True
+    else:  # "convert" — first-ever conversion, or the binary changed and the markdown didn't
+        body, err = _convert_binary_via_docling(dest_path, image_model)
+        if body is None:
+            file_result.update(err)
+            return file_result
+
+        new_derived_sha256 = compute_content_sha256(body)
+        artmind_id = existing_meta.get("_artmind_id") or mint_artmind_id()
+        if current_path is None:
+            version = 1
+        elif new_derived_sha256 == existing_meta.get("_derived_sha256"):
+            version = int(existing_meta.get("_version") or 1)
+        else:
+            version = int(existing_meta.get("_version") or 1) + 1
+
+        registered_path = derived_path
+        registered_path.parent.mkdir(parents=True, exist_ok=True)
+        new_meta = build_frontmatter(
+            existing_meta,
+            artmind_id=artmind_id,
+            version=version,
+            content_sha256=compute_content_sha256(body),
+            domain=effective_domain,
+            source_commit=_vault_current_commit(),
+            source_path=orig_registry_path,
+            source_type=source.suffix.lstrip(".").lower(),
+            ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
+            body=body,
+        )
+        new_meta["_derived_sha256"] = new_derived_sha256
+        write_document(registered_path, new_meta, body)
+        _vault_commit_paths(
+            [registered_path],
+            f"artmind: {'convert' if current_path is None else 'reconvert'} "
+            f"{stem} ({effective_domain})",
+        )
+
+    _register_document(effective_domain, registered_path, artmind_id, content_sha256=compute_content_sha256(body))
+
+    elapsed_total = time.monotonic() - t_file_start
+    chunks = _split_markdown(body, chunk_size)
+    chunks_dir = MARKDOWNS_DIR / f"{stem}_chunks"
+    _persist_chunks(chunks, chunks_dir)
+    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), stem)
+
+    file_result["status"] = "ok"
+    file_result["domain"] = effective_domain
+    file_result["artmind_id"] = artmind_id
+    file_result["version"] = version
+    file_result["sha256"] = _compute_sha256(registered_path)
+    file_result["registered_path"] = str(registered_path)
+    file_result["chunks_dir"] = str(chunks_dir)
+    file_result["chunk_count"] = len(chunks)
+    if promoted:
+        file_result["promoted"] = True
+        file_result["promoted_to"] = str(registered_path)
+
+    logger.info(
+        "── Ingest done in {:.1f}s: {} ({}, v{}) — {} chunk(s)",
+        elapsed_total, source.name, action, version, len(chunks),
+    )
     return file_result
 
 

@@ -1,6 +1,5 @@
 import json
 import shutil
-import sqlite3
 import tarfile
 import tempfile
 import time
@@ -19,7 +18,15 @@ from artmind.structured_snapshot import (
     export_structured as _export_structured_inner,
     import_structured as _import_structured_inner,
 )
-from paths import DB_PATH, KG_DIR, GRAPH_SNAPSHOT_DIR, STRUCTURED_SNAPSHOT_DIR
+from artmind import vault_git
+from paths import (
+    ARTMIND_HOME,
+    DOMAIN_SCHEMAS_DIR,
+    GRAPH_SNAPSHOT_DIR,
+    KG_DIR,
+    ORIGINALS_DIR,
+    STRUCTURED_SNAPSHOT_DIR,
+)
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -52,69 +59,109 @@ def _archive_kgs(temp_dir: Path) -> tuple[Path, dict]:
     }
 
 
-def _dump_registry(temp_dir: Path) -> tuple[Path, dict]:
-    """Dump SQLite registry. Returns (db_path, metadata)."""
-    registry_path = temp_dir / "registry_snapshot.db"
+def _archive_curation(temp_dir: Path) -> tuple[Path, dict]:
+    """Archive the curation layer: `same_as.yaml` (Phase 6, tolerate absence)
+    and every domain schema. Explicit files only, NEVER a glob of the run
+    folder — `ARTMIND_HOME/.env` holds `ARTMIND_KG_NEO4J_PASSWORD` and
+    `ARTMIND_KG_OPENROUTER_API_KEY`, and a snapshot zip is exactly the
+    artifact people hand to each other.
+    """
+    from artmind.same_as import SAME_AS_PATH
 
-    if not DB_PATH.exists():
-        # Create empty DB
-        conn = sqlite3.connect(registry_path)
-        conn.close()
-        return registry_path, {
-            "document_count": 0,
-            "size_bytes": 0,
-        }
+    archive_path = temp_dir / "curation.tar.gz"
+    schema_files = sorted(DOMAIN_SCHEMAS_DIR.glob("*.yaml")) if DOMAIN_SCHEMAS_DIR.exists() else []
+    has_same_as = SAME_AS_PATH.exists()
 
-    # Copy the DB file
-    shutil.copy2(DB_PATH, registry_path)
+    with tarfile.open(archive_path, "w:gz") as tar:
+        if has_same_as:
+            tar.add(SAME_AS_PATH, arcname="curation/same_as.yaml")
+        for schema_file in schema_files:
+            tar.add(schema_file, arcname=f"curation/domains/schemas/{schema_file.name}")
 
-    # Count documents
-    try:
-        conn = sqlite3.connect(registry_path)
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM documents")
-        doc_count = cursor.fetchone()[0]
-        conn.close()
-    except sqlite3.DatabaseError:
-        doc_count = 0
-
-    size_bytes = registry_path.stat().st_size
-    logger.debug("Dumped registry with {} document(s) ({:.2f} MB)", doc_count, size_bytes / (1024 * 1024))
-
-    return registry_path, {
-        "document_count": doc_count,
+    size_bytes = archive_path.stat().st_size
+    logger.debug(
+        "Archived curation: same_as.yaml={}, {} schema file(s) ({:.2f} MB)",
+        has_same_as, len(schema_files), size_bytes / (1024 * 1024),
+    )
+    return archive_path, {
+        "has_same_as": has_same_as,
+        "schema_count": len(schema_files),
         "size_bytes": size_bytes,
-        "dumped_at": datetime.now().isoformat(),
+        "archived_at": datetime.now().isoformat(),
+    }
+
+
+def _archive_originals(temp_dir: Path) -> tuple[Path, dict]:
+    """Archive `documents/originals/` — artmind's ONLY copy of every ingested
+    binary. In the default snapshot set on purpose (deliberate, counter-
+    intuitive per docs/redesign-phase-plan.md's Phase 5 "C": omitting it is
+    what lets a data-dir wipe silently lose every binary source forever)."""
+    archive_path = temp_dir / "originals.tar.gz"
+
+    if not ORIGINALS_DIR.exists():
+        with tarfile.open(archive_path, "w:gz"):
+            pass
+        return archive_path, {"file_count": 0, "size_bytes": 0}
+
+    files = [f for f in ORIGINALS_DIR.rglob("*") if f.is_file()]
+    with tarfile.open(archive_path, "w:gz") as tar:
+        for f in files:
+            tar.add(f, arcname=f.relative_to(ORIGINALS_DIR.parent))
+
+    size_bytes = archive_path.stat().st_size
+    logger.debug("Archived {} original file(s) ({:.2f} MB)", len(files), size_bytes / (1024 * 1024))
+    return archive_path, {
+        "file_count": len(files),
+        "size_bytes": size_bytes,
+        "archived_at": datetime.now().isoformat(),
     }
 
 
 def _create_manifest(components: dict) -> dict:
-    """Create the manifest.json structure."""
+    """Create the manifest.json structure.
+
+    `vault_commit`/`vault_dirty` turn "why does this restored graph
+    reference a document that isn't there?" into a one-line diagnostic —
+    both `None` when no vault is configured, never fatal to snapshot
+    creation.
+    """
     return {
         "created_at": datetime.now().isoformat(),
         "version": 1,
         "components": components,
+        "vault_commit": vault_git.current_commit(),
+        "vault_dirty": vault_git.is_dirty(),
     }
 
 
 # ── export ────────────────────────────────────────────────────────────────────
 
 
+VALID_COMPONENTS = {"graph", "structured", "kg_staging", "curation", "originals"}
+# Phase 5 registry shrink: `registry` dropped from every component set below
+# (docs/redesign-phase-plan.md, "C") — it's a pure path<->id cache now,
+# rebuildable in seconds by `docs reindex`, and keeping a cache in a snapshot
+# invites restoring a stale one over a correct one. `originals` joins the
+# DEFAULT set (deliberate, and counter-intuitive — see `_archive_originals`);
+# `curation` does not ship in the corpus's baseline snapshot config but is
+# available to opt into via `--only`.
+DEFAULT_COMPONENTS = {"graph", "structured", "kg_staging", "originals"}
+
+
 def create_snapshot(include: set[str] | None = None) -> Path:
     """Create a unified snapshot zip containing selected components.
 
     Args:
-        include: Set of component names to include. If None, includes all.
-                Valid: {"graph", "registry", "structured", "kg_staging"}
+        include: Set of component names to include. If None, uses
+                DEFAULT_COMPONENTS. Valid: VALID_COMPONENTS.
 
     Returns:
         Path to the created .zip file.
     """
     if include is None:
-        include = {"graph", "registry", "structured", "kg_staging"}
+        include = set(DEFAULT_COMPONENTS)
 
-    valid_components = {"graph", "registry", "structured", "kg_staging"}
-    invalid = include - valid_components
+    invalid = include - VALID_COMPONENTS
     if invalid:
         raise ValueError(f"Invalid components: {invalid}")
 
@@ -149,17 +196,24 @@ def create_snapshot(include: set[str] | None = None) -> Path:
                 "exported_at": datetime.now().isoformat(),
             }
 
-        # Dump registry
-        if "registry" in include:
-            logger.info("Dumping registry...")
-            registry_path, registry_meta = _dump_registry(tmp_path)
-            components_meta["registry"] = registry_meta
-
         # Archive KG JSONs
         if "kg_staging" in include:
             logger.info("Archiving KG staging JSONs...")
             kg_path, kg_meta = _archive_kgs(tmp_path)
             components_meta["kg_staging"] = kg_meta
+
+        # Archive curation (same_as.yaml + domain schemas)
+        if "curation" in include:
+            logger.info("Archiving curation...")
+            curation_path, curation_meta = _archive_curation(tmp_path)
+            components_meta["curation"] = curation_meta
+
+        # Archive originals (documents/originals/ -- the only copy of every
+        # ingested binary)
+        if "originals" in include:
+            logger.info("Archiving originals...")
+            originals_path, originals_meta = _archive_originals(tmp_path)
+            components_meta["originals"] = originals_meta
 
         # Create manifest
         manifest = _create_manifest(components_meta)
@@ -230,13 +284,8 @@ def _warn_stale_state(manifest: dict, restore_components: set[str]) -> None:
     if "graph" in restore_components and missing:
         logger.warning(
             "⚠️  Restoring graph but skipping: {}. "
-            "Your graph may be out of sync with registry/structured data.",
+            "Your graph may be out of sync with structured/originals data.",
             ", ".join(sorted(missing)),
-        )
-    elif "registry" in restore_components and "graph" not in restore_components:
-        logger.warning(
-            "⚠️  Restoring registry but not graph. "
-            "Registry metadata may diverge from the knowledge graph."
         )
     elif "structured" in restore_components and missing:
         logger.warning(
@@ -319,7 +368,7 @@ def restore_snapshot_impl(zip_path: Path, include: set[str] | None = None) -> di
         if include is None:
             include = available
         else:
-            invalid = include - {"graph", "registry", "structured", "kg_staging"}
+            invalid = include - VALID_COMPONENTS
             if invalid:
                 raise ValueError(f"Invalid components: {invalid}")
             include = include & available
@@ -353,40 +402,61 @@ def restore_snapshot_impl(zip_path: Path, include: set[str] | None = None) -> di
                 errors.append(f"Structured restore failed: {exc}")
                 logger.error("Structured restore failed: {}", exc)
 
-        # Restore registry
-        if "registry" in include:
+        # Restore curation (same_as.yaml + domain schemas)
+        if "curation" in include:
             try:
-                logger.info("Restoring registry...")
-                registry_path = extract_dir / "registry_snapshot.db"
-
-                # Backup current DB if it exists
-                if DB_PATH.exists():
-                    backup_path = DB_PATH.with_suffix(".db.backup")
-                    shutil.copy2(DB_PATH, backup_path)
-                    logger.debug("Backed up current registry to {}", backup_path)
-
-                # Restore from snapshot
-                shutil.copy2(registry_path, DB_PATH)
-
-                # Count documents
-                conn = sqlite3.connect(DB_PATH)
-                try:
-                    cursor = conn.cursor()
-                    cursor.execute("SELECT COUNT(*) FROM documents")
-                    doc_count = cursor.fetchone()[0]
-                except sqlite3.DatabaseError:
-                    doc_count = 0
-                finally:
-                    conn.close()
-
-                restored_components["registry"] = {
-                    "document_count": doc_count,
+                logger.info("Restoring curation...")
+                curation_path = extract_dir / "curation.tar.gz"
+                restored_files = 0
+                with tarfile.open(curation_path, "r:gz") as tar:
+                    for member in tar.getmembers():
+                        if not member.isfile():
+                            continue
+                        # Members are archived as "curation/..." -- strip that
+                        # prefix and re-root under ARTMIND_HOME, never trusting
+                        # the archive's own path for where it lands.
+                        rel = Path(member.name)
+                        if rel.parts and rel.parts[0] == "curation":
+                            rel = Path(*rel.parts[1:])
+                        dest = ARTMIND_HOME / rel
+                        dest.parent.mkdir(parents=True, exist_ok=True)
+                        with tar.extractfile(member) as src, open(dest, "wb") as out:
+                            shutil.copyfileobj(src, out)
+                        restored_files += 1
+                restored_components["curation"] = {
+                    "files_restored": restored_files,
                     "restored_at": datetime.now().isoformat(),
                 }
-                logger.info("Registry restored: {} document(s)", doc_count)
+                logger.info("Curation restored: {} file(s)", restored_files)
             except Exception as exc:
-                errors.append(f"Registry restore failed: {exc}")
-                logger.error("Registry restore failed: {}", exc)
+                errors.append(f"Curation restore failed: {exc}")
+                logger.error("Curation restore failed: {}", exc)
+
+        # Restore originals (documents/originals/)
+        if "originals" in include:
+            try:
+                logger.info("Restoring originals...")
+                originals_path = extract_dir / "originals.tar.gz"
+                if ORIGINALS_DIR.exists():
+                    backup_path = ORIGINALS_DIR.with_name(f"{ORIGINALS_DIR.name}.backup")
+                    if backup_path.exists():
+                        shutil.rmtree(backup_path)
+                    shutil.move(str(ORIGINALS_DIR), str(backup_path))
+                    logger.debug("Backed up existing originals to {}", backup_path)
+
+                ORIGINALS_DIR.parent.mkdir(parents=True, exist_ok=True)
+                with tarfile.open(originals_path, "r:gz") as tar:
+                    tar.extractall(ORIGINALS_DIR.parent)
+
+                file_count = sum(1 for f in ORIGINALS_DIR.rglob("*") if f.is_file()) if ORIGINALS_DIR.exists() else 0
+                restored_components["originals"] = {
+                    "file_count": file_count,
+                    "restored_at": datetime.now().isoformat(),
+                }
+                logger.info("Originals restored: {} file(s)", file_count)
+            except Exception as exc:
+                errors.append(f"Originals restore failed: {exc}")
+                logger.error("Originals restore failed: {}", exc)
 
         # Rebuild the structured-store catalogue subgraph in Neo4j. It's a
         # derived projection (project_catalogue's own docstring: "nothing
@@ -501,7 +571,7 @@ def analyze_snapshot(zip_path: Path, include: set[str] | None = None) -> dict:
     if include is None:
         include = available
     else:
-        invalid = include - {"graph", "registry", "structured", "kg_staging"}
+        invalid = include - VALID_COMPONENTS
         if invalid:
             raise ValueError(f"Invalid components: {invalid}")
         include = include & available
@@ -514,11 +584,6 @@ def analyze_snapshot(zip_path: Path, include: set[str] | None = None) -> dict:
             warnings.append(
                 f"Restoring graph but skipping: {', '.join(sorted(missing))}. "
                 "Graph may be out of sync."
-            )
-        elif "registry" in include and "graph" not in include:
-            warnings.append(
-                "Restoring registry but not graph. "
-                "Metadata may diverge from the knowledge graph."
             )
 
     elapsed = time.monotonic() - t0

@@ -21,19 +21,30 @@ def _init_db() -> None:
     # no id at all and stays path-keyed, per the spec's "sources that cannot
     # carry frontmatter" table. SQLite's UNIQUE treats each NULL as distinct,
     # so any number of path-only rows coexist with the id-bearing ones.
-    # `filename`/`sha256` are informational display/lookup convenience, not
-    # identity -- no UNIQUE on either; a global sha256 duplicate guard is
-    # exactly what this redesign removes (a copied template with an unedited
-    # body is a legitimate new document).
+    #
+    # Phase 5 registry shrink (docs/redesign-phase-plan.md, "E"): everything
+    # NOT needed to rebuild identity from the vault is gone. `filename` is
+    # dropped -- it's `Path(path).name`, never worth a second source of truth
+    # for. `sha256` becomes `content_sha256`: for a vault-native document this
+    # is the same body-only hash `_content_sha256` already carries in
+    # frontmatter (previously this column redundantly hashed the *whole
+    # file*, frontmatter included -- two different numbers claiming to
+    # describe one document); for a binary/tabular source, which has no
+    # separable "body", it stays a whole-file hash. `added_at` becomes
+    # `last_ingested_at` and is refreshed on every re-ingest, not just the
+    # first (see `_registry_upsert` below) -- a cache that only ever recorded
+    # when a row was first created wasn't answering the question its name
+    # implied. No UNIQUE on either column -- a global content-hash duplicate
+    # guard is exactly what this redesign removes (a copied template with an
+    # unedited body is a legitimate new document).
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS documents (
-            id           INTEGER PRIMARY KEY,
-            artmind_id   TEXT,
-            domain       TEXT NOT NULL,
-            filename     TEXT NOT NULL,
-            path         TEXT NOT NULL,
-            sha256       TEXT,
-            added_at     TEXT NOT NULL,
+            id                 INTEGER PRIMARY KEY,
+            artmind_id         TEXT,
+            domain             TEXT NOT NULL,
+            path               TEXT NOT NULL,
+            content_sha256     TEXT,
+            last_ingested_at   TEXT NOT NULL,
             UNIQUE(artmind_id)
         )
     """)
@@ -219,26 +230,26 @@ def _init_db() -> None:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN stage_only INTEGER DEFAULT 0")
 
     # Phase 2 dropped path/filename-derived identity (logical_id) for
-    # frontmatter-carried `artmind_id` -- no backward compatibility, no
-    # migration: a `documents` table from before this change is simply
-    # incompatible, so it is dropped and recreated empty. Re-ingesting the
-    # vault repopulates it under the new resolution table (every row reads as
-    # `new`, or `adopt` if the frontmatter already carries an id from a prior
-    # install). CREATE TABLE IF NOT EXISTS above then makes the fresh one.
+    # frontmatter-carried `artmind_id`, and Phase 5 shrank the row further
+    # (see the CREATE TABLE comment above) -- no backward compatibility, no
+    # migration for either change: a `documents` table in an older shape is
+    # simply incompatible, so it is dropped and recreated empty. `docs
+    # reindex` repopulates it from vault frontmatter; a binary/tabular row
+    # re-registers on its next ingest either way. CREATE TABLE IF NOT EXISTS
+    # above then makes the fresh one.
     documents_sql = cursor.execute(
         "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
     ).fetchone()
-    if documents_sql and "artmind_id" not in documents_sql[0]:
+    if documents_sql and "content_sha256" not in documents_sql[0]:
         cursor.execute("DROP TABLE documents")
         cursor.execute("""
             CREATE TABLE documents (
-                id           INTEGER PRIMARY KEY,
-                artmind_id   TEXT,
-                domain       TEXT NOT NULL,
-                filename     TEXT NOT NULL,
-                path         TEXT NOT NULL,
-                sha256       TEXT,
-                added_at     TEXT NOT NULL,
+                id                 INTEGER PRIMARY KEY,
+                artmind_id         TEXT,
+                domain             TEXT NOT NULL,
+                path               TEXT NOT NULL,
+                content_sha256     TEXT,
+                last_ingested_at   TEXT NOT NULL,
                 UNIQUE(artmind_id)
             )
         """)
@@ -326,7 +337,7 @@ def _registry_row_by_artmind_id(artmind_id: str) -> dict | None:
     conn = _get_db()
     try:
         row = conn.execute(
-            "SELECT id, artmind_id, domain, filename, path, sha256, added_at"
+            "SELECT id, artmind_id, domain, path, content_sha256, last_ingested_at"
             " FROM documents WHERE artmind_id = ?",
             (artmind_id,),
         ).fetchone()
@@ -334,7 +345,7 @@ def _registry_row_by_artmind_id(artmind_id: str) -> dict | None:
             return None
         return {
             "id": row[0], "artmind_id": row[1], "domain": row[2],
-            "filename": row[3], "path": row[4], "sha256": row[5], "added_at": row[6],
+            "path": row[3], "content_sha256": row[4], "last_ingested_at": row[5],
         }
     finally:
         conn.close()
@@ -342,11 +353,13 @@ def _registry_row_by_artmind_id(artmind_id: str) -> dict | None:
 
 def _registry_row_by_path(path: str) -> dict | None:
     """The registry's path <-> id cache, read by path -- the lookup `heal`
-    needs (frontmatter lost its id; the registry still has it)."""
+    needs (frontmatter lost its id; the registry still has it), and the
+    lookup binary-source promotion (`artmind/derived_markdown.py`) needs to
+    tell whether the original binary's own bytes changed since last ingest."""
     conn = _get_db()
     try:
         row = conn.execute(
-            "SELECT id, artmind_id, domain, filename, path, sha256, added_at"
+            "SELECT id, artmind_id, domain, path, content_sha256, last_ingested_at"
             " FROM documents WHERE path = ?",
             (path,),
         ).fetchone()
@@ -354,46 +367,8 @@ def _registry_row_by_path(path: str) -> dict | None:
             return None
         return {
             "id": row[0], "artmind_id": row[1], "domain": row[2],
-            "filename": row[3], "path": row[4], "sha256": row[5], "added_at": row[6],
+            "path": row[3], "content_sha256": row[4], "last_ingested_at": row[5],
         }
-    finally:
-        conn.close()
-
-
-def _registry_upsert(
-    artmind_id: str | None, domain: str, filename: str, path: str, sha256: str | None
-) -> None:
-    """Write (or move/refresh) a path <-> id cache row.
-
-    `artmind_id=None` is the path-only case (a source that cannot carry
-    frontmatter). Keyed on `artmind_id` when present -- an `adopt`/`move`
-    verdict repoints an *existing* id's path rather than minting a new row,
-    which is exactly the UPSERT this needs (no separate branch for "new row"
-    vs "row already exists under this id").
-    """
-    conn = _get_db()
-    now = __import__("datetime").datetime.now().isoformat()
-    try:
-        if artmind_id is not None:
-            conn.execute(
-                """
-                INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)
-                VALUES (?, ?, ?, ?, ?, ?)
-                ON CONFLICT(artmind_id) DO UPDATE SET
-                    domain = excluded.domain,
-                    filename = excluded.filename,
-                    path = excluded.path,
-                    sha256 = excluded.sha256
-                """,
-                (artmind_id, domain, filename, path, sha256, now),
-            )
-        else:
-            conn.execute(
-                "INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)"
-                " VALUES (NULL, ?, ?, ?, ?, ?)",
-                (domain, filename, path, sha256, now),
-            )
-        conn.commit()
     finally:
         conn.close()
 

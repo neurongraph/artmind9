@@ -8,7 +8,6 @@ from pathlib import Path
 from loguru import logger
 
 from artmind.graph_query import neo4j_session
-from artmind.ingest import _sanitize_label
 from artmind.setup import _setup_neo4j
 from paths import GRAPH_SNAPSHOT_DIR
 from utils.functions import load_env
@@ -16,26 +15,26 @@ from utils.functions import load_env
 
 # ── constants ─────────────────────────────────────────────────────────────────
 
-# :Observation is included because the projection is DERIVED from it. A
-# snapshot that exported :Entity without its backing observations would import
-# entities that nothing asserts, and the first rebuild — which runs inside the
-# next commit — would delete every one of them.
+# Phase 5 (docs/redesign-phase-plan.md, "B"): SOURCES ONLY. :Entity, :Conflict,
+# and every projection-owned edge (RELATES_TO, AGGREGATES, SAME_AS) are
+# deliberately excluded — they are derived from what's below, and a snapshot
+# carrying a derived layer can carry a STALE one with no way for import to
+# know it's stale. `import_graph` rebuilds the projection instead, so there is
+# no way to import a stale one at all.
 #
-# The three History labels (Phase 4) are included for the same reason a plain
-# property flag never would have needed special-casing: they ARE the retired
-# half of Document/DocChunk/Observation, not a separate zone, so omitting them
-# would silently drop every retired document from a snapshot.
-#
-# Phase 5 inverts this properly: export sources only (Document, DocChunk,
-# UserChat, Observation, their History counterparts, :Synthesis) and rebuild
-# the projection on import, so there is no way to import a stale projection at
-# all. Until then, exporting both halves keeps a snapshot round-trip honest.
+# The three History labels (Phase 4) ARE the retired half of
+# Document/DocChunk/Observation, not a separate zone — omitting them would
+# silently drop every retired document from a snapshot. `Synthesis` (Phase 6,
+# not built yet) is listed pre-emptively: an empty MATCH costs nothing, and
+# adding it later would be one more thing to remember.
 BASE_LABELS = (
-    "Document", "DocChunk", "Entity", "UserChat", "Observation",
-    "DocumentHistory", "DocChunkHistory", "ObservationHistory",
+    "Document", "DocumentHistory",
+    "DocChunk", "DocChunkHistory",
+    "UserChat",
+    "Observation", "ObservationHistory",
+    "Synthesis",
 )
 
-_ENTITY_MATCH_KEYS = ("name", "entity_class", "_domain")
 _ID_MATCH_KEYS = ("id",)
 
 
@@ -43,9 +42,9 @@ _ID_MATCH_KEYS = ("id",)
 
 
 def _match_keys_for_node(labels: list[str], props: dict) -> dict:
-    """Extract the match keys used to uniquely identify a node during import."""
-    if "Entity" in labels:
-        return {k: props[k] for k in _ENTITY_MATCH_KEYS if k in props}
+    """Extract the match keys used to uniquely identify a node during import.
+    Every exported label carries a unique `id` — there is no `:Entity`
+    special case left to make here (Phase 5 stopped exporting it)."""
     return {k: props[k] for k in _ID_MATCH_KEYS if k in props}
 
 
@@ -233,30 +232,18 @@ def _wipe_database(session) -> None:
 
 
 def _restore_nodes(session, nodes: dict[str, list[dict]]) -> dict[str, int]:
-    """CREATE all nodes from snapshot data. Returns counts per label."""
+    """CREATE all nodes from snapshot data. Returns counts per label.
+
+    No `:Entity` reconstruction here — Phase 5 stopped exporting the
+    projection at all (see `BASE_LABELS`), so there is no derived-label
+    special case left to handle; every node restores under exactly the base
+    label it was exported under.
+    """
     counts: dict[str, int] = {}
     for base_label, node_list in nodes.items():
         for node in node_list:
             props = {k: v for k, v in node.items() if k != "labels"}
-            labels = node.get("labels", [base_label])
-
-            if base_label == "Entity":
-                # Build label string from stored labels (e.g. "CHARACTER:Entity")
-                label_parts = [_sanitize_label(l) for l in labels if l != "Entity"]
-                if not label_parts:
-                    # A snapshot with no `labels` field for this node (old format,
-                    # hand-edited, foreign) would otherwise restore a bare :Entity.
-                    # Nothing in artmind can *create* one -- `_upsert_entity` always
-                    # writes `<CLASS>:Entity` and `_sanitize_label` falls back to
-                    # UNKNOWN -- and readers key off the class label, so
-                    # `entity_listing` would never surface it again. Reconstruct the
-                    # label from the node's own entity_class, exactly as ingest would.
-                    label_parts = [_sanitize_label(str(props.get("entity_class") or ""))]
-                label_str = ":".join(label_parts + ["Entity"])
-            else:
-                label_str = base_label
-
-            session.run(f"CREATE (n:{label_str}) SET n = $props", props=props)
+            session.run(f"CREATE (n:{base_label}) SET n = $props", props=props)
         counts[base_label] = len(node_list)
         logger.debug("Restored {} {} node(s)", len(node_list), base_label)
     return counts
@@ -341,15 +328,69 @@ def import_graph(snapshot_path: Path | None = None) -> dict:
         logger.info("Restoring relationships...")
         rel_count = _restore_relationships(session, data.get("relationships", []))
 
+    # Phase 5 (docs/redesign-phase-plan.md, "B"): only sources were imported
+    # (see BASE_LABELS) -- rebuild everything derived from them, automatically,
+    # as this restore's final phase, in order: docs reindex -> full projection
+    # rebuild -> embed sweep. A restore that left the graph unqueryable until
+    # an operator remembered a second command would get reported as broken,
+    # not as "restored". The rebuild itself is not best-effort (CLAUDE.md:
+    # "never optional"); the embed sweep's own failure mode IS the documented
+    # exception (down embed service -> entities stay `embedding_stale`, never
+    # null), and it is reported loudly here, not merely logged.
+    logger.info("Rebuilding the registry from vault frontmatter (docs reindex)...")
+    reindex_result: dict | None = None
+    reindex_error: str | None = None
+    try:
+        from artmind.reindex import reindex
+
+        reindex_result = reindex()
+    except Exception as exc:
+        reindex_error = str(exc)
+        logger.warning("Post-import docs reindex skipped: {}", exc)
+
+    logger.info("Rebuilding the projection (full)...")
+    from artmind import projection
+    from artmind.ingest import _sweep_embeddings
+
+    with neo4j_session() as session:
+        all_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, None)))
+        rebuild_summary = session.execute_write(lambda tx: projection.full_rebuild(tx, None))
+
+    logger.info("Running the embed sweep across {} key(s)...", len(all_keys))
+    embedded_total = 0
+    domains_swept = sorted({key[2].split(".", 1)[0] for key in all_keys if key[2]})
+    for dom in domains_swept:
+        dom_keys = [k for k in all_keys if k[2] == dom or k[2].startswith(dom + ".")]
+        embedded_total += _sweep_embeddings(dom, dom_keys)
+
+    with neo4j_session() as session:
+        stale_remaining = session.run(
+            "MATCH (e:Entity) WHERE e.embedding IS NULL OR e.embedding_stale RETURN count(e) AS n"
+        ).single()["n"]
+    if stale_remaining:
+        logger.warning(
+            "Post-import embed sweep: {} entit{} still have no usable embedding "
+            "(embed service unavailable?) -- invisible to entity-resolve's "
+            "vector leg until the sweep is re-run (`projection rebuild` or "
+            "re-running this import)", stale_remaining, "y" if stale_remaining == 1 else "ies",
+        )
+
     elapsed = time.monotonic() - t0
     total_nodes = sum(node_counts.values())
     logger.info(
-        "Import complete in {:.1f}s: {} nodes, {} relationships",
-        elapsed, total_nodes, rel_count,
+        "Import complete in {:.1f}s: {} nodes, {} relationships, {} entit{} embedded, "
+        "{} still stale",
+        elapsed, total_nodes, rel_count, embedded_total,
+        "y" if embedded_total == 1 else "ies", stale_remaining,
     )
     return {
         "snapshot": snapshot_path.name,
         "node_counts": node_counts,
         "relationship_count": rel_count,
         "elapsed_seconds": round(elapsed, 1),
+        "reindex": reindex_result,
+        "reindex_error": reindex_error,
+        "projection_rebuild": rebuild_summary,
+        "embedded": embedded_total,
+        "embedding_stale_remaining": stale_remaining,
     }

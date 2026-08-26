@@ -15,7 +15,12 @@ from loguru import logger
 from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
-from artmind.unified_snapshot import create_snapshot, analyze_snapshot, restore_snapshot_impl
+from artmind.unified_snapshot import (
+    VALID_COMPONENTS,
+    create_snapshot,
+    analyze_snapshot,
+    restore_snapshot_impl,
+)
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import scaffold_run_folder, setup_all
 from artmind.ingest import (
@@ -2379,6 +2384,105 @@ def docs_restore(domain: str, document_name: str, compact: bool) -> None:
     _echo_json(restore_document(doc_id, domain), compact)
 
 
+@docs.command("reindex")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def docs_reindex(compact: bool) -> None:
+    """Rebuild the registry's path <-> id cache from vault frontmatter.
+
+    The registry is never authoritative (docs/document-identity.md) — every
+    `_artmind_id`-bearing row is wiped and rewritten from what's actually in
+    the vault right now, so this is always safe to run: after a registry
+    wipe, a restored snapshot, or a doubt about whether it's gone stale.
+
+    csv/xlsx are path-only and cannot be rebuilt this way (accepted
+    limitation) — re-ingest them directly to re-register.
+    """
+    _setup_logger()
+    from artmind.reindex import reindex
+
+    _echo_json(reindex(), compact)
+
+
+@docs.command("archive")
+@click.option("--domain", required=True, help="Domain the document belongs to")
+@click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
+@click.option("--yes", is_flag=True, help="Skip the confirmation prompt")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> None:
+    """Archive a document: the only removal artmind has. There is
+    deliberately no `purge`.
+
+    Bundles the document (its staged KG JSON, vault markdown, original
+    binary if it came from one, and a manifest) under `ARTMIND_ARCHIVE_DIR`,
+    then removes it from the graph AND from the vault — a real `git rm` +
+    commit, the one operation where artmind deletes human-authored content
+    from your repo. Reversible with `restore-from-archive` (which lands the
+    document back as history, not latest); NOT reversible is deleting the
+    bundle itself, which is a filesystem act outside any artmind command —
+    there is no single command here satisfying right-to-erasure end to end,
+    on purpose, precisely so archiving stays undoable.
+    """
+    _setup_logger()
+    from artmind.archive import archive_document
+
+    if not yes and not click.confirm(
+        f"This will remove {document_name!r} ({domain}) from the graph and "
+        "delete its file from the vault (git rm + commit). Continue?"
+    ):
+        raise click.Abort()
+
+    try:
+        _echo_json(archive_document(domain, document_name), compact)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
+@docs.command("archived")
+@click.option("--domain", default=None, help="Restrict to one domain")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def docs_archived(domain: str | None, compact: bool) -> None:
+    """List archived documents, from `index.jsonl` — never the filesystem.
+
+    Once a document is archived, the index is the ONLY thing that still
+    knows it ever existed: its vault file and graph rows are gone.
+    """
+    _setup_logger()
+    from artmind.archive import list_archived
+
+    entries = list_archived()
+    if domain:
+        entries = [e for e in entries if e.get("domain") == domain]
+    _echo_json({"archived": entries, "count": len(entries)}, compact)
+
+
+@docs.command("restore-from-archive")
+@click.option("--id", "archive_id", required=True, help="The archived document's _artmind_id")
+@click.option("--toPath", "to_path", default=None, help="Restore to a different vault path (collision escape hatch)")
+@click.option("--newId", "new_id", default=None, help="Restore under a fresh _artmind_id (collision escape hatch)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def docs_restore_from_archive(
+    archive_id: str, to_path: str | None, new_id: str | None, compact: bool
+) -> None:
+    """Replay an archived bundle. Lands the document back as `_status=history`
+    — NEVER `latest` — because archiving it was a deliberate act, and
+    un-archiving must not silently change every query's answers. Run
+    `docs restore` afterwards to promote it, if that's really wanted.
+
+    Refuses on a collision — the vault path now holds a different file, or
+    the id is already live — the same two-claimant rule as ingest's
+    resolution table. `--toPath` / `--newId` resolve either.
+    """
+    _setup_logger()
+    from artmind.archive import ArchiveCollision, restore_from_archive
+
+    try:
+        _echo_json(
+            restore_from_archive(archive_id, to_path=to_path, new_id=new_id), compact,
+        )
+    except (ArchiveCollision, FileNotFoundError, ValueError) as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
 @cli.group()
 def projection():
     """The Entity projection — rebuilt deterministically from observations.
@@ -2565,7 +2669,7 @@ def session_initiate(snapshot_file: str | None, yes: bool):
 
 @cli.group()
 def snapshot():
-    """Create and restore unified snapshots (graph, registry, structured, KG JSONs)."""
+    """Create and restore unified snapshots (graph, structured, KG staging, curation, originals)."""
     pass
 
 
@@ -2573,22 +2677,24 @@ def snapshot():
 @click.option(
     "--only",
     default=None,
-    help="Comma-separated components to include (graph,registry,structured,kg_staging). "
-         "Default: all",
+    help="Comma-separated components to include (graph,structured,kg_staging,curation,originals). "
+         "Default: graph,structured,kg_staging,originals",
 )
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def snapshot_create(only: str | None, compact: bool):
     """Create a unified snapshot of all system state.
 
-    Bundles graph, registry, structured data, and KG staging JSONs into one zip file
-    with a manifest for selective restore.
+    Bundles graph, structured data, and KG staging JSONs (plus originals by
+    default, and curation on request) into one zip file with a manifest for
+    selective restore. The registry is NOT a component -- it's a pure
+    path<->id cache now, rebuilt in seconds by `docs reindex`.
     """
     _setup_logger()
     try:
         components = None
         if only:
             components = set(only.replace(" ", "").split(","))
-            valid = {"graph", "registry", "structured", "kg_staging"}
+            valid = VALID_COMPONENTS
             invalid = components - valid
             if invalid:
                 raise click.ClickException(
@@ -2618,7 +2724,7 @@ def snapshot_create(only: str | None, compact: bool):
 @click.option(
     "--only",
     default=None,
-    help="Comma-separated components to restore (graph,registry,structured,kg_staging). "
+    help="Comma-separated components to restore (graph,structured,kg_staging,curation,originals). "
          "Default: all available",
 )
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
@@ -2635,7 +2741,7 @@ def snapshot_restore(snapshot_path: str, only: str | None, yes: bool, compact: b
         components = None
         if only:
             components = set(only.replace(" ", "").split(","))
-            valid = {"graph", "registry", "structured", "kg_staging"}
+            valid = VALID_COMPONENTS
             invalid = components - valid
             if invalid:
                 raise click.ClickException(

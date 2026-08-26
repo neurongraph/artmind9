@@ -337,13 +337,21 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
         if not filenames:
             return {"job_id": job_id, "domain": domain, "retried": 0, "deregistered": 0, "files": []}
 
-        # Remove from document registry using bare filename only
+        # Remove from document registry, matched by bare filename against
+        # `path`'s own basename -- Phase 5 dropped the registry's `filename`
+        # column (it was never anything but `Path(path).name`); no portable
+        # basename function in plain sqlite3, so matched in Python instead.
+        domain_rows = conn.execute(
+            "SELECT path FROM documents WHERE domain = ?", (domain,)
+        ).fetchall()
+        bare_targets = {Path(f).name.upper() for f in filenames}
+        matching_paths = [
+            row[0] for row in domain_rows if Path(row[0]).name.upper() in bare_targets
+        ]
         deregistered = 0
-        for filename in filenames:
-            bare = Path(filename).name
+        for path in matching_paths:
             cursor = conn.execute(
-                "DELETE FROM documents WHERE domain = ? AND UPPER(filename) = ?",
-                (domain, bare.upper()),
+                "DELETE FROM documents WHERE domain = ? AND path = ?", (domain, path)
             )
             deregistered += cursor.rowcount
 

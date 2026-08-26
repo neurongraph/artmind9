@@ -532,7 +532,7 @@ async function refreshSnapshots() {
     const restoreBtn = el("button", "btn-link", "Restore");
     restoreBtn.addEventListener("click", () => {
       // Default to restoring all available components
-      const components = snap.components || ["graph", "registry", "structured", "kg_staging"];
+      const components = snap.components || ["graph", "structured", "kg_staging", "originals"];
       restoreSnapshot(snap.name, components);
     });
     actions.appendChild(restoreBtn);

@@ -38,6 +38,12 @@ SYSTEM_FIELDS = (
     "_source_path",
     "_source_type",
     "_ingested_at",
+    # Phase 5 (docs/document-identity.md, "Derived-markdown promotion"):
+    # present only on a binary source's not-yet-promoted derived markdown —
+    # the fingerprint taken at conversion, compared against the CURRENT body
+    # on every ingest to detect a human edit. Removed outright on promotion,
+    # unlike every other system field (see artmind/derived_markdown.py).
+    "_derived_sha256",
 )
 
 # Authored: artmind seeds a value once (only if absent), then never touches it
@@ -86,6 +92,23 @@ def canonical_path(source: Path) -> str:
         except ValueError:
             pass
     return str(resolved)
+
+
+def resolve_canonical_path(path_str: str) -> Path:
+    """The inverse of `canonical_path`: turn a registry-stored path string
+    back into a real filesystem `Path`. A vault-relative string (the common
+    case — anything `canonical_path` found inside the configured vault) is
+    resolved against `ARTMIND_VAULT_DIR`; an absolute string (a file outside
+    the vault, or no vault configured) is returned as-is.
+    """
+    p = Path(path_str)
+    if p.is_absolute():
+        return p
+    if ARTMIND_VAULT_DIR is None:
+        raise ValueError(
+            f"{path_str!r} looks vault-relative but no ARTMIND_VAULT_DIR is configured"
+        )
+    return ARTMIND_VAULT_DIR / p
 
 
 def _path_exists(path_str: str) -> bool:

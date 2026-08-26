@@ -235,7 +235,7 @@
     <div class="tab-panel" data-tab-group="view" data-tab-panel="maintenance">
     <section class="dash-panel dash-zone-maint" id="snapshots-panel">
       <h2>Maintain — system snapshots</h2>
-      <p class="dash-hint">Infrequent and destructive. Unified snapshots include graph, registry, structured data, and KG staging.</p>
+      <p class="dash-hint">Infrequent and destructive. Unified snapshots include graph, structured data, KG staging, and originals (curation is opt-in). The registry is a rebuildable cache and is not a snapshot component — see "docs reindex".</p>
       <div id="snapshot-guardrail" class="guardrail-callout"></div>
       <div class="zone-maint-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <!-- Left column: Create & Upload -->
@@ -243,9 +243,10 @@
           <h3 class="dash-subhead">Create snapshot</h3>
           <div id="create-snapshot-components" class="dash-checkbox-group">
             <label><input type="checkbox" class="snapshot-component" value="graph" checked> Graph (Neo4j)</label>
-            <label><input type="checkbox" class="snapshot-component" value="registry" checked> Registry (documents)</label>
             <label><input type="checkbox" class="snapshot-component" value="structured" checked> Structured (SQL)</label>
             <label><input type="checkbox" class="snapshot-component" value="kg_staging" checked> KG staging (JSON)</label>
+            <label><input type="checkbox" class="snapshot-component" value="originals" checked> Originals (ingested binaries)</label>
+            <label><input type="checkbox" class="snapshot-component" value="curation"> Curation (same_as.yaml + schemas)</label>
           </div>
           <button id="create-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
           <span id="snapshot-create-result" class="dash-note"></span>
@@ -258,9 +259,10 @@
             </label>
             <div id="import-snapshot-components" class="dash-checkbox-group">
               <label><input type="checkbox" class="import-component" value="graph" checked> Graph</label>
-              <label><input type="checkbox" class="import-component" value="registry" checked> Registry</label>
               <label><input type="checkbox" class="import-component" value="structured" checked> Structured</label>
               <label><input type="checkbox" class="import-component" value="kg_staging" checked> KG staging</label>
+              <label><input type="checkbox" class="import-component" value="originals" checked> Originals</label>
+              <label><input type="checkbox" class="import-component" value="curation"> Curation</label>
             </div>
             <div id="import-snapshot-warnings" class="dash-warning" style="display: none;"></div>
             <button type="submit" class="btn-secondary">Upload &amp; restore</button>

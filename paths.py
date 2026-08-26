@@ -50,6 +50,15 @@ ARTMIND_DATA_DIR = Path(
 _vault = os.environ.get("ARTMIND_VAULT_DIR")
 ARTMIND_VAULT_DIR = Path(_vault).expanduser().resolve() if _vault else None
 
+# ── archive root (docs archive's ONLY output; the only copy of archived content) ─
+# Deliberately its own root, NOT under ARTMIND_DATA_DIR: a data-dir wipe (a
+# routine, low-stakes reset per docs/stores-and-repos.md) must not destroy
+# archived documents, which have no other copy anywhere. Excluded from
+# `artmind snapshot` on the same principle (see unified_snapshot.py).
+ARTMIND_ARCHIVE_DIR = Path(
+    os.environ.get("ARTMIND_ARCHIVE_DIR") or (Path.home() / "artmind_archive")
+).expanduser().resolve()
+
 # ── package-shipped seed defaults (read-only; copied into the run folder) ──────
 PACKAGE_SKILLS_DIR = _SELF_DIR / "artmind" / "skills"
 PACKAGE_SCHEMAS_DIR = _SELF_DIR / "artmind" / "domains" / "schemas"

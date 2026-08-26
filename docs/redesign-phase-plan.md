@@ -26,7 +26,8 @@ a session transcript is a decision that will be silently re-invented.
 
 Notes so far: [Phase 2](./redesign-phase2-implementation-notes.md) ·
 [Phase 3](./redesign-phase3-implementation-notes.md) ·
-[Phase 4](./redesign-phase4-implementation-notes.md).
+[Phase 4](./redesign-phase4-implementation-notes.md) ·
+[Phase 5](./redesign-phase5-implementation-notes.md).
 
 ---
 

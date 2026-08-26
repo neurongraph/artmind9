@@ -130,6 +130,22 @@ docs-retire domain document:
 docs-restore domain document:
     uv run artmind docs restore --domain {{ domain }} --documentName {{ document }}
 
+# rebuild the registry's path <-> id cache from vault frontmatter (usage: just docs-reindex)
+docs-reindex:
+    uv run artmind docs reindex
+
+# archive a document: bundle it, then remove it from the graph AND the vault (git rm + commit) -- the only removal artmind has (usage: just docs-archive <domain> <document>)
+docs-archive domain document:
+    uv run artmind docs archive --domain {{ domain }} --documentName {{ document }}
+
+# list archived documents, from the archive index (usage: just docs-archived)
+docs-archived:
+    uv run artmind docs archived
+
+# replay an archived bundle -- lands back as history, never latest (usage: just docs-restore-from-archive <artmind_id>)
+docs-restore-from-archive id:
+    uv run artmind docs restore-from-archive --id {{ id }}
+
 # ── artmind domains ──────────────────────────────────────────────────────────
 
 # list all available domain schemas

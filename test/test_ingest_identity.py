@@ -223,7 +223,7 @@ def test_register_document_persists_artmind_id(tmp_path, monkeypatch):
     conn = sqlite3.connect(db.DB_PATH)
     try:
         got = conn.execute(
-            "SELECT artmind_id FROM documents WHERE filename = 'a.md'"
+            "SELECT artmind_id FROM documents WHERE path LIKE '%a.md'"
         ).fetchone()[0]
         assert got == "id-shared"
     finally:
@@ -261,7 +261,7 @@ def test_register_document_with_no_artmind_id_is_path_only(tmp_path, monkeypatch
     conn = sqlite3.connect(db.DB_PATH)
     try:
         row = conn.execute(
-            "SELECT artmind_id FROM documents WHERE filename = 'deck.pptx'"
+            "SELECT artmind_id FROM documents WHERE path LIKE '%deck.pptx'"
         ).fetchone()
         assert row[0] is None
     finally:

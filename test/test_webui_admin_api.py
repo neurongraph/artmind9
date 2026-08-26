@@ -634,6 +634,8 @@ def test_create_snapshot_calls_create_snapshot(monkeypatch, tmp_path):
 def test_create_snapshot_passes_selected_components(monkeypatch, tmp_path):
     # `structured` is a selectable component of the unified snapshot — this is
     # what replaced the standalone /api/structured/snapshots endpoints.
+    # `curation` (same_as.yaml + domain schemas) is Phase 5's addition — opt-in,
+    # not in the default set, so it's the component worth exercising here.
     snap = tmp_path / "artmind_snapshot_new.zip"
     snap.write_bytes(b"data")
     seen = {}
@@ -643,10 +645,10 @@ def test_create_snapshot_passes_selected_components(monkeypatch, tmp_path):
         return snap
 
     monkeypatch.setattr(dashboard_routes, "create_snapshot", fake_create)
-    response = _client().post("/api/snapshots?components=structured,registry")
+    response = _client().post("/api/snapshots?components=structured,curation")
     assert response.status_code == 200
-    assert seen["components"] == {"structured", "registry"}
-    assert response.json()["components"] == ["registry", "structured"]
+    assert seen["components"] == {"structured", "curation"}
+    assert response.json()["components"] == ["curation", "structured"]
 
 
 def test_create_snapshot_rejects_unknown_component(monkeypatch, tmp_path):

@@ -44,7 +44,13 @@ from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
 from artmind.structured.semantics import propose_table_semantics
 from artmind.text2sql import validate_read_only_sql
-from artmind.unified_snapshot import analyze_snapshot, create_snapshot, restore_snapshot_impl
+from artmind.unified_snapshot import (
+    DEFAULT_COMPONENTS,
+    VALID_COMPONENTS,
+    analyze_snapshot,
+    create_snapshot,
+    restore_snapshot_impl,
+)
 from artmind.webui.help import get_concepts
 from paths import DOMAIN_SCHEMAS_DIR, GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
 from utils.functions import load_env, resolve_llm_model
@@ -95,7 +101,7 @@ class PullKgRequest(BaseModel):
 
 class RestoreRequest(BaseModel):
     confirm: bool = False
-    components: list[str] = Field(default_factory=lambda: ["graph", "registry", "structured", "kg_staging"])
+    components: list[str] = Field(default_factory=lambda: sorted(DEFAULT_COMPONENTS))
 
 
 class StructuredSqlRequest(BaseModel):
@@ -395,7 +401,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return _camelize(result)
 
-    # ── unified snapshots (graph, registry, structured, kg_staging) ────────────
+    # ── unified snapshots (graph, structured, kg_staging, curation, originals) ──
 
     @app.get("/api/snapshots")
     async def api_list_snapshots():
@@ -419,15 +425,14 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         return _camelize(snapshots)
 
     @app.post("/api/snapshots")
-    async def api_create_snapshot(components: str = "graph,registry,structured,kg_staging"):
+    async def api_create_snapshot(components: str = ",".join(sorted(DEFAULT_COMPONENTS))):
         """Create a unified snapshot with selected components."""
         try:
             component_set = set(c.strip() for c in components.split(",") if c.strip())
-            valid = {"graph", "registry", "structured", "kg_staging"}
-            if not component_set or not component_set <= valid:
+            if not component_set or not component_set <= VALID_COMPONENTS:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"Invalid components. Choose from: {', '.join(sorted(valid))}"
+                    detail=f"Invalid components. Choose from: {', '.join(sorted(VALID_COMPONENTS))}"
                 )
             path = await asyncio.to_thread(create_snapshot, component_set)
             stat = path.stat()
@@ -483,7 +488,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     @app.post("/api/snapshots/import")
     async def api_import_snapshot(
         file: UploadFile = File(...),
-        components: str = "graph,registry,structured,kg_staging",
+        components: str = ",".join(sorted(DEFAULT_COMPONENTS)),
         confirm: bool = Form(False),
     ):
         """Upload and restore a snapshot."""
