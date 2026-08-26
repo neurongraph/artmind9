@@ -187,27 +187,24 @@ def test_asof_predicate_shape():
     assert "e.valid_to IS NULL OR e.valid_to > $asOf" in pred
 
 
-def test_pattern1_cypher_includes_asof_when_requested():
+def test_pattern1_cypher_never_references_asof():
+    # Phase 4: --asOf removed from pattern1 (and patterns 2-4/6-9) — the
+    # projection is current by construction. _pattern_query ignores it
+    # entirely now, whether or not a caller passes one.
     import artmind.graph_query as gq
     cypher, params = gq._pattern_query(
         "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 5, "asOf": "2026-07-04"}
     )
-    assert "$asOf" in cypher
-    assert params["asOf"] == "2026-07-04"
+    assert "$asOf" not in cypher
+    assert "asOf" not in params
 
-
-def test_pattern1_cypher_omits_asof_when_none():
-    import artmind.graph_query as gq
     cypher, params = gq._pattern_query(
         "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 5, "asOf": None}
     )
     assert "$asOf" not in cypher
 
 
-def test_pattern8_cypher_includes_asof_for_both_entities():
-    # pattern8 matches (e:LABEL)-[r]-(t:Entity) — both sides are required matches,
-    # so asOf must scope both, not just the anchor `e` (mirrors pattern6's
-    # symmetric treatment of e1/e2).
+def test_pattern8_cypher_never_references_asof():
     import artmind.graph_query as gq
     cypher, params = gq._pattern_query(
         "pattern8",
@@ -216,9 +213,10 @@ def test_pattern8_cypher_includes_asof_for_both_entities():
             "entityName": "Holmes", "asOf": "2026-07-04",
         },
     )
-    assert "e.valid_from" in cypher and "e.valid_to" in cypher
-    assert "t.valid_from" in cypher and "t.valid_to" in cypher
-    assert params["asOf"] == "2026-07-04"
+    assert "valid_from" not in cypher and "valid_to" not in cypher
+    assert "asOf" not in params
+    # Entity-to-Entity relationships are RELATES_TO now (Phase 4).
+    assert "MATCH (e:LOCATION)-[r:RELATES_TO]-(t:Entity)" in cypher
 
 
 def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):

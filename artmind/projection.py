@@ -44,7 +44,6 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
         "doc_id",
         "doc_version",
         "chunk_id",
-        "_status",
         "_kind",
         "_valid_from",
         "_valid_to",
@@ -175,11 +174,11 @@ def merge_observations(
     key = aggregate_key(name, entity_class, domain)
 
     props: dict = {
-        "id": entity_id(key),
+        "_id": entity_id(key),
         "name": name,
         "key": key_string(key),
         "entity_class": entity_class,
-        "domain": domain,
+        "_domain": domain,
         "_kind": kind,
     }
 
@@ -420,12 +419,27 @@ def _sanitize_label(value: str) -> str:
 
 
 def read_latest_observations(tx, key: str) -> list[dict]:
-    """Every `latest` observation for one aggregate key."""
+    """Every `latest` observation for one aggregate key.
+
+    `:Observation` is the label a node carries only while latest — a demoted
+    one is relabelled to `:ObservationHistory` (see `ingest._retract_prior_version`
+    / `lifecycle._transition`), so the label alone is the filter now; there is
+    no `_status` property left to check.
+    """
     rows = tx.run(
-        "MATCH (o:Observation {key: $key}) WHERE o._status = 'latest' RETURN properties(o) AS p",
+        "MATCH (o:Observation {key: $key}) RETURN properties(o) AS p",
         key=key,
     ).data()
     return [row["p"] for row in rows]
+
+
+def _parse_key(key_string_value: str | None) -> tuple[str, str, str] | None:
+    """`"name|class|domain"` back to the aggregate-key tuple, or `None` if it
+    isn't shaped that way. Defensive: a key is always written by
+    `observations.key_string`, but a stray/corrupt value should be skipped
+    rather than raise mid-rebuild."""
+    parts = (key_string_value or "").split("|")
+    return tuple(parts) if len(parts) == 3 else None  # type: ignore[return-value]
 
 
 def _delete_entity(tx, eid: str) -> None:
@@ -436,10 +450,13 @@ def _delete_entity(tx, eid: str) -> None:
     `_retire_orphaned_entities`, the `size(docIds) = 1` heuristic and the
     scoped entity GC — three mechanisms that between them left 235 entities
     live whose only source was a superseded document.
+
+    `DETACH DELETE` removes every relationship touching the node, `RELATES_TO`
+    included — nothing has to separately know an aggregate edge existed.
     """
     tx.run(
         """
-        MATCH (e:Entity {id: $id})
+        MATCH (e:Entity {_id: $id})
         OPTIONAL MATCH (c:Conflict {_source: 'projection'})-[:CONFLICT_OF]->(e)
         DETACH DELETE c, e
         """,
@@ -457,7 +474,7 @@ def _write_conflicts(tx, eid: str, conflicts: list[dict], domain: str) -> int:
     """
     tx.run(
         """
-        MATCH (c:Conflict {_source: 'projection'})-[:CONFLICT_OF]->(:Entity {id: $id})
+        MATCH (c:Conflict {_source: 'projection'})-[:CONFLICT_OF]->(:Entity {_id: $id})
         DETACH DELETE c
         """,
         id=eid,
@@ -466,7 +483,7 @@ def _write_conflicts(tx, eid: str, conflicts: list[dict], domain: str) -> int:
         conflict_id = hashlib.sha256(f"{eid}|{conflict['property']}".encode("utf-8")).hexdigest()
         tx.run(
             """
-            MATCH (e:Entity {id: $entity_id})
+            MATCH (e:Entity {_id: $entity_id})
             MERGE (c:Conflict {id: $id})
             SET c._source = 'projection',
                 c.property = $property,
@@ -495,6 +512,112 @@ def _write_conflicts(tx, eid: str, conflicts: list[dict], domain: str) -> int:
     return len(conflicts)
 
 
+def _relation_groups(tx, key: str) -> tuple[list[dict], list[dict]]:
+    """Every raw `ASSERTS_RELATION` edge touching one aggregate key's `latest`
+    observations, as two separate directional result sets.
+
+    Two passes rather than one bidirectional query, so an outgoing group and
+    an incoming group never cross-multiply against each other in one result
+    set. Both `MATCH` patterns require the **`:Observation`** label on both
+    ends — an endpoint relabelled to `:ObservationHistory` (its document was
+    retired, or superseded) simply stops matching, so a relationship whose
+    other side has gone to history drops out of the aggregate on the next
+    rebuild with no predicate anywhere having to know that happened.
+    """
+    outgoing = tx.run(
+        """
+        MATCH (o:Observation {key: $key})-[r:ASSERTS_RELATION]->(t:Observation)
+        RETURN r.rel_type AS rel_type, t.key AS other_key,
+               r.doc_id AS doc_id, r.chunk_id AS chunk_id
+        """,
+        key=key,
+    ).data()
+    incoming = tx.run(
+        """
+        MATCH (s:Observation)-[r:ASSERTS_RELATION]->(o:Observation {key: $key})
+        RETURN r.rel_type AS rel_type, s.key AS other_key,
+               r.doc_id AS doc_id, r.chunk_id AS chunk_id
+        """,
+        key=key,
+    ).data()
+    return outgoing, incoming
+
+
+def _group_relations(rows: list[dict]) -> dict[tuple[str, str], dict]:
+    """Group raw `ASSERTS_RELATION` rows by `(rel_type, other_key)`, deduping
+    and aggregating provenance. Pure — the I/O half (`_relation_groups`)
+    supplies the rows.
+    """
+    groups: dict[tuple[str, str], dict] = {}
+    for row in rows:
+        other_key, rel_type = row.get("other_key"), row.get("rel_type")
+        if not other_key or not rel_type:
+            continue
+        g = groups.setdefault((rel_type, other_key), {"chunk_ids": [], "doc_ids": [], "observation_count": 0})
+        g["observation_count"] += 1
+        if row.get("chunk_id") and row["chunk_id"] not in g["chunk_ids"]:
+            g["chunk_ids"].append(row["chunk_id"])
+        if row.get("doc_id") and row["doc_id"] not in g["doc_ids"]:
+            g["doc_ids"].append(row["doc_id"])
+    return groups
+
+
+def _sync_relates_to(tx, key: tuple[str, str, str], eid: str) -> int:
+    """Recompute every `RELATES_TO` edge touching this entity, from scratch,
+    from the raw `ASSERTS_RELATION` observation edges — the relationship
+    analogue of the property rebuild above. Deduped by `(srcKey, rel_type,
+    tgtKey)`, carrying `observation_count` / `chunk_ids` / `doc_ids`.
+
+    Both directions are independently authoritative: an edge FROM this entity
+    is fully determined by this key's own outgoing `ASSERTS_RELATION` edges,
+    and an edge INTO it by its incoming ones — so each can be deleted and
+    recreated here without depending on the *other* endpoint's own rebuild
+    having already run. Relationship endpoints can only ever be entities
+    extracted in the same document (see `ingest._write_relation_observations`),
+    so both keys of any edge are always in the same affected-key set; whichever
+    of the two is rebuilt **second** in this pass is the one that finds the
+    other endpoint's `:Entity` already `MERGE`d and actually writes the edge —
+    order-independent, since either side can be "second".
+    """
+    outgoing_rows, incoming_rows = _relation_groups(tx, key_string(key))
+    outgoing = _group_relations(outgoing_rows)
+    incoming = _group_relations(incoming_rows)
+
+    tx.run("MATCH (e:Entity {_id: $id})-[r:RELATES_TO]->(:Entity) DELETE r", id=eid)
+    tx.run("MATCH (:Entity)-[r:RELATES_TO]->(e:Entity {_id: $id}) DELETE r", id=eid)
+
+    written = 0
+    for (rel_type, other_key), agg in outgoing.items():
+        parsed = _parse_key(other_key)
+        if not parsed:
+            continue
+        tx.run(
+            """
+            MATCH (e:Entity {_id: $src})
+            MATCH (t:Entity {_id: $tgt})
+            MERGE (e)-[r:RELATES_TO {rel_type: $rel_type}]->(t)
+            SET r.observation_count = $observation_count, r.chunk_ids = $chunk_ids, r.doc_ids = $doc_ids
+            """,
+            src=eid, tgt=entity_id(parsed), rel_type=rel_type, **agg,
+        )
+        written += 1
+    for (rel_type, other_key), agg in incoming.items():
+        parsed = _parse_key(other_key)
+        if not parsed:
+            continue
+        tx.run(
+            """
+            MATCH (s:Entity {_id: $src})
+            MATCH (e:Entity {_id: $tgt})
+            MERGE (s)-[r:RELATES_TO {rel_type: $rel_type}]->(e)
+            SET r.observation_count = $observation_count, r.chunk_ids = $chunk_ids, r.doc_ids = $doc_ids
+            """,
+            src=entity_id(parsed), tgt=eid, rel_type=rel_type, **agg,
+        )
+        written += 1
+    return written
+
+
 def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None) -> str:
     """Rebuild one aggregate key. Returns `rebuilt`, `deleted`, or `absent`.
 
@@ -505,7 +628,7 @@ def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None)
     observations = read_latest_observations(tx, key_string(key))
 
     if not observations:
-        existing = tx.run("MATCH (e:Entity {id: $id}) RETURN count(e) AS c", id=eid).single()
+        existing = tx.run("MATCH (e:Entity {_id: $id}) RETURN count(e) AS c", id=eid).single()
         if existing and existing["c"]:
             _delete_entity(tx, eid)
             return "deleted"
@@ -528,7 +651,7 @@ def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None)
     # than merely less accurate. Stale still finds the entity; null deletes it.
     tx.run(
         f"""
-        MERGE (e:Entity {{id: $id}})
+        MERGE (e:Entity {{_id: $id}})
         ON CREATE SET e.embedding_stale = true
         WITH e, e.description AS prior_description
         CALL apoc.create.addLabels(e, $labels) YIELD node
@@ -552,7 +675,7 @@ def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None)
     # Rewire provenance: the Entity aggregates exactly its current observations.
     tx.run(
         """
-        MATCH (e:Entity {id: $id})
+        MATCH (e:Entity {_id: $id})
         OPTIONAL MATCH (e)-[r:AGGREGATES]->(:Observation)
         DELETE r
         WITH e
@@ -564,7 +687,8 @@ def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None)
         observation_ids=merged["observation_ids"],
     )
 
-    _write_conflicts(tx, eid, merged["conflicts"], props.get("domain") or "")
+    _write_conflicts(tx, eid, merged["conflicts"], props.get("_domain") or "")
+    _sync_relates_to(tx, key, eid)
     return "rebuilt"
 
 
@@ -590,24 +714,35 @@ def rebuild(tx, keys, *, synthesis_loader=None) -> dict:
 def all_keys(tx, domains: list[str] | None = None) -> set[tuple[str, str, str]]:
     """Every aggregate key with at least one `latest` observation, plus every
     key an existing `:Entity` claims — so a full rebuild also sweeps entities
-    whose observations have all gone."""
-    keys: set[tuple[str, str, str]] = set()
-    domain_filter = ""
-    params: dict = {}
-    if domains:
-        domain_filter = " AND (n.domain IN $domains OR any(d IN $domains WHERE n.domain STARTS WITH d + '.'))"
-        params["domains"] = domains
+    whose observations have all gone.
 
-    for label, status in (("Observation", " AND n._status = 'latest'"), ("Entity", "")):
+    `:Observation` already means latest (a demoted node carries
+    `:ObservationHistory` instead — see `read_latest_observations`), so there
+    is no status clause left to add here; only the domain-property NAME
+    differs between the two labels (`Entity._domain` vs. `Observation.domain`).
+    """
+    keys: set[tuple[str, str, str]] = set()
+    params: dict = {}
+    domain_clause = {"Observation": "", "Entity": ""}
+    if domains:
+        params["domains"] = domains
+        domain_clause["Observation"] = (
+            " AND (n.domain IN $domains OR any(d IN $domains WHERE n.domain STARTS WITH d + '.'))"
+        )
+        domain_clause["Entity"] = (
+            " AND (n._domain IN $domains OR any(d IN $domains WHERE n._domain STARTS WITH d + '.'))"
+        )
+
+    for label in ("Observation", "Entity"):
         rows = tx.run(
-            f"MATCH (n:{label}) WHERE n.key IS NOT NULL{status}{domain_filter} "
+            f"MATCH (n:{label}) WHERE n.key IS NOT NULL{domain_clause[label]} "
             "RETURN DISTINCT n.key AS key",
             **params,
         ).data()
         for row in rows:
-            parts = (row["key"] or "").split("|")
-            if len(parts) == 3:
-                keys.add(tuple(parts))
+            parsed = _parse_key(row["key"])
+            if parsed:
+                keys.add(parsed)
     return keys
 
 
@@ -623,22 +758,33 @@ def full_rebuild(tx, domains: list[str] | None = None, *, synthesis_loader=None)
 def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tuple[str, str, str]]:
     """The aggregate keys a document's observations contribute to.
 
-    With `status=None` this spans every version, which is what set 2 of
-    `affected_keys` needs: the *prior* version's keys are exactly the ones a
-    rename would otherwise strand.
+    `status` selects by **label**, not by a property — there is none left:
+    `"latest"` matches only `:Observation`, `"history"` only
+    `:ObservationHistory`, and `None` (the default) matches either, which is
+    what set 2 of `affected_keys` needs — the *prior* version's keys are
+    exactly the ones a rename would otherwise strand, whichever pool they're
+    currently in.
     """
-    clause = " AND o._status = $status" if status else ""
-    params = {"doc_id": doc_id}
-    if status:
-        params["status"] = status
-    rows = tx.run(
-        f"MATCH (o:Observation {{doc_id: $doc_id}}) WHERE o.key IS NOT NULL{clause} "
-        "RETURN DISTINCT o.key AS key",
-        **params,
-    ).data()
+    if status == "latest":
+        cypher = (
+            "MATCH (o:Observation {doc_id: $doc_id}) WHERE o.key IS NOT NULL "
+            "RETURN DISTINCT o.key AS key"
+        )
+    elif status == "history":
+        cypher = (
+            "MATCH (o:ObservationHistory {doc_id: $doc_id}) WHERE o.key IS NOT NULL "
+            "RETURN DISTINCT o.key AS key"
+        )
+    else:
+        cypher = (
+            "MATCH (o) WHERE (o:Observation OR o:ObservationHistory) "
+            "AND o.doc_id = $doc_id AND o.key IS NOT NULL "
+            "RETURN DISTINCT o.key AS key"
+        )
+    rows = tx.run(cypher, doc_id=doc_id).data()
     keys: set[tuple[str, str, str]] = set()
     for row in rows:
-        parts = (row["key"] or "").split("|")
-        if len(parts) == 3:
-            keys.add(tuple(parts))
+        parsed = _parse_key(row["key"])
+        if parsed:
+            keys.add(parsed)
     return keys

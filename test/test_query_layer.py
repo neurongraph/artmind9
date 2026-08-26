@@ -49,8 +49,8 @@ def test_pattern5_all_mode_pins_single_endpoint_pair():
         },
     )
     # All-paths enumeration is exponential per endpoint pair; the pair must be
-    # pinned before path expansion.
-    assert re.search(r"ORDER BY e\.id, t\.id\s*\n\s*LIMIT 1", cypher)
+    # pinned before path expansion. Entity carries `_id` (Phase 4).
+    assert re.search(r"ORDER BY e\._id, t\._id\s*\n\s*LIMIT 1", cypher)
     assert cypher.index("LIMIT 1") < cypher.index("[*1..5]")
 
 
@@ -58,23 +58,26 @@ def test_pattern9_relations_mode_domain_scopes_the_neighbor():
     cypher, _ = gq._pattern_query(
         "pattern9", {"domains": ["fiction"], "entityClass": "PERSON", "topN": 5}
     )
-    assert "OPTIONAL MATCH (e)-[r]-(t:Entity) WHERE (t.domain IN $domains" in cypher
+    assert "OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity) WHERE (t._domain IN $domains" in cypher
 
 
-def test_execute_pattern_flags_ignored_asof(monkeypatch):
-    monkeypatch.setattr(gq, "_run_read_query", lambda cypher, params: [])
-    result = gq.execute_pattern(
-        ["fiction"], "pattern10", as_of="today", documentName="study"
-    )
-    assert result["asOf_ignored"] is True
-    # pattern1 honours asOf, so no flag there
+def test_execute_pattern_patterns_1_through_9_no_longer_apply_asof(monkeypatch):
+    # Phase 4: --asOf removed from patterns 1-9's CLI options (the projection
+    # is current by construction) — execute_pattern's own signature still
+    # accepts it generically (echoed in "parameters" if a caller passes one
+    # directly), but the pattern's Cypher no longer references $asOf at all,
+    # so it has no effect. Only pattern10 still genuinely applies it now
+    # (reaches the History labels), never "ignored" as before.
+    captured = {}
+    monkeypatch.setattr(gq, "_run_read_query", lambda cypher, params: captured.update(params) or [])
     result = gq.execute_pattern(
         ["fiction"], "pattern1", as_of="today", entityClass="PERSON"
     )
     assert "asOf_ignored" not in result
+    assert "asOf" not in captured
 
 
-def test_execute_pattern_resolves_today(monkeypatch):
+def test_execute_pattern_pattern10_resolves_today(monkeypatch):
     captured = {}
 
     def fake_run(cypher, params):
@@ -82,8 +85,9 @@ def test_execute_pattern_resolves_today(monkeypatch):
         return []
 
     monkeypatch.setattr(gq, "_run_read_query", fake_run)
-    gq.execute_pattern(["fiction"], "pattern1", as_of="today", entityClass="PERSON")
-    assert captured["asOf"] == date.today().isoformat()
+    result = gq.execute_pattern(["fiction"], "pattern10", as_of="today", documentName="study")
+    assert result["parameters"]["asOf"] == date.today().isoformat()
+    assert "asOf_ignored" not in result
 
 
 # ── chunks_by_id ───────────────────────────────────────────────────────────────
@@ -141,17 +145,20 @@ def test_entity_context_requires_entity_id():
 
 
 def test_entity_context_query_shape():
-    cypher = gq._entity_context_query(as_of="2026-07-12")
-    # exact-id anchor, structural edges, currency-first chunk ordering,
-    # text capped to $includeChunks with the remainder as ids only
-    assert "MATCH (e:Entity {id: $entityId})" in cypher
-    assert "(e)-[:EXTRACTED_FROM]->(c:DocChunk)" in cypher
-    assert "(chat:UserChat)-[:MENTIONS]->(e)" in cypher
+    # No --asOf (Phase 4): the entity and its projected chunks are current by
+    # construction.
+    cypher = gq._entity_context_query()
+    # exact-id anchor (Entity carries `_id`), structural edges, currency-first
+    # chunk ordering, text capped to $includeChunks with the remainder as ids
+    # only. Source chunks are reached via AGGREGATES->Observation->
+    # EXTRACTED_FROM (an Entity has never had a direct EXTRACTED_FROM edge);
+    # the dead UserChat/:MENTIONS edge (never written) is gone.
+    assert "MATCH (e:Entity {_id: $entityId})" in cypher
+    assert "(e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)" in cypher
+    assert "UserChat" not in cypher
     assert "ORDER BY c.valid_to IS NULL DESC, c.id" in cypher
     assert "allChunks[0..$includeChunks] AS chunks" in cypher
     assert "allChunks[$includeChunks..]" in cypher
-    # asOf applies to the entity and its chunks
-    assert cypher.count("$asOf") >= 2
 
 
 def test_entity_context_passes_params(monkeypatch):

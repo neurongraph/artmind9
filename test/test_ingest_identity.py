@@ -346,7 +346,7 @@ def test_document_merge_props_carry_logical_id_and_version(tmp_path, monkeypatch
 
     assert ing._write_to_neo4j(tmp_path) is not None
 
-    doc_runs = [(c, k) for c, k in runs if "MERGE (d:Document" in c]
+    doc_runs = [(c, k) for c, k in runs if "CREATE (n:Document" in c]
     assert doc_runs, "expected a Document MERGE"
     _, kwargs = doc_runs[0]
     assert kwargs["id"] == "phys-1"

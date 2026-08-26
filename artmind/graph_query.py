@@ -47,16 +47,32 @@ def normalize_domains(value: "str | Sequence[str]") -> list[str]:
     return out
 
 
-def domain_predicate(var: str, param: str = "domains") -> str:
+def domain_predicate(var: str, param: str = "domains", prop: str = "domain") -> str:
     """Cypher WHERE fragment scoping `var` to any of the domains in $param.
 
     A one-element list is semantically identical to the old single-domain
     predicate (exact match OR sub-domain rollup via STARTS WITH).
+
+    `prop` is the property name to filter on — `"domain"` for everything
+    except `:Entity`, which carries `_domain` (Phase 4's `_`-prefix pass,
+    alongside `_id`; the extraction-contract fields the query layer reads
+    directly — name/description/entity_class/type/context/aliases — stay
+    unprefixed). Pass `prop="_domain"` at any call site where `var` is bound
+    to an Entity node.
     """
     return (
-        f"({var}.domain IN ${param} "
-        f"OR any(dom IN ${param} WHERE {var}.domain STARTS WITH (dom + '.')))"
+        f"({var}.{prop} IN ${param} "
+        f"OR any(dom IN ${param} WHERE {var}.{prop} STARTS WITH (dom + '.')))"
     )
+
+
+def domain_predicate_any(var: str, param: str = "domains") -> str:
+    """`domain_predicate`, but for an unlabeled/mixed `MATCH (n)` where `var`
+    could be any node type at once (`graph_metadata`'s full-schema scan is the
+    only caller). ORs the `domain` predicate with the `_domain` one, since
+    which property name applies depends on a label this query doesn't pin
+    down."""
+    return f"({domain_predicate(var, param, 'domain')} OR {domain_predicate(var, param, '_domain')})"
 
 
 def expand_domain_family(domain: str) -> list[str]:
@@ -83,8 +99,8 @@ def expand_domain_family(domain: str) -> list[str]:
               MATCH (d:Document) WHERE d.domain STARTS WITH ($d + '.')
               RETURN DISTINCT d.domain AS dom
             UNION
-              MATCH (e:Entity) WHERE e.domain STARTS WITH ($d + '.')
-              RETURN DISTINCT e.domain AS dom
+              MATCH (e:Entity) WHERE e._domain STARTS WITH ($d + '.')
+              RETURN DISTINCT e._domain AS dom
             }
             RETURN dom
             """,
@@ -103,24 +119,6 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
         f"(({var}.valid_from IS NULL OR {var}.valid_from <= ${param}) "
         f"AND ({var}.valid_to IS NULL OR {var}.valid_to > ${param})))"
     )
-
-
-def not_deleted_chunk(var: str) -> str:
-    """Cypher WHERE fragment excluding tombstoned DocChunks (A1d).
-
-    `docs clean` sets ``deleted=true`` on a document's chunks; retrieval must
-    skip them. NULL-safe (``coalesce``) so the overwhelming majority of chunks —
-    which carry no ``deleted`` property at all — stay visible."""
-    return f"coalesce({var}.deleted, false) = false"
-
-
-def not_deleted_doc(var: str) -> str:
-    """Cypher WHERE fragment excluding tombstoned Documents (A1d).
-
-    `docs clean` sets ``status='deleted'`` on the Document node; listings and
-    document-scoped retrieval must skip it. NULL-safe: a document with no
-    ``status`` is treated as active."""
-    return f"coalesce({var}.status, 'active') <> 'deleted'"
 
 
 # ISO date at year, month, or day precision (optionally with a time suffix).
@@ -296,14 +294,21 @@ def _domain_output(domains: list[str]) -> dict:
     return out
 
 
-def graph_metadata(domains: "str | Sequence[str]", as_of: str | None = None) -> dict:
+def graph_metadata(domains: "str | Sequence[str]") -> dict:
+    """The full schema: every node label's properties, every relationship
+    type's properties and label-pair connections, scoped to `domains`.
+
+    No `--asOf` (Phase 4) — the projection is current by construction, and
+    schema shape doesn't have a valid-time axis to filter on in the first
+    place; the option was really about node *currency*, which `--asOf` never
+    controlled here anyway (it filtered which nodes counted, not which schema
+    entries appeared).
+    """
     domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
-    asof_node = f"\n        AND {asof_predicate('n')}" if as_of else ""
     cypher = f"""
     CALL () {{
       MATCH (n)
-      WHERE {domain_predicate("n")}{asof_node}
+      WHERE {domain_predicate_any("n")}
       UNWIND labels(n) AS label
       WITH label, keys(n) AS nodeKeys, n.type AS typeVal
       UNWIND [k IN nodeKeys WHERE k <> '_prop_sources'] AS propName
@@ -314,8 +319,8 @@ def graph_metadata(domains: "str | Sequence[str]", as_of: str | None = None) -> 
              null AS connections
     UNION
       MATCH (s)-[r]->(e)
-      WHERE {domain_predicate("s")}
-        AND {domain_predicate("e")}
+      WHERE {domain_predicate_any("s")}
+        AND {domain_predicate_any("e")}
       WITH type(r) AS relType, labels(s) AS fromLabels, labels(e) AS toLabels, keys(r) AS relKeys
       UNWIND relKeys AS propName
       RETURN "relationships" AS category,
@@ -331,7 +336,7 @@ def graph_metadata(domains: "str | Sequence[str]", as_of: str | None = None) -> 
         **_domain_output(domains),
         "query_type": "graph",
         "command": "metadata",
-        "rows": _run_read_query(cypher, {"domains": domains, **({"asOf": as_of} if as_of else {})}),
+        "rows": _run_read_query(cypher, {"domains": domains}),
     }
 
 
@@ -346,12 +351,12 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
     cypher = f"""
     CALL () {{
       MATCH (d:Document)
-      WHERE {domain_predicate("d")} AND {not_deleted_doc("d")}
+      WHERE {domain_predicate("d")}
       WITH count(d) AS cnt, collect(DISTINCT d.name) AS names
       RETURN 'Document' AS label, cnt AS count, names AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (c:DocChunk)
-      WHERE {domain_predicate("c")} AND {not_deleted_chunk("c")}
+      WHERE {domain_predicate("c")}
       WITH count(c) AS cnt
       RETURN 'DocChunk' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
@@ -360,8 +365,13 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
       WITH count(u) AS cnt
       RETURN 'UserChat' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
+      MATCH (o:Observation)
+      WHERE {domain_predicate("o")}
+      WITH count(o) AS cnt
+      RETURN 'Observation' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
+    UNION
       MATCH (e:Entity)
-      WHERE {domain_predicate("e")}
+      WHERE {domain_predicate("e", prop="_domain")}
       WITH count(e) AS cnt
       RETURN 'Entity' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
@@ -370,15 +380,20 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'PART_OF' AS relationship, 'DocChunk' AS from_label, 'Document' AS to_label
     UNION
-      MATCH (e:Entity)-[r:EXTRACTED_FROM]->(c:DocChunk)
-      WHERE {domain_predicate("e")}
+      MATCH (o:Observation)-[r:EXTRACTED_FROM]->(c:DocChunk)
+      WHERE {domain_predicate("o")}
       WITH count(r) AS cnt
-      RETURN null AS label, cnt AS count, null AS names, 'EXTRACTED_FROM' AS relationship, 'Entity' AS from_label, 'DocChunk' AS to_label
+      RETURN null AS label, cnt AS count, null AS names, 'EXTRACTED_FROM' AS relationship, 'Observation' AS from_label, 'DocChunk' AS to_label
     UNION
-      MATCH (u:UserChat)-[r:MENTIONS]->(e:Entity)
-      WHERE {domain_predicate("u")}
+      MATCH (e:Entity)-[r:AGGREGATES]->(o:Observation)
+      WHERE {domain_predicate("e", prop="_domain")}
       WITH count(r) AS cnt
-      RETURN null AS label, cnt AS count, null AS names, 'MENTIONS' AS relationship, 'UserChat' AS from_label, 'Entity' AS to_label
+      RETURN null AS label, cnt AS count, null AS names, 'AGGREGATES' AS relationship, 'Entity' AS from_label, 'Observation' AS to_label
+    UNION
+      MATCH (s:Entity)-[r:RELATES_TO]->(t:Entity)
+      WHERE {domain_predicate("s", prop="_domain")}
+      WITH count(r) AS cnt
+      RETURN null AS label, cnt AS count, null AS names, 'RELATES_TO' AS relationship, 'Entity' AS from_label, 'Entity' AS to_label
     }}
     RETURN label, count, names, relationship, from_label, to_label
     """
@@ -413,7 +428,6 @@ def filing_vocabulary(
         params["domains"] = normalize_domains(domains)
         filters.append(domain_predicate("d"))
 
-    filters.append(not_deleted_doc("d"))
     where_clause = " AND ".join(filters) if filters else "true"
 
     cypher = f"""
@@ -506,7 +520,6 @@ def filing_listing(
         params["asOf"] = as_of_resolved
         filters.append(asof_predicate("d"))
 
-    filters.append(not_deleted_doc("d"))
     where_clause = " AND ".join(filters) if filters else "true"
 
     cypher = f"""
@@ -541,15 +554,16 @@ def entity_listing(
     domains: "str | Sequence[str]",
     name_filter: str | None = None,
     count_all: bool = False,
-    as_of: str | None = None,
 ) -> dict:
+    """No `--asOf` (Phase 4) — the projection is current by construction, and
+    there is nothing left in force "by a date" to filter to: an Entity is
+    either asserted right now (it exists) or it isn't (the rebuild deleted
+    it)."""
     domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
-    asof_node = f"\n      AND {asof_predicate('n')}" if as_of else ""
     cypher = f"""
     MATCH (n:Entity)
-    WHERE {domain_predicate("n")} AND n.name IS NOT NULL
-      AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter)){asof_node}
+    WHERE {domain_predicate("n", prop="_domain")} AND n.name IS NOT NULL
+      AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter))
     UNWIND [l IN labels(n) WHERE l <> 'Entity'] AS label
     WITH label, n.type AS type, collect(DISTINCT n.name) AS names
     RETURN label, collect({{type: type, names: names}}) AS typeGroups
@@ -559,26 +573,17 @@ def entity_listing(
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_listing",
-        "rows": _run_read_query(
-            cypher,
-            {
-                "domains": domains,
-                "nameFilter": name_filter,
-                **({"asOf": as_of} if as_of else {}),
-            },
-        ),
+        "rows": _run_read_query(cypher, {"domains": domains, "nameFilter": name_filter}),
     }
     if name_filter is not None:
         result["name_filter"] = name_filter
     if count_all:
         count_cypher = f"""
         MATCH (n:Entity)
-        WHERE {domain_predicate("n")} AND n.name IS NOT NULL{asof_node}
+        WHERE {domain_predicate("n", prop="_domain")} AND n.name IS NOT NULL
         RETURN count(DISTINCT n) AS total
         """
-        count_rows = _run_read_query(
-            count_cypher, {"domains": domains, **({"asOf": as_of} if as_of else {})}
-        )
+        count_rows = _run_read_query(count_cypher, {"domains": domains})
         result["total_entities"] = count_rows[0]["total"] if count_rows else 0
     return result
 
@@ -635,7 +640,7 @@ def _entity_selector(
     """WHERE fragment selecting an entity by exact id (preferred) or fuzzy name."""
     if parameters.get(id_key):
         cypher_params[id_key] = parameters[id_key]
-        return f"{var}.id = ${id_key}"
+        return f"{var}._id = ${id_key}"
     cypher_params[name_key] = parameters[name_key]
     return f"toLower({var}.name) CONTAINS toLower(${name_key})"
 
@@ -644,49 +649,41 @@ def _entity_list_selector(parameters: dict, cypher_params: dict, var: str) -> st
     """WHERE fragment selecting entities by exact ids (preferred) or fuzzy names."""
     if parameters.get("entityIdList"):
         cypher_params["entityIdList"] = parameters["entityIdList"]
-        return f"{var}.id IN $entityIdList"
+        return f"{var}._id IN $entityIdList"
     cypher_params["entityNameList"] = parameters["entityNameList"]
     return f"ANY(n IN $entityNameList WHERE toLower({var}.name) CONTAINS toLower(n))"
 
 
 def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
-    as_of = parameters.get("asOf")
-
-    def _asof(var: str) -> str:
-        return f"\n              AND {asof_predicate(var)}" if as_of else ""
-
+    """Patterns 1-9 no longer accept `--asOf` (Phase 4) — the projection is
+    current by construction, so there is nothing "in force by a date" left to
+    filter an Entity match to. Only pattern10 keeps it; see that branch for
+    what it now means with the History-label split in place.
+    """
     if pattern == "pattern1":
         label = parameters["entityClass"]
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e")}{_asof("e")}
+            WHERE {domain_predicate("e", prop="_domain")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY e.name
             LIMIT $limit
             """,
-            {
-                "domains": parameters["domains"],
-                "limit": parameters.get("limit", 200),
-                **({"asOf": as_of} if as_of else {}),
-            },
+            {"domains": parameters["domains"], "limit": parameters.get("limit", 200)},
         )
     if pattern == "pattern2":
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
-        if as_of:
-            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:Entity)
-            WHERE {domain_predicate("e")}
-              AND {selector}{_asof("e")}
-            OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
+            WHERE {domain_predicate("e", prop="_domain")}
+              AND {selector}
+            OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
             WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
-            OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN e {{.*, label: labels(e)}} AS entityData,
-                   doc_sources,
-                   collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
+                   doc_sources
             ORDER BY entityData.name
             """,
             cypher_params,
@@ -694,25 +691,21 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
     if pattern == "pattern3":
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
-        if as_of:
-            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:Entity)
-            WHERE {domain_predicate("e")}
-              AND {selector}{_asof("e")}
-            OPTIONAL MATCH (e)-[r]-(t:Entity)
-            WHERE {domain_predicate("t")}
+            WHERE {domain_predicate("e", prop="_domain")}
+              AND {selector}
+            OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
+            WHERE {domain_predicate("t", prop="_domain")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
-              type: type(r),
+              rel_type: r.rel_type,
               properties: properties(r),
               target: {{name: t.name, label: labels(t)}}
             }} END) AS connections
-            OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
+            OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
             WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
-            OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
-            RETURN properties(e) AS entityData, connections, doc_sources,
-                   collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
+            RETURN properties(e) AS entityData, connections, doc_sources
             ORDER BY entityData.name
             """,
             cypher_params,
@@ -721,37 +714,26 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         label = parameters["entityClass"]
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "e")
-        if as_of:
-            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e")}
-              AND {selector}{_asof("e")}
-            OPTIONAL MATCH (e)-[r]-(t:Entity)
-            WHERE {domain_predicate("t")}
+            WHERE {domain_predicate("e", prop="_domain")}
+              AND {selector}
+            OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
+            WHERE {domain_predicate("t", prop="_domain")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
-              rel_type: type(r),
+              rel_type: r.rel_type,
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
             }} END) AS connections
-            OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
+            OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
             WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
-            OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
-            RETURN properties(e) AS entityData, connections, doc_sources,
-                   collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
+            RETURN properties(e) AS entityData, connections, doc_sources
             ORDER BY entityData.name
             """,
             cypher_params,
         )
     if pattern == "pattern5":
-        # No _asof() here (deliberate, unlike pattern6/8): the path can traverse
-        # an arbitrary number of intermediate entities that aren't bound to a
-        # variable name, so there's no single filter point that would currency-
-        # scope the whole path without rewriting the traversal itself. Endpoint-
-        # only filtering (e, t) would be misleading — it wouldn't stop the path
-        # from routing through an intermediate entity that isn't valid as-of the
-        # requested date.
         label1 = parameters["entityClass1"]
         label2 = parameters["entityClass2"]
         cypher_params = {"domains": parameters["domains"]}
@@ -772,8 +754,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             return (
                 f"""
                 MATCH (e:{label1}), (t:{label2})
-                WHERE {domain_predicate("e")}
-                  AND {domain_predicate("t")}
+                WHERE {domain_predicate("e", prop="_domain")}
+                  AND {domain_predicate("t", prop="_domain")}
                   AND {selector1}
                   AND {selector2}
                 // Pin one deterministic endpoint pair before enumerating paths:
@@ -781,7 +763,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                 // enumeration to depth 5 is exponential per pair. With exact ids
                 // (the resolution protocol's normal case) this is a no-op.
                 WITH e, t
-                ORDER BY e.id, t.id
+                ORDER BY e._id, t._id
                 LIMIT 1
                 MATCH p = (e)-[*1..5]-(t)
                 WHERE all(x IN nodes(p) WHERE x:Entity)
@@ -795,8 +777,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH p = shortestPath((e:{label1})-[*..5]-(t:{label2}))
-            WHERE {domain_predicate("e")}
-              AND {domain_predicate("t")}
+            WHERE {domain_predicate("e", prop="_domain")}
+              AND {domain_predicate("t", prop="_domain")}
               AND {selector1}
               AND {selector2}
               AND all(x IN nodes(p) WHERE x:Entity)
@@ -808,16 +790,14 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         cypher_params = {"domains": parameters["domains"]}
         selector1 = _entity_selector(parameters, cypher_params, "e1", "entityName1", "entityId1")
         selector2 = _entity_selector(parameters, cypher_params, "e2", "entityName2", "entityId2")
-        if as_of:
-            cypher_params["asOf"] = as_of
         return (
             f"""
-            MATCH (e1:Entity)-[r]-(e2:Entity)
-            WHERE {domain_predicate("e1")}
-              AND {domain_predicate("e2")}
+            MATCH (e1:Entity)-[r:RELATES_TO]-(e2:Entity)
+            WHERE {domain_predicate("e1", prop="_domain")}
+              AND {domain_predicate("e2", prop="_domain")}
               AND {selector1}
-              AND {selector2}{_asof("e1")}{_asof("e2")}
-            RETURN type(r) AS relType,
+              AND {selector2}
+            RETURN r.rel_type AS relType,
                    properties(r) AS relProps,
                    startNode(r).name AS fromEntity,
                    endNode(r).name AS toEntity,
@@ -835,7 +815,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             f"""
             CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
             YIELD node AS e, score AS ftScore
-            WHERE {domain_predicate("e")}{_asof("e")}
+            WHERE {domain_predicate("e", prop="_domain")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY ftScore DESC, e.name
             LIMIT $limit
@@ -844,23 +824,20 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                 "domains": parameters["domains"],
                 "searchTerm": search_term,
                 "limit": parameters.get("limit", 10),
-                **({"asOf": as_of} if as_of else {}),
             },
         )
     if pattern == "pattern8":
         label = parameters["entityClass"]
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "t")
-        if as_of:
-            cypher_params["asOf"] = as_of
         return (
             f"""
-            MATCH (e:{label})-[r]-(t:Entity)
-            WHERE {domain_predicate("e")}
-              AND {domain_predicate("t")}
-              AND {selector}{_asof("e")}{_asof("t")}
+            MATCH (e:{label})-[r:RELATES_TO]-(t:Entity)
+            WHERE {domain_predicate("e", prop="_domain")}
+              AND {domain_predicate("t", prop="_domain")}
+              AND {selector}
             RETURN e {{.*, label: labels(e)}} AS entityData,
-                   type(r) AS relType,
+                   r.rel_type AS relType,
                    properties(r) AS relProps
             ORDER BY e.name, relType
             """,
@@ -870,20 +847,18 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         label = parameters["entityClass"]
         degree_mode = parameters.get("degreeMode", "relations")
         if degree_mode == "mentions":
-            # mentions: how often sources mention the entity. Document mentions are
-            # (Entity)-[:EXTRACTED_FROM]->(DocChunk) (the only edge ingestion writes
-            # between the two); chat mentions are (UserChat)-[:MENTIONS]->(Entity).
-            # :MENTIONS is never written for DocChunk, so it must not be queried here.
+            # mentions: how often sources mention the entity — via the
+            # projection's own AGGREGATES edge to the observations that fed
+            # it, one hop further to their source chunks.
             degree_body = """
-            OPTIONAL MATCH (e)-[r1:EXTRACTED_FROM]->(:DocChunk)
-            OPTIONAL MATCH (e)<-[r2:MENTIONS]-(:UserChat)
-            WITH e, count(DISTINCT r1) + count(DISTINCT r2) AS degree
+            OPTIONAL MATCH (e)-[r1:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)
+            WITH e, count(DISTINCT r1) AS degree
             """
         else:
             # relations: entity-entity connectivity (neighbor domain-scoped like
             # every other entity match); all: every edge including structural ones.
             degree_match = {
-                "relations": f'OPTIONAL MATCH (e)-[r]-(t:Entity) WHERE {domain_predicate("t")}',
+                "relations": f'OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity) WHERE {domain_predicate("t", prop="_domain")}',
                 "all": "OPTIONAL MATCH (e)-[r]-()",
             }[degree_mode]
             degree_body = f"""
@@ -893,35 +868,56 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e")}{_asof("e")}
+            WHERE {domain_predicate("e", prop="_domain")}
             {degree_body}
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData
             ORDER BY degree DESC, e.name
             LIMIT $topN
             """,
-            {
-                "domains": parameters["domains"],
-                "topN": parameters.get("topN", 5),
-                **({"asOf": as_of} if as_of else {}),
-            },
+            {"domains": parameters["domains"], "topN": parameters.get("topN", 5)},
         )
     if pattern == "pattern10":
-        # No _asof() here: pattern10's primary filter is on the Document (d),
-        # but the projected temporal fields (valid_from/valid_to/superseded_by)
-        # live on both Document and, more granularly, per-chunk currency isn't
-        # modeled — filtering only on d while returning all its chunks would
-        # silently mix "document is current" with "chunk content is current",
-        # which is a bigger modeling decision than this task should make. Left
-        # for a follow-up once chunk-level supersession is defined.
-        return (
-            f"""
-            MATCH (c:DocChunk)-[:PART_OF]->(d:Document)
-            WHERE {domain_predicate("d")}
-              AND toLower(d.name) CONTAINS toLower($documentName)
-            RETURN d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document,
-                   c {{ .id, .name, .doc_id, .domain, .valid_to, .text }} AS chunk
+        # `--asOf` (kept, Phase 4) no longer means "ignored". Chunks carry no
+        # valid-time of their own (never stamped at ingest — a chunk's
+        # currency is entirely a function of its document's), so there is no
+        # date to compare against; what the label swap DOES give this pattern
+        # for the first time is a real history pool to reach into. Without
+        # --asOf: only the document's CURRENT self (:Document) and CURRENT
+        # chunks (:DocChunk), as always. With --asOf (any value — a presence
+        # flag here, not a point in time): also reach :DocumentHistory /
+        # :DocChunkHistory, so a retired document and its retired/superseded
+        # chunks become visible too. Coarser than "in force by T" elsewhere,
+        # and said so in the CLI help rather than implied.
+        as_of = parameters.get("asOf")
+        doc_return = "d { .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by } AS document"
+        chunk_return = "c { .id, .name, .doc_id, .domain, .valid_to, .text } AS chunk"
+        if as_of:
+            cypher = f"""
+            CALL () {{
+              MATCH (d:Document)
+              WHERE {domain_predicate("d")} AND toLower(d.name) CONTAINS toLower($documentName)
+              RETURN d
+            UNION
+              MATCH (d:DocumentHistory)
+              WHERE {domain_predicate("d")} AND toLower(d.name) CONTAINS toLower($documentName)
+              RETURN d
+            }}
+            WITH d
+            MATCH (c)-[:PART_OF]->(d)
+            WHERE c:DocChunk OR c:DocChunkHistory
+            RETURN {doc_return}, {chunk_return}
             ORDER BY c.id
-            """,
+            """
+        else:
+            cypher = f"""
+            MATCH (d:Document)
+            WHERE {domain_predicate("d")} AND toLower(d.name) CONTAINS toLower($documentName)
+            MATCH (c:DocChunk)-[:PART_OF]->(d)
+            RETURN {doc_return}, {chunk_return}
+            ORDER BY c.id
+            """
+        return (
+            cypher,
             {"domains": parameters["domains"], "documentName": parameters["documentName"]},
         )
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
@@ -953,10 +949,6 @@ def execute_pattern(
         "parameters": output_parameters,
         "rows": strip_internal_props(_run_read_query(cypher, cypher_params)),
     }
-    # pattern5/pattern10 deliberately skip valid-time filtering (see the
-    # comments in _pattern_query) — say so instead of silently accepting it.
-    if as_of and pattern in ("pattern5", "pattern10"):
-        result["asOf_ignored"] = True
     return result
 
 
@@ -973,7 +965,6 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
         neighbor_call = f"""
     CALL (c) {{
       MATCH (s:DocChunk {{doc_id: c.doc_id}})
-      WHERE {not_deleted_chunk("s")}
       WITH c, s
       ORDER BY s.id
       WITH c, collect(s) AS sibs
@@ -987,7 +978,6 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
     MATCH (c:DocChunk)
     WHERE c.id IN $chunkIds
       AND {domain_predicate("c")}{asof_c}
-      AND {not_deleted_chunk("c")}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, .domain, .valid_from, .valid_to, .text }} AS chunk,
            d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
@@ -1029,27 +1019,30 @@ def chunks_by_id(
     }
 
 
-def _entity_context_query(as_of: str | None) -> str:
+def _entity_context_query() -> str:
     """Cypher for entity_context: entity + one-hop relationships + source text.
 
-    asOf applies to the entity and its source chunks (document content
-    currency); neighbor entities follow pattern4's semantics (unfiltered).
-    Chunks are ordered current-first (valid_to IS NULL), then by name; the
-    first $includeChunks are returned with text, the rest as ids only.
+    No `--asOf` (Phase 4) — the entity and its projected chunks are current by
+    construction. Chunks are ordered current-first (valid_to IS NULL), then by
+    id; the first $includeChunks are returned with text, the rest as ids only.
+
+    Source chunks are reached via `(e)-[:AGGREGATES]->(:Observation)
+    -[:EXTRACTED_FROM]->(c:DocChunk)` — an Entity has never had a direct
+    EXTRACTED_FROM edge since Phase 3 moved that provenance onto observations;
+    matching `(e)-[:EXTRACTED_FROM]->(c)` directly (as this query did before)
+    silently returned zero chunks for every entity.
     """
-    asof_e = f"\n      AND {asof_predicate('e')}" if as_of else ""
-    asof_c = f"\n    WHERE {asof_predicate('c')}" if as_of else ""
     return f"""
-    MATCH (e:Entity {{id: $entityId}})
-    WHERE {domain_predicate("e")}{asof_e}
-    OPTIONAL MATCH (e)-[r]-(t:Entity)
-    WHERE {domain_predicate("t")}
+    MATCH (e:Entity {{_id: $entityId}})
+    WHERE {domain_predicate("e", prop="_domain")}
+    OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
+    WHERE {domain_predicate("t", prop="_domain")}
     WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
-      type: type(r),
+      rel_type: r.rel_type,
       properties: properties(r),
-      target: {{id: t.id, name: t.name, label: labels(t)}}
+      target: {{id: t._id, name: t.name, label: labels(t)}}
     }} END) AS connections
-    OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(c:DocChunk){asof_c}
+    OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
     WITH e, connections, c, d
     ORDER BY c.valid_to IS NULL DESC, c.id
@@ -1057,14 +1050,10 @@ def _entity_context_query(as_of: str | None) -> str:
       .id, .name, .doc_id, .domain, .valid_to, .text,
       document: d {{ .id, .name, .domain, .valid_from, .valid_to, .superseded_by }}
     }} END) WHERE x IS NOT NULL] AS allChunks
-    OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
-    WITH e, connections, allChunks,
-         collect(DISTINCT chat {{ .id, .raw_text, .session_id, .created_by, .created_at }}) AS chat_sources
     RETURN e {{.*, label: labels(e)}} AS entityData,
            [x IN connections WHERE x IS NOT NULL] AS connections,
            allChunks[0..$includeChunks] AS chunks,
-           [x IN allChunks[$includeChunks..] | {{id: x.id, name: x.name, doc_id: x.doc_id}}] AS more_chunks,
-           chat_sources
+           [x IN allChunks[$includeChunks..] | {{id: x.id, name: x.name, doc_id: x.doc_id}}] AS more_chunks
     """
 
 
@@ -1072,34 +1061,27 @@ def entity_context(
     domains: "str | Sequence[str]",
     entity_id: str,
     include_chunks: int = 5,
-    as_of: str | None = None,
 ) -> dict:
     """One-call grounded picture of a resolved entity: properties, one-hop
     relationships, and the text of its most current source chunks. Replaces
     the pattern4 + chunk-fetch sequence for entity-anchored questions."""
     domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
     if not (entity_id or "").strip():
         raise ValueError("--entityId is required")
     include_chunks = int(include_chunks)
     if include_chunks < 0:
         raise ValueError("--includeChunks must be >= 0")
-    cypher = _entity_context_query(as_of)
+    cypher = _entity_context_query()
     params = {
         "domains": domains,
         "entityId": entity_id.strip(),
         "includeChunks": include_chunks,
-        **({"asOf": as_of} if as_of else {}),
     }
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_context",
-        "parameters": {
-            "entityId": entity_id.strip(),
-            "includeChunks": include_chunks,
-            **({"asOf": as_of} if as_of else {}),
-        },
+        "parameters": {"entityId": entity_id.strip(), "includeChunks": include_chunks},
         "rows": strip_internal_props(_run_read_query(cypher, params)),
     }
 
@@ -1116,10 +1098,10 @@ def domains_overview() -> dict:
              count(d) AS c, collect(DISTINCT d.name)[0..25] AS names
     UNION
       MATCH (e:Entity)
-      RETURN e.domain AS domain, 'entities' AS k, count(e) AS c, null AS names
+      RETURN e._domain AS domain, 'entities' AS k, count(e) AS c, null AS names
     UNION
       MATCH (e:Entity)
-      WITH e.domain AS domain, e.entity_class AS cls, count(*) AS n
+      WITH e._domain AS domain, e.entity_class AS cls, count(*) AS n
       ORDER BY n DESC
       WITH domain, collect(cls)[0..8] AS top
       RETURN domain, 'top_classes' AS k, 0 AS c, top AS names
@@ -1217,11 +1199,11 @@ def list_conflicts(
     entity_ids = list(entity_ids or [])
     cypher = f"""
     MATCH (a:Entity)-[r:CONFLICTS_WITH]->(b:Entity)
-    WHERE {domain_predicate("a")} AND {domain_predicate("b")} AND a.id < b.id
+    WHERE {domain_predicate("a", prop="_domain")} AND {domain_predicate("b", prop="_domain")} AND a._id < b._id
     WITH r.conflict_id AS conflictId, r.aspect AS aspect,
-         collect(DISTINCT a {{ .id, .name, .entity_class, .domain }})
-           + collect(DISTINCT b {{ .id, .name, .entity_class, .domain }}) AS entities
-    WHERE ($entityIds = [] OR any(e IN entities WHERE e.id IN $entityIds))
+         collect(DISTINCT a {{ ._id, .name, .entity_class, ._domain }})
+           + collect(DISTINCT b {{ ._id, .name, .entity_class, ._domain }}) AS entities
+    WHERE ($entityIds = [] OR any(e IN entities WHERE e._id IN $entityIds))
       AND ($entityName IS NULL OR any(e IN entities WHERE toLower(e.name) CONTAINS toLower($entityName)))
     OPTIONAL MATCH (co:Conflict {{id: conflictId}})
     WITH conflictId, aspect, entities, co, coalesce(co.status, 'open') AS effectiveStatus
@@ -1251,74 +1233,144 @@ def list_conflicts(
     }
 
 
-def list_timeline(domains: "str | Sequence[str]", entity_id: str) -> dict:
-    """An entity's events/state-changes/supersessions ordered by event_at/valid_from."""
-    domains = normalize_domains(domains)
-    cypher = f"""
-    MATCH (e:Entity {{id:$entityId}})
-    WHERE {domain_predicate("e")}
-    OPTIONAL MATCH (e)-[r]-(rel:Entity)
-    WITH e, collect(DISTINCT {{
-        type: type(r), name: rel.name,
-        event_at: rel.event_at, valid_from: rel.valid_from, valid_to: rel.valid_to
-    }}) AS related
-    RETURN e {{ .id, .name, .entity_class, .event_at, .valid_from, .valid_to }} AS entity,
-           [x IN related WHERE x.event_at IS NOT NULL OR x.valid_from IS NOT NULL] AS timeline
-    """
-    rows = _run_read_query(cypher, {"domains": domains, "entityId": entity_id})
-    for row in rows:
-        row["timeline"] = sorted(
-            row.get("timeline", []),
-            key=lambda x: (x.get("event_at") or x.get("valid_from") or ""),
-        )
-    return {**_domain_output(domains), "query_type": "graph", "command": "timeline", "rows": rows}
-
-
-def entity_versions(
+def timeline(
     domains: "str | Sequence[str]",
-    entity_id: str,
-    as_of: str | None = None,
+    from_: str | None = None,
+    to: str | None = None,
 ) -> dict:
-    """An entity's prior states from the history zone.
+    """Domain-scoped: every entity of a `kind: occurrent` class, ordered by
+    `valid_from`, windowed by `--from`/`--to`.
 
-    Without as_of, the full chain oldest-first. With as_of, only the snapshot
-    whose validity window covers that date — the state in force then. An empty
-    result with as_of set means no snapshot covers the date, so the live entity
-    was already current: callers fall back to the entity itself.
-
-    Deliberately a separate command rather than making pattern2 --asOf return
-    historical values: that would silently change the meaning of the most-used
-    pattern (see pattern10's asOf_ignored for the precedent this follows).
+    Re-specified (Phase 4) from a per-entity two-hop relationship traversal
+    that pulled `event_at`/`valid_from` off *neighbouring* entities and their
+    connecting edges (deleted, along with `event_at` and its index — for an
+    occurrent entity `valid_from` already IS the event date, so a second axis
+    was redundant). "The timeline" is now a property of a domain's occurrent
+    classes, not of one entity's neighbours, which is also why `--entityId` is
+    gone — an entity-scoped history now lives in `entity-history`, a
+    fact-level command over one entity's *observations*; this one is a
+    class-level preset over the same Entity-matching shape `entity_listing`
+    uses (domain-scoped, no `--asOf` — the same reasoning applies: the
+    projection is current by construction).
     """
+    from artmind.temporal import load_schema
+
     domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
-    asof_clause = ""
-    params: dict = {"domains": domains, "entityId": entity_id}
-    if as_of:
-        # Not asof_predicate(): its NULL-safety is correct for live nodes (NULL
-        # valid_to means "still open") but wrong here — temporal.py deliberately
-        # leaves :EntityVersion.valid_to as None when the supersession date is
-        # unknown, so NULL here means "closed, date unknown," not "still open."
-        # Dropping the "valid_to IS NULL OR" disjunct lets NULL > $asOf evaluate
-        # to NULL, which WHERE treats as not-satisfying — excluding it correctly.
-        asof_clause = (
-            "\n      AND (v.valid_from IS NULL OR v.valid_from <= $asOf)"
-            "\n      AND v.valid_to > $asOf"
-        )
-        params["asOf"] = as_of
+    occurrent_labels: set[str] = set()
+    for domain in domains:
+        schema = load_schema(domain)
+        for cls, decl in (schema.get("entity_types") or {}).items():
+            if (decl or {}).get("kind") == "occurrent":
+                try:
+                    occurrent_labels.add(normalize_entity_class(cls))
+                except ValueError:
+                    continue
+
+    if not occurrent_labels:
+        return {**_domain_output(domains), "query_type": "graph", "command": "timeline", "rows": []}
+
+    params: dict = {"domains": domains, "labels": sorted(occurrent_labels)}
+    window = ""
+    if from_:
+        params["from_"] = from_
+        window += "\n      AND (e.valid_from IS NULL OR e.valid_from >= $from_)"
+    if to:
+        params["to"] = to
+        window += "\n      AND (e.valid_from IS NULL OR e.valid_from <= $to)"
     cypher = f"""
-    MATCH (v:EntityVersion)
-    WHERE v.entity_id = $entityId
-      AND {domain_predicate("v")}{asof_clause}
-    OPTIONAL MATCH (e:Entity {{id: $entityId}})
-    RETURN v AS version, e {{ .id, .name, .entity_class, .valid_from, .valid_to }} AS entity
-    ORDER BY v.valid_from
+    MATCH (e:Entity)
+    WHERE {domain_predicate("e", prop="_domain")}
+      AND any(l IN labels(e) WHERE l IN $labels){window}
+    RETURN e {{ ._id, .name, .entity_class, label: labels(e), .valid_from, .valid_to }} AS entity
+    ORDER BY e.valid_from
     """
     return {
         **_domain_output(domains),
         "query_type": "graph",
-        "command": "entity_versions",
+        "command": "timeline",
+        "window": {"from": from_, "to": to},
+        "rows": _run_read_query(cypher, params),
+    }
+
+
+_PROPERTY_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def entity_history(
+    domains: "str | Sequence[str]",
+    entity_id: str,
+    as_of: str | None = None,
+    property: str | None = None,
+) -> dict:
+    """Every observation behind one entity, ordered by the **fact-level**
+    valid-time axis (`_valid_from`/`_valid_to`) — "what was this worth at
+    time T", never `_doc_valid_from` (document-level; that only decides the
+    projection's *winner* — see projection-pipeline.md, "Two valid-time axes
+    on every observation"). Answers a question `entity-context` structurally
+    cannot: that command only ever sees `:Observation` (current), by design.
+
+    Spans **both** `:Observation` and `:ObservationHistory` — a document
+    being retired doesn't make what it once asserted stop having happened.
+
+    `--property` narrows to one property's value at each point rather than
+    the full observation. `--asOf` here means "every fact in force by this
+    date" (`_valid_from <= asOf`), the same floor-not-snapshot meaning as
+    everywhere else `--asOf` survives (see the option's own help text).
+
+    Resolves `--entityId` through the live `:Entity` node's `key` property —
+    an entity with zero remaining observations anywhere (fully retired) has
+    no `:Entity` node left to resolve through, and this command has nothing
+    to look the id up against in that case. It is for a still-projecting
+    entity's full fact history, not a fully-retired one.
+    """
+    domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
+    entity_id = (entity_id or "").strip()
+    if not entity_id:
+        raise ValueError("--entityId is required")
+    if property is not None and not _PROPERTY_NAME_RE.match(property):
+        raise ValueError(f"--property must be a plain identifier; got {property!r}")
+
+    params: dict = {"domains": domains, "entityId": entity_id}
+    filters = []
+    if as_of:
+        params["asOf"] = as_of
+        filters.append("(o._valid_from IS NULL OR o._valid_from <= $asOf)")
+    if property:
+        params["property"] = property
+        filters.append("o[$property] IS NOT NULL")
+    filter_clause = "".join(f"\n      AND {f}" for f in filters)
+
+    cypher = f"""
+    MATCH (ent:Entity {{_id: $entityId}})
+    WHERE {domain_predicate("ent", prop="_domain")}
+    WITH ent.key AS key
+    MATCH (o)
+    WHERE (o:Observation OR o:ObservationHistory)
+      AND o.key = key{filter_clause}
+    RETURN o {{.*}} AS observation
+    ORDER BY o._valid_from, o.doc_id
+    """
+    rows = strip_internal_props(_run_read_query(cypher, params))
+    if property:
+        rows = [
+            {
+                "value": row["observation"].get(property),
+                "valid_from": row["observation"].get("_valid_from"),
+                "valid_to": row["observation"].get("_valid_to"),
+                "doc_id": row["observation"].get("doc_id"),
+                "observation_id": row["observation"].get("id"),
+            }
+            for row in rows
+        ]
+    return {
+        **_domain_output(domains),
+        "query_type": "graph",
+        "command": "entity_history",
         "entity_id": entity_id,
-        **({"asOf": as_of} if as_of else {}),
-        "rows": strip_internal_props(_run_read_query(cypher, params)),
+        "parameters": {
+            **({"asOf": as_of} if as_of else {}),
+            **({"property": property} if property else {}),
+        },
+        "rows": rows,
     }

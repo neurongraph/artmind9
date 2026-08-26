@@ -3,7 +3,6 @@ from neo4j.exceptions import ClientError
 
 from artmind.extraction import embed_text as _embed_text
 from artmind.graph_query import (
-    not_deleted_chunk,
     read_session,
     resolve_as_of,
     sanitize_lucene_query,
@@ -71,7 +70,7 @@ def _get_result_id(row: dict) -> str:
     elif "chat" in row and row["chat"]:
         return f"chat:{row['chat']['id']}"
     elif "entity" in row and row["entity"]:
-        return f"entity:{row['entity']['id']}"
+        return f"entity:{row['entity']['_id']}"
     return str(id(row))
 
 
@@ -107,7 +106,6 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
         LIMIT $candidateK
       )
     WHERE {domain_predicate("node")}{asof_chunk}
-      AND {not_deleted_chunk("node")}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
@@ -202,7 +200,6 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     CALL db.index.fulltext.queryNodes('chunk_text_ft', $ft_query)
     YIELD node, score
     WHERE {domain_predicate("node")}{asof_chunk}
-      AND {not_deleted_chunk("node")}
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,
@@ -252,29 +249,28 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     return result
 
 
-def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = None) -> dict:
+def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     """Resolve a free-text entity reference to canonical graph entities.
 
     Combines Lucene full-text over entity name+description (entity_name_ft)
     with vector similarity over entity embeddings (entity_embedding) via RRF.
     The fulltext leg catches name fragments; the vector leg catches purely
     descriptive references ("the detective") that share no words with the name.
+
+    No `--asOf` (Phase 4) — the projection is current by construction.
     """
-    from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
+    from artmind.graph_query import normalize_domains, domain_predicate, _domain_output
 
     domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
     n = len(domains)
     ft_query = sanitize_lucene_query(reference)
-    asof_e = f"\n      AND {asof_predicate('e')}" if as_of else ""
-    asof_node = f"\n      AND {asof_predicate('node')}" if as_of else ""
 
     cypher_ft = f"""
     CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query)
     YIELD node AS e, score
-    WHERE {domain_predicate("e")}{asof_e}
+    WHERE {domain_predicate("e", prop="_domain")}
     RETURN score,
-           e {{ .id, .name, .entity_class, .type, .description, .domain, label: labels(e) }} AS entity
+           e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e) }} AS entity
     ORDER BY score DESC
     LIMIT $topK
     """
@@ -287,15 +283,13 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
         FOR $embedding
         LIMIT $candidateK
       )
-    WHERE {domain_predicate("node")}{asof_node}
+    WHERE {domain_predicate("node", prop="_domain")}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     RETURN score,
-           node {{ .id, .name, .entity_class, .type, .description, .domain, label: labels(node) }} AS entity
+           node {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(node) }} AS entity
     ORDER BY score DESC
     LIMIT $topK
     """
-
-    asof_param = {"asOf": as_of} if as_of else {}
 
     with read_session() as session:
         ft_rows: list = []
@@ -303,7 +297,7 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
             ft_rows = [
                 strip_internal_props(serialize_record(record))
                 for record in session.run(
-                    cypher_ft, domains=domains, ft_query=ft_query, topK=int(topK), **asof_param
+                    cypher_ft, domains=domains, ft_query=ft_query, topK=int(topK)
                 )
             ]
 
@@ -318,7 +312,6 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
                     embedding=embedding,
                     topK=int(topK),
                     candidateK=max(int(topK) * 5 * n, int(topK)),
-                    **asof_param,
                 )
             ]
         except ClientError as e:
@@ -338,7 +331,7 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
         **_domain_output(domains),
         "query_type": "entity_resolve",
         "question": reference,
-        "parameters": {"topK": int(topK), **asof_param},
+        "parameters": {"topK": int(topK)},
         "rows": combined_rows,
     }
 

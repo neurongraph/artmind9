@@ -37,7 +37,7 @@ def test_query_dispatches_through_cli(client):
     assert resp.status_code == 200
     body = resp.json()
     assert body["exit_code"] == 0, body
-    query.assert_called_once_with(["fiction"], as_of=None)
+    query.assert_called_once_with(["fiction"])
     assert json.loads(body["output"]) == payload
 
 

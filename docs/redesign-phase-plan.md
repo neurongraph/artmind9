@@ -24,7 +24,9 @@ was deferred and to which phase, and any bug the exit gate caught. Every phase
 **begins** by reading the notes from all prior phases. A decision that lives only in
 a session transcript is a decision that will be silently re-invented.
 
-Notes so far: [Phase 2](./redesign-phase2-implementation-notes.md).
+Notes so far: [Phase 2](./redesign-phase2-implementation-notes.md) ·
+[Phase 3](./redesign-phase3-implementation-notes.md) ·
+[Phase 4](./redesign-phase4-implementation-notes.md).
 
 ---
 

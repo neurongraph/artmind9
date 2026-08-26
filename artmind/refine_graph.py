@@ -104,7 +104,7 @@ def _merge_entity_pair(session, alias: str, canonical: str, domain: str | None) 
     domain_clause = ""
     if domain:
         params["domain"] = domain
-        domain_clause = ", domain: $domain"
+        domain_clause = ", _domain: $domain"
 
     try:
         # Add alias name to canonical's aliases list before merge
@@ -145,7 +145,7 @@ def _merge_entity_pair(session, alias: str, canonical: str, domain: str | None) 
 def _entity_domains(session, names: list[str]) -> dict[str, set[str]]:
     """Map each entity name to the set of domains it appears in."""
     rows = session.run(
-        "MATCH (e:Entity) WHERE e.name IN $names RETURN e.name AS name, collect(DISTINCT e.domain) AS domains",
+        "MATCH (e:Entity) WHERE e.name IN $names RETURN e.name AS name, collect(DISTINCT e._domain) AS domains",
         names=names,
     ).data()
     return {r["name"]: set(r["domains"]) for r in rows}
@@ -156,7 +156,7 @@ def _entity_classes(session, names: list[str], domain: str | None) -> dict[str, 
     rows = session.run(
         """
         MATCH (e:Entity)
-        WHERE e.name IN $names AND ($domain IS NULL OR e.domain = $domain)
+        WHERE e.name IN $names AND ($domain IS NULL OR e._domain = $domain)
         RETURN e.name AS name, collect(DISTINCT e.entity_class) AS classes
         """,
         names=names,
@@ -289,7 +289,7 @@ def refine_graph(
             # Use exact match for each filtered name (case-insensitive via CONTAINS)
             if domain:
                 res = session.run(
-                    f"""MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}})
+                    f"""MATCH (e:{ENTITY_NODE_LABEL} {{_domain: $domain}})
                     WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
                     RETURN DISTINCT e.name AS name, e.entity_class AS entity_class""",
                     domain=domain,
@@ -304,7 +304,7 @@ def refine_graph(
                 )
         elif domain:
             res = session.run(
-                f"MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}}) "
+                f"MATCH (e:{ENTITY_NODE_LABEL} {{_domain: $domain}}) "
                 "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class",
                 domain=domain,
             )

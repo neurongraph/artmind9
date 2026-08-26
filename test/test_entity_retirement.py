@@ -105,11 +105,15 @@ def test_retire_demotes_observations_and_rebuilds_the_keys_it_touched(monkeypatc
 
     result = lifecycle.retire_document("doc-1")
 
-    demote = [(c, kw) for c, kw in calls if "SET o._status = $to_status" in c]
+    # A label swap, not a status property — there is no `_status` property
+    # left on Observation/DocChunk/Document.
+    demote = [(c, kw) for c, kw in calls if "REMOVE o:Observation SET o:ObservationHistory" in c]
     assert len(demote) == 1
     assert demote[0][1]["doc_id"] == "doc-1"
-    assert demote[0][1]["from_status"] == "latest"
-    assert demote[0][1]["to_status"] == "history"
+    doc_swap = [c for c, kw in calls if "REMOVE d:Document SET d:DocumentHistory" in c]
+    assert len(doc_swap) == 1
+    chunk_swap = [c for c, kw in calls if "REMOVE c:DocChunk SET c:DocChunkHistory" in c]
+    assert len(chunk_swap) == 1
     assert result["observations"] == 3
 
     # ...and the keys it touched are handed to the projection, which owns
@@ -140,9 +144,13 @@ def test_restore_is_the_exact_inverse(monkeypatch):
 
     lifecycle.restore_document("doc-1")
 
-    demote = [kw for c, kw in calls if "SET o._status = $to_status" in c]
-    assert demote[0]["from_status"] == "history"
-    assert demote[0]["to_status"] == "latest"
+    demote = [(c, kw) for c, kw in calls if "REMOVE o:ObservationHistory SET o:Observation" in c]
+    assert len(demote) == 1
+    assert demote[0][1]["doc_id"] == "doc-1"
+    doc_swap = [c for c, kw in calls if "REMOVE d:DocumentHistory SET d:Document" in c]
+    assert len(doc_swap) == 1
+    chunk_swap = [c for c, kw in calls if "REMOVE c:DocChunkHistory SET c:DocChunk" in c]
+    assert len(chunk_swap) == 1
 
 
 def test_retire_writes_no_dates_anywhere(monkeypatch):

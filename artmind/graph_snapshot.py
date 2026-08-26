@@ -21,13 +21,21 @@ from utils.functions import load_env
 # entities that nothing asserts, and the first rebuild — which runs inside the
 # next commit — would delete every one of them.
 #
+# The three History labels (Phase 4) are included for the same reason a plain
+# property flag never would have needed special-casing: they ARE the retired
+# half of Document/DocChunk/Observation, not a separate zone, so omitting them
+# would silently drop every retired document from a snapshot.
+#
 # Phase 5 inverts this properly: export sources only (Document, DocChunk,
-# UserChat, Observation, :Synthesis) and rebuild the projection on import, so
-# there is no way to import a stale projection at all. Until then, exporting
-# both halves keeps a snapshot round-trip honest.
-BASE_LABELS = ("Document", "DocChunk", "Entity", "UserChat", "Observation")
+# UserChat, Observation, their History counterparts, :Synthesis) and rebuild
+# the projection on import, so there is no way to import a stale projection at
+# all. Until then, exporting both halves keeps a snapshot round-trip honest.
+BASE_LABELS = (
+    "Document", "DocChunk", "Entity", "UserChat", "Observation",
+    "DocumentHistory", "DocChunkHistory", "ObservationHistory",
+)
 
-_ENTITY_MATCH_KEYS = ("name", "entity_class", "domain")
+_ENTITY_MATCH_KEYS = ("name", "entity_class", "_domain")
 _ID_MATCH_KEYS = ("id",)
 
 

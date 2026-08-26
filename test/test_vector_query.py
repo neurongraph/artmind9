@@ -273,17 +273,17 @@ def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
                 return [
                     {
                         "score": 2.1,
-                        "entity": {"id": "ent-1", "name": "Sherlock Holmes"},
+                        "entity": {"_id": "ent-1", "name": "Sherlock Holmes"},
                     }
                 ]
             return [
                 {
                     "score": 0.93,
-                    "entity": {"id": "ent-1", "name": "Sherlock Holmes"},
+                    "entity": {"_id": "ent-1", "name": "Sherlock Holmes"},
                 },
                 {
                     "score": 0.80,
-                    "entity": {"id": "ent-2", "name": "Mycroft Holmes"},
+                    "entity": {"_id": "ent-2", "name": "Mycroft Holmes"},
                 },
             ]
 
@@ -302,7 +302,7 @@ def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
     assert result["query_type"] == "entity_resolve"
     assert len(result["rows"]) == 2
     # ent-1 appears in both legs, so it must rank first
-    assert result["rows"][0]["entity"]["id"] == "ent-1"
+    assert result["rows"][0]["entity"]["_id"] == "ent-1"
 
 
 def test_entity_resolve_survives_missing_vector_index(monkeypatch):
@@ -312,7 +312,7 @@ def test_entity_resolve_survives_missing_vector_index(monkeypatch):
         def run(self, cypher, **params):
             if "entity_name_ft" in cypher:
                 return [
-                    {"score": 1.0, "entity": {"id": "ent-1", "name": "Sherlock Holmes"}}
+                    {"score": 1.0, "entity": {"_id": "ent-1", "name": "Sherlock Holmes"}}
                 ]
             raise ClientError("IndexNotFound: entity_embedding")
 
@@ -329,7 +329,7 @@ def test_entity_resolve_survives_missing_vector_index(monkeypatch):
     result = vector_query.entity_resolve("fiction", "Holmes", 5)
 
     assert len(result["rows"]) == 1
-    assert result["rows"][0]["entity"]["id"] == "ent-1"
+    assert result["rows"][0]["entity"]["_id"] == "ent-1"
 
 
 def test_full_text_search_handles_missing_chat_index(monkeypatch):

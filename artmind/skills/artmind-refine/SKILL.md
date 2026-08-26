@@ -360,27 +360,21 @@ shows closed ones afterwards.
 
 ## Reading superseded entity values
 
-When a document supersedes another and overwrites entity properties, the prior
-values are preserved:
+`entity-versions` and the snapshot-on-supersede mechanism it read are gone —
+they belonged to the pre-observation entity model (an accretive property
+merge that had to snapshot a value before overwriting it). Under the
+observation/projection model nothing is ever overwritten: every value a
+document asserted stays on its own immutable `:Observation`, whether or not
+a later document disagrees or a document is later retired.
+
+The equivalent read is `query entity-history`, which is fact-level (it
+orders by `_valid_from`/`_valid_to`, not by document valid_from) and spans
+both current and retired (`docs retire`) observations:
 
 ```bash
-artmind query graph entity-versions --domain <d> --entityId <id> --compact
-artmind query graph entity-versions --domain <d> --entityId <id> --asOf 2026-03-01 --compact
+artmind query entity-history --domain <d> --entityId <id> --compact
+artmind query entity-history --domain <d> --entityId <id> --property rate_value --compact
 ```
-
-Entities the newer document drops entirely are retired instead (`valid_to` set),
-so `--asOf today` stops returning them.
-
-**On an existing graph, retirement backfills for free; history does not.**
-Retirement only depends on the SUPERSEDES edge existing, so re-running
-`detect-supersession` (or the pipeline's supersession step) retroactively
-retires entities from supersessions that happened before this capability
-existed. Snapshots are different: `snapshot_changed_values` only ever runs at
-document-commit time, when the prior (pre-overwrite) values are still on the
-live node — by the time you could retroactively try, the accretive merge has
-already overwritten them. So `entity-versions` will have no history for a
-document that was superseded before this capability shipped, even after a
-supersession re-scan. New supersessions get both.
 
 ## When NOT to run
 

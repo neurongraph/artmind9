@@ -346,14 +346,18 @@ def test_pattern9_degree_modes():
     base = {"domains": ["fiction"], "entityClass": "PERSON", "topN": 5}
 
     relations_cypher, _ = graph_query._pattern_query("pattern9", base)
-    # relations-mode neighbor is domain-scoped like every other entity match
-    assert "(e)-[r]-(t:Entity) WHERE (t.domain IN $domains" in relations_cypher
+    # relations-mode neighbor is domain-scoped like every other entity match;
+    # Entity carries `_domain` (Phase 4's `_`-prefix), not `domain`.
+    assert "(e)-[r:RELATES_TO]-(t:Entity) WHERE (t._domain IN $domains" in relations_cypher
 
     mentions_cypher, _ = graph_query._pattern_query(
         "pattern9", {**base, "degreeMode": "mentions"}
     )
-    assert "-[r1:EXTRACTED_FROM]->(:DocChunk)" in mentions_cypher
-    assert "<-[r2:MENTIONS]-(:UserChat)" in mentions_cypher
+    # Mentions are reached via the projection's own provenance edge now
+    # (AGGREGATES->Observation->EXTRACTED_FROM), not a direct Entity->DocChunk
+    # EXTRACTED_FROM (Entity has never carried one since Phase 3) or the dead
+    # UserChat MENTIONS edge (never written).
+    assert "-[r1:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)" in mentions_cypher
 
     all_cypher, _ = graph_query._pattern_query("pattern9", {**base, "degreeMode": "all"})
     assert "(e)-[r]-()" in all_cypher
@@ -376,7 +380,7 @@ def test_entity_id_takes_precedence_over_name():
             "entityId": "ent-42",
         },
     )
-    assert "e.id = $entityId" in cypher
+    assert "e._id = $entityId" in cypher
     assert params["entityId"] == "ent-42"
     assert "entityName" not in params
 
@@ -385,7 +389,7 @@ def test_pattern2_accepts_entity_id_list():
     cypher, params = graph_query._pattern_query(
         "pattern2", {"domains": ["fiction"], "entityIdList": ["ent-1", "ent-2"]}
     )
-    assert "e.id IN $entityIdList" in cypher
+    assert "e._id IN $entityIdList" in cypher
     assert params["entityIdList"] == ["ent-1", "ent-2"]
 
 
@@ -394,8 +398,8 @@ def test_pattern6_accepts_entity_ids():
         "pattern6",
         {"domains": ["fiction"], "entityId1": "ent-1", "entityId2": "ent-2"},
     )
-    assert "e1.id = $entityId1" in cypher
-    assert "e2.id = $entityId2" in cypher
+    assert "e1._id = $entityId1" in cypher
+    assert "e2._id = $entityId2" in cypher
 
 
 def test_validate_accepts_id_alternative_for_name():
@@ -431,12 +435,16 @@ def test_execute_pattern_with_id_list_normalizes_tuple(monkeypatch):
     assert result["parameters"]["entityIdList"] == ["ent-1"]
 
 
-def test_pattern_cypher_includes_user_chat_source_match():
+def test_pattern_cypher_reaches_source_chunks_via_the_projection():
+    # UserChat/:MENTIONS was dead (never written since Phase 3's write path
+    # moved to Observation-based provenance) and is gone from this query; doc
+    # sources are reached via AGGREGATES->Observation->EXTRACTED_FROM instead.
     cypher, _ = graph_query._pattern_query("pattern2", {
         "domains": ["general"],
         "entityNameList": ["Alice"],
     })
-    assert "UserChat" in cypher or "user_chat" in cypher.lower()
+    assert "AGGREGATES" in cypher and "EXTRACTED_FROM" in cypher
+    assert "UserChat" not in cypher
 
 
 def test_pattern10_query_uses_part_of_relationship():

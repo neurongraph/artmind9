@@ -111,113 +111,6 @@ def _filename_in_registry(filename: str) -> bool:
     return found
 
 
-def _find_registered_documents(domain: str, document_name: str) -> list[dict]:
-    """Return registry rows matching a domain and document filename."""
-    if not DB_PATH.exists():
-        return []
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            """
-            SELECT id, domain, filename, sha256, path, added_at
-            FROM documents
-            WHERE domain = ? AND UPPER(filename) = ?
-            """,
-            (domain, document_name.upper()),
-        )
-        rows = cursor.fetchall()
-        return [
-            {
-                "id": row[0],
-                "domain": row[1],
-                "filename": row[2],
-                "sha256": row[3],
-                "original_path": row[4],
-                "added_at": row[5],
-            }
-            for row in rows
-        ]
-    finally:
-        conn.close()
-
-
-def _delete_from_registry(domain: str, document_name: str) -> int:
-    if not DB_PATH.exists():
-        return 0
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "DELETE FROM documents WHERE domain = ? AND UPPER(filename) = ?",
-            (domain, document_name.upper()),
-        )
-        deleted = cursor.rowcount
-        conn.commit()
-        return deleted
-    finally:
-        conn.close()
-
-
-def _table_exists(conn: sqlite3.Connection, table: str) -> bool:
-    return conn.execute(
-        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (table,)
-    ).fetchone() is not None
-
-
-def _delete_chunk_status(doc_sha256: str) -> int:
-    if not DB_PATH.exists():
-        return 0
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        if not _table_exists(conn, "kg_chunk_status"):
-            return 0
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
-        deleted = cursor.rowcount
-        conn.commit()
-        return deleted
-    finally:
-        conn.close()
-
-
-def _delete_chunk_status_by_doc_id(doc_id: str) -> int:
-    """Delete kg_chunk_status rows by doc_id — needed for force-ingested duplicates,
-    whose extraction key differs from the registry's real sha256."""
-    if not DB_PATH.exists():
-        return 0
-    conn = sqlite3.connect(DB_PATH)
-    try:
-        if not _table_exists(conn, "kg_chunk_status"):
-            return 0
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM kg_chunk_status WHERE doc_id = ?", (doc_id,))
-        deleted = cursor.rowcount
-        conn.commit()
-        return deleted
-    finally:
-        conn.close()
-
-
-def _path_is_under(path: Path, parent: Path) -> bool:
-    try:
-        path.resolve().relative_to(parent.resolve())
-        return True
-    except ValueError:
-        return False
-
-
-def _delete_path(path: Path, expected_parent: Path) -> bool:
-    """Delete a file or directory if it lives under the expected parent."""
-    if not path.exists() or not _path_is_under(path, expected_parent):
-        return False
-    if path.is_dir():
-        shutil.rmtree(path)
-    else:
-        path.unlink()
-    return True
-
-
 # ── kg_chunk_status helpers ────────────────────────────────────────────────────
 
 
@@ -1046,13 +939,15 @@ def _sanitize_label(s: str) -> str:
 # a bare SUPERSEDES edge with no provenance — that corrupts lineage silently.
 #
 # EXTRACTED_FROM is reserved too: no shipped domain schema lists it as a legitimate
-# Entity<->Entity rel_type (it's structural, written only by this module's own
-# Entity->DocChunk provenance code), so blocking it as an Entity->Entity type is
-# defense-in-depth with no known cost.
+# Entity<->Entity rel_type (it's structural, written only between an :Observation and
+# its source :DocChunk — see observations.py — never between two Entities), so
+# blocking it as an Entity->Entity type is defense-in-depth with no known cost.
 #
-# PRIOR_STATE is reserved on the same grounds: it links a live Entity to an
-# :EntityVersion snapshot and is written only by artmind.entity_history. An
-# LLM-minted one would imply history that no snapshot node backs.
+# PRIOR_STATE, entity_history.py and the :EntityVersion zone it backed are gone
+# (Phase 4) — nothing left links a live Entity to a history snapshot node, since
+# observations now carry that role directly (see `query entity-history`). Not
+# un-reserved: an LLM-minted PRIOR_STATE edge would still be confusing machinery-
+# shaped noise even with nothing left to check it against.
 #
 # PART_OF is deliberately NOT reserved: multiple shipped schemas (general_schema,
 # banking.organization_schema, sales_collateral_schema, project_governance_schema)
@@ -1061,18 +956,41 @@ def _sanitize_label(s: str) -> str:
 # DocChunk->Document edge written elsewhere in this module's own upsert code — a
 # different code path from this Entity->Entity loop — so reserving PART_OF here
 # would silently drop legitimate, schema-sanctioned extractions.
-RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "EXTRACTED_FROM", "PRIOR_STATE"})
+RESERVED_REL_TYPES = frozenset({
+    "SUPERSEDES", "EXTRACTED_FROM", "PRIOR_STATE",
+    # Phase 4: the collapsed relationship shape and the observation/entity
+    # aggregation machinery that produces it. An extractor claiming one of
+    # these as its own rel_type would be indistinguishable from the system's
+    # own edges.
+    "RELATES_TO", "ASSERTS_RELATION", "AGGREGATES",
+})
 
 
-def _neo4j_value(value):
-    """Convert a value to a Neo4j-compatible type (no nested maps)."""
+def _neo4j_value(key, value):
+    """Convert a value to a Neo4j-compatible type, or `None` to drop it.
+
+    Nested objects are **dropped with a warning** rather than JSON-encoded —
+    the dict->JSON branch this used to have is gone (Phase 4): it survived
+    only for the old per-type relationship properties, which carried
+    arbitrary extracted fields; `ASSERTS_RELATION`/`RELATES_TO` now carry a
+    fixed, known-scalar property set (`rel_type`/`doc_id`/`chunk_id` and the
+    aggregate's own `observation_count`/`chunk_ids`/`doc_ids`), so nothing
+    left needs it. Same discipline as `observations.flatten_domain_props`:
+    properties flatten or they don't exist, everywhere, not just on
+    observations. A JSON blob is unqueryable, unmergeable by shape, and
+    invisible to the property-key hygiene the scorecard tracks.
+    """
     if isinstance(value, dict):
-        return json.dumps(value, ensure_ascii=False)
+        logger.warning("Neo4j: dropped nested-object property {!r} (JSON blobs are forbidden)", key)
+        return None
     if isinstance(value, list):
-        return [
-            json.dumps(v, ensure_ascii=False) if isinstance(v, dict) else v
-            for v in value
-        ]
+        flat = [v for v in value if not isinstance(v, (dict, list))]
+        if len(flat) != len(value):
+            logger.warning(
+                "Neo4j: dropped {} nested item(s) from list property {!r}",
+                len(value) - len(flat), key,
+            )
+        return flat
     return value
 
 
@@ -1082,7 +1000,10 @@ def _flatten_props(props: dict) -> dict:
     for k, v in props.items():
         if v is None or v == "" or v == []:
             continue
-        result[k] = _neo4j_value(v)
+        flattened = _neo4j_value(k, v)
+        if flattened is None or flattened == []:
+            continue
+        result[k] = flattened
     return result
 
 
@@ -1149,10 +1070,10 @@ def embed_missing_entity_embeddings(
     rows = session.run(
         f"""
         MATCH (e:Entity)
-        WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+        WHERE (e._domain = $domain OR e._domain STARTS WITH ($domain + '.'))
           AND e.name IS NOT NULL
           AND (e.embedding IS NULL OR e.embedding_stale){scope}
-        RETURN e.id AS id, e.name AS name, e.description AS description
+        RETURN e._id AS id, e.name AS name, e.description AS description
         """,
         **params,
     ).data()
@@ -1170,7 +1091,7 @@ def embed_missing_entity_embeddings(
         # Written together with clearing the flag, so an entity is never left
         # claiming to be fresh while holding an old vector.
         session.run(
-            "MATCH (e:Entity {id: $id}) SET e.embedding = $embedding, e.embedding_stale = false",
+            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, e.embedding_stale = false",
             id=row["id"],
             embedding=embedding,
         )
@@ -1199,246 +1120,53 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     ``latest`` — the version/status transition that replaces the old
     hard-retraction.
 
-    Assertion-time only: an observation demoted to ``history`` keeps the
-    valid-time window it always had, stays queryable by asking for it, and
-    stays out of every index. Nothing is deleted, so provenance survives a
-    re-ingest.
+    Assertion-time only, and carried entirely by a **label swap**
+    (`:Observation` -> `:ObservationHistory`, `:DocChunk` -> `:DocChunkHistory`)
+    rather than a status property: a demoted node keeps the valid-time window
+    it always had, stays queryable by asking for it (see `entity_history`), and
+    the label swap is what structurally drops it out of `chunk_text_ft` /
+    `chunk_embedding` / every projection query — no predicate to forget, no
+    index to filter. Nothing is deleted, so provenance survives a re-ingest.
+    Chunks used to be `DETACH DELETE`d here; they are relabelled instead.
 
     **No entity GC happens here.** Which entities should now disappear is the
     projection's business, decided by the zero-latest-observations rule over
     the affected keys. Doing it here is how the old code ended up with three
     competing, silently-failing GC mechanisms.
 
+    **No edge retraction happens here either.** `RELATES_TO` aggregate edges
+    are entirely derived from `ASSERTS_RELATION` observation edges, which
+    themselves live on `:Observation` nodes — relabelling a document's
+    observations to `:ObservationHistory` makes their `ASSERTS_RELATION` edges
+    structurally invisible to the next rebuild's aggregation query, and the
+    affected-key rebuild (which already includes every key this document's
+    observations touch) recomputes the aggregate edges from scratch. Nothing
+    here has to know an edge existed.
+
     Runs inside the caller's transaction.
     """
-    result = {"observations_demoted": 0, "chunks": 0, "edges_retracted": 0, "edges_deleted": 0}
+    result = {"observations_demoted": 0, "chunks": 0}
 
     rec = tx.run(
         """
         MATCH (o:Observation {doc_id: $doc_id})
-        WHERE o._status = 'latest'
-        SET o._status = 'history'
+        REMOVE o:Observation SET o:ObservationHistory
         RETURN count(o) AS n
         """,
         doc_id=doc_id,
     ).single()
     result["observations_demoted"] = int(rec["n"]) if rec else 0
 
-    # Edge provenance (A1b) still works the pre-redesign way; Phase 4 collapses
-    # 249 relationship types into one `RELATES_TO {rel_type}` and rebuilds edge
-    # provenance from observations, at which point this drops out.
     rec = tx.run(
         """
-        MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
-        WHERE $doc_id IN coalesce(r.doc_ids, [])
-        SET r.doc_ids   = [x IN r.doc_ids WHERE x <> $doc_id],
-            r.chunk_ids = [x IN coalesce(r.chunk_ids, [])
-                           WHERE NOT x STARTS WITH ($doc_id + '_')]
-        RETURN count(r) AS n
+        MATCH (c:DocChunk {doc_id: $doc_id})
+        REMOVE c:DocChunk SET c:DocChunkHistory
+        RETURN count(c) AS n
         """,
-        domain=domain, doc_id=doc_id,
-    ).single()
-    result["edges_retracted"] = int(rec["n"]) if rec else 0
-
-    rec = tx.run(
-        """
-        MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
-        WHERE r.doc_ids IS NOT NULL AND size(r.doc_ids) = 0
-        DELETE r
-        RETURN count(r) AS n
-        """,
-        domain=domain,
-    ).single()
-    result["edges_deleted"] = int(rec["n"]) if rec else 0
-
-    rec = tx.run(
-        "MATCH (c:DocChunk {doc_id: $doc_id}) DETACH DELETE c RETURN count(c) AS n",
         doc_id=doc_id,
     ).single()
     result["chunks"] = int(rec["n"]) if rec else 0
     return result
-
-
-def _retract_document_from_neo4j(domain: str, doc_id: str) -> dict:
-    """Session-level wrapper around `_retract_prior_version`, for the callers
-    that still retract outside an ingest transaction (`_purge_from_neo4j` and
-    friends). Those commands are replaced by `docs retire` / `docs archive` in
-    Phase 5; this keeps them working until then."""
-    from artmind.graph_query import neo4j_session
-
-    with neo4j_session() as session:
-        return session.execute_write(lambda tx: _retract_prior_version(tx, domain, doc_id))
-
-
-def _purge_from_neo4j(domain: str, document_name: str) -> dict:
-    """Hard-purge every Document version matching ``document_name`` in ``domain``:
-    scoped-retract each version's contributions, then delete the Document node.
-
-    Replaces the domain-wide orphan sweep (``_delete_from_neo4j``) with
-    per-document retraction, so a shared entity/edge cited by another document
-    is never collateral. Result keys mirror the old return shape
-    (``documents``/``chunks``/``orphan_entities``) so ``clean_document`` and its
-    CLI output are unchanged; ``orphan_entities`` now counts the scoped GC."""
-    from artmind.graph_query import neo4j_session
-
-    with neo4j_session() as session:
-        rec = session.run(
-            """
-            MATCH (d:Document {domain: $domain})
-            WHERE toUpper(d.name) = toUpper($name)
-               OR toUpper(last(split(d.path, '/'))) = toUpper($name)
-            RETURN collect(DISTINCT d.id) AS ids
-            """,
-            domain=domain,
-            name=document_name,
-        ).single()
-    doc_ids = list(rec["ids"]) if rec and rec["ids"] else []
-
-    totals = {"documents": 0, "chunks": 0, "orphan_entities": 0, "edges_deleted": 0}
-    for doc_id in doc_ids:
-        r = _retract_document_from_neo4j(domain, doc_id)
-        totals["chunks"] += r["chunks"]
-        totals["orphan_entities"] += r["gc_entities"]
-        totals["edges_deleted"] += r["edges_deleted"]
-
-    if doc_ids:
-        with neo4j_session() as session:
-            rec = session.run(
-                "MATCH (d:Document) WHERE d.id IN $ids DETACH DELETE d RETURN count(d) AS n",
-                ids=doc_ids,
-            ).single()
-            totals["documents"] = int(rec["n"]) if rec else 0
-    return totals
-
-
-def tombstone_document(domain: str, document_name: str) -> dict:
-    """Soft-delete a document (A1d, decisions 4-5): flag its Document
-    (``status='deleted'``, ``deleted_at``) and its DocChunks (``deleted=true``)
-    so chunk/vector/fulltext retrieval and doc listings exclude them, while
-    leaving all knowledge — and its property contributions — in the graph until
-    a separate hard ``purge``. Reversible, and local storage / the registry are
-    untouched: a tombstone is a graph-level flag, not a removal.
-
-    Matches the Document the same way the hard path does (name or path basename)."""
-    from artmind.graph_query import neo4j_session
-
-    document_name = Path(document_name).name
-    now = _datetime.datetime.now(_datetime.timezone.utc).isoformat()
-    result = {
-        "domain": domain,
-        "document_name": document_name,
-        "neo4j_documents": 0,
-        "neo4j_chunks": 0,
-        "neo4j_error": None,
-    }
-    try:
-        with neo4j_session() as session:
-            rec = session.run(
-                """
-                MATCH (d:Document {domain: $domain})
-                WHERE toUpper(d.name) = toUpper($name)
-                   OR toUpper(last(split(d.path, '/'))) = toUpper($name)
-                SET d.status = 'deleted', d.deleted_at = $ts
-                WITH collect(d.id) AS ids
-                CALL (ids) {
-                  UNWIND ids AS did
-                  MATCH (c:DocChunk {doc_id: did})
-                  SET c.deleted = true
-                  RETURN count(c) AS chunks
-                }
-                RETURN size(ids) AS documents, chunks AS chunks
-                """,
-                domain=domain,
-                name=document_name,
-                ts=now,
-            ).single()
-            if rec:
-                result["neo4j_documents"] = int(rec["documents"])
-                result["neo4j_chunks"] = int(rec["chunks"])
-    except Exception as e:
-        result["neo4j_error"] = str(e)
-    return result
-
-
-def purge_document(domain: str, document_name: str, delete_neo4j: bool = True) -> dict:
-    """Hard-remove an ingested document from local storage, registry, and Neo4j.
-
-    The Neo4j step is now a scoped, shared-entity-safe per-document retraction
-    (``_purge_from_neo4j``) rather than the old domain-wide orphan sweep. Local
-    cleanup (originals/markdowns/kg dir/chunk-status/registry rows) is unchanged.
-    This is what ``docs purge`` runs; ``docs clean`` now soft-tombstones instead
-    (see ``tombstone_document``)."""
-    document_name = Path(document_name).name
-    rows = _find_registered_documents(domain, document_name)
-    if not rows:
-        rows = [
-            {
-                "filename": document_name,
-                "original_path": str(ORIGINALS_DIR / document_name),
-            }
-        ]
-
-    result = {
-        "domain": domain,
-        "document_name": document_name,
-        "registry_rows": 0,
-        "originals": 0,
-        "markdowns": 0,
-        "markdown_artifacts": 0,
-        "kg_dirs": 0,
-        "chunk_status_rows": 0,
-        "neo4j_documents": 0,
-        "neo4j_chunks": 0,
-        "neo4j_orphan_entities": 0,
-        "neo4j_error": None,
-    }
-
-    for row in rows:
-        original_path = Path(row["original_path"])
-        if _delete_path(original_path, ORIGINALS_DIR):
-            result["originals"] += 1
-
-        stem = Path(row["filename"]).stem
-        if _delete_path(MARKDOWNS_DIR / f"{stem}.md", MARKDOWNS_DIR):
-            result["markdowns"] += 1
-        if _delete_path(MARKDOWNS_DIR / f"{stem}_artifacts", MARKDOWNS_DIR):
-            result["markdown_artifacts"] += 1
-
-        # Read doc_id before deleting the KG dir — needed to find chunk-status rows
-        # for force-ingested duplicates, whose extraction key differs from sha256.
-        doc_kg_dir = KG_DIR / domain / stem
-        doc_json = doc_kg_dir / "document.json"
-        if doc_json.exists():
-            try:
-                doc_id = json.loads(doc_json.read_text(encoding="utf-8")).get("id")
-            except Exception:
-                doc_id = None
-            if doc_id:
-                result["chunk_status_rows"] += _delete_chunk_status_by_doc_id(doc_id)
-
-        if _delete_path(doc_kg_dir, KG_DIR):
-            result["kg_dirs"] += 1
-
-        if row.get("sha256"):
-            result["chunk_status_rows"] += _delete_chunk_status(row["sha256"])
-
-    result["registry_rows"] = _delete_from_registry(domain, document_name)
-
-    if delete_neo4j:
-        try:
-            graph_result = _purge_from_neo4j(domain, document_name)
-            result["neo4j_documents"] = graph_result["documents"]
-            result["neo4j_chunks"] = graph_result["chunks"]
-            result["neo4j_orphan_entities"] = graph_result["orphan_entities"]
-        except Exception as e:
-            result["neo4j_error"] = str(e)
-
-    return result
-
-
-# Back-compat alias: the hard-removal helper was named ``clean_document`` before
-# A1d split soft-tombstone (``docs clean``) from hard-purge (``docs purge``).
-clean_document = purge_document
 
 
 def ingest_to_kg(
@@ -1608,7 +1336,6 @@ def _document_valid_time(md_file: Path, frontmatter: dict, schema: dict) -> dict
         # system meaning, kept apart from the integer `_version`.
         out["declared_version"] = lifted["version"]
 
-    out.setdefault("_status", "latest")
     return out
 
 
@@ -2128,23 +1855,73 @@ def extract_kg(
     return doc_kg_dir
 
 
+def _merge_relabeled(
+    tx, base_label: str, history_label: str, id_value: str, props: dict, *, replace: bool = True
+) -> None:
+    """`MERGE` a node by `id`, whichever of `base_label` / `history_label` it
+    currently carries (or neither, if this id is new), and leave it under
+    `base_label` holding `props`.
+
+    Necessary because retraction is a **label swap** now (Phase 4's
+    :DocumentHistory/:DocChunkHistory/:ObservationHistory), not a `_status`
+    property set. Step 2 of `_commit_document_tx` (`_retract_prior_version`)
+    relabels the PRIOR version's chunks/observations to their History
+    counterpart before this step writes the new version — and content that is
+    stable across versions (a chunk's id is `{doc_id}_{seq}`, deterministic
+    regardless of edits; an observation's id is deterministic per chunk +
+    canonical name + class + domain) reuses the exact same id both times. A
+    plain `MERGE (n:{base_label} {{id: $id}})` would not find that id under
+    `history_label` — MERGE's label is part of the match pattern — and would
+    silently CREATE A SECOND node with the same id under `base_label`,
+    breaking "entities are MERGEd on a deterministic id, never
+    delete-and-recreate" one level down (a duplicate observation/chunk, not a
+    duplicate entity, but the same defect: elementId churn, and a stale
+    History twin left orphaned behind it). Both label branches below are
+    indexed lookups (each label carries its own id uniqueness
+    constraint/index), so this stays index-backed rather than falling back to
+    an unlabelled scan across the whole graph.
+
+    `replace` picks `SET n = $props` (full replace — an observation is a
+    complete statement of what one chunk said, so a stale property from a
+    previous write must not survive) vs `SET n += $props` (additive — a
+    DocChunk's filing metadata / char offsets accrete the way they always
+    have).
+    """
+    set_clause = "SET n = $props" if replace else "SET n += $props"
+    tx.run(
+        f"""
+        OPTIONAL MATCH (o1:{base_label} {{id: $id}})
+        OPTIONAL MATCH (o2:{history_label} {{id: $id}})
+        WITH coalesce(o1, o2) AS existing
+        FOREACH (_ IN CASE WHEN existing IS NULL THEN [1] ELSE [] END |
+            CREATE (n:{base_label} {{id: $id}})
+            {set_clause}
+        )
+        FOREACH (n IN CASE WHEN existing IS NOT NULL THEN [existing] ELSE [] END |
+            {set_clause}
+            SET n:{base_label}
+            REMOVE n:{history_label}
+        )
+        """,
+        id=id_value, props=props,
+    )
+
+
 def _write_observations(tx, observations: list[dict], doc_id: str) -> int:
     """Write this document version's observations.
 
     Immutable records: written whole, never merged into and never patched. The
     id is deterministic (chunk + canonical name + class + domain), so a
-    re-write of the same content replaces in place rather than duplicating.
+    re-write of the same content replaces in place rather than duplicating —
+    see `_merge_relabeled` for why that requires matching across both the
+    `:Observation` and `:ObservationHistory` labels, not just the former.
 
-    `SET o = $props` — a full replace, not `+=` — because an observation is a
-    complete statement of what one chunk said. A `+=` would let a property
-    from a previous version of the same chunk survive into this one.
+    Each observation is a complete statement of what one chunk said, replaced
+    whole (never `+=`) — a `+=` would let a property from a previous version
+    of the same chunk survive into this one.
     """
     for observation in observations:
-        tx.run(
-            "MERGE (o:Observation {id: $id}) SET o = $props",
-            id=observation["id"],
-            props=observation,
-        )
+        _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation)
         chunk_id = observation.get("chunk_id")
         if chunk_id:
             tx.run(
@@ -2159,18 +1936,83 @@ def _write_observations(tx, observations: list[dict], doc_id: str) -> int:
     return len(observations)
 
 
-def _write_relationships(tx, relationships: list[dict], document: dict, entity_ids: dict) -> int:
-    """Entity->Entity edges, resolved through the projection.
+def _observation_lookup(observations: list[dict]) -> tuple[dict, dict]:
+    """Two ways to resolve a relationship endpoint's raw extracted name back to
+    one of this document's own `:Observation` ids.
 
-    Endpoints are matched by the **deterministic entity id** computed from the
-    extracted name's aggregate key, not by `(name, domain)`. Names are
-    projection output now — the Entity's name is the longest canonical name
-    across its observations, which is frequently not what any single chunk
-    said — so a name match would silently miss.
-
-    Phase 4 collapses these 249 relationship types into one
-    `RELATES_TO {rel_type}`; this keeps the existing shape until then.
+    `by_chunk` is the precise match: a relationship is itself chunk-scoped
+    (extracted from that chunk's own raw entities), so its `source_name` /
+    `target_name` should resolve to an observation from the *same* chunk.
+    `by_name` is the doc-wide fallback (first occurrence wins) for the rare
+    case a relationship's chunk_id doesn't line up exactly. Both raw `name`
+    and `canonical_name` are indexed, since a relationship extractor may echo
+    either back.
     """
+    by_chunk: dict[tuple[str, str], str] = {}
+    by_name: dict[str, str] = {}
+    for o in observations:
+        chunk_id = o.get("chunk_id")
+        for field in ("name", "canonical_name"):
+            value = o.get(field)
+            if not value:
+                continue
+            if chunk_id:
+                by_chunk.setdefault((chunk_id, value), o["id"])
+            by_name.setdefault(value, o["id"])
+    return by_chunk, by_name
+
+
+def _observation_keys(observations: list[dict]) -> dict[str, str]:
+    """Observation id -> its aggregate key string. Two *different* chunk-scoped
+    observations (different ids) commonly share one key — canonicalization
+    folding "Rate A" and "Rate A alias" onto the same entity, say — and a
+    relationship between them is a self-loop at the aggregate the projection
+    will actually build, even though their raw observation ids differ."""
+    return {o["id"]: o.get("key") for o in observations if o.get("id")}
+
+
+_RELATION_STRUCTURAL_KEYS = frozenset({
+    "source_id", "source_name", "target_id", "target_name",
+    "rel_type", "chunk_id", "doc_id", "bidirectional",
+})
+
+
+def _write_relation_observations(tx, relationships: list[dict], document: dict, observations: list[dict]) -> int:
+    """The immutable, chunk-scoped record of one extracted relationship:
+    `(:Observation)-[:ASSERTS_RELATION {rel_type, doc_id, chunk_id, ...}]->(:Observation)`.
+
+    Never merged or patched — like every other observation, it is written
+    whole and replaced in place by its deterministic id on a re-write. This is
+    the raw layer the projection rebuild aggregates into `RELATES_TO` entity
+    edges (see `projection.py`); nothing here touches `:Entity` directly.
+
+    Whatever a relationship extraction carries beyond the structural fields
+    (e.g. a schema's own `relates_to` declaration adding "role" or "since")
+    flattens onto the edge via `_flatten_props` — nested objects dropped with
+    a warning, never JSON-blobbed, same discipline as everywhere else. These
+    per-instance properties live only here; the aggregate `RELATES_TO` edge
+    carries just `rel_type` plus `observation_count`/`chunk_ids`/`doc_ids` —
+    there is no merge policy for arbitrary per-instance properties across many
+    contributing observations, the same reason a scalar Entity property is
+    never unioned.
+
+    Endpoints are resolved against **this document's own observations** —
+    the same limitation the pre-Phase-4 writer always had: a relationship
+    whose endpoint wasn't itself extracted as an entity in this document is
+    silently dropped, because there is nothing here to resolve it against.
+    """
+    from artmind.observations import relation_observation_id
+
+    by_chunk, by_name = _observation_lookup(observations)
+    obs_keys = _observation_keys(observations)
+
+    def _resolve(name: str | None, chunk_id: str | None) -> str | None:
+        if not name:
+            return None
+        if chunk_id and (chunk_id, name) in by_chunk:
+            return by_chunk[(chunk_id, name)]
+        return by_name.get(name)
+
     written = 0
     for rel in relationships:
         rel_type = re.sub(r"[^A-Za-z0-9_]", "_", rel.get("rel_type", "")).upper()
@@ -2179,51 +2021,47 @@ def _write_relationships(tx, relationships: list[dict], document: dict, entity_i
             continue
         if rel_type in RESERVED_REL_TYPES:
             logger.warning(
-                "Neo4j: reserved relationship type skipped ({} -[{}]-> {}); "
-                "only audited helpers may create this edge type",
+                "Neo4j: reserved rel_type skipped ({} -[{}]-> {}); "
+                "only artmind-owned machinery may assert this rel_type",
                 rel.get("source_name"), rel_type, rel.get("target_name"),
             )
             continue
 
-        source_id = entity_ids.get(rel.get("source_name"))
-        target_id = entity_ids.get(rel.get("target_name"))
-        if not source_id or not target_id or source_id == target_id:
+        chunk_id = rel.get("chunk_id")
+        source_obs = _resolve(rel.get("source_name"), chunk_id)
+        target_obs = _resolve(rel.get("target_name"), chunk_id)
+        if not source_obs or not target_obs:
+            continue
+        # Self-loop check is at the AGGREGATE key, not the raw observation id:
+        # two distinct chunk-scoped observations commonly canonicalize onto
+        # the same entity, and the projection would build a genuine self-loop
+        # from them even though source_obs != target_obs here.
+        if source_obs == target_obs or obs_keys.get(source_obs) == obs_keys.get(target_obs):
             continue
 
-        rel_props = _flatten_props({
-            k: v for k, v in rel.items()
-            if k not in {
-                "source_id", "source_name", "target_id", "target_name",
-                "rel_type", "chunk_id", "doc_id", "bidirectional",
-            }
-        })
         rel_doc_id = rel.get("doc_id") or document.get("id", "")
-        pairs = [(source_id, target_id)]
+        rel_props = _flatten_props({
+            k: v for k, v in rel.items() if k not in _RELATION_STRUCTURAL_KEYS
+        })
+        pairs = [(source_obs, target_obs)]
         if rel.get("bidirectional"):
-            pairs.append((target_id, source_id))
+            pairs.append((target_obs, source_obs))
 
-        for src, tgt in pairs:
-            try:
-                tx.run(
-                    """
-                    MATCH (s:Entity {id: $src})
-                    MATCH (t:Entity {id: $tgt})
-                    CALL apoc.merge.relationship(s, $type, {}, {}, t, {}) YIELD rel
-                    SET rel += $props
-                    SET rel.doc_ids   = apoc.coll.toSet(coalesce(rel.doc_ids, [])   + $doc_ids)
-                    SET rel.chunk_ids = apoc.coll.toSet(coalesce(rel.chunk_ids, []) + $chunk_ids)
-                    RETURN rel
-                    """,
-                    src=src, tgt=tgt, type=rel_type, props=rel_props,
-                    doc_ids=[rel_doc_id] if rel_doc_id else [],
-                    chunk_ids=[rel["chunk_id"]] if rel.get("chunk_id") else [],
-                )
-                written += 1
-            except Exception as e:
-                logger.warning(
-                    "Neo4j: relationship skipped ({} -[{}]-> {}): {}",
-                    rel.get("source_name"), rel_type, rel.get("target_name"), e,
-                )
+        for src_obs, tgt_obs in pairs:
+            edge_id = relation_observation_id(chunk_id or "", src_obs, rel_type, tgt_obs)
+            tx.run(
+                """
+                MATCH (s:Observation {id: $src})
+                MATCH (t:Observation {id: $tgt})
+                MERGE (s)-[r:ASSERTS_RELATION {id: $id}]->(t)
+                SET r = $props
+                SET r.id = $id, r.rel_type = $rel_type, r.doc_id = $doc_id, r.chunk_id = $chunk_id
+                """,
+                src=src_obs, tgt=tgt_obs, id=edge_id,
+                rel_type=rel_type, doc_id=rel_doc_id, chunk_id=chunk_id or "",
+                props=rel_props,
+            )
+            written += 1
     return written
 
 
@@ -2242,7 +2080,6 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     silently-stale query layer.
     """
     from artmind import projection, same_as
-    from artmind.observations import aggregate_key, entity_id
 
     document = staged["document"]
     domain = staged["domain"]
@@ -2257,23 +2094,27 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     # 2. Demote the prior version.
     summary["retracted"] = _retract_prior_version(tx, domain, doc_id)
 
-    # 3. Document + chunks.
-    tx.run(
-        "MERGE (d:Document {id: $id}) SET d += $props",
-        id=doc_id, props=_flatten_props(document),
-    )
+    # 3. Document + chunks. A re-ingest of a document `docs retire` had moved
+    #    to :DocumentHistory must find and revive that same node, not create a
+    #    duplicate under :Document — see _merge_relabeled.
+    _merge_relabeled(tx, "Document", "DocumentHistory", doc_id, _flatten_props(document), replace=False)
     for chunk in staged["chunks"]:
+        chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
+        chunk_props["embedding"] = chunk.get("embedding", [])
+        # additive (replace=False): a chunk's filing metadata / char offsets
+        # accrete the way they always have — see _merge_relabeled for why the
+        # label-pair match is needed at all (a same-doc_id re-ingest reuses
+        # this same deterministic chunk id, and step 2 just relabelled the
+        # prior version's chunk to :DocChunkHistory earlier in this same
+        # transaction).
+        _merge_relabeled(tx, "DocChunk", "DocChunkHistory", chunk["id"], chunk_props, replace=False)
         tx.run(
             """
-            MERGE (c:DocChunk {id: $id})
-            SET c += $props, c.embedding = $embedding
-            WITH c
+            MATCH (c:DocChunk {id: $id})
             MATCH (d:Document {id: $doc_id})
             MERGE (c)-[:PART_OF]->(d)
             """,
             id=chunk["id"],
-            props=_flatten_props({k: v for k, v in chunk.items() if k != "embedding"}),
-            embedding=chunk.get("embedding", []),
             doc_id=chunk["doc_id"],
         )
     summary["chunks"] = len(staged["chunks"])
@@ -2287,7 +2128,19 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         for o in observations if o.get("key") and o["key"].count("|") == 2
     }
 
-    # 5. The affected-key union, then the rebuild.
+    # 5. Relationship observations — raw, immutable ASSERTS_RELATION edges
+    #    between this document's own Observation nodes. Written before the
+    #    rebuild (not after, as the old direct-to-Entity writer required):
+    #    the rebuild's relationship aggregation reads ASSERTS_RELATION, so it
+    #    has to exist first, and both endpoints are already guaranteed to be
+    #    in `incoming_keys` (a relationship's endpoints are always entities
+    #    extracted in this same document) — no separate key-tracking needed.
+    summary["relationships"] = _write_relation_observations(
+        tx, staged["relationships"], document, observations
+    )
+
+    # 6. The affected-key union, then the rebuild — which now also aggregates
+    #    RELATES_TO edges for every key it touches.
     keys = projection.affected_keys(
         incoming=list(incoming_keys),
         prior=list(prior_keys),
@@ -2304,18 +2157,6 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)
 
-    # 6. Relationships, after the rebuild so both endpoints exist.
-    entity_ids = {}
-    for observation in observations:
-        key = aggregate_key(
-            observation.get("canonical_name"), observation.get("entity_class", ""),
-            observation.get("domain", ""),
-        )
-        entity_ids[observation.get("name")] = entity_id(key)
-        entity_ids[observation.get("canonical_name")] = entity_id(key)
-    summary["relationships"] = _write_relationships(
-        tx, staged["relationships"], document, entity_ids
-    )
     return summary
 
 

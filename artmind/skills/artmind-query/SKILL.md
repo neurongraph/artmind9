@@ -257,16 +257,17 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 ### 3. Retrieve — run the right pattern
 
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
-`timeline`, `entity-versions`, `conflicts`, `metadata`, `structural-metadata` and
+`timeline`, `conflicts`, `metadata`, `structural-metadata` and
 `entity-listing` all live under the `graph` sub-group (`artmind query graph <cmd>`);
-`entity-context`, `chunks`, `vector-text`, `entity-resolve` and `domains-overview` sit
-directly under `query` (`artmind query <cmd>`). Copy the prefix as written — do not infer it.
+`entity-context`, `entity-history`, `chunks`, `vector-text`, `entity-resolve` and
+`domains-overview` sit directly under `query` (`artmind query <cmd>`). Copy the prefix
+as written — do not infer it.
 
 | Question shape | Command |
 |---|---|
 | "Tell me about X / X's role / why did X…" — facts + relationships + source text in ONE call | `artmind query entity-context --entityId <id> [--includeChunks 5]` |
-| History / sequence of events / "when did X change / start / end" for ONE entity | `artmind query graph timeline --entityId <id>` — dated relationships (`event_at`/`valid_from`/`valid_to`) in chronological order |
-| "What was property P before it changed" / prior state of ONE entity as of a date | `artmind query graph entity-versions --entityId <id> [--asOf <date>]` — superseded property snapshots, oldest-first (or the single snapshot in force as of `--asOf`) |
+| Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
+| "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and retired sources |
 | List entities of a class | `artmind query graph pattern1 --entityClass <LABEL> [--limit N]` |
 | "Main / key / most important / top" entities | `artmind query graph pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
 | Facts/properties of named entities (no text needed, e.g. comparing many) | `artmind query graph pattern2 --entityIdList <id>` (or `--entityNameList`) |
@@ -291,9 +292,8 @@ Routing notes:
   ids in `more_chunks`, fetchable via `chunks --idList`). Use pattern4 when you
   only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
-- **timeline vs entity-context/pattern3/pattern4**: entity-context and patterns 2-4 give current-state facts and one-hop structure; `graph timeline --entityId <id>` instead reconstructs *change over time* for that one entity — its dated relationships sorted chronologically. Use it for "history of X", "what changed", or "when did X start/end", not for a general one-hop snapshot. It only has an entity's edges, no chunk text — pair it with `entity-context`/`chunks` if the question also needs narrative evidence at a given point in time.
-- **timeline vs entity-versions**: `timeline` only reconstructs an entity's *relationship* changes (dated edges) — it does not show prior property values. When the question is about a property value before a supersession overwrote it ("what was the limit before the update", "what did this look like on date D"), use `artmind query graph entity-versions --entityId <id> [--asOf <date>]` instead: it reads the history zone of superseded property snapshots, oldest-first, or (with `--asOf`) the single snapshot in force then. An empty result with `--asOf` set means no snapshot covers that date — the live entity was already current then, so fall back to the live entity's own data.
-- Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
+- **timeline vs entity-history**: `timeline` is domain-scoped, not entity-scoped — it lists every entity of an occurrent class ordered by `valid_from`, for "what happened in this domain, in order". For ONE entity's own history — "what was X's value before it changed", "what did X look like on date D" — use `entity-history` instead: it reads every observation behind that entity, fact-level (`_valid_from`), spanning both current and retired (`docs retire`/superseded) sources. `--property P` narrows to one property's value at each point.
+- Patterns 2/3/4 return `doc_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.

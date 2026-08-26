@@ -92,29 +92,51 @@ def _entities_summary(listing: dict) -> str:
 
 # Hardcoded structural schema that is always included in the text2cypher prompt.
 # This ensures the LLM knows the exact relationships between Document, DocChunk,
-# UserChat, and Entity nodes — preventing guesswork on relationship names.
+# UserChat, Observation, and Entity nodes — preventing guesswork on relationship
+# names. Kept current with the graph model by hand (Phase 4: Entity's _id/_domain
+# prefix, the observation/projection split, the RELATES_TO collapse, and the
+# History label pair) — there is no generation step for this constant.
 STRUCTURAL_SCHEMA = """\
 STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
-  Node :Document  properties=[id, name, path, domain]
-  Node :DocChunk  properties=[id, name, doc_id, text, domain, embedding]
-  Node :UserChat  properties=[id, raw_text, domain, session_id, created_by, created_at, embedding]
-  Node :Entity    properties=[id, name, entity_class, domain, description, type]
-  Relationship (:DocChunk)-[:PART_OF]->(:Document)        — chunk belongs to a document
-  Relationship (:Entity)-[:EXTRACTED_FROM]->(:DocChunk)    — entity was extracted from a chunk
-    (use this, reversed, to find which chunks/documents mention an entity — there is
-     no separate (:DocChunk)-[:MENTIONS]->(:Entity) edge)
-  Relationship (:UserChat)-[:MENTIONS]->(:Entity)          — user chat mentions an entity
+  Node :Document     properties=[id, name, path, domain, valid_from, valid_to, superseded_by]
+  Node :DocChunk     properties=[id, name, doc_id, text, domain, embedding]
+  Node :UserChat     properties=[id, raw_text, domain, session_id, created_by, created_at, embedding]
+  Node :Observation  properties=[id, name, canonical_name, key, entity_class, domain, doc_id,
+                                  chunk_id, _valid_from, _valid_to, _doc_valid_from, _kind]
+    — what one chunk of one document version asserted. Immutable, carries NO :Entity label
+      and no class label, so it never appears in an entity query by accident. Provenance
+      only — never the answer to "what is true now"; that is :Entity, below.
+  Node :Entity       properties=[_id, name, entity_class, _domain, description, type]
+    — the projection: one node per real-world thing, current by construction, rebuilt from
+      observations. NOTE the leading underscore on _id/_domain (Entity-only; every other
+      node label here uses plain id/domain) — Entity is the one label this redesign
+      prefixed, because id/domain on it are artmind-computed rather than extracted.
+  Relationship (:DocChunk)-[:PART_OF]->(:Document)              — chunk belongs to a document
+  Relationship (:Observation)-[:EXTRACTED_FROM]->(:DocChunk)    — observation's source chunk
+  Relationship (:Entity)-[:AGGREGATES]->(:Observation)          — entity's current observations
+    (to find which chunks/documents mention an entity, go (:Entity)-[:AGGREGATES]->
+     (:Observation)-[:EXTRACTED_FROM]->(:DocChunk) — an Entity never has a direct
+     EXTRACTED_FROM edge)
+  Relationship (:Observation)-[:ASSERTS_RELATION {rel_type, doc_id, chunk_id}]->(:Observation)
+    — the raw, chunk-scoped record of one extracted relationship. Provenance only; for
+      "what relationships does this entity have", use RELATES_TO below instead.
+  Relationship (:Entity)-[:RELATES_TO {rel_type, observation_count, chunk_ids, doc_ids}]->(:Entity)
+    — EVERY entity-to-entity relationship uses this ONE type, whatever its real-world
+      meaning (owns, regulates, part_of, ...). The meaning is `rel_type`, a PROPERTY, not
+      the Neo4j type — filter with `WHERE r.rel_type = '...'`, never `-[:SOME_MEANING]->`.
+      This is deliberate (Phase 4 collapsed 249 per-domain types into this one): do not
+      invent a relationship type matching the question's verb.
   Node :Conflict  properties=[id, aspect, claim_a, claim_b, severity, status, domains, detected_at, detected_by_model]
   Relationship (:Conflict)-[:CONFLICT_OF]->(:Entity)      — both sides of a conflict
   Relationship (:Conflict)-[:EVIDENCE {side}]->(:DocChunk) — competing claim text
   Relationship (:Entity)-[:CONFLICTS_WITH {conflict_id, aspect}]->(:Entity)
   Relationship (:Document)-[:SUPERSEDES {scope, effective}]->(:Document)  — newer replaces older
-  Node :EntityVersion properties=[id, entity_id, name, entity_class, domain, valid_from, valid_to, closed_by, superseded_by_doc, snapshot_at]
-  Relationship (:Entity)-[:PRIOR_STATE]->(:EntityVersion) — a superseded snapshot of that entity's values
-    (history only — never traverse into it for "what is true now" questions; the
-     live :Entity node always holds current values)
-  Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by.
-  Entity-to-Entity relationships are domain-specific (see GRAPH SCHEMA below)."""
+  History labels :DocumentHistory / :DocChunkHistory / :ObservationHistory — the retired
+    counterpart of :Document / :DocChunk / :Observation (same properties, mutually
+    exclusive with the base label). Never traverse into these for a "what is true now"
+    question — the base labels are current by construction. Only match a History label
+    when the question is explicitly about retired/superseded/historical content.
+  Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by."""
 
 
 def build_text2cypher_prompt(
@@ -130,18 +152,24 @@ write a READ-ONLY Cypher query that answers the user's question.
 
 RULES:
 - The query MUST be read-only. Never use CREATE, DELETE, DETACH, SET, REMOVE, MERGE, or DROP.
-- Always scope results to the domains by including a WHERE clause:
+- Always scope results to the domains by including a WHERE clause. The domain PROPERTY
+  name differs by label — :Entity carries `_domain` (leading underscore); every other
+  label (:Document, :DocChunk, :UserChat, :Observation) carries plain `domain`:
     (n.domain IN $domains OR any(_dom IN $domains WHERE n.domain STARTS WITH (_dom + '.')))
-  Apply this filter to every unbound node in the MATCH pattern. Always use `_dom`
-  (exactly as shown) as the any() loop variable — never reuse a node's own alias
-  (e.g. `d` for a :Document node) there, since that shadows the node inside the
-  any() clause and produces a Cypher type-mismatch error at query time.
+    (n._domain IN $domains OR any(_dom IN $domains WHERE n._domain STARTS WITH (_dom + '.')))
+  Use whichever matches the label you actually matched. Apply this filter to every unbound
+  node in the MATCH pattern. Always use `_dom` (exactly as shown) as the any() loop
+  variable — never reuse a node's own alias (e.g. `d` for a :Document node) there, since
+  that shadows the node inside the any() clause and produces a Cypher type-mismatch error.
 - Use entity names exactly as they appear in the entity listing when matching.
-- For Document/DocChunk/UserChat/Entity queries, use ONLY the relationship names
-  from the STRUCTURAL GRAPH section below. Do NOT invent relationship names.
+- For Document/DocChunk/UserChat/Observation/Entity queries, use ONLY the relationship
+  names from the STRUCTURAL GRAPH section below. Do NOT invent relationship names, and
+  do NOT invent a relationship TYPE for an entity-to-entity edge — there is only one,
+  RELATES_TO, and the real-world meaning is its `rel_type` property (filter with
+  `r.rel_type = '...'`, never a made-up `-[:VERB]->`).
 - Extracted entities always carry the :Entity label in addition to their class
   label. Label entity nodes explicitly (e.g. (p:PERSON) or (e:Entity)); never
-  match bare unlabeled nodes.
+  match bare unlabeled nodes. Entity's id property is `_id`, not `id`.
 - In variable-length paths between entities, keep the path in entity space:
   add `all(x IN nodes(p) WHERE x:Entity)` to the WHERE clause. Otherwise paths
   degenerate to co-mention hops through DocChunk nodes.
@@ -151,11 +179,14 @@ RULES:
   timed nodes: ($asOf IS NULL OR ((n.valid_from IS NULL OR n.valid_from <= $asOf)
   AND (n.valid_to IS NULL OR n.valid_to > $asOf))); include "asOf" in parameters.
   For historical questions ("what WAS the limit in 2024?") set asOf to that date.
-- :EntityVersion nodes and PRIOR_STATE edges are history only — a superseded
-  snapshot of an entity's prior values. Never traverse into them to answer a
-  "what is true now" question; the live :Entity node always holds current
-  values. Only use :EntityVersion when the question explicitly asks about a
-  prior/historical state of a specific entity.
+  Note this "asOf" is a floor (in force BY that date), not a point-in-time snapshot —
+  valid_to is rarely set, so a still-open row satisfies any asOf at or after its
+  valid_from.
+- :DocumentHistory / :DocChunkHistory / :ObservationHistory are history only — the
+  retired counterpart of :Document / :DocChunk / :Observation. Never traverse into
+  them to answer a "what is true now" question; the base labels are current by
+  construction. Only match a History label when the question explicitly asks about
+  retired, superseded, or historical content.
 
 {STRUCTURAL_SCHEMA}
 

@@ -24,7 +24,9 @@ def obs(**kw):
         "canonical_name": "SmartSaver Account Tier 2 Rate",
         "entity_class": "RATE_ENTRY",
         "domain": "banking.reference",
-        "_status": "latest",
+        # No `_status` (Phase 4) — the label (:Observation vs
+        # :ObservationHistory) is the only latest/history signal now; there
+        # is no property left to carry.
         "_kind": "recurrent",
         "doc_version": 1,
     }
@@ -326,8 +328,8 @@ def test_the_entity_id_is_the_hash_of_the_key_and_is_stable():
     rows = [obs(doc_id="a", _doc_valid_from="2026-01-01", rate_value=4.5)]
     result = merge_observations(rows)
     expected = entity_id(aggregate_key("SmartSaver Account Tier 2 Rate", "RATE_ENTRY", "banking.reference"))
-    assert result["props"]["id"] == expected
-    assert merge_observations(rows)["props"]["id"] == expected
+    assert result["props"]["_id"] == expected
+    assert merge_observations(rows)["props"]["_id"] == expected
 
 
 def test_merging_is_a_pure_function_and_does_not_mutate_its_input():

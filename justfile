@@ -122,13 +122,13 @@ dev-refresh-skills:
 
 # ── artmind docs ─────────────────────────────────────────────────────────────
 
-# tombstone a document (soft delete: hidden from retrieval, knowledge preserved)  (usage: just docs-clean <domain> <document>)
-docs-clean domain document:
-    uv run artmind docs clean --domain {{ domain }} {{ document }}
+# retire a document (assertion-time: observations move to history, out of every index, reversible)  (usage: just docs-retire <domain> <document>)
+docs-retire domain document:
+    uv run artmind docs retire --domain {{ domain }} --documentName {{ document }}
 
-# purge a document (hard delete: removes storage, registry, and its Neo4j contributions)  (usage: just docs-purge <domain> <document>)
-docs-purge domain document:
-    uv run artmind docs purge --domain {{ domain }} {{ document }}
+# restore a retired document (the exact inverse of docs-retire)  (usage: just docs-restore <domain> <document>)
+docs-restore domain document:
+    uv run artmind docs restore --domain {{ domain }} --documentName {{ document }}
 
 # ── artmind domains ──────────────────────────────────────────────────────────
 
