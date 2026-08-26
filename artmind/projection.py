@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import hashlib
 from collections import Counter, defaultdict
+from datetime import datetime, timezone
 
 from loguru import logger
 
@@ -49,6 +50,7 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
         "_valid_to",
         "_doc_valid_from",
         "_valid_time_source",
+        "_retracts",
     }
 )
 # Merged by their own named policy rather than by shape.
@@ -133,8 +135,19 @@ def merge_observations(
     observations: list[dict],
     *,
     synthesis: dict | None = None,
+    override_key: tuple[str, str, str] | None = None,
 ) -> dict:
     """Merge one aggregate key's `latest` observations into an Entity. Pure.
+
+    `override_key`, when given, is used as the Entity's identity instead of
+    recomputing `aggregate_key` from the merged set's own chosen `name`. Only
+    a same-as **merge unit** needs this: its unioned observations span more
+    than one raw key by definition, so the longest-name choice among them can
+    legitimately differ from the group's curated canonical -- and the
+    canonical, being a human's assertion, must win over whatever the naming
+    heuristic would have picked on its own. For an ordinary single-key merge
+    the two always agree (every observation in the set already shares the
+    same stored `key`), so passing it is harmless there too.
 
     Returns `{"props": {...}, "temporal_props": [...], "conflicts": [...]}`.
 
@@ -171,7 +184,7 @@ def merge_observations(
     domain = winner.get("domain") or ""
     kind = winner.get("_kind") or "occurrent"
     name = _choose_name(ordered)
-    key = aggregate_key(name, entity_class, domain)
+    key = override_key if override_key is not None else aggregate_key(name, entity_class, domain)
 
     props: dict = {
         "_id": entity_id(key),
@@ -512,9 +525,14 @@ def _write_conflicts(tx, eid: str, conflicts: list[dict], domain: str) -> int:
     return len(conflicts)
 
 
-def _relation_groups(tx, key: str) -> tuple[list[dict], list[dict]]:
-    """Every raw `ASSERTS_RELATION` edge touching one aggregate key's `latest`
-    observations, as two separate directional result sets.
+def _relation_groups(tx, keys: list[tuple[str, str, str]]) -> tuple[list[dict], list[dict]]:
+    """Every raw `ASSERTS_RELATION` edge touching any of these aggregate keys'
+    `latest` observations, as two separate directional result sets.
+
+    `keys` is a list rather than one key so a same-as **merge unit** can union
+    the raw edges of every member it folds in — a relationship one document
+    asserted under an alias's key must still reach the canonical entity.
+    Ordinarily this is a list of one.
 
     Two passes rather than one bidirectional query, so an outgoing group and
     an incoming group never cross-multiply against each other in one result
@@ -524,22 +542,25 @@ def _relation_groups(tx, key: str) -> tuple[list[dict], list[dict]]:
     other side has gone to history drops out of the aggregate on the next
     rebuild with no predicate anywhere having to know that happened.
     """
-    outgoing = tx.run(
-        """
-        MATCH (o:Observation {key: $key})-[r:ASSERTS_RELATION]->(t:Observation)
-        RETURN r.rel_type AS rel_type, t.key AS other_key,
-               r.doc_id AS doc_id, r.chunk_id AS chunk_id
-        """,
-        key=key,
-    ).data()
-    incoming = tx.run(
-        """
-        MATCH (s:Observation)-[r:ASSERTS_RELATION]->(o:Observation {key: $key})
-        RETURN r.rel_type AS rel_type, s.key AS other_key,
-               r.doc_id AS doc_id, r.chunk_id AS chunk_id
-        """,
-        key=key,
-    ).data()
+    outgoing: list[dict] = []
+    incoming: list[dict] = []
+    for key in keys:
+        outgoing += tx.run(
+            """
+            MATCH (o:Observation {key: $key})-[r:ASSERTS_RELATION]->(t:Observation)
+            RETURN r.rel_type AS rel_type, t.key AS other_key,
+                   r.doc_id AS doc_id, r.chunk_id AS chunk_id
+            """,
+            key=key_string(key),
+        ).data()
+        incoming += tx.run(
+            """
+            MATCH (s:Observation)-[r:ASSERTS_RELATION]->(o:Observation {key: $key})
+            RETURN r.rel_type AS rel_type, s.key AS other_key,
+                   r.doc_id AS doc_id, r.chunk_id AS chunk_id
+            """,
+            key=key_string(key),
+        ).data()
     return outgoing, incoming
 
 
@@ -562,11 +583,22 @@ def _group_relations(rows: list[dict]) -> dict[tuple[str, str], dict]:
     return groups
 
 
-def _sync_relates_to(tx, key: tuple[str, str, str], eid: str) -> int:
+def _sync_relates_to(
+    tx, keys: list[tuple[str, str, str]], eid: str, unit_of: dict[tuple[str, str, str], tuple[str, str, str]]
+) -> int:
     """Recompute every `RELATES_TO` edge touching this entity, from scratch,
     from the raw `ASSERTS_RELATION` observation edges — the relationship
     analogue of the property rebuild above. Deduped by `(srcKey, rel_type,
     tgtKey)`, carrying `observation_count` / `chunk_ids` / `doc_ids`.
+
+    `keys` is every raw aggregate key feeding this entity (more than one when
+    it is a same-as merge unit's canonical); `unit_of` resolves an edge's
+    OTHER endpoint to the entity it actually lives under today — an endpoint
+    that was itself folded into some other canonical no longer has its own
+    `:Entity`, so an edge to its raw key would otherwise point at nothing.
+    An edge whose resolved other end turns out to BE this same entity (two
+    merged aliases that asserted a relationship to each other) is a same-as
+    artifact, not a real self-relationship, and is dropped.
 
     Both directions are independently authoritative: an edge FROM this entity
     is fully determined by this key's own outgoing `ASSERTS_RELATION` edges,
@@ -579,7 +611,7 @@ def _sync_relates_to(tx, key: tuple[str, str, str], eid: str) -> int:
     other endpoint's `:Entity` already `MERGE`d and actually writes the edge —
     order-independent, since either side can be "second".
     """
-    outgoing_rows, incoming_rows = _relation_groups(tx, key_string(key))
+    outgoing_rows, incoming_rows = _relation_groups(tx, keys)
     outgoing = _group_relations(outgoing_rows)
     incoming = _group_relations(incoming_rows)
 
@@ -591,6 +623,9 @@ def _sync_relates_to(tx, key: tuple[str, str, str], eid: str) -> int:
         parsed = _parse_key(other_key)
         if not parsed:
             continue
+        tgt = entity_id(unit_of.get(parsed, parsed))
+        if tgt == eid:
+            continue
         tx.run(
             """
             MATCH (e:Entity {_id: $src})
@@ -598,12 +633,15 @@ def _sync_relates_to(tx, key: tuple[str, str, str], eid: str) -> int:
             MERGE (e)-[r:RELATES_TO {rel_type: $rel_type}]->(t)
             SET r.observation_count = $observation_count, r.chunk_ids = $chunk_ids, r.doc_ids = $doc_ids
             """,
-            src=eid, tgt=entity_id(parsed), rel_type=rel_type, **agg,
+            src=eid, tgt=tgt, rel_type=rel_type, **agg,
         )
         written += 1
     for (rel_type, other_key), agg in incoming.items():
         parsed = _parse_key(other_key)
         if not parsed:
+            continue
+        src = entity_id(unit_of.get(parsed, parsed))
+        if src == eid:
             continue
         tx.run(
             """
@@ -612,20 +650,37 @@ def _sync_relates_to(tx, key: tuple[str, str, str], eid: str) -> int:
             MERGE (s)-[r:RELATES_TO {rel_type: $rel_type}]->(e)
             SET r.observation_count = $observation_count, r.chunk_ids = $chunk_ids, r.doc_ids = $doc_ids
             """,
-            src=entity_id(parsed), tgt=eid, rel_type=rel_type, **agg,
+            src=src, tgt=eid, rel_type=rel_type, **agg,
         )
         written += 1
     return written
 
 
-def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None) -> str:
+def rebuild_key(
+    tx,
+    key: tuple[str, str, str],
+    *,
+    member_keys: list[tuple[str, str, str]] | None = None,
+    unit_of: dict[tuple[str, str, str], tuple[str, str, str]] | None = None,
+    synthesis: dict | None = None,
+) -> str:
     """Rebuild one aggregate key. Returns `rebuilt`, `deleted`, or `absent`.
+
+    `member_keys` is every raw key whose `latest` observations feed this
+    entity — more than one only when `key` is a same-as merge unit's
+    canonical (see `rebuild`'s group planning); otherwise just `[key]`.
+    `unit_of` resolves a `RELATES_TO` edge's other endpoint the same way, for
+    entities merged away by the same groups.
 
     Runs inside the caller's transaction — a raise here fails the commit that
     dirtied the projection, by design.
     """
     eid = entity_id(key)
-    observations = read_latest_observations(tx, key_string(key))
+    member_keys = member_keys or [key]
+    unit_of = unit_of or {}
+    observations: list[dict] = []
+    for member_key in member_keys:
+        observations.extend(read_latest_observations(tx, key_string(member_key)))
 
     if not observations:
         existing = tx.run("MATCH (e:Entity {_id: $id}) RETURN count(e) AS c", id=eid).single()
@@ -634,7 +689,7 @@ def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None)
             return "deleted"
         return "absent"
 
-    merged = merge_observations(observations, synthesis=synthesis)
+    merged = merge_observations(observations, synthesis=synthesis, override_key=key)
     props = merged["props"]
     label = _sanitize_label(props.get("entity_class") or "")
     keep = list(props.keys()) + list(_PRESERVED_ENTITY_KEYS)
@@ -688,22 +743,199 @@ def rebuild_key(tx, key: tuple[str, str, str], *, synthesis: dict | None = None)
     )
 
     _write_conflicts(tx, eid, merged["conflicts"], props.get("_domain") or "")
-    _sync_relates_to(tx, key, eid)
+    _sync_relates_to(tx, member_keys, eid, unit_of)
     return "rebuilt"
 
 
-def rebuild(tx, keys, *, synthesis_loader=None) -> dict:
+# ── same-as groups: merge within (class, domain), link across it ───────────
+
+
+def _plan_groups(
+    keys, groups: list[list[tuple[str, str, str]]]
+) -> tuple[
+    dict[tuple[str, str, str], tuple[str, str, str]],
+    dict[tuple[str, str, str], list[tuple[str, str, str]]],
+    list[tuple[tuple[str, str, str], tuple[str, str, str]]],
+]:
+    """Pure. Turn the groups touching `keys` into a rebuild plan.
+
+    A group's members are split against its own canonical (`group[0]`, see
+    `same_as.py`) — never against each other, so the group stays a bounded,
+    canonical-centric assertion rather than a transitive closure:
+
+    - same `(entity_class, domain)` as the canonical -> **merge**: folded into
+      one Entity, written at `entity_id(canonical)`.
+    - different class or domain -> **link**: keeps its own Entity, joined to
+      the canonical's by a `SAME_AS` edge. `_domain` stays scalar on both —
+      merging across domains would force it into a list, and Neo4j can't
+      index-back an `any(...)` predicate over a list property, which is what
+      every domain-scoped query in the system relies on.
+
+    Returns `(unit_of, members_of, links)`:
+      `unit_of[key]`     -- the key whose Entity `key`'s observations feed.
+                             Present only for merge units; a key mapping to
+                             itself IS the merge unit's canonical.
+      `members_of[key]`  -- for a merge canonical, every raw key unioned in
+                             (itself included).
+      `links`            -- `(member_key, canonical_key)` pairs to `SAME_AS`.
+
+    Relies on the caller's `keys` already containing every member of any
+    group it touches — `affected_keys`'s set 3 guarantees this for every
+    normal (document/chat-triggered) rebuild; a rebuild seeded any other way
+    should pass the full key population (e.g. via `full_rebuild`).
+    """
+    in_scope = set(keys)
+    unit_of: dict[tuple[str, str, str], tuple[str, str, str]] = {}
+    members_of: dict[tuple[str, str, str], list[tuple[str, str, str]]] = {}
+    links: list[tuple[tuple[str, str, str], tuple[str, str, str]]] = []
+
+    for group in groups:
+        if not (in_scope & set(group)):
+            continue
+        canonical = group[0]
+        merge_members = [canonical]
+        for member in group[1:]:
+            if member[1] == canonical[1] and member[2] == canonical[2]:
+                merge_members.append(member)
+            else:
+                links.append((member, canonical))
+        if len(merge_members) > 1:
+            for member in merge_members:
+                unit_of[member] = canonical
+            members_of[canonical] = merge_members
+
+    return unit_of, members_of, links
+
+
+def _sync_same_as(tx, member_key: tuple[str, str, str], canonical_key: tuple[str, str, str]) -> None:
+    """`MERGE` a `SAME_AS` edge, both directions, between a link member's own
+    Entity and its group's canonical Entity. A no-op, safely, if either does
+    not (yet) exist — the `MATCH` simply finds nothing.
+
+    Callers clear stale `SAME_AS` edges before re-syncing (see `rebuild`), the
+    same delete-then-recreate idiom `_sync_relates_to` uses, so removing a
+    group from `same_as.yaml` cleanly drops the edge on the next rebuild.
+    """
+    tx.run(
+        """
+        MATCH (m:Entity {_id: $m}), (c:Entity {_id: $c})
+        MERGE (m)-[:SAME_AS]->(c)
+        MERGE (c)-[:SAME_AS]->(m)
+        """,
+        m=entity_id(member_key), c=entity_id(canonical_key),
+    )
+
+
+def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]:
+    """Apply every `_retracts` pointer among `observations`, before the keys
+    they touch are rebuilt.
+
+    A retracting observation names an existing `Observation.id` or
+    `ASSERTS_RELATION.id` it declares no longer true (see
+    `observations.build_observation`'s `retracts` parameter). Declarative:
+    the retracting observation is written like any other, by the caller,
+    before this runs; nothing here mutates it.
+
+    - Retracting an **Observation** demotes it to `:ObservationHistory` — the
+      same label swap `lifecycle._transition` uses for a whole document, here
+      scoped to one fact. It is never deleted, only removed from the `latest`
+      pool that feeds the aggregate.
+    - Retracting a **relationship** deletes the `ASSERTS_RELATION` edge
+      outright. Edges carry no history label, and `RELATES_TO` is already
+      recomputed from scratch on every rebuild (`_sync_relates_to`), so
+      deleting the raw edge is sufficient — the aggregate just stops
+      asserting it on the next sync.
+
+    Tolerant by design: a `_retracts` pointer matching nothing (already
+    retracted, already retired, a typo) is logged and skipped rather than
+    failing the commit.
+
+    Returns the aggregate keys the retracted **targets** belonged to — these
+    can differ from the retracting observation's own key (a chat may retract
+    a fact about a different entity than the one it is adding), so the caller
+    must union this into the affected-key set or the target's aggregate goes
+    unrebuilt.
+    """
+    keys: set[tuple[str, str, str]] = set()
+    for observation in observations:
+        target = observation.get("_retracts")
+        if not target:
+            continue
+        rec = tx.run(
+            """
+            MATCH (o:Observation {id: $id})
+            REMOVE o:Observation SET o:ObservationHistory
+            RETURN o.key AS key
+            """,
+            id=target,
+        ).single()
+        if rec:
+            parsed = _parse_key(rec["key"])
+            if parsed:
+                keys.add(parsed)
+            logger.info("Retracted observation {} -> :ObservationHistory", target)
+            continue
+
+        edge_exists = tx.run(
+            "MATCH ()-[r:ASSERTS_RELATION {id: $id}]->() RETURN count(r) AS n", id=target
+        ).single()
+        if edge_exists and edge_exists["n"]:
+            tx.run("MATCH ()-[r:ASSERTS_RELATION {id: $id}]->() DELETE r", id=target)
+            logger.info("Retracted relationship {} (ASSERTS_RELATION deleted)", target)
+            continue
+
+        logger.warning(
+            "retraction target {!r} matched no Observation or ASSERTS_RELATION edge; skipped",
+            target,
+        )
+    return keys
+
+
+def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None) -> dict:
     """Rebuild the given aggregate keys inside the caller's transaction.
 
-    `synthesis_loader(key) -> dict | None` is the Phase 6 seam; absent, every
-    description falls back to the winner observation's.
+    `same_as_groups` defaults to `same_as.load_groups()` — pass an explicit
+    (possibly filtered) list only when the caller has one in hand already.
+    `synthesis_loader(key) -> dict | None` is the synthesize seam; absent,
+    every description falls back to the winner observation's.
     """
+    if same_as_groups is None:
+        from artmind import same_as
+
+        same_as_groups = same_as.load_groups()
+
+    unit_of, members_of, links = _plan_groups(keys, same_as_groups)
+
+    # Clear stale SAME_AS edges up front, for every key that keeps its own
+    # Entity this pass (a folded-away key's edges vanish with it via
+    # _delete_entity's DETACH DELETE, below). Re-synced from `links` after.
+    for key in keys:
+        canonical = unit_of.get(key)
+        if canonical is not None and canonical != key:
+            continue
+        tx.run(
+            "MATCH (e:Entity {_id: $id}) OPTIONAL MATCH (e)-[r:SAME_AS]-(:Entity) DELETE r",
+            id=entity_id(canonical if canonical is not None else key),
+        )
+
     summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0}
     for key in sorted(keys):
-        synthesis = synthesis_loader(key) if synthesis_loader else None
-        outcome = rebuild_key(tx, key, synthesis=synthesis)
-        summary[outcome] += 1
         summary["keys"] += 1
+        canonical = unit_of.get(key)
+        if canonical is not None and canonical != key:
+            # Folded into another entity by a same-as group — never its own.
+            _delete_entity(tx, entity_id(key))
+            summary["deleted"] += 1
+            continue
+        effective_key = canonical if canonical is not None else key
+        member_keys = members_of.get(effective_key, [effective_key])
+        synthesis = synthesis_loader(effective_key) if synthesis_loader else None
+        outcome = rebuild_key(tx, effective_key, member_keys=member_keys, unit_of=unit_of, synthesis=synthesis)
+        summary[outcome] += 1
+
+    for member_key, canonical_key in links:
+        _sync_same_as(tx, member_key, canonical_key)
+
     logger.info(
         "Projection rebuild: {} key(s) — rebuilt={} deleted={} absent={}",
         summary["keys"], summary["rebuilt"], summary["deleted"], summary["absent"],
@@ -749,10 +981,22 @@ def all_keys(tx, domains: list[str] | None = None) -> set[tuple[str, str, str]]:
 def full_rebuild(tx, domains: list[str] | None = None, *, synthesis_loader=None) -> dict:
     """Rebuild every key. The deferred path for a directory ingest, and the
     recovery path for drift a hand-edited `same_as.yaml` or a schema change
-    introduced."""
+    introduced.
+
+    `domains=None` (every domain) is also the only shape that updates
+    `:ProjectionState` — same_as.yaml and the schema set are both global, so a
+    partial, one-domain-family full_rebuild can't honestly claim the whole
+    projection has caught up with them.
+    """
+    from artmind import same_as
+
+    groups = same_as.load_groups()
     keys = all_keys(tx, domains)
     logger.info("Full projection rebuild over {} key(s)", len(keys))
-    return rebuild(tx, keys, synthesis_loader=synthesis_loader)
+    summary = rebuild(tx, keys, same_as_groups=groups, synthesis_loader=synthesis_loader)
+    if domains is None:
+        record_rebuild(tx, same_as_hash=same_as.content_hash(), schema_hash=schema_set_hash())
+    return summary
 
 
 def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tuple[str, str, str]]:
@@ -788,3 +1032,103 @@ def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tupl
         if parsed:
             keys.add(parsed)
     return keys
+
+
+# ── synthesize seam ──────────────────────────────────────────────────────────
+
+
+def load_synthesis(tx, key: tuple[str, str, str]) -> dict | None:
+    """The real `synthesis_loader`: read the `:Synthesis` sibling node for
+    this key's entity, if one exists. Every `rebuild`/`full_rebuild` call site
+    should pass this (or a closure wrapping it) so a synthesis actually
+    survives a rebuild — see `docs/projection-pipeline.md` §3.
+
+    The `:Synthesis` node is keyed on the entity's own deterministic id, not
+    on the key string, so it is untouched by a same-as group forming or
+    dissolving around a *different* key mapping to the same canonical.
+    """
+    rec = tx.run(
+        "MATCH (s:Synthesis {id: $id}) RETURN properties(s) AS p", id=entity_id(key)
+    ).single()
+    return rec.get("p") if rec else None
+
+
+# ── :ProjectionState — drift detection ──────────────────────────────────────
+
+_PROJECTION_STATE_ID = "singleton"
+
+
+def schema_set_hash(domains_dir=None) -> str:
+    """Hash of every domain schema file's content, sorted by filename.
+    Detects any schema edit (a `kind` flip, a new domain, a property change)
+    without needing to interpret *what* changed — same shape as
+    `same_as.content_hash`."""
+    from pathlib import Path
+
+    from paths import DOMAIN_SCHEMAS_DIR
+
+    target_dir = Path(domains_dir) if domains_dir else DOMAIN_SCHEMAS_DIR
+    if not target_dir.exists():
+        return ""
+    hasher = hashlib.sha256()
+    for f in sorted(target_dir.glob("*.yaml")):
+        hasher.update(f.name.encode("utf-8"))
+        hasher.update(f.read_bytes())
+    return hasher.hexdigest()
+
+
+def record_rebuild(tx, *, same_as_hash: str, schema_hash: str) -> None:
+    """Update the `:ProjectionState` singleton after a FULL (all-domain)
+    rebuild. Scoped/incremental rebuilds never call this — drift is about
+    whether a full rebuild has caught up with the curation/schema files, and
+    an incremental rebuild proves nothing about the keys it didn't touch."""
+    tx.run(
+        """
+        MERGE (s:ProjectionState {id: $id})
+        SET s.same_as_hash = $same_as_hash,
+            s.schema_hash = $schema_hash,
+            s.last_rebuilt_at = $now
+        """,
+        id=_PROJECTION_STATE_ID,
+        same_as_hash=same_as_hash,
+        schema_hash=schema_hash,
+        now=datetime.now(timezone.utc).isoformat(),
+    )
+
+
+def read_state(tx) -> dict | None:
+    rec = tx.run(
+        "MATCH (s:ProjectionState {id: $id}) RETURN properties(s) AS p", id=_PROJECTION_STATE_ID
+    ).single()
+    return rec.get("p") if rec else None
+
+
+def status(tx) -> dict:
+    """Compare the recorded `:ProjectionState` against `same_as.yaml` and the
+    schema set right now. Read-only, deliberately: queries run through
+    `read_session()` (`READ_ACCESS`), so drift is reported, never auto-fixed —
+    that guarantee is worth more than the convenience of a query silently
+    triggering a write."""
+    from artmind import same_as
+
+    current_same_as = same_as.content_hash()
+    current_schema = schema_set_hash()
+    recorded = read_state(tx)
+    if not recorded:
+        return {
+            "known": False,
+            "same_as_drift": True,
+            "schema_drift": True,
+            "current_same_as_hash": current_same_as,
+            "current_schema_hash": current_schema,
+        }
+    return {
+        "known": True,
+        "last_rebuilt_at": recorded.get("last_rebuilt_at"),
+        "same_as_drift": recorded.get("same_as_hash") != current_same_as,
+        "schema_drift": recorded.get("schema_hash") != current_schema,
+        "recorded_same_as_hash": recorded.get("same_as_hash"),
+        "current_same_as_hash": current_same_as,
+        "recorded_schema_hash": recorded.get("schema_hash"),
+        "current_schema_hash": current_schema,
+    }

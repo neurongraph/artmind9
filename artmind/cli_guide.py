@@ -50,6 +50,8 @@ CATEGORY_META: dict[str, tuple[str, str]] = {
     "Structured store": ("▤", "SQL tables bridged to the graph — mappings, grain, catalogue"),
     "Query": ("?", "Knowledge graph and vector index queries"),
     "Documents": ("□", "Manage ingested documents"),
+    "Projection": ("▣", "Recompute Entities from observations; synthesize descriptions"),
+    "Curation": ("◇", "Curated same-as groups — the review queue and same_as.yaml"),
     "Updates": ("✎", "Add and update facts from natural language"),
     "Sessions": ("◉", "Save and restore the Neo4j graph between sessions"),
 }

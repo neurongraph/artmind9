@@ -1,13 +1,20 @@
-"""Entity resolution and graph refinement: cluster similar names, merge via LLM, apply to Neo4j."""
+"""Entity resolution and graph refinement: cluster similar names, propose via LLM.
+
+The clustering and the merge-resolution PROMPT are one of the two same-as
+proposers (the other is `conflicts.py`'s cross-domain adjudicator). Neither
+applies anything directly any more — every proposal lands in the review
+queue `artmind.sameas` owns, alongside the adjudicator's, and a human
+approves via `sameas approve`.
+"""
 
 import difflib
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
 from pathlib import Path
 
 from loguru import logger
 
+from artmind import sameas
 from artmind.graph_query import neo4j_session
 from artmind.ingest import _call_llm_text, _parse_json_response
 
@@ -98,50 +105,6 @@ def llm_merge_cluster(cluster: list[str], model: str, timeout: int) -> dict[str,
     return {name: name for name in cluster}
 
 
-def _merge_entity_pair(session, alias: str, canonical: str, domain: str | None) -> bool:
-    """Merge alias entity node into canonical entity node, re-wiring all relationships."""
-    params: dict = {"alias": alias, "canonical": canonical}
-    domain_clause = ""
-    if domain:
-        params["domain"] = domain
-        domain_clause = ", _domain: $domain"
-
-    try:
-        # Add alias name to canonical's aliases list before merge
-        session.run(
-            f"""
-            MATCH (canonical:Entity {{name: $canonical{domain_clause}}})
-            SET canonical.aliases =
-                CASE WHEN $alias IN coalesce(canonical.aliases, [])
-                     THEN coalesce(canonical.aliases, [])
-                     ELSE coalesce(canonical.aliases, []) + [$alias]
-                END
-            """,
-            **params,
-        )
-
-        # APOC mergeNodes: re-wires all rels from alias to canonical, then deletes alias
-        result = session.run(
-            f"""
-            MATCH (alias:Entity {{name: $alias{domain_clause}}})
-            MATCH (canonical:Entity {{name: $canonical{domain_clause}}})
-            WHERE alias <> canonical
-            CALL apoc.refactor.mergeNodes([canonical, alias], {{properties: 'discard', mergeRels: true}}) YIELD node
-            SET node.name = $canonical
-            RETURN node.name AS name
-            """,
-            **params,
-        )
-        merged = [r["name"] for r in result]
-        if not merged:
-            logger.warning("No nodes merged for {} → {} (nodes may not exist or already merged)", alias, canonical)
-            return False
-        return True
-    except Exception as e:
-        logger.error("Failed to merge {} → {}: {}", alias, canonical, e)
-        return False
-
-
 def _entity_domains(session, names: list[str]) -> dict[str, set[str]]:
     """Map each entity name to the set of domains it appears in."""
     rows = session.run(
@@ -181,28 +144,47 @@ def cross_class_pairs(
     return flagged
 
 
-def _record_refine_run(session, domains: list[str]) -> None:
-    """Record a RefineRun marker for each domain that had refine-graph applied to it."""
-    for d in domains:
-        session.run(
-            "MERGE (r:RefineRun {domain:$d}) SET r.at = $at",
-            d=d, at=datetime.now(timezone.utc).isoformat(),
-        )
+def _entity_keys(session, names: list[str], domain: str | None) -> dict[str, set[str]]:
+    """Map each entity name to its aggregate-key string(s) (scoped to domain
+    when given). More than one key means the name is ambiguous across domains
+    or classes — such a name is skipped when proposing, same as `dmap`'s
+    cross-domain guard already does for the merge decision itself."""
+    rows = session.run(
+        """
+        MATCH (e:Entity)
+        WHERE e.name IN $names AND ($domain IS NULL OR e._domain = $domain)
+        RETURN e.name AS name, collect(DISTINCT e.key) AS keys
+        """,
+        names=names,
+        domain=domain,
+    ).data()
+    return {r["name"]: {k for k in r["keys"] if k} for r in rows}
 
 
-def apply_merges(proposed_merges: dict[str, str], domain: str | None) -> dict:
-    """Execute entity merges in Neo4j. Returns stats dict.
+def propose_merges(
+    proposed_merges: dict[str, str], domain: str | None, model: str
+) -> dict:
+    """Turn `{alias: canonical}` mappings into same-as proposals, grouped by
+    canonical — one proposal per canonical, however many aliases map to it.
 
+    The destructive `apoc.mergeNodes` apply step is gone: clustering and the
+    merge PROMPT survive as a proposer, the apply does not (a human approves
+    via `sameas approve`, same review queue conflicts.py's adjudicator feeds).
     Cross-class pairs are skipped here regardless of how the proposals were
     produced — clustering is class-constrained, but --from-file proposals may
-    be hand-edited or predate that constraint, and merging across classes
-    unions labels into a frankenentity with no un-merge path.
+    be hand-edited or predate that constraint, and a same-as group spanning
+    two classes is exactly what groups (vs. pairs) exist to prevent.
     """
-    stats = {"merged": 0, "skipped": 0, "errors": 0, "skipped_cross_class": 0}
+    stats = {"proposed": 0, "skipped": 0, "errors": 0, "skipped_cross_class": 0, "skipped_ambiguous": 0}
+    proposal_ids: list[str] = []
     with neo4j_session() as session:
         names = list({*proposed_merges.keys(), *proposed_merges.values()})
         class_map = _entity_classes(session, names, domain) if names else {}
+        key_map = _entity_keys(session, names, domain) if names else {}
         flagged = cross_class_pairs(proposed_merges, class_map)
+
+        # Group by canonical so a cluster of 3+ aliases becomes ONE group.
+        by_canonical: dict[str, list[str]] = {}
         for alias, canonical in proposed_merges.items():
             if alias == canonical:
                 stats["skipped"] += 1
@@ -210,20 +192,48 @@ def apply_merges(proposed_merges: dict[str, str], domain: str | None) -> dict:
             if alias in flagged:
                 stats["skipped_cross_class"] += 1
                 logger.warning(
-                    "Skipped cross-class merge: {} ({}) → {} ({})",
-                    alias,
-                    sorted(class_map.get(alias, set())),
-                    canonical,
-                    sorted(class_map.get(canonical, set())),
+                    "Skipped cross-class proposal: {} ({}) → {} ({})",
+                    alias, sorted(class_map.get(alias, set())),
+                    canonical, sorted(class_map.get(canonical, set())),
                 )
                 continue
-            ok = _merge_entity_pair(session, alias, canonical, domain)
-            if ok:
-                stats["merged"] += 1
-                logger.info("Merged: {} → {}", alias, canonical)
-            else:
-                stats["errors"] += 1
-    return stats
+            by_canonical.setdefault(canonical, []).append(alias)
+
+        for canonical, aliases in by_canonical.items():
+            canonical_keys = key_map.get(canonical, set())
+            if len(canonical_keys) != 1:
+                stats["skipped_ambiguous"] += len(aliases)
+                logger.warning(
+                    "Skipped proposal for canonical {!r}: {} distinct key(s) found "
+                    "(expected exactly 1)", canonical, len(canonical_keys),
+                )
+                continue
+            canonical_key = _parse_key(next(iter(canonical_keys)))
+            member_keys = [canonical_key]
+            for alias in aliases:
+                alias_keys = key_map.get(alias, set())
+                if len(alias_keys) != 1:
+                    stats["skipped_ambiguous"] += 1
+                    logger.warning(
+                        "Skipped alias {!r} -> {!r}: {} distinct key(s) found for the alias "
+                        "(expected exactly 1)", alias, canonical, len(alias_keys),
+                    )
+                    continue
+                member_keys.append(_parse_key(next(iter(alias_keys))))
+            if len(member_keys) < 2:
+                continue
+            pid = sameas.propose(
+                session, canonical_key, member_keys,
+                source="refine_graph", reason="name-similarity clustering", model=model,
+            )
+            proposal_ids.append(pid)
+            stats["proposed"] += 1
+    return {"stats": stats, "proposal_ids": proposal_ids}
+
+
+def _parse_key(value: str) -> tuple[str, str, str]:
+    parts = value.split("|")
+    return tuple(parts) if len(parts) == 3 else (value, "", "")  # type: ignore[return-value]
 
 
 def refine_graph(
@@ -254,28 +264,11 @@ def refine_graph(
         proposed_merges: dict[str, str] = data.get("proposed_merges", data)
         logger.info("Loaded {} merge proposal(s) from {}", len(proposed_merges), from_file)
 
-        # Pre-merge domain lookup (before apply_merges mutates the graph — APOC merges
-        # delete alias nodes, so a post-merge re-query would no longer resolve them).
-        dmap: dict[str, set[str]] = {}
-        if proposed_merges:
-            names = set(proposed_merges.keys()) | set(proposed_merges.values())
-            with neo4j_session() as session:
-                dmap = _entity_domains(session, list(names))
-
-        stats = apply_merges(proposed_merges, domain)
+        result = propose_merges(proposed_merges, domain, model)
         report["proposed_merges"] = proposed_merges
-        report["stats"] = stats
-        logger.info("Done — merged={merged} skipped={skipped} errors={errors}", **stats)
-
-        if proposed_merges:
-            if domain:
-                touched_domains = [domain]
-            else:
-                names = set(proposed_merges.keys()) | set(proposed_merges.values())
-                touched_domains = sorted({d for name in names for d in dmap.get(name, set())})
-            with neo4j_session() as session:
-                _record_refine_run(session, touched_domains)
-
+        report["stats"] = result["stats"]
+        report["proposal_ids"] = result["proposal_ids"]
+        logger.info("Done — {}", result["stats"])
         return report
 
     env = load_env()
@@ -337,9 +330,9 @@ def refine_graph(
 
     logger.info("Total proposed merges: {}", len(report["proposed_merges"]))
 
-    # Pre-merge domain lookup: computed once, before apply_merges() mutates the graph
-    # (APOC merges delete alias nodes, so any post-merge re-query would no longer resolve
-    # alias names). Reused for both the cross-domain guard split and touched-domains below.
+    # Domain lookup for the cross-domain guard below — nothing here mutates
+    # the graph any more (proposing is additive), so there's no staleness
+    # risk in computing it once and reusing it.
     dmap: dict[str, set[str]] = {}
     if report["proposed_merges"]:
         names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
@@ -364,16 +357,9 @@ def refine_graph(
         logger.info("Proposals written to {}", output_file)
 
     if not dry_run and report["proposed_merges"]:
-        stats = apply_merges(report["proposed_merges"], domain)
-        report["stats"] = stats
-        logger.info("Done — merged={merged} skipped={skipped} errors={errors}", **stats)
-
-        if domain:
-            touched_domains = [domain]
-        else:
-            names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
-            touched_domains = sorted({d for name in names for d in dmap.get(name, set())})
-        with neo4j_session() as session:
-            _record_refine_run(session, touched_domains)
+        result = propose_merges(report["proposed_merges"], domain, model)
+        report["stats"] = result["stats"]
+        report["proposal_ids"] = result["proposal_ids"]
+        logger.info("Done — {}", result["stats"])
 
     return report

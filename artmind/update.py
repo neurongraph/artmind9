@@ -148,20 +148,29 @@ def find_candidates(
 def find_supersession_candidates(
     source_node_id: str, rel_type: str, target_name: str, top_n: int = 3
 ) -> list[dict]:
-    """Existing (source)-[rel_type]->(other) edges to a DIFFERENT target than the
-    one just extracted — a signal the new fact replaces the old one rather than
-    adding beside it (e.g. a branch's headed_by changing from one manager to
-    another). Matched by elementId since `source_node_id` comes from
-    find_candidates. Purely a suggestion surfaced to the user; never applied
-    automatically.
+    """Existing (source)-[rel_type]->(other) `RELATES_TO` edges to a DIFFERENT
+    target than the one just extracted — a signal the new fact replaces the
+    old one rather than adding beside it (e.g. a branch's headed_by changing
+    from one manager to another). Matched by elementId since `source_node_id`
+    comes from `find_candidates`.
+
+    Resolved down to the underlying `ASSERTS_RELATION` edge id(s) — via
+    `AGGREGATES` on both sides — since that is what a resolution's `retracts`
+    field can actually act on. Entity-level supersession no longer exists;
+    what a confirmed candidate retracts is the specific relationship
+    assertion(s) behind the aggregate, not the target entity itself. Purely a
+    suggestion surfaced to the user; never applied automatically.
     """
     sanitized_type = _sanitize_label(rel_type)
     cypher = """
     MATCH (s:Entity) WHERE elementId(s) = $sourceNodeId
     MATCH (s)-[r:RELATES_TO]->(existing:Entity)
     WHERE r.rel_type = $relType AND toLower(existing.name) <> toLower($targetName)
-    RETURN DISTINCT elementId(existing) AS node_id, existing.name AS name,
-           existing.entity_class AS entity_class, r.rel_type AS rel_type
+    OPTIONAL MATCH (s)-[:AGGREGATES]->(:Observation)-[ar:ASSERTS_RELATION]->(:Observation)<-[:AGGREGATES]-(existing)
+    WHERE ar.rel_type = $relType
+    RETURN elementId(existing) AS node_id, existing.name AS name,
+           existing.entity_class AS entity_class, r.rel_type AS rel_type,
+           collect(DISTINCT ar.id) AS relation_observation_ids
     LIMIT $top_n
     """
     with neo4j_session() as session:
@@ -269,11 +278,14 @@ def write_user_chat(
     projection owns every entity property, and a direct write would be silently
     reverted by the next rebuild.
 
-    Entity-level supersession is gone (`apply_node_supersession`, along with
-    `Entity.superseded_by` and `status='superseded'`). Those were projection-
-    owned properties, so a chat that set them would have them wiped by the next
-    rebuild. A `supersedes` resolution is reported rather than applied — see
-    the warning below for what to use instead.
+    Entity-level supersession (`apply_node_supersession`, `Entity.superseded_by`,
+    `status='superseded'`) is gone — those were projection-owned properties, so
+    a chat that set them would have been wiped by the next rebuild. Its
+    replacement is observation-level: a resolution's `retracts` field names
+    the observation id(s) (or `ASSERTS_RELATION` edge id(s), for a
+    relationship fact) it declares no longer true. Declarative, survives
+    rebuilds, never mutates the retracted observation — see
+    `projection.apply_retractions`.
     """
     from artmind import projection
     from artmind.observations import aggregate_key, build_observation, key_string
@@ -293,7 +305,7 @@ def write_user_chat(
     resolved: dict[str, dict] = {}
     nodes_created = 0
     nodes_updated = 0
-    nodes_superseded = 0
+    nodes_retracted = 0
 
     with neo4j_session() as session:
         _ensure_user_chat_schema(session, embedding_dim)
@@ -379,15 +391,30 @@ def write_user_chat(
                 "observation_id": observation["id"],
             }
 
-        for res in resolutions:
-            if res.get("supersedes"):
-                nodes_superseded += 0
-                logger.warning(
-                    "supersession in chat {} not applied: entity-level supersession was "
-                    "removed with the projection (Entity.superseded_by is derived now). "
-                    "Retire the source document (`docs retire`) or declare a same-as "
-                    "group instead.", chat_id,
+            # `retracts`: this resolution declares one or more existing
+            # observations (or ASSERTS_RELATION edges — a relationship fact)
+            # no longer true. Each becomes its OWN thin observation under this
+            # SAME aggregate key (never a separate synthetic entity), carrying
+            # no domain properties of its own — `_retracts` is its only job.
+            # See `_retraction_target_ids` / `projection.apply_retractions`.
+            target_ids = _retraction_target_ids(res.get("retracts"))
+            for i, target_id in enumerate(target_ids):
+                retraction = build_observation(
+                    {"name": canonical_name, "entity_class": entity_class, "domain": target_domain},
+                    canonical_name=canonical_name,
+                    domain_props=None,
+                    doc_id=chat_id,
+                    doc_version=1,
+                    chunk_id=f"{chat_id}_retract_{i}",
+                    kind=_class_kind(schema, entity_class),
+                    doc_valid_from=today,
+                    valid_time_source="user_chat",
+                    retracts=target_id,
                 )
+                retraction["source_kind"] = "user_chat"
+                retraction["created_by"] = user_id
+                observations.append(retraction)
+                nodes_retracted += 1
 
         # One transaction: the observations, their relationship observations,
         # and the rebuild they dirty — all three, together, same as a document
@@ -417,7 +444,14 @@ def write_user_chat(
                 tuple(o["key"].split("|")) for o in observations
                 if o.get("key") and o["key"].count("|") == 2
             }
-            return projection.rebuild(tx, keys), rel_written
+            # Retractions run before the rebuild, same ordering as a document
+            # commit's step 4b — the target's key may differ from anything
+            # else this chat touched.
+            keys |= projection.apply_retractions(tx, observations)
+            return (
+                projection.rebuild(tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k)),
+                rel_written,
+            )
 
         _, rel_count = session.execute_write(_write)
 
@@ -427,7 +461,7 @@ def write_user_chat(
         "user_chat_id": chat_id,
         "nodes_created": nodes_created,
         "nodes_updated": nodes_updated,
-        "nodes_superseded": nodes_superseded,
+        "nodes_retracted": nodes_retracted,
         "observations_written": len(observations),
         "relationships_written": rel_count,
     }
@@ -443,6 +477,30 @@ def _class_kind(schema: dict, entity_class: str) -> str:
     from artmind.observations import class_kind
 
     return class_kind(schema, entity_class)
+
+
+def _retraction_target_ids(retracts) -> list[str]:
+    """Normalize a resolution's `retracts` field to a flat list of target ids.
+
+    Accepts a bare id string, a list of id strings, or a list of dicts (the
+    shape `find_supersession_candidates` returns, `{"id": ..., ...}` or
+    `{"relation_observation_id": ...}`) — whatever the caller most naturally
+    has in hand. Anything that doesn't resolve to a string is dropped rather
+    than raised: a malformed retraction is a missed retraction, not a reason
+    to fail the whole chat write.
+    """
+    if not retracts:
+        return []
+    items = [retracts] if isinstance(retracts, str) else list(retracts)
+    out: list[str] = []
+    for item in items:
+        if isinstance(item, str):
+            out.append(item)
+        elif isinstance(item, dict):
+            target = item.get("id") or item.get("observation_id") or item.get("relation_observation_id")
+            if target:
+                out.append(str(target))
+    return out
 
 
 def _write_chat_relation_observations(tx, extracted_relationships, resolved, chat_id) -> int:

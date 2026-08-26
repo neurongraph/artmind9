@@ -2373,6 +2373,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     silently-stale query layer.
     """
     from artmind import projection, same_as
+    from artmind.observations import key_string
 
     document = staged["document"]
     domain = staged["domain"]
@@ -2421,6 +2422,16 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         for o in observations if o.get("key") and o["key"].count("|") == 2
     }
 
+    # 4b. Retractions — any observation just written that carries `_retracts`
+    #     demotes its target to history (or deletes the target relationship
+    #     edge) before the rebuild runs. The target's own key may differ from
+    #     anything else this document touched, so it joins `incoming_keys` —
+    #     `affected_keys` doesn't distinguish why a key is in scope, only that
+    #     it is.
+    retracted_keys = projection.apply_retractions(tx, observations)
+    incoming_keys |= retracted_keys
+    summary["retracted_observations"] = sorted(key_string(k) for k in retracted_keys)
+
     # 5. Relationship observations — raw, immutable ASSERTS_RELATION edges
     #    between this document's own Observation nodes. Written before the
     #    rebuild (not after, as the old direct-to-Entity writer required):
@@ -2446,7 +2457,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         summary["deferred_keys"] = sorted(keys)
         summary["projection"] = {"deferred": True}
     else:
-        summary["projection"] = projection.rebuild(tx, keys)
+        summary["projection"] = projection.rebuild(
+            tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+        )
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)
 
@@ -2586,10 +2599,18 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
     domains = [domain] if domain else None
     with neo4j_session() as session:
         if keys:
-            summary = session.execute_write(lambda tx: projection.rebuild(tx, keys))
+            summary = session.execute_write(
+                lambda tx: projection.rebuild(
+                    tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+                )
+            )
             swept_keys = list(keys)
         else:
-            summary = session.execute_write(lambda tx: projection.full_rebuild(tx, domains))
+            summary = session.execute_write(
+                lambda tx: projection.full_rebuild(
+                    tx, domains, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+                )
+            )
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
     if domain:
         summary["embedded"] = _sweep_embeddings(domain, swept_keys)

@@ -237,6 +237,7 @@ def build_observation(
     valid_from: str | None = None,
     valid_to: str | None = None,
     valid_time_source: str | None = None,
+    retracts: str | None = None,
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
@@ -256,6 +257,13 @@ def build_observation(
 
     `_kind` is likewise denormalized from the class's schema declaration at
     ingest time, for the same reason.
+
+    `retracts` -- an existing `Observation.id` (or `ASSERTS_RELATION.id`) this
+    observation declares no longer true. Declarative, not a mutation: the
+    rebuild demotes the *named* observation to `:ObservationHistory` (or
+    deletes the named relation edge) before merging -- the retracting
+    observation itself is an ordinary, immutable record like any other. See
+    `projection.apply_retractions`.
     """
     entity_class = entity.get("entity_class") or ""
     obs_domain = entity.get("domain") or ""
@@ -297,6 +305,8 @@ def build_observation(
         props["_valid_time_source"] = valid_time_source
     if doc_valid_from:
         props["_doc_valid_from"] = doc_valid_from
+    if retracts:
+        props["_retracts"] = retracts
 
     props.update(flatten_domain_props(domain_props))
     return props

@@ -73,7 +73,7 @@ def _transition(tx, doc_id: str, *, to_history: bool) -> dict:
         doc_id=doc_id,
     )
 
-    summary = projection.rebuild(tx, keys)
+    summary = projection.rebuild(tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k))
     return {
         "doc_id": doc_id,
         "observations": int(observations["n"]) if observations else 0,
@@ -126,16 +126,24 @@ def _sweep(domain: str, keys: list) -> int:
 
 
 def resolve_document_id(name_or_id: str, domain: str | None = None) -> str | None:
-    """Find a document by id or by name — nobody should have to type a uuid."""
+    """Find a document by id or by name — nobody should have to type a uuid.
+
+    Matches `(d:Document OR d:DocumentHistory)`, not `:Document` alone — a
+    document `restore-from-archive` just placed in history (Phase 5's exact
+    end state) needs to resolve here too, or `docs restore --documentName
+    <anything, even the exact id>` cannot find it, which is exactly the
+    document a human would want to promote next. Found live in Phase 5,
+    fixed here (Phase 6) since nothing else touches this function in between.
+    """
     from artmind.graph_query import read_session
 
     clause = " AND (d.domain = $domain OR d.domain STARTS WITH ($domain + '.'))" if domain else ""
     with read_session() as session:
         rows = session.run(
             f"""
-            MATCH (d:Document)
-            WHERE (d.id = $ref OR toUpper(d.name) = toUpper($ref)
-                   OR toUpper(coalesce(d.title, '')) = toUpper($ref)){clause}
+            MATCH (d) WHERE (d:Document OR d:DocumentHistory)
+            AND (d.id = $ref OR toUpper(d.name) = toUpper($ref)
+                 OR toUpper(coalesce(d.title, '')) = toUpper($ref)){clause}
             RETURN d.id AS id, d.name AS name
             """,
             ref=name_or_id, **({"domain": domain} if domain else {}),

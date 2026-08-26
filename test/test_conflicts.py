@@ -1,6 +1,7 @@
 """Conflict detection + refine-graph guard unit tests (no Neo4j unless noted)."""
 import inspect
 import artmind.refine_graph as rg
+import artmind.conflicts as conflicts_mod
 
 from artmind.conflicts import conflict_id, _name_ratio
 
@@ -10,9 +11,14 @@ def test_refine_graph_accepts_allow_cross_domain_merge():
     assert "allow_cross_domain_merge" in sig.parameters
 
 
-def test_apply_merges_writes_refine_run_marker():
-    src = inspect.getsource(rg)
-    assert "RefineRun" in src
+def test_refine_run_gate_is_gone():
+    # Phase 6: RefineRun blocked conflict detection since day one (count 0).
+    # Deleted outright, along with the destructive apply_merges/mergeNodes
+    # path -- refine_graph's clustering survives only as a same-as proposer.
+    assert "RefineRun" not in inspect.getsource(rg)
+    assert not hasattr(conflicts_mod, "check_refine_precondition")
+    assert not hasattr(rg, "apply_merges")
+    assert not hasattr(rg, "_merge_entity_pair")
 
 
 def test_conflict_id_is_order_independent():

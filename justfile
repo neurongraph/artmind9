@@ -146,6 +146,38 @@ docs-archived:
 docs-restore-from-archive id:
     uv run artmind docs restore-from-archive --id {{ id }}
 
+# ── artmind projection ───────────────────────────────────────────────────────
+
+# recompute Entities from observations (default: every domain)  (usage: just projection-rebuild [domain])
+projection-rebuild domain="":
+    uv run artmind projection rebuild {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# report drift between the live projection and same_as.yaml / the schema set  (usage: just projection-status)
+projection-status:
+    uv run artmind projection status
+
+# rewrite entity descriptions as one coherent passage drawn from all their observations  (usage: just projection-synthesize <domain> [flags])
+projection-synthesize domain flags="":
+    uv run artmind projection synthesize --domain {{ domain }} {{ flags }}
+
+# ── artmind sameas ───────────────────────────────────────────────────────────
+
+# generate same-as (and conflict) candidates via the cross-domain adjudicator  (usage: just sameas-propose <domain> [flags])
+sameas-propose domain flags="":
+    uv run artmind sameas propose --domain {{ domain }} {{ flags }}
+
+# list same-as proposals in the review queue  (usage: just sameas-list [status])
+sameas-list status="open":
+    uv run artmind sameas list --status {{ status }}
+
+# approve a proposal: append its group to same_as.yaml and rebuild  (usage: just sameas-approve <proposal_id> [canonical])
+sameas-approve proposal_id canonical="":
+    uv run artmind sameas approve {{ proposal_id }} {{ if canonical != "" { "--canonical " + canonical } else { "" } }}
+
+# reject a proposal  (usage: just sameas-reject <proposal_id> [reason])
+sameas-reject proposal_id reason="":
+    uv run artmind sameas reject {{ proposal_id }} {{ if reason != "" { "--reason '" + reason + "'" } else { "" } }}
+
 # ── artmind domains ──────────────────────────────────────────────────────────
 
 # list all available domain schemas
@@ -218,29 +250,25 @@ ingest-write-to-graph-folder folder domain="":
 ingest-pull-kg repo repo_path domain:
     uv run artmind ingest pull-kg --repo '{{ repo }}' --repo-path '{{ repo_path }}' --domain {{ domain }}
 
-# dry-run entity resolution: compute merge proposals and write to file  (usage: just ingest-refine-graph-dry [domain])
+# dry-run intra-class name clustering: compute same-as proposals and write to file  (usage: just ingest-refine-graph-dry [domain])
 ingest-refine-graph-dry domain="":
     uv run artmind ingest refine-graph --dry-run {{ if domain != "" { "--domain " + domain } else { "" } }}
 
-# apply merge proposals from a dry-run file  (usage: just ingest-refine-graph-apply <file> [domain])
-ingest-refine-graph-apply file domain="":
+# write same-as proposals (the review queue -- see sameas-list/approve) from a dry-run file  (usage: just ingest-refine-graph-propose <file> [domain])
+ingest-refine-graph-propose file domain="":
     uv run artmind ingest refine-graph --from-file '{{ file }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
 
 # backfill vector embeddings for entities missing one  (usage: just ingest-embed-entities <domain>)
 ingest-embed-entities domain:
     uv run artmind ingest embed-entities --domain {{ domain }}
 
-# propose (or apply, with --from-file) the full refinement pipeline: time → supersession → merge → conflicts → consolidate → embed  (usage: just ingest-refine-pipeline <domain> [flags])
-ingest-refine-pipeline domain flags="":
-    uv run artmind ingest refine-pipeline --domain {{ domain }} {{ flags }}
-
-# rewrite accumulated entity descriptions into clean prose from source chunks  (usage: just ingest-consolidate-descriptions <domain> [flags])
-ingest-consolidate-descriptions domain flags="":
-    uv run artmind ingest consolidate-descriptions --domain {{ domain }} {{ flags }}
-
-# backfill canonical valid_from/valid_to/event_at from schema temporal mappings  (usage: just ingest-normalize-time <domain> [--dry-run])
-ingest-normalize-time domain dry_run="":
-    uv run artmind ingest normalize-time --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
+# NOTE: refine-pipeline and normalize-time were removed from the CLI in Phase 3;
+# these two recipes are pre-existing drift, not yet cleaned up here (Phase 7's
+# justfile/skill audit territory) -- flagged rather than silently left to run.
+# ingest-refine-pipeline domain flags="":
+#     uv run artmind ingest refine-pipeline --domain {{ domain }} {{ flags }}   # DEAD: command removed Phase 3
+# ingest-normalize-time domain dry_run="":
+#     uv run artmind ingest normalize-time --domain {{ domain }} ...           # DEAD: command removed Phase 3
 
 # detect non-destructive conflicts between entities, intra- or cross-domain  (usage: just ingest-detect-conflicts <domain> [flags])
 ingest-detect-conflicts domain flags="":

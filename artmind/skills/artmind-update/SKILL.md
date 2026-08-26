@@ -70,13 +70,15 @@ Build the resolutions JSON array:
 ]
 ```
 
-## Step 2b — Node-Level Supersession
+## Step 2b — Retraction (fact-level, not node-level)
 
-Some facts don't just add information — they **replace** an existing node. "The
-branch manager changed to Harry Potter" doesn't just add Harry Potter; it retires
-whoever held that role before. Unlike a property change (link + update
-properties), the old fact here lives on a *distinct existing node* that should be
-marked historical, not deleted.
+Some facts don't just add information — they **retract** an existing one. "The
+branch manager changed to Harry Potter" doesn't just add Harry Potter; the old
+`headed_by` fact is no longer true. There is no node-level supersession any
+more (entities are recomputed from observations on every rebuild, so nothing
+can be marked superseded and have it stick) — the retraction targets the
+specific **observation**, or the specific `ASSERTS_RELATION` edge behind a
+relationship fact, never the entity node itself.
 
 `update draft`'s response includes `supersession_candidates` — auto-detected via
 the heuristic "the fact's source already has a same-rel_type edge to a different
@@ -87,7 +89,8 @@ target." Each entry looks like:
   "source_temp_id": "e0", "source_name": "London Canary Wharf Branch",
   "target_temp_id": "e2", "new_target_name": "Harry Potter",
   "rel_type": "headed_by",
-  "replaces": [{"node_id": "<elementId>", "name": "Branch Manager - James Chen", "entity_class": "PERSON"}]
+  "replaces": [{"node_id": "<elementId>", "name": "Branch Manager - James Chen",
+                "entity_class": "PERSON", "relation_observation_ids": ["<id>", ...]}]
 }
 ```
 
@@ -97,32 +100,32 @@ never applied automatically:
 ```
 This "headed_by" fact for Harry Potter looks like it replaces:
   - Branch Manager - James Chen (PERSON)
-Mark the old one as superseded? [y/N]
+Retract the old relationship? [y/N]
 ```
 
-If confirmed, add a `supersedes` list to the resolution for the *superseding*
-entity (the `create`/`link` action for `target_temp_id`, e.g. `e2` above):
+If confirmed, add a `retracts` list to the resolution for the *new* fact's
+entity (the `create`/`link` action for `target_temp_id`, e.g. `e2` above),
+naming the `relation_observation_ids` from `replaces` above:
 
 ```json
 [
   {"entity_temp_id": "e0", "action": "link", "node_id": "<canary wharf node_id>"},
   {"entity_temp_id": "e2", "action": "create", "node_id": null,
-   "supersedes": [
-     {"node_id": "<James Chen elementId>", "effective": "2026-07-18", "reason": "role holder changed"}
-   ]}
+   "retracts": ["<relation_observation_id from replaces above>"]}
 ]
 ```
 
-`effective` defaults to today if omitted. The superseded node need not be one of
-the extracted entities at all — if you spot a node to retire through some other
-query, add it to `supersedes` the same way. The `node_id` field accepts either
-identifier format: the elementId from `find_candidates`/`replaces` above, or
-the `id` property returned by `entity-context`/`pattern2`/etc.
+A retraction can also name a plain **observation id** directly (e.g. one
+returned by `query entity-history`) — `retracts` accepts a bare id string, a
+list of id strings, or the dict shape above; `id_` naming doesn't matter, only
+`id` / `observation_id` / `relation_observation_id` keys are read from a dict
+entry.
 
-`confirm`'s response then includes `nodes_superseded` alongside the usual counts.
-
-Superseded nodes are never deleted — they get `valid_to`, `superseded_by`, and
-`status: 'superseded'`, and drop out of `--asOf`-filtered queries automatically.
+`confirm`'s response then includes `nodes_retracted` alongside the usual
+counts. A retracted observation is never deleted — it is relabelled to
+`:ObservationHistory` (or, for a relationship, its `ASSERTS_RELATION` edge is
+removed) and drops out of the projection on the next rebuild, which already
+runs as part of this same `confirm` call.
 
 ## Step 3 — Confirm (write to graph)
 
@@ -132,7 +135,7 @@ artmind update confirm \
   --resolutions '<resolutions JSON>'
 ```
 
-Output JSON: `{nodes_created, nodes_updated, nodes_superseded, relationships_written, user_chat_id}`
+Output JSON: `{nodes_created, nodes_updated, nodes_retracted, relationships_written, user_chat_id}`
 
 Report the summary to the user:
 > "Added: 2 new nodes, 1 updated, 1 relationship written, 1 node superseded."

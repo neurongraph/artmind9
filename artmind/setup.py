@@ -419,6 +419,41 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n.domain)"
     )
 
+    # ── Curation (Phase 6) ──────────────────────────────────────────────────
+    # :Synthesis is keyed on the ENTITY's own deterministic id (see
+    # projection.load_synthesis) — a sibling node, not an Entity subtype, so
+    # it survives a rebuild's MERGE + property-clear untouched.
+    session.run(
+        "CREATE CONSTRAINT synthesis_id IF NOT EXISTS FOR (n:Synthesis) REQUIRE n.id IS UNIQUE"
+    )
+    # :SameAsProposal — the review queue `sameas propose/list/approve/reject`
+    # operates over. id is deterministic (canonical + sorted members), so
+    # re-proposing an identical group MERGEs rather than duplicating.
+    session.run(
+        "CREATE CONSTRAINT sameas_proposal_id IF NOT EXISTS FOR (n:SameAsProposal) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX sameas_proposal_status IF NOT EXISTS FOR (n:SameAsProposal) ON (n.status)"
+    )
+    # :ProjectionState — a singleton (id='singleton') recording same_as.yaml's
+    # hash, the schema-set hash, and the last FULL rebuild time, for
+    # `projection status`'s drift check. No uniqueness constraint needed (a
+    # single MERGE key), but an index keeps the lookup index-backed.
+    session.run(
+        "CREATE INDEX projection_state_id IF NOT EXISTS FOR (n:ProjectionState) ON (n.id)"
+    )
+
+    # One-time backfill: every :Conflict written before this phase by the
+    # pairwise adjudicator carries no `_source` at all (the rebuild's own
+    # conflicts have always been tagged `_source: 'projection'` since Phase
+    # 3). Now that new adjudicator conflicts are tagged `_source:
+    # 'adjudicator'` too, an untagged Conflict can only be a pre-Phase-6
+    # adjudicator node — "unify on one :Conflict producer" means every
+    # :Conflict has a recognized `_source`, not that old ones get deleted.
+    session.run(
+        "MATCH (c:Conflict) WHERE c._source IS NULL SET c._source = 'adjudicator'"
+    )
+
     return {"entity_id_schema": entity_id_schema}
 
 
@@ -453,6 +488,8 @@ def setup_all() -> dict:
             "cat_table_key",
             "cat_column_key",
             "cat_entityclass_key",
+            "synthesis_id",
+            "sameas_proposal_id",
         ],
         "neo4j_indexes": [
             "entity_lookup",
@@ -496,6 +533,8 @@ def setup_all() -> dict:
             "conflict_status",
             "cat_table_domain",
             "relates_to_type",
+            "sameas_proposal_status",
+            "projection_state_id",
         ],
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",

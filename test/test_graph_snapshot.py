@@ -322,7 +322,7 @@ class TestImportGraphRebuildPhase:
         )
         monkeypatch.setattr(
             "artmind.projection.full_rebuild",
-            lambda tx, domains=None: (order.append("full_rebuild") or {"entities": 1}),
+            lambda tx, domains=None, **kw: (order.append("full_rebuild") or {"entities": 1}),
         )
         monkeypatch.setattr(
             "artmind.ingest._sweep_embeddings",
@@ -350,7 +350,7 @@ class TestImportGraphRebuildPhase:
                 ("c", "PERSON", "legal"),
             },
         )
-        monkeypatch.setattr("artmind.projection.full_rebuild", lambda tx, domains=None: {})
+        monkeypatch.setattr("artmind.projection.full_rebuild", lambda tx, domains=None, **kw: {})
         swept = []
         monkeypatch.setattr(
             "artmind.ingest._sweep_embeddings",
@@ -377,7 +377,7 @@ class TestImportGraphRebuildPhase:
         rebuilt = []
         monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
         monkeypatch.setattr(
-            "artmind.projection.full_rebuild", lambda tx, domains=None: rebuilt.append(True) or {}
+            "artmind.projection.full_rebuild", lambda tx, domains=None, **kw: rebuilt.append(True) or {}
         )
         monkeypatch.setattr("artmind.ingest._sweep_embeddings", lambda domain, keys: 0)
 
@@ -393,7 +393,7 @@ class TestImportGraphRebuildPhase:
 
         monkeypatch.setattr("artmind.reindex.reindex", lambda: {})
         monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
-        monkeypatch.setattr("artmind.projection.full_rebuild", lambda tx, domains=None: {})
+        monkeypatch.setattr("artmind.projection.full_rebuild", lambda tx, domains=None, **kw: {})
         monkeypatch.setattr("artmind.ingest._sweep_embeddings", lambda domain, keys: 0)
 
         result = import_graph(snapshot_path)
