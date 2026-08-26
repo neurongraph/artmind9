@@ -160,18 +160,13 @@ def test_setup_all_summary_includes_catalogue_labels():
         assert name in src
 
 
-def test_setup_all_summary_includes_entity_version_schema():
-    """artmind setup's terminal output must mention what it actually created.
-
-    _setup_neo4j creates the entity_version_id constraint and three indexes
-    (see test_setup_creates_entity_version_constraint_and_indexes in
-    test_entity_history.py), but setup_all's summary dict is a hand-maintained
-    mirror of that, not derived from it — so it silently omitted them until
-    this test was added.
-    """
+def test_setup_all_summary_no_longer_mentions_entity_version():
+    """The :EntityVersion zone (constraint + 3 indexes) is gone (Phase 4) —
+    entity_history.py and `query graph entity-versions` went with it. Nothing
+    in setup_all's summary should still reference it."""
     src = inspect.getsource(setup_all)
     for name in ("entity_version_id", "entity_version_entity", "entity_version_valid_to", "entity_version_domain"):
-        assert name in src
+        assert name not in src
 
 
 # ── A3: graph indices for scoped graph-view re-queries ───────────────────────
@@ -196,7 +191,8 @@ def test_setup_neo4j_declares_a3_composite_indexes():
     src = inspect.getsource(_setup_neo4j)
     for cypher in (
         "CREATE INDEX entity_class IF NOT EXISTS FOR (n:Entity) ON (n.entity_class)",
-        "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n.domain)",
+        # Entity carries `_domain` (Phase 4's `_`-prefix), not `domain`.
+        "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n._domain)",
         "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n.domain)",
         "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n.domain)",
         "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n.domain)",

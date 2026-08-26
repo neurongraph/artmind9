@@ -26,7 +26,6 @@ from artmind.extraction import (
 from artmind.graph_query import neo4j_session
 from artmind.ingest import (
     RESERVED_REL_TYPES,
-    _flatten_props,
     _sanitize_label,
     embed_missing_entity_embeddings,
 )
@@ -159,10 +158,10 @@ def find_supersession_candidates(
     sanitized_type = _sanitize_label(rel_type)
     cypher = """
     MATCH (s:Entity) WHERE elementId(s) = $sourceNodeId
-    MATCH (s)-[r]->(existing:Entity)
-    WHERE type(r) = $relType AND toLower(existing.name) <> toLower($targetName)
+    MATCH (s)-[r:RELATES_TO]->(existing:Entity)
+    WHERE r.rel_type = $relType AND toLower(existing.name) <> toLower($targetName)
     RETURN DISTINCT elementId(existing) AS node_id, existing.name AS name,
-           existing.entity_class AS entity_class, type(r) AS rel_type
+           existing.entity_class AS entity_class, r.rel_type AS rel_type
     LIMIT $top_n
     """
     with neo4j_session() as session:
@@ -200,7 +199,7 @@ def _find_existing_entity(
 
     eid = entity_id(aggregate_key(name, entity_class, domain))
     rec = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN e.id AS id, e.name AS name LIMIT 1", id=eid
+        "MATCH (e:Entity {_id: $id}) RETURN e._id AS id, e.name AS name LIMIT 1", id=eid
     ).single()
     return {"id": rec["id"], "name": rec["name"]} if rec else None
 
@@ -229,9 +228,9 @@ def _resolve_target_identity(
     if node_ref:
         rec = session.run(
             """
-            MATCH (e:Entity) WHERE elementId(e) = $ref OR e.id = $ref
-            RETURN e.id AS id, e.name AS name, e.entity_class AS entity_class,
-                   e.domain AS domain
+            MATCH (e:Entity) WHERE elementId(e) = $ref OR e._id = $ref
+            RETURN e._id AS id, e.name AS name, e.entity_class AS entity_class,
+                   e._domain AS domain
             LIMIT 1
             """,
             ref=node_ref,
@@ -375,7 +374,10 @@ def write_user_chat(
             observation["source_kind"] = "user_chat"
             observation["created_by"] = user_id
             observations.append(observation)
-            resolved[temp_id] = {"id": _entity_id_for(key), "name": canonical_name}
+            resolved[temp_id] = {
+                "id": _entity_id_for(key), "name": canonical_name,
+                "observation_id": observation["id"],
+            }
 
         for res in resolutions:
             if res.get("supersedes"):
@@ -387,7 +389,13 @@ def write_user_chat(
                     "group instead.", chat_id,
                 )
 
-        # One transaction: the observations and the rebuild they dirty.
+        # One transaction: the observations, their relationship observations,
+        # and the rebuild they dirty — all three, together, same as a document
+        # commit. Relationships are written BEFORE the rebuild (not after, as
+        # the pre-Phase-4 direct-to-Entity writer required): the rebuild's
+        # relationship aggregation reads ASSERTS_RELATION, so it has to exist
+        # first, and both endpoints are always in `keys` already (both are
+        # entities this same chat just observed).
         def _write(tx):
             for observation in observations:
                 tx.run(
@@ -402,17 +410,16 @@ def write_user_chat(
                     """,
                     id=observation["id"], chat_id=chat_id,
                 )
+            rel_written = _write_chat_relation_observations(
+                tx, extracted_relationships, resolved, chat_id,
+            )
             keys = {
                 tuple(o["key"].split("|")) for o in observations
                 if o.get("key") and o["key"].count("|") == 2
             }
-            return projection.rebuild(tx, keys)
+            return projection.rebuild(tx, keys), rel_written
 
-        session.execute_write(_write)
-
-        rel_count = _write_chat_relationships(
-            session, extracted_relationships, resolved, chat_id, now, user_id
-        )
+        _, rel_count = session.execute_write(_write)
 
         embed_missing_entity_embeddings(session, domain, embed_model)
 
@@ -438,12 +445,19 @@ def _class_kind(schema: dict, entity_class: str) -> str:
     return class_kind(schema, entity_class)
 
 
-def _write_chat_relationships(
-    session, extracted_relationships, resolved, chat_id, now, user_id
-) -> int:
-    """Entity->Entity edges asserted by a chat, matched by the resolved entity
-    ids the projection just produced."""
-    rel_count = 0
+def _write_chat_relation_observations(tx, extracted_relationships, resolved, chat_id) -> int:
+    """The immutable `ASSERTS_RELATION` record of relationships a chat asserted,
+    between the Observations this chat just wrote — never a direct Entity-Entity
+    write (see `ingest._write_relation_observations`, the document-ingest
+    analogue this mirrors). The projection rebuild aggregates these into
+    `RELATES_TO` the same way it does for document-sourced relationships;
+    nothing here has to know how they'll be aggregated.
+
+    Runs inside the caller's transaction, before the rebuild.
+    """
+    from artmind.observations import relation_observation_id
+
+    written = 0
     for rel in extracted_relationships:
         src = resolved.get(rel.get("source_temp_id", ""))
         tgt = resolved.get(rel.get("target_temp_id", ""))
@@ -452,43 +466,24 @@ def _write_chat_relationships(
         rel_type = _sanitize_label(rel.get("rel_type", "RELATED_TO"))
         if rel_type in RESERVED_REL_TYPES:
             logger.warning(
-                "Reserved relationship type skipped ({} -[{}]-> {}); "
-                "only audited helpers may create this edge type",
+                "Reserved rel_type skipped ({} -[{}]-> {}); "
+                "only artmind-owned machinery may assert this rel_type",
                 src["name"], rel_type, tgt["name"],
             )
             continue
-        rel_props = _flatten_props({
-            "source_chat_id": chat_id,
-            "created_at": now,
-            "created_by": user_id,
-            "updated_at": now,
-            "updated_by": user_id,
-        })
-        try:
-            written = session.run(
-                """
-                MATCH (src:Entity {id: $srcId})
-                MATCH (tgt:Entity {id: $tgtId})
-                CALL apoc.merge.relationship(src, $type, {source_chat_id: $chat_id},
-                     $props, tgt, {}) YIELD rel
-                RETURN rel
-                """,
-                srcId=src["id"], tgtId=tgt["id"], type=rel_type,
-                chat_id=chat_id, props=rel_props,
-            ).single()
-            if written:
-                rel_count += 1
-            else:
-                logger.warning(
-                    "Relationship not written ({} -[{}]-> {}): endpoints did not match",
-                    src["name"], rel_type, tgt["name"],
-                )
-        except Exception as e:
-            logger.warning(
-                "Relationship skipped ({} -[{}]-> {}): {}",
-                src["name"], rel_type, tgt["name"], e,
-            )
-    return rel_count
+        edge_id = relation_observation_id(chat_id, src["observation_id"], rel_type, tgt["observation_id"])
+        tx.run(
+            """
+            MATCH (s:Observation {id: $src})
+            MATCH (t:Observation {id: $tgt})
+            MERGE (s)-[r:ASSERTS_RELATION {id: $id}]->(t)
+            SET r.rel_type = $rel_type, r.doc_id = $chat_id, r.chunk_id = $chat_id
+            """,
+            src=src["observation_id"], tgt=tgt["observation_id"], id=edge_id,
+            rel_type=rel_type, chat_id=chat_id,
+        )
+        written += 1
+    return written
 
 
 def _detect_supersession_candidates(

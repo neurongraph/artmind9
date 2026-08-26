@@ -139,7 +139,7 @@ def test_document_props_include_filing_metadata_from_frontmatter(tmp_path, monke
     _stage_doc_dir(tmp_path, doc, chunk)
     runs = _run_write(tmp_path, monkeypatch)
 
-    doc_runs = [(c, k) for c, k in runs if "MERGE (d:Document" in c]
+    doc_runs = [(c, k) for c, k in runs if "CREATE (n:Document" in c]
     assert doc_runs, "expected a Document MERGE"
     _, kwargs = doc_runs[0]
     props = kwargs["props"]
@@ -173,7 +173,7 @@ def test_docchunk_props_carry_denormalized_filing_metadata(tmp_path, monkeypatch
     _stage_doc_dir(tmp_path, doc, chunk)
     runs = _run_write(tmp_path, monkeypatch)
 
-    chunk_runs = [(c, k) for c, k in runs if "MERGE (c:DocChunk" in c]
+    chunk_runs = [(c, k) for c, k in runs if "CREATE (n:DocChunk" in c]
     assert chunk_runs, "expected a DocChunk MERGE"
     _, kwargs = chunk_runs[0]
     props = kwargs["props"]
@@ -210,7 +210,7 @@ def test_document_props_omit_missing_filing_fields(tmp_path, monkeypatch):
     _stage_doc_dir(tmp_path, doc, chunk)
     runs = _run_write(tmp_path, monkeypatch)
 
-    doc_runs = [(c, k) for c, k in runs if "MERGE (d:Document" in c]
+    doc_runs = [(c, k) for c, k in runs if "CREATE (n:Document" in c]
     assert doc_runs, "expected a Document MERGE"
     _, kwargs = doc_runs[0]
     props = kwargs["props"]

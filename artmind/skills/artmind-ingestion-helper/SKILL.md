@@ -238,27 +238,26 @@ artmind ingest embed-entities --domain YOUR_DOMAIN
 
 ### H. Remove a document from the graph
 
-Two levels, depending on whether you want it back:
-
-**Soft delete (tombstone)** — hides the document from retrieval (vector/full-text search,
-`chunks`, doc listings) but preserves its knowledge and its contributions to shared entities.
-Reversible; the default:
+**Retire** — moves the document and everything it asserted from `latest` to `history`: an
+assertion-time act with no date semantics. Its observations stay in storage and stay reachable
+by asking for them (`query entity-history`), but leave every index (vector/full-text search,
+`chunks`, doc listings). Entities left with no `latest` observation anywhere are then removed by
+the projection rebuild — not a guess, an arithmetic fact about what nothing asserts any more.
+Reversible with `docs restore`:
 ```bash
-artmind docs clean --domain YOUR_DOMAIN DOCUMENT_NAME
+artmind docs retire --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
+artmind docs restore --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 ```
 
-**Hard delete (purge)** — permanently removes the document's local files, registry row, and its
-Neo4j contributions: its share of each edge's provenance, its property-ledger entries, its
-chunks, and any entity that loses its last source. Shared entities/edges still cited by other
-documents survive.
-```bash
-artmind docs purge --domain YOUR_DOMAIN DOCUMENT_NAME
-```
+There is no hard-delete command yet — the old `docs purge` (and `docs clean`, retire's
+predecessor) were removed with the observation/projection model; a proper archive
+(`docs archive` / `restore-from-archive`) is a later phase's work.
 
 **Re-ingest in place** — replace a document with an edited version idempotently (retracts the
-prior version, then re-commits under the same identity):
+prior version, then re-commits under the same identity — re-ingesting a known identity is
+always a replace now, there is no `--replace` flag to pass):
 ```bash
-artmind ingest sync EDITED_FILE --domain YOUR_DOMAIN --replace
+artmind ingest sync EDITED_FILE --domain YOUR_DOMAIN
 ```
 
 ---

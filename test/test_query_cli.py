@@ -25,7 +25,7 @@ def test_graph_metadata_cli_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], as_of=None)
+    query.assert_called_once_with(["fiction"])
     assert json.loads(result.output) == payload
 
 
@@ -42,7 +42,7 @@ def test_graph_entity_listing_cli_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], name_filter=None, count_all=False, as_of=None)
+    query.assert_called_once_with(["fiction"], name_filter=None, count_all=False)
     assert json.loads(result.output) == payload
 
 
@@ -61,7 +61,7 @@ def test_graph_entity_listing_cli_passes_name_filter(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], name_filter="holmes", count_all=False, as_of=None)
+    query.assert_called_once_with(["fiction"], name_filter="holmes", count_all=False)
     assert json.loads(result.output) == payload
 
 
@@ -80,7 +80,7 @@ def test_graph_entity_listing_cli_passes_count_all(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], name_filter=None, count_all=True, as_of=None)
+    query.assert_called_once_with(["fiction"], name_filter=None, count_all=True)
     assert json.loads(result.output)["total_entities"] == 42
 
 

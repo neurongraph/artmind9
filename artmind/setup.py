@@ -151,6 +151,32 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT conflict_id IF NOT EXISTS FOR (n:Conflict) REQUIRE n.id IS UNIQUE"
     )
 
+    # ── History labels (Phase 4) ──────────────────────────────────────────────
+    # A document, its chunks, and its observations carry these labels — instead
+    # of :Document/:DocChunk/:Observation — for exactly as long as they are
+    # `history` rather than `latest`. There is no `_status` property backing
+    # this; the label swap (docs retire/restore, and re-ingest superseding a
+    # prior version) IS the state. Same id shape as the base label, so the same
+    # uniqueness constraint applies — a node only ever carries one of the pair.
+    session.run(
+        "CREATE CONSTRAINT document_history_id IF NOT EXISTS FOR (n:DocumentHistory) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT chunk_history_id IF NOT EXISTS FOR (n:DocChunkHistory) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT observation_history_id IF NOT EXISTS FOR (n:ObservationHistory) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX document_history_domain IF NOT EXISTS FOR (n:DocumentHistory) ON (n.domain)"
+    )
+    session.run(
+        "CREATE INDEX chunk_history_doc_id IF NOT EXISTS FOR (n:DocChunkHistory) ON (n.doc_id)"
+    )
+    session.run(
+        "CREATE INDEX chunk_history_domain IF NOT EXISTS FOR (n:DocChunkHistory) ON (n.domain)"
+    )
+
     # ── The observation zone ──────────────────────────────────────────────────
     # :Observation is the immutable record of what one chunk of one document
     # version asserted. It carries NO :Entity label and NO class label, which is
@@ -161,17 +187,29 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE CONSTRAINT observation_id IF NOT EXISTS FOR (n:Observation) REQUIRE n.id IS UNIQUE"
     )
-    # The projection rebuild reads observations by aggregate key and status;
-    # the version transition and affected-key capture read them by doc_id.
+    # The projection rebuild reads observations by aggregate key; the label
+    # alone means latest now, so there is no status column to compose with —
+    # see `projection.read_latest_observations`. The version transition and
+    # affected-key capture read them by doc_id. `entity-history` (Phase 4) is
+    # the one reader that spans both labels, hence the ObservationHistory
+    # mirrors below.
     session.run(
-        "CREATE INDEX observation_key_status IF NOT EXISTS "
-        "FOR (n:Observation) ON (n.key, n._status)"
+        "CREATE INDEX observation_key IF NOT EXISTS FOR (n:Observation) ON (n.key)"
     )
     session.run(
         "CREATE INDEX observation_doc_id IF NOT EXISTS FOR (n:Observation) ON (n.doc_id)"
     )
     session.run(
         "CREATE INDEX observation_domain IF NOT EXISTS FOR (n:Observation) ON (n.domain)"
+    )
+    session.run(
+        "CREATE INDEX observation_history_key IF NOT EXISTS FOR (n:ObservationHistory) ON (n.key)"
+    )
+    session.run(
+        "CREATE INDEX observation_history_doc_id IF NOT EXISTS FOR (n:ObservationHistory) ON (n.doc_id)"
+    )
+    session.run(
+        "CREATE INDEX observation_history_domain IF NOT EXISTS FOR (n:ObservationHistory) ON (n.domain)"
     )
     # Entity.key backs the full-rebuild sweep and the scoped embed sweep.
     session.run(
@@ -182,31 +220,34 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX entity_embedding_stale IF NOT EXISTS FOR (n:Entity) ON (n.embedding_stale)"
     )
 
-    # ── Entity.id: unique constraint, or a plain index as fallback ────────────
+    # ── Entity._id: unique constraint, or a plain index as fallback ───────────
     # Exact-id lookup is the query layer's primary retrieval path, so this must
     # be backed by an index either way. Since Phase 3 an Entity's id is
     # sha256(canonical_name | entity_class | domain) and the projection MERGEs
     # on it, so duplicates cannot arise from a fresh graph — but a graph
     # carrying pre-Phase-3 random uuids may still hold them, and there the
     # constraint cannot be created. The plain index keeps lookups fast until a
-    # full rebuild replaces those ids.
+    # full rebuild replaces those ids. Prefixed `_id` (Phase 4) — see
+    # `_domain` below for why: both are artmind-owned, unlike the
+    # extraction-contract fields (name/description/entity_class/type/context/
+    # aliases), which stay unprefixed because the whole query layer reads them.
     try:
         session.run(
-            "CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (n:Entity) REQUIRE n.id IS UNIQUE"
+            "CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (n:Entity) REQUIRE n._id IS UNIQUE"
         )
         entity_id_schema = "entity_id (unique)"
     except Exception:
-        session.run("CREATE INDEX entity_id_idx IF NOT EXISTS FOR (n:Entity) ON (n.id)")
-        entity_id_schema = "entity_id_idx (fallback index; duplicate Entity.id values exist)"
+        session.run("CREATE INDEX entity_id_idx IF NOT EXISTS FOR (n:Entity) ON (n._id)")
+        entity_id_schema = "entity_id_idx (fallback index; duplicate Entity._id values exist)"
 
     # ── Composite index for exact 3-field entity upserts ──────────────────────
     session.run(
-        "CREATE INDEX entity_lookup IF NOT EXISTS FOR (n:Entity) ON (n.name, n.entity_class, n.domain)"
+        "CREATE INDEX entity_lookup IF NOT EXISTS FOR (n:Entity) ON (n.name, n.entity_class, n._domain)"
     )
 
     # ── Single-property indexes for domain filtering (used by nearly every query) ─
     session.run(
-        "CREATE INDEX entity_domain IF NOT EXISTS FOR (n:Entity) ON (n.domain)"
+        "CREATE INDEX entity_domain IF NOT EXISTS FOR (n:Entity) ON (n._domain)"
     )
     session.run(
         "CREATE INDEX document_domain IF NOT EXISTS FOR (n:Document) ON (n.domain)"
@@ -228,37 +269,21 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX user_chat_domain IF NOT EXISTS FOR (n:UserChat) ON (n.domain)"
     )
 
-    # ── Temporal range indexes (canonical valid-time / event-time) ────────────
+    # ── Temporal range indexes (canonical valid-time) ─────────────────────────
+    # event_at (+ its index) is gone — for an occurrent entity valid_from IS
+    # the event date, so a second axis was redundant; `timeline` (Phase 4) is
+    # re-specified as a preset over entity_listing ordered by valid_from.
     session.run("CREATE INDEX entity_valid_from IF NOT EXISTS FOR (n:Entity) ON (n.valid_from)")
     session.run("CREATE INDEX entity_valid_to IF NOT EXISTS FOR (n:Entity) ON (n.valid_to)")
-    session.run("CREATE INDEX entity_event_at IF NOT EXISTS FOR (n:Entity) ON (n.event_at)")
     session.run("CREATE INDEX chunk_valid_from IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_from)")
     session.run("CREATE INDEX chunk_valid_to IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_to)")
     session.run("CREATE INDEX document_valid_from IF NOT EXISTS FOR (n:Document) ON (n.valid_from)")
     session.run("CREATE INDEX document_valid_to IF NOT EXISTS FOR (n:Document) ON (n.valid_to)")
     session.run("CREATE INDEX conflict_status IF NOT EXISTS FOR (n:Conflict) ON (n.status)")
 
-    # ── History zone (:EntityVersion) ─────────────────────────────────────────
-    # Snapshots of overwritten entity property values. Deliberately NOT labelled
-    # :Entity and carrying no class label, so no entity query, no vector index,
-    # and no refine pass can reach them without asking explicitly.
-    session.run(
-        "CREATE CONSTRAINT entity_version_id IF NOT EXISTS "
-        "FOR (n:EntityVersion) REQUIRE n.id IS UNIQUE"
-    )
-    session.run(
-        "CREATE INDEX entity_version_entity IF NOT EXISTS FOR (n:EntityVersion) ON (n.entity_id)"
-    )
-    session.run(
-        "CREATE INDEX entity_version_valid_to IF NOT EXISTS FOR (n:EntityVersion) ON (n.valid_to)"
-    )
-    session.run(
-        "CREATE INDEX entity_version_domain IF NOT EXISTS FOR (n:EntityVersion) ON (n.domain)"
-    )
-
     # ── 2-field composite for name+domain entity lookups (ingest/update writes) ─
     session.run(
-        "CREATE INDEX entity_name_domain IF NOT EXISTS FOR (n:Entity) ON (n.name, n.domain)"
+        "CREATE INDEX entity_name_domain IF NOT EXISTS FOR (n:Entity) ON (n.name, n._domain)"
     )
 
     # ── DocChunk.doc_id for chunk-to-document joins and deletes ───────────────
@@ -290,7 +315,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     # entity_lookup composite is (name, entity_class, domain) which can't be
     # used when name is unknown, so this leading-column composite fills the gap.
     session.run(
-        "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n.domain)"
+        "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n._domain)"
     )
     session.run(
         "CREATE INDEX entity_class IF NOT EXISTS FOR (n:Entity) ON (n.entity_class)"
@@ -368,6 +393,14 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     except Exception:
         pass
 
+    # ── Relationship property index (Phase 4) ─────────────────────────────────
+    # 249 free-text Entity-Entity relationship types collapsed to one
+    # RELATES_TO {rel_type}: this is what keeps rel_type lookups index-backed
+    # without needing one Neo4j type per relationship kind.
+    session.run(
+        "CREATE INDEX relates_to_type IF NOT EXISTS FOR ()-[r:RELATES_TO]-() ON (r.rel_type)"
+    )
+
     # ── Structured-store catalogue (Table/TableColumn/EntityClass) ────────────
     # MERGE keys are synthetic composite `key` props (not node-key constraints,
     # which are Enterprise-only). These labels are distinct from :Entity by
@@ -412,11 +445,14 @@ def setup_all() -> dict:
             "chunk_id",
             "user_chat_id",
             "conflict_id",
+            "document_history_id",
+            "chunk_history_id",
+            "observation_history_id",
+            "observation_id",
             neo4j_notes["entity_id_schema"],
             "cat_table_key",
             "cat_column_key",
             "cat_entityclass_key",
-            "entity_version_id",
         ],
         "neo4j_indexes": [
             "entity_lookup",
@@ -424,6 +460,8 @@ def setup_all() -> dict:
             "entity_name_domain",
             "entity_class",
             "entity_class_domain",
+            "entity_key",
+            "entity_embedding_stale",
             "document_domain",
             "document_logical_id",
             "document_project",
@@ -431,6 +469,7 @@ def setup_all() -> dict:
             "document_project_domain",
             "document_area_domain",
             "document_name",
+            "document_history_domain",
             "chunk_domain",
             "chunk_block_hash",
             "chunk_doc_id",
@@ -439,19 +478,24 @@ def setup_all() -> dict:
             "chunk_area",
             "chunk_project_domain",
             "chunk_area_domain",
+            "chunk_history_doc_id",
+            "chunk_history_domain",
             "user_chat_domain",
+            "observation_key",
+            "observation_doc_id",
+            "observation_domain",
+            "observation_history_key",
+            "observation_history_doc_id",
+            "observation_history_domain",
             "entity_valid_from",
             "entity_valid_to",
-            "entity_event_at",
             "chunk_valid_from",
             "chunk_valid_to",
             "document_valid_from",
             "document_valid_to",
             "conflict_status",
             "cat_table_domain",
-            "entity_version_entity",
-            "entity_version_valid_to",
-            "entity_version_domain",
+            "relates_to_type",
         ],
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",

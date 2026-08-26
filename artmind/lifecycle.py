@@ -28,32 +28,49 @@ from loguru import logger
 from artmind.graph_query import neo4j_session
 
 
-def _transition(tx, doc_id: str, *, to_status: str, from_status: str) -> dict:
-    """Move one document's node, chunks and observations between statuses, then
-    rebuild the keys it touched. Runs in the caller's transaction."""
+def _transition(tx, doc_id: str, *, to_history: bool) -> dict:
+    """Move one document's node, chunks and observations between the base
+    label and its History counterpart, then rebuild the keys it touched.
+    Runs in the caller's transaction.
+
+    A **label swap**, not a status property — there is no `_status` left on
+    these nodes. `retire`/`restore` also mean "leave"/"return to"
+    `chunk_text_ft` and `chunk_embedding`, both of which are defined only
+    `FOR (c:DocChunk)`: swapping the label is what structurally moves a
+    document's chunks in and out of those indexes, with no predicate anywhere
+    that could be forgotten.
+    """
     from artmind import projection
 
-    # Captured BEFORE the transition, and unfiltered by status: these are the
+    # Captured BEFORE the transition, spanning both labels: these are the
     # keys whose aggregates change, whichever direction we are moving.
     keys = projection.keys_for_document(tx, doc_id)
 
+    if to_history:
+        from_obs, to_obs = "Observation", "ObservationHistory"
+        from_doc, to_doc = "Document", "DocumentHistory"
+        from_chunk, to_chunk = "DocChunk", "DocChunkHistory"
+    else:
+        from_obs, to_obs = "ObservationHistory", "Observation"
+        from_doc, to_doc = "DocumentHistory", "Document"
+        from_chunk, to_chunk = "DocChunkHistory", "DocChunk"
+
     observations = tx.run(
-        """
-        MATCH (o:Observation {doc_id: $doc_id})
-        WHERE o._status = $from_status
-        SET o._status = $to_status
+        f"""
+        MATCH (o:{from_obs} {{doc_id: $doc_id}})
+        REMOVE o:{from_obs} SET o:{to_obs}
         RETURN count(o) AS n
         """,
-        doc_id=doc_id, from_status=from_status, to_status=to_status,
+        doc_id=doc_id,
     ).single()
 
     tx.run(
-        "MATCH (d:Document {id: $doc_id}) SET d._status = $to_status",
-        doc_id=doc_id, to_status=to_status,
+        f"MATCH (d:{from_doc} {{id: $doc_id}}) REMOVE d:{from_doc} SET d:{to_doc}",
+        doc_id=doc_id,
     )
     tx.run(
-        "MATCH (c:DocChunk {doc_id: $doc_id}) SET c._status = $to_status",
-        doc_id=doc_id, to_status=to_status,
+        f"MATCH (c:{from_chunk} {{doc_id: $doc_id}}) REMOVE c:{from_chunk} SET c:{to_chunk}",
+        doc_id=doc_id,
     )
 
     summary = projection.rebuild(tx, keys)
@@ -74,9 +91,7 @@ def retire_document(doc_id: str, domain: str | None = None) -> dict:
     decided they were orphans, but because nothing asserts them any more.
     """
     with neo4j_session() as session:
-        result = session.execute_write(
-            _transition, doc_id, to_status="history", from_status="latest"
-        )
+        result = session.execute_write(_transition, doc_id, to_history=True)
     logger.info(
         "Retired {}: {} observation(s) → history, projection {}",
         doc_id, result["observations"], result["projection"],
@@ -94,9 +109,7 @@ def restore_document(doc_id: str, domain: str | None = None) -> dict:
     than a parallel set.
     """
     with neo4j_session() as session:
-        result = session.execute_write(
-            _transition, doc_id, to_status="latest", from_status="history"
-        )
+        result = session.execute_write(_transition, doc_id, to_history=False)
     logger.info(
         "Restored {}: {} observation(s) → latest, projection {}",
         doc_id, result["observations"], result["projection"],

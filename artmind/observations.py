@@ -166,6 +166,20 @@ def observation_id(chunk_id: str, canonical_name: str | None, entity_class: str,
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def relation_observation_id(chunk_id: str, source_observation_id: str, rel_type: str, target_observation_id: str) -> str:
+    """`sha256(chunk_id | source observation id | rel_type | target observation id)`.
+
+    The raw, immutable record of one extracted relationship -- the relationship
+    analogue of `observation_id`. An `ASSERTS_RELATION` edge between two
+    `:Observation` nodes, never merged or patched, so a re-write of the same
+    chunk cannot duplicate it. The projection rebuild is what turns these into
+    aggregate `:Entity`-to-`:Entity` `RELATES_TO` edges -- see
+    `projection.py`'s relationship aggregation.
+    """
+    payload = "|".join([chunk_id or "", source_observation_id or "", rel_type or "", target_observation_id or ""])
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
 # ── building observations ────────────────────────────────────────────────────
 
 
@@ -223,7 +237,6 @@ def build_observation(
     valid_from: str | None = None,
     valid_to: str | None = None,
     valid_time_source: str | None = None,
-    status: str = "latest",
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
@@ -260,7 +273,6 @@ def build_observation(
         "doc_id": doc_id,
         "doc_version": doc_version,
         "chunk_id": chunk_id,
-        "_status": status,
         "_kind": kind,
     }
 

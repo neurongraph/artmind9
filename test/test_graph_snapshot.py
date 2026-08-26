@@ -16,12 +16,15 @@ from artmind.graph_snapshot import (
 
 class TestMatchKeysForNode:
     def test_entity_uses_name_class_domain(self):
+        # Entity carries `_domain` (Phase 4's `_`-prefix), not `domain` —
+        # exactly the property name every other label uses, which is why
+        # Entity needs its own branch here at all.
         labels = ["CHARACTER", "Entity"]
-        props = {"name": "Elara", "entity_class": "CHARACTER", "domain": "fiction", "id": "abc"}
+        props = {"name": "Elara", "entity_class": "CHARACTER", "_domain": "fiction", "_id": "abc"}
         assert _match_keys_for_node(labels, props) == {
             "name": "Elara",
             "entity_class": "CHARACTER",
-            "domain": "fiction",
+            "_domain": "fiction",
         }
 
     def test_document_uses_id(self):
@@ -169,9 +172,13 @@ class TestExportRelationships:
         assert "any(l IN labels(e) WHERE l IN $base_labels)" in cypher
         # :Observation joins the set in Phase 3 — its EXTRACTED_FROM edges to
         # DocChunk/UserChat, and the projection's AGGREGATES edges, both have
-        # to survive a round-trip.
+        # to survive a round-trip. The three History labels join in Phase 4 —
+        # they ARE the retired half of Document/DocChunk/Observation, not a
+        # separate zone, so omitting them would silently drop every retired
+        # document from a snapshot.
         assert set(params["base_labels"]) == {
-            "Document", "DocChunk", "Entity", "UserChat", "Observation"
+            "Document", "DocChunk", "Entity", "UserChat", "Observation",
+            "DocumentHistory", "DocChunkHistory", "ObservationHistory",
         }
 
     def test_builds_relationship_dict_from_kg_nodes(self):

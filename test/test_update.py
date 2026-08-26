@@ -190,16 +190,21 @@ def test_write_user_chat_creates_node_and_returns_summary():
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_session = mock_ctx.return_value.__enter__.return_value
         mock_session.run.return_value = MagicMock()
+        # A bare MagicMock's execute_write returns a MagicMock WITHOUT ever
+        # calling its unit of work — the observation write and rebuild inside
+        # the transaction would silently not happen (CLAUDE.md).
+        mock_session.execute_write.side_effect = lambda fn, *a, **k: fn(mock_session, *a, **k)
 
-        result = write_user_chat(
-            session_id="sess1",
-            raw_text="Alice is CEO.",
-            domain="general",
-            user_id="alice@example.com",
-            resolutions=resolutions,
-            extracted_entities=extracted_entities,
-            extracted_relationships=[],
-        )
+        with patch("artmind.projection.rebuild", return_value={}):
+            result = write_user_chat(
+                session_id="sess1",
+                raw_text="Alice is CEO.",
+                domain="general",
+                user_id="alice@example.com",
+                resolutions=resolutions,
+                extracted_entities=extracted_entities,
+                extracted_relationships=[],
+            )
 
     assert "user_chat_id" in result
     assert result["nodes_created"] == 1
@@ -215,16 +220,18 @@ def test_write_user_chat_skipped_entity_not_written():
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_session = mock_ctx.return_value.__enter__.return_value
         mock_session.run.return_value = MagicMock()
+        mock_session.execute_write.side_effect = lambda fn, *a, **k: fn(mock_session, *a, **k)
 
-        result = write_user_chat(
-            session_id="sess1",
-            raw_text="Alice is CEO.",
-            domain="general",
-            user_id="alice@example.com",
-            resolutions=resolutions,
-            extracted_entities=extracted_entities,
-            extracted_relationships=[],
-        )
+        with patch("artmind.projection.rebuild", return_value={}):
+            result = write_user_chat(
+                session_id="sess1",
+                raw_text="Alice is CEO.",
+                domain="general",
+                user_id="alice@example.com",
+                resolutions=resolutions,
+                extracted_entities=extracted_entities,
+                extracted_relationships=[],
+            )
 
     assert result["nodes_created"] == 0
     assert result["nodes_updated"] == 0
@@ -285,9 +292,11 @@ def test_export_chats_sequential_writes_markdown(tmp_path):
 
 
 def test_write_user_chat_skips_reserved_rel_type_and_writes_normal_one():
-    """rel_type normalizing to a reserved system-managed type (e.g. SUPERSEDES)
-    must never be written by this extraction-driven loop — only the audited
-    temporal helpers may create those edges."""
+    """rel_type normalizing to a reserved system-managed type (e.g. SUPERSEDES,
+    or RELATES_TO/ASSERTS_RELATION/AGGREGATES — the system's own collapsed-
+    relationship machinery, Phase 4) must never be written by this
+    extraction-driven loop — only the audited temporal helpers, or the
+    projection rebuild itself, may create those edges/types."""
     resolutions = [
         {"entity_temp_id": "e0", "action": "create", "node_id": None},
         {"entity_temp_id": "e1", "action": "create", "node_id": None},
@@ -298,7 +307,7 @@ def test_write_user_chat_skips_reserved_rel_type_and_writes_normal_one():
     ]
     extracted_relationships = [
         {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "supersedes"},
-        {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "relates_to"},
+        {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "higher_than"},
     ]
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
@@ -313,26 +322,28 @@ def test_write_user_chat_skips_reserved_rel_type_and_writes_normal_one():
             return MagicMock()
 
         mock_session.run.side_effect = run_side_effect
+        mock_session.execute_write.side_effect = lambda fn, *a, **k: fn(mock_session, *a, **k)
 
-        result = write_user_chat(
-            session_id="sess1",
-            raw_text="text",
-            domain="general",
-            user_id="alice@example.com",
-            resolutions=resolutions,
-            extracted_entities=extracted_entities,
-            extracted_relationships=extracted_relationships,
-        )
+        with patch("artmind.projection.rebuild", return_value={}):
+            result = write_user_chat(
+                session_id="sess1",
+                raw_text="text",
+                domain="general",
+                user_id="alice@example.com",
+                resolutions=resolutions,
+                extracted_entities=extracted_entities,
+                extracted_relationships=extracted_relationships,
+            )
 
-    rel_calls = [(c, kw) for c, kw in calls if "apoc.merge.relationship" in c]
-    rel_types_written = {kw["type"] for _, kw in rel_calls}
+    rel_calls = [(c, kw) for c, kw in calls if "ASSERTS_RELATION" in c and "MERGE" in c]
+    rel_types_written = {kw["rel_type"] for _, kw in rel_calls}
 
     assert "SUPERSEDES" not in rel_types_written
-    assert "RELATES_TO" in rel_types_written
+    assert "HIGHER_THAN" in rel_types_written
     assert result["relationships_written"] == 1
 
     assert any(
-        "Rate A" in str(call.args) and "Rate B" in str(call.args) and "SUPERSEDES" in str(call.args)
+        "Rate A" in str(call.args) and "SUPERSEDES" in str(call.args)
         for call in mock_logger.warning.call_args_list
     )
 
@@ -446,13 +457,16 @@ def test_write_user_chat_unresolved_link_is_not_counted():
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.logger") as mock_logger:
-        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.side_effect = run_side_effect
+        mock_session.execute_write.side_effect = lambda fn, *a, **k: fn(mock_session, *a, **k)
 
-        result = write_user_chat(
-            session_id="sess1", raw_text="Alice is CEO.", domain="general",
-            user_id="alice@example.com", resolutions=resolutions,
-            extracted_entities=extracted_entities, extracted_relationships=[],
-        )
+        with patch("artmind.projection.rebuild", return_value={}):
+            result = write_user_chat(
+                session_id="sess1", raw_text="Alice is CEO.", domain="general",
+                user_id="alice@example.com", resolutions=resolutions,
+                extracted_entities=extracted_entities, extracted_relationships=[],
+            )
 
     assert result["nodes_updated"] == 0
     assert result["nodes_created"] == 0
@@ -516,12 +530,17 @@ def test_write_user_chat_create_on_existing_triple_updates_instead_of_duplicatin
     assert written[0]["canonical_name"] == "Alice"
 
 
-def test_write_user_chat_relationship_not_counted_when_endpoints_dont_match():
-    """An empty MATCH raises nothing, so counting the call rather than the
-    returned row over-reported relationships_written."""
+def test_write_user_chat_relationship_not_counted_when_an_endpoint_is_unresolved():
+    """A relationship naming a temp_id that never resolved to an observation
+    (skipped, or an unresolved `link`) must not be written or counted. Unlike
+    the pre-Phase-4 direct-to-Entity writer, a *resolved* endpoint's
+    Observation is always freshly written earlier in this same transaction —
+    so there is no longer an "endpoints don't match" failure mode for a
+    resolved pair to guard against; the only way an endpoint is missing is
+    that it was never resolved at all."""
     resolutions = [
         {"entity_temp_id": "e0", "action": "create", "node_id": None},
-        {"entity_temp_id": "e1", "action": "create", "node_id": None},
+        {"entity_temp_id": "e1", "action": "skip", "node_id": None},
     ]
     extracted_entities = [
         {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}},
@@ -530,26 +549,29 @@ def test_write_user_chat_relationship_not_counted_when_endpoints_dont_match():
     extracted_relationships = [
         {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "works_at"}
     ]
+    calls = []
 
     def run_side_effect(cypher, **kwargs):
-        result = MagicMock()
-        if "apoc.merge.relationship" in cypher:
-            result.single.return_value = None
-        return result
+        calls.append((cypher, kwargs))
+        return MagicMock()
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx:
-        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.side_effect = run_side_effect
+        mock_session.execute_write.side_effect = lambda fn, *a, **k: fn(mock_session, *a, **k)
 
-        result = write_user_chat(
-            session_id="sess1", raw_text="text", domain="general",
-            user_id="alice@example.com", resolutions=resolutions,
-            extracted_entities=extracted_entities,
-            extracted_relationships=extracted_relationships,
-        )
+        with patch("artmind.projection.rebuild", return_value={}):
+            result = write_user_chat(
+                session_id="sess1", raw_text="text", domain="general",
+                user_id="alice@example.com", resolutions=resolutions,
+                extracted_entities=extracted_entities,
+                extracted_relationships=extracted_relationships,
+            )
 
     assert result["relationships_written"] == 0
+    assert not [c for c, _ in calls if "ASSERTS_RELATION" in c and "MERGE" in c]
 
 
 def test_draft_update_rejects_unknown_session():

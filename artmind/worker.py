@@ -83,6 +83,15 @@ def _process_job(
     _update_job_status(job_id, status="processing", started_at=datetime.now().isoformat())
     logger.info("Processing job {} — {} queued file(s)", job_id, len(queued_files))
 
+    # One file rebuilds incrementally; a multi-file job defers to one full
+    # rebuild per domain at the end — mirroring `ingest sync`'s directory
+    # batching (cli.py::ingest_sync). Before this, the worker committed once
+    # per file with no deferral at all: correct, just N incremental rebuilds
+    # (and N embed sweeps against descriptions the next file was about to
+    # change) instead of one.
+    defer_rebuild = len(queued_files) > 1 and not stage_only
+    deferred_domains: set[str] = set()
+
     for file_path_str in queued_files:
         file_path = Path(file_path_str)
         logger.info("File: {}", file_path.name)
@@ -126,8 +135,11 @@ def _process_job(
                             maybe_push()
                     effective_domain = result.get("domain", domain)
                     kg_ok = ingest_to_kg(
-                        result, effective_domain, text_model, embed_model, chunk_size, stage_only=stage_only
+                        result, effective_domain, text_model, embed_model, chunk_size,
+                        stage_only=stage_only, defer_rebuild=defer_rebuild,
                     )
+                    if kg_ok and defer_rebuild:
+                        deferred_domains.add(effective_domain)
                     _update_job_file_status(
                         job_id,
                         file_path_str,
@@ -162,6 +174,14 @@ def _process_job(
         processed_count += 1
         _update_job_status(job_id, processed_count=processed_count)
         logger.info("Progress: {} processed", processed_count)
+
+    if deferred_domains:
+        from artmind.ingest import rebuild_projection
+
+        logger.info("═══ Deferred projection rebuild over {} domain(s)", len(deferred_domains))
+        for deferred_domain in sorted(deferred_domains):
+            summary = rebuild_projection(deferred_domain)
+            logger.info("Projection rebuilt for {}: {}", deferred_domain, summary)
 
     statuses = _final_file_statuses(job_id)
     final = "failed" if any(s == "failed" for s in statuses) else "completed"

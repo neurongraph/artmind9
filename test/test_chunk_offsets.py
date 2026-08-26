@@ -195,7 +195,7 @@ def test_docchunk_merge_props_carry_the_four_keys(tmp_path, monkeypatch):
 
     assert ing._write_to_neo4j(doc_kg) is not None
 
-    chunk_runs = [(c, k) for c, k in runs if "MERGE (c:DocChunk" in c]
+    chunk_runs = [(c, k) for c, k in runs if "CREATE (n:DocChunk" in c]
     assert chunk_runs, "expected a DocChunk MERGE"
     _, kwargs = chunk_runs[0]
     props = kwargs["props"]

@@ -3,10 +3,16 @@
 
 Re-ingesting is always a replace (`--replace` is gone, Phase 2). What changed
 in Phase 3 is *how*: the old code hard-retracted a document's contributions and
-ran a scoped entity GC of its own. Now the transition is assertion-time only —
-observations move to `_status = 'history'` — and which entities should vanish
-is decided by the projection's zero-latest-observations rule over the affected
-keys.
+ran a scoped entity GC of its own. Now the transition is assertion-time only.
+What changed AGAIN in Phase 4: the transition is a **label swap**
+(:Observation -> :ObservationHistory, :DocChunk -> :DocChunkHistory), not a
+`_status` property set — there is no `_status` property left on these nodes.
+Chunks used to be hard `DETACH DELETE`d here; they are relabelled instead, and
+edge provenance is no longer retracted here at all — `RELATES_TO` aggregate
+edges are entirely derived from `ASSERTS_RELATION` observation edges by the
+projection rebuild, which recomputes them from the affected keys this
+transition already hands it. Which entities should vanish is decided by the
+projection's zero-latest-observations rule over those keys.
 
 We assert the params actually sent and which Cypher ran — never summary counts
 — because a MagicMock session returns truthy for any query (CLAUDE.md).
@@ -22,12 +28,10 @@ import artmind.ingest as ing
 
 
 def _classify(cypher: str) -> str:
-    if "SET o._status = 'history'" in cypher:
+    if "REMOVE o:Observation SET o:ObservationHistory" in cypher:
         return "demote_observations"
-    if "x <> $doc_id" in cypher:
-        return "edge_update"
-    if "size(r.doc_ids) = 0" in cypher:
-        return "edge_delete"
+    if "REMOVE c:DocChunk SET c:DocChunkHistory" in cypher:
+        return "relabel_chunks"
     if "DETACH DELETE c" in cypher:
         return "chunk_delete"
     if "DETACH DELETE e" in cypher:
@@ -87,65 +91,58 @@ def _patch_session(monkeypatch, session):
     return session
 
 
-# ── the version/status transition ───────────────────────────────────────────
+# ── the version/label-swap transition ───────────────────────────────────────
 
 
-def test_the_prior_versions_observations_are_demoted_not_deleted(monkeypatch):
-    """Assertion time, not valid time: an observation moved to `history` keeps
-    the valid-time window it always had and stays in storage."""
+def test_the_prior_versions_observations_are_demoted_not_deleted():
+    """Assertion time, not valid time: a relabelled observation keeps the
+    valid-time window it always had and stays in storage."""
     session = _RetractSession(counts={"demote_observations": 4})
-    _patch_session(monkeypatch, session)
 
-    result = ing._retract_document_from_neo4j("banking", "docA")
+    result = ing._retract_prior_version(session, "banking", "docA")
 
     cypher, kw = session.call("demote_observations")
     assert kw["doc_id"] == "docA"
-    assert "o._status = 'latest'" in cypher, "only latest observations are demoted"
-    assert "SET o._status = 'history'" in cypher
     assert "DELETE" not in cypher, "observations are immutable — never deleted here"
     assert result["observations_demoted"] == 4
 
 
-def test_the_transition_never_deletes_entities_itself(monkeypatch):
+def test_the_transition_never_deletes_entities_itself():
     """The zero-observations GC rule owns entity deletion now. Three competing
     GC mechanisms is exactly how 235 entities stayed live."""
     session = _RetractSession()
-    _patch_session(monkeypatch, session)
 
-    ing._retract_document_from_neo4j("banking", "docA")
+    ing._retract_prior_version(session, "banking", "docA")
 
     assert not session.ran("entity_delete"), "entity GC belongs to the projection rebuild"
 
 
-def test_edge_provenance_is_still_retracted_per_document(monkeypatch):
-    session = _RetractSession(counts={"edge_update": 2, "edge_delete": 1})
-    _patch_session(monkeypatch, session)
+def test_edge_provenance_is_no_longer_retracted_here():
+    """RELATES_TO is entirely derived from ASSERTS_RELATION observation edges
+    now (Phase 4) — relabelling this document's observations already makes
+    their ASSERTS_RELATION edges structurally invisible to the next rebuild's
+    aggregation query, so there is nothing left for this transition itself to
+    retract."""
+    session = _RetractSession()
 
-    result = ing._retract_document_from_neo4j("banking", "docA")
+    ing._retract_prior_version(session, "banking", "docA")
 
-    cypher, kw = session.call("edge_update")
+    for cypher, _ in session.calls:
+        assert "doc_ids" not in cypher
+        assert "chunk_ids" not in cypher
+        assert "RELATES_TO" not in cypher
+
+
+def test_the_documents_chunks_are_relabelled_not_deleted():
+    session = _RetractSession(counts={"relabel_chunks": 3})
+
+    result = ing._retract_prior_version(session, "banking", "docA")
+
+    cypher, kw = session.call("relabel_chunks")
     assert kw["doc_id"] == "docA"
-    assert kw["domain"] == "banking"
-    assert "x <> $doc_id" in cypher                      # doc_ids
-    assert "STARTS WITH ($doc_id + '_')" in cypher       # chunk_ids
-
-    del_cypher, _ = session.call("edge_delete")
-    assert "size(r.doc_ids) = 0" in del_cypher
-    assert "r.doc_ids IS NOT NULL" in del_cypher         # never touches pre-A1b edges
-
-    assert result["edges_retracted"] == 2
-    assert result["edges_deleted"] == 1
-
-
-def test_the_documents_chunks_are_deleted_by_doc_id(monkeypatch):
-    session = _RetractSession(counts={"chunk_delete": 3})
-    _patch_session(monkeypatch, session)
-
-    result = ing._retract_document_from_neo4j("banking", "docA")
-
-    _, kw = session.call("chunk_delete")
-    assert kw["doc_id"] == "docA"
+    assert "DELETE" not in cypher
     assert result["chunks"] == 3
+    assert not session.ran("chunk_delete"), "chunks are relabelled, never hard-deleted"
 
 
 # ── commit ordering, and the removal of the swallow ─────────────────────────

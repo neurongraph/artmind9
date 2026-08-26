@@ -235,7 +235,10 @@ def test_prompt_includes_structural_schema():
     assert "STRUCTURAL GRAPH" in prompt
     assert "PART_OF" in prompt
     assert "EXTRACTED_FROM" in prompt
-    assert "MENTIONS" in prompt
+    assert "RELATES_TO" in prompt
+    assert "ASSERTS_RELATION" in prompt
+    # UserChat/:MENTIONS was dead (never written since Phase 3) and is gone.
+    assert "MENTIONS" not in prompt
     assert "DocChunk" in prompt
     assert "Document" in prompt
     assert "UserChat" in prompt

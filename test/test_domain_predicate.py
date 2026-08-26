@@ -37,7 +37,8 @@ def test_pattern1_cypher_uses_in_domains():
     cypher, params = gq._pattern_query(
         "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 10}
     )
-    assert "e.domain IN $domains" in cypher
+    # Entity carries `_domain` (Phase 4's `_`-prefix), not `domain`.
+    assert "e._domain IN $domains" in cypher
     assert params["domains"] == ["fiction"]
     assert "= $domain" not in cypher
 

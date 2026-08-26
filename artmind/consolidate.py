@@ -32,15 +32,15 @@ from utils.functions import load_env, resolve_llm_model
 
 _SELECT_ENTITIES_CYPHER = """
 MATCH (e:Entity)
-WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+WHERE (e._domain = $domain OR e._domain STARTS WITH ($domain + '.'))
   AND e.description IS NOT NULL
   AND ($nameFilter IS NULL OR toLower(e.name) CONTAINS toLower($nameFilter))
-OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(c:DocChunk)
+OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
 OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
-WITH e, collect(c { .id, .text, .valid_to, doc_name: d.name, doc_domain: d.domain }) AS chunks
+WITH e, collect(DISTINCT c { .id, .text, .valid_to, doc_name: d.name, doc_domain: d.domain }) AS chunks
 OPTIONAL MATCH (co:Conflict)-[:CONFLICT_OF]->(e)
 WHERE co.status = 'open'
-RETURN e.id AS id, e.name AS name, e.entity_class AS entity_class,
+RETURN e._id AS id, e.name AS name, e.entity_class AS entity_class,
        e.description AS description,
        e.description_source_chunks AS prev_sources,
        count(co) > 0 AS has_open_conflict,
@@ -50,8 +50,19 @@ ORDER BY e.name
 
 # description_raw is written with coalesce so only the FIRST consolidation
 # captures the original fragment blob; re-runs never clobber it.
+#
+# NOTE (Phase 4): this whole module is pre-Phase-3 in shape -- fragment/pipe
+# language, EXTRACTED_FROM patched above to go through AGGREGATES->Observation
+# rather than fixing the underlying design, and `embedding = null` below
+# still violates the "never null an embedding" invariant Phase 3 established
+# (a null embedding is invisible to entity-resolve's vector leg, not merely
+# stale). Left as environmental damage-control, not a fix: this module is
+# explicitly Phase 6's ("rewrite in place as `projection synthesize`,
+# retargeted from entity+chunks to entity+observations"), and reworking its
+# actual behaviour here would be doing that phase's job early. Renamed only
+# what Phase 4's `_id`/`_domain` prefix would otherwise silently break.
 _WRITE_CYPHER = """
-MATCH (e:Entity {id: $id})
+MATCH (e:Entity {_id: $id})
 SET e.description_raw = coalesce(e.description_raw, e.description),
     e.description = $description,
     e.description_consolidated_at = $now,

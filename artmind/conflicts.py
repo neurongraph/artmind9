@@ -67,10 +67,10 @@ def candidate_pairs(
     with neo4j_session() as session:
         fetch = """
         MATCH (e:Entity)
-        WHERE e.domain IN $domains AND e.embedding IS NOT NULL AND e.name IS NOT NULL
+        WHERE e._domain IN $domains AND e.embedding IS NOT NULL AND e.name IS NOT NULL
           AND ($nameFilter IS NULL OR toLower(e.name) CONTAINS toLower($nameFilter))
-        RETURN e.id AS id, e.name AS name, e.entity_class AS entity_class,
-               e.domain AS domain, e.embedding AS embedding
+        RETURN e._id AS id, e.name AS name, e.entity_class AS entity_class,
+               e._domain AS domain, e.embedding AS embedding
         """
         sources = session.run(
             fetch, domains=domains, nameFilter=name_filter
@@ -81,10 +81,10 @@ def candidate_pairs(
                 """
                 CALL db.index.vector.queryNodes('entity_embedding', $k, $embedding)
                 YIELD node, score
-                WHERE node.domain IN $others
+                WHERE node._domain IN $others
                   AND node.entity_class = $cls
-                  AND node.id <> $srcId
-                RETURN node.id AS id, node.name AS name, node.domain AS domain, score
+                  AND node._id <> $srcId
+                RETURN node._id AS id, node.name AS name, node._domain AS domain, score
                 """,
                 k=top_k, embedding=src["embedding"], others=others,
                 cls=src["entity_class"], srcId=src["id"],
@@ -138,14 +138,17 @@ JSON only:"""
 def gather_evidence(session, entity_id: str, max_chunks: int) -> list[dict]:
     """Top-k source chunks an entity was extracted from, truncated for bounded LLM cost.
 
-    Uses EXTRACTED_FROM (Entity)->(DocChunk) — the relationship the ingest pipeline
-    actually writes. :MENTIONS is never created for document chunks; it's only
-    written for (UserChat)-[:MENTIONS]->(Entity) by the artmind-update chat path.
+    Reached via `(Entity)-[:AGGREGATES]->(Observation)-[:EXTRACTED_FROM]->(DocChunk)`
+    (Phase 4) — provenance moved onto observations in Phase 3, so an Entity
+    itself has never carried a direct EXTRACTED_FROM edge; matching one on the
+    Entity (as this query did before) silently returned zero chunks always.
+    :MENTIONS is never created for document chunks; it's only written for
+    (UserChat)-[:MENTIONS]->(Entity) by the artmind-update chat path.
     """
     return session.run(
         """
-        MATCH (e:Entity {id:$id})-[:EXTRACTED_FROM]->(c:DocChunk)
-        RETURN c.id AS id, c.doc_id AS doc_id, c.name AS name, c.domain AS domain,
+        MATCH (e:Entity {_id:$id})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+        RETURN DISTINCT c.id AS id, c.doc_id AS doc_id, c.name AS name, c.domain AS domain,
                left(c.text, 1200) AS text
         LIMIT $k
         """,
@@ -221,13 +224,13 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
     """MERGE-only write of a Conflict + edges. Returns conflict id or None."""
     if verdict["verdict"] == "superseded":
         # Resolve entity ids to their documents and record SUPERSEDES + valid_to.
-        # Uses EXTRACTED_FROM (Entity)->(DocChunk), the relationship the ingest
-        # pipeline actually writes — see gather_evidence's docstring above for why
-        # :MENTIONS is NOT used here (it is never created for document chunks).
+        # Reached via AGGREGATES->Observation->EXTRACTED_FROM (Phase 4) — see
+        # gather_evidence's docstring for why; :MENTIONS is NOT used here (it is
+        # never created for document chunks).
         rec = session.run(
             """
-            MATCH (a:Entity {id:$idA})-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(da:Document)
-            MATCH (b:Entity {id:$idB})-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(db:Document)
+            MATCH (a:Entity {_id:$idA})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(da:Document)
+            MATCH (b:Entity {_id:$idB})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(db:Document)
             RETURN da.id AS a, da.valid_from AS af, db.id AS b, db.valid_from AS bf
             LIMIT 1
             """,
@@ -251,7 +254,7 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
                       co.severity=$severity, co.status='open', co.domains=$domains,
                       co.detected_at=$now, co.detected_by_model=$model
         WITH co
-        MATCH (a:Entity {id:$idA}), (b:Entity {id:$idB})
+        MATCH (a:Entity {_id:$idA}), (b:Entity {_id:$idB})
         MERGE (co)-[:CONFLICT_OF]->(a)
         MERGE (co)-[:CONFLICT_OF]->(b)
         MERGE (a)-[ra:CONFLICTS_WITH]->(b) SET ra.conflict_id=$id, ra.aspect=$aspect
