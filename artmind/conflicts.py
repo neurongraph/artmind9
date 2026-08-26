@@ -33,16 +33,6 @@ def _name_ratio(a: str, b: str) -> float:
     return difflib.SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 
-def check_refine_precondition(session, domains: list[str]) -> list[str]:
-    """Return the subset of domains with NO recorded refine-graph run."""
-    rows = session.run(
-        "MATCH (r:RefineRun) WHERE r.domain IN $domains RETURN collect(r.domain) AS done",
-        domains=domains,
-    ).single()
-    done = set(rows["done"]) if rows else set()
-    return [d for d in domains if d not in done]
-
-
 def candidate_pairs(
     domains: list[str],
     name_filter: str | None,
@@ -70,7 +60,7 @@ def candidate_pairs(
         WHERE e._domain IN $domains AND e.embedding IS NOT NULL AND e.name IS NOT NULL
           AND ($nameFilter IS NULL OR toLower(e.name) CONTAINS toLower($nameFilter))
         RETURN e._id AS id, e.name AS name, e.entity_class AS entity_class,
-               e._domain AS domain, e.embedding AS embedding
+               e._domain AS domain, e.embedding AS embedding, e.key AS key
         """
         sources = session.run(
             fetch, domains=domains, nameFilter=name_filter
@@ -84,7 +74,8 @@ def candidate_pairs(
                 WHERE node._domain IN $others
                   AND node.entity_class = $cls
                   AND node._id <> $srcId
-                RETURN node._id AS id, node.name AS name, node._domain AS domain, score
+                RETURN node._id AS id, node.name AS name, node._domain AS domain,
+                       node.key AS key, score
                 """,
                 k=top_k, embedding=src["embedding"], others=others,
                 cls=src["entity_class"], srcId=src["id"],
@@ -101,7 +92,9 @@ def candidate_pairs(
                     nb["score"], nr,
                     {
                         "id_a": src["id"], "name_a": src["name"], "domain_a": src["domain"],
+                        "key_a": src.get("key"),
                         "id_b": nb["id"], "name_b": nb["name"], "domain_b": nb["domain"],
+                        "key_b": nb.get("key"),
                         "entity_class": src["entity_class"],
                         "sim": round(nb["score"], 4), "name_ratio": round(nr, 4),
                     },
@@ -221,7 +214,34 @@ def llm_adjudicate(session, pair: dict, evidence_a: list[dict], evidence_b: list
 
 
 def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evidence_b: list[dict], model: str) -> str | None:
-    """MERGE-only write of a Conflict + edges. Returns conflict id or None."""
+    """MERGE-only write of a Conflict, a SameAsProposal, or nothing — the
+    "two outcomes" of one proposer's judgment. Returns the id written, if any.
+
+    `"same_entity_consistent"` used to be discarded; it now proposes a
+    same-as group instead, in the SAME review queue `refine_graph.py`'s
+    clustering proposer feeds (`artmind.sameas`) — a curated group is a
+    (class, domain)-aware assertion, so `pair["key_a"]`/`key_b"]` (the raw
+    aggregate keys, not just entity ids) are what a proposal actually needs.
+    """
+    if verdict["verdict"] == "same_entity_consistent":
+        if not pair.get("key_a") or not pair.get("key_b"):
+            logger.warning(
+                "same_entity_consistent verdict for {} <-> {} but one side has no "
+                "Entity.key; skipped (pre-Phase-6 entity, or the key property is missing)",
+                pair.get("name_a"), pair.get("name_b"),
+            )
+            return None
+        from artmind import sameas
+
+        key_a, key_b = tuple(pair["key_a"].split("|")), tuple(pair["key_b"].split("|"))
+        # No canonical opinion from the adjudicator — the LONGER name is the
+        # cheapest reasonable default, and the human reviewing `sameas list`
+        # can always override it at approval time.
+        canonical, other = (key_a, key_b) if len(pair["name_a"]) >= len(pair["name_b"]) else (key_b, key_a)
+        return sameas.propose(
+            session, canonical, [other],
+            source="adjudicator", reason=verdict.get("aspect") or "cross-domain identity match", model=model,
+        )
     if verdict["verdict"] == "superseded":
         # Resolve entity ids to their documents and record SUPERSEDES + valid_to.
         # Reached via AGGREGATES->Observation->EXTRACTED_FROM (Phase 4) — see
@@ -252,7 +272,8 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
         MERGE (co:Conflict {id:$id})
         ON CREATE SET co.aspect=$aspect, co.claim_a=$claim_a, co.claim_b=$claim_b,
                       co.severity=$severity, co.status='open', co.domains=$domains,
-                      co.detected_at=$now, co.detected_by_model=$model
+                      co.detected_at=$now, co.detected_by_model=$model,
+                      co._source='adjudicator'
         WITH co
         MATCH (a:Entity {_id:$idA}), (b:Entity {_id:$idB})
         MERGE (co)-[:CONFLICT_OF]->(a)
@@ -297,8 +318,15 @@ def detect_conflicts(
                 domains.append(expanded)
 
     report: dict = {"domains": domains, "candidates": 0, "llm_calls": 0,
-                    "conflicts": [], "stats": {}, "candidate_seconds": 0.0, "llm_seconds": 0.0}
+                    "conflicts": [], "same_as_proposals": [], "stats": {},
+                    "candidate_seconds": 0.0, "llm_seconds": 0.0}
     report["domains_requested"] = requested
+
+    def _record(item: dict, materialized_id: str) -> None:
+        if item["verdict"]["verdict"] == "same_entity_consistent":
+            report["same_as_proposals"].append(materialized_id)
+        else:
+            report["conflicts"].append(materialized_id)
 
     if from_file:
         data = json.loads(Path(from_file).read_text(encoding="utf-8"))
@@ -307,21 +335,11 @@ def detect_conflicts(
                 cid = materialize(session, item["pair"], item["verdict"],
                                   item["evidence_a"], item["evidence_b"], item.get("model", model))
                 if cid:
-                    report["conflicts"].append(cid)
-        report["stats"] = {"materialized": len(report["conflicts"])}
+                    _record(item, cid)
+        report["stats"] = {"materialized": len(report["conflicts"]) + len(report["same_as_proposals"])}
         return report
 
     import time
-    # Precondition: warn if a target domain has no recorded refine-graph run.
-    with neo4j_session() as session:
-        missing = check_refine_precondition(session, domains)
-    if missing:
-        logger.warning(
-            "detect-conflicts: no refine-graph run recorded for {} — run intra-domain "
-            "refine-graph first, or candidate pairing will operate on raw chunk-level duplicates",
-            missing,
-        )
-        report["warning_missing_refine"] = missing
 
     t0 = time.monotonic()
     pairs = candidate_pairs(domains, name_filter, sim_threshold, max_pairs)
@@ -336,9 +354,10 @@ def detect_conflicts(
             ev_b = gather_evidence(session, pair["id_b"], max_chunks_per_side)
             verdict = llm_adjudicate(session, pair, ev_a, ev_b, model)
             report["llm_calls"] += 1
-            if verdict["verdict"] in ("conflicting_claims", "superseded"):
-                # Both verdicts flow through the same dry-run/apply pipeline;
-                # materialize() discriminates them (Conflict node vs SUPERSEDES edge).
+            if verdict["verdict"] in ("conflicting_claims", "superseded", "same_entity_consistent"):
+                # All three flow through the same dry-run/apply pipeline;
+                # materialize() discriminates them (Conflict node, SUPERSEDES
+                # edge, or a SameAsProposal — "one proposer, two outcomes").
                 proposals.append({"pair": pair, "verdict": verdict,
                                   "evidence_a": ev_a, "evidence_b": ev_b, "model": model})
     report["llm_seconds"] = round(time.monotonic() - t1, 3)
@@ -356,12 +375,12 @@ def detect_conflicts(
                 cid = materialize(session, item["pair"], item["verdict"],
                                   item["evidence_a"], item["evidence_b"], model)
                 if cid:
-                    report["conflicts"].append(cid)
-        report["stats"] = {"materialized": len(report["conflicts"])}
+                    _record(item, cid)
+        report["stats"] = {"materialized": len(report["conflicts"]) + len(report["same_as_proposals"])}
 
     logger.info(
-        "detect-conflicts: candidates={} llm_calls={} materialized={} (cand={}s llm={}s)",
-        report["candidates"], report["llm_calls"], len(report["conflicts"]),
+        "detect-conflicts: candidates={} llm_calls={} conflicts={} same_as_proposals={} (cand={}s llm={}s)",
+        report["candidates"], report["llm_calls"], len(report["conflicts"]), len(report["same_as_proposals"]),
         report["candidate_seconds"], report["llm_seconds"],
     )
     return report

@@ -354,7 +354,11 @@ def import_graph(snapshot_path: Path | None = None) -> dict:
 
     with neo4j_session() as session:
         all_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, None)))
-        rebuild_summary = session.execute_write(lambda tx: projection.full_rebuild(tx, None))
+        rebuild_summary = session.execute_write(
+            lambda tx: projection.full_rebuild(
+                tx, None, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+            )
+        )
 
     logger.info("Running the embed sweep across {} key(s)...", len(all_keys))
     embedded_total = 0

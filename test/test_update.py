@@ -765,35 +765,60 @@ def test_a_chat_never_writes_entity_properties_directly():
     assert "MERGE (o:Observation" in src
 
 
-def test_entity_level_supersession_is_reported_not_applied():
-    """`Entity.superseded_by` and `status='superseded'` are projection-owned,
-    so a chat setting them would have them wiped by the next rebuild."""
+def test_retraction_writes_a_thin_observation_carrying__retracts():
+    """Entity-level supersession (`Entity.superseded_by`, `status='superseded'`)
+    is gone — those were projection-owned and would have been wiped by the
+    next rebuild. Its replacement is observation-level: a `retracts` entry on
+    a resolution becomes its OWN thin observation under the SAME aggregate
+    key, carrying `_retracts` and no domain properties of its own. The
+    rebuild (`projection.apply_retractions`) is what actually demotes the
+    target — this test only covers write_user_chat's own half: does it build
+    and send the retracting observation at all."""
     resolutions = [{
         "entity_temp_id": "e0", "action": "create", "node_id": None,
-        "supersedes": [{"node_id": "4:abc:old", "reason": "role changed"}],
+        "retracts": ["old-observation-id-123"],
     }]
     extracted_entities = [
         {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}
     ]
 
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        # Every lookup (retraction target, embed-missing sweep, etc.) reports
+        # "not found" rather than the bare-MagicMock default of truthy-for-
+        # anything -- CLAUDE.md's trap: a mock that answers every query
+        # truthily can't tell a real match from no match at all.
+        result.single.return_value = None
+        result.data.return_value = []
+        return result
+
     session = MagicMock()
-    session.run.return_value.single.return_value = None
-    session.run.return_value.data.return_value = []
+    session.run.side_effect = run_side_effect
     session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity", return_value=None), \
-         patch("artmind.update.neo4j_session") as mock_ctx, \
-         patch("artmind.update.logger") as mock_logger:
+         patch("artmind.update.neo4j_session") as mock_ctx:
         mock_ctx.return_value.__enter__.return_value = session
         result = write_user_chat(
-            session_id="s", raw_text="Alice replaced Bob.", domain="general",
+            session_id="s", raw_text="Alice is no longer branch manager.", domain="general",
             user_id="u", resolutions=resolutions,
             extracted_entities=extracted_entities, extracted_relationships=[],
         )
 
-    assert result["nodes_superseded"] == 0
-    assert any(
-        "supersession" in str(c.args) and "not applied" in str(c.args)
-        for c in mock_logger.warning.call_args_list
-    ), "the user must be told their supersession was not applied, and what to use instead"
+    assert result["nodes_retracted"] == 1
+    assert "nodes_superseded" not in result
+
+    observation_writes = [
+        kwargs["props"] for cypher, kwargs in calls
+        if cypher.strip().startswith("MERGE (o:Observation") and "props" in kwargs
+    ]
+    retracting = [p for p in observation_writes if p.get("_retracts")]
+    assert len(retracting) == 1
+    assert retracting[0]["_retracts"] == "old-observation-id-123"
+    # Same identity as the resolution's own entity -- no synthetic entity.
+    assert retracting[0]["entity_class"] == "PERSON"
+    assert retracting[0]["canonical_name"] == "Alice"

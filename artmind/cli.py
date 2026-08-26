@@ -49,7 +49,6 @@ from artmind.jobs import (
     _list_jobs,
     _retry_job,
 )
-from artmind.consolidate import consolidate_descriptions
 from artmind.refine_graph import refine_graph
 from paths import (
     DOMAIN_SCHEMAS_DIR,
@@ -169,6 +168,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Query", "commands": ["query"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
+        {"name": "Curation", "commands": ["sameas"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
         {"name": "Setup & tools", "commands": ["setup", "init", "serve", "chat-ui", "admin-ui"]},
@@ -189,7 +189,6 @@ click.rich_click.COMMAND_GROUPS = {
             "name": "Refinement",
             "commands": [
                 "refine-graph",
-                "consolidate-descriptions",
                 "detect-conflicts",
                 "resolve-conflict",
                 "supersede",
@@ -1085,47 +1084,6 @@ def ingest_refine_graph(
         click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
 
 
-
-
-@ingest.command("consolidate-descriptions")
-@click.option("--domain", required=True, help="Domain to consolidate (sub-domains rolled up)")
-@click.option("--nameFilter", "name_filter", default=None, help="Restrict to entities whose name contains this")
-@click.option("--minFragments", "min_fragments", type=int, default=2, show_default=True, help="Skip never-consolidated entities with fewer accumulated description fragments")
-@click.option("--maxChunks", "max_chunks", type=int, default=6, show_default=True, help="Max source chunk excerpts fed to the LLM per entity")
-@click.option("--limit", type=int, default=None, help="Cap entities consolidated this run (bounds LLM cost)")
-@click.option("--model", default=None, help="Consolidation LLM model (default: env)")
-@click.option("--force", is_flag=True, help="Re-consolidate even if the chunk set is unchanged")
-@click.option("--dry-run", is_flag=True, help="Generate proposals without writing to the graph")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_consolidate_descriptions(
-    domain: str,
-    name_filter: str | None,
-    min_fragments: int,
-    max_chunks: int,
-    limit: int | None,
-    model: str | None,
-    force: bool,
-    dry_run: bool,
-    compact: bool,
-) -> None:
-    """Rewrite accumulated entity descriptions into clean prose from their source chunks.
-
-    Preserves the original in description_raw, records provenance in
-    description_source_chunks/description_source_docs, skips entities with open
-    conflicts, and re-embeds rewritten entities.
-    """
-    _setup_logger()
-    result = consolidate_descriptions(
-        domain=domain,
-        name_filter=name_filter,
-        min_fragments=min_fragments,
-        max_chunks=max_chunks,
-        limit=limit,
-        model=model,
-        force=force,
-        dry_run=dry_run,
-    )
-    _echo_json(result, compact)
 
 
 
@@ -2513,6 +2471,172 @@ def projection_rebuild(domain: str | None, compact: bool) -> None:
     from artmind.ingest import rebuild_projection
 
     _echo_json(rebuild_projection(domain), compact)
+
+
+@projection.command("status")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def projection_status(compact: bool) -> None:
+    """Report drift between the live projection and same_as.yaml / the schema set.
+
+    Compares the `:ProjectionState` singleton (recorded by the last FULL
+    `projection rebuild`) against `same_as.yaml`'s current hash and the domain
+    schemas' current hash right now. Read-only — queries cannot self-heal
+    (`read_session()` stays READ_ACCESS), so this only ever reports; running
+    `projection rebuild` is what clears drift.
+    """
+    _setup_logger()
+    from artmind import projection
+    from artmind.graph_query import read_session
+
+    with read_session() as session:
+        result = session.execute_read(projection.status)
+    _echo_json(result, compact)
+
+
+@projection.command("synthesize")
+@click.option("--domain", required=True, help="Domain to synthesize (sub-domains rolled up)")
+@click.option("--nameFilter", "name_filter", default=None, help="Restrict to entities whose name contains this")
+@click.option("--minObservations", "min_observations", type=int, default=2, show_default=True, help="Skip entities with fewer latest observations than this")
+@click.option("--limit", type=int, default=None, help="Cap entities synthesized this run (bounds LLM cost)")
+@click.option("--model", default=None, help="Synthesis LLM model (default: env)")
+@click.option("--force", is_flag=True, help="Re-synthesize even if the observation set is unchanged")
+@click.option("--dry-run", is_flag=True, help="Show which entities would be synthesized without writing")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def projection_synthesize(
+    domain: str,
+    name_filter: str | None,
+    min_observations: int,
+    limit: int | None,
+    model: str | None,
+    force: bool,
+    dry_run: bool,
+    compact: bool,
+) -> None:
+    """Rewrite entity descriptions as one coherent passage drawn from all their observations.
+
+    The only step in the pipeline that spends language-model budget without
+    being asked to — never automatic, never per-document. Skips entities with
+    an open (projection) conflict, too few observations, or an unchanged
+    observation set since the last synthesis. Applies its own result
+    immediately (Entity.description + a fresh embedding, in the same write as
+    the :Synthesis node) — a later `projection rebuild` will read the
+    :Synthesis store back and reproduce the identical description, proving it
+    is a real input rather than a side effect.
+    """
+    _setup_logger()
+    from artmind.synthesize import synthesize
+
+    result = synthesize(
+        domain=domain,
+        name_filter=name_filter,
+        min_observations=min_observations,
+        limit=limit,
+        model=model,
+        force=force,
+        dry_run=dry_run,
+    )
+    _echo_json(result, compact)
+
+
+@cli.group()
+def sameas():
+    """Same-as groups — curated identity, reviewed before it touches the graph.
+
+    A same-as group is a human's bounded assertion that two or more aggregate
+    keys denote one real-world thing, with one member named canonical.
+    Nothing here mutates the graph directly: `propose` writes candidates to a
+    review queue (the SAME queue conflicts.py's cross-domain adjudicator
+    feeds — see `ingest detect-conflicts`, and `ingest refine-graph`, the
+    other proposer); `approve` is what actually appends to `same_as.yaml` and
+    triggers a rebuild. Subcommands: propose, list, approve, reject.
+    """
+
+
+@sameas.command("propose")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; 1=intra-domain naming variants + merge candidates, 2+=cross-domain identity)")
+@click.option("--nameFilter", "name_filter", default=None, help="Restrict to entities whose name contains this")
+@click.option("--simThreshold", "sim_threshold", type=float, default=0.75, show_default=True, help="Min cosine similarity for a candidate")
+@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
+@click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
+@click.option("--model", default=None, help="Adjudication LLM model (default: env)")
+@click.option("--dry-run", is_flag=True, help="Compute candidates without writing proposals to the graph")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def sameas_propose(
+    domain: tuple, name_filter: str | None, sim_threshold: float, max_pairs: int,
+    max_chunks: int, model: str | None, dry_run: bool, compact: bool,
+) -> None:
+    """Generate same-as (and conflict) candidates via the cross-domain adjudicator.
+
+    Reuses `conflicts.py`'s candidate pairing (ANN over entity_embedding,
+    blocked by entity_class) and adjudication prompt — one judgment, two
+    outcomes: a "same thing" verdict proposes a same-as group here; a
+    "conflicting claims" verdict proposes a Conflict (`query graph conflicts`
+    / `ingest resolve-conflict`) exactly as `ingest detect-conflicts` already
+    does. Pass one `--domain` to find naming-variant merge candidates within
+    it too (the ANN query falls back to the same domain when only one is
+    given); pass 2+ for cross-domain identity candidates.
+    """
+    _setup_logger()
+    from artmind.conflicts import detect_conflicts
+    from utils.functions import load_env, resolve_llm_model
+
+    resolved_model = resolve_llm_model(load_env(), model)
+    result = detect_conflicts(
+        domains=list(domain), name_filter=name_filter, sim_threshold=sim_threshold,
+        max_pairs=max_pairs, max_chunks_per_side=max_chunks, model=resolved_model,
+        dry_run=dry_run,
+    )
+    _echo_json(result, compact)
+
+
+@sameas.command("list")
+@click.option("--status", type=click.Choice(["open", "approved", "rejected", "all"]), default="open", show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def sameas_list(status: str, compact: bool) -> None:
+    """List same-as proposals in the review queue. Renders the queue directly
+    — no intermediate report file to drift from this command's own shape."""
+    _setup_logger()
+    from artmind.sameas import list_proposals
+
+    _echo_json({"status": status, "proposals": list_proposals(status)}, compact)
+
+
+@sameas.command("approve")
+@click.argument("proposal_id")
+@click.option("--canonical", default=None, help="Override which member becomes canonical (must be one of the proposal's members). Default: the proposer's own suggestion.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def sameas_approve(proposal_id: str, canonical: str | None, compact: bool) -> None:
+    """Approve a proposal: append its group to same_as.yaml and rebuild.
+
+    Runs a full rebuild scoped to the domain families the group touches — NOT
+    an incremental one, since the group may include a key no recent commit
+    touched. Does not clear `projection status`'s drift flag by itself; run a
+    domain-unscoped `projection rebuild` for that.
+    """
+    _setup_logger()
+    from artmind.sameas import approve
+
+    try:
+        result = approve(proposal_id, canonical=canonical)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
+
+
+@sameas.command("reject")
+@click.argument("proposal_id")
+@click.option("--reason", default=None, help="Why — recorded on the proposal for audit")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def sameas_reject(proposal_id: str, reason: str | None, compact: bool) -> None:
+    """Reject a proposal. No graph write beyond the proposal's own status."""
+    _setup_logger()
+    from artmind.sameas import reject
+
+    try:
+        result = reject(proposal_id, reason)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 @cli.group()

@@ -474,3 +474,99 @@ def test_a_disputed_instant_does_not_hide_genuine_temporal_variation():
     ])
     assert result["temporal_props"] == ["rate_value"]
     assert [c["property"] for c in result["conflicts"]] == ["rate_value"]
+
+
+# ── override_key: a same-as merge unit's identity must be the canonical's,
+# not whatever the unioned set's own name choice would produce ──────────────
+
+
+def test_override_key_wins_over_the_unioned_sets_own_name_choice():
+    """Two aliases merged by a same-as group: without an override, the LONGER
+    canonical_name among the union would win (per _choose_name) and could
+    diverge from the group's curated canonical. override_key must always be
+    the Entity's identity when given -- a human's assertion beats the
+    heuristic."""
+    from artmind.observations import aggregate_key, entity_id
+
+    canonical_key = aggregate_key("FCA", "REGULATOR", "banking.reference")
+    result = merge_observations(
+        [
+            obs(
+                id="1", doc_id="a", name="FCA", canonical_name="FCA",
+                entity_class="REGULATOR", domain="banking.reference",
+                _doc_valid_from="2026-01-01", _valid_from="2026-01-01",
+            ),
+            obs(
+                id="2", doc_id="b", name="Financial Conduct Authority",
+                canonical_name="Financial Conduct Authority",  # longer -- would win _choose_name
+                entity_class="REGULATOR", domain="banking.reference",
+                _doc_valid_from="2026-02-01", _valid_from="2026-02-01",
+            ),
+        ],
+        override_key=canonical_key,
+    )
+    assert result["props"]["_id"] == entity_id(canonical_key)
+    assert result["props"]["key"] == "fca|REGULATOR|banking.reference"
+    # display name is still free to be the longer, more informative wording
+    assert result["props"]["name"] == "Financial Conduct Authority"
+
+
+def test_without_override_key_a_single_keys_merge_is_unaffected():
+    """For an ordinary (non-merged) key, every observation already shares one
+    stored key, so passing override_key=key is a no-op vs. the old behavior."""
+    result = merge_observations([
+        obs(id="1", doc_id="a", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", rate_value=4.5),
+    ])
+    from artmind.observations import aggregate_key
+
+    key = aggregate_key("SmartSaver Account Tier 2 Rate", "RATE_ENTRY", "banking.reference")
+    assert result["props"]["key"] == "|".join(key)
+
+
+# ── _plan_groups: merge within (class, domain), link across it ─────────────
+
+
+def test_plan_groups_merges_same_class_and_domain():
+    from artmind.projection import _plan_groups
+
+    canonical = ("fca", "REGULATOR", "banking.reference")
+    member = ("financial conduct authority", "REGULATOR", "banking.reference")
+    unit_of, members_of, links = _plan_groups({canonical, member}, [[canonical, member]])
+    assert unit_of[member] == canonical
+    assert unit_of[canonical] == canonical
+    assert set(members_of[canonical]) == {canonical, member}
+    assert links == []
+
+
+def test_plan_groups_links_across_domain_instead_of_merging():
+    from artmind.projection import _plan_groups
+
+    canonical = ("fca", "REGULATOR", "banking.reference")
+    member = ("fca", "AUTHORITY", "banking.risk_governance")  # different class AND domain
+    unit_of, members_of, links = _plan_groups({canonical, member}, [[canonical, member]])
+    assert member not in unit_of
+    assert canonical not in unit_of  # no merge unit at all -- pure link group
+    assert links == [(member, canonical)]
+
+
+def test_plan_groups_splits_a_mixed_group_by_member():
+    from artmind.projection import _plan_groups
+
+    canonical = ("fca", "REGULATOR", "banking.reference")
+    merge_member = ("financial conduct authority", "REGULATOR", "banking.reference")
+    link_member = ("fca", "AUTHORITY", "banking.risk_governance")
+    keys = {canonical, merge_member, link_member}
+    unit_of, members_of, links = _plan_groups(keys, [[canonical, merge_member, link_member]])
+    assert unit_of[merge_member] == canonical
+    assert set(members_of[canonical]) == {canonical, merge_member}
+    assert links == [(link_member, canonical)]
+
+
+def test_plan_groups_ignores_a_group_touching_none_of_the_keys():
+    from artmind.projection import _plan_groups
+
+    unrelated = [("x", "C", "d"), ("y", "C", "d")]
+    unit_of, members_of, links = _plan_groups({("a", "C", "d")}, [unrelated])
+    assert unit_of == {}
+    assert members_of == {}
+    assert links == []

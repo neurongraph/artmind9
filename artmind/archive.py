@@ -137,7 +137,7 @@ def _delete_document_tx(tx, doc_id: str) -> dict:
         doc_id=doc_id,
     )
 
-    summary = projection.rebuild(tx, keys)
+    summary = projection.rebuild(tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k))
     return {
         "doc_id": doc_id,
         "observations_deleted": int(obs["n"]) if obs and obs.get("n") is not None else 0,

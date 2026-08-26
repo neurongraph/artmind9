@@ -67,7 +67,6 @@ def test_detect_conflicts_expands_domains_before_pairing(monkeypatch):
     monkeypatch.setattr(c, "expand_domain_family", lambda d: {
         "banking": ["banking", "banking.policy", "banking.cases"]
     }[d])
-    monkeypatch.setattr(c, "check_refine_precondition", lambda s, d: [])
 
     seen = {}
     monkeypatch.setattr(
