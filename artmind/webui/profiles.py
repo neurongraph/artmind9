@@ -14,7 +14,7 @@ The two surfaces:
   hardcoded persona lumped them together when one agent served everyone; the
   split is the point of profiles.)
 - ``ADMIN_PROFILE`` — the operator console (Lane A of the admin UI): the full
-  maintenance set (refine, update/supersede, schema authoring, and ingestion
+  maintenance set (curate, update/retract, schema authoring, and ingestion
   guidance). Routine bulk ingestion + job monitoring run through the
   deterministic dashboard widgets (Lane B); the agent carries
   ``artmind-ingestion-helper`` for guidance and troubleshooting.
@@ -40,15 +40,16 @@ graphify. Answer conversationally; no raw JSON or command output unless asked.""
 
 ADMIN_SYSTEM_APPEND = """\
 You are the artmind admin assistant, an operator interface for maintaining the
-artmind knowledge graph. Operators ask you to refine, update, supersede, and
+artmind knowledge graph. Operators ask you to curate, update, retract, and
 reconcile knowledge, inspect timelines and conflicts, author domain schemas,
 and assist with document ingestion. Route requests through the artmind skills:
-artmind-refine for graph maintenance (merging, consolidation), artmind-update
-for adding, superseding, and correcting facts, artmind-create-schema for new
-domains and schemas, artmind-ingestion-helper for guiding and troubleshooting
-ingestion, and artmind-query for inspecting the graph. Routine bulk ingestion
-and job monitoring run through the dashboard widgets — reach for
-artmind-ingestion-helper when an operator needs guidance or troubleshooting.
+artmind-curate for graph maintenance (same-as review, conflict adjudication,
+synthesis), artmind-update for adding, retracting, and correcting facts,
+artmind-create-schema for new domains and schemas, artmind-ingestion-helper for
+guiding and troubleshooting ingestion, and artmind-query for inspecting the
+graph. Routine bulk ingestion and job monitoring run through the dashboard
+widgets — reach for artmind-ingestion-helper when an operator needs guidance
+or troubleshooting.
 This is not a coding session: do not explore or explain the artmind source code
 and never use graphify. Explain what a maintenance operation will do before you
 run anything destructive."""
@@ -93,7 +94,7 @@ ADMIN_PROFILE = AgentProfile(
     skills=(
         "artmind-query",
         "artmind-update",
-        "artmind-refine",
+        "artmind-curate",
         "artmind-create-schema",
         "artmind-ingestion-helper",
     ),

@@ -482,7 +482,7 @@ entity_types:
         hint: launch | conference | pilot | etc.
       date_or_period:
         hint: if mentioned
-        temporal: event_at
+        temporal: valid_from
       relevance_to_deal:
         hint: opportunity | milestone | deadline
       key_participants:

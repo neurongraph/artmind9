@@ -11,6 +11,7 @@ from artmind.graph_query import (
     graph_metadata,
     strip_internal_props,
 )
+from artmind.structural_schema import render_prompt_block
 from utils.functions import load_env, resolve_llm_model
 
 
@@ -90,53 +91,14 @@ def _entities_summary(listing: dict) -> str:
     return "\n".join(lines) if lines else "  (no entities found)"
 
 
-# Hardcoded structural schema that is always included in the text2cypher prompt.
-# This ensures the LLM knows the exact relationships between Document, DocChunk,
-# UserChat, Observation, and Entity nodes — preventing guesswork on relationship
-# names. Kept current with the graph model by hand (Phase 4: Entity's _id/_domain
-# prefix, the observation/projection split, the RELATES_TO collapse, and the
-# History label pair) — there is no generation step for this constant.
-STRUCTURAL_SCHEMA = """\
-STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
-  Node :Document     properties=[id, name, path, domain, valid_from, valid_to, superseded_by]
-  Node :DocChunk     properties=[id, name, doc_id, text, domain, embedding]
-  Node :UserChat     properties=[id, raw_text, domain, session_id, created_by, created_at, embedding]
-  Node :Observation  properties=[id, name, canonical_name, key, entity_class, domain, doc_id,
-                                  chunk_id, _valid_from, _valid_to, _doc_valid_from, _kind]
-    — what one chunk of one document version asserted. Immutable, carries NO :Entity label
-      and no class label, so it never appears in an entity query by accident. Provenance
-      only — never the answer to "what is true now"; that is :Entity, below.
-  Node :Entity       properties=[_id, name, entity_class, _domain, description, type]
-    — the projection: one node per real-world thing, current by construction, rebuilt from
-      observations. NOTE the leading underscore on _id/_domain (Entity-only; every other
-      node label here uses plain id/domain) — Entity is the one label this redesign
-      prefixed, because id/domain on it are artmind-computed rather than extracted.
-  Relationship (:DocChunk)-[:PART_OF]->(:Document)              — chunk belongs to a document
-  Relationship (:Observation)-[:EXTRACTED_FROM]->(:DocChunk)    — observation's source chunk
-  Relationship (:Entity)-[:AGGREGATES]->(:Observation)          — entity's current observations
-    (to find which chunks/documents mention an entity, go (:Entity)-[:AGGREGATES]->
-     (:Observation)-[:EXTRACTED_FROM]->(:DocChunk) — an Entity never has a direct
-     EXTRACTED_FROM edge)
-  Relationship (:Observation)-[:ASSERTS_RELATION {rel_type, doc_id, chunk_id}]->(:Observation)
-    — the raw, chunk-scoped record of one extracted relationship. Provenance only; for
-      "what relationships does this entity have", use RELATES_TO below instead.
-  Relationship (:Entity)-[:RELATES_TO {rel_type, observation_count, chunk_ids, doc_ids}]->(:Entity)
-    — EVERY entity-to-entity relationship uses this ONE type, whatever its real-world
-      meaning (owns, regulates, part_of, ...). The meaning is `rel_type`, a PROPERTY, not
-      the Neo4j type — filter with `WHERE r.rel_type = '...'`, never `-[:SOME_MEANING]->`.
-      This is deliberate (Phase 4 collapsed 249 per-domain types into this one): do not
-      invent a relationship type matching the question's verb.
-  Node :Conflict  properties=[id, aspect, claim_a, claim_b, severity, status, domains, detected_at, detected_by_model]
-  Relationship (:Conflict)-[:CONFLICT_OF]->(:Entity)      — both sides of a conflict
-  Relationship (:Conflict)-[:EVIDENCE {side}]->(:DocChunk) — competing claim text
-  Relationship (:Entity)-[:CONFLICTS_WITH {conflict_id, aspect}]->(:Entity)
-  Relationship (:Document)-[:SUPERSEDES {scope, effective}]->(:Document)  — newer replaces older
-  History labels :DocumentHistory / :DocChunkHistory / :ObservationHistory — the retired
-    counterpart of :Document / :DocChunk / :Observation (same properties, mutually
-    exclusive with the base label). Never traverse into these for a "what is true now"
-    question — the base labels are current by construction. Only match a History label
-    when the question is explicitly about retired/superseded/historical content.
-  Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by."""
+# Structural schema block always included in the text2cypher prompt, so the LLM
+# knows the exact relationships between Document, DocChunk, UserChat, Observation,
+# Entity, and Conflict nodes — preventing guesswork on relationship names. Rendered
+# from artmind/structural_schema.py, the one place these facts are declared as data;
+# see that module's docstring for why (it's also what the artmind-query skill's own
+# "Fixed Structural Schema" section is checked against, in
+# test/test_query_skill_structural_schema.py).
+STRUCTURAL_SCHEMA = render_prompt_block()
 
 
 def build_text2cypher_prompt(

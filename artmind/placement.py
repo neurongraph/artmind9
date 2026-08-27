@@ -1,8 +1,8 @@
 """A6 — Placement classifier (ADR 0012).
 
 Given a block of text (typically a new note or chat-authored fact), propose
-``{domain, area, project, tags, target_file_hint}`` with confidence. The
-proposal is grounded in the **existing controlled vocabulary** (A5) so it
+``{domain, title, area, project, tags, target_file_hint}`` with confidence.
+The proposal is grounded in the **existing controlled vocabulary** (A5) so it
 lands on labels already in use rather than inventing new ones.
 
 This module suggests only — it never writes. Consumers (the canvas placement
@@ -10,9 +10,26 @@ Card, chat-ui) render the proposal for user review and only then write
 frontmatter and trigger re-ingest through the confirmed doc-first path
 (ADR 0002 / Q14).
 
-Domain is treated as always-confirmed: a domain change forces re-extraction
-with a different schema (ADR 0006 (f) / Q23c), so the classifier's domain
-proposal is explicitly a *suggestion* the user must accept, never a default.
+Every proposed field maps onto a real frontmatter field
+(docs/document-identity.md's contract) once accepted, and the two halves of
+that contract stay distinct here too:
+
+- ``title``, ``area``, ``project``, ``tags`` are **authored** fields — artmind
+  seeds them once (title from the filename stem, on first ingest) and never
+  overwrites them again, exactly like a human editing them by hand. This
+  module's proposals for them are a first draft, not a fill managed
+  automatically after the first write.
+- ``domain`` proposes the value for **`_domain`** — a system-owned, `_`-prefixed
+  field, not a CLI-only argument any more (a document finally declares which
+  schema extracts it). It is treated as always-confirmed here regardless: a
+  domain change forces re-extraction with a different schema (ADR 0006 (f) /
+  Q23c), so this proposal is explicitly a *suggestion* the user must accept,
+  never a default a consumer should merge in unattended the way it might for
+  the authored fields above.
+
+``target_file_hint`` is a related but separate thing: a kebab-case suggestion
+for the file's own name/path, not the human-readable ``title`` that ends up in
+its frontmatter — accepting one says nothing about the other.
 """
 from __future__ import annotations
 
@@ -69,6 +86,8 @@ Return only this JSON object. No preamble, no explanation, no markdown fences.
 {{
   "domain": string,                         // one of the available domains, or a new one
   "domain_confidence": number between 0 and 1,
+  "title": string | null,                   // a human-readable title for this note's frontmatter
+  "title_confidence": number between 0 and 1,
   "area": string | null,
   "area_confidence": number between 0 and 1,
   "project": string | null,
@@ -170,6 +189,7 @@ def _normalize_proposal(raw: dict, vocabulary: dict, available_domains: Sequence
         return value in existing
 
     domain = str(raw.get("domain") or "general").strip() or "general"
+    title = raw.get("title")
     area = raw.get("area")
     project = raw.get("project")
     tags = raw.get("tags") or []
@@ -185,6 +205,10 @@ def _normalize_proposal(raw: dict, vocabulary: dict, available_domains: Sequence
             "value": domain,
             "confidence": _clamp(raw.get("domain_confidence")),
             "known": domain_available,
+        },
+        "title": {
+            "value": str(title).strip() if title else None,
+            "confidence": _clamp(raw.get("title_confidence")),
         },
         "area": {
             "value": str(area).strip() if area else None,
@@ -216,7 +240,7 @@ def propose_placement(
 
     Never writes to the graph. Reads the controlled vocabulary via
     ``graph_query.filing_vocabulary`` (A5) and asks the configured LLM
-    to pick a domain/area/project/tags proposal grounded in it. If the
+    to pick a domain/title/area/project/tags proposal grounded in it. If the
     graph is unreachable the call still returns a proposal, just without
     vocabulary grounding (the LLM has to invent labels).
 

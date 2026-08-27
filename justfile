@@ -262,14 +262,6 @@ ingest-refine-graph-propose file domain="":
 ingest-embed-entities domain:
     uv run artmind ingest embed-entities --domain {{ domain }}
 
-# NOTE: refine-pipeline and normalize-time were removed from the CLI in Phase 3;
-# these two recipes are pre-existing drift, not yet cleaned up here (Phase 7's
-# justfile/skill audit territory) -- flagged rather than silently left to run.
-# ingest-refine-pipeline domain flags="":
-#     uv run artmind ingest refine-pipeline --domain {{ domain }} {{ flags }}   # DEAD: command removed Phase 3
-# ingest-normalize-time domain dry_run="":
-#     uv run artmind ingest normalize-time --domain {{ domain }} ...           # DEAD: command removed Phase 3
-
 # detect non-destructive conflicts between entities, intra- or cross-domain  (usage: just ingest-detect-conflicts <domain> [flags])
 ingest-detect-conflicts domain flags="":
     uv run artmind ingest detect-conflicts --domain {{ domain }} {{ flags }}
@@ -414,9 +406,13 @@ query-graph-text2cypher domain question dry_run="":
 query-graph-conflicts domain flags="":
     uv run artmind query graph conflicts --domain {{ domain }} {{ flags }}
 
-# events/state-changes/supersessions for an entity, ordered by time  (usage: just query-graph-timeline <domain> <entity_id>)
-query-graph-timeline domain entity_id:
-    uv run artmind query graph timeline --domain {{ domain }} --entityId {{ entity_id }}
+# every entity of a kind:occurrent class in a domain, ordered by valid_from -- domain-scoped, not entity-scoped  (usage: just query-graph-timeline <domain> [from] [to])
+query-graph-timeline domain from="" to="":
+    uv run artmind query graph timeline --domain {{ domain }} {{ if from != "" { "--from " + from } else { "" } }} {{ if to != "" { "--to " + to } else { "" } }}
+
+# every observation behind ONE entity, ordered by fact-level valid time -- spans current and retired sources  (usage: just query-entity-history <domain> <entity_id> [property] [as_of])
+query-entity-history domain entity_id property="" as_of="":
+    uv run artmind query entity-history --domain {{ domain }} --entityId {{ entity_id }} {{ if property != "" { "--property " + property } else { "" } }} {{ if as_of != "" { "--asOf " + as_of } else { "" } }}
 
 # per-domain routing summary: doc names/counts, entity counts, top classes
 query-domains-overview:
@@ -563,10 +559,6 @@ update-draft domain text session="":
 # write confirmed facts to Neo4j  (usage: just update-confirm <session> '<resolutions_json>')
 update-confirm session resolutions:
     uv run artmind update confirm --session {{ session }} --resolutions '{{ resolutions }}'
-
-# mark one entity node as superseding another (node-level supersession)  (usage: just update-supersede <newer_id> <older_id> [flags])
-update-supersede newer older flags="":
-    uv run artmind update supersede --newer {{ newer }} --older {{ older }} {{ flags }}
 
 # list recent update sessions  (usage: just update-history [domain] [user] [limit])
 update-history domain="" user="" limit="20":

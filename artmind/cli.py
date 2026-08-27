@@ -1033,13 +1033,18 @@ def ingest_refine_graph(
     from_file: str | None,
     allow_cross_domain_merge: bool,
 ) -> None:
-    """Find similar entity names, merge aliases into canonical entities.
+    """Find similar entity names, propose same-as groups for a human to approve.
+
+    Writes to the same review queue `sameas propose`/`ingest detect-conflicts`
+    feed — nothing here mutates the graph directly; `sameas approve` is what
+    actually merges.
 
     \b
     Workflow:
       1. Dry-run:  artmind ingest refine-graph --dry-run --output merges.json
       2. Review merges.json and edit if needed
-      3. Execute: artmind ingest refine-graph --from-file merges.json
+      3. Propose:  artmind ingest refine-graph --from-file merges.json
+      4. Approve:  artmind sameas list / artmind sameas approve <id>
     """
     _setup_logger()
     env = load_env()
@@ -1072,7 +1077,13 @@ def ingest_refine_graph(
     stats = report.get("stats", {})
 
     if from_path or not dry_run:
-        click.echo(f"Merges applied — merged={stats.get('merged',0)} skipped={stats.get('skipped',0)} errors={stats.get('errors',0)}")
+        click.echo(
+            f"Proposals written — proposed={stats.get('proposed',0)} "
+            f"skipped={stats.get('skipped',0)} "
+            f"skipped_cross_class={stats.get('skipped_cross_class',0)} "
+            f"skipped_ambiguous={stats.get('skipped_ambiguous',0)}. "
+            "Review with `artmind sameas list`, then `artmind sameas approve <id>`."
+        )
     else:
         click.echo(f"Dry-run complete — {len(proposed)} merge(s) proposed")
         if out_path:
@@ -2262,7 +2273,7 @@ def query_propose_placement(
     model: str | None,
     compact: bool,
 ) -> None:
-    """Propose placement (domain/area/project/tags) for a block of text (A6, ADR 0012).
+    """Propose placement (domain/title/area/project/tags) for a block of text (A6, ADR 0012).
 
     Suggester only — never writes. The canvas placement Card renders the proposal
     for user review; the doc-first path writes frontmatter and re-ingests only
@@ -2643,9 +2654,9 @@ def sameas_reject(proposal_id: str, reason: str | None, compact: bool) -> None:
 def update():
     """Add and update knowledge graph facts from natural language.
 
-    Subcommands: draft, confirm, supersede (retire a node in favor of a newer
-    one — the node-level counterpart to `ingest supersede`'s document-level
-    supersession), history, export.
+    Subcommands: draft, confirm, history, export. A fact that retracts an
+    existing one is expressed via `confirm`'s `retracts` resolution field, not
+    a separate command — see `update confirm --help`.
     """
     pass
 

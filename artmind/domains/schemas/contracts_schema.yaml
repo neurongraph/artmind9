@@ -285,7 +285,7 @@ entity_types:
         hint: which programme workstream it belongs to
       dependencies: {}
       target_date:
-        temporal: event_at
+        temporal: valid_from
         hint: or timeframe
     guidance: Preserve reference codes exactly as given (e.g. M01, M13).
   FINANCIAL_TERM:
@@ -354,7 +354,7 @@ entity_types:
         hint: which party's environment it runs in
       conversion_date:
         hint: when it was or will be converted/cut over, if stated
-        temporal: event_at
+        temporal: valid_from
     relates_to:
       SYSTEM:
       - replaces

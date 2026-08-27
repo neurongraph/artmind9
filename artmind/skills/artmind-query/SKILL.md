@@ -18,15 +18,53 @@ Use only the structured KG data and chunk text returned by artmind query command
 
 ## Fixed Structural Schema
 
-Four structural node types with fixed relationships, identical across domains:
+Two populations exist in the graph, and ordinary queries touch only one of them:
+
+- **`:Observation`** — what one chunk of one document version asserted. Immutable,
+  never merged or overwritten. Carries **no `:Entity` label and no class label** — it
+  never appears in an entity query by accident, and it is provenance only, never the
+  answer to "what is true now."
+- **`:Entity`** — the projection: one node per real-world thing, rebuilt from
+  observations, current by construction. This is the layer every pattern/entity command
+  reads. Its id/domain properties are `_id`/`_domain` (leading underscore — the one
+  label this redesign prefixed, because those two are artmind-computed rather than
+  extracted; every other label below keeps plain `id`/`domain`).
+
+Fixed relationships, identical across domains:
 
 - `(:DocChunk)-[:PART_OF]->(:Document)` — chunk belongs to a document
-- `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)` — entity was extracted from a chunk; this is also the only edge to use to find which chunk/document an entity came from (there is no separate `(:DocChunk)-[:MENTIONS]->(:Entity)` edge — ingestion never writes one)
-- `(:UserChat)-[:MENTIONS]->(:Entity)` — user chat mentions an entity
+- `(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)` — an observation's source chunk
+- `(:Entity)-[:AGGREGATES]->(:Observation)` — an entity's current (`latest`) observations.
+  To find which chunks/documents back an entity, go two hops:
+  `(:Entity)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)` — an Entity
+  never has a direct `EXTRACTED_FROM` edge.
+- `(:Entity)-[:RELATES_TO {rel_type, observation_count, chunk_ids, doc_ids}]->(:Entity)` —
+  **every** entity-to-entity relationship, whatever its real-world meaning (owns,
+  regulates, part_of, ...), uses this one Neo4j relationship type. The meaning is
+  `rel_type`, a **property**, not the type — filter on it, never assume a domain-specific
+  type name. Its raw, chunk-scoped counterpart is
+  `(:Observation)-[:ASSERTS_RELATION]->(:Observation)` — provenance only, not what you
+  query for "what relationships does this entity have."
 
-Key properties: `Document` (id, name, path, domain), `DocChunk` (id, name, doc_id, text, domain), `UserChat` (id, raw_text, domain, session_id, created_by, created_at), `Entity` (id, name, entity_class, domain, description, type).
+A document that replaces another carries `(:Document)-[:SUPERSEDES]->(:Document)` plus
+`superseded_by` on the superseded side — see Adjudicate below for how to read it at
+query time.
 
-Every extracted entity carries the `:Entity` label plus a class label (e.g. `PERSON`). Entity-to-Entity relationship types are domain-specific — always check metadata. For document/chunk questions use `PART_OF` (not EXTRACTED_FROM); `pattern10` does this deterministically.
+Key properties: `Document` (id, name, path, domain, valid_from, valid_to, superseded_by),
+`DocChunk` (id, name, doc_id, text, domain), `UserChat` (id, raw_text, domain, session_id,
+created_by, created_at), `Observation` (id, name, canonical_name, entity_class, domain,
+doc_id, chunk_id, `_valid_from`/`_valid_to`, `_kind`), `Entity` (`_id`, name, entity_class,
+`_domain`, description, type). Pattern/entity-command JSON output shows `_id`/`_domain`
+verbatim — there is no re-aliasing back to `id`/`domain`.
+
+`:DocumentHistory` / `:DocChunkHistory` / `:ObservationHistory` are the retired
+counterpart of the base labels (same properties, mutually exclusive with it) — what a
+retired document's contributions move to. Every command below reads the base label only
+and is therefore current by construction; only `pattern10 --asOf` (see Retrieve) reaches
+into history at all.
+
+For document/chunk questions use `PART_OF` (not `EXTRACTED_FROM`); `pattern10` does this
+deterministically.
 
 Add `--compact` to every command — it halves the JSON you must read.
 
@@ -202,19 +240,19 @@ Worked examples:
   the documents set rules about vulnerable customers rather than listing them.
 
 `--asOf` consistency: if the question is temporal ("as of last quarter", "as of
-<date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain —
-graph retrieval and `query text2sql` both honor it. `db sql` itself has no notion
-of "as of" (raw SQL, nothing injected) — for a temporal structured table, use
-`artmind db timeline <table> --asOf <date> --compact` instead of hand-writing
-`_valid_from`/`_valid_to` filters in `db sql`. Note `_valid_from`/`_valid_to`/
-`db timeline` only apply to `refresh_mode: temporal` tables (check `db schema`'s
-`refresh_mode` field) — a `replace`-mode table has no history to query. This is
-the same rule as "Default to `--asOf today` on every retrieval" in Retrieve
-below — one date, threaded through both stores, not decided independently per
-command.
+<date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain that
+accepts one — `vector-text` and `query text2sql` both honor it (entity commands like
+patterns/`entity-context`/`entity-listing` take no `--asOf` at all; see Retrieve
+below). `db sql` itself has no notion of "as of" (raw SQL, nothing injected) — for a
+temporal structured table, use `artmind db timeline <table> --asOf <date> --compact`
+instead of hand-writing `_valid_from`/`_valid_to` filters in `db sql`. Note
+`_valid_from`/`_valid_to`/`db timeline` only apply to `refresh_mode: temporal` tables
+(check `db schema`'s `refresh_mode` field) — a `replace`-mode table has no history to
+query. One date, threaded through every command that can take one, not decided
+independently per command.
 
 `--compact` applies to `db`/`query text2sql`/`query resolve-key` exactly like
-every other command in this skill (line 31) — nothing SQL-specific changes that.
+every other command in this skill — nothing SQL-specific changes that.
 
 ### 1. Discover — learn the domain's shape
 
@@ -235,7 +273,7 @@ It returns Document names plus structural counts (Document/DocChunk/UserChat/Ent
 
 If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `artmind query graph pattern7`.
 
-Document/chunk rows and `metadata` now carry `valid_from`/`valid_to`/`superseded_by` — use them to judge document currency.
+Document/chunk rows and `metadata` carry `valid_from`/`valid_to`/`superseded_by` — use them to judge document currency.
 
 ### 2. Resolve — map question names to exact graph nodes
 
@@ -293,18 +331,32 @@ Routing notes:
   only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
 - **timeline vs entity-history**: `timeline` is domain-scoped, not entity-scoped — it lists every entity of an occurrent class ordered by `valid_from`, for "what happened in this domain, in order". For ONE entity's own history — "what was X's value before it changed", "what did X look like on date D" — use `entity-history` instead: it reads every observation behind that entity, fact-level (`_valid_from`), spanning both current and retired (`docs retire`/superseded) sources. `--property P` narrows to one property's value at each point.
+- **`_temporal_props` is the signal to drill into `entity-history`.** An entity carrying
+  `_temporal_props: ["rate_value", ...]` means that property genuinely varies across
+  instants — the value on the entity itself is only the current winner (latest
+  `valid_from`). If the question asks about change over time ("has this changed",
+  "what was it before") and the property is listed there, don't stop at the entity's own
+  value; call `entity-history --entityId <id> --property <p>` to get every instant.
 - Patterns 2/3/4 return `doc_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
-- **Default to `--asOf today` on every retrieval** — without it there is NO temporal
-  filter, and superseded documents and chunks surface alongside current ones. Omit it
-  (or pass a past ISO date, e.g. `--asOf 2026-01`) only when the question is explicitly
-  historical: "what did the policy say in January", "history of…", "previous version",
-  "what changed". Untimed knowledge is always visible either way. EXCEPTION: pattern5
-  and pattern10 cannot currency-scope their results and ignore `--asOf` — their JSON
-  then carries `asOf_ignored: true`; judge currency yourself from the returned
-  `valid_to`/`superseded_by` fields.
+- **No `--asOf` on entity commands, and none needed.** The projection (`:Entity`) is
+  current by construction — a retired document's contributions are relabelled out of it
+  entirely (see `docs retire` / the History labels above), so there is nothing stale left
+  to filter out. None of the ten `pattern*` commands, `entity-listing`, `entity-resolve`,
+  `entity-context`, or `graph metadata` accept it — don't pass it.
+- **`--asOf` still exists, with a narrower meaning, on the commands that keep it**:
+  `vector-text`, `chunks`, `docs list`, `pattern10`, `db timeline`, `db sql`. On all of
+  these it is a **floor** ("in force by this date"), not a point-in-time snapshot —
+  `valid_to` is rarely set, so a still-open row satisfies any `--asOf` at or after its
+  `valid_from`. On `pattern10` specifically it is a **presence flag**, not a date value:
+  passing it (any value) additionally matches `:DocumentHistory`/`:DocChunkHistory` for
+  that document, surfacing retired chunks alongside current ones; omitting it matches
+  only the current document. Use it when the question is explicitly historical ("what
+  did the policy say in January", "history of…", "previous version", "what changed");
+  omit it otherwise. `entity-history` (below) is the one command with a genuine
+  point-in-time `--asOf`, because it's reading the fact-level valid-time axis directly.
 
 ### 4. Ground — pull source text when narrative evidence is needed
 
@@ -324,7 +376,12 @@ vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) searc
 
 ### 5. Adjudicate — surface disagreements, never blend
 
-First check for already-materialized conflicts. Two sources, cheapest first:
+`:Conflict` now has two shapes sharing one label, told apart by `_source` (see the
+structural schema above) — check for both before concluding nothing disagrees:
+
+**Adjudicator-produced (`_source: 'adjudicator'`)** — a pairwise, cross-entity
+disagreement found by a detection pass (`ingest detect-conflicts`, artmind-curate's
+territory), linked via a `CONFLICTS_WITH` edge between the two entities.
 
 1. **Free check:** if Retrieve already called `entity-context`/`pattern3`/`pattern4` on
    the resolved entity, scan the `connections` it returned for an edge of type
@@ -340,23 +397,35 @@ First check for already-materialized conflicts. Two sources, cheapest first:
 artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
 ```
 
-This matches the `CONFLICTS_WITH` edge between entities directly, so it still finds a
-conflict even if the heavier `Conflict`/`EVIDENCE` node it was minted with has since
-been deleted — check each row's `materialized` flag: `true` means `claim_a`/`claim_b`/
-`evidence`/`severity` are populated straight from the `Conflict` node; `false` means
-only `aspect` and the two entities are known, so pull grounding yourself via `chunks`/
-`vector-text` on those entities before stating the claims. Either way, surface `aspect`
-and both entities' `name`/`domain`; never assert `claim_a`/`claim_b` text that isn't
-actually present on a `materialized: true` row.
+This matches the `CONFLICTS_WITH` edge between entities directly and reaches only this
+adjudicator shape — it has no visibility into a projection conflict (below). Each row
+carries a `materialized` flag: `true` means `claim_a`/`claim_b`/`evidence`/`severity` are
+populated straight from the `Conflict` node; `false` means only `aspect` and the two
+entities are known (the edge survives independently of the node), so pull grounding
+yourself via `chunks`/`vector-text` on those entities before stating the claims. Either
+way, surface `aspect` and both entities' `name`/`domain`; never assert `claim_a`/`claim_b`
+text that isn't actually present on a `materialized: true` row. This shape is a detection
+pass's output — a snapshot, not a live guarantee — so also independently compare the
+claims you actually retrieved (below) to catch a disagreement introduced by a document
+ingested since the last `detect-conflicts` run.
 
-**Fan-out caveat:** one real disagreement (e.g. a document-tier reclassification) can
-produce many pairwise conflict rows sharing the same root cause across different
-document pairs in the same tier bucket — group rows by shared `aspect`/entity-class
-pattern and report the *underlying* disagreement once, not each pairwise row separately.
+**Projection-produced (`_source: 'projection'`)** — one entity's own property disputed
+*within a single instant* (two observations with the same `valid_from` disagreeing;
+disagreement across different instants is temporal variation, not a conflict — see
+`_temporal_props` above). Raised automatically by every rebuild via `CONFLICT_OF` to that
+one entity and `EVIDENCE` to the disputing `:Observation`s — never orphaned, since it's
+recomputed from scratch every time, and never a snapshot to go stale. **There is no
+dedicated command for this shape yet** — `query graph conflicts` cannot reach it (no
+`CONFLICTS_WITH` edge exists for a single-entity dispute). The way to notice one: pull
+`entity-history --entityId <id> --property <p>` and look for two rows sharing the same
+`_valid_from` with different values; if you see that, report it as an open dispute
+directly from those rows rather than expecting `query graph conflicts` to surface it.
 
-Then independently compare the retrieved claims (below) to catch conflicts introduced
-by new documents since the last detect-conflicts run — materialized conflicts are a
-snapshot, not a live guarantee.
+**Fan-out caveat** (adjudicator shape): one real disagreement (e.g. a document-tier
+reclassification) can produce many pairwise conflict rows sharing the same root cause
+across different document pairs in the same tier bucket — group rows by shared
+`aspect`/entity-class pattern and report the *underlying* disagreement once, not each
+pairwise row separately.
 
 After grounding, compare quantitative/authority claims across the retrieved
 documents and domains (no extra LLM calls — the evidence is already in context).

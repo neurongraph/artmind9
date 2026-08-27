@@ -93,7 +93,7 @@ entity_types:
     properties:
       date_or_time:
         hint: as stated, preserve precision e.g. "2026-07-02 09:18 UTC"
-        temporal: event_at
+        temporal: valid_from
       event_type:
         hint: detection | severity_classification | containment_action | forensic_referral | reconciliation_finding
           | escalation
@@ -129,7 +129,7 @@ entity_types:
     - erasure_request
     properties:
       received_date:
-        temporal: event_at
+        temporal: valid_from
       owner:
         hint: e.g., Complaints Manager
       status:
@@ -168,7 +168,7 @@ entity_types:
     - financial_impact_estimate
     properties:
       assessment_date:
-        temporal: event_at
+        temporal: valid_from
       source_team:
         hint: the team that produced this figure, e.g., Security | Operations
       count:
@@ -210,7 +210,7 @@ entity_types:
         hint: what must be done
       due_date:
         hint: if stated
-        temporal: event_at
+        temporal: valid_from
       status:
         hint: pending | in_progress | complete
       owner_or_team: {}
@@ -236,7 +236,7 @@ entity_types:
     - hold_review
     properties:
       decision_date:
-        temporal: event_at
+        temporal: valid_from
       decision_owner:
         hint: e.g., Data Protection Officer
       hold_status:
@@ -279,8 +279,15 @@ entity_types:
         hint: savings | current | joint
       account_state:
         hint: new | active | dormant | frozen | closed
-      balance_rules:
-        hint: minimum/maximum balance, dormancy threshold
+      balance_minimum:
+        hint: numeric, no currency symbol or thousands separators, e.g., 500; the
+          string "none" if the account has no stated minimum
+      balance_maximum:
+        hint: numeric, no currency symbol or thousands separators, e.g., 50000; the
+          string "unlimited" if the account has no stated maximum
+      dormancy_threshold:
+        hint: how long with no activity before the account is classified dormant,
+          e.g., "12 months"
       closure_or_freeze_conditions: {}
     relates_to:
       ACCOUNT_HOLDER:
@@ -547,8 +554,8 @@ entity_types:
       transaction_type:
         hint: deposit | withdrawal | transfer | fee_charge | suspicious | disputed
       monitoring_or_reporting_obligation: {}
-      thresholds:
-        hint: monetary value that triggers a rule
+      threshold_value:
+        hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
 guidance:
   relationships: |-

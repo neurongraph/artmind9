@@ -638,6 +638,30 @@ def test_export_chats_domain_filter_rolls_up_descendants(tmp_path, fmt):
     assert "c.domain STARTS WITH ($domain + '.')" in captured["cypher"]
 
 
+@pytest.mark.parametrize("fmt", ["sequential", "by-entity"])
+def test_export_chats_reaches_entities_via_observations_not_mentions(tmp_path, fmt):
+    """Regression test: :MENTIONS (UserChat->Entity) was never written since the
+    observation model landed (write_user_chat links via EXTRACTED_FROM/AGGREGATES,
+    exactly like a document's chunks), so a query built on it silently returns zero
+    rows forever rather than erroring — the same class of trap CLAUDE.md documents
+    for a bare MagicMock always answering truthily."""
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        result = MagicMock()
+        result.data.return_value = []
+        return result
+
+    with patch("artmind.update.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+        export_chats(domain=None, format=fmt, output_dir=tmp_path)
+
+    assert "MENTIONS" not in captured["cypher"]
+    assert "EXTRACTED_FROM" in captured["cypher"]
+    assert "AGGREGATES" in captured["cypher"]
+
+
 def test_export_chats_by_entity_writes_one_file_per_entity(tmp_path):
     mock_rows = [
         {

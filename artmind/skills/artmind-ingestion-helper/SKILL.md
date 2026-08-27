@@ -41,6 +41,27 @@ artmind ingest async path/to/document.pdf --domain YOUR_DOMAIN
 ```
 Then track it with the admin UI's dashboard (`artmind admin-ui`, then open `/dashboard`) or `artmind ingest job-status JOB_ID`.
 
+**A vault-native markdown file gets its identity seeded on first ingest**:
+`_artmind_id` (a uuid7), `_version`, `_content_sha256`, and the rest of the
+system frontmatter block are written into the file itself, and artmind makes
+a git commit in the vault recording it. Re-ingesting the same file later
+bumps `_version` only if the body changed; editing only frontmatter (tags,
+title) takes a metadata-only fast path with no new version and no
+re-extraction. If `--domain` is omitted, a file's own `_domain` frontmatter
+wins over anything passed on the command line.
+
+**A multi-file batch defers its projection rebuild to one pass at the end**
+(true for both a folder `sync` and a multi-file `async` job) — every
+document's observations get written, then one rebuild + one embed sweep
+covers the whole batch. The deliberate next step after a bulk load is:
+```bash
+artmind projection synthesize --domain YOUR_DOMAIN --compact
+```
+This rewrites entity descriptions from their full observation set — the only
+step in the pipeline that spends language-model budget without being asked
+to, so it never runs automatically. See `/artmind-curate` for the full
+`projection synthesize` reference.
+
 **Which to use?**
 - Single file or small batch → `sync` (simpler, log is right there)
 - Large batch or want to keep working → `async`
@@ -198,7 +219,7 @@ artmind ingest pull-kg \
 # 2. Write the pulled documents to Neo4j
 artmind ingest write-to-graph --folder data/kg/YOUR_DOMAIN
 
-# 3. Optionally merge duplicate entities
+# 3. Optionally propose duplicate-entity merges (Situation G) for artmind-curate to review
 artmind ingest refine-graph --domain YOUR_DOMAIN --dry-run
 ```
 
@@ -208,9 +229,9 @@ artmind ingest refine-graph --domain YOUR_DOMAIN --dry-run
 
 ---
 
-### G. Resolve duplicate / similar entities (graph refinement)
+### G. Propose duplicate / similar entities for curation review
 
-After ingesting several documents, entity names may duplicate (e.g. "Holmes", "Sherlock Holmes"). Fix with:
+After ingesting several documents, entity names may duplicate (e.g. "Holmes", "Sherlock Holmes"). This command **proposes** same-as groups; it does not merge anything itself — hand off to `/artmind-curate` to review and approve:
 
 ```bash
 # Step 1 — dry-run: compute proposals, save for review
@@ -218,18 +239,23 @@ artmind ingest refine-graph --domain YOUR_DOMAIN --dry-run --output merges.json
 
 # Step 2 — review merges.json; edit if needed
 
-# Step 3 — apply the reviewed proposals
+# Step 3 — write the reviewed candidates as same-as proposals
 artmind ingest refine-graph --from-file merges.json
+
+# Step 4 — review and approve in the queue (artmind-curate's job)
+artmind sameas list --status open --compact
+artmind sameas approve <proposal_id>
 ```
 
-**Focused refinement** (only specific entities):
+**Focused proposing** (only specific entities):
 ```bash
 artmind ingest refine-graph --domain YOUR_DOMAIN \
   --filter "Holmes,Watson,Moriarty" \
   --dry-run --output merges.json
 ```
 
-**Backfill missing embeddings** (needed for entity-resolve queries):
+**Backfill missing embeddings** (needed for entity-resolve queries and for
+`sameas propose`'s candidate generation):
 ```bash
 artmind ingest embed-entities --domain YOUR_DOMAIN
 ```
@@ -249,9 +275,19 @@ artmind docs retire --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 artmind docs restore --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 ```
 
-There is no hard-delete command yet — the old `docs purge` (and `docs clean`, retire's
-predecessor) were removed with the observation/projection model; a proper archive
-(`docs archive` / `restore-from-archive`) is a later phase's work.
+**Archive** — the only actual removal artmind has (there is deliberately no
+`purge`). Bundles the document (staged KG JSON, vault markdown, original
+binary if any, a manifest) under `ARTMIND_ARCHIVE_DIR`, then removes it from
+BOTH the graph and the vault (a real `git rm` + commit):
+```bash
+artmind docs archive --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
+artmind docs archived --domain YOUR_DOMAIN                    # list what's archived
+artmind docs restore-from-archive --id ARTMIND_ID             # lands back as history, never latest
+```
+`restore-from-archive` deliberately does not promote the document to
+`latest` — run `docs restore` afterward if that's really wanted. Deleting the
+archive bundle itself is a filesystem act outside any artmind command, on
+purpose, so archiving stays undoable.
 
 **Re-ingest in place** — replace a document with an edited version idempotently (retracts the
 prior version, then re-commits under the same identity — re-ingesting a known identity is
@@ -259,6 +295,17 @@ always a replace now, there is no `--replace` flag to pass):
 ```bash
 artmind ingest sync EDITED_FILE --domain YOUR_DOMAIN
 ```
+
+**Registry gone stale or wiped** (e.g. after restoring a graph-only snapshot,
+or a doubt about whether path↔id lookups are current)? Rebuild it from vault
+frontmatter rather than re-ingesting:
+```bash
+artmind docs reindex --compact
+```
+Safe to run any time — the registry is never authoritative, so this always
+just re-derives it from what the vault actually says. csv/xlsx can't be
+rebuilt this way (their identity is path-only); re-ingest them directly to
+re-register.
 
 ---
 
@@ -322,7 +369,7 @@ same code this command does. The three dots per table row are grain/bridge/mappi
 
 **Once the steps report `ok`, the proposals still need a human.** Everything lands
 *unconfirmed*. Judging whether a proposed grain or `column → entity_class` mapping is actually
-*right* — and confirming or rejecting it — is `/artmind-refine`'s Workflow E, not this skill.
+*right* — and confirming or rejecting it — is `/artmind-curate`'s Workflow D, not this skill.
 This skill gets a stuck step running again; that one adjudicates what it produced.
 
 ---
@@ -331,17 +378,19 @@ This skill gets a stuck step running again; that one adjudicates what it produce
 
 ```
 1. artmind domains list                              # confirm domain exists
-2. artmind ingest sync FILE --domain DOMAIN          # ingest (or async + dashboard)
-3. artmind ingest refine-graph --domain DOMAIN \
-     --dry-run --output merges.json                  # optional: merge duplicates
-4. artmind ingest refine-graph --from-file merges.json
+2. artmind ingest sync FOLDER --domain DOMAIN        # ingest (or async + dashboard)
+3. artmind projection synthesize --domain DOMAIN     # deliberate second step of a bulk load
+4. artmind ingest refine-graph --domain DOMAIN \
+     --dry-run --output merges.json                  # optional: propose duplicate merges
+5. artmind ingest refine-graph --from-file merges.json  # writes proposals, doesn't merge
+6. artmind sameas approve <proposal_id>              # artmind-curate reviews, then approves
 ```
 
 **Team / import workflow:**
 ```
 1. artmind ingest pull-kg --repo ... --repo-path ... --domain DOMAIN
 2. artmind ingest write-to-graph --folder data/kg/DOMAIN
-3. artmind ingest refine-graph --domain DOMAIN --dry-run
+3. artmind ingest refine-graph --domain DOMAIN --dry-run   # propose duplicate merges
 ```
 
 **Re-run / repair workflow:**
@@ -362,7 +411,7 @@ This skill gets a stuck step running again; that one adjudicates what it produce
 | Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
 | Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot, or `write-to-graph` if JSON exists |
-| Duplicate entities after merging domains | Entity resolution not run | Run `refine-graph --dry-run` then apply |
+| Duplicate entities after merging domains | Same-as review not run | Run `refine-graph --dry-run` to propose, then `sameas approve` (see Situation G) |
 | A structured table shows `mapping_status`/`bridge_status`/`grain_status` = `failed`, or a long-registered table is still all `pending` | Best-effort LLM call failed at ingest time (unreachable model), or the table predates the classification pipeline | `artmind db propose TABLE --domain DOMAIN` — retries only the steps not already `ok`. See Situation I. |
 | `db propose` fails on the mapping step with "no schema file" | Domain has no schema YAML, or a dotted sub-domain was never harmonized | `artmind domains harmonize`, or create one via `/artmind-create-schema`. Grain and bridge still succeed independently. |
 

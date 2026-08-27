@@ -47,12 +47,19 @@ def test_skill_concepts_cover_admin_profile_skills(monkeypatch, tmp_path):
         assert c["source"] == "skill"
 
 
-def test_refine_and_update_flagged_destructive(monkeypatch, tmp_path):
+def test_update_flagged_destructive_curate_and_query_not(monkeypatch, tmp_path):
+    # artmind-curate is deliberately NOT flagged: same-as groups are
+    # declarative and reversible (remove the group, rebuild) — there is no
+    # destructive graph surgery left in that skill's workflow, unlike its
+    # predecessor artmind-refine (whose merges deleted alias nodes with no
+    # un-merge, and which this concept key replaced).
     monkeypatch.setattr(help_module, "ARTMIND_HOME", tmp_path)
-    _write_skill(tmp_path, "artmind-refine", "Refine the graph.")
+    _write_skill(tmp_path, "artmind-curate", "Curate the graph.")
+    _write_skill(tmp_path, "artmind-update", "Update the graph.")
     _write_skill(tmp_path, "artmind-query", "Ask about the graph.")
     concepts = {c["key"]: c for c in help_module._skill_concepts()}
-    assert concepts["artmind-refine"]["destructive"] is True
+    assert concepts["artmind-update"]["destructive"] is True
+    assert concepts["artmind-curate"]["destructive"] is False
     assert concepts["artmind-query"]["destructive"] is False
 
 

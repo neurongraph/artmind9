@@ -107,6 +107,8 @@ def test_normalize_flags_known_vs_new_labels():
     raw = {
         "domain": "banking.policy",
         "domain_confidence": 0.95,
+        "title": "Q1 Audit Findings Summary",
+        "title_confidence": 0.8,
         "area": "engineering",
         "area_confidence": 0.9,
         "project": "brand-new-project",
@@ -119,12 +121,20 @@ def test_normalize_flags_known_vs_new_labels():
     out = placement._normalize_proposal(raw, VOCAB, ["general", "banking.policy"])
     assert out["domain"]["value"] == "banking.policy"
     assert out["domain"]["known"] is True
+    assert out["title"]["value"] == "Q1 Audit Findings Summary"
+    assert out["title"]["confidence"] == 0.8
     assert out["area"]["known"] is True
     assert out["project"]["value"] == "brand-new-project"
     assert out["project"]["known"] is False, "the classifier invented this label"
     assert out["tags"]["value"] == ["roadmap", "new-tag"]
     assert out["tags"]["known"] == [True, False]
     assert out["target_file_hint"] == "audit-notes"
+
+
+def test_normalize_title_defaults_to_none_when_missing():
+    out = placement._normalize_proposal({}, VOCAB, ["general"])
+    assert out["title"]["value"] is None
+    assert out["title"]["confidence"] == 0.0
 
 
 def test_normalize_clamps_confidence_and_floors_weak_values():
@@ -179,6 +189,8 @@ def test_propose_placement_returns_normalized_proposal(monkeypatch):
         return json.dumps({
             "domain": "banking.policy",
             "domain_confidence": 0.9,
+            "title": "Canvas A6 Roadmap Notes",
+            "title_confidence": 0.75,
             "area": "engineering",
             "area_confidence": 0.8,
             "project": "artmind_canvas",
@@ -203,6 +215,7 @@ def test_propose_placement_returns_normalized_proposal(monkeypatch):
     assert result["text_length"] > 0
     assert result["proposals"]["domain"]["value"] == "banking.policy"
     assert result["proposals"]["domain"]["known"] is True
+    assert result["proposals"]["title"]["value"] == "Canvas A6 Roadmap Notes"
     assert result["proposals"]["project"]["value"] == "artmind_canvas"
     assert result["proposals"]["project"]["known"] is True
     assert result["proposals"]["tags"]["value"] == ["roadmap"]

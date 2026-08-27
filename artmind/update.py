@@ -671,12 +671,16 @@ def export_chats(
     if format == "sequential":
         # Hierarchical rollup, matching graph_query.domain_predicate and
         # find_candidates above: a parent-domain filter includes descendants.
+        # Entities a chat touched are reached the same way a document's are —
+        # there is no direct UserChat->Entity edge (:MENTIONS was never
+        # written since the observation model landed; this used to silently
+        # return zero mentions rather than erroring).
         cypher = """
         MATCH (c:UserChat)
         WHERE $domain IS NULL OR c.domain = $domain
            OR c.domain STARTS WITH ($domain + '.')
-        OPTIONAL MATCH (c)-[:MENTIONS]->(e:Entity)
-        WITH c, collect(e.name) AS mentions
+        OPTIONAL MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:Entity)
+        WITH c, collect(DISTINCT e.name) AS mentions
         ORDER BY c.created_at ASC
         RETURN c.session_id AS session_id, c.id AS id, c.raw_text AS raw_text,
                c.domain AS domain, c.created_by AS created_by,
@@ -705,10 +709,10 @@ def export_chats(
 
     elif format == "by-entity":
         cypher = """
-        MATCH (c:UserChat)-[:MENTIONS]->(e:Entity)
+        MATCH (c:UserChat)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:Entity)
         WHERE $domain IS NULL OR c.domain = $domain
            OR c.domain STARTS WITH ($domain + '.')
-        WITH e.name AS entity_name, collect({
+        WITH e.name AS entity_name, collect(DISTINCT {
             id: c.id, raw_text: c.raw_text, created_by: c.created_by,
             created_at: c.created_at, domain: c.domain
         }) AS chats

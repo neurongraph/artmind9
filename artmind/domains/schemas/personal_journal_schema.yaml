@@ -166,7 +166,7 @@ entity_types:
     - milestone
     properties:
       date_or_time:
-        temporal: event_at
+        temporal: valid_from
       participants:
         hint: list with roles
       outcome:
@@ -224,7 +224,7 @@ entity_types:
       outcome_or_result:
         hint: if mentioned
       date_or_time:
-        temporal: event_at
+        temporal: valid_from
     relates_to:
       LOCATION:
       - takes_place_at
@@ -346,7 +346,7 @@ entity_types:
       to_state: {}
       date_or_time:
         hint: when the change occurred — anchored to the entry date if relative
-        temporal: event_at
+        temporal: valid_from
     relates_to:
       PERSON:
       - state_of

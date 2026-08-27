@@ -161,7 +161,7 @@ entity_types:
       immediate_consequence: {}
       why_it_matters: {}
       date_or_time:
-        temporal: event_at
+        temporal: valid_from
         hint: date and/or time
     relates_to:
       LOCATION:
@@ -270,7 +270,7 @@ entity_types:
       to_state: {}
       date_or_time:
         hint: when the change occurred in the story's timeline
-        temporal: event_at
+        temporal: valid_from
     relates_to:
       PERSON:
       - state_of

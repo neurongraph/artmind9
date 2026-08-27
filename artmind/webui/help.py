@@ -13,9 +13,14 @@ from paths import ARTMIND_HOME
 # Which concepts wipe or otherwise irreversibly modify graph data — this is
 # structural metadata (reviewed alongside the code that makes it true), not
 # descriptive text, so it's the one thing kept here rather than generated.
+#
+# artmind-curate is deliberately absent: same-as groups are declarative
+# (same_as.yaml) and reversible by removing the group and rebuilding — there
+# is no destructive graph surgery left in that skill's workflow, unlike its
+# predecessor artmind-refine (whose merges deleted alias nodes with no
+# un-merge).
 _DESTRUCTIVE_CONCEPTS = {
-    "artmind-refine": True,   # merges, supersession, consolidation
-    "artmind-update": True,   # supersedes prior facts
+    "artmind-update": True,   # retracts prior facts (no CLI un-retract)
     "snapshot": True,         # restore/import wipes Neo4j
 }
 

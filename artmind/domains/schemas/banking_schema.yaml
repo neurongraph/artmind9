@@ -91,8 +91,15 @@ entity_types:
         hint: savings | current | joint
       account_state:
         hint: new | active | dormant | frozen | closed
-      balance_rules:
-        hint: minimum/maximum balance, dormancy threshold
+      balance_minimum:
+        hint: numeric, no currency symbol or thousands separators, e.g., 500; the
+          string "none" if the account has no stated minimum
+      balance_maximum:
+        hint: numeric, no currency symbol or thousands separators, e.g., 50000; the
+          string "unlimited" if the account has no stated maximum
+      dormancy_threshold:
+        hint: how long with no activity before the account is classified dormant,
+          e.g., "12 months"
       closure_or_freeze_conditions: {}
     relates_to:
       ACCOUNT_HOLDER:
@@ -141,8 +148,8 @@ entity_types:
       transaction_type:
         hint: deposit | withdrawal | transfer | fee_charge | suspicious | disputed
       monitoring_or_reporting_obligation: {}
-      thresholds:
-        hint: monetary value that triggers a rule
+      threshold_value:
+        hint: numeric, no currency symbol or thousands separators, e.g., 10000
       dispute_or_reversal_rules: {}
   CARD:
     kind: recurrent

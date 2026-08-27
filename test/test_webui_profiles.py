@@ -39,7 +39,7 @@ def test_qa_is_read_and_contribute_only():
     # that maintains the graph, authors schemas, or ingests documents.
     assert set(QA_PROFILE.skills) == {"artmind-query", "artmind-update"}
     for operator_skill in (
-        "artmind-refine",
+        "artmind-curate",
         "artmind-create-schema",
         "artmind-ingestion-helper",
     ):
@@ -51,7 +51,7 @@ def test_admin_owns_the_full_maintenance_set():
     # here (guidance/troubleshooting), never in QA.
     assert set(QA_PROFILE.skills) <= set(ADMIN_PROFILE.skills)
     for operator_skill in (
-        "artmind-refine",
+        "artmind-curate",
         "artmind-create-schema",
         "artmind-ingestion-helper",
     ):

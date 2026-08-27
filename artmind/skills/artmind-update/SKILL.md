@@ -12,7 +12,7 @@ Use this skill to let a user add or update facts in the artmind knowledge graph 
 - Never write to the graph until the user has confirmed candidate resolutions.
 - Derive domain from the user's first message where possible; ask if ambiguous.
 - Present all candidate choices for a single input in one batch, not one-by-one.
-- Report what was written (nodes created/updated, relationships written) after each confirm.
+- Report what was written (nodes created/updated, relationships written, facts retracted) after each confirm.
 
 ## Required Inputs
 
@@ -138,7 +138,7 @@ artmind update confirm \
 Output JSON: `{nodes_created, nodes_updated, nodes_retracted, relationships_written, user_chat_id}`
 
 Report the summary to the user:
-> "Added: 2 new nodes, 1 updated, 1 relationship written, 1 node superseded."
+> "Added: 2 new nodes, 1 updated, 1 relationship written, 1 fact retracted."
 
 Optionally verify the write landed as intended — useful after creating new entities or when relationships were involved:
 
@@ -166,43 +166,34 @@ Ask: "Anything else to add to this session?"
 
 ## Resolving Similar Nodes
 
-If during an update session you notice similar entity names that should be merged (e.g., "Alice" vs "Alice Smith" or "Project Alpha" vs "Alpha Project"), use the `refine-graph` command with the `--filter` option to detect and resolve duplicates:
+If during an update session you notice similar entity names that should be
+merged (e.g., "Alice" vs "Alice Smith" or "Project Alpha" vs "Alpha Project"),
+use `refine-graph --filter` to scope name-similarity clustering to just those
+names, which writes a same-as **proposal** — it does not merge directly:
 
 ```bash
 artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dry-run --output merges.json
+# review merges.json, then:
+artmind ingest refine-graph --domain <domain> --from-file merges.json
 ```
 
-This filters merge detection to only the specified entity names (comma-separated). Review the proposals in `merges.json`, then apply:
+Approving is a separate, explicit step — hand off to artmind-curate:
 
 ```bash
-artmind ingest refine-graph --from-file merges.json
+artmind sameas list --status open --compact
+artmind sameas approve <proposal_id>
 ```
 
-**Workflow**: During candidate resolution in an update, if you spot similar nodes that should be merged, note the entity names → use refine-graph with `--filter` to focus detection → merge → continue with the update.
+**Workflow**: During candidate resolution in an update, if you spot similar
+nodes that should be merged, note the entity names → scope `refine-graph
+--filter` to them → point the user at artmind-curate to review and approve →
+continue with the update.
 
-Merges are for **duplicate** nodes (same real-world thing, two records). Node
-supersession (Step 2b) is for **distinct** nodes where one temporally replaces
-the other (different role-holders, different addresses over time) — don't run
-refine-graph merge detection on those; it will find no similarity and no-op.
-
-## Correcting Supersession Outside a Session
-
-If a node should be marked superseded and it wasn't caught during a draft (e.g.
-you're fixing history after the fact), use the standalone command instead of a
-full update session:
-
-```bash
-artmind update supersede \
-  --newer <id of the entity now current> \
-  --older <id of the entity being retired> \
-  --effective <ISO date, default today> \
-  --reason "<optional free-text note>"
-```
-
-`--newer`/`--older` each accept either identifier format you might already
-have: the `node_id` (Neo4j elementId) returned by `update draft`'s candidates,
-or the `id` property returned by `query graph pattern2` / `query
-entity-context`. Look up the id first if you don't already have it.
+Same-as proposals are for **duplicate** entities (same real-world thing, two
+records). Retraction (Step 2b) is for **distinct** entities where one
+temporally replaces the other (different role-holders, different addresses
+over time) — don't run `refine-graph` on those; it will find no name
+similarity and no-op.
 
 ## Export Reference
 
