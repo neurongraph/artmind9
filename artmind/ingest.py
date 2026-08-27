@@ -27,6 +27,7 @@ from artmind.document_identity import (
     decide_version,
     markdown_path_for,
     mint_artmind_id,
+    resolve_canonical_path,
     resolve_identity,
     write_document,
 )
@@ -174,20 +175,47 @@ def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
     if not matches:
         return None
     registered_path_str, doc_sha256, artmind_id = matches[0]
-    registered_path = Path(registered_path_str)
+    # `canonical_path()` (document_identity.py) stores a *vault-relative*
+    # string for anything inside the configured vault -- true of every
+    # vault-native document, by definition of `_is_vault_native_markdown`.
+    # Every other producer of `file_result["registered_path"]` in this module
+    # (`_ingest_vault_native`, `_ingest_binary_derived`) hands back an
+    # already-absolute path; resolve here too so this is the same shape,
+    # not a value that only happens to work when cwd is the vault root.
+    try:
+        registered_path = resolve_canonical_path(registered_path_str)
+    except ValueError:
+        registered_path = Path(registered_path_str)
     chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
     chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
     result = {
         "status": "ok",
         "filename": registered_path.name,
         "sha256": doc_sha256,
-        "registered_path": registered_path_str,
+        "registered_path": str(registered_path),
         "domain": domain,
         "chunks_dir": str(chunks_dir),
         "chunk_count": chunk_count,
     }
     if artmind_id:
         result["artmind_id"] = artmind_id
+        # extract_kg (ingest.py) branches on "artmind_id" in file_result to
+        # treat this as a vault-native markdown doc and reads file_result["version"]
+        # unconditionally -- unlike _ingest_vault_native, this retry path never ran
+        # decide_version(), so the registry alone can't supply it (the `documents`
+        # table has no version column, docs/redesign-phase-plan.md "E"). Read it
+        # back from the frontmatter that write_document() persisted, falling back
+        # to 1 the same way the binary no_op path does if it's missing or unreadable.
+        version = 1
+        try:
+            meta, _ = _parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))
+            version = int(meta.get("_version") or 1)
+        except Exception as e:
+            logger.warning(
+                "Could not read _version from frontmatter for {}: {} (defaulting to 1)",
+                registered_path, e,
+            )
+        result["version"] = version
     return result
 
 
