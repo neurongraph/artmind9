@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from artmind.extraction import call_llm, embed_text
+from artmind.extraction import call_llm, embed_text, ibm_ica_client_env
 from artmind.llm_providers import describe_image_openrouter, _openrouter_client, _reset_clients
 from utils.functions import resolve_llm_model
 
@@ -34,6 +34,55 @@ def test_call_llm_dispatches_to_openrouter_when_configured():
     assert result == "hi"
     mock_openrouter.assert_called_once()
     mock_ollama.assert_not_called()
+
+
+def test_call_llm_dispatches_to_ibm_ica_via_openrouter_client():
+    env = {
+        "ARTMIND_KG_LLM_PROVIDER": "ibm_ica",
+        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
+    }
+    with patch("artmind.extraction.load_env", return_value=env), patch(
+        "artmind.extraction.call_llm_openrouter", return_value="hi"
+    ) as mock_openrouter, patch("artmind.extraction.call_llm_ollama") as mock_ollama:
+        result = call_llm("claude-haiku-4-5", "prompt")
+    assert result == "hi"
+    mock_ollama.assert_not_called()
+    mock_openrouter.assert_called_once()
+    args, _ = mock_openrouter.call_args
+    sent_env = args[3]
+    assert sent_env["ARTMIND_OPENROUTER_API_KEY"] == "enterprise-token"
+    assert sent_env["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
+
+
+def test_call_llm_ibm_ica_raises_without_auth_token():
+    env = {"ARTMIND_KG_LLM_PROVIDER": "ibm_ica"}
+    with patch("artmind.extraction.load_env", return_value=env):
+        with pytest.raises(RuntimeError, match="ANTHROPIC_AUTH_TOKEN"):
+            call_llm("claude-haiku-4-5", "prompt")
+
+
+def test_ibm_ica_client_env_maps_anthropic_vars_onto_openrouter_shape():
+    env = {
+        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
+        "OTHER_KEY": "unchanged",
+    }
+    mapped = ibm_ica_client_env(env)
+    assert mapped["ARTMIND_OPENROUTER_API_KEY"] == "enterprise-token"
+    assert mapped["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
+    assert mapped["OTHER_KEY"] == "unchanged"
+    assert env.get("ARTMIND_OPENROUTER_API_KEY") is None  # original env untouched
+
+
+def test_ibm_ica_client_env_raises_without_auth_token():
+    with pytest.raises(RuntimeError, match="ANTHROPIC_AUTH_TOKEN"):
+        ibm_ica_client_env({})
+
+
+def test_ibm_ica_client_env_omits_url_when_base_url_unset():
+    mapped = ibm_ica_client_env({"ANTHROPIC_AUTH_TOKEN": "tok"})
+    assert "ARTMIND_KG_LLM_URL" not in mapped
 
 
 def test_embed_text_raises_when_provider_is_openrouter():

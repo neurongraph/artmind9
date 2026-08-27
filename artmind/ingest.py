@@ -43,6 +43,7 @@ from artmind.extraction import (
     extract_with_retry as _llm_extract_shared,
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
+    ibm_ica_client_env as _ibm_ica_client_env,
 )
 from artmind.canonicalize import canonicalize_document
 from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
@@ -374,6 +375,10 @@ def _describe_image(image: Path, model: str) -> str | None:
         try:
             if provider == "openrouter":
                 description = describe_image_openrouter(image, model, prompt, timeout, env)
+            elif provider == "ibm_ica":
+                description = describe_image_openrouter(
+                    image, model, prompt, timeout, _ibm_ica_client_env(env)
+                )
             else:
                 host = env.get("ARTMIND_KG_LLM_URL") or None
                 description = describe_image_ollama(image, model, prompt, timeout, host=host)

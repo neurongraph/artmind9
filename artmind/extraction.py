@@ -23,6 +23,26 @@ def embed_text(model: str, text: str) -> list[float]:
     return embedding
 
 
+def ibm_ica_client_env(env: dict) -> dict:
+    """Map ANTHROPIC_BASE_URL/ANTHROPIC_AUTH_TOKEN onto the env shape the
+    OpenRouter client expects (ARTMIND_OPENROUTER_API_KEY/ARTMIND_KG_LLM_URL),
+    so the ibm_ica provider reuses that same OpenAI-compatible client path
+    (chat completions AND vision) instead of a separate one. Shared by
+    call_llm here and by ingest.py's _describe_image.
+    """
+    token = env.get("ANTHROPIC_AUTH_TOKEN")
+    if not token:
+        raise RuntimeError(
+            "ARTMIND_KG_LLM_PROVIDER=ibm_ica requires ANTHROPIC_AUTH_TOKEN to be set"
+        )
+    env2 = dict(env)
+    env2["ARTMIND_OPENROUTER_API_KEY"] = token
+    base = env.get("ANTHROPIC_BASE_URL")
+    if base:
+        env2["ARTMIND_KG_LLM_URL"] = base
+    return env2
+
+
 def call_llm(model: str, prompt: str) -> str:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
@@ -30,22 +50,7 @@ def call_llm(model: str, prompt: str) -> str:
     if provider == "openrouter":
         result = call_llm_openrouter(model, prompt, timeout, env)
     elif provider == "ibm_ica":
-        # Enterprise Anthropic-compatible inference endpoint is provided via
-        # ANTHROPIC_BASE_URL and ANTHROPIC_AUTH_TOKEN. Reuse the OpenRouter
-        # client path by mapping those values to the OpenRouter client env
-        # variables the existing helper expects.
-        token = env.get("ANTHROPIC_AUTH_TOKEN")
-        if not token:
-            raise RuntimeError(
-                "ARTMIND_KG_LLM_PROVIDER=ibm_ica requires ANTHROPIC_AUTH_TOKEN to be set"
-            )
-        env2 = dict(env)
-        # OpenRouter client expects ARTMIND_OPENROUTER_API_KEY and ARTMIND_KG_LLM_URL
-        env2["ARTMIND_OPENROUTER_API_KEY"] = token
-        base = env.get("ANTHROPIC_BASE_URL")
-        if base:
-            env2["ARTMIND_KG_LLM_URL"] = base
-        result = call_llm_openrouter(model, prompt, timeout, env2)
+        result = call_llm_openrouter(model, prompt, timeout, ibm_ica_client_env(env))
     else:
         host = env.get("ARTMIND_KG_LLM_URL") or None
         result = call_llm_ollama(model, prompt, timeout, host=host)
