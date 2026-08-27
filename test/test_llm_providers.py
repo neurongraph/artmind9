@@ -49,7 +49,54 @@ def test_embed_text_uses_ollama_by_default():
     ) as mock_embed:
         result = embed_text("some-model", "text")
     assert result == [0.1, 0.2]
-    mock_embed.assert_called_once_with("some-model", "text")
+    mock_embed.assert_called_once_with("some-model", "text", host=None)
+
+
+def test_embed_text_passes_embeddings_url_as_host():
+    env = {"ARTMIND_KG_EMBEDDINGS_URL": "http://embed-host:11434"}
+    with patch("artmind.extraction.load_env", return_value=env), patch(
+        "artmind.extraction.embed_text_ollama", return_value=[0.1, 0.2]
+    ) as mock_embed:
+        embed_text("some-model", "text")
+    mock_embed.assert_called_once_with("some-model", "text", host="http://embed-host:11434")
+
+
+def test_call_llm_passes_kg_llm_url_as_ollama_host():
+    env = {"ARTMIND_KG_LLM_URL": "http://llm-host:11434"}
+    with patch("artmind.extraction.load_env", return_value=env), patch(
+        "artmind.extraction.call_llm_ollama", return_value="hi"
+    ) as mock_ollama:
+        call_llm("some-model", "prompt")
+    mock_ollama.assert_called_once_with("some-model", "prompt", 120, host="http://llm-host:11434")
+
+
+def test_ollama_client_passes_host_through():
+    from artmind.llm_providers import _ollama_client
+
+    with patch("artmind.llm_providers.ollama.Client") as mock_client_cls:
+        _ollama_client(30, "http://example.com:11434")
+    mock_client_cls.assert_called_once_with(host="http://example.com:11434", timeout=30)
+
+
+def test_ollama_client_defaults_host_to_none_when_unset():
+    from artmind.llm_providers import _ollama_client
+
+    with patch("artmind.llm_providers.ollama.Client") as mock_client_cls:
+        _ollama_client(30)
+    mock_client_cls.assert_called_once_with(host=None, timeout=30)
+
+
+def test_embed_text_ollama_passes_host_to_client():
+    from artmind.llm_providers import embed_text_ollama
+
+    with patch("artmind.llm_providers.ollama.Client") as mock_client_cls:
+        mock_client = mock_client_cls.return_value
+        mock_client.embed.return_value = MagicMock(embeddings=[[0.1, 0.2]])
+        result = embed_text_ollama("embed-model", "text", host="http://example.com:11434")
+
+    mock_client_cls.assert_called_once_with(host="http://example.com:11434")
+    mock_client.embed.assert_called_once_with(model="embed-model", input="text")
+    assert result == [0.1, 0.2]
 
 
 def test_openrouter_client_raises_without_api_key():

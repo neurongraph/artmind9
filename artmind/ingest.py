@@ -375,7 +375,8 @@ def _describe_image(image: Path, model: str) -> str | None:
             if provider == "openrouter":
                 description = describe_image_openrouter(image, model, prompt, timeout, env)
             else:
-                description = describe_image_ollama(image, model, prompt, timeout)
+                host = env.get("ARTMIND_KG_LLM_URL") or None
+                description = describe_image_ollama(image, model, prompt, timeout, host=host)
             log_llm_call("chat", model, f"[IMAGE: {image.name}]\n{prompt}", description)
             logger.debug(
                 "LLM RESPONSE (image description, attempt {}):\n{}",

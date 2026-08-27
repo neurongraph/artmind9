@@ -17,7 +17,8 @@ def embed_text(model: str, text: str) -> list[float]:
             "ARTMIND_KG_EMBEDDINGS_PROVIDER=ollama (embeddings can stay on Ollama "
             "even when ARTMIND_KG_LLM_PROVIDER=openrouter)"
         )
-    embedding = embed_text_ollama(model, text)
+    host = env.get("ARTMIND_KG_EMBEDDINGS_URL") or None
+    embedding = embed_text_ollama(model, text, host=host)
     log_llm_call("embed", model, text, f"[embedding vector, dim={len(embedding)}]")
     return embedding
 
@@ -46,7 +47,8 @@ def call_llm(model: str, prompt: str) -> str:
             env2["ARTMIND_KG_LLM_URL"] = base
         result = call_llm_openrouter(model, prompt, timeout, env2)
     else:
-        result = call_llm_ollama(model, prompt, timeout)
+        host = env.get("ARTMIND_KG_LLM_URL") or None
+        result = call_llm_ollama(model, prompt, timeout, host=host)
     log_llm_call("chat", model, prompt, result)
     return result
 

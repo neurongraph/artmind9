@@ -12,13 +12,15 @@ OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 # the process hits its fd limit, so callers below are cached and reused per
 # (api_key, base_url, timeout) / timeout combination.
 _openrouter_clients: dict[tuple[str, str, int], openai.OpenAI] = {}
-_ollama_clients: dict[int, ollama.Client] = {}
+_ollama_clients: dict[tuple[str | None, int], ollama.Client] = {}
+_ollama_embed_clients: dict[str | None, ollama.Client] = {}
 
 
 def _reset_clients() -> None:
     """Drop cached SDK clients. Intended for test isolation only."""
     _openrouter_clients.clear()
     _ollama_clients.clear()
+    _ollama_embed_clients.clear()
 
 
 def _openrouter_client(env: dict, timeout: int) -> openai.OpenAI:
@@ -36,11 +38,22 @@ def _openrouter_client(env: dict, timeout: int) -> openai.OpenAI:
     return client
 
 
-def _ollama_client(timeout: int) -> ollama.Client:
-    client = _ollama_clients.get(timeout)
+def _ollama_client(timeout: int, host: str | None = None) -> ollama.Client:
+    key = (host, timeout)
+    client = _ollama_clients.get(key)
     if client is None:
-        client = ollama.Client(timeout=timeout)
-        _ollama_clients[timeout] = client
+        client = ollama.Client(host=host, timeout=timeout)
+        _ollama_clients[key] = client
+    return client
+
+
+def _ollama_embed_client(host: str | None = None) -> ollama.Client:
+    # Separate cache from _ollama_client: embed calls carry no timeout (the
+    # SDK's own default applies), so they're keyed on host alone.
+    client = _ollama_embed_clients.get(host)
+    if client is None:
+        client = ollama.Client(host=host)
+        _ollama_embed_clients[host] = client
     return client
 
 
@@ -57,8 +70,8 @@ def _first_choice_content(response) -> str:
     return (response.choices[0].message.content or "").strip()
 
 
-def call_llm_ollama(model: str, prompt: str, timeout: int) -> str:
-    response = _ollama_client(timeout).chat(
+def call_llm_ollama(model: str, prompt: str, timeout: int, host: str | None = None) -> str:
+    response = _ollama_client(timeout, host).chat(
         model=model,
         messages=[{"role": "user", "content": prompt}],
         options={"temperature": 0},
@@ -76,13 +89,15 @@ def call_llm_openrouter(model: str, prompt: str, timeout: int, env: dict) -> str
     return _first_choice_content(response)
 
 
-def embed_text_ollama(model: str, text: str) -> list[float]:
-    response = ollama.embed(model=model, input=text)
+def embed_text_ollama(model: str, text: str, host: str | None = None) -> list[float]:
+    response = _ollama_embed_client(host).embed(model=model, input=text)
     return response.embeddings[0]
 
 
-def describe_image_ollama(image: Path, model: str, prompt: str, timeout: int) -> str:
-    response = _ollama_client(timeout).chat(
+def describe_image_ollama(
+    image: Path, model: str, prompt: str, timeout: int, host: str | None = None
+) -> str:
+    response = _ollama_client(timeout, host).chat(
         model=model,
         messages=[{"role": "user", "content": prompt, "images": [str(image)]}],
     )
