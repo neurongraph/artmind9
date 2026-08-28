@@ -4,20 +4,33 @@ both backends. Guards that admin/QA scoping stays de-hardcoded."""
 import pytest
 
 from artmind.webui.agent import agent_options
-from artmind.webui.backends import backend_factory, create_backend
+from artmind.webui.backends import (
+    backend_factory,
+    create_backend,
+    set_sdk_base_url,
+    set_sdk_model,
+)
 from artmind.webui.profiles import ADMIN_PROFILE, BENCHMARK_PROFILE, PROFILES, QA_PROFILE
 
 
 @pytest.fixture(autouse=True)
 def _clean_acp_env(monkeypatch):
-    """create_backend('acp', ...) reads env knobs; isolate the tests from them."""
+    """create_backend(...) reads env knobs; isolate the tests from them."""
     for var in (
         "ARTMIND_ACP_MODE",
         "ARTMIND_ACP_CWD",
         "ARTMIND_ACP_AGENT_CMD",
         "ARTMIND_ACP_PROMPT_PREAMBLE",
+        "ARTMIND_SDK_MODEL",
+        "ARTMIND_SDK_FALLBACK_MODEL",
+        "ARTMIND_SDK_BASE_URL",
     ):
         monkeypatch.delenv(var, raising=False)
+    set_sdk_model(None)  # reset the CLI-flag overrides between tests
+    set_sdk_base_url(None)
+    yield
+    set_sdk_model(None)
+    set_sdk_base_url(None)
 
 
 def test_profile_registry_and_acp_modes():
@@ -95,3 +108,56 @@ def test_backend_factory_binds_profile():
 def test_unknown_backend_rejected():
     with pytest.raises(ValueError):
         create_backend("nonsense")
+
+
+def test_sdk_backend_model_defaults_to_none():
+    backend = create_backend("claude-sdk")
+    assert backend._model is None
+    assert backend._fallback_model is None
+
+
+def test_sdk_backend_reads_model_env_vars(monkeypatch):
+    monkeypatch.setenv("ARTMIND_SDK_MODEL", "claude-haiku-4-5")
+    monkeypatch.setenv("ARTMIND_SDK_FALLBACK_MODEL", "claude-sonnet-5")
+    backend = create_backend("claude-sdk")
+    assert backend._model == "claude-haiku-4-5"
+    assert backend._fallback_model == "claude-sonnet-5"
+
+
+def test_sdk_model_cli_flag_overrides_env(monkeypatch):
+    monkeypatch.setenv("ARTMIND_SDK_MODEL", "claude-haiku-4-5")
+    set_sdk_model("claude-opus-5")
+    backend = create_backend("claude-sdk")
+    assert backend._model == "claude-opus-5"
+
+
+def test_sdk_backend_env_override_absent_by_default():
+    # No ARTMIND_SDK_BASE_URL: nothing should be injected, so a normal
+    # operator's own ~/.claude login is left completely untouched.
+    backend = create_backend("claude-sdk")
+    assert backend._env is None
+
+
+def test_sdk_backend_base_url_isolates_claude_config_dir(monkeypatch):
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
+    backend = create_backend("claude-sdk")
+    assert backend._env["ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica"
+    # Isolated CLAUDE_CONFIG_DIR so a personal claude.ai/console OAuth login
+    # can't silently override ANTHROPIC_AUTH_TOKEN for this custom endpoint.
+    assert backend._env["CLAUDE_CONFIG_DIR"].endswith(".claude-sdk-auth")
+
+
+def test_sdk_base_url_cli_flag_overrides_env(monkeypatch):
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
+    set_sdk_base_url("https://other-gateway.example.com")
+    backend = create_backend("claude-sdk")
+    assert backend._env["ANTHROPIC_BASE_URL"] == "https://other-gateway.example.com"
+
+
+def test_sdk_base_url_cli_flag_empty_string_forces_default(monkeypatch):
+    # --base-url "" must beat a set env var and force the normal (OAuth/login)
+    # routing — the documented "flip back without editing .env" escape hatch.
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
+    set_sdk_base_url("")
+    backend = create_backend("claude-sdk")
+    assert backend._env is None

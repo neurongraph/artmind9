@@ -289,12 +289,30 @@ def serve(host: str, port: int | None) -> None:
     help="ACP agent command for the 'opencode (ACP)' backend "
     "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
 )
-def chat_ui(host: str, port: int, acp_cmd: str | None) -> None:
+@click.option(
+    "--model",
+    default=None,
+    help="Model for the 'claude-sdk' backend, e.g. claude-sonnet-5 "
+    "[default: $ARTMIND_SDK_MODEL, or the claude CLI's own default].",
+)
+@click.option(
+    "--base-url",
+    default=None,
+    help="Custom endpoint for the 'claude-sdk' backend's claude CLI "
+    "[default: $ARTMIND_SDK_BASE_URL, or the CLI's normal login]. Pass "
+    "--base-url \"\" to force the CLI's normal login for this run even if "
+    "$ARTMIND_SDK_BASE_URL is set.",
+)
+def chat_ui(
+    host: str, port: int, acp_cmd: str | None, model: str | None, base_url: str | None
+) -> None:
     """Launch the artmind chat web UI (Claude Agent SDK or an ACP agent)."""
     from artmind.webui.app import run_chat_ui
-    from artmind.webui.backends import set_acp_agent_cmd
+    from artmind.webui.backends import set_acp_agent_cmd, set_sdk_base_url, set_sdk_model
 
     set_acp_agent_cmd(acp_cmd)
+    set_sdk_model(model)
+    set_sdk_base_url(base_url)
     click.echo(f"artmind chat UI on http://{host}:{port}")
     run_chat_ui(host=host, port=port)
 
@@ -308,12 +326,30 @@ def chat_ui(host: str, port: int, acp_cmd: str | None) -> None:
     help="ACP agent command for the 'opencode (ACP)' backend "
     "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
 )
-def admin_ui(host: str, port: int, acp_cmd: str | None) -> None:
+@click.option(
+    "--model",
+    default=None,
+    help="Model for the 'claude-sdk' backend, e.g. claude-sonnet-5 "
+    "[default: $ARTMIND_SDK_MODEL, or the claude CLI's own default].",
+)
+@click.option(
+    "--base-url",
+    default=None,
+    help="Custom endpoint for the 'claude-sdk' backend's claude CLI "
+    "[default: $ARTMIND_SDK_BASE_URL, or the CLI's normal login]. Pass "
+    "--base-url \"\" to force the CLI's normal login for this run even if "
+    "$ARTMIND_SDK_BASE_URL is set.",
+)
+def admin_ui(
+    host: str, port: int, acp_cmd: str | None, model: str | None, base_url: str | None
+) -> None:
     """Launch the artmind admin web UI (Claude Agent SDK or an ACP agent)."""
     from artmind.webui.app import run_admin_ui
-    from artmind.webui.backends import set_acp_agent_cmd
+    from artmind.webui.backends import set_acp_agent_cmd, set_sdk_base_url, set_sdk_model
 
     set_acp_agent_cmd(acp_cmd)
+    set_sdk_model(model)
+    set_sdk_base_url(base_url)
     click.echo(f"artmind admin UI on http://{host}:{port}")
     run_admin_ui(host=host, port=port)
 
