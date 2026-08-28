@@ -92,12 +92,43 @@ def _is_list(value) -> bool:
 
 def _union(values: list) -> list:
     """Order-preserving union, first-seen order — stable across rebuilds
-    because the observations feeding it are sorted."""
+    because the observations feeding it are sorted.
+
+    Neo4j arrays must be homogeneously typed. Each individual observation's
+    own value already passed `flatten_domain_props`, so a single observation
+    never contributes a mixed bag — but two *different* observations can
+    disagree on **type**, not just value, for the same property (one chunk
+    extracts `training_required: true`, another extracts a descriptive
+    string for the same key) — the same unformatted-hint failure mode the
+    scorecard's property-hint watch list already names, just surfacing here
+    as a hard write failure instead of a reviewable conflict, since a list
+    property never reaches the conflict path (`rebuild_key`'s "lists never
+    conflict" branch, above). Found live during the Phase 8 cutover: a real
+    `banking.policy` union of `str`/`bool` crashed the whole rebuild
+    transaction with `Neo.ClientError.Statement.TypeError`. Coerce to a
+    single storable type rather than crash or silently drop a value — every
+    distinct extraction survives, just as text.
+    """
     out: list = []
     for value in values:
         for item in (value if _is_list(value) else [value]):
             if item not in (None, "") and item not in out:
                 out.append(item)
+    types = {type(item) for item in out}
+    if len(types) > 1:
+        logger.warning(
+            "Projection: union produced mixed types {} ({!r}) — coercing to string "
+            "for storage; likely an unformatted property hint",
+            sorted(t.__name__ for t in types), out,
+        )
+        seen: set = set()
+        stringified: list = []
+        for item in out:
+            s = str(item)
+            if s not in seen:
+                seen.add(s)
+                stringified.append(s)
+        out = stringified
     return out
 
 

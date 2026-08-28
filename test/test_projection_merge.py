@@ -127,6 +127,32 @@ def test_a_property_is_a_list_property_if_any_observation_asserts_a_list():
     assert result["props"]["audience"] == ["Customers", "Staff", "Media"]
 
 
+def test_a_mixed_type_union_is_coerced_to_strings_not_left_to_crash_neo4j():
+    """Neo4j arrays must be homogeneously typed. A property is a *list*
+    property the moment ANY contributing observation asserts a list (see
+    `test_a_property_is_a_list_property_if_any_observation_asserts_a_list`),
+    so a bare scalar from one observation and a list from another still
+    union — and if the scalar's TYPE disagrees with the list items' type
+    (one chunk extracts `training_required: true`, another a list of
+    descriptive strings for the same key), the union comes out mixed. This
+    is an unformatted property hint, the same failure class the scorecard's
+    watch list names, just surfacing here as a hard write failure instead of
+    a reviewable conflict (a list property never reaches the conflict path).
+    Regression for a real crash found live during the Phase 8 cutover: a
+    `banking.policy` union of str/bool values raised
+    `Neo.ClientError.Statement.TypeError` and rolled back the whole rebuild
+    transaction for the entire domain.
+    """
+    result = merge_observations([
+        obs(doc_id="a", _doc_valid_from="2026-01-01", training_required=True),
+        obs(doc_id="b", _doc_valid_from="2026-02-01",
+            training_required=["annual_fraud_awareness", "fraud_scenario_training"]),
+    ])
+    values = result["props"]["training_required"]
+    assert values == ["True", "annual_fraud_awareness", "fraud_scenario_training"]
+    assert all(isinstance(v, str) for v in values)
+
+
 def test_type_takes_the_winner():
     result = merge_observations([
         obs(doc_id="a", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", type="savings_rate_tier"),
