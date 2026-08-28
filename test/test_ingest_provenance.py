@@ -97,3 +97,46 @@ def test_a_nested_object_extra_is_dropped_not_json_encoded():
 
     _, kwargs = tx.rel_calls()[0]
     assert "weird_nested" not in kwargs["props"]
+
+
+def test_the_properties_object_the_prompt_asks_for_is_unwrapped_onto_the_edge():
+    """The `relationships` prompt template (artmind/domains/meta.yaml) tells the
+    extractor to return a nested `properties: object` per relationship — the
+    rel_type-specific detail, same shape as the entities prompt's own
+    `properties` step. Regression for a real bug found live during the Phase 8
+    cutover re-ingest: passing `rel.items()` straight to `_flatten_props`
+    without unwrapping `properties` first meant `_neo4j_value` correctly (but
+    silently) dropped it as an unrecognized nested object on every single
+    relationship, every ingest, since this write path was introduced — 100%
+    loss of per-instance relationship detail. Must be unwrapped exactly like
+    entity `domain_props` are in `_build_observations`.
+    """
+    tx = _Tx()
+    rel = {
+        "source_name": "Bank", "target_name": "Customer", "rel_type": "SERVES",
+        "chunk_id": "docA_002", "doc_id": "docA",
+        "description": "the bank serves the customer",
+        "properties": {"role": "primary account holder", "since": "2024-01-01"},
+    }
+    ing._write_relation_observations(tx, [rel], {"id": "docA"}, _observations())
+
+    _, kwargs = tx.rel_calls()[0]
+    assert kwargs["props"] == {
+        "description": "the bank serves the customer",
+        "role": "primary account holder",
+        "since": "2024-01-01",
+    }
+    assert "properties" not in kwargs["props"]
+
+
+def test_a_non_dict_properties_value_is_tolerated_not_crashed_on():
+    tx = _Tx()
+    rel = {
+        "source_name": "Bank", "target_name": "Customer", "rel_type": "SERVES",
+        "chunk_id": "docA_002", "doc_id": "docA",
+        "properties": "not an object",
+    }
+    ing._write_relation_observations(tx, [rel], {"id": "docA"}, _observations())
+
+    _, kwargs = tx.rel_calls()[0]
+    assert kwargs["props"] == {}

@@ -2323,6 +2323,15 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
     contributing observations, the same reason a scalar Entity property is
     never unioned.
 
+    The `relationships` prompt template asks the extractor for a nested
+    `properties: object` field per relationship (rel_type-specific detail —
+    same shape as the entities prompt's own `properties` step), so it must be
+    unwrapped here before flattening, exactly like `_build_observations` does
+    for entities (`props_by_id = {..., p.get("properties", {})}`). Passing
+    `rel.items()` straight through without this unwrap silently drops the
+    entire payload every time, since `_flatten_props`/`_neo4j_value` correctly
+    refuses a nested dict — found live during the Phase 8 cutover re-ingest.
+
     Endpoints are resolved against **this document's own observations** —
     the same limitation the pre-Phase-4 writer always had: a relationship
     whose endpoint wasn't itself extracted as an entity in this document is
@@ -2367,8 +2376,11 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
             continue
 
         rel_doc_id = rel.get("doc_id") or document.get("id", "")
+        nested_props = rel.get("properties")
         rel_props = _flatten_props({
-            k: v for k, v in rel.items() if k not in _RELATION_STRUCTURAL_KEYS
+            **{k: v for k, v in rel.items()
+               if k not in _RELATION_STRUCTURAL_KEYS and k != "properties"},
+            **(nested_props if isinstance(nested_props, dict) else {}),
         })
         pairs = [(source_obs, target_obs)]
         if rel.get("bidirectional"):
