@@ -189,6 +189,19 @@ ingestion-helper is admin-only). `just test` green.
 
 ---
 
+## Phase 6 — Curate tab (backlog, not scheduled)
+
+Same-as identity review, conflict resolution, and the rebuild that applies
+them, as a Lane B tab. Full design, grounded in Phase 8's actual cutover
+curation session (180 same-as proposals + 12 conflicts reviewed and applied
+by hand via CLI + a one-off Artifact console):
+[admin-ui-curation-workflow.md](admin-ui-curation-workflow.md). Includes a
+real defect to fix first (`sameas.approve()`'s domain-scoping is a no-op for
+a single-top-level-domain corpus, making every approval as expensive as a
+full rebuild) — see that doc's "A defect this workflow should also fix."
+
+---
+
 ## Suggested execution
 - Phases are ordered; **within a phase, tasks are sequential**. Phase 5
   (cleanup) is independent and can run any time after Phase 0.
