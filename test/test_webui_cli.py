@@ -14,11 +14,13 @@ class TestAdminUi:
 
     def test_options(self):
         params = {p.name: p for p in cli.commands["admin-ui"].params}
-        assert set(params) == {"host", "port", "acp_cmd"}
+        assert set(params) == {"host", "port", "acp_cmd", "model", "base_url"}
         assert params["host"].default == "127.0.0.1"
         assert params["port"].default == 8379
         assert params["port"].type.name == "integer"
         assert params["acp_cmd"].default is None
+        assert params["model"].default is None
+        assert params["base_url"].default is None
 
 
 class TestChatUi:
@@ -27,8 +29,10 @@ class TestChatUi:
 
     def test_options(self):
         params = {p.name: p for p in cli.commands["chat-ui"].params}
-        assert set(params) == {"host", "port", "acp_cmd"}
+        assert set(params) == {"host", "port", "acp_cmd", "model", "base_url"}
         assert params["host"].default == "127.0.0.1"
         assert params["port"].default == 8378
         assert params["port"].type.name == "integer"
         assert params["acp_cmd"].default is None
+        assert params["model"].default is None
+        assert params["base_url"].default is None

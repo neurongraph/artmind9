@@ -34,16 +34,25 @@ class ClaudeSDKBackend:
         *,
         mcp_servers: dict[str, Any] | None = None,
         allowed_tools: list[str] | None = None,
+        model: str | None = None,
+        fallback_model: str | None = None,
+        env: dict[str, str] | None = None,
     ) -> None:
         # Remember the profile + current resume target so ``restart`` can
         # rebuild an equivalent client (optionally resuming the same session).
         # ``mcp_servers``/``allowed_tools`` (both optional, default no-op) let a
         # front-end register in-process SDK tools; they're preserved across
         # ``restart`` so a resumed session keeps the same tool surface.
+        # ``model``/``fallback_model``/``env`` (also optional, see
+        # ``ARTMIND_SDK_MODEL``/``ARTMIND_SDK_BASE_URL`` in ``backends/__init__.py``)
+        # are preserved the same way.
         self._profile = profile
         self._resume = resume
         self._mcp_servers = mcp_servers
         self._allowed_tools = allowed_tools
+        self._model = model
+        self._fallback_model = fallback_model
+        self._env = env
         self._session_id: str | None = resume
         self._client = ClaudeSDKClient(
             agent_options(
@@ -51,6 +60,9 @@ class ClaudeSDKBackend:
                 resume=resume,
                 mcp_servers=mcp_servers,
                 allowed_tools=allowed_tools,
+                model=model,
+                fallback_model=fallback_model,
+                env=env,
             )
         )
 
@@ -103,6 +115,9 @@ class ClaudeSDKBackend:
                 resume=resume,
                 mcp_servers=self._mcp_servers,
                 allowed_tools=self._allowed_tools,
+                model=self._model,
+                fallback_model=self._fallback_model,
+                env=self._env,
             )
         )
         await self._client.connect()

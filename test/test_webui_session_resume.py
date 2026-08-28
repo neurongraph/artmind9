@@ -31,6 +31,35 @@ def test_agent_options_resume_defaults_to_none():
     assert agent_options().resume is None
 
 
+def test_agent_options_passes_model_through():
+    from artmind.webui.agent import agent_options
+
+    opts = agent_options(model="claude-haiku-4-5", fallback_model="claude-sonnet-5")
+    assert opts.model == "claude-haiku-4-5"
+    assert opts.fallback_model == "claude-sonnet-5"
+
+
+def test_agent_options_model_defaults_to_none():
+    from artmind.webui.agent import agent_options
+
+    opts = agent_options()
+    assert opts.model is None
+    assert opts.fallback_model is None
+
+
+def test_agent_options_passes_env_through():
+    from artmind.webui.agent import agent_options
+
+    opts = agent_options(env={"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"})
+    assert opts.env == {"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"}
+
+
+def test_agent_options_env_defaults_to_empty():
+    from artmind.webui.agent import agent_options
+
+    assert agent_options().env == {}
+
+
 # ── fake SDK client ─────────────────────────────────────────────────────────
 
 
@@ -151,6 +180,26 @@ async def test_sdk_backend_constructed_with_resume(fake_sdk):
     backend = claude_sdk.ClaudeSDKBackend(resume="prior-sess")
     assert backend.session_id == "prior-sess"
     assert backend._client.options.resume == "prior-sess"
+
+
+async def test_sdk_backend_constructed_with_model(fake_sdk):
+    backend = claude_sdk.ClaudeSDKBackend(model="claude-haiku-4-5", fallback_model="claude-sonnet-5")
+    assert backend._client.options.model == "claude-haiku-4-5"
+    assert backend._client.options.fallback_model == "claude-sonnet-5"
+
+
+async def test_sdk_restart_preserves_model(fake_sdk):
+    backend = claude_sdk.ClaudeSDKBackend(model="claude-haiku-4-5")
+    await backend.connect()
+    await backend.restart(preserve_context=False)
+    assert backend._client.options.model == "claude-haiku-4-5"
+
+
+async def test_sdk_restart_preserves_env_override(fake_sdk):
+    backend = claude_sdk.ClaudeSDKBackend(env={"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"})
+    await backend.connect()
+    await backend.restart(preserve_context=False)
+    assert backend._client.options.env == {"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"}
 
 
 # ── SessionRegistry.refresh ──────────────────────────────────────────────────

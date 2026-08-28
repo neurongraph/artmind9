@@ -36,6 +36,9 @@ def agent_options(
     *,
     mcp_servers: dict[str, Any] | None = None,
     allowed_tools: list[str] | None = None,
+    model: str | None = None,
+    fallback_model: str | None = None,
+    env: dict[str, str] | None = None,
 ) -> ClaudeAgentOptions:
     """Build the SDK options for a chat session.
 
@@ -52,6 +55,18 @@ def agent_options(
     plain chat session adds nothing. ``allowed_tools`` is additive: under
     ``bypassPermissions`` every tool is already permitted, so naming the MCP
     tool here auto-approves it without narrowing the skill toolset.
+
+    ``model`` / ``fallback_model``: left ``None`` by default, which means "the
+    ``claude`` CLI's own default" — normally fine, but it can resolve to a
+    model alias your account/endpoint doesn't have access to (see
+    ``ARTMIND_SDK_MODEL`` in ``backends/__init__.py``), so both are exposed
+    for an operator to pin explicitly.
+
+    ``env``: extra env vars merged onto the spawned ``claude`` CLI's inherited
+    process env (overriding it key-for-key — see the SDK's subprocess
+    transport). Used for ``ARTMIND_SDK_BASE_URL`` (see ``backends/__init__.py``)
+    to point the CLI at a custom endpoint without disturbing the process-wide
+    ``ANTHROPIC_BASE_URL`` the KG pipeline also reads.
     """
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
@@ -61,12 +76,15 @@ def agent_options(
             "preset": "claude_code",
             "append": profile.system_append,
         },
+        env=env or {},
         permission_mode="bypassPermissions",
         thinking={"type": "enabled", "budget_tokens": 8000, "display": "summarized"},
         include_partial_messages=True,
         resume=resume,
         mcp_servers=mcp_servers or {},
         allowed_tools=allowed_tools or [],
+        model=model,
+        fallback_model=fallback_model,
     )
 
 
