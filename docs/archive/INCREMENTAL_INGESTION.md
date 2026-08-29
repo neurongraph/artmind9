@@ -1,5 +1,7 @@
 # Incremental ingestion: updates, versioning, supersession, temporality
 
+> ⚠️ **STALE — Pre-redesign (July 2026).** This is the design rationale for how incremental updates *were* handled before the observation/projection redesign (Phase 8, Aug 2026). The post-redesign current behavior is documented in [`INCREMENTAL_INGESTION_v2.md`](../INCREMENTAL_INGESTION_v2.md). Read v2 for current reference; read this only for historical context on prior design decisions.
+
 A review of how the ingestion pipeline handles change over time: what happens when a
 document in an already-ingested set is updated, how the result is timestamped and
 versioned, how supersession and valid-time work, and how much of it is genuinely

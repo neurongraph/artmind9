@@ -1,5 +1,7 @@
 # artmind: Refining, Merging, Conflict Detection & Supersession — Field Guide
 
+> ⚠️ **STALE — Pre-redesign (July 2026).** This field guide documents the refine/conflict/supersession machinery **before** the observation/projection architectural redesign (Phase 8, Aug 2026). It is source material for the `artmind-refine` skill but does not reflect the current `:Observation` node model. Current reference docs: [`projection-pipeline.md`](../projection-pipeline.md), [`document-identity.md`](../document-identity.md). Read this only for historical context on how merge/conflict/supersession were designed.
+
 This doc explains the cross-domain refinement/conflict/temporality machinery added in
 `docs/superpowers/plans/2026-07-04-cross-domain-conflicts-and-temporality.md`, in plain
 terms, with real examples pulled from the live `banking-corpus` graph. It's written to

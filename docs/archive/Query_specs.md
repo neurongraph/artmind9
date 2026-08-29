@@ -1,5 +1,7 @@
 # Knowledge Graph Query Patterns
 
+> ⚠️ **STALE — Pre-redesign (July 2026).** This Cypher pattern library documents queries against the pre-Phase 8 entity model (`:Entity` nodes only). The actual implementation now uses the redesigned observation/projection model with `:Observation` nodes and `AGGREGATES` relationships, internal properties (`_domain`, `_id`), and a single `execute_pattern()` function rather than individual pattern functions. The actual Cypher shown here would fail or return wrong results if executed. See the current `artmind query graph` CLI help and `artmind/graph_query.py` for the current implementation. Read this only for historical context on how query patterns were designed pre-redesign.
+
 A library of canonical Cypher query patterns for Q&A over a domain-scoped knowledge graph. The agent harness selects a pattern based on the user's question, fills in parameters, runs the query via the `artmind query graph` CLI, and passes the structured result to an LLM for natural-language synthesis.
 
 The Cypher shown here mirrors the implementation in `artmind/graph_query.py` (patterns), `artmind/vector_query.py` (vector/full-text/entity-resolve), and `artmind/text2cypher.py`. If they ever disagree, the code is the source of truth.
