@@ -15,7 +15,9 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import urllib.request
+from fnmatch import fnmatch
 from pathlib import Path
 
 import yaml
@@ -234,4 +236,292 @@ def describe() -> dict:
         "fingerprint": fingerprint,
         "daemon": daemon,
         "workspaces_dir": str(WORKSPACES_DIR),
+    }
+
+
+# ── creating and adopting ─────────────────────────────────────────────────────
+
+# Which schemas a NEW workspace starts with. The `banking.*` family is a demo
+# corpus's schemas, not a default every knowledge base should inherit: seeding
+# them everywhere puts domains with no data in front of `domains-overview` and
+# the chat agent's routing (docs/workspaces.md, guardrail 3). They stay shipped
+# and are one `artmind domains add` away.
+STARTER_SCHEMAS = ("general", "personal_journal")
+
+# docs/workspaces.md, "Config classification". Anything absent from both lists
+# is left in the workspace .env and reported, rather than guessed at.
+IDENTITY_KEYS = frozenset({
+    "ARTMIND_USER",
+    "ARTMIND_KG_LLM_PROVIDER", "ARTMIND_KG_LLM_MODEL", "ARTMIND_KG_LLM_URL",
+    "ARTMIND_IMAGE_MODEL", "ARTMIND_OLLAMA_TIMEOUT",
+    "ARTMIND_OPENROUTER_API_KEY", "ANTHROPIC_BASE_URL", "ANTHROPIC_AUTH_TOKEN",
+    "ARTMIND_KG_EMBEDDINGS_PROVIDER", "ARTMIND_KG_EMBEDDINGS_URL",
+    "ARTMIND_KG_EMBEDDINGS_MODEL",
+    # Follows from the embedding model, so it is identity — but it is also baked
+    # into the Neo4j vector indexes at `artmind setup` (setup.py), so a shared
+    # value against a graph built at another dimension degrades vector search
+    # silently. `workspace use` should validate it against the live index; that
+    # needs a graph connection and is not done here yet.
+    "ARTMIND_KG_EMBEDDING_DIMENSIONS",
+    "ARTMIND_SDK_MODEL", "ARTMIND_SDK_FALLBACK_MODEL", "ARTMIND_SDK_BASE_URL",
+    "ARTMIND_ACP_MODEL",
+    "ARTMIND_KG_CHUNK_SIZE", "ARTMIND_INGEST_MAX_WORKERS",
+})
+
+WORKSPACE_KEYS = frozenset({
+    "ARTMIND_DATA_DIR", "ARTMIND_VAULT_DIR", "ARTMIND_ARCHIVE_DIR",
+    "ARTMIND_KG_NEO4J_URI", "ARTMIND_KG_NEO4J_USERNAME",
+    "ARTMIND_KG_NEO4J_PASSWORD", "ARTMIND_KG_NEO4J_DATABASE",
+    "ARTMIND_VAULT_GIT_PUSH",
+})
+
+# What `adopt` carries across from a pre-workspace run folder. An allowlist, not
+# a blanket copytree — the legacy run folder IS `ARTMIND_ROOT`, so it contains
+# the `workspaces/` directory we are copying into, and a recursive copy would
+# walk into its own destination.
+ADOPT_ENTRIES = (".env", "same_as.yaml", "domains", ".claude", ".opencode", "logs")
+
+
+def parse_env_file(path: Path) -> dict[str, str]:
+    """Key/value pairs from a .env file. Comments and blanks dropped; this is
+    for classifying keys, never for round-tripping a file."""
+    values: dict[str, str] = {}
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return values
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, _, value = line.partition("=")
+        name = name.strip().removeprefix("export ").strip()
+        if name:
+            values[name] = value.strip().strip("\"'")
+    return values
+
+
+def _render_env(values: dict[str, str], header: str) -> str:
+    body = "\n".join(f"{k}={v}" for k, v in sorted(values.items()))
+    return f"# {header}\n{body}\n"
+
+
+def scaffold(run_folder: Path, schemas: "list[str] | None" = None) -> dict:
+    """Create a run folder and seed package assets into it.
+
+    Deliberately not `setup.scaffold_run_folder()`: that one resolves every
+    destination from `paths`' import-time constants, so it can only ever seed
+    the run folder THIS process resolved to. Creating a different one needs the
+    destination passed in.
+    """
+    from paths import (
+        PACKAGE_META_YAML, PACKAGE_OPENCODE_DIR, PACKAGE_SCHEMAS_DIR,
+        PACKAGE_SKILLS_DIR,
+    )
+    from artmind.setup import _seed_tree
+
+    wanted = list(schemas) if schemas else list(STARTER_SCHEMAS)
+    if "general" not in wanted:
+        # cli._get_available_domains always offers `general`; a run folder
+        # without its schema would advertise a domain it cannot extract.
+        wanted.append("general")
+
+    schemas_dir = run_folder / "domains" / "schemas"
+    for directory in (run_folder, run_folder / "logs", schemas_dir,
+                      run_folder / ".claude" / "skills", run_folder / ".opencode"):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    skills = _seed_tree(PACKAGE_SKILLS_DIR, run_folder / ".claude" / "skills", overwrite=True)
+    opencode = _seed_tree(PACKAGE_OPENCODE_DIR, run_folder / ".opencode", overwrite=True)
+
+    seeded: list[str] = []
+    for src in sorted(PACKAGE_SCHEMAS_DIR.glob("*_schema.yaml")):
+        name = src.name.removesuffix("_schema.yaml")
+        if not any(fnmatch(name, pattern) for pattern in wanted):
+            continue
+        shutil.copy2(src, schemas_dir / src.name)
+        seeded.append(name)
+
+    if PACKAGE_META_YAML.is_file():
+        shutil.copy2(PACKAGE_META_YAML, run_folder / "domains" / "meta.yaml")
+
+    return {"skills": skills, "opencode": opencode, "schemas": seeded}
+
+
+def create(
+    name: str,
+    *,
+    vault: str | None,
+    data_dir: str | None = None,
+    archive_dir: str | None = None,
+    graph_uri: str | None = None,
+    graph_database: str | None = None,
+    graph_username: str | None = None,
+    graph_password: str | None = None,
+    schemas: "list[str] | None" = None,
+    serve_port: int | None = None,
+) -> dict:
+    """Create a workspace: run folder, its .env, and a registry entry.
+
+    Does NOT touch the pointer file — creating a workspace and switching to it
+    are separate acts, so a create can never silently move the user off the
+    knowledge base they were working in.
+    """
+    if not valid_workspace_name(name):
+        raise WorkspaceError(f"Invalid workspace name {name!r}")
+    if get(name) is not None:
+        raise WorkspaceError(f"Workspace {name!r} already exists.")
+
+    run_folder = WORKSPACES_DIR / name
+    if run_folder.exists() and any(run_folder.iterdir()):
+        raise WorkspaceError(
+            f"{run_folder} already exists and is not empty. Remove it, or pick "
+            "another name."
+        )
+
+    if vault:
+        vault_path = Path(vault).expanduser()
+        if not vault_path.is_dir():
+            raise WorkspaceError(f"Vault {vault_path} does not exist.")
+        vault = str(vault_path.resolve())
+
+    data_dir = data_dir or str(Path.home() / f"artmind_data_{name}")
+    archive_dir = archive_dir or str(Path.home() / f"artmind_archive_{name}")
+
+    env: dict[str, str] = {"ARTMIND_DATA_DIR": data_dir, "ARTMIND_ARCHIVE_DIR": archive_dir}
+    if vault:
+        env["ARTMIND_VAULT_DIR"] = vault
+    for key, value in (
+        ("ARTMIND_KG_NEO4J_URI", graph_uri),
+        ("ARTMIND_KG_NEO4J_DATABASE", graph_database),
+        ("ARTMIND_KG_NEO4J_USERNAME", graph_username),
+        ("ARTMIND_KG_NEO4J_PASSWORD", graph_password),
+    ):
+        if value:
+            env[key] = value
+
+    # Register FIRST: it is the step that can legitimately refuse (a vault
+    # another workspace already claims), and refusing before anything is written
+    # leaves nothing half-created to clean up.
+    entry = register(
+        name,
+        vault=vault,
+        data_dir=data_dir,
+        archive_dir=archive_dir,
+        graph={"uri": graph_uri or "", "database": graph_database or ""},
+        ports={"serve": serve_port} if serve_port else {},
+        schemas=list(schemas) if schemas else list(STARTER_SCHEMAS),
+    )
+
+    seeded = scaffold(run_folder, schemas)
+    env_path = run_folder / ".env"
+    env_path.write_text(
+        _render_env(env, f"artmind workspace {name!r} — workspace-scoped config only. "
+                         f"Shared identity lives in {SHARED_ENV_FILE}."),
+        encoding="utf-8",
+    )
+    env_path.chmod(0o600)
+
+    return {
+        "workspace": name,
+        "run_folder": str(run_folder),
+        "env": str(env_path),
+        "vault": vault,
+        "data_dir": data_dir,
+        "archive_dir": archive_dir,
+        "graph": entry["graph"],
+        "seeded": seeded,
+        "next": [
+            f"ARTMIND_WORKSPACE={name} artmind setup",
+            f"artmind workspace use {name}",
+        ],
+    }
+
+
+def adopt(name: str, source: Path | None = None) -> dict:
+    """Migrate a pre-workspace run folder into a named workspace.
+
+    Non-destructive by construction: this COPIES. A half-migrated run folder is
+    indistinguishable from a corrupt one, so the original is left exactly where
+    it was and removing it stays the user's decision
+    (docs/workspaces.md, "Adopting the current install").
+    """
+    if not valid_workspace_name(name):
+        raise WorkspaceError(f"Invalid workspace name {name!r}")
+    if get(name) is not None:
+        raise WorkspaceError(f"Workspace {name!r} already exists.")
+
+    source = (source or ARTMIND_ROOT).expanduser().resolve()
+    source_env = source / ".env"
+    if not source_env.is_file():
+        raise WorkspaceError(
+            f"{source} has no .env — it is not a run folder to adopt. Use "
+            "`artmind workspace create` for a new one."
+        )
+
+    run_folder = WORKSPACES_DIR / name
+    if run_folder.exists() and any(run_folder.iterdir()):
+        raise WorkspaceError(f"{run_folder} already exists and is not empty.")
+
+    values = parse_env_file(source_env)
+    identity = {k: v for k, v in values.items() if k in IDENTITY_KEYS}
+    workspace_env = {k: v for k, v in values.items() if k in WORKSPACE_KEYS}
+    unclassified = sorted(set(values) - IDENTITY_KEYS - WORKSPACE_KEYS)
+    # An unrecognised key stays where it already worked. Guessing it into the
+    # shared file would leak a workspace-specific value into every workspace.
+    workspace_env.update({k: values[k] for k in unclassified})
+
+    run_folder.mkdir(parents=True, exist_ok=True)
+    copied = []
+    for entry_name in ADOPT_ENTRIES:
+        src = source / entry_name
+        if not src.exists():
+            continue
+        dest = run_folder / entry_name
+        if src.is_dir():
+            shutil.copytree(src, dest, dirs_exist_ok=True)
+        else:
+            shutil.copy2(src, dest)
+        copied.append(entry_name)
+
+    (run_folder / ".env").write_text(
+        _render_env(workspace_env, f"artmind workspace {name!r} — workspace-scoped config only."),
+        encoding="utf-8",
+    )
+    (run_folder / ".env").chmod(0o600)
+
+    shared_written = False
+    if identity and not SHARED_ENV_FILE.exists():
+        SHARED_ENV_FILE.parent.mkdir(parents=True, exist_ok=True)
+        SHARED_ENV_FILE.write_text(
+            _render_env(identity, "artmind shared identity — provider, credentials, models. "
+                                  "Every workspace inherits this; a workspace .env overrides it."),
+            encoding="utf-8",
+        )
+        SHARED_ENV_FILE.chmod(0o600)
+        shared_written = True
+
+    register(
+        name,
+        vault=workspace_env.get("ARTMIND_VAULT_DIR"),
+        data_dir=workspace_env.get("ARTMIND_DATA_DIR", ""),
+        archive_dir=workspace_env.get("ARTMIND_ARCHIVE_DIR", ""),
+        graph={
+            "uri": workspace_env.get("ARTMIND_KG_NEO4J_URI", ""),
+            "database": workspace_env.get("ARTMIND_KG_NEO4J_DATABASE", ""),
+        },
+        schemas=[],
+    )
+
+    return {
+        "workspace": name,
+        "source": str(source),
+        "run_folder": str(run_folder),
+        "copied": copied,
+        "identity_keys": sorted(identity),
+        "workspace_keys": sorted(workspace_env),
+        "unclassified": unclassified,
+        "shared_env": str(SHARED_ENV_FILE) if shared_written else None,
+        "shared_env_existed": bool(identity) and not shared_written,
+        "source_left_in_place": True,
     }
