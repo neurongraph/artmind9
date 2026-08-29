@@ -696,7 +696,7 @@ def test_restore_snapshot_success(monkeypatch, tmp_path):
     (tmp_path / "snap.zip").write_bytes(b"data")
     monkeypatch.setattr(
         dashboard_routes, "restore_snapshot_impl",
-        lambda path, components: {"snapshot": path.name, "node_counts": {"Entity": 3}, "relationship_count": 2, "elapsed_seconds": 0.1},
+        lambda path, components, **kw: {"snapshot": path.name, "node_counts": {"Entity": 3}, "relationship_count": 2, "elapsed_seconds": 0.1},
     )
     response = _client().post("/api/snapshots/snap.zip/restore", json={"confirm": True})
     assert response.status_code == 200
@@ -710,8 +710,9 @@ def test_restore_snapshot_forwards_selected_components(monkeypatch, tmp_path):
     (tmp_path / "snap.zip").write_bytes(b"data")
     seen = {}
 
-    def fake_restore(path, components):
+    def fake_restore(path, components, **kw):
         seen["components"] = components
+        seen["rebuild_projection"] = kw.get("rebuild_projection")
         return {"snapshot": path.name}
 
     monkeypatch.setattr(dashboard_routes, "restore_snapshot_impl", fake_restore)
@@ -733,7 +734,7 @@ def test_restore_snapshot_failure_is_400(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
     (tmp_path / "snap.zip").write_bytes(b"data")
 
-    def fake(path, components):
+    def fake(path, components, **kw):
         raise ValueError("corrupt snapshot")
 
     monkeypatch.setattr(dashboard_routes, "restore_snapshot_impl", fake)
@@ -755,7 +756,7 @@ def test_import_snapshot_success(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
     monkeypatch.setattr(
         dashboard_routes, "restore_snapshot_impl",
-        lambda path, components: {"snapshot": path.name, "node_counts": {}, "relationship_count": 0, "elapsed_seconds": 0.1},
+        lambda path, components, **kw: {"snapshot": path.name, "node_counts": {}, "relationship_count": 0, "elapsed_seconds": 0.1},
     )
     response = _client().post(
         "/api/snapshots/import",
@@ -1122,8 +1123,9 @@ def test_import_snapshot_forwards_selected_components(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
     seen = {}
 
-    def fake_restore(path, components):
+    def fake_restore(path, components, **kw):
         seen["components"] = components
+        seen["rebuild_projection"] = kw.get("rebuild_projection")
         return {"snapshot": path.name}
 
     monkeypatch.setattr(dashboard_routes, "restore_snapshot_impl", fake_restore)
@@ -1139,7 +1141,7 @@ def test_import_snapshot_forwards_selected_components(monkeypatch, tmp_path):
 def test_import_snapshot_failure_is_400(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
 
-    def fake(path, components):
+    def fake(path, components, **kw):
         raise ValueError("corrupt snapshot")
 
     monkeypatch.setattr(dashboard_routes, "restore_snapshot_impl", fake)

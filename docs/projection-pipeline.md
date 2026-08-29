@@ -240,6 +240,27 @@ the schema-set hash and the last rebuild time, so `projection status` reports dr
 and CLI queries warn. Queries **cannot** self-heal: `read_session()` is opened with
 `READ_ACCESS`, and that guarantee is worth more than the convenience.
 
+### Snapshot restore (`snapshot restore` / `session initiate`)
+
+A graph snapshot exports `:Entity`/`:Conflict`/`:ProjectionState` alongside the
+sources (`graph_snapshot.PROJECTED_LABELS`) — restoring one is the same
+`:ProjectionState`-hash drift check as `projection status`, just run against
+the *restored* copy instead of the live one:
+
+- **No drift** (restored `:ProjectionState`'s hashes match the current
+  `same_as.yaml`/schema set) → the restored `:Entity` layer is trusted as-is
+  and the full rebuild is skipped. Entity ids are deterministic
+  (`sha256(canonical_name|entity_class|domain)`), so a rebuild would only
+  reproduce what was just restored.
+- **Drift, or no restored `:Entity`/`:ProjectionState` at all** (an older
+  snapshot, or a `--only` that excluded them) → falls back to an
+  unconditional full rebuild, exactly as if the projection had never been
+  exported.
+- `--rebuild-projection auto|always|skip` (`snapshot restore`, `session
+  initiate`) overrides the auto-detected choice either direction. `skip`
+  logs loudly if it's actually discarding detected drift — trusting it is
+  now an explicit, visible choice, never a silent one.
+
 ### Affected keys, on an incremental rebuild
 
 The union of four sets — miss any one and orphans return:

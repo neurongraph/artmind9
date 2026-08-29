@@ -11,6 +11,7 @@ import tempfile
 import zipfile
 from datetime import datetime
 from pathlib import Path
+from typing import Literal
 
 import click
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
@@ -102,6 +103,13 @@ class PullKgRequest(BaseModel):
 class RestoreRequest(BaseModel):
     confirm: bool = False
     components: list[str] = Field(default_factory=lambda: sorted(DEFAULT_COMPONENTS))
+    # Mirrors `snapshot restore --rebuild-projection` (CLI): "auto" trusts a
+    # restored :Entity layer that's provably in sync with same_as.yaml/the
+    # domain schemas and skips the full rebuild; "always"/"skip" force it on
+    # or off regardless. Only meaningful when "graph" is among components.
+    rebuild_projection: Literal["auto", "always", "skip"] = Field("auto", alias="rebuildProjection")
+
+    model_config = {"populate_by_name": True}
 
 
 class StructuredSqlRequest(BaseModel):
@@ -480,7 +488,10 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
         try:
             component_set = set(payload.components) if payload.components else None
-            result = await asyncio.to_thread(restore_snapshot_impl, path, component_set)
+            force_rebuild = {"auto": None, "always": True, "skip": False}[payload.rebuild_projection]
+            result = await asyncio.to_thread(
+                restore_snapshot_impl, path, component_set, rebuild_projection=force_rebuild
+            )
             return _camelize(result)
         except Exception as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -490,6 +501,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         file: UploadFile = File(...),
         components: str = ",".join(sorted(DEFAULT_COMPONENTS)),
         confirm: bool = Form(False),
+        rebuild_projection: Literal["auto", "always", "skip"] = Form("auto"),
     ):
         """Upload and restore a snapshot."""
         if not confirm:
@@ -501,7 +513,10 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             dest.write_bytes(content)
 
             component_set = set(c.strip() for c in components.split(",") if c.strip())
-            result = await asyncio.to_thread(restore_snapshot_impl, dest, component_set)
+            force_rebuild = {"auto": None, "always": True, "skip": False}[rebuild_projection]
+            result = await asyncio.to_thread(
+                restore_snapshot_impl, dest, component_set, rebuild_projection=force_rebuild
+            )
             return _camelize(result)
         except HTTPException:
             raise

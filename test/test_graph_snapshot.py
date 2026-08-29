@@ -12,18 +12,28 @@ from artmind.graph_snapshot import (
     _export_relationships,
     _restore_nodes,
     _restore_relationships,
+    _restored_stale_entity_keys,
+    _sweep_stale_embeddings,
     import_graph,
 )
 
 
 class TestMatchKeysForNode:
-    def test_no_entity_special_case_left(self):
-        # Phase 5 stopped exporting :Entity at all (it's derived, not a
-        # source) -- a node carrying that label among others still matches
-        # by `id` like everything else, with no name/class/domain branch.
+    def test_entity_matches_by_underscore_id_not_id(self):
+        # Phase 9: :Entity is exported again (see PROJECTED_LABELS), and it's
+        # MERGEd in the live graph on `_id` (projection.rebuild_key), not
+        # `id` -- a relationship pointing at a restored Entity has to be
+        # re-matched the same way, or AGGREGATES/RELATES_TO/CONFLICT_OF onto
+        # it would silently fail to attach on restore.
         labels = ["CHARACTER", "Entity"]
-        props = {"name": "Elara", "entity_class": "CHARACTER", "_domain": "fiction", "id": "abc"}
-        assert _match_keys_for_node(labels, props) == {"id": "abc"}
+        props = {
+            "name": "Elara", "entity_class": "CHARACTER", "_domain": "fiction",
+            "_id": "abc123", "id": "should-be-ignored-for-entities",
+        }
+        assert _match_keys_for_node(labels, props) == {"_id": "abc123"}
+
+    def test_entity_with_no_underscore_id_has_no_match_keys(self):
+        assert _match_keys_for_node(["Entity"], {"name": "Elara"}) == {}
 
     def test_document_uses_id(self):
         labels = ["Document"]
@@ -125,17 +135,37 @@ class FakeSession:
 
 
 class TestRestoreNodes:
-    def test_every_label_restores_verbatim_no_entity_special_case(self):
-        """Phase 5 stopped exporting :Entity (derived, not a source) -- there
-        is no label-reconstruction branch left to test; every base label
-        restores exactly as exported."""
+    def test_single_label_node_restores_under_its_bucket_label(self):
         fake = FakeSession(records=[])
         _restore_nodes(fake, {"Document": [{"id": "doc1"}]})
         assert "CREATE (n:Document)" in fake.calls[0][0]
 
+    def test_node_with_no_stored_labels_falls_back_to_bucket_label(self):
+        """A pre-Phase-9 snapshot (or any bucket whose label set never
+        varies) has no `labels` key on the node dict at all."""
+        fake = FakeSession(records=[])
+        _restore_nodes(fake, {"Document": [{"id": "doc1"}]})
+        cypher, params = fake.calls[0]
+        assert "CREATE (n:Document)" in cypher
+        assert params["props"] == {"id": "doc1"}
+
+    def test_entity_restores_with_its_full_multi_label_set(self):
+        """An entity node carries `:Entity:<CLASS>` in the live graph
+        (projection.rebuild_key's apoc.create.addLabels) -- restoring it
+        under just the "Entity" bucket label would silently drop the class
+        label every entity-scoped query relies on."""
+        fake = FakeSession(records=[])
+        _restore_nodes(fake, {
+            "Entity": [{"_id": "abc", "name": "Elara", "labels": ["Entity", "CHARACTER"]}],
+        })
+        cypher, params = fake.calls[0]
+        assert "CREATE (n:Entity:CHARACTER)" in cypher
+        assert "labels" not in params["props"]
+        assert params["props"] == {"_id": "abc", "name": "Elara"}
+
 
 class TestExportRelationships:
-    def test_scopes_cypher_to_base_labels(self):
+    def test_scopes_cypher_to_base_and_projected_labels_by_default(self):
         fake = FakeSession(records=[])
         _export_relationships(fake)
         assert len(fake.calls) == 1
@@ -147,15 +177,26 @@ class TestExportRelationships:
         # join in Phase 4 — they ARE the retired half of
         # Document/DocChunk/Observation, not a separate zone, so omitting
         # them would silently drop every retired document from a snapshot.
-        # Phase 5 drops :Entity from the set entirely (sources only — see
-        # BASE_LABELS) and adds :Synthesis pre-emptively for Phase 6.
+        # Phase 9 widens the default scope to PROJECTED_LABELS too, so
+        # RELATES_TO/AGGREGATES/SAME_AS/CONFLICT_OF/EVIDENCE travel with the
+        # snapshot alongside :Entity/:Conflict/:ProjectionState.
         assert set(params["base_labels"]) == {
             "Document", "DocumentHistory",
             "DocChunk", "DocChunkHistory",
             "UserChat",
             "Observation", "ObservationHistory",
             "Synthesis",
+            "Entity", "Conflict", "ProjectionState",
         }
+
+    def test_labels_param_still_overridable(self):
+        """Callers that want the old sources-only scope (e.g. a partial
+        export) can still ask for exactly BASE_LABELS."""
+        from artmind.graph_snapshot import BASE_LABELS
+
+        fake = FakeSession(records=[])
+        _export_relationships(fake, labels=BASE_LABELS)
+        _, params = fake.calls[0]
         assert "Entity" not in params["base_labels"]
 
     def test_builds_relationship_dict_from_kg_nodes(self):
@@ -266,24 +307,30 @@ class TestSessionInitiateCli:
         assert str(call_args[0][0]) == str(fake_snapshot)
 
 
-def test_snapshots_export_sources_only_not_the_derived_projection():
-    """Phase 5: sources only. :Entity (and :Conflict, and every projection-
-    owned edge) is derived from :Observation and is deliberately excluded —
-    a snapshot carrying a derived layer could carry a STALE one with no way
-    for import to know. `import_graph` rebuilds the projection instead."""
-    from artmind.graph_snapshot import BASE_LABELS
+def test_base_labels_still_sources_only_projected_labels_hold_the_derived_layer():
+    """Phase 5 kept BASE_LABELS sources-only. Phase 9 adds PROJECTED_LABELS
+    alongside it for the derived layer (:Entity/:Conflict/:ProjectionState),
+    now that :ProjectionState gives import a real way to detect a stale
+    restored copy instead of having to assume the worst and always rebuild."""
+    from artmind.graph_snapshot import BASE_LABELS, PROJECTED_LABELS
 
     assert "Observation" in BASE_LABELS
     assert "ObservationHistory" in BASE_LABELS
     assert "Entity" not in BASE_LABELS
 
+    assert PROJECTED_LABELS == ("Entity", "Conflict", "ProjectionState")
+
 
 class TestImportGraphRebuildPhase:
-    """Phase 5 (docs/redesign-phase-plan.md, "B"): import_graph's final
-    phase — docs reindex -> full projection rebuild -> embed sweep — must
-    run automatically, in that order, for every graph restore. Not optional
-    and not best-effort for the rebuild; the embed sweep's failure is the
-    one documented exception (CLAUDE.md: never null an embedding)."""
+    """import_graph's final phase — docs reindex -> projection -> embed
+    sweep — always runs, in that order, for every graph restore. These tests
+    cover the "projection can't be trusted" case (no restored :Entity data,
+    i.e. node_counts is empty here), where the projection step is always a
+    full rebuild — not optional, not best-effort. See
+    TestImportGraphFastRestore below for the Phase 9 case where a restored
+    :Entity layer is trusted instead. The embed sweep's own failure is the
+    one documented exception either way (CLAUDE.md: never null an
+    embedding)."""
 
     def _patch_common(self, monkeypatch, tmp_path):
         import artmind.graph_snapshot as gs
@@ -399,3 +446,262 @@ class TestImportGraphRebuildPhase:
         result = import_graph(snapshot_path)
 
         assert result["embedding_stale_remaining"] == 3
+
+
+class TestImportGraphFastRestore:
+    """Phase 9: when the snapshot carries a restored :Entity layer AND it's
+    provably in sync with same_as.yaml/the domain schemas (its restored
+    :ProjectionState hashes match what's current), import_graph trusts it
+    and skips the full rebuild — entity ids are deterministic, so a rebuild
+    would reproduce the same graph anyway. Any uncertainty falls back to the
+    unconditional rebuild from TestImportGraphRebuildPhase above."""
+
+    def _patch_common(self, monkeypatch, tmp_path, *, entity_count: int):
+        import artmind.graph_snapshot as gs
+
+        snapshot_path = tmp_path / "snap.tar.gz"
+        snapshot_path.write_text("")
+        monkeypatch.setattr(gs, "_read_snapshot", lambda p: {"nodes": {}, "relationships": []})
+        monkeypatch.setattr(gs, "_wipe_database", lambda session: None)
+        monkeypatch.setattr(gs, "_setup_neo4j", lambda session, dim: None)
+        monkeypatch.setattr(
+            gs, "_restore_nodes", lambda session, nodes: {"Entity": entity_count}
+        )
+        monkeypatch.setattr(gs, "_restore_relationships", lambda session, rels: 0)
+        monkeypatch.setattr("artmind.reindex.reindex", lambda: {})
+        return snapshot_path
+
+    def _session_double(self, monkeypatch, *, stale_count=0, stale_key_rows=None):
+        import artmind.graph_snapshot as gs
+
+        session = MagicMock()
+        # Unlike TestImportGraphRebuildPhase's double, `tx` here must be the
+        # same configured mock as `session` (not a disconnected fresh one) --
+        # _restored_stale_entity_keys(tx) really calls tx.run(...).data(),
+        # it isn't monkeypatched away like projection.full_rebuild is.
+        session.execute_read.side_effect = lambda fn: fn(session)
+        session.execute_write.side_effect = lambda fn: fn(session)
+        session.run.return_value.single.return_value = {"n": stale_count}
+        session.run.return_value.data.return_value = stale_key_rows or []
+        ctx = MagicMock()
+        ctx.__enter__.return_value = session
+        ctx.__exit__.return_value = False
+        monkeypatch.setattr(gs, "neo4j_session", lambda *a, **k: ctx)
+        return session
+
+    def test_no_drift_skips_the_full_rebuild(self, tmp_path, monkeypatch):
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=8072)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr(
+            "artmind.projection.read_state",
+            lambda tx: {"same_as_hash": "same", "schema_hash": "schema"},
+        )
+        monkeypatch.setattr("artmind.same_as.content_hash", lambda: "same")
+        monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "schema")
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild", lambda tx, domains=None, **kw: rebuilt.append(True)
+        )
+
+        result = import_graph(snapshot_path)
+
+        assert rebuilt == []
+        assert result["projection_rebuild_skipped"] is True
+        assert result["projection_rebuild"] == {"skipped": True, "reason": "no drift detected"}
+
+    def test_same_as_drift_forces_a_rebuild(self, tmp_path, monkeypatch):
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=8072)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr(
+            "artmind.projection.read_state",
+            lambda tx: {"same_as_hash": "stale-hash", "schema_hash": "schema"},
+        )
+        monkeypatch.setattr("artmind.same_as.content_hash", lambda: "current-hash")
+        monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "schema")
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild",
+            lambda tx, domains=None, **kw: rebuilt.append(True) or {},
+        )
+
+        result = import_graph(snapshot_path)
+
+        assert rebuilt == [True]
+        assert result["projection_rebuild_skipped"] is False
+
+    def test_schema_drift_forces_a_rebuild(self, tmp_path, monkeypatch):
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=8072)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr(
+            "artmind.projection.read_state",
+            lambda tx: {"same_as_hash": "same", "schema_hash": "old-schema"},
+        )
+        monkeypatch.setattr("artmind.same_as.content_hash", lambda: "same")
+        monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "new-schema")
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild",
+            lambda tx, domains=None, **kw: rebuilt.append(True) or {},
+        )
+
+        result = import_graph(snapshot_path)
+
+        assert rebuilt == [True]
+
+    def test_no_projection_state_forces_a_rebuild(self, tmp_path, monkeypatch):
+        """Entities restored, but no :ProjectionState alongside them (an
+        older-format snapshot minus its hashes) -- can't vouch for the copy,
+        so fall back to rebuilding it."""
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=8072)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr("artmind.projection.read_state", lambda tx: None)
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild",
+            lambda tx, domains=None, **kw: rebuilt.append(True) or {},
+        )
+
+        result = import_graph(snapshot_path)
+
+        assert rebuilt == [True]
+
+    def test_force_rebuild_true_rebuilds_despite_no_drift(self, tmp_path, monkeypatch):
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=8072)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr(
+            "artmind.projection.read_state",
+            lambda tx: {"same_as_hash": "same", "schema_hash": "schema"},
+        )
+        monkeypatch.setattr("artmind.same_as.content_hash", lambda: "same")
+        monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "schema")
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild",
+            lambda tx, domains=None, **kw: rebuilt.append(True) or {},
+        )
+
+        result = import_graph(snapshot_path, force_rebuild=True)
+
+        assert rebuilt == [True]
+        assert result["projection_rebuild_skipped"] is False
+
+    def test_force_rebuild_false_skips_despite_drift_and_warns(self, tmp_path, monkeypatch):
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=8072)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr(
+            "artmind.projection.read_state",
+            lambda tx: {"same_as_hash": "stale-hash", "schema_hash": "schema"},
+        )
+        monkeypatch.setattr("artmind.same_as.content_hash", lambda: "current-hash")
+        monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "schema")
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild",
+            lambda tx, domains=None, **kw: rebuilt.append(True) or {},
+        )
+
+        result = import_graph(snapshot_path, force_rebuild=False)
+
+        assert rebuilt == []
+        assert result["projection_rebuild_skipped"] is True
+        assert "same_as.yaml changed" in result["projection_rebuild"]["reason"]
+
+    def test_no_entity_data_falls_back_to_rebuild_even_with_force_rebuild_none(
+        self, tmp_path, monkeypatch
+    ):
+        """An older snapshot (or a graph-only restore with --only excluding
+        the projected labels) restores zero entities -- auto mode must not
+        mistake "nothing restored" for "nothing changed"."""
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=0)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        rebuilt = []
+        monkeypatch.setattr(
+            "artmind.projection.full_rebuild",
+            lambda tx, domains=None, **kw: rebuilt.append(True) or {},
+        )
+
+        result = import_graph(snapshot_path)
+
+        assert rebuilt == [True]
+
+    def test_fast_path_sweeps_only_entities_flagged_stale(self, tmp_path, monkeypatch):
+        """The fast (no-rebuild) path still has to honor an embedding that
+        was already stale *at export time* -- it just scopes the sweep to
+        those entities directly instead of walking every key via
+        projection.all_keys."""
+        snapshot_path = self._patch_common(monkeypatch, tmp_path, entity_count=2)
+        self._session_double(
+            monkeypatch, stale_count=0,
+            stale_key_rows=[{"key": "alice|PERSON|banking"}, {"key": "bad-key-shape"}],
+        )
+
+        monkeypatch.setattr(
+            "artmind.projection.read_state",
+            lambda tx: {"same_as_hash": "same", "schema_hash": "schema"},
+        )
+        monkeypatch.setattr("artmind.same_as.content_hash", lambda: "same")
+        monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "schema")
+        swept = []
+        monkeypatch.setattr(
+            "artmind.ingest._sweep_embeddings",
+            lambda domain, keys: swept.append((domain, keys)) or len(keys),
+        )
+
+        result = import_graph(snapshot_path)
+
+        # The malformed row ("bad-key-shape" has no "|") is dropped rather
+        # than crashing the restore.
+        assert swept == [("banking", [("alice", "PERSON", "banking")])]
+        assert result["embedded"] == 1
+
+
+class TestSweepStaleEmbeddings:
+    def test_groups_by_top_level_domain_family(self, monkeypatch, tmp_path):
+        import artmind.graph_snapshot as gs
+
+        session = MagicMock()
+        session.run.return_value.single.return_value = {"n": 0}
+        ctx = MagicMock()
+        ctx.__enter__.return_value = session
+        ctx.__exit__.return_value = False
+        monkeypatch.setattr(gs, "neo4j_session", lambda *a, **k: ctx)
+
+        swept = []
+        monkeypatch.setattr(
+            "artmind.ingest._sweep_embeddings",
+            lambda domain, keys: swept.append((domain, len(keys))) or len(keys),
+        )
+
+        keys = [
+            ("a", "PERSON", "banking.reference"),
+            ("b", "PERSON", "banking.products"),
+            ("c", "PERSON", "legal"),
+        ]
+        embedded_total, stale_remaining = _sweep_stale_embeddings(keys)
+
+        assert dict(swept) == {"banking": 2, "legal": 1}
+        assert embedded_total == 3
+        assert stale_remaining == 0
+
+
+class TestRestoredStaleEntityKeys:
+    def test_parses_well_formed_keys_and_drops_malformed_ones(self):
+        session = MagicMock()
+        session.run.return_value.data.return_value = [
+            {"key": "alice|PERSON|banking"},
+            {"key": "malformed"},
+            {"key": None},
+        ]
+        assert _restored_stale_entity_keys(session) == [("alice", "PERSON", "banking")]

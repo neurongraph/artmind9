@@ -338,12 +338,19 @@ def _extract_snapshot_files(zip_path: Path) -> tuple[Path, dict]:
     return extract_dir, manifest
 
 
-def restore_snapshot_impl(zip_path: Path, include: set[str] | None = None) -> dict:
+def restore_snapshot_impl(
+    zip_path: Path, include: set[str] | None = None, *, rebuild_projection: bool | None = None
+) -> dict:
     """Restore components from a unified snapshot.
 
     Args:
         zip_path: Path to the snapshot .zip file.
         include: Set of component names to restore. If None, restores all available.
+        rebuild_projection: Passed straight through to `graph_snapshot.import_graph`
+            as its `force_rebuild` — `None` (default) auto-detects whether the
+            restored `:Entity` layer is trustworthy, `True`/`False` force a
+            rebuild on or off regardless of what's detected. Only meaningful
+            when "graph" is restored.
 
     Returns:
         Summary dict with restoration results per component. If "structured"
@@ -381,7 +388,7 @@ def restore_snapshot_impl(zip_path: Path, include: set[str] | None = None) -> di
             try:
                 logger.info("Restoring graph...")
                 graph_path = extract_dir / "graph_snapshot.tar.gz"
-                summary = _import_graph_inner(graph_path)
+                summary = _import_graph_inner(graph_path, force_rebuild=rebuild_projection)
                 restored_components["graph"] = summary
                 logger.info("Graph restored: {} nodes, {} relationships",
                            sum(summary.get("node_counts", {}).values()),

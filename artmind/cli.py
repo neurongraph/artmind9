@@ -2808,8 +2808,17 @@ def session_close():
 @session.command("initiate")
 @click.option("--snapshot", "snapshot_file", default=None, type=click.Path(exists=True),
               help="Path to a specific snapshot .tar.gz (default: latest in data/graph_snapshot/)")
+@click.option(
+    "--rebuild-projection",
+    type=click.Choice(["auto", "always", "skip"]),
+    default="auto",
+    help="Whether to fully rebuild the :Entity/:Conflict projection after restoring "
+         "it. 'auto' (default) trusts the restored projection when it's provably in "
+         "sync with same_as.yaml and the domain schemas; 'always'/'skip' force it on "
+         "or off regardless.",
+)
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
-def session_initiate(snapshot_file: str | None, yes: bool):
+def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bool):
     """Wipe Neo4j and restore from a snapshot (start of session)."""
     _setup_logger()
     if not yes:
@@ -2821,8 +2830,9 @@ def session_initiate(snapshot_file: str | None, yes: bool):
             raise click.Abort()
 
     snapshot_path = Path(snapshot_file) if snapshot_file else None
+    force_rebuild = {"auto": None, "always": True, "skip": False}[rebuild_projection]
     try:
-        summary = import_graph(snapshot_path)
+        summary = import_graph(snapshot_path, force_rebuild=force_rebuild)
         click.echo(f"Restored from: {summary['snapshot']}")
         node_counts = summary.get("node_counts", {})
         parts = [f"{label}: {count}" for label, count in node_counts.items()]
@@ -2898,9 +2908,21 @@ def snapshot_create(only: str | None, compact: bool):
     help="Comma-separated components to restore (graph,structured,kg_staging,curation,originals). "
          "Default: all available",
 )
+@click.option(
+    "--rebuild-projection",
+    type=click.Choice(["auto", "always", "skip"]),
+    default="auto",
+    help="Whether to fully rebuild the graph's :Entity/:Conflict projection after "
+         "restoring it. 'auto' (default) trusts the restored projection when it's "
+         "provably in sync with same_as.yaml and the domain schemas, and rebuilds "
+         "it otherwise. 'always' forces a rebuild regardless. 'skip' never rebuilds, "
+         "even if the restored projection is stale -- only meaningful for 'graph'.",
+)
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def snapshot_restore(snapshot_path: str, only: str | None, yes: bool, compact: bool):
+def snapshot_restore(
+    snapshot_path: str, only: str | None, rebuild_projection: str, yes: bool, compact: bool
+):
     """Restore from a unified snapshot.
 
     Wipes and restores selected components (or all if --only not specified).
@@ -2909,6 +2931,7 @@ def snapshot_restore(snapshot_path: str, only: str | None, yes: bool, compact: b
     _setup_logger()
     try:
         zip_path = Path(snapshot_path)
+        force_rebuild = {"auto": None, "always": True, "skip": False}[rebuild_projection]
         components = None
         if only:
             components = set(only.replace(" ", "").split(","))
@@ -2954,7 +2977,7 @@ def snapshot_restore(snapshot_path: str, only: str | None, yes: bool, compact: b
 
         # Perform the actual restore
         click.echo("\nRestoring...")
-        result = restore_snapshot_impl(zip_path, include=components)
+        result = restore_snapshot_impl(zip_path, include=components, rebuild_projection=force_rebuild)
 
         # Display results
         click.echo(f"\n✓ Restore complete ({result['elapsed_seconds']}s)")
