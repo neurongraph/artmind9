@@ -171,7 +171,12 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation", "commands": ["sameas"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
+        {"name": "Workspaces", "commands": ["workspace"]},
         {"name": "Setup & tools", "commands": ["setup", "init", "serve", "chat-ui", "admin-ui"]},
+    ],
+    "artmind workspace": [
+        {"name": "Inspect", "commands": ["list"]},
+        {"name": "Switch", "commands": ["use", "env"]},
     ],
     "artmind ingest": [
         {
@@ -2998,6 +3003,146 @@ def snapshot_restore(
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
+
+
+# ── artmind workspace ─────────────────────────────────────────────────────────
+
+
+def _workspace_status_lines(info: dict) -> "list[str]":
+    vault = info["vault_dir"] or "(none configured)"
+    git = info["vault_git"]
+    if git["head"]:
+        state = "dirty" if git["dirty"] else "clean"
+        vault += f"  ({git['head'][:7]}, {state})"
+
+    lines = [
+        f"Workspace:   {info['workspace']}" + ("  [FROZEN]" if info["frozen"] else ""),
+        f"Run folder:  {info['run_folder']}",
+        f"Config:      {', '.join(info['env_files']) or '(none loaded)'}",
+        f"Data dir:    {info['data_dir']}",
+        f"Vault:       {vault}",
+        f"Archive:     {info['archive_dir']}",
+        f"Graph:       {info['graph']['uri'] or '(unset)'}  db={info['graph']['database'] or '(unset)'}",
+        f"Fingerprint: {info['fingerprint']}",
+    ]
+
+    daemon = info["daemon"]
+    if not daemon["running"]:
+        lines.append("Daemon:      not running")
+    elif daemon.get("matches"):
+        lines.append(f"Daemon:      running, this workspace ({daemon.get('workspace')})")
+    else:
+        lines.append(
+            "Daemon:      running but bound to a DIFFERENT workspace "
+            f"({daemon.get('workspace') or 'unidentified'}) — "
+            "queries run in-process instead"
+        )
+    return lines
+
+
+@cli.group(invoke_without_command=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
+@click.pass_context
+def workspace(ctx, compact: bool):
+    """Show or switch the active workspace (docs/workspaces.md).
+
+    A workspace is one knowledge base and everything scoped to it — vault, data
+    dir, archive, graph, curation, logs. Called bare, this reports which one is
+    active and how it was resolved.
+
+    Human-readable by default rather than JSON-first like `projection status`:
+    this command exists to be glanced at, and a wrong answer here means every
+    other command is operating on the wrong knowledge base.
+    """
+    if ctx.invoked_subcommand is not None:
+        return
+    from artmind import workspace as ws
+
+    info = ws.describe()
+    if compact:
+        _echo_json(info, compact=True)
+        return
+    for line in _workspace_status_lines(info):
+        click.echo(line)
+
+
+@workspace.command("list")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def workspace_list(compact: bool):
+    """List registered workspaces, marking the active one."""
+    from artmind import workspace as ws
+
+    registry = ws.load_registry()
+    entries = registry["workspaces"]
+    active = ws.active_name()
+    pointer = ws.current_name()
+
+    if compact:
+        _echo_json({"active": active, "pointer": pointer, "workspaces": entries}, compact=True)
+        return
+
+    if not entries:
+        click.echo("No workspaces registered.")
+        click.echo(f"This install uses the pre-workspace layout ({ws.ARTMIND_ROOT}).")
+        click.echo("Run `artmind workspace adopt <name>` to migrate it.")
+        return
+
+    for name in sorted(entries):
+        entry = entries[name]
+        marker = "*" if name == active else " "
+        flags = " [FROZEN]" if entry.get("frozen") else ""
+        vaults = ", ".join(ws.vault_paths(entry)) or "(no vault)"
+        click.echo(f"{marker} {name}{flags}")
+        click.echo(f"    vault: {vaults}")
+        click.echo(f"    graph: {entry.get('graph', {}).get('database', '(unset)')}")
+
+
+@workspace.command("use")
+@click.argument("name")
+def workspace_use(name: str):
+    """Make NAME the active workspace for this machine.
+
+    Writes the pointer file, so it applies to new shells, the `serve` daemon and
+    the web UIs alike. `ARTMIND_WORKSPACE` and `--workspace` still override it
+    per-shell and per-command.
+    """
+    from artmind import workspace as ws
+
+    info = ws.describe()
+    if info["daemon"]["running"]:
+        click.echo(
+            "Note: a `serve` daemon is running for the outgoing workspace. It will "
+            "no longer be used for queries (the fingerprint won't match); restart "
+            "it to get the fast path back.",
+            err=True,
+        )
+    try:
+        ws.set_current(name)
+    except ws.WorkspaceError as e:
+        raise click.ClickException(str(e))
+    click.echo(f"Active workspace is now: {name}")
+
+
+@workspace.command("env")
+@click.argument("name", required=False)
+def workspace_env(name: str | None):
+    """Emit `export` lines for NAME, for `eval "$(artmind workspace env NAME)"`.
+
+    Per-shell switching with no global state, for anyone who wants two terminals
+    on two workspaces at once — which the pointer file alone cannot express.
+    """
+    from artmind import workspace as ws
+
+    target = name or ws.current_name()
+    if not target:
+        raise click.ClickException("No workspace given and no pointer file set.")
+    if ws.get(target) is None:
+        raise click.ClickException(f"No workspace named {target!r}.")
+    click.echo(f"export ARTMIND_WORKSPACE={target}")
+    entry = ws.get(target)
+    port = entry.get("ports", {}).get("serve")
+    if port:
+        click.echo(f"export ARTMIND_SERVE_PORT={port}")
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
