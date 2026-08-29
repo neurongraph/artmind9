@@ -82,6 +82,37 @@ def test_approve_appends_group_and_marks_approved():
     assert len(status_calls) == 1
 
 
+def test_approve_scopes_the_rebuild_to_the_groups_full_domain_strings():
+    """Regression for neurongraph/artmind9#12: truncating to the top-level
+    domain family (`"banking"`) made every approval as expensive as a full
+    corpus rebuild, since every real domain nests one level under it and
+    `full_rebuild`'s own scoping rolls a family name back up to all its
+    descendants. The full domain string must reach `full_rebuild` untouched.
+    """
+    proposal = _fake_proposal(
+        canonical="fca|REGULATOR|banking.reference",
+        members=["fca|REGULATOR|banking.reference", "financial conduct authority|REGULATOR|banking.risk_governance"],
+    )
+    captured_domains = []
+
+    def fake_full_rebuild(tx, domains, **kwargs):
+        captured_domains.append(domains)
+        return {"rebuilt": 2}
+
+    with patch("artmind.sameas.get_proposal", return_value=proposal), \
+         patch("artmind.same_as.load_groups", return_value=[]), \
+         patch("artmind.same_as.save_groups"), \
+         patch("artmind.projection.full_rebuild", side_effect=fake_full_rebuild), \
+         patch("artmind.sameas.neo4j_session") as mock_ctx:
+        session = MagicMock()
+        session.execute_write.side_effect = lambda fn: fn(session)
+        mock_ctx.return_value.__enter__.return_value = session
+
+        approve("pid1")
+
+    assert captured_domains == [["banking.reference", "banking.risk_governance"]]
+
+
 def test_approve_rejects_a_canonical_not_in_the_proposals_members():
     with patch("artmind.sameas.get_proposal", return_value=_fake_proposal()):
         with pytest.raises(ValueError, match="not among"):

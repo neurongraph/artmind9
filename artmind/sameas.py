@@ -146,7 +146,15 @@ def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
             """,
             id=proposal_id_, now=datetime.now(timezone.utc).isoformat(), canonical=canonical_str,
         )
-        touched_domains = sorted({k[2].split(".")[0] for k in group if k[2]})
+        # The FULL domain string per touched key, not its top-level family.
+        # `projection.full_rebuild`'s domain scoping already rolls a domain
+        # UP to its descendants via `STARTS WITH (d + '.')` (see
+        # `all_keys`/`domain_predicate`) — passing the truncated family name
+        # (e.g. "banking") is therefore indistinguishable from a corpus-wide
+        # rebuild whenever every real domain nests one level under it, which
+        # is true of every domain in this schema set today. See
+        # neurongraph/artmind9#12.
+        touched_domains = sorted({k[2] for k in group if k[2]})
         summary = session.execute_write(
             lambda tx: projection.full_rebuild(
                 tx, touched_domains or None,
