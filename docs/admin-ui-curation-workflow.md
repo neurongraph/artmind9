@@ -96,6 +96,8 @@ equivalent (`sameas propose/list/approve/reject`, `ingest resolve-conflict`,
 
 ## A defect this workflow should also fix
 
+Tracked separately: [neurongraph/artmind9#12](https://github.com/neurongraph/artmind9/issues/12).
+
 [`sameas.approve()`](../artmind/sameas.py#L97)'s `touched_domains` computation
 (item 3 above) should scope by the **full** domain string (`banking.policy`,
 not `banking`), not its first dot-segment. Whatever motivated splitting on
