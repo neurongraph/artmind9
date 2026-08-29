@@ -282,6 +282,14 @@ entity_types:
     guidance: |-
       All roles performing or approving steps captured as ROLE_ACTOR.
       All STEP → ROLE_ACTOR assignments captured.
+      Naming: when the document does not name a specific role -- e.g. "the responsible role
+      actor must approve..." with no person, team, or system named -- do NOT write the class
+      label itself as the name. Derive a name from the surrounding process context instead (the
+      step, decision, or section it appears in); every chunk that fell back to the bare label
+      aggregated onto one identical entity, merging unrelated facts that had nothing in common
+      except the missing name.
+        RIGHT:   { "name": "Address Verification Approver (KYC Step 3)" }
+        WRONG:   { "name": "Role Actor" }
   DECISION_POINT:
     kind: recurrent
     description: A branching condition in a process where different paths are taken depending on the outcome
