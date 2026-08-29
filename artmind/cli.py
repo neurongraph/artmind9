@@ -687,7 +687,7 @@ def ingest_sync(
         logger.debug("  File: {}", name)
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
-    touched_paths: list[Path] = []
+    committed_any = False
     # One file rebuilds incrementally; a directory defers to one full rebuild.
     defer_rebuild = len(files) > 1 and not stage_only
     deferred_domains: set[str] = set()
@@ -717,8 +717,19 @@ def ingest_sync(
                 set_domain=set_domain, fork=fork, adopt=adopt,
             )
             if result.get("status") == "ok":
+                # Commit the frontmatter write NOW, before chunk splitting and
+                # LLM extraction — the slow, interruptible part of the loop.
+                # Batching this to the end of the batch bought tidier history at
+                # the cost of durability: a Ctrl-C or a provider timeout partway
+                # through left every file in the batch carrying artmind
+                # frontmatter on disk and never committed to the vault. The
+                # async worker has always committed per file (worker.py).
                 if result.get("touched_path"):
-                    touched_paths.append(Path(result["touched_path"]))
+                    from artmind.vault_git import commit_paths
+
+                    touched = Path(result["touched_path"])
+                    if commit_paths([touched], f"artmind: ingest {touched.name}"):
+                        committed_any = True
                 effective_domain = result.get("domain", domain)
                 # A directory batch DEFERS the projection to one full rebuild
                 # at the end. Rebuilding incrementally per document would
@@ -753,16 +764,12 @@ def ingest_sync(
             summary = rebuild_projection(deferred_domain)
             logger.info("Projection rebuilt for {}: {}", deferred_domain, summary)
 
-    if touched_paths:
-        from artmind.vault_git import commit_paths, maybe_push
+    # Push is a network courtesy, not the durable write (see vault_git), so it
+    # stays batched: one push after the loop rather than one per document.
+    if committed_any:
+        from artmind.vault_git import maybe_push
 
-        commit_msg = (
-            f"artmind: ingest {touched_paths[0].name}"
-            if len(touched_paths) == 1
-            else f"artmind: ingest {len(touched_paths)} document(s)"
-        )
-        if commit_paths(touched_paths, commit_msg):
-            maybe_push()
+        maybe_push()
 
     elapsed = time.monotonic() - t_batch
     logger.info(
