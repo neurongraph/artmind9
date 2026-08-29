@@ -159,7 +159,20 @@ def _conflicting_values(observations_by_valid_from: dict[str, list], prop_key: s
 
 
 def _hashable(value):
-    return tuple(value) if _is_list(value) else value
+    """Comparable form for a distinctness/variation check -- type-blind.
+
+    A value extracted as `2` (int) in one observation and `"2"` (str) in
+    another is not a genuine disagreement: `_write_conflicts()` stringifies
+    every value before it ever reaches Neo4j (see below), so two values that
+    render identically post-stringification must already compare equal here
+    too, or a meaningless conflict gets raised over a distinction that
+    disappears the moment it's stored. Coerce scalars to the same stringified
+    form used at write time -- the same "coerce before comparing" policy
+    `_union()` already applies to list-shaped properties, just for scalars.
+    Found live: `METRIC_TARGET.value` flagged with `values=['2', '2']`. See
+    neurongraph/artmind9#13.
+    """
+    return tuple(value) if _is_list(value) else str(value)
 
 
 def merge_observations(

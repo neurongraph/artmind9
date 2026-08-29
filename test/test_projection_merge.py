@@ -326,6 +326,40 @@ def test_an_occurrent_property_is_never_temporal_even_when_it_varies():
     assert result["temporal_props"] == []
 
 
+def test_an_int_and_its_string_form_are_not_a_conflict():
+    """Regression for neurongraph/artmind9#13: `2` and `"2"` are the same
+    fact recorded in two Python types, not a same-instant disagreement --
+    `_write_conflicts()` stringifies both before storage anyway, so they
+    render identically the moment anyone reads the stored conflict."""
+    result = merge_observations([
+        obs(id="1", doc_id="a", _kind="occurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", value=2),
+        obs(id="2", doc_id="b", _kind="occurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", value="2"),
+    ])
+    assert result["conflicts"] == []
+    assert result["props"]["value"] == "2"
+
+
+def test_an_int_and_a_genuinely_different_string_still_conflict():
+    """The type-blind comparison must not swallow a real disagreement."""
+    result = merge_observations([
+        obs(id="1", doc_id="a", _kind="occurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", value=2),
+        obs(id="2", doc_id="b", _kind="occurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", value="3"),
+    ])
+    assert [c["property"] for c in result["conflicts"]] == ["value"]
+
+
+def test_an_int_and_its_string_form_at_different_instants_is_not_temporal_variation():
+    """The same type-blindness applies to the `varies_across_instants` check
+    three lines below the distinctness one -- a value that merely changed
+    Python type between documents, not value, has not "varied" over time."""
+    result = merge_observations([
+        obs(id="1", doc_id="a", _kind="recurrent", _doc_valid_from="2026-01-01", _valid_from="2026-01-01", rate_value=2),
+        obs(id="2", doc_id="b", _kind="recurrent", _doc_valid_from="2026-02-01", _valid_from="2026-02-01", rate_value="2"),
+    ])
+    assert result["temporal_props"] == []
+    assert result["conflicts"] == []
+
+
 def test_a_conflicted_property_still_gets_the_winners_value():
     """A resolvable answer beats no answer; the :Conflict carries the dispute."""
     result = merge_observations([
