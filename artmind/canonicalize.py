@@ -37,6 +37,18 @@ VOCABULARY_LIMIT = 25
 # the vector index cannot express the class predicate itself.
 _OVERFETCH = 6
 
+# How many existing property keys to show the extractor, per entity class.
+PROPERTY_VOCABULARY_LIMIT = 25
+
+# Entity properties that are machinery, never a domain-declared property key
+# an extraction prompt would want to offer back as "already in use". Mirrors
+# `projection._SPECIAL_KEYS` plus the two preserved embedding fields; every
+# genuinely system-owned key is `_`-prefixed by the Phase 4 convention and is
+# excluded by that prefix instead of needing to be named here.
+_RESERVED_ENTITY_KEYS = frozenset(
+    {"name", "entity_class", "domain", "type", "description", "context", "aliases", "key", "embedding"}
+)
+
 
 def recurrent_classes(schema: dict) -> set[str]:
     """The classes a schema declares `kind: recurrent`."""
@@ -126,6 +138,90 @@ def render_vocabulary(vocabulary: list[dict]) -> str:
     for cls, names in sorted(by_class.items()):
         lines.append(f"  {cls}:")
         lines.extend(f"    - {name}" for name in sorted(set(names)))
+    return "\n".join(lines)
+
+
+def retrieve_property_vocabulary(
+    session,
+    *,
+    domain: str,
+    schema: dict,
+    limit: int = PROPERTY_VOCABULARY_LIMIT,
+) -> dict[str, list[str]]:
+    """Property keys already committed to the graph, per entity class — the
+    properties-side counterpart to `retrieve_vocabulary`.
+
+    Unlike names, property keys need no semantic retrieval: the live set per
+    class is small and already bounded by the schema, so a plain aggregate
+    over existing `:Entity` nodes is enough — no embedding call, no ANN.
+
+    Scoped to the DOMAIN FAMILY (the top-level prefix, via `STARTS WITH`),
+    deliberately wider than `retrieve_vocabulary`'s exact-domain scope: the
+    near-dup keys found live recur across SIBLING domain files
+    (`balance_minimum`/`balance_maximum` are declared identically in
+    `banking.products`, `banking.reference`, `banking.cases`, and five other
+    domain schemas), not confined to one domain the way a recurrent entity's
+    own name is. See Finding B, docs/redesign-phase8-implementation-notes.md.
+
+    Returns `{entity_class: [key, ...]}`, ordered by how often each key is
+    already in use; empty on any failure — a degraded vocabulary costs
+    extraction quality, never the ingest, the same fail-open contract as
+    `retrieve_vocabulary`.
+    """
+    classes = sorted((schema.get("entity_types") or {}).keys())
+    if not classes or not domain:
+        return {}
+    family = domain.split(".")[0]
+
+    try:
+        rows = session.run(
+            """
+            MATCH (e:Entity)
+            WHERE e.entity_class IN $classes
+              AND (e._domain = $family OR e._domain STARTS WITH ($family + '.'))
+            UNWIND [k IN keys(e) WHERE NOT k STARTS WITH '_' AND NOT k IN $reserved] AS prop_key
+            RETURN e.entity_class AS entity_class, prop_key AS key, count(*) AS uses
+            ORDER BY uses DESC
+            """,
+            classes=classes, family=family, reserved=sorted(_RESERVED_ENTITY_KEYS),
+        ).data()
+    except Exception as e:
+        logger.warning("Property vocabulary: query failed, extracting without it ({})", e)
+        return {}
+
+    vocabulary: dict[str, list[str]] = {}
+    for row in rows:
+        cls, key = row.get("entity_class"), row.get("key")
+        if not cls or not key:
+            continue
+        keys = vocabulary.setdefault(cls, [])
+        if key not in keys and len(keys) < limit:
+            keys.append(key)
+
+    if vocabulary:
+        logger.info(
+            "Property vocabulary: {} key(s) across {} class(es)",
+            sum(len(v) for v in vocabulary.values()), len(vocabulary),
+        )
+    return vocabulary
+
+
+def render_property_vocabulary(vocabulary: dict[str, list[str]]) -> str:
+    """The property-key vocabulary block appended to the properties prompt.
+
+    One class per block, one key per line — the same discipline
+    `render_vocabulary` established for names and for the same reason: a
+    model asked to copy a key out of a list must never see two keys glued
+    together by an inline separator.
+    """
+    if not vocabulary:
+        return ""
+    lines: list[str] = []
+    for cls, keys in sorted(vocabulary.items()):
+        if not keys:
+            continue
+        lines.append(f"  {cls}:")
+        lines.extend(f"    - {key}" for key in keys)
     return "\n".join(lines)
 
 

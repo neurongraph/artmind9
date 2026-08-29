@@ -112,12 +112,17 @@ def build_entities_prompt(text: str, schema: dict, vocabulary: list | None = Non
     return assemble_entities_prompt(schema, vocabulary=vocabulary).replace("{text}", text)
 
 
-def build_properties_prompt(text: str, entities: list[dict], schema: dict) -> str:
+def build_properties_prompt(
+    text: str, entities: list[dict], schema: dict, vocabulary: dict | None = None
+) -> str:
+    """`vocabulary` is the retrieved property-key vocabulary (see
+    `artmind.canonicalize.retrieve_property_vocabulary`) — omitted, the
+    prompt renders exactly as before."""
     from artmind.prompt_builder import assemble_properties_prompt
 
     ent_list = entities_list_text(entities)
     return (
-        assemble_properties_prompt(schema)
+        assemble_properties_prompt(schema, vocabulary=vocabulary)
         .replace("{entities_list}", ent_list)
         .replace("{text}", text)
     )

@@ -74,6 +74,23 @@ def test_assemble_properties_prompt_lists_properties_and_hints():
     assert "{entities_list}" in result and "{text}" in result
 
 
+def test_assemble_properties_prompt_instructs_singular_key_naming():
+    """Finding B: 'verification_requirement' / 'verification_requirements'
+    was one of the live near-dup pairs -- a plural/singular split of the
+    same key, not a genuinely different concept."""
+    result = assemble_properties_prompt(SCHEMA)
+    assert "SINGULAR" in result
+
+
+def test_assemble_properties_prompt_renders_the_property_vocabulary_when_given():
+    with_vocab = assemble_properties_prompt(SCHEMA, vocabulary={"PERSON": ["role"]})
+    without = assemble_properties_prompt(SCHEMA)
+    assert "PROPERTY KEYS ALREADY IN USE" in with_vocab
+    assert "- role" in with_vocab
+    assert "PROPERTY KEYS ALREADY IN USE" not in without
+    assert "{{PROPERTY_VOCABULARY}}" not in without
+
+
 def test_assemble_relationships_prompt_renders_one_line_per_pair():
     result = assemble_relationships_prompt(SCHEMA)
     assert "- PERSON → LOCATION: visited, lives_in" in result

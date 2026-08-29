@@ -101,7 +101,7 @@ def test_extract_kg_does_not_crash_on_the_cli_retry_file_result(tmp_path, monkey
     monkeypatch.setattr(ing, "KG_DIR", tmp_path / "kg")
     monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
     monkeypatch.setattr(ing, "build_entities_prompt", lambda text, schema, vocabulary=None: "p")
-    monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema: "p")
+    monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema, vocabulary=None: "p")
     monkeypatch.setattr(ing, "build_relationships_prompt", lambda text, ents, schema: "p")
     monkeypatch.setattr(ing, "_llm_extract", lambda step_name, model, prompt, debug_dir: ([], True))
 

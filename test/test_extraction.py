@@ -49,6 +49,14 @@ def test_build_properties_prompt_substitutes_entities_and_text():
     assert "role" in result
 
 
+def test_build_properties_prompt_threads_the_property_vocabulary_through():
+    entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
+    vocabulary = {"PERSON": ["affiliation"]}
+    result = build_properties_prompt("my text", entities, SCHEMA, vocabulary=vocabulary)
+    assert "affiliation" in result
+    assert "PROPERTY KEYS ALREADY IN USE" in result
+
+
 def test_build_relationships_prompt_substitutes_entities_and_text():
     entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
     result = build_relationships_prompt("my text", entities, SCHEMA)

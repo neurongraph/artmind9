@@ -149,7 +149,36 @@ def _render_property_block(cls: str, decl: dict) -> str:
     return "\n".join(lines)
 
 
-def assemble_properties_prompt(schema: dict, meta: dict | None = None) -> str:
+def _render_property_vocabulary_section(vocabulary: dict | None) -> str:
+    """The retrieved property-key vocabulary, or '' when there is none.
+
+    The properties-side counterpart to `_render_vocabulary_section`: showing
+    the extractor keys already committed to the graph for a class is what
+    stops a new document coining `balance_range_minimum` when
+    `balance_minimum` is already the class's established key — the
+    cross-document half of the property-key drift problem (Finding B,
+    docs/redesign-phase8-implementation-notes.md).
+    """
+    from artmind.canonicalize import render_property_vocabulary
+
+    rendered = render_property_vocabulary(vocabulary or {})
+    if not rendered:
+        return ""
+    return (
+        "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "PROPERTY KEYS ALREADY IN USE — REUSE THESE WHEN THEY FIT:\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "If a property you are about to add matches the same concept as one of\n"
+        "these keys for the same class, use the existing key VERBATIM rather\n"
+        "than inventing a new name for it. Only introduce a new key when the\n"
+        "concept genuinely is not covered by any key below.\n\n"
+        f"{rendered}\n"
+    )
+
+
+def assemble_properties_prompt(
+    schema: dict, meta: dict | None = None, vocabulary: dict | None = None
+) -> str:
     meta = meta if meta is not None else load_meta()
     entity_types = schema.get("entity_types") or {}
     blocks = [
@@ -160,6 +189,7 @@ def assemble_properties_prompt(schema: dict, meta: dict | None = None) -> str:
     tokens = {
         "SUBJECT": schema.get("subject") or schema.get("description", "")[:120],
         "PROPERTY_BLOCKS": "\n\n".join(blocks),
+        "PROPERTY_VOCABULARY": _render_property_vocabulary_section(vocabulary),
         "GUIDANCE": _render_guidance_section(
             (schema.get("guidance") or {}).get("properties"), "DOMAIN-SPECIFIC GUIDANCE:"
         ),

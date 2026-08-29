@@ -10,6 +10,8 @@ from artmind.canonicalize import (
     canonicalize_document,
     collect_names,
     recurrent_classes,
+    render_property_vocabulary,
+    retrieve_property_vocabulary,
     retrieve_vocabulary,
 )
 
@@ -108,6 +110,85 @@ def test_the_recurrent_naming_rule_reaches_the_entities_prompt():
     prompt = build_entities_prompt("passage", SCHEMA)
     assert "NEVER embed a measurement" in prompt
     assert "completed event" in prompt
+
+
+# ── property-key vocabulary retrieval (Finding B) ────────────────────────────
+
+
+def test_property_vocabulary_query_is_scoped_to_the_domain_family_not_the_exact_domain():
+    """Deliberately WIDER than name vocabulary's exact-domain scope: the
+    live near-dup keys (balance_minimum / balance_maximum) recur across
+    SIBLING domain files, not just within one -- see Finding B."""
+    session = MagicMock()
+    session.run.return_value.data.return_value = [
+        {"entity_class": "RATE_ENTRY", "key": "balance_minimum", "uses": 12},
+    ]
+
+    result = retrieve_property_vocabulary(session, domain="banking.products", schema=SCHEMA)
+
+    assert result == {"RATE_ENTRY": ["balance_minimum"]}
+    _cypher, kwargs = session.run.call_args[0][0], session.run.call_args[1]
+    assert kwargs["family"] == "banking", "must roll up to the top-level domain family"
+    assert kwargs["classes"] == ["INCIDENT", "PRODUCT", "RATE_ENTRY"], (
+        "every class, not just recurrent ones -- unlike name vocabulary"
+    )
+    assert "entity_embedding" not in _cypher, "no ANN needed -- property keys are a plain aggregate"
+
+
+def test_property_vocabulary_excludes_system_and_reserved_keys():
+    session = MagicMock()
+    retrieve_property_vocabulary(session, domain="banking.products", schema=SCHEMA)
+    _cypher, kwargs = session.run.call_args[0][0], session.run.call_args[1]
+    assert "name" in kwargs["reserved"] and "embedding" in kwargs["reserved"]
+    assert "NOT k STARTS WITH '_'" in _cypher
+
+
+def test_property_vocabulary_a_query_failure_degrades_to_empty_and_never_raises():
+    session = MagicMock()
+    session.run.side_effect = RuntimeError("neo4j is down")
+    assert retrieve_property_vocabulary(session, domain="banking.products", schema=SCHEMA) == {}
+
+
+def test_property_vocabulary_a_schema_with_no_classes_skips_the_query_entirely():
+    session = MagicMock()
+    assert retrieve_property_vocabulary(session, domain="d", schema={"entity_types": {}}) == {}
+    session.run.assert_not_called()
+
+
+def test_property_vocabulary_is_capped_per_class_and_ordered_by_use():
+    session = MagicMock()
+    session.run.return_value.data.return_value = [
+        {"entity_class": "RATE_ENTRY", "key": f"k{i}", "uses": 100 - i} for i in range(5)
+    ]
+    result = retrieve_property_vocabulary(session, domain="d", schema=SCHEMA, limit=3)
+    assert result["RATE_ENTRY"] == ["k0", "k1", "k2"]
+
+
+def test_render_property_vocabulary_one_key_per_line_grouped_by_class():
+    rendered = render_property_vocabulary(
+        {"RATE_ENTRY": ["balance_minimum", "balance_maximum"], "PRODUCT": ["fee_amount"]}
+    )
+    assert "RATE_ENTRY:" in rendered and "PRODUCT:" in rendered
+    assert "- balance_minimum" in rendered
+    assert "- fee_amount" in rendered
+
+
+def test_render_property_vocabulary_empty_is_empty_string():
+    assert render_property_vocabulary({}) == ""
+
+
+def test_property_vocabulary_reaches_the_properties_prompt():
+    from artmind.extraction import build_properties_prompt
+
+    vocabulary = {"RATE_ENTRY": ["balance_minimum"]}
+    entities = [{"id": "e0", "entity_class": "RATE_ENTRY", "name": "Tier 1"}]
+    with_vocab = build_properties_prompt("passage", entities, SCHEMA, vocabulary=vocabulary)
+    without = build_properties_prompt("passage", entities, SCHEMA)
+
+    assert "balance_minimum" in with_vocab
+    assert "PROPERTY KEYS ALREADY IN USE" in with_vocab
+    assert "PROPERTY KEYS ALREADY IN USE" not in without
+    assert "{{PROPERTY_VOCABULARY}}" not in without, "the token must be substituted, not left in place"
 
 
 # ── the per-document canonicalization pass ──────────────────────────────────

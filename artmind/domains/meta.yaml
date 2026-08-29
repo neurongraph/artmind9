@@ -136,6 +136,7 @@ prompt_templates:
     decide what matters based on the entity's role in the document.
 
     {{PROPERTY_BLOCKS}}
+    {{PROPERTY_VOCABULARY}}
     {{GUIDANCE}}
     KEY RULES FOR PROPERTIES:
       1. Use clear, readable key names (e.g., "fee_amount" not "amt")
@@ -145,6 +146,10 @@ prompt_templates:
       5. Values should be specific to THIS document, not generic definitions
       6. Keep individual values concise
       7. If a property feels forced or uncertain, leave it out
+      8. Name keys in the SINGULAR, even when the value is an array (e.g.
+         "verification_requirement": [...], not "verification_requirements").
+         A key that flips between singular and plural for the same concept
+         is a second, unrelated key to anything that reads it back.
 
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     OUTPUT:
