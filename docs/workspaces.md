@@ -1,6 +1,10 @@
 # Workspaces
 
-**Status: design — not yet implemented.** The specification for switching artmind
+**Status: partially implemented** (branch `feat/workspaces`). Resolution, the
+registry, guardrails 1, 2 and 4, and `artmind workspace` / `list` / `use` /
+`env` have landed. Still to build: `workspace create` and `adopt`, the schema
+seeding split (guardrail 3), the vault ignore rules (guardrail 6), the snapshot
+default split, and the topbar chip. The specification for switching artmind
 between independent knowledge bases. Stores in
 [stores-and-repos.md](./stores-and-repos.md); identity in
 [document-identity.md](./document-identity.md); vocabulary in
