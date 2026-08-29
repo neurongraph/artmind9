@@ -176,6 +176,7 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind workspace": [
         {"name": "Inspect", "commands": ["list"]},
+        {"name": "Create", "commands": ["create", "adopt"]},
         {"name": "Switch", "commands": ["use", "env"]},
     ],
     "artmind ingest": [
@@ -3095,6 +3096,109 @@ def workspace_list(compact: bool):
         click.echo(f"{marker} {name}{flags}")
         click.echo(f"    vault: {vaults}")
         click.echo(f"    graph: {entry.get('graph', {}).get('database', '(unset)')}")
+
+
+@workspace.command("create")
+@click.argument("name")
+@click.option("--vault", default=None, help="Vault directory for this workspace (must exist)")
+@click.option("--dataDir", "data_dir", default=None, help="Ingestion data dir (default: ~/artmind_data_<name>)")
+@click.option("--archiveDir", "archive_dir", default=None, help="Archive root (default: ~/artmind_archive_<name>)")
+@click.option("--graphUri", "graph_uri", default=None, help="Neo4j URI for this workspace's graph")
+@click.option("--graphDatabase", "graph_database", default=None, help="Neo4j database name")
+@click.option("--graphUsername", "graph_username", default=None, help="Neo4j username")
+@click.option("--graphPassword", "graph_password", default=None, help="Neo4j password (written to the workspace .env, mode 0600)")
+@click.option("--schemas", default=None, help="Comma-separated schema names or globs to seed (default: the starter set)")
+@click.option("--servePort", "serve_port", type=int, default=None, help="Default port for this workspace's `serve` daemon")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def workspace_create(
+    name: str, vault: str | None, data_dir: str | None, archive_dir: str | None,
+    graph_uri: str | None, graph_database: str | None, graph_username: str | None,
+    graph_password: str | None, schemas: str | None, serve_port: int | None, compact: bool,
+):
+    """Create workspace NAME: run folder, its .env, and a registry entry.
+
+    Does not switch to it — `artmind workspace use NAME` is a separate, deliberate
+    act, so creating a workspace can never move you off the one you were using.
+
+    Seeds only the starter schemas, not all sixteen packaged ones: a personal
+    vault has no use for the banking demo corpus's domains, and offering domains
+    with no data behind them degrades the chat agent's routing.
+    """
+    from artmind import workspace as ws
+
+    try:
+        result = ws.create(
+            name,
+            vault=vault,
+            data_dir=data_dir,
+            archive_dir=archive_dir,
+            graph_uri=graph_uri,
+            graph_database=graph_database,
+            graph_username=graph_username,
+            graph_password=graph_password,
+            schemas=_parse_domains((schemas,)) if schemas else None,
+            serve_port=serve_port,
+        )
+    except ws.WorkspaceError as e:
+        raise click.ClickException(str(e))
+
+    if compact:
+        _echo_json(result, compact=True)
+        return
+    click.echo(f"Created workspace: {name}")
+    click.echo(f"  Run folder: {result['run_folder']}")
+    click.echo(f"  Vault:      {result['vault'] or '(none)'}")
+    click.echo(f"  Data dir:   {result['data_dir']}")
+    click.echo(f"  Schemas:    {', '.join(result['seeded']['schemas']) or '(none)'}")
+    click.echo("\nNext:")
+    for step in result["next"]:
+        click.echo(f"  {step}")
+    click.echo(
+        "\nThen verify it is pointed at an EMPTY graph before ingesting:\n"
+        f"  ARTMIND_WORKSPACE={name} artmind query domains-overview"
+    )
+
+
+@workspace.command("adopt")
+@click.argument("name")
+@click.option("--from", "source", default=None, help="Run folder to adopt (default: the pre-workspace ~/.artmind)")
+@click.option("--frozen", is_flag=True, help="Mark as preserved rather than live (recorded; enforcement is not wired up yet)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def workspace_adopt(name: str, source: str | None, frozen: bool, compact: bool):
+    """Migrate an existing pre-workspace run folder into workspace NAME.
+
+    Copies rather than moves: the original is left exactly where it is, and
+    removing it stays your decision once you have verified the result. Splits
+    the .env by lifetime — shared identity (provider, credentials, models) into
+    config.env, workspace-scoped keys into the workspace's own .env.
+    """
+    from artmind import workspace as ws
+
+    try:
+        result = ws.adopt(name, Path(source) if source else None, frozen=frozen)
+    except ws.WorkspaceError as e:
+        raise click.ClickException(str(e))
+
+    if compact:
+        _echo_json(result, compact=True)
+        return
+    click.echo(f"Adopted {result['source']} as workspace: {name}")
+    click.echo(f"  Run folder: {result['run_folder']}")
+    click.echo(f"  Copied:     {', '.join(result['copied']) or '(nothing)'}")
+    click.echo(f"  Identity:   {len(result['identity_keys'])} key(s) -> {result['shared_env'] or 'config.env (already existed, left alone)'}")
+    click.echo(f"  Workspace:  {len(result['workspace_keys'])} key(s) -> {result['run_folder']}/.env")
+    if result["unclassified"]:
+        click.echo(
+            "\nLeft in the workspace .env because they match neither list — move "
+            "any that are really shared identity into config.env yourself:"
+        )
+        for key in result["unclassified"]:
+            click.echo(f"    {key}")
+    click.echo(
+        f"\nThe original at {result['source']} is untouched. Verify with:\n"
+        f"  ARTMIND_WORKSPACE={name} artmind workspace\n"
+        "and only then remove the old layout."
+    )
 
 
 @workspace.command("use")

@@ -438,8 +438,13 @@ def create(
     }
 
 
-def adopt(name: str, source: Path | None = None) -> dict:
+def adopt(name: str, source: Path | None = None, *, frozen: bool = False) -> dict:
     """Migrate a pre-workspace run folder into a named workspace.
+
+    ``frozen`` marks the result as preserved rather than live. NOTE: it is
+    currently recorded only — nothing reads it yet. Wiring it into `ingest`,
+    `projection rebuild` and `snapshot restore` is the next step
+    (docs/workspaces.md, "The registry").
 
     Non-destructive by construction: this COPIES. A half-migrated run folder is
     indistinguishable from a corrupt one, so the original is left exactly where
@@ -511,6 +516,7 @@ def adopt(name: str, source: Path | None = None) -> dict:
             "database": workspace_env.get("ARTMIND_KG_NEO4J_DATABASE", ""),
         },
         schemas=[],
+        frozen=frozen,
     )
 
     return {

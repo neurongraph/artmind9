@@ -273,3 +273,218 @@ def test_use_writes_the_pointer(registry, tmp_path):
     registry.register("personal", vault=None, data_dir="d", archive_dir="a", graph={})
     registry.set_current("personal")
     assert registry.current_name() == "personal"
+
+
+# ── create ────────────────────────────────────────────────────────────────────
+
+
+@pytest.fixture
+def workspaces(tmp_path, monkeypatch):
+    """A temp workspace container with the registry and pointer redirected."""
+    from artmind import workspace as ws
+
+    container = tmp_path / "root"
+    (container / "workspaces").mkdir(parents=True)
+    for mod in (paths, ws):
+        monkeypatch.setattr(mod, "ARTMIND_ROOT", container, raising=False)
+        monkeypatch.setattr(mod, "WORKSPACES_DIR", container / "workspaces", raising=False)
+        monkeypatch.setattr(mod, "WORKSPACE_POINTER", container / "current", raising=False)
+        monkeypatch.setattr(mod, "WORKSPACE_REGISTRY", container / "workspaces.yaml", raising=False)
+        monkeypatch.setattr(mod, "SHARED_ENV_FILE", container / "config.env", raising=False)
+    return ws
+
+
+def test_create_builds_run_folder_env_and_registry(workspaces, tmp_path):
+    vault = tmp_path / "vault"
+    vault.mkdir()
+
+    result = workspaces.create(
+        "personal", vault=str(vault), graph_uri="neo4j://x", graph_database="personal"
+    )
+
+    run_folder = Path(result["run_folder"])
+    assert (run_folder / ".env").is_file()
+    assert (run_folder / "domains" / "meta.yaml").is_file()
+    assert workspaces.get("personal")["graph"]["database"] == "personal"
+
+    env = workspaces.parse_env_file(run_folder / ".env")
+    assert env["ARTMIND_VAULT_DIR"] == str(vault.resolve())
+    assert env["ARTMIND_KG_NEO4J_DATABASE"] == "personal"
+
+
+def test_create_does_not_switch_to_the_new_workspace(workspaces, tmp_path):
+    """Creating and switching are separate acts — a create must never move
+    someone off the knowledge base they were working in."""
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    workspaces.create("personal", vault=str(vault))
+
+    assert workspaces.current_name() is None
+
+
+def test_create_seeds_starter_schemas_only(workspaces, tmp_path):
+    """Guardrail 3: a new workspace must not inherit the banking demo corpus."""
+    vault = tmp_path / "vault"
+    vault.mkdir()
+
+    result = workspaces.create("personal", vault=str(vault))
+
+    seeded = result["seeded"]["schemas"]
+    assert "general" in seeded
+    assert not [s for s in seeded if s.startswith("banking")], seeded
+
+
+def test_create_can_be_asked_for_specific_schemas(workspaces, tmp_path):
+    vault = tmp_path / "vault"
+    vault.mkdir()
+
+    result = workspaces.create("work", vault=str(vault), schemas=["banking.*"])
+
+    seeded = result["seeded"]["schemas"]
+    assert any(s.startswith("banking.") for s in seeded)
+    # `general` is always added — cli._get_available_domains always offers it.
+    assert "general" in seeded
+
+
+def test_create_refuses_a_missing_vault(workspaces, tmp_path):
+    with pytest.raises(workspaces.WorkspaceError, match="does not exist"):
+        workspaces.create("personal", vault=str(tmp_path / "nope"))
+
+
+def test_create_refuses_an_existing_name(workspaces, tmp_path):
+    vault = tmp_path / "v"
+    vault.mkdir()
+    workspaces.create("personal", vault=str(vault))
+    with pytest.raises(workspaces.WorkspaceError, match="already exists"):
+        workspaces.create("personal", vault=str(vault))
+
+
+def test_create_writes_a_private_env_file(workspaces, tmp_path):
+    """The workspace .env can carry ARTMIND_KG_NEO4J_PASSWORD."""
+    vault = tmp_path / "v"
+    vault.mkdir()
+    result = workspaces.create("personal", vault=str(vault), graph_password="secret")
+    mode = (Path(result["run_folder"]) / ".env").stat().st_mode & 0o777
+    assert mode == 0o600, oct(mode)
+
+
+# ── adopt ─────────────────────────────────────────────────────────────────────
+
+
+def _legacy_run_folder(container: Path) -> Path:
+    """A pre-workspace run folder: ARTMIND_ROOT itself, holding .env and friends."""
+    (container / "domains" / "schemas").mkdir(parents=True, exist_ok=True)
+    (container / "logs").mkdir(exist_ok=True)
+    (container / "domains" / "schemas" / "general_schema.yaml").write_text("name: general\n")
+    (container / "same_as.yaml").write_text("groups: []\n")
+    (container / ".env").write_text(
+        "ARTMIND_USER=Someone\n"
+        "ARTMIND_OPENROUTER_API_KEY=sk-secret\n"
+        "ARTMIND_KG_LLM_PROVIDER=ollama\n"
+        "ARTMIND_DATA_DIR=~/artmind_data\n"
+        "ARTMIND_VAULT_DIR=~/Projects/corpus\n"
+        "ARTMIND_KG_NEO4J_DATABASE=e94695dd\n"
+        "ARTMIND_KG_NEO4J_PASSWORD=graphpass\n"
+        "SOMETHING_UNKNOWN=1\n"
+    )
+    return container
+
+
+def test_adopt_splits_env_by_lifetime(workspaces):
+    container = workspaces.ARTMIND_ROOT
+    _legacy_run_folder(container)
+
+    result = workspaces.adopt("banking")
+
+    shared = workspaces.parse_env_file(container / "config.env")
+    ws_env = workspaces.parse_env_file(Path(result["run_folder"]) / ".env")
+
+    assert shared["ARTMIND_OPENROUTER_API_KEY"] == "sk-secret"
+    assert "ARTMIND_KG_NEO4J_PASSWORD" not in shared, "graph creds are workspace-scoped"
+    assert ws_env["ARTMIND_KG_NEO4J_DATABASE"] == "e94695dd"
+    assert "ARTMIND_OPENROUTER_API_KEY" not in ws_env
+
+
+def test_adopt_keeps_unknown_keys_in_the_workspace_and_reports_them(workspaces):
+    """Promoting an unrecognised key to config.env would leak a
+    workspace-specific value into every workspace."""
+    _legacy_run_folder(workspaces.ARTMIND_ROOT)
+
+    result = workspaces.adopt("banking")
+
+    assert result["unclassified"] == ["SOMETHING_UNKNOWN"]
+    ws_env = workspaces.parse_env_file(Path(result["run_folder"]) / ".env")
+    assert ws_env["SOMETHING_UNKNOWN"] == "1"
+
+
+def test_adopt_leaves_the_original_in_place(workspaces):
+    """Non-destructive by construction — a half-migrated run folder is
+    indistinguishable from a corrupt one."""
+    container = _legacy_run_folder(workspaces.ARTMIND_ROOT)
+
+    workspaces.adopt("banking")
+
+    assert (container / ".env").is_file()
+    assert (container / "same_as.yaml").is_file()
+
+
+def test_adopt_does_not_recurse_into_its_own_destination(workspaces):
+    """The legacy run folder IS ARTMIND_ROOT, so it CONTAINS workspaces/. A
+    blanket copytree would walk into the directory it is writing to."""
+    container = _legacy_run_folder(workspaces.ARTMIND_ROOT)
+
+    result = workspaces.adopt("banking")
+
+    run_folder = Path(result["run_folder"])
+    assert not (run_folder / "workspaces").exists()
+    assert not (run_folder / "config.env").exists()
+
+
+def test_adopt_carries_curation_across(workspaces):
+    """same_as.yaml is authoritative curation — losing it in a migration means
+    redoing human merge adjudication."""
+    _legacy_run_folder(workspaces.ARTMIND_ROOT)
+
+    result = workspaces.adopt("banking")
+
+    assert (Path(result["run_folder"]) / "same_as.yaml").read_text() == "groups: []\n"
+    assert "same_as.yaml" in result["copied"]
+
+
+def test_adopt_refuses_a_folder_that_is_not_a_run_folder(workspaces, tmp_path):
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    with pytest.raises(workspaces.WorkspaceError, match="not a run folder"):
+        workspaces.adopt("x", empty)
+
+
+def test_adopt_never_overwrites_an_existing_shared_config(workspaces):
+    container = _legacy_run_folder(workspaces.ARTMIND_ROOT)
+    (container / "config.env").write_text("ARTMIND_USER=Existing\n")
+
+    result = workspaces.adopt("banking")
+
+    assert workspaces.parse_env_file(container / "config.env")["ARTMIND_USER"] == "Existing"
+    assert result["shared_env"] is None
+    assert result["shared_env_existed"] is True
+
+
+def test_adopt_registers_the_graph_and_vault(workspaces):
+    _legacy_run_folder(workspaces.ARTMIND_ROOT)
+
+    workspaces.adopt("banking")
+
+    entry = workspaces.get("banking")
+    assert entry["graph"]["database"] == "e94695dd"
+    assert workspaces.vault_paths(entry) == ["~/Projects/corpus"]
+
+
+def test_adopt_can_mark_the_workspace_frozen(workspaces):
+    """`frozen` is how "keep the banking corpus for later work" becomes a
+    machine-checkable property rather than a note in someone's head. Recorded
+    here; enforcement in ingest/restore is not wired up yet."""
+    _legacy_run_folder(workspaces.ARTMIND_ROOT)
+
+    workspaces.adopt("banking", frozen=True)
+
+    assert workspaces.get("banking")["frozen"] is True
