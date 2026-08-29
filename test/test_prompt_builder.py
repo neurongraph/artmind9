@@ -62,6 +62,19 @@ def test_assemble_entities_prompt_falls_back_to_default_persona():
     assert load_meta()["default_persona"] in result
 
 
+def test_assemble_entities_prompt_instructs_singular_naming():
+    """Deliberate scope decision after Finding A's re-analysis: the vast
+    majority of same-class/domain near-duplicates are legitimately distinct
+    entities (rate tiers, severities, regions) that a name-similarity metric
+    over-flags -- only the true singular/plural split ("Mortgage" /
+    "Mortgages", "Standing Order" / "Standing Orders") is a genuine defect
+    worth an extraction-time fix. Mirrors the properties prompt's singular-key
+    rule (Finding B) for entity names."""
+    result = assemble_entities_prompt(SCHEMA)
+    assert "SINGULAR" in result
+    assert "singular sense" in result
+
+
 def test_assemble_properties_prompt_lists_properties_and_hints():
     result = assemble_properties_prompt(SCHEMA)
     assert "For PERSON, consider:" in result

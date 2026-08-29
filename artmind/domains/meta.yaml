@@ -91,6 +91,14 @@ prompt_templates:
     5. DO NOT HALLUCINATE
        Only extract what is in the text. If a property is unknown, omit it.
        Never invent details, dates, or figures not present in the passage.
+
+    6. SINGULAR FORM
+       Name the concept in the singular, even when the text refers to it in
+       the plural -- "Debit Card", not "Debit Cards"; "Standing Order", not
+       "Standing Orders". The same concept named singular in one document and
+       plural in another is otherwise read as two different entities. Use the
+       plural only when the concept has no singular sense (e.g. "Terms and
+       Conditions").
     {{GUIDANCE}}
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     OUTPUT FORMAT:
@@ -115,6 +123,7 @@ prompt_templates:
     Before responding, verify:
       □ Every entity class with a presence in this passage captured?
       □ Canonical names used consistently, with short forms in aliases?
+      □ Names are singular, not plural, unless the concept has no singular sense?
       □ Context snippets are verbatim from text?
       □ Every entity genuinely significant (no noise)?
 
