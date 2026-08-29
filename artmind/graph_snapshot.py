@@ -381,7 +381,28 @@ def _restored_stale_entity_keys(session) -> list[tuple[str, str, str]]:
     return keys
 
 
-def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | None = None) -> dict:
+def _report_progress(progress_cb, phase: str, detail: str | None = None) -> None:
+    """Best-effort progress callback. `import_graph` can run for hours on a
+    remote database, entirely inside one blocking call (a CLI process, or a
+    single `asyncio.to_thread` from the admin-ui) — a caller that wants to
+    show the operator something better than a hung request/prompt provides
+    this and reads it back from wherever it stashed it (e.g. an in-memory
+    dict a polling endpoint serves). A broken callback must never take down
+    the restore it's just narrating."""
+    if progress_cb is None:
+        return
+    try:
+        progress_cb(phase, detail)
+    except Exception as exc:
+        logger.debug("Progress callback raised (ignored): {}", exc)
+
+
+def import_graph(
+    snapshot_path: Path | None = None,
+    *,
+    force_rebuild: bool | None = None,
+    progress_cb=None,
+) -> dict:
     """Wipe Neo4j and restore from a snapshot.
 
     If snapshot_path is None, uses the latest snapshot in GRAPH_SNAPSHOT_DIR.
@@ -398,6 +419,11 @@ def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | Non
         copy is used as-is; a loud warning is logged, since this can leave
         the projection genuinely stale on purpose.
 
+    `progress_cb`, if given, is called `progress_cb(phase: str, detail: str
+    | None)` at each major phase boundary (see `_report_progress`) — purely
+    additive, on top of the existing `logger.info` calls, not a replacement
+    for them.
+
     Returns a summary dict.
     """
     if snapshot_path is None:
@@ -410,19 +436,24 @@ def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | Non
     t0 = time.monotonic()
 
     logger.info("Importing from: {}", snapshot_path.name)
+    _report_progress(progress_cb, "reading_snapshot", snapshot_path.name)
     data = _read_snapshot(snapshot_path)
 
     with neo4j_session() as session:
         logger.info("Wiping Neo4j database...")
+        _report_progress(progress_cb, "wiping")
         _wipe_database(session)
 
         logger.info("Recreating schema...")
+        _report_progress(progress_cb, "recreating_schema")
         _setup_neo4j(session, embedding_dim)
 
         logger.info("Restoring nodes...")
+        _report_progress(progress_cb, "restoring_nodes")
         node_counts = _restore_nodes(session, data.get("nodes", {}))
 
         logger.info("Restoring relationships...")
+        _report_progress(progress_cb, "restoring_relationships", str(len(data.get("relationships", []))))
         rel_count = _restore_relationships(session, data.get("relationships", []))
 
     # Phase 5 (docs/redesign-phase-plan.md, "B"): rebuild everything derived
@@ -431,6 +462,7 @@ def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | Non
     # that left the graph unqueryable until an operator remembered a second
     # command would get reported as broken, not as "restored".
     logger.info("Rebuilding the registry from vault frontmatter (docs reindex)...")
+    _report_progress(progress_cb, "reindexing")
     reindex_result: dict | None = None
     reindex_error: str | None = None
     try:
@@ -485,6 +517,7 @@ def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | Non
 
     if rebuild_needed:
         logger.info("Rebuilding the projection (full) -- {}...", drift_reason)
+        _report_progress(progress_cb, "rebuilding_projection", drift_reason)
         with neo4j_session() as session:
             all_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, None)))
             rebuild_summary = session.execute_write(
@@ -493,15 +526,18 @@ def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | Non
                 )
             )
         logger.info("Running the embed sweep across {} key(s)...", len(all_keys))
+        _report_progress(progress_cb, "embed_sweep", str(len(all_keys)))
         embedded_total, stale_remaining = _sweep_stale_embeddings(all_keys)
     else:
         logger.info(
             "Restored projection ({} entit{}) matches current same_as/schema state -- "
             "skipping the full rebuild.", entity_count, "y" if entity_count == 1 else "ies",
         )
+        _report_progress(progress_cb, "projection_trusted", str(entity_count))
         rebuild_summary = {"skipped": True, "reason": skip_reason or "no drift detected"}
         with neo4j_session() as session:
             stale_keys = session.execute_read(lambda tx: _restored_stale_entity_keys(tx))
+        _report_progress(progress_cb, "embed_sweep", str(len(stale_keys)))
         embedded_total, stale_remaining = _sweep_stale_embeddings(stale_keys)
 
     elapsed = time.monotonic() - t0
@@ -512,6 +548,7 @@ def import_graph(snapshot_path: Path | None = None, *, force_rebuild: bool | Non
         elapsed, total_nodes, rel_count, embedded_total,
         "y" if embedded_total == 1 else "ies", stale_remaining,
     )
+    _report_progress(progress_cb, "done", f"{elapsed:.1f}s")
     return {
         "snapshot": snapshot_path.name,
         "node_counts": node_counts,

@@ -478,6 +478,29 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         except Exception as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
+    # Restore progress readout, deliberately in-memory and non-persisted —
+    # same shape as _bulk_classify_progress above. A graph restore can run
+    # for hours on a remote database, entirely inside the one blocking
+    # asyncio.to_thread call below, so this is the only way the admin-ui has
+    # to show *anything* other than a hung request while it waits. Keyed by
+    # snapshot name, since restoring the same snapshot twice concurrently
+    # isn't a scenario this single-operator console needs to disambiguate.
+    _restore_progress: dict[str, dict] = {}
+
+    def _make_progress_cb(name: str):
+        def _cb(phase: str, detail: str | None) -> None:
+            _restore_progress[name] = {"phase": phase, "detail": detail}
+        return _cb
+
+    @app.get("/api/snapshots/{name}/restore/progress")
+    async def api_restore_snapshot_progress(name: str):
+        """Poll target for an in-flight restore's current phase. Returns
+        `{phase: None}` once restore finishes (success or failure) or if none
+        is running — the POST response below is always the source of truth,
+        this is a best-effort readout for showing the operator something
+        while they wait."""
+        return _camelize(_restore_progress.get(name, {"phase": None, "detail": None}))
+
     @app.post("/api/snapshots/{name}/restore")
     async def api_restore_snapshot(name: str, payload: RestoreRequest):
         """Restore selected components from a snapshot."""
@@ -490,11 +513,16 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             component_set = set(payload.components) if payload.components else None
             force_rebuild = {"auto": None, "always": True, "skip": False}[payload.rebuild_projection]
             result = await asyncio.to_thread(
-                restore_snapshot_impl, path, component_set, rebuild_projection=force_rebuild
+                restore_snapshot_impl,
+                path, component_set,
+                rebuild_projection=force_rebuild,
+                progress_cb=_make_progress_cb(name),
             )
             return _camelize(result)
         except Exception as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        finally:
+            _restore_progress.pop(name, None)
 
     @app.post("/api/snapshots/import")
     async def api_import_snapshot(
@@ -506,22 +534,30 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         """Upload and restore a snapshot."""
         if not confirm:
             raise HTTPException(status_code=400, detail="Set confirm=true to restore")
+        dest_name: str | None = None
         try:
             GRAPH_SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
             dest = GRAPH_SNAPSHOT_DIR / Path(file.filename).name
+            dest_name = dest.name
             content = await file.read()
             dest.write_bytes(content)
 
             component_set = set(c.strip() for c in components.split(",") if c.strip())
             force_rebuild = {"auto": None, "always": True, "skip": False}[rebuild_projection]
             result = await asyncio.to_thread(
-                restore_snapshot_impl, dest, component_set, rebuild_projection=force_rebuild
+                restore_snapshot_impl,
+                dest, component_set,
+                rebuild_projection=force_rebuild,
+                progress_cb=_make_progress_cb(dest_name),
             )
             return _camelize(result)
         except HTTPException:
             raise
         except Exception as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        finally:
+            if dest_name is not None:
+                _restore_progress.pop(dest_name, None)
 
     @app.get("/api/help/concepts")
     async def api_help_concepts():

@@ -339,7 +339,11 @@ def _extract_snapshot_files(zip_path: Path) -> tuple[Path, dict]:
 
 
 def restore_snapshot_impl(
-    zip_path: Path, include: set[str] | None = None, *, rebuild_projection: bool | None = None
+    zip_path: Path,
+    include: set[str] | None = None,
+    *,
+    rebuild_projection: bool | None = None,
+    progress_cb=None,
 ) -> dict:
     """Restore components from a unified snapshot.
 
@@ -351,6 +355,10 @@ def restore_snapshot_impl(
             restored `:Entity` layer is trustworthy, `True`/`False` force a
             rebuild on or off regardless of what's detected. Only meaningful
             when "graph" is restored.
+        progress_cb: Passed straight through to `graph_snapshot.import_graph`,
+            called `progress_cb(phase, detail)` at each of its phase
+            boundaries. Only meaningful when "graph" is restored — the other
+            components are comparatively quick and don't report phases.
 
     Returns:
         Summary dict with restoration results per component. If "structured"
@@ -388,7 +396,9 @@ def restore_snapshot_impl(
             try:
                 logger.info("Restoring graph...")
                 graph_path = extract_dir / "graph_snapshot.tar.gz"
-                summary = _import_graph_inner(graph_path, force_rebuild=rebuild_projection)
+                summary = _import_graph_inner(
+                    graph_path, force_rebuild=rebuild_projection, progress_cb=progress_cb
+                )
                 restored_components["graph"] = summary
                 logger.info("Graph restored: {} nodes, {} relationships",
                            sum(summary.get("node_counts", {}).values()),

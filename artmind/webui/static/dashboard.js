@@ -476,8 +476,25 @@ async function refreshGuardrail() {
   }
 }
 
-async function restoreSnapshot(name, components) {
+// Phase codes from graph_snapshot.import_graph's progress_cb (graph restore
+// can run for hours on a remote database, entirely inside one blocking
+// request — this is the only readout the operator gets in the meantime).
+const RESTORE_PHASE_LABELS = {
+  reading_snapshot: "Reading snapshot",
+  wiping: "Wiping the graph database",
+  recreating_schema: "Recreating schema",
+  restoring_nodes: "Restoring nodes",
+  restoring_relationships: "Restoring relationships",
+  reindexing: "Reindexing the vault registry",
+  rebuilding_projection: "Rebuilding the entity projection (this is the slow part)",
+  projection_trusted: "Restored entity projection verified — skipping rebuild",
+  embed_sweep: "Embedding entities",
+  done: "Finishing up",
+};
+
+async function restoreSnapshot(name, components, btn) {
   const componentStr = components.join(",");
+  const progressEl = document.getElementById("snapshot-restore-progress");
   try {
     // First analyze to show warnings
     const analysis = await api(
@@ -497,17 +514,43 @@ async function restoreSnapshot(name, components) {
 
     if (!confirm(msg)) return;
 
-    // Perform restore
-    const result = await api(`/api/snapshots/${encodeURIComponent(name)}/restore`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ confirm: true, components }),
-    });
+    if (btn) btn.disabled = true;
+    let polling = true;
+    const poll = async () => {
+      while (polling) {
+        try {
+          const p = await api(`/api/snapshots/${encodeURIComponent(name)}/restore/progress`);
+          if (p.phase) {
+            const label = RESTORE_PHASE_LABELS[p.phase] || p.phase;
+            progressEl.textContent = p.detail ? `Restoring: ${label} (${p.detail})…` : `Restoring: ${label}…`;
+          }
+        } catch (err) {
+          // best-effort readout only; the POST below is the source of truth
+        }
+        await new Promise((r) => setTimeout(r, 2000));
+      }
+    };
+    poll();
 
+    // Perform restore
+    let result;
+    try {
+      result = await api(`/api/snapshots/${encodeURIComponent(name)}/restore`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true, components }),
+      });
+    } finally {
+      polling = false;
+      if (btn) btn.disabled = false;
+    }
+
+    progressEl.textContent = "";
     alert(`Restore complete: ${result.componentsRestored.join(", ")} restored in ${result.elapsedSeconds}s`);
     refreshSnapshots();
     if (artifactsDomainEl.value) refreshStats([artifactsDomainEl.value]);
   } catch (err) {
+    progressEl.textContent = "";
     alert(`Restore failed: ${err.message}`);
   }
 }
@@ -533,7 +576,7 @@ async function refreshSnapshots() {
     restoreBtn.addEventListener("click", () => {
       // Default to restoring all available components
       const components = snap.components || ["graph", "structured", "kg_staging", "originals"];
-      restoreSnapshot(snap.name, components);
+      restoreSnapshot(snap.name, components, restoreBtn);
     });
     actions.appendChild(restoreBtn);
     tr.appendChild(actions);
@@ -564,11 +607,30 @@ document.getElementById("snapshot-import-form").addEventListener("submit", async
   const components = getSelectedComponents("#import-snapshot-components");
 
   const resultEl = document.getElementById("snapshot-import-result");
-  resultEl.textContent = "Uploading and restoring…";
+  resultEl.textContent = "Uploading…";
   const formData = new FormData();
   formData.append("confirm", "true");
   formData.append("file", file);
   formData.append("components", components.join(","));
+
+  // The backend saves the upload under its own filename (Path(file.filename).name)
+  // before restoring it, so that's the key its progress endpoint is served under.
+  let polling = true;
+  const poll = async () => {
+    while (polling) {
+      try {
+        const p = await api(`/api/snapshots/${encodeURIComponent(file.name)}/restore/progress`);
+        if (p.phase) {
+          const label = RESTORE_PHASE_LABELS[p.phase] || p.phase;
+          resultEl.textContent = p.detail ? `Restoring: ${label} (${p.detail})…` : `Restoring: ${label}…`;
+        }
+      } catch (err) {
+        // best-effort readout only; the POST below is the source of truth
+      }
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  };
+  poll();
 
   try {
     const result = await api("/api/snapshots/import", { method: "POST", body: formData });
@@ -577,6 +639,8 @@ document.getElementById("snapshot-import-form").addEventListener("submit", async
     refreshSnapshots();
   } catch (err) {
     resultEl.textContent = `Failed: ${err.message}`;
+  } finally {
+    polling = false;
   }
 });
 

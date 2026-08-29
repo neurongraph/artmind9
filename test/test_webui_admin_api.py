@@ -730,6 +730,68 @@ def test_restore_snapshot_not_found(monkeypatch, tmp_path):
     assert response.status_code == 404
 
 
+def test_restore_progress_defaults_to_no_phase(monkeypatch, tmp_path):
+    """Nothing in flight for this name -- the readout is a harmless default,
+    not a 404. The frontend polls this unconditionally while waiting."""
+    monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
+    response = _client().get("/api/snapshots/snap.zip/restore/progress")
+    assert response.status_code == 200
+    assert response.json() == {"phase": None, "detail": None}
+
+
+def test_restore_snapshot_passes_a_working_progress_callback(monkeypatch, tmp_path):
+    """A graph restore can run for hours entirely inside this one blocking
+    call -- restore_snapshot_impl must be handed a real callable it can
+    narrate its phases through, not None."""
+    monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.zip").write_bytes(b"data")
+    seen = {}
+
+    def fake_restore(path, components, **kw):
+        cb = kw.get("progress_cb")
+        seen["cb"] = cb
+        cb("wiping", None)  # must not raise
+        cb("restoring_nodes", "1234")
+        return {"snapshot": path.name}
+
+    monkeypatch.setattr(dashboard_routes, "restore_snapshot_impl", fake_restore)
+    response = _client().post("/api/snapshots/snap.zip/restore", json={"confirm": True})
+    assert response.status_code == 200
+    assert callable(seen["cb"])
+
+
+def test_restore_progress_cleared_after_completion(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.zip").write_bytes(b"data")
+    monkeypatch.setattr(
+        dashboard_routes, "restore_snapshot_impl",
+        lambda path, components, **kw: {"snapshot": path.name},
+    )
+    client = _client()
+    response = client.post("/api/snapshots/snap.zip/restore", json={"confirm": True})
+    assert response.status_code == 200
+    progress = client.get("/api/snapshots/snap.zip/restore/progress")
+    assert progress.json() == {"phase": None, "detail": None}
+
+
+def test_restore_progress_cleared_after_failure(monkeypatch, tmp_path):
+    """The progress entry must not leak past a failed restore -- a stale
+    'wiping' phase surviving an error would strand the next poll forever."""
+    monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.zip").write_bytes(b"data")
+
+    def fake_restore(path, components, **kw):
+        kw["progress_cb"]("wiping", None)
+        raise ValueError("boom")
+
+    monkeypatch.setattr(dashboard_routes, "restore_snapshot_impl", fake_restore)
+    client = _client()
+    response = client.post("/api/snapshots/snap.zip/restore", json={"confirm": True})
+    assert response.status_code == 400
+    progress = client.get("/api/snapshots/snap.zip/restore/progress")
+    assert progress.json() == {"phase": None, "detail": None}
+
+
 def test_restore_snapshot_failure_is_400(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "GRAPH_SNAPSHOT_DIR", tmp_path)
     (tmp_path / "snap.zip").write_bytes(b"data")

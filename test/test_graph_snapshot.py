@@ -447,6 +447,42 @@ class TestImportGraphRebuildPhase:
 
         assert result["embedding_stale_remaining"] == 3
 
+    def test_progress_cb_narrates_every_phase_in_order(self, tmp_path, monkeypatch):
+        """A graph restore can run for hours entirely inside one blocking
+        call -- progress_cb is the only way a caller (the admin-ui) can show
+        an operator anything better than a hung request."""
+        snapshot_path = self._patch_common(monkeypatch, tmp_path)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr("artmind.reindex.reindex", lambda: {})
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        monkeypatch.setattr("artmind.projection.full_rebuild", lambda tx, domains=None, **kw: {})
+        monkeypatch.setattr("artmind.ingest._sweep_embeddings", lambda domain, keys: 0)
+
+        phases = []
+        import_graph(snapshot_path, progress_cb=lambda phase, detail: phases.append(phase))
+
+        assert phases == [
+            "reading_snapshot", "wiping", "recreating_schema", "restoring_nodes",
+            "restoring_relationships", "reindexing", "rebuilding_projection",
+            "embed_sweep", "done",
+        ]
+
+    def test_progress_cb_failure_does_not_abort_the_restore(self, tmp_path, monkeypatch):
+        snapshot_path = self._patch_common(monkeypatch, tmp_path)
+        self._session_double(monkeypatch, stale_count=0)
+
+        monkeypatch.setattr("artmind.reindex.reindex", lambda: {})
+        monkeypatch.setattr("artmind.projection.all_keys", lambda tx, domains=None: set())
+        monkeypatch.setattr("artmind.projection.full_rebuild", lambda tx, domains=None, **kw: {})
+        monkeypatch.setattr("artmind.ingest._sweep_embeddings", lambda domain, keys: 0)
+
+        def _boom(phase, detail):
+            raise RuntimeError("frontend disconnected")
+
+        result = import_graph(snapshot_path, progress_cb=_boom)
+        assert result["snapshot"] == snapshot_path.name
+
 
 class TestImportGraphFastRestore:
     """Phase 9: when the snapshot carries a restored :Entity layer AND it's
