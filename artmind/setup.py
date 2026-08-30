@@ -1,8 +1,10 @@
 import shutil
+from pathlib import Path
 
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
 from artmind.schema_validate import validate_all_or_raise
+from artmind.vault import VaultLayout, write_gitignore
 from paths import (
     ARTMIND_DATA_DIR,
     ARTMIND_HOME,
@@ -134,6 +136,110 @@ def scaffold_run_folder() -> dict:
         "opencode_refreshed": opencode_refreshed,
         "meta_refreshed": meta_refreshed,
     }
+
+
+# Which schemas a NEW vault starts with. The `banking.*` family is a demo
+# corpus's schemas, not a default every knowledge base should inherit
+# (docs/vault.md, "Schemas").
+STARTER_SCHEMAS = ("general", "personal_journal")
+
+_STARTER_VAULT_YAML = """\
+# artmind ingest manifest (docs/vault.md).
+#
+# `mappings` does two jobs: it says which domain governs a path's extraction,
+# AND whether to ingest it at all. An unmapped path is never ingested -- so an
+# attachments folder needs no ignore rule, and an unmapped Inbox/ is a drafting
+# area where MOVING a note into a mapped folder is what says "this is ready".
+ingest:
+  # manual | commit | schedule. Default manual: nobody should discover
+  # automatic LLM spend by surprise.
+  trigger: manual
+  mappings: []
+  #  - path: notes/**
+  #    domain: personal_journal
+"""
+
+
+def scaffold_vault(root: Path) -> dict:
+    """Make `root` an artmind vault. Idempotent, and never destructive.
+
+    Package assets are seeded ONLY when absent. This inverts
+    `scaffold_run_folder`'s overwrite-always policy for schemas, which was safe
+    when one run folder was reseeded from the package but would now clobber
+    hand-authored vault schemas (docs/vault.md, "Schemas"). Skills keep their
+    always-current property a different way -- they are symlinked to the
+    installed copy rather than copied.
+    """
+    root = Path(root).expanduser().resolve()
+    layout = VaultLayout(root)
+
+    for directory in (
+        layout.artmind_dir, layout.domains_dir, layout.schemas_dir,
+        layout.data_dir, layout.kg_dir, layout.originals_dir, layout.chunks_dir,
+        layout.structured_dir, layout.snapshots_dir, layout.jobs_dir,
+        layout.refine_dir, layout.logs_dir, layout.skills_dir,
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    seeded_schemas: list[str] = []
+    for src in sorted(PACKAGE_SCHEMAS_DIR.glob("*_schema.yaml")):
+        name = src.name.removesuffix("_schema.yaml")
+        if name not in STARTER_SCHEMAS:
+            continue
+        dest = layout.schemas_dir / src.name
+        if not dest.exists():
+            shutil.copy2(src, dest)
+        seeded_schemas.append(name)
+
+    if PACKAGE_META_YAML.is_file() and not layout.meta_yaml.exists():
+        shutil.copy2(PACKAGE_META_YAML, layout.meta_yaml)
+
+    if not layout.config_env.exists() and PACKAGE_ENV_EXAMPLE.is_file():
+        shutil.copy2(PACKAGE_ENV_EXAMPLE, layout.config_env)
+        layout.config_env.chmod(0o600)
+
+    if not layout.vault_yaml.exists():
+        layout.vault_yaml.write_text(_STARTER_VAULT_YAML, encoding="utf-8")
+
+    linked = _symlink_skills(layout.skills_dir)
+    gitignore_written = write_gitignore(root)
+
+    return {
+        "vault": str(root),
+        "schemas": seeded_schemas,
+        "skills": linked,
+        "gitignore": gitignore_written,
+    }
+
+
+def _symlink_skills(dest: Path) -> list[str]:
+    """Symlink each packaged skill into the vault's `.claude/skills/`.
+
+    Symlinks rather than copies so an artmind upgrade reaches every vault with
+    no re-seeding and no N-copies-to-update problem -- the same pattern the
+    checkout already uses (see CLAUDE.md). Where symlinks are unavailable
+    (Windows without privileges, some sync services) fall back to a copy; the
+    cost is that upgrades then need an explicit refresh.
+    """
+    linked: list[str] = []
+    for src in sorted(PACKAGE_SKILLS_DIR.iterdir()):
+        if not src.is_dir():
+            continue
+        target = dest / src.name
+        if target.is_symlink() or target.exists():
+            if target.is_symlink() and target.resolve() == src.resolve():
+                linked.append(src.name)
+                continue
+            if target.is_symlink() or target.is_file():
+                target.unlink()
+            else:
+                shutil.rmtree(target)
+        try:
+            target.symlink_to(src, target_is_directory=True)
+        except OSError:
+            shutil.copytree(src, target)
+        linked.append(src.name)
+    return linked
 
 
 def _setup_neo4j(session, embedding_dim: int) -> None:

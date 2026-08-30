@@ -91,3 +91,78 @@ def test_an_existing_gitignore_is_appended_to_not_replaced(tmp_path):
     content = (tmp_path / ".gitignore").read_text()
     assert ".DS_Store" in content
     assert ".artmind/data/" in content
+
+
+def test_scaffold_creates_the_vault_skeleton(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    result = scaffold_vault(tmp_path)
+
+    layout = vault.VaultLayout(tmp_path)
+    assert layout.artmind_dir.is_dir()
+    assert layout.schemas_dir.is_dir()
+    assert layout.data_dir.is_dir()
+    assert layout.logs_dir.is_dir()
+    assert layout.meta_yaml.is_file()
+    assert layout.config_env.is_file()
+    assert result["vault"] == str(tmp_path)
+
+
+def test_scaffold_seeds_starter_schemas_only(tmp_path):
+    """A personal vault has no use for the banking demo corpus's domains, and
+    offering domains with no data degrades the agent's routing."""
+    from artmind.setup import scaffold_vault
+
+    seeded = scaffold_vault(tmp_path)["schemas"]
+
+    assert "general" in seeded
+    assert not [s for s in seeded if s.startswith("banking")], seeded
+
+
+def test_scaffold_never_overwrites_an_edited_schema(tmp_path):
+    """Overwrite-always was safe for one reseeded run folder; here it would
+    destroy authored work."""
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+    schema = vault.VaultLayout(tmp_path).schemas_dir / "general_schema.yaml"
+    schema.write_text("name: general\n# my edit\n")
+
+    scaffold_vault(tmp_path)
+
+    assert "# my edit" in schema.read_text()
+
+
+def test_scaffold_never_overwrites_config_env(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+    config = vault.VaultLayout(tmp_path).config_env
+    config.write_text("ARTMIND_KG_NEO4J_DATABASE=mine\n")
+
+    scaffold_vault(tmp_path)
+
+    assert config.read_text() == "ARTMIND_KG_NEO4J_DATABASE=mine\n"
+
+
+def test_scaffold_writes_a_starter_vault_yaml(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+
+    import yaml
+    manifest = yaml.safe_load(vault.VaultLayout(tmp_path).vault_yaml.read_text())
+    assert manifest["ingest"]["trigger"] == "manual"
+    assert manifest["ingest"]["mappings"] == []
+
+
+def test_scaffold_symlinks_skills_to_the_installed_copy(tmp_path):
+    """One canonical copy, so an artmind upgrade reaches every vault without
+    re-seeding."""
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+
+    linked = vault.VaultLayout(tmp_path).skills_dir / "artmind-query"
+    assert linked.is_symlink()
+    assert (linked / "SKILL.md").is_file()
