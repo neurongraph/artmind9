@@ -182,3 +182,58 @@ class VaultLayout:
     @property
     def refine_dir(self) -> Path:
         return self.data_dir / "refine"
+
+
+# The authoritative/derived split as a mechanism rather than prose
+# (docs/stores-and-repos.md). Git holds what git can meaningfully version:
+# documents, the markdown derived from binaries, and the images that markdown
+# references. Not opaque binaries, not regenerable derivatives, not credentials.
+GITIGNORE_BLOCK = """\
+# ── artmind ───────────────────────────────────────────────────────────────────
+# Derived and unbounded: KG staging, chunks, the registry, snapshots.
+.artmind/data/
+# Machine-local runtime state.
+.artmind/logs/
+.artmind/state.json
+.artmind/serve.json
+.artmind/worker.pid
+# May hold the graph password.
+.artmind/config.env
+# artmind's own skills are symlinks to the installed copy; yours are not
+# matched by this and stay committable.
+.claude/skills/artmind-*
+
+# Opaque binaries: git versions their markdown in _derived/ instead. NOTE this
+# means a binary here has no version history and no second copy -- backing it
+# up is yours to arrange (docs/stores-and-repos.md).
+*.pdf
+*.pptx
+*.docx
+*.xlsx
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+# ...except images docling extracted, which committed markdown references.
+!_derived/**
+# ── end artmind ───────────────────────────────────────────────────────────────
+"""
+
+_GITIGNORE_SENTINEL = "# ── artmind ─"
+
+
+def write_gitignore(root: Path) -> bool:
+    """Add artmind's ignore rules to the vault's `.gitignore`.
+
+    Appends rather than replaces — the vault may be an established repo with
+    rules of its own — and is idempotent, so re-running `init` is safe.
+    Returns True when the file was changed.
+    """
+    target = Path(root) / ".gitignore"
+    existing = target.read_text(encoding="utf-8") if target.is_file() else ""
+    if _GITIGNORE_SENTINEL in existing:
+        return False
+    prefix = existing if existing.endswith("\n") or not existing else existing + "\n"
+    target.write_text(prefix + ("\n" if prefix else "") + GITIGNORE_BLOCK, encoding="utf-8")
+    return True
