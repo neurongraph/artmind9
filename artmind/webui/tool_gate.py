@@ -13,6 +13,18 @@ comprehensible.
 
 Deliberately free of SDK imports: the interesting part is a string predicate,
 and it should be testable without spawning an agent.
+
+``agent.py`` wires this predicate into a **``PreToolUse`` hook**, not a
+``can_use_tool`` callback -- do not "simplify" it back. ``agent_options`` sets
+``permission_mode="bypassPermissions"`` because the web UIs cannot prompt a
+user for tool approval, and under that mode the SDK auto-approves every tool
+call *before* ``can_use_tool`` is ever consulted (see the SDK's own
+``CanUseToolShadowedWarning``). A commit once wired this predicate in as
+``can_use_tool`` anyway: it looked correct, its unit tests passed (they called
+the callback directly), and it was silently inert against a real agent --
+every Bash call sailed through ungated. A ``PreToolUse`` hook is the
+mechanism the SDK's warning itself names as the fix, and it is the only one
+that actually runs under ``bypassPermissions``.
 """
 from __future__ import annotations
 

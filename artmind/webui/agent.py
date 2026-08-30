@@ -10,8 +10,7 @@ from typing import Any
 from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
-    PermissionResultAllow,
-    PermissionResultDeny,
+    HookMatcher,
     ResultMessage,
     StreamEvent,
     TextBlock,
@@ -77,27 +76,53 @@ def agent_options(
     materialised conflicts and chunk-level provenance. When
     ``profile.filesystem_access`` is False, this disallows the file-reading
     tools (``artmind.webui.tool_gate.DENIED_TOOLS``) outright and installs a
-    ``can_use_tool`` callback that narrows ``Bash`` to a single ``artmind …``
-    invocation, denying anything else with a message naming the query command
-    to use instead. Every other tool — including in-process MCP tools a
-    front-end registers via ``mcp_servers`` — passes through untouched; the
-    gate's business is Bash and the read tools only. An operator surface sets
-    ``filesystem_access=True`` and gets neither restriction, since inspecting a
-    failed conversion or reading a log is legitimately its job. See
-    ``tool_gate.py`` for the reasoning behind the predicate itself.
+    ``PreToolUse`` hook, matched to ``Bash`` only, that narrows it to a single
+    ``artmind …`` invocation, denying anything else with a message naming the
+    query command to use instead. It is a hook and deliberately *not* a
+    ``can_use_tool`` callback — see ``tool_gate.py``'s module docstring for
+    why. Every other tool — including in-process MCP tools a front-end
+    registers via ``mcp_servers`` — passes through untouched; the gate's
+    business is Bash and the read tools only. An operator surface sets
+    ``filesystem_access=True`` and gets neither restriction (no hooks at all),
+    since inspecting a failed conversion or reading a log is legitimately its
+    job. See ``tool_gate.py`` for the reasoning behind the predicate itself.
+
+    The ``HookMatcher(matcher="Bash", ...)`` registration is what scopes the
+    hook to Bash calls in the first place, so this ought to be the only tool
+    the hook ever sees. The callback still checks ``tool_name`` itself and
+    allows anything that isn't Bash, purely as defense-in-depth: live,
+    authenticated verification that the CLI honours the matcher wasn't
+    possible from this checkout's dev sandbox, so the redundant check stays
+    rather than assuming.
     """
     denied_tools: list[str] = []
-    gate = None
+    hooks: dict[str, list[HookMatcher]] = {}
     if not profile.filesystem_access:
         denied_tools = list(DENIED_TOOLS)
 
-        async def gate(tool_name: str, tool_input: dict, context):  # noqa: ANN001
-            if tool_name != "Bash":
-                return PermissionResultAllow()
-            command = (tool_input or {}).get("command", "")
+        async def gate(input_data, tool_use_id, context):  # noqa: ANN001
+            if input_data.get("tool_name") != "Bash":
+                # Defense-in-depth only -- see the docstring above.
+                return {
+                    "hookSpecificOutput": {
+                        "hookEventName": "PreToolUse",
+                        "permissionDecision": "allow",
+                    }
+                }
+            command = (input_data.get("tool_input") or {}).get("command", "")
             if is_allowed_bash(command):
-                return PermissionResultAllow()
-            return PermissionResultDeny(message=denial_message(command))
+                decision, reason = "allow", None
+            else:
+                decision, reason = "deny", denial_message(command)
+            output: dict[str, Any] = {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": decision,
+            }
+            if reason is not None:
+                output["permissionDecisionReason"] = reason
+            return {"hookSpecificOutput": output}
+
+        hooks = {"PreToolUse": [HookMatcher(matcher="Bash", hooks=[gate])]}
 
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
@@ -115,7 +140,7 @@ def agent_options(
         mcp_servers=mcp_servers or {},
         allowed_tools=allowed_tools or [],
         disallowed_tools=denied_tools,
-        can_use_tool=gate,
+        hooks=hooks or None,
         model=model,
         fallback_model=fallback_model,
     )
