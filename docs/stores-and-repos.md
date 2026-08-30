@@ -1,21 +1,61 @@
 # Stores and repos
 
+**Status: revised for the vault model ([vault.md](./vault.md)) — not yet
+implemented.** The sections below describe the target topology; the code still
+implements the two-root layout described under "What this replaces".
+
 Where everything lives, who owns it, and what survives what. The column that
 matters most is **authoritative vs derived** — it decides what must be backed up,
 what can be thrown away, and what a "reset" actually means.
 
 ## The stores
 
-| # | Store | Location | Config | Holds | Authoritative? |
-|---|---|---|---|---|---|
-| 1 | **Code repo** | `~/Projects/artmind9` | — | source · **reference corpus** · `benchmarking/questions.md` | authoritative (source of truth for code and the gold-standard fixture) |
-| 2 | **Vault repo** | new, e.g. `~/Projects/artmind-corpus` | `ARTMIND_VAULT_DIR` | the **working copy** of documents + `structured/*.csv`; artmind writes frontmatter here and commits each ingested version | **authoritative** for document content and identity |
-| 3 | **Run folder** | `~/.artmind` | `ARTMIND_HOME` | `.env` · `domains/schemas/` · `domains/meta.yaml` · `.claude/skills/` · `.opencode/` · `logs/` · **`same_as.yaml`** | **mixed** — curation is authoritative, package assets are reseeded by `init` |
-| 4 | **Data dir** | `~/artmind_data` | `ARTMIND_DATA_DIR` | originals · markdowns · chunks · **KG staging** · `document_registry.db` · structured parquet · snapshots | derived — **except `documents/originals/`**, see below |
-| 5 | **Archive root** | `~/artmind_archive` | `ARTMIND_ARCHIVE_DIR` | portable bundles from `docs archive` | **authoritative** — the only copy of archived content |
-| 6 | **The graph** | `neo4j+s://…neo4j.io` (**hosted AuraDB**) | `ARTMIND_KG_NEO4J_*` | Documents · DocChunks · Observations · the projection | **derived** |
-| 7 | **Installed runtime** | `~/.local/share/uv/tools/artmind9/` (shim at `~/.local/bin/artmind`) | — | the `artmind` command | derived — editable, points back at the checkout |
-| 8 | **Model service** | Ollama (local) or OpenRouter | `ARTMIND_KG_LLM_*`, `ARTMIND_KG_EMBEDDINGS_*` | extraction + embedding models | external dependency, not a store |
+| # | Store | Location | Holds | Authoritative? |
+|---|---|---|---|---|
+| 1 | **Code repo** | `~/Projects/artmind9` | source · the shipped schema library · agent skills · **reference corpus** · `benchmarking/questions.md` | authoritative for code, shipped assets, and the gold-standard fixture |
+| 2 | **The vault** | any directory, e.g. `~/Notes` | documents · `_derived/` · `.artmind/` | **authoritative** — see the split below |
+| 3 | **Machine config** | `~/.artmind/config.env` · `~/.artmind/skills/` | LLM provider, credentials, models · the canonical skills copy | authoritative for credentials; skills are derived from the package |
+| 4 | **The graph** | `neo4j+s://…neo4j.io` (**hosted AuraDB**) | Documents · DocChunks · Observations · the projection | **derived** |
+| 5 | **Installed runtime** | `~/.local/share/uv/tools/artmind9/` (shim at `~/.local/bin/artmind`) | the `artmind` command | derived — editable, points back at the checkout |
+| 6 | **Model service** | Ollama (local) or OpenRouter | extraction + embedding models | external dependency, not a store |
+
+There is no run folder, no data dir and no archive root any more. All three were
+positions that had to be kept pointing at the right vault; they are now positions
+*inside* it.
+
+## Inside the vault
+
+The authoritative/derived split is no longer prose to remember — `artmind init`
+writes it as a `.gitignore`, so git enforces it.
+
+| Path | Holds | Authoritative? | In git |
+|---|---|---|---|
+| `notes/`, `policies/`, … | your documents | **authoritative** | yes |
+| `_derived/<domain>/*.md` | markdown converted from binaries; editable, promotable | **authoritative once edited** | yes |
+| `_derived/**/*_artifacts/` | images extracted during conversion | derived, but cheap and needed for rendering | yes |
+| `sources/*.pdf .pptx` | binaries you dropped in | **authoritative and unversioned** — see below | **no** |
+| `.artmind/vault.yaml` | folder→domain mapping; the ingest manifest | **authoritative** | yes |
+| `.artmind/domains/` | schemas + meta-schema | **authoritative** (hand-edited) | yes |
+| `.artmind/same_as.yaml` | curation: merge adjudication | **authoritative** | yes |
+| `.artmind/config.env` | this vault's graph connection | authoritative | no — holds a password |
+| `.artmind/data/` | originals (external only) · chunks · **KG staging** · registry · structured · snapshots | derived | no |
+| `.artmind/state.json` | the ingest cursor (`last_ingested_commit`) | derived | no |
+| `.artmind/logs/`, `serve.json`, `worker.pid` | machine-local runtime state | derived | no |
+| `.claude/skills/` | artmind's (symlinked) + your own | mixed | only yours |
+
+### The one place backup is now your job
+
+A binary in the vault is gitignored, so it has **no version history and no second
+copy**. This inverts the old model, where `documents/originals/` was authoritative
+precisely because it was the only copy artmind kept.
+
+What survives regardless is `_derived/<domain>/<stem>.md` — the markdown is in
+git, so the *content* is never lost, only the original formatting. And formatting
+stops being the source of truth the moment that markdown is edited, which is what
+promotion means (see [document-identity.md](./document-identity.md)).
+
+Binaries ingested from **outside** the vault are different: nothing else holds
+them, so they are still copied into `.artmind/data/originals/`.
 
 ## What "derived" actually costs
 
@@ -30,6 +70,7 @@ people lose work:
 | `:Synthesis` | observations | one model call per stale entity |
 | structured parquet | vault `structured/*.csv` | seconds |
 | `document_registry.db` | vault frontmatter (`docs reindex`) | seconds — *except for csv/xlsx, whose identity is path-only and cannot be rebuilt* |
+| `_derived/*.md` | the binary, if you still have it | one docling run + image description |
 
 **KG staging is the expensive layer.** That is why it is a snapshot component in
 its own right, and why `archive` bundles it rather than the graph.
@@ -38,47 +79,31 @@ its own right, and why `archive` bundles it rather than the graph.
 
 - **Wipe the graph** → `snapshot restore`, or replay KG staging with
   `ingest write-to-graph`, then `projection rebuild`. No model calls.
-- **Wipe the data dir** → re-ingestion from the vault. Full LLM cost.
+- **Wipe `.artmind/data/`** → re-ingestion from the vault. Full LLM cost, and
+  binaries ingested from outside the vault are gone for good.
+- **Clone the vault fresh** → documents, `_derived/`, schemas, curation and the
+  mapping all come back from git. Binaries do not.
 - **Re-derive the vault from the reference corpus** → every `_artmind_id` is lost,
-  so every document registers as new. **This is a total reset**, not a refresh —
-  which is fine, as long as it is a deliberate act.
-- **Wipe the run folder** → `artmind init` restores package assets, but
-  `same_as.yaml` and any hand-authored domain schema are gone unless restored from
-  the `curation` snapshot component.
+  so every document registers as new. **A total reset**, not a refresh — fine, as
+  long as it is deliberate.
+
+Note what is no longer a reset case: "wipe the run folder" cannot orphan curation
+any more, because `same_as.yaml` and the schemas live in the vault and in git.
 
 ## Reference corpus vs vault
 
-Store 1 keeps a pristine copy of the corpus; store 2 is the working copy artmind
-mutates. They will diverge as artmind writes `_artmind_id`, `_version`, and
-`_content_sha256` into the vault's frontmatter — by design.
+Store 1 keeps a pristine copy of the banking corpus; a vault is a working copy
+artmind mutates. They diverge as artmind writes `_artmind_id`, `_version` and
+`_content_sha256` into frontmatter — by design.
 
 There is deliberately **no reconciliation mechanism**. The reference is the input
 for a from-scratch rebuild and the fixture the benchmark is scored against; the
-vault is live state. If you want the reference updated, copy from the vault by hand
-and decide what to keep.
+vault is live state. To update the reference, copy from the vault by hand and
+decide what to keep.
 
-`benchmarking/questions.md` stays in the **code repo**, never the vault:
-`collect_ingest_files` skips only dotfiles, so a questions file inside the vault
-would be ingested as a document — and artmind would then write an `_artmind_id`
-into your benchmark fixture.
-
-## Inside the data dir
-
-```
-artmind_data/
-├── documents/originals/          binaries as ingested
-├── documents/markdowns/          docling output (.md)
-│   ├── <stem>_chunks/            split markdown — chunk_001.md, chunk_002.md …
-│   └── <stem>_artifacts/         images extracted during conversion
-├── kg/<domain>/<doc>/            KG staging — the expensive layer
-│   ├── document.json  chunks.json  entities.json
-│   ├── properties.json  relationships.json
-│   └── chunks/chunk_001.json     per-chunk model output
-├── document_registry.db          path ↔ id cache, chunk-extraction status
-├── structured/                   DuckDB catalog + <domain>/<table>.parquet
-├── ingestion_jobs/  refine/      job state, proposal artifacts
-└── graph_snapshot/  structured_snapshot/
-```
+`benchmarking/questions.md` stays in the **code repo**, never a vault — and under
+the vault model it would be harmless there anyway, since an unmapped path is
+never ingested. Keeping it out remains the clearer rule.
 
 ## Document flow
 
@@ -86,54 +111,49 @@ Three flows, distinguished by **where the user actually works**.
 
 ### A — Binary source (pdf, pptx, docx)
 
-The user works **outside the vault**, in the authoring application. The vault holds
-a derived mirror.
-
 ```mermaid
 flowchart TD
-    SRC["deck.pptx<br/><i>anywhere — Downloads, email</i>"]
-    ORIG["documents/originals/deck.pptx<br/><b>DATA DIR</b> — the only copy artmind keeps"]
-    DERIV["_derived/&lt;domain&gt;/deck.md<br/><b>VAULT</b> — frontmatter written, git commit"]
-    CH["chunks<br/><b>DATA DIR</b>"]
-    KG["kg/&lt;domain&gt;/deck/*.json<br/><b>DATA DIR</b> — the expensive layer"]
+    SRC["deck.pptx<br/><b>VAULT</b> — gitignored, no version history"]
+    DERIV["_derived/&lt;domain&gt;/deck.md + images<br/><b>VAULT</b> — frontmatter written, COMMITTED"]
+    CH["chunks<br/>.artmind/data/"]
+    KG["kg/&lt;domain&gt;/deck/*.json<br/>.artmind/data/ — the expensive layer"]
     G[":Document · :DocChunk · :Observation<br/><b>GRAPH</b>"]
     P[":Entity<br/><b>GRAPH</b> — rebuilt, indexed"]
 
-    SRC -->|copy| ORIG
-    ORIG -->|docling| DERIV
-    DERIV -->|split| CH -->|extract| KG -->|write| G -->|rebuild| P
+    SRC -->|docling| DERIV -->|split| CH -->|extract| KG -->|write| G -->|rebuild| P
 ```
+
+**No copy into `originals/`** — the binary already lives in the vault. Only a
+source from outside the vault is copied, because then nothing else holds it.
+Git versions the *markdown*, which is the representation that diffs meaningfully.
 
 ### B — Vault-native markdown (journal, notes, policies you author)
 
-The user works **in the vault**, in their editor. This is the fast-moving case.
-
 ```mermaid
 flowchart TD
-    V["&lt;vault&gt;/personal_journal/2026-08-23.md<br/><b>VAULT</b> — authored and edited here"]
+    V["&lt;vault&gt;/notes/2026-08-30.md<br/><b>VAULT</b> — authored and edited here"]
     FM["artmind writes _artmind_id, _version, _content_sha256<br/><b>VAULT</b> — git commit"]
-    CH["chunks<br/><b>DATA DIR</b>"]
-    KG["kg/&lt;domain&gt;/&lt;doc&gt;/*.json<br/><b>DATA DIR</b>"]
+    CH["chunks<br/>.artmind/data/"]
+    KG["kg/&lt;domain&gt;/&lt;doc&gt;/*.json<br/>.artmind/data/"]
     G[":Document · :DocChunk · :Observation<br/><b>GRAPH</b>"]
     P[":Entity<br/><b>GRAPH</b>"]
 
     V --> FM -->|split| CH -->|extract| KG -->|write| G -->|rebuild| P
 ```
 
-**No copy is made** into `originals/` or `markdowns/` — the vault file *is* the
-document, and git *is* its version history. Re-editing it and re-ingesting bumps
-`_version` only when the body hash changes; touching only frontmatter takes the
-metadata fast path and mints no observations.
+**No copy is made** — the vault file *is* the document and git *is* its version
+history. Re-editing bumps `_version` only when the body hash changes; touching
+frontmatter alone takes the metadata fast path and mints no observations. That
+last property is what stops commit-triggered ingestion from looping on artmind's
+own commits.
 
 ### C — Tabular (csv, xlsx)
-
-The user works **in the vault**, in a spreadsheet or by regenerating an export.
 
 ```mermaid
 flowchart TD
     C["&lt;vault&gt;/structured/customers.csv<br/><b>VAULT</b>"]
-    R["registry row — path identity<br/><b>DATA DIR</b>"]
-    PQ["structured/&lt;domain&gt;/customers.parquet<br/>+ _valid_from · _valid_to · _status<br/><b>DATA DIR</b>"]
+    R["registry row — path identity<br/>.artmind/data/"]
+    PQ["structured/&lt;domain&gt;/customers.parquet<br/>+ _valid_from · _valid_to · _status"]
     CAT[":Table · :TableColumn · :EntityClass<br/><b>GRAPH</b> — catalogue only"]
 
     C --> R --> PQ --> CAT
@@ -144,23 +164,23 @@ flowchart TD
 
 | Source | You edit | Vault holds | Re-ingest triggered by |
 |---|---|---|---|
-| **binary** | the original, elsewhere | a derived mirror | re-running `ingest sync` on the binary |
-| **vault-native markdown** | the vault file directly | the document itself | the file changing in the vault |
+| **binary** | the derived markdown, after conversion | binary (ignored) + markdown (committed) | the binary changing, until you edit the markdown — then promotion makes the markdown the source |
+| **vault-native markdown** | the vault file directly | the document itself | the file changing |
 | **tabular** | the csv in the vault | the csv | the csv changing |
 
-The banking corpus is mostly **B** today — the `.md` files are authored, not
-converted. A fast-moving domain like `personal_journal` is **B** by nature, and
-that is the case the vault design is really for: write in your editor, and the
-document's history is its git history.
+"Triggered by" means *enqueued by the cursor* — ingestion is always "what changed
+between `last_ingested_commit` and `HEAD`", never a filesystem watch. See
+[vault.md](./vault.md), "Ingest triggers".
 
-## One duplication the redesign creates
+## What this replaces
 
-Ingestion mirrors **derived** markdown (docling output from pptx/pdf/docx) into the vault
-at `<vault>/_derived/<domain>/<stem>.md`, so binary-sourced documents get versioned
-too. That leaves the same markdown in two places — the vault copy (versioned,
-authoritative) and `documents/markdowns/` (working).
+The two-root layout the code still implements: a **run folder** (`ARTMIND_HOME`,
+`~/.artmind`) holding `.env`, schemas, skills, curation and logs; and a **data
+dir** (`ARTMIND_DATA_DIR`, `~/artmind_data`) holding originals, markdowns, KG
+staging, the registry and snapshots — plus an **archive root**
+(`ARTMIND_ARCHIVE_DIR`) alongside.
 
-For **vault-native** markdown the copy is pure redundancy: today `ingest_file`
-does `shutil.copy2(dest_path, md_file)` even when the source is already `.md`.
-Under the new model there is no reason to copy it at all — read it from the vault,
-and let `documents/markdowns/` hold only the derived output and the split chunks.
+It was decoupled from the checkout but not from *itself*: one global run folder
+meant one knowledge base at a time, and the four roots had to be kept pointing at
+each other by hand. Folding them into the vault makes the knowledge base the unit
+and removes the coupling rather than documenting it.
