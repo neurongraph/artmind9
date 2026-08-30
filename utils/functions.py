@@ -9,21 +9,31 @@ import time
 from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
 from paths import (
-    ENV_FILE,
     LLM_CALLS_LOG_FILE,
 )
 
 # ── .env loader ─────────────────────────────────────────────────────
-def load_env(path: Path = ENV_FILE) -> dict[str, str | None]:
-    """Load .env file and return the parsed values as a dict.
+def load_env(path: Path | None = None) -> dict[str, str | None]:
+    """The effective configuration, merged across every file `paths` loaded.
 
-    Also populates ``os.environ`` so that ``os.getenv()`` works
-    transparently throughout the rest of the application.
+    `paths.py` loads the vault's `config.env`, then a legacy `.env`, then the
+    machine-wide `config.env`, each with ``override=False`` -- so ``os.environ``
+    already IS the merged view, with real environment variables beating all of
+    them. Returning it keeps the ~30 ``env.get("ARTMIND_...")`` call sites
+    correct under the machine/vault config split (docs/vault.md): a vault
+    `config.env` that sensibly holds only the graph connection must not hide the
+    machine's model settings, which used to happen silently -- callers fell back
+    to hardcoded defaults while ``os.environ`` held the right value.
+
+    Pass ``path`` to read one specific file instead, for a caller that genuinely
+    means a single file rather than the effective configuration.
     """
-    values = dotenv_values(path)
-    if values:
-        load_dotenv(path)
-    return values or {}
+    if path is not None:
+        values = dotenv_values(path)
+        if values:
+            load_dotenv(path)
+        return values or {}
+    return dict(os.environ)
 
 
 def resolve_llm_model(env: dict, override: str | None = None) -> str:
