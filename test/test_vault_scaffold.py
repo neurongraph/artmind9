@@ -166,3 +166,36 @@ def test_scaffold_symlinks_skills_to_the_installed_copy(tmp_path):
     linked = vault.VaultLayout(tmp_path).skills_dir / "artmind-query"
     assert linked.is_symlink()
     assert (linked / "SKILL.md").is_file()
+
+
+def test_a_new_vault_keeps_its_data_inside_itself(tmp_path):
+    """The seeded config must not hijack the data dir.
+
+    `artmind/env.example` is the MACHINE-level template and has
+    `ARTMIND_DATA_DIR=~/artmind_data` uncommented. Seeding a vault's config.env
+    from it sent every new vault's data to one shared directory — the exact
+    coupling the vault model exists to remove.
+    """
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+    config = vault.VaultLayout(tmp_path).config_env.read_text()
+
+    active = [ln for ln in config.splitlines()
+              if ln.strip() and not ln.strip().startswith("#")]
+    assert not [ln for ln in active if ln.startswith("ARTMIND_DATA_DIR=")], active
+
+
+def test_a_new_vault_config_holds_no_machine_level_identity(tmp_path):
+    """Credentials and models belong to the machine; a vault is a repo you may
+    push (docs/vault.md)."""
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+    config = vault.VaultLayout(tmp_path).config_env.read_text()
+
+    active = [ln for ln in config.splitlines()
+              if ln.strip() and not ln.strip().startswith("#")]
+    for leaked in ("ARTMIND_OPENROUTER_API_KEY", "ARTMIND_KG_LLM_MODEL",
+                   "ANTHROPIC_AUTH_TOKEN", "ARTMIND_KG_EMBEDDINGS_MODEL"):
+        assert not [ln for ln in active if ln.startswith(f"{leaked}=")], leaked

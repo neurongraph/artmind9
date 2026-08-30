@@ -160,6 +160,37 @@ ingest:
 """
 
 
+# A vault's own config holds ONLY what is scoped to this knowledge base
+# (docs/vault.md, "Machine-level config"). Deliberately NOT seeded from
+# `env.example`: that is the machine-level template, and its uncommented
+# `ARTMIND_DATA_DIR=~/artmind_data` would be loaded before paths.py's
+# vault-relative default, sending every new vault's data to one shared
+# directory -- precisely the coupling the vault model removes.
+_STARTER_CONFIG_ENV = """\
+# artmind — configuration for THIS vault. Gitignored: it holds a password.
+#
+# Shared identity (LLM provider, API keys, embedding + agent models) lives in
+# ~/.artmind/config.env and is inherited by every vault. Anything set here
+# overrides it, and a real environment variable overrides both.
+
+# ── this vault's graph ────────────────────────────────────────────────────────
+ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
+ARTMIND_KG_NEO4J_USERNAME=neo4j
+ARTMIND_KG_NEO4J_PASSWORD=
+ARTMIND_KG_NEO4J_DATABASE=neo4j
+
+# ── optional ──────────────────────────────────────────────────────────────────
+# Push the vault's git repo after artmind commits frontmatter. Leave unset if
+# something else (e.g. the Obsidian Git plugin) already owns pushing.
+# ARTMIND_VAULT_GIT_PUSH=1
+
+# Relocate derived data out of the vault. Only needed if the vault lives on a
+# sync service that would choke on KG staging and snapshots; the default is
+# <vault>/.artmind/data.
+# ARTMIND_DATA_DIR=/somewhere/else
+"""
+
+
 def scaffold_vault(root: Path) -> dict:
     """Make `root` an artmind vault. Idempotent, and never destructive.
 
@@ -194,8 +225,8 @@ def scaffold_vault(root: Path) -> dict:
     if PACKAGE_META_YAML.is_file() and not layout.meta_yaml.exists():
         shutil.copy2(PACKAGE_META_YAML, layout.meta_yaml)
 
-    if not layout.config_env.exists() and PACKAGE_ENV_EXAMPLE.is_file():
-        shutil.copy2(PACKAGE_ENV_EXAMPLE, layout.config_env)
+    if not layout.config_env.exists():
+        layout.config_env.write_text(_STARTER_CONFIG_ENV, encoding="utf-8")
         layout.config_env.chmod(0o600)
 
     if not layout.vault_yaml.exists():
