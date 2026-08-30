@@ -64,3 +64,26 @@ def test_the_denied_tool_list_covers_every_way_to_read_a_file():
     """If the SDK gains another file-reading tool, this list must grow -- the
     gate is only as good as its coverage."""
     assert {"Read", "Grep", "Glob"} <= set(DENIED_TOOLS)
+
+
+def test_the_qa_surface_has_no_filesystem_access():
+    """End-user Q&A: reading files is pure downside."""
+    from artmind.webui.profiles import QA_PROFILE
+
+    assert QA_PROFILE.filesystem_access is False
+
+
+def test_the_benchmark_surface_has_no_filesystem_access():
+    """A benchmark that greps its way to an answer silently invalidates every
+    score in benchmarking/."""
+    from artmind.webui.profiles import BENCHMARK_PROFILE
+
+    assert BENCHMARK_PROFILE.filesystem_access is False
+
+
+def test_the_admin_surface_keeps_filesystem_access():
+    """An operator console must be able to inspect a failed conversion, read a
+    log, and see what actually landed on disk."""
+    from artmind.webui.profiles import ADMIN_PROFILE
+
+    assert ADMIN_PROFILE.filesystem_access is True
