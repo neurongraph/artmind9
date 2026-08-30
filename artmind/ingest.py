@@ -67,22 +67,44 @@ IMAGE_EXTENSIONS = {
 }
 
 
+# What artmind can actually ingest. `ingest_file` routes every non-`.md` file
+# to docling, so without this an Obsidian vault's `.canvas` files (JSON) are
+# handed to a document converter that cannot read them, and its `.png`
+# attachments run through image description at full LLM cost merely for being
+# present. Unknown types are skipped by a directory walk and reported by the
+# caller -- never silently attempted.
+SUPPORTED_SUFFIXES = frozenset({
+    ".md",                              # vault-native markdown
+    ".pdf", ".pptx", ".docx",           # docling conversion
+    ".csv", ".xlsx",                    # the structured store
+    ".png", ".jpg", ".jpeg", ".webp",   # images, when a folder of them is mapped
+})
+
+
+def is_supported(path: Path) -> bool:
+    """Can artmind ingest this file type at all?"""
+    return Path(path).suffix.lower() in SUPPORTED_SUFFIXES
+
+
 def collect_ingest_files(path: Path) -> list[Path]:
     """Resolve a file-or-directory ingest target to the sorted list of files to ingest.
 
-    A single file ingests as itself. A directory is walked recursively, skipping
-    any file under a dotfile/dot-directory (``.DS_Store``, ``.git/``, ``.venv/``,
-    etc.) — those are OS/tooling artifacts, never ingestion targets. Shared by
-    every ingestion entry point (CLI sync/async, the admin dashboard's ingest
-    endpoint) so they can't drift out of agreement on what "ingest a directory"
-    means.
+    A single file ingests as itself, whatever its type -- naming it is an
+    explicit request, and the caller reports an unsupported type rather than
+    the walk silently dropping it. A directory is walked recursively, skipping
+    any file under a dotfile/dot-directory (``.DS_Store``, ``.git/``,
+    ``.artmind/``, ``.obsidian/``) and any file whose type artmind cannot
+    ingest (see ``SUPPORTED_SUFFIXES``).
     """
     if path.is_dir():
         return sorted(
             f for f in path.rglob("*")
             if f.is_file()
             and not any(p.startswith(".") for p in f.relative_to(path).parts)
+            and is_supported(f)
         )
+    # A named file is an explicit request: return it and let the caller report
+    # why it cannot be ingested, rather than silently pretending it was absent.
     return [path]
 
 

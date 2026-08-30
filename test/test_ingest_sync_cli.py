@@ -26,10 +26,12 @@ def sample_file(tmp_path) -> Path:
 
 @pytest.fixture()
 def sample_dir(tmp_path) -> Path:
+    # Supported suffixes only: a directory walk now filters unsupported types
+    # (artmind/ingest.py SUPPORTED_SUFFIXES), and .txt isn't one of them.
     d = tmp_path / "docs"
     d.mkdir()
-    (d / "a.txt").write_text("aaa")
-    (d / "b.txt").write_text("bbb")
+    (d / "a.md").write_text("aaa")
+    (d / "b.md").write_text("bbb")
     return d
 
 
