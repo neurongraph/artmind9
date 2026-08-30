@@ -4,7 +4,7 @@
 
 **Goal:** Make `.artmind/` artmind-owned and committed — so a vault clone reproduces the graph without paying for extraction again — and delete the promotion machinery that only existed because converted markdown used to be user-editable.
 
-**Architecture:** Ordered so nothing bloats git. Embeddings are stripped from KG staging **first**, because committing staging before that would put megabytes of undeltable float noise into history permanently. Then the `.gitignore` flips to commit derived output. Then sources stop being copied when they already live in the vault, external ones move to `_external_docs/` under path identity, and finally the promotion branches are deleted — by which point nothing depends on them.
+**Architecture:** Ordered so nothing bloats git. Embeddings are moved out of KG staging **first** — into a gitignored `embeddings.json` sidecar, not simply discarded — because committing staging before that would put megabytes of undeltable float noise into history permanently, while discarding them outright would make every ingest compute each vector twice. Then the `.gitignore` flips to commit derived output. Then sources stop being copied when they already live in the vault, external ones move to `_external_docs/` under path identity, and finally the promotion branches are deleted — by which point nothing depends on them.
 
 **Tech Stack:** Python 3.14, Click (rich_click), pytest, `uv`, `just`.
 
@@ -42,7 +42,7 @@ Three of these tasks could be done in any order and two cannot:
 
 ---
 
-## Task 1: Strip embeddings from persisted KG staging
+## Task 1: Move embeddings to a gitignored sidecar
 
 **Files:**
 - Modify: `artmind/ingest.py`
@@ -51,6 +51,27 @@ Three of these tasks could be done in any order and two cannot:
 An embedding is a pure function of `(text, embedding model)` — derived, deterministic, and reproducible locally at no API cost. It is the one thing in KG staging that git should not carry: measured on this corpus, ten versions of one `chunks.json` cost **60 KB** of git objects with embeddings and **20 KB** without, because changing one word changes all 768 floats and there is nothing to delta against.
 
 Embeddings are written in two places — the per-chunk JSON (`artmind/ingest.py:2035`) and the aggregated `chunks.json` (`:2210`). Both must be stripped.
+
+**But they must not simply be discarded.** `ingest_to_kg` calls
+`commit_to_graph(doc_kg_dir, …)` with a *directory*, and `_write_to_neo4j`
+re-reads `chunk_NNN.json` **from disk** (`:2108`). Strip without replacing and
+the sequence becomes: embed at `:1925` → strip on write → read the stripped file
+back → graph gets no vector → the sweep recomputes it, **in the same run**. That
+doubles embedding work on every ingest and couples the ingest path to a sweep it
+should never need.
+
+So the vectors move to a sidecar rather than vanishing:
+
+| | vectors | in git |
+|---|---|---|
+| `chunk_NNN.json`, `chunks.json` | stripped | **yes** |
+| `embeddings.json` | present | **no** |
+
+A fresh ingest writes the sidecar and the graph write merges it — computed once.
+A fresh clone has no sidecar, so chunks land unembedded and Task 2's sweep fills
+them once. That makes the sweep a clone-time repair rather than an every-ingest
+tax, and it also covers replaying staging into a wiped graph locally, where the
+sidecar is still present.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -107,6 +128,34 @@ def test_the_original_is_not_mutated():
     strip_embeddings(chunk)
 
     assert chunk["embedding"] == [0.1]
+
+
+def test_the_sidecar_round_trips(tmp_path):
+    """Vectors move out of committed staging, not out of existence -- otherwise
+    every ingest computes each embedding twice."""
+    from artmind.ingest import read_embedding_sidecar, write_embedding_sidecar
+
+    write_embedding_sidecar(tmp_path, [
+        {"chunk_id": "c1", "embedding": [0.1, 0.2]},
+        {"chunk_id": "c2", "embedding": [0.3]},
+    ])
+
+    assert read_embedding_sidecar(tmp_path) == {"c1": [0.1, 0.2], "c2": [0.3]}
+
+
+def test_a_missing_sidecar_reads_as_empty(tmp_path):
+    """The normal state after a fresh clone -- not an error."""
+    from artmind.ingest import read_embedding_sidecar
+
+    assert read_embedding_sidecar(tmp_path) == {}
+
+
+def test_chunks_without_vectors_write_no_sidecar(tmp_path):
+    from artmind.ingest import write_embedding_sidecar
+
+    write_embedding_sidecar(tmp_path, [{"chunk_id": "c1", "text": "x"}])
+
+    assert not (tmp_path / "embeddings.json").exists()
 ```
 
 - [ ] **Step 2: Run them to verify they fail**
@@ -151,7 +200,60 @@ and where `chunks.json` is aggregated (`:2210`, via `_write_json`):
     _write_json("chunks.json", [strip_embeddings(c) for c in all_chunks])
 ```
 
-**Do not change the graph-write path.** `_write_to_neo4j` builds its chunk node with `{k: data[k] for k in (…) if k in data}` (`:2109`), which already tolerates a missing `embedding` — a chunk simply arrives without a vector. That is exactly the state Task 2's sweep exists to repair.
+Add the sidecar helpers beside `strip_embeddings`:
+
+```python
+EMBEDDING_SIDECAR = "embeddings.json"
+
+
+def write_embedding_sidecar(doc_kg_dir: Path, chunks: list[dict]) -> int:
+    """Persist chunk vectors beside the staging, gitignored.
+
+    Staging is committed and vectors cannot be delta-compressed, so they are
+    stripped from it (see `strip_embeddings`) -- but discarding them outright
+    would make every ingest embed twice, since `_write_to_neo4j` re-reads the
+    chunk JSON from disk. The sidecar keeps the local copy without putting it
+    in git.
+    """
+    vectors = {c["chunk_id"]: c["embedding"] for c in chunks if c.get("embedding")}
+    if not vectors:
+        return 0
+    (Path(doc_kg_dir) / EMBEDDING_SIDECAR).write_text(
+        json.dumps(vectors), encoding="utf-8"
+    )
+    return len(vectors)
+
+
+def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
+    """Locally-cached vectors, or `{}`. Absent is the normal state after a
+    fresh clone, never an error."""
+    try:
+        return json.loads((Path(doc_kg_dir) / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+```
+
+Call `write_embedding_sidecar(doc_kg_dir, all_chunks)` where `chunks.json` is
+written.
+
+**Then merge it back in the graph write.** `_write_to_neo4j` builds its chunk
+node with `{k: data[k] for k in (…) if k in data}` (`:2109`), which already
+tolerates a missing `embedding`. Load the sidecar once before the chunk loop and
+supply the vector when present:
+
+```python
+    sidecar = read_embedding_sidecar(doc_kg_dir)
+```
+
+then inside the loop, after `chunk_node["id"] = data["chunk_id"]`:
+
+```python
+        if "embedding" not in chunk_node and chunk_node["id"] in sidecar:
+            chunk_node["embedding"] = sidecar[chunk_node["id"]]
+```
+
+A chunk with neither is written without a vector — exactly the state Task 2's
+sweep exists to repair.
 
 - [ ] **Step 4: Run the tests, then the full suite**
 
@@ -437,6 +539,21 @@ def test_binaries_in_the_vault_are_now_committed(tmp_path):
     assert "area1/deck.pptx" in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
 
 
+def test_the_embedding_sidecar_is_not_committed(tmp_path):
+    """Vectors are cached locally so an ingest does not embed twice, but they
+    are undeltable and a clone rebuilds them."""
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc").mkdir(parents=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc" / "embeddings.json").write_text("{}")
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc" / "chunks.json").write_text("[]")
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert "embeddings.json" not in status
+    assert "chunks.json" in status, "the staging itself is still committed"
+
+
 def test_logs_and_runtime_state_are_not_committed(tmp_path):
     _init_repo(tmp_path)
     (tmp_path / ".artmind" / "logs").mkdir(parents=True)
@@ -481,6 +598,11 @@ GITIGNORE_BLOCK = """\
 # artmind's own skills are symlinks to the installed copy; yours are not
 # matched by this and stay committable.
 .claude/skills/artmind-*
+
+# Locally-cached chunk vectors. Derived from (text, model), and undeltable —
+# ten versions of one chunks.json cost 60 KB of git objects with vectors and
+# 20 KB without. A clone has none and rebuilds them once.
+.artmind/data/kg/**/embeddings.json
 
 # Snapshots: large, opaque, and already a complete copy of what git versions.
 # By extension rather than path, so one dropped anywhere stays out of both git
@@ -901,8 +1023,13 @@ Expected absent: `.artmind/config.env`, `.artmind/data/document_registry.db`, `.
 - [ ] **Step 4: Confirm staging carries no vectors**
 
 ```bash
-grep -c '"embedding"' .artmind/data/kg/general/*/chunks.json || echo "no embeddings — correct"
+grep -c '"embedding"' .artmind/data/kg/general/*/chunks.json || echo "staging has no vectors — correct"
+ls .artmind/data/kg/general/*/embeddings.json && echo "sidecar present — correct, no recompute needed"
+git check-ignore -v .artmind/data/kg/general/*/embeddings.json && echo "and it is gitignored — correct"
 ```
+
+Then confirm the ingest embedded **once**, not twice: the run's log should show
+no chunk-embed sweep activity, because the sidecar supplied every vector.
 
 - [ ] **Step 5: Confirm the draft was skipped**
 
