@@ -78,6 +78,28 @@ class Manifest:
         return self.domain_for(relpath) is not None
 
 
+def validate_domains(vault_manifest: "Manifest | None", available: "set[str] | list[str]") -> None:
+    """Every domain a mapping names must exist.
+
+    Checked once up front rather than failing partway through a batch -- or,
+    worse, per file at extraction time long after the command returned success.
+
+    Neutral about how the failure is surfaced, like `filter_for_ingest`: the CLI
+    turns this into a `ClickException` and the admin console into an HTTP 400,
+    so all three ingestion entry points enforce the same rule from one
+    implementation.
+    """
+    if vault_manifest is None:
+        return
+    known = set(available)
+    unknown = sorted({m.domain for m in vault_manifest.mappings if m.domain not in known})
+    if unknown:
+        raise ManifestError(
+            f"Manifest maps to unknown domain(s): {', '.join(unknown)}. "
+            "Run 'artmind domains list' to see available domains."
+        )
+
+
 def filter_for_ingest(
     vault_root: "Path | None", path: Path, files: "list[Path]"
 ) -> "tuple[Manifest | None, list[Path], int]":

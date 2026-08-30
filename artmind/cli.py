@@ -550,20 +550,18 @@ def _manifest_for_ingest(path: Path, files: "list[Path]") -> "tuple[object | Non
 
 
 def _validate_manifest_domains(vault_manifest) -> None:
-    """Every domain a mapping names must exist, checked once up front rather
-    than failing partway through a batch -- or, for async, per file at
-    extraction time long after the command returned success."""
-    if vault_manifest is None:
-        return
-    available = _get_available_domains()
-    unknown = sorted({
-        m.domain for m in vault_manifest.mappings if m.domain not in available
-    })
-    if unknown:
-        raise click.ClickException(
-            f"Manifest maps to unknown domain(s): {', '.join(unknown)}. "
-            "Run 'artmind domains list' to see available domains."
-        )
+    """CLI translation of `manifest.validate_domains` (see it for the rule).
+
+    A thin wrapper on purpose: the admin console enforces the same rule and
+    translates the same error into an HTTP 400, so there is one implementation
+    rather than one per entry point.
+    """
+    from artmind.manifest import ManifestError, validate_domains
+
+    try:
+        validate_domains(vault_manifest, _get_available_domains())
+    except ManifestError as e:
+        raise click.ClickException(str(e))
 
 
 def _check_named_file_supported(path: Path) -> None:

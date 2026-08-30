@@ -1246,3 +1246,35 @@ def test_import_snapshot_failure_is_400(monkeypatch, tmp_path):
         files={"file": ("uploaded.zip", io.BytesIO(b"data"), "application/zip")},
     )
     assert response.status_code == 400
+
+
+class TestIngestManifestDomainValidation:
+    """The admin console enforces the manifest's domain names, like the CLI.
+
+    A mapping naming a domain that does not exist otherwise fails per file at
+    extraction, long after this route returned 200 and a job id.
+    """
+
+    def test_ingest_refuses_a_manifest_naming_an_unknown_domain(self, tmp_path, monkeypatch):
+        import paths as paths_module
+        from artmind.webui import dashboard_routes
+
+        (tmp_path / ".artmind").mkdir()
+        (tmp_path / ".artmind" / "vault.yaml").write_text(
+            "ingest:\n  mappings:\n    - path: notes/**\n      domain: no_such_domain_xyz\n"
+        )
+        (tmp_path / "notes").mkdir()
+        (tmp_path / "notes" / "n.md").write_text("# n")
+        monkeypatch.setattr(paths_module, "ARTMIND_VAULT_DIR", tmp_path, raising=False)
+
+        queued = []
+        monkeypatch.setattr(dashboard_routes, "_create_job",
+                            lambda *a, **k: queued.append(a) or "job-1")
+        monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
+
+        client = TestClient(create_app(admin_routes=True))
+        response = client.post("/api/ingest", json={"path": str(tmp_path), "domain": "general"})
+
+        assert response.status_code == 400
+        assert "no_such_domain_xyz" in response.json()["detail"]
+        assert queued == [], "nothing may be queued after a manifest error"
