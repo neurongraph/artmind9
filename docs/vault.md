@@ -365,6 +365,27 @@ defaults with it; restore defaults without.
 - **`_derived/`** — stays visible in the vault and committed, since it holds
   genuinely editable documents. Its images are committed with it.
 
+## Known gaps in what has shipped
+
+Recorded here rather than only in a plan, since plans get archived. Details and
+the tasks that close them are in
+[the plan notes](./superpowers/plans/2026-08-30-ingest-manifest.md).
+
+- **`VaultLayout` and `paths.py` disagree on data-dir names.** `VaultLayout`
+  declares `data/originals`, `data/chunks`, `data/snapshots`, `data/jobs`;
+  `paths.py` still derives `data/documents/originals`, `data/ingestion_jobs`,
+  `data/graph_snapshot`. Nothing reads the `VaultLayout` names yet, so nothing
+  is broken — but reaching for `layout.snapshots_dir` today returns a path the
+  system does not use.
+- **`--vault` is not a real flag.** `resolve_vault()` accepts an explicit path
+  but no command passes one; only `ARTMIND_VAULT` and the walk-up work.
+- **`load_env()` returns `dict(os.environ)`**, not one file's values — it had to,
+  or a vault config holding only the graph would hide the machine's models from
+  the ~33 call sites that read them from its return value.
+- **A command needing the vault should call `resolve_vault()` fresh**, not read
+  `paths.ARTMIND_VAULT_DIR`: that module global is frozen at first import and
+  cannot see a `chdir` within one process.
+
 ## Open
 
 - **`docs/INSTALL.md`** describes the old two-root flow and needs rewriting.
