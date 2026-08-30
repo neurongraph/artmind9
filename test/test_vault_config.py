@@ -114,3 +114,26 @@ def test_the_checkout_env_can_be_opted_back_in(tmp_path):
 
     if (REPO_ROOT / ".env").is_file():
         assert str(REPO_ROOT / ".env") in loaded
+
+
+def test_the_retired_vault_dir_variable_warns_instead_of_silently_doing_nothing(tmp_path):
+    """ARTMIND_VAULT_DIR used to SELECT the vault; it is now an output of
+    discovery. Existing .env files still set it, and a silent no-op is the worst
+    shape for a config change."""
+    home = tmp_path / "home"
+    (home / ".artmind").mkdir(parents=True)
+    outside = tmp_path / "elsewhere"
+    outside.mkdir()
+
+    env = {**os.environ, "PYTHONPATH": str(REPO_ROOT), "HOME": str(home),
+           "ARTMIND_VAULT_DIR": str(tmp_path / "somewhere")}
+    for key in ("ARTMIND_HOME", "ARTMIND_DATA_DIR", "ARTMIND_VAULT"):
+        env.pop(key, None)
+    result = subprocess.run(
+        [sys.executable, "-c", "import paths; print(paths.ARTMIND_VAULT_DIR)"],
+        capture_output=True, text=True, env=env, cwd=outside,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert "ARTMIND_VAULT_DIR is no longer read" in result.stderr
+    assert result.stdout.strip() == "None", "it must not select the vault"

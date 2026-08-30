@@ -1,16 +1,28 @@
 # Vaults
 
-**Status: specification — not yet implemented.** How artmind decides which
-knowledge base it is working on, and what lives where inside it. Supersedes the
-deleted `docs/workspaces.md`. Topology in
+**Status: partially implemented** on branch `feat/vault`. Landed: discovery,
+resolution precedence, the `VaultLayout` class, and the machine/vault config
+split. Not yet: `artmind init`, the ingest manifest, triggers, and everything
+under "Follow-on plans" in
+[the implementation plan](./superpowers/plans/2026-08-30-vault-foundation.md).
+
+How artmind decides which knowledge base it is working on, and what lives where
+inside it. Supersedes the deleted `docs/workspaces.md`. Topology in
 [stores-and-repos.md](./stores-and-repos.md); identity in
 [document-identity.md](./document-identity.md).
 
 ## The model
 
-**A vault is a directory.** It is your Obsidian vault, your git repo and your
+**A vault is a directory whose `.artmind/` holds a `vault.yaml` manifest.** It
+is your Obsidian vault, your git repo and your
 artmind knowledge base — one thing, not three kept pointing at each other.
 Everything artmind knows about it lives in `.artmind/` inside it.
+
+The manifest rather than the directory is the marker because `~/.artmind` is
+*also* the machine-wide config directory: keying on the directory alone made
+`$HOME` itself resolve as a vault, so any command run from anywhere beneath it
+would key document identity off `$HOME`. It also stops a half-created
+`.artmind/` being mistaken for a vault.
 
 You do not select a vault. You *are in one*, or you are not, exactly as with a
 git repo:
@@ -66,8 +78,8 @@ Inside `.artmind/data/`: `originals/` (only sources from *outside* the vault),
 
 ## Resolution
 
-Walk up from the current directory for `.artmind/`, exactly as git walks up for
-`.git/`. Innermost wins, so nested vaults behave like nested repos.
+Walk up from the current directory for `.artmind/vault.yaml`, exactly as git
+walks up for `.git/`. Innermost wins, so nested vaults behave like nested repos.
 
 Precedence, highest first: `--vault PATH`, then `ARTMIND_VAULT` (for cron and
 anything with no meaningful cwd), then the walk up from cwd.

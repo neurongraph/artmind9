@@ -15,6 +15,7 @@ when the constants below are computed; already-set environment variables win.
 """
 
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -30,6 +31,19 @@ from artmind.vault import VaultLayout, resolve_vault
 # back to the pre-vault layout unchanged, so existing installs and the test
 # suite keep working while the migration proceeds file by file.
 ARTMIND_VAULT_DIR = resolve_vault()
+
+# ARTMIND_VAULT_DIR used to SELECT the vault; it is now an output of discovery.
+# Existing .env files still set it, where it is read by nobody -- a silent no-op
+# is the worst shape for a config change, so say so once, on stderr (stdout
+# carries --compact JSON that callers parse).
+if os.environ.get("ARTMIND_VAULT_DIR"):
+    print(
+        "artmind: ARTMIND_VAULT_DIR is no longer read -- the vault is found by "
+        "walking up from the current directory for .artmind/vault.yaml. "
+        "Use ARTMIND_VAULT (or --vault) to point elsewhere, and remove "
+        "ARTMIND_VAULT_DIR from your config.",
+        file=sys.stderr,
+    )
 _LAYOUT = VaultLayout(ARTMIND_VAULT_DIR) if ARTMIND_VAULT_DIR else None
 
 # ARTMIND_HOME remains the raw escape hatch, above vault discovery: CLAUDE.md
