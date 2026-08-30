@@ -156,6 +156,19 @@ def test_scaffold_writes_a_starter_vault_yaml(tmp_path):
     assert manifest["ingest"]["mappings"] == []
 
 
+def test_the_starter_manifest_parses_with_the_real_reader(tmp_path):
+    """The template is the first thing a user edits; if it does not parse, the
+    first thing they see is an error."""
+    from artmind.manifest import load
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+    loaded = load(tmp_path)
+
+    assert loaded.trigger == "manual"
+    assert loaded.mappings == []
+
+
 def test_scaffold_symlinks_skills_to_the_installed_copy(tmp_path):
     """One canonical copy, so an artmind upgrade reaches every vault without
     re-seeding."""

@@ -150,13 +150,21 @@ _STARTER_VAULT_YAML = """\
 # AND whether to ingest it at all. An unmapped path is never ingested -- so an
 # attachments folder needs no ignore rule, and an unmapped Inbox/ is a drafting
 # area where MOVING a note into a mapped folder is what says "this is ready".
+#
+# First match wins, so put a specific rule above a general one. Paths are globs
+# relative to the vault root; `**` matches any depth.
+#
+# Domain precedence, highest first:
+#   --setDomain  >  the file's own _domain frontmatter  >  a mapping  >  --domain
 ingest:
-  # manual | commit | schedule. Default manual: nobody should discover
-  # automatic LLM spend by surprise.
+  # manual | commit | schedule. Only `manual` acts today. Default manual:
+  # nobody should discover automatic LLM spend by surprise.
   trigger: manual
   mappings: []
   #  - path: notes/**
   #    domain: personal_journal
+  #  - path: scans/**
+  #    domain: general
 """
 
 
