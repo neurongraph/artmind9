@@ -559,6 +559,23 @@ def _manifest_for_ingest(path: Path, files: "list[Path]") -> "tuple[object | Non
     return vault_manifest, kept
 
 
+def _validate_manifest_domains(vault_manifest) -> None:
+    """Every domain a mapping names must exist, checked once up front rather
+    than failing partway through a batch -- or, for async, per file at
+    extraction time long after the command returned success."""
+    if vault_manifest is None:
+        return
+    available = _get_available_domains()
+    unknown = sorted({
+        m.domain for m in vault_manifest.mappings if m.domain not in available
+    })
+    if unknown:
+        raise click.ClickException(
+            f"Manifest maps to unknown domain(s): {', '.join(unknown)}. "
+            "Run 'artmind domains list' to see available domains."
+        )
+
+
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option(
@@ -653,18 +670,7 @@ def ingest_sync(
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
 
-    # Every domain a mapping names must exist, checked once up front rather
-    # than failing partway through a batch.
-    if vault_manifest is not None:
-        available = _get_available_domains()
-        unknown = sorted({
-            m.domain for m in vault_manifest.mappings if m.domain not in available
-        })
-        if unknown:
-            raise click.ClickException(
-                f"Manifest maps to unknown domain(s): {', '.join(unknown)}. "
-                "Run 'artmind domains list' to see available domains."
-            )
+    _validate_manifest_domains(vault_manifest)
 
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
@@ -783,7 +789,8 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
 
     path = Path(file_path)
     files = collect_ingest_files(path)
-    _, files = _manifest_for_ingest(path, files)
+    vault_manifest, files = _manifest_for_ingest(path, files)
+    _validate_manifest_domains(vault_manifest)
     if not files:
         raise click.ClickException(f"No files found in {path}")
 

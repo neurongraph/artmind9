@@ -179,3 +179,23 @@ ingest:
 
     assert result.exit_code == 0, result.output
     assert queued == [["a.md"]]
+
+
+def test_async_refuses_a_manifest_naming_an_unknown_domain(vault, monkeypatch):
+    """sync refuses up front; async must too, rather than queueing a job that
+    fails per file at extraction long after the command returned success."""
+    monkeypatch.setattr(cli_module, "_create_job", lambda *a, **k: "job-1")
+    monkeypatch.setattr(cli_module, "_ensure_worker_running", lambda: None)
+    _manifest(vault, """
+ingest:
+  mappings:
+    - path: notes/**
+      domain: no_such_domain_xyz
+""")
+    (vault / "notes").mkdir()
+    (vault / "notes" / "n.md").write_text("# n")
+
+    result = CliRunner().invoke(cli, ["ingest", "async", ".", "--domain", "general"])
+
+    assert result.exit_code != 0
+    assert "no_such_domain_xyz" in result.output
