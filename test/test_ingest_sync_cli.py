@@ -8,8 +8,8 @@ from click.testing import CliRunner
 
 from artmind.cli import cli
 
-_OK_RESULT = {"filename": "sample.txt", "status": "ok"}
-_FAIL_RESULT = {"filename": "sample.txt", "status": "failed", "error": "boom"}
+_OK_RESULT = {"filename": "sample.md", "status": "ok"}
+_FAIL_RESULT = {"filename": "sample.md", "status": "failed", "error": "boom"}
 
 
 @pytest.fixture()
@@ -19,15 +19,18 @@ def runner():
 
 @pytest.fixture()
 def sample_file(tmp_path) -> Path:
-    f = tmp_path / "sample.txt"
+    # A supported suffix: naming a file of a type artmind cannot ingest at
+    # all (e.g. .txt) is now refused up front (artmind/ingest.py
+    # SUPPORTED_SUFFIXES) rather than reaching these mocked calls.
+    f = tmp_path / "sample.md"
     f.write_text("hello")
     return f
 
 
 @pytest.fixture()
 def sample_dir(tmp_path) -> Path:
-    # Supported suffixes only: a directory walk now filters unsupported types
-    # (artmind/ingest.py SUPPORTED_SUFFIXES), and .txt isn't one of them.
+    # Supported suffixes only: a directory walk filters unsupported types
+    # (artmind/ingest.py SUPPORTED_SUFFIXES).
     d = tmp_path / "docs"
     d.mkdir()
     (d / "a.md").write_text("aaa")
@@ -116,7 +119,7 @@ def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
     monkeypatch.setattr(cli, "load_env", lambda: {})
     monkeypatch.setattr(cli, "resolve_llm_model", lambda env: "m")
 
-    f = tmp_path / "a.txt"
+    f = tmp_path / "a.md"
     f.write_text("x")
     result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "general", "--stage-only"])
     assert result.exit_code == 0
@@ -139,7 +142,7 @@ def test_ingest_sync_default_stage_only_false(monkeypatch, tmp_path):
     monkeypatch.setattr(cli, "load_env", lambda: {})
     monkeypatch.setattr(cli, "resolve_llm_model", lambda env: "m")
 
-    f = tmp_path / "a.txt"
+    f = tmp_path / "a.md"
     f.write_text("x")
     result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "general"])
     assert result.exit_code == 0
@@ -159,7 +162,7 @@ def test_ingest_async_stage_only_passes_flag(monkeypatch, tmp_path):
     monkeypatch.setattr(cli, "_create_job", fake_create_job)
     monkeypatch.setattr(cli, "_ensure_worker_running", lambda: None)
 
-    f = tmp_path / "a.txt"
+    f = tmp_path / "a.md"
     f.write_text("x")
     result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general", "--stage-only"])
     assert result.exit_code == 0
@@ -179,7 +182,7 @@ def test_ingest_async_default_stage_only_false(monkeypatch, tmp_path):
     monkeypatch.setattr(cli, "_create_job", fake_create_job)
     monkeypatch.setattr(cli, "_ensure_worker_running", lambda: None)
 
-    f = tmp_path / "a.txt"
+    f = tmp_path / "a.md"
     f.write_text("x")
     result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general"])
     assert result.exit_code == 0

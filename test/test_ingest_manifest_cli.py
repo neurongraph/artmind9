@@ -199,3 +199,12 @@ ingest:
 
     assert result.exit_code != 0
     assert "no_such_domain_xyz" in result.output
+
+
+def test_naming_an_unsupported_file_says_why(vault):
+    (vault / "board.canvas").write_text("{}")
+
+    result = CliRunner().invoke(cli, ["ingest", "sync", "board.canvas"])
+
+    assert result.exit_code != 0
+    assert ".canvas" in result.output

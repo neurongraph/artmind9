@@ -24,6 +24,7 @@ from artmind.unified_snapshot import (
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
 from artmind.ingest import (
+    SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
     collect_ingest_files,
     commit_to_graph,
@@ -31,6 +32,7 @@ from artmind.ingest import (
     extract_kg,
     ingest_file,
     ingest_to_kg,
+    is_supported,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import is_structured_source, view_name
@@ -564,6 +566,18 @@ def _validate_manifest_domains(vault_manifest) -> None:
         )
 
 
+def _check_named_file_supported(path: Path) -> None:
+    """Naming a file is an explicit request. If artmind cannot ingest its
+    type at all, say so now -- otherwise it falls through to docling and
+    produces a generic conversion failure that never names the real cause."""
+    if path.is_file() and not is_supported(path):
+        raise click.ClickException(
+            f"Cannot ingest '{path.name}': artmind does not support "
+            f"'{path.suffix}' files. Supported types: "
+            f"{', '.join(sorted(SUPPORTED_SUFFIXES))}."
+        )
+
+
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option(
@@ -619,6 +633,7 @@ def ingest_sync(
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 
     path = Path(file_path)
+    _check_named_file_supported(path)
     files = collect_ingest_files(path)
 
     # The manifest does two jobs (docs/vault.md): it says which domain governs
@@ -768,6 +783,8 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
     """Submit a file or directory for background ingestion; returns job_id immediately."""
     _require_ingest_extra()
     _setup_logger()
+    path = Path(file_path)
+    _check_named_file_supported(path)
     if domain is None:
         domain = _prompt_for_domain()
     elif domain not in _get_available_domains():
@@ -775,7 +792,6 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
 
-    path = Path(file_path)
     files = collect_ingest_files(path)
     vault_manifest, files = _manifest_for_ingest(path, files)
     _validate_manifest_domains(vault_manifest)

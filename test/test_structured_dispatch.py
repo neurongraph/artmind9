@@ -306,11 +306,14 @@ def test_ingest_sync_dispatches_structured_file_not_kg(monkeypatch, tmp_path):
     assert spy["domain"] == "banking"
 
 
-def test_ingest_sync_txt_file_uses_kg_path_not_structured(monkeypatch, tmp_path):
+def test_ingest_sync_md_file_uses_kg_path_not_structured(monkeypatch, tmp_path):
+    """A non-structured but supported type (docs/vault.md's SUPPORTED_SUFFIXES) --
+    was `.txt` before naming a file of an unsupported type became a refusal
+    (artmind/ingest.py `is_supported`); `.md` keeps testing the same dispatch."""
     from click.testing import CliRunner
     import artmind.cli as cli
 
-    f = tmp_path / "a.txt"
+    f = tmp_path / "a.md"
     f.write_text("hello")
 
     monkeypatch.setattr(
