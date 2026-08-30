@@ -84,3 +84,43 @@ def test_an_env_var_pointing_at_a_non_vault_is_refused(tmp_path, monkeypatch):
 
     with pytest.raises(vault.VaultError, match="ARTMIND_VAULT"):
         vault.resolve_vault()
+
+
+def test_layout_places_everything_under_dot_artmind(tmp_path):
+    layout = vault.VaultLayout(tmp_path)
+
+    assert layout.artmind_dir == tmp_path / ".artmind"
+    assert layout.config_env == tmp_path / ".artmind" / "config.env"
+    assert layout.vault_yaml == tmp_path / ".artmind" / "vault.yaml"
+    assert layout.state_json == tmp_path / ".artmind" / "state.json"
+    assert layout.same_as == tmp_path / ".artmind" / "same_as.yaml"
+    assert layout.schemas_dir == tmp_path / ".artmind" / "domains" / "schemas"
+    assert layout.meta_yaml == tmp_path / ".artmind" / "domains" / "meta.yaml"
+    assert layout.logs_dir == tmp_path / ".artmind" / "logs"
+
+
+def test_derived_data_is_isolated_under_one_directory(tmp_path):
+    """Everything ignorable sits under data/, so one .gitignore line covers it."""
+    layout = vault.VaultLayout(tmp_path)
+    data = tmp_path / ".artmind" / "data"
+
+    assert layout.data_dir == data
+    assert layout.kg_dir == data / "kg"
+    assert layout.originals_dir == data / "originals"
+    assert layout.chunks_dir == data / "chunks"
+    assert layout.registry_db == data / "document_registry.db"
+    assert layout.structured_dir == data / "structured"
+    assert layout.snapshots_dir == data / "snapshots"
+    assert layout.jobs_dir == data / "jobs"
+    assert layout.refine_dir == data / "refine"
+
+
+def test_skills_land_where_claude_code_looks(tmp_path):
+    """ClaudeAgentOptions.skills resolves names from .claude/skills relative to
+    the agent's cwd, which is the vault."""
+    assert vault.VaultLayout(tmp_path).skills_dir == tmp_path / ".claude" / "skills"
+
+
+def test_derived_markdown_stays_visible_in_the_vault(tmp_path):
+    """_derived/ holds editable, promotable documents, so it is NOT hidden."""
+    assert vault.VaultLayout(tmp_path).derived_dir == tmp_path / "_derived"
