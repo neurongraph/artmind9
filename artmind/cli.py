@@ -507,6 +507,47 @@ def ingest():
     pass
 
 
+def _manifest_for_ingest(path: Path, files: "list[Path]") -> "tuple[object | None, list[Path]]":
+    """Load the vault manifest and drop files no mapping covers.
+
+    Filtering applies to a directory WALK only -- naming a file is an explicit
+    request and is always honoured, mapped or not. Returns the manifest (None
+    outside a vault) alongside the files to actually ingest.
+    """
+    from artmind.manifest import ManifestError, load as _load_manifest
+    from paths import ARTMIND_VAULT_DIR
+
+    if ARTMIND_VAULT_DIR is None:
+        return None, files
+    try:
+        vault_manifest = _load_manifest(ARTMIND_VAULT_DIR)
+    except ManifestError as e:
+        # Ingesting into the wrong domains because a mapping was mistyped is
+        # worse than refusing to start.
+        raise click.ClickException(str(e))
+
+    if not path.is_dir():
+        return vault_manifest, files
+
+    kept, skipped = [], 0
+    for f in files:
+        try:
+            rel = f.resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
+        except ValueError:
+            kept.append(f)  # outside the vault; the manifest says nothing
+            continue
+        if vault_manifest.should_ingest(rel):
+            kept.append(f)
+        else:
+            skipped += 1
+    if skipped:
+        logger.info(
+            "Skipped {} file(s) no mapping covers "
+            "(.artmind/vault.yaml, ingest.mappings)", skipped,
+        )
+    return vault_manifest, kept
+
+
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option(
@@ -564,9 +605,29 @@ def ingest_sync(
     path = Path(file_path)
     files = collect_ingest_files(path)
 
+    # The manifest does two jobs (docs/vault.md): it says which domain governs
+    # a path, and whether the path is ingested at all. Filtering applies to a
+    # directory WALK only -- naming a file is an explicit request and is
+    # always honoured, mapped or not.
+    vault_manifest, files = _manifest_for_ingest(path, files)
+
+    from paths import ARTMIND_VAULT_DIR
+
+    def _mapped_domain(f: Path) -> str | None:
+        if vault_manifest is None or ARTMIND_VAULT_DIR is None:
+            return None
+        try:
+            rel = f.resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
+        except ValueError:
+            return None  # outside the vault; the manifest says nothing about it
+        return vault_manifest.domain_for(rel)
+
     # A single file with no domain source at all is worth an interactive
     # prompt; a directory batch is not (frontmatter is expected to carry
-    # `_domain` per-file — see docs/document-identity.md).
+    # `_domain` per-file — see docs/document-identity.md). A folder mapping is
+    # also a domain source: a manifest saying "notes/** -> personal_journal"
+    # should not force a prompt just because the walk happened to filter down
+    # to one file.
     if domain is None and set_domain is None and len(files) == 1 and not is_structured_source(files[0]):
         from artmind.ingest import _parse_md_frontmatter
 
@@ -574,12 +635,25 @@ def ingest_sync(
         if files[0].suffix.lower() == ".md":
             meta, _ = _parse_md_frontmatter(files[0].read_text(encoding="utf-8"))
             frontmatter_domain = meta.get("_domain")
-        if not frontmatter_domain:
+        if not frontmatter_domain and not _mapped_domain(files[0]):
             domain = _prompt_for_domain()
     if domain is not None and domain not in _get_available_domains():
         raise click.ClickException(
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
+
+    # Every domain a mapping names must exist, checked once up front rather
+    # than failing partway through a batch.
+    if vault_manifest is not None:
+        available = _get_available_domains()
+        unknown = sorted({
+            m.domain for m in vault_manifest.mappings if m.domain not in available
+        })
+        if unknown:
+            raise click.ClickException(
+                f"Manifest maps to unknown domain(s): {', '.join(unknown)}. "
+                "Run 'artmind domains list' to see available domains."
+            )
 
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
@@ -615,8 +689,12 @@ def ingest_sync(
                 )
                 ok_count += 1 if res.get("status") == "ok" else 0
                 continue
+            # `ingest.py` computes `set_domain or prior_domain or domain`, so
+            # passing the mapped domain here lands the mapping in exactly the
+            # right precedence slot: --setDomain > the file's own _domain >
+            # the folder mapping > --domain as the fallback.
             result = ingest_file(
-                f, image_model, domain, chunk_size=chunk_size,
+                f, image_model, _mapped_domain(f) or domain, chunk_size=chunk_size,
                 set_domain=set_domain, fork=fork, adopt=adopt,
             )
             if result.get("status") == "ok":
