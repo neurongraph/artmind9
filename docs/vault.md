@@ -2,23 +2,20 @@
 
 **Status: partially implemented** on branch `feat/vault`. Landed: discovery,
 resolution precedence, the `VaultLayout` class, the machine/vault config split,
-`artmind init`, and the ingest manifest (folder→domain mapping, unmapped paths
-skipped, supported-type allowlist). Not yet: ingest triggers and the commit
-cursor, vault-resident binaries, schema provenance, daemon discovery, and
-`artmind vault adopt` — see
-[the follow-on plans](./superpowers/plans/2026-08-30-vault-foundation.md).
+`artmind init`, and the ingest manifest. **This document was substantially
+revised on 2026-08-30** — the `_derived/` promotion model it previously
+specified is withdrawn in favour of the ownership rule below, and the code still
+implements the old model. See "What this replaces".
 
 How artmind decides which knowledge base it is working on, and what lives where
-inside it. Supersedes the deleted `docs/workspaces.md`. Topology in
-[stores-and-repos.md](./stores-and-repos.md); identity in
+inside it. Topology in [stores-and-repos.md](./stores-and-repos.md); identity in
 [document-identity.md](./document-identity.md).
 
 ## The model
 
-**A vault is a directory whose `.artmind/` holds a `vault.yaml` manifest.** It
-is your Obsidian vault, your git repo and your
-artmind knowledge base — one thing, not three kept pointing at each other.
-Everything artmind knows about it lives in `.artmind/` inside it.
+**A vault is a directory whose `.artmind/` holds a `vault.yaml` manifest.** It is
+your Obsidian vault, your git repo and your artmind knowledge base — one thing,
+not three kept pointing at each other.
 
 The manifest rather than the directory is the marker because `~/.artmind` is
 *also* the machine-wide config directory: keying on the directory alone made
@@ -37,46 +34,61 @@ cd ~/work-research && artmind admin-ui    → that vault
 Two terminals, two vaults, at once, with no switch command and nothing to keep
 in sync.
 
-## The rejected design
+## The ownership rule
 
-The previous specification made a **workspace** the unit: a named registry entry
-selected by a global pointer file and switched with `artmind workspace use`. It
-is superseded because a global "current workspace" is a **mode**, and it broke on
-contact with long-running processes.
+This is the rule everything else follows from:
 
-`paths.py` resolves at import, so `admin-ui` pinned its workspace at launch while
-the `claude` agent it spawns inherited no workspace variable and re-read the
-pointer on every call — console and agent on different knowledge bases, one
-header claiming the wrong one. The remedy on offer was a warning banner and
-"restart to follow", which is an apology rather than a flow. Anchoring to the
-directory removes the failure mode instead of reporting it. There is no global
-state left to drift.
+> **`.artmind/` belongs to artmind. You never edit it; artmind never guesses.**
+> Everything artmind derives lives there, and — with a short exclusion list — is
+> committed to git.
+
+Outside `.artmind/` is yours: your notes, your folders, your binaries. Inside it
+is artmind's working output, versioned so you can see and share it, but not a
+place to edit. If you do edit it, artmind cannot guarantee the resulting state.
+
+The rule is worth stating because of how much it *deletes*. The previous model
+put converted markdown in a user-visible `_derived/` folder, which meant artmind
+had to detect your edits to it and defer to them. That single fact produced the
+whole promotion machinery: `_derived_sha256`, `markdown_edited`, a four-outcome
+decision table, a collision case artmind refuses to resolve, and a `git mv` that
+relocates a document mid-life. With the ownership rule, a document has one
+location for its whole life and the pipeline is **convert → chunk → extract**.
+
+Two corollaries:
+
+- **`_Inbox/` at the vault root is never ingested.** A drafting area that needs
+  no configuration. (Any unmapped path is equally safe — see the manifest — but
+  `_Inbox/` is the conventional one.)
+- **If a conversion comes out wrong**, you do not fix it in `.artmind/`. Copy the
+  markdown out into the vault as an ordinary note, move the binary to `_Inbox/`,
+  and ingest the note. That is the supported workflow, and it needs no machinery
+  because the note is then just a note.
 
 ## Layout
 
 ```
-~/MyVault/                          ← Obsidian vault, git repo, artmind vault
+~/MyVault/                              ← Obsidian vault, git repo, artmind vault
 ├── .git/  .obsidian/
-├── .claude/skills/                 ← artmind's (symlinked, ignored) + yours (committed)
-├── .artmind/
-│   ├── .gitignore                  ← written by init
-│   ├── config.env                  ← this vault's graph; ignored
-│   ├── vault.yaml                  ← folder→domain mapping + settings; COMMITTED
-│   ├── state.json                  ← ingest cursor; ignored
-│   ├── same_as.yaml                ← curation; COMMITTED
-│   ├── domains/                    ← schemas + meta-schema; COMMITTED
-│   ├── data/                       ← everything derived; ignored
-│   ├── logs/                       ← ignored
-│   └── serve.json  worker.pid      ← daemon discovery; ignored
-├── _derived/<domain>/              ← binary-derived markdown + its images; COMMITTED
-├── sources/                        ← your pdfs, decks; ignored (see below)
-├── Inbox/                          ← drafts; unmapped, so never ingested
-└── notes/  policies/  …            ← your documents; COMMITTED
+├── .claude/skills/                     ← artmind's (symlinked, ignored) + yours
+├── _Inbox/                             ← drafts; never ingested
+├── _external_docs/                     ← copies of sources from outside the vault
+├── area1/  notes/  …                   ← your documents, your binaries
+└── .artmind/                           ← ARTMIND-OWNED. Do not edit.
+    ├── vault.yaml                      ← the ingest manifest; COMMITTED
+    ├── config.env                      ← this vault's graph; NOT committed
+    ├── same_as.yaml                    ← curation; COMMITTED
+    ├── domains/                        ← schemas + meta-schema; COMMITTED
+    ├── logs/  state.json  serve.json   ← machine-local; NOT committed
+    └── data/
+        ├── markdowns/
+        │   ├── a_deck.md               ← converted; COMMITTED
+        │   ├── a_deck_artifacts/       ← extracted images + their descriptions
+        │   └── a_deck_chunks/          ← chunk_001.md, chunks_meta.json
+        ├── kg/<domain>/<doc>/          ← extraction output; COMMITTED
+        ├── document_registry.db        ← path↔id cache; NOT committed
+        ├── graph_snapshot/             ← *.zip; NOT committed
+        └── structured/
 ```
-
-Inside `.artmind/data/`: `originals/` (only sources from *outside* the vault),
-`chunks/`, `kg/` (staging — the expensive layer), `document_registry.db`,
-`structured/`, `snapshots/`, `jobs/`, `refine/`.
 
 ## Resolution
 
@@ -92,58 +104,126 @@ behaviour that surprises people exactly once.
 
 ## What is in git, and what is not
 
-The authoritative/derived split in [stores-and-repos.md](./stores-and-repos.md)
-stops being prose and becomes a `.gitignore` that `init` writes. The rule:
+Everything under `.artmind/` is committed **except** a short list, and the
+exclusions are not arbitrary — each is either a secret, a churning binary, or
+machine-local state:
 
-> **Git holds what git can meaningfully version.** Text that diffs. Not opaque
-> binaries, not regenerable derivatives.
-
-| In git | Why |
+| Not committed | Why |
 |---|---|
-| your documents | the point |
-| `_derived/<domain>/*.md` | the readable rendering of a binary — a `.pptx` diff tells you nothing, its markdown diff is the actual change |
-| `_derived/**/*_artifacts/*` | images extracted during conversion; the markdown references them, so without these Obsidian renders broken |
-| `.artmind/vault.yaml` | the ingest manifest — reviewable, and it *is* the corpus's structure |
-| `.artmind/domains/` | schemas are your ontology, hand-edited and authoritative |
-| `.artmind/same_as.yaml` | curation: merge adjudication, expensive to recreate |
+| `.artmind/config.env` | holds `ARTMIND_KG_NEO4J_PASSWORD`. A vault is a repo you may push. |
+| `.artmind/data/document_registry.db` | a SQLite binary rewritten on every ingest; merges catastrophically, and `docs reindex` rebuilds it |
+| `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state, meaningless on another machine |
+| `*.zip`, `*.tgz`, `*.tar.gz` anywhere | snapshots. Large, opaque, and already a complete copy of what git is versioning |
+| embeddings inside committed KG staging | see "Embeddings" below |
 
-| Not in git | Why |
-|---|---|
-| `*.pdf .pptx .docx .png .jpg` outside `_derived/` | opaque and large; git versions their markdown instead |
-| `.artmind/data/` | derived, and unbounded |
-| `.artmind/config.env` | may hold a graph password |
-| `.artmind/logs/`, `state.json`, `serve.json` | machine-local |
+Everything else is committed, including things previous versions of this
+document kept out: the converted markdown, the extracted images and their
+descriptions, the chunk files, and the KG staging JSON.
 
-Binary attachments need a negation so extracted images survive the extension
-rules:
+**Committing KG staging is deliberate, not incidental.** It is the expensive
+layer — hours and real money of LLM extraction — and putting it in git means a
+clone reproduces the graph at zero API cost. This is not a novel idea here:
+`artmind ingest pull-kg` already exists to fetch KG JSON from a git repo, so
+KG-in-git is a workflow the system was designed for.
 
-```gitignore
-*.pdf
-*.pptx
-*.png
-!_derived/**
-```
+Binaries are committed too, which reverses the previous model. The consequence
+that used to need stating — "a gitignored binary has no version history and no
+second copy" — is gone: `_external_docs/` and vault-resident binaries are both
+versioned like anything else.
 
-**The consequence, stated plainly:** a gitignored binary in the vault has **no
-version history and no second copy**. Today `documents/originals/` is
-authoritative precisely because it is the only copy artmind keeps; that inverts.
-Backing up vault binaries becomes the user's job — Time Machine, a backup disk,
-anything. What survives regardless is the markdown in `_derived/`, so the
-*content* is never lost, only the original formatting, which stops being the
-source of truth the moment the derived markdown is edited (promotion — see
-[document-identity.md](./document-identity.md)).
+### Sizing, honestly
 
-### Two duplications this removes
+Git does **not** store diffs. It stores each version as a compressed snapshot,
+and delta-compresses only later, at pack time, between objects it guesses are
+similar. That works well for prose and for JSON whose keys are stable. It works
+badly for two things you will be committing:
 
-**Binaries.** A source that already lives in the vault is **never copied**.
-That is exactly what Phase 2 did for vault-native markdown; binaries are the
-symmetric case. `.artmind/data/originals/` keeps only sources ingested from
-*outside* the vault, where artmind genuinely is the only keeper.
+- **`.pptx` and `.png`** — a `.pptx` is a ZIP, so changing one slide scrambles
+  the compressed stream and the delta is poor.
+- **Embeddings** — edit one word and all 768 floats change, so there is nothing
+  to delta against. Measured on this corpus: ten versions of one `chunks.json`
+  cost **60 KB** of git objects with embeddings and **20 KB** without.
 
-**Markdown.** `documents/markdowns/` disappears. The vault's
-`_derived/<domain>/<stem>.md` **is** the markdown; `.artmind/data/` keeps only
-the split chunks. This closes the duplication `stores-and-repos.md` has flagged
-since the redesign.
+Hence the exclusion below. What remains — markdown, chunk text, extraction JSON
+— deltas well, and git never forgetting is the point rather than the problem.
+
+## Embeddings
+
+A chunk embedding is a pure function of `(text, embedding model)`. It is
+**derived**, deterministic, and reproducible locally at no API cost — so it is
+the one thing inside committed KG staging that git should not carry.
+
+| Where | Embeddings | Why |
+|---|---|---|
+| committed KG staging (`data/kg/**/chunks.json`) | **stripped** | random floats, no useful delta, fully re-derivable |
+| the graph (Neo4j) | present | the vector index is the point |
+| snapshots (`*.zip`) | present | not in git anyway, and their whole job is *fast* restore |
+
+That split gives each layer the property it should have: the git-committed layer
+stays small and diffable, the snapshot layer stays fat and instant.
+
+**Restoring, therefore, has an embedding step.** `write-to-graph` writes chunks
+with no vectors, and a resumable sweep fills them in — mirroring how entity
+embeddings already work (`artmind ingest embed-entities`, plus the
+`embedding_stale` flag). `write-to-graph` runs the sweep by default; `--noEmbed`
+skips it.
+
+**Why the sweep is separate rather than inline:** a graph write should be fast
+and predictable. Re-embedding a large vault is minutes of local work, and
+folding it into `write-to-graph` makes that command sometimes-instant and
+sometimes-not, with a Ctrl-C that leaves you unsure what landed. As a sweep it is
+resumable and interruptible at no cost.
+
+**And it must be reported, because the failure is silent.** A null embedding is
+absent from the vector index, so an unembedded chunk is simply invisible to
+semantic search — no error, just quietly worse answers. Three channels:
+
+1. an `embedded` count in the summary `write-to-graph` already returns, so JSON
+   consumers and the admin UI see it;
+2. a line before a long run saying what is about to happen and that it is local
+   and one-off, so a fresh clone does not look hung;
+3. **a standing count of unembedded chunks in `artmind projection status`** —
+   the important one. Narrating work while it happens does not help with the
+   dangerous state, which is the one where the work did not happen and nobody
+   noticed.
+
+## Where a document lands
+
+Four cases, distinguished by where the source lives and what it is. In every
+case the converted markdown, its artifacts, its chunks and its KG staging land
+in the same place — the uniformity is the point.
+
+| Source | The source ends up | Converted markdown | Identity |
+|---|---|---|---|
+| binary from outside the vault | copied to `_external_docs/`, committed | `data/markdowns/<stem>.md` | the **source path** |
+| binary already in the vault | stays where you put it, committed | `data/markdowns/<stem>.md` | `_artmind_id` on… see below |
+| markdown from outside the vault | copied to `_external_docs/`, committed | `data/markdowns/<stem>.md` | the **source path** |
+| markdown already in the vault | stays where you put it | `data/markdowns/<stem>.md` | `_artmind_id` in its frontmatter |
+
+**Identity for vault-resident files is `_artmind_id`, written into the vault
+file** — not into the copy under `data/markdowns/`. That way renaming or moving
+your note keeps its history, which is the whole point of
+[document-identity.md](./document-identity.md). The `data/markdowns/` copy is
+the *ingested snapshot*: immutable, matching the KG staging beside it, and
+therefore genuine provenance rather than redundancy.
+
+**Identity for external files is the source path.** Two different decks both
+named `deck.pptx`, from different folders, are different documents — not
+versions of each other. Same path with changed bytes is a new version; a
+different path with the same basename is a different document and is stored
+distinctly under `_external_docs/`. Name-based identity is precisely the problem
+`_artmind_id` was introduced to solve, and it must not creep back in here.
+
+### Standalone images
+
+An image that is not an attachment inside a note — a diagram, a screenshot, a
+scan — is treated as a binary source like any other: copied if external,
+described by the vision model, and the description stored as its markdown. It is
+**not** put through OCR by default.
+
+The exception worth allowing: a scan of a page of text is exactly what OCR is
+for, and a vision description of it is a poor substitute. So OCR is opt-in per
+mapping in `vault.yaml` rather than never available.
 
 ## The ingest manifest — `.artmind/vault.yaml`
 
@@ -311,14 +391,20 @@ graph.
 
 ## Snapshots
 
-Snapshots live in `.artmind/data/snapshots/` with everything else derived, which
-keeps the vault self-contained. They are also the one component that grows
-without bound — today's install holds 467 MB of them against 177 MB of KG
-staging. So:
+Snapshots live in `.artmind/data/graph_snapshot/` as `*.zip`, and are the one
+part of `.artmind/` that is **not** committed — they are large, opaque, and a
+complete duplicate of what git is already versioning. They are also the reason
+the exclusion list names archive extensions rather than a single path: a
+snapshot dropped anywhere in the vault should stay out of both git and
+ingestion.
 
-> **The admin-ui snapshot list gains a per-entry delete button.** Download →
-> store somewhere durable → delete from the vault. Without it, "snapshots live in
-> the vault" is a slow leak with no supported remedy.
+Because they are excluded from git, they are also the one derived artifact with
+no version history — which makes deleting them safe but losing them permanent.
+So:
+
+> **The admin-ui snapshot list needs a per-entry delete button.** Download →
+> store somewhere durable → delete from the vault. Without it, snapshots are a
+> slow leak with no supported remedy, since nothing else prunes them.
 
 ## The daemon
 
@@ -331,58 +417,50 @@ The daemon is then **discovered through the vault it serves**, so a daemon for o
 vault is unreachable from another by construction, and the workspace fingerprint
 the previous design needed becomes unnecessary.
 
-## What this deletes
+## What this replaces
 
-- the workspace registry, workspace **names**, the pointer file, and
-  `artmind workspace use` / `list` / `env` / `create`
-- the `/health` workspace fingerprint and its stdlib mirror
-- `ARTMIND_HOME` / `ARTMIND_DATA_DIR` / `ARTMIND_VAULT_DIR` / `ARTMIND_ARCHIVE_DIR`
-- `documents/markdowns/`, and `originals/` for anything already in the vault
-- per-vault schema-seeding guardrails (automatic now) and the "two workspaces,
-  one vault" check (impossible now)
-- ports-per-vault, the drift banner, "restart to follow"
+Two models preceded this one, and both are recorded here because the code still
+implements parts of them.
 
-`workspace adopt` survives as `artmind vault adopt`: fold `~/.artmind` and
-`~/artmind_data` into a directory's `.artmind/`, copying and leaving the original.
+**The workspace model** (deleted `docs/workspaces.md`) made a named registry
+entry the unit, selected by a global pointer file. A global "current workspace"
+is a mode, and it broke on contact with long-running processes: `paths.py`
+resolves at import, so `admin-ui` pinned its workspace at launch while the agent
+it spawns re-read the pointer on every call — console and agent on different
+knowledge bases. Anchoring to the directory removed the failure mode instead of
+reporting it.
+
+**The `_derived/` promotion model** (this document, before 2026-08-30) put
+converted markdown in a user-visible `_derived/<domain>/` folder so you could fix
+a mangled conversion by hand. That single affordance required artmind to detect
+your edits and decide between them and the binary, producing `_derived_sha256`,
+`markdown_edited`, `_decide_promotion`, a collision case it refuses to resolve,
+`_is_promoted`, and a mid-life `git mv` — which in turn broke the relative links
+to a document's extracted images, since promotion moved the markdown and not the
+images.
+
+The ownership rule replaces all of it with a documented manual workflow: copy the
+markdown out, ingest it as an ordinary note. Everything listed above can be
+deleted, including `artmind/derived_markdown.py` in its entirety.
 
 ## Guardrails that survive
 
 **No implicit checkout-local `.env` fallback.** It silently loaded another
 knowledge base's config — credentials and graph included — whenever a run folder
-had none of its own. It matters more here: there are now more config files.
-`ARTMIND_ALLOW_REPO_ENV=1` opts back in for a dev clone.
+had none of its own. `ARTMIND_ALLOW_REPO_ENV=1` opts back in for a dev clone.
 
-**A supported-type allowlist.** Hidden directories are *already* handled —
-`collect_ingest_files` skips any dot-prefixed path component, so `.artmind/`,
-`.obsidian/`, `.git/` and `.claude/` cost nothing. What is missing is type
-checking: `ingest_file` routes every non-`.md` file to docling, so a `.canvas`
-file (JSON) is handed to a document converter that cannot read it. Unknown types
-must be skipped and reported.
+**A supported-type allowlist.** Hidden directories are already skipped by
+`collect_ingest_files`, so `.artmind/`, `.obsidian/`, `.git/` and `.claude/` cost
+nothing. The allowlist is derived from the sets that define what each pipeline
+handles, so a type added to one cannot silently vanish from directory walks —
+which is exactly what happened to `.xlsm`.
 
 **Snapshot defaults split by verb.** Omitting `curation` on create risks losing
 merge adjudication; including it on restore overwrites live curation. Create
 defaults with it; restore defaults without.
 
-## Resolved
-
-- **`_meta/`** — three hand-authored notes (`index.md`, `schema_mapping.md`,
-  `README.md`) that no code reads and that were never ingested. Its useful half
-  becomes `vault.yaml`; the rest is just notes, living anywhere unmapped.
-- **`_derived/`** — stays visible in the vault and committed, since it holds
-  genuinely editable documents. Its images are committed with it.
-
 ## Known gaps in what has shipped
 
-Recorded here rather than only in a plan, since plans get archived. Details and
-the tasks that close them are in
-[the plan notes](./superpowers/plans/2026-08-30-ingest-manifest.md).
-
-- **`VaultLayout` and `paths.py` disagree on data-dir names.** `VaultLayout`
-  declares `data/originals`, `data/chunks`, `data/snapshots`, `data/jobs`;
-  `paths.py` still derives `data/documents/originals`, `data/ingestion_jobs`,
-  `data/graph_snapshot`. Nothing reads the `VaultLayout` names yet, so nothing
-  is broken — but reaching for `layout.snapshots_dir` today returns a path the
-  system does not use.
 - **`--vault` is not a real flag.** `resolve_vault()` accepts an explicit path
   but no command passes one; only `ARTMIND_VAULT` and the walk-up work.
 - **`load_env()` returns `dict(os.environ)`**, not one file's values — it had to,
@@ -391,10 +469,14 @@ the tasks that close them are in
 - **A command needing the vault should call `resolve_vault()` fresh**, not read
   `paths.ARTMIND_VAULT_DIR`: that module global is frozen at first import and
   cannot see a `chdir` within one process.
+- **The code still implements the `_derived/` model.** Everything in "What this
+  replaces" is specified as withdrawn but not yet removed.
 
 ## Open
 
-- **`docs/INSTALL.md`** describes the old two-root flow and needs rewriting.
+- **`docs/INSTALL.md`** describes install and layout and will need the ownership
+  rule once the code matches this document.
 - **Query-only consumers** (the canvas backend) need `--vault` or `ARTMIND_VAULT`.
-- **`_derived/` is an awkward name** in an Obsidian sidebar. Renaming it is
-  cosmetic and can wait.
+- **Whether `data/kg/<doc>/chunks/chunk_NNN.json` is redundant** with the
+  aggregated `chunks.json`. If it is, committing both doubles the largest
+  committed artifact for nothing.

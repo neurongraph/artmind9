@@ -24,7 +24,7 @@ stay accurate and maintained. Read these first when onboarding.
 | [docs/document-identity.md](document-identity.md) | 2026-08-24 | Current identity/versioning mechanism. Post-redesign. |
 | [docs/projection-pipeline.md](projection-pipeline.md) | 2026-08-25 | Current observation→projection mechanism. Post-redesign. |
 | [docs/stores-and-repos.md](stores-and-repos.md) | 2026-08-30 | **Revised for the vault model; not yet implemented.** Store/repo topology — the vault absorbs the run folder, data dir and archive root. |
-| [docs/vault.md](vault.md) | 2026-08-30 | **Specification — not yet implemented.** Vault-anchored resolution, the ingest manifest, skills/schema lifecycle, and ingest triggers. |
+| [docs/vault.md](vault.md) | 2026-08-30 | **Specification; partially implemented.** Vault-anchored resolution and the ownership rule: `.artmind/` is artmind-owned, derived output is committed. |
 | [docs/CAPABILITIES.md](CAPABILITIES.md) | 2026-08-27 | Actively-maintained capability map / scoring checklist. |
 | [docs/apqc-fibo-vs-banking-schemas.md](apqc-fibo-vs-banking-schemas.md) | 2026-07-06 | Standing rationale doc (APQC/FIBO vs. `banking_*` schemas); not tied to a build phase. |
 | [docs/INCREMENTAL_INGESTION_v2.md](INCREMENTAL_INGESTION_v2.md) | 2026-07-22 | "Reflects the system as it runs today" — explicitly the current reader's guide. |
