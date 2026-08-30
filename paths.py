@@ -42,15 +42,38 @@ elif _LAYOUT is not None:
 else:
     ARTMIND_HOME = (Path.home() / ".artmind").resolve()
 
-# Load .env early: prefer the run folder; fall back to a repo-local .env so the
-# editable/dev checkout keeps working without exporting ARTMIND_HOME. Real
-# environment variables are never overridden.
-ENV_FILE = ARTMIND_HOME / ".env"
-for _candidate in (ARTMIND_HOME / ".env", _SELF_DIR / ".env"):
-    if _candidate.is_file():
+# ── config, loaded MOST SPECIFIC FIRST ────────────────────────────────────────
+# `override=False` means an already-set key wins, so reading the vault's own
+# config before the machine's is what makes the vault override the machine
+# rather than the reverse. Real environment variables were set before either and
+# therefore beat both.
+#
+# Secrets stay machine-wide because a vault is a repo you may push: the line is
+# "secrets and models belong to the machine; knowledge belongs to the vault"
+# (docs/vault.md).
+#
+# There is deliberately NO implicit fallback to a checkout-local .env: it
+# silently loaded another knowledge base's config -- credentials and graph
+# included -- whenever a run folder had none of its own.
+MACHINE_CONFIG_DIR = (Path.home() / ".artmind").resolve()
+MACHINE_CONFIG_ENV = MACHINE_CONFIG_DIR / "config.env"
+
+LOADED_ENV_FILES: "list[Path]" = []
+_candidates = [
+    ARTMIND_HOME / "config.env",   # this vault
+    ARTMIND_HOME / ".env",         # legacy run folder, still honoured
+    MACHINE_CONFIG_ENV,            # machine-wide identity
+]
+if os.environ.get("ARTMIND_ALLOW_REPO_ENV", "").strip().lower() in ("1", "true", "yes"):
+    _candidates.append(_SELF_DIR / ".env")
+for _candidate in _candidates:
+    if _candidate.is_file() and _candidate not in LOADED_ENV_FILES:
         load_dotenv(_candidate, override=False)
-        ENV_FILE = _candidate
-        break
+        LOADED_ENV_FILES.append(_candidate)
+
+# Retained for backward compatibility. Prefer LOADED_ENV_FILES, which reports
+# every file read rather than just the first.
+ENV_FILE = LOADED_ENV_FILES[0] if LOADED_ENV_FILES else ARTMIND_HOME / ".env"
 
 # ── ingestion data root (query never touches this) ─────────────────────────────
 if os.environ.get("ARTMIND_DATA_DIR"):
