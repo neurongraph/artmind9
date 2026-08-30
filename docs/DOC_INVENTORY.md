@@ -24,7 +24,7 @@ stay accurate and maintained. Read these first when onboarding.
 | [docs/document-identity.md](document-identity.md) | 2026-08-24 | Current identity/versioning mechanism. Post-redesign. |
 | [docs/projection-pipeline.md](projection-pipeline.md) | 2026-08-25 | Current observation→projection mechanism. Post-redesign. |
 | [docs/stores-and-repos.md](stores-and-repos.md) | 2026-08-24 | Current store/repo topology (code repo, vault, run folder, data dir, archive root). |
-| [docs/workspaces.md](workspaces.md) | 2026-08-29 | **Design — not yet implemented.** Workspace model for switching between independent knowledge bases (vault + data dir + archive + graph). |
+| [docs/vault.md](vault.md) | 2026-08-30 | **Design — not yet implemented.** Vault-anchored resolution: a vault is a directory holding its own `.artmind/`. Supersedes the deleted `workspaces.md`. |
 | [docs/CAPABILITIES.md](CAPABILITIES.md) | 2026-08-27 | Actively-maintained capability map / scoring checklist. |
 | [docs/apqc-fibo-vs-banking-schemas.md](apqc-fibo-vs-banking-schemas.md) | 2026-07-06 | Standing rationale doc (APQC/FIBO vs. `banking_*` schemas); not tied to a build phase. |
 | [docs/INCREMENTAL_INGESTION_v2.md](INCREMENTAL_INGESTION_v2.md) | 2026-07-22 | "Reflects the system as it runs today" — explicitly the current reader's guide. |

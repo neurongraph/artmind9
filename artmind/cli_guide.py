@@ -327,17 +327,7 @@ def build_sections() -> list[dict]:
             if cmd is None:
                 continue
             if isinstance(cmd, click.Group):
-                group_panels = get_panels(f"artmind {name}", cmd)
-                # A TOP-LEVEL group declared `invoke_without_command=True` is a
-                # command in its own right -- `artmind workspace` reports the
-                # active workspace. get_panels() handles this for nested groups
-                # only (see its `db mappings` comment), so without this a
-                # top-level one would be routed by COMMAND_GROUPS yet still have
-                # no card: silently undocumented, the exact failure the nested
-                # case already guards against.
-                if cmd.invoke_without_command:
-                    group_panels.insert(0, ("Commands", [(f"artmind {name}", cmd)]))
-                panels.extend(group_panels)
+                panels.extend(get_panels(f"artmind {name}", cmd))
             else:
                 panels.append(("Commands", [(f"artmind {name}", cmd)]))
         sections.append({

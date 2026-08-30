@@ -20,14 +20,7 @@ def _response(payload: dict):
 
 def test_proxies_query_when_daemon_alive(monkeypatch, capsys):
     responses = [
-        _response({
-            "service": "artmind",
-            "status": "ok",
-            # Must match this process's own fingerprint, or the proxy correctly
-            # refuses the daemon and falls through to an in-process run
-            # (docs/workspaces.md, guardrail 2).
-            "workspace_fingerprint": _entry._fingerprint(),
-        }),
+        _response({"service": "artmind", "status": "ok"}),
         _response({"exit_code": 0, "output": '{"rows": []}\n', "stderr": ""}),
     ]
     monkeypatch.setattr(
@@ -45,14 +38,7 @@ def test_proxies_query_when_daemon_alive(monkeypatch, capsys):
 
 def test_proxy_propagates_exit_code_and_stderr(monkeypatch, capsys):
     responses = [
-        _response({
-            "service": "artmind",
-            "status": "ok",
-            # Must match this process's own fingerprint, or the proxy correctly
-            # refuses the daemon and falls through to an in-process run
-            # (docs/workspaces.md, guardrail 2).
-            "workspace_fingerprint": _entry._fingerprint(),
-        }),
+        _response({"service": "artmind", "status": "ok"}),
         _response({"exit_code": 2, "output": "", "stderr": "Usage: bad flag\n"}),
     ]
     monkeypatch.setattr(

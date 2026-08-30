@@ -13,10 +13,8 @@ from click.testing import CliRunner
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from artmind import workspace
 from artmind._entry import DEFAULT_PORT  # noqa: F401  (re-exported for callers)
 from artmind.cli import cli
-from paths import workspace_fingerprint
 
 # CliRunner redirects the process-wide stdout, so invocations must not overlap.
 _invoke_lock = threading.Lock()
@@ -50,18 +48,7 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     def health() -> dict:
-        # workspace_fingerprint identifies the knowledge base this daemon loaded
-        # at start. artmind/_entry.py recomputes its own and refuses to proxy on
-        # a mismatch, so a daemon left running from another workspace falls
-        # through to an in-process run instead of answering for the wrong graph
-        # (docs/workspaces.md, guardrail 2).
-        return {
-            "service": "artmind",
-            "status": "ok",
-            "version": _service_version(),
-            "workspace": workspace.active_name(),
-            "workspace_fingerprint": workspace_fingerprint(),
-        }
+        return {"service": "artmind", "status": "ok", "version": _service_version()}
 
     @app.post("/query")
     def query(request: QueryRequest) -> dict:
