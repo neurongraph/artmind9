@@ -10,6 +10,8 @@ from typing import Any
 from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
+    PermissionResultAllow,
+    PermissionResultDeny,
     ResultMessage,
     StreamEvent,
     TextBlock,
@@ -20,6 +22,7 @@ from claude_agent_sdk import (
 
 from artmind.webui.backends.base import TRACE_CLIP, clip
 from artmind.webui.profiles import AgentProfile, QA_PROFILE
+from artmind.webui.tool_gate import DENIED_TOOLS, denial_message, is_allowed_bash
 from paths import ARTMIND_HOME
 
 # The chat agent runs from the clean run folder (config + skills + schemas +
@@ -67,7 +70,35 @@ def agent_options(
     transport). Used for ``ARTMIND_SDK_BASE_URL`` (see ``backends/__init__.py``)
     to point the CLI at a custom endpoint without disturbing the process-wide
     ``ANTHROPIC_BASE_URL`` the KG pipeline also reads.
+
+    **The grounding gate** (``docs/vault.md``): the agent's ``cwd`` is now the
+    user's vault, so an ungated agent can answer by reading documents directly
+    instead of through ``artmind query`` — silently losing supersession,
+    materialised conflicts and chunk-level provenance. When
+    ``profile.filesystem_access`` is False, this disallows the file-reading
+    tools (``artmind.webui.tool_gate.DENIED_TOOLS``) outright and installs a
+    ``can_use_tool`` callback that narrows ``Bash`` to a single ``artmind …``
+    invocation, denying anything else with a message naming the query command
+    to use instead. Every other tool — including in-process MCP tools a
+    front-end registers via ``mcp_servers`` — passes through untouched; the
+    gate's business is Bash and the read tools only. An operator surface sets
+    ``filesystem_access=True`` and gets neither restriction, since inspecting a
+    failed conversion or reading a log is legitimately its job. See
+    ``tool_gate.py`` for the reasoning behind the predicate itself.
     """
+    denied_tools: list[str] = []
+    gate = None
+    if not profile.filesystem_access:
+        denied_tools = list(DENIED_TOOLS)
+
+        async def gate(tool_name: str, tool_input: dict, context):  # noqa: ANN001
+            if tool_name != "Bash":
+                return PermissionResultAllow()
+            command = (tool_input or {}).get("command", "")
+            if is_allowed_bash(command):
+                return PermissionResultAllow()
+            return PermissionResultDeny(message=denial_message(command))
+
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
         skills=list(profile.skills),
@@ -83,6 +114,8 @@ def agent_options(
         resume=resume,
         mcp_servers=mcp_servers or {},
         allowed_tools=allowed_tools or [],
+        disallowed_tools=denied_tools,
+        can_use_tool=gate,
         model=model,
         fallback_model=fallback_model,
     )
