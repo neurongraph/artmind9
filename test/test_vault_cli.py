@@ -67,3 +67,25 @@ def test_init_accepts_an_explicit_path(tmp_path):
 
     assert result.exit_code == 0, result.output
     assert (target / ".artmind").is_dir()
+
+
+def test_vault_reports_the_active_vault(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    CliRunner().invoke(cli, ["init"])
+
+    result = CliRunner().invoke(cli, ["vault"])
+
+    assert result.exit_code == 0, result.output
+    assert str(tmp_path.resolve()) in result.output
+
+
+def test_vault_outside_a_vault_explains_rather_than_guessing(tmp_path, monkeypatch):
+    """`git status` outside a repo, not a silent default."""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("ARTMIND_VAULT", raising=False)
+    monkeypatch.delenv("ARTMIND_HOME", raising=False)
+
+    result = CliRunner().invoke(cli, ["vault"])
+
+    assert result.exit_code != 0
+    assert "artmind init" in result.output

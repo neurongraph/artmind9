@@ -171,7 +171,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation", "commands": ["sameas"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
-        {"name": "Setup & tools", "commands": ["setup", "init", "serve", "chat-ui", "admin-ui"]},
+        {"name": "Setup & tools", "commands": ["vault", "setup", "init", "serve", "chat-ui", "admin-ui"]},
     ],
     "artmind ingest": [
         {
@@ -2998,6 +2998,60 @@ def snapshot_restore(
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
+
+
+# ── artmind vault ─────────────────────────────────────────────────────────────
+
+
+@cli.command("vault")
+@click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
+def vault_status(compact: bool):
+    """Show which vault is active and how it was resolved.
+
+    Human-readable by default rather than JSON-first like `projection status`:
+    this exists to be glanced at, and a wrong answer here means every other
+    command is operating on the wrong knowledge base.
+    """
+    from artmind import vault as vault_mod
+    from paths import ARTMIND_DATA_DIR, ARTMIND_HOME, LOADED_ENV_FILES
+
+    # Resolved fresh here rather than read off `paths.ARTMIND_VAULT_DIR`:
+    # that constant is computed once, at process import, from the cwd at that
+    # moment. This command's entire job is to say which vault the CURRENT
+    # directory resolves to, so it must re-walk now, not report a stale answer
+    # (it is never proxied to the `serve` daemon, so "now" always means this
+    # invocation's own cwd).
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+
+    layout = vault_mod.VaultLayout(vault_dir)
+    info = {
+        "vault": str(vault_dir),
+        "artmind_dir": str(ARTMIND_HOME),
+        "data_dir": str(ARTMIND_DATA_DIR),
+        "manifest": str(layout.vault_yaml) if layout.vault_yaml.is_file() else None,
+        "config": [str(p) for p in LOADED_ENV_FILES],
+        "graph": {
+            "uri": os.environ.get("ARTMIND_KG_NEO4J_URI", ""),
+            "database": os.environ.get("ARTMIND_KG_NEO4J_DATABASE", ""),
+        },
+    }
+    if compact:
+        _echo_json(info, compact=True)
+        return
+    click.echo(f"Vault:    {info['vault']}")
+    click.echo(f"Data:     {info['data_dir']}")
+    click.echo(f"Manifest: {info['manifest'] or '(none — run artmind init)'}")
+    click.echo(f"Config:   {', '.join(info['config']) or '(none loaded)'}")
+    click.echo(f"Graph:    {info['graph']['uri'] or '(unset)'}  db={info['graph']['database'] or '(unset)'}")
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
