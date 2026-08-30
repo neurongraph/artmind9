@@ -264,6 +264,36 @@ The skill produces a fully-specified YAML schema with `entities_prompt`, `proper
 
 ## Ingesting documents
 
+### Mapping folders to domains
+
+A vault's `.artmind/vault.yaml` says which domain governs which folder — and
+what to ingest at all:
+
+```yaml
+ingest:
+  trigger: manual
+  mappings:
+    - path: policies/**
+      domain: banking.policy
+    - path: notes/**
+      domain: personal_journal
+```
+
+Then one command ingests the whole vault, each folder into its own domain:
+
+```bash
+artmind ingest sync .
+```
+
+An **unmapped path is never ingested**, so an `attachments/` folder needs no
+ignore rule, and an unmapped `Inbox/` becomes a drafting area — moving a note
+into a mapped folder is what marks it ready.
+
+First match wins, so a specific rule can sit above a general one. Domain
+precedence, highest first: `--setDomain`, then the file's own `_domain`
+frontmatter, then the mapping, then `--domain` as the fallback for unmapped
+files.
+
 ### Synchronous (recommended for single files)
 
 ```bash

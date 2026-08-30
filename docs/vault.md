@@ -1,10 +1,12 @@
 # Vaults
 
 **Status: partially implemented** on branch `feat/vault`. Landed: discovery,
-resolution precedence, the `VaultLayout` class, and the machine/vault config
-split. Not yet: `artmind init`, the ingest manifest, triggers, and everything
-under "Follow-on plans" in
-[the implementation plan](./superpowers/plans/2026-08-30-vault-foundation.md).
+resolution precedence, the `VaultLayout` class, the machine/vault config split,
+`artmind init`, and the ingest manifest (folder→domain mapping, unmapped paths
+skipped, supported-type allowlist). Not yet: ingest triggers and the commit
+cursor, vault-resident binaries, schema provenance, daemon discovery, and
+`artmind vault adopt` — see
+[the follow-on plans](./superpowers/plans/2026-08-30-vault-foundation.md).
 
 How artmind decides which knowledge base it is working on, and what lives where
 inside it. Supersedes the deleted `docs/workspaces.md`. Topology in
@@ -180,6 +182,10 @@ own `_domain` frontmatter → the folder mapping → `--domain` as the fallback 
 unmapped files → prompt.
 
 ## Ingest triggers
+
+> **Not yet implemented.** `trigger:` is read and validated, and an unknown
+> value is refused, but only `manual` does anything today. The cursor and the
+> commit/schedule pokes are their own plan.
 
 Every trigger today is manual. For a corpus ingested once that is fine; for a
 journal written in daily, "remember to run ingest" is what kills the habit.
