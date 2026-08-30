@@ -4,7 +4,7 @@
 
 **Goal:** Make `.artmind/vault.yaml` drive ingestion — mapping folders to domains, and deciding which paths get ingested at all — so `artmind ingest sync .` ingests a whole vault correctly in one command.
 
-**Architecture:** A new module `artmind/manifest.py` reads the manifest and answers two questions about a vault-relative path: *which domain governs it* and *should it be ingested*. `artmind/cli.py` applies it per file inside the `ingest sync` loop, passing the mapped domain as that file's `--domain`. **`artmind/ingest.py`'s domain resolution is not touched** — it already computes `set_domain or prior_domain or domain`, so supplying a per-file `domain` slots the mapping into exactly the right precedence slot for free. A separate, independent change adds a supported-type allowlist so a `.canvas` file is skipped and reported rather than handed to docling.
+**Architecture:** A new module `artmind/manifest.py` reads the manifest and answers two questions about a vault-relative path: *which domain governs it* and *should it be ingested*. `artmind/cli.py` and `artmind/worker.py` apply it per file, passing the mapped domain as that file's `--domain` — so sync and async behave identically. **`artmind/ingest.py`'s domain resolution is not touched** — it already computes `set_domain or prior_domain or domain`, so supplying a per-file `domain` slots the mapping into exactly the right precedence slot for free. A separate, independent change adds a supported-type allowlist so a `.canvas` file is skipped and reported rather than handed to docling.
 
 **Tech Stack:** Python 3.14, PyYAML, Click (rich_click), pytest, `uv`, `just`.
 
@@ -22,9 +22,11 @@
 |---|---|
 | `artmind/manifest.py` (create) | Read and validate `.artmind/vault.yaml`. Answer `domain_for(relpath)` and `should_ingest(relpath)`. Knows nothing about ingestion mechanics. |
 | `artmind/ingest.py` (modify) | A supported-type allowlist: which suffixes artmind can actually ingest. `collect_ingest_files` applies it to directory walks only. |
-| `artmind/cli.py` (modify) | `_manifest_for_ingest` helper; `ingest sync` applies it per file, `ingest async` gets the filter only. |
+| `artmind/cli.py` (modify) | `_manifest_for_ingest` helper, used by `ingest sync` and `ingest async`; pins the worker's vault. |
+| `artmind/worker.py` (modify) | Resolves each queued file's mapped domain at processing time. |
 | `test/test_manifest.py` (create) | Manifest parsing, glob matching, precedence, malformed input. |
 | `test/test_ingest_manifest_cli.py` (create) | The `ingest sync`/`async` integration: filtering and per-file domain. |
+| `test/test_worker_manifest.py` (create) | The worker applying mapped domains to a queued batch. |
 | `test/test_ingest_supported_types.py` (create) | The allowlist. |
 
 `artmind/manifest.py` is separate from `artmind/vault.py` because `vault.py` must stay stdlib-only — `paths.py` imports it at module load for every command, and `manifest.py` needs PyYAML. `manifest.py` is only imported by ingestion paths, which already pay for yaml.
@@ -807,22 +809,32 @@ git commit -m "feat(ingest): the manifest decides what is ingested and as what"
 
 ---
 
-## Task 4b: `ingest async` respects the manifest too
+## Task 4b: `ingest async` uses the manifest, per file
 
-`ingest async` walks the same directories and queues them for the background
-worker, so without this a user who runs `ingest async .` gets exactly the
-behaviour the manifest exists to prevent: `attachments/` handed to docling.
+`ingest async` walks the same directories and hands them to the background
+worker, so without this a user who runs `ingest async .` gets exactly what the
+manifest exists to prevent.
 
-It gets the **filter** only, not per-file domains. `_create_job` stores one
-`domain` for the whole batch (`artmind/cli.py`, around line 700), so per-file
-mapped domains need the job schema to carry them — deliberately deferred rather
-than half-built here.
+It gets the **same treatment as sync**, per file — not just filtering. No job
+schema change is needed: `worker.py:122-124` already calls
+`ingest_file(file_path, image_model, domain, ...)`, the identical shape to the
+CLI's call, so the worker can compute the mapped domain from the file's path at
+processing time. Keeping the manifest as the source of truth (rather than
+freezing a domain into a queue row) also means a mapping corrected between
+queueing and processing takes effect.
+
+One thing must be made explicit for this to be sound: the worker is spawned with
+`subprocess.Popen` and no `cwd=`, so today it resolves its vault from whatever
+directory the parent happened to be in. That is fine when you run
+`artmind ingest async` from inside the vault, and wrong when you run it from
+outside with `ARTMIND_VAULT` set. Pin it.
 
 **Files:**
-- Modify: `artmind/cli.py` (the `ingest_async` command)
-- Test: `test/test_ingest_manifest_cli.py`
+- Modify: `artmind/cli.py` (`ingest_sync`, `ingest_async`, `_ensure_worker_running`)
+- Modify: `artmind/worker.py`
+- Test: `test/test_ingest_manifest_cli.py`, `test/test_worker_manifest.py` (create)
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Write the failing tests**
 
 Append to `test/test_ingest_manifest_cli.py`:
 
@@ -856,23 +868,132 @@ ingest:
     assert queued == [["a.md"]]
 ```
 
-- [ ] **Step 2: Run it to verify it fails**
-
-Run: `uv run --group dev pytest test/test_ingest_manifest_cli.py::test_async_also_skips_unmapped_paths -v`
-Expected: FAIL — `b.md` is queued too.
-
-- [ ] **Step 3: Extract the filter, then use it in both commands**
-
-Task 4 inlined the filtering in `ingest_sync`. Two copies would drift, so lift it
-to a module-level helper in `artmind/cli.py`, placed just above `ingest_sync`:
+Create `test/test_worker_manifest.py`:
 
 ```python
-def _manifest_for_ingest(path: Path, files: "list[Path]") -> tuple[object, "list[Path]"]:
+"""The background worker applies the manifest per file, like `ingest sync`.
+
+Asserts on the DOMAIN each file was ingested with, by recording the calls --
+never on summary counts, which can report success for work that never happened
+(CLAUDE.md).
+
+`_process_job` fetches its own file list from the registry, so the queue is
+stubbed rather than seeded: this is a test of domain resolution, not of job
+bookkeeping.
+"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+
+import artmind.ingest as ingest_module
+import artmind.worker as worker_module
+
+
+@pytest.fixture
+def vault(tmp_path, monkeypatch):
+    (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("""
+ingest:
+  mappings:
+    - path: policies/**
+      domain: banking.policy
+    - path: notes/**
+      domain: personal_journal
+""")
+    monkeypatch.setattr(worker_module, "ARTMIND_VAULT_DIR", tmp_path, raising=False)
+    return tmp_path
+
+
+@pytest.fixture
+def recorded(monkeypatch):
+    """Record (filename, domain) per ingest_file call; stub the rest of the job."""
+    calls: list[tuple[str, str | None]] = []
+
+    def fake_ingest_file(source, image_model, domain=None, **kwargs):
+        calls.append((Path(source).name, domain))
+        return {"status": "ok", "domain": domain}
+
+    monkeypatch.setattr(worker_module, "ingest_file", fake_ingest_file)
+    monkeypatch.setattr(worker_module, "ingest_to_kg", lambda *a, **k: True)
+    monkeypatch.setattr(worker_module, "_update_job_file_status", lambda *a, **k: None)
+    monkeypatch.setattr(worker_module, "_update_job_status", lambda *a, **k: None)
+    monkeypatch.setattr(worker_module, "_count_processed", lambda job_id: 0)
+    monkeypatch.setattr(worker_module, "_final_file_statuses", lambda job_id: [])
+    # Imported inside _process_job at call time, so patch it at its source.
+    monkeypatch.setattr(ingest_module, "rebuild_projection", lambda d: {}, raising=False)
+    return calls
+
+
+def test_the_worker_ingests_each_file_under_its_mapped_domain(vault, recorded, monkeypatch):
+    for folder, name in (("policies", "p.md"), ("notes", "n.md")):
+        (vault / folder).mkdir()
+        (vault / folder / name).write_text("# x")
+    monkeypatch.setattr(worker_module, "_get_queued_files", lambda job_id: [
+        str(vault / "policies" / "p.md"), str(vault / "notes" / "n.md"),
+    ])
+
+    worker_module._process_job(job_id="job-1", domain="general", env={})
+
+    assert dict(recorded) == {"p.md": "banking.policy", "n.md": "personal_journal"}
+
+
+def test_an_unmapped_file_falls_back_to_the_job_domain(vault, recorded, monkeypatch):
+    """A file queued by name from an unmapped folder still ingests, under the
+    domain the job was submitted with."""
+    (vault / "scratch").mkdir()
+    (vault / "scratch" / "s.md").write_text("# s")
+    monkeypatch.setattr(worker_module, "_get_queued_files",
+                        lambda job_id: [str(vault / "scratch" / "s.md")])
+
+    worker_module._process_job(job_id="job-1", domain="general", env={})
+
+    assert recorded == [("s.md", "general")]
+
+
+def test_a_malformed_manifest_does_not_abort_the_queue(vault, recorded, monkeypatch):
+    """Unlike the CLI, which refuses to start a run the user is watching, the
+    worker is draining a queue in the background -- failing every job silently
+    would be worse than processing them under the job's own domain."""
+    (vault / ".artmind" / "vault.yaml").write_text("ingest:\n  mappings:\n    - path: notes/**\n")
+    (vault / "notes").mkdir()
+    (vault / "notes" / "n.md").write_text("# n")
+    monkeypatch.setattr(worker_module, "_get_queued_files",
+                        lambda job_id: [str(vault / "notes" / "n.md")])
+
+    worker_module._process_job(job_id="job-1", domain="general", env={})
+
+    assert recorded == [("n.md", "general")]
+```
+
+**Before writing this, read `artmind/worker.py:72-190`.** The stubs above cover
+every collaborator `_process_job` reaches with these fixtures. Two more exist
+and are deliberately unstubbed because the fixtures cannot reach them:
+`ingest_structured_file` (needs a `.csv`/`.xlsx`) and `commit_paths`/`maybe_push`
+(need a `touched_path` the fake result omits). If you change the fake result or
+the fixture files, re-check that. If `_process_job` has gained other
+collaborators, if it has gained others, stub
+those too rather than letting the test reach a real registry or graph. The
+suite is hermetic — no Neo4j, no network, no LLM (`test/conftest.py`).
+
+- [ ] **Step 2: Run the tests to verify they fail**
+
+Run: `uv run --group dev pytest test/test_ingest_manifest_cli.py test/test_worker_manifest.py -v`
+Expected: FAIL — async queues `b.md`, and the worker ingests both files as `general`.
+
+- [ ] **Step 3: Extract the shared helper and use it in three places**
+
+Task 4 inlined the manifest handling in `ingest_sync`. Three copies would drift,
+so lift it to module level in `artmind/cli.py`, just above `ingest_sync`:
+
+```python
+def _manifest_for_ingest(path: Path, files: "list[Path]") -> "tuple[object | None, list[Path]]":
     """Load the vault manifest and drop files no mapping covers.
 
-    Filtering applies to a directory WALK only — naming a file is an explicit
-    request and is always honoured, mapped or not. Returns the manifest (or
-    None outside a vault) alongside the files to actually ingest.
+    Filtering applies to a directory WALK only -- naming a file is an explicit
+    request and is always honoured, mapped or not. Returns the manifest (None
+    outside a vault) alongside the files to actually ingest.
     """
     from artmind.manifest import ManifestError, load as _load_manifest
     from paths import ARTMIND_VAULT_DIR
@@ -908,7 +1029,7 @@ def _manifest_for_ingest(path: Path, files: "list[Path]") -> tuple[object, "list
     return vault_manifest, kept
 ```
 
-Then in `ingest_sync`, replace the inlined block from Task 4 with:
+In `ingest_sync`, replace the inlined block from Task 4 with:
 
 ```python
     vault_manifest, files = _manifest_for_ingest(path, files)
@@ -917,17 +1038,101 @@ Then in `ingest_sync`, replace the inlined block from Task 4 with:
 keeping the `_mapped_domain` closure and the unknown-domain validation from
 Task 4 exactly as they are.
 
-And in `ingest_async`, after its own `files = collect_ingest_files(path)`
-(around line 695), add:
+In `ingest_async`, after its own `files = collect_ingest_files(path)` (around
+line 695), add:
 
 ```python
     _, files = _manifest_for_ingest(path, files)
 ```
 
+Then pin the worker's vault, so it cannot resolve a different one from an
+inherited cwd. In `_ensure_worker_running`, change the `Popen` call:
+
+```python
+    # Pin the worker to THIS vault. Without cwd= it inherits the parent's
+    # working directory, which is the right vault when you run `ingest async`
+    # from inside one and the wrong one when you run it from outside with
+    # ARTMIND_VAULT set.
+    from paths import ARTMIND_VAULT_DIR
+
+    worker_env = dict(os.environ)
+    if ARTMIND_VAULT_DIR is not None:
+        worker_env["ARTMIND_VAULT"] = str(ARTMIND_VAULT_DIR)
+    subprocess.Popen(
+        [sys.executable, str(worker_script)],
+        stdout=open(WORKER_LOG, "a"),
+        stderr=subprocess.STDOUT,
+        start_new_session=True,
+        env=worker_env,
+    )
+```
+
+Finally, in `artmind/worker.py`, resolve the mapped domain per file. Add near
+the other imports:
+
+```python
+from paths import ARTMIND_VAULT_DIR
+```
+
+and inside `_process_job`, before the `for file_path_str in queued_files:` loop
+(around line 95):
+
+```python
+    # The manifest is the source of truth, re-read here rather than frozen into
+    # the job row: a mapping corrected between queueing and processing takes
+    # effect, and no job-schema change is needed.
+    vault_manifest = None
+    if ARTMIND_VAULT_DIR is not None:
+        from artmind.manifest import ManifestError, load as _load_manifest
+
+        try:
+            vault_manifest = _load_manifest(ARTMIND_VAULT_DIR)
+        except ManifestError as exc:
+            logger.warning(
+                "Ignoring the vault manifest for this batch -- {}. Files will "
+                "use the job's own domain.", exc,
+            )
+
+    def _domain_for(f: Path) -> str:
+        """The mapped domain, falling back to the job's own."""
+        if vault_manifest is None or ARTMIND_VAULT_DIR is None:
+            return domain
+        try:
+            rel = Path(f).resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
+        except ValueError:
+            return domain
+        return vault_manifest.domain_for(rel) or domain
+```
+
+Then use it at both ingestion call sites in that loop. Replace
+`ingest_structured_file(file_path, domain, force=force)` with
+`ingest_structured_file(file_path, _domain_for(file_path), force=force)`, and
+replace:
+
+```python
+                result = ingest_file(
+                    file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size
+                )
+```
+
+with:
+
+```python
+                result = ingest_file(
+                    file_path, image_model, _domain_for(file_path),
+                    job_id=job_id, chunk_size=chunk_size,
+                )
+```
+
+A manifest error here **warns and continues** rather than aborting, unlike the
+CLI: the CLI is refusing to *start* a run the user is watching, whereas the
+worker is draining a queue in the background and failing every job silently
+would be worse than processing them under the job's own domain.
+
 - [ ] **Step 4: Run the tests, then the full suite**
 
-Run: `uv run --group dev pytest test/test_ingest_manifest_cli.py -v`
-Expected: PASS, 7 passed
+Run: `uv run --group dev pytest test/test_ingest_manifest_cli.py test/test_worker_manifest.py -v`
+Expected: PASS, 9 passed
 
 Run: `just dev-test`
 Expected: all green.
@@ -935,8 +1140,8 @@ Expected: all green.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add artmind/cli.py test/test_ingest_manifest_cli.py
-git commit -m "feat(ingest): async respects the manifest filter too"
+git add artmind/cli.py artmind/worker.py test/test_ingest_manifest_cli.py test/test_worker_manifest.py
+git commit -m "feat(ingest): async and the worker apply the manifest per file"
 ```
 
 ---
@@ -1187,10 +1392,9 @@ cd /tmp && rm -rf manifest-e2e
 
 Findings from the foundation plan's execution that affect later work:
 
-- **`ingest async` gets the manifest FILTER but not per-file domains.**
-  `_create_job` stores one `domain` for a whole batch, so a mapped domain
-  per file needs the job schema to carry it. Until then, an async batch
-  spanning several mapped folders still uses the single `--domain` given.
+- **The worker is pinned to its vault via `ARTMIND_VAULT` in its `Popen`
+  env.** Anything else spawning a background process from a vault should do
+  the same rather than relying on an inherited cwd.
 
 - **`VaultLayout` and `paths.py` disagree on data-dir names.** `VaultLayout` declares `data/originals`, `data/chunks`, `data/snapshots`, `data/jobs`; `paths.py` still derives `data/documents/originals`, `data/ingestion_jobs`, `data/graph_snapshot`, `data/structured_snapshot`, and has no `chunks` concept. Nothing reads the `VaultLayout` names yet, so nothing is broken — but reaching for `layout.snapshots_dir` today returns a path the system does not use. **Reconciling these belongs in the vault-resident-sources plan**, as its first task.
 - **`--vault` is not wired.** `resolve_vault()` accepts an `explicit` argument but no command passes one. Making it real means a global Click option on every command, which is its own piece of work.
