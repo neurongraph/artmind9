@@ -22,9 +22,25 @@ from dotenv import load_dotenv
 # ── run folder root ────────────────────────────────────────────────────────────
 _SELF_DIR = Path(__file__).resolve().parent  # repo root (dev) or site-packages (wheel)
 
-ARTMIND_HOME = Path(
-    os.environ.get("ARTMIND_HOME") or (Path.home() / ".artmind")
-).expanduser().resolve()
+from artmind.vault import VaultLayout, resolve_vault
+
+# ── vault discovery ───────────────────────────────────────────────────────────
+# A vault is a directory containing `.artmind/` (docs/vault.md). When we are
+# inside one, every path below is a position inside it. When we are not, we fall
+# back to the pre-vault layout unchanged, so existing installs and the test
+# suite keep working while the migration proceeds file by file.
+ARTMIND_VAULT_DIR = resolve_vault()
+_LAYOUT = VaultLayout(ARTMIND_VAULT_DIR) if ARTMIND_VAULT_DIR else None
+
+# ARTMIND_HOME remains the raw escape hatch, above vault discovery: CLAUDE.md
+# documents it and test/conftest.py repoints it at a temp dir for the whole
+# suite, which must keep working whether or not a vault is in play.
+if os.environ.get("ARTMIND_HOME"):
+    ARTMIND_HOME = Path(os.environ["ARTMIND_HOME"]).expanduser().resolve()
+elif _LAYOUT is not None:
+    ARTMIND_HOME = _LAYOUT.artmind_dir
+else:
+    ARTMIND_HOME = (Path.home() / ".artmind").resolve()
 
 # Load .env early: prefer the run folder; fall back to a repo-local .env so the
 # editable/dev checkout keeps working without exporting ARTMIND_HOME. Real
@@ -37,18 +53,12 @@ for _candidate in (ARTMIND_HOME / ".env", _SELF_DIR / ".env"):
         break
 
 # ── ingestion data root (query never touches this) ─────────────────────────────
-ARTMIND_DATA_DIR = Path(
-    os.environ.get("ARTMIND_DATA_DIR") or (Path.home() / "artmind_data")
-).expanduser().resolve()
-
-# ── vault root (authoritative markdown; source of stable document identity) ─────
-# The externally-editable markdown tree the canvas UX watches. Optional: when set,
-# a document's identity (``logical_id``) keys off its path *relative to this root*
-# so an edited/re-ingested file is recognised as the same document. When unset,
-# identity falls back to the casefolded basename. Never itself lives in ``.env``
-# only — a real env var wins, matching ARTMIND_HOME/ARTMIND_DATA_DIR.
-_vault = os.environ.get("ARTMIND_VAULT_DIR")
-ARTMIND_VAULT_DIR = Path(_vault).expanduser().resolve() if _vault else None
+if os.environ.get("ARTMIND_DATA_DIR"):
+    ARTMIND_DATA_DIR = Path(os.environ["ARTMIND_DATA_DIR"]).expanduser().resolve()
+elif _LAYOUT is not None:
+    ARTMIND_DATA_DIR = _LAYOUT.data_dir
+else:
+    ARTMIND_DATA_DIR = (Path.home() / "artmind_data").resolve()
 
 # ── archive root (docs archive's ONLY output; the only copy of archived content) ─
 # Deliberately its own root, NOT under ARTMIND_DATA_DIR: a data-dir wipe (a
