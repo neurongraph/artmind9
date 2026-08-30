@@ -4,7 +4,7 @@
 
 artmind ingests documents (PDFs, Markdown, text), extracts entities, properties, and relationships using a local LLM, stores them in a Neo4j knowledge graph with vector embeddings, and lets you query and update them — either with structured graph patterns via the CLI or through natural language using Claude Code skills.
 
-Everything runs locally: no cloud APIs, no telemetry.
+Runs fully locally with Ollama and a local Neo4j, or against hosted providers (OpenRouter for the LLM, a hosted Neo4j AuraDB instance) — your choice.
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/neurongraph/artmind9)
 
@@ -29,7 +29,7 @@ artmind-query / artmind-update Claude Code skills
 
 Ingestion and updates are domain-scoped. A **domain** is a YAML schema that tells the LLM what entity types and relationship types to look for (e.g. `fiction`, `technical_paper`, `personal_journal`). Several schemas are bundled; you can add your own.
 
-After ingestion, a **refinement pipeline** (`ingest refine-pipeline`) cleans the graph in dependency order — temporal normalization, supersession detection, duplicate-entity merging, conflict detection, and entity description consolidation — with reviewable proposals before anything destructive is applied.
+After ingestion, **curation** (`sameas propose`/`approve`, `ingest refine-graph`, `ingest detect-conflicts`, `ingest detect-supersession`) cleans up the graph — duplicate-entity merging, cross-domain identity, conflict detection, and supersession — with every proposal reviewed before it's approved.
 
 ---
 
@@ -86,22 +86,23 @@ Copy the environment template and fill in your values:
 cp .env.example .env
 ```
 
-### Global CLI install (optional)
+This checkout-local `.env` is for running the test suite and hacking on artmind
+itself. It is **not** loaded by `artmind` commands by default — a vault's own
+`config.env` is (see below) — so a real invocation from within the checkout
+needs `ARTMIND_ALLOW_REPO_ENV=1` to pick it up.
 
-Install `artmind` as a global command and scaffold its run folder (`~/.artmind`):
+### Install the CLI
 
 ```bash
 just dev-install
-# or directly:
-uv tool install --force --editable . && artmind init
 ```
 
-`artmind` then works from any directory. Config, skills, and domain schemas live
-in the run folder (`~/.artmind`); ingestion data lives separately under
-`~/artmind_data` (`$ARTMIND_DATA_DIR`). See [docs/INSTALL.md](docs/INSTALL.md)
-for the full layout, the `.env` setup, and `artmind setup`.
+`artmind` then works from any directory, anchoring to whichever **vault** you are
+standing in — a directory containing `.artmind/`, discovered by walking up from
+the current directory exactly as git finds `.git/`. Installing the CLI does not
+create anything; creating a vault is a separate step, below.
 
-To uninstall (leaves `~/.artmind` and your data intact):
+To uninstall (leaves every vault intact):
 
 ```bash
 just dev-uninstall
@@ -109,21 +110,28 @@ just dev-uninstall
 uv tool uninstall artmind9
 ```
 
-> **Note:** Because everything (data, configs, logs, `.env`) lives inside the cloned repo, you must keep the repository directory intact for the global command to work. This is a "developer-style" install. If you ever want to decouple the data from the code (e.g. to distribute artmind to other users who won't clone the repo), a future refactor of `paths.py` to use platform-standard user data directories (`~/.config/artmind9/`) would be needed.
+### Create a vault
 
-Edit `.env`:
+```bash
+mkdir ~/MyVault && cd ~/MyVault
+artmind init
+```
+
+Your documents, schemas, curation and derived data all live inside that
+directory; it is also a git repo and can be an Obsidian vault. Only credentials
+stay machine-wide, in `~/.artmind/config.env`.
+
+See [docs/INSTALL.md](docs/INSTALL.md) for the full layout and
+[docs/vault.md](docs/vault.md) for why it works this way.
+
+Machine-wide — `~/.artmind/config.env`. Credentials and models, shared by every
+vault:
 
 ```dotenv
-# Neo4j connection
-ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
-ARTMIND_KG_NEO4J_USERNAME=neo4j
-ARTMIND_KG_NEO4J_PASSWORD=your_password
-ARTMIND_KG_NEO4J_DATABASE=your_neo4j_database
-
 # LLM for extraction
 ARTMIND_KG_LLM_PROVIDER=ollama
 ARTMIND_KG_LLM_URL=http://localhost:11434
-ARTMIND_KG_LLM_MODEL=qwen3.6:35b-a3b-coding-nvfp4          # or any capable Ollama model
+ARTMIND_KG_LLM_MODEL=qwen3.6:35b-a3b-coding-nvfp4
 
 # Embeddings
 ARTMIND_KG_EMBEDDINGS_PROVIDER=ollama
@@ -138,6 +146,19 @@ ARTMIND_OLLAMA_TIMEOUT=600
 # Your identity for update audit trails (optional)
 ARTMIND_USER=you@example.com
 ```
+
+Per-vault — `<vault>/.artmind/config.env`. Each vault has its own graph, and
+this file is gitignored because it holds a password:
+
+```dotenv
+ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
+ARTMIND_KG_NEO4J_USERNAME=neo4j
+ARTMIND_KG_NEO4J_PASSWORD=your_password
+ARTMIND_KG_NEO4J_DATABASE=your_neo4j_database
+```
+
+Config loads most-specific-first, so a vault's value overrides the machine's,
+and a real environment variable beats both.
 
 Verify the CLI is available:
 
@@ -183,7 +204,7 @@ A domain is a YAML schema that scopes ingestion and queries. artmind ships with 
 | `project_governance` | Project docs — Roles, Milestones, Decisions, Risks |
 | `sales_collateral` | Sales material — Products, Features, Competitors, Use Cases |
 | `contracts` | Legal agreements — Parties, Clauses, Obligations, Terms |
-| `banking_*` | Seven sibling schemas for the bundled banking corpus (policy, SOP guides, products, organization, communications, reference, risk governance) — a worked example of deliberately separated sibling domains |
+| `banking.*` | Eight sibling schemas for the bundled banking corpus (cases, policy, SOP guides, products, organization, communications, reference, risk governance) — a worked example of deliberately separated sibling domains |
 
 List available domains:
 
@@ -224,7 +245,7 @@ uv run artmind domains harmonize --domain fiction.thriller --dry-run
 
 ### Creating a custom schema
 
-Use the `artmind-create-schema` Claude Code skill to author a new domain schema tailored to your documents. The skill reads your sample documents, designs entity classes and relationship patterns specific to the domain, and writes a complete `domains/schemas/{name}_schema.yaml` file.
+Use the `artmind-create-schema` Claude Code skill to author a new domain schema tailored to your documents. The skill reads your sample documents, designs entity classes and relationship patterns specific to the domain, and writes a complete `artmind/domains/schemas/{name}_schema.yaml` file.
 
 In a Claude Code session within this project:
 
@@ -326,36 +347,38 @@ uv run artmind ingest refine-graph --domain sales_collateral --dry-run
 
 **Authentication:** The command uses your existing Git credentials (SSH keys, credential helpers). If `GITHUB_TOKEN` is set it is injected into HTTPS URLs as a fallback.
 
-### Graph refinement
+### Graph curation
 
-Extraction runs per-chunk, so a freshly ingested domain accumulates near-duplicate entities, noisy accumulated descriptions, un-normalized dates, and unadjudicated disagreements between documents. Refinement fixes all of that, and the steps have hard ordering dependencies — so the recommended entry point is the pipeline, which enforces the order (`time → supersession → merge → conflicts → consolidate → embed`):
-
-```bash
-# 1. Propose: deterministic steps run for real; LLM steps produce reviewable proposals
-uv run artmind ingest refine-pipeline --domain fiction
-
-# 2. Review the report and its merges_*.json / conflicts_*.json; edit out bad pairs
-
-# 3. Apply the vetted proposals in dependency order
-uv run artmind ingest refine-pipeline --domain fiction --from-file <pipeline_report.json>
-```
-
-Pass `--domain` more than once to refine sibling domains together — after every domain's own steps, the pipeline adds a **cross-domain conflicts pass** that adjudicates disagreements *between* them (e.g. a policy contradicting an SOP), with merges guaranteed to land first:
+Extraction runs per-chunk, so a freshly ingested domain accumulates near-duplicate entities and unadjudicated disagreements between documents. Curation fixes that. Two proposers feed one review queue in `same_as.yaml`; nothing here mutates the graph until you approve:
 
 ```bash
-uv run artmind ingest refine-pipeline --domain banking_policy --domain banking_sop_guides
+# propose: cross-domain/cross-class identity + conflict candidates via the LLM adjudicator
+uv run artmind sameas propose --domain fiction --compact
+
+# propose: intra-domain naming-variant merge candidates via name-similarity clustering
+uv run artmind ingest refine-graph --domain fiction --dry-run --output merges.json
+uv run artmind ingest refine-graph --domain fiction --from-file merges.json
+
+# review the queue, then approve or reject each proposal
+uv run artmind sameas list --status open --compact
+uv run artmind sameas approve <proposal_id>
+uv run artmind sameas reject <proposal_id>
 ```
 
-The `artmind-refine` Claude Code skill (below) drives this workflow conversationally, including the review gates. Each step also exists as a standalone command for targeted runs:
+Pass `--domain` more than once (to `sameas propose` or `ingest detect-conflicts`) to compare sibling domains — a "same thing" verdict proposes a same-as group; a "conflicting claims" verdict proposes a `Conflict` node instead:
+
+```bash
+uv run artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --dry-run --output conflicts.json
+uv run artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --from-file conflicts.json
+uv run artmind ingest resolve-conflict <conflict_id> --status resolved --reason "..."
+```
+
+The `artmind-curate` Claude Code skill (below) drives this workflow conversationally, including the review gates. Other standalone commands:
 
 | Command | What it does |
 |---|---|
-| `ingest normalize-time --domain <d>` | Backfill canonical `valid_from`/`valid_to`/`event_at` from document metadata (additive, idempotent) |
 | `ingest detect-supersession --domain <d>` | Detect explicit supersession notices; stamp `SUPERSEDES` edges and `valid_to` |
 | `ingest supersede --domain <d> --newer A --older B` | Record a supersession manually |
-| `ingest refine-graph --domain <d> --dry-run` | Cluster similar entity names, LLM-decide merges (apply via `--from-file`) |
-| `ingest detect-conflicts --domain <d1> [--domain <d2>] --dry-run` | LLM-adjudicate disagreeing claims into reviewable `Conflict` nodes; cross-domain capable |
-| `ingest consolidate-descriptions --domain <d>` | Rewrite accumulated description fragments into clean prose from each entity's source chunks — preserves the original in `description_raw`, records reference-document provenance in `description_source_docs`, skips entities with open conflicts, re-embeds |
 
 **Focused merging with `--filter`**: to merge specific entities you've spotted without analyzing the whole domain:
 
@@ -364,12 +387,10 @@ uv run artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Mori
 uv run artmind ingest refine-graph --from-file merges.json
 ```
 
-See [docs/refine-merge-conflict-supersede-guide.md](docs/refine-merge-conflict-supersede-guide.md) for the full field guide with worked examples.
-
 ### Remove a document
 
 ```bash
-uv run artmind docs clean --domain fiction document_name
+uv run artmind docs archive --domain fiction --documentName document_name
 ```
 
 ---
@@ -622,7 +643,7 @@ The full-text leg runs on the `chunk_text_ft` and `user_chat_text_ft` indexes cr
 
 ## Claude Code skills
 
-artmind ships with five Claude Code skills, located under `skills/`.
+artmind ships with five Claude Code skills, located under `artmind/skills/`.
 
 ### `artmind-query`
 
@@ -648,12 +669,12 @@ Add and update facts through conversational natural language. The skill detects 
 /artmind-update
 ```
 
-### `artmind-refine`
+### `artmind-curate`
 
-All graph maintenance in one skill: run the refinement pipeline for one or several domains (2+ domains add the cross-domain conflicts pass) with guided review at the judgment gates, do focused merges of specific entities, and investigate a surprising merge or conflict ("why did these get merged", "real disagreement or an older document?").
+All graph and structured-store maintenance in one skill: review the same-as proposal queue (merging duplicate entities, linking cross-domain/cross-class identity) with guided review at the judgment gates, adjudicate conflicts, un-merge a bad group, investigate a surprising merge or conflict ("why did these get merged", "real disagreement or an older document?"), and review the structured store's machine-proposed table classifications.
 
 ```
-/artmind-refine
+/artmind-curate
 ```
 
 ### `artmind-create-schema`
@@ -680,7 +701,7 @@ If you have `just` installed, common commands are available as short recipes:
 
 ```bash
 just                            # list all recipes
-just dev-install                    # put `artmind` on PATH + scaffold ~/.artmind
+just dev-install                # put `artmind` on PATH (create a vault with `artmind init`)
 just dev-uninstall                  # remove the global artmind command
 just dev-test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
@@ -719,29 +740,28 @@ artmind/                core package
   text2cypher.py        LLM-generated Cypher from natural language (text2cypher)
   graph_snapshot.py     export/import full Neo4j graph as compressed snapshots
   vector_query.py       Neo4j vector search, full-text search, entity-resolve, RRF combining
-  refine_pipeline.py    ordered refinement orchestrator (refine-pipeline)
   refine_graph.py       similar-entity clustering and merging
   conflicts.py          conflict detection and materialization (Conflict nodes)
   temporal.py           valid-time normalization and document supersession
-  consolidate.py        entity description consolidation from source chunks
   harmonizer.py         schema harmonizer — syncs child domain schemas from parent
   worker.py             background ingestion worker
   jobs.py               async job management
   db.py                 SQLite schema (documents, jobs, update sessions/drafts)
+  vault.py              vault discovery + layout (docs/vault.md)
+  skills/                Claude Code skills — source of truth, seeded/symlinked into a vault's .claude/skills/
+    artmind-query/        natural-language graph queries
+    artmind-update/       natural-language graph updates
+    artmind-curate/       same-as review, conflict adjudication, structured-store curation
+    artmind-create-schema/ author a new domain schema
+    artmind-ingestion-helper/ ingestion pipeline guide
+  domains/schemas/       built-in domain YAML schemas, seeded into a new vault
 
-domains/schemas/        built-in domain YAML schemas
-banking_document_corpus/ bundled example corpus for the banking_* domains
+banking_document_corpus/ bundled example corpus for the banking.* domains
 scripts/
   migrate_poole.py      one-time migration script (CHARACTER/AUTHOR/PLACE → POOLE types)
-skills/
-  artmind-query/        Claude Code skill — natural-language graph queries
-  artmind-update/       Claude Code skill — natural-language graph updates
-  artmind-refine/       Claude Code skill — refinement pipeline, targeted merges, forensics
-  artmind-create-schema/ Claude Code skill — author a new domain schema
-  artmind-ingestion-helper/ Claude Code skill — ingestion pipeline guide
-docs/                   design docs and the refinement field guide
+docs/                   design docs, including vault.md (the vault spec) and INSTALL.md
 test/                   pytest suite
-paths.py                central path configuration
+paths.py                central path configuration — derives from the discovered vault
 justfile                task runner recipes
 ```
 
