@@ -22,7 +22,7 @@ from artmind.unified_snapshot import (
     restore_snapshot_impl,
 )
 from artmind.harmonizer import harmonize_all, harmonize_schema
-from artmind.setup import scaffold_run_folder, setup_all
+from artmind.setup import setup_all
 from artmind.ingest import (
     _build_file_result_from_db,
     collect_ingest_files,
@@ -3004,24 +3004,49 @@ def snapshot_restore(
 
 
 @cli.command("init")
-def init():
-    """Scaffold the run folder (~/.artmind) + data dirs; seed .env, skills, schemas.
+@click.argument("directory", type=click.Path(file_okay=False), default=".")
+def init(directory: str):
+    """Make DIRECTORY (default: the current one) an artmind vault.
 
-    Filesystem-only and idempotent — needs no Neo4j. Run this right after
-    install, then edit ~/.artmind/.env and run `artmind setup`.
+    The vault is your Obsidian vault, your git repo and your artmind knowledge
+    base at once — `git init` for knowledge. Everything artmind knows about it
+    lives in `.artmind/` inside it, and every command run from anywhere beneath
+    it anchors here (docs/vault.md).
     """
+    from artmind.setup import scaffold_vault
+
+    root = Path(directory).expanduser().resolve()
+    if not root.is_dir():
+        raise click.ClickException(f"{root} does not exist.")
+
+    git_initialised = False
+    if not (root / ".git").exists():
+        # The vault IS a repo: document identity, history, and the ingest
+        # cursor all key off it.
+        result = subprocess.run(
+            ["git", "init", "-q"], cwd=root, capture_output=True, text=True
+        )
+        if result.returncode != 0:
+            raise click.ClickException(f"git init failed: {result.stderr.strip()}")
+        git_initialised = True
+
     try:
-        result = scaffold_run_folder()
-        click.echo("Run folder:  " + result["run_folder"])
-        click.echo("Data dir:    " + result["data_dir"])
-        click.echo("Config .env: " + result["env"])
-        click.echo(f"Skills:      {result['skills_refreshed']} refreshed from package")
-        click.echo(f"opencode:    {result['opencode_refreshed']} refreshed from package")
-        click.echo(f"Schemas:     {result['schemas_copied']} refreshed from package")
-        click.echo(f"Meta-schema: {result['meta_refreshed']} refreshed from package")
-        click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
+        summary = scaffold_vault(root)
     except Exception as e:
         raise click.ClickException(str(e))
+
+    click.echo(f"Vault:    {summary['vault']}")
+    if git_initialised:
+        click.echo("Git:      initialised")
+    click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
+    click.echo(f"Skills:   {len(summary['skills'])} linked")
+    click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+    click.echo(
+        f"\nNext:\n"
+        f"  $EDITOR {root / '.artmind' / 'config.env'}   # Neo4j connection\n"
+        f"  artmind setup                                  # graph constraints + indexes\n"
+        f"  $EDITOR {root / '.artmind' / 'vault.yaml'}   # map folders to domains"
+    )
 
 
 @cli.command("setup")
