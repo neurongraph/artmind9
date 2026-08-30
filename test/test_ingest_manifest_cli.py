@@ -150,3 +150,32 @@ def test_a_malformed_manifest_stops_the_run(vault, recorded):
     assert result.exit_code != 0
     assert "domain" in result.output
     assert recorded == [], "nothing may be ingested after a manifest error"
+
+
+def test_async_also_skips_unmapped_paths(vault, monkeypatch):
+    """`ingest async` walks the same directories; without the filter it queues
+    exactly what the manifest exists to keep out."""
+    queued: list[list[str]] = []
+
+    def fake_create_job(batch_files, **kwargs):
+        queued.append([Path(f).name for f in batch_files])
+        return "job-1"
+
+    monkeypatch.setattr(cli_module, "_create_job", fake_create_job)
+    monkeypatch.setattr(cli_module, "_ensure_worker_running", lambda: None)
+
+    _manifest(vault, """
+ingest:
+  mappings:
+    - path: notes/**
+      domain: general
+""")
+    (vault / "notes").mkdir()
+    (vault / "notes" / "a.md").write_text("# a")
+    (vault / "attachments").mkdir()
+    (vault / "attachments" / "b.md").write_text("# b")
+
+    result = CliRunner().invoke(cli, ["ingest", "async", ".", "--domain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert queued == [["a.md"]]

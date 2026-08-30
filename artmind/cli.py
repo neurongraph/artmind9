@@ -100,11 +100,22 @@ def _ensure_worker_running() -> None:
     # never relative to the pid file, which lives in the data dir.
     worker_script = Path(__file__).resolve().parent / "worker.py"
     WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
+
+    # Pin the worker to THIS vault. Without cwd= it inherits the parent's
+    # working directory, which is the right vault when you run `ingest async`
+    # from inside one and the wrong one when you run it from outside with
+    # ARTMIND_VAULT set.
+    from paths import ARTMIND_VAULT_DIR
+
+    worker_env = dict(os.environ)
+    if ARTMIND_VAULT_DIR is not None:
+        worker_env["ARTMIND_VAULT"] = str(ARTMIND_VAULT_DIR)
     subprocess.Popen(
         [sys.executable, str(worker_script)],
         stdout=open(WORKER_LOG, "a"),
         stderr=subprocess.STDOUT,
         start_new_session=True,
+        env=worker_env,
     )
     logger.info("Worker started in background")
 
@@ -772,6 +783,7 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
 
     path = Path(file_path)
     files = collect_ingest_files(path)
+    _, files = _manifest_for_ingest(path, files)
     if not files:
         raise click.ClickException(f"No files found in {path}")
 

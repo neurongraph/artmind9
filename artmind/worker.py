@@ -15,7 +15,7 @@ from artmind.ingest import ingest_file, ingest_to_kg
 from artmind.jobs import _update_job_file_status, _update_job_status
 from artmind.structured import is_structured_source
 from artmind.structured.pipeline import ingest_structured_file
-from paths import LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
+from paths import ARTMIND_VAULT_DIR, LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
 from utils.functions import load_env, resolve_llm_model
 
 WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
@@ -92,6 +92,31 @@ def _process_job(
     defer_rebuild = len(queued_files) > 1 and not stage_only
     deferred_domains: set[str] = set()
 
+    # The manifest is the source of truth, re-read here rather than frozen
+    # into the job row: a mapping corrected between queueing and processing
+    # takes effect, and no job-schema change is needed.
+    vault_manifest = None
+    if ARTMIND_VAULT_DIR is not None:
+        from artmind.manifest import ManifestError, load as _load_manifest
+
+        try:
+            vault_manifest = _load_manifest(ARTMIND_VAULT_DIR)
+        except ManifestError as exc:
+            logger.warning(
+                "Ignoring the vault manifest for this batch -- {}. Files will "
+                "use the job's own domain.", exc,
+            )
+
+    def _domain_for(f: Path) -> str:
+        """The mapped domain, falling back to the job's own."""
+        if vault_manifest is None or ARTMIND_VAULT_DIR is None:
+            return domain
+        try:
+            rel = Path(f).resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
+        except ValueError:
+            return domain
+        return vault_manifest.domain_for(rel) or domain
+
     for file_path_str in queued_files:
         file_path = Path(file_path_str)
         logger.info("File: {}", file_path.name)
@@ -100,7 +125,7 @@ def _process_job(
             if is_structured_source(file_path):
                 # No stage_only waypoint for structured files — a parquet load
                 # is inherently a single commit, so the flag is ignored here.
-                res = ingest_structured_file(file_path, domain, force=force)
+                res = ingest_structured_file(file_path, _domain_for(file_path), force=force)
                 if res.get("status") in ("ok", "skipped"):
                     _update_job_file_status(
                         job_id,
@@ -120,7 +145,8 @@ def _process_job(
                     )
             else:
                 result = ingest_file(
-                    file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size
+                    file_path, image_model, _domain_for(file_path),
+                    job_id=job_id, chunk_size=chunk_size,
                 )
                 if result.get("status") == "ok":
                     _update_job_file_status(
