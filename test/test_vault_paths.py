@@ -40,6 +40,7 @@ def _probe(cwd: Path, **env_overrides) -> dict:
 
 def test_paths_derive_from_the_discovered_vault(tmp_path):
     (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
 
     out = _probe(tmp_path)
 
@@ -52,6 +53,7 @@ def test_paths_derive_from_the_discovered_vault(tmp_path):
 
 def test_paths_follow_the_vault_from_a_subdirectory(tmp_path):
     (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     deep = tmp_path / "notes" / "august"
     deep.mkdir(parents=True)
 
@@ -71,6 +73,7 @@ def test_artmind_home_still_overrides_everything(tmp_path):
     """conftest.py sets ARTMIND_HOME to a temp dir for the whole suite; that
     must keep working, vault or no vault."""
     (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     override = tmp_path / "override"
     override.mkdir()
 

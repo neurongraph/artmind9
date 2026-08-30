@@ -10,11 +10,13 @@ from artmind import vault
 
 def test_finds_vault_in_the_directory_itself(tmp_path):
     (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     assert vault.find_vault(tmp_path) == tmp_path.resolve()
 
 
 def test_walks_up_to_find_the_vault(tmp_path):
     (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     deep = tmp_path / "notes" / "2026" / "august"
     deep.mkdir(parents=True)
 
@@ -28,8 +30,10 @@ def test_returns_none_outside_any_vault(tmp_path):
 def test_innermost_vault_wins(tmp_path):
     """Nested vaults behave like nested git repos."""
     (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     inner = tmp_path / "inner"
     (inner / ".artmind").mkdir(parents=True)
+    (inner / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
 
     assert vault.find_vault(inner) == inner.resolve()
 
@@ -42,8 +46,10 @@ def test_a_file_named_dot_artmind_is_not_a_vault(tmp_path):
 def test_explicit_path_beats_everything(tmp_path, monkeypatch):
     explicit = tmp_path / "explicit"
     (explicit / ".artmind").mkdir(parents=True)
+    (explicit / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     other = tmp_path / "other"
     (other / ".artmind").mkdir(parents=True)
+    (other / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     monkeypatch.setenv("ARTMIND_VAULT", str(other))
     monkeypatch.chdir(other)
 
@@ -54,8 +60,10 @@ def test_env_var_beats_the_walk_up(tmp_path, monkeypatch):
     """ARTMIND_VAULT exists for cron and anything with no meaningful cwd."""
     env_vault = tmp_path / "env"
     (env_vault / ".artmind").mkdir(parents=True)
+    (env_vault / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     cwd_vault = tmp_path / "cwd"
     (cwd_vault / ".artmind").mkdir(parents=True)
+    (cwd_vault / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     monkeypatch.setenv("ARTMIND_VAULT", str(env_vault))
     monkeypatch.chdir(cwd_vault)
 
@@ -65,6 +73,7 @@ def test_env_var_beats_the_walk_up(tmp_path, monkeypatch):
 def test_falls_back_to_the_walk_up(tmp_path, monkeypatch):
     cwd_vault = tmp_path / "cwd"
     (cwd_vault / ".artmind").mkdir(parents=True)
+    (cwd_vault / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
     monkeypatch.delenv("ARTMIND_VAULT", raising=False)
     monkeypatch.chdir(cwd_vault)
 
@@ -124,3 +133,31 @@ def test_skills_land_where_claude_code_looks(tmp_path):
 def test_derived_markdown_stays_visible_in_the_vault(tmp_path):
     """_derived/ holds editable, promotable documents, so it is NOT hidden."""
     assert vault.VaultLayout(tmp_path).derived_dir == tmp_path / "_derived"
+
+
+def test_a_bare_artmind_directory_is_not_a_vault(tmp_path):
+    """The manifest is the marker, not the directory.
+
+    `~/.artmind` is also the machine-wide config directory. Keying discovery on
+    the directory alone made $HOME itself resolve as a vault, so every command
+    run from anywhere beneath it — which is most places — silently keyed
+    document identity off $HOME.
+    """
+    (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "config.env").write_text("ARTMIND_USER=someone\n")
+
+    assert vault.find_vault(tmp_path) is None
+    assert vault.is_vault(tmp_path) is False
+
+
+def test_a_legacy_run_folder_does_not_shadow_a_real_vault(tmp_path):
+    """A legacy ~/.artmind above a real vault must not win the walk-up."""
+    home = tmp_path / "home"
+    (home / ".artmind" / "domains").mkdir(parents=True)
+    (home / ".artmind" / ".env").write_text("ARTMIND_USER=someone\n")
+    real = home / "Notes"
+    (real / ".artmind").mkdir(parents=True)
+    (real / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
+
+    assert vault.find_vault(real / "subdir") is None or vault.find_vault(real) == real.resolve()
+    assert vault.find_vault(real) == real.resolve()

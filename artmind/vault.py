@@ -1,9 +1,16 @@
 """Vault discovery and layout (docs/vault.md).
 
-A **vault** is a directory containing `.artmind/`. It is the user's Obsidian
-vault, their git repo and their artmind knowledge base at once. You do not
-select a vault — you are standing in one, or you are not, exactly as with a git
-repo.
+A **vault** is a directory whose `.artmind/` holds a `vault.yaml` manifest. It
+is the user's Obsidian vault, their git repo and their artmind knowledge base at
+once. You do not select a vault — you are standing in one, or you are not,
+exactly as with a git repo.
+
+The manifest, not the directory, is the marker. `~/.artmind` is also the
+machine-wide config directory, so keying on the directory alone would make
+`$HOME` itself a vault and every command run from anywhere beneath it would
+resolve there — silently keying document identity off `$HOME`. Requiring the
+manifest `artmind init` writes also means a half-created `.artmind/` is not
+mistaken for a vault.
 
 This module is deliberately pure and free of `paths` imports: `paths` imports
 *this*, runs at import time for every command, and must stay cheap. Keeping
@@ -15,8 +22,16 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-# The marker directory. A vault is any directory containing one.
+# The directory artmind keeps everything in, and the manifest inside it that
+# marks the containing directory as a vault. See the module docstring for why
+# the manifest rather than the directory is the marker.
 MARKER = ".artmind"
+MANIFEST = "vault.yaml"
+
+
+def is_vault(path: Path) -> bool:
+    """Is `path` the root of an artmind vault?"""
+    return (Path(path) / MARKER / MANIFEST).is_file()
 
 
 def find_vault(start: Path) -> Path | None:
@@ -30,7 +45,7 @@ def find_vault(start: Path) -> Path | None:
     except OSError:
         return None
     for candidate in (current, *current.parents):
-        if (candidate / MARKER).is_dir():
+        if is_vault(candidate):
             return candidate
     return None
 
@@ -56,9 +71,10 @@ def resolve_vault(explicit: str | None = None) -> Path | None:
         if not value:
             continue
         root = Path(value).expanduser().resolve()
-        if not (root / MARKER).is_dir():
+        if not is_vault(root):
             raise VaultError(
-                f"{source}={value!r} is not an artmind vault ({root / MARKER} not found). "
+                f"{source}={value!r} is not an artmind vault "
+                f"({root / MARKER / MANIFEST} not found). "
                 f"Run `artmind init` inside it to make it one."
             )
         return root
