@@ -6,6 +6,7 @@ import zipfile
 
 from fastapi.testclient import TestClient
 
+import paths
 from artmind.webui import dashboard_routes
 from artmind.webui.app import create_app
 
@@ -129,6 +130,38 @@ def test_ingest_creates_job(monkeypatch, tmp_path):
     body = response.json()
     assert body["jobId"] == "job-123"
     assert body["fileCount"] == 1
+
+
+def test_ingest_honours_the_vault_manifest(monkeypatch, tmp_path):
+    """Triggering ingestion from the admin console must not bypass the
+    manifest -- an unmapped path is never ingested, for any of artmind's
+    three UI surfaces (docs/vault.md)."""
+    (tmp_path / ".artmind").mkdir()
+    (tmp_path / ".artmind" / "vault.yaml").write_text(
+        "ingest:\n  mappings:\n    - path: notes/**\n      domain: general\n"
+    )
+    (tmp_path / "notes").mkdir()
+    (tmp_path / "notes" / "a.md").write_text("# a")
+    (tmp_path / "attachments").mkdir()
+    (tmp_path / "attachments" / "b.md").write_text("# b")
+
+    monkeypatch.setattr(paths, "ARTMIND_VAULT_DIR", tmp_path)
+    seen = {}
+
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+        seen["batch_files"] = batch_files
+        return "job-1"
+
+    monkeypatch.setattr(dashboard_routes, "_create_job", fake_create_job)
+    monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
+
+    response = _client().post("/api/ingest", json={"domain": "general", "path": str(tmp_path)})
+
+    assert response.status_code == 200, response.text
+    assert [name for name in seen["batch_files"]] and all(
+        name.endswith("a.md") for name in seen["batch_files"]
+    )
+    assert len(seen["batch_files"]) == 1
 
 
 def test_ingest_rejects_traversal_domain(monkeypatch, tmp_path):

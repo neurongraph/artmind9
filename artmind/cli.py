@@ -524,33 +524,21 @@ def _manifest_for_ingest(path: Path, files: "list[Path]") -> "tuple[object | Non
     Filtering applies to a directory WALK only -- naming a file is an explicit
     request and is always honoured, mapped or not. Returns the manifest (None
     outside a vault) alongside the files to actually ingest.
+
+    Thin CLI-flavoured wrapper around `artmind.manifest.filter_for_ingest`
+    (shared with the admin console's `/api/ingest`) that translates a
+    `ManifestError` into the `click.ClickException` this surface expects.
     """
-    from artmind.manifest import ManifestError, load as _load_manifest
+    from artmind.manifest import ManifestError, filter_for_ingest
     from paths import ARTMIND_VAULT_DIR
 
-    if ARTMIND_VAULT_DIR is None:
-        return None, files
     try:
-        vault_manifest = _load_manifest(ARTMIND_VAULT_DIR)
+        vault_manifest, kept, skipped = filter_for_ingest(ARTMIND_VAULT_DIR, path, files)
     except ManifestError as e:
         # Ingesting into the wrong domains because a mapping was mistyped is
         # worse than refusing to start.
         raise click.ClickException(str(e))
 
-    if not path.is_dir():
-        return vault_manifest, files
-
-    kept, skipped = [], 0
-    for f in files:
-        try:
-            rel = f.resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
-        except ValueError:
-            kept.append(f)  # outside the vault; the manifest says nothing
-            continue
-        if vault_manifest.should_ingest(rel):
-            kept.append(f)
-        else:
-            skipped += 1
     if skipped:
         logger.info(
             "Skipped {} file(s) no mapping covers "

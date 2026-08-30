@@ -78,6 +78,43 @@ class Manifest:
         return self.domain_for(relpath) is not None
 
 
+def filter_for_ingest(
+    vault_root: "Path | None", path: Path, files: "list[Path]"
+) -> "tuple[Manifest | None, list[Path], int]":
+    """Load the vault manifest and drop files no mapping covers.
+
+    Filtering applies to a directory WALK only -- naming a file is an
+    explicit request and is always honoured, mapped or not. Returns the
+    manifest (``None`` outside a vault), the files to actually ingest, and
+    how many were skipped by the filter.
+
+    Shared by every surface that can trigger ingestion (the CLI's `ingest
+    sync`/`async` and the admin console's `/api/ingest`) so "an unmapped path
+    is never ingested" (docs/vault.md) can't drift true on one and false on
+    another. Each caller translates a `ManifestError` into its own error type
+    (`click.ClickException` for the CLI, `HTTPException` for the admin API).
+    """
+    if vault_root is None:
+        return None, files, 0
+    vault_manifest = load(vault_root)
+
+    if not path.is_dir():
+        return vault_manifest, files, 0
+
+    kept, skipped = [], 0
+    for f in files:
+        try:
+            rel = f.resolve().relative_to(vault_root).as_posix()
+        except ValueError:
+            kept.append(f)  # outside the vault; the manifest says nothing
+            continue
+        if vault_manifest.should_ingest(rel):
+            kept.append(f)
+        else:
+            skipped += 1
+    return vault_manifest, kept, skipped
+
+
 def load(vault_root: Path) -> Manifest:
     """Read `<vault_root>/.artmind/vault.yaml`.
 
