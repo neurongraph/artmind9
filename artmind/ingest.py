@@ -49,6 +49,7 @@ from artmind.extraction import (
 from artmind.canonicalize import canonicalize_document
 from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
+from artmind.structured import STRUCTURED_EXTENSIONS
 from paths import (
     ARTMIND_VAULT_DIR,
     DOMAIN_SCHEMAS_DIR,
@@ -73,12 +74,18 @@ IMAGE_EXTENSIONS = {
 # attachments run through image description at full LLM cost merely for being
 # present. Unknown types are skipped by a directory walk and reported by the
 # caller -- never silently attempted.
-SUPPORTED_SUFFIXES = frozenset({
-    ".md",                              # vault-native markdown
-    ".pdf", ".pptx", ".docx",           # docling conversion
-    ".csv", ".xlsx",                    # the structured store
-    ".png", ".jpg", ".jpeg", ".webp",   # images, when a folder of them is mapped
-})
+#
+# Derived from the sets that already define what each pipeline handles, so a
+# type added there cannot silently vanish from directory walks -- which is
+# exactly what happened to `.xlsm`, declared in STRUCTURED_EXTENSIONS but
+# missing from a hand-maintained copy of this list.
+DOCLING_SUFFIXES = frozenset({".pdf", ".pptx", ".docx"})
+SUPPORTED_SUFFIXES = (
+    frozenset({".md"})                  # vault-native markdown
+    | DOCLING_SUFFIXES                  # document conversion
+    | frozenset(STRUCTURED_EXTENSIONS)  # the structured store
+    | frozenset(IMAGE_EXTENSIONS)       # images, when a folder of them is mapped
+)
 
 
 def is_supported(path: Path) -> bool:

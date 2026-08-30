@@ -60,3 +60,31 @@ def test_naming_one_unsupported_file_explicitly_still_returns_it(tmp_path):
     target.write_text("{}")
 
     assert collect_ingest_files(target) == [target]
+
+
+def test_every_structured_type_is_ingestable(tmp_path):
+    """The allowlist must not silently drop a type the structured pipeline
+    handles: `.xlsm` was declared in STRUCTURED_EXTENSIONS and missing from a
+    hand-maintained copy of this list, so directory walks skipped it with no
+    log line at all."""
+    from artmind.structured import STRUCTURED_EXTENSIONS
+
+    for suffix in STRUCTURED_EXTENSIONS:
+        assert is_supported(tmp_path / f"book{suffix}") is True, suffix
+
+
+def test_every_image_type_docling_extracts_is_ingestable(tmp_path):
+    from artmind.ingest import IMAGE_EXTENSIONS
+
+    for suffix in IMAGE_EXTENSIONS:
+        assert is_supported(tmp_path / f"pic{suffix}") is True, suffix
+
+
+def test_a_directory_walk_keeps_structured_spreadsheets(tmp_path):
+    (tmp_path / "book.xlsm").write_bytes(b"x")
+    (tmp_path / "sheet.xlsx").write_bytes(b"x")
+    (tmp_path / "board.canvas").write_text("{}")
+
+    found = sorted(f.name for f in collect_ingest_files(tmp_path))
+
+    assert found == ["book.xlsm", "sheet.xlsx"]
