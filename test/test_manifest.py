@@ -75,3 +75,58 @@ def test_an_unknown_trigger_is_refused(tmp_path):
 
     with pytest.raises(manifest.ManifestError, match="trigger"):
         manifest.load(tmp_path)
+
+
+def _manifest(*pairs) -> manifest.Manifest:
+    return manifest.Manifest(
+        mappings=[manifest.Mapping(path=p, domain=d) for p, d in pairs]
+    )
+
+
+def test_a_recursive_glob_covers_nested_paths():
+    m = _manifest(("policies/**", "banking.policy"))
+
+    assert m.domain_for("policies/policy_aml.md") == "banking.policy"
+    assert m.domain_for("policies/sub/deep.md") == "banking.policy"
+
+
+def test_an_unmapped_path_has_no_domain():
+    m = _manifest(("policies/**", "banking.policy"))
+
+    assert m.domain_for("attachments/photo.png") is None
+
+
+def test_first_match_wins_so_a_specific_rule_can_precede_a_general_one():
+    """The manifest reads top-down like a routing table."""
+    m = _manifest(
+        ("notes/archive/**", "general"),
+        ("notes/**", "personal_journal"),
+    )
+
+    assert m.domain_for("notes/archive/old.md") == "general"
+    assert m.domain_for("notes/today.md") == "personal_journal"
+
+
+def test_an_unmapped_path_is_not_ingested():
+    """This is the second job of the mapping: an attachments/ folder needs no
+    separate ignore mechanism, it is simply not mapped."""
+    m = _manifest(("notes/**", "personal_journal"))
+
+    assert m.should_ingest("notes/a.md") is True
+    assert m.should_ingest("attachments/photo.png") is False
+
+
+def test_a_manifest_with_no_mappings_filters_nothing():
+    """A vault that has not configured mappings must behave exactly as it did
+    before this feature -- NOT suddenly ingest zero files."""
+    empty = manifest.Manifest()
+
+    assert empty.should_ingest("anything/at/all.md") is True
+    assert empty.domain_for("anything/at/all.md") is None
+
+
+def test_a_single_file_glob_matches_only_that_file():
+    m = _manifest(("structured/customers.csv", "banking"))
+
+    assert m.domain_for("structured/customers.csv") == "banking"
+    assert m.domain_for("structured/agents.csv") is None
