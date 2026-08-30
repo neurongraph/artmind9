@@ -40,13 +40,17 @@ cli-setup:
 
 # ── dev (checkout/tooling, not artmind subcommands) ─────────────────────────
 
-# install: put `artmind` on PATH and scaffold the run folder (~/.artmind).
-# Editable, so code edits are live; paths are decoupled from this checkout, so
-# `artmind` runs from anywhere. Then edit ~/.artmind/.env and run `artmind setup`.
-# See docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
+# install: put `artmind` on PATH. Editable, so code edits are live.
+# `artmind` runs from anywhere, and anchors to whichever vault you are standing
+# in. Create one with `artmind init`, then edit <vault>/.artmind/config.env and
+# run `artmind setup`. See docs/INSTALL.md. (For a checkout-independent
+# deploy, drop `--editable`.)
+# Install the global `artmind` command. Deliberately does NOT run `artmind init`
+# any more: init means "make THIS directory a vault" (docs/vault.md), and at
+# install time there is no vault. Create one with `cd <dir> && artmind init`.
 dev-install: dev-stop-daemons
     uv tool install --force --editable '.[ingest]'
-    artmind init
+    @echo "Installed. Create a vault with:  mkdir ~/MyVault && cd ~/MyVault && artmind init"
 
 # uninstall the global artmind command (leaves ~/.artmind and data intact)
 dev-uninstall:
