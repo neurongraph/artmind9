@@ -1363,6 +1363,53 @@ def _flatten_props(props: dict) -> dict:
     return result
 
 
+def strip_embeddings(chunk: dict) -> dict:
+    """A copy of `chunk` with its vector removed, for persisting to disk.
+
+    An embedding is a pure function of (text, embedding model) -- derived,
+    deterministic, and free to recompute locally. KG staging is committed to
+    git (docs/vault.md), and a vector changes completely when one word of its
+    text changes, so it cannot be delta-compressed: ten versions of one
+    chunks.json cost 60 KB of git objects with embeddings and 20 KB without.
+
+    Returns a copy so the in-memory chunk keeps its vector -- the same run
+    still writes it to the graph.
+    """
+    if "embedding" not in chunk:
+        return chunk
+    return {k: v for k, v in chunk.items() if k != "embedding"}
+
+
+EMBEDDING_SIDECAR = "embeddings.json"
+
+
+def write_embedding_sidecar(doc_kg_dir: Path, chunks: list[dict]) -> int:
+    """Persist chunk vectors beside the staging, gitignored.
+
+    Staging is committed and vectors cannot be delta-compressed, so they are
+    stripped from it (see `strip_embeddings`) -- but discarding them outright
+    would make every ingest embed twice, since the graph write re-reads the
+    chunk JSON from disk. The sidecar keeps the local copy without putting it
+    in git.
+    """
+    vectors = {c["chunk_id"]: c["embedding"] for c in chunks if c.get("embedding")}
+    if not vectors:
+        return 0
+    (Path(doc_kg_dir) / EMBEDDING_SIDECAR).write_text(
+        json.dumps(vectors), encoding="utf-8"
+    )
+    return len(vectors)
+
+
+def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
+    """Locally-cached vectors, or `{}`. Absent is the normal state after a
+    fresh clone, never an error."""
+    try:
+        return json.loads((Path(doc_kg_dir) / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
 
 
 
@@ -1905,6 +1952,14 @@ def extract_kg(
 
     _init_chunk_rows(doc_sha256, doc_id, chunk_count)
 
+    # Embeddings never land in the per-chunk JSON on disk (see strip_embeddings
+    # below) -- a sidecar, gitignored, is the only place a vector persists.
+    # Read it once so a resumed run doesn't pay for a re-embed of a chunk it
+    # already has a vector for, and accumulate this run's vectors here so
+    # they can be written back out once, alongside chunks.json.
+    embedding_sidecar = read_embedding_sidecar(doc_kg_dir)
+    computed_embeddings: dict[str, list] = {}
+
     def _process_chunk(seq: int, chunk_file: Path, statuses: dict) -> None:
         chunk_text = chunk_file.read_text(encoding="utf-8")
         chunk_id = f"{doc_id}_{seq:03d}"
@@ -1919,13 +1974,19 @@ def extract_kg(
             except Exception:
                 pass
 
-        # Embedding — compute once and persist
+        # Embedding — compute once and persist (to the sidecar, not the chunk
+        # JSON: see strip_embeddings). A vector already in the sidecar from a
+        # prior run of this same document is reused rather than recomputed.
+        if "embedding" not in data and chunk_id in embedding_sidecar:
+            data["embedding"] = embedding_sidecar[chunk_id]
         if "embedding" not in data:
             try:
                 data["embedding"] = _embed_text(embed_model, chunk_text)
             except Exception as e:
                 logger.error("  Embedding failed for chunk {}: {}", seq, e)
                 data["embedding"] = []
+        if data["embedding"]:
+            computed_embeddings[chunk_id] = data["embedding"]
 
         data.setdefault("chunk_seq", seq)
         data.setdefault("chunk_id", chunk_id)
@@ -2032,7 +2093,10 @@ def extract_kg(
             data.setdefault("relationships", [])
             _update_chunk_step(doc_sha256, seq, "relationships", "skipped")
 
-        chunk_json.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        chunk_json.write_text(
+            json.dumps(strip_embeddings(data), indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
 
     # ── first pass ────────────────────────────────────────────────────────────
     statuses = _get_chunk_statuses(doc_sha256)
@@ -2207,11 +2271,20 @@ def extract_kg(
         (doc_kg_dir / filename).write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
 
     _write_json("document.json", document)
-    _write_json("chunks.json", all_chunks)
+    _write_json("chunks.json", [strip_embeddings(c) for c in all_chunks])
     _write_json("entities.json", all_entities)
     _write_json("properties.json", all_properties)
     _write_json("relationships.json", all_relationships)
     _write_json("observations.json", all_observations)
+
+    # Vectors move to a gitignored sidecar rather than vanishing: chunks.json
+    # above is what git tracks (and cannot delta a changed vector against),
+    # while the sidecar keeps this run's embeddings available locally so the
+    # graph write below doesn't have to recompute them.
+    write_embedding_sidecar(
+        doc_kg_dir,
+        [{"chunk_id": cid, "embedding": emb} for cid, emb in computed_embeddings.items()],
+    )
 
     elapsed = time.monotonic() - t0
     final_statuses = _get_chunk_statuses(doc_sha256)
@@ -2564,7 +2637,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
 
 
 def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
-    """Read the staged JSON one document's commit needs."""
+    """Read the staged JSON one document's commit needs.
+
+    `chunks.json` carries no vectors (see `strip_embeddings`) -- the sidecar
+    beside it, if present, supplies them here so the graph write below still
+    gets a vector without recomputing it. A fresh clone has no sidecar, so
+    its chunks come back with none; a later sweep (Task 2) fills those in.
+    """
     def _load(name: str, default=None):
         path = doc_kg_dir / name
         if not path.exists():
@@ -2572,10 +2651,16 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
         return json.loads(path.read_text(encoding="utf-8"))
 
     try:
+        chunks = _load("chunks.json", [])
+        sidecar = read_embedding_sidecar(doc_kg_dir)
+        if sidecar:
+            for chunk in chunks:
+                if "embedding" not in chunk and chunk.get("id") in sidecar:
+                    chunk["embedding"] = sidecar[chunk["id"]]
         return {
             "domain": domain,
             "document": _load("document.json"),
-            "chunks": _load("chunks.json", []),
+            "chunks": chunks,
             "observations": _load("observations.json", []),
             "relationships": _load("relationships.json", []),
         }
