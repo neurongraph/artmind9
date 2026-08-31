@@ -15,6 +15,19 @@ from artmind.extraction import embed_text as _embed_text
 from utils.functions import load_env
 
 
+def count_unembedded_chunks(tx) -> int:
+    """Count `:DocChunk` nodes still missing a vector.
+
+    Takes anything exposing Neo4j's `.run()` — a `Session` or a `Transaction` both work — so
+    this one query serves both the CLI's pre-sweep heads-up (`_run_chunk_embed_sweep`, a
+    `Session`) and `projection.status`'s standing gap report (a `Transaction`), rather than
+    the same Cypher living in three places.
+    """
+    return tx.run(
+        "MATCH (c:DocChunk) WHERE c.embedding IS NULL RETURN count(c) AS n"
+    ).single()["n"]
+
+
 def embed_missing_chunk_embeddings(
     session,
     *,

@@ -7,6 +7,10 @@ history accumulating undeltable float noise.
 from __future__ import annotations
 
 import json
+from pathlib import Path
+from unittest.mock import patch
+
+from click.testing import CliRunner
 
 from artmind.ingest import strip_embeddings
 
@@ -325,3 +329,59 @@ def test_a_mix_of_failing_and_succeeding_chunks_still_terminates():
 
     assert result == {"embedded": 30, "remaining": 120}
     assert session.fetch_calls <= 3, "far more re-fetches than the data warrants -- loop isn't converging"
+
+
+# ── write-to-graph: --noEmbed actually gates the sweep ──────────────────────
+#
+# No CLI test file for write-to-graph existed before this -- covered here
+# since this file is already the home for everything about the chunk-embed
+# sweep. Single-document mode is enough (per review): the folder/batch path
+# calls the same `_run_chunk_embed_sweep` helper, gated the same way.
+
+def _stage_document_json(tmp_path, monkeypatch, domain="general", name="sample.pdf"):
+    """Fake just enough of a KG staging tree for write-to-graph's single-document
+    mode to get past its file checks without touching commit_to_graph for real."""
+    import paths
+
+    kg_dir = tmp_path / "kg"
+    doc_dir = kg_dir / domain / Path(name).stem
+    doc_dir.mkdir(parents=True)
+    (doc_dir / "document.json").write_text("{}")
+    monkeypatch.setattr(paths, "KG_DIR", kg_dir)
+    return {"registered_path": name}
+
+
+def test_no_embed_skips_the_sweep(tmp_path, monkeypatch):
+    from artmind.cli import cli
+
+    file_result = _stage_document_json(tmp_path, monkeypatch)
+    runner = CliRunner()
+
+    with patch("artmind.cli._build_file_result_from_db", return_value=file_result), \
+         patch("artmind.cli.commit_to_graph", return_value=True), \
+         patch("artmind.cli._run_chunk_embed_sweep") as mock_sweep:
+        result = runner.invoke(
+            cli, ["ingest", "write-to-graph", "sample.pdf", "--domain", "general", "--noEmbed"]
+        )
+
+    assert result.exit_code == 0, result.output
+    mock_sweep.assert_not_called()
+
+
+def test_without_no_embed_the_sweep_runs(tmp_path, monkeypatch):
+    """The flip side of the test above -- otherwise "skips" could pass simply
+    because the sweep is never wired in at all."""
+    from artmind.cli import cli
+
+    file_result = _stage_document_json(tmp_path, monkeypatch)
+    runner = CliRunner()
+
+    with patch("artmind.cli._build_file_result_from_db", return_value=file_result), \
+         patch("artmind.cli.commit_to_graph", return_value=True), \
+         patch("artmind.cli._run_chunk_embed_sweep") as mock_sweep:
+        result = runner.invoke(
+            cli, ["ingest", "write-to-graph", "sample.pdf", "--domain", "general"]
+        )
+
+    assert result.exit_code == 0, result.output
+    mock_sweep.assert_called_once()

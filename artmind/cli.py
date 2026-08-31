@@ -23,7 +23,7 @@ from artmind.unified_snapshot import (
 )
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
-from artmind.embed_sweep import embed_missing_chunk_embeddings
+from artmind.embed_sweep import count_unembedded_chunks, embed_missing_chunk_embeddings
 from artmind.ingest import (
     SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
@@ -1006,9 +1006,7 @@ def _run_chunk_embed_sweep() -> None:
     from artmind.graph_query import neo4j_session
 
     with neo4j_session() as session:
-        remaining = session.run(
-            "MATCH (c:DocChunk) WHERE c.embedding IS NULL RETURN count(c) AS n"
-        ).single()["n"]
+        remaining = count_unembedded_chunks(session)
         if not remaining:
             return
         click.echo(
