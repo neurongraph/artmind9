@@ -135,3 +135,105 @@ def test_load_staged_does_not_override_an_embedding_already_present(tmp_path):
     staged = _load_staged(tmp_path, "general")
 
     assert staged["chunks"][0]["embedding"] == [0.1]
+
+
+class _RecordingSession:
+    """Records the Cypher run and the parameters sent.
+
+    CLAUDE.md: a mocked session returns truthy for ANY query, so asserting on
+    counts proves nothing. Assert on what was actually sent.
+    """
+
+    def __init__(self, rows):
+        self._rows = rows
+        self.queries: list[tuple[str, dict]] = []
+
+    def run(self, cypher, **params):
+        self.queries.append((cypher, params))
+        rows, self._rows = self._rows, []
+        return _Result(rows)
+
+
+class _Result:
+    def __init__(self, rows):
+        self._rows = rows
+
+    def data(self):
+        return self._rows
+
+    def single(self):
+        return self._rows[0] if self._rows else None
+
+
+def test_only_chunks_without_a_vector_are_embedded():
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([
+        {"id": "c1", "text": "alpha"},
+        {"id": "c2", "text": "beta"},
+    ])
+    embedded = []
+
+    result = embed_missing_chunk_embeddings(
+        session, embed=lambda t: embedded.append(t) or [0.1, 0.2],
+    )
+
+    assert embedded == ["alpha", "beta"]
+    assert result["embedded"] == 2
+    fetch = session.queries[0][0]
+    assert "embedding IS NULL" in fetch, "the sweep must select only unembedded chunks"
+
+
+def test_the_vector_is_written_back_keyed_by_chunk_id():
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    embed_missing_chunk_embeddings(session, embed=lambda t: [0.5])
+
+    writes = [(q, p) for q, p in session.queries if "SET" in q]
+    assert writes, "nothing was written back"
+    assert writes[0][1].get("id") == "c1" or "c1" in str(writes[0][1])
+
+
+def test_an_already_embedded_graph_is_a_no_op():
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([])
+
+    result = embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
+
+    assert result["embedded"] == 0
+
+
+def test_progress_is_reported_for_a_long_run():
+    """A fresh clone is minutes of local work; silence looks like a hang.
+
+    Progress goes through an injected callback rather than loguru, so it can be
+    asserted directly. `test_ingest_entity_filtering.py` takes `caplog` and
+    never asserts on it — loguru does not feed pytest's caplog without a
+    bridge, so a caplog assertion here would pass for the wrong reason.
+    """
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": f"c{i}", "text": "x"} for i in range(120)])
+    seen: list[tuple[int, int]] = []
+
+    embed_missing_chunk_embeddings(
+        session, embed=lambda t: [0.1],
+        progress_every=50, on_progress=lambda done, total: seen.append((done, total)),
+    )
+
+    assert seen, "expected at least one progress callback"
+    assert seen[-1][0] <= 120
+
+
+def test_progress_defaults_to_no_callback():
+    """The default path must not require a caller to supply one."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "x"}])
+
+    result = embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
+
+    assert result["embedded"] == 1

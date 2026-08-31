@@ -23,6 +23,7 @@ from artmind.unified_snapshot import (
 )
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
+from artmind.embed_sweep import embed_missing_chunk_embeddings
 from artmind.ingest import (
     SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
@@ -196,7 +197,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "pull-kg", "embed-entities"],
+            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "pull-kg", "embed-entities", "embed-chunks"],
         },
         {
             "name": "Refinement",
@@ -902,6 +903,22 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
     _echo_json(embed_entities_backfill(domain), compact)
 
 
+@ingest.command("embed-chunks")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_embed_chunks(compact: bool) -> None:
+    """Backfill vector embeddings for chunks missing one (powers vector/text search).
+
+    Restoring from committed KG staging writes chunks with no vector by
+    design (docs/vault.md, "Embeddings") -- this sweep fills them back in and
+    is resumable: interrupt it and re-run, it picks up where it left off.
+    """
+    _setup_logger()
+    from artmind.graph_query import neo4j_session
+    with neo4j_session() as session:
+        result = embed_missing_chunk_embeddings(session)
+    _echo_json(result, compact)
+
+
 @ingest.command("extract-kg")
 @click.argument("document_name")
 @click.option("--domain", required=True, help="Domain the document belongs to")
@@ -978,11 +995,41 @@ def ingest_classify_reingest(
     )
 
 
+def _run_chunk_embed_sweep() -> None:
+    """Run the post-write chunk-embed sweep, unless there's nothing to embed.
+
+    Committed KG staging carries no vectors by design (docs/vault.md,
+    "Embeddings"), so a fresh restore always needs this once. Prints a
+    heads-up first — a fresh clone can be minutes of local work, and silence
+    looks like a hang — but only when there's actual work to do.
+    """
+    from artmind.graph_query import neo4j_session
+
+    with neo4j_session() as session:
+        remaining = session.run(
+            "MATCH (c:DocChunk) WHERE c.embedding IS NULL RETURN count(c) AS n"
+        ).single()["n"]
+        if not remaining:
+            return
+        click.echo(
+            f"\nRe-embedding {remaining:,} chunk(s) — committed KG staging carries no vectors "
+            "by design (docs/vault.md). Local model, no API cost. This runs once per clone.\n"
+        )
+        result = embed_missing_chunk_embeddings(session)
+    logger.info(
+        "Embed sweep after write-to-graph: {} embedded, {} still missing a vector",
+        result["embedded"], result["remaining"],
+    )
+
+
 @ingest.command("write-to-graph")
 @click.argument("document_name", required=False, default=None)
 @click.option("--domain", default=None, help="Domain the document belongs to (required for single-document mode)")
 @click.option("--folder", type=click.Path(exists=True), default=None, help="Path to folder whose sub-folders are document KG directories")
-def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None) -> None:
+@click.option("--noEmbed", "no_embed", is_flag=True,
+              help="Skip the chunk-embedding sweep. Chunks written without a vector are "
+                   "invisible to semantic search until `ingest embed-chunks` runs.")
+def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
     \b
@@ -994,6 +1041,9 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     In folder mode each immediate sub-folder of PATH that contains a document.json is
     written to Neo4j. If --domain is omitted in folder mode, the domain is inferred
     from the parent directory name (i.e. PATH is expected to be data/kg/<domain>).
+
+    Runs the chunk-embedding sweep afterwards by default; pass --noEmbed to skip it
+    and run `ingest embed-chunks` separately later.
     """
     _setup_logger()
     from paths import KG_DIR
@@ -1024,6 +1074,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             logger.info("write_to_graph complete")
         else:
             raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
+        if not no_embed:
+            _run_chunk_embed_sweep()
         return
 
     # ── folder (batch) mode ───────────────────────────────────────────────
@@ -1073,6 +1125,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         "write_to_graph batch complete: {}/{} succeeded, {} failed",
         ok_count, len(doc_dirs), fail_count,
     )
+    if not no_embed and ok_count:
+        _run_chunk_embed_sweep()
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 

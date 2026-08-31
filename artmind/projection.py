@@ -1165,6 +1165,9 @@ def status(tx) -> dict:
             "schema_drift": True,
             "current_same_as_hash": current_same_as,
             "current_schema_hash": current_schema,
+            "unembedded_chunks": tx.run(
+                "MATCH (c:DocChunk) WHERE c.embedding IS NULL RETURN count(c) AS n"
+            ).single()["n"],
         }
     return {
         "known": True,
@@ -1175,4 +1178,7 @@ def status(tx) -> dict:
         "current_same_as_hash": current_same_as,
         "recorded_schema_hash": recorded.get("schema_hash"),
         "current_schema_hash": current_schema,
+        "unembedded_chunks": tx.run(
+            "MATCH (c:DocChunk) WHERE c.embedding IS NULL RETURN count(c) AS n"
+        ).single()["n"],
     }
