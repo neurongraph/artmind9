@@ -54,22 +54,36 @@ def embed_missing_chunk_embeddings(
     that were fetched but could not be embedded (and so are still `NULL`),
     not a separate query, since a mocked graph session that answers every
     query the same way makes a second read here untrustworthy in tests.
+
+    **Terminates even when the embedding service is completely down.** A
+    chunk whose `embed()` call fails is left `NULL` in the graph, which would
+    make it eligible for the very next page's `WHERE embedding IS NULL` —
+    re-fetching the same stuck chunks forever the moment failures reach
+    `batch_size`. So this run's own failures are tracked and excluded from
+    every subsequent page (`AND NOT c.id IN $skip_ids`); each page then
+    either makes forward progress on chunks it hasn't tried yet or comes back
+    short, and the loop provably ends either way. That exclusion is scoped to
+    this call only — nothing is written for a failed chunk, so a *later* run
+    (a fresh call, e.g. after fixing a dead embedding service) sees it as
+    `NULL` again and retries it, same as any other resumed chunk.
     """
     if embed is None:
         embed_model = load_env().get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
         embed = lambda text: _embed_text(embed_model, text)
 
     embedded, failed, total = 0, 0, 0
+    failed_ids: set[str] = set()
 
     while True:
         rows = session.run(
             """
             MATCH (c:DocChunk)
-            WHERE c.embedding IS NULL
+            WHERE c.embedding IS NULL AND NOT c.id IN $skip_ids
             RETURN c.id AS id, c.text AS text
             LIMIT $batch_size
             """,
             batch_size=batch_size,
+            skip_ids=list(failed_ids),
         ).data()
         if not rows:
             break
@@ -80,6 +94,7 @@ def embed_missing_chunk_embeddings(
                 embedding = embed(row["text"])
             except Exception as e:
                 failed += 1
+                failed_ids.add(row["id"])
                 logger.warning("Chunk embedding failed for {!r}: {}", row["id"], e)
                 continue
             # Written immediately, one chunk at a time — this is what makes

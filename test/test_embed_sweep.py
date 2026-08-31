@@ -237,3 +237,91 @@ def test_progress_defaults_to_no_callback():
     result = embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
 
     assert result["embedded"] == 1
+
+
+# ── multi-page re-fetch: _RecordingSession can't exercise this ──────────────
+#
+# _RecordingSession.run empties its whole row buffer the first time it's
+# called, no matter what query asked for it -- so every test above is
+# effectively single-page: the sweep's `WHERE embedding IS NULL LIMIT
+# $batch_size` loop only ever gets one real answer, and a second page always
+# comes back empty. That hid a real bug: a chunk whose embed() call keeps
+# raising stays NULL, so a naive re-fetch of the same page re-selects it
+# forever once failures reach batch_size. _PagedFailingSession below tracks
+# real per-chunk state so the loop's re-fetch path is actually exercised.
+
+class _PagedFailingSession:
+    """A tiny in-memory :DocChunk graph, so the fetch query can be answered
+    correctly on every call instead of only the first.
+
+    Honors `$skip_ids` and `$batch_size` the way a real Neo4j session would,
+    which is exactly the behaviour the sweep's termination depends on. Also
+    guards against a real infinite loop: if the sweep regresses to endlessly
+    re-fetching, this raises instead of hanging the test suite.
+    """
+
+    MAX_FETCH_CALLS = 10  # pages, not writes -- an infinite loop re-issues fetches, not SETs
+
+    def __init__(self, chunk_ids):
+        self.chunks = {cid: None for cid in chunk_ids}  # id -> embedding (None = unset)
+        self.calls = 0
+        self.fetch_calls = 0
+
+    def run(self, cypher, **params):
+        self.calls += 1
+        if "SET c.embedding" in cypher:
+            self.chunks[params["id"]] = params["embedding"]
+            return _Result([])
+        # the page/fetch query
+        self.fetch_calls += 1
+        if self.fetch_calls > self.MAX_FETCH_CALLS:
+            raise RuntimeError(
+                f"the fetch query ran {self.fetch_calls} times without the sweep finishing -- "
+                "looks like the re-fetch loop is not terminating"
+            )
+        skip_ids = set(params.get("skip_ids") or ())
+        batch_size = params["batch_size"]
+        matching = [cid for cid, emb in self.chunks.items() if emb is None and cid not in skip_ids]
+        page = matching[:batch_size]
+        return _Result([{"id": cid, "text": cid} for cid in page])
+
+
+def test_persistent_per_chunk_failures_do_not_stall_the_sweep():
+    """Regression for the infinite-loop hazard: 150 chunks, all permanently
+    unembeddable (e.g. the embedding service is down), batch_size=100. A
+    naive `WHERE embedding IS NULL LIMIT batch_size` re-fetch -- with no
+    exclusion of chunks this run already failed on -- re-selects the same
+    100 stuck rows forever and never returns. The sweep must terminate with
+    a partial, honest result instead.
+    """
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _PagedFailingSession([f"c{i}" for i in range(150)])
+
+    def _always_fails(text):
+        raise RuntimeError("embedding service down")
+
+    result = embed_missing_chunk_embeddings(session, embed=_always_fails, batch_size=100)
+
+    assert result == {"embedded": 0, "remaining": 150}
+    assert session.fetch_calls <= 3, "far more re-fetches than the data warrants -- loop isn't converging"
+
+
+def test_a_mix_of_failing_and_succeeding_chunks_still_terminates():
+    """Failures alone (more than one batch_size worth) must not keep getting
+    re-fetched forever while the chunks around them succeed and drain."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    ids = [f"c{i}" for i in range(150)]
+    failing = set(ids[:120])
+    session = _PagedFailingSession(ids)
+
+    def _embed(text):
+        if text in failing:
+            raise RuntimeError("nope")
+        return [0.1]
+
+    result = embed_missing_chunk_embeddings(session, embed=_embed, batch_size=100)
+
+    assert result == {"embedded": 30, "remaining": 120}
+    assert session.fetch_calls <= 3, "far more re-fetches than the data warrants -- loop isn't converging"
