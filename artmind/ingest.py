@@ -1391,13 +1391,16 @@ def write_embedding_sidecar(doc_kg_dir: Path, chunks: list[dict]) -> int:
     would make every ingest embed twice, since the graph write re-reads the
     chunk JSON from disk. The sidecar keeps the local copy without putting it
     in git.
+
+    `chunks` here is keyed `"chunk_id"` (matching what `read_embedding_sidecar`
+    hands back and what lands in `embeddings.json`) -- not `"id"`, which is
+    what a staged `chunks.json` entry uses for the same identifier. See the
+    note in `_load_staged` for why that distinction matters.
     """
     vectors = {c["chunk_id"]: c["embedding"] for c in chunks if c.get("embedding")}
     if not vectors:
         return 0
-    (Path(doc_kg_dir) / EMBEDDING_SIDECAR).write_text(
-        json.dumps(vectors), encoding="utf-8"
-    )
+    (doc_kg_dir / EMBEDDING_SIDECAR).write_text(json.dumps(vectors), encoding="utf-8")
     return len(vectors)
 
 
@@ -1405,7 +1408,7 @@ def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
     """Locally-cached vectors, or `{}`. Absent is the normal state after a
     fresh clone, never an error."""
     try:
-        return json.loads((Path(doc_kg_dir) / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
+        return json.loads((doc_kg_dir / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
 
@@ -1986,6 +1989,10 @@ def extract_kg(
                 logger.error("  Embedding failed for chunk {}: {}", seq, e)
                 data["embedding"] = []
         if data["embedding"]:
+            # Keyed by chunk_id (e.g. "d1_001") -- the same identifier a
+            # staged chunks.json entry carries under the key "id" (see
+            # _load_staged's merge). Two literal key names, one identifier;
+            # write_embedding_sidecar and _load_staged must agree on this.
             computed_embeddings[chunk_id] = data["embedding"]
 
         data.setdefault("chunk_seq", seq)
@@ -2281,7 +2288,7 @@ def extract_kg(
     # above is what git tracks (and cannot delta a changed vector against),
     # while the sidecar keeps this run's embeddings available locally so the
     # graph write below doesn't have to recompute them.
-    write_embedding_sidecar(
+    sidecar_written = write_embedding_sidecar(
         doc_kg_dir,
         [{"chunk_id": cid, "embedding": emb} for cid, emb in computed_embeddings.items()],
     )
@@ -2294,7 +2301,7 @@ def extract_kg(
     )
     logger.info(
         "KG extraction done in {:.1f}s | chunks={} entities={} observations={} "
-        "properties={} relationships={} | chunks_with_failures={}",
+        "properties={} relationships={} | chunks_with_failures={} | embeddings_cached={}",
         elapsed,
         chunk_count,
         len(all_entities),
@@ -2302,6 +2309,7 @@ def extract_kg(
         len(all_properties),
         len(all_relationships),
         failed_count,
+        sidecar_written,
     )
     return doc_kg_dir
 
@@ -2654,6 +2662,13 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
         chunks = _load("chunks.json", [])
         sidecar = read_embedding_sidecar(doc_kg_dir)
         if sidecar:
+            # NOTE: a staged chunks.json entry keys its identifier "id", but
+            # the sidecar (see write_embedding_sidecar) keys it "chunk_id".
+            # Same value (e.g. "d1_001"), different literal key name per
+            # side -- tied together only by convention. A future rename on
+            # either side that misses the other fails silently here: the
+            # `in sidecar` check just never matches and no vector merges in,
+            # with no error raised.
             for chunk in chunks:
                 if "embedding" not in chunk and chunk.get("id") in sidecar:
                     chunk["embedding"] = sidecar[chunk["id"]]
