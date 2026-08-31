@@ -30,7 +30,9 @@ def current_commit() -> str | None:
     vault = _vault_root()
     if vault is None:
         return None
-    rc, out, _ = run_command("git rev-parse HEAD", cwd=vault)
+    # 128 is "no commits yet", which is exactly the state `artmind init` leaves
+    # a new vault in -- expected, not a failure worth an ERROR line.
+    rc, out, _ = run_command("git rev-parse HEAD", cwd=vault, expected_codes=(128,))
     return out.strip() if rc == 0 else None
 
 
@@ -72,9 +74,12 @@ def commit_paths(paths: list[Path], message: str) -> bool:
         logger.warning("vault_git: git add failed ({}): {}", rc, err or out)
         return False
 
-    # Nothing staged (an idempotent write produced byte-identical content) is
-    # exactly the "nothing differs -> no-op" case, not an error.
-    rc, out, _ = run_command("git diff --cached --quiet", cwd=vault)
+    # `--quiet` implies `--exit-code`, so this command answers with its exit
+    # status: 0 means nothing staged (an idempotent write produced
+    # byte-identical content -- the "nothing differs -> no-op" case), and 1
+    # means there ARE changes to commit. 1 is therefore the SUCCESS path here,
+    # which is why it is declared expected rather than logged as a failure.
+    rc, out, _ = run_command("git diff --cached --quiet", cwd=vault, expected_codes=(1,))
     if rc == 0:
         return False
 

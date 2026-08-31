@@ -78,7 +78,21 @@ def run_command(
     timeout: int | None = None,
     cwd: Path | None = None,
     extra_env: dict | None = None,
+    expected_codes: "tuple[int, ...]" = (),
 ) -> tuple[int, str, str]:
+    """Run `cmd_str`, returning (returncode, stdout, stderr).
+
+    ``expected_codes`` names non-zero exits that are a normal outcome rather
+    than a failure, so they log at debug instead of error. Some tools use the
+    exit code as an *answer*: `git diff --cached --quiet` exits 1 to mean "yes,
+    there are staged changes", which is the success path for
+    `vault_git.commit_paths`, and `git rev-parse HEAD` exits 128 in a
+    freshly-`init`ed repo that has no commits yet -- the state `artmind init`
+    deliberately leaves a new vault in.
+
+    Logging those at ERROR is worse than noise: it teaches a reader to ignore
+    the level, and sends anyone debugging a real problem after a non-problem.
+    """
     logger.debug("CMD: {}", cmd_str)
     if timeout is not None:
         logger.debug("CMD timeout: {}s", timeout)
@@ -91,6 +105,8 @@ def run_command(
     elapsed = time.monotonic() - t0
     if result.returncode == 0:
         logger.debug("CMD ok in {:.1f}s", elapsed)
+    elif result.returncode in expected_codes:
+        logger.debug("CMD exited {} in {:.1f}s (expected)", result.returncode, elapsed)
     else:
         logger.error("CMD failed ({}) in {:.1f}s: {}", result.returncode, elapsed, result.stderr or result.stdout)
     stdout = _ANSI_ESCAPE.sub("", result.stdout)

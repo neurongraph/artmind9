@@ -189,3 +189,56 @@ def test_is_dirty_none_when_not_a_git_repo(tmp_path, monkeypatch):
     v.mkdir()
     monkeypatch.setattr(vault_git, "ARTMIND_VAULT_DIR", v)
     assert vault_git.is_dirty() is None
+
+
+class TestExpectedExitCodesAreNotErrors:
+    """Two git commands answer with their exit status rather than failing.
+
+    Logging them at ERROR is worse than noise: a real ingest printed two
+    `CMD failed` lines while succeeding, which teaches a reader to ignore the
+    level and sends anyone debugging after a non-problem.
+    """
+
+    def test_no_commits_yet_is_not_logged_as_a_failure(self, tmp_path, monkeypatch):
+        """`artmind init` leaves a repo with no commits, so `git rev-parse HEAD`
+        exits 128 on the very first ingest into a new vault."""
+        import subprocess
+
+        import artmind.vault_git as vg
+
+        subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+        (tmp_path / ".artmind").mkdir()
+        monkeypatch.setattr(vg, "ARTMIND_VAULT_DIR", tmp_path)
+
+        seen = []
+        monkeypatch.setattr(vg, "run_command", _recording(seen, returncode=128))
+
+        assert vg.current_commit() is None
+        assert seen[-1]["expected_codes"] == (128,), (
+            "128 must be declared expected, or a new vault logs an ERROR on first ingest"
+        )
+
+    def test_having_changes_to_commit_is_not_logged_as_a_failure(self, tmp_path, monkeypatch):
+        """`git diff --cached --quiet` exits 1 to mean "yes, there are staged
+        changes" -- the success path for commit_paths."""
+        import artmind.vault_git as vg
+
+        seen = []
+        monkeypatch.setattr(vg, "_vault_root", lambda: tmp_path)
+        monkeypatch.setattr(vg, "run_command", _recording(seen, returncode=0))
+
+        vg.commit_paths([tmp_path / "note.md"], "msg")
+
+        diff_calls = [c for c in seen if "diff --cached" in c["cmd"]]
+        assert diff_calls, "the staged-changes check did not run"
+        assert diff_calls[0]["expected_codes"] == (1,), (
+            "1 is the success path here; declaring it expected is what stops the "
+            "ERROR line on every successful commit"
+        )
+
+
+def _recording(sink, returncode=0):
+    def _run(cmd_str, timeout=None, cwd=None, extra_env=None, expected_codes=()):
+        sink.append({"cmd": cmd_str, "expected_codes": expected_codes})
+        return returncode, "", ""
+    return _run
