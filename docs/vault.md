@@ -461,6 +461,23 @@ defaults with it; restore defaults without.
 
 ## Known gaps in what has shipped
 
+- **A fresh vault inherits no LLM configuration.** `paths.py` loads
+  `<vault>/.artmind/config.env`, then `<vault>/.artmind/.env`, then the machine
+  file at `~/.artmind/config.env`. An existing install's settings are at
+  `~/.artmind/.env` — the *legacy run folder* path — which is only consulted
+  when `ARTMIND_HOME` resolves there, i.e. outside a vault. So the first vault
+  someone creates has its own Neo4j placeholders and **nothing else**: no
+  provider, no API key, no model. Nothing says so; the agent simply fails.
+  Confirmed on this machine. Until `init` detects and reports it, the manual
+  fix is:
+
+  ```bash
+  grep -vE '^(ARTMIND_KG_NEO4J_|ARTMIND_DATA_DIR|ARTMIND_VAULT_DIR|ARTMIND_ARCHIVE_DIR)' ~/.artmind/.env > ~/.artmind/config.env && chmod 600 ~/.artmind/config.env
+  ```
+
+  `init` should do this check itself and print the remedy — a first-run
+  experience that fails with no explanation is the worst kind.
+
 - **`--vault` is not a real flag.** `resolve_vault()` accepts an explicit path
   but no command passes one; only `ARTMIND_VAULT` and the walk-up work.
 - **`load_env()` returns `dict(os.environ)`**, not one file's values — it had to,
