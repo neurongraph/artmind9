@@ -23,15 +23,6 @@ def _init_repo(tmp_path: Path) -> Path:
     return tmp_path
 
 
-def test_derived_data_is_ignored(tmp_path):
-    _init_repo(tmp_path)
-    (tmp_path / ".artmind" / "data" / "kg").mkdir(parents=True)
-    vault.write_gitignore(tmp_path)
-    (tmp_path / ".artmind" / "data" / "kg" / "doc.json").write_text("{}")
-
-    assert "data/kg/doc.json" not in _git(tmp_path, "status", "--porcelain")
-
-
 def test_curation_and_schemas_are_committed(tmp_path):
     """same_as.yaml is authoritative curation; losing it means redoing human
     merge adjudication."""
@@ -53,24 +44,6 @@ def test_the_graph_password_is_never_committed(tmp_path):
     (tmp_path / ".artmind" / "config.env").write_text("ARTMIND_KG_NEO4J_PASSWORD=secret\n")
 
     assert "config.env" not in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
-
-
-def test_binaries_are_ignored_but_extracted_images_are_not(tmp_path):
-    """The negation that matters: a .pptx is opaque and stays out, but the
-    images docling extracted are referenced by committed markdown, so without
-    them Obsidian renders broken."""
-    _init_repo(tmp_path)
-    (tmp_path / ".artmind").mkdir()
-    vault.write_gitignore(tmp_path)
-    (tmp_path / "sources").mkdir()
-    (tmp_path / "sources" / "deck.pptx").write_bytes(b"binary")
-    artifacts = tmp_path / "_derived" / "general" / "deck_artifacts"
-    artifacts.mkdir(parents=True)
-    (artifacts / "image-1.png").write_bytes(b"png")
-
-    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
-    assert "sources/deck.pptx" not in status
-    assert "_derived/general/deck_artifacts/image-1.png" in status
 
 
 def test_writing_the_gitignore_twice_does_not_duplicate_it(tmp_path):
@@ -212,3 +185,93 @@ def test_a_new_vault_config_holds_no_machine_level_identity(tmp_path):
     for leaked in ("ARTMIND_OPENROUTER_API_KEY", "ARTMIND_KG_LLM_MODEL",
                    "ANTHROPIC_AUTH_TOKEN", "ARTMIND_KG_EMBEDDINGS_MODEL"):
         assert not [ln for ln in active if ln.startswith(f"{leaked}=")], leaked
+
+
+def test_derived_output_is_committed(tmp_path):
+    """The ownership rule: .artmind/ is artmind's, and it is versioned."""
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind" / "data" / "markdowns").mkdir(parents=True)
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc").mkdir(parents=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "data" / "markdowns" / "deck.md").write_text("# deck")
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc" / "chunks.json").write_text("[]")
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert "data/markdowns/deck.md" in status
+    assert "data/kg/general/doc/chunks.json" in status
+
+
+def test_the_graph_password_is_still_never_committed(tmp_path):
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind").mkdir(exist_ok=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "config.env").write_text("ARTMIND_KG_NEO4J_PASSWORD=secret\n")
+
+    assert "config.env" not in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+
+def test_the_registry_is_not_committed(tmp_path):
+    """A SQLite binary rewritten on every ingest merges catastrophically, and
+    `docs reindex` rebuilds it."""
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind" / "data").mkdir(parents=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "data" / "document_registry.db").write_bytes(b"sqlite")
+
+    assert "document_registry.db" not in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+
+def test_archives_are_never_committed_wherever_they_are(tmp_path):
+    """Snapshots are large opaque duplicates of what git already versions, and
+    the rule is by extension so one dropped anywhere stays out."""
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind" / "data" / "graph_snapshot").mkdir(parents=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "data" / "graph_snapshot" / "s.zip").write_bytes(b"zip")
+    (tmp_path / "stray.tar.gz").write_bytes(b"tgz")
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert "s.zip" not in status
+    assert "stray.tar.gz" not in status
+
+
+def test_binaries_in_the_vault_are_now_committed(tmp_path):
+    """This reverses the previous model, which gitignored them and left them
+    with no version history and no second copy."""
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind").mkdir(exist_ok=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / "area1").mkdir()
+    (tmp_path / "area1" / "deck.pptx").write_bytes(b"binary")
+
+    assert "area1/deck.pptx" in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+
+def test_the_embedding_sidecar_is_not_committed(tmp_path):
+    """Vectors are cached locally so an ingest does not embed twice, but they
+    are undeltable and a clone rebuilds them."""
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc").mkdir(parents=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc" / "embeddings.json").write_text("{}")
+    (tmp_path / ".artmind" / "data" / "kg" / "general" / "doc" / "chunks.json").write_text("[]")
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert "embeddings.json" not in status
+    assert "chunks.json" in status, "the staging itself is still committed"
+
+
+def test_logs_and_runtime_state_are_not_committed(tmp_path):
+    _init_repo(tmp_path)
+    (tmp_path / ".artmind" / "logs").mkdir(parents=True)
+    vault.write_gitignore(tmp_path)
+    (tmp_path / ".artmind" / "logs" / "x.log").write_text("log")
+    (tmp_path / ".artmind" / "state.json").write_text("{}")
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert "x.log" not in status
+    assert "state.json" not in status
