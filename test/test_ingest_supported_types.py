@@ -119,3 +119,23 @@ def test_a_nested_inbox_is_also_skipped(tmp_path):
     (tmp_path / "area1" / "_Inbox" / "draft.md").write_text("# draft")
 
     assert collect_ingest_files(tmp_path) == []
+
+
+def test_pointing_the_walk_root_at_the_inbox_itself_is_also_skipped(tmp_path):
+    """`relative_to(path)` strips the walk root out of its own parts, so
+    targeting `_Inbox` directly used to bypass the exclusion entirely."""
+    inbox = tmp_path / "_Inbox"
+    inbox.mkdir()
+    (inbox / "draft.md").write_text("# half-written")
+    (inbox / "sub").mkdir()
+    (inbox / "sub" / "deeper.md").write_text("# deeper draft")
+
+    assert collect_ingest_files(inbox) == []
+
+
+def test_pointing_the_walk_root_inside_the_inbox_is_also_skipped(tmp_path):
+    sub = tmp_path / "_Inbox" / "sub"
+    sub.mkdir(parents=True)
+    (sub / "deeper.md").write_text("# deeper draft")
+
+    assert collect_ingest_files(sub) == []

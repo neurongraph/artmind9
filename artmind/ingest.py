@@ -112,8 +112,14 @@ def collect_ingest_files(path: Path) -> list[Path]:
     ``.artmind/``, ``.obsidian/``), any file under a ``_Inbox/`` drafting area
     (see ``NEVER_WALKED``) at any depth, any archive (see ``ARCHIVE_SUFFIXES``),
     and any file whose type artmind cannot ingest (see ``SUPPORTED_SUFFIXES``).
+    The ``_Inbox`` exclusion also applies when the walk root itself is
+    ``_Inbox`` or sits somewhere inside it -- ``f.relative_to(path).parts``
+    alone can never see that, since it strips the root out of the parts it
+    yields.
     """
     if path.is_dir():
+        if any(p in NEVER_WALKED for p in path.resolve().parts):
+            return []
         return sorted(
             f for f in path.rglob("*")
             if f.is_file()
