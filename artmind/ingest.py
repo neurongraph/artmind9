@@ -525,6 +525,40 @@ def _is_promotable_binary(source: Path) -> bool:
     return source.suffix.lower() != ".md" and ARTMIND_VAULT_DIR is not None
 
 
+def _is_inside_vault(source: Path, vault_dir: "Path | None") -> bool:
+    """Does `source` already live in the vault? Decides whether artmind needs
+    to keep its own copy (docs/vault.md, "Where a document lands") — a
+    vault-resident source is never copied, since the vault copy IS the source
+    and git already versions it.
+    """
+    if vault_dir is None:
+        return False
+    try:
+        Path(source).resolve().relative_to(Path(vault_dir).resolve())
+    except (OSError, ValueError):
+        return False
+    return True
+
+
+def external_copy_path(source: Path, vault_dir: Path) -> Path:
+    """Where a source from outside the vault is copied to.
+
+    Identity is the SOURCE PATH, not the filename: two different decks both
+    called `deck.pptx` are different documents, and same-path-changed-bytes is
+    a new version of one. Name-based identity is exactly the problem
+    `_artmind_id` was introduced to solve (docs/document-identity.md) and must
+    not creep back in here.
+
+    The path is hashed rather than mirrored so the destination is short, stable
+    and free of the source's directory structure — which may be absolute,
+    machine-specific, or contain characters the vault should not inherit.
+    """
+    import hashlib
+
+    digest = hashlib.sha256(str(Path(source).resolve()).encode("utf-8")).hexdigest()[:12]
+    return Path(vault_dir) / "_external_docs" / digest / Path(source).name
+
+
 def ingest_file(
     source: Path,
     image_model: str,
@@ -771,12 +805,35 @@ def _ingest_binary_or_adhoc(
     # lookup (`_resolve_doc_identity`); the SQLite row _register_document
     # writes below is bookkeeping, not identity.
     logical_id = _logical_id(domain, _canonical_key(source, domain))
-    dest_filename = source.name
 
-    ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
-    dest_path = ORIGINALS_DIR / dest_filename
-    shutil.copy2(source, dest_path)
-    logger.debug("Copied original to: {}", dest_path)
+    if _is_inside_vault(source, ARTMIND_VAULT_DIR):
+        # The vault copy IS the source, and git already versions it. In
+        # practice this function never actually sees a vault-resident source
+        # -- `ingest_file`'s dispatch routes a vault-native `.md` to
+        # `_ingest_vault_native` and a binary with a vault configured to
+        # `_ingest_binary_derived` before this function is ever reached (see
+        # `_is_vault_native_markdown`/`_is_promotable_binary`) -- but the
+        # guard costs nothing and keeps this function correct on its own if
+        # that dispatch ever changes.
+        dest_path = source
+    elif ARTMIND_VAULT_DIR is not None:
+        # A vault exists but this source lives outside it -- the only way to
+        # reach this function with a vault configured is an ad-hoc `.md`
+        # (see `_is_promotable_binary`). Land it under the vault's
+        # `_external_docs/`, under path identity (docs/vault.md, "Where a
+        # document lands").
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, dest_path)
+        logger.debug("Copied original to: {}", dest_path)
+    else:
+        # No vault configured at all -- there is nowhere to put
+        # `_external_docs/`. Preserve the pre-vault flow: a plain data-dir
+        # copy, keyed by filename as it always was.
+        ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
+        dest_path = ORIGINALS_DIR / source.name
+        shutil.copy2(source, dest_path)
+        logger.debug("Copied original to: {}", dest_path)
 
     MARKDOWNS_DIR.mkdir(parents=True, exist_ok=True)
     if job_id:
@@ -804,7 +861,7 @@ def _ingest_binary_or_adhoc(
     logger.info(
         "── Ingest done in {:.1f}s: {} registered in domain '{}'",
         elapsed_total,
-        dest_filename,
+        dest_path.name,
         domain,
     )
 
@@ -882,8 +939,7 @@ def _ingest_binary_derived(
 
     stem = source.stem
     effective_domain = set_domain or domain
-    dest_path = ORIGINALS_DIR / source.name
-    orig_registry_path = canonical_path(dest_path)
+    source_is_vault_resident = _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
     if job_id:
         _update_job_file_status(
@@ -891,16 +947,26 @@ def _ingest_binary_derived(
             current_step="ingest_file", started_at=datetime.now().isoformat(),
         )
 
-    # Compare against the PRIOR run's data-dir copy before it's overwritten --
-    # `dest_path` already persists "the last original we saw" with no
-    # registry round-trip needed. Absent (first-ever ingest of this
-    # filename+domain) is not "changed", it's handled by `current_path is
-    # None` below instead.
-    binary_changed = dest_path.exists() and _compute_sha256(dest_path) != _compute_sha256(source)
+    if source_is_vault_resident:
+        # The vault copy IS the source, and git already versions it.
+        dest_path = source
+        # No separate persisted copy exists to diff the new bytes against --
+        # see the `binary_changed` override below, once `current_path` (and
+        # therefore whether this is a re-ingest) is known.
+        binary_changed = False
+    else:
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+        # Compare against the PRIOR run's persisted copy before it's
+        # overwritten -- `dest_path` already persists "the last original we
+        # saw" with no registry round-trip needed. Absent (first-ever ingest
+        # of this source path) is not "changed", it's handled by
+        # `current_path is None` below instead.
+        binary_changed = dest_path.exists() and _compute_sha256(dest_path) != _compute_sha256(source)
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, dest_path)
+        logger.debug("Copied original to: {}", dest_path)
 
-    ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(source, dest_path)
-    logger.debug("Copied original to: {}", dest_path)
+    orig_registry_path = canonical_path(dest_path)
 
     derived_path = derived_markdown_path(ARTMIND_VAULT_DIR, effective_domain, stem)
     promoted_path_guess = ARTMIND_VAULT_DIR / effective_domain / f"{stem}.md"
@@ -937,6 +1003,19 @@ def _ingest_binary_derived(
     if current_path is None:
         action = "convert"
     else:
+        if source_is_vault_resident:
+            # A vault-resident binary's `dest_path` IS the source -- there is
+            # no separate persisted copy left over from the prior run to diff
+            # against, so "did the binary change" can't be answered from the
+            # filesystem the way it can for an external copy (above). Treat
+            # it as always-possibly-changed: the safe direction (worst case,
+            # a redundant reconversion) rather than the unsafe one (worst
+            # case, silently stale extracted content forever). This is
+            # interim -- Task 6's `_source_sha256` frontmatter field is what
+            # properly answers this by giving a vault-resident binary its own
+            # persisted hash to diff against; adding that here is out of this
+            # task's scope (no registry/frontmatter schema changes).
+            binary_changed = True
         markdown_edited = _markdown_was_edited(existing_body, existing_meta.get("_derived_sha256"))
         action = _decide_promotion(
             markdown_edited=markdown_edited, binary_changed=binary_changed

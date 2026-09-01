@@ -127,6 +127,15 @@ class VaultLayout:
         return self.root / "_derived"
 
     @property
+    def external_docs_dir(self) -> Path:
+        """Copies of sources ingested from outside the vault, keyed by source
+        path (not filename) so two different documents that happen to share a
+        basename never collide (docs/vault.md, "Where a document lands").
+        Visible and committed, NOT hidden: these are the vault's own record of
+        what was ingested from elsewhere."""
+        return self.root / "_external_docs"
+
+    @property
     def skills_dir(self) -> Path:
         """`ClaudeAgentOptions.skills` takes names resolved from
         `.claude/skills/` relative to the agent's cwd, which is the vault."""

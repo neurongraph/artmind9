@@ -7,57 +7,8 @@ controllable body instead of shelling out to a real conversion).
 """
 import subprocess
 
-import pytest
-
 import artmind.ingest as ing
-
-
-def _init_git_repo(path):
-    subprocess.run(["git", "init", "-q"], cwd=path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=path, check=True)
-    subprocess.run(["git", "config", "user.name", "Test"], cwd=path, check=True)
-
-
-@pytest.fixture()
-def env(tmp_path, monkeypatch):
-    vault = tmp_path / "vault"
-    vault.mkdir()
-    _init_git_repo(vault)
-
-    monkeypatch.setattr(ing, "ARTMIND_VAULT_DIR", vault)
-    import artmind.document_identity as di
-    import artmind.vault_git as vg
-
-    monkeypatch.setattr(di, "ARTMIND_VAULT_DIR", vault)
-    monkeypatch.setattr(vg, "ARTMIND_VAULT_DIR", vault)
-
-    import artmind.db as db
-
-    monkeypatch.setattr(db, "DB_PATH", tmp_path / "registry.db")
-
-    originals = tmp_path / "data" / "originals"
-    markdowns = tmp_path / "data" / "markdowns"
-    originals.mkdir(parents=True)
-    markdowns.mkdir(parents=True)
-    monkeypatch.setattr(ing, "ORIGINALS_DIR", originals)
-    monkeypatch.setattr(ing, "MARKDOWNS_DIR", markdowns)
-
-    source = tmp_path / "incoming" / "deck.pptx"
-    source.parent.mkdir(parents=True)
-    source.write_bytes(b"fake binary v1")
-
-    return vault, source
-
-
-def _fake_docling(body_by_call):
-    """Return a `_convert_binary_via_docling` stand-in yielding successive
-    bodies from `body_by_call` (a list), one per call."""
-    calls = iter(body_by_call)
-
-    def _convert(dest_path, image_model):
-        return next(calls), {}
-
-    return _convert
+from conftest import _fake_docling
 
 
 def test_first_ingest_converts_and_mints_an_artmind_id(env, monkeypatch):
@@ -179,3 +130,39 @@ def test_binary_and_markdown_both_changed_is_a_collision(env, monkeypatch):
     assert "both the original binary and its derived markdown" in result["error"]
     # Nothing was touched -- still sitting exactly as the hand-edit left it.
     assert derived_path.exists()
+
+
+def test_a_vault_resident_binary_always_reconverts_on_reingest_for_now(env, monkeypatch):
+    """Interim behavior until Task 6's `_source_sha256` frontmatter field.
+
+    A vault-resident binary's `dest_path` (artmind.ingest._ingest_binary_derived)
+    IS the source -- there is no separate persisted copy left over from the
+    prior run to diff bytes against, the way there is for a binary copied in
+    from outside the vault. artmind conservatively treats a re-ingest as
+    always-possibly-changed rather than risk the unsafe direction (silently
+    serving stale extracted content forever): docling runs again even though
+    the binary is byte-for-byte unchanged, and re-ingest never reports
+    `no_op` for a vault-resident binary.
+    """
+    vault, _source = env
+    resident = vault / "area1" / "deck.pptx"
+    resident.parent.mkdir(parents=True)
+    resident.write_bytes(b"fake binary v1")
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
+    r1 = ing.ingest_file(resident, "gemma4:e4b", "general", chunk_size=6000)
+    assert r1["status"] == "ok"
+
+    calls = {"n": 0}
+
+    def _convert_again(dest_path, image_model):
+        calls["n"] += 1
+        return "# Deck\n\nBody v1.\n", {}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _convert_again)
+    r2 = ing.ingest_file(resident, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert calls["n"] == 1, "docling must run again -- a vault-resident binary must not silently no_op"
+    assert r2["status"] == "ok"
+    assert r2.get("tier") != "no_op"
+    assert "chunks_dir" in r2
