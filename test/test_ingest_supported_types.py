@@ -88,3 +88,34 @@ def test_a_directory_walk_keeps_structured_spreadsheets(tmp_path):
     found = sorted(f.name for f in collect_ingest_files(tmp_path))
 
     assert found == ["book.xlsm", "sheet.xlsx"]
+
+
+def test_the_inbox_is_never_ingested(tmp_path):
+    """A drafting area that needs no configuration -- moving a note OUT of it
+    is what says "this is ready"."""
+    (tmp_path / "_Inbox").mkdir()
+    (tmp_path / "_Inbox" / "draft.md").write_text("# half-written")
+    (tmp_path / "notes").mkdir()
+    (tmp_path / "notes" / "real.md").write_text("# real")
+
+    found = [f.name for f in collect_ingest_files(tmp_path)]
+
+    assert found == ["real.md"]
+
+
+def test_archives_are_never_ingested(tmp_path):
+    """A snapshot is a copy of the graph; ingesting it would be circular."""
+    (tmp_path / "snap.zip").write_bytes(b"zip")
+    (tmp_path / "backup.tar.gz").write_bytes(b"tgz")
+    (tmp_path / "note.md").write_text("# note")
+
+    found = [f.name for f in collect_ingest_files(tmp_path)]
+
+    assert found == ["note.md"]
+
+
+def test_a_nested_inbox_is_also_skipped(tmp_path):
+    (tmp_path / "area1" / "_Inbox").mkdir(parents=True)
+    (tmp_path / "area1" / "_Inbox" / "draft.md").write_text("# draft")
+
+    assert collect_ingest_files(tmp_path) == []

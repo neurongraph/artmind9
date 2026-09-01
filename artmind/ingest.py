@@ -87,6 +87,15 @@ SUPPORTED_SUFFIXES = (
     | frozenset(IMAGE_EXTENSIONS)       # images, when a folder of them is mapped
 )
 
+# Directory names never walked, at any depth. `_Inbox` is a drafting area:
+# moving a note OUT of it is what marks the note ready, which needs no
+# configuration and no status field (docs/vault.md).
+NEVER_WALKED = frozenset({"_Inbox"})
+
+# Archives are never ingested. A snapshot is a copy of the graph, so ingesting
+# one would be circular; they are also excluded from git for the same reason.
+ARCHIVE_SUFFIXES = frozenset({".zip", ".tar", ".gz", ".tgz", ".bz2", ".7z", ".rar"})
+
 
 def is_supported(path: Path) -> bool:
     """Can artmind ingest this file type at all?"""
@@ -100,14 +109,17 @@ def collect_ingest_files(path: Path) -> list[Path]:
     explicit request, and the caller reports an unsupported type rather than
     the walk silently dropping it. A directory is walked recursively, skipping
     any file under a dotfile/dot-directory (``.DS_Store``, ``.git/``,
-    ``.artmind/``, ``.obsidian/``) and any file whose type artmind cannot
-    ingest (see ``SUPPORTED_SUFFIXES``).
+    ``.artmind/``, ``.obsidian/``), any file under a ``_Inbox/`` drafting area
+    (see ``NEVER_WALKED``) at any depth, any archive (see ``ARCHIVE_SUFFIXES``),
+    and any file whose type artmind cannot ingest (see ``SUPPORTED_SUFFIXES``).
     """
     if path.is_dir():
         return sorted(
             f for f in path.rglob("*")
             if f.is_file()
             and not any(p.startswith(".") for p in f.relative_to(path).parts)
+            and not any(p in NEVER_WALKED for p in f.relative_to(path).parts)
+            and f.suffix.lower() not in ARCHIVE_SUFFIXES
             and is_supported(f)
         )
     # A named file is an explicit request: return it and let the caller report
