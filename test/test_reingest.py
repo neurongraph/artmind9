@@ -451,12 +451,15 @@ def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatc
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
     swept_chunks: list = []
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 0
+        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 7
     )
 
-    ing.rebuild_projection("general")
+    summary = ing.rebuild_projection("general")
 
     assert swept_chunks == [{"domain": "general"}]
+    assert summary["chunks_embedded"] == 7, (
+        "a dropped or mis-assigned summary['chunks_embedded'] = ... line must fail this test"
+    )
 
 
 def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatch):

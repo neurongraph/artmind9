@@ -2662,8 +2662,11 @@ def projection_rebuild(domain: str | None, compact: bool) -> None:
     projection and rebuilding it produces a byte-identical result — which is
     also why this is safe to run at any time.
 
-    The embed sweep follows automatically, since a rebuild leaves everything it
-    touched marked `embedding_stale`.
+    Two embed sweeps follow automatically when `--domain` is given: the
+    entity sweep, since a rebuild leaves everything it touched marked
+    `embedding_stale`; and a domain-scoped chunk sweep, which recovers any
+    chunk a deferred batch-ingest commit left unembedded. Neither sweep runs
+    on a domain-unscoped rebuild (no `--domain`).
     """
     _setup_logger()
     from artmind.ingest import rebuild_projection

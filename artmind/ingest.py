@@ -2839,9 +2839,10 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
                 session, chunk_ids=chunk_ids, domain=domain
             )["embedded"]
     except Exception as e:
+        scope_desc = f"{len(chunk_ids)} chunk(s)" if chunk_ids else f"domain {domain!r}"
         logger.warning(
-            "Chunk embed sweep skipped for {} chunk(s) ({}); they stay unembedded "
-            "and will be picked up by the next sweep", len(chunk_ids or []), e,
+            "Chunk embed sweep skipped for {} ({}); they stay unembedded "
+            "and will be picked up by the next sweep", scope_desc, e,
         )
         return 0
 
@@ -2850,12 +2851,15 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
     """Rebuild the projection outside an ingest — the deferred directory path,
     and the recovery path for drift.
 
-    A full rebuild when `keys` is omitted. Two embed sweeps follow, since a
-    rebuild leaves everything it touched flagged stale (entities) or simply
-    doesn't touch chunk vectors at all (chunks stay whatever they already
-    were). Both sweeps only run `if domain:` — a global rebuild across every
-    domain (`domain=None`) skips both, the same asymmetry the entity sweep
-    already had before the chunk sweep existed.
+    A full rebuild when `keys` is omitted. Two embed sweeps follow: the
+    entity sweep, because a rebuild leaves everything it touched flagged
+    stale; and the chunk sweep, because a batch ingest's per-document
+    `commit_to_graph` calls run with `defer_rebuild=True` and skip their own
+    chunk sweep specifically because it's deferred (see `commit_to_graph`) —
+    this domain-wide sweep is what recovers the chunks those deferred
+    commits left unembedded. Both sweeps only run `if domain:` — a global
+    rebuild across every domain (`domain=None`) skips both, the same
+    asymmetry the entity sweep already had before the chunk sweep existed.
     """
     from artmind import projection
     from artmind.graph_query import neo4j_session
