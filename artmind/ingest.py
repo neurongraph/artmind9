@@ -806,7 +806,14 @@ def _ingest_binary_or_adhoc(
         # `_is_vault_native_markdown`/`_is_binary_source`) -- but the
         # guard costs nothing and keeps this function correct on its own if
         # that dispatch ever changes.
-        dest_path = source
+        #
+        # Resolved to an absolute path, not left as whatever `source` was
+        # handed in as (often relative, e.g. from `ingest sync .`'s
+        # directory walk): `_convert_binary_via_docling` always runs docling
+        # with `cwd=PROJECT_ROOT`, a fixed directory unrelated to the vault,
+        # so a relative `dest_path` would resolve against the wrong base and
+        # docling would report the file as missing.
+        dest_path = source.resolve()
     elif ARTMIND_VAULT_DIR is not None:
         # A vault exists but this source lives outside it -- the only way to
         # reach this function with a vault configured is an ad-hoc `.md`
@@ -932,7 +939,14 @@ def _ingest_binary_derived(
 
     if source_is_vault_resident:
         # The vault copy IS the source, and git already versions it.
-        dest_path = source
+        #
+        # Resolved to an absolute path, not left as whatever `source` was
+        # handed in as (often relative, e.g. from `ingest sync .`'s
+        # directory walk): `_convert_binary_via_docling` always runs docling
+        # with `cwd=PROJECT_ROOT`, a fixed directory unrelated to the vault,
+        # so a relative `dest_path` would resolve against the wrong base and
+        # docling would report the file as missing.
+        dest_path = source.resolve()
     else:
         dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
         dest_path.parent.mkdir(parents=True, exist_ok=True)
