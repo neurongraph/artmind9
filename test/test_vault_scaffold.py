@@ -37,15 +37,6 @@ def test_curation_and_schemas_are_committed(tmp_path):
     assert ".artmind/domains/schemas/general_schema.yaml" in status
 
 
-def test_the_graph_password_is_never_committed(tmp_path):
-    _init_repo(tmp_path)
-    (tmp_path / ".artmind").mkdir(parents=True, exist_ok=True)
-    vault.write_gitignore(tmp_path)
-    (tmp_path / ".artmind" / "config.env").write_text("ARTMIND_KG_NEO4J_PASSWORD=secret\n")
-
-    assert "config.env" not in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
-
-
 def test_writing_the_gitignore_twice_does_not_duplicate_it(tmp_path):
     (tmp_path / ".artmind").mkdir()
     vault.write_gitignore(tmp_path)
@@ -213,28 +204,38 @@ def test_the_graph_password_is_still_never_committed(tmp_path):
 
 def test_the_registry_is_not_committed(tmp_path):
     """A SQLite binary rewritten on every ingest merges catastrophically, and
-    `docs reindex` rebuilds it."""
+    `docs reindex` rebuilds it. Covers the -shm/-wal siblings too: SQLite
+    leaves those beside the .db file, and they are exactly as churning."""
     _init_repo(tmp_path)
     (tmp_path / ".artmind" / "data").mkdir(parents=True)
     vault.write_gitignore(tmp_path)
     (tmp_path / ".artmind" / "data" / "document_registry.db").write_bytes(b"sqlite")
+    (tmp_path / ".artmind" / "data" / "document_registry.db-shm").write_bytes(b"shm")
+    (tmp_path / ".artmind" / "data" / "document_registry.db-wal").write_bytes(b"wal")
 
-    assert "document_registry.db" not in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert "document_registry.db" not in status
+    assert "document_registry.db-shm" not in status
+    assert "document_registry.db-wal" not in status
 
 
 def test_archives_are_never_committed_wherever_they_are(tmp_path):
     """Snapshots are large opaque duplicates of what git already versions, and
-    the rule is by extension so one dropped anywhere stays out."""
+    the rule is by extension so one dropped anywhere stays out -- for any of
+    the three archive extensions the block excludes."""
     _init_repo(tmp_path)
     (tmp_path / ".artmind" / "data" / "graph_snapshot").mkdir(parents=True)
     vault.write_gitignore(tmp_path)
     (tmp_path / ".artmind" / "data" / "graph_snapshot" / "s.zip").write_bytes(b"zip")
     (tmp_path / "stray.tar.gz").write_bytes(b"tgz")
+    (tmp_path / "another.tgz").write_bytes(b"tgz")
 
     status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
 
     assert "s.zip" not in status
     assert "stray.tar.gz" not in status
+    assert "another.tgz" not in status
 
 
 def test_binaries_in_the_vault_are_now_committed(tmp_path):

@@ -86,13 +86,15 @@ class VaultLayout:
     """Where everything sits inside a vault (docs/vault.md, "Layout").
 
     One place that knows the layout, so a path is never spelled out twice. The
-    split that matters: everything under ``data_dir`` is derived and gitignored;
-    everything else under ``artmind_dir`` is authoritative and committed.
+    ownership rule: everything under ``artmind_dir`` (including ``data_dir``) is
+    committed by default, minus the short exclusion list in ``GITIGNORE_BLOCK``
+    below (a secret, the registry, the embedding sidecar, machine-local runtime
+    state) -- see docs/vault.md, "What is in git, and what is not".
     """
 
     root: Path
 
-    # ── authoritative, committed ──────────────────────────────────────────────
+    # ── artmind-owned, mostly committed (exceptions: GITIGNORE_BLOCK) ─────────
     @property
     def artmind_dir(self) -> Path:
         return self.root / MARKER
@@ -144,7 +146,7 @@ class VaultLayout:
     def logs_dir(self) -> Path:
         return self.artmind_dir / "logs"
 
-    # ── derived, gitignored ──────────────────────────────────────────────────
+    # ── derived, committed (exceptions: registry_db, the kg embedding sidecar) ─
     @property
     def data_dir(self) -> Path:
         return self.artmind_dir / "data"
@@ -210,9 +212,11 @@ GITIGNORE_BLOCK = """\
 # matched by this and stay committable.
 .claude/skills/artmind-*
 
-# Locally-cached chunk vectors. Derived from (text, model), and undeltable --
-# ten versions of one chunks.json cost 60 KB of git objects with vectors and
-# 20 KB without. A clone has none and rebuilds them once.
+# Locally-cached chunk vectors, split out of committed chunks.json into this
+# sidecar precisely so it can be excluded. Derived from (text, model), and
+# undeltable -- ten versions of one chunks.json cost 60 KB of git objects with
+# embeddings inline and 20 KB with them split into embeddings.json instead. A
+# clone has no embeddings.json and rebuilds it once.
 .artmind/data/kg/**/embeddings.json
 
 # Snapshots: large, opaque, and already a complete copy of what git versions.
