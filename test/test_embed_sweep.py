@@ -200,6 +200,51 @@ def test_the_vector_is_written_back_keyed_by_chunk_id():
     assert writes[0][1].get("id") == "c1" or "c1" in str(writes[0][1])
 
 
+def test_chunk_ids_scopes_the_fetch_to_only_those_ids():
+    """The post-commit sweep's whole point: only the chunks this commit just
+    wrote get fetched/embedded, not every unembedded :DocChunk in the graph."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    result = embed_missing_chunk_embeddings(
+        session, chunk_ids=["c1", "c2"], embed=lambda t: [0.1],
+    )
+
+    assert result["embedded"] == 1
+    fetch_cypher, fetch_params = session.queries[0]
+    assert "c.id IN $chunk_ids" in fetch_cypher
+    assert fetch_params["chunk_ids"] == ["c1", "c2"]
+
+
+def test_chunk_ids_none_is_unscoped_and_omits_the_scope_clause():
+    """The default -- confirms `chunk_ids=None` doesn't add `c.id IN
+    $chunk_ids` to the query at all, matching pre-existing full-graph
+    behavior exactly."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
+
+    fetch_cypher, fetch_params = session.queries[0]
+    assert "chunk_ids" not in fetch_cypher
+    assert "chunk_ids" not in fetch_params
+
+
+def test_chunk_ids_empty_list_scopes_to_nothing_without_a_query():
+    """Distinct from `None`: an explicit empty list means "scope to no
+    chunks", not "unscoped" -- and must not raise or hit the session at all."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    result = embed_missing_chunk_embeddings(session, chunk_ids=[], embed=lambda t: [0.1])
+
+    assert result == {"embedded": 0, "remaining": 0}
+    assert session.queries == [], "an empty scope must not round-trip a query"
+
+
 def test_an_already_embedded_graph_is_a_no_op():
     from artmind.embed_sweep import embed_missing_chunk_embeddings
 

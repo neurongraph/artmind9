@@ -31,12 +31,20 @@ def count_unembedded_chunks(tx) -> int:
 def embed_missing_chunk_embeddings(
     session,
     *,
+    chunk_ids: list | None = None,
     embed=None,
     batch_size: int = 100,
     progress_every: int = 50,
     on_progress=None,
 ) -> dict:
     """Embed every `:DocChunk` whose `.embedding` is still `NULL`.
+
+    Scoped to `chunk_ids` when given — a post-commit sweep embeds only the
+    chunks that commit just wrote, not the whole graph. `chunk_ids=None`
+    (the default) is unscoped and behaves exactly as before: every
+    unembedded `:DocChunk` in the graph is a candidate. `chunk_ids=[]` is
+    scoped to nothing and always returns `{"embedded": 0, "remaining": 0}`
+    without running a query — distinct from `None`'s unscoped sweep.
 
     Mirrors `embed_missing_entity_embeddings`'s shape: fetch the chunks that
     still need a vector, embed each one's `.text`, write the vector back
@@ -80,6 +88,12 @@ def embed_missing_chunk_embeddings(
     (a fresh call, e.g. after fixing a dead embedding service) sees it as
     `NULL` again and retries it, same as any other resumed chunk.
     """
+    if chunk_ids is not None and len(chunk_ids) == 0:
+        # Scoped to nothing — distinct from `None`'s unscoped sweep. Return
+        # immediately rather than round-tripping a query that would always
+        # come back empty.
+        return {"embedded": 0, "remaining": 0}
+
     if embed is None:
         embed_model = load_env().get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
         embed = lambda text: _embed_text(embed_model, text)
@@ -87,16 +101,23 @@ def embed_missing_chunk_embeddings(
     embedded, failed, total = 0, 0, 0
     failed_ids: set[str] = set()
 
+    id_scope = ""
+    scope_params: dict = {}
+    if chunk_ids is not None:
+        id_scope = " AND c.id IN $chunk_ids"
+        scope_params["chunk_ids"] = list(chunk_ids)
+
     while True:
         rows = session.run(
-            """
+            f"""
             MATCH (c:DocChunk)
-            WHERE c.embedding IS NULL AND NOT c.id IN $skip_ids
+            WHERE c.embedding IS NULL AND NOT c.id IN $skip_ids{id_scope}
             RETURN c.id AS id, c.text AS text
             LIMIT $batch_size
             """,
             batch_size=batch_size,
             skip_ids=list(failed_ids),
+            **scope_params,
         ).data()
         if not rows:
             break

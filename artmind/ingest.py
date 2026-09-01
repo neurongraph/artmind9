@@ -2590,6 +2590,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             doc_id=chunk["doc_id"],
         )
     summary["chunks"] = len(staged["chunks"])
+    summary["unembedded_chunk_ids"] = [
+        chunk["id"] for chunk in staged["chunks"] if not chunk.get("embedding")
+    ]
 
     # 4. Observations.
     observations = staged["observations"]
@@ -2736,11 +2739,15 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
     warning — so a broken projection was indistinguishable from a healthy one.
     Now a projection failure fails the commit and nothing lands.
 
-    The **embed sweep** deliberately runs after the transaction has committed:
-    it calls the embedding service, which a transaction cannot do. It is
-    scoped to the keys this commit dirtied, and it never nulls an embedding —
-    an entity it cannot embed keeps its old vector and stays flagged for the
-    next sweep.
+    Two **embed sweeps** deliberately run after the transaction has committed:
+    they call the embedding service, which a transaction cannot do. The
+    entity sweep is scoped to the keys this commit dirtied, and it never
+    nulls an embedding — an entity it cannot embed keeps its old vector and
+    stays flagged for the next sweep. The chunk sweep is scoped the same
+    way, to the chunk ids this commit's own `staged["chunks"]` loop found
+    still missing a vector (`summary["unembedded_chunk_ids"]`) — not a
+    full-graph `:DocChunk` scan, which is what makes it safe to run
+    unconditionally on every commit instead of only from the CLI.
 
     `defer_rebuild` is the directory path: per-document observation writes,
     then one full rebuild at the end (see `rebuild_projection`).
@@ -2755,6 +2762,7 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
 
     if not defer_rebuild:
         _sweep_embeddings(domain, summary.get("affected_keys") or [])
+        _sweep_chunk_embeddings(summary.get("unembedded_chunk_ids") or [])
     return True
 
 
@@ -2779,6 +2787,34 @@ def _sweep_embeddings(domain: str, keys: list) -> int:
         logger.warning(
             "Embed sweep skipped for {} ({}); entities stay marked stale and will be "
             "picked up by the next sweep", domain, e,
+        )
+        return 0
+
+
+def _sweep_chunk_embeddings(chunk_ids: list) -> int:
+    """Post-commit chunk-embed sweep, scoped to the chunks this commit just wrote.
+
+    Mirrors `_sweep_embeddings`'s scoping: cheap because it only checks the
+    handful of chunks this specific document contributed, not the whole
+    graph. A chunk missing a vector here is the normal state right after a
+    fresh clone (docs/vault.md, "Embeddings") — the sidecar didn't have it
+    yet, or this is a restore with no sidecar at all. Never fatal: the commit
+    already succeeded and the graph is correct either way. A chunk this sweep
+    can't embed stays NULL and is picked up by the next `ingest embed-chunks`
+    / write-to-graph sweep, or the next commit that happens to touch it.
+    """
+    if not chunk_ids:
+        return 0
+    try:
+        from artmind.graph_query import neo4j_session
+        from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+        with neo4j_session() as session:
+            return embed_missing_chunk_embeddings(session, chunk_ids=chunk_ids)["embedded"]
+    except Exception as e:
+        logger.warning(
+            "Chunk embed sweep skipped for {} chunk(s) ({}); they stay unembedded "
+            "and will be picked up by the next sweep", len(chunk_ids), e,
         )
         return 0
 
