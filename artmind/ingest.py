@@ -2571,8 +2571,20 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    duplicate under :Document — see _merge_relabeled.
     _merge_relabeled(tx, "Document", "DocumentHistory", doc_id, _flatten_props(document), replace=False)
     for chunk in staged["chunks"]:
-        chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
-        chunk_props["embedding"] = chunk.get("embedding", [])
+        # `embedding` flows through `_flatten_props` like every other chunk
+        # property (no more special-casing it out and re-adding it after).
+        # A chunk with no vector must end up with NO "embedding" key at all —
+        # not "embedding": [] — because Cypher's `[] IS NULL` is false, which
+        # is exactly what `embed_missing_chunk_embeddings`'s
+        # `WHERE c.embedding IS NULL` sweep query relies on to find it, and
+        # because `_merge_relabeled`'s `SET n += $props` is additive: an
+        # "embedding" key present with value [] would silently overwrite a
+        # real vector a prior commit already swept in. `_flatten_props`
+        # already drops `v == []` for every property, so simply not excluding
+        # "embedding" from its input is the whole fix. `_neo4j_value` passes a
+        # plain list of floats through unchanged, so a genuine vector is still
+        # written exactly as before.
+        chunk_props = _flatten_props(chunk)
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses

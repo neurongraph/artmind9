@@ -390,3 +390,104 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
     assert rebuilds == [], "the rebuild is deferred to the end of the batch"
     assert swept == [], "so is the sweep — there is nothing fresh to embed yet"
     assert swept_chunks == [], "the chunk sweep is gated the same way as the entity sweep"
+
+
+# ── a missing embedding must write NO "embedding" key, never "embedding": [] ─
+#
+# `_flatten_props` drops v == [] for every property; before this fix
+# `_commit_document_tx` special-cased "embedding" out of `_flatten_props`'s
+# input and always re-added it, defaulting to []. That meant a chunk with no
+# vector got `embedding: []` written -- a present, non-null value. In real
+# Neo4j, `[] IS NULL` is false, so `embed_missing_chunk_embeddings`'s
+# `WHERE c.embedding IS NULL` sweep query would never find it (a mocked
+# session can't catch this -- see CLAUDE.md's `update confirm` postmortem).
+# Worse: `_merge_relabeled` writes DocChunk with `SET n += $props`
+# (additive) when `replace=False`, so an always-present "embedding" key could
+# silently overwrite a real vector a prior sweep had already filled in.
+
+
+def _docchunk_merge_calls(session):
+    """Every `_merge_relabeled` call this commit made against :DocChunk,
+    as (cypher, kwargs) — the same query string carries both the CREATE and
+    the SET-existing branches, so this substring identifies it uniquely
+    (mirrors test_filing_metadata.py's `_RecordingSession` pattern)."""
+    return [(c, kw) for c, kw in session.calls if "CREATE (n:DocChunk" in c]
+
+
+def test_a_chunk_with_no_embedding_sends_no_embedding_key(tmp_path, monkeypatch):
+    """Regression test for the sweep-never-matches bug: the props dict sent
+    for a chunk with no vector must not contain "embedding" at all -- not
+    "embedding": []."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "no vector yet"},
+    ])
+
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+
+    calls = _docchunk_merge_calls(session)
+    assert calls, "expected a DocChunk MERGE"
+    _, kwargs = calls[0]
+    assert "embedding" not in kwargs["props"], (
+        f"a chunk with no vector must omit the 'embedding' key entirely, "
+        f"got props={kwargs['props']!r}"
+    )
+
+
+def test_a_chunk_with_a_real_embedding_still_writes_it_unchanged(tmp_path, monkeypatch):
+    """The other half of the fix: a genuine vector must still flow through
+    byte-for-byte -- `_neo4j_value` passes a list of plain floats through
+    unchanged, so folding "embedding" into `_flatten_props` must not touch it."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    vector = [0.1, 0.2, 0.3]
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": vector},
+    ])
+
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+
+    calls = _docchunk_merge_calls(session)
+    assert calls, "expected a DocChunk MERGE"
+    _, kwargs = calls[0]
+    assert kwargs["props"]["embedding"] == vector
+
+
+def test_a_re_commit_with_no_incoming_vector_cannot_clobber_a_prior_one(tmp_path, monkeypatch):
+    """Data-loss regression test: commit the same chunk id twice, first with a
+    real embedding, then (e.g. a metadata-only reingest with no local sidecar)
+    with none. `_merge_relabeled`'s DocChunk write is additive
+    (`SET n += $props`), so the only way the second commit cannot clobber the
+    first commit's vector is if its outgoing props dict has no "embedding" key
+    at all -- proven directly here, which is sufficient per CLAUDE.md's own
+    guidance (a mocked/recording session can't enforce real Neo4j `+=`
+    semantics, only what was actually sent)."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    vector = [0.4, 0.5, 0.6]
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": vector},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+    first_calls = _docchunk_merge_calls(session)
+    assert first_calls[-1][1]["props"]["embedding"] == vector
+
+    # Re-stage the identical chunk id, this time with no embedding at all
+    # (e.g. the sidecar was absent for this reingest run).
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector"},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+    second_calls = _docchunk_merge_calls(session)
+
+    _, second_props = second_calls[-1]
+    assert "embedding" not in second_props["props"], (
+        "a re-commit with no incoming vector must send no 'embedding' key at "
+        "all -- SET n += $props only touches keys present in props, so this "
+        "is what prevents it from clobbering the vector the first commit wrote"
+    )
