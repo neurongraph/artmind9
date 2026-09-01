@@ -24,10 +24,15 @@ guessing.
 | `.artmind/domains/` | schemas + meta-schema | yes |
 | `.artmind/same_as.yaml` | curation | yes |
 | `.artmind/config.env` | this vault's Neo4j connection | no |
-| `.artmind/data/` | originals, chunks, KG staging, registry, snapshots | no |
-| `.artmind/logs/` | logs | no |
+| `.artmind/data/markdowns/` | converted markdown, extracted images, chunks | yes |
+| `.artmind/data/kg/` | KG extraction staging (JSON) | yes |
+| `.artmind/data/kg/**/embeddings.json` | chunk embedding sidecar | no |
+| `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`) | no |
+| `.artmind/data/*.zip`, `*.tgz`, `*.tar.gz` | snapshots | no |
+| `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
 | `.claude/skills/` | artmind's (symlinked) + your own | only yours |
-| `_derived/<domain>/` | markdown converted from your binaries, plus its images | yes |
+| `_external_docs/` | copies of sources ingested from outside the vault | yes |
+| `_Inbox/` | drafts; never ingested (no gitignore treatment — an ordinary directory) | yes |
 
 One file stays global: `~/.artmind/config.env`, holding the LLM provider, API
 keys and models. Secrets must not live in a vault you may push. Config loads
@@ -66,7 +71,9 @@ artmind init
 ```
 
 `artmind init` runs `git init` if needed, creates `.artmind/`, writes a
-`.gitignore` that encodes the authoritative/derived split, seeds the starter
+`.gitignore` that commits derived output (converted markdown, chunks, KG
+staging) by default and excludes only a short list — secrets, churning
+binaries, and machine-local state (see the table above) — seeds the starter
 domain schemas, symlinks artmind's skills into `.claude/skills/`, and writes a
 starter `vault.yaml`. It is idempotent and needs no Neo4j, and it **never
 overwrites** a schema or config file you have edited.

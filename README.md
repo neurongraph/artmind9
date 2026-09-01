@@ -331,6 +331,13 @@ There are other job related commands as well which you can find with:
 uv run artmind ingest --help
 ```
 
+### When a conversion comes out wrong
+
+You do not edit `.artmind/` — artmind owns it. Instead: copy the converted
+markdown out into your vault as an ordinary note, move the original binary to
+`_Inbox/` so it is not re-ingested, and ingest the note. It is then just a note,
+with no special machinery holding it.
+
 ### Re-running extraction
 
 Re-run only the LLM extraction step on an already-ingested document:

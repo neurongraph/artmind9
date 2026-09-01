@@ -3,9 +3,12 @@
 **Status: partially implemented** on branch `feat/vault`. Landed: discovery,
 resolution precedence, the `VaultLayout` class, the machine/vault config split,
 `artmind init`, and the ingest manifest. **This document was substantially
-revised on 2026-08-30** — the `_derived/` promotion model it previously
-specified is withdrawn in favour of the ownership rule below, and the code still
-implements the old model. See "What this replaces".
+revised on 2026-08-30** to withdraw the `_derived/` promotion model in favour
+of the ownership rule below — and since then the ownership rule has landed:
+the embedding sidecar, the resumable chunk-embed sweep, the inverted
+`.gitignore` (derived output committed by default), `_Inbox`/archive
+exclusion, `_external_docs/` for externally-sourced documents, and deletion of
+the `_derived/` promotion model entirely. See "What this replaces".
 
 How artmind decides which knowledge base it is working on, and what lives where
 inside it. Topology in [stores-and-repos.md](./stores-and-repos.md); identity in
@@ -419,8 +422,8 @@ the previous design needed becomes unnecessary.
 
 ## What this replaces
 
-Two models preceded this one, and both are recorded here because the code still
-implements parts of them.
+Two models preceded this one, and both are recorded here for context even
+though the code no longer implements either.
 
 **The workspace model** (deleted `docs/workspaces.md`) made a named registry
 entry the unit, selected by a global pointer file. A global "current workspace"
@@ -440,8 +443,8 @@ to a document's extracted images, since promotion moved the markdown and not the
 images.
 
 The ownership rule replaces all of it with a documented manual workflow: copy the
-markdown out, ingest it as an ordinary note. Everything listed above can be
-deleted, including `artmind/derived_markdown.py` in its entirety.
+markdown out, ingest it as an ordinary note. Everything listed above has since
+been deleted, including `artmind/derived_markdown.py` in its entirety.
 
 ## Guardrails that survive
 
@@ -486,8 +489,6 @@ defaults with it; restore defaults without.
 - **A command needing the vault should call `resolve_vault()` fresh**, not read
   `paths.ARTMIND_VAULT_DIR`: that module global is frozen at first import and
   cannot see a `chdir` within one process.
-- **The code still implements the `_derived/` model.** Everything in "What this
-  replaces" is specified as withdrawn but not yet removed.
 
 ## Open
 
