@@ -492,8 +492,6 @@ defaults with it; restore defaults without.
 
 ## Open
 
-- **`docs/INSTALL.md`** describes install and layout and will need the ownership
-  rule once the code matches this document.
 - **Query-only consumers** (the canvas backend) need `--vault` or `ARTMIND_VAULT`.
 - **Whether `data/kg/<doc>/chunks/chunk_NNN.json` is redundant** with the
   aggregated `chunks.json`. If it is, committing both doubles the largest

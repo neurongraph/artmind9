@@ -24,11 +24,11 @@ guessing.
 | `.artmind/domains/` | schemas + meta-schema | yes |
 | `.artmind/same_as.yaml` | curation | yes |
 | `.artmind/config.env` | this vault's Neo4j connection | no |
-| `.artmind/data/markdowns/` | converted markdown, extracted images, chunks | yes |
+| `.artmind/data/documents/markdowns/` | converted markdown, extracted images, chunks | yes |
 | `.artmind/data/kg/` | KG extraction staging (JSON) | yes |
 | `.artmind/data/kg/**/embeddings.json` | chunk embedding sidecar | no |
 | `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`) | no |
-| `.artmind/data/*.zip`, `*.tgz`, `*.tar.gz` | snapshots | no |
+| `.artmind/data/graph_snapshot/`, `.artmind/data/structured_snapshot/` | snapshots (`*.tar.gz`) | no |
 | `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
 | `.claude/skills/` | artmind's (symlinked) + your own | only yours |
 | `_external_docs/` | copies of sources ingested from outside the vault | yes |
