@@ -26,13 +26,15 @@ guessing.
 | `.artmind/config.env` | this vault's Neo4j connection | no |
 | `.artmind/data/documents/markdowns/` | converted markdown, extracted images, chunks | yes |
 | `.artmind/data/kg/` | KG extraction staging (JSON) | yes |
-| `.artmind/data/kg/**/embeddings.json` | chunk embedding sidecar | no |
 | `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`) | no |
 | `.artmind/data/graph_snapshot/`, `.artmind/data/structured_snapshot/` | snapshots (`*.tar.gz`) | no |
 | `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
 | `.claude/skills/` | artmind's (symlinked) + your own | only yours |
 | `_external_docs/` | copies of sources ingested from outside the vault | yes |
 | `_Inbox/` | drafts; never ingested (no gitignore treatment — an ordinary directory) | yes |
+
+Exception within `.artmind/data/kg/`: the chunk embedding sidecar
+(`embeddings.json`) is never committed — see `docs/vault.md`, "Embeddings".
 
 One file stays global: `~/.artmind/config.env`, holding the LLM provider, API
 keys and models. Secrets must not live in a vault you may push. Config loads

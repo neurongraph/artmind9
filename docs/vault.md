@@ -4,11 +4,11 @@
 resolution precedence, the `VaultLayout` class, the machine/vault config split,
 `artmind init`, and the ingest manifest. **This document was substantially
 revised on 2026-08-30** to withdraw the `_derived/` promotion model in favour
-of the ownership rule below — and since then the ownership rule has landed:
-the embedding sidecar, the resumable chunk-embed sweep, the inverted
-`.gitignore` (derived output committed by default), `_Inbox`/archive
-exclusion, `_external_docs/` for externally-sourced documents, and deletion of
-the `_derived/` promotion model entirely. See "What this replaces".
+of the ownership rule below. Since then the ownership rule has landed: the
+embedding sidecar, the resumable chunk-embed sweep, the inverted `.gitignore`
+(derived output committed by default), `_Inbox`/archive exclusion,
+`_external_docs/` for externally-sourced documents, and deletion of the
+`_derived/` promotion model entirely. See "What this replaces".
 
 How artmind decides which knowledge base it is working on, and what lives where
 inside it. Topology in [stores-and-repos.md](./stores-and-repos.md); identity in
@@ -83,14 +83,14 @@ Two corollaries:
     ├── domains/                        ← schemas + meta-schema; COMMITTED
     ├── logs/  state.json  serve.json   ← machine-local; NOT committed
     └── data/
-        ├── markdowns/
+        ├── documents/markdowns/
         │   ├── a_deck.md               ← converted; COMMITTED
         │   ├── a_deck_artifacts/       ← extracted images + their descriptions
         │   └── a_deck_chunks/          ← chunk_001.md, chunks_meta.json
         ├── kg/<domain>/<doc>/          ← extraction output; COMMITTED
         ├── document_registry.db        ← path↔id cache; NOT committed
-        ├── graph_snapshot/             ← *.zip; NOT committed
-        └── structured/
+        ├── graph_snapshot/             ← *.tar.gz; NOT committed
+        └── structured_snapshot/        ← *.tar.gz; NOT committed
 ```
 
 ## Resolution
@@ -160,7 +160,7 @@ the one thing inside committed KG staging that git should not carry.
 |---|---|---|
 | committed KG staging (`data/kg/**/chunks.json`) | **stripped** | random floats, no useful delta, fully re-derivable |
 | the graph (Neo4j) | present | the vector index is the point |
-| snapshots (`*.zip`) | present | not in git anyway, and their whole job is *fast* restore |
+| snapshots (`*.tar.gz`) | present | not in git anyway, and their whole job is *fast* restore |
 
 That split gives each layer the property it should have: the git-committed layer
 stays small and diffable, the snapshot layer stays fat and instant.
@@ -198,17 +198,17 @@ in the same place — the uniformity is the point.
 
 | Source | The source ends up | Converted markdown | Identity |
 |---|---|---|---|
-| binary from outside the vault | copied to `_external_docs/`, committed | `data/markdowns/<stem>.md` | the **source path** |
-| binary already in the vault | stays where you put it, committed | `data/markdowns/<stem>.md` | `_artmind_id` on… see below |
-| markdown from outside the vault | copied to `_external_docs/`, committed | `data/markdowns/<stem>.md` | the **source path** |
-| markdown already in the vault | stays where you put it | `data/markdowns/<stem>.md` | `_artmind_id` in its frontmatter |
+| binary from outside the vault | copied to `_external_docs/`, committed | `data/documents/markdowns/<stem>.md` | the **source path** |
+| binary already in the vault | stays where you put it, committed | `data/documents/markdowns/<stem>.md` | `_artmind_id` on… see below |
+| markdown from outside the vault | copied to `_external_docs/`, committed | `data/documents/markdowns/<stem>.md` | the **source path** |
+| markdown already in the vault | stays where you put it | `data/documents/markdowns/<stem>.md` | `_artmind_id` in its frontmatter |
 
 **Identity for vault-resident files is `_artmind_id`, written into the vault
-file** — not into the copy under `data/markdowns/`. That way renaming or moving
-your note keeps its history, which is the whole point of
-[document-identity.md](./document-identity.md). The `data/markdowns/` copy is
-the *ingested snapshot*: immutable, matching the KG staging beside it, and
-therefore genuine provenance rather than redundancy.
+file** — not into the copy under `data/documents/markdowns/`. That way renaming
+or moving your note keeps its history, which is the whole point of
+[document-identity.md](./document-identity.md). The `data/documents/markdowns/`
+copy is the *ingested snapshot*: immutable, matching the KG staging beside it,
+and therefore genuine provenance rather than redundancy.
 
 **Identity for external files is the source path.** Two different decks both
 named `deck.pptx`, from different folders, are different documents — not
@@ -394,7 +394,8 @@ graph.
 
 ## Snapshots
 
-Snapshots live in `.artmind/data/graph_snapshot/` as `*.zip`, and are the one
+Snapshots live in `.artmind/data/graph_snapshot/` (and structured-store
+snapshots in `.artmind/data/structured_snapshot/`) as `*.tar.gz`, and are the one
 part of `.artmind/` that is **not** committed — they are large, opaque, and a
 complete duplicate of what git is already versioning. They are also the reason
 the exclusion list names archive extensions rather than a single path: a

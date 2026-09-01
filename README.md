@@ -336,7 +336,8 @@ uv run artmind ingest --help
 You do not edit `.artmind/` — artmind owns it. Instead: copy the converted
 markdown out into your vault as an ordinary note, move the original binary to
 `_Inbox/` so it is not re-ingested, and ingest the note. It is then just a note,
-with no special machinery holding it.
+with no special machinery holding it. See [docs/vault.md](docs/vault.md), "The
+ownership rule", for why.
 
 ### Re-running extraction
 
