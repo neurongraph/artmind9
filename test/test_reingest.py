@@ -392,6 +392,94 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
     assert swept_chunks == [], "the chunk sweep is gated the same way as the entity sweep"
 
 
+# ── _sweep_chunk_embeddings: two scoping modes ───────────────────────────────
+#
+# Closes the batch-ingest gap: `commit_to_graph`'s chunk sweep only fires on
+# the non-deferred path (scoped to `chunk_ids`); a multi-file batch defers
+# every per-document commit and relies on `rebuild_projection`'s own
+# domain-scoped sweep instead (below).
+
+
+def test_sweep_chunk_embeddings_short_circuits_with_neither_scope(monkeypatch):
+    """Nothing to scope to — a real no-op, must not even open a session."""
+    import artmind.graph_query as gq
+
+    def boom(*a, **k):
+        raise AssertionError("must not open a session when neither chunk_ids nor domain is given")
+
+    monkeypatch.setattr(gq, "neo4j_session", boom)
+
+    assert ing._sweep_chunk_embeddings() == 0
+    assert ing._sweep_chunk_embeddings(chunk_ids=[]) == 0
+    assert ing._sweep_chunk_embeddings(chunk_ids=None, domain=None) == 0
+
+
+def test_sweep_chunk_embeddings_domain_scope_passes_through(monkeypatch):
+    """`domain="general"` reaches `embed_missing_chunk_embeddings` as the
+    `domain` kwarg, with `chunk_ids` left `None` -- not silently dropped or
+    conflated with the id-scoping path."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+
+    import artmind.embed_sweep as embed_sweep
+
+    calls: list = []
+
+    def fake(session, **kw):
+        calls.append(kw)
+        return {"embedded": 3}
+
+    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", fake)
+
+    result = ing._sweep_chunk_embeddings(domain="general")
+
+    assert result == 3
+    assert calls == [{"chunk_ids": None, "domain": "general"}]
+
+
+# ── rebuild_projection: the domain-scoped chunk sweep ────────────────────────
+
+
+def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatch):
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+
+    import artmind.projection as projection
+
+    monkeypatch.setattr(projection, "full_rebuild", lambda tx, domains=None, **kw: {})
+    monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 0
+    )
+
+    ing.rebuild_projection("general")
+
+    assert swept_chunks == [{"domain": "general"}]
+
+
+def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatch):
+    """No `domain` — a multi-domain/global rebuild -- must skip the chunk
+    sweep entirely, mirroring how the entity sweep is already skipped in
+    that case."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+
+    import artmind.projection as projection
+
+    monkeypatch.setattr(projection, "full_rebuild", lambda tx, domains=None, **kw: {})
+    monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 0
+    )
+
+    ing.rebuild_projection()
+
+    assert swept_chunks == [], "a global rebuild (domain=None) must not sweep chunks either"
+
+
 # ── a missing embedding must write NO "embedding" key, never "embedding": [] ─
 #
 # `_flatten_props` drops v == [] for every property; before this fix

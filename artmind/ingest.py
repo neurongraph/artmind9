@@ -2803,30 +2803,45 @@ def _sweep_embeddings(domain: str, keys: list) -> int:
         return 0
 
 
-def _sweep_chunk_embeddings(chunk_ids: list) -> int:
-    """Post-commit chunk-embed sweep, scoped to the chunks this commit just wrote.
+def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = None) -> int:
+    """Post-commit / post-rebuild chunk-embed sweep.
 
-    Mirrors `_sweep_embeddings`'s scoping: cheap because it only checks the
-    handful of chunks this specific document contributed, not the whole
-    graph. A chunk missing a vector here is the normal state right after a
-    fresh clone (docs/vault.md, "Embeddings") — the sidecar didn't have it
-    yet, or this is a restore with no sidecar at all. Never fatal: the commit
-    already succeeded and the graph is correct either way. A chunk this sweep
-    can't embed stays NULL and is picked up by the next `ingest embed-chunks`
-    / write-to-graph sweep, or the next commit that happens to touch it.
+    Two scoping modes, mirroring `_sweep_embeddings`'s own two callers:
+
+    - `chunk_ids` — the single-document commit path (`commit_to_graph`):
+      cheap because it only checks the handful of chunks this specific
+      document contributed, not the whole graph.
+    - `domain` — the deferred/batch rebuild path (`rebuild_projection`):
+      a directory ingest defers every per-document commit's sweep and runs
+      one domain-scoped sweep at the end instead, picking up any chunk in
+      that domain still missing a vector regardless of which document in
+      the batch wrote it.
+
+    A chunk missing a vector here is the normal state right after a fresh
+    clone (docs/vault.md, "Embeddings") — the sidecar didn't have it yet, or
+    this is a restore with no sidecar at all. Never fatal: the commit or
+    rebuild already succeeded and the graph is correct either way. A chunk
+    this sweep can't embed stays NULL and is picked up by the next
+    `ingest embed-chunks` / write-to-graph sweep, or the next commit or
+    rebuild that happens to touch it.
+
+    Neither scope given (`chunk_ids` falsy and `domain` `None`) is a real
+    no-op — nothing to scope to — and returns `0` without opening a session.
     """
-    if not chunk_ids:
+    if not chunk_ids and not domain:
         return 0
     try:
         from artmind.graph_query import neo4j_session
         from artmind.embed_sweep import embed_missing_chunk_embeddings
 
         with neo4j_session() as session:
-            return embed_missing_chunk_embeddings(session, chunk_ids=chunk_ids)["embedded"]
+            return embed_missing_chunk_embeddings(
+                session, chunk_ids=chunk_ids, domain=domain
+            )["embedded"]
     except Exception as e:
         logger.warning(
             "Chunk embed sweep skipped for {} chunk(s) ({}); they stay unembedded "
-            "and will be picked up by the next sweep", len(chunk_ids), e,
+            "and will be picked up by the next sweep", len(chunk_ids or []), e,
         )
         return 0
 
@@ -2835,8 +2850,12 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
     """Rebuild the projection outside an ingest — the deferred directory path,
     and the recovery path for drift.
 
-    A full rebuild when `keys` is omitted. The embed sweep follows, since a
-    rebuild leaves everything it touched flagged stale.
+    A full rebuild when `keys` is omitted. Two embed sweeps follow, since a
+    rebuild leaves everything it touched flagged stale (entities) or simply
+    doesn't touch chunk vectors at all (chunks stay whatever they already
+    were). Both sweeps only run `if domain:` — a global rebuild across every
+    domain (`domain=None`) skips both, the same asymmetry the entity sweep
+    already had before the chunk sweep existed.
     """
     from artmind import projection
     from artmind.graph_query import neo4j_session
@@ -2859,4 +2878,5 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
     if domain:
         summary["embedded"] = _sweep_embeddings(domain, swept_keys)
+        summary["chunks_embedded"] = _sweep_chunk_embeddings(domain=domain)
     return summary

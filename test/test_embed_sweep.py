@@ -245,6 +245,59 @@ def test_chunk_ids_empty_list_scopes_to_nothing_without_a_query():
     assert session.queries == [], "an empty scope must not round-trip a query"
 
 
+def test_domain_scopes_the_fetch_to_that_domain():
+    """The batch-ingest gap this coverage closes: `rebuild_projection`'s
+    deferred path sweeps chunk embeddings for the whole domain it just
+    rebuilt, not by chunk id."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    result = embed_missing_chunk_embeddings(
+        session, domain="general", embed=lambda t: [0.1],
+    )
+
+    assert result["embedded"] == 1
+    fetch_cypher, fetch_params = session.queries[0]
+    assert "c.domain = $domain" in fetch_cypher
+    assert fetch_params["domain"] == "general"
+
+
+def test_domain_none_is_unscoped_and_omits_the_domain_clause():
+    """The default -- confirms `domain=None` doesn't add `c.domain = $domain`
+    to the query at all, matching pre-existing unscoped behavior exactly."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
+
+    fetch_cypher, fetch_params = session.queries[0]
+    assert "c.domain" not in fetch_cypher
+    assert "domain" not in fetch_params
+
+
+def test_chunk_ids_and_domain_compose_without_breaking():
+    """Both scopes can be given together -- they AND together like `id_scope`
+    already does with the pre-existing `skip_ids` exclusion. Real callers
+    only ever use one or the other, but nothing should forbid combining
+    them."""
+    from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
+
+    result = embed_missing_chunk_embeddings(
+        session, chunk_ids=["c1", "c2"], domain="general", embed=lambda t: [0.1],
+    )
+
+    assert result["embedded"] == 1
+    fetch_cypher, fetch_params = session.queries[0]
+    assert "c.id IN $chunk_ids" in fetch_cypher
+    assert "c.domain = $domain" in fetch_cypher
+    assert fetch_params["chunk_ids"] == ["c1", "c2"]
+    assert fetch_params["domain"] == "general"
+
+
 def test_an_already_embedded_graph_is_a_no_op():
     from artmind.embed_sweep import embed_missing_chunk_embeddings
 

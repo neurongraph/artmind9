@@ -32,6 +32,7 @@ def embed_missing_chunk_embeddings(
     session,
     *,
     chunk_ids: list | None = None,
+    domain: str | None = None,
     embed=None,
     batch_size: int = 100,
     progress_every: int = 50,
@@ -45,6 +46,15 @@ def embed_missing_chunk_embeddings(
     unembedded `:DocChunk` in the graph is a candidate. `chunk_ids=[]` is
     scoped to nothing and always returns `{"embedded": 0, "remaining": 0}`
     without running a query — distinct from `None`'s unscoped sweep.
+
+    Also scoped to `domain` when given — a batch ingest's deferred rebuild
+    sweeps only the domain it just rebuilt, not the whole graph, mirroring
+    `embed_missing_entity_embeddings`'s own `keys`-scoping note ("Scoped to
+    `keys` when given — an incremental ingest sweeps only what it dirtied,
+    not the whole domain."). `domain=None` (the default) omits the clause
+    entirely. `chunk_ids` and `domain` may be given together — both scope
+    clauses apply, AND'd — though in practice each real caller uses one or
+    the other, not both.
 
     Mirrors `embed_missing_entity_embeddings`'s shape: fetch the chunks that
     still need a vector, embed each one's `.text`, write the vector back
@@ -107,11 +117,16 @@ def embed_missing_chunk_embeddings(
         id_scope = " AND c.id IN $chunk_ids"
         scope_params["chunk_ids"] = list(chunk_ids)
 
+    domain_scope = ""
+    if domain is not None:
+        domain_scope = " AND c.domain = $domain"
+        scope_params["domain"] = domain
+
     while True:
         rows = session.run(
             f"""
             MATCH (c:DocChunk)
-            WHERE c.embedding IS NULL AND NOT c.id IN $skip_ids{id_scope}
+            WHERE c.embedding IS NULL AND NOT c.id IN $skip_ids{id_scope}{domain_scope}
             RETURN c.id AS id, c.text AS text
             LIMIT $batch_size
             """,
