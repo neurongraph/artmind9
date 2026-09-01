@@ -501,30 +501,6 @@ def _replace_image_ref(md_content: str, image_name: str, description: str) -> st
     return pattern.sub(lambda _: description, md_content)
 
 
-def _is_vault_native_markdown(source: Path) -> bool:
-    """A vault-native markdown source: authored in the vault, identified by
-    frontmatter, never copied (Q96 — docs/stores-and-repos.md)."""
-    if source.suffix.lower() != ".md" or ARTMIND_VAULT_DIR is None:
-        return False
-    try:
-        source.resolve().relative_to(ARTMIND_VAULT_DIR)
-        return True
-    except ValueError:
-        return False
-
-
-def _is_promotable_binary(source: Path) -> bool:
-    """A true binary source (pdf/pptx/docx, ...) with a vault configured to
-    mirror its derived markdown into — eligible for Phase 5 derived-markdown
-    promotion (docs/document-identity.md, "Derived-markdown promotion"). An
-    ad-hoc `.md` outside the vault is already markdown; there's no derived
-    copy of it to promote, so it stays on the pre-Phase-2 path-keyed flow.
-    Without a vault configured there's nowhere to mirror derived output into
-    either, so binaries fall back to the same pre-Phase-2 flow in that case.
-    """
-    return source.suffix.lower() != ".md" and ARTMIND_VAULT_DIR is not None
-
-
 def _is_inside_vault(source: Path, vault_dir: "Path | None") -> bool:
     """Does `source` already live in the vault? Decides whether artmind needs
     to keep its own copy (docs/vault.md, "Where a document lands") — a
@@ -540,6 +516,24 @@ def _is_inside_vault(source: Path, vault_dir: "Path | None") -> bool:
     return True
 
 
+def _is_vault_native_markdown(source: Path) -> bool:
+    """A vault-native markdown source: authored in the vault, identified by
+    frontmatter, never copied (Q96 — docs/stores-and-repos.md)."""
+    return source.suffix.lower() == ".md" and _is_inside_vault(source, ARTMIND_VAULT_DIR)
+
+
+def _is_promotable_binary(source: Path) -> bool:
+    """A true binary source (pdf/pptx/docx, ...) with a vault configured to
+    mirror its derived markdown into — eligible for Phase 5 derived-markdown
+    promotion (docs/document-identity.md, "Derived-markdown promotion"). An
+    ad-hoc `.md` outside the vault is already markdown; there's no derived
+    copy of it to promote, so it stays on the pre-Phase-2 path-keyed flow.
+    Without a vault configured there's nowhere to mirror derived output into
+    either, so binaries fall back to the same pre-Phase-2 flow in that case.
+    """
+    return source.suffix.lower() != ".md" and ARTMIND_VAULT_DIR is not None
+
+
 def external_copy_path(source: Path, vault_dir: Path) -> Path:
     """Where a source from outside the vault is copied to.
 
@@ -552,10 +546,13 @@ def external_copy_path(source: Path, vault_dir: Path) -> Path:
     The path is hashed rather than mirrored so the destination is short, stable
     and free of the source's directory structure — which may be absolute,
     machine-specific, or contain characters the vault should not inherit.
-    """
-    import hashlib
 
-    digest = hashlib.sha256(str(Path(source).resolve()).encode("utf-8")).hexdigest()[:12]
+    Truncated to 12 hex chars (48 bits): a vault's external-source count is
+    realistically in the hundreds to low thousands, not billions, and at that
+    scale a 2**48-bucket space keeps collision odds negligible — nowhere near
+    the full 256-bit digest a security context would need.
+    """
+    digest = sha256(str(Path(source).resolve()).encode("utf-8")).hexdigest()[:12]
     return Path(vault_dir) / "_external_docs" / digest / Path(source).name
 
 
@@ -912,6 +909,15 @@ def _ingest_binary_derived(
         no                yes              -> convert (reconvert, safe)
         yes               no               -> promote (stop deriving it)
         yes               yes              -> collision (refuse, report both)
+
+    INTERIM CAVEAT (until Task 6's `_source_sha256`): for a vault-resident
+    source, `dest_path` IS the source (docs/vault.md, "Where a document
+    lands") — there's no separate persisted copy left to diff bytes against
+    on re-ingest, so "binary changed?" can't genuinely be answered from the
+    filesystem the way it can for an external copy. In that case
+    `binary_changed` is forced to `True` rather than computed, which
+    collapses the top two rows of the matrix above to "convert" always. See
+    the inline comment where it's set for the full rationale.
 
     A prior derived document that was already promoted refuses reconversion
     outright, before this 2x2 ever runs — see docs/document-identity.md's

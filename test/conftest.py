@@ -235,7 +235,7 @@ def _init_git_repo(path):
 
 
 @pytest.fixture()
-def env(tmp_path, monkeypatch):
+def ingest_env(tmp_path, monkeypatch):
     """A temp vault + git repo + registry, with artmind.ingest's module
     globals (`ARTMIND_VAULT_DIR`, `ORIGINALS_DIR`, `MARKDOWNS_DIR`) pointed at
     it. `source` is deliberately OUTSIDE the vault dir this fixture creates —

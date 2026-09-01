@@ -43,11 +43,11 @@ def test_the_destination_is_stable_across_runs(tmp_path):
     assert external_copy_path(Path("/somewhere/deck.pptx"), tmp_path) == first
 
 
-def test_a_vault_resident_source_is_not_copied(env, monkeypatch):
+def test_a_vault_resident_source_is_not_copied(ingest_env, monkeypatch):
     """The vault copy IS the source, and git already versions it."""
     import artmind.ingest as ing
 
-    vault, _source = env
+    vault, _source = ingest_env
     resident = vault / "area1" / "deck.pptx"
     resident.parent.mkdir(parents=True)
     resident.write_bytes(b"fake binary v1")
@@ -65,11 +65,11 @@ def test_a_vault_resident_source_is_not_copied(env, monkeypatch):
     assert resident.read_bytes() == b"fake binary v1"
 
 
-def test_an_external_source_is_copied_in(env, monkeypatch):
+def test_an_external_source_is_copied_in(ingest_env, monkeypatch):
     """Nothing else in the vault records what was ingested."""
     import artmind.ingest as ing
 
-    vault, source = env
+    vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
 
     ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
@@ -80,14 +80,14 @@ def test_an_external_source_is_copied_in(env, monkeypatch):
     assert expected.read_bytes() == source.read_bytes()
 
 
-def test_an_ad_hoc_markdown_outside_the_vault_is_also_copied_in(env, tmp_path):
+def test_an_ad_hoc_markdown_outside_the_vault_is_also_copied_in(ingest_env, tmp_path):
     """A `.md` outside the vault is not vault-native (`_is_vault_native_markdown`
     requires it to live inside the vault) and it's not a binary either, so it
     goes through `_ingest_binary_or_adhoc`, not `_ingest_binary_derived` --
     that path must land it under `_external_docs/` too."""
     import artmind.ingest as ing
 
-    vault, _source = env
+    vault, _source = ingest_env
     adhoc = tmp_path / "notes" / "loose.md"
     adhoc.parent.mkdir(parents=True)
     adhoc.write_text("# Loose\n\nSome text.\n", encoding="utf-8")

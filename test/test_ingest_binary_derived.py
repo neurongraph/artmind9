@@ -11,8 +11,8 @@ import artmind.ingest as ing
 from conftest import _fake_docling
 
 
-def test_first_ingest_converts_and_mints_an_artmind_id(env, monkeypatch):
-    vault, source = env
+def test_first_ingest_converts_and_mints_an_artmind_id(ingest_env, monkeypatch):
+    vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
 
     result = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
@@ -32,8 +32,8 @@ def test_first_ingest_converts_and_mints_an_artmind_id(env, monkeypatch):
     assert "convert" in log
 
 
-def test_reingest_unchanged_binary_is_a_no_op(env, monkeypatch):
-    vault, source = env
+def test_reingest_unchanged_binary_is_a_no_op(ingest_env, monkeypatch):
+    vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
@@ -51,8 +51,8 @@ def test_reingest_unchanged_binary_is_a_no_op(env, monkeypatch):
     assert "chunks_dir" not in r2
 
 
-def test_binary_changed_reconverts_and_bumps_version(env, monkeypatch):
-    vault, source = env
+def test_binary_changed_reconverts_and_bumps_version(ingest_env, monkeypatch):
+    vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
@@ -68,8 +68,8 @@ def test_binary_changed_reconverts_and_bumps_version(env, monkeypatch):
     assert body == "# Deck\n\nBody v2.\n"
 
 
-def test_editing_the_derived_markdown_promotes_it(env, monkeypatch):
-    vault, source = env
+def test_editing_the_derived_markdown_promotes_it(ingest_env, monkeypatch):
+    vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
@@ -106,8 +106,8 @@ def test_editing_the_derived_markdown_promotes_it(env, monkeypatch):
     assert "already promoted" in result2["error"]
 
 
-def test_binary_and_markdown_both_changed_is_a_collision(env, monkeypatch):
-    vault, source = env
+def test_binary_and_markdown_both_changed_is_a_collision(ingest_env, monkeypatch):
+    vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
@@ -132,7 +132,7 @@ def test_binary_and_markdown_both_changed_is_a_collision(env, monkeypatch):
     assert derived_path.exists()
 
 
-def test_a_vault_resident_binary_always_reconverts_on_reingest_for_now(env, monkeypatch):
+def test_a_vault_resident_binary_always_reconverts_on_reingest_for_now(ingest_env, monkeypatch):
     """Interim behavior until Task 6's `_source_sha256` frontmatter field.
 
     A vault-resident binary's `dest_path` (artmind.ingest._ingest_binary_derived)
@@ -144,7 +144,7 @@ def test_a_vault_resident_binary_always_reconverts_on_reingest_for_now(env, monk
     the binary is byte-for-byte unchanged, and re-ingest never reports
     `no_op` for a vault-resident binary.
     """
-    vault, _source = env
+    vault, _source = ingest_env
     resident = vault / "area1" / "deck.pptx"
     resident.parent.mkdir(parents=True)
     resident.write_bytes(b"fake binary v1")
