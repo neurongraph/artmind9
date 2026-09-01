@@ -512,14 +512,15 @@ def _is_vault_native_markdown(source: Path) -> bool:
     return source.suffix.lower() == ".md" and _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
 
-def _is_promotable_binary(source: Path) -> bool:
-    """A true binary source (pdf/pptx/docx, ...) with a vault configured to
-    mirror its derived markdown into — eligible for Phase 5 derived-markdown
-    promotion (docs/document-identity.md, "Derived-markdown promotion"). An
-    ad-hoc `.md` outside the vault is already markdown; there's no derived
-    copy of it to promote, so it stays on the pre-Phase-2 path-keyed flow.
-    Without a vault configured there's nowhere to mirror derived output into
-    either, so binaries fall back to the same pre-Phase-2 flow in that case.
+def _is_binary_source(source: Path) -> bool:
+    """A true binary source (pdf/pptx/docx, ...) with a vault configured —
+    routed to `_ingest_binary_derived`, which converts it and commits the
+    result into `.artmind/` (docs/vault.md, "The ownership rule"). An ad-hoc
+    `.md` outside the vault is already markdown, not something to convert, so
+    it stays on the pre-Phase-2 path-keyed flow (`_ingest_binary_or_adhoc`).
+    Without a vault configured there's no `.artmind/` to commit a conversion
+    into either, so binaries fall back to that same pre-Phase-2 flow in that
+    case too.
     """
     return source.suffix.lower() != ".md" and ARTMIND_VAULT_DIR is not None
 
@@ -572,7 +573,7 @@ def ingest_file(
             source, domain=domain, job_id=job_id, chunk_size=chunk_size,
             set_domain=set_domain, fork=fork, adopt=adopt,
         )
-    if _is_promotable_binary(source):
+    if _is_binary_source(source):
         return _ingest_binary_derived(
             source, image_model, domain or "general", job_id, chunk_size,
             set_domain=set_domain,
@@ -700,10 +701,13 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
     describe any extracted images, and return the resulting markdown body.
 
     Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
-    side effect (unchanged from the pre-Phase-5 shape other code may still
-    read that path for) and also returns it directly, since Phase 5's
-    derived-markdown promotion writes the same body into the vault instead of
-    (or in addition to) that data-dir copy.
+    side effect of the docling invocation itself, and also returns it
+    directly — the one caller that matters, `_ingest_binary_derived`, wants
+    that same body in hand so it can immediately overwrite that exact path
+    again with frontmatter attached (`write_document`), rather than write
+    once and re-read. There is no separate vault-vs-data-dir copy to keep in
+    sync: `registered_path` in `_ingest_binary_derived` IS this function's
+    `md_file`.
 
     Returns `(body, {})` on success, or `(None, {"status": ..., "error": ...})`
     on failure — the caller merges the error dict into its own `file_result`.
@@ -799,14 +803,14 @@ def _ingest_binary_or_adhoc(
         # -- `ingest_file`'s dispatch routes a vault-native `.md` to
         # `_ingest_vault_native` and a binary with a vault configured to
         # `_ingest_binary_derived` before this function is ever reached (see
-        # `_is_vault_native_markdown`/`_is_promotable_binary`) -- but the
+        # `_is_vault_native_markdown`/`_is_binary_source`) -- but the
         # guard costs nothing and keeps this function correct on its own if
         # that dispatch ever changes.
         dest_path = source
     elif ARTMIND_VAULT_DIR is not None:
         # A vault exists but this source lives outside it -- the only way to
         # reach this function with a vault configured is an ad-hoc `.md`
-        # (see `_is_promotable_binary`). Land it under the vault's
+        # (see `_is_binary_source`). Land it under the vault's
         # `_external_docs/`, under path identity (docs/vault.md, "Where a
         # document lands").
         dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
@@ -940,9 +944,8 @@ def _ingest_binary_derived(
 
     registered_path = MARKDOWNS_DIR / f"{stem}.md"
     existing_meta: dict = {}
-    existing_body = ""
     if registered_path.exists():
-        existing_meta, existing_body = _parse_md_frontmatter(
+        existing_meta, _ = _parse_md_frontmatter(
             registered_path.read_text(encoding="utf-8")
         )
 

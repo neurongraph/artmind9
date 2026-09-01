@@ -91,36 +91,6 @@ def commit_paths(paths: list[Path], message: str) -> bool:
     return True
 
 
-def move_path(old_path: Path, new_path: Path) -> bool:
-    """`git mv` `old_path` to `new_path` in the vault repo -- WITHOUT
-    committing. Derived-markdown promotion (docs/document-identity.md) needs
-    to rewrite the file's frontmatter at its new location before committing,
-    so the rename and the content change land in one commit via
-    `commit_paths`, not two. Returns True iff the mv itself succeeded; False
-    when there's no vault/git repo, or `old_path` isn't tracked (logged,
-    non-fatal either way — callers decide what a failed move means for them).
-    """
-    vault = _vault_root()
-    if vault is None:
-        return False
-
-    def _rel(p: Path) -> str:
-        p = Path(p)
-        try:
-            return str(p.relative_to(vault)) if p.is_absolute() else str(p)
-        except ValueError:
-            return str(p)
-
-    old_rel, new_rel = _rel(old_path), _rel(new_path)
-    (vault / new_rel).parent.mkdir(parents=True, exist_ok=True)
-    rc, out, err = run_command(f'git mv -- "{old_rel}" "{new_rel}"', cwd=vault)
-    if rc != 0:
-        logger.warning("vault_git: git mv failed ({}): {}", rc, err or out)
-        return False
-    logger.info("vault_git: moved {} -> {}", old_rel, new_rel)
-    return True
-
-
 def remove_paths(paths: list[Path], message: str) -> bool:
     """`git rm` and commit `paths` — the one operation where artmind deletes
     human-authored content from the user's vault (`docs archive`). Returns

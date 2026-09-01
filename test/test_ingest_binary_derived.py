@@ -1,9 +1,14 @@
-"""Integration-level tests for artmind.ingest._ingest_binary_derived: the
-orchestration of derived-markdown promotion (docs/document-identity.md,
-"Derived-markdown promotion"; docs/redesign-phase-plan.md, Phase 5 "D")
-against a real (temp) vault + git repo + registry, with docling itself
-stubbed out (`_convert_binary_via_docling` is monkeypatched to return a
-controllable body instead of shelling out to a real conversion).
+"""Integration-level tests for artmind.ingest._ingest_binary_derived:
+converting a binary source (pdf/pptx/docx) to markdown and storing it
+permanently at `.artmind`'s own markdown store (docs/vault.md, "The
+ownership rule"), against a real (temp) vault + git repo + registry, with
+docling itself stubbed out (`_convert_binary_via_docling` is monkeypatched to
+return a controllable body instead of shelling out to a real conversion).
+
+Covers the one decision left after promotion was deleted -- no_op vs
+convert, driven by comparing the incoming binary's hash against
+`_source_sha256` in the registered markdown's own frontmatter -- for both a
+source copied in from outside the vault and a vault-resident source.
 """
 import subprocess
 

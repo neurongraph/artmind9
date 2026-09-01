@@ -88,45 +88,6 @@ def test_maybe_push_failure_is_swallowed_not_raised(vault, monkeypatch):
     vault_git.maybe_push()  # must not raise
 
 
-# ── move_path (Phase 5: derived-markdown promotion) ─────────────────────────
-
-
-def test_move_path_moves_a_tracked_file(vault):
-    old = vault / "_derived" / "banking" / "deck.md"
-    old.parent.mkdir(parents=True)
-    old.write_text("hello\n")
-    vault_git.commit_paths([old], "seed")
-
-    new = vault / "banking" / "deck.md"
-    assert vault_git.move_path(old, new) is True
-    assert not old.exists()
-    assert new.read_text() == "hello\n"
-
-
-def test_move_path_creates_destination_parent_dirs(vault):
-    old = vault / "a.md"
-    old.write_text("x\n")
-    vault_git.commit_paths([old], "seed")
-
-    new = vault / "brand" / "new" / "dir" / "a.md"
-    assert vault_git.move_path(old, new) is True
-    assert new.exists()
-
-
-def test_move_path_returns_false_when_no_vault_configured(monkeypatch, tmp_path):
-    monkeypatch.setattr(vault_git, "ARTMIND_VAULT_DIR", None)
-    old = tmp_path / "a.md"
-    old.write_text("x\n")
-    assert vault_git.move_path(old, tmp_path / "b.md") is False
-
-
-def test_move_path_returns_false_when_source_untracked(vault):
-    # Never committed -- git mv has nothing to move.
-    old = vault / "untracked.md"
-    old.write_text("x\n")
-    assert vault_git.move_path(old, vault / "elsewhere.md") is False
-
-
 # ── remove_paths (Phase 5: docs archive) ────────────────────────────────────
 
 
