@@ -130,11 +130,6 @@ def test_skills_land_where_claude_code_looks(tmp_path):
     assert vault.VaultLayout(tmp_path).skills_dir == tmp_path / ".claude" / "skills"
 
 
-def test_derived_markdown_stays_visible_in_the_vault(tmp_path):
-    """_derived/ holds editable, promotable documents, so it is NOT hidden."""
-    assert vault.VaultLayout(tmp_path).derived_dir == tmp_path / "_derived"
-
-
 def test_a_bare_artmind_directory_is_not_a_vault(tmp_path):
     """The manifest is the marker, not the directory.
 

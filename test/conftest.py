@@ -240,6 +240,11 @@ def ingest_env(tmp_path, monkeypatch):
     globals (`ARTMIND_VAULT_DIR`, `ORIGINALS_DIR`, `MARKDOWNS_DIR`) pointed at
     it. `source` is deliberately OUTSIDE the vault dir this fixture creates —
     tests that want a vault-resident source build one inside `vault` instead.
+
+    `ORIGINALS_DIR`/`MARKDOWNS_DIR` are nested under `vault/.artmind/data/...`,
+    matching production (`paths.py`: `ARTMIND_DATA_DIR` is `VaultLayout.data_dir`
+    when a vault is configured) — a binary's converted markdown is committed
+    into the vault repo, so it must actually live inside it.
     """
     import artmind.ingest as ing
 
@@ -256,10 +261,10 @@ def ingest_env(tmp_path, monkeypatch):
 
     import artmind.db as db
 
-    monkeypatch.setattr(db, "DB_PATH", tmp_path / "registry.db")
+    monkeypatch.setattr(db, "DB_PATH", vault / ".artmind" / "data" / "document_registry.db")
 
-    originals = tmp_path / "data" / "originals"
-    markdowns = tmp_path / "data" / "markdowns"
+    originals = vault / ".artmind" / "data" / "documents" / "originals"
+    markdowns = vault / ".artmind" / "data" / "documents" / "markdowns"
     originals.mkdir(parents=True)
     markdowns.mkdir(parents=True)
     monkeypatch.setattr(ing, "ORIGINALS_DIR", originals)

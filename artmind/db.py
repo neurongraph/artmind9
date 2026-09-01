@@ -353,9 +353,7 @@ def _registry_row_by_artmind_id(artmind_id: str) -> dict | None:
 
 def _registry_row_by_path(path: str) -> dict | None:
     """The registry's path <-> id cache, read by path -- the lookup `heal`
-    needs (frontmatter lost its id; the registry still has it), and the
-    lookup binary-source promotion (`artmind/derived_markdown.py`) needs to
-    tell whether the original binary's own bytes changed since last ingest."""
+    needs (frontmatter lost its id; the registry still has it)."""
     conn = _get_db()
     try:
         row = conn.execute(

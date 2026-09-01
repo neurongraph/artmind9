@@ -14,16 +14,9 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind.db import _get_db
-from artmind.derived_markdown import (
-    decide as _decide_promotion,
-    derived_markdown_path,
-    is_promoted as _is_promoted,
-    markdown_was_edited as _markdown_was_edited,
-)
 from artmind.document_identity import (
     build_frontmatter,
     canonical_path,
-    compute_content_sha256,
     decide_version,
     markdown_path_for,
     mint_artmind_id,
@@ -34,7 +27,6 @@ from artmind.document_identity import (
 from artmind.setup import _setup_neo4j
 from artmind.vault_git import commit_paths as _vault_commit_paths
 from artmind.vault_git import current_commit as _vault_current_commit
-from artmind.vault_git import move_path as _vault_move_path
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -348,19 +340,17 @@ def _register_document(
     identity continuity still runs entirely through Neo4j's `logical_id`
     lookup (`_resolve_doc_identity`) — this row exists only so `retry-job`
     has something to look up by path. For a vault-native source, or a
-    binary's derived/promoted markdown (`artmind/derived_markdown.py`,
-    `_ingest_binary_derived` — which does NOT register the original binary
-    itself, only its derived markdown; "has this binary been converted
-    before" is answered by the filesystem, not this registry, see that
-    function's docstring), ``artmind_id`` is the real identity and this row
-    *is* the path <-> id cache the resolution table reads.
+    binary's converted markdown (`_ingest_binary_derived`, which registers
+    the converted markdown at `MARKDOWNS_DIR / f"{stem}.md"`, not the
+    original binary), ``artmind_id`` is the real identity and this row *is*
+    the path <-> id cache the resolution table reads.
 
     ``content_sha256``, when given, is the caller's already-computed
-    body-only hash (`decide_version`'s `_content_sha256` for a vault-native
-    document, or the derived body's hash for a binary's derived markdown) —
-    the registry stores exactly that number, not a second, disagreeing one.
-    Omitted (a plain binary/tabular source with no separable body), this
-    falls back to a whole-file hash.
+    body-only hash (`decide_version`'s `_content_sha256`, for both a
+    vault-native document and a binary's converted markdown) — the registry
+    stores exactly that number, not a second, disagreeing one. Omitted (a
+    plain binary/tabular source with no separable body), this falls back to
+    a whole-file hash.
 
     No duplicate guard: re-ingesting a known identity is always a replace
     now (`--replace`/`--force` are gone), and a copied template with an
@@ -889,61 +879,35 @@ def _ingest_binary_derived(
     *,
     set_domain: str | None = None,
 ) -> dict:
-    """Ingest a true binary source (pdf/pptx/docx) whose derived markdown is
-    mirrored into the vault (docs/document-identity.md, "Derived-markdown
-    promotion"; docs/redesign-phase-plan.md, Phase 5 "D"). Extends
-    `_artmind_id` to binary sources: the derived document IS the graph's
-    `Document.id` from here on (`file_result["artmind_id"]`, read by the
-    extraction entry point the same way a vault-native document already is)
-    — one identity, not the old two-tier logical_id/physical-id scheme
-    `_ingest_binary_or_adhoc` still uses for an ad-hoc `.md` or a vault-less
-    install.
+    """Ingest a true binary source (pdf/pptx/docx): convert it via docling and
+    store the result permanently at `.artmind`'s own markdown store (docs/
+    vault.md, "The ownership rule"). Extends `_artmind_id` to binary sources:
+    the converted document IS the graph's `Document.id` from here on
+    (`file_result["artmind_id"]`, read by the extraction entry point the same
+    way a vault-native document already is) — one identity, not the old
+    two-tier logical_id/physical-id scheme `_ingest_binary_or_adhoc` still
+    uses for an ad-hoc `.md` or a vault-less install.
 
-    Every ingest of the same original (matched by domain+filename, unchanged
-    in spirit from Phase 2's `_canonical_key` — a binary source stays
-    path-keyed, per docs/document-identity.md's "sources that cannot carry
-    frontmatter" table) runs the 2x2 from the spec:
+    Under the ownership rule nobody edits `.artmind/`, so there is no
+    promotion, no `_derived/` folder, and no markdown-edit detection: the
+    converted markdown lives at ONE location for its whole life,
+    `MARKDOWNS_DIR / f"{stem}.md"` — the same flat, non-domain-scoped
+    convention `_ingest_binary_or_adhoc` already uses for its own markdown
+    writes. The only decision left is `no_op` vs `convert`: the incoming
+    binary's hash (`_compute_sha256(source)`) is compared against
+    `_source_sha256`, a fingerprint recorded in that markdown's own
+    frontmatter the last time it was converted. Whether the resulting
+    document body actually changed (and therefore whether `_version` bumps)
+    is decided the usual way, by `decide_version` against the file's own
+    `_content_sha256` — the same mechanism `_ingest_vault_native` uses.
 
-        markdown edited?  binary changed?  -> action
-        no                no               -> no_op
-        no                yes              -> convert (reconvert, safe)
-        yes               no               -> promote (stop deriving it)
-        yes               yes              -> collision (refuse, report both)
-
-    INTERIM CAVEAT (until Task 6's `_source_sha256`): for a vault-resident
-    source, `dest_path` IS the source (docs/vault.md, "Where a document
-    lands") — there's no separate persisted copy left to diff bytes against
-    on re-ingest, so "binary changed?" can't genuinely be answered from the
-    filesystem the way it can for an external copy. In that case
-    `binary_changed` is forced to `True` rather than computed, which folds
-    the entire "binary changed? no" column into the "yes" column: NOT just
-    `no_op` -> `convert` (row 1), but ALSO `promote` -> `collision` (row 3,
-    since `derived_markdown.decide()` checks `markdown_edited and
-    binary_changed` first). Concretely: promotion is effectively unreachable
-    for a vault-resident binary right now — hand-editing its derived markdown
-    and re-ingesting always reports a collision, never a promote, even though
-    the binary genuinely didn't change. See the inline comment where
-    `binary_changed` is forced, and
-    `test_a_vault_resident_binary_with_edited_markdown_collides_not_promotes_for_now`
-    (test/test_ingest_binary_derived.py), which pins this behavior until
-    Task 6 gives vault-resident binaries a real `binary_changed` signal.
-
-    A prior derived document that was already promoted refuses reconversion
-    outright, before this 2x2 ever runs — see docs/document-identity.md's
-    promote table, "re-converting the binary: refused".
-
-    "Has this binary been converted before" is answered by the FILESYSTEM,
-    at two deterministic, domain+stem-scoped locations — not the registry.
-    Promotion's whole point is to move the file out of `_derived/`, so
-    `_derived/<domain>/<stem>.md` existing means "not yet promoted" and NOT
-    existing does not mean "never converted"; the second location,
-    `<domain>/<stem>.md`, is where promotion moves it to (this module's own
-    choice of target — docs/document-identity.md specifies the promotion but
-    not a destination folder). Both are scoped by `domain`, so re-ingesting
-    under a genuinely different domain without `--setDomain` reads as a
-    fresh document, the same limitation `_ingest_vault_native` accepts for
-    `--domain` before a file's own frontmatter can be consulted — except a
-    binary has no frontmatter to consult until AFTER this lookup finds it.
+    Matched by domain+filename, unchanged in spirit from Phase 2's
+    `_canonical_key` — a binary source stays path-keyed, per docs/document-
+    identity.md's "sources that cannot carry frontmatter" table. Re-ingesting
+    under a genuinely different domain without `--setDomain` therefore reads
+    as a fresh document, the same limitation `_ingest_vault_native` accepts
+    for `--domain` before a file's own frontmatter can be consulted — except
+    a binary has no frontmatter to consult until AFTER conversion.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -965,189 +929,70 @@ def _ingest_binary_derived(
     if source_is_vault_resident:
         # The vault copy IS the source, and git already versions it.
         dest_path = source
-        # No separate persisted copy exists to diff the new bytes against --
-        # see the `binary_changed` override below, once `current_path` (and
-        # therefore whether this is a re-ingest) is known.
-        binary_changed = False
     else:
         dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
-        # Compare against the PRIOR run's persisted copy before it's
-        # overwritten -- `dest_path` already persists "the last original we
-        # saw" with no registry round-trip needed. Absent (first-ever ingest
-        # of this source path) is not "changed", it's handled by
-        # `current_path is None` below instead.
-        binary_changed = dest_path.exists() and _compute_sha256(dest_path) != _compute_sha256(source)
         dest_path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, dest_path)
         logger.debug("Copied original to: {}", dest_path)
 
     orig_registry_path = canonical_path(dest_path)
+    source_sha256 = _compute_sha256(source)
 
-    derived_path = derived_markdown_path(ARTMIND_VAULT_DIR, effective_domain, stem)
-    promoted_path_guess = ARTMIND_VAULT_DIR / effective_domain / f"{stem}.md"
-
+    registered_path = MARKDOWNS_DIR / f"{stem}.md"
     existing_meta: dict = {}
     existing_body = ""
-    current_path: Path | None = None
-    already_promoted = False
-    if derived_path.exists():
-        current_path = derived_path
-        existing_meta, existing_body = _parse_md_frontmatter(derived_path.read_text(encoding="utf-8"))
-    elif promoted_path_guess.exists():
-        candidate_meta, candidate_body = _parse_md_frontmatter(
-            promoted_path_guess.read_text(encoding="utf-8")
+    if registered_path.exists():
+        existing_meta, existing_body = _parse_md_frontmatter(
+            registered_path.read_text(encoding="utf-8")
         )
-        if _is_promoted(candidate_meta):
-            current_path, existing_meta, existing_body = promoted_path_guess, candidate_meta, candidate_body
-            already_promoted = True
-        # else: an unrelated hand-authored document happens to occupy this
-        # domain+stem path -- treated as "never converted" (a fresh
-        # conversion below); a later promotion attempt would then fail loudly
-        # (git mv refuses to overwrite a tracked file) rather than clobber it.
 
-    if already_promoted:
-        file_result["error"] = (
-            f"{stem!r} was already promoted to vault-native at {current_path} "
-            "-- reconverting the binary is refused (docs/document-identity.md, "
-            '"Derived-markdown promotion"). Ingest that file directly instead.'
-        )
-        file_result["promoted_path"] = str(current_path)
-        logger.warning(file_result["error"])
-        return file_result
-
-    if current_path is None:
-        action = "convert"
-    else:
-        if source_is_vault_resident:
-            # A vault-resident binary's `dest_path` IS the source -- there is
-            # no separate persisted copy left over from the prior run to diff
-            # against, so "did the binary change" can't be answered from the
-            # filesystem the way it can for an external copy (above). Treat
-            # it as always-possibly-changed: the safe direction (worst case,
-            # a redundant reconversion) rather than the unsafe one (worst
-            # case, silently stale extracted content forever). This is
-            # interim -- Task 6's `_source_sha256` frontmatter field is what
-            # properly answers this by giving a vault-resident binary its own
-            # persisted hash to diff against; adding that here is out of this
-            # task's scope (no registry/frontmatter schema changes).
-            #
-            # Side effect worth knowing: this doesn't just turn `no_op` into
-            # `convert` below -- it also turns `promote` into `collision`,
-            # since `_decide_promotion` checks `markdown_edited and
-            # binary_changed` first. So promotion is effectively unreachable
-            # for a vault-resident binary until Task 6 lands (see the
-            # docstring above and this function's own test coverage).
-            binary_changed = True
-        markdown_edited = _markdown_was_edited(existing_body, existing_meta.get("_derived_sha256"))
-        action = _decide_promotion(
-            markdown_edited=markdown_edited, binary_changed=binary_changed
-        ).action
-
-    if action == "collision":
-        file_result["error"] = (
-            f"{stem!r}: both the original binary and its derived markdown "
-            f"({current_path}) changed since the last ingest -- "
-            "artmind will not guess which side wins (docs/document-identity.md, "
-            '"Derived-markdown promotion", collision). Resolve by hand: either '
-            "revert the markdown edit and re-ingest the binary, or promote the "
-            "markdown manually and discard the new binary."
-        )
-        logger.warning(file_result["error"])
-        return file_result
-
-    if action == "no_op":
+    if existing_meta and existing_meta.get("_source_sha256") == source_sha256:
         file_result["status"] = "ok"
         file_result["domain"] = effective_domain
         file_result["artmind_id"] = existing_meta.get("_artmind_id")
         file_result["version"] = int(existing_meta.get("_version") or 1)
-        file_result["registered_path"] = str(current_path)
+        file_result["registered_path"] = str(registered_path)
         file_result["tier"] = "no_op"
         file_result["chunk_count"] = 0
         logger.info(
-            "── Ingest done in {:.1f}s: {} (no_op — neither the binary nor its "
-            "derived markdown changed)", time.monotonic() - t_file_start, source.name,
+            "── Ingest done in {:.1f}s: {} (no_op — binary unchanged)",
+            time.monotonic() - t_file_start, source.name,
         )
         return file_result
 
-    promoted = False
-    if action == "promote":
-        promoted_path = promoted_path_guess
-        if not _vault_move_path(current_path, promoted_path):
-            file_result["error"] = (
-                f"promotion of {current_path} to {promoted_path} failed "
-                "(git mv) — see log"
-            )
-            return file_result
+    body, err = _convert_binary_via_docling(dest_path, image_model)
+    if body is None:
+        file_result.update(err)
+        return file_result
 
-        version_decision = decide_version(existing_body, existing_meta)
-        promoted_meta = build_frontmatter(
-            existing_meta,
-            artmind_id=existing_meta["_artmind_id"],
-            version=version_decision.version,
-            content_sha256=version_decision.content_sha256,
-            domain=effective_domain,
-            source_commit=_vault_current_commit(),
-            source_path=existing_meta.get("_source_path") or orig_registry_path,
-            source_type="md",
-            ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
-            body=existing_body,
-        )
-        promoted_meta.pop("_derived_sha256", None)
-        write_document(promoted_path, promoted_meta, existing_body)
-        _vault_commit_paths(
-            [promoted_path],
-            f"artmind: promote {stem} to vault-native "
-            f"(was derived from {existing_meta.get('_source_type', 'a binary source')})",
-        )
-        logger.warning(
-            "Promoted {} to vault-native at {} — a human edited the derived "
-            "markdown; artmind will no longer reconvert the original binary "
-            "for this document.", stem, promoted_path,
-        )
+    artmind_id = existing_meta.get("_artmind_id") or mint_artmind_id()
+    version_decision = decide_version(body, existing_meta)
 
-        registered_path = promoted_path
-        body = existing_body
-        artmind_id = existing_meta["_artmind_id"]
-        version = version_decision.version
-        promoted = True
-    else:  # "convert" — first-ever conversion, or the binary changed and the markdown didn't
-        body, err = _convert_binary_via_docling(dest_path, image_model)
-        if body is None:
-            file_result.update(err)
-            return file_result
+    MARKDOWNS_DIR.mkdir(parents=True, exist_ok=True)
+    new_meta = build_frontmatter(
+        existing_meta,
+        artmind_id=artmind_id,
+        version=version_decision.version,
+        content_sha256=version_decision.content_sha256,
+        domain=effective_domain,
+        source_commit=_vault_current_commit(),
+        source_path=orig_registry_path,
+        source_type=source.suffix.lstrip(".").lower(),
+        ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
+        body=body,
+    )
+    new_meta["_source_sha256"] = source_sha256
+    write_document(registered_path, new_meta, body)
+    _vault_commit_paths(
+        [registered_path],
+        f"artmind: {'convert' if not existing_meta else 'reconvert'} "
+        f"{stem} ({effective_domain})",
+    )
 
-        new_derived_sha256 = compute_content_sha256(body)
-        artmind_id = existing_meta.get("_artmind_id") or mint_artmind_id()
-        if current_path is None:
-            version = 1
-        elif new_derived_sha256 == existing_meta.get("_derived_sha256"):
-            version = int(existing_meta.get("_version") or 1)
-        else:
-            version = int(existing_meta.get("_version") or 1) + 1
-
-        registered_path = derived_path
-        registered_path.parent.mkdir(parents=True, exist_ok=True)
-        new_meta = build_frontmatter(
-            existing_meta,
-            artmind_id=artmind_id,
-            version=version,
-            content_sha256=compute_content_sha256(body),
-            domain=effective_domain,
-            source_commit=_vault_current_commit(),
-            source_path=orig_registry_path,
-            source_type=source.suffix.lstrip(".").lower(),
-            ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
-            body=body,
-        )
-        new_meta["_derived_sha256"] = new_derived_sha256
-        write_document(registered_path, new_meta, body)
-        _vault_commit_paths(
-            [registered_path],
-            f"artmind: {'convert' if current_path is None else 'reconvert'} "
-            f"{stem} ({effective_domain})",
-        )
-
-    _register_document(effective_domain, registered_path, artmind_id, content_sha256=compute_content_sha256(body))
+    _register_document(
+        effective_domain, registered_path, artmind_id,
+        content_sha256=version_decision.content_sha256,
+    )
 
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
@@ -1158,18 +1003,15 @@ def _ingest_binary_derived(
     file_result["status"] = "ok"
     file_result["domain"] = effective_domain
     file_result["artmind_id"] = artmind_id
-    file_result["version"] = version
+    file_result["version"] = version_decision.version
     file_result["sha256"] = _compute_sha256(registered_path)
     file_result["registered_path"] = str(registered_path)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
-    if promoted:
-        file_result["promoted"] = True
-        file_result["promoted_to"] = str(registered_path)
 
     logger.info(
-        "── Ingest done in {:.1f}s: {} ({}, v{}) — {} chunk(s)",
-        elapsed_total, source.name, action, version, len(chunks),
+        "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
+        elapsed_total, source.name, version_decision.version, len(chunks),
     )
     return file_result
 

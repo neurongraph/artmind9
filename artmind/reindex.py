@@ -3,10 +3,10 @@ vault frontmatter (docs/document-identity.md; docs/redesign-phase-plan.md,
 Phase 5 "D"). The registry is never authoritative — `docs/document-
 identity.md` says so directly — so wiping and rebuilding it is always safe.
 
-Buildable now that binaries carry `_artmind_id` too, via derived-markdown
-promotion (`artmind/derived_markdown.py`): before that, a binary had nothing
-in its own frontmatter to rebuild an identity from, so this command had
-nothing to read.
+Buildable now that binaries carry `_artmind_id` too, via their converted
+markdown's own frontmatter (`_ingest_binary_derived`, docs/vault.md, "The
+ownership rule"): before that, a binary had nothing in its own frontmatter to
+rebuild an identity from, so this command had nothing to read.
 
 csv/xlsx stay unrebuildable by design ("accepted limitation",
 docs/document-identity.md, "Sources that cannot carry frontmatter") — a

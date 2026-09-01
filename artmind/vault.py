@@ -121,12 +121,6 @@ class VaultLayout:
         return self.domains_dir / "meta.yaml"
 
     @property
-    def derived_dir(self) -> Path:
-        """Markdown converted from binaries. Visible and committed, NOT hidden:
-        these are editable documents that become vault-native on promotion."""
-        return self.root / "_derived"
-
-    @property
     def external_docs_dir(self) -> Path:
         """Copies of sources ingested from outside the vault, keyed by source
         path (not filename) so two different documents that happen to share a
