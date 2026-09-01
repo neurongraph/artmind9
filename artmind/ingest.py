@@ -915,9 +915,18 @@ def _ingest_binary_derived(
     lands") — there's no separate persisted copy left to diff bytes against
     on re-ingest, so "binary changed?" can't genuinely be answered from the
     filesystem the way it can for an external copy. In that case
-    `binary_changed` is forced to `True` rather than computed, which
-    collapses the top two rows of the matrix above to "convert" always. See
-    the inline comment where it's set for the full rationale.
+    `binary_changed` is forced to `True` rather than computed, which folds
+    the entire "binary changed? no" column into the "yes" column: NOT just
+    `no_op` -> `convert` (row 1), but ALSO `promote` -> `collision` (row 3,
+    since `derived_markdown.decide()` checks `markdown_edited and
+    binary_changed` first). Concretely: promotion is effectively unreachable
+    for a vault-resident binary right now — hand-editing its derived markdown
+    and re-ingesting always reports a collision, never a promote, even though
+    the binary genuinely didn't change. See the inline comment where
+    `binary_changed` is forced, and
+    `test_a_vault_resident_binary_with_edited_markdown_collides_not_promotes_for_now`
+    (test/test_ingest_binary_derived.py), which pins this behavior until
+    Task 6 gives vault-resident binaries a real `binary_changed` signal.
 
     A prior derived document that was already promoted refuses reconversion
     outright, before this 2x2 ever runs — see docs/document-identity.md's
@@ -1021,6 +1030,13 @@ def _ingest_binary_derived(
             # properly answers this by giving a vault-resident binary its own
             # persisted hash to diff against; adding that here is out of this
             # task's scope (no registry/frontmatter schema changes).
+            #
+            # Side effect worth knowing: this doesn't just turn `no_op` into
+            # `convert` below -- it also turns `promote` into `collision`,
+            # since `_decide_promotion` checks `markdown_edited and
+            # binary_changed` first. So promotion is effectively unreachable
+            # for a vault-resident binary until Task 6 lands (see the
+            # docstring above and this function's own test coverage).
             binary_changed = True
         markdown_edited = _markdown_was_edited(existing_body, existing_meta.get("_derived_sha256"))
         action = _decide_promotion(
