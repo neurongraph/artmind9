@@ -61,12 +61,17 @@ def test_paths_follow_the_vault_from_a_subdirectory(tmp_path):
 
 
 def test_outside_a_vault_falls_back_to_the_legacy_layout(tmp_path):
-    """The bridge that keeps the existing suite and existing installs working."""
+    """The bridge that keeps the existing suite and existing installs working.
+
+    Resolved on both sides, matching paths.py's own `.resolve()` (and the
+    vault-based assertions above) -- needed since conftest.py's HOME redirect
+    (for ensure_machine_config's sake) points `Path.home()` at a macOS tmp dir
+    that is itself a symlink (`/var` -> `/private/var`)."""
     out = _probe(tmp_path)
 
     assert out["vault"] is None
-    assert out["home"] == str(Path.home() / ".artmind")
-    assert out["data"] == str(Path.home() / "artmind_data")
+    assert out["home"] == str((Path.home() / ".artmind").resolve())
+    assert out["data"] == str((Path.home() / "artmind_data").resolve())
 
 
 def test_artmind_home_still_overrides_everything(tmp_path):

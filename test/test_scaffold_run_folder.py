@@ -8,7 +8,7 @@ indefinitely and no reinstall could dislodge it.
 
 import inspect
 
-from artmind.setup import _seed_tree, _setup_neo4j, setup_all
+from artmind.setup import _seed_tree, _setup_neo4j, ensure_machine_config, setup_all
 
 
 def _write(path, text):
@@ -104,6 +104,11 @@ def test_ds_store_is_never_seeded(tmp_path):
 # ── scaffold_run_folder ───────────────────────────────────────────────────────
 
 
+def _patch_machine_config(setup, monkeypatch, machine_home):
+    monkeypatch.setattr(setup, "MACHINE_CONFIG_DIR", machine_home)
+    monkeypatch.setattr(setup, "MACHINE_CONFIG_ENV", machine_home / "config.env")
+
+
 def test_scaffold_run_folder_creates_structured_snapshot_dir(tmp_path, monkeypatch):
     import artmind.setup as setup
 
@@ -125,6 +130,7 @@ def test_scaffold_run_folder_creates_structured_snapshot_dir(tmp_path, monkeypat
     monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", tmp_path / "no-such-skills")
     monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", tmp_path / "no-such-opencode")
     monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", tmp_path / "no-such-schemas")
+    _patch_machine_config(setup, monkeypatch, tmp_path / "machinehome" / ".artmind")
 
     setup.scaffold_run_folder()
 
@@ -147,15 +153,15 @@ def _patch_scaffold_dirs(setup, monkeypatch, home, data):
     monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", home.parent / "no-such-skills")
     monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", home.parent / "no-such-opencode")
     monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", home.parent / "no-such-schemas")
+    _patch_machine_config(setup, monkeypatch, home.parent / "machinehome" / ".artmind")
 
 
-def test_scaffold_run_folder_skips_env_seed_when_home_is_a_vault(tmp_path, monkeypatch):
-    """A vault's own `.artmind/` must never receive the machine-wide `.env`
-    template: its literal `ARTMIND_KG_LLM_PROVIDER=ollama` and
-    `ARTMIND_DATA_DIR=~/artmind_data` defaults outrank the real machine
-    config in paths.py's load order (docs/vault.md), so seeding it here
-    silently sends every fresh vault's LLM calls to local Ollama and its
-    ingest output to the shared ~/artmind_data instead of the vault."""
+def test_scaffold_run_folder_seeds_machine_config_even_when_home_is_a_vault(tmp_path, monkeypatch):
+    """Machine config is keyed on Path.home() directly, not ARTMIND_HOME
+    (docs/vault.md, "Machine-level config"), so -- unlike skills/opencode --
+    it is NOT gated by vault residency: running `artmind setup` (which calls
+    scaffold_run_folder) from inside a vault must still be able to create a
+    still-missing ~/.artmind/config.env, exactly like `artmind init` does."""
     import artmind.setup as setup
     from artmind.vault import VaultLayout
 
@@ -164,16 +170,20 @@ def test_scaffold_run_folder_skips_env_seed_when_home_is_a_vault(tmp_path, monke
     home = VaultLayout(vault_root).artmind_dir
     data = tmp_path / "data"
     _patch_scaffold_dirs(setup, monkeypatch, home, data)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
 
     template = tmp_path / "env.example"
     template.write_text("ARTMIND_KG_LLM_PROVIDER=ollama\n")
     monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", template)
-    monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
 
     result = setup.scaffold_run_folder()
 
-    assert not (home / ".env").exists()
-    assert result["env"] == "skipped (vault-resident; see ~/.artmind/config.env)"
+    machine_config_env = setup.MACHINE_CONFIG_ENV
+    assert machine_config_env.read_text() == "ARTMIND_KG_LLM_PROVIDER=ollama\n"
+    assert result["machine_config"]["action"] == "seeded"
+    # Vault-only seeds are still gated as before -- this isn't a blanket
+    # "skip nothing in a vault" regression.
+    assert not (home / ".claude" / "skills").exists()
 
 
 def test_scaffold_run_folder_skips_skills_and_opencode_seed_in_a_vault(tmp_path, monkeypatch):
@@ -231,8 +241,10 @@ def test_scaffold_run_folder_still_seeds_skills_and_opencode_outside_a_vault(tmp
     assert result["opencode_refreshed"] == 1
 
 
-def test_scaffold_run_folder_still_seeds_env_outside_a_vault(tmp_path, monkeypatch):
-    """The machine home (no vault in play) keeps seeding `.env` as before."""
+def test_scaffold_run_folder_seeds_machine_config_from_env_example(tmp_path, monkeypatch):
+    """`just dev-install` -> scaffold_run_folder should leave a fresh machine
+    with a working ~/.artmind/config.env, seeded straight from the package's
+    env.example, with no further step required."""
     import artmind.setup as setup
 
     home = tmp_path / "home"
@@ -240,14 +252,157 @@ def test_scaffold_run_folder_still_seeds_env_outside_a_vault(tmp_path, monkeypat
     _patch_scaffold_dirs(setup, monkeypatch, home, data)
 
     template = tmp_path / "env.example"
-    template.write_text("ARTMIND_KG_LLM_PROVIDER=ollama\n")
+    template.write_text("ARTMIND_KG_LLM_PROVIDER=ollama\nARTMIND_DATA_DIR=~/artmind_data\n")
     monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", template)
     monkeypatch.setattr(setup, "resolve_vault", lambda: None)
 
     result = setup.scaffold_run_folder()
 
-    assert (home / ".env").read_text() == "ARTMIND_KG_LLM_PROVIDER=ollama\n"
-    assert result["env"] == "seeded from template"
+    machine_config = setup.MACHINE_CONFIG_ENV.read_text()
+    assert "ARTMIND_KG_LLM_PROVIDER=ollama" in machine_config
+    # env.example mixes machine + vault-scoped keys (pre-vault-model file) --
+    # the vault-scoped ones must not leak into the machine-wide config.
+    assert "ARTMIND_DATA_DIR" not in machine_config
+    assert result["machine_config"] == {
+        "action": "seeded",
+        "path": str(setup.MACHINE_CONFIG_ENV),
+        "source": str(template),
+    }
+
+
+def test_scaffold_run_folder_leaves_an_existing_machine_config_alone(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = tmp_path / "home"
+    data = tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: None)
+
+    setup.MACHINE_CONFIG_DIR.mkdir(parents=True)
+    setup.MACHINE_CONFIG_ENV.write_text("ARTMIND_KG_LLM_PROVIDER=openrouter\n")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+
+    result = setup.scaffold_run_folder()
+
+    assert setup.MACHINE_CONFIG_ENV.read_text() == "ARTMIND_KG_LLM_PROVIDER=openrouter\n"
+    assert result["machine_config"]["action"] == "ok"
+
+
+# ── ensure_machine_config: the docs/vault.md "Known gaps" fix ────────────────
+# `just dev-install` should leave a working ~/.artmind/config.env behind --
+# seeded fresh from the package's env.example on a genuinely new machine, or
+# migrated from an older install's legacy ~/.artmind/.env when one exists (so
+# a returning user's real settings win over the bare template). `artmind init`
+# runs the same check as a second chance. Every test monkeypatches
+# setup.MACHINE_CONFIG_DIR/MACHINE_CONFIG_ENV (and, where it matters,
+# PACKAGE_ENV_EXAMPLE) so nothing here can touch the developer's real
+# ~/.artmind or read the repo's actual env.example (conftest.py's HOME
+# redirect is a second, session-wide backstop for the same hazard).
+
+
+def test_ensure_machine_config_leaves_an_existing_file_alone(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = tmp_path / "home" / ".artmind"
+    home.mkdir(parents=True)
+    _patch_machine_config(setup, monkeypatch, home)
+    (home / "config.env").write_text("ARTMIND_KG_LLM_PROVIDER=openrouter\n")
+
+    result = ensure_machine_config()
+
+    assert result["action"] == "ok"
+    assert (home / "config.env").read_text() == "ARTMIND_KG_LLM_PROVIDER=openrouter\n"
+
+
+def test_ensure_machine_config_reports_missing_when_nothing_to_migrate_or_seed(tmp_path, monkeypatch):
+    """Neither a legacy .env nor a package env.example to fall back to --
+    a plausible state for a wheel install missing that package asset."""
+    import artmind.setup as setup
+
+    home = tmp_path / "home" / ".artmind"
+    _patch_machine_config(setup, monkeypatch, home)
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+
+    result = ensure_machine_config()
+
+    assert result["action"] == "missing"
+    assert not (home / "config.env").exists()
+
+
+def test_ensure_machine_config_seeds_from_the_package_template_on_a_fresh_machine(tmp_path, monkeypatch):
+    """No config.env, no legacy .env -- but the package template exists, so
+    `just dev-install` alone should leave a usable (if default-filled)
+    ~/.artmind/config.env, with no `artmind init` step required first."""
+    import artmind.setup as setup
+
+    home = tmp_path / "home" / ".artmind"
+    _patch_machine_config(setup, monkeypatch, home)
+    template = tmp_path / "env.example"
+    template.write_text("ARTMIND_KG_LLM_PROVIDER=ollama\nARTMIND_KG_NEO4J_PASSWORD=\n")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", template)
+
+    result = ensure_machine_config()
+
+    assert result == {"action": "seeded", "path": str(home / "config.env"), "source": str(template)}
+    seeded = (home / "config.env").read_text()
+    assert "ARTMIND_KG_LLM_PROVIDER=ollama" in seeded
+    assert "ARTMIND_KG_NEO4J_PASSWORD" not in seeded
+
+
+def test_ensure_machine_config_migrates_the_legacy_env_stripping_vault_scoped_keys(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = tmp_path / "home" / ".artmind"
+    home.mkdir(parents=True)
+    _patch_machine_config(setup, monkeypatch, home)
+    (home / ".env").write_text(
+        "ARTMIND_USER=me@example.com\n"
+        "ARTMIND_KG_LLM_PROVIDER=ollama\n"
+        "ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687\n"
+        "ARTMIND_KG_NEO4J_PASSWORD=secret\n"
+        "ARTMIND_DATA_DIR=~/artmind_data\n"
+        "ARTMIND_VAULT_DIR=~/Projects/artmind-corpus\n"
+        "ARTMIND_ARCHIVE_DIR=~/artmind_archive\n"
+    )
+
+    result = ensure_machine_config()
+
+    assert result["action"] == "migrated"
+    migrated = (home / "config.env").read_text()
+    assert "ARTMIND_USER=me@example.com" in migrated
+    assert "ARTMIND_KG_LLM_PROVIDER=ollama" in migrated
+    for leaked in ("ARTMIND_KG_NEO4J_", "ARTMIND_DATA_DIR", "ARTMIND_VAULT_DIR", "ARTMIND_ARCHIVE_DIR"):
+        assert leaked not in migrated, leaked
+
+
+def test_ensure_machine_config_chmods_the_migrated_file(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = tmp_path / "home" / ".artmind"
+    home.mkdir(parents=True)
+    _patch_machine_config(setup, monkeypatch, home)
+    (home / ".env").write_text("ARTMIND_KG_LLM_PROVIDER=ollama\n")
+
+    ensure_machine_config()
+
+    assert (home / "config.env").stat().st_mode & 0o777 == 0o600
+
+
+def test_scaffold_vault_reports_machine_config_status(tmp_path, monkeypatch):
+    """`artmind init` (scaffold_vault) is a second chance to catch a still-
+    missing machine config -- the CLI prints a warning off this key."""
+    import artmind.setup as setup
+    from artmind.setup import scaffold_vault
+
+    home = tmp_path / "machinehome" / ".artmind"
+    _patch_machine_config(setup, monkeypatch, home)
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    vault_root = tmp_path / "myvault"
+    vault_root.mkdir()
+
+    result = scaffold_vault(vault_root)
+
+    assert result["machine_config"] == {"action": "missing", "path": str(home / "config.env")}
 
 
 # ── _setup_neo4j: structured-store catalogue constraints ─────────────────────

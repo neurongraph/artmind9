@@ -392,6 +392,29 @@ was built at another dimension degrades vector search **silently** rather than
 erroring. It stays machine-level, and `init` validates it against the vault's
 graph.
 
+**Getting `~/.artmind/config.env` populated in the first place** used to be a
+gap: `scaffold_run_folder` (`just dev-install`) used to seed `~/.artmind/.env`
+instead — the *legacy* run-folder path, only ever loaded when `ARTMIND_HOME`
+resolves to the true machine home, i.e. outside any vault. The moment you `cd`
+into a vault, `ARTMIND_HOME` becomes `<vault>/.artmind` and that seeded `.env`
+dropped out of `paths.py`'s load order entirely, so the first vault anyone
+created had Neo4j placeholders and nothing else: no provider, no API key, no
+model, and no explanation.
+
+`setup.ensure_machine_config()` closes this now, called from both
+`scaffold_run_folder` (`just dev-install` / `artmind setup`) and
+`scaffold_vault` (`artmind init`), whichever runs first:
+
+1. `~/.artmind/config.env` already exists → left alone.
+2. it's missing but an older install's legacy `~/.artmind/.env` holds real
+   settings → migrated (stripping the vault-scoped keys above, whose home is
+   now a vault's own `config.env`), so a returning user's actual settings
+   always win over a bare template.
+3. neither exists → **seeded fresh from the package's `env.example`**
+   (filtered the same way), so a bare `just dev-install` alone leaves a
+   working, if default-filled, `~/.artmind/config.env` — no `artmind init`
+   step required first, and nothing left to fail silently later.
+
 ## Snapshots
 
 Snapshots live in `.artmind/data/graph_snapshot/` (and structured-store
@@ -464,23 +487,6 @@ merge adjudication; including it on restore overwrites live curation. Create
 defaults with it; restore defaults without.
 
 ## Known gaps in what has shipped
-
-- **A fresh vault inherits no LLM configuration.** `paths.py` loads
-  `<vault>/.artmind/config.env`, then `<vault>/.artmind/.env`, then the machine
-  file at `~/.artmind/config.env`. An existing install's settings are at
-  `~/.artmind/.env` — the *legacy run folder* path — which is only consulted
-  when `ARTMIND_HOME` resolves there, i.e. outside a vault. So the first vault
-  someone creates has its own Neo4j placeholders and **nothing else**: no
-  provider, no API key, no model. Nothing says so; the agent simply fails.
-  Confirmed on this machine. Until `init` detects and reports it, the manual
-  fix is:
-
-  ```bash
-  grep -vE '^(ARTMIND_KG_NEO4J_|ARTMIND_DATA_DIR|ARTMIND_VAULT_DIR|ARTMIND_ARCHIVE_DIR)' ~/.artmind/.env > ~/.artmind/config.env && chmod 600 ~/.artmind/config.env
-  ```
-
-  `init` should do this check itself and print the remedy — a first-run
-  experience that fails with no explanation is the worst kind.
 
 - **`--vault` is not a real flag.** `resolve_vault()` accepts an explicit path
   but no command passes one; only `ARTMIND_VAULT` and the walk-up work.

@@ -3256,6 +3256,27 @@ def init(directory: str):
     click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
     click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+
+    machine_config = summary.get("machine_config", {})
+    action = machine_config.get("action")
+    machine_path = machine_config.get("path")
+    if action == "migrated":
+        click.echo(f"Machine:  migrated {machine_config['source']} -> {machine_path}")
+    elif action == "seeded":
+        click.echo(
+            f"Machine:  seeded {machine_path} from env.example defaults —"
+            f" review it (LLM provider, API key, embedding model)"
+        )
+    elif action == "missing":
+        click.echo(
+            f"\nWarning: {machine_path} does not exist yet. This is the ONE file shared"
+            f" by every vault on this machine (LLM provider, API key, embedding model —"
+            f" docs/vault.md, \"Machine-level config\"); without it, this vault has no"
+            f" configured LLM at all and extraction will fail with no explanation."
+            f" Create it from artmind/env.example's machine-level keys"
+            f" (ARTMIND_KG_LLM_*, ARTMIND_OPENROUTER_API_KEY, ARTMIND_KG_EMBEDDINGS_*, ...)."
+        )
+
     click.echo(
         f"\nNext:\n"
         f"  $EDITOR {root / '.artmind' / 'config.env'}   # Neo4j connection\n"

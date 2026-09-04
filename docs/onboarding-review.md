@@ -14,7 +14,7 @@ effort.
 |---|---|---|---|---|
 | 1 | Install via `gh repo clone` / `git clone` | Not packaged for PyPI (`pip install`/`uv install`) | Low | Confirmed, still true |
 | 2 | Install prerequisites (just, Ollama + models, Neo4j) | Thought undocumented | Low | **Already fixed** — README now has a full Prerequisites section |
-| 3 | `just dev-install` should seed `~/.artmind` | Machine-wide LLM config never gets seeded under the name the vault model actually reads | **High** | Confirmed — real, unfixed, already flagged in `docs/vault.md` |
+| 3 | `just dev-install` should seed `~/.artmind` | Machine-wide LLM config never gets seeded under the name the vault model actually reads | **High** | **Fixed** — `artmind init` now migrates/reports it |
 | 4 | `artmind init` + manual vault setup steps | No interactive script, no schema picker, no generated README, `.artmind_ignore` proposal conflicts with the vault's actual ignore design | Medium | Partially already better than described; partially an intentional design rejection |
 | 5 | Trigger ingestion of a new/edited file | Unclear which command to run; relationship to `git commit` unclear | Medium | Confirmed gap, but there is a clear answer today |
 | 6 | `artmind setup` (first Neo4j connection) | Raw driver errors, no AuraDB guidance, no APOC check | Medium | Confirmed, two separate gaps |
@@ -77,21 +77,42 @@ what the vault model reads.
 **nothing else** — no LLM provider, no API key, no model — and the agent
 simply fails, with nothing pointing at the cause.
 
-This exact gap is already written up, independently, in
-[docs/vault.md:466-483](vault.md) under "Known gaps in what has shipped",
-including the manual fix:
+This exact gap was independently written up in `docs/vault.md`'s "Known gaps"
+section, including the manual fix:
 
 ```bash
 grep -vE '^(ARTMIND_KG_NEO4J_|ARTMIND_DATA_DIR|ARTMIND_VAULT_DIR|ARTMIND_ARCHIVE_DIR)' ~/.artmind/.env > ~/.artmind/config.env && chmod 600 ~/.artmind/config.env
 ```
 
-**Priority:** High — this blocks every first-time vault, silently.
+**Priority:** High — this blocked every first-time vault, silently.
 
-**Solution:** `artmind init` (or `artmind setup`) should detect this state —
-`~/.artmind/config.env` absent while `~/.artmind/.env` holds machine-level
-keys, or neither present at all — and either run the fix automatically or
-print the exact remedy. `docs/vault.md` already names this as the needed fix;
-it just hasn't landed yet.
+**Status: Fixed, at the root — `just dev-install` itself now creates
+`~/.artmind/config.env`.** `setup.ensure_machine_config()` runs from
+`scaffold_run_folder()` (`just dev-install` / `artmind setup`) *and* from
+`scaffold_vault()` (`artmind init`), whichever runs first, in three cases:
+
+1. `~/.artmind/config.env` already exists → left alone.
+2. it's missing but an older install's legacy `~/.artmind/.env` holds real
+   settings → migrated (stripping the vault-scoped keys, same filter as the
+   manual fix above), chmod 600 — so a returning user's actual settings win
+   over a bare template.
+3. neither exists (the genuinely-fresh-machine case this request was about)
+   → **seeded straight from the repo's `artmind/env.example`**, filtered the
+   same way, chmod 600 — so a bare `just dev-install` alone leaves a working,
+   if default-filled, `~/.artmind/config.env`, with no `artmind init` step
+   required first.
+
+`init` prints whichever happened (`Machine:  migrated ...` /
+`Machine:  seeded ...` / a warning if truly nothing was available to seed
+from).
+
+See [setup.py:`ensure_machine_config`](../artmind/setup.py) and
+[cli.py's `init` command](../artmind/cli.py) for the implementation, and
+[docs/vault.md](vault.md)'s "Machine-level config" section for the updated
+writeup. Also fixed as part of this: `test/conftest.py` now redirects `HOME`/
+`USERPROFILE` for the whole suite, since `MACHINE_CONFIG_DIR`/`MACHINE_CONFIG_ENV`
+are keyed on `Path.home()` directly and the existing `ARTMIND_HOME` redirect
+didn't reach them.
 
 ---
 
