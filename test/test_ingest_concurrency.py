@@ -171,6 +171,41 @@ def test_extract_kg_reingest_refreshes_stale_chunk_text(monkeypatch, tmp_path):
     assert chunks2[0]["text"] == "REVISED chunk body 1"
 
 
+def test_extract_kg_resume_reuses_the_sidecar_embedding_without_recomputing(monkeypatch, tmp_path):
+    """A resumed extract_kg on the same document must not re-embed a chunk it
+    already embedded.
+
+    The per-chunk chunk_NNN.json on disk carries no vector (see
+    strip_embeddings) even right after a successful run, so the resume check
+    can no longer tell "already embedded" from "never embedded" by looking at
+    that file alone -- it has to fall back to the sidecar. Regression for the
+    doubled-embedding-work failure mode docs/vault.md warns about: embed →
+    strip on write → read the stripped file back → recompute.
+    """
+    file_result = _setup_extract_env(monkeypatch, tmp_path, n_chunks=1)
+
+    embed_calls: list[str] = []
+
+    def counting_embed(model, text):
+        embed_calls.append(text)
+        return [0.0, 0.1]
+
+    monkeypatch.setattr(ing, "_embed_text", counting_embed)
+
+    doc_kg_dir = ing.extract_kg(file_result, "testdom", max_workers=1)
+    assert len(embed_calls) == 1
+    assert (doc_kg_dir / "embeddings.json").exists()
+
+    # Re-run against the exact same document (same sha256 → same doc_kg_dir):
+    # the embed function must not be called again.
+    doc_kg_dir2 = ing.extract_kg(file_result, "testdom", max_workers=1)
+    assert doc_kg_dir2 == doc_kg_dir
+    assert len(embed_calls) == 1, "resumed run recomputed an embedding the sidecar already had"
+
+    chunks = json.loads((doc_kg_dir2 / "chunks.json").read_text(encoding="utf-8"))
+    assert "embedding" not in chunks[0], "chunks.json must still carry no vector"
+
+
 def test_extract_kg_worker_exception_surfaces(monkeypatch, tmp_path):
     # An UNEXPECTED error inside a worker (one _process_chunk doesn't already
     # catch — embedding/step failures are caught and recorded as status) must not

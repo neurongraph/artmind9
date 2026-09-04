@@ -77,6 +77,11 @@ class AgentProfile:
     skills: tuple[str, ...]
     system_append: str
     acp_mode: str | None = None
+    # Whether this surface may read the vault directly. False means answers
+    # must come through `artmind query`, so they carry supersession, conflicts
+    # and provenance (docs/vault.md). True is for OPERATOR surfaces, where
+    # inspecting a failed conversion or a log is the job.
+    filesystem_access: bool = False
 
 
 QA_PROFILE = AgentProfile(
@@ -87,6 +92,8 @@ QA_PROFILE = AgentProfile(
     ),
     system_append=QA_SYSTEM_APPEND,
     acp_mode="artmind",
+    # End-user Q&A: reading files is pure downside.
+    filesystem_access=False,
 )
 
 ADMIN_PROFILE = AgentProfile(
@@ -100,6 +107,8 @@ ADMIN_PROFILE = AgentProfile(
     ),
     system_append=ADMIN_SYSTEM_APPEND,
     acp_mode="artmind-admin",
+    # Operator console: inspecting a failed conversion or reading a log is the job.
+    filesystem_access=True,
 )
 
 BENCHMARK_PROFILE = AgentProfile(
@@ -107,6 +116,8 @@ BENCHMARK_PROFILE = AgentProfile(
     skills=("artmind-query",),
     system_append=BENCHMARK_SYSTEM_APPEND,
     acp_mode="artmind",
+    # A benchmark that greps its way to an answer silently invalidates every score.
+    filesystem_access=False,
 )
 
 PROFILES: dict[str, AgentProfile] = {

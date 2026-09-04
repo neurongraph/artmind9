@@ -121,6 +121,14 @@ The CLI will search recursively, show you the list of documents it found, and as
 
 **Prerequisites:** The `document.json` must already exist in `data/kg/DOMAIN/DOCNAME/`. If it doesn't, run `extract-kg` first (Situation D).
 
+**Chunk embeddings:** `write-to-graph` runs a resumable chunk-embedding sweep afterwards by
+default — committed KG staging carries no vectors on purpose (see `docs/vault.md`,
+"Embeddings"), so restoring from it (a fresh clone, a `pull-kg`, a wiped graph) always needs
+this once. Pass `--noEmbed` to skip it and run it separately later:
+```bash
+artmind ingest embed-chunks
+```
+
 ---
 
 ### D. Re-run LLM extraction on an already-ingested document
@@ -258,6 +266,12 @@ artmind ingest refine-graph --domain YOUR_DOMAIN \
 `sameas propose`'s candidate generation):
 ```bash
 artmind ingest embed-entities --domain YOUR_DOMAIN
+```
+
+**Backfill missing chunk embeddings** (needed for vector/text search over chunks —
+`write-to-graph` runs this automatically unless `--noEmbed` was passed):
+```bash
+artmind ingest embed-chunks
 ```
 
 ---

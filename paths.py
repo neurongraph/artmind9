@@ -15,6 +15,7 @@ when the constants below are computed; already-set environment variables win.
 """
 
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -22,33 +23,79 @@ from dotenv import load_dotenv
 # ── run folder root ────────────────────────────────────────────────────────────
 _SELF_DIR = Path(__file__).resolve().parent  # repo root (dev) or site-packages (wheel)
 
-ARTMIND_HOME = Path(
-    os.environ.get("ARTMIND_HOME") or (Path.home() / ".artmind")
-).expanduser().resolve()
+from artmind.vault import VaultLayout, resolve_vault
 
-# Load .env early: prefer the run folder; fall back to a repo-local .env so the
-# editable/dev checkout keeps working without exporting ARTMIND_HOME. Real
-# environment variables are never overridden.
-ENV_FILE = ARTMIND_HOME / ".env"
-for _candidate in (ARTMIND_HOME / ".env", _SELF_DIR / ".env"):
-    if _candidate.is_file():
+# ── vault discovery ───────────────────────────────────────────────────────────
+# A vault is a directory containing `.artmind/` (docs/vault.md). When we are
+# inside one, every path below is a position inside it. When we are not, we fall
+# back to the pre-vault layout unchanged, so existing installs and the test
+# suite keep working while the migration proceeds file by file.
+ARTMIND_VAULT_DIR = resolve_vault()
+
+# ARTMIND_VAULT_DIR used to SELECT the vault; it is now an output of discovery.
+# Existing .env files still set it, where it is read by nobody -- a silent no-op
+# is the worst shape for a config change, so say so once, on stderr (stdout
+# carries --compact JSON that callers parse).
+if os.environ.get("ARTMIND_VAULT_DIR"):
+    print(
+        "artmind: ARTMIND_VAULT_DIR is no longer read -- the vault is found by "
+        "walking up from the current directory for .artmind/vault.yaml. "
+        "Use ARTMIND_VAULT (or --vault) to point elsewhere, and remove "
+        "ARTMIND_VAULT_DIR from your config.",
+        file=sys.stderr,
+    )
+_LAYOUT = VaultLayout(ARTMIND_VAULT_DIR) if ARTMIND_VAULT_DIR else None
+
+# ARTMIND_HOME remains the raw escape hatch, above vault discovery: CLAUDE.md
+# documents it and test/conftest.py repoints it at a temp dir for the whole
+# suite, which must keep working whether or not a vault is in play.
+if os.environ.get("ARTMIND_HOME"):
+    ARTMIND_HOME = Path(os.environ["ARTMIND_HOME"]).expanduser().resolve()
+elif _LAYOUT is not None:
+    ARTMIND_HOME = _LAYOUT.artmind_dir
+else:
+    ARTMIND_HOME = (Path.home() / ".artmind").resolve()
+
+# ── config, loaded MOST SPECIFIC FIRST ────────────────────────────────────────
+# `override=False` means an already-set key wins, so reading the vault's own
+# config before the machine's is what makes the vault override the machine
+# rather than the reverse. Real environment variables were set before either and
+# therefore beat both.
+#
+# Secrets stay machine-wide because a vault is a repo you may push: the line is
+# "secrets and models belong to the machine; knowledge belongs to the vault"
+# (docs/vault.md).
+#
+# There is deliberately NO implicit fallback to a checkout-local .env: it
+# silently loaded another knowledge base's config -- credentials and graph
+# included -- whenever a run folder had none of its own.
+MACHINE_CONFIG_DIR = (Path.home() / ".artmind").resolve()
+MACHINE_CONFIG_ENV = MACHINE_CONFIG_DIR / "config.env"
+
+LOADED_ENV_FILES: "list[Path]" = []
+_candidates = [
+    ARTMIND_HOME / "config.env",   # this vault
+    ARTMIND_HOME / ".env",         # legacy run folder, still honoured
+    MACHINE_CONFIG_ENV,            # machine-wide identity
+]
+if os.environ.get("ARTMIND_ALLOW_REPO_ENV", "").strip().lower() in ("1", "true", "yes"):
+    _candidates.append(_SELF_DIR / ".env")
+for _candidate in _candidates:
+    if _candidate.is_file() and _candidate not in LOADED_ENV_FILES:
         load_dotenv(_candidate, override=False)
-        ENV_FILE = _candidate
-        break
+        LOADED_ENV_FILES.append(_candidate)
+
+# Retained for backward compatibility. Prefer LOADED_ENV_FILES, which reports
+# every file read rather than just the first.
+ENV_FILE = LOADED_ENV_FILES[0] if LOADED_ENV_FILES else ARTMIND_HOME / ".env"
 
 # ── ingestion data root (query never touches this) ─────────────────────────────
-ARTMIND_DATA_DIR = Path(
-    os.environ.get("ARTMIND_DATA_DIR") or (Path.home() / "artmind_data")
-).expanduser().resolve()
-
-# ── vault root (authoritative markdown; source of stable document identity) ─────
-# The externally-editable markdown tree the canvas UX watches. Optional: when set,
-# a document's identity (``logical_id``) keys off its path *relative to this root*
-# so an edited/re-ingested file is recognised as the same document. When unset,
-# identity falls back to the casefolded basename. Never itself lives in ``.env``
-# only — a real env var wins, matching ARTMIND_HOME/ARTMIND_DATA_DIR.
-_vault = os.environ.get("ARTMIND_VAULT_DIR")
-ARTMIND_VAULT_DIR = Path(_vault).expanduser().resolve() if _vault else None
+if os.environ.get("ARTMIND_DATA_DIR"):
+    ARTMIND_DATA_DIR = Path(os.environ["ARTMIND_DATA_DIR"]).expanduser().resolve()
+elif _LAYOUT is not None:
+    ARTMIND_DATA_DIR = _LAYOUT.data_dir
+else:
+    ARTMIND_DATA_DIR = (Path.home() / "artmind_data").resolve()
 
 # ── archive root (docs archive's ONLY output; the only copy of archived content) ─
 # Deliberately its own root, NOT under ARTMIND_DATA_DIR: a data-dir wipe (a

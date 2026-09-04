@@ -10,6 +10,7 @@ from typing import Any
 from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
+    HookMatcher,
     ResultMessage,
     StreamEvent,
     TextBlock,
@@ -20,6 +21,7 @@ from claude_agent_sdk import (
 
 from artmind.webui.backends.base import TRACE_CLIP, clip
 from artmind.webui.profiles import AgentProfile, QA_PROFILE
+from artmind.webui.tool_gate import DENIED_TOOLS, denial_message, is_allowed_bash
 from paths import ARTMIND_HOME
 
 # The chat agent runs from the clean run folder (config + skills + schemas +
@@ -67,7 +69,61 @@ def agent_options(
     transport). Used for ``ARTMIND_SDK_BASE_URL`` (see ``backends/__init__.py``)
     to point the CLI at a custom endpoint without disturbing the process-wide
     ``ANTHROPIC_BASE_URL`` the KG pipeline also reads.
+
+    **The grounding gate** (``docs/vault.md``): the agent's ``cwd`` is now the
+    user's vault, so an ungated agent can answer by reading documents directly
+    instead of through ``artmind query`` — silently losing supersession,
+    materialised conflicts and chunk-level provenance. When
+    ``profile.filesystem_access`` is False, this disallows the file-reading
+    tools (``artmind.webui.tool_gate.DENIED_TOOLS``) outright and installs a
+    ``PreToolUse`` hook, matched to ``Bash`` only, that narrows it to a single
+    ``artmind …`` invocation, denying anything else with a message naming the
+    query command to use instead. It is a hook and deliberately *not* a
+    ``can_use_tool`` callback — see ``tool_gate.py``'s module docstring for
+    why. Every other tool — including in-process MCP tools a front-end
+    registers via ``mcp_servers`` — passes through untouched; the gate's
+    business is Bash and the read tools only. An operator surface sets
+    ``filesystem_access=True`` and gets neither restriction (no hooks at all),
+    since inspecting a failed conversion or reading a log is legitimately its
+    job. See ``tool_gate.py`` for the reasoning behind the predicate itself.
+
+    The ``HookMatcher(matcher="Bash", ...)`` registration is what scopes the
+    hook to Bash calls in the first place, so this ought to be the only tool
+    the hook ever sees. The callback still checks ``tool_name`` itself and
+    allows anything that isn't Bash, purely as defense-in-depth: live,
+    authenticated verification that the CLI honours the matcher wasn't
+    possible from this checkout's dev sandbox, so the redundant check stays
+    rather than assuming.
     """
+    denied_tools: list[str] = []
+    hooks: dict[str, list[HookMatcher]] = {}
+    if not profile.filesystem_access:
+        denied_tools = list(DENIED_TOOLS)
+
+        async def gate(input_data, tool_use_id, context):  # noqa: ANN001
+            if input_data.get("tool_name") != "Bash":
+                # Defense-in-depth only -- see the docstring above.
+                return {
+                    "hookSpecificOutput": {
+                        "hookEventName": "PreToolUse",
+                        "permissionDecision": "allow",
+                    }
+                }
+            command = (input_data.get("tool_input") or {}).get("command", "")
+            if is_allowed_bash(command):
+                decision, reason = "allow", None
+            else:
+                decision, reason = "deny", denial_message(command)
+            output: dict[str, Any] = {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": decision,
+            }
+            if reason is not None:
+                output["permissionDecisionReason"] = reason
+            return {"hookSpecificOutput": output}
+
+        hooks = {"PreToolUse": [HookMatcher(matcher="Bash", hooks=[gate])]}
+
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
         skills=list(profile.skills),
@@ -83,6 +139,8 @@ def agent_options(
         resume=resume,
         mcp_servers=mcp_servers or {},
         allowed_tools=allowed_tools or [],
+        disallowed_tools=denied_tools,
+        hooks=hooks or None,
         model=model,
         fallback_model=fallback_model,
     )

@@ -1154,6 +1154,7 @@ def status(tx) -> dict:
     that guarantee is worth more than the convenience of a query silently
     triggering a write."""
     from artmind import same_as
+    from artmind.embed_sweep import count_unembedded_chunks
 
     current_same_as = same_as.content_hash()
     current_schema = schema_set_hash()
@@ -1165,6 +1166,7 @@ def status(tx) -> dict:
             "schema_drift": True,
             "current_same_as_hash": current_same_as,
             "current_schema_hash": current_schema,
+            "unembedded_chunks": count_unembedded_chunks(tx),
         }
     return {
         "known": True,
@@ -1175,4 +1177,5 @@ def status(tx) -> dict:
         "current_same_as_hash": current_same_as,
         "recorded_schema_hash": recorded.get("schema_hash"),
         "current_schema_hash": current_schema,
+        "unembedded_chunks": count_unembedded_chunks(tx),
     }

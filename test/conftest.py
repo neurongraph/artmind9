@@ -57,6 +57,7 @@ runs after (and un-does, for that one test, via the same function-scoped
 import atexit
 import os
 import shutil
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -220,3 +221,68 @@ def _no_live_neo4j(monkeypatch):
         monkeypatch.setattr(catalogue, "neo4j_session", _null_neo4j_session)
 
     yield
+
+
+# ── shared ingest fixtures (artmind.ingest) ───────────────────────────────────
+# Originally local to test_ingest_binary_derived.py; moved here so
+# test_external_docs.py can reuse them without a second definition.
+
+
+def _init_git_repo(path):
+    subprocess.run(["git", "init", "-q"], cwd=path, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=path, check=True)
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=path, check=True)
+
+
+@pytest.fixture()
+def ingest_env(tmp_path, monkeypatch):
+    """A temp vault + git repo + registry, with artmind.ingest's module
+    globals (`ARTMIND_VAULT_DIR`, `ORIGINALS_DIR`, `MARKDOWNS_DIR`) pointed at
+    it. `source` is deliberately OUTSIDE the vault dir this fixture creates —
+    tests that want a vault-resident source build one inside `vault` instead.
+
+    `ORIGINALS_DIR`/`MARKDOWNS_DIR` are nested under `vault/.artmind/data/...`,
+    matching production (`paths.py`: `ARTMIND_DATA_DIR` is `VaultLayout.data_dir`
+    when a vault is configured) — a binary's converted markdown is committed
+    into the vault repo, so it must actually live inside it.
+    """
+    import artmind.ingest as ing
+
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    _init_git_repo(vault)
+
+    monkeypatch.setattr(ing, "ARTMIND_VAULT_DIR", vault)
+    import artmind.document_identity as di
+    import artmind.vault_git as vg
+
+    monkeypatch.setattr(di, "ARTMIND_VAULT_DIR", vault)
+    monkeypatch.setattr(vg, "ARTMIND_VAULT_DIR", vault)
+
+    import artmind.db as db
+
+    monkeypatch.setattr(db, "DB_PATH", vault / ".artmind" / "data" / "document_registry.db")
+
+    originals = vault / ".artmind" / "data" / "documents" / "originals"
+    markdowns = vault / ".artmind" / "data" / "documents" / "markdowns"
+    originals.mkdir(parents=True)
+    markdowns.mkdir(parents=True)
+    monkeypatch.setattr(ing, "ORIGINALS_DIR", originals)
+    monkeypatch.setattr(ing, "MARKDOWNS_DIR", markdowns)
+
+    source = tmp_path / "incoming" / "deck.pptx"
+    source.parent.mkdir(parents=True)
+    source.write_bytes(b"fake binary v1")
+
+    return vault, source
+
+
+def _fake_docling(body_by_call):
+    """Return a `_convert_binary_via_docling` stand-in yielding successive
+    bodies from `body_by_call` (a list), one per call."""
+    calls = iter(body_by_call)
+
+    def _convert(dest_path, image_model):
+        return next(calls), {}
+
+    return _convert

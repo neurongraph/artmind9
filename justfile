@@ -40,13 +40,17 @@ cli-setup:
 
 # ── dev (checkout/tooling, not artmind subcommands) ─────────────────────────
 
-# install: put `artmind` on PATH and scaffold the run folder (~/.artmind).
-# Editable, so code edits are live; paths are decoupled from this checkout, so
-# `artmind` runs from anywhere. Then edit ~/.artmind/.env and run `artmind setup`.
-# See docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
+# install: put `artmind` on PATH. Editable, so code edits are live.
+# `artmind` runs from anywhere, and anchors to whichever vault you are standing
+# in. Create one with `artmind init`, then edit <vault>/.artmind/config.env and
+# run `artmind setup`. See docs/INSTALL.md. (For a checkout-independent
+# deploy, drop `--editable`.)
+# Install the global `artmind` command. Deliberately does NOT run `artmind init`
+# any more: init means "make THIS directory a vault" (docs/vault.md), and at
+# install time there is no vault. Create one with `cd <dir> && artmind init`.
 dev-install: dev-stop-daemons
     uv tool install --force --editable '.[ingest]'
-    artmind init
+    @echo "Installed. Create a vault with:  mkdir ~/MyVault && cd ~/MyVault && artmind init"
 
 # uninstall the global artmind command (leaves ~/.artmind and data intact)
 dev-uninstall:
@@ -261,6 +265,10 @@ ingest-refine-graph-propose file domain="":
 # backfill vector embeddings for entities missing one  (usage: just ingest-embed-entities <domain>)
 ingest-embed-entities domain:
     uv run artmind ingest embed-entities --domain {{ domain }}
+
+# backfill vector embeddings for chunks missing one, resumable  (usage: just ingest-embed-chunks)
+ingest-embed-chunks:
+    uv run artmind ingest embed-chunks
 
 # detect non-destructive conflicts between entities, intra- or cross-domain  (usage: just ingest-detect-conflicts <domain> [flags])
 ingest-detect-conflicts domain flags="":

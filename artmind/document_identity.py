@@ -38,12 +38,11 @@ SYSTEM_FIELDS = (
     "_source_path",
     "_source_type",
     "_ingested_at",
-    # Phase 5 (docs/document-identity.md, "Derived-markdown promotion"):
-    # present only on a binary source's not-yet-promoted derived markdown —
-    # the fingerprint taken at conversion, compared against the CURRENT body
-    # on every ingest to detect a human edit. Removed outright on promotion,
-    # unlike every other system field (see artmind/derived_markdown.py).
-    "_derived_sha256",
+    # The hash of the binary this markdown was converted from. Trustworthy
+    # because `.artmind/` is artmind-owned: nothing else writes this file, so
+    # it needs no counterpart fingerprint of its own body the way the old
+    # `_derived_sha256` did.
+    "_source_sha256",
 )
 
 # Authored: artmind seeds a value once (only if absent), then never touches it

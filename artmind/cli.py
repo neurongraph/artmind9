@@ -22,8 +22,10 @@ from artmind.unified_snapshot import (
     restore_snapshot_impl,
 )
 from artmind.harmonizer import harmonize_all, harmonize_schema
-from artmind.setup import scaffold_run_folder, setup_all
+from artmind.setup import setup_all
+from artmind.embed_sweep import count_unembedded_chunks, embed_missing_chunk_embeddings
 from artmind.ingest import (
+    SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
     collect_ingest_files,
     commit_to_graph,
@@ -31,6 +33,7 @@ from artmind.ingest import (
     extract_kg,
     ingest_file,
     ingest_to_kg,
+    is_supported,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import is_structured_source, view_name
@@ -100,11 +103,22 @@ def _ensure_worker_running() -> None:
     # never relative to the pid file, which lives in the data dir.
     worker_script = Path(__file__).resolve().parent / "worker.py"
     WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
+
+    # Pin the worker to THIS vault. Without cwd= it inherits the parent's
+    # working directory, which is the right vault when you run `ingest async`
+    # from inside one and the wrong one when you run it from outside with
+    # ARTMIND_VAULT set.
+    from paths import ARTMIND_VAULT_DIR
+
+    worker_env = dict(os.environ)
+    if ARTMIND_VAULT_DIR is not None:
+        worker_env["ARTMIND_VAULT"] = str(ARTMIND_VAULT_DIR)
     subprocess.Popen(
         [sys.executable, str(worker_script)],
         stdout=open(WORKER_LOG, "a"),
         stderr=subprocess.STDOUT,
         start_new_session=True,
+        env=worker_env,
     )
     logger.info("Worker started in background")
 
@@ -171,7 +185,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation", "commands": ["sameas"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
-        {"name": "Setup & tools", "commands": ["setup", "init", "serve", "chat-ui", "admin-ui"]},
+        {"name": "Setup & tools", "commands": ["vault", "setup", "init", "serve", "chat-ui", "admin-ui"]},
     ],
     "artmind ingest": [
         {
@@ -183,7 +197,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "pull-kg", "embed-entities"],
+            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "pull-kg", "embed-entities", "embed-chunks"],
         },
         {
             "name": "Refinement",
@@ -507,6 +521,62 @@ def ingest():
     pass
 
 
+def _manifest_for_ingest(path: Path, files: "list[Path]") -> "tuple[object | None, list[Path]]":
+    """Load the vault manifest and drop files no mapping covers.
+
+    Filtering applies to a directory WALK only -- naming a file is an explicit
+    request and is always honoured, mapped or not. Returns the manifest (None
+    outside a vault) alongside the files to actually ingest.
+
+    Thin CLI-flavoured wrapper around `artmind.manifest.filter_for_ingest`
+    (shared with the admin console's `/api/ingest`) that translates a
+    `ManifestError` into the `click.ClickException` this surface expects.
+    """
+    from artmind.manifest import ManifestError, filter_for_ingest
+    from paths import ARTMIND_VAULT_DIR
+
+    try:
+        vault_manifest, kept, skipped = filter_for_ingest(ARTMIND_VAULT_DIR, path, files)
+    except ManifestError as e:
+        # Ingesting into the wrong domains because a mapping was mistyped is
+        # worse than refusing to start.
+        raise click.ClickException(str(e))
+
+    if skipped:
+        logger.info(
+            "Skipped {} file(s) no mapping covers "
+            "(.artmind/vault.yaml, ingest.mappings)", skipped,
+        )
+    return vault_manifest, kept
+
+
+def _validate_manifest_domains(vault_manifest) -> None:
+    """CLI translation of `manifest.validate_domains` (see it for the rule).
+
+    A thin wrapper on purpose: the admin console enforces the same rule and
+    translates the same error into an HTTP 400, so there is one implementation
+    rather than one per entry point.
+    """
+    from artmind.manifest import ManifestError, validate_domains
+
+    try:
+        validate_domains(vault_manifest, _get_available_domains())
+    except ManifestError as e:
+        raise click.ClickException(str(e))
+
+
+def _check_named_file_supported(path: Path) -> None:
+    """Naming a file is an explicit request. If artmind cannot ingest its
+    type at all, say so now -- otherwise it falls through to docling and
+    produces a generic conversion failure that never names the real cause."""
+    if path.is_file() and not is_supported(path):
+        raise click.ClickException(
+            f"Cannot ingest '{path.name}': artmind does not support "
+            f"'{path.suffix}' files. Supported types: "
+            f"{', '.join(sorted(SUPPORTED_SUFFIXES))}."
+        )
+
+
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option(
@@ -562,11 +632,32 @@ def ingest_sync(
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 
     path = Path(file_path)
+    _check_named_file_supported(path)
     files = collect_ingest_files(path)
+
+    # The manifest does two jobs (docs/vault.md): it says which domain governs
+    # a path, and whether the path is ingested at all. Filtering applies to a
+    # directory WALK only -- naming a file is an explicit request and is
+    # always honoured, mapped or not.
+    vault_manifest, files = _manifest_for_ingest(path, files)
+
+    from paths import ARTMIND_VAULT_DIR
+
+    def _mapped_domain(f: Path) -> str | None:
+        if vault_manifest is None or ARTMIND_VAULT_DIR is None:
+            return None
+        try:
+            rel = f.resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
+        except ValueError:
+            return None  # outside the vault; the manifest says nothing about it
+        return vault_manifest.domain_for(rel)
 
     # A single file with no domain source at all is worth an interactive
     # prompt; a directory batch is not (frontmatter is expected to carry
-    # `_domain` per-file — see docs/document-identity.md).
+    # `_domain` per-file — see docs/document-identity.md). A folder mapping is
+    # also a domain source: a manifest saying "notes/** -> personal_journal"
+    # should not force a prompt just because the walk happened to filter down
+    # to one file.
     if domain is None and set_domain is None and len(files) == 1 and not is_structured_source(files[0]):
         from artmind.ingest import _parse_md_frontmatter
 
@@ -574,12 +665,14 @@ def ingest_sync(
         if files[0].suffix.lower() == ".md":
             meta, _ = _parse_md_frontmatter(files[0].read_text(encoding="utf-8"))
             frontmatter_domain = meta.get("_domain")
-        if not frontmatter_domain:
+        if not frontmatter_domain and not _mapped_domain(files[0]):
             domain = _prompt_for_domain()
     if domain is not None and domain not in _get_available_domains():
         raise click.ClickException(
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
+
+    _validate_manifest_domains(vault_manifest)
 
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
@@ -594,7 +687,7 @@ def ingest_sync(
         logger.debug("  File: {}", name)
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
-    touched_paths: list[Path] = []
+    committed_any = False
     # One file rebuilds incrementally; a directory defers to one full rebuild.
     defer_rebuild = len(files) > 1 and not stage_only
     deferred_domains: set[str] = set()
@@ -615,13 +708,28 @@ def ingest_sync(
                 )
                 ok_count += 1 if res.get("status") == "ok" else 0
                 continue
+            # `ingest.py` computes `set_domain or prior_domain or domain`, so
+            # passing the mapped domain here lands the mapping in exactly the
+            # right precedence slot: --setDomain > the file's own _domain >
+            # the folder mapping > --domain as the fallback.
             result = ingest_file(
-                f, image_model, domain, chunk_size=chunk_size,
+                f, image_model, _mapped_domain(f) or domain, chunk_size=chunk_size,
                 set_domain=set_domain, fork=fork, adopt=adopt,
             )
             if result.get("status") == "ok":
+                # Commit the frontmatter write NOW, before chunk splitting and
+                # LLM extraction — the slow, interruptible part of the loop.
+                # Batching this to the end of the batch bought tidier history at
+                # the cost of durability: a Ctrl-C or a provider timeout partway
+                # through left every file in the batch carrying artmind
+                # frontmatter on disk and never committed to the vault. The
+                # async worker has always committed per file (worker.py).
                 if result.get("touched_path"):
-                    touched_paths.append(Path(result["touched_path"]))
+                    from artmind.vault_git import commit_paths
+
+                    touched = Path(result["touched_path"])
+                    if commit_paths([touched], f"artmind: ingest {touched.name}"):
+                        committed_any = True
                 effective_domain = result.get("domain", domain)
                 # A directory batch DEFERS the projection to one full rebuild
                 # at the end. Rebuilding incrementally per document would
@@ -656,16 +764,12 @@ def ingest_sync(
             summary = rebuild_projection(deferred_domain)
             logger.info("Projection rebuilt for {}: {}", deferred_domain, summary)
 
-    if touched_paths:
-        from artmind.vault_git import commit_paths, maybe_push
+    # Push is a network courtesy, not the durable write (see vault_git), so it
+    # stays batched: one push after the loop rather than one per document.
+    if committed_any:
+        from artmind.vault_git import maybe_push
 
-        commit_msg = (
-            f"artmind: ingest {touched_paths[0].name}"
-            if len(touched_paths) == 1
-            else f"artmind: ingest {len(touched_paths)} document(s)"
-        )
-        if commit_paths(touched_paths, commit_msg):
-            maybe_push()
+        maybe_push()
 
     elapsed = time.monotonic() - t_batch
     logger.info(
@@ -685,6 +789,8 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
     """Submit a file or directory for background ingestion; returns job_id immediately."""
     _require_ingest_extra()
     _setup_logger()
+    path = Path(file_path)
+    _check_named_file_supported(path)
     if domain is None:
         domain = _prompt_for_domain()
     elif domain not in _get_available_domains():
@@ -692,8 +798,9 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
 
-    path = Path(file_path)
     files = collect_ingest_files(path)
+    vault_manifest, files = _manifest_for_ingest(path, files)
+    _validate_manifest_domains(vault_manifest)
     if not files:
         raise click.ClickException(f"No files found in {path}")
 
@@ -803,6 +910,22 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
     _echo_json(embed_entities_backfill(domain), compact)
 
 
+@ingest.command("embed-chunks")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_embed_chunks(compact: bool) -> None:
+    """Backfill vector embeddings for chunks missing one (powers vector/text search).
+
+    Restoring from committed KG staging writes chunks with no vector by
+    design (docs/vault.md, "Embeddings") -- this sweep fills them back in and
+    is resumable: interrupt it and re-run, it picks up where it left off.
+    """
+    _setup_logger()
+    from artmind.graph_query import neo4j_session
+    with neo4j_session() as session:
+        result = embed_missing_chunk_embeddings(session)
+    _echo_json(result, compact)
+
+
 @ingest.command("extract-kg")
 @click.argument("document_name")
 @click.option("--domain", required=True, help="Domain the document belongs to")
@@ -879,11 +1002,39 @@ def ingest_classify_reingest(
     )
 
 
+def _run_chunk_embed_sweep() -> None:
+    """Run the post-write chunk-embed sweep, unless there's nothing to embed.
+
+    Committed KG staging carries no vectors by design (docs/vault.md,
+    "Embeddings"), so a fresh restore always needs this once. Prints a
+    heads-up first — a fresh clone can be minutes of local work, and silence
+    looks like a hang — but only when there's actual work to do.
+    """
+    from artmind.graph_query import neo4j_session
+
+    with neo4j_session() as session:
+        remaining = count_unembedded_chunks(session)
+        if not remaining:
+            return
+        click.echo(
+            f"\nRe-embedding {remaining:,} chunk(s) — committed KG staging carries no vectors "
+            "by design (docs/vault.md). Local model, no API cost. This runs once per clone.\n"
+        )
+        result = embed_missing_chunk_embeddings(session)
+    logger.info(
+        "Embed sweep after write-to-graph: {} embedded, {} still missing a vector",
+        result["embedded"], result["remaining"],
+    )
+
+
 @ingest.command("write-to-graph")
 @click.argument("document_name", required=False, default=None)
 @click.option("--domain", default=None, help="Domain the document belongs to (required for single-document mode)")
 @click.option("--folder", type=click.Path(exists=True), default=None, help="Path to folder whose sub-folders are document KG directories")
-def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None) -> None:
+@click.option("--noEmbed", "no_embed", is_flag=True,
+              help="Skip the chunk-embedding sweep. Chunks written without a vector are "
+                   "invisible to semantic search until `ingest embed-chunks` runs.")
+def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
     \b
@@ -895,6 +1046,9 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     In folder mode each immediate sub-folder of PATH that contains a document.json is
     written to Neo4j. If --domain is omitted in folder mode, the domain is inferred
     from the parent directory name (i.e. PATH is expected to be data/kg/<domain>).
+
+    Runs the chunk-embedding sweep afterwards by default; pass --noEmbed to skip it
+    and run `ingest embed-chunks` separately later.
     """
     _setup_logger()
     from paths import KG_DIR
@@ -925,6 +1079,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             logger.info("write_to_graph complete")
         else:
             raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
+        if not no_embed:
+            _run_chunk_embed_sweep()
         return
 
     # ── folder (batch) mode ───────────────────────────────────────────────
@@ -974,6 +1130,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         "write_to_graph batch complete: {}/{} succeeded, {} failed",
         ok_count, len(doc_dirs), fail_count,
     )
+    if not no_embed and ok_count:
+        _run_chunk_embed_sweep()
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
@@ -2511,8 +2669,11 @@ def projection_rebuild(domain: str | None, compact: bool) -> None:
     projection and rebuilding it produces a byte-identical result — which is
     also why this is safe to run at any time.
 
-    The embed sweep follows automatically, since a rebuild leaves everything it
-    touched marked `embedding_stale`.
+    Two embed sweeps follow automatically when `--domain` is given: the
+    entity sweep, since a rebuild leaves everything it touched marked
+    `embedding_stale`; and a domain-scoped chunk sweep, which recovers any
+    chunk a deferred batch-ingest commit left unembedded. Neither sweep runs
+    on a domain-unscoped rebuild (no `--domain`).
     """
     _setup_logger()
     from artmind.ingest import rebuild_projection
@@ -3000,28 +3161,107 @@ def snapshot_restore(
         raise click.ClickException(str(e))
 
 
+# ── artmind vault ─────────────────────────────────────────────────────────────
+
+
+@cli.command("vault")
+@click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
+def vault_status(compact: bool):
+    """Show which vault is active and how it was resolved.
+
+    Human-readable by default rather than JSON-first like `projection status`:
+    this exists to be glanced at, and a wrong answer here means every other
+    command is operating on the wrong knowledge base.
+    """
+    from artmind import vault as vault_mod
+    from paths import ARTMIND_DATA_DIR, ARTMIND_HOME, LOADED_ENV_FILES
+
+    # Resolved fresh here rather than read off `paths.ARTMIND_VAULT_DIR`:
+    # that constant is computed once, at process import, from the cwd at that
+    # moment. This command's entire job is to say which vault the CURRENT
+    # directory resolves to, so it must re-walk now, not report a stale answer
+    # (it is never proxied to the `serve` daemon, so "now" always means this
+    # invocation's own cwd).
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+
+    layout = vault_mod.VaultLayout(vault_dir)
+    info = {
+        "vault": str(vault_dir),
+        "artmind_dir": str(ARTMIND_HOME),
+        "data_dir": str(ARTMIND_DATA_DIR),
+        "manifest": str(layout.vault_yaml) if layout.vault_yaml.is_file() else None,
+        "config": [str(p) for p in LOADED_ENV_FILES],
+        "graph": {
+            "uri": os.environ.get("ARTMIND_KG_NEO4J_URI", ""),
+            "database": os.environ.get("ARTMIND_KG_NEO4J_DATABASE", ""),
+        },
+    }
+    if compact:
+        _echo_json(info, compact=True)
+        return
+    click.echo(f"Vault:    {info['vault']}")
+    click.echo(f"Data:     {info['data_dir']}")
+    click.echo(f"Manifest: {info['manifest'] or '(none — run artmind init)'}")
+    click.echo(f"Config:   {', '.join(info['config']) or '(none loaded)'}")
+    click.echo(f"Graph:    {info['graph']['uri'] or '(unset)'}  db={info['graph']['database'] or '(unset)'}")
+
+
 # ── artmind setup ──────────────────────────────────────────────────────────────
 
 
 @cli.command("init")
-def init():
-    """Scaffold the run folder (~/.artmind) + data dirs; seed .env, skills, schemas.
+@click.argument("directory", type=click.Path(file_okay=False), default=".")
+def init(directory: str):
+    """Make DIRECTORY (default: the current one) an artmind vault.
 
-    Filesystem-only and idempotent — needs no Neo4j. Run this right after
-    install, then edit ~/.artmind/.env and run `artmind setup`.
+    The vault is your Obsidian vault, your git repo and your artmind knowledge
+    base at once — `git init` for knowledge. Everything artmind knows about it
+    lives in `.artmind/` inside it, and every command run from anywhere beneath
+    it anchors here (docs/vault.md).
     """
+    from artmind.setup import scaffold_vault
+
+    root = Path(directory).expanduser().resolve()
+    if not root.is_dir():
+        raise click.ClickException(f"{root} does not exist.")
+
+    git_initialised = False
+    if not (root / ".git").exists():
+        # The vault IS a repo: document identity, history, and the ingest
+        # cursor all key off it.
+        result = subprocess.run(
+            ["git", "init", "-q"], cwd=root, capture_output=True, text=True
+        )
+        if result.returncode != 0:
+            raise click.ClickException(f"git init failed: {result.stderr.strip()}")
+        git_initialised = True
+
     try:
-        result = scaffold_run_folder()
-        click.echo("Run folder:  " + result["run_folder"])
-        click.echo("Data dir:    " + result["data_dir"])
-        click.echo("Config .env: " + result["env"])
-        click.echo(f"Skills:      {result['skills_refreshed']} refreshed from package")
-        click.echo(f"opencode:    {result['opencode_refreshed']} refreshed from package")
-        click.echo(f"Schemas:     {result['schemas_copied']} refreshed from package")
-        click.echo(f"Meta-schema: {result['meta_refreshed']} refreshed from package")
-        click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
+        summary = scaffold_vault(root)
     except Exception as e:
         raise click.ClickException(str(e))
+
+    click.echo(f"Vault:    {summary['vault']}")
+    if git_initialised:
+        click.echo("Git:      initialised")
+    click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
+    click.echo(f"Skills:   {len(summary['skills'])} linked")
+    click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+    click.echo(
+        f"\nNext:\n"
+        f"  $EDITOR {root / '.artmind' / 'config.env'}   # Neo4j connection\n"
+        f"  artmind setup                                  # graph constraints + indexes\n"
+        f"  $EDITOR {root / '.artmind' / 'vault.yaml'}   # map folders to domains"
+    )
 
 
 @cli.command("setup")

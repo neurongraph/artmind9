@@ -30,7 +30,9 @@ def current_commit() -> str | None:
     vault = _vault_root()
     if vault is None:
         return None
-    rc, out, _ = run_command("git rev-parse HEAD", cwd=vault)
+    # 128 is "no commits yet", which is exactly the state `artmind init` leaves
+    # a new vault in -- expected, not a failure worth an ERROR line.
+    rc, out, _ = run_command("git rev-parse HEAD", cwd=vault, expected_codes=(128,))
     return out.strip() if rc == 0 else None
 
 
@@ -72,9 +74,12 @@ def commit_paths(paths: list[Path], message: str) -> bool:
         logger.warning("vault_git: git add failed ({}): {}", rc, err or out)
         return False
 
-    # Nothing staged (an idempotent write produced byte-identical content) is
-    # exactly the "nothing differs -> no-op" case, not an error.
-    rc, out, _ = run_command("git diff --cached --quiet", cwd=vault)
+    # `--quiet` implies `--exit-code`, so this command answers with its exit
+    # status: 0 means nothing staged (an idempotent write produced
+    # byte-identical content -- the "nothing differs -> no-op" case), and 1
+    # means there ARE changes to commit. 1 is therefore the SUCCESS path here,
+    # which is why it is declared expected rather than logged as a failure.
+    rc, out, _ = run_command("git diff --cached --quiet", cwd=vault, expected_codes=(1,))
     if rc == 0:
         return False
 
@@ -83,36 +88,6 @@ def commit_paths(paths: list[Path], message: str) -> bool:
         logger.warning("vault_git: git commit failed ({}): {}", rc, err or out)
         return False
     logger.info("vault_git: committed {} file(s) — {}", len(rel_paths), message)
-    return True
-
-
-def move_path(old_path: Path, new_path: Path) -> bool:
-    """`git mv` `old_path` to `new_path` in the vault repo -- WITHOUT
-    committing. Derived-markdown promotion (docs/document-identity.md) needs
-    to rewrite the file's frontmatter at its new location before committing,
-    so the rename and the content change land in one commit via
-    `commit_paths`, not two. Returns True iff the mv itself succeeded; False
-    when there's no vault/git repo, or `old_path` isn't tracked (logged,
-    non-fatal either way — callers decide what a failed move means for them).
-    """
-    vault = _vault_root()
-    if vault is None:
-        return False
-
-    def _rel(p: Path) -> str:
-        p = Path(p)
-        try:
-            return str(p.relative_to(vault)) if p.is_absolute() else str(p)
-        except ValueError:
-            return str(p)
-
-    old_rel, new_rel = _rel(old_path), _rel(new_path)
-    (vault / new_rel).parent.mkdir(parents=True, exist_ok=True)
-    rc, out, err = run_command(f'git mv -- "{old_rel}" "{new_rel}"', cwd=vault)
-    if rc != 0:
-        logger.warning("vault_git: git mv failed ({}): {}", rc, err or out)
-        return False
-    logger.info("vault_git: moved {} -> {}", old_rel, new_rel)
     return True
 
 

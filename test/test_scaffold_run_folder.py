@@ -131,6 +131,125 @@ def test_scaffold_run_folder_creates_structured_snapshot_dir(tmp_path, monkeypat
     assert (data / "structured_snapshot").is_dir()
 
 
+def _patch_scaffold_dirs(setup, monkeypatch, home, data):
+    monkeypatch.setattr(setup, "ARTMIND_HOME", home)
+    monkeypatch.setattr(setup, "ARTMIND_DATA_DIR", data)
+    monkeypatch.setattr(setup, "DOMAIN_SCHEMAS_DIR", home / "domains" / "schemas")
+    monkeypatch.setattr(setup, "LOGS_DIR", home / "logs")
+    monkeypatch.setattr(setup, "ORIGINALS_DIR", data / "documents" / "originals")
+    monkeypatch.setattr(setup, "MARKDOWNS_DIR", data / "documents" / "markdowns")
+    monkeypatch.setattr(setup, "JOBS_DIR", data / "ingestion_jobs")
+    monkeypatch.setattr(setup, "KG_DIR", data / "kg")
+    monkeypatch.setattr(setup, "REFINE_DIR", data / "refine")
+    monkeypatch.setattr(setup, "GRAPH_SNAPSHOT_DIR", data / "graph_snapshot")
+    monkeypatch.setattr(setup, "STRUCTURED_DIR", data / "structured")
+    monkeypatch.setattr(setup, "STRUCTURED_SNAPSHOT_DIR", data / "structured_snapshot")
+    monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", home.parent / "no-such-skills")
+    monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", home.parent / "no-such-opencode")
+    monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", home.parent / "no-such-schemas")
+
+
+def test_scaffold_run_folder_skips_env_seed_when_home_is_a_vault(tmp_path, monkeypatch):
+    """A vault's own `.artmind/` must never receive the machine-wide `.env`
+    template: its literal `ARTMIND_KG_LLM_PROVIDER=ollama` and
+    `ARTMIND_DATA_DIR=~/artmind_data` defaults outrank the real machine
+    config in paths.py's load order (docs/vault.md), so seeding it here
+    silently sends every fresh vault's LLM calls to local Ollama and its
+    ingest output to the shared ~/artmind_data instead of the vault."""
+    import artmind.setup as setup
+    from artmind.vault import VaultLayout
+
+    vault_root = tmp_path / "myvault"
+    vault_root.mkdir()
+    home = VaultLayout(vault_root).artmind_dir
+    data = tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+
+    template = tmp_path / "env.example"
+    template.write_text("ARTMIND_KG_LLM_PROVIDER=ollama\n")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", template)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
+
+    result = setup.scaffold_run_folder()
+
+    assert not (home / ".env").exists()
+    assert result["env"] == "skipped (vault-resident; see ~/.artmind/config.env)"
+
+
+def test_scaffold_run_folder_skips_skills_and_opencode_seed_in_a_vault(tmp_path, monkeypatch):
+    """A vault's skills live at `<vault>/.claude/skills/` (symlinked by
+    `scaffold_vault`/`init`), not `<vault>/.artmind/.claude/skills/` --
+    seeding here would create a second, un-symlinked copy the vault's
+    `.gitignore` (written relative to the vault root) does not match, so it
+    would get committed as vault content despite being a reproducible
+    package asset. `.opencode/` isn't part of the vault model at all
+    (docs/vault.md) and belongs only at the true machine home."""
+    import artmind.setup as setup
+    from artmind.vault import VaultLayout
+
+    vault_root = tmp_path / "myvault"
+    vault_root.mkdir()
+    home = VaultLayout(vault_root).artmind_dir
+    data = tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+
+    _write(tmp_path / "pkg-skills" / "artmind-query" / "SKILL.md", "content")
+    _write(tmp_path / "pkg-opencode" / "agent" / "artmind.md", "content")
+    monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", tmp_path / "pkg-skills")
+    monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", tmp_path / "pkg-opencode")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
+
+    result = setup.scaffold_run_folder()
+
+    assert not (home / ".claude" / "skills").exists()
+    assert not (home / ".opencode").exists()
+    assert result["skills_refreshed"] == 0
+    assert result["opencode_refreshed"] == 0
+
+
+def test_scaffold_run_folder_still_seeds_skills_and_opencode_outside_a_vault(tmp_path, monkeypatch):
+    """The machine home (no vault in play) keeps seeding skills/opencode."""
+    import artmind.setup as setup
+
+    home = tmp_path / "home"
+    data = tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+
+    _write(tmp_path / "pkg-skills" / "artmind-query" / "SKILL.md", "content")
+    _write(tmp_path / "pkg-opencode" / "agent" / "artmind.md", "content")
+    monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", tmp_path / "pkg-skills")
+    monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", tmp_path / "pkg-opencode")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "resolve_vault", lambda: None)
+
+    result = setup.scaffold_run_folder()
+
+    assert (home / ".claude" / "skills" / "artmind-query" / "SKILL.md").read_text() == "content"
+    assert (home / ".opencode" / "agent" / "artmind.md").read_text() == "content"
+    assert result["skills_refreshed"] == 1
+    assert result["opencode_refreshed"] == 1
+
+
+def test_scaffold_run_folder_still_seeds_env_outside_a_vault(tmp_path, monkeypatch):
+    """The machine home (no vault in play) keeps seeding `.env` as before."""
+    import artmind.setup as setup
+
+    home = tmp_path / "home"
+    data = tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+
+    template = tmp_path / "env.example"
+    template.write_text("ARTMIND_KG_LLM_PROVIDER=ollama\n")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", template)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: None)
+
+    result = setup.scaffold_run_folder()
+
+    assert (home / ".env").read_text() == "ARTMIND_KG_LLM_PROVIDER=ollama\n"
+    assert result["env"] == "seeded from template"
+
+
 # ── _setup_neo4j: structured-store catalogue constraints ─────────────────────
 # No live Neo4j in this suite, so these are structural checks: the DDL strings
 # must appear verbatim in the function source (`session.run(...)` never

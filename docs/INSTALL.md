@@ -1,55 +1,104 @@
-# Installing artmind (run from anywhere)
+# Installing artmind
 
-artmind installs as a global `artmind` CLI and runs from a dedicated **run
-folder** — it does not need to be launched from this source checkout.
+artmind installs as a global `artmind` command and anchors to whichever **vault**
+you are standing in.
 
-## Layout
+## The vault
 
-| Location | Default | Holds | Used by |
-|---|---|---|---|
-| **Run folder** — `$ARTMIND_HOME` | `~/.artmind` | `.env`, `.claude/skills/`, `.opencode/agent/`, `domains/schemas/`, `logs/` | every command (query / serve / chat-ui / ingest) |
-| **Data dir** — `$ARTMIND_DATA_DIR` | `~/artmind_data` | originals, markdowns, `document_registry.db`, jobs, kg staging, snapshots | ingestion only |
+A vault is a directory containing `.artmind/`. It is your Obsidian vault, your
+git repo and your artmind knowledge base at once. Commands walk up from the
+current directory to find it, exactly as git walks up for `.git/`:
 
-Query / `serve` / `chat-ui` read almost nothing from disk (config + Neo4j);
-the corpus and all ingestion artifacts live under the separate data dir, so a
-query-only host can leave `$ARTMIND_DATA_DIR` empty or unset.
+```bash
+cd ~/Notes         && artmind query …     # this vault
+cd ~/work-research && artmind admin-ui    # that vault
+```
 
-`$ARTMIND_HOME` is resolved *before* `.env` is read, so override it only via a
-real environment variable (e.g. `export ARTMIND_HOME=/opt/artmind`). Set
-`ARTMIND_DATA_DIR` in the environment or in `~/.artmind/.env`.
+Two terminals, two vaults, at once. There is no "current vault" setting to get
+wrong. Outside any vault, commands that need one fail with guidance rather than
+guessing.
+
+| Inside the vault | Holds | In git |
+|---|---|---|
+| `.artmind/vault.yaml` | the ingest manifest: folder→domain mapping | yes |
+| `.artmind/domains/` | schemas + meta-schema | yes |
+| `.artmind/same_as.yaml` | curation | yes |
+| `.artmind/config.env` | this vault's Neo4j connection | no |
+| `.artmind/data/documents/markdowns/` | converted markdown, extracted images, chunks | yes |
+| `.artmind/data/kg/` | KG extraction staging (JSON) | yes |
+| `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`) | no |
+| `.artmind/data/graph_snapshot/`, `.artmind/data/structured_snapshot/` | snapshots (`*.tar.gz`) | no |
+| `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
+| `.claude/skills/` | artmind's (symlinked) + your own | only yours |
+| `_external_docs/` | copies of sources ingested from outside the vault | yes |
+| `_Inbox/` | drafts; never ingested (no gitignore treatment — an ordinary directory) | yes |
+
+Exception within `.artmind/data/kg/`: the chunk embedding sidecar
+(`embeddings.json`) is never committed — see `docs/vault.md`, "Embeddings".
+
+One file stays global: `~/.artmind/config.env`, holding the LLM provider, API
+keys and models. Secrets must not live in a vault you may push. Config loads
+most-specific-first, so a vault's `config.env` overrides the machine's, and real
+environment variables beat both.
+
+Resolution precedence: `ARTMIND_VAULT` (for cron and anything with no
+meaningful cwd), then the walk up from the current directory. A `--vault` CLI
+flag is planned (see `docs/vault.md`) but not yet wired into any command — for
+now, `ARTMIND_VAULT` is the only way to point at a vault other than the one
+`cwd` is inside.
 
 ## Prerequisites
 
 - Python (see `.python-version`) and [`uv`](https://docs.astral.sh/uv/).
 - A running **Neo4j** with vector-index support.
 - LLM/embeddings access: local **Ollama**, or an **OpenRouter** API key.
+- `git` — a vault is a git repo.
 
 ## Install
 
 ```bash
-just dev-install          # puts `artmind` on PATH (uv tool, editable) + `artmind init`
+just dev-install
 ```
 
 This is the single install path for both development and running. It is
-editable, so code edits are live, and because paths are decoupled from the
-checkout the `artmind` command runs from any directory. (For a deploy where the
-checkout won't stay in place, drop `--editable` in the `install` recipe.)
+editable, so code edits are live, and the `artmind` command runs from any
+directory. It does **not** create anything: installing the CLI and creating a
+vault are separate acts.
 
-`artmind init` scaffolds `~/.artmind` and `~/artmind_data`, seeds
-`~/.artmind/.env` from the bundled template, and copies the skills, opencode
-persona, and default domain schemas into the run folder. It is idempotent and
-needs no Neo4j.
+## Create a vault
 
-Seeding follows two policies, by what the tree holds:
+```bash
+mkdir ~/MyVault && cd ~/MyVault
+artmind init
+```
 
-| Tree | Policy | Why |
-|---|---|---|
-| `.claude/skills/`, `.opencode/` | **Overwritten every run** | Package assets — `artmind/skills/` and `artmind/opencode/` are their source of truth. Edit there; a reinstall ships the current version. |
-| `.env`, `domains/schemas/` | **Seeded only when absent** | User data — your credentials, edits, and added domains survive. |
+`artmind init` runs `git init` if needed, creates `.artmind/`, writes a
+`.gitignore` that commits derived output (converted markdown, chunks, KG
+staging) by default and excludes only a short list — secrets, churning
+binaries, and machine-local state (see the table above) — seeds the starter
+domain schemas, symlinks artmind's skills into `.claude/skills/`, and writes a
+starter `vault.yaml`. It is idempotent and needs no Neo4j, and it **never
+overwrites** a schema or config file you have edited.
 
-Entries are replaced wholesale, so a file dropped from a skill also disappears
-from the run folder. Names the package doesn't ship are never pruned, so a
-hand-written skill or domain in the run folder is left alone.
+Then:
+
+```bash
+$EDITOR ~/.artmind/config.env          # provider, API keys, models (machine-wide)
+$EDITOR ~/MyVault/.artmind/config.env  # this vault's Neo4j connection
+artmind setup                          # Neo4j constraints/indexes + SQLite tables
+```
+
+## Run
+
+```bash
+cd ~/MyVault
+artmind query graph metadata --domain <domain> --compact
+artmind serve
+artmind admin-ui
+```
+
+The chat agent's working directory is the vault, so it can read your documents
+and finds artmind's skills at `.claude/skills/`.
 
 ### Core vs the `[ingest]` extra
 
@@ -68,41 +117,6 @@ core-only install still lists the ingest commands in `--help`, but invoking one
 prints a hint to add the extra rather than a cryptic import error. `docling` must
 also be on `PATH` for non-markdown conversion. Query-only and pure-client hosts
 (e.g. the canvas backend) want core; the machine that ingests wants the extra.
-
-Then:
-
-```bash
-$EDITOR ~/.artmind/.env      # Neo4j URI/creds, LLM provider/keys, optional ARTMIND_DATA_DIR
-artmind setup                # create Neo4j constraints/indexes + SQLite tables
-```
-
-## Run (from any directory)
-
-```bash
-cd ~                         # nothing special about this dir
-artmind query graph metadata --domain <domain> --compact
-artmind serve                # warm query daemon (query calls proxy to it)
-artmind chat-ui              # web UI at http://127.0.0.1:8378
-```
-
-The chat agent runs with its working directory set to the run folder
-(`~/.artmind`), which contains only skills, schemas, and logs — the source tree
-and document corpus are not present there.
-
-## Keeping data in the checkout (optional)
-
-By default ingestion data lives at `~/artmind_data`. To keep it (and config)
-inside the repo during development, point the two roots at repo-local paths and
-re-run init:
-
-```bash
-export ARTMIND_HOME="$PWD/.artmind-dev"
-export ARTMIND_DATA_DIR="$PWD/data"
-artmind init
-```
-
-A repo-root `.env` is also auto-loaded as a fallback when `$ARTMIND_HOME/.env`
-is absent, so an existing checkout `.env` keeps working.
 
 ## Daemons
 
@@ -131,6 +145,12 @@ ARTMIND_NO_PROXY=1 artmind query ...
 ## Upgrade / uninstall
 
 ```bash
-just dev-install                 # stops daemons, re-installs; refreshes skills, keeps your .env
-just dev-uninstall               # removes the `artmind` command (leaves ~/.artmind and data intact)
+just dev-install                 # stops daemons, re-installs artmind; does not touch any vault
+just dev-uninstall               # removes the `artmind` command (leaves every vault intact)
 ```
+
+Upgrading refreshes code immediately (the install is editable) and reaches
+already-created vaults through the symlinked `.claude/skills/` — no
+per-vault re-seeding needed. Schemas are the exception: `artmind init` seeds
+them only when absent, so an upgraded schema in the package does not
+overwrite one you have already edited in a vault.

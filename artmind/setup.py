@@ -1,8 +1,10 @@
 import shutil
+from pathlib import Path
 
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
 from artmind.schema_validate import validate_all_or_raise
+from artmind.vault import VaultLayout, resolve_vault, write_gitignore
 from paths import (
     ARTMIND_DATA_DIR,
     ARTMIND_HOME,
@@ -80,15 +82,48 @@ def scaffold_run_folder() -> dict:
     Idempotent, but not inert: package assets (skills, opencode, domain schemas)
     are refreshed from the package on every run, while user data (``.env``) is
     only seeded when absent. See ``_seed_tree``.
+
+    The ``.env``, ``.claude/skills/`` and ``.opencode/`` seeds are all skipped
+    when ``ARTMIND_HOME`` is a *vault's* own ``.artmind/`` (i.e. this process
+    is running inside a vault, not the machine home) — each has a reason
+    specific to the vault model, not just belt-and-braces caution:
+
+    - ``.env``: ``env.example``'s uncommented defaults are machine-wide
+      (``ARTMIND_KG_LLM_PROVIDER=ollama``, ``ARTMIND_DATA_DIR=~/artmind_data``,
+      ...) — exactly what ``scaffold_vault``'s ``_STARTER_CONFIG_ENV`` docstring
+      already refuses to seed into a vault's ``config.env``, for the same
+      reason. But ``paths.py`` loads ``<home>/.env`` as the *legacy run
+      folder* path with higher precedence than the machine-wide
+      ``~/.artmind/config.env`` — so seeding it here, into a vault, silently
+      shadows the real machine identity with those literal ollama/local
+      defaults the first time ``artmind setup`` runs there, and clobbers
+      ``ARTMIND_DATA_DIR`` to the shared default in the process, sending that
+      vault's ingest output to ``~/artmind_data`` instead of
+      ``<vault>/.artmind/data``.
+    - ``.claude/skills/``: a vault's skills live at ``<vault>/.claude/skills/``
+      (``VaultLayout.skills_dir``, symlinked by ``scaffold_vault``/``init``) —
+      NOT ``<vault>/.artmind/.claude/skills/``, which is where this function
+      would otherwise put them (``ARTMIND_HOME`` being the vault's
+      ``.artmind/``). Seeding here creates a second, un-symlinked copy at the
+      wrong path — one the vault's ``.gitignore`` (``.claude/skills/artmind-*``,
+      written relative to the vault root) does not match, so it gets
+      committed as vault content though it is a reproducible package asset.
+    - ``.opencode/``: not part of the vault model at all (docs/vault.md's
+      layout never mentions it) — it belongs at the true machine home only.
+
+    See ``docs/vault.md``.
     """
     run_env = ARTMIND_HOME / ".env"
     skills_dest = ARTMIND_HOME / ".claude" / "skills"
     opencode_dest = ARTMIND_HOME / ".opencode"
 
-    for directory in (
+    vault_dir = resolve_vault()
+    home_is_vault_resident = (
+        vault_dir is not None and ARTMIND_HOME == VaultLayout(vault_dir).artmind_dir
+    )
+
+    directories = [
         ARTMIND_HOME,
-        skills_dest,
-        opencode_dest,
         DOMAIN_SCHEMAS_DIR,
         LOGS_DIR,
         ARTMIND_DATA_DIR,
@@ -100,17 +135,29 @@ def scaffold_run_folder() -> dict:
         GRAPH_SNAPSHOT_DIR,
         STRUCTURED_DIR,
         STRUCTURED_SNAPSHOT_DIR,
-    ):
+    ]
+    if not home_is_vault_resident:
+        directories += [skills_dest, opencode_dest]
+    for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
 
     seeded_env = False
-    if not run_env.exists() and PACKAGE_ENV_EXAMPLE.is_file():
+    if (
+        not home_is_vault_resident
+        and not run_env.exists()
+        and PACKAGE_ENV_EXAMPLE.is_file()
+    ):
         shutil.copy2(PACKAGE_ENV_EXAMPLE, run_env)
         seeded_env = True
 
     # Package assets: always refreshed — the package is their source of truth.
-    skills_refreshed = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
-    opencode_refreshed = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
+    # (Skills/opencode skipped entirely when vault-resident, per the docstring.)
+    skills_refreshed = (
+        0 if home_is_vault_resident else _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
+    )
+    opencode_refreshed = (
+        0 if home_is_vault_resident else _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
+    )
     schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR, overwrite=True)
 
     # meta.yaml is a single file, not a tree -- seed it the same "package asset,
@@ -128,12 +175,159 @@ def scaffold_run_folder() -> dict:
     return {
         "run_folder": str(ARTMIND_HOME),
         "data_dir": str(ARTMIND_DATA_DIR),
-        "env": "seeded from template" if seeded_env else str(run_env),
+        "env": (
+            "seeded from template" if seeded_env
+            else "skipped (vault-resident; see ~/.artmind/config.env)" if home_is_vault_resident
+            else str(run_env)
+        ),
         "skills_refreshed": skills_refreshed,
         "schemas_copied": schemas_copied,
         "opencode_refreshed": opencode_refreshed,
         "meta_refreshed": meta_refreshed,
     }
+
+
+# Which schemas a NEW vault starts with. The `banking.*` family is a demo
+# corpus's schemas, not a default every knowledge base should inherit
+# (docs/vault.md, "Schemas").
+STARTER_SCHEMAS = ("general", "personal_journal")
+
+_STARTER_VAULT_YAML = """\
+# artmind ingest manifest (docs/vault.md).
+#
+# `mappings` does two jobs: it says which domain governs a path's extraction,
+# AND whether to ingest it at all. An unmapped path is never ingested -- so an
+# attachments folder needs no ignore rule, and an unmapped Inbox/ is a drafting
+# area where MOVING a note into a mapped folder is what says "this is ready".
+#
+# First match wins, so put a specific rule above a general one. Paths are globs
+# relative to the vault root; `**` matches any depth.
+#
+# Domain precedence, highest first:
+#   --setDomain  >  the file's own _domain frontmatter  >  a mapping  >  --domain
+ingest:
+  # manual | commit | schedule. Only `manual` acts today. Default manual:
+  # nobody should discover automatic LLM spend by surprise.
+  trigger: manual
+  mappings: []
+  #  - path: notes/**
+  #    domain: personal_journal
+  #  - path: scans/**
+  #    domain: general
+"""
+
+
+# A vault's own config holds ONLY what is scoped to this knowledge base
+# (docs/vault.md, "Machine-level config"). Deliberately NOT seeded from
+# `env.example`: that is the machine-level template, and its uncommented
+# `ARTMIND_DATA_DIR=~/artmind_data` would be loaded before paths.py's
+# vault-relative default, sending every new vault's data to one shared
+# directory -- precisely the coupling the vault model removes.
+_STARTER_CONFIG_ENV = """\
+# artmind — configuration for THIS vault. Gitignored: it holds a password.
+#
+# Shared identity (LLM provider, API keys, embedding + agent models) lives in
+# ~/.artmind/config.env and is inherited by every vault. Anything set here
+# overrides it, and a real environment variable overrides both.
+
+# ── this vault's graph ────────────────────────────────────────────────────────
+ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
+ARTMIND_KG_NEO4J_USERNAME=neo4j
+ARTMIND_KG_NEO4J_PASSWORD=
+ARTMIND_KG_NEO4J_DATABASE=neo4j
+
+# ── optional ──────────────────────────────────────────────────────────────────
+# Push the vault's git repo after artmind commits frontmatter. Leave unset if
+# something else (e.g. the Obsidian Git plugin) already owns pushing.
+# ARTMIND_VAULT_GIT_PUSH=1
+
+# Relocate derived data out of the vault. Only needed if the vault lives on a
+# sync service that would choke on KG staging and snapshots; the default is
+# <vault>/.artmind/data.
+# ARTMIND_DATA_DIR=/somewhere/else
+"""
+
+
+def scaffold_vault(root: Path) -> dict:
+    """Make `root` an artmind vault. Idempotent, and never destructive.
+
+    Package assets are seeded ONLY when absent. This inverts
+    `scaffold_run_folder`'s overwrite-always policy for schemas, which was safe
+    when one run folder was reseeded from the package but would now clobber
+    hand-authored vault schemas (docs/vault.md, "Schemas"). Skills keep their
+    always-current property a different way -- they are symlinked to the
+    installed copy rather than copied.
+    """
+    root = Path(root).expanduser().resolve()
+    layout = VaultLayout(root)
+
+    for directory in (
+        layout.artmind_dir, layout.domains_dir, layout.schemas_dir,
+        layout.data_dir, layout.kg_dir, layout.originals_dir, layout.chunks_dir,
+        layout.structured_dir, layout.snapshots_dir, layout.jobs_dir,
+        layout.refine_dir, layout.logs_dir, layout.skills_dir,
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    seeded_schemas: list[str] = []
+    for src in sorted(PACKAGE_SCHEMAS_DIR.glob("*_schema.yaml")):
+        name = src.name.removesuffix("_schema.yaml")
+        if name not in STARTER_SCHEMAS:
+            continue
+        dest = layout.schemas_dir / src.name
+        if not dest.exists():
+            shutil.copy2(src, dest)
+        seeded_schemas.append(name)
+
+    if PACKAGE_META_YAML.is_file() and not layout.meta_yaml.exists():
+        shutil.copy2(PACKAGE_META_YAML, layout.meta_yaml)
+
+    if not layout.config_env.exists():
+        layout.config_env.write_text(_STARTER_CONFIG_ENV, encoding="utf-8")
+        layout.config_env.chmod(0o600)
+
+    if not layout.vault_yaml.exists():
+        layout.vault_yaml.write_text(_STARTER_VAULT_YAML, encoding="utf-8")
+
+    linked = _symlink_skills(layout.skills_dir)
+    gitignore_written = write_gitignore(root)
+
+    return {
+        "vault": str(root),
+        "schemas": seeded_schemas,
+        "skills": linked,
+        "gitignore": gitignore_written,
+    }
+
+
+def _symlink_skills(dest: Path) -> list[str]:
+    """Symlink each packaged skill into the vault's `.claude/skills/`.
+
+    Symlinks rather than copies so an artmind upgrade reaches every vault with
+    no re-seeding and no N-copies-to-update problem -- the same pattern the
+    checkout already uses (see CLAUDE.md). Where symlinks are unavailable
+    (Windows without privileges, some sync services) fall back to a copy; the
+    cost is that upgrades then need an explicit refresh.
+    """
+    linked: list[str] = []
+    for src in sorted(PACKAGE_SKILLS_DIR.iterdir()):
+        if not src.is_dir():
+            continue
+        target = dest / src.name
+        if target.is_symlink() or target.exists():
+            if target.is_symlink() and target.resolve() == src.resolve():
+                linked.append(src.name)
+                continue
+            if target.is_symlink() or target.is_file():
+                target.unlink()
+            else:
+                shutil.rmtree(target)
+        try:
+            target.symlink_to(src, target_is_directory=True)
+        except OSError:
+            shutil.copytree(src, target)
+        linked.append(src.name)
+    return linked
 
 
 def _setup_neo4j(session, embedding_dim: int) -> None:

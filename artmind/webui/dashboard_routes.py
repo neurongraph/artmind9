@@ -258,6 +258,20 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         if not path.exists():
             raise HTTPException(status_code=400, detail=f"Path not found: {payload.path}")
         files = collect_ingest_files(path)
+        # The manifest says which paths are ingested at all (docs/vault.md,
+        # "an unmapped path is never ingested") -- shared with `ingest
+        # sync`/`async` so this surface can't silently bypass it.
+        from artmind.manifest import ManifestError, filter_for_ingest, validate_domains
+        from paths import ARTMIND_VAULT_DIR
+
+        try:
+            vault_manifest, files, _ = filter_for_ingest(ARTMIND_VAULT_DIR, path, files)
+            # A mapping naming a domain that does not exist fails per file at
+            # extraction, long after this route returned 200 and a job id. The
+            # CLI refuses up front; so does this.
+            validate_domains(vault_manifest, _get_available_domains())
+        except ManifestError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
         if not files:
             raise HTTPException(status_code=400, detail=f"No files found in {payload.path}")
         batch_files = [str(f.resolve()) for f in files]

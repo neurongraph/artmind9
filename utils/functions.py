@@ -9,21 +9,31 @@ import time
 from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
 from paths import (
-    ENV_FILE,
     LLM_CALLS_LOG_FILE,
 )
 
 # ── .env loader ─────────────────────────────────────────────────────
-def load_env(path: Path = ENV_FILE) -> dict[str, str | None]:
-    """Load .env file and return the parsed values as a dict.
+def load_env(path: Path | None = None) -> dict[str, str | None]:
+    """The effective configuration, merged across every file `paths` loaded.
 
-    Also populates ``os.environ`` so that ``os.getenv()`` works
-    transparently throughout the rest of the application.
+    `paths.py` loads the vault's `config.env`, then a legacy `.env`, then the
+    machine-wide `config.env`, each with ``override=False`` -- so ``os.environ``
+    already IS the merged view, with real environment variables beating all of
+    them. Returning it keeps the ~30 ``env.get("ARTMIND_...")`` call sites
+    correct under the machine/vault config split (docs/vault.md): a vault
+    `config.env` that sensibly holds only the graph connection must not hide the
+    machine's model settings, which used to happen silently -- callers fell back
+    to hardcoded defaults while ``os.environ`` held the right value.
+
+    Pass ``path`` to read one specific file instead, for a caller that genuinely
+    means a single file rather than the effective configuration.
     """
-    values = dotenv_values(path)
-    if values:
-        load_dotenv(path)
-    return values or {}
+    if path is not None:
+        values = dotenv_values(path)
+        if values:
+            load_dotenv(path)
+        return values or {}
+    return dict(os.environ)
 
 
 def resolve_llm_model(env: dict, override: str | None = None) -> str:
@@ -68,7 +78,21 @@ def run_command(
     timeout: int | None = None,
     cwd: Path | None = None,
     extra_env: dict | None = None,
+    expected_codes: "tuple[int, ...]" = (),
 ) -> tuple[int, str, str]:
+    """Run `cmd_str`, returning (returncode, stdout, stderr).
+
+    ``expected_codes`` names non-zero exits that are a normal outcome rather
+    than a failure, so they log at debug instead of error. Some tools use the
+    exit code as an *answer*: `git diff --cached --quiet` exits 1 to mean "yes,
+    there are staged changes", which is the success path for
+    `vault_git.commit_paths`, and `git rev-parse HEAD` exits 128 in a
+    freshly-`init`ed repo that has no commits yet -- the state `artmind init`
+    deliberately leaves a new vault in.
+
+    Logging those at ERROR is worse than noise: it teaches a reader to ignore
+    the level, and sends anyone debugging a real problem after a non-problem.
+    """
     logger.debug("CMD: {}", cmd_str)
     if timeout is not None:
         logger.debug("CMD timeout: {}s", timeout)
@@ -81,6 +105,8 @@ def run_command(
     elapsed = time.monotonic() - t0
     if result.returncode == 0:
         logger.debug("CMD ok in {:.1f}s", elapsed)
+    elif result.returncode in expected_codes:
+        logger.debug("CMD exited {} in {:.1f}s (expected)", result.returncode, elapsed)
     else:
         logger.error("CMD failed ({}) in {:.1f}s: {}", result.returncode, elapsed, result.stderr or result.stdout)
     stdout = _ANSI_ESCAPE.sub("", result.stdout)

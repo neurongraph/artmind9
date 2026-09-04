@@ -159,6 +159,65 @@ def _stage(tmp_path, **extra):
     return doc_kg_dir
 
 
+# ── summary["unembedded_chunk_ids"]: what _commit_document_tx surfaces ──────
+
+
+def _stage_with_chunks(tmp_path, chunks):
+    doc_kg_dir = _stage(tmp_path)
+    (doc_kg_dir / "chunks.json").write_text(json.dumps(chunks), encoding="utf-8")
+    return doc_kg_dir
+
+
+def test_only_the_still_unembedded_chunks_are_surfaced(tmp_path, monkeypatch):
+    """One chunk already has a vector (e.g. merged in from the sidecar by
+    `_load_staged`), one doesn't -- only the second's id should end up in
+    `summary["unembedded_chunk_ids"]`."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": [0.1, 0.2]},
+        {"id": "d1_002", "doc_id": "phys-1", "text": "no vector yet"},
+    ])
+
+    summary = ing._write_to_neo4j(doc_kg_dir, "banking")
+
+    assert summary["unembedded_chunk_ids"] == ["d1_002"]
+
+
+def test_no_unembedded_chunks_is_an_empty_list_not_missing(tmp_path, monkeypatch):
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": [0.1]},
+    ])
+
+    summary = ing._write_to_neo4j(doc_kg_dir, "banking")
+
+    assert summary["unembedded_chunk_ids"] == []
+
+
+def test_commit_to_graph_sweeps_exactly_the_chunks_the_tx_surfaced(tmp_path, monkeypatch):
+    """End-to-end (no mocking of `_write_to_neo4j` this time): a document with
+    one embedded and one unembedded chunk, committed via `commit_to_graph`,
+    must sweep only the unembedded one's id."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": [0.1]},
+        {"id": "d1_002", "doc_id": "phys-1", "text": "no vector yet"},
+    ])
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
+    )
+
+    assert ing.commit_to_graph(doc_kg_dir, "banking") is True
+    assert swept_chunks == [["d1_002"]]
+
+
 def test_the_prior_version_is_demoted_before_the_new_observations_land(tmp_path, monkeypatch):
     """Otherwise a re-commit would accrete onto the version it replaces."""
     order: list[str] = []
@@ -230,9 +289,65 @@ def test_the_embed_sweep_runs_after_the_commit_not_inside_it(tmp_path, monkeypat
     monkeypatch.setattr(
         ing, "_sweep_embeddings", lambda domain, keys: order.append("sweep") or 0
     )
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda chunk_ids: order.append("chunk_sweep") or 0
+    )
 
     assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
-    assert order == ["commit", "sweep"]
+    assert order == ["commit", "sweep", "chunk_sweep"]
+
+
+def test_the_chunk_sweep_is_scoped_to_this_commits_unembedded_chunk_ids(tmp_path, monkeypatch):
+    """Mirrors the entity sweep's `affected_keys` scoping — the chunk sweep
+    must receive exactly `summary["unembedded_chunk_ids"]`, not a full-graph
+    scan and not the entity keys."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain=None, defer_rebuild=False: {
+            "affected_keys": [("n", "C", "d")],
+            "unembedded_chunk_ids": ["d1_002"],
+        },
+    )
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
+    )
+
+    assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
+    assert swept_chunks == [["d1_002"]]
+
+
+def test_a_failing_chunk_sweep_does_not_fail_an_already_committed_write(tmp_path, monkeypatch):
+    """Same contract as the entity sweep: the commit already succeeded and the
+    graph is correct. A chunk that could not be embedded stays NULL and is
+    picked up by the next sweep. Exercises the real `_sweep_chunk_embeddings`
+    (not a mock of it) so its own internal try/except is what's under test —
+    mirrors `test_a_failing_embed_sweep_does_not_fail_an_already_committed_write`,
+    which patches the underlying `embed_missing_entity_embeddings`, not the
+    `_sweep_embeddings` wrapper around it."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain=None, defer_rebuild=False: {
+            "affected_keys": [], "unembedded_chunk_ids": ["d1_001"],
+        },
+    )
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+
+    import artmind.embed_sweep as embed_sweep
+
+    def boom(session, **kw):
+        raise RuntimeError("ollama is down")
+
+    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", boom)
+
+    assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
 
 
 def test_a_failing_embed_sweep_does_not_fail_an_already_committed_write(tmp_path, monkeypatch):
@@ -262,6 +377,10 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     swept: list = []
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: swept.append(keys) or 0)
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
+    )
 
     import artmind.projection as projection
     rebuilds: list = []
@@ -270,3 +389,196 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
     assert ing.commit_to_graph(_stage(tmp_path), "banking", defer_rebuild=True) is True
     assert rebuilds == [], "the rebuild is deferred to the end of the batch"
     assert swept == [], "so is the sweep — there is nothing fresh to embed yet"
+    assert swept_chunks == [], "the chunk sweep is gated the same way as the entity sweep"
+
+
+# ── _sweep_chunk_embeddings: two scoping modes ───────────────────────────────
+#
+# Closes the batch-ingest gap: `commit_to_graph`'s chunk sweep only fires on
+# the non-deferred path (scoped to `chunk_ids`); a multi-file batch defers
+# every per-document commit and relies on `rebuild_projection`'s own
+# domain-scoped sweep instead (below).
+
+
+def test_sweep_chunk_embeddings_short_circuits_with_neither_scope(monkeypatch):
+    """Nothing to scope to — a real no-op, must not even open a session."""
+    import artmind.graph_query as gq
+
+    def boom(*a, **k):
+        raise AssertionError("must not open a session when neither chunk_ids nor domain is given")
+
+    monkeypatch.setattr(gq, "neo4j_session", boom)
+
+    assert ing._sweep_chunk_embeddings() == 0
+    assert ing._sweep_chunk_embeddings(chunk_ids=[]) == 0
+    assert ing._sweep_chunk_embeddings(chunk_ids=None, domain=None) == 0
+
+
+def test_sweep_chunk_embeddings_domain_scope_passes_through(monkeypatch):
+    """`domain="general"` reaches `embed_missing_chunk_embeddings` as the
+    `domain` kwarg, with `chunk_ids` left `None` -- not silently dropped or
+    conflated with the id-scoping path."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+
+    import artmind.embed_sweep as embed_sweep
+
+    calls: list = []
+
+    def fake(session, **kw):
+        calls.append(kw)
+        return {"embedded": 3}
+
+    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", fake)
+
+    result = ing._sweep_chunk_embeddings(domain="general")
+
+    assert result == 3
+    assert calls == [{"chunk_ids": None, "domain": "general"}]
+
+
+# ── rebuild_projection: the domain-scoped chunk sweep ────────────────────────
+
+
+def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatch):
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+
+    import artmind.projection as projection
+
+    monkeypatch.setattr(projection, "full_rebuild", lambda tx, domains=None, **kw: {})
+    monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 7
+    )
+
+    summary = ing.rebuild_projection("general")
+
+    assert swept_chunks == [{"domain": "general"}]
+    assert summary["chunks_embedded"] == 7, (
+        "a dropped or mis-assigned summary['chunks_embedded'] = ... line must fail this test"
+    )
+
+
+def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatch):
+    """No `domain` — a multi-domain/global rebuild -- must skip the chunk
+    sweep entirely, mirroring how the entity sweep is already skipped in
+    that case."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+
+    import artmind.projection as projection
+
+    monkeypatch.setattr(projection, "full_rebuild", lambda tx, domains=None, **kw: {})
+    monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
+    swept_chunks: list = []
+    monkeypatch.setattr(
+        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 0
+    )
+
+    ing.rebuild_projection()
+
+    assert swept_chunks == [], "a global rebuild (domain=None) must not sweep chunks either"
+
+
+# ── a missing embedding must write NO "embedding" key, never "embedding": [] ─
+#
+# `_flatten_props` drops v == [] for every property; before this fix
+# `_commit_document_tx` special-cased "embedding" out of `_flatten_props`'s
+# input and always re-added it, defaulting to []. That meant a chunk with no
+# vector got `embedding: []` written -- a present, non-null value. In real
+# Neo4j, `[] IS NULL` is false, so `embed_missing_chunk_embeddings`'s
+# `WHERE c.embedding IS NULL` sweep query would never find it (a mocked
+# session can't catch this -- see CLAUDE.md's `update confirm` postmortem).
+# Worse: `_merge_relabeled` writes DocChunk with `SET n += $props`
+# (additive) when `replace=False`, so an always-present "embedding" key could
+# silently overwrite a real vector a prior sweep had already filled in.
+
+
+def _docchunk_merge_calls(session):
+    """Every `_merge_relabeled` call this commit made against :DocChunk,
+    as (cypher, kwargs) — the same query string carries both the CREATE and
+    the SET-existing branches, so this substring identifies it uniquely
+    (mirrors test_filing_metadata.py's `_RecordingSession` pattern)."""
+    return [(c, kw) for c, kw in session.calls if "CREATE (n:DocChunk" in c]
+
+
+def test_a_chunk_with_no_embedding_sends_no_embedding_key(tmp_path, monkeypatch):
+    """Regression test for the sweep-never-matches bug: the props dict sent
+    for a chunk with no vector must not contain "embedding" at all -- not
+    "embedding": []."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "no vector yet"},
+    ])
+
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+
+    calls = _docchunk_merge_calls(session)
+    assert calls, "expected a DocChunk MERGE"
+    _, kwargs = calls[0]
+    assert "embedding" not in kwargs["props"], (
+        f"a chunk with no vector must omit the 'embedding' key entirely, "
+        f"got props={kwargs['props']!r}"
+    )
+
+
+def test_a_chunk_with_a_real_embedding_still_writes_it_unchanged(tmp_path, monkeypatch):
+    """The other half of the fix: a genuine vector must still flow through
+    byte-for-byte -- `_neo4j_value` passes a list of plain floats through
+    unchanged, so folding "embedding" into `_flatten_props` must not touch it."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    vector = [0.1, 0.2, 0.3]
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": vector},
+    ])
+
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+
+    calls = _docchunk_merge_calls(session)
+    assert calls, "expected a DocChunk MERGE"
+    _, kwargs = calls[0]
+    assert kwargs["props"]["embedding"] == vector
+
+
+def test_a_re_commit_with_no_incoming_vector_cannot_clobber_a_prior_one(tmp_path, monkeypatch):
+    """Data-loss regression test: commit the same chunk id twice, first with a
+    real embedding, then (e.g. a metadata-only reingest with no local sidecar)
+    with none. `_merge_relabeled`'s DocChunk write is additive
+    (`SET n += $props`), so the only way the second commit cannot clobber the
+    first commit's vector is if its outgoing props dict has no "embedding" key
+    at all -- proven directly here, which is sufficient per CLAUDE.md's own
+    guidance (a mocked/recording session can't enforce real Neo4j `+=`
+    semantics, only what was actually sent)."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    vector = [0.4, 0.5, 0.6]
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": vector},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+    first_calls = _docchunk_merge_calls(session)
+    assert first_calls[-1][1]["props"]["embedding"] == vector
+
+    # Re-stage the identical chunk id, this time with no embedding at all
+    # (e.g. the sidecar was absent for this reingest run).
+    doc_kg_dir = _stage_with_chunks(tmp_path, [
+        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector"},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, "banking")
+    second_calls = _docchunk_merge_calls(session)
+
+    _, second_props = second_calls[-1]
+    assert "embedding" not in second_props["props"], (
+        "a re-commit with no incoming vector must send no 'embedding' key at "
+        "all -- SET n += $props only touches keys present in props, so this "
+        "is what prevents it from clobbering the vector the first commit wrote"
+    )

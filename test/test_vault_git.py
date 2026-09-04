@@ -88,45 +88,6 @@ def test_maybe_push_failure_is_swallowed_not_raised(vault, monkeypatch):
     vault_git.maybe_push()  # must not raise
 
 
-# ── move_path (Phase 5: derived-markdown promotion) ─────────────────────────
-
-
-def test_move_path_moves_a_tracked_file(vault):
-    old = vault / "_derived" / "banking" / "deck.md"
-    old.parent.mkdir(parents=True)
-    old.write_text("hello\n")
-    vault_git.commit_paths([old], "seed")
-
-    new = vault / "banking" / "deck.md"
-    assert vault_git.move_path(old, new) is True
-    assert not old.exists()
-    assert new.read_text() == "hello\n"
-
-
-def test_move_path_creates_destination_parent_dirs(vault):
-    old = vault / "a.md"
-    old.write_text("x\n")
-    vault_git.commit_paths([old], "seed")
-
-    new = vault / "brand" / "new" / "dir" / "a.md"
-    assert vault_git.move_path(old, new) is True
-    assert new.exists()
-
-
-def test_move_path_returns_false_when_no_vault_configured(monkeypatch, tmp_path):
-    monkeypatch.setattr(vault_git, "ARTMIND_VAULT_DIR", None)
-    old = tmp_path / "a.md"
-    old.write_text("x\n")
-    assert vault_git.move_path(old, tmp_path / "b.md") is False
-
-
-def test_move_path_returns_false_when_source_untracked(vault):
-    # Never committed -- git mv has nothing to move.
-    old = vault / "untracked.md"
-    old.write_text("x\n")
-    assert vault_git.move_path(old, vault / "elsewhere.md") is False
-
-
 # ── remove_paths (Phase 5: docs archive) ────────────────────────────────────
 
 
@@ -189,3 +150,56 @@ def test_is_dirty_none_when_not_a_git_repo(tmp_path, monkeypatch):
     v.mkdir()
     monkeypatch.setattr(vault_git, "ARTMIND_VAULT_DIR", v)
     assert vault_git.is_dirty() is None
+
+
+class TestExpectedExitCodesAreNotErrors:
+    """Two git commands answer with their exit status rather than failing.
+
+    Logging them at ERROR is worse than noise: a real ingest printed two
+    `CMD failed` lines while succeeding, which teaches a reader to ignore the
+    level and sends anyone debugging after a non-problem.
+    """
+
+    def test_no_commits_yet_is_not_logged_as_a_failure(self, tmp_path, monkeypatch):
+        """`artmind init` leaves a repo with no commits, so `git rev-parse HEAD`
+        exits 128 on the very first ingest into a new vault."""
+        import subprocess
+
+        import artmind.vault_git as vg
+
+        subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+        (tmp_path / ".artmind").mkdir()
+        monkeypatch.setattr(vg, "ARTMIND_VAULT_DIR", tmp_path)
+
+        seen = []
+        monkeypatch.setattr(vg, "run_command", _recording(seen, returncode=128))
+
+        assert vg.current_commit() is None
+        assert seen[-1]["expected_codes"] == (128,), (
+            "128 must be declared expected, or a new vault logs an ERROR on first ingest"
+        )
+
+    def test_having_changes_to_commit_is_not_logged_as_a_failure(self, tmp_path, monkeypatch):
+        """`git diff --cached --quiet` exits 1 to mean "yes, there are staged
+        changes" -- the success path for commit_paths."""
+        import artmind.vault_git as vg
+
+        seen = []
+        monkeypatch.setattr(vg, "_vault_root", lambda: tmp_path)
+        monkeypatch.setattr(vg, "run_command", _recording(seen, returncode=0))
+
+        vg.commit_paths([tmp_path / "note.md"], "msg")
+
+        diff_calls = [c for c in seen if "diff --cached" in c["cmd"]]
+        assert diff_calls, "the staged-changes check did not run"
+        assert diff_calls[0]["expected_codes"] == (1,), (
+            "1 is the success path here; declaring it expected is what stops the "
+            "ERROR line on every successful commit"
+        )
+
+
+def _recording(sink, returncode=0):
+    def _run(cmd_str, timeout=None, cwd=None, extra_env=None, expected_codes=()):
+        sink.append({"cmd": cmd_str, "expected_codes": expected_codes})
+        return returncode, "", ""
+    return _run

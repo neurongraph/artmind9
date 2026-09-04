@@ -14,16 +14,9 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind.db import _get_db
-from artmind.derived_markdown import (
-    decide as _decide_promotion,
-    derived_markdown_path,
-    is_promoted as _is_promoted,
-    markdown_was_edited as _markdown_was_edited,
-)
 from artmind.document_identity import (
     build_frontmatter,
     canonical_path,
-    compute_content_sha256,
     decide_version,
     markdown_path_for,
     mint_artmind_id,
@@ -34,7 +27,6 @@ from artmind.document_identity import (
 from artmind.setup import _setup_neo4j
 from artmind.vault_git import commit_paths as _vault_commit_paths
 from artmind.vault_git import current_commit as _vault_current_commit
-from artmind.vault_git import move_path as _vault_move_path
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -49,6 +41,7 @@ from artmind.extraction import (
 from artmind.canonicalize import canonicalize_document
 from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
+from artmind.structured import STRUCTURED_EXTENSIONS
 from paths import (
     ARTMIND_VAULT_DIR,
     DOMAIN_SCHEMAS_DIR,
@@ -67,22 +60,68 @@ IMAGE_EXTENSIONS = {
 }
 
 
+# What artmind can actually ingest. `ingest_file` routes every non-`.md` file
+# to docling, so without this an Obsidian vault's `.canvas` files (JSON) are
+# handed to a document converter that cannot read them, and its `.png`
+# attachments run through image description at full LLM cost merely for being
+# present. Unknown types are skipped by a directory walk and reported by the
+# caller -- never silently attempted.
+#
+# Derived from the sets that already define what each pipeline handles, so a
+# type added there cannot silently vanish from directory walks -- which is
+# exactly what happened to `.xlsm`, declared in STRUCTURED_EXTENSIONS but
+# missing from a hand-maintained copy of this list.
+DOCLING_SUFFIXES = frozenset({".pdf", ".pptx", ".docx"})
+SUPPORTED_SUFFIXES = (
+    frozenset({".md"})                  # vault-native markdown
+    | DOCLING_SUFFIXES                  # document conversion
+    | frozenset(STRUCTURED_EXTENSIONS)  # the structured store
+    | frozenset(IMAGE_EXTENSIONS)       # images, when a folder of them is mapped
+)
+
+# Directory names never walked, at any depth. `_Inbox` is a drafting area:
+# moving a note OUT of it is what marks the note ready, which needs no
+# configuration and no status field (docs/vault.md).
+NEVER_WALKED = frozenset({"_Inbox"})
+
+# Archives are never ingested. A snapshot is a copy of the graph, so ingesting
+# one would be circular; they are also excluded from git for the same reason.
+ARCHIVE_SUFFIXES = frozenset({".zip", ".tar", ".gz", ".tgz", ".bz2", ".7z", ".rar"})
+
+
+def is_supported(path: Path) -> bool:
+    """Can artmind ingest this file type at all?"""
+    return Path(path).suffix.lower() in SUPPORTED_SUFFIXES
+
+
 def collect_ingest_files(path: Path) -> list[Path]:
     """Resolve a file-or-directory ingest target to the sorted list of files to ingest.
 
-    A single file ingests as itself. A directory is walked recursively, skipping
-    any file under a dotfile/dot-directory (``.DS_Store``, ``.git/``, ``.venv/``,
-    etc.) — those are OS/tooling artifacts, never ingestion targets. Shared by
-    every ingestion entry point (CLI sync/async, the admin dashboard's ingest
-    endpoint) so they can't drift out of agreement on what "ingest a directory"
-    means.
+    A single file ingests as itself, whatever its type -- naming it is an
+    explicit request, and the caller reports an unsupported type rather than
+    the walk silently dropping it. A directory is walked recursively, skipping
+    any file under a dotfile/dot-directory (``.DS_Store``, ``.git/``,
+    ``.artmind/``, ``.obsidian/``), any file under a ``_Inbox/`` drafting area
+    (see ``NEVER_WALKED``) at any depth, any archive (see ``ARCHIVE_SUFFIXES``),
+    and any file whose type artmind cannot ingest (see ``SUPPORTED_SUFFIXES``).
+    The ``_Inbox`` exclusion also applies when the walk root itself is
+    ``_Inbox`` or sits somewhere inside it -- ``f.relative_to(path).parts``
+    alone can never see that, since it strips the root out of the parts it
+    yields.
     """
     if path.is_dir():
+        if any(p in NEVER_WALKED for p in path.resolve().parts):
+            return []
         return sorted(
             f for f in path.rglob("*")
             if f.is_file()
             and not any(p.startswith(".") for p in f.relative_to(path).parts)
+            and not any(p in NEVER_WALKED for p in f.relative_to(path).parts)
+            and f.suffix.lower() not in ARCHIVE_SUFFIXES
+            and is_supported(f)
         )
+    # A named file is an explicit request: return it and let the caller report
+    # why it cannot be ingested, rather than silently pretending it was absent.
     return [path]
 
 
@@ -301,19 +340,17 @@ def _register_document(
     identity continuity still runs entirely through Neo4j's `logical_id`
     lookup (`_resolve_doc_identity`) — this row exists only so `retry-job`
     has something to look up by path. For a vault-native source, or a
-    binary's derived/promoted markdown (`artmind/derived_markdown.py`,
-    `_ingest_binary_derived` — which does NOT register the original binary
-    itself, only its derived markdown; "has this binary been converted
-    before" is answered by the filesystem, not this registry, see that
-    function's docstring), ``artmind_id`` is the real identity and this row
-    *is* the path <-> id cache the resolution table reads.
+    binary's converted markdown (`_ingest_binary_derived`, which registers
+    the converted markdown at `MARKDOWNS_DIR / f"{stem}.md"`, not the
+    original binary), ``artmind_id`` is the real identity and this row *is*
+    the path <-> id cache the resolution table reads.
 
     ``content_sha256``, when given, is the caller's already-computed
-    body-only hash (`decide_version`'s `_content_sha256` for a vault-native
-    document, or the derived body's hash for a binary's derived markdown) —
-    the registry stores exactly that number, not a second, disagreeing one.
-    Omitted (a plain binary/tabular source with no separable body), this
-    falls back to a whole-file hash.
+    body-only hash (`decide_version`'s `_content_sha256`, for both a
+    vault-native document and a binary's converted markdown) — the registry
+    stores exactly that number, not a second, disagreeing one. Omitted (a
+    plain binary/tabular source with no separable body), this falls back to
+    a whole-file hash.
 
     No duplicate guard: re-ingesting a known identity is always a replace
     now (`--replace`/`--force` are gone), and a copied template with an
@@ -454,28 +491,60 @@ def _replace_image_ref(md_content: str, image_name: str, description: str) -> st
     return pattern.sub(lambda _: description, md_content)
 
 
+def _is_inside_vault(source: Path, vault_dir: "Path | None") -> bool:
+    """Does `source` already live in the vault? Decides whether artmind needs
+    to keep its own copy (docs/vault.md, "Where a document lands") — a
+    vault-resident source is never copied, since the vault copy IS the source
+    and git already versions it.
+    """
+    if vault_dir is None:
+        return False
+    try:
+        Path(source).resolve().relative_to(Path(vault_dir).resolve())
+    except (OSError, ValueError):
+        return False
+    return True
+
+
 def _is_vault_native_markdown(source: Path) -> bool:
     """A vault-native markdown source: authored in the vault, identified by
     frontmatter, never copied (Q96 — docs/stores-and-repos.md)."""
-    if source.suffix.lower() != ".md" or ARTMIND_VAULT_DIR is None:
-        return False
-    try:
-        source.resolve().relative_to(ARTMIND_VAULT_DIR)
-        return True
-    except ValueError:
-        return False
+    return source.suffix.lower() == ".md" and _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
 
-def _is_promotable_binary(source: Path) -> bool:
-    """A true binary source (pdf/pptx/docx, ...) with a vault configured to
-    mirror its derived markdown into — eligible for Phase 5 derived-markdown
-    promotion (docs/document-identity.md, "Derived-markdown promotion"). An
-    ad-hoc `.md` outside the vault is already markdown; there's no derived
-    copy of it to promote, so it stays on the pre-Phase-2 path-keyed flow.
-    Without a vault configured there's nowhere to mirror derived output into
-    either, so binaries fall back to the same pre-Phase-2 flow in that case.
+def _is_binary_source(source: Path) -> bool:
+    """A true binary source (pdf/pptx/docx, ...) with a vault configured —
+    routed to `_ingest_binary_derived`, which converts it and commits the
+    result into `.artmind/` (docs/vault.md, "The ownership rule"). An ad-hoc
+    `.md` outside the vault is already markdown, not something to convert, so
+    it stays on the pre-Phase-2 path-keyed flow (`_ingest_binary_or_adhoc`).
+    Without a vault configured there's no `.artmind/` to commit a conversion
+    into either, so binaries fall back to that same pre-Phase-2 flow in that
+    case too.
     """
     return source.suffix.lower() != ".md" and ARTMIND_VAULT_DIR is not None
+
+
+def external_copy_path(source: Path, vault_dir: Path) -> Path:
+    """Where a source from outside the vault is copied to.
+
+    Identity is the SOURCE PATH, not the filename: two different decks both
+    called `deck.pptx` are different documents, and same-path-changed-bytes is
+    a new version of one. Name-based identity is exactly the problem
+    `_artmind_id` was introduced to solve (docs/document-identity.md) and must
+    not creep back in here.
+
+    The path is hashed rather than mirrored so the destination is short, stable
+    and free of the source's directory structure — which may be absolute,
+    machine-specific, or contain characters the vault should not inherit.
+
+    Truncated to 12 hex chars (48 bits): a vault's external-source count is
+    realistically in the hundreds to low thousands, not billions, and at that
+    scale a 2**48-bucket space keeps collision odds negligible — nowhere near
+    the full 256-bit digest a security context would need.
+    """
+    digest = sha256(str(Path(source).resolve()).encode("utf-8")).hexdigest()[:12]
+    return Path(vault_dir) / "_external_docs" / digest / Path(source).name
 
 
 def ingest_file(
@@ -504,7 +573,7 @@ def ingest_file(
             source, domain=domain, job_id=job_id, chunk_size=chunk_size,
             set_domain=set_domain, fork=fork, adopt=adopt,
         )
-    if _is_promotable_binary(source):
+    if _is_binary_source(source):
         return _ingest_binary_derived(
             source, image_model, domain or "general", job_id, chunk_size,
             set_domain=set_domain,
@@ -632,10 +701,13 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
     describe any extracted images, and return the resulting markdown body.
 
     Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
-    side effect (unchanged from the pre-Phase-5 shape other code may still
-    read that path for) and also returns it directly, since Phase 5's
-    derived-markdown promotion writes the same body into the vault instead of
-    (or in addition to) that data-dir copy.
+    side effect of the docling invocation itself, and also returns it
+    directly — the one caller that matters, `_ingest_binary_derived`, wants
+    that same body in hand so it can immediately overwrite that exact path
+    again with frontmatter attached (`write_document`), rather than write
+    once and re-read. There is no separate vault-vs-data-dir copy to keep in
+    sync: `registered_path` in `_ingest_binary_derived` IS this function's
+    `md_file`.
 
     Returns `(body, {})` on success, or `(None, {"status": ..., "error": ...})`
     on failure — the caller merges the error dict into its own `file_result`.
@@ -724,12 +796,42 @@ def _ingest_binary_or_adhoc(
     # lookup (`_resolve_doc_identity`); the SQLite row _register_document
     # writes below is bookkeeping, not identity.
     logical_id = _logical_id(domain, _canonical_key(source, domain))
-    dest_filename = source.name
 
-    ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
-    dest_path = ORIGINALS_DIR / dest_filename
-    shutil.copy2(source, dest_path)
-    logger.debug("Copied original to: {}", dest_path)
+    if _is_inside_vault(source, ARTMIND_VAULT_DIR):
+        # The vault copy IS the source, and git already versions it. In
+        # practice this function never actually sees a vault-resident source
+        # -- `ingest_file`'s dispatch routes a vault-native `.md` to
+        # `_ingest_vault_native` and a binary with a vault configured to
+        # `_ingest_binary_derived` before this function is ever reached (see
+        # `_is_vault_native_markdown`/`_is_binary_source`) -- but the
+        # guard costs nothing and keeps this function correct on its own if
+        # that dispatch ever changes.
+        #
+        # Resolved to an absolute path, not left as whatever `source` was
+        # handed in as (often relative, e.g. from `ingest sync .`'s
+        # directory walk): `_convert_binary_via_docling` always runs docling
+        # with `cwd=PROJECT_ROOT`, a fixed directory unrelated to the vault,
+        # so a relative `dest_path` would resolve against the wrong base and
+        # docling would report the file as missing.
+        dest_path = source.resolve()
+    elif ARTMIND_VAULT_DIR is not None:
+        # A vault exists but this source lives outside it -- the only way to
+        # reach this function with a vault configured is an ad-hoc `.md`
+        # (see `_is_binary_source`). Land it under the vault's
+        # `_external_docs/`, under path identity (docs/vault.md, "Where a
+        # document lands").
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, dest_path)
+        logger.debug("Copied original to: {}", dest_path)
+    else:
+        # No vault configured at all -- there is nowhere to put
+        # `_external_docs/`. Preserve the pre-vault flow: a plain data-dir
+        # copy, keyed by filename as it always was.
+        ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
+        dest_path = ORIGINALS_DIR / source.name
+        shutil.copy2(source, dest_path)
+        logger.debug("Copied original to: {}", dest_path)
 
     MARKDOWNS_DIR.mkdir(parents=True, exist_ok=True)
     if job_id:
@@ -757,7 +859,7 @@ def _ingest_binary_or_adhoc(
     logger.info(
         "── Ingest done in {:.1f}s: {} registered in domain '{}'",
         elapsed_total,
-        dest_filename,
+        dest_path.name,
         domain,
     )
 
@@ -788,43 +890,35 @@ def _ingest_binary_derived(
     *,
     set_domain: str | None = None,
 ) -> dict:
-    """Ingest a true binary source (pdf/pptx/docx) whose derived markdown is
-    mirrored into the vault (docs/document-identity.md, "Derived-markdown
-    promotion"; docs/redesign-phase-plan.md, Phase 5 "D"). Extends
-    `_artmind_id` to binary sources: the derived document IS the graph's
-    `Document.id` from here on (`file_result["artmind_id"]`, read by the
-    extraction entry point the same way a vault-native document already is)
-    — one identity, not the old two-tier logical_id/physical-id scheme
-    `_ingest_binary_or_adhoc` still uses for an ad-hoc `.md` or a vault-less
-    install.
+    """Ingest a true binary source (pdf/pptx/docx): convert it via docling and
+    store the result permanently at `.artmind`'s own markdown store (docs/
+    vault.md, "The ownership rule"). Extends `_artmind_id` to binary sources:
+    the converted document IS the graph's `Document.id` from here on
+    (`file_result["artmind_id"]`, read by the extraction entry point the same
+    way a vault-native document already is) — one identity, not the old
+    two-tier logical_id/physical-id scheme `_ingest_binary_or_adhoc` still
+    uses for an ad-hoc `.md` or a vault-less install.
 
-    Every ingest of the same original (matched by domain+filename, unchanged
-    in spirit from Phase 2's `_canonical_key` — a binary source stays
-    path-keyed, per docs/document-identity.md's "sources that cannot carry
-    frontmatter" table) runs the 2x2 from the spec:
+    Under the ownership rule nobody edits `.artmind/`, so there is no
+    promotion, no `_derived/` folder, and no markdown-edit detection: the
+    converted markdown lives at ONE location for its whole life,
+    `MARKDOWNS_DIR / f"{stem}.md"` — the same flat, non-domain-scoped
+    convention `_ingest_binary_or_adhoc` already uses for its own markdown
+    writes. The only decision left is `no_op` vs `convert`: the incoming
+    binary's hash (`_compute_sha256(source)`) is compared against
+    `_source_sha256`, a fingerprint recorded in that markdown's own
+    frontmatter the last time it was converted. Whether the resulting
+    document body actually changed (and therefore whether `_version` bumps)
+    is decided the usual way, by `decide_version` against the file's own
+    `_content_sha256` — the same mechanism `_ingest_vault_native` uses.
 
-        markdown edited?  binary changed?  -> action
-        no                no               -> no_op
-        no                yes              -> convert (reconvert, safe)
-        yes               no               -> promote (stop deriving it)
-        yes               yes              -> collision (refuse, report both)
-
-    A prior derived document that was already promoted refuses reconversion
-    outright, before this 2x2 ever runs — see docs/document-identity.md's
-    promote table, "re-converting the binary: refused".
-
-    "Has this binary been converted before" is answered by the FILESYSTEM,
-    at two deterministic, domain+stem-scoped locations — not the registry.
-    Promotion's whole point is to move the file out of `_derived/`, so
-    `_derived/<domain>/<stem>.md` existing means "not yet promoted" and NOT
-    existing does not mean "never converted"; the second location,
-    `<domain>/<stem>.md`, is where promotion moves it to (this module's own
-    choice of target — docs/document-identity.md specifies the promotion but
-    not a destination folder). Both are scoped by `domain`, so re-ingesting
-    under a genuinely different domain without `--setDomain` reads as a
-    fresh document, the same limitation `_ingest_vault_native` accepts for
-    `--domain` before a file's own frontmatter can be consulted — except a
-    binary has no frontmatter to consult until AFTER this lookup finds it.
+    Matched by domain+filename, unchanged in spirit from Phase 2's
+    `_canonical_key` — a binary source stays path-keyed, per docs/document-
+    identity.md's "sources that cannot carry frontmatter" table. Re-ingesting
+    under a genuinely different domain without `--setDomain` therefore reads
+    as a fresh document, the same limitation `_ingest_vault_native` accepts
+    for `--domain` before a file's own frontmatter can be consulted — except
+    a binary has no frontmatter to consult until AFTER conversion.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -835,8 +929,7 @@ def _ingest_binary_derived(
 
     stem = source.stem
     effective_domain = set_domain or domain
-    dest_path = ORIGINALS_DIR / source.name
-    orig_registry_path = canonical_path(dest_path)
+    source_is_vault_resident = _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
     if job_id:
         _update_job_file_status(
@@ -844,162 +937,79 @@ def _ingest_binary_derived(
             current_step="ingest_file", started_at=datetime.now().isoformat(),
         )
 
-    # Compare against the PRIOR run's data-dir copy before it's overwritten --
-    # `dest_path` already persists "the last original we saw" with no
-    # registry round-trip needed. Absent (first-ever ingest of this
-    # filename+domain) is not "changed", it's handled by `current_path is
-    # None` below instead.
-    binary_changed = dest_path.exists() and _compute_sha256(dest_path) != _compute_sha256(source)
-
-    ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(source, dest_path)
-    logger.debug("Copied original to: {}", dest_path)
-
-    derived_path = derived_markdown_path(ARTMIND_VAULT_DIR, effective_domain, stem)
-    promoted_path_guess = ARTMIND_VAULT_DIR / effective_domain / f"{stem}.md"
-
-    existing_meta: dict = {}
-    existing_body = ""
-    current_path: Path | None = None
-    already_promoted = False
-    if derived_path.exists():
-        current_path = derived_path
-        existing_meta, existing_body = _parse_md_frontmatter(derived_path.read_text(encoding="utf-8"))
-    elif promoted_path_guess.exists():
-        candidate_meta, candidate_body = _parse_md_frontmatter(
-            promoted_path_guess.read_text(encoding="utf-8")
-        )
-        if _is_promoted(candidate_meta):
-            current_path, existing_meta, existing_body = promoted_path_guess, candidate_meta, candidate_body
-            already_promoted = True
-        # else: an unrelated hand-authored document happens to occupy this
-        # domain+stem path -- treated as "never converted" (a fresh
-        # conversion below); a later promotion attempt would then fail loudly
-        # (git mv refuses to overwrite a tracked file) rather than clobber it.
-
-    if already_promoted:
-        file_result["error"] = (
-            f"{stem!r} was already promoted to vault-native at {current_path} "
-            "-- reconverting the binary is refused (docs/document-identity.md, "
-            '"Derived-markdown promotion"). Ingest that file directly instead.'
-        )
-        file_result["promoted_path"] = str(current_path)
-        logger.warning(file_result["error"])
-        return file_result
-
-    if current_path is None:
-        action = "convert"
+    if source_is_vault_resident:
+        # The vault copy IS the source, and git already versions it.
+        #
+        # Resolved to an absolute path, not left as whatever `source` was
+        # handed in as (often relative, e.g. from `ingest sync .`'s
+        # directory walk): `_convert_binary_via_docling` always runs docling
+        # with `cwd=PROJECT_ROOT`, a fixed directory unrelated to the vault,
+        # so a relative `dest_path` would resolve against the wrong base and
+        # docling would report the file as missing.
+        dest_path = source.resolve()
     else:
-        markdown_edited = _markdown_was_edited(existing_body, existing_meta.get("_derived_sha256"))
-        action = _decide_promotion(
-            markdown_edited=markdown_edited, binary_changed=binary_changed
-        ).action
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, dest_path)
+        logger.debug("Copied original to: {}", dest_path)
 
-    if action == "collision":
-        file_result["error"] = (
-            f"{stem!r}: both the original binary and its derived markdown "
-            f"({current_path}) changed since the last ingest -- "
-            "artmind will not guess which side wins (docs/document-identity.md, "
-            '"Derived-markdown promotion", collision). Resolve by hand: either '
-            "revert the markdown edit and re-ingest the binary, or promote the "
-            "markdown manually and discard the new binary."
+    orig_registry_path = canonical_path(dest_path)
+    source_sha256 = _compute_sha256(source)
+
+    registered_path = MARKDOWNS_DIR / f"{stem}.md"
+    existing_meta: dict = {}
+    if registered_path.exists():
+        existing_meta, _ = _parse_md_frontmatter(
+            registered_path.read_text(encoding="utf-8")
         )
-        logger.warning(file_result["error"])
-        return file_result
 
-    if action == "no_op":
+    if existing_meta and existing_meta.get("_source_sha256") == source_sha256:
         file_result["status"] = "ok"
         file_result["domain"] = effective_domain
         file_result["artmind_id"] = existing_meta.get("_artmind_id")
         file_result["version"] = int(existing_meta.get("_version") or 1)
-        file_result["registered_path"] = str(current_path)
+        file_result["registered_path"] = str(registered_path)
         file_result["tier"] = "no_op"
         file_result["chunk_count"] = 0
         logger.info(
-            "── Ingest done in {:.1f}s: {} (no_op — neither the binary nor its "
-            "derived markdown changed)", time.monotonic() - t_file_start, source.name,
+            "── Ingest done in {:.1f}s: {} (no_op — binary unchanged)",
+            time.monotonic() - t_file_start, source.name,
         )
         return file_result
 
-    promoted = False
-    if action == "promote":
-        promoted_path = promoted_path_guess
-        if not _vault_move_path(current_path, promoted_path):
-            file_result["error"] = (
-                f"promotion of {current_path} to {promoted_path} failed "
-                "(git mv) — see log"
-            )
-            return file_result
+    body, err = _convert_binary_via_docling(dest_path, image_model)
+    if body is None:
+        file_result.update(err)
+        return file_result
 
-        version_decision = decide_version(existing_body, existing_meta)
-        promoted_meta = build_frontmatter(
-            existing_meta,
-            artmind_id=existing_meta["_artmind_id"],
-            version=version_decision.version,
-            content_sha256=version_decision.content_sha256,
-            domain=effective_domain,
-            source_commit=_vault_current_commit(),
-            source_path=existing_meta.get("_source_path") or orig_registry_path,
-            source_type="md",
-            ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
-            body=existing_body,
-        )
-        promoted_meta.pop("_derived_sha256", None)
-        write_document(promoted_path, promoted_meta, existing_body)
-        _vault_commit_paths(
-            [promoted_path],
-            f"artmind: promote {stem} to vault-native "
-            f"(was derived from {existing_meta.get('_source_type', 'a binary source')})",
-        )
-        logger.warning(
-            "Promoted {} to vault-native at {} — a human edited the derived "
-            "markdown; artmind will no longer reconvert the original binary "
-            "for this document.", stem, promoted_path,
-        )
+    artmind_id = existing_meta.get("_artmind_id") or mint_artmind_id()
+    version_decision = decide_version(body, existing_meta)
 
-        registered_path = promoted_path
-        body = existing_body
-        artmind_id = existing_meta["_artmind_id"]
-        version = version_decision.version
-        promoted = True
-    else:  # "convert" — first-ever conversion, or the binary changed and the markdown didn't
-        body, err = _convert_binary_via_docling(dest_path, image_model)
-        if body is None:
-            file_result.update(err)
-            return file_result
+    MARKDOWNS_DIR.mkdir(parents=True, exist_ok=True)
+    new_meta = build_frontmatter(
+        existing_meta,
+        artmind_id=artmind_id,
+        version=version_decision.version,
+        content_sha256=version_decision.content_sha256,
+        domain=effective_domain,
+        source_commit=_vault_current_commit(),
+        source_path=orig_registry_path,
+        source_type=source.suffix.lstrip(".").lower(),
+        ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
+        body=body,
+    )
+    new_meta["_source_sha256"] = source_sha256
+    write_document(registered_path, new_meta, body)
+    _vault_commit_paths(
+        [registered_path],
+        f"artmind: {'convert' if not existing_meta else 'reconvert'} "
+        f"{stem} ({effective_domain})",
+    )
 
-        new_derived_sha256 = compute_content_sha256(body)
-        artmind_id = existing_meta.get("_artmind_id") or mint_artmind_id()
-        if current_path is None:
-            version = 1
-        elif new_derived_sha256 == existing_meta.get("_derived_sha256"):
-            version = int(existing_meta.get("_version") or 1)
-        else:
-            version = int(existing_meta.get("_version") or 1) + 1
-
-        registered_path = derived_path
-        registered_path.parent.mkdir(parents=True, exist_ok=True)
-        new_meta = build_frontmatter(
-            existing_meta,
-            artmind_id=artmind_id,
-            version=version,
-            content_sha256=compute_content_sha256(body),
-            domain=effective_domain,
-            source_commit=_vault_current_commit(),
-            source_path=orig_registry_path,
-            source_type=source.suffix.lstrip(".").lower(),
-            ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
-            body=body,
-        )
-        new_meta["_derived_sha256"] = new_derived_sha256
-        write_document(registered_path, new_meta, body)
-        _vault_commit_paths(
-            [registered_path],
-            f"artmind: {'convert' if current_path is None else 'reconvert'} "
-            f"{stem} ({effective_domain})",
-        )
-
-    _register_document(effective_domain, registered_path, artmind_id, content_sha256=compute_content_sha256(body))
+    _register_document(
+        effective_domain, registered_path, artmind_id,
+        content_sha256=version_decision.content_sha256,
+    )
 
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
@@ -1010,18 +1020,15 @@ def _ingest_binary_derived(
     file_result["status"] = "ok"
     file_result["domain"] = effective_domain
     file_result["artmind_id"] = artmind_id
-    file_result["version"] = version
+    file_result["version"] = version_decision.version
     file_result["sha256"] = _compute_sha256(registered_path)
     file_result["registered_path"] = str(registered_path)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
-    if promoted:
-        file_result["promoted"] = True
-        file_result["promoted_to"] = str(registered_path)
 
     logger.info(
-        "── Ingest done in {:.1f}s: {} ({}, v{}) — {} chunk(s)",
-        elapsed_total, source.name, action, version, len(chunks),
+        "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
+        elapsed_total, source.name, version_decision.version, len(chunks),
     )
     return file_result
 
@@ -1332,6 +1339,56 @@ def _flatten_props(props: dict) -> dict:
             continue
         result[k] = flattened
     return result
+
+
+def strip_embeddings(chunk: dict) -> dict:
+    """A copy of `chunk` with its vector removed, for persisting to disk.
+
+    An embedding is a pure function of (text, embedding model) -- derived,
+    deterministic, and free to recompute locally. KG staging is committed to
+    git (docs/vault.md), and a vector changes completely when one word of its
+    text changes, so it cannot be delta-compressed: ten versions of one
+    chunks.json cost 60 KB of git objects with embeddings and 20 KB without.
+
+    Returns a copy so the in-memory chunk keeps its vector -- the same run
+    still writes it to the graph.
+    """
+    if "embedding" not in chunk:
+        return chunk
+    return {k: v for k, v in chunk.items() if k != "embedding"}
+
+
+EMBEDDING_SIDECAR = "embeddings.json"
+
+
+def write_embedding_sidecar(doc_kg_dir: Path, chunks: list[dict]) -> int:
+    """Persist chunk vectors beside the staging, gitignored.
+
+    Staging is committed and vectors cannot be delta-compressed, so they are
+    stripped from it (see `strip_embeddings`) -- but discarding them outright
+    would make every ingest embed twice, since the graph write re-reads the
+    chunk JSON from disk. The sidecar keeps the local copy without putting it
+    in git.
+
+    `chunks` here is keyed `"chunk_id"` (matching what `read_embedding_sidecar`
+    hands back and what lands in `embeddings.json`) -- not `"id"`, which is
+    what a staged `chunks.json` entry uses for the same identifier. See the
+    note in `_load_staged` for why that distinction matters.
+    """
+    vectors = {c["chunk_id"]: c["embedding"] for c in chunks if c.get("embedding")}
+    if not vectors:
+        return 0
+    (doc_kg_dir / EMBEDDING_SIDECAR).write_text(json.dumps(vectors), encoding="utf-8")
+    return len(vectors)
+
+
+def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
+    """Locally-cached vectors, or `{}`. Absent is the normal state after a
+    fresh clone, never an error."""
+    try:
+        return json.loads((doc_kg_dir / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
 
 
 
@@ -1876,6 +1933,14 @@ def extract_kg(
 
     _init_chunk_rows(doc_sha256, doc_id, chunk_count)
 
+    # Embeddings never land in the per-chunk JSON on disk (see strip_embeddings
+    # below) -- a sidecar, gitignored, is the only place a vector persists.
+    # Read it once so a resumed run doesn't pay for a re-embed of a chunk it
+    # already has a vector for, and accumulate this run's vectors here so
+    # they can be written back out once, alongside chunks.json.
+    embedding_sidecar = read_embedding_sidecar(doc_kg_dir)
+    computed_embeddings: dict[str, list] = {}
+
     def _process_chunk(seq: int, chunk_file: Path, statuses: dict) -> None:
         chunk_text = chunk_file.read_text(encoding="utf-8")
         chunk_id = f"{doc_id}_{seq:03d}"
@@ -1890,13 +1955,23 @@ def extract_kg(
             except Exception:
                 pass
 
-        # Embedding — compute once and persist
+        # Embedding — compute once and persist (to the sidecar, not the chunk
+        # JSON: see strip_embeddings). A vector already in the sidecar from a
+        # prior run of this same document is reused rather than recomputed.
+        if "embedding" not in data and chunk_id in embedding_sidecar:
+            data["embedding"] = embedding_sidecar[chunk_id]
         if "embedding" not in data:
             try:
                 data["embedding"] = _embed_text(embed_model, chunk_text)
             except Exception as e:
                 logger.error("  Embedding failed for chunk {}: {}", seq, e)
                 data["embedding"] = []
+        if data["embedding"]:
+            # Keyed by chunk_id (e.g. "d1_001") -- the same identifier a
+            # staged chunks.json entry carries under the key "id" (see
+            # _load_staged's merge). Two literal key names, one identifier;
+            # write_embedding_sidecar and _load_staged must agree on this.
+            computed_embeddings[chunk_id] = data["embedding"]
 
         data.setdefault("chunk_seq", seq)
         data.setdefault("chunk_id", chunk_id)
@@ -2003,7 +2078,10 @@ def extract_kg(
             data.setdefault("relationships", [])
             _update_chunk_step(doc_sha256, seq, "relationships", "skipped")
 
-        chunk_json.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        chunk_json.write_text(
+            json.dumps(strip_embeddings(data), indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
 
     # ── first pass ────────────────────────────────────────────────────────────
     statuses = _get_chunk_statuses(doc_sha256)
@@ -2178,11 +2256,20 @@ def extract_kg(
         (doc_kg_dir / filename).write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
 
     _write_json("document.json", document)
-    _write_json("chunks.json", all_chunks)
+    _write_json("chunks.json", [strip_embeddings(c) for c in all_chunks])
     _write_json("entities.json", all_entities)
     _write_json("properties.json", all_properties)
     _write_json("relationships.json", all_relationships)
     _write_json("observations.json", all_observations)
+
+    # Vectors move to a gitignored sidecar rather than vanishing: chunks.json
+    # above is what git tracks (and cannot delta a changed vector against),
+    # while the sidecar keeps this run's embeddings available locally so the
+    # graph write below doesn't have to recompute them.
+    sidecar_written = write_embedding_sidecar(
+        doc_kg_dir,
+        [{"chunk_id": cid, "embedding": emb} for cid, emb in computed_embeddings.items()],
+    )
 
     elapsed = time.monotonic() - t0
     final_statuses = _get_chunk_statuses(doc_sha256)
@@ -2192,7 +2279,7 @@ def extract_kg(
     )
     logger.info(
         "KG extraction done in {:.1f}s | chunks={} entities={} observations={} "
-        "properties={} relationships={} | chunks_with_failures={}",
+        "properties={} relationships={} | chunks_with_failures={} | embeddings_cached={}",
         elapsed,
         chunk_count,
         len(all_entities),
@@ -2200,6 +2287,7 @@ def extract_kg(
         len(all_properties),
         len(all_relationships),
         failed_count,
+        sidecar_written,
     )
     return doc_kg_dir
 
@@ -2461,8 +2549,20 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    duplicate under :Document — see _merge_relabeled.
     _merge_relabeled(tx, "Document", "DocumentHistory", doc_id, _flatten_props(document), replace=False)
     for chunk in staged["chunks"]:
-        chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
-        chunk_props["embedding"] = chunk.get("embedding", [])
+        # `embedding` flows through `_flatten_props` like every other chunk
+        # property (no more special-casing it out and re-adding it after).
+        # A chunk with no vector must end up with NO "embedding" key at all —
+        # not "embedding": [] — because Cypher's `[] IS NULL` is false, which
+        # is exactly what `embed_missing_chunk_embeddings`'s
+        # `WHERE c.embedding IS NULL` sweep query relies on to find it, and
+        # because `_merge_relabeled`'s `SET n += $props` is additive: an
+        # "embedding" key present with value [] would silently overwrite a
+        # real vector a prior commit already swept in. `_flatten_props`
+        # already drops `v == []` for every property, so simply not excluding
+        # "embedding" from its input is the whole fix. `_neo4j_value` passes a
+        # plain list of floats through unchanged, so a genuine vector is still
+        # written exactly as before.
+        chunk_props = _flatten_props(chunk)
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses
@@ -2480,6 +2580,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             doc_id=chunk["doc_id"],
         )
     summary["chunks"] = len(staged["chunks"])
+    summary["unembedded_chunk_ids"] = [
+        chunk["id"] for chunk in staged["chunks"] if not chunk.get("embedding")
+    ]
 
     # 4. Observations.
     observations = staged["observations"]
@@ -2535,7 +2638,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
 
 
 def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
-    """Read the staged JSON one document's commit needs."""
+    """Read the staged JSON one document's commit needs.
+
+    `chunks.json` carries no vectors (see `strip_embeddings`) -- the sidecar
+    beside it, if present, supplies them here so the graph write below still
+    gets a vector without recomputing it. A fresh clone has no sidecar, so
+    its chunks come back with none; a later sweep (Task 2) fills those in.
+    """
     def _load(name: str, default=None):
         path = doc_kg_dir / name
         if not path.exists():
@@ -2543,10 +2652,23 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
         return json.loads(path.read_text(encoding="utf-8"))
 
     try:
+        chunks = _load("chunks.json", [])
+        sidecar = read_embedding_sidecar(doc_kg_dir)
+        if sidecar:
+            # NOTE: a staged chunks.json entry keys its identifier "id", but
+            # the sidecar (see write_embedding_sidecar) keys it "chunk_id".
+            # Same value (e.g. "d1_001"), different literal key name per
+            # side -- tied together only by convention. A future rename on
+            # either side that misses the other fails silently here: the
+            # `in sidecar` check just never matches and no vector merges in,
+            # with no error raised.
+            for chunk in chunks:
+                if "embedding" not in chunk and chunk.get("id") in sidecar:
+                    chunk["embedding"] = sidecar[chunk["id"]]
         return {
             "domain": domain,
             "document": _load("document.json"),
-            "chunks": _load("chunks.json", []),
+            "chunks": chunks,
             "observations": _load("observations.json", []),
             "relationships": _load("relationships.json", []),
         }
@@ -2607,11 +2729,15 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
     warning — so a broken projection was indistinguishable from a healthy one.
     Now a projection failure fails the commit and nothing lands.
 
-    The **embed sweep** deliberately runs after the transaction has committed:
-    it calls the embedding service, which a transaction cannot do. It is
-    scoped to the keys this commit dirtied, and it never nulls an embedding —
-    an entity it cannot embed keeps its old vector and stays flagged for the
-    next sweep.
+    Two **embed sweeps** deliberately run after the transaction has committed:
+    they call the embedding service, which a transaction cannot do. The
+    entity sweep is scoped to the keys this commit dirtied, and it never
+    nulls an embedding — an entity it cannot embed keeps its old vector and
+    stays flagged for the next sweep. The chunk sweep is scoped the same
+    way, to the chunk ids this commit's own `staged["chunks"]` loop found
+    still missing a vector (`summary["unembedded_chunk_ids"]`) — not a
+    full-graph `:DocChunk` scan, which is what makes it safe to run
+    unconditionally on every commit instead of only from the CLI.
 
     `defer_rebuild` is the directory path: per-document observation writes,
     then one full rebuild at the end (see `rebuild_projection`).
@@ -2626,6 +2752,7 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
 
     if not defer_rebuild:
         _sweep_embeddings(domain, summary.get("affected_keys") or [])
+        _sweep_chunk_embeddings(summary.get("unembedded_chunk_ids") or [])
     return True
 
 
@@ -2654,12 +2781,63 @@ def _sweep_embeddings(domain: str, keys: list) -> int:
         return 0
 
 
+def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = None) -> int:
+    """Post-commit / post-rebuild chunk-embed sweep.
+
+    Two scoping modes, mirroring `_sweep_embeddings`'s own two callers:
+
+    - `chunk_ids` — the single-document commit path (`commit_to_graph`):
+      cheap because it only checks the handful of chunks this specific
+      document contributed, not the whole graph.
+    - `domain` — the deferred/batch rebuild path (`rebuild_projection`):
+      a directory ingest defers every per-document commit's sweep and runs
+      one domain-scoped sweep at the end instead, picking up any chunk in
+      that domain still missing a vector regardless of which document in
+      the batch wrote it.
+
+    A chunk missing a vector here is the normal state right after a fresh
+    clone (docs/vault.md, "Embeddings") — the sidecar didn't have it yet, or
+    this is a restore with no sidecar at all. Never fatal: the commit or
+    rebuild already succeeded and the graph is correct either way. A chunk
+    this sweep can't embed stays NULL and is picked up by the next
+    `ingest embed-chunks` / write-to-graph sweep, or the next commit or
+    rebuild that happens to touch it.
+
+    Neither scope given (`chunk_ids` falsy and `domain` `None`) is a real
+    no-op — nothing to scope to — and returns `0` without opening a session.
+    """
+    if not chunk_ids and not domain:
+        return 0
+    try:
+        from artmind.graph_query import neo4j_session
+        from artmind.embed_sweep import embed_missing_chunk_embeddings
+
+        with neo4j_session() as session:
+            return embed_missing_chunk_embeddings(
+                session, chunk_ids=chunk_ids, domain=domain
+            )["embedded"]
+    except Exception as e:
+        scope_desc = f"{len(chunk_ids)} chunk(s)" if chunk_ids else f"domain {domain!r}"
+        logger.warning(
+            "Chunk embed sweep skipped for {} ({}); they stay unembedded "
+            "and will be picked up by the next sweep", scope_desc, e,
+        )
+        return 0
+
+
 def rebuild_projection(domain: str | None = None, keys: list | None = None) -> dict:
     """Rebuild the projection outside an ingest — the deferred directory path,
     and the recovery path for drift.
 
-    A full rebuild when `keys` is omitted. The embed sweep follows, since a
-    rebuild leaves everything it touched flagged stale.
+    A full rebuild when `keys` is omitted. Two embed sweeps follow: the
+    entity sweep, because a rebuild leaves everything it touched flagged
+    stale; and the chunk sweep, because a batch ingest's per-document
+    `commit_to_graph` calls run with `defer_rebuild=True` and skip their own
+    chunk sweep specifically because it's deferred (see `commit_to_graph`) —
+    this domain-wide sweep is what recovers the chunks those deferred
+    commits left unembedded. Both sweeps only run `if domain:` — a global
+    rebuild across every domain (`domain=None`) skips both, the same
+    asymmetry the entity sweep already had before the chunk sweep existed.
     """
     from artmind import projection
     from artmind.graph_query import neo4j_session
@@ -2682,4 +2860,5 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
     if domain:
         summary["embedded"] = _sweep_embeddings(domain, swept_keys)
+        summary["chunks_embedded"] = _sweep_chunk_embeddings(domain=domain)
     return summary
