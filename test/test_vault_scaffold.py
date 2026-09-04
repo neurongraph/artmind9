@@ -276,3 +276,57 @@ def test_logs_and_runtime_state_are_not_committed(tmp_path):
 
     assert "x.log" not in status
     assert "state.json" not in status
+
+
+def test_symlinked_skills_are_actually_ignored_by_the_written_gitignore(tmp_path):
+    """`GITIGNORE_BLOCK`'s `.claude/skills/artmind-*` pattern is written
+    relative to the vault root and must match `VaultLayout.skills_dir`
+    (`<vault>/.claude/skills/`) exactly -- a plausible-looking pattern that is
+    off by one path segment (e.g. missing/extra a leading directory) silently
+    stops matching and the symlink gets committed as vault content, or worse,
+    `git add -A` follows it and commits the *installed package's* skill files
+    through it. Exercised against real git, not string-matched against the
+    pattern, so a rewritten pattern that merely looks plausible still gets
+    caught here."""
+    from artmind.setup import scaffold_vault
+
+    _init_repo(tmp_path)
+    scaffold_vault(tmp_path)
+    vault.write_gitignore(tmp_path)
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert ".claude/skills/artmind-query" not in status, status
+
+
+def test_scaffold_run_folder_does_not_plant_an_uningored_skills_copy_in_a_vault(tmp_path, monkeypatch):
+    """Regression: `artmind setup` (`scaffold_run_folder`, via `setup_all`)
+    used to seed a SECOND skills copy at `<vault>/.artmind/.claude/skills/`
+    (because `ARTMIND_HOME` is the vault's `.artmind/` when run inside one) --
+    a real, un-symlinked copy the gitignore pattern above does not reach
+    (that pattern is relative to the vault root, one level up from
+    `.artmind/`), so package-shipped skill files got committed as vault
+    content. `init` (`scaffold_vault`) alone must be the only thing that
+    seeds a vault's skills.
+
+    `resolve_vault()` walks up from the cwd, so this chdirs into the vault
+    for real rather than mocking it -- the same discovery path `artmind
+    setup` uses live."""
+    import artmind.setup as setup_mod
+    from artmind.setup import scaffold_vault
+
+    _init_repo(tmp_path)
+    scaffold_vault(tmp_path)
+    vault.write_gitignore(tmp_path)
+
+    home = vault.VaultLayout(tmp_path).artmind_dir
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(setup_mod, "ARTMIND_HOME", home)
+    setup_mod.scaffold_run_folder()
+
+    assert not (home / ".claude" / "skills").exists()
+    assert not (home / ".opencode").exists()
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+    assert ".artmind/.claude/skills" not in status, status
+    assert ".artmind/.opencode" not in status, status

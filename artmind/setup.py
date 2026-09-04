@@ -4,7 +4,7 @@ from pathlib import Path
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
 from artmind.schema_validate import validate_all_or_raise
-from artmind.vault import VaultLayout, write_gitignore
+from artmind.vault import VaultLayout, resolve_vault, write_gitignore
 from paths import (
     ARTMIND_DATA_DIR,
     ARTMIND_HOME,
@@ -82,15 +82,48 @@ def scaffold_run_folder() -> dict:
     Idempotent, but not inert: package assets (skills, opencode, domain schemas)
     are refreshed from the package on every run, while user data (``.env``) is
     only seeded when absent. See ``_seed_tree``.
+
+    The ``.env``, ``.claude/skills/`` and ``.opencode/`` seeds are all skipped
+    when ``ARTMIND_HOME`` is a *vault's* own ``.artmind/`` (i.e. this process
+    is running inside a vault, not the machine home) — each has a reason
+    specific to the vault model, not just belt-and-braces caution:
+
+    - ``.env``: ``env.example``'s uncommented defaults are machine-wide
+      (``ARTMIND_KG_LLM_PROVIDER=ollama``, ``ARTMIND_DATA_DIR=~/artmind_data``,
+      ...) — exactly what ``scaffold_vault``'s ``_STARTER_CONFIG_ENV`` docstring
+      already refuses to seed into a vault's ``config.env``, for the same
+      reason. But ``paths.py`` loads ``<home>/.env`` as the *legacy run
+      folder* path with higher precedence than the machine-wide
+      ``~/.artmind/config.env`` — so seeding it here, into a vault, silently
+      shadows the real machine identity with those literal ollama/local
+      defaults the first time ``artmind setup`` runs there, and clobbers
+      ``ARTMIND_DATA_DIR`` to the shared default in the process, sending that
+      vault's ingest output to ``~/artmind_data`` instead of
+      ``<vault>/.artmind/data``.
+    - ``.claude/skills/``: a vault's skills live at ``<vault>/.claude/skills/``
+      (``VaultLayout.skills_dir``, symlinked by ``scaffold_vault``/``init``) —
+      NOT ``<vault>/.artmind/.claude/skills/``, which is where this function
+      would otherwise put them (``ARTMIND_HOME`` being the vault's
+      ``.artmind/``). Seeding here creates a second, un-symlinked copy at the
+      wrong path — one the vault's ``.gitignore`` (``.claude/skills/artmind-*``,
+      written relative to the vault root) does not match, so it gets
+      committed as vault content though it is a reproducible package asset.
+    - ``.opencode/``: not part of the vault model at all (docs/vault.md's
+      layout never mentions it) — it belongs at the true machine home only.
+
+    See ``docs/vault.md``.
     """
     run_env = ARTMIND_HOME / ".env"
     skills_dest = ARTMIND_HOME / ".claude" / "skills"
     opencode_dest = ARTMIND_HOME / ".opencode"
 
-    for directory in (
+    vault_dir = resolve_vault()
+    home_is_vault_resident = (
+        vault_dir is not None and ARTMIND_HOME == VaultLayout(vault_dir).artmind_dir
+    )
+
+    directories = [
         ARTMIND_HOME,
-        skills_dest,
-        opencode_dest,
         DOMAIN_SCHEMAS_DIR,
         LOGS_DIR,
         ARTMIND_DATA_DIR,
@@ -102,17 +135,29 @@ def scaffold_run_folder() -> dict:
         GRAPH_SNAPSHOT_DIR,
         STRUCTURED_DIR,
         STRUCTURED_SNAPSHOT_DIR,
-    ):
+    ]
+    if not home_is_vault_resident:
+        directories += [skills_dest, opencode_dest]
+    for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
 
     seeded_env = False
-    if not run_env.exists() and PACKAGE_ENV_EXAMPLE.is_file():
+    if (
+        not home_is_vault_resident
+        and not run_env.exists()
+        and PACKAGE_ENV_EXAMPLE.is_file()
+    ):
         shutil.copy2(PACKAGE_ENV_EXAMPLE, run_env)
         seeded_env = True
 
     # Package assets: always refreshed — the package is their source of truth.
-    skills_refreshed = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
-    opencode_refreshed = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
+    # (Skills/opencode skipped entirely when vault-resident, per the docstring.)
+    skills_refreshed = (
+        0 if home_is_vault_resident else _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
+    )
+    opencode_refreshed = (
+        0 if home_is_vault_resident else _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
+    )
     schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR, overwrite=True)
 
     # meta.yaml is a single file, not a tree -- seed it the same "package asset,
@@ -130,7 +175,11 @@ def scaffold_run_folder() -> dict:
     return {
         "run_folder": str(ARTMIND_HOME),
         "data_dir": str(ARTMIND_DATA_DIR),
-        "env": "seeded from template" if seeded_env else str(run_env),
+        "env": (
+            "seeded from template" if seeded_env
+            else "skipped (vault-resident; see ~/.artmind/config.env)" if home_is_vault_resident
+            else str(run_env)
+        ),
         "skills_refreshed": skills_refreshed,
         "schemas_copied": schemas_copied,
         "opencode_refreshed": opencode_refreshed,
