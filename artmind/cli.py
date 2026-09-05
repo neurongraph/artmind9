@@ -3266,7 +3266,20 @@ def vault_status(compact: bool):
 
 @cli.command("init")
 @click.argument("directory", type=click.Path(file_okay=False), default=".")
-def init(directory: str):
+@click.option(
+    "--interactive", is_flag=True,
+    help="Prompt for this vault's Neo4j connection and a git remote instead "
+    "of writing placeholders. Off by default so `just dev-install` and other "
+    "automation invoking `artmind init` with nobody at the keyboard never "
+    "blocks on stdin.",
+)
+@click.option(
+    "--remote", "remote_url", default=None,
+    help="git remote URL (e.g. a GitHub repo) to configure as 'origin' for "
+    "this vault. Works with or without --interactive, and on an already-"
+    "initialised vault too (an existing 'origin' is left untouched either way).",
+)
+def init(directory: str, interactive: bool, remote_url: str | None):
     """Make DIRECTORY (default: the current one) an artmind vault.
 
     The vault is your Obsidian vault, your git repo and your artmind knowledge
@@ -3274,6 +3287,7 @@ def init(directory: str):
     lives in `.artmind/` inside it, and every command run from anywhere beneath
     it anchors here (docs/vault.md).
     """
+    from artmind import vault as vault_mod
     from artmind.setup import scaffold_vault
 
     root = Path(directory).expanduser().resolve()
@@ -3291,14 +3305,51 @@ def init(directory: str):
             raise click.ClickException(f"git init failed: {result.stderr.strip()}")
         git_initialised = True
 
+    # Only prompt for connection details the first time -- a config.env that
+    # already exists may hold hand-edited values (Aura credentials, a
+    # non-default database) that a re-run of `init` must never clobber, the
+    # same idempotence rule scaffold_vault already enforces for the file
+    # itself.
+    config_answers = None
+    config_is_fresh = not vault_mod.VaultLayout(root).config_env.exists()
+    if interactive and config_is_fresh:
+        click.echo("This vault's Neo4j connection (~/.artmind/config.env covers the shared\n"
+                    "LLM/embedding settings; this is just the graph this vault talks to):\n")
+        config_answers = {
+            "neo4j_uri": click.prompt("  Neo4j URI", default="neo4j://127.0.0.1:7687"),
+            "neo4j_username": click.prompt("  Neo4j username", default="neo4j"),
+            "neo4j_password": click.prompt(
+                "  Neo4j password", default="", show_default=False, hide_input=True
+            ),
+            "neo4j_database": click.prompt("  Neo4j database", default="neo4j"),
+            "git_push": click.confirm(
+                "  Push this vault's git repo after each ingest?", default=False
+            ),
+        }
+        click.echo()
+
+    if interactive and config_is_fresh and not remote_url:
+        remote_url = click.prompt(
+            "GitHub (or other) remote URL to push this vault to, blank to skip",
+            default="", show_default=False,
+        ).strip() or None
+        click.echo()
+
     try:
-        summary = scaffold_vault(root)
+        summary = scaffold_vault(root, config_answers=config_answers, git_remote=remote_url)
     except Exception as e:
         raise click.ClickException(str(e))
 
     click.echo(f"Vault:    {summary['vault']}")
     if git_initialised:
         click.echo("Git:      initialised")
+    git_remote_status = summary.get("git_remote")
+    if git_remote_status == "added":
+        click.echo(f"Remote:   origin -> {remote_url}")
+    elif git_remote_status == "exists":
+        click.echo("Remote:   origin already configured — left unchanged")
+    elif git_remote_status == "failed":
+        click.echo(f"Remote:   could not add {remote_url!r} (see logs)")
     click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
     click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
@@ -3327,7 +3378,8 @@ def init(directory: str):
         f"\nNext:\n"
         f"  $EDITOR {root / '.artmind' / 'config.env'}   # Neo4j connection\n"
         f"  artmind setup                                  # graph constraints + indexes\n"
-        f"  $EDITOR {root / '.artmind' / 'vault.yaml'}   # map folders to domains"
+        f"  $EDITOR {root / '.artmind' / 'vault.yaml'}   # map folders to domains\n"
+        f"  artmind ingest async .                         # ingest this vault's documents"
     )
 
 

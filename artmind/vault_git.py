@@ -125,6 +125,34 @@ def remove_paths(paths: list[Path], message: str) -> bool:
     return True
 
 
+def add_remote(root: Path, url: str, name: str = "origin") -> str:
+    """Configure a git remote for `root` (`artmind init --interactive`,
+    cli.py). Takes an explicit `root` rather than going through
+    `_vault_root()`/`ARTMIND_VAULT_DIR` like every other function here,
+    since this runs at scaffold time -- before `root` is necessarily the
+    process's resolved "active" vault.
+
+    Returns "added", "exists" (a `name` remote is already configured --
+    left alone rather than silently repointed at a different repo, in case
+    the user is re-running `init` against a vault that already has one),
+    or "failed" (not a git repo yet, or the git command itself errored).
+    Never raises -- configuring a remote is a courtesy on top of `artmind
+    init` succeeding, not a precondition for it.
+    """
+    root = Path(root)
+    if not (root / ".git").exists():
+        return "failed"
+    rc, out, _ = run_command("git remote", cwd=root)
+    if rc == 0 and name in out.split():
+        return "exists"
+    rc, out, err = run_command(f"git remote add {name} {url}", cwd=root)
+    if rc != 0:
+        logger.warning("vault_git: git remote add failed ({}): {}", rc, err or out)
+        return "failed"
+    logger.info("vault_git: added remote {} -> {}", name, url)
+    return "added"
+
+
 def maybe_push() -> None:
     """Push the vault's current branch, only when explicitly opted in via
     ARTMIND_VAULT_GIT_PUSH=1. Failures (no remote, offline, auth) log a
