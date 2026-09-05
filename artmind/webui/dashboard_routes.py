@@ -288,11 +288,15 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         job = _get_job_status(job_id)
         if job is None:
             raise HTTPException(status_code=404, detail=f"Job '{job_id}' not found")
-        file_result = _build_file_result_from_db(doc, job["domain"])
+        # Not job["domain"]: a manifest-driven batch resolves each file's
+        # domain individually (docs/vault.md), so the job's own stored domain
+        # is only ever a fallback and rarely names the domain THIS document
+        # landed under.
+        file_result = _build_file_result_from_db(doc, None)
         if file_result is None:
             raise HTTPException(
                 status_code=404,
-                detail=f"Document '{doc}' not found in registry for domain '{job['domain']}'",
+                detail=f"Document '{doc}' not found in registry",
             )
         return _camelize(_fetch_chunks(file_result["sha256"]))
 

@@ -273,6 +273,30 @@ def test_job_chunks_doc_not_registered(monkeypatch):
     assert response.status_code == 404
 
 
+def test_job_chunks_does_not_scope_the_lookup_to_the_jobs_own_domain(monkeypatch):
+    """Found live: a manifest-driven batch (docs/vault.md) resolves each
+    file's domain individually, so the job's own stored domain ('general'
+    here) rarely names the domain any given file actually landed under --
+    filtering the registry lookup on it made every file in the batch show
+    'not found in registry', in the admin console's per-file progress view."""
+    calls = []
+
+    def fake_lookup(doc, domain):
+        calls.append((doc, domain))
+        return {"sha256": "abc123"}
+
+    monkeypatch.setattr(dashboard_routes, "_get_job_status", lambda job_id: {"job_id": job_id, "domain": "general"})
+    monkeypatch.setattr(dashboard_routes, "_build_file_result_from_db", fake_lookup)
+    monkeypatch.setattr(dashboard_routes, "_fetch_chunks", lambda sha: [])
+
+    response = _client().get("/api/jobs/j1/chunks?doc=myfile.pdf")
+
+    assert response.status_code == 200
+    assert calls == [("myfile.pdf", None)], (
+        "must not pass the job's own domain -- it is only ever a fallback"
+    )
+
+
 def test_resume_extract_success(monkeypatch, tmp_path):
     monkeypatch.setattr(
         dashboard_routes,

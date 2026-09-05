@@ -939,9 +939,12 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
     job = _get_job_status(job_id)
     if job is None:
         raise click.ClickException(f"Job '{job_id}' not found")
-    file_result = _build_file_result_from_db(document, job["domain"])
+    # Not job["domain"]: a manifest-driven batch resolves each file's domain
+    # individually (docs/vault.md), so the job's own stored domain is only
+    # ever a fallback and rarely names the domain THIS document landed under.
+    file_result = _build_file_result_from_db(document, None)
     if file_result is None:
-        raise click.ClickException(f"Document '{document}' not found in registry for domain '{job['domain']}'")
+        raise click.ClickException(f"Document '{document}' not found in registry")
     _echo_json(_fetch_chunks(file_result["sha256"]), compact)
 
 

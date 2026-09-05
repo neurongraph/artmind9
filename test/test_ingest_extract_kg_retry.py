@@ -111,3 +111,39 @@ def test_extract_kg_does_not_crash_on_the_cli_retry_file_result(tmp_path, monkey
     doc_kg_dir = ing.extract_kg(file_result, "general", max_workers=1)
 
     assert doc_kg_dir is not None
+
+
+# ── domain=None: the job-chunks / admin-console progress lookup ─────────────
+# Found live: admin-ui's per-file chunk-progress view showed "Failed to load
+# chunks: ... not found in registry for domain 'general'" for every file in a
+# manifest-driven batch. Root cause: cli.py's `ingest job-chunks` and
+# dashboard_routes.py's `/api/jobs/{id}/chunks` both filtered the registry
+# lookup on the JOB's own stored domain -- but a directory `ingest async`
+# resolves each file's domain individually from vault.yaml (the
+# ingest-async-domain-mapping fix), so the job's own domain is only ever a
+# fallback and rarely names the domain any given file actually landed under.
+
+
+def test_build_file_result_from_db_finds_a_doc_registered_under_a_different_domain(
+    tmp_path, monkeypatch
+):
+    """The exact repro: the document is registered under 'banking.cases', but
+    the caller (job-chunks) only has the job's own domain, 'general', in hand."""
+    _v, _doc, _first = _ingest_vault_doc(
+        tmp_path, monkeypatch, filename="cases_doc.md"
+    )
+    # Re-register it under a different domain, simulating a manifest-mapped
+    # file that never was 'general' to begin with.
+    conn = db._get_db()
+    conn.execute("UPDATE documents SET domain = 'banking.cases'")
+    conn.commit()
+    conn.close()
+
+    assert ing._build_file_result_from_db("cases_doc.md", "general") is None, (
+        "sanity check: the old domain-scoped lookup really does miss it"
+    )
+
+    rebuilt = ing._build_file_result_from_db("cases_doc.md", None)
+
+    assert rebuilt is not None
+    assert rebuilt["filename"] == "cases_doc.md"
