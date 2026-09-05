@@ -450,13 +450,13 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT observation_history_id IF NOT EXISTS FOR (n:ObservationHistory) REQUIRE n.id IS UNIQUE"
     )
     session.run(
-        "CREATE INDEX document_history_domain IF NOT EXISTS FOR (n:DocumentHistory) ON (n.domain)"
+        "CREATE INDEX document_history_domain IF NOT EXISTS FOR (n:DocumentHistory) ON (n._domain)"
     )
     session.run(
         "CREATE INDEX chunk_history_doc_id IF NOT EXISTS FOR (n:DocChunkHistory) ON (n.doc_id)"
     )
     session.run(
-        "CREATE INDEX chunk_history_domain IF NOT EXISTS FOR (n:DocChunkHistory) ON (n.domain)"
+        "CREATE INDEX chunk_history_domain IF NOT EXISTS FOR (n:DocChunkHistory) ON (n._domain)"
     )
 
     # ── The observation zone ──────────────────────────────────────────────────
@@ -482,7 +482,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX observation_doc_id IF NOT EXISTS FOR (n:Observation) ON (n.doc_id)"
     )
     session.run(
-        "CREATE INDEX observation_domain IF NOT EXISTS FOR (n:Observation) ON (n.domain)"
+        "CREATE INDEX observation_domain IF NOT EXISTS FOR (n:Observation) ON (n._domain)"
     )
     session.run(
         "CREATE INDEX observation_history_key IF NOT EXISTS FOR (n:ObservationHistory) ON (n.key)"
@@ -491,7 +491,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX observation_history_doc_id IF NOT EXISTS FOR (n:ObservationHistory) ON (n.doc_id)"
     )
     session.run(
-        "CREATE INDEX observation_history_domain IF NOT EXISTS FOR (n:ObservationHistory) ON (n.domain)"
+        "CREATE INDEX observation_history_domain IF NOT EXISTS FOR (n:ObservationHistory) ON (n._domain)"
     )
     # Entity.key backs the full-rebuild sweep and the scoped embed sweep.
     session.run(
@@ -532,7 +532,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX entity_domain IF NOT EXISTS FOR (n:Entity) ON (n._domain)"
     )
     session.run(
-        "CREATE INDEX document_domain IF NOT EXISTS FOR (n:Document) ON (n.domain)"
+        "CREATE INDEX document_domain IF NOT EXISTS FOR (n:Document) ON (n._domain)"
     )
     # Path-based logical identity (A1c): the lookup re-ingest uses to reuse a
     # document's physical id and bump its version instead of minting a duplicate.
@@ -540,7 +540,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX document_logical_id IF NOT EXISTS FOR (n:Document) ON (n.logical_id)"
     )
     session.run(
-        "CREATE INDEX chunk_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.domain)"
+        "CREATE INDEX chunk_domain IF NOT EXISTS FOR (n:DocChunk) ON (n._domain)"
     )
     # Content-addressed block hash (A1a); the signal a later delta classifier (A4)
     # keys on to tell changed blocks from unchanged ones across re-ingest.
@@ -548,7 +548,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX chunk_block_hash IF NOT EXISTS FOR (n:DocChunk) ON (n.block_hash)"
     )
     session.run(
-        "CREATE INDEX user_chat_domain IF NOT EXISTS FOR (n:UserChat) ON (n.domain)"
+        "CREATE INDEX user_chat_domain IF NOT EXISTS FOR (n:UserChat) ON (n._domain)"
     )
 
     # ── Temporal range indexes (canonical valid-time) ─────────────────────────
@@ -606,19 +606,19 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     # Document: (project, domain) composite — filing_listing scoped by both;
     # (area, domain) likewise. Also plain area for area-only filters.
     session.run(
-        "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n.domain)"
+        "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n._domain)"
     )
     session.run(
-        "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n.domain)"
+        "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n._domain)"
     )
 
     # DocChunk: (project, domain) composite — vector-text / chunk queries scoped
     # to a project stay index-backed instead of falling to a domain scan + filter.
     session.run(
-        "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n.domain)"
+        "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n._domain)"
     )
     session.run(
-        "CREATE INDEX chunk_area_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.area, n.domain)"
+        "CREATE INDEX chunk_area_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.area, n._domain)"
     )
 
     # DocChunk: (doc_id, id) composite — chunks_by_id's ±N neighbor window
@@ -698,7 +698,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT cat_entityclass_key IF NOT EXISTS FOR (n:EntityClass) REQUIRE n.key IS UNIQUE"
     )
     session.run(
-        "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n.domain)"
+        "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n._domain)"
     )
 
     # ── Curation (Phase 6) ──────────────────────────────────────────────────

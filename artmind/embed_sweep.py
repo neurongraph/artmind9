@@ -119,7 +119,7 @@ def embed_missing_chunk_embeddings(
 
     domain_scope = ""
     if domain is not None:
-        domain_scope = " AND c.domain = $domain"
+        domain_scope = " AND c._domain = $domain"
         scope_params["domain"] = domain
 
     while True:

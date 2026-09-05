@@ -114,7 +114,7 @@ def find_candidates(
     cypher_domain = """
     CALL db.index.fulltext.queryNodes('entity_name_ft', $name)
     YIELD node AS e, score AS ftScore
-    WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+    WHERE (e._domain = $domain OR e._domain STARTS WITH ($domain + '.'))
     RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
            e.description AS context_snippet, ftScore AS match_score,
            (toLower(e.name) = toLower($name)) AS is_exact
@@ -249,13 +249,13 @@ def _resolve_target_identity(
                 "id": rec["id"],
                 "name": rec["name"],
                 "entity_class": rec["entity_class"] or entity_class,
-                "domain": rec["domain"] or domain,
+                "_domain": rec["domain"] or domain,
             }
         return None
 
     existing = _find_existing_entity(session, name, entity_class, domain)
     if existing:
-        return {**existing, "entity_class": entity_class, "domain": domain}
+        return {**existing, "entity_class": entity_class, "_domain": domain}
     return None
 
 
@@ -314,7 +314,7 @@ def write_user_chat(
             """
             CREATE (c:UserChat {
                 id: $id, raw_text: $raw_text, embedding: $embedding,
-                domain: $domain, session_id: $session_id,
+                _domain: $domain, session_id: $session_id,
                 input_hint: $input_hint, created_at: $now, created_by: $user_id,
                 _status: 'latest', _valid_from: $today
             })
@@ -353,7 +353,7 @@ def write_user_chat(
                 # The chosen node's identity, NOT the extracted surface form.
                 canonical_name = target["name"]
                 entity_class = target["entity_class"]
-                target_domain = target["domain"]
+                target_domain = target["_domain"]
                 nodes_updated += 1
             elif action == "create":
                 if _find_existing_entity(session, canonical_name, entity_class, domain):
@@ -368,7 +368,7 @@ def write_user_chat(
                 {
                     "name": entity_data["name"],
                     "entity_class": entity_class,
-                    "domain": target_domain,
+                    "_domain": target_domain,
                     "type": entity_data.get("type"),
                     "description": entity_data.get("description"),
                     "context": entity_data.get("context"),
@@ -400,7 +400,7 @@ def write_user_chat(
             target_ids = _retraction_target_ids(res.get("retracts"))
             for i, target_id in enumerate(target_ids):
                 retraction = build_observation(
-                    {"name": canonical_name, "entity_class": entity_class, "domain": target_domain},
+                    {"name": canonical_name, "entity_class": entity_class, "_domain": target_domain},
                     canonical_name=canonical_name,
                     domain_props=None,
                     doc_id=chat_id,
@@ -677,13 +677,13 @@ def export_chats(
         # return zero mentions rather than erroring).
         cypher = """
         MATCH (c:UserChat)
-        WHERE $domain IS NULL OR c.domain = $domain
-           OR c.domain STARTS WITH ($domain + '.')
+        WHERE $domain IS NULL OR c._domain = $domain
+           OR c._domain STARTS WITH ($domain + '.')
         OPTIONAL MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:Entity)
         WITH c, collect(DISTINCT e.name) AS mentions
         ORDER BY c.created_at ASC
         RETURN c.session_id AS session_id, c.id AS id, c.raw_text AS raw_text,
-               c.domain AS domain, c.created_by AS created_by,
+               c._domain AS domain, c.created_by AS created_by,
                c.created_at AS created_at, c.input_hint AS input_hint,
                mentions
         """
@@ -710,11 +710,11 @@ def export_chats(
     elif format == "by-entity":
         cypher = """
         MATCH (c:UserChat)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:Entity)
-        WHERE $domain IS NULL OR c.domain = $domain
-           OR c.domain STARTS WITH ($domain + '.')
+        WHERE $domain IS NULL OR c._domain = $domain
+           OR c._domain STARTS WITH ($domain + '.')
         WITH e.name AS entity_name, collect(DISTINCT {
             id: c.id, raw_text: c.raw_text, created_by: c.created_by,
-            created_at: c.created_at, domain: c.domain
+            created_at: c.created_at, domain: c._domain
         }) AS chats
         ORDER BY entity_name
         RETURN entity_name, chats

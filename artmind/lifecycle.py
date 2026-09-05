@@ -137,7 +137,7 @@ def resolve_document_id(name_or_id: str, domain: str | None = None) -> str | Non
     """
     from artmind.graph_query import read_session
 
-    clause = " AND (d.domain = $domain OR d.domain STARTS WITH ($domain + '.'))" if domain else ""
+    clause = " AND (d._domain = $domain OR d._domain STARTS WITH ($domain + '.'))" if domain else ""
     with read_session() as session:
         rows = session.run(
             f"""

@@ -47,20 +47,20 @@ class Relationship:
 NODES: tuple[NodeLabel, ...] = (
     NodeLabel(
         "Document",
-        ("id", "name", "path", "domain", "valid_from", "valid_to", "superseded_by"),
+        ("id", "name", "path", "_domain", "valid_from", "valid_to", "superseded_by"),
     ),
     NodeLabel(
         "DocChunk",
-        ("id", "name", "doc_id", "text", "domain", "embedding"),
+        ("id", "name", "doc_id", "text", "_domain", "embedding"),
     ),
     NodeLabel(
         "UserChat",
-        ("id", "raw_text", "domain", "session_id", "created_by", "created_at", "embedding"),
+        ("id", "raw_text", "_domain", "session_id", "created_by", "created_at", "embedding"),
     ),
     NodeLabel(
         "Observation",
         (
-            "id", "name", "canonical_name", "key", "entity_class", "domain", "doc_id",
+            "id", "name", "canonical_name", "key", "entity_class", "_domain", "doc_id",
             "chunk_id", "_valid_from", "_valid_to", "_doc_valid_from", "_kind",
         ),
         note_lines=(
@@ -74,9 +74,10 @@ NODES: tuple[NodeLabel, ...] = (
         ("_id", "name", "entity_class", "_domain", "description", "type"),
         note_lines=(
             "the projection: one node per real-world thing, current by construction, rebuilt from",
-            "observations. NOTE the leading underscore on _id/_domain (Entity-only; every other",
-            "node label here uses plain id/domain) — Entity is the one label this redesign",
-            "prefixed, because id/domain on it are artmind-computed rather than extracted.",
+            "observations. NOTE the leading underscore on _id/_domain — EVERY label in this graph",
+            "uses _domain (artmind-computed: assigned by --domain/vault.yaml/frontmatter, never",
+            "something the LLM extracts), but _id is Entity-only; every other label's own identity",
+            "property is plain unprefixed id.",
         ),
     ),
     NodeLabel(
@@ -88,7 +89,7 @@ NODES: tuple[NodeLabel, ...] = (
             "aspect", "claim_a", "claim_b", "severity", "domains", "detected_at", "detected_by_model",
             # projection shape (_source='projection'): a single entity's own
             # property disputed within one instant, found by the rebuild itself
-            "property", "entity_id", "domain", "kind", "values", "detected_by",
+            "property", "entity_id", "_domain", "kind", "values", "detected_by",
         ),
         note_lines=(
             "two shapes sharing one label, told apart by `_source`. 'adjudicator' is a",

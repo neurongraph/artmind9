@@ -60,7 +60,7 @@ def project_catalogue(domain: str) -> dict:
         session.run(
             """
             MATCH (t:Table)
-            WHERE t.domain = $domain OR t.domain STARTS WITH $domain + '.'
+            WHERE t._domain = $domain OR t._domain STARTS WITH $domain + '.'
             OPTIONAL MATCH (t)-[:HAS_COLUMN]->(c:TableColumn)
             DETACH DELETE t, c
             """,
@@ -80,7 +80,7 @@ def project_catalogue(domain: str) -> dict:
                 key=table_key,
                 props={
                     "name": table["table_name"],
-                    "domain": table["domain"],
+                    "_domain": table["domain"],
                     "row_count": table.get("row_count"),
                     "parquet_path": table.get("parquet_path"),
                     "datasource": table["datasource"],
@@ -140,7 +140,7 @@ def project_catalogue(domain: str) -> dict:
                     session.run(
                         """
                         MERGE (ec:EntityClass {key: $eckey})
-                        SET ec += {name: $name, domain: $domain}
+                        SET ec += {name: $name, _domain: $domain}
                         WITH ec
                         MATCH (c:TableColumn {key: $colkey})
                         MERGE (c)-[m:MAPS_TO_CLASS]->(ec)

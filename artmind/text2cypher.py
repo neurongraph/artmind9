@@ -114,15 +114,13 @@ write a READ-ONLY Cypher query that answers the user's question.
 
 RULES:
 - The query MUST be read-only. Never use CREATE, DELETE, DETACH, SET, REMOVE, MERGE, or DROP.
-- Always scope results to the domains by including a WHERE clause. The domain PROPERTY
-  name differs by label — :Entity carries `_domain` (leading underscore); every other
-  label (:Document, :DocChunk, :UserChat, :Observation) carries plain `domain`:
-    (n.domain IN $domains OR any(_dom IN $domains WHERE n.domain STARTS WITH (_dom + '.')))
+- Always scope results to the domains by including a WHERE clause. EVERY label carries
+  the SAME domain property name, `_domain` (leading underscore, no exceptions):
     (n._domain IN $domains OR any(_dom IN $domains WHERE n._domain STARTS WITH (_dom + '.')))
-  Use whichever matches the label you actually matched. Apply this filter to every unbound
-  node in the MATCH pattern. Always use `_dom` (exactly as shown) as the any() loop
-  variable — never reuse a node's own alias (e.g. `d` for a :Document node) there, since
-  that shadows the node inside the any() clause and produces a Cypher type-mismatch error.
+  Apply this filter to every unbound node in the MATCH pattern, whatever its label. Always
+  use `_dom` (exactly as shown) as the any() loop variable — never reuse a node's own alias
+  (e.g. `d` for a :Document node) there, since that shadows the node inside the any()
+  clause and produces a Cypher type-mismatch error.
 - Use entity names exactly as they appear in the entity listing when matching.
 - For Document/DocChunk/UserChat/Observation/Entity queries, use ONLY the relationship
   names from the STRUCTURAL GRAPH section below. Do NOT invent relationship names, and

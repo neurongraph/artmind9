@@ -108,7 +108,7 @@ def test_chunks_query_without_expand_has_no_subquery():
     cypher = gq._chunks_query(expand=0, as_of=None)
     assert "CALL (c)" not in cypher
     assert "c.id IN $chunkIds" in cypher
-    assert "c.domain IN $domains" in cypher
+    assert "c._domain IN $domains" in cypher
 
 
 def test_chunks_query_with_expand_windows_same_document():

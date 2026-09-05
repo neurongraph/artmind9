@@ -425,7 +425,7 @@ def test_setup_neo4j_declares_catalogue_constraints():
         "CREATE CONSTRAINT cat_entityclass_key IF NOT EXISTS FOR (n:EntityClass) REQUIRE n.key IS UNIQUE"
         in src
     )
-    assert "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n.domain)" in src
+    assert "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n._domain)" in src
 
 
 def test_setup_all_summary_includes_catalogue_labels():
@@ -467,10 +467,10 @@ def test_setup_neo4j_declares_a3_composite_indexes():
         "CREATE INDEX entity_class IF NOT EXISTS FOR (n:Entity) ON (n.entity_class)",
         # Entity carries `_domain` (Phase 4's `_`-prefix), not `domain`.
         "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n._domain)",
-        "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n.domain)",
-        "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n.domain)",
-        "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n.domain)",
-        "CREATE INDEX chunk_area_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.area, n.domain)",
+        "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n._domain)",
+        "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n._domain)",
+        "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n._domain)",
+        "CREATE INDEX chunk_area_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.area, n._domain)",
         "CREATE INDEX chunk_doc_id_id IF NOT EXISTS FOR (n:DocChunk) ON (n.doc_id, n.id)",
         "CREATE INDEX document_name IF NOT EXISTS FOR (n:Document) ON (n.name)",
     ):

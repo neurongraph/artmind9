@@ -102,22 +102,22 @@ def _clean(s):
     tag. Nothing here matches a bare label or a null property, because this may
     be running against a database that holds a real corpus.
     """
-    s.run("MATCH (n:Observation {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
-    s.run("MATCH (n:Entity {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
-    s.run("MATCH (c:Conflict {domain: $d}) DETACH DELETE c", d=DOMAIN).consume()
+    s.run("MATCH (n:Observation {_domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
+    s.run("MATCH (n:Entity {_domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
+    s.run("MATCH (c:Conflict {_domain: $d}) DETACH DELETE c", d=DOMAIN).consume()
     s.run("MATCH (c:Conflict {_test: $tag}) DETACH DELETE c", tag=CONFLICT_TAG).consume()
 
 
 def write_observation(session, **kw):
     props = {
         "entity_class": CLASS,
-        "domain": DOMAIN,
+        "_domain": DOMAIN,
         "_status": "latest",
         "_kind": "recurrent",
         "doc_version": 1,
     }
     props.update(kw)
-    props["key"] = key_string(aggregate_key(props["canonical_name"], props["entity_class"], props["domain"]))
+    props["key"] = key_string(aggregate_key(props["canonical_name"], props["entity_class"], props["_domain"]))
     session.run("CREATE (o:Observation) SET o = $props", props=props).consume()
     return props
 
@@ -157,7 +157,7 @@ def test_three_observations_project_to_one_entity_holding_the_march_rate(session
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
 
     rows = session.run(
-        "MATCH (e:Entity {domain: $d}) RETURN e.name AS name, e.rate_value AS rate, "
+        "MATCH (e:Entity {_domain: $d}) RETURN e.name AS name, e.rate_value AS rate, "
         "e._temporal_props AS temporal, e.id AS id", d=DOMAIN,
     ).data()
     assert len(rows) == 1, "exactly one Entity for the aggregate key"
@@ -187,18 +187,18 @@ def test_observations_carry_no_entity_label_and_no_class_label(session):
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
 
     labels = session.run(
-        "MATCH (o:Observation {domain: $d}) UNWIND labels(o) AS l RETURN collect(DISTINCT l) AS ls", d=DOMAIN,
+        "MATCH (o:Observation {_domain: $d}) UNWIND labels(o) AS l RETURN collect(DISTINCT l) AS ls", d=DOMAIN,
     ).single()["ls"]
     assert set(labels) == {"Observation"}
 
     # and the Entity DOES carry its class label, derived from entity_class
     entity_labels = session.run(
-        "MATCH (e:Entity {domain: $d}) UNWIND labels(e) AS l RETURN collect(DISTINCT l) AS ls", d=DOMAIN,
+        "MATCH (e:Entity {_domain: $d}) UNWIND labels(e) AS l RETURN collect(DISTINCT l) AS ls", d=DOMAIN,
     ).single()["ls"]
     assert set(entity_labels) == {"Entity", CLASS}
 
     # the class-labelled match returns the projection only
-    by_class = session.run(f"MATCH (n:{CLASS}) WHERE n.domain = $d RETURN count(n) AS c", d=DOMAIN).single()["c"]
+    by_class = session.run(f"MATCH (n:{CLASS}) WHERE n._domain = $d RETURN count(n) AS c", d=DOMAIN).single()["c"]
     assert by_class == 1
 
 
@@ -226,7 +226,7 @@ def test_a_full_rebuild_from_scratch_reproduces_the_same_entity_id(session):
         "MATCH (e:Entity {id: $id}) RETURN properties(e) AS p", id=entity_id(TIER2_KEY)
     ).single()["p"]
 
-    session.run("MATCH (e:Entity {domain: $d}) DETACH DELETE e", d=DOMAIN).consume()
+    session.run("MATCH (e:Entity {_domain: $d}) DETACH DELETE e", d=DOMAIN).consume()
     session.execute_write(lambda tx: full_rebuild(tx, [DOMAIN]))
     after = session.run(
         "MATCH (e:Entity {id: $id}) RETURN properties(e) AS p", id=entity_id(TIER2_KEY)
@@ -243,15 +243,15 @@ def test_a_full_rebuild_from_scratch_reproduces_the_same_entity_id(session):
 def test_a_key_with_zero_latest_observations_has_its_entity_deleted(session):
     seed_three_schedules(session)
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
-    assert session.run("MATCH (e:Entity {domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 1
+    assert session.run("MATCH (e:Entity {_domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 1
 
     session.run(
-        "MATCH (o:Observation {domain: $d}) SET o._status = 'history'", d=DOMAIN
+        "MATCH (o:Observation {_domain: $d}) SET o._status = 'history'", d=DOMAIN
     ).consume()
     summary = session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
 
     assert summary["deleted"] == 1
-    assert session.run("MATCH (e:Entity {domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 0
+    assert session.run("MATCH (e:Entity {_domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 0
 
 
 def test_a_renamed_entity_leaves_no_orphan_when_the_prior_key_is_swept(session):
@@ -264,7 +264,7 @@ def test_a_renamed_entity_leaves_no_orphan_when_the_prior_key_is_swept(session):
         _valid_from="2026-01-15", rate_value=4.70,
     )
     session.execute_write(lambda tx: rebuild(tx, [old_key]))
-    assert session.run("MATCH (e:Entity {domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 1
+    assert session.run("MATCH (e:Entity {_domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 1
 
     # version 2: the prior version's observations go to history, a new name arrives
     session.run("MATCH (o:Observation {doc_id: 'doc-x'}) SET o._status = 'history'").consume()
@@ -276,7 +276,7 @@ def test_a_renamed_entity_leaves_no_orphan_when_the_prior_key_is_swept(session):
 
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY, old_key]))
     names = [r["n"] for r in session.run(
-        "MATCH (e:Entity {domain: $d}) RETURN e.name AS n", d=DOMAIN).data()]
+        "MATCH (e:Entity {_domain: $d}) RETURN e.name AS n", d=DOMAIN).data()]
     assert names == [TIER2], "the abandoned key's Entity must be gone"
 
 
@@ -369,7 +369,7 @@ def test_a_failure_inside_the_transaction_rolls_back_the_observation_write(sessi
     commit that dirtied the projection fails and NOTHING lands."""
     def write_then_fail(tx):
         tx.run(
-            "CREATE (o:Observation {id: 'obs-doomed', domain: $d, key: $k, _status: 'latest'})",
+            "CREATE (o:Observation {id: 'obs-doomed', _domain: $d, key: $k, _status: 'latest'})",
             d=DOMAIN, k=key_string(TIER2_KEY),
         )
         rebuild(tx, [TIER2_KEY])
@@ -382,7 +382,7 @@ def test_a_failure_inside_the_transaction_rolls_back_the_observation_write(sessi
         "MATCH (o:Observation {id: 'obs-doomed'}) RETURN count(o) AS c"
     ).single()["c"] == 0
     assert session.run(
-        "MATCH (e:Entity {domain: $d}) RETURN count(e) AS c", d=DOMAIN
+        "MATCH (e:Entity {_domain: $d}) RETURN count(e) AS c", d=DOMAIN
     ).single()["c"] == 0
 
 
