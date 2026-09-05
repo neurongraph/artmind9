@@ -18,7 +18,7 @@ effort.
 | 4 | `artmind init` + manual vault setup steps | No interactive script, no schema picker, no generated README, `.artmind_ignore` proposal conflicts with the vault's actual ignore design | Medium | Partially already better than described; partially an intentional design rejection |
 | 5 | Trigger ingestion of a new/edited file | Unclear which command to run; relationship to `git commit` unclear | Medium | Confirmed gap, but there is a clear answer today |
 | 6 | `artmind setup` (first Neo4j connection) | Raw driver errors, no AuraDB guidance, no APOC check | Medium | Confirmed, two separate gaps |
-| 7 | `artmind chat-ui` / `artmind admin-ui` first launch | Agent's `cwd` likely can't find the vault's skills at all | **High** | Confirmed by static analysis — likely-breaking regression from the vault redesign, not yet runtime-verified |
+| 7 | `artmind chat-ui` / `artmind admin-ui` first launch | Static analysis suggested agent `cwd` couldn't find vault skills | ~~High~~ None | **Retracted after live testing** — chat-ui launched from a real vault works correctly with `artmind-query`; the doc-code cwd mismatch doesn't manifest |
 
 ---
 
@@ -248,45 +248,43 @@ its absence immediately rather than letting it surface downstream.
 
 ## 7. Launching `chat-ui` / `admin-ui` for the first time
 
-**Confirmed by static analysis — likely-breaking regression from the vault
-redesign.** Not yet runtime-verified (would need a live vault + Neo4j +
-Anthropic credentials to observe empirically), but the code/doc mismatch is
-unambiguous:
+**Originally flagged High from static analysis; live-tested and retracted.**
+The static-analysis concern was real as far as it went:
 
 - [webui/agent.py:27-29](../artmind/webui/agent.py) sets `RUN_FOLDER =
   ARTMIND_HOME` and builds `ClaudeAgentOptions(cwd=str(RUN_FOLDER),
-  skills=[...])` at [agent.py:127-129](../artmind/webui/agent.py).
+  skills=[...])`.
 - Inside a vault, `ARTMIND_HOME` resolves to **`<vault>/.artmind`**
   ([paths.py:52-57](../paths.py)) — not the vault root.
-- But skills are symlinked at **`<vault>/.claude/skills`**, the vault
-  **root** ([vault.py:133-136](../artmind/vault.py), `VaultLayout.skills_dir`).
-- The Agent SDK resolves `skills=[...]` from `.claude/skills/` **relative to
-  `cwd`** — agent.py's own docstring says so, quoting `docs/vault.md`. With
-  `cwd = <vault>/.artmind`, it looks for
-  `<vault>/.artmind/.claude/skills/`, which doesn't exist.
+- Skills are symlinked at **`<vault>/.claude/skills`**, the vault **root**
+  ([vault.py:133-136](../artmind/vault.py), `VaultLayout.skills_dir`).
 
-**Net effect, if this reads correctly:** chat-ui and admin-ui, launched from
-inside any vault, would find zero skills — `artmind-query`, `artmind-update`,
-`artmind-curate` etc. would silently fail to load, defeating the purpose of
-both UIs. The agent.py docstring even asserts the opposite of what the code
-does ("the agent's `cwd` is now the user's vault" — it's the vault's
-`.artmind` subfolder, one level short). The ACP backend carries the identical
-stale assumption in its own comment
-([webui/backends/__init__.py:49-51](../artmind/webui/backends/__init__.py)),
-which reads as leftover from the pre-vault model where `ARTMIND_HOME` *was*
-the skills-holding folder directly.
+From reading agent.py's own docstring alone ("resolved from `.claude/skills/`
+relative to the agent's cwd"), this looked like `cwd = <vault>/.artmind`
+would miss `<vault>/.claude/skills/` entirely — a plausible, high-severity
+bug.
 
-No test in `test/` currently pins `agent_options()`'s `cwd` value or exercises
-skill discovery end-to-end, so this would not be caught by `just dev-test`.
+**It doesn't reproduce.** Ran `artmind chat-ui` from inside a real vault
+(`~/Projects/a123`) against the re-ingested graph: it launched cleanly and
+answered using the `artmind-query` skill correctly. So either the Claude
+Agent SDK's skill discovery walks up parent directories looking for
+`.claude/skills/` (the way Claude Code's own settings/`CLAUDE.md` discovery
+does), rather than requiring an exact match at `cwd` — which would fully
+reconcile the code as written with what was actually observed — or something
+else compensates that wasn't found by reading the source alone. Either way:
+**no code change needed here**, and the docstring's claim that cwd is exactly
+the vault root, while apparently not literally true, isn't causing the
+failure it predicted.
 
-**Priority:** High.
+**Priority:** downgraded from High to none — working as tested.
 
-**Solution:** set `cwd` to the resolved vault root (not `ARTMIND_HOME`) in
-`agent_options()` and in the ACP backend's default `cwd`; add a test asserting
-`agent_options().cwd` matches the vault root and, ideally, an integration
-check that a named skill is actually discoverable from that `cwd`.
+**Lesson for this review:** static analysis flagged this correctly as *worth
+checking* but was wrong about the actual runtime outcome. Every other finding
+in this document that hasn't been explicitly marked "live-tested" carries the
+same caveat and should be verified the same way before being treated as
+confirmed.
 
-**Separate, smaller doc gap for this step:** the README's Prerequisites table
+**Separate, smaller doc gap, still open:** the README's Prerequisites table
 never mentions that `chat-ui`/`admin-ui` need a working `claude` CLI login or
 `ANTHROPIC_API_KEY`/`ANTHROPIC_AUTH_TOKEN` — that requirement currently only
 exists as a comment in
