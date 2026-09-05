@@ -157,6 +157,15 @@ def test_worker_threads_stage_only_into_ingest_to_kg():
     assert "stage_only=bool(row[3])" in loop_src
 
 
+def test_worker_also_gates_deferred_domains_on_kg_work_was_done():
+    """Same regression as cli.py's ingest_sync: kg_ok alone can't tell a
+    short-circuited no_op/metadata_only file from one that did real work."""
+    import artmind.worker as worker
+
+    process_src = inspect.getsource(worker._process_job)
+    assert "kg_work_was_done(result)" in process_src
+
+
 # ── the hooks are gone, and the rebuild took their place ────────────────────
 
 

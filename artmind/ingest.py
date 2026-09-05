@@ -1553,6 +1553,23 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     return result
 
 
+def kg_work_was_done(file_result: dict) -> bool:
+    """Whether `ingest_to_kg(file_result, ...)` would (or did) actually
+    extract/commit anything, as opposed to short-circuiting on `file_result`'s
+    tier (see `ingest_to_kg`'s own check, just below).
+
+    A batch caller (`cli.py`'s `ingest_sync`, `worker.py`'s async path) that
+    defers its projection rebuild to "every domain a file in this batch
+    touched" must call this too: `ingest_to_kg` returning `True` (success)
+    for a short-circuited `no_op`/`metadata_only` file is exactly as true as
+    for one that did real extraction, so checking only that return value
+    queued a full projection rebuild for a domain nothing had actually
+    changed in -- on every single sync, for every domain, regardless of
+    whether anything needed rebuilding.
+    """
+    return file_result.get("tier") not in ("no_op", "metadata_only")
+
+
 def ingest_to_kg(
     file_result: dict,
     domain: str,
@@ -1590,7 +1607,7 @@ def ingest_to_kg(
     path (metadata_only) or fall through to ingest_to_kg (content/domain/
     initial)" -- never both).
     """
-    if file_result.get("tier") in ("no_op", "metadata_only"):
+    if not kg_work_was_done(file_result):
         return True
 
     # A4: metadata-only fast path. Never for stage_only (that path is a

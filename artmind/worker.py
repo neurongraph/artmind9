@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from loguru import logger
 
 from artmind.db import _get_db
-from artmind.ingest import ingest_file, ingest_to_kg
+from artmind.ingest import ingest_file, ingest_to_kg, kg_work_was_done
 from artmind.jobs import _update_job_file_status, _update_job_status
 from artmind.structured import is_structured_source
 from artmind.structured.pipeline import ingest_structured_file
@@ -164,7 +164,11 @@ def _process_job(
                         result, effective_domain, text_model, embed_model, chunk_size,
                         stage_only=stage_only, defer_rebuild=defer_rebuild,
                     )
-                    if kg_ok and defer_rebuild:
+                    # kg_ok is True for a short-circuited no_op/metadata_only
+                    # file just as much as for one that did real extraction --
+                    # only the latter leaves anything for a deferred rebuild
+                    # to pick up (see ingest.kg_work_was_done).
+                    if kg_ok and defer_rebuild and kg_work_was_done(result):
                         deferred_domains.add(effective_domain)
                     _update_job_file_status(
                         job_id,

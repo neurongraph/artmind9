@@ -247,6 +247,55 @@ def test_a_directory_defers_to_one_full_rebuild_at_the_end(monkeypatch, tmp_path
     assert rebuilds == ["general"], "exactly one full rebuild, at the end"
 
 
+def test_a_batch_of_all_no_op_files_defers_to_zero_rebuilds(monkeypatch, tmp_path):
+    """Regression: `ingest_to_kg` returning True (success) for a
+    short-circuited no_op/metadata_only file was indistinguishable from one
+    that did real extraction, so a resync with nothing changed still queued a
+    full projection rebuild for every domain touched, on every run."""
+    import artmind.cli as cli_mod
+
+    monkeypatch.setattr(cli_mod, "ingest_to_kg", lambda *a, **k: True)
+    monkeypatch.setattr(
+        cli_mod, "ingest_file",
+        lambda f, *a, **k: {
+            "status": "ok", "domain": "general", "touched_path": None, "tier": "no_op",
+        },
+    )
+    monkeypatch.setattr(
+        cli_mod, "collect_ingest_files",
+        lambda p: [tmp_path / "a.md", tmp_path / "b.md"],
+    )
+    rebuilds: list = []
+    monkeypatch.setattr("artmind.ingest.rebuild_projection", lambda d: rebuilds.append(d) or {})
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["ingest", "sync", str(tmp_path), "--domain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert rebuilds == [], "nothing changed -- no domain should need a rebuild"
+
+
+def test_a_mixed_batch_only_rebuilds_the_domain_that_actually_changed(monkeypatch, tmp_path):
+    import artmind.cli as cli_mod
+
+    files = [tmp_path / "changed.md", tmp_path / "unchanged.md"]
+    results_by_file = {
+        files[0]: {"status": "ok", "domain": "general", "touched_path": None, "tier": "content"},
+        files[1]: {"status": "ok", "domain": "general", "touched_path": None, "tier": "metadata_only"},
+    }
+    monkeypatch.setattr(cli_mod, "ingest_to_kg", lambda *a, **k: True)
+    monkeypatch.setattr(cli_mod, "ingest_file", lambda f, *a, **k: results_by_file[f])
+    monkeypatch.setattr(cli_mod, "collect_ingest_files", lambda p: files)
+    rebuilds: list = []
+    monkeypatch.setattr("artmind.ingest.rebuild_projection", lambda d: rebuilds.append(d) or {})
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["ingest", "sync", str(tmp_path), "--domain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert rebuilds == ["general"], "the one file that actually changed still triggers its rebuild"
+
+
 # ── durability: the vault commit happens per document, not per batch ─────────
 #
 # `ingest_file` writes artmind frontmatter (_artmind_id, _version, ...) into the
