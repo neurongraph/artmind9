@@ -18,6 +18,7 @@ from artmind.document_identity import (
     build_frontmatter,
     canonical_path,
     decide_version,
+    frontmatter_unchanged,
     markdown_path_for,
     mint_artmind_id,
     resolve_canonical_path,
@@ -636,11 +637,37 @@ def _ingest_vault_native(
         ingested_at=ingested_at,
         body=body,
     )
-    write_document(source, new_meta, body)
-    _register_document(
-        effective_domain, source, resolution.artmind_id,
-        content_sha256=version_decision.content_sha256,
-    )
+
+    # The versioning table's "nothing differs" row, as opposed to "only
+    # frontmatter differs" (docs/document-identity.md, "Versioning") --
+    # decide_version alone can't tell these apart, since it only ever
+    # compares the BODY. `file_unchanged` catches the pure "nothing differs"
+    # case: nothing else in the frontmatter differs either, ignoring the two
+    # fields meant to refresh on every touch regardless. When it's True there
+    # is genuinely nothing to WRITE -- skip the file rewrite (so git sees no
+    # diff and commits nothing) and the registry refresh.
+    #
+    # `apply_metadata_only` below still runs unconditionally for every
+    # metadata_only tier, `file_unchanged` or not -- it must NOT be gated on
+    # the same check. A human hand-editing only `tags`/`project`/`area` is
+    # invisible to `file_unchanged`: by the time this function reads the
+    # file, the edit is already IN `existing_meta` (parsed fresh off disk),
+    # and `build_frontmatter` only ever carries authored fields forward from
+    # `existing_meta` -- it never independently recomputes them, so
+    # `new_meta`'s authored fields are always identical to `existing_meta`'s
+    # regardless of whether a human just changed them. Skipping the cheap,
+    # idempotent graph push in that case would silently stop a genuine
+    # frontmatter edit from ever reaching the graph until the next real
+    # content change. The file-rewrite skip has no such risk: whether or not
+    # this run rewrites the file, its bytes end up identical either way.
+    file_unchanged = tier == "metadata_only" and frontmatter_unchanged(existing_meta, new_meta)
+
+    if not file_unchanged:
+        write_document(source, new_meta, body)
+        _register_document(
+            effective_domain, source, resolution.artmind_id,
+            content_sha256=version_decision.content_sha256,
+        )
 
     if job_id:
         _update_job_file_status(
@@ -658,8 +685,9 @@ def _ingest_vault_native(
         "registered_path": str(source.resolve()),
         "resolution_verdict": resolution.verdict,
         "tier": tier,
-        "touched_path": source,
     })
+    if not file_unchanged:
+        file_result["touched_path"] = source
 
     if tier == "metadata_only":
         try:
@@ -678,8 +706,9 @@ def _ingest_vault_native(
             logger.warning("metadata-only graph update skipped for {}: {}", source.name, e)
         file_result["chunk_count"] = 0
         logger.info(
-            "── Ingest done in {:.1f}s: {} (metadata_only, v{})",
+            "── Ingest done in {:.1f}s: {} (metadata_only, v{}{})",
             time.monotonic() - t_file_start, source.name, version_decision.version,
+            ", unchanged" if file_unchanged else "",
         )
         return file_result
 
@@ -1553,6 +1582,23 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     return result
 
 
+def kg_work_was_done(file_result: dict) -> bool:
+    """Whether `ingest_to_kg(file_result, ...)` would (or did) actually
+    extract/commit anything, as opposed to short-circuiting on `file_result`'s
+    tier (see `ingest_to_kg`'s own check, just below).
+
+    A batch caller (`cli.py`'s `ingest_sync`, `worker.py`'s async path) that
+    defers its projection rebuild to "every domain a file in this batch
+    touched" must call this too: `ingest_to_kg` returning `True` (success)
+    for a short-circuited `no_op`/`metadata_only` file is exactly as true as
+    for one that did real extraction, so checking only that return value
+    queued a full projection rebuild for a domain nothing had actually
+    changed in -- on every single sync, for every domain, regardless of
+    whether anything needed rebuilding.
+    """
+    return file_result.get("tier") not in ("no_op", "metadata_only")
+
+
 def ingest_to_kg(
     file_result: dict,
     domain: str,
@@ -1574,7 +1620,25 @@ def ingest_to_kg(
     fast path is decided earlier, in `_ingest_vault_native`, and never reaches
     here at all (`"logical_id" in file_result` is precisely binary-only:
     vault-native carries `artmind_id`, never `logical_id`).
+
+    Every caller (`cli.py`'s `ingest_sync`, `worker.py`'s async path) calls
+    this unconditionally whenever `ingest_file` reports `status: "ok"`, with
+    no look at `file_result["tier"]` -- so without the check below, a file
+    `ingest_file` ALREADY resolved as needing no further work (`no_op`: a
+    byte-identical binary; `metadata_only`: `_ingest_vault_native` already
+    ran `apply_metadata_only` synchronously) fell through to the "back-compat:
+    chunks_dir not in file_result" branch below and got a second, full, paid
+    LLM re-extraction anyway -- on every single sync, forever, for every file
+    that never changed. That's what actually kept the docstring's claim above
+    from being true: this function DID reach the metadata-only case, just
+    silently, from the caller side rather than the classifier side. Bail out
+    first, matching delta.py's own stated contract ("callers apply the fast
+    path (metadata_only) or fall through to ingest_to_kg (content/domain/
+    initial)" -- never both).
     """
+    if not kg_work_was_done(file_result):
+        return True
+
     # A4: metadata-only fast path. Never for stage_only (that path is a
     # staging test that must produce doc_kg_dir).
     if not stage_only and "logical_id" in file_result:

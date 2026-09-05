@@ -208,6 +208,45 @@ class VersionDecision:
     content_sha256: str
 
 
+# Fields expected to refresh on every touch regardless of whether anything a
+# human or a re-ingest would care about actually changed -- both are pure
+# provenance ("`_source_commit` records the vault's git sha at ingest --
+# provenance, not identity", docs/document-identity.md), never meaningful to
+# compare for a versioning decision.
+_PROVENANCE_ONLY_FIELDS = frozenset({"_ingested_at", "_source_commit"})
+
+
+def frontmatter_unchanged(existing_meta: dict, new_meta: dict) -> bool:
+    """Whether `new_meta` carries no information beyond what `existing_meta`
+    already had, ignoring `_PROVENANCE_ONLY_FIELDS`.
+
+    This is what actually distinguishes "nothing differs" from "only
+    frontmatter differs" -- the versioning table's own two separate rows
+    (docs/document-identity.md, "Versioning") -- something `decide_version`
+    alone cannot do, since it only ever compares the BODY. Without this
+    check, `_ingested_at`/`_source_commit` refreshing unconditionally meant a
+    genuinely no-op touch still produced different file bytes on every
+    ingest, so `git diff` always found something to commit -- exactly the
+    "letting git's own diff decide whether anything actually changed"
+    design `decide_version`'s own docstring describes, but which the
+    always-fresh timestamp silently defeated.
+
+    **Answers "would rewriting the file change anything", not "is the graph
+    already in sync".** A human hand-editing an authored field (tags/title/
+    project/area) is invisible here: `existing_meta` is parsed fresh off the
+    just-edited file, and callers only ever carry authored fields forward
+    from `existing_meta` rather than recomputing them, so `new_meta`'s
+    authored fields are always identical to `existing_meta`'s regardless of
+    whether a human just changed them. Safe to gate a file-rewrite/commit on
+    (rewriting produces the same bytes either way); NOT safe to gate a graph
+    metadata push on -- that must still run whenever the tier calls for it,
+    using the file's current values, or a genuine edit never reaches the
+    graph until the next real content change.
+    """
+    keys = (set(existing_meta) | set(new_meta)) - _PROVENANCE_ONLY_FIELDS
+    return all(existing_meta.get(k) == new_meta.get(k) for k in keys)
+
+
 def decide_version(body: str, existing_meta: dict) -> VersionDecision:
     """Compare the incoming body against the file's OWN previously-written
     `_content_sha256` — no registry or graph lookup needed, the file already

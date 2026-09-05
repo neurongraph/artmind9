@@ -15,6 +15,7 @@ from artmind.document_identity import (
     canonical_path,
     compute_content_sha256,
     decide_version,
+    frontmatter_unchanged,
     lift_declared_version,
     markdown_path_for,
     mint_artmind_id,
@@ -192,6 +193,40 @@ def test_decide_version_body_unchanged_is_metadata_only():
     decision = decide_version("same body", existing_meta={"_content_sha256": sha, "_version": 2})
     assert decision.tier == "metadata_only"
     assert decision.version == 2
+
+
+# ── frontmatter_unchanged: splitting "metadata_only" into the versioning
+# table's real two rows ──────────────────────────────────────────────────────
+# decide_version only ever compares the BODY, so its "metadata_only" tier
+# collapses the table's "only frontmatter differs" and "nothing differs" rows
+# into one. Regression: with nothing to separate them, `_ingested_at`/
+# `_source_commit` refreshing unconditionally on every touch meant a
+# genuinely no-op re-ingest still produced different file bytes every time,
+# so git always found something to commit.
+
+
+def test_frontmatter_unchanged_true_when_only_provenance_fields_differ():
+    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z", "_source_commit": "aaa", "tags": ["x"]}
+    new = {"_version": 2, "_ingested_at": "2026-02-02T00:00:00Z", "_source_commit": "bbb", "tags": ["x"]}
+    assert frontmatter_unchanged(existing, new) is True
+
+
+def test_frontmatter_unchanged_false_when_an_authored_field_differs():
+    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z", "tags": ["x"]}
+    new = {"_version": 2, "_ingested_at": "2026-02-02T00:00:00Z", "tags": ["x", "urgent"]}
+    assert frontmatter_unchanged(existing, new) is False
+
+
+def test_frontmatter_unchanged_false_when_version_differs():
+    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z"}
+    new = {"_version": 3, "_ingested_at": "2026-02-02T00:00:00Z"}
+    assert frontmatter_unchanged(existing, new) is False
+
+
+def test_frontmatter_unchanged_false_when_new_meta_adds_a_key():
+    existing = {"_version": 2}
+    new = {"_version": 2, "project": "Q4 planning"}
+    assert frontmatter_unchanged(existing, new) is False
 
 
 # ── frontmatter contract ─────────────────────────────────────────────────────

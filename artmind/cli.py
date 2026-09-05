@@ -34,6 +34,7 @@ from artmind.ingest import (
     ingest_file,
     ingest_to_kg,
     is_supported,
+    kg_work_was_done,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import is_structured_source, view_name
@@ -740,7 +741,10 @@ def ingest_sync(
                     result, effective_domain, text_model, embed_model, chunk_size,
                     stage_only=stage_only, defer_rebuild=defer_rebuild,
                 )
-                if kg_ok and defer_rebuild:
+                # kg_ok is True for a short-circuited no_op/metadata_only file
+                # just as much as for one that did real extraction -- only the
+                # latter leaves anything for a deferred rebuild to pick up.
+                if kg_ok and defer_rebuild and kg_work_was_done(result):
                     deferred_domains.add(effective_domain)
                 if kg_ok:
                     ok_count += 1
