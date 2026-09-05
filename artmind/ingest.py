@@ -190,7 +190,7 @@ def _update_chunk_step(doc_sha256: str, chunk_seq: int, step: str, status: str) 
         conn.close()
 
 
-def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
+def _build_file_result_from_db(document_name: str, domain: str | None) -> dict | None:
     """Reconstruct file_result from the registry for CLI retry commands.
 
     Phase 5 dropped the registry's `filename` column (docs/redesign-phase-
@@ -198,13 +198,29 @@ def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
     Python rather than SQL (no portable basename function in plain sqlite3),
     against every row in the domain -- registries are small enough that this
     doesn't matter.
+
+    `domain=None` scans every domain instead of filtering to one. A manifest-
+    driven batch (`ingest async` over a directory, docs/vault.md) resolves
+    each file's domain individually from vault.yaml; the *job's own* stored
+    domain is only ever a fallback for files nothing maps, which for a fully-
+    mapped batch means it names no real domain any file actually landed
+    under. A caller that only has the job's domain in hand (job-chunks, the
+    admin console's per-file progress view) must not filter on it -- doing so
+    made every file in a mapped batch "not found" (regardless of the fix,
+    same-named documents genuinely living in two domains remain ambiguous
+    either way; this is a progress-inspection lookup, not a write path).
     """
     conn = _get_db()
     try:
-        rows = conn.execute(
-            "SELECT path, content_sha256, artmind_id FROM documents WHERE domain = ?",
-            (domain,),
-        ).fetchall()
+        if domain is None:
+            rows = conn.execute(
+                "SELECT path, content_sha256, artmind_id FROM documents"
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT path, content_sha256, artmind_id FROM documents WHERE domain = ?",
+                (domain,),
+            ).fetchall()
     finally:
         conn.close()
     target = document_name.upper()
