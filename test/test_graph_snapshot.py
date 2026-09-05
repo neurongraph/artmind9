@@ -151,7 +151,7 @@ class TestRestoreNodes:
 
     def test_entity_restores_with_its_full_multi_label_set(self):
         """An entity node carries `:Entity:<CLASS>` in the live graph
-        (projection.rebuild_key's apoc.create.addLabels) -- restoring it
+        (projection.rebuild_key's dynamic `SET e:$(...)`) -- restoring it
         under just the "Entity" bucket label would silently drop the class
         label every entity-scoped query relies on."""
         fake = FakeSession(records=[])

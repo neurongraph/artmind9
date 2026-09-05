@@ -89,10 +89,16 @@ def retrieve_vocabulary(
     try:
         rows = session.run(
             """
-            CALL db.index.vector.queryNodes('entity_embedding', $k, $vector)
-            YIELD node, score
+            CYPHER 25
+            MATCH (node:Entity)
+              SEARCH node IN (
+                VECTOR INDEX entity_embedding
+                FOR $vector
+                LIMIT $k
+              )
             WHERE node.entity_class IN $classes
               AND (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
+            WITH node, vector.similarity.cosine(node.embedding, $vector) AS score
             RETURN node.name AS name, node.entity_class AS entity_class, score
             ORDER BY score DESC
             LIMIT $limit

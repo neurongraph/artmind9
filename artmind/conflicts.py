@@ -69,11 +69,17 @@ def candidate_pairs(
             others = [d for d in domains if d != src["domain"]] or domains
             neighbors = session.run(
                 """
-                CALL db.index.vector.queryNodes('entity_embedding', $k, $embedding)
-                YIELD node, score
+                CYPHER 25
+                MATCH (node:Entity)
+                  SEARCH node IN (
+                    VECTOR INDEX entity_embedding
+                    FOR $embedding
+                    LIMIT $k
+                  )
                 WHERE node._domain IN $others
                   AND node.entity_class = $cls
                   AND node._id <> $srcId
+                WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
                 RETURN node._id AS id, node.name AS name, node._domain AS domain,
                        node.key AS key, score
                 """,

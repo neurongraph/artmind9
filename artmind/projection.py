@@ -741,31 +741,38 @@ def rebuild_key(
     # MERGE on the deterministic id — never delete-and-recreate. Recreating
     # churns `elementId` and breaks every external reference to the node.
     #
-    # `apoc.create.removeProperties` clears what this rebuild no longer
-    # asserts, while `keep` protects `embedding` and `embedding_stale`. The
-    # embedding is LEFT IN PLACE and merely flagged when the description
-    # changes: the rebuild is inside a transaction and cannot call the embed
-    # service, and a null embedding is absent from `entity_embedding`, which
-    # would make the entity invisible to `entity-resolve`'s vector leg rather
-    # than merely less accurate. Stale still finds the entity; null deletes it.
+    # Dynamic label/property Cypher (`SET e:$(...)`, `REMOVE node[...]`,
+    # Neo4j 5.24+) replaces the old `apoc.create.addLabels` /
+    # `apoc.create.removeProperties` pair — same effect, no APOC dependency,
+    # and `label` now travels as a real bound parameter instead of being
+    # string-spliced into the query text. The property removal clears what
+    # this rebuild no longer asserts, while `keep` protects `embedding` and
+    # `embedding_stale`. The embedding is LEFT IN PLACE and merely flagged
+    # when the description changes: the rebuild is inside a transaction and
+    # cannot call the embed service, and a null embedding is absent from
+    # `entity_embedding`, which would make the entity invisible to
+    # `entity-resolve`'s vector leg rather than merely less accurate. Stale
+    # still finds the entity; null deletes it.
     tx.run(
-        f"""
-        MERGE (e:Entity {{_id: $id}})
+        """
+        CYPHER 25
+        MERGE (e:Entity {_id: $id})
         ON CREATE SET e.embedding_stale = true
         WITH e, e.description AS prior_description
-        CALL apoc.create.addLabels(e, $labels) YIELD node
-        WITH node, prior_description
-        CALL apoc.create.removeProperties(node, [k IN keys(node) WHERE NOT k IN $keep]) YIELD node AS cleaned
-        SET cleaned += $props
-        SET cleaned.embedding_stale = CASE
-              WHEN cleaned.embedding IS NULL THEN true
-              WHEN prior_description IS NULL AND $description IS NULL THEN coalesce(cleaned.embedding_stale, false)
+        SET e:$($label)
+        WITH e AS node, prior_description
+        FOREACH (staleKey IN [k IN keys(node) WHERE NOT k IN $keep] | REMOVE node[staleKey])
+        SET node += $props
+        SET node.embedding_stale = CASE
+              WHEN node.embedding IS NULL THEN true
+              WHEN prior_description IS NULL AND $description IS NULL THEN coalesce(node.embedding_stale, false)
               WHEN prior_description IS NULL OR prior_description <> $description THEN true
-              ELSE coalesce(cleaned.embedding_stale, false)
+              ELSE coalesce(node.embedding_stale, false)
             END
-        RETURN cleaned
-        """.replace("$labels", f"['{label}']"),
+        RETURN node
+        """,
         id=eid,
+        label=label,
         keep=keep,
         props=props,
         description=props.get("description"),
