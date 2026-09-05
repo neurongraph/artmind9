@@ -156,22 +156,26 @@ def scaffold_run_folder() -> dict:
 
     The ``.claude/skills/`` and ``.opencode/`` seeds are skipped when
     ``ARTMIND_HOME`` is a *vault's* own ``.artmind/`` (i.e. this process is
-    running inside a vault, not the machine home) — each has a reason specific
-    to the vault model, not just belt-and-braces caution. Machine config is
-    NOT gated this way: ``ensure_machine_config`` targets ``Path.home()``
-    directly regardless of ``ARTMIND_HOME``, so it is correct to call from
-    inside a vault too (see its own docstring).
+    running inside a vault, not the machine home) — both have the same reason,
+    not just belt-and-braces caution. Machine config is NOT gated this way:
+    ``ensure_machine_config`` targets ``Path.home()`` directly regardless of
+    ``ARTMIND_HOME``, so it is correct to call from inside a vault too (see its
+    own docstring).
 
-    - ``.claude/skills/``: a vault's skills live at ``<vault>/.claude/skills/``
-      (``VaultLayout.skills_dir``, symlinked by ``scaffold_vault``/``init``) —
-      NOT ``<vault>/.artmind/.claude/skills/``, which is where this function
-      would otherwise put them (``ARTMIND_HOME`` being the vault's
-      ``.artmind/``). Seeding here creates a second, un-symlinked copy at the
-      wrong path — one the vault's ``.gitignore`` (``.claude/skills/artmind-*``,
-      written relative to the vault root) does not match, so it gets
-      committed as vault content though it is a reproducible package asset.
-    - ``.opencode/``: not part of the vault model at all (docs/vault.md's
-      layout never mentions it) — it belongs at the true machine home only.
+    - ``.claude/skills/`` and ``.opencode/agent/`` both live one level ABOVE
+      ``ARTMIND_HOME`` when it is a vault's ``.artmind/`` — at
+      ``<vault>/.claude/skills/`` and ``<vault>/.opencode/agent/``
+      (``VaultLayout.skills_dir``/``opencode_agents_dir``, symlinked by
+      ``scaffold_vault``/``init``, same as ``ARTMIND_AGENT_CWD`` in
+      ``paths.py``), NOT ``<vault>/.artmind/.claude/skills/`` or
+      ``<vault>/.artmind/.opencode/``, which is where this function would
+      otherwise put them (``ARTMIND_HOME`` being the vault's ``.artmind/``).
+      Seeding here would create a second, un-symlinked copy at the wrong path
+      — one the vault's ``.gitignore`` (``.claude/skills/artmind-*`` and
+      ``.opencode/agent/artmind*.md``, both written relative to the vault
+      root) does not match, so it would get committed as vault content though
+      it is a reproducible package asset. And a session run with cwd at that
+      wrong path would never find either — see ``ARTMIND_AGENT_CWD``.
 
     See ``docs/vault.md``.
     """
@@ -316,6 +320,7 @@ def scaffold_vault(root: Path) -> dict:
         layout.data_dir, layout.kg_dir, layout.originals_dir, layout.chunks_dir,
         layout.structured_dir, layout.snapshots_dir, layout.jobs_dir,
         layout.refine_dir, layout.logs_dir, layout.skills_dir,
+        layout.opencode_agents_dir,
     ):
         directory.mkdir(parents=True, exist_ok=True)
 
@@ -340,6 +345,7 @@ def scaffold_vault(root: Path) -> dict:
         layout.vault_yaml.write_text(_STARTER_VAULT_YAML, encoding="utf-8")
 
     linked = _symlink_skills(layout.skills_dir)
+    linked_opencode = _symlink_opencode_agents(layout.opencode_agents_dir)
     gitignore_written = write_gitignore(root)
     machine_config = ensure_machine_config()
 
@@ -347,6 +353,7 @@ def scaffold_vault(root: Path) -> dict:
         "vault": str(root),
         "schemas": seeded_schemas,
         "skills": linked,
+        "opencode_agents": linked_opencode,
         "gitignore": gitignore_written,
         "machine_config": machine_config,
     }
@@ -378,6 +385,35 @@ def _symlink_skills(dest: Path) -> list[str]:
             target.symlink_to(src, target_is_directory=True)
         except OSError:
             shutil.copytree(src, target)
+        linked.append(src.name)
+    return linked
+
+
+def _symlink_opencode_agents(dest: Path) -> list[str]:
+    """Symlink each packaged opencode agent (persona) `.md` file into the
+    vault's `.opencode/agent/`.
+
+    Same rationale as ``_symlink_skills``: a symlink rather than a copy means
+    an artmind upgrade reaches every vault with no re-seeding. Files, not
+    directories, since ``PACKAGE_OPENCODE_DIR / "agent"`` holds flat `.md`
+    personas (``artmind.md``, ``artmind-admin.md``), unlike the per-skill
+    subdirectories under ``PACKAGE_SKILLS_DIR``.
+    """
+    src_dir = PACKAGE_OPENCODE_DIR / "agent"
+    linked: list[str] = []
+    if not src_dir.is_dir():
+        return linked
+    for src in sorted(src_dir.glob("*.md")):
+        target = dest / src.name
+        if target.is_symlink() or target.exists():
+            if target.is_symlink() and target.resolve() == src.resolve():
+                linked.append(src.name)
+                continue
+            target.unlink()
+        try:
+            target.symlink_to(src)
+        except OSError:
+            shutil.copy2(src, target)
         linked.append(src.name)
     return linked
 

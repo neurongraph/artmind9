@@ -145,6 +145,24 @@ def test_scaffold_symlinks_skills_to_the_installed_copy(tmp_path):
     assert (linked / "SKILL.md").is_file()
 
 
+def test_scaffold_symlinks_opencode_agents_to_the_installed_copy(tmp_path):
+    """Same rationale as skills: an ACP session's `cwd` must be the vault
+    root for `.opencode/agent/*.md` (the `artmind`/`artmind-admin` persona
+    modes) to be discoverable there at all -- see docs/vault.md, "ACP agent
+    modes"."""
+    from artmind.setup import scaffold_vault
+
+    result = scaffold_vault(tmp_path)
+
+    agents_dir = vault.VaultLayout(tmp_path).opencode_agents_dir
+    linked = agents_dir / "artmind.md"
+    assert linked.is_symlink()
+    assert linked.is_file()
+    assert (agents_dir / "artmind-admin.md").is_symlink()
+    assert "artmind.md" in result["opencode_agents"]
+    assert "artmind-admin.md" in result["opencode_agents"]
+
+
 def test_a_new_vault_keeps_its_data_inside_itself(tmp_path):
     """The seeded config must not hijack the data dir.
 
@@ -301,6 +319,39 @@ def test_symlinked_skills_are_actually_ignored_by_the_written_gitignore(tmp_path
     status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
 
     assert ".claude/skills/artmind-query" not in status, status
+
+
+def test_symlinked_opencode_agents_are_actually_ignored_by_the_written_gitignore(tmp_path):
+    """Mirrors the skills version above: `.opencode/agent/artmind*.md` must
+    match `VaultLayout.opencode_agents_dir` (`<vault>/.opencode/agent/`)
+    exactly, or the symlinked persona files get committed as vault content."""
+    from artmind.setup import scaffold_vault
+
+    _init_repo(tmp_path)
+    scaffold_vault(tmp_path)
+    vault.write_gitignore(tmp_path)
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert ".opencode/agent/artmind.md" not in status, status
+    assert ".opencode/agent/artmind-admin.md" not in status, status
+
+
+def test_a_user_authored_opencode_agent_stays_committable(tmp_path):
+    """The gitignore pattern is scoped to artmind's own personas
+    (`artmind*.md`) -- a hand-written custom agent must stay vault content,
+    same as a hand-written skill does."""
+    from artmind.setup import scaffold_vault
+
+    _init_repo(tmp_path)
+    scaffold_vault(tmp_path)
+    vault.write_gitignore(tmp_path)
+    custom = vault.VaultLayout(tmp_path).opencode_agents_dir / "my-custom-agent.md"
+    custom.write_text("---\ndescription: mine\n---\nHello.\n")
+
+    status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
+
+    assert ".opencode/agent/my-custom-agent.md" in status, status
 
 
 def test_scaffold_run_folder_does_not_plant_an_uningored_skills_copy_in_a_vault(tmp_path, monkeypatch):

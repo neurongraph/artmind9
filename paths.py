@@ -56,6 +56,15 @@ elif _LAYOUT is not None:
 else:
     ARTMIND_HOME = (Path.home() / ".artmind").resolve()
 
+# ARTMIND_AGENT_CWD: the directory an agent process (claude-sdk, ACP) should be
+# run in so it resolves `.claude/skills/` and `.opencode/agent/` correctly.
+# NOT the same as ARTMIND_HOME once a vault is in play: `.claude/skills/` and
+# `.opencode/agent/` are symlinked into the *vault root* (VaultLayout.skills_dir,
+# VaultLayout.opencode_agents_dir), one level above `ARTMIND_HOME` (the vault's
+# `.artmind/`) -- see docs/vault.md, "Skills and agent modes". Outside a vault,
+# both live directly under the machine home, so ARTMIND_HOME is already correct.
+ARTMIND_AGENT_CWD = _LAYOUT.root if _LAYOUT is not None else ARTMIND_HOME
+
 # ── config, loaded MOST SPECIFIC FIRST ────────────────────────────────────────
 # `override=False` means an already-set key wins, so reading the vault's own
 # config before the machine's is what makes the vault override the machine
@@ -154,7 +163,8 @@ PACKAGE_SCHEMAS_DIR = _SELF_DIR / "artmind" / "domains" / "schemas"
 PACKAGE_META_YAML = _SELF_DIR / "artmind" / "domains" / "meta.yaml"
 PACKAGE_ENV_EXAMPLE = _SELF_DIR / "artmind" / "env.example"
 # opencode/ACP persona; opencode reads .opencode/agent/ (and .claude/skills/)
-# relative to its cwd, which is the run folder.
+# relative to its cwd, i.e. ARTMIND_AGENT_CWD -- the run folder outside a
+# vault, the vault root (symlinked in by scaffold_vault) inside one.
 PACKAGE_OPENCODE_DIR = _SELF_DIR / "artmind" / "opencode"
 
 # ``PROJECT_ROOT`` retained for backward compatibility (worker.py, ingest.py).

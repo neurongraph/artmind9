@@ -73,6 +73,7 @@ Two corollaries:
 ~/MyVault/                              ← Obsidian vault, git repo, artmind vault
 ├── .git/  .obsidian/
 ├── .claude/skills/                     ← artmind's (symlinked, ignored) + yours
+├── .opencode/agent/                    ← ACP persona modes (symlinked, ignored)
 ├── _Inbox/                             ← drafts; never ingested
 ├── _external_docs/                     ← copies of sources from outside the vault
 ├── area1/  notes/  …                   ← your documents, your binaries
@@ -315,9 +316,10 @@ it → the cursor sees a change → but `compute_content_sha256` hashes the **bo
 only**, so the version decision is `metadata_only`, minting no observations at no
 LLM cost.
 
-## Skills and schemas
+## Skills, agent modes, and schemas
 
-They go opposite ways, and the line is: **skills are code, schemas are content.**
+They go opposite ways, and the line is: **skills and agent modes are code,
+schemas are content.**
 
 ### Skills — machine-level, symlinked in
 
@@ -335,6 +337,27 @@ So `<vault>/.claude/skills/` holds artmind's skills (symlinked, ignored) beside
 any you write yourself (committed), and opening the vault in Claude Code directly
 gets you both. Where symlinks are unavailable — Windows without privileges, some
 sync services — the fallback is a copy refreshed by an explicit `artmind update`.
+
+### ACP agent modes — machine-level, symlinked in, same as skills
+
+The chat/admin UIs' `acp` backend (opencode driving the `artmind`/`artmind-admin`
+persona) resolves its custom agents from `.opencode/agent/*.md`, the same way:
+relative to the `cwd` the ACP session is opened with, which must be the vault
+root for the same reason skills must.
+
+Canonical copy: `artmind/opencode/agent/*.md` in the package. `artmind init`
+symlinks each `.md` file into `<vault>/.opencode/agent/`, gitignored
+(`.opencode/agent/artmind*.md`) — identical treatment to skills, including the
+copy fallback where symlinks are unavailable.
+
+This used to be genuinely different from skills: `.opencode/` lived only at
+the machine home (`~/.artmind/.opencode/`), on the theory that ACP mode
+selection was somehow independent of the vault. It is not — an ACP session's
+`cwd` governs both skill discovery and agent-mode discovery identically, so
+whichever directory that `cwd` points at needs both. `ARTMIND_AGENT_CWD`
+(`paths.py`) is that directory: the vault root inside a vault, the machine
+home otherwise — never `ARTMIND_HOME` unconditionally, which is one level
+below the vault root (`<vault>/.artmind/`) and holds neither.
 
 ### Schemas — vault-level, committed, yours
 
@@ -361,8 +384,9 @@ vault"**, the way `git init` makes one a repo.
 2. create `.artmind/`, write `.artmind/.gitignore`
 3. seed starter schemas into `.artmind/domains/`
 4. symlink skills into `.claude/skills/`
-5. write `.artmind/config.env` from the template, and a starter `vault.yaml`
-6. print next steps
+5. symlink ACP agent-mode personas into `.opencode/agent/`
+6. write `.artmind/config.env` from the template, and a starter `vault.yaml`
+7. print next steps
 
 `just dev-install` must **stop running `artmind init`** — installing the CLI and
 creating a vault are separate acts, and at install time there is no vault.
