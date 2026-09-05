@@ -19,6 +19,7 @@ effort.
 | 5 | Trigger ingestion of a new/edited file | Unclear which command to run; relationship to `git commit` unclear | Medium | Confirmed gap, but there is a clear answer today |
 | 6 | `artmind setup` (first Neo4j connection) | Raw driver errors, no AuraDB guidance, no APOC check | Medium | Confirmed, two separate gaps |
 | 7 | `artmind chat-ui` / `artmind admin-ui` first launch | Static analysis suggested agent `cwd` couldn't find vault skills | ~~High~~ None | **Retracted after live testing** — chat-ui launched from a real vault works correctly with `artmind-query`; the doc-code cwd mismatch doesn't manifest |
+| 8 | Using `artmind-update` in chat-ui with `ARTMIND_SDK_BASE_URL` set | `artmind-update` 404'd reaching the LLM while `artmind-query` worked fine in the same session | **High** | **Fixed** — `ANTHROPIC_BASE_URL` collision between the SDK's own routing and the KG extraction client, resolved by rescuing the original under `ARTMIND_KG_ANTHROPIC_BASE_URL` |
 
 ---
 
@@ -294,9 +295,36 @@ no signal that the chat UI needs Anthropic credentials too.
 
 ---
 
+## 8. `artmind-update` 404s reaching the LLM when `ARTMIND_SDK_BASE_URL` is set
+
+**Found live:** in the same chat-ui session, `/artmind-query` worked but
+`/artmind-update` returned a 404 trying to reach the LLM.
+
+**Root cause:** `_sdk_env_overrides()`
+([webui/backends/__init__.py](../artmind/webui/backends/__init__.py)) sets
+`ANTHROPIC_BASE_URL` on the *entire* spawned `claude` CLI process, for the
+chat agent's own `ARTMIND_SDK_BASE_URL` custom-endpoint routing. A Bash tool
+call the agent makes (`/artmind-update` always shells out to
+`artmind update draft`, which needs the KG extraction LLM) runs as a child of
+that process and inherits the override too — shadowing the differently-shaped
+`ANTHROPIC_BASE_URL` that `ARTMIND_KG_LLM_PROVIDER=ibm_ica`'s own extraction
+client ([extraction.py](../artmind/extraction.py)) needs. `/artmind-query`
+never surfaced it because most graph patterns need no LLM call at all.
+
+**Fix:** `_sdk_env_overrides()` now rescues the original `ANTHROPIC_BASE_URL`
+under `ARTMIND_KG_ANTHROPIC_BASE_URL` before overriding it;
+`ibm_ica_client_env()` checks that name first, falling back to the plain one
+for direct CLI invocations outside chat-ui (unaffected either way). Live
+retested in chat-ui — confirmed working.
+
+**Priority:** High (silently broke a documented, commonly-used skill for any
+setup with `ARTMIND_SDK_BASE_URL` + `ibm_ica` configured). **Status: Fixed**
+(`master@716e802`).
+
+---
+
 ## Open — steps not yet reviewed
 
-Continuing this review would cover: querying via the `artmind-query`/
-`artmind-update` skills once a vault has data, curation (`artmind-curate`,
-the same-as review queue), and session snapshots (`session close`/`session
+Continuing this review would cover: curation (`artmind-curate`, the
+same-as review queue), and session snapshots (`session close`/`session
 initiate`) for ephemeral Neo4j setups.
