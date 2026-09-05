@@ -197,6 +197,28 @@ class TestExpectedExitCodesAreNotErrors:
             "ERROR line on every successful commit"
         )
 
+    def test_no_configured_remote_is_not_logged_as_a_failure(self, tmp_path, monkeypatch):
+        """`artmind init` never adds a remote, so `git push` with
+        ARTMIND_VAULT_GIT_PUSH=1 set exits 128 ("No configured push
+        destination") on every ingest into a brand-new, local-only vault --
+        maybe_push already downgrades this to a WARNING; run_command must not
+        also log it at ERROR first."""
+        import artmind.vault_git as vg
+
+        seen = []
+        monkeypatch.setattr(vg, "load_env", lambda: {"ARTMIND_VAULT_GIT_PUSH": "1"})
+        monkeypatch.setattr(vg, "_vault_root", lambda: tmp_path)
+        monkeypatch.setattr(vg, "run_command", _recording(seen, returncode=128))
+
+        vg.maybe_push()  # must not raise
+
+        push_calls = [c for c in seen if c["cmd"] == "git push"]
+        assert push_calls, "git push did not run"
+        assert push_calls[0]["expected_codes"] == (128,), (
+            "128 must be declared expected, or every ingest into a fresh vault "
+            "with push enabled logs an ERROR for a normal, common state"
+        )
+
 
 def _recording(sink, returncode=0):
     def _run(cmd_str, timeout=None, cwd=None, extra_env=None, expected_codes=()):

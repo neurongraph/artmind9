@@ -14,6 +14,8 @@ from paths import (
     JOBS_DIR,
     KG_DIR,
     LOGS_DIR,
+    MACHINE_CONFIG_DIR,
+    MACHINE_CONFIG_ENV,
     MARKDOWNS_DIR,
     ORIGINALS_DIR,
     PACKAGE_ENV_EXAMPLE,
@@ -73,33 +75,93 @@ def _seed_tree(src, dest, *, overwrite: bool = False) -> int:
     return written
 
 
+# Keys that belong to a VAULT's own config.env (Neo4j connection, and the
+# legacy path/location overrides the vault model now derives from the vault
+# itself), not the machine-wide one. Mirrors docs/vault.md's "Machine-level
+# config" table. Matched by literal line-start, same as the manual
+# `grep -vE` fix docs/vault.md documented before this was automated (a
+# commented-out `# ARTMIND_DATA_DIR=...` line is deliberately left alone).
+#
+# `artmind/env.example` itself no longer carries any of these -- it is
+# machine-scoped by construction now, so this filter is a no-op on the
+# "seeded fresh" path below. It still earns its keep on the "migrate an
+# older install's legacy .env" path, where that file predates the split and
+# genuinely does mix both scopes together.
+_VAULT_SCOPED_ENV_PREFIXES = (
+    "ARTMIND_KG_NEO4J_",
+    "ARTMIND_DATA_DIR",
+    "ARTMIND_VAULT_DIR",
+    "ARTMIND_ARCHIVE_DIR",
+)
+
+
+def ensure_machine_config() -> dict:
+    """Make sure ``~/.artmind/config.env`` -- the file every vault's
+    machine-wide identity (LLM provider, API keys, embedding model) actually
+    loads from (``paths.MACHINE_CONFIG_ENV``) -- exists and holds something.
+
+    Deliberately keyed on ``paths.MACHINE_CONFIG_DIR`` (``Path.home() /
+    ".artmind"``), NOT ``ARTMIND_HOME`` -- machine identity is the one thing
+    shared by every vault on this machine, so this is safe and correct to call
+    unconditionally, whether or not the caller happens to be vault-resident
+    right now.
+
+    Called from both ``scaffold_run_folder`` (``just dev-install`` /
+    ``artmind setup``) and ``scaffold_vault`` (``artmind init``), so whichever
+    of the two runs first is the one that actually creates it. Idempotent and
+    never destructive -- three cases, in priority order:
+
+    1. ``~/.artmind/config.env`` already exists -> left alone, action "ok".
+    2. it's missing, but the legacy ``~/.artmind/.env`` (seeded by an older
+       ``artmind9`` on this machine) holds real settings -> migrate them,
+       stripping the vault-scoped keys above (their home is now a vault's own
+       ``config.env``), action "migrated". Checked first so a returning
+       user's actual settings always win over the bare template below.
+    3. neither exists (a genuinely fresh machine) -> seed fresh from the
+       package's ``env.example`` template, action "seeded" -- this is what
+       makes a bare ``just dev-install`` produce a working, if default-filled,
+       ``~/.artmind/config.env`` with no further step required.
+    """
+    if MACHINE_CONFIG_ENV.exists():
+        return {"action": "ok", "path": str(MACHINE_CONFIG_ENV)}
+
+    legacy_env = MACHINE_CONFIG_DIR / ".env"
+    if legacy_env.is_file():
+        source, action = legacy_env, "migrated"
+    elif PACKAGE_ENV_EXAMPLE.is_file():
+        source, action = PACKAGE_ENV_EXAMPLE, "seeded"
+    else:
+        return {"action": "missing", "path": str(MACHINE_CONFIG_ENV)}
+
+    MACHINE_CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    filtered = "".join(
+        line for line in source.read_text(encoding="utf-8").splitlines(keepends=True)
+        if not line.startswith(_VAULT_SCOPED_ENV_PREFIXES)
+    )
+    MACHINE_CONFIG_ENV.write_text(filtered, encoding="utf-8")
+    MACHINE_CONFIG_ENV.chmod(0o600)
+    return {"action": action, "path": str(MACHINE_CONFIG_ENV), "source": str(source)}
+
+
 def scaffold_run_folder() -> dict:
-    """Create the run folder + data dirs and seed .env, skills and schemas.
+    """Create the run folder + data dirs and seed machine config, skills and schemas.
 
     Pure filesystem work — needs no Neo4j/config, so it is safe to run right
-    after install, before the user has filled in ``~/.artmind/.env``.
+    after install, before the user has filled in ``~/.artmind/config.env``.
 
     Idempotent, but not inert: package assets (skills, opencode, domain schemas)
-    are refreshed from the package on every run, while user data (``.env``) is
-    only seeded when absent. See ``_seed_tree``.
+    are refreshed from the package on every run, while user data
+    (``~/.artmind/config.env``, via ``ensure_machine_config``) is only seeded
+    when absent. See ``_seed_tree``.
 
-    The ``.env``, ``.claude/skills/`` and ``.opencode/`` seeds are all skipped
-    when ``ARTMIND_HOME`` is a *vault's* own ``.artmind/`` (i.e. this process
-    is running inside a vault, not the machine home) — each has a reason
-    specific to the vault model, not just belt-and-braces caution:
+    The ``.claude/skills/`` and ``.opencode/`` seeds are skipped when
+    ``ARTMIND_HOME`` is a *vault's* own ``.artmind/`` (i.e. this process is
+    running inside a vault, not the machine home) — each has a reason specific
+    to the vault model, not just belt-and-braces caution. Machine config is
+    NOT gated this way: ``ensure_machine_config`` targets ``Path.home()``
+    directly regardless of ``ARTMIND_HOME``, so it is correct to call from
+    inside a vault too (see its own docstring).
 
-    - ``.env``: ``env.example``'s uncommented defaults are machine-wide
-      (``ARTMIND_KG_LLM_PROVIDER=ollama``, ``ARTMIND_DATA_DIR=~/artmind_data``,
-      ...) — exactly what ``scaffold_vault``'s ``_STARTER_CONFIG_ENV`` docstring
-      already refuses to seed into a vault's ``config.env``, for the same
-      reason. But ``paths.py`` loads ``<home>/.env`` as the *legacy run
-      folder* path with higher precedence than the machine-wide
-      ``~/.artmind/config.env`` — so seeding it here, into a vault, silently
-      shadows the real machine identity with those literal ollama/local
-      defaults the first time ``artmind setup`` runs there, and clobbers
-      ``ARTMIND_DATA_DIR`` to the shared default in the process, sending that
-      vault's ingest output to ``~/artmind_data`` instead of
-      ``<vault>/.artmind/data``.
     - ``.claude/skills/``: a vault's skills live at ``<vault>/.claude/skills/``
       (``VaultLayout.skills_dir``, symlinked by ``scaffold_vault``/``init``) —
       NOT ``<vault>/.artmind/.claude/skills/``, which is where this function
@@ -113,7 +175,6 @@ def scaffold_run_folder() -> dict:
 
     See ``docs/vault.md``.
     """
-    run_env = ARTMIND_HOME / ".env"
     skills_dest = ARTMIND_HOME / ".claude" / "skills"
     opencode_dest = ARTMIND_HOME / ".opencode"
 
@@ -141,14 +202,7 @@ def scaffold_run_folder() -> dict:
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
 
-    seeded_env = False
-    if (
-        not home_is_vault_resident
-        and not run_env.exists()
-        and PACKAGE_ENV_EXAMPLE.is_file()
-    ):
-        shutil.copy2(PACKAGE_ENV_EXAMPLE, run_env)
-        seeded_env = True
+    machine_config = ensure_machine_config()
 
     # Package assets: always refreshed — the package is their source of truth.
     # (Skills/opencode skipped entirely when vault-resident, per the docstring.)
@@ -175,11 +229,7 @@ def scaffold_run_folder() -> dict:
     return {
         "run_folder": str(ARTMIND_HOME),
         "data_dir": str(ARTMIND_DATA_DIR),
-        "env": (
-            "seeded from template" if seeded_env
-            else "skipped (vault-resident; see ~/.artmind/config.env)" if home_is_vault_resident
-            else str(run_env)
-        ),
+        "machine_config": machine_config,
         "skills_refreshed": skills_refreshed,
         "schemas_copied": schemas_copied,
         "opencode_refreshed": opencode_refreshed,
@@ -291,12 +341,14 @@ def scaffold_vault(root: Path) -> dict:
 
     linked = _symlink_skills(layout.skills_dir)
     gitignore_written = write_gitignore(root)
+    machine_config = ensure_machine_config()
 
     return {
         "vault": str(root),
         "schemas": seeded_schemas,
         "skills": linked,
         "gitignore": gitignore_written,
+        "machine_config": machine_config,
     }
 
 

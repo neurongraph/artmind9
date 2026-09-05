@@ -129,14 +129,21 @@ def maybe_push() -> None:
     """Push the vault's current branch, only when explicitly opted in via
     ARTMIND_VAULT_GIT_PUSH=1. Failures (no remote, offline, auth) log a
     warning and are otherwise swallowed — push is a courtesy, not a
-    precondition for ingest to have succeeded."""
+    precondition for ingest to have succeeded.
+
+    128 is `expected_codes` here for the same reason as `current_commit`'s
+    "no commits yet": a brand-new vault with `ARTMIND_VAULT_GIT_PUSH=1` set
+    but no remote configured yet is a normal, common state (`artmind init`
+    doesn't add one), not a failure worth an ERROR-level line on every single
+    ingest — the WARNING below already reports it plainly.
+    """
     env = load_env()
     if env.get("ARTMIND_VAULT_GIT_PUSH", "").strip() not in ("1", "true", "yes"):
         return
     vault = _vault_root()
     if vault is None:
         return
-    rc, out, err = run_command("git push", cwd=vault)
+    rc, out, err = run_command("git push", cwd=vault, expected_codes=(128,))
     if rc != 0:
         logger.warning("vault_git: push failed (non-fatal): {}", err or out)
     else:

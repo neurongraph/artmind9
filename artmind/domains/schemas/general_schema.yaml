@@ -6,14 +6,14 @@ subject: documents of any type
 guidance:
   entities: 'CHOOSE THE MOST SPECIFIC CLASS: if content could fit multiple classes, pick the one that
     best captures its role in THIS document. E.g., "GDP growth rate" is a METRIC, not a CONCEPT. "Inflation"
-    is a CONCEPT, not a METRIC. Prefer PERSON/ORGANIZATION/LOCATION over the generic ENTITY class where
+    is a CONCEPT, not a METRIC. Prefer PERSON/ORGANIZATION/LOCATION over the generic THING class where
     applicable.'
   relationships: |-
-    CLAIM STRUCTURE IS CORE: for general documents, the most important graph structure is often ENTITY makes CLAIM, CLAIM is supported_by METRIC, CLAIM is sourced_from SOURCE. Always look for this chain.
+    CLAIM STRUCTURE IS CORE: for general documents, the most important graph structure is often THING makes CLAIM, CLAIM is supported_by METRIC, CLAIM is sourced_from SOURCE. Always look for this chain.
     CLAIM→METRIC and CLAIM→SOURCE chains captured.
-    ENTITY→CLAIM authorship captured where present.
+    THING→CLAIM authorship captured where present.
 entity_types:
-  ENTITY:
+  THING:
     kind: recurrent
     description: Any named real-world object, person, organisation, product, place, or system that plays
       a concrete role in the document. Use this for the "who" and "what" of the document.
@@ -42,7 +42,7 @@ entity_types:
       relationships_stated:
         hint: brief note on key connections if complex
     relates_to:
-      ENTITY:
+      THING:
       - associated_with
       - part_of
       - owns
@@ -384,7 +384,7 @@ entity_types:
   ORGANIZATION:
     kind: recurrent
     description: Any company, institution, government body, NGO, or formal group referenced in the document.
-      Use instead of ENTITY when the entity is clearly an organisation.
+      Use instead of THING when the entity is clearly an organisation.
     type_examples:
     - company
     - government

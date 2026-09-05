@@ -64,6 +64,45 @@ def test_reserved_prefix_on_property_name_is_flagged():
     assert any("_id" in e and "reserved" in e for e in errors)
 
 
+# ── a class name colliding with the structural :Entity label ────────────────
+# The bug this catches (general_schema.yaml's original "ENTITY" fallback):
+# MERGE (e:Entity {_id: ...}) gives every node a structural `:Entity` label,
+# then a dynamic label is added from the sanitized class name. Neo4j labels
+# are case-sensitive, so a class that sanitizes to "ENTITY" adds a SECOND,
+# visually-identical-looking label instead of matching the first.
+
+
+def test_a_class_named_entity_is_flagged():
+    schema = {"name": "fixture", "entity_types": {"ENTITY": {"kind": "recurrent"}}}
+    errors = validate_schema(schema, META, schema_name="fixture")
+    assert any("ENTITY" in e and "reserved label" in e for e in errors)
+
+
+def test_a_class_name_that_sanitizes_to_entity_is_also_flagged():
+    """Case and punctuation differences don't dodge the check -- the same
+    sanitize step (uppercase, non-alnum -> underscore) runs before either
+    ends up on a Neo4j node."""
+    schema = {"name": "fixture", "entity_types": {"entity": {"kind": "recurrent"}}}
+    errors = validate_schema(schema, META, schema_name="fixture")
+    assert any("reserved label" in e for e in errors)
+
+
+def test_a_more_specific_class_name_is_not_flagged():
+    schema = {"name": "fixture", "entity_types": {"THING": {"kind": "recurrent"}}}
+    assert validate_schema(schema, META, schema_name="fixture") == []
+
+
+def test_no_shipped_schema_defines_a_class_colliding_with_entity():
+    """Regression: this exact collision shipped in general_schema.yaml until
+    it was renamed to THING. Runs against the real package schemas, not a
+    fixture, so a future schema can't reintroduce it unnoticed."""
+    from paths import PACKAGE_SCHEMAS_DIR
+
+    violations = validate_all(schemas_dir=PACKAGE_SCHEMAS_DIR)
+    for name, errors in violations.items():
+        assert not any("reserved label" in e for e in errors), (name, errors)
+
+
 def test_reserved_prefix_on_relates_to_target_is_flagged():
     schema = {
         "name": "fixture",

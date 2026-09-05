@@ -33,6 +33,15 @@ so every derived log/data path lands under it. pytest imports this conftest
 before any test module, and nothing here imports artmind at module scope, so
 this assignment always wins the race.
 
+The machine-wide config file (``paths.MACHINE_CONFIG_ENV``, i.e.
+``~/.artmind/config.env`` — docs/vault.md, "Machine-level config") is a third
+hazard in the same family: it is deliberately keyed on ``Path.home()``
+directly, not ``ARTMIND_HOME``, so it stays one file shared by every vault —
+which means the ``ARTMIND_HOME`` redirect above does NOT reach it.
+``setup.ensure_machine_config()`` (wired into ``artmind init``) can write this
+file, so the developer's real ``HOME`` gets redirected too, for the same
+"before any artmind/paths import" reason.
+
 Two separate patch targets are required, not one, because ``neo4j_session``
 is captured by ``from artmind.graph_query import neo4j_session`` in multiple
 modules — each such import binds its own local name in that module's
@@ -68,7 +77,17 @@ from pathlib import Path
 _TEST_RUN_ROOT = tempfile.mkdtemp(prefix="artmind-test-home-")
 os.environ["ARTMIND_HOME"] = _TEST_RUN_ROOT
 os.environ["ARTMIND_DATA_DIR"] = os.path.join(_TEST_RUN_ROOT, "data")
+
+# ``paths.MACHINE_CONFIG_DIR``/``MACHINE_CONFIG_ENV`` are computed from
+# ``Path.home()`` directly, not ``ARTMIND_HOME`` (see module docstring) —
+# redirect HOME (and USERPROFILE, for Windows) the same way, before paths.py
+# is ever imported, so nothing here can touch the developer's real
+# ~/.artmind/config.env.
+_TEST_HOME_ROOT = tempfile.mkdtemp(prefix="artmind-test-realhome-")
+os.environ["HOME"] = _TEST_HOME_ROOT
+os.environ["USERPROFILE"] = _TEST_HOME_ROOT
 atexit.register(shutil.rmtree, _TEST_RUN_ROOT, ignore_errors=True)
+atexit.register(shutil.rmtree, _TEST_HOME_ROOT, ignore_errors=True)
 
 # Seed the package's default domain schemas into the temp run folder so it
 # behaves like a freshly ``init``'d one. Without this, DOMAIN_SCHEMAS_DIR is
