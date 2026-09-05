@@ -13,11 +13,24 @@ Use this skill to let a user add or update facts in the artmind knowledge graph 
 - Derive domain from the user's first message where possible; ask if ambiguous.
 - Present all candidate choices for a single input in one batch, not one-by-one.
 - Report what was written (nodes created/updated, relationships written, facts retracted) after each confirm.
+- **Pass `--text` verbatim — never paraphrase, expand, or add facts, context, or
+  outside knowledge the user did not actually state.** `--text` becomes
+  `raw_text` on the graph's `UserChat` node, stored exactly as given: it is
+  provenance, the permanent record of what the user actually said, and
+  extraction runs over it — so embellishing it before the call doesn't just
+  misrecord the input, it can plant entities and relationships in the graph
+  that trace back to your own elaboration rather than anything the user
+  asserted. Fixing an obvious typo is fine; supplying a fact, a date, a cause,
+  or a "such as" the user never mentioned is not — this is the same grounding
+  principle `artmind-query` applies to its answers, applied here to the input
+  instead of the output. If the user's own phrasing is genuinely ambiguous or
+  underspecified, ask them to clarify rather than filling the gap yourself.
 
 ## Required Inputs
 
 - `domain`: Auto-detect from input; ask if unclear.
-- `text`: The user's natural language input (atomic fact, passage, todo, pasted text).
+- `text`: The user's natural language input, passed to `--text` verbatim (atomic
+  fact, passage, todo, pasted text) — see the grounding rule above.
 
 ## Session Setup
 
