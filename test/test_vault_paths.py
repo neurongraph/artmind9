@@ -85,3 +85,49 @@ def test_artmind_home_still_overrides_everything(tmp_path):
     out = _probe(tmp_path, ARTMIND_HOME=str(override))
 
     assert out["home"] == str(override.resolve())
+
+
+def test_a_vault_scoped_key_in_machine_config_does_not_override_the_vault(tmp_path):
+    """Regression: a real ingest wrote its markdown to ~/artmind_data instead
+    of the vault, because ~/.artmind/config.env carried an uncommented
+    ARTMIND_DATA_DIR -- copied wholesale from an old pre-vault .env -- which
+    the vault's own config.env leaves commented out by default, so nothing
+    in the normal load-order beat it. The vault's own derived default must
+    win regardless of what a machine-wide config.env says about this key."""
+    vault_root = tmp_path / "myvault"
+    (vault_root / ".artmind").mkdir(parents=True)
+    (vault_root / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
+
+    fake_home = tmp_path / "fakehome"
+    (fake_home / ".artmind").mkdir(parents=True)
+    (fake_home / ".artmind" / "config.env").write_text(
+        "ARTMIND_KG_LLM_PROVIDER=ollama\n"
+        "ARTMIND_DATA_DIR=/somewhere/machine-wide/wrong\n"
+    )
+
+    out = _probe(vault_root, HOME=str(fake_home))
+
+    assert out["data"] == str((vault_root / ".artmind" / "data").resolve())
+
+
+def test_a_vault_scoped_key_in_machine_config_warns_on_stderr(tmp_path):
+    vault_root = tmp_path / "myvault"
+    (vault_root / ".artmind").mkdir(parents=True)
+    (vault_root / ".artmind" / "vault.yaml").write_text("ingest: {}\n")
+
+    fake_home = tmp_path / "fakehome"
+    (fake_home / ".artmind").mkdir(parents=True)
+    (fake_home / ".artmind" / "config.env").write_text(
+        "ARTMIND_DATA_DIR=/somewhere/machine-wide/wrong\n"
+    )
+
+    env = {**os.environ, "PYTHONPATH": str(REPO_ROOT), "HOME": str(fake_home)}
+    for key in ("ARTMIND_HOME", "ARTMIND_DATA_DIR", "ARTMIND_VAULT"):
+        env.pop(key, None)
+    result = subprocess.run(
+        [sys.executable, "-c", _PROBE], capture_output=True, text=True, env=env, cwd=vault_root,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert "ARTMIND_DATA_DIR" in result.stderr
+    assert "ignoring vault-scoped key" in result.stderr

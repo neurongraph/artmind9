@@ -738,6 +738,18 @@ def rebuild_key(
     label = _sanitize_label(props.get("entity_class") or "")
     keep = list(props.keys()) + list(_PRESERVED_ENTITY_KEYS)
 
+    # `ENTITY` collides with the structural `:Entity` label every node already
+    # carries from the MERGE below -- Neo4j labels are case-sensitive, so the
+    # two coexist rather than merging, and a node whose class is the generic
+    # "ENTITY" fallback (general_schema.yaml: "prefer PERSON/ORGANIZATION/
+    # LOCATION ... over the generic ENTITY class") ends up wearing what looks
+    # like the same label twice. `entity_class` stays "ENTITY" as a PROPERTY
+    # either way -- entity_class-based queries are unaffected -- this only
+    # suppresses the redundant graph LABEL. `REMOVE node:ENTITY` below is
+    # unconditional so it also self-heals a node written before this fix, or
+    # one whose class later changed away from ENTITY.
+    labels_literal = "[]" if label == "ENTITY" else f"['{label}']"
+
     # MERGE on the deterministic id — never delete-and-recreate. Recreating
     # churns `elementId` and breaks every external reference to the node.
     #
@@ -754,6 +766,7 @@ def rebuild_key(
         ON CREATE SET e.embedding_stale = true
         WITH e, e.description AS prior_description
         CALL apoc.create.addLabels(e, $labels) YIELD node
+        REMOVE node:ENTITY
         WITH node, prior_description
         CALL apoc.create.removeProperties(node, [k IN keys(node) WHERE NOT k IN $keep]) YIELD node AS cleaned
         SET cleaned += $props
@@ -764,7 +777,7 @@ def rebuild_key(
               ELSE coalesce(cleaned.embedding_stale, false)
             END
         RETURN cleaned
-        """.replace("$labels", f"['{label}']"),
+        """.replace("$labels", labels_literal),
         id=eid,
         keep=keep,
         props=props,
