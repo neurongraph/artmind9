@@ -185,3 +185,37 @@ def test_sdk_base_url_cli_flag_empty_string_forces_default(monkeypatch):
     set_sdk_base_url("")
     backend = create_backend("claude-sdk")
     assert backend._env is None
+
+
+# ── rescuing ANTHROPIC_BASE_URL for a Bash-tool-invoked artmind command ──────
+# Regression found live: artmind-query worked, artmind-update 404'd, in the
+# same chat session. ARTMIND_SDK_BASE_URL overrides ANTHROPIC_BASE_URL on the
+# WHOLE spawned `claude` CLI process; a Bash tool call the agent makes (e.g.
+# `artmind update draft`) runs as a child of that process and inherits the
+# override too, shadowing the differently-shaped ANTHROPIC_BASE_URL
+# ARTMIND_KG_LLM_PROVIDER=ibm_ica's own extraction client needs.
+
+
+def test_sdk_base_url_override_rescues_the_original_anthropic_base_url(monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://gateway.example.com/ica/v1")
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
+    backend = create_backend("claude-sdk")
+    assert backend._env["ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica"
+    assert backend._env["ARTMIND_KG_ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica/v1"
+
+
+def test_no_rescue_needed_when_anthropic_base_url_was_never_set(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_BASE_URL", raising=False)
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
+    backend = create_backend("claude-sdk")
+    assert "ARTMIND_KG_ANTHROPIC_BASE_URL" not in backend._env
+
+
+def test_no_rescue_needed_when_the_two_urls_already_match(monkeypatch):
+    """Some setups (a pure api.anthropic.com-shaped gateway) really do use
+    the same URL for both -- nothing to rescue, and no reason to inject a
+    redundant var."""
+    monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://gateway.example.com")
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com")
+    backend = create_backend("claude-sdk")
+    assert "ARTMIND_KG_ANTHROPIC_BASE_URL" not in backend._env

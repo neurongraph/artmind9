@@ -85,6 +85,38 @@ def test_ibm_ica_client_env_omits_url_when_base_url_unset():
     assert "ARTMIND_KG_LLM_URL" not in mapped
 
 
+def test_ibm_ica_client_env_prefers_the_rescued_url_over_the_shadowed_one():
+    """Regression: found live -- artmind-query worked, artmind-update 404'd,
+    in the same chat session. ARTMIND_SDK_BASE_URL (webui/backends/
+    __init__.py's _sdk_env_overrides) overrides ANTHROPIC_BASE_URL on the
+    whole spawned `claude` CLI process for the CLI's own routing; a Bash
+    tool call the agent makes inherits that override too, shadowing the
+    value this ibm_ica client actually needs. _sdk_env_overrides rescues the
+    original under ARTMIND_KG_ANTHROPIC_BASE_URL before overriding -- this
+    must be preferred over the (now wrong) plain name when both are present."""
+    env = {
+        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        # shadowed by the SDK backend's own routing override:
+        "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica",
+        # rescued by _sdk_env_overrides before that override was applied:
+        "ARTMIND_KG_ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
+    }
+    mapped = ibm_ica_client_env(env)
+    assert mapped["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
+
+
+def test_ibm_ica_client_env_falls_back_to_plain_url_outside_chat_ui():
+    """A direct CLI invocation (no chat UI, no ARTMIND_SDK_BASE_URL override
+    ever applied) never sets the rescued name -- ANTHROPIC_BASE_URL alone
+    must still work exactly as before."""
+    env = {
+        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
+    }
+    mapped = ibm_ica_client_env(env)
+    assert mapped["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
+
+
 def test_embed_text_raises_when_provider_is_openrouter():
     env = {"ARTMIND_KG_EMBEDDINGS_PROVIDER": "openrouter"}
     with patch("artmind.extraction.load_env", return_value=env):

@@ -14,10 +14,21 @@ configured via:
 - ``ARTMIND_SDK_FALLBACK_MODEL``: model the SDK automatically retries with if
   ``ARTMIND_SDK_MODEL`` (or the CLI's default) is overloaded. Optional.
 - ``ARTMIND_SDK_BASE_URL``: point the spawned ``claude`` CLI at a custom
-  Anthropic-compatible endpoint (e.g. an enterprise gateway), independent of
-  the KG pipeline's own ``ANTHROPIC_BASE_URL``/``ARTMIND_KG_LLM_URL`` (those
-  feed a *different*, OpenAI-style HTTP client — see ``extraction.py``'s
-  ``ibm_ica_client_env``). Two gotchas this exists to route around:
+  Anthropic-compatible endpoint (e.g. an enterprise gateway). Its *value* is
+  independent of the KG pipeline's own ``ANTHROPIC_BASE_URL``/
+  ``ARTMIND_KG_LLM_URL`` (those feed a *different*, OpenAI-style HTTP client
+  — see ``extraction.py``'s ``ibm_ica_client_env``), but its *environment*
+  is not: setting this overrides ``ANTHROPIC_BASE_URL`` on the whole spawned
+  ``claude`` CLI process, and a Bash tool call the agent makes (e.g.
+  ``artmind update draft``, following artmind-update) runs as a CHILD of
+  that process and inherits the override too. With
+  ``ARTMIND_KG_LLM_PROVIDER=ibm_ica``, that would shadow the KG pipeline's
+  own, differently-shaped ``ANTHROPIC_BASE_URL`` and 404 every extraction
+  call made from inside a chat session — ``_sdk_env_overrides`` rescues the
+  original value under ``ARTMIND_KG_ANTHROPIC_BASE_URL`` first, which
+  ``ibm_ica_client_env`` checks before the plain name, so this is handled
+  automatically; no user-facing config changes. Two more gotchas this var
+  exists to route around:
 
   1. The CLI always appends ``/v1/messages`` itself (matching
      ``api.anthropic.com``'s own convention: base = host only). If your
@@ -125,6 +136,22 @@ def _sdk_env_overrides() -> dict[str, str]:
     ``ARTMIND_SDK_BASE_URL`` (see module docstring). Isolating
     ``CLAUDE_CONFIG_DIR`` only happens when a URL actually applies, so a
     default setup never touches the operator's own ``~/.claude`` login.
+
+    Also rescues the KG pipeline's own ``ANTHROPIC_BASE_URL`` under
+    ``ARTMIND_KG_ANTHROPIC_BASE_URL`` before shadowing it below. The module
+    docstring calls the two "independent", which is true of the *values* in
+    config but not of the *environment*: this dict is merged onto the whole
+    spawned ``claude`` CLI process (``ClaudeAgentOptions.env``), so a Bash
+    tool call the agent makes -- e.g. `artmind update draft`, following
+    artmind-update -- runs as a CHILD of that process and inherits this
+    override too, not the original value. With `ARTMIND_KG_LLM_PROVIDER=
+    ibm_ica` (`extraction.ibm_ica_client_env`), that command's own,
+    differently-shaped `ANTHROPIC_BASE_URL` (typically ending `/v1`, unlike
+    this one -- see gotcha 1 above) got silently shadowed by this one,
+    breaking every ibm_ica KG-extraction call made from inside a chat-ui
+    session with a 404 -- while a plain graph pattern query, needing no LLM
+    call at all, looked completely unaffected in the same session. Found
+    live: `artmind-query` worked, `artmind-update` 404'd, in the same chat.
     """
     base_url = (
         _sdk_base_url_override
@@ -135,7 +162,13 @@ def _sdk_env_overrides() -> dict[str, str]:
         return {}
     from paths import ARTMIND_HOME
 
+    overrides = {}
+    original_base = os.environ.get("ANTHROPIC_BASE_URL")
+    if original_base and original_base != base_url:
+        overrides["ARTMIND_KG_ANTHROPIC_BASE_URL"] = original_base
+
     return {
+        **overrides,
         "ANTHROPIC_BASE_URL": base_url,
         "CLAUDE_CONFIG_DIR": str(ARTMIND_HOME / ".claude-sdk-auth"),
     }

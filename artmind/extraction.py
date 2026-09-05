@@ -29,6 +29,18 @@ def ibm_ica_client_env(env: dict) -> dict:
     so the ibm_ica provider reuses that same OpenAI-compatible client path
     (chat completions AND vision) instead of a separate one. Shared by
     call_llm here and by ingest.py's _describe_image.
+
+    Checks ``ARTMIND_KG_ANTHROPIC_BASE_URL`` before the plain
+    ``ANTHROPIC_BASE_URL``. The two collide whenever this command runs as a
+    Bash tool call inside the chat UI with ``ARTMIND_SDK_BASE_URL`` set
+    (webui/backends/__init__.py's ``_sdk_env_overrides``): that override
+    replaces ``ANTHROPIC_BASE_URL`` on the *whole* spawned ``claude`` CLI
+    process for the CLI's own (differently-shaped) routing, and a Bash tool
+    call inherits that override too, not the value this ibm_ica client
+    actually needs. ``_sdk_env_overrides`` rescues the original value under
+    this name before overriding; a plain CLI invocation (no chat UI in the
+    picture) never sets it, so ``ANTHROPIC_BASE_URL`` is exactly what's read
+    there, unchanged.
     """
     token = env.get("ANTHROPIC_AUTH_TOKEN")
     if not token:
@@ -37,7 +49,7 @@ def ibm_ica_client_env(env: dict) -> dict:
         )
     env2 = dict(env)
     env2["ARTMIND_OPENROUTER_API_KEY"] = token
-    base = env.get("ANTHROPIC_BASE_URL")
+    base = env.get("ARTMIND_KG_ANTHROPIC_BASE_URL") or env.get("ANTHROPIC_BASE_URL")
     if base:
         env2["ARTMIND_KG_LLM_URL"] = base
     return env2
