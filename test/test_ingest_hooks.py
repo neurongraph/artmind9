@@ -70,6 +70,80 @@ def test_ingest_to_kg_commits_when_not_stage_only(monkeypatch, tmp_path):
 
 
 
+# ── tier-aware short-circuit ──────────────────────────────────────────────────
+# Regression: `ingest_file` correctly resolved "no_op" (binary byte-identical)
+# or "metadata_only" (`_ingest_vault_native` already ran apply_metadata_only
+# synchronously) and logged exactly that -- but both cli.py's `ingest_sync`
+# and worker.py's async path call `ingest_to_kg` unconditionally whenever
+# status is "ok", with no look at `tier`. Without this check, ingest_to_kg's
+# own "chunks_dir not in file_result" back-compat branch re-split the
+# markdown and ran a second, full, PAID LLM extraction on every file, on
+# every single sync, regardless of whether anything had changed.
+
+
+def test_ingest_to_kg_is_a_noop_for_no_op_tier(monkeypatch, tmp_path):
+    import artmind.ingest as ing
+
+    calls = []
+    file_result = {"tier": "no_op", "registered_path": str(tmp_path / "doc.md")}
+    monkeypatch.setattr(ing, "extract_kg", lambda *a, **k: calls.append("extract_kg") or tmp_path)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: calls.append("commit_to_graph") or True)
+
+    ok = ing.ingest_to_kg(file_result, "mydomain")
+
+    assert ok is True
+    assert calls == [], "no_op must never reach extract_kg/commit_to_graph"
+
+
+def test_ingest_to_kg_is_a_noop_for_metadata_only_tier(monkeypatch, tmp_path):
+    import artmind.ingest as ing
+
+    calls = []
+    file_result = {"tier": "metadata_only", "registered_path": str(tmp_path / "doc.md")}
+    monkeypatch.setattr(ing, "extract_kg", lambda *a, **k: calls.append("extract_kg") or tmp_path)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: calls.append("commit_to_graph") or True)
+
+    ok = ing.ingest_to_kg(file_result, "mydomain")
+
+    assert ok is True
+    assert calls == [], (
+        "metadata_only must never reach extract_kg/commit_to_graph -- "
+        "_ingest_vault_native already applied it synchronously"
+    )
+
+
+def test_ingest_to_kg_still_extracts_for_a_content_tier(monkeypatch, tmp_path):
+    """The short-circuit must not swallow the case that actually needs work."""
+    import artmind.ingest as ing
+
+    calls = []
+    file_result = {"tier": "content", "chunks_dir": str(tmp_path), "chunk_count": 1}
+    monkeypatch.setattr(ing, "extract_kg", lambda *a, **k: calls.append("extract_kg") or tmp_path)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: calls.append("commit_to_graph") or True)
+
+    ok = ing.ingest_to_kg(file_result, "mydomain")
+
+    assert ok is True
+    assert calls == ["extract_kg", "commit_to_graph"]
+
+
+def test_ingest_to_kg_still_extracts_when_tier_is_absent(monkeypatch, tmp_path):
+    """The legacy `_ingest_binary_or_adhoc` path never sets `tier` at all --
+    its own fast path lives entirely inside ingest_to_kg's A4 classifier
+    below, keyed on `logical_id`, not on this new check."""
+    import artmind.ingest as ing
+
+    calls = []
+    file_result = {"chunks_dir": str(tmp_path), "chunk_count": 1}
+    monkeypatch.setattr(ing, "extract_kg", lambda *a, **k: calls.append("extract_kg") or tmp_path)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: calls.append("commit_to_graph") or True)
+
+    ok = ing.ingest_to_kg(file_result, "mydomain")
+
+    assert ok is True
+    assert calls == ["extract_kg", "commit_to_graph"]
+
+
 def test_worker_threads_stage_only_into_ingest_to_kg():
     """Full worker integration needs Neo4j; assert the plumbing structurally instead."""
     import artmind.worker as worker

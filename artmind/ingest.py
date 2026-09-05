@@ -1574,7 +1574,25 @@ def ingest_to_kg(
     fast path is decided earlier, in `_ingest_vault_native`, and never reaches
     here at all (`"logical_id" in file_result` is precisely binary-only:
     vault-native carries `artmind_id`, never `logical_id`).
+
+    Every caller (`cli.py`'s `ingest_sync`, `worker.py`'s async path) calls
+    this unconditionally whenever `ingest_file` reports `status: "ok"`, with
+    no look at `file_result["tier"]` -- so without the check below, a file
+    `ingest_file` ALREADY resolved as needing no further work (`no_op`: a
+    byte-identical binary; `metadata_only`: `_ingest_vault_native` already
+    ran `apply_metadata_only` synchronously) fell through to the "back-compat:
+    chunks_dir not in file_result" branch below and got a second, full, paid
+    LLM re-extraction anyway -- on every single sync, forever, for every file
+    that never changed. That's what actually kept the docstring's claim above
+    from being true: this function DID reach the metadata-only case, just
+    silently, from the caller side rather than the classifier side. Bail out
+    first, matching delta.py's own stated contract ("callers apply the fast
+    path (metadata_only) or fall through to ingest_to_kg (content/domain/
+    initial)" -- never both).
     """
+    if file_result.get("tier") in ("no_op", "metadata_only"):
+        return True
+
     # A4: metadata-only fast path. Never for stage_only (that path is a
     # staging test that must produce doc_kg_dir).
     if not stage_only and "logical_id" in file_result:
