@@ -18,6 +18,7 @@ from artmind.document_identity import (
     build_frontmatter,
     canonical_path,
     decide_version,
+    frontmatter_unchanged,
     markdown_path_for,
     mint_artmind_id,
     resolve_canonical_path,
@@ -636,11 +637,37 @@ def _ingest_vault_native(
         ingested_at=ingested_at,
         body=body,
     )
-    write_document(source, new_meta, body)
-    _register_document(
-        effective_domain, source, resolution.artmind_id,
-        content_sha256=version_decision.content_sha256,
-    )
+
+    # The versioning table's "nothing differs" row, as opposed to "only
+    # frontmatter differs" (docs/document-identity.md, "Versioning") --
+    # decide_version alone can't tell these apart, since it only ever
+    # compares the BODY. `file_unchanged` catches the pure "nothing differs"
+    # case: nothing else in the frontmatter differs either, ignoring the two
+    # fields meant to refresh on every touch regardless. When it's True there
+    # is genuinely nothing to WRITE -- skip the file rewrite (so git sees no
+    # diff and commits nothing) and the registry refresh.
+    #
+    # `apply_metadata_only` below still runs unconditionally for every
+    # metadata_only tier, `file_unchanged` or not -- it must NOT be gated on
+    # the same check. A human hand-editing only `tags`/`project`/`area` is
+    # invisible to `file_unchanged`: by the time this function reads the
+    # file, the edit is already IN `existing_meta` (parsed fresh off disk),
+    # and `build_frontmatter` only ever carries authored fields forward from
+    # `existing_meta` -- it never independently recomputes them, so
+    # `new_meta`'s authored fields are always identical to `existing_meta`'s
+    # regardless of whether a human just changed them. Skipping the cheap,
+    # idempotent graph push in that case would silently stop a genuine
+    # frontmatter edit from ever reaching the graph until the next real
+    # content change. The file-rewrite skip has no such risk: whether or not
+    # this run rewrites the file, its bytes end up identical either way.
+    file_unchanged = tier == "metadata_only" and frontmatter_unchanged(existing_meta, new_meta)
+
+    if not file_unchanged:
+        write_document(source, new_meta, body)
+        _register_document(
+            effective_domain, source, resolution.artmind_id,
+            content_sha256=version_decision.content_sha256,
+        )
 
     if job_id:
         _update_job_file_status(
@@ -658,8 +685,9 @@ def _ingest_vault_native(
         "registered_path": str(source.resolve()),
         "resolution_verdict": resolution.verdict,
         "tier": tier,
-        "touched_path": source,
     })
+    if not file_unchanged:
+        file_result["touched_path"] = source
 
     if tier == "metadata_only":
         try:
@@ -678,8 +706,9 @@ def _ingest_vault_native(
             logger.warning("metadata-only graph update skipped for {}: {}", source.name, e)
         file_result["chunk_count"] = 0
         logger.info(
-            "── Ingest done in {:.1f}s: {} (metadata_only, v{})",
+            "── Ingest done in {:.1f}s: {} (metadata_only, v{}{})",
             time.monotonic() - t_file_start, source.name, version_decision.version,
+            ", unchanged" if file_unchanged else "",
         )
         return file_result
 

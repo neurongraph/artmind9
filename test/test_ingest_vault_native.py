@@ -59,15 +59,62 @@ def test_first_ingest_is_new_and_writes_full_system_block(vault):
     assert meta["_status"] == "latest"
 
 
-def test_reingest_same_path_unchanged_body_is_metadata_only(vault):
+def test_reingest_truly_unchanged_does_not_rewrite_or_commit(vault):
+    """Regression: decide_version's "metadata_only" tier only ever compares
+    the BODY, so it can't by itself tell "nothing differs" from "only
+    frontmatter differs" (docs/document-identity.md's own separate rows) --
+    without frontmatter_unchanged() splitting these apart, _ingested_at/
+    _source_commit refreshing unconditionally meant a truly unedited file
+    still got rewritten (and committed) on every single sync, forever.
+
+    tier stays "metadata_only" either way (decide_version's own vocabulary is
+    unchanged) -- what changes is that a truly no-op touch no longer sets
+    touched_path, so the caller never calls commit_paths for it."""
     v, doc = vault
     r1 = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+    before = doc.read_text()
 
     r2 = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+
     assert r2["resolution_verdict"] == "reingest"
     assert r2["tier"] == "metadata_only"
     assert r2["version"] == r1["version"]
     assert r2["artmind_id"] == r1["artmind_id"]
+    assert "touched_path" not in r2, "truly unchanged must not trigger a git commit"
+    assert doc.read_text() == before, "the file must not be rewritten at all"
+
+
+def test_hand_editing_an_authored_field_still_pushes_to_the_graph(vault, monkeypatch):
+    """The one place this fix could have silently regressed: a human
+    hand-edits `tags` (or title/project/area) without touching the body.
+    frontmatter_unchanged() can't actually see this edit as a "change" --
+    by the time this function reads the file, the edit is already IN
+    existing_meta (parsed fresh off disk), and build_frontmatter only ever
+    carries authored fields forward from existing_meta, never independently
+    recomputing them. So the file-rewrite/commit is (harmlessly) skipped
+    here too -- but apply_metadata_only must still run unconditionally for
+    every metadata_only tier, using new_meta's CURRENT (edited) values, or
+    the edit would never reach the graph until the next real content change."""
+    v, doc = vault
+    ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+
+    from artmind.document_identity import render_document
+
+    meta, body = ing._parse_md_frontmatter(doc.read_text())
+    meta["tags"] = ["urgent"]
+    doc.write_text(render_document(meta, body))
+
+    calls = []
+    monkeypatch.setattr("artmind.delta.apply_metadata_only", lambda **k: calls.append(k) or {})
+
+    r2 = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert r2["tier"] == "metadata_only"
+    assert "touched_path" not in r2, "no new bytes for artmind itself to commit"
+    assert len(calls) == 1
+    assert calls[0]["metadata"]["tags"] == ["urgent"], (
+        "the graph must still see the human's edit even though the file wasn't rewritten"
+    )
 
 
 def test_reingest_edited_body_bumps_version(vault):
