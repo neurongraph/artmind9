@@ -90,8 +90,8 @@ def test_project_catalogue_wipes_then_merges_table_columns_and_confirmed_mapping
     wipe_calls = [(c, p) for c, p in fake.calls if "DETACH DELETE" in c]
     assert len(wipe_calls) == 1
     wipe_cypher, wipe_params = wipe_calls[0]
-    assert "t.domain = $domain" in wipe_cypher
-    assert "t.domain STARTS WITH $domain" in wipe_cypher
+    assert "t._domain = $domain" in wipe_cypher
+    assert "t._domain STARTS WITH $domain" in wipe_cypher
     assert "OPTIONAL MATCH (t)-[:HAS_COLUMN]->(c:TableColumn)" in wipe_cypher
     assert wipe_params["domain"] == "banking"
 
@@ -167,8 +167,8 @@ def test_project_catalogue_rolls_up_sub_domain_tables(tmp_path, monkeypatch):
     assert mapping_params["domain"] == "banking.retail"
 
     wipe_cypher, wipe_params = next((c, p) for c, p in fake.calls if "DETACH DELETE" in c)
-    assert "t.domain = $domain" in wipe_cypher
-    assert "t.domain STARTS WITH $domain" in wipe_cypher
+    assert "t._domain = $domain" in wipe_cypher
+    assert "t._domain STARTS WITH $domain" in wipe_cypher
     assert wipe_params["domain"] == "banking"
 
 

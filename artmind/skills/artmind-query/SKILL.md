@@ -26,9 +26,11 @@ Two populations exist in the graph, and ordinary queries touch only one of them:
   answer to "what is true now."
 - **`:Entity`** — the projection: one node per real-world thing, rebuilt from
   observations, current by construction. This is the layer every pattern/entity command
-  reads. Its id/domain properties are `_id`/`_domain` (leading underscore — the one
-  label this redesign prefixed, because those two are artmind-computed rather than
-  extracted; every other label below keeps plain `id`/`domain`).
+  reads. Its id property is `_id` (leading underscore — Entity-only; every other label
+  below uses plain `id`). `_domain`, unlike `_id`, is NOT Entity-specific: every label in
+  this graph carries `_domain`, always underscore-prefixed, since it is artmind-computed
+  (assigned by `--domain`/vault.yaml/frontmatter) rather than extracted from content —
+  never write a query filtering on plain `.domain`, on any label.
 
 Fixed relationships, identical across domains:
 
@@ -50,9 +52,9 @@ A document that replaces another carries `(:Document)-[:SUPERSEDES]->(:Document)
 `superseded_by` on the superseded side — see Adjudicate below for how to read it at
 query time.
 
-Key properties: `Document` (id, name, path, domain, valid_from, valid_to, superseded_by),
-`DocChunk` (id, name, doc_id, text, domain), `UserChat` (id, raw_text, domain, session_id,
-created_by, created_at), `Observation` (id, name, canonical_name, entity_class, domain,
+Key properties: `Document` (id, name, path, `_domain`, valid_from, valid_to, superseded_by),
+`DocChunk` (id, name, doc_id, text, `_domain`), `UserChat` (id, raw_text, `_domain`, session_id,
+created_by, created_at), `Observation` (id, name, canonical_name, entity_class, `_domain`,
 doc_id, chunk_id, `_valid_from`/`_valid_to`, `_kind`), `Entity` (`_id`, name, entity_class,
 `_domain`, description, type). Pattern/entity-command JSON output shows `_id`/`_domain`
 verbatim — there is no re-aliasing back to `id`/`domain`.
@@ -339,7 +341,7 @@ Routing notes:
   value; call `entity-history --entityId <id> --property <p>` to get every instant.
 - Patterns 2/3/4 return `doc_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
-  Rows carry `.domain` on chunks/documents — every fact you state must be attributed
+  Rows carry `_domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
 - **No `--asOf` on entity commands, and none needed.** The projection (`:Entity`) is
   current by construction — a retired document's contributions are relabelled out of it

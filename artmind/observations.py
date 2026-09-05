@@ -266,7 +266,7 @@ def build_observation(
     `projection.apply_retractions`.
     """
     entity_class = entity.get("entity_class") or ""
-    obs_domain = entity.get("domain") or ""
+    obs_domain = entity.get("_domain") or ""
     key = aggregate_key(canonical_name, entity_class, obs_domain)
 
     props: dict = {
@@ -277,7 +277,11 @@ def build_observation(
         "key": key_string(key),
         # A PROPERTY, never a label -- see this module's docstring, reason 2.
         "entity_class": entity_class,
-        "domain": obs_domain,
+        # `_`-prefixed like Entity._domain (graph_query.domain_predicate) --
+        # every label uses this one name now, all the way from the entity
+        # dict ingest.py hands in (its own "_domain" key, set once per
+        # document/chunk) through to this Observation property.
+        "_domain": obs_domain,
         "doc_id": doc_id,
         "doc_version": doc_version,
         "chunk_id": chunk_id,

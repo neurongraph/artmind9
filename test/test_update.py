@@ -120,7 +120,7 @@ def test_find_candidates_falls_back_to_global_when_domain_empty():
 
     def run_side_effect(cypher, **kwargs):
         mock_result = MagicMock()
-        mock_result.data.return_value = [] if "e.domain = $domain" in cypher else global_rows
+        mock_result.data.return_value = [] if "e._domain = $domain" in cypher else global_rows
         return mock_result
 
     with patch("artmind.update.neo4j_session") as mock_session_ctx:
@@ -635,7 +635,7 @@ def test_export_chats_domain_filter_rolls_up_descendants(tmp_path, fmt):
         mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
         export_chats(domain="banking", format=fmt, output_dir=tmp_path)
 
-    assert "c.domain STARTS WITH ($domain + '.')" in captured["cypher"]
+    assert "c._domain STARTS WITH ($domain + '.')" in captured["cypher"]
 
 
 @pytest.mark.parametrize("fmt", ["sequential", "by-entity"])

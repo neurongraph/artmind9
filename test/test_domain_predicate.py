@@ -23,13 +23,13 @@ def test_normalize_empty_raises():
 def test_domain_predicate_shape():
     pred = domain_predicate("e")
     assert pred == (
-        "(e.domain IN $domains OR any(dom IN $domains WHERE e.domain STARTS WITH (dom + '.')))"
+        "(e._domain IN $domains OR any(dom IN $domains WHERE e._domain STARTS WITH (dom + '.')))"
     )
 
 
 def test_domain_predicate_custom_var_and_param():
     pred = domain_predicate("node", param="doms")
-    assert "node.domain IN $doms" in pred
+    assert "node._domain IN $doms" in pred
 
 
 def test_pattern1_cypher_uses_in_domains():

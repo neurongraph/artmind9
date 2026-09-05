@@ -110,7 +110,7 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .domain }} AS document,
+           document {{ .id, .name, .path, ._domain }} AS document,
            'document' AS source_type
     ORDER BY score DESC
     LIMIT $topK
@@ -127,7 +127,7 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
     WHERE {domain_predicate("node")}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     RETURN score,
-           node {{ .id, .raw_text, .domain, .created_by, .created_at }} AS chat,
+           node {{ .id, .raw_text, ._domain, .created_by, .created_at }} AS chat,
            'user_chat' AS source_type
     ORDER BY score DESC
     LIMIT $topK
@@ -203,7 +203,7 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .domain }} AS document,
+           document {{ .id, .name, .path, ._domain }} AS document,
            'document' AS source_type
     ORDER BY score DESC
     LIMIT $topK
@@ -214,7 +214,7 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     YIELD node, score
     WHERE {domain_predicate("node")}
     RETURN score,
-           node {{ .id, .raw_text, .domain, .created_by, .created_at }} AS chat,
+           node {{ .id, .raw_text, ._domain, .created_by, .created_at }} AS chat,
            'user_chat' AS source_type
     ORDER BY score DESC
     LIMIT $topK
@@ -268,7 +268,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     cypher_ft = f"""
     CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query)
     YIELD node AS e, score
-    WHERE {domain_predicate("e", prop="_domain")}
+    WHERE {domain_predicate("e")}
     RETURN score,
            e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e) }} AS entity
     ORDER BY score DESC
@@ -283,7 +283,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
         FOR $embedding
         LIMIT $candidateK
       )
-    WHERE {domain_predicate("node", prop="_domain")}
+    WHERE {domain_predicate("node")}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     RETURN score,
            node {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(node) }} AS entity

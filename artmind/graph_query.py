@@ -47,32 +47,28 @@ def normalize_domains(value: "str | Sequence[str]") -> list[str]:
     return out
 
 
-def domain_predicate(var: str, param: str = "domains", prop: str = "domain") -> str:
+def domain_predicate(var: str, param: str = "domains") -> str:
     """Cypher WHERE fragment scoping `var` to any of the domains in $param.
 
     A one-element list is semantically identical to the old single-domain
     predicate (exact match OR sub-domain rollup via STARTS WITH).
 
-    `prop` is the property name to filter on — `"domain"` for everything
-    except `:Entity`, which carries `_domain` (Phase 4's `_`-prefix pass,
-    alongside `_id`; the extraction-contract fields the query layer reads
-    directly — name/description/entity_class/type/context/aliases — stay
-    unprefixed). Pass `prop="_domain"` at any call site where `var` is bound
-    to an Entity node.
+    Every label carries the same property name, `_domain` — `_`-prefixed
+    (Phase 4) as artmind-computed, alongside `_id`; the extraction-contract
+    fields the query layer reads directly (name/description/entity_class/
+    type/context/aliases) stay unprefixed. This used to differ by label
+    (`:Entity._domain` vs. everything else's plain `domain`), which is
+    exactly the split docs/CAPABILITIES.md's "Hierarchical domain rollup"
+    warned about: "a query that uses the wrong one for the label it matched
+    silently scopes nothing" — and which bit twice in practice (see
+    `expand_domain_family`'s docstring, and the archived Cypher pattern
+    library in docs/DOC_INVENTORY.md). Unified so there is no second name
+    left to get wrong.
     """
     return (
-        f"({var}.{prop} IN ${param} "
-        f"OR any(dom IN ${param} WHERE {var}.{prop} STARTS WITH (dom + '.')))"
+        f"({var}._domain IN ${param} "
+        f"OR any(dom IN ${param} WHERE {var}._domain STARTS WITH (dom + '.')))"
     )
-
-
-def domain_predicate_any(var: str, param: str = "domains") -> str:
-    """`domain_predicate`, but for an unlabeled/mixed `MATCH (n)` where `var`
-    could be any node type at once (`graph_metadata`'s full-schema scan is the
-    only caller). ORs the `domain` predicate with the `_domain` one, since
-    which property name applies depends on a label this query doesn't pin
-    down."""
-    return f"({domain_predicate(var, param, 'domain')} OR {domain_predicate(var, param, '_domain')})"
 
 
 def expand_domain_family(domain: str) -> list[str]:
@@ -88,7 +84,7 @@ def expand_domain_family(domain: str) -> list[str]:
     filesystem dependency, no cli import, and the result is exactly the domains
     holding data.
 
-    Restricted to :Document and :Entity — both carry domain indexes, so the
+    Restricted to :Document and :Entity — both carry a `_domain` index, so the
     STARTS WITH stays index-backed. An unlabelled MATCH (n) would scan every
     node in the database, including the history zone.
     """
@@ -96,8 +92,8 @@ def expand_domain_family(domain: str) -> list[str]:
         rows = session.run(
             """
             CALL () {
-              MATCH (d:Document) WHERE d.domain STARTS WITH ($d + '.')
-              RETURN DISTINCT d.domain AS dom
+              MATCH (d:Document) WHERE d._domain STARTS WITH ($d + '.')
+              RETURN DISTINCT d._domain AS dom
             UNION
               MATCH (e:Entity) WHERE e._domain STARTS WITH ($d + '.')
               RETURN DISTINCT e._domain AS dom
@@ -308,7 +304,7 @@ def graph_metadata(domains: "str | Sequence[str]") -> dict:
     cypher = f"""
     CALL () {{
       MATCH (n)
-      WHERE {domain_predicate_any("n")}
+      WHERE {domain_predicate("n")}
       UNWIND labels(n) AS label
       WITH label, keys(n) AS nodeKeys, n.type AS typeVal
       UNWIND [k IN nodeKeys WHERE k <> '_prop_sources'] AS propName
@@ -319,8 +315,8 @@ def graph_metadata(domains: "str | Sequence[str]") -> dict:
              null AS connections
     UNION
       MATCH (s)-[r]->(e)
-      WHERE {domain_predicate_any("s")}
-        AND {domain_predicate_any("e")}
+      WHERE {domain_predicate("s")}
+        AND {domain_predicate("e")}
       WITH type(r) AS relType, labels(s) AS fromLabels, labels(e) AS toLabels, keys(r) AS relKeys
       UNWIND relKeys AS propName
       RETURN "relationships" AS category,
@@ -371,7 +367,7 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
       RETURN 'Observation' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (e:Entity)
-      WHERE {domain_predicate("e", prop="_domain")}
+      WHERE {domain_predicate("e")}
       WITH count(e) AS cnt
       RETURN 'Entity' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
@@ -386,12 +382,12 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
       RETURN null AS label, cnt AS count, null AS names, 'EXTRACTED_FROM' AS relationship, 'Observation' AS from_label, 'DocChunk' AS to_label
     UNION
       MATCH (e:Entity)-[r:AGGREGATES]->(o:Observation)
-      WHERE {domain_predicate("e", prop="_domain")}
+      WHERE {domain_predicate("e")}
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'AGGREGATES' AS relationship, 'Entity' AS from_label, 'Observation' AS to_label
     UNION
       MATCH (s:Entity)-[r:RELATES_TO]->(t:Entity)
-      WHERE {domain_predicate("s", prop="_domain")}
+      WHERE {domain_predicate("s")}
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'RELATES_TO' AS relationship, 'Entity' AS from_label, 'Entity' AS to_label
     }}
@@ -452,8 +448,8 @@ def filing_vocabulary(
       RETURN 'tags' AS facet, value, cnt
     UNION
       MATCH (d:Document)
-      WHERE {where_clause} AND d.domain IS NOT NULL
-      WITH d.domain AS value, count(d) AS cnt
+      WHERE {where_clause} AND d._domain IS NOT NULL
+      WITH d._domain AS value, count(d) AS cnt
       WHERE cnt >= $min_count
       RETURN 'domain' AS facet, value, cnt
     }}
@@ -531,7 +527,7 @@ def filing_listing(
            d.project AS project,
            d.area AS area,
            d.tags AS tags,
-           d.domain AS domain,
+           d._domain AS domain,
            d.version AS version,
            d.created_on AS created_on,
            d.modified_on AS modified_on
@@ -562,7 +558,7 @@ def entity_listing(
     domains = normalize_domains(domains)
     cypher = f"""
     MATCH (n:Entity)
-    WHERE {domain_predicate("n", prop="_domain")} AND n.name IS NOT NULL
+    WHERE {domain_predicate("n")} AND n.name IS NOT NULL
       AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter))
     UNWIND [l IN labels(n) WHERE l <> 'Entity'] AS label
     WITH label, n.type AS type, collect(DISTINCT n.name) AS names
@@ -580,7 +576,7 @@ def entity_listing(
     if count_all:
         count_cypher = f"""
         MATCH (n:Entity)
-        WHERE {domain_predicate("n", prop="_domain")} AND n.name IS NOT NULL
+        WHERE {domain_predicate("n")} AND n.name IS NOT NULL
         RETURN count(DISTINCT n) AS total
         """
         count_rows = _run_read_query(count_cypher, {"domains": domains})
@@ -665,7 +661,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e", prop="_domain")}
+            WHERE {domain_predicate("e")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY e.name
             LIMIT $limit
@@ -678,10 +674,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:Entity)
-            WHERE {domain_predicate("e", prop="_domain")}
+            WHERE {domain_predicate("e")}
               AND {selector}
             OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
-            WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
+            WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    doc_sources
             ORDER BY entityData.name
@@ -694,17 +690,17 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:Entity)
-            WHERE {domain_predicate("e", prop="_domain")}
+            WHERE {domain_predicate("e")}
               AND {selector}
             OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
-            WHERE {domain_predicate("t", prop="_domain")}
+            WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               rel_type: r.rel_type,
               properties: properties(r),
               target: {{name: t.name, label: labels(t)}}
             }} END) AS connections
             OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
-            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources
             RETURN properties(e) AS entityData, connections, doc_sources
             ORDER BY entityData.name
             """,
@@ -717,17 +713,17 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e", prop="_domain")}
+            WHERE {domain_predicate("e")}
               AND {selector}
             OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
-            WHERE {domain_predicate("t", prop="_domain")}
+            WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               rel_type: r.rel_type,
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
             }} END) AS connections
             OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
-            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources
             RETURN properties(e) AS entityData, connections, doc_sources
             ORDER BY entityData.name
             """,
@@ -754,8 +750,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             return (
                 f"""
                 MATCH (e:{label1}), (t:{label2})
-                WHERE {domain_predicate("e", prop="_domain")}
-                  AND {domain_predicate("t", prop="_domain")}
+                WHERE {domain_predicate("e")}
+                  AND {domain_predicate("t")}
                   AND {selector1}
                   AND {selector2}
                 // Pin one deterministic endpoint pair before enumerating paths:
@@ -777,8 +773,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH p = shortestPath((e:{label1})-[*..5]-(t:{label2}))
-            WHERE {domain_predicate("e", prop="_domain")}
-              AND {domain_predicate("t", prop="_domain")}
+            WHERE {domain_predicate("e")}
+              AND {domain_predicate("t")}
               AND {selector1}
               AND {selector2}
               AND all(x IN nodes(p) WHERE x:Entity)
@@ -793,8 +789,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e1:Entity)-[r:RELATES_TO]-(e2:Entity)
-            WHERE {domain_predicate("e1", prop="_domain")}
-              AND {domain_predicate("e2", prop="_domain")}
+            WHERE {domain_predicate("e1")}
+              AND {domain_predicate("e2")}
               AND {selector1}
               AND {selector2}
             RETURN r.rel_type AS relType,
@@ -815,7 +811,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             f"""
             CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
             YIELD node AS e, score AS ftScore
-            WHERE {domain_predicate("e", prop="_domain")}
+            WHERE {domain_predicate("e")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY ftScore DESC, e.name
             LIMIT $limit
@@ -833,8 +829,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})-[r:RELATES_TO]-(t:Entity)
-            WHERE {domain_predicate("e", prop="_domain")}
-              AND {domain_predicate("t", prop="_domain")}
+            WHERE {domain_predicate("e")}
+              AND {domain_predicate("t")}
               AND {selector}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    r.rel_type AS relType,
@@ -858,7 +854,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             # relations: entity-entity connectivity (neighbor domain-scoped like
             # every other entity match); all: every edge including structural ones.
             degree_match = {
-                "relations": f'OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity) WHERE {domain_predicate("t", prop="_domain")}',
+                "relations": f'OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity) WHERE {domain_predicate("t")}',
                 "all": "OPTIONAL MATCH (e)-[r]-()",
             }[degree_mode]
             degree_body = f"""
@@ -868,7 +864,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e", prop="_domain")}
+            WHERE {domain_predicate("e")}
             {degree_body}
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData
             ORDER BY degree DESC, e.name
@@ -889,8 +885,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # chunks become visible too. Coarser than "in force by T" elsewhere,
         # and said so in the CLI help rather than implied.
         as_of = parameters.get("asOf")
-        doc_return = "d { .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by } AS document"
-        chunk_return = "c { .id, .name, .doc_id, .domain, .valid_to, .text } AS chunk"
+        doc_return = "d { .id, .name, .path, ._domain, .valid_from, .valid_to, .superseded_by } AS document"
+        chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
         if as_of:
             cypher = f"""
             CALL () {{
@@ -979,8 +975,8 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
     WHERE c.id IN $chunkIds
       AND {domain_predicate("c")}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
-    RETURN c {{ .id, .name, .doc_id, .domain, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
+    RETURN c {{ .id, .name, .doc_id, ._domain, .valid_from, .valid_to, .text }} AS chunk,
+           d {{ .id, .name, .path, ._domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
     ORDER BY c.id
     """
 
@@ -1034,9 +1030,9 @@ def _entity_context_query() -> str:
     """
     return f"""
     MATCH (e:Entity {{_id: $entityId}})
-    WHERE {domain_predicate("e", prop="_domain")}
+    WHERE {domain_predicate("e")}
     OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
-    WHERE {domain_predicate("t", prop="_domain")}
+    WHERE {domain_predicate("t")}
     WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
       rel_type: r.rel_type,
       properties: properties(r),
@@ -1047,8 +1043,8 @@ def _entity_context_query() -> str:
     WITH e, connections, c, d
     ORDER BY c.valid_to IS NULL DESC, c.id
     WITH e, connections, [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE c {{
-      .id, .name, .doc_id, .domain, .valid_to, .text,
-      document: d {{ .id, .name, .domain, .valid_from, .valid_to, .superseded_by }}
+      .id, .name, .doc_id, ._domain, .valid_to, .text,
+      document: d {{ .id, .name, ._domain, .valid_from, .valid_to, .superseded_by }}
     }} END) WHERE x IS NOT NULL] AS allChunks
     RETURN e {{.*, label: labels(e)}} AS entityData,
            [x IN connections WHERE x IS NOT NULL] AS connections,
@@ -1087,14 +1083,14 @@ def entity_context(
 
 
 def domains_overview() -> dict:
-    """One aggregation grouped by n.domain: doc names/counts, entity counts, top classes.
+    """One aggregation grouped by n._domain: doc names/counts, entity counts, top classes.
 
     The cheap routing input that maps an area ("banking") to concrete sibling domains.
     """
     cypher = """
     CALL () {
       MATCH (d:Document)
-      RETURN d.domain AS domain, 'documents' AS k,
+      RETURN d._domain AS domain, 'documents' AS k,
              count(d) AS c, collect(DISTINCT d.name)[0..25] AS names
     UNION
       MATCH (e:Entity)
@@ -1199,7 +1195,7 @@ def list_conflicts(
     entity_ids = list(entity_ids or [])
     cypher = f"""
     MATCH (a:Entity)-[r:CONFLICTS_WITH]->(b:Entity)
-    WHERE {domain_predicate("a", prop="_domain")} AND {domain_predicate("b", prop="_domain")} AND a._id < b._id
+    WHERE {domain_predicate("a")} AND {domain_predicate("b")} AND a._id < b._id
     WITH r.conflict_id AS conflictId, r.aspect AS aspect,
          collect(DISTINCT a {{ ._id, .name, .entity_class, ._domain }})
            + collect(DISTINCT b {{ ._id, .name, .entity_class, ._domain }}) AS entities
@@ -1211,7 +1207,7 @@ def list_conflicts(
     OPTIONAL MATCH (co)-[ev:EVIDENCE]->(c:DocChunk)
     WITH conflictId, aspect, entities, co, effectiveStatus,
          [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE {{
-           side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c.domain, text: c.text
+           side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c._domain, text: c.text
          }} END) WHERE x IS NOT NULL] AS evidence
     RETURN {{
       id: conflictId, aspect: aspect, status: effectiveStatus,
@@ -1279,7 +1275,7 @@ def timeline(
         window += "\n      AND (e.valid_from IS NULL OR e.valid_from <= $to)"
     cypher = f"""
     MATCH (e:Entity)
-    WHERE {domain_predicate("e", prop="_domain")}
+    WHERE {domain_predicate("e")}
       AND any(l IN labels(e) WHERE l IN $labels){window}
     RETURN e {{ ._id, .name, .entity_class, label: labels(e), .valid_from, .valid_to }} AS entity
     ORDER BY e.valid_from
@@ -1343,7 +1339,7 @@ def entity_history(
 
     cypher = f"""
     MATCH (ent:Entity {{_id: $entityId}})
-    WHERE {domain_predicate("ent", prop="_domain")}
+    WHERE {domain_predicate("ent")}
     WITH ent.key AS key
     MATCH (o)
     WHERE (o:Observation OR o:ObservationHistory)

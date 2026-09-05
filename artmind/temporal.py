@@ -480,7 +480,7 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
     report: dict = {"domain": domain, "applied": [], "dry_run": dry_run}
     with neo4j_session() as session:
         docs = session.run(
-            "MATCH (d:Document) WHERE d.domain=$domain "
+            "MATCH (d:Document) WHERE d._domain=$domain "
             "RETURN d.id AS id, d.name AS name, d.version AS version, d.valid_from AS valid_from",
             domain=domain,
         ).data()

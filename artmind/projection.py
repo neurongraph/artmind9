@@ -54,7 +54,7 @@ _OBSERVATION_SYSTEM_KEYS = frozenset(
     }
 )
 # Merged by their own named policy rather than by shape.
-_SPECIAL_KEYS = frozenset({"name", "entity_class", "domain", "type", "description", "context", "aliases"})
+_SPECIAL_KEYS = frozenset({"name", "entity_class", "_domain", "type", "description", "context", "aliases"})
 
 
 # ── ordering ─────────────────────────────────────────────────────────────────
@@ -225,7 +225,7 @@ def merge_observations(
     ordered = sorted(observations, key=_winner_sort_key)
     winner = ordered[-1]
     entity_class = winner.get("entity_class") or ""
-    domain = winner.get("domain") or ""
+    domain = winner.get("_domain") or ""
     kind = winner.get("_kind") or "occurrent"
     name = _choose_name(ordered)
     key = override_key if override_key is not None else aggregate_key(name, entity_class, domain)
@@ -545,7 +545,7 @@ def _write_conflicts(tx, eid: str, conflicts: list[dict], domain: str) -> int:
             SET c._source = 'projection',
                 c.property = $property,
                 c.entity_id = $entity_id,
-                c.domain = $domain,
+                c._domain = $domain,
                 c.kind = $kind,
                 c.status = 'open',
                 c.values = $values,
@@ -1008,24 +1008,24 @@ def all_keys(tx, domains: list[str] | None = None) -> set[tuple[str, str, str]]:
 
     `:Observation` already means latest (a demoted node carries
     `:ObservationHistory` instead — see `read_latest_observations`), so there
-    is no status clause left to add here; only the domain-property NAME
-    differs between the two labels (`Entity._domain` vs. `Observation.domain`).
+    is no status clause left to add here. Both labels carry the same
+    domain-property name (`_domain`) now, so one clause covers both — this
+    used to differ by label (`Entity._domain` vs. `Observation.domain`), which
+    is exactly the split docs/CAPABILITIES.md's "Hierarchical domain rollup"
+    warns is easy to get backwards.
     """
     keys: set[tuple[str, str, str]] = set()
     params: dict = {}
-    domain_clause = {"Observation": "", "Entity": ""}
+    domain_clause = ""
     if domains:
         params["domains"] = domains
-        domain_clause["Observation"] = (
-            " AND (n.domain IN $domains OR any(d IN $domains WHERE n.domain STARTS WITH d + '.'))"
-        )
-        domain_clause["Entity"] = (
+        domain_clause = (
             " AND (n._domain IN $domains OR any(d IN $domains WHERE n._domain STARTS WITH d + '.'))"
         )
 
     for label in ("Observation", "Entity"):
         rows = tx.run(
-            f"MATCH (n:{label}) WHERE n.key IS NOT NULL{domain_clause[label]} "
+            f"MATCH (n:{label}) WHERE n.key IS NOT NULL{domain_clause} "
             "RETURN DISTINCT n.key AS key",
             **params,
         ).data()

@@ -1195,16 +1195,21 @@ mismatch confirms the daemon is serving stale code (see CLAUDE.md's testing trap
 *Why it matters* — the templated/hybrid/structured paths share one enforcement point each
 (`domain_predicate` server-side for the graph, `list_tables`-scoped views for SQL) that the
 caller cannot see or influence, which is what makes those three paths' rollup a genuine
-guarantee. `domain_predicate` takes a `prop` parameter because the domain property name is
-no longer uniform: `:Entity` carries `_domain` (artmind-computed, one of the few
-`_`-prefixed fields on that label), every other label carries plain `domain` — a query that
-uses the wrong one for the label it matched silently scopes nothing. The LLM-to-Cypher path
-is qualitatively different: there is one shared graph, not one connection per domain, so
-there's no equivalent structural boundary available — the generation-time
+guarantee. Every label carries the same domain property name, `_domain` — this used to
+differ (`:Entity._domain` vs. every other label's plain `domain`), and that split bit twice
+in practice before it was unified: `expand_domain_family`'s own docstring records a rollup
+that "silently did nothing" under it, and a whole archived Cypher pattern library
+(docs/DOC_INVENTORY.md) was unusable for the same reason. A query using the wrong property
+name for the label it matched doesn't error — it silently scopes nothing — which is exactly
+why a second name was worth removing rather than just documenting more carefully. The
+LLM-to-Cypher path is qualitatively different: there is one shared graph, not one connection
+per domain, so there's no equivalent structural boundary available — the generation-time
 `validate_domain_scoped` guard closes the "forgot scoping entirely" failure mode but is not
 the same class of guarantee, and the scoring note above spells out exactly where it stops
-short. The prompt itself now has to teach the model both property names and which label
-gets which.
+short. Unification closes most of that gap too, though: the prompt now only has to teach the
+model one property name, not two plus which label gets which — `validate_domain_scoped`
+still can't verify the model applied it to every matched node, but a wrong-property mismatch
+is no longer a way to fail silently even when `$domains` is present.
 *Test hint* — for the templated/hybrid/SQL paths, request a parent scope and confirm
 descendant content returns with no way to widen it further; for text2cypher specifically,
 confirm a generated query with no `$domains` reference is rejected before execution, and

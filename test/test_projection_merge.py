@@ -23,7 +23,7 @@ def obs(**kw):
         "name": "SmartSaver Account Tier 2 Rate",
         "canonical_name": "SmartSaver Account Tier 2 Rate",
         "entity_class": "RATE_ENTRY",
-        "domain": "banking.reference",
+        "_domain": "banking.reference",
         # No `_status` (Phase 4) — the label (:Observation vs
         # :ObservationHistory) is the only latest/history signal now; there
         # is no property left to carry.
@@ -553,13 +553,13 @@ def test_override_key_wins_over_the_unioned_sets_own_name_choice():
         [
             obs(
                 id="1", doc_id="a", name="FCA", canonical_name="FCA",
-                entity_class="REGULATOR", domain="banking.reference",
+                entity_class="REGULATOR", _domain="banking.reference",
                 _doc_valid_from="2026-01-01", _valid_from="2026-01-01",
             ),
             obs(
                 id="2", doc_id="b", name="Financial Conduct Authority",
                 canonical_name="Financial Conduct Authority",  # longer -- would win _choose_name
-                entity_class="REGULATOR", domain="banking.reference",
+                entity_class="REGULATOR", _domain="banking.reference",
                 _doc_valid_from="2026-02-01", _valid_from="2026-02-01",
             ),
         ],

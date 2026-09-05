@@ -147,7 +147,7 @@ def gather_evidence(session, entity_id: str, max_chunks: int) -> list[dict]:
     return session.run(
         """
         MATCH (e:Entity {_id:$id})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
-        RETURN DISTINCT c.id AS id, c.doc_id AS doc_id, c.name AS name, c.domain AS domain,
+        RETURN DISTINCT c.id AS id, c.doc_id AS doc_id, c.name AS name, c._domain AS domain,
                left(c.text, 1200) AS text
         LIMIT $k
         """,

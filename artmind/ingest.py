@@ -312,7 +312,7 @@ def _resolve_doc_identity(
     try:
         with neo4j_session() as session:
             rec = session.run(
-                "MATCH (d:Document {logical_id: $lid, domain: $domain}) "
+                "MATCH (d:Document {logical_id: $lid, _domain: $domain}) "
                 "RETURN d.id AS id, d.version AS version "
                 "ORDER BY coalesce(d.version, 1) DESC LIMIT 1",
                 lid=logical_id,
@@ -2042,7 +2042,7 @@ def extract_kg(
         data.setdefault("doc_id", doc_id)
         data.setdefault("text", chunk_text)
         data.setdefault("name", f"Chunk {seq}/{chunk_count}")
-        data.setdefault("domain", domain)
+        data.setdefault("_domain", domain)
         # Denormalized filing metadata (ADR 0010) for fast filtering
         for key, value in filing_metadata.items():
             data.setdefault(key, value)
@@ -2069,7 +2069,7 @@ def extract_kg(
                 data["raw_entities"] = raw_entities
                 data["id_map"] = id_map
                 data["entities"] = [
-                    {**e, "chunk_id": chunk_id, "doc_id": doc_id, "domain": domain}
+                    {**e, "chunk_id": chunk_id, "doc_id": doc_id, "_domain": domain}
                     for e in entities
                 ]
             else:
@@ -2133,7 +2133,7 @@ def extract_kg(
                         "description": "Entity extracted from this document chunk",
                         "chunk_id": chunk_id,
                         "doc_id": doc_id,
-                        "domain": domain,
+                        "_domain": domain,
                     })
                 data["relationships"] = rels
             else:
@@ -2219,7 +2219,7 @@ def extract_kg(
             logger.warning("Missing chunk JSON for seq {}, skipping in merge", seq)
             continue
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
-        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "embedding", "domain") if k in data}
+        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "embedding", "_domain") if k in data}
         chunk_node["id"] = data["chunk_id"]
         # Include denormalized filing metadata (ADR 0010)
         for key in ("project", "area", "tags"):
@@ -2247,7 +2247,7 @@ def extract_kg(
         "version": version,
         "name": registered_path.name,
         "path": str(registered_path),
-        "domain": domain,
+        "_domain": domain,
     }
     if logical_id is not None:
         document["logical_id"] = logical_id
@@ -2755,7 +2755,7 @@ def _write_to_neo4j(doc_kg_dir: Path, domain: str | None = None, defer_rebuild: 
     staged = _load_staged(doc_kg_dir, domain or "")
     if not staged or not staged.get("document"):
         return None
-    staged["domain"] = domain or staged["document"].get("domain", "")
+    staged["domain"] = domain or staged["document"].get("_domain", "")
 
     from artmind.graph_query import neo4j_session
 

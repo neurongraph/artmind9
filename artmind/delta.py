@@ -87,7 +87,7 @@ def _read_prior_document(logical_id: str, domain: str) -> dict | None:
         with neo4j_session() as session:
             rec = session.run(
                 """
-                MATCH (d:Document {logical_id: $lid, domain: $domain})
+                MATCH (d:Document {logical_id: $lid, _domain: $domain})
                 RETURN d.id AS id, d.version AS version, d.title AS title,
                        d.project AS project, d.area AS area, d.tags AS tags,
                        d.created_on AS created_on, d.modified_on AS modified_on

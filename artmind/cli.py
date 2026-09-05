@@ -1386,7 +1386,7 @@ def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, 
     from artmind.graph_query import neo4j_session
     with neo4j_session() as session:
         rows = session.run(
-            "MATCH (d:Document) WHERE d.domain=$domain AND d.name IN [$n,$o] RETURN d.name AS name, d.id AS id",
+            "MATCH (d:Document) WHERE d._domain=$domain AND d.name IN [$n,$o] RETURN d.name AS name, d.id AS id",
             domain=domain, n=newer_name, o=older_name,
         ).data()
     by_name: dict[str, list[str]] = {}

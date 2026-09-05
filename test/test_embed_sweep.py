@@ -259,7 +259,7 @@ def test_domain_scopes_the_fetch_to_that_domain():
 
     assert result["embedded"] == 1
     fetch_cypher, fetch_params = session.queries[0]
-    assert "c.domain = $domain" in fetch_cypher
+    assert "c._domain = $domain" in fetch_cypher
     assert fetch_params["domain"] == "general"
 
 
@@ -273,7 +273,7 @@ def test_domain_none_is_unscoped_and_omits_the_domain_clause():
     embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
 
     fetch_cypher, fetch_params = session.queries[0]
-    assert "c.domain" not in fetch_cypher
+    assert "c._domain" not in fetch_cypher
     assert "domain" not in fetch_params
 
 
@@ -293,7 +293,7 @@ def test_chunk_ids_and_domain_compose_without_breaking():
     assert result["embedded"] == 1
     fetch_cypher, fetch_params = session.queries[0]
     assert "c.id IN $chunk_ids" in fetch_cypher
-    assert "c.domain = $domain" in fetch_cypher
+    assert "c._domain = $domain" in fetch_cypher
     assert fetch_params["chunk_ids"] == ["c1", "c2"]
     assert fetch_params["domain"] == "general"
 
