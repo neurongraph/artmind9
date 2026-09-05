@@ -415,6 +415,28 @@ model, and no explanation.
    working, if default-filled, `~/.artmind/config.env` — no `artmind init`
    step required first, and nothing left to fail silently later.
 
+**A second, deeper layer of the same fix:** `ensure_machine_config()`'s filter
+above only protects the file it *generates*. A live ingest still hit this bug
+because the reporter's `~/.artmind/config.env` had an uncommented
+`ARTMIND_DATA_DIR` — hand-carried over from an older, pre-vault `.env` — and
+the vault's own `config.env` correctly leaves that key commented out by
+default (deferring to the vault-relative default), so nothing in the normal
+"vault overrides machine" load order ever caught it. Two more changes close
+this for good, not just for files this code writes:
+
+- `artmind/env.example` itself now carries **no** vault-scoped key at all —
+  no `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR`, `ARTMIND_ARCHIVE_DIR`, or
+  `ARTMIND_KG_NEO4J_*` — so there is nothing left to copy-paste into a
+  machine config by hand in the first place.
+- `paths.py` now enforces the boundary at **load time**, not just at
+  generation time: when it loads `MACHINE_CONFIG_ENV` specifically (never a
+  vault's own `config.env`, which is exactly where these belong) while a real
+  vault is in play, it ignores `ARTMIND_KG_NEO4J_*`/`ARTMIND_DATA_DIR`/
+  `ARTMIND_VAULT_DIR`/`ARTMIND_ARCHIVE_DIR` outright and prints a one-line
+  warning naming exactly which key it ignored — so a hand-edited or
+  pre-existing machine config.env can no longer silently redirect a vault's
+  data outside itself, on this machine or any other.
+
 ## Snapshots
 
 Snapshots live in `.artmind/data/graph_snapshot/` (and structured-store

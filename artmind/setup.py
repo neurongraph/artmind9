@@ -81,6 +81,12 @@ def _seed_tree(src, dest, *, overwrite: bool = False) -> int:
 # config" table. Matched by literal line-start, same as the manual
 # `grep -vE` fix docs/vault.md documented before this was automated (a
 # commented-out `# ARTMIND_DATA_DIR=...` line is deliberately left alone).
+#
+# `artmind/env.example` itself no longer carries any of these -- it is
+# machine-scoped by construction now, so this filter is a no-op on the
+# "seeded fresh" path below. It still earns its keep on the "migrate an
+# older install's legacy .env" path, where that file predates the split and
+# genuinely does mix both scopes together.
 _VAULT_SCOPED_ENV_PREFIXES = (
     "ARTMIND_KG_NEO4J_",
     "ARTMIND_DATA_DIR",
