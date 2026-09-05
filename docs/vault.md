@@ -385,11 +385,38 @@ vault"**, the way `git init` makes one a repo.
 3. seed starter schemas into `.artmind/domains/`
 4. symlink skills into `.claude/skills/`
 5. symlink ACP agent-mode personas into `.opencode/agent/`
-6. write `.artmind/config.env` from the template, and a starter `vault.yaml`
-7. print next steps
+6. write `.artmind/config.env` (placeholders, or real answers — see below) and
+   a starter `vault.yaml`
+7. configure a git remote, if one was given
+8. print next steps
 
 `just dev-install` must **stop running `artmind init`** — installing the CLI and
 creating a vault are separate acts, and at install time there is no vault.
+
+### `--interactive` and `--remote`
+
+Plain `artmind init` (no flags) writes `.artmind/config.env` with the same
+placeholders it always has and configures no git remote — this is the
+default specifically so automation (`just dev-install`, CI, a provisioning
+script) invoking `artmind init` with nobody at the keyboard never blocks on
+stdin.
+
+`artmind init --interactive` prompts for this vault's Neo4j connection
+(URI, username, password, database), whether to push after every ingest
+(`ARTMIND_VAULT_GIT_PUSH`), and a git remote URL — built on `click.prompt`/
+`click.confirm`, the same primitives the rest of the CLI already uses for
+interactive input (`cli.py`'s `_prompt_for_domain`, `docs archive`'s
+confirmation), so this adds no new dependency. The connection prompts only
+fire when `config.env` doesn't exist yet — re-running `init --interactive`
+against an already-configured vault (hand-edited Aura credentials, a
+non-default database) never overwrites it, the same idempotence rule
+non-interactive `init` already followed.
+
+`--remote <url>` sets the git remote (as `origin`) independently of
+`--interactive` — useful from a script that already knows the target GitHub
+repo. It works even against an existing vault; an `origin` that's already
+configured is always left alone rather than silently repointed
+(`vault_git.add_remote`).
 
 ## Machine-level config — the only global state
 

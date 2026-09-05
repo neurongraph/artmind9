@@ -166,7 +166,8 @@ def test_scaffold_symlinks_opencode_agents_to_the_installed_copy(tmp_path):
 def test_a_new_vault_keeps_its_data_inside_itself(tmp_path):
     """The seeded config must not hijack the data dir.
 
-    `_STARTER_CONFIG_ENV` is a separate, hand-authored vault-level template --
+    `_render_config_env`'s template is a separate, hand-authored vault-level
+    template --
     NOT derived from `artmind/env.example` (the machine-level template, which
     no longer carries ARTMIND_DATA_DIR at all, precisely so it can never be
     seeded into a vault's config.env this way again). This guards the
@@ -385,3 +386,58 @@ def test_scaffold_run_folder_does_not_plant_an_uningored_skills_copy_in_a_vault(
     status = _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
     assert ".artmind/.claude/skills" not in status, status
     assert ".artmind/.opencode" not in status, status
+
+
+# ── config_answers / git_remote (artmind init --interactive) ────────────────
+
+
+def test_scaffold_writes_supplied_config_answers(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path, config_answers={
+        "neo4j_uri": "neo4j+s://mydb.databases.neo4j.io",
+        "neo4j_username": "myuser",
+        "neo4j_password": "hunter2",
+        "neo4j_database": "mydb",
+        "git_push": True,
+    })
+
+    config = vault.VaultLayout(tmp_path).config_env.read_text()
+    assert "ARTMIND_KG_NEO4J_URI=neo4j+s://mydb.databases.neo4j.io" in config
+    assert "ARTMIND_KG_NEO4J_USERNAME=myuser" in config
+    assert "ARTMIND_KG_NEO4J_PASSWORD=hunter2" in config
+    assert "ARTMIND_KG_NEO4J_DATABASE=mydb" in config
+    assert "ARTMIND_VAULT_GIT_PUSH=1" in config.splitlines()
+
+
+def test_scaffold_config_answers_never_overwrite_an_existing_config_env(tmp_path):
+    """Same idempotence rule as the no-answers path: a second `init` (even an
+    interactive one) must not clobber a config.env the user may have hand-edited."""
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+    config = vault.VaultLayout(tmp_path).config_env
+    config.write_text("ARTMIND_KG_NEO4J_DATABASE=mine\n")
+
+    scaffold_vault(tmp_path, config_answers={"neo4j_database": "clobbered"})
+
+    assert config.read_text() == "ARTMIND_KG_NEO4J_DATABASE=mine\n"
+
+
+def test_scaffold_configures_a_git_remote_when_given_one(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    _init_repo(tmp_path)
+    result = scaffold_vault(tmp_path, git_remote="https://github.com/example/vault.git")
+
+    assert result["git_remote"] == "added"
+    remotes = _git(tmp_path, "remote", "-v")
+    assert "https://github.com/example/vault.git" in remotes
+
+
+def test_scaffold_reports_no_git_remote_action_when_none_given(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    result = scaffold_vault(tmp_path)
+
+    assert result["git_remote"] is None

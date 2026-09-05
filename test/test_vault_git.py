@@ -152,6 +152,45 @@ def test_is_dirty_none_when_not_a_git_repo(tmp_path, monkeypatch):
     assert vault_git.is_dirty() is None
 
 
+# ── add_remote (artmind init --interactive / --remote) ──────────────────────
+# Takes an explicit root rather than going through ARTMIND_VAULT_DIR, since it
+# runs at scaffold time before the new vault is necessarily "active" -- so no
+# monkeypatching of vault_git module globals needed here, unlike above.
+
+
+def test_add_remote_configures_origin_on_a_fresh_repo(tmp_path):
+    _init_git_repo(tmp_path)
+
+    status = vault_git.add_remote(tmp_path, "https://github.com/example/vault.git")
+
+    assert status == "added"
+    remotes = subprocess.run(
+        ["git", "remote", "-v"], cwd=tmp_path, capture_output=True, text=True
+    ).stdout
+    assert "https://github.com/example/vault.git" in remotes
+
+
+def test_add_remote_leaves_an_existing_origin_alone(tmp_path):
+    _init_git_repo(tmp_path)
+    subprocess.run(
+        ["git", "remote", "add", "origin", "https://github.com/example/first.git"],
+        cwd=tmp_path, check=True,
+    )
+
+    status = vault_git.add_remote(tmp_path, "https://github.com/example/second.git")
+
+    assert status == "exists"
+    remotes = subprocess.run(
+        ["git", "remote", "-v"], cwd=tmp_path, capture_output=True, text=True
+    ).stdout
+    assert "first.git" in remotes
+    assert "second.git" not in remotes
+
+
+def test_add_remote_fails_gracefully_outside_a_git_repo(tmp_path):
+    assert vault_git.add_remote(tmp_path, "https://github.com/example/vault.git") == "failed"
+
+
 class TestExpectedExitCodesAreNotErrors:
     """Two git commands answer with their exit status rather than failing.
 

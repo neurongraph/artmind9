@@ -277,7 +277,11 @@ ingest:
 # `ARTMIND_DATA_DIR=~/artmind_data` would be loaded before paths.py's
 # vault-relative default, sending every new vault's data to one shared
 # directory -- precisely the coupling the vault model removes.
-_STARTER_CONFIG_ENV = """\
+_DEFAULT_NEO4J_URI = "neo4j://127.0.0.1:7687"
+_DEFAULT_NEO4J_USERNAME = "neo4j"
+_DEFAULT_NEO4J_DATABASE = "neo4j"
+
+_CONFIG_ENV_TEMPLATE = """\
 # artmind — configuration for THIS vault. Gitignored: it holds a password.
 #
 # Shared identity (LLM provider, API keys, embedding + agent models) lives in
@@ -285,15 +289,15 @@ _STARTER_CONFIG_ENV = """\
 # overrides it, and a real environment variable overrides both.
 
 # ── this vault's graph ────────────────────────────────────────────────────────
-ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
-ARTMIND_KG_NEO4J_USERNAME=neo4j
-ARTMIND_KG_NEO4J_PASSWORD=
-ARTMIND_KG_NEO4J_DATABASE=neo4j
+ARTMIND_KG_NEO4J_URI={neo4j_uri}
+ARTMIND_KG_NEO4J_USERNAME={neo4j_username}
+ARTMIND_KG_NEO4J_PASSWORD={neo4j_password}
+ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
 
 # ── optional ──────────────────────────────────────────────────────────────────
 # Push the vault's git repo after artmind commits frontmatter. Leave unset if
 # something else (e.g. the Obsidian Git plugin) already owns pushing.
-# ARTMIND_VAULT_GIT_PUSH=1
+{git_push_line}
 
 # Relocate derived data out of the vault. Only needed if the vault lives on a
 # sync service that would choke on KG staging and snapshots; the default is
@@ -302,7 +306,35 @@ ARTMIND_KG_NEO4J_DATABASE=neo4j
 """
 
 
-def scaffold_vault(root: Path) -> dict:
+def _render_config_env(
+    *,
+    neo4j_uri: str = _DEFAULT_NEO4J_URI,
+    neo4j_username: str = _DEFAULT_NEO4J_USERNAME,
+    neo4j_password: str = "",
+    neo4j_database: str = _DEFAULT_NEO4J_DATABASE,
+    git_push: bool = False,
+) -> str:
+    """Render this vault's own config.env. Called with no arguments this
+    reproduces the old hardcoded starter file exactly (every existing test
+    and every non-interactive `artmind init` keeps seeing the same
+    placeholders); `artmind init --interactive` (cli.py) supplies real
+    answers gathered from the user instead.
+    """
+    return _CONFIG_ENV_TEMPLATE.format(
+        neo4j_uri=neo4j_uri,
+        neo4j_username=neo4j_username,
+        neo4j_password=neo4j_password,
+        neo4j_database=neo4j_database,
+        git_push_line="ARTMIND_VAULT_GIT_PUSH=1" if git_push else "# ARTMIND_VAULT_GIT_PUSH=1",
+    )
+
+
+def scaffold_vault(
+    root: Path,
+    *,
+    config_answers: dict | None = None,
+    git_remote: str | None = None,
+) -> dict:
     """Make `root` an artmind vault. Idempotent, and never destructive.
 
     Package assets are seeded ONLY when absent. This inverts
@@ -311,6 +343,14 @@ def scaffold_vault(root: Path) -> dict:
     hand-authored vault schemas (docs/vault.md, "Schemas"). Skills keep their
     always-current property a different way -- they are symlinked to the
     installed copy rather than copied.
+
+    `config_answers` (kwargs for `_render_config_env`) only affects a config.env
+    that doesn't exist yet -- same idempotence rule as everything else here.
+    `git_remote`, if given, configures `origin` for `root`'s git repo (added
+    fresh; an already-configured `origin` is left alone -- see
+    `vault_git.add_remote`); this one isn't gated on freshness the way
+    config.env is, since setting a remote is safe to retry and has no
+    "already customized by hand" content to clobber.
     """
     root = Path(root).expanduser().resolve()
     layout = VaultLayout(root)
@@ -338,7 +378,9 @@ def scaffold_vault(root: Path) -> dict:
         shutil.copy2(PACKAGE_META_YAML, layout.meta_yaml)
 
     if not layout.config_env.exists():
-        layout.config_env.write_text(_STARTER_CONFIG_ENV, encoding="utf-8")
+        layout.config_env.write_text(
+            _render_config_env(**(config_answers or {})), encoding="utf-8"
+        )
         layout.config_env.chmod(0o600)
 
     if not layout.vault_yaml.exists():
@@ -349,6 +391,12 @@ def scaffold_vault(root: Path) -> dict:
     gitignore_written = write_gitignore(root)
     machine_config = ensure_machine_config()
 
+    git_remote_status = None
+    if git_remote:
+        from artmind.vault_git import add_remote
+
+        git_remote_status = add_remote(root, git_remote)
+
     return {
         "vault": str(root),
         "schemas": seeded_schemas,
@@ -356,6 +404,7 @@ def scaffold_vault(root: Path) -> dict:
         "opencode_agents": linked_opencode,
         "gitignore": gitignore_written,
         "machine_config": machine_config,
+        "git_remote": git_remote_status,
     }
 
 
