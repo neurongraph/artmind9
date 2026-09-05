@@ -181,6 +181,68 @@ ingest:
     assert queued == [["a.md"]]
 
 
+def test_async_does_not_prompt_when_a_mapping_covers_the_single_file(vault, monkeypatch):
+    """Regression: found live -- `ingest async .` on a fully-mapped vault
+    prompted for a domain anyway, ignoring vault.yaml entirely (unlike `ingest
+    sync`, which already skipped the prompt here). The mapping still wins once
+    the job actually runs (worker.py's own `_domain_for`); the job's own
+    `domain` staying None is exactly as safe as it already is for `ingest sync`."""
+    monkeypatch.setattr(cli_module, "_create_job", lambda *a, **k: "job-1")
+    monkeypatch.setattr(cli_module, "_ensure_worker_running", lambda: None)
+
+    def _must_not_prompt():
+        raise AssertionError("must not prompt -- notes/** already maps this file")
+
+    monkeypatch.setattr(cli_module, "_prompt_for_domain", _must_not_prompt)
+    _manifest(vault, """
+ingest:
+  mappings:
+    - path: notes/**
+      domain: personal_journal
+""")
+    (vault / "notes").mkdir()
+    (vault / "notes" / "n.md").write_text("# n")
+
+    result = CliRunner().invoke(cli, ["ingest", "async", "notes/n.md"])
+
+    assert result.exit_code == 0, result.output
+
+
+def test_async_still_prompts_for_a_single_unmapped_file_with_no_domain(vault, monkeypatch):
+    """A lone file with no mapping, no frontmatter `_domain`, and no --domain
+    really does need a prompt -- there is no other domain source at all."""
+    monkeypatch.setattr(cli_module, "_create_job", lambda *a, **k: "job-1")
+    monkeypatch.setattr(cli_module, "_ensure_worker_running", lambda: None)
+    monkeypatch.setattr(cli_module, "_prompt_for_domain", lambda: "general")
+    _manifest(vault, "ingest:\n  mappings: []\n")
+    (vault / "loose.md").write_text("# loose")
+
+    result = CliRunner().invoke(cli, ["ingest", "async", "loose.md"])
+
+    assert result.exit_code == 0, result.output
+
+
+def test_async_directory_batch_does_not_prompt_even_if_unmapped(vault, monkeypatch):
+    """Mirrors `ingest sync`'s own rule exactly: a directory batch relies on
+    per-file frontmatter/mapping, never an interactive prompt, regardless of
+    whether every file actually has a domain source -- prompting for one
+    domain to cover a whole batch would be the wrong question to ask."""
+    monkeypatch.setattr(cli_module, "_create_job", lambda *a, **k: "job-1")
+    monkeypatch.setattr(cli_module, "_ensure_worker_running", lambda: None)
+
+    def _must_not_prompt():
+        raise AssertionError("must not prompt for a directory batch")
+
+    monkeypatch.setattr(cli_module, "_prompt_for_domain", _must_not_prompt)
+    _manifest(vault, "ingest:\n  mappings: []\n")
+    (vault / "a.md").write_text("# a")
+    (vault / "b.md").write_text("# b")
+
+    result = CliRunner().invoke(cli, ["ingest", "async", "."])
+
+    assert result.exit_code == 0, result.output
+
+
 def test_async_refuses_a_manifest_naming_an_unknown_domain(vault, monkeypatch):
     """sync refuses up front; async must too, rather than queueing a job that
     fails per file at extraction long after the command returned success."""

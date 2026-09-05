@@ -786,7 +786,13 @@ def ingest_sync(
 
 @ingest.command("async")
 @click.argument("file_path", type=click.Path(exists=True))
-@click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
+@click.option(
+    "--domain", default=None,
+    help="Domain to assign. Vault-native markdown: a fallback only — a file's own"
+    " '_domain' frontmatter or a vault.yaml mapping wins when present. Prompted"
+    " when ingesting a single file with none of those. Required for a single"
+    " structured/binary file with no mapping.",
+)
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bool):
@@ -795,15 +801,48 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
     _setup_logger()
     path = Path(file_path)
     _check_named_file_supported(path)
-    if domain is None:
+
+    files = collect_ingest_files(path)
+    vault_manifest, files = _manifest_for_ingest(path, files)
+
+    from paths import ARTMIND_VAULT_DIR
+
+    def _mapped_domain(f: Path) -> str | None:
+        if vault_manifest is None or ARTMIND_VAULT_DIR is None:
+            return None
+        try:
+            rel = f.resolve().relative_to(ARTMIND_VAULT_DIR).as_posix()
+        except ValueError:
+            return None  # outside the vault; the manifest says nothing about it
+        return vault_manifest.domain_for(rel)
+
+    # Mirrors ingest_sync's rule exactly (cli.py, ingest_sync above): a single
+    # file with no domain source at all is worth an interactive prompt; a
+    # directory batch is not, since a folder mapping or per-file frontmatter is
+    # expected to resolve it. worker.py's _domain_for re-derives this the same
+    # way once the job actually runs, so `domain` staying None here is exactly
+    # as safe as it already is for `ingest sync` -- previously this prompted
+    # unconditionally, ignoring vault.yaml entirely even when every file in the
+    # batch was already fully mapped.
+    if domain is None and len(files) == 1 and not is_structured_source(files[0]):
+        from artmind.ingest import _parse_md_frontmatter
+
+        frontmatter_domain = None
+        if files[0].suffix.lower() == ".md":
+            meta, _ = _parse_md_frontmatter(files[0].read_text(encoding="utf-8"))
+            frontmatter_domain = meta.get("_domain")
+        if not frontmatter_domain and not _mapped_domain(files[0]):
+            domain = _prompt_for_domain()
+    elif (
+        domain is None and len(files) == 1 and is_structured_source(files[0])
+        and not _mapped_domain(files[0])
+    ):
         domain = _prompt_for_domain()
-    elif domain not in _get_available_domains():
+    if domain is not None and domain not in _get_available_domains():
         raise click.ClickException(
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
 
-    files = collect_ingest_files(path)
-    vault_manifest, files = _manifest_for_ingest(path, files)
     _validate_manifest_domains(vault_manifest)
     if not files:
         raise click.ClickException(f"No files found in {path}")
