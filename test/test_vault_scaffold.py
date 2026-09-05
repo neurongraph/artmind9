@@ -148,10 +148,14 @@ def test_scaffold_symlinks_skills_to_the_installed_copy(tmp_path):
 def test_a_new_vault_keeps_its_data_inside_itself(tmp_path):
     """The seeded config must not hijack the data dir.
 
-    `artmind/env.example` is the MACHINE-level template and has
-    `ARTMIND_DATA_DIR=~/artmind_data` uncommented. Seeding a vault's config.env
-    from it sent every new vault's data to one shared directory — the exact
-    coupling the vault model exists to remove.
+    `_STARTER_CONFIG_ENV` is a separate, hand-authored vault-level template --
+    NOT derived from `artmind/env.example` (the machine-level template, which
+    no longer carries ARTMIND_DATA_DIR at all, precisely so it can never be
+    seeded into a vault's config.env this way again). This guards the
+    invariant directly regardless of where either template's content comes
+    from: a fresh vault's own config.env must never set ARTMIND_DATA_DIR,
+    since doing so would send every new vault's data to one shared directory
+    — the exact coupling the vault model exists to remove.
     """
     from artmind.setup import scaffold_vault
 

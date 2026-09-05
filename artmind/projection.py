@@ -753,6 +753,13 @@ def rebuild_key(
     # `entity_embedding`, which would make the entity invisible to
     # `entity-resolve`'s vector leg rather than merely less accurate. Stale
     # still finds the entity; null deletes it.
+    #
+    # `label` must never sanitize to `ENTITY` -- it would collide with the
+    # structural `:Entity` label above (Neo4j labels are case-sensitive, so
+    # the two coexist rather than merging, and a node ends up looking like it
+    # carries the same label twice). No schema should define a class named
+    # `entity`/`Entity`/`ENTITY` for exactly this reason (general_schema.yaml
+    # used to, as its generic fallback; renamed to `THING`).
     tx.run(
         """
         CYPHER 25

@@ -18,7 +18,7 @@ import os
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 # ── run folder root ────────────────────────────────────────────────────────────
 _SELF_DIR = Path(__file__).resolve().parent  # repo root (dev) or site-packages (wheel)
@@ -72,6 +72,26 @@ else:
 MACHINE_CONFIG_DIR = (Path.home() / ".artmind").resolve()
 MACHINE_CONFIG_ENV = MACHINE_CONFIG_DIR / "config.env"
 
+# Keys that belong to a VAULT's own config.env, never the machine-wide one
+# (docs/vault.md, "Machine-level config") -- once a real vault is in play,
+# these "disappear as concepts... every one of them is now a position inside
+# the vault." The load-order comment above promises the vault's config.env
+# overrides the machine's, but that only holds for a key BOTH files set; a
+# vault's own config.env leaves ARTMIND_DATA_DIR/VAULT_DIR/ARCHIVE_DIR
+# commented out by default (correctly deferring to the vault-relative
+# default), so a machine config.env carrying one anyway -- e.g. copied
+# wholesale from an old pre-vault .env, exactly what `just dev-install`
+# seeded before this file existed -- silently wins with no vault-side value
+# to beat it: ingestion writes outside the vault, `git add` then fails
+# because the file landed outside the repo, with no diagnostic pointing at
+# the actual cause. Filtered out when loading MACHINE_CONFIG_ENV specifically
+# (never the vault's own config.env, which is exactly where these belong).
+_VAULT_ONLY_ENV_KEYS = (
+    "ARTMIND_KG_NEO4J_URI", "ARTMIND_KG_NEO4J_USERNAME",
+    "ARTMIND_KG_NEO4J_PASSWORD", "ARTMIND_KG_NEO4J_DATABASE",
+    "ARTMIND_DATA_DIR", "ARTMIND_VAULT_DIR", "ARTMIND_ARCHIVE_DIR",
+)
+
 LOADED_ENV_FILES: "list[Path]" = []
 _candidates = [
     ARTMIND_HOME / "config.env",   # this vault
@@ -81,9 +101,27 @@ _candidates = [
 if os.environ.get("ARTMIND_ALLOW_REPO_ENV", "").strip().lower() in ("1", "true", "yes"):
     _candidates.append(_SELF_DIR / ".env")
 for _candidate in _candidates:
-    if _candidate.is_file() and _candidate not in LOADED_ENV_FILES:
+    if not _candidate.is_file() or _candidate in LOADED_ENV_FILES:
+        continue
+    if _LAYOUT is not None and _candidate == MACHINE_CONFIG_ENV:
+        _values = dotenv_values(_candidate)
+        _leaked = sorted(
+            k for k in _VAULT_ONLY_ENV_KEYS if _values.get(k) and k not in os.environ
+        )
+        if _leaked:
+            print(
+                f"artmind: ignoring vault-scoped key(s) in machine-wide {_candidate} "
+                f"while inside a vault: {', '.join(_leaked)} -- these belong in this "
+                f"vault's own .artmind/config.env instead (docs/vault.md, "
+                f"\"Machine-level config\").",
+                file=sys.stderr,
+            )
+        for _k, _v in _values.items():
+            if _k not in _VAULT_ONLY_ENV_KEYS and _v is not None and _k not in os.environ:
+                os.environ[_k] = _v
+    else:
         load_dotenv(_candidate, override=False)
-        LOADED_ENV_FILES.append(_candidate)
+    LOADED_ENV_FILES.append(_candidate)
 
 # Retained for backward compatibility. Prefer LOADED_ENV_FILES, which reports
 # every file read rather than just the first.

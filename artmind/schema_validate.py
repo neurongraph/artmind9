@@ -10,6 +10,7 @@ Phase 1 for what this contract is and why it exists.
 """
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import yaml
@@ -32,6 +33,25 @@ def load_meta(meta_path: Path = DOMAIN_META_PATH) -> dict:
 def _check_reserved(key: str, prefix: str, where: str, errors: list[str]) -> None:
     if key.startswith(prefix):
         errors.append(f"{where}: {key!r} uses artmind's reserved {prefix!r} prefix")
+
+
+# Mirrors `projection._sanitize_label` / `ingest._sanitize_label`'s exact
+# transform -- every write to Neo4j sanitizes a class name this same way
+# before using it as a dynamic label.
+_RESERVED_STRUCTURAL_LABEL = "ENTITY"
+
+
+def _sanitizes_to_reserved_label(cls: str) -> bool:
+    """A class whose sanitized name is ENTITY would collide with the
+    structural `:Entity` label every node already carries from its own
+    `MERGE (e:Entity {_id: ...})` -- Neo4j labels are case-sensitive, so the
+    two coexist rather than merging, and the node ends up visibly carrying
+    what looks like the same label twice (general_schema.yaml's original
+    generic-fallback class hit exactly this before being renamed to THING).
+    Caught here, at schema-authoring time, rather than downstream in the
+    write path -- a schema is the only place this can be prevented once."""
+    sanitized = re.sub(r"[^A-Za-z0-9_]", "_", (cls or "").strip()).upper() or "UNKNOWN"
+    return sanitized == _RESERVED_STRUCTURAL_LABEL
 
 
 def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str]:
@@ -60,6 +80,13 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
     for cls, decl in entity_types.items():
         where = f"{label}.entity_types.{cls}"
         _check_reserved(cls, prefix, f"{label}.entity_types", errors)
+        if _sanitizes_to_reserved_label(cls):
+            errors.append(
+                f"{where}: class name sanitizes to the reserved label "
+                f"'{_RESERVED_STRUCTURAL_LABEL}', which collides with the "
+                f"structural :Entity label every node already carries -- "
+                f"pick a more specific name (e.g. THING, SUBJECT, OTHER)"
+            )
         if not isinstance(decl, dict):
             errors.append(f"{where}: class declaration must be a map")
             continue
