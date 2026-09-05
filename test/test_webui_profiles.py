@@ -98,6 +98,30 @@ def test_acp_mode_env_still_overrides_profile(monkeypatch):
     assert backend._mode == "custom-mode"
 
 
+def test_acp_cwd_defaults_to_agent_cwd_not_home(monkeypatch):
+    """Regression: the default used to be ARTMIND_HOME unconditionally, which
+    inside a vault is one level below the vault root -- where neither
+    `.claude/skills/` nor `.opencode/agent/` is symlinked in (docs/vault.md,
+    "ACP agent modes"). See test_paths_agent_cwd.py for how ARTMIND_AGENT_CWD
+    itself resolves; here we only need create_backend to read it."""
+    import paths
+
+    monkeypatch.setattr(paths, "ARTMIND_AGENT_CWD", "/some/vault/root")
+    backend = create_backend("acp")
+
+    assert backend._cwd == "/some/vault/root"
+
+
+def test_acp_cwd_env_still_overrides_the_default(monkeypatch):
+    import paths
+
+    monkeypatch.setattr(paths, "ARTMIND_AGENT_CWD", "/some/vault/root")
+    monkeypatch.setenv("ARTMIND_ACP_CWD", "/explicit/override")
+    backend = create_backend("acp")
+
+    assert backend._cwd == "/explicit/override"
+
+
 def test_backend_factory_binds_profile():
     factory = backend_factory(ADMIN_PROFILE)
     backend = factory("acp")  # SessionRegistry calls the factory with a name

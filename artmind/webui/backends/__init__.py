@@ -54,9 +54,14 @@ configured via:
 works, configured via:
 
 - ``ARTMIND_ACP_AGENT_CMD``: agent command line (default ``opencode acp``)
-- ``ARTMIND_ACP_CWD``: session working directory (default: the run folder
-  ``$ARTMIND_HOME``, so the agent discovers the artmind skills in
-  ``.claude/skills/`` without exposing the source tree or corpus)
+- ``ARTMIND_ACP_CWD``: session working directory (default: ``ARTMIND_AGENT_CWD``
+  from ``paths.py`` — the vault root when running inside a vault, else the
+  machine home ``$ARTMIND_HOME`` — so the agent discovers the artmind skills in
+  ``.claude/skills/`` and the ACP persona modes in ``.opencode/agent/`` without
+  exposing the source tree or corpus. NOT ``$ARTMIND_HOME`` unconditionally:
+  inside a vault that resolves one level below the vault root, to
+  ``<vault>/.artmind/``, where neither directory is symlinked in — see
+  ``docs/vault.md``, "Skills and agent modes")
 - ``ARTMIND_ACP_PROMPT_PREAMBLE``: set to ``1`` to prepend the artmind persona
   to the first prompt of each session (fallback when the agent has no other
   way to receive a system prompt)
@@ -168,14 +173,14 @@ def create_backend(
         )
     if name == "acp":
         from artmind.webui.backends.acp import ACPBackend
-        from paths import ARTMIND_HOME
+        from paths import ARTMIND_AGENT_CWD
 
         agent_cmd = _acp_cmd_override or shlex.split(
             os.environ.get("ARTMIND_ACP_AGENT_CMD", "opencode acp")
         )
         return ACPBackend(
             agent_cmd=agent_cmd,
-            cwd=os.environ.get("ARTMIND_ACP_CWD", str(ARTMIND_HOME)),
+            cwd=os.environ.get("ARTMIND_ACP_CWD", str(ARTMIND_AGENT_CWD)),
             prompt_preamble=os.environ.get("ARTMIND_ACP_PROMPT_PREAMBLE") == "1",
             mode=os.environ.get("ARTMIND_ACP_MODE", profile.acp_mode) or None,
             model=os.environ.get("ARTMIND_ACP_MODEL") or None,

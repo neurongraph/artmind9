@@ -135,6 +135,13 @@ class VaultLayout:
         `.claude/skills/` relative to the agent's cwd, which is the vault."""
         return self.root / ".claude" / "skills"
 
+    @property
+    def opencode_agents_dir(self) -> Path:
+        """opencode resolves ACP session modes (custom agents) from
+        `.opencode/agent/*.md` relative to the `cwd` a session is opened
+        with -- ARTMIND_AGENT_CWD, the vault root, same as `skills_dir`."""
+        return self.root / ".opencode" / "agent"
+
     # ── machine-local, gitignored ────────────────────────────────────────────
     @property
     def config_env(self) -> Path:
@@ -214,6 +221,11 @@ GITIGNORE_BLOCK = """\
 # artmind's own skills are symlinks to the installed copy; yours are not
 # matched by this and stay committable.
 .claude/skills/artmind-*
+# Same deal for the opencode/ACP persona (custom agent modes): artmind's own
+# are symlinks to the installed copy; a custom agent you author yourself
+# (any other .md name under .opencode/agent/) is not matched and stays
+# committable.
+.opencode/agent/artmind*.md
 
 # Locally-cached chunk vectors, split out of committed chunks.json into this
 # sidecar precisely so it can be excluded. Derived from (text, model), and
