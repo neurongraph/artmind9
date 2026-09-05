@@ -264,7 +264,7 @@ def _restore_nodes(session, nodes: dict[str, list[dict]]) -> dict[str, int]:
     Recreates each node under its own exported `labels` list, not just the
     bucket key it was grouped under — the bucket key is `"Entity"`, but an
     entity node itself carries `:Entity:<CLASS>` (e.g. `:Entity:CHARACTER`;
-    see `projection.rebuild_key`'s `apoc.create.addLabels`). Falls back to
+    see `projection.rebuild_key`'s dynamic `SET e:$(...)`). Falls back to
     `[base_label]` for a node with no stored `labels` (a pre-Phase-9 snapshot,
     or any bucket where the label set never varies from the bucket key).
     """

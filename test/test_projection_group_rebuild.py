@@ -69,6 +69,36 @@ def _o(**kw):
     return base
 
 
+# ── rebuild_key: dynamic label/property Cypher, not APOC ────────────────────
+
+
+def test_rebuild_key_uses_dynamic_label_and_property_cypher_not_apoc():
+    """`SET e:$($label)` / `REMOVE node[staleKey]` (Neo4j 5.24+) replaced
+    `apoc.create.addLabels` / `apoc.create.removeProperties` -- assert the
+    query text and the bound `label`/`keep` parameters, not just that some
+    MERGE happened."""
+    key = ("fca", "REGULATOR", "banking.reference")
+    tx = FakeTx(observations_by_key={
+        key_string(key): [_o(id="o1", canonical_name="FCA")],
+    })
+
+    rebuild(tx, {key}, same_as_groups=[])
+
+    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: $id})")
+    assert len(merge_calls) == 1
+    cypher, params = merge_calls[0]
+
+    assert "apoc.create.addLabels" not in cypher
+    assert "apoc.create.removeProperties" not in cypher
+    assert "SET e:$($label)" in cypher
+    assert "REMOVE node[staleKey]" in cypher
+
+    assert params["label"] == "REGULATOR"
+    assert params["id"] == entity_id(key)
+    assert "embedding" in params["keep"], "keep must protect embedding from the property sweep"
+    assert "embedding_stale" in params["keep"]
+
+
 # ── merge: same (class, domain) as canonical ─────────────────────────────────
 
 

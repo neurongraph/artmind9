@@ -52,11 +52,13 @@ CLASS = "RATE_ENTRY"
 # the pairwise adjudicator's own nodes.
 CONFLICT_TAG = "phase3-live-test"
 
-REQUIRED_APOC = (
-    "apoc.create.addLabels",
-    "apoc.create.removeProperties",
-    "apoc.merge.relationship",
-)
+# `rebuild_key` used to depend on `apoc.create.addLabels` /
+# `apoc.create.removeProperties`; both are now plain Cypher (dynamic label/
+# property syntax, Neo4j 5.24+) instead. `apoc.merge.relationship` is not
+# called anywhere in the current pipeline either. Kept as an empty tuple
+# (rather than deleted) so the skip-on-missing-APOC machinery is ready to
+# use again if a future change reintroduces an APOC dependency here.
+REQUIRED_APOC: tuple[str, ...] = ()
 
 
 @pytest.fixture()

@@ -57,6 +57,12 @@ def test_vocabulary_query_is_restricted_to_recurrent_classes():
     assert kwargs["domain"] == "banking.reference"
     assert kwargs["limit"] == 25
     assert "entity_embedding" in _cypher
+    # The ANN leg uses Cypher 25's SEARCH construct, not the deprecated
+    # `db.index.vector.queryNodes` procedure (Neo4j 2026.04 deprecation).
+    assert "db.index.vector.queryNodes" not in _cypher
+    assert "SEARCH node IN (" in _cypher
+    assert "VECTOR INDEX entity_embedding" in _cypher
+    assert "vector.similarity.cosine(node.embedding, $vector)" in _cypher
 
 
 def test_a_down_embedding_service_degrades_to_no_vocabulary_and_never_raises():
