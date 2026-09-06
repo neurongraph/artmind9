@@ -1507,8 +1507,19 @@ def embed_missing_entity_embeddings(
         **params,
     ).data()
 
+    # One embedding call per row, sequentially -- for a full-vault ingest's
+    # sweep (hundreds of entities after a full_rebuild) that's the other half
+    # of the "went silent for minutes" symptom the projection rebuild's own
+    # progress log now covers (projection.rebuild): this loop had exactly the
+    # same gap, just calling an embedding service instead of running Cypher.
+    # Same threshold, same reasoning -- skip it entirely for a sweep small
+    # enough to finish before a progress line would be worth anything.
+    total = len(rows)
+    log_every = 50
+    t0 = time.monotonic()
+
     count, failed = 0, 0
-    for row in rows:
+    for i, row in enumerate(rows, start=1):
         try:
             embedding = _embed_text(
                 embed_model, entity_embedding_text(row["name"], row.get("description"))
@@ -1525,6 +1536,16 @@ def embed_missing_entity_embeddings(
             embedding=embedding,
         )
         count += 1
+
+        if total >= log_every and i % log_every == 0 and i < total:
+            elapsed = time.monotonic() - t0
+            rate = i / elapsed if elapsed > 0 else 0
+            remaining = (total - i) / rate if rate > 0 else None
+            eta = f", ~{remaining:.0f}s left" if remaining is not None else ""
+            logger.info(
+                "Embed sweep: {}/{} entity node(s) ({:.0f}%) in {:.0f}s{}",
+                i, total, 100 * i / total, elapsed, eta,
+            )
     if count or failed:
         logger.info(
             "Embed sweep: {} entity node(s) embedded, {} skipped (still marked stale)",
