@@ -62,7 +62,7 @@ class FakeTx:
 def _o(**kw):
     base = {
         "id": "o1", "name": "n", "canonical_name": "n", "entity_class": "REGULATOR",
-        "domain": "banking.reference", "_kind": "occurrent", "doc_version": 1,
+        "_domain": "banking.reference", "_kind": "occurrent", "doc_version": 1,
         "_doc_valid_from": "2026-01-01", "_valid_from": "2026-01-01",
     }
     base.update(kw)
@@ -97,6 +97,52 @@ def test_rebuild_key_uses_dynamic_label_and_property_cypher_not_apoc():
     assert params["id"] == entity_id(key)
     assert "embedding" in params["keep"], "keep must protect embedding from the property sweep"
     assert "embedding_stale" in params["keep"]
+
+
+# ── progress logging: a full_rebuild-scale key set must not go silent ───────
+# Found live: an 860-key full_rebuild against a remote AuraDB ran 8+ minutes
+# with nothing printed between the opening "Full projection rebuild over N
+# key(s)" line and the closing summary -- rebuild()'s whole loop runs inside
+# one transaction, so there is no other signal that it's still working, not
+# stuck. See projection.rebuild's own comment for the exact threshold.
+
+
+def test_rebuild_logs_progress_past_fifty_keys(monkeypatch):
+    import artmind.projection as proj
+
+    keys = {("entity", "REGULATOR", f"banking.d{i}") for i in range(60)}
+    tx = FakeTx(observations_by_key={
+        key_string(k): [_o(id=f"o{i}", canonical_name="entity", _domain=k[2])]
+        for i, k in enumerate(keys)
+    })
+
+    logged = []
+    monkeypatch.setattr(proj.logger, "info", lambda *a, **k: logged.append(a))
+
+    rebuild(tx, keys, same_as_groups=[])
+
+    # The periodic checkpoint's own template ("... key(s) (...%) in ...s...")
+    # is distinct from the closing summary's ("... key(s) — rebuilt=...").
+    progress_lines = [a for a in logged if "key(s) (" in str(a[0])]
+    assert progress_lines, "a 60-key rebuild must log at least one progress checkpoint"
+    assert 50 in progress_lines[0][1:], "the checkpoint must fire at key 50, not some other count"
+
+
+def test_rebuild_stays_quiet_under_the_progress_threshold(monkeypatch):
+    """A handful of keys finishes near-instantly -- a periodic line here would
+    be noise, not signal."""
+    import artmind.projection as proj
+
+    keys = {("fca", "REGULATOR", "banking.reference")}
+    tx = FakeTx(observations_by_key={key_string(k): [_o(id="o1")] for k in keys})
+
+    logged = []
+    monkeypatch.setattr(proj.logger, "info", lambda *a, **k: logged.append(a))
+
+    rebuild(tx, keys, same_as_groups=[])
+
+    progress_lines = [a for a in logged if "%)" in str(a)]
+    assert progress_lines == []
 
 
 # ── merge: same (class, domain) as canonical ─────────────────────────────────

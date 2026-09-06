@@ -24,6 +24,7 @@ to `entity-resolve`'s vector leg rather than merely less accurate.
 from __future__ import annotations
 
 import hashlib
+import time
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
@@ -976,6 +977,21 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             id=entity_id(canonical if canonical is not None else key),
         )
 
+    # Progress-only, no side effects on the rebuild itself: this whole loop
+    # runs inside ONE transaction (this module's docstring explains why —
+    # a silently-skipped projection would be a silently-stale query layer),
+    # so nothing commits and nothing is visible to another session until
+    # every key is done. For a small rebuild that's instant; for hundreds of
+    # keys against a remote database it can run long enough that, without a
+    # periodic line here, the log goes silent for minutes at a stretch with
+    # no way to tell "still working" from "stuck" (found live: an 860-key
+    # rebuild against AuraDB went 8+ minutes with nothing printed). Every 50
+    # keys, and never at all for a rebuild under 50 -- small enough to finish
+    # before a progress line would be worth anything.
+    total = len(keys)
+    log_every = 50
+    t0 = time.monotonic()
+
     summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0}
     for key in sorted(keys):
         summary["keys"] += 1
@@ -984,12 +1000,22 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             # Folded into another entity by a same-as group — never its own.
             _delete_entity(tx, entity_id(key))
             summary["deleted"] += 1
-            continue
-        effective_key = canonical if canonical is not None else key
-        member_keys = members_of.get(effective_key, [effective_key])
-        synthesis = synthesis_loader(effective_key) if synthesis_loader else None
-        outcome = rebuild_key(tx, effective_key, member_keys=member_keys, unit_of=unit_of, synthesis=synthesis)
-        summary[outcome] += 1
+        else:
+            effective_key = canonical if canonical is not None else key
+            member_keys = members_of.get(effective_key, [effective_key])
+            synthesis = synthesis_loader(effective_key) if synthesis_loader else None
+            outcome = rebuild_key(tx, effective_key, member_keys=member_keys, unit_of=unit_of, synthesis=synthesis)
+            summary[outcome] += 1
+
+        if total >= log_every and summary["keys"] % log_every == 0 and summary["keys"] < total:
+            elapsed = time.monotonic() - t0
+            rate = summary["keys"] / elapsed if elapsed > 0 else 0
+            remaining = (total - summary["keys"]) / rate if rate > 0 else None
+            eta = f", ~{remaining:.0f}s left" if remaining is not None else ""
+            logger.info(
+                "Projection rebuild: {}/{} key(s) ({:.0f}%) in {:.0f}s{}",
+                summary["keys"], total, 100 * summary["keys"] / total, elapsed, eta,
+            )
 
     for member_key, canonical_key in links:
         _sync_same_as(tx, member_key, canonical_key)
