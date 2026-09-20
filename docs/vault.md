@@ -60,8 +60,9 @@ location for its whole life and the pipeline is **convert → chunk → extract*
 Two corollaries:
 
 - **`_Inbox/` at the vault root is never ingested.** A drafting area that needs
-  no configuration. (Any unmapped path is equally safe — see the manifest — but
-  `_Inbox/` is the conventional one.)
+  no configuration, scaffolded by `artmind init` so it's there from the start.
+  (Any unmapped path is equally safe — see the manifest — but `_Inbox/` is the
+  conventional one.)
 - **If a conversion comes out wrong**, you do not fix it in `.artmind/`. Copy the
   markdown out into the vault as an ordinary note, move the binary to `_Inbox/`,
   and ingest the note. That is the supported workflow, and it needs no machinery

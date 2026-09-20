@@ -121,6 +121,14 @@ class VaultLayout:
         return self.domains_dir / "meta.yaml"
 
     @property
+    def inbox_dir(self) -> Path:
+        """The drafting area `ingest.NEVER_WALKED` always skips, at any depth,
+        even when named directly as the walk root (docs/vault.md, "Layout").
+        Visible and committed: unfinished notes belong in the vault, not
+        gitignored out of it."""
+        return self.root / "_Inbox"
+
+    @property
     def external_docs_dir(self) -> Path:
         """Copies of sources ingested from outside the vault, keyed by source
         path (not filename) so two different documents that happen to share a

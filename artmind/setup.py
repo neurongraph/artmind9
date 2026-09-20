@@ -259,6 +259,9 @@ _STARTER_VAULT_YAML = """\
 #
 # Domain precedence, highest first:
 #   --setDomain  >  the file's own _domain frontmatter  >  a mapping  >  --domain
+#
+# _Inbox/ (created alongside this file) is never ingested regardless of any
+# mapping below -- drop drafts there and move them out when ready.
 ingest:
   # manual | commit | schedule. Only `manual` acts today. Default manual:
   # nobody should discover automatic LLM spend by surprise.
@@ -360,7 +363,7 @@ def scaffold_vault(
         layout.data_dir, layout.kg_dir, layout.originals_dir, layout.chunks_dir,
         layout.structured_dir, layout.snapshots_dir, layout.jobs_dir,
         layout.refine_dir, layout.logs_dir, layout.skills_dir,
-        layout.opencode_agents_dir,
+        layout.opencode_agents_dir, layout.inbox_dir,
     ):
         directory.mkdir(parents=True, exist_ok=True)
 

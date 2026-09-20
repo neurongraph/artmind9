@@ -72,6 +72,17 @@ def test_scaffold_creates_the_vault_skeleton(tmp_path):
     assert result["vault"] == str(tmp_path)
 
 
+def test_scaffold_creates_the_inbox_drafting_area(tmp_path):
+    """`_Inbox/` is documented as always there (docs/vault.md, "Layout"), and
+    `ingest.NEVER_WALKED` only protects it once it exists -- it must not be
+    left to the user to create by hand."""
+    from artmind.setup import scaffold_vault
+
+    scaffold_vault(tmp_path)
+
+    assert vault.VaultLayout(tmp_path).inbox_dir.is_dir()
+
+
 def test_scaffold_seeds_starter_schemas_only(tmp_path):
     """A personal vault has no use for the banking demo corpus's domains, and
     offering domains with no data degrades the agent's routing."""
