@@ -775,6 +775,49 @@ def test_a_linked_observation_is_keyed_to_the_chosen_node_not_the_extracted_name
     assert observation["key"] == key_string(aggregate_key("Alice Smith", "PERSON", "general"))
 
 
+def test_a_linked_observation_uses_the_chosen_nodes_STORED_key():
+    """A table2graph entity's key keeps its "(Talent ID)" parenthetical, which
+    `normalize_name` would strip. Recomputing the key from the display name
+    would therefore land a link on "pooja jain" -- a different entity -- so the
+    link path must reuse the chosen node's stored key."""
+    resolutions = [{"entity_temp_id": "e0", "action": "link", "node_id": "4:abc:pooja"}]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Pooja", "entity_class": "PERSON", "properties": {"band": "7A"}}
+    ]
+    stored_key = "pooja jain (002pze744)|PERSON|performance_management"
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        if "elementId(e) = $ref" in cypher:
+            result.single.return_value = {
+                "id": "pooja-id", "name": "Pooja Jain (002PZE744)", "entity_class": "PERSON",
+                "domain": "performance_management", "key": stored_key,
+            }
+        else:
+            result.single.return_value = None
+        result.data.return_value = []
+        return result
+
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value = session
+        write_user_chat(
+            session_id="sess1", raw_text="Pooja is band 7A.", domain="performance_management",
+            user_id="u@example.com", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    written = [kw["props"] for c, kw in calls if "MERGE (o:Observation" in c]
+    assert len(written) == 1
+    assert written[0]["key"] == stored_key
+
+
 def test_a_chat_never_writes_entity_properties_directly():
     """The projection owns every Entity property. A direct write would be
     silently reverted by the next rebuild — which is exactly why this path was

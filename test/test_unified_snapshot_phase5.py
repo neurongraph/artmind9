@@ -22,6 +22,7 @@ def env(tmp_path, monkeypatch):
 
     monkeypatch.setattr(unified_snapshot, "ARTMIND_HOME", home)
     monkeypatch.setattr(unified_snapshot, "DOMAIN_SCHEMAS_DIR", schemas_dir)
+    monkeypatch.setattr(unified_snapshot, "TABLE_MAPPINGS_DIR", home / "domains" / "table_mappings")
     monkeypatch.setattr(unified_snapshot, "ORIGINALS_DIR", originals_dir)
     monkeypatch.setattr(unified_snapshot, "GRAPH_SNAPSHOT_DIR", graph_snapshot_dir)
 
@@ -78,6 +79,19 @@ def test_archive_curation_includes_same_as_when_present(env, tmp_path):
     with tarfile.open(archive_path, "r:gz") as tar:
         names = tar.getnames()
     assert "curation/same_as.yaml" in names
+
+
+def test_archive_curation_includes_table_mappings(env, tmp_path):
+    home, _, _ = env
+    mappings = home / "domains" / "table_mappings"
+    mappings.mkdir(parents=True)
+    (mappings / "hr_export.yaml").write_text("table: hr_*\n")
+
+    archive_path, meta = unified_snapshot._archive_curation(tmp_path)
+
+    assert meta["table_mapping_count"] == 1
+    with tarfile.open(archive_path, "r:gz") as tar:
+        assert "curation/domains/table_mappings/hr_export.yaml" in tar.getnames()
 
 
 def test_archive_curation_never_touches_env(env, tmp_path):

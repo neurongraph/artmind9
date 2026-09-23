@@ -250,6 +250,10 @@ ingest-write-to-graph document domain:
 ingest-write-to-graph-folder folder domain="":
     uv run artmind ingest write-to-graph --folder '{{ folder }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
 
+# build graph entities from a structured table via its table mapping  (usage: just ingest-table2graph <table> [--dryRun|--noEmbed|--asOf DATE|--mapping FILE])
+ingest-table2graph table flags="":
+    uv run artmind ingest table2graph {{ table }} {{ flags }}
+
 # pull KG JSON from an external GitHub repo  (usage: just ingest-pull-kg <repo_url> <repo_path> <domain>)
 ingest-pull-kg repo repo_path domain:
     uv run artmind ingest pull-kg --repo '{{ repo }}' --repo-path '{{ repo_path }}' --domain {{ domain }}

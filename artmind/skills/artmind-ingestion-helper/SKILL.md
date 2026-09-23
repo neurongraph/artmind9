@@ -1,6 +1,6 @@
 ---
 name: artmind-ingestion-helper
-description: Interactive guide for the `artmind ingest` pipeline. Helps users navigate ingestion stages, pick the right command, diagnose problems, and run entity resolution. Use when a user asks about ingesting documents, checking job status, re-running extraction, writing to graph, pulling KG from a repo, or fixing ingestion errors.
+description: Interactive guide for the `artmind ingest` pipeline. Helps users navigate ingestion stages, pick the right command, diagnose problems, and run entity resolution. Use when a user asks about ingesting documents, checking job status, re-running extraction, writing to graph, pulling KG from a repo, building graph entities from a structured table (table2graph), or fixing ingestion errors.
 ---
 
 # artmind Ingestion Helper
@@ -11,7 +11,7 @@ You are a guided navigator for the `artmind ingest` pipeline. The user may not r
 
 If the user hasn't stated their goal clearly, ask:
 
-> "What are you trying to do? For example: ingest new documents, check the status of a running job, re-run extraction, write extracted JSON to Neo4j, pull KG from another repo, or clean up duplicate entities?"
+> "What are you trying to do? For example: ingest new documents, check the status of a running job, re-run extraction, write extracted JSON to Neo4j, pull KG from another repo, turn a structured table into graph entities, or clean up duplicate entities?"
 
 Once you know the goal, go to the matching section below.
 
@@ -360,6 +360,11 @@ artmind db propose TABLE --domain DOMAIN --step mapping --redo
 ```
 Without `--redo` an already-`ok` step is skipped, so this is the only way to re-ask it.
 
+**After renaming or removing a schema class**, re-run the mapping step: on success it deletes
+the table's *unconfirmed* mappings to classes the schema no longer declares (reported as
+`pruned_mappings`). Confirmed ones are kept and reported as `stale_confirmed_mappings` — hand
+those to `/artmind-curate`.
+
 **Diagnosing a `failed` step:** no error text is stored — by design, matching the rest of the
 pipeline. Check the logs:
 ```bash
@@ -385,6 +390,48 @@ same code this command does. The three dots per table row are grain/bridge/mappi
 *unconfirmed*. Judging whether a proposed grain or `column → entity_class` mapping is actually
 *right* — and confirming or rejecting it — is `/artmind-curate`'s Workflow D, not this skill.
 This skill gets a stuck step running again; that one adjudicates what it produced.
+
+---
+
+### J. Build graph entities from a structured table (`table2graph`)
+
+A registered table's rows can become graph entities and relationships directly — no LLM —
+when a **table mapping** says how: `domains/table_mappings/<name>.yaml` in the run folder (or
+vault), naming which schema classes a row yields, how names and properties derive from
+columns, and which relationships connect them. Authoring one is `/artmind-create-schema`'s
+job (its "Table mappings" section); running it is this skill's.
+
+```bash
+artmind ingest table2graph TABLE --domain DOMAIN --dryRun   # validate + counts, writes nothing
+artmind ingest table2graph TABLE --domain DOMAIN            # stage + commit + embed sweeps
+artmind ingest table2graph TABLE --noEmbed                  # big table: embed later
+artmind ingest embed-entities --domain DOMAIN && artmind ingest embed-chunks
+```
+
+The mapping is found by its `table:` glob (`hercules_output_*` matches every dated export);
+pass `--mapping FILE` to override. Several TABLEs may be given at once.
+
+**Read the dry-run report before committing.** Per entity: `built`/`kept` and every
+`skipped` reason with a count (a required column was empty, a name template lacked a value).
+Per lookup (e.g. a manager column resolved to the manager's own row): `resolved`, `stubbed`,
+and the distinct `unresolved_values` / `ambiguous_values` — these are the rows to check.
+`warnings` lists properties or rel_types the mapping writes that the schema does not declare;
+fix the schema (or the mapping) rather than ignoring them.
+
+**Re-running replaces.** The table is one Document (`table:<domain>:<table>`), each row a
+DocChunk; a re-run demotes the previous run's observations and rebuilds, exactly like
+re-ingesting a document. Staged JSON lands in `data/kg/<domain>/table__<table>/`, so
+`write-to-graph --folder data/kg/DOMAIN` replays it.
+
+**If it fails after "observations committed".** Rows commit in one transaction, then the
+projection is rebuilt in batches (a large table overruns Neo4j's per-transaction memory,
+`MemoryPoolOutOfMemoryError`, in one). A failed batch leaves part of the projection stale:
+re-run the same `ingest table2graph` — it is idempotent — or `artmind projection rebuild`.
+
+**Refreshed tables.** A replace-mode table is one snapshot. For history, ingest with
+`--refreshMode temporal --businessKey KEY` (SCD-2): `table2graph` then projects every row
+version, each entity keeping its latest version by default — so last year's segments survive
+this year's refresh. `--asOf DATE` projects only the versions in force on that date.
 
 ---
 
@@ -428,6 +475,8 @@ This skill gets a stuck step running again; that one adjudicates what it produce
 | Duplicate entities after merging domains | Same-as review not run | Run `refine-graph --dry-run` to propose, then `sameas approve` (see Situation G) |
 | A structured table shows `mapping_status`/`bridge_status`/`grain_status` = `failed`, or a long-registered table is still all `pending` | Best-effort LLM call failed at ingest time (unreachable model), or the table predates the classification pipeline | `artmind db propose TABLE --domain DOMAIN` — retries only the steps not already `ok`. See Situation I. |
 | `db propose` fails on the mapping step with "no schema file" | Domain has no schema YAML, or a dotted sub-domain was never harmonized | `artmind domains harmonize`, or create one via `/artmind-create-schema`. Grain and bridge still succeed independently. |
+| `table2graph`: "no table mapping matches" | No `domains/table_mappings/*.yaml` has a `table:` pattern for this table (or its `domain:` differs) | Author one with `/artmind-create-schema` (Table mappings), or pass `--mapping FILE`. See Situation J. |
+| `table2graph`: "is invalid for table" | The mapping names a column the table lacks, a class the schema lacks, or a template variable nothing defines | Every problem is listed at once; fix the mapping and `--dryRun` again |
 
 ---
 

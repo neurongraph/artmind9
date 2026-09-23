@@ -173,6 +173,11 @@ PROJECT_ROOT = _SELF_DIR
 # ── config / query side (under ARTMIND_HOME) ───────────────────────────────────
 DOMAIN_SCHEMAS_DIR = ARTMIND_HOME / "domains" / "schemas"
 DOMAIN_META_PATH = ARTMIND_HOME / "domains" / "meta.yaml"
+# Declarative table -> graph mappings (`ingest table2graph`). A sibling of
+# schemas/, not inside it: every `*_schema.yaml` glob (and the snapshot's
+# `*.yaml` curation glob) would otherwise have to learn to skip them. Never
+# seeded by `init` -- a mapping names a specific table, so it is user data.
+TABLE_MAPPINGS_DIR = ARTMIND_HOME / "domains" / "table_mappings"
 LOGS_DIR = ARTMIND_HOME / "logs"
 INGEST_LOG_FILE = LOGS_DIR / "artmind_ingestion.log"
 QUERY_LOG_FILE = LOGS_DIR / "artmind_query.log"

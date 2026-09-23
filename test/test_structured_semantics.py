@@ -614,3 +614,137 @@ def test_propose_table_semantics_unknown_table_raises(tmp_path, monkeypatch):
     _patch_db(tmp_path, monkeypatch)
     with pytest.raises(ValueError, match="no registered table"):
         semantics.propose_table_semantics(99999, "banking")
+
+
+# ── pruning mappings to classes the schema no longer declares ────────────────
+
+
+def _mapping_rows(table_id):
+    from artmind.structured import registry
+
+    return {
+        (m["column"], m["entity_class"], bool(m["confirmed"]))
+        for m in registry.list_mappings(table_id)
+    }
+
+
+def _seed_renamed_class_mappings(table_id):
+    """The live case: the schema renamed PERFORMANCE_SEGMENTATION away, but
+    the table still carries mappings to it from before the rename."""
+    from artmind.structured import registry
+
+    registry.upsert_mapping(table_id, "vulnerability_driver", "PERFORMANCE_SEGMENTATION", 0.9)
+    registry.upsert_mapping(table_id, "support_needed", "PERFORMANCE_SEGMENTATION", 0.8)
+    registry.upsert_mapping(table_id, "customer_id", "PERFORMANCE_SEGMENTATION", 0.7, confirmed=True)
+    registry.upsert_mapping(table_id, "support_needed", "BRANCH", 0.6)   # still-valid class
+
+
+def test_redo_prunes_unconfirmed_mappings_to_a_removed_class(tmp_path, monkeypatch):
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _seed_renamed_class_mappings(table_id)
+    _stub_schema(monkeypatch)   # PRODUCT, BRANCH -- no PERFORMANCE_SEGMENTATION
+    _stub_llm(monkeypatch, {"mappings": [
+        {"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.9},
+    ]})
+
+    result = semantics.propose_table_semantics(table_id, "banking", steps=["mapping"], redo=True)
+
+    assert _mapping_rows(table_id) == {
+        ("vulnerability_driver", "PRODUCT", False),             # the fresh proposal
+        ("support_needed", "BRANCH", False),                    # valid class, not re-proposed: kept
+        ("customer_id", "PERFORMANCE_SEGMENTATION", True),      # confirmed: never deleted
+    }
+    assert sorted(r["column"] for r in result["pruned_mappings"]) == ["support_needed", "vulnerability_driver"]
+    assert result["stale_confirmed_mappings"] == [
+        {"column": "customer_id", "entity_class": "PERFORMANCE_SEGMENTATION"}
+    ]
+    assert result["mapping_status"] == "ok"
+
+
+def test_failed_mapping_step_prunes_nothing(tmp_path, monkeypatch):
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _seed_renamed_class_mappings(table_id)
+    before = _mapping_rows(table_id)
+    _stub_schema(monkeypatch)
+
+    def _boom(*a, **k):
+        raise RuntimeError("404 page not found")
+
+    monkeypatch.setattr(semantics, "propose_mapping", _boom)
+    result = semantics.propose_table_semantics(table_id, "banking", steps=["mapping"], redo=True)
+
+    assert result["mapping_status"] == "failed"
+    assert "pruned_mappings" not in result
+    assert _mapping_rows(table_id) == before
+
+
+def test_only_columns_scopes_the_pruning(tmp_path, monkeypatch):
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _seed_renamed_class_mappings(table_id)
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {"mappings": []})
+
+    semantics.propose_table_semantics(
+        table_id, "banking", steps=["mapping"], redo=True, only_columns={"support_needed"},
+    )
+
+    rows = _mapping_rows(table_id)
+    assert ("vulnerability_driver", "PERFORMANCE_SEGMENTATION", False) in rows   # outside scope
+    assert ("support_needed", "PERFORMANCE_SEGMENTATION", False) not in rows
+
+
+def test_a_schema_with_no_classes_prunes_nothing(tmp_path, monkeypatch):
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _seed_renamed_class_mappings(table_id)
+    before = _mapping_rows(table_id)
+    _stub_schema(monkeypatch, entity_types={})
+
+    pruned = semantics.prune_orphaned_mappings(table_id, "banking")
+
+    assert pruned == {"pruned": [], "stale_confirmed": []}
+    assert _mapping_rows(table_id) == before
+
+
+def test_a_parent_class_survives_in_an_unharmonized_child_domain(tmp_path, monkeypatch):
+    """`banking.cases` has not been harmonized, so its own schema lacks the
+    parent's BRANCH class -- a mapping to BRANCH is still valid and stays."""
+    import artmind.temporal as temporal
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    registry.upsert_mapping(table_id, "support_needed", "BRANCH", 0.6)
+    registry.upsert_mapping(table_id, "vulnerability_driver", "GONE", 0.6)
+    schemas = {
+        "banking": {"entity_types": {"BRANCH": {"kind": "recurrent"}}},
+        "banking.cases": {"entity_types": {"CASE": {"kind": "occurrent"}}},
+    }
+    monkeypatch.setattr(temporal, "load_schema", lambda domain: schemas.get(domain, {}))
+
+    pruned = semantics.prune_orphaned_mappings(table_id, "banking.cases")
+
+    assert pruned["pruned"] == [{"column": "vulnerability_driver", "entity_class": "GONE"}]
+    assert _mapping_rows(table_id) == {("support_needed", "BRANCH", False)}
+
+
+def test_delete_unconfirmed_mapping_refuses_a_confirmed_row(tmp_path, monkeypatch):
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    registry.upsert_mapping(table_id, "customer_id", "PRODUCT", 0.9, confirmed=True)
+
+    assert registry.delete_unconfirmed_mapping(table_id, "customer_id", "PRODUCT") == 0
+    assert _mapping_rows(table_id) == {("customer_id", "PRODUCT", True)}

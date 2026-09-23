@@ -208,9 +208,9 @@ def _find_existing_entity(
 
     eid = entity_id(aggregate_key(name, entity_class, domain))
     rec = session.run(
-        "MATCH (e:Entity {_id: $id}) RETURN e._id AS id, e.name AS name LIMIT 1", id=eid
+        "MATCH (e:Entity {_id: $id}) RETURN e._id AS id, e.name AS name, e.key AS key LIMIT 1", id=eid
     ).single()
-    return {"id": rec["id"], "name": rec["name"]} if rec else None
+    return {"id": rec["id"], "name": rec["name"], "key": rec.get("key")} if rec else None
 
 
 def _resolve_target_identity(
@@ -239,7 +239,7 @@ def _resolve_target_identity(
             """
             MATCH (e:Entity) WHERE elementId(e) = $ref OR e._id = $ref
             RETURN e._id AS id, e.name AS name, e.entity_class AS entity_class,
-                   e._domain AS domain
+                   e._domain AS domain, e.key AS key
             LIMIT 1
             """,
             ref=node_ref,
@@ -248,6 +248,7 @@ def _resolve_target_identity(
             return {
                 "id": rec["id"],
                 "name": rec["name"],
+                "key": rec.get("key"),
                 "entity_class": rec["entity_class"] or entity_class,
                 "_domain": rec["domain"] or domain,
             }
@@ -336,6 +337,7 @@ def write_user_chat(
             entity_class = entity_data["entity_class"]
             canonical_name = entity_data["name"]
             target_domain = domain
+            identity = None
 
             if action == "link":
                 target = _resolve_target_identity(
@@ -354,6 +356,11 @@ def write_user_chat(
                 canonical_name = target["name"]
                 entity_class = target["entity_class"]
                 target_domain = target["_domain"]
+                # ...and its STORED key, not one recomputed from its display
+                # name: `normalize_name` strips a digit-bearing parenthetical,
+                # so re-deriving "Pooja Jain (002PZE744)" (a table2graph
+                # identity) would land on "pooja jain" -- a different entity.
+                identity = _stored_identity(target.get("key"))
                 nodes_updated += 1
             elif action == "create":
                 if _find_existing_entity(session, canonical_name, entity_class, domain):
@@ -363,7 +370,7 @@ def write_user_chat(
             else:
                 continue
 
-            key = aggregate_key(canonical_name, entity_class, target_domain)
+            key = aggregate_key(canonical_name, entity_class, target_domain, identity=identity)
             observation = build_observation(
                 {
                     "name": entity_data["name"],
@@ -382,6 +389,7 @@ def write_user_chat(
                 kind=_class_kind(schema, entity_class),
                 doc_valid_from=today,
                 valid_time_source="user_chat",
+                identity=identity,
             )
             observation["source_kind"] = "user_chat"
             observation["created_by"] = user_id
@@ -410,6 +418,7 @@ def write_user_chat(
                     doc_valid_from=today,
                     valid_time_source="user_chat",
                     retracts=target_id,
+                    identity=identity,
                 )
                 retraction["source_kind"] = "user_chat"
                 retraction["created_by"] = user_id
@@ -465,6 +474,14 @@ def write_user_chat(
         "observations_written": len(observations),
         "relationships_written": rel_count,
     }
+
+
+def _stored_identity(key: str | None) -> str | None:
+    """The name part of an Entity's stored `name|class|domain` key, or None
+    when it is absent or malformed (fall back to recomputing from the name)."""
+    if not key or key.count("|") < 2:
+        return None
+    return key.rsplit("|", 2)[0] or None
 
 
 def _entity_id_for(key) -> str:

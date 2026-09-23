@@ -19,6 +19,7 @@ ingest dashboard).
 | `artmind/_entry.py` | Console-script entry point. **Proxies `query` calls to the `serve` daemon** — stdlib-only by design. See "Testing implications". |
 | `artmind/graph_query.py`, `vector_query.py`, `text2cypher.py` | Query layer: templated Cypher patterns, RRF vector+fulltext search, LLM-generated Cypher. |
 | `artmind/ingest.py`, `extraction.py`, `jobs.py`, `worker.py` | Ingestion pipeline and its background worker. |
+| `artmind/table2graph.py` | `ingest table2graph`: projects structured-table rows into entities/relationships via a declarative mapping in the run folder's `domains/table_mappings/*.yaml` (no LLM), committed through the same `_commit_document_tx` as a document. Mapping format: `artmind/skills/artmind-create-schema/references/table_mapping.md`. |
 | `artmind/refine_pipeline.py`, `refine_graph.py`, `conflicts.py`, `consolidate.py`, `temporal.py`, `harmonizer.py` | Graph maintenance: merging, conflict detection, temporal normalization. |
 | `artmind/skills/` | **Source of truth for agent skills.** Shipped in the wheel and seeded into the run folder. |
 | `artmind/domains/schemas/` | Default domain schemas (YAML), also seeded. |

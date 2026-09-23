@@ -2512,6 +2512,7 @@ def _observation_keys(observations: list[dict]) -> dict[str, str]:
 _RELATION_STRUCTURAL_KEYS = frozenset({
     "source_id", "source_name", "target_id", "target_name",
     "rel_type", "chunk_id", "doc_id", "bidirectional",
+    "source_observation_id", "target_observation_id",
 })
 
 
@@ -2547,6 +2548,12 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
     the same limitation the pre-Phase-4 writer always had: a relationship
     whose endpoint wasn't itself extracted as an entity in this document is
     silently dropped, because there is nothing here to resolve it against.
+
+    A relationship may instead name its endpoints outright with
+    `source_observation_id` / `target_observation_id` (`ingest table2graph`
+    does: its endpoints are known by construction, and resolving them by
+    name would be ambiguous whenever two rows render the same name). An id
+    that isn't one of this document's observations is dropped the same way.
     """
     from artmind.observations import relation_observation_id
 
@@ -2559,6 +2566,12 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
         if chunk_id and (chunk_id, name) in by_chunk:
             return by_chunk[(chunk_id, name)]
         return by_name.get(name)
+
+    def _endpoint(rel: dict, side: str, chunk_id: str | None) -> str | None:
+        explicit = rel.get(f"{side}_observation_id")
+        if explicit:
+            return explicit if explicit in obs_keys else None
+        return _resolve(rel.get(f"{side}_name"), chunk_id)
 
     written = 0
     for rel in relationships:
@@ -2575,8 +2588,8 @@ def _write_relation_observations(tx, relationships: list[dict], document: dict, 
             continue
 
         chunk_id = rel.get("chunk_id")
-        source_obs = _resolve(rel.get("source_name"), chunk_id)
-        target_obs = _resolve(rel.get("target_name"), chunk_id)
+        source_obs = _endpoint(rel, "source", chunk_id)
+        target_obs = _endpoint(rel, "target", chunk_id)
         if not source_obs or not target_obs:
             continue
         # Self-loop check is at the AGGREGATE key, not the raw observation id:

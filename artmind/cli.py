@@ -198,7 +198,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "pull-kg", "embed-entities", "embed-chunks"],
+            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
         },
         {
             "name": "Refinement",
@@ -518,7 +518,7 @@ def domains_harmonize(domain: str | None, dry_run: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, status, results,...)."""
+    """Manage document ingestion (sync, async, status, results,...) and table -> graph projection (table2graph)."""
     pass
 
 
@@ -1181,6 +1181,84 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
+
+@ingest.command("table2graph")
+@click.argument("tables", nargs=-1, required=True)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option(
+    "--mapping", "mapping_path", default=None, type=click.Path(exists=True, dir_okay=False),
+    help="Table mapping YAML to use for every TABLE. Default: the one mapping under"
+    " domains/table_mappings/ whose `table:` pattern matches each table.",
+)
+@click.option("--asOf", "as_of", default=None, help="Temporal (SCD-2) tables only: project just the row versions in force on this ISO date. Default: every version.")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Validate the mapping and report what would be built; write nothing.")
+@click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-chunks` later).")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_table2graph(
+    tables: tuple[str, ...],
+    domain: tuple[str, ...],
+    mapping_path: str | None,
+    as_of: str | None,
+    dry_run: bool,
+    no_embed: bool,
+    compact: bool,
+) -> None:
+    """Build graph entities and relationships from structured TABLE(s) — no LLM.
+
+    Each row is projected through a declarative table mapping (see the
+    artmind-create-schema skill): which schema classes a row yields, how their
+    names and properties derive from columns, and which relationships connect
+    them. The table becomes a Document and each contributing row a DocChunk,
+    so provenance and re-runs behave exactly like a document ingest: running
+    it again replaces what the previous run wrote. Use --dryRun first.
+    """
+    _setup_logger()
+    from artmind import table2graph
+    from artmind.temporal import load_schema
+
+    explicit = None
+    if mapping_path:
+        try:
+            explicit = table2graph.load_mapping(Path(mapping_path))
+        except table2graph.MappingError as e:
+            raise click.ClickException(str(e))
+    if as_of:
+        try:
+            as_of = graph_query.resolve_as_of(as_of)
+        except ValueError as e:
+            raise click.ClickException(str(e))
+        if len(as_of) != 10:
+            raise click.ClickException("--asOf needs a full ISO date (YYYY-MM-DD) or 'today'")
+
+    reports = []
+    for table_name in tables:
+        row = _resolve_table_row(table_name, domain)
+        try:
+            if explicit is not None:
+                mapping = explicit
+            else:
+                found = table2graph.find_mappings(row["table_name"], row["domain"])
+                if not found:
+                    raise click.ClickException(
+                        f"no table mapping matches '{row['table_name']}' (domain {row['domain']}) —"
+                        " add one under domains/table_mappings/ or pass --mapping"
+                    )
+                if len(found) > 1:
+                    raise click.ClickException(
+                        f"{len(found)} table mappings match '{row['table_name']}': "
+                        + ", ".join(str(m.path) for m in found) + " — narrow their `table:` patterns"
+                    )
+                mapping = found[0]
+            schema = load_schema(row["domain"])
+            if not schema:
+                raise click.ClickException(f"no schema for domain '{row['domain']}'")
+            report = table2graph.table_to_graph(
+                row, mapping, schema=schema, as_of=as_of, dry_run=dry_run, embed=not no_embed,
+            )
+        except table2graph.MappingError as e:
+            raise click.ClickException(str(e))
+        reports.append(report)
+    _echo_json({"command": "ingest table2graph", "tables": reports}, compact)
 
 
 @ingest.command("pull-kg")

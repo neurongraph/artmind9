@@ -260,6 +260,13 @@ Three traps worth stating to the user before they act:
 - **`clear` is not a durable rejection.** The next `db propose ... --redo` may
   propose it again. Confirming the *correct* mapping is what makes a decision
   stick; clearing alone only defers it.
+- **A renamed or removed schema class cleans itself up — unless confirmed.**
+  A successful mapping step (`db propose TABLE --step mapping --redo`) deletes
+  *unconfirmed* mappings to classes the schema no longer declares and lists
+  them as `pruned_mappings`. Confirmed ones are never deleted: they come back
+  as `stale_confirmed_mappings`, and re-pointing them (`clear` + `set`) is a
+  curation decision for the user. A mapping the model simply didn't
+  re-propose is *not* pruned — `clear` it if it's wrong.
 - **Confirming is a trust signal, not a switch.** Unconfirmed mappings are
   already projected into the catalogue carrying `confirmed: false` and are
   already usable for routing — deliberately, so a fresh table isn't invisible
