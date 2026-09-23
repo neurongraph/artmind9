@@ -130,13 +130,39 @@ def normalize_name(value: str | None) -> str:
     return " ".join(text.split())
 
 
-def aggregate_key(canonical_name: str | None, entity_class: str, domain: str) -> tuple[str, str, str]:
+def normalize_identity(value: str | None) -> str:
+    """Normalize an **explicit** identity to its aggregate-key form. Pure.
+
+    Layers 1-3 of `normalize_name` only (NFKC, casefold, whitespace) -- never
+    the measurement-tail rule. That rule exists because an LLM-extracted name
+    may drag a value along with it; an identity a caller *declared* (a table
+    row's `"Pooja Jain (002PZE744)"`, where the parenthetical is the whole
+    point) carries no such noise, and stripping it would fold three different
+    Pooja Jains onto one entity. Idempotent, and a no-op on a key string's
+    already-normalized name part.
+    """
+    if not value:
+        return ""
+    text = unicodedata.normalize("NFKC", str(value)).casefold()
+    return " ".join(text.split())
+
+
+def aggregate_key(
+    canonical_name: str | None, entity_class: str, domain: str, *, identity: str | None = None
+) -> tuple[str, str, str]:
     """The aggregate key: normalized canonical name, class, domain.
 
     Purely computed -- it never depends on stored state. Every judgment call
     about whether two keys denote one thing lives in a same-as group instead
     (see `artmind.same_as`), which is what keeps a rebuild deterministic.
+
+    `identity`, when given, replaces the name part and is normalized with
+    `normalize_identity` rather than `normalize_name` -- for sources whose
+    identity is declared (`ingest table2graph`) or already stored (an existing
+    Entity's `key`), not inferred from free text.
     """
+    if identity:
+        return (normalize_identity(identity), entity_class or "", domain or "")
     return (normalize_name(canonical_name), entity_class or "", domain or "")
 
 
@@ -155,14 +181,18 @@ def entity_id(key: tuple[str, str, str]) -> str:
     return hashlib.sha256(key_string(key).encode("utf-8")).hexdigest()
 
 
-def observation_id(chunk_id: str, canonical_name: str | None, entity_class: str, domain: str) -> str:
+def observation_id(
+    chunk_id: str, canonical_name: str | None, entity_class: str, domain: str, *, identity: str | None = None
+) -> str:
     """`sha256(chunk_id | canonical_name | entity_class | domain)`.
 
     Scoped to the chunk, so one document version asserting the same thing in
     three chunks yields three observations -- each testifying to its own
-    passage -- while re-writing the same chunk cannot duplicate.
+    passage -- while re-writing the same chunk cannot duplicate. `identity`
+    replaces the name part exactly as in `aggregate_key`.
     """
-    payload = "|".join([chunk_id or "", normalize_name(canonical_name), entity_class or "", domain or ""])
+    name_part = normalize_identity(identity) if identity else normalize_name(canonical_name)
+    payload = "|".join([chunk_id or "", name_part, entity_class or "", domain or ""])
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
@@ -238,11 +268,18 @@ def build_observation(
     valid_to: str | None = None,
     valid_time_source: str | None = None,
     retracts: str | None = None,
+    identity: str | None = None,
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
     `entity` is one entry from a chunk's extracted `entities.json`;
     `canonical_name` comes from the per-document canonicalization pass.
+
+    `identity` -- an explicit identity for the aggregate key, bypassing
+    `normalize_name`'s measurement-tail rule (see `aggregate_key`). Supplied
+    by `ingest table2graph`, whose names are rendered from a declared template
+    rather than extracted, and by `update confirm`'s link path, which records
+    against an existing Entity's stored key.
 
     Two valid-time axes are carried, and conflating them is the modelling
     error this signature exists to prevent:
@@ -267,10 +304,10 @@ def build_observation(
     """
     entity_class = entity.get("entity_class") or ""
     obs_domain = entity.get("_domain") or ""
-    key = aggregate_key(canonical_name, entity_class, obs_domain)
+    key = aggregate_key(canonical_name, entity_class, obs_domain, identity=identity)
 
     props: dict = {
-        "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain),
+        "id": observation_id(chunk_id, canonical_name, entity_class, obs_domain, identity=identity),
         # Verbatim what the chunk said. Never overwritten by canonicalisation.
         "name": entity.get("name") or "",
         "canonical_name": canonical_name,

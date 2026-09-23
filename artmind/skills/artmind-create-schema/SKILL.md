@@ -1,6 +1,6 @@
 ---
 name: artmind-create-schema
-description: Creates a new domain schema YAML for the artmind knowledge graph system. Given a domain name and example documents, produces a fully-specified schema declaring entity classes, their properties, and their relationships — the structured data every extraction prompt is assembled from at runtime.
+description: Creates a new domain schema YAML for the artmind knowledge graph system. Given a domain name and example documents, produces a fully-specified schema declaring entity classes, their properties, and their relationships — the structured data every extraction prompt is assembled from at runtime. Also authors table mappings (domains/table_mappings/*.yaml) that turn a structured table's rows into entities and relationships under a schema via `artmind ingest table2graph`, and updates the schema with what the table's data shows.
 ---
 
 # artmind Schema Creator
@@ -19,6 +19,10 @@ runtime. You never write prompt text; you declare what the domain contains.
 - `sample documents`: One or more representative documents from the domain. Read them carefully before designing anything.
 
 If sample documents have not been provided, ask the user to supply at least one before proceeding. Schema quality depends entirely on grounding entity classes in real content.
+
+**Is the source a structured table (csv/xlsx) rather than documents?** Then the job is a
+schema *plus* a table mapping — see [Table mappings](#table-mappings-structured-data) below.
+The table (`artmind db schema TABLE`) is the sample content.
 
 ## The meta-schema contract
 
@@ -48,6 +52,7 @@ the real, currently-shipping schemas**, not illustrative fakes:
 | `assets/fiction_extract.md` | The kind of document that produced the fiction schema |
 | `assets/personal_journal_schema.yaml` | Second example — same structure applied to a very different domain, including a `temporal:` block |
 | `assets/personal_journal_extract.md` | The kind of journal entry that produced the personal_journal schema |
+| `references/table_mapping.md` | The table-mapping format for `ingest table2graph`: every key, transform and rule, with a worked example |
 
 Read at least `fiction_schema.yaml` and one extract before writing. The two
 schemas together show how the same structure adapts across very different
@@ -319,6 +324,108 @@ Finally, a light manual check:
 - The `name:` field at the top matches the filename stem.
 - `subject`/`persona` are set if the defaults (description-derived subject,
   "a subject-matter analyst") don't fit this domain's voice.
+
+## Table mappings (structured data)
+
+A structured table (csv/xlsx ingested with `artmind ingest sync`) needs no LLM to reach the
+graph: its columns already are the properties. What it needs is a **table mapping** —
+`domains/table_mappings/<name>.yaml`, a sibling of `domains/schemas/` — declaring which schema
+classes each row yields, how their names and properties derive from columns, and which
+relationships connect them. `artmind ingest table2graph TABLE` executes it deterministically.
+The full format is in `references/table_mapping.md`; read it before writing one.
+
+The schema comes first and the mapping serves it: a mapping may only use classes the schema
+declares, and every property or rel_type it writes should be declared there too (the dry run
+warns otherwise). So authoring a mapping is usually also a schema edit.
+
+### Step T1 — Read the table, not just its header
+
+```bash
+artmind db list --domain DOMAIN --compact                       # table name, refresh_mode, business_key
+artmind db schema TABLE --domain DOMAIN --compact               # every column + a value profile
+artmind db sql 'SELECT "Col", count(*) FROM <domain>__<table> GROUP BY 1 ORDER BY 2 DESC'
+```
+
+Read-only SQL through `artmind db sql` only — never a raw database client. For each column
+note: its **vocabulary** (the distinct values — `Top`/`Core`/`Low`/`--`), its **null tokens**
+(`N/A`, `--`, `No Value Available` — these become `null_values`), its **format** (`"LAST,
+First"` names, ISO dates stored as text, percentages as strings), and whether it is **unique**
+(a natural key). Check the joins you intend to make: if a manager column should resolve to
+another row, count how many of its values match no row, or several (`GROUP BY ... HAVING
+count(*) > 1`).
+
+### Step T2 — Decide what a row *is*
+
+Usually one row is one core entity (a PERSON) plus the transactional facts about it at one
+point in time (their PERFORMANCE_SEGMENT for a year), plus references to other rows (their
+manager). Map each to a class. Keep core entities reusable: structural attributes (band,
+location, practice) on the core class; measurements and statuses on the occurrent one.
+
+### Step T3 — Design identity (the `name` template)
+
+The rendered name *is* the aggregate-key identity. It must be unique per real thing and
+stable across refreshes:
+
+- If display names collide (three different "Pooja Jain"s), put the natural key in the name:
+  `"{first_name} {last_name} ({talent_id})"`. Also keep the parts as separate properties
+  (`first_name`, `last_name`, `full_name`, `talent_id`) so they stay queryable.
+- An occurrent class's name carries its occurrence (`"{year} Performance Segment -
+  {person.name}"`), never its values — a re-segmented practitioner is the same instance.
+
+### Step T4 — Map columns to schema properties
+
+For each property: which column, which transform (`title`, `date`, `year`, `number`,
+`{split: ...}`), which value map (`{Top: top, Core: core}` — map onto the schema's declared
+vocabulary), and what an empty cell means (`default:` — e.g. `"--"` → `not_applicable` rather
+than dropping the row). Do not map a column just because it exists: 2nd/3rd-line managers are
+a graph traversal over `reports_to`, not properties.
+
+### Step T5 — Update the schema with what the data showed
+
+Now edit `domains/schemas/{domain}_schema.yaml` so it declares what the mapping writes, with
+hints that pin the format the data actually has (`band: "6B", "7", "10" — no "Band"
+prefix`; `segment: top | core | low | not_applicable`). The schema is also what documents in
+the same domain are extracted with — a hint written from real data makes a document's
+extracted values line up with the table's. Tag the occurrent class's own date property
+`temporal: valid_from` (e.g. `segmented_on`), not a bare year.
+
+### Step T6 — Lookups and relationships
+
+A column naming another row (a manager) is a `lookup` entity: `column` (this row's value),
+`match_column` (the column it matches in other rows), `prefer` (tie-breaks such as "the one
+who is a manager"), and what to do when nothing matches (`stub` — a name-only entity — or
+`skip`). Then declare `relationships` between aliases with rel_types from the schema's
+`relates_to`.
+
+### Step T7 — Dry-run until clean, then commit
+
+```bash
+artmind domains validate --domain DOMAIN
+artmind ingest table2graph TABLE --domain DOMAIN --dryRun
+```
+
+The dry run lists **every** error at once (unknown column, undeclared class, a template
+variable nothing defines) and, when valid, the counts: per entity `built`/`kept`/`skipped`
+(with reasons), per lookup `resolved`/`stubbed` with the distinct `unresolved_values` and
+`ambiguous_values`, per relationship `written`/`skipped`, and `warnings` for schema drift.
+Every skip and every unresolved value should be explainable; fix the mapping or the schema
+until they are. Then drop `--dryRun`. Re-running replaces the previous run's contribution.
+
+If the table will be refreshed, recommend ingesting it `--refreshMode temporal --businessKey
+KEY` (SCD-2): `table2graph` then keeps history (see the reference's temporal rules).
+
+### Table-mapping checklist
+
+```
+□ file is domains/table_mappings/<name>.yaml; `table:` glob matches the table (and its refreshes)
+□ every `class` exists in the schema; every property and rel_type is declared there (no warnings)
+□ `name` templates are unique per real thing — natural key included where names collide
+□ occurrent names carry the occurrence (year/date), never a measured value
+□ null tokens listed; empty cells that carry meaning have a `default:`
+□ value maps land on the schema's vocabulary
+□ lookups: unresolved/ambiguous values in the dry run are explained
+□ `ingest table2graph TABLE --dryRun` reports no errors and no warnings
+```
 
 ## YAML Structure Reference
 

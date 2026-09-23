@@ -26,6 +26,7 @@ from paths import (
     KG_DIR,
     ORIGINALS_DIR,
     STRUCTURED_SNAPSHOT_DIR,
+    TABLE_MAPPINGS_DIR,
 )
 
 
@@ -60,9 +61,9 @@ def _archive_kgs(temp_dir: Path) -> tuple[Path, dict]:
 
 
 def _archive_curation(temp_dir: Path) -> tuple[Path, dict]:
-    """Archive the curation layer: `same_as.yaml` (Phase 6, tolerate absence)
-    and every domain schema. Explicit files only, NEVER a glob of the run
-    folder — `ARTMIND_HOME/.env` holds `ARTMIND_KG_NEO4J_PASSWORD` and
+    """Archive the curation layer: `same_as.yaml` (Phase 6, tolerate absence),
+    every domain schema, and every table mapping. Explicit files only, NEVER a
+    glob of the run folder — `ARTMIND_HOME/.env` holds `ARTMIND_KG_NEO4J_PASSWORD` and
     `ARTMIND_KG_OPENROUTER_API_KEY`, and a snapshot zip is exactly the
     artifact people hand to each other.
     """
@@ -70,6 +71,9 @@ def _archive_curation(temp_dir: Path) -> tuple[Path, dict]:
 
     archive_path = temp_dir / "curation.tar.gz"
     schema_files = sorted(DOMAIN_SCHEMAS_DIR.glob("*.yaml")) if DOMAIN_SCHEMAS_DIR.exists() else []
+    # Table mappings (`ingest table2graph`) are curation too: without them a
+    # restored graph's table-sourced entities could never be rebuilt.
+    mapping_files = sorted(TABLE_MAPPINGS_DIR.glob("*.yaml")) if TABLE_MAPPINGS_DIR.exists() else []
     has_same_as = SAME_AS_PATH.exists()
 
     with tarfile.open(archive_path, "w:gz") as tar:
@@ -77,15 +81,18 @@ def _archive_curation(temp_dir: Path) -> tuple[Path, dict]:
             tar.add(SAME_AS_PATH, arcname="curation/same_as.yaml")
         for schema_file in schema_files:
             tar.add(schema_file, arcname=f"curation/domains/schemas/{schema_file.name}")
+        for mapping_file in mapping_files:
+            tar.add(mapping_file, arcname=f"curation/domains/table_mappings/{mapping_file.name}")
 
     size_bytes = archive_path.stat().st_size
     logger.debug(
-        "Archived curation: same_as.yaml={}, {} schema file(s) ({:.2f} MB)",
-        has_same_as, len(schema_files), size_bytes / (1024 * 1024),
+        "Archived curation: same_as.yaml={}, {} schema file(s), {} table mapping(s) ({:.2f} MB)",
+        has_same_as, len(schema_files), len(mapping_files), size_bytes / (1024 * 1024),
     )
     return archive_path, {
         "has_same_as": has_same_as,
         "schema_count": len(schema_files),
+        "table_mapping_count": len(mapping_files),
         "size_bytes": size_bytes,
         "archived_at": datetime.now().isoformat(),
     }

@@ -716,6 +716,7 @@ the column that tells the router this table is about `CUSTOMER`.
 | 5.9 | ✓ | External adapters | A surface is reserved for connecting external SQL engines beyond the embedded one. | `artmind db connect` (stub, DuckDB-only v1) |
 | 5.10 | ✓ | Store backup/restore | The structured store snapshots to a single archive and restores from it (wipe + restore). | `artmind db backup` / `restore` |
 | 5.11 | ✓ | Bulk classification | Every table in a domain can be (re-)classified in one call, skipping tables whose classification already succeeded unless a full redo is requested, with progress reported as the run proceeds. | admin console structured tab (`POST /api/structured/propose-all`) |
+| 5.12 | ✓ | Table → graph projection | A table's rows become graph entities and relationships under the domain schema, with no LLM: a declarative table mapping (`domains/table_mappings/*.yaml`) names each row's classes, a name template that is also the entity's identity, column→property transforms and value maps, cross-row lookups (e.g. a manager column resolved to the manager's own row, stubbed or skipped when unmatched), and relationships. It commits through the same document transaction — the table as a Document, each contributing row a DocChunk — so provenance, re-run replacement and projection behave as for a document (the rebuild alone runs afterwards in batched transactions, since a table's key count overruns Neo4j's per-transaction memory); SCD-2 tables project every row version, each entity keeping its latest by default. A dry run validates the mapping against the table and schema and reports every skip. | `artmind ingest table2graph` (`table2graph.py`) |
 
 > **Scoring note:** the reference implementation's cross-store fusion runs on raw value
 > strings only — there is no persisted `RESOLVES_AGAINST` anchor linking a table's rows to
@@ -887,6 +888,23 @@ classification state is already durable in the registry the moment its own call 
 `bridge_status` / `mapping_status` all `ok`, and confirm those tables are skipped (no LLM
 call) unless the run is started with redo; separately, poll the progress endpoint mid-run
 and confirm `done`/`total` advance and the entry disappears once the run finishes.
+
+**5.12 Table → graph projection**
+*Why it matters* — the mapping's rendered `name` becomes the aggregate key through
+`build_observation(..., identity=...)`, which normalizes case and whitespace only. The
+extraction path's `normalize_name` would strip a digit-bearing trailing parenthetical, folding
+"Pooja Jain (002PZE744)" and "Pooja Jain (003SZR744)" onto one entity. For the same reason
+`update confirm`'s link path now records against the chosen Entity's *stored* `key` instead
+of recomputing one from its display name. Relationship endpoints are passed as explicit
+observation ids (`source_observation_id`/`target_observation_id`), not resolved by name,
+because two rows can render the same name. Unlike a document, the rebuild is *not* in the
+observation transaction: it runs afterwards in batches of `REBUILD_BATCH` keys, never
+splitting a same-as group (`_plan_groups` only folds a group whose members are all in scope).
+A failed batch leaves the projection partly stale until the idempotent re-run.
+*Test hint* — map a table with two rows sharing a display name but not a natural key, and
+confirm two entities with distinct keys; re-run and confirm the prior observations are
+demoted (`retracted.observations_demoted`), not duplicated; for an SCD-2 table, confirm last
+year's occurrent entity survives a refresh that no longer carries it on the current row.
 
 ## 6. Knowledge Retrieval
 

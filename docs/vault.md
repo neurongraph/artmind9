@@ -82,7 +82,7 @@ Two corollaries:
     ├── vault.yaml                      ← the ingest manifest; COMMITTED
     ├── config.env                      ← this vault's graph; NOT committed
     ├── same_as.yaml                    ← curation; COMMITTED
-    ├── domains/                        ← schemas + meta-schema; COMMITTED
+    ├── domains/                        ← schemas, meta-schema, table_mappings/; COMMITTED
     ├── logs/  state.json  serve.json   ← machine-local; NOT committed
     └── data/
         ├── documents/markdowns/
@@ -375,6 +375,11 @@ prompt fix that never reaches the vault looks like a model failure. So:
 - `artmind domains update` refreshes package-derived schemas you have not
   modified, and **reports** the ones that diverged for you to merge
 - `artmind domains add` stays, for vault-local schemas
+
+**Table mappings** (`ingest table2graph`) live beside them in
+`.artmind/domains/table_mappings/`, committed. They are never seeded or
+overwritten by `init` — a mapping names a specific table, so it is always
+vault data — and `snapshot` curation archives them with the schemas.
 
 ## `artmind init`
 
