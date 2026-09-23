@@ -597,9 +597,16 @@ def _check_named_file_supported(path: Path) -> None:
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--refreshMode", "refresh_mode",
-    type=click.Choice(["replace", "temporal"]), default="replace",
-    help="Structured (csv/xlsx) files only: replace (default) overwrites the table on re-ingest;"
-    " temporal keeps full SCD-2 history (requires --businessKey). Ignored for KG documents.",
+    type=click.Choice(["replace", "temporal"]), default=None,
+    help="Structured (csv/xlsx) files only: replace overwrites the table on re-ingest;"
+    " temporal keeps full SCD-2 history (requires --businessKey). Default: the table's"
+    " recorded mode if it already exists, else replace. Ignored for KG documents.",
+)
+@click.option(
+    "--tableName", "table_name", default=None,
+    help="Structured (csv/xlsx) single file only: the table to load into, instead of one"
+    " named after the file. Use one name for every export of the same report — into a"
+    " temporal table, each export then lands as a new SCD-2 version.",
 )
 @click.option(
     "--businessKey", "business_key", default=None,
@@ -619,7 +626,8 @@ def ingest_sync(
     adopt: bool,
     force: bool,
     stage_only: bool,
-    refresh_mode: str,
+    refresh_mode: str | None,
+    table_name: str | None,
     business_key: str | None,
     effective_date_column: str | None,
 ):
@@ -634,6 +642,10 @@ def ingest_sync(
 
     path = Path(file_path)
     _check_named_file_supported(path)
+    if table_name and not (path.is_file() and is_structured_source(path)):
+        # One name for a directory's worth of files would load each over the
+        # last, in walk order rather than export order.
+        raise click.ClickException("--tableName applies to a single csv/xlsx file, not a directory or a document")
     files = collect_ingest_files(path)
 
     # The manifest does two jobs (docs/vault.md): it says which domain governs
@@ -702,6 +714,7 @@ def ingest_sync(
                 res = ingest_structured_file(
                     f,
                     domain,
+                    table=table_name,
                     force=force,
                     refresh_mode=refresh_mode,
                     business_key=business_key,
