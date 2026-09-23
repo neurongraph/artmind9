@@ -428,10 +428,23 @@ projection is rebuilt in batches (a large table overruns Neo4j's per-transaction
 `MemoryPoolOutOfMemoryError`, in one). A failed batch leaves part of the projection stale:
 re-run the same `ingest table2graph` — it is idempotent — or `artmind projection rebuild`.
 
-**Refreshed tables.** A replace-mode table is one snapshot. For history, ingest with
-`--refreshMode temporal --businessKey KEY` (SCD-2): `table2graph` then projects every row
-version, each entity keeping its latest version by default — so last year's segments survive
-this year's refresh. `--asOf DATE` projects only the versions in force on that date.
+**Refreshed tables.** A replace-mode table is one snapshot. For history, load every export
+of the same report into ONE temporal table — the table name otherwise comes from the file
+name, so `report_20260921.xlsx` and `report_20261021.xlsx` would be two unrelated tables:
+
+```bash
+# first export: seeds the SCD-2 history
+artmind ingest sync report_20260921.xlsx --domain DOMAIN --tableName report --refreshMode temporal --businessKey KEY
+# every later export: lands as a new version of the same table
+artmind ingest sync report_20261021.xlsx --domain DOMAIN --tableName report
+```
+
+Later exports need no `--refreshMode`/`--businessKey`: an existing table keeps its recorded
+ones, and a request that would discard its history (`--refreshMode replace`, a different
+key) is refused. `table2graph` then projects every row version, each entity keeping its
+latest version by default — so last year's segments survive this year's refresh. `--asOf
+DATE` projects only the versions in force on that date. Make sure the mapping's `table:`
+pattern matches the chosen name.
 
 ---
 

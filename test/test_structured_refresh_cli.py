@@ -9,6 +9,7 @@ autouse fixture in ``test/conftest.py`` blocks any real Neo4j driver anyway).
 import csv
 import json
 
+import click
 import pytest
 from click.testing import CliRunner
 
@@ -321,3 +322,132 @@ def test_db_refresh_temporal_schema_drift_raises_clean_error(tmp_path, monkeypat
     assert "columns don't match" in result.output
     assert "balance" in result.output
     assert "region" in result.output
+
+
+# ── ingest sync --tableName: one table across dated exports ──────────────────
+
+
+def _sync(*args):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["ingest", "sync", *map(str, args)])
+    assert result.exit_code == 0, result.output
+    return result
+
+
+def test_table_name_loads_a_file_into_the_named_table(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    export = tmp_path / "Hercules-output_20260921.csv"
+    _write_csv(export, [["id", "segment"], [1, "Core"]])
+
+    _sync(export, "--domain", "banking", "--tableName", "Hercules Output")
+
+    from artmind.structured import registry
+
+    assert registry.get_table("hercules_output", domain="banking") is not None   # sanitized
+    assert registry.get_table("hercules_output_20260921", domain="banking") is None
+
+
+def test_a_new_export_into_a_temporal_table_adds_a_version_not_a_rebuild(tmp_path, monkeypatch):
+    """The point of --tableName: the next export lands in the SAME temporal
+    table and is diffed against its history. Before, a sync into an existing
+    temporal table rebuilt it from the one file, re-seeding history."""
+    _patch_stores(tmp_path, monkeypatch)
+    first = tmp_path / "export_20260921.csv"
+    second = tmp_path / "export_20261021.csv"
+    _write_csv(first, [["id", "segment"], [1, "Core"], [2, "Low"]])
+    _write_csv(second, [["id", "segment"], [1, "Top"], [3, "Core"]])
+
+    _sync(first, "--domain", "banking", "--tableName", "hercules", "--refreshMode", "temporal", "--businessKey", "id")
+    # No --refreshMode / --businessKey: the table's recorded ones apply.
+    _sync(second, "--domain", "banking", "--tableName", "hercules")
+
+    from artmind.structured import registry
+
+    row = registry.get_table("hercules", domain="banking")
+    assert row["refresh_mode"] == "temporal" and row["business_key"] == "id"
+    assert row["source_file"] == str(second)
+    rows = _db_sql_rows("SELECT id, segment, _is_current FROM hercules ORDER BY id, segment")
+    assert rows == [
+        {"id": 1, "segment": "Core", "_is_current": False},
+        {"id": 1, "segment": "Top", "_is_current": True},
+        {"id": 2, "segment": "Low", "_is_current": False},
+        {"id": 3, "segment": "Core", "_is_current": True},
+    ]
+
+
+def test_forced_resync_of_a_temporal_table_keeps_its_history(tmp_path, monkeypatch):
+    """Same file, --force: previously re-seeded (history lost); now an
+    idempotent SCD-2 diff."""
+    _patch_stores(tmp_path, monkeypatch)
+    csv_path = tmp_path / "accounts.csv"
+    _write_csv(csv_path, [["id", "balance"], [1, 100]])
+    _sync(csv_path, "--domain", "banking", "--refreshMode", "temporal", "--businessKey", "id")
+    _write_csv(csv_path, [["id", "balance"], [1, 150]])
+    _sync(csv_path, "--domain", "banking")
+    _sync(csv_path, "--domain", "banking", "--force")
+
+    rows = _db_sql_rows("SELECT balance, _is_current FROM accounts ORDER BY balance")
+    assert rows == [{"balance": 100, "_is_current": False}, {"balance": 150, "_is_current": True}]
+
+
+@pytest.mark.parametrize("extra, message", [
+    (["--refreshMode", "replace"], "would discard that history"),
+    (["--businessKey", "segment"], "would break its history"),
+    (["--effectiveDateColumn", "segment"], "takes its effective date from the ingest date"),
+])
+def test_requests_that_would_break_a_temporal_tables_history_are_refused(tmp_path, monkeypatch, extra, message):
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.cli as cli
+    import artmind.structured.pipeline as pipeline
+
+    first = tmp_path / "export_1.csv"
+    second = tmp_path / "export_2.csv"
+    _write_csv(first, [["id", "segment"], [1, "Core"]])
+    _write_csv(second, [["id", "segment"], [1, "Top"]])
+    _sync(first, "--domain", "banking", "--tableName", "hercules", "--refreshMode", "temporal", "--businessKey", "id")
+
+    with pytest.raises(click.ClickException, match=message):
+        pipeline.ingest_structured_file(second, "banking", table="hercules", **{
+            "--refreshMode": {"refresh_mode": extra[1]},
+            "--businessKey": {"business_key": extra[1]},
+            "--effectiveDateColumn": {"effective_date_column": extra[1]},
+        }[extra[0]])
+
+    # Through the CLI the refusal is logged per file (ingest sync's convention),
+    # and the table is untouched either way.
+    CliRunner().invoke(cli.cli, ["ingest", "sync", str(second), "--domain", "banking", "--tableName", "hercules", *extra])
+    rows = _db_sql_rows("SELECT id, segment, _is_current FROM hercules")
+    assert rows == [{"id": 1, "segment": "Core", "_is_current": True}]
+
+
+def test_table_name_is_refused_for_a_directory(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.cli as cli
+
+    folder = tmp_path / "exports"
+    folder.mkdir()
+    _write_csv(folder / "a.csv", [["id"], [1]])
+
+    result = CliRunner().invoke(cli.cli, ["ingest", "sync", str(folder), "--domain", "banking", "--tableName", "hercules"])
+    assert result.exit_code != 0
+    assert "--tableName applies to a single csv/xlsx file" in result.output
+
+
+def test_table_name_prefixes_each_sheet_of_a_multi_sheet_workbook(tmp_path, monkeypatch):
+    from openpyxl import Workbook
+
+    from artmind.structured.pipeline import _enumerate_source_tables
+
+    path = tmp_path / "export_20260921.xlsx"
+    wb = Workbook()
+    wb.active.title = "People"
+    wb.active.append(["id"])
+    wb.active.append([1])
+    other = wb.create_sheet("PIPs")
+    other.append(["id"])
+    other.append([1])
+    wb.save(path)
+
+    specs = _enumerate_source_tables(path, table="hercules", sheet=None, header_row=0)
+    assert [s["table_name"] for s in specs] == ["hercules__people", "hercules__pips"]

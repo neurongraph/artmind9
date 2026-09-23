@@ -67,7 +67,7 @@ def _enumerate_source_tables(
     if len(sheet_names) == 1:
         return [{"table_name": sanitize_identifier(table or source.stem), "sheet": sheet_names[0]}]
 
-    stem = sanitize_identifier(source.stem)
+    stem = sanitize_identifier(table or source.stem)
     return [
         {"table_name": f"{stem}__{sanitize_identifier(s)}", "sheet": s} for s in sheet_names
     ]
@@ -339,6 +339,61 @@ def _project_catalogue_best_effort(domain: str) -> None:
         logger.warning("structured pipeline: catalogue projection failed for domain '{}': {}", domain, e)
 
 
+def _split_key(value: str | None) -> list[str]:
+    return [c.strip() for c in (value or "").split(",") if c.strip()]
+
+
+def _resolve_refresh_mode(
+    existing: dict | None,
+    table_name: str,
+    requested: str | None,
+    business_key: str | None,
+    effective_date_column: str | None,
+) -> str:
+    """The refresh mode one ingest of ``table_name`` must use. Raises
+    ``click.ClickException`` for a request that would lose history.
+
+    ``requested=None`` (no ``--refreshMode``) means the table's recorded mode,
+    or ``replace`` for a new table. Defaulting to ``replace`` unconditionally
+    was harmless while every export produced a new table name; with
+    ``--tableName`` (one table, many exports) it would silently convert a
+    temporal table back to replace and throw its SCD-2 history away.
+
+    An existing temporal table is only ever refreshed as temporal, under the
+    business key and effective-date column it was created with: a different
+    key would diff the new batch against rows it cannot match.
+    """
+    if existing is None or existing.get("refresh_mode") != "temporal":
+        mode = requested or "replace"
+        if mode == "temporal" and not business_key:
+            raise click.ClickException(
+                "refresh_mode='temporal' requires --businessKey (business_key) —"
+                " a temporal table can never be refreshed again without one"
+            )
+        return mode
+
+    if requested == "replace":
+        raise click.ClickException(
+            f"table '{table_name}' keeps SCD-2 history (refresh_mode=temporal); ingesting"
+            " it as replace would discard that history. Omit --refreshMode to add this"
+            " file as a new version, or ingest it under a different --tableName."
+        )
+    if business_key and _split_key(business_key) != _split_key(existing.get("business_key")):
+        raise click.ClickException(
+            f"table '{table_name}' is keyed on --businessKey '{existing.get('business_key')}';"
+            f" refreshing it with '{business_key}' would break its history. Omit --businessKey"
+            " to use the recorded one."
+        )
+    recorded_date_column = existing.get("effective_date_column")
+    if effective_date_column and effective_date_column != recorded_date_column:
+        source = f"column '{recorded_date_column}'" if recorded_date_column else "the ingest date"
+        raise click.ClickException(
+            f"table '{table_name}' takes its effective date from {source};"
+            " omit --effectiveDateColumn to keep it."
+        )
+    return "temporal"
+
+
 def ingest_structured_file(
     source: Path,
     domain: str,
@@ -347,16 +402,21 @@ def ingest_structured_file(
     sheet: str | None = None,
     header_row: int = 0,
     force: bool = False,
-    refresh_mode: str = "replace",
+    refresh_mode: str | None = None,
     business_key: str | None = None,
     effective_date_column: str | None = None,
 ) -> dict:
-    if refresh_mode == "temporal" and not business_key:
-        raise click.ClickException(
-            "refresh_mode='temporal' requires --businessKey (business_key) —"
-            " a temporal table can never be refreshed again without one"
-        )
+    """Load a csv/xlsx file into the structured store as one table per sheet.
 
+    ``table`` names the table (default: the file's stem, so every dated export
+    would become its own table); a multi-sheet workbook gets ``<table>__<sheet>``.
+
+    Ingesting into a table that is already registered as **temporal** adds the
+    file as a new SCD-2 version (the same diff ``db refresh`` performs) rather
+    than rebuilding the table -- a rebuild would re-seed its history from this
+    one file. ``refresh_mode=None`` means the table's recorded mode, else
+    ``replace``; see ``_resolve_refresh_mode`` for what is refused.
+    """
     source = Path(source)
     file_sha256 = _compute_sha256(source)
 
@@ -377,21 +437,35 @@ def ingest_structured_file(
                 "tables": [row["table_name"] for row in existing_rows],
             }
 
-    ds = DuckDBDatasource()
-    results = [
-        _write_table(
-            ds,
-            source,
-            domain,
-            spec,
-            file_sha256,
-            header_row,
-            refresh_mode=refresh_mode,
-            business_key=business_key,
-            effective_date_column=effective_date_column,
+    # Resolve every table's mode before writing any, so a refused request
+    # (e.g. --refreshMode replace on a temporal table) changes nothing.
+    plans = []
+    for spec in table_specs:
+        existing = registry.get_table(spec["table_name"], domain=domain)
+        mode = _resolve_refresh_mode(
+            existing, spec["table_name"], refresh_mode, business_key, effective_date_column
         )
-        for spec in table_specs
-    ]
+        plans.append((spec, existing, mode))
+
+    ds = DuckDBDatasource()
+    results = []
+    for spec, existing, mode in plans:
+        if existing is not None and existing.get("refresh_mode") == "temporal":
+            results.append(
+                _refresh_temporal_table(ds, existing, source, domain, file_sha256, sheet=spec["sheet"])
+            )
+        else:
+            results.append(_write_table(
+                ds,
+                source,
+                domain,
+                spec,
+                file_sha256,
+                header_row,
+                refresh_mode=mode,
+                business_key=business_key,
+                effective_date_column=effective_date_column,
+            ))
 
     _project_catalogue_best_effort(domain)
 
@@ -399,7 +473,13 @@ def ingest_structured_file(
 
 
 def _refresh_temporal_table(
-    ds: DuckDBDatasource, existing: dict, source: Path, domain: str, file_sha256: str
+    ds: DuckDBDatasource,
+    existing: dict,
+    source: Path,
+    domain: str,
+    file_sha256: str,
+    *,
+    sheet: str | None = None,
 ) -> dict:
     """Diff ``source`` against a temporal table's existing SCD-2 history and
     rewrite the parquet with the merged full history (``scd2.apply_scd2_refresh``
@@ -408,8 +488,13 @@ def _refresh_temporal_table(
     history wholesale. The incoming batch is staged into a TEMP TABLE instead
     (``DuckDBDatasource.stage_source``) and passed to ``apply_scd2_refresh`` as
     its ``incoming_rel``.
+
+    ``sheet`` is the incoming file's sheet when it is not the recorded source
+    (``ingest sync --tableName`` of a new export); ``db refresh`` omits it and
+    re-reads the recorded one.
     """
     table_name = existing["table_name"]
+    sheet = sheet or existing["sheet"]
     business_key = [c.strip() for c in (existing["business_key"] or "").split(",") if c.strip()]
     if not business_key:
         raise ValueError(
@@ -417,7 +502,7 @@ def _refresh_temporal_table(
         )
 
     parquet_path = Path(existing["parquet_path"])
-    staged_rel = ds.stage_source(source, sheet=existing["sheet"], header_row=0)
+    staged_rel = ds.stage_source(source, sheet=sheet, header_row=0)
     _validate_temporal_incoming_columns(ds, parquet_path, staged_rel, table_name)
 
     effective_date_column = existing["effective_date_column"]
@@ -439,7 +524,7 @@ def _refresh_temporal_table(
         table_name,
         domain,
         source_file=str(source),
-        sheet=existing["sheet"],
+        sheet=sheet,
         parquet_path=str(parquet_path),
         row_count=row_count,
         sha256=file_sha256,
