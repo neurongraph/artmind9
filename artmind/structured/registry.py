@@ -472,6 +472,27 @@ def set_mapping_confirmed(table_id: int, column: str, entity_class: str, confirm
         conn.close()
 
 
+def delete_unconfirmed_mapping(table_id: int, column: str, entity_class: str) -> int:
+    """Delete one (column, entity_class) mapping, but only while unconfirmed.
+
+    The ``confirmed = 0`` guard is in the SQL itself, not left to callers: a
+    re-proposal must never remove an operator's confirmed ruling, and this is
+    the only delete a proposal path uses.
+    """
+    conn = _get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            'DELETE FROM column_mappings WHERE table_id = ? AND "column" = ?'
+            " AND entity_class = ? AND confirmed = 0",
+            (table_id, column, entity_class),
+        )
+        conn.commit()
+        return cursor.rowcount
+    finally:
+        conn.close()
+
+
 def clear_mappings(table_id: int, column: str | None = None) -> int:
     conn = _get_db()
     cursor = conn.cursor()

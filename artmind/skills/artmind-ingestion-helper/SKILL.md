@@ -360,6 +360,11 @@ artmind db propose TABLE --domain DOMAIN --step mapping --redo
 ```
 Without `--redo` an already-`ok` step is skipped, so this is the only way to re-ask it.
 
+**After renaming or removing a schema class**, re-run the mapping step: on success it deletes
+the table's *unconfirmed* mappings to classes the schema no longer declares (reported as
+`pruned_mappings`). Confirmed ones are kept and reported as `stale_confirmed_mappings` — hand
+those to `/artmind-curate`.
+
 **Diagnosing a `failed` step:** no error text is stored — by design, matching the rest of the
 pipeline. Check the logs:
 ```bash

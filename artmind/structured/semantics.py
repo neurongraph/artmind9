@@ -34,6 +34,11 @@ standalone re-entry point for everything else, retrying any step not already
 Confirmed values are never overwritten by a re-proposal, for any of the three
 steps: refreshing or re-proposing a table must not silently un-confirm an
 operator's review.
+
+Proposing only ever adds or updates. The one deletion is the mapping step's
+cleanup of *unconfirmed* mappings to classes the schema no longer declares
+(``prune_orphaned_mappings``) -- a renamed class would otherwise leave its old
+mappings behind forever.
 """
 
 import json
@@ -387,6 +392,70 @@ def propose_mapping(
     return persisted
 
 
+def _schema_classes(domain: str) -> set[str]:
+    """Every class ``domain`` can map to: its own schema's ``entity_types``
+    plus those of each dotted ancestor (``banking.cases`` -> ``banking``).
+
+    Wider than the set ``propose_mapping`` offers the model (the domain's own
+    schema only), deliberately: this set decides what gets *deleted*, and an
+    unharmonized child schema that lacks a parent class it will inherit on
+    ``domains harmonize`` must not cost the table its mappings to that class.
+    """
+    from artmind.temporal import load_schema
+
+    parts = domain.split(".")
+    classes: set[str] = set()
+    for depth in range(1, len(parts) + 1):
+        classes |= set((load_schema(".".join(parts[:depth])).get("entity_types") or {}).keys())
+    return classes
+
+
+def prune_orphaned_mappings(
+    table_id: int, domain: str, *, only_columns: set[str] | None = None
+) -> dict:
+    """Delete ``table_id``'s **unconfirmed** mappings to classes the domain
+    schema no longer declares -- a renamed or removed class. Returns
+    ``{"pruned": [...], "stale_confirmed": [...]}``.
+
+    Found live: renaming ``PERFORMANCE_SEGMENTATION`` to ``PERFORMANCE_SEGMENT``
+    in a schema and re-running the mapping step added the new class's
+    mappings but left the old ones, since proposing only ever upserts.
+
+    Three boundaries, each deliberate:
+
+    - **Confirmed mappings are never deleted**, even to a vanished class --
+      the module-wide rule that a re-proposal never overrides an operator's
+      review. They are reported as ``stale_confirmed`` instead, for a human
+      to clear (``db mappings TABLE clear``) or re-point.
+    - **Only a class the schema lacks is grounds for deletion** -- not a
+      mapping the fresh proposal merely failed to repeat. That is a model
+      judgment, and a stochastic one: an unconfirmed row is a review-queue
+      item, and a re-ask should not silently withdraw a plausible candidate
+      a reviewer may be weighing. The bridge step behaves the same way.
+      ``db mappings TABLE clear`` is the explicit reset.
+    - **A schema declaring no classes at all prunes nothing** -- that is a
+      broken or missing schema, not a statement that every class is gone.
+
+    ``only_columns`` scopes the pruning exactly as it scopes persistence, so
+    a new-column refresh trigger never touches other columns' state.
+    """
+    known = _schema_classes(domain)
+    result: dict = {"pruned": [], "stale_confirmed": []}
+    if not known:
+        return result
+    for mapping in registry.list_mappings(table_id):
+        if mapping["entity_class"] in known:
+            continue
+        if only_columns is not None and mapping["column"] not in only_columns:
+            continue
+        row = {"column": mapping["column"], "entity_class": mapping["entity_class"]}
+        if mapping.get("confirmed"):
+            result["stale_confirmed"].append(row)
+        elif registry.delete_unconfirmed_mapping(table_id, mapping["column"], mapping["entity_class"]):
+            result["pruned"].append(row)
+    return result
+
+
 def propose_table_semantics(
     table_id: int,
     domain: str,
@@ -417,6 +486,11 @@ def propose_table_semantics(
     ``only_columns``, forwarded to both underlying steps, restricts
     *persistence* to that column-name set -- it does not affect which steps
     are considered.
+
+    A successful mapping step also prunes unconfirmed mappings to classes the
+    schema no longer declares (``prune_orphaned_mappings``), reported as
+    ``pruned_mappings``; confirmed ones to such a class are left alone and
+    reported as ``stale_confirmed_mappings``. A failed step prunes nothing.
     """
     from loguru import logger
 
@@ -460,6 +534,9 @@ def propose_table_semantics(
             result["mappings"] = propose_mapping(
                 table_id, domain, model=model, only_columns=only_columns
             )
+            pruned = prune_orphaned_mappings(table_id, domain, only_columns=only_columns)
+            result["pruned_mappings"] = pruned["pruned"]
+            result["stale_confirmed_mappings"] = pruned["stale_confirmed"]
             registry.set_step_status(table_id, "mapping", "ok")
         except Exception as exc:
             logger.warning(
