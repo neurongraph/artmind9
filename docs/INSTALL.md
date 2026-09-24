@@ -85,7 +85,7 @@ Then:
 ```bash
 $EDITOR ~/.artmind/config.env          # provider, API keys, models (machine-wide)
 $EDITOR ~/MyVault/.artmind/config.env  # this vault's Neo4j connection
-artmind setup                          # Neo4j constraints/indexes + SQLite tables
+artmind setup                          # Neo4j constraints/indexes + SQLite tables (never overwrites vault schemas)
 ```
 
 ## Run
@@ -151,6 +151,7 @@ just dev-uninstall               # removes the `artmind` command (leaves every v
 
 Upgrading refreshes code immediately (the install is editable) and reaches
 already-created vaults through the symlinked `.claude/skills/` — no
-per-vault re-seeding needed. Schemas are the exception: `artmind init` seeds
-them only when absent, so an upgraded schema in the package does not
-overwrite one you have already edited in a vault.
+per-vault re-seeding needed. Schemas are the exception: `artmind init` and
+`artmind setup` seed them (and `meta.yaml`) only when absent, so an upgraded
+schema in the package does not overwrite one you have already edited in a
+vault — `artmind domains update` is the deliberate way to take one.

@@ -371,7 +371,11 @@ schemas. But never overwriting recreates the problem CLAUDE.md warns about — a
 prompt fix that never reaches the vault looks like a model failure. So:
 
 - seeded schemas carry provenance (`_source: package` plus a hash)
-- `init` seeds only the **starter** set, and only what is missing
+- `init` seeds only the **starter** set, and only what is missing — and so does
+  `artmind setup` run inside a vault (both go through `setup._seed_vault_domains`;
+  `setup` used to overwrite every same-named package schema and `meta.yaml`).
+  Only a plain run folder outside any vault still has its schemas refreshed
+  from the package on every `setup`
 - `artmind domains update` refreshes package-derived schemas you have not
   modified, and **reports** the ones that diverged for you to merge
 - `artmind domains add` stays, for vault-local schemas

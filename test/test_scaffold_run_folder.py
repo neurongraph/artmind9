@@ -502,3 +502,114 @@ def test_setup_all_summary_includes_a3_indexes():
         "document_name_ft",
     ):
         assert name in src, f"setup_all summary missing {name}"
+
+
+# ── domain schemas + meta.yaml: package assets outside a vault, user files inside ──
+
+
+def _package_domains(setup, monkeypatch, tmp_path):
+    """A fake package: one starter schema, one non-starter, and a meta.yaml."""
+    pkg = tmp_path / "pkg-schemas"
+    _write(pkg / "general_schema.yaml", "package general")
+    _write(pkg / "personal_journal_schema.yaml", "package journal")
+    _write(pkg / "banking_schema.yaml", "package banking")
+    meta = _write(tmp_path / "pkg-meta.yaml", "package meta")
+    monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", pkg)
+    monkeypatch.setattr(setup, "PACKAGE_META_YAML", meta)
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+
+
+def _vault_home(setup, monkeypatch, tmp_path):
+    from artmind.vault import VaultLayout
+
+    vault_root = tmp_path / "myvault"
+    vault_root.mkdir()
+    home = VaultLayout(vault_root).artmind_dir
+    _patch_scaffold_dirs(setup, monkeypatch, home, tmp_path / "data")
+    monkeypatch.setattr(setup, "DOMAIN_META_PATH", home / "domains" / "meta.yaml")
+    monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
+    return home
+
+
+def test_scaffold_run_folder_never_overwrites_a_vaults_schemas_or_meta(tmp_path, monkeypatch):
+    """Inside a vault the schemas and meta.yaml are the user's committed files
+    (docs/vault.md, "Schemas"). `artmind setup` used to overwrite every vault
+    schema the package also ships, plus meta.yaml."""
+    import artmind.setup as setup
+
+    home = _vault_home(setup, monkeypatch, tmp_path)
+    _package_domains(setup, monkeypatch, tmp_path)   # after: _vault_home resets the package dirs
+    schemas = home / "domains" / "schemas"
+    _write(schemas / "general_schema.yaml", "my edited general")
+    _write(home / "domains" / "meta.yaml", "my edited meta")
+
+    result = setup.scaffold_run_folder()
+
+    assert (schemas / "general_schema.yaml").read_text() == "my edited general"
+    assert (home / "domains" / "meta.yaml").read_text() == "my edited meta"
+    # Same rule as `init`: a missing STARTER schema is seeded...
+    assert (schemas / "personal_journal_schema.yaml").read_text() == "package journal"
+    # ...but a non-starter package schema is not pushed into the vault.
+    assert not (schemas / "banking_schema.yaml").exists()
+    assert result["schemas_copied"] == 1
+    assert result["meta_refreshed"] == 0
+
+
+def test_scaffold_run_folder_seeds_a_missing_vault_meta_yaml(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = _vault_home(setup, monkeypatch, tmp_path)
+    _package_domains(setup, monkeypatch, tmp_path)   # after: _vault_home resets the package dirs
+
+    result = setup.scaffold_run_folder()
+
+    assert (home / "domains" / "meta.yaml").read_text() == "package meta"
+    assert result["meta_refreshed"] == 1
+
+
+def test_scaffold_run_folder_still_refreshes_a_plain_run_folders_schemas(tmp_path, monkeypatch):
+    """Outside a vault the run folder's schemas ARE package assets, refreshed
+    on every run (CLAUDE.md, "Skills reach the chat UI only through the run
+    folder") -- a prompt fix must reach the extractor."""
+    import artmind.setup as setup
+
+    home = tmp_path / "home"
+    _patch_scaffold_dirs(setup, monkeypatch, home, tmp_path / "data")
+    _package_domains(setup, monkeypatch, tmp_path)
+    monkeypatch.setattr(setup, "DOMAIN_META_PATH", home / "domains" / "meta.yaml")
+    monkeypatch.setattr(setup, "resolve_vault", lambda: None)
+    _write(home / "domains" / "schemas" / "general_schema.yaml", "stale copy")
+    _write(home / "domains" / "meta.yaml", "stale meta")
+
+    setup.scaffold_run_folder()
+
+    schemas = home / "domains" / "schemas"
+    assert (schemas / "general_schema.yaml").read_text() == "package general"
+    assert (schemas / "banking_schema.yaml").read_text() == "package banking"
+    assert (home / "domains" / "meta.yaml").read_text() == "package meta"
+
+
+def test_setup_all_inside_a_vault_leaves_its_schemas_and_meta_alone(tmp_path, monkeypatch):
+    """End to end through `artmind setup`'s own function."""
+    from contextlib import contextmanager
+
+    import artmind.setup as setup
+
+    home = _vault_home(setup, monkeypatch, tmp_path)
+    _package_domains(setup, monkeypatch, tmp_path)   # after: _vault_home resets the package dirs
+    _write(home / "domains" / "schemas" / "general_schema.yaml", "my edited general")
+    _write(home / "domains" / "meta.yaml", "my edited meta")
+
+    @contextmanager
+    def fake_session():
+        yield object()
+
+    monkeypatch.setattr(setup, "neo4j_session", fake_session)
+    monkeypatch.setattr(setup, "_setup_neo4j", lambda session, dim: {"entity_id_schema": "entity_id"})
+    monkeypatch.setattr(setup, "_init_db", lambda: None)
+    monkeypatch.setattr(setup, "validate_all_or_raise", lambda *a, **k: None)
+
+    setup.setup_all()
+
+    assert (home / "domains" / "schemas" / "general_schema.yaml").read_text() == "my edited general"
+    assert (home / "domains" / "meta.yaml").read_text() == "my edited meta"
