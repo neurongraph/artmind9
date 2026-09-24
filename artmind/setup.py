@@ -154,6 +154,13 @@ def scaffold_run_folder() -> dict:
     (``~/.artmind/config.env``, via ``ensure_machine_config``) is only seeded
     when absent. See ``_seed_tree``.
 
+    Inside a vault (``ARTMIND_HOME`` is a vault's own ``.artmind/``) domain
+    schemas and ``meta.yaml`` are NOT package assets but the user's committed
+    files, so they are seeded only when absent -- the same rule, and the same
+    helper (``_seed_vault_domains``), as ``scaffold_vault``. Overwriting them
+    here let ``artmind setup`` run inside a vault silently replace every vault
+    schema the package also ships a same-named copy of, plus ``meta.yaml``.
+
     The ``.claude/skills/`` and ``.opencode/`` seeds are skipped when
     ``ARTMIND_HOME`` is a *vault's* own ``.artmind/`` (i.e. this process is
     running inside a vault, not the machine home) — both have the same reason,
@@ -216,14 +223,19 @@ def scaffold_run_folder() -> dict:
     opencode_refreshed = (
         0 if home_is_vault_resident else _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
     )
-    schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR, overwrite=True)
-
-    # meta.yaml is a single file, not a tree -- seed it the same "package asset,
-    # always refreshed" way as skills/opencode/schemas above.
-    meta_refreshed = 0
-    if PACKAGE_META_YAML.is_file():
-        shutil.copy2(PACKAGE_META_YAML, DOMAIN_META_PATH)
-        meta_refreshed = 1
+    if home_is_vault_resident:
+        # A vault's schemas and meta.yaml are the user's, not package assets:
+        # seed only what is missing, exactly as `init` does (see
+        # `_seed_vault_domains`).
+        _, schemas_copied, meta_refreshed = _seed_vault_domains(DOMAIN_SCHEMAS_DIR, DOMAIN_META_PATH)
+    else:
+        schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR, overwrite=True)
+        # meta.yaml is a single file, not a tree -- seed it the same "package
+        # asset, always refreshed" way as skills/opencode/schemas above.
+        meta_refreshed = 0
+        if PACKAGE_META_YAML.is_file():
+            shutil.copy2(PACKAGE_META_YAML, DOMAIN_META_PATH)
+            meta_refreshed = 1
 
     # Fail loudly (Phase 1): a schema missing a mandatory `kind`, or still on
     # the pre-redesign entity_types list, must stop `init` here rather than
@@ -245,6 +257,38 @@ def scaffold_run_folder() -> dict:
 # corpus's schemas, not a default every knowledge base should inherit
 # (docs/vault.md, "Schemas").
 STARTER_SCHEMAS = ("general", "personal_journal")
+
+
+def _seed_vault_domains(schemas_dir: Path, meta_yaml: Path) -> tuple[list[str], int, int]:
+    """Seed a vault's schemas and meta-schema -- only what is ABSENT.
+
+    The one rule for what a vault owns, shared by ``scaffold_vault`` (``init``)
+    and ``scaffold_run_folder`` when it runs inside a vault (``setup``): only the
+    ``STARTER_SCHEMAS``, and never over a file that already exists. A vault's
+    schemas are hand-authored and committed (docs/vault.md, "Schemas");
+    overwriting one because the package ships a same-named file destroys the
+    user's edits. ``artmind domains update`` is the deliberate reconcile path.
+
+    Returns ``(starter_names, schemas_copied, meta_copied)`` -- the starter
+    names are reported whether or not they had to be copied.
+    """
+    starters: list[str] = []
+    copied = 0
+    for src in sorted(PACKAGE_SCHEMAS_DIR.glob("*_schema.yaml")):
+        name = src.name.removesuffix("_schema.yaml")
+        if name not in STARTER_SCHEMAS:
+            continue
+        dest = schemas_dir / src.name
+        if not dest.exists():
+            shutil.copy2(src, dest)
+            copied += 1
+        starters.append(name)
+
+    meta_copied = 0
+    if PACKAGE_META_YAML.is_file() and not meta_yaml.exists():
+        shutil.copy2(PACKAGE_META_YAML, meta_yaml)
+        meta_copied = 1
+    return starters, copied, meta_copied
 
 _STARTER_VAULT_YAML = """\
 # artmind ingest manifest (docs/vault.md).
@@ -367,18 +411,7 @@ def scaffold_vault(
     ):
         directory.mkdir(parents=True, exist_ok=True)
 
-    seeded_schemas: list[str] = []
-    for src in sorted(PACKAGE_SCHEMAS_DIR.glob("*_schema.yaml")):
-        name = src.name.removesuffix("_schema.yaml")
-        if name not in STARTER_SCHEMAS:
-            continue
-        dest = layout.schemas_dir / src.name
-        if not dest.exists():
-            shutil.copy2(src, dest)
-        seeded_schemas.append(name)
-
-    if PACKAGE_META_YAML.is_file() and not layout.meta_yaml.exists():
-        shutil.copy2(PACKAGE_META_YAML, layout.meta_yaml)
+    seeded_schemas, _, _ = _seed_vault_domains(layout.schemas_dir, layout.meta_yaml)
 
     if not layout.config_env.exists():
         layout.config_env.write_text(
