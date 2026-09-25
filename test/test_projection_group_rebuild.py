@@ -26,11 +26,23 @@ class _Result:
 
 
 class FakeTx:
-    def __init__(self, observations_by_key=None, entity_exists=None, observation_keys=None):
+    def __init__(
+        self,
+        observations_by_key=None,
+        entity_exists=None,
+        observation_keys=None,
+        relates_to_outgoing=None,
+        relates_to_incoming=None,
+    ):
         self.observations_by_key = observations_by_key or {}
         self.entity_exists = entity_exists or set()
         # id -> key, for a retraction target's `RETURN o.key AS key`
         self.observation_keys = observation_keys or {}
+        # canned rows for _relation_groups_batch's two ASSERTS_RELATION
+        # queries -- outgoing rows carry `src_key`, incoming rows `tgt_key`,
+        # both alongside `rel_type`/`other_key`/`doc_id`/`chunk_id`.
+        self.relates_to_outgoing = relates_to_outgoing or []
+        self.relates_to_incoming = relates_to_incoming or []
         self.calls: list[tuple[str, dict]] = []
 
     def run(self, cypher, **params):
@@ -50,9 +62,9 @@ class FakeTx:
             return _Result(rows)
 
         if cy.startswith("UNWIND $keys AS key") and "ASSERTS_RELATION]->(t:Observation)" in cy:
-            return _Result([])  # no relationships in these fixtures
+            return _Result(self.relates_to_outgoing)
         if cy.startswith("UNWIND $keys AS key") and "ASSERTS_RELATION]->(o:Observation {key: key})" in cy:
-            return _Result([])
+            return _Result(self.relates_to_incoming)
 
         if cy.startswith("MATCH (o:Observation {id: $id})") and "ObservationHistory" in cy:
             target_key = self.observation_keys.get(params["id"])
@@ -236,6 +248,53 @@ def test_link_clears_stale_same_as_edges_before_resyncing():
     clears = tx.calls_matching("OPTIONAL MATCH (e)-[r:SAME_AS]-(:Entity) DELETE r")
     assert len(clears) == 1, "one batched clear, not one per key"
     assert entity_id(canonical) in clears[0][1]["ids"]
+
+
+# ── RELATES_TO: an edge between two co-rebuilt entities must write once ─────
+
+
+def test_relates_to_between_two_batch_entities_is_written_only_once():
+    """A→B, with BOTH A and B rebuilt in the same pass, resolves from two
+    directions -- A's outgoing loop and B's incoming loop -- and both
+    resolutions carry identical `agg` payloads for the same underlying
+    ASSERTS_RELATION edge. Regression for the double-write the batched
+    rewrite introduced: unlike the old per-key `rebuild_key`, which relied
+    on entity-creation ORDER to silently no-op one of the two attempts, the
+    batched path creates every entity before RELATES_TO resolution runs, so
+    nothing here naturally prevents both resolutions from reaching
+    `_write_relates_to_batch` unless they are deduped first.
+    """
+    a = ("acme corp", "COMPANY", "banking.reference")
+    b = ("fca", "REGULATOR", "banking.reference")
+    tx = FakeTx(
+        observations_by_key={
+            key_string(a): [_o(id="oa", canonical_name="Acme Corp", entity_class="COMPANY")],
+            key_string(b): [_o(id="ob", canonical_name="FCA", entity_class="REGULATOR")],
+        },
+        # The real query is one UNWIND over the whole key batch; only A
+        # actually has an outgoing ASSERTS_RELATION edge (to B), so that is
+        # the only row a real Neo4j MATCH would return.
+        relates_to_outgoing=[
+            {"src_key": key_string(a), "rel_type": "REGULATED_BY", "other_key": key_string(b),
+             "doc_id": "d1", "chunk_id": "c1"},
+        ],
+        # Symmetrically, only B has an incoming edge (from A).
+        relates_to_incoming=[
+            {"tgt_key": key_string(b), "rel_type": "REGULATED_BY", "other_key": key_string(a),
+             "doc_id": "d1", "chunk_id": "c1"},
+        ],
+    )
+
+    rebuild(tx, {a, b}, same_as_groups=[])
+
+    relates_to_calls = tx.calls_matching("MERGE (e)-[r:RELATES_TO")
+    assert len(relates_to_calls) == 1, "one batched write, not one per key"
+    _, params = relates_to_calls[0]
+    assert len(params["rows"]) == 1, "the same edge resolved from both ends must collapse to one row"
+    row = params["rows"][0]
+    assert row["src"] == entity_id(a)
+    assert row["tgt"] == entity_id(b)
+    assert row["rel_type"] == "REGULATED_BY"
 
 
 # ── apply_retractions ─────────────────────────────────────────────────────────

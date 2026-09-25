@@ -24,7 +24,6 @@ to `entity-resolve`'s vector leg rather than merely less accurate.
 from __future__ import annotations
 
 import hashlib
-import time
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
@@ -772,7 +771,8 @@ def _relation_groups(tx, keys: list[tuple[str, str, str]]) -> tuple[list[dict], 
 
 def _group_relations(rows: list[dict]) -> dict[tuple[str, str], dict]:
     """Group raw `ASSERTS_RELATION` rows by `(rel_type, other_key)`, deduping
-    and aggregating provenance. Pure — the I/O half (`_relation_groups`)
+    and aggregating provenance. Pure — the I/O half (`_relation_groups` for a
+    single entity, `_relation_groups_batch` for a whole rebuild pass)
     supplies the rows.
     """
     groups: dict[tuple[str, str], dict] = {}
@@ -823,6 +823,10 @@ def _relation_groups_batch(tx, keys: list[tuple[str, str, str]]) -> tuple[list[d
 
 
 def _delete_relates_to_batch(tx, ids: list[str]) -> None:
+    """Delete every `RELATES_TO` edge touching any entity in `ids`, both
+    directions -- the batched sibling of `_sync_relates_to`'s own two
+    delete statements, run once up front for the whole pass so
+    `_write_relates_to_batch` always writes onto a clean slate."""
     if not ids:
         return
     tx.run("UNWIND $ids AS id MATCH (e:Entity {_id: id})-[r:RELATES_TO]->(:Entity) DELETE r", ids=ids)
@@ -1087,28 +1091,12 @@ def _plan_groups(
     return unit_of, members_of, links
 
 
-def _sync_same_as(tx, member_key: tuple[str, str, str], canonical_key: tuple[str, str, str]) -> None:
-    """`MERGE` a `SAME_AS` edge, both directions, between a link member's own
-    Entity and its group's canonical Entity. A no-op, safely, if either does
-    not (yet) exist — the `MATCH` simply finds nothing.
-
-    Callers clear stale `SAME_AS` edges before re-syncing (see `rebuild`), the
-    same delete-then-recreate idiom `_sync_relates_to` uses, so removing a
-    group from `same_as.yaml` cleanly drops the edge on the next rebuild.
-    """
-    tx.run(
-        """
-        MATCH (m:Entity {_id: $m}), (c:Entity {_id: $c})
-        MERGE (m)-[:SAME_AS]->(c)
-        MERGE (c)-[:SAME_AS]->(m)
-        """,
-        m=entity_id(member_key), c=entity_id(canonical_key),
-    )
-
-
 def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[str, str, str]]]) -> None:
-    """Batched sibling of `_sync_same_as`, called once for every link pair
-    in `rebuild`'s pass instead of once per pair."""
+    """`MERGE` a `SAME_AS` edge, both directions, for every link pair in
+    `rebuild`'s plan in one batched UNWIND instead of one MERGE per pair. A
+    no-op, safely, for any row whose endpoint Entity does not (yet) exist --
+    the `MATCH` simply finds nothing for that row.
+    """
     if not links:
         return
     rows = [{"member": entity_id(member), "canonical": entity_id(canonical)} for member, canonical in links]
@@ -1191,7 +1179,7 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
 def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None) -> dict:
     """Rebuild the given aggregate keys inside the caller's transaction.
 
-    `same_as_groups` defaults to `same_as.load_groups()` -- pass an explicit
+    `same_as_groups` defaults to `same_as.load_groups()` — pass an explicit
     (possibly filtered) list only when the caller has one in hand already.
     `synthesis_loader(key) -> dict | None` is the synthesize seam; absent,
     every description falls back to the winner observation's.
@@ -1287,7 +1275,13 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
     outgoing_rows, incoming_rows = _relation_groups_batch(tx, all_relates_keys)
     _delete_relates_to_batch(tx, [eid for eid, _ in relates_to_context])
 
-    relates_to_rows = []
+    # Keyed on (src, tgt, rel_type): an edge between two entities BOTH in
+    # this batch gets resolved from both ends -- once via the source's
+    # outgoing loop, once via the target's incoming loop -- and the two
+    # resolutions carry identical `agg` payloads (the same underlying
+    # ASSERTS_RELATION edges, just queried from opposite sides). The dict
+    # collapses the duplicate; either survivor is correct.
+    relates_to_rows: dict[tuple[str, str, str], dict] = {}
     for eid, member_keys in relates_to_context:
         member_key_strings = {key_string(mk) for mk in member_keys}
         outgoing = _group_relations([r for r in outgoing_rows if r["src_key"] in member_key_strings])
@@ -1299,7 +1293,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             tgt = entity_id(unit_of.get(parsed, parsed))
             if tgt == eid:
                 continue
-            relates_to_rows.append({"src": eid, "tgt": tgt, "rel_type": rel_type, **agg})
+            relates_to_rows[(eid, tgt, rel_type)] = {"src": eid, "tgt": tgt, "rel_type": rel_type, **agg}
         for (rel_type, other_key), agg in incoming.items():
             parsed = _parse_key(other_key)
             if not parsed:
@@ -1307,13 +1301,13 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
             src = entity_id(unit_of.get(parsed, parsed))
             if src == eid:
                 continue
-            relates_to_rows.append({"src": src, "tgt": eid, "rel_type": rel_type, **agg})
-    _write_relates_to_batch(tx, relates_to_rows)
+            relates_to_rows[(src, eid, rel_type)] = {"src": src, "tgt": eid, "rel_type": rel_type, **agg}
+    _write_relates_to_batch(tx, list(relates_to_rows.values()))
 
     _sync_same_as_links_batch(tx, links)
 
     logger.info(
-        "Projection rebuild: {} key(s) -- rebuilt={} deleted={} absent={}",
+        "Projection rebuild: {} key(s) — rebuilt={} deleted={} absent={}",
         summary["keys"], summary["rebuilt"], summary["deleted"], summary["absent"],
     )
     return summary
