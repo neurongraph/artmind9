@@ -42,6 +42,7 @@ from artmind.structured import registry as structured_registry
 from artmind.structured.scd2 import asof_view_sql
 from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file, refresh_table
+from artmind.structured.text_export import export_structured_text, import_structured_text
 from artmind.structured_snapshot import export_structured, import_structured
 from artmind.jobs import (
     _create_job,
@@ -215,7 +216,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Explore", "commands": ["bridge", "list", "schema", "catalogue"]},
         {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain", "review"]},
         {"name": "Query", "commands": ["sql", "timeline"]},
-        {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore"]},
+        {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
     ],
     "artmind query": [
         {"name": "Graph patterns", "commands": ["graph"]},
@@ -1565,7 +1566,7 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 @cli.group()
 def db():
-    """Manage and read the structured (SQL) store: bridge/list/schema/sql/timeline/grain/propose/mappings/review/catalogue/refresh/connect/backup/restore.
+    """Manage and read the structured (SQL) store: bridge/list/schema/sql/timeline/grain/propose/mappings/review/catalogue/refresh/connect/backup/restore/export-text/restore-text.
 
     `db bridge` is the routing entry point — it answers whether a structured
     store exists for a domain, which tables are about which entity classes, and
@@ -2111,6 +2112,42 @@ def db_restore(path, confirm, compact):
     try:
         summary = import_structured(Path(path) if path else None)
     except FileNotFoundError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(summary, compact)
+
+
+@db.command("export-text")
+@click.option("--dir", "dest_dir", type=click.Path(), help="Destination directory (default: the vault's structured_text dir)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_export_text(dest_dir, compact):
+    """Export the structured store as CSV + manifest.json — git-commitable, diffable text `db restore-text` rebuilds parquet + registry rows from.
+
+    Unlike `db backup`'s tar.gz, this is meant to live in the vault's git
+    history: one reviewable CSV per table, row order stable across re-exports
+    of unchanged data so a no-op re-export produces no diff.
+    """
+    result = export_structured_text(Path(dest_dir) if dest_dir else None)
+    _echo_json(result, compact)
+
+
+@db.command("restore-text")
+@click.argument("path", required=False, type=click.Path(exists=True))
+@click.option("--confirm", is_flag=True, help="Required — wipes the current structured store")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_restore_text(path, confirm, compact):
+    """Wipe and rebuild the structured store from a `db export-text` directory (default: the vault's structured_text dir).
+
+    The parquet + DuckDB catalog are a rebuildable cache (`docs/vault.md`) —
+    this is the command a fresh `git clone` of a vault runs to regenerate
+    them from the committed CSV + manifest.json.
+    """
+    if not confirm:
+        raise click.ClickException("pass --confirm — restoring wipes the current structured store")
+    try:
+        summary = import_structured_text(Path(path) if path else None)
+    except FileNotFoundError as exc:
+        raise click.ClickException(str(exc)) from exc
+    except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(summary, compact)
 

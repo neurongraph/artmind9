@@ -197,3 +197,4 @@ GRAPH_SNAPSHOT_DIR = DATA_DIR / "graph_snapshot"
 WORKER_PID_FILE = DATA_DIR / "worker.pid"
 STRUCTURED_DIR = DATA_DIR / "structured"   # DuckDB catalog + <domain>/<table>.parquet
 STRUCTURED_SNAPSHOT_DIR = DATA_DIR / "structured_snapshot"   # db backup/restore .tar.gz files
+STRUCTURED_TEXT_DIR = DATA_DIR / "structured_text"   # db export-text/reindex CSV + manifest.json

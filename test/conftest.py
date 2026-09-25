@@ -224,6 +224,22 @@ def _no_live_registry_db(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _no_live_structured_text_export(tmp_path, monkeypatch):
+    """Same hazard as ``_no_live_registry_db`` above, for the structured
+    store's text export: ``pipeline.py``'s ``ingest_structured_file``/
+    ``refresh_table`` now write CSV + ``manifest.json`` to
+    ``paths.STRUCTURED_TEXT_DIR`` on every call (best-effort, but still a
+    real filesystem write). Left unpatched, every structured-store test in
+    the session would share and mutate one directory instead of each getting
+    its own isolated ``tmp_path``.
+    """
+    import paths
+
+    monkeypatch.setattr(paths, "STRUCTURED_TEXT_DIR", tmp_path / "test_structured_text")
+    yield
+
+
+@pytest.fixture(autouse=True)
 def _no_live_neo4j(monkeypatch):
     import artmind.graph_query as graph_query
 

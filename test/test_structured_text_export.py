@@ -1,0 +1,214 @@
+import csv
+
+import pytest
+
+pytest.importorskip("duckdb")
+
+
+def _patch_stores(tmp_path, monkeypatch):
+    import artmind.db as db
+    import paths
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    monkeypatch.setattr(paths, "STRUCTURED_TEXT_DIR", tmp_path / "structured_text")
+    db._init_db()
+
+
+def _write_csv(path, rows):
+    with open(path, "w", newline="") as f:
+        csv.writer(f).writerows(rows)
+
+
+def test_export_then_restore_text_round_trips_replace_mode_table(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.duckdb_adapter import DuckDBDatasource
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name", "price"], [1, "Widget", 9.99], [2, "Gadget", ""]])
+    ingest_structured_file(csv_path, "banking")
+
+    # Pipeline auto-exports on ingest -- confirm the text is already there.
+    manifest_path = paths.STRUCTURED_TEXT_DIR / "manifest.json"
+    assert manifest_path.exists()
+    table_csv = paths.STRUCTURED_TEXT_DIR / "banking" / "products.csv"
+    assert table_csv.exists()
+
+    # Re-export explicitly too, exercising the CLI-equivalent path directly.
+    result = export_structured_text()
+    assert result["tables"] == 1
+
+    # Simulate a fresh clone: the registry db and the parquet/duckdb cache are
+    # both gone, only the text export directory survives.
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    import artmind.db as db
+
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+    assert registry.get_table("products", domain="banking") is None
+
+    summary = import_structured_text()
+    assert summary["tables_loaded"] == 1
+    assert summary["skipped_no_csv"] == []
+
+    restored = registry.get_table("products", domain="banking")
+    assert restored is not None
+    assert restored["row_count"] == 2
+    # The parquet_path recorded is the CURRENT machine's, not whatever the
+    # manifest happened to carry from export time.
+    from artmind.structured.duckdb_adapter import parquet_path_for
+
+    assert restored["parquet_path"] == str(parquet_path_for("banking", "products"))
+
+    ds = DuckDBDatasource()
+    ds.ensure_views(registry.list_tables())
+    rows = ds.run_sql("SELECT * FROM products ORDER BY id")
+    assert rows == [
+        {"id": 1, "name": "Widget", "price": 9.99},
+        {"id": 2, "name": "Gadget", "price": None},
+    ]
+
+
+def test_null_and_empty_string_survive_the_round_trip(tmp_path, monkeypatch):
+    """A real empty string and a real NULL in the same column must come back
+    as what they were -- not both collapsed to one or the other.
+
+    Built directly from a DuckDB table + hand-registered registry rows,
+    bypassing `ingest_structured_file`'s `read_csv_auto`: that path already
+    collapses a quoted `""` to NULL at the *original* ingest (a pre-existing
+    property of DuckDB's CSV auto-sniffing, unrelated to this module), so
+    routing this scenario through it would test that quirk instead of what
+    `export_structured_text`/`import_structured_text` themselves guarantee.
+    """
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.duckdb_adapter import DuckDBDatasource, parquet_path_for
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    ds = DuckDBDatasource()
+    ds.con.execute(
+        "CREATE TABLE t AS SELECT * FROM (VALUES (1, ''), (2, NULL)) AS v(id, note)"
+    )
+    parquet_path = parquet_path_for("general", "notes")
+    parquet_path.parent.mkdir(parents=True, exist_ok=True)
+    ds.con.execute(f"COPY t TO '{parquet_path}' (FORMAT PARQUET)")
+
+    registry.register_datasource("default", "duckdb", "test")
+    table_id = registry.register_table(
+        "default", "notes", "general", parquet_path=str(parquet_path), row_count=2,
+    )
+    registry.replace_columns(table_id, [
+        {"name": "id", "dtype": "BIGINT", "profile_json": None},
+        {"name": "note", "dtype": "VARCHAR", "profile_json": None},
+    ])
+
+    export_structured_text()
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    import artmind.db as db
+
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+
+    import_structured_text()
+
+    ds2 = DuckDBDatasource()
+    ds2.ensure_views(registry.list_tables())
+    rows = ds2.run_sql("SELECT * FROM notes ORDER BY id")
+    assert rows[0]["note"] == ""
+    assert rows[1]["note"] is None
+
+
+def test_restore_text_preserves_grain_and_bridge_confirmations(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    csv_path = tmp_path / "complaints.csv"
+    _write_csv(csv_path, [["id", "category"], [1, "Fee Dispute"], [2, "Fraud"]])
+    ingest_structured_file(csv_path, "banking")
+
+    table = registry.get_table("complaints", domain="banking")
+    registry.set_grain(table["id"], "lookup", confirmed=True)
+    registry.upsert_column_role(table["id"], "category", "term", 0.9, confirmed=True)
+
+    export_structured_text()
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    import artmind.db as db
+
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+
+    import_structured_text()
+
+    restored = registry.get_table("complaints", domain="banking")
+    assert restored["grain"] == "lookup"
+    assert bool(restored["grain_confirmed"]) is True
+
+    roles = registry.list_column_roles(restored["id"])
+    assert roles[0]["bridge_role"] == "term"
+    assert bool(roles[0]["confirmed"]) is True
+
+
+def test_temporal_table_history_survives_the_round_trip(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.duckdb_adapter import DuckDBDatasource
+    from artmind.structured.pipeline import ingest_structured_file, refresh_table
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    v1 = tmp_path / "accounts_v1.csv"
+    _write_csv(v1, [["acct_id", "status"], [1, "open"], [2, "open"]])
+    ingest_structured_file(v1, "banking", table="accounts", refresh_mode="temporal", business_key="acct_id")
+
+    v2 = tmp_path / "accounts_v2.csv"
+    _write_csv(v2, [["acct_id", "status"], [1, "closed"], [2, "open"], [3, "open"]])
+    ingest_structured_file(v2, "banking", table="accounts", refresh_mode="temporal", business_key="acct_id")
+
+    ds = DuckDBDatasource()
+    ds.ensure_views(registry.list_tables())
+    before = ds.run_sql("SELECT count(*) AS n FROM accounts")[0]["n"]
+    assert before == 4  # acct 1 has two versions now (open -> closed)
+
+    export_structured_text()
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    import artmind.db as db
+
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+
+    import_structured_text()
+
+    restored = registry.get_table("accounts", domain="banking")
+    assert restored["refresh_mode"] == "temporal"
+
+    ds2 = DuckDBDatasource()
+    ds2.ensure_views(registry.list_tables())
+    after = ds2.run_sql("SELECT count(*) AS n FROM accounts")[0]["n"]
+    assert after == before  # every historical row version, not just the latest
+
+
+def test_restore_text_raises_when_no_export_exists(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.text_export import import_structured_text
+
+    with pytest.raises(FileNotFoundError):
+        import_structured_text()
