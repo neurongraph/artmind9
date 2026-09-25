@@ -103,6 +103,7 @@ def _clean(s):
     be running against a database that holds a real corpus.
     """
     s.run("MATCH (n:Observation {_domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
+    s.run("MATCH (n:ObservationHistory {_domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
     s.run("MATCH (n:Entity {_domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
     s.run("MATCH (c:Conflict {_domain: $d}) DETACH DELETE c", d=DOMAIN).consume()
     s.run("MATCH (c:Conflict {_test: $tag}) DETACH DELETE c", tag=CONFLICT_TAG).consume()
@@ -112,7 +113,6 @@ def write_observation(session, **kw):
     props = {
         "entity_class": CLASS,
         "_domain": DOMAIN,
-        "_status": "latest",
         "_kind": "recurrent",
         "doc_version": 1,
     }
@@ -158,7 +158,7 @@ def test_three_observations_project_to_one_entity_holding_the_march_rate(session
 
     rows = session.run(
         "MATCH (e:Entity {_domain: $d}) RETURN e.name AS name, e.rate_value AS rate, "
-        "e._temporal_props AS temporal, e.id AS id", d=DOMAIN,
+        "e._temporal_props AS temporal, e._id AS id", d=DOMAIN,
     ).data()
     assert len(rows) == 1, "exactly one Entity for the aggregate key"
     assert rows[0]["name"] == TIER2
@@ -167,13 +167,13 @@ def test_three_observations_project_to_one_entity_holding_the_march_rate(session
     assert rows[0]["id"] == entity_id(TIER2_KEY)
 
     behind = session.run(
-        "MATCH (:Entity {id: $id})-[:AGGREGATES]->(o:Observation) RETURN count(o) AS c",
+        "MATCH (:Entity {_id: $id})-[:AGGREGATES]->(o:Observation) RETURN count(o) AS c",
         id=entity_id(TIER2_KEY),
     ).single()["c"]
     assert behind == 3
 
     conflicts = session.run(
-        "MATCH (c:Conflict)-[:CONFLICT_OF]->(:Entity {id: $id}) RETURN count(c) AS c",
+        "MATCH (c:Conflict)-[:CONFLICT_OF]->(:Entity {_id: $id}) RETURN count(c) AS c",
         id=entity_id(TIER2_KEY),
     ).single()["c"]
     assert conflicts == 0, "three disjoint windows are history, not a conflict"
@@ -207,12 +207,12 @@ def test_rebuild_is_idempotent_and_never_churns_the_element_id(session):
     seed_three_schedules(session)
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     first = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN elementId(e) AS eid", id=entity_id(TIER2_KEY)
+        "MATCH (e:Entity {_id: $id}) RETURN elementId(e) AS eid", id=entity_id(TIER2_KEY)
     ).single()["eid"]
 
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     second = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN elementId(e) AS eid, e.rate_value AS rate",
+        "MATCH (e:Entity {_id: $id}) RETURN elementId(e) AS eid, e.rate_value AS rate",
         id=entity_id(TIER2_KEY),
     ).single()
     assert second["eid"] == first, "a rebuild must not recreate the node"
@@ -223,16 +223,16 @@ def test_a_full_rebuild_from_scratch_reproduces_the_same_entity_id(session):
     seed_three_schedules(session)
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     before = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN properties(e) AS p", id=entity_id(TIER2_KEY)
+        "MATCH (e:Entity {_id: $id}) RETURN properties(e) AS p", id=entity_id(TIER2_KEY)
     ).single()["p"]
 
     session.run("MATCH (e:Entity {_domain: $d}) DETACH DELETE e", d=DOMAIN).consume()
     session.execute_write(lambda tx: full_rebuild(tx, [DOMAIN]))
     after = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN properties(e) AS p", id=entity_id(TIER2_KEY)
+        "MATCH (e:Entity {_id: $id}) RETURN properties(e) AS p", id=entity_id(TIER2_KEY)
     ).single()["p"]
 
-    assert after["id"] == before["id"]
+    assert after["_id"] == before["_id"]
     assert after["rate_value"] == before["rate_value"]
     assert after["name"] == before["name"]
 
@@ -246,7 +246,7 @@ def test_a_key_with_zero_latest_observations_has_its_entity_deleted(session):
     assert session.run("MATCH (e:Entity {_domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 1
 
     session.run(
-        "MATCH (o:Observation {_domain: $d}) SET o._status = 'history'", d=DOMAIN
+        "MATCH (o:Observation {_domain: $d}) REMOVE o:Observation SET o:ObservationHistory", d=DOMAIN
     ).consume()
     summary = session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
 
@@ -267,7 +267,7 @@ def test_a_renamed_entity_leaves_no_orphan_when_the_prior_key_is_swept(session):
     assert session.run("MATCH (e:Entity {_domain: $d}) RETURN count(e) AS c", d=DOMAIN).single()["c"] == 1
 
     # version 2: the prior version's observations go to history, a new name arrives
-    session.run("MATCH (o:Observation {doc_id: 'doc-x'}) SET o._status = 'history'").consume()
+    session.run("MATCH (o:Observation {doc_id: 'doc-x'}) REMOVE o:Observation SET o:ObservationHistory").consume()
     write_observation(
         session, id="obs-v2", name=TIER2, canonical_name=TIER2,
         doc_id="doc-x", chunk_id="doc-x_001", doc_version=2,
@@ -289,7 +289,7 @@ def test_a_rebuild_leaves_the_embedding_in_place_and_only_flags_it(session):
 
     eid = entity_id(TIER2_KEY)
     session.run(
-        "MATCH (e:Entity {id: $id}) SET e.embedding = $v, e.embedding_stale = false",
+        "MATCH (e:Entity {_id: $id}) SET e.embedding = $v, e.embedding_stale = false",
         id=eid, v=[0.25] * 8,
     ).consume()
 
@@ -302,7 +302,7 @@ def test_a_rebuild_leaves_the_embedding_in_place_and_only_flags_it(session):
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
 
     row = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN e.embedding AS emb, e.embedding_stale AS stale, "
+        "MATCH (e:Entity {_id: $id}) RETURN e.embedding AS emb, e.embedding_stale AS stale, "
         "e.description AS desc", id=eid,
     ).single()
     assert row["emb"] is not None, "NEVER null an embedding — null removes it from entity_embedding"
@@ -316,13 +316,13 @@ def test_an_unchanged_description_does_not_re_flag_a_fresh_embedding(session):
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     eid = entity_id(TIER2_KEY)
     session.run(
-        "MATCH (e:Entity {id: $id}) SET e.embedding = $v, e.embedding_stale = false",
+        "MATCH (e:Entity {_id: $id}) SET e.embedding = $v, e.embedding_stale = false",
         id=eid, v=[0.25] * 8,
     ).consume()
 
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     stale = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN e.embedding_stale AS s", id=eid
+        "MATCH (e:Entity {_id: $id}) RETURN e.embedding_stale AS s", id=eid
     ).single()["s"]
     assert stale is False
 
@@ -331,7 +331,7 @@ def test_an_entity_created_by_a_rebuild_starts_stale_not_null_embedded(session):
     seed_three_schedules(session)
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     row = session.run(
-        "MATCH (e:Entity {id: $id}) RETURN e.embedding_stale AS s, e.embedding AS emb",
+        "MATCH (e:Entity {_id: $id}) RETURN e.embedding_stale AS s, e.embedding AS emb",
         id=entity_id(TIER2_KEY),
     ).single()
     assert row["s"] is True
@@ -351,13 +351,13 @@ def test_a_property_no_longer_asserted_disappears_from_the_entity(session):
     )
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     assert session.run(
-        "MATCH (e:Entity {id: $id}) RETURN e.withdrawn_property AS p", id=entity_id(TIER2_KEY)
+        "MATCH (e:Entity {_id: $id}) RETURN e.withdrawn_property AS p", id=entity_id(TIER2_KEY)
     ).single()["p"] == "should not survive"
 
     session.run("MATCH (o:Observation {id: 'obs-1'}) REMOVE o.withdrawn_property").consume()
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     assert session.run(
-        "MATCH (e:Entity {id: $id}) RETURN e.withdrawn_property AS p", id=entity_id(TIER2_KEY)
+        "MATCH (e:Entity {_id: $id}) RETURN e.withdrawn_property AS p", id=entity_id(TIER2_KEY)
     ).single()["p"] is None
 
 
@@ -369,7 +369,7 @@ def test_a_failure_inside_the_transaction_rolls_back_the_observation_write(sessi
     commit that dirtied the projection fails and NOTHING lands."""
     def write_then_fail(tx):
         tx.run(
-            "CREATE (o:Observation {id: 'obs-doomed', _domain: $d, key: $k, _status: 'latest'})",
+            "CREATE (o:Observation {id: 'obs-doomed', _domain: $d, key: $k})",
             d=DOMAIN, k=key_string(TIER2_KEY),
         )
         rebuild(tx, [TIER2_KEY])
@@ -401,7 +401,7 @@ def test_a_same_instant_disagreement_materializes_a_conflict_with_evidence(sessi
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
 
     row = session.run(
-        "MATCH (c:Conflict)-[:CONFLICT_OF]->(:Entity {id: $id}) "
+        "MATCH (c:Conflict)-[:CONFLICT_OF]->(:Entity {_id: $id}) "
         "RETURN c.property AS p, c._source AS src, c.values AS vals",
         id=entity_id(TIER2_KEY),
     ).single()
@@ -439,7 +439,7 @@ def test_the_pairwise_adjudicators_conflicts_are_not_deleted_by_a_rebuild(sessio
     seed_three_schedules(session)
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     session.run(
-        "MATCH (e:Entity {id: $id}) CREATE (c:Conflict {id: 'pairwise-1', status: 'open', "
+        "MATCH (e:Entity {_id: $id}) CREATE (c:Conflict {id: 'pairwise-1', status: 'open', "
         "_test: $tag})-[:CONFLICT_OF]->(e)",
         id=entity_id(TIER2_KEY), tag=CONFLICT_TAG,
     ).consume()
