@@ -133,8 +133,10 @@ def test_rebuild_call_count_does_not_scale_with_key_count():
     rebuild(small_tx, small_keys, same_as_groups=[])
     rebuild(large_tx, large_keys, same_as_groups=[])
 
-    # 100x the keys must not mean anywhere near 100x the round trips.
-    assert len(large_tx.calls) <= len(small_tx.calls) + 2, (
+    # Exact equality holds for this fixture: no folding (same_as_groups=[]),
+    # no conflicts, no relationships, every key has one observation — all
+    # batch operations scale O(1), not O(n), and the empty-set guards skip.
+    assert len(large_tx.calls) == len(small_tx.calls), (
         f"call count scaled with key count: {len(small_tx.calls)} calls for "
         f"{len(small_keys)} keys vs {len(large_tx.calls)} calls for {len(large_keys)} keys"
     )
@@ -212,6 +214,7 @@ def test_link_keeps_both_entities_and_syncs_same_as_both_directions():
     rebuild(tx, {canonical, member}, same_as_groups=[[canonical, member]])
 
     merge_calls = tx.calls_matching("MERGE (e:Entity {_id: row.id})")
+    assert len(merge_calls) == 1
     ids = {row["id"] for row in merge_calls[0][1]["rows"]}
     assert ids == {entity_id(canonical), entity_id(member)}, "LINK keeps both entities -- no fold"
 
