@@ -34,8 +34,6 @@ mechanism.
   hash comparison in `import_graph`, or a manual `projection rebuild`) for a full
   rebuild. Fine-grained "only rebuild the keys a same-as group's diff touched" is a
   plausible future enhancement, explicitly deferred.
-- **No fix to `db restore-text`'s wholesale scope.** See §7 — documented as a known v1
-  limitation, not solved here.
 
 ## 3. State: the sync cursor
 
@@ -130,33 +128,60 @@ not guess. Two flags:
   is already known-current and a full replay would be redundant (and would spuriously
   re-demote every document to a "new version" for no reason).
 
-## 7. Structured-table regeneration (§4 track B) — and its known limitation
+## 7. Structured-table regeneration (§4 track B): scoping `import_structured_text`
 
 The only existing command that rebuilds the structured store's parquet cache *from
-committed text* is `db restore-text`, and it is **wholesale**: it wipes and rebuilds
-every table, not just the changed one (`cli.py:2133`, `db_restore_text`). `db refresh
-<table>`, by contrast, is correctly table-scoped but reads from the table's *original
-external* `source_file` (`pipeline.py:588`) — not from the committed vault text, so it's
-useless on a machine that never had that external file (exactly the machine `vault sync`
-runs on).
+committed text* is `db restore-text`, and today it is **wholesale**: `import_structured_text`
+(`structured/text_export.py:129`) unconditionally `shutil.rmtree`s the entire
+`STRUCTURED_DIR` and calls `registry.restore_all(manifest)`, which deletes and reinserts
+**all five** registry tables (`datasources`, `tables`, `columns`, `column_mappings`,
+`column_roles`) in one pass (`registry.py:555`). `db refresh <table>`, by contrast, is
+correctly table-scoped but reads from the table's *original external* `source_file`
+(`pipeline.py:588`) — not from the committed vault text, so it's useless on a machine
+that never had that external file (exactly the machine `vault sync` runs on).
 
-**v1 decision:** when track B's diff is non-empty, call `db restore-text` wholesale (once
-per sync run, regardless of how many tables changed), then run `table2graph` only for the
-tables the diff actually touched. This is correct, and simple, but not incremental at the
-structured-store layer — a sync run that touches one small table still pays the cost of
-rebuilding every table's parquet. Documented as an accepted v1 limitation, not solved
-here. A follow-up (adding table-scoping to `db restore-text`, e.g. `--table <name>`
-reading just that table's committed CSV) is a small, contained, separate change —
-unlike the rebuild-batching spec, it doesn't need its own full brainstorming pass, but it
-should land before `vault sync` is used against a structured store with enough tables for
-the wholesale cost to matter.
+This spec adds table-scoping so `vault sync` never pays for tables it didn't touch:
+
+**`registry.restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None`** — a
+new sibling to `restore_all`, not a modification of it (so `restore_all`'s existing
+contract and tests are untouched). For each `(domain, table_name)` in `table_keys`:
+1. Look up that table's row in `dump["tables"]` by `(domain, table_name)`; if it isn't
+   present, raise — the manifest is always a full dump (per `export_structured_text`'s own
+   docstring), so a requested table missing from it means the diff and the manifest have
+   drifted, which should fail loudly, not skip silently.
+2. Delete the table's *current* row (looked up by `(domain, table_name)` in the live
+   registry, not the dump) from `"tables"`, plus its dependent `columns`/
+   `column_mappings`/`column_roles` rows (by that row's `table_id`) — scoped deletes, every
+   other table's rows untouched.
+3. Re-insert the dumped row(s) for just this table (and its columns/mappings/roles,
+   filtered from `dump` by `table_id`), preserving ids exactly as `restore_all` already
+   does, for the same foreign-key reasons.
+4. Leave `datasources` untouched, unless the table's referenced datasource row doesn't
+   currently exist in the registry — in which case upsert only that one row from the dump.
+
+**`import_structured_text(src_dir=None, *, tables: list[tuple[str, str]] | None = None)`**
+— extended, not replaced: `tables=None` (the default) is byte-for-byte today's existing
+wholesale behavior, so `db restore-text` with no scoping flag is unchanged. When `tables`
+is given: read the full manifest as today, filter it to the requested `(domain,
+table_name)` pairs, call `registry.restore_tables` (not `restore_all`) with that filtered
+set, and rebuild parquet only for those tables via `parquet_path_for(domain,
+table_name)` — never `shutil.rmtree`ing the whole `STRUCTURED_DIR`.
+
+**CLI:** `db restore-text` gets a new repeatable, comma-splittable `--table <name>` option
+(matching this codebase's existing `--domain` convention), pairable with `--domain` for
+disambiguation exactly like `db refresh`. Omitted, behavior is identical to today.
+
+`vault sync`'s track B (§5 step 2) calls the scoped `import_structured_text(tables=[...])`
+directly (a Python call, not a CLI shell-out) for exactly the tables that changed in that
+run's diff.
 
 ## 8. Retraction (deletions)
 
 Neither existing "delete" path fits: `_retract_prior_version` demotes a document's prior
 version *as part of writing a new one* (`_commit_document_tx`, step 2) — it has no
-standalone entry point for "demote and write nothing new." A new function is needed
-(`ingest.retract_document(doc_id, domain) -> summary`, name indicative, not final) that:
+standalone entry point for "demote and write nothing new." This spec adds
+`ingest.retract_document(doc_id: str, domain: str) -> dict`, a new public function
+(alongside `commit_to_graph`, in the same "single convergence point" spirit) that:
 
 1. Demotes the document's own `:Document`/`:DocChunk`/`:Observation` nodes to their
    History labels, reusing the exact relabeling primitive `_merge_relabeled`/
@@ -165,11 +190,11 @@ standalone entry point for "demote and write nothing new." A new function is nee
 2. Computes the vacated aggregate keys (this document's own observations' keys, read
    *before* demotion) — the same `projection.keys_for_document(tx, doc_id)` call
    `_commit_document_tx` already uses for its own prior-version bookkeeping.
-3. Returns those keys to the caller, to be unioned into §5 step 4's rebuild batch exactly
-   like any other affected-key set. `rebuild_key`'s existing "zero observations → GC the
-   Entity" path (`rebuild_key`'s `absent`/`deleted` outcomes) already handles what happens
-   next — no new projection logic needed, only a new way to *reach* it without a
-   replacement document.
+3. Returns `{"affected_keys": [...]}` (mirroring `_commit_document_tx`'s own summary
+   shape) so §5 step 4 can union it into that run's rebuild batch exactly like any other
+   affected-key set. `rebuild_key`'s existing "zero observations → GC the Entity" path
+   (its `absent`/`deleted` outcomes) already handles what happens next — no new
+   projection logic needed, only a new way to *reach* it without a replacement document.
 
 A `table__<name>` folder's removal (structured-table retraction) uses the identical
 function — `retract_document` operates on a `doc_id`/domain pair, and a table's synthetic
@@ -204,15 +229,21 @@ here than one that visibly didn't run at all.
 
 `vault` is currently a bare command (`artmind vault`, status only — `cli.py:3330`), not a
 group. This spec promotes it to a group: `artmind vault status` (existing behavior,
-preserved) and `artmind vault sync` (new). Per `CLAUDE.md`'s own convention, this needs
-`COMMAND_GROUPS`/`cli_guide.py` routing updated in the same change, or
-`test/test_cli_guide.py` fails.
+preserved byte-for-byte) and `artmind vault sync` (new). This is an in-scope part of the
+implementation, not a follow-on — it lands together with `COMMAND_GROUPS`/`cli_guide.py`
+routing updates in the same change (`CLAUDE.md`'s own convention; `test/test_cli_guide.py`
+fails otherwise).
 
-Sketch (exact flags subject to the plan phase): `artmind vault sync [--bootstrap-empty |
---bootstrap-synced] [--domain ...] [--dry-run]`. `--dry-run` reports the classified diff
-(N document folders to replay, N to retract, N structured tables to regenerate) without
-writing anything — useful for a first look at what a sync run would do before committing
-to a possibly-long run.
+`artmind vault sync [--bootstrap-empty | --bootstrap-synced] [--domain ...] [--dry-run]`.
+`--dry-run` reports the classified diff (N document folders to replay, N to retract, N
+structured tables to regenerate) without writing anything — useful for a first look at
+what a sync run would do before committing to a possibly-long run. Exact flag names beyond
+these are the plan's to finalize; the three behaviors they cover (bootstrap mode, domain
+scoping, dry-run) are fixed by this spec.
+
+Alongside it, §7's `db restore-text --table <name>` (repeatable, comma-splittable,
+pairable with `--domain`) is also an in-scope CLI change of this spec, since `vault
+sync`'s track B depends on the scoped Python entry point it wraps.
 
 ## 12. Testing
 
@@ -224,6 +255,13 @@ to a possibly-long run.
   within the same run (§5's core correctness property) — construct a fixture where a
   table's structured-text changes, run sync once, and assert the resulting `table__*`
   commit is not re-processed as a "new" track-A diff entry in that same invocation.
+- **Scoped structured-text restore (§7)**: `registry.restore_tables` touches only the
+  targeted table(s)' rows in `tables`/`columns`/`column_mappings`/`column_roles`, leaving
+  every other table's rows and ids exactly as they were — a multi-table fixture, restore
+  one table, assert the untouched tables' rows are byte-identical before/after, including
+  their ids (the foreign-key-safety property `restore_all` already guarantees for the
+  wholesale case). `import_structured_text(tables=None)` remains behaviorally identical to
+  today's implementation (a regression test pinning the existing wholesale contract).
 - **Retraction**: `retract_document` demotes exactly the right nodes and returns exactly
   the right vacated keys — using the `run_side_effect`/parameter-recording pattern
   `test/test_update.py` already established (assert on the Cypher actually sent, never on
