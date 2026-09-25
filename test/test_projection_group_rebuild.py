@@ -37,12 +37,22 @@ class FakeTx:
         self.calls.append((cypher, params))
         cy = " ".join(cypher.split())
 
-        if "MATCH (o:Observation {key: $key}) RETURN properties(o) AS p" in cy:
-            rows = [{"p": o} for o in self.observations_by_key.get(params["key"], [])]
+        if "UNWIND $keys AS key MATCH (o:Observation {key: key}) RETURN key, properties(o) AS p" in cy:
+            rows = [
+                {"key": k, "p": o}
+                for k in params["keys"]
+                for o in self.observations_by_key.get(k, [])
+            ]
             return _Result(rows)
 
-        if "MATCH (e:Entity {_id: $id}) RETURN count(e) AS c" in cy:
-            return _Result(single_row={"c": 1 if params["id"] in self.entity_exists else 0})
+        if "UNWIND $ids AS id MATCH (e:Entity {_id: id}) RETURN id" in cy:
+            rows = [{"id": i} for i in params["ids"] if i in self.entity_exists]
+            return _Result(rows)
+
+        if cy.startswith("UNWIND $keys AS key") and "ASSERTS_RELATION]->(t:Observation)" in cy:
+            return _Result([])  # no relationships in these fixtures
+        if cy.startswith("UNWIND $keys AS key") and "ASSERTS_RELATION]->(o:Observation {key: key})" in cy:
+            return _Result([])
 
         if cy.startswith("MATCH (o:Observation {id: $id})") and "ObservationHistory" in cy:
             target_key = self.observation_keys.get(params["id"])
@@ -72,11 +82,11 @@ def _o(**kw):
 # ── rebuild_key: dynamic label/property Cypher, not APOC ────────────────────
 
 
-def test_rebuild_key_uses_dynamic_label_and_property_cypher_not_apoc():
-    """`SET e:$($label)` / `REMOVE node[staleKey]` (Neo4j 5.24+) replaced
-    `apoc.create.addLabels` / `apoc.create.removeProperties` -- assert the
-    query text and the bound `label`/`keep` parameters, not just that some
-    MERGE happened."""
+def test_rebuild_merges_entities_via_one_batched_unwind_statement():
+    """`SET e:$(row.label)` per row inside one UNWIND (Neo4j 5.24+) replaced
+    the old apoc.create.addLabels/removeProperties pair AND the old
+    one-call-per-key MERGE — assert the query text and the bound per-row
+    `label`/`keep` values inside the single `rows` list, not a per-key call."""
     key = ("fca", "REGULATOR", "banking.reference")
     tx = FakeTx(observations_by_key={
         key_string(key): [_o(id="o1", canonical_name="FCA")],
@@ -84,65 +94,50 @@ def test_rebuild_key_uses_dynamic_label_and_property_cypher_not_apoc():
 
     rebuild(tx, {key}, same_as_groups=[])
 
-    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: $id})")
-    assert len(merge_calls) == 1
+    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: row.id})")
+    assert len(merge_calls) == 1, "one batched call, not one per key"
     cypher, params = merge_calls[0]
 
     assert "apoc.create.addLabels" not in cypher
     assert "apoc.create.removeProperties" not in cypher
-    assert "SET e:$($label)" in cypher
+    assert "SET e:$(row.label)" in cypher
     assert "REMOVE node[staleKey]" in cypher
 
-    assert params["label"] == "REGULATOR"
-    assert params["id"] == entity_id(key)
-    assert "embedding" in params["keep"], "keep must protect embedding from the property sweep"
-    assert "embedding_stale" in params["keep"]
+    assert len(params["rows"]) == 1
+    row = params["rows"][0]
+    assert row["label"] == "REGULATOR"
+    assert row["id"] == entity_id(key)
+    assert "embedding" in row["keep"], "keep must protect embedding from the property sweep"
+    assert "embedding_stale" in row["keep"]
 
 
-# ── progress logging: a full_rebuild-scale key set must not go silent ───────
-# Found live: an 860-key full_rebuild against a remote AuraDB ran 8+ minutes
-# with nothing printed between the opening "Full projection rebuild over N
-# key(s)" line and the closing summary -- rebuild()'s whole loop runs inside
-# one transaction, so there is no other signal that it's still working, not
-# stuck. See projection.rebuild's own comment for the exact threshold.
+# ── round-trip count: must stay flat as the batch grows, not scale with K ──
+# This is the property the whole rewrite exists for. A regression back to a
+# per-key call anywhere in `rebuild` would make this test fail long before
+# anyone notices an 8-minute rebuild against AuraDB again.
 
 
-def test_rebuild_logs_progress_past_fifty_keys(monkeypatch):
-    import artmind.projection as proj
+def test_rebuild_call_count_does_not_scale_with_key_count():
+    small_keys = {("entity", "REGULATOR", f"banking.d{i}") for i in range(2)}
+    large_keys = {("entity", "REGULATOR", f"banking.d{i}") for i in range(200)}
 
-    keys = {("entity", "REGULATOR", f"banking.d{i}") for i in range(60)}
-    tx = FakeTx(observations_by_key={
+    small_tx = FakeTx(observations_by_key={
         key_string(k): [_o(id=f"o{i}", canonical_name="entity", _domain=k[2])]
-        for i, k in enumerate(keys)
+        for i, k in enumerate(small_keys)
+    })
+    large_tx = FakeTx(observations_by_key={
+        key_string(k): [_o(id=f"o{i}", canonical_name="entity", _domain=k[2])]
+        for i, k in enumerate(large_keys)
     })
 
-    logged = []
-    monkeypatch.setattr(proj.logger, "info", lambda *a, **k: logged.append(a))
+    rebuild(small_tx, small_keys, same_as_groups=[])
+    rebuild(large_tx, large_keys, same_as_groups=[])
 
-    rebuild(tx, keys, same_as_groups=[])
-
-    # The periodic checkpoint's own template ("... key(s) (...%) in ...s...")
-    # is distinct from the closing summary's ("... key(s) — rebuilt=...").
-    progress_lines = [a for a in logged if "key(s) (" in str(a[0])]
-    assert progress_lines, "a 60-key rebuild must log at least one progress checkpoint"
-    assert 50 in progress_lines[0][1:], "the checkpoint must fire at key 50, not some other count"
-
-
-def test_rebuild_stays_quiet_under_the_progress_threshold(monkeypatch):
-    """A handful of keys finishes near-instantly -- a periodic line here would
-    be noise, not signal."""
-    import artmind.projection as proj
-
-    keys = {("fca", "REGULATOR", "banking.reference")}
-    tx = FakeTx(observations_by_key={key_string(k): [_o(id="o1")] for k in keys})
-
-    logged = []
-    monkeypatch.setattr(proj.logger, "info", lambda *a, **k: logged.append(a))
-
-    rebuild(tx, keys, same_as_groups=[])
-
-    progress_lines = [a for a in logged if "%)" in str(a)]
-    assert progress_lines == []
+    # 100x the keys must not mean anywhere near 100x the round trips.
+    assert len(large_tx.calls) <= len(small_tx.calls) + 2, (
+        f"call count scaled with key count: {len(small_tx.calls)} calls for "
+        f"{len(small_keys)} keys vs {len(large_tx.calls)} calls for {len(large_keys)} keys"
+    )
 
 
 # ── merge: same (class, domain) as canonical ─────────────────────────────────
@@ -158,12 +153,13 @@ def test_merge_unions_both_members_observations_into_the_canonical_entity():
 
     rebuild(tx, {canonical, member}, same_as_groups=[[canonical, member]])
 
-    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: $id})")
-    assert len(merge_calls) == 1  # ONE entity written, not two
-    cy, params = merge_calls[0]
-    assert params["id"] == entity_id(canonical)
-    # both members' domain properties made it into the union
-    assert params["props"]["_id"] == entity_id(canonical)
+    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: row.id})")
+    assert len(merge_calls) == 1
+    _, params = merge_calls[0]
+    assert len(params["rows"]) == 1, "ONE entity written, not two"
+    row = params["rows"][0]
+    assert row["id"] == entity_id(canonical)
+    assert row["props"]["_id"] == entity_id(canonical)
 
 
 def test_merge_deletes_the_folded_members_own_entity():
@@ -177,9 +173,10 @@ def test_merge_deletes_the_folded_members_own_entity():
     rebuild(tx, {canonical, member}, same_as_groups=[[canonical, member]])
 
     detach_deletes = tx.calls_matching("DETACH DELETE c, e")
-    assert any(p["id"] == entity_id(member) for _, p in detach_deletes)
-    # the canonical's own id must NEVER be DETACH DELETEd by the same pass
-    assert not any(p["id"] == entity_id(canonical) for _, p in detach_deletes)
+    deleted_ids = {i for _, p in detach_deletes for i in p.get("ids", [])}
+    assert entity_id(member) in deleted_ids
+    # the canonical's own id must NEVER be deleted by the same pass
+    assert entity_id(canonical) not in deleted_ids
 
 
 def test_removing_the_group_lets_both_keys_rebuild_independently():
@@ -195,8 +192,9 @@ def test_removing_the_group_lets_both_keys_rebuild_independently():
 
     rebuild(tx, {canonical, member}, same_as_groups=[])  # group removed
 
-    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: $id})")
-    ids = {p["id"] for _, p in merge_calls}
+    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: row.id})")
+    assert len(merge_calls) == 1, "still one batched call"
+    ids = {row["id"] for row in merge_calls[0][1]["rows"]}
     assert ids == {entity_id(canonical), entity_id(member)}
 
 
@@ -213,15 +211,16 @@ def test_link_keeps_both_entities_and_syncs_same_as_both_directions():
 
     rebuild(tx, {canonical, member}, same_as_groups=[[canonical, member]])
 
-    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: $id})")
-    ids = {p["id"] for _, p in merge_calls}
+    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: row.id})")
+    ids = {row["id"] for row in merge_calls[0][1]["rows"]}
     assert ids == {entity_id(canonical), entity_id(member)}, "LINK keeps both entities -- no fold"
 
     same_as_calls = tx.calls_matching("MERGE (m)-[:SAME_AS]->(c)")
     assert len(same_as_calls) == 1
     _, params = same_as_calls[0]
-    assert params["m"] == entity_id(member)
-    assert params["c"] == entity_id(canonical)
+    assert len(params["rows"]) == 1
+    assert params["rows"][0]["member"] == entity_id(member)
+    assert params["rows"][0]["canonical"] == entity_id(canonical)
 
 
 def test_link_clears_stale_same_as_edges_before_resyncing():
@@ -232,7 +231,8 @@ def test_link_clears_stale_same_as_edges_before_resyncing():
     rebuild(tx, {canonical}, same_as_groups=[])
 
     clears = tx.calls_matching("OPTIONAL MATCH (e)-[r:SAME_AS]-(:Entity) DELETE r")
-    assert any(p["id"] == entity_id(canonical) for _, p in clears)
+    assert len(clears) == 1, "one batched clear, not one per key"
+    assert entity_id(canonical) in clears[0][1]["ids"]
 
 
 # ── apply_retractions ─────────────────────────────────────────────────────────
