@@ -1,6 +1,6 @@
 # Projection rebuild: batch the Cypher, don't change the semantics
 
-**Status:** Design — approved in brainstorming
+**Status:** Implemented
 **Date:** 2026-09-25
 **Owner:** Surjit Das
 **Precedes:** a follow-on spec for a git-diff-driven `vault sync` (CDC-style) command,
