@@ -405,8 +405,8 @@ def scaffold_vault(
     for directory in (
         layout.artmind_dir, layout.domains_dir, layout.schemas_dir,
         layout.data_dir, layout.kg_dir, layout.originals_dir, layout.chunks_dir,
-        layout.structured_dir, layout.snapshots_dir, layout.jobs_dir,
-        layout.refine_dir, layout.logs_dir, layout.skills_dir,
+        layout.structured_dir, layout.structured_text_dir, layout.snapshots_dir,
+        layout.jobs_dir, layout.refine_dir, layout.logs_dir, layout.skills_dir,
         layout.opencode_agents_dir, layout.inbox_dir,
     ):
         directory.mkdir(parents=True, exist_ok=True)

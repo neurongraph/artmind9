@@ -192,6 +192,16 @@ class VaultLayout:
         return self.data_dir / "structured"
 
     @property
+    def structured_text_dir(self) -> Path:
+        """CSV + `manifest.json` for the structured store -- the committed,
+        diffable source `db reindex` rebuilds `structured_dir`'s parquet and
+        registry rows from (`structured/text_export.py`). Unlike
+        `structured_dir`, this one is NOT in `GITIGNORE_BLOCK`: it is the
+        whole point of gitignoring the parquet/DuckDB catalog in the first
+        place."""
+        return self.data_dir / "structured_text"
+
+    @property
     def snapshots_dir(self) -> Path:
         return self.data_dir / "snapshots"
 
@@ -248,6 +258,15 @@ GITIGNORE_BLOCK = """\
 *.zip
 *.tar.gz
 *.tgz
+
+# The structured store's parquet + DuckDB catalog are a rebuildable cache, not
+# the source of truth: `.artmind/data/structured_text/` (CSV + manifest.json,
+# written by `db export-text`) is what's committed, and `db reindex` rebuilds
+# these from it. Committing the binaries too would make every ingest a
+# growing, undiffable blob in git history for no benefit over the text.
+.artmind/data/structured/**/*.parquet
+.artmind/data/structured/*.duckdb
+.artmind/data/structured/*.duckdb.wal
 # ── end artmind ───────────────────────────────────────────────────────────────
 """
 

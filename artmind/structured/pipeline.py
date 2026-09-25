@@ -339,6 +339,28 @@ def _project_catalogue_best_effort(domain: str) -> None:
         logger.warning("structured pipeline: catalogue projection failed for domain '{}': {}", domain, e)
 
 
+def _export_text_best_effort(domain: str, table_names: list[str]) -> None:
+    """Re-export ``table_names``' CSV + manifest.json and, inside a vault,
+    commit them (``structured/text_export.py`` -- the git-commitable text
+    ``db reindex`` rebuilds parquet + registry rows from). Best-effort for the
+    same reason as ``_project_catalogue_best_effort``: a write to the vault's
+    working tree must never fail the ingest that produced it, and
+    ``vault_git`` itself is already a no-op outside a vault or offline."""
+    try:
+        from artmind.structured import text_export
+        from artmind.vault_git import commit_paths, maybe_push
+
+        tables = [t for name in table_names if (t := registry.get_table(name, domain=domain)) is not None]
+        if not tables:
+            return
+        result = text_export.export_structured_text(tables=tables)
+        message = f"artmind: structured export {', '.join(table_names)}"
+        if commit_paths([Path(p) for p in result["files"]], message):
+            maybe_push()
+    except Exception as e:
+        logger.warning("structured pipeline: text export failed for domain '{}': {}", domain, e)
+
+
 def _split_key(value: str | None) -> list[str]:
     return [c.strip() for c in (value or "").split(",") if c.strip()]
 
@@ -468,6 +490,7 @@ def ingest_structured_file(
             ))
 
     _project_catalogue_best_effort(domain)
+    _export_text_best_effort(domain, [r["table_name"] for r in results])
 
     return {"status": "ok", "tables": results}
 
@@ -573,5 +596,6 @@ def refresh_table(table_name: str, domain: str) -> dict:
         result = _write_table(ds, source, domain, spec, file_sha256, header_row=0)
 
     _project_catalogue_best_effort(domain)
+    _export_text_best_effort(domain, [table_name])
 
     return {"status": "ok", **result}
