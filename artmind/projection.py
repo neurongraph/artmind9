@@ -1181,8 +1181,9 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
 
     `same_as_groups` defaults to `same_as.load_groups()` — pass an explicit
     (possibly filtered) list only when the caller has one in hand already.
-    `synthesis_loader(key) -> dict | None` is the synthesize seam; absent,
-    every description falls back to the winner observation's.
+    `synthesis_loader(keys) -> dict[key, dict]` is the synthesize seam, called
+    once for the whole batch -- absent, every description falls back to the
+    winner observation's.
 
     Batched: every phase below issues one Cypher statement covering the
     WHOLE `keys` batch, not one per key -- see
@@ -1211,6 +1212,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
     for k in effective_keys:
         all_member_keys.update(members_of.get(k, [k]))
     obs_by_key = _read_observations_for_keys(tx, all_member_keys)
+    synthesis_by_key = synthesis_loader(effective_keys) if synthesis_loader else {}
 
     to_write: list[tuple[tuple[str, str, str], list[tuple[str, str, str]], dict]] = []
     no_observation_keys: list[tuple[str, str, str]] = []
@@ -1220,8 +1222,7 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
         if not observations:
             no_observation_keys.append(k)
             continue
-        synthesis = synthesis_loader(k) if synthesis_loader else None
-        merged = merge_observations(observations, synthesis=synthesis, override_key=k)
+        merged = merge_observations(observations, synthesis=synthesis_by_key.get(k), override_key=k)
         to_write.append((k, member_keys, merged))
 
     # ── zero-observation keys: GC if an Entity exists, else "absent" ───────
@@ -1275,17 +1276,34 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
     outgoing_rows, incoming_rows = _relation_groups_batch(tx, all_relates_keys)
     _delete_relates_to_batch(tx, [eid for eid, _ in relates_to_context])
 
+    # Indexed once by key, up front, so the per-entity loop below is a direct
+    # lookup rather than a linear scan of the whole batch's rows for every
+    # entity -- O(entities + rows) instead of O(entities * rows).
+    outgoing_by_key: dict[str, list[dict]] = defaultdict(list)
+    for r in outgoing_rows:
+        outgoing_by_key[r["src_key"]].append(r)
+    incoming_by_key: dict[str, list[dict]] = defaultdict(list)
+    for r in incoming_rows:
+        incoming_by_key[r["tgt_key"]].append(r)
+
     # Keyed on (src, tgt, rel_type): an edge between two entities BOTH in
     # this batch gets resolved from both ends -- once via the source's
-    # outgoing loop, once via the target's incoming loop -- and the two
-    # resolutions carry identical `agg` payloads (the same underlying
-    # ASSERTS_RELATION edges, just queried from opposite sides). The dict
-    # collapses the duplicate; either survivor is correct.
+    # outgoing loop, once via the target's incoming loop. The dict collapses
+    # the duplicate, keeping whichever resolution is written last. For an
+    # ordinary (non-merged) key on both ends the two resolutions are
+    # provably identical (the same underlying ASSERTS_RELATION edges, just
+    # queried from opposite sides), so either survivor is fine. When either
+    # endpoint is a same-as merge unit, though, each side groups its own raw
+    # member keys independently, and the two resolutions are not guaranteed
+    # to carry identical `chunk_ids`/`doc_ids`/`observation_count` payloads
+    # -- which survivor wins then depends on dict insertion order. This is
+    # not a new bug: the old per-key code had the same order-dependent
+    # behavior for this exact case, so this is not a regression, just not
+    # proven equivalent either.
     relates_to_rows: dict[tuple[str, str, str], dict] = {}
     for eid, member_keys in relates_to_context:
-        member_key_strings = {key_string(mk) for mk in member_keys}
-        outgoing = _group_relations([r for r in outgoing_rows if r["src_key"] in member_key_strings])
-        incoming = _group_relations([r for r in incoming_rows if r["tgt_key"] in member_key_strings])
+        outgoing = _group_relations([r for mk in member_keys for r in outgoing_by_key.get(key_string(mk), [])])
+        incoming = _group_relations([r for mk in member_keys for r in incoming_by_key.get(key_string(mk), [])])
         for (rel_type, other_key), agg in outgoing.items():
             parsed = _parse_key(other_key)
             if not parsed:
@@ -1407,20 +1425,27 @@ def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tupl
 # ── synthesize seam ──────────────────────────────────────────────────────────
 
 
-def load_synthesis(tx, key: tuple[str, str, str]) -> dict | None:
-    """The real `synthesis_loader`: read the `:Synthesis` sibling node for
-    this key's entity, if one exists. Every `rebuild`/`full_rebuild` call site
-    should pass this (or a closure wrapping it) so a synthesis actually
-    survives a rebuild — see `docs/projection-pipeline.md` §3.
+def load_synthesis_batch(tx, keys: list[tuple[str, str, str]]) -> dict[tuple[str, str, str], dict]:
+    """The real `synthesis_loader`: read every key's `:Synthesis` sibling node
+    in one round-trip, keyed back by aggregate key. Every `rebuild`/
+    `full_rebuild` call site should pass `lambda ks: load_synthesis_batch(tx,
+    ks)` so a synthesis actually survives a rebuild — see
+    `docs/projection-pipeline.md` §3.
 
     The `:Synthesis` node is keyed on the entity's own deterministic id, not
     on the key string, so it is untouched by a same-as group forming or
-    dissolving around a *different* key mapping to the same canonical.
+    dissolving around a *different* key mapping to the same canonical --
+    hence the `id_to_key` unscramble below, to hand results back keyed the
+    way `rebuild`'s callers actually think in.
     """
-    rec = tx.run(
-        "MATCH (s:Synthesis {id: $id}) RETURN properties(s) AS p", id=entity_id(key)
-    ).single()
-    return rec.get("p") if rec else None
+    if not keys:
+        return {}
+    id_to_key = {entity_id(k): k for k in keys}
+    rows = tx.run(
+        "UNWIND $ids AS id MATCH (s:Synthesis {id: id}) RETURN id, properties(s) AS p",
+        ids=list(id_to_key.keys()),
+    ).data()
+    return {id_to_key[row["id"]]: row["p"] for row in rows}
 
 
 # ── :ProjectionState — drift detection ──────────────────────────────────────

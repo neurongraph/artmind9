@@ -6,6 +6,8 @@ never on counts, and never trust a bare MagicMock's truthy-for-anything
 default. `FakeTx` below answers only the specific queries these tests care
 about with real data; everything else answers empty/falsy.
 """
+import hashlib
+
 from artmind.observations import aggregate_key, entity_id, key_string
 from artmind.projection import apply_retractions, rebuild
 
@@ -152,6 +154,59 @@ def test_rebuild_call_count_does_not_scale_with_key_count():
         f"call count scaled with key count: {len(small_tx.calls)} calls for "
         f"{len(small_keys)} keys vs {len(large_tx.calls)} calls for {len(large_keys)} keys"
     )
+
+
+# ── synthesis_loader: called once for the whole batch, not once per key ─────
+# Regression for the finding that `rebuild` still called `synthesis_loader`
+# inside its per-key planning loop, which reintroduced an O(K) round-trip
+# cost for every real caller (all of which pass a single-key
+# `load_synthesis` wrapper) despite the rest of `rebuild` being batched. The
+# fix moved the call to once, before the loop, with the loader now taking
+# the whole key collection and returning a `{key: dict}` map.
+
+
+def test_synthesis_loader_is_called_once_per_batch_not_once_per_key():
+    a = ("alice", "PERSON", "banking.d1")
+    b = ("bob", "PERSON", "banking.d2")
+    tx = FakeTx(observations_by_key={
+        key_string(a): [_o(id="oa", canonical_name="Alice", entity_class="PERSON", _domain="banking.d1")],
+        key_string(b): [_o(id="ob", canonical_name="Bob", entity_class="PERSON", _domain="banking.d2")],
+    })
+
+    # Shape `_resolve_description` needs to actually adopt the synthesis
+    # text: `observation_set_hash` must match the merged set's own hash
+    # (sha256 of the sorted, "|"-joined observation ids) for the "current"
+    # branch, and `observation_ids` backs the staleness check on later runs.
+    synthesis_map = {
+        a: {
+            "text": "Alice synthesized bio",
+            "observation_set_hash": hashlib.sha256(b"oa").hexdigest(),
+            "observation_ids": ["oa"],
+        },
+        b: {
+            "text": "Bob synthesized bio",
+            "observation_set_hash": hashlib.sha256(b"ob").hexdigest(),
+            "observation_ids": ["ob"],
+        },
+    }
+    loader_calls: list[list[tuple[str, str, str]]] = []
+
+    def recording_loader(keys):
+        loader_calls.append(list(keys))
+        return synthesis_map
+
+    rebuild(tx, {a, b}, same_as_groups=[], synthesis_loader=recording_loader)
+
+    assert len(loader_calls) == 1, "loader must be called once for the whole batch, not once per key"
+    assert set(loader_calls[0]) == {a, b}, "the single call must cover every key in the batch"
+
+    merge_calls = tx.calls_matching("MERGE (e:Entity {_id: row.id})")
+    assert len(merge_calls) == 1
+    _, params = merge_calls[0]
+    rows_by_id = {row["id"]: row for row in params["rows"]}
+
+    assert rows_by_id[entity_id(a)]["props"]["description"] == "Alice synthesized bio"
+    assert rows_by_id[entity_id(b)]["props"]["description"] == "Bob synthesized bio"
 
 
 # ── merge: same (class, domain) as canonical ─────────────────────────────────

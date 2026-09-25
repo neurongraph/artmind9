@@ -158,7 +158,7 @@ def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
         summary = session.execute_write(
             lambda tx: projection.full_rebuild(
                 tx, touched_domains or None,
-                synthesis_loader=lambda k: projection.load_synthesis(tx, k),
+                synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks),
             )
         )
     logger.info("sameas: approved {} -> group of {} member(s)", proposal_id_, len(group))

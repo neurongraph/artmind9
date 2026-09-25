@@ -522,7 +522,7 @@ def import_graph(
             all_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, None)))
             rebuild_summary = session.execute_write(
                 lambda tx: projection.full_rebuild(
-                    tx, None, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+                    tx, None, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
                 )
             )
         logger.info("Running the embed sweep across {} key(s)...", len(all_keys))

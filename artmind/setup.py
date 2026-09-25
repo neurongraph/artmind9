@@ -788,8 +788,8 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
 
     # ── Curation (Phase 6) ──────────────────────────────────────────────────
     # :Synthesis is keyed on the ENTITY's own deterministic id (see
-    # projection.load_synthesis) — a sibling node, not an Entity subtype, so
-    # it survives a rebuild's MERGE + property-clear untouched.
+    # projection.load_synthesis_batch) — a sibling node, not an Entity
+    # subtype, so it survives a rebuild's MERGE + property-clear untouched.
     session.run(
         "CREATE CONSTRAINT synthesis_id IF NOT EXISTS FOR (n:Synthesis) REQUIRE n.id IS UNIQUE"
     )

@@ -2743,7 +2743,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         summary["projection"] = {"deferred": True}
     else:
         summary["projection"] = projection.rebuild(
-            tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+            tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
         )
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)
@@ -2961,14 +2961,14 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
         if keys:
             summary = session.execute_write(
                 lambda tx: projection.rebuild(
-                    tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+                    tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
                 )
             )
             swept_keys = list(keys)
         else:
             summary = session.execute_write(
                 lambda tx: projection.full_rebuild(
-                    tx, domains, synthesis_loader=lambda k: projection.load_synthesis(tx, k)
+                    tx, domains, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
                 )
             )
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))

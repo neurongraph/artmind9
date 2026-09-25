@@ -73,7 +73,7 @@ def _transition(tx, doc_id: str, *, to_history: bool) -> dict:
         doc_id=doc_id,
     )
 
-    summary = projection.rebuild(tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k))
+    summary = projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks))
     return {
         "doc_id": doc_id,
         "observations": int(observations["n"]) if observations else 0,

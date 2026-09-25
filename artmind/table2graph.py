@@ -1264,7 +1264,7 @@ def _rebuild_in_batches(keys: list) -> dict:
                 summary = session.execute_write(
                     lambda tx: projection.rebuild(
                         tx, batch, same_as_groups=groups,
-                        synthesis_loader=lambda k: projection.load_synthesis(tx, k),
+                        synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks),
                     )
                 )
             except Exception as e:

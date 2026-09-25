@@ -458,7 +458,7 @@ def write_user_chat(
             # else this chat touched.
             keys |= projection.apply_retractions(tx, observations)
             return (
-                projection.rebuild(tx, keys, synthesis_loader=lambda k: projection.load_synthesis(tx, k)),
+                projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)),
                 rel_written,
             )
 
