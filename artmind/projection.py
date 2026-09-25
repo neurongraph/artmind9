@@ -491,6 +491,40 @@ def read_latest_observations(tx, key: str) -> list[dict]:
     return [row["p"] for row in rows]
 
 
+def _read_observations_for_keys(tx, keys: set[tuple[str, str, str]]) -> dict[str, list[dict]]:
+    """Batch-read every `latest` observation for a whole set of aggregate
+    keys in one round-trip, keyed by `key_string`. The batched sibling of
+    `read_latest_observations`, used only by `rebuild`'s multi-key path --
+    `read_latest_observations` itself stays a single-key function for
+    `synthesize.py`'s own per-entity call, which gets no benefit from
+    batching a single key.
+    """
+    if not keys:
+        return {}
+    key_strings = [key_string(k) for k in keys]
+    rows = tx.run(
+        "UNWIND $keys AS key MATCH (o:Observation {key: key}) RETURN key, properties(o) AS p",
+        keys=key_strings,
+    ).data()
+    by_key: dict[str, list[dict]] = {k: [] for k in key_strings}
+    for row in rows:
+        by_key[row["key"]].append(row["p"])
+    return by_key
+
+
+def _entity_ids_that_exist(tx, ids: list[str]) -> set[str]:
+    """Which of `ids` currently have an `:Entity` node -- batched sibling of
+    `rebuild_key`'s single-id existence check, used to decide `deleted` vs
+    `absent` for every zero-observation key in one round-trip instead of one
+    per key."""
+    if not ids:
+        return set()
+    rows = tx.run(
+        "UNWIND $ids AS id MATCH (e:Entity {_id: id}) RETURN id", ids=ids
+    ).data()
+    return {row["id"] for row in rows}
+
+
 def _parse_key(key_string_value: str | None) -> tuple[str, str, str] | None:
     """`"name|class|domain"` back to the aggregate-key tuple, or `None` if it
     isn't shaped that way. Defensive: a key is always written by
@@ -519,6 +553,89 @@ def _delete_entity(tx, eid: str) -> None:
         DETACH DELETE c, e
         """,
         id=eid,
+    )
+
+
+def _delete_entities_batch(tx, ids: list[str]) -> None:
+    """Batched sibling of `_delete_entity` -- one DETACH DELETE covering
+    every id in `ids`, whether it's a same-as-folded key or a key with zero
+    remaining observations."""
+    if not ids:
+        return
+    tx.run(
+        """
+        UNWIND $ids AS id
+        MATCH (e:Entity {_id: id})
+        OPTIONAL MATCH (c:Conflict {_source: 'projection'})-[:CONFLICT_OF]->(e)
+        DETACH DELETE c, e
+        """,
+        ids=ids,
+    )
+
+
+def _clear_same_as_batch(tx, ids: list[str]) -> None:
+    """Batched sibling of `rebuild`'s old per-key SAME_AS-clear loop."""
+    if not ids:
+        return
+    tx.run(
+        "UNWIND $ids AS id MATCH (e:Entity {_id: id}) OPTIONAL MATCH (e)-[r:SAME_AS]-(:Entity) DELETE r",
+        ids=ids,
+    )
+
+
+def _merge_entities_batch(tx, rows: list[dict]) -> None:
+    """Batched sibling of `rebuild_key`'s Entity MERGE/label/property-sweep
+    Cypher. One statement covering every entity in `rows`, each carrying its
+    own `label` -- Neo4j 5.24+'s dynamic-label syntax accepts a per-row
+    expression under UNWIND (confirmed live before writing this), not just a
+    single top-level parameter.
+
+    `rows`: `[{"id": eid, "label": str, "keep": [str, ...], "props": dict,
+    "description": str | None}, ...]`.
+    """
+    if not rows:
+        return
+    tx.run(
+        """
+        CYPHER 25
+        UNWIND $rows AS row
+        MERGE (e:Entity {_id: row.id})
+        ON CREATE SET e.embedding_stale = true
+        WITH e, row, e.description AS prior_description
+        SET e:$(row.label)
+        WITH e AS node, row, prior_description
+        FOREACH (staleKey IN [k IN keys(node) WHERE NOT k IN row.keep] | REMOVE node[staleKey])
+        SET node += row.props
+        SET node.embedding_stale = CASE
+              WHEN node.embedding IS NULL THEN true
+              WHEN prior_description IS NULL AND row.description IS NULL THEN coalesce(node.embedding_stale, false)
+              WHEN prior_description IS NULL OR prior_description <> row.description THEN true
+              ELSE coalesce(node.embedding_stale, false)
+            END
+        """,
+        rows=rows,
+    )
+
+
+def _rewire_aggregates_batch(tx, rows: list[dict]) -> None:
+    """Batched sibling of `rebuild_key`'s AGGREGATES-rewire Cypher.
+
+    `rows`: `[{"id": eid, "observation_ids": [str, ...]}, ...]`.
+    """
+    if not rows:
+        return
+    tx.run(
+        """
+        UNWIND $rows AS row
+        MATCH (e:Entity {_id: row.id})
+        OPTIONAL MATCH (e)-[r:AGGREGATES]->(:Observation)
+        DELETE r
+        WITH e, row
+        UNWIND row.observation_ids AS oid
+        MATCH (o:Observation {id: oid})
+        MERGE (e)-[:AGGREGATES]->(o)
+        """,
+        rows=rows,
     )
 
 
@@ -568,6 +685,50 @@ def _write_conflicts(tx, eid: str, conflicts: list[dict], domain: str) -> int:
             observation_ids=[v["observation_id"] for v in conflict["values"] if v.get("observation_id")],
         )
     return len(conflicts)
+
+
+def _write_conflicts_batch(tx, clear_ids: list[str], conflict_rows: list[dict]) -> None:
+    """Batched sibling of `_write_conflicts`. `clear_ids` is every entity id
+    being rebuilt this pass -- conflicts are always cleared before
+    (re)writing, matching the per-key function's own clear-then-write order,
+    whether or not that entity ends up with any conflicts this time.
+
+    `conflict_rows`: one row per (entity, conflicting property) pair --
+    `[{"id": conflict_id, "entity_id": eid, "property": str, "domain": str,
+    "kind": str, "values": [str, ...], "observation_ids": [str, ...]}, ...]`.
+    """
+    if clear_ids:
+        tx.run(
+            """
+            UNWIND $ids AS id
+            MATCH (c:Conflict {_source: 'projection'})-[:CONFLICT_OF]->(:Entity {_id: id})
+            DETACH DELETE c
+            """,
+            ids=clear_ids,
+        )
+    if not conflict_rows:
+        return
+    tx.run(
+        """
+        UNWIND $rows AS row
+        MATCH (e:Entity {_id: row.entity_id})
+        MERGE (c:Conflict {id: row.id})
+        SET c._source = 'projection',
+            c.property = row.property,
+            c.entity_id = row.entity_id,
+            c._domain = row.domain,
+            c.kind = row.kind,
+            c.status = 'open',
+            c.values = row.values,
+            c.detected_by = 'projection_rebuild'
+        MERGE (c)-[:CONFLICT_OF]->(e)
+        WITH c, row
+        UNWIND row.observation_ids AS oid
+        MATCH (o:Observation {id: oid})
+        MERGE (c)-[:EVIDENCE]->(o)
+        """,
+        rows=conflict_rows,
+    )
 
 
 def _relation_groups(tx, keys: list[tuple[str, str, str]]) -> tuple[list[dict], list[dict]]:
@@ -626,6 +787,66 @@ def _group_relations(rows: list[dict]) -> dict[tuple[str, str], dict]:
         if row.get("doc_id") and row["doc_id"] not in g["doc_ids"]:
             g["doc_ids"].append(row["doc_id"])
     return groups
+
+
+def _relation_groups_batch(tx, keys: list[tuple[str, str, str]]) -> tuple[list[dict], list[dict]]:
+    """Every raw `ASSERTS_RELATION` edge touching any of `keys`' `latest`
+    observations, across the WHOLE batch in two round-trips total (one
+    outgoing, one incoming) -- the batched sibling of `_relation_groups`,
+    which scoped to one entity's own `member_keys` per call. Each row is
+    tagged with the raw key it came from (`src_key`/`tgt_key`) so the caller
+    can regroup rows back per-entity in Python -- the same grouping
+    `_relation_groups` used to hand back pre-scoped for a single entity.
+    """
+    if not keys:
+        return [], []
+    key_strings = [key_string(k) for k in keys]
+    outgoing = tx.run(
+        """
+        UNWIND $keys AS key
+        MATCH (o:Observation {key: key})-[r:ASSERTS_RELATION]->(t:Observation)
+        RETURN key AS src_key, r.rel_type AS rel_type, t.key AS other_key,
+               r.doc_id AS doc_id, r.chunk_id AS chunk_id
+        """,
+        keys=key_strings,
+    ).data()
+    incoming = tx.run(
+        """
+        UNWIND $keys AS key
+        MATCH (s:Observation)-[r:ASSERTS_RELATION]->(o:Observation {key: key})
+        RETURN key AS tgt_key, r.rel_type AS rel_type, s.key AS other_key,
+               r.doc_id AS doc_id, r.chunk_id AS chunk_id
+        """,
+        keys=key_strings,
+    ).data()
+    return outgoing, incoming
+
+
+def _delete_relates_to_batch(tx, ids: list[str]) -> None:
+    if not ids:
+        return
+    tx.run("UNWIND $ids AS id MATCH (e:Entity {_id: id})-[r:RELATES_TO]->(:Entity) DELETE r", ids=ids)
+    tx.run("UNWIND $ids AS id MATCH (:Entity)-[r:RELATES_TO]->(e:Entity {_id: id}) DELETE r", ids=ids)
+
+
+def _write_relates_to_batch(tx, rows: list[dict]) -> None:
+    """Batched sibling of `_sync_relates_to`'s per-edge write. `rows`: one
+    per resolved RELATES_TO edge across the whole batch --
+    `[{"src": eid, "tgt": eid, "rel_type": str, "observation_count": int,
+    "chunk_ids": [...], "doc_ids": [...]}, ...]`.
+    """
+    if not rows:
+        return
+    tx.run(
+        """
+        UNWIND $rows AS row
+        MATCH (e:Entity {_id: row.src})
+        MATCH (t:Entity {_id: row.tgt})
+        MERGE (e)-[r:RELATES_TO {rel_type: row.rel_type}]->(t)
+        SET r.observation_count = row.observation_count, r.chunk_ids = row.chunk_ids, r.doc_ids = row.doc_ids
+        """,
+        rows=rows,
+    )
 
 
 def _sync_relates_to(
@@ -885,6 +1106,23 @@ def _sync_same_as(tx, member_key: tuple[str, str, str], canonical_key: tuple[str
     )
 
 
+def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[str, str, str]]]) -> None:
+    """Batched sibling of `_sync_same_as`, called once for every link pair
+    in `rebuild`'s pass instead of once per pair."""
+    if not links:
+        return
+    rows = [{"member": entity_id(member), "canonical": entity_id(canonical)} for member, canonical in links]
+    tx.run(
+        """
+        UNWIND $rows AS row
+        MATCH (m:Entity {_id: row.member}), (c:Entity {_id: row.canonical})
+        MERGE (m)-[:SAME_AS]->(c)
+        MERGE (c)-[:SAME_AS]->(m)
+        """,
+        rows=rows,
+    )
+
+
 def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]:
     """Apply every `_retracts` pointer among `observations`, before the keys
     they touch are rebuilt.
@@ -953,10 +1191,17 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
 def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None, synthesis_loader=None) -> dict:
     """Rebuild the given aggregate keys inside the caller's transaction.
 
-    `same_as_groups` defaults to `same_as.load_groups()` — pass an explicit
+    `same_as_groups` defaults to `same_as.load_groups()` -- pass an explicit
     (possibly filtered) list only when the caller has one in hand already.
     `synthesis_loader(key) -> dict | None` is the synthesize seam; absent,
     every description falls back to the winner observation's.
+
+    Batched: every phase below issues one Cypher statement covering the
+    WHOLE `keys` batch, not one per key -- see
+    `docs/superpowers/specs/2026-09-25-projection-rebuild-batching-design.md`.
+    The outcome (which entities exist, their properties, their edges) is
+    identical to the old per-key implementation; only the round-trip count
+    changes.
     """
     if same_as_groups is None:
         from artmind import same_as
@@ -965,63 +1210,110 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
 
     unit_of, members_of, links = _plan_groups(keys, same_as_groups)
 
-    # Clear stale SAME_AS edges up front, for every key that keeps its own
-    # Entity this pass (a folded-away key's edges vanish with it via
-    # _delete_entity's DETACH DELETE, below). Re-synced from `links` after.
-    for key in keys:
-        canonical = unit_of.get(key)
-        if canonical is not None and canonical != key:
+    sorted_keys = sorted(keys)
+    effective_keys = [k for k in sorted_keys if unit_of.get(k) in (None, k)]
+    folded_keys = [k for k in sorted_keys if unit_of.get(k) not in (None, k)]
+
+    # Clear stale SAME_AS edges up front, for every key keeping its own
+    # Entity this pass -- re-synced from `links` at the very end.
+    _clear_same_as_batch(tx, [entity_id(k) for k in effective_keys])
+
+    # ── read every member key's observations in ONE round-trip ─────────────
+    all_member_keys: set[tuple[str, str, str]] = set()
+    for k in effective_keys:
+        all_member_keys.update(members_of.get(k, [k]))
+    obs_by_key = _read_observations_for_keys(tx, all_member_keys)
+
+    to_write: list[tuple[tuple[str, str, str], list[tuple[str, str, str]], dict]] = []
+    no_observation_keys: list[tuple[str, str, str]] = []
+    for k in effective_keys:
+        member_keys = members_of.get(k, [k])
+        observations = [o for mk in member_keys for o in obs_by_key.get(key_string(mk), [])]
+        if not observations:
+            no_observation_keys.append(k)
             continue
-        tx.run(
-            "MATCH (e:Entity {_id: $id}) OPTIONAL MATCH (e)-[r:SAME_AS]-(:Entity) DELETE r",
-            id=entity_id(canonical if canonical is not None else key),
-        )
+        synthesis = synthesis_loader(k) if synthesis_loader else None
+        merged = merge_observations(observations, synthesis=synthesis, override_key=k)
+        to_write.append((k, member_keys, merged))
 
-    # Progress-only, no side effects on the rebuild itself: this whole loop
-    # runs inside ONE transaction (this module's docstring explains why —
-    # a silently-skipped projection would be a silently-stale query layer),
-    # so nothing commits and nothing is visible to another session until
-    # every key is done. For a small rebuild that's instant; for hundreds of
-    # keys against a remote database it can run long enough that, without a
-    # periodic line here, the log goes silent for minutes at a stretch with
-    # no way to tell "still working" from "stuck" (found live: an 860-key
-    # rebuild against AuraDB went 8+ minutes with nothing printed). Every 50
-    # keys, and never at all for a rebuild under 50 -- small enough to finish
-    # before a progress line would be worth anything.
-    total = len(keys)
-    log_every = 50
-    t0 = time.monotonic()
+    # ── zero-observation keys: GC if an Entity exists, else "absent" ───────
+    no_obs_ids = [entity_id(k) for k in no_observation_keys]
+    existing_ids = _entity_ids_that_exist(tx, no_obs_ids)
+    to_delete_ids = [eid for eid in no_obs_ids if eid in existing_ids]
 
-    summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0}
-    for key in sorted(keys):
-        summary["keys"] += 1
-        canonical = unit_of.get(key)
-        if canonical is not None and canonical != key:
-            # Folded into another entity by a same-as group — never its own.
-            _delete_entity(tx, entity_id(key))
-            summary["deleted"] += 1
-        else:
-            effective_key = canonical if canonical is not None else key
-            member_keys = members_of.get(effective_key, [effective_key])
-            synthesis = synthesis_loader(effective_key) if synthesis_loader else None
-            outcome = rebuild_key(tx, effective_key, member_keys=member_keys, unit_of=unit_of, synthesis=synthesis)
-            summary[outcome] += 1
+    summary = {
+        "rebuilt": len(to_write),
+        "deleted": len(to_delete_ids) + len(folded_keys),
+        "absent": len(no_obs_ids) - len(to_delete_ids),
+        "keys": len(effective_keys) + len(folded_keys),
+    }
 
-        if total >= log_every and summary["keys"] % log_every == 0 and summary["keys"] < total:
-            elapsed = time.monotonic() - t0
-            rate = summary["keys"] / elapsed if elapsed > 0 else 0
-            remaining = (total - summary["keys"]) / rate if rate > 0 else None
-            eta = f", ~{remaining:.0f}s left" if remaining is not None else ""
-            logger.info(
-                "Projection rebuild: {}/{} key(s) ({:.0f}%) in {:.0f}s{}",
-                summary["keys"], total, 100 * summary["keys"] / total, elapsed, eta,
-            )
+    # folded-away keys are always deleted, unconditionally -- never their own entity.
+    _delete_entities_batch(tx, to_delete_ids + [entity_id(k) for k in folded_keys])
 
-    for member_key, canonical_key in links:
-        _sync_same_as(tx, member_key, canonical_key)
+    # ── write every "to_write" entity's props/labels in ONE statement ──────
+    merge_rows = []
+    aggregates_rows = []
+    conflict_rows = []
+    relates_to_context = []  # (eid, member_keys)
+    for key, member_keys, merged in to_write:
+        eid = entity_id(key)
+        props = merged["props"]
+        label = _sanitize_label(props.get("entity_class") or "")
+        keep = list(props.keys()) + list(_PRESERVED_ENTITY_KEYS)
+        merge_rows.append({
+            "id": eid, "label": label, "keep": keep, "props": props,
+            "description": props.get("description"),
+        })
+        aggregates_rows.append({"id": eid, "observation_ids": merged["observation_ids"]})
+        for conflict in merged["conflicts"]:
+            conflict_rows.append({
+                "id": hashlib.sha256(f"{eid}|{conflict['property']}".encode("utf-8")).hexdigest(),
+                "entity_id": eid,
+                "property": conflict["property"],
+                "domain": props.get("_domain") or "",
+                "kind": conflict["kind"],
+                "values": [str(v["value"]) for v in conflict["values"]],
+                "observation_ids": [v["observation_id"] for v in conflict["values"] if v.get("observation_id")],
+            })
+        relates_to_context.append((eid, member_keys))
+
+    _merge_entities_batch(tx, merge_rows)
+    _rewire_aggregates_batch(tx, aggregates_rows)
+    _write_conflicts_batch(tx, [r["id"] for r in merge_rows], conflict_rows)
+
+    # ── RELATES_TO: one batched read, delete, and write for the WHOLE pass ─
+    all_relates_keys = [mk for _, member_keys in relates_to_context for mk in member_keys]
+    outgoing_rows, incoming_rows = _relation_groups_batch(tx, all_relates_keys)
+    _delete_relates_to_batch(tx, [eid for eid, _ in relates_to_context])
+
+    relates_to_rows = []
+    for eid, member_keys in relates_to_context:
+        member_key_strings = {key_string(mk) for mk in member_keys}
+        outgoing = _group_relations([r for r in outgoing_rows if r["src_key"] in member_key_strings])
+        incoming = _group_relations([r for r in incoming_rows if r["tgt_key"] in member_key_strings])
+        for (rel_type, other_key), agg in outgoing.items():
+            parsed = _parse_key(other_key)
+            if not parsed:
+                continue
+            tgt = entity_id(unit_of.get(parsed, parsed))
+            if tgt == eid:
+                continue
+            relates_to_rows.append({"src": eid, "tgt": tgt, "rel_type": rel_type, **agg})
+        for (rel_type, other_key), agg in incoming.items():
+            parsed = _parse_key(other_key)
+            if not parsed:
+                continue
+            src = entity_id(unit_of.get(parsed, parsed))
+            if src == eid:
+                continue
+            relates_to_rows.append({"src": src, "tgt": eid, "rel_type": rel_type, **agg})
+    _write_relates_to_batch(tx, relates_to_rows)
+
+    _sync_same_as_links_batch(tx, links)
 
     logger.info(
-        "Projection rebuild: {} key(s) — rebuilt={} deleted={} absent={}",
+        "Projection rebuild: {} key(s) -- rebuilt={} deleted={} absent={}",
         summary["keys"], summary["rebuilt"], summary["deleted"], summary["absent"],
     )
     return summary
