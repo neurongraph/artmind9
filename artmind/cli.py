@@ -1106,6 +1106,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     and run `ingest embed-chunks` separately later.
     """
     _setup_logger()
+    from artmind.atomic_dir import is_scratch
     from paths import KG_DIR
 
     if folder and document_name:
@@ -1146,12 +1147,15 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     resolved_domain = domain or folder_path.name
     doc_dirs = sorted(
         d for d in folder_path.iterdir()
-        if d.is_dir() and (d / "document.json").exists()
+        if d.is_dir() and not is_scratch(d) and (d / "document.json").exists()
     )
     if not doc_dirs:
-        # Fall back to recursive search
+        # Fall back to recursive search. A `.artmind-tmp`/`.artmind-old`
+        # atomic-write scratch sibling (artmind/atomic_dir.py) can appear
+        # anywhere in the relative path, not just as the doc dir itself.
         doc_dirs = sorted(
             p.parent for p in folder_path.rglob("document.json")
+            if not any(is_scratch(Path(part)) for part in p.parent.relative_to(folder_path).parts)
         )
         if not doc_dirs:
             raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
