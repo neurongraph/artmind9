@@ -1295,8 +1295,9 @@ that could be confused with the retire mechanism's history labels. The bundle is
 self-contained specifically so it needs nothing from the data dir or vault to restore
 somewhere else. Landing a restored document back as history rather than live is what keeps
 un-archiving from silently changing every current query's answer the moment it runs.
-*Test hint* — archive a document, confirm it's gone from both the graph and the vault (a
-real `git rm` + commit, checkable in the vault's own history) with a bundle now present
+*Test hint* — archive a document, confirm it's gone from both the graph and the vault's
+working tree (the deletion is left for the vault's own git workflow — Obsidian Git or a
+manual commit — to commit; artmind never commits it itself) with a bundle now present
 under the archive root; restore it and confirm it lands as history, requiring an explicit
 `docs restore` afterward to promote it to current.
 
