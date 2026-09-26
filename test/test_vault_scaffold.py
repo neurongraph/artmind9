@@ -451,3 +451,119 @@ def test_scaffold_reports_no_git_remote_action_when_none_given(tmp_path):
     result = scaffold_vault(tmp_path)
 
     assert result["git_remote"] is None
+
+
+# ── versioned artmind blocks (spec 2026-09-26 §5 R3, R4) ──────────────────────
+
+_V1_BLOCK = (
+    "# ── artmind ───────────────────────────────────────────────────────────────────\n"
+    ".artmind/config.env\n"
+    "# ── end artmind ───────────────────────────────────────────────────────────────\n"
+)
+
+
+def test_an_older_artmind_block_is_replaced_in_place_keeping_user_rules(tmp_path):
+    (tmp_path / ".gitignore").write_text("user-before\n\n" + _V1_BLOCK + "\nuser-after\n")
+
+    changed = vault.write_gitignore(tmp_path)
+
+    assert changed is True
+    assert (tmp_path / ".gitignore").read_text() == "user-before\n\n" + vault.GITIGNORE_BLOCK + "\nuser-after\n"
+    assert vault.write_gitignore(tmp_path) is False
+
+
+def test_block_status_reports_missing_outdated_current_and_malformed(tmp_path):
+    path = tmp_path / ".gitignore"
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "missing"
+    path.write_text(_V1_BLOCK)
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "outdated"
+    vault.write_gitignore(tmp_path)
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
+    path.write_text("# ── artmind (v2) ─── no end marker\n.artmind/config.env\n")
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "malformed"
+
+
+def test_a_malformed_block_is_refused_not_guessed(tmp_path):
+    (tmp_path / ".gitignore").write_text("# ── artmind ─── no end marker\nmine\n")
+
+    with pytest.raises(vault.VaultError, match="end artmind"):
+        vault.write_gitignore(tmp_path)
+
+    assert (tmp_path / ".gitignore").read_text() == "# ── artmind ─── no end marker\nmine\n"
+
+
+def _ignored(repo: Path, relpath: str) -> bool:
+    return subprocess.run(["git", "check-ignore", "-q", relpath], cwd=repo).returncode == 0
+
+
+def test_table_folders_and_atomic_write_scratch_are_ignored(tmp_path):
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+    kg = tmp_path / ".artmind" / "data" / "kg" / "banking"
+    for folder in ("table__accounts", "doc.artmind-tmp", "doc.artmind-old", "doc"):
+        (kg / folder).mkdir(parents=True)
+        (kg / folder / "document.json").write_text("{}")
+
+    assert _ignored(tmp_path, ".artmind/data/kg/banking/table__accounts/document.json")
+    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.artmind-tmp/document.json")
+    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.artmind-old/document.json")
+    assert not _ignored(tmp_path, ".artmind/data/kg/banking/doc/document.json")
+
+
+def test_gitattributes_block_is_written_and_idempotent(tmp_path):
+    (tmp_path / ".gitattributes").write_text("*.png binary\n")
+
+    assert vault.write_gitattributes(tmp_path) is True
+    content = (tmp_path / ".gitattributes").read_text()
+    assert content.startswith("*.png binary\n")
+    assert ".artmind/data/** merge=binary" in content
+    assert vault.write_gitattributes(tmp_path) is False
+
+
+def _merge_opposite_edits(repo: Path, with_attributes: bool) -> subprocess.CompletedProcess:
+    """Two branches edit opposite ends of one observations.json: git's line
+    merge would combine them cleanly into a file neither run produced."""
+    repo.mkdir(parents=True, exist_ok=True)
+    _init_repo(repo)
+    if with_attributes:
+        vault.write_gitattributes(repo)
+    f = repo / ".artmind" / "data" / "kg" / "general" / "doc" / "observations.json"
+    f.parent.mkdir(parents=True)
+    lines = [f'  {{"n": {i}}},' for i in range(20)]
+
+    def write(ls):
+        f.write_text("[\n" + "\n".join(ls) + "\n]\n")
+
+    write(lines)
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-qm", "base")
+    main = _git(repo, "rev-parse", "--abbrev-ref", "HEAD").strip()
+    _git(repo, "checkout", "-qb", "other")
+    write(['  {"n": "other"},'] + lines[1:])
+    _git(repo, "commit", "-qam", "other run")
+    _git(repo, "checkout", "-q", main)
+    write(lines[:-1] + ['  {"n": "mine"},'])
+    _git(repo, "commit", "-qam", "my run")
+    return subprocess.run(["git", "merge", "--no-edit", "other"], cwd=repo, capture_output=True, text=True)
+
+
+def test_merge_binary_turns_a_clean_line_merge_into_a_conflict(tmp_path):
+    """Spec §11: assert both sides, so the test proves the attribute is what
+    matters."""
+    without = _merge_opposite_edits(tmp_path / "without", with_attributes=False)
+    assert without.returncode == 0, without.stdout + without.stderr
+
+    with_attr = _merge_opposite_edits(tmp_path / "with", with_attributes=True)
+    assert with_attr.returncode != 0
+    assert "CONFLICT" in with_attr.stdout
+    merged = (tmp_path / "with" / ".artmind" / "data" / "kg" / "general" / "doc" / "observations.json").read_text()
+    assert "<<<<<<<" not in merged
+
+
+def test_scaffold_writes_gitattributes(tmp_path):
+    from artmind.setup import scaffold_vault
+
+    summary = scaffold_vault(tmp_path)
+
+    assert summary["gitattributes"] is True
+    assert vault.block_status(tmp_path / ".gitattributes", vault.GITATTRIBUTES_BLOCK) == "current"
