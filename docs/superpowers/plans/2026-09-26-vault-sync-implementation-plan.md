@@ -1242,15 +1242,40 @@ def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> lis
 def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
     """`git show rev:relpath`'s content, or None if that path doesn't exist
     at `rev` -- reading a removed KG-staging folder's document.json from
-    before it was removed, the only way to recover its `doc_id`."""
-    rc, out, _ = run_command(f'show "{rev}:{relpath}"', cwd=vault_dir, expected_codes=(128,))
+    before it was removed, the only way to recover its `doc_id`.
+
+    Distinguishes "rev exists but relpath wasn't in it" (the legitimate,
+    expected case -- returns None) from "rev itself doesn't resolve" (a
+    stale/rewritten cursor, or any other git failure) -- both exit 128 from
+    `git show`, so treating them the same would silently skip a real
+    retraction whenever a stored commit sha ever points at history that no
+    longer exists, instead of failing loudly the way this module's
+    "refused before writing anything" philosophy demands.
+    """
+    rc, _, _ = run_command(f'git cat-file -e "{rev}^{{commit}}"', cwd=vault_dir, expected_codes=(128,))
+    if rc != 0:
+        raise VaultSyncError(f"{rev!r} does not resolve to a commit in this vault's git history")
+    rc, out, _ = run_command(f'git show "{rev}:{relpath}"', cwd=vault_dir, expected_codes=(128,))
     return out if rc == 0 else None
 ```
+
+(Found during subagent-driven execution of this plan: a code-quality reviewer caught that the original version above conflated "path absent at a valid revision" with "revision itself doesn't resolve," both of which exit 128 — the `git cat-file -e` pre-check above fixes that. Add one test alongside the existing 6 in Task 7:
+
+```python
+def test_show_raises_when_the_revision_itself_does_not_resolve(repo):
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    with pytest.raises(vs.VaultSyncError, match="does not resolve"):
+        vs._show(repo, "0000000000000000000000000000000000000000", "a.txt")
+```
+
+Step 4's expected test count is 8, not 7.)
 
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `uv run --group dev pytest test/test_vault_sync.py -v`
-Expected: PASS (7 tests)
+Expected: PASS (8 tests)
 
 - [ ] **Step 5: Commit**
 
