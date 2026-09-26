@@ -1657,7 +1657,7 @@ def classify_diff(
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `uv run --group dev pytest test/test_vault_sync.py -v`
-Expected: PASS (all tests from Tasks 7 and 8)
+Expected: PASS (all tests from Tasks 7 and 8 — 22 total after the fixes below)
 
 - [ ] **Step 5: Commit**
 
@@ -1665,6 +1665,13 @@ Expected: PASS (all tests from Tasks 7 and 8)
 git add artmind/vault_sync.py test/test_vault_sync.py
 git commit -m "feat(vault): classify_diff for track A/B diff classification"
 ```
+
+(Found during subagent-driven execution: the literal Step 3 code above had two bugs, both fixed and re-reviewed —
+
+1. **Wrong file read for a retracted doc's id.** The `elif status == "D":` branch called `_show(vault_dir, base, path)` where `path` is `observations.json`'s own path (a bare JSON list, no `"id"` key) — `json.loads(base_content)["id"]` raised `TypeError`. Fixed by reading the sibling `document.json` instead: `doc_json_path = str(Path(path).parent / "document.json")`, then `_show(vault_dir, base, doc_json_path)`. This is what Task 7's own `_show` docstring already said to do ("reading a removed KG-staging folder's document.json … the only way to recover its doc_id") — the Step 3 code above just used the wrong path.
+2. **4 of the 6 defensive `try/except ValueError` guards a first pass added around every `.relative_to()` call turned out to be dead code** (one with an actively wrong silent `Path(".")` fallback), confirmed by instrumenting all six and running the suite. Only the two guards wrapping the `_diff_name_status(...)` calls themselves are real — needed because `test/conftest.py`'s autouse fixture patches `paths.STRUCTURED_TEXT_DIR` for every test with no equivalent for `paths.KG_DIR`, so a test patching only one of the two leaves the other pointed outside `vault_dir`. The other 4 guards were removed; `test_classify_diff_raises_if_removed_folder_never_existed_at_base` was fixed to also patch `paths.KG_DIR` (removing its reliance on the now-deleted fallback), and two test gaps the review surfaced were closed: `test_classify_diff_scopes_to_a_domain_ancestor` (domain-descendant matching) and `test_classify_diff_ignores_document_json_changing_alongside_observations` (no double-counting when both files change in one commit).
+
+The corrected, final `artmind/vault_sync.py` is the committed state on the `vault-sync` branch (commits `b0165ea` then `114c638`) — read it directly rather than re-deriving from the Step 3 block above if implementing this task fresh elsewhere.)
 
 ---
 
