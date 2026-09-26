@@ -1,9 +1,8 @@
-"""Git commit per artmind-authored frontmatter change (docs/document-identity.md).
+"""Read-only git helpers for the vault (spec 2026-09-26, D1/D2).
 
-Push is opt-in and never fatal: a laptop offline mid-ingest, or a vault that
-isn't a git repo at all, must not fail the ingest that triggered it — writing
-the frontmatter is the operation that matters; recording it in git history is
-a courtesy on top.
+artmind never writes to the vault's git repo -- the Obsidian Git plugin owns
+commit, pull and push. What remains here only reads: provenance (`HEAD`),
+dirtiness for snapshot manifests, and configuring a remote at `init` time.
 """
 from __future__ import annotations
 
@@ -12,14 +11,14 @@ from pathlib import Path
 from loguru import logger
 
 from paths import ARTMIND_VAULT_DIR
-from utils.functions import load_env, run_command
+from utils.functions import run_command
 
 
 def _vault_root() -> Path | None:
     if ARTMIND_VAULT_DIR is None or not ARTMIND_VAULT_DIR.is_dir():
         return None
     if not (ARTMIND_VAULT_DIR / ".git").exists():
-        logger.debug("vault_git: {} is not a git repo, skipping commit", ARTMIND_VAULT_DIR)
+        logger.debug("vault_git: {} is not a git repo", ARTMIND_VAULT_DIR)
         return None
     return ARTMIND_VAULT_DIR
 
@@ -32,7 +31,7 @@ def current_commit() -> str | None:
         return None
     # 128 is "no commits yet", which is exactly the state `artmind init` leaves
     # a new vault in -- expected, not a failure worth an ERROR line.
-    rc, out, _ = run_command("git rev-parse HEAD", cwd=vault, expected_codes=(128,))
+    rc, out, _ = run_command(["git", "rev-parse", "HEAD"], cwd=vault, expected_codes=(128,))
     return out.strip() if rc == 0 else None
 
 
@@ -44,135 +43,33 @@ def is_dirty() -> bool | None:
     vault = _vault_root()
     if vault is None:
         return None
-    rc, out, _ = run_command("git status --porcelain", cwd=vault)
+    rc, out, _ = run_command(["git", "status", "--porcelain"], cwd=vault)
     if rc != 0:
         return None
     return bool(out.strip())
 
 
-def commit_paths(paths: list[Path], message: str) -> bool:
-    """Stage and commit `paths` (relative to the vault root or absolute
-    inside it) in the vault repo. Returns True on an actual commit, False
-    when there is nothing to commit or the vault isn't a git repo — never
-    raises. Push is separate and opt-in (see `maybe_push`).
-    """
-    vault = _vault_root()
-    if vault is None or not paths:
-        return False
-
-    rel_paths = []
-    for p in paths:
-        p = Path(p)
-        try:
-            rel_paths.append(str(p.relative_to(vault)) if p.is_absolute() else str(p))
-        except ValueError:
-            rel_paths.append(str(p))
-
-    add_cmd = "git add -- " + " ".join(f'"{p}"' for p in rel_paths)
-    rc, out, err = run_command(add_cmd, cwd=vault)
-    if rc != 0:
-        logger.warning("vault_git: git add failed ({}): {}", rc, err or out)
-        return False
-
-    # `--quiet` implies `--exit-code`, so this command answers with its exit
-    # status: 0 means nothing staged (an idempotent write produced
-    # byte-identical content -- the "nothing differs -> no-op" case), and 1
-    # means there ARE changes to commit. 1 is therefore the SUCCESS path here,
-    # which is why it is declared expected rather than logged as a failure.
-    rc, out, _ = run_command("git diff --cached --quiet", cwd=vault, expected_codes=(1,))
-    if rc == 0:
-        return False
-
-    rc, out, err = run_command(f'git commit -m "{message}"', cwd=vault)
-    if rc != 0:
-        logger.warning("vault_git: git commit failed ({}): {}", rc, err or out)
-        return False
-    logger.info("vault_git: committed {} file(s) — {}", len(rel_paths), message)
-    return True
-
-
-def remove_paths(paths: list[Path], message: str) -> bool:
-    """`git rm` and commit `paths` — the one operation where artmind deletes
-    human-authored content from the user's vault (`docs archive`). Returns
-    True on an actual commit; False when there's no vault/git repo, in which
-    case the caller is responsible for a plain filesystem delete instead (a
-    vault that isn't a git repo still needs the file gone) and for making
-    that fallback loud, since there is no commit recording it. Never raises.
-    """
-    vault = _vault_root()
-    if vault is None or not paths:
-        return False
-
-    rel_paths = []
-    for p in paths:
-        p = Path(p)
-        try:
-            rel_paths.append(str(p.relative_to(vault)) if p.is_absolute() else str(p))
-        except ValueError:
-            rel_paths.append(str(p))
-
-    rm_cmd = "git rm -- " + " ".join(f'"{p}"' for p in rel_paths)
-    rc, out, err = run_command(rm_cmd, cwd=vault)
-    if rc != 0:
-        logger.warning("vault_git: git rm failed ({}): {}", rc, err or out)
-        return False
-
-    rc, out, err = run_command(f'git commit -m "{message}"', cwd=vault)
-    if rc != 0:
-        logger.warning("vault_git: git commit failed after rm ({}): {}", rc, err or out)
-        return False
-    logger.info("vault_git: removed {} file(s) — {}", len(rel_paths), message)
-    return True
-
-
 def add_remote(root: Path, url: str, name: str = "origin") -> str:
-    """Configure a git remote for `root` (`artmind init --interactive`,
-    cli.py). Takes an explicit `root` rather than going through
-    `_vault_root()`/`ARTMIND_VAULT_DIR` like every other function here,
-    since this runs at scaffold time -- before `root` is necessarily the
-    process's resolved "active" vault.
+    """Configure a git remote for `root` (`artmind init --interactive`/`--remote`).
+    Configuration, not transport: artmind still never pushes to it.
 
-    Returns "added", "exists" (a `name` remote is already configured --
-    left alone rather than silently repointed at a different repo, in case
-    the user is re-running `init` against a vault that already has one),
-    or "failed" (not a git repo yet, or the git command itself errored).
-    Never raises -- configuring a remote is a courtesy on top of `artmind
-    init` succeeding, not a precondition for it.
+    Takes an explicit `root` rather than going through `_vault_root()`, since
+    this runs at scaffold time -- before `root` is necessarily the process's
+    resolved "active" vault.
+
+    Returns "added", "exists" (a `name` remote is already configured -- left
+    alone rather than silently repointed), or "failed" (not a git repo yet, or
+    the git command itself errored). Never raises.
     """
     root = Path(root)
     if not (root / ".git").exists():
         return "failed"
-    rc, out, _ = run_command("git remote", cwd=root)
+    rc, out, _ = run_command(["git", "remote"], cwd=root)
     if rc == 0 and name in out.split():
         return "exists"
-    rc, out, err = run_command(f"git remote add {name} {url}", cwd=root)
+    rc, out, err = run_command(["git", "remote", "add", name, url], cwd=root)
     if rc != 0:
         logger.warning("vault_git: git remote add failed ({}): {}", rc, err or out)
         return "failed"
     logger.info("vault_git: added remote {} -> {}", name, url)
     return "added"
-
-
-def maybe_push() -> None:
-    """Push the vault's current branch, only when explicitly opted in via
-    ARTMIND_VAULT_GIT_PUSH=1. Failures (no remote, offline, auth) log a
-    warning and are otherwise swallowed — push is a courtesy, not a
-    precondition for ingest to have succeeded.
-
-    128 is `expected_codes` here for the same reason as `current_commit`'s
-    "no commits yet": a brand-new vault with `ARTMIND_VAULT_GIT_PUSH=1` set
-    but no remote configured yet is a normal, common state (`artmind init`
-    doesn't add one), not a failure worth an ERROR-level line on every single
-    ingest — the WARNING below already reports it plainly.
-    """
-    env = load_env()
-    if env.get("ARTMIND_VAULT_GIT_PUSH", "").strip() not in ("1", "true", "yes"):
-        return
-    vault = _vault_root()
-    if vault is None:
-        return
-    rc, out, err = run_command("git push", cwd=vault, expected_codes=(128,))
-    if rc != 0:
-        logger.warning("vault_git: push failed (non-fatal): {}", err or out)
-    else:
-        logger.info("vault_git: pushed")
