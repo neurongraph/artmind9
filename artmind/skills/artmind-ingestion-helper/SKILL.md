@@ -44,7 +44,9 @@ Then track it with the admin UI's dashboard (`artmind admin-ui`, then open `/das
 **A vault-native markdown file gets its identity seeded on first ingest**:
 `_artmind_id` (a uuid7), `_version`, `_content_sha256`, and the rest of the
 system frontmatter block are written into the file itself; the Obsidian Git
-plugin commits the change (artmind never commits). Re-ingesting the same file later
+plugin commits the change (artmind never commits). If a vault's git setup looks
+wrong (pushes rejected, a merge rebasing, generated folders committed), run
+`artmind vault doctor`: it prints the exact fix for each problem. Re-ingesting the same file later
 bumps `_version` only if the body changed; editing only frontmatter (tags,
 title) takes a metadata-only fast path with no new version and no
 re-extraction. If `--domain` is omitted, a file's own `_domain` frontmatter

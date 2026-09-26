@@ -138,13 +138,17 @@ docs-restore domain document:
 docs-reindex:
     uv run artmind docs reindex
 
-# archive a document: bundle it, then remove it from the graph AND the vault (git rm + commit) -- the only removal artmind has (usage: just docs-archive <domain> <document>)
+# archive a document: bundle it, then remove it from the graph AND delete it from the vault (Obsidian Git commits the deletion) -- the only removal artmind has (usage: just docs-archive <domain> <document>)
 docs-archive domain document:
     uv run artmind docs archive --domain {{ domain }} --documentName {{ document }}
 
 # list archived documents, from the archive index (usage: just docs-archived)
 docs-archived:
     uv run artmind docs archived
+
+# read-only checks that this vault is safe for Obsidian Git to auto-commit and merge (usage: just vault-doctor)
+vault-doctor:
+    uv run artmind vault doctor
 
 # replay an archived bundle -- lands back as history, never latest (usage: just docs-restore-from-archive <artmind_id>)
 docs-restore-from-archive id:
