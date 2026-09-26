@@ -89,6 +89,20 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     return normalize_domains(list(values))
 
 
+def _parse_tables(values: "tuple[str, ...]") -> list[str]:
+    """Flatten repeatable/comma-split --table values into a deduped list,
+    mirroring `_parse_domains`'s own convention for --domain."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        for part in value.split(","):
+            name = part.strip()
+            if name and name not in seen:
+                seen.add(name)
+                out.append(name)
+    return out
+
+
 # ── worker helpers ────────────────────────────────────────────────────────────
 
 
@@ -2133,18 +2147,32 @@ def db_export_text(dest_dir, compact):
 @db.command("restore-text")
 @click.argument("path", required=False, type=click.Path(exists=True))
 @click.option("--confirm", is_flag=True, help="Required — wipes the current structured store")
+@click.option(
+    "--table", "table", multiple=True,
+    help="Table(s) to restore (repeatable; comma-splittable). Default: every table in the export "
+    "(today's wholesale behavior, unchanged). Pairable with --domain for disambiguation, like `db refresh`.",
+)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope --table resolution (repeatable; comma-splittable).")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def db_restore_text(path, confirm, compact):
+def db_restore_text(path, confirm, table, domain, compact):
     """Wipe and rebuild the structured store from a `db export-text` directory (default: the vault's structured_text dir).
 
     The parquet + DuckDB catalog are a rebuildable cache (`docs/vault.md`) —
     this is the command a fresh `git clone` of a vault runs to regenerate
-    them from the committed CSV + manifest.json.
+    them from the committed CSV + manifest.json. Pass --table to restore only
+    specific tables (used internally by `vault sync`'s track B) rather than
+    the whole store.
     """
     if not confirm:
         raise click.ClickException("pass --confirm — restoring wipes the current structured store")
+    table_keys: list[tuple[str, str]] | None = None
+    if table:
+        table_keys = []
+        for name in _parse_tables(table):
+            row = _resolve_table_row(name, domain)
+            table_keys.append((row["domain"], row["table_name"]))
     try:
-        summary = import_structured_text(Path(path) if path else None)
+        summary = import_structured_text(Path(path) if path else None, tables=table_keys)
     except FileNotFoundError as exc:
         raise click.ClickException(str(exc)) from exc
     except ValueError as exc:

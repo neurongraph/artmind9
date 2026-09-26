@@ -280,3 +280,55 @@ def test_import_structured_text_unscoped_behaviour_is_unchanged(tmp_path, monkey
 
     assert summary["tables_loaded"] == 1
     assert registry.get_table("products", domain="banking") is not None
+
+
+def test_db_restore_text_cli_table_option_scopes_the_restore(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    products_csv = tmp_path / "products.csv"
+    _write_csv(products_csv, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(products_csv, "banking")
+    customers_csv = tmp_path / "customers.csv"
+    _write_csv(customers_csv, [["id", "name"], [1, "Acme"]])
+    ingest_structured_file(customers_csv, "banking")
+    export_structured_text()
+
+    products_id_before = registry.get_table("products", domain="banking")["id"]
+    registry.set_grain(products_id_before, "lookup", confirmed=False)
+
+    result = CliRunner().invoke(
+        cli, ["db", "restore-text", "--confirm", "--table", "products", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
+    assert registry.get_table("products", domain="banking")["grain"] == "instance"
+    assert registry.get_table("customers", domain="banking") is not None
+
+
+def test_db_restore_text_cli_table_option_is_comma_splittable(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    for name in ("products", "customers"):
+        csv_path = tmp_path / f"{name}.csv"
+        _write_csv(csv_path, [["id"], [1]])
+        ingest_structured_file(csv_path, "banking")
+    export_structured_text()
+
+    result = CliRunner().invoke(
+        cli, ["db", "restore-text", "--confirm", "--table", "products,customers", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
+    import json as jsonlib
+    assert jsonlib.loads(result.output)["tables_loaded"] == 2
