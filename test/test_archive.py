@@ -154,12 +154,14 @@ def test_archive_document_bundles_removes_and_indexes(env, monkeypatch):
     # index recorded it
     assert [e["_artmind_id"] for e in archive.list_archived()] == ["doc-1"]
 
-    # vault file is gone, and it was a real git commit
+    # vault file is gone from disk; the deletion is left for Obsidian Git to
+    # commit (spec 2026-09-26, D1) -- artmind makes no commit of its own.
     assert not doc.exists()
     log = subprocess.run(["git", "log", "--oneline"], cwd=vault, capture_output=True, text=True).stdout
-    assert "archive policy" in log
-
-    assert result["git_committed"] is True
+    assert "archive policy" not in log
+    status = subprocess.run(["git", "status", "--porcelain"], cwd=vault, capture_output=True, text=True).stdout
+    assert " D " in status or status.startswith(" D"), status
+    assert "git_committed" not in result
 
 
 def test_archive_document_includes_and_deletes_the_original_binary(env, monkeypatch):
@@ -247,11 +249,11 @@ def test_restore_from_archive_writes_vault_file_and_retires(env, monkeypatch):
     restored = vault / "notes" / "policy.md"
     assert restored.exists()
     assert result["restored_path"] == str(restored)
-    assert result["committed"] is True
+    assert "committed" not in result
     assert retire_calls == [("doc-1", "general")]
 
     log = subprocess.run(["git", "log", "--oneline"], cwd=vault, capture_output=True, text=True).stdout
-    assert "restore-from-archive doc-1" in log
+    assert "restore-from-archive" not in log
 
 
 def test_restore_from_archive_refuses_when_id_already_live(env, monkeypatch):

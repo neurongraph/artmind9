@@ -2760,9 +2760,10 @@ def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> N
 
     Bundles the document (its staged KG JSON, vault markdown, original
     binary if it came from one, and a manifest) under `ARTMIND_ARCHIVE_DIR`,
-    then removes it from the graph AND from the vault — a real `git rm` +
-    commit, the one operation where artmind deletes human-authored content
-    from your repo. Reversible with `restore-from-archive` (which lands the
+    then removes it from the graph AND deletes its file from the vault — the
+    one operation where artmind deletes human-authored content. The deletion
+    is committed by Obsidian Git like any other change; artmind makes no
+    commit. Reversible with `restore-from-archive` (which lands the
     document back as history, not latest); NOT reversible is deleting the
     bundle itself, which is a filesystem act outside any artmind command —
     there is no single command here satisfying right-to-erasure end to end,
@@ -2773,7 +2774,7 @@ def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> N
 
     if not yes and not click.confirm(
         f"This will remove {document_name!r} ({domain}) from the graph and "
-        "delete its file from the vault (git rm + commit). Continue?"
+        "delete its file from the vault. Continue?"
     ):
         raise click.Abort()
 
