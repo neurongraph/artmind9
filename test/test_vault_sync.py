@@ -1,6 +1,7 @@
 """`vault sync`: git-diff-driven, CDC-style replay (spec
 docs/superpowers/specs/2026-09-25-vault-sync-design.md)."""
 import subprocess
+from pathlib import Path
 
 import pytest
 
@@ -483,7 +484,8 @@ def test_sync_replays_an_added_document_folder_and_advances_the_cursor(repo, mon
 
     result = vs.sync(repo, bootstrap_empty=True)
 
-    assert calls["write_to_neo4j"] == [(str(kg_dir / "banking" / "doc1"), "banking")]
+    assert [(Path(p).name, d) for p, d in calls["write_to_neo4j"]] == [("doc1", "banking")]
+    assert not calls["write_to_neo4j"][0][0].startswith(str(kg_dir)), "replays from a scratch copy of HEAD"
     assert calls["rebuild_in_batches"] == [[("Acme", "ORG", "banking")]]
     assert ("entities", "banking") in calls["sweeps"]
     assert ("chunks", "banking") in calls["sweeps"]
@@ -600,15 +602,6 @@ def test_sync_regenerates_a_table_from_structured_text_diff(repo, monkeypatch):
             "commit": {"deferred_keys": [("Checking", "ACCOUNT", "banking")]}
         },
     )
-    monkeypatch.setattr(t2g, "stage_dir", lambda domain, table_name: repo / "staged" / domain / table_name)
-    # This test's own focus is track B's regeneration accounting, not git
-    # commit behavior -- that's covered separately by
-    # test_sync_commits_regenerated_tables_to_the_vaults_git_history and
-    # test_sync_raises_if_committing_regenerated_tables_fails below. Stub
-    # commit_paths to a plain success so a missing/irrelevant real git repo
-    # (this test never points `vault_git.ARTMIND_VAULT_DIR` at `repo`)
-    # doesn't fail this test for an unrelated reason.
-    monkeypatch.setattr("artmind.vault_git.commit_paths", lambda *a, **k: True)
     calls2 = _patch_ingest_and_projection(monkeypatch)
 
     result = vs.sync(repo, bootstrap_empty=True)
@@ -617,101 +610,6 @@ def test_sync_regenerates_a_table_from_structured_text_diff(repo, monkeypatch):
     assert calls["table_to_graph"][0]["defer_rebuild"] is True
     assert calls2["rebuild_in_batches"] == [[("Checking", "ACCOUNT", "banking")]]
     assert result["regenerated_tables"] == 1
-
-
-def test_sync_commits_regenerated_tables_to_the_vaults_git_history(repo, monkeypatch):
-    """§5 step 6: track B's freshly regenerated `table__*` folder must
-    actually land in the vault's real git history, committed via
-    `vault_git.commit_paths` -- not merely stubbed away. Points
-    `vault_git.ARTMIND_VAULT_DIR` at this test's own `repo` (the same
-    pattern `test/conftest.py`'s `ingest_env` fixture uses) so
-    `commit_paths` operates on a real, inspectable git repo."""
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    st_dir = _patch_structured_text_dir(monkeypatch, repo)
-    (st_dir / "banking").mkdir(parents=True)
-    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
-    (st_dir / "manifest.json").write_text("{}")
-    _commit_all(repo, "add table text")
-
-    import artmind.table2graph as t2g
-    import artmind.vault_git as vg
-    from artmind.structured import registry as structured_registry
-
-    monkeypatch.setattr(vg, "ARTMIND_VAULT_DIR", repo)
-    monkeypatch.setattr(
-        "artmind.structured.text_export.import_structured_text",
-        lambda *a, **k: {"tables_loaded": 1},
-    )
-    monkeypatch.setattr(
-        structured_registry, "get_table",
-        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
-    )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
-
-    staged_dir = kg_dir / "banking" / "table__accounts"
-
-    def _fake_table_to_graph(row, mapping, **k):
-        staged_dir.mkdir(parents=True, exist_ok=True)
-        (staged_dir / "document.json").write_text('{"id": "table:banking:accounts"}')
-        return {"commit": {"deferred_keys": [("Checking", "ACCOUNT", "banking")]}}
-
-    monkeypatch.setattr(t2g, "table_to_graph", _fake_table_to_graph)
-    monkeypatch.setattr(t2g, "stage_dir", lambda domain, table_name: staged_dir)
-    _patch_ingest_and_projection(monkeypatch)
-
-    vs.sync(repo, bootstrap_empty=True)
-
-    log = subprocess.run(
-        ["git", "log", "--oneline"], cwd=repo, capture_output=True, text=True, check=True
-    ).stdout
-    assert "regenerate 1 table" in log
-    stat = subprocess.run(
-        ["git", "show", "HEAD", "--stat"], cwd=repo, capture_output=True, text=True, check=True
-    ).stdout
-    assert "table__accounts/document.json" in stat
-
-
-def test_sync_raises_if_committing_regenerated_tables_fails(repo, monkeypatch):
-    """The critical fix: `vault_git.commit_paths` returning False (its own
-    documented "never raises" contract for a git add/commit failure) must
-    not be silently swallowed -- `sync()` has to raise so the cursor is
-    never advanced past a run that didn't actually commit track B's output
-    (spec §9's "a failure anywhere fails the whole commit, deliberately")."""
-    st_dir = _patch_structured_text_dir(monkeypatch, repo)
-    _patch_kg_dir(monkeypatch, repo)
-    (st_dir / "banking").mkdir(parents=True)
-    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
-    (st_dir / "manifest.json").write_text("{}")
-    _commit_all(repo, "add table text")
-
-    import artmind.table2graph as t2g
-    import artmind.vault_git as vg
-    from artmind.structured import registry as structured_registry
-
-    monkeypatch.setattr(
-        "artmind.structured.text_export.import_structured_text",
-        lambda *a, **k: {"tables_loaded": 1},
-    )
-    monkeypatch.setattr(
-        structured_registry, "get_table",
-        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
-    )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
-    monkeypatch.setattr(
-        t2g, "table_to_graph",
-        lambda row, mapping, **k: {"commit": {"deferred_keys": [("Checking", "ACCOUNT", "banking")]}},
-    )
-    monkeypatch.setattr(t2g, "stage_dir", lambda domain, table_name: repo / "staged" / domain / table_name)
-    monkeypatch.setattr(vg, "commit_paths", lambda paths, message: False)
-    _patch_ingest_and_projection(monkeypatch)
-
-    with pytest.raises(vs.VaultSyncError, match="could not be committed"):
-        vs.sync(repo, bootstrap_empty=True)
-
-    from artmind.vault import VaultLayout, read_state
-    assert read_state(VaultLayout(repo)) == {}
 
 
 def test_sync_leaves_cursor_untouched_when_track_a_fails_after_track_b_succeeded(repo, monkeypatch):
@@ -746,7 +644,6 @@ def test_sync_leaves_cursor_untouched_when_track_a_fails_after_track_b_succeeded
         t2g, "table_to_graph",
         lambda row, mapping, **k: {"commit": {"deferred_keys": [("Checking", "ACCOUNT", "banking")]}},
     )
-    monkeypatch.setattr(t2g, "stage_dir", lambda domain, table_name: repo / "staged" / domain / table_name)
     monkeypatch.setattr(
         ing, "_write_to_neo4j", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("track A boom"))
     )
@@ -832,3 +729,188 @@ def test_preflight_ignores_a_stale_worker_pid(repo, monkeypatch, tmp_path):
 
     result = vs.sync(repo, bootstrap_synced=True)
     assert result["bootstrap"] == "synced"
+
+
+# ── apply reads committed content only (spec 2026-09-26 §6 A1) ───────────────
+
+
+def test_sync_replays_the_committed_observations_not_the_working_tree(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"v": "committed"}]')
+    _commit_all(repo, "add doc1")
+    # An uncommitted edit on disk (a half-finished ingest, or a merge in the
+    # working tree) must not be what gets applied.
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"v": "uncommitted"}]')
+
+    import json
+
+    import artmind.ingest as ing
+
+    seen = []
+
+    def _record(doc_kg_dir, domain, defer_rebuild=False):
+        seen.append((doc_kg_dir.name, domain, json.loads((doc_kg_dir / "observations.json").read_text())))
+        return {"deferred_keys": [], "unembedded_chunk_ids": []}
+
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(ing, "_write_to_neo4j", _record)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen == [("doc1", "banking", [{"v": "committed"}])]
+
+
+def test_sync_carries_the_embedding_sidecar_when_chunks_match_head(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    # The sidecar is gitignored in real vaults; here it's simply never committed.
+    (kg_dir / "banking" / "doc1" / "embeddings.json").write_text('{"d1_001": [0.1]}')
+
+    import artmind.ingest as ing
+
+    seen = []
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain, defer_rebuild=False: seen.append((d / "embeddings.json").is_file())
+        or {"deferred_keys": [], "unembedded_chunk_ids": []},
+    )
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen == [True]
+
+
+def test_sync_drops_the_sidecar_when_chunks_differ_from_head(repo, monkeypatch):
+    """Vectors on disk belong to the on-disk chunks; if those differ from the
+    committed chunks, reusing them would attach the wrong vector to a chunk id."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "d1_001", "text": "edited"}]')
+    (kg_dir / "banking" / "doc1" / "embeddings.json").write_text('{"d1_001": [0.1]}')
+
+    import artmind.ingest as ing
+
+    seen = []
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain, defer_rebuild=False: seen.append((d / "embeddings.json").is_file())
+        or {"deferred_keys": [], "unembedded_chunk_ids": []},
+    )
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen == [False]
+
+
+def test_sync_imports_structured_text_from_the_committed_version(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text('{"tables": []}')
+    _commit_all(repo, "add table text")
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n2\n")  # uncommitted
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    seen = {}
+
+    def _fake_import(src_dir=None, *, tables=None):
+        seen["csv"] = (src_dir / "banking" / "accounts.csv").read_text()
+        seen["manifest"] = (src_dir / "manifest.json").is_file()
+        seen["src_dir"] = src_dir
+        return {"tables_loaded": 1}
+
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", _fake_import)
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda row, mapping, **k: {"commit": {"deferred_keys": []}},
+    )
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen["csv"] == "id\n1\n"
+    assert seen["manifest"] is True
+    assert seen["src_dir"] != st_dir, "must not read the live structured_text dir"
+
+
+def test_sync_never_commits(repo, monkeypatch):
+    """Spec 2026-09-26 D1: regenerated table__* output stays in the working
+    tree; HEAD does not move and nothing is staged."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text("{}")
+    _commit_all(repo, "add table text")
+    head_before = vs.head_sha(repo)
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    staged_dir = kg_dir / "banking" / "table__accounts"
+
+    def _fake_table_to_graph(row, mapping, **k):
+        staged_dir.mkdir(parents=True, exist_ok=True)
+        (staged_dir / "document.json").write_text('{"id": "table:banking:accounts"}')
+        return {"commit": {"deferred_keys": []}}
+
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", lambda *a, **k: {})
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "table_to_graph", _fake_table_to_graph)
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert vs.head_sha(repo) == head_before
+    staged = subprocess.run(
+        ["git", "diff", "--cached", "--name-only"], cwd=repo, capture_output=True, text=True, check=True
+    ).stdout
+    assert staged.strip() == ""
+    assert (staged_dir / "document.json").is_file(), "regenerated output is left on disk"
+
+
+def test_sync_raises_a_clear_error_when_materialize_cannot_archive_the_plan(repo, monkeypatch):
+    """`_materialize`'s failure branch: `git archive` exits non-zero when a
+    pathspec never existed at `head` (a stale/rewritten plan, or a bug in a
+    classifier) -- this must propagate as a `VaultSyncError` naming the
+    archive failure, not be silently swallowed or misattributed to some
+    other step. Drives it through the public `sync()` API by monkeypatching
+    `classify_diff` to return a plan referencing a replay folder that was
+    never actually committed, rather than fighting real git diff output to
+    construct the scenario."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+
+    bogus_plan = vs.SyncPlan(base=vs.EMPTY_TREE_SHA, head=vs.head_sha(repo))
+    bogus_plan.replay_docs = [("banking", "does-not-exist")]
+    monkeypatch.setattr(vs, "classify_diff", lambda *a, **k: bogus_plan)
+
+    with pytest.raises(vs.VaultSyncError, match="git archive"):
+        vs.sync(repo, bootstrap_empty=True)
+
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo)) == {}

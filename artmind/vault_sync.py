@@ -6,9 +6,18 @@ Detects exactly which committed KG-staging document folders
 (`.artmind/data/structured_text/**`) changed since the last sync, and
 replays only those changes -- incremental and git-native, complementing
 (not replacing) the whole-graph `session close`/`session initiate` snapshot.
+
+Applies committed content only: every input is materialised from the fixed
+`head` via `git archive`, never read from the working tree, and `sync` never
+commits (spec 2026-09-26-vault-git-transport-design.md, §6 A1, D1).
 """
 from __future__ import annotations
 
+import io
+import shutil
+import subprocess
+import tarfile
+import tempfile
 from pathlib import Path
 
 from loguru import logger
@@ -137,6 +146,48 @@ def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
         raise VaultSyncError(f"{rev!r} does not resolve to a commit in this vault's git history")
     rc, out, _ = run_command(["git", "show", f"{rev}:{relpath}"], cwd=vault_dir, expected_codes=(128,))
     return out if rc == 0 else None
+
+
+def _materialize(vault_dir: Path, rev: str, relpaths: list[str], dest: Path) -> None:
+    """Extract `relpaths` (files or folders, relative to the vault root) as
+    they stand at `rev` into `dest`, keeping their vault-relative layout.
+
+    This is what makes `sync` apply committed content only (spec 2026-09-26
+    §6 A1): the working tree may hold uncommitted edits, a half-written
+    staging folder, or a merge in progress, none of which is `rev`.
+    `git archive` reads blobs straight from the object store, as bytes.
+    """
+    if not relpaths:
+        return
+    # Not `run_command`: it hardcodes `text=True`, which would decode/corrupt
+    # the binary tar bytes `git archive` writes to stdout.
+    proc = subprocess.run(
+        ["git", "archive", "--format=tar", rev, "--", *relpaths],
+        cwd=vault_dir, capture_output=True,
+    )
+    if proc.returncode != 0:
+        raise VaultSyncError(
+            f"git archive {rev} failed: {proc.stderr.decode(errors='replace').strip()}"
+        )
+    with tarfile.open(fileobj=io.BytesIO(proc.stdout)) as tar:
+        tar.extractall(dest, filter="data")
+
+
+def _carry_sidecar(live_dir: Path, snap_dir: Path) -> None:
+    """Copy the gitignored embedding sidecar from the live staging folder into
+    its HEAD snapshot -- only when the live `chunks.json` is byte-identical to
+    the committed one. The sidecar's vectors belong to the on-disk chunks;
+    attaching them to different committed chunks would pair a chunk id with
+    the wrong vector. Without it, the chunk embed sweep recomputes locally."""
+    from artmind.ingest import EMBEDDING_SIDECAR
+
+    sidecar = live_dir / EMBEDDING_SIDECAR
+    live_chunks = live_dir / "chunks.json"
+    snap_chunks = snap_dir / "chunks.json"
+    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
+        return
+    if live_chunks.read_bytes() == snap_chunks.read_bytes():
+        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
 
 
 from dataclasses import dataclass, field
@@ -321,44 +372,63 @@ def sync(
 
     from artmind import ingest
     from artmind.structured import registry as structured_registry
-    from artmind.structured.text_export import import_structured_text
-    from artmind.table2graph import find_mappings, stage_dir, table_to_graph, _rebuild_in_batches
+    from artmind.structured.text_export import MANIFEST_NAME, import_structured_text
+    from artmind.table2graph import find_mappings, table_to_graph, _rebuild_in_batches
     from artmind.temporal import load_schema
-    from paths import KG_DIR
+    from paths import KG_DIR, STRUCTURED_TEXT_DIR
 
     all_keys: set[tuple[str, str, str]] = set()
-    regenerated_dirs: list[Path] = []
 
-    # ── track B: regenerate (§5 step 2) -- BEFORE track A, so its output
-    #    (freshly regenerated table__* JSON, uncommitted) can never itself
-    #    be mistaken for a track-A input in this same run (the diff_range
-    #    above is already fixed from `plan`, computed before any of this
-    #    runs).
-    if plan.regenerate_tables:
-        import_structured_text(tables=plan.regenerate_tables)
-        for domain, table_name in plan.regenerate_tables:
-            row = structured_registry.get_table(table_name, domain=domain)
-            if row is None:
-                raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
-            found = find_mappings(table_name, domain)
-            if not found:
-                raise VaultSyncError(f"{domain}/{table_name}: no table mapping under domains/table_mappings/")
-            if len(found) > 1:
-                raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
-            schema = load_schema(domain)
-            if not schema:
-                raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
-            report = table_to_graph(row, found[0], schema=schema, embed=False, defer_rebuild=True)
-            all_keys.update(tuple(k) for k in report["commit"].get("deferred_keys") or [])
-            regenerated_dirs.append(stage_dir(domain, table_name))
+    with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
+        scratch = Path(scratch_str)
 
-    # ── track A: replay + retract (§5 step 3) ───────────────────────────────
-    for domain, docdir in plan.replay_docs:
-        doc_kg_dir = KG_DIR / domain / docdir
-        summary = ingest._write_to_neo4j(doc_kg_dir, domain, defer_rebuild=True)
-        if summary is None:
-            raise VaultSyncError(f"{doc_kg_dir}: staged KG JSON could not be read")
-        all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
+        # ── track B: regenerate (§5 step 2) -- BEFORE track A, so its output
+        #    (freshly regenerated table__* JSON in the working tree) can never
+        #    itself be mistaken for a track-A input in this same run (the
+        #    diff_range above is already fixed from `plan`). Inputs come from
+        #    `head`, never the live structured_text dir.
+        if plan.regenerate_tables:
+            st_rel = STRUCTURED_TEXT_DIR.relative_to(vault_dir)
+            _materialize(
+                vault_dir, head,
+                [str(st_rel / MANIFEST_NAME)]
+                + [str(st_rel / domain / f"{table_name}.csv") for domain, table_name in plan.regenerate_tables],
+                scratch,
+            )
+            import_structured_text(scratch / st_rel, tables=plan.regenerate_tables)
+            for domain, table_name in plan.regenerate_tables:
+                row = structured_registry.get_table(table_name, domain=domain)
+                if row is None:
+                    raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
+                found = find_mappings(table_name, domain)
+                if not found:
+                    raise VaultSyncError(f"{domain}/{table_name}: no table mapping under domains/table_mappings/")
+                if len(found) > 1:
+                    raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
+                schema = load_schema(domain)
+                if not schema:
+                    raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
+                report = table_to_graph(row, found[0], schema=schema, embed=False, defer_rebuild=True)
+                all_keys.update(tuple(k) for k in report["commit"].get("deferred_keys") or [])
+
+        # ── track A: replay (§5 step 3), from `head` ─────────────────────────
+        #    Guarded by `if`: some tests patch only STRUCTURED_TEXT_DIR, leaving
+        #    KG_DIR outside `vault_dir` (same reason as the ValueError guards in
+        #    the classifiers), and relative_to would raise on an empty plan.
+        if plan.replay_docs:
+            kg_rel = KG_DIR.relative_to(vault_dir)
+            _materialize(
+                vault_dir, head,
+                [str(kg_rel / domain / docdir) for domain, docdir in plan.replay_docs],
+                scratch,
+            )
+            for domain, docdir in plan.replay_docs:
+                snap_dir = scratch / kg_rel / domain / docdir
+                _carry_sidecar(KG_DIR / domain / docdir, snap_dir)
+                summary = ingest._write_to_neo4j(snap_dir, domain, defer_rebuild=True)
+                if summary is None:
+                    raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")
+                all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
 
     for domain, doc_id in plan.retract:
         result = ingest.retract_document(doc_id, domain)
@@ -377,19 +447,8 @@ def sync(
         ingest._sweep_embeddings(d, domain_keys)
         ingest._sweep_chunk_embeddings(domain=d)
 
-    # ── commit track B's freshly regenerated table__* folders (§5 step 6) ───
-    if regenerated_dirs:
-        from artmind import vault_git
-        committed = vault_git.commit_paths(
-            regenerated_dirs,
-            f"vault sync: regenerate {len(regenerated_dirs)} table(s) from structured text",
-        )
-        if not committed:
-            raise VaultSyncError(
-                "regenerated table(s) could not be committed to the vault's git repo "
-                "(git add/commit failed, or the vault isn't a git repo) -- the cursor "
-                "was NOT advanced; check the logged warning above and retry"
-            )
+    # artmind never commits (spec 2026-09-26, D1): track B's regenerated
+    # table__* folders stay in the working tree. (Phase 2 gitignores them.)
 
     # ── only on full success, advance the cursor (§5 step 7) ────────────────
     write_state(layout, {"last_synced_commit": head})
