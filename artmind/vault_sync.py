@@ -71,6 +71,18 @@ def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> lis
 def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
     """`git show rev:relpath`'s content, or None if that path doesn't exist
     at `rev` -- reading a removed KG-staging folder's document.json from
-    before it was removed, the only way to recover its `doc_id`."""
+    before it was removed, the only way to recover its `doc_id`.
+
+    Distinguishes "rev exists but relpath wasn't in it" (the legitimate,
+    expected case -- returns None) from "rev itself doesn't resolve" (a
+    stale/rewritten cursor, or any other git failure) -- both exit 128 from
+    `git show`, so treating them the same would silently skip a real
+    retraction whenever a stored commit sha ever points at history that no
+    longer exists, instead of failing loudly the way this module's
+    "refused before writing anything" philosophy demands.
+    """
+    rc, _, _ = run_command(f'git cat-file -e "{rev}^{{commit}}"', cwd=vault_dir, expected_codes=(128,))
+    if rc != 0:
+        raise VaultSyncError(f"{rev!r} does not resolve to a commit in this vault's git history")
     rc, out, _ = run_command(f'git show "{rev}:{relpath}"', cwd=vault_dir, expected_codes=(128,))
     return out if rc == 0 else None

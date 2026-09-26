@@ -97,3 +97,11 @@ def test_show_returns_the_content_at_that_revision(repo):
     _commit_all(repo, "second")
 
     assert vs._show(repo, base, "a.txt") == "hello\n"
+
+
+def test_show_raises_when_the_revision_itself_does_not_resolve(repo):
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    with pytest.raises(vs.VaultSyncError, match="does not resolve"):
+        vs._show(repo, "0000000000000000000000000000000000000000", "a.txt")
