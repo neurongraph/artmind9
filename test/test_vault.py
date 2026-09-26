@@ -156,3 +156,36 @@ def test_a_legacy_run_folder_does_not_shadow_a_real_vault(tmp_path):
 
     assert vault.find_vault(real / "subdir") is None or vault.find_vault(real) == real.resolve()
     assert vault.find_vault(real) == real.resolve()
+
+
+def test_read_state_is_empty_dict_when_state_json_absent(tmp_path):
+    layout = vault.VaultLayout(tmp_path)
+    assert vault.read_state(layout) == {}
+
+
+def test_write_state_then_read_state_round_trips(tmp_path):
+    layout = vault.VaultLayout(tmp_path)
+    vault.write_state(layout, {"last_synced_commit": "abc123"})
+    assert vault.read_state(layout) == {"last_synced_commit": "abc123"}
+
+
+def test_write_state_merges_rather_than_overwrites(tmp_path):
+    """Both cursors (`last_ingested_commit`, `last_synced_commit`) share this
+    one file -- a naive overwrite would erase whichever this call didn't
+    mention (spec 2026-09-25-vault-sync-design.md §3)."""
+    layout = vault.VaultLayout(tmp_path)
+    vault.write_state(layout, {"last_ingested_commit": "old-cursor"})
+
+    vault.write_state(layout, {"last_synced_commit": "new-cursor"})
+
+    assert vault.read_state(layout) == {
+        "last_ingested_commit": "old-cursor",
+        "last_synced_commit": "new-cursor",
+    }
+
+
+def test_read_state_tolerates_corrupt_json(tmp_path):
+    layout = vault.VaultLayout(tmp_path)
+    layout.state_json.parent.mkdir(parents=True, exist_ok=True)
+    layout.state_json.write_text("{not json", encoding="utf-8")
+    assert vault.read_state(layout) == {}
