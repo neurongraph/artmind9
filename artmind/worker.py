@@ -154,11 +154,6 @@ def _process_job(
                         current_step="extract_kg",
                         doc_sha256=result.get("sha256"),
                     )
-                    if result.get("touched_path"):
-                        from artmind.vault_git import commit_paths, maybe_push
-
-                        if commit_paths([Path(result["touched_path"])], f"artmind: ingest {Path(file_path).name}"):
-                            maybe_push()
                     effective_domain = result.get("domain", domain)
                     kg_ok = ingest_to_kg(
                         result, effective_domain, text_model, embed_model, chunk_size,
