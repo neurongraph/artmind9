@@ -212,3 +212,71 @@ def test_restore_text_raises_when_no_export_exists(tmp_path, monkeypatch):
 
     with pytest.raises(FileNotFoundError):
         import_structured_text()
+
+
+def test_import_structured_text_scoped_to_tables_leaves_others_untouched(tmp_path, monkeypatch):
+    """`tables=[(domain, table_name), ...]` rebuilds only the requested
+    tables' parquet and registry rows -- never `shutil.rmtree`s the whole
+    STRUCTURED_DIR (spec 2026-09-25-vault-sync-design.md §7)."""
+    _patch_stores(tmp_path, monkeypatch)
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.duckdb_adapter import DuckDBDatasource
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    products_csv = tmp_path / "products.csv"
+    _write_csv(products_csv, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+    ingest_structured_file(products_csv, "banking")
+
+    customers_csv = tmp_path / "customers.csv"
+    _write_csv(customers_csv, [["id", "name"], [1, "Acme"]])
+    ingest_structured_file(customers_csv, "banking")
+
+    export_structured_text()
+
+    customers_parquet = paths.STRUCTURED_DIR / "banking" / "customers.parquet"
+    customers_mtime_before = customers_parquet.stat().st_mtime_ns
+
+    summary = import_structured_text(tables=[("banking", "products")])
+
+    assert summary["tables_loaded"] == 1
+    assert registry.get_table("products", domain="banking") is not None
+    assert registry.get_table("customers", domain="banking") is not None, (
+        "a scoped restore must never wipe an untouched table's registry row"
+    )
+    assert customers_parquet.stat().st_mtime_ns == customers_mtime_before, (
+        "a scoped restore must never rewrite an untouched table's parquet"
+    )
+
+    ds = DuckDBDatasource()
+    ds.ensure_views(registry.list_tables())
+    rows = ds.run_sql("SELECT * FROM products ORDER BY id")
+    assert rows == [{"id": 1, "name": "Widget"}, {"id": 2, "name": "Gadget"}]
+
+
+def test_import_structured_text_unscoped_behaviour_is_unchanged(tmp_path, monkeypatch):
+    """Regression pin: `tables=None` (the default) is byte-for-byte today's
+    existing wholesale behavior."""
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(csv_path, "banking")
+    export_structured_text()
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    import artmind.db as db
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+
+    summary = import_structured_text()
+
+    assert summary["tables_loaded"] == 1
+    assert registry.get_table("products", domain="banking") is not None

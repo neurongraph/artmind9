@@ -126,9 +126,19 @@ def _csv_header(csv_path: Path) -> list[str]:
     return row
 
 
-def import_structured_text(src_dir: Path | None = None) -> dict:
-    """Wipe the structured store (registry rows + parquet) and rebuild it
-    from `src_dir`'s CSV + `manifest.json` (default: `paths.STRUCTURED_TEXT_DIR`).
+def import_structured_text(
+    src_dir: Path | None = None, *, tables: list[tuple[str, str]] | None = None
+) -> dict:
+    """Wipe and rebuild the structured store from `src_dir`'s CSV + `manifest.json`.
+
+    `tables=None` (default) is today's existing wholesale behavior, byte for
+    byte: every registered table's parquet + registry rows are wiped and
+    rebuilt. `tables=[(domain, table_name), ...]` scopes this to exactly
+    those tables -- `vault sync`'s track B, which must never pay for (or
+    disturb) a table its diff didn't touch. Scoped restore never
+    `shutil.rmtree`s STRUCTURED_DIR; only the requested tables' parquet is
+    rewritten, and `registry.restore_tables` (not `restore_all`) leaves every
+    other table's registry rows untouched.
 
     Each CSV's own header row -- not the manifest's `columns` ordering, which
     SQLite gives no guarantee of preserving across a dump/restore -- decides
@@ -148,21 +158,29 @@ def import_structured_text(src_dir: Path | None = None) -> dict:
     for col in manifest.get("columns", []):
         dtypes_by_table.setdefault(col["table_id"], {})[col["name"]] = col["dtype"]
 
+    target_rows = manifest.get("tables", [])
+    if tables is not None:
+        wanted = set(tables)
+        target_rows = [r for r in target_rows if (r["domain"], r["table_name"]) in wanted]
+
     # Never trust the path recorded when the manifest was written -- it's
     # meaningless once this vault has been cloned onto a different machine.
-    for row in manifest.get("tables", []):
+    for row in target_rows:
         row["parquet_path"] = str(parquet_path_for(row["domain"], row["table_name"]))
 
-    if paths.STRUCTURED_DIR.exists():
-        shutil.rmtree(paths.STRUCTURED_DIR)
-    paths.STRUCTURED_DIR.mkdir(parents=True, exist_ok=True)
-
-    registry.restore_all(manifest)
+    if tables is None:
+        if paths.STRUCTURED_DIR.exists():
+            shutil.rmtree(paths.STRUCTURED_DIR)
+        paths.STRUCTURED_DIR.mkdir(parents=True, exist_ok=True)
+        registry.restore_all(manifest)
+    else:
+        paths.STRUCTURED_DIR.mkdir(parents=True, exist_ok=True)
+        registry.restore_tables(manifest, tables)
 
     ds = DuckDBDatasource()
     loaded = 0
     skipped: list[str] = []
-    for table in manifest.get("tables", []):
+    for table in target_rows:
         csv_path = _table_csv_path(src_dir, table["domain"], table["table_name"])
         if not csv_path.is_file():
             logger.warning(
