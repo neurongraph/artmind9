@@ -43,7 +43,6 @@ The mapping format is documented in the `artmind-create-schema` skill
 from __future__ import annotations
 
 import fnmatch
-import json
 import math
 import re
 from dataclasses import dataclass, field
