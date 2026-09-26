@@ -100,8 +100,8 @@ def _setup_extract_env(monkeypatch, tmp_path: Path, n_chunks: int) -> dict:
 
 
 def _merged_entity_chunk_ids(doc_kg_dir: Path) -> set[str]:
-    entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
-    return {e["chunk_id"] for e in entities}
+    observations = json.loads((doc_kg_dir / "observations.json").read_text(encoding="utf-8"))
+    return {o["chunk_id"] for o in observations}
 
 
 def test_extract_kg_concurrent_processes_every_chunk(monkeypatch, tmp_path):
@@ -114,8 +114,8 @@ def test_extract_kg_concurrent_processes_every_chunk(monkeypatch, tmp_path):
     # (chunk cache is nested one level deeper, under doc_sha256 — see extract_kg.)
     chunk_jsons = sorted((doc_kg_dir / "chunks").glob("**/chunk_*.json"))
     assert len(chunk_jsons) == n
-    entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
-    assert len(entities) == n
+    observations = json.loads((doc_kg_dir / "observations.json").read_text(encoding="utf-8"))
+    assert len(observations) == n
     assert len(_merged_entity_chunk_ids(doc_kg_dir)) == n
 
     # Merge order stays deterministic (by seq) regardless of completion order.

@@ -352,8 +352,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             artifacts.append({
                 "doc": doc_dir.name,
                 "name": name,
-                "entity_count": _json_len(doc_dir / "entities.json"),
-                "property_count": _json_len(doc_dir / "properties.json"),
+                "entity_count": _json_len(doc_dir / "observations.json"),
                 "relationship_count": _json_len(doc_dir / "relationships.json"),
                 "in_graph": name.upper() in in_graph_names,
             })

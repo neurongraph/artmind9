@@ -374,12 +374,11 @@ def test_resume_extract_failure_is_400(monkeypatch, tmp_path):
     assert response.status_code == 400
 
 
-def _write_doc_kg_dir(base, domain, doc, name, entities=0, properties=0, relationships=0):
+def _write_doc_kg_dir(base, domain, doc, name, entities=0, relationships=0):
     doc_dir = base / domain / doc
     doc_dir.mkdir(parents=True)
     (doc_dir / "document.json").write_text(json.dumps({"name": name}))
-    (doc_dir / "entities.json").write_text(json.dumps([{}] * entities))
-    (doc_dir / "properties.json").write_text(json.dumps([{}] * properties))
+    (doc_dir / "observations.json").write_text(json.dumps([{}] * entities))
     (doc_dir / "relationships.json").write_text(json.dumps([{}] * relationships))
     return doc_dir
 
@@ -393,7 +392,7 @@ def test_artifacts_missing_domain_dir_returns_empty(monkeypatch, tmp_path):
 
 def test_artifacts_lists_docs_with_counts_and_in_graph_flag(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
-    _write_doc_kg_dir(tmp_path, "general", "doc1", "doc1.pdf", entities=2, properties=1, relationships=3)
+    _write_doc_kg_dir(tmp_path, "general", "doc1", "doc1.pdf", entities=2, relationships=3)
     monkeypatch.setattr(
         dashboard_routes,
         "structural_metadata",
@@ -403,7 +402,7 @@ def test_artifacts_lists_docs_with_counts_and_in_graph_flag(monkeypatch, tmp_pat
     assert response.status_code == 200
     assert response.json() == [{
         "doc": "doc1", "name": "doc1.pdf",
-        "entityCount": 2, "propertyCount": 1, "relationshipCount": 3,
+        "entityCount": 2, "relationshipCount": 3,
         "inGraph": True,
     }]
 

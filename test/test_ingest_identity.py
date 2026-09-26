@@ -335,7 +335,7 @@ def test_document_merge_props_carry_logical_id_and_version(tmp_path, monkeypatch
         ),
         encoding="utf-8",
     )
-    for name in ("chunks.json", "entities.json", "properties.json", "relationships.json"):
+    for name in ("chunks.json", "relationships.json"):
         (tmp_path / name).write_text("[]", encoding="utf-8")
 
     runs: list = []

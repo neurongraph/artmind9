@@ -376,7 +376,7 @@ async function refreshArtifacts() {
                         a.inGraph ? "in graph" : "staged"));
     card.appendChild(head);
     card.appendChild(el("div", "dash-note",
-      `${a.entityCount} entities · ${a.propertyCount} properties · ${a.relationshipCount} relationships`));
+      `${a.entityCount} entities · ${a.relationshipCount} relationships`));
 
     if (!a.inGraph) {
       const commitBtn = el("button", "btn-link", "Write to graph");

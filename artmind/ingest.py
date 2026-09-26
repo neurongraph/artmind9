@@ -2401,8 +2401,6 @@ def extract_kg(
 
     _write_json("document.json", document)
     _write_json("chunks.json", [strip_embeddings(c) for c in all_chunks])
-    _write_json("entities.json", all_entities)
-    _write_json("properties.json", all_properties)
     _write_json("relationships.json", all_relationships)
     _write_json("observations.json", all_observations)
 

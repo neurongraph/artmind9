@@ -76,8 +76,7 @@ def _stage_doc_dir(tmp_path: Path, document: dict, chunk: dict) -> Path:
     """Stage a doc_kg_dir with document.json/chunks.json and empty extraction files."""
     (tmp_path / "document.json").write_text(json.dumps(document), encoding="utf-8")
     (tmp_path / "chunks.json").write_text(json.dumps([chunk]), encoding="utf-8")
-    for name in ("entities.json", "properties.json", "relationships.json"):
-        (tmp_path / name).write_text("[]", encoding="utf-8")
+    (tmp_path / "relationships.json").write_text("[]", encoding="utf-8")
     return tmp_path
 
 

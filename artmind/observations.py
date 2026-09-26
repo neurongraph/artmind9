@@ -272,7 +272,7 @@ def build_observation(
 ) -> dict:
     """Build one Observation's property map. Pure -- no session, no I/O.
 
-    `entity` is one entry from a chunk's extracted `entities.json`;
+    `entity` is one entry from `extract_kg`'s in-memory `all_entities` list;
     `canonical_name` comes from the per-document canonicalization pass.
 
     `identity` -- an explicit identity for the aggregate key, bypassing

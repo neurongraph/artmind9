@@ -184,8 +184,7 @@ def test_docchunk_merge_props_carry_the_four_keys(tmp_path, monkeypatch):
         ),
         encoding="utf-8",
     )
-    for name in ("entities.json", "properties.json", "relationships.json"):
-        (doc_kg / name).write_text("[]", encoding="utf-8")
+    (doc_kg / "relationships.json").write_text("[]", encoding="utf-8")
 
     runs: list = []
     session = _RecordingSession(runs)
