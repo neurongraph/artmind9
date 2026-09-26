@@ -214,3 +214,134 @@ def classify_diff(
             seen.add((domain, doc_id))
             plan.retract.append((domain, doc_id))
     return plan
+
+
+def sync(
+    vault_dir: Path,
+    *,
+    domains: list[str] | None = None,
+    bootstrap_empty: bool = False,
+    bootstrap_synced: bool = False,
+    dry_run: bool = False,
+) -> dict:
+    """Replay committed KG-staging and structured-text changes into
+    Neo4j/DuckDB since the last sync (spec §5). All-or-nothing: the cursor
+    only advances on full success (§9); any exception here propagates
+    unchanged, leaving `last_synced_commit` untouched so the next
+    invocation recomputes the identical diff_range from scratch.
+    """
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    if bootstrap_empty and bootstrap_synced:
+        raise VaultSyncError("pass at most one of --bootstrapEmpty / --bootstrapSynced")
+
+    layout = VaultLayout(vault_dir)
+    state = read_state(layout)
+    last_synced = state.get("last_synced_commit")
+    head = head_sha(vault_dir)
+
+    if bootstrap_synced:
+        if dry_run:
+            return {"bootstrap": "synced", "dry_run": True, "would_stamp": head}
+        write_state(layout, {"last_synced_commit": head})
+        return {"bootstrap": "synced", "last_synced_commit": head}
+
+    if last_synced is None and not bootstrap_empty:
+        raise VaultSyncError(
+            "no last_synced_commit recorded yet -- pass --bootstrapEmpty for a full "
+            "replay of everything (correct for an empty Neo4j/DuckDB), or "
+            "--bootstrapSynced if this machine's graph is already known-current "
+            "(e.g. right after `session initiate`/`db restore`)"
+        )
+    base = EMPTY_TREE_SHA if bootstrap_empty else last_synced
+
+    plan = classify_diff(vault_dir, layout, base, head, domains)
+
+    if dry_run:
+        return {
+            "dry_run": True,
+            "base": base,
+            "head": head,
+            "replay": len(plan.replay_docs),
+            "retract": len(plan.retract),
+            "regenerate_tables": len(plan.regenerate_tables),
+        }
+
+    from artmind import ingest
+    from artmind.structured import registry as structured_registry
+    from artmind.structured.text_export import import_structured_text
+    from artmind.table2graph import find_mappings, stage_dir, table_to_graph, _rebuild_in_batches
+    from artmind.temporal import load_schema
+    from paths import KG_DIR
+
+    all_keys: set[tuple[str, str, str]] = set()
+    regenerated_dirs: list[Path] = []
+
+    # ── track B: regenerate (§5 step 2) -- BEFORE track A, so its output
+    #    (freshly regenerated table__* JSON, uncommitted) can never itself
+    #    be mistaken for a track-A input in this same run (the diff_range
+    #    above is already fixed from `plan`, computed before any of this
+    #    runs).
+    if plan.regenerate_tables:
+        import_structured_text(tables=plan.regenerate_tables)
+        for domain, table_name in plan.regenerate_tables:
+            row = structured_registry.get_table(table_name, domain=domain)
+            if row is None:
+                raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
+            found = find_mappings(table_name, domain)
+            if not found:
+                raise VaultSyncError(f"{domain}/{table_name}: no table mapping under domains/table_mappings/")
+            if len(found) > 1:
+                raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
+            schema = load_schema(domain)
+            if not schema:
+                raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
+            report = table_to_graph(row, found[0], schema=schema, embed=False, defer_rebuild=True)
+            all_keys.update(tuple(k) for k in report["commit"].get("deferred_keys") or [])
+            regenerated_dirs.append(stage_dir(domain, table_name))
+
+    # ── track A: replay + retract (§5 step 3) ───────────────────────────────
+    for domain, docdir in plan.replay_docs:
+        doc_kg_dir = KG_DIR / domain / docdir
+        summary = ingest._write_to_neo4j(doc_kg_dir, domain, defer_rebuild=True)
+        if summary is None:
+            raise VaultSyncError(f"{doc_kg_dir}: staged KG JSON could not be read")
+        all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
+
+    for domain, doc_id in plan.retract:
+        result = ingest.retract_document(doc_id, domain)
+        all_keys.update(tuple(k) for k in result.get("affected_keys") or [])
+
+    # ── the union rebuild (§5 step 4), chunked exactly like table2graph's own ─
+    if all_keys:
+        projection_summary = _rebuild_in_batches(sorted(all_keys))
+    else:
+        projection_summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": 0}
+
+    # ── domain-scoped embed sweeps (§5 step 5) ──────────────────────────────
+    touched_domains = sorted({k[2] for k in all_keys})
+    for d in touched_domains:
+        domain_keys = [k for k in all_keys if k[2] == d]
+        ingest._sweep_embeddings(d, domain_keys)
+        ingest._sweep_chunk_embeddings(domain=d)
+
+    # ── commit track B's freshly regenerated table__* folders (§5 step 6) ───
+    if regenerated_dirs:
+        from artmind import vault_git
+        vault_git.commit_paths(
+            regenerated_dirs,
+            f"vault sync: regenerate {len(regenerated_dirs)} table(s) from structured text",
+        )
+
+    # ── only on full success, advance the cursor (§5 step 7) ────────────────
+    write_state(layout, {"last_synced_commit": head})
+
+    return {
+        "base": base,
+        "last_synced_commit": head,
+        "replayed": len(plan.replay_docs),
+        "retracted": len(plan.retract),
+        "regenerated_tables": len(plan.regenerate_tables),
+        "projection": projection_summary,
+        "domains_swept": touched_domains,
+    }

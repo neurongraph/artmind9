@@ -379,3 +379,227 @@ def test_classify_diff_ignores_document_json_changing_alongside_observations(rep
     plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
+
+
+# ── sync(): bootstrap ────────────────────────────────────────────────────────
+
+
+def test_sync_refuses_without_marker_or_bootstrap_flag(repo, monkeypatch):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    with pytest.raises(vs.VaultSyncError, match="bootstrapEmpty"):
+        vs.sync(repo)
+
+
+def test_sync_bootstrap_synced_stamps_the_cursor_without_replaying(repo, monkeypatch):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+    from artmind.vault import VaultLayout, read_state
+
+    result = vs.sync(repo, bootstrap_synced=True)
+
+    assert result["last_synced_commit"] == vs.head_sha(repo)
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+
+
+def test_sync_bootstrap_synced_dry_run_writes_nothing(repo, monkeypatch):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+    from artmind.vault import VaultLayout, read_state
+
+    vs.sync(repo, bootstrap_synced=True, dry_run=True)
+
+    assert read_state(VaultLayout(repo)) == {}
+
+
+def test_sync_dry_run_reports_counts_and_writes_nothing(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    from artmind.vault import VaultLayout, read_state
+
+    result = vs.sync(repo, bootstrap_empty=True, dry_run=True)
+
+    assert result["replay"] == 1
+    assert read_state(VaultLayout(repo)) == {}
+
+
+# ── sync(): the full sequencing, with Neo4j/table2graph mocked ──────────────
+
+
+def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract_results=None):
+    """Mocks the graph-touching seams `sync()` calls, so these tests stay
+    hermetic (no real Neo4j) while still asserting on what was actually
+    called and with what -- never on a summary count alone (CLAUDE.md)."""
+    import artmind.ingest as ing
+    import artmind.table2graph as t2g
+
+    calls = {"write_to_neo4j": [], "retract_document": [], "rebuild_in_batches": [], "sweeps": []}
+
+    def _fake_write(doc_kg_dir, domain, defer_rebuild=False):
+        calls["write_to_neo4j"].append((str(doc_kg_dir), domain))
+        keys = (deferred_keys_by_doc or {}).get(doc_kg_dir.name, [])
+        return {"deferred_keys": keys, "unembedded_chunk_ids": []}
+
+    def _fake_retract(doc_id, domain):
+        calls["retract_document"].append((doc_id, domain))
+        result = (retract_results or {}).get(doc_id, {"affected_keys": []})
+        return {"doc_id": doc_id, "domain": domain, **result}
+
+    def _fake_rebuild_in_batches(keys):
+        calls["rebuild_in_batches"].append(sorted(keys))
+        return {"rebuilt": len(keys), "deleted": 0, "absent": 0, "keys": len(keys), "batches": 1}
+
+    monkeypatch.setattr(ing, "_write_to_neo4j", _fake_write)
+    monkeypatch.setattr(ing, "retract_document", _fake_retract)
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", _fake_rebuild_in_batches)
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: calls["sweeps"].append(("entities", domain)) or 0)
+    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: calls["sweeps"].append(("chunks", kw.get("domain"))) or 0)
+    return calls
+
+
+def test_sync_replays_an_added_document_folder_and_advances_the_cursor(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    calls = _patch_ingest_and_projection(
+        monkeypatch, deferred_keys_by_doc={"doc1": [["Acme", "ORG", "banking"]]}
+    )
+
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["write_to_neo4j"] == [(str(kg_dir / "banking" / "doc1"), "banking")]
+    assert calls["rebuild_in_batches"] == [[("Acme", "ORG", "banking")]]
+    assert ("entities", "banking") in calls["sweeps"]
+    assert ("chunks", "banking") in calls["sweeps"]
+    assert result["last_synced_commit"] == vs.head_sha(repo)
+
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+
+
+def test_sync_retracts_a_removed_document_folder(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "doc1")
+    _commit_all(repo, "remove doc1")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+    calls = _patch_ingest_and_projection(
+        monkeypatch, retract_results={"docid-1": {"affected_keys": [["Acme", "ORG", "banking"]]}}
+    )
+
+    result = vs.sync(repo)
+
+    assert calls["retract_document"] == [("docid-1", "banking")]
+    assert calls["rebuild_in_batches"] == [[("Acme", "ORG", "banking")]]
+    assert result["retracted"] == 1
+
+
+def test_sync_leaves_the_cursor_untouched_on_failure(repo, monkeypatch):
+    """§9's all-or-nothing: a transient failure mid-run must not advance
+    last_synced_commit -- the next invocation recomputes the identical
+    diff_range from scratch."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+
+    import artmind.ingest as ing
+
+    def _boom(*a, **k):
+        raise RuntimeError("neo4j connection dropped")
+
+    monkeypatch.setattr(ing, "_write_to_neo4j", _boom)
+
+    with pytest.raises(RuntimeError, match="neo4j connection dropped"):
+        vs.sync(repo, bootstrap_empty=True)
+
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo)) == {}
+
+
+def test_sync_retry_after_a_failure_converges_to_the_same_end_state(repo, monkeypatch):
+    """§9/§12's idempotent-retry property: a simulated mid-run failure,
+    followed by a second run, converges to the same end state as an
+    uninterrupted run would have -- the identical diff_range is recomputed
+    from scratch and this time succeeds, advancing the cursor to the same
+    HEAD an uninterrupted first attempt would have reached. (The
+    redundant-History-version cost §9 names -- a document that had already
+    committed once before the failure gets re-demoted-and-rewritten on
+    retry -- is a real Neo4j-write-level effect this mocked test cannot
+    observe; it is accepted per §9, not asserted away, and not re-proven
+    here beyond this convergence property.)"""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    expected_head = vs.head_sha(repo)
+
+    import artmind.ingest as ing
+    monkeypatch.setattr(ing, "_write_to_neo4j", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+
+    with pytest.raises(RuntimeError):
+        vs.sync(repo, bootstrap_empty=True)
+
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo)) == {}
+
+    _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc={"doc1": [["Acme", "ORG", "banking"]]})
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert result["last_synced_commit"] == expected_head
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == expected_head
+
+
+def test_sync_regenerates_a_table_from_structured_text_diff(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text("{}")
+    _commit_all(repo, "add table text")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    calls = {"import_structured_text": [], "table_to_graph": []}
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: calls["import_structured_text"].append(k.get("tables")) or {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda row, mapping, **k: calls["table_to_graph"].append(k) or {
+            "commit": {"deferred_keys": [("Checking", "ACCOUNT", "banking")]}
+        },
+    )
+    monkeypatch.setattr(t2g, "stage_dir", lambda domain, table_name: repo / "staged" / domain / table_name)
+    calls2 = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["import_structured_text"] == [[("banking", "accounts")]]
+    assert calls["table_to_graph"][0]["defer_rebuild"] is True
+    assert calls2["rebuild_in_batches"] == [[("Checking", "ACCOUNT", "banking")]]
+    assert result["regenerated_tables"] == 1
