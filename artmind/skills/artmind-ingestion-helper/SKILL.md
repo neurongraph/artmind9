@@ -43,8 +43,8 @@ Then track it with the admin UI's dashboard (`artmind admin-ui`, then open `/das
 
 **A vault-native markdown file gets its identity seeded on first ingest**:
 `_artmind_id` (a uuid7), `_version`, `_content_sha256`, and the rest of the
-system frontmatter block are written into the file itself, and artmind makes
-a git commit in the vault recording it. Re-ingesting the same file later
+system frontmatter block are written into the file itself; the Obsidian Git
+plugin commits the change (artmind never commits). Re-ingesting the same file later
 bumps `_version` only if the body changed; editing only frontmatter (tags,
 title) takes a metadata-only fast path with no new version and no
 re-extraction. If `--domain` is omitted, a file's own `_domain` frontmatter
@@ -292,7 +292,8 @@ artmind docs restore --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 **Archive** — the only actual removal artmind has (there is deliberately no
 `purge`). Bundles the document (staged KG JSON, vault markdown, original
 binary if any, a manifest) under `ARTMIND_ARCHIVE_DIR`, then removes it from
-BOTH the graph and the vault (a real `git rm` + commit):
+BOTH the graph and the vault (deletes the file; Obsidian Git commits the
+removal — artmind never commits):
 ```bash
 artmind docs archive --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 artmind docs archived --domain YOUR_DOMAIN                    # list what's archived

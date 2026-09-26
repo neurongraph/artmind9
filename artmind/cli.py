@@ -3433,6 +3433,10 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
     CDC-like, and git-native. Complements (does not replace) `session close`/
     `session initiate`'s whole-graph snapshot. Run with no marker yet? pass
     --bootstrapEmpty or --bootstrapSynced (see each flag's own help).
+
+    Applies committed content only (never the working tree) and never
+    commits. Refuses while a merge/rebase is in progress, while conflicts are
+    unresolved, or while the ingest worker is running.
     """
     _setup_logger()
     from artmind import vault as vault_mod

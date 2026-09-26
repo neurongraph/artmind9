@@ -289,7 +289,7 @@ isomorphic-git (which is how it works on mobile), so whether a hook fires depend
 on platform and version — a hook-based trigger would work on the desktop and
 silently stop on the phone. The cursor is also better on its own merits:
 
-- **writer-agnostic** — Obsidian Git, CLI git and artmind's own commits are alike
+- **writer-agnostic** — it doesn't matter who committed: Obsidian Git or a manual `git commit` look the same
 - **idempotent** — re-running with `HEAD` unmoved does nothing
 - **catches up** — away a week, one command ingests the backlog
 - **testable** — no daemon, no filesystem watcher
@@ -305,14 +305,31 @@ already do this, and the worker is already per-vault via its pid file.
 Default is `manual`. Nobody should discover automatic LLM spend by surprise;
 `init` offers to change it.
 
-### Running alongside the Obsidian Git plugin
+### Git: Obsidian Git owns transport
 
-Two writers on one repo is fine here. `vault_git.commit_paths` already fails
-non-fatally on `index.lock`, and with a cursor a lost commit is harmless — the
-next sweep includes it. Leave `ARTMIND_VAULT_GIT_PUSH` unset and let the plugin
-own pushing.
+artmind never commits, pulls or pushes the vault. It writes files — note
+frontmatter, KG staging under `.artmind/data/kg/`, structured text under
+`.artmind/data/structured_text/` — and the Obsidian Git plugin commits and
+syncs them like any other change. One writer per repo means no `index.lock`
+races and no rejected pushes.
 
-The loop terminates by construction: artmind writes frontmatter → someone commits
+Recommended plugin settings (names vary by plugin version): sync method
+**merge** (not rebase — commit shas are provenance and the sync cursor),
+auto commit-and-sync every 5–10 minutes, pull on startup. Mobile uses the same
+settings and never runs artmind. Do not also sync the vault folder with
+iCloud / Obsidian Sync / Dropbox — a second sync layer racing Obsidian Git
+over the same working tree risks corrupting it.
+
+After the plugin pulls changes made on another machine, run
+`artmind vault sync` to apply them to this machine's Neo4j and structured
+store. It applies committed content only, and refuses while a merge is in
+progress, while conflicts are unresolved, or while the ingest worker is
+running. A machine with no Obsidian that must still follow the remote (e.g. a
+query-only host) uses a plain `git pull --no-rebase` on a launchd/cron timer
+instead — documented, not built into artmind. Design:
+`docs/superpowers/specs/2026-09-26-vault-git-transport-design.md`.
+
+The loop terminates by construction: artmind writes frontmatter → Obsidian Git commits
 it → the cursor sees a change → but `compute_content_sha256` hashes the **body
 only**, so the version decision is `metadata_only`, minting no observations at no
 LLM cost.
@@ -412,8 +429,8 @@ script) invoking `artmind init` with nobody at the keyboard never blocks on
 stdin.
 
 `artmind init --interactive` prompts for this vault's Neo4j connection
-(URI, username, password, database), whether to push after every ingest
-(`ARTMIND_VAULT_GIT_PUSH`), and a git remote URL — built on `click.prompt`/
+(URI, username, password, database) and a git remote URL (configured for
+Obsidian Git to push to; artmind itself never pushes) — built on `click.prompt`/
 `click.confirm`, the same primitives the rest of the CLI already uses for
 interactive input (`cli.py`'s `_prompt_for_domain`, `docs archive`'s
 confirmation), so this adds no new dependency. The connection prompts only
@@ -439,7 +456,7 @@ both.
 | Scope | Variables |
 |---|---|
 | **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_INGEST_MAX_WORKERS` |
-| **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*`, `ARTMIND_VAULT_GIT_PUSH` |
+| **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
 | **Runtime** | `ARTMIND_NO_PROXY`, `--vault` |
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
