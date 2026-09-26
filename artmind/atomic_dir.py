@@ -2,14 +2,14 @@
 
 Obsidian Git auto-commits on a timer, so it can capture a folder mid-write
 (a new document.json beside an old observations.json). Every staging writer
-builds the complete new folder in `<dir>.tmp/`, fsyncs it, then swaps it in:
+builds the complete new folder in `<dir>.artmind-tmp/`, fsyncs it, then swaps it in:
 
-    <dir>      -> <dir>.old
-    <dir>.tmp  -> <dir>
-    remove <dir>.old
+    <dir>      -> <dir>.artmind-old
+    <dir>.artmind-tmp  -> <dir>
+    remove <dir>.artmind-old
 
 A directory rename over a non-empty directory is not atomic on POSIX, hence
-three steps. A crash leaves at worst a `.tmp` or `.old` sibling, both
+three steps. A crash leaves at worst a `.artmind-tmp` or `.artmind-old` sibling, both
 gitignored (R4), and `recover()` -- run at the start of every write --
 finishes or discards them.
 """
@@ -19,12 +19,12 @@ import os
 import shutil
 from pathlib import Path
 
-TMP_SUFFIX = ".tmp"
-OLD_SUFFIX = ".old"
+TMP_SUFFIX = ".artmind-tmp"
+OLD_SUFFIX = ".artmind-old"
 
 
 def is_scratch(path: Path) -> bool:
-    """Whether `path` is a `.tmp`/`.old` sibling left by `write_dir_atomic`,
+    """Whether `path` is a `.artmind-tmp`/`.artmind-old` sibling left by `write_dir_atomic`,
     which a directory listing of staging folders should skip."""
     return path.name.endswith((TMP_SUFFIX, OLD_SUFFIX))
 
@@ -36,10 +36,10 @@ def _siblings(target: Path) -> tuple[Path, Path]:
 def recover(target: Path) -> None:
     """Finish or discard a swap a crash interrupted.
 
-    `.old` with no `target` means the crash fell between the two renames;
-    `.tmp` is only renamed after it is complete and fsynced, so it is
-    promoted. A `.tmp` beside an intact `target` is a crash while building
-    and is discarded; a `.old` beside `target` is a crash before cleanup."""
+    `.artmind-old` with no `target` means the crash fell between the two renames;
+    `.artmind-tmp` is only renamed after it is complete and fsynced, so it is
+    promoted. A `.artmind-tmp` beside an intact `target` is a crash while building
+    and is discarded; a `.artmind-old` beside `target` is a crash before cleanup."""
     tmp, old = _siblings(target)
     if old.exists() and not target.exists():
         (tmp if tmp.exists() else old).rename(target)
@@ -71,11 +71,15 @@ def write_dir_atomic(target: Path, files: dict[str, str | bytes]) -> None:
 
     Every other entry already in `target` -- the per-chunk extraction cache,
     the gitignored embedding sidecar, debug output -- is carried over
-    unchanged, as hardlinks. A replaced file is unlinked in `.tmp` before
+    unchanged, as hardlinks. A replaced file is unlinked in `.artmind-tmp` before
     it is written, so the write never reaches the old folder's inode."""
     target = Path(target)
     target.parent.mkdir(parents=True, exist_ok=True)
     recover(target)
+    for name in files:
+        parts = Path(name).parts
+        if Path(name).is_absolute() or ".." in parts or not parts:
+            raise ValueError(f"{name!r}: a staging file name must be a relative path inside the folder")
     tmp, old = _siblings(target)
     if target.exists():
         shutil.copytree(target, tmp, symlinks=True, copy_function=_link_or_copy)
