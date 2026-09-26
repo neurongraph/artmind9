@@ -1301,3 +1301,19 @@ class TestIngestManifestDomainValidation:
         assert response.status_code == 400
         assert "no_such_domain_xyz" in response.json()["detail"]
         assert queued == [], "nothing may be queued after a manifest error"
+
+
+def test_artifacts_skip_atomic_write_scratch_folders(monkeypatch, tmp_path):
+    """A crash mid-swap (spec 2026-09-26 R2) can leave doc1.artmind-tmp / doc1.artmind-old
+    beside doc1; they are not documents."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    _write_doc_kg_dir(tmp_path, "general", "doc1", "doc1.pdf", entities=1)
+    _write_doc_kg_dir(tmp_path, "general", "doc1.artmind-tmp", "doc1.pdf", entities=9)
+    _write_doc_kg_dir(tmp_path, "general", "doc1.artmind-old", "doc1.pdf", entities=7)
+    monkeypatch.setattr(dashboard_routes, "structural_metadata", lambda domains: {"rows": []})
+
+    response = _client().get("/api/artifacts?domain=general")
+
+    assert response.status_code == 200
+    assert [a["doc"] for a in response.json()] == ["doc1"]
+    assert response.json()[0]["entityCount"] == 1
