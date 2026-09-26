@@ -74,34 +74,36 @@ def log_llm_call(call_type: str, model: str, prompt: str, response: str) -> None
 _ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 def run_command(
-    cmd_str: str,
+    cmd: "str | list[str]",
     timeout: int | None = None,
     cwd: Path | None = None,
     extra_env: dict | None = None,
     expected_codes: "tuple[int, ...]" = (),
 ) -> tuple[int, str, str]:
-    """Run `cmd_str`, returning (returncode, stdout, stderr).
+    """Run `cmd`, returning (returncode, stdout, stderr).
+
+    `cmd` is either an argv list (preferred: arguments pass through verbatim,
+    so a path or message containing quotes or spaces needs no escaping) or a
+    shell-like string, split with `shlex.split` (kept for existing callers).
 
     ``expected_codes`` names non-zero exits that are a normal outcome rather
     than a failure, so they log at debug instead of error. Some tools use the
-    exit code as an *answer*: `git diff --cached --quiet` exits 1 to mean "yes,
-    there are staged changes", which is the success path for
-    `vault_git.commit_paths`, and `git rev-parse HEAD` exits 128 in a
+    exit code as an *answer*: `git rev-parse HEAD` exits 128 in a
     freshly-`init`ed repo that has no commits yet -- the state `artmind init`
     deliberately leaves a new vault in.
 
     Logging those at ERROR is worse than noise: it teaches a reader to ignore
     the level, and sends anyone debugging a real problem after a non-problem.
     """
-    logger.debug("CMD: {}", cmd_str)
+    argv = shlex.split(cmd) if isinstance(cmd, str) else list(cmd)
+    logger.debug("CMD: {}", cmd if isinstance(cmd, str) else shlex.join(str(a) for a in argv))
     if timeout is not None:
         logger.debug("CMD timeout: {}s", timeout)
-    cmd = shlex.split(cmd_str)
     env = {**os.environ, "NO_COLOR": "1", "TERM": "dumb"}
     if extra_env:
         env.update(extra_env)
     t0 = time.monotonic()
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd, env=env)
+    result = subprocess.run(argv, capture_output=True, text=True, timeout=timeout, cwd=cwd, env=env)
     elapsed = time.monotonic() - t0
     if result.returncode == 0:
         logger.debug("CMD ok in {:.1f}s", elapsed)
