@@ -51,7 +51,7 @@ Do **not** run `just dev-install` or `artmind init` outside `tmp_path` during im
 | `artmind/atomic_dir.py` | new: `write_dir_atomic`, `recover`, `is_scratch` (R2) |
 | `artmind/ingest.py` | new `write_staging()`; `extract_kg` writes its four JSON files through it (R2) |
 | `artmind/table2graph.py` | `write_staged` goes through `ingest.write_staging` (R2) |
-| `artmind/webui/dashboard_routes.py` | `/api/artifacts` skips `.tmp`/`.old` scratch folders |
+| `artmind/webui/dashboard_routes.py` | `/api/artifacts` skips `.artmind-tmp`/`.artmind-old` scratch folders |
 | `artmind/vault.py` | versioned blocks: `GITIGNORE_BLOCK` v2 (R4), new `GITATTRIBUTES_BLOCK` (R3), `block_status`, `write_gitattributes`; `write_gitignore` replaces an older block in place |
 | `artmind/setup.py` | `scaffold_vault` also writes `.gitattributes` |
 | `artmind/structured/text_export.py` | per-table `.meta.json` (R5), legacy `manifest.json` read fallback and migration on export |
@@ -66,7 +66,7 @@ Do **not** run `just dev-install` or `artmind init` outside `tmp_path` during im
 
 ### Task 1: `atomic_dir`: swap a folder in atomically
 
-Obsidian Git auto-commits on a timer and can capture a half-written staging folder (spec R2). This task adds the one primitive every staging writer will use. A directory rename over a non-empty directory is not atomic on POSIX, so the swap has three steps: old → `.old`, `.tmp` → target, remove `.old`. Entries the writer does not replace (the chunk cache, the sidecar) are carried into `.tmp` as hardlinks. That costs no copy and never writes through into the old folder, because each replaced file is unlinked before it is written.
+Obsidian Git auto-commits on a timer and can capture a half-written staging folder (spec R2). This task adds the one primitive every staging writer will use. A directory rename over a non-empty directory is not atomic on POSIX, so the swap has three steps: old → `.artmind-old`, `.artmind-tmp` → target, remove `.artmind-old`. The scratch suffixes are `.artmind-tmp`/`.artmind-old`, not the spec's `.tmp`/`.old`: staging folders are named after the file stem, so `notes.old.pdf` legitimately stages into `notes.old/`, and a plain `.old` suffix would make a swap of `notes/` rename or delete that other document (found in Task 1 review). Entries the writer does not replace (the chunk cache, the sidecar) are carried into `.artmind-tmp` as hardlinks. That costs no copy and never writes through into the old folder, because each replaced file is unlinked before it is written.
 
 **Files:**
 - Create: `artmind/atomic_dir.py`
@@ -116,14 +116,14 @@ def test_replaces_named_files_and_carries_everything_else_over(tmp_path):
 
 def test_interrupted_between_the_two_renames_the_next_write_recovers(tmp_path, monkeypatch):
     """Spec §11 "Atomic write": a crash between the renames leaves the old
-    folder whole in `.old` and the new one whole in `.tmp`, never a mix. The
-    old content in `.old` must be untouched: proof that writing the new
+    folder whole in `.artmind-old` and the new one whole in `.artmind-tmp`, never a mix. The
+    old content in `.artmind-old` must be untouched: proof that writing the new
     file did not write through a hardlink into the old inode."""
     target = tmp_path / "doc"
     target.mkdir()
     (target / "observations.json").write_text("v1")
     (target / "document.json").write_text("d1")
-    tmp = tmp_path / "doc.tmp"
+    tmp = tmp_path / "doc.artmind-tmp"
 
     real_rename = Path.rename
 
@@ -137,7 +137,7 @@ def test_interrupted_between_the_two_renames_the_next_write_recovers(tmp_path, m
         write_dir_atomic(target, {"observations.json": "v2", "document.json": "d2"})
     monkeypatch.setattr(Path, "rename", real_rename)
 
-    old = tmp_path / "doc.old"
+    old = tmp_path / "doc.artmind-old"
     assert not target.exists()
     assert (old / "observations.json").read_text() == "v1"
     assert (old / "document.json").read_text() == "d1"
@@ -146,7 +146,7 @@ def test_interrupted_between_the_two_renames_the_next_write_recovers(tmp_path, m
 
     recover(target)
 
-    # `.tmp` is only swapped in once complete, so recovery finishes the swap.
+    # `.artmind-tmp` is only swapped in once complete, so recovery finishes the swap.
     assert (target / "observations.json").read_text() == "v2"
     assert (target / "document.json").read_text() == "d2"
     assert _siblings(target) == ["doc"]
@@ -156,7 +156,7 @@ def test_a_stale_tmp_from_a_crash_while_building_is_discarded(tmp_path):
     target = tmp_path / "doc"
     target.mkdir()
     (target / "observations.json").write_text("v1")
-    stale = tmp_path / "doc.tmp"
+    stale = tmp_path / "doc.artmind-tmp"
     stale.mkdir()
     (stale / "observations.json").write_text("half-written")
     (stale / "junk.json").write_text("junk")
@@ -173,7 +173,7 @@ def test_a_stale_old_left_after_a_completed_swap_is_removed(tmp_path):
     target = tmp_path / "doc"
     target.mkdir()
     (target / "observations.json").write_text("v2")
-    (tmp_path / "doc.old").mkdir()
+    (tmp_path / "doc.artmind-old").mkdir()
 
     recover(target)
 
@@ -181,9 +181,30 @@ def test_a_stale_old_left_after_a_completed_swap_is_removed(tmp_path):
     assert _siblings(target) == ["doc"]
 
 
+def test_a_document_folder_named_like_a_plain_old_or_tmp_sibling_is_never_touched(tmp_path):
+    """Staging folders are named after the file stem, so `notes.old.pdf`
+    stages into `notes.old/`. The swap's scratch suffixes must not collide
+    with that (found in review; the spec's `.tmp`/`.old` would)."""
+    other = tmp_path / "notes.old"
+    other.mkdir()
+    (other / "document.json").write_text("other document")
+
+    write_dir_atomic(tmp_path / "notes", {"document.json": "this document"})
+
+    assert (other / "document.json").read_text() == "other document"
+    assert (tmp_path / "notes" / "document.json").read_text() == "this document"
+
+
+@pytest.mark.parametrize("bad", ["/abs.json", "../escape.json", "sub/../../escape.json"])
+def test_file_names_must_stay_inside_the_folder(tmp_path, bad):
+    with pytest.raises(ValueError, match="relative path inside"):
+        write_dir_atomic(tmp_path / "doc", {bad: "x"})
+    assert not (tmp_path / "escape.json").exists()
+
+
 def test_is_scratch():
-    assert is_scratch(Path("kg/general/doc.tmp"))
-    assert is_scratch(Path("kg/general/doc.old"))
+    assert is_scratch(Path("kg/general/doc.artmind-tmp"))
+    assert is_scratch(Path("kg/general/doc.artmind-old"))
     assert not is_scratch(Path("kg/general/doc"))
     assert not is_scratch(Path("kg/general/table__accounts"))
 ```
@@ -202,14 +223,14 @@ Create `artmind/atomic_dir.py`:
 
 Obsidian Git auto-commits on a timer, so it can capture a folder mid-write
 (a new document.json beside an old observations.json). Every staging writer
-builds the complete new folder in `<dir>.tmp/`, fsyncs it, then swaps it in:
+builds the complete new folder in `<dir>.artmind-tmp/`, fsyncs it, then swaps it in:
 
-    <dir>      -> <dir>.old
-    <dir>.tmp  -> <dir>
-    remove <dir>.old
+    <dir>      -> <dir>.artmind-old
+    <dir>.artmind-tmp  -> <dir>
+    remove <dir>.artmind-old
 
 A directory rename over a non-empty directory is not atomic on POSIX, hence
-three steps. A crash leaves at worst a `.tmp` or `.old` sibling, both
+three steps. A crash leaves at worst a `.artmind-tmp` or `.artmind-old` sibling, both
 gitignored (R4), and `recover()` -- run at the start of every write --
 finishes or discards them.
 """
@@ -219,12 +240,12 @@ import os
 import shutil
 from pathlib import Path
 
-TMP_SUFFIX = ".tmp"
-OLD_SUFFIX = ".old"
+TMP_SUFFIX = ".artmind-tmp"
+OLD_SUFFIX = ".artmind-old"
 
 
 def is_scratch(path: Path) -> bool:
-    """Whether `path` is a `.tmp`/`.old` sibling left by `write_dir_atomic`,
+    """Whether `path` is a `.artmind-tmp`/`.artmind-old` sibling left by `write_dir_atomic`,
     which a directory listing of staging folders should skip."""
     return path.name.endswith((TMP_SUFFIX, OLD_SUFFIX))
 
@@ -236,10 +257,10 @@ def _siblings(target: Path) -> tuple[Path, Path]:
 def recover(target: Path) -> None:
     """Finish or discard a swap a crash interrupted.
 
-    `.old` with no `target` means the crash fell between the two renames;
-    `.tmp` is only renamed after it is complete and fsynced, so it is
-    promoted. A `.tmp` beside an intact `target` is a crash while building
-    and is discarded; a `.old` beside `target` is a crash before cleanup."""
+    `.artmind-old` with no `target` means the crash fell between the two renames;
+    `.artmind-tmp` is only renamed after it is complete and fsynced, so it is
+    promoted. A `.artmind-tmp` beside an intact `target` is a crash while building
+    and is discarded; a `.artmind-old` beside `target` is a crash before cleanup."""
     tmp, old = _siblings(target)
     if old.exists() and not target.exists():
         (tmp if tmp.exists() else old).rename(target)
@@ -271,11 +292,15 @@ def write_dir_atomic(target: Path, files: dict[str, str | bytes]) -> None:
 
     Every other entry already in `target` -- the per-chunk extraction cache,
     the gitignored embedding sidecar, debug output -- is carried over
-    unchanged, as hardlinks. A replaced file is unlinked in `.tmp` before
+    unchanged, as hardlinks. A replaced file is unlinked in `.artmind-tmp` before
     it is written, so the write never reaches the old folder's inode."""
     target = Path(target)
     target.parent.mkdir(parents=True, exist_ok=True)
     recover(target)
+    for name in files:
+        parts = Path(name).parts
+        if Path(name).is_absolute() or ".." in parts or not parts:
+            raise ValueError(f"{name!r}: a staging file name must be a relative path inside the folder")
     tmp, old = _siblings(target)
     if target.exists():
         shutil.copytree(target, tmp, symlinks=True, copy_function=_link_or_copy)
@@ -302,7 +327,7 @@ def write_dir_atomic(target: Path, files: dict[str, str | bytes]) -> None:
 - [ ] **Step 4: Run the tests**
 
 Run: `uv run --group dev pytest test/test_atomic_dir.py -v`
-Expected: 6 PASS.
+Expected: 10 PASS.
 
 - [ ] **Step 5: Commit**
 
@@ -452,7 +477,7 @@ Append to `test/test_table2graph.py`:
 ```python
 def test_write_staged_swaps_atomically_and_clears_crash_leftovers(tmp_path):
     """Spec 2026-09-26 §5 R2: the table's staging folder is replaced as one
-    unit, and a `.tmp` left by an earlier crash is cleaned up by this write."""
+    unit, and a `.artmind-tmp` left by an earlier crash is cleaned up by this write."""
     import datetime
     import json
 
@@ -462,7 +487,7 @@ def test_write_staged_swaps_atomically_and_clears_crash_leftovers(tmp_path):
     target = domain_dir / "table__accounts"
     target.mkdir(parents=True)
     (target / "observations.json").write_text('["stale"]')
-    (domain_dir / "table__accounts.tmp").mkdir()
+    (domain_dir / "table__accounts.artmind-tmp").mkdir()
     staged = {
         "document": {"id": "table:banking:accounts"},
         "chunks": [],
@@ -481,7 +506,7 @@ def test_write_staged_swaps_atomically_and_clears_crash_leftovers(tmp_path):
 - [ ] **Step 2: Run it to verify it fails**
 
 Run: `uv run --group dev pytest test/test_table2graph.py::test_write_staged_swaps_atomically_and_clears_crash_leftovers -v`
-Expected: FAIL on the last assertion (`['table__accounts', 'table__accounts.tmp'] != ['table__accounts']`).
+Expected: FAIL on the last assertion (`['table__accounts', 'table__accounts.artmind-tmp'] != ['table__accounts']`).
 
 - [ ] **Step 3: Implement**
 
@@ -523,7 +548,7 @@ git commit -m "feat(table2graph): write staged table folders atomically"
 
 ### Task 4: the admin console's artifact list skips scratch folders
 
-`/api/artifacts` lists every subdirectory of `KG_DIR/<domain>` that has a `document.json`. A `.tmp` or `.old` sibling has one too, so a crash leftover would show up as a duplicate document.
+`/api/artifacts` lists every subdirectory of `KG_DIR/<domain>` that has a `document.json`. A `.artmind-tmp` or `.artmind-old` sibling has one too, so a crash leftover would show up as a duplicate document.
 
 **Files:**
 - Modify: `artmind/webui/dashboard_routes.py`, `api_artifacts` (≈line 343: `for doc_dir in sorted(d for d in domain_dir.iterdir() if d.is_dir()):`)
@@ -535,12 +560,12 @@ Append to `test/test_webui_admin_api.py`:
 
 ```python
 def test_artifacts_skip_atomic_write_scratch_folders(monkeypatch, tmp_path):
-    """A crash mid-swap (spec 2026-09-26 R2) can leave doc1.tmp / doc1.old
+    """A crash mid-swap (spec 2026-09-26 R2) can leave doc1.artmind-tmp / doc1.artmind-old
     beside doc1; they are not documents."""
     monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
     _write_doc_kg_dir(tmp_path, "general", "doc1", "doc1.pdf", entities=1)
-    _write_doc_kg_dir(tmp_path, "general", "doc1.tmp", "doc1.pdf", entities=9)
-    _write_doc_kg_dir(tmp_path, "general", "doc1.old", "doc1.pdf", entities=7)
+    _write_doc_kg_dir(tmp_path, "general", "doc1.artmind-tmp", "doc1.pdf", entities=9)
+    _write_doc_kg_dir(tmp_path, "general", "doc1.artmind-old", "doc1.pdf", entities=7)
     monkeypatch.setattr(dashboard_routes, "structural_metadata", lambda domains: {"rows": []})
 
     response = _client().get("/api/artifacts?domain=general")
@@ -553,7 +578,7 @@ def test_artifacts_skip_atomic_write_scratch_folders(monkeypatch, tmp_path):
 - [ ] **Step 2: Run it to verify it fails**
 
 Run: `uv run --group dev pytest test/test_webui_admin_api.py::test_artifacts_skip_atomic_write_scratch_folders -v`
-Expected: FAIL (`['doc1', 'doc1.old', 'doc1.tmp'] != ['doc1']`).
+Expected: FAIL (`['doc1', 'doc1.artmind-old', 'doc1.artmind-tmp'] != ['doc1']`).
 
 - [ ] **Step 3: Implement**
 
@@ -587,7 +612,7 @@ git commit -m "fix(admin-ui): artifact list skips atomic-write scratch folders"
 
 `write_gitignore` currently skips the whole block once its sentinel is present (`artmind/vault.py:286`), so a changed block never reaches an existing vault. This task does five things:
 - It versions the block, and replaces an older artmind block in place, leaving the user's rules untouched.
-- It adds the R4 lines: `table__*`, `*.tmp/` and `*.old/`.
+- It adds the R4 lines: `table__*`, `*.artmind-tmp/` and `*.artmind-old/`.
 - It adds the R3 `.gitattributes` block.
 - It exposes `block_status` for the doctor (Task 8).
 - It writes `.gitattributes` from `scaffold_vault`.
@@ -651,13 +676,13 @@ def test_table_folders_and_atomic_write_scratch_are_ignored(tmp_path):
     _init_repo(tmp_path)
     vault.write_gitignore(tmp_path)
     kg = tmp_path / ".artmind" / "data" / "kg" / "banking"
-    for folder in ("table__accounts", "doc.tmp", "doc.old", "doc"):
+    for folder in ("table__accounts", "doc.artmind-tmp", "doc.artmind-old", "doc"):
         (kg / folder).mkdir(parents=True)
         (kg / folder / "document.json").write_text("{}")
 
     assert _ignored(tmp_path, ".artmind/data/kg/banking/table__accounts/document.json")
-    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.tmp/document.json")
-    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.old/document.json")
+    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.artmind-tmp/document.json")
+    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.artmind-old/document.json")
     assert not _ignored(tmp_path, ".artmind/data/kg/banking/doc/document.json")
 
 
@@ -750,8 +775,8 @@ GITIGNORE_BLOCK = """\
 .artmind/data/kg/*/table__*/
 # Atomic-write scratch (R2). A crash can leave one behind; the next write of
 # that document removes it.
-.artmind/data/**/*.tmp/
-.artmind/data/**/*.old/
+.artmind/data/**/*.artmind-tmp/
+.artmind/data/**/*.artmind-old/
 # ── end artmind ───────────────────────────────────────────────────────────────
 """
 ```
@@ -1728,13 +1753,13 @@ def check_block(vault_dir: Path, filename: str, block: str) -> Check:
 
 
 def _collapse(paths: list[str]) -> list[str]:
-    """Each tracked file -> its `table__*` / `*.tmp` / `*.old` folder when it
+    """Each tracked file -> its `table__*` / `*.artmind-tmp` / `*.artmind-old` folder when it
     sits inside one, so the printed command untracks folders, not files."""
     out: list[str] = []
     for path in paths:
         parts = path.split("/")
         for i, part in enumerate(parts[:-1]):
-            if part.startswith("table__") or part.endswith((".tmp", ".old")):
+            if part.startswith("table__") or part.endswith((".artmind-tmp", ".artmind-old")):
                 path = "/".join(parts[: i + 1])
                 break
         if path not in out:
@@ -1953,7 +1978,7 @@ In the "Not committed" table, add these rows after the `embeddings inside commit
 
 ```markdown
 | `.artmind/data/kg/*/table__*/` | regenerated by `vault sync` from the table's CSV + mapping, like parquet; committing them made sync create commits |
-| `*.tmp/`, `*.old/` under `.artmind/data/` | scratch from the atomic staging-folder swap; a crash can leave one, the next write removes it |
+| `*.artmind-tmp/`, `*.artmind-old/` under `.artmind/data/` | scratch from the atomic staging-folder swap; a crash can leave one, the next write removes it |
 ```
 
 After the table, add:
@@ -2022,7 +2047,7 @@ These need the user. Do not run them unattended.
    SCRATCH=$(mktemp -d) && git clone --no-hardlinks /Users/surjitdas/Downloads/test-vault "$SCRATCH/v" && cd "$SCRATCH/v" && ARTMIND_NO_PROXY=1 artmind vault doctor
    ```
    Expected on a pre-phase-2 vault: the `.gitignore` block is `outdated` and `.gitattributes` is `missing`. Tracked `table__*` folders are listed if the vault has any. After `artmind init` in the clone, both blocks are `ok`.
-3. Ingest one note in the clone against the user's **local** Neo4j. Ask for the bolt port and password; never guess or scan. Confirm no `*.tmp`/`*.old` sibling remains under `.artmind/data/kg/` and `git status` shows only the expected staging files.
+3. Ingest one note in the clone against the user's **local** Neo4j. Ask for the bolt port and password; never guess or scan. Confirm no `*.artmind-tmp`/`*.artmind-old` sibling remains under `.artmind/data/kg/` and `git status` shows only the expected staging files.
 4. `rm -rf "$SCRATCH"`.
 
 ---
@@ -2039,7 +2064,7 @@ These need the user. Do not run them unattended.
 - **Spec coverage:**
   - R2: Task 1 (primitive, crash/recovery test per §11), Task 2 (`ingest.py` writer), Task 3 (`table2graph.write_staged`), Task 4 (listing hygiene). The §7 "update writer" doesn't exist until phase 4, which will call `ingest.write_staging`.
   - R3: Task 5 (`merge=binary` block, with the §11 two-sided merge test).
-  - R4: Task 5 (`table__*`, `*.tmp/`, `*.old/`, versioned in-place replacement) and Task 8 (tracked-ignored check printing `git rm -r --cached`).
+  - R4: Task 5 (`table__*`, `*.artmind-tmp/`, `*.artmind-old/`, versioned in-place replacement) and Task 8 (tracked-ignored check printing `git rm -r --cached`).
   - R5: Task 6 (per-table meta, scoped export, legacy read fallback and migration) and Task 7 (sync reads the meta at `head`).
   - R8: Task 8. Every bullet is covered: blocks, tracked-ignored, `pull.rebase`, Obsidian Git, `ARTMIND_VAULT_GIT_PUSH`, other sync tools. `--compact` JSON is supported.
   - §10: `vault` group docstring (Task 8), skill, `docs/vault.md` and `justfile` (Task 9). `init` writing the versioned blocks is Task 5.
