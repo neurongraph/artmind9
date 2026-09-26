@@ -328,10 +328,16 @@ def sync(
     # ── commit track B's freshly regenerated table__* folders (§5 step 6) ───
     if regenerated_dirs:
         from artmind import vault_git
-        vault_git.commit_paths(
+        committed = vault_git.commit_paths(
             regenerated_dirs,
             f"vault sync: regenerate {len(regenerated_dirs)} table(s) from structured text",
         )
+        if not committed:
+            raise VaultSyncError(
+                "regenerated table(s) could not be committed to the vault's git repo "
+                "(git add/commit failed, or the vault isn't a git repo) -- the cursor "
+                "was NOT advanced; check the logged warning above and retry"
+            )
 
     # ── only on full success, advance the cursor (§5 step 7) ────────────────
     write_state(layout, {"last_synced_commit": head})
