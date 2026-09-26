@@ -3481,6 +3481,7 @@ def vault_doctor_cmd(compact):
     second sync tool on the same folder. Prints the exact fix for each
     problem and changes nothing. Exits 1 when any check fails.
     """
+    _setup_logger()
     from artmind import vault as vault_mod
     from artmind.vault_doctor import run as doctor_run
 
