@@ -122,22 +122,18 @@ def _classify_kg_diff(
     try:
         rows = _diff_name_status(vault_dir, base, head, kg_dir)
     except ValueError:
-        # `paths.KG_DIR` isn't inside this vault_dir at all (e.g. a
-        # track-B-only caller/test that never pointed it at this vault) --
-        # nothing in this track to report, rather than a hard failure.
+        # Only unreachable in production, where KG_DIR/STRUCTURED_TEXT_DIR
+        # are always under the same vault root -- some tests intentionally
+        # patch only one of the two (test/conftest.py's autouse fixture
+        # patches STRUCTURED_TEXT_DIR for every test but has no equivalent
+        # for KG_DIR), leaving this one pointed outside `vault_dir`.
         return [], []
-    try:
-        kg_rel = kg_dir.relative_to(vault_dir)
-    except ValueError:
-        kg_rel = Path(".")
+    kg_rel = kg_dir.relative_to(vault_dir)
 
     replay: list[tuple[str, str]] = []
     retract: list[tuple[str, str]] = []
     for status, path in rows:
-        try:
-            rel = Path(path).relative_to(kg_rel)
-        except ValueError:
-            continue
+        rel = Path(path).relative_to(kg_rel)
         parts = rel.parts
         if len(parts) != 3 or parts[2] != "observations.json":
             continue
@@ -177,21 +173,17 @@ def _classify_structured_text_diff(
     try:
         rows = _diff_name_status(vault_dir, base, head, st_dir)
     except ValueError:
-        # Symmetric with `_classify_kg_diff`: `paths.STRUCTURED_TEXT_DIR`
-        # isn't inside this vault_dir -- nothing in this track to report.
+        # Only unreachable in production, where KG_DIR/STRUCTURED_TEXT_DIR
+        # are always under the same vault root -- some tests intentionally
+        # patch only one of the two, leaving this one pointed outside
+        # `vault_dir`. Symmetric with `_classify_kg_diff`'s guard above.
         return [], []
-    try:
-        st_rel = st_dir.relative_to(vault_dir)
-    except ValueError:
-        st_rel = Path(".")
+    st_rel = st_dir.relative_to(vault_dir)
 
     regenerate: list[tuple[str, str]] = []
     retract: list[tuple[str, str]] = []
     for status, path in rows:
-        try:
-            rel = Path(path).relative_to(st_rel)
-        except ValueError:
-            continue
+        rel = Path(path).relative_to(st_rel)
         parts = rel.parts
         if len(parts) != 2 or not parts[1].endswith(".csv"):
             continue

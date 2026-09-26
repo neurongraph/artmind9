@@ -333,11 +333,49 @@ def test_classify_diff_raises_if_removed_folder_never_existed_at_base(monkeypatc
     monkeypatches `_diff_name_status`/`_show` directly to simulate the
     impossible case, rather than trying (and failing) to construct it via
     real git commands. Fail loud rather than silently guess if it ever
-    somehow occurs."""
+    somehow occurs.
+
+    `paths.KG_DIR` is patched like every other test that touches it, so the
+    mocked `_diff_name_status` row below is a realistic vault_dir-relative
+    path (matching what git itself would return -- see its docstring) rather
+    than leaning on a since-removed "unscoped root" fallback."""
+    kg_dir = _patch_kg_dir(monkeypatch, tmp_path)
     from artmind.vault import VaultLayout
 
-    monkeypatch.setattr(vs, "_diff_name_status", lambda *a, **k: [("D", "banking/doc1/observations.json")])
+    removed_path = str((kg_dir / "banking" / "doc1" / "observations.json").relative_to(tmp_path))
+    monkeypatch.setattr(vs, "_diff_name_status", lambda *a, **k: [("D", removed_path)])
     monkeypatch.setattr(vs, "_show", lambda *a, **k: None)
 
     with pytest.raises(vs.VaultSyncError, match="wasn't present"):
         vs.classify_diff(tmp_path, VaultLayout(tmp_path), "base-sha", "head-sha")
+
+
+def test_classify_diff_scopes_to_a_domain_ancestor(repo, monkeypatch):
+    """Requesting domain "banking" must also match a folder at the
+    hierarchical child domain "banking.retail" (descendant matching,
+    consistent with domain scoping elsewhere in this codebase)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking.retail", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo), domains=["banking"])
+
+    assert plan.replay_docs == [("banking.retail", "doc1")]
+
+
+def test_classify_diff_ignores_document_json_changing_alongside_observations(repo, monkeypatch):
+    """document.json's own diff row must never be double-processed as a
+    second replay entry -- only observations.json's status decides."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "document.json").write_text('{"id": "docid-1", "title": "renamed"}')
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"key": "y"}]')
+    _commit_all(repo, "edit both document.json and observations.json")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "doc1")]
