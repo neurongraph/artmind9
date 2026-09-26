@@ -2070,6 +2070,25 @@ git add artmind/vault_sync.py test/test_vault_sync.py
 git commit -m "feat(vault): implement vault_sync.sync() — full track A/B sequencing"
 ```
 
+(Found during subagent-driven execution: the literal Step 3 code's §5 step 6 discarded `vault_git.commit_paths(...)`'s return value — a real git-commit failure there was silently swallowed while the cursor still advanced, exactly the "partial success reported as full success" bug this feature exists to prevent. Fixed by capturing the return value and raising `VaultSyncError` before `write_state` if it's falsy:
+
+```python
+if regenerated_dirs:
+    from artmind import vault_git
+    committed = vault_git.commit_paths(
+        regenerated_dirs,
+        f"vault sync: regenerate {len(regenerated_dirs)} table(s) from structured text",
+    )
+    if not committed:
+        raise VaultSyncError(
+            "regenerated table(s) could not be committed to the vault's git repo "
+            "(git add/commit failed, or the vault isn't a git repo) -- the cursor "
+            "was NOT advanced; check the logged warning above and retry"
+        )
+```
+
+Three tests were added to cover this (a real-git-repo commit succeeding, `commit_paths` returning `False` → raise, and a track-B-succeeds-then-track-A-fails interaction test) — see commit `6c33fe6` on the `vault-sync` branch for the final, reviewed state.)
+
 ---
 
 ### Task 10: CLI — `vault` group with `status` and `sync`
