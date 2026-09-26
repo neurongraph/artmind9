@@ -914,3 +914,102 @@ def test_sync_raises_a_clear_error_when_materialize_cannot_archive_the_plan(repo
 
     from artmind.vault import VaultLayout, read_state
     assert read_state(VaultLayout(repo)) == {}
+
+
+# ── per-table meta (spec 2026-09-26 §5 R5, §6 A1) ─────────────────────────────
+
+
+def test_meta_suffix_matches_text_export():
+    from artmind.structured.text_export import META_SUFFIX
+
+    assert vs._META_SUFFIX == META_SUFFIX
+
+
+def test_classify_diff_regenerates_a_table_whose_meta_changed(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text('{"v": 1}')
+    _commit_all(repo, "add table text")
+    base = vs.head_sha(repo)
+    (st_dir / "banking" / "accounts.meta.json").write_text('{"v": 2}')
+    _commit_all(repo, "edit meta only")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.regenerate_tables == [("banking", "accounts")]
+
+
+def test_classify_diff_regenerates_a_table_once_when_csv_and_meta_both_change(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add table text")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.regenerate_tables == [("banking", "accounts")]
+
+
+def test_classify_diff_a_removed_table_is_retracted_not_regenerated(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add table text")
+    base = vs.head_sha(repo)
+    (st_dir / "banking" / "accounts.csv").unlink()
+    (st_dir / "banking" / "accounts.meta.json").write_text('{"v": 2}')
+    _commit_all(repo, "drop csv, touch meta")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.regenerate_tables == []
+    assert plan.retract == [("banking", "table:banking:accounts")]
+
+
+def test_sync_materializes_committed_meta_without_a_legacy_manifest(repo, monkeypatch):
+    """A1: the import sees the COMMITTED meta, not an uncommitted edit, and a
+    vault with no legacy manifest.json at head does not trip `git archive`."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text('{"committed": true}')
+    _commit_all(repo, "add table text")
+    (st_dir / "banking" / "accounts.meta.json").write_text('{"committed": false}')
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    seen = {}
+
+    def _fake_import(src_dir, tables=None):
+        seen["tables"] = tables
+        seen["meta"] = (src_dir / "banking" / "accounts.meta.json").read_text()
+        seen["csv"] = (src_dir / "banking" / "accounts.csv").read_text()
+        seen["manifest"] = (src_dir / "manifest.json").exists()
+        return {"tables_loaded": 1}
+
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", _fake_import)
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "table_to_graph", lambda row, mapping, **k: {"commit": {"deferred_keys": []}})
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen == {
+        "tables": [("banking", "accounts")],
+        "meta": '{"committed": true}',
+        "csv": "id\n1\n",
+        "manifest": False,
+    }

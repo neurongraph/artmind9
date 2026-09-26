@@ -31,6 +31,10 @@ from utils.functions import run_command
 #: (possibly multiple) root commit(s).
 EMPTY_TREE_SHA = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
+#: `structured.text_export.META_SUFFIX`, duplicated so classifying a diff
+#: never imports DuckDB. test_vault_sync pins the two equal.
+_META_SUFFIX = ".meta.json"
+
 
 class VaultSyncError(Exception):
     """A `vault sync` run cannot proceed -- refused before writing anything."""
@@ -173,6 +177,16 @@ def _materialize(vault_dir: Path, rev: str, relpaths: list[str], dest: Path) -> 
         tar.extractall(dest, filter="data")
 
 
+def _present_at(vault_dir: Path, rev: str, relpaths: list[str]) -> list[str]:
+    """The subset of file paths `relpaths` that exist at `rev`, in order.
+    `git archive` refuses a pathspec that matches nothing, and a table's
+    `.meta.json` (or the legacy `manifest.json`) may legitimately be absent."""
+    if not relpaths:
+        return []
+    present = set(_git(vault_dir, ["ls-tree", "-r", "--name-only", rev, "--", *relpaths]).splitlines())
+    return [p for p in relpaths if p in present]
+
+
 def _carry_sidecar(live_dir: Path, snap_dir: Path) -> None:
     """Copy the gitignored embedding sidecar from the live staging folder into
     its HEAD snapshot -- only when the live `chunks.json` is byte-identical to
@@ -264,11 +278,11 @@ def _classify_kg_diff(
 def _classify_structured_text_diff(
     vault_dir: Path, base: str, head: str, domains: list[str] | None
 ) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
-    """Track B (spec §4.B): regenerate/retract for every table's CSV under
-    `.artmind/data/structured_text/**`. `manifest.json` is a single shared
-    file (not "under a given table's export"); a manifest-only change with
-    no accompanying CSV diff triggers nothing in this version -- a
-    documented scoping decision, not an oversight."""
+    """Track B (spec §4.B): regenerate/retract for every table's CSV or
+    `.meta.json` under `.artmind/data/structured_text/**`. A legacy
+    `manifest.json` change on its own still triggers nothing (a documented
+    scoping decision); per-table meta (spec 2026-09-26 R5) is what makes a
+    metadata-only change visible."""
     import paths
 
     st_dir = paths.STRUCTURED_TEXT_DIR
@@ -287,16 +301,25 @@ def _classify_structured_text_diff(
     for status, path in rows:
         rel = Path(path).relative_to(st_rel)
         parts = rel.parts
-        if len(parts) != 2 or not parts[1].endswith(".csv"):
+        if len(parts) != 2:
             continue
         domain, filename = parts
-        table_name = filename[: -len(".csv")]
+        if filename.endswith(".csv"):
+            table_name, is_csv = filename[: -len(".csv")], True
+        elif filename.endswith(_META_SUFFIX):
+            table_name, is_csv = filename[: -len(_META_SUFFIX)], False
+        else:
+            continue
         if not _in_scope(domain, domains):
             continue
-        if status in ("A", "M"):
-            regenerate.append((domain, table_name))
-        elif status == "D":
+        key = (domain, table_name)
+        if status in ("A", "M") and key not in regenerate:
+            regenerate.append(key)
+        elif status == "D" and is_csv:
             retract.append((domain, f"table:{domain}:{table_name}"))
+    # A table whose CSV is gone is retracted; regenerating it would fail.
+    retracted = {(d, doc_id.split(":", 2)[2]) for d, doc_id in retract}
+    regenerate = [key for key in regenerate if key not in retracted]
     return regenerate, retract
 
 
@@ -372,7 +395,7 @@ def sync(
 
     from artmind import ingest
     from artmind.structured import registry as structured_registry
-    from artmind.structured.text_export import MANIFEST_NAME, import_structured_text
+    from artmind.structured.text_export import MANIFEST_NAME, META_SUFFIX, import_structured_text
     from artmind.table2graph import find_mappings, table_to_graph, _rebuild_in_batches
     from artmind.temporal import load_schema
     from paths import KG_DIR, STRUCTURED_TEXT_DIR
@@ -389,12 +412,12 @@ def sync(
         #    `head`, never the live structured_text dir.
         if plan.regenerate_tables:
             st_rel = STRUCTURED_TEXT_DIR.relative_to(vault_dir)
-            _materialize(
-                vault_dir, head,
-                [str(st_rel / MANIFEST_NAME)]
-                + [str(st_rel / domain / f"{table_name}.csv") for domain, table_name in plan.regenerate_tables],
-                scratch,
-            )
+            wanted = [str(st_rel / MANIFEST_NAME)]
+            for domain, table_name in plan.regenerate_tables:
+                wanted.append(str(st_rel / domain / f"{table_name}.csv"))
+                wanted.append(str(st_rel / domain / f"{table_name}{META_SUFFIX}"))
+            _materialize(vault_dir, head, _present_at(vault_dir, head, wanted), scratch)
+            (scratch / st_rel).mkdir(parents=True, exist_ok=True)
             import_structured_text(scratch / st_rel, tables=plan.regenerate_tables)
             for domain, table_name in plan.regenerate_tables:
                 row = structured_registry.get_table(table_name, domain=domain)
@@ -448,7 +471,7 @@ def sync(
         ingest._sweep_chunk_embeddings(domain=d)
 
     # artmind never commits (spec 2026-09-26, D1): track B's regenerated
-    # table__* folders stay in the working tree. (Phase 2 gitignores them.)
+    # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)
 
     # ── only on full success, advance the cursor (§5 step 7) ────────────────
     write_state(layout, {"last_synced_commit": head})
