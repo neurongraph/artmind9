@@ -32,6 +32,8 @@ def _classify(cypher: str) -> str:
         return "demote_observations"
     if "REMOVE c:DocChunk SET c:DocChunkHistory" in cypher:
         return "relabel_chunks"
+    if "REMOVE d:Document SET d:DocumentHistory" in cypher:
+        return "relabel_document"
     if "DETACH DELETE c" in cypher:
         return "chunk_delete"
     if "DETACH DELETE e" in cypher:
@@ -582,3 +584,71 @@ def test_a_re_commit_with_no_incoming_vector_cannot_clobber_a_prior_one(tmp_path
         "all -- SET n += $props only touches keys present in props, so this "
         "is what prevents it from clobbering the vector the first commit wrote"
     )
+
+
+# ── retract_document (vault sync §8: demote and write nothing new) ─────────
+
+
+def test_retract_document_demotes_document_chunks_and_observations(monkeypatch):
+    session = _RetractSession(counts={"demote_observations": 2, "relabel_chunks": 2})
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    import artmind.projection as projection
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id, **kw: {("Acme", "ORG", "banking")})
+
+    result = ing.retract_document("docA", "banking")
+
+    assert session.ran("relabel_document")
+    cypher, kw = session.call("relabel_document")
+    assert kw["doc_id"] == "docA"
+    assert "DELETE" not in cypher, "the Document node is relabelled, never deleted"
+    assert result["affected_keys"] == [("Acme", "ORG", "banking")]
+    assert result["observations_demoted"] == 2
+    assert result["chunks"] == 2
+    assert result["doc_id"] == "docA"
+
+
+def test_retract_document_captures_keys_before_demoting(monkeypatch):
+    """Mirrors `_commit_document_tx`'s own ordering: a rename between versions
+    strands the old key if it's read after the demotion instead of before."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    import artmind.projection as projection
+    call_order: list[str] = []
+    monkeypatch.setattr(
+        projection, "keys_for_document",
+        lambda tx, doc_id, **kw: call_order.append("keys_for_document") or set(),
+    )
+    original_retract = ing._retract_prior_version
+
+    def _wrapped_retract(tx, domain, doc_id):
+        call_order.append("_retract_prior_version")
+        return original_retract(tx, domain, doc_id)
+
+    monkeypatch.setattr(ing, "_retract_prior_version", _wrapped_retract)
+
+    ing.retract_document("docA", "banking")
+
+    assert call_order == ["keys_for_document", "_retract_prior_version"]
+
+
+def test_retract_document_never_rebuilds_the_projection_itself(monkeypatch):
+    """The rebuild is deferred to the caller (vault sync), which unions this
+    document's affected_keys with every other change in the same run before
+    a single batched rebuild — exactly like commit_to_graph(...,
+    defer_rebuild=True)'s own deferred_keys."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    import artmind.projection as projection
+    monkeypatch.setattr(projection, "keys_for_document", lambda tx, doc_id, **kw: set())
+    rebuild_called = []
+    monkeypatch.setattr(projection, "rebuild", lambda *a, **k: rebuild_called.append(1) or {})
+
+    ing.retract_document("docA", "banking")
+
+    assert rebuild_called == []

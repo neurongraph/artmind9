@@ -1619,6 +1619,49 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     return result
 
 
+def retract_document(doc_id: str, domain: str) -> dict:
+    """Demote one document's own `:Document`/`:DocChunk`/`:Observation` nodes
+    to their History labels, and nothing else -- the standalone entry point
+    `_retract_prior_version` never had, for a document whose KG-staging
+    folder disappeared with no replacement version to write (`vault sync`'s
+    retraction path).
+
+    Reuses `_retract_prior_version`'s exact relabeling for observations/chunks
+    -- the same primitive `_commit_document_tx` calls before writing a new
+    version -- plus one more relabel for the `:Document` node itself, which
+    `_retract_prior_version` deliberately leaves alone (an ordinary re-ingest
+    revives it under `:Document` again two steps later; this call has no
+    next step to revive it in).
+
+    Deliberately does NOT run the projection rebuild: the caller unions
+    `affected_keys` across every change in one run before a single batched
+    rebuild, exactly like `commit_to_graph(..., defer_rebuild=True)`'s own
+    `deferred_keys`. `rebuild_key`'s existing zero-observations GC path
+    already handles what happens next once that rebuild runs -- no new
+    projection logic, only a new way to reach it without a replacement
+    document.
+    """
+    from artmind import projection
+    from artmind.graph_query import neo4j_session
+
+    def _tx(tx):
+        keys = projection.keys_for_document(tx, doc_id)
+        retracted = _retract_prior_version(tx, domain, doc_id)
+        tx.run(
+            "MATCH (d:Document {id: $doc_id}) REMOVE d:Document SET d:DocumentHistory",
+            doc_id=doc_id,
+        )
+        return {"doc_id": doc_id, "domain": domain, "affected_keys": sorted(keys), **retracted}
+
+    with neo4j_session() as session:
+        result = session.execute_write(_tx)
+    logger.info(
+        "Retracted {} ({}): {} observation(s), {} chunk(s) demoted to history",
+        doc_id, domain, result["observations_demoted"], result["chunks"],
+    )
+    return result
+
+
 def kg_work_was_done(file_result: dict) -> bool:
     """Whether `ingest_to_kg(file_result, ...)` would (or did) actually
     extract/commit anything, as opposed to short-circuiting on `file_result`'s
