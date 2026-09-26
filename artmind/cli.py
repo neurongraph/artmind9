@@ -3399,7 +3399,7 @@ def _vault_status_impl(compact: bool) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active (`status`), and git-diff-driven sync into Neo4j/the structured store (`sync`)."""
+    """Which vault is active (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
     pass
 
 
@@ -3464,6 +3464,35 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
     except Exception as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)
+
+
+@vault.command("doctor")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_doctor_cmd(compact):
+    """Read-only checks that this vault is safe for Obsidian Git to auto-commit and merge.
+
+    Checks that artmind's .gitignore/.gitattributes blocks are current, that
+    no gitignored path is still tracked, that pulls merge rather than rebase,
+    Obsidian Git's stored settings, a leftover ARTMIND_VAULT_GIT_PUSH, and a
+    second sync tool on the same folder. Prints the exact fix for each
+    problem and changes nothing. Exits 1 when any check fails.
+    """
+    from artmind import vault as vault_mod
+    from artmind.vault_doctor import run as doctor_run
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    result = doctor_run(vault_dir)
+    _echo_json(result, compact)
+    if not result["ok"]:
+        raise SystemExit(1)
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
