@@ -620,3 +620,31 @@ def test_table_to_graph_default_behaviour_still_rebuilds_immediately(tmp_path, m
     assert rebuild_called == [[("Jane Doe (1)", "PERSON", "perf")]]
     assert "deferred_keys" not in report["commit"]
     assert report["commit"]["projection"] == {"rebuilt": 1}
+
+
+def test_write_staged_swaps_atomically_and_clears_crash_leftovers(tmp_path):
+    """Spec 2026-09-26 §5 R2: the table's staging folder is replaced as one
+    unit, and a `.artmind-tmp` left by an earlier crash is cleaned up by this write."""
+    import datetime
+    import json
+
+    from artmind.table2graph import write_staged
+
+    domain_dir = tmp_path / "banking"
+    target = domain_dir / "table__accounts"
+    target.mkdir(parents=True)
+    (target / "observations.json").write_text('["stale"]')
+    (domain_dir / "table__accounts.artmind-tmp").mkdir()
+    staged = {
+        "document": {"id": "table:banking:accounts"},
+        "chunks": [],
+        "observations": [{"k": 1}],
+        "relationships": [],
+    }
+
+    write_staged(staged, {"rows": 1, "as_of": datetime.date(2026, 9, 26)}, target)
+
+    assert json.loads((target / "observations.json").read_text()) == [{"k": 1}]
+    assert json.loads((target / "document.json").read_text()) == {"id": "table:banking:accounts"}
+    assert json.loads((target / "table2graph_report.json").read_text()) == {"rows": 1, "as_of": "2026-09-26"}
+    assert sorted(p.name for p in domain_dir.iterdir()) == ["table__accounts"]
