@@ -1430,6 +1430,25 @@ def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
         return {}
 
 
+def write_staging(doc_kg_dir: Path, documents: dict[str, object], *, default=None) -> None:
+    """Write a staging folder's JSON files as one atomic swap (spec
+    2026-09-26 §5 R2), so an Obsidian Git auto-commit can never capture a
+    new document.json beside an old observations.json. Other entries in the
+    folder (chunk cache, sidecar) are carried over unchanged.
+
+    Format is exactly the historical one -- `indent=2, ensure_ascii=False`,
+    no trailing newline -- because `vault sync` compares chunks.json bytes."""
+    from artmind.atomic_dir import write_dir_atomic
+
+    write_dir_atomic(
+        doc_kg_dir,
+        {
+            name: json.dumps(obj, indent=2, ensure_ascii=False, default=default)
+            for name, obj in documents.items()
+        },
+    )
+
+
 
 
 
@@ -2390,13 +2409,15 @@ def extract_kg(
         all_entities, all_properties, canonical_names, schema, document,
     )
 
-    def _write_json(filename: str, obj: object) -> None:
-        (doc_kg_dir / filename).write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    _write_json("document.json", document)
-    _write_json("chunks.json", [strip_embeddings(c) for c in all_chunks])
-    _write_json("relationships.json", all_relationships)
-    _write_json("observations.json", all_observations)
+    # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must
+    # never see a half-written folder. The chunk cache under chunks/<sha>/
+    # and any debug output already in doc_kg_dir are carried over.
+    write_staging(doc_kg_dir, {
+        "document.json": document,
+        "chunks.json": [strip_embeddings(c) for c in all_chunks],
+        "relationships.json": all_relationships,
+        "observations.json": all_observations,
+    })
 
     # Vectors move to a gitignored sidecar rather than vanishing: chunks.json
     # above is what git tracks (and cannot delta a changed vector against),
