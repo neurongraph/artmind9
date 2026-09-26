@@ -182,9 +182,14 @@ def test_classify_diff_retracts_a_removed_document_folder(repo, monkeypatch):
     assert plan.retract == [("banking", "docid-1")]
 
 
-def test_classify_diff_retracts_a_removed_table_folder_directly(repo, monkeypatch):
-    """A table__<name> folder removed directly (out-of-band, not via a
-    structured-text change) uses the identical retraction path (spec §4)."""
+def test_classify_diff_ignores_a_removed_table_folder(repo, monkeypatch):
+    """Spec 2026-09-26 §5 R4: `.artmind/data/kg/*/table__*/` is gitignored,
+    and "Track A of the sync spec no longer sees them; track B regenerates
+    them locally." A table__<name> folder removed directly -- e.g. by the
+    `git rm -r --cached` that `vault doctor` prints as the fix for a
+    newly-ignored path that's still tracked -- must not be replayed or
+    retracted by track A; only track B's structured-text diff may retract a
+    table now."""
     kg_dir = _patch_kg_dir(monkeypatch, repo)
     _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
     _commit_all(repo, "add table")
@@ -196,7 +201,23 @@ def test_classify_diff_retracts_a_removed_table_folder_directly(repo, monkeypatc
     from artmind.vault import VaultLayout
     plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
 
-    assert plan.retract == [("banking", "table:banking:accounts")]
+    assert plan.retract == []
+    assert plan.replay_docs == []
+
+
+def test_classify_diff_ignores_an_added_table_folder(repo, monkeypatch):
+    """Symmetric with the removal case above (spec §5 R4): a newly-committed
+    table__<name> folder must not be replayed by track A either -- it's a
+    pure function of the structured-text CSV/mapping, regenerated locally by
+    track B."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
+    _commit_all(repo, "add table")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
 
 
 def test_classify_diff_ignores_a_folder_with_no_observations_json_change(repo, monkeypatch):
@@ -284,7 +305,10 @@ def test_classify_diff_manifest_only_change_triggers_nothing(repo, monkeypatch):
 
 def test_classify_diff_dedupes_a_table_retracted_from_both_tracks(repo, monkeypatch):
     """If a table__* folder AND its structured-text CSV are both removed in
-    the same diff, the table is retracted once, not twice."""
+    the same diff, the table is retracted once, not twice -- track A now
+    ignores the table__* folder's own removal entirely (spec §5 R4), so
+    track B's CSV deletion is the sole source of the retraction; this test
+    guards against it somehow being counted twice via that one path."""
     kg_dir = _patch_kg_dir(monkeypatch, repo)
     st_dir = _patch_structured_text_dir(monkeypatch, repo)
     _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")

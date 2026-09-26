@@ -225,13 +225,21 @@ def _in_scope(domain: str, domains: list[str] | None) -> bool:
 def _classify_kg_diff(
     vault_dir: Path, base: str, head: str, domains: list[str] | None
 ) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
-    """Track A (spec §4.A): replay/retract for every document (and
-    table__<name>) folder under `.artmind/data/kg/**`. Driven entirely by
-    git's own status letters for `observations.json` specifically -- never
-    the live filesystem, which track B may already have written fresh,
-    uncommitted content into by the time this runs in the same sync (spec
-    §5's sequencing guarantee falls out of this for free, since `_show`
-    below only ever reads committed history)."""
+    """Track A (spec §4.A): replay/retract for every document folder under
+    `.artmind/data/kg/**`. `table__<name>` folders are skipped entirely --
+    spec 2026-09-26 §5 R4: they're gitignored, a pure function of a table's
+    structured-text CSV/mapping, and "Track A of the sync spec no longer
+    sees them; track B regenerates them locally." Without this, the
+    `git rm -r --cached` that `vault doctor` recommends for a newly-ignored
+    but still-tracked `table__*` folder would retract that table on every
+    receiving machine and never regenerate it there.
+
+    Otherwise driven entirely by git's own status letters for
+    `observations.json` specifically -- never the live filesystem, which
+    track B may already have written fresh, uncommitted content into by the
+    time this runs in the same sync (spec §5's sequencing guarantee falls
+    out of this for free, since `_show` below only ever reads committed
+    history)."""
     import paths
 
     kg_dir = paths.KG_DIR
@@ -254,6 +262,9 @@ def _classify_kg_diff(
         if len(parts) != 3 or parts[2] != "observations.json":
             continue
         domain, docdir, _ = parts
+        if docdir.startswith("table__"):
+            # Gitignored (spec §5 R4); track B regenerates these locally.
+            continue
         if not _in_scope(domain, domains):
             continue
         if status in ("A", "M"):
