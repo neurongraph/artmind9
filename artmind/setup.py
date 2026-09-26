@@ -342,9 +342,8 @@ ARTMIND_KG_NEO4J_PASSWORD={neo4j_password}
 ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
 
 # ── optional ──────────────────────────────────────────────────────────────────
-# Push the vault's git repo after artmind commits frontmatter. Leave unset if
-# something else (e.g. the Obsidian Git plugin) already owns pushing.
-{git_push_line}
+# artmind never commits, pulls or pushes this vault's git repo -- the Obsidian
+# Git plugin owns that (docs/vault.md, "Git: Obsidian Git owns transport").
 
 # Relocate derived data out of the vault. Only needed if the vault lives on a
 # sync service that would choke on KG staging and snapshots; the default is
@@ -359,7 +358,6 @@ def _render_config_env(
     neo4j_username: str = _DEFAULT_NEO4J_USERNAME,
     neo4j_password: str = "",
     neo4j_database: str = _DEFAULT_NEO4J_DATABASE,
-    git_push: bool = False,
 ) -> str:
     """Render this vault's own config.env. Called with no arguments this
     reproduces the old hardcoded starter file exactly (every existing test
@@ -372,7 +370,6 @@ def _render_config_env(
         neo4j_username=neo4j_username,
         neo4j_password=neo4j_password,
         neo4j_database=neo4j_database,
-        git_push_line="ARTMIND_VAULT_GIT_PUSH=1" if git_push else "# ARTMIND_VAULT_GIT_PUSH=1",
     )
 
 

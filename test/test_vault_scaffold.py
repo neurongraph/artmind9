@@ -410,7 +410,6 @@ def test_scaffold_writes_supplied_config_answers(tmp_path):
         "neo4j_username": "myuser",
         "neo4j_password": "hunter2",
         "neo4j_database": "mydb",
-        "git_push": True,
     })
 
     config = vault.VaultLayout(tmp_path).config_env.read_text()
@@ -418,7 +417,7 @@ def test_scaffold_writes_supplied_config_answers(tmp_path):
     assert "ARTMIND_KG_NEO4J_USERNAME=myuser" in config
     assert "ARTMIND_KG_NEO4J_PASSWORD=hunter2" in config
     assert "ARTMIND_KG_NEO4J_DATABASE=mydb" in config
-    assert "ARTMIND_VAULT_GIT_PUSH=1" in config.splitlines()
+    assert "ARTMIND_VAULT_GIT_PUSH" not in config
 
 
 def test_scaffold_config_answers_never_overwrite_an_existing_config_env(tmp_path):

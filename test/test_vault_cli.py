@@ -128,7 +128,6 @@ def test_init_interactive_prompts_for_neo4j_connection_and_remote(tmp_path, monk
         "myuser",  # Neo4j username
         "hunter2",  # Neo4j password
         "mydb",  # Neo4j database
-        "y",  # push after each ingest?
         "https://github.com/example/vault.git",  # remote URL
     ]) + "\n"
 
@@ -140,7 +139,7 @@ def test_init_interactive_prompts_for_neo4j_connection_and_remote(tmp_path, monk
     assert "ARTMIND_KG_NEO4J_USERNAME=myuser" in config
     assert "ARTMIND_KG_NEO4J_PASSWORD=hunter2" in config
     assert "ARTMIND_KG_NEO4J_DATABASE=mydb" in config
-    assert "ARTMIND_VAULT_GIT_PUSH=1" in config.splitlines()
+    assert "ARTMIND_VAULT_GIT_PUSH" not in config
     remotes = subprocess.run(
         ["git", "remote", "-v"], cwd=tmp_path, capture_output=True, text=True
     ).stdout

@@ -3523,9 +3523,6 @@ def init(directory: str, interactive: bool, remote_url: str | None):
                 "  Neo4j password", default="", show_default=False, hide_input=True
             ),
             "neo4j_database": click.prompt("  Neo4j database", default="neo4j"),
-            "git_push": click.confirm(
-                "  Push this vault's git repo after each ingest?", default=False
-            ),
         }
         click.echo()
 
