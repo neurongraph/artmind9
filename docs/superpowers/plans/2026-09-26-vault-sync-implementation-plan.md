@@ -2325,6 +2325,11 @@ git add artmind/cli.py test/test_vault_cli.py
 git commit -m "feat(cli): promote vault to a group with status and sync subcommands"
 ```
 
+(Found during subagent-driven execution, two fixes on top of the literal text above — see commits `237fd32` then `ba3d550` on `vault-sync` for the final state:
+
+1. `test_vault_bare_invocation_shows_help_not_status`'s stated assumption that bare group invocation exits `0` is wrong for this codebase: rich-click's `no_args_is_help` exits `2` for every group here (`domains`, `db`, `ingest`, `query`, `session`, `docs`, and now `vault`), verified empirically. The test asserts `exit_code == 2`, not `== 0`.
+2. `vault_sync_cmd` needed a broad `except Exception as e: raise click.ClickException(str(e))` after its `except VaultSyncError`, matching the sibling write-path commands `session_initiate`/`snapshot_restore` elsewhere in `cli.py` — `sync()`'s own "any exception propagates unchanged" is correct for its cursor semantics, but the CLI boundary still needs to translate any failure into a clean `click.ClickException` rather than a raw traceback.)
+
 ---
 
 ### Task 11: Full regression pass
