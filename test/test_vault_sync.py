@@ -105,3 +105,239 @@ def test_show_raises_when_the_revision_itself_does_not_resolve(repo):
 
     with pytest.raises(vs.VaultSyncError, match="does not resolve"):
         vs._show(repo, "0000000000000000000000000000000000000000", "a.txt")
+
+
+# ── classify_diff: track A (.artmind/data/kg/**) ────────────────────────────
+
+
+def _write_doc_folder(kg_dir, domain, docdir, doc_id, extra_files=("chunks.json", "relationships.json")):
+    folder = kg_dir / domain / docdir
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / "document.json").write_text(f'{{"id": "{doc_id}"}}')
+    (folder / "observations.json").write_text("[]")
+    for name in extra_files:
+        (folder / name).write_text("[]")
+
+
+def _patch_kg_dir(monkeypatch, vault_dir):
+    import paths
+    kg_dir = vault_dir / ".artmind" / "data" / "kg"
+    monkeypatch.setattr(paths, "KG_DIR", kg_dir)
+    return kg_dir
+
+
+def _patch_structured_text_dir(monkeypatch, vault_dir):
+    import paths
+    st_dir = vault_dir / ".artmind" / "data" / "structured_text"
+    monkeypatch.setattr(paths, "STRUCTURED_TEXT_DIR", st_dir)
+    return st_dir
+
+
+def test_classify_diff_replays_an_added_document_folder(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    from artmind.vault import VaultLayout
+
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "doc1")]
+    assert plan.retract == []
+
+
+def test_classify_diff_replays_a_modified_document_folder(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"key": "x"}]')
+    _commit_all(repo, "edit doc1")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "doc1")]
+
+
+def test_classify_diff_retracts_a_removed_document_folder(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "doc1")
+    _commit_all(repo, "remove doc1")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
+    assert plan.retract == [("banking", "docid-1")]
+
+
+def test_classify_diff_retracts_a_removed_table_folder_directly(repo, monkeypatch):
+    """A table__<name> folder removed directly (out-of-band, not via a
+    structured-text change) uses the identical retraction path (spec §4)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
+    _commit_all(repo, "add table")
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "table__accounts")
+    _commit_all(repo, "remove table folder")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.retract == [("banking", "table:banking:accounts")]
+
+
+def test_classify_diff_ignores_a_folder_with_no_observations_json_change(repo, monkeypatch):
+    """Only some OTHER file (e.g. table2graph_report.json) changed --
+    neither replay nor retract triggers (spec §4's own conditioning on
+    observations.json specifically)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1", extra_files=("chunks.json", "table2graph_report.json"))
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "table2graph_report.json").write_text('{"n": 1}')
+    _commit_all(repo, "edit report only")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
+    assert plan.retract == []
+
+
+def test_classify_diff_scopes_to_requested_domains(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, "legal", "doc2", "docid-2")
+    _commit_all(repo, "add both")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo), domains=["banking"])
+
+    assert plan.replay_docs == [("banking", "doc1")]
+
+
+# ── classify_diff: track B (.artmind/data/structured_text/**) ───────────────
+
+
+def test_classify_diff_regenerates_an_added_table_csv(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text("{}")
+    _commit_all(repo, "add table text")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.regenerate_tables == [("banking", "accounts")]
+
+
+def test_classify_diff_retracts_a_removed_table_csv(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text("{}")
+    _commit_all(repo, "add table text")
+    base = vs.head_sha(repo)
+    (st_dir / "banking" / "accounts.csv").unlink()
+    _commit_all(repo, "remove table text")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.regenerate_tables == []
+    assert plan.retract == [("banking", "table:banking:accounts")]
+
+
+def test_classify_diff_manifest_only_change_triggers_nothing(repo, monkeypatch):
+    """Documented scoping decision (not an oversight): manifest.json is a
+    single shared file, not "under a given table's export" -- a
+    manifest-only change with no accompanying CSV diff regenerates nothing
+    in this version."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text("{}")
+    _commit_all(repo, "add table text")
+    base = vs.head_sha(repo)
+    (st_dir / "manifest.json").write_text('{"changed": true}')
+    _commit_all(repo, "edit manifest only")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.regenerate_tables == []
+
+
+def test_classify_diff_dedupes_a_table_retracted_from_both_tracks(repo, monkeypatch):
+    """If a table__* folder AND its structured-text CSV are both removed in
+    the same diff, the table is retracted once, not twice."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "manifest.json").write_text("{}")
+    _commit_all(repo, "add both")
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "table__accounts")
+    (st_dir / "banking" / "accounts.csv").unlink()
+    _commit_all(repo, "remove both")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.retract == [("banking", "table:banking:accounts")]
+
+
+def test_classify_diff_never_sees_track_bs_uncommitted_output_in_the_same_run(repo, monkeypatch):
+    """§5's core sequencing correctness property (spec §12's second test
+    case): `classify_diff` reads committed git history only (`git diff`
+    between two fixed revisions) -- it is structurally incapable of seeing
+    files track B has written to the working tree but not yet committed,
+    regardless of when in a `sync()` run it's called. This test proves the
+    property directly: write a FRESH, uncommitted table__* folder (exactly
+    what track B's regenerate step produces mid-run -- see `sync()`), and
+    confirm classify_diff's track-A pass does not report it as an added
+    document folder -- an uncommitted file simply cannot appear in any
+    `base..head` diff."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+    base = vs.head_sha(repo)
+    head = vs.head_sha(repo)  # no new commit -- this run's diff_range is fixed and empty
+
+    # Simulate track B having just written fresh output mid-run, uncommitted.
+    _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, head)
+
+    assert plan.replay_docs == [], (
+        "an uncommitted table__* folder must never be picked up as a track-A "
+        "replay within the same run that just wrote it"
+    )
+
+
+def test_classify_diff_raises_if_removed_folder_never_existed_at_base(monkeypatch, tmp_path):
+    """Defensive: should be unreachable in practice -- git cannot report a
+    `D` status for a path that was absent at BOTH diff endpoints, so this
+    monkeypatches `_diff_name_status`/`_show` directly to simulate the
+    impossible case, rather than trying (and failing) to construct it via
+    real git commands. Fail loud rather than silently guess if it ever
+    somehow occurs."""
+    from artmind.vault import VaultLayout
+
+    monkeypatch.setattr(vs, "_diff_name_status", lambda *a, **k: [("D", "banking/doc1/observations.json")])
+    monkeypatch.setattr(vs, "_show", lambda *a, **k: None)
+
+    with pytest.raises(vs.VaultSyncError, match="wasn't present"):
+        vs.classify_diff(tmp_path, VaultLayout(tmp_path), "base-sha", "head-sha")

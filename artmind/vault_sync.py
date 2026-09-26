@@ -86,3 +86,139 @@ def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
         raise VaultSyncError(f"{rev!r} does not resolve to a commit in this vault's git history")
     rc, out, _ = run_command(f'git show "{rev}:{relpath}"', cwd=vault_dir, expected_codes=(128,))
     return out if rc == 0 else None
+
+
+from dataclasses import dataclass, field
+
+
+@dataclass
+class SyncPlan:
+    base: str
+    head: str
+    replay_docs: list[tuple[str, str]] = field(default_factory=list)        # (domain, docdir)
+    retract: list[tuple[str, str]] = field(default_factory=list)            # (domain, doc_id)
+    regenerate_tables: list[tuple[str, str]] = field(default_factory=list)  # (domain, table_name)
+
+
+def _in_scope(domain: str, domains: list[str] | None) -> bool:
+    if not domains:
+        return True
+    return any(domain == d or domain.startswith(d + ".") for d in domains)
+
+
+def _classify_kg_diff(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """Track A (spec §4.A): replay/retract for every document (and
+    table__<name>) folder under `.artmind/data/kg/**`. Driven entirely by
+    git's own status letters for `observations.json` specifically -- never
+    the live filesystem, which track B may already have written fresh,
+    uncommitted content into by the time this runs in the same sync (spec
+    §5's sequencing guarantee falls out of this for free, since `_show`
+    below only ever reads committed history)."""
+    import paths
+
+    kg_dir = paths.KG_DIR
+    try:
+        rows = _diff_name_status(vault_dir, base, head, kg_dir)
+    except ValueError:
+        # `paths.KG_DIR` isn't inside this vault_dir at all (e.g. a
+        # track-B-only caller/test that never pointed it at this vault) --
+        # nothing in this track to report, rather than a hard failure.
+        return [], []
+    try:
+        kg_rel = kg_dir.relative_to(vault_dir)
+    except ValueError:
+        kg_rel = Path(".")
+
+    replay: list[tuple[str, str]] = []
+    retract: list[tuple[str, str]] = []
+    for status, path in rows:
+        try:
+            rel = Path(path).relative_to(kg_rel)
+        except ValueError:
+            continue
+        parts = rel.parts
+        if len(parts) != 3 or parts[2] != "observations.json":
+            continue
+        domain, docdir, _ = parts
+        if not _in_scope(domain, domains):
+            continue
+        if status in ("A", "M"):
+            replay.append((domain, docdir))
+        elif status == "D":
+            # The doc's id lives in the sibling `document.json`, not in
+            # `observations.json` itself (which is a bare list) -- read that
+            # file's content as it stood at `base`, right before removal.
+            doc_json_path = str(Path(path).parent / "document.json")
+            base_content = _show(vault_dir, base, doc_json_path)
+            if base_content is None:
+                raise VaultSyncError(
+                    f"{path} is marked removed since {base}, but wasn't present at {base} "
+                    "either -- diff and history disagree, refusing to guess"
+                )
+            import json
+            doc_id = json.loads(base_content)["id"]
+            retract.append((domain, doc_id))
+    return replay, retract
+
+
+def _classify_structured_text_diff(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """Track B (spec §4.B): regenerate/retract for every table's CSV under
+    `.artmind/data/structured_text/**`. `manifest.json` is a single shared
+    file (not "under a given table's export"); a manifest-only change with
+    no accompanying CSV diff triggers nothing in this version -- a
+    documented scoping decision, not an oversight."""
+    import paths
+
+    st_dir = paths.STRUCTURED_TEXT_DIR
+    try:
+        rows = _diff_name_status(vault_dir, base, head, st_dir)
+    except ValueError:
+        # Symmetric with `_classify_kg_diff`: `paths.STRUCTURED_TEXT_DIR`
+        # isn't inside this vault_dir -- nothing in this track to report.
+        return [], []
+    try:
+        st_rel = st_dir.relative_to(vault_dir)
+    except ValueError:
+        st_rel = Path(".")
+
+    regenerate: list[tuple[str, str]] = []
+    retract: list[tuple[str, str]] = []
+    for status, path in rows:
+        try:
+            rel = Path(path).relative_to(st_rel)
+        except ValueError:
+            continue
+        parts = rel.parts
+        if len(parts) != 2 or not parts[1].endswith(".csv"):
+            continue
+        domain, filename = parts
+        table_name = filename[: -len(".csv")]
+        if not _in_scope(domain, domains):
+            continue
+        if status in ("A", "M"):
+            regenerate.append((domain, table_name))
+        elif status == "D":
+            retract.append((domain, f"table:{domain}:{table_name}"))
+    return regenerate, retract
+
+
+def classify_diff(
+    vault_dir: Path, layout, base: str, head: str, domains: list[str] | None = None
+) -> SyncPlan:
+    """The full classified diff for one sync run (spec §4), over the FIXED
+    `base..head` range the caller has already resolved -- never re-queried
+    mid-run, which is what makes §5's sequencing guarantee hold."""
+    plan = SyncPlan(base=base, head=head)
+    plan.replay_docs, kg_retract = _classify_kg_diff(vault_dir, base, head, domains)
+    plan.regenerate_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
+
+    seen: set[tuple[str, str]] = set()
+    for domain, doc_id in kg_retract + table_retract:
+        if (domain, doc_id) not in seen:
+            seen.add((domain, doc_id))
+            plan.retract.append((domain, doc_id))
+    return plan
