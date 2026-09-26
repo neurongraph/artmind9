@@ -27,10 +27,10 @@ class VaultSyncError(Exception):
     """A `vault sync` run cannot proceed -- refused before writing anything."""
 
 
-def _git(vault_dir: Path, args: str) -> str:
-    rc, out, err = run_command(f"git {args}", cwd=vault_dir)
+def _git(vault_dir: Path, args: list[str]) -> str:
+    rc, out, err = run_command(["git", *args], cwd=vault_dir)
     if rc != 0:
-        raise VaultSyncError(f"git {args} failed: {err or out}")
+        raise VaultSyncError(f"git {' '.join(args)} failed: {err or out}")
     return out
 
 
@@ -41,13 +41,64 @@ def head_sha(vault_dir: Path) -> str:
     (it runs `git init`, never a commit), and the one case every `sync()`
     call needs a real, named message for, since bootstrap or not, dry-run or
     not, there is nothing to sync/stamp without a HEAD to point at."""
-    rc, out, err = run_command("git rev-parse HEAD", cwd=vault_dir, expected_codes=(128,))
+    rc, out, err = run_command(["git", "rev-parse", "HEAD"], cwd=vault_dir, expected_codes=(128,))
     if rc != 0:
         raise VaultSyncError(
             "this vault's git repo has no commits yet -- nothing to sync. "
             "Commit something to it first, then run `vault sync` again."
         )
     return out.strip()
+
+
+def _worker_running() -> bool:
+    """Whether this vault's ingest worker is alive (its pid file names a live
+    process). The worker writes the same graph keys `sync` replays, and its
+    staging writes are what `sync` would be reading."""
+    import os
+
+    import paths
+
+    try:
+        pid = int(paths.WORKER_PID_FILE.read_text().strip())
+    except (OSError, ValueError):
+        return False
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True  # alive, owned by someone else
+    return True
+
+
+def preflight(vault_dir: Path) -> None:
+    """Refuse -- before reading or writing anything -- when the vault is in a
+    state `sync` must not apply from (spec 2026-09-26 §6 A5): a merge, rebase
+    or cherry-pick in progress, unresolved conflicts in the index, or a running
+    ingest worker. Each message says what to do next."""
+    git_dir = Path(_git(vault_dir, ["rev-parse", "--absolute-git-dir"]).strip())
+    for marker, what in (
+        ("MERGE_HEAD", "a merge"),
+        ("rebase-merge", "a rebase"),
+        ("rebase-apply", "a rebase"),
+        ("CHERRY_PICK_HEAD", "a cherry-pick"),
+    ):
+        if (git_dir / marker).exists():
+            raise VaultSyncError(
+                f"{what} is in progress in this vault -- finish it in Obsidian "
+                "(or git) first, then re-run `vault sync`"
+            )
+    unmerged = _git(vault_dir, ["diff", "--name-only", "--diff-filter=U"]).split()
+    if unmerged:
+        raise VaultSyncError(
+            f"unresolved conflicts in {len(unmerged)} file(s) ({', '.join(unmerged[:5])}"
+            f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
+        )
+    if _worker_running():
+        raise VaultSyncError(
+            "the ingest worker is running for this vault -- wait for it to finish "
+            "(`artmind ingest job-status`), then re-run `vault sync`"
+        )
 
 
 def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> list[tuple[str, str]]:
@@ -58,7 +109,7 @@ def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> lis
     the per-path classification in `_classify_kg_diff`/
     `_classify_structured_text_diff` depends on."""
     rel_scope = scope.relative_to(vault_dir)
-    out = _git(vault_dir, f'diff --no-renames --name-status {base} {head} -- "{rel_scope}"')
+    out = _git(vault_dir, ["diff", "--no-renames", "--name-status", base, head, "--", str(rel_scope)])
     rows = []
     for line in out.splitlines():
         if not line.strip():
@@ -81,10 +132,10 @@ def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
     longer exists, instead of failing loudly the way this module's
     "refused before writing anything" philosophy demands.
     """
-    rc, _, _ = run_command(f'git cat-file -e "{rev}^{{commit}}"', cwd=vault_dir, expected_codes=(128,))
+    rc, _, _ = run_command(["git", "cat-file", "-e", f"{rev}^{{commit}}"], cwd=vault_dir, expected_codes=(128,))
     if rc != 0:
         raise VaultSyncError(f"{rev!r} does not resolve to a commit in this vault's git history")
-    rc, out, _ = run_command(f'git show "{rev}:{relpath}"', cwd=vault_dir, expected_codes=(128,))
+    rc, out, _ = run_command(["git", "show", f"{rev}:{relpath}"], cwd=vault_dir, expected_codes=(128,))
     return out if rc == 0 else None
 
 
@@ -239,6 +290,7 @@ def sync(
     state = read_state(layout)
     last_synced = state.get("last_synced_commit")
     head = head_sha(vault_dir)
+    preflight(vault_dir)
 
     if bootstrap_synced:
         if dry_run:

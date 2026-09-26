@@ -24,6 +24,12 @@ def repo(tmp_path):
     return tmp_path
 
 
+@pytest.fixture(autouse=True)
+def _no_worker(tmp_path, monkeypatch):
+    import paths
+    monkeypatch.setattr(paths, "WORKER_PID_FILE", tmp_path / "worker.pid")
+
+
 def test_head_sha_returns_the_current_commit(repo):
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
@@ -750,3 +756,79 @@ def test_sync_leaves_cursor_untouched_when_track_a_fails_after_track_b_succeeded
 
     from artmind.vault import VaultLayout, read_state
     assert read_state(VaultLayout(repo)) == {}
+
+
+# ── preflight (spec 2026-09-26 §6 A5) ────────────────────────────────────────
+
+
+def _conflicting_merge(repo):
+    """Leave `repo` mid-merge with a.txt conflicted."""
+    (repo / "a.txt").write_text("base\n")
+    _commit_all(repo, "base")
+    subprocess.run(["git", "checkout", "-qb", "other"], cwd=repo, check=True)
+    (repo / "a.txt").write_text("theirs\n")
+    _commit_all(repo, "theirs")
+    subprocess.run(["git", "checkout", "-q", "-"], cwd=repo, check=True)
+    (repo / "a.txt").write_text("ours\n")
+    _commit_all(repo, "ours")
+    subprocess.run(["git", "merge", "other"], cwd=repo, capture_output=True)  # exits 1: conflict
+
+
+def test_preflight_refuses_during_a_merge(repo, monkeypatch):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _conflicting_merge(repo)
+
+    with pytest.raises(vs.VaultSyncError, match="merge is in progress"):
+        vs.sync(repo, bootstrap_empty=True)
+
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo)) == {}
+
+
+def test_preflight_refuses_bootstrap_synced_during_a_merge_too(repo, monkeypatch):
+    """Stamping the cursor mid-merge would record a HEAD the user is about to move."""
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _conflicting_merge(repo)
+
+    with pytest.raises(vs.VaultSyncError, match="merge is in progress"):
+        vs.sync(repo, bootstrap_synced=True)
+
+
+def test_preflight_refuses_with_unmerged_paths_even_without_merge_head(repo, monkeypatch):
+    """`git merge --abort` never run and MERGE_HEAD deleted by hand (or a
+    stash pop conflict): the index still has unmerged entries."""
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _conflicting_merge(repo)
+    git_dir = repo / ".git"
+    (git_dir / "MERGE_HEAD").unlink()
+
+    with pytest.raises(vs.VaultSyncError, match="unresolved conflicts"):
+        vs.sync(repo, bootstrap_empty=True)
+
+
+def test_preflight_refuses_while_the_ingest_worker_is_running(repo, monkeypatch, tmp_path):
+    import os
+    import paths
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+    (tmp_path / "worker.pid").write_text(str(os.getpid()))  # a live pid: this test process
+
+    with pytest.raises(vs.VaultSyncError, match="ingest worker is running"):
+        vs.sync(repo, bootstrap_empty=True)
+
+
+def test_preflight_ignores_a_stale_worker_pid(repo, monkeypatch, tmp_path):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+    (tmp_path / "worker.pid").write_text("999999999")  # no such process
+
+    result = vs.sync(repo, bootstrap_synced=True)
+    assert result["bootstrap"] == "synced"
