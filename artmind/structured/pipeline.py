@@ -340,23 +340,19 @@ def _project_catalogue_best_effort(domain: str) -> None:
 
 
 def _export_text_best_effort(domain: str, table_names: list[str]) -> None:
-    """Re-export ``table_names``' CSV + manifest.json and, inside a vault,
-    commit them (``structured/text_export.py`` -- the git-commitable text
-    ``db reindex`` rebuilds parquet + registry rows from). Best-effort for the
-    same reason as ``_project_catalogue_best_effort``: a write to the vault's
-    working tree must never fail the ingest that produced it, and
-    ``vault_git`` itself is already a no-op outside a vault or offline."""
+    """Re-export ``table_names``' CSV + manifest.json into the vault's
+    structured_text dir (``structured/text_export.py`` -- the git-commitable
+    text ``db reindex`` rebuilds parquet + registry rows from). Best-effort for
+    the same reason as ``_project_catalogue_best_effort``: a write to the
+    vault's working tree must never fail the ingest that produced it. artmind
+    does not commit it (spec 2026-09-26, D1) -- Obsidian Git does."""
     try:
         from artmind.structured import text_export
-        from artmind.vault_git import commit_paths, maybe_push
 
         tables = [t for name in table_names if (t := registry.get_table(name, domain=domain)) is not None]
         if not tables:
             return
-        result = text_export.export_structured_text(tables=tables)
-        message = f"artmind: structured export {', '.join(table_names)}"
-        if commit_paths([Path(p) for p in result["files"]], message):
-            maybe_push()
+        text_export.export_structured_text(tables=tables)
     except Exception as e:
         logger.warning("structured pipeline: text export failed for domain '{}': {}", domain, e)
 

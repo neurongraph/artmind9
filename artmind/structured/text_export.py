@@ -78,14 +78,13 @@ def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] |
 
     Row order is `ORDER BY ALL` (every column, left to right) -- deterministic
     across re-exports of unchanged data, so a re-export that changed nothing
-    produces a byte-identical CSV and `vault_git.commit_paths` correctly
-    no-ops instead of committing a spurious reordering.
+    produces a byte-identical CSV and git sees no change, instead of a
+    spurious reordering for Obsidian Git to commit.
 
     The manifest is always the FULL registry dump, even when `tables` scopes
     which CSVs get rewritten -- it's one shared file, cheap to rewrite in
     full, and a partial manifest would leave every other table's `db reindex`
-    unusable. Returns `{"tables": <count exported>, "files": [<paths written>]}`,
-    for the caller to hand straight to `vault_git.commit_paths`.
+    unusable. Returns `{"tables": <count exported>, "files": [<paths written>]}`.
     """
     dest_dir = Path(dest_dir) if dest_dir else paths.STRUCTURED_TEXT_DIR
     dest_dir.mkdir(parents=True, exist_ok=True)
