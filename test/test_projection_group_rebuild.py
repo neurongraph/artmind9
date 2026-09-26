@@ -93,7 +93,7 @@ def _o(**kw):
     return base
 
 
-# ── rebuild_key: dynamic label/property Cypher, not APOC ────────────────────
+# ── rebuild: batched dynamic label/property Cypher, not APOC ──────────────────
 
 
 def test_rebuild_merges_entities_via_one_batched_unwind_statement():

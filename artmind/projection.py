@@ -1127,8 +1127,9 @@ def apply_retractions(tx, observations: list[dict]) -> set[tuple[str, str, str]]
       pool that feeds the aggregate.
     - Retracting a **relationship** deletes the `ASSERTS_RELATION` edge
       outright. Edges carry no history label, and `RELATES_TO` is already
-      recomputed from scratch on every rebuild (`_sync_relates_to`), so
-      deleting the raw edge is sufficient — the aggregate just stops
+      recomputed from scratch on every rebuild (`rebuild`'s own batched
+      resolution, or `_sync_relates_to` for `rebuild_key`'s single-key path),
+      so deleting the raw edge is sufficient — the aggregate just stops
       asserting it on the next sync.
 
     Tolerant by design: a `_retracts` pointer matching nothing (already
@@ -1185,8 +1186,9 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
     once for the whole batch -- absent, every description falls back to the
     winner observation's.
 
-    Batched: every phase below issues one Cypher statement covering the
-    WHOLE `keys` batch, not one per key -- see
+    Batched: each phase below issues a small, fixed number of Cypher
+    statements (most just one; a few are a clear-then-write or delete-then-
+    write pair) covering the WHOLE `keys` batch, never one per key -- see
     `docs/superpowers/specs/2026-09-25-projection-rebuild-batching-design.md`.
     The outcome (which entities exist, their properties, their edges) is
     identical to the old per-key implementation; only the round-trip count
