@@ -2071,3 +2071,22 @@ These need the user. Do not run them unattended.
 - **Phase 1 review findings folded in:** #2 (the `.gitattributes` comment forbids archive-affecting attributes), #4 (the `justfile` comment), #5 (`_present_at` makes a missing manifest harmless). #1 (mapping and schema read from the working tree), #3 (preflight scope), #6, #7 and #9 are not phase 2 scope and remain open.
 - **D1:** No task adds a git write. The doctor's printed command is split so the guard's source scan does not match it, and `test_no_git_writes.py` runs in Tasks 7 and 8.
 - **Type consistency:** `write_dir_atomic(target, files)`, `recover(target)` and `is_scratch(path)` are defined in Task 1 and used in Tasks 2–4. `write_staging(doc_kg_dir, documents, *, default=None)` is defined in Task 2 and used in Task 3. `block_status(path, block)`, `GITATTRIBUTES_BLOCK` and `write_gitattributes(root)` are defined in Task 5 and used in Task 8. `META_SUFFIX`, `load_structured_dump(src_dir)` and `MANIFEST_NAME` are defined in Task 6 and used in Task 7.
+
+## Execution notes (2026-09-26, automated run)
+
+All 9 tasks were executed with one Sonnet implementer per task. Reviews ran after Tasks 1, 5 and 6 and over the whole branch. Deviations and fixes:
+
+- **Task 1.** The scratch suffixes became `.artmind-tmp`/`.artmind-old`. A plain `.old` collides with a stem-named document folder such as `notes.old/`. Names that would escape the folder are now rejected.
+- **Task 3.** A follow-up commit dropped `table2graph`'s now-unused `import json`.
+- **Final review, critical.** Track A still classified `table__*` folders, so untracking them with the doctor's `git rm --cached` would have retracted table data on every receiving machine. Fixed in 2cacfce (R4: "Track A … no longer sees them").
+- **Final review, minor.** `ingest write-to-graph --folder` and `unified_snapshot` now skip scratch folders. The `restore_tables` docstring is fixed. `vault doctor` logs to a file instead of stderr.
+
+Open follow-ups, not fixed here (each is a behaviour or design change outside this plan):
+
+1. **Table id collisions across machines (Important).** Each `.meta.json` carries SQLite's autoincrement `tables.id`. When two ingesting machines each register a new table, the ids can collide after a clean merge, and a wholesale import then fails with `UNIQUE constraint failed: tables.id`. The old single manifest turned this into a visible conflict instead. Options: remap ids on import by `(domain, table_name)`, or key the column, mapping and role rows by table name.
+2. **Unmapped tables stall sync (Important).** The first export after upgrade migrates every table to `.meta.json` in one commit. Receivers regenerate all of them, and any table without a table2graph mapping raises `no table mapping`, so the cursor never advances. A table with no mapping should be restored to the structured store only.
+3. **Other staging writers are still non-atomic (R2 says "every writer").** These are archive restore (`artmind/archive.py` ≈325-343), dashboard artifact import (`artmind/webui/dashboard_routes.py` ≈390-401) and `kg_pull.py` ≈150.
+4. **Non-ASCII paths.** `git diff --name-status` (phase 1) and `git ls-tree --name-only` (`_present_at`) quote non-ASCII paths unless `core.quotePath=false` or `-z` is used, so a table or document with a non-ASCII name would be misclassified or skipped.
+5. **Minor.** `_write_block` rewrites a CRLF `.gitignore` with LF. A second stale artmind block is not detected. A user comment starting `# ── artmind ─` is mistaken for the block start. The folder is briefly absent between the two renames; the spec accepts this.
+
+Live checks done: `vault doctor` against a throwaway clone of the test vault (read-only, no Neo4j) reported the `.gitignore` block outdated and `.gitattributes` missing, and exited 1. The clone's working tree was untouched. Still waiting on the user: `just dev-install`, `artmind init` in a clone followed by the doctor again, and an ingest against the user's local Neo4j (Task 9, Step 6).
