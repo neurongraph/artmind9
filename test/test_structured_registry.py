@@ -715,3 +715,78 @@ def test_routing_surface_includes_step_statuses(tmp_path, monkeypatch):
     assert surface[0]["grain_status"] == "ok"
     assert surface[0]["bridge_status"] == "pending"
     assert surface[0]["mapping_status"] == "pending"
+
+
+def test_restore_tables_touches_only_the_requested_table(tmp_path, monkeypatch):
+    """A multi-table fixture: restore one table, assert the untouched table's
+    rows and ids are byte-identical before/after -- the foreign-key-safety
+    property `restore_all` already guarantees for the wholesale case
+    (spec 2026-09-25-vault-sync-design.md §7, §12)."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    products_id = registry.register_table(
+        "default", "products", "banking",
+        parquet_path="/tmp/products.parquet", row_count=2, sha256="p1",
+    )
+    registry.replace_columns(products_id, [{"name": "id", "dtype": "BIGINT", "profile_json": None}])
+    registry.upsert_mapping(products_id, "id", "PRODUCT", 0.9, confirmed=True)
+
+    customers_id = registry.register_table(
+        "default", "customers", "banking",
+        parquet_path="/tmp/customers.parquet", row_count=5, sha256="c1",
+    )
+    registry.replace_columns(customers_id, [{"name": "id", "dtype": "BIGINT", "profile_json": None}])
+    registry.upsert_mapping(customers_id, "id", "CUSTOMER", 0.9, confirmed=True)
+
+    dump = registry.dump_all()
+    customers_before = registry.get_table("customers", domain="banking")
+    customers_columns_before = registry.get_columns(customers_id)
+    customers_mappings_before = registry.list_mappings(customers_id)
+
+    # Mutate products locally (simulating drift since the dump was taken),
+    # then restore ONLY products from the dump.
+    registry.set_grain(products_id, "lookup", confirmed=False)
+    registry.restore_tables(dump, [("banking", "products")])
+
+    restored_products = registry.get_table("products", domain="banking")
+    assert restored_products["id"] == products_id
+    assert restored_products["grain"] == "instance"  # back to the dumped value
+
+    assert registry.get_table("customers", domain="banking") == customers_before
+    assert registry.get_columns(customers_id) == customers_columns_before
+    assert registry.list_mappings(customers_id) == customers_mappings_before
+
+
+def test_restore_tables_raises_when_a_requested_table_is_not_in_the_dump():
+    from artmind.structured import registry
+    import pytest
+
+    with pytest.raises(ValueError, match="not found in the manifest"):
+        registry.restore_tables(
+            {"tables": [], "columns": [], "column_mappings": [], "column_roles": [], "datasources": []},
+            [("banking", "missing_table")],
+        )
+
+
+def test_restore_tables_inserts_a_brand_new_table_not_previously_registered(tmp_path, monkeypatch):
+    """The scoped restore also has to work when the table doesn't exist
+    locally at all yet (a fresh query-only host's very first sync)."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    table_id = registry.register_table(
+        "default", "products", "banking",
+        parquet_path="/tmp/products.parquet", row_count=2, sha256="p1",
+    )
+    dump = registry.dump_all()
+    registry.delete_table(table_id)
+    assert registry.get_table("products", domain="banking") is None
+
+    registry.restore_tables(dump, [("banking", "products")])
+
+    restored = registry.get_table("products", domain="banking")
+    assert restored is not None
+    assert restored["id"] == table_id
