@@ -629,7 +629,7 @@ def _rewire_aggregates_batch(tx, rows: list[dict]) -> None:
         MATCH (e:Entity {_id: row.id})
         OPTIONAL MATCH (e)-[r:AGGREGATES]->(:Observation)
         DELETE r
-        WITH e, row
+        WITH DISTINCT e, row
         UNWIND row.observation_ids AS oid
         MATCH (o:Observation {id: oid})
         MERGE (e)-[:AGGREGATES]->(o)
@@ -1017,7 +1017,7 @@ def rebuild_key(
         MATCH (e:Entity {_id: $id})
         OPTIONAL MATCH (e)-[r:AGGREGATES]->(:Observation)
         DELETE r
-        WITH e
+        WITH DISTINCT e
         UNWIND $observation_ids AS oid
         MATCH (o:Observation {id: oid})
         MERGE (e)-[:AGGREGATES]->(o)
