@@ -195,7 +195,7 @@ class VaultLayout:
 
     @property
     def structured_text_dir(self) -> Path:
-        """CSV + `manifest.json` for the structured store -- the committed,
+        """CSV + per-table `.meta.json` for the structured store -- the committed,
         diffable source `db reindex` rebuilds `structured_dir`'s parquet and
         registry rows from (`structured/text_export.py`). Unlike
         `structured_dir`, this one is NOT in `GITIGNORE_BLOCK`: it is the
@@ -262,7 +262,7 @@ GITIGNORE_BLOCK = """\
 *.tgz
 
 # The structured store's parquet + DuckDB catalog are a rebuildable cache, not
-# the source of truth: `.artmind/data/structured_text/` (CSV + manifest.json,
+# the source of truth: `.artmind/data/structured_text/` (CSV + per-table .meta.json,
 # written by `db export-text`) is what's committed, and `db reindex` rebuilds
 # these from it. Committing the binaries too would make every ingest a
 # growing, undiffable blob in git history for no benefit over the text.

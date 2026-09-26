@@ -1,11 +1,12 @@
 """Git-commitable text export of the structured store (docs/vault.md, "What is
 in git, and what is not"). `.artmind/data/structured/`'s parquet + DuckDB
 catalog are a rebuildable cache; this module writes the diffable source of
-truth they're rebuilt from -- one CSV per registered table, plus a
-`manifest.json` carrying the registry rows (`registry.dump_all()`'s shape)
-needed to rebuild them: `refresh_mode`, `business_key`, confirmed grain/
-column-mapping/bridge-role classifications, and each column's dtype. Without
-the manifest, gitignoring the parquet/DuckDB catalog would be a straight
+truth they're rebuilt from -- one CSV per registered table, plus one
+`<table>.meta.json` beside it carrying that table's registry rows (spec
+2026-09-26 R5; a single shared `manifest.json` was a guaranteed merge
+conflict) needed to rebuild it: `refresh_mode`, `business_key`, confirmed
+grain/column-mapping/bridge-role classifications, and each column's dtype.
+Without the manifest, gitignoring the parquet/DuckDB catalog would be a straight
 regression -- `document_registry.db` (which holds all of this) is *already*
 gitignored, and `reindex.py`'s own docstring documents the consequence today:
 structured (csv/xlsx-sourced) tables are an "accepted limitation", unrebuildable
@@ -57,7 +58,17 @@ _SYSTEM_COLUMN_DTYPES = dict.fromkeys(SYSTEM_COLUMNS[:2], "DATE") | {SYSTEM_COLU
 #: recognizable as such by a human reading the CSV.
 NULL_SENTINEL = "\\N"
 
+#: Legacy (pre-R5) form: the whole registry in one shared file. Read as a
+#: fallback; the next export migrates it into per-table meta and deletes it.
 MANIFEST_NAME = "manifest.json"
+META_SUFFIX = ".meta.json"
+
+#: Machine-local registry fields, never written to a committed meta file (they
+#: differ per machine and would conflict on every merge). The import
+#: recomputes `parquet_path` for the current machine.
+_MACHINE_LOCAL_TABLE_FIELDS = frozenset({"parquet_path"})
+
+_DUMP_KEYS = ("columns", "column_mappings", "column_roles")
 
 
 def _quote_literal(value: str) -> str:
@@ -72,8 +83,99 @@ def _table_csv_path(dest_dir: Path, domain: str, table_name: str) -> Path:
     return dest_dir / domain / f"{table_name}.csv"
 
 
+def _table_meta_path(dest_dir: Path, domain: str, table_name: str) -> Path:
+    return dest_dir / domain / f"{table_name}{META_SUFFIX}"
+
+
+def _table_meta(dump: dict, row: dict) -> dict:
+    """One table's slice of a `registry.dump_all()`-shaped dump."""
+    table_id = row["id"]
+    return {
+        "table": {k: v for k, v in row.items() if k not in _MACHINE_LOCAL_TABLE_FIELDS},
+        "datasource": next(
+            (d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None
+        ),
+        **{key: [r for r in dump.get(key, []) if r["table_id"] == table_id] for key in _DUMP_KEYS},
+    }
+
+
+def _write_meta(dest_dir: Path, meta: dict) -> Path:
+    table = meta["table"]
+    path = _table_meta_path(dest_dir, table["domain"], table["table_name"])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(meta, indent=2, ensure_ascii=False, default=str, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    return path
+
+
+def _migrate_legacy_manifest(dest_dir: Path) -> list[Path]:
+    """Split a legacy `manifest.json` into per-table meta for every table
+    that has none yet, then delete it. Pure file transform: a scoped export
+    must not lose the metadata of tables it didn't touch."""
+    legacy = dest_dir / MANIFEST_NAME
+    if not legacy.is_file():
+        return []
+    dump = json.loads(legacy.read_text(encoding="utf-8"))
+    written = [
+        _write_meta(dest_dir, _table_meta(dump, row))
+        for row in dump.get("tables", [])
+        if not _table_meta_path(dest_dir, row["domain"], row["table_name"]).is_file()
+    ]
+    legacy.unlink()
+    return written
+
+
+def load_structured_dump(src_dir: Path) -> dict:
+    """A `registry.dump_all()`-shaped dict assembled from `src_dir`'s
+    per-table `<domain>/<table>.meta.json` files. A legacy `manifest.json`
+    fills in any table that has no meta file (R5 read-only compatibility).
+    Every table row gets a `parquet_path` key (empty when the meta omitted
+    it); `import_structured_text` overwrites it for this machine."""
+    legacy_path = src_dir / MANIFEST_NAME
+    meta_paths = sorted(src_dir.glob(f"*/*{META_SUFFIX}"))
+    if not meta_paths and not legacy_path.is_file():
+        raise FileNotFoundError(
+            f"No structured text export found at {src_dir} "
+            f"(no <domain>/<table>{META_SUFFIX} and no legacy {MANIFEST_NAME})"
+        )
+
+    dump: dict = {"datasources": [], "tables": [], **{key: [] for key in _DUMP_KEYS}}
+
+    def _add_datasource(ds: dict | None) -> None:
+        if ds and all(d["name"] != ds["name"] for d in dump["datasources"]):
+            dump["datasources"].append(ds)
+
+    have: set[tuple[str, str]] = set()
+    for path in meta_paths:
+        meta = json.loads(path.read_text(encoding="utf-8"))
+        table = dict(meta["table"])
+        have.add((table["domain"], table["table_name"]))
+        dump["tables"].append(table)
+        for key in _DUMP_KEYS:
+            dump[key].extend(meta.get(key, []))
+        _add_datasource(meta.get("datasource"))
+
+    if legacy_path.is_file():
+        legacy = json.loads(legacy_path.read_text(encoding="utf-8"))
+        legacy_ids = set()
+        for row in legacy.get("tables", []):
+            if (row["domain"], row["table_name"]) not in have:
+                dump["tables"].append(row)
+                legacy_ids.add(row["id"])
+        for key in _DUMP_KEYS:
+            dump[key].extend(r for r in legacy.get(key, []) if r["table_id"] in legacy_ids)
+        for ds in legacy.get("datasources", []):
+            _add_datasource(ds)
+
+    for row in dump["tables"]:
+        row.setdefault("parquet_path", "")
+    return dump
+
+
 def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] | None = None) -> dict:
-    """Write CSV + `manifest.json` for `tables` (default: every registered
+    """Write CSV + per-table `.meta.json` for `tables` (default: every registered
     table) to `dest_dir` (default: `paths.STRUCTURED_TEXT_DIR`).
 
     Row order is `ORDER BY ALL` (every column, left to right) -- deterministic
@@ -81,10 +183,10 @@ def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] |
     produces a byte-identical CSV and git sees no change, instead of a
     spurious reordering for Obsidian Git to commit.
 
-    The manifest is always the FULL registry dump, even when `tables` scopes
-    which CSVs get rewritten -- it's one shared file, cheap to rewrite in
-    full, and a partial manifest would leave every other table's `db reindex`
-    unusable. Returns `{"tables": <count exported>, "files": [<paths written>]}`.
+    Only the touched tables' CSV and meta are written; every other table's
+    files are left as they are. A legacy `manifest.json` is first split into
+    per-table meta (for tables without one) and deleted. Returns
+    `{"tables": <count>, "files": [<paths written>], "legacy_manifest_removed": bool}`.
     """
     dest_dir = Path(dest_dir) if dest_dir else paths.STRUCTURED_TEXT_DIR
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -105,16 +207,22 @@ def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] |
         )
         written.append(csv_path)
 
-    manifest_path = dest_dir / MANIFEST_NAME
-    manifest = registry.dump_all()
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False, default=str, sort_keys=True),
-        encoding="utf-8",
-    )
-    written.append(manifest_path)
+    had_legacy = (dest_dir / MANIFEST_NAME).is_file()
+    written.extend(_migrate_legacy_manifest(dest_dir))
+
+    dump = registry.dump_all()
+    rows_by_key = {(r["domain"], r["table_name"]): r for r in dump["tables"]}
+    for table in target_tables:
+        row = rows_by_key.get((table["domain"], table["table_name"]))
+        if row is not None:
+            written.append(_write_meta(dest_dir, _table_meta(dump, row)))
 
     logger.info("structured text export: {} table(s) -> {}", len(target_tables), dest_dir)
-    return {"tables": len(target_tables), "files": [str(p) for p in written]}
+    return {
+        "tables": len(target_tables),
+        "files": [str(p) for p in written],
+        "legacy_manifest_removed": had_legacy,
+    }
 
 
 def _csv_header(csv_path: Path) -> list[str]:
@@ -128,7 +236,8 @@ def _csv_header(csv_path: Path) -> list[str]:
 def import_structured_text(
     src_dir: Path | None = None, *, tables: list[tuple[str, str]] | None = None
 ) -> dict:
-    """Wipe and rebuild the structured store from `src_dir`'s CSV + `manifest.json`.
+    """Wipe and rebuild the structured store from `src_dir`'s CSV + per-table
+    `.meta.json` (legacy `manifest.json` as a fallback).
 
     `tables=None` (default) is today's existing wholesale behavior, byte for
     byte: every registered table's parquet + registry rows are wiped and
@@ -147,11 +256,7 @@ def import_structured_text(
     raising.
     """
     src_dir = Path(src_dir) if src_dir else paths.STRUCTURED_TEXT_DIR
-    manifest_path = src_dir / MANIFEST_NAME
-    if not manifest_path.is_file():
-        raise FileNotFoundError(f"No structured text export found at {src_dir} (missing {MANIFEST_NAME})")
-
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest = load_structured_dump(src_dir)
 
     dtypes_by_table: dict[int, dict[str, str]] = {}
     for col in manifest.get("columns", []):
@@ -193,7 +298,7 @@ def import_structured_text(
         missing = [c for c in header if c not in col_dtypes]
         if missing:
             raise ValueError(
-                f"{csv_path}: column(s) {missing} have no recorded dtype in {MANIFEST_NAME} "
+                f"{csv_path}: column(s) {missing} have no recorded dtype in the table's metadata "
                 f"for table {table['table_name']!r}"
             )
         columns_map = ", ".join(

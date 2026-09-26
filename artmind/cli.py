@@ -2115,7 +2115,7 @@ def db_restore(path, confirm, compact):
 @click.option("--dir", "dest_dir", type=click.Path(), help="Destination directory (default: the vault's structured_text dir)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def db_export_text(dest_dir, compact):
-    """Export the structured store as CSV + manifest.json — git-commitable, diffable text `db restore-text` rebuilds parquet + registry rows from.
+    """Export the structured store as CSV + per-table .meta.json — git-commitable, diffable text `db restore-text` rebuilds parquet + registry rows from.
 
     Unlike `db backup`'s tar.gz, this is meant to live in the vault's git
     history: one reviewable CSV per table, row order stable across re-exports
@@ -2140,7 +2140,7 @@ def db_restore_text(path, confirm, table, domain, compact):
 
     The parquet + DuckDB catalog are a rebuildable cache (`docs/vault.md`) —
     this is the command a fresh `git clone` of a vault runs to regenerate
-    them from the committed CSV + manifest.json. Pass --table to restore only
+    them from the committed CSV + per-table .meta.json. Pass --table to restore only
     specific tables (used internally by `vault sync`'s track B) rather than
     the whole store.
     """
