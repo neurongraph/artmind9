@@ -1287,12 +1287,21 @@ def table_to_graph(
     as_of: str | None = None,
     dry_run: bool = False,
     embed: bool = True,
+    defer_rebuild: bool = False,
 ) -> dict:
     """Validate, build, stage and commit one table. Returns the report.
 
     Raises `MappingError` when the mapping fails validation -- nothing is
     written. A dry run validates and builds (so its counts are real) but
     stages and commits nothing.
+
+    `defer_rebuild=True` skips this call's own projection rebuild and embed
+    sweeps entirely, returning the affected keys in
+    `report["commit"]["deferred_keys"]` instead of rebuilding them here --
+    `vault sync`'s track B, which unions them with every other change in the
+    same run before a single batched rebuild (spec
+    2026-09-25-vault-sync-design.md §5). The ordinary CLI path
+    (`defer_rebuild=False`, the default) is unchanged.
     """
     from artmind import ingest
 
@@ -1331,12 +1340,16 @@ def table_to_graph(
         "retracted": summary.get("retracted"),
         "affected_keys": len(keys),
     }
-    report["commit"]["projection"] = _rebuild_in_batches(keys)
-    if embed:
-        report["commit"]["entities_embedded"] = ingest._sweep_embeddings(table["domain"], keys)
-        report["commit"]["chunks_embedded"] = ingest._sweep_chunk_embeddings(
-            summary.get("unembedded_chunk_ids") or []
-        )
+    if defer_rebuild:
+        report["commit"]["deferred_keys"] = sorted(keys)
+        report["commit"]["projection"] = {"deferred": True}
+    else:
+        report["commit"]["projection"] = _rebuild_in_batches(keys)
+        if embed:
+            report["commit"]["entities_embedded"] = ingest._sweep_embeddings(table["domain"], keys)
+            report["commit"]["chunks_embedded"] = ingest._sweep_chunk_embeddings(
+                summary.get("unembedded_chunk_ids") or []
+            )
     logger.info(
         "table2graph: {} -> {} observation(s), {} relationship(s), {} chunk(s)",
         table["table_name"], report["observations"], report["relationship_observations"], report["chunks"],

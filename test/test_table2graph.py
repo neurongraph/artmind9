@@ -548,3 +548,75 @@ def test_cli_invalid_mapping_names_every_error(cli_env, tmp_path):
     result = CliRunner().invoke(cli.cli, ["ingest", "table2graph", "hr_export_20260921", "--mapping", str(bad), "--dryRun"])
     assert result.exit_code != 0
     assert "row_key: column 'Nope' is not in the table" in result.output
+
+
+def test_table_to_graph_defer_rebuild_skips_its_own_rebuild_and_sweeps(tmp_path, monkeypatch):
+    """§5 step 2 of the vault-sync spec: `defer_rebuild=True` must return the
+    affected keys for the CALLER to batch-rebuild later, not rebuild/sweep
+    internally like the ordinary (CLI) path does."""
+    import paths
+
+    monkeypatch.setattr(paths, "KG_DIR", tmp_path / "kg")
+    mapping = t2g.parse_mapping(MAPPING)
+    table = {"domain": "perf", "table_name": "hr_export_1", "id": 1}
+
+    monkeypatch.setattr(t2g, "read_table_rows", lambda table, as_of=None: ([
+        {"TalentID": "1", "Employee Name": "Doe, Jane", "Band": "B3", "Mgr?": "N",
+         "FLM": "N/A", "Segment": "N/A", "Seg Date": "N/A", "Ute": "N/A"},
+    ], COLUMNS))
+
+    import artmind.ingest as ing
+    fake_summary = {
+        "chunks": 1, "observations": 1, "relationships": 0, "retracted": {},
+        "deferred_keys": [("Jane Doe (1)", "PERSON", "perf")],
+        "unembedded_chunk_ids": [],
+    }
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda directory, domain, defer_rebuild=False: fake_summary,
+    )
+    rebuild_called = []
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys: rebuild_called.append(keys) or {})
+    sweep_called = []
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: sweep_called.append(keys) or 0)
+
+    report = t2g.table_to_graph(table, mapping, schema=SCHEMA, embed=True, defer_rebuild=True)
+
+    assert rebuild_called == [], "the rebuild must be deferred to the caller"
+    assert sweep_called == [], "the embed sweep must be deferred to the caller too"
+    assert report["commit"]["deferred_keys"] == [("Jane Doe (1)", "PERSON", "perf")]
+    assert report["commit"]["projection"] == {"deferred": True}
+
+
+def test_table_to_graph_default_behaviour_still_rebuilds_immediately(tmp_path, monkeypatch):
+    """Regression pin: `defer_rebuild=False` (the default) is byte-for-byte
+    today's existing CLI behavior."""
+    import paths
+
+    monkeypatch.setattr(paths, "KG_DIR", tmp_path / "kg")
+    mapping = t2g.parse_mapping(MAPPING)
+    table = {"domain": "perf", "table_name": "hr_export_1", "id": 1}
+
+    monkeypatch.setattr(t2g, "read_table_rows", lambda table, as_of=None: ([
+        {"TalentID": "1", "Employee Name": "Doe, Jane", "Band": "B3", "Mgr?": "N",
+         "FLM": "N/A", "Segment": "N/A", "Seg Date": "N/A", "Ute": "N/A"},
+    ], COLUMNS))
+
+    import artmind.ingest as ing
+    fake_summary = {
+        "chunks": 1, "observations": 1, "relationships": 0, "retracted": {},
+        "deferred_keys": [("Jane Doe (1)", "PERSON", "perf")],
+        "unembedded_chunk_ids": [],
+    }
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda directory, domain, defer_rebuild=False: fake_summary,
+    )
+    rebuild_called = []
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys: rebuild_called.append(keys) or {"rebuilt": 1})
+
+    report = t2g.table_to_graph(table, mapping, schema=SCHEMA, embed=False, defer_rebuild=False)
+
+    assert rebuild_called == [[("Jane Doe (1)", "PERSON", "perf")]]
+    assert "deferred_keys" not in report["commit"]
+    assert report["commit"]["projection"] == {"rebuilt": 1}
