@@ -85,7 +85,7 @@ def test_vault_reports_the_active_vault(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     CliRunner().invoke(cli, ["init"])
 
-    result = CliRunner().invoke(cli, ["vault"])
+    result = CliRunner().invoke(cli, ["vault", "status"])
 
     assert result.exit_code == 0, result.output
     assert str(tmp_path.resolve()) in result.output
@@ -169,7 +169,85 @@ def test_vault_outside_a_vault_explains_rather_than_guessing(tmp_path, monkeypat
     monkeypatch.delenv("ARTMIND_VAULT", raising=False)
     monkeypatch.delenv("ARTMIND_HOME", raising=False)
 
-    result = CliRunner().invoke(cli, ["vault"])
+    result = CliRunner().invoke(cli, ["vault", "status"])
 
     assert result.exit_code != 0
     assert "artmind init" in result.output
+
+
+def test_vault_bare_invocation_shows_help_not_status(tmp_path, monkeypatch):
+    """`vault` is now a plain group -- bare invocation shows --help (rather
+    than running `status`), the same convention every other group in this
+    CLI already follows (db, ingest, domains, query, ...): rich-click's
+    `no_args_is_help` prints usage and exits non-zero (2), it doesn't exit 0.
+    Use `vault status` for the status report."""
+    monkeypatch.chdir(tmp_path)
+    CliRunner().invoke(cli, ["init"])
+
+    result = CliRunner().invoke(cli, ["vault"])
+
+    assert result.exit_code == 2
+    assert "Usage:" in result.output
+
+
+def _init_and_commit(tmp_path):
+    """`artmind init` only runs `git init` -- never a commit -- so every
+    `vault sync` CLI test needs at least one real commit before it can call
+    `head_sha()` successfully (see `vault_sync.head_sha`'s "no commits yet"
+    handling)."""
+    CliRunner().invoke(cli, ["init"])
+    (tmp_path / "note.md").write_text("hello\n")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "first"], cwd=tmp_path, check=True)
+
+
+def test_vault_sync_refuses_without_marker_or_bootstrap_flag(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+
+    result = CliRunner().invoke(cli, ["vault", "sync"])
+
+    assert result.exit_code != 0
+    assert "bootstrapEmpty" in result.output
+
+
+def test_vault_sync_bootstrap_synced_stamps_the_cursor(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+
+    result = CliRunner().invoke(cli, ["vault", "sync", "--bootstrapSynced", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    import json
+    payload = json.loads(result.output)
+    assert payload["bootstrap"] == "synced"
+    assert "last_synced_commit" in payload
+
+
+def test_vault_sync_dry_run_reports_without_writing(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+
+    result = CliRunner().invoke(cli, ["vault", "sync", "--bootstrapEmpty", "--dryRun", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    import json
+    payload = json.loads(result.output)
+    assert payload["dry_run"] is True
+    from artmind import vault as vault_mod
+    assert vault_mod.read_state(vault_mod.VaultLayout(tmp_path)) == {}
+
+
+def test_vault_sync_domain_option_reaches_the_cli_layer(tmp_path, monkeypatch):
+    """Only proves Click's option parsing and the `_parse_domains(domain) if
+    domain else None` wiring don't blow up when `--domain` is passed --
+    `sync()`'s own domain-scoping logic is already covered by its own unit
+    tests, not re-verified here."""
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+
+    result = CliRunner().invoke(
+        cli, ["vault", "sync", "--bootstrapEmpty", "--dryRun", "--domain", "banking", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output

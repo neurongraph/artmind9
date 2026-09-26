@@ -621,3 +621,100 @@ def restore_all(dump: dict) -> None:
         conn.commit()
     finally:
         conn.close()
+
+
+def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
+    """Scoped sibling of `restore_all`: wipe and reinsert rows for exactly the
+    `(domain, table_name)` pairs in `table_keys`, leaving every other
+    registered table's rows and ids untouched. `datasources` is left alone
+    unless a restored table's own datasource row doesn't currently exist.
+
+    Raises `ValueError` if a requested pair isn't in `dump["tables"]` -- the
+    manifest is always a full dump (`export_structured_text`'s own
+    docstring), so a requested table missing from it means the diff and the
+    manifest have drifted, which should fail loudly rather than silently
+    skip the table.
+
+    Same id-preservation contract as `restore_all`, and the same assumption:
+    this is for a host whose registry rows, for these tables, were
+    themselves always populated by a prior restore (never a real local
+    ingest assigning its own autoincrement id) -- `vault sync`'s own use
+    case, a query-only host with no other source of truth for these ids.
+    """
+    dump_rows_by_key = {(r["domain"], r["table_name"]): r for r in dump.get("tables", [])}
+    missing = set(table_keys) - dump_rows_by_key.keys()
+    if missing:
+        raise ValueError(f"table(s) not found in the manifest: {sorted(missing)}")
+
+    conn = _get_db()
+    cursor = conn.cursor()
+    try:
+        for domain, table_name in table_keys:
+            existing = cursor.execute(
+                'SELECT id FROM "tables" WHERE domain = ? AND table_name = ?',
+                (domain, table_name),
+            ).fetchone()
+            if existing:
+                table_id = existing[0]
+                cursor.execute("DELETE FROM column_roles WHERE table_id = ?", (table_id,))
+                cursor.execute("DELETE FROM column_mappings WHERE table_id = ?", (table_id,))
+                cursor.execute('DELETE FROM "columns" WHERE table_id = ?', (table_id,))
+                cursor.execute('DELETE FROM "tables" WHERE id = ?', (table_id,))
+
+            row = dump_rows_by_key[(domain, table_name)]
+            table_id = row["id"]
+            cursor.execute(
+                'INSERT INTO "tables" (id, datasource, table_name, domain, source_file, sheet,'
+                " parquet_path, version, row_count, refresh_mode, business_key,"
+                " effective_date_column, grain, grain_confirmed, grain_status,"
+                " bridge_status, mapping_status, ingested_at, sha256)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    row["id"], row["datasource"], row["table_name"], row["domain"],
+                    row["source_file"], row["sheet"], row["parquet_path"], row["version"],
+                    row["row_count"], row["refresh_mode"], row["business_key"],
+                    row["effective_date_column"], row.get("grain") or "instance",
+                    int(row.get("grain_confirmed") or 0),
+                    row.get("grain_status") or "pending",
+                    row.get("bridge_status") or "pending",
+                    row.get("mapping_status") or "pending",
+                    row["ingested_at"], row["sha256"],
+                ),
+            )
+
+            datasource_exists = cursor.execute(
+                "SELECT 1 FROM datasources WHERE name = ?", (row["datasource"],)
+            ).fetchone()
+            if not datasource_exists:
+                ds_row = next(
+                    (d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None
+                )
+                if ds_row:
+                    cursor.execute(
+                        "INSERT INTO datasources (name, type, path_or_dsn, created_at) VALUES (?, ?, ?, ?)",
+                        (ds_row["name"], ds_row["type"], ds_row["path_or_dsn"], ds_row["created_at"]),
+                    )
+
+            for col in dump.get("columns", []):
+                if col["table_id"] == table_id:
+                    cursor.execute(
+                        'INSERT INTO "columns" (table_id, name, dtype, profile_json) VALUES (?, ?, ?, ?)',
+                        (col["table_id"], col["name"], col["dtype"], col["profile_json"]),
+                    )
+            for m in dump.get("column_mappings", []):
+                if m["table_id"] == table_id:
+                    cursor.execute(
+                        'INSERT INTO column_mappings (table_id, "column", entity_class, confirmed,'
+                        " confidence, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+                        (m["table_id"], m["column"], m["entity_class"], m["confirmed"], m["confidence"], m["updated_at"]),
+                    )
+            for r in dump.get("column_roles", []):
+                if r["table_id"] == table_id:
+                    cursor.execute(
+                        'INSERT INTO column_roles (table_id, "column", bridge_role, confirmed,'
+                        " confidence, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+                        (r["table_id"], r["column"], r["bridge_role"], r["confirmed"], r["confidence"], r["updated_at"]),
+                    )
+        conn.commit()
+    finally:
+        conn.close()

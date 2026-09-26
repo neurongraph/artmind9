@@ -89,6 +89,20 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     return normalize_domains(list(values))
 
 
+def _parse_tables(values: "tuple[str, ...]") -> list[str]:
+    """Flatten repeatable/comma-split --table values into a deduped list,
+    mirroring `_parse_domains`'s own convention for --domain."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        for part in value.split(","):
+            name = part.strip()
+            if name and name not in seen:
+                seen.add(name)
+                out.append(name)
+    return out
+
+
 # ── worker helpers ────────────────────────────────────────────────────────────
 
 
@@ -2133,18 +2147,32 @@ def db_export_text(dest_dir, compact):
 @db.command("restore-text")
 @click.argument("path", required=False, type=click.Path(exists=True))
 @click.option("--confirm", is_flag=True, help="Required — wipes the current structured store")
+@click.option(
+    "--table", "table", multiple=True,
+    help="Table(s) to restore (repeatable; comma-splittable). Default: every table in the export "
+    "(today's wholesale behavior, unchanged). Pairable with --domain for disambiguation, like `db refresh`.",
+)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope --table resolution (repeatable; comma-splittable).")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def db_restore_text(path, confirm, compact):
+def db_restore_text(path, confirm, table, domain, compact):
     """Wipe and rebuild the structured store from a `db export-text` directory (default: the vault's structured_text dir).
 
     The parquet + DuckDB catalog are a rebuildable cache (`docs/vault.md`) —
     this is the command a fresh `git clone` of a vault runs to regenerate
-    them from the committed CSV + manifest.json.
+    them from the committed CSV + manifest.json. Pass --table to restore only
+    specific tables (used internally by `vault sync`'s track B) rather than
+    the whole store.
     """
     if not confirm:
         raise click.ClickException("pass --confirm — restoring wipes the current structured store")
+    table_keys: list[tuple[str, str]] | None = None
+    if table:
+        table_keys = []
+        for name in _parse_tables(table):
+            row = _resolve_table_row(name, domain)
+            table_keys.append((row["domain"], row["table_name"]))
     try:
-        summary = import_structured_text(Path(path) if path else None)
+        summary = import_structured_text(Path(path) if path else None, tables=table_keys)
     except FileNotFoundError as exc:
         raise click.ClickException(str(exc)) from exc
     except ValueError as exc:
@@ -3338,9 +3366,7 @@ def snapshot_restore(
 # ── artmind vault ─────────────────────────────────────────────────────────────
 
 
-@cli.command("vault")
-@click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
-def vault_status(compact: bool):
+def _vault_status_impl(compact: bool) -> None:
     """Show which vault is active and how it was resolved.
 
     Human-readable by default rather than JSON-first like `projection status`:
@@ -3387,6 +3413,71 @@ def vault_status(compact: bool):
     click.echo(f"Manifest: {info['manifest'] or '(none — run artmind init)'}")
     click.echo(f"Config:   {', '.join(info['config']) or '(none loaded)'}")
     click.echo(f"Graph:    {info['graph']['uri'] or '(unset)'}  db={info['graph']['database'] or '(unset)'}")
+
+
+@cli.group("vault")
+def vault():
+    """Which vault is active (`status`), and git-diff-driven sync into Neo4j/the structured store (`sync`)."""
+    pass
+
+
+@vault.command("status")
+@click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
+def vault_status(compact: bool):
+    """Show which vault is active and how it was resolved."""
+    _vault_status_impl(compact)
+
+
+@vault.command("sync")
+@click.option(
+    "--bootstrapEmpty", "bootstrap_empty", is_flag=True,
+    help="First sync ever: replay everything committed, from the vault's very first commit. "
+    "Slow for a large vault, but correct for a genuinely empty Neo4j/DuckDB.",
+)
+@click.option(
+    "--bootstrapSynced", "bootstrap_synced", is_flag=True,
+    help="Stamp the cursor at HEAD with no replay at all -- for right after a full "
+    "`session initiate`/`db restore`, where the graph is already known-current.",
+)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope the sync (repeatable; comma-splittable). Default: every domain.")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
+    """Replay committed KG-staging and structured-text changes into Neo4j/DuckDB since the last sync.
+
+    Detects exactly which document folders under .artmind/data/kg/** and which
+    structured-store tables under .artmind/data/structured_text/** changed in
+    git since the last `vault sync`, and replays only those — incremental,
+    CDC-like, and git-native. Complements (does not replace) `session close`/
+    `session initiate`'s whole-graph snapshot. Run with no marker yet? pass
+    --bootstrapEmpty or --bootstrapSynced (see each flag's own help).
+    """
+    _setup_logger()
+    from artmind import vault as vault_mod
+    from artmind.vault_sync import VaultSyncError, sync as vault_sync_fn
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    try:
+        result = vault_sync_fn(
+            vault_dir,
+            domains=_parse_domains(domain) if domain else None,
+            bootstrap_empty=bootstrap_empty,
+            bootstrap_synced=bootstrap_synced,
+            dry_run=dry_run,
+        )
+    except VaultSyncError as e:
+        raise click.ClickException(str(e))
+    except Exception as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────

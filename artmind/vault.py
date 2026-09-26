@@ -18,6 +18,7 @@ discovery here also makes it unit-testable without reimporting `paths`.
 """
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -287,3 +288,35 @@ def write_gitignore(root: Path) -> bool:
     prefix = existing if existing.endswith("\n") or not existing else existing + "\n"
     target.write_text(prefix + ("\n" if prefix else "") + GITIGNORE_BLOCK, encoding="utf-8")
     return True
+
+
+def read_state(layout: VaultLayout) -> dict:
+    """The machine-local cursor file (`state.json`), or `{}` if absent.
+
+    Several independent cursors share this one file -- `last_ingested_commit`
+    (documented, not yet implemented) and `last_synced_commit` (`vault
+    sync`'s own cursor) -- see `VaultLayout.state_json`'s docstring. Corrupt
+    or unreadable JSON is treated as absent rather than raising: a
+    hand-edited or partially-written state.json should not brick every
+    command that touches it.
+    """
+    path = layout.state_json
+    if not path.is_file():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def write_state(layout: VaultLayout, updates: dict) -> None:
+    """Merge `updates` into `state.json`, preserving every other key already
+    there. Multiple cursors coexist in this one file (see `read_state`) --
+    a naive whole-file overwrite would silently erase whichever this call
+    doesn't mention.
+    """
+    path = layout.state_json
+    state = read_state(layout)
+    state.update(updates)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")

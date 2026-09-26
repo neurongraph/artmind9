@@ -212,3 +212,199 @@ def test_restore_text_raises_when_no_export_exists(tmp_path, monkeypatch):
 
     with pytest.raises(FileNotFoundError):
         import_structured_text()
+
+
+def test_import_structured_text_scoped_to_tables_leaves_others_untouched(tmp_path, monkeypatch):
+    """`tables=[(domain, table_name), ...]` rebuilds only the requested
+    tables' parquet and registry rows -- never `shutil.rmtree`s the whole
+    STRUCTURED_DIR (spec 2026-09-25-vault-sync-design.md §7)."""
+    _patch_stores(tmp_path, monkeypatch)
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.duckdb_adapter import DuckDBDatasource
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    products_csv = tmp_path / "products.csv"
+    _write_csv(products_csv, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+    ingest_structured_file(products_csv, "banking")
+
+    customers_csv = tmp_path / "customers.csv"
+    _write_csv(customers_csv, [["id", "name"], [1, "Acme"]])
+    ingest_structured_file(customers_csv, "banking")
+
+    export_structured_text()
+
+    customers_parquet = paths.STRUCTURED_DIR / "banking" / "customers.parquet"
+    customers_mtime_before = customers_parquet.stat().st_mtime_ns
+
+    summary = import_structured_text(tables=[("banking", "products")])
+
+    assert summary["tables_loaded"] == 1
+    assert registry.get_table("products", domain="banking") is not None
+    assert registry.get_table("customers", domain="banking") is not None, (
+        "a scoped restore must never wipe an untouched table's registry row"
+    )
+    assert customers_parquet.stat().st_mtime_ns == customers_mtime_before, (
+        "a scoped restore must never rewrite an untouched table's parquet"
+    )
+
+    ds = DuckDBDatasource()
+    ds.ensure_views(registry.list_tables())
+    rows = ds.run_sql("SELECT * FROM products ORDER BY id")
+    assert rows == [{"id": 1, "name": "Widget"}, {"id": 2, "name": "Gadget"}]
+
+
+def test_import_structured_text_unscoped_behaviour_is_unchanged(tmp_path, monkeypatch):
+    """Regression pin: `tables=None` (the default) is byte-for-byte today's
+    existing wholesale behavior."""
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(csv_path, "banking")
+    export_structured_text()
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    import artmind.db as db
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+
+    summary = import_structured_text()
+
+    assert summary["tables_loaded"] == 1
+    assert registry.get_table("products", domain="banking") is not None
+
+
+def test_db_restore_text_cli_table_option_scopes_the_restore(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    products_csv = tmp_path / "products.csv"
+    _write_csv(products_csv, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(products_csv, "banking")
+    customers_csv = tmp_path / "customers.csv"
+    _write_csv(customers_csv, [["id", "name"], [1, "Acme"]])
+    ingest_structured_file(customers_csv, "banking")
+    export_structured_text()
+
+    products_id_before = registry.get_table("products", domain="banking")["id"]
+    registry.set_grain(products_id_before, "lookup", confirmed=False)
+
+    result = CliRunner().invoke(
+        cli, ["db", "restore-text", "--confirm", "--table", "products", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
+    assert registry.get_table("products", domain="banking")["grain"] == "instance"
+    assert registry.get_table("customers", domain="banking") is not None
+
+
+def test_db_restore_text_cli_table_option_is_comma_splittable(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    for name in ("products", "customers"):
+        csv_path = tmp_path / f"{name}.csv"
+        _write_csv(csv_path, [["id"], [1]])
+        ingest_structured_file(csv_path, "banking")
+    export_structured_text()
+
+    result = CliRunner().invoke(
+        cli, ["db", "restore-text", "--confirm", "--table", "products,customers", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
+    import json as jsonlib
+    assert jsonlib.loads(result.output)["tables_loaded"] == 2
+
+
+def test_db_restore_text_cli_table_nonexistent_raises_error(tmp_path, monkeypatch):
+    """Requesting a nonexistent table should error and leave the store untouched."""
+    _patch_stores(tmp_path, monkeypatch)
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    # Create and export a known table so we have something to verify wasn't touched.
+    products_csv = tmp_path / "products.csv"
+    _write_csv(products_csv, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(products_csv, "banking")
+    export_structured_text()
+
+    # Get the products table ID before the failed restore attempt.
+    products_id_before = registry.get_table("products", domain="banking")["id"]
+
+    # Try to restore a nonexistent table.
+    result = CliRunner().invoke(
+        cli, ["db", "restore-text", "--confirm", "--table", "nonexistent_table"]
+    )
+
+    # Should error with "not found" message.
+    assert result.exit_code != 0, result.output
+    assert "not found" in result.output.lower()
+
+    # Products table should be unchanged (verify by comparing table IDs).
+    products_id_after = registry.get_table("products", domain="banking")["id"]
+    assert products_id_after == products_id_before
+
+
+def test_db_restore_text_cli_table_domain_disambiguation(tmp_path, monkeypatch):
+    """--table X --domain Y disambiguates a same-named table across domains."""
+    _patch_stores(tmp_path, monkeypatch)
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    # Create the same table name in two different domains.
+    for domain in ("banking", "legal"):
+        accounts_csv = tmp_path / f"accounts_{domain}.csv"
+        _write_csv(accounts_csv, [["id", "name"], [1, f"{domain}_account"]])
+        ingest_structured_file(accounts_csv, domain, table="accounts")
+
+    export_structured_text()
+
+    # Mark the banking.accounts table with a special grain so we can verify it changed.
+    banking_accounts_id = registry.get_table("accounts", domain="banking")["id"]
+    registry.set_grain(banking_accounts_id, "lookup", confirmed=False)
+
+    legal_accounts_id = registry.get_table("accounts", domain="legal")["id"]
+    legal_grain_before = registry.get_table("accounts", domain="legal")["grain"]
+
+    # Restore only banking.accounts using --domain to disambiguate.
+    result = CliRunner().invoke(
+        cli, ["db", "restore-text", "--confirm", "--table", "accounts", "--domain", "banking", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
+
+    # Banking.accounts should have been restored (grain reset to "instance").
+    banking_grain_after = registry.get_table("accounts", domain="banking")["grain"]
+    assert banking_grain_after == "instance"
+
+    # Legal.accounts should be completely untouched.
+    legal_accounts_id_after = registry.get_table("accounts", domain="legal")["id"]
+    legal_grain_after = registry.get_table("accounts", domain="legal")["grain"]
+    assert legal_accounts_id_after == legal_accounts_id
+    assert legal_grain_after == legal_grain_before
