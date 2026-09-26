@@ -3475,6 +3475,8 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
         )
     except VaultSyncError as e:
         raise click.ClickException(str(e))
+    except Exception as e:
+        raise click.ClickException(str(e))
     _echo_json(result, compact)
 
 

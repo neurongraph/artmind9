@@ -186,7 +186,7 @@ def test_vault_bare_invocation_shows_help_not_status(tmp_path, monkeypatch):
 
     result = CliRunner().invoke(cli, ["vault"])
 
-    assert result.exit_code != 0
+    assert result.exit_code == 2
     assert "Usage:" in result.output
 
 
@@ -236,3 +236,18 @@ def test_vault_sync_dry_run_reports_without_writing(tmp_path, monkeypatch):
     assert payload["dry_run"] is True
     from artmind import vault as vault_mod
     assert vault_mod.read_state(vault_mod.VaultLayout(tmp_path)) == {}
+
+
+def test_vault_sync_domain_option_reaches_the_cli_layer(tmp_path, monkeypatch):
+    """Only proves Click's option parsing and the `_parse_domains(domain) if
+    domain else None` wiring don't blow up when `--domain` is passed --
+    `sync()`'s own domain-scoping logic is already covered by its own unit
+    tests, not re-verified here."""
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+
+    result = CliRunner().invoke(
+        cli, ["vault", "sync", "--bootstrapEmpty", "--dryRun", "--domain", "banking", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
