@@ -1271,3 +1271,74 @@ def test_sync_restores_an_unmapped_table_to_the_structured_store_only(repo, monk
     assert result["structured_only_tables"] == ["banking/accounts"]
     from artmind.vault import VaultLayout, read_state
     assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+
+
+def test_sync_ambiguous_mapping_still_raises_and_holds_the_cursor(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    (repo / "README.md").write_text("init")
+    _commit_all(repo, "init")
+    base = vs.head_sha(repo)
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add a table with an ambiguous mapping")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object(), object()])
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="ambiguous"):
+        vs.sync(repo)
+
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == base
+
+
+def test_sync_mapped_table_with_no_schema_still_raises(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    (repo / "README.md").write_text("init")
+    _commit_all(repo, "init")
+    base = vs.head_sha(repo)
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add a mapped table whose domain has no schema")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {})
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="no schema"):
+        vs.sync(repo)
+
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == base
