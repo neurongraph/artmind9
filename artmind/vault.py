@@ -221,7 +221,7 @@ class VaultLayout:
 # the vault; everything below is the short list of exceptions, and each is a
 # secret, a churning binary, or machine-local state.
 GITIGNORE_BLOCK = """\
-# ── artmind (v2) ──────────────────────────────────────────────────────────────
+# ── artmind (v3) ──────────────────────────────────────────────────────────────
 # .artmind/ belongs to artmind and is versioned with your vault, so a clone
 # reproduces the graph without paying for extraction again. These are the
 # exceptions, and each is a secret, a churning binary, or machine-local state.
@@ -238,6 +238,9 @@ GITIGNORE_BLOCK = """\
 .artmind/state.json
 .artmind/serve.json
 .artmind/worker.pid
+# The chat/admin UI agent's CLAUDE_CONFIG_DIR (webui/backends): auth config
+# and full conversation transcripts. Private, and per machine.
+.artmind/.claude-sdk-auth/
 # artmind's own skills are symlinks to the installed copy; yours are not
 # matched by this and stay committable.
 .claude/skills/artmind-*
@@ -278,6 +281,16 @@ GITIGNORE_BLOCK = """\
 # that document removes it.
 .artmind/data/**/*.artmind-tmp/
 .artmind/data/**/*.artmind-old/
+
+# Not artmind's files, but a vault synced between machines needs them out:
+# OS litter, and Obsidian's per-device pane layout, which changes on every
+# click and so conflicts whenever two machines commit it. The rest of
+# .obsidian/ (settings, plugins, their config) stays committed -- it is what
+# makes the second machine behave like the first.
+.DS_Store
+Thumbs.db
+/.obsidian/workspace.json
+/.obsidian/workspace-mobile.json
 # ── end artmind ───────────────────────────────────────────────────────────────
 """
 

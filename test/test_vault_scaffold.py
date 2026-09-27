@@ -510,6 +510,40 @@ def test_table_folders_and_atomic_write_scratch_are_ignored(tmp_path):
     assert not _ignored(tmp_path, ".artmind/data/kg/banking/doc/document.json")
 
 
+def test_agent_auth_os_noise_and_obsidian_ui_state_are_ignored(tmp_path):
+    """Found in a real test vault's first commit: the chat/admin UI agent's
+    CLAUDE_CONFIG_DIR (auth + conversation transcripts) under .artmind/, Finder
+    litter, and Obsidian's per-device pane layout -- which changes on every
+    click, so two machines committing it conflict constantly."""
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+    for rel in (
+        ".artmind/.claude-sdk-auth/.claude.json",
+        ".artmind/.claude-sdk-auth/projects/p/session.jsonl",
+        ".DS_Store",
+        ".artmind/domains/.DS_Store",
+        "Thumbs.db",
+        ".obsidian/workspace.json",
+        ".obsidian/workspace-mobile.json",
+        ".obsidian/app.json",
+        ".obsidian/plugins/obsidian-git/data.json",
+    ):
+        (tmp_path / rel).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / rel).write_text("x")
+
+    assert _ignored(tmp_path, ".artmind/.claude-sdk-auth/.claude.json")
+    assert _ignored(tmp_path, ".artmind/.claude-sdk-auth/projects/p/session.jsonl")
+    assert _ignored(tmp_path, ".DS_Store")
+    assert _ignored(tmp_path, ".artmind/domains/.DS_Store")
+    assert _ignored(tmp_path, "Thumbs.db")
+    assert _ignored(tmp_path, ".obsidian/workspace.json")
+    assert _ignored(tmp_path, ".obsidian/workspace-mobile.json")
+    # Shared vault settings and plugin config stay committed: they are what
+    # makes the second machine behave like the first.
+    assert not _ignored(tmp_path, ".obsidian/app.json")
+    assert not _ignored(tmp_path, ".obsidian/plugins/obsidian-git/data.json")
+
+
 def test_gitattributes_block_is_written_and_idempotent(tmp_path):
     (tmp_path / ".gitattributes").write_text("*.png binary\n")
 
