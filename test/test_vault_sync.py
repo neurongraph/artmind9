@@ -300,6 +300,25 @@ def test_classify_diff_ignores_tracked_atomic_write_scratch(repo, monkeypatch):
     assert plan.replay_docs == []
 
 
+def test_classify_diff_retracts_when_observations_deleted_but_other_files_remain(repo, monkeypatch):
+    """observations.json gone since `base` means retract, even when a
+    sibling file in the same folder changed in the same range (grouping by
+    folder must not turn a deletion into a replay)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").unlink()
+    (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "x"}]')
+    _commit_all(repo, "remove observations, edit chunks")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
+    assert plan.retract == [("banking", "docid-1")]
+
+
 def test_classify_diff_scopes_to_requested_domains(repo, monkeypatch):
     kg_dir = _patch_kg_dir(monkeypatch, repo)
     _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
