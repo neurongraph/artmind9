@@ -636,11 +636,12 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
     requested table missing from it means the diff and that metadata have
     drifted, which should fail loudly rather than silently skip the table.
 
-    Same id-preservation contract as `restore_all`, and the same assumption:
-    this is for a host whose registry rows, for these tables, were
-    themselves always populated by a prior restore (never a real local
-    ingest assigning its own autoincrement id) -- `vault sync`'s own use
-    case, a query-only host with no other source of truth for these ids.
+    Table ids are local to each machine (spec 2026-09-26 §14 A3): the id a
+    `.meta.json` records is informational. A table already registered here
+    keeps its local id; a new one takes the recorded id when it is free here,
+    and a fresh autoincrement id when another table already holds it. Child
+    rows (`columns`, `column_mappings`, `column_roles`) are matched to their
+    table by the dump's id and written under the table's final id.
     """
     dump_rows_by_key = {(r["domain"], r["table_name"]): r for r in dump.get("tables", [])}
     missing = set(table_keys) - dump_rows_by_key.keys()
@@ -651,6 +652,8 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
     cursor = conn.cursor()
     try:
         for domain, table_name in table_keys:
+            row = dump_rows_by_key[(domain, table_name)]
+            dump_id = row["id"]
             existing = cursor.execute(
                 'SELECT id FROM "tables" WHERE domain = ? AND table_name = ?',
                 (domain, table_name),
@@ -661,9 +664,10 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
                 cursor.execute("DELETE FROM column_mappings WHERE table_id = ?", (table_id,))
                 cursor.execute('DELETE FROM "columns" WHERE table_id = ?', (table_id,))
                 cursor.execute('DELETE FROM "tables" WHERE id = ?', (table_id,))
+            else:
+                taken = cursor.execute('SELECT 1 FROM "tables" WHERE id = ?', (dump_id,)).fetchone()
+                table_id = None if taken else dump_id  # None: SQLite assigns a fresh id
 
-            row = dump_rows_by_key[(domain, table_name)]
-            table_id = row["id"]
             cursor.execute(
                 'INSERT INTO "tables" (id, datasource, table_name, domain, source_file, sheet,'
                 " parquet_path, version, row_count, refresh_mode, business_key,"
@@ -671,7 +675,7 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
                 " bridge_status, mapping_status, ingested_at, sha256)"
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
-                    row["id"], row["datasource"], row["table_name"], row["domain"],
+                    table_id, row["datasource"], row["table_name"], row["domain"],
                     row["source_file"], row["sheet"], row["parquet_path"], row["version"],
                     row["row_count"], row["refresh_mode"], row["business_key"],
                     row["effective_date_column"], row.get("grain") or "instance",
@@ -682,6 +686,8 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
                     row["ingested_at"], row["sha256"],
                 ),
             )
+            if table_id is None:
+                table_id = cursor.lastrowid
 
             datasource_exists = cursor.execute(
                 "SELECT 1 FROM datasources WHERE name = ?", (row["datasource"],)
@@ -697,24 +703,24 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
                     )
 
             for col in dump.get("columns", []):
-                if col["table_id"] == table_id:
+                if col["table_id"] == dump_id:
                     cursor.execute(
                         'INSERT INTO "columns" (table_id, name, dtype, profile_json) VALUES (?, ?, ?, ?)',
-                        (col["table_id"], col["name"], col["dtype"], col["profile_json"]),
+                        (table_id, col["name"], col["dtype"], col["profile_json"]),
                     )
             for m in dump.get("column_mappings", []):
-                if m["table_id"] == table_id:
+                if m["table_id"] == dump_id:
                     cursor.execute(
                         'INSERT INTO column_mappings (table_id, "column", entity_class, confirmed,'
                         " confidence, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-                        (m["table_id"], m["column"], m["entity_class"], m["confirmed"], m["confidence"], m["updated_at"]),
+                        (table_id, m["column"], m["entity_class"], m["confirmed"], m["confidence"], m["updated_at"]),
                     )
             for r in dump.get("column_roles", []):
-                if r["table_id"] == table_id:
+                if r["table_id"] == dump_id:
                     cursor.execute(
                         'INSERT INTO column_roles (table_id, "column", bridge_role, confirmed,'
                         " confidence, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-                        (r["table_id"], r["column"], r["bridge_role"], r["confirmed"], r["confidence"], r["updated_at"]),
+                        (table_id, r["column"], r["bridge_role"], r["confirmed"], r["confidence"], r["updated_at"]),
                     )
         conn.commit()
     finally:

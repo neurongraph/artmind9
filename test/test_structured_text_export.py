@@ -546,3 +546,90 @@ def test_import_with_no_metadata_at_all_names_both_forms(tmp_path, monkeypatch):
     (tmp_path / "empty").mkdir()
     with pytest.raises(FileNotFoundError, match=r"\.meta\.json.*manifest\.json"):
         import_structured_text(tmp_path / "empty")
+
+
+# ── table ids are local (spec 2026-09-26 §14 A3) ──────────────────────────────
+
+
+def _give_meta_id(table: str, new_id: int) -> None:
+    """Rewrite `table`'s .meta.json as if another machine had registered it
+    under `new_id` -- the table row and every child row."""
+    import json
+
+    import paths
+
+    path = paths.STRUCTURED_TEXT_DIR / "banking" / f"{table}.meta.json"
+    meta = json.loads(path.read_text())
+    meta["table"]["id"] = new_id
+    for key in ("columns", "column_mappings", "column_roles"):
+        for row in meta[key]:
+            row["table_id"] = new_id
+    path.write_text(json.dumps(meta))
+
+
+def _column_names(table_id):
+    from artmind.structured import registry
+
+    return {c["name"] for c in registry.get_columns(table_id)}
+
+
+def test_import_remaps_a_table_id_two_meta_files_share(tmp_path, monkeypatch):
+    """Two machines each registered a new table and both got the same SQLite
+    id; after a clean merge the two .meta.json files carry it twice."""
+    _two_tables(tmp_path, monkeypatch)
+    from artmind.structured import registry
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    export_structured_text()
+    _give_meta_id("customers", _meta("products")["table"]["id"])
+    _wipe_stores()
+
+    summary = import_structured_text()
+
+    assert summary["tables_loaded"] == 2
+    products = registry.get_table("products", domain="banking")
+    customers = registry.get_table("customers", domain="banking")
+    assert products["id"] != customers["id"]
+    assert _column_names(products["id"]) == {"id", "name"}
+    assert _column_names(customers["id"]) == {"id", "city"}
+
+
+def test_scoped_import_gives_a_new_table_a_fresh_id_when_its_meta_id_is_taken(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import import_structured_text
+
+    branches_csv = tmp_path / "branches.csv"
+    _write_csv(branches_csv, [["id", "region"], [1, "West"]])
+    ingest_structured_file(branches_csv, "banking")  # also exports branches.meta.json
+    products_id = registry.get_table("products", domain="banking")["id"]
+    # Another machine registered "branches" under the id products has here,
+    # and this machine has never seen "branches".
+    _give_meta_id("branches", products_id)
+    registry.delete_table(registry.get_table("branches", domain="banking")["id"])
+
+    import_structured_text(tables=[("banking", "branches")])
+
+    branches = registry.get_table("branches", domain="banking")
+    assert branches["id"] != products_id
+    assert _column_names(branches["id"]) == {"id", "region"}
+    assert registry.get_table("products", domain="banking")["id"] == products_id
+    assert _column_names(products_id) == {"id", "name"}
+
+
+def test_scoped_import_keeps_the_local_id_of_an_already_registered_table(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    from artmind.structured import registry
+    from artmind.structured.text_export import import_structured_text
+
+    products_id = registry.get_table("products", domain="banking")["id"]
+    customers_id = registry.get_table("customers", domain="banking")["id"]
+    _give_meta_id("products", customers_id)  # recorded under the id customers has here
+
+    import_structured_text(tables=[("banking", "products")])
+
+    assert registry.get_table("products", domain="banking")["id"] == products_id
+    assert _column_names(products_id) == {"id", "name"}
+    assert registry.get_table("customers", domain="banking")["id"] == customers_id
+    assert _column_names(customers_id) == {"id", "city"}

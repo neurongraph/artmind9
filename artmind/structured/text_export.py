@@ -132,7 +132,14 @@ def load_structured_dump(src_dir: Path) -> dict:
     per-table `<domain>/<table>.meta.json` files. A legacy `manifest.json`
     fills in any table that has no meta file (R5 read-only compatibility).
     Every table row gets a `parquet_path` key (empty when the meta omitted
-    it); `import_structured_text` overwrites it for this machine."""
+    it); `import_structured_text` overwrites it for this machine.
+
+    Table ids are local to the machine that registered the table (spec
+    2026-09-26 §14 A3): two machines can each give a different table the same
+    SQLite id, and both `.meta.json` files then merge cleanly. Every table in
+    the returned dump has a unique id -- the first (in sorted path order)
+    keeps its recorded id, a later duplicate gets the next id above every
+    recorded one -- and each file's child rows follow their own table's id."""
     legacy_path = src_dir / MANIFEST_NAME
     meta_paths = sorted(src_dir.glob(f"*/*{META_SUFFIX}"))
     if not meta_paths and not legacy_path.is_file():
@@ -147,27 +154,41 @@ def load_structured_dump(src_dir: Path) -> dict:
         if ds and all(d["name"] != ds["name"] for d in dump["datasources"]):
             dump["datasources"].append(ds)
 
+    # (table row, {child key: that table's child rows}), in a stable order.
+    sources: list[tuple[dict, dict[str, list[dict]]]] = []
     have: set[tuple[str, str]] = set()
     for path in meta_paths:
         meta = json.loads(path.read_text(encoding="utf-8"))
         table = dict(meta["table"])
         have.add((table["domain"], table["table_name"]))
-        dump["tables"].append(table)
-        for key in _DUMP_KEYS:
-            dump[key].extend(meta.get(key, []))
+        sources.append((table, {key: meta.get(key, []) for key in _DUMP_KEYS}))
         _add_datasource(meta.get("datasource"))
 
     if legacy_path.is_file():
         legacy = json.loads(legacy_path.read_text(encoding="utf-8"))
-        legacy_ids = set()
         for row in legacy.get("tables", []):
             if (row["domain"], row["table_name"]) not in have:
-                dump["tables"].append(row)
-                legacy_ids.add(row["id"])
-        for key in _DUMP_KEYS:
-            dump[key].extend(r for r in legacy.get(key, []) if r["table_id"] in legacy_ids)
+                children = {key: [r for r in legacy.get(key, []) if r["table_id"] == row["id"]] for key in _DUMP_KEYS}
+                sources.append((dict(row), children))
         for ds in legacy.get("datasources", []):
             _add_datasource(ds)
+
+    next_id = max((int(table["id"]) for table, _ in sources), default=0) + 1
+    used: set[int] = set()
+    for table, children in sources:
+        table_id = int(table["id"])
+        if table_id in used:
+            logger.warning(
+                "structured text: {}/{} records table id {}, already used by another table's "
+                "metadata; importing it as {} (table ids are local, spec 2026-09-26 §14 A3)",
+                table["domain"], table["table_name"], table_id, next_id,
+            )
+            table_id, next_id = next_id, next_id + 1
+        used.add(table_id)
+        table["id"] = table_id
+        dump["tables"].append(table)
+        for key in _DUMP_KEYS:
+            dump[key].extend({**r, "table_id": table_id} for r in children[key])
 
     for row in dump["tables"]:
         row.setdefault("parquet_path", "")
