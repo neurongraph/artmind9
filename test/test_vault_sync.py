@@ -1037,3 +1037,70 @@ def test_sync_materializes_committed_meta_without_a_legacy_manifest(repo, monkey
         "csv": "id\n1\n",
         "manifest": False,
     }
+
+
+# ── NUL-separated git listings (spec 2026-09-26 §14 A5) ─────────────────────
+
+
+def _cafe_fixture(repo, monkeypatch):
+    """A document folder and a table whose names git would C-quote (non-ASCII)
+    and a shell would split (a space)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "Café notes 2026", "docid-cafe")
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "café accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "café accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add café")
+    return kg_dir, st_dir
+
+
+def test_classify_diff_reads_non_ascii_and_space_names_verbatim(repo, monkeypatch):
+    _cafe_fixture(repo, monkeypatch)
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "Café notes 2026")]
+    assert plan.regenerate_tables == [("banking", "café accounts")]
+
+
+def test_classify_diff_retracts_a_removed_non_ascii_folder(repo, monkeypatch):
+    kg_dir, _ = _cafe_fixture(repo, monkeypatch)
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "Café notes 2026")
+    _commit_all(repo, "remove café notes")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.retract == [("banking", "docid-cafe")]
+
+
+def test_sync_materializes_non_ascii_names_from_head(repo, monkeypatch):
+    _cafe_fixture(repo, monkeypatch)
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    seen = {}
+
+    def _fake_import(src_dir=None, *, tables=None):
+        seen["files"] = sorted(p.name for p in (src_dir / "banking").iterdir())
+        return {"tables_loaded": 1}
+
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", _fake_import)
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "café accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
+    monkeypatch.setattr(t2g, "table_to_graph", lambda row, mapping, **k: {"commit": {"deferred_keys": []}})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen["files"] == ["café accounts.csv", "café accounts.meta.json"]
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["Café notes 2026"]

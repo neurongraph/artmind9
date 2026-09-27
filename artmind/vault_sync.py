@@ -120,16 +120,15 @@ def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> lis
     (A/M/D); `--no-renames` guarantees a delete+add pair rather than a
     single "R100" line regardless of the user's global git config, which
     the per-path classification in `_classify_kg_diff`/
-    `_classify_structured_text_diff` depends on."""
+    `_classify_structured_text_diff` depends on.
+
+    `-z` (spec 2026-09-26 §14 A5): the output is `status NUL path NUL ...`
+    with every path verbatim. Without it git C-quotes a non-ASCII path
+    (`"Caf\\303\\251/..."`), which no caller can match."""
     rel_scope = scope.relative_to(vault_dir)
-    out = _git(vault_dir, ["diff", "--no-renames", "--name-status", base, head, "--", str(rel_scope)])
-    rows = []
-    for line in out.splitlines():
-        if not line.strip():
-            continue
-        status, _, path = line.partition("\t")
-        rows.append((status[0], path))
-    return rows
+    out = _git(vault_dir, ["diff", "--no-renames", "--name-status", "-z", base, head, "--", str(rel_scope)])
+    fields = out.split("\0")
+    return [(fields[i][0], fields[i + 1]) for i in range(0, len(fields) - 1, 2) if fields[i]]
 
 
 def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
@@ -180,10 +179,11 @@ def _materialize(vault_dir: Path, rev: str, relpaths: list[str], dest: Path) -> 
 def _present_at(vault_dir: Path, rev: str, relpaths: list[str]) -> list[str]:
     """The subset of file paths `relpaths` that exist at `rev`, in order.
     `git archive` refuses a pathspec that matches nothing, and a table's
-    `.meta.json` (or the legacy `manifest.json`) may legitimately be absent."""
+    `.meta.json` (or the legacy `manifest.json`) may legitimately be absent.
+    NUL-separated (`-z`, §14 A5), so a non-ASCII name is not quoted away."""
     if not relpaths:
         return []
-    present = set(_git(vault_dir, ["ls-tree", "-r", "--name-only", rev, "--", *relpaths]).splitlines())
+    present = set(_git(vault_dir, ["ls-tree", "-r", "-z", "--name-only", rev, "--", *relpaths]).split("\0"))
     return [p for p in relpaths if p in present]
 
 

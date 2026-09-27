@@ -168,3 +168,17 @@ def test_obsidian_sync_is_detected_in_either_core_plugins_shape(repo, core_plugi
 
     assert check["status"] == "warn"
     assert "Obsidian Sync" in check["detail"]
+
+
+def test_a_tracked_table_folder_with_a_non_ascii_name_gets_an_exact_untrack_command(repo):
+    """Spec 2026-09-26 §14 A5: without `ls-files -z`, git C-quotes the name and
+    the printed command names a path that does not exist."""
+    table = repo / ".artmind" / "data" / "kg" / "banking" / "table__Café"
+    table.mkdir(parents=True)
+    (table / "document.json").write_text("{}")
+    _git(repo, "add", "-f", "-A")
+    _git(repo, "commit", "-qm", "old commit")
+
+    check = _by_name(doc.run(repo))["ignored paths still tracked"]
+
+    assert check["fix"] == "git rm -r --cached -- '.artmind/data/kg/banking/table__Café'"

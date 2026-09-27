@@ -81,10 +81,11 @@ def _collapse(paths: list[str]) -> list[str]:
 
 def check_tracked_ignored(vault_dir: Path) -> Check:
     name = "ignored paths still tracked"
-    rc, out, err = _git(vault_dir, ["ls-files", "-c", "-i", "--exclude-standard", "--", ".artmind"])
+    # -z: paths verbatim, never C-quoted (spec 2026-09-26 §14 A5).
+    rc, out, err = _git(vault_dir, ["ls-files", "-z", "-c", "-i", "--exclude-standard", "--", ".artmind"])
     if rc != 0:
         return Check(name, UNKNOWN, f"git ls-files failed: {(err or out).strip()}")
-    paths = _collapse([p for p in out.splitlines() if p.strip()])
+    paths = _collapse([p for p in out.split("\0") if p])
     if not paths:
         return Check(name, OK, "none")
     # Built in two parts so test_no_git_writes' source scan doesn't read
