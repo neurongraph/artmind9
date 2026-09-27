@@ -832,17 +832,25 @@ def test_preflight_ignores_an_unresolved_conflict_outside_artmind(repo, monkeypa
 
 
 def test_preflight_refuses_while_the_ingest_worker_is_running(repo, monkeypatch, tmp_path):
+    import fcntl
     import os
-    import paths
 
     _patch_kg_dir(monkeypatch, repo)
     _patch_structured_text_dir(monkeypatch, repo)
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
-    (tmp_path / "worker.pid").write_text(str(os.getpid()))  # a live pid: this test process
-
-    with pytest.raises(vs.VaultSyncError, match="ingest worker is running"):
-        vs.sync(repo, bootstrap_empty=True)
+    pid_file = tmp_path / "worker.pid"
+    pid_file.write_text(str(os.getpid()))
+    # Liveness is the pid file's flock, not the pid number (a recycled pid
+    # must not read as alive) -- so hold it the way a real worker would,
+    # via a second open file description in this same process.
+    holder = open(pid_file, "r+")
+    fcntl.flock(holder.fileno(), fcntl.LOCK_EX)
+    try:
+        with pytest.raises(vs.VaultSyncError, match="ingest worker is running"):
+            vs.sync(repo, bootstrap_empty=True)
+    finally:
+        holder.close()
 
 
 def test_preflight_ignores_a_stale_worker_pid(repo, monkeypatch, tmp_path):

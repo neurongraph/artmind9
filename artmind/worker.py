@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Background worker for processing artmind ingestion jobs. Run with: uv run artmind/worker.py"""
+import fcntl
 import os
 import sys
 from datetime import datetime
@@ -15,21 +16,42 @@ from artmind.ingest import ingest_file, ingest_to_kg, kg_work_was_done
 from artmind.jobs import _update_job_file_status, _update_job_status
 from artmind.structured import is_structured_source
 from artmind.structured.pipeline import ingest_structured_file
-from artmind.worker_pid import live_pid
 from paths import ARTMIND_VAULT_DIR, LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
 from utils.functions import load_env, resolve_llm_model
 
 WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
 
+# Kept open (and thus flocked) for the lifetime of this process -- dropping
+# the reference would close the fd and silently release the lock.
+_pid_file_handle = None
+
 
 def _acquire_pid_file() -> bool:
-    pid = live_pid(WORKER_PID_FILE)
-    if pid is not None:
+    """Take the pid file's exclusive flock, or refuse if another worker
+    already holds it (review follow-up: liveness is the lock, not the pid
+    number -- a pid file surviving a reboot can get its pid recycled by an
+    unrelated process, which `kill(pid, 0)` used to mistake for us)."""
+    global _pid_file_handle
+    existed = WORKER_PID_FILE.exists()
+    fd = open(WORKER_PID_FILE, "a+")
+    try:
+        fcntl.flock(fd.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        fd.seek(0)
+        try:
+            pid = int(fd.read().strip())
+        except (OSError, ValueError, OverflowError):
+            pid = None
+        fd.close()
         logger.warning("Worker already running (PID {}), exiting", pid)
         return False
-    if WORKER_PID_FILE.exists():
+    if existed:
         logger.info("Stale PID file found, overwriting")
-    WORKER_PID_FILE.write_text(str(os.getpid()))
+    fd.seek(0)
+    fd.truncate()
+    fd.write(str(os.getpid()))
+    fd.flush()
+    _pid_file_handle = fd  # hold the lock for this process's lifetime
     return True
 
 
