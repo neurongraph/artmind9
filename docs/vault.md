@@ -349,9 +349,11 @@ never commits. What it replays:
   domains). A table that a removed or narrowed mapping no longer covers is
   retracted from the graph.
 
-Table ids are local to each machine: the id in a `.meta.json` is
-informational, and a restore matches tables by domain and name, so two
-machines that each register a new table never collide.
+A table's identity is `(domain, table_name)`, not a SQLite id: `.meta.json`
+carries no machine-local id at all — neither the table's own nor any child
+row's — so a restore matches tables by domain and name, and two machines that
+each register a new table never collide on an id that was never shared truth
+(spec `2026-09-26-vault-git-transport-design.md` §14 A3).
 
 `vault sync` refuses while a merge, rebase or cherry-pick is in progress,
 while a file under `.artmind/` has unresolved conflicts (a conflicted note of
@@ -505,7 +507,7 @@ both.
 |---|---|
 | **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_INGEST_MAX_WORKERS` |
 | **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
-| **Runtime** | `ARTMIND_NO_PROXY`, `--vault` |
+| **Runtime** | `ARTMIND_NO_PROXY`, `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (admin-ui artifact import size cap, default 512 MiB) |
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a

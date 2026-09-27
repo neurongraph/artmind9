@@ -3247,3 +3247,31 @@ Names used across tasks: `_diff_name_status`, `_present_at` (Task 1) → used by
 12. **A7 narrows only the unmerged-index check.** A merge in progress (`MERGE_HEAD`) still refuses regardless of which files conflict, per spec §6 A5.
 13. **Block header regex** now requires ≥3 `─` and nothing else on the line; the end-marker regex is unchanged.
 14. **`live_pid` returns the pid, not a bool**, so the worker can keep logging it.
+
+### Accepted residual risk (vault-sync-completion review, phase 1 review finding 2)
+
+Finding 2 ("`git archive` is not byte-identical to `git show`") was closed above as
+harmless *because artmind writes no `export-ignore`/`export-subst`/`text`/`eol`/`filter=`
+attributes for `.artmind/data/**`* -- not because `git archive` can't apply such rules at
+all. That premise holds only for artmind's own `.gitattributes` block; it says nothing
+about the user's.
+
+`git archive` (used by `_materialize` in `artmind/vault_sync.py` to read every sync input
+at `head`) applies whatever `.gitattributes`/`core.autocrlf`/LFS smudge filters are in
+effect for the *user's own repo*, same as a checkout would. artmind's own block
+(`GITATTRIBUTES_BLOCK`, `artmind/vault.py`) sets `.artmind/data/** merge=binary` and
+deliberately adds no `text=auto`/`eol=`/`filter=` for that tree -- but a user's own root
+`.gitattributes` rule, e.g. a blanket `* text=auto eol=crlf`, is not something artmind
+controls or overrides, and it still applies to everything under `.artmind/data/**` unless
+the user scopes it away themselves.
+
+**Accepted, not fixed:** the practical blast radius today is narrow. KG staging JSON
+(`document.json`, `observations.json`, `chunks.json`, `relationships.json`) round-trips
+through `eol=crlf` line-ending conversion without semantic change (JSON parses the same
+either way), and the one place a byte-for-byte mismatch would matter --
+`chunks/*.json`'s embedding sidecar cache key, matched against `carry_embedding_sidecar`'s
+recorded chunk hash -- degrades to a cache miss, not a wrong answer: the embedding is
+just recomputed locally (no API cost, no external side effect) rather than carried over.
+No `filter=lfs` risk exists unless the user opts into LFS for `.artmind/data/**`
+themselves, which nothing in this project suggests. Revisit if `vault doctor` ever needs
+to detect and warn about a user rule that shadows artmind's own attributes for that tree.

@@ -169,10 +169,19 @@ Large documents (hundreds of chunks) can hit transient LLM-provider connection e
 
 3. **Kill the worker:**
    ```bash
-   ps aux | grep worker.py   # find the PID (also cached in worker.pid at project root)
+   ps aux | grep worker.py   # find the PID
    kill PID
    ```
-   The PID file is stale-safe — the next `_ensure_worker_running()` call (e.g. from `async` or `retry-job`) detects the dead PID and overwrites it automatically. No manual cleanup needed.
+   The worker's pid file lives at `.artmind/worker.pid` (beside `state.json`,
+   inside the vault). Find the PID with `ps`, not by reading that file:
+   liveness is the file's `flock`, not the number written in it, and the
+   worker never unlinks the file on exit -- a leftover, unlocked
+   `worker.pid` after a kill or crash is normal, not a bug. Never
+   `kill $(cat worker.pid)`: that number can belong to an unrelated process
+   the OS has since recycled it to (potentially a privileged one), so
+   killing it blindly is unsafe. The file is stale-safe either way -- the
+   next `_ensure_worker_running()` call (e.g. from `async` or `retry-job`)
+   takes the lock and overwrites it automatically. No manual cleanup needed.
 
 4. **Resume the specific stuck document with `extract-kg` — not `retry-job`:**
    ```bash
