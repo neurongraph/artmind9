@@ -3268,10 +3268,16 @@ the user scopes it away themselves.
 **Accepted, not fixed:** the practical blast radius today is narrow. KG staging JSON
 (`document.json`, `observations.json`, `chunks.json`, `relationships.json`) round-trips
 through `eol=crlf` line-ending conversion without semantic change (JSON parses the same
-either way), and the one place a byte-for-byte mismatch would matter --
-`chunks/*.json`'s embedding sidecar cache key, matched against `carry_embedding_sidecar`'s
-recorded chunk hash -- degrades to a cache miss, not a wrong answer: the embedding is
-just recomputed locally (no API cost, no external side effect) rather than carried over.
-No `filter=lfs` risk exists unless the user opts into LFS for `.artmind/data/**`
-themselves, which nothing in this project suggests. Revisit if `vault doctor` ever needs
-to detect and warn about a user rule that shadows artmind's own attributes for that tree.
+either way), and the one place a byte-for-byte mismatch would matter -- the embedding
+sidecar -- degrades to a cache miss, not a wrong answer: `carry_embedding_sidecar`
+(`artmind/ingest.py`) compares the live folder's `chunks.json` bytes against the
+materialized snapshot's `chunks.json` bytes and only copies the sidecar over when they
+match exactly, so an `eol=crlf` conversion of either copy is read as "changed" and the
+sidecar is simply dropped rather than mismatched with the wrong chunk. The embedding is
+then recomputed through whichever embedding provider this vault is configured with
+(`ARTMIND_KG_EMBEDDINGS_PROVIDER` -- Ollama by default, so typically no external API
+cost, but a cost does apply if the vault is configured against a paid provider) rather
+than carried over. No `filter=lfs` risk exists unless the user opts into LFS for
+`.artmind/data/**` themselves, which nothing in this project suggests. Revisit if
+`vault doctor` ever needs to detect and warn about a user rule that shadows artmind's
+own attributes for that tree.

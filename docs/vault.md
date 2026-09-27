@@ -507,7 +507,7 @@ both.
 |---|---|
 | **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_INGEST_MAX_WORKERS` |
 | **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
-| **Runtime** | `ARTMIND_NO_PROXY`, `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (admin-ui artifact import size cap, default 512 MiB) |
+| **Runtime** | `ARTMIND_NO_PROXY`, `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (cap on `POST /api/artifacts/import`'s uploaded zip size, admin-ui only — not `vault sync` or snapshot import/restore; default 512 MiB) |
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a
