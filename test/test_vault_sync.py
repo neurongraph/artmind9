@@ -1405,3 +1405,125 @@ def test_sync_projects_a_table_with_the_committed_mapping_and_schema(repo, monke
     vs.sync(repo, bootstrap_empty=True)
 
     assert seen == [(["acc*"], {"entity_types": {"ACCOUNT": {"kind": "recurrent"}}})]
+
+
+def test_sync_reports_a_broken_mapping_with_a_vault_relative_path(repo, monkeypatch):
+    """A mapping that fails to parse at `head` must not name the scratch
+    copy `find_mappings` was pointed at -- that tempdir is gone by the time
+    the user reads the error (Task 9 review follow-up 1)."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    (repo / "README.md").write_text("init")
+    _commit_all(repo, "init")
+    base = vs.head_sha(repo)
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+    _add_table(st_dir, "banking", "accounts")
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text("table: [\n")
+    _commit_all(repo, "add a table with a broken mapping")
+
+    from artmind.structured import registry as structured_registry
+
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError) as exc_info:
+        vs.sync(repo)
+
+    message = str(exc_info.value)
+    head = vs.head_sha(repo)
+    assert ".artmind/domains/table_mappings/accounts.yaml" in message
+    assert "artmind-sync-" not in message
+    assert f"(at {head[:12]})" in message
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == base
+
+
+def test_sync_projects_a_table_with_mappings_and_schemas_outside_the_vault(repo, monkeypatch, tmp_path_factory):
+    """A mappings/schemas dir outside the vault (an explicit ARTMIND_HOME
+    elsewhere) is not versioned with it, so `_dir_at` reads it as is instead
+    of materialising a copy from `head` (§14 A1's stated fallback)."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    import paths
+
+    external = tmp_path_factory.mktemp("external_domains")
+    maps = external / "table_mappings"
+    schemas = external / "schemas"
+    maps.mkdir()
+    schemas.mkdir()
+    monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", maps)
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", schemas)
+
+    _add_table(st_dir, "banking", "accounts")
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*"))
+    (schemas / "banking_schema.yaml").write_text("entity_types:\n  ACCOUNT: {kind: recurrent}\n")
+    _commit_all(repo, "table only -- mapping/schema live outside the vault")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    seen = []
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", lambda *a, **k: {"tables_loaded": 1})
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda row, mapping, **k: seen.append((mapping.tables, k["schema"])) or {"commit": {"deferred_keys": []}},
+    )
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen == [(["acc*"], {"entity_types": {"ACCOUNT": {"kind": "recurrent"}}})]
+
+
+def test_sync_dry_run_lists_an_unmapped_table_as_structured_only(repo, monkeypatch):
+    """`--dryRun` must report `structured_only_tables` using the mapping
+    committed at `head`, the same source the real run uses (Task 8 review
+    Minor 1, deferred until Task 9 landed head-sourced mappings)."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    maps.mkdir(parents=True)
+    schemas.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("nothing_matches_this"))
+    _add_table(st_dir, "banking", "accounts")
+    _commit_all(repo, "an unmapped table")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+    from artmind.vault import VaultLayout, read_state
+
+    called = []
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: called.append("import_structured_text") or {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: called.append("get_table")
+        or {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda row, mapping, **k: called.append("table_to_graph") or {"commit": {"deferred_keys": []}},
+    )
+
+    result = vs.sync(repo, bootstrap_empty=True, dry_run=True)
+
+    assert result["structured_only_tables"] == ["banking/accounts"]
+    assert called == []
+    assert "last_synced_commit" not in read_state(VaultLayout(repo))

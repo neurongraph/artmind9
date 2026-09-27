@@ -221,6 +221,14 @@ def _dir_at(vault_dir: Path, rev: str, live_dir: Path, scratch: Path) -> Path:
     return scratch / rel
 
 
+def _vault_relative_mapping_error(e: Exception, scratch: Path, head: str) -> str:
+    """A `MappingError` raised against the `_dir_at` scratch copy names that
+    copy's absolute path -- gone by the time the user reads the message.
+    Strip the scratch prefix back to the vault-relative path they actually
+    have, and say which `head` it was read at."""
+    return f"{str(e).replace(str(scratch) + '/', '')} (at {head[:12]})"
+
+
 def _carry_sidecar(live_dir: Path, snap_dir: Path) -> None:
     """Copy the gitignored embedding sidecar from the live staging folder into
     its HEAD snapshot -- only when the live `chunks.json` is byte-identical to
@@ -443,6 +451,22 @@ def sync(
     plan = classify_diff(vault_dir, layout, base, head, domains)
 
     if dry_run:
+        structured_only_dry: list[str] = []
+        if plan.regenerate_tables:
+            from artmind.table2graph import MappingError, find_mappings
+            import paths
+
+            with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
+                dry_scratch = Path(scratch_str)
+                mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, dry_scratch)
+                for domain, table_name in plan.regenerate_tables:
+                    try:
+                        found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
+                    except MappingError as e:
+                        raise VaultSyncError(_vault_relative_mapping_error(e, dry_scratch, head)) from None
+                    if not found:
+                        structured_only_dry.append(f"{domain}/{table_name}")
+
         return {
             "dry_run": True,
             "base": base,
@@ -450,12 +474,13 @@ def sync(
             "replay": len(plan.replay_docs),
             "retract": len(plan.retract),
             "regenerate_tables": len(plan.regenerate_tables),
+            "structured_only_tables": structured_only_dry,
         }
 
     from artmind import ingest
     from artmind.structured import registry as structured_registry
     from artmind.structured.text_export import MANIFEST_NAME, META_SUFFIX, import_structured_text
-    from artmind.table2graph import find_mappings, table_to_graph, _rebuild_in_batches
+    from artmind.table2graph import MappingError, find_mappings, table_to_graph, _rebuild_in_batches
     from artmind.temporal import load_schema
     import paths
     from paths import KG_DIR, STRUCTURED_TEXT_DIR
@@ -486,7 +511,10 @@ def sync(
                 row = structured_registry.get_table(table_name, domain=domain)
                 if row is None:
                     raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
-                found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
+                try:
+                    found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
+                except MappingError as e:
+                    raise VaultSyncError(_vault_relative_mapping_error(e, scratch, head)) from None
                 if not found:
                     # Spec 2026-09-26 §14 A2: a table no mapping names is a
                     # structured-store table only -- restored above, never
