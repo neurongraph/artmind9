@@ -2,14 +2,16 @@
 structured store (docs/superpowers/specs/2026-09-25-vault-sync-design.md).
 
 Detects exactly which committed KG-staging document folders
-(`.artmind/data/kg/**`) and committed structured-store text
-(`.artmind/data/structured_text/**`) changed since the last sync, and
-replays only those changes -- incremental and git-native, complementing
-(not replacing) the whole-graph `session close`/`session initiate` snapshot.
+(`.artmind/data/kg/**`), committed structured-store text
+(`.artmind/data/structured_text/**`), table mappings and domain schemas
+(`.artmind/domains/**`) changed since the last sync, and replays only those
+changes -- incremental and git-native, complementing (not replacing) the
+whole-graph `session close`/`session initiate` snapshot.
 
-Applies committed content only: every input is materialised from the fixed
-`head` via `git archive`, never read from the working tree, and `sync` never
-commits (spec 2026-09-26-vault-git-transport-design.md, §6 A1, D1).
+Applies committed content only: every input -- mappings and schemas included
+-- is read from the fixed `head` (`git show`/`git ls-tree -z`/`git archive`),
+never from the working tree, and `sync` never commits (spec
+2026-09-26-vault-git-transport-design.md, §6 A1, D1, §14).
 """
 from __future__ import annotations
 

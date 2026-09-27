@@ -438,6 +438,12 @@ DocChunk; a re-run demotes the previous run's observations and rebuilds, exactly
 re-ingesting a document. Staged JSON lands in `data/kg/<domain>/table__<table>/`, so
 `write-to-graph --folder data/kg/DOMAIN` replays it.
 
+**Other machines.** `table__*` staging is gitignored, so another machine that pulls the vault
+re-projects the table itself with `artmind vault sync` — when the table's CSV, its mapping or
+its domain schema changed in git. Edit the mapping, let Obsidian Git commit it, and the other
+machine follows on its next `vault sync`; remove the mapping and the table's graph document is
+retracted there. A table no mapping names is restored to the structured store only.
+
 **If it fails after "observations committed".** Rows commit in one transaction, then the
 projection is rebuilt in batches (a large table overruns Neo4j's per-transaction memory,
 `MemoryPoolOutOfMemoryError`, in one). A failed batch leaves part of the projection stale:

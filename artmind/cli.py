@@ -3434,18 +3434,24 @@ def vault_status(compact: bool):
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
-    """Replay committed KG-staging and structured-text changes into Neo4j/DuckDB since the last sync.
+    """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since the last sync.
 
-    Detects exactly which document folders under .artmind/data/kg/** and which
-    structured-store tables under .artmind/data/structured_text/** changed in
-    git since the last `vault sync`, and replays only those — incremental,
-    CDC-like, and git-native. Complements (does not replace) `session close`/
-    `session initiate`'s whole-graph snapshot. Run with no marker yet? pass
-    --bootstrapEmpty or --bootstrapSynced (see each flag's own help).
+    Detects exactly which document folders under .artmind/data/kg/**, which
+    structured-store tables under .artmind/data/structured_text/**, and which
+    table mappings (.artmind/domains/table_mappings/*.yaml) and domain schemas
+    (.artmind/domains/schemas/*_schema.yaml) changed in git since the last
+    `vault sync`, and replays only those — incremental, CDC-like, and
+    git-native. A document folder replays when any file in it changed. A
+    changed mapping or schema re-projects the tables it governs; a table a
+    removed mapping no longer covers is retracted from the graph; a table no
+    mapping names is restored to the structured store only. Complements (does
+    not replace) `session close`/`session initiate`'s whole-graph snapshot.
+    Run with no marker yet? pass --bootstrapEmpty or --bootstrapSynced (see
+    each flag's own help).
 
     Applies committed content only (never the working tree) and never
-    commits. Refuses while a merge/rebase is in progress, while conflicts are
-    unresolved, or while the ingest worker is running.
+    commits. Refuses while a merge/rebase is in progress, while files under
+    .artmind/ have unresolved conflicts, or while the ingest worker is running.
     """
     _setup_logger()
     from artmind import vault as vault_mod
