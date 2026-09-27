@@ -682,15 +682,17 @@ def test_sync_leaves_cursor_untouched_when_track_a_fails_after_track_b_succeeded
 # ── preflight (spec 2026-09-26 §6 A5) ────────────────────────────────────────
 
 
-def _conflicting_merge(repo):
-    """Leave `repo` mid-merge with a.txt conflicted."""
-    (repo / "a.txt").write_text("base\n")
+def _conflicting_merge(repo, relpath="a.txt"):
+    """Leave `repo` mid-merge with `relpath` conflicted."""
+    path = repo / relpath
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("base\n")
     _commit_all(repo, "base")
     subprocess.run(["git", "checkout", "-qb", "other"], cwd=repo, check=True)
-    (repo / "a.txt").write_text("theirs\n")
+    path.write_text("theirs\n")
     _commit_all(repo, "theirs")
     subprocess.run(["git", "checkout", "-q", "-"], cwd=repo, check=True)
-    (repo / "a.txt").write_text("ours\n")
+    path.write_text("ours\n")
     _commit_all(repo, "ours")
     subprocess.run(["git", "merge", "other"], cwd=repo, capture_output=True)  # exits 1: conflict
 
@@ -719,15 +721,31 @@ def test_preflight_refuses_bootstrap_synced_during_a_merge_too(repo, monkeypatch
 
 def test_preflight_refuses_with_unmerged_paths_even_without_merge_head(repo, monkeypatch):
     """`git merge --abort` never run and MERGE_HEAD deleted by hand (or a
-    stash pop conflict): the index still has unmerged entries."""
+    stash pop conflict): the index still has unmerged entries under
+    .artmind/, and a path with a space is named whole (review finding 3:
+    the old `.split()` cut it in two)."""
     _patch_kg_dir(monkeypatch, repo)
     _patch_structured_text_dir(monkeypatch, repo)
-    _conflicting_merge(repo)
-    git_dir = repo / ".git"
-    (git_dir / "MERGE_HEAD").unlink()
+    _conflicting_merge(repo, ".artmind/data/kg/banking/doc 1/observations.json")
+    (repo / ".git" / "MERGE_HEAD").unlink()
 
-    with pytest.raises(vs.VaultSyncError, match="unresolved conflicts"):
+    with pytest.raises(
+        vs.VaultSyncError, match=r"unresolved conflicts .*\.artmind/data/kg/banking/doc 1/observations\.json"
+    ):
         vs.sync(repo, bootstrap_empty=True)
+
+
+def test_preflight_ignores_an_unresolved_conflict_outside_artmind(repo, monkeypatch):
+    """Spec 2026-09-26 §14 A7: a conflicted note of the user's does not change
+    what sync applies, and Obsidian shows it to them."""
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _conflicting_merge(repo, "notes/My note.md")
+    (repo / ".git" / "MERGE_HEAD").unlink()
+
+    result = vs.sync(repo, bootstrap_synced=True)
+
+    assert result["bootstrap"] == "synced"
 
 
 def test_preflight_refuses_while_the_ingest_worker_is_running(repo, monkeypatch, tmp_path):

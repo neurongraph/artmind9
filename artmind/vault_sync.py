@@ -24,6 +24,8 @@ from loguru import logger
 
 from utils.functions import run_command
 
+from artmind.vault import MARKER
+
 #: The git object id of the canonical empty tree, present in every
 #: repository -- `git diff <this> HEAD` is the standard way to diff "against
 #: nothing", which is exactly `--bootstrapEmpty`'s "everything currently
@@ -86,9 +88,9 @@ def _worker_running() -> bool:
 
 def preflight(vault_dir: Path) -> None:
     """Refuse -- before reading or writing anything -- when the vault is in a
-    state `sync` must not apply from (spec 2026-09-26 §6 A5): a merge, rebase
-    or cherry-pick in progress, unresolved conflicts in the index, or a running
-    ingest worker. Each message says what to do next."""
+    state `sync` must not apply from (spec 2026-09-26 §6 A5, §14 A7): a merge,
+    rebase or cherry-pick in progress, unresolved conflicts under `.artmind/`,
+    or a running ingest worker. Each message says what to do next."""
     git_dir = Path(_git(vault_dir, ["rev-parse", "--absolute-git-dir"]).strip())
     for marker, what in (
         ("MERGE_HEAD", "a merge"),
@@ -101,10 +103,15 @@ def preflight(vault_dir: Path) -> None:
                 f"{what} is in progress in this vault -- finish it in Obsidian "
                 "(or git) first, then re-run `vault sync`"
             )
-    unmerged = _git(vault_dir, ["diff", "--name-only", "--diff-filter=U"]).split()
+    # Only artmind's own files (spec §14 A7): a conflicted human note does not
+    # change what sync applies, and Obsidian shows it to the user. `-z` keeps a
+    # name with a space (or a non-ASCII byte) whole (§14 A5).
+    unmerged = [
+        p for p in _git(vault_dir, ["diff", "--name-only", "-z", "--diff-filter=U", "--", MARKER]).split("\0") if p
+    ]
     if unmerged:
         raise VaultSyncError(
-            f"unresolved conflicts in {len(unmerged)} file(s) ({', '.join(unmerged[:5])}"
+            f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
             f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
         )
     if _worker_running():
