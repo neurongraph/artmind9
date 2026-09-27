@@ -1,5 +1,6 @@
 """`vault sync`: git-diff-driven, CDC-style replay (spec
 docs/superpowers/specs/2026-09-25-vault-sync-design.md)."""
+import re
 import subprocess
 from pathlib import Path
 
@@ -1690,3 +1691,153 @@ def test_sync_dry_run_raises_on_an_ambiguous_mapping(repo, monkeypatch):
 
     with pytest.raises(vs.VaultSyncError, match="ambiguous"):
         vs.sync(repo, bootstrap_empty=True, dry_run=True)
+
+
+# ── pinning the approved failure rules (Task 10 review) ─────────────────────
+
+
+def test_classify_diff_raises_on_a_mapping_broken_at_head(repo, monkeypatch):
+    """A mapping edited into invalid YAML fails the classifier itself (not
+    just the later `find_mappings` call in `sync()`'s regenerate loop) --
+    the message names the vault-relative path once and the `head` sha once,
+    never the scratch tempdir. (A PyYAML error is itself multi-line, so the
+    match uses DOTALL rather than pytest.raises' plain `re.search`.)"""
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch, tables=("accounts",))
+    (maps / "accounts.yaml").write_text("table: [\n")
+    _commit_all(repo, "break the mapping")
+
+    with pytest.raises(
+        vs.VaultSyncError, match=re.compile(r"accounts\.yaml.*\(at [0-9a-f]{12}\)", re.DOTALL)
+    ):
+        _classify(repo, base)
+
+
+def test_classify_diff_skips_a_mapping_broken_at_base_once_it_is_deleted(repo, monkeypatch):
+    """A mapping that never parsed at `base` cannot be checked against the
+    tables it used to match there -- refusing outright would stall sync on
+    history no edit can fix, so it is logged and treated as if it matched
+    nothing (§14 A1's stated skip). Loguru doesn't feed pytest's `caplog`
+    without a bridge (see test_embed_sweep.py), so this test adds its own
+    sink for the duration of the call."""
+    from loguru import logger
+
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    maps, _ = _patch_table_sources(monkeypatch, repo)
+    _add_table(st_dir, "banking", "accounts")
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text("table: [\n")
+    _commit_all(repo, "base: a mapping that never parsed")
+    base = vs.head_sha(repo)
+    (maps / "accounts.yaml").unlink()
+    _commit_all(repo, "delete the broken mapping")
+
+    messages: list[str] = []
+    sink_id = logger.add(lambda message: messages.append(message.record["message"]), level="WARNING")
+    try:
+        plan = _classify(repo, base)
+    finally:
+        logger.remove(sink_id)
+
+    assert plan.regenerate_tables == []
+    assert plan.retract == []
+    assert any("does not parse" in m for m in messages)
+
+
+def test_classify_diff_raises_on_a_pre_existing_broken_mapping_when_a_schema_changes(repo, monkeypatch):
+    """`_mappings_at`'s full listing of every mapping at `head` -- not just
+    the ones the diff touched -- must also fail loudly on one that doesn't
+    parse; unwrapped, that call raised a bare `MappingError` without the
+    "(at <sha>)" suffix every other broken-mapping report carries."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    _add_table(st_dir, "banking", "accounts")
+    maps.mkdir(parents=True)
+    (maps / "broken.yaml").write_text("table: [\n")
+    schemas.mkdir(parents=True)
+    (schemas / "banking_schema.yaml").write_text("entity_types: {}\n")
+    _commit_all(repo, "base: table + already-broken mapping + schema")
+    base = vs.head_sha(repo)
+    (schemas / "banking_schema.yaml").write_text("entity_types:\n  ACCOUNT: {kind: recurrent}\n")
+    _commit_all(repo, "edit schema only -- the broken mapping is untouched")
+
+    with pytest.raises(
+        vs.VaultSyncError, match=re.compile(r"broken\.yaml.*\(at [0-9a-f]{12}\)", re.DOTALL)
+    ):
+        _classify(repo, base)
+
+
+def test_sync_raises_no_schema_when_a_mapped_tables_schema_is_deleted(repo, monkeypatch):
+    """A mapping still covers the table at `head`, but its domain's schema
+    was deleted -- `load_schema` returns `{}`, and `sync()` must refuse
+    rather than project without one, leaving the cursor untouched."""
+    _patch_kg_dir(monkeypatch, repo)
+    st_dir, maps, schemas, base = _mapped_tables_base(repo, monkeypatch, tables=("accounts",))
+    schemas.mkdir(parents=True, exist_ok=True)
+    (schemas / "banking_schema.yaml").write_text("entity_types:\n  ACCOUNT: {kind: recurrent}\n")
+    _commit_all(repo, "add the schema")
+    synced_base = vs.head_sha(repo)
+    (schemas / "banking_schema.yaml").unlink()
+    _commit_all(repo, "delete the schema -- the mapping still covers accounts")
+
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    write_state(VaultLayout(repo), {"last_synced_commit": synced_base})
+
+    from artmind.structured import registry as structured_registry
+
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="no schema"):
+        vs.sync(repo)
+
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == synced_base
+
+
+def test_sync_restores_but_never_projects_when_csv_changes_and_mapping_is_removed(repo, monkeypatch):
+    """The CSV change makes track B want to regenerate the table (restore to
+    DuckDB); the mapping's removal makes the same table's old projection
+    retracted from the graph. Both fire in one run, on the same table --
+    `classify_diff`'s docstring now says so -- and it must never be
+    projected with a mapping that no longer names it."""
+    _patch_kg_dir(monkeypatch, repo)
+    st_dir, maps, _, base = _mapped_tables_base(repo, monkeypatch, tables=("accounts",))
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n2\n")
+    (maps / "accounts.yaml").unlink()
+    _commit_all(repo, "csv changed, mapping removed, in the same commit")
+
+    from artmind.vault import VaultLayout, write_state
+
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    seen_import: list = []
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda scratch_dir, tables: seen_import.append(tables) or {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda *a, **k: pytest.fail("a table no mapping names any more is never projected"),
+    )
+    calls = _patch_ingest_and_projection(
+        monkeypatch, retract_results={"table:banking:accounts": {"affected_keys": []}}
+    )
+
+    vs.sync(repo)
+
+    assert seen_import == [[("banking", "accounts")]]
+    assert calls["retract_document"] == [("table:banking:accounts", "banking")]

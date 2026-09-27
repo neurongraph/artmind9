@@ -404,8 +404,22 @@ def _mapping_at(vault_dir: Path, rev: str, relpath: str):
     try:
         data = yaml.safe_load(text)
     except yaml.YAMLError as e:
-        raise MappingError(f"{relpath} at {rev[:12]}: invalid YAML: {e}") from None
+        raise MappingError(f"{relpath}: invalid YAML: {e}") from None
     return parse_mapping(data, Path(relpath))
+
+
+def _mapping_at_head_or_raise(vault_dir: Path, head: str, relpath: str):
+    """`_mapping_at` at `head`, wrapping a parse failure as `VaultSyncError`
+    with the "(at <head>)" suffix every caller that must fail loudly on an
+    unparseable mapping at `head` uses -- so the message reads the same
+    whether the diff classifier or `_mappings_at`'s own full listing is the
+    one that found it broken."""
+    from artmind.table2graph import MappingError
+
+    try:
+        return _mapping_at(vault_dir, head, relpath)
+    except MappingError as e:
+        raise VaultSyncError(f"{e} (at {head[:12]})") from None
 
 
 def _mappings_at(vault_dir: Path, rev: str) -> list:
@@ -421,7 +435,7 @@ def _mappings_at(vault_dir: Path, rev: str) -> list:
     except ValueError:
         return [load_mapping(p) for p in sorted(live.glob("*.yaml"))] if live.is_dir() else []
     return [
-        _mapping_at(vault_dir, rev, p)
+        _mapping_at_head_or_raise(vault_dir, rev, p)
         for p in _files_at(vault_dir, rev, live)
         if Path(p).parent == rel and p.endswith(".yaml")
     ]
@@ -493,15 +507,7 @@ def _classify_table_sources(
     for status, path in mapping_rows:
         versions = []
         if status in ("A", "M"):
-            try:
-                versions.append(_mapping_at(vault_dir, head, path))
-            except MappingError as e:
-                # Vault-relative already (read straight from git, no scratch
-                # copy to strip) -- append the "(at <head>)" suffix sync's own
-                # `_vault_relative_mapping_error` uses, so a mapping this
-                # classifier finds broken is reported the same way as one
-                # `find_mappings` finds broken later in the same run.
-                raise VaultSyncError(f"{e} (at {head[:12]})") from None
+            versions.append(_mapping_at_head_or_raise(vault_dir, head, path))
         if status in ("M", "D"):
             try:
                 versions.append(_mapping_at(vault_dir, base, path))
@@ -536,7 +542,12 @@ def classify_diff(
 ) -> SyncPlan:
     """The full classified diff for one sync run (spec §4), over the FIXED
     `base..head` range the caller has already resolved -- never re-queried
-    mid-run, which is what makes §5's sequencing guarantee hold."""
+    mid-run, which is what makes §5's sequencing guarantee hold.
+
+    `regenerate_tables` and `retract` may both name the same table: when its
+    CSV changed and its mapping was removed in the same range, it is
+    re-restored to DuckDB (track B) and also retracted from the graph
+    (`table:<domain>:<table>` no mapping covers any more) in the same run."""
     plan = SyncPlan(base=base, head=head)
     plan.replay_docs, kg_retract = _classify_kg_diff(vault_dir, base, head, domains)
     plan.regenerate_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
