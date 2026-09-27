@@ -1234,3 +1234,40 @@ def test_sync_replays_a_folder_whose_chunks_changed_with_the_committed_chunks(re
     vs.sync(repo)
 
     assert seen == [("doc1", [{"id": "c1", "text": "committed"}])]
+
+
+# ── unmapped tables (spec 2026-09-26 §14 A2) ────────────────────────────────
+
+
+def test_sync_restores_an_unmapped_table_to_the_structured_store_only(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add an unmapped table")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    calls = {"import": [], "table_to_graph": []}
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: calls["import"].append(k.get("tables")) or {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [])
+    monkeypatch.setattr(t2g, "table_to_graph", lambda *a, **k: calls["table_to_graph"].append(a) or {})
+    projection = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["import"] == [[("banking", "accounts")]]
+    assert calls["table_to_graph"] == []
+    assert projection["rebuild_in_batches"] == []
+    assert result["structured_only_tables"] == ["banking/accounts"]
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)

@@ -433,6 +433,7 @@ def sync(
     from paths import KG_DIR, STRUCTURED_TEXT_DIR
 
     all_keys: set[tuple[str, str, str]] = set()
+    structured_only: list[str] = []  # tables restored to DuckDB, not projected (§14 A2)
 
     with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
         scratch = Path(scratch_str)
@@ -457,7 +458,11 @@ def sync(
                     raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
                 found = find_mappings(table_name, domain)
                 if not found:
-                    raise VaultSyncError(f"{domain}/{table_name}: no table mapping under domains/table_mappings/")
+                    # Spec 2026-09-26 §14 A2: a table no mapping names is a
+                    # structured-store table only -- restored above, never
+                    # projected. Raising here stalled the cursor forever.
+                    structured_only.append(f"{domain}/{table_name}")
+                    continue
                 if len(found) > 1:
                     raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
                 schema = load_schema(domain)
@@ -514,6 +519,7 @@ def sync(
         "replayed": len(plan.replay_docs),
         "retracted": len(plan.retract),
         "regenerated_tables": len(plan.regenerate_tables),
+        "structured_only_tables": structured_only,
         "projection": projection_summary,
         "domains_swept": touched_domains,
     }
