@@ -270,3 +270,79 @@ def test_naming_an_unsupported_file_says_why(vault):
 
     assert result.exit_code != 0
     assert ".canvas" in result.output
+
+
+@pytest.fixture
+def structured_calls(monkeypatch):
+    """Record (filename, domain) for every ingest_structured_file call."""
+    calls: list[tuple[str, str]] = []
+
+    def fake_ingest_structured_file(source, domain, **kwargs):
+        calls.append((Path(source).name, domain))
+        return {"status": "ok"}
+
+    monkeypatch.setattr(cli_module, "ingest_structured_file", fake_ingest_structured_file)
+    return calls
+
+
+def test_structured_files_get_the_domain_their_folder_maps_to(vault, structured_calls):
+    """A csv/xlsx under a mapped folder takes the mapping's domain, exactly as
+    a document does -- it used to fail with '--domain is required for
+    structured files' even though vault.yaml covered it."""
+    _manifest(vault, """
+ingest:
+  mappings:
+    - path: team/**
+      domain: personal_journal
+""")
+    (vault / "team").mkdir()
+    (vault / "team" / "t.csv").write_text("id\n1\n")
+
+    result = CliRunner().invoke(cli, ["ingest", "sync", "."])
+
+    assert result.exit_code == 0, result.output
+    assert structured_calls == [("t.csv", "personal_journal")]
+
+
+def test_explicit_domain_does_not_override_a_structured_files_mapping(vault, structured_calls):
+    """Same precedence as documents: --domain covers what nothing maps."""
+    _manifest(vault, """
+ingest:
+  mappings:
+    - path: team/**
+      domain: personal_journal
+""")
+    (vault / "team").mkdir()
+    (vault / "team" / "t.csv").write_text("id\n1\n")
+
+    result = CliRunner().invoke(cli, ["ingest", "sync", ".", "--domain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert structured_calls == [("t.csv", "personal_journal")]
+
+
+def test_set_domain_overrides_a_structured_files_mapping(vault, structured_calls):
+    """--setDomain forces a domain onto every file, mapped or not."""
+    _manifest(vault, """
+ingest:
+  mappings:
+    - path: team/**
+      domain: personal_journal
+""")
+    (vault / "team").mkdir()
+    (vault / "team" / "t.csv").write_text("id\n1\n")
+
+    result = CliRunner().invoke(cli, ["ingest", "sync", ".", "--setDomain", "general"])
+
+    assert result.exit_code == 0, result.output
+    assert structured_calls == [("t.csv", "general")]
+
+
+def test_an_unmapped_structured_file_with_no_domain_is_still_refused(vault, structured_calls):
+    """Nothing names a domain: refuse rather than guess, and say how to fix it."""
+    (vault / "t.csv").write_text("id\n1\n")
+
+    result = CliRunner().invoke(cli, ["ingest", "sync", "t.csv"])
+
+    assert structured_calls == []
+    assert "vault.yaml" in result.output
