@@ -390,6 +390,147 @@ def _classify_structured_text_diff(
     return regenerate, retract
 
 
+def _mapping_at(vault_dir: Path, rev: str, relpath: str):
+    """The table mapping at `relpath` as committed at `rev` -- never the
+    working tree (spec 2026-09-26 §14 A1). Raises `MappingError` (a
+    `ValueError`) for a mapping that does not parse."""
+    import yaml
+
+    from artmind.table2graph import MappingError, parse_mapping
+
+    text = _show(vault_dir, rev, relpath)
+    if text is None:
+        raise VaultSyncError(f"{relpath} is not in {rev}")
+    try:
+        data = yaml.safe_load(text)
+    except yaml.YAMLError as e:
+        raise MappingError(f"{relpath} at {rev[:12]}: invalid YAML: {e}") from None
+    return parse_mapping(data, Path(relpath))
+
+
+def _mappings_at(vault_dir: Path, rev: str) -> list:
+    """Every table mapping `find_mappings` would see, as committed at `rev`.
+    A mappings dir outside the vault is not versioned with it (see
+    `_dir_at`); its live copy is all there is."""
+    import paths
+    from artmind.table2graph import load_mapping
+
+    live = paths.TABLE_MAPPINGS_DIR
+    try:
+        rel = live.relative_to(vault_dir)
+    except ValueError:
+        return [load_mapping(p) for p in sorted(live.glob("*.yaml"))] if live.is_dir() else []
+    return [
+        _mapping_at(vault_dir, rev, p)
+        for p in _files_at(vault_dir, rev, live)
+        if Path(p).parent == rel and p.endswith(".yaml")
+    ]
+
+
+def _tables_at(vault_dir: Path, rev: str) -> list[tuple[str, str]]:
+    """`(domain, table_name)` for every structured-text CSV committed at
+    `rev`: the tables this vault can restore, and so the tables a mapping or
+    schema change can re-project."""
+    import paths
+
+    st_dir = paths.STRUCTURED_TEXT_DIR
+    try:
+        files = _files_at(vault_dir, rev, st_dir)
+    except ValueError:
+        return []
+    st_rel = st_dir.relative_to(vault_dir)
+    tables = []
+    for path in files:
+        parts = Path(path).relative_to(st_rel).parts
+        if len(parts) == 2 and parts[1].endswith(".csv"):
+            tables.append((parts[0], parts[1][: -len(".csv")]))
+    return tables
+
+
+def _classify_table_sources(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """Spec 2026-09-26 §14 A1: `table__*` folders are gitignored (R4), so a
+    table whose CSV did not change but whose mapping or domain schema did
+    would otherwise keep its old projection on every other machine.
+
+    - A mapping (`TABLE_MAPPINGS_DIR/*.yaml`) added, changed or removed
+      between `base` and `head` affects every table at `head` its `table:`
+      pattern matched at either end -- so a narrowed pattern reaches the
+      tables it stopped covering.
+    - A domain schema (`DOMAIN_SCHEMAS_DIR/<d>_schema.yaml`) added, changed
+      or removed affects the tables of `d` and of its dotted children (a
+      child inherits the parent's `temporal:` block, `temporal.load_schema`).
+
+    An affected table some mapping at `head` matches is regenerated. One that
+    only a mapping change affected, and that no mapping at `head` matches, is
+    retracted (`table:<domain>:<table>`). A schema-affected table no mapping
+    matches is a structured-store table only (§14 A2): nothing to do.
+
+    Every mapping is read from git, never the working tree. One that does not
+    parse at `head` fails the sync; one that does not parse at `base` is
+    skipped with a warning -- refusing would stall sync on history no edit
+    can fix."""
+    import paths
+    from artmind.table2graph import MappingError
+
+    def _rows(live_dir: Path, suffix: str) -> list[tuple[str, str]]:
+        try:
+            rel = live_dir.relative_to(vault_dir)
+        except ValueError:
+            return []  # not versioned with the vault: nothing in the diff
+        rows = _diff_name_status(vault_dir, base, head, live_dir)
+        return [(s, p) for s, p in rows if Path(p).parent == rel and p.endswith(suffix)]
+
+    mapping_rows = _rows(paths.TABLE_MAPPINGS_DIR, ".yaml")
+    schema_rows = _rows(paths.DOMAIN_SCHEMAS_DIR, "_schema.yaml")
+    if not mapping_rows and not schema_rows:
+        return [], []
+
+    tables = _tables_at(vault_dir, head)
+
+    by_mapping: set[tuple[str, str]] = set()
+    for status, path in mapping_rows:
+        versions = []
+        if status in ("A", "M"):
+            try:
+                versions.append(_mapping_at(vault_dir, head, path))
+            except MappingError as e:
+                # Vault-relative already (read straight from git, no scratch
+                # copy to strip) -- append the "(at <head>)" suffix sync's own
+                # `_vault_relative_mapping_error` uses, so a mapping this
+                # classifier finds broken is reported the same way as one
+                # `find_mappings` finds broken later in the same run.
+                raise VaultSyncError(f"{e} (at {head[:12]})") from None
+        if status in ("M", "D"):
+            try:
+                versions.append(_mapping_at(vault_dir, base, path))
+            except MappingError as e:
+                logger.warning(
+                    "vault sync: {} at {} does not parse, so tables only it matched are not retracted: {}",
+                    path, base[:12], e,
+                )
+        for mapping in versions:
+            by_mapping.update(key for key in tables if mapping.matches(key[1], key[0]))
+
+    schema_domains = {Path(p).name[: -len("_schema.yaml")] for _, p in schema_rows}
+    by_schema = {
+        key for key in tables if any(key[0] == d or key[0].startswith(d + ".") for d in schema_domains)
+    }
+
+    head_mappings = _mappings_at(vault_dir, head)
+    regenerate: list[tuple[str, str]] = []
+    retract: list[tuple[str, str]] = []
+    for domain, table_name in sorted(by_mapping | by_schema):
+        if not _in_scope(domain, domains):
+            continue
+        if any(m.matches(table_name, domain) for m in head_mappings):
+            regenerate.append((domain, table_name))
+        elif (domain, table_name) in by_mapping:
+            retract.append((domain, f"table:{domain}:{table_name}"))
+    return regenerate, retract
+
+
 def classify_diff(
     vault_dir: Path, layout, base: str, head: str, domains: list[str] | None = None
 ) -> SyncPlan:
@@ -399,9 +540,13 @@ def classify_diff(
     plan = SyncPlan(base=base, head=head)
     plan.replay_docs, kg_retract = _classify_kg_diff(vault_dir, base, head, domains)
     plan.regenerate_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
+    source_regenerate, source_retract = _classify_table_sources(vault_dir, base, head, domains)
+    for key in source_regenerate:
+        if key not in plan.regenerate_tables:
+            plan.regenerate_tables.append(key)
 
     seen: set[tuple[str, str]] = set()
-    for domain, doc_id in kg_retract + table_retract:
+    for domain, doc_id in kg_retract + table_retract + source_retract:
         if (domain, doc_id) not in seen:
             seen.add((domain, doc_id))
             plan.retract.append((domain, doc_id))

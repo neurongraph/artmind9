@@ -1527,3 +1527,145 @@ def test_sync_dry_run_lists_an_unmapped_table_as_structured_only(repo, monkeypat
     assert result["structured_only_tables"] == ["banking/accounts"]
     assert called == []
     assert "last_synced_commit" not in read_state(VaultLayout(repo))
+
+
+# ── mappings and schemas as sync input (spec 2026-09-26 §14 A1) ─────────────
+
+
+def _classify(repo, base, domains=None):
+    from artmind.vault import VaultLayout
+
+    return vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo), domains)
+
+
+def _mapped_tables_base(repo, monkeypatch, tables=("accounts", "loans"), pattern="acc*"):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    for table in tables:
+        _add_table(st_dir, "banking", table)
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml(pattern))
+    _commit_all(repo, "base")
+    return st_dir, maps, schemas, vs.head_sha(repo)
+
+
+def test_classify_diff_regenerates_tables_whose_mapping_changed(repo, monkeypatch):
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*") + "description: edited\n")
+    _commit_all(repo, "edit mapping only")
+
+    plan = _classify(repo, base)
+
+    assert plan.regenerate_tables == [("banking", "accounts")]
+    assert plan.retract == []
+
+
+def test_classify_diff_regenerates_tables_an_added_mapping_matches(repo, monkeypatch):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    maps, _ = _patch_table_sources(monkeypatch, repo)
+    _add_table(st_dir, "banking", "accounts")
+    _commit_all(repo, "table only")
+    base = vs.head_sha(repo)
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("accounts"))
+    _commit_all(repo, "add mapping")
+
+    assert _classify(repo, base).regenerate_tables == [("banking", "accounts")]
+
+
+def test_classify_diff_retracts_tables_a_removed_mapping_covered(repo, monkeypatch):
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch, tables=("accounts",))
+    (maps / "accounts.yaml").unlink()
+    _commit_all(repo, "drop mapping")
+
+    plan = _classify(repo, base)
+
+    assert plan.regenerate_tables == []
+    assert plan.retract == [("banking", "table:banking:accounts")]
+
+
+def test_classify_diff_retracts_tables_a_narrowed_mapping_no_longer_covers(repo, monkeypatch):
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch, tables=("accounts", "accruals"))
+    (maps / "accounts.yaml").write_text(_mapping_yaml("accounts"))
+    _commit_all(repo, "narrow the pattern")
+
+    plan = _classify(repo, base)
+
+    assert plan.regenerate_tables == [("banking", "accounts")]
+    assert plan.retract == [("banking", "table:banking:accruals")]
+
+
+def test_classify_diff_regenerates_the_mapped_tables_of_a_changed_schema(repo, monkeypatch):
+    """Its own domain and dotted children (temporal inheritance); not an
+    unmapped table, not another domain."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    _add_table(st_dir, "banking", "accounts")
+    _add_table(st_dir, "banking", "loans")               # unmapped
+    _add_table(st_dir, "banking.retail", "accounts_retail")
+    _add_table(st_dir, "legal", "accounts_legal")        # other domain
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*"))
+    schemas.mkdir(parents=True)
+    (schemas / "banking_schema.yaml").write_text("entity_types: {}\n")
+    _commit_all(repo, "base")
+    base = vs.head_sha(repo)
+    (schemas / "banking_schema.yaml").write_text("entity_types:\n  ACCOUNT: {kind: recurrent}\n")
+    _commit_all(repo, "edit schema")
+
+    plan = _classify(repo, base)
+
+    assert plan.regenerate_tables == [("banking", "accounts"), ("banking.retail", "accounts_retail")]
+    assert plan.retract == []
+
+
+def test_classify_diff_reads_mappings_from_git_not_the_working_tree(repo, monkeypatch):
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*") + "description: edited\n")
+    _commit_all(repo, "edit mapping")
+    (maps / "accounts.yaml").unlink()  # uncommitted
+
+    assert _classify(repo, base).regenerate_tables == [("banking", "accounts")]
+
+
+def test_classify_diff_regenerates_once_when_csv_and_mapping_both_change(repo, monkeypatch):
+    st_dir, maps, _, base = _mapped_tables_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n2\n")
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*") + "description: edited\n")
+    _commit_all(repo, "both")
+
+    assert _classify(repo, base).regenerate_tables == [("banking", "accounts")]
+
+
+def test_classify_diff_scopes_mapping_changes_to_requested_domains(repo, monkeypatch):
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch)
+    (maps / "accounts.yaml").unlink()
+    _commit_all(repo, "drop mapping")
+
+    plan = _classify(repo, base, domains=["legal"])
+
+    assert plan.regenerate_tables == []
+    assert plan.retract == []
+
+
+def test_sync_retracts_a_table_whose_mapping_was_removed(repo, monkeypatch):
+    _patch_kg_dir(monkeypatch, repo)
+    _, maps, _, base = _mapped_tables_base(repo, monkeypatch, tables=("accounts",))
+    (maps / "accounts.yaml").unlink()
+    _commit_all(repo, "drop mapping")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})  # after the last commit: state.json stays uncommitted
+
+    import artmind.table2graph as t2g
+
+    calls = _patch_ingest_and_projection(
+        monkeypatch, retract_results={"table:banking:accounts": {"affected_keys": [["1", "ACCOUNT", "banking"]]}}
+    )
+    monkeypatch.setattr(t2g, "table_to_graph", lambda *a, **k: pytest.fail("a table no mapping names is never projected"))
+
+    result = vs.sync(repo)
+
+    assert calls["retract_document"] == [("table:banking:accounts", "banking")]
+    assert calls["rebuild_in_batches"] == [[("1", "ACCOUNT", "banking")]]
+    assert result["retracted"] == 1
+    assert result["regenerated_tables"] == 0
