@@ -183,6 +183,50 @@ def test_classify_diff_retracts_a_removed_document_folder(repo, monkeypatch):
     assert plan.retract == [("banking", "docid-1")]
 
 
+def test_classify_diff_does_not_retract_a_moved_documents_id(repo, monkeypatch):
+    """A moved/renamed note keeps its doc id; its staging folder's name
+    changes, so git sees the old folder deleted and a new one added in the
+    same commit. Retracting the id (read from the old folder's document.json
+    at base) would demote the document `sync()` just replayed under its new
+    folder name (item 2, spec 2026-09-27)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "old-name", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "old-name")
+    _write_doc_folder(kg_dir, "banking", "new-name", "docid-1")
+    _commit_all(repo, "rename doc1's folder")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "new-name")]
+    assert plan.retract == []
+
+
+def test_classify_diff_does_not_retract_when_the_new_folder_already_exists_at_head(repo, monkeypatch):
+    """The new folder was added (and already replayed) in an earlier sync;
+    this run's diff range only contains the old folder's removal. The id is
+    still live at `head` under the new folder, so it must not be retracted
+    even though this diff range has no add for it (item 2's two-run case)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "old-name", "docid-1")
+    _commit_all(repo, "add under old name")
+    _write_doc_folder(kg_dir, "banking", "new-name", "docid-1")
+    _commit_all(repo, "add under new name (an earlier sync already replayed this)")
+    base = vs.head_sha(repo)
+    import shutil
+    shutil.rmtree(kg_dir / "banking" / "old-name")
+    _commit_all(repo, "remove the old folder")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
+    assert plan.retract == []
+
+
 def test_classify_diff_ignores_a_removed_table_folder(repo, monkeypatch):
     """Spec 2026-09-26 §5 R4: `.artmind/data/kg/*/table__*/` is gitignored,
     and "Track A of the sync spec no longer sees them; track B regenerates

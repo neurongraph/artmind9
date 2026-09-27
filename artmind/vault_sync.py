@@ -236,6 +236,70 @@ def _in_scope(domain: str, domains: list[str] | None) -> bool:
     return any(domain == d or domain.startswith(d + ".") for d in domains)
 
 
+def _document_ids_at_head(vault_dir: Path, head: str, kg_rel: Path, domains: list[str]) -> dict[str, set[str]]:
+    """`{domain: {doc ids live at head}}` -- the id of every folder under
+    `kg_rel/<domain>` at `head` that still has an `observations.json` there
+    (the same test `replay` uses; a folder missing it is being retracted
+    itself, not a live target another folder's id could hide behind).
+
+    Scans ALL folders currently committed under the domain, not only the
+    ones this run's diff touched, since the folder a moved/renamed note
+    landed in may have been added (and already replayed) in an earlier sync
+    (spec 2026-09-27 item 2's two-run case).
+
+    One `git ls-tree` to find the paths, then one `git cat-file --batch` to
+    read every `document.json` blob in a single process -- the spec's
+    suggested shape, versus one `git show` per folder.
+    """
+    import json
+
+    from artmind.atomic_dir import is_scratch
+
+    if not domains:
+        return {}
+    rel_scopes = [str(kg_rel / d) for d in sorted(set(domains))]
+    listing = _git(vault_dir, ["ls-tree", "-r", "-z", "--name-only", head, "--", *rel_scopes])
+    folders_with_obs: set[tuple[str, str]] = set()
+    for p in listing.split("\0"):
+        if not p:
+            continue
+        parts = Path(p).relative_to(kg_rel).parts
+        if len(parts) != 3 or parts[2] != "observations.json":
+            continue
+        if parts[1].startswith("table__") or is_scratch(Path(parts[1])):
+            continue
+        folders_with_obs.add((parts[0], parts[1]))
+    if not folders_with_obs:
+        return {}
+    paths = [str(kg_rel / domain / docdir / "document.json") for domain, docdir in sorted(folders_with_obs)]
+
+    specs = "".join(f"{head}:{p}\n" for p in paths)
+    proc = subprocess.run(
+        ["git", "cat-file", "--batch"], cwd=vault_dir, input=specs.encode(), capture_output=True,
+    )
+    if proc.returncode != 0:
+        raise VaultSyncError(f"git cat-file --batch failed: {proc.stderr.decode(errors='replace').strip()}")
+    out = proc.stdout
+
+    ids_by_domain: dict[str, set[str]] = {}
+    pos = 0
+    for p in paths:
+        nl = out.index(b"\n", pos)
+        fields = out[pos:nl].split()
+        pos = nl + 1
+        if len(fields) != 3:
+            continue  # "<spec> missing" -- shouldn't happen for a path ls-tree just listed
+        size = int(fields[2])
+        content, pos = out[pos:pos + size], pos + size + 1  # +1: cat-file's own trailing "\n"
+        try:
+            doc_id = json.loads(content.decode("utf-8"))["id"]
+        except (json.JSONDecodeError, KeyError, UnicodeDecodeError):
+            continue
+        domain = Path(p).relative_to(kg_rel).parts[0]
+        ids_by_domain.setdefault(domain, set()).add(doc_id)
+    return ids_by_domain
+
+
 def _classify_kg_diff(
     vault_dir: Path, base: str, head: str, domains: list[str] | None
 ) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
@@ -296,7 +360,7 @@ def _classify_kg_diff(
     at_head = set(_present_at(vault_dir, head, list(obs_path.values())))
 
     replay: list[tuple[str, str]] = []
-    retract: list[tuple[str, str]] = []
+    retract_candidates: list[tuple[str, str]] = []  # (domain, doc_id)
     for (domain, docdir), changes in folders.items():
         if obs_path[(domain, docdir)] in at_head:
             replay.append((domain, docdir))
@@ -310,7 +374,18 @@ def _classify_kg_diff(
                     f"{obs_path[(domain, docdir)]} is marked removed since {base}, but "
                     f"wasn't present at {base} either -- diff and history disagree, refusing to guess"
                 )
-            retract.append((domain, json.loads(base_content)["id"]))
+            retract_candidates.append((domain, json.loads(base_content)["id"]))
+    if not retract_candidates:
+        return replay, []
+
+    # A moved/renamed note keeps its `_artmind_id`; its staging folder just
+    # changes name, so the old folder's removal above looks like a delete of
+    # that id. Don't retract an id any `document.json` at `head`, in the
+    # same domain, still carries -- whether the new folder appeared in THIS
+    # diff range (replayed above) or in an earlier one already applied
+    # (spec 2026-09-27 item 2).
+    live = _document_ids_at_head(vault_dir, head, kg_rel, [d for d, _ in retract_candidates])
+    retract = [(d, doc_id) for d, doc_id in retract_candidates if doc_id not in live.get(d, set())]
     return replay, retract
 
 
