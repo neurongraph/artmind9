@@ -417,8 +417,56 @@ pull --no-rebase && git push`.
   `.artmind/data/**` is only a fast-forward in practice — but this should be verified.
 - The exact Obsidian Git `data.json` keys for sync method, pull-on-startup and auto
   interval, for `vault doctor`.
-- Whether conflict ids from `conflicts.materialize` are deterministic across machines
-  (§7 track C depends on it).
+- ~~Whether conflict ids from `conflicts.materialize` are deterministic across machines.~~
+  **Answered 2026-09-27:** yes — `conflicts.conflict_id` is `sha1(sorted entity ids | aspect
+  slug)`, and entity ids are `sha256(name|class|domain)`. See §14 A6 for what that changes.
 - A machine without Obsidian that **ingests** has no committer under D1. Not a
   supported setup for now; if it becomes one, the answer is a documented git timer, not
   artmind committing again.
+
+## 14. Amendments (2026-09-27)
+
+Found by live testing and by the phase 1 review and phase 2 execution notes
+(`docs/superpowers/reviews/2026-09-26-vault-git-transport-phase1-review.md`,
+`docs/superpowers/plans/2026-09-26-vault-git-transport-phase2.md` "Execution notes").
+Each amends the section named.
+
+**A1. Table sources are a sync input (amends R4, §6 A1).** Gitignoring `table__*` (R4) left
+`vault sync` blind to a table whose CSV did not change but whose **table mapping** or **domain
+schema** did: the receiving machine kept the old projection, silently. `vault sync` therefore
+also diffs `.artmind/domains/table_mappings/*.yaml` and `.artmind/domains/schemas/*_schema.yaml`:
+a changed mapping regenerates every registered table its `table:` pattern matches (and, on a
+removed mapping, retracts them); a changed schema regenerates that domain's tables. Mappings and
+schemas are read from `head`, like every other input — never the working tree.
+
+**A2. A table with no mapping is a structured-store table only (amends §6 track B).** Track B
+restores it to DuckDB and skips `table2graph`. It no longer raises `no table mapping`, which
+stalled the cursor forever on any vault with unmapped tables.
+
+**A3. Table identity is `(domain, table_name)`, not the SQLite id (amends R5).** Per-table
+`.meta.json` files carry SQLite's autoincrement `tables.id`, which collides when two machines
+each register a new table. Import remaps ids by `(domain, table_name)`; the id in `.meta.json`
+is informational only.
+
+**A4. Every staging writer is atomic, and track A replays on any change in a document folder
+(amends R2, §6 A1).** Archive restore, dashboard artifact import and `kg_pull` join ingest and
+`table2graph` in using the atomic swap. Track A replays a folder when any file in it changes, not
+only `observations.json`, so a folder committed in two halves still converges.
+
+**A5. Paths are read NUL-separated (amends §6 A1).** Every git listing `vault sync` parses uses
+`-z`, so non-ASCII and space-containing names are neither quoted nor split.
+
+**A6. Conflict records travel, not just their status (amends §7).** Conflicts are *detected* by
+an LLM and written only to Neo4j, so a machine with its own Neo4j never sees them at all.
+`.artmind/data/curation/conflicts.yaml` holds the conflict record itself (id, the two entity
+keys, aspect, verdict, evidence summary, status, reason, timestamps); apply MERGEs `:Conflict`
+nodes and `CONFLICTS_WITH` edges from it. Ids are deterministic (§13), so re-detecting the same
+conflict on another machine MERGEs onto the same record rather than duplicating it.
+Same-as **proposals** stay machine-local: they are a review queue, and an approved group already
+travels as `same_as.yaml`.
+
+**A7. Preflight scope (amends §6 A5).** Only unresolved conflicts under `.artmind/` block sync.
+A conflicted human note does not affect what sync applies, and Obsidian shows it to the user.
+
+**A8. Automatic apply is in scope (amends §12 item 6).** Opt-in `ARTMIND_VAULT_AUTO_APPLY=1`:
+`serve` polls `HEAD` and runs the same apply when the preflight passes and the graph is behind.
