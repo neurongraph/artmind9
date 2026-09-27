@@ -412,7 +412,7 @@ def _mapping_at_head_or_raise(vault_dir: Path, head: str, relpath: str):
     """`_mapping_at` at `head`, wrapping a parse failure as `VaultSyncError`
     with the "(at <head>)" suffix every caller that must fail loudly on an
     unparseable mapping at `head` uses -- so the message reads the same
-    whether the diff classifier or `_mappings_at`'s own full listing is the
+    whether the diff classifier or `_mappings_at_head`'s own full listing is the
     one that found it broken."""
     from artmind.table2graph import MappingError
 
@@ -422,8 +422,10 @@ def _mapping_at_head_or_raise(vault_dir: Path, head: str, relpath: str):
         raise VaultSyncError(f"{e} (at {head[:12]})") from None
 
 
-def _mappings_at(vault_dir: Path, rev: str) -> list:
-    """Every table mapping `find_mappings` would see, as committed at `rev`.
+def _mappings_at_head(vault_dir: Path, head: str) -> list:
+    """Every table mapping `find_mappings` would see, as committed at `head`.
+    Head only: an unparseable mapping raises (see `_mapping_at_head_or_raise`),
+    which is right for `head` and wrong for `base`, where the spec skips it.
     A mappings dir outside the vault is not versioned with it (see
     `_dir_at`); its live copy is all there is."""
     import paths
@@ -435,8 +437,8 @@ def _mappings_at(vault_dir: Path, rev: str) -> list:
     except ValueError:
         return [load_mapping(p) for p in sorted(live.glob("*.yaml"))] if live.is_dir() else []
     return [
-        _mapping_at_head_or_raise(vault_dir, rev, p)
-        for p in _files_at(vault_dir, rev, live)
+        _mapping_at_head_or_raise(vault_dir, head, p)
+        for p in _files_at(vault_dir, head, live)
         if Path(p).parent == rel and p.endswith(".yaml")
     ]
 
@@ -524,7 +526,7 @@ def _classify_table_sources(
         key for key in tables if any(key[0] == d or key[0].startswith(d + ".") for d in schema_domains)
     }
 
-    head_mappings = _mappings_at(vault_dir, head)
+    head_mappings = _mappings_at_head(vault_dir, head)
     regenerate: list[tuple[str, str]] = []
     retract: list[tuple[str, str]] = []
     for domain, table_name in sorted(by_mapping | by_schema):

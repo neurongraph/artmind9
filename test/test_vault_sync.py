@@ -1708,8 +1708,9 @@ def test_classify_diff_raises_on_a_mapping_broken_at_head(repo, monkeypatch):
 
     with pytest.raises(
         vs.VaultSyncError, match=re.compile(r"accounts\.yaml.*\(at [0-9a-f]{12}\)", re.DOTALL)
-    ):
+    ) as ei:
         _classify(repo, base)
+    assert str(ei.value).count(vs.head_sha(repo)[:12]) == 1
 
 
 def test_classify_diff_skips_a_mapping_broken_at_base_once_it_is_deleted(repo, monkeypatch):
@@ -1744,7 +1745,7 @@ def test_classify_diff_skips_a_mapping_broken_at_base_once_it_is_deleted(repo, m
 
 
 def test_classify_diff_raises_on_a_pre_existing_broken_mapping_when_a_schema_changes(repo, monkeypatch):
-    """`_mappings_at`'s full listing of every mapping at `head` -- not just
+    """`_mappings_at_head`'s full listing of every mapping at `head` -- not just
     the ones the diff touched -- must also fail loudly on one that doesn't
     parse; unwrapped, that call raised a bare `MappingError` without the
     "(at <sha>)" suffix every other broken-mapping report carries."""
