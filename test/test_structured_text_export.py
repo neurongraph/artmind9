@@ -696,19 +696,23 @@ def test_reexport_after_a_local_id_change_is_byte_identical(tmp_path, monkeypatc
     changed underneath it (e.g. because `import_structured_text` reassigned
     it on a wipe+restore) -- no id on disk means nothing to churn."""
     _two_tables(tmp_path, monkeypatch)
+    import paths
+
+    from artmind.structured import registry
     from artmind.structured.text_export import export_structured_text, import_structured_text
 
     export_structured_text()
-    original = _meta("products")
-
-    products_id_before = _meta("products")  # sanity: no id present already
-    assert "id" not in products_id_before["table"]
+    meta_path = paths.STRUCTURED_TEXT_DIR / "banking" / "products.meta.json"
+    original_bytes = meta_path.read_bytes()
+    products_id_before = registry.get_table("products", domain="banking")["id"]
 
     _wipe_stores()
     import_structured_text()  # sorted-order re-assignment gives "products" a new local id
     export_structured_text()
 
-    assert _meta("products") == original
+    products_id_after = registry.get_table("products", domain="banking")["id"]
+    assert products_id_after != products_id_before
+    assert meta_path.read_bytes() == original_bytes
 
 
 def test_import_accepts_an_old_meta_file_that_still_carries_ids(tmp_path, monkeypatch):
@@ -739,3 +743,62 @@ def test_import_accepts_an_old_meta_file_that_still_carries_ids(tmp_path, monkey
     assert summary["tables_loaded"] == 2
     products = registry.get_table("products", domain="banking")
     assert _column_names(products["id"]) == {"id", "name"}
+
+
+def test_load_structured_dump_gives_every_table_a_unique_id_across_mixed_formats(tmp_path):
+    """Mixed input in one `src_dir`: two current-format meta files carrying no
+    id at all, two old-format meta files whose recorded ids collide with each
+    other, and a legacy `manifest.json` contributing a table of its own.
+    Every table in the assembled dump must end up with a unique id, and every
+    column must land on its own table."""
+    import json
+
+    from artmind.structured.text_export import load_structured_dump
+
+    src = tmp_path / "structured_text"
+    (src / "banking").mkdir(parents=True)
+
+    def _write(table_name, table_extra, columns):
+        path = src / "banking" / f"{table_name}.meta.json"
+        meta = {
+            "table": {"domain": "banking", "table_name": table_name, **table_extra},
+            "datasource": None,
+            "columns": columns,
+            "column_mappings": [],
+            "column_roles": [],
+        }
+        path.write_text(json.dumps(meta))
+
+    # Two current-format meta files: no id at all.
+    _write("orders", {}, [{"name": "amt", "dtype": "DOUBLE"}])
+    _write("invoices", {}, [{"name": "num", "dtype": "TEXT"}])
+
+    # Two old-format meta files whose recorded ids collide with each other.
+    _write("accounts", {"id": 5}, [{"table_id": 5, "name": "bal", "dtype": "DOUBLE"}])
+    _write("loans", {"id": 5}, [{"table_id": 5, "name": "rate", "dtype": "DOUBLE"}])
+
+    # A legacy manifest.json contributing a table of its own.
+    manifest = {
+        "datasources": [],
+        "tables": [{"id": 7, "domain": "banking", "table_name": "legacy_tbl"}],
+        "columns": [{"table_id": 7, "name": "z", "dtype": "INT"}],
+        "column_mappings": [],
+        "column_roles": [],
+    }
+    (src / "manifest.json").write_text(json.dumps(manifest))
+
+    dump = load_structured_dump(src)
+
+    ids = [t["id"] for t in dump["tables"]]
+    assert len(ids) == len(set(ids)) == 5
+
+    by_name = {t["table_name"]: t["id"] for t in dump["tables"]}
+    cols_by_table: dict[int, list[str]] = {}
+    for col in dump["columns"]:
+        cols_by_table.setdefault(col["table_id"], []).append(col["name"])
+
+    assert cols_by_table[by_name["orders"]] == ["amt"]
+    assert cols_by_table[by_name["invoices"]] == ["num"]
+    assert cols_by_table[by_name["accounts"]] == ["bal"]
+    assert cols_by_table[by_name["loans"]] == ["rate"]
+    assert cols_by_table[by_name["legacy_tbl"]] == ["z"]
