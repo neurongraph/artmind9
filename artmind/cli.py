@@ -111,6 +111,13 @@ def _ensure_worker_running() -> None:
 
     if live_pid(WORKER_PID_FILE) is not None:
         return  # live worker found (a stale pid file is simply overwritten by the new worker)
+    # Legacy (pre-item-1) pid file location, before it moved beside
+    # state.json under ARTMIND_HOME -- a worker started before that fix,
+    # still running old code, would still hold this one. Drop this
+    # fallback after one release.
+    import paths
+    if live_pid(paths.DATA_DIR / "worker.pid") is not None:
+        return
 
     # Locate the worker from the installed package (sibling of this module) —
     # never relative to the pid file, which lives in the data dir.

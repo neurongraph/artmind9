@@ -175,3 +175,34 @@ def test_the_cli_does_not_spawn_beside_another_users_worker(tmp_path, monkeypatc
         holder.close()
 
     assert spawned == []
+
+
+def test_the_cli_does_not_spawn_beside_a_worker_holding_the_legacy_pid_file(tmp_path, monkeypatch):
+    """Re-review item 2: for one release after item 1 moved the pid file
+    from DATA_DIR to ARTMIND_HOME, a worker started before the upgrade (and
+    still running old code) holds the OLD DATA_DIR/worker.pid location. The
+    CLI must not spawn a second worker just because the NEW location
+    (WORKER_PID_FILE) happens to be unlocked."""
+    import artmind.cli as cli
+    import paths
+
+    current_pid_file = tmp_path / "current" / "worker.pid"
+    current_pid_file.parent.mkdir(parents=True)
+    monkeypatch.setattr(cli, "WORKER_PID_FILE", current_pid_file)
+
+    legacy_dir = tmp_path / "legacy_data"
+    legacy_dir.mkdir()
+    monkeypatch.setattr(paths, "DATA_DIR", legacy_dir)
+    legacy_pid_file = legacy_dir / "worker.pid"
+    legacy_pid_file.write_text("4242")
+    holder = open(legacy_pid_file, "r+")
+    fcntl.flock(holder.fileno(), fcntl.LOCK_EX)
+
+    spawned = []
+    monkeypatch.setattr(cli.subprocess, "Popen", lambda *a, **k: spawned.append(a))
+    try:
+        cli._ensure_worker_running()
+    finally:
+        holder.close()
+
+    assert spawned == []

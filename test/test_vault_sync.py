@@ -986,13 +986,12 @@ def test_preflight_ignores_a_stale_worker_pid(repo, monkeypatch, tmp_path):
     assert result["bootstrap"] == "synced"
 
 
-def test_preflight_reads_the_vaults_own_pid_file_not_the_process_wide_one(repo, monkeypatch, tmp_path):
-    """Item 1, second half (phase 1 review finding 7): preflight must derive
-    the pid path from `vault_dir` itself, not from the process-wide
-    `paths.WORKER_PID_FILE` -- a live worker recorded under the (irrelevant,
-    patched-away) `paths.WORKER_PID_FILE` must not block a sync of this
-    vault, and a live worker recorded under *this vault's own*
-    `.artmind/worker.pid` must."""
+def test_preflight_reads_the_vaults_own_pid_file(repo, monkeypatch, tmp_path):
+    """Item 1, second half (phase 1 review finding 7): preflight must check
+    `vault_dir`'s own pid file, not only the process-wide
+    `paths.WORKER_PID_FILE` -- a live worker recorded under *this vault's
+    own* `.artmind/worker.pid` must block sync even when the (irrelevant,
+    patched-away) `paths.WORKER_PID_FILE` is unlocked."""
     import fcntl
     import os
 
@@ -1001,21 +1000,9 @@ def test_preflight_reads_the_vaults_own_pid_file_not_the_process_wide_one(repo, 
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
 
-    # A live worker at the process-wide (patched, irrelevant) location must
-    # not affect this vault's preflight.
     import paths
-    elsewhere_pid_file = tmp_path / "elsewhere-worker.pid"
-    monkeypatch.setattr(paths, "WORKER_PID_FILE", elsewhere_pid_file)
-    elsewhere_pid_file.write_text(str(os.getpid()))
-    elsewhere_holder = open(elsewhere_pid_file, "r+")
-    fcntl.flock(elsewhere_holder.fileno(), fcntl.LOCK_EX)
-    try:
-        result = vs.sync(repo, bootstrap_synced=True)
-        assert result["bootstrap"] == "synced"
-    finally:
-        elsewhere_holder.close()
+    monkeypatch.setattr(paths, "WORKER_PID_FILE", tmp_path / "unrelated-worker.pid")
 
-    # A live worker at THIS vault's own pid file must still block sync.
     vault_pid_file = repo / ".artmind" / "worker.pid"
     vault_pid_file.parent.mkdir(parents=True, exist_ok=True)
     vault_pid_file.write_text(str(os.getpid()))
@@ -1026,6 +1013,62 @@ def test_preflight_reads_the_vaults_own_pid_file_not_the_process_wide_one(repo, 
             vs.sync(repo, bootstrap_synced=True)
     finally:
         vault_holder.close()
+
+
+def test_preflight_also_checks_the_process_wide_pid_file(repo, monkeypatch, tmp_path):
+    """Re-review item 2: with an explicit ARTMIND_HOME outside the vault (a
+    supported setup), the worker for THIS vault writes its pid file at the
+    process-wide `paths.WORKER_PID_FILE`, not under `vault_dir/.artmind/`.
+    Preflight must still catch it -- checking only the vault's own location
+    (item 1's fix alone) would miss a live worker entirely in that setup."""
+    import fcntl
+    import os
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    import paths
+    elsewhere_pid_file = tmp_path / "elsewhere-worker.pid"
+    monkeypatch.setattr(paths, "WORKER_PID_FILE", elsewhere_pid_file)
+    elsewhere_pid_file.write_text(str(os.getpid()))
+    elsewhere_holder = open(elsewhere_pid_file, "r+")
+    fcntl.flock(elsewhere_holder.fileno(), fcntl.LOCK_EX)
+    try:
+        with pytest.raises(vs.VaultSyncError, match="ingest worker is running"):
+            vs.sync(repo, bootstrap_synced=True)
+    finally:
+        elsewhere_holder.close()
+
+
+def test_preflight_also_checks_the_legacy_data_dir_pid_file(repo, monkeypatch, tmp_path):
+    """Re-review item 2: for one release after item 1 moved the pid file
+    from DATA_DIR to ARTMIND_HOME, a worker started before the upgrade (and
+    still running old code) holds the OLD `DATA_DIR/worker.pid` location.
+    Preflight must still catch it."""
+    import fcntl
+    import os
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    import paths
+    monkeypatch.setattr(paths, "WORKER_PID_FILE", tmp_path / "unrelated-worker.pid")
+    legacy_dir = tmp_path / "legacy_data"
+    legacy_dir.mkdir()
+    monkeypatch.setattr(paths, "DATA_DIR", legacy_dir)
+    legacy_pid_file = legacy_dir / "worker.pid"
+    legacy_pid_file.write_text(str(os.getpid()))
+    legacy_holder = open(legacy_pid_file, "r+")
+    fcntl.flock(legacy_holder.fileno(), fcntl.LOCK_EX)
+    try:
+        with pytest.raises(vs.VaultSyncError, match="ingest worker is running"):
+            vs.sync(repo, bootstrap_synced=True)
+    finally:
+        legacy_holder.close()
 
 
 # ── apply reads committed content only (spec 2026-09-26 §6 A1) ───────────────
