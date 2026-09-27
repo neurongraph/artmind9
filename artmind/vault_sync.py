@@ -659,11 +659,13 @@ def sync(
         structured_only_dry: list[str] = []
         if plan.regenerate_tables:
             from artmind.table2graph import MappingError, find_mappings
+            from artmind.temporal import load_schema
             import paths
 
             with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
                 dry_scratch = Path(scratch_str)
                 mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, dry_scratch)
+                schemas_at_head = _dir_at(vault_dir, head, paths.DOMAIN_SCHEMAS_DIR, dry_scratch)
                 for domain, table_name in plan.regenerate_tables:
                     try:
                         found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
@@ -673,6 +675,12 @@ def sync(
                         raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
                     if not found:
                         structured_only_dry.append(f"{domain}/{table_name}")
+                        continue
+                    # Same check the real run makes (below, `table_to_graph`'s
+                    # caller): a mapped table whose domain schema was deleted
+                    # must fail the dry run too, not just the real one (item 4).
+                    if not load_schema(domain, schemas_dir=schemas_at_head):
+                        raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
 
         return {
             "dry_run": True,

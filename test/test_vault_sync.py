@@ -1456,6 +1456,38 @@ def test_sync_mapped_table_with_no_schema_still_raises(repo, monkeypatch):
     assert read_state(VaultLayout(repo))["last_synced_commit"] == base
 
 
+def test_sync_dry_run_refuses_a_mapped_table_with_no_schema(repo, monkeypatch):
+    """Item 4: the --dryRun branch checked mappings but never called
+    load_schema, so a mapped table whose domain schema was deleted passed
+    the dry run and then failed the real run -- exactly the case
+    `test_sync_mapped_table_with_no_schema_still_raises` above covers for a
+    real sync. dry_run must raise the identical VaultSyncError, not just
+    silently under-report."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    (repo / "README.md").write_text("init")
+    _commit_all(repo, "init")
+    base = vs.head_sha(repo)
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text("{}")
+    _commit_all(repo, "add a mapped table whose domain has no schema")
+
+    import artmind.table2graph as t2g
+
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {})
+
+    with pytest.raises(vs.VaultSyncError, match="no schema"):
+        vs.sync(repo, dry_run=True)
+
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == base
+
+
 # ── table sources come from head (review finding 1, spec §14 A1) ─────────────
 
 
