@@ -126,6 +126,36 @@ class TestPullKg:
         with pytest.raises(RuntimeError, match="No document"):
             pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
 
+    @patch("artmind.kg_pull._sparse_clone")
+    def test_each_document_is_swapped_in_atomically_and_symlinks_are_not_followed(
+        self, mock_clone, tmp_path, monkeypatch
+    ):
+        import artmind.kg_pull as mod
+        kg_dir = tmp_path / "kg"
+        monkeypatch.setattr(mod, "KG_DIR", kg_dir)
+        fake_content = self._make_fake_repo(tmp_path, ["doc_a"])
+        (fake_content / "doc_a" / "chunks" / "sha").mkdir(parents=True)
+        (fake_content / "doc_a" / "chunks" / "sha" / "0.json").write_text("cached")
+        secret = tmp_path / "secret.txt"
+        secret.write_text("private")
+        (fake_content / "doc_a" / "leak.json").symlink_to(secret)
+        cleanup_dir = tmp_path / "cleanup"
+        cleanup_dir.mkdir()
+        mock_clone.return_value = (fake_content, cleanup_dir)
+
+        swaps = []
+        real_swap = mod.write_dir_atomic
+        monkeypatch.setattr(
+            mod, "write_dir_atomic",
+            lambda target, files, **kw: swaps.append((target, sorted(files))) or real_swap(target, files, **kw),
+        )
+
+        pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
+
+        assert swaps == [(kg_dir / "sales" / "doc_a", ["chunks/sha/0.json", "document.json", "entities.json"])]
+        assert not (kg_dir / "sales" / "doc_a" / "leak.json").exists()
+        assert sorted(p.name for p in (kg_dir / "sales").iterdir()) == ["doc_a"]
+
 
 class TestRunGitProtocolAllowlist:
     """git's own documented mitigation (GIT_ALLOW_PROTOCOL / `git help clone`) for the

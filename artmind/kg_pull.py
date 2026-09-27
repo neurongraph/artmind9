@@ -8,6 +8,7 @@ from pathlib import Path
 
 from loguru import logger
 
+from artmind.atomic_dir import write_dir_atomic
 from paths import KG_DIR
 
 # Transport schemes git is permitted to use for clone/fetch operations here.
@@ -143,11 +144,18 @@ def pull_kg(repo_url: str, repo_path: str, domain: str) -> dict:
                 + ", ".join(conflicts)
             )
 
-        # Copy
-        target_dir.mkdir(parents=True, exist_ok=True)
+        # Each folder lands in one swap (spec 2026-09-26 §5 R2, §14 A4), so an
+        # Obsidian Git timer commit never captures a half-copied document.
+        # Symlinks are skipped, not followed: the repo is external, and
+        # following one would copy whatever file it points at on this machine
+        # into the vault, which Obsidian Git then pushes.
         for doc_dir in doc_dirs:
-            dest = target_dir / doc_dir.name
-            shutil.copytree(doc_dir, dest)
+            files = {
+                p.relative_to(doc_dir).as_posix(): p.read_bytes()
+                for p in sorted(doc_dir.rglob("*"))
+                if p.is_file() and not p.is_symlink()
+            }
+            write_dir_atomic(target_dir / doc_dir.name, files)
             logger.info("  Copied {}", doc_dir.name)
 
         logger.info("Pulled {} document(s) into {}", len(doc_dirs), target_dir)
