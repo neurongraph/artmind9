@@ -569,6 +569,9 @@ def test_doctor_reports_the_orphan_end_marker_as_a_failure(tmp_path):
 
     assert check.status == "fail"
     assert check.fix is not None
+    # Without orphan detection this still fails -- as "missing" -- so pin the
+    # reason, not just the verdict.
+    assert "end artmind" in check.detail or "malformed" in check.detail.lower(), check.detail
 
 
 # ── CRLF: only the block's bytes are spliced, never the user's lines ────────
