@@ -43,7 +43,6 @@ The mapping format is documented in the `artmind-create-schema` skill
 from __future__ import annotations
 
 import fnmatch
-import json
 import math
 import re
 from dataclasses import dataclass, field
@@ -1193,19 +1192,21 @@ def stage_dir(domain: str, table_name: str) -> Path:
 
 def write_staged(staged: dict, report: dict, directory: Path) -> None:
     """The same staged files a document's extract leaves behind, so
-    `ingest write-to-graph --folder` can replay a table's contribution too."""
-    directory.mkdir(parents=True, exist_ok=True)
+    `ingest write-to-graph --folder` can replay a table's contribution too.
+    Written as one atomic folder swap (spec 2026-09-26 §5 R2)."""
+    from artmind.ingest import write_staging
 
-    def _write(name: str, obj) -> None:
-        (directory / name).write_text(
-            json.dumps(obj, indent=2, ensure_ascii=False, default=str), encoding="utf-8"
-        )
-
-    _write("document.json", staged["document"])
-    _write("chunks.json", staged["chunks"])
-    _write("observations.json", staged["observations"])
-    _write("relationships.json", staged["relationships"])
-    _write("table2graph_report.json", report)
+    write_staging(
+        directory,
+        {
+            "document.json": staged["document"],
+            "chunks.json": staged["chunks"],
+            "observations.json": staged["observations"],
+            "relationships.json": staged["relationships"],
+            "table2graph_report.json": report,
+        },
+        default=str,
+    )
 
 
 #: Keys rebuilt per transaction. A table's commit is thousands of keys, and

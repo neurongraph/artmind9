@@ -1114,6 +1114,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     and run `ingest embed-chunks` separately later.
     """
     _setup_logger()
+    from artmind.atomic_dir import is_scratch
     from paths import KG_DIR
 
     if folder and document_name:
@@ -1154,12 +1155,15 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     resolved_domain = domain or folder_path.name
     doc_dirs = sorted(
         d for d in folder_path.iterdir()
-        if d.is_dir() and (d / "document.json").exists()
+        if d.is_dir() and not is_scratch(d) and (d / "document.json").exists()
     )
     if not doc_dirs:
-        # Fall back to recursive search
+        # Fall back to recursive search. A `.artmind-tmp`/`.artmind-old`
+        # atomic-write scratch sibling (artmind/atomic_dir.py) can appear
+        # anywhere in the relative path, not just as the doc dir itself.
         doc_dirs = sorted(
             p.parent for p in folder_path.rglob("document.json")
+            if not any(is_scratch(Path(part)) for part in p.parent.relative_to(folder_path).parts)
         )
         if not doc_dirs:
             raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
@@ -2123,7 +2127,7 @@ def db_restore(path, confirm, compact):
 @click.option("--dir", "dest_dir", type=click.Path(), help="Destination directory (default: the vault's structured_text dir)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def db_export_text(dest_dir, compact):
-    """Export the structured store as CSV + manifest.json — git-commitable, diffable text `db restore-text` rebuilds parquet + registry rows from.
+    """Export the structured store as CSV + per-table .meta.json — git-commitable, diffable text `db restore-text` rebuilds parquet + registry rows from.
 
     Unlike `db backup`'s tar.gz, this is meant to live in the vault's git
     history: one reviewable CSV per table, row order stable across re-exports
@@ -2148,7 +2152,7 @@ def db_restore_text(path, confirm, table, domain, compact):
 
     The parquet + DuckDB catalog are a rebuildable cache (`docs/vault.md`) —
     this is the command a fresh `git clone` of a vault runs to regenerate
-    them from the committed CSV + manifest.json. Pass --table to restore only
+    them from the committed CSV + per-table .meta.json. Pass --table to restore only
     specific tables (used internally by `vault sync`'s track B) rather than
     the whole store.
     """
@@ -3407,7 +3411,7 @@ def _vault_status_impl(compact: bool) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active (`status`), and git-diff-driven sync into Neo4j/the structured store (`sync`)."""
+    """Which vault is active (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
     pass
 
 
@@ -3472,6 +3476,36 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
     except Exception as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)
+
+
+@vault.command("doctor")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_doctor_cmd(compact):
+    """Read-only checks that this vault is safe for Obsidian Git to auto-commit and merge.
+
+    Checks that artmind's .gitignore/.gitattributes blocks are current, that
+    no gitignored path is still tracked, that pulls merge rather than rebase,
+    Obsidian Git's stored settings, a leftover ARTMIND_VAULT_GIT_PUSH, and a
+    second sync tool on the same folder. Prints the exact fix for each
+    problem and changes nothing. Exits 1 when any check fails.
+    """
+    _setup_logger()
+    from artmind import vault as vault_mod
+    from artmind.vault_doctor import run as doctor_run
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    result = doctor_run(vault_dir)
+    _echo_json(result, compact)
+    if not result["ok"]:
+        raise SystemExit(1)
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────

@@ -250,3 +250,18 @@ def test_vault_sync_domain_option_reaches_the_cli_layer(tmp_path, monkeypatch):
     )
 
     assert result.exit_code == 0, result.output
+
+
+def test_vault_doctor_reports_json_and_exits_nonzero_on_failure(tmp_path, monkeypatch):
+    import json
+
+    monkeypatch.chdir(tmp_path)
+    assert CliRunner().invoke(cli, ["init"]).exit_code == 0
+    subprocess.run(["git", "config", "pull.rebase", "true"], cwd=tmp_path, check=True)
+
+    result = CliRunner().invoke(cli, ["vault", "doctor", "--compact"])
+
+    assert result.exit_code == 1, result.output
+    payload = json.loads(result.output)
+    assert payload["ok"] is False
+    assert {c["name"]: c["status"] for c in payload["checks"]}["pull.rebase"] == "fail"

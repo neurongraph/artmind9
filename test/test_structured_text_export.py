@@ -35,8 +35,8 @@ def test_export_then_restore_text_round_trips_replace_mode_table(tmp_path, monke
     ingest_structured_file(csv_path, "banking")
 
     # Pipeline auto-exports on ingest -- confirm the text is already there.
-    manifest_path = paths.STRUCTURED_TEXT_DIR / "manifest.json"
-    assert manifest_path.exists()
+    assert (paths.STRUCTURED_TEXT_DIR / "banking" / "products.meta.json").exists()
+    assert not (paths.STRUCTURED_TEXT_DIR / "manifest.json").exists()
     table_csv = paths.STRUCTURED_TEXT_DIR / "banking" / "products.csv"
     assert table_csv.exists()
 
@@ -408,3 +408,141 @@ def test_db_restore_text_cli_table_domain_disambiguation(tmp_path, monkeypatch):
     legal_grain_after = registry.get_table("accounts", domain="legal")["grain"]
     assert legal_accounts_id_after == legal_accounts_id
     assert legal_grain_after == legal_grain_before
+
+
+# ── per-table metadata (spec 2026-09-26 §5 R5) ────────────────────────────────
+
+
+def _two_tables(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+
+    products = tmp_path / "products.csv"
+    _write_csv(products, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+    ingest_structured_file(products, "banking")
+    customers = tmp_path / "customers.csv"
+    _write_csv(customers, [["id", "city"], [1, "Pune"]])
+    ingest_structured_file(customers, "banking")
+
+
+def _wipe_stores():
+    import shutil
+
+    import artmind.db as db
+    import paths
+
+    shutil.rmtree(paths.STRUCTURED_DIR, ignore_errors=True)
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+
+
+def _meta(table):
+    import json
+
+    import paths
+
+    return json.loads((paths.STRUCTURED_TEXT_DIR / "banking" / f"{table}.meta.json").read_text())
+
+
+def test_export_writes_one_meta_file_per_table_without_machine_paths(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    import paths
+    from artmind.structured.text_export import export_structured_text
+
+    export_structured_text()
+
+    meta = _meta("products")
+    assert meta["table"]["table_name"] == "products"
+    assert meta["table"]["domain"] == "banking"
+    assert "parquet_path" not in meta["table"]
+    assert {c["name"] for c in meta["columns"]} == {"id", "name"}
+    assert all(c["table_id"] == meta["table"]["id"] for c in meta["columns"])
+    assert meta["datasource"]["name"] == meta["table"]["datasource"]
+    assert _meta("customers")["table"]["table_name"] == "customers"
+    assert not (paths.STRUCTURED_TEXT_DIR / "manifest.json").exists()
+
+
+def test_scoped_export_writes_only_the_touched_tables_meta(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.text_export import export_structured_text
+
+    customers_meta = paths.STRUCTURED_TEXT_DIR / "banking" / "customers.meta.json"
+    customers_meta.unlink()
+
+    export_structured_text(tables=[registry.get_table("products", domain="banking")])
+
+    assert (paths.STRUCTURED_TEXT_DIR / "banking" / "products.meta.json").exists()
+    assert not customers_meta.exists()
+
+
+def test_a_legacy_manifest_is_migrated_then_removed_on_export(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    import json
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.text_export import export_structured_text
+
+    st = paths.STRUCTURED_TEXT_DIR
+    (st / "manifest.json").write_text(json.dumps(registry.dump_all(), default=str))
+    for p in st.glob("*/*.meta.json"):
+        p.unlink()
+
+    result = export_structured_text(tables=[registry.get_table("products", domain="banking")])
+
+    assert not (st / "manifest.json").exists()
+    assert result["legacy_manifest_removed"] is True
+    # customers was NOT in the scoped export, yet its metadata survived.
+    assert {c["name"] for c in _meta("customers")["columns"]} == {"id", "city"}
+    assert "parquet_path" not in _meta("customers")["table"]
+
+
+def test_import_falls_back_to_a_legacy_manifest(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    import json
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.text_export import import_structured_text
+
+    st = paths.STRUCTURED_TEXT_DIR
+    (st / "manifest.json").write_text(json.dumps(registry.dump_all(), default=str))
+    for p in st.glob("*/*.meta.json"):
+        p.unlink()
+    _wipe_stores()
+
+    summary = import_structured_text()
+
+    assert summary["tables_loaded"] == 2
+    assert registry.get_table("products", domain="banking")["row_count"] == 2
+
+
+def test_import_prefers_meta_over_a_legacy_manifest_for_the_same_table(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    import json
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.text_export import import_structured_text
+
+    legacy = registry.dump_all()
+    for row in legacy["tables"]:
+        row["row_count"] = 999
+    (paths.STRUCTURED_TEXT_DIR / "manifest.json").write_text(json.dumps(legacy, default=str))
+    _wipe_stores()
+
+    import_structured_text()
+
+    assert registry.get_table("products", domain="banking")["row_count"] == 2
+    assert registry.get_table("customers", domain="banking")["row_count"] == 1
+
+
+def test_import_with_no_metadata_at_all_names_both_forms(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.text_export import import_structured_text
+
+    (tmp_path / "empty").mkdir()
+    with pytest.raises(FileNotFoundError, match=r"\.meta\.json.*manifest\.json"):
+        import_structured_text(tmp_path / "empty")

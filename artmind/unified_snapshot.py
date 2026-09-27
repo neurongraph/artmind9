@@ -43,10 +43,16 @@ def _archive_kgs(temp_dir: Path) -> tuple[Path, dict]:
             pass
         return archive_path, {"document_count": 0, "size_bytes": 0}
 
-    doc_count = sum(1 for _ in KG_DIR.rglob("*.json"))
+    from artmind.atomic_dir import is_scratch
+
+    kg_files = [
+        f for f in KG_DIR.rglob("*.json")
+        if not any(is_scratch(Path(part)) for part in f.relative_to(KG_DIR).parts)
+    ]
+    doc_count = len(kg_files)
 
     with tarfile.open(archive_path, "w:gz") as tar:
-        for kg_file in KG_DIR.rglob("*.json"):
+        for kg_file in kg_files:
             arcname = kg_file.relative_to(KG_DIR.parent)
             tar.add(kg_file, arcname=arcname)
 

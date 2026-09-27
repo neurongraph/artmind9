@@ -4,7 +4,7 @@ from pathlib import Path
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
 from artmind.schema_validate import validate_all_or_raise
-from artmind.vault import VaultLayout, resolve_vault, write_gitignore
+from artmind.vault import VaultLayout, resolve_vault, write_gitattributes, write_gitignore
 from paths import (
     ARTMIND_DATA_DIR,
     ARTMIND_HOME,
@@ -422,6 +422,7 @@ def scaffold_vault(
     linked = _symlink_skills(layout.skills_dir)
     linked_opencode = _symlink_opencode_agents(layout.opencode_agents_dir)
     gitignore_written = write_gitignore(root)
+    gitattributes_written = write_gitattributes(root)
     machine_config = ensure_machine_config()
 
     git_remote_status = None
@@ -436,6 +437,7 @@ def scaffold_vault(
         "skills": linked,
         "opencode_agents": linked_opencode,
         "gitignore": gitignore_written,
+        "gitattributes": gitattributes_written,
         "machine_config": machine_config,
         "git_remote": git_remote_status,
     }

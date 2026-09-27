@@ -900,7 +900,10 @@ observation ids (`source_observation_id`/`target_observation_id`), not resolved 
 because two rows can render the same name. Unlike a document, the rebuild is *not* in the
 observation transaction: it runs afterwards in batches of `REBUILD_BATCH` keys, never
 splitting a same-as group (`_plan_groups` only folds a group whose members are all in scope).
-A failed batch leaves the projection partly stale until the idempotent re-run.
+A failed batch leaves the projection partly stale until the idempotent re-run. For the full
+mapping-file rule set (transform names, field-spec resolution order, condition types, lookup
+policies, version modes) see `artmind/skills/artmind-create-schema/references/table_mapping.md`
+— this row states the capability, not the syntax.
 *Test hint* — map a table with two rows sharing a display name but not a natural key, and
 confirm two entities with distinct keys; re-run and confirm the prior observations are
 demoted (`retracted.observations_demoted`), not duplicated; for an SCD-2 table, confirm last

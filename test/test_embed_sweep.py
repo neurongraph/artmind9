@@ -483,3 +483,34 @@ def test_without_no_embed_the_sweep_runs(tmp_path, monkeypatch):
 
     assert result.exit_code == 0, result.output
     mock_sweep.assert_called_once()
+
+
+# ── write-to-graph --folder: atomic-write scratch siblings are skipped ──────
+#
+# A crash mid `write_dir_atomic` (artmind/atomic_dir.py) can leave a
+# `<name>.artmind-tmp`/`<name>.artmind-old` sibling next to a real staging
+# folder, both gitignored and both still carrying a document.json. Batch
+# write-to-graph must never treat either as a document to write.
+
+def test_folder_mode_skips_atomic_write_scratch_siblings(tmp_path, monkeypatch):
+    from artmind.cli import cli
+
+    folder = tmp_path / "kg" / "general"
+    for name in ("doc1", "doc1.artmind-old", "doc2.artmind-tmp", "doc2"):
+        d = folder / name
+        d.mkdir(parents=True)
+        (d / "document.json").write_text("{}")
+
+    written = []
+    runner = CliRunner()
+
+    with patch(
+        "artmind.cli.commit_to_graph",
+        side_effect=lambda doc_kg_dir, domain: written.append(doc_kg_dir.name) or True,
+    ), patch("artmind.cli._run_chunk_embed_sweep"):
+        result = runner.invoke(
+            cli, ["ingest", "write-to-graph", "--folder", str(folder), "--domain", "general"]
+        )
+
+    assert result.exit_code == 0, result.output
+    assert sorted(written) == ["doc1", "doc2"]

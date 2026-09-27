@@ -629,11 +629,12 @@ def restore_tables(dump: dict, table_keys: list[tuple[str, str]]) -> None:
     registered table's rows and ids untouched. `datasources` is left alone
     unless a restored table's own datasource row doesn't currently exist.
 
-    Raises `ValueError` if a requested pair isn't in `dump["tables"]` -- the
-    manifest is always a full dump (`export_structured_text`'s own
-    docstring), so a requested table missing from it means the diff and the
-    manifest have drifted, which should fail loudly rather than silently
-    skip the table.
+    Raises `ValueError` if a requested pair isn't in `dump["tables"]`. Since
+    spec 2026-09-26 §5 R5, `dump` is assembled from one `.meta.json` per
+    table (falling back to a legacy full `manifest.json` when no per-table
+    meta exists) rather than always being a single full-registry dump, so a
+    requested table missing from it means the diff and that metadata have
+    drifted, which should fail loudly rather than silently skip the table.
 
     Same id-preservation contract as `restore_all`, and the same assumption:
     this is for a host whose registry rows, for these tables, were

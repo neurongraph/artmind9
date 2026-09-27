@@ -52,6 +52,31 @@ def test_curation_is_valid_but_not_in_the_default_set():
     assert "curation" not in unified_snapshot.DEFAULT_COMPONENTS
 
 
+# ── _archive_kgs ──────────────────────────────────────────────────────────────
+
+
+def test_archive_kgs_excludes_atomic_write_scratch_folders(env, tmp_path, monkeypatch):
+    """A `.artmind-tmp`/`.artmind-old` sibling (artmind/atomic_dir.py) left by
+    a crash mid atomic-write must never end up in the KG snapshot archive --
+    it's scratch, not a real staging folder, and `.artmind-tmp` in particular
+    may be an incomplete write."""
+    kg_dir = tmp_path / "data" / "kg"
+    monkeypatch.setattr(unified_snapshot, "KG_DIR", kg_dir)
+
+    for name in ("doc1", "doc1.artmind-old", "doc2.artmind-tmp"):
+        d = kg_dir / "general" / name
+        d.mkdir(parents=True)
+        (d / "document.json").write_text("{}")
+
+    archive_path, meta = unified_snapshot._archive_kgs(tmp_path)
+
+    assert meta["document_count"] == 1
+    with tarfile.open(archive_path, "r:gz") as tar:
+        names = tar.getnames()
+    assert any(n.endswith("doc1/document.json") for n in names)
+    assert not any(".artmind-old" in n or ".artmind-tmp" in n for n in names)
+
+
 # ── _archive_curation ─────────────────────────────────────────────────────────
 
 

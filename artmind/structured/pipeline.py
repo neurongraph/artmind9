@@ -340,7 +340,7 @@ def _project_catalogue_best_effort(domain: str) -> None:
 
 
 def _export_text_best_effort(domain: str, table_names: list[str]) -> None:
-    """Re-export ``table_names``' CSV + manifest.json into the vault's
+    """Re-export ``table_names``' CSV + per-table .meta.json into the vault's
     structured_text dir (``structured/text_export.py`` -- the git-commitable
     text ``db reindex`` rebuilds parquet + registry rows from). Best-effort for
     the same reason as ``_project_catalogue_best_effort``: a write to the
