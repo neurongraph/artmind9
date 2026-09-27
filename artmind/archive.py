@@ -322,26 +322,32 @@ def restore_from_archive(
     doc_kg_dir = KG_DIR / domain / target_path.stem
     restored_kg = False
     if bundle_kg_dir.exists():
-        if doc_kg_dir.exists():
-            shutil.rmtree(doc_kg_dir)
-        shutil.copytree(bundle_kg_dir, doc_kg_dir)
-        restored_kg = True
-        if new_id or to_path:
+        from artmind.atomic_dir import write_dir_atomic
+
+        # The whole folder is rebuilt from the bundle and swapped in at once
+        # (spec 2026-09-26 §5 R2, §14 A4): an Obsidian Git timer commit never
+        # captures a half-copied folder, nor the bundle's document.json before
+        # its identity is re-pointed below. Wholesale (`carry_over=False`), as
+        # the rmtree + copytree this replaces was.
+        files: dict[str, bytes] = {
+            p.relative_to(bundle_kg_dir).as_posix(): p.read_bytes()
+            for p in sorted(bundle_kg_dir.rglob("*"))
+            if p.is_file()
+        }
+        if (new_id or to_path) and "document.json" in files:
             # A fork/rename restore -- the staged JSON's own identity fields
             # still point at the archived original; re-point them so the
             # commit below writes under `restore_id`/`target_path`, not a
             # collision with the id/path this bundle was archived from.
-            doc_json_path = doc_kg_dir / "document.json"
-            if doc_json_path.exists():
-                doc_json = json.loads(doc_json_path.read_text(encoding="utf-8"))
-                doc_json["id"] = restore_id
-                if "artmind_id" in doc_json:
-                    doc_json["artmind_id"] = restore_id
-                doc_json["path"] = str(target_path)
-                doc_json["name"] = target_path.name
-                doc_json_path.write_text(
-                    json.dumps(doc_json, ensure_ascii=False, indent=2), encoding="utf-8"
-                )
+            doc_json = json.loads(files["document.json"].decode("utf-8"))
+            doc_json["id"] = restore_id
+            if "artmind_id" in doc_json:
+                doc_json["artmind_id"] = restore_id
+            doc_json["path"] = str(target_path)
+            doc_json["name"] = target_path.name
+            files["document.json"] = json.dumps(doc_json, ensure_ascii=False, indent=2).encode("utf-8")
+        write_dir_atomic(doc_kg_dir, files, carry_over=False)
+        restored_kg = True
 
     committed = False
     retire_result = None

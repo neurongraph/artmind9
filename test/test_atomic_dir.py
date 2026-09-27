@@ -128,3 +128,19 @@ def test_is_scratch():
     assert is_scratch(Path("kg/general/doc.artmind-old"))
     assert not is_scratch(Path("kg/general/doc"))
     assert not is_scratch(Path("kg/general/table__accounts"))
+
+
+def test_carry_over_false_replaces_the_folder_wholesale(tmp_path):
+    """A restore or import rebuilds the whole folder from its source; nothing
+    from the old folder may survive (spec 2026-09-26 §14 A4)."""
+    target = tmp_path / "doc"
+    (target / "chunks").mkdir(parents=True)
+    (target / "chunks" / "0.json").write_text("stale cache")
+    (target / "observations.json").write_text("v1")
+
+    write_dir_atomic(target, {"observations.json": "v2", "chunks/1.json": "new"}, carry_over=False)
+
+    files = sorted(p.relative_to(target).as_posix() for p in target.rglob("*") if p.is_file())
+    assert files == ["chunks/1.json", "observations.json"]
+    assert (target / "observations.json").read_text() == "v2"
+    assert _siblings(target) == ["doc"]
