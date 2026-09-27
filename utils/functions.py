@@ -6,6 +6,7 @@ import shlex
 import subprocess
 import threading
 import time
+from collections.abc import Sequence
 from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
 from paths import (
@@ -74,7 +75,7 @@ def log_llm_call(call_type: str, model: str, prompt: str, response: str) -> None
 _ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 def run_command(
-    cmd: "str | list[str]",
+    cmd: "str | Sequence[str | os.PathLike]",
     timeout: int | None = None,
     cwd: Path | None = None,
     extra_env: dict | None = None,

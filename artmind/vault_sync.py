@@ -14,7 +14,6 @@ commits (spec 2026-09-26-vault-git-transport-design.md, §6 A1, D1).
 from __future__ import annotations
 
 import io
-import shutil
 import subprocess
 import tarfile
 import tempfile
@@ -211,23 +210,6 @@ def _vault_relative_mapping_error(e: Exception, scratch: Path, head: str) -> str
     Strip the scratch prefix back to the vault-relative path they actually
     have, and say which `head` it was read at."""
     return f"{str(e).replace(str(scratch) + '/', '')} (at {head[:12]})"
-
-
-def _carry_sidecar(live_dir: Path, snap_dir: Path) -> None:
-    """Copy the gitignored embedding sidecar from the live staging folder into
-    its HEAD snapshot -- only when the live `chunks.json` is byte-identical to
-    the committed one. The sidecar's vectors belong to the on-disk chunks;
-    attaching them to different committed chunks would pair a chunk id with
-    the wrong vector. Without it, the chunk embed sweep recomputes locally."""
-    from artmind.ingest import EMBEDDING_SIDECAR
-
-    sidecar = live_dir / EMBEDDING_SIDECAR
-    live_chunks = live_dir / "chunks.json"
-    snap_chunks = snap_dir / "chunks.json"
-    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
-        return
-    if live_chunks.read_bytes() == snap_chunks.read_bytes():
-        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
 
 
 from dataclasses import dataclass, field
@@ -686,7 +668,7 @@ def sync(
             )
             for domain, docdir in plan.replay_docs:
                 snap_dir = scratch / kg_rel / domain / docdir
-                _carry_sidecar(KG_DIR / domain / docdir, snap_dir)
+                ingest.carry_embedding_sidecar(KG_DIR / domain / docdir, snap_dir)
                 summary = ingest._write_to_neo4j(snap_dir, domain, defer_rebuild=True)
                 if summary is None:
                     raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")

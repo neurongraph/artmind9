@@ -352,8 +352,9 @@ def test_ingest_sync_leaves_git_history_and_index_untouched(monkeypatch, tmp_pat
         ["git", "rev-parse", "HEAD"], cwd=vault, capture_output=True, text=True, check=True
     ).stdout.strip()
 
-    # Point vault_git at this repo so, before the fix, commit_paths really
-    # commits here (and never touches whatever vault the developer has active).
+    # Point vault_git at this repo, so any git write artmind made during the
+    # batch would land here, where the assertions below catch it (and never
+    # in whatever vault the developer has active).
     monkeypatch.setattr("artmind.vault_git.ARTMIND_VAULT_DIR", vault)
     monkeypatch.setattr(cli_mod, "collect_ingest_files", lambda p: files)
     monkeypatch.setattr("artmind.ingest.rebuild_projection", lambda d: {})

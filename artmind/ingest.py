@@ -1430,6 +1430,22 @@ def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
         return {}
 
 
+def carry_embedding_sidecar(live_dir: Path, snap_dir: Path) -> None:
+    """Copy the gitignored embedding sidecar from a live staging folder into
+    a snapshot of it (`vault sync` replays from a copy of HEAD) -- only when
+    the live `chunks.json` is byte-identical to the snapshot's. The sidecar's
+    vectors belong to the on-disk chunks; attaching them to different chunks
+    would pair a chunk id with the wrong vector. Without it, the chunk embed
+    sweep recomputes locally."""
+    sidecar = live_dir / EMBEDDING_SIDECAR
+    live_chunks = live_dir / "chunks.json"
+    snap_chunks = snap_dir / "chunks.json"
+    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
+        return
+    if live_chunks.read_bytes() == snap_chunks.read_bytes():
+        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
+
+
 def write_staging(doc_kg_dir: Path, documents: dict[str, object], *, default=None) -> None:
     """Write a staging folder's JSON files as one atomic swap (spec
     2026-09-26 §5 R2), so an Obsidian Git auto-commit can never capture a
