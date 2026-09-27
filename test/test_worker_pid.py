@@ -80,6 +80,8 @@ def test_the_worker_does_not_start_beside_another_users_worker(tmp_path, monkeyp
     pid_file = tmp_path / "worker.pid"
     pid_file.write_text("4242")
     monkeypatch.setattr(worker, "WORKER_PID_FILE", pid_file)
+    monkeypatch.setattr(worker, "_pid_file_handle", None)
+    monkeypatch.setattr(worker.time, "sleep", lambda s: None)  # skip the real retry delay
     holder = open(pid_file, "r+")
     fcntl.flock(holder.fileno(), fcntl.LOCK_EX)
     try:
@@ -95,12 +97,66 @@ def test_the_worker_overwrites_a_stale_pid_file(tmp_path, monkeypatch):
     pid_file = tmp_path / "worker.pid"
     pid_file.write_text("999999999")
     monkeypatch.setattr(worker, "WORKER_PID_FILE", pid_file)
+    monkeypatch.setattr(worker, "_pid_file_handle", None)
 
     assert worker._acquire_pid_file() is True
-    assert pid_file.read_text() == str(os.getpid())
-    # The worker now holds the lock itself, so a second liveness check sees
-    # it as alive.
-    assert live_pid(pid_file) == os.getpid()
+    try:
+        assert pid_file.read_text() == str(os.getpid())
+        # The worker now holds the lock itself, so a second liveness check
+        # sees it as alive.
+        assert live_pid(pid_file) == os.getpid()
+    finally:
+        worker._release_pid_file()
+
+
+def test_worker_cleanup_does_not_unlink_the_pid_file(tmp_path, monkeypatch):
+    """A worker exiting must not unlink its pid file: the lock lives on the
+    inode, but `live_pid` finds the file by path, so unlinking would let the
+    next process open a fresh inode, take an uncontended lock on it, and
+    register as "no worker" while the old inode's lock is still held --
+    two workers end up running at once."""
+    import artmind.worker as worker
+
+    pid_file = tmp_path / "worker.pid"
+    monkeypatch.setattr(worker, "WORKER_PID_FILE", pid_file)
+    monkeypatch.setattr(worker, "_pid_file_handle", None)
+
+    assert worker._acquire_pid_file() is True
+    worker._release_pid_file()
+
+    assert pid_file.exists()
+    # The handle is closed, so the lock is gone too -- the file is simply
+    # stale, and the next worker's `_acquire_pid_file` overwrites it in place.
+    assert live_pid(pid_file) is None
+
+
+def test_acquire_retries_the_lock_before_giving_up(tmp_path, monkeypatch):
+    """`live_pid` briefly takes the lock to probe liveness. If a starting
+    worker's `LOCK_NB` attempt lands inside that window it must retry, not
+    immediately conclude another worker is running."""
+    import artmind.worker as worker
+
+    pid_file = tmp_path / "worker.pid"
+    monkeypatch.setattr(worker, "WORKER_PID_FILE", pid_file)
+    monkeypatch.setattr(worker, "_pid_file_handle", None)
+    monkeypatch.setattr(worker.time, "sleep", lambda s: None)
+
+    real_flock = fcntl.flock
+    calls = {"n": 0}
+
+    def _flaky_flock(fd, op):
+        calls["n"] += 1
+        if calls["n"] <= 2:
+            raise BlockingIOError()
+        return real_flock(fd, op)
+
+    monkeypatch.setattr(worker.fcntl, "flock", _flaky_flock)
+
+    try:
+        assert worker._acquire_pid_file() is True
+        assert calls["n"] == 3
+    finally:
+        worker._release_pid_file()
 
 
 def test_the_cli_does_not_spawn_beside_another_users_worker(tmp_path, monkeypatch):

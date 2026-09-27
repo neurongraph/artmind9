@@ -3,6 +3,7 @@
 import fcntl
 import os
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -26,6 +27,14 @@ WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
 _pid_file_handle = None
 
 
+# `live_pid` briefly takes this same lock (LOCK_EX, then releases it) to
+# probe whether anyone holds it. A starting worker's own LOCK_NB attempt can
+# land inside that window, so a bare single attempt could see a transient
+# "already running" and exit -- retry briefly before believing it.
+_LOCK_ATTEMPTS = 6  # the first attempt, plus up to 5 retries
+_LOCK_RETRY_DELAY_S = 0.05
+
+
 def _acquire_pid_file() -> bool:
     """Take the pid file's exclusive flock, or refuse if another worker
     already holds it (review follow-up: liveness is the lock, not the pid
@@ -34,17 +43,21 @@ def _acquire_pid_file() -> bool:
     global _pid_file_handle
     existed = WORKER_PID_FILE.exists()
     fd = open(WORKER_PID_FILE, "a+")
-    try:
-        fcntl.flock(fd.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except BlockingIOError:
-        fd.seek(0)
+    for attempt in range(_LOCK_ATTEMPTS):
         try:
-            pid = int(fd.read().strip())
-        except (OSError, ValueError, OverflowError):
-            pid = None
-        fd.close()
-        logger.warning("Worker already running (PID {}), exiting", pid)
-        return False
+            fcntl.flock(fd.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            break
+        except BlockingIOError:
+            if attempt == _LOCK_ATTEMPTS - 1:
+                fd.seek(0)
+                try:
+                    pid = int(fd.read().strip())
+                except (OSError, ValueError, OverflowError):
+                    pid = None
+                fd.close()
+                logger.warning("Worker already running (PID {}), exiting", pid)
+                return False
+            time.sleep(_LOCK_RETRY_DELAY_S)
     if existed:
         logger.info("Stale PID file found, overwriting")
     fd.seek(0)
@@ -53,6 +66,22 @@ def _acquire_pid_file() -> bool:
     fd.flush()
     _pid_file_handle = fd  # hold the lock for this process's lifetime
     return True
+
+
+def _release_pid_file() -> None:
+    """Release this process's hold on the pid file at exit.
+
+    Deliberately does NOT unlink it. Locks live on the inode, but `live_pid`
+    finds the file by *path*: if this unlinked it, a fresh process could
+    open a new inode at the same path and take an uncontended lock while an
+    older, slower-to-exit process's lock on the orphaned old inode was still
+    live -- `live_pid` would then report "no worker" and let a third worker
+    start, so two would run at once. An unlocked, stale pid file is
+    harmless: the next worker's `_acquire_pid_file` overwrites it in place."""
+    global _pid_file_handle
+    if _pid_file_handle is not None:
+        _pid_file_handle.close()
+        _pid_file_handle = None
 
 
 def _get_queued_files(job_id: str) -> list[str]:
@@ -256,7 +285,7 @@ def _worker_loop(env: dict) -> None:
             return
 
 
-if __name__ == "__main__":
+def main() -> None:
     logger.remove()
     logger.add(
         WORKER_LOG,
@@ -276,4 +305,8 @@ if __name__ == "__main__":
     try:
         _worker_loop(load_env())
     finally:
-        WORKER_PID_FILE.unlink(missing_ok=True)
+        _release_pid_file()
+
+
+if __name__ == "__main__":
+    main()
