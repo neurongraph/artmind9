@@ -222,6 +222,62 @@ def test_classify_diff_does_not_retract_when_the_new_folder_already_exists_at_he
     assert plan.retract == []
 
 
+# ── _document_ids_at_head: never sends a path through cat-file (re-review item 1) ─
+
+
+def test_document_ids_at_head_handles_a_missing_document_json_in_a_spaced_folder_name(repo, monkeypatch):
+    """A folder name with a space, whose observations.json is present but
+    document.json is not: `git show head:.../x y/document.json` (or any
+    path-based cat-file spec) replies '... missing', and the old parser's
+    `int(b"missing")` blew up with ValueError. The fixed parser never sends
+    a path to cat-file at all -- only oids ls-tree already proved exist --
+    so this folder simply contributes no id, and does not crash."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    folder = kg_dir / "banking" / "x y"
+    folder.mkdir(parents=True)
+    (folder / "observations.json").write_text("[]")
+    _commit_all(repo, "folder with a space, no document.json")
+
+    kg_rel = kg_dir.relative_to(repo)
+    result = vs._document_ids_at_head(repo, vs.head_sha(repo), kg_rel, ["banking"])
+
+    assert result.get("banking", set()) == set()
+
+
+def test_document_ids_at_head_skips_a_non_object_document_json(repo, monkeypatch):
+    """document.json that parses as valid JSON but isn't an object (e.g. a
+    bare list) must be skipped, not crash on `.get`/`[...]`."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    folder = kg_dir / "banking" / "doc1"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text("[]")
+    (folder / "observations.json").write_text("[]")
+    _commit_all(repo, "document.json is a list, not an object")
+
+    kg_rel = kg_dir.relative_to(repo)
+    result = vs._document_ids_at_head(repo, vs.head_sha(repo), kg_rel, ["banking"])
+
+    assert result.get("banking", set()) == set()
+
+
+def test_document_ids_at_head_reads_non_ascii_folders_and_multiline_content(repo, monkeypatch):
+    """Regression pin: a non-ASCII folder name and a document.json blob
+    containing embedded newlines (pretty-printed JSON) must both be read
+    correctly -- the parser reads exactly `size` bytes by byte length, never
+    by line, and oids (not paths) survive non-ASCII names untouched."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    folder = kg_dir / "banking" / "café"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text('{\n  "id": "docid-café"\n}\n')
+    (folder / "observations.json").write_text("[]")
+    _commit_all(repo, "non-ascii folder, multiline document.json")
+
+    kg_rel = kg_dir.relative_to(repo)
+    result = vs._document_ids_at_head(repo, vs.head_sha(repo), kg_rel, ["banking"])
+
+    assert result == {"banking": {"docid-café"}}
+
+
 def test_classify_diff_ignores_a_removed_table_folder(repo, monkeypatch):
     """Spec 2026-09-26 §5 R4: `.artmind/data/kg/*/table__*/` is gitignored,
     and "Track A of the sync spec no longer sees them; track B regenerates

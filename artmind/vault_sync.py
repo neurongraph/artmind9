@@ -247,9 +247,15 @@ def _document_ids_at_head(vault_dir: Path, head: str, kg_rel: Path, domains: lis
     landed in may have been added (and already replayed) in an earlier sync
     (spec 2026-09-27 item 2's two-run case).
 
-    One `git ls-tree` to find the paths, then one `git cat-file --batch` to
-    read every `document.json` blob in a single process -- the spec's
-    suggested shape, versus one `git show` per folder.
+    Never feeds a PATH to `git cat-file` (re-review item 1): a folder that
+    has `observations.json` but no `document.json` at `head` -- e.g. a
+    half-written folder, or simply one that never got one -- would make
+    `<head>:<path>` reply "missing", which a size-shaped parser can only
+    mishandle. Instead: one `git ls-tree` (no `--name-only`, so it hands
+    back each blob's oid) to find which folders have both files and which
+    oid their `document.json` is, then one `git cat-file --batch` fed those
+    oids directly -- oids ls-tree already proved exist, so "missing" cannot
+    occur.
     """
     import json
 
@@ -258,22 +264,38 @@ def _document_ids_at_head(vault_dir: Path, head: str, kg_rel: Path, domains: lis
     if not domains:
         return {}
     rel_scopes = [str(kg_rel / d) for d in sorted(set(domains))]
-    listing = _git(vault_dir, ["ls-tree", "-r", "-z", "--name-only", head, "--", *rel_scopes])
+    # No `--name-only`: each NUL-separated entry is `<mode> <type> <oid>\t<path>`.
+    listing = _git(vault_dir, ["ls-tree", "-r", "-z", head, "--", *rel_scopes])
     folders_with_obs: set[tuple[str, str]] = set()
-    for p in listing.split("\0"):
-        if not p:
+    doc_oid: dict[tuple[str, str], str] = {}
+    for entry in listing.split("\0"):
+        if not entry:
             continue
-        parts = Path(p).relative_to(kg_rel).parts
-        if len(parts) != 3 or parts[2] != "observations.json":
+        meta, _, path = entry.partition("\t")
+        try:
+            parts = Path(path).relative_to(kg_rel).parts
+        except ValueError:
             continue
-        if parts[1].startswith("table__") or is_scratch(Path(parts[1])):
+        if len(parts) != 3:
             continue
-        folders_with_obs.add((parts[0], parts[1]))
+        domain, docdir, filename = parts
+        if docdir.startswith("table__") or is_scratch(Path(docdir)):
+            continue
+        if filename == "observations.json":
+            folders_with_obs.add((domain, docdir))
+        elif filename == "document.json":
+            fields = meta.split(" ")
+            if len(fields) == 3 and fields[1] == "blob":
+                doc_oid[(domain, docdir)] = fields[2]
     if not folders_with_obs:
         return {}
-    paths = [str(kg_rel / domain / docdir / "document.json") for domain, docdir in sorted(folders_with_obs)]
+    # Only folders with BOTH files: one missing document.json (any reason --
+    # half-written, deleted, never written) contributes no id, not a crash.
+    targets = [(d, docdir, doc_oid[(d, docdir)]) for d, docdir in sorted(folders_with_obs) if (d, docdir) in doc_oid]
+    if not targets:
+        return {}
 
-    specs = "".join(f"{head}:{p}\n" for p in paths)
+    specs = "".join(f"{oid}\n" for _, _, oid in targets)
     proc = subprocess.run(
         ["git", "cat-file", "--batch"], cwd=vault_dir, input=specs.encode(), capture_output=True,
     )
@@ -283,19 +305,30 @@ def _document_ids_at_head(vault_dir: Path, head: str, kg_rel: Path, domains: lis
 
     ids_by_domain: dict[str, set[str]] = {}
     pos = 0
-    for p in paths:
+    for domain, _docdir, oid in targets:
         nl = out.index(b"\n", pos)
-        fields = out[pos:nl].split()
+        header = out[pos:nl]
         pos = nl + 1
+        fields = header.split(b" ")
         if len(fields) != 3:
-            continue  # "<spec> missing" -- shouldn't happen for a path ls-tree just listed
-        size = int(fields[2])
+            continue
+        _oid, typ, size_field = fields
+        if typ != b"blob":
+            continue
+        try:
+            size = int(size_field)
+        except ValueError:
+            continue
         content, pos = out[pos:pos + size], pos + size + 1  # +1: cat-file's own trailing "\n"
         try:
-            doc_id = json.loads(content.decode("utf-8"))["id"]
-        except (json.JSONDecodeError, KeyError, UnicodeDecodeError):
+            obj = json.loads(content.decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
             continue
-        domain = Path(p).relative_to(kg_rel).parts[0]
+        if not isinstance(obj, dict):
+            continue  # e.g. a document.json that is a bare list -- not ours to read
+        doc_id = obj.get("id")
+        if doc_id is None:
+            continue
         ids_by_domain.setdefault(domain, set()).add(doc_id)
     return ids_by_domain
 
