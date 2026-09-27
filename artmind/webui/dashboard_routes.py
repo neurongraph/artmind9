@@ -19,7 +19,7 @@ from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
-from artmind.atomic_dir import is_scratch
+from artmind.atomic_dir import is_scratch, write_dir_atomic
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
 from artmind.ingest import (
@@ -389,8 +389,8 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         _validate_artifact_segment(domain)
         _validate_artifact_segment(doc)
         dest_dir = KG_DIR / domain / doc
-        dest_dir.mkdir(parents=True, exist_ok=True)
         content = await file.read()
+        files: dict[str, bytes] = {}
         try:
             with zipfile.ZipFile(io.BytesIO(content)) as zf:
                 dest_resolved = dest_dir.resolve()
@@ -398,9 +398,18 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
                     member_path = (dest_dir / member.filename).resolve()
                     if dest_resolved != member_path and dest_resolved not in member_path.parents:
                         raise HTTPException(status_code=400, detail=f"Unsafe zip entry: {member.filename}")
-                zf.extractall(dest_dir)
+                    if not member.is_dir():
+                        files[member.filename] = zf.read(member)
         except zipfile.BadZipFile:
             raise HTTPException(status_code=400, detail="Uploaded file is not a valid zip archive")
+        # One swap (spec 2026-09-26 §5 R2, §14 A4), so an Obsidian Git timer
+        # commit never captures a half-extracted folder. Files the bundle does
+        # not carry (the chunk cache, the embedding sidecar) are kept, exactly
+        # as the extractall this replaces kept them.
+        try:
+            write_dir_atomic(dest_dir, files)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
         ok = await asyncio.to_thread(commit_to_graph, dest_dir, domain)
         if not ok:
             raise HTTPException(status_code=400, detail="write_to_graph failed — check logs for Neo4j errors")

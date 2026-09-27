@@ -1317,3 +1317,40 @@ def test_artifacts_skip_atomic_write_scratch_folders(monkeypatch, tmp_path):
     assert response.status_code == 200
     assert [a["doc"] for a in response.json()] == ["doc1"]
     assert response.json()[0]["entityCount"] == 1
+
+
+def test_artifact_import_swaps_the_folder_in_atomically_keeping_the_sidecar(monkeypatch, tmp_path):
+    """Spec 2026-09-26 §14 A4: one swap, so Obsidian Git never commits a
+    half-extracted folder. Files the zip does not carry are kept, as the old
+    extractall kept them."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph", lambda doc_dir, domain: True)
+    dest = tmp_path / "general" / "doc1"
+    dest.mkdir(parents=True)
+    (dest / "observations.json").write_text('["old"]')
+    (dest / "embeddings.json").write_text("{}")
+
+    swaps = []
+    real_swap = dashboard_routes.write_dir_atomic
+    monkeypatch.setattr(
+        dashboard_routes, "write_dir_atomic",
+        lambda target, files, **kw: swaps.append((target, sorted(files))) or real_swap(target, files, **kw),
+    )
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("document.json", json.dumps({"name": "doc1.pdf"}))
+        zf.writestr("observations.json", '["new"]')
+        zf.writestr("chunks/sha/0.json", "{}")
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "general", "doc": "doc1"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+
+    assert response.status_code == 200, response.text
+    assert swaps == [(dest, ["chunks/sha/0.json", "document.json", "observations.json"])]
+    assert (dest / "observations.json").read_text() == '["new"]'
+    assert (dest / "embeddings.json").read_text() == "{}"
+    assert sorted(p.name for p in dest.parent.iterdir()) == ["doc1"]
