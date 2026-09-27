@@ -325,9 +325,18 @@ re-register.
 
 ### I. A structured table's classification is stuck, or you want to re-classify it
 
-Structured files (csv/xlsx, ingested with the same `artmind ingest sync FILE --domain DOMAIN`)
+Structured files (csv/xlsx, ingested with the same `artmind ingest sync FILE` — the domain
+comes from the file's folder mapping in `.artmind/vault.yaml`, else `--domain DOMAIN`)
 register as **tables**, not documents. After registration each table gets classified in three
 independent steps, each tracking its own status — `pending` | `ok` | `failed`:
+
+**A registered table already knows its domain — never ask the user for it.** Every command
+that takes a TABLE (`db schema`, `db grain`, `db propose`, `db mappings`, `ingest table2graph`,
+…) resolves it by name from the structured registry and uses the domain it was ingested under,
+so **omit `--domain`**. Only if the command fails with "ambiguous across domains" (the same
+table name registered in two domains) pass `--domain` — and take the candidates from that
+error, or from `artmind db list --compact`, rather than asking. The `--domain DOMAIN` in the
+examples below is that optional narrowing.
 
 | Step | Answers | Confirm with |
 |---|---|---|
@@ -402,11 +411,14 @@ columns, and which relationships connect them. Authoring one is `/artmind-create
 job (its "Table mappings" section); running it is this skill's.
 
 ```bash
-artmind ingest table2graph TABLE --domain DOMAIN --dryRun   # validate + counts, writes nothing
-artmind ingest table2graph TABLE --domain DOMAIN            # stage + commit + embed sweeps
-artmind ingest table2graph TABLE --noEmbed                  # big table: embed later
+artmind ingest table2graph TABLE --dryRun   # validate + counts, writes nothing
+artmind ingest table2graph TABLE            # stage + commit + embed sweeps
+artmind ingest table2graph TABLE --noEmbed  # big table: embed later
 artmind ingest embed-entities --domain DOMAIN && artmind ingest embed-chunks
 ```
+
+No `--domain` needed: the table's own registered domain is used (see Situation I). The dry-run
+report's `domain` field shows which one; use that for the `embed-entities` line.
 
 The mapping is found by its `table:` glob (`hercules_output_*` matches every dated export);
 pass `--mapping FILE` to override. Several TABLEs may be given at once.
