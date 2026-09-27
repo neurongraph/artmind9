@@ -52,6 +52,13 @@ def check_block(vault_dir: Path, filename: str, block: str) -> Check:
     status = block_status(vault_dir / filename, block)
     if status == "current":
         return Check(name, OK, "present and current")
+    if status == "duplicate":
+        return Check(
+            name, FAIL, "more than one artmind block",
+            f"edit {filename} by hand so it has exactly one artmind block (keep the newest, "
+            "delete the others from their '# ── artmind' line through their '# ── end artmind' "
+            "line), then run `artmind init` in the vault root",
+        )
     if status == "malformed":
         return Check(
             name, FAIL, "artmind block has a start line but no '# ── end artmind' line",

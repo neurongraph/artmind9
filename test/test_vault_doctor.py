@@ -93,6 +93,17 @@ def test_tracked_table_folders_are_reported_with_the_exact_untrack_command(repo)
     assert ".artmind/data/kg/banking/table__accounts/document.json" in _git(repo, "ls-files")
 
 
+def test_a_duplicate_artmind_block_fails_with_a_hand_edit_fix(repo):
+    text = (repo / ".gitignore").read_text()
+    (repo / ".gitignore").write_text(text + "\n" + vault.GITIGNORE_BLOCK)
+
+    check = _by_name(doc.run(repo))[".gitignore artmind block"]
+
+    assert check["status"] == "fail"
+    assert "more than one" in check["detail"]
+    assert "exactly one" in check["fix"]
+
+
 def test_pull_rebase_true_fails(repo):
     _git(repo, "config", "pull.rebase", "true")
 

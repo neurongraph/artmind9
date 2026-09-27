@@ -479,17 +479,49 @@ def test_block_status_reports_missing_outdated_current_and_malformed(tmp_path):
     assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "outdated"
     vault.write_gitignore(tmp_path)
     assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
-    path.write_text("# ── artmind (v2) ─── no end marker\n.artmind/config.env\n")
+    path.write_text("# ── artmind (v2) ───\n.artmind/config.env\n")
     assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "malformed"
 
 
 def test_a_malformed_block_is_refused_not_guessed(tmp_path):
-    (tmp_path / ".gitignore").write_text("# ── artmind ─── no end marker\nmine\n")
+    (tmp_path / ".gitignore").write_text("# ── artmind ───\nmine\n")
 
     with pytest.raises(vault.VaultError, match="end artmind"):
         vault.write_gitignore(tmp_path)
 
-    assert (tmp_path / ".gitignore").read_text() == "# ── artmind ─── no end marker\nmine\n"
+    assert (tmp_path / ".gitignore").read_text() == "# ── artmind ───\nmine\n"
+
+
+def test_a_user_comment_that_starts_like_the_header_is_not_the_block(tmp_path):
+    original = "# ── artmind ─ my own rules below\nmine\n"
+    (tmp_path / ".gitignore").write_text(original)
+
+    assert vault.block_status(tmp_path / ".gitignore", vault.GITIGNORE_BLOCK) == "missing"
+    assert vault.write_gitignore(tmp_path) is True
+    assert (tmp_path / ".gitignore").read_text() == original + "\n" + vault.GITIGNORE_BLOCK
+
+
+def test_crlf_line_endings_are_preserved(tmp_path):
+    path = tmp_path / ".gitignore"
+    path.write_bytes(("user-before\n\n" + _V1_BLOCK + "user-after\n").replace("\n", "\r\n").encode())
+
+    assert vault.write_gitignore(tmp_path) is True
+
+    expected = ("user-before\n\n" + vault.GITIGNORE_BLOCK + "user-after\n").replace("\n", "\r\n")
+    assert path.read_bytes() == expected.encode()
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
+    assert vault.write_gitignore(tmp_path) is False
+
+
+def test_a_second_artmind_block_is_reported_and_refused(tmp_path):
+    path = tmp_path / ".gitignore"
+    original = vault.GITIGNORE_BLOCK + "\nmine\n\n" + _V1_BLOCK
+    path.write_text(original)
+
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "duplicate"
+    with pytest.raises(vault.VaultError, match="2 artmind blocks"):
+        vault.write_gitignore(tmp_path)
+    assert path.read_text() == original
 
 
 def _ignored(repo: Path, relpath: str) -> bool:
