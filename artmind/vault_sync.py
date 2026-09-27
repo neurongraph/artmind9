@@ -194,6 +194,33 @@ def _present_at(vault_dir: Path, rev: str, relpaths: list[str]) -> list[str]:
     return [p for p in relpaths if p in present]
 
 
+def _files_at(vault_dir: Path, rev: str, scope: Path) -> list[str]:
+    """Every file under `scope` at `rev`, vault-relative, from a NUL-separated
+    listing (§14 A5). Raises `ValueError` when `scope` is outside
+    `vault_dir`, like `_diff_name_status`."""
+    rel_scope = scope.relative_to(vault_dir)
+    out = _git(vault_dir, ["ls-tree", "-r", "-z", "--name-only", rev, "--", str(rel_scope)])
+    return [p for p in out.split("\0") if p]
+
+
+def _dir_at(vault_dir: Path, rev: str, live_dir: Path, scratch: Path) -> Path:
+    """`live_dir` as committed at `rev`, materialised under `scratch` -- the
+    table mappings and domain schemas track B projects with (phase 1 review
+    finding 1, spec 2026-09-26 §14 A1). The returned path may not exist (no
+    such files at `rev`); `find_mappings` then finds none and `load_schema`
+    returns `{}`.
+
+    A `live_dir` outside the vault (a run folder named by an explicit
+    `ARTMIND_HOME`) is not versioned with it, so it is returned unchanged:
+    there is no committed copy to prefer."""
+    try:
+        rel = live_dir.relative_to(vault_dir)
+    except ValueError:
+        return live_dir
+    _materialize(vault_dir, rev, _files_at(vault_dir, rev, live_dir), scratch)
+    return scratch / rel
+
+
 def _carry_sidecar(live_dir: Path, snap_dir: Path) -> None:
     """Copy the gitignored embedding sidecar from the live staging folder into
     its HEAD snapshot -- only when the live `chunks.json` is byte-identical to
@@ -430,6 +457,7 @@ def sync(
     from artmind.structured.text_export import MANIFEST_NAME, META_SUFFIX, import_structured_text
     from artmind.table2graph import find_mappings, table_to_graph, _rebuild_in_batches
     from artmind.temporal import load_schema
+    import paths
     from paths import KG_DIR, STRUCTURED_TEXT_DIR
 
     all_keys: set[tuple[str, str, str]] = set()
@@ -452,11 +480,13 @@ def sync(
             _materialize(vault_dir, head, _present_at(vault_dir, head, wanted), scratch)
             (scratch / st_rel).mkdir(parents=True, exist_ok=True)
             import_structured_text(scratch / st_rel, tables=plan.regenerate_tables)
+            mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, scratch)
+            schemas_at_head = _dir_at(vault_dir, head, paths.DOMAIN_SCHEMAS_DIR, scratch)
             for domain, table_name in plan.regenerate_tables:
                 row = structured_registry.get_table(table_name, domain=domain)
                 if row is None:
                     raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
-                found = find_mappings(table_name, domain)
+                found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
                 if not found:
                     # Spec 2026-09-26 §14 A2: a table no mapping names is a
                     # structured-store table only -- restored above, never
@@ -465,7 +495,7 @@ def sync(
                     continue
                 if len(found) > 1:
                     raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
-                schema = load_schema(domain)
+                schema = load_schema(domain, schemas_dir=schemas_at_head)
                 if not schema:
                     raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
                 report = table_to_graph(row, found[0], schema=schema, embed=False, defer_rebuild=True)

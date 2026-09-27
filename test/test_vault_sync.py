@@ -700,8 +700,8 @@ def test_sync_regenerates_a_table_from_structured_text_diff(repo, monkeypatch):
         structured_registry, "get_table",
         lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
     )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
     monkeypatch.setattr(
         t2g, "table_to_graph",
         lambda row, mapping, **k: calls["table_to_graph"].append(k) or {
@@ -744,8 +744,8 @@ def test_sync_leaves_cursor_untouched_when_track_a_fails_after_track_b_succeeded
         structured_registry, "get_table",
         lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
     )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
     monkeypatch.setattr(
         t2g, "table_to_graph",
         lambda row, mapping, **k: {"commit": {"deferred_keys": [("Checking", "ACCOUNT", "banking")]}},
@@ -959,8 +959,8 @@ def test_sync_imports_structured_text_from_the_committed_version(repo, monkeypat
         structured_registry, "get_table",
         lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
     )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
     monkeypatch.setattr(
         t2g, "table_to_graph",
         lambda row, mapping, **k: {"commit": {"deferred_keys": []}},
@@ -1000,8 +1000,8 @@ def test_sync_never_commits(repo, monkeypatch):
         structured_registry, "get_table",
         lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
     )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
     monkeypatch.setattr(t2g, "table_to_graph", _fake_table_to_graph)
     _patch_ingest_and_projection(monkeypatch)
 
@@ -1124,8 +1124,8 @@ def test_sync_materializes_committed_meta_without_a_legacy_manifest(repo, monkey
         structured_registry, "get_table",
         lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
     )
-    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain: [object()])
-    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain: {"name": domain})
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
     monkeypatch.setattr(t2g, "table_to_graph", lambda row, mapping, **k: {"commit": {"deferred_keys": []}})
     _patch_ingest_and_projection(monkeypatch)
 
@@ -1342,3 +1342,66 @@ def test_sync_mapped_table_with_no_schema_still_raises(repo, monkeypatch):
         vs.sync(repo)
 
     assert read_state(VaultLayout(repo))["last_synced_commit"] == base
+
+
+# ── table sources come from head (review finding 1, spec §14 A1) ─────────────
+
+
+def _patch_table_sources(monkeypatch, vault_dir):
+    """Point TABLE_MAPPINGS_DIR/DOMAIN_SCHEMAS_DIR inside the repo, where a
+    real vault has them (`<vault>/.artmind/domains/`)."""
+    import paths
+
+    domains = vault_dir / ".artmind" / "domains"
+    monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", domains / "table_mappings")
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", domains / "schemas")
+    return domains / "table_mappings", domains / "schemas"
+
+
+def _mapping_yaml(pattern, domain=None):
+    lines = [f'table: "{pattern}"']
+    if domain:
+        lines.append(f"domain: {domain}")
+    lines += ["entities:", "  acct:", "    class: ACCOUNT", '    name: "{id}"']
+    return "\n".join(lines) + "\n"
+
+
+def _add_table(st_dir, domain, table):
+    (st_dir / domain).mkdir(parents=True, exist_ok=True)
+    (st_dir / domain / f"{table}.csv").write_text("id\n1\n")
+    (st_dir / domain / f"{table}.meta.json").write_text("{}")
+
+
+def test_sync_projects_a_table_with_the_committed_mapping_and_schema(repo, monkeypatch):
+    """Uncommitted edits to the mapping and the schema must not be what track
+    B projects with: `head` is the only input (spec §6 A1)."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    _add_table(st_dir, "banking", "accounts")
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*"))
+    schemas.mkdir(parents=True)
+    (schemas / "banking_schema.yaml").write_text("entity_types:\n  ACCOUNT: {kind: recurrent}\n")
+    _commit_all(repo, "table, mapping, schema")
+    (maps / "accounts.yaml").write_text(_mapping_yaml("nothing_matches_this"))
+    (schemas / "banking_schema.yaml").write_text("entity_types:\n  ACCOUNT: {kind: occurrent}\n")
+
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    seen = []
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", lambda *a, **k: {"tables_loaded": 1})
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": "banking", "table_name": "accounts"},
+    )
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda row, mapping, **k: seen.append((mapping.tables, k["schema"])) or {"commit": {"deferred_keys": []}},
+    )
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert seen == [(["acc*"], {"entity_types": {"ACCOUNT": {"kind": "recurrent"}}})]
