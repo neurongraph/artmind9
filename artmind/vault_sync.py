@@ -65,27 +65,6 @@ def head_sha(vault_dir: Path) -> str:
     return out.strip()
 
 
-def _worker_running() -> bool:
-    """Whether this vault's ingest worker is alive (its pid file names a live
-    process). The worker writes the same graph keys `sync` replays, and its
-    staging writes are what `sync` would be reading."""
-    import os
-
-    import paths
-
-    try:
-        pid = int(paths.WORKER_PID_FILE.read_text().strip())
-    except (OSError, ValueError):
-        return False
-    try:
-        os.kill(pid, 0)
-    except ProcessLookupError:
-        return False
-    except PermissionError:
-        return True  # alive, owned by someone else
-    return True
-
-
 def preflight(vault_dir: Path) -> None:
     """Refuse -- before reading or writing anything -- when the vault is in a
     state `sync` must not apply from (spec 2026-09-26 §6 A5, §14 A7): a merge,
@@ -114,7 +93,12 @@ def preflight(vault_dir: Path) -> None:
             f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
             f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
         )
-    if _worker_running():
+    import paths
+    from artmind.worker_pid import live_pid
+
+    # The worker writes the same graph keys `sync` replays, and its staging
+    # writes are what `sync` would be reading.
+    if live_pid(paths.WORKER_PID_FILE) is not None:
         raise VaultSyncError(
             "the ingest worker is running for this vault -- wait for it to finish "
             "(`artmind ingest job-status`), then re-run `vault sync`"

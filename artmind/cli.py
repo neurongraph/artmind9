@@ -107,13 +107,10 @@ def _parse_tables(values: "tuple[str, ...]") -> list[str]:
 
 
 def _ensure_worker_running() -> None:
-    if WORKER_PID_FILE.exists():
-        try:
-            pid = int(WORKER_PID_FILE.read_text().strip())
-            os.kill(pid, 0)
-            return  # live worker found
-        except (ProcessLookupError, ValueError):
-            pass  # stale PID
+    from artmind.worker_pid import live_pid
+
+    if live_pid(WORKER_PID_FILE) is not None:
+        return  # live worker found (a stale pid file is simply overwritten by the new worker)
 
     # Locate the worker from the installed package (sibling of this module) —
     # never relative to the pid file, which lives in the data dir.

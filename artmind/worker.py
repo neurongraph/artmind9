@@ -15,6 +15,7 @@ from artmind.ingest import ingest_file, ingest_to_kg, kg_work_was_done
 from artmind.jobs import _update_job_file_status, _update_job_status
 from artmind.structured import is_structured_source
 from artmind.structured.pipeline import ingest_structured_file
+from artmind.worker_pid import live_pid
 from paths import ARTMIND_VAULT_DIR, LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
 from utils.functions import load_env, resolve_llm_model
 
@@ -22,14 +23,12 @@ WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
 
 
 def _acquire_pid_file() -> bool:
+    pid = live_pid(WORKER_PID_FILE)
+    if pid is not None:
+        logger.warning("Worker already running (PID {}), exiting", pid)
+        return False
     if WORKER_PID_FILE.exists():
-        try:
-            pid = int(WORKER_PID_FILE.read_text().strip())
-            os.kill(pid, 0)
-            logger.warning("Worker already running (PID {}), exiting", pid)
-            return False
-        except (ProcessLookupError, ValueError):
-            logger.info("Stale PID file found, overwriting")
+        logger.info("Stale PID file found, overwriting")
     WORKER_PID_FILE.write_text(str(os.getpid()))
     return True
 
