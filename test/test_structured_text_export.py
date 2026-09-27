@@ -802,3 +802,40 @@ def test_load_structured_dump_gives_every_table_a_unique_id_across_mixed_formats
     assert cols_by_table[by_name["accounts"]] == ["bal"]
     assert cols_by_table[by_name["loans"]] == ["rate"]
     assert cols_by_table[by_name["legacy_tbl"]] == ["z"]
+
+
+# ── artmind never writes to the vault's git (spec 2026-09-26 D1, §11) ────────
+
+
+def _git_out(repo, *args):
+    import subprocess
+
+    return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, check=True).stdout
+
+
+def test_structured_ingest_and_export_leave_git_history_and_index_untouched(tmp_path, monkeypatch):
+    """Phase 1 review finding 6: the structured pipeline's auto-export and an
+    explicit `export_structured_text()` write CSV + .meta.json into the
+    working tree and nothing else -- Obsidian Git commits them."""
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text
+
+    for args in (["init", "-q"], ["config", "user.email", "t@example.com"], ["config", "user.name", "T"]):
+        _git_out(tmp_path, *args)
+    (tmp_path / "seed.txt").write_text("seed\n")
+    _git_out(tmp_path, "add", "seed.txt")
+    _git_out(tmp_path, "commit", "-qm", "seed")
+    head_before = _git_out(tmp_path, "rev-parse", "HEAD").strip()
+    # Any git call artmind makes against "the vault" lands in this repo.
+    monkeypatch.setattr("artmind.vault_git.ARTMIND_VAULT_DIR", tmp_path)
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(csv_path, "banking")
+    export_structured_text()
+
+    assert _git_out(tmp_path, "rev-parse", "HEAD").strip() == head_before, "artmind must not create commits"
+    assert _git_out(tmp_path, "diff", "--cached", "--name-only") == "", "artmind must not stage anything"
+    untracked = set(_git_out(tmp_path, "ls-files", "-z", "--others", "--exclude-standard").split("\0"))
+    assert {"structured_text/banking/products.csv", "structured_text/banking/products.meta.json"} <= untracked
