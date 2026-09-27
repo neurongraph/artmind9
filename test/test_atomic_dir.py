@@ -144,3 +144,20 @@ def test_carry_over_false_replaces_the_folder_wholesale(tmp_path):
     assert files == ["chunks/1.json", "observations.json"]
     assert (target / "observations.json").read_text() == "v2"
     assert _siblings(target) == ["doc"]
+
+
+def test_a_structural_conflict_while_building_leaves_no_scratch_folder(tmp_path):
+    """A files dict with both a file "a" and a nested "a/b" can't coexist on a
+    real filesystem: writing "a/b" after "a" tries to mkdir over a file (or
+    writing "a" after "a/b" tries to unlink a directory). Either way the
+    exception must not leave a half-built `.artmind-tmp` behind, and the live
+    target -- built before this call -- must be untouched."""
+    target = tmp_path / "doc"
+    target.mkdir()
+    (target / "observations.json").write_text("v1")
+
+    with pytest.raises((FileExistsError, IsADirectoryError, OSError)):
+        write_dir_atomic(target, {"a": "file", "a/b": "nested"})
+
+    assert (target / "observations.json").read_text() == "v1"
+    assert _siblings(target) == ["doc"]

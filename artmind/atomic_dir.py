@@ -86,20 +86,25 @@ def write_dir_atomic(target: Path, files: dict[str, str | bytes], *, carry_over:
         if Path(name).is_absolute() or ".." in parts or not parts:
             raise ValueError(f"{name!r}: a staging file name must be a relative path inside the folder")
     tmp, old = _siblings(target)
-    if carry_over and target.exists():
-        shutil.copytree(target, tmp, symlinks=True, copy_function=_link_or_copy)
-    else:
-        tmp.mkdir()
-    for name, content in files.items():
-        path = tmp / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.unlink(missing_ok=True)
-        data = content.encode("utf-8") if isinstance(content, str) else content
-        with open(path, "wb") as f:
-            f.write(data)
-            f.flush()
-            os.fsync(f.fileno())
-    _fsync_dir(tmp)
+    try:
+        if carry_over and target.exists():
+            shutil.copytree(target, tmp, symlinks=True, copy_function=_link_or_copy)
+        else:
+            tmp.mkdir()
+        for name, content in files.items():
+            path = tmp / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.unlink(missing_ok=True)
+            data = content.encode("utf-8") if isinstance(content, str) else content
+            with open(path, "wb") as f:
+                f.write(data)
+                f.flush()
+                os.fsync(f.fileno())
+        _fsync_dir(tmp)
+    except BaseException:
+        if tmp.exists():
+            shutil.rmtree(tmp)
+        raise
     if target.exists():
         target.rename(old)
     tmp.rename(target)

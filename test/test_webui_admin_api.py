@@ -1407,6 +1407,7 @@ def test_artifact_import_rejects_structural_conflict(monkeypatch, tmp_path):
 
     assert response.status_code == 400, response.text
     assert (dest / "observations.json").read_text() == "existing"
+    assert not any(p.name.endswith(".artmind-tmp") for p in dest.parent.iterdir())
 
 
 def test_artifact_import_rejects_scratch_doc_name(monkeypatch, tmp_path):
