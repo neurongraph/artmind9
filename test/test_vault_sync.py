@@ -1669,3 +1669,24 @@ def test_sync_retracts_a_table_whose_mapping_was_removed(repo, monkeypatch):
     assert calls["rebuild_in_batches"] == [[("1", "ACCOUNT", "banking")]]
     assert result["retracted"] == 1
     assert result["regenerated_tables"] == 0
+
+
+# ── dry run raises the same ambiguity error the real run does ───────────────
+
+
+def test_sync_dry_run_raises_on_an_ambiguous_mapping(repo, monkeypatch):
+    """Two mappings at `head` matching one table must raise, in dry-run too
+    -- the real run already refuses; a dry run that reports the table as
+    normal instead of surfacing the ambiguity would mislead the user into
+    thinking the sync is safe (Task 9 re-review)."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    maps, schemas = _patch_table_sources(monkeypatch, repo)
+    _add_table(st_dir, "banking", "accounts")
+    maps.mkdir(parents=True)
+    (maps / "acc.yaml").write_text(_mapping_yaml("acc*"))
+    (maps / "all.yaml").write_text(_mapping_yaml("*"))
+    _commit_all(repo, "two mappings match the same table")
+
+    with pytest.raises(vs.VaultSyncError, match="ambiguous"):
+        vs.sync(repo, bootstrap_empty=True, dry_run=True)

@@ -609,6 +609,8 @@ def sync(
                         found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
                     except MappingError as e:
                         raise VaultSyncError(_vault_relative_mapping_error(e, dry_scratch, head)) from None
+                    if len(found) > 1:
+                        raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
                     if not found:
                         structured_only_dry.append(f"{domain}/{table_name}")
 
