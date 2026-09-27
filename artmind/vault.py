@@ -306,27 +306,43 @@ GITATTRIBUTES_BLOCK = """\
 """
 
 # A header is the whole line: "# ── artmind (vN) ───…", or before versioning
-# (= version 1) "# ── artmind ───…" -- a rule of box-drawing dashes and nothing
-# after it. Anchoring the full line keeps a user's own "# ── artmind ─ notes"
-# comment from being read as artmind's block. `\r` tolerates CRLF files.
-_BLOCK_START = re.compile(r"^# ── artmind(?: \(v(\d+)\))? ─{3,}[ \t\r]*$", re.MULTILINE)
+# (= version 1) "# ── artmind ───…" -- one or more box-drawing dashes and
+# nothing after them. Anchoring the full line keeps a user's own
+# "# ── artmind ─ notes" comment from being read as artmind's block. `\r`
+# tolerates CRLF files: with `re.MULTILINE`, `$` matches right before the
+# `\n`, so a line's trailing `\r` is consumed by `[ \t\r]*` before it, and the
+# patterns below work directly on raw, un-normalised file text.
+_BLOCK_START = re.compile(r"^# ── artmind(?: \(v(\d+)\))? ─+[ \t\r]*$", re.MULTILINE)
 _BLOCK_END = re.compile(r"^# ── end artmind ─.*(?:\n|$)", re.MULTILINE)
 
 
-def _find_blocks(text: str) -> list[tuple[int, int]]:
-    """`(start, end)` offsets of every artmind block in `text`, in order;
-    `end` = -1 for a start marker with no end marker after it (always the
-    last one found)."""
+def _find_blocks(text: str) -> tuple[list[tuple[int, int]], list[re.Match[str]]]:
+    """`(blocks, orphans)`. `blocks` are `(start, end)` offsets of every
+    recognised artmind block in `text`, in order; `end` = -1 for a start
+    marker with no end marker after it (always the last block found).
+    `orphans` are '# ── end artmind' lines matched by no recognised header --
+    evidence of a header artmind no longer recognises (hand-edited, or from a
+    version this build doesn't know), whose block is still silently active."""
+    starts = list(_BLOCK_START.finditer(text))
+    ends = list(_BLOCK_END.finditer(text))
     blocks: list[tuple[int, int]] = []
+    claimed: set[int] = set()
     pos = 0
-    while (start := _BLOCK_START.search(text, pos)) is not None:
-        end = _BLOCK_END.search(text, start.end())
-        if end is None:
+    for start in starts:
+        if start.start() < pos:
+            continue  # inside a block already claimed
+        end_idx = next(
+            (i for i, e in enumerate(ends) if i not in claimed and e.start() >= start.end()),
+            None,
+        )
+        if end_idx is None:
             blocks.append((start.start(), -1))
             break
-        blocks.append((start.start(), end.end()))
-        pos = end.end()
-    return blocks
+        blocks.append((start.start(), ends[end_idx].end()))
+        claimed.add(end_idx)
+        pos = ends[end_idx].end()
+    orphans = [e for i, e in enumerate(ends) if i not in claimed]
+    return blocks, orphans
 
 
 def _read_raw(path: Path) -> str:
@@ -334,14 +350,26 @@ def _read_raw(path: Path) -> str:
     return path.read_bytes().decode("utf-8") if path.is_file() else ""
 
 
+def _line_eol(raw: str, pos: int) -> str:
+    """The line ending terminating the line that starts at `pos` in `raw` --
+    `"\\r\\n"` when its newline is preceded by `\\r`, else `"\\n"`."""
+    nl = raw.find("\n", pos)
+    if nl == -1:
+        return "\n"
+    return "\r\n" if nl > pos and raw[nl - 1] == "\r" else "\n"
+
+
 def block_status(path: Path, block: str) -> str:
     """`"current"`, `"missing"`, `"outdated"` (an older or edited artmind
-    block), `"malformed"` (a start marker with no end marker) or
-    `"duplicate"` (more than one artmind block) -- `vault doctor`'s check
-    (spec R8). Line endings do not matter: a CRLF file holding the current
-    block is current."""
-    text = _read_raw(path).replace("\r\n", "\n")
-    blocks = _find_blocks(text)
+    block), `"malformed"` (a start marker with no end marker, or an end
+    marker with no header artmind recognises before it) or `"duplicate"`
+    (more than one artmind block) -- `vault doctor`'s check (spec R8). Line
+    endings do not matter: a CRLF file holding the current block is
+    current."""
+    text = _read_raw(path)
+    blocks, orphans = _find_blocks(text)
+    if orphans:
+        return "malformed"
     if not blocks:
         return "missing"
     if len(blocks) > 1:
@@ -349,17 +377,26 @@ def block_status(path: Path, block: str) -> str:
     start, end = blocks[0]
     if end == -1:
         return "malformed"
-    return "current" if text[start:end] == block else "outdated"
+    return "current" if text[start:end].replace("\r\n", "\n") == block else "outdated"
 
 
 def _write_block(path: Path, block: str) -> bool:
-    """Append `block`, or replace an existing artmind block in place.
-    Lines outside the block are the user's and are never touched, and a file
-    with CRLF line endings keeps them. Returns True when the file changed."""
+    """Append `block`, or replace an existing artmind block in place, by
+    splicing only the block's own bytes into the file. Lines outside the
+    block -- including their exact line endings -- are the user's and are
+    never touched. Returns True when the file changed."""
     raw = _read_raw(path)
-    crlf = "\r\n" in raw
-    text = raw.replace("\r\n", "\n")
-    blocks = _find_blocks(text)
+    blocks, orphans = _find_blocks(raw)
+    if orphans:
+        first = orphans[0]
+        line_no = raw.count("\n", 0, first.start()) + 1
+        raise VaultError(
+            f"{path}:{line_no}: found {first.group().splitlines()[0]!r} with no recognised "
+            "artmind header before it, so artmind cannot tell whether that block's rules are "
+            "still active -- fix the header so it reads '# ── artmind ───' (optionally "
+            "'(vN)') with nothing else on the line, or delete that block by hand (from its "
+            "header line through this end line), then re-run `artmind init`"
+        )
     if len(blocks) > 1:
         raise VaultError(
             f"{path}: has {len(blocks)} artmind blocks, so artmind cannot tell which one is "
@@ -367,8 +404,13 @@ def _write_block(path: Path, block: str) -> bool:
             "'# ── end artmind' line), then re-run `artmind init`"
         )
     if not blocks:
-        prefix = text if text.endswith("\n") or not text else text + "\n"
-        new = prefix + ("\n" if prefix else "") + block
+        eol = _line_eol(raw, 0)
+        block_eol = block if eol == "\n" else block.replace("\n", eol)
+        if not raw:
+            new = block_eol
+        else:
+            prefix = raw if raw.endswith("\n") else raw + eol
+            new = prefix + eol + block_eol
     else:
         start, end = blocks[0]
         if end == -1:
@@ -377,9 +419,11 @@ def _write_block(path: Path, block: str) -> bool:
                 "cannot tell where its rules stop and yours begin -- fix it by hand, "
                 "then re-run `artmind init`"
             )
-        new = text[:start] + block + text[end:]
-    if crlf:
-        new = new.replace("\n", "\r\n")
+        if raw[start:end].replace("\r\n", "\n") == block:
+            return False
+        eol = _line_eol(raw, start)
+        block_eol = block if eol == "\n" else block.replace("\n", eol)
+        new = raw[:start] + block_eol + raw[end:]
     if new == raw:
         return False
     path.write_bytes(new.encode("utf-8"))

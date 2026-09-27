@@ -61,9 +61,11 @@ def check_block(vault_dir: Path, filename: str, block: str) -> Check:
         )
     if status == "malformed":
         return Check(
-            name, FAIL, "artmind block has a start line but no '# ── end artmind' line",
-            f"edit {filename} by hand so artmind's block ends with its '# ── end artmind' line, "
-            "then run `artmind init` in the vault root",
+            name, FAIL,
+            "artmind block is malformed (a start line with no '# ── end artmind' line, "
+            "or an '# ── end artmind' line with no header artmind recognises before it)",
+            f"edit {filename} by hand so artmind's block has both a matching '# ── artmind' "
+            "start line and a '# ── end artmind' line, then run `artmind init` in the vault root",
         )
     return Check(
         name, FAIL, f"artmind block {status}",
