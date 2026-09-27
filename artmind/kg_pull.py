@@ -8,7 +8,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from artmind.atomic_dir import write_dir_atomic
+from artmind.atomic_dir import is_scratch, recover, write_dir_atomic
 from paths import KG_DIR
 
 # Transport schemes git is permitted to use for clone/fetch operations here.
@@ -123,10 +123,24 @@ def pull_kg(repo_url: str, repo_path: str, domain: str) -> dict:
     content_dir, tmp_root = _sparse_clone(repo_url, repo_path)
 
     try:
-        # Find document sub-folders (contain document.json)
+        # Find document sub-folders (contain document.json). A symlinked
+        # entry is excluded outright -- not just "don't follow the files
+        # inside it", the folder itself must never be treated as a document,
+        # since it (or anything under it once resolved) can point anywhere
+        # on this machine. The resolved path is also required to still live
+        # inside content_dir, catching a symlink that escapes via "../..".
+        # Scratch-named entries (`<name>.artmind-tmp`/`.artmind-old`) are
+        # never real documents either -- they're write_dir_atomic's own
+        # bookkeeping, and importing one as-is would create a document with
+        # a bogus name.
+        resolved_content_dir = content_dir.resolve()
         doc_dirs = sorted(
             d for d in content_dir.iterdir()
-            if d.is_dir() and (d / "document.json").exists()
+            if d.is_dir()
+            and not d.is_symlink()
+            and not is_scratch(d)
+            and d.resolve().is_relative_to(resolved_content_dir)
+            and (d / "document.json").exists()
         )
         if not doc_dirs:
             raise RuntimeError(
@@ -135,6 +149,14 @@ def pull_kg(repo_url: str, repo_path: str, domain: str) -> dict:
 
         incoming_names = [d.name for d in doc_dirs]
         target_dir = KG_DIR / domain
+
+        # A crash-interrupted swap can leave a `.artmind-old` sibling with no
+        # `<name>` folder next to it; recover() finishes or discards it before
+        # the conflict check runs, so a recoverable local folder counts as
+        # "already exists" and the pull aborts instead of write_dir_atomic's
+        # own recover() silently promoting it and merging pulled content in.
+        for name in incoming_names:
+            recover(target_dir / name)
 
         # Conflict check
         conflicts = _detect_conflicts(incoming_names, target_dir)
@@ -155,7 +177,7 @@ def pull_kg(repo_url: str, repo_path: str, domain: str) -> dict:
                 for p in sorted(doc_dir.rglob("*"))
                 if p.is_file() and not p.is_symlink()
             }
-            write_dir_atomic(target_dir / doc_dir.name, files)
+            write_dir_atomic(target_dir / doc_dir.name, files, carry_over=False)
             logger.info("  Copied {}", doc_dir.name)
 
         logger.info("Pulled {} document(s) into {}", len(doc_dirs), target_dir)
