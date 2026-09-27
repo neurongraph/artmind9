@@ -7,9 +7,10 @@ Archive produces a self-contained, portable bundle under
 the original binary (if the document came from one), and a manifest.
 "Portable" and "the original is elsewhere" cannot both be true — everything
 needed to reconstruct the document lives in the bundle. It then removes
-every trace from the graph and from the vault (a real `git rm` + commit —
-the one operation where artmind deletes human-authored content from the
-user's repo), deletes the data-dir working copy of the original binary if
+every trace from the graph and deletes its file from the vault — the one
+operation where artmind deletes human-authored content. Obsidian Git commits
+the removal like any other vault change; artmind makes no commit. It also
+deletes the data-dir working copy of the original binary if
 there was one, and appends one line to `index.jsonl`: the ONLY thing left
 that still knows the document ever existed once the vault file is gone and
 the graph is empty.
@@ -150,9 +151,10 @@ def _delete_document_tx(tx, doc_id: str) -> dict:
 
 
 def archive_document(domain: str, document_name: str) -> dict:
-    """Archive one document: bundle it, remove it from the graph, remove its
-    vault file (git rm + commit), remove its data-dir original if any, and
-    record it in the index. Raises `ValueError` if it can't be found."""
+    """Archive one document: bundle it, remove it from the graph, delete its
+    file from the vault (Obsidian Git commits the removal, artmind does not),
+    remove its data-dir original if any, and record it in the index. Raises
+    `ValueError` if it can't be found."""
     doc_id = resolve_document_id(document_name, domain)
     if not doc_id:
         raise ValueError(f"No document matching {document_name!r} in domain {domain!r}")
@@ -222,20 +224,10 @@ def archive_document(domain: str, document_name: str) -> dict:
     with neo4j_session() as session:
         graph_result = session.execute_write(_delete_document_tx, doc_id)
 
-    git_committed = False
     if vault_path is not None and vault_path.exists():
-        git_committed = vault_git.remove_paths([vault_path], f"artmind: archive {stem} ({domain})")
-        if not git_committed:
-            # No vault/git repo, or the file wasn't tracked -- it still must
-            # be gone from the vault; a plain delete is the fallback. Loud,
-            # because there is no commit recording it, unlike every other
-            # path through this function.
-            vault_path.unlink(missing_ok=True)
-            logger.warning(
-                "archive {}: vault file removed WITHOUT a git commit (not a "
-                "git repo, or the file wasn't tracked) -- no commit records "
-                "this removal", stem,
-            )
+        # A plain delete: Obsidian Git commits the removal (spec 2026-09-26,
+        # D1). The bundle written above is the recovery path.
+        vault_path.unlink(missing_ok=True)
 
     if original_path is not None:
         original_path.unlink(missing_ok=True)
@@ -253,7 +245,6 @@ def archive_document(domain: str, document_name: str) -> dict:
         "bundle_dir": str(bundle_dir),
         "manifest": manifest,
         "graph": graph_result,
-        "git_committed": git_committed,
     }
 
 
@@ -320,8 +311,6 @@ def restore_from_archive(
         meta["_artmind_id"] = new_id
         target_path.write_text(render_document(meta, body), encoding="utf-8")
 
-    vault_git.commit_paths([target_path], f"artmind: restore-from-archive {archive_id}")
-
     source_type = manifest.get("source_type", "md")
     original_bundle_path = bundle_dir / f"original.{source_type}"
     if manifest.get("has_original_binary") and original_bundle_path.exists():
@@ -387,6 +376,5 @@ def restore_from_archive(
     return {
         "artmind_id": restore_id,
         "restored_path": str(target_path),
-        "committed": committed,
         "retire": retire_result,
     }

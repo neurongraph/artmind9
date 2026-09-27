@@ -26,7 +26,6 @@ from artmind.document_identity import (
     write_document,
 )
 from artmind.setup import _setup_neo4j
-from artmind.vault_git import commit_paths as _vault_commit_paths
 from artmind.vault_git import current_commit as _vault_current_commit
 from artmind.extraction import (
     build_entities_prompt,
@@ -1045,11 +1044,6 @@ def _ingest_binary_derived(
     )
     new_meta["_source_sha256"] = source_sha256
     write_document(registered_path, new_meta, body)
-    _vault_commit_paths(
-        [registered_path],
-        f"artmind: {'convert' if not existing_meta else 'reconvert'} "
-        f"{stem} ({effective_domain})",
-    )
 
     _register_document(
         effective_domain, registered_path, artmind_id,

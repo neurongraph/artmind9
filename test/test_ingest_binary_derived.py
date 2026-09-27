@@ -33,8 +33,12 @@ def test_first_ingest_converts_and_mints_an_artmind_id(ingest_env, monkeypatch):
     assert "_source_sha256" in meta
     assert body == "# Deck\n\nBody v1.\n"
 
+    # artmind never commits (spec 2026-09-26 D1): the derived markdown is left
+    # for Obsidian Git to commit, so history still holds only the fixture's seed.
     log = subprocess.run(["git", "log", "--oneline"], cwd=vault, capture_output=True, text=True).stdout
-    assert "convert" in log
+    assert "convert" not in log
+    status = subprocess.run(["git", "status", "--porcelain"], cwd=vault, capture_output=True, text=True).stdout
+    assert status.strip(), "the derived markdown is on disk, uncommitted"
 
 
 def test_reingest_unchanged_binary_is_a_no_op(ingest_env, monkeypatch):

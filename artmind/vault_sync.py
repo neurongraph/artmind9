@@ -6,9 +6,18 @@ Detects exactly which committed KG-staging document folders
 (`.artmind/data/structured_text/**`) changed since the last sync, and
 replays only those changes -- incremental and git-native, complementing
 (not replacing) the whole-graph `session close`/`session initiate` snapshot.
+
+Applies committed content only: every input is materialised from the fixed
+`head` via `git archive`, never read from the working tree, and `sync` never
+commits (spec 2026-09-26-vault-git-transport-design.md, §6 A1, D1).
 """
 from __future__ import annotations
 
+import io
+import shutil
+import subprocess
+import tarfile
+import tempfile
 from pathlib import Path
 
 from loguru import logger
@@ -27,10 +36,10 @@ class VaultSyncError(Exception):
     """A `vault sync` run cannot proceed -- refused before writing anything."""
 
 
-def _git(vault_dir: Path, args: str) -> str:
-    rc, out, err = run_command(f"git {args}", cwd=vault_dir)
+def _git(vault_dir: Path, args: list[str]) -> str:
+    rc, out, err = run_command(["git", *args], cwd=vault_dir)
     if rc != 0:
-        raise VaultSyncError(f"git {args} failed: {err or out}")
+        raise VaultSyncError(f"git {' '.join(args)} failed: {err or out}")
     return out
 
 
@@ -41,13 +50,64 @@ def head_sha(vault_dir: Path) -> str:
     (it runs `git init`, never a commit), and the one case every `sync()`
     call needs a real, named message for, since bootstrap or not, dry-run or
     not, there is nothing to sync/stamp without a HEAD to point at."""
-    rc, out, err = run_command("git rev-parse HEAD", cwd=vault_dir, expected_codes=(128,))
+    rc, out, err = run_command(["git", "rev-parse", "HEAD"], cwd=vault_dir, expected_codes=(128,))
     if rc != 0:
         raise VaultSyncError(
             "this vault's git repo has no commits yet -- nothing to sync. "
             "Commit something to it first, then run `vault sync` again."
         )
     return out.strip()
+
+
+def _worker_running() -> bool:
+    """Whether this vault's ingest worker is alive (its pid file names a live
+    process). The worker writes the same graph keys `sync` replays, and its
+    staging writes are what `sync` would be reading."""
+    import os
+
+    import paths
+
+    try:
+        pid = int(paths.WORKER_PID_FILE.read_text().strip())
+    except (OSError, ValueError):
+        return False
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True  # alive, owned by someone else
+    return True
+
+
+def preflight(vault_dir: Path) -> None:
+    """Refuse -- before reading or writing anything -- when the vault is in a
+    state `sync` must not apply from (spec 2026-09-26 §6 A5): a merge, rebase
+    or cherry-pick in progress, unresolved conflicts in the index, or a running
+    ingest worker. Each message says what to do next."""
+    git_dir = Path(_git(vault_dir, ["rev-parse", "--absolute-git-dir"]).strip())
+    for marker, what in (
+        ("MERGE_HEAD", "a merge"),
+        ("rebase-merge", "a rebase"),
+        ("rebase-apply", "a rebase"),
+        ("CHERRY_PICK_HEAD", "a cherry-pick"),
+    ):
+        if (git_dir / marker).exists():
+            raise VaultSyncError(
+                f"{what} is in progress in this vault -- finish it in Obsidian "
+                "(or git) first, then re-run `vault sync`"
+            )
+    unmerged = _git(vault_dir, ["diff", "--name-only", "--diff-filter=U"]).split()
+    if unmerged:
+        raise VaultSyncError(
+            f"unresolved conflicts in {len(unmerged)} file(s) ({', '.join(unmerged[:5])}"
+            f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
+        )
+    if _worker_running():
+        raise VaultSyncError(
+            "the ingest worker is running for this vault -- wait for it to finish "
+            "(`artmind ingest job-status`), then re-run `vault sync`"
+        )
 
 
 def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> list[tuple[str, str]]:
@@ -58,7 +118,7 @@ def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> lis
     the per-path classification in `_classify_kg_diff`/
     `_classify_structured_text_diff` depends on."""
     rel_scope = scope.relative_to(vault_dir)
-    out = _git(vault_dir, f'diff --no-renames --name-status {base} {head} -- "{rel_scope}"')
+    out = _git(vault_dir, ["diff", "--no-renames", "--name-status", base, head, "--", str(rel_scope)])
     rows = []
     for line in out.splitlines():
         if not line.strip():
@@ -81,11 +141,53 @@ def _show(vault_dir: Path, rev: str, relpath: str) -> str | None:
     longer exists, instead of failing loudly the way this module's
     "refused before writing anything" philosophy demands.
     """
-    rc, _, _ = run_command(f'git cat-file -e "{rev}^{{commit}}"', cwd=vault_dir, expected_codes=(128,))
+    rc, _, _ = run_command(["git", "cat-file", "-e", f"{rev}^{{commit}}"], cwd=vault_dir, expected_codes=(128,))
     if rc != 0:
         raise VaultSyncError(f"{rev!r} does not resolve to a commit in this vault's git history")
-    rc, out, _ = run_command(f'git show "{rev}:{relpath}"', cwd=vault_dir, expected_codes=(128,))
+    rc, out, _ = run_command(["git", "show", f"{rev}:{relpath}"], cwd=vault_dir, expected_codes=(128,))
     return out if rc == 0 else None
+
+
+def _materialize(vault_dir: Path, rev: str, relpaths: list[str], dest: Path) -> None:
+    """Extract `relpaths` (files or folders, relative to the vault root) as
+    they stand at `rev` into `dest`, keeping their vault-relative layout.
+
+    This is what makes `sync` apply committed content only (spec 2026-09-26
+    §6 A1): the working tree may hold uncommitted edits, a half-written
+    staging folder, or a merge in progress, none of which is `rev`.
+    `git archive` reads blobs straight from the object store, as bytes.
+    """
+    if not relpaths:
+        return
+    # Not `run_command`: it hardcodes `text=True`, which would decode/corrupt
+    # the binary tar bytes `git archive` writes to stdout.
+    proc = subprocess.run(
+        ["git", "archive", "--format=tar", rev, "--", *relpaths],
+        cwd=vault_dir, capture_output=True,
+    )
+    if proc.returncode != 0:
+        raise VaultSyncError(
+            f"git archive {rev} failed: {proc.stderr.decode(errors='replace').strip()}"
+        )
+    with tarfile.open(fileobj=io.BytesIO(proc.stdout)) as tar:
+        tar.extractall(dest, filter="data")
+
+
+def _carry_sidecar(live_dir: Path, snap_dir: Path) -> None:
+    """Copy the gitignored embedding sidecar from the live staging folder into
+    its HEAD snapshot -- only when the live `chunks.json` is byte-identical to
+    the committed one. The sidecar's vectors belong to the on-disk chunks;
+    attaching them to different committed chunks would pair a chunk id with
+    the wrong vector. Without it, the chunk embed sweep recomputes locally."""
+    from artmind.ingest import EMBEDDING_SIDECAR
+
+    sidecar = live_dir / EMBEDDING_SIDECAR
+    live_chunks = live_dir / "chunks.json"
+    snap_chunks = snap_dir / "chunks.json"
+    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
+        return
+    if live_chunks.read_bytes() == snap_chunks.read_bytes():
+        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
 
 
 from dataclasses import dataclass, field
@@ -239,6 +341,7 @@ def sync(
     state = read_state(layout)
     last_synced = state.get("last_synced_commit")
     head = head_sha(vault_dir)
+    preflight(vault_dir)
 
     if bootstrap_synced:
         if dry_run:
@@ -269,44 +372,63 @@ def sync(
 
     from artmind import ingest
     from artmind.structured import registry as structured_registry
-    from artmind.structured.text_export import import_structured_text
-    from artmind.table2graph import find_mappings, stage_dir, table_to_graph, _rebuild_in_batches
+    from artmind.structured.text_export import MANIFEST_NAME, import_structured_text
+    from artmind.table2graph import find_mappings, table_to_graph, _rebuild_in_batches
     from artmind.temporal import load_schema
-    from paths import KG_DIR
+    from paths import KG_DIR, STRUCTURED_TEXT_DIR
 
     all_keys: set[tuple[str, str, str]] = set()
-    regenerated_dirs: list[Path] = []
 
-    # ── track B: regenerate (§5 step 2) -- BEFORE track A, so its output
-    #    (freshly regenerated table__* JSON, uncommitted) can never itself
-    #    be mistaken for a track-A input in this same run (the diff_range
-    #    above is already fixed from `plan`, computed before any of this
-    #    runs).
-    if plan.regenerate_tables:
-        import_structured_text(tables=plan.regenerate_tables)
-        for domain, table_name in plan.regenerate_tables:
-            row = structured_registry.get_table(table_name, domain=domain)
-            if row is None:
-                raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
-            found = find_mappings(table_name, domain)
-            if not found:
-                raise VaultSyncError(f"{domain}/{table_name}: no table mapping under domains/table_mappings/")
-            if len(found) > 1:
-                raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
-            schema = load_schema(domain)
-            if not schema:
-                raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
-            report = table_to_graph(row, found[0], schema=schema, embed=False, defer_rebuild=True)
-            all_keys.update(tuple(k) for k in report["commit"].get("deferred_keys") or [])
-            regenerated_dirs.append(stage_dir(domain, table_name))
+    with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
+        scratch = Path(scratch_str)
 
-    # ── track A: replay + retract (§5 step 3) ───────────────────────────────
-    for domain, docdir in plan.replay_docs:
-        doc_kg_dir = KG_DIR / domain / docdir
-        summary = ingest._write_to_neo4j(doc_kg_dir, domain, defer_rebuild=True)
-        if summary is None:
-            raise VaultSyncError(f"{doc_kg_dir}: staged KG JSON could not be read")
-        all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
+        # ── track B: regenerate (§5 step 2) -- BEFORE track A, so its output
+        #    (freshly regenerated table__* JSON in the working tree) can never
+        #    itself be mistaken for a track-A input in this same run (the
+        #    diff_range above is already fixed from `plan`). Inputs come from
+        #    `head`, never the live structured_text dir.
+        if plan.regenerate_tables:
+            st_rel = STRUCTURED_TEXT_DIR.relative_to(vault_dir)
+            _materialize(
+                vault_dir, head,
+                [str(st_rel / MANIFEST_NAME)]
+                + [str(st_rel / domain / f"{table_name}.csv") for domain, table_name in plan.regenerate_tables],
+                scratch,
+            )
+            import_structured_text(scratch / st_rel, tables=plan.regenerate_tables)
+            for domain, table_name in plan.regenerate_tables:
+                row = structured_registry.get_table(table_name, domain=domain)
+                if row is None:
+                    raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
+                found = find_mappings(table_name, domain)
+                if not found:
+                    raise VaultSyncError(f"{domain}/{table_name}: no table mapping under domains/table_mappings/")
+                if len(found) > 1:
+                    raise VaultSyncError(f"{domain}/{table_name}: ambiguous, {len(found)} mappings match")
+                schema = load_schema(domain)
+                if not schema:
+                    raise VaultSyncError(f"{domain}/{table_name}: no schema for domain {domain!r}")
+                report = table_to_graph(row, found[0], schema=schema, embed=False, defer_rebuild=True)
+                all_keys.update(tuple(k) for k in report["commit"].get("deferred_keys") or [])
+
+        # ── track A: replay (§5 step 3), from `head` ─────────────────────────
+        #    Guarded by `if`: some tests patch only STRUCTURED_TEXT_DIR, leaving
+        #    KG_DIR outside `vault_dir` (same reason as the ValueError guards in
+        #    the classifiers), and relative_to would raise on an empty plan.
+        if plan.replay_docs:
+            kg_rel = KG_DIR.relative_to(vault_dir)
+            _materialize(
+                vault_dir, head,
+                [str(kg_rel / domain / docdir) for domain, docdir in plan.replay_docs],
+                scratch,
+            )
+            for domain, docdir in plan.replay_docs:
+                snap_dir = scratch / kg_rel / domain / docdir
+                _carry_sidecar(KG_DIR / domain / docdir, snap_dir)
+                summary = ingest._write_to_neo4j(snap_dir, domain, defer_rebuild=True)
+                if summary is None:
+                    raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")
+                all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
 
     for domain, doc_id in plan.retract:
         result = ingest.retract_document(doc_id, domain)
@@ -325,19 +447,8 @@ def sync(
         ingest._sweep_embeddings(d, domain_keys)
         ingest._sweep_chunk_embeddings(domain=d)
 
-    # ── commit track B's freshly regenerated table__* folders (§5 step 6) ───
-    if regenerated_dirs:
-        from artmind import vault_git
-        committed = vault_git.commit_paths(
-            regenerated_dirs,
-            f"vault sync: regenerate {len(regenerated_dirs)} table(s) from structured text",
-        )
-        if not committed:
-            raise VaultSyncError(
-                "regenerated table(s) could not be committed to the vault's git repo "
-                "(git add/commit failed, or the vault isn't a git repo) -- the cursor "
-                "was NOT advanced; check the logged warning above and retry"
-            )
+    # artmind never commits (spec 2026-09-26, D1): track B's regenerated
+    # table__* folders stay in the working tree. (Phase 2 gitignores them.)
 
     # ── only on full success, advance the cursor (§5 step 7) ────────────────
     write_state(layout, {"last_synced_commit": head})

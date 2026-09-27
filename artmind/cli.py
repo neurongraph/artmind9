@@ -715,7 +715,6 @@ def ingest_sync(
         logger.debug("  File: {}", name)
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
-    committed_any = False
     # One file rebuilds incrementally; a directory defers to one full rebuild.
     defer_rebuild = len(files) > 1 and not stage_only
     deferred_domains: set[str] = set()
@@ -754,19 +753,8 @@ def ingest_sync(
                 set_domain=set_domain, fork=fork, adopt=adopt,
             )
             if result.get("status") == "ok":
-                # Commit the frontmatter write NOW, before chunk splitting and
-                # LLM extraction — the slow, interruptible part of the loop.
-                # Batching this to the end of the batch bought tidier history at
-                # the cost of durability: a Ctrl-C or a provider timeout partway
-                # through left every file in the batch carrying artmind
-                # frontmatter on disk and never committed to the vault. The
-                # async worker has always committed per file (worker.py).
-                if result.get("touched_path"):
-                    from artmind.vault_git import commit_paths
-
-                    touched = Path(result["touched_path"])
-                    if commit_paths([touched], f"artmind: ingest {touched.name}"):
-                        committed_any = True
+                # artmind never commits (spec 2026-09-26, D1): the frontmatter
+                # write stays on disk for Obsidian Git to commit.
                 effective_domain = result.get("domain", domain)
                 # A directory batch DEFERS the projection to one full rebuild
                 # at the end. Rebuilding incrementally per document would
@@ -803,13 +791,6 @@ def ingest_sync(
         for deferred_domain in sorted(deferred_domains):
             summary = rebuild_projection(deferred_domain)
             logger.info("Projection rebuilt for {}: {}", deferred_domain, summary)
-
-    # Push is a network courtesy, not the durable write (see vault_git), so it
-    # stays batched: one push after the loop rather than one per document.
-    if committed_any:
-        from artmind.vault_git import maybe_push
-
-        maybe_push()
 
     elapsed = time.monotonic() - t_batch
     logger.info(
@@ -2787,9 +2768,10 @@ def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> N
 
     Bundles the document (its staged KG JSON, vault markdown, original
     binary if it came from one, and a manifest) under `ARTMIND_ARCHIVE_DIR`,
-    then removes it from the graph AND from the vault — a real `git rm` +
-    commit, the one operation where artmind deletes human-authored content
-    from your repo. Reversible with `restore-from-archive` (which lands the
+    then removes it from the graph AND deletes its file from the vault — the
+    one operation where artmind deletes human-authored content. The deletion
+    is committed by Obsidian Git like any other change; artmind makes no
+    commit. Reversible with `restore-from-archive` (which lands the
     document back as history, not latest); NOT reversible is deleting the
     bundle itself, which is a filesystem act outside any artmind command —
     there is no single command here satisfying right-to-erasure end to end,
@@ -2800,7 +2782,7 @@ def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> N
 
     if not yes and not click.confirm(
         f"This will remove {document_name!r} ({domain}) from the graph and "
-        "delete its file from the vault (git rm + commit). Continue?"
+        "delete its file from the vault. Continue?"
     ):
         raise click.Abort()
 
@@ -3459,6 +3441,10 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
     CDC-like, and git-native. Complements (does not replace) `session close`/
     `session initiate`'s whole-graph snapshot. Run with no marker yet? pass
     --bootstrapEmpty or --bootstrapSynced (see each flag's own help).
+
+    Applies committed content only (never the working tree) and never
+    commits. Refuses while a merge/rebase is in progress, while conflicts are
+    unresolved, or while the ingest worker is running.
     """
     _setup_logger()
     from artmind import vault as vault_mod
@@ -3549,9 +3535,6 @@ def init(directory: str, interactive: bool, remote_url: str | None):
                 "  Neo4j password", default="", show_default=False, hide_input=True
             ),
             "neo4j_database": click.prompt("  Neo4j database", default="neo4j"),
-            "git_push": click.confirm(
-                "  Push this vault's git repo after each ingest?", default=False
-            ),
         }
         click.echo()
 
