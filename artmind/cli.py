@@ -3435,7 +3435,8 @@ def vault_status(compact: bool):
 @click.option(
     "--bootstrapSynced", "bootstrap_synced", is_flag=True,
     help="Stamp the cursor at HEAD with no replay at all -- for right after a full "
-    "`session initiate`/`db restore`, where the graph is already known-current.",
+    "`session initiate`/`db restore`, where the graph is already known-current. "
+    "Stamps the whole vault; cannot be combined with --domain.",
 )
 @click.option(
     "--domain", "domain", multiple=True,

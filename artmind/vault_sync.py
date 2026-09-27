@@ -672,6 +672,8 @@ def sync(
 
     if bootstrap_empty and bootstrap_synced:
         raise VaultSyncError("pass at most one of --bootstrapEmpty / --bootstrapSynced")
+    if bootstrap_synced and domains:
+        raise VaultSyncError("--bootstrapSynced stamps the whole vault; it can't be domain-scoped")
 
     layout = VaultLayout(vault_dir)
     state = read_state(layout)
@@ -731,6 +733,7 @@ def sync(
             "retract": len(plan.retract),
             "regenerate_tables": len(plan.regenerate_tables),
             "structured_only_tables": structured_only_dry,
+            "cursor_would_advance": not domains,
         }
 
     from artmind import ingest
@@ -849,9 +852,20 @@ def sync(
         "domains_swept": touched_domains,
     }
     if not cursor_advanced:
+        # `last_synced` is the cursor as it stood at the START of this run
+        # (read before `base` was computed) -- when it was None, this run
+        # only got past the "no last_synced_commit recorded yet" check
+        # because --bootstrapEmpty was passed. An unscoped follow-up run
+        # with no flag would hit that same check and refuse, so the note
+        # must say to repeat --bootstrapEmpty, not just "a later sync"
+        # (re-review item 3).
+        follow_up = (
+            "re-run `vault sync --bootstrapEmpty` (unscoped) to apply them"
+            if last_synced is None
+            else "a later unscoped `vault sync` will apply them (and idempotently re-apply this one)"
+        )
         result["note"] = (
             f"domain-scoped sync (--domain {','.join(domains)}): applied but did not advance "
-            "last_synced_commit -- other domains changed in this range are still pending; a "
-            "later unscoped `vault sync` will apply them (and idempotently re-apply this one)"
+            f"last_synced_commit -- other domains changed in this range are still pending; {follow_up}"
         )
     return result

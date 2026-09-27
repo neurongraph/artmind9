@@ -721,6 +721,57 @@ def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
     assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
 
 
+def test_sync_rejects_bootstrap_synced_combined_with_domain(repo, monkeypatch):
+    """--bootstrapSynced stamps the WHOLE vault's cursor at head with no
+    replay at all -- there is no such thing as a domain-scoped stamp, so the
+    combination must be refused up front rather than silently stamping the
+    cursor as if every domain were current (re-review item 3)."""
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    with pytest.raises(vs.VaultSyncError, match="bootstrapSynced"):
+        vs.sync(repo, bootstrap_synced=True, domains=["banking"])
+
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo)) == {}
+
+
+def test_domain_scoped_bootstrap_empty_note_says_to_rerun_bootstrap_empty(repo, monkeypatch):
+    """When there is no prior cursor at all (`last_synced` is None), the
+    follow-up sync that will pick up the other domains isn't just "a later
+    unscoped `vault sync`" -- an unscoped sync with no --bootstrapEmpty would
+    itself raise "no last_synced_commit recorded yet". The note must say to
+    re-run with --bootstrapEmpty (re-review item 3)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, "legal", "doc2", "docid-2")
+    _commit_all(repo, "add both domains, never synced before")
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, bootstrap_empty=True, domains=["banking"])
+
+    assert result["cursor_advanced"] is False
+    assert "--bootstrapEmpty" in result["note"]
+
+
+def test_sync_dry_run_reports_cursor_would_advance(repo, monkeypatch):
+    """A scoped dry run must say the cursor would NOT advance if run for
+    real; an unscoped one must say it would (re-review item 3)."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+
+    scoped = vs.sync(repo, bootstrap_empty=True, domains=["banking"], dry_run=True)
+    assert scoped["cursor_would_advance"] is False
+
+    unscoped = vs.sync(repo, bootstrap_empty=True, dry_run=True)
+    assert unscoped["cursor_would_advance"] is True
+
+
 def test_sync_retracts_a_removed_document_folder(repo, monkeypatch):
     kg_dir = _patch_kg_dir(monkeypatch, repo)
     _patch_structured_text_dir(monkeypatch, repo)
