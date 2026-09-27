@@ -455,8 +455,9 @@ def test_export_writes_one_meta_file_per_table_without_machine_paths(tmp_path, m
     assert meta["table"]["table_name"] == "products"
     assert meta["table"]["domain"] == "banking"
     assert "parquet_path" not in meta["table"]
+    assert "id" not in meta["table"]
     assert {c["name"] for c in meta["columns"]} == {"id", "name"}
-    assert all(c["table_id"] == meta["table"]["id"] for c in meta["columns"])
+    assert all("table_id" not in c for c in meta["columns"])
     assert meta["datasource"]["name"] == meta["table"]["datasource"]
     assert _meta("customers")["table"]["table_name"] == "customers"
     assert not (paths.STRUCTURED_TEXT_DIR / "manifest.json").exists()
@@ -581,7 +582,8 @@ def test_import_remaps_a_table_id_two_meta_files_share(tmp_path, monkeypatch):
     from artmind.structured.text_export import export_structured_text, import_structured_text
 
     export_structured_text()
-    _give_meta_id("customers", _meta("products")["table"]["id"])
+    products_id = registry.get_table("products", domain="banking")["id"]
+    _give_meta_id("customers", products_id)
     _wipe_stores()
 
     summary = import_structured_text()
@@ -633,3 +635,107 @@ def test_scoped_import_keeps_the_local_id_of_an_already_registered_table(tmp_pat
     assert _column_names(products_id) == {"id", "name"}
     assert registry.get_table("customers", domain="banking")["id"] == customers_id
     assert _column_names(customers_id) == {"id", "city"}
+
+
+def test_scoped_import_reattaches_mapping_and_role_to_the_tables_final_local_id(tmp_path, monkeypatch):
+    """A confirmed column mapping and column role travel with the table
+    through a remap -- attached to the table's FINAL local id, not the id
+    recorded in the dump."""
+    _two_tables(tmp_path, monkeypatch)
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    branches_csv = tmp_path / "branches.csv"
+    _write_csv(branches_csv, [["id", "region"], [1, "West"]])
+    ingest_structured_file(branches_csv, "banking")  # also exports branches.meta.json
+    branches_id = registry.get_table("branches", domain="banking")["id"]
+    registry.upsert_mapping(branches_id, "region", "Region", 0.9, confirmed=True)
+    registry.upsert_column_role(branches_id, "region", "primary", 0.9, confirmed=True)
+    export_structured_text(tables=[registry.get_table("branches", domain="banking")])
+
+    products_id = registry.get_table("products", domain="banking")["id"]
+    # Another machine registered "branches" under the id products has here,
+    # and this machine has never seen "branches".
+    _give_meta_id("branches", products_id)
+    registry.delete_table(branches_id)
+
+    import_structured_text(tables=[("banking", "branches")])
+
+    branches = registry.get_table("branches", domain="banking")
+    assert branches["id"] != products_id
+    mappings = registry.list_mappings(branches["id"])
+    assert [(m["column"], m["entity_class"]) for m in mappings] == [("region", "Region")]
+    roles = registry.list_column_roles(branches["id"])
+    assert [(r["column"], r["bridge_role"]) for r in roles] == [("region", "primary")]
+
+
+# ── .meta.json carries no machine-local ids (spec 2026-09-26 §14 A3, stricter) ─
+
+
+def test_export_meta_carries_no_machine_local_ids(tmp_path, monkeypatch):
+    _two_tables(tmp_path, monkeypatch)
+    from artmind.structured import registry
+    from artmind.structured.text_export import export_structured_text
+
+    products_id = registry.get_table("products", domain="banking")["id"]
+    registry.upsert_mapping(products_id, "name", "Product", 0.9, confirmed=True)
+    registry.upsert_column_role(products_id, "name", "primary", 0.9, confirmed=True)
+
+    export_structured_text()
+
+    meta = _meta("products")
+    assert "id" not in meta["table"]
+    for key in ("columns", "column_mappings", "column_roles"):
+        for row in meta[key]:
+            assert "table_id" not in row
+
+
+def test_reexport_after_a_local_id_change_is_byte_identical(tmp_path, monkeypatch):
+    """Re-export produces the same bytes even though the table's local id
+    changed underneath it (e.g. because `import_structured_text` reassigned
+    it on a wipe+restore) -- no id on disk means nothing to churn."""
+    _two_tables(tmp_path, monkeypatch)
+    from artmind.structured.text_export import export_structured_text, import_structured_text
+
+    export_structured_text()
+    original = _meta("products")
+
+    products_id_before = _meta("products")  # sanity: no id present already
+    assert "id" not in products_id_before["table"]
+
+    _wipe_stores()
+    import_structured_text()  # sorted-order re-assignment gives "products" a new local id
+    export_structured_text()
+
+    assert _meta("products") == original
+
+
+def test_import_accepts_an_old_meta_file_that_still_carries_ids(tmp_path, monkeypatch):
+    """Backwards compatible: a per-table meta file written before machine-local
+    ids were dropped from the format still carries `table.id` and every child
+    row's `table_id`; the loader must still read it correctly."""
+    _two_tables(tmp_path, monkeypatch)
+    import json
+
+    import paths
+
+    from artmind.structured import registry
+    from artmind.structured.text_export import import_structured_text
+
+    products_id = registry.get_table("products", domain="banking")["id"]
+    path = paths.STRUCTURED_TEXT_DIR / "banking" / "products.meta.json"
+    # export_structured_text already ran inside _two_tables via ingest_structured_file.
+    meta = json.loads(path.read_text())
+    meta["table"]["id"] = products_id
+    for key in ("columns", "column_mappings", "column_roles"):
+        for row in meta[key]:
+            row["table_id"] = products_id
+    path.write_text(json.dumps(meta))
+
+    _wipe_stores()
+    summary = import_structured_text()
+
+    assert summary["tables_loaded"] == 2
+    products = registry.get_table("products", domain="banking")
+    assert _column_names(products["id"]) == {"id", "name"}

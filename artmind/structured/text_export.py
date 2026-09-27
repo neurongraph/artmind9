@@ -65,8 +65,13 @@ META_SUFFIX = ".meta.json"
 
 #: Machine-local registry fields, never written to a committed meta file (they
 #: differ per machine and would conflict on every merge). The import
-#: recomputes `parquet_path` for the current machine.
-_MACHINE_LOCAL_TABLE_FIELDS = frozenset({"parquet_path"})
+#: recomputes `parquet_path` for the current machine. `id` is machine-local
+#: too (spec 2026-09-26 §14 A3): SQLite's autoincrement, dropped from the
+#: written meta entirely rather than merely re-derived on import, so a
+#: table's meta doesn't churn every time its local id changes (e.g. after an
+#: import remapped it) and two machines' meta for the same table never
+#: conflicts on an id that was never shared truth.
+_MACHINE_LOCAL_TABLE_FIELDS = frozenset({"parquet_path", "id"})
 
 _DUMP_KEYS = ("columns", "column_mappings", "column_roles")
 
@@ -88,14 +93,24 @@ def _table_meta_path(dest_dir: Path, domain: str, table_name: str) -> Path:
 
 
 def _table_meta(dump: dict, row: dict) -> dict:
-    """One table's slice of a `registry.dump_all()`-shaped dump."""
+    """One table's slice of a `registry.dump_all()`-shaped dump. Carries no
+    machine-local id: neither `table.id` nor any child row's `table_id` (spec
+    2026-09-26 §14 A3) -- within a per-table file every child unambiguously
+    belongs to that table, so the id is redundant on disk."""
     table_id = row["id"]
     return {
         "table": {k: v for k, v in row.items() if k not in _MACHINE_LOCAL_TABLE_FIELDS},
         "datasource": next(
             (d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None
         ),
-        **{key: [r for r in dump.get(key, []) if r["table_id"] == table_id] for key in _DUMP_KEYS},
+        **{
+            key: [
+                {k: v for k, v in r.items() if k != "table_id"}
+                for r in dump.get(key, [])
+                if r["table_id"] == table_id
+            ]
+            for key in _DUMP_KEYS
+        },
     }
 
 
@@ -134,12 +149,16 @@ def load_structured_dump(src_dir: Path) -> dict:
     Every table row gets a `parquet_path` key (empty when the meta omitted
     it); `import_structured_text` overwrites it for this machine.
 
-    Table ids are local to the machine that registered the table (spec
-    2026-09-26 §14 A3): two machines can each give a different table the same
-    SQLite id, and both `.meta.json` files then merge cleanly. Every table in
-    the returned dump has a unique id -- the first (in sorted path order)
-    keeps its recorded id, a later duplicate gets the next id above every
-    recorded one -- and each file's child rows follow their own table's id."""
+    Table ids are machine-local (spec 2026-09-26 §14 A3) and a current
+    `.meta.json` carries none at all: this assigns each table a synthetic
+    dump id -- sequential in sorted file order -- and attaches its child rows
+    to it. An OLD meta file (or the legacy manifest) that still carries ids
+    is read too (backwards compatible): the first table (in sorted path
+    order) to record a given id keeps it, a later duplicate gets the next id
+    above every recorded one. Either way, every table in the returned dump
+    ends up with a unique id and each file's child rows follow their own
+    table's id -- the remap-by-`(domain, table_name)` logic downstream is the
+    same regardless of where the id came from."""
     legacy_path = src_dir / MANIFEST_NAME
     meta_paths = sorted(src_dir.glob(f"*/*{META_SUFFIX}"))
     if not meta_paths and not legacy_path.is_file():
@@ -173,16 +192,19 @@ def load_structured_dump(src_dir: Path) -> dict:
         for ds in legacy.get("datasources", []):
             _add_datasource(ds)
 
-    next_id = max((int(table["id"]) for table, _ in sources), default=0) + 1
+    next_id = max((int(table["id"]) for table, _ in sources if "id" in table), default=0) + 1
     used: set[int] = set()
     for table, children in sources:
-        table_id = int(table["id"])
-        if table_id in used:
-            logger.warning(
-                "structured text: {}/{} records table id {}, already used by another table's "
-                "metadata; importing it as {} (table ids are local, spec 2026-09-26 §14 A3)",
-                table["domain"], table["table_name"], table_id, next_id,
-            )
+        if "id" in table:
+            table_id = int(table["id"])
+            if table_id in used:
+                logger.warning(
+                    "structured text: {}/{} records table id {}, already used by another table's "
+                    "metadata; importing it as {} (table ids are local, spec 2026-09-26 §14 A3)",
+                    table["domain"], table["table_name"], table_id, next_id,
+                )
+                table_id, next_id = next_id, next_id + 1
+        else:
             table_id, next_id = next_id, next_id + 1
         used.add(table_id)
         table["id"] = table_id

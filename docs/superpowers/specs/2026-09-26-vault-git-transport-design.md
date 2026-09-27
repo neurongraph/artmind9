@@ -444,9 +444,13 @@ restores it to DuckDB and skips `table2graph`. It no longer raises `no table map
 stalled the cursor forever on any vault with unmapped tables.
 
 **A3. Table identity is `(domain, table_name)`, not the SQLite id (amends R5).** Per-table
-`.meta.json` files carry SQLite's autoincrement `tables.id`, which collides when two machines
-each register a new table. Import remaps ids by `(domain, table_name)`; the id in `.meta.json`
-is informational only.
+`.meta.json` files used to carry SQLite's autoincrement `tables.id`, which collides when two
+machines each register a new table. Import remaps ids by `(domain, table_name)`; `.meta.json`
+carries no machine-local ids at all — neither the table's own id nor any child row's
+`table_id` — so a table's meta doesn't churn every time its local id changes, and two
+machines' meta for the same table never conflicts on an id that was never shared truth. An
+older `.meta.json` (or the legacy `manifest.json`) that still carries ids is still read
+correctly.
 
 **A4. Every staging writer is atomic, and track A replays on any change in a document folder
 (amends R2, §6 A1).** Archive restore, dashboard artifact import and `kg_pull` join ingest and
