@@ -722,13 +722,21 @@ def ingest_sync(
     for f in files:
         try:
             if is_structured_source(f):
-                if domain is None:
+                # Same precedence as a document, minus frontmatter (a csv/xlsx
+                # has none): --setDomain > the folder mapping > --domain as
+                # the fallback -- matching worker.py's _domain_for.
+                structured_domain = set_domain or _mapped_domain(f) or domain
+                if structured_domain is None:
                     fail_count += 1
-                    logger.error("{}: --domain is required for structured files", f.name)
+                    logger.error(
+                        "{}: no domain for this structured file -- map its folder in "
+                        ".artmind/vault.yaml (ingest.mappings) or pass --domain",
+                        f.name,
+                    )
                     continue
                 res = ingest_structured_file(
                     f,
-                    domain,
+                    structured_domain,
                     table=table_name,
                     force=force,
                     refresh_mode=refresh_mode,
