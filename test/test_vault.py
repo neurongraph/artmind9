@@ -1,6 +1,7 @@
 """Vault discovery and layout (docs/vault.md)."""
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -106,6 +107,7 @@ def test_layout_places_everything_under_dot_artmind(tmp_path):
     assert layout.schemas_dir == tmp_path / ".artmind" / "domains" / "schemas"
     assert layout.meta_yaml == tmp_path / ".artmind" / "domains" / "meta.yaml"
     assert layout.logs_dir == tmp_path / ".artmind" / "logs"
+    assert layout.worker_pid == tmp_path / ".artmind" / "worker.pid"
 
 
 def test_derived_data_is_isolated_under_one_directory(tmp_path):
@@ -189,3 +191,23 @@ def test_read_state_tolerates_corrupt_json(tmp_path):
     layout.state_json.parent.mkdir(parents=True, exist_ok=True)
     layout.state_json.write_text("{not json", encoding="utf-8")
     assert vault.read_state(layout) == {}
+
+
+def test_gitignore_block_covers_the_worker_pid_file(tmp_path):
+    """The worker's pid file now lives at `.artmind/worker.pid`
+    (`paths.WORKER_PID_FILE`, `VaultLayout.worker_pid`) -- the GITIGNORE_BLOCK
+    line that already names that exact path must actually ignore it, not just
+    `.artmind/data/worker.pid` (item 1: the old location, gitignored only by
+    a rule that didn't match it)."""
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    vault.write_gitignore(tmp_path)
+    layout = vault.VaultLayout(tmp_path)
+    layout.artmind_dir.mkdir(parents=True, exist_ok=True)
+    layout.worker_pid.write_text("4242")
+
+    result = subprocess.run(
+        ["git", "check-ignore", str(layout.worker_pid.relative_to(tmp_path))],
+        cwd=tmp_path, capture_output=True, text=True,
+    )
+
+    assert result.returncode == 0, f"worker.pid not ignored: {result.stdout!r} {result.stderr!r}"

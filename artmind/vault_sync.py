@@ -94,12 +94,16 @@ def preflight(vault_dir: Path) -> None:
             f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
             f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
         )
-    import paths
+    from artmind.vault import VaultLayout
     from artmind.worker_pid import live_pid
 
     # The worker writes the same graph keys `sync` replays, and its staging
-    # writes are what `sync` would be reading.
-    if live_pid(paths.WORKER_PID_FILE) is not None:
+    # writes are what `sync` would be reading. Derived from `vault_dir`
+    # itself, not the process-wide `paths.WORKER_PID_FILE` -- a vault other
+    # than the one `paths` resolved (an explicit `--vault`, or a test) must
+    # not have its preflight decided by an unrelated worker (item 1, phase 1
+    # review finding 7's second half).
+    if live_pid(VaultLayout(vault_dir).worker_pid) is not None:
         raise VaultSyncError(
             "the ingest worker is running for this vault -- wait for it to finish "
             "(`artmind ingest job-status`), then re-run `vault sync`"

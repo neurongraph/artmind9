@@ -166,6 +166,17 @@ class VaultLayout:
     def logs_dir(self) -> Path:
         return self.artmind_dir / "logs"
 
+    @property
+    def worker_pid(self) -> Path:
+        """The ingest worker's pid file (`paths.WORKER_PID_FILE` inside this
+        vault). Beside `state_json`, not under `data_dir`: the worker never
+        unlinks it (item 1, vault-sync-completion review), so it must sit
+        somewhere `GITIGNORE_BLOCK` actually covers -- `.artmind/worker.pid`,
+        not `.artmind/data/worker.pid` -- or Obsidian Git would commit it and
+        two machines would conflict on a file whose inode a pull can swap out
+        from under the flock liveness check."""
+        return self.artmind_dir / "worker.pid"
+
     # ── derived, committed (exceptions: registry_db, the kg embedding sidecar) ─
     @property
     def data_dir(self) -> Path:

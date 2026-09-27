@@ -21,6 +21,7 @@ _PROBE = (
     "'data': str(paths.ARTMIND_DATA_DIR),"
     "'schemas': str(paths.DOMAIN_SCHEMAS_DIR),"
     "'kg': str(paths.KG_DIR),"
+    "'worker_pid': str(paths.WORKER_PID_FILE),"
     "}))"
 )
 
@@ -49,6 +50,12 @@ def test_paths_derive_from_the_discovered_vault(tmp_path):
     assert out["data"] == str(tmp_path.resolve() / ".artmind" / "data")
     assert out["schemas"] == str(tmp_path.resolve() / ".artmind" / "domains" / "schemas")
     assert out["kg"] == str(tmp_path.resolve() / ".artmind" / "data" / "kg")
+    # worker.pid lives beside state.json under .artmind/, not under
+    # .artmind/data/ -- the gitignore block covers `.artmind/worker.pid` but
+    # not `.artmind/data/worker.pid`, and a git pull that replaces the data
+    # dir's contents would otherwise change the pid file's inode and break
+    # the flock liveness check (item 1).
+    assert out["worker_pid"] == str(tmp_path.resolve() / ".artmind" / "worker.pid")
 
 
 def test_paths_follow_the_vault_from_a_subdirectory(tmp_path):

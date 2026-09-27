@@ -839,7 +839,8 @@ def test_preflight_refuses_while_the_ingest_worker_is_running(repo, monkeypatch,
     _patch_structured_text_dir(monkeypatch, repo)
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
-    pid_file = tmp_path / "worker.pid"
+    pid_file = repo / ".artmind" / "worker.pid"
+    pid_file.parent.mkdir(parents=True, exist_ok=True)
     pid_file.write_text(str(os.getpid()))
     # Liveness is the pid file's flock, not the pid number (a recycled pid
     # must not read as alive) -- so hold it the way a real worker would,
@@ -858,10 +859,54 @@ def test_preflight_ignores_a_stale_worker_pid(repo, monkeypatch, tmp_path):
     _patch_structured_text_dir(monkeypatch, repo)
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
-    (tmp_path / "worker.pid").write_text("999999999")  # no such process
+    pid_file = repo / ".artmind" / "worker.pid"
+    pid_file.parent.mkdir(parents=True, exist_ok=True)
+    pid_file.write_text("999999999")  # no such process
 
     result = vs.sync(repo, bootstrap_synced=True)
     assert result["bootstrap"] == "synced"
+
+
+def test_preflight_reads_the_vaults_own_pid_file_not_the_process_wide_one(repo, monkeypatch, tmp_path):
+    """Item 1, second half (phase 1 review finding 7): preflight must derive
+    the pid path from `vault_dir` itself, not from the process-wide
+    `paths.WORKER_PID_FILE` -- a live worker recorded under the (irrelevant,
+    patched-away) `paths.WORKER_PID_FILE` must not block a sync of this
+    vault, and a live worker recorded under *this vault's own*
+    `.artmind/worker.pid` must."""
+    import fcntl
+    import os
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    # A live worker at the process-wide (patched, irrelevant) location must
+    # not affect this vault's preflight.
+    import paths
+    elsewhere_pid_file = tmp_path / "elsewhere-worker.pid"
+    monkeypatch.setattr(paths, "WORKER_PID_FILE", elsewhere_pid_file)
+    elsewhere_pid_file.write_text(str(os.getpid()))
+    elsewhere_holder = open(elsewhere_pid_file, "r+")
+    fcntl.flock(elsewhere_holder.fileno(), fcntl.LOCK_EX)
+    try:
+        result = vs.sync(repo, bootstrap_synced=True)
+        assert result["bootstrap"] == "synced"
+    finally:
+        elsewhere_holder.close()
+
+    # A live worker at THIS vault's own pid file must still block sync.
+    vault_pid_file = repo / ".artmind" / "worker.pid"
+    vault_pid_file.parent.mkdir(parents=True, exist_ok=True)
+    vault_pid_file.write_text(str(os.getpid()))
+    vault_holder = open(vault_pid_file, "r+")
+    fcntl.flock(vault_holder.fileno(), fcntl.LOCK_EX)
+    try:
+        with pytest.raises(vs.VaultSyncError, match="ingest worker is running"):
+            vs.sync(repo, bootstrap_synced=True)
+    finally:
+        vault_holder.close()
 
 
 # ── apply reads committed content only (spec 2026-09-26 §6 A1) ───────────────
