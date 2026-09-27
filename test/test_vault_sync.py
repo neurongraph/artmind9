@@ -220,22 +220,84 @@ def test_classify_diff_ignores_an_added_table_folder(repo, monkeypatch):
     assert plan.replay_docs == []
 
 
-def test_classify_diff_ignores_a_folder_with_no_observations_json_change(repo, monkeypatch):
-    """Only some OTHER file (e.g. table2graph_report.json) changed --
-    neither replay nor retract triggers (spec §4's own conditioning on
-    observations.json specifically)."""
+def test_classify_diff_replays_a_folder_when_only_another_file_changed(repo, monkeypatch):
+    """Spec 2026-09-26 §14 A4: any file changing inside a document folder
+    replays it, not only observations.json."""
     kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1", extra_files=("chunks.json", "table2graph_report.json"))
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
     _commit_all(repo, "add doc1")
     base = vs.head_sha(repo)
-    (kg_dir / "banking" / "doc1" / "table2graph_report.json").write_text('{"n": 1}')
-    _commit_all(repo, "edit report only")
+    (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "c1"}]')
+    _commit_all(repo, "edit chunks only")
 
     from artmind.vault import VaultLayout
     plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
 
+    assert plan.replay_docs == [("banking", "doc1")]
+    assert plan.retract == []
+
+
+def test_classify_diff_replays_a_folder_committed_in_two_halves(repo, monkeypatch):
+    """The timer commit caught document.json + observations.json; the next
+    commit brings chunks.json and relationships.json. The second commit must
+    replay the folder again, or a local-Neo4j receiver never sees them."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1", extra_files=())
+    _commit_all(repo, "first half")
+    base = vs.head_sha(repo)
+    for name in ("chunks.json", "relationships.json"):
+        (kg_dir / "banking" / "doc1" / name).write_text("[]")
+    _commit_all(repo, "second half")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "doc1")]
+
+
+def test_classify_diff_replays_on_a_nested_chunk_cache_change(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    cache = kg_dir / "banking" / "doc1" / "chunks" / "sha1"
+    cache.mkdir(parents=True)
+    (cache / "0.json").write_text("{}")
+    _commit_all(repo, "chunk cache")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [("banking", "doc1")]
+
+
+def test_classify_diff_waits_for_observations_before_replaying(repo, monkeypatch):
+    """A folder committed with document.json but no observations.json yet
+    has nothing to replay; the commit that adds observations.json will."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    folder = kg_dir / "banking" / "doc1"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text('{"id": "docid-1"}')
+    _commit_all(repo, "half a folder")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
     assert plan.replay_docs == []
     assert plan.retract == []
+
+
+def test_classify_diff_ignores_tracked_atomic_write_scratch(repo, monkeypatch):
+    """`.artmind-tmp`/`.artmind-old` are gitignored (R4); one that got tracked
+    anyway is never a document of its own."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1.artmind-tmp", "docid-1")
+    _commit_all(repo, "scratch got committed")
+
+    from artmind.vault import VaultLayout
+    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
 
 
 def test_classify_diff_scopes_to_requested_domains(repo, monkeypatch):
@@ -375,6 +437,7 @@ def test_classify_diff_raises_if_removed_folder_never_existed_at_base(monkeypatc
 
     removed_path = str((kg_dir / "banking" / "doc1" / "observations.json").relative_to(tmp_path))
     monkeypatch.setattr(vs, "_diff_name_status", lambda *a, **k: [("D", removed_path)])
+    monkeypatch.setattr(vs, "_present_at", lambda *a, **k: [])
     monkeypatch.setattr(vs, "_show", lambda *a, **k: None)
 
     with pytest.raises(vs.VaultSyncError, match="wasn't present"):
@@ -1122,3 +1185,33 @@ def test_sync_materializes_non_ascii_names_from_head(repo, monkeypatch):
 
     assert seen["files"] == ["café accounts.csv", "café accounts.meta.json"]
     assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["Café notes 2026"]
+
+
+def test_sync_replays_a_folder_whose_chunks_changed_with_the_committed_chunks(repo, monkeypatch):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    chunks = kg_dir / "banking" / "doc1" / "chunks.json"
+    chunks.write_text('[{"id": "c1", "text": "committed"}]')
+    _commit_all(repo, "edit chunks only")
+    chunks.write_text('[{"id": "c1", "text": "uncommitted"}]')
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})  # after the last commit: state.json stays uncommitted
+
+    import json
+
+    import artmind.ingest as ing
+
+    seen = []
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain, defer_rebuild=False: seen.append((d.name, json.loads((d / "chunks.json").read_text())))
+        or {"deferred_keys": [], "unembedded_chunk_ids": []},
+    )
+
+    vs.sync(repo)
+
+    assert seen == [("doc1", [{"id": "c1", "text": "committed"}])]
