@@ -145,9 +145,8 @@ def test_classify_diff_replays_an_added_document_folder(repo, monkeypatch):
     kg_dir = _patch_kg_dir(monkeypatch, repo)
     _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
     _commit_all(repo, "add doc1")
-    from artmind.vault import VaultLayout
 
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
     assert plan.retract == []
@@ -161,8 +160,7 @@ def test_classify_diff_replays_a_modified_document_folder(repo, monkeypatch):
     (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"key": "x"}]')
     _commit_all(repo, "edit doc1")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
 
@@ -176,8 +174,7 @@ def test_classify_diff_retracts_a_removed_document_folder(repo, monkeypatch):
     shutil.rmtree(kg_dir / "banking" / "doc1")
     _commit_all(repo, "remove doc1")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == []
     assert plan.retract == [("banking", "docid-1")]
@@ -198,8 +195,7 @@ def test_classify_diff_does_not_retract_a_moved_documents_id(repo, monkeypatch):
     _write_doc_folder(kg_dir, "banking", "new-name", "docid-1")
     _commit_all(repo, "rename doc1's folder")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "new-name")]
     assert plan.retract == []
@@ -220,8 +216,7 @@ def test_classify_diff_does_not_retract_when_the_new_folder_already_exists_at_he
     shutil.rmtree(kg_dir / "banking" / "old-name")
     _commit_all(repo, "remove the old folder")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == []
     assert plan.retract == []
@@ -243,8 +238,7 @@ def test_classify_diff_ignores_a_removed_table_folder(repo, monkeypatch):
     shutil.rmtree(kg_dir / "banking" / "table__accounts")
     _commit_all(repo, "remove table folder")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.retract == []
     assert plan.replay_docs == []
@@ -259,8 +253,7 @@ def test_classify_diff_ignores_an_added_table_folder(repo, monkeypatch):
     _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
     _commit_all(repo, "add table")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.replay_docs == []
 
@@ -275,8 +268,7 @@ def test_classify_diff_replays_a_folder_when_only_another_file_changed(repo, mon
     (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "c1"}]')
     _commit_all(repo, "edit chunks only")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
     assert plan.retract == []
@@ -294,8 +286,7 @@ def test_classify_diff_replays_a_folder_committed_in_two_halves(repo, monkeypatc
         (kg_dir / "banking" / "doc1" / name).write_text("[]")
     _commit_all(repo, "second half")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
 
@@ -310,8 +301,7 @@ def test_classify_diff_replays_on_a_nested_chunk_cache_change(repo, monkeypatch)
     (cache / "0.json").write_text("{}")
     _commit_all(repo, "chunk cache")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
 
@@ -325,8 +315,7 @@ def test_classify_diff_waits_for_observations_before_replaying(repo, monkeypatch
     (folder / "document.json").write_text('{"id": "docid-1"}')
     _commit_all(repo, "half a folder")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.replay_docs == []
     assert plan.retract == []
@@ -339,8 +328,7 @@ def test_classify_diff_ignores_tracked_atomic_write_scratch(repo, monkeypatch):
     _write_doc_folder(kg_dir, "banking", "doc1.artmind-tmp", "docid-1")
     _commit_all(repo, "scratch got committed")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.replay_docs == []
 
@@ -357,8 +345,7 @@ def test_classify_diff_retracts_when_observations_deleted_but_other_files_remain
     (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "x"}]')
     _commit_all(repo, "remove observations, edit chunks")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == []
     assert plan.retract == [("banking", "docid-1")]
@@ -370,8 +357,7 @@ def test_classify_diff_scopes_to_requested_domains(repo, monkeypatch):
     _write_doc_folder(kg_dir, "legal", "doc2", "docid-2")
     _commit_all(repo, "add both")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo), domains=["banking"])
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo), domains=["banking"])
 
     assert plan.replay_docs == [("banking", "doc1")]
 
@@ -386,8 +372,7 @@ def test_classify_diff_regenerates_an_added_table_csv(repo, monkeypatch):
     (st_dir / "manifest.json").write_text("{}")
     _commit_all(repo, "add table text")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.regenerate_tables == [("banking", "accounts")]
 
@@ -402,8 +387,7 @@ def test_classify_diff_retracts_a_removed_table_csv(repo, monkeypatch):
     (st_dir / "banking" / "accounts.csv").unlink()
     _commit_all(repo, "remove table text")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.regenerate_tables == []
     assert plan.retract == [("banking", "table:banking:accounts")]
@@ -423,8 +407,7 @@ def test_classify_diff_manifest_only_change_triggers_nothing(repo, monkeypatch):
     (st_dir / "manifest.json").write_text('{"changed": true}')
     _commit_all(repo, "edit manifest only")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.regenerate_tables == []
 
@@ -448,8 +431,7 @@ def test_classify_diff_dedupes_a_table_retracted_from_both_tracks(repo, monkeypa
     (st_dir / "banking" / "accounts.csv").unlink()
     _commit_all(repo, "remove both")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.retract == [("banking", "table:banking:accounts")]
 
@@ -475,8 +457,7 @@ def test_classify_diff_never_sees_track_bs_uncommitted_output_in_the_same_run(re
     # Simulate track B having just written fresh output mid-run, uncommitted.
     _write_doc_folder(kg_dir, "banking", "table__accounts", "table:banking:accounts")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, head)
+    plan = vs.classify_diff(repo, base, head)
 
     assert plan.replay_docs == [], (
         "an uncommitted table__* folder must never be picked up as a track-A "
@@ -497,7 +478,6 @@ def test_classify_diff_raises_if_removed_folder_never_existed_at_base(monkeypatc
     path (matching what git itself would return -- see its docstring) rather
     than leaning on a since-removed "unscoped root" fallback."""
     kg_dir = _patch_kg_dir(monkeypatch, tmp_path)
-    from artmind.vault import VaultLayout
 
     removed_path = str((kg_dir / "banking" / "doc1" / "observations.json").relative_to(tmp_path))
     monkeypatch.setattr(vs, "_diff_name_status", lambda *a, **k: [("D", removed_path)])
@@ -505,7 +485,7 @@ def test_classify_diff_raises_if_removed_folder_never_existed_at_base(monkeypatc
     monkeypatch.setattr(vs, "_show", lambda *a, **k: None)
 
     with pytest.raises(vs.VaultSyncError, match="wasn't present"):
-        vs.classify_diff(tmp_path, VaultLayout(tmp_path), "base-sha", "head-sha")
+        vs.classify_diff(tmp_path, "base-sha", "head-sha")
 
 
 def test_classify_diff_scopes_to_a_domain_ancestor(repo, monkeypatch):
@@ -516,8 +496,7 @@ def test_classify_diff_scopes_to_a_domain_ancestor(repo, monkeypatch):
     _write_doc_folder(kg_dir, "banking.retail", "doc1", "docid-1")
     _commit_all(repo, "add doc1")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo), domains=["banking"])
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo), domains=["banking"])
 
     assert plan.replay_docs == [("banking.retail", "doc1")]
 
@@ -533,8 +512,7 @@ def test_classify_diff_ignores_document_json_changing_alongside_observations(rep
     (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"key": "y"}]')
     _commit_all(repo, "edit both document.json and observations.json")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "doc1")]
 
@@ -643,6 +621,47 @@ def test_sync_replays_an_added_document_folder_and_advances_the_cursor(repo, mon
     assert result["last_synced_commit"] == vs.head_sha(repo)
 
     from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+
+
+def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
+    """A `--domain`-scoped sync must not write `last_synced_commit`: doing so
+    would leave changes to OTHER domains in base..head permanently
+    unapplied on this machine -- silent data loss (item 3). A later
+    unscoped sync must still see, and apply, the other domain's change."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add banking doc")
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    first = vs.sync(repo, bootstrap_empty=True)
+    assert first["cursor_advanced"] is True
+    assert first["last_synced_commit"] == vs.head_sha(repo)
+    from artmind.vault import VaultLayout, read_state
+    checkpoint = vs.head_sha(repo)
+
+    _write_doc_folder(kg_dir, "banking", "doc2", "docid-2")
+    _write_doc_folder(kg_dir, "legal", "doc3", "docid-3")
+    _commit_all(repo, "add banking doc2 and legal doc3")
+    calls["write_to_neo4j"].clear()
+
+    scoped = vs.sync(repo, domains=["banking"])
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc2"]
+    assert scoped["cursor_advanced"] is False
+    assert scoped["last_synced_commit"] == checkpoint
+    assert "note" in scoped and scoped["note"]
+    assert read_state(VaultLayout(repo))["last_synced_commit"] == checkpoint
+
+    calls["write_to_neo4j"].clear()
+    full = vs.sync(repo)
+
+    # Re-applies doc2 too -- idempotent -- since the cursor never moved past
+    # `checkpoint`; doc3 is the change that would otherwise have been lost.
+    assert {Path(p).name for p, _ in calls["write_to_neo4j"]} == {"doc2", "doc3"}
+    assert full["cursor_advanced"] is True
+    assert full["last_synced_commit"] == vs.head_sha(repo)
     assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
 
 
@@ -1157,8 +1176,7 @@ def test_classify_diff_regenerates_a_table_whose_meta_changed(repo, monkeypatch)
     (st_dir / "banking" / "accounts.meta.json").write_text('{"v": 2}')
     _commit_all(repo, "edit meta only")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.regenerate_tables == [("banking", "accounts")]
 
@@ -1170,8 +1188,7 @@ def test_classify_diff_regenerates_a_table_once_when_csv_and_meta_both_change(re
     (st_dir / "banking" / "accounts.meta.json").write_text("{}")
     _commit_all(repo, "add table text")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.regenerate_tables == [("banking", "accounts")]
 
@@ -1187,8 +1204,7 @@ def test_classify_diff_a_removed_table_is_retracted_not_regenerated(repo, monkey
     (st_dir / "banking" / "accounts.meta.json").write_text('{"v": 2}')
     _commit_all(repo, "drop csv, touch meta")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.regenerate_tables == []
     assert plan.retract == [("banking", "table:banking:accounts")]
@@ -1256,8 +1272,7 @@ def _cafe_fixture(repo, monkeypatch):
 def test_classify_diff_reads_non_ascii_and_space_names_verbatim(repo, monkeypatch):
     _cafe_fixture(repo, monkeypatch)
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
 
     assert plan.replay_docs == [("banking", "Café notes 2026")]
     assert plan.regenerate_tables == [("banking", "café accounts")]
@@ -1270,8 +1285,7 @@ def test_classify_diff_retracts_a_removed_non_ascii_folder(repo, monkeypatch):
     shutil.rmtree(kg_dir / "banking" / "Café notes 2026")
     _commit_all(repo, "remove café notes")
 
-    from artmind.vault import VaultLayout
-    plan = vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo))
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
 
     assert plan.retract == [("banking", "docid-cafe")]
 
@@ -1631,9 +1645,8 @@ def test_sync_dry_run_lists_an_unmapped_table_as_structured_only(repo, monkeypat
 
 
 def _classify(repo, base, domains=None):
-    from artmind.vault import VaultLayout
 
-    return vs.classify_diff(repo, VaultLayout(repo), base, vs.head_sha(repo), domains)
+    return vs.classify_diff(repo, base, vs.head_sha(repo), domains)
 
 
 def _mapped_tables_base(repo, monkeypatch, tables=("accounts", "loans"), pattern="acc*"):

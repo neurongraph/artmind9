@@ -3430,7 +3430,13 @@ def vault_status(compact: bool):
     help="Stamp the cursor at HEAD with no replay at all -- for right after a full "
     "`session initiate`/`db restore`, where the graph is already known-current.",
 )
-@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope the sync (repeatable; comma-splittable). Default: every domain.")
+@click.option(
+    "--domain", "domain", multiple=True,
+    help="Domain(s) to scope the sync (repeatable; comma-splittable). Default: every domain. "
+    "A scoped sync applies only that domain's changes and does NOT advance last_synced_commit "
+    "-- other domains changed in the same range stay pending, so a later unscoped sync still "
+    "sees (and idempotently re-applies) this one too.",
+)
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
@@ -3448,6 +3454,14 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
     not replace) `session close`/`session initiate`'s whole-graph snapshot.
     Run with no marker yet? pass --bootstrapEmpty or --bootstrapSynced (see
     each flag's own help).
+
+    --domain scopes which changes are applied, but never advances the
+    last_synced_commit bookmark: a domain-scoped run only classified and
+    applied that domain's slice of the range, so moving the cursor past it
+    would silently strand every other domain's changes in that same range.
+    A later unscoped `vault sync` still starts from the same bookmark, applies
+    whatever was missed, and idempotently re-applies what the scoped run
+    already did.
 
     Applies committed content only (never the working tree) and never
     commits. Refuses while a merge/rebase is in progress, while files under

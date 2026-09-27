@@ -587,7 +587,7 @@ def _classify_table_sources(
 
 
 def classify_diff(
-    vault_dir: Path, layout, base: str, head: str, domains: list[str] | None = None
+    vault_dir: Path, base: str, head: str, domains: list[str] | None = None
 ) -> SyncPlan:
     """The full classified diff for one sync run (spec §4), over the FIXED
     `base..head` range the caller has already resolved -- never re-queried
@@ -653,7 +653,7 @@ def sync(
         )
     base = EMPTY_TREE_SHA if bootstrap_empty else last_synced
 
-    plan = classify_diff(vault_dir, layout, base, head, domains)
+    plan = classify_diff(vault_dir, base, head, domains)
 
     if dry_run:
         structured_only_dry: list[str] = []
@@ -776,11 +776,22 @@ def sync(
     # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)
 
     # ── only on full success, advance the cursor (§5 step 7) ────────────────
-    write_state(layout, {"last_synced_commit": head})
+    # A `--domain`-scoped run only classified and applied ITS domain(s) --
+    # writing the single `last_synced_commit` anyway would make every other
+    # domain's change in base..head permanently unapplied on this machine
+    # (item 3, vault-sync-completion review): the next unscoped sync would
+    # start its diff from `head`, never seeing them. Leave the cursor where
+    # it was so a later unscoped sync still covers this same range; re-
+    # applying this domain's changes then is a no-op-shaped replay, not a
+    # problem (track A/B/§7 are all idempotent by id/key).
+    cursor_advanced = not domains
+    if cursor_advanced:
+        write_state(layout, {"last_synced_commit": head})
 
-    return {
+    result = {
         "base": base,
-        "last_synced_commit": head,
+        "last_synced_commit": head if cursor_advanced else last_synced,
+        "cursor_advanced": cursor_advanced,
         "replayed": len(plan.replay_docs),
         "retracted": len(plan.retract),
         "regenerated_tables": len(plan.regenerate_tables),
@@ -788,3 +799,10 @@ def sync(
         "projection": projection_summary,
         "domains_swept": touched_domains,
     }
+    if not cursor_advanced:
+        result["note"] = (
+            f"domain-scoped sync (--domain {','.join(domains)}): applied but did not advance "
+            "last_synced_commit -- other domains changed in this range are still pending; a "
+            "later unscoped `vault sync` will apply them (and idempotently re-apply this one)"
+        )
+    return result
