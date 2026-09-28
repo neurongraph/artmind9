@@ -2357,6 +2357,34 @@ def test_the_legacy_cursor_survives_until_both_stores_have_their_own(repo, monke
     assert _bookmarks(repo) == (c3, c3)
 
 
+def test_the_legacy_cursor_survives_until_both_stores_have_their_own_graph_first(repo, monkeypatch, graph):
+    """Mirror of the test above with the orderings swapped -- graph bootstraps
+    first (e.g. right after `session initiate`, which only sets the graph
+    bookmark), then structured. `read_bookmarks` only queries the graph
+    `if "graph" in stores`, so the second (structured-only) run never reads
+    the graph's bookmark itself -- it must still see that the graph already
+    has one, and retire the legacy cursor, rather than mistaking "didn't
+    check" for "doesn't exist"."""
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, read_state, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": c1})
+    _patch_ingest_and_projection(monkeypatch)
+    _patch_track_b(monkeypatch)
+
+    vs.sync(repo, store="graph")
+
+    assert read_state(VaultLayout(repo)) == {"last_synced_commit": c1}
+    assert _bookmarks(repo) == (c3, None)
+
+    vs.sync(repo, store="structured")
+
+    assert read_state(VaultLayout(repo)) == {"last_structured_commit": c3}, (
+        "both stores now have their own bookmark -- the legacy cursor must be retired "
+        "even though this run never itself read the graph bookmark"
+    )
+    assert _bookmarks(repo) == (c3, c3)
+
+
 def test_a_graph_bookmark_this_clone_has_not_pulled_is_refused(repo, monkeypatch, graph):
     """The other machine sharing the graph applied a commit this clone does
     not have. Diffing from it would retract that machine's documents."""

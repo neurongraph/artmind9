@@ -3472,13 +3472,13 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     Run with no marker yet? pass --bootstrapEmpty or --bootstrapSynced (see
     each flag's own help).
 
-    --domain scopes which changes are applied, but never advances the
-    last_synced_commit bookmark: a domain-scoped run only classified and
-    applied that domain's slice of the range, so moving the cursor past it
+    --domain scopes which changes are applied, but does NOT advance either
+    bookmark (graph or structured): a domain-scoped run only classified and
+    applied that domain's slice of the range, so moving a cursor past it
     would silently strand every other domain's changes in that same range.
-    A later unscoped `vault sync` still starts from the same bookmark, applies
-    whatever was missed, and idempotently re-applies what the scoped run
-    already did.
+    A later unscoped `vault sync` still starts from the same bookmark(s),
+    applies whatever was missed, and idempotently re-applies what the scoped
+    run already did.
 
     Applies committed content only (never the working tree) and never
     commits. Refuses while a merge/rebase is in progress, while files under

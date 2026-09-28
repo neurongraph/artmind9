@@ -778,7 +778,8 @@ def _advance_bookmarks(
     vault_dir: Path, vault_id: str | None, stores: tuple[str, ...], commit: str, marks: Bookmarks
 ) -> Bookmarks:
     """Move every store in `stores` to `commit`: the graph's node first, then
-    `state.json`. Retires the legacy cursor once both stores have their own."""
+    `state.json`. Retires the legacy cursor once both stores genuinely have
+    their own bookmark."""
     from artmind import sync_state
     from artmind.vault import VaultLayout, write_state
 
@@ -791,9 +792,28 @@ def _advance_bookmarks(
         updates[STRUCTURED_BOOKMARK_KEY] = commit
         new.structured = commit
     remove: tuple[str, ...] = ()
-    if new.legacy is not None and new.graph is not None and new.structured is not None:
-        remove = (LEGACY_CURSOR_KEY,)
-        new.legacy = None
+    if new.legacy is not None:
+        # `marks` (and so `new`) only carries the graph bookmark when this
+        # run's `stores` included "graph" -- `read_bookmarks` skips Neo4j
+        # otherwise. So `new.graph is None` here means either "no graph
+        # bookmark exists" or "this run never checked", and those are not the
+        # same thing: a structured-only run following an earlier
+        # `--store graph` run must not read the second as "graph has no
+        # bookmark" and keep the legacy cursor forever. Re-read the graph
+        # bookmark directly, but only in this narrow spot -- deciding
+        # retirement when there's a legacy cursor to retire and this run
+        # didn't already read the graph -- not on every sync call.
+        graph_bookmark = new.graph
+        if "graph" not in stores:
+            from artmind.manifest import read_vault_id
+
+            resolved_vault_id = vault_id if vault_id is not None else read_vault_id(vault_dir)
+            graph_bookmark = (
+                sync_state.read_graph_bookmark(resolved_vault_id) if resolved_vault_id is not None else None
+            )
+        if graph_bookmark is not None and new.structured is not None:
+            remove = (LEGACY_CURSOR_KEY,)
+            new.legacy = None
     if updates or remove:
         write_state(VaultLayout(vault_dir), updates, remove=remove)
     return new
