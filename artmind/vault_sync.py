@@ -1253,6 +1253,20 @@ def staleness_message(pending: dict) -> str | None:
                 f"artmind: the {name} store's sync bookmark is not in this clone's history "
                 "-- let Obsidian Git pull, then run `artmind vault sync`"
             )
+    erroring = [name for name, report in (("graph", graph), ("structured", structured)) if report.get("state") == "error"]
+    if len(erroring) == 1:
+        name = erroring[0]
+        detail = pending[name].get("detail")
+        return (
+            f"artmind: the {name} store's sync would fail -- {detail} -- "
+            "fix it, then run `artmind vault sync`"
+        )
+    if erroring:
+        details = "; ".join(f"{name}: {pending[name].get('detail')}" for name in erroring)
+        return (
+            f"artmind: the {' and '.join(erroring)} stores' sync would fail -- {details} -- "
+            "fix it, then run `artmind vault sync`"
+        )
     tables = {tuple(t) for t in graph.get("tables", [])} | {tuple(t) for t in structured.get("tables", [])}
     docs = graph.get("docs", 0)
     if not docs and not tables:

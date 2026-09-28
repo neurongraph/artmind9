@@ -2738,6 +2738,37 @@ def test_pending_work_reports_each_store(repo, monkeypatch, graph):
     assert pending["structured"]["tables"] == [("banking", "accounts"), ("banking", "loans")]
 
 
+def test_pending_work_reports_current_when_a_stores_bookmark_is_already_head(repo, monkeypatch, graph):
+    """Pins the `current` state string directly against `pending_work`,
+    rather than only via `query_staleness_warning`'s early bail-out (which
+    never calls `pending_work` at all when both bookmarks equal HEAD)."""
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    marks = vs.Bookmarks(graph=c3, structured=c3)
+
+    pending = vs.pending_work(repo, c3, marks)
+
+    assert pending["graph"] == {"bookmark": c3, "state": "current", "docs": 0, "tables": [], "detail": None}
+    assert pending["structured"] == {
+        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "detail": None,
+    }
+
+
+def test_pending_work_reports_no_bookmark_when_a_store_has_never_synced(repo, monkeypatch, graph):
+    """Pins the `no_bookmark` state string directly against `pending_work`,
+    rather than only via `query_staleness_warning`'s early bail-out (which
+    never calls `pending_work` when neither `STRUCTURED_BOOKMARK_KEY` nor
+    `LEGACY_CURSOR_KEY` is present in `state.json`)."""
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    marks = vs.Bookmarks(graph=None, structured=None)
+
+    pending = vs.pending_work(repo, c3, marks)
+
+    assert pending["graph"] == {"bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "detail": None}
+    assert pending["structured"] == {
+        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "detail": None,
+    }
+
+
 def test_pending_work_reports_an_unclassifiable_range_instead_of_raising(repo, monkeypatch, graph):
     c1, _, c3 = _three_commits(repo, monkeypatch)
     _synced_at(repo, graph, c1, c1)
@@ -2751,6 +2782,39 @@ def test_pending_work_reports_an_unclassifiable_range_instead_of_raising(repo, m
 
     assert pending["graph"]["state"] == "error"
     assert "invalid YAML" in pending["graph"]["detail"]
+    # The structured store also has pending tables here, but a store that
+    # cannot even be classified must be surfaced ahead of the docs/tables
+    # aggregation -- otherwise `vault sync` refusing outright looks, from
+    # this message alone, like ordinary catch-up work.
     assert vs.staleness_message(pending) == (
-        "artmind: structured store is 2 tables behind the vault — run `artmind vault sync`"
+        "artmind: the graph store's sync would fail -- mappings/x.yaml: invalid YAML (at abc) -- "
+        "fix it, then run `artmind vault sync`"
     )
+
+
+def test_staleness_message_names_an_erroring_store_even_when_the_other_is_current(repo, monkeypatch, graph):
+    """Reproduces the silent-failure bug: the graph store is unclassifiable
+    (`state == "error"`) while the structured store is fully caught up
+    (`state == "current"`, no docs/tables). The generic docs/tables
+    aggregation sees nothing pending from either store and used to return
+    `None` -- complete silence on a range that would make `vault sync`
+    itself refuse. `staleness_message` must surface the erroring store
+    explicitly, the same way it already does for `not_ancestor`."""
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c1, c3)  # graph behind at c1; structured caught up at head
+
+    def _broken(*a, **k):
+        raise vs.VaultSyncError("mappings/x.yaml: invalid YAML (at abc)")
+
+    monkeypatch.setattr(vs, "classify_diff", _broken)
+
+    pending = vs.pending_work(repo, c3, vs.read_bookmarks(repo, vault_id=VAULT_ID))
+
+    assert pending["graph"]["state"] == "error"
+    assert pending["structured"]["state"] == "current"
+
+    message = vs.staleness_message(pending)
+
+    assert message is not None
+    assert "graph" in message
+    assert "invalid YAML" in message
