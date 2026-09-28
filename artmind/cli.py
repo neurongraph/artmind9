@@ -3622,6 +3622,14 @@ def init(directory: str, interactive: bool, remote_url: str | None):
     click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
     click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+    vault_id = summary.get("vault_id")
+    if vault_id and summary.get("vault_id_minted"):
+        click.echo(
+            f"Vault id: {vault_id} (new -- let Obsidian Git commit "
+            ".artmind/vault.yaml before running `artmind init` in another clone)"
+        )
+    elif vault_id:
+        click.echo(f"Vault id: {vault_id}")
 
     machine_config = summary.get("machine_config", {})
     action = machine_config.get("action")

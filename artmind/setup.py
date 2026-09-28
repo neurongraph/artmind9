@@ -418,6 +418,11 @@ def scaffold_vault(
 
     if not layout.vault_yaml.exists():
         layout.vault_yaml.write_text(_STARTER_VAULT_YAML, encoding="utf-8")
+    # Spec 2026-09-26 §6 A2: minted once, committed, and added to a vault
+    # initialised before it existed -- appended, the rest of the file untouched.
+    from artmind.manifest import ensure_vault_id
+
+    vault_id, vault_id_minted = ensure_vault_id(root)
 
     linked = _symlink_skills(layout.skills_dir)
     linked_opencode = _symlink_opencode_agents(layout.opencode_agents_dir)
@@ -440,6 +445,8 @@ def scaffold_vault(
         "gitattributes": gitattributes_written,
         "machine_config": machine_config,
         "git_remote": git_remote_status,
+        "vault_id": vault_id,
+        "vault_id_minted": vault_id_minted,
     }
 
 
