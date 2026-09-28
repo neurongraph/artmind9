@@ -113,7 +113,7 @@ requires-dist = [
     { name = "json-repair", specifier = ">=0.30.0" },
     { name = "langchain-text-splitters", marker = "extra == 'ingest'", specifier = ">=1.1.2" },
     { name = "loguru", specifier = ">=0.7.3" },
-    { name = "neo4j", specifier = ">=5.0.0" },
+    { name = "neo4j", specifier = ">=5.26.0" },
     { name = "ollama", specifier = ">=0.6.1" },
     { name = "openai", specifier = ">=1.50.0" },
     { name = "openpyxl", marker = "extra == 'ingest'", specifier = ">=3.1.0" },
