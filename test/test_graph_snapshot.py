@@ -741,3 +741,50 @@ class TestRestoredStaleEntityKeys:
             {"key": None},
         ]
         assert _restored_stale_entity_keys(session) == [("alice", "PERSON", "banking")]
+
+
+# ── the vault-sync bookmark travels with the graph (spec 2026-09-26 §6 A2) ──
+
+
+def test_session_close_exports_the_sync_bookmark_and_initiate_recreates_it(tmp_path, monkeypatch):
+    from contextlib import contextmanager
+
+    import artmind.graph_snapshot as gs
+
+    bookmark = {"vault_id": "v1", "last_applied_commit": "c0ffee", "applied_at": "2026-09-27T00:00:00+00:00"}
+
+    class _Session:
+        def run(self, cypher, **params):
+            if cypher.startswith("MATCH (n:ArtmindSyncState)"):
+                return FakeResult([{"props": bookmark, "labels": ["ArtmindSyncState"]}])
+            return FakeResult([])
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield _Session()
+
+    monkeypatch.setattr(gs, "neo4j_session", _fake)
+    monkeypatch.setattr(gs, "GRAPH_SNAPSHOT_DIR", tmp_path)
+
+    data = _read_snapshot(gs.export_graph())
+
+    assert data["nodes"]["ArtmindSyncState"] == [{**bookmark, "labels": ["ArtmindSyncState"]}]
+    restore = FakeSession()
+    _restore_nodes(restore, data["nodes"])
+    assert ("CREATE (n:ArtmindSyncState) SET n = $props", {"props": bookmark}) in restore.calls
+
+
+def test_session_initiate_says_whether_the_bookmark_came_back(tmp_path, monkeypatch):
+    import paths
+
+    monkeypatch.setattr(paths, "ARTMIND_VAULT_DIR", tmp_path)
+    base = {"snapshot": "s.tar.gz", "relationship_count": 0, "elapsed_seconds": 0.1}
+
+    with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"Document": 1}}):
+        without = CliRunner().invoke(cli, ["session", "initiate", "--yes"])
+    with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"ArtmindSyncState": 1}}):
+        with_bookmark = CliRunner().invoke(cli, ["session", "initiate", "--yes"])
+
+    assert "Sync bookmark: none in this snapshot" in without.output
+    assert "--bootstrapSynced" in without.output
+    assert "Sync bookmark: restored with the graph" in with_bookmark.output

@@ -3204,6 +3204,16 @@ def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bo
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
+    import paths
+
+    if paths.ARTMIND_VAULT_DIR is not None:
+        if node_counts.get("ArtmindSyncState"):
+            click.echo("  Sync bookmark: restored with the graph (`artmind vault status` shows it)")
+        else:
+            click.echo(
+                "  Sync bookmark: none in this snapshot -- the next `artmind vault sync` needs "
+                "--bootstrapSynced (graph known-current) or --bootstrapEmpty (replay everything)"
+            )
 
 
 # ── artmind snapshot ───────────────────────────────────────────────────────────
