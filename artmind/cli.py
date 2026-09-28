@@ -3571,8 +3571,8 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     Detects exactly which document folders under .artmind/data/kg/**, which
     structured-store tables under .artmind/data/structured_text/**, and which
     table mappings (.artmind/domains/table_mappings/*.yaml) and domain schemas
-    (.artmind/domains/schemas/*_schema.yaml) changed in git since the last
-    `vault sync`, and replays only those — incremental, CDC-like, and
+    (.artmind/domains/schemas/*_schema.yaml) changed in git since each
+    store's bookmark, and replays only those — incremental, CDC-like, and
     git-native. A document folder replays when any file in it changed. A
     changed mapping or schema re-projects the tables it governs; a table a
     removed mapping no longer covers is retracted from the graph; a table no

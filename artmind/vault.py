@@ -159,7 +159,9 @@ class VaultLayout:
 
     @property
     def state_json(self) -> Path:
-        """The ingest cursor: `last_ingested_commit`."""
+        """Machine-local cursors: `last_ingested_commit`, and `vault sync`'s
+        structured-store bookmark `last_structured_commit` (the graph's lives
+        in the graph)."""
         return self.artmind_dir / "state.json"
 
     @property
