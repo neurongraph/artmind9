@@ -2875,3 +2875,65 @@ def test_staleness_message_names_both_stores_when_both_error():
         "structured: mappings/accounts.yaml: invalid YAML (at def) -- "
         "fix it, then run `artmind vault sync`"
     )
+
+
+# ── `status_report`'s exception handling ──────────────────────────────────
+
+
+def test_status_report_does_not_swallow_a_non_graph_exception_from_the_bookmark_read(repo, monkeypatch):
+    """`status_report` relabels a genuinely unreachable graph as
+    "graph unreachable" -- but it must NOT do that for an arbitrary bug
+    elsewhere in the read path (an `AttributeError`/`TypeError` from a
+    refactor). Catching bare `Exception` there would hide exactly the kind
+    of defect a user running `vault status` to diagnose a problem is trying
+    to find (CLAUDE.md's "Testing implications" #3)."""
+    from artmind import sync_state
+
+    def _broken(vault_id, *, timeout=None):
+        raise AttributeError("'NoneType' object has no attribute 'run'")
+
+    monkeypatch.setattr(sync_state, "read_graph_bookmark", _broken)
+
+    with pytest.raises(AttributeError, match="has no attribute 'run'"):
+        vs.status_report(repo)
+
+
+def test_status_report_still_labels_a_real_neo4j_error_as_graph_unreachable(repo, monkeypatch):
+    """The narrowed except clause must still catch what the graph-read path
+    can legitimately raise: a real `neo4j.exceptions` error (not just the
+    `OSError` a raw socket failure would raise)."""
+    from neo4j.exceptions import ServiceUnavailable
+
+    from artmind import sync_state
+
+    def _unreachable(vault_id, *, timeout=None):
+        raise ServiceUnavailable("Couldn't connect to localhost:7687")
+
+    monkeypatch.setattr(sync_state, "read_graph_bookmark", _unreachable)
+
+    report = vs.status_report(repo)
+
+    assert report["graph_error"] is not None
+    assert report["graph_error"].startswith("graph unreachable")
+    assert "Couldn't connect" in report["graph_error"]
+    assert list(report["stores"]) == ["structured"]
+
+
+def test_status_report_git_failure_is_not_mislabeled_not_a_git_repository(repo, monkeypatch):
+    """`operation_in_progress`/`unresolved_artmind_conflicts` both call
+    `_git`, which raises `VaultSyncError` for ANY nonzero exit from ANY git
+    subcommand -- not only "not a git repository". A lock-file failure (or a
+    corrupted `.git`, or a permissions issue) must not be mislabeled with a
+    guessed cause that isn't what actually happened."""
+    def _locked(vault_dir):
+        raise vs.VaultSyncError(
+            "git diff --name-only -z --diff-filter=U -- .artmind failed: "
+            "fatal: Unable to create '/repo/.git/index.lock': File exists."
+        )
+
+    monkeypatch.setattr(vs, "operation_in_progress", _locked)
+
+    report = vs.status_report(repo)
+
+    assert "not a git repository" not in report["graph_error"]
+    assert "index.lock" in report["graph_error"]

@@ -411,3 +411,76 @@ def test_vault_status_in_a_vault_with_no_commits(tmp_path, monkeypatch):
 
     assert result.exit_code == 0, result.output
     assert "HEAD:     (no commits yet)" in result.output
+
+
+def _base_sync_report(**overrides):
+    """A minimal `status_report()`-shaped dict, for testing `_echo_sync_status`
+    directly without going through a real vault/git/graph."""
+    report = {
+        "head": "abc123",
+        "vault_id": "vault-under-test",
+        "operation_in_progress": None,
+        "unresolved_conflicts": [],
+        "legacy_cursor": None,
+        "graph_error": None,
+        "stores": {
+            "graph": {"bookmark": "abc123", "state": "current", "docs": 0, "tables": [], "detail": None},
+            "structured": {"bookmark": "abc123", "state": "current", "docs": 0, "tables": [], "detail": None},
+        },
+        "message": None,
+    }
+    report.update(overrides)
+    return report
+
+
+def test_echo_sync_status_collapses_a_multiline_error_detail_to_one_line(capsys):
+    """Mirrors `test_staleness_message_collapses_a_multiline_detail_to_one_stderr_line`
+    in test_vault_sync.py: a broken table mapping's PyYAML error is genuinely
+    multi-line (header, `in "...", line N, column M:`, source snippet, `^`
+    caret). `_echo_sync_status`'s per-store `state == "error"` branch must
+    collapse it the same way `staleness_message` already does, or it breaks
+    the one-`Sync:`-line-per-store contract the rest of the human-readable
+    output relies on."""
+    from artmind.cli import _echo_sync_status
+
+    multiline_detail = (
+        'mapping values are not allowed here\n'
+        '  in "<unicode string>", line 1, column 5:\n'
+        '    a: b: c\n'
+        '        ^'
+    )
+    sync = _base_sync_report(
+        stores={
+            "graph": {"bookmark": "abc123", "state": "error", "docs": 0, "tables": [], "detail": multiline_detail},
+            "structured": {"bookmark": "abc123", "state": "current", "docs": 0, "tables": [], "detail": None},
+        },
+    )
+
+    _echo_sync_status(sync)
+
+    out = capsys.readouterr().out
+    graph_line = next(line for line in out.splitlines() if line.startswith("Sync:     graph"))
+    assert "\n" not in graph_line
+    assert graph_line == (
+        "Sync:     graph      abc123  cannot tell — mapping values are not allowed here "
+        'in "<unicode string>", line 1, column 5: a: b: c ^'
+    )
+
+
+def test_echo_sync_status_collapses_a_multiline_graph_error_to_one_line(capsys):
+    """Same hazard as above, for the "store absent -> (unknown — ...)" branch:
+    `sync["graph_error"]` (e.g. a multi-line exception message) must also be
+    collapsed to one line before splicing into the `Sync:` line."""
+    from artmind.cli import _echo_sync_status
+
+    sync = _base_sync_report(
+        graph_error="graph unreachable: line one\nline two",
+        stores={"structured": {"bookmark": "abc123", "state": "current", "docs": 0, "tables": [], "detail": None}},
+    )
+
+    _echo_sync_status(sync)
+
+    out = capsys.readouterr().out
+    graph_line = next(line for line in out.splitlines() if line.startswith("Sync:     graph"))
+    assert "\n" not in graph_line
+    assert graph_line == "Sync:     graph      (unknown — graph unreachable: line one line two)"

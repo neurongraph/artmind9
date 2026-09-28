@@ -1351,7 +1351,13 @@ def status_report(vault_dir: Path) -> dict:
         report["operation_in_progress"] = operation_in_progress(vault_dir)
         report["unresolved_conflicts"] = unresolved_artmind_conflicts(vault_dir)
     except VaultSyncError as e:
-        report["graph_error"] = f"not a git repository: {e}"
+        # `_git` raises `VaultSyncError` for ANY nonzero exit from ANY git
+        # subcommand it wraps (a missing repo, a lock file, a corrupted
+        # `.git`, a permissions issue, ...) -- `str(e)` is already the real
+        # `git ... failed: <stderr>` message, so it is shown as-is rather
+        # than guessing a specific cause ("not a git repository") that may
+        # not be what actually happened.
+        report["graph_error"] = str(e)
         return report
     try:
         report["vault_id"] = read_vault_id(vault_dir)
@@ -1362,9 +1368,24 @@ def status_report(vault_dir: Path) -> dict:
     if report["vault_id"] is None:
         stores = ("structured",)
         report["graph_error"] = report["graph_error"] or "no vault_id in .artmind/vault.yaml -- run `artmind init`"
+    from neo4j.exceptions import GqlError
+
     try:
         marks = read_bookmarks(vault_dir, vault_id=report["vault_id"], stores=stores, timeout=ADVISORY_TIMEOUT)
-    except Exception as e:  # an unreachable graph is a status, not a crash
+    except (GqlError, OSError) as e:
+        # An unreachable graph is a status, not a crash -- but only for
+        # exceptions the graph-read path (`read_bookmarks` ->
+        # `sync_state.read_graph_bookmark` -> `graph_query.neo4j_session` ->
+        # the neo4j driver) can actually raise: every neo4j-specific
+        # exception is a `GqlError` (its `Neo4jError`/`DriverError`
+        # subclasses cover server errors, `ServiceUnavailable`,
+        # `SessionExpired`, auth/config/pool errors, ...), and low-level
+        # connect failures (including a `connection_timeout` expiring) show
+        # up as `OSError` (or its `TimeoutError` subclass). A genuine bug
+        # elsewhere in this path -- an `AttributeError`/`TypeError` from a
+        # refactor -- must still crash instead of being relabeled
+        # "graph unreachable", which would hide exactly the kind of defect
+        # a user checking `vault status` is trying to diagnose.
         report["graph_error"] = f"graph unreachable: {e}"
         stores = ("structured",)
         marks = read_bookmarks(vault_dir, vault_id=None, stores=stores)

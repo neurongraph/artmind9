@@ -3429,11 +3429,13 @@ def _vault_status_impl(compact: bool) -> None:
 
 def _echo_sync_status(sync: dict) -> None:
     """The `vault sync` half of `vault status`, human-readable."""
+    from artmind.vault_sync import _one_line
+
     click.echo(f"HEAD:     {sync['head'] or '(no commits yet)'}")
     for store, label in (("graph", "graph     "), ("structured", "structured")):
         report = sync["stores"].get(store)
         if report is None:
-            click.echo(f"Sync:     {label} (unknown — {sync['graph_error']})")
+            click.echo(f"Sync:     {label} (unknown — {_one_line(sync['graph_error'])})")
             continue
         bookmark = report.get("bookmark") or "none"
         state = report.get("state")
@@ -3446,7 +3448,7 @@ def _echo_sync_status(sync: dict) -> None:
                 "no_bookmark": "no bookmark — `vault sync --bootstrapEmpty` or `--bootstrapSynced`",
                 "not_ancestor": "not in this clone's history — let Obsidian Git pull first",
                 "no_commits": "nothing committed yet",
-                "error": f"cannot tell — {report.get('detail')}",
+                "error": f"cannot tell — {_one_line(report.get('detail'))}",
             }.get(state, state)
         click.echo(f"Sync:     {label} {bookmark}  {what}")
     if sync.get("legacy_cursor"):
