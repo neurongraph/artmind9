@@ -869,17 +869,22 @@ def _pin(vault_dir: Path, store: str, commit: str) -> None:
 def _advance_bookmarks(
     vault_dir: Path, vault_id: str | None, stores: tuple[str, ...], commit: str, marks: Bookmarks
 ) -> Bookmarks:
-    """Move every store in `stores` to `commit`: pin it first (a pin that
-    fails leaves every bookmark where it was), then the graph's node, then
-    `state.json`. Retires the legacy cursor once both stores genuinely have
-    their own bookmark."""
+    """Move every store in `stores` to `commit`: each store's pin moves
+    immediately before that SAME store's own persistence step, never before a
+    different store's. A pin failure (or a write failure right after its own
+    pin moved) leaves every OTHER store's bookmark exactly where it was --
+    only the attempting store's blast radius can widen, never the whole run's
+    (code-quality review, vault-sync-completion: pinning every requested
+    store up front let a graph-write failure strand structured's pin on the
+    new commit even though structured's own `state.json` bookmark was never
+    written). Retires the legacy cursor once both stores genuinely have their
+    own bookmark."""
     from artmind import sync_state
     from artmind.vault import VaultLayout, write_state
 
-    for store in stores:
-        _pin(vault_dir, store, commit)
     new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
     if "graph" in stores:
+        _pin(vault_dir, "graph", commit)
         sync_state.write_graph_bookmark(vault_id, commit)
         new.graph = commit
     updates: dict = {}
@@ -910,6 +915,11 @@ def _advance_bookmarks(
             remove = (LEGACY_CURSOR_KEY,)
             new.legacy = None
     if updates or remove:
+        if "structured" in stores:
+            # Structured's pin moves here, immediately before the write that
+            # actually persists its new bookmark -- never earlier, and never
+            # because the graph (a different store) is also being advanced.
+            _pin(vault_dir, "structured", commit)
         write_state(VaultLayout(vault_dir), updates, remove=remove)
     return new
 

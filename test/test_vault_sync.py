@@ -2715,3 +2715,33 @@ def test_a_branch_push_never_sends_the_pins(repo, monkeypatch, graph, tmp_path_f
 
     assert "refs/heads/main" in remote_refs
     assert "refs/artmind" not in remote_refs
+
+
+def test_a_failing_graph_write_does_not_move_the_structured_pin(repo, monkeypatch, graph):
+    """Code-quality review (vault-sync-completion): `_advance_bookmarks` used
+    to pin every requested store up front, before attempting any store's
+    actual bookmark write. With `stores = ("graph", "structured")`, a raise
+    from `sync_state.write_graph_bookmark` left BOTH pins already moved to
+    the new commit even though structured's own `state.json` bookmark was
+    never written -- widening a single store's write failure to cover every
+    store in the run. The graph's own pin moving right before its own
+    failing write is fine (a store's pin may move at the point of its own
+    attempt); what must never happen is a DIFFERENT store's pin moving
+    because of this failure."""
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    from artmind import sync_state
+
+    def _boom(vault_id, commit):
+        raise RuntimeError("neo4j unreachable")
+
+    monkeypatch.setattr(sync_state, "write_graph_bookmark", _boom)
+
+    with pytest.raises(RuntimeError):
+        vs.sync(repo, bootstrap_synced=True)
+
+    pins = _pins(repo)
+    assert "refs/artmind/last-synced/structured" not in pins
+    marks = vs.read_bookmarks(repo, vault_id=VAULT_ID)
+    assert marks.structured is None, "structured's own state.json bookmark must never have been written"
