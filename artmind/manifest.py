@@ -264,6 +264,13 @@ def _strip_trailing_document_end_marker(raw: str) -> str:
     continuation of the same top-level mapping) preserves the file's
     meaning while keeping the result parseable. Trailing blank lines after
     the marker are dropped along with it; everything before it is untouched.
+
+    A genuine document-end marker must start in column 0 (YAML requires
+    it). The check below therefore strips only *trailing* whitespace before
+    comparing (a real marker may have trailing spaces before the newline)
+    and never leading whitespace -- an indented `...` is data, most
+    plausibly the last line of a block/folded scalar (`notes: |`) that
+    happens to read `...`, and must be left alone.
     """
     lines = raw.splitlines(keepends=True)
     # Walk backwards past trailing blank/whitespace-only lines to find the
@@ -271,6 +278,6 @@ def _strip_trailing_document_end_marker(raw: str) -> str:
     end = len(lines)
     while end > 0 and lines[end - 1].strip() == "":
         end -= 1
-    if end > 0 and lines[end - 1].strip() == "...":
+    if end > 0 and lines[end - 1].rstrip() == "...":
         return "".join(lines[: end - 1])
     return raw

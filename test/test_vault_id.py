@@ -4,6 +4,7 @@ the rest of the file."""
 import uuid
 
 import pytest
+import yaml
 from click.testing import CliRunner
 
 from artmind import manifest
@@ -121,6 +122,39 @@ def test_a_trailing_document_end_marker_does_not_break_the_append(tmp_path, trai
     assert "# keep this comment" in text
     assert "notes/**" in text
     assert text.count("vault_id:") == 1
+
+
+def test_an_indented_ellipsis_inside_a_block_scalar_is_not_a_marker(tmp_path):
+    """A line that reads `...` is only a document-end marker in column 0.
+
+    An indented `...` is ordinary data -- here, the last line of a `notes: |`
+    block scalar -- and must survive `ensure_vault_id` untouched. Stripping
+    it (as a two-sided `.strip()` comparison would, since it can't tell an
+    indented line from a column-0 marker) would silently corrupt the user's
+    `notes` value.
+    """
+    path = _vault_yaml(tmp_path)
+    path.parent.mkdir(parents=True)
+    original = (
+        "ingest:\n"
+        "  trigger: manual\n"
+        "notes: |\n"
+        "  line one\n"
+        "  ...\n"
+    )
+    path.write_text(original)
+
+    vault_id, minted = manifest.ensure_vault_id(tmp_path)
+
+    assert minted is True
+    text = path.read_text()
+    assert text.startswith(original)
+    assert manifest.load(tmp_path).trigger == "manual"
+    assert manifest.read_vault_id(tmp_path) == vault_id
+    assert str(uuid.UUID(vault_id)) == vault_id
+
+    data = yaml.safe_load(text)
+    assert data["notes"] == "line one\n...\n"
 
 
 def test_read_vault_id_is_none_without_a_manifest_or_a_key(tmp_path):
