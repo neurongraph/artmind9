@@ -286,3 +286,128 @@ def test_vault_doctor_reports_json_and_exits_nonzero_on_failure(tmp_path, monkey
     payload = json.loads(result.output)
     assert payload["ok"] is False
     assert {c["name"]: c["status"] for c in payload["checks"]}["pull.rebase"] == "fail"
+
+
+# ── `vault status`: the sync half (spec 2026-09-26 §10) ──────────────────────
+
+
+def _fake_graph(monkeypatch, bookmark=None, fingerprints=None, unreachable=False):
+    from artmind import sync_state
+
+    def _read_bookmark(vault_id, *, timeout=None):
+        if unreachable:
+            raise OSError("connection refused")
+        return bookmark
+
+    monkeypatch.setattr(sync_state, "read_graph_bookmark", _read_bookmark)
+    monkeypatch.setattr(
+        sync_state, "read_document_fingerprints",
+        lambda doc_ids, *, timeout=None: {d: (fingerprints or {})[d] for d in doc_ids if d in (fingerprints or {})},
+    )
+
+
+def _vault_with_docs(tmp_path, monkeypatch):
+    """An init'd vault whose KG staging dir is the vault's own, with one
+    committed document and a structured bookmark at that commit."""
+    import paths
+
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+    kg = tmp_path / ".artmind" / "data" / "kg"
+    monkeypatch.setattr(paths, "KG_DIR", kg)
+    monkeypatch.setattr(paths, "STRUCTURED_TEXT_DIR", tmp_path / ".artmind" / "data" / "structured_text")
+    base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=tmp_path, capture_output=True, text=True).stdout.strip()
+    folder = kg / "banking" / "doc1"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text('{"id": "docid-1"}')
+    (folder / "observations.json").write_text("[]")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "doc1"], cwd=tmp_path, check=True)
+    head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=tmp_path, capture_output=True, text=True).stdout.strip()
+    vault.write_state(vault.VaultLayout(tmp_path), {"last_structured_commit": base})
+    return base, head
+
+
+def test_vault_status_reports_head_bookmarks_and_pending_work_as_json(tmp_path, monkeypatch):
+    import json
+
+    base, head = _vault_with_docs(tmp_path, monkeypatch)
+    _fake_graph(monkeypatch, bookmark=base)
+
+    result = CliRunner().invoke(cli, ["vault", "status", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    sync = json.loads(result.stdout)["sync"]
+    assert sync["head"] == head
+    from artmind.manifest import read_vault_id
+    assert sync["vault_id"] == read_vault_id(tmp_path)
+    assert sync["stores"]["graph"]["bookmark"] == base
+    assert (sync["stores"]["graph"]["state"], sync["stores"]["graph"]["docs"]) == ("behind", 1)
+    assert sync["stores"]["structured"]["state"] == "current"
+    assert sync["operation_in_progress"] is None
+    assert sync["unresolved_conflicts"] == []
+    assert sync["message"] == "artmind: graph is 1 docs / 0 tables behind the vault — run `artmind vault sync`"
+
+
+def test_vault_status_human_output_names_each_store(tmp_path, monkeypatch):
+    base, head = _vault_with_docs(tmp_path, monkeypatch)
+    _fake_graph(monkeypatch, bookmark=head)
+
+    result = CliRunner().invoke(cli, ["vault", "status"])
+
+    assert result.exit_code == 0, result.output
+    assert f"HEAD:     {head}" in result.output
+    assert f"Sync:     graph      {head}  current" in result.output
+    assert f"Sync:     structured {base}  current" in result.output
+    assert "Merge:    none in progress" in result.output
+    assert "Conflicts: none under .artmind/" in result.output
+
+
+def test_vault_status_survives_an_unreachable_graph(tmp_path, monkeypatch):
+    import json
+
+    _vault_with_docs(tmp_path, monkeypatch)
+    _fake_graph(monkeypatch, unreachable=True)
+
+    result = CliRunner().invoke(cli, ["vault", "status", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    sync = json.loads(result.stdout)["sync"]
+    assert sync["graph_error"].startswith("graph unreachable")
+    assert list(sync["stores"]) == ["structured"]
+
+
+def test_vault_status_shows_a_merge_and_artmind_conflicts(tmp_path, monkeypatch):
+    import json
+
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+    _fake_graph(monkeypatch)
+    path = tmp_path / ".artmind" / "same_as.yaml"
+    path.write_text("base\n")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "base"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "checkout", "-qb", "other"], cwd=tmp_path, check=True)
+    path.write_text("theirs\n")
+    subprocess.run(["git", "commit", "-qam", "theirs"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "checkout", "-q", "-"], cwd=tmp_path, check=True)
+    path.write_text("ours\n")
+    subprocess.run(["git", "commit", "-qam", "ours"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "merge", "other"], cwd=tmp_path, capture_output=True)
+
+    result = CliRunner().invoke(cli, ["vault", "status", "--compact"])
+
+    sync = json.loads(result.stdout)["sync"]
+    assert sync["operation_in_progress"] == "a merge"
+    assert sync["unresolved_conflicts"] == [".artmind/same_as.yaml"]
+
+
+def test_vault_status_in_a_vault_with_no_commits(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    CliRunner().invoke(cli, ["init"])
+    _fake_graph(monkeypatch)
+
+    result = CliRunner().invoke(cli, ["vault", "status"])
+
+    assert result.exit_code == 0, result.output
+    assert "HEAD:     (no commits yet)" in result.output

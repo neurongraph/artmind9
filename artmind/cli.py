@@ -3413,6 +3413,9 @@ def _vault_status_impl(compact: bool) -> None:
             "database": os.environ.get("ARTMIND_KG_NEO4J_DATABASE", ""),
         },
     }
+    from artmind.vault_sync import status_report
+
+    info["sync"] = status_report(vault_dir)
     if compact:
         _echo_json(info, compact=True)
         return
@@ -3421,6 +3424,43 @@ def _vault_status_impl(compact: bool) -> None:
     click.echo(f"Manifest: {info['manifest'] or '(none — run artmind init)'}")
     click.echo(f"Config:   {', '.join(info['config']) or '(none loaded)'}")
     click.echo(f"Graph:    {info['graph']['uri'] or '(unset)'}  db={info['graph']['database'] or '(unset)'}")
+    _echo_sync_status(info["sync"])
+
+
+def _echo_sync_status(sync: dict) -> None:
+    """The `vault sync` half of `vault status`, human-readable."""
+    click.echo(f"HEAD:     {sync['head'] or '(no commits yet)'}")
+    for store, label in (("graph", "graph     "), ("structured", "structured")):
+        report = sync["stores"].get(store)
+        if report is None:
+            click.echo(f"Sync:     {label} (unknown — {sync['graph_error']})")
+            continue
+        bookmark = report.get("bookmark") or "none"
+        state = report.get("state")
+        if state == "behind":
+            tables = len(report.get("tables") or [])
+            what = f"{report['docs']} docs / {tables} tables behind" if store == "graph" else f"{tables} tables behind"
+        else:
+            what = {
+                "current": "current",
+                "no_bookmark": "no bookmark — `vault sync --bootstrapEmpty` or `--bootstrapSynced`",
+                "not_ancestor": "not in this clone's history — let Obsidian Git pull first",
+                "no_commits": "nothing committed yet",
+                "error": f"cannot tell — {report.get('detail')}",
+            }.get(state, state)
+        click.echo(f"Sync:     {label} {bookmark}  {what}")
+    if sync.get("legacy_cursor"):
+        click.echo(f"          (legacy last_synced_commit {sync['legacy_cursor']} still seeds a store with no bookmark)")
+    op = sync.get("operation_in_progress")
+    click.echo(f"Merge:    {op + ' is in progress — finish it before `vault sync`' if op else 'none in progress'}")
+    conflicts = sync.get("unresolved_conflicts") or []
+    if conflicts:
+        shown = ", ".join(conflicts[:5]) + (", ..." if len(conflicts) > 5 else "")
+        click.echo(f"Conflicts: {len(conflicts)} unresolved under .artmind/ ({shown})")
+    else:
+        click.echo("Conflicts: none under .artmind/")
+    if sync.get("message"):
+        click.echo(sync["message"])
 
 
 @cli.group("vault")
@@ -3432,7 +3472,17 @@ def vault():
 @vault.command("status")
 @click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
 def vault_status(compact: bool):
-    """Show which vault is active and how it was resolved."""
+    """Show which vault is active, and how far each store is behind it.
+
+    Reports the vault, its config and graph, then `vault sync`'s view: HEAD,
+    the graph bookmark (read from the graph itself, so on a shared AuraDB it
+    is the one every machine sees) and the structured-store bookmark (this
+    machine's .artmind/state.json), the documents and tables each store has
+    still to apply (after the fingerprint check), a merge/rebase in progress,
+    and unresolved conflicts under .artmind/. An unreachable graph is
+    reported, not an error. Read-only. --compact emits all of it as JSON.
+    """
+    _setup_logger()
     _vault_status_impl(compact)
 
 

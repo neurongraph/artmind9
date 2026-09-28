@@ -66,11 +66,9 @@ def head_sha(vault_dir: Path) -> str:
     return out.strip()
 
 
-def preflight(vault_dir: Path) -> None:
-    """Refuse -- before reading or writing anything -- when the vault is in a
-    state `sync` must not apply from (spec 2026-09-26 §6 A5, §14 A7): a merge,
-    rebase or cherry-pick in progress, unresolved conflicts under `.artmind/`,
-    or a running ingest worker. Each message says what to do next."""
+def operation_in_progress(vault_dir: Path) -> str | None:
+    """`"a merge"`, `"a rebase"` or `"a cherry-pick"` when one is in progress
+    in the vault's repo, else None."""
     git_dir = Path(_git(vault_dir, ["rev-parse", "--absolute-git-dir"]).strip())
     for marker, what in (
         ("MERGE_HEAD", "a merge"),
@@ -79,16 +77,31 @@ def preflight(vault_dir: Path) -> None:
         ("CHERRY_PICK_HEAD", "a cherry-pick"),
     ):
         if (git_dir / marker).exists():
-            raise VaultSyncError(
-                f"{what} is in progress in this vault -- finish it in Obsidian "
-                "(or git) first, then re-run `vault sync`"
-            )
-    # Only artmind's own files (spec §14 A7): a conflicted human note does not
-    # change what sync applies, and Obsidian shows it to the user. `-z` keeps a
-    # name with a space (or a non-ASCII byte) whole (§14 A5).
-    unmerged = [
-        p for p in _git(vault_dir, ["diff", "--name-only", "-z", "--diff-filter=U", "--", MARKER]).split("\0") if p
-    ]
+            return what
+    return None
+
+
+def unresolved_artmind_conflicts(vault_dir: Path) -> list[str]:
+    """Paths under `.artmind/` with unresolved conflicts. Only artmind's own
+    files (spec §14 A7): a conflicted human note does not change what sync
+    applies, and Obsidian shows it to the user. `-z` keeps a name with a
+    space (or a non-ASCII byte) whole (§14 A5)."""
+    out = _git(vault_dir, ["diff", "--name-only", "-z", "--diff-filter=U", "--", MARKER])
+    return [p for p in out.split("\0") if p]
+
+
+def preflight(vault_dir: Path) -> None:
+    """Refuse -- before reading or writing anything -- when the vault is in a
+    state `sync` must not apply from (spec 2026-09-26 §6 A5, §14 A7): a merge,
+    rebase or cherry-pick in progress, unresolved conflicts under `.artmind/`,
+    or a running ingest worker. Each message says what to do next."""
+    what = operation_in_progress(vault_dir)
+    if what is not None:
+        raise VaultSyncError(
+            f"{what} is in progress in this vault -- finish it in Obsidian "
+            "(or git) first, then re-run `vault sync`"
+        )
+    unmerged = unresolved_artmind_conflicts(vault_dir)
     if unmerged:
         raise VaultSyncError(
             f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
@@ -1314,3 +1327,51 @@ def query_staleness_warning(vault_dir: Path | None) -> str | None:
     if all(marks.effective(store) == head for store in STORES):
         return None
     return staleness_message(pending_work(vault_dir, head, marks))
+
+
+def status_report(vault_dir: Path) -> dict:
+    """Everything `vault status` shows about sync. Never raises for an
+    unreachable graph, a repo with no commits, or a vault with no vault_id:
+    each becomes a field the caller prints."""
+    from artmind.manifest import ManifestError, read_vault_id
+
+    rc, out, _ = run_command(["git", "rev-parse", "HEAD"], cwd=vault_dir, expected_codes=(128,))
+    head = out.strip() if rc == 0 else None
+    report: dict = {
+        "head": head,
+        "vault_id": None,
+        "operation_in_progress": None,
+        "unresolved_conflicts": [],
+        "legacy_cursor": None,
+        "graph_error": None,
+        "stores": {},
+        "message": None,
+    }
+    try:
+        report["operation_in_progress"] = operation_in_progress(vault_dir)
+        report["unresolved_conflicts"] = unresolved_artmind_conflicts(vault_dir)
+    except VaultSyncError as e:
+        report["graph_error"] = f"not a git repository: {e}"
+        return report
+    try:
+        report["vault_id"] = read_vault_id(vault_dir)
+    except ManifestError as e:
+        report["graph_error"] = str(e)
+
+    stores: tuple[str, ...] = STORES
+    if report["vault_id"] is None:
+        stores = ("structured",)
+        report["graph_error"] = report["graph_error"] or "no vault_id in .artmind/vault.yaml -- run `artmind init`"
+    try:
+        marks = read_bookmarks(vault_dir, vault_id=report["vault_id"], stores=stores, timeout=ADVISORY_TIMEOUT)
+    except Exception as e:  # an unreachable graph is a status, not a crash
+        report["graph_error"] = f"graph unreachable: {e}"
+        stores = ("structured",)
+        marks = read_bookmarks(vault_dir, vault_id=None, stores=stores)
+    report["legacy_cursor"] = marks.legacy
+    if head is None:
+        report["stores"] = {s: {"bookmark": marks.effective(s), "state": "no_commits"} for s in stores}
+        return report
+    report["stores"] = pending_work(vault_dir, head, marks, stores=stores)
+    report["message"] = staleness_message(report["stores"])
+    return report
