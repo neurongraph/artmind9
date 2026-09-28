@@ -220,7 +220,28 @@ def test_vault_sync_bootstrap_synced_stamps_the_cursor(tmp_path, monkeypatch):
     import json
     payload = json.loads(result.output)
     assert payload["bootstrap"] == "synced"
-    assert "last_synced_commit" in payload
+    head = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=tmp_path, capture_output=True, text=True, check=True
+    ).stdout.strip()
+    assert payload["graph_bookmark"] == head
+    assert payload["structured_bookmark"] == head
+    state = vault.read_state(vault.VaultLayout(tmp_path))
+    assert state == {"last_structured_commit": head}
+
+
+def test_vault_sync_store_option_reaches_sync(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    _init_and_commit(tmp_path)
+
+    result = CliRunner().invoke(
+        cli, ["vault", "sync", "--store", "structured", "--bootstrapSynced", "--compact"]
+    )
+
+    assert result.exit_code == 0, result.output
+    import json
+    payload = json.loads(result.output)
+    assert payload["stores"] == ["structured"]
+    assert "graph_bookmark" not in payload
 
 
 def test_vault_sync_dry_run_reports_without_writing(tmp_path, monkeypatch):

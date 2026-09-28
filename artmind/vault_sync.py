@@ -654,6 +654,155 @@ def classify_diff(
     return plan
 
 
+# ── bookmarks (spec 2026-09-26 §6 A2) ────────────────────────────────────────
+
+#: The stores `vault sync` applies to. Each has its own bookmark ("this store
+#: reflects commits up to X"), because a shared AuraDB and a local DuckDB can
+#: be at different commits.
+STORES = ("graph", "structured")
+
+#: `state.json` key of the structured store's bookmark. DuckDB is always a
+#: local file, so its bookmark is machine-local too. The graph's lives in the
+#: graph (`artmind.sync_state`).
+STRUCTURED_BOOKMARK_KEY = "last_structured_commit"
+
+#: The single pre-bookmark cursor. Read as the starting point of any store
+#: that has no bookmark of its own yet; removed from `state.json` by the first
+#: run after which both stores have one.
+LEGACY_CURSOR_KEY = "last_synced_commit"
+
+
+@dataclass
+class Bookmarks:
+    """Each store's own bookmark as read, plus the legacy cursor."""
+
+    graph: str | None = None
+    structured: str | None = None
+    legacy: str | None = None
+
+    def own(self, store: str) -> str | None:
+        return self.graph if store == "graph" else self.structured
+
+    def effective(self, store: str) -> str | None:
+        """Where `store` starts from: its own bookmark, else the legacy cursor.
+
+        The graph's own bookmark always wins over a legacy cursor, even when
+        they differ -- on a shared graph the other machine set it, and it
+        describes the store itself, whereas the legacy cursor only recorded
+        what THIS machine last applied. Starting the graph from a bookmark
+        that is too old only re-applies idempotent work (fingerprints make it
+        cheap); starting it from one that is too new would skip work. The
+        legacy cursor remains exactly right for this machine's DuckDB."""
+        own = self.own(store)
+        return own if own is not None else self.legacy
+
+
+def vault_id_or_raise(vault_dir: Path) -> str:
+    """This vault's `vault_id` (`.artmind/vault.yaml`), which keys the graph
+    bookmark. Raises when the vault predates it."""
+    from artmind.manifest import read_vault_id
+
+    vault_id = read_vault_id(vault_dir)
+    if vault_id is None:
+        raise VaultSyncError(
+            "this vault has no vault_id in .artmind/vault.yaml yet -- run `artmind init` "
+            "once (it appends one and changes nothing else), let Obsidian Git commit it, "
+            "then re-run `vault sync`"
+        )
+    return vault_id
+
+
+def read_bookmarks(
+    vault_dir: Path, *, vault_id: str | None, stores: tuple[str, ...] = STORES, timeout: float | None = None
+) -> Bookmarks:
+    """Both stores' bookmarks and the legacy cursor. The graph is read only
+    when `"graph"` is in `stores` -- a structured-only run never needs Neo4j."""
+    from artmind import sync_state
+    from artmind.vault import VaultLayout, read_state
+
+    state = read_state(VaultLayout(vault_dir))
+    graph = sync_state.read_graph_bookmark(vault_id, timeout=timeout) if "graph" in stores else None
+    return Bookmarks(
+        graph=graph,
+        structured=state.get(STRUCTURED_BOOKMARK_KEY),
+        legacy=state.get(LEGACY_CURSOR_KEY),
+    )
+
+
+def check_bookmark(vault_dir: Path, store: str, commit: str, head: str) -> None:
+    """Refuse a bookmark that is not an ancestor of `head`.
+
+    Diffing from a commit that is not in HEAD's history would read everything
+    the bookmark has and HEAD lacks as removals: on a shared graph, where the
+    other machine set the bookmark past this clone, that retracts the other
+    machine's documents. Pulling first (Obsidian Git merges) makes the
+    bookmark an ancestor again."""
+    rc, _, _ = run_command(
+        ["git", "cat-file", "-e", f"{commit}^{{commit}}"], cwd=vault_dir, expected_codes=(1, 128)
+    )
+    if rc != 0:
+        if store == "graph":
+            raise VaultSyncError(
+                f"the graph bookmark {commit[:12]} is not a commit in this clone -- another "
+                "machine sharing this graph has applied commits this clone has not pulled "
+                "yet. Let Obsidian Git pull, then re-run `vault sync`."
+            )
+        raise VaultSyncError(
+            f"the structured bookmark {commit[:12]} is not a commit in this clone (history "
+            "was rewritten) -- re-run with `--store structured --bootstrapEmpty`"
+        )
+    rc, _, _ = run_command(
+        ["git", "merge-base", "--is-ancestor", commit, head], cwd=vault_dir, expected_codes=(1,)
+    )
+    if rc != 0:
+        raise VaultSyncError(
+            f"the {store} bookmark {commit[:12]} is not an ancestor of HEAD {head[:12]} -- "
+            "this clone is behind (or has diverged from) what that store already reflects. "
+            "Let Obsidian Git pull and merge, then re-run `vault sync`."
+        )
+
+
+def _no_bookmark_message(missing: list[str], stores: tuple[str, ...]) -> str:
+    message = (
+        f"no {' or '.join(missing)} bookmark recorded yet for this vault -- pass "
+        "--bootstrapEmpty to replay everything committed (correct for an empty "
+        "Neo4j/DuckDB), or --bootstrapSynced if it is already known-current (e.g. "
+        "right after `session initiate`/`db restore`)"
+    )
+    if len(missing) == 1 and len(stores) > 1:
+        message += f"; add `--store {missing[0]}` to bootstrap that store alone"
+    return message
+
+
+def _advance_bookmarks(
+    vault_dir: Path, vault_id: str | None, stores: tuple[str, ...], commit: str, marks: Bookmarks
+) -> Bookmarks:
+    """Move every store in `stores` to `commit`: the graph's node first, then
+    `state.json`. Retires the legacy cursor once both stores have their own."""
+    from artmind import sync_state
+    from artmind.vault import VaultLayout, write_state
+
+    new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
+    if "graph" in stores:
+        sync_state.write_graph_bookmark(vault_id, commit)
+        new.graph = commit
+    updates: dict = {}
+    if "structured" in stores:
+        updates[STRUCTURED_BOOKMARK_KEY] = commit
+        new.structured = commit
+    remove: tuple[str, ...] = ()
+    if new.legacy is not None and new.graph is not None and new.structured is not None:
+        remove = (LEGACY_CURSOR_KEY,)
+        new.legacy = None
+    if updates or remove:
+        write_state(VaultLayout(vault_dir), updates, remove=remove)
+    return new
+
+
+def _bookmark_fields(marks: Bookmarks, stores: tuple[str, ...]) -> dict:
+    return {f"{store}_bookmark": marks.effective(store) for store in stores}
+
+
 def sync(
     vault_dir: Path,
     *,
@@ -661,46 +810,75 @@ def sync(
     bootstrap_empty: bool = False,
     bootstrap_synced: bool = False,
     dry_run: bool = False,
+    store: str | None = None,
 ) -> dict:
     """Replay committed KG-staging and structured-text changes into
-    Neo4j/DuckDB since the last sync (spec §5). All-or-nothing: the cursor
-    only advances on full success (§9); any exception here propagates
-    unchanged, leaving `last_synced_commit` untouched so the next
-    invocation recomputes the identical diff_range from scratch.
-    """
-    from artmind.vault import VaultLayout, read_state, write_state
+    Neo4j/DuckDB since each store's bookmark (spec §5, spec 2026-09-26 §6 A2).
 
+    `store` limits the run -- apply and bookmark -- to `"graph"` or
+    `"structured"`; None runs both. Each store applies its own range
+    (`bookmark..HEAD`); a graph ahead of the structured store (or the reverse)
+    is normal. The bootstrap flags apply to every store in the run.
+
+    All-or-nothing: bookmarks only advance on full success (§9); any
+    exception propagates unchanged, leaving them untouched, so the next
+    invocation recomputes the identical ranges. A `--domain`-scoped run never
+    advances a bookmark."""
     if bootstrap_empty and bootstrap_synced:
         raise VaultSyncError("pass at most one of --bootstrapEmpty / --bootstrapSynced")
     if bootstrap_synced and domains:
         raise VaultSyncError("--bootstrapSynced stamps the whole vault; it can't be domain-scoped")
+    if store is not None and store not in STORES:
+        raise VaultSyncError(f"unknown store {store!r} -- one of: {', '.join(STORES)}")
+    stores = (store,) if store else STORES
 
-    layout = VaultLayout(vault_dir)
-    state = read_state(layout)
-    last_synced = state.get("last_synced_commit")
     head = head_sha(vault_dir)
     preflight(vault_dir)
+    vault_id = vault_id_or_raise(vault_dir) if "graph" in stores else None
+    marks = read_bookmarks(vault_dir, vault_id=vault_id, stores=stores)
 
     if bootstrap_synced:
         if dry_run:
-            return {"bootstrap": "synced", "dry_run": True, "would_stamp": head}
-        write_state(layout, {"last_synced_commit": head})
-        return {"bootstrap": "synced", "last_synced_commit": head}
+            return {"bootstrap": "synced", "dry_run": True, "would_stamp": head, "stores": list(stores)}
+        new = _advance_bookmarks(vault_dir, vault_id, stores, head, marks)
+        return {"bootstrap": "synced", "stores": list(stores), **_bookmark_fields(new, stores)}
 
-    if last_synced is None and not bootstrap_empty:
-        raise VaultSyncError(
-            "no last_synced_commit recorded yet -- pass --bootstrapEmpty for a full "
-            "replay of everything (correct for an empty Neo4j/DuckDB), or "
-            "--bootstrapSynced if this machine's graph is already known-current "
-            "(e.g. right after `session initiate`/`db restore`)"
-        )
-    base = EMPTY_TREE_SHA if bootstrap_empty else last_synced
+    bases: dict[str, str] = {}
+    missing: list[str] = []
+    for name in stores:
+        base = EMPTY_TREE_SHA if bootstrap_empty else marks.effective(name)
+        if base is None:
+            missing.append(name)
+        else:
+            bases[name] = base
+    if missing:
+        raise VaultSyncError(_no_bookmark_message(missing, stores))
+    for name, base in bases.items():
+        if base != EMPTY_TREE_SHA:
+            check_bookmark(vault_dir, name, base, head)
 
-    plan = classify_diff(vault_dir, base, head, domains)
+    # One classification per distinct base: the graph needs the full plan;
+    # the structured store needs only its tables. When both stores start from
+    # the same commit (the common case) the graph plan's tables ARE the
+    # structured store's, so git is read once.
+    if "graph" in stores:
+        plan = classify_diff(vault_dir, bases["graph"], head, domains)
+    else:
+        plan = SyncPlan(base=bases["structured"], head=head)
+    project_tables = list(plan.regenerate_tables)
+    if "structured" not in stores:
+        structured_tables: list[tuple[str, str]] = []
+    elif "graph" in stores and bases["structured"] == bases["graph"]:
+        structured_tables = list(project_tables)
+    else:
+        structured_tables, _ = _classify_structured_text_diff(vault_dir, bases["structured"], head, domains)
+    # A projected table is restored too, so table2graph reads DuckDB at
+    # `head` whatever the structured bookmark says (idempotent).
+    restore_tables = project_tables + [key for key in structured_tables if key not in project_tables]
 
     if dry_run:
         structured_only_dry: list[str] = []
-        if plan.regenerate_tables:
+        if project_tables:
             from artmind.table2graph import MappingError, find_mappings
             from artmind.temporal import load_schema
             import paths
@@ -709,7 +887,7 @@ def sync(
                 dry_scratch = Path(scratch_str)
                 mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, dry_scratch)
                 schemas_at_head = _dir_at(vault_dir, head, paths.DOMAIN_SCHEMAS_DIR, dry_scratch)
-                for domain, table_name in plan.regenerate_tables:
+                for domain, table_name in project_tables:
                     try:
                         found = find_mappings(table_name, domain, mappings_dir=mappings_at_head)
                     except MappingError as e:
@@ -727,11 +905,12 @@ def sync(
 
         return {
             "dry_run": True,
-            "base": base,
+            "stores": list(stores),
+            "bases": bases,
             "head": head,
             "replay": len(plan.replay_docs),
             "retract": len(plan.retract),
-            "regenerate_tables": len(plan.regenerate_tables),
+            "regenerate_tables": len(restore_tables),
             "structured_only_tables": structured_only_dry,
             "cursor_would_advance": not domains,
         }
@@ -755,18 +934,19 @@ def sync(
         #    itself be mistaken for a track-A input in this same run (the
         #    diff_range above is already fixed from `plan`). Inputs come from
         #    `head`, never the live structured_text dir.
-        if plan.regenerate_tables:
+        if restore_tables:
             st_rel = STRUCTURED_TEXT_DIR.relative_to(vault_dir)
             wanted = [str(st_rel / MANIFEST_NAME)]
-            for domain, table_name in plan.regenerate_tables:
+            for domain, table_name in restore_tables:
                 wanted.append(str(st_rel / domain / f"{table_name}.csv"))
                 wanted.append(str(st_rel / domain / f"{table_name}{META_SUFFIX}"))
             _materialize(vault_dir, head, _present_at(vault_dir, head, wanted), scratch)
             (scratch / st_rel).mkdir(parents=True, exist_ok=True)
-            import_structured_text(scratch / st_rel, tables=plan.regenerate_tables)
+            import_structured_text(scratch / st_rel, tables=restore_tables)
+        if project_tables:
             mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, scratch)
             schemas_at_head = _dir_at(vault_dir, head, paths.DOMAIN_SCHEMAS_DIR, scratch)
-            for domain, table_name in plan.regenerate_tables:
+            for domain, table_name in project_tables:
                 row = structured_registry.get_table(table_name, domain=domain)
                 if row is None:
                     raise VaultSyncError(f"{domain}/{table_name}: not found in the registry after restore")
@@ -827,45 +1007,44 @@ def sync(
     # artmind never commits (spec 2026-09-26, D1): track B's regenerated
     # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)
 
-    # ── only on full success, advance the cursor (§5 step 7) ────────────────
+    # ── only on full success, advance the bookmarks (§5 step 7) ─────────────
     # A `--domain`-scoped run only classified and applied ITS domain(s) --
-    # writing the single `last_synced_commit` anyway would make every other
-    # domain's change in base..head permanently unapplied on this machine
-    # (item 3, vault-sync-completion review): the next unscoped sync would
-    # start its diff from `head`, never seeing them. Leave the cursor where
-    # it was so a later unscoped sync still covers this same range; re-
-    # applying this domain's changes then is a no-op-shaped replay, not a
-    # problem (track A/B/§7 are all idempotent by id/key).
+    # advancing a bookmark anyway would make every other domain's change in
+    # base..head permanently unapplied (item 3, vault-sync-completion review):
+    # the next unscoped sync would start its diff from `head`, never seeing
+    # them. Leave both where they were so a later unscoped sync still covers
+    # this same range; re-applying this domain's changes then is a
+    # no-op-shaped replay, not a problem (track A/B/§7 are idempotent by id/key).
     cursor_advanced = not domains
-    if cursor_advanced:
-        write_state(layout, {"last_synced_commit": head})
+    final = _advance_bookmarks(vault_dir, vault_id, stores, head, marks) if cursor_advanced else marks
 
     result = {
-        "base": base,
-        "last_synced_commit": head if cursor_advanced else last_synced,
+        "stores": list(stores),
+        "bases": bases,
+        "head": head,
+        **_bookmark_fields(final, stores),
         "cursor_advanced": cursor_advanced,
         "replayed": len(plan.replay_docs),
         "retracted": len(plan.retract),
-        "regenerated_tables": len(plan.regenerate_tables),
+        "regenerated_tables": len(restore_tables),
         "structured_only_tables": structured_only,
         "projection": projection_summary,
         "domains_swept": touched_domains,
     }
     if not cursor_advanced:
-        # `last_synced` is the cursor as it stood at the START of this run
-        # (read before `base` was computed) -- when it was None, this run
-        # only got past the "no last_synced_commit recorded yet" check
-        # because --bootstrapEmpty was passed. An unscoped follow-up run
-        # with no flag would hit that same check and refuse, so the note
-        # must say to repeat --bootstrapEmpty, not just "a later sync"
-        # (re-review item 3).
+        # A store with no bookmark at the START of this run only got past the
+        # "no bookmark recorded yet" check because --bootstrapEmpty was
+        # passed. An unscoped follow-up with no flag would hit that same check
+        # and refuse, so the note must say to repeat --bootstrapEmpty, not just
+        # "a later sync" (re-review item 3).
         follow_up = (
             "re-run `vault sync --bootstrapEmpty` (unscoped) to apply them"
-            if last_synced is None
+            if any(marks.effective(name) is None for name in stores)
             else "a later unscoped `vault sync` will apply them (and idempotently re-apply this one)"
         )
         result["note"] = (
             f"domain-scoped sync (--domain {','.join(domains)}): applied but did not advance "
-            f"last_synced_commit -- other domains changed in this range are still pending; {follow_up}"
+            f"the {' or '.join(stores)} bookmark -- other domains changed in this range are "
+            f"still pending; {follow_up}"
         )
     return result

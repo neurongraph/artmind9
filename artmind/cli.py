@@ -3429,25 +3429,34 @@ def vault_status(compact: bool):
 @vault.command("sync")
 @click.option(
     "--bootstrapEmpty", "bootstrap_empty", is_flag=True,
-    help="First sync ever: replay everything committed, from the vault's very first commit. "
-    "Slow for a large vault, but correct for a genuinely empty Neo4j/DuckDB.",
+    help="First sync of a store: replay everything committed, from the vault's very first "
+    "commit, into every store in the run (see --store). Slow for a large vault, but correct "
+    "for a genuinely empty Neo4j/DuckDB; cheap on a shared graph whose documents already "
+    "carry matching fingerprints.",
 )
 @click.option(
     "--bootstrapSynced", "bootstrap_synced", is_flag=True,
-    help="Stamp the cursor at HEAD with no replay at all -- for right after a full "
-    "`session initiate`/`db restore`, where the graph is already known-current. "
-    "Stamps the whole vault; cannot be combined with --domain.",
+    help="Stamp the bookmark of every store in the run (see --store) at HEAD with no replay "
+    "at all -- for right after a full `session initiate`/`db restore`, where that store is "
+    "already known-current. Cannot be combined with --domain.",
+)
+@click.option(
+    "--store", "store", type=click.Choice(["graph", "structured"]), default=None,
+    help="Apply to, and advance the bookmark of, one store only: `graph` (Neo4j; its "
+    "bookmark lives in the graph) or `structured` (DuckDB; its bookmark lives in "
+    ".artmind/state.json, and it never connects to Neo4j). Default: both. Use it to "
+    "bootstrap a store the other already has a bookmark for.",
 )
 @click.option(
     "--domain", "domain", multiple=True,
     help="Domain(s) to scope the sync (repeatable; comma-splittable). Default: every domain. "
-    "A scoped sync applies only that domain's changes and does NOT advance last_synced_commit "
+    "A scoped sync applies only that domain's changes and does NOT advance either bookmark "
     "-- other domains changed in the same range stay pending, so a later unscoped sync still "
     "sees (and idempotently re-applies) this one too.",
 )
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
+def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
     """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since the last sync.
 
     Detects exactly which document folders under .artmind/data/kg/**, which
@@ -3495,6 +3504,7 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
             bootstrap_empty=bootstrap_empty,
             bootstrap_synced=bootstrap_synced,
             dry_run=dry_run,
+            store=store,
         )
     except VaultSyncError as e:
         raise click.ClickException(str(e))

@@ -32,6 +32,52 @@ def _no_worker(tmp_path, monkeypatch):
     monkeypatch.setattr(paths, "WORKER_PID_FILE", tmp_path / "worker.pid")
 
 
+VAULT_ID = "vault-under-test"
+
+
+class _FakeGraphState:
+    """The graph side of `artmind.sync_state`, in memory: what one Neo4j
+    holds between runs. Two `sync()` calls sharing one instance model two
+    runs against the same graph -- or two machines sharing one AuraDB."""
+
+    def __init__(self):
+        self.bookmarks: dict[str, str] = {}
+        self.fingerprints: dict[str, str | None] = {}
+        self.fingerprint_reads: list[list[str]] = []
+
+    def read_graph_bookmark(self, vault_id, *, timeout=None):
+        return self.bookmarks.get(vault_id)
+
+    def write_graph_bookmark(self, vault_id, commit):
+        self.bookmarks[vault_id] = commit
+
+    def read_document_fingerprints(self, doc_ids, *, timeout=None):
+        self.fingerprint_reads.append(sorted(set(doc_ids)))
+        return {d: self.fingerprints[d] for d in doc_ids if d in self.fingerprints}
+
+
+@pytest.fixture(autouse=True)
+def graph(tmp_path, monkeypatch):
+    """Every test's vault has a `vault_id`, and its graph bookmark and
+    fingerprints live in a `_FakeGraphState` rather than Neo4j."""
+    from artmind import sync_state
+
+    (tmp_path / ".artmind").mkdir(exist_ok=True)
+    (tmp_path / ".artmind" / "vault.yaml").write_text(f'vault_id: "{VAULT_ID}"\n')
+    fake = _FakeGraphState()
+    monkeypatch.setattr(sync_state, "read_graph_bookmark", fake.read_graph_bookmark)
+    monkeypatch.setattr(sync_state, "write_graph_bookmark", fake.write_graph_bookmark)
+    monkeypatch.setattr(sync_state, "read_document_fingerprints", fake.read_document_fingerprints)
+    return fake
+
+
+def _bookmarks(repo):
+    """`(graph, structured)` -- each store's OWN bookmark, never the legacy
+    cursor, so an assertion on it proves the run wrote it."""
+    marks = vs.read_bookmarks(repo, vault_id=VAULT_ID)
+    return marks.graph, marks.structured
+
+
 def test_head_sha_returns_the_current_commit(repo):
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
@@ -591,12 +637,11 @@ def test_sync_bootstrap_synced_stamps_the_cursor_without_replaying(repo, monkeyp
     _patch_structured_text_dir(monkeypatch, repo)
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "first")
-    from artmind.vault import VaultLayout, read_state
-
     result = vs.sync(repo, bootstrap_synced=True)
 
-    assert result["last_synced_commit"] == vs.head_sha(repo)
-    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+    head = vs.head_sha(repo)
+    assert (result["graph_bookmark"], result["structured_bookmark"]) == (head, head)
+    assert _bookmarks(repo) == (head, head)
 
 
 def test_sync_bootstrap_synced_dry_run_writes_nothing(repo, monkeypatch):
@@ -674,10 +719,9 @@ def test_sync_replays_an_added_document_folder_and_advances_the_cursor(repo, mon
     assert calls["rebuild_in_batches"] == [[("Acme", "ORG", "banking")]]
     assert ("entities", "banking") in calls["sweeps"]
     assert ("chunks", "banking") in calls["sweeps"]
-    assert result["last_synced_commit"] == vs.head_sha(repo)
-
-    from artmind.vault import VaultLayout, read_state
-    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+    head = vs.head_sha(repo)
+    assert (result["graph_bookmark"], result["structured_bookmark"]) == (head, head)
+    assert _bookmarks(repo) == (head, head)
 
 
 def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
@@ -693,9 +737,8 @@ def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
 
     first = vs.sync(repo, bootstrap_empty=True)
     assert first["cursor_advanced"] is True
-    assert first["last_synced_commit"] == vs.head_sha(repo)
-    from artmind.vault import VaultLayout, read_state
     checkpoint = vs.head_sha(repo)
+    assert _bookmarks(repo) == (checkpoint, checkpoint)
 
     _write_doc_folder(kg_dir, "banking", "doc2", "docid-2")
     _write_doc_folder(kg_dir, "legal", "doc3", "docid-3")
@@ -706,9 +749,9 @@ def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
 
     assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc2"]
     assert scoped["cursor_advanced"] is False
-    assert scoped["last_synced_commit"] == checkpoint
+    assert (scoped["graph_bookmark"], scoped["structured_bookmark"]) == (checkpoint, checkpoint)
     assert "note" in scoped and scoped["note"]
-    assert read_state(VaultLayout(repo))["last_synced_commit"] == checkpoint
+    assert _bookmarks(repo) == (checkpoint, checkpoint)
 
     calls["write_to_neo4j"].clear()
     full = vs.sync(repo)
@@ -717,8 +760,7 @@ def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
     # `checkpoint`; doc3 is the change that would otherwise have been lost.
     assert {Path(p).name for p, _ in calls["write_to_neo4j"]} == {"doc2", "doc3"}
     assert full["cursor_advanced"] is True
-    assert full["last_synced_commit"] == vs.head_sha(repo)
-    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+    assert _bookmarks(repo) == (vs.head_sha(repo), vs.head_sha(repo))
 
 
 def test_sync_rejects_bootstrap_synced_combined_with_domain(repo, monkeypatch):
@@ -847,8 +889,8 @@ def test_sync_retry_after_a_failure_converges_to_the_same_end_state(repo, monkey
     _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc={"doc1": [["Acme", "ORG", "banking"]]})
     result = vs.sync(repo, bootstrap_empty=True)
 
-    assert result["last_synced_commit"] == expected_head
-    assert read_state(VaultLayout(repo))["last_synced_commit"] == expected_head
+    assert result["graph_bookmark"] == expected_head
+    assert _bookmarks(repo) == (expected_head, expected_head)
 
 
 def test_sync_regenerates_a_table_from_structured_text_diff(repo, monkeypatch):
@@ -1531,8 +1573,7 @@ def test_sync_restores_an_unmapped_table_to_the_structured_store_only(repo, monk
     assert calls["table_to_graph"] == []
     assert projection["rebuild_in_batches"] == []
     assert result["structured_only_tables"] == ["banking/accounts"]
-    from artmind.vault import VaultLayout, read_state
-    assert read_state(VaultLayout(repo))["last_synced_commit"] == vs.head_sha(repo)
+    assert _bookmarks(repo) == (vs.head_sha(repo), vs.head_sha(repo))
 
 
 def test_sync_ambiguous_mapping_still_raises_and_holds_the_cursor(repo, monkeypatch):
@@ -2134,3 +2175,236 @@ def test_sync_restores_but_never_projects_when_csv_changes_and_mapping_is_remove
 
     assert seen_import == [[("banking", "accounts")]]
     assert calls["retract_document"] == [("table:banking:accounts", "banking")]
+
+
+# ── per-store bookmarks (spec 2026-09-26 §6 A2) ───────────────────────────────
+
+
+def _patch_track_b(monkeypatch):
+    """Track B's seams: records which tables were restored into DuckDB and
+    which were projected into the graph, with what."""
+    import artmind.table2graph as t2g
+    from artmind.structured import registry as structured_registry
+
+    calls = {"import": [], "table_to_graph": []}
+    monkeypatch.setattr(
+        "artmind.structured.text_export.import_structured_text",
+        lambda *a, **k: calls["import"].append(list(k.get("tables"))) or {"tables_loaded": 1},
+    )
+    monkeypatch.setattr(
+        structured_registry, "get_table",
+        lambda table_name, domain=None: {"id": 1, "domain": domain, "table_name": table_name},
+    )
+    monkeypatch.setattr(t2g, "find_mappings", lambda table_name, domain, mappings_dir=None: [object()])
+    monkeypatch.setattr("artmind.temporal.load_schema", lambda domain, schemas_dir=None: {"name": domain})
+    monkeypatch.setattr(
+        t2g, "table_to_graph",
+        lambda row, mapping, **k: calls["table_to_graph"].append(row["table_name"]) or {"commit": {"deferred_keys": []}},
+    )
+    return calls
+
+
+def _three_commits(repo, monkeypatch):
+    """c1: doc1. c2: doc2 + accounts table. c3: doc3 + loans table."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    shas = []
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "c1")
+    shas.append(vs.head_sha(repo))
+    _write_doc_folder(kg_dir, "banking", "doc2", "docid-2")
+    _add_table(st_dir, "banking", "accounts")
+    _commit_all(repo, "c2")
+    shas.append(vs.head_sha(repo))
+    _write_doc_folder(kg_dir, "banking", "doc3", "docid-3")
+    _add_table(st_dir, "banking", "loans")
+    _commit_all(repo, "c3")
+    shas.append(vs.head_sha(repo))
+    return shas
+
+
+def test_the_legacy_cursor_seeds_both_bookmarks_then_is_retired(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, read_state, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": c1})
+    calls = _patch_ingest_and_projection(monkeypatch)
+    track_b = _patch_track_b(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert result["bases"] == {"graph": c1, "structured": c1}
+    assert sorted(Path(p).name for p, _ in calls["write_to_neo4j"]) == ["doc2", "doc3"]
+    assert track_b["import"] == [[("banking", "accounts"), ("banking", "loans")]]
+    assert _bookmarks(repo) == (c3, c3)
+    assert "last_synced_commit" not in read_state(VaultLayout(repo))
+
+
+def test_the_graphs_own_bookmark_wins_over_a_differing_legacy_cursor(repo, monkeypatch, graph):
+    """Shared AuraDB: the other machine already applied up to c2, and wrote
+    that into the graph. This machine's legacy cursor says c1 -- right for
+    its own DuckDB, too old for the shared graph."""
+    c1, c2, c3 = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": c1})
+    graph.bookmarks[VAULT_ID] = c2
+    calls = _patch_ingest_and_projection(monkeypatch)
+    track_b = _patch_track_b(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert result["bases"] == {"graph": c2, "structured": c1}
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc3"]
+    assert track_b["table_to_graph"] == ["loans"], "only the graph's own range is projected"
+    assert track_b["import"] == [[("banking", "loans"), ("banking", "accounts")]], (
+        "DuckDB also restores what its own, older range covers"
+    )
+    assert _bookmarks(repo) == (c3, c3)
+
+
+def test_a_graph_ahead_of_the_structured_store_replays_nothing_into_the_graph(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": c1})
+    graph.bookmarks[VAULT_ID] = c3
+    calls = _patch_ingest_and_projection(monkeypatch)
+    track_b = _patch_track_b(monkeypatch)
+
+    vs.sync(repo)
+
+    assert calls["write_to_neo4j"] == []
+    assert track_b["table_to_graph"] == []
+    assert track_b["import"] == [[("banking", "accounts"), ("banking", "loans")]]
+    assert _bookmarks(repo) == (c3, c3)
+
+
+def test_equal_bases_classify_the_structured_tables_once(repo, monkeypatch, graph):
+    """Per-store ranges must not re-read git when both stores start from the
+    same commit (the common case)."""
+    c1, c2, _ = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, write_state
+    _patch_ingest_and_projection(monkeypatch)
+    _patch_track_b(monkeypatch)
+    real = vs._classify_structured_text_diff
+    seen = []
+    monkeypatch.setattr(vs, "_classify_structured_text_diff", lambda v, b, h, d: seen.append(b) or real(v, b, h, d))
+
+    write_state(VaultLayout(repo), {"last_structured_commit": c1})
+    graph.bookmarks[VAULT_ID] = c1
+    vs.sync(repo, dry_run=True)
+    assert seen == [c1]
+
+    seen.clear()
+    graph.bookmarks[VAULT_ID] = c2
+    vs.sync(repo, dry_run=True)
+    assert seen == [c2, c1]
+
+
+def test_a_missing_structured_bookmark_is_refused_and_names_the_store(repo, monkeypatch, graph):
+    c1, _, _ = _three_commits(repo, monkeypatch)
+    graph.bookmarks[VAULT_ID] = c1
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match=r"no structured bookmark.*--store structured"):
+        vs.sync(repo)
+
+    assert calls["write_to_neo4j"] == []
+    assert graph.bookmarks == {VAULT_ID: c1}
+
+
+def test_store_structured_bootstraps_duckdb_alone_without_touching_the_graph(repo, monkeypatch, graph):
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    calls = _patch_ingest_and_projection(monkeypatch)
+    track_b = _patch_track_b(monkeypatch)
+
+    def _no_graph(*a, **k):
+        raise AssertionError("a structured-only run must never read the graph")
+
+    from artmind import sync_state
+    monkeypatch.setattr(sync_state, "read_graph_bookmark", _no_graph)
+
+    result = vs.sync(repo, store="structured", bootstrap_empty=True)
+
+    assert result["stores"] == ["structured"]
+    assert track_b["import"] == [[("banking", "accounts"), ("banking", "loans")]]
+    assert track_b["table_to_graph"] == []
+    assert calls["write_to_neo4j"] == []
+    assert graph.bookmarks == {}
+    from artmind.vault import VaultLayout, read_state
+    assert read_state(VaultLayout(repo)) == {"last_structured_commit": c3}
+
+
+def test_store_graph_bootstrap_synced_stamps_only_the_graph(repo, monkeypatch, graph):
+    _, _, c3 = _three_commits(repo, monkeypatch)
+
+    result = vs.sync(repo, store="graph", bootstrap_synced=True)
+
+    assert result == {"bootstrap": "synced", "stores": ["graph"], "graph_bookmark": c3}
+    assert _bookmarks(repo) == (c3, None)
+
+
+def test_the_legacy_cursor_survives_until_both_stores_have_their_own(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, read_state, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": c1})
+    _patch_ingest_and_projection(monkeypatch)
+    _patch_track_b(monkeypatch)
+
+    vs.sync(repo, store="structured")
+
+    assert read_state(VaultLayout(repo)) == {"last_synced_commit": c1, "last_structured_commit": c3}
+    vs.sync(repo, store="graph")
+    assert read_state(VaultLayout(repo)) == {"last_structured_commit": c3}
+    assert _bookmarks(repo) == (c3, c3)
+
+
+def test_a_graph_bookmark_this_clone_has_not_pulled_is_refused(repo, monkeypatch, graph):
+    """The other machine sharing the graph applied a commit this clone does
+    not have. Diffing from it would retract that machine's documents."""
+    c1, _, _ = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": c1})
+    graph.bookmarks[VAULT_ID] = "0123456789abcdef0123456789abcdef01234567"
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="not a commit in this clone.*pull"):
+        vs.sync(repo)
+
+    assert calls["write_to_neo4j"] == [] and calls["retract_document"] == []
+
+
+def test_a_graph_bookmark_ahead_of_head_is_refused(repo, monkeypatch, graph):
+    c1, c2, c3 = _three_commits(repo, monkeypatch)
+    graph.bookmarks[VAULT_ID] = c3
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": c1})
+    subprocess.run(["git", "checkout", "-q", "-b", "behind", c2], cwd=repo, check=True)
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="not an ancestor of HEAD"):
+        vs.sync(repo)
+
+    assert calls["retract_document"] == [], "doc3 must not be retracted from the shared graph"
+    assert graph.bookmarks == {VAULT_ID: c3}
+
+
+def test_a_vault_without_a_vault_id_is_told_to_run_init(repo, monkeypatch):
+    _three_commits(repo, monkeypatch)
+    (repo / ".artmind" / "vault.yaml").write_text("ingest:\n  trigger: manual\n")
+
+    with pytest.raises(vs.VaultSyncError, match="no vault_id.*artmind init"):
+        vs.sync(repo, bootstrap_empty=True)
+
+
+def test_a_failed_run_leaves_both_bookmarks_and_the_legacy_cursor_alone(repo, monkeypatch, graph):
+    c1, _, _ = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, read_state, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": c1})
+    _patch_track_b(monkeypatch)
+    import artmind.ingest as ing
+    monkeypatch.setattr(ing, "_write_to_neo4j", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+
+    with pytest.raises(RuntimeError, match="boom"):
+        vs.sync(repo)
+
+    assert graph.bookmarks == {}
+    assert read_state(VaultLayout(repo)) == {"last_synced_commit": c1}

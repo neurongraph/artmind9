@@ -462,8 +462,10 @@ def read_state(layout: VaultLayout) -> dict:
     """The machine-local cursor file (`state.json`), or `{}` if absent.
 
     Several independent cursors share this one file -- `last_ingested_commit`
-    (documented, not yet implemented) and `last_synced_commit` (`vault
-    sync`'s own cursor) -- see `VaultLayout.state_json`'s docstring. Corrupt
+    (documented, not yet implemented), `last_structured_commit` (`vault
+    sync`'s structured-store bookmark; the graph's lives in the graph) and,
+    until a vault's first sync after the bookmark split, the retired
+    `last_synced_commit` -- see `VaultLayout.state_json`'s docstring. Corrupt
     or unreadable JSON is treated as absent rather than raising: a
     hand-edited or partially-written state.json should not brick every
     command that touches it.
@@ -477,14 +479,16 @@ def read_state(layout: VaultLayout) -> dict:
         return {}
 
 
-def write_state(layout: VaultLayout, updates: dict) -> None:
+def write_state(layout: VaultLayout, updates: dict, *, remove: tuple[str, ...] = ()) -> None:
     """Merge `updates` into `state.json`, preserving every other key already
-    there. Multiple cursors coexist in this one file (see `read_state`) --
-    a naive whole-file overwrite would silently erase whichever this call
-    doesn't mention.
+    there, and drop the keys named in `remove`. Multiple cursors coexist in
+    this one file (see `read_state`) -- a naive whole-file overwrite would
+    silently erase whichever this call doesn't mention.
     """
     path = layout.state_json
     state = read_state(layout)
     state.update(updates)
+    for key in remove:
+        state.pop(key, None)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")

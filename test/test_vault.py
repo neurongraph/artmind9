@@ -186,6 +186,15 @@ def test_write_state_merges_rather_than_overwrites(tmp_path):
     }
 
 
+def test_write_state_removes_named_keys_and_keeps_the_rest(tmp_path):
+    layout = vault.VaultLayout(tmp_path)
+    vault.write_state(layout, {"last_synced_commit": "old", "last_ingested_commit": "keep"})
+
+    vault.write_state(layout, {"last_structured_commit": "new"}, remove=("last_synced_commit",))
+
+    assert vault.read_state(layout) == {"last_ingested_commit": "keep", "last_structured_commit": "new"}
+
+
 def test_read_state_tolerates_corrupt_json(tmp_path):
     layout = vault.VaultLayout(tmp_path)
     layout.state_json.parent.mkdir(parents=True, exist_ok=True)
