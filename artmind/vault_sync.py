@@ -410,15 +410,18 @@ def drop_unchanged(
     if not doc_ids:
         return []
     in_graph = sync_state.read_document_fingerprints(doc_ids, timeout=timeout)
-    unchanged, replay = [], []
-    for key in plan.replay_docs:
-        doc_id, fp = committed.get(key, (None, None))
-        if fp is not None and doc_id in in_graph and in_graph[doc_id] == fp:
-            unchanged.append(key)
-        else:
-            replay.append(key)
-    plan.replay_docs = replay
+    unchanged = [key for key in plan.replay_docs if _is_unchanged(committed.get(key), in_graph)]
+    plan.replay_docs = [key for key in plan.replay_docs if key not in unchanged]
     return unchanged
+
+
+def _is_unchanged(committed: tuple[str | None, str | None] | None, in_graph: dict) -> bool:
+    """Does the graph's live Document already carry this committed folder's
+    fingerprint?"""
+    if committed is None:
+        return False
+    doc_id, fingerprint = committed
+    return fingerprint is not None and doc_id in in_graph and in_graph[doc_id] == fingerprint
 
 
 def _classify_kg_diff(
@@ -1158,3 +1161,134 @@ def sync(
             f"still pending; {follow_up}"
         )
     return result
+
+
+# ── pending work and the staleness warning (spec 2026-09-26 §6 A4) ───────────
+
+#: Seconds an advisory graph read may spend connecting -- the staleness check
+#: that rides along with every `query` command, and `vault status` -- so an
+#: unreachable graph never holds a command up.
+ADVISORY_TIMEOUT = 2.0
+
+
+def _store_pending(
+    vault_dir: Path, store: str, bookmark: str | None, head: str, *, timeout: float | None
+) -> dict:
+    """`{"bookmark", "state", "docs", "tables", "detail"}` for one store.
+    `state` is `current`, `behind`, `no_bookmark`, `not_ancestor` (the
+    bookmark is not in HEAD's history: pull first) or `error` (the range
+    cannot be classified -- e.g. a table mapping broken at HEAD; `detail`
+    says why, and `vault sync` would refuse with the same message). `docs`
+    counts documents still to replay or retract after the fingerprint check
+    (graph only); `tables` lists `(domain, table)` still to restore/project."""
+    report = {"bookmark": bookmark, "state": "current", "docs": 0, "tables": [], "detail": None}
+    if bookmark is None:
+        report["state"] = "no_bookmark"
+        return report
+    if bookmark == head:
+        return report
+    try:
+        check_bookmark(vault_dir, store, bookmark, head)
+    except VaultSyncError as e:
+        report.update(state="not_ancestor", detail=str(e))
+        return report
+    try:
+        if store == "structured":
+            tables, _ = _classify_structured_text_diff(vault_dir, bookmark, head, None)
+            docs = 0
+        else:
+            docs, tables = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
+    except VaultSyncError as e:
+        report.update(state="error", detail=str(e))
+        return report
+    report.update(state="behind" if docs or tables else "current", docs=docs, tables=sorted(tables))
+    return report
+
+
+def _graph_pending(
+    vault_dir: Path, bookmark: str, head: str, *, timeout: float | None
+) -> tuple[int, set[tuple[str, str]]]:
+    """`(docs, tables)` the graph still has to apply between `bookmark` and
+    `head`: a replay counts unless the graph already carries its committed
+    fingerprint; a retraction counts only while the graph still has the
+    document. ONE Cypher read covers both."""
+    from artmind import sync_state
+
+    plan = classify_diff(vault_dir, bookmark, head)
+    committed = committed_fingerprints(vault_dir, head, plan.replay_docs)
+    ids = [doc_id for doc_id, fp in committed.values() if doc_id is not None and fp is not None]
+    ids += [doc_id for _, doc_id in plan.retract]
+    in_graph = sync_state.read_document_fingerprints(ids, timeout=timeout) if ids else {}
+    replay = [key for key in plan.replay_docs if not _is_unchanged(committed.get(key), in_graph)]
+    retract = [doc_id for _, doc_id in plan.retract if doc_id in in_graph]
+    tables = set(plan.regenerate_tables)
+    tables |= {tuple(doc_id.split(":", 2)[1:]) for doc_id in retract if doc_id.startswith("table:")}
+    docs = len(replay) + sum(1 for doc_id in retract if not doc_id.startswith("table:"))
+    return docs, tables
+
+
+def pending_work(
+    vault_dir: Path, head: str, marks: Bookmarks, *, stores: tuple[str, ...] = STORES,
+    timeout: float | None = ADVISORY_TIMEOUT,
+) -> dict:
+    """What `vault sync` would still apply, per store: `{store: {...}}` as
+    `_store_pending` reports it. Reads git (names and committed blobs only)
+    and, for the graph, one Cypher read of the affected documents'
+    fingerprints."""
+    return {
+        store: _store_pending(vault_dir, store, marks.effective(store), head, timeout=timeout)
+        for store in stores
+    }
+
+
+def staleness_message(pending: dict) -> str | None:
+    """The one advisory line for stderr, or None when nothing is pending.
+    `M tables` counts every table either store still has to apply -- a table
+    restored into DuckDB is also what the graph projects."""
+    graph = pending.get("graph", {})
+    structured = pending.get("structured", {})
+    for name, report in (("graph", graph), ("structured", structured)):
+        if report.get("state") == "not_ancestor":
+            return (
+                f"artmind: the {name} store's sync bookmark is not in this clone's history "
+                "-- let Obsidian Git pull, then run `artmind vault sync`"
+            )
+    tables = {tuple(t) for t in graph.get("tables", [])} | {tuple(t) for t in structured.get("tables", [])}
+    docs = graph.get("docs", 0)
+    if not docs and not tables:
+        return None
+    if not docs and not graph.get("tables"):
+        return f"artmind: structured store is {len(tables)} tables behind the vault — run `artmind vault sync`"
+    return f"artmind: graph is {docs} docs / {len(tables)} tables behind the vault — run `artmind vault sync`"
+
+
+def query_staleness_warning(vault_dir: Path | None) -> str | None:
+    """The staleness line a `query` command prints on stderr, or None.
+
+    Cheap by construction, in this order, stopping at the first "nothing to
+    say": no vault; this machine has never run `vault sync` (no bookmark in
+    `state.json` -- a local file read, so a single-machine user never pays
+    for a graph round trip); no vault_id; `git rev-parse HEAD` fails (no git,
+    no commits); both bookmarks equal HEAD (one Cypher read, capped at
+    `ADVISORY_TIMEOUT`). Only then: git names/blobs and one fingerprint read.
+    Raises whatever those raise -- the caller swallows every exception, so a
+    query is never broken by its own warning."""
+    from artmind.manifest import read_vault_id
+    from artmind.vault import VaultLayout, read_state
+
+    if vault_dir is None:
+        return None
+    state = read_state(VaultLayout(vault_dir))
+    if STRUCTURED_BOOKMARK_KEY not in state and LEGACY_CURSOR_KEY not in state:
+        return None
+    vault_id = read_vault_id(vault_dir)
+    if vault_id is None:
+        return None
+    rc, out, _ = run_command(["git", "rev-parse", "HEAD"], cwd=vault_dir, expected_codes=(128,))
+    if rc != 0:
+        return None
+    head = out.strip()
+    marks = read_bookmarks(vault_dir, vault_id=vault_id, timeout=ADVISORY_TIMEOUT)
+    if all(marks.effective(store) == head for store in STORES):
+        return None
+    return staleness_message(pending_work(vault_dir, head, marks))

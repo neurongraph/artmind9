@@ -2641,3 +2641,116 @@ def test_committed_fingerprints_resolves_both_folders_sharing_a_deduped_blob(rep
         ("banking", "doc2"): ("docid-2", _fp(kg_dir / "banking" / "doc2")),
     }
     assert committed[("banking", "doc1")][1] != committed[("banking", "doc2")][1]
+
+
+# ── staleness: pending work and the warning line (spec 2026-09-26 §6 A4) ─────
+
+
+def _synced_at(repo, graph, graph_commit, structured_commit):
+    from artmind.vault import VaultLayout, write_state
+    graph.bookmarks[VAULT_ID] = graph_commit
+    write_state(VaultLayout(repo), {"last_structured_commit": structured_commit})
+
+
+def test_no_warning_and_no_graph_read_on_a_machine_that_never_synced(repo, monkeypatch, graph):
+    _three_commits(repo, monkeypatch)
+    from artmind import sync_state
+
+    def _no_graph(*a, **k):
+        raise AssertionError("must not touch the graph")
+
+    monkeypatch.setattr(sync_state, "read_graph_bookmark", _no_graph)
+
+    assert vs.query_staleness_warning(repo) is None
+
+
+def test_no_warning_and_no_fingerprint_read_when_both_bookmarks_are_head(repo, monkeypatch, graph):
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c3, c3)
+
+    assert vs.query_staleness_warning(repo) is None
+    assert graph.fingerprint_reads == []
+
+
+def test_the_warning_counts_only_documents_the_graph_lacks(repo, monkeypatch, graph):
+    c1, _, _ = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c1, c1)
+    import paths
+    graph.fingerprints["docid-2"] = _fp(paths.KG_DIR / "banking" / "doc2")
+
+    message = vs.query_staleness_warning(repo)
+
+    assert message == "artmind: graph is 1 docs / 2 tables behind the vault — run `artmind vault sync`"
+    assert graph.fingerprint_reads == [["docid-2", "docid-3"]], "one Cypher read"
+
+
+def test_a_structured_store_behind_alone_is_named(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c3, c1)
+
+    assert vs.query_staleness_warning(repo) == (
+        "artmind: structured store is 2 tables behind the vault — run `artmind vault sync`"
+    )
+
+
+def test_a_removal_counts_only_while_the_graph_still_has_the_document(repo, monkeypatch, graph):
+    import shutil
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    base = vs.head_sha(repo)
+    shutil.rmtree(kg_dir / "banking" / "doc1")
+    _commit_all(repo, "remove doc1")
+    _synced_at(repo, graph, base, vs.head_sha(repo))
+
+    graph.fingerprints["docid-1"] = "whatever"
+    assert vs.query_staleness_warning(repo) == (
+        "artmind: graph is 1 docs / 0 tables behind the vault — run `artmind vault sync`"
+    )
+    del graph.fingerprints["docid-1"]   # the other machine already retracted it
+    assert vs.query_staleness_warning(repo) is None
+
+
+def test_a_bookmark_outside_this_clones_history_says_pull(repo, monkeypatch, graph):
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, "0123456789abcdef0123456789abcdef01234567", c3)
+
+    assert "let Obsidian Git pull" in vs.query_staleness_warning(repo)
+
+
+def test_no_warning_without_git(tmp_path, graph):
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(tmp_path), {"last_structured_commit": "abc"})
+
+    assert vs.query_staleness_warning(tmp_path) is None
+
+
+def test_pending_work_reports_each_store(repo, monkeypatch, graph):
+    c1, c2, c3 = _three_commits(repo, monkeypatch)
+    marks = vs.Bookmarks(graph=c2, structured=c1)
+
+    pending = vs.pending_work(repo, c3, marks)
+
+    assert pending["graph"]["state"] == "behind"
+    assert (pending["graph"]["docs"], pending["graph"]["tables"]) == (1, [("banking", "loans")])
+    assert pending["structured"]["tables"] == [("banking", "accounts"), ("banking", "loans")]
+
+
+def test_pending_work_reports_an_unclassifiable_range_instead_of_raising(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c1, c1)
+
+    def _broken(*a, **k):
+        raise vs.VaultSyncError("mappings/x.yaml: invalid YAML (at abc)")
+
+    monkeypatch.setattr(vs, "classify_diff", _broken)
+
+    pending = vs.pending_work(repo, c3, vs.read_bookmarks(repo, vault_id=VAULT_ID))
+
+    assert pending["graph"]["state"] == "error"
+    assert "invalid YAML" in pending["graph"]["detail"]
+    assert vs.staleness_message(pending) == (
+        "artmind: structured store is 2 tables behind the vault — run `artmind vault sync`"
+    )
