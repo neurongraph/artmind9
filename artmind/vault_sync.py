@@ -1241,6 +1241,14 @@ def pending_work(
     }
 
 
+def _one_line(detail: object) -> str:
+    """Collapse `detail` to a single line for splicing into the one advisory
+    stderr line -- a multi-line PyYAML error (header, `in "...", line N,
+    column M:`, source snippet, `^` caret) would otherwise break that
+    contract. Whitespace runs, including newlines, collapse to single spaces."""
+    return " ".join(str(detail).split())
+
+
 def staleness_message(pending: dict) -> str | None:
     """The one advisory line for stderr, or None when nothing is pending.
     `M tables` counts every table either store still has to apply -- a table
@@ -1256,13 +1264,13 @@ def staleness_message(pending: dict) -> str | None:
     erroring = [name for name, report in (("graph", graph), ("structured", structured)) if report.get("state") == "error"]
     if len(erroring) == 1:
         name = erroring[0]
-        detail = pending[name].get("detail")
+        detail = _one_line(pending[name].get("detail"))
         return (
             f"artmind: the {name} store's sync would fail -- {detail} -- "
             "fix it, then run `artmind vault sync`"
         )
     if erroring:
-        details = "; ".join(f"{name}: {pending[name].get('detail')}" for name in erroring)
+        details = "; ".join(f"{name}: {_one_line(pending[name].get('detail'))}" for name in erroring)
         return (
             f"artmind: the {' and '.join(erroring)} stores' sync would fail -- {details} -- "
             "fix it, then run `artmind vault sync`"

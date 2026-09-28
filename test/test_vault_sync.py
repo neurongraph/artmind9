@@ -2818,3 +2818,60 @@ def test_staleness_message_names_an_erroring_store_even_when_the_other_is_curren
     assert message is not None
     assert "graph" in message
     assert "invalid YAML" in message
+
+
+def _current(bookmark):
+    return {"bookmark": bookmark, "state": "current", "docs": 0, "tables": [], "detail": None}
+
+
+def _erroring(bookmark, detail):
+    return {"bookmark": bookmark, "state": "error", "docs": 0, "tables": [], "detail": detail}
+
+
+def test_staleness_message_collapses_a_multiline_detail_to_one_stderr_line():
+    """`pending_work`'s docstring calls this "the one advisory line for
+    stderr" -- but a broken table mapping's YAML produces a genuinely
+    multi-line `str(e)` from PyYAML (header line, then
+    `in "...", line N, column M:`, then a source snippet, then a `^` caret
+    line). Splicing that verbatim into the message breaks the single-line
+    contract. `staleness_message` must collapse it to one line."""
+    multiline_detail = (
+        'mapping values are not allowed here\n'
+        '  in "<unicode string>", line 1, column 5:\n'
+        '    a: b: c\n'
+        '        ^'
+    )
+    pending = {
+        "graph": _erroring("abc123456789", multiline_detail),
+        "structured": _current("abc123456789"),
+    }
+
+    message = vs.staleness_message(pending)
+
+    assert message is not None
+    assert "\n" not in message
+    assert message == (
+        "artmind: the graph store's sync would fail -- "
+        "mapping values are not allowed here in \"<unicode string>\", line 1, column 5: a: b: c ^ -- "
+        "fix it, then run `artmind vault sync`"
+    )
+
+
+def test_staleness_message_names_both_stores_when_both_error():
+    """Extends the single-store-error coverage above to the "both stores
+    error" branch: names are joined with "and", details with "; ", each
+    detail collapsed to one line -- pinned here so a future regression
+    (swapped separator, wrong pluralization) is caught."""
+    pending = {
+        "graph": _erroring("abc123", "mappings/loans.yaml: invalid YAML (at abc)"),
+        "structured": _erroring("def456", "mappings/accounts.yaml: invalid YAML (at def)"),
+    }
+
+    message = vs.staleness_message(pending)
+
+    assert message == (
+        "artmind: the graph and structured stores' sync would fail -- "
+        "graph: mappings/loans.yaml: invalid YAML (at abc); "
+        "structured: mappings/accounts.yaml: invalid YAML (at def) -- "
+        "fix it, then run `artmind vault sync`"
+    )
