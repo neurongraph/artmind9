@@ -84,6 +84,45 @@ def test_an_empty_vault_id_is_refused_not_duplicated(tmp_path):
     assert path.read_text() == "vault_id:\n"
 
 
+@pytest.mark.parametrize(
+    "trailer",
+    [
+        "...\n",
+        "...",
+        "...\n\n\n",
+        "...  \n",
+    ],
+    ids=["marker-newline", "marker-no-newline", "marker-blank-lines", "marker-trailing-spaces"],
+)
+def test_a_trailing_document_end_marker_does_not_break_the_append(tmp_path, trailer):
+    path = _vault_yaml(tmp_path)
+    path.parent.mkdir(parents=True)
+    original_body = (
+        "# my notes about this vault\n"
+        "ingest:\n"
+        "  trigger: manual\n"
+        "  mappings:\n"
+        "    - path: notes/**   # keep this comment\n"
+        "      domain: general\n"
+    )
+    path.write_text(original_body + trailer)
+
+    vault_id, minted = manifest.ensure_vault_id(tmp_path)
+
+    assert minted is True
+    text = path.read_text()
+    # The resulting file must still be valid, loadable YAML.
+    assert manifest.load(tmp_path).mappings[0].domain == "general"
+    assert manifest.load(tmp_path).mappings[0].path == "notes/**"
+    assert manifest.read_vault_id(tmp_path) == vault_id
+    assert str(uuid.UUID(vault_id)) == vault_id
+    # Original content's meaning is preserved even though the marker line
+    # itself is removed (it only closed the previous YAML document).
+    assert "# keep this comment" in text
+    assert "notes/**" in text
+    assert text.count("vault_id:") == 1
+
+
 def test_read_vault_id_is_none_without_a_manifest_or_a_key(tmp_path):
     assert manifest.read_vault_id(tmp_path) is None
     _vault_yaml(tmp_path).parent.mkdir(parents=True)

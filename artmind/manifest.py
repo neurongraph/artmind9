@@ -244,8 +244,33 @@ def ensure_vault_id(vault_root: Path) -> tuple[str, bool]:
         return str(data["vault_id"]), False
     vault_id = str(uuid.uuid4())
     raw = path.read_text(encoding="utf-8") if path.is_file() else ""
+    raw = _strip_trailing_document_end_marker(raw)
     if raw and not raw.endswith("\n"):
         raw += "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(raw + _VAULT_ID_BLOCK.format(vault_id=vault_id), encoding="utf-8")
     return vault_id, True
+
+
+def _strip_trailing_document_end_marker(raw: str) -> str:
+    """Drop a trailing YAML document-end marker line (`...`) so the
+    `vault_id` block appended after it stays part of the same document.
+
+    `...` on its own line is valid YAML that closes the current document;
+    appending more text after it starts a *new* document, and a bare
+    `vault_id: "..."` mapping is not a valid document on its own -- that is
+    the exact defect this guards against. The marker only closes out
+    whatever preceded it, so dropping it before appending `vault_id:` (a
+    continuation of the same top-level mapping) preserves the file's
+    meaning while keeping the result parseable. Trailing blank lines after
+    the marker are dropped along with it; everything before it is untouched.
+    """
+    lines = raw.splitlines(keepends=True)
+    # Walk backwards past trailing blank/whitespace-only lines to find the
+    # last non-blank line.
+    end = len(lines)
+    while end > 0 and lines[end - 1].strip() == "":
+        end -= 1
+    if end > 0 and lines[end - 1].strip() == "...":
+        return "".join(lines[: end - 1])
+    return raw
