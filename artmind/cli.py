@@ -3514,7 +3514,7 @@ def _echo_sync_status(sync: dict) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
+    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
     pass
 
 
@@ -3566,7 +3566,7 @@ def vault_status(compact: bool):
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
-    """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since the last sync.
+    """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since each store's bookmark.
 
     Detects exactly which document folders under .artmind/data/kg/**, which
     structured-store tables under .artmind/data/structured_text/**, and which
@@ -3578,20 +3578,28 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     removed mapping no longer covers is retracted from the graph; a table no
     mapping names is restored to the structured store only. Complements (does
     not replace) `session close`/`session initiate`'s whole-graph snapshot.
-    Run with no marker yet? pass --bootstrapEmpty or --bootstrapSynced (see
-    each flag's own help).
 
-    --domain scopes which changes are applied, but does NOT advance either
-    bookmark (graph or structured): a domain-scoped run only classified and
-    applied that domain's slice of the range, so moving a cursor past it
-    would silently strand every other domain's changes in that same range.
-    A later unscoped `vault sync` still starts from the same bookmark(s),
-    applies whatever was missed, and idempotently re-applies what the scoped
-    run already did.
+    Each store keeps its own bookmark: the graph's lives in the graph
+    (one :ArtmindSyncState node per vault_id, so a shared AuraDB carries one
+    bookmark for every machine), the structured store's in this machine's
+    .artmind/state.json. Each applies its own range, and a document whose
+    committed fingerprint the graph already carries is skipped — on a shared
+    graph, whatever the ingesting machine wrote. A pre-bookmark
+    last_synced_commit seeds any store with no bookmark, once. No bookmark
+    yet? pass --bootstrapEmpty or --bootstrapSynced (see each flag's own
+    help, and --store).
+
+    --domain scopes which changes are applied, but never advances a
+    bookmark: a domain-scoped run only classified and applied that domain's
+    slice of the range, so moving a bookmark past it would silently strand
+    every other domain's changes in that same range. A later unscoped `vault
+    sync` still starts from the same bookmarks, applies whatever was missed,
+    and idempotently re-applies what the scoped run already did.
 
     Applies committed content only (never the working tree) and never
     commits. Refuses while a merge/rebase is in progress, while files under
-    .artmind/ have unresolved conflicts, or while the ingest worker is running.
+    .artmind/ have unresolved conflicts, while the ingest worker is running,
+    or while a bookmark is not in HEAD's history (pull first).
     """
     _setup_logger()
     from artmind import vault as vault_mod

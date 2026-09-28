@@ -12,6 +12,12 @@ Applies committed content only: every input -- mappings and schemas included
 -- is read from the fixed `head` (`git show`/`git ls-tree -z`/`git archive`),
 never from the working tree, and `sync` never commits (spec
 2026-09-26-vault-git-transport-design.md, §6 A1, D1, §14).
+
+Each store has its own bookmark (§6 A2): the graph's in the graph
+(`artmind.sync_state`), the structured store's in `state.json`. A document
+whose committed fingerprint the graph already carries is skipped (§6 A3),
+and `pending_work`/`query_staleness_warning` report what is still to apply
+(§6 A4). artmind never writes to this vault's git (D2) -- only reads it.
 """
 from __future__ import annotations
 

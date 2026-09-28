@@ -11,6 +11,8 @@ Use this skill to answer user questions over an artmind domain through the deter
 
 Use only the structured KG data and chunk text returned by artmind query commands. If the data is insufficient, say so clearly. Do not invent entities, events, relationships, motivations, or source details not present in the returned data.
 
+A stderr line starting `artmind: graph is N docs / M tables behind the vault` (or `artmind: structured store is M tables behind the vault`) is advisory, not an error and not query data: the answer may miss recently pulled documents. Tell the user once; do not run `vault sync` yourself.
+
 ## Required Inputs
 
 - `domain`: Ask for it if the user did not provide one.
