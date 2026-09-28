@@ -2436,3 +2436,131 @@ def test_a_failed_run_leaves_both_bookmarks_and_the_legacy_cursor_alone(repo, mo
 
     assert graph.bookmarks == {}
     assert read_state(VaultLayout(repo)) == {"last_synced_commit": c1}
+
+
+# ── fingerprints make a shared graph cheap (spec 2026-09-26 §6 A3) ───────────
+
+
+def _fp(folder):
+    from artmind.sync_state import folder_fingerprint
+    return folder_fingerprint(folder)
+
+
+def test_a_folder_whose_fingerprint_the_graph_already_has_is_not_replayed(repo, monkeypatch, graph):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, "banking", "doc2", "docid-2")
+    _commit_all(repo, "add two docs")
+    graph.fingerprints["docid-1"] = _fp(kg_dir / "banking" / "doc1")
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc2"]
+    assert (result["replayed"], result["unchanged"]) == (1, 1)
+    assert graph.fingerprint_reads == [["docid-1", "docid-2"]], "one Cypher read for the whole plan"
+    assert _bookmarks(repo) == (vs.head_sha(repo), vs.head_sha(repo))
+
+
+def test_a_different_or_missing_fingerprint_is_replayed(repo, monkeypatch, graph):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, "banking", "doc2", "docid-2")
+    _commit_all(repo, "add two docs")
+    graph.fingerprints["docid-1"] = "0" * 64
+    graph.fingerprints["docid-2"] = None  # committed before fingerprints existed
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert sorted(Path(p).name for p, _ in calls["write_to_neo4j"]) == ["doc1", "doc2"]
+
+
+def test_the_committed_bytes_are_compared_not_the_working_tree(repo, monkeypatch, graph):
+    """The graph holds what ingest wrote; the commit holds the same bytes.
+    An uncommitted edit on disk must neither cause a replay nor mask one."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder = kg_dir / "banking" / "doc1"
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    graph.fingerprints["docid-1"] = _fp(folder)
+    (folder / "observations.json").write_text('[{"v": "uncommitted"}]')
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True, dry_run=False)
+
+    assert calls["write_to_neo4j"] == []
+
+
+def test_a_dry_run_reports_unchanged_folders(repo, monkeypatch, graph):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    graph.fingerprints["docid-1"] = _fp(kg_dir / "banking" / "doc1")
+
+    result = vs.sync(repo, bootstrap_empty=True, dry_run=True)
+
+    assert (result["replay"], result["unchanged"]) == (0, 1)
+
+
+def test_nothing_to_replay_reads_no_fingerprints(repo, monkeypatch, graph):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "note.md").write_text("x")
+    _commit_all(repo, "a note")
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert graph.fingerprint_reads == []
+
+
+def test_shared_graph_ingest_on_one_machine_is_a_no_op_apply_on_the_other(repo, monkeypatch, graph):
+    """Spec 2026-09-26 §11 "Bookmarks": machine A ingests (its real commit
+    path records the fingerprint), Obsidian Git commits the folder, machine B
+    -- same graph -- applies nothing and just advances the bookmark."""
+    from contextlib import contextmanager
+
+    import artmind.graph_query as graph_query
+    import artmind.ingest as ing
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder = kg_dir / "banking" / "doc1"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text('{"id": "docid-1", "name": "a.md"}')
+    (folder / "observations.json").write_text('[{"id": "o1", "key": "Acme|ORG|banking"}]')
+    (folder / "chunks.json").write_text("[]")
+    (folder / "relationships.json").write_text("[]")
+
+    sent = []
+
+    class _Session:
+        def run(self, cypher, **params):
+            if "SET d.fingerprint" in cypher:
+                sent.append(params)
+            return type("R", (), {"single": lambda s: None, "data": lambda s: [], "consume": lambda s: None})()
+
+        def execute_write(self, fn, *a, **k):
+            return fn(self, *a, **k)
+
+    @contextmanager
+    def _fake(*a, **k):
+        yield _Session()
+
+    monkeypatch.setattr(graph_query, "neo4j_session", _fake)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    ing._write_to_neo4j(folder, "banking", defer_rebuild=True)   # machine A's ingest
+    graph.fingerprints[sent[0]["doc_id"]] = sent[0]["fingerprint"]
+    _commit_all(repo, "Obsidian Git auto-commit")
+
+    calls = _patch_ingest_and_projection(monkeypatch)
+    result = vs.sync(repo, bootstrap_empty=True)             # machine B's apply
+
+    assert calls["write_to_neo4j"] == []
+    assert result["unchanged"] == 1
+    assert graph.bookmarks[VAULT_ID] == vs.head_sha(repo)

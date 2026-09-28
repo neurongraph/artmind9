@@ -265,8 +265,6 @@ def _document_ids_at_head(vault_dir: Path, head: str, kg_rel: Path, domains: lis
     oids directly -- oids ls-tree already proved exist, so "missing" cannot
     occur.
     """
-    import json
-
     from artmind.atomic_dir import is_scratch
 
     if not domains:
@@ -303,42 +301,124 @@ def _document_ids_at_head(vault_dir: Path, head: str, kg_rel: Path, domains: lis
     if not targets:
         return {}
 
-    specs = "".join(f"{oid}\n" for _, _, oid in targets)
+    blobs = _cat_blobs(vault_dir, [oid for _, _, oid in targets])
+    ids_by_domain: dict[str, set[str]] = {}
+    for domain, _docdir, oid in targets:
+        doc_id = _document_id(blobs.get(oid))
+        if doc_id is not None:
+            ids_by_domain.setdefault(domain, set()).add(doc_id)
+    return ids_by_domain
+
+
+def _cat_blobs(vault_dir: Path, oids: list[str]) -> dict[str, bytes]:
+    """`{oid: raw bytes}` for blob `oids`, in ONE `git cat-file --batch`.
+    Raw object bytes: no smudge, eol or LFS filter is applied (unlike
+    `git archive`/checkout). Callers pass oids `git ls-tree` just listed, so
+    "missing" cannot occur; a non-blob answer is skipped."""
+    wanted = list(dict.fromkeys(oids))
+    if not wanted:
+        return {}
     proc = subprocess.run(
-        ["git", "cat-file", "--batch"], cwd=vault_dir, input=specs.encode(), capture_output=True,
+        ["git", "cat-file", "--batch"], cwd=vault_dir,
+        input="".join(f"{oid}\n" for oid in wanted).encode(), capture_output=True,
     )
     if proc.returncode != 0:
         raise VaultSyncError(f"git cat-file --batch failed: {proc.stderr.decode(errors='replace').strip()}")
     out = proc.stdout
-
-    ids_by_domain: dict[str, set[str]] = {}
+    blobs: dict[str, bytes] = {}
     pos = 0
-    for domain, _docdir, oid in targets:
+    for oid in wanted:
         nl = out.index(b"\n", pos)
-        header = out[pos:nl]
+        fields = out[pos:nl].split(b" ")
         pos = nl + 1
-        fields = header.split(b" ")
         if len(fields) != 3:
             continue
         _oid, typ, size_field = fields
-        if typ != b"blob":
-            continue
         try:
             size = int(size_field)
         except ValueError:
             continue
         content, pos = out[pos:pos + size], pos + size + 1  # +1: cat-file's own trailing "\n"
-        try:
-            obj = json.loads(content.decode("utf-8"))
-        except (json.JSONDecodeError, UnicodeDecodeError):
+        if typ == b"blob":
+            blobs[oid] = content
+    return blobs
+
+
+def _document_id(content: bytes | None) -> str | None:
+    """`id` from a document.json's bytes, or None when it has none -- not
+    JSON, not UTF-8, or not an object (e.g. a bare list: not ours to read)."""
+    import json
+
+    if content is None:
+        return None
+    try:
+        obj = json.loads(content.decode("utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None
+    return obj.get("id") if isinstance(obj, dict) else None
+
+
+def committed_fingerprints(
+    vault_dir: Path, head: str, folders: list[tuple[str, str]]
+) -> dict[tuple[str, str], tuple[str | None, str | None]]:
+    """`{(domain, docdir): (doc_id, fingerprint)}` for KG staging folders as
+    committed at `head` -- `sync_state.staging_fingerprint` over the committed
+    blobs, the same bytes ingest hashed when it wrote them. One `git ls-tree`
+    and one `git cat-file --batch` for every folder together."""
+    import paths
+    from artmind.sync_state import FINGERPRINTED_FILES, staging_fingerprint
+
+    if not folders:
+        return {}
+    kg_rel = paths.KG_DIR.relative_to(vault_dir)
+    scopes = [str(kg_rel / domain / docdir) for domain, docdir in folders]
+    listing = _git(vault_dir, ["ls-tree", "-r", "-z", head, "--", *scopes])
+    oid_of: dict[tuple[str, str, str], str] = {}
+    for entry in listing.split("\0"):
+        if not entry:
             continue
-        if not isinstance(obj, dict):
-            continue  # e.g. a document.json that is a bare list -- not ours to read
-        doc_id = obj.get("id")
-        if doc_id is None:
-            continue
-        ids_by_domain.setdefault(domain, set()).add(doc_id)
-    return ids_by_domain
+        meta, _, path = entry.partition("\t")
+        parts = Path(path).relative_to(kg_rel).parts
+        fields = meta.split(" ")
+        if len(parts) == 3 and parts[2] in FINGERPRINTED_FILES and len(fields) == 3 and fields[1] == "blob":
+            oid_of[parts] = fields[2]
+    blobs = _cat_blobs(vault_dir, list(oid_of.values()))
+
+    result = {}
+    for domain, docdir in folders:
+        def _read(name, _d=domain, _f=docdir):
+            oid = oid_of.get((_d, _f, name))
+            return blobs.get(oid) if oid else None
+
+        result[(domain, docdir)] = (_document_id(_read("document.json")), staging_fingerprint(_read))
+    return result
+
+
+def drop_unchanged(
+    vault_dir: Path, plan: "SyncPlan", *, timeout: float | None = None
+) -> list[tuple[str, str]]:
+    """Spec 2026-09-26 §6 A3: remove from `plan.replay_docs` every folder
+    whose committed fingerprint the graph's `Document` already carries, and
+    return them. ONE Cypher read for the whole plan. On a shared graph the
+    machine that ingested a document already wrote it, so this is what makes
+    the other machine's apply a near no-op; on a separate local Neo4j nothing
+    matches and everything is replayed."""
+    from artmind import sync_state
+
+    committed = committed_fingerprints(vault_dir, plan.head, plan.replay_docs)
+    doc_ids = [doc_id for doc_id, fp in committed.values() if doc_id is not None and fp is not None]
+    if not doc_ids:
+        return []
+    in_graph = sync_state.read_document_fingerprints(doc_ids, timeout=timeout)
+    unchanged, replay = [], []
+    for key in plan.replay_docs:
+        doc_id, fp = committed.get(key, (None, None))
+        if fp is not None and doc_id in in_graph and in_graph[doc_id] == fp:
+            unchanged.append(key)
+        else:
+            replay.append(key)
+    plan.replay_docs = replay
+    return unchanged
 
 
 def _classify_kg_diff(
@@ -883,8 +963,10 @@ def sync(
     # structured store's, so git is read once.
     if "graph" in stores:
         plan = classify_diff(vault_dir, bases["graph"], head, domains)
+        unchanged = drop_unchanged(vault_dir, plan)
     else:
         plan = SyncPlan(base=bases["structured"], head=head)
+        unchanged = []
     project_tables = list(plan.regenerate_tables)
     if "structured" not in stores:
         structured_tables: list[tuple[str, str]] = []
@@ -929,6 +1011,7 @@ def sync(
             "bases": bases,
             "head": head,
             "replay": len(plan.replay_docs),
+            "unchanged": len(unchanged),
             "retract": len(plan.retract),
             "regenerate_tables": len(restore_tables),
             "structured_only_tables": structured_only_dry,
@@ -1045,6 +1128,7 @@ def sync(
         **_bookmark_fields(final, stores),
         "cursor_advanced": cursor_advanced,
         "replayed": len(plan.replay_docs),
+        "unchanged": len(unchanged),
         "retracted": len(plan.retract),
         "regenerated_tables": len(restore_tables),
         "structured_only_tables": structured_only,
