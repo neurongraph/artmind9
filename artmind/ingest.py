@@ -2714,7 +2714,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     a healthy one from the outside. A silently-skipped projection is a
     silently-stale query layer.
     """
-    from artmind import projection, same_as
+    from artmind import projection, same_as, sync_state
     from artmind.observations import key_string
 
     document = staged["document"]
@@ -2734,6 +2734,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    to :DocumentHistory must find and revive that same node, not create a
     #    duplicate under :Document — see _merge_relabeled.
     _merge_relabeled(tx, "Document", "DocumentHistory", doc_id, _flatten_props(document), replace=False)
+    # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
+    #     sync` skips a committed folder whose fingerprint the graph already
+    #     carries -- on a shared graph, the machine that ingested it wrote it.
+    #     Every path that commits a staged folder (ingest, table2graph,
+    #     write-to-graph, pull-kg, archive restore, dashboard import, vault
+    #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
+    sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"))
     for chunk in staged["chunks"]:
         # `embedding` flows through `_flatten_props` like every other chunk
         # property (no more special-casing it out and re-adding it after).
@@ -2830,7 +2837,13 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
     beside it, if present, supplies them here so the graph write below still
     gets a vector without recomputing it. A fresh clone has no sidecar, so
     its chunks come back with none; a later sweep (Task 2) fills those in.
+
+    `fingerprint` is taken from the files' bytes as they are on disk, before
+    any parsing (`sync_state.staging_fingerprint`), so it equals what `vault
+    sync` computes from the same files' committed blobs.
     """
+    from artmind import sync_state
+
     def _load(name: str, default=None):
         path = doc_kg_dir / name
         if not path.exists():
@@ -2857,6 +2870,7 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
             "chunks": chunks,
             "observations": _load("observations.json", []),
             "relationships": _load("relationships.json", []),
+            "fingerprint": sync_state.folder_fingerprint(doc_kg_dir),
         }
     except Exception as e:
         logger.error("Failed to load KG JSON files from {}: {}", doc_kg_dir, e)
