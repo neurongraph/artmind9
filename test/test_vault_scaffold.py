@@ -7,6 +7,12 @@ from pathlib import Path
 import pytest
 
 from artmind import vault
+from _historical_blocks import (
+    V1_GITATTRIBUTES_BLOCK,
+    V1_GITIGNORE_BLOCK,
+    V2_GITIGNORE_BLOCK_A,
+    V2_GITIGNORE_BLOCK_B,
+)
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -479,17 +485,165 @@ def test_block_status_reports_missing_outdated_current_and_malformed(tmp_path):
     assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "outdated"
     vault.write_gitignore(tmp_path)
     assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
-    path.write_text("# ── artmind (v2) ─── no end marker\n.artmind/config.env\n")
+    path.write_text("# ── artmind (v2) ───\n.artmind/config.env\n")
     assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "malformed"
 
 
 def test_a_malformed_block_is_refused_not_guessed(tmp_path):
-    (tmp_path / ".gitignore").write_text("# ── artmind ─── no end marker\nmine\n")
+    (tmp_path / ".gitignore").write_text("# ── artmind ───\nmine\n")
 
     with pytest.raises(vault.VaultError, match="end artmind"):
         vault.write_gitignore(tmp_path)
 
-    assert (tmp_path / ".gitignore").read_text() == "# ── artmind ─── no end marker\nmine\n"
+    assert (tmp_path / ".gitignore").read_text() == "# ── artmind ───\nmine\n"
+
+
+def test_a_user_comment_that_starts_like_the_header_is_not_the_block(tmp_path):
+    original = "# ── artmind ─ my own rules below\nmine\n"
+    (tmp_path / ".gitignore").write_text(original)
+
+    assert vault.block_status(tmp_path / ".gitignore", vault.GITIGNORE_BLOCK) == "missing"
+    assert vault.write_gitignore(tmp_path) is True
+    assert (tmp_path / ".gitignore").read_text() == original + "\n" + vault.GITIGNORE_BLOCK
+
+
+def test_crlf_line_endings_are_preserved(tmp_path):
+    path = tmp_path / ".gitignore"
+    path.write_bytes(("user-before\n\n" + _V1_BLOCK + "user-after\n").replace("\n", "\r\n").encode())
+
+    assert vault.write_gitignore(tmp_path) is True
+
+    expected = ("user-before\n\n" + vault.GITIGNORE_BLOCK + "user-after\n").replace("\n", "\r\n")
+    assert path.read_bytes() == expected.encode()
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
+    assert vault.write_gitignore(tmp_path) is False
+
+
+def test_a_second_artmind_block_is_reported_and_refused(tmp_path):
+    path = tmp_path / ".gitignore"
+    original = vault.GITIGNORE_BLOCK + "\nmine\n\n" + _V1_BLOCK
+    path.write_text(original)
+
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "duplicate"
+    with pytest.raises(vault.VaultError, match="2 artmind blocks"):
+        vault.write_gitignore(tmp_path)
+    assert path.read_text() == original
+
+
+# ── orphan end markers: an unrecognised header leaves a stale block active ──
+
+
+@pytest.mark.parametrize(
+    "header",
+    [
+        "# ── artmind ─────── (edited: added foo)",  # trailing prose after the dashes
+        "# -- artmind -----",  # ASCII hyphens, not the box-drawing dash
+    ],
+)
+def test_an_unrecognised_header_with_a_real_end_marker_is_malformed_not_missing(tmp_path, header):
+    """Before this fix, `_BLOCK_START` not matching `header` meant the block was
+    invisible: `block_status` said "missing" and `write_gitignore` appended a
+    second, current block after the unrecognised (but still end-marked) one --
+    two end markers, the old rules still silently active, and doctor saying "ok"."""
+    path = tmp_path / ".gitignore"
+    original = f"mine\n{header}\n.artmind/config.env\nold-stale-rule\n# ── end artmind ───────\nafter\n"
+    path.write_text(original)
+
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "malformed"
+    with pytest.raises(vault.VaultError, match="end artmind"):
+        vault.write_gitignore(tmp_path)
+    assert path.read_text() == original
+    assert path.read_text().count("# ── end artmind") == 1
+
+
+def test_doctor_reports_the_orphan_end_marker_as_a_failure(tmp_path):
+    from artmind import vault_doctor as doc
+
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+    vault.write_gitattributes(tmp_path)
+    path = tmp_path / ".gitignore"
+    path.write_text("mine\n# -- artmind -----\n.artmind/config.env\n# ── end artmind ───────\nafter\n")
+
+    check = doc.check_block(tmp_path, ".gitignore", vault.GITIGNORE_BLOCK)
+
+    assert check.status == "fail"
+    assert check.fix is not None
+    # Without orphan detection this still fails -- as "missing" -- so pin the
+    # reason, not just the verdict.
+    assert "end artmind" in check.detail or "malformed" in check.detail.lower(), check.detail
+
+
+# ── CRLF: only the block's bytes are spliced, never the user's lines ────────
+
+
+def test_a_mixed_ending_file_holding_the_current_block_is_unchanged(tmp_path):
+    """A block embedded with its own (LF) line endings inside an otherwise-CRLF
+    file must not have its *surrounding* lines rewritten just because the file
+    as a whole "looks CRLF"."""
+    path = tmp_path / ".gitignore"
+    raw = ("a\r\nb\n\n" + vault.GITIGNORE_BLOCK + "c\r\n").encode()
+    path.write_bytes(raw)
+
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
+    assert vault.write_gitignore(tmp_path) is False
+    assert path.read_bytes() == raw
+
+
+def test_a_mixed_ending_file_holding_an_outdated_block_only_has_the_block_bytes_changed(tmp_path):
+    path = tmp_path / ".gitignore"
+    prefix = "a\r\nb\n\n"
+    suffix = "c\r\n"
+    path.write_bytes((prefix + V2_GITIGNORE_BLOCK_A + suffix).encode())
+
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "outdated"
+    assert vault.write_gitignore(tmp_path) is True
+
+    new = path.read_bytes().decode()
+    assert new.startswith(prefix)
+    assert new.endswith(suffix)
+    assert new == prefix + vault.GITIGNORE_BLOCK + suffix
+
+
+# ── real historical blocks (blocks.json) ─────────────────────────────────────
+
+
+_HISTORICAL_GITIGNORE_BLOCKS = {
+    "v1": V1_GITIGNORE_BLOCK,
+    "v2-a": V2_GITIGNORE_BLOCK_A,
+    "v2-b": V2_GITIGNORE_BLOCK_B,
+}
+
+
+@pytest.mark.parametrize("name", sorted(_HISTORICAL_GITIGNORE_BLOCKS))
+@pytest.mark.parametrize("crlf", [False, True])
+def test_a_real_historical_block_upgrades_to_v3_byte_exactly(tmp_path, name, crlf):
+    old_block = _HISTORICAL_GITIGNORE_BLOCKS[name]
+    path = tmp_path / ".gitignore"
+    text = "user-before\n*.log\n\n" + old_block + "user-after\n"
+    if crlf:
+        text = text.replace("\n", "\r\n")
+    path.write_bytes(text.encode())
+
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "outdated"
+    assert vault.write_gitignore(tmp_path) is True
+
+    expected = "user-before\n*.log\n\n" + vault.GITIGNORE_BLOCK + "user-after\n"
+    if crlf:
+        expected = expected.replace("\n", "\r\n")
+    assert path.read_bytes() == expected.encode()
+    assert vault.block_status(path, vault.GITIGNORE_BLOCK) == "current"
+    assert vault.write_gitignore(tmp_path) is False
+
+
+def test_a_real_historical_gitattributes_block_round_trips_over_crlf(tmp_path):
+    path = tmp_path / ".gitattributes"
+    text = ("*.png binary\n\n" + V1_GITATTRIBUTES_BLOCK + "trailer\n").replace("\n", "\r\n")
+    path.write_bytes(text.encode())
+
+    assert vault.block_status(path, vault.GITATTRIBUTES_BLOCK) == "current"
+    assert vault.write_gitattributes(tmp_path) is False
+    assert path.read_bytes() == text.encode()
 
 
 def _ignored(repo: Path, relpath: str) -> bool:

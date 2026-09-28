@@ -66,13 +66,18 @@ def _fsync_dir(path: Path) -> None:
         os.close(fd)
 
 
-def write_dir_atomic(target: Path, files: dict[str, str | bytes]) -> None:
+def write_dir_atomic(target: Path, files: dict[str, str | bytes], *, carry_over: bool = True) -> None:
     """Replace `files` (name -> content) inside `target` as one swap.
 
-    Every other entry already in `target` -- the per-chunk extraction cache,
-    the gitignored embedding sidecar, debug output -- is carried over
-    unchanged, as hardlinks. A replaced file is unlinked in `.artmind-tmp` before
-    it is written, so the write never reaches the old folder's inode."""
+    With `carry_over=True` (the default, what ingest wants) every other entry
+    already in `target` -- the per-chunk extraction cache, the gitignored
+    embedding sidecar, debug output -- is carried over unchanged, as
+    hardlinks. A replaced file is unlinked in `.artmind-tmp` before it is
+    written, so the write never reaches the old folder's inode.
+
+    `carry_over=False` replaces the folder wholesale: `files` is its entire
+    new content. Archive restore wants this -- the bundle is the whole truth
+    about the folder (spec 2026-09-26 §14 A4)."""
     target = Path(target)
     target.parent.mkdir(parents=True, exist_ok=True)
     recover(target)
@@ -81,20 +86,25 @@ def write_dir_atomic(target: Path, files: dict[str, str | bytes]) -> None:
         if Path(name).is_absolute() or ".." in parts or not parts:
             raise ValueError(f"{name!r}: a staging file name must be a relative path inside the folder")
     tmp, old = _siblings(target)
-    if target.exists():
-        shutil.copytree(target, tmp, symlinks=True, copy_function=_link_or_copy)
-    else:
-        tmp.mkdir()
-    for name, content in files.items():
-        path = tmp / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.unlink(missing_ok=True)
-        data = content.encode("utf-8") if isinstance(content, str) else content
-        with open(path, "wb") as f:
-            f.write(data)
-            f.flush()
-            os.fsync(f.fileno())
-    _fsync_dir(tmp)
+    try:
+        if carry_over and target.exists():
+            shutil.copytree(target, tmp, symlinks=True, copy_function=_link_or_copy)
+        else:
+            tmp.mkdir()
+        for name, content in files.items():
+            path = tmp / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.unlink(missing_ok=True)
+            data = content.encode("utf-8") if isinstance(content, str) else content
+            with open(path, "wb") as f:
+                f.write(data)
+                f.flush()
+                os.fsync(f.fileno())
+        _fsync_dir(tmp)
+    except BaseException:
+        if tmp.exists():
+            shutil.rmtree(tmp)
+        raise
     if target.exists():
         target.rename(old)
     tmp.rename(target)

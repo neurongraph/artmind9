@@ -159,12 +159,25 @@ class VaultLayout:
 
     @property
     def state_json(self) -> Path:
-        """The ingest cursor: `last_ingested_commit`."""
+        """Machine-local cursors: `last_ingested_commit`, and `vault sync`'s
+        structured-store bookmark `last_structured_commit` (the graph's lives
+        in the graph)."""
         return self.artmind_dir / "state.json"
 
     @property
     def logs_dir(self) -> Path:
         return self.artmind_dir / "logs"
+
+    @property
+    def worker_pid(self) -> Path:
+        """The ingest worker's pid file (`paths.WORKER_PID_FILE` inside this
+        vault). Beside `state_json`, not under `data_dir`: the worker never
+        unlinks it (item 1, vault-sync-completion review), so it must sit
+        somewhere `GITIGNORE_BLOCK` actually covers -- `.artmind/worker.pid`,
+        not `.artmind/data/worker.pid` -- or Obsidian Git would commit it and
+        two machines would conflict on a file whose inode a pull can swap out
+        from under the flock liveness check."""
+        return self.artmind_dir / "worker.pid"
 
     # ── derived, committed (exceptions: registry_db, the kg embedding sidecar) ─
     @property
@@ -305,56 +318,128 @@ GITATTRIBUTES_BLOCK = """\
 # ── end artmind ───────────────────────────────────────────────────────────────
 """
 
-# The unversioned original header ("# ── artmind ───") is version 1.
-_BLOCK_START = re.compile(r"^# ── artmind(?: \(v(\d+)\))? ─", re.MULTILINE)
+# A header is the whole line: "# ── artmind (vN) ───…", or before versioning
+# (= version 1) "# ── artmind ───…" -- one or more box-drawing dashes and
+# nothing after them. Anchoring the full line keeps a user's own
+# "# ── artmind ─ notes" comment from being read as artmind's block. `\r`
+# tolerates CRLF files: with `re.MULTILINE`, `$` matches right before the
+# `\n`, so a line's trailing `\r` is consumed by `[ \t\r]*` before it, and the
+# patterns below work directly on raw, un-normalised file text.
+_BLOCK_START = re.compile(r"^# ── artmind(?: \(v(\d+)\))? ─+[ \t\r]*$", re.MULTILINE)
 _BLOCK_END = re.compile(r"^# ── end artmind ─.*(?:\n|$)", re.MULTILINE)
 
 
-def _find_block(text: str) -> tuple[int, int] | None:
-    """`(start, end)` offsets of the artmind block in `text`, `end` = -1
-    when the end marker is missing; None when there is no block."""
-    start = _BLOCK_START.search(text)
-    if start is None:
-        return None
-    end = _BLOCK_END.search(text, start.end())
-    return start.start(), (end.end() if end else -1)
+def _find_blocks(text: str) -> tuple[list[tuple[int, int]], list[re.Match[str]]]:
+    """`(blocks, orphans)`. `blocks` are `(start, end)` offsets of every
+    recognised artmind block in `text`, in order; `end` = -1 for a start
+    marker with no end marker after it (always the last block found).
+    `orphans` are '# ── end artmind' lines matched by no recognised header --
+    evidence of a header artmind no longer recognises (hand-edited, or from a
+    version this build doesn't know), whose block is still silently active."""
+    starts = list(_BLOCK_START.finditer(text))
+    ends = list(_BLOCK_END.finditer(text))
+    blocks: list[tuple[int, int]] = []
+    claimed: set[int] = set()
+    pos = 0
+    for start in starts:
+        if start.start() < pos:
+            continue  # inside a block already claimed
+        end_idx = next(
+            (i for i, e in enumerate(ends) if i not in claimed and e.start() >= start.end()),
+            None,
+        )
+        if end_idx is None:
+            blocks.append((start.start(), -1))
+            break
+        blocks.append((start.start(), ends[end_idx].end()))
+        claimed.add(end_idx)
+        pos = ends[end_idx].end()
+    orphans = [e for i, e in enumerate(ends) if i not in claimed]
+    return blocks, orphans
+
+
+def _read_raw(path: Path) -> str:
+    """The file as written -- no newline translation, so CRLF survives."""
+    return path.read_bytes().decode("utf-8") if path.is_file() else ""
+
+
+def _line_eol(raw: str, pos: int) -> str:
+    """The line ending terminating the line that starts at `pos` in `raw` --
+    `"\\r\\n"` when its newline is preceded by `\\r`, else `"\\n"`."""
+    nl = raw.find("\n", pos)
+    if nl == -1:
+        return "\n"
+    return "\r\n" if nl > pos and raw[nl - 1] == "\r" else "\n"
 
 
 def block_status(path: Path, block: str) -> str:
     """`"current"`, `"missing"`, `"outdated"` (an older or edited artmind
-    block) or `"malformed"` (a start marker with no end marker) --
-    `vault doctor`'s check (spec R8)."""
-    text = path.read_text(encoding="utf-8") if path.is_file() else ""
-    found = _find_block(text)
-    if found is None:
+    block), `"malformed"` (a start marker with no end marker, or an end
+    marker with no header artmind recognises before it) or `"duplicate"`
+    (more than one artmind block) -- `vault doctor`'s check (spec R8). Line
+    endings do not matter: a CRLF file holding the current block is
+    current."""
+    text = _read_raw(path)
+    blocks, orphans = _find_blocks(text)
+    if orphans:
+        return "malformed"
+    if not blocks:
         return "missing"
-    start, end = found
+    if len(blocks) > 1:
+        return "duplicate"
+    start, end = blocks[0]
     if end == -1:
         return "malformed"
-    return "current" if text[start:end] == block else "outdated"
+    return "current" if text[start:end].replace("\r\n", "\n") == block else "outdated"
 
 
 def _write_block(path: Path, block: str) -> bool:
-    """Append `block`, or replace an existing artmind block in place.
-    Lines outside the block are the user's and are never touched. Returns
-    True when the file changed."""
-    text = path.read_text(encoding="utf-8") if path.is_file() else ""
-    found = _find_block(text)
-    if found is None:
-        prefix = text if text.endswith("\n") or not text else text + "\n"
-        new = prefix + ("\n" if prefix else "") + block
+    """Append `block`, or replace an existing artmind block in place, by
+    splicing only the block's own bytes into the file. Lines outside the
+    block -- including their exact line endings -- are the user's and are
+    never touched. Returns True when the file changed."""
+    raw = _read_raw(path)
+    blocks, orphans = _find_blocks(raw)
+    if orphans:
+        first = orphans[0]
+        line_no = raw.count("\n", 0, first.start()) + 1
+        raise VaultError(
+            f"{path}:{line_no}: found {first.group().splitlines()[0]!r} with no recognised "
+            "artmind header before it, so artmind cannot tell whether that block's rules are "
+            "still active -- fix the header so it reads '# ── artmind ───' (optionally "
+            "'(vN)') with nothing else on the line, or delete that block by hand (from its "
+            "header line through this end line), then re-run `artmind init`"
+        )
+    if len(blocks) > 1:
+        raise VaultError(
+            f"{path}: has {len(blocks)} artmind blocks, so artmind cannot tell which one is "
+            "its own -- delete all but one (from its '# ── artmind' line through its "
+            "'# ── end artmind' line), then re-run `artmind init`"
+        )
+    if not blocks:
+        eol = _line_eol(raw, 0)
+        block_eol = block if eol == "\n" else block.replace("\n", eol)
+        if not raw:
+            new = block_eol
+        else:
+            prefix = raw if raw.endswith("\n") else raw + eol
+            new = prefix + eol + block_eol
     else:
-        start, end = found
+        start, end = blocks[0]
         if end == -1:
             raise VaultError(
                 f"{path}: the artmind block has no '# ── end artmind' line, so artmind "
                 "cannot tell where its rules stop and yours begin -- fix it by hand, "
                 "then re-run `artmind init`"
             )
-        new = text[:start] + block + text[end:]
-    if new == text:
+        if raw[start:end].replace("\r\n", "\n") == block:
+            return False
+        eol = _line_eol(raw, start)
+        block_eol = block if eol == "\n" else block.replace("\n", eol)
+        new = raw[:start] + block_eol + raw[end:]
+    if new == raw:
         return False
-    path.write_text(new, encoding="utf-8")
+    path.write_bytes(new.encode("utf-8"))
     return True
 
 
@@ -379,8 +464,10 @@ def read_state(layout: VaultLayout) -> dict:
     """The machine-local cursor file (`state.json`), or `{}` if absent.
 
     Several independent cursors share this one file -- `last_ingested_commit`
-    (documented, not yet implemented) and `last_synced_commit` (`vault
-    sync`'s own cursor) -- see `VaultLayout.state_json`'s docstring. Corrupt
+    (documented, not yet implemented), `last_structured_commit` (`vault
+    sync`'s structured-store bookmark; the graph's lives in the graph) and,
+    until a vault's first sync after the bookmark split, the retired
+    `last_synced_commit` -- see `VaultLayout.state_json`'s docstring. Corrupt
     or unreadable JSON is treated as absent rather than raising: a
     hand-edited or partially-written state.json should not brick every
     command that touches it.
@@ -394,14 +481,16 @@ def read_state(layout: VaultLayout) -> dict:
         return {}
 
 
-def write_state(layout: VaultLayout, updates: dict) -> None:
+def write_state(layout: VaultLayout, updates: dict, *, remove: tuple[str, ...] = ()) -> None:
     """Merge `updates` into `state.json`, preserving every other key already
-    there. Multiple cursors coexist in this one file (see `read_state`) --
-    a naive whole-file overwrite would silently erase whichever this call
-    doesn't mention.
+    there, and drop the keys named in `remove`. Multiple cursors coexist in
+    this one file (see `read_state`) -- a naive whole-file overwrite would
+    silently erase whichever this call doesn't mention.
     """
     path = layout.state_json
     state = read_state(layout)
     state.update(updates)
+    for key in remove:
+        state.pop(key, None)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")

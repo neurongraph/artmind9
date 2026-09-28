@@ -38,3 +38,23 @@ def test_write_staging_default_serialises_dates(tmp_path):
     write_staging(doc, {"report.json": {"as_of": datetime.date(2026, 9, 26)}}, default=str)
 
     assert json.loads((doc / "report.json").read_text()) == {"as_of": "2026-09-26"}
+
+
+def test_carry_embedding_sidecar_copies_only_when_chunks_match(tmp_path):
+    """Vectors belong to the on-disk chunks: carried into a snapshot only when
+    its chunks.json is byte-identical (moved from vault_sync, review finding 9)."""
+    from artmind.ingest import carry_embedding_sidecar
+
+    live, same, other = tmp_path / "live", tmp_path / "same", tmp_path / "other"
+    for d in (live, same, other):
+        d.mkdir()
+    (live / "chunks.json").write_text("[1]")
+    (live / "embeddings.json").write_text('{"c1": [0.1]}')
+    (same / "chunks.json").write_text("[1]")
+    (other / "chunks.json").write_text("[2]")
+
+    carry_embedding_sidecar(live, same)
+    carry_embedding_sidecar(live, other)
+
+    assert (same / "embeddings.json").read_text() == '{"c1": [0.1]}'
+    assert not (other / "embeddings.json").exists()

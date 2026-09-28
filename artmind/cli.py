@@ -107,13 +107,17 @@ def _parse_tables(values: "tuple[str, ...]") -> list[str]:
 
 
 def _ensure_worker_running() -> None:
-    if WORKER_PID_FILE.exists():
-        try:
-            pid = int(WORKER_PID_FILE.read_text().strip())
-            os.kill(pid, 0)
-            return  # live worker found
-        except (ProcessLookupError, ValueError):
-            pass  # stale PID
+    from artmind.worker_pid import live_pid
+
+    if live_pid(WORKER_PID_FILE) is not None:
+        return  # live worker found (a stale pid file is simply overwritten by the new worker)
+    # Legacy (pre-item-1) pid file location, before it moved beside
+    # state.json under ARTMIND_HOME -- a worker started before that fix,
+    # still running old code, would still hold this one. Drop this
+    # fallback after one release.
+    import paths
+    if live_pid(paths.DATA_DIR / "worker.pid") is not None:
+        return
 
     # Locate the worker from the installed package (sibling of this module) —
     # never relative to the pid file, which lives in the data dir.
@@ -2175,8 +2179,55 @@ def db_restore_text(path, confirm, table, domain, compact):
 
 @cli.group()
 def query():
-    """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key)."""
+    """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key).
+
+    After a query succeeds inside a vault that `vault sync` has run in, a
+    line on stderr says when the graph or structured store is behind the
+    vault's HEAD (never in stdout, so --compact JSON stays clean). Set
+    ARTMIND_NO_STALENESS_CHECK=1 to skip it.
+    """
     pass
+
+
+@query.result_callback()
+def _warn_if_vault_stale(*_args, **_kwargs) -> None:
+    """Spec 2026-09-26 §6 A4: after a `query` command SUCCEEDS, say on stderr
+    when this vault's stores are behind HEAD. Advisory only: it never applies
+    anything (D4), and any failure to work it out is swallowed -- a query is
+    never broken, or made to fail, by its own warning.
+
+    Hooked here, not in `_entry.py`: `_entry` must stay stdlib-only and
+    cannot read git history or Neo4j. A result callback runs only after the
+    subcommand returned normally -- never for `--help` or a failed query --
+    and it runs identically in-process and inside the `serve` daemon, whose
+    CliRunner captures stderr and `_entry._proxy` writes it back. (A daemon
+    started before this code shipped prints nothing: restart it.)"""
+    if os.environ.get("ARTMIND_NO_STALENESS_CHECK"):
+        return
+    try:
+        import paths
+        from artmind.vault_sync import query_staleness_warning
+
+        # run_command logs every git call at DEBUG, and query commands leave
+        # loguru's default stderr sink in place: keep those lines out.
+        logger.disable("utils")
+        logger.disable("artmind")
+        message = query_staleness_warning(paths.ARTMIND_VAULT_DIR)
+    except Exception:
+        message = None
+    finally:
+        # Each enable() is independently guarded so a raise from one can
+        # never prevent the other from running -- neither "utils" nor
+        # "artmind" logging may be left permanently disabled (a real risk
+        # in a long-running `serve` daemon), and no exception from either
+        # call may escape this result callback.
+        for _name in ("utils", "artmind"):
+            try:
+                logger.enable(_name)
+            except Exception:
+                pass
+    if message:
+        click.echo(message, err=True)
 
 
 @query.group()
@@ -3200,6 +3251,16 @@ def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bo
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
+    import paths
+
+    if paths.ARTMIND_VAULT_DIR is not None:
+        if node_counts.get("ArtmindSyncState"):
+            click.echo("  Sync bookmark: restored with the graph (`artmind vault status` shows it)")
+        else:
+            click.echo(
+                "  Sync bookmark: none in this snapshot -- the next `artmind vault sync` needs "
+                "--bootstrapSynced (graph known-current) or --bootstrapEmpty (replay everything)"
+            )
 
 
 # ── artmind snapshot ───────────────────────────────────────────────────────────
@@ -3399,6 +3460,9 @@ def _vault_status_impl(compact: bool) -> None:
             "database": os.environ.get("ARTMIND_KG_NEO4J_DATABASE", ""),
         },
     }
+    from artmind.vault_sync import status_report
+
+    info["sync"] = status_report(vault_dir)
     if compact:
         _echo_json(info, compact=True)
         return
@@ -3407,48 +3471,135 @@ def _vault_status_impl(compact: bool) -> None:
     click.echo(f"Manifest: {info['manifest'] or '(none — run artmind init)'}")
     click.echo(f"Config:   {', '.join(info['config']) or '(none loaded)'}")
     click.echo(f"Graph:    {info['graph']['uri'] or '(unset)'}  db={info['graph']['database'] or '(unset)'}")
+    _echo_sync_status(info["sync"])
+
+
+def _echo_sync_status(sync: dict) -> None:
+    """The `vault sync` half of `vault status`, human-readable."""
+    from artmind.vault_sync import _one_line
+
+    click.echo(f"HEAD:     {sync['head'] or '(no commits yet)'}")
+    for store, label in (("graph", "graph     "), ("structured", "structured")):
+        report = sync["stores"].get(store)
+        if report is None:
+            click.echo(f"Sync:     {label} (unknown — {_one_line(sync['graph_error'])})")
+            continue
+        bookmark = report.get("bookmark") or "none"
+        state = report.get("state")
+        if state == "behind":
+            tables = len(report.get("tables") or [])
+            what = f"{report['docs']} docs / {tables} tables behind" if store == "graph" else f"{tables} tables behind"
+        else:
+            what = {
+                "current": "current",
+                "no_bookmark": "no bookmark — `vault sync --bootstrapEmpty` or `--bootstrapSynced`",
+                "not_ancestor": "not in this clone's history — let Obsidian Git pull first",
+                "no_commits": "nothing committed yet",
+                "error": f"cannot tell — {_one_line(report.get('detail'))}",
+            }.get(state, state)
+        click.echo(f"Sync:     {label} {bookmark}  {what}")
+    if sync.get("legacy_cursor"):
+        click.echo(f"          (legacy last_synced_commit {sync['legacy_cursor']} still seeds a store with no bookmark)")
+    op = sync.get("operation_in_progress")
+    click.echo(f"Merge:    {op + ' is in progress — finish it before `vault sync`' if op else 'none in progress'}")
+    conflicts = sync.get("unresolved_conflicts") or []
+    if conflicts:
+        shown = ", ".join(conflicts[:5]) + (", ..." if len(conflicts) > 5 else "")
+        click.echo(f"Conflicts: {len(conflicts)} unresolved under .artmind/ ({shown})")
+    else:
+        click.echo("Conflicts: none under .artmind/")
+    if sync.get("message"):
+        click.echo(sync["message"])
 
 
 @cli.group("vault")
 def vault():
-    """Which vault is active (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
+    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
     pass
 
 
 @vault.command("status")
 @click.option("--compact", is_flag=True, help="Emit compact JSON instead of the summary")
 def vault_status(compact: bool):
-    """Show which vault is active and how it was resolved."""
+    """Show which vault is active, and how far each store is behind it.
+
+    Reports the vault, its config and graph, then `vault sync`'s view: HEAD,
+    the graph bookmark (read from the graph itself, so on a shared AuraDB it
+    is the one every machine sees) and the structured-store bookmark (this
+    machine's .artmind/state.json), the documents and tables each store has
+    still to apply (after the fingerprint check), a merge/rebase in progress,
+    and unresolved conflicts under .artmind/. An unreachable graph is
+    reported, not an error. Read-only. --compact emits all of it as JSON.
+    """
+    _setup_logger()
     _vault_status_impl(compact)
 
 
 @vault.command("sync")
 @click.option(
     "--bootstrapEmpty", "bootstrap_empty", is_flag=True,
-    help="First sync ever: replay everything committed, from the vault's very first commit. "
-    "Slow for a large vault, but correct for a genuinely empty Neo4j/DuckDB.",
+    help="First sync of a store: replay everything committed, from the vault's very first "
+    "commit, into every store in the run (see --store). Slow for a large vault, but correct "
+    "for a genuinely empty Neo4j/DuckDB; cheap on a shared graph whose documents already "
+    "carry matching fingerprints.",
 )
 @click.option(
     "--bootstrapSynced", "bootstrap_synced", is_flag=True,
-    help="Stamp the cursor at HEAD with no replay at all -- for right after a full "
-    "`session initiate`/`db restore`, where the graph is already known-current.",
+    help="Stamp the bookmark of every store in the run (see --store) at HEAD with no replay "
+    "at all -- for right after a full `session initiate`/`db restore`, where that store is "
+    "already known-current. Cannot be combined with --domain.",
 )
-@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope the sync (repeatable; comma-splittable). Default: every domain.")
+@click.option(
+    "--store", "store", type=click.Choice(["graph", "structured"]), default=None,
+    help="Apply to, and advance the bookmark of, one store only: `graph` (Neo4j; its "
+    "bookmark lives in the graph) or `structured` (DuckDB; its bookmark lives in "
+    ".artmind/state.json, and it never connects to Neo4j). Default: both. Use it to "
+    "bootstrap a store the other already has a bookmark for.",
+)
+@click.option(
+    "--domain", "domain", multiple=True,
+    help="Domain(s) to scope the sync (repeatable; comma-splittable). Default: every domain. "
+    "A scoped sync applies only that domain's changes and does NOT advance either bookmark "
+    "-- other domains changed in the same range stay pending, so a later unscoped sync still "
+    "sees (and idempotently re-applies) this one too.",
+)
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
-    """Replay committed KG-staging and structured-text changes into Neo4j/DuckDB since the last sync.
+def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
+    """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since each store's bookmark.
 
-    Detects exactly which document folders under .artmind/data/kg/** and which
-    structured-store tables under .artmind/data/structured_text/** changed in
-    git since the last `vault sync`, and replays only those — incremental,
-    CDC-like, and git-native. Complements (does not replace) `session close`/
-    `session initiate`'s whole-graph snapshot. Run with no marker yet? pass
-    --bootstrapEmpty or --bootstrapSynced (see each flag's own help).
+    Detects exactly which document folders under .artmind/data/kg/**, which
+    structured-store tables under .artmind/data/structured_text/**, and which
+    table mappings (.artmind/domains/table_mappings/*.yaml) and domain schemas
+    (.artmind/domains/schemas/*_schema.yaml) changed in git since each
+    store's bookmark, and replays only those — incremental, CDC-like, and
+    git-native. A document folder replays when any file in it changed. A
+    changed mapping or schema re-projects the tables it governs; a table a
+    removed mapping no longer covers is retracted from the graph; a table no
+    mapping names is restored to the structured store only. Complements (does
+    not replace) `session close`/`session initiate`'s whole-graph snapshot.
+
+    Each store keeps its own bookmark: the graph's lives in the graph
+    (one :ArtmindSyncState node per vault_id, so a shared AuraDB carries one
+    bookmark for every machine), the structured store's in this machine's
+    .artmind/state.json. Each applies its own range, and a document whose
+    committed fingerprint the graph already carries is skipped — on a shared
+    graph, whatever the ingesting machine wrote. A pre-bookmark
+    last_synced_commit seeds any store with no bookmark, once. No bookmark
+    yet? pass --bootstrapEmpty or --bootstrapSynced (see each flag's own
+    help, and --store).
+
+    --domain scopes which changes are applied, but never advances a
+    bookmark: a domain-scoped run only classified and applied that domain's
+    slice of the range, so moving a bookmark past it would silently strand
+    every other domain's changes in that same range. A later unscoped `vault
+    sync` still starts from the same bookmarks, applies whatever was missed,
+    and idempotently re-applies what the scoped run already did.
 
     Applies committed content only (never the working tree) and never
-    commits. Refuses while a merge/rebase is in progress, while conflicts are
-    unresolved, or while the ingest worker is running.
+    commits. Refuses while a merge/rebase is in progress, while files under
+    .artmind/ have unresolved conflicts, while the ingest worker is running,
+    or while a bookmark is not in HEAD's history (pull first).
     """
     _setup_logger()
     from artmind import vault as vault_mod
@@ -3470,6 +3621,7 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, domain, dry_run, compact):
             bootstrap_empty=bootstrap_empty,
             bootstrap_synced=bootstrap_synced,
             dry_run=dry_run,
+            store=store,
         )
     except VaultSyncError as e:
         raise click.ClickException(str(e))
@@ -3597,6 +3749,14 @@ def init(directory: str, interactive: bool, remote_url: str | None):
     click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
     click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+    vault_id = summary.get("vault_id")
+    if vault_id and summary.get("vault_id_minted"):
+        click.echo(
+            f"Vault id: {vault_id} (new -- let Obsidian Git commit "
+            ".artmind/vault.yaml before running `artmind init` in another clone)"
+        )
+    elif vault_id:
+        click.echo(f"Vault id: {vault_id}")
 
     machine_config = summary.get("machine_config", {})
     action = machine_config.get("action")

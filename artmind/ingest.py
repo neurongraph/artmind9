@@ -1430,6 +1430,22 @@ def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
         return {}
 
 
+def carry_embedding_sidecar(live_dir: Path, snap_dir: Path) -> None:
+    """Copy the gitignored embedding sidecar from a live staging folder into
+    a snapshot of it (`vault sync` replays from a copy of HEAD) -- only when
+    the live `chunks.json` is byte-identical to the snapshot's. The sidecar's
+    vectors belong to the on-disk chunks; attaching them to different chunks
+    would pair a chunk id with the wrong vector. Without it, the chunk embed
+    sweep recomputes locally."""
+    sidecar = live_dir / EMBEDDING_SIDECAR
+    live_chunks = live_dir / "chunks.json"
+    snap_chunks = snap_dir / "chunks.json"
+    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
+        return
+    if live_chunks.read_bytes() == snap_chunks.read_bytes():
+        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
+
+
 def write_staging(doc_kg_dir: Path, documents: dict[str, object], *, default=None) -> None:
     """Write a staging folder's JSON files as one atomic swap (spec
     2026-09-26 §5 R2), so an Obsidian Git auto-commit can never capture a
@@ -2698,7 +2714,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     a healthy one from the outside. A silently-skipped projection is a
     silently-stale query layer.
     """
-    from artmind import projection, same_as
+    from artmind import projection, same_as, sync_state
     from artmind.observations import key_string
 
     document = staged["document"]
@@ -2718,6 +2734,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #    to :DocumentHistory must find and revive that same node, not create a
     #    duplicate under :Document — see _merge_relabeled.
     _merge_relabeled(tx, "Document", "DocumentHistory", doc_id, _flatten_props(document), replace=False)
+    # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
+    #     sync` skips a committed folder whose fingerprint the graph already
+    #     carries -- on a shared graph, the machine that ingested it wrote it.
+    #     Every path that commits a staged folder (ingest, table2graph,
+    #     write-to-graph, pull-kg, archive restore, dashboard import, vault
+    #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
+    sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"))
     for chunk in staged["chunks"]:
         # `embedding` flows through `_flatten_props` like every other chunk
         # property (no more special-casing it out and re-adding it after).
@@ -2814,7 +2837,13 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
     beside it, if present, supplies them here so the graph write below still
     gets a vector without recomputing it. A fresh clone has no sidecar, so
     its chunks come back with none; a later sweep (Task 2) fills those in.
+
+    `fingerprint` is taken from the files' bytes as they are on disk, before
+    any parsing (`sync_state.staging_fingerprint`), so it equals what `vault
+    sync` computes from the same files' committed blobs.
     """
+    from artmind import sync_state
+
     def _load(name: str, default=None):
         path = doc_kg_dir / name
         if not path.exists():
@@ -2841,6 +2870,7 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
             "chunks": chunks,
             "observations": _load("observations.json", []),
             "relationships": _load("relationships.json", []),
+            "fingerprint": sync_state.folder_fingerprint(doc_kg_dir),
         }
     except Exception as e:
         logger.error("Failed to load KG JSON files from {}: {}", doc_kg_dir, e)

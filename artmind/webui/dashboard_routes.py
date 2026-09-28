@@ -7,6 +7,7 @@ Deterministic (no LLM in the loop) — plain wrappers around `artmind.jobs`,
 import asyncio
 import io
 import json
+import os
 import tempfile
 import zipfile
 from datetime import datetime
@@ -19,7 +20,7 @@ from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
-from artmind.atomic_dir import is_scratch
+from artmind.atomic_dir import is_scratch, write_dir_atomic
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
 from artmind.ingest import (
@@ -56,6 +57,16 @@ from artmind.unified_snapshot import (
 from artmind.webui.help import get_concepts
 from paths import DOMAIN_SCHEMAS_DIR, GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
 from utils.functions import load_env, resolve_llm_model
+
+_IMPORT_MAX_BYTES = 512 * 1024 * 1024  # 512 MiB
+
+
+def _import_max_bytes() -> int:
+    """The cap on the total declared size of an uploaded artifact zip's entries.
+
+    Read at call time (not cached at import time) so `ARTMIND_IMPORT_MAX_BYTES`
+    can be overridden per-process or monkeypatched in tests."""
+    return int(os.environ.get("ARTMIND_IMPORT_MAX_BYTES", _IMPORT_MAX_BYTES))
 
 
 def _camel(key: str) -> str:
@@ -149,6 +160,8 @@ def _validate_artifact_segment(value: str) -> None:
     explicitly before the value touches a path.
     """
     if not value or "/" in value or "\\" in value or value in (".", ".."):
+        raise HTTPException(status_code=400, detail="invalid domain/doc value")
+    if is_scratch(Path(value)):
         raise HTTPException(status_code=400, detail="invalid domain/doc value")
 
 
@@ -389,18 +402,35 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         _validate_artifact_segment(domain)
         _validate_artifact_segment(doc)
         dest_dir = KG_DIR / domain / doc
-        dest_dir.mkdir(parents=True, exist_ok=True)
         content = await file.read()
+        files: dict[str, bytes] = {}
         try:
             with zipfile.ZipFile(io.BytesIO(content)) as zf:
+                infos = zf.infolist()
+                max_bytes = _import_max_bytes()
+                total_bytes = sum(member.file_size for member in infos)
+                if total_bytes > max_bytes:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"zip contents ({total_bytes} bytes) exceed the {max_bytes} byte import cap",
+                    )
                 dest_resolved = dest_dir.resolve()
-                for member in zf.infolist():
+                for member in infos:
                     member_path = (dest_dir / member.filename).resolve()
                     if dest_resolved != member_path and dest_resolved not in member_path.parents:
                         raise HTTPException(status_code=400, detail=f"Unsafe zip entry: {member.filename}")
-                zf.extractall(dest_dir)
-        except zipfile.BadZipFile:
-            raise HTTPException(status_code=400, detail="Uploaded file is not a valid zip archive")
+                    if not member.is_dir():
+                        files[member.filename] = zf.read(member)
+        except (zipfile.BadZipFile, RuntimeError, NotImplementedError) as exc:
+            raise HTTPException(status_code=400, detail="Uploaded file is not a valid zip archive") from exc
+        # One swap (spec 2026-09-26 §5 R2, §14 A4), so an Obsidian Git timer
+        # commit never captures a half-extracted folder. Files the bundle does
+        # not carry (the chunk cache, the embedding sidecar) are kept, exactly
+        # as the extractall this replaces kept them.
+        try:
+            write_dir_atomic(dest_dir, files)
+        except (ValueError, OSError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
         ok = await asyncio.to_thread(commit_to_graph, dest_dir, domain)
         if not ok:
             raise HTTPException(status_code=400, detail="write_to_graph failed — check logs for Neo4j errors")

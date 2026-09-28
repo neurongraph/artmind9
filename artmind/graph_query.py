@@ -193,10 +193,17 @@ def _connection_settings() -> dict[str, str]:
 
 
 @contextmanager
-def neo4j_session(access_mode: str | None = None):
+def neo4j_session(access_mode: str | None = None, *, timeout: float | None = None):
+    """A session on this vault's graph. `timeout` (seconds), when given, caps
+    how long connecting may take -- for advisory reads (the `vault sync`
+    staleness check) that must never hold up the command they ride along
+    with when the graph is unreachable."""
     settings = _connection_settings()
+    driver_kwargs: dict = {}
+    if timeout is not None:
+        driver_kwargs = {"connection_timeout": timeout, "connection_acquisition_timeout": timeout}
     driver = GraphDatabase.driver(
-        settings["uri"], auth=(settings["user"], settings["password"])
+        settings["uri"], auth=(settings["user"], settings["password"]), **driver_kwargs
     )
     try:
         session_kwargs: dict = {"database": settings["database"]}

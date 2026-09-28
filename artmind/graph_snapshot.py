@@ -48,6 +48,15 @@ BASE_LABELS = (
 # it's the only record of the hashes a restored projection was built against.
 PROJECTED_LABELS = ("Entity", "Conflict", "ProjectionState")
 
+# The graph's `vault sync` bookmarks, one `:ArtmindSyncState` per vault (spec
+# 2026-09-26 §6 A2). A bookmark describes THIS graph's content, so it travels
+# with it: `session initiate` (and `snapshot restore`) bring back exactly the
+# bookmark the graph had when it was exported -- never newer than what the
+# restored graph holds. A snapshot from before bookmarks existed carries none,
+# and the next `vault sync` then asks for --bootstrapEmpty/--bootstrapSynced.
+# No relationships, so `_export_relationships` never needs them.
+SYNC_STATE_LABELS = ("ArtmindSyncState",)
+
 _ID_MATCH_KEYS = ("id",)
 
 
@@ -168,6 +177,7 @@ def export_graph() -> Path:
     with neo4j_session() as session:
         nodes = _export_nodes(session, labels=BASE_LABELS)
         nodes.update(_export_nodes(session, labels=PROJECTED_LABELS))
+        nodes.update(_export_nodes(session, labels=SYNC_STATE_LABELS))
         relationships = _export_relationships(session)
 
     node_counts = {label: len(items) for label, items in nodes.items()}

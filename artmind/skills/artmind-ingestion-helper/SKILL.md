@@ -169,10 +169,19 @@ Large documents (hundreds of chunks) can hit transient LLM-provider connection e
 
 3. **Kill the worker:**
    ```bash
-   ps aux | grep worker.py   # find the PID (also cached in worker.pid at project root)
+   ps aux | grep worker.py   # find the PID
    kill PID
    ```
-   The PID file is stale-safe — the next `_ensure_worker_running()` call (e.g. from `async` or `retry-job`) detects the dead PID and overwrites it automatically. No manual cleanup needed.
+   The worker's pid file lives at `.artmind/worker.pid` (beside `state.json`,
+   inside the vault). Find the PID with `ps`, not by reading that file:
+   liveness is the file's `flock`, not the number written in it, and the
+   worker never unlinks the file on exit -- a leftover, unlocked
+   `worker.pid` after a kill or crash is normal, not a bug. Never
+   `kill $(cat worker.pid)`: that number can belong to an unrelated process
+   the OS has since recycled it to (potentially a privileged one), so
+   killing it blindly is unsafe. The file is stale-safe either way -- the
+   next `_ensure_worker_running()` call (e.g. from `async` or `retry-job`)
+   takes the lock and overwrites it automatically. No manual cleanup needed.
 
 4. **Resume the specific stuck document with `extract-kg` — not `retry-job`:**
    ```bash
@@ -438,6 +447,19 @@ DocChunk; a re-run demotes the previous run's observations and rebuilds, exactly
 re-ingesting a document. Staged JSON lands in `data/kg/<domain>/table__<table>/`, so
 `write-to-graph --folder data/kg/DOMAIN` replays it.
 
+**Other machines.** `table__*` staging is gitignored, so another machine that pulls the vault
+re-projects the table itself with `artmind vault sync` — when the table's CSV, its mapping or
+its domain schema changed in git. Edit the mapping, let Obsidian Git commit it, and the other
+machine follows on its next `vault sync`; remove the mapping and the table's graph document is
+retracted there. A table no mapping names is restored to the structured store only.
+
+**Where `vault sync` starts.** Each store has its own bookmark: the graph's is a node in the
+graph (shared by every machine using the same AuraDB), the structured store's is in this
+machine's `.artmind/state.json`. `artmind vault status` shows both and what is pending. On a
+shared AuraDB a document the other machine ingested is skipped by fingerprint, so its
+`vault sync` mostly just restores tables into DuckDB. A new machine on a shared graph runs
+`artmind vault sync --store structured --bootstrapEmpty` once, then plain `vault sync`.
+
 **If it fails after "observations committed".** Rows commit in one transaction, then the
 projection is rebuilt in batches (a large table overruns Neo4j's per-transaction memory,
 `MemoryPoolOutOfMemoryError`, in one). A failed batch leaves part of the projection stale:
@@ -499,7 +521,9 @@ pattern matches the chosen name.
 | `No chunks found` | `sync` hasn't been run yet, or only `async` was submitted but not completed | Check with `artmind ingest jobs`; if needed run `sync` |
 | Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
 | Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
-| Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot, or `write-to-graph` if JSON exists |
+| Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot (it restores the graph's sync bookmark too), or `write-to-graph` if JSON exists |
+| `vault sync`: "no graph/structured bookmark recorded yet" | This store has never been synced on this graph/machine (or the snapshot predates bookmarks) | `vault sync --bootstrapSynced` if the store is known-current, else `--bootstrapEmpty`; add `--store graph`/`--store structured` to do one store only |
+| `vault sync`: "the graph bookmark ... is not a commit in this clone" / "not an ancestor of HEAD" | Another machine sharing the graph synced commits this clone has not pulled — or, if pulling doesn't clear it, history was rewritten | Let Obsidian Git pull (merge), then re-run `vault sync`. Still refused after pulling? Follow the message: `vault sync --store <name> --bootstrapSynced` if that store is known-current, else `--store <name> --bootstrapEmpty` |
 | Duplicate entities after merging domains | Same-as review not run | Run `refine-graph --dry-run` to propose, then `sameas approve` (see Situation G) |
 | A structured table shows `mapping_status`/`bridge_status`/`grain_status` = `failed`, or a long-registered table is still all `pending` | Best-effort LLM call failed at ingest time (unreachable model), or the table predates the classification pipeline | `artmind db propose TABLE --domain DOMAIN` — retries only the steps not already `ok`. See Situation I. |
 | `db propose` fails on the mapping step with "no schema file" | Domain has no schema YAML, or a dotted sub-domain was never harmonized | `artmind domains harmonize`, or create one via `/artmind-create-schema`. Grain and bridge still succeed independently. |

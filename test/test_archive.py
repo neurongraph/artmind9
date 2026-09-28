@@ -292,3 +292,44 @@ def test_restore_from_archive_to_path_escapes_the_path_collision(env, monkeypatc
     result = archive.restore_from_archive("doc-1", to_path="notes/policy-restored.md")
     assert (vault / "notes" / "policy-restored.md").exists()
     assert conflicting.read_text() == "a totally different file\n"  # untouched
+
+
+def test_restore_from_archive_swaps_the_kg_folder_in_atomically(env, monkeypatch):
+    """Spec 2026-09-26 §14 A4: the restored folder -- with document.json
+    already re-pointed at the new id -- lands in ONE swap that replaces
+    whatever stale folder was there; a timer commit never sees a half-copied
+    folder or the bundle's old identity."""
+    from pathlib import Path
+
+    vault, archive_root, kg_dir, originals = env
+    bundle_dir = _seed_bundle(archive_root, "doc-1")
+    doc_kg = bundle_dir / "kg" / "general" / "policy"
+    (doc_kg / "chunks" / "sha").mkdir(parents=True)
+    (doc_kg / "document.json").write_text(json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8")
+    (doc_kg / "observations.json").write_text("[]", encoding="utf-8")
+    (doc_kg / "chunks" / "sha" / "0.json").write_text("cached", encoding="utf-8")
+    stale = kg_dir / "general" / "policy-restored"
+    stale.mkdir(parents=True)
+    (stale / "stale.json").write_text("from an earlier life", encoding="utf-8")
+
+    import artmind.atomic_dir as atomic_dir
+
+    swaps = []
+    real_swap = atomic_dir.write_dir_atomic
+
+    def spy(target, files, **kw):
+        swaps.append((Path(target), json.loads(files["document.json"]), kw))
+        return real_swap(target, files, **kw)
+
+    monkeypatch.setattr(atomic_dir, "write_dir_atomic", spy)
+    monkeypatch.setattr(archive, "_document_info", lambda doc_id: {})
+    monkeypatch.setattr("artmind.ingest.commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda doc_id, domain=None: {})
+
+    archive.restore_from_archive("doc-1", to_path="notes/policy-restored.md", new_id="doc-2")
+
+    assert [(t, d["id"], kw) for t, d, kw in swaps] == [(stale, "doc-2", {"carry_over": False})]
+    files = sorted(p.relative_to(stale).as_posix() for p in stale.rglob("*") if p.is_file())
+    assert files == ["chunks/sha/0.json", "document.json", "observations.json"]
+    assert json.loads((stale / "document.json").read_text(encoding="utf-8"))["id"] == "doc-2"
+    assert sorted(p.name for p in (kg_dir / "general").iterdir()) == ["policy-restored"]

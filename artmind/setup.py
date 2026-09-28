@@ -418,6 +418,11 @@ def scaffold_vault(
 
     if not layout.vault_yaml.exists():
         layout.vault_yaml.write_text(_STARTER_VAULT_YAML, encoding="utf-8")
+    # Spec 2026-09-26 §6 A2: minted once, committed, and added to a vault
+    # initialised before it existed -- appended, the rest of the file untouched.
+    from artmind.manifest import ensure_vault_id
+
+    vault_id, vault_id_minted = ensure_vault_id(root)
 
     linked = _symlink_skills(layout.skills_dir)
     linked_opencode = _symlink_opencode_agents(layout.opencode_agents_dir)
@@ -440,6 +445,8 @@ def scaffold_vault(
         "gitattributes": gitattributes_written,
         "machine_config": machine_config,
         "git_remote": git_remote_status,
+        "vault_id": vault_id,
+        "vault_id_minted": vault_id_minted,
     }
 
 
@@ -808,6 +815,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE INDEX projection_state_id IF NOT EXISTS FOR (n:ProjectionState) ON (n.id)"
     )
+    # :ArtmindSyncState -- one node per vault, the graph's `vault sync`
+    # bookmark (spec 2026-09-26 §6 A2). The statement lives with the rest of
+    # that node's Cypher, in artmind/sync_state.py.
+    from artmind.sync_state import CONSTRAINT_CYPHER as sync_state_constraint
+
+    session.run(sync_state_constraint)
 
     # One-time backfill: every :Conflict written before this phase by the
     # pairwise adjudicator carries no `_source` at all (the rebuild's own
@@ -856,6 +869,7 @@ def setup_all() -> dict:
             "cat_entityclass_key",
             "synthesis_id",
             "sameas_proposal_id",
+            "artmind_sync_state_vault_id",
         ],
         "neo4j_indexes": [
             "entity_lookup",

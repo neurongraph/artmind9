@@ -1317,3 +1317,138 @@ def test_artifacts_skip_atomic_write_scratch_folders(monkeypatch, tmp_path):
     assert response.status_code == 200
     assert [a["doc"] for a in response.json()] == ["doc1"]
     assert response.json()[0]["entityCount"] == 1
+
+
+def test_artifact_import_swaps_the_folder_in_atomically_keeping_the_sidecar(monkeypatch, tmp_path):
+    """Spec 2026-09-26 §14 A4: one swap, so Obsidian Git never commits a
+    half-extracted folder. Files the zip does not carry are kept, as the old
+    extractall kept them."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph", lambda doc_dir, domain: True)
+    dest = tmp_path / "general" / "doc1"
+    dest.mkdir(parents=True)
+    (dest / "observations.json").write_text('["old"]')
+    (dest / "embeddings.json").write_text("{}")
+
+    swaps = []
+    real_swap = dashboard_routes.write_dir_atomic
+    monkeypatch.setattr(
+        dashboard_routes, "write_dir_atomic",
+        lambda target, files, **kw: swaps.append((target, sorted(files))) or real_swap(target, files, **kw),
+    )
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("document.json", json.dumps({"name": "doc1.pdf"}))
+        zf.writestr("observations.json", '["new"]')
+        zf.writestr("chunks/sha/0.json", "{}")
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "general", "doc": "doc1"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+
+    assert response.status_code == 200, response.text
+    assert swaps == [(dest, ["chunks/sha/0.json", "document.json", "observations.json"])]
+    assert (dest / "observations.json").read_text() == '["new"]'
+    assert (dest / "embeddings.json").read_text() == "{}"
+    assert sorted(p.name for p in dest.parent.iterdir()) == ["doc1"]
+
+
+def test_artifact_import_rejects_zip_exceeding_size_cap(monkeypatch, tmp_path):
+    """A zip whose declared entry sizes exceed the cap must be rejected before
+    the entries are read into memory (zip-bomb protection). The live folder
+    stays untouched and no atomic-swap scratch sibling is left behind."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph", lambda doc_dir, domain: True)
+    monkeypatch.setenv("ARTMIND_IMPORT_MAX_BYTES", "10")
+    dest = tmp_path / "general" / "doc1"
+    dest.mkdir(parents=True)
+    (dest / "observations.json").write_text("existing")
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("document.json", "x" * 1000)
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "general", "doc": "doc1"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+
+    assert response.status_code == 400, response.text
+    assert (dest / "observations.json").read_text() == "existing"
+    assert not (dest / "document.json").exists()
+    assert not any(p.name.endswith(".artmind-tmp") for p in dest.parent.iterdir())
+
+
+def test_artifact_import_rejects_structural_conflict(monkeypatch, tmp_path):
+    """A zip with both a file `a` and a nested `a/b` conflicts with itself once
+    materialized on a filesystem; that must surface as 400, not a 500 from
+    write_dir_atomic's mkdir/unlink."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    dest = tmp_path / "general" / "doc1"
+    dest.mkdir(parents=True)
+    (dest / "observations.json").write_text("existing")
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("a", "file")
+        zf.writestr("a/b", "nested")
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "general", "doc": "doc1"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+
+    assert response.status_code == 400, response.text
+    assert (dest / "observations.json").read_text() == "existing"
+    assert not any(p.name.endswith(".artmind-tmp") for p in dest.parent.iterdir())
+
+
+def test_artifact_import_rejects_scratch_doc_name(monkeypatch, tmp_path):
+    """`doc1.artmind-tmp` / `doc1.artmind-old` are atomic-swap scratch siblings,
+    never real documents; the import route must not be able to target one."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("document.json", "{}")
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "general", "doc": "doc1.artmind-tmp"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+
+    assert response.status_code == 400
+    assert not (tmp_path / "general" / "doc1.artmind-tmp").exists()
+
+
+def test_artifact_import_rejects_dotdot_inside_zip_entry_name(monkeypatch, tmp_path):
+    """`a/../document.json` resolves inside the destination folder (so it is
+    not caught by the zip-slip resolved-path check) but still contains `..`;
+    write_dir_atomic's own name check must turn it into 400, not a write."""
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    dest = tmp_path / "general" / "doc1"
+    dest.mkdir(parents=True)
+    (dest / "observations.json").write_text("existing")
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("a/../document.json", "{}")
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "general", "doc": "doc1"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+
+    assert response.status_code == 400, response.text
+    assert (dest / "observations.json").read_text() == "existing"
+    assert not any(p.name.endswith(".artmind-tmp") for p in dest.parent.iterdir())

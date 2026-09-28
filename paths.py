@@ -194,7 +194,14 @@ JOBS_DIR = DATA_DIR / "ingestion_jobs"
 KG_DIR = DATA_DIR / "kg"
 REFINE_DIR = DATA_DIR / "refine"
 GRAPH_SNAPSHOT_DIR = DATA_DIR / "graph_snapshot"
-WORKER_PID_FILE = DATA_DIR / "worker.pid"
+# Beside state.json under ARTMIND_HOME (a vault's `.artmind/`), not under
+# DATA_DIR (a vault's `.artmind/data/`): the gitignore block covers
+# `.artmind/worker.pid` but not `.artmind/data/worker.pid`, and since the
+# worker never unlinks this file (item 1, vault-sync-completion review), an
+# untracked path here would be committed by Obsidian Git, conflict between
+# machines, and have its inode swapped out from under the flock liveness
+# check on every pull.
+WORKER_PID_FILE = ARTMIND_HOME / "worker.pid"
 STRUCTURED_DIR = DATA_DIR / "structured"   # DuckDB catalog + <domain>/<table>.parquet
 STRUCTURED_SNAPSHOT_DIR = DATA_DIR / "structured_snapshot"   # db backup/restore .tar.gz files
 STRUCTURED_TEXT_DIR = DATA_DIR / "structured_text"   # db export-text/reindex CSV + manifest.json

@@ -16,6 +16,7 @@ is imported only by ingestion paths, which already pay for it.
 """
 from __future__ import annotations
 
+import uuid
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
 
@@ -184,3 +185,99 @@ def load(vault_root: Path) -> Manifest:
         mappings.append(Mapping(path=str(entry["path"]), domain=str(entry["domain"])))
 
     return Manifest(trigger=trigger, mappings=mappings)
+
+
+# ── vault_id (spec 2026-09-26 §6 A2) ─────────────────────────────────────────
+
+#: Appended to vault.yaml by `ensure_vault_id` -- as text, so the user's own
+#: comments, mappings and layout are never re-serialised. Quoted, so YAML can
+#: never read the id as a number.
+_VAULT_ID_BLOCK = """
+# Names this vault in the graph's `vault sync` bookmark, so two vaults that
+# share one Neo4j never share a bookmark. Minted once by `artmind init` and
+# committed: every clone of this vault carries the same value. Do not edit it,
+# and do not copy it into another vault.
+vault_id: "{vault_id}"
+"""
+
+
+def _read_yaml_dict(path: Path) -> dict | None:
+    """vault.yaml parsed, `{}` when empty, None when absent."""
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    try:
+        data = yaml.safe_load(raw) or {}
+    except yaml.YAMLError as exc:
+        raise ManifestError(f"{path}: not valid YAML -- {exc}") from exc
+    if not isinstance(data, dict):
+        raise ManifestError(f"{path}: expected a mapping at the top level")
+    return data
+
+
+def read_vault_id(vault_root: Path) -> str | None:
+    """This vault's `vault_id`, or None when vault.yaml has none yet (a vault
+    initialised before `vault sync` kept its bookmark in the graph)."""
+    data = _read_yaml_dict(Path(vault_root) / MARKER / MANIFEST)
+    if not data or data.get("vault_id") in (None, ""):
+        return None
+    return str(data["vault_id"])
+
+
+def ensure_vault_id(vault_root: Path) -> tuple[str, bool]:
+    """`(vault_id, minted)`. Mints a new id into vault.yaml only when it has
+    none, by appending one block to the end of the file -- nothing else in
+    the file changes. Idempotent: an existing id is returned as-is.
+
+    A `vault_id:` key that is present but empty is refused rather than
+    overwritten: appending a second key would leave YAML's duplicate-key
+    behaviour to decide which one counts."""
+    path = Path(vault_root) / MARKER / MANIFEST
+    data = _read_yaml_dict(path)
+    if data and "vault_id" in data:
+        if data["vault_id"] in (None, ""):
+            raise ManifestError(
+                f"{path}: 'vault_id' is present but empty -- delete that line and re-run "
+                "`artmind init` to mint one, or restore the value another clone of this vault has"
+            )
+        return str(data["vault_id"]), False
+    vault_id = str(uuid.uuid4())
+    raw = path.read_text(encoding="utf-8") if path.is_file() else ""
+    raw = _strip_trailing_document_end_marker(raw)
+    if raw and not raw.endswith("\n"):
+        raw += "\n"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(raw + _VAULT_ID_BLOCK.format(vault_id=vault_id), encoding="utf-8")
+    return vault_id, True
+
+
+def _strip_trailing_document_end_marker(raw: str) -> str:
+    """Drop a trailing YAML document-end marker line (`...`) so the
+    `vault_id` block appended after it stays part of the same document.
+
+    `...` on its own line is valid YAML that closes the current document;
+    appending more text after it starts a *new* document, and a bare
+    `vault_id: "..."` mapping is not a valid document on its own -- that is
+    the exact defect this guards against. The marker only closes out
+    whatever preceded it, so dropping it before appending `vault_id:` (a
+    continuation of the same top-level mapping) preserves the file's
+    meaning while keeping the result parseable. Trailing blank lines after
+    the marker are dropped along with it; everything before it is untouched.
+
+    A genuine document-end marker must start in column 0 (YAML requires
+    it). The check below therefore strips only *trailing* whitespace before
+    comparing (a real marker may have trailing spaces before the newline)
+    and never leading whitespace -- an indented `...` is data, most
+    plausibly the last line of a block/folded scalar (`notes: |`) that
+    happens to read `...`, and must be left alone.
+    """
+    lines = raw.splitlines(keepends=True)
+    # Walk backwards past trailing blank/whitespace-only lines to find the
+    # last non-blank line.
+    end = len(lines)
+    while end > 0 and lines[end - 1].strip() == "":
+        end -= 1
+    if end > 0 and lines[end - 1].rstrip() == "...":
+        return "".join(lines[: end - 1])
+    return raw

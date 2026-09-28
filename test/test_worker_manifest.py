@@ -92,3 +92,35 @@ def test_a_malformed_manifest_does_not_abort_the_queue(vault, recorded, monkeypa
     worker_module._process_job(job_id="job-1", domain="general", env={})
 
     assert recorded == [("n.md", "general")]
+
+
+def test_the_worker_leaves_the_vaults_git_history_and_index_untouched(vault, recorded, monkeypatch):
+    """Phase 1 review finding 6 / spec 2026-09-26 §11: a worker job that
+    rewrites a note's frontmatter leaves HEAD where it was and nothing staged;
+    the note is simply modified on disk for Obsidian Git to commit."""
+    import subprocess
+
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=vault, capture_output=True, text=True, check=True).stdout
+
+    (vault / "notes").mkdir()
+    note = vault / "notes" / "n.md"
+    note.write_text("# n\n")
+    for args in (["init", "-q"], ["config", "user.email", "t@example.com"], ["config", "user.name", "T"],
+                 ["add", "-A"], ["commit", "-qm", "seed"]):
+        git(*args)
+    head_before = git("rev-parse", "HEAD").strip()
+    monkeypatch.setattr("artmind.vault_git.ARTMIND_VAULT_DIR", vault)
+
+    def writes_frontmatter(source, image_model, domain=None, **kwargs):
+        Path(source).write_text("---\n_artmind_id: id-n\n---\n\n# n\n")
+        return {"status": "ok", "domain": domain}
+
+    monkeypatch.setattr(worker_module, "ingest_file", writes_frontmatter)
+    monkeypatch.setattr(worker_module, "_get_queued_files", lambda job_id: [str(note)])
+
+    worker_module._process_job(job_id="job-1", domain="general", env={})
+
+    assert git("rev-parse", "HEAD").strip() == head_before, "artmind must not create commits"
+    assert git("diff", "--cached", "--name-only") == "", "artmind must not stage anything"
+    assert git("diff", "--name-only").split() == ["notes/n.md"], "the frontmatter write is on disk"

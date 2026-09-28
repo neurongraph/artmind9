@@ -52,11 +52,20 @@ def check_block(vault_dir: Path, filename: str, block: str) -> Check:
     status = block_status(vault_dir / filename, block)
     if status == "current":
         return Check(name, OK, "present and current")
+    if status == "duplicate":
+        return Check(
+            name, FAIL, "more than one artmind block",
+            f"edit {filename} by hand so it has exactly one artmind block (keep the newest, "
+            "delete the others from their '# ── artmind' line through their '# ── end artmind' "
+            "line), then run `artmind init` in the vault root",
+        )
     if status == "malformed":
         return Check(
-            name, FAIL, "artmind block has a start line but no '# ── end artmind' line",
-            f"edit {filename} by hand so artmind's block ends with its '# ── end artmind' line, "
-            "then run `artmind init` in the vault root",
+            name, FAIL,
+            "artmind block is malformed (a start line with no '# ── end artmind' line, "
+            "or an '# ── end artmind' line with no header artmind recognises before it)",
+            f"edit {filename} by hand so artmind's block has both a matching '# ── artmind' "
+            "start line and a '# ── end artmind' line, then run `artmind init` in the vault root",
         )
     return Check(
         name, FAIL, f"artmind block {status}",
@@ -81,10 +90,11 @@ def _collapse(paths: list[str]) -> list[str]:
 
 def check_tracked_ignored(vault_dir: Path) -> Check:
     name = "ignored paths still tracked"
-    rc, out, err = _git(vault_dir, ["ls-files", "-c", "-i", "--exclude-standard", "--", ".artmind"])
+    # -z: paths verbatim, never C-quoted (spec 2026-09-26 §14 A5).
+    rc, out, err = _git(vault_dir, ["ls-files", "-z", "-c", "-i", "--exclude-standard", "--", ".artmind"])
     if rc != 0:
         return Check(name, UNKNOWN, f"git ls-files failed: {(err or out).strip()}")
-    paths = _collapse([p for p in out.splitlines() if p.strip()])
+    paths = _collapse([p for p in out.split("\0") if p])
     if not paths:
         return Check(name, OK, "none")
     # Built in two parts so test_no_git_writes' source scan doesn't read

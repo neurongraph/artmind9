@@ -93,6 +93,17 @@ def test_tracked_table_folders_are_reported_with_the_exact_untrack_command(repo)
     assert ".artmind/data/kg/banking/table__accounts/document.json" in _git(repo, "ls-files")
 
 
+def test_a_duplicate_artmind_block_fails_with_a_hand_edit_fix(repo):
+    text = (repo / ".gitignore").read_text()
+    (repo / ".gitignore").write_text(text + "\n" + vault.GITIGNORE_BLOCK)
+
+    check = _by_name(doc.run(repo))[".gitignore artmind block"]
+
+    assert check["status"] == "fail"
+    assert "more than one" in check["detail"]
+    assert "exactly one" in check["fix"]
+
+
 def test_pull_rebase_true_fails(repo):
     _git(repo, "config", "pull.rebase", "true")
 
@@ -168,3 +179,17 @@ def test_obsidian_sync_is_detected_in_either_core_plugins_shape(repo, core_plugi
 
     assert check["status"] == "warn"
     assert "Obsidian Sync" in check["detail"]
+
+
+def test_a_tracked_table_folder_with_a_non_ascii_name_gets_an_exact_untrack_command(repo):
+    """Spec 2026-09-26 §14 A5: without `ls-files -z`, git C-quotes the name and
+    the printed command names a path that does not exist."""
+    table = repo / ".artmind" / "data" / "kg" / "banking" / "table__Café"
+    table.mkdir(parents=True)
+    (table / "document.json").write_text("{}")
+    _git(repo, "add", "-f", "-A")
+    _git(repo, "commit", "-qm", "old commit")
+
+    check = _by_name(doc.run(repo))["ignored paths still tracked"]
+
+    assert check["fix"] == "git rm -r --cached -- '.artmind/data/kg/banking/table__Café'"

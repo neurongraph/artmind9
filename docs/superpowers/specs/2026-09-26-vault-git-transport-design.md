@@ -45,7 +45,7 @@ separate local Neo4j per machine with the same code.
 | # | Decision |
 |---|---|
 | D1 | **Obsidian Git owns all git transport and all commits.** artmind never runs `git add/commit/rm/push/pull/merge` against the vault. |
-| D2 | **artmind only reads git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`, `update-ref` on its own private ref). |
+| D2 | **artmind only reads git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`). No write, not even a private ref — see §6 A2's amendment (2026-09-27 vault-sync-completion): a considered `update-ref` pin was dropped as unnecessary and against this decision's intent. |
 | D3 | **Mobile never ingests.** Mobile edits notes only; it pulls and pushes through Obsidian Git like any other client. |
 | D4 | **Apply is manual** (`artmind vault sync`), with a **staleness warning** on queries and `vault status`. Automatic apply is a later opt-in (§12), not part of this design. |
 | D5 | **Merge, never rebase.** Commit shas are provenance and cursors; rewriting them is not supported. |
@@ -114,7 +114,7 @@ flowchart TD
     S6 --> S7["Structured: materialize changed CSVs + table meta<br/>to a scratch dir, import scoped"]
     S7 --> S8["Graph: replay, retract, apply updates,<br/>conflict statuses, same_as-scoped rebuild"]
     S8 --> S9["Union projection rebuild + embedding sweeps"]
-    S9 --> S10["Write graph bookmark (Neo4j node)<br/>+ structured bookmark (state.json)<br/>+ pin refs/artmind/last-synced"]
+    S9 --> S10["Write graph bookmark (Neo4j node)<br/>+ structured bookmark (state.json)"]
     S8 -. "any exception" .-> X3["Bookmarks untouched;<br/>rerun recomputes the same range"]
 ```
 
@@ -269,14 +269,28 @@ A bookmark means "this store reflects commits up to X".
 one AuraDB don't share a bookmark. The existing `last_synced_commit` in `state.json` is
 read once as the initial value for both bookmarks, then retired.
 
-Each advanced bookmark is also pinned locally with `git update-ref
-refs/artmind/last-synced <sha>`, so a later `gc` can't collect it. A plain branch push
-never sends `refs/artmind/*`.
+artmind only *reads* this vault's git (D2) — never a commit, never a ref, not even a
+private one. A bookmark's commit is not pinned against `gc`: Obsidian Git merges rather
+than rebases (D5), so an advanced bookmark's commit stays reachable through ordinary
+history on its own. Should a bookmark's commit ever become unreachable anyway (a rebase
+or reset outside Obsidian Git's normal flow), `vault sync` refuses to diff from it —
+it must be an ancestor of `HEAD`, or the refusal names the recovery (`--store <name>
+--bootstrapSynced` if that store is already known-current, else `--store <name>
+--bootstrapEmpty`) — rather than silently reading everything that bookmark has and
+`HEAD` lacks as removals.
 
-`session initiate` (snapshot restore) sets the graph bookmark from the snapshot
-manifest's `vault_commit` when `vault_dirty` is false (`unified_snapshot.py:139-140`
-already records both), and leaves it unset otherwise — the next sync then needs
-`--bootstrapEmpty`/`--bootstrapSynced`, as today.
+`session initiate` (snapshot restore) restores the graph bookmark from the graph
+snapshot's own `:ArtmindSyncState` node, exported alongside the rest of the graph's
+content (`graph_snapshot.py`'s `SYNC_STATE_LABELS`) — **not** from the unified
+snapshot manifest's `vault_commit`, as an earlier version of this section said. A
+manifest's `vault_commit` is the vault's HEAD at export time, which can be *ahead*
+of what the graph actually received (Obsidian Git pulled another machine's commits,
+nobody ran `vault sync` yet, then `snapshot create` ran) — restoring from it in that
+case would mark commits applied that the graph never got, silently, forever on a
+local Neo4j. The graph's own bookmark is never ahead of the content restored with
+it. A snapshot taken before bookmarks existed carries none, and the next sync then
+needs `--bootstrapEmpty`/`--bootstrapSynced`, as today; `session initiate` says
+which case applies.
 
 ### A3. Fingerprints make shared AuraDB cheap
 
@@ -383,7 +397,8 @@ Hermetic tests use real throwaway git repos (`git init` in `tmp_path`), not mock
   a conflict in a human note is left untouched and reported.
 - **Bookmarks:** shared-graph case — ingest on "A" writes fingerprints, apply on "B"
   replays nothing and advances the bookmark; local case — replays everything in range.
-  Pinned ref survives `git gc --prune=now` after the branch is rewritten.
+  A bookmark whose commit has been rewritten away (no longer an ancestor of `HEAD`) is
+  refused, not silently diffed.
 - **Preflight:** `MERGE_HEAD` present → refuses, bookmarks untouched.
 - **§7 tracks:** an `update__*` folder replays; a `conflicts.yaml` change sets
   `:Conflict.status`; a `same_as.yaml` group change rebuilds exactly its keys.
@@ -400,7 +415,7 @@ pull --no-rebase && git push`.
    A5 (preflight). Fixes the reported push rejections and the whole-index commit.
 2. **Readiness:** R2 atomic writes, R3/R4 versioned `.gitattributes`/`.gitignore`, R5
    per-table meta, R8 `vault doctor`.
-3. **Topologies:** A2 bookmarks in Neo4j + pinned ref, A3 fingerprints, A4 staleness
+3. **Topologies:** A2 bookmarks in Neo4j, A3 fingerprints, A4 staleness
    warning, extended `vault status`.
 4. **Curation travels:** §7 tracks for `update`, conflicts, `same_as.yaml`.
 5. **Conflicts and frontmatter:** R7 `vault resolve`, R6 frontmatter slimming with a
@@ -417,8 +432,60 @@ pull --no-rebase && git push`.
   `.artmind/data/**` is only a fast-forward in practice — but this should be verified.
 - The exact Obsidian Git `data.json` keys for sync method, pull-on-startup and auto
   interval, for `vault doctor`.
-- Whether conflict ids from `conflicts.materialize` are deterministic across machines
-  (§7 track C depends on it).
+- ~~Whether conflict ids from `conflicts.materialize` are deterministic across machines.~~
+  **Answered 2026-09-27:** yes — `conflicts.conflict_id` is `sha1(sorted entity ids | aspect
+  slug)`, and entity ids are `sha256(name|class|domain)`. See §14 A6 for what that changes.
 - A machine without Obsidian that **ingests** has no committer under D1. Not a
   supported setup for now; if it becomes one, the answer is a documented git timer, not
   artmind committing again.
+
+## 14. Amendments (2026-09-27)
+
+Found by live testing and by the phase 1 review and phase 2 execution notes
+(`docs/superpowers/reviews/2026-09-26-vault-git-transport-phase1-review.md`,
+`docs/superpowers/plans/2026-09-26-vault-git-transport-phase2.md` "Execution notes").
+Each amends the section named.
+
+**A1. Table sources are a sync input (amends R4, §6 A1).** Gitignoring `table__*` (R4) left
+`vault sync` blind to a table whose CSV did not change but whose **table mapping** or **domain
+schema** did: the receiving machine kept the old projection, silently. `vault sync` therefore
+also diffs `.artmind/domains/table_mappings/*.yaml` and `.artmind/domains/schemas/*_schema.yaml`:
+a changed mapping regenerates every registered table its `table:` pattern matches (and, on a
+removed mapping, retracts them); a changed schema regenerates that domain's tables. Mappings and
+schemas are read from `head`, like every other input — never the working tree.
+
+**A2. A table with no mapping is a structured-store table only (amends §6 track B).** Track B
+restores it to DuckDB and skips `table2graph`. It no longer raises `no table mapping`, which
+stalled the cursor forever on any vault with unmapped tables.
+
+**A3. Table identity is `(domain, table_name)`, not the SQLite id (amends R5).** Per-table
+`.meta.json` files used to carry SQLite's autoincrement `tables.id`, which collides when two
+machines each register a new table. Import remaps ids by `(domain, table_name)`; `.meta.json`
+carries no machine-local ids at all — neither the table's own id nor any child row's
+`table_id` — so a table's meta doesn't churn every time its local id changes, and two
+machines' meta for the same table never conflicts on an id that was never shared truth. An
+older `.meta.json` (or the legacy `manifest.json`) that still carries ids is still read
+correctly.
+
+**A4. Every staging writer is atomic, and track A replays on any change in a document folder
+(amends R2, §6 A1).** Archive restore, dashboard artifact import and `kg_pull` join ingest and
+`table2graph` in using the atomic swap. Track A replays a folder when any file in it changes, not
+only `observations.json`, so a folder committed in two halves still converges.
+
+**A5. Paths are read NUL-separated (amends §6 A1).** Every git listing `vault sync` parses uses
+`-z`, so non-ASCII and space-containing names are neither quoted nor split.
+
+**A6. Conflict records travel, not just their status (amends §7).** Conflicts are *detected* by
+an LLM and written only to Neo4j, so a machine with its own Neo4j never sees them at all.
+`.artmind/data/curation/conflicts.yaml` holds the conflict record itself (id, the two entity
+keys, aspect, verdict, evidence summary, status, reason, timestamps); apply MERGEs `:Conflict`
+nodes and `CONFLICTS_WITH` edges from it. Ids are deterministic (§13), so re-detecting the same
+conflict on another machine MERGEs onto the same record rather than duplicating it.
+Same-as **proposals** stay machine-local: they are a review queue, and an approved group already
+travels as `same_as.yaml`.
+
+**A7. Preflight scope (amends §6 A5).** Only unresolved conflicts under `.artmind/` block sync.
+A conflicted human note does not affect what sync applies, and Obsidian shows it to the user.
+
+**A8. Automatic apply is in scope (amends §12 item 6).** Opt-in `ARTMIND_VAULT_AUTO_APPLY=1`:
+`serve` polls `HEAD` and runs the same apply when the preflight passes and the graph is behind.

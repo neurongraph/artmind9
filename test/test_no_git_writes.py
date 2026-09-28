@@ -18,13 +18,49 @@ SOURCES = sorted(
     p for root in ("artmind", "utils") for p in (REPO / root).rglob("*.py")
 )
 
-# git subcommands that write history, the index, refs on a remote, or the tree
-WRITE_SUBCOMMANDS = ("add", "commit", "rm", "push", "pull", "merge", "rebase", "reset", "checkout", "stash")
+# git subcommands that write history, the index, refs (local or on a remote),
+# the object store, or the tree. `update-ref`/`symbolic-ref` included: spec
+# 2026-09-26 D2 allows no write at all, not even a private ref (the dropped
+# Plan B `refs/artmind/` pin).
+WRITE_SUBCOMMANDS = (
+    "add", "commit", "rm", "push", "pull", "merge", "rebase", "reset", "checkout", "stash",
+    "update-ref", "symbolic-ref", "gc", "prune",
+)
+_WRITES = "|".join(re.escape(s) for s in WRITE_SUBCOMMANDS)
 PATTERNS = [
-    re.compile(r"""["']git\s+(%s)\b""" % "|".join(WRITE_SUBCOMMANDS)),          # "git commit ..."
-    re.compile(r"""["']git["']\s*,\s*["'](%s)["']""" % "|".join(WRITE_SUBCOMMANDS)),  # ["git", "commit", ...]
+    re.compile(r"""["']git\s+(%s)(?![\w-])""" % _WRITES),                  # "git commit ..."
+    re.compile(r"""["']git["']\s*,\s*["'](%s)["']""" % _WRITES),           # ["git", "commit", ...]
+    # vault_sync's own wrapper, whose argv has no "git" in it:
+    # _git(vault_dir, ["update-ref", ...])
+    re.compile(r"""\b_git\(\s*[^,()]+,\s*\[\s*["'](%s)["']""" % _WRITES),
     re.compile(r"\b(commit_paths|remove_paths|maybe_push)\b"),
 ]
+
+
+@pytest.mark.parametrize("line", [
+    'run_command(["git", "update-ref", "refs/artmind/last-synced/graph", sha], cwd=vault_dir)',
+    '_git(vault_dir, ["update-ref", f"{PREFIX}/{store}", commit])',
+    '_git(vault_dir, ["commit", "-m", "x"])',
+    'subprocess.run("git update-ref refs/artmind/x HEAD", shell=True)',
+    'run_command(["git", "symbolic-ref", "HEAD", "refs/heads/x"], cwd=d)',
+    'run_command(["git", "gc", "--prune=now"], cwd=d)',
+])
+def test_the_patterns_catch_a_write(line):
+    """The guard must actually fire -- a write subcommand missing from the
+    list (as `update-ref` once was) makes every scan above vacuous for it."""
+    assert any(p.search(line) for p in PATTERNS), line
+
+
+@pytest.mark.parametrize("line", [
+    '_git(vault_dir, ["rev-parse", "--absolute-git-dir"])',
+    '_git(vault_dir, ["diff", "--no-renames", "--name-status", "-z", base, head])',
+    'run_command(["git", "cat-file", "-e", f"{commit}^{{commit}}"], cwd=vault_dir)',
+    'run_command(["git", "merge-base", "--is-ancestor", commit, head], cwd=vault_dir)',
+    'subprocess.run("git merge-base --is-ancestor a b", shell=True)',
+])
+def test_the_patterns_leave_reads_alone(line):
+    assert not any(p.search(line) for p in PATTERNS), line
+
 
 # Writes against a repo that is NOT the user's vault, or (phase 5) `vault
 # resolve`'s scoped staging. Each entry needs a one-line reason. Empty today.

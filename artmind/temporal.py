@@ -158,22 +158,27 @@ def _deep_merge_temporal(parent: dict, child: dict) -> dict:
     return merged
 
 
-def load_schema(domain: str) -> dict:
+def load_schema(domain: str, schemas_dir: Path | None = None) -> dict:
     """Load a domain's schema, deep-merging inherited `temporal:` from a dotted parent.
 
     For a leaf domain like `banking.policy`, also loads `banking_schema.yaml` and
     merges its `temporal:` block underneath the child's (see `_deep_merge_temporal`).
     Non-temporal keys (prompts, entity_types, etc.) are NOT inherited here — that
     composition happens at build time via `artmind domains harmonize`.
+
+    `schemas_dir` defaults to `DOMAIN_SCHEMAS_DIR`. `vault sync` passes a scratch
+    copy of the schemas committed at HEAD, never the working tree (spec
+    2026-09-26 §14 A1).
     """
-    path = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
+    schemas_dir = Path(schemas_dir) if schemas_dir is not None else DOMAIN_SCHEMAS_DIR
+    path = schemas_dir / f"{domain}_schema.yaml"
     import yaml
     if not path.exists():
         return {}
     schema = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     if "." in domain:
         parent_name = domain.rsplit(".", 1)[0]
-        parent_path = DOMAIN_SCHEMAS_DIR / f"{parent_name}_schema.yaml"
+        parent_path = schemas_dir / f"{parent_name}_schema.yaml"
         if parent_path.exists():
             parent_schema = yaml.safe_load(parent_path.read_text(encoding="utf-8")) or {}
             schema["temporal"] = _deep_merge_temporal(

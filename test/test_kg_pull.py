@@ -126,6 +126,113 @@ class TestPullKg:
         with pytest.raises(RuntimeError, match="No document"):
             pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
 
+    @patch("artmind.kg_pull._sparse_clone")
+    def test_each_document_is_swapped_in_atomically_and_symlinks_are_not_followed(
+        self, mock_clone, tmp_path, monkeypatch
+    ):
+        import artmind.kg_pull as mod
+        kg_dir = tmp_path / "kg"
+        monkeypatch.setattr(mod, "KG_DIR", kg_dir)
+        fake_content = self._make_fake_repo(tmp_path, ["doc_a"])
+        (fake_content / "doc_a" / "chunks" / "sha").mkdir(parents=True)
+        (fake_content / "doc_a" / "chunks" / "sha" / "0.json").write_text("cached")
+        secret = tmp_path / "secret.txt"
+        secret.write_text("private")
+        (fake_content / "doc_a" / "leak.json").symlink_to(secret)
+        cleanup_dir = tmp_path / "cleanup"
+        cleanup_dir.mkdir()
+        mock_clone.return_value = (fake_content, cleanup_dir)
+
+        swaps = []
+        real_swap = mod.write_dir_atomic
+        monkeypatch.setattr(
+            mod, "write_dir_atomic",
+            lambda target, files, **kw: swaps.append((target, sorted(files))) or real_swap(target, files, **kw),
+        )
+
+        pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
+
+        assert swaps == [(kg_dir / "sales" / "doc_a", ["chunks/sha/0.json", "document.json", "entities.json"])]
+        assert not (kg_dir / "sales" / "doc_a" / "leak.json").exists()
+        assert sorted(p.name for p in (kg_dir / "sales").iterdir()) == ["doc_a"]
+
+    @patch("artmind.kg_pull._sparse_clone")
+    def test_symlinked_doc_folder_is_not_followed(self, mock_clone, tmp_path, monkeypatch):
+        import artmind.kg_pull as mod
+        kg_dir = tmp_path / "kg"
+        monkeypatch.setattr(mod, "KG_DIR", kg_dir)
+
+        fake_content = self._make_fake_repo(tmp_path, ["doc_a"])
+
+        # A repo entry that is a symlink to some local directory outside the
+        # clone, containing its own document.json plus an unrelated secret
+        # file. Following it would copy a whole local directory into the vault.
+        outside_dir = tmp_path / "outside_evil"
+        outside_dir.mkdir()
+        (outside_dir / "document.json").write_text(json.dumps({"id": "evil"}))
+        (outside_dir / "secret.txt").write_text("private")
+        (fake_content / "evil").symlink_to(outside_dir)
+
+        cleanup_dir = tmp_path / "cleanup"
+        cleanup_dir.mkdir()
+        mock_clone.return_value = (fake_content, cleanup_dir)
+
+        result = pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
+
+        assert result["pulled_count"] == 1
+        assert sorted(p.name for p in (kg_dir / "sales").iterdir()) == ["doc_a"]
+        assert not (kg_dir / "sales" / "evil").exists()
+        # Nothing under kg_dir should contain the secret's content.
+        for p in (kg_dir / "sales").rglob("*"):
+            if p.is_file():
+                assert p.read_text(errors="ignore") != "private"
+
+    @patch("artmind.kg_pull._sparse_clone")
+    def test_leftover_local_swap_counts_as_a_conflict(self, mock_clone, tmp_path, monkeypatch):
+        import artmind.kg_pull as mod
+        kg_dir = tmp_path / "kg"
+        target = kg_dir / "sales"
+        target.mkdir(parents=True)
+        leftover = target / "doc_a.artmind-old"
+        leftover.mkdir()
+        (leftover / "document.json").write_text(json.dumps({"id": "local"}))
+        monkeypatch.setattr(mod, "KG_DIR", kg_dir)
+
+        fake_content = self._make_fake_repo(tmp_path, ["doc_a", "doc_b"])
+        cleanup_dir = tmp_path / "cleanup"
+        cleanup_dir.mkdir()
+        mock_clone.return_value = (fake_content, cleanup_dir)
+
+        with pytest.raises(RuntimeError, match="conflict"):
+            pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
+
+        # doc_b should NOT have been copied since the whole pull aborted, and
+        # doc_a's content must stay the pre-existing local version, never
+        # merged with the pulled remote content.
+        assert not (target / "doc_b").exists()
+        assert not leftover.exists()
+        assert json.loads((target / "doc_a" / "document.json").read_text()) == {"id": "local"}
+
+    @patch("artmind.kg_pull._sparse_clone")
+    def test_scratch_named_folders_in_the_pulled_repo_are_ignored(self, mock_clone, tmp_path, monkeypatch):
+        import artmind.kg_pull as mod
+        kg_dir = tmp_path / "kg"
+        monkeypatch.setattr(mod, "KG_DIR", kg_dir)
+
+        fake_content = self._make_fake_repo(tmp_path, ["doc_a"])
+        scratch = fake_content / "doc_b.artmind-old"
+        scratch.mkdir()
+        (scratch / "document.json").write_text(json.dumps({"id": "doc_b"}))
+
+        cleanup_dir = tmp_path / "cleanup"
+        cleanup_dir.mkdir()
+        mock_clone.return_value = (fake_content, cleanup_dir)
+
+        result = pull_kg("https://github.com/acme/repo.git", "data/kg/sales", "sales")
+
+        assert result["pulled_count"] == 1
+        assert sorted(p.name for p in (kg_dir / "sales").iterdir()) == ["doc_a"]
+
 
 class TestRunGitProtocolAllowlist:
     """git's own documented mitigation (GIT_ALLOW_PROTOCOL / `git help clone`) for the

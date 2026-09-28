@@ -69,7 +69,8 @@ def test_reingest_truly_unchanged_does_not_rewrite_or_commit(vault):
 
     tier stays "metadata_only" either way (decide_version's own vocabulary is
     unchanged) -- what changes is that a truly no-op touch no longer sets
-    touched_path, so the caller never calls commit_paths for it."""
+    touched_path, so the note is not rewritten on disk at all (and Obsidian
+    Git has nothing to commit)."""
     v, doc = vault
     r1 = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
     before = doc.read_text()
