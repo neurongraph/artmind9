@@ -51,8 +51,8 @@ Each is argued in full under "Self-review → Design decisions the spec did not 
 3. **Fingerprint bytes** [3]. sha256 over, for each of `document.json`, `chunks.json`, `observations.json`, `relationships.json` in that order: the name, NUL, then `absent` NUL or the byte length in decimal, NUL, the raw bytes. All four files, not only `observations.json`, because track A replays a folder when any of them changes (spec §14 A4). Apply hashes the committed **blobs** (`git cat-file --batch`, no filters), ingest hashes the bytes it wrote; a mismatch can only cause a replay, never skip one.
 4. **Staleness hook** [4, 5]. A `@query.result_callback()` in `cli.py`: it runs only after a query succeeded, never for `--help`, prints on stderr only, and runs identically in-process and inside the `serve` daemon (whose `CliRunner` captures stderr; `_entry._proxy` already writes it back). It is gated on `state.json` holding a bookmark (no graph round trip for a machine that never synced), caps the graph connection at 2 s, swallows every exception, and `ARTMIND_NO_STALENESS_CHECK=1` turns it off.
 5. **`--store graph|structured`** [6]. A new `vault sync` option runs one store alone; `--bootstrapEmpty`/`--bootstrapSynced` apply to every store in the run. That is how one store is bootstrapped while the other keeps its bookmark.
-6. **A bookmark must be an ancestor of HEAD** [7]. Otherwise `vault sync` refuses ("pull first") instead of diffing: diffing from a shared graph's bookmark that this clone has not pulled would read the other machine's new documents as removals and retract them.
-7. **Two pinned refs** [9], `refs/artmind/last-synced/graph` and `refs/artmind/last-synced/structured`, not one `refs/artmind/last-synced`: the two bookmarks can be different commits, and a single ref keeps only one of them reachable.
+6. **A bookmark must be an ancestor of HEAD** [7]. Otherwise `vault sync` refuses ("pull first") instead of diffing: diffing from a shared graph's bookmark that this clone has not pulled would read the other machine's new documents as removals and retract them. The refusal also names the recovery when pulling won't help — `--store <name> --bootstrapSynced`/`--bootstrapEmpty` — since a history rewrite leaves nothing to pull.
+7. **No pinned ref** [9]. Task 6 (originally: pin each advanced bookmark under `refs/artmind/` with `git update-ref`) is dropped. Spec D2 says artmind only *reads* git; a private ref is still a git write, and it bought nothing real — with Obsidian Git merging (never rebasing), a bookmarked commit stays reachable, and decision 6's ancestor-of-HEAD check already refuses sync after any history rewrite whether or not the commit was pinned. `test/test_no_git_writes.py` keeps no `update-ref` exception.
 8. **`session initiate` restores the bookmark the graph had** [8], by exporting `:ArtmindSyncState` inside the graph snapshot — not from the unified snapshot manifest's `vault_commit`. **This deviates from spec §6 A2**; see Self-review, decision 8.
 
 ## File map
@@ -65,7 +65,7 @@ Each is argued in full under "Self-review → Design decisions the spec did not 
 | `artmind/ingest.py` | `_load_staged` computes the fingerprint; `_commit_document_tx` records it (Task 2) |
 | `artmind/manifest.py` | `read_vault_id`, `ensure_vault_id` (Task 3) |
 | `artmind/vault.py` | `write_state(..., remove=)` (Task 4) |
-| `artmind/vault_sync.py` | bookmarks, per-store ranges, `--store` (Task 4); fingerprint skip (Task 5); pinned refs (Task 6); `pending_work`, `query_staleness_warning` (Task 8); `status_report` (Task 9); module docstring (Task 11) |
+| `artmind/vault_sync.py` | bookmarks, per-store ranges, `--store` (Task 4); fingerprint skip (Task 5); the ancestor refusal names the bootstrap-flag recovery (Task 4 follow-up); `pending_work`, `query_staleness_warning` (Task 8); `status_report` (Task 9); module docstring (Task 11) |
 | `artmind/graph_snapshot.py` | export `:ArtmindSyncState` with the graph (Task 7) |
 | `artmind/cli.py` | `init` prints `vault_id` (Task 3); `vault sync --store` (Task 4); `session initiate` bookmark line (Task 7); fuller `vault status` (Task 9); `query` staleness callback (Task 10); docstrings (Task 11) |
 | `test/test_sync_state.py`, `test/test_ingest_fingerprint.py`, `test/test_vault_id.py`, `test/test_query_staleness.py` | new |
@@ -2659,281 +2659,27 @@ git commit -m "feat(vault-sync): skip documents whose committed fingerprint the 
 
 ---
 
-### Task 6: pin each advanced bookmark under `refs/artmind/` (spec §6 A2, D2)
-
-A bookmark is a commit sha; after a rebase or reset plus `git gc` it could vanish, and the next `vault sync` would refuse. Each advanced bookmark is pinned with `git update-ref refs/artmind/last-synced/<store> <sha>` — two refs, because the two stores' bookmarks can be different commits and one ref keeps only one of them reachable. `update-ref` on a private ref touches neither the index nor the working tree, and a branch push never sends `refs/artmind/*` (spec D2 permits exactly this read-side write). Pins are written *before* the bookmarks, so a failing pin leaves every bookmark where it was.
-
-`test/test_no_git_writes.py` learns `update-ref` as a write — including the wrapper form `_git(vault_dir, ["update-ref", ...])`, which its patterns could not see before — and allows exactly one line, by its full text, with a reason. Two more tests keep that allowance honest: the allowed line must exist exactly once, and the pinned prefix must be under `refs/artmind/`.
-
-**Files:**
-- Modify: `test/test_no_git_writes.py:21-44`
-- Modify: `artmind/vault_sync.py:752` (after `LEGACY_CURSOR_KEY`), `:857-865` (`_advance_bookmarks`' header)
-- Test: `test/test_vault_sync.py` (append)
-
-- [ ] **Step 1: Write the failing tests**
-
-**Replace in** `test/test_no_git_writes.py` (lines 21-44):
-
-```python
-# git subcommands that write history, the index, refs on a remote, or the tree
-WRITE_SUBCOMMANDS = ("add", "commit", "rm", "push", "pull", "merge", "rebase", "reset", "checkout", "stash")
-PATTERNS = [
-    re.compile(r"""["']git\s+(%s)\b""" % "|".join(WRITE_SUBCOMMANDS)),          # "git commit ..."
-    re.compile(r"""["']git["']\s*,\s*["'](%s)["']""" % "|".join(WRITE_SUBCOMMANDS)),  # ["git", "commit", ...]
-    re.compile(r"\b(commit_paths|remove_paths|maybe_push)\b"),
-]
-
-# Writes against a repo that is NOT the user's vault, or (phase 5) `vault
-# resolve`'s scoped staging. Each entry needs a one-line reason. Empty today.
-ALLOWED: set[str] = set()
-
-
-@pytest.mark.parametrize("path", SOURCES, ids=lambda p: str(p.relative_to(REPO)))
-def test_no_git_write_calls(path):
-    rel = str(path.relative_to(REPO))
-    if rel in ALLOWED:
-        pytest.skip("writes to a non-vault repo; see ALLOWED")
-    hits = [
-        f"{rel}:{n}: {line.strip()}"
-        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
-        if any(p.search(line) for p in PATTERNS)
-    ]
-    assert not hits, "artmind must not write to the vault's git repo:\n" + "\n".join(hits)
-```
-
-**with:**
-
-```python
-# git subcommands that write history, the index, refs, refs on a remote, or the tree
-WRITE_SUBCOMMANDS = (
-    "add", "commit", "rm", "push", "pull", "merge", "rebase", "reset", "checkout", "stash", "update-ref",
-)
-PATTERNS = [
-    re.compile(r"""["']git\s+(%s)\b""" % "|".join(WRITE_SUBCOMMANDS)),          # "git commit ..."
-    re.compile(r"""["']git["']\s*,\s*["'](%s)["']""" % "|".join(WRITE_SUBCOMMANDS)),  # ["git", "commit", ...]
-    re.compile(r"\b(commit_paths|remove_paths|maybe_push)\b"),
-    # a wrapper's argv without "git" in it: _git(vault_dir, ["update-ref", ...])
-    re.compile(r"""\[\s*["']update-ref["']"""),
-]
-
-# Writes against a repo that is NOT the user's vault, or (phase 5) `vault
-# resolve`'s scoped staging. Each entry needs a one-line reason. Empty today.
-ALLOWED: set[str] = set()
-
-# Single lines that may write, keyed by file, each with its reason. Matched
-# on the stripped line text, so any edit to the call re-opens the question.
-ALLOWED_LINES: dict[str, dict[str, str]] = {
-    "artmind/vault_sync.py": {
-        '_git(vault_dir, ["update-ref", f"{PIN_REF_PREFIX}/{store}", commit])': (
-            "spec 2026-09-26 D2/§6 A2: pins a store's bookmark under the private "
-            "refs/artmind/ namespace against gc -- no index, no working tree, never "
-            "sent by a branch push"
-        ),
-    },
-}
-
-
-@pytest.mark.parametrize("path", SOURCES, ids=lambda p: str(p.relative_to(REPO)))
-def test_no_git_write_calls(path):
-    rel = str(path.relative_to(REPO))
-    if rel in ALLOWED:
-        pytest.skip("writes to a non-vault repo; see ALLOWED")
-    allowed = ALLOWED_LINES.get(rel, {})
-    hits = [
-        f"{rel}:{n}: {line.strip()}"
-        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
-        if any(p.search(line) for p in PATTERNS) and line.strip() not in allowed
-    ]
-    assert not hits, "artmind must not write to the vault's git repo:\n" + "\n".join(hits)
-
-
-def test_each_allowed_line_exists_exactly_once():
-    """An allowance for a line that is gone (or duplicated) is a stale hole."""
-    for rel, lines in ALLOWED_LINES.items():
-        text = [line.strip() for line in (REPO / rel).read_text(encoding="utf-8").splitlines()]
-        for line in lines:
-            assert text.count(line) == 1, f"{rel}: expected exactly one {line!r}"
-
-
-def test_the_pinned_refs_are_private_to_artmind():
-    """Never refs/heads or refs/tags: those are what a branch or tag push sends."""
-    from artmind.vault_sync import PIN_REF_PREFIX
-
-    assert PIN_REF_PREFIX.startswith("refs/artmind/")
-```
-
-
-**Append to** `test/test_vault_sync.py` (after its last line, leaving two blank lines):
-
-```python
-# ── pinned bookmark refs (spec 2026-09-26 §6 A2, D2) ─────────────────────────
-
-
-def _git_out(repo, *args):
-    return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, check=True).stdout
-
-
-def _pins(repo):
-    out = _git_out(repo, "for-each-ref", "--format=%(refname) %(objectname)", "refs/artmind")
-    return dict(line.split(" ") for line in out.splitlines())
-
-
-def test_an_advanced_bookmark_is_pinned_and_nothing_else_moves(repo, monkeypatch, graph):
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _patch_structured_text_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
-    _commit_all(repo, "add doc1")
-    head = vs.head_sha(repo)
-    branches_before = _git_out(repo, "for-each-ref", "refs/heads", "refs/tags")
-    _patch_ingest_and_projection(monkeypatch)
-
-    vs.sync(repo, bootstrap_empty=True)
-
-    assert _pins(repo) == {
-        "refs/artmind/last-synced/graph": head,
-        "refs/artmind/last-synced/structured": head,
-    }
-    assert vs.head_sha(repo) == head
-    assert _git_out(repo, "for-each-ref", "refs/heads", "refs/tags") == branches_before
-    assert subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=repo).returncode == 0
-
-
-def test_only_the_stores_in_the_run_are_pinned(repo, monkeypatch, graph):
-    (repo / "a.txt").write_text("x")
-    _commit_all(repo, "first")
-
-    vs.sync(repo, store="structured", bootstrap_synced=True)
-
-    assert list(_pins(repo)) == ["refs/artmind/last-synced/structured"]
-
-
-def test_a_domain_scoped_run_pins_nothing(repo, monkeypatch, graph):
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _patch_structured_text_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
-    _commit_all(repo, "add doc1")
-    _patch_ingest_and_projection(monkeypatch)
-
-    vs.sync(repo, bootstrap_empty=True, domains=["banking"])
-
-    assert _pins(repo) == {}
-
-
-def test_the_pinned_commit_survives_a_rewritten_branch_and_gc(repo, monkeypatch, graph):
-    (repo / "a.txt").write_text("1")
-    _commit_all(repo, "c1")
-    c1 = vs.head_sha(repo)
-    (repo / "a.txt").write_text("2")
-    _commit_all(repo, "c2")
-    c2 = vs.head_sha(repo)
-    vs.sync(repo, bootstrap_synced=True)                    # pins c2
-    (repo / "a.txt").write_text("3")
-    _commit_all(repo, "c3, never pinned")
-    c3 = vs.head_sha(repo)
-    subprocess.run(["git", "reset", "-q", "--hard", c1], cwd=repo, check=True)
-    subprocess.run(["git", "reflog", "expire", "--expire=now", "--all"], cwd=repo, check=True)
-    subprocess.run(["git", "gc", "-q", "--prune=now"], cwd=repo, check=True)
-
-    def _exists(sha):
-        return subprocess.run(["git", "cat-file", "-e", f"{sha}^{{commit}}"], cwd=repo).returncode == 0
-
-    assert _exists(c2), "the pinned bookmark must survive gc"
-    assert not _exists(c3), "control: gc really did prune an unreferenced commit"
-
-
-def test_a_branch_push_never_sends_the_pins(repo, monkeypatch, graph, tmp_path_factory):
-    (repo / "a.txt").write_text("x")
-    _commit_all(repo, "first")
-    vs.sync(repo, bootstrap_synced=True)
-    remote = tmp_path_factory.mktemp("remote")
-    subprocess.run(["git", "init", "-q", "--bare", str(remote)], check=True)
-    subprocess.run(["git", "push", "-q", str(remote), "HEAD:refs/heads/main"], cwd=repo, check=True)
-
-    remote_refs = _git_out(repo, "ls-remote", str(remote))
-
-    assert "refs/heads/main" in remote_refs
-    assert "refs/artmind" not in remote_refs
-```
-
-
-- [ ] **Step 2: Run them to verify they fail**
-
-Run: `uv run --group dev pytest test/test_vault_sync.py test/test_no_git_writes.py -q`
-Expected: `5 failed`: `test_each_allowed_line_exists_exactly_once` (`expected exactly one '_git(vault_dir, ["update-ref", ...])'`), `test_the_pinned_refs_are_private_to_artmind` (`ImportError: cannot import name 'PIN_REF_PREFIX'`), and three pin tests (`assert {} == {'refs/artmind/...'}`, `assert [] == ['refs/artmind/last-synced/structured']`, `the pinned bookmark must survive gc`). (`test_a_domain_scoped_run_pins_nothing` and `test_a_branch_push_never_sends_the_pins` already pass: they pin what must not happen.)
-
-- [ ] **Step 3: Implement**
-
-**Replace in** `artmind/vault_sync.py` (line 752):
-
-```python
-LEGACY_CURSOR_KEY = "last_synced_commit"
-```
-
-**with:**
-
-```python
-LEGACY_CURSOR_KEY = "last_synced_commit"
-
-#: Private refs pinning each store's bookmark commit against `git gc` once a
-#: rebase or reset has dropped it from every branch (spec 2026-09-26 §6 A2):
-#: `refs/artmind/last-synced/graph` and `refs/artmind/last-synced/structured`.
-#: Outside refs/heads and refs/tags, so pushing a branch never sends them. The
-#: only git write artmind makes to a vault -- it touches neither the index nor
-#: the working tree; test/test_no_git_writes.py allows exactly this call.
-PIN_REF_PREFIX = "refs/artmind/last-synced"
-```
-
-
-**Replace in** `artmind/vault_sync.py` (lines 857-865):
-
-```python
-def _advance_bookmarks(
-    vault_dir: Path, vault_id: str | None, stores: tuple[str, ...], commit: str, marks: Bookmarks
-) -> Bookmarks:
-    """Move every store in `stores` to `commit`: the graph's node first, then
-    `state.json`. Retires the legacy cursor once both stores have their own."""
-    from artmind import sync_state
-    from artmind.vault import VaultLayout, write_state
-
-    new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
-```
-
-**with:**
-
-```python
-def _pin(vault_dir: Path, store: str, commit: str) -> None:
-    _git(vault_dir, ["update-ref", f"{PIN_REF_PREFIX}/{store}", commit])
-
-
-def _advance_bookmarks(
-    vault_dir: Path, vault_id: str | None, stores: tuple[str, ...], commit: str, marks: Bookmarks
-) -> Bookmarks:
-    """Move every store in `stores` to `commit`: pin it first (a pin that
-    fails leaves every bookmark where it was), then the graph's node, then
-    `state.json`. Retires the legacy cursor once both stores have their own."""
-    from artmind import sync_state
-    from artmind.vault import VaultLayout, write_state
-
-    for store in stores:
-        _pin(vault_dir, store, commit)
-    new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
-```
-
-
-- [ ] **Step 4: Run the tests to verify they pass**
-
-Run: `uv run --group dev pytest test/test_vault_sync.py test/test_no_git_writes.py -q`
-Expected: all pass.
-
-Run: `uv run --group dev pytest test/ -q`
-Expected: `2389 passed, 14 skipped`.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add artmind/vault_sync.py test/test_vault_sync.py test/test_no_git_writes.py
-git commit -m "feat(vault-sync): pin each advanced bookmark under refs/artmind/" -m "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
-```
+### Task 6: SKIPPED — do not pin bookmarks under `refs/artmind/`
+
+**This task is intentionally not implemented.** The original plan for this task pinned each
+advanced bookmark with `git update-ref refs/artmind/last-synced/<store> <sha>`, reasoning that
+a rebase or reset followed by `git gc` could make an old bookmark's commit unreachable. On
+review this was dropped:
+
+- **Spec D2 says artmind only *reads* git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`) —
+  never a write, including `update-ref` on a ref of its own. A private ref is still a write to
+  `.git`, which is exactly what D1/D2 exist to rule out.
+- **The pin was redundant.** Obsidian Git *merges*, never rebases (D5); a bookmarked commit stays
+  reachable through ordinary history without anything pinning it.
+- **A history rewrite is already caught.** Decision 6 (`check_bookmark`, Task 4) refuses `vault
+  sync` whenever a store's bookmark is not an ancestor of `HEAD` — whether or not that commit was
+  pinned. The refusal names the recovery directly: `--store <name> --bootstrapSynced` if that
+  store is already known-current, or `--store <name> --bootstrapEmpty` to replay everything
+  committed (see the Task 4 follow-up fix that added this wording to the refusal message).
+
+`test/test_no_git_writes.py` keeps **no** `update-ref` exception — it still fails the suite on
+any git write from `artmind/vault_sync.py` (or any other module under `artmind/`/`utils/`),
+`update-ref` included. Nothing in this codebase writes `refs/artmind/*`.
 
 ---
 
@@ -4133,10 +3879,9 @@ CLAUDE.md §4: the command docstrings, the skills and the docs move together. No
     .artmind/state.json. Each applies its own range, and a document whose
     committed fingerprint the graph already carries is skipped — on a shared
     graph, whatever the ingesting machine wrote. A pre-bookmark
-    last_synced_commit seeds any store with no bookmark, once. Each advanced
-    bookmark is pinned as refs/artmind/last-synced/<store> (a private ref a
-    branch push never sends). No bookmark yet? pass --bootstrapEmpty or
-    --bootstrapSynced (see each flag's own help, and --store).
+    last_synced_commit seeds any store with no bookmark, once. No bookmark
+    yet? pass --bootstrapEmpty or --bootstrapSynced (see each flag's own
+    help, and --store).
 
     --domain scopes which changes are applied, but never advances a
     bookmark: a domain-scoped run only classified and applied that domain's
@@ -4173,7 +3918,7 @@ Each store has its own bookmark (§6 A2): the graph's in the graph
 (`artmind.sync_state`), the structured store's in `state.json`. A document
 whose committed fingerprint the graph already carries is skipped (§6 A3),
 and `pending_work`/`query_staleness_warning` report what is still to apply
-(§6 A4). The only git write is pinning a bookmark under `refs/artmind/`.
+(§6 A4). artmind never writes to this vault's git (D2) -- only reads it.
 """
 ```
 
@@ -4298,15 +4043,19 @@ carries, with one Cypher read for the whole run. So:
 | Machine B's apply, structured side | regenerate changed tables into B's DuckDB | same |
 | First `vault sync` on a new machine | the graph bookmark is already there; `vault sync --store structured --bootstrapEmpty` fills DuckDB, then plain `vault sync` | `vault sync --bootstrapEmpty` |
 
-Each advanced bookmark is also pinned as `refs/artmind/last-synced/graph` /
-`.../structured`, so a later `git gc` cannot collect it after a rebase. That
-`git update-ref` on a private ref is the only git write artmind makes to a
-vault — never the index or the working tree — and pushing a branch never
-sends `refs/artmind/*`.
+artmind never writes to this vault's git — no commit, no ref, nothing
+(spec D1, D2). Obsidian Git merges (never rebases), so a bookmarked commit
+stays reachable on its own; if history is ever rewritten anyway, the next
+section covers what `vault sync` does about it.
 
-A graph bookmark the local clone has not pulled yet (the other machine synced
-first) is refused with "pull first", never diffed: diffing from it would read
-the other machine's new documents as removals.
+A bookmark that is not an ancestor of `HEAD` is refused, never diffed:
+diffing from it would read the other machine's new documents as removals.
+Pulling (Obsidian Git merges) usually fixes this — the bookmark's commit
+was there all along, just not yet in this clone's history. If it doesn't
+(the commit was rewritten away, not merely unpulled), the refusal also
+names the way out: `vault sync --store <name> --bootstrapSynced` if that
+store is already known-current, or `--store <name> --bootstrapEmpty` to
+replay everything committed.
 
 `artmind vault status` shows HEAD, both bookmarks, how many documents and
 tables each store is behind (after the fingerprint check), a merge in
@@ -4476,7 +4225,7 @@ MATCH (s:ArtmindSyncState) RETURN s.vault_id, s.last_applied_commit, s.applied_a
 MATCH (d:Document) RETURN d.name, d.fingerprint ORDER BY d.name;
 ```
 
-### 1. One machine: fingerprints are written, bookmarks set and pinned
+### 1. One machine: fingerprints are written, bookmarks set
 
 ```bash
 cd "$LIVE/A"
@@ -4487,7 +4236,7 @@ git add -A && git commit -qm "A: acme" && git push -q origin HEAD:main
 artmind vault status        # HEAD <sha>; Sync: graph none  no bookmark ...; structured none  no bookmark ...
 artmind vault sync          # refuses: "no graph or structured bookmark recorded yet -- pass --bootstrapEmpty ... or --bootstrapSynced"
 artmind vault sync --bootstrapSynced --compact   # {"bootstrap":"synced","stores":["graph","structured"],"graph_bookmark":"<HEAD>","structured_bookmark":"<HEAD>"}
-git for-each-ref refs/artmind                    # refs/artmind/last-synced/graph and .../structured, both at HEAD
+git for-each-ref refs/artmind                    # nothing -- artmind never writes a ref
 git status --short                               # nothing staged or modified by sync
 artmind vault status        # both stores: current
 ```
@@ -4631,9 +4380,9 @@ Then drop the two databases (`:use system`, `DROP DATABASE planbshared;`, `DROP 
 | A2 — `vault_id` minted once by `init` into committed `vault.yaml`; appended to existing vaults without disturbing the file | 3 |
 | A2 — structured bookmark in `state.json` under a new key (`last_structured_commit`) | 4 |
 | A2 — migrate `last_synced_commit` into both bookmarks, then retire it; the graph-bookmark-already-exists conflict rule | 4 (rule: decision 1) |
-| A2 — pin each advanced bookmark with `git update-ref`; `test_no_git_writes` allows exactly this, with a reason | 6 |
+| A2 — no pinned ref: artmind only reads git (D2); the ancestor-of-HEAD check (decision 6) covers what pinning was meant to, and names the bootstrap-flag recovery when it refuses | 6 (dropped — see decision 7, below), 4 (the check and its refusal message) |
 | A2 — `session initiate` restores the graph bookmark (from the graph snapshot itself; deviation: decision 8) | 7 |
-| A2 — `--domain`-scoped sync advances neither bookmark | 4 (existing test retargeted to both bookmarks; `test_a_domain_scoped_run_pins_nothing` in 6) |
+| A2 — `--domain`-scoped sync advances neither bookmark | 4 (existing test retargeted to both bookmarks; `test_a_domain_scoped_run_pins_nothing` was dropped with Task 6) |
 | A2 — `--bootstrapEmpty`/`--bootstrapSynced` per store | 4 (`--store`; tests `test_store_structured_bootstraps_duckdb_alone...`, `test_store_graph_bootstrap_synced_stamps_only_the_graph`) |
 | A2 — graph ahead of structured (or the reverse): each store applies its own range; `classify_diff` per store without re-reading git needlessly | 4 (`test_the_graphs_own_bookmark_wins...`, `test_a_graph_ahead_of_the_structured_store...`, `test_equal_bases_classify_the_structured_tables_once`) |
 | A3 — fingerprint recorded by every graph write of a staging folder (ingest, table2graph, vault sync replay, and every other `_write_to_neo4j` caller) | 2 |
@@ -4653,7 +4402,7 @@ No "TBD", "similar to Task N", or step without its code. Every replaced block is
 
 ### Type and name consistency
 
-`sync_state`: `CONSTRAINT_CYPHER`, `FINGERPRINTED_FILES`, `staging_fingerprint`, `folder_fingerprint`, `set_document_fingerprint`, `read_document_fingerprints(doc_ids, *, timeout)`, `read_graph_bookmark(vault_id, *, timeout)`, `write_graph_bookmark(vault_id, commit)` (Task 1) → used by Tasks 2, 4, 5, 8 and faked with the same signatures by `_FakeGraphState` (Task 4). `manifest.read_vault_id`/`ensure_vault_id` (Task 3) → `vault_sync.vault_id_or_raise` (Task 4), `status_report`, `query_staleness_warning` (Tasks 8–9). `vault_sync`: `STORES`, `STRUCTURED_BOOKMARK_KEY`, `LEGACY_CURSOR_KEY`, `Bookmarks.own/effective`, `read_bookmarks`, `check_bookmark`, `_advance_bookmarks` (Task 4); `_cat_blobs`, `_document_id`, `committed_fingerprints`, `drop_unchanged` (Task 5); `PIN_REF_PREFIX`, `_pin` (Task 6); `_is_unchanged`, `ADVISORY_TIMEOUT`, `_store_pending`, `_graph_pending`, `pending_work`, `staleness_message`, `query_staleness_warning` (Task 8); `operation_in_progress`, `unresolved_artmind_conflicts`, `status_report` (Task 9). `sync(..., store=)` (Task 4) ← `vault sync --store` (Task 4). Result keys `stores`, `bases`, `graph_bookmark`, `structured_bookmark`, `unchanged`, `cursor_advanced`, `cursor_would_advance` are the same in code, tests and docs.
+`sync_state`: `CONSTRAINT_CYPHER`, `FINGERPRINTED_FILES`, `staging_fingerprint`, `folder_fingerprint`, `set_document_fingerprint`, `read_document_fingerprints(doc_ids, *, timeout)`, `read_graph_bookmark(vault_id, *, timeout)`, `write_graph_bookmark(vault_id, commit)` (Task 1) → used by Tasks 2, 4, 5, 8 and faked with the same signatures by `_FakeGraphState` (Task 4). `manifest.read_vault_id`/`ensure_vault_id` (Task 3) → `vault_sync.vault_id_or_raise` (Task 4), `status_report`, `query_staleness_warning` (Tasks 8–9). `vault_sync`: `STORES`, `STRUCTURED_BOOKMARK_KEY`, `LEGACY_CURSOR_KEY`, `Bookmarks.own/effective`, `read_bookmarks`, `check_bookmark`, `_advance_bookmarks` (Task 4; `check_bookmark`'s ancestor refusal also names the bootstrap-flag recovery, added in a Task 4 follow-up); `_cat_blobs`, `_document_id`, `committed_fingerprints`, `drop_unchanged` (Task 5); `_is_unchanged`, `ADVISORY_TIMEOUT`, `_store_pending`, `_graph_pending`, `pending_work`, `staleness_message`, `query_staleness_warning` (Task 8); `operation_in_progress`, `unresolved_artmind_conflicts`, `status_report` (Task 9). `sync(..., store=)` (Task 4) ← `vault sync --store` (Task 4). Result keys `stores`, `bases`, `graph_bookmark`, `structured_bookmark`, `unchanged`, `cursor_advanced`, `cursor_would_advance` are the same in code, tests and docs.
 
 ### Ordering and green suite
 
@@ -4669,7 +4418,7 @@ Each task leaves `uv run --group dev pytest test/ -q` green; the verification re
 6. **`--store graph|structured` is a new `vault sync` option**, and the bootstrap flags apply to every store in the run. Without it there is no way to bootstrap DuckDB on a new machine whose shared graph already has a bookmark. With no flag and one store unbookmarked, `vault sync` refuses and names that store and the `--store` form.
 7. **A bookmark must be an ancestor of HEAD, or `vault sync` refuses** ("pull first"). Diffing from a commit HEAD does not contain reads everything it has and HEAD lacks as removals — on a shared graph, the other machine's new documents would be retracted. Two machines racing `vault sync` on one AuraDB leave whichever bookmark was written last; the loser's next run is refused until it pulls, then re-diffs a larger range that fingerprints make cheap.
 8. **`session initiate` restores the bookmark the graph had, not the manifest's `vault_commit` — a deviation from spec §6 A2.** The spec sets the graph bookmark from a snapshot manifest's `vault_commit` when `vault_dirty` is false. `vault_commit` is the vault's HEAD at export, and a clean HEAD can be *ahead* of the graph: Obsidian Git pulls another machine's commits, nobody runs `vault sync`, `snapshot create` runs, and a restore would then mark those commits applied although the graph never received them — silently, forever on a local Neo4j. (Also, `session close` writes a graph `.tar.gz` with no manifest; only `snapshot create`'s zip has one.) So `:ArtmindSyncState` is exported with the graph and restored with it, which is never ahead of the restored content; an older snapshot restores none, and the next sync needs a bootstrap flag, as the spec already prescribes for the dirty case. To follow the spec literally instead, `import_graph` would need the manifest passed in, and the data-loss case above would have to be accepted.
-9. **Two pinned refs, `refs/artmind/last-synced/graph` and `.../structured`,** instead of the spec's single `refs/artmind/last-synced`: the two bookmarks can be different commits, and one ref keeps only one reachable. Pins are written before the bookmarks, so a failing `update-ref` leaves everything where it was.
+9. **No pinned ref — Task 6 is dropped, deviating from spec §6 A2's "pin each advanced bookmark" and from D2's own wording ("artmind only reads git ... update-ref on its own private ref").** The spec permitted a private-ref write; on review this is unnecessary and against D1/D2's actual intent (artmind never writes to `.git`). Obsidian Git merges rather than rebasing (D5), so a bookmarked commit stays reachable through ordinary history with nothing pinning it. Should history ever be rewritten anyway, decision 6's ancestor-of-HEAD check already refuses `vault sync` from that stale bookmark, pinned or not — a pin bought no additional safety, only a git write this design otherwise has zero of. `test/test_no_git_writes.py` keeps no `update-ref` exception, and `check_bookmark`'s refusal now names the recovery (`--store <name> --bootstrapSynced`/`--bootstrapEmpty`) for the one case pulling can't fix.
 10. **`vault_id` format and minting.** A `uuid4`, quoted (`vault_id: "<uuid>"`) so YAML never reads it as a number, appended as text with a comment so the user's file is otherwise byte-identical. A present-but-empty key is refused, not duplicated. If two machines both run `init` before either pulls the other's `vault_id`, git reports a conflict on that line; keeping either value is fine (the loser's bookmark node is simply orphaned). Deriving the id from the root commit would avoid the race but make two vaults forked from one template share a bookmark — the case `vault_id` exists to prevent.
 11. **`vault sync --dryRun` now reads the graph** (its bookmark, and fingerprints to report `unchanged`). A dry run with `--store structured` still never connects.
 12. **Retractions are always executed, never fingerprint-skipped** (retracting an absent document is already a no-op); they are only *counted* as pending while the graph still has the document.
@@ -4687,3 +4436,11 @@ Each task leaves `uv run --group dev pytest test/ -q` green; the verification re
 - Results after each task: Task 1: `2350 passed, 14 skipped`; Task 2: `2355 passed, 14 skipped`; Task 3: `2362 passed, 14 skipped`; Task 4: `2376 passed, 14 skipped`; Task 5: `2382 passed, 14 skipped`; Task 6: `2389 passed, 14 skipped`; Task 7: `2391 passed, 14 skipped`; Task 8: `2400 passed, 14 skipped`; Task 9: `2405 passed, 14 skipped`; Task 10: `2413 passed, 14 skipped`; Task 11: `2413 passed, 14 skipped`.
 - Expected-failure claims: for every task with tests, the task's non-test source files were reverted to the previous task's state and the task's test files re-run; the "Expected: FAIL" text in each Step 2 is what that produced. Re-checked on the plan-applied worktree for Tasks 1, 4, 6, 8 and 10: collection error; `19 failed, 127 passed`; `5 failed, 193 passed`; `9 failed, 117 passed`; `3 failed, 5 passed` — as stated.
 - The worktree was removed afterwards; nothing but this file was committed.
+
+**Post-authoring deviation.** Task 6 (pinning each advanced bookmark under `refs/artmind/`) was
+dropped during execution (see decision 7/9, "No pinned ref") — artmind must never write to this
+vault's `.git`, not even a private ref, and decision 6's ancestor check already made the pin
+redundant. The counts above, recorded when Task 6 was still part of the plan, are historical only;
+actual execution's pass counts diverge from Task 6 onward (fewer tests, since Task 6 added none),
+and each task was independently re-verified against the live suite as it landed, not against this
+table.

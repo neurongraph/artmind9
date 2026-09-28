@@ -45,7 +45,7 @@ separate local Neo4j per machine with the same code.
 | # | Decision |
 |---|---|
 | D1 | **Obsidian Git owns all git transport and all commits.** artmind never runs `git add/commit/rm/push/pull/merge` against the vault. |
-| D2 | **artmind only reads git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`, `update-ref` on its own private ref). |
+| D2 | **artmind only reads git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`). No write, not even a private ref — see §6 A2's amendment (2026-09-27 vault-sync-completion): a considered `update-ref` pin was dropped as unnecessary and against this decision's intent. |
 | D3 | **Mobile never ingests.** Mobile edits notes only; it pulls and pushes through Obsidian Git like any other client. |
 | D4 | **Apply is manual** (`artmind vault sync`), with a **staleness warning** on queries and `vault status`. Automatic apply is a later opt-in (§12), not part of this design. |
 | D5 | **Merge, never rebase.** Commit shas are provenance and cursors; rewriting them is not supported. |
@@ -114,7 +114,7 @@ flowchart TD
     S6 --> S7["Structured: materialize changed CSVs + table meta<br/>to a scratch dir, import scoped"]
     S7 --> S8["Graph: replay, retract, apply updates,<br/>conflict statuses, same_as-scoped rebuild"]
     S8 --> S9["Union projection rebuild + embedding sweeps"]
-    S9 --> S10["Write graph bookmark (Neo4j node)<br/>+ structured bookmark (state.json)<br/>+ pin refs/artmind/last-synced"]
+    S9 --> S10["Write graph bookmark (Neo4j node)<br/>+ structured bookmark (state.json)"]
     S8 -. "any exception" .-> X3["Bookmarks untouched;<br/>rerun recomputes the same range"]
 ```
 
@@ -269,9 +269,15 @@ A bookmark means "this store reflects commits up to X".
 one AuraDB don't share a bookmark. The existing `last_synced_commit` in `state.json` is
 read once as the initial value for both bookmarks, then retired.
 
-Each advanced bookmark is also pinned locally with `git update-ref
-refs/artmind/last-synced <sha>`, so a later `gc` can't collect it. A plain branch push
-never sends `refs/artmind/*`.
+artmind only *reads* this vault's git (D2) — never a commit, never a ref, not even a
+private one. A bookmark's commit is not pinned against `gc`: Obsidian Git merges rather
+than rebases (D5), so an advanced bookmark's commit stays reachable through ordinary
+history on its own. Should a bookmark's commit ever become unreachable anyway (a rebase
+or reset outside Obsidian Git's normal flow), `vault sync` refuses to diff from it —
+it must be an ancestor of `HEAD`, or the refusal names the recovery (`--store <name>
+--bootstrapSynced` if that store is already known-current, else `--store <name>
+--bootstrapEmpty`) — rather than silently reading everything that bookmark has and
+`HEAD` lacks as removals.
 
 `session initiate` (snapshot restore) sets the graph bookmark from the snapshot
 manifest's `vault_commit` when `vault_dirty` is false (`unified_snapshot.py:139-140`
@@ -383,7 +389,8 @@ Hermetic tests use real throwaway git repos (`git init` in `tmp_path`), not mock
   a conflict in a human note is left untouched and reported.
 - **Bookmarks:** shared-graph case — ingest on "A" writes fingerprints, apply on "B"
   replays nothing and advances the bookmark; local case — replays everything in range.
-  Pinned ref survives `git gc --prune=now` after the branch is rewritten.
+  A bookmark whose commit has been rewritten away (no longer an ancestor of `HEAD`) is
+  refused, not silently diffed.
 - **Preflight:** `MERGE_HEAD` present → refuses, bookmarks untouched.
 - **§7 tracks:** an `update__*` folder replays; a `conflicts.yaml` change sets
   `:Conflict.status`; a `same_as.yaml` group change rebuilds exactly its keys.
@@ -400,7 +407,7 @@ pull --no-rebase && git push`.
    A5 (preflight). Fixes the reported push rejections and the whole-index commit.
 2. **Readiness:** R2 atomic writes, R3/R4 versioned `.gitattributes`/`.gitignore`, R5
    per-table meta, R8 `vault doctor`.
-3. **Topologies:** A2 bookmarks in Neo4j + pinned ref, A3 fingerprints, A4 staleness
+3. **Topologies:** A2 bookmarks in Neo4j, A3 fingerprints, A4 staleness
    warning, extended `vault status`.
 4. **Curation travels:** §7 tracks for `update`, conflicts, `same_as.yaml`.
 5. **Conflicts and frontmatter:** R7 `vault resolve`, R6 frontmatter slimming with a
