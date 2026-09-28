@@ -2564,3 +2564,65 @@ def test_shared_graph_ingest_on_one_machine_is_a_no_op_apply_on_the_other(repo, 
     assert calls["write_to_neo4j"] == []
     assert result["unchanged"] == 1
     assert graph.bookmarks[VAULT_ID] == vs.head_sha(repo)
+
+
+def test_committed_fingerprints_handles_a_folder_missing_one_fingerprinted_file(repo, monkeypatch, graph):
+    """A folder that never got one of the four `FINGERPRINTED_FILES` (e.g.
+    ingest wrote no relationships for a document with none) must fingerprint
+    at `head` exactly the way `folder_fingerprint` fingerprints an on-disk
+    folder with that same file absent -- and `drop_unchanged` must still
+    skip it once the graph carries that fingerprint. Every other test here
+    uses `_write_doc_folder`'s default `extra_files`, which always writes
+    all four files, so this is the only coverage of a genuinely partial
+    committed folder."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1", extra_files=("chunks.json",))
+    _commit_all(repo, "add doc1, relationships.json never written")
+    head = vs.head_sha(repo)
+    folder = kg_dir / "banking" / "doc1"
+    assert not (folder / "relationships.json").exists()
+
+    committed = vs.committed_fingerprints(repo, head, [("banking", "doc1")])
+
+    assert committed == {("banking", "doc1"): ("docid-1", _fp(folder))}
+
+    graph.fingerprints["docid-1"] = _fp(folder)
+    plan = vs.SyncPlan(base=vs.EMPTY_TREE_SHA, head=head, replay_docs=[("banking", "doc1")])
+
+    unchanged = vs.drop_unchanged(repo, plan)
+
+    assert unchanged == [("banking", "doc1")]
+    assert plan.replay_docs == []
+
+
+def test_committed_fingerprints_resolves_both_folders_sharing_a_deduped_blob(repo, monkeypatch):
+    """`_cat_blobs` dedupes the oid list (`list(dict.fromkeys(oids))`) before
+    the one `git cat-file --batch` call, then looks each folder's files back
+    up by oid. Two folders here share identical bytes -- and so one git blob
+    oid -- in `observations.json`, `chunks.json` and `relationships.json`
+    (only `document.json` differs, carrying each folder's own id); confirm
+    `committed_fingerprints` still resolves the correct, distinct fingerprint
+    for BOTH folders rather than mixing them up or dropping one."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, "banking", "doc2", "docid-2")
+    _commit_all(repo, "add two docs sharing identical observations/chunks/relationships blobs")
+    head = vs.head_sha(repo)
+
+    # Confirm the premise: the two folders' observations.json really do share one oid.
+    def _blob_oid(docdir, name):
+        return subprocess.run(
+            ["git", "rev-parse", f"{head}:.artmind/data/kg/banking/{docdir}/{name}"],
+            cwd=repo, capture_output=True, text=True, check=True,
+        ).stdout.strip()
+
+    oid1, oid2 = _blob_oid("doc1", "observations.json"), _blob_oid("doc2", "observations.json")
+    assert oid1 == oid2 and oid1
+
+    committed = vs.committed_fingerprints(repo, head, [("banking", "doc1"), ("banking", "doc2")])
+
+    assert committed == {
+        ("banking", "doc1"): ("docid-1", _fp(kg_dir / "banking" / "doc1")),
+        ("banking", "doc2"): ("docid-2", _fp(kg_dir / "banking" / "doc2")),
+    }
+    assert committed[("banking", "doc1")][1] != committed[("banking", "doc2")][1]
