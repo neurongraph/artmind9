@@ -2204,20 +2204,28 @@ def _warn_if_vault_stale(*_args, **_kwargs) -> None:
     started before this code shipped prints nothing: restart it.)"""
     if os.environ.get("ARTMIND_NO_STALENESS_CHECK"):
         return
-    import paths
-    from artmind.vault_sync import query_staleness_warning
-
-    # run_command logs every git call at DEBUG, and query commands leave
-    # loguru's default stderr sink in place: keep those lines out.
-    logger.disable("utils")
-    logger.disable("artmind")
     try:
+        import paths
+        from artmind.vault_sync import query_staleness_warning
+
+        # run_command logs every git call at DEBUG, and query commands leave
+        # loguru's default stderr sink in place: keep those lines out.
+        logger.disable("utils")
+        logger.disable("artmind")
         message = query_staleness_warning(paths.ARTMIND_VAULT_DIR)
     except Exception:
         message = None
     finally:
-        logger.enable("utils")
-        logger.enable("artmind")
+        # Each enable() is independently guarded so a raise from one can
+        # never prevent the other from running -- neither "utils" nor
+        # "artmind" logging may be left permanently disabled (a real risk
+        # in a long-running `serve` daemon), and no exception from either
+        # call may escape this result callback.
+        for _name in ("utils", "artmind"):
+            try:
+                logger.enable(_name)
+            except Exception:
+                pass
     if message:
         click.echo(message, err=True)
 

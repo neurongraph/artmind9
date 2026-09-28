@@ -102,6 +102,75 @@ def test_the_env_switch_turns_it_off(in_vault, monkeypatch):
     assert seen == []
 
 
+def test_a_broken_disable_call_does_not_leak_or_escape(in_vault, monkeypatch):
+    """A raise from `logger.disable("artmind")` (the second disable call)
+    must not propagate out of the result callback, and both names must
+    still get re-enabled afterward -- otherwise "artmind" logging would be
+    left permanently off in a long-running `serve` daemon."""
+    _warning(monkeypatch, lambda v: MESSAGE)
+
+    import artmind.cli as cli_mod
+
+    calls = {"disable": [], "enable": []}
+    orig_disable = cli_mod.logger.disable
+    orig_enable = cli_mod.logger.enable
+
+    def fake_disable(name):
+        calls["disable"].append(name)
+        if name == "artmind":
+            raise RuntimeError("boom")
+        return orig_disable(name)
+
+    def fake_enable(name):
+        calls["enable"].append(name)
+        return orig_enable(name)
+
+    monkeypatch.setattr(cli_mod.logger, "disable", fake_disable)
+    monkeypatch.setattr(cli_mod.logger, "enable", fake_enable)
+
+    try:
+        with patch("artmind.cli.graph_query.domains_overview", return_value=OVERVIEW):
+            result = CliRunner().invoke(cli, ["query", "domains-overview", "--compact"])
+    finally:
+        orig_enable("utils")
+        orig_enable("artmind")
+
+    assert result.exit_code == 0, result.output
+    assert calls["disable"] == ["utils", "artmind"]
+    assert calls["enable"] == ["utils", "artmind"]
+
+
+def test_a_broken_enable_call_does_not_block_the_other(in_vault, monkeypatch):
+    """A raise from `logger.enable("utils")` (the first enable call) must
+    not prevent `logger.enable("artmind")` from running, and must not
+    escape the callback -- otherwise "artmind" logging would be left
+    permanently off, and an otherwise-successful query could exit nonzero."""
+    _warning(monkeypatch, lambda v: MESSAGE)
+
+    import artmind.cli as cli_mod
+
+    calls = {"enable": []}
+    orig_enable = cli_mod.logger.enable
+
+    def fake_enable(name):
+        calls["enable"].append(name)
+        if name == "utils":
+            raise RuntimeError("boom")
+        return orig_enable(name)
+
+    monkeypatch.setattr(cli_mod.logger, "enable", fake_enable)
+
+    try:
+        with patch("artmind.cli.graph_query.domains_overview", return_value=OVERVIEW):
+            result = CliRunner().invoke(cli, ["query", "domains-overview", "--compact"])
+    finally:
+        orig_enable("utils")
+        orig_enable("artmind")
+
+    assert result.exit_code == 0, result.output
+    assert calls["enable"] == ["utils", "artmind"]
+
+
 def test_the_serve_daemon_returns_the_warning_in_its_stderr_field(in_vault, monkeypatch):
     """`_entry._proxy` writes `body["stderr"]` to the real stderr, so a
     proxied query shows the same line an in-process one does."""
