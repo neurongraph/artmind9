@@ -2430,6 +2430,25 @@ def test_the_not_an_ancestor_refusal_names_both_bootstrap_flags(repo, monkeypatc
         vs.sync(repo)
 
 
+def test_the_graph_not_a_commit_refusal_also_names_both_bootstrap_flags(repo, monkeypatch, graph):
+    """A shared graph's bookmark is not a commit here when this clone has not
+    pulled it yet -- OR when it was rewritten away (a force-push) before this
+    clone ever fetched it, which no pull can fix. The final review's
+    multi-clone probe hit exactly that on a fresh clone: the message said
+    only "pull", leaving no way forward."""
+    c1, _, _ = _three_commits(repo, monkeypatch)
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": c1})
+    graph.bookmarks[VAULT_ID] = "0123456789abcdef0123456789abcdef01234567"
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(
+        vs.VaultSyncError,
+        match=r"not a commit in this clone.*pull.*--store graph --bootstrapSynced.*--store graph --bootstrapEmpty",
+    ):
+        vs.sync(repo)
+
+
 def test_a_vault_without_a_vault_id_is_told_to_run_init(repo, monkeypatch):
     _three_commits(repo, monkeypatch)
     (repo / ".artmind" / "vault.yaml").write_text("ingest:\n  trigger: manual\n")

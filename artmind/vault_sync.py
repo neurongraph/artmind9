@@ -847,10 +847,16 @@ def check_bookmark(vault_dir: Path, store: str, commit: str, head: str) -> None:
     )
     if rc != 0:
         if store == "graph":
+            # Usually unpulled work from another machine on a shared graph --
+            # but a commit rewritten away (a force-push) before this clone
+            # ever fetched it is absent here for good, and no pull fixes that.
             raise VaultSyncError(
                 f"the graph bookmark {commit[:12]} is not a commit in this clone -- another "
                 "machine sharing this graph has applied commits this clone has not pulled "
-                "yet. Let Obsidian Git pull, then re-run `vault sync`."
+                "yet. Let Obsidian Git pull, then re-run `vault sync`. If it is still not "
+                "found after pulling (history was rewritten), re-run with `--store graph "
+                "--bootstrapSynced` if graph is already known-current, or `--store graph "
+                "--bootstrapEmpty` to replay everything committed."
             )
         raise VaultSyncError(
             f"the structured bookmark {commit[:12]} is not a commit in this clone (history "
