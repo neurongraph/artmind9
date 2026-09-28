@@ -2415,6 +2415,21 @@ def test_a_graph_bookmark_ahead_of_head_is_refused(repo, monkeypatch, graph):
     assert graph.bookmarks == {VAULT_ID: c3}
 
 
+def test_the_not_an_ancestor_refusal_names_both_bootstrap_flags(repo, monkeypatch, graph):
+    """Pulling only fixes an unpulled bookmark. A history rewrite leaves
+    nothing to pull, so the message must also say how to recover without one --
+    otherwise a user stuck here has no way forward."""
+    c1, c2, c3 = _three_commits(repo, monkeypatch)
+    graph.bookmarks[VAULT_ID] = c3
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": c1})
+    subprocess.run(["git", "checkout", "-q", "-b", "behind", c2], cwd=repo, check=True)
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match=r"--store graph --bootstrapSynced.*--store graph --bootstrapEmpty"):
+        vs.sync(repo)
+
+
 def test_a_vault_without_a_vault_id_is_told_to_run_init(repo, monkeypatch):
     _three_commits(repo, monkeypatch)
     (repo / ".artmind" / "vault.yaml").write_text("ingest:\n  trigger: manual\n")

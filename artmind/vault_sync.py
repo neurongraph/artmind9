@@ -816,7 +816,10 @@ def check_bookmark(vault_dir: Path, store: str, commit: str, head: str) -> None:
     the bookmark has and HEAD lacks as removals: on a shared graph, where the
     other machine set the bookmark past this clone, that retracts the other
     machine's documents. Pulling first (Obsidian Git merges) makes the
-    bookmark an ancestor again."""
+    bookmark an ancestor again -- but a history rewrite (a rebase, or a
+    branch reset) can make it unreachable for good, with nothing left to
+    pull, so the refusal also names the bootstrap flags that get this store
+    moving again without ever diffing from the stale bookmark."""
     rc, _, _ = run_command(
         ["git", "cat-file", "-e", f"{commit}^{{commit}}"], cwd=vault_dir, expected_codes=(1, 128)
     )
@@ -838,7 +841,10 @@ def check_bookmark(vault_dir: Path, store: str, commit: str, head: str) -> None:
         raise VaultSyncError(
             f"the {store} bookmark {commit[:12]} is not an ancestor of HEAD {head[:12]} -- "
             "this clone is behind (or has diverged from) what that store already reflects. "
-            "Let Obsidian Git pull and merge, then re-run `vault sync`."
+            "Let Obsidian Git pull and merge, then re-run `vault sync`. If that doesn't fix "
+            "it (the bookmark's commit was rewritten away, not just unpulled), re-run with "
+            f"`--store {store} --bootstrapSynced` if {store} is already known-current, or "
+            f"`--store {store} --bootstrapEmpty` to replay everything committed."
         )
 
 
