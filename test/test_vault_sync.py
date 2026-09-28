@@ -2956,3 +2956,32 @@ def test_status_report_git_failure_is_not_mislabeled_not_a_git_repository(repo, 
 
     assert "not a git repository" not in report["graph_error"]
     assert "index.lock" in report["graph_error"]
+
+
+def test_status_report_does_not_crash_when_the_graph_goes_unreachable_mid_check(repo, monkeypatch, graph):
+    """The bookmark read (status_report's own guarded call) can succeed and
+    the graph can still go unreachable by the time pending_work's later
+    fingerprint read runs -- a real race, not hypothetical (found by the
+    Plan B whole-range live probe). Unguarded, that broke status_report's
+    documented "never raises for an unreachable graph" promise."""
+    from neo4j.exceptions import ServiceUnavailable
+
+    from artmind import sync_state
+
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c1, c3)  # graph behind (reaches the fingerprint read); structured caught up
+
+    def _unreachable(doc_ids, *, timeout=None):
+        raise ServiceUnavailable("Couldn't connect to localhost:7687")
+
+    monkeypatch.setattr(sync_state, "read_document_fingerprints", _unreachable)
+
+    report = vs.status_report(repo)
+
+    assert report["stores"]["graph"]["state"] == "error"
+    assert "graph unreachable" in report["stores"]["graph"]["detail"]
+    assert "Couldn't connect" in report["stores"]["graph"]["detail"]
+    assert report["message"] == (
+        "artmind: the graph store's sync would fail -- graph unreachable: "
+        "Couldn't connect to localhost:7687 -- fix it, then run `artmind vault sync`"
+    )

@@ -1217,6 +1217,8 @@ def _store_pending(
     except VaultSyncError as e:
         report.update(state="not_ancestor", detail=str(e))
         return report
+    from neo4j.exceptions import GqlError
+
     try:
         if store == "structured":
             tables, _ = _classify_structured_text_diff(vault_dir, bookmark, head, None)
@@ -1225,6 +1227,16 @@ def _store_pending(
             docs, tables = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
     except VaultSyncError as e:
         report.update(state="error", detail=str(e))
+        return report
+    except (GqlError, OSError) as e:
+        # The bookmark read (in `read_bookmarks`, `status_report`'s own catch)
+        # can succeed and the graph still go unreachable by the time this
+        # later fingerprint read runs -- a real race, not a hypothetical one.
+        # Unguarded, that would break `status_report`'s "never raises for an
+        # unreachable graph" promise. Same exception scoping as
+        # `status_report`'s bookmark-read catch: only what the graph-read
+        # path can legitimately raise, so a genuine bug still crashes.
+        report.update(state="error", detail=f"graph unreachable: {e}")
         return report
     report.update(state="behind" if docs or tables else "current", docs=docs, tables=sorted(tables))
     return report

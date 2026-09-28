@@ -279,10 +279,18 @@ it must be an ancestor of `HEAD`, or the refusal names the recovery (`--store <n
 --bootstrapEmpty`) — rather than silently reading everything that bookmark has and
 `HEAD` lacks as removals.
 
-`session initiate` (snapshot restore) sets the graph bookmark from the snapshot
-manifest's `vault_commit` when `vault_dirty` is false (`unified_snapshot.py:139-140`
-already records both), and leaves it unset otherwise — the next sync then needs
-`--bootstrapEmpty`/`--bootstrapSynced`, as today.
+`session initiate` (snapshot restore) restores the graph bookmark from the graph
+snapshot's own `:ArtmindSyncState` node, exported alongside the rest of the graph's
+content (`graph_snapshot.py`'s `SYNC_STATE_LABELS`) — **not** from the unified
+snapshot manifest's `vault_commit`, as an earlier version of this section said. A
+manifest's `vault_commit` is the vault's HEAD at export time, which can be *ahead*
+of what the graph actually received (Obsidian Git pulled another machine's commits,
+nobody ran `vault sync` yet, then `snapshot create` ran) — restoring from it in that
+case would mark commits applied that the graph never got, silently, forever on a
+local Neo4j. The graph's own bookmark is never ahead of the content restored with
+it. A snapshot taken before bookmarks existed carries none, and the next sync then
+needs `--bootstrapEmpty`/`--bootstrapSynced`, as today; `session initiate` says
+which case applies.
 
 ### A3. Fingerprints make shared AuraDB cheap
 
