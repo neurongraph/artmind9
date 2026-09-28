@@ -751,6 +751,14 @@ STRUCTURED_BOOKMARK_KEY = "last_structured_commit"
 #: run after which both stores have one.
 LEGACY_CURSOR_KEY = "last_synced_commit"
 
+#: Private refs pinning each store's bookmark commit against `git gc` once a
+#: rebase or reset has dropped it from every branch (spec 2026-09-26 §6 A2):
+#: `refs/artmind/last-synced/graph` and `refs/artmind/last-synced/structured`.
+#: Outside refs/heads and refs/tags, so pushing a branch never sends them. The
+#: only git write artmind makes to a vault -- it touches neither the index nor
+#: the working tree; test/test_no_git_writes.py allows exactly this call.
+PIN_REF_PREFIX = "refs/artmind/last-synced"
+
 
 @dataclass
 class Bookmarks:
@@ -854,15 +862,22 @@ def _no_bookmark_message(missing: list[str], stores: tuple[str, ...]) -> str:
     return message
 
 
+def _pin(vault_dir: Path, store: str, commit: str) -> None:
+    _git(vault_dir, ["update-ref", f"{PIN_REF_PREFIX}/{store}", commit])
+
+
 def _advance_bookmarks(
     vault_dir: Path, vault_id: str | None, stores: tuple[str, ...], commit: str, marks: Bookmarks
 ) -> Bookmarks:
-    """Move every store in `stores` to `commit`: the graph's node first, then
+    """Move every store in `stores` to `commit`: pin it first (a pin that
+    fails leaves every bookmark where it was), then the graph's node, then
     `state.json`. Retires the legacy cursor once both stores genuinely have
     their own bookmark."""
     from artmind import sync_state
     from artmind.vault import VaultLayout, write_state
 
+    for store in stores:
+        _pin(vault_dir, store, commit)
     new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
     if "graph" in stores:
         sync_state.write_graph_bookmark(vault_id, commit)

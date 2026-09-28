@@ -2626,3 +2626,92 @@ def test_committed_fingerprints_resolves_both_folders_sharing_a_deduped_blob(rep
         ("banking", "doc2"): ("docid-2", _fp(kg_dir / "banking" / "doc2")),
     }
     assert committed[("banking", "doc1")][1] != committed[("banking", "doc2")][1]
+
+
+# ── pinned bookmark refs (spec 2026-09-26 §6 A2, D2) ─────────────────────────
+
+
+def _git_out(repo, *args):
+    return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, check=True).stdout
+
+
+def _pins(repo):
+    out = _git_out(repo, "for-each-ref", "--format=%(refname) %(objectname)", "refs/artmind")
+    return dict(line.split(" ") for line in out.splitlines())
+
+
+def test_an_advanced_bookmark_is_pinned_and_nothing_else_moves(repo, monkeypatch, graph):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    head = vs.head_sha(repo)
+    branches_before = _git_out(repo, "for-each-ref", "refs/heads", "refs/tags")
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert _pins(repo) == {
+        "refs/artmind/last-synced/graph": head,
+        "refs/artmind/last-synced/structured": head,
+    }
+    assert vs.head_sha(repo) == head
+    assert _git_out(repo, "for-each-ref", "refs/heads", "refs/tags") == branches_before
+    assert subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=repo).returncode == 0
+
+
+def test_only_the_stores_in_the_run_are_pinned(repo, monkeypatch, graph):
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+
+    vs.sync(repo, store="structured", bootstrap_synced=True)
+
+    assert list(_pins(repo)) == ["refs/artmind/last-synced/structured"]
+
+
+def test_a_domain_scoped_run_pins_nothing(repo, monkeypatch, graph):
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo, bootstrap_empty=True, domains=["banking"])
+
+    assert _pins(repo) == {}
+
+
+def test_the_pinned_commit_survives_a_rewritten_branch_and_gc(repo, monkeypatch, graph):
+    (repo / "a.txt").write_text("1")
+    _commit_all(repo, "c1")
+    c1 = vs.head_sha(repo)
+    (repo / "a.txt").write_text("2")
+    _commit_all(repo, "c2")
+    c2 = vs.head_sha(repo)
+    vs.sync(repo, bootstrap_synced=True)                    # pins c2
+    (repo / "a.txt").write_text("3")
+    _commit_all(repo, "c3, never pinned")
+    c3 = vs.head_sha(repo)
+    subprocess.run(["git", "reset", "-q", "--hard", c1], cwd=repo, check=True)
+    subprocess.run(["git", "reflog", "expire", "--expire=now", "--all"], cwd=repo, check=True)
+    subprocess.run(["git", "gc", "-q", "--prune=now"], cwd=repo, check=True)
+
+    def _exists(sha):
+        return subprocess.run(["git", "cat-file", "-e", f"{sha}^{{commit}}"], cwd=repo).returncode == 0
+
+    assert _exists(c2), "the pinned bookmark must survive gc"
+    assert not _exists(c3), "control: gc really did prune an unreferenced commit"
+
+
+def test_a_branch_push_never_sends_the_pins(repo, monkeypatch, graph, tmp_path_factory):
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "first")
+    vs.sync(repo, bootstrap_synced=True)
+    remote = tmp_path_factory.mktemp("remote")
+    subprocess.run(["git", "init", "-q", "--bare", str(remote)], check=True)
+    subprocess.run(["git", "push", "-q", str(remote), "HEAD:refs/heads/main"], cwd=repo, check=True)
+
+    remote_refs = _git_out(repo, "ls-remote", str(remote))
+
+    assert "refs/heads/main" in remote_refs
+    assert "refs/artmind" not in remote_refs
