@@ -2179,8 +2179,47 @@ def db_restore_text(path, confirm, table, domain, compact):
 
 @cli.group()
 def query():
-    """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key)."""
+    """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key).
+
+    After a query succeeds inside a vault that `vault sync` has run in, a
+    line on stderr says when the graph or structured store is behind the
+    vault's HEAD (never in stdout, so --compact JSON stays clean). Set
+    ARTMIND_NO_STALENESS_CHECK=1 to skip it.
+    """
     pass
+
+
+@query.result_callback()
+def _warn_if_vault_stale(*_args, **_kwargs) -> None:
+    """Spec 2026-09-26 §6 A4: after a `query` command SUCCEEDS, say on stderr
+    when this vault's stores are behind HEAD. Advisory only: it never applies
+    anything (D4), and any failure to work it out is swallowed -- a query is
+    never broken, or made to fail, by its own warning.
+
+    Hooked here, not in `_entry.py`: `_entry` must stay stdlib-only and
+    cannot read git history or Neo4j. A result callback runs only after the
+    subcommand returned normally -- never for `--help` or a failed query --
+    and it runs identically in-process and inside the `serve` daemon, whose
+    CliRunner captures stderr and `_entry._proxy` writes it back. (A daemon
+    started before this code shipped prints nothing: restart it.)"""
+    if os.environ.get("ARTMIND_NO_STALENESS_CHECK"):
+        return
+    import paths
+    from artmind.vault_sync import query_staleness_warning
+
+    # run_command logs every git call at DEBUG, and query commands leave
+    # loguru's default stderr sink in place: keep those lines out.
+    logger.disable("utils")
+    logger.disable("artmind")
+    try:
+        message = query_staleness_warning(paths.ARTMIND_VAULT_DIR)
+    except Exception:
+        message = None
+    finally:
+        logger.enable("utils")
+        logger.enable("artmind")
+    if message:
+        click.echo(message, err=True)
 
 
 @query.group()
