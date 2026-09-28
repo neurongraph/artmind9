@@ -398,7 +398,10 @@ itself — records a **fingerprint** on the `Document`: sha256 over the raw
 bytes of `document.json`, `chunks.json`, `observations.json` and
 `relationships.json`. `vault sync` computes the same digest from the
 committed blobs and skips a folder whose fingerprint the graph already
-carries, with one Cypher read for the whole run. So:
+carries, with one Cypher read for the whole run.
+
+This is what makes the same code correct in both topologies — a graph shared
+by every machine on one AuraDB, or a separate local Neo4j per machine:
 
 | | Shared AuraDB | Separate local Neo4j per machine |
 |---|---|---|
@@ -406,10 +409,10 @@ carries, with one Cypher read for the whole run. So:
 | Machine B's apply, structured side | regenerate changed tables into B's DuckDB | same |
 | First `vault sync` on a new machine | the graph bookmark is already there; `vault sync --store structured --bootstrapEmpty` fills DuckDB, then plain `vault sync` | `vault sync --bootstrapEmpty` |
 
-artmind never writes to this vault's git — no commit, no ref, nothing
-(spec D1, D2). Obsidian Git merges (never rebases), so a bookmarked commit
-stays reachable on its own; if history is ever rewritten anyway, the next
-section covers what `vault sync` does about it.
+artmind never writes to this vault's git — no commit, no ref, nothing. Obsidian
+Git merges (never rebases), so a bookmarked commit stays reachable on its
+own; if history is ever rewritten anyway, the next section covers what
+`vault sync` does about it.
 
 A bookmark that is not an ancestor of `HEAD` is refused, never diffed:
 diffing from it would read the other machine's new documents as removals.
