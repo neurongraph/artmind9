@@ -33,7 +33,9 @@ from __future__ import annotations
 
 import hashlib
 
-from artmind.curation_records import Kind
+from loguru import logger
+
+from artmind.curation_records import Kind, matched_count
 
 NAME = "supersessions"
 
@@ -51,6 +53,7 @@ _APPLY = _BOTH_DOCS + """
 MERGE (newer)-[s:SUPERSEDES {scope: $scope}]->(older)
 SET s.effective = $effective, s.detected_by = $detected_by,
     s.record_id = $id, s.record_fingerprint = $fingerprint
+RETURN count(s) AS n
 """
 
 _REMOVE = _BOTH_DOCS + """
@@ -117,11 +120,20 @@ def apply(tx, record: dict, fingerprint: str) -> set:
     """MERGE the `SUPERSEDES` edge (both documents must exist, live or
     retired), then recompute the older document's `superseded_by`/`valid_to`
     from its edges. Document-level: returns no projection keys."""
-    tx.run(
+    merged = tx.run(
         _APPLY, newer=record["newer_doc_id"], older=record["older_doc_id"], scope=record["scope"],
         effective=record.get("effective"), detected_by=record.get("detected_by"),
         id=record["id"], fingerprint=fingerprint,
     )
+    if matched_count(merged) == 0:
+        # Not an error -- the documents may simply not have reached this
+        # graph yet, and the record is applied again by a later `vault sync`
+        # that has them -- but the edge was not written and nothing was stamped.
+        logger.warning(
+            "the supersessions record {} was not applied: the newer document {} or the older "
+            "document {} is not in this graph (neither live nor retired), so no SUPERSEDES edge was written",
+            record["id"], record["newer_doc_id"], record["older_doc_id"],
+        )
     tx.run(_RECOMPUTE, older=record["older_doc_id"])
     return set()
 

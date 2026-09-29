@@ -377,6 +377,8 @@ def apply_supersession(
         record = supersession_records.record_for(
             session, newer_doc_id, older_doc_id, scope, effective, detected_by,
         )
+        # The record file is written BEFORE the graph apply: if the apply
+        # fails, the file stays and the next `vault sync` applies it (benign).
         fingerprint = curation_records.write_record(supersession_records.NAME, record)
         supersession_records.apply(session, record, fingerprint)
     if scope == "document":

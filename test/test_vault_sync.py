@@ -3265,6 +3265,29 @@ class _CurationGraph:
         self.chunks: set[str] | None = None
         #: What every fingerprint statement sent, in order.
         self.fingerprinted: list[dict] = []
+        #: The fingerprints the other kinds' records carry in the graph,
+        #: `{kind: {record id: fingerprint}}` (`fingerprints` is the conflicts').
+        self.kind_fingerprints: dict[str, dict[str, str | None]] = {}
+        #: Every fingerprint read the graph answered, `(kind, ids sent)`.
+        self.reads: list[tuple[str, list[str]]] = []
+        #: The document ids this graph holds, for the statements that match a
+        #: supersession's two documents or a retirement's one (None: all exist).
+        self.documents: set[str] | None = None
+
+    #: A literal fragment of each kind's fingerprint read (never the module's
+    #: own constant, so corrupting a kind's query is seen by the test).
+    _READS = (
+        ("MATCH (co:Conflict) WHERE co.id IN $ids", "conflicts"),
+        ("d.lifecycle_record IN $ids", "lifecycle"),
+        ("MATCH ()-[s:SUPERSEDES]->() WHERE s.record_id IN $ids", "supersessions"),
+        ("MATCH (s:Synthesis) WHERE s.id IN $ids", "syntheses"),
+    )
+
+    def _held(self, kind):
+        return self.fingerprints if kind == "conflicts" else self.kind_fingerprints.setdefault(kind, {})
+
+    def _exists(self, *doc_ids):
+        return self.documents is None or all(d in self.documents for d in doc_ids)
 
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
@@ -3278,8 +3301,24 @@ class _CurationGraph:
             return _Rows([{"n": len(wanted if self.chunks is None else wanted & self.chunks)}])
         if "co.record_fingerprint = $fingerprint" in cypher:
             return _Rows()
-        if "record_fingerprint AS fingerprint" in cypher:
-            return _Rows({"id": i, "fingerprint": self.fingerprints[i]} for i in params["ids"] if i in self.fingerprints)
+        for marker, kind in self._READS:
+            if marker in cypher:
+                self.reads.append((kind, list(params["ids"])))
+                held = self._held(kind)
+                return _Rows({"id": i, "fingerprint": held[i]} for i in params["ids"] if i in held)
+        if cypher.strip().startswith("MERGE (s:Synthesis {id: $id})"):
+            self._held("syntheses")[params["id"]] = params["props"]["record_fingerprint"]
+            return _Rows()
+        if "MERGE (newer)-[s:SUPERSEDES" in cypher:
+            found = self._exists(params["newer"], params["older"])
+            if found:
+                self._held("supersessions")[params["id"]] = params["fingerprint"]
+            return _Rows([{"n": 1 if found else 0}])
+        if "SET d.lifecycle_record = $id" in cypher:
+            found = self._exists(params["doc_id"])
+            if found:
+                self._held("lifecycle")[params["id"]] = params["fingerprint"]
+            return _Rows([{"n": 1 if found else 0}])
         if cypher.strip().startswith("MERGE (co:Conflict {id: $id})"):
             self.events.append(("apply", params["id"]))
         if "DETACH DELETE co" in cypher:
@@ -3507,6 +3546,68 @@ def test_sync_skips_a_record_the_shared_graph_already_carries(repo, monkeypatch,
     assert result["curation_unchanged"] == 1
     reads = [p for c, p in curation_graph.calls if "record_fingerprint AS fingerprint" in c]
     assert reads == [{"ids": ["c1", "c2"]}], "one fingerprint read for the kind"
+
+
+@pytest.mark.parametrize("kind,make", [
+    ("lifecycle", lambda: _lifecycle("docid-1")),
+    ("supersessions", lambda: _supersession_record("d2", "d1")),
+    ("syntheses", lambda: _synthesis("widget")),
+])
+def test_a_pre_phase_record_is_never_skipped_by_its_fingerprint(repo, monkeypatch, curation_graph, kind, make):
+    """A pre-phase record stamps its fingerprint in its own transaction, but
+    the keys it returns only reach the union rebuild in memory. If that
+    rebuild (or a later pre record) fails, the graph carries the fingerprint
+    while the keys were never rebuilt -- skipping the record on the retry
+    would strand them for good. So it is ALWAYS re-applied (idempotent), and
+    the graph is not even asked about it."""
+    from artmind import curation_records
+
+    base = _empty_curation_base(repo, monkeypatch)
+    record = make()
+    fp = curation_records.write_record(kind, record)
+    _commit_all(repo, f"a {kind} record")
+    curation_graph._held(kind)[record["id"]] = fp   # the graph carries exactly this version already
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert vs.drop_unchanged_curation(repo, plan) == 0
+    assert plan.curation == [(kind, record["id"], "apply")]
+    assert curation_graph.reads == [], "no fingerprint read for a pre-phase kind"
+
+
+def test_a_failed_union_rebuild_does_not_strand_a_synthesis_key_on_the_retry(repo, monkeypatch, curation_graph):
+    """The synthesis apply commits (and stamps its fingerprint) before the
+    union rebuild; the rebuild then fails, so the bookmark stays. On the
+    retry the record must be applied again so its key rejoins the rebuild --
+    otherwise the entity's description would stay stale while `vault status`
+    says current."""
+    import artmind.table2graph as t2g
+    from artmind.vault import VaultLayout, write_state
+
+    base = _empty_curation_base(repo, monkeypatch)
+    record = _synthesis("widget")
+    from artmind import curation_records
+    fp = curation_records.write_record("syntheses", record)
+    _commit_all(repo, "a synthesis")
+    head = vs.head_sha(repo)
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    def _boom(keys, groups=None):
+        raise RuntimeError("union rebuild failed")
+
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", _boom)
+    with pytest.raises(RuntimeError, match="union rebuild failed"):
+        vs.sync(repo)
+
+    assert curation_graph._held("syntheses") == {record["id"]: fp}, "the apply committed and stamped"
+    assert _bookmarks(repo) == (None, None), "the bookmark did not move"
+
+    calls = _patch_ingest_and_projection(monkeypatch)
+    result = vs.sync(repo)
+
+    assert calls["rebuild_in_batches"] == [[("widget", "RATE", "banking")]], "the key rejoined the rebuild"
+    assert (result["curation"], result["curation_unchanged"]) == ({"syntheses": {"apply": 1, "remove": 0}}, 0)
+    assert _bookmarks(repo) == (head, head)
 
 
 def test_conflicts_are_applied_after_the_projection_rebuild(repo, monkeypatch, curation_graph):
@@ -3807,6 +3908,89 @@ def test_sync_re_applies_a_committed_retirement_after_replaying_the_document(rep
     marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
     assert [p["doc_id"] for p in marks] == ["docid-1"]
     assert dry["curation"] == result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_pending_work_counts_the_retirement_a_replay_re_applies(repo, monkeypatch, curation_graph, graph):
+    """`vault status` must agree with what the sync will do: a document the
+    graph lacks is replayed, and its (unchanged) lifecycle record is applied
+    again after it. A document the graph already carries is not replayed, so
+    its record is not re-applied either."""
+    from artmind import curation_records, sync_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1, retired")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"id": "o2"}]')
+    _commit_all(repo, "doc1 re-extracted")
+    head = vs.head_sha(repo)
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+    dry = vs.sync(repo, dry_run=True)
+
+    assert (pending["graph"]["docs"], pending["graph"]["curation"]) == (1, 1), "the replay and its re-applied retirement"
+    assert dry["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+    graph.fingerprints["docid-1"] = sync_state.folder_fingerprint(kg_dir / "banking" / "doc1")
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["docs"], pending["graph"]["curation"]) == ("current", 0, 0)
+    assert vs.sync(repo, dry_run=True)["curation"] == {}
+
+
+def _capture_warnings():
+    from loguru import logger
+
+    messages: list[str] = []
+    sink_id = logger.add(lambda message: messages.append(message.record["message"]), level="WARNING")
+    return messages, lambda: logger.remove(sink_id)
+
+
+@pytest.mark.parametrize("kind,make,missing", [
+    ("supersessions", lambda: _supersession_record("d2", "d1"), ("d2", "d1")),
+    ("lifecycle", lambda: _lifecycle("docid-1"), ("docid-1",)),
+])
+def test_applying_a_record_whose_documents_are_absent_warns_and_stamps_nothing(
+    repo, monkeypatch, curation_graph, kind, make, missing
+):
+    """The statement matches nothing when a target document is not in this
+    graph (yet): no edge, no mark -- a silent no-op the bookmark then moves
+    past. It stays a no-op (the next sync that has the documents applies it
+    again), but says so."""
+    from artmind import curation_records
+
+    base = _empty_curation_base(repo, monkeypatch)
+    record = make()
+    curation_records.write_record(kind, record)
+    _commit_all(repo, f"a {kind} record")
+    head = vs.head_sha(repo)
+    plan = vs.classify_diff(repo, base, head)
+    curation_graph.documents = set()
+
+    messages, stop = _capture_warnings()
+    try:
+        vs._apply_curation(repo, base, head, plan.curation, "pre")
+    finally:
+        stop()
+
+    assert any(kind in m and record["id"] in m and all(d in m for d in missing) for m in messages), messages
+    assert curation_graph._held(kind) == {}, "no fingerprint was written"
+
+    curation_graph.documents = {"d1", "d2", "docid-1"}
+    messages, stop = _capture_warnings()
+    try:
+        vs._apply_curation(repo, base, head, plan.curation, "pre")
+    finally:
+        stop()
+
+    assert messages == [], "a record that matched warns of nothing"
+    assert list(curation_graph._held(kind)) == [record["id"]]
 
 
 def test_sync_restores_a_document_whose_lifecycle_record_was_deleted(repo, monkeypatch, curation_graph):
@@ -4152,37 +4336,132 @@ def test_a_structured_only_run_never_projects_the_catalogue(repo, monkeypatch):
     assert calls["catalogue"] == []
 
 
-def test_pending_work_counts_every_curation_kind(repo, monkeypatch, curation_graph):
-    """Lifecycle, supersession and synthesis records are counted like
-    conflicts: each kind's own fingerprint read, one query per kind."""
-    from artmind import curation_records, synthesis_records
+def _supersession_record(newer, older, scope="document"):
+    from artmind import supersession_records
+
+    return {"id": supersession_records.record_id(newer, older, scope), "newer_doc_id": newer,
+            "older_doc_id": older, "scope": scope, "effective": None, "detected_by": "manual",
+            "domains": ["banking"]}
+
+
+def _synthesis(name):
+    from artmind import synthesis_records
     from artmind.observations import entity_id
 
+    key = (name, "RATE", "banking")
+    return synthesis_records.record_from(key, {
+        "id": entity_id(key), "text": "t", "observation_set_hash": "h", "observation_ids": [],
+        "created_at": "t", "model": "m",
+    })
+
+
+def _committed_fingerprint(repo, kind, record_id):
+    from artmind import curation_records
+
+    return curation_records.fingerprint((repo / ".artmind" / "data" / "curation" / kind / f"{record_id}.json").read_bytes())
+
+
+def _empty_curation_base(repo, monkeypatch):
     _patch_kg_dir(monkeypatch, repo)
     _patch_structured_text_dir(monkeypatch, repo)
     _patch_curation_dir(monkeypatch, repo)
     (repo / "a.txt").write_text("x")
     _commit_all(repo, "base")
-    base = vs.head_sha(repo)
-    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
-    curation_records.write_record("supersessions", {
-        "id": "s1", "newer_doc_id": "d2", "older_doc_id": "d1", "scope": "document",
-        "effective": None, "detected_by": "manual", "domains": ["banking"],
-    })
-    key = ("widget", "RATE", "banking")
-    curation_records.write_record("syntheses", synthesis_records.record_from(key, {
-        "id": entity_id(key), "text": "t", "observation_set_hash": "h", "observation_ids": [],
-        "created_at": "t", "model": "m",
-    }))
-    _commit_all(repo, "three kinds of curation")
+    return vs.head_sha(repo)
+
+
+def test_pending_work_counts_every_pre_record_and_reads_the_graph_only_for_the_conflicts(
+    repo, monkeypatch, curation_graph
+):
+    """Lifecycle, supersession and synthesis records are pre-phase: a sync
+    re-applies every one of them (so their keys rejoin the rebuild), so each
+    is pending whatever the graph holds -- and the graph is not asked about
+    them. Conflicts are post-phase: read once, in one query, and pending only
+    while the graph's fingerprint differs."""
+    from artmind import curation_records
+
+    base = _empty_curation_base(repo, monkeypatch)
+    lifecycle = [_lifecycle("docid-1"), _lifecycle("docid-2")]
+    supersessions = [_supersession_record("d2", "d1"), _supersession_record("d3", "d2")]
+    syntheses = [_synthesis("widget"), _synthesis("gadget")]
+    for record in lifecycle:
+        curation_records.write_record("lifecycle", record)
+    for record in supersessions:
+        curation_records.write_record("supersessions", record)
+    for record in syntheses:
+        curation_records.write_record("syntheses", record)
+    fp_c1 = curation_records.write_record("conflicts", _conflict("c1"))
+    curation_records.write_record("conflicts", _conflict("c2"))
+    _commit_all(repo, "two records of each of four kinds")
     head = vs.head_sha(repo)
+    # The graph already holds EVERY pre record at its committed fingerprint
+    # (as after a sync whose union rebuild then failed), and one conflict.
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions), ("syntheses", syntheses)):
+        curation_graph.kind_fingerprints[kind] = {r["id"]: _committed_fingerprint(repo, kind, r["id"]) for r in records}
+    curation_graph.fingerprints = {"c1": fp_c1}
 
     pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
 
-    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("behind", 3)
-    reads = [c for c, _ in curation_graph.calls if "AS fingerprint" in c]
-    assert len(reads) == 3, "one fingerprint read per kind"
-    assert "3 curation records" in vs.staleness_message(pending)
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("behind", 7), "6 pre records + c2"
+    assert curation_graph.reads == [("conflicts", ["c1", "c2"])], "one read, for the post kind only"
+    assert "7 curation records" in vs.staleness_message(pending)
+
+    curation_graph.reads.clear()
+    curation_graph.fingerprints["c2"] = _committed_fingerprint(repo, "conflicts", "c2")
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert pending["graph"]["curation"] == 6, "the applied conflicts drop out; the pre records stay pending"
+    assert curation_graph.reads == [("conflicts", ["c1", "c2"])]
+
+
+def test_pending_work_counts_a_removed_record_only_while_the_graph_holds_it(repo, monkeypatch, curation_graph):
+    """A removal of any kind is pending only while the graph still holds the
+    record -- one read per kind that has a removal, with exactly its ids."""
+    from artmind import curation_records
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    lifecycle = [_lifecycle("docid-1"), _lifecycle("docid-2")]
+    supersessions = [_supersession_record("d2", "d1"), _supersession_record("d3", "d2")]
+    syntheses = [_synthesis("widget"), _synthesis("gadget")]
+    conflicts = [_conflict("c1"), _conflict("c2")]
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions),
+                          ("syntheses", syntheses), ("conflicts", conflicts)):
+        for record in records:
+            curation_records.write_record(kind, record)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "two records of each of four kinds")
+    base = vs.head_sha(repo)
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions),
+                          ("syntheses", syntheses), ("conflicts", conflicts)):
+        for record in records:
+            curation_records.delete_record(kind, record["id"])
+    _commit_all(repo, "all eight removed")
+    head = vs.head_sha(repo)
+    # The graph still holds the FIRST record of each kind, none of the second.
+    curation_graph.fingerprints = {"c1": "f"}
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions), ("syntheses", syntheses)):
+        curation_graph.kind_fingerprints[kind] = {records[0]["id"]: "f"}
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("behind", 4)
+    assert sorted(curation_graph.reads) == sorted([
+        ("lifecycle", sorted(r["id"] for r in lifecycle)),
+        ("supersessions", sorted(r["id"] for r in supersessions)),
+        ("syntheses", sorted(r["id"] for r in syntheses)),
+        ("conflicts", ["c1", "c2"]),
+    ]), "one read per kind, with exactly that kind's ids"
+
+    curation_graph.fingerprints.clear()
+    for kind in ("lifecycle", "supersessions", "syntheses"):
+        curation_graph.kind_fingerprints[kind].clear()
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("current", 0)
 
 
 def test_the_structured_range_is_split_too_when_the_stores_start_apart(repo, monkeypatch, graph):

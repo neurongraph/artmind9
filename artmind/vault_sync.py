@@ -432,7 +432,13 @@ def drop_unchanged(
     return them. ONE Cypher read for the whole plan. On a shared graph the
     machine that ingested a document already wrote it, so this is what makes
     the other machine's apply a near no-op; on a separate local Neo4j nothing
-    matches and everything is replayed."""
+    matches and everything is replayed.
+
+    Known limitation: a document's fingerprint is stamped in the same
+    transaction as its observations, but its aggregate keys reach the union
+    rebuild only in memory. If that rebuild fails after the commit, the retry
+    finds the fingerprint and skips the document, so its keys are healed only
+    by the next rebuild that touches them, e.g. `artmind projection rebuild`."""
     from artmind import sync_state
 
     committed = committed_fingerprints(vault_dir, plan.head, plan.replay_docs)
@@ -971,12 +977,27 @@ def _graph_curation_fingerprints(
 
 
 def drop_unchanged_curation(vault_dir: Path, plan: "SyncPlan", *, timeout: float | None = None) -> int:
-    """Spec §6 A3 for curation: remove from `plan.curation` every record
-    whose committed fingerprint the graph already carries (the machine that
-    wrote it, sharing this graph, already applied it) and return how many.
-    Removals are always kept (removing an absent record is a no-op)."""
+    """Spec §6 A3 for curation: remove from `plan.curation` every POST-phase
+    record whose committed fingerprint the graph already carries (the machine
+    that wrote it, sharing this graph, already applied it) and return how
+    many. Removals are always kept (removing an absent record is a no-op).
+
+    A PRE-phase record (`Kind.phase == "pre"`: lifecycle, supersession,
+    synthesis) is never skipped, whatever the graph carries. It stamps its
+    fingerprint in its own committed transaction, but the keys it returns
+    reach the union rebuild only in memory: if that rebuild -- or a later pre
+    record -- fails, the bookmark stays yet the fingerprint is already in the
+    graph, and skipping the record on the retry would keep its keys out of
+    the rebuild for good (a stale synthesis description, a retired document's
+    entities left live) while `vault status` said current. Applying it again
+    is idempotent, and its keys rejoin the rebuild. A post-phase record
+    (conflicts) returns no keys, so its fingerprint is a sound skip; the
+    graph is read for those only."""
+    from artmind import curation_records
+
+    known = curation_records.kinds()
     committed = committed_curation_fingerprints(vault_dir, plan.head, plan)
-    applies = [item for item in plan.curation if item[2] == "apply"]
+    applies = [item for item in plan.curation if item[2] == "apply" and known[item[0]].phase == "post"]
     if not applies:
         return 0
     in_graph = _graph_curation_fingerprints(applies, timeout=timeout)
@@ -1613,9 +1634,11 @@ def _store_pending(
     message). `docs` counts documents -- `artmind update` folders included --
     still to replay or retract after the fingerprint check (graph only);
     `tables` lists `(domain, table)` still to restore/project; `curation`
-    counts curation records still to apply or remove after their own
-    fingerprint check, and `same_as_groups` the same-as groups changed in the
-    range (graph only)."""
+    counts curation records still to apply or remove -- every pre-phase
+    record (retirements a replay re-applies included) always counts, since
+    sync always re-applies it; a post-phase record counts only after its own
+    fingerprint check -- and `same_as_groups` the same-as groups changed in
+    the range (graph only)."""
     report = {
         "bookmark": bookmark, "state": "current", "docs": 0, "tables": [],
         "curation": 0, "same_as_groups": 0, "detail": None,
@@ -1665,11 +1688,19 @@ def _graph_pending(
     """`(docs, tables, curation, same_as_groups)` the graph still has to
     apply between `bookmark` and `head`: a replay counts unless the graph
     already carries its committed fingerprint; a retraction counts only while
-    the graph still has the document. ONE Cypher read covers both. Curation
-    records are counted the same way (one read per kind in the range), and
-    every same-as group changed in the range counts -- the graph keeps no
-    per-group fingerprint to compare against."""
-    from artmind import sync_state
+    the graph still has the document. ONE Cypher read covers both.
+
+    Curation mirrors what `sync` does. Every PRE-phase apply counts -- a sync
+    re-applies those whatever the graph carries (`drop_unchanged_curation`),
+    so they are pending and the graph is not read for them -- including the
+    records a replayed document re-applies (`reapply_for_replayed`, run here
+    over the replays that survived the fingerprint check; it only reads git).
+    A POST-phase apply counts unless the graph holds its committed
+    fingerprint, and a removal counts only while the graph still holds the
+    record: one read per kind that has such an item. Every same-as group
+    changed in the range counts -- the graph keeps no per-group fingerprint
+    to compare against."""
+    from artmind import curation_records, sync_state
 
     plan = classify_diff(vault_dir, bookmark, head)
     committed = committed_fingerprints(vault_dir, head, plan.replay_docs)
@@ -1681,12 +1712,18 @@ def _graph_pending(
     tables = set(plan.regenerate_tables)
     tables |= {tuple(doc_id.split(":", 2)[1:]) for doc_id in retract if doc_id.startswith("table:")}
     docs = len(replay) + sum(1 for doc_id in retract if not doc_id.startswith("table:"))
-    curation = 0
-    if plan.curation:
+    plan.replay_docs = replay
+    reapply_for_replayed(vault_dir, plan)
+    known = curation_records.kinds()
+    curation = sum(1 for kind, _, action in plan.curation if action == "apply" and known[kind].phase == "pre")
+    to_check = [
+        item for item in plan.curation if item[2] == "remove" or known[item[0]].phase == "post"
+    ]
+    if to_check:
         committed_records = committed_curation_fingerprints(vault_dir, head, plan)
-        held = _graph_curation_fingerprints(plan.curation, timeout=timeout)
-        curation = sum(
-            1 for kind, record_id, action in plan.curation
+        held = _graph_curation_fingerprints(to_check, timeout=timeout)
+        curation += sum(
+            1 for kind, record_id, action in to_check
             if (action == "apply" and held.get((kind, record_id)) != committed_records.get((kind, record_id)))
             or (action == "remove" and (kind, record_id) in held)
         )

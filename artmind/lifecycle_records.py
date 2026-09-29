@@ -28,7 +28,9 @@ from __future__ import annotations
 
 import hashlib
 
-from artmind.curation_records import Kind
+from loguru import logger
+
+from artmind.curation_records import Kind, matched_count
 
 NAME = "lifecycle"
 
@@ -38,7 +40,8 @@ _DOMAIN = (
 )
 _MARK = (
     "MATCH (d:DocumentHistory {id: $doc_id}) "
-    "SET d.lifecycle_record = $id, d.lifecycle_fingerprint = $fingerprint"
+    "SET d.lifecycle_record = $id, d.lifecycle_fingerprint = $fingerprint "
+    "RETURN count(d) AS n"
 )
 _UNMARK = (
     "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id = $doc_id "
@@ -82,9 +85,10 @@ def retired_in_working_tree(doc_id: str | None) -> bool:
     return bool(doc_id) and curation_records.read_record(NAME, record_id(doc_id)) is not None
 
 
-def mark(tx, record: dict, fingerprint: str) -> None:
-    """Record, on the retired document, which record retired it."""
-    tx.run(_MARK, doc_id=record["doc_id"], id=record["id"], fingerprint=fingerprint)
+def mark(tx, record: dict, fingerprint: str) -> int | None:
+    """Record, on the retired document, which record retired it. Returns how
+    many documents were marked (0: the document is not in this graph)."""
+    return matched_count(tx.run(_MARK, doc_id=record["doc_id"], id=record["id"], fingerprint=fingerprint))
 
 
 def unmark(tx, doc_id: str) -> None:
@@ -97,7 +101,15 @@ def apply(tx, record: dict, fingerprint: str) -> set:
     from artmind.lifecycle import _transition
 
     result = _transition(tx, record["doc_id"], to_history=True, rebuild=False)
-    mark(tx, record, fingerprint)
+    if mark(tx, record, fingerprint) == 0:
+        # Not an error -- the document may not have reached this graph yet,
+        # and a later sync (or its replay) applies the record again -- but
+        # nothing was retired or stamped.
+        logger.warning(
+            "the lifecycle record {} was not applied: the document {} is not in this graph "
+            "(neither live nor retired), so nothing was retired or marked",
+            record["id"], record["doc_id"],
+        )
     return {tuple(k) for k in result["keys"]}
 
 

@@ -422,6 +422,12 @@ no parquet rewrite, no re-projection — and the graph's table catalogue is
 re-projected for its domain. That projection is not best-effort: if it fails
 the sync stops before any bookmark advances and the same range is retried.
 
+A sync **re-applies** every retirement, supersession and synthesis record in
+the range (their applies are idempotent), so their entities always rejoin the
+rebuild, even when a previous run applied the record and then failed before
+its rebuild. Only a conflict record is skipped when the graph already carries
+its fingerprint (a machine sharing this graph already applied it).
+
 Two limits. The catalogue follows only in a run that includes both the graph
 and the structured store: `vault sync --store graph` does not restore a
 curation-only table change, so run `artmind db catalogue --domain <d>` there.
@@ -485,7 +491,10 @@ replay everything committed.
 
 `artmind vault status` shows HEAD, both bookmarks, how many documents and
 tables each store is behind (after the fingerprint check) — and, for the
-graph, how many curation records and same-as groups — a merge in progress,
+graph, how many curation records and same-as groups (every retirement,
+supersession and synthesis record sync would re-apply counts, including the
+retirements a replay re-applies; a conflict counts only if the graph lacks its
+fingerprint) — a merge in progress,
 and unresolved conflicts under `.artmind/`; `--compact` gives the same as
 JSON. After a successful `artmind query ...` in a vault this machine
 has synced, a line such as

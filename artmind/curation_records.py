@@ -56,9 +56,15 @@ class Kind:
       `record` is the file as it last existed (at `vault sync`'s base), or
       just `{"id": ...}` when that cannot be read; returns keys the same way.
     - `read_fingerprints(ids, *, timeout)`: `{id: fingerprint}` for the ids
-      the graph holds, in one query -- what lets a shared graph skip records
-      another machine already applied, and `vault status` count only what is
-      really pending.
+      the graph holds, in one query -- what lets a shared graph skip a
+      POST-phase record another machine already applied, and `vault status`
+      count only what is really pending. A PRE-phase record is never skipped
+      by it: its keys reach the union rebuild only in memory, so a sync whose
+      rebuild failed after the apply stamped the fingerprint must apply it
+      again for those keys to rejoin the retry's rebuild (see
+      `vault_sync.drop_unchanged_curation`); `vault status` therefore counts
+      every pre-phase record in the range and reads the graph for them only
+      to see whether a removed one is still held.
     - `domains(record)`: the domains a record belongs to, for `--domain`.
     - `reapply_for(doc_ids)` (optional): ids of this kind's records to apply
       again after `vault sync` replays those documents -- for a kind whose
@@ -82,6 +88,15 @@ def kinds() -> dict[str, Kind]:
         kind.name: kind
         for kind in (lifecycle_records.KIND, supersession_records.KIND, synthesis_records.KIND, conflict_records.KIND)
     }
+
+
+def matched_count(result) -> int | None:
+    """The `n` of a statement ending `RETURN count(...) AS n`, or None when
+    the result carries no readable count. A neo4j `Record` is a tuple with a
+    mapping interface, not a dict, so it is read with `.get`."""
+    row = result.single()
+    value = row.get("n") if row is not None else None
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
 
 
 def curation_dir() -> Path:

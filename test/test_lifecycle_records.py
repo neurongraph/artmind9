@@ -127,7 +127,7 @@ def test_apply_retires_without_rebuilding_and_returns_the_keys(no_rebuild):
     assert keys == {("acme", "ORG", "banking")}
     assert no_rebuild == [], "vault sync's union rebuild covers it"
     assert any("REMOVE d:Document SET d:DocumentHistory" in c for c in tx.texts())
-    assert ("MATCH (d:DocumentHistory {id: $doc_id}) SET d.lifecycle_record = $id, d.lifecycle_fingerprint = $fingerprint",
+    assert ("MATCH (d:DocumentHistory {id: $doc_id}) SET d.lifecycle_record = $id, d.lifecycle_fingerprint = $fingerprint RETURN count(d) AS n",
             {"doc_id": "doc-1", "id": record["id"], "fingerprint": "fp"}) in tx.calls
 
 

@@ -503,8 +503,9 @@ atomically and serialised deterministically; `conflicts` is the first kind
 existing record, so a conflict another machine recorded -- and perhaps resolved -- is neither
 reopened nor churned; two machines colliding on one record only happens when both detect it
 before either pulls, and then either side may be kept. The graph carries each record's
-fingerprint (`:Conflict.record_fingerprint`), so a shared graph skips records it already has, and
-`vault status` counts only what is really pending.
+fingerprint (`:Conflict.record_fingerprint`), so a shared graph skips a POST-phase record (a
+conflict) it already has, and `vault status` counts only what is really pending for those. A
+PRE-phase record (A10: lifecycle, supersession, synthesis) is never fingerprint-skipped -- see A10.
 
 An `artmind update` is one folder per confirmed draft,
 `kg/<domain>/update__<session_id>__<draft_id>/`, not per session: a session can confirm several
@@ -547,8 +548,20 @@ is now a curation kind (A9's one file per record) or a table's `.meta.json`:
   registry rows it restored. The projection is called directly, so a failure aborts the sync before
   any bookmark advances and the same range is retried (all-or-nothing, §9).
 
+**Pre-phase records are always re-applied.** A pre-phase kind applies before the union rebuild
+and its returned keys join that rebuild. It stamps its fingerprint in its own committed
+transaction, but the keys reach the rebuild only in memory; if the rebuild (or a later record)
+fails, the bookmark stays while the fingerprint is already in the graph, so a fingerprint skip
+on the retry would leave the keys out of the rebuild for good. Fingerprint skipping therefore
+applies to post-phase records (conflicts) only; every pre-phase record in the range is re-applied
+(idempotent), and `vault status` counts every one of them, including a retirement that a replay
+would re-apply, without a graph read. Stamping is kept (post kinds and other machines use it).
+
 Limitations, by design:
 
+- Track A's document fingerprint skip has the analogous gap: a failed union rebuild after a
+  document commit is healed only by the next rebuild touching those keys (e.g.
+  `artmind projection rebuild`).
 - The catalogue follows only in a run where the graph *and* the structured store are both in the
   run. A `--store graph` run does not restore curation-only table changes (the structured
   bookmark has not moved), and a `--store structured` run never touches Neo4j; the remedy is
