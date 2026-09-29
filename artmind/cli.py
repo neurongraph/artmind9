@@ -3098,9 +3098,12 @@ def sameas_reject(proposal_id: str, reason: str | None, compact: bool) -> None:
 def update():
     """Add and update knowledge graph facts from natural language.
 
-    Subcommands: draft, confirm, history, export. A fact that retracts an
-    existing one is expressed via `confirm`'s `retracts` resolution field, not
-    a separate command — see `update confirm --help`.
+    Subcommands: draft, confirm, retract, history, export. A fact that
+    retracts an existing one is expressed via `confirm`'s `retracts`
+    resolution field — see `update confirm --help`; `retract` withdraws a
+    whole confirmed update. A confirmed update is also a staging folder
+    (`.artmind/data/kg/<domain>/update__<session>__<draft>/`), so it — and
+    its retraction — reaches every machine through `vault sync`.
     """
     pass
 
@@ -3127,7 +3130,12 @@ def update_draft(domain: str, text: str, session: str | None):
 @click.option("--session", required=True, help="Session UUID from draft step.")
 @click.option("--resolutions", required=True, help="JSON array of resolution objects.")
 def update_confirm(session: str, resolutions: str):
-    """Write confirmed facts to Neo4j. Returns JSON."""
+    """Write confirmed facts to the vault and Neo4j. Returns JSON.
+
+    Writes a staging folder, .artmind/data/kg/<domain>/update__<session>__<draft>/,
+    then commits the graph from it — the same commit `vault sync` replays on
+    every other machine. `staging_dir` in the output names the folder.
+    """
     _setup_logger()
     env = load_env()
     user_id = env.get("ARTMIND_USER", "unknown")
@@ -3143,6 +3151,30 @@ def update_confirm(session: str, resolutions: str):
         raise click.ClickException(str(e))
 
 
+
+
+@update.command("retract")
+@click.option("--session", required=True, help="Session UUID whose confirmed update(s) to retract.")
+@click.option(
+    "--draft", "draft_id", type=int, default=None,
+    help="Retract only this confirmed draft: the last part of its folder name, "
+    "update__<session>__<draft>. Default: every confirmed update in the session.",
+)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def update_retract(session: str, draft_id: int | None, compact: bool):
+    """Withdraw a confirmed update: its facts leave the graph and its staging folder is deleted.
+
+    The UserChat and its observations move to history and the entities they
+    touched are rebuilt; then the update__<session>__<draft> folder is
+    deleted, which Obsidian Git commits — so every other machine's
+    `vault sync` retracts it too. Returns JSON.
+    """
+    _setup_logger()
+    try:
+        result = update_backend.retract_update(session, draft_id)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 @update.command("history")

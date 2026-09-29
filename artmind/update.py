@@ -727,6 +727,73 @@ def confirm_update(session_id: str, resolutions: list[dict], user_id: str) -> di
     return result
 
 
+def retract_update(session_id: str, draft_id: int | None = None) -> dict:
+    """Retract a confirmed update -- every confirmed draft of `session_id`,
+    or only `draft_id`.
+
+    Its UserChat and observations move to history (`ingest.retract_document`,
+    the retraction `vault sync` applies when a staging folder disappears),
+    the keys it touched are rebuilt with every same-as group touching them,
+    and then its `update__<session_id>__<draft_id>` staging folder is
+    deleted. The deletion is what travels: Obsidian Git commits it, and
+    every other machine's `vault sync` retracts the same UserChat. The graph
+    goes first, so a failed graph write leaves the folder for a retry.
+    """
+    import shutil
+
+    import paths
+    from artmind import ingest, projection, same_as
+    from artmind.atomic_dir import is_scratch
+    from artmind.table2graph import _rebuild_in_batches
+
+    session = _get_update_session(session_id)
+    if not session:
+        raise ValueError(f"No such update session: {session_id!r}")
+    domain = session["domain"]
+    suffix = "*" if draft_id is None else str(draft_id)
+    folders = sorted(
+        p for p in (Path(paths.KG_DIR) / domain).glob(f"{UPDATE_FOLDER_PREFIX}{session_id}__{suffix}")
+        if p.is_dir() and not is_scratch(p)
+    )
+    if not folders:
+        which = f"draft {draft_id} of session" if draft_id is not None else "session"
+        raise ValueError(f"No confirmed update to retract for {which} {session_id!r} (no {UPDATE_FOLDER_PREFIX}* folder)")
+
+    retracted: list[str] = []
+    keys: set = set()
+    # ── phase 1: the graph, every folder -- must all succeed before phase 2 ──
+    for folder in folders:
+        doc_id = json.loads((folder / "document.json").read_text(encoding="utf-8"))["id"]
+        result = ingest.retract_document(doc_id, domain)
+        keys |= {tuple(k) for k in result.get("affected_keys") or []}
+        retracted.append(doc_id)
+    groups = same_as.load_groups()
+    keys = projection.affected_keys(incoming=sorted(keys), same_as_groups=groups)
+    summary = (
+        _rebuild_in_batches(sorted(keys), groups=groups)
+        if keys
+        else {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": 0}
+    )
+    for d in sorted({k[2] for k in keys}):
+        ingest._sweep_embeddings(d, [k for k in keys if k[2] == d])
+
+    # ── phase 2: the filesystem, only after every graph write succeeded ──
+    for folder in folders:
+        shutil.rmtree(folder)
+        draft = folder.name.rsplit("__", 1)[-1]
+        if draft.isdigit():
+            _update_draft_status(int(draft), "retracted")
+    if draft_id is None:
+        _update_session_status(session_id, "retracted")
+    logger.info("update: retracted {} ({} folder(s) removed)", ", ".join(retracted), len(folders))
+    return {
+        "session_id": session_id,
+        "retracted": retracted,
+        "folders_removed": [str(f) for f in folders],
+        "projection": summary,
+    }
+
+
 def export_chats(
     domain: str | None, format: str, output_dir: Path
 ) -> list[Path]:
