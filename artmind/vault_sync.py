@@ -257,6 +257,7 @@ class SyncPlan:
     regenerate_tables: list[tuple[str, str]] = field(default_factory=list)  # (domain, table_name)
     same_as_keys: list[tuple[str, str, str]] = field(default_factory=list)  # track D: keys to rebuild
     same_as_groups: int = 0                                                 # track D: groups added/removed/changed
+    curation: list[tuple[str, str, str]] = field(default_factory=list)      # track C: (kind, record_id, "apply"|"remove")
 
 
 def _in_scope(domain: str, domains: list[str] | None) -> bool:
@@ -795,6 +796,164 @@ def _classify_same_as(
     return keys, len(changed)
 
 
+# ── track C: curation records (spec 2026-09-26 §7, §14 A6) ───────────────────
+
+
+def _curation_rel(vault_dir: Path) -> Path | None:
+    """`paths.CURATION_DIR` relative to the vault, or None outside it."""
+    import paths
+
+    try:
+        return Path(paths.CURATION_DIR).relative_to(vault_dir)
+    except ValueError:
+        return None
+
+
+def _curation_relpath(vault_dir: Path, kind: str, record_id: str) -> str:
+    return str(_curation_rel(vault_dir) / kind / f"{record_id}.json")
+
+
+def _blobs_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, bytes]:
+    """`{relpath: committed bytes}` for the files among `relpaths` that exist
+    at `rev`: one `git ls-tree` and one `git cat-file --batch`, raw blobs
+    (the bytes `curation_records.fingerprint` hashes)."""
+    if not relpaths:
+        return {}
+    listing = _git(vault_dir, ["ls-tree", "-r", "-z", rev, "--", *relpaths])
+    oid_of: dict[str, str] = {}
+    for entry in listing.split("\0"):
+        if not entry:
+            continue
+        meta, _, path = entry.partition("\t")
+        fields = meta.split(" ")
+        if len(fields) == 3 and fields[1] == "blob":
+            oid_of[path] = fields[2]
+    blobs = _cat_blobs(vault_dir, list(oid_of.values()))
+    return {path: blobs[oid] for path, oid in oid_of.items() if oid in blobs}
+
+
+def _classify_curation(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> list[tuple[str, str, str]]:
+    """Track C: `(kind, record_id, action)` for every curation record file
+    (`curation/<kind>/<id>.json`, a registered kind) added or changed
+    (`"apply"`) or deleted (`"remove"`) between `base` and `head`.
+
+    `--domain` scoping reads the record -- as committed at `head` for an
+    apply, at `base` for a removal -- and keeps it when any of its domains is
+    in scope."""
+    from artmind import curation_records
+
+    rel = _curation_rel(vault_dir)
+    if rel is None:
+        return []
+    known = curation_records.kinds()
+    changes: list[tuple[str, str, str]] = []
+    for status, path in _diff_name_status(vault_dir, base, head, vault_dir / rel):
+        parts = Path(path).relative_to(rel).parts
+        if len(parts) != 2 or not parts[1].endswith(".json") or parts[0] not in known:
+            continue
+        changes.append((parts[0], parts[1][: -len(".json")], "remove" if status == "D" else "apply"))
+    if not domains or not changes:
+        return changes
+    at_head = _blobs_at(vault_dir, head, [_curation_relpath(vault_dir, k, i) for k, i, a in changes if a == "apply"])
+    at_base = _blobs_at(vault_dir, base, [_curation_relpath(vault_dir, k, i) for k, i, a in changes if a == "remove"])
+    scoped = []
+    for kind, record_id, action in changes:
+        blobs = at_head if action == "apply" else at_base
+        record = curation_records.parse(blobs.get(_curation_relpath(vault_dir, kind, record_id)))
+        if record is not None and any(_in_scope(d, domains) for d in known[kind].domains(record)):
+            scoped.append((kind, record_id, action))
+    return scoped
+
+
+def committed_curation_fingerprints(vault_dir: Path, head: str, plan: "SyncPlan") -> dict[tuple[str, str], str]:
+    """`{(kind, record_id): fingerprint}` of every record `plan` applies, as
+    committed at `head`."""
+    from artmind import curation_records
+
+    wanted = {(k, i): _curation_relpath(vault_dir, k, i) for k, i, a in plan.curation if a == "apply"}
+    blobs = _blobs_at(vault_dir, head, list(wanted.values()))
+    return {key: curation_records.fingerprint(blobs[path]) for key, path in wanted.items() if path in blobs}
+
+
+def _graph_curation_fingerprints(
+    items: list[tuple[str, str, str]], *, timeout: float | None
+) -> dict[tuple[str, str], str | None]:
+    """`{(kind, record_id): fingerprint}` the graph holds, one query per kind
+    that has items. A record the graph does not hold is absent."""
+    from artmind import curation_records
+
+    by_kind: dict[str, list[str]] = {}
+    for kind, record_id, _ in items:
+        by_kind.setdefault(kind, []).append(record_id)
+    known = curation_records.kinds()
+    found: dict[tuple[str, str], str | None] = {}
+    for kind, ids in by_kind.items():
+        for record_id, fp in known[kind].read_fingerprints(ids, timeout=timeout).items():
+            found[(kind, record_id)] = fp
+    return found
+
+
+def drop_unchanged_curation(vault_dir: Path, plan: "SyncPlan", *, timeout: float | None = None) -> int:
+    """Spec §6 A3 for curation: remove from `plan.curation` every record
+    whose committed fingerprint the graph already carries (the machine that
+    wrote it, sharing this graph, already applied it) and return how many.
+    Removals are always kept (removing an absent record is a no-op)."""
+    committed = committed_curation_fingerprints(vault_dir, plan.head, plan)
+    applies = [item for item in plan.curation if item[2] == "apply"]
+    if not applies:
+        return 0
+    in_graph = _graph_curation_fingerprints(applies, timeout=timeout)
+    unchanged = [
+        (k, i, a) for k, i, a in applies
+        if committed.get((k, i)) is not None and in_graph.get((k, i)) == committed[(k, i)]
+    ]
+    plan.curation = [item for item in plan.curation if item not in unchanged]
+    return len(unchanged)
+
+
+def _curation_counts(items: list[tuple[str, str, str]]) -> dict[str, dict[str, int]]:
+    counts: dict[str, dict[str, int]] = {}
+    for kind, _, action in items:
+        counts.setdefault(kind, {"apply": 0, "remove": 0})[action] += 1
+    return counts
+
+
+def _apply_curation(
+    vault_dir: Path, base: str, head: str, items: list[tuple[str, str, str]], phase: str
+) -> set:
+    """Apply (or remove) every item of `phase` -- an applied record from its
+    committed bytes at `head`, a removed one from its bytes at `base` (the
+    last version that existed), one write transaction per record -- and
+    return the aggregate keys the kinds report changed."""
+    from artmind import curation_records, graph_query
+
+    known = curation_records.kinds()
+    items = [item for item in items if known[item[0]].phase == phase]
+    if not items:
+        return set()
+    blobs = _blobs_at(vault_dir, head, [_curation_relpath(vault_dir, k, i) for k, i, a in items if a == "apply"])
+    removed = _blobs_at(vault_dir, base, [_curation_relpath(vault_dir, k, i) for k, i, a in items if a == "remove"])
+    keys: set = set()
+    with graph_query.neo4j_session() as session:
+        for kind_name, record_id, action in items:
+            kind = known[kind_name]
+            if action == "remove":
+                record = curation_records.parse(removed.get(_curation_relpath(vault_dir, kind_name, record_id)))
+                if record is None or record.get("id") != record_id:
+                    record = {"id": record_id}
+                keys |= set(session.execute_write(kind.remove, record) or ())
+                continue
+            relpath = _curation_relpath(vault_dir, kind_name, record_id)
+            data = blobs.get(relpath)
+            record = curation_records.parse(data)
+            if record is None or record.get("id") != record_id:
+                raise VaultSyncError(f"{relpath} at {head[:12]} is not a {kind_name} record for id {record_id!r}")
+            keys |= set(session.execute_write(kind.apply, record, curation_records.fingerprint(data)) or ())
+    return {tuple(k) for k in keys}
+
+
 def classify_diff(
     vault_dir: Path, base: str, head: str, domains: list[str] | None = None
 ) -> SyncPlan:
@@ -820,6 +979,7 @@ def classify_diff(
             seen.add((domain, doc_id))
             plan.retract.append((domain, doc_id))
     plan.same_as_keys, plan.same_as_groups = _classify_same_as(vault_dir, base, head, domains)
+    plan.curation = _classify_curation(vault_dir, base, head, domains)
     return plan
 
 
@@ -1065,9 +1225,11 @@ def sync(
     if "graph" in stores:
         plan = classify_diff(vault_dir, bases["graph"], head, domains)
         unchanged = drop_unchanged(vault_dir, plan)
+        curation_unchanged = drop_unchanged_curation(vault_dir, plan)
     else:
         plan = SyncPlan(base=bases["structured"], head=head)
         unchanged = []
+        curation_unchanged = 0
     project_tables = list(plan.regenerate_tables)
     if "structured" not in stores:
         structured_tables: list[tuple[str, str]] = []
@@ -1118,6 +1280,8 @@ def sync(
             "structured_only_tables": structured_only_dry,
             "same_as_groups": plan.same_as_groups,
             "same_as_keys": len(plan.same_as_keys),
+            "curation": _curation_counts(plan.curation),
+            "curation_unchanged": curation_unchanged,
             "cursor_would_advance": not domains,
         }
 
@@ -1200,6 +1364,9 @@ def sync(
     # ── track D: every key of a same-as group added/removed/changed ─────────
     all_keys.update(tuple(k) for k in plan.same_as_keys)
 
+    # ── track C, "pre" kinds: curation the rebuild must see ──────────────────
+    all_keys.update(_apply_curation(vault_dir, plan.base, head, plan.curation, "pre"))
+
     # ── the union rebuild (§5 step 4), chunked exactly like table2graph's own ─
     #    With the same-as groups as committed at `head`, never the working
     #    tree's `same_as.yaml`; and every group touching a key is rebuilt
@@ -1213,6 +1380,9 @@ def sync(
         projection_summary = _rebuild_in_batches(sorted(all_keys), groups=head_groups)
     else:
         projection_summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": 0}
+
+    # ── track C, "post" kinds: curation that joins rebuilt entities ─────────
+    _apply_curation(vault_dir, plan.base, head, plan.curation, "post")
 
     # ── domain-scoped embed sweeps (§5 step 5) ──────────────────────────────
     touched_domains = sorted({k[2] for k in all_keys})
@@ -1248,6 +1418,8 @@ def sync(
         "structured_only_tables": structured_only,
         "same_as_groups": plan.same_as_groups,
         "same_as_keys": len(plan.same_as_keys),
+        "curation": _curation_counts(plan.curation),
+        "curation_unchanged": curation_unchanged,
         "projection": projection_summary,
         "domains_swept": touched_domains,
     }

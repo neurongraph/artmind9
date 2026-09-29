@@ -3190,3 +3190,245 @@ def test_a_same_as_dry_run_reports_what_the_real_run_rebuilds_and_writes_nothing
     assert read_state(VaultLayout(repo)) == {"last_synced_commit": base}
     real = vs.sync(repo)
     assert (real["same_as_groups"], real["same_as_keys"]) == (dry["same_as_groups"], dry["same_as_keys"])
+
+
+# ── track C: curation records (spec 2026-09-26 §7, §14 A6) ──────────────────
+
+
+class _Rows:
+    def __init__(self, rows=()):
+        self._rows = list(rows)
+
+    def single(self):
+        return self._rows[0] if self._rows else None
+
+    def data(self):
+        return list(self._rows)
+
+
+class _CurationGraph:
+    """The graph side of curation records: answers the fingerprint read from
+    `fingerprints`, records every statement, and runs write transactions
+    against itself. `events` is shared with other fakes to check ordering."""
+
+    def __init__(self, events):
+        self.calls = []
+        self.fingerprints: dict[str, str | None] = {}
+        self.events = events
+
+    def run(self, cypher, **params):
+        self.calls.append((cypher, params))
+        if "record_fingerprint AS fingerprint" in cypher:
+            return _Rows({"id": i, "fingerprint": self.fingerprints[i]} for i in params["ids"] if i in self.fingerprints)
+        if cypher.strip().startswith("MERGE (co:Conflict {id: $id})"):
+            self.events.append(("apply", params["id"]))
+        if "DETACH DELETE co" in cypher:
+            self.events.append(("remove", params["id"]))
+        return _Rows()
+
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    def applied(self):
+        return [p for c, p in self.calls if c.strip().startswith("MERGE (co:Conflict {id: $id})")]
+
+
+@pytest.fixture()
+def curation_graph(monkeypatch):
+    from contextlib import contextmanager
+
+    import artmind.graph_query as graph_query
+
+    fake = _CurationGraph(events=[])
+
+    @contextmanager
+    def _session(access_mode=None, *, timeout=None):
+        yield fake
+
+    monkeypatch.setattr(graph_query, "neo4j_session", _session)
+    return fake
+
+
+def _patch_curation_dir(monkeypatch, vault_dir):
+    import paths
+
+    target = vault_dir / ".artmind" / "data" / "curation"
+    monkeypatch.setattr(paths, "CURATION_DIR", target)
+    return target
+
+
+def _conflict(record_id, *, status="open", domains=("banking.ops", "banking.risk")):
+    return {
+        "id": record_id, "verdict": "conflicting_claims", "aspect": "limit", "claim_a": "A", "claim_b": "B",
+        "severity": "high", "entity_class": "POLICY",
+        "entities": [{"side": "a", "id": "ea", "key": "a|POLICY|x", "name": "A", "domain": domains[0]},
+                     {"side": "b", "id": "eb", "key": "b|POLICY|y", "name": "B", "domain": domains[-1]}],
+        "domains": list(domains), "evidence": [], "status": status, "resolution_reason": None,
+        "resolved_at": None, "detected_at": "t0", "detected_by_model": "m", "source": "adjudicator",
+    }
+
+
+def _curation_base(repo, monkeypatch, *records):
+    from artmind import curation_records
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    for record in records:
+        curation_records.write_record("conflicts", record)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    return vs.head_sha(repo)
+
+
+def test_classify_diff_applies_added_and_changed_records_and_removes_deleted_ones(repo, monkeypatch):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("c1"), _conflict("c2"))
+    curation_records.write_record("conflicts", _conflict("c1", status="resolved"))
+    curation_records.delete_record("conflicts", "c2")
+    curation_records.write_record("conflicts", _conflict("c3"))
+    curation = repo / ".artmind" / "data" / "curation"
+    (curation / "conflicts" / "notes.txt").write_text("ignored")
+    (curation / "unknown_kind").mkdir()
+    (curation / "unknown_kind" / "x.json").write_text("{}")
+    _commit_all(repo, "resolve c1, drop c2, add c3")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert sorted(plan.curation) == [
+        ("conflicts", "c1", "apply"), ("conflicts", "c2", "remove"), ("conflicts", "c3", "apply"),
+    ]
+
+
+def test_classify_diff_scopes_curation_by_the_records_domains(repo, monkeypatch):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("gone", domains=("legal",)))
+    curation_records.write_record("conflicts", _conflict("bank", domains=("banking.ops", "legal")))
+    curation_records.write_record("conflicts", _conflict("law", domains=("legal",)))
+    curation_records.delete_record("conflicts", "gone")
+    _commit_all(repo, "two added, one removed")
+
+    assert sorted(vs.classify_diff(repo, base, vs.head_sha(repo), domains=["banking"]).curation) == [
+        ("conflicts", "bank", "apply"),
+    ]
+    assert sorted(vs.classify_diff(repo, base, vs.head_sha(repo), domains=["legal"]).curation) == [
+        ("conflicts", "bank", "apply"), ("conflicts", "gone", "remove"), ("conflicts", "law", "apply"),
+    ]
+
+
+def test_sync_applies_a_record_as_committed_not_as_in_the_working_tree(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    curation_records.write_record("conflicts", _conflict("c1", status="resolved"))
+    _commit_all(repo, "c1 resolved")
+    committed = (repo / ".artmind" / "data" / "curation" / "conflicts" / "c1.json").read_bytes()
+    curation_records.write_record("conflicts", _conflict("c1", status="dismissed"))   # uncommitted
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    applied = curation_graph.applied()
+    assert [(p["id"], p["status"]) for p in applied] == [("c1", "resolved")]
+    assert applied[0]["fingerprint"] == curation_records.fingerprint(committed)
+    assert result["curation"] == {"conflicts": {"apply": 1, "remove": 0}}
+    assert _bookmarks(repo) == (vs.head_sha(repo), vs.head_sha(repo))
+
+
+def test_sync_removes_a_deleted_record(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("c1"))
+    curation_records.delete_record("conflicts", "c1")
+    _commit_all(repo, "drop c1")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo)
+
+    assert curation_graph.events == [("remove", "c1")]
+    assert ("MATCH (:Entity)-[r:CONFLICTS_WITH {conflict_id: $id}]->(:Entity) DELETE r", {"id": "c1"}) in curation_graph.calls
+
+
+def test_sync_skips_a_record_the_shared_graph_already_carries(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    fp = curation_records.write_record("conflicts", _conflict("c1"))
+    curation_records.write_record("conflicts", _conflict("c2"))
+    _commit_all(repo, "two conflicts detected on the other machine")
+    curation_graph.fingerprints = {"c1": fp, "c2": "an older version"}
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert [p["id"] for p in curation_graph.applied()] == ["c2"]
+    assert result["curation_unchanged"] == 1
+    reads = [p for c, p in curation_graph.calls if "record_fingerprint AS fingerprint" in c]
+    assert reads == [{"ids": ["c1", "c2"]}], "one fingerprint read for the kind"
+
+
+def test_conflicts_are_applied_after_the_projection_rebuild(repo, monkeypatch, curation_graph):
+    """CONFLICTS_WITH joins two :Entity nodes the rebuild creates on a local
+    graph; applied first, it would MATCH nothing."""
+    from artmind import curation_records
+    import artmind.table2graph as t2g
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    curation_records.write_record("conflicts", _conflict("c1"))
+    _commit_all(repo, "a doc and a conflict")
+    _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc={"doc1": [["a", "POLICY", "x"]]})
+    monkeypatch.setattr(
+        t2g, "_rebuild_in_batches",
+        lambda keys, groups=None: curation_graph.events.append(("rebuild", len(keys))) or {"keys": len(keys)},
+    )
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert curation_graph.events == [("rebuild", 1), ("apply", "c1")]
+
+
+def test_a_curation_dry_run_reports_what_the_real_run_applies_and_writes_nothing(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("c1"))
+    curation_records.write_record("conflicts", _conflict("c2"))
+    curation_records.delete_record("conflicts", "c1")
+    _commit_all(repo, "c2 in, c1 out")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+
+    assert dry["curation"] == {"conflicts": {"apply": 1, "remove": 1}}
+    assert curation_graph.events == []
+    real = vs.sync(repo)
+    assert real["curation"] == dry["curation"]
+    assert sorted(curation_graph.events) == [("apply", "c2"), ("remove", "c1")]
+
+
+def test_a_record_whose_id_disagrees_with_its_file_name_fails_the_sync(repo, monkeypatch, curation_graph):
+    base = _curation_base(repo, monkeypatch)
+    folder = repo / ".artmind" / "data" / "curation" / "conflicts"
+    folder.mkdir(parents=True, exist_ok=True)
+    import json
+    (folder / "c1.json").write_text(json.dumps(_conflict("someone-else")))
+    _commit_all(repo, "a hand-edited record")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="not a conflicts record for id 'c1'"):
+        vs.sync(repo)
+    assert _bookmarks(repo) == (None, None)
