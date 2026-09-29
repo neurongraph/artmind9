@@ -292,8 +292,9 @@ GITIGNORE_BLOCK = """\
 .artmind/data/kg/*/table__*/
 # Atomic-write scratch (R2): a staging folder's `.artmind-tmp`/`.artmind-old`
 # sibling folder, and a scratch FILE -- a curation record's temp file, or a
-# note rewrite's (`vault migrate-frontmatter`). A crash can leave one behind;
-# the next write of that document or record removes it.
+# note rewrite's (`vault migrate-frontmatter`). A crash can leave one behind:
+# git ignores it and it is harmless -- delete it. (A note rewrite's scratch
+# file has a random name, so a later write does not reuse or remove it.)
 .artmind/data/**/*.artmind-tmp/
 .artmind/data/**/*.artmind-old/
 .artmind/data/**/*.artmind-tmp
