@@ -1685,6 +1685,12 @@ def retract_document(doc_id: str, domain: str) -> dict:
             "MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat SET c:UserChatHistory",
             doc_id=doc_id,
         )
+        # A retracted document is no longer "retired by a record": removing
+        # that record later must not bring it back (`lifecycle_records.remove`).
+        tx.run(
+            "MATCH (d:DocumentHistory {id: $doc_id}) REMOVE d.lifecycle_record, d.lifecycle_fingerprint",
+            doc_id=doc_id,
+        )
         return {"doc_id": doc_id, "domain": domain, "affected_keys": sorted(keys), **retracted}
 
     with neo4j_session() as session:
@@ -2773,8 +2779,10 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     summary["retracted"] = _retract_prior_version(tx, domain, doc_id)
 
     # 3. Document + chunks. A re-ingest of a document `docs retire` had moved
-    #    to :DocumentHistory must find and revive that same node, not create a
-    #    duplicate under :Document — see _merge_relabeled.
+    #    to :DocumentHistory revives that same node rather than creating a
+    #    duplicate under :Document (see _merge_relabeled); when the working
+    #    tree holds a lifecycle record for it, step 5b re-retires the node in
+    #    this same transaction.
     _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False)
     # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
     #     sync` skips a committed folder whose fingerprint the graph already
@@ -2852,6 +2860,16 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         tx, staged["relationships"], document, observations
     )
 
+    # 5b. A retired document stays retired (spec 2026-09-26 §15 A10): step 3
+    #     revived its node, so a lifecycle record for it moves the version
+    #     just written straight back to history. `affected_keys` below already
+    #     holds its keys, so the rebuild drops what only it asserted.
+    if staged.get("retired") and source_label == "Document":
+        from artmind.lifecycle import _transition
+
+        _transition(tx, doc_id, to_history=True, rebuild=False)
+        summary["retired"] = True
+
     # 6. The affected-key union, then the rebuild — which now also aggregates
     #    RELATES_TO edges for every key it touches.
     keys = projection.affected_keys(
@@ -2886,8 +2904,12 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
     `fingerprint` is taken from the files' bytes as they are on disk, before
     any parsing (`sync_state.staging_fingerprint`), so it equals what `vault
     sync` computes from the same files' committed blobs.
+
+    `retired` says whether this working tree holds a lifecycle record
+    retiring the document (`artmind.lifecycle_records`), which the commit
+    honours.
     """
-    from artmind import sync_state
+    from artmind import lifecycle_records, sync_state
 
     def _load(name: str, default=None):
         path = doc_kg_dir / name
@@ -2909,13 +2931,17 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
             for chunk in chunks:
                 if "embedding" not in chunk and chunk.get("id") in sidecar:
                     chunk["embedding"] = sidecar[chunk["id"]]
+        document = _load("document.json")
         return {
             "domain": domain,
-            "document": _load("document.json"),
+            "document": document,
             "chunks": chunks,
             "observations": _load("observations.json", []),
             "relationships": _load("relationships.json", []),
             "fingerprint": sync_state.folder_fingerprint(doc_kg_dir),
+            "retired": lifecycle_records.retired_in_working_tree(
+                document.get("id") if isinstance(document, dict) else None
+            ),
         }
     except Exception as e:
         logger.error("Failed to load KG JSON files from {}: {}", doc_kg_dir, e)

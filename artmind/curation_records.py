@@ -60,6 +60,9 @@ class Kind:
       another machine already applied, and `vault status` count only what is
       really pending.
     - `domains(record)`: the domains a record belongs to, for `--domain`.
+    - `reapply_for(doc_ids)` (optional): ids of this kind's records to apply
+      again after `vault sync` replays those documents -- for a kind whose
+      effect a document replay would undo (a retirement).
     """
 
     name: str
@@ -68,13 +71,14 @@ class Kind:
     remove: Callable[[Any, dict], set]
     read_fingerprints: Callable[..., dict]
     domains: Callable[[dict], list]
+    reapply_for: Callable[[list], list] | None = None
 
 
 def kinds() -> dict[str, Kind]:
     """Every registered kind, by directory name, in apply order."""
-    from artmind import conflict_records, supersession_records
+    from artmind import conflict_records, lifecycle_records, supersession_records
 
-    return {kind.name: kind for kind in (supersession_records.KIND, conflict_records.KIND)}
+    return {kind.name: kind for kind in (lifecycle_records.KIND, supersession_records.KIND, conflict_records.KIND)}
 
 
 def curation_dir() -> Path:

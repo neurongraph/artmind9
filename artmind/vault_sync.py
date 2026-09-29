@@ -919,6 +919,29 @@ def drop_unchanged_curation(vault_dir: Path, plan: "SyncPlan", *, timeout: float
     return len(unchanged)
 
 
+def reapply_for_replayed(vault_dir: Path, plan: "SyncPlan") -> int:
+    """Add to `plan.curation` the records a kind asks to re-apply after the
+    documents `plan` replays (`Kind.reapply_for`) -- a replay revives a
+    document's node, and a retirement committed at `head` must still win.
+    Only records that exist at `head`; returns how many were added."""
+    from artmind import curation_records
+
+    known = curation_records.kinds()
+    hooks = {name: kind for name, kind in known.items() if kind.reapply_for}
+    if not hooks or not plan.replay_docs or _curation_rel(vault_dir) is None:
+        return 0
+    doc_ids = [doc_id for doc_id, _ in committed_fingerprints(vault_dir, plan.head, plan.replay_docs).values() if doc_id]
+    wanted = [(name, rid) for name, kind in hooks.items() for rid in kind.reapply_for(doc_ids)]
+    present = _blobs_at(vault_dir, plan.head, [_curation_relpath(vault_dir, n, r) for n, r in wanted])
+    added = 0
+    for name, rid in wanted:
+        item = (name, rid, "apply")
+        if _curation_relpath(vault_dir, name, rid) in present and item not in plan.curation:
+            plan.curation.append(item)
+            added += 1
+    return added
+
+
 def _curation_counts(items: list[tuple[str, str, str]]) -> dict[str, dict[str, int]]:
     counts: dict[str, dict[str, int]] = {}
     for kind, _, action in items:
@@ -1241,6 +1264,7 @@ def sync(
         plan = classify_diff(vault_dir, bases["graph"], head, domains)
         unchanged = drop_unchanged(vault_dir, plan)
         curation_unchanged = drop_unchanged_curation(vault_dir, plan)
+        reapply_for_replayed(vault_dir, plan)
     else:
         plan = SyncPlan(base=bases["structured"], head=head)
         unchanged = []

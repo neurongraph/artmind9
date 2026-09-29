@@ -3765,3 +3765,168 @@ def test_sync_applies_and_removes_supersession_records(repo, monkeypatch, curati
     recomputes = [p for c, p in curation_graph.calls if "older.superseded_by = CASE" in c]
     assert recomputes == [{"older": "d2"}, {"older": "d1"}], "each apply and removal re-derives its older document"
     assert result["curation"] == {"supersessions": {"apply": 1, "remove": 1}}
+
+
+# ── lifecycle records: a retirement travels, and survives a replay ───────────
+
+
+def _lifecycle(doc_id, domain="banking"):
+    from artmind import lifecycle_records
+
+    return {"id": lifecycle_records.record_id(doc_id), "doc_id": doc_id, "domain": domain, "status": "retired"}
+
+
+def test_sync_re_applies_a_committed_retirement_after_replaying_the_document(repo, monkeypatch, curation_graph):
+    """The document's folder changed but its (older) lifecycle record did
+    not: the replay revives the node, so the record must be applied again."""
+    from artmind import curation_records
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1, retired")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"id": "o2"}]')
+    _commit_all(repo, "doc1 re-extracted")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+    result = vs.sync(repo)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"]
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"]
+    assert dry["curation"] == result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_sync_restores_a_document_whose_lifecycle_record_was_deleted(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "retired")
+    base = vs.head_sha(repo)
+    curation_records.delete_record("lifecycle", _lifecycle("docid-1")["id"])
+    _commit_all(repo, "docs restore")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo)
+
+    guards = [p for c, p in curation_graph.calls if "RETURN count(d) AS n" in c and "lifecycle_record" in c]
+    assert guards == [{"doc_id": "docid-1", "id": _lifecycle("docid-1")["id"]}], "the doc id comes from the record at base"
+
+
+def _replay_setup(repo, monkeypatch, *, retire_at_base):
+    """doc1 committed (retired at base when asked), then re-extracted; the
+    state cursor sits at the first commit. Returns the base commit."""
+    from artmind import curation_records
+    from artmind.vault import VaultLayout, write_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    if retire_at_base:
+        curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"id": "o2"}]')
+    return kg_dir, base
+
+
+def test_a_replayed_document_with_no_retirement_at_head_adds_no_curation(repo, monkeypatch, curation_graph):
+    from artmind.vault import VaultLayout, write_state
+
+    _, base = _replay_setup(repo, monkeypatch, retire_at_base=False)
+    _commit_all(repo, "doc1 re-extracted")
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"]
+    assert result["curation"] == {}
+    assert not [p for c, p in curation_graph.calls if "lifecycle_record" in c]
+
+
+def test_a_retirement_changed_with_its_replayed_document_is_applied_once(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+    from artmind.vault import VaultLayout, write_state
+
+    _, base = _replay_setup(repo, monkeypatch, retire_at_base=False)
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1 re-extracted and retired in one commit")
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"], "the diff already names the record; the replay hook adds no second copy"
+    assert result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def _two_retired_docs(repo, monkeypatch, *, second_domain="banking", re_extract=("doc1", "doc2")):
+    """doc1 (banking) and doc2 are both retired at base, then the listed ones
+    are re-extracted; the state cursor sits at the base commit."""
+    from artmind import curation_records
+    from artmind.vault import VaultLayout, write_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, second_domain, "doc2", "docid-2")
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    curation_records.write_record("lifecycle", _lifecycle("docid-2", domain=second_domain))
+    _commit_all(repo, "both retired")
+    base = vs.head_sha(repo)
+    for name in re_extract:
+        folder = kg_dir / ("banking" if name == "doc1" else second_domain) / name
+        (folder / "observations.json").write_text('[{"id": "o2"}]')
+    _commit_all(repo, "re-extracted")
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+
+def test_a_retirement_is_not_re_applied_for_a_document_this_run_did_not_replay(repo, monkeypatch, curation_graph):
+    _two_retired_docs(repo, monkeypatch, re_extract=("doc1",))
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"]
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"], "docid-2 was not replayed, so its record stays untouched"
+    assert result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_a_retirement_re_applied_after_a_replay_respects_the_domain_scope(repo, monkeypatch, curation_graph):
+    _two_retired_docs(repo, monkeypatch, second_domain="legal")
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, domains=["banking"])
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"], "legal is out of scope"
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"], "the legal document's record is not applied under --domain banking"
+    assert result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_a_scope_with_no_replayed_document_re_applies_nothing(repo, monkeypatch, curation_graph):
+    _two_retired_docs(repo, monkeypatch, second_domain="legal")
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, domains=["other"])
+
+    assert calls["write_to_neo4j"] == []
+    assert not [p for c, p in curation_graph.calls if "lifecycle_record" in c]
+    assert result["curation"] == {}
