@@ -1750,6 +1750,19 @@ def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
     return _resolve_table_row(table_name, domain)["id"]
 
 
+def _reexport_table_meta(table_id: int) -> None:
+    """After a registry-only curation change (grain, bridge columns,
+    column->entityClass mappings, re-proposed classifications), rewrite that
+    table's `.meta.json` so the change travels with Obsidian Git's next
+    commit (spec 2026-09-26 §15 A10). Best-effort, exactly like an ingest's
+    own export: the registry write already happened and must not fail."""
+    from artmind.structured.pipeline import _export_text_best_effort
+
+    row = structured_registry.get_table_by_id(table_id)
+    if row is not None:
+        _export_text_best_effort(row["domain"], [row["table_name"]], meta_only=True)
+
+
 def _ctx_table_id(ctx: click.Context) -> int:
     """Resolve (once, then cache) the TABLE that ``_TableFirstGroup`` peeled off.
 
@@ -1788,6 +1801,7 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
                 structured_registry.set_mapping_confirmed(
                     table_id, m["column"], m["entity_class"], True
                 )
+        _reexport_table_meta(table_id)
     _echo_json({"table": table, "mappings": structured_registry.list_mappings(table_id)}, compact)
 
 
@@ -1801,6 +1815,7 @@ def db_mappings_set(ctx, column, entity_class, confidence, compact):
     """Upsert a confirmed column-to-entityClass mapping."""
     table_id = _ctx_table_id(ctx)
     structured_registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=True)
+    _reexport_table_meta(table_id)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
@@ -1826,6 +1841,7 @@ def db_mappings_confirm(ctx, column, entity_class, compact):
         raise click.ClickException(
             f"no mapping found for column '{column}' / entityClass '{entity_class}'"
         )
+    _reexport_table_meta(table_id)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
@@ -1846,6 +1862,7 @@ def db_mappings_clear(ctx, column, compact):
     """
     table_id = _ctx_table_id(ctx)
     structured_registry.clear_mappings(table_id, column)
+    _reexport_table_meta(table_id)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
@@ -1902,6 +1919,7 @@ def db_bridge_confirm(table, column, domain, compact):
             f"no bridge column '{column}' on table '{table}' — run 'db grain {table}'"
             " to see which columns have a bridge role proposed"
         )
+    _reexport_table_meta(row["id"])
     _echo_json(
         {
             "table": row["table_name"],
@@ -1926,6 +1944,7 @@ def db_bridge_clear(table, column, domain, compact):
     """
     row = _resolve_table_row(table, domain)
     structured_registry.clear_column_roles(row["id"], column)
+    _reexport_table_meta(row["id"])
     _echo_json(
         {
             "table": row["table_name"],
@@ -2013,6 +2032,7 @@ def db_propose(table, domain, steps, redo, model, compact):
     result = propose_table_semantics(
         row["id"], row["domain"], steps=list(steps) or None, redo=redo, model=model
     )
+    _reexport_table_meta(row["id"])
     _echo_json(result, compact)
 
 
@@ -2034,6 +2054,7 @@ def db_grain(table, domain, grain, compact):
             structured_registry.set_grain(row["id"], grain, confirmed=True)
         except ValueError as exc:
             raise click.ClickException(str(exc)) from exc
+        _reexport_table_meta(row["id"])
         row = structured_registry.get_table_by_id(row["id"])
     _echo_json(
         {

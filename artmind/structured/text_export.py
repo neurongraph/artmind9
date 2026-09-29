@@ -217,9 +217,16 @@ def load_structured_dump(src_dir: Path) -> dict:
     return dump
 
 
-def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] | None = None) -> dict:
+def export_structured_text(
+    dest_dir: Path | None = None, *, tables: list[dict] | None = None, meta_only: bool = False
+) -> dict:
     """Write CSV + per-table `.meta.json` for `tables` (default: every registered
     table) to `dest_dir` (default: `paths.STRUCTURED_TEXT_DIR`).
+
+    `meta_only=True` rewrites only the `.meta.json` of a table whose CSV is
+    already there -- what a registry-only curation change (`db grain`, `db
+    mappings`, `db bridge`, `db propose`) needs, without re-dumping every
+    row. A table with no CSV yet still gets one, so it travels at all.
 
     Row order is `ORDER BY ALL` (every column, left to right) -- deterministic
     across re-exports of unchanged data, so a re-export that changed nothing
@@ -236,11 +243,17 @@ def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] |
 
     target_tables = tables if tables is not None else registry.list_tables()
 
-    ds = DuckDBDatasource()
-    ds.ensure_views(registry.list_tables())
+    csv_tables = [
+        t for t in target_tables
+        if not meta_only or not _table_csv_path(dest_dir, t["domain"], t["table_name"]).is_file()
+    ]
+
+    if csv_tables:
+        ds = DuckDBDatasource()
+        ds.ensure_views(registry.list_tables())
 
     written: list[Path] = []
-    for table in target_tables:
+    for table in csv_tables:
         csv_path = _table_csv_path(dest_dir, table["domain"], table["table_name"])
         csv_path.parent.mkdir(parents=True, exist_ok=True)
         view = view_name(table["domain"], table["table_name"])

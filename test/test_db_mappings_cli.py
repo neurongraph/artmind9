@@ -237,3 +237,215 @@ def test_db_mappings_subcommands_still_reject_unknown_table(ingested, argv):
 # row rather than overwriting the first (see register_table in
 # artmind/structured/registry.py). _resolve_table_id's ambiguity guard exists
 # to handle exactly that case, but isn't exercised here.
+
+
+# ── a registry-only curation change travels as the table's .meta.json ────────
+
+
+import json
+
+
+def _meta():
+    import paths
+
+    return json.loads((paths.STRUCTURED_TEXT_DIR / "banking" / "products.meta.json").read_text())
+
+
+def _csv_mtime():
+    import paths
+
+    return (paths.STRUCTURED_TEXT_DIR / "banking" / "products.csv").stat().st_mtime_ns
+
+
+def test_confirming_a_mapping_re_exports_only_the_tables_meta(ingested):
+    import artmind.cli as cli
+
+    before = _csv_mtime()
+    result = CliRunner().invoke(
+        cli.cli, ["db", "mappings", "products", "confirm", "--column", "name", "--entityClass", "PRODUCT"],
+    )
+
+    assert result.exit_code == 0, result.output
+    assert [(m["column"], m["entity_class"], m["confirmed"]) for m in _meta()["column_mappings"]] == [
+        ("name", "PRODUCT", 1)
+    ]
+    assert _csv_mtime() == before, "a curation change never re-dumps the rows"
+
+
+def test_set_clear_and_accept_proposed_re_export_the_meta(ingested):
+    import artmind.cli as cli
+
+    runner = CliRunner()
+    runner.invoke(cli.cli, ["db", "mappings", "products", "set", "--column", "id", "--entityClass", "PRODUCT_ID"])
+    assert ("id", "PRODUCT_ID", 1) in [(m["column"], m["entity_class"], m["confirmed"]) for m in _meta()["column_mappings"]]
+
+    runner.invoke(cli.cli, ["db", "mappings", "products", "--acceptProposed"])
+    assert all(m["confirmed"] == 1 for m in _meta()["column_mappings"])
+
+    runner.invoke(cli.cli, ["db", "mappings", "products", "clear"])
+    assert _meta()["column_mappings"] == []
+
+
+def test_confirming_grain_and_bridge_columns_re_exports_the_meta(ingested):
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table = registry.get_table("products", domain="banking")
+    registry.upsert_column_role(table["id"], "name", "term", 0.9, confirmed=False)
+    runner = CliRunner()
+
+    runner.invoke(cli.cli, ["db", "grain", "products", "--set", "lookup"])
+    assert (_meta()["table"]["grain"], _meta()["table"]["grain_confirmed"]) == ("lookup", 1)
+
+    runner.invoke(cli.cli, ["db", "bridge", "confirm", "--table", "products", "--column", "name"])
+    assert [(r["column"], r["confirmed"]) for r in _meta()["column_roles"]] == [("name", 1)]
+
+    runner.invoke(cli.cli, ["db", "bridge", "clear", "--table", "products"])
+    assert _meta()["column_roles"] == []
+
+
+def test_re_proposing_classifications_re_exports_the_meta(ingested, monkeypatch):
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    def _propose(table_id, domain, steps=None, redo=False, model=None):
+        registry.upsert_mapping(table_id, "id", "PRODUCT_ID", 0.7, confirmed=False)
+        return {"steps": ["mapping"]}
+
+    monkeypatch.setattr("artmind.structured.semantics.propose_table_semantics", _propose)
+
+    result = CliRunner().invoke(cli.cli, ["db", "propose", "products"])
+
+    assert result.exit_code == 0, result.output
+    assert ("id", "PRODUCT_ID", 0) in [(m["column"], m["entity_class"], m["confirmed"]) for m in _meta()["column_mappings"]]
+
+
+def test_a_meta_only_export_still_writes_a_missing_csv(ingested):
+    import paths
+    from artmind.structured import registry, text_export
+
+    csv = paths.STRUCTURED_TEXT_DIR / "banking" / "products.csv"
+    csv.unlink()
+
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")], meta_only=True)
+
+    assert csv.is_file()
+
+
+# A failed or no-op write must not re-export: nothing changed, and a failed
+# command must leave the working tree alone.
+
+
+def _record_reexports(monkeypatch):
+    import artmind.cli as cli
+
+    calls = []
+    monkeypatch.setattr(cli, "_reexport_table_meta", lambda table_id: calls.append(table_id), raising=False)
+    return calls
+
+
+def test_a_failed_curation_write_does_not_re_export(ingested, monkeypatch):
+    import artmind.cli as cli
+
+    calls = _record_reexports(monkeypatch)
+    runner = CliRunner()
+
+    confirm = runner.invoke(
+        cli.cli, ["db", "mappings", "products", "confirm", "--column", "nope", "--entityClass", "NOPE"]
+    )
+    bridge = runner.invoke(cli.cli, ["db", "bridge", "confirm", "--table", "products", "--column", "nope"])
+    grain = runner.invoke(cli.cli, ["db", "grain", "products", "--set", "normative"])
+    unknown = runner.invoke(cli.cli, ["db", "mappings", "no_such_table", "set", "--column", "a", "--entityClass", "B"])
+
+    assert [r.exit_code != 0 for r in (confirm, bridge, grain, unknown)] == [True, True, True, True]
+    assert calls == []
+
+
+def test_read_only_invocations_do_not_re_export(ingested, monkeypatch):
+    import artmind.cli as cli
+
+    calls = _record_reexports(monkeypatch)
+    runner = CliRunner()
+
+    runner.invoke(cli.cli, ["db", "mappings", "products"])
+    runner.invoke(cli.cli, ["db", "grain", "products"])
+    runner.invoke(cli.cli, ["db", "bridge"])
+
+    assert calls == []
+
+
+def test_each_curation_command_re_exports_its_own_table_once(ingested, monkeypatch):
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table_id = registry.get_table("products", domain="banking")["id"]
+    registry.upsert_column_role(table_id, "name", "term", 0.9, confirmed=False)
+    calls = _record_reexports(monkeypatch)
+    runner = CliRunner()
+
+    runner.invoke(cli.cli, ["db", "mappings", "products", "set", "--column", "id", "--entityClass", "PRODUCT_ID"])
+    runner.invoke(cli.cli, ["db", "mappings", "products", "clear"])
+    runner.invoke(cli.cli, ["db", "grain", "products", "--set", "lookup"])
+    runner.invoke(cli.cli, ["db", "bridge", "clear", "--table", "products"])
+
+    assert calls == [table_id] * 4
+
+
+def test_a_failing_meta_export_warns_but_never_fails_the_command(ingested, monkeypatch):
+    import artmind.cli as cli
+    from artmind.structured import registry, text_export
+    from loguru import logger
+
+    def _boom(*args, **kwargs):
+        raise OSError("disk full")
+
+    monkeypatch.setattr(text_export, "export_structured_text", _boom)
+    warnings = []
+    sink = logger.add(lambda m: warnings.append(str(m)), level="WARNING")
+    try:
+        result = CliRunner().invoke(
+            cli.cli, ["db", "mappings", "products", "confirm", "--column", "name", "--entityClass", "PRODUCT"],
+        )
+    finally:
+        logger.remove(sink)
+
+    assert result.exit_code == 0, result.output
+    table = registry.get_table("products", domain="banking")
+    assert [(m["column"], m["confirmed"]) for m in registry.list_mappings(table["id"])] == [("name", 1)]
+    assert any("text export failed" in w and "disk full" in w for w in warnings)
+
+
+def test_a_meta_only_export_is_byte_stable_and_leaves_an_existing_csv_alone(ingested):
+    import paths
+    from artmind.structured import registry, text_export
+
+    banking = paths.STRUCTURED_TEXT_DIR / "banking"
+    table = registry.get_table("products", domain="banking")
+    csv_before = (banking / "products.csv").read_bytes()
+    (banking / "products.csv").write_text("sentinel\n")  # would be overwritten by a full export
+
+    text_export.export_structured_text(tables=[table], meta_only=True)
+    first = (banking / "products.meta.json").read_bytes()
+    text_export.export_structured_text(tables=[table], meta_only=True)
+
+    assert (banking / "products.meta.json").read_bytes() == first
+    assert (banking / "products.csv").read_text() == "sentinel\n"
+    assert csv_before != b"sentinel\n"
+
+
+def test_a_meta_only_export_never_opens_duckdb_when_every_csv_exists(ingested, monkeypatch):
+    import paths
+    from artmind.structured import registry, text_export
+
+    banking = paths.STRUCTURED_TEXT_DIR / "banking"
+    assert (banking / "products.csv").is_file()
+    (banking / "products.meta.json").unlink()
+
+    def _boom(*args, **kwargs):
+        raise AssertionError("DuckDB must stay unopened: there is no CSV to write")
+
+    monkeypatch.setattr(text_export, "DuckDBDatasource", _boom)
+
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")], meta_only=True)
+
+    assert (banking / "products.meta.json").is_file()
