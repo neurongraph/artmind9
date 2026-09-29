@@ -26,8 +26,13 @@ from artmind.extraction import (
 from artmind.graph_query import neo4j_session
 from artmind.ingest import (
     RESERVED_REL_TYPES,
+    UPDATE_FOLDER_PREFIX,
+    USER_CHAT_SOURCE_KIND,
+    _commit_document_tx,
+    _load_staged,
     _sanitize_label,
     embed_missing_entity_embeddings,
+    write_staging,
 )
 from paths import DOMAIN_SCHEMAS_DIR
 from utils.functions import load_env, resolve_llm_model
@@ -260,6 +265,26 @@ def _resolve_target_identity(
     return None
 
 
+def user_chat_id(session_id: str, draft_id: int | str) -> str:
+    """`update:<session_id>:<draft_id>` -- the UserChat's id and its staging
+    folder's document id.
+
+    Deterministic per confirmed draft, so a retried `confirm` of the same
+    draft rewrites the same folder and MERGEs onto the same nodes rather than
+    duplicating the fact. Unique across machines: `session_id` is a uuid4
+    minted once by `update draft`, and `draft_id` is that draft's row id in
+    the registry of the one machine the session lives on."""
+    return f"update:{session_id}:{draft_id}"
+
+
+def update_folder(domain: str, session_id: str, draft_id: int | str) -> Path:
+    """`kg/<domain>/update__<session_id>__<draft_id>/` -- one staging folder
+    per confirmed draft (a session may confirm several)."""
+    import paths
+
+    return Path(paths.KG_DIR) / domain / f"{UPDATE_FOLDER_PREFIX}{session_id}__{draft_id}"
+
+
 def write_user_chat(
     session_id: str,
     raw_text: str,
@@ -268,8 +293,19 @@ def write_user_chat(
     resolutions: list[dict],
     extracted_entities: list[dict],
     extracted_relationships: list[dict],
+    *,
+    draft_id: int | str | None = None,
 ) -> dict:
     """Record a UserChat and the Observations it asserts, then rebuild.
+
+    **The graph must be rebuildable from the vault (spec 2026-09-26 §7, D6).**
+    The chat is written as a staging folder,
+    `kg/<domain>/update__<session_id>__<draft_id>/` (`document.json` holding
+    the UserChat, `observations.json`, `relationships.json`), atomically, and
+    then committed from that folder through `ingest._commit_document_tx` --
+    exactly what `vault sync` does with the same folder on another machine.
+    One code path, so the replay produces the graph this write did. The
+    fingerprint the commit records lets a shared graph's `vault sync` skip it.
 
     A conversational correction is a **source**, exactly like a document, and
     it earns its authority the same way every other source does: its
@@ -288,7 +324,6 @@ def write_user_chat(
     rebuilds, never mutates the retracted observation — see
     `projection.apply_retractions`.
     """
-    from artmind import projection
     from artmind.observations import aggregate_key, build_observation, key_string
     from artmind.temporal import load_schema
 
@@ -297,7 +332,8 @@ def write_user_chat(
     embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
     now = datetime.now().isoformat()
     today = date.today().isoformat()
-    chat_id = uuid.uuid4().hex
+    draft_part = draft_id if draft_id is not None else uuid.uuid4().hex[:12]
+    chat_id = user_chat_id(session_id, draft_part)
     embedding = embed_text(embed_model, raw_text)
     input_hint = _classify_input(raw_text)
     schema = load_schema(domain)
@@ -310,20 +346,6 @@ def write_user_chat(
 
     with neo4j_session() as session:
         _ensure_user_chat_schema(session, embedding_dim)
-
-        session.run(
-            """
-            CREATE (c:UserChat {
-                id: $id, raw_text: $raw_text, embedding: $embedding,
-                _domain: $domain, session_id: $session_id,
-                input_hint: $input_hint, created_at: $now, created_by: $user_id,
-                _status: 'latest', _valid_from: $today
-            })
-            """,
-            id=chat_id, raw_text=raw_text, embedding=embedding,
-            domain=domain, session_id=session_id, today=today,
-            input_hint=input_hint, now=now, user_id=user_id,
-        )
 
         for res in resolutions:
             temp_id = res["entity_temp_id"]
@@ -425,45 +447,44 @@ def write_user_chat(
                 observations.append(retraction)
                 nodes_retracted += 1
 
-        # One transaction: the observations, their relationship observations,
-        # and the rebuild they dirty — all three, together, same as a document
-        # commit. Relationships are written BEFORE the rebuild (not after, as
-        # the pre-Phase-4 direct-to-Entity writer required): the rebuild's
-        # relationship aggregation reads ASSERTS_RELATION, so it has to exist
-        # first, and both endpoints are always in `keys` already (both are
-        # entities this same chat just observed).
-        def _write(tx):
-            for observation in observations:
-                tx.run(
-                    "MERGE (o:Observation {id: $id}) SET o = $props",
-                    id=observation["id"], props=observation,
-                )
-                tx.run(
-                    """
-                    MATCH (o:Observation {id: $id})
-                    MATCH (c:UserChat {id: $chat_id})
-                    MERGE (o)-[:EXTRACTED_FROM]->(c)
-                    """,
-                    id=observation["id"], chat_id=chat_id,
-                )
-            rel_written = _write_chat_relation_observations(
-                tx, extracted_relationships, resolved, chat_id,
-            )
-            keys = {
-                tuple(o["key"].split("|")) for o in observations
-                if o.get("key") and o["key"].count("|") == 2
-            }
-            # Retractions run before the rebuild, same ordering as a document
-            # commit's step 4b — the target's key may differ from anything
-            # else this chat touched.
-            keys |= projection.apply_retractions(tx, observations)
-            return (
-                projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)),
-                rel_written,
-            )
+        # The vault first, then the graph FROM the vault: the folder is
+        # written atomically (spec R2), read back exactly as `vault sync`
+        # reads it, and committed in one transaction -- observations,
+        # retractions, relationship observations and the rebuild they dirty,
+        # same as a document commit (`ingest._commit_document_tx`).
+        folder = update_folder(domain, session_id, draft_part)
+        document = {
+            "id": chat_id,
+            "source_kind": USER_CHAT_SOURCE_KIND,
+            "name": f"update {session_id[:8]} #{draft_part}",
+            "_domain": domain,
+            "session_id": session_id,
+            "raw_text": raw_text,
+            "input_hint": input_hint,
+            "created_at": now,
+            "created_by": user_id,
+            "_status": "latest",
+            "_valid_from": today,
+        }
+        write_staging(folder, {
+            "document.json": document,
+            "chunks.json": [],
+            "observations.json": observations,
+            "relationships.json": _chat_relationships(extracted_relationships, resolved, chat_id),
+        })
+        staged = _load_staged(folder, domain)
+        if not staged or not staged.get("document"):
+            raise RuntimeError(f"could not read the update's staging folder back from {folder}")
+        summary = session.execute_write(_commit_document_tx, staged, False)
 
-        _, rel_count = session.execute_write(_write)
-
+        # The vector is derived (text + local model), so it is never staged --
+        # like a chunk's. This machine has it already; `vault sync` embeds
+        # the chat on the others (`embed_user_chats`).
+        if embedding:
+            session.run(
+                "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding",
+                id=chat_id, embedding=embedding,
+            )
         embed_missing_entity_embeddings(session, domain, embed_model)
 
     return {
@@ -472,8 +493,38 @@ def write_user_chat(
         "nodes_updated": nodes_updated,
         "nodes_retracted": nodes_retracted,
         "observations_written": len(observations),
-        "relationships_written": rel_count,
+        "relationships_written": summary["relationships"],
+        "staging_dir": str(folder),
     }
+
+
+def embed_user_chats(*, domain: str | None = None, chat_ids: list[str] | None = None) -> int:
+    """Embed every `:UserChat` with no vector yet -- in `domain`, or among
+    `chat_ids` -- and return how many were embedded. `vault sync` runs this
+    for the update folders it replayed: a chat's vector is never staged."""
+    env = load_env()
+    embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
+    embedded = 0
+    with neo4j_session() as session:
+        rows = session.run(
+            """
+            MATCH (c:UserChat)
+            WHERE c.embedding IS NULL
+              AND ($domain IS NULL OR c._domain = $domain)
+              AND ($ids IS NULL OR c.id IN $ids)
+            RETURN c.id AS id, c.raw_text AS raw_text
+            """,
+            domain=domain, ids=chat_ids,
+        ).data()
+        for row in rows:
+            vector = embed_text(embed_model, row.get("raw_text") or "")
+            if vector:
+                session.run(
+                    "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding",
+                    id=row["id"], embedding=vector,
+                )
+                embedded += 1
+    return embedded
 
 
 def _stored_identity(key: str | None) -> str | None:
@@ -520,19 +571,19 @@ def _retraction_target_ids(retracts) -> list[str]:
     return out
 
 
-def _write_chat_relation_observations(tx, extracted_relationships, resolved, chat_id) -> int:
-    """The immutable `ASSERTS_RELATION` record of relationships a chat asserted,
-    between the Observations this chat just wrote — never a direct Entity-Entity
-    write (see `ingest._write_relation_observations`, the document-ingest
-    analogue this mirrors). The projection rebuild aggregates these into
-    `RELATES_TO` the same way it does for document-sourced relationships;
-    nothing here has to know how they'll be aggregated.
+def _chat_relationships(extracted_relationships, resolved, chat_id) -> list[dict]:
+    """The relationships a chat asserted, in the staging shape
+    `ingest._write_relation_observations` commits: between the Observations
+    this chat records (named by id, so nothing is re-resolved by name on
+    replay), chunk- and doc-scoped to the chat. That writer turns each into
+    an immutable `ASSERTS_RELATION` edge with id
+    `relation_observation_id(chat_id, source, rel_type, target)` -- never a
+    direct Entity-Entity write.
 
-    Runs inside the caller's transaction, before the rebuild.
+    A relationship naming an unresolved endpoint, a self-loop, or a reserved
+    rel_type is dropped here, with the reserved case logged.
     """
-    from artmind.observations import relation_observation_id
-
-    written = 0
+    staged = []
     for rel in extracted_relationships:
         src = resolved.get(rel.get("source_temp_id", ""))
         tgt = resolved.get(rel.get("target_temp_id", ""))
@@ -546,19 +597,16 @@ def _write_chat_relation_observations(tx, extracted_relationships, resolved, cha
                 src["name"], rel_type, tgt["name"],
             )
             continue
-        edge_id = relation_observation_id(chat_id, src["observation_id"], rel_type, tgt["observation_id"])
-        tx.run(
-            """
-            MATCH (s:Observation {id: $src})
-            MATCH (t:Observation {id: $tgt})
-            MERGE (s)-[r:ASSERTS_RELATION {id: $id}]->(t)
-            SET r.rel_type = $rel_type, r.doc_id = $chat_id, r.chunk_id = $chat_id
-            """,
-            src=src["observation_id"], tgt=tgt["observation_id"], id=edge_id,
-            rel_type=rel_type, chat_id=chat_id,
-        )
-        written += 1
-    return written
+        staged.append({
+            "source_observation_id": src["observation_id"],
+            "target_observation_id": tgt["observation_id"],
+            "source_name": src["name"],
+            "target_name": tgt["name"],
+            "rel_type": rel_type,
+            "chunk_id": chat_id,
+            "doc_id": chat_id,
+        })
+    return staged
 
 
 def _detect_supersession_candidates(
@@ -670,6 +718,7 @@ def confirm_update(session_id: str, resolutions: list[dict], user_id: str) -> di
         resolutions=resolutions,
         extracted_entities=facts["entities"],
         extracted_relationships=facts["relationships"],
+        draft_id=draft["id"],
     )
 
     _update_draft_status(draft["id"], "confirmed")

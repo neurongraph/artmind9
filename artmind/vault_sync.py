@@ -1295,6 +1295,7 @@ def sync(
 
     all_keys: set[tuple[str, str, str]] = set()
     structured_only: list[str] = []  # tables restored to DuckDB, not projected (§14 A2)
+    chat_domains: set[str] = set()   # domains of replayed `update__*` folders (a UserChat each)
 
     with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
         scratch = Path(scratch_str)
@@ -1356,6 +1357,8 @@ def sync(
                 if summary is None:
                     raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")
                 all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
+                if docdir.startswith(ingest.UPDATE_FOLDER_PREFIX):
+                    chat_domains.add(domain)
 
     for domain, doc_id in plan.retract:
         result = ingest.retract_document(doc_id, domain)
@@ -1390,6 +1393,11 @@ def sync(
         domain_keys = [k for k in all_keys if k[2] == d]
         ingest._sweep_embeddings(d, domain_keys)
         ingest._sweep_chunk_embeddings(domain=d)
+    # A replayed `artmind update` is a UserChat, whose vector is never staged.
+    for d in sorted(chat_domains):
+        from artmind.update import embed_user_chats
+
+        embed_user_chats(domain=d)
 
     # artmind never commits (spec 2026-09-26, D1): track B's regenerated
     # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)

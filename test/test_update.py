@@ -525,7 +525,7 @@ def test_write_user_chat_create_on_existing_triple_updates_instead_of_duplicatin
     assert result["nodes_updated"] == 1
     assert not [c for c, _ in calls if "CREATE (e:" in c]
     # One observation, keyed so the rebuild lands it on the existing entity.
-    written = [kw["props"] for c, kw in calls if "MERGE (o:Observation" in c]
+    written = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c]
     assert len(written) == 1
     assert written[0]["canonical_name"] == "Alice"
 
@@ -764,7 +764,7 @@ def test_a_linked_observation_is_keyed_to_the_chosen_node_not_the_extracted_name
         )
 
     assert result["observations_written"] == 1
-    written = [kw["props"] for c, kw in calls if "MERGE (o:Observation" in c]
+    written = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c]
     assert len(written) == 1
     observation = written[0]
 
@@ -813,7 +813,7 @@ def test_a_linked_observation_uses_the_chosen_nodes_STORED_key():
             extracted_entities=extracted_entities, extracted_relationships=[],
         )
 
-    written = [kw["props"] for c, kw in calls if "MERGE (o:Observation" in c]
+    written = [kw["props"] for c, kw in calls if "CREATE (n:Observation {id: $id})" in c]
     assert len(written) == 1
     assert written[0]["key"] == stored_key
 
@@ -821,7 +821,8 @@ def test_a_linked_observation_uses_the_chosen_nodes_STORED_key():
 def test_a_chat_never_writes_entity_properties_directly():
     """The projection owns every Entity property. A direct write would be
     silently reverted by the next rebuild — which is exactly why this path was
-    retargeted rather than left alone."""
+    retargeted rather than left alone. It now commits through the document
+    commit transaction, the same one `vault sync` replays the folder with."""
     import inspect
 
     from artmind.update import write_user_chat as fn
@@ -829,7 +830,7 @@ def test_a_chat_never_writes_entity_properties_directly():
     src = inspect.getsource(fn)
     assert "SET e +=" not in src
     assert "CREATE (e:" not in src
-    assert "MERGE (o:Observation" in src
+    assert "_commit_document_tx" in src
 
 
 def test_retraction_writes_a_thin_observation_carrying__retracts():
@@ -881,7 +882,7 @@ def test_retraction_writes_a_thin_observation_carrying__retracts():
 
     observation_writes = [
         kwargs["props"] for cypher, kwargs in calls
-        if cypher.strip().startswith("MERGE (o:Observation") and "props" in kwargs
+        if "CREATE (n:Observation {id: $id})" in cypher and "props" in kwargs
     ]
     retracting = [p for p in observation_writes if p.get("_retracts")]
     assert len(retracting) == 1

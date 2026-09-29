@@ -3432,3 +3432,83 @@ def test_a_record_whose_id_disagrees_with_its_file_name_fails_the_sync(repo, mon
     with pytest.raises(vs.VaultSyncError, match="not a conflicts record for id 'c1'"):
         vs.sync(repo)
     assert _bookmarks(repo) == (None, None)
+
+
+# ── `artmind update` folders replay like documents (spec 2026-09-26 §7) ──────
+
+
+def _write_update_folder(kg_dir, domain, session_id, draft_id, raw_text="Alice is the CEO."):
+    from artmind.ingest import write_staging
+
+    chat_id = f"update:{session_id}:{draft_id}"
+    folder = kg_dir / domain / f"update__{session_id}__{draft_id}"
+    write_staging(folder, {
+        "document.json": {"id": chat_id, "source_kind": "user_chat", "_domain": domain,
+                          "raw_text": raw_text, "session_id": session_id},
+        "chunks.json": [],
+        "observations.json": [{"id": "o1", "key": "alice|PERSON|general", "doc_id": chat_id, "chunk_id": chat_id}],
+        "relationships.json": [],
+    })
+    return folder, chat_id
+
+
+def test_sync_replays_an_update_folder_as_a_user_chat_and_embeds_it(repo, monkeypatch, curation_graph):
+    import artmind.ingest as ing
+    import artmind.update as upd
+
+    real_write = ing._write_to_neo4j
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update confirmed on the other machine")
+    _write_update_folder(kg_dir, "general", "s1", 7, raw_text="an uncommitted edit")
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(ing, "_write_to_neo4j", real_write)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    embedded = []
+    monkeypatch.setattr(upd, "embed_user_chats", lambda **kw: embedded.append(kw) or 0)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    chats = [p for c, p in curation_graph.calls if "CREATE (n:UserChat {id: $id})" in c]
+    assert [(p["id"], p["props"]["raw_text"]) for p in chats] == [(chat_id, "Alice is the CEO.")]
+    assert embedded == [{"domain": "general"}]
+
+
+def test_a_shared_graph_that_already_has_the_update_does_not_replay_it(repo, monkeypatch, graph):
+    import artmind.update as upd
+    from artmind import sync_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update the other machine already wrote to the shared graph")
+    graph.fingerprints[chat_id] = sync_state.folder_fingerprint(folder)
+    calls = _patch_ingest_and_projection(monkeypatch)
+    embedded = []
+    monkeypatch.setattr(upd, "embed_user_chats", lambda **kw: embedded.append(kw) or 0)
+
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["write_to_neo4j"] == []
+    assert result["unchanged"] == 1
+    assert embedded == []
+
+
+def test_a_deleted_update_folder_retracts_its_user_chat(repo, monkeypatch):
+    import shutil
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update")
+    base = vs.head_sha(repo)
+    shutil.rmtree(folder)
+    _commit_all(repo, "the update retracted")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo)
+
+    assert calls["retract_document"] == [(chat_id, "general")]

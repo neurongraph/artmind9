@@ -2525,6 +2525,9 @@ def _merge_relabeled(
 #: `document.json`'s `source_kind` for an `artmind update` staging folder
 #: (`update.write_user_chat`). Committed as a `:UserChat`, not a `:Document`.
 USER_CHAT_SOURCE_KIND = "user_chat"
+#: The folder-name prefix of an `artmind update` staging folder,
+#: `kg/<domain>/update__<session_id>__<draft_id>/`.
+UPDATE_FOLDER_PREFIX = "update__"
 
 
 def _write_observations(tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk") -> int:
