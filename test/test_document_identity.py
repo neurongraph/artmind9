@@ -8,17 +8,19 @@ import pytest
 
 from artmind.document_identity import (
     AUTHORED_FIELDS,
+    IDENTITY_FIELDS,
     IdentityConflict,
+    MOVED_FIELDS,
     Resolution,
     SYSTEM_FIELDS,
-    build_frontmatter,
     canonical_path,
     compute_content_sha256,
     decide_version,
-    frontmatter_unchanged,
+    ingest_baseline,
     lift_declared_version,
     markdown_path_for,
     mint_artmind_id,
+    needs_stamp,
     render_document,
     resolve_identity,
     serialize_frontmatter,
@@ -195,61 +197,71 @@ def test_decide_version_body_unchanged_is_metadata_only():
     assert decision.version == 2
 
 
-# ── frontmatter_unchanged: splitting "metadata_only" into the versioning
-# table's real two rows ──────────────────────────────────────────────────────
-# decide_version only ever compares the BODY, so its "metadata_only" tier
-# collapses the table's "only frontmatter differs" and "nothing differs" rows
-# into one. Regression: with nothing to separate them, `_ingested_at`/
-# `_source_commit` refreshing unconditionally on every touch meant a
-# genuinely no-op re-ingest still produced different file bytes every time,
-# so git always found something to commit.
+def test_decide_version_without_a_prior_hash_continues_the_staged_version():
+    """A pre-R6 staging folder has a version but no hash, and a migrated note
+    no longer says: the next ingest is a content change at version + 1, never
+    a restart at 1 that would reuse an old version's observation ids."""
+    decision = decide_version("body", existing_meta={"_content_sha256": None, "_version": 3})
+    assert decision.tier == "content"
+    assert decision.version == 4
 
 
-def test_frontmatter_unchanged_true_when_only_provenance_fields_differ():
-    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z", "_source_commit": "aaa", "tags": ["x"]}
-    new = {"_version": 2, "_ingested_at": "2026-02-02T00:00:00Z", "_source_commit": "bbb", "tags": ["x"]}
-    assert frontmatter_unchanged(existing, new) is True
+# ── the baseline: document.json first, legacy frontmatter as a fallback ─────
 
 
-def test_frontmatter_unchanged_false_when_an_authored_field_differs():
-    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z", "tags": ["x"]}
-    new = {"_version": 2, "_ingested_at": "2026-02-02T00:00:00Z", "tags": ["x", "urgent"]}
-    assert frontmatter_unchanged(existing, new) is False
+def test_ingest_baseline_is_document_json_once_it_records_a_hash():
+    staged = {"id": "id-1", "version": 5, "content_sha256": "new", "source_sha256": "bin"}
+    fat = {"_content_sha256": "old", "_version": 2, "_source_sha256": "oldbin"}
+
+    assert ingest_baseline(staged, fat) == {"_content_sha256": "new", "_version": 5, "_source_sha256": "bin"}
 
 
-def test_frontmatter_unchanged_false_when_version_differs():
-    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z"}
-    new = {"_version": 3, "_ingested_at": "2026-02-02T00:00:00Z"}
-    assert frontmatter_unchanged(existing, new) is False
+def test_ingest_baseline_falls_back_to_legacy_frontmatter():
+    staged = {"id": "id-1", "version": 2}  # pre-R6 document.json: no hash
+    fat = {"_content_sha256": "old", "_version": 2, "_source_sha256": "oldbin"}
+
+    assert ingest_baseline(staged, fat) == {"_content_sha256": "old", "_version": 2, "_source_sha256": "oldbin"}
+    assert ingest_baseline(None, {}) == {"_content_sha256": None, "_version": None, "_source_sha256": None}
+    assert ingest_baseline(staged, {"_artmind_id": "id-1"})["_version"] == 2
 
 
-def test_frontmatter_unchanged_false_when_new_meta_adds_a_key():
-    existing = {"_version": 2}
-    new = {"_version": 2, "project": "Q4 planning"}
-    assert frontmatter_unchanged(existing, new) is False
+def test_ingest_baseline_prefers_the_staged_version_and_fills_a_missing_one_from_the_note():
+    both = ingest_baseline({"version": 5, "content_sha256": "h"}, {"_version": 2, "_content_sha256": "old"})
+    assert both["_version"] == 5
+
+    hash_only = ingest_baseline({"content_sha256": "h"}, {"_version": 2})
+    assert hash_only == {"_content_sha256": "h", "_version": 2, "_source_sha256": None}
+
+    no_hash = ingest_baseline({"version": 5}, {"_version": 2, "_content_sha256": "old"})
+    assert no_hash["_version"] == 2  # the note's own version wins while it has one
+
+
+def test_needs_stamp_only_for_missing_or_changed_identity():
+    assert needs_stamp({}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-1"}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-1", "_domain": "other"}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-0", "_domain": "general"}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-1", "_domain": "general", "_version": 9, "tags": ["x"]}, "id-1", "general") is False
+
+
+def test_moved_fields_are_system_fields_and_never_identity():
+    assert set(MOVED_FIELDS) <= set(SYSTEM_FIELDS)
+    assert not set(MOVED_FIELDS) & set(IDENTITY_FIELDS)
+    assert set(IDENTITY_FIELDS) <= set(SYSTEM_FIELDS)
+    assert IDENTITY_FIELDS == ("_artmind_id", "_domain")
+    assert MOVED_FIELDS == {
+        "_version": "version",
+        "_content_sha256": "content_sha256",
+        "_source_sha256": "source_sha256",
+        "_source_commit": "source_commit",
+        "_ingested_at": "ingested_at",
+        "_source_path": "source_path",
+        "_source_type": "source_type",
+        "_status": None,
+    }
 
 
 # ── frontmatter contract ─────────────────────────────────────────────────────
-
-
-def test_build_frontmatter_seeds_title_and_created_on_once():
-    meta = build_frontmatter(
-        {}, artmind_id="id-1", version=1, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-01-01T00:00:00Z",
-    )
-    assert meta["title"] == "foo"
-    assert meta["created_on"] == "2026-01-01T00:00:00Z"
-
-
-def test_build_frontmatter_never_overwrites_existing_authored_fields():
-    existing = {"title": "My Custom Title", "created_on": "2020-01-01", "tags": "a,b"}
-    meta = build_frontmatter(
-        existing, artmind_id="id-1", version=2, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-06-01T00:00:00Z",
-    )
-    assert meta["title"] == "My Custom Title"
-    assert meta["created_on"] == "2020-01-01"
-    assert meta["tags"] == "a,b"
 
 
 def test_lift_declared_version_from_table_header():
@@ -266,42 +278,6 @@ def test_lift_declared_version_keeps_annotation_verbatim():
 
 def test_lift_declared_version_absent_returns_none():
     assert lift_declared_version("# No version header here\n") is None
-
-
-def test_build_frontmatter_lifts_declared_version_from_body_once():
-    body = "| Version | 3.0 |\n"
-    meta = build_frontmatter(
-        {}, artmind_id="id-1", version=1, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-01-01T00:00:00Z",
-        body=body,
-    )
-    assert meta["declared_version"] == "3.0"
-
-
-def test_build_frontmatter_never_overwrites_existing_declared_version():
-    existing = {"declared_version": "9.9"}
-    meta = build_frontmatter(
-        existing, artmind_id="id-1", version=2, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-01-01T00:00:00Z",
-        body="| Version | 3.0 |\n",
-    )
-    assert meta["declared_version"] == "9.9"
-
-
-def test_build_frontmatter_sets_the_full_system_block():
-    meta = build_frontmatter(
-        {}, artmind_id="id-1", version=1, content_sha256="sha", domain="general",
-        valid_from="2026-01-01", valid_to=None, valid_time_source="header",
-        source_commit="abc123", source_path="notes/foo.md", source_type="md",
-        ingested_at="2026-01-01T00:00:00Z",
-    )
-    assert meta["_artmind_id"] == "id-1"
-    assert meta["_version"] == 1
-    assert meta["_domain"] == "general"
-    assert meta["_status"] == "latest"
-    assert meta["_valid_from"] == "2026-01-01"
-    assert "_valid_to" not in meta  # None is omitted, not written as null
-    assert meta["_source_commit"] == "abc123"
 
 
 def test_serialize_frontmatter_orders_system_then_authored_then_extra():

@@ -1518,7 +1518,12 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, c
 @click.option("--effective", default=None, help="ISO date the supersession takes effect")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
-    """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to)."""
+    """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to).
+
+    The assertion is also a vault file (.artmind/data/curation/supersessions/),
+    so `vault sync` applies it on every other machine; the older document is
+    retired, which is its own vault file too.
+    """
     if scope != "document":
         raise click.ClickException(
             f"--scope {scope} is not yet supported. Sub-document supersession needs "
@@ -1750,6 +1755,19 @@ def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
     return _resolve_table_row(table_name, domain)["id"]
 
 
+def _reexport_table_meta(table_id: int) -> None:
+    """After a registry-only curation change (grain, bridge columns,
+    column->entityClass mappings, re-proposed classifications), rewrite that
+    table's `.meta.json` so the change travels with Obsidian Git's next
+    commit (spec 2026-09-26 §15 A10). Best-effort, exactly like an ingest's
+    own export: the registry write already happened and must not fail."""
+    from artmind.structured.pipeline import _export_text_best_effort
+
+    row = structured_registry.get_table_by_id(table_id)
+    if row is not None:
+        _export_text_best_effort(row["domain"], [row["table_name"]], meta_only=True)
+
+
 def _ctx_table_id(ctx: click.Context) -> int:
     """Resolve (once, then cache) the TABLE that ``_TableFirstGroup`` peeled off.
 
@@ -1788,6 +1806,7 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
                 structured_registry.set_mapping_confirmed(
                     table_id, m["column"], m["entity_class"], True
                 )
+        _reexport_table_meta(table_id)
     _echo_json({"table": table, "mappings": structured_registry.list_mappings(table_id)}, compact)
 
 
@@ -1801,6 +1820,7 @@ def db_mappings_set(ctx, column, entity_class, confidence, compact):
     """Upsert a confirmed column-to-entityClass mapping."""
     table_id = _ctx_table_id(ctx)
     structured_registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=True)
+    _reexport_table_meta(table_id)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
@@ -1826,6 +1846,7 @@ def db_mappings_confirm(ctx, column, entity_class, compact):
         raise click.ClickException(
             f"no mapping found for column '{column}' / entityClass '{entity_class}'"
         )
+    _reexport_table_meta(table_id)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
@@ -1846,6 +1867,7 @@ def db_mappings_clear(ctx, column, compact):
     """
     table_id = _ctx_table_id(ctx)
     structured_registry.clear_mappings(table_id, column)
+    _reexport_table_meta(table_id)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
@@ -1902,6 +1924,7 @@ def db_bridge_confirm(table, column, domain, compact):
             f"no bridge column '{column}' on table '{table}' — run 'db grain {table}'"
             " to see which columns have a bridge role proposed"
         )
+    _reexport_table_meta(row["id"])
     _echo_json(
         {
             "table": row["table_name"],
@@ -1926,6 +1949,7 @@ def db_bridge_clear(table, column, domain, compact):
     """
     row = _resolve_table_row(table, domain)
     structured_registry.clear_column_roles(row["id"], column)
+    _reexport_table_meta(row["id"])
     _echo_json(
         {
             "table": row["table_name"],
@@ -2013,6 +2037,7 @@ def db_propose(table, domain, steps, redo, model, compact):
     result = propose_table_semantics(
         row["id"], row["domain"], steps=list(steps) or None, redo=redo, model=model
     )
+    _reexport_table_meta(row["id"])
     _echo_json(result, compact)
 
 
@@ -2034,6 +2059,7 @@ def db_grain(table, domain, grain, compact):
             structured_registry.set_grain(row["id"], grain, confirmed=True)
         except ValueError as exc:
             raise click.ClickException(str(exc)) from exc
+        _reexport_table_meta(row["id"])
         row = structured_registry.get_table_by_id(row["id"])
     _echo_json(
         {
@@ -2759,6 +2785,10 @@ def docs_retire(domain: str, document_name: str, compact: bool) -> None:
     Entities left with no `latest` observation anywhere are then deleted by the
     projection rebuild — not because retire decided they were orphans, but
     because nothing asserts them any more. Reversible with `docs restore`.
+
+    The retirement is also a vault file (.artmind/data/curation/lifecycle/),
+    so `vault sync` retires the document on every other machine, and a later
+    re-ingest or replay of it keeps it retired.
     """
     _setup_logger()
     from artmind.lifecycle import resolve_document_id, retire_document
@@ -2780,7 +2810,8 @@ def docs_restore(domain: str, document_name: str, compact: bool) -> None:
 
     The exact inverse of `docs retire`. Because entity ids are deterministic
     and the projection is derived, restoring recreates the same entities with
-    the same ids rather than a parallel set.
+    the same ids rather than a parallel set. Deletes the retirement's vault
+    file, so `vault sync` restores it on every other machine too.
     """
     _setup_logger()
     from artmind.lifecycle import resolve_document_id, restore_document
@@ -2976,7 +3007,9 @@ def projection_synthesize(
     immediately (Entity.description + a fresh embedding, in the same write as
     the :Synthesis node) — a later `projection rebuild` will read the
     :Synthesis store back and reproduce the identical description, proving it
-    is a real input rather than a side effect.
+    is a real input rather than a side effect. Each synthesis is also a vault
+    file (.artmind/data/curation/syntheses/), so `vault sync` gives every
+    other machine the same description without another LLM call.
     """
     _setup_logger()
     from artmind.synthesize import synthesize
@@ -3098,9 +3131,12 @@ def sameas_reject(proposal_id: str, reason: str | None, compact: bool) -> None:
 def update():
     """Add and update knowledge graph facts from natural language.
 
-    Subcommands: draft, confirm, history, export. A fact that retracts an
-    existing one is expressed via `confirm`'s `retracts` resolution field, not
-    a separate command — see `update confirm --help`.
+    Subcommands: draft, confirm, retract, history, export. A fact that
+    retracts an existing one is expressed via `confirm`'s `retracts`
+    resolution field — see `update confirm --help`; `retract` withdraws a
+    whole confirmed update. A confirmed update is also a staging folder
+    (`.artmind/data/kg/<domain>/update__<session>__<draft>/`), so it — and
+    its retraction — reaches every machine through `vault sync`.
     """
     pass
 
@@ -3127,7 +3163,12 @@ def update_draft(domain: str, text: str, session: str | None):
 @click.option("--session", required=True, help="Session UUID from draft step.")
 @click.option("--resolutions", required=True, help="JSON array of resolution objects.")
 def update_confirm(session: str, resolutions: str):
-    """Write confirmed facts to Neo4j. Returns JSON."""
+    """Write confirmed facts to the vault and Neo4j. Returns JSON.
+
+    Writes a staging folder, .artmind/data/kg/<domain>/update__<session>__<draft>/,
+    then commits the graph from it — the same commit `vault sync` replays on
+    every other machine. `staging_dir` in the output names the folder.
+    """
     _setup_logger()
     env = load_env()
     user_id = env.get("ARTMIND_USER", "unknown")
@@ -3143,6 +3184,30 @@ def update_confirm(session: str, resolutions: str):
         raise click.ClickException(str(e))
 
 
+
+
+@update.command("retract")
+@click.option("--session", required=True, help="Session UUID whose confirmed update(s) to retract.")
+@click.option(
+    "--draft", "draft_id", type=int, default=None,
+    help="Retract only this confirmed draft: the last part of its folder name, "
+    "update__<session>__<draft>. Default: every confirmed update in the session.",
+)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def update_retract(session: str, draft_id: int | None, compact: bool):
+    """Withdraw a confirmed update: its facts leave the graph and its staging folder is deleted.
+
+    The UserChat and its observations move to history and the entities they
+    touched are rebuilt; then the update__<session>__<draft> folder is
+    deleted, which Obsidian Git commits — so every other machine's
+    `vault sync` retracts it too. Returns JSON.
+    """
+    _setup_logger()
+    try:
+        result = update_backend.retract_update(session, draft_id)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 @update.command("history")
@@ -3476,7 +3541,7 @@ def _vault_status_impl(compact: bool) -> None:
 
 def _echo_sync_status(sync: dict) -> None:
     """The `vault sync` half of `vault status`, human-readable."""
-    from artmind.vault_sync import _one_line
+    from artmind.vault_sync import _one_line, curation_phrase
 
     click.echo(f"HEAD:     {sync['head'] or '(no commits yet)'}")
     for store, label in (("graph", "graph     "), ("structured", "structured")):
@@ -3488,7 +3553,10 @@ def _echo_sync_status(sync: dict) -> None:
         state = report.get("state")
         if state == "behind":
             tables = len(report.get("tables") or [])
-            what = f"{report['docs']} docs / {tables} tables behind" if store == "graph" else f"{tables} tables behind"
+            what = (
+                f"{report['docs']} docs / {tables} tables{curation_phrase(report)} behind"
+                if store == "graph" else f"{tables} tables behind"
+            )
         else:
             what = {
                 "current": "current",
@@ -3505,7 +3573,7 @@ def _echo_sync_status(sync: dict) -> None:
     conflicts = sync.get("unresolved_conflicts") or []
     if conflicts:
         shown = ", ".join(conflicts[:5]) + (", ..." if len(conflicts) > 5 else "")
-        click.echo(f"Conflicts: {len(conflicts)} unresolved under .artmind/ ({shown})")
+        click.echo(f"Conflicts: {len(conflicts)} unresolved under .artmind/ ({shown}) — `artmind vault resolve`")
     else:
         click.echo("Conflicts: none under .artmind/")
     if sync.get("message"):
@@ -3514,7 +3582,7 @@ def _echo_sync_status(sync: dict) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
+    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), settling merge conflicts in artmind's generated files (`resolve`), read-only readiness checks for Obsidian Git (`doctor`), and the one-off move of per-ingest fields out of notes (`migrate-frontmatter`)."""
     pass
 
 
@@ -3566,7 +3634,7 @@ def vault_status(compact: bool):
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
-    """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since each store's bookmark.
+    """Replay committed KG-staging, structured-text, table-mapping, schema and curation changes into Neo4j/DuckDB since each store's bookmark.
 
     Detects exactly which document folders under .artmind/data/kg/**, which
     structured-store tables under .artmind/data/structured_text/**, and which
@@ -3578,6 +3646,18 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     removed mapping no longer covers is retracted from the graph; a table no
     mapping names is restored to the structured store only. Complements (does
     not replace) `session close`/`session initiate`'s whole-graph snapshot.
+
+    Curation travels the same way: an `artmind update` is a document folder
+    (kg/<domain>/update__<session>__<draft>/, replayed as a UserChat); a
+    curation record under .artmind/data/curation/<kind>/ (a conflict, a
+    supersession, a retirement, a synthesis) is applied when added or changed
+    and removed when deleted; the members of every same-as group added,
+    removed or changed in .artmind/same_as.yaml are rebuilt, with the groups
+    as committed at HEAD; and a table whose .meta.json changed only in its
+    classifications (grain, bridge columns, mappings) has its registry rows
+    restored without re-importing its rows, and the graph's table catalogue
+    re-projected for its domain. A replayed document that is retired at HEAD
+    stays retired. Same-as proposals stay machine-local.
 
     Each store keeps its own bookmark: the graph's lives in the graph
     (one :ArtmindSyncState node per vault_id, so a shared AuraDB carries one
@@ -3598,8 +3678,9 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
 
     Applies committed content only (never the working tree) and never
     commits. Refuses while a merge/rebase is in progress, while files under
-    .artmind/ have unresolved conflicts, while the ingest worker is running,
-    or while a bookmark is not in HEAD's history (pull first).
+    .artmind/ have unresolved conflicts (`vault resolve` settles artmind's
+    generated ones), while the ingest worker is running, or while a bookmark
+    is not in HEAD's history (pull first).
     """
     _setup_logger()
     from artmind import vault as vault_mod
@@ -3626,6 +3707,47 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     except VaultSyncError as e:
         raise click.ClickException(str(e))
     except Exception as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
+
+
+@vault.command("resolve")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Show the side chosen for each folder, table and record, and why, writing nothing.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_resolve_cmd(dry_run, compact):
+    """Settle merge conflicts in artmind's generated files (.artmind/data/**), deterministically, and stage the result.
+
+    Run it while Obsidian Git's merge is stopped on conflicts. For each
+    conflicted unit it picks ONE whole side: a KG document folder (all its
+    files together) takes the side extracted from the merged note's body,
+    else the greater fingerprint; a structured table (CSV + .meta.json
+    together) the later refresh; a curation record a per-kind rule (a
+    conflict: a decision beats open, then the later change). Every rule reads
+    content only, so two machines resolving the same conflict pick the same
+    bytes. Your notes and human-curated files (same_as.yaml, schemas,
+    mappings) are listed under `reported` and never touched; a folder whose
+    note is still conflicted is `pending` until you resolve the note.
+
+    The one git write artmind makes: `git checkout` of the chosen side and
+    `git add`, only for paths under .artmind/data/, only while a merge is in
+    progress. It never commits -- Obsidian Git (or you) concludes the merge.
+    """
+    _setup_logger()
+    from artmind import vault as vault_mod
+    from artmind.vault_resolve import ResolveError, resolve
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    try:
+        result = resolve(vault_dir, dry_run=dry_run)
+    except ResolveError as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)
 
@@ -3658,6 +3780,52 @@ def vault_doctor_cmd(compact):
     _echo_json(result, compact)
     if not result["ok"]:
         raise SystemExit(1)
+
+
+@vault.command("migrate-frontmatter")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Report which notes would be rewritten and what would move into document.json, writing nothing.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_migrate_frontmatter_cmd(dry_run, compact):
+    """Move per-ingest fields (_version, _content_sha256, ...) out of every note's frontmatter into its staging document.json -- once.
+
+    Notes keep only `_artmind_id` and `_domain` (spec 2026-09-26 R6); older
+    artmind also wrote `_version`, `_content_sha256`, `_source_sha256`,
+    `_source_commit`, `_ingested_at`, `_source_path`, `_source_type` and
+    `_status` on every ingest. This copies each into the note's staging
+    folder (`.artmind/data/kg/<domain>/<note>/document.json`) where that key
+    is absent, then rewrites the note without them -- body, your own keys,
+    their order and line endings untouched. Converted binaries' markdown
+    (`.artmind/data/documents/markdowns/`) is migrated the same way.
+
+    Pause Obsidian Git's auto commit-and-sync first (the command reminds
+    you), then commit the result as one change. Idempotent and resumable:
+    re-run it after an interruption. A note with no staging folder keeps its
+    fields (they still work) and is listed under `skipped`, as is any note
+    that cannot be migrated safely (unreadable frontmatter, a BOM, a copy that
+    shares another note's `_artmind_id`, a symlink out of the vault); it is
+    left untouched and the run carries on. Refuses while a merge/rebase is in
+    progress, the ingest worker is running, or the vault is not a git repo.
+    Writes no git and no graph.
+    """
+    _setup_logger()
+    from artmind import vault as vault_mod
+    from artmind.frontmatter_migration import PAUSE_NOTICE, MigrationError, migrate
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    click.echo(PAUSE_NOTICE, err=True)
+    try:
+        result = migrate(vault_dir, dry_run=dry_run)
+    except MigrationError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────

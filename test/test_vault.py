@@ -220,3 +220,15 @@ def test_gitignore_block_covers_the_worker_pid_file(tmp_path):
     )
 
     assert result.returncode == 0, f"worker.pid not ignored: {result.stdout!r} {result.stderr!r}"
+
+
+def test_note_scratch_dir_is_the_vaults_data_dir_only_for_a_real_vault(tmp_path):
+    from artmind.vault import note_scratch_dir
+
+    (tmp_path / "plain").mkdir()
+    (tmp_path / "real" / ".artmind").mkdir(parents=True)
+
+    assert note_scratch_dir(None) is None
+    assert note_scratch_dir(tmp_path / "plain") is None
+    assert note_scratch_dir(tmp_path / "real") == tmp_path / "real" / ".artmind" / "data"
+    assert note_scratch_dir(str(tmp_path / "real")) == tmp_path / "real" / ".artmind" / "data"

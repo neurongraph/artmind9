@@ -48,7 +48,9 @@ installed command**, not something you invoke from the source tree.
 just dev-install
 ```
 
-expands to: stop daemons → `uv tool install --force --editable .` → `artmind init`.
+expands to: stop daemons → `uv tool install --force --editable '.[ingest]'`. It does
+**not** run `artmind init` and does **not** restart the daemons it stopped: run `init`
+yourself where it's needed (see §2 below), and start `serve` again from inside the vault.
 
 Two roots, both **decoupled from this checkout** (see `paths.py`, `docs/INSTALL.md`):
 
@@ -126,7 +128,7 @@ would look like a model failure. Keep local schema edits in
 the chat UI and the extractor via:
 
 ```bash
-artmind init      # or just dev-install, which runs it
+artmind init      # just dev-install does NOT run it
 ```
 
 Editing a skill and testing only in the checkout does **not** exercise what the chat UI

@@ -44,8 +44,8 @@ separate local Neo4j per machine with the same code.
 
 | # | Decision |
 |---|---|
-| D1 | **Obsidian Git owns all git transport and all commits.** artmind never runs `git add/commit/rm/push/pull/merge` against the vault. |
-| D2 | **artmind only reads git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`). No write, not even a private ref — see §6 A2's amendment (2026-09-27 vault-sync-completion): a considered `update-ref` pin was dropped as unnecessary and against this decision's intent. |
+| D1 | **Obsidian Git owns all git transport and all commits.** artmind never runs `git add/commit/rm/push/pull/merge` against the vault — with one exception, `artmind vault resolve` (R7, §16 A11): it runs `git checkout <HEAD\|MERGE_HEAD> -- <paths>` and `git add -- <paths>`, and nothing else, only for paths under `.artmind/data/**`, only while a merge is in progress, and never commits — Obsidian Git (or the user) concludes the merge. |
+| D2 | **artmind only reads git** (`rev-parse`, `diff`, `show`, `cat-file`, `status`, `ls-tree`, `ls-files`), apart from D1's single exception: `vault resolve`'s staging of a generated file's chosen side, which writes the index and working tree for those paths and never history or a ref. No other write, not even a private ref — see §6 A2's amendment (2026-09-27 vault-sync-completion): a considered `update-ref` pin was dropped as unnecessary and against this decision's intent. `test/test_no_git_writes.py` enforces both, with the exception scoped to `artmind/vault_resolve.py` and those two subcommands. |
 | D3 | **Mobile never ingests.** Mobile edits notes only; it pulls and pushes through Obsidian Git like any other client. |
 | D4 | **Apply is manual** (`artmind vault sync`), with a **staleness warning** on queries and `vault status`. Automatic apply is a later opt-in (§12), not part of this design. |
 | D5 | **Merge, never rebase.** Commit shas are provenance and cursors; rewriting them is not supported. |
@@ -56,7 +56,7 @@ separate local Neo4j per machine with the same code.
 | Actor | Owns | Never does |
 |---|---|---|
 | **Obsidian Git** | commit (timer), pull, merge, push, showing conflicts in human notes | — |
-| **artmind — readiness** (write side) | writing files in a form that is always safe to auto-commit and merge: atomic staging folders, `.gitignore`/`.gitattributes`, per-table manifests, minimal frontmatter, `vault resolve` for generated-file conflicts, `vault doctor` | any git write |
+| **artmind — readiness** (write side) | writing files in a form that is always safe to auto-commit and merge: atomic staging folders, `.gitignore`/`.gitattributes`, per-table manifests, minimal frontmatter, `vault resolve` for generated-file conflicts, `vault doctor` | any git write but `vault resolve`'s scoped staging (D1) |
 | **artmind — apply** (read side) | replaying committed changes (`bookmark..HEAD`) into this machine's stores, reading content from git objects, bookmarks, staleness reporting | touching the working tree or index |
 | **You** | resolving conflicts in your own notes, running `vault sync` when warned | editing `.artmind/data/**` by hand |
 
@@ -208,7 +208,7 @@ again only when `_domain` genuinely changes.
 This removes artmind's lines from nearly every note conflict, and also the non-git risk
 of artmind rewriting a note Obsidian has open while you type. Readers that take these
 fields from frontmatter today (`document_identity.decide_version`, `docs reindex`,
-`frontmatter_unchanged`) read them from `document.json` instead.
+`frontmatter_unchanged`) read them from `document.json` instead (as built: §16 A12; `build_frontmatter` and `frontmatter_unchanged` no longer exist).
 
 ### R7. `artmind vault resolve`
 
@@ -224,7 +224,7 @@ Resolves conflicts under `.artmind/data/**` only; refuses to touch anything else
   meta's `refreshed_at`, then by fingerprint.
 - **`same_as.yaml`, curation files (§7):** human-curated — reported, not resolved.
 
-It checks out the chosen side (`git checkout --ours/--theirs -- <paths>`) and stages it
+It checks out the chosen side (`git checkout --ours/--theirs -- <paths>`; as built, `git checkout <HEAD|MERGE_HEAD> -- <paths>` — §16 A11) and stages it
 (`git add`). This is the single exception to D1: it writes the index, only for paths
 under `.artmind/data/**`, and only while a merge is in progress. It never commits;
 Obsidian Git (or the user) concludes the merge.
@@ -327,14 +327,16 @@ machine; with a shared AuraDB it survives only until the next wipe-and-rebuild.
 
 | Write today | Stored as | New file in the vault | Applied by |
 |---|---|---|---|
-| `artmind update` facts (`update.py`, direct Cypher) | Neo4j + gitignored registry drafts | `.artmind/data/kg/<domain>/update__<session_id>/` — `document.json` + `observations.json`, the same shape as a document | track A replay, like any document |
-| Conflict resolutions (`conflicts.resolve_conflict`) | `:Conflict.status` only | `.artmind/data/curation/conflicts.yaml` keyed by conflict id (status, reason, resolved_at) | new track C: set statuses from the file |
+| `artmind update` facts (`update.py`, direct Cypher) | Neo4j + gitignored registry drafts | `.artmind/data/kg/<domain>/update__<session_id>__<draft_id>/` — `document.json` + `observations.json`, the same shape as a document (§14 A9) | track A replay, like any document (as a `:UserChat`, §15 A9) |
+| Conflicts and their resolutions (`conflicts.materialize`, `conflicts.resolve_conflict`) | `:Conflict` nodes only | `.artmind/data/curation/conflicts/<id>.json`, one file per conflict record (§14 A6, A9) | new track C: MERGE the record, or remove it when its file is deleted |
 | `same_as.yaml` edits | already a vault file | — | new track D: rebuild the keys in groups added/removed/changed between base and head |
 
-`update confirm` keeps writing Neo4j immediately (the user expects the fact now) **and**
-writes the staging folder; replaying it elsewhere is idempotent. Conflict ids must be
-deterministic across machines for C to work — they are derived from the conflicting
-observations, which needs verifying in `conflicts.materialize` before implementation.
+`update confirm` still puts the fact in Neo4j immediately (the user expects it now), but
+through the folder: it writes the `update__<session>__<draft>` staging folder and commits the
+graph *from* it with `ingest._commit_document_tx` as a `:UserChat` (§15 A9), so replaying it
+elsewhere is idempotent. Conflict ids are deterministic across machines
+(`conflicts.conflict_id`: sha1 of the sorted entity ids plus the aspect; see §15 A9), so track
+C's MERGE by id is idempotent.
 
 ## 8. Topologies
 
@@ -368,7 +370,8 @@ artmind.
 |---|---|
 | `artmind vault sync` | reads from git objects (A1), graph bookmark in Neo4j (A2), fingerprint skip (A3), preflight (A5), tracks C/D (§7); no longer commits |
 | `artmind vault status` | adds: HEAD, graph bookmark, structured bookmark, pending docs/tables, merge in progress, unresolved `.artmind/data` conflicts |
-| `artmind vault resolve` | new (R7); `--dryRun` shows the chosen side per folder/table |
+| `artmind vault resolve` | new (R7, §16 A11); `--dryRun` shows the chosen side per folder/table/record |
+| `artmind vault migrate-frontmatter` | new (R6, §16 A12–A13); `--dryRun` lists the notes it would rewrite |
 | `artmind vault doctor` | new (R8); `--compact` JSON |
 | `artmind init` | writes versioned `.gitignore`/`.gitattributes` blocks (R3/R4), mints `vault_id`; stops offering `ARTMIND_VAULT_GIT_PUSH` |
 | every `query` command | staleness warning on stderr (A4) |
@@ -400,8 +403,8 @@ Hermetic tests use real throwaway git repos (`git init` in `tmp_path`), not mock
   A bookmark whose commit has been rewritten away (no longer an ancestor of `HEAD`) is
   refused, not silently diffed.
 - **Preflight:** `MERGE_HEAD` present → refuses, bookmarks untouched.
-- **§7 tracks:** an `update__*` folder replays; a `conflicts.yaml` change sets
-  `:Conflict.status`; a `same_as.yaml` group change rebuilds exactly its keys.
+- **§7 tracks:** an `update__*` folder replays; a changed conflict record file
+  MERGEs its `:Conflict`; a `same_as.yaml` group change rebuilds exactly its keys.
 - **Legacy compatibility:** a vault with `manifest.json` and fat frontmatter still
   imports and versions correctly.
 
@@ -477,9 +480,9 @@ only `observations.json`, so a folder committed in two halves still converges.
 
 **A6. Conflict records travel, not just their status (amends §7).** Conflicts are *detected* by
 an LLM and written only to Neo4j, so a machine with its own Neo4j never sees them at all.
-`.artmind/data/curation/conflicts.yaml` holds the conflict record itself (id, the two entity
-keys, aspect, verdict, evidence summary, status, reason, timestamps); apply MERGEs `:Conflict`
-nodes and `CONFLICTS_WITH` edges from it. Ids are deterministic (§13), so re-detecting the same
+The conflict record itself (id, the two entity keys, aspect, verdict, evidence summary, status,
+reason, timestamps) travels as a vault file -- one file per conflict, not a shared
+`conflicts.yaml` (§14 A9); apply MERGEs `:Conflict` nodes and `CONFLICTS_WITH` edges from it. Ids are deterministic (§13), so re-detecting the same
 conflict on another machine MERGEs onto the same record rather than duplicating it.
 Same-as **proposals** stay machine-local: they are a review queue, and an approved group already
 travels as `same_as.yaml`.
@@ -489,3 +492,156 @@ A conflicted human note does not affect what sync applies, and Obsidian shows it
 
 **A8. Automatic apply is in scope (amends §12 item 6).** Opt-in `ARTMIND_VAULT_AUTO_APPLY=1`:
 `serve` polls `HEAD` and runs the same apply when the preflight passes and the graph is behind.
+
+## 15. Amendments (2026-09-28, phase 4 -- curation travels)
+
+**A9. One file per curation record; update folders per confirmed draft (amends §7, §14 A6).**
+Every path under `.artmind/data/**` is `merge=binary` (R3), so one shared `conflicts.yaml` would
+turn two machines' independent curation into a whole-file conflict that blocks `vault sync`.
+Each curation record is its own file, `.artmind/data/curation/<kind>/<id>.json`, written
+atomically and serialised deterministically; `conflicts` is the first kind
+(`artmind/curation_records.py`, `artmind/conflict_records.py`). A detection never rewrites an
+existing record, so a conflict another machine recorded -- and perhaps resolved -- is neither
+reopened nor churned; two machines colliding on one record only happens when both detect it
+before either pulls, and then either side may be kept. The graph carries each record's
+fingerprint (`:Conflict.record_fingerprint`), so a shared graph skips a POST-phase record (a
+conflict) it already has, and `vault status` counts only what is really pending for those. A
+PRE-phase record (A10: lifecycle, supersession, synthesis) is never fingerprint-skipped -- see A10.
+
+An `artmind update` is one folder per confirmed draft,
+`kg/<domain>/update__<session_id>__<draft_id>/`, not per session: a session can confirm several
+drafts. Its id, `update:<session_id>:<draft_id>`, is deterministic (a retried confirm rewrites the
+same folder) and cannot collide across machines (a session's uuid4 lives in one machine's
+registry). `update confirm` writes the folder and commits the graph from it through
+`ingest._commit_document_tx` -- the transaction `vault sync` replays it with -- as a `:UserChat`
+(not a `:Document`). Deleting the folder retracts it everywhere; `artmind update retract`
+retracts the graph first and only then deletes the folder, so the retraction travels.
+
+Track D rebuilds with `same_as.yaml` as committed at `head`, never the working tree, and expands
+every key it rebuilds to the whole same-as groups touching it.
+
+**A10. Every graph-only curation write travels (extends §7 and A9).** Tracing every command the
+chat and admin agents can run found four more writes that lived only in Neo4j or SQLite. Each
+is now a curation kind (A9's one file per record) or a table's `.meta.json`:
+
+- **Supersession** (`ingest supersede`, `ingest detect-supersession`, the adjudicator's
+  "superseded" verdict): `curation/supersessions/<sha1(newer|older|scope)>.json`. The older
+  document's `valid_to` and `superseded_by` are *derived* from every `SUPERSEDES` edge still
+  pointing at it (latest `effective` wins, ties by id; both null when none remains), so
+  un-asserting one -- deleting its file -- restores exactly what the remaining assertions say,
+  on every machine, whatever order they apply in. Only supersession writes those two properties
+  (a document's own window is `_valid_from`/`_valid_to`), which is what makes the derivation exact.
+- **Retirement** (`docs retire`/`restore`, archive restore, a document-scoped supersession):
+  `curation/lifecycle/<sha1(doc_id)>.json`, present exactly while the document is retired. A
+  retirement is **sticky**: a later re-ingest or replay of that document commits it and moves it
+  straight back to history in the same transaction, and `vault sync` re-applies the record
+  committed at `head` after replaying the document. Only `docs restore` (deleting the record)
+  brings it back. Un-asserting a supersession does not un-retire; the two records are
+  independent.
+- **Synthesis** (`projection synthesize`): `curation/syntheses/<entity id>.json` -- the
+  `:Synthesis` node plus the entity key, no embedding (derived; re-embedded locally). Applied
+  before `vault sync`'s rebuild, with its key in it, so the rebuilt description is the synthesis
+  and no machine pays the LLM again.
+- **Structured-store curation** (`db grain`, `db mappings`, `db bridge`, `db propose`): the command
+  re-exports the table's `.meta.json` (not its CSV). `vault sync` restores only the registry rows
+  of a table whose CSV is unchanged and whose meta changed only in curation fields -- no parquet
+  rewrite, no `table2graph` -- and re-projects the graph's catalogue subgraph for the domains whose
+  registry rows it restored. The projection is called directly, so a failure aborts the sync before
+  any bookmark advances and the same range is retried (all-or-nothing, §9).
+
+**Pre-phase records are always re-applied.** A pre-phase kind applies before the union rebuild
+and its returned keys join that rebuild. It stamps its fingerprint in its own committed
+transaction, but the keys reach the rebuild only in memory; if the rebuild (or a later record)
+fails, the bookmark stays while the fingerprint is already in the graph, so a fingerprint skip
+on the retry would leave the keys out of the rebuild for good. Fingerprint skipping therefore
+applies to post-phase records (conflicts) only; every pre-phase record in the range is re-applied
+(idempotent), and `vault status` counts every one of them, including a retirement that a replay
+would re-apply, without a graph read. Stamping is kept (post kinds and other machines use it).
+
+Limitations, by design:
+
+- Track A's document fingerprint skip has the analogous gap: a failed union rebuild after a
+  document commit is healed only by the next rebuild touching those keys (e.g.
+  `artmind projection rebuild`).
+- The catalogue follows only in a run where the graph *and* the structured store are both in the
+  run. A `--store graph` run does not restore curation-only table changes (the structured
+  bookmark has not moved), and a `--store structured` run never touches Neo4j; the remedy is
+  `artmind db catalogue --domain <d>`.
+- Curation that predates records has no file and does not travel until re-asserted. In
+  particular a `:Synthesis` written before A10 has no record and no `key`; sync skips it while its
+  observation-set hash is current, so it travels only after `projection synthesize --force`.
+
+Still machine-local, by design (§14 A6): same-as proposals (`sameas propose`/`reject`,
+`ingest refine-graph`, `detect-conflicts`' same-entity verdicts) -- a review queue whose approved
+outcome travels as `same_as.yaml`. `query graph text2cypher` cannot write at all: it runs through
+`graph_query.read_session()`, which the server enforces as read-only.
+
+## 16. Amendments (2026-09-29, phase 5 -- conflicts and frontmatter)
+
+**A11. `vault resolve`: one whole side per unit, by content (amends R7, D1, D2).** It runs only
+while a merge (not a rebase, cherry-pick or octopus merge) is in progress -- otherwise it refuses
+and writes nothing -- and sorts every conflicted path:
+
+- a **KG document folder** takes the side whose `document.json` `content_sha256` equals the
+  sha of the merged note's body (the note found by `document.json`'s `source_path`, else by
+  `_artmind_id`); if the merge deleted the note, the side without the folder; otherwise the
+  greater staging fingerprint (`sync_state.staging_fingerprint`). A folder whose note still
+  holds conflict markers is **pending** until the user resolves the note -- the working tree
+  counts, so a note resolved in Obsidian but not yet staged is resolved;
+- a **structured table** (CSV + `.meta.json`) takes the side that kept the table, then the later
+  `table.ingested_at` (the meta has no `refreshed_at`; `ingested_at` is the table's last
+  refresh), then the greater digest of the two files;
+- a **curation record** (§15 A9/A10) takes the side that kept it over one that deleted it, then
+  a per-kind rule, then the greater record fingerprint: *conflicts* -- a decision (`resolved`,
+  `dismissed`) beats `open`, then the later change (`resolved_at`, else `detected_at`);
+  *supersessions* -- a `manual` assertion beats a detected one; *syntheses* -- the later
+  `created_at`; *lifecycle* -- the fingerprint alone (its content is fixed by its id). This
+  settles two machines detecting the same conflict before either pulled;
+- **any other file under `.artmind/data/`** (a converted binary's markdown, a legacy
+  `manifest.json`) takes the side that kept it, then the greater content hash;
+- **human notes and human-curated files** (`same_as.yaml`, schemas, table mappings,
+  `vault.yaml`) are reported and never touched.
+
+Every rule reads the two sides' committed content and the merged note, never which side is
+"ours", so two machines resolving the same conflict -- A merging B, B merging A -- choose the
+same bytes, and their merge commits then merge cleanly. The whole side is taken: files the other
+side changed without conflict, and files only the other side has (a chunk cache), are replaced or
+removed with it. The write is `git checkout <HEAD|MERGE_HEAD> -- <paths>` (a plain
+`--ours`/`--theirs` would leave the unit's non-conflicted files as merged), deleting what the
+chosen side lacks, then `git add -- <paths>`, with literal pathspecs; every path is checked to be
+under `.artmind/data/` first. The write refuses while the ingest worker runs (`--dryRun` does not).
+`vault sync`'s preflight refusal names `vault resolve`.
+
+**A12. Minimal frontmatter (amends R6).** A human note carries `_artmind_id` and `_domain`,
+written line by line (`artmind/frontmatter.py`: body, the user's keys, their order, comments,
+quoting and line endings untouched), at the first stamp, a heal or fork, and a genuine `_domain`
+change -- never otherwise. The per-ingest fields -- `version`, `content_sha256`, `source_sha256`,
+`source_commit`, `ingested_at`, `source_path`, `source_type` -- are recorded in the staging
+folder's `document.json` by the **extraction**, not at ingest, so a version whose extraction
+failed is never recorded as done (the fat frontmatter recorded the new hash before extracting,
+and a failed extraction then read as unchanged forever). `_status` is dropped, not moved: it
+was always `latest` and nothing read it. `_valid_from`/`_valid_to`/`_valid_time_source` are a
+human's input and stay. artmind no longer seeds `title`/`created_on`/`declared_version` into a
+note; the Document's `title` defaults to the file stem at extraction. A converted binary's
+markdown follows the same contract. The versioning baseline is `document.json` once it records
+a `content_sha256`, the note's own legacy fields otherwise (`document_identity.ingest_baseline`),
+found by the note's name, its name before a move, or -- for `adopt`/`heal` -- its id. `docs
+reindex`, archive and the extract-kg retry read the same baseline. The new `document.json` keys
+become `:Document` properties, like every other key there.
+
+**A13. `vault migrate-frontmatter`.** Copies each moved field into `document.json` only where
+that key is absent, and the four that describe one ingest (`content_sha256`, `source_sha256`,
+`source_commit`, `ingested_at`) only when the note's `_version` equals the staged `version`;
+then strips the note (converted binaries' markdown in `.artmind/data/documents/markdowns/`
+included). Idempotent, resumable, `--dryRun`; refuses during a merge/rebase or while the worker
+runs (a dry run included); prints the instruction to pause Obsidian Git's auto-commit first. A
+note with no staging folder keeps its fields (they still work) and is reported, as is any note
+it cannot rewrite safely (unparsable or BOM-prefixed frontmatter, a duplicate `_artmind_id`, a
+symlink out of the vault): it is left untouched and the run carries on. It writes no git and no
+graph: every migrated folder's fingerprint changes, so each machine's next `vault sync` replays
+those documents once, without LLM cost.
+
+**A14. `.gitignore` block v4 (amends R4).** Scratch **files** are ignored too
+(`.artmind/data/**/*.artmind-tmp`, `*.artmind-old`): a curation record's temp file (§15 A9)
+and a note rewrite's temp file are files, which v3's directory rules missed. `vault doctor`
+names both block versions for a vault on an older block.

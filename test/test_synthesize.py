@@ -7,7 +7,18 @@ MagicMock WITHOUT calling it).
 """
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from artmind.synthesize import build_synthesis_prompt, classify_key, synthesize_key
+
+
+@pytest.fixture(autouse=True)
+def _own_curation_dir(tmp_path, monkeypatch):
+    """`synthesize_key` writes the synthesis's curation record file: give each
+    test its own directory instead of the session-shared one."""
+    import paths
+
+    monkeypatch.setattr(paths, "CURATION_DIR", tmp_path / "curation")
 
 
 def _row(**overrides):

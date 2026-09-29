@@ -271,6 +271,30 @@ def test_apply_metadata_only_removes_fields_absent_from_new_frontmatter(monkeypa
         assert f"c.{field}" in rm_cypher
 
 
+def test_apply_metadata_only_matches_the_document_by_its_real_domain_property(monkeypatch):
+    """A `:Document`'s domain property is `_domain` (what `_commit_document_tx`
+    writes); matching on `domain` matched nothing, so no edit ever landed."""
+    runs = []
+    _patch_session(monkeypatch, _RecordingSession(runs=runs))
+
+    delta.apply_metadata_only(doc_id="doc-abc", domain="general", metadata={"title": "T"})
+
+    cypher, kwargs = next((c, k) for c, k in runs if "MATCH (d:Document" in c)
+    assert "_domain: $domain" in cypher and kwargs["domain"] == "general"
+
+
+def test_apply_move_sets_the_path_properties_matched_by_id(monkeypatch):
+    runs = []
+    _patch_session(monkeypatch, _RecordingSession(runs=runs))
+
+    delta.apply_move(doc_id="doc-abc", path="n/new.md", source_path="n/new.md", name="new.md")
+
+    assert runs == [(
+        "MATCH (d:Document {id: $doc_id}) SET d += $props",
+        {"doc_id": "doc-abc", "props": {"path": "n/new.md", "source_path": "n/new.md", "name": "new.md"}},
+    )]
+
+
 # ── integration: ingest_to_kg takes the fast path on metadata_only ─────────
 
 

@@ -141,3 +141,39 @@ groups:
     groups = load_groups(path)
     assert len(groups) == 1
     assert groups[0][0] == ("a", "C", "d")
+
+
+# ── parse_groups: the same rules over text (vault sync reads the file from git) ─
+
+_TWO_GROUPS = """
+groups:
+  - canonical: "a|C|d"
+    members:
+      - "b|C|d"
+      - "a|C|d"
+  - canonical: "x|C|d"
+    members:
+      - "x|C|d"
+      - "y|C|e"
+"""
+
+
+def test_parse_groups_reads_text_exactly_as_load_groups_reads_the_file(tmp_path):
+    from artmind.same_as import parse_groups
+
+    path = tmp_path / "same_as.yaml"
+    path.write_text(_TWO_GROUPS, encoding="utf-8")
+
+    assert parse_groups(_TWO_GROUPS) == load_groups(path) == [
+        [_k("a", "C", "d"), _k("b", "C", "d")],
+        [_k("x", "C", "d"), _k("y", "C", "e")],
+    ]
+
+
+def test_parse_groups_of_nothing_or_of_garbage_is_no_groups():
+    from artmind.same_as import parse_groups
+
+    assert parse_groups(None) == []
+    assert parse_groups("") == []
+    assert parse_groups("groups: [unclosed") == []
+    assert parse_groups("- just\n- a list\n") == []

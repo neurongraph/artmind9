@@ -148,7 +148,14 @@ artmind update confirm \
   --resolutions '<resolutions JSON>'
 ```
 
-Output JSON: `{nodes_created, nodes_updated, nodes_retracted, relationships_written, user_chat_id}`
+Output JSON: `{nodes_created, nodes_updated, nodes_retracted, relationships_written, user_chat_id, staging_dir}`
+
+A confirm is also a vault file: `staging_dir` is the folder it wrote,
+`.artmind/data/kg/<domain>/update__<session_id>__<draft_id>/`, and the graph
+was committed *from* that folder. Obsidian Git commits it like any other
+change, and every other machine's `artmind vault sync` replays it — so a
+fact added here reaches a machine with its own Neo4j too. Don't edit the
+folder by hand.
 
 Report the summary to the user:
 > "Added: 2 new nodes, 1 updated, 1 relationship written, 1 fact retracted."
@@ -158,6 +165,22 @@ Optionally verify the write landed as intended — useful after creating new ent
 ```bash
 artmind query graph pattern2 --domain <domain> --entityNameList "<new entity name>" --compact
 ```
+
+## Retracting a confirmed update
+
+If the user says a fact they confirmed earlier was wrong — the whole input,
+not one relationship (that is Step 2b's `retracts`) — withdraw it:
+
+```bash
+artmind update retract --session <session_id> [--draft <draft_id>] --compact
+```
+
+`--draft` is the last part of the update's folder name
+(`update__<session_id>__<draft_id>`); without it, every confirmed update in
+the session is retracted. Its UserChat and observations move to history, the
+entities they touched are rebuilt, and the folder is deleted — the deletion
+travels, so `vault sync` retracts it on every other machine. Confirm with the
+user before running it: it is the only way this skill removes facts.
 
 ## Step 4 — Continue or Exit
 

@@ -362,20 +362,25 @@ def apply_supersession(
     aggregate key left with zero `latest` observations loses its `:Entity`.
     Not a heuristic — an arithmetic fact about what is still asserted.
 
+    The assertion travels (spec 2026-09-26 §15 A10): it is written to its
+    record file, `.artmind/data/curation/supersessions/<id>.json`, and the
+    graph is written from that record -- the same path `vault sync` applies
+    on every other machine (`artmind.supersession_records`). The older
+    document's `valid_to`/`superseded_by` are recomputed from all of its
+    `SUPERSEDES` edges.
+
     Idempotent.
     """
+    from artmind import curation_records, supersession_records
+
     with neo4j_session() as session:
-        session.run(
-            """
-            MATCH (newer:Document {id:$newer}), (older:Document {id:$older})
-            MERGE (newer)-[s:SUPERSEDES {scope:$scope}]->(older)
-            SET s.effective=$effective, s.detected_by=$detectedBy
-            SET older.valid_to = coalesce($effective, older.valid_to),
-                older.superseded_by = newer.id
-            """,
-            newer=newer_doc_id, older=older_doc_id, scope=scope,
-            effective=effective, detectedBy=detected_by,
+        record = supersession_records.record_for(
+            session, newer_doc_id, older_doc_id, scope, effective, detected_by,
         )
+        # The record file is written BEFORE the graph apply: if the apply
+        # fails, the file stays and the next `vault sync` applies it (benign).
+        fingerprint = curation_records.write_record(supersession_records.NAME, record)
+        supersession_records.apply(session, record, fingerprint)
     if scope == "document":
         # Retirement is document-granular by nature: a whole document's
         # assertions stop being the current record at once.

@@ -44,11 +44,13 @@ class _FakeGraphState:
         self.bookmarks: dict[str, str] = {}
         self.fingerprints: dict[str, str | None] = {}
         self.fingerprint_reads: list[list[str]] = []
+        self.bookmark_writes: list[tuple[str, str]] = []
 
     def read_graph_bookmark(self, vault_id, *, timeout=None):
         return self.bookmarks.get(vault_id)
 
     def write_graph_bookmark(self, vault_id, commit):
+        self.bookmark_writes.append((vault_id, commit))
         self.bookmarks[vault_id] = commit
 
     def read_document_fingerprints(self, doc_ids, *, timeout=None):
@@ -266,6 +268,128 @@ def test_classify_diff_does_not_retract_when_the_new_folder_already_exists_at_he
 
     assert plan.replay_docs == []
     assert plan.retract == []
+
+
+def _rm_folder(kg_dir, domain, docdir):
+    import shutil
+    shutil.rmtree(kg_dir / domain / docdir)
+
+
+@pytest.mark.parametrize("new_domain, old_domain", [("a_new", "z_old"), ("z_new", "a_old")])
+def test_classify_diff_does_not_retract_an_id_that_moved_to_another_domain(repo, monkeypatch, new_domain, old_domain):
+    """A domain change (`ingest sync --setDomain`) writes the folder under the
+    new domain and removes the old domain's. `retract_document` demotes
+    `:Document {id}` by id alone, so retracting the old domain's id would
+    demote the node the new domain's folder just replayed. Independent of
+    which domain sorts first."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, old_domain, "note", "docid-1")
+    _commit_all(repo, "add")
+    base = vs.head_sha(repo)
+    _rm_folder(kg_dir, old_domain, "note")
+    _write_doc_folder(kg_dir, new_domain, "note", "docid-1")
+    _commit_all(repo, "move to another domain")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [(new_domain, "note")]
+    assert plan.retract == []
+
+
+def test_classify_diff_does_not_retract_an_id_already_live_in_another_domain_at_head(repo, monkeypatch):
+    """The new domain's folder was replayed by an earlier sync; this range only
+    holds the old domain's removal."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "old_dom", "note", "docid-1")
+    _commit_all(repo, "add")
+    _write_doc_folder(kg_dir, "new_dom", "note", "docid-1")
+    _commit_all(repo, "added under the new domain (already replayed)")
+    base = vs.head_sha(repo)
+    _rm_folder(kg_dir, "old_dom", "note")
+    _commit_all(repo, "remove the old domain's folder")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
+    assert plan.retract == []
+
+
+def test_classify_diff_still_retracts_when_only_another_id_lives_elsewhere(repo, monkeypatch):
+    """A genuine retraction is unaffected: the removed id is live nowhere at
+    head, whatever other documents other domains hold."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "old_dom", "note", "docid-1")
+    _write_doc_folder(kg_dir, "new_dom", "other", "docid-2")
+    _commit_all(repo, "add")
+    base = vs.head_sha(repo)
+    _rm_folder(kg_dir, "old_dom", "note")
+    _commit_all(repo, "remove")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.retract == [("old_dom", "docid-1")]
+
+
+def _git(path, *args):
+    subprocess.run(["git", *args], cwd=path, check=True, capture_output=True)
+
+
+def test_two_clones_a_domain_change_leaves_the_document_live_in_the_new_domain(tmp_path, monkeypatch):
+    """Real git, two clones, only Neo4j faked (an in-memory graph whose retract
+    demotes by id alone, like `retract_document`'s Cypher). Machine A moves a
+    note's staging folder to another domain in a later commit; machine B pulls
+    and syncs: the document must end up live under the NEW domain, and no
+    retraction may be sent for it."""
+    import artmind.ingest as ing
+    import artmind.table2graph as t2g
+
+    origin, a, b = tmp_path / "origin.git", tmp_path / "a", tmp_path / "b"
+    subprocess.run(["git", "init", "-q", "--bare", str(origin)], check=True)
+    for clone in (a, b):
+        subprocess.run(["git", "clone", "-q", str(origin), str(clone)], check=True, capture_output=True)
+        _git(clone, "config", "user.email", "t@example.com")
+        _git(clone, "config", "user.name", "T")
+    (a / ".artmind").mkdir()
+    (a / ".artmind" / "vault.yaml").write_text(f'vault_id: "{VAULT_ID}"\n')
+    kg_a = a / ".artmind" / "data" / "kg"
+    _write_doc_folder(kg_a, "general", "note", "docid-1")
+    _commit_all(a, "ingest")
+    _git(a, "push", "-q", "origin", "HEAD")
+    _git(b, "pull", "-q", "origin", "HEAD")
+
+    live: dict[str, str] = {}  # doc id -> domain of the node currently labelled :Document
+    retractions: list[tuple[str, str]] = []
+
+    def fake_write(folder, domain, defer_rebuild=False):
+        import json
+        live[json.loads((folder / "document.json").read_text())["id"]] = domain
+        return {"deferred_keys": [], "unembedded_chunk_ids": []}
+
+    def fake_retract(doc_id, domain):
+        retractions.append((doc_id, domain))
+        live.pop(doc_id, None)  # by id only: the real MATCH has no domain filter
+        return {"doc_id": doc_id, "domain": domain, "affected_keys": []}
+
+    monkeypatch.setattr(ing, "_write_to_neo4j", fake_write)
+    monkeypatch.setattr(ing, "retract_document", fake_retract)
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {})
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: 0)
+    _patch_structured_text_dir(monkeypatch, b)
+    _patch_kg_dir(monkeypatch, b)
+    vs.sync(b, bootstrap_empty=True)
+    assert live == {"docid-1": "general"}
+
+    (kg_a / "technical").mkdir()
+    _git(a, "mv", ".artmind/data/kg/general/note", ".artmind/data/kg/technical/note")
+    _commit_all(a, "change domain")
+    _git(a, "push", "-q", "origin", "HEAD")
+    _git(b, "pull", "-q", "origin", "HEAD")
+    result = vs.sync(b)
+
+    assert retractions == []
+    assert live == {"docid-1": "technical"}
+    assert result["replayed"] == 1 and result["retracted"] == 0
 
 
 # ── _document_ids_at_head: never sends a path through cat-file (re-review item 1) ─
@@ -679,7 +803,7 @@ def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract
     import artmind.ingest as ing
     import artmind.table2graph as t2g
 
-    calls = {"write_to_neo4j": [], "retract_document": [], "rebuild_in_batches": [], "sweeps": []}
+    calls = {"write_to_neo4j": [], "retract_document": [], "rebuild_in_batches": [], "rebuild_groups": [], "sweeps": []}
 
     def _fake_write(doc_kg_dir, domain, defer_rebuild=False):
         calls["write_to_neo4j"].append((str(doc_kg_dir), domain))
@@ -691,8 +815,9 @@ def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract
         result = (retract_results or {}).get(doc_id, {"affected_keys": []})
         return {"doc_id": doc_id, "domain": domain, **result}
 
-    def _fake_rebuild_in_batches(keys):
+    def _fake_rebuild_in_batches(keys, groups=None):
         calls["rebuild_in_batches"].append(sorted(keys))
+        calls["rebuild_groups"].append(groups)
         return {"rebuilt": len(keys), "deleted": 0, "absent": 0, "keys": len(keys), "batches": 1}
 
     monkeypatch.setattr(ing, "_write_to_neo4j", _fake_write)
@@ -2186,10 +2311,16 @@ def _patch_track_b(monkeypatch):
     import artmind.table2graph as t2g
     from artmind.structured import registry as structured_registry
 
-    calls = {"import": [], "table_to_graph": []}
+    calls = {"import": [], "table_to_graph": [], "catalogue": []}
     monkeypatch.setattr(
         "artmind.structured.text_export.import_structured_text",
         lambda *a, **k: calls["import"].append(list(k.get("tables"))) or {"tables_loaded": 1},
+    )
+    # The catalogue subgraph is re-projected from the registry after a
+    # restore; never let a test reach a real Neo4j for it.
+    monkeypatch.setattr(
+        "artmind.structured.catalogue.project_catalogue",
+        lambda domain: calls["catalogue"].append(domain) or {"tables": 1, "columns": 1, "mappings": 0},
     )
     monkeypatch.setattr(
         structured_registry, "get_table",
@@ -2221,6 +2352,38 @@ def _three_commits(repo, monkeypatch):
     _commit_all(repo, "c3")
     shas.append(vs.head_sha(repo))
     return shas
+
+
+def test_a_sync_with_nothing_new_does_not_rewrite_the_bookmarks(repo, monkeypatch, graph):
+    """base == head and both bookmarks already there: writing the graph
+    bookmark again would only churn `applied_at` on every sync."""
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c3, c3)
+    _patch_ingest_and_projection(monkeypatch)
+    from artmind import vault
+
+    state_writes = []
+    real_write_state = vault.write_state
+    monkeypatch.setattr(vault, "write_state", lambda *a, **k: state_writes.append((a, k)) or real_write_state(*a, **k))
+
+    result = vs.sync(repo)
+
+    assert graph.bookmark_writes == []
+    assert state_writes == []
+    assert (result["graph_bookmark"], result["structured_bookmark"]) == (c3, c3)
+
+
+def test_a_sync_that_advances_writes_the_graph_bookmark(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c1, c1)
+    graph.bookmark_writes.clear()
+    _patch_ingest_and_projection(monkeypatch)
+    _patch_track_b(monkeypatch)
+
+    vs.sync(repo)
+
+    assert graph.bookmark_writes == [(VAULT_ID, c3)]
+    assert _bookmarks(repo) == (c3, c3)
 
 
 def test_the_legacy_cursor_seeds_both_bookmarks_then_is_retired(repo, monkeypatch, graph):
@@ -2766,9 +2929,11 @@ def test_pending_work_reports_current_when_a_stores_bookmark_is_already_head(rep
 
     pending = vs.pending_work(repo, c3, marks)
 
-    assert pending["graph"] == {"bookmark": c3, "state": "current", "docs": 0, "tables": [], "detail": None}
+    assert pending["graph"] == {
+        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
+    }
     assert pending["structured"] == {
-        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "detail": None,
+        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
     }
 
 
@@ -2782,9 +2947,11 @@ def test_pending_work_reports_no_bookmark_when_a_store_has_never_synced(repo, mo
 
     pending = vs.pending_work(repo, c3, marks)
 
-    assert pending["graph"] == {"bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "detail": None}
+    assert pending["graph"] == {
+        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
+    }
     assert pending["structured"] == {
-        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "detail": None,
+        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
     }
 
 
@@ -2985,3 +3152,1614 @@ def test_status_report_does_not_crash_when_the_graph_goes_unreachable_mid_check(
         "artmind: the graph store's sync would fail -- graph unreachable: "
         "Couldn't connect to localhost:7687 -- fix it, then run `artmind vault sync`"
     )
+
+
+# ── track D: same_as.yaml edits (spec 2026-09-26 §7) ─────────────────────────
+
+
+def _patch_same_as(monkeypatch, vault_dir):
+    """Point `same_as.SAME_AS_PATH` inside the test vault, where a real
+    vault keeps it (`.artmind/same_as.yaml`)."""
+    from artmind import same_as
+
+    path = vault_dir / ".artmind" / "same_as.yaml"
+    monkeypatch.setattr(same_as, "SAME_AS_PATH", path)
+    return path
+
+
+def _write_groups(path, *groups):
+    """`groups` as `(canonical, member, ...)` key strings, canonical first."""
+    lines = ["groups:"]
+    for group in groups:
+        lines.append(f'  - canonical: "{group[0]}"')
+        lines.append("    members:")
+        lines.extend(f'      - "{member}"' for member in group)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _key(text):
+    return tuple(text.split("|"))
+
+
+_ACME = ("acme|ORG|banking", "acme corp|ORG|banking")
+_FCA = ("fca|REGULATOR|banking", "financial conduct authority|REGULATOR|legal")
+
+
+def _same_as_base(repo, monkeypatch, *groups):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    path = _patch_same_as(monkeypatch, repo)
+    _write_groups(path, *groups)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    return path, vs.head_sha(repo)
+
+
+def test_classify_diff_rebuilds_the_keys_of_an_added_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca group")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _FCA)
+    assert plan.same_as_groups == 1
+
+
+def test_classify_diff_rebuilds_the_keys_of_a_removed_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME, _FCA)
+    _write_groups(path, _FCA)
+    _commit_all(repo, "drop acme group")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME)
+
+
+def test_classify_diff_rebuilds_both_versions_of_a_changed_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, ("acme|ORG|banking", "acme plc|ORG|banking"))
+    _commit_all(repo, "acme corp out, acme plc in")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in ("acme|ORG|banking", "acme corp|ORG|banking", "acme plc|ORG|banking"))
+    assert plan.same_as_groups == 2, "the old version and the new version"
+
+
+def test_classify_diff_ignores_reordered_members(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, ("a|C|d", "b|C|d", "c|C|d"))
+    _write_groups(path, ("a|C|d", "c|C|d", "b|C|d"))
+    _commit_all(repo, "reorder members")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.same_as_keys, plan.same_as_groups) == ([], 0)
+
+
+def test_a_new_canonical_is_a_changed_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, (_ACME[1], _ACME[0]))
+    _commit_all(repo, "canonical flips")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME)
+
+
+def test_classify_diff_does_not_read_same_as_when_it_did_not_change(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    (repo / "a.txt").write_text("y")
+    _commit_all(repo, "unrelated")
+    shows = []
+    real_show = vs._show
+    monkeypatch.setattr(vs, "_show", lambda *a: shows.append(a) or real_show(*a))
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.same_as_keys, plan.same_as_groups) == ([], 0)
+    assert shows == []
+
+
+def test_bootstrap_empty_counts_every_committed_group_as_added(repo, monkeypatch):
+    _same_as_base(repo, monkeypatch, _ACME, _FCA)
+
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME + _FCA)
+    assert plan.same_as_groups == 2
+
+
+def test_classify_diff_reads_same_as_from_git_not_the_working_tree(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    _write_groups(path, _ACME, _FCA, ("x|C|d", "y|C|d"))   # uncommitted
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _FCA)
+
+
+def test_classify_diff_scopes_same_as_groups_by_any_members_domain(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch)
+    _write_groups(path, _ACME, _FCA, ("x|C|legal", "y|C|legal"))
+    _commit_all(repo, "three groups")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo), domains=["banking"])
+
+    # _FCA spans banking and legal: in scope, and rebuilt whole.
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME + _FCA)
+    assert plan.same_as_groups == 2
+
+
+def test_sync_rebuilds_exactly_the_changed_groups_keys_with_the_committed_groups(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    head = vs.head_sha(repo)
+    _write_groups(path, ("x|C|d", "y|C|d"))   # an uncommitted edit that must not reach the graph
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert calls["rebuild_in_batches"] == [sorted(_key(k) for k in _FCA)]
+    assert calls["rebuild_groups"] == [[[_key(k) for k in _ACME], [_key(k) for k in _FCA]]]
+    assert (result["same_as_groups"], result["same_as_keys"]) == (1, 2)
+    assert _bookmarks(repo) == (head, head)
+
+
+def test_sync_rebuilds_a_replayed_documents_whole_group(repo, monkeypatch):
+    """A document observing one member of a committed group dirties the whole
+    group: `projection.rebuild` folds only the members it is handed."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_groups(_patch_same_as(monkeypatch, repo), _ACME)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "group and a doc")
+    calls = _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc={"doc1": [list(_key(_ACME[1]))]})
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["rebuild_in_batches"] == [sorted(_key(k) for k in _ACME)]
+
+
+def test_a_domain_scoped_same_as_sync_does_not_advance_the_bookmarks(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, ("x|C|legal", "y|C|legal"))
+    _commit_all(repo, "legal group")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, domains=["legal"])
+
+    assert calls["rebuild_in_batches"] == [[_key("x|C|legal"), _key("y|C|legal")]]
+    assert result["cursor_advanced"] is False
+    assert _bookmarks(repo) == (None, None)
+
+
+def test_a_same_as_dry_run_reports_what_the_real_run_rebuilds_and_writes_nothing(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    from artmind.vault import VaultLayout, read_state, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+
+    assert (dry["same_as_groups"], dry["same_as_keys"]) == (1, 2)
+    assert calls["rebuild_in_batches"] == []
+    assert read_state(VaultLayout(repo)) == {"last_synced_commit": base}
+    real = vs.sync(repo)
+    assert (real["same_as_groups"], real["same_as_keys"]) == (dry["same_as_groups"], dry["same_as_keys"])
+
+
+# ── track C: curation records (spec 2026-09-26 §7, §14 A6) ──────────────────
+
+
+class _Rows:
+    def __init__(self, rows=()):
+        self._rows = list(rows)
+
+    def single(self):
+        return self._rows[0] if self._rows else None
+
+    def data(self):
+        return list(self._rows)
+
+
+class _CurationGraph:
+    """The graph side of curation records: answers the fingerprint read from
+    `fingerprints`, records every statement, and runs write transactions
+    against itself. `events` is shared with other fakes to check ordering."""
+
+    def __init__(self, events):
+        self.calls = []
+        self.fingerprints: dict[str, str | None] = {}
+        self.events = events
+        #: The entity ids this graph holds (the edges statement matches both or
+        #: nothing) and the chunk ids it holds (None: every chunk exists).
+        self.entities: set[str] = {"ea", "eb"}
+        self.chunks: set[str] | None = None
+        #: What every fingerprint statement sent, in order.
+        self.fingerprinted: list[dict] = []
+        #: The fingerprints the other kinds' records carry in the graph,
+        #: `{kind: {record id: fingerprint}}` (`fingerprints` is the conflicts').
+        self.kind_fingerprints: dict[str, dict[str, str | None]] = {}
+        #: Every fingerprint read the graph answered, `(kind, ids sent)`.
+        self.reads: list[tuple[str, list[str]]] = []
+        #: The document ids this graph holds, for the statements that match a
+        #: supersession's two documents or a retirement's one (None: all exist).
+        self.documents: set[str] | None = None
+
+    #: A literal fragment of each kind's fingerprint read (never the module's
+    #: own constant, so corrupting a kind's query is seen by the test).
+    _READS = (
+        ("MATCH (co:Conflict) WHERE co.id IN $ids", "conflicts"),
+        ("d.lifecycle_record IN $ids", "lifecycle"),
+        ("MATCH ()-[s:SUPERSEDES]->() WHERE s.record_id IN $ids", "supersessions"),
+        ("MATCH (s:Synthesis) WHERE s.id IN $ids", "syntheses"),
+    )
+
+    def _held(self, kind):
+        return self.fingerprints if kind == "conflicts" else self.kind_fingerprints.setdefault(kind, {})
+
+    def _exists(self, *doc_ids):
+        return self.documents is None or all(d in self.documents for d in doc_ids)
+
+    def run(self, cypher, **params):
+        self.calls.append((cypher, params))
+        if "co.record_fingerprint = $fingerprint" in cypher:   # whichever statement carries it
+            self.fingerprinted.append(params)
+            self.fingerprints[params["id"]] = params["fingerprint"]
+        if "MATCH (a:Entity {_id: $idA}" in cypher:
+            return _Rows([{"n": 1 if {params["idA"], params["idB"]} <= self.entities else 0}])
+        if "MERGE (co)-[:EVIDENCE" in cypher:
+            wanted = {e["chunk_id"] for e in params["evidence"]}
+            return _Rows([{"n": len(wanted if self.chunks is None else wanted & self.chunks)}])
+        if "co.record_fingerprint = $fingerprint" in cypher:
+            return _Rows()
+        for marker, kind in self._READS:
+            if marker in cypher:
+                self.reads.append((kind, list(params["ids"])))
+                held = self._held(kind)
+                return _Rows({"id": i, "fingerprint": held[i]} for i in params["ids"] if i in held)
+        if cypher.strip().startswith("MERGE (s:Synthesis {id: $id})"):
+            self._held("syntheses")[params["id"]] = params["props"]["record_fingerprint"]
+            return _Rows()
+        if "MERGE (newer)-[s:SUPERSEDES" in cypher:
+            found = self._exists(params["newer"], params["older"])
+            if found:
+                self._held("supersessions")[params["id"]] = params["fingerprint"]
+            return _Rows([{"n": 1 if found else 0}])
+        if "SET d.lifecycle_record = $id" in cypher:
+            found = self._exists(params["doc_id"])
+            if found:
+                self._held("lifecycle")[params["id"]] = params["fingerprint"]
+            return _Rows([{"n": 1 if found else 0}])
+        if cypher.strip().startswith("MERGE (co:Conflict {id: $id})"):
+            self.events.append(("apply", params["id"]))
+        if "DETACH DELETE co" in cypher:
+            self.events.append(("remove", params["id"]))
+        return _Rows()
+
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    def applied(self):
+        return [p for c, p in self.calls if c.strip().startswith("MERGE (co:Conflict {id: $id})")]
+
+
+@pytest.fixture()
+def curation_graph(monkeypatch):
+    from contextlib import contextmanager
+
+    import artmind.graph_query as graph_query
+
+    fake = _CurationGraph(events=[])
+
+    @contextmanager
+    def _session(access_mode=None, *, timeout=None):
+        yield fake
+
+    monkeypatch.setattr(graph_query, "neo4j_session", _session)
+    return fake
+
+
+def _patch_curation_dir(monkeypatch, vault_dir):
+    import paths
+
+    target = vault_dir / ".artmind" / "data" / "curation"
+    monkeypatch.setattr(paths, "CURATION_DIR", target)
+    return target
+
+
+def _conflict(record_id, *, status="open", domains=("banking.ops", "banking.risk")):
+    return {
+        "id": record_id, "verdict": "conflicting_claims", "aspect": "limit", "claim_a": "A", "claim_b": "B",
+        "severity": "high", "entity_class": "POLICY",
+        "entities": [{"side": "a", "id": "ea", "key": "a|POLICY|x", "name": "A", "domain": domains[0]},
+                     {"side": "b", "id": "eb", "key": "b|POLICY|y", "name": "B", "domain": domains[-1]}],
+        "domains": list(domains), "evidence": [], "status": status, "resolution_reason": None,
+        "resolved_at": None, "detected_at": "t0", "detected_by_model": "m", "source": "adjudicator",
+    }
+
+
+def _curation_base(repo, monkeypatch, *records):
+    from artmind import curation_records
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    for record in records:
+        curation_records.write_record("conflicts", record)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    return vs.head_sha(repo)
+
+
+def test_classify_diff_applies_added_and_changed_records_and_removes_deleted_ones(repo, monkeypatch):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("c1"), _conflict("c2"))
+    curation_records.write_record("conflicts", _conflict("c1", status="resolved"))
+    curation_records.delete_record("conflicts", "c2")
+    curation_records.write_record("conflicts", _conflict("c3"))
+    curation = repo / ".artmind" / "data" / "curation"
+    (curation / "conflicts" / "notes.txt").write_text("ignored")
+    (curation / "unknown_kind").mkdir()
+    (curation / "unknown_kind" / "x.json").write_text("{}")
+    _commit_all(repo, "resolve c1, drop c2, add c3")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert sorted(plan.curation) == [
+        ("conflicts", "c1", "apply"), ("conflicts", "c2", "remove"), ("conflicts", "c3", "apply"),
+    ]
+
+
+def test_classify_diff_scopes_curation_by_the_records_domains(repo, monkeypatch):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("gone", domains=("legal",)))
+    curation_records.write_record("conflicts", _conflict("bank", domains=("banking.ops", "legal")))
+    curation_records.write_record("conflicts", _conflict("law", domains=("legal",)))
+    curation_records.delete_record("conflicts", "gone")
+    _commit_all(repo, "two added, one removed")
+
+    assert sorted(vs.classify_diff(repo, base, vs.head_sha(repo), domains=["banking"]).curation) == [
+        ("conflicts", "bank", "apply"),
+    ]
+    assert sorted(vs.classify_diff(repo, base, vs.head_sha(repo), domains=["legal"]).curation) == [
+        ("conflicts", "bank", "apply"), ("conflicts", "gone", "remove"), ("conflicts", "law", "apply"),
+    ]
+
+
+def test_sync_applies_a_record_as_committed_not_as_in_the_working_tree(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    curation_records.write_record("conflicts", _conflict("c1", status="resolved"))
+    _commit_all(repo, "c1 resolved")
+    committed = (repo / ".artmind" / "data" / "curation" / "conflicts" / "c1.json").read_bytes()
+    curation_records.write_record("conflicts", _conflict("c1", status="dismissed"))   # uncommitted
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    applied = curation_graph.applied()
+    assert [(p["id"], p["status"]) for p in applied] == [("c1", "resolved")]
+    assert curation_graph.fingerprinted == [{"id": "c1", "fingerprint": curation_records.fingerprint(committed)}]
+    assert result["curation"] == {"conflicts": {"apply": 1, "remove": 0}}
+    assert _bookmarks(repo) == (vs.head_sha(repo), vs.head_sha(repo))
+
+
+def test_sync_removes_a_deleted_record(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("c1"))
+    curation_records.delete_record("conflicts", "c1")
+    _commit_all(repo, "drop c1")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo)
+
+    assert curation_graph.events == [("remove", "c1")]
+    assert ("MATCH (:Entity)-[r:CONFLICTS_WITH {conflict_id: $id}]->(:Entity) DELETE r", {"id": "c1"}) in curation_graph.calls
+
+
+def test_an_incompletely_applied_record_is_not_skipped_by_the_next_sync(repo, monkeypatch, curation_graph):
+    """The record's entity `eb` has not been replayed here yet, so apply leaves
+    the node edge-less. If it also stamped the fingerprint, the next sync's
+    `drop_unchanged_curation` would see a match and skip the record forever."""
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    curation_records.write_record("conflicts", _conflict("c1"))
+    _commit_all(repo, "a conflict between ea and eb")
+    head = vs.head_sha(repo)
+    curation_graph.entities = {"ea"}   # eb is absent
+
+    plan = vs.classify_diff(repo, base, head)
+    vs._apply_curation(repo, base, head, plan.curation, "post")
+
+    assert curation_graph.fingerprinted == [], "an incomplete apply must not stamp the fingerprint"
+    assert [p["id"] for p in curation_graph.applied()] == ["c1"], "the node was still written"
+    again = vs.classify_diff(repo, base, head)
+    assert vs.drop_unchanged_curation(repo, again) == 0
+    assert again.curation == [("conflicts", "c1", "apply")], "the next sync applies it again"
+
+    curation_graph.entities = {"ea", "eb"}   # eb arrives
+    vs._apply_curation(repo, base, head, again.curation, "post")
+
+    assert [p["id"] for p in curation_graph.fingerprinted] == ["c1"]
+    healed = vs.classify_diff(repo, base, head)
+    assert vs.drop_unchanged_curation(repo, healed) == 1
+    assert healed.curation == []
+
+
+def test_a_record_with_a_missing_evidence_chunk_is_not_skipped_by_the_next_sync(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    record = _conflict("c1")
+    record["evidence"] = [{"side": "a", "chunk_id": "d1_001", "doc_id": "d1"},
+                          {"side": "b", "chunk_id": "d2_004", "doc_id": "d2"}]
+    curation_records.write_record("conflicts", record)
+    _commit_all(repo, "a conflict with evidence")
+    head = vs.head_sha(repo)
+    curation_graph.chunks = {"d1_001"}   # d2_004's document is not replayed yet
+
+    plan = vs.classify_diff(repo, base, head)
+    vs._apply_curation(repo, base, head, plan.curation, "post")
+
+    assert curation_graph.fingerprinted == []
+    again = vs.classify_diff(repo, base, head)
+    assert vs.drop_unchanged_curation(repo, again) == 0
+
+
+def test_removing_a_record_whose_base_version_is_unreadable_warns_and_still_removes(repo, monkeypatch, curation_graph):
+    from loguru import logger
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder = _patch_curation_dir(monkeypatch, repo) / "conflicts"
+    folder.mkdir(parents=True)
+    (folder / "c9.json").write_text("this is not json")
+    _commit_all(repo, "a corrupt record")
+    base = vs.head_sha(repo)
+    (folder / "c9.json").unlink()
+    _commit_all(repo, "drop it")
+
+    messages: list[str] = []
+    sink_id = logger.add(lambda message: messages.append(message.record["message"]), level="WARNING")
+    try:
+        vs._apply_curation(repo, base, vs.head_sha(repo), [("conflicts", "c9", "remove")], "post")
+    finally:
+        logger.remove(sink_id)
+
+    assert any("conflicts" in m and "c9" in m and base[:12] in m for m in messages), messages
+    assert ("MATCH (co:Conflict {id: $id, _source: 'adjudicator'}) DETACH DELETE co", {"id": "c9"}) in curation_graph.calls
+
+
+def test_sync_skips_a_record_the_shared_graph_already_carries(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    fp = curation_records.write_record("conflicts", _conflict("c1"))
+    curation_records.write_record("conflicts", _conflict("c2"))
+    _commit_all(repo, "two conflicts detected on the other machine")
+    curation_graph.fingerprints = {"c1": fp, "c2": "an older version"}
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert [p["id"] for p in curation_graph.applied()] == ["c2"]
+    assert result["curation_unchanged"] == 1
+    reads = [p for c, p in curation_graph.calls if "record_fingerprint AS fingerprint" in c]
+    assert reads == [{"ids": ["c1", "c2"]}], "one fingerprint read for the kind"
+
+
+@pytest.mark.parametrize("kind,make", [
+    ("lifecycle", lambda: _lifecycle("docid-1")),
+    ("supersessions", lambda: _supersession_record("d2", "d1")),
+    ("syntheses", lambda: _synthesis("widget")),
+])
+def test_a_pre_phase_record_is_never_skipped_by_its_fingerprint(repo, monkeypatch, curation_graph, kind, make):
+    """A pre-phase record stamps its fingerprint in its own transaction, but
+    the keys it returns only reach the union rebuild in memory. If that
+    rebuild (or a later pre record) fails, the graph carries the fingerprint
+    while the keys were never rebuilt -- skipping the record on the retry
+    would strand them for good. So it is ALWAYS re-applied (idempotent), and
+    the graph is not even asked about it."""
+    from artmind import curation_records
+
+    base = _empty_curation_base(repo, monkeypatch)
+    record = make()
+    fp = curation_records.write_record(kind, record)
+    _commit_all(repo, f"a {kind} record")
+    curation_graph._held(kind)[record["id"]] = fp   # the graph carries exactly this version already
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert vs.drop_unchanged_curation(repo, plan) == 0
+    assert plan.curation == [(kind, record["id"], "apply")]
+    assert curation_graph.reads == [], "no fingerprint read for a pre-phase kind"
+
+
+def test_a_failed_union_rebuild_does_not_strand_a_synthesis_key_on_the_retry(repo, monkeypatch, curation_graph):
+    """The synthesis apply commits (and stamps its fingerprint) before the
+    union rebuild; the rebuild then fails, so the bookmark stays. On the
+    retry the record must be applied again so its key rejoins the rebuild --
+    otherwise the entity's description would stay stale while `vault status`
+    says current."""
+    import artmind.table2graph as t2g
+    from artmind.vault import VaultLayout, write_state
+
+    base = _empty_curation_base(repo, monkeypatch)
+    record = _synthesis("widget")
+    from artmind import curation_records
+    fp = curation_records.write_record("syntheses", record)
+    _commit_all(repo, "a synthesis")
+    head = vs.head_sha(repo)
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    def _boom(keys, groups=None):
+        raise RuntimeError("union rebuild failed")
+
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", _boom)
+    with pytest.raises(RuntimeError, match="union rebuild failed"):
+        vs.sync(repo)
+
+    assert curation_graph._held("syntheses") == {record["id"]: fp}, "the apply committed and stamped"
+    assert _bookmarks(repo) == (None, None), "the bookmark did not move"
+
+    calls = _patch_ingest_and_projection(monkeypatch)
+    result = vs.sync(repo)
+
+    assert calls["rebuild_in_batches"] == [[("widget", "RATE", "banking")]], "the key rejoined the rebuild"
+    assert (result["curation"], result["curation_unchanged"]) == ({"syntheses": {"apply": 1, "remove": 0}}, 0)
+    assert _bookmarks(repo) == (head, head)
+
+
+def test_conflicts_are_applied_after_the_projection_rebuild(repo, monkeypatch, curation_graph):
+    """CONFLICTS_WITH joins two :Entity nodes the rebuild creates on a local
+    graph; applied first, it would MATCH nothing."""
+    from artmind import curation_records
+    import artmind.table2graph as t2g
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    curation_records.write_record("conflicts", _conflict("c1"))
+    _commit_all(repo, "a doc and a conflict")
+    _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc={"doc1": [["a", "POLICY", "x"]]})
+    monkeypatch.setattr(
+        t2g, "_rebuild_in_batches",
+        lambda keys, groups=None: curation_graph.events.append(("rebuild", len(keys))) or {"keys": len(keys)},
+    )
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert curation_graph.events == [("rebuild", 1), ("apply", "c1")]
+
+
+def test_a_curation_dry_run_reports_what_the_real_run_applies_and_writes_nothing(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("c1"))
+    curation_records.write_record("conflicts", _conflict("c2"))
+    curation_records.delete_record("conflicts", "c1")
+    _commit_all(repo, "c2 in, c1 out")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+
+    assert dry["curation"] == {"conflicts": {"apply": 1, "remove": 1}}
+    assert curation_graph.events == []
+    real = vs.sync(repo)
+    assert real["curation"] == dry["curation"]
+    assert sorted(curation_graph.events) == [("apply", "c2"), ("remove", "c1")]
+
+
+def test_a_record_whose_id_disagrees_with_its_file_name_fails_the_sync(repo, monkeypatch, curation_graph):
+    base = _curation_base(repo, monkeypatch)
+    folder = repo / ".artmind" / "data" / "curation" / "conflicts"
+    folder.mkdir(parents=True, exist_ok=True)
+    import json
+    (folder / "c1.json").write_text(json.dumps(_conflict("someone-else")))
+    _commit_all(repo, "a hand-edited record")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    with pytest.raises(vs.VaultSyncError, match="not a conflicts record for id 'c1'"):
+        vs.sync(repo)
+    assert _bookmarks(repo) == (None, None)
+
+
+# ── `artmind update` folders replay like documents (spec 2026-09-26 §7) ──────
+
+
+def _write_update_folder(kg_dir, domain, session_id, draft_id, raw_text="Alice is the CEO."):
+    from artmind.ingest import write_staging
+
+    chat_id = f"update:{session_id}:{draft_id}"
+    folder = kg_dir / domain / f"update__{session_id}__{draft_id}"
+    write_staging(folder, {
+        "document.json": {"id": chat_id, "source_kind": "user_chat", "_domain": domain,
+                          "raw_text": raw_text, "session_id": session_id},
+        "chunks.json": [],
+        "observations.json": [{"id": "o1", "key": "alice|PERSON|general", "doc_id": chat_id, "chunk_id": chat_id}],
+        "relationships.json": [],
+    })
+    return folder, chat_id
+
+
+def test_sync_replays_an_update_folder_as_a_user_chat_and_embeds_it(repo, monkeypatch, curation_graph):
+    import artmind.ingest as ing
+    import artmind.update as upd
+
+    real_write = ing._write_to_neo4j
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update confirmed on the other machine")
+    _write_update_folder(kg_dir, "general", "s1", 7, raw_text="an uncommitted edit")
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(ing, "_write_to_neo4j", real_write)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    embedded = []
+    monkeypatch.setattr(upd, "embed_user_chats", lambda **kw: embedded.append(kw) or 0)
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    chats = [p for c, p in curation_graph.calls if "CREATE (n:UserChat {id: $id})" in c]
+    assert [(p["id"], p["props"]["raw_text"]) for p in chats] == [(chat_id, "Alice is the CEO.")]
+    assert not [c for c, _ in curation_graph.calls if "CREATE (n:Document {id: $id})" in c], "a chat is never a :Document"
+    assert embedded == [{"domain": "general"}]
+
+
+def test_a_shared_graph_that_already_has_the_update_does_not_replay_it(repo, monkeypatch, graph):
+    import artmind.update as upd
+    from artmind import sync_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update the other machine already wrote to the shared graph")
+    graph.fingerprints[chat_id] = sync_state.folder_fingerprint(folder)
+    calls = _patch_ingest_and_projection(monkeypatch)
+    embedded = []
+    monkeypatch.setattr(upd, "embed_user_chats", lambda **kw: embedded.append(kw) or 0)
+
+    result = vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["write_to_neo4j"] == []
+    assert result["unchanged"] == 1
+    assert graph.fingerprint_reads == [[chat_id]], "the graph was asked about the chat's own id, once"
+    assert embedded == []
+
+
+def test_a_deleted_update_folder_retracts_its_user_chat(repo, monkeypatch):
+    import shutil
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update")
+    base = vs.head_sha(repo)
+    shutil.rmtree(folder)
+    _commit_all(repo, "the update retracted")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo)
+
+    assert calls["retract_document"] == [(chat_id, "general")]
+
+
+# ── pending work counts updates, curation records and same-as groups (§6 A4) ──
+
+
+def test_pending_work_counts_an_update_folder_the_graph_lacks_as_a_doc(repo, monkeypatch, graph):
+    from artmind import sync_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    base = vs.head_sha(repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update")
+    head = vs.head_sha(repo)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+    assert (pending["graph"]["state"], pending["graph"]["docs"]) == ("behind", 1)
+    assert graph.fingerprint_reads == [[chat_id]], "the update is counted by its chat id, not its folder name"
+
+    graph.fingerprints[chat_id] = sync_state.folder_fingerprint(folder)
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+    assert (pending["graph"]["state"], pending["graph"]["docs"]) == ("current", 0)
+
+
+def test_pending_work_counts_only_curation_records_the_graph_does_not_hold(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("gone"), _conflict("kept-gone"), _conflict("stale"))
+    fp = curation_records.write_record("conflicts", _conflict("applied"))
+    curation_records.write_record("conflicts", _conflict("new"))
+    curation_records.delete_record("conflicts", "gone")
+    curation_records.delete_record("conflicts", "kept-gone")
+    curation_records.write_record("conflicts", _conflict("stale", status="resolved"))
+    _commit_all(repo, "two added, two removed, one changed")
+    head = vs.head_sha(repo)
+    # "applied" is already in the graph at this version; "gone" is still in
+    # the graph; "kept-gone" was already removed from it; "stale" is in the
+    # graph too, but under the fingerprint from before it changed -- present
+    # AND different from what's committed at head, which must count as
+    # pending exactly like an absent record does (not just "held is None").
+    curation_graph.fingerprints = {"applied": fp, "gone": "whatever", "stale": "an outdated fingerprint"}
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"], pending["graph"]["docs"]) == ("behind", 3, 0)
+
+
+def test_pending_work_counts_changed_same_as_groups(repo, monkeypatch, graph):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    head = vs.head_sha(repo)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["same_as_groups"]) == ("behind", 1)
+
+
+def test_the_staleness_line_names_curation_and_same_as_only_when_pending():
+    report = {"bookmark": "b", "state": "behind", "docs": 1, "tables": [], "curation": 2, "same_as_groups": 1, "detail": None}
+
+    assert vs.staleness_message({"graph": report, "structured": _current("b")}) == (
+        "artmind: graph is 1 docs / 0 tables / 2 curation records / 1 same-as groups behind the vault"
+        " — run `artmind vault sync`"
+    )
+    only_curation = dict(report, docs=0, same_as_groups=0)
+    assert vs.staleness_message({"graph": only_curation, "structured": _current("b")}) == (
+        "artmind: graph is 0 docs / 0 tables / 2 curation records behind the vault — run `artmind vault sync`"
+    )
+    assert vs.staleness_message({"graph": _current("b"), "structured": _current("b")}) is None
+
+
+def test_vault_status_prints_pending_curation_on_the_graph_line(capsys):
+    from artmind.cli import _echo_sync_status
+
+    _echo_sync_status({
+        "head": "h", "graph_error": None, "legacy_cursor": None, "operation_in_progress": None,
+        "unresolved_conflicts": [], "message": None,
+        "stores": {
+            "graph": {"bookmark": "b", "state": "behind", "docs": 0, "tables": [], "curation": 3,
+                      "same_as_groups": 0, "detail": None},
+            "structured": {"bookmark": "b", "state": "current", "docs": 0, "tables": [], "detail": None},
+        },
+    })
+
+    assert "graph      b  0 docs / 0 tables / 3 curation records behind" in capsys.readouterr().out
+
+
+def test_sync_applies_and_removes_supersession_records(repo, monkeypatch, curation_graph):
+    from artmind import curation_records, supersession_records
+
+    def _supersession(newer, older):
+        return {"id": supersession_records.record_id(newer, older, "document"), "newer_doc_id": newer,
+                "older_doc_id": older, "scope": "document", "effective": "2026-03-01",
+                "detected_by": "manual", "domains": ["banking"]}
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    gone = _supersession("d2", "d1")
+    curation_records.write_record("supersessions", gone)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    base = vs.head_sha(repo)
+    added = _supersession("d3", "d2")
+    curation_records.write_record("supersessions", added)
+    curation_records.delete_record("supersessions", gone["id"])
+    _commit_all(repo, "d3 supersedes d2; d2 no longer supersedes d1")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    merges = [p for c, p in curation_graph.calls if "MERGE (newer)-[s:SUPERSEDES" in c]
+    deletes = [p for c, p in curation_graph.calls if "MATCH (newer)-[s:SUPERSEDES {scope: $scope}]->(older)" in c]
+    assert [(p["newer"], p["older"]) for p in merges] == [("d3", "d2")]
+    assert deletes == [{"newer": "d2", "older": "d1", "scope": "document"}], "removed from the record as it was at base"
+    recomputes = [p for c, p in curation_graph.calls if "older.superseded_by = CASE" in c]
+    assert recomputes == [{"older": "d2"}, {"older": "d1"}], "each apply and removal re-derives its older document"
+    assert result["curation"] == {"supersessions": {"apply": 1, "remove": 1}}
+
+
+# ── lifecycle records: a retirement travels, and survives a replay ───────────
+
+
+def _lifecycle(doc_id, domain="banking"):
+    from artmind import lifecycle_records
+
+    return {"id": lifecycle_records.record_id(doc_id), "doc_id": doc_id, "domain": domain, "status": "retired"}
+
+
+def test_sync_re_applies_a_committed_retirement_after_replaying_the_document(repo, monkeypatch, curation_graph):
+    """The document's folder changed but its (older) lifecycle record did
+    not: the replay revives the node, so the record must be applied again."""
+    from artmind import curation_records
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1, retired")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"id": "o2"}]')
+    _commit_all(repo, "doc1 re-extracted")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+    result = vs.sync(repo)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"]
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"]
+    assert dry["curation"] == result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_pending_work_counts_the_retirement_a_replay_re_applies(repo, monkeypatch, curation_graph, graph):
+    """`vault status` must agree with what the sync will do: a document the
+    graph lacks is replayed, and its (unchanged) lifecycle record is applied
+    again after it. A document the graph already carries is not replayed, so
+    its record is not re-applied either."""
+    from artmind import curation_records, sync_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1, retired")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"id": "o2"}]')
+    _commit_all(repo, "doc1 re-extracted")
+    head = vs.head_sha(repo)
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+    dry = vs.sync(repo, dry_run=True)
+
+    assert (pending["graph"]["docs"], pending["graph"]["curation"]) == (1, 1), "the replay and its re-applied retirement"
+    assert dry["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+    graph.fingerprints["docid-1"] = sync_state.folder_fingerprint(kg_dir / "banking" / "doc1")
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["docs"], pending["graph"]["curation"]) == ("current", 0, 0)
+    assert vs.sync(repo, dry_run=True)["curation"] == {}
+
+
+def _capture_warnings():
+    from loguru import logger
+
+    messages: list[str] = []
+    sink_id = logger.add(lambda message: messages.append(message.record["message"]), level="WARNING")
+    return messages, lambda: logger.remove(sink_id)
+
+
+@pytest.mark.parametrize("kind,make,missing", [
+    ("supersessions", lambda: _supersession_record("d2", "d1"), ("d2", "d1")),
+    ("lifecycle", lambda: _lifecycle("docid-1"), ("docid-1",)),
+])
+def test_applying_a_record_whose_documents_are_absent_warns_and_stamps_nothing(
+    repo, monkeypatch, curation_graph, kind, make, missing
+):
+    """The statement matches nothing when a target document is not in this
+    graph (yet): no edge, no mark -- a silent no-op the bookmark then moves
+    past. It stays a no-op (the next sync that has the documents applies it
+    again), but says so."""
+    from artmind import curation_records
+
+    base = _empty_curation_base(repo, monkeypatch)
+    record = make()
+    curation_records.write_record(kind, record)
+    _commit_all(repo, f"a {kind} record")
+    head = vs.head_sha(repo)
+    plan = vs.classify_diff(repo, base, head)
+    curation_graph.documents = set()
+
+    messages, stop = _capture_warnings()
+    try:
+        vs._apply_curation(repo, base, head, plan.curation, "pre")
+    finally:
+        stop()
+
+    assert any(kind in m and record["id"] in m and all(d in m for d in missing) for m in messages), messages
+    assert curation_graph._held(kind) == {}, "no fingerprint was written"
+
+    curation_graph.documents = {"d1", "d2", "docid-1"}
+    messages, stop = _capture_warnings()
+    try:
+        vs._apply_curation(repo, base, head, plan.curation, "pre")
+    finally:
+        stop()
+
+    assert messages == [], "a record that matched warns of nothing"
+    assert list(curation_graph._held(kind)) == [record["id"]]
+
+
+def test_sync_restores_a_document_whose_lifecycle_record_was_deleted(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "retired")
+    base = vs.head_sha(repo)
+    curation_records.delete_record("lifecycle", _lifecycle("docid-1")["id"])
+    _commit_all(repo, "docs restore")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    vs.sync(repo)
+
+    guards = [p for c, p in curation_graph.calls if "RETURN count(d) AS n" in c and "lifecycle_record" in c]
+    assert guards == [{"doc_id": "docid-1", "id": _lifecycle("docid-1")["id"]}], "the doc id comes from the record at base"
+
+
+def test_sync_applies_a_synthesis_before_the_rebuild_and_rebuilds_its_key(repo, monkeypatch, curation_graph):
+    """The rebuild reads `:Synthesis` back through its synthesis_loader, so
+    the node must exist first -- and its key must be in the rebuild."""
+    from artmind import curation_records, synthesis_records
+    from artmind.observations import entity_id
+    import artmind.table2graph as t2g
+
+    key = ("widget rate", "RATE_ENTRY", "banking")
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    curation_records.write_record("syntheses", synthesis_records.record_from(key, {
+        "id": entity_id(key), "text": "Synthesised.", "observation_set_hash": "h",
+        "observation_ids": ["o1"], "created_at": "t", "model": "m",
+    }))
+    _commit_all(repo, "a synthesis from the other machine")
+    _patch_ingest_and_projection(monkeypatch)
+    order = []
+    real_run = curation_graph.run
+
+    def _run(cypher, **params):
+        if cypher.startswith("MERGE (s:Synthesis"):
+            order.append("synthesis")
+        return real_run(cypher, **params)
+
+    curation_graph.run = _run
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: order.append(("rebuild", sorted(keys))) or {})
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert order == ["synthesis", ("rebuild", [key])]
+
+
+# ── a curation-only .meta.json change restores registry rows alone ──────────
+
+
+def _meta(grain="instance", mappings=(), rows=3, columns=("id",), source=None, domain="banking", table="accounts"):
+    import json
+
+    meta = {
+        "table": {"domain": domain, "table_name": table, "grain": grain, "grain_confirmed": 1,
+                  "mapping_status": "ok", "row_count": rows},
+        "columns": [{"name": c, "dtype": "BIGINT"} for c in columns],
+        "column_mappings": [{"column": c, "entity_class": e, "confirmed": 1} for c, e in mappings],
+        "column_roles": [],
+    }
+    if source is not None:
+        meta["table"]["source_path"] = source
+    return json.dumps(meta, sort_keys=True)
+
+
+def _table_base(repo, monkeypatch, tables=(("banking", "accounts"),)):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    for domain, table in tables:
+        (st_dir / domain).mkdir(parents=True, exist_ok=True)
+        (st_dir / domain / f"{table}.csv").write_text("id\n1\n")
+        (st_dir / domain / f"{table}.meta.json").write_text(_meta(domain=domain, table=table))
+    _commit_all(repo, "a table")
+    return st_dir, vs.head_sha(repo)
+
+
+def test_classify_diff_marks_a_curation_only_meta_change_as_curation(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup", mappings=[("id", "ACCOUNT")]))
+    _commit_all(repo, "db grain / db mappings")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([], [("banking", "accounts")])
+
+
+def test_a_meta_change_beyond_curation_still_regenerates(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup", rows=4))
+    _commit_all(repo, "a refresh changed the row count")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+@pytest.mark.parametrize("change", [
+    {"columns": ("id", "extra")},        # schema
+    {"source": "elsewhere.csv"},         # source
+])
+def test_a_meta_schema_or_source_change_alongside_curation_still_regenerates(repo, monkeypatch, change):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(
+        _meta(grain="lookup", mappings=[("id", "ACCOUNT")], **change)
+    )
+    _commit_all(repo, "curation plus something else")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+def test_changed_rows_with_curation_still_regenerate(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n2\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "rows and grain")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+def test_a_table_new_since_base_or_a_bootstrap_regenerates_in_full(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "loans.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "loans.meta.json").write_text(_meta(table="loans"))
+    _commit_all(repo, "a new table")
+    head = vs.head_sha(repo)
+
+    since = vs.classify_diff(repo, base, head)
+    bootstrap = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, head)
+
+    assert (since.regenerate_tables, since.curate_tables) == ([("banking", "loans")], [])
+    assert (sorted(bootstrap.regenerate_tables), bootstrap.curate_tables) == (
+        [("banking", "accounts"), ("banking", "loans")], [],
+    )
+
+
+def test_a_table_curated_next_to_one_refreshed_is_split_per_table(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch, tables=(("banking", "accounts"), ("banking", "loans")))
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    (st_dir / "banking" / "loans.csv").write_text("id\n1\n2\n")
+    (st_dir / "banking" / "loans.meta.json").write_text(_meta(table="loans", rows=4))
+    _commit_all(repo, "curate accounts, refresh loans")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "loans")], [("banking", "accounts")])
+
+
+def test_a_source_change_on_a_table_that_is_also_curated_regenerates_it(repo, monkeypatch):
+    """A mapping change makes the table's projection stale, so it needs the
+    full regenerate -- the curation-only shortcut must not keep it."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    maps, _ = _patch_table_sources(monkeypatch, repo)
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*"))
+    _commit_all(repo, "a mapping")
+    base = vs.head_sha(repo)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    (maps / "accounts.yaml").write_text(_mapping_yaml("accounts"))
+    _commit_all(repo, "curate the table and edit its mapping")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+@pytest.mark.parametrize("before,after", [("{not json", "[also not json"), ("{}garbage", "\xff\xfe")])
+def test_two_unparseable_metas_are_not_classified_as_curation_only(repo, monkeypatch, before, after):
+    """Both parse to None; None == None must not read as "only curation changed"."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    meta_file = st_dir / "banking" / "accounts.meta.json"
+    meta_file.write_bytes(before.encode("latin-1"))
+    _commit_all(repo, "a table with a broken meta")
+    base = vs.head_sha(repo)
+    meta_file.write_bytes(after.encode("latin-1"))
+    _commit_all(repo, "a different broken meta")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+def _patch_curation_track_b(monkeypatch, *, parquet_exists=True):
+    calls = _patch_track_b(monkeypatch)
+    calls["registry_only"] = []
+    calls["staged"] = []   # what sat in the import's src_dir AT CALL TIME: (registry_only, domain, table, meta bytes, csv?)
+
+    def _import(*a, **k):
+        # The real import reads `<src_dir>/<domain>/<table>.meta.json`
+        # (and a CSV only for a table it loads in full): a src_dir that lacks
+        # the meta would make a registry-only restore silently do nothing.
+        src_dir = Path(a[0])
+        registry_only = bool(k.get("registry_only"))
+        for domain, table in k.get("tables"):
+            meta_file = src_dir / domain / f"{table}.meta.json"
+            assert meta_file.is_file(), f"{meta_file} was not materialised for the import to read"
+            calls["staged"].append((
+                registry_only, domain, table, meta_file.read_bytes(), (src_dir / domain / f"{table}.csv").is_file(),
+            ))
+        (calls["registry_only"] if registry_only else calls["import"]).append(list(k.get("tables")))
+        return {"tables_loaded": 1}
+
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", _import)
+    monkeypatch.setattr(
+        "artmind.structured.duckdb_adapter.parquet_path_for",
+        lambda domain, table: type("P", (), {"is_file": lambda self: parquet_exists})(),
+    )
+    _patch_ingest_and_projection(monkeypatch)
+    return calls
+
+
+def test_sync_restores_only_registry_rows_for_a_curation_only_change(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+    assert calls["registry_only"] == [] and calls["catalogue"] == [], "a dry run applies nothing"
+    result = vs.sync(repo)
+
+    assert calls["registry_only"] == [[("banking", "accounts")]]
+    assert calls["import"] == [] and calls["table_to_graph"] == [], "no parquet rewrite, no re-projection"
+    assert (dry["curated_tables"], dry["regenerate_tables"]) == (result["curated_tables"], result["regenerated_tables"]) == (1, 0)
+    assert calls["catalogue"] == ["banking"], "the graph's catalogue follows the registry"
+    head_meta = subprocess.run(
+        ["git", "show", "HEAD:.artmind/data/structured_text/banking/accounts.meta.json"],
+        cwd=repo, check=True, capture_output=True,
+    ).stdout
+    # The committed `.meta.json` was materialised for the import; the CSV was not (rows are untouched).
+    assert calls["staged"] == [(True, "banking", "accounts", head_meta, False)]
+
+
+def test_a_curation_only_change_restores_registry_rows_through_the_real_import(repo, monkeypatch):
+    """No mock on `import_structured_text`: the meta materialised from `head`
+    is what the registry-only import really reads, and the parquet stays."""
+    pytest.importorskip("duckdb")
+    import csv as _csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry, text_export
+    from artmind.structured.duckdb_adapter import parquet_path_for
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.vault import VaultLayout, write_state
+
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    monkeypatch.setattr(db, "DB_PATH", repo.parent / f"{repo.name}-reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", repo.parent / f"{repo.name}-structured")
+    db._init_db()
+    (repo.parent / f"{repo.name}-src").mkdir()
+    source = repo.parent / f"{repo.name}-src" / "products.csv"
+    with open(source, "w", newline="") as f:
+        _csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(source, "banking")
+    table = registry.get_table("products", domain="banking")
+    text_export.export_structured_text(tables=[table])
+    _commit_all(repo, "a table")
+    base = vs.head_sha(repo)
+    registry.upsert_mapping(table["id"], "name", "PRODUCT", 1.0, confirmed=True)
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")], meta_only=True)
+    _commit_all(repo, "db mappings")
+    assert (st_dir / "banking" / "products.csv").read_bytes()  # rows are committed, unchanged since base
+    registry.clear_mappings(table["id"], None)   # this machine's registry, as before the sync
+    parquet = parquet_path_for("banking", "products")
+    before = parquet.stat().st_mtime_ns
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr("artmind.structured.catalogue.project_catalogue", lambda domain: {})
+
+    result = vs.sync(repo)
+
+    assert (result["curated_tables"], result["regenerated_tables"]) == (1, 0)
+    restored = registry.get_table("products", domain="banking")
+    assert [(m["column"], m["confirmed"]) for m in registry.list_mappings(restored["id"])] == [("name", 1)]
+    assert parquet.stat().st_mtime_ns == before
+
+
+def test_a_graph_only_run_does_not_follow_a_curation_only_change_into_the_catalogue(repo, monkeypatch):
+    """A DOCUMENTED LIMITATION (decision 9): the catalogue is derived from the
+    registry, so it follows a curation-only change only when the structured
+    store is in the run too. A `--store graph` run neither restores the
+    registry nor projects the catalogue; the remedy is `artmind db catalogue`."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo, store="graph")
+
+    assert calls["registry_only"] == [] and calls["import"] == [] and calls["staged"] == []
+    assert calls["catalogue"] == [] and calls["table_to_graph"] == []
+
+
+def test_a_curation_only_change_for_a_table_with_no_parquet_here_restores_it_fully(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch, parquet_exists=False)
+
+    dry = vs.sync(repo, dry_run=True)
+    vs.sync(repo)
+
+    assert (calls["import"], calls["registry_only"]) == ([[("banking", "accounts")]], [])
+    assert [(ro, csv) for ro, _, _, _, csv in calls["staged"]] == [(False, True)], "the full restore has its CSV"
+    assert (dry["curated_tables"], dry["regenerate_tables"]) == (0, 1), "dry-run parity for the fallback"
+
+
+def test_a_structured_only_run_never_projects_the_catalogue(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo, store="structured")
+
+    assert calls["registry_only"] == [[("banking", "accounts")]]
+    assert calls["catalogue"] == []
+
+
+def _supersession_record(newer, older, scope="document"):
+    from artmind import supersession_records
+
+    return {"id": supersession_records.record_id(newer, older, scope), "newer_doc_id": newer,
+            "older_doc_id": older, "scope": scope, "effective": None, "detected_by": "manual",
+            "domains": ["banking"]}
+
+
+def _synthesis(name):
+    from artmind import synthesis_records
+    from artmind.observations import entity_id
+
+    key = (name, "RATE", "banking")
+    return synthesis_records.record_from(key, {
+        "id": entity_id(key), "text": "t", "observation_set_hash": "h", "observation_ids": [],
+        "created_at": "t", "model": "m",
+    })
+
+
+def _committed_fingerprint(repo, kind, record_id):
+    from artmind import curation_records
+
+    return curation_records.fingerprint((repo / ".artmind" / "data" / "curation" / kind / f"{record_id}.json").read_bytes())
+
+
+def _empty_curation_base(repo, monkeypatch):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    return vs.head_sha(repo)
+
+
+def test_pending_work_counts_every_pre_record_and_reads_the_graph_only_for_the_conflicts(
+    repo, monkeypatch, curation_graph
+):
+    """Lifecycle, supersession and synthesis records are pre-phase: a sync
+    re-applies every one of them (so their keys rejoin the rebuild), so each
+    is pending whatever the graph holds -- and the graph is not asked about
+    them. Conflicts are post-phase: read once, in one query, and pending only
+    while the graph's fingerprint differs."""
+    from artmind import curation_records
+
+    base = _empty_curation_base(repo, monkeypatch)
+    lifecycle = [_lifecycle("docid-1"), _lifecycle("docid-2")]
+    supersessions = [_supersession_record("d2", "d1"), _supersession_record("d3", "d2")]
+    syntheses = [_synthesis("widget"), _synthesis("gadget")]
+    for record in lifecycle:
+        curation_records.write_record("lifecycle", record)
+    for record in supersessions:
+        curation_records.write_record("supersessions", record)
+    for record in syntheses:
+        curation_records.write_record("syntheses", record)
+    fp_c1 = curation_records.write_record("conflicts", _conflict("c1"))
+    curation_records.write_record("conflicts", _conflict("c2"))
+    _commit_all(repo, "two records of each of four kinds")
+    head = vs.head_sha(repo)
+    # The graph already holds EVERY pre record at its committed fingerprint
+    # (as after a sync whose union rebuild then failed), and one conflict.
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions), ("syntheses", syntheses)):
+        curation_graph.kind_fingerprints[kind] = {r["id"]: _committed_fingerprint(repo, kind, r["id"]) for r in records}
+    curation_graph.fingerprints = {"c1": fp_c1}
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("behind", 7), "6 pre records + c2"
+    assert curation_graph.reads == [("conflicts", ["c1", "c2"])], "one read, for the post kind only"
+    assert "7 curation records" in vs.staleness_message(pending)
+
+    curation_graph.reads.clear()
+    curation_graph.fingerprints["c2"] = _committed_fingerprint(repo, "conflicts", "c2")
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert pending["graph"]["curation"] == 6, "the applied conflicts drop out; the pre records stay pending"
+    assert curation_graph.reads == [("conflicts", ["c1", "c2"])]
+
+
+def test_pending_work_counts_a_removed_record_only_while_the_graph_holds_it(repo, monkeypatch, curation_graph):
+    """A removal of any kind is pending only while the graph still holds the
+    record -- one read per kind that has a removal, with exactly its ids."""
+    from artmind import curation_records
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    lifecycle = [_lifecycle("docid-1"), _lifecycle("docid-2")]
+    supersessions = [_supersession_record("d2", "d1"), _supersession_record("d3", "d2")]
+    syntheses = [_synthesis("widget"), _synthesis("gadget")]
+    conflicts = [_conflict("c1"), _conflict("c2")]
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions),
+                          ("syntheses", syntheses), ("conflicts", conflicts)):
+        for record in records:
+            curation_records.write_record(kind, record)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "two records of each of four kinds")
+    base = vs.head_sha(repo)
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions),
+                          ("syntheses", syntheses), ("conflicts", conflicts)):
+        for record in records:
+            curation_records.delete_record(kind, record["id"])
+    _commit_all(repo, "all eight removed")
+    head = vs.head_sha(repo)
+    # The graph still holds the FIRST record of each kind, none of the second.
+    curation_graph.fingerprints = {"c1": "f"}
+    for kind, records in (("lifecycle", lifecycle), ("supersessions", supersessions), ("syntheses", syntheses)):
+        curation_graph.kind_fingerprints[kind] = {records[0]["id"]: "f"}
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("behind", 4)
+    assert sorted(curation_graph.reads) == sorted([
+        ("lifecycle", sorted(r["id"] for r in lifecycle)),
+        ("supersessions", sorted(r["id"] for r in supersessions)),
+        ("syntheses", sorted(r["id"] for r in syntheses)),
+        ("conflicts", ["c1", "c2"]),
+    ]), "one read per kind, with exactly that kind's ids"
+
+    curation_graph.fingerprints.clear()
+    for kind in ("lifecycle", "supersessions", "syntheses"):
+        curation_graph.kind_fingerprints[kind].clear()
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("current", 0)
+
+
+def test_the_structured_range_is_split_too_when_the_stores_start_apart(repo, monkeypatch, graph):
+    """The graph is already at HEAD; DuckDB is one curation commit behind."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    head = vs.head_sha(repo)
+    _synced_at(repo, graph, head, base)
+    calls = _patch_curation_track_b(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert calls["registry_only"] == [[("banking", "accounts")]]
+    assert calls["import"] == [] and calls["table_to_graph"] == []
+    assert calls["catalogue"] == ["banking"]
+    assert (result["curated_tables"], result["regenerated_tables"]) == (1, 0)
+
+
+def test_the_catalogue_is_projected_once_per_restored_domain(repo, monkeypatch):
+    tables = (("banking", "accounts"), ("banking", "loans"), ("retail", "orders"))
+    st_dir, base = _table_base(repo, monkeypatch, tables=tables)
+    for domain, table in tables[:2] + tables[2:]:
+        (st_dir / domain / f"{table}.meta.json").write_text(_meta(grain="lookup", domain=domain, table=table))
+    _commit_all(repo, "curate three tables in two domains")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo)
+
+    assert sorted(calls["registry_only"][0]) == [("banking", "accounts"), ("banking", "loans"), ("retail", "orders")]
+    assert calls["catalogue"] == ["banking", "retail"]
+
+
+def test_a_domain_scoped_run_projects_only_that_domains_catalogue(repo, monkeypatch, graph):
+    tables = (("banking", "accounts"), ("retail", "orders"))
+    st_dir, base = _table_base(repo, monkeypatch, tables=tables)
+    for domain, table in tables:
+        (st_dir / domain / f"{table}.meta.json").write_text(_meta(grain="lookup", domain=domain, table=table))
+    _commit_all(repo, "curate both")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo, domains=["retail"])
+
+    assert calls["registry_only"] == [[("retail", "orders")]]
+    assert calls["catalogue"] == ["retail"]
+    assert graph.bookmark_writes == [], "a domain-scoped run never advances a bookmark"
+
+
+def test_a_failed_catalogue_projection_does_not_advance_the_bookmarks(repo, monkeypatch, graph):
+    """The catalogue is derived from the registry rows just restored; if it
+    cannot be projected the range must be retried, not stamped as applied."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    _synced_at(repo, graph, base, base)
+    graph.bookmark_writes.clear()
+    _patch_curation_track_b(monkeypatch)
+
+    def _boom(domain):
+        raise RuntimeError("AuraDB unreachable")
+
+    monkeypatch.setattr("artmind.structured.catalogue.project_catalogue", _boom)
+
+    with pytest.raises(RuntimeError, match="AuraDB unreachable"):
+        vs.sync(repo)
+
+    assert graph.bookmark_writes == []
+    assert _bookmarks(repo) == (base, base)
+
+
+def _replay_setup(repo, monkeypatch, *, retire_at_base):
+    """doc1 committed (retired at base when asked), then re-extracted; the
+    state cursor sits at the first commit. Returns the base commit."""
+    from artmind import curation_records
+    from artmind.vault import VaultLayout, write_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    if retire_at_base:
+        curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1")
+    base = vs.head_sha(repo)
+    (kg_dir / "banking" / "doc1" / "observations.json").write_text('[{"id": "o2"}]')
+    return kg_dir, base
+
+
+def test_a_replayed_document_with_no_retirement_at_head_adds_no_curation(repo, monkeypatch, curation_graph):
+    from artmind.vault import VaultLayout, write_state
+
+    _, base = _replay_setup(repo, monkeypatch, retire_at_base=False)
+    _commit_all(repo, "doc1 re-extracted")
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"]
+    assert result["curation"] == {}
+    assert not [p for c, p in curation_graph.calls if "lifecycle_record" in c]
+
+
+def test_a_retirement_changed_with_its_replayed_document_is_applied_once(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+    from artmind.vault import VaultLayout, write_state
+
+    _, base = _replay_setup(repo, monkeypatch, retire_at_base=False)
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    _commit_all(repo, "doc1 re-extracted and retired in one commit")
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"], "the diff already names the record; the replay hook adds no second copy"
+    assert result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def _two_retired_docs(repo, monkeypatch, *, second_domain="banking", re_extract=("doc1", "doc2")):
+    """doc1 (banking) and doc2 are both retired at base, then the listed ones
+    are re-extracted; the state cursor sits at the base commit."""
+    from artmind import curation_records
+    from artmind.vault import VaultLayout, write_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _write_doc_folder(kg_dir, second_domain, "doc2", "docid-2")
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    curation_records.write_record("lifecycle", _lifecycle("docid-2", domain=second_domain))
+    _commit_all(repo, "both retired")
+    base = vs.head_sha(repo)
+    for name in re_extract:
+        folder = kg_dir / ("banking" if name == "doc1" else second_domain) / name
+        (folder / "observations.json").write_text('[{"id": "o2"}]')
+    _commit_all(repo, "re-extracted")
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+
+
+def test_a_retirement_is_not_re_applied_for_a_document_this_run_did_not_replay(repo, monkeypatch, curation_graph):
+    _two_retired_docs(repo, monkeypatch, re_extract=("doc1",))
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"]
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"], "docid-2 was not replayed, so its record stays untouched"
+    assert result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_a_retirement_re_applied_after_a_replay_respects_the_domain_scope(repo, monkeypatch, curation_graph):
+    _two_retired_docs(repo, monkeypatch, second_domain="legal")
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, domains=["banking"])
+
+    assert [Path(p).name for p, _ in calls["write_to_neo4j"]] == ["doc1"], "legal is out of scope"
+    marks = [p for c, p in curation_graph.calls if "SET d.lifecycle_record = $id" in c]
+    assert [p["doc_id"] for p in marks] == ["docid-1"], "the legal document's record is not applied under --domain banking"
+    assert result["curation"] == {"lifecycle": {"apply": 1, "remove": 0}}
+
+
+def test_a_scope_with_no_replayed_document_re_applies_nothing(repo, monkeypatch, curation_graph):
+    _two_retired_docs(repo, monkeypatch, second_domain="legal")
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, domains=["other"])
+
+    assert calls["write_to_neo4j"] == []
+    assert not [p for c, p in curation_graph.calls if "lifecycle_record" in c]
+    assert result["curation"] == {}

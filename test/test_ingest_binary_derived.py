@@ -6,14 +6,17 @@ docling itself stubbed out (`_convert_binary_via_docling` is monkeypatched to
 return a controllable body instead of shelling out to a real conversion).
 
 Covers the one decision left after promotion was deleted -- no_op vs
-convert, driven by comparing the incoming binary's hash against
-`_source_sha256` in the registered markdown's own frontmatter -- for both a
-source copied in from outside the vault and a vault-resident source.
+convert, driven by comparing the incoming binary's hash against the
+`source_sha256` its last extraction staged in document.json (spec 2026-09-26
+R6; the converted markdown's own `_source_sha256` frontmatter is the legacy
+fallback) -- for both a source copied in from outside the vault and a
+vault-resident source.
 """
+import json
 import subprocess
 
 import artmind.ingest as ing
-from conftest import _fake_docling
+from conftest import _fake_docling, stage_as_extracted
 
 
 def test_first_ingest_converts_and_mints_an_artmind_id(ingest_env, monkeypatch):
@@ -28,9 +31,9 @@ def test_first_ingest_converts_and_mints_an_artmind_id(ingest_env, monkeypatch):
     derived_path = ing.MARKDOWNS_DIR / "deck.md"
     assert derived_path.exists()
     meta, body = ing._parse_md_frontmatter(derived_path.read_text())
-    assert meta["_artmind_id"] == result["artmind_id"]
-    assert meta["_source_type"] == "pptx"
-    assert "_source_sha256" in meta
+    assert meta == {"_artmind_id": result["artmind_id"], "_domain": "general"}
+    assert result["provenance"]["source_type"] == "pptx"
+    assert result["provenance"]["source_sha256"] == ing._compute_sha256(source)
     assert body == "# Deck\n\nBody v1.\n"
 
     # artmind never commits (spec 2026-09-26 D1): the derived markdown is left
@@ -45,6 +48,7 @@ def test_reingest_unchanged_binary_is_a_no_op(ingest_env, monkeypatch):
     vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
 
     # Re-ingest the identical binary bytes -- docling must not even be called.
     monkeypatch.setattr(
@@ -64,6 +68,7 @@ def test_binary_changed_reconverts_and_bumps_version(ingest_env, monkeypatch):
     vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
 
     source.write_bytes(b"fake binary v2 -- different bytes")
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v2.\n"]))
@@ -105,6 +110,7 @@ def test_a_vault_resident_binary_no_ops_on_an_unchanged_reingest(ingest_env, mon
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
     r1 = ing.ingest_file(resident, "gemma4:e4b", "general", chunk_size=6000)
     assert r1["status"] == "ok"
+    stage_as_extracted(ing.KG_DIR, r1)
 
     monkeypatch.setattr(
         ing, "_convert_binary_via_docling",
@@ -117,3 +123,40 @@ def test_a_vault_resident_binary_no_ops_on_an_unchanged_reingest(ingest_env, mon
     assert r2["artmind_id"] == r1["artmind_id"]
     assert r2["version"] == r1["version"]
     assert "chunks_dir" not in r2
+
+
+def test_an_unextracted_conversion_is_not_a_no_op(ingest_env, monkeypatch):
+    """The source hash is recorded by the extraction (document.json), not at
+    conversion: a conversion whose extraction never ran converts again
+    rather than no-op forever on a markdown nothing was extracted from."""
+    vault, source = ingest_env
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"] * 2))
+
+    ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)  # extraction then fails
+    again = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert again.get("tier") != "no_op"
+    assert "chunks_dir" in again, "converted and chunked again, ready to extract"
+    assert again["version"] == 1
+
+
+def test_a_legacy_conversion_no_ops_from_its_own_frontmatter(ingest_env, monkeypatch):
+    """Backward compatibility: a conversion stamped by pre-R6 artmind (fat
+    frontmatter, a document.json without `source_sha256`) still no-ops."""
+    vault, source = ingest_env
+    derived = ing.MARKDOWNS_DIR / "deck.md"
+    derived.write_text(
+        "---\n_artmind_id: 0192legacy\n_version: 3\n_domain: general\n_source_sha256: "
+        + ing._compute_sha256(source) + "\n---\n\n# Deck\n"
+    )
+    folder = ing.KG_DIR / "general" / "deck"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text(json.dumps({"id": "0192legacy", "version": 3}))
+    monkeypatch.setattr(
+        ing, "_convert_binary_via_docling",
+        lambda *a, **k: (_ for _ in ()).throw(AssertionError("docling should not run on a no_op")),
+    )
+
+    result = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert (result["tier"], result["version"], result["artmind_id"]) == ("no_op", 3, "0192legacy")

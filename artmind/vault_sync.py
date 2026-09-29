@@ -18,10 +18,17 @@ Each store has its own bookmark (§6 A2): the graph's in the graph
 whose committed fingerprint the graph already carries is skipped (§6 A3),
 and `pending_work`/`query_staleness_warning` report what is still to apply
 (§6 A4). artmind never writes to this vault's git (D2) -- only reads it.
+
+Curation travels too (spec §7, §15 A9): `artmind update` folders
+(`kg/<domain>/update__*`) replay with track A; track C applies curation
+records (`.artmind/data/curation/<kind>/<id>.json`, `artmind.curation_records`)
+and track D rebuilds the members of every same-as group changed in
+`.artmind/same_as.yaml`, with the groups as committed at `head`.
 """
 from __future__ import annotations
 
 import io
+import json
 import subprocess
 import tarfile
 import tempfile
@@ -111,30 +118,38 @@ def preflight(vault_dir: Path) -> None:
     if unmerged:
         raise VaultSyncError(
             f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
-            f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
+            f"{', ...' if len(unmerged) > 5 else ''}) -- run `artmind vault resolve` for artmind's "
+            "generated files under .artmind/data/, resolve the rest by hand"
         )
+    # The worker writes the same graph keys `sync` replays, and its staging
+    # writes are what `sync` would be reading.
+    if worker_running(vault_dir):
+        raise VaultSyncError(
+            "the ingest worker is running for this vault -- wait for it to finish "
+            "(`artmind ingest job-status`), then re-run `vault sync`"
+        )
+
+
+def worker_running(vault_dir: Path) -> bool:
+    """Whether the ingest worker is running for this vault -- `vault sync`
+    and `vault migrate-frontmatter` both refuse while it is.
+
+    Checked at every location a live worker for this vault could plausibly
+    hold (re-review item 2):
+     - this vault's own pid file (item 1's fix; the common case)
+     - paths.WORKER_PID_FILE: the process-wide location, which differs
+       from the vault's own when ARTMIND_HOME is explicitly pointed
+       elsewhere (a supported setup) -- the worker for THIS vault then
+       writes there, not under vault_dir/.artmind/
+     - paths.DATA_DIR / "worker.pid": the legacy (pre-item-1) location --
+       a worker started before that fix, still running old code, would
+       still hold this one. Drop this fallback after one release."""
     from artmind.vault import VaultLayout
     from artmind.worker_pid import live_pid
     import paths
 
-    # The worker writes the same graph keys `sync` replays, and its staging
-    # writes are what `sync` would be reading. Checked at every location a
-    # live worker for this vault could plausibly hold (re-review item 2):
-    #  - this vault's own pid file (item 1's fix; the common case)
-    #  - paths.WORKER_PID_FILE: the process-wide location, which differs
-    #    from the vault's own when ARTMIND_HOME is explicitly pointed
-    #    elsewhere (a supported setup) -- the worker for THIS vault then
-    #    writes there, not under vault_dir/.artmind/
-    #  - paths.DATA_DIR / "worker.pid": the legacy (pre-item-1) location --
-    #    a worker started before that fix, still running old code, would
-    #    still hold this one. Drop this fallback after one release.
     pid_files = {VaultLayout(vault_dir).worker_pid, paths.WORKER_PID_FILE, paths.DATA_DIR / "worker.pid"}
-    for pid_file in pid_files:
-        if live_pid(pid_file) is not None:
-            raise VaultSyncError(
-                "the ingest worker is running for this vault -- wait for it to finish "
-                "(`artmind ingest job-status`), then re-run `vault sync`"
-            )
+    return any(live_pid(pid_file) is not None for pid_file in pid_files)
 
 
 def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> list[tuple[str, str]]:
@@ -255,6 +270,10 @@ class SyncPlan:
     replay_docs: list[tuple[str, str]] = field(default_factory=list)        # (domain, docdir)
     retract: list[tuple[str, str]] = field(default_factory=list)            # (domain, doc_id)
     regenerate_tables: list[tuple[str, str]] = field(default_factory=list)  # (domain, table_name)
+    same_as_keys: list[tuple[str, str, str]] = field(default_factory=list)  # track D: keys to rebuild
+    same_as_groups: int = 0                                                 # track D: groups added/removed/changed
+    curation: list[tuple[str, str, str]] = field(default_factory=list)      # track C: (kind, record_id, "apply"|"remove")
+    curate_tables: list[tuple[str, str]] = field(default_factory=list)      # track B: registry-only (curation) changes
 
 
 def _in_scope(domain: str, domains: list[str] | None) -> bool:
@@ -421,7 +440,13 @@ def drop_unchanged(
     return them. ONE Cypher read for the whole plan. On a shared graph the
     machine that ingested a document already wrote it, so this is what makes
     the other machine's apply a near no-op; on a separate local Neo4j nothing
-    matches and everything is replayed."""
+    matches and everything is replayed.
+
+    Known limitation: a document's fingerprint is stamped in the same
+    transaction as its observations, but its aggregate keys reach the union
+    rebuild only in memory. If that rebuild fails after the commit, the retry
+    finds the fingerprint and skips the document, so its keys are healed only
+    by the next rebuild that touches them, e.g. `artmind projection rebuild`."""
     from artmind import sync_state
 
     committed = committed_fingerprints(vault_dir, plan.head, plan.replay_docs)
@@ -523,12 +548,18 @@ def _classify_kg_diff(
 
     # A moved/renamed note keeps its `_artmind_id`; its staging folder just
     # changes name, so the old folder's removal above looks like a delete of
-    # that id. Don't retract an id any `document.json` at `head`, in the
-    # same domain, still carries -- whether the new folder appeared in THIS
+    # that id. Don't retract an id any `document.json` at `head` still
+    # carries -- in the SAME domain (a rename) or in ANOTHER (a domain change:
+    # `ingest sync --setDomain` writes the folder under the new domain and
+    # removes the old one). `retract_document` demotes `:Document {id}` by id
+    # alone, so retracting the old domain's id would demote the node the new
+    # domain's folder just replayed. Whether the new folder appeared in THIS
     # diff range (replayed above) or in an earlier one already applied
-    # (spec 2026-09-27 item 2).
-    live = _document_ids_at_head(vault_dir, head, kg_rel, [d for d, _ in retract_candidates])
-    retract = [(d, doc_id) for d, doc_id in retract_candidates if doc_id not in live.get(d, set())]
+    # (spec 2026-09-27 item 2) makes no difference: liveness is read at `head`.
+    # `[""]` scans every domain: `kg_rel / ""` is the whole KG tree.
+    live_by_domain = _document_ids_at_head(vault_dir, head, kg_rel, [""])
+    live = set().union(*live_by_domain.values()) if live_by_domain else set()
+    retract = [(d, doc_id) for d, doc_id in retract_candidates if doc_id not in live]
     return replay, retract
 
 
@@ -578,6 +609,66 @@ def _classify_structured_text_diff(
     retracted = {(d, doc_id.split(":", 2)[2]) for d, doc_id in retract}
     regenerate = [key for key in regenerate if key not in retracted]
     return regenerate, retract
+
+
+#: What a registry-only curation command changes in a table's `.meta.json`
+#: (`db grain`, `db mappings`, `db bridge`, `db propose`).
+_CURATION_TABLE_FIELDS = ("grain", "grain_confirmed", "grain_status", "bridge_status", "mapping_status")
+_CURATION_META_LISTS = ("column_mappings", "column_roles")
+
+
+def _meta_without_curation(data: bytes | None):
+    """A `.meta.json` with its curation fields dropped, for comparison; None
+    when it is not a JSON object."""
+    try:
+        meta = json.loads(data.decode("utf-8")) if data is not None else None
+    except (UnicodeDecodeError, ValueError):
+        return None
+    if not isinstance(meta, dict):
+        return None
+    meta = {k: v for k, v in meta.items() if k not in _CURATION_META_LISTS}
+    if isinstance(meta.get("table"), dict):
+        meta["table"] = {k: v for k, v in meta["table"].items() if k not in _CURATION_TABLE_FIELDS}
+    return meta
+
+
+def _split_curation_only(
+    vault_dir: Path, base: str, head: str, tables: list[tuple[str, str]]
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """`(full, curation_only)` for tables track B would regenerate. A table
+    whose CSV is the same blob at `base` and `head` and whose `.meta.json`
+    changed only in curation fields (grain, bridge columns, column
+    mappings, their proposal statuses) needs its registry rows restored --
+    not its rows re-imported into parquet, nor its graph projection rebuilt
+    (`table2graph` reads neither)."""
+    import paths
+
+    if not tables or base == EMPTY_TREE_SHA:
+        return list(tables), []
+    try:
+        st_rel = Path(paths.STRUCTURED_TEXT_DIR).relative_to(vault_dir)
+    except ValueError:
+        return list(tables), []
+    csv = {t: str(st_rel / t[0] / f"{t[1]}.csv") for t in tables}
+    meta = {t: str(st_rel / t[0] / f"{t[1]}{_META_SUFFIX}") for t in tables}
+    base_oids = _oids_at(vault_dir, base, list(csv.values()))
+    head_oids = _oids_at(vault_dir, head, list(csv.values()))
+    base_meta = _blobs_at(vault_dir, base, list(meta.values()))
+    head_meta = _blobs_at(vault_dir, head, list(meta.values()))
+    full, curation_only = [], []
+    for t in tables:
+        same_rows = csv[t] in head_oids and base_oids.get(csv[t]) == head_oids[csv[t]]
+        before, after = base_meta.get(meta[t]), head_meta.get(meta[t])
+        before_rest = _meta_without_curation(before)
+        if (
+            same_rows and before is not None and after is not None and before != after
+            and before_rest is not None
+            and before_rest == _meta_without_curation(after)
+        ):
+            curation_only.append(t)
+        else:
+            full.append(t)
+    return full, curation_only
 
 
 def _mapping_at(vault_dir: Path, rev: str, relpath: str):
@@ -729,6 +820,278 @@ def _classify_table_sources(
     return regenerate, retract
 
 
+# ── track D: same_as.yaml (spec 2026-09-26 §7) ────────────────────────────────
+
+
+def _same_as_relpath(vault_dir: Path) -> str | None:
+    """`same_as.yaml`'s path relative to the vault, or None when it lives
+    outside it (a run folder named by an explicit `ARTMIND_HOME`): then it is
+    not versioned with the vault, and there is nothing to diff."""
+    from artmind import same_as
+
+    try:
+        return str(Path(same_as.SAME_AS_PATH).relative_to(vault_dir))
+    except ValueError:
+        return None
+
+
+def same_as_groups_at(vault_dir: Path, rev: str) -> list[list[tuple[str, str, str]]]:
+    """The same-as groups as committed at `rev` -- never the working tree,
+    where an uncommitted edit may sit (spec 2026-09-26 §6 A1). The empty tree
+    (`--bootstrapEmpty`'s base) has none. A `same_as.yaml` outside the vault
+    is not versioned with it, so its live copy is all there is."""
+    from artmind import same_as
+
+    rel = _same_as_relpath(vault_dir)
+    if rel is None:
+        return same_as.load_groups()
+    if rev == EMPTY_TREE_SHA:
+        return []
+    return same_as.parse_groups(_show(vault_dir, rev, rel), source=f"{rel} at {rev[:12]}")
+
+
+def _group_identity(group: list[tuple[str, str, str]]) -> tuple:
+    """A group as a comparable value: its canonical and its member set. Member
+    order in the file carries no meaning; which member is canonical does."""
+    return (group[0], tuple(sorted(group)))
+
+
+def _classify_same_as(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> tuple[list[tuple[str, str, str]], int]:
+    """Track D: `(keys, groups)` -- every aggregate key in a same-as group
+    added, removed or changed between `base` and `head`, and how many such
+    groups there were. A removed group's members must be rebuilt as separate
+    entities again; an added group's, folded (or linked); a changed group's,
+    both, so the keys of its `base` AND `head` versions are included.
+
+    Scoped like the other tracks: a group counts when any member's domain is
+    in scope (then all its members are rebuilt -- a group is rebuilt whole).
+    Reads `same_as.yaml` at both revisions from git; an unchanged file costs
+    one `git diff` and nothing else."""
+    rel = _same_as_relpath(vault_dir)
+    if rel is None:
+        return [], 0
+    if not _diff_name_status(vault_dir, base, head, vault_dir / rel):
+        return [], 0
+    before = {_group_identity(g) for g in same_as_groups_at(vault_dir, base)}
+    after = {_group_identity(g) for g in same_as_groups_at(vault_dir, head)}
+    changed = [
+        members for _, members in sorted(before ^ after)
+        if any(_in_scope(key[2], domains) for key in members)
+    ]
+    keys = sorted({key for members in changed for key in members})
+    return keys, len(changed)
+
+
+# ── track C: curation records (spec 2026-09-26 §7, §14 A6) ───────────────────
+
+
+def _curation_rel(vault_dir: Path) -> Path | None:
+    """`paths.CURATION_DIR` relative to the vault, or None outside it."""
+    import paths
+
+    try:
+        return Path(paths.CURATION_DIR).relative_to(vault_dir)
+    except ValueError:
+        return None
+
+
+def _curation_relpath(vault_dir: Path, kind: str, record_id: str) -> str:
+    return str(_curation_rel(vault_dir) / kind / f"{record_id}.json")
+
+
+def _oids_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, str]:
+    """`{relpath: blob oid}` for the files among `relpaths` that exist at
+    `rev` -- one `git ls-tree`, no content read."""
+    if not relpaths:
+        return {}
+    listing = _git(vault_dir, ["ls-tree", "-r", "-z", rev, "--", *relpaths])
+    oid_of: dict[str, str] = {}
+    for entry in listing.split("\0"):
+        if not entry:
+            continue
+        meta, _, path = entry.partition("\t")
+        fields = meta.split(" ")
+        if len(fields) == 3 and fields[1] == "blob":
+            oid_of[path] = fields[2]
+    return oid_of
+
+
+def _blobs_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, bytes]:
+    """`{relpath: committed bytes}` for the files among `relpaths` that exist
+    at `rev`: one `git ls-tree` and one `git cat-file --batch`, raw blobs
+    (the bytes `curation_records.fingerprint` hashes)."""
+    oid_of = _oids_at(vault_dir, rev, relpaths)
+    blobs = _cat_blobs(vault_dir, list(oid_of.values()))
+    return {path: blobs[oid] for path, oid in oid_of.items() if oid in blobs}
+
+
+def _classify_curation(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> list[tuple[str, str, str]]:
+    """Track C: `(kind, record_id, action)` for every curation record file
+    (`curation/<kind>/<id>.json`, a registered kind) added or changed
+    (`"apply"`) or deleted (`"remove"`) between `base` and `head`.
+
+    `--domain` scoping reads the record -- as committed at `head` for an
+    apply, at `base` for a removal -- and keeps it when any of its domains is
+    in scope."""
+    from artmind import curation_records
+
+    rel = _curation_rel(vault_dir)
+    if rel is None:
+        return []
+    known = curation_records.kinds()
+    changes: list[tuple[str, str, str]] = []
+    for status, path in _diff_name_status(vault_dir, base, head, vault_dir / rel):
+        parts = Path(path).relative_to(rel).parts
+        if len(parts) != 2 or not parts[1].endswith(".json") or parts[0] not in known:
+            continue
+        changes.append((parts[0], parts[1][: -len(".json")], "remove" if status == "D" else "apply"))
+    if not domains or not changes:
+        return changes
+    at_head = _blobs_at(vault_dir, head, [_curation_relpath(vault_dir, k, i) for k, i, a in changes if a == "apply"])
+    at_base = _blobs_at(vault_dir, base, [_curation_relpath(vault_dir, k, i) for k, i, a in changes if a == "remove"])
+    scoped = []
+    for kind, record_id, action in changes:
+        blobs = at_head if action == "apply" else at_base
+        record = curation_records.parse(blobs.get(_curation_relpath(vault_dir, kind, record_id)))
+        if record is not None and any(_in_scope(d, domains) for d in known[kind].domains(record)):
+            scoped.append((kind, record_id, action))
+    return scoped
+
+
+def committed_curation_fingerprints(vault_dir: Path, head: str, plan: "SyncPlan") -> dict[tuple[str, str], str]:
+    """`{(kind, record_id): fingerprint}` of every record `plan` applies, as
+    committed at `head`."""
+    from artmind import curation_records
+
+    wanted = {(k, i): _curation_relpath(vault_dir, k, i) for k, i, a in plan.curation if a == "apply"}
+    blobs = _blobs_at(vault_dir, head, list(wanted.values()))
+    return {key: curation_records.fingerprint(blobs[path]) for key, path in wanted.items() if path in blobs}
+
+
+def _graph_curation_fingerprints(
+    items: list[tuple[str, str, str]], *, timeout: float | None
+) -> dict[tuple[str, str], str | None]:
+    """`{(kind, record_id): fingerprint}` the graph holds, one query per kind
+    that has items. A record the graph does not hold is absent."""
+    from artmind import curation_records
+
+    by_kind: dict[str, list[str]] = {}
+    for kind, record_id, _ in items:
+        by_kind.setdefault(kind, []).append(record_id)
+    known = curation_records.kinds()
+    found: dict[tuple[str, str], str | None] = {}
+    for kind, ids in by_kind.items():
+        for record_id, fp in known[kind].read_fingerprints(ids, timeout=timeout).items():
+            found[(kind, record_id)] = fp
+    return found
+
+
+def drop_unchanged_curation(vault_dir: Path, plan: "SyncPlan", *, timeout: float | None = None) -> int:
+    """Spec §6 A3 for curation: remove from `plan.curation` every POST-phase
+    record whose committed fingerprint the graph already carries (the machine
+    that wrote it, sharing this graph, already applied it) and return how
+    many. Removals are always kept (removing an absent record is a no-op).
+
+    A PRE-phase record (`Kind.phase == "pre"`: lifecycle, supersession,
+    synthesis) is never skipped, whatever the graph carries. It stamps its
+    fingerprint in its own committed transaction, but the keys it returns
+    reach the union rebuild only in memory: if that rebuild -- or a later pre
+    record -- fails, the bookmark stays yet the fingerprint is already in the
+    graph, and skipping the record on the retry would keep its keys out of
+    the rebuild for good (a stale synthesis description, a retired document's
+    entities left live) while `vault status` said current. Applying it again
+    is idempotent, and its keys rejoin the rebuild. A post-phase record
+    (conflicts) returns no keys, so its fingerprint is a sound skip; the
+    graph is read for those only."""
+    from artmind import curation_records
+
+    known = curation_records.kinds()
+    committed = committed_curation_fingerprints(vault_dir, plan.head, plan)
+    applies = [item for item in plan.curation if item[2] == "apply" and known[item[0]].phase == "post"]
+    if not applies:
+        return 0
+    in_graph = _graph_curation_fingerprints(applies, timeout=timeout)
+    unchanged = [
+        (k, i, a) for k, i, a in applies
+        if committed.get((k, i)) is not None and in_graph.get((k, i)) == committed[(k, i)]
+    ]
+    plan.curation = [item for item in plan.curation if item not in unchanged]
+    return len(unchanged)
+
+
+def reapply_for_replayed(vault_dir: Path, plan: "SyncPlan") -> int:
+    """Add to `plan.curation` the records a kind asks to re-apply after the
+    documents `plan` replays (`Kind.reapply_for`) -- a replay revives a
+    document's node, and a retirement committed at `head` must still win.
+    Only records that exist at `head`; returns how many were added."""
+    from artmind import curation_records
+
+    known = curation_records.kinds()
+    hooks = {name: kind for name, kind in known.items() if kind.reapply_for}
+    if not hooks or not plan.replay_docs or _curation_rel(vault_dir) is None:
+        return 0
+    doc_ids = [doc_id for doc_id, _ in committed_fingerprints(vault_dir, plan.head, plan.replay_docs).values() if doc_id]
+    wanted = [(name, rid) for name, kind in hooks.items() for rid in kind.reapply_for(doc_ids)]
+    present = _blobs_at(vault_dir, plan.head, [_curation_relpath(vault_dir, n, r) for n, r in wanted])
+    added = 0
+    for name, rid in wanted:
+        item = (name, rid, "apply")
+        if _curation_relpath(vault_dir, name, rid) in present and item not in plan.curation:
+            plan.curation.append(item)
+            added += 1
+    return added
+
+
+def _curation_counts(items: list[tuple[str, str, str]]) -> dict[str, dict[str, int]]:
+    counts: dict[str, dict[str, int]] = {}
+    for kind, _, action in items:
+        counts.setdefault(kind, {"apply": 0, "remove": 0})[action] += 1
+    return counts
+
+
+def _apply_curation(
+    vault_dir: Path, base: str, head: str, items: list[tuple[str, str, str]], phase: str
+) -> set:
+    """Apply (or remove) every item of `phase` -- an applied record from its
+    committed bytes at `head`, a removed one from its bytes at `base` (the
+    last version that existed), one write transaction per record -- and
+    return the aggregate keys the kinds report changed."""
+    from artmind import curation_records, graph_query
+
+    known = curation_records.kinds()
+    items = [item for item in items if known[item[0]].phase == phase]
+    if not items:
+        return set()
+    blobs = _blobs_at(vault_dir, head, [_curation_relpath(vault_dir, k, i) for k, i, a in items if a == "apply"])
+    removed = _blobs_at(vault_dir, base, [_curation_relpath(vault_dir, k, i) for k, i, a in items if a == "remove"])
+    keys: set = set()
+    with graph_query.neo4j_session() as session:
+        for kind_name, record_id, action in items:
+            kind = known[kind_name]
+            if action == "remove":
+                record = curation_records.parse(removed.get(_curation_relpath(vault_dir, kind_name, record_id)))
+                if record is None or record.get("id") != record_id:
+                    logger.warning(
+                        "vault sync: the {} record {} is unreadable at its base commit {}, so it is removed "
+                        "from a stub {{'id': ...}} record -- a kind that needs the record body cannot use it",
+                        kind_name, record_id, base[:12],
+                    )
+                    record = {"id": record_id}
+                keys |= set(session.execute_write(kind.remove, record) or ())
+                continue
+            relpath = _curation_relpath(vault_dir, kind_name, record_id)
+            data = blobs.get(relpath)
+            record = curation_records.parse(data)
+            if record is None or record.get("id") != record_id:
+                raise VaultSyncError(f"{relpath} at {head[:12]} is not a {kind_name} record for id {record_id!r}")
+            keys |= set(session.execute_write(kind.apply, record, curation_records.fingerprint(data)) or ())
+    return {tuple(k) for k in keys}
+
+
 def classify_diff(
     vault_dir: Path, base: str, head: str, domains: list[str] | None = None
 ) -> SyncPlan:
@@ -742,9 +1105,12 @@ def classify_diff(
     (`table:<domain>:<table>` no mapping covers any more) in the same run."""
     plan = SyncPlan(base=base, head=head)
     plan.replay_docs, kg_retract = _classify_kg_diff(vault_dir, base, head, domains)
-    plan.regenerate_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
+    changed_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
+    plan.regenerate_tables, plan.curate_tables = _split_curation_only(vault_dir, base, head, changed_tables)
     source_regenerate, source_retract = _classify_table_sources(vault_dir, base, head, domains)
     for key in source_regenerate:
+        if key in plan.curate_tables:
+            plan.curate_tables.remove(key)
         if key not in plan.regenerate_tables:
             plan.regenerate_tables.append(key)
 
@@ -753,6 +1119,8 @@ def classify_diff(
         if (domain, doc_id) not in seen:
             seen.add((domain, doc_id))
             plan.retract.append((domain, doc_id))
+    plan.same_as_keys, plan.same_as_groups = _classify_same_as(vault_dir, base, head, domains)
+    plan.curation = _classify_curation(vault_dir, base, head, domains)
     return plan
 
 
@@ -898,12 +1266,16 @@ def _advance_bookmarks(
     from artmind.vault import VaultLayout, write_state
 
     new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
+    # A store already at `commit` is not written again: a sync with nothing
+    # new would only churn the graph node's `applied_at` (and state.json).
     if "graph" in stores:
-        sync_state.write_graph_bookmark(vault_id, commit)
+        if marks.graph != commit:
+            sync_state.write_graph_bookmark(vault_id, commit)
         new.graph = commit
     updates: dict = {}
     if "structured" in stores:
-        updates[STRUCTURED_BOOKMARK_KEY] = commit
+        if marks.structured != commit:
+            updates[STRUCTURED_BOOKMARK_KEY] = commit
         new.structured = commit
     remove: tuple[str, ...] = ()
     if new.legacy is not None:
@@ -998,19 +1370,37 @@ def sync(
     if "graph" in stores:
         plan = classify_diff(vault_dir, bases["graph"], head, domains)
         unchanged = drop_unchanged(vault_dir, plan)
+        curation_unchanged = drop_unchanged_curation(vault_dir, plan)
+        reapply_for_replayed(vault_dir, plan)
     else:
         plan = SyncPlan(base=bases["structured"], head=head)
         unchanged = []
+        curation_unchanged = 0
     project_tables = list(plan.regenerate_tables)
     if "structured" not in stores:
         structured_tables: list[tuple[str, str]] = []
+        structured_curate: list[tuple[str, str]] = []
     elif "graph" in stores and bases["structured"] == bases["graph"]:
         structured_tables = list(project_tables)
+        structured_curate = list(plan.curate_tables)
     else:
-        structured_tables, _ = _classify_structured_text_diff(vault_dir, bases["structured"], head, domains)
+        changed, _ = _classify_structured_text_diff(vault_dir, bases["structured"], head, domains)
+        structured_tables, structured_curate = _split_curation_only(vault_dir, bases["structured"], head, changed)
     # A projected table is restored too, so table2graph reads DuckDB at
     # `head` whatever the structured bookmark says (idempotent).
     restore_tables = project_tables + [key for key in structured_tables if key not in project_tables]
+    # A curation-only change restores registry rows alone -- unless this
+    # machine has no parquet for the table yet, which needs the rows too.
+    from artmind.structured.duckdb_adapter import parquet_path_for
+
+    curate_tables = []
+    for key in structured_curate:
+        if key in restore_tables:
+            continue
+        if parquet_path_for(*key).is_file():
+            curate_tables.append(key)
+        else:
+            restore_tables.append(key)
 
     if dry_run:
         structured_only_dry: list[str] = []
@@ -1048,7 +1438,12 @@ def sync(
             "unchanged": len(unchanged),
             "retract": len(plan.retract),
             "regenerate_tables": len(restore_tables),
+            "curated_tables": len(curate_tables),
             "structured_only_tables": structured_only_dry,
+            "same_as_groups": plan.same_as_groups,
+            "same_as_keys": len(plan.same_as_keys),
+            "curation": _curation_counts(plan.curation),
+            "curation_unchanged": curation_unchanged,
             "cursor_would_advance": not domains,
         }
 
@@ -1062,6 +1457,7 @@ def sync(
 
     all_keys: set[tuple[str, str, str]] = set()
     structured_only: list[str] = []  # tables restored to DuckDB, not projected (§14 A2)
+    chat_domains: set[str] = set()   # domains of replayed `update__*` folders (a UserChat each)
 
     with tempfile.TemporaryDirectory(prefix="artmind-sync-") as scratch_str:
         scratch = Path(scratch_str)
@@ -1071,15 +1467,31 @@ def sync(
         #    itself be mistaken for a track-A input in this same run (the
         #    diff_range above is already fixed from `plan`). Inputs come from
         #    `head`, never the live structured_text dir.
-        if restore_tables:
+        if restore_tables or curate_tables:
             st_rel = STRUCTURED_TEXT_DIR.relative_to(vault_dir)
             wanted = [str(st_rel / MANIFEST_NAME)]
             for domain, table_name in restore_tables:
                 wanted.append(str(st_rel / domain / f"{table_name}.csv"))
                 wanted.append(str(st_rel / domain / f"{table_name}{META_SUFFIX}"))
+            for domain, table_name in curate_tables:
+                wanted.append(str(st_rel / domain / f"{table_name}{META_SUFFIX}"))
             _materialize(vault_dir, head, _present_at(vault_dir, head, wanted), scratch)
             (scratch / st_rel).mkdir(parents=True, exist_ok=True)
-            import_structured_text(scratch / st_rel, tables=restore_tables)
+            if restore_tables:
+                import_structured_text(scratch / st_rel, tables=restore_tables)
+            if curate_tables:
+                import_structured_text(scratch / st_rel, tables=curate_tables, registry_only=True)
+            if "graph" in stores:
+                # The graph's catalogue subgraph (:Table/:TableColumn/
+                # MAPS_TO_CLASS) is derived from the registry just restored.
+                # Called directly, not through pipeline's `_best_effort`
+                # wrapper: that one logs and swallows a failure, which here
+                # would let the bookmark advance past a catalogue that never
+                # reached the graph. Raised, the range is retried (§9).
+                from artmind.structured.catalogue import project_catalogue
+
+                for d in sorted({d for d, _ in restore_tables + curate_tables}):
+                    project_catalogue(d)
         if project_tables:
             mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, scratch)
             schemas_at_head = _dir_at(vault_dir, head, paths.DOMAIN_SCHEMAS_DIR, scratch)
@@ -1123,16 +1535,35 @@ def sync(
                 if summary is None:
                     raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")
                 all_keys.update(tuple(k) for k in summary.get("deferred_keys") or [])
+                if docdir.startswith(ingest.UPDATE_FOLDER_PREFIX):
+                    chat_domains.add(domain)
 
     for domain, doc_id in plan.retract:
         result = ingest.retract_document(doc_id, domain)
         all_keys.update(tuple(k) for k in result.get("affected_keys") or [])
 
+    # ── track D: every key of a same-as group added/removed/changed ─────────
+    all_keys.update(tuple(k) for k in plan.same_as_keys)
+
+    # ── track C, "pre" kinds: curation the rebuild must see ──────────────────
+    all_keys.update(_apply_curation(vault_dir, plan.base, head, plan.curation, "pre"))
+
     # ── the union rebuild (§5 step 4), chunked exactly like table2graph's own ─
+    #    With the same-as groups as committed at `head`, never the working
+    #    tree's `same_as.yaml`; and every group touching a key is rebuilt
+    #    whole (`projection.affected_keys`' set 3), which `projection.rebuild`
+    #    requires of its caller.
     if all_keys:
-        projection_summary = _rebuild_in_batches(sorted(all_keys))
+        from artmind import projection
+
+        head_groups = same_as_groups_at(vault_dir, head)
+        all_keys = projection.affected_keys(incoming=sorted(all_keys), same_as_groups=head_groups)
+        projection_summary = _rebuild_in_batches(sorted(all_keys), groups=head_groups)
     else:
         projection_summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": 0}
+
+    # ── track C, "post" kinds: curation that joins rebuilt entities ─────────
+    _apply_curation(vault_dir, plan.base, head, plan.curation, "post")
 
     # ── domain-scoped embed sweeps (§5 step 5) ──────────────────────────────
     touched_domains = sorted({k[2] for k in all_keys})
@@ -1140,6 +1571,11 @@ def sync(
         domain_keys = [k for k in all_keys if k[2] == d]
         ingest._sweep_embeddings(d, domain_keys)
         ingest._sweep_chunk_embeddings(domain=d)
+    # A replayed `artmind update` is a UserChat, whose vector is never staged.
+    for d in sorted(chat_domains):
+        from artmind.update import embed_user_chats
+
+        embed_user_chats(domain=d)
 
     # artmind never commits (spec 2026-09-26, D1): track B's regenerated
     # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)
@@ -1165,7 +1601,12 @@ def sync(
         "unchanged": len(unchanged),
         "retracted": len(plan.retract),
         "regenerated_tables": len(restore_tables),
+        "curated_tables": len(curate_tables),
         "structured_only_tables": structured_only,
+        "same_as_groups": plan.same_as_groups,
+        "same_as_keys": len(plan.same_as_keys),
+        "curation": _curation_counts(plan.curation),
+        "curation_unchanged": curation_unchanged,
         "projection": projection_summary,
         "domains_swept": touched_domains,
     }
@@ -1199,14 +1640,23 @@ ADVISORY_TIMEOUT = 2.0
 def _store_pending(
     vault_dir: Path, store: str, bookmark: str | None, head: str, *, timeout: float | None
 ) -> dict:
-    """`{"bookmark", "state", "docs", "tables", "detail"}` for one store.
-    `state` is `current`, `behind`, `no_bookmark`, `not_ancestor` (the
-    bookmark is not in HEAD's history: pull first) or `error` (the range
-    cannot be classified -- e.g. a table mapping broken at HEAD; `detail`
-    says why, and `vault sync` would refuse with the same message). `docs`
-    counts documents still to replay or retract after the fingerprint check
-    (graph only); `tables` lists `(domain, table)` still to restore/project."""
-    report = {"bookmark": bookmark, "state": "current", "docs": 0, "tables": [], "detail": None}
+    """`{"bookmark", "state", "docs", "tables", "curation", "same_as_groups",
+    "detail"}` for one store. `state` is `current`, `behind`, `no_bookmark`,
+    `not_ancestor` (the bookmark is not in HEAD's history: pull first) or
+    `error` (the range cannot be classified -- e.g. a table mapping broken at
+    HEAD; `detail` says why, and `vault sync` would refuse with the same
+    message). `docs` counts documents -- `artmind update` folders included --
+    still to replay or retract after the fingerprint check (graph only);
+    `tables` lists `(domain, table)` still to restore/project; `curation`
+    counts curation records still to apply or remove -- every pre-phase
+    record (retirements a replay re-applies included) always counts, since
+    sync always re-applies it; a post-phase record counts only after its own
+    fingerprint check -- and `same_as_groups` the same-as groups changed in
+    the range (graph only)."""
+    report = {
+        "bookmark": bookmark, "state": "current", "docs": 0, "tables": [],
+        "curation": 0, "same_as_groups": 0, "detail": None,
+    }
     if bookmark is None:
         report["state"] = "no_bookmark"
         return report
@@ -1222,9 +1672,9 @@ def _store_pending(
     try:
         if store == "structured":
             tables, _ = _classify_structured_text_diff(vault_dir, bookmark, head, None)
-            docs = 0
+            docs = curation = same_as_groups = 0
         else:
-            docs, tables = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
+            docs, tables, curation, same_as_groups = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
     except VaultSyncError as e:
         report.update(state="error", detail=str(e))
         return report
@@ -1238,18 +1688,33 @@ def _store_pending(
         # path can legitimately raise, so a genuine bug still crashes.
         report.update(state="error", detail=f"graph unreachable: {e}")
         return report
-    report.update(state="behind" if docs or tables else "current", docs=docs, tables=sorted(tables))
+    behind = docs or tables or curation or same_as_groups
+    report.update(
+        state="behind" if behind else "current", docs=docs, tables=sorted(tables),
+        curation=curation, same_as_groups=same_as_groups,
+    )
     return report
 
 
 def _graph_pending(
     vault_dir: Path, bookmark: str, head: str, *, timeout: float | None
-) -> tuple[int, set[tuple[str, str]]]:
-    """`(docs, tables)` the graph still has to apply between `bookmark` and
-    `head`: a replay counts unless the graph already carries its committed
-    fingerprint; a retraction counts only while the graph still has the
-    document. ONE Cypher read covers both."""
-    from artmind import sync_state
+) -> tuple[int, set[tuple[str, str]], int, int]:
+    """`(docs, tables, curation, same_as_groups)` the graph still has to
+    apply between `bookmark` and `head`: a replay counts unless the graph
+    already carries its committed fingerprint; a retraction counts only while
+    the graph still has the document. ONE Cypher read covers both.
+
+    Curation mirrors what `sync` does. Every PRE-phase apply counts -- a sync
+    re-applies those whatever the graph carries (`drop_unchanged_curation`),
+    so they are pending and the graph is not read for them -- including the
+    records a replayed document re-applies (`reapply_for_replayed`, run here
+    over the replays that survived the fingerprint check; it only reads git).
+    A POST-phase apply counts unless the graph holds its committed
+    fingerprint, and a removal counts only while the graph still holds the
+    record: one read per kind that has such an item. Every same-as group
+    changed in the range counts -- the graph keeps no per-group fingerprint
+    to compare against."""
+    from artmind import curation_records, sync_state
 
     plan = classify_diff(vault_dir, bookmark, head)
     committed = committed_fingerprints(vault_dir, head, plan.replay_docs)
@@ -1261,7 +1726,22 @@ def _graph_pending(
     tables = set(plan.regenerate_tables)
     tables |= {tuple(doc_id.split(":", 2)[1:]) for doc_id in retract if doc_id.startswith("table:")}
     docs = len(replay) + sum(1 for doc_id in retract if not doc_id.startswith("table:"))
-    return docs, tables
+    plan.replay_docs = replay
+    reapply_for_replayed(vault_dir, plan)
+    known = curation_records.kinds()
+    curation = sum(1 for kind, _, action in plan.curation if action == "apply" and known[kind].phase == "pre")
+    to_check = [
+        item for item in plan.curation if item[2] == "remove" or known[item[0]].phase == "post"
+    ]
+    if to_check:
+        committed_records = committed_curation_fingerprints(vault_dir, head, plan)
+        held = _graph_curation_fingerprints(to_check, timeout=timeout)
+        curation += sum(
+            1 for kind, record_id, action in to_check
+            if (action == "apply" and held.get((kind, record_id)) != committed_records.get((kind, record_id)))
+            or (action == "remove" and (kind, record_id) in held)
+        )
+    return docs, tables, curation, plan.same_as_groups
 
 
 def pending_work(
@@ -1286,10 +1766,23 @@ def _one_line(detail: object) -> str:
     return " ".join(str(detail).split())
 
 
+def curation_phrase(report: dict) -> str:
+    """` / K curation records / G same-as groups` for a graph store's
+    pending report -- each part only when non-zero, so the line reads as
+    before when no curation is pending."""
+    parts = []
+    if report.get("curation"):
+        parts.append(f"{report['curation']} curation records")
+    if report.get("same_as_groups"):
+        parts.append(f"{report['same_as_groups']} same-as groups")
+    return "".join(f" / {part}" for part in parts)
+
+
 def staleness_message(pending: dict) -> str | None:
     """The one advisory line for stderr, or None when nothing is pending.
     `M tables` counts every table either store still has to apply -- a table
-    restored into DuckDB is also what the graph projects."""
+    restored into DuckDB is also what the graph projects. Pending curation
+    records and same-as groups follow, when there are any."""
     graph = pending.get("graph", {})
     structured = pending.get("structured", {})
     for name, report in (("graph", graph), ("structured", structured)):
@@ -1314,11 +1807,12 @@ def staleness_message(pending: dict) -> str | None:
         )
     tables = {tuple(t) for t in graph.get("tables", [])} | {tuple(t) for t in structured.get("tables", [])}
     docs = graph.get("docs", 0)
-    if not docs and not tables:
+    extra = curation_phrase(graph)
+    if not docs and not tables and not extra:
         return None
-    if not docs and not graph.get("tables"):
+    if not docs and not graph.get("tables") and not extra:
         return f"artmind: structured store is {len(tables)} tables behind the vault — run `artmind vault sync`"
-    return f"artmind: graph is {docs} docs / {len(tables)} tables behind the vault — run `artmind vault sync`"
+    return f"artmind: graph is {docs} docs / {len(tables)} tables{extra} behind the vault — run `artmind vault sync`"
 
 
 def query_staleness_warning(vault_dir: Path | None) -> str | None:

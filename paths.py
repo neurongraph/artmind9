@@ -205,3 +205,7 @@ WORKER_PID_FILE = ARTMIND_HOME / "worker.pid"
 STRUCTURED_DIR = DATA_DIR / "structured"   # DuckDB catalog + <domain>/<table>.parquet
 STRUCTURED_SNAPSHOT_DIR = DATA_DIR / "structured_snapshot"   # db backup/restore .tar.gz files
 STRUCTURED_TEXT_DIR = DATA_DIR / "structured_text"   # db export-text/reindex CSV + manifest.json
+# Graph-only curation made to travel (spec 2026-09-26 §7, D6): one JSON file
+# per record, `curation/<kind>/<id>.json` -- committed, so a machine with its
+# own Neo4j rebuilds the same curation from the vault (`artmind.curation_records`).
+CURATION_DIR = DATA_DIR / "curation"

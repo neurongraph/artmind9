@@ -36,8 +36,8 @@ duplicate.
 
 | `_artmind_id` in frontmatter | Registry state | Verdict |
 |---|---|---|
-| **present** | id known, **path matches** | **re-ingest** — bump `_version` only if the body hash changed |
-| **present** | id known, registered path **no longer exists** | **move** — update the recorded path, identity survives. This is `git mv`, and it must be silent. |
+| **present** | id known, **path matches** | **re-ingest** — bump the version only if the body hash changed |
+| **present** | id known, registered path **no longer exists** | **move** — update the recorded path (registry, the staged `document.json`, and the graph's `:Document` `path`/`source_path`/`name`; all vault-relative), identity survives. This is `git mv`, and it must be silent. |
 | **present** | id known, registered path **still exists** and holds a different file | **refuse** — two live claimants. Require `--fork` (mint a fresh id for the newcomer) or `--adopt` (transfer identity, retire the other). |
 | **present** | id **unknown** to the registry | **adopt** — trust the frontmatter and register it under that id. Do **not** mint a new one. |
 | **absent** | path known | **heal** — recover the id from the registry and write it back into frontmatter |
@@ -61,43 +61,72 @@ heuristics.
 
 ## Versioning
 
-**`_content_sha256` hashes the body only, with frontmatter excluded.** Otherwise
-artmind writing `_version: 2` changes the file's bytes, which changes the hash,
-which triggers version 3, which rewrites frontmatter — forever. There is precedent:
+**The content hash covers the body only, with frontmatter excluded**, so stamping
+a note's identity never looks like an edit. There is precedent:
 `delta._compute_body_block_hashes` already parses frontmatter off before hashing.
+
+**The baseline is the staging folder's `document.json`** (spec 2026-09-26 R6):
+`version`, `content_sha256` and, for a converted binary, `source_sha256`, recorded
+there by the extraction itself — so a version whose extraction failed is never
+recorded as done, and the next ingest extracts it again. The folder is found by the
+note's name, its name before a move, or (after a registry wipe) its id. A note from
+before R6 whose `document.json` has no `content_sha256` versions from its own
+legacy `_content_sha256`/`_version` instead (`document_identity.ingest_baseline`).
 
 | Change | Result |
 |---|---|
-| body differs from `_content_sha256` | `_version` + 1; prior chunks and observations → `_status = history` |
+| body differs from the baseline's `content_sha256` | version + 1; prior chunks and observations → history |
 | only frontmatter differs | **metadata fast path** — no version, no chunking, no extraction, no observations |
-| nothing differs | no-op |
+| nothing differs | no-op — and the note is not rewritten |
 
-`_version` is an **integer counting content states**, not re-ingests. It is
+The version is an **integer counting content states**, not re-ingests. It is
 system-owned; a document's own `| Version | 2.1 |` header lifts to
 **`declared_version`**, a string with no system meaning. Conflating these is why
 63 of 64 documents currently carry a *string* `version` and why
 `int(rec.get("version") or 1) + 1` raises on re-ingest.
 
-`_source_commit` records the vault's git sha at ingest — provenance, not identity.
-One commit can touch many documents and one document many commits, so it is a
-pointer, never a version.
+`source_commit` records the vault's git sha at extraction — provenance, not
+identity. One commit can touch many documents and one document many commits, so it
+is a pointer, never a version.
 
 ## The frontmatter contract
 
-**System** — artmind writes these; extraction must never emit them. The underscore
-*is* the rule: an underscore means artmind owns it.
+**Identity** — the only fields artmind writes into a note, line by line, leaving
+every other byte alone: at the first ingest, and again only when `_domain`
+genuinely changes (spec 2026-09-26 R6). Notes carry nothing else of artmind's.
 
 ```
-_artmind_id  _version  _content_sha256  _domain  _status
-_valid_from  _valid_to  _valid_time_source
-_source_commit  _source_path  _source_type  _ingested_at
+_artmind_id  _domain
 ```
 
-**Authored** — artmind seeds, then leaves alone:
+**Per-ingest provenance** — lives in the staging folder's
+`.artmind/data/kg/<domain>/<note stem>/document.json`, written by the extraction.
+Older artmind wrote these into every note on every ingest ("fat" frontmatter), so
+nearly every note conflict between machines had artmind's lines in it; `artmind
+vault migrate-frontmatter` moves them out once, and until then a note that still
+carries them is read as a fallback (the baseline above). `_status` is dropped
+rather than moved (it was always `latest`; a retirement is a lifecycle record).
+
+| Old frontmatter | `document.json` |
+|---|---|
+| `_version` | `version` |
+| `_content_sha256` | `content_sha256` |
+| `_source_sha256` | `source_sha256` |
+| `_source_commit` | `source_commit` |
+| `_ingested_at` | `ingested_at` |
+| `_source_path` | `source_path` |
+| `_source_type` | `source_type` |
+
+**Valid time** — `_valid_from  _valid_to  _valid_time_source` are yours to write;
+artmind reads them and never writes them. The underscore still marks them as
+system-meaning: extraction must never emit any `_` field.
+
+**Authored** — yours; artmind reads them into the graph and never writes them
+(it no longer seeds them either — the Document's `title` defaults to the file
+name at extraction):
 
 ```
-title (seeded from the filename stem)  project  area  tags
-declared_version  created_on  modified_on
+title  project  area  tags  declared_version  created_on  modified_on
 ```
 
 `_domain` is a genuine new capability, not bookkeeping: a file finally declares
@@ -106,17 +135,34 @@ which schema extracts it, so the vault becomes self-describing and
 `--domain`**, which degrades to a default for files that don't declare one;
 `--setDomain` re-homes a document explicitly and forces re-extraction.
 
+Editing `_domain` by hand does **not** re-home a document. Only `--setDomain`
+does: it is the one path that counts as a domain change (a content-tier
+re-extraction under the new domain). A hand-edited value is read as the note's
+declared domain on the next ingest -- the staged folder is still found wherever
+it sits and the version carries on -- but nothing is re-extracted for the edit
+alone, so the graph and the staging folder are not guaranteed to follow it.
+Use `--setDomain` to move a document between domains.
+
+`_domain` becomes a folder name under `kg/`, so it must be one plain name: a
+non-empty string with no `/` or `\`, no `..`, and no leading `.` (dots inside
+a name, as in `banking.reference`, are fine). Ingest fails a note whose
+`_domain` (or `--setDomain`) is anything else, before it writes anything;
+`docs reindex` and `vault migrate-frontmatter` treat such a value as "no
+domain".
+
 ## Sources that cannot carry frontmatter
 
 | Source | Identity | Consequence |
 |---|---|---|
-| **binary** (pdf, pptx, docx) | its derived markdown in `<vault>/_derived/` carries `_artmind_id`; the *original* in `documents/originals/` is path-keyed | re-exporting the same deck matches on `_source_path` |
+| **binary** (pdf, pptx, docx) | its converted markdown in `.artmind/data/documents/markdowns/` carries `_artmind_id` (identity only, like any note); the *original* in `documents/originals/` is path-keyed | re-exporting the same deck matches on the domain and file name; the baseline (`source_sha256`, `source_path`) is in the staging `document.json` |
 | **tabular** (csv, xlsx) | path only, recorded in the registry | **accepted limitation:** losing the registry loses table identity — `docs reindex` cannot rebuild it, because a csv has nowhere to rebuild *from* |
 
 The move-detection rows above still apply to both: an old path gone with no rival
 claimant reads as a move, not a fork.
 
 ## Derived-markdown promotion
+
+> **Historical.** This describes the pre-ownership-rule design. Under the ownership rule (`docs/vault.md`) nobody edits `.artmind/`, so a converted binary's markdown is never promoted and there is no `_derived/` folder or `_derived_sha256`; the field names below are the old frontmatter ones (`document.json` keys `source_type`/`source_path` today).
 
 Docling output lands in the vault, in the user's editor, beside files they do edit.
 Repairing a mangled table is the first thing anyone does — and re-running conversion

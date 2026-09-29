@@ -41,6 +41,7 @@ from loguru import logger
 
 import paths
 from artmind.structured import registry, view_name
+from artmind.document_identity import canonical_path, resolve_canonical_path
 from artmind.structured.duckdb_adapter import DuckDBDatasource, parquet_path_for
 from artmind.structured.scd2 import SYSTEM_COLUMNS
 
@@ -92,17 +93,41 @@ def _table_meta_path(dest_dir: Path, domain: str, table_name: str) -> Path:
     return dest_dir / domain / f"{table_name}{META_SUFFIX}"
 
 
+def _portable(value):
+    """`value` vault-relative when it is an absolute filesystem path inside the
+    vault, else unchanged (a DSN, a path outside the vault, no vault). Meta
+    files are committed: an absolute path would differ per machine."""
+    if not isinstance(value, str) or "://" in value or not Path(value).is_absolute():
+        return value
+    return canonical_path(Path(value))
+
+
+def _unportable(value):
+    """Inverse of `_portable` for THIS machine; legacy absolute values and
+    anything that is not a vault-relative path are returned as they are."""
+    if not isinstance(value, str) or not value or "://" in value or Path(value).is_absolute():
+        return value
+    try:
+        return str(resolve_canonical_path(value))
+    except ValueError:  # no vault configured: leave it
+        return value
+
+
 def _table_meta(dump: dict, row: dict) -> dict:
     """One table's slice of a `registry.dump_all()`-shaped dump. Carries no
     machine-local id: neither `table.id` nor any child row's `table_id` (spec
     2026-09-26 §14 A3) -- within a per-table file every child unambiguously
     belongs to that table, so the id is redundant on disk."""
     table_id = row["id"]
+    table = {k: v for k, v in row.items() if k not in _MACHINE_LOCAL_TABLE_FIELDS}
+    if table.get("source_file"):
+        table["source_file"] = _portable(table["source_file"])
+    datasource = next((d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None)
+    if datasource and datasource.get("path_or_dsn"):
+        datasource = {**datasource, "path_or_dsn": _portable(datasource["path_or_dsn"])}
     return {
-        "table": {k: v for k, v in row.items() if k not in _MACHINE_LOCAL_TABLE_FIELDS},
-        "datasource": next(
-            (d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None
-        ),
+        "table": table,
+        "datasource": datasource,
         **{
             key: [
                 {k: v for k, v in r.items() if k != "table_id"}
@@ -179,6 +204,10 @@ def load_structured_dump(src_dir: Path) -> dict:
     for path in meta_paths:
         meta = json.loads(path.read_text(encoding="utf-8"))
         table = dict(meta["table"])
+        if table.get("source_file"):
+            table["source_file"] = _unportable(table["source_file"])
+        if meta.get("datasource") and meta["datasource"].get("path_or_dsn"):
+            meta["datasource"] = {**meta["datasource"], "path_or_dsn": _unportable(meta["datasource"]["path_or_dsn"])}
         have.add((table["domain"], table["table_name"]))
         sources.append((table, {key: meta.get(key, []) for key in _DUMP_KEYS}))
         _add_datasource(meta.get("datasource"))
@@ -217,9 +246,16 @@ def load_structured_dump(src_dir: Path) -> dict:
     return dump
 
 
-def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] | None = None) -> dict:
+def export_structured_text(
+    dest_dir: Path | None = None, *, tables: list[dict] | None = None, meta_only: bool = False
+) -> dict:
     """Write CSV + per-table `.meta.json` for `tables` (default: every registered
     table) to `dest_dir` (default: `paths.STRUCTURED_TEXT_DIR`).
+
+    `meta_only=True` rewrites only the `.meta.json` of a table whose CSV is
+    already there -- what a registry-only curation change (`db grain`, `db
+    mappings`, `db bridge`, `db propose`) needs, without re-dumping every
+    row. A table with no CSV yet still gets one, so it travels at all.
 
     Row order is `ORDER BY ALL` (every column, left to right) -- deterministic
     across re-exports of unchanged data, so a re-export that changed nothing
@@ -236,11 +272,17 @@ def export_structured_text(dest_dir: Path | None = None, *, tables: list[dict] |
 
     target_tables = tables if tables is not None else registry.list_tables()
 
-    ds = DuckDBDatasource()
-    ds.ensure_views(registry.list_tables())
+    csv_tables = [
+        t for t in target_tables
+        if not meta_only or not _table_csv_path(dest_dir, t["domain"], t["table_name"]).is_file()
+    ]
+
+    if csv_tables:
+        ds = DuckDBDatasource()
+        ds.ensure_views(registry.list_tables())
 
     written: list[Path] = []
-    for table in target_tables:
+    for table in csv_tables:
         csv_path = _table_csv_path(dest_dir, table["domain"], table["table_name"])
         csv_path.parent.mkdir(parents=True, exist_ok=True)
         view = view_name(table["domain"], table["table_name"])
@@ -277,7 +319,7 @@ def _csv_header(csv_path: Path) -> list[str]:
 
 
 def import_structured_text(
-    src_dir: Path | None = None, *, tables: list[tuple[str, str]] | None = None
+    src_dir: Path | None = None, *, tables: list[tuple[str, str]] | None = None, registry_only: bool = False
 ) -> dict:
     """Wipe and rebuild the structured store from `src_dir`'s CSV + per-table
     `.meta.json` (legacy `manifest.json` as a fallback).
@@ -297,7 +339,14 @@ def import_structured_text(
     `read_csv` matches that map to the file *positionally*, not by name, so a
     mismatch would silently read every column as the wrong type instead of
     raising.
+
+    `registry_only=True` (with `tables`) restores only the registry rows --
+    a table's classifications changed but not its rows (`vault sync`'s
+    curation-only case) -- and leaves an existing parquet file as it is; a
+    table with no parquet yet is still loaded from its CSV.
     """
+    if registry_only and tables is None:
+        raise ValueError("registry_only needs `tables`: an unscoped import wipes every table's parquet")
     src_dir = Path(src_dir) if src_dir else paths.STRUCTURED_TEXT_DIR
     manifest = load_structured_dump(src_dir)
 
@@ -328,6 +377,8 @@ def import_structured_text(
     loaded = 0
     skipped: list[str] = []
     for table in target_rows:
+        if registry_only and Path(table["parquet_path"]).is_file():
+            continue
         csv_path = _table_csv_path(src_dir, table["domain"], table["table_name"])
         if not csv_path.is_file():
             logger.warning(

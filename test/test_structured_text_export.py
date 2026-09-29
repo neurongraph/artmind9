@@ -839,3 +839,144 @@ def test_structured_ingest_and_export_leave_git_history_and_index_untouched(tmp_
     assert _git_out(tmp_path, "diff", "--cached", "--name-only") == "", "artmind must not stage anything"
     untracked = set(_git_out(tmp_path, "ls-files", "-z", "--others", "--exclude-standard").split("\0"))
     assert {"structured_text/banking/products.csv", "structured_text/banking/products.meta.json"} <= untracked
+
+
+def test_a_registry_only_import_restores_curation_and_keeps_the_parquet(tmp_path, monkeypatch):
+    """`vault sync`'s curation-only case: the classification changed on
+    another machine, the rows did not."""
+    import csv as _csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry, text_export
+    from artmind.structured.duckdb_adapter import parquet_path_for
+    from artmind.structured.pipeline import ingest_structured_file
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    db._init_db()
+    source = tmp_path / "products.csv"
+    with open(source, "w", newline="") as f:
+        _csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(source, "banking")
+    table = registry.get_table("products", domain="banking")
+    registry.upsert_mapping(table["id"], "name", "PRODUCT", 1.0, confirmed=True)
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")], meta_only=True)
+    registry.clear_mappings(table["id"], None)   # this machine's registry, before the sync
+    parquet = parquet_path_for("banking", "products")
+    before = parquet.stat().st_mtime_ns
+
+    text_export.import_structured_text(paths.STRUCTURED_TEXT_DIR, tables=[("banking", "products")], registry_only=True)
+
+    restored = registry.get_table("products", domain="banking")
+    assert [(m["column"], m["confirmed"]) for m in registry.list_mappings(restored["id"])] == [("name", 1)]
+    assert parquet.stat().st_mtime_ns == before
+
+
+def test_a_registry_only_import_loads_a_table_that_has_no_parquet_yet(tmp_path, monkeypatch):
+    """The cheap path never leaves a registered table with no rows: a table
+    whose parquet is missing here is still loaded from its CSV."""
+    import csv as _csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry, text_export
+    from artmind.structured.duckdb_adapter import parquet_path_for
+    from artmind.structured.pipeline import ingest_structured_file
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    db._init_db()
+    source = tmp_path / "products.csv"
+    with open(source, "w", newline="") as f:
+        _csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(source, "banking")
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")])
+    parquet = parquet_path_for("banking", "products")
+    parquet.unlink()
+
+    result = text_export.import_structured_text(
+        paths.STRUCTURED_TEXT_DIR, tables=[("banking", "products")], registry_only=True
+    )
+
+    assert parquet.is_file()
+    assert result["tables_loaded"] == 1
+
+
+def test_a_registry_only_import_refuses_to_run_unscoped(tmp_path, monkeypatch):
+    """`tables=None` is the wholesale wipe (rmtree of the parquet dir);
+    combined with registry_only it would delete every table's rows."""
+    import paths
+    from artmind.structured import text_export
+
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    (tmp_path / "structured").mkdir()
+    keep = tmp_path / "structured" / "keep.parquet"
+    keep.write_text("rows")
+
+    with pytest.raises(ValueError, match="registry_only"):
+        text_export.import_structured_text(tmp_path / "text", registry_only=True)
+
+    assert keep.read_text() == "rows"
+
+
+def _vault_with_source(tmp_path, monkeypatch):
+    """A vault whose `notes/` holds the CSV source, registered as a vault."""
+    import artmind.document_identity as di
+
+    vault = tmp_path / "vault"
+    (vault / "notes").mkdir(parents=True)
+    monkeypatch.setattr(di, "ARTMIND_VAULT_DIR", vault.resolve())
+    csv_path = vault / "notes" / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+    return vault.resolve(), csv_path.resolve()
+
+
+def test_committed_meta_holds_a_vault_relative_source_file_and_import_restores_it(tmp_path, monkeypatch):
+    """`.meta.json` is committed, so an absolute `source_file` would differ per
+    machine. Written vault-relative; the registry on this machine is absolute
+    again after an import, so `db refresh` still finds the file."""
+    import json
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured.text_export import import_structured_text
+
+    _patch_stores(tmp_path, monkeypatch)
+    vault, csv_path = _vault_with_source(tmp_path, monkeypatch)
+    ingest_structured_file(csv_path, "banking")
+    assert registry.get_table("products", domain="banking")["source_file"] == str(csv_path)
+
+    meta = json.loads((paths.STRUCTURED_TEXT_DIR / "banking" / "products.meta.json").read_text())
+
+    assert meta["table"]["source_file"] == "notes/products.csv"
+    assert not str(meta["datasource"]["path_or_dsn"]).startswith(str(vault)), "no vault path leaks via the datasource"
+
+    db.DB_PATH.unlink(missing_ok=True)
+    db._init_db()
+    import_structured_text()
+    assert registry.get_table("products", domain="banking")["source_file"] == str(csv_path)
+
+
+def test_a_legacy_absolute_source_file_in_meta_is_still_read(tmp_path, monkeypatch):
+    import json
+
+    import paths
+    from artmind.structured.text_export import load_structured_dump
+
+    _patch_stores(tmp_path, monkeypatch)
+    _vault_with_source(tmp_path, monkeypatch)
+    meta_dir = paths.STRUCTURED_TEXT_DIR / "banking"
+    meta_dir.mkdir(parents=True)
+    (meta_dir / "products.meta.json").write_text(json.dumps({
+        "table": {"domain": "banking", "table_name": "products", "datasource": "d",
+                  "source_file": "/some/old/machine/products.csv"},
+        "datasource": {"name": "d", "type": "duckdb", "path_or_dsn": "/some/old/machine/d.duckdb", "created_at": "x"},
+    }))
+
+    dump = load_structured_dump(paths.STRUCTURED_TEXT_DIR)
+
+    assert dump["tables"][0]["source_file"] == "/some/old/machine/products.csv"
+    assert dump["datasources"][0]["path_or_dsn"] == "/some/old/machine/d.duckdb"

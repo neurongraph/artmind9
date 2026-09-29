@@ -339,20 +339,23 @@ def _project_catalogue_best_effort(domain: str) -> None:
         logger.warning("structured pipeline: catalogue projection failed for domain '{}': {}", domain, e)
 
 
-def _export_text_best_effort(domain: str, table_names: list[str]) -> None:
+def _export_text_best_effort(domain: str, table_names: list[str], *, meta_only: bool = False) -> None:
     """Re-export ``table_names``' CSV + per-table .meta.json into the vault's
     structured_text dir (``structured/text_export.py`` -- the git-commitable
     text ``db reindex`` rebuilds parquet + registry rows from). Best-effort for
     the same reason as ``_project_catalogue_best_effort``: a write to the
     vault's working tree must never fail the ingest that produced it. artmind
-    does not commit it (spec 2026-09-26, D1) -- Obsidian Git does."""
+    does not commit it (spec 2026-09-26, D1) -- Obsidian Git does.
+
+    ``meta_only=True`` -- a registry-only curation change -- rewrites just the
+    ``.meta.json`` of a table whose CSV is already exported."""
     try:
         from artmind.structured import text_export
 
         tables = [t for name in table_names if (t := registry.get_table(name, domain=domain)) is not None]
         if not tables:
             return
-        text_export.export_structured_text(tables=tables)
+        text_export.export_structured_text(tables=tables, meta_only=meta_only)
     except Exception as e:
         logger.warning("structured pipeline: text export failed for domain '{}': {}", domain, e)
 

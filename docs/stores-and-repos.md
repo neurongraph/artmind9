@@ -115,8 +115,8 @@ any more, because `same_as.yaml` and the schemas live in the vault and in git.
 ## Reference corpus vs vault
 
 Store 1 keeps a pristine copy of the banking corpus; a vault is a working copy
-artmind mutates. They diverge as artmind writes `_artmind_id`, `_version` and
-`_content_sha256` into frontmatter — by design.
+artmind mutates. They diverge as artmind writes `_artmind_id` and `_domain` into frontmatter — by design (the
+per-ingest version and hash live in each note's staging `document.json`, not in the note).
 
 There is deliberately **no reconciliation mechanism**. The reference is the input
 for a from-scratch rebuild and the fixture the benchmark is scored against; the

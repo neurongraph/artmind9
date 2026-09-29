@@ -476,6 +476,42 @@ def test_rebuild_in_batches_commits_one_transaction_per_batch(monkeypatch):
     assert totals["rebuilt"] == 7 and totals["batches"] == 3
 
 
+def test_rebuild_in_batches_uses_the_groups_it_is_given_not_the_file(monkeypatch):
+    """`vault sync` passes `same_as.yaml` as committed at head; the file on
+    disk may hold an uncommitted edit and must not be read at all."""
+    import artmind.graph_query as graph_query
+    import artmind.projection as projection
+    import artmind.same_as as same_as
+
+    seen: list[dict] = []
+
+    class Session:
+        def execute_write(self, fn):
+            return fn(object())
+
+    class Ctx:
+        def __enter__(self):
+            return Session()
+
+        def __exit__(self, *exc):
+            return False
+
+    def _no_file():
+        raise AssertionError("must not read same_as.yaml from disk")
+
+    monkeypatch.setattr(graph_query, "neo4j_session", lambda: Ctx())
+    monkeypatch.setattr(same_as, "load_groups", _no_file)
+    monkeypatch.setattr(
+        projection, "rebuild",
+        lambda tx, keys, **kw: seen.append({"keys": list(keys), "groups": kw["same_as_groups"]}) or {"keys": len(keys)},
+    )
+    group = [("a", "C", "d"), ("b", "C", "d")]
+
+    t2g._rebuild_in_batches([("a", "C", "d"), ("b", "C", "d"), ("z", "C", "d")], groups=[group])
+
+    assert seen == [{"keys": [("a", "C", "d"), ("b", "C", "d"), ("z", "C", "d")], "groups": [group]}]
+
+
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
 

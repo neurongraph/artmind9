@@ -229,12 +229,22 @@ class VaultLayout:
         return self.data_dir / "refine"
 
 
+def note_scratch_dir(vault_dir: Path | str | None) -> Path | None:
+    """Where a note write's temp file goes: the vault's `.artmind/data/`
+    (git-ignored) when `vault_dir` is a real vault, so a crash leaves a scratch
+    file that will not be committed rather than one beside the note. None (the
+    note's own directory) when there is no vault or it has no `.artmind/`."""
+    if vault_dir is None or not (Path(vault_dir) / ".artmind").is_dir():
+        return None
+    return VaultLayout(Path(vault_dir)).data_dir
+
+
 # The ownership rule as a mechanism rather than prose (docs/vault.md, "What is
 # in git, and what is not"). .artmind/ belongs to artmind and is versioned with
 # the vault; everything below is the short list of exceptions, and each is a
 # secret, a churning binary, or machine-local state.
 GITIGNORE_BLOCK = """\
-# ── artmind (v3) ──────────────────────────────────────────────────────────────
+# ── artmind (v4) ──────────────────────────────────────────────────────────────
 # .artmind/ belongs to artmind and is versioned with your vault, so a clone
 # reproduces the graph without paying for extraction again. These are the
 # exceptions, and each is a secret, a churning binary, or machine-local state.
@@ -290,10 +300,15 @@ GITIGNORE_BLOCK = """\
 # the same way parquet is. Committing them made sync create commits on the
 # receiving machine (spec 2026-09-26 R4).
 .artmind/data/kg/*/table__*/
-# Atomic-write scratch (R2). A crash can leave one behind; the next write of
-# that document removes it.
+# Atomic-write scratch (R2): a staging folder's `.artmind-tmp`/`.artmind-old`
+# sibling folder, and a scratch FILE -- a curation record's temp file, or a
+# note rewrite's (`vault migrate-frontmatter`). A crash can leave one behind:
+# git ignores it and it is harmless -- delete it. (A note rewrite's scratch
+# file has a random name, so a later write does not reuse or remove it.)
 .artmind/data/**/*.artmind-tmp/
 .artmind/data/**/*.artmind-old/
+.artmind/data/**/*.artmind-tmp
+.artmind/data/**/*.artmind-old
 
 # Not artmind's files, but a vault synced between machines needs them out:
 # OS litter, and Obsidian's per-device pane layout, which changes on every
@@ -391,6 +406,17 @@ def block_status(path: Path, block: str) -> str:
     if end == -1:
         return "malformed"
     return "current" if text[start:end].replace("\r\n", "\n") == block else "outdated"
+
+
+def block_version(text: str) -> int | None:
+    """The version in the first artmind block header found in `text` -- 1 for
+    the original unversioned header -- or None when there is none. Pass a
+    file's text to read what a vault holds, or a block constant to read what
+    this artmind writes (`vault doctor` names both)."""
+    match = _BLOCK_START.search(text)
+    if match is None:
+        return None
+    return int(match.group(1)) if match.group(1) else 1
 
 
 def _write_block(path: Path, block: str) -> bool:

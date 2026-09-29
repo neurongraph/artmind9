@@ -19,6 +19,29 @@ confident about, since walking it back later costs one edit and one rebuild.
 Structured-table classifications (Workflow D) are lighter still: a registry
 row, cleared or overwritten with no graph write involved.
 
+**What travels to other machines.** In a vault, `same_as.yaml` is
+`.artmind/same_as.yaml` (committed), and every detected conflict — with its
+resolution — every supersession, every retirement and every synthesis is its
+own file under `.artmind/data/curation/`. Structured-table classifications
+(Workflow D) travel in the table's `.meta.json`, which each `db grain` /
+`db mappings` / `db bridge` / `db propose` rewrites. Obsidian Git commits all
+of them, and `artmind vault sync` on another machine applies them, so a
+machine with its own Neo4j ends up with the same curation. Syntheses made
+before records existed have no file and do not travel until
+`artmind projection synthesize --domain <d> --force` re-runs them. Same-as
+**proposals** (the review queue) do not travel: they stay on the machine
+that ran `sameas propose` / `detect-conflicts` / `refine-graph`, and only an
+approved group does.
+
+**When two machines wrote the same record before pulling** (both detected
+one conflict, or one resolved it while the other re-detected it), Obsidian
+Git's merge stops on that record file. `artmind vault resolve` settles it
+the same way on every machine (`--dryRun` shows the pick first): a decision
+(resolved/dismissed) beats open, then the later change; a manual supersession
+beats a detected one; the later synthesis wins. It stages its pick and never
+commits — Obsidian Git concludes the merge. It never touches `same_as.yaml` —
+a conflict there is reported, and you merge the groups by hand.
+
 ## Required Inputs
 
 - `domain` (one or more): ask if not provided. Pass every sibling domain the
@@ -128,8 +151,9 @@ severity, and cite both documents' provenance per finding.
 Same-as groups are the reversible mechanism they're described as above — this
 is not a forensic recovery, it's the ordinary undo path:
 
-1. Open `same_as.yaml` (in the run folder) and remove the offending group, or
-   remove just the wrong member from it.
+1. Open `same_as.yaml` (in the run folder — `.artmind/same_as.yaml` in a
+   vault, where other machines pick the edit up with `vault sync`) and remove
+   the offending group, or remove just the wrong member from it.
 2. `artmind projection rebuild --domain <d> --compact` (or a bare
    `artmind projection rebuild --compact` to also clear drift).
 3. The un-merged entity returns under its original deterministic id —
@@ -279,9 +303,13 @@ artmind db bridge --domain <d> --compact   # the routing surface the query side 
 artmind db catalogue --domain <d>          # push confirmations into Neo4j (no re-ingest)
 ```
 
-`db catalogue` matters: confirming a mapping updates the registry only. The
-graph's catalogue subgraph is refreshed by ingest hooks, so a later
-confirmation needs this explicit re-projection to reach Neo4j.
+`db catalogue` matters: confirming a mapping updates the registry (and the
+table's `.meta.json`) only. The graph's catalogue subgraph is refreshed by
+ingest hooks, so a later confirmation needs this explicit re-projection to
+reach Neo4j on this machine; on other machines `vault sync` restores the
+confirmation and re-projects the catalogue itself (in a run that includes both
+the graph and the structured store — after `vault sync --store graph` alone,
+run `db catalogue` there).
 
 ### What confirming a bridge column currently buys
 
@@ -343,7 +371,10 @@ artmind ingest resolve-conflict <conflict_id> --status resolved --reason "<why>"
 ```
 
 Use `--status dismissed` for a false positive. `query graph conflicts --status all`
-shows closed ones afterwards. This applies to adjudicator-produced conflicts
+shows closed ones afterwards. The resolution is written to the conflict's
+record file (`.artmind/data/curation/conflicts/<id>.json`), so it travels to
+every machine with `vault sync`; re-detecting the conflict later never
+reopens it. This applies to adjudicator-produced conflicts
 (`_source: 'adjudicator'`, the ones `query graph conflicts` surfaces);
 projection-produced conflicts (`_source: 'projection'`, a single entity's own
 property disputed within one instant — see artmind-query's Adjudicate step)

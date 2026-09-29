@@ -28,10 +28,12 @@ from loguru import logger
 from artmind.graph_query import neo4j_session
 
 
-def _transition(tx, doc_id: str, *, to_history: bool) -> dict:
+def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> dict:
     """Move one document's node, chunks and observations between the base
-    label and its History counterpart, then rebuild the keys it touched.
-    Runs in the caller's transaction.
+    label and its History counterpart, then rebuild the keys it touched --
+    unless `rebuild=False`, for a caller that rebuilds them itself (a
+    document commit, `vault sync`'s union rebuild). Runs in the caller's
+    transaction.
 
     A **label swap**, not a status property — there is no `_status` left on
     these nodes. `retire`/`restore` also mean "leave"/"return to"
@@ -73,7 +75,10 @@ def _transition(tx, doc_id: str, *, to_history: bool) -> dict:
         doc_id=doc_id,
     )
 
-    summary = projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks))
+    summary = (
+        projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks))
+        if rebuild else None
+    )
     return {
         "doc_id": doc_id,
         "observations": int(observations["n"]) if observations else 0,
@@ -89,9 +94,15 @@ def retire_document(doc_id: str, domain: str | None = None) -> dict:
     asking for them; they leave every index. Entities left with no `latest`
     observation anywhere are deleted by the rebuild — not because this function
     decided they were orphans, but because nothing asserts them any more.
+
+    The retirement travels (spec 2026-09-26 §15 A10): its record,
+    `.artmind/data/curation/lifecycle/<sha1(doc_id)>.json`, is written first
+    and the document is marked with it -- `vault sync` retires it on every
+    other machine, and a later re-ingest or replay keeps it retired
+    (`artmind.lifecycle_records`).
     """
     with neo4j_session() as session:
-        result = session.execute_write(_transition, doc_id, to_history=True)
+        result = session.execute_write(_retire_tx, doc_id, domain)
     logger.info(
         "Retired {}: {} observation(s) → history, projection {}",
         doc_id, result["observations"], result["projection"],
@@ -106,16 +117,40 @@ def restore_document(doc_id: str, domain: str | None = None) -> dict:
 
     The exact inverse. Because ids are deterministic and the projection is
     derived, restoring recreates the same entities with the same ids rather
-    than a parallel set.
+    than a parallel set. Deletes the document's lifecycle record, so `vault
+    sync` restores it on every other machine too.
     """
+    from artmind import curation_records, lifecycle_records
+
+    curation_records.delete_record(lifecycle_records.NAME, lifecycle_records.record_id(doc_id))
     with neo4j_session() as session:
-        result = session.execute_write(_transition, doc_id, to_history=False)
+        result = session.execute_write(_restore_tx, doc_id)
     logger.info(
         "Restored {}: {} observation(s) → latest, projection {}",
         doc_id, result["observations"], result["projection"],
     )
     if domain:
         _sweep(domain, result["keys"])
+    return result
+
+
+def _retire_tx(tx, doc_id: str, domain: str | None) -> dict:
+    """`retire_document`'s transaction: the record file, then the label swap
+    and rebuild, then the mark tying the document to its record."""
+    from artmind import curation_records, lifecycle_records
+
+    record = lifecycle_records.record_for(tx, doc_id, domain)
+    fingerprint = curation_records.write_record(lifecycle_records.NAME, record)
+    result = _transition(tx, doc_id, to_history=True)
+    lifecycle_records.mark(tx, record, fingerprint)
+    return result
+
+
+def _restore_tx(tx, doc_id: str) -> dict:
+    from artmind import lifecycle_records
+
+    result = _transition(tx, doc_id, to_history=False)
+    lifecycle_records.unmark(tx, doc_id)
     return result
 
 

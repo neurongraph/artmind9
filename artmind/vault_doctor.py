@@ -15,7 +15,7 @@ import shlex
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from artmind.vault import GITATTRIBUTES_BLOCK, GITIGNORE_BLOCK, VaultLayout, block_status
+from artmind.vault import GITATTRIBUTES_BLOCK, GITIGNORE_BLOCK, VaultLayout, block_status, block_version
 from utils.functions import run_command
 
 OK, WARN, FAIL, UNKNOWN = "ok", "warn", "fail", "unknown"
@@ -67,8 +67,13 @@ def check_block(vault_dir: Path, filename: str, block: str) -> Check:
             f"edit {filename} by hand so artmind's block has both a matching '# ── artmind' "
             "start line and a '# ── end artmind' line, then run `artmind init` in the vault root",
         )
+    detail = f"artmind block {status}"
+    if status == "outdated":
+        path = vault_dir / filename
+        found = block_version(path.read_bytes().decode("utf-8", errors="replace"))
+        detail += f" (v{found}; this artmind writes v{block_version(block)})"
     return Check(
-        name, FAIL, f"artmind block {status}",
+        name, FAIL, detail,
         "run `artmind init` in the vault root (rewrites only artmind's block; your own rules are kept)",
     )
 

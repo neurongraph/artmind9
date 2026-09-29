@@ -304,12 +304,28 @@ def ingest_env(tmp_path, monkeypatch):
     markdowns.mkdir(parents=True)
     monkeypatch.setattr(ing, "ORIGINALS_DIR", originals)
     monkeypatch.setattr(ing, "MARKDOWNS_DIR", markdowns)
+    monkeypatch.setattr(ing, "KG_DIR", vault / ".artmind" / "data" / "kg")
 
     source = tmp_path / "incoming" / "deck.pptx"
     source.parent.mkdir(parents=True)
     source.write_bytes(b"fake binary v1")
 
     return vault, source
+
+
+def stage_as_extracted(kg_dir, file_result, domain="general"):
+    """Write the `document.json` `extract_kg` stages for `file_result` --
+    identity, version and the ingest's `provenance` -- without running an
+    extraction. Since spec 2026-09-26 R6 that file, not the note, is the
+    baseline the next ingest versions against."""
+    import json
+    from pathlib import Path
+
+    folder = Path(kg_dir) / domain / Path(file_result["registered_path"]).stem
+    folder.mkdir(parents=True, exist_ok=True)
+    document = {"id": file_result["artmind_id"], "version": file_result["version"], **file_result["provenance"]}
+    (folder / "document.json").write_text(json.dumps(document, indent=2), encoding="utf-8")
+    return folder
 
 
 def _fake_docling(body_by_call):
