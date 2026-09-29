@@ -679,7 +679,7 @@ def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract
     import artmind.ingest as ing
     import artmind.table2graph as t2g
 
-    calls = {"write_to_neo4j": [], "retract_document": [], "rebuild_in_batches": [], "sweeps": []}
+    calls = {"write_to_neo4j": [], "retract_document": [], "rebuild_in_batches": [], "rebuild_groups": [], "sweeps": []}
 
     def _fake_write(doc_kg_dir, domain, defer_rebuild=False):
         calls["write_to_neo4j"].append((str(doc_kg_dir), domain))
@@ -691,8 +691,9 @@ def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract
         result = (retract_results or {}).get(doc_id, {"affected_keys": []})
         return {"doc_id": doc_id, "domain": domain, **result}
 
-    def _fake_rebuild_in_batches(keys):
+    def _fake_rebuild_in_batches(keys, groups=None):
         calls["rebuild_in_batches"].append(sorted(keys))
+        calls["rebuild_groups"].append(groups)
         return {"rebuilt": len(keys), "deleted": 0, "absent": 0, "keys": len(keys), "batches": 1}
 
     monkeypatch.setattr(ing, "_write_to_neo4j", _fake_write)
@@ -2985,3 +2986,207 @@ def test_status_report_does_not_crash_when_the_graph_goes_unreachable_mid_check(
         "artmind: the graph store's sync would fail -- graph unreachable: "
         "Couldn't connect to localhost:7687 -- fix it, then run `artmind vault sync`"
     )
+
+
+# ── track D: same_as.yaml edits (spec 2026-09-26 §7) ─────────────────────────
+
+
+def _patch_same_as(monkeypatch, vault_dir):
+    """Point `same_as.SAME_AS_PATH` inside the test vault, where a real
+    vault keeps it (`.artmind/same_as.yaml`)."""
+    from artmind import same_as
+
+    path = vault_dir / ".artmind" / "same_as.yaml"
+    monkeypatch.setattr(same_as, "SAME_AS_PATH", path)
+    return path
+
+
+def _write_groups(path, *groups):
+    """`groups` as `(canonical, member, ...)` key strings, canonical first."""
+    lines = ["groups:"]
+    for group in groups:
+        lines.append(f'  - canonical: "{group[0]}"')
+        lines.append("    members:")
+        lines.extend(f'      - "{member}"' for member in group)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _key(text):
+    return tuple(text.split("|"))
+
+
+_ACME = ("acme|ORG|banking", "acme corp|ORG|banking")
+_FCA = ("fca|REGULATOR|banking", "financial conduct authority|REGULATOR|legal")
+
+
+def _same_as_base(repo, monkeypatch, *groups):
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    path = _patch_same_as(monkeypatch, repo)
+    _write_groups(path, *groups)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    return path, vs.head_sha(repo)
+
+
+def test_classify_diff_rebuilds_the_keys_of_an_added_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca group")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _FCA)
+    assert plan.same_as_groups == 1
+
+
+def test_classify_diff_rebuilds_the_keys_of_a_removed_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME, _FCA)
+    _write_groups(path, _FCA)
+    _commit_all(repo, "drop acme group")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME)
+
+
+def test_classify_diff_rebuilds_both_versions_of_a_changed_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, ("acme|ORG|banking", "acme plc|ORG|banking"))
+    _commit_all(repo, "acme corp out, acme plc in")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in ("acme|ORG|banking", "acme corp|ORG|banking", "acme plc|ORG|banking"))
+    assert plan.same_as_groups == 2, "the old version and the new version"
+
+
+def test_classify_diff_ignores_reordered_members(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, ("a|C|d", "b|C|d", "c|C|d"))
+    _write_groups(path, ("a|C|d", "c|C|d", "b|C|d"))
+    _commit_all(repo, "reorder members")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.same_as_keys, plan.same_as_groups) == ([], 0)
+
+
+def test_a_new_canonical_is_a_changed_group(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, (_ACME[1], _ACME[0]))
+    _commit_all(repo, "canonical flips")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME)
+
+
+def test_classify_diff_does_not_read_same_as_when_it_did_not_change(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    (repo / "a.txt").write_text("y")
+    _commit_all(repo, "unrelated")
+    shows = []
+    real_show = vs._show
+    monkeypatch.setattr(vs, "_show", lambda *a: shows.append(a) or real_show(*a))
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.same_as_keys, plan.same_as_groups) == ([], 0)
+    assert shows == []
+
+
+def test_bootstrap_empty_counts_every_committed_group_as_added(repo, monkeypatch):
+    _same_as_base(repo, monkeypatch, _ACME, _FCA)
+
+    plan = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME + _FCA)
+    assert plan.same_as_groups == 2
+
+
+def test_classify_diff_reads_same_as_from_git_not_the_working_tree(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    _write_groups(path, _ACME, _FCA, ("x|C|d", "y|C|d"))   # uncommitted
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.same_as_keys == sorted(_key(k) for k in _FCA)
+
+
+def test_classify_diff_scopes_same_as_groups_by_any_members_domain(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch)
+    _write_groups(path, _ACME, _FCA, ("x|C|legal", "y|C|legal"))
+    _commit_all(repo, "three groups")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo), domains=["banking"])
+
+    # _FCA spans banking and legal: in scope, and rebuilt whole.
+    assert plan.same_as_keys == sorted(_key(k) for k in _ACME + _FCA)
+    assert plan.same_as_groups == 2
+
+
+def test_sync_rebuilds_exactly_the_changed_groups_keys_with_the_committed_groups(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    head = vs.head_sha(repo)
+    _write_groups(path, ("x|C|d", "y|C|d"))   # an uncommitted edit that must not reach the graph
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert calls["rebuild_in_batches"] == [sorted(_key(k) for k in _FCA)]
+    assert calls["rebuild_groups"] == [[[_key(k) for k in _ACME], [_key(k) for k in _FCA]]]
+    assert (result["same_as_groups"], result["same_as_keys"]) == (1, 2)
+    assert _bookmarks(repo) == (head, head)
+
+
+def test_sync_rebuilds_a_replayed_documents_whole_group(repo, monkeypatch):
+    """A document observing one member of a committed group dirties the whole
+    group: `projection.rebuild` folds only the members it is handed."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_groups(_patch_same_as(monkeypatch, repo), _ACME)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "group and a doc")
+    calls = _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc={"doc1": [list(_key(_ACME[1]))]})
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert calls["rebuild_in_batches"] == [sorted(_key(k) for k in _ACME)]
+
+
+def test_a_domain_scoped_same_as_sync_does_not_advance_the_bookmarks(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, ("x|C|legal", "y|C|legal"))
+    _commit_all(repo, "legal group")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo, domains=["legal"])
+
+    assert calls["rebuild_in_batches"] == [[_key("x|C|legal"), _key("y|C|legal")]]
+    assert result["cursor_advanced"] is False
+    assert _bookmarks(repo) == (None, None)
+
+
+def test_a_same_as_dry_run_reports_what_the_real_run_rebuilds_and_writes_nothing(repo, monkeypatch):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    from artmind.vault import VaultLayout, read_state, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_ingest_and_projection(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+
+    assert (dry["same_as_groups"], dry["same_as_keys"]) == (1, 2)
+    assert calls["rebuild_in_batches"] == []
+    assert read_state(VaultLayout(repo)) == {"last_synced_commit": base}
+    real = vs.sync(repo)
+    assert (real["same_as_groups"], real["same_as_keys"]) == (dry["same_as_groups"], dry["same_as_keys"])

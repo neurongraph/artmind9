@@ -255,6 +255,8 @@ class SyncPlan:
     replay_docs: list[tuple[str, str]] = field(default_factory=list)        # (domain, docdir)
     retract: list[tuple[str, str]] = field(default_factory=list)            # (domain, doc_id)
     regenerate_tables: list[tuple[str, str]] = field(default_factory=list)  # (domain, table_name)
+    same_as_keys: list[tuple[str, str, str]] = field(default_factory=list)  # track D: keys to rebuild
+    same_as_groups: int = 0                                                 # track D: groups added/removed/changed
 
 
 def _in_scope(domain: str, domains: list[str] | None) -> bool:
@@ -729,6 +731,70 @@ def _classify_table_sources(
     return regenerate, retract
 
 
+# ── track D: same_as.yaml (spec 2026-09-26 §7) ────────────────────────────────
+
+
+def _same_as_relpath(vault_dir: Path) -> str | None:
+    """`same_as.yaml`'s path relative to the vault, or None when it lives
+    outside it (a run folder named by an explicit `ARTMIND_HOME`): then it is
+    not versioned with the vault, and there is nothing to diff."""
+    from artmind import same_as
+
+    try:
+        return str(Path(same_as.SAME_AS_PATH).relative_to(vault_dir))
+    except ValueError:
+        return None
+
+
+def same_as_groups_at(vault_dir: Path, rev: str) -> list[list[tuple[str, str, str]]]:
+    """The same-as groups as committed at `rev` -- never the working tree,
+    where an uncommitted edit may sit (spec 2026-09-26 §6 A1). The empty tree
+    (`--bootstrapEmpty`'s base) has none. A `same_as.yaml` outside the vault
+    is not versioned with it, so its live copy is all there is."""
+    from artmind import same_as
+
+    rel = _same_as_relpath(vault_dir)
+    if rel is None:
+        return same_as.load_groups()
+    if rev == EMPTY_TREE_SHA:
+        return []
+    return same_as.parse_groups(_show(vault_dir, rev, rel), source=f"{rel} at {rev[:12]}")
+
+
+def _group_identity(group: list[tuple[str, str, str]]) -> tuple:
+    """A group as a comparable value: its canonical and its member set. Member
+    order in the file carries no meaning; which member is canonical does."""
+    return (group[0], tuple(sorted(group)))
+
+
+def _classify_same_as(
+    vault_dir: Path, base: str, head: str, domains: list[str] | None
+) -> tuple[list[tuple[str, str, str]], int]:
+    """Track D: `(keys, groups)` -- every aggregate key in a same-as group
+    added, removed or changed between `base` and `head`, and how many such
+    groups there were. A removed group's members must be rebuilt as separate
+    entities again; an added group's, folded (or linked); a changed group's,
+    both, so the keys of its `base` AND `head` versions are included.
+
+    Scoped like the other tracks: a group counts when any member's domain is
+    in scope (then all its members are rebuilt -- a group is rebuilt whole).
+    Reads `same_as.yaml` at both revisions from git; an unchanged file costs
+    one `git diff` and nothing else."""
+    rel = _same_as_relpath(vault_dir)
+    if rel is None:
+        return [], 0
+    if not _diff_name_status(vault_dir, base, head, vault_dir / rel):
+        return [], 0
+    before = {_group_identity(g) for g in same_as_groups_at(vault_dir, base)}
+    after = {_group_identity(g) for g in same_as_groups_at(vault_dir, head)}
+    changed = [
+        members for _, members in sorted(before ^ after)
+        if any(_in_scope(key[2], domains) for key in members)
+    ]
+    keys = sorted({key for members in changed for key in members})
+    return keys, len(changed)
+
+
 def classify_diff(
     vault_dir: Path, base: str, head: str, domains: list[str] | None = None
 ) -> SyncPlan:
@@ -753,6 +819,7 @@ def classify_diff(
         if (domain, doc_id) not in seen:
             seen.add((domain, doc_id))
             plan.retract.append((domain, doc_id))
+    plan.same_as_keys, plan.same_as_groups = _classify_same_as(vault_dir, base, head, domains)
     return plan
 
 
@@ -1049,6 +1116,8 @@ def sync(
             "retract": len(plan.retract),
             "regenerate_tables": len(restore_tables),
             "structured_only_tables": structured_only_dry,
+            "same_as_groups": plan.same_as_groups,
+            "same_as_keys": len(plan.same_as_keys),
             "cursor_would_advance": not domains,
         }
 
@@ -1128,9 +1197,20 @@ def sync(
         result = ingest.retract_document(doc_id, domain)
         all_keys.update(tuple(k) for k in result.get("affected_keys") or [])
 
+    # ── track D: every key of a same-as group added/removed/changed ─────────
+    all_keys.update(tuple(k) for k in plan.same_as_keys)
+
     # ── the union rebuild (§5 step 4), chunked exactly like table2graph's own ─
+    #    With the same-as groups as committed at `head`, never the working
+    #    tree's `same_as.yaml`; and every group touching a key is rebuilt
+    #    whole (`projection.affected_keys`' set 3), which `projection.rebuild`
+    #    requires of its caller.
     if all_keys:
-        projection_summary = _rebuild_in_batches(sorted(all_keys))
+        from artmind import projection
+
+        head_groups = same_as_groups_at(vault_dir, head)
+        all_keys = projection.affected_keys(incoming=sorted(all_keys), same_as_groups=head_groups)
+        projection_summary = _rebuild_in_batches(sorted(all_keys), groups=head_groups)
     else:
         projection_summary = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": 0}
 
@@ -1166,6 +1246,8 @@ def sync(
         "retracted": len(plan.retract),
         "regenerated_tables": len(restore_tables),
         "structured_only_tables": structured_only,
+        "same_as_groups": plan.same_as_groups,
+        "same_as_keys": len(plan.same_as_keys),
         "projection": projection_summary,
         "domains_swept": touched_domains,
     }
