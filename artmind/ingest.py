@@ -1680,6 +1680,11 @@ def retract_document(doc_id: str, domain: str) -> dict:
             "MATCH (d:Document {id: $doc_id}) REMOVE d:Document SET d:DocumentHistory",
             doc_id=doc_id,
         )
+        # An `update__*` folder commits as a :UserChat (`_commit_document_tx`).
+        tx.run(
+            "MATCH (c:UserChat {id: $doc_id}) REMOVE c:UserChat SET c:UserChatHistory",
+            doc_id=doc_id,
+        )
         return {"doc_id": doc_id, "domain": domain, "affected_keys": sorted(keys), **retracted}
 
     with neo4j_session() as session:
@@ -2517,7 +2522,12 @@ def _merge_relabeled(
     )
 
 
-def _write_observations(tx, observations: list[dict], doc_id: str) -> int:
+#: `document.json`'s `source_kind` for an `artmind update` staging folder
+#: (`update.write_user_chat`). Committed as a `:UserChat`, not a `:Document`.
+USER_CHAT_SOURCE_KIND = "user_chat"
+
+
+def _write_observations(tx, observations: list[dict], doc_id: str, *, source_label: str = "DocChunk") -> int:
     """Write this document version's observations.
 
     Immutable records: written whole, never merged into and never patched. The
@@ -2529,11 +2539,23 @@ def _write_observations(tx, observations: list[dict], doc_id: str) -> int:
     Each observation is a complete statement of what one chunk said, replaced
     whole (never `+=`) — a `+=` would let a property from a previous version
     of the same chunk survive into this one.
+
+    `source_label="UserChat"` (an `artmind update`): every observation is
+    `EXTRACTED_FROM` the `:UserChat` whose id is `doc_id`, not a chunk.
     """
     for observation in observations:
         _merge_relabeled(tx, "Observation", "ObservationHistory", observation["id"], observation)
         chunk_id = observation.get("chunk_id")
-        if chunk_id:
+        if source_label == "UserChat":
+            tx.run(
+                """
+                MATCH (o:Observation {id: $id})
+                MATCH (c:UserChat {id: $doc_id})
+                MERGE (o)-[:EXTRACTED_FROM]->(c)
+                """,
+                id=observation["id"], doc_id=doc_id,
+            )
+        elif chunk_id:
             tx.run(
                 """
                 MATCH (o:Observation {id: $id})
@@ -2713,6 +2735,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     and logged a warning, which meant a broken projection looked exactly like
     a healthy one from the outside. A silently-skipped projection is a
     silently-stale query layer.
+
+    An `artmind update` staging folder (`document.json`'s `source_kind` is
+    `USER_CHAT_SOURCE_KIND`) commits the same way, with one difference: its
+    provenance node is a `:UserChat` (the user's own words), not a
+    `:Document` with chunks, and its observations are `EXTRACTED_FROM` it.
+    `update confirm` and `vault sync`'s replay both reach this function with
+    the same folder, so the two write the same graph (spec 2026-09-26 §7).
     """
     from artmind import projection, same_as, sync_state
     from artmind.observations import key_string
@@ -2720,6 +2749,16 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     document = staged["document"]
     domain = staged["domain"]
     doc_id = document["id"]
+    source_label = "UserChat" if document.get("source_kind") == USER_CHAT_SOURCE_KIND else "Document"
+    if source_label == "UserChat":
+        # The PART_OF Cypher below is hardcoded to `(d:Document {id: $doc_id})`
+        # — a UserChat folder's provenance node is `:UserChat`, not `:Document`,
+        # so that MATCH would silently match nothing and MERGE would no-op,
+        # while `summary["chunks"]` below still reports the chunks as written.
+        # A UserChat staging folder must never carry chunks (its provenance is
+        # raw_text, not DocChunks) — fail loudly here instead of silently
+        # mis-linking.
+        assert not staged["chunks"], "a UserChat staging folder must not carry chunks (its provenance is raw_text, not DocChunks)"
     summary: dict = {}
 
     # 1. The prior version's keys — set 2 of the affected-key union. Captured
@@ -2733,14 +2772,14 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     # 3. Document + chunks. A re-ingest of a document `docs retire` had moved
     #    to :DocumentHistory must find and revive that same node, not create a
     #    duplicate under :Document — see _merge_relabeled.
-    _merge_relabeled(tx, "Document", "DocumentHistory", doc_id, _flatten_props(document), replace=False)
+    _merge_relabeled(tx, source_label, f"{source_label}History", doc_id, _flatten_props(document), replace=False)
     # 3b. The staging folder's fingerprint (spec 2026-09-26 §6 A3): `vault
     #     sync` skips a committed folder whose fingerprint the graph already
     #     carries -- on a shared graph, the machine that ingested it wrote it.
     #     Every path that commits a staged folder (ingest, table2graph,
     #     write-to-graph, pull-kg, archive restore, dashboard import, vault
     #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
-    sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"))
+    sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"), label=source_label)
     for chunk in staged["chunks"]:
         # `embedding` flows through `_flatten_props` like every other chunk
         # property (no more special-casing it out and re-adding it after).
@@ -2779,7 +2818,10 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
 
     # 4. Observations.
     observations = staged["observations"]
-    summary["observations"] = _write_observations(tx, observations, doc_id)
+    if source_label == "UserChat":
+        summary["observations"] = _write_observations(tx, observations, doc_id, source_label="UserChat")
+    else:
+        summary["observations"] = _write_observations(tx, observations, doc_id)
 
     incoming_keys = {
         (o["key"].split("|")[0], o["key"].split("|")[1], o["key"].split("|")[2])

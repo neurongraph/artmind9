@@ -183,7 +183,7 @@ class TestExportRelationships:
         assert set(params["base_labels"]) == {
             "Document", "DocumentHistory",
             "DocChunk", "DocChunkHistory",
-            "UserChat",
+            "UserChat", "UserChatHistory",
             "Observation", "ObservationHistory",
             "Synthesis",
             "Entity", "Conflict", "ProjectionState",

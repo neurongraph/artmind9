@@ -28,7 +28,7 @@ from utils.functions import load_env
 BASE_LABELS = (
     "Document", "DocumentHistory",
     "DocChunk", "DocChunkHistory",
-    "UserChat",
+    "UserChat", "UserChatHistory",
     "Observation", "ObservationHistory",
     "Synthesis",
 )

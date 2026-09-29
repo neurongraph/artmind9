@@ -46,9 +46,16 @@ _WRITE_BOOKMARK = (
     "SET s.last_applied_commit = $commit, s.applied_at = $applied_at"
 )
 _SET_FINGERPRINT = "MATCH (d:Document {id: $doc_id}) SET d.fingerprint = $fingerprint"
+#: An `artmind update` staging folder (`update__*`) is committed as a
+#: `:UserChat`, not a `:Document` (`ingest._commit_document_tx`), and carries
+#: its fingerprint there.
+_SET_USER_CHAT_FINGERPRINT = "MATCH (c:UserChat {id: $doc_id}) SET c.fingerprint = $fingerprint"
 _READ_FINGERPRINTS = (
     "MATCH (d:Document) WHERE d.id IN $doc_ids "
-    "RETURN d.id AS id, d.fingerprint AS fingerprint"
+    "RETURN d.id AS id, d.fingerprint AS fingerprint "
+    "UNION ALL "
+    "MATCH (c:UserChat) WHERE c.id IN $doc_ids "
+    "RETURN c.id AS id, c.fingerprint AS fingerprint"
 )
 
 
@@ -89,11 +96,15 @@ def folder_fingerprint(doc_dir: Path) -> str | None:
     return staging_fingerprint(_read)
 
 
-def set_document_fingerprint(tx, doc_id: str, fingerprint: str | None) -> None:
-    """Record `fingerprint` on `(:Document {id: doc_id})`, inside the commit
-    transaction (`ingest._commit_document_tx`). None removes the property, so
-    a document committed without one can never be skipped by `vault sync`."""
-    tx.run(_SET_FINGERPRINT, doc_id=doc_id, fingerprint=fingerprint)
+def set_document_fingerprint(tx, doc_id: str, fingerprint: str | None, *, label: str = "Document") -> None:
+    """Record `fingerprint` on `(:Document {id: doc_id})` -- or, with
+    `label="UserChat"`, on the `:UserChat` an update folder commits as --
+    inside the commit transaction (`ingest._commit_document_tx`). None
+    removes the property, so a document committed without one can never be
+    skipped by `vault sync`."""
+    if label not in ("Document", "UserChat"):
+        raise ValueError(f"no fingerprint on {label!r}: only Document or UserChat")
+    tx.run(_SET_FINGERPRINT if label == "Document" else _SET_USER_CHAT_FINGERPRINT, doc_id=doc_id, fingerprint=fingerprint)
 
 
 def _session(timeout: float | None):
@@ -104,9 +115,9 @@ def _session(timeout: float | None):
 
 def read_document_fingerprints(doc_ids: list[str], *, timeout: float | None = None) -> dict[str, str | None]:
     """`{doc_id: fingerprint}` for every id in `doc_ids` that is a live
-    `:Document` (not `:DocumentHistory`), in ONE query. A document the graph
-    does not have is absent from the result; one committed before fingerprints
-    existed maps to None."""
+    `:Document` or `:UserChat` (not a History label), in ONE query. A
+    document the graph does not have is absent from the result; one committed
+    before fingerprints existed maps to None."""
     if not doc_ids:
         return {}
     with _session(timeout) as session:

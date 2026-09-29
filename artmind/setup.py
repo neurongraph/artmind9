@@ -540,6 +540,11 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE CONSTRAINT observation_history_id IF NOT EXISTS FOR (n:ObservationHistory) REQUIRE n.id IS UNIQUE"
     )
+    # A retracted `artmind update` (its `update__*` staging folder deleted):
+    # the UserChat keeps its id under the History label, like a Document.
+    session.run(
+        "CREATE CONSTRAINT user_chat_history_id IF NOT EXISTS FOR (n:UserChatHistory) REQUIRE n.id IS UNIQUE"
+    )
     session.run(
         "CREATE INDEX document_history_domain IF NOT EXISTS FOR (n:DocumentHistory) ON (n._domain)"
     )
@@ -862,6 +867,7 @@ def setup_all() -> dict:
             "document_history_id",
             "chunk_history_id",
             "observation_history_id",
+            "user_chat_history_id",
             "observation_id",
             neo4j_notes["entity_id_schema"],
             "cat_table_key",
