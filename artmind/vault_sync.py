@@ -118,7 +118,8 @@ def preflight(vault_dir: Path) -> None:
     if unmerged:
         raise VaultSyncError(
             f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
-            f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
+            f"{', ...' if len(unmerged) > 5 else ''}) -- run `artmind vault resolve` for artmind's "
+            "generated files under .artmind/data/, resolve the rest by hand"
         )
     # The worker writes the same graph keys `sync` replays, and its staging
     # writes are what `sync` would be reading.

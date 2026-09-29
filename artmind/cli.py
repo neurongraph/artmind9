@@ -3573,7 +3573,7 @@ def _echo_sync_status(sync: dict) -> None:
     conflicts = sync.get("unresolved_conflicts") or []
     if conflicts:
         shown = ", ".join(conflicts[:5]) + (", ..." if len(conflicts) > 5 else "")
-        click.echo(f"Conflicts: {len(conflicts)} unresolved under .artmind/ ({shown})")
+        click.echo(f"Conflicts: {len(conflicts)} unresolved under .artmind/ ({shown}) — `artmind vault resolve`")
     else:
         click.echo("Conflicts: none under .artmind/")
     if sync.get("message"):
@@ -3582,7 +3582,7 @@ def _echo_sync_status(sync: dict) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), read-only readiness checks for Obsidian Git (`doctor`), and the one-off move of per-ingest fields out of notes (`migrate-frontmatter`)."""
+    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), settling merge conflicts in artmind's generated files (`resolve`), read-only readiness checks for Obsidian Git (`doctor`), and the one-off move of per-ingest fields out of notes (`migrate-frontmatter`)."""
     pass
 
 
@@ -3678,8 +3678,9 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
 
     Applies committed content only (never the working tree) and never
     commits. Refuses while a merge/rebase is in progress, while files under
-    .artmind/ have unresolved conflicts, while the ingest worker is running,
-    or while a bookmark is not in HEAD's history (pull first).
+    .artmind/ have unresolved conflicts (`vault resolve` settles artmind's
+    generated ones), while the ingest worker is running, or while a bookmark
+    is not in HEAD's history (pull first).
     """
     _setup_logger()
     from artmind import vault as vault_mod
@@ -3706,6 +3707,47 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     except VaultSyncError as e:
         raise click.ClickException(str(e))
     except Exception as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
+
+
+@vault.command("resolve")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Show the side chosen for each folder, table and record, and why, writing nothing.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_resolve_cmd(dry_run, compact):
+    """Settle merge conflicts in artmind's generated files (.artmind/data/**), deterministically, and stage the result.
+
+    Run it while Obsidian Git's merge is stopped on conflicts. For each
+    conflicted unit it picks ONE whole side: a KG document folder (all its
+    files together) takes the side extracted from the merged note's body,
+    else the greater fingerprint; a structured table (CSV + .meta.json
+    together) the later refresh; a curation record a per-kind rule (a
+    conflict: a decision beats open, then the later change). Every rule reads
+    content only, so two machines resolving the same conflict pick the same
+    bytes. Your notes and human-curated files (same_as.yaml, schemas,
+    mappings) are listed under `reported` and never touched; a folder whose
+    note is still conflicted is `pending` until you resolve the note.
+
+    The one git write artmind makes: `git checkout` of the chosen side and
+    `git add`, only for paths under .artmind/data/, only while a merge is in
+    progress. It never commits -- Obsidian Git (or you) concludes the merge.
+    """
+    _setup_logger()
+    from artmind import vault as vault_mod
+    from artmind.vault_resolve import ResolveError, resolve
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    try:
+        result = resolve(vault_dir, dry_run=dry_run)
+    except ResolveError as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)
 

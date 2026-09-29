@@ -867,3 +867,40 @@ def test_resolve_refuses_while_the_ingest_worker_runs_but_a_dry_run_reads(repo, 
         assert vr.resolve(repo, dry_run=True)["resolved"]
 
     assert vr.resolve(repo)["resolved"], "the worker stopped: resolve runs"
+
+
+def test_the_cli_reports_json(repo, monkeypatch):
+    from artmind.cli import cli
+
+    base = {NOTE: _note("Body v1.\n"), **_doc_folder(obs="[0]")}
+    _conflict(repo, base, _doc_folder(obs="[1]"), _doc_folder(obs="[2]"))
+    monkeypatch.setattr("artmind.vault.resolve_vault", lambda explicit=None: repo)
+
+    result = CliRunner().invoke(cli, ["vault", "resolve", "--dryRun", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    out = json.loads(result.stdout)
+    assert (out["dry_run"], [u["unit"] for u in out["resolved"]]) == (True, [KG])
+
+
+def test_the_cli_turns_a_refusal_into_a_clean_error_and_stages_nothing(repo, monkeypatch, tmp_path):
+    import fcntl
+    import os
+
+    from artmind.cli import cli
+
+    base = {NOTE: _note("Body v1.\n"), **_doc_folder(obs="[0]")}
+    _conflict(repo, base, _doc_folder(obs="[1]"), _doc_folder(obs="[2]"))
+    monkeypatch.setattr("artmind.vault.resolve_vault", lambda explicit=None: repo)
+    before = _index(repo)
+
+    with open(tmp_path / "worker.pid", "w") as pid_file:
+        fcntl.flock(pid_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        pid_file.write(str(os.getpid()))
+        pid_file.flush()
+        result = CliRunner().invoke(cli, ["vault", "resolve"])
+
+    assert result.exit_code == 1
+    assert "the ingest worker is running for" in result.output
+    assert "Traceback" not in result.output
+    assert _index(repo) == before
