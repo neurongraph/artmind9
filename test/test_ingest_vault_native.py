@@ -554,7 +554,7 @@ def test_ingest_to_kg_resolves_a_vault_native_markdown_at_its_vault_path(tmp_pat
 
     seen: dict = {}
     monkeypatch.setattr(ing, "extract_kg", lambda fr, *a, **k: seen.setdefault("fr", fr) and None or None)
-    monkeypatch.setattr(ing, "_persist_chunks", lambda chunks, d: d.mkdir(parents=True, exist_ok=True))
+    monkeypatch.setattr(ing, "_persist_chunks", lambda chunks, d, body=None: d.mkdir(parents=True, exist_ok=True))
 
     # No chunks_dir — exactly what the metadata_only fast path returns.
     file_result = {
@@ -581,3 +581,50 @@ def test_the_markdown_lookup_uses_the_shared_resolver():
     back_compat = src[src.index("Back-compat: if ingest_file didn't split chunks"):]
     assert "markdown_path_for(" in back_compat
     assert 'MARKDOWNS_DIR / f"{registered_path.stem}.md"' not in back_compat
+
+
+@pytest.mark.parametrize("bad", ["../evil", "a/b", "a\\\\b", "..", ".hidden", "''", "[general]", "'general/../x'"])
+def test_a_note_domain_that_is_not_a_plain_folder_name_is_rejected(vault, bad):
+    """`_domain` is hand-editable and becomes `kg/<domain>/`: anything but one
+    plain folder name (a path, `..`, a dotfolder, empty, not a string) fails
+    the note with a clear error, and nothing is registered or written."""
+    v, doc = vault
+    original = f"---\n_domain: {bad}\n---\n\n# Doc\n\nBody.\n"
+    doc.write_text(original, encoding="utf-8")
+
+    result = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert result["status"] == "failed"
+    assert "_domain" in result["error"] and "plain folder name" in result["error"]
+    assert doc.read_text(encoding="utf-8") == original, "the note is untouched"
+
+
+def test_a_bad_set_domain_is_rejected_the_same_way(vault):
+    v, doc = vault
+
+    result = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000, set_domain="../x")
+
+    assert result["status"] == "failed" and "plain folder name" in result["error"]
+
+
+def test_a_dotted_domain_family_name_is_still_a_plain_folder_name(vault):
+    """`banking.reference` is one folder name, not a path."""
+    v, doc = vault
+    doc.write_text("---\n_domain: banking.reference\n---\n\n# Doc\n\nBody.\n", encoding="utf-8")
+
+    result = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert result["status"] == "ok" and result["domain"] == "banking.reference"
+
+
+@pytest.mark.parametrize("value,ok", [
+    ("general", True), ("banking.reference", True), ("a b", True),
+    ("", False), (".", False), ("..", False), (".hidden", False), ("a/b", False),
+    ("a\\b", False), ("x..y", False), ("/abs", False), (None, False), (["general"], False), (3, False),
+])
+def test_is_plain_folder_name_is_the_one_shared_domain_check(value, ok):
+    from artmind.document_identity import is_plain_folder_name
+    from artmind.frontmatter_migration import _plain_name
+
+    assert is_plain_folder_name(value) is ok
+    assert _plain_name(value) is ok

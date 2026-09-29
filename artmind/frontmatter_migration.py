@@ -72,11 +72,9 @@ def _plain(value):
 def _plain_name(value) -> bool:
     """`value` is one plain directory name: it may be a path component of the
     KG dir, so nothing that could leave it (`/`, `..`, an absolute path)."""
-    return (
-        isinstance(value, str) and value not in ("", ".")
-        and "/" not in value and "\\" not in value and ".." not in value
-        and not os.path.isabs(value)
-    )
+    from artmind.document_identity import is_plain_folder_name
+
+    return is_plain_folder_name(value)
 
 
 def _json_scalar(value) -> bool:

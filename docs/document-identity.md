@@ -135,6 +135,21 @@ which schema extracts it, so the vault becomes self-describing and
 `--domain`**, which degrades to a default for files that don't declare one;
 `--setDomain` re-homes a document explicitly and forces re-extraction.
 
+Editing `_domain` by hand does **not** re-home a document. Only `--setDomain`
+does: it is the one path that counts as a domain change (a content-tier
+re-extraction under the new domain). A hand-edited value is read as the note's
+declared domain on the next ingest -- the staged folder is still found wherever
+it sits and the version carries on -- but nothing is re-extracted for the edit
+alone, so the graph and the staging folder are not guaranteed to follow it.
+Use `--setDomain` to move a document between domains.
+
+`_domain` becomes a folder name under `kg/`, so it must be one plain name: a
+non-empty string with no `/` or `\`, no `..`, and no leading `.` (dots inside
+a name, as in `banking.reference`, are fine). Ingest fails a note whose
+`_domain` (or `--setDomain`) is anything else, before it writes anything;
+`docs reindex` and `vault migrate-frontmatter` treat such a value as "no
+domain".
+
 ## Sources that cannot carry frontmatter
 
 | Source | Identity | Consequence |

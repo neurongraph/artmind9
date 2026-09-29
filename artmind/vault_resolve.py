@@ -13,6 +13,15 @@ valid-looking mix. This command picks one WHOLE side per unit and stages it:
   merged note was deleted, the side without the folder wins; otherwise the
   greater staging fingerprint (`sync_state.staging_fingerprint`) -- arbitrary
   but the same on every machine.
+- **Chunk cache** (`documents/markdowns/<stem>_chunks/`: `chunk_NNN.md` and
+  `chunks_meta.json`, together). Derived from the note's body, so it follows
+  the note like the kg folder does: the side whose `chunks_meta.json`
+  `_body_sha256` equals the sha of the merged note's body (the note named
+  `<stem>.md`) wins; a cache with no stamp, a note that matches neither or
+  both sides, or no single such note falls to the greater digest of the two
+  folders, whole -- never a file from each. (`extract_kg` re-checks the
+  cache against the note whichever way this went, so a wrong pick costs a
+  re-split, not a wrong extraction.)
 - **Structured table** (`structured_text/<domain>/<table>.csv` +
   `.meta.json` together): the side that has the table over the side that
   deleted it, then the later `table.ingested_at` (the table's last refresh),
@@ -32,6 +41,10 @@ Reported, never touched: a human note (resolve it in Obsidian), and
 artmind's human-curated files outside `.artmind/data/` (`same_as.yaml`,
 domain schemas and table mappings, `vault.yaml`). A KG folder whose note is
 still conflicted waits until the note is resolved (its body decides).
+
+A path with a symlinked parent directory inside the vault is reported, never
+touched (its unit is skipped): unlinking or staging through a symlink writes
+outside the tree.
 
 **The one git write artmind makes (spec D1/D2, as amended).** For each unit
 it picked, `git checkout <HEAD|MERGE_HEAD> -- <paths>` for the files the
@@ -139,6 +152,8 @@ def _unit_of(path: str) -> tuple[str, str]:
     parts = PurePosixPath(path[len(DATA_PREFIX):]).parts
     if len(parts) >= 4 and parts[0] == "kg":
         return "kg", f"{DATA_PREFIX}kg/{parts[1]}/{parts[2]}"
+    if len(parts) >= 4 and parts[:2] == ("documents", "markdowns") and parts[2].endswith("_chunks"):
+        return "chunks", f"{DATA_PREFIX}documents/markdowns/{parts[2]}"
     if len(parts) == 3 and parts[0] == "structured_text":
         for suffix in (".meta.json", ".csv"):
             if parts[2].endswith(suffix):
@@ -150,7 +165,7 @@ def _unit_of(path: str) -> tuple[str, str]:
 
 def _unit_paths(vault_dir: Path, kind: str, unit: str, heads: tuple[str, str]) -> list[str]:
     """Every file of the unit on either side."""
-    if kind == "kg":
+    if kind in ("kg", "chunks"):
         found: set[str] = set()
         for rev in heads:
             out = _read(vault_dir, ["ls-tree", "-r", "-z", "--name-only", rev, "--", unit])
@@ -259,23 +274,35 @@ class _NoteIndex:
         self._vault_dir = vault_dir
         self._heads = heads
         self._paths: dict[str, str] | None = None
+        self._stems: dict[str, list[str]] | None = None
+
+    def _load(self) -> None:
+        if self._paths is not None:
+            return
+        from artmind.ingest import _parse_md_frontmatter
+        from artmind.reindex import _iter_vault_markdown
+
+        self._paths, self._stems = {}, {}
+        for note in _iter_vault_markdown(self._vault_dir):
+            relpath = note.relative_to(self._vault_dir).as_posix()
+            self._stems.setdefault(note.stem, []).append(relpath)
+            try:
+                meta, _ = _parse_md_frontmatter(_note_text(note))
+            except (OSError, UnicodeDecodeError):
+                continue
+            if isinstance(meta.get("_artmind_id"), str):
+                self._paths.setdefault(meta["_artmind_id"], relpath)
 
     def path_of(self, artmind_id) -> str | None:
         if not isinstance(artmind_id, str):
             return None
-        if self._paths is None:
-            from artmind.ingest import _parse_md_frontmatter
-            from artmind.reindex import _iter_vault_markdown
-
-            self._paths = {}
-            for note in _iter_vault_markdown(self._vault_dir):
-                try:
-                    meta, _ = _parse_md_frontmatter(_note_text(note))
-                except (OSError, UnicodeDecodeError):
-                    continue
-                if isinstance(meta.get("_artmind_id"), str):
-                    self._paths.setdefault(meta["_artmind_id"], note.relative_to(self._vault_dir).as_posix())
+        self._load()
         return self._paths.get(artmind_id)
+
+    def paths_named(self, stem: str) -> list[str]:
+        """Vault-relative paths of the working tree's notes named `stem.md`."""
+        self._load()
+        return list(self._stems.get(stem, ()))
 
     def historic_path(self, artmind_id) -> str | None:
         """A note path at either merged head whose frontmatter names
@@ -328,6 +355,32 @@ def _decide_kg(vault_dir, unit, paths, sides, ids, unmerged=frozenset()) -> tupl
         for s, files in sides.items()
     }
     return _greater(fingerprints), "the greater staging fingerprint (both or neither match the note)"
+
+
+def _decide_chunks(vault_dir, unit, paths, sides, ids, unmerged=frozenset()) -> tuple[str | None, str]:
+    """A chunk cache is split from one note's body and stamped with its hash
+    (`_persist_chunks`): the side whose stamp is the merged note's body hash
+    wins, whole. Anything else (no stamp, no single note named for the folder,
+    a note matching neither or both) is the greater digest -- deterministic,
+    and `extract_kg` re-checks the cache against the note anyway."""
+    from artmind.document_identity import compute_content_sha256
+    from artmind.ingest import CHUNK_CACHE_BODY_KEY, _parse_md_frontmatter
+
+    stem = PurePosixPath(unit).name.removesuffix("_chunks")
+    notes = ids.paths_named(stem)
+    if len(notes) == 1 and (vault_dir / notes[0]).is_file():
+        text = _note_text(vault_dir / notes[0])
+        if notes[0] in unmerged and _has_conflict_block(text):
+            return None, f"its note {notes[0]} is still conflicted -- resolve the note, then re-run `vault resolve`"
+        body_sha = compute_content_sha256(_parse_md_frontmatter(text)[1])
+        matching = [
+            s for s, files in sides.items()
+            if (_json(files.get(f"{unit}/chunks_meta.json")) or {}).get(CHUNK_CACHE_BODY_KEY) == body_sha
+        ]
+        if len(matching) == 1:
+            return matching[0], "the cache split from the merged note's body"
+    digests = {s: _digest(files, paths) for s, files in sides.items()}
+    return _greater({s: (d,) for s, d in digests.items()}), "the greater digest (no cache stamp names the merged note's body)"
 
 
 def _decide_table(unit, paths, sides) -> tuple[str, str]:
@@ -404,6 +457,18 @@ def _reason_for_human(path: str) -> str:
     return "your note -- resolve it in Obsidian"
 
 
+def _symlinked_parent(vault_dir: Path, path: str) -> str | None:
+    """The first directory above `path` that is a symlink in the working
+    tree (vault-relative), or None. Deleting, checking out or staging through
+    one reaches outside the vault."""
+    current = vault_dir
+    for part in PurePosixPath(path).parts[:-1]:
+        current = current / part
+        if current.is_symlink():
+            return current.relative_to(vault_dir).as_posix()
+    return None
+
+
 def plan(vault_dir: Path) -> dict:
     """Every conflicted path, sorted into resolved units (with the side each
     takes and why), pending units, and reported paths. Reads only."""
@@ -426,8 +491,17 @@ def plan(vault_dir: Path) -> dict:
     for unit, kind in sorted(units.items()):
         paths = _unit_paths(vault_dir, kind, unit, (ours, theirs))
         sides = {"ours": _side_files(vault_dir, ours, paths), "theirs": _side_files(vault_dir, theirs, paths)}
+        linked = {p: _symlinked_parent(vault_dir, p) for p in paths}
+        if any(linked.values()):
+            reported.extend(
+                {"path": p, "why": f"its parent {parent} is a symlink -- resolve it by hand, artmind never writes through one"}
+                for p, parent in linked.items() if parent
+            )
+            continue
         if kind == "kg":
             side, why = _decide_kg(vault_dir, unit, paths, sides, ids, unmerged)
+        elif kind == "chunks":
+            side, why = _decide_chunks(vault_dir, unit, paths, sides, ids, unmerged)
         elif kind == "table":
             side, why = _decide_table(unit, paths, sides)
         elif kind == "record":
@@ -446,10 +520,13 @@ def plan(vault_dir: Path) -> dict:
     }
 
 
-def _assert_scoped(paths: list[str]) -> None:
+def _assert_scoped(paths: list[str], vault_dir: Path | None = None) -> None:
     """The write guard: every path is under `.artmind/data/`, relative, with
-    no `..` -- checked before any git write, whatever the planner produced."""
+    no `..` and (given `vault_dir`) no symlinked parent -- checked before any
+    git write, whatever the planner produced."""
     for path in paths:
+        if vault_dir is not None and _symlinked_parent(vault_dir, path):
+            raise ResolveError(f"refusing to write {path!r}: a parent directory is a symlink")
         parts = PurePosixPath(path).parts
         if not path.startswith(DATA_PREFIX) or PurePosixPath(path).is_absolute() or ".." in parts:
             raise ResolveError(f"refusing to write {path!r}: `vault resolve` only writes under {DATA_PREFIX}")
@@ -503,7 +580,7 @@ def _stage_side(vault_dir: Path, rev: str, present: list[str], absent: list[str]
     settled LAST -- while any is left the unit is still found and every step
     here is idempotent; the moment none is left, every other path is done.
     The working-tree deletions come first because they touch no index entry."""
-    _assert_scoped(present + absent)
+    _assert_scoped(present + absent, vault_dir)
     unmerged = set(_unmerged(vault_dir))
     for path in absent:
         (vault_dir / path).unlink(missing_ok=True)
@@ -538,7 +615,7 @@ def resolve(vault_dir: Path, *, dry_run: bool = False) -> dict:
         )
     heads = {"ours": report["head"], "theirs": report["merge_head"]}
     for unit in report["resolved"]:
-        _assert_scoped(unit["paths"])
+        _assert_scoped(unit["paths"], vault_dir)
     for unit in report["resolved"]:
         if _merge_heads(vault_dir) != (report["head"], report["merge_head"]):
             raise ResolveError("the merge changed underneath `vault resolve` -- re-run it")

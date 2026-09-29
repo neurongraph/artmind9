@@ -405,6 +405,13 @@ every curation write is also a vault file:
 | a table's grain, bridge columns, column mappings | the table's `.meta.json` | `db grain`, `db mappings`, `db bridge`, `db propose` |
 | a same-as group | `.artmind/same_as.yaml` | `sameas approve`, or you |
 
+`docs archive` bundles a document (its staging folder, the note, the original
+binary) into `ARTMIND_ARCHIVE_DIR` and then removes the note, the original and
+the graph/registry rows. It **copies** the `kg/<domain>/<doc>/` staging folder
+into the bundle but does **not** remove it: the folder stays in the vault, so
+it is still committed and synced until you delete it yourself (or `git rm` it).
+`docs restore-from-archive` rewrites it from the bundle.
+
 Curation records are **one file per record**, never one shared file: every
 path under `.artmind/data/` merges as a whole file, so a shared file would
 make any two machines' curation a git conflict. A conflict's id is
@@ -546,13 +553,15 @@ It takes **one whole side** per unit, never a mix:
 | Unit | Side taken |
 |---|---|
 | a KG document folder (`kg/<domain>/<note>/`, every file in it) | the one extracted from the merged note's body; if the merge deleted the note, the side without the folder; otherwise the greater fingerprint |
+| a chunk cache (`documents/markdowns/<note>_chunks/`, `chunk_NNN.md` + `chunks_meta.json`) | the side whose `_body_sha256` stamp is the merged note's body hash, so it follows the note like the KG folder; no stamp or no single matching note: the greater digest of the folder, whole. `extract-kg` re-checks the cache against the note and re-splits a stale one, so a wrong pick costs a re-split |
 | a structured table (`<table>.csv` + `.meta.json`) | the side that kept it, then the later refresh, then the greater digest |
 | a curation record (`curation/<kind>/<id>.json`) | the side that kept it, then — a conflict: a decision beats open, then the later change; a supersession: a manual assertion beats a detected one; a synthesis: the later one; a lifecycle record: no rule, its content is fixed by its id — then the greater fingerprint |
 | any other file under `.artmind/data/` | the side that kept it, then the greater content hash |
 
 Every rule reads content, never which side is "ours", so both machines pick
 the same bytes. The output lists each unit under `resolved` (with its `side`
-and `rule`), `pending` or `reported`; `remaining` counts the last two. Your
+and `rule`), `pending` or `reported`; `remaining` counts the last two. A path with a symlinked parent directory inside the vault is `reported` and its
+unit skipped (deleting or staging through a symlink writes outside the vault). Your
 notes, `same_as.yaml`, schemas and table mappings are `reported` and never
 touched: resolve those in Obsidian. A folder whose note is still conflicted is
 `pending`; resolve the note, then run `vault resolve` again (a note you have

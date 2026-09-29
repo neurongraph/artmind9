@@ -90,6 +90,19 @@ def mint_artmind_id() -> str:
     return str(uuid.uuid7())
 
 
+def is_plain_folder_name(value) -> bool:
+    """`value` is one plain folder name and nothing that could leave the folder
+    it is joined to: a non-empty string with no `/` or `\\`, no `..`, and not
+    starting with `.`. `_domain` is hand-editable frontmatter and becomes a
+    path component of the staging tree (`kg/<domain>/`), so every consumer
+    checks it with this before it reaches a path."""
+    return (
+        isinstance(value, str) and value != ""
+        and "/" not in value and "\\" not in value and ".." not in value
+        and not value.startswith(".")
+    )
+
+
 def compute_content_sha256(body: str) -> str:
     """Hash the BODY ONLY — frontmatter is deliberately excluded.
 

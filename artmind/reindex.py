@@ -29,7 +29,7 @@ from pathlib import Path
 from loguru import logger
 
 from artmind.db import _get_db
-from artmind.document_identity import canonical_path, compute_content_sha256
+from artmind.document_identity import canonical_path, compute_content_sha256, is_plain_folder_name
 from paths import ARTMIND_VAULT_DIR
 
 _ACCEPTED_LIMITATION_NOTE = (
@@ -83,7 +83,7 @@ def reindex() -> dict:
             # stored. Anything else is "no domain": the body hash below.
             domain = meta.get("_domain")
             domain = domain if isinstance(domain, str) else ""
-            safe_domain = domain if domain and "/" not in domain and ".." not in domain else None
+            safe_domain = domain if is_plain_folder_name(domain) else None
             staged = staged_document(safe_domain, [path.stem], artmind_id)
             content_sha256 = ingest_baseline(staged, meta)["_content_sha256"] or compute_content_sha256(body)
             conn.execute(

@@ -16,7 +16,9 @@ from neo4j import GraphDatabase
 from artmind.db import _get_db, _registry_row_by_artmind_id
 from artmind.document_identity import (
     canonical_path,
+    compute_content_sha256,
     decide_version,
+    is_plain_folder_name,
     ingest_baseline,
     markdown_path_for,
     mint_artmind_id,
@@ -815,6 +817,15 @@ def _ingest_vault_native(
 
     prior_domain = existing_meta.get("_domain")
     effective_domain = set_domain or prior_domain or domain
+    # `_domain` (and --setDomain) becomes `kg/<domain>/`: one plain folder name.
+    for label, value in (("_domain in frontmatter", prior_domain), ("--setDomain", set_domain)):
+        if value is not None and not is_plain_folder_name(value):
+            file_result["error"] = (
+                f"{source}: {label} {value!r} is not a plain folder name "
+                "(no '/', '\\', '..', leading '.', and not empty)"
+            )
+            logger.error(file_result["error"])
+            return file_result
     if not effective_domain:
         file_result["error"] = (
             f"{source}: no '_domain' in frontmatter and no --domain given"
@@ -938,7 +949,7 @@ def _ingest_vault_native(
 
     chunks = _split_markdown(body, chunk_size)
     chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
-    _persist_chunks(chunks, chunks_dir)
+    _persist_chunks(chunks, chunks_dir, body=body)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
 
@@ -1121,7 +1132,7 @@ def _ingest_binary_or_adhoc(
     _, body = _parse_md_frontmatter(raw_text)
     chunks = _split_markdown(body, chunk_size)
     chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
-    _persist_chunks(chunks, chunks_dir)
+    _persist_chunks(chunks, chunks_dir, body=body)
     logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
 
     file_result["status"] = "ok"
@@ -1258,7 +1269,9 @@ def _ingest_binary_derived(
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
     chunks_dir = MARKDOWNS_DIR / f"{stem}_chunks"
-    _persist_chunks(chunks, chunks_dir)
+    # Stamp the body as the file now holds it (what `extract_kg` re-reads to
+    # check the cache), not the string handed to `write_document`.
+    _persist_chunks(chunks, chunks_dir, body=_parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))[1])
     logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), stem)
 
     file_result["status"] = "ok"
@@ -1447,14 +1460,26 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     return chunks
 
 
-def _persist_chunks(chunks: list[dict], chunks_dir: Path) -> None:
+#: Key in `chunks_meta.json` naming the note body the cache was split from
+#: (`compute_content_sha256`). Every other key is a zero-padded sequence.
+CHUNK_CACHE_BODY_KEY = "_body_sha256"
+
+
+def _persist_chunks(chunks: list[dict], chunks_dir: Path, body: str | None = None) -> None:
     """Write each chunk's text to ``chunk_NNN.md`` and a parallel
     ``chunks_meta.json`` sidecar holding block-level provenance (source offsets,
-    header breadcrumb, content hash) keyed by zero-padded sequence."""
+    header breadcrumb, content hash) keyed by zero-padded sequence.
+
+    `body`, the markdown body the chunks were split from, is recorded as
+    ``_body_sha256`` so `extract_kg` can tell a cache that no longer matches
+    its note (a merge took the note from one side and this folder from the
+    other) from a current one."""
     chunks_dir.mkdir(parents=True, exist_ok=True)
     for stale in chunks_dir.glob("chunk_*.md"):
         stale.unlink()
-    meta: dict[str, dict] = {}
+    meta: dict = {}
+    if body is not None:
+        meta[CHUNK_CACHE_BODY_KEY] = compute_content_sha256(body)
     for i, chunk in enumerate(chunks, start=1):
         (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk["text"], encoding="utf-8")
         meta[f"{i:03d}"] = {
@@ -1466,6 +1491,37 @@ def _persist_chunks(chunks: list[dict], chunks_dir: Path) -> None:
     (chunks_dir / "chunks_meta.json").write_text(
         json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
     )
+
+
+def _chunk_cache_matches(chunks_dir: Path, body: str, chunk_size: int) -> bool:
+    """Whether the chunk cache in `chunks_dir` was split from `body`.
+
+    A cache stamped with `_body_sha256` is judged by that stamp and by having
+    every chunk file it lists. An unstamped one (written before the stamp) is
+    judged by splitting `body` again and comparing chunk for chunk."""
+    try:
+        meta = json.loads((chunks_dir / "chunks_meta.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        meta = None
+    on_disk = sorted(chunks_dir.glob("chunk_*.md"))
+    if not on_disk:
+        return False
+    if isinstance(meta, dict) and CHUNK_CACHE_BODY_KEY in meta:
+        listed = sorted(k for k in meta if k != CHUNK_CACHE_BODY_KEY)
+        return (
+            meta[CHUNK_CACHE_BODY_KEY] == compute_content_sha256(body)
+            and listed == [f.stem.removeprefix("chunk_") for f in on_disk]
+        )
+    fresh = _split_markdown(body, chunk_size)
+    if len(fresh) != len(on_disk):
+        return False
+    try:
+        return all(
+            (chunks_dir / f"chunk_{i:03d}.md").read_text(encoding="utf-8") == chunk["text"]
+            for i, chunk in enumerate(fresh, start=1)
+        )
+    except OSError:
+        return False
 
 
 def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tuple[list, bool]:
@@ -2044,7 +2100,7 @@ def ingest_to_kg(
         _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         chunks = _split_markdown(body, chunk_size)
         chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
-        _persist_chunks(chunks, chunks_dir)
+        _persist_chunks(chunks, chunks_dir, body=body)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
         file_result.setdefault("sha256", _compute_sha256(registered_path))
@@ -2208,6 +2264,7 @@ def extract_kg(
     text_model: str = "ministral-3:14b",
     embed_model: str = "nomic-embed-text:latest",
     max_workers: int | None = None,
+    chunk_size: int | None = None,
 ) -> Path | None:
     """Extract KG from persisted chunks and merge into document-level JSON files.
 
@@ -2217,6 +2274,10 @@ def extract_kg(
     Chunks in the first pass are processed concurrently across a bounded thread
     pool (see _resolve_ingest_workers); the 3 extraction steps stay sequential
     *within* a chunk (properties/relationships depend on the entities output).
+    The chunk cache is derived data: before extracting, it is checked against
+    the markdown's current body and re-split (at `chunk_size`, default
+    `ARTMIND_KG_CHUNK_SIZE`) when it does not correspond -- a merge can leave
+    the cache from one version of a note beside the note of another.
     Returns doc_kg_dir on success, None if prerequisites are missing.
     """
     doc_sha256 = file_result.get("sha256", "")
@@ -2247,6 +2308,18 @@ def extract_kg(
     if not chunks_dir.exists():
         logger.error("Chunks directory not found: {}", chunks_dir)
         return None
+
+    if md_file.exists():
+        _, current_body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        size = chunk_size or int(load_env().get("ARTMIND_KG_CHUNK_SIZE", "6000"))
+        if not _chunk_cache_matches(chunks_dir, current_body, size):
+            logger.warning(
+                "Chunk cache {} does not match the current body of {} -- re-splitting it",
+                chunks_dir, md_file.name,
+            )
+            fresh = _split_markdown(current_body, size)
+            _persist_chunks(fresh, chunks_dir, body=current_body)
+            file_result["chunk_count"] = len(fresh)
 
     domain_schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     if not domain_schema_file.exists():

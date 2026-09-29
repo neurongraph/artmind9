@@ -904,3 +904,119 @@ def test_the_cli_turns_a_refusal_into_a_clean_error_and_stages_nothing(repo, mon
     assert "the ingest worker is running for" in result.output
     assert "Traceback" not in result.output
     assert _index(repo) == before
+
+
+# -- the chunk cache is one unit that follows the merged note --
+
+CH = ".artmind/data/documents/markdowns/policy_chunks"
+
+
+def _chunk_files(body, salt, *, stamp=True):
+    """A `policy_chunks/` folder as `_persist_chunks` writes it, `salt`
+    varying its bytes (so its content hash can be steered)."""
+    meta = {"001": {"salt": salt}}
+    if stamp:
+        meta["_body_sha256"] = compute_content_sha256(body)
+    return _bytes({f"{CH}/chunk_001.md": f"{body.strip()} {salt}", f"{CH}/chunks_meta.json": json.dumps(meta)})
+
+
+def _greater_hash(ours, theirs, path):
+    import hashlib
+
+    return hashlib.sha256(ours[path]).digest() > hashlib.sha256(theirs[path]).digest()
+
+
+def _decide_chunks(vault_dir, ours, theirs, unmerged=frozenset()):
+    paths = sorted(set(ours) | set(theirs))
+    return vr._decide_chunks(vault_dir, CH, paths, {"ours": ours, "theirs": theirs}, vr._NoteIndex(vault_dir), unmerged)
+
+
+def _adversarial_chunks(right_body, wrong_body):
+    """`(right, wrong)`: the folder split from `right_body` has the LESSER
+    content hash in BOTH its files, so deciding each file by hash would take
+    both from `wrong`."""
+    for i in range(2000):
+        right, wrong = _chunk_files(right_body, i), _chunk_files(wrong_body, i + 5000)
+        if not any(_greater_hash(right, wrong, p) for p in right):
+            return right, wrong
+    raise AssertionError("no adversarial pair found")
+
+
+def test_a_chunk_folder_follows_the_merged_note_not_the_greater_content_hash(note_dir):
+    right, wrong = _adversarial_chunks("# Doc\n\nBody v1.\n", "# Doc\n\nOther body.\n")
+    (note_dir / NOTE).write_text(_note("# Doc\n\nBody v1.\n"))
+    (note_dir / "notes/policy.md").write_text(_note("# Doc\n\nBody v1.\n"))
+
+    for ours, theirs in ((right, wrong), (wrong, right)):
+        side, why = _decide_chunks(note_dir, ours, theirs)
+        assert {"ours": ours, "theirs": theirs}[side] is right
+        assert "merged note" in why
+
+
+def test_a_chunk_folder_waits_while_its_note_is_conflicted(note_dir):
+    (note_dir / NOTE).write_text("<<<<<<< HEAD\nA\n=======\nB\n>>>>>>> theirs\n")
+    side, why = _decide_chunks(
+        note_dir, _chunk_files("A", 1), _chunk_files("B", 2), frozenset({NOTE})
+    )
+    assert side is None and "conflicted" in why
+
+
+@pytest.mark.parametrize("stamped", [False, True])
+def test_a_chunk_folder_no_stamp_or_note_settles_by_content_hash_either_way(note_dir, stamped):
+    """No stamp to match (a legacy cache), or a note that matches neither
+    side: the greater content hash decides, the same from both merge
+    orientations."""
+    (note_dir / NOTE).write_text(_note("# Doc\n\nNeither.\n"))
+    a, b = _chunk_files("# Doc\n\nA.\n", 1, stamp=stamped), _chunk_files("# Doc\n\nB.\n", 2, stamp=stamped)
+    fwd = {"ours": a, "theirs": b}[_decide_chunks(note_dir, a, b)[0]]
+    rev = {"ours": b, "theirs": a}[_decide_chunks(note_dir, b, a)[0]]
+    assert fwd is rev
+
+
+def test_resolve_stages_a_whole_chunk_folder_from_the_side_the_note_matches(repo):
+    """End to end in git: theirs re-chunked v2 of the note (which the merge
+    took); ours' chunk cache is v1's and has the greater content hash in every
+    file. The folder is theirs' whole -- never a file of each."""
+    right, wrong = _adversarial_chunks("# Doc\n\nBody v2.\n", "# Doc\n\nBody v1.\n")
+    base = {NOTE: _note("# Doc\n\nBody v1.\n"), **_doc_folder(obs="[0]")}
+    ours = {**_doc_folder(obs="[1]"), **wrong}
+    theirs = {NOTE: _note("# Doc\n\nBody v2.\n"), **_doc_folder(body="# Doc\n\nBody v2.\n", obs="[2]"), **right}
+    _conflict(repo, {**base, **_chunk_files("# Doc\n\nBody v0.\n", 9999)}, ours, theirs)
+
+    report = vr.resolve(repo)
+
+    by_kind = {u["kind"]: u for u in report["resolved"]}
+    assert by_kind["chunks"]["side"] == by_kind["kg"]["side"] == "theirs"
+    for path, data in right.items():
+        assert (repo / path).read_bytes() == data
+    assert _git(repo, "diff", "--name-only", "--diff-filter=U") == ""
+    assert _git(repo, "diff", "--cached", "--name-only", "theirs", "--", CH) == ""
+
+
+# -- a symlinked parent is never written through --
+
+
+def test_a_path_under_a_symlinked_directory_is_reported_and_never_touched(repo, tmp_path):
+    """The working tree's `kg/general` is a symlink to a directory outside the
+    vault (a relocated store). Deleting the picked side's missing file through
+    it would delete a file outside the vault; the unit is reported instead."""
+    cache = f"{KG}/chunks/sha1/chunk_001.json"
+    base = {NOTE: _note("Body v1.\n"), **_doc_folder(obs="[0]")}
+    ours = _doc_folder(obs="[1]", extra={cache: "{}"})
+    theirs = {NOTE: _note("Body v2.\n"), **_doc_folder(body="Body v2.\n", obs="[2]")}
+    _conflict(repo, base, ours, theirs)
+    general = repo / ".artmind/data/kg/general"
+    outside = tmp_path / "elsewhere"
+    general.rename(outside)
+    general.symlink_to(outside)
+    kept = outside / "policy/chunks/sha1/chunk_001.json"
+    assert kept.exists()
+
+    report = vr.resolve(repo)
+
+    assert kept.exists(), "nothing was deleted through the symlink"
+    assert report["resolved"] == []
+    reported = {r["path"]: r["why"] for r in report["reported"]}
+    assert cache in reported and "symlink" in reported[cache]
+    assert report["remaining"] >= 1
+    assert _git(repo, "diff", "--name-only", "--diff-filter=U").split()  # still unmerged
