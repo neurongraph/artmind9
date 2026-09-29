@@ -22,9 +22,14 @@ from artmind.db import _registry_row_by_artmind_id, _registry_row_by_path
 from paths import ARTMIND_VAULT_DIR, MARKDOWNS_DIR
 
 # ── the frontmatter contract ─────────────────────────────────────────────────
-# System: artmind writes these; extraction must never emit them. The
-# underscore *is* the rule — it means artmind owns the property. Order here is
-# the order they're serialized in, so the file reads sensibly to a human.
+# System: artmind owns these; extraction must never emit them. The underscore
+# *is* the rule — it means artmind owns the property. Order here is the order
+# `serialize_frontmatter` writes them in. Since spec 2026-09-26 R6 artmind
+# writes only `IDENTITY_FIELDS` into a human note; the per-ingest fields
+# (`MOVED_FIELDS`) live in the staging folder's `document.json`, and older
+# notes that still carry them are read as a fallback. `_valid_from`/
+# `_valid_to`/`_valid_time_source` are a human's input, never written by
+# artmind, and stay in the note.
 SYSTEM_FIELDS = (
     "_artmind_id",
     "_version",
@@ -44,6 +49,26 @@ SYSTEM_FIELDS = (
     # `_derived_sha256` did.
     "_source_sha256",
 )
+
+#: The only fields artmind writes into a human note (spec R6): once, at the
+#: first ingest, and again only when `_domain` genuinely changes.
+IDENTITY_FIELDS = ("_artmind_id", "_domain")
+
+#: Per-ingest fields older artmind wrote into every note on every ingest,
+#: mapped to their `document.json` key. `_status` maps to None: it was always
+#: "latest" and nothing reads it (a retirement is a lifecycle record, spec
+#: §15 A10), so it is dropped rather than moved. `vault migrate-frontmatter`
+#: moves these once; until then they are read as a fallback.
+MOVED_FIELDS = {
+    "_version": "version",
+    "_content_sha256": "content_sha256",
+    "_source_sha256": "source_sha256",
+    "_source_commit": "source_commit",
+    "_ingested_at": "ingested_at",
+    "_source_path": "source_path",
+    "_source_type": "source_type",
+    "_status": None,
+}
 
 # Authored: artmind seeds a value once (only if absent), then never touches it
 # again — a human's edit to any of these must survive every future ingest.
@@ -247,24 +272,57 @@ def frontmatter_unchanged(existing_meta: dict, new_meta: dict) -> bool:
     return all(existing_meta.get(k) == new_meta.get(k) for k in keys)
 
 
+def ingest_baseline(staged: dict | None, frontmatter: dict) -> dict:
+    """What the last successful ingest left behind -- `{"_content_sha256",
+    "_version", "_source_sha256"}` -- for `decide_version` (and a binary's
+    no-op check) to compare against.
+
+    The staging folder's `document.json` (`staged`) is the baseline once it
+    records a `content_sha256` (spec R6): it is written by the extraction
+    itself, so it can never claim a version whose extraction failed. A
+    `document.json` from before R6 has no hash; then the note's own legacy
+    frontmatter is the baseline, with `document.json`'s `version` standing in
+    when the note has none (a note `vault migrate-frontmatter` stripped
+    whose extraction had not caught up)."""
+    staged = staged or {}
+    if staged.get("content_sha256"):
+        return {
+            "_content_sha256": staged["content_sha256"],
+            "_version": staged.get("version") or frontmatter.get("_version"),
+            "_source_sha256": staged.get("source_sha256"),
+        }
+    return {
+        "_content_sha256": frontmatter.get("_content_sha256"),
+        "_version": frontmatter.get("_version") or staged.get("version"),
+        "_source_sha256": frontmatter.get("_source_sha256"),
+    }
+
+
+def needs_stamp(existing_meta: dict, artmind_id: str, domain: str) -> bool:
+    """Whether the note must be (re)written: its identity fields are missing
+    or differ -- the first stamp, a heal or fork, or a genuine `_domain`
+    change. Nothing else ever rewrites a human note (spec R6)."""
+    return existing_meta.get("_artmind_id") != artmind_id or existing_meta.get("_domain") != domain
+
+
 def decide_version(body: str, existing_meta: dict) -> VersionDecision:
-    """Compare the incoming body against the file's OWN previously-written
-    `_content_sha256` — no registry or graph lookup needed, the file already
-    carries its own baseline.
+    """Compare the incoming body against the baseline the last ingest left
+    -- `existing_meta` is `ingest_baseline(document.json, frontmatter)`, in
+    frontmatter vocabulary (`_content_sha256`, `_version`). No registry or
+    graph lookup: the vault carries its own baseline.
 
     `metadata_only` covers BOTH "only frontmatter differs" and "nothing
-    differs" from the spec's versioning table: writing the (possibly
-    byte-identical) frontmatter back and letting git's own diff decide
-    whether anything actually changed is simpler and exactly as correct as
-    tracking a separate "did frontmatter change" signal would be, since
-    artmind's own writes are idempotent (see `build_frontmatter`).
+    differs" from the spec's versioning table; neither rewrites the note.
+    A baseline with a version but no hash (a staged extraction from before
+    R6, whose note no longer says) is a content change continuing that
+    version, never a restart at 1.
     """
     content_sha256 = compute_content_sha256(body)
     prior_sha = existing_meta.get("_content_sha256")
     prior_version = existing_meta.get("_version")
 
     if prior_sha is None or content_sha256 != prior_sha:
-        new_version = int(prior_version) + 1 if (prior_sha is not None and prior_version) else 1
+        new_version = int(prior_version) + 1 if prior_version else 1
         return VersionDecision("content", new_version, content_sha256)
     return VersionDecision("metadata_only", int(prior_version) if prior_version else 1, content_sha256)
 

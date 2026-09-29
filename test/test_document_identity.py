@@ -8,7 +8,9 @@ import pytest
 
 from artmind.document_identity import (
     AUTHORED_FIELDS,
+    IDENTITY_FIELDS,
     IdentityConflict,
+    MOVED_FIELDS,
     Resolution,
     SYSTEM_FIELDS,
     build_frontmatter,
@@ -16,9 +18,11 @@ from artmind.document_identity import (
     compute_content_sha256,
     decide_version,
     frontmatter_unchanged,
+    ingest_baseline,
     lift_declared_version,
     markdown_path_for,
     mint_artmind_id,
+    needs_stamp,
     render_document,
     resolve_identity,
     serialize_frontmatter,
@@ -193,6 +197,70 @@ def test_decide_version_body_unchanged_is_metadata_only():
     decision = decide_version("same body", existing_meta={"_content_sha256": sha, "_version": 2})
     assert decision.tier == "metadata_only"
     assert decision.version == 2
+
+
+def test_decide_version_without_a_prior_hash_continues_the_staged_version():
+    """A pre-R6 staging folder has a version but no hash, and a migrated note
+    no longer says: the next ingest is a content change at version + 1, never
+    a restart at 1 that would reuse an old version's observation ids."""
+    decision = decide_version("body", existing_meta={"_content_sha256": None, "_version": 3})
+    assert decision.tier == "content"
+    assert decision.version == 4
+
+
+# ── the baseline: document.json first, legacy frontmatter as a fallback ─────
+
+
+def test_ingest_baseline_is_document_json_once_it_records_a_hash():
+    staged = {"id": "id-1", "version": 5, "content_sha256": "new", "source_sha256": "bin"}
+    fat = {"_content_sha256": "old", "_version": 2, "_source_sha256": "oldbin"}
+
+    assert ingest_baseline(staged, fat) == {"_content_sha256": "new", "_version": 5, "_source_sha256": "bin"}
+
+
+def test_ingest_baseline_falls_back_to_legacy_frontmatter():
+    staged = {"id": "id-1", "version": 2}  # pre-R6 document.json: no hash
+    fat = {"_content_sha256": "old", "_version": 2, "_source_sha256": "oldbin"}
+
+    assert ingest_baseline(staged, fat) == {"_content_sha256": "old", "_version": 2, "_source_sha256": "oldbin"}
+    assert ingest_baseline(None, {}) == {"_content_sha256": None, "_version": None, "_source_sha256": None}
+    assert ingest_baseline(staged, {"_artmind_id": "id-1"})["_version"] == 2
+
+
+def test_ingest_baseline_prefers_the_staged_version_and_fills_a_missing_one_from_the_note():
+    both = ingest_baseline({"version": 5, "content_sha256": "h"}, {"_version": 2, "_content_sha256": "old"})
+    assert both["_version"] == 5
+
+    hash_only = ingest_baseline({"content_sha256": "h"}, {"_version": 2})
+    assert hash_only == {"_content_sha256": "h", "_version": 2, "_source_sha256": None}
+
+    no_hash = ingest_baseline({"version": 5}, {"_version": 2, "_content_sha256": "old"})
+    assert no_hash["_version"] == 2  # the note's own version wins while it has one
+
+
+def test_needs_stamp_only_for_missing_or_changed_identity():
+    assert needs_stamp({}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-1"}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-1", "_domain": "other"}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-0", "_domain": "general"}, "id-1", "general") is True
+    assert needs_stamp({"_artmind_id": "id-1", "_domain": "general", "_version": 9, "tags": ["x"]}, "id-1", "general") is False
+
+
+def test_moved_fields_are_system_fields_and_never_identity():
+    assert set(MOVED_FIELDS) <= set(SYSTEM_FIELDS)
+    assert not set(MOVED_FIELDS) & set(IDENTITY_FIELDS)
+    assert set(IDENTITY_FIELDS) <= set(SYSTEM_FIELDS)
+    assert IDENTITY_FIELDS == ("_artmind_id", "_domain")
+    assert MOVED_FIELDS == {
+        "_version": "version",
+        "_content_sha256": "content_sha256",
+        "_source_sha256": "source_sha256",
+        "_source_commit": "source_commit",
+        "_ingested_at": "ingested_at",
+        "_source_path": "source_path",
+        "_source_type": "source_type",
+        "_status": None,
+    }
 
 
 # ── frontmatter_unchanged: splitting "metadata_only" into the versioning
