@@ -13,14 +13,14 @@ import yaml
 from loguru import logger
 from neo4j import GraphDatabase
 
-from artmind.db import _get_db
+from artmind.db import _get_db, _registry_row_by_artmind_id
 from artmind.document_identity import (
-    build_frontmatter,
     canonical_path,
     decide_version,
-    frontmatter_unchanged,
+    ingest_baseline,
     markdown_path_for,
     mint_artmind_id,
+    needs_stamp,
     resolve_canonical_path,
     resolve_identity,
     write_document,
@@ -189,6 +189,22 @@ def _update_chunk_step(doc_sha256: str, chunk_seq: int, step: str, status: str) 
         conn.close()
 
 
+#: A binary conversion's record of its source, next to its chunks (see
+#: `_ingest_binary_derived`); what `_build_file_result_from_db` reads back.
+CONVERSION_SIDECAR = "conversion.json"
+_CONVERSION_KEYS = ("source_sha256", "source_type", "source_path")
+_MOVED_SOURCE_FIELDS = {"_source_sha256": "source_sha256", "_source_type": "source_type", "_source_path": "source_path"}
+
+
+def _is_derived_markdown(path: Path) -> bool:
+    """A conversion artmind owns (`MARKDOWNS_DIR`), not a note a human wrote:
+    its source is the binary it was converted from, never itself."""
+    try:
+        return Path(path).resolve().is_relative_to(Path(MARKDOWNS_DIR).resolve())
+    except OSError:
+        return False
+
+
 def _build_file_result_from_db(document_name: str, domain: str | None) -> dict | None:
     """Reconstruct file_result from the registry for CLI retry commands.
 
@@ -258,20 +274,207 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
         # treat this as a vault-native markdown doc and reads file_result["version"]
         # unconditionally -- unlike _ingest_vault_native, this retry path never ran
         # decide_version(), so the registry alone can't supply it (the `documents`
-        # table has no version column, docs/redesign-phase-plan.md "E"). Read it
-        # back from the frontmatter that write_document() persisted, falling back
-        # to 1 the same way the binary no_op path does if it's missing or unreadable.
+        # table has no version column, docs/redesign-phase-plan.md "E"). Decide it
+        # again, against the same baseline ingest used (the staging folder's
+        # document.json, legacy frontmatter as a fallback -- spec 2026-09-26 R6):
+        # a failed extraction recorded nothing, so the retry lands on the version
+        # the failed run chose. Falls back to 1 the same way the binary no_op path
+        # does if the markdown is missing or unreadable.
         version = 1
         try:
-            meta, _ = _parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))
-            version = int(meta.get("_version") or 1)
+            meta, body = _parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))
+            found = _locate_staged(
+                artmind_id, [registered_path.stem], [meta.get("_domain"), domain], search=True,
+            )
+            staged = found[1] if found else {}
+            if found:
+                result["baseline_folder"] = str(found[0])
+            decision = decide_version(body, ingest_baseline(staged, meta))
+            version = decision.version
+            # Which source this is a version of. A note's is itself, where it
+            # is now. A conversion's is its binary -- never the derived
+            # markdown the registry points at: what its own conversion
+            # recorded (a failed extraction staged nothing), else what was
+            # last staged, else a pre-R6 frontmatter's. Unknown stays
+            # unknown: no source_sha256 is not "md".
+            if _is_derived_markdown(registered_path):
+                sidecar = {}
+                try:
+                    sidecar = json.loads((chunks_dir / CONVERSION_SIDECAR).read_text(encoding="utf-8"))
+                except (OSError, ValueError):
+                    pass
+                legacy = {new: meta.get(old) for old, new in _MOVED_SOURCE_FIELDS.items()}
+                provenance = {}
+                for key in _CONVERSION_KEYS:
+                    value = sidecar.get(key) or staged.get(key) or legacy.get(key)
+                    if value:
+                        provenance[key] = value
+            elif _is_vault_native_markdown(registered_path):
+                provenance = {"source_path": canonical_path(registered_path), "source_type": "md"}
+            else:
+                provenance = {k: staged[k] for k in _CONVERSION_KEYS if staged.get(k)}
+            provenance.update(
+                content_sha256=decision.content_sha256,
+                source_commit=_vault_current_commit(),
+                ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
+            )
+            result["provenance"] = provenance
         except Exception as e:
             logger.warning(
-                "Could not read _version from frontmatter for {}: {} (defaulting to 1)",
+                "Could not decide the version of {}: {} (defaulting to 1)",
                 registered_path, e,
             )
         result["version"] = version
     return result
+
+
+def _find_staged(
+    domain: str | None, stems: list[str], artmind_id: str | None, *, search: bool = False
+) -> tuple[Path, dict] | None:
+    """`(folder, document.json)` of `artmind_id`'s staging folder in `domain`,
+    or None.
+
+    Looked up at `kg/<domain>/<stem>/` for each of `stems` (where extraction
+    wrote it: the note's name now, and before a move), then, with `search`,
+    across every folder in the domain (an id-matched scan: it reads every
+    `document.json` there). A folder whose `document.json` names another id
+    is never taken."""
+    if not domain or not artmind_id:
+        return None
+    domain_dir = KG_DIR / domain
+    candidates = [domain_dir / stem / "document.json" for stem in dict.fromkeys(stems)]
+    if search and domain_dir.is_dir():
+        candidates += [
+            p for p in sorted(domain_dir.glob("*/document.json"))
+            if p not in candidates and not p.parent.name.endswith((".artmind-tmp", ".artmind-old"))
+        ]
+    for path in candidates:
+        try:
+            document = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if isinstance(document, dict) and document.get("id") == artmind_id:
+            return path.parent, document
+    return None
+
+
+def staged_document(
+    domain: str | None, stems: list[str], artmind_id: str | None, *, search: bool = False
+) -> dict | None:
+    """`artmind_id`'s staging `document.json` in `domain`, or None -- the
+    versioning baseline since spec 2026-09-26 R6 (what the last successful
+    extraction recorded; `document_identity.ingest_baseline`). See
+    `_find_staged` for where it is looked for."""
+    found = _find_staged(domain, stems, artmind_id, search=search)
+    return found[1] if found else None
+
+
+def _locate_staged(
+    artmind_id: str, stems: list[str], domains: list[str | None], *, search: bool = False
+) -> tuple[Path, dict] | None:
+    """Where `artmind_id`'s staging folder actually lives, wherever the note
+    or its folder has since gone.
+
+    The cheap direct lookup first (`kg/<domain>/<stem>/`, for each of `stems`
+    and each of `domains`); only on a MISS an id-matched scan of every folder
+    in those domains, plus the domain the registry still has for the id (a
+    hand-edited `_domain` leaves the note naming only the new one). A
+    `git mv` is `metadata_only`, so its folder keeps the OLD name and the
+    next ingest -- verdict `reingest`, no prior path to name it -- would
+    otherwise find nothing and reset the note to version 1. A note that was
+    never extracted also misses and pays for one scan per ingest. The caller
+    never asks for a `new` note: no baseline can exist for a fresh id.
+
+    Deviates from the plan's Decision 10 (scan only for `adopt`/`heal`) by
+    scanning on any miss; `search=True` scans from the start."""
+    domains = list(dict.fromkeys(d for d in domains if d))
+    for scan in dict.fromkeys((search, True)):
+        if scan:
+            row = _registry_row_by_artmind_id(artmind_id)
+            domains = list(dict.fromkeys([*domains, *([row["domain"]] if row and row.get("domain") else [])]))
+        for domain in domains:
+            found = _find_staged(domain, stems, artmind_id, search=scan)
+            if found:
+                return found
+    return None
+
+
+def _read_staged_document(folder: Path | str | None, artmind_id: str) -> dict | None:
+    """`folder`'s `document.json` if it exists and names `artmind_id`."""
+    if not folder:
+        return None
+    try:
+        document = json.loads((Path(folder) / "document.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return document if isinstance(document, dict) and document.get("id") == artmind_id else None
+
+
+def _repoint_staged_document(folder: Path, document: dict, source: Path) -> None:
+    """After a `git mv` (a `metadata_only` ingest: nothing is re-extracted),
+    point the staged `document.json` at the note's new place -- only
+    `source_path`, `path` and `name`, in one atomic write. That changes the
+    folder's staging fingerprint, which is right: the next `vault sync`
+    replays it and the `:Document` follows the note.
+
+    The folder itself keeps its OLD name (`kg/<domain>/<old stem>/`): renaming
+    it is a second step this does not take, so `write-to-graph <name>` still
+    misses it until a content change re-extracts under the new name (which
+    then removes the old folder, `extract_kg`); `_locate_staged` finds it by
+    id in the meantime. Never fatal: a note that moved is not worth a failed
+    ingest."""
+    patch = {"source_path": canonical_path(source), "path": str(source.resolve()), "name": source.name}
+    if all(document.get(k) == v for k, v in patch.items()):
+        return
+    try:
+        write_staging(folder, {"document.json": {**document, **patch}})
+    except OSError as e:
+        logger.warning("Could not repoint {} at {}: {}", folder, source.name, e)
+
+
+def _remove_superseded_staging(baseline_folder: Path | str | None, doc_kg_dir: Path, artmind_id: str) -> None:
+    """Remove the staging folder the baseline came from when this extraction
+    wrote the same document elsewhere -- a note that moved (`git mv`) or
+    changed domain before its content changed. Left in place, two folders
+    would carry one `id` and a rebuild from staging would replay the stale
+    one over the new (`vault sync` tolerates the removal: a folder that only
+    changed name is not retracted while another still carries its id in the
+    same domain, a folder gone from the old domain is).
+
+    The new folder is fully written first (`write_staging`), so a crash
+    between the two steps leaves both, never neither. Only ever a folder under
+    `KG_DIR` whose `document.json` names this id."""
+    if not baseline_folder:
+        return
+    old = Path(baseline_folder)
+    try:
+        if old.resolve() == Path(doc_kg_dir).resolve() or not old.resolve().is_relative_to(Path(KG_DIR).resolve()):
+            return
+    except OSError:
+        return
+    if _read_staged_document(old, artmind_id) is None:
+        return
+    shutil.rmtree(old, ignore_errors=True)
+    logger.info("Removed the superseded staging folder {} (now {})", old, doc_kg_dir)
+
+
+def _stamp_note(source: Path, artmind_id: str, domain: str) -> None:
+    """Write the note's identity (`_artmind_id`, `_domain`) into its
+    frontmatter, changing no other byte (`artmind.frontmatter`) -- the only
+    write artmind makes to a human note (spec 2026-09-26 R6). The temp file
+    goes to the vault's `.artmind/data/`, which `.gitignore` covers."""
+    from artmind import frontmatter
+
+    raw = frontmatter.read_note(source)
+    new = frontmatter.set_fields(raw, {"_artmind_id": artmind_id, "_domain": domain})
+    if new == raw:
+        return
+    scratch = None
+    if ARTMIND_VAULT_DIR is not None and (Path(ARTMIND_VAULT_DIR) / ".artmind").is_dir():
+        from artmind.vault import VaultLayout
+
+        scratch = VaultLayout(Path(ARTMIND_VAULT_DIR)).data_dir
+    frontmatter.write_note(source, new, scratch_dir=scratch)
 
 
 def _canonical_key(source: Path, domain: str) -> str:
@@ -631,54 +834,48 @@ def _ingest_vault_native(
         return file_result
     logger.info("Identity resolution for {}: {}", source.name, resolution.verdict)
 
-    if resolution.verdict == "heal":
-        # Frontmatter lost its id; the registry supplies it back — not a
-        # content change, so it does not by itself affect versioning below.
-        existing_meta = {**existing_meta, "_artmind_id": resolution.artmind_id}
+    # The note is written only to stamp its identity -- first ingest, heal,
+    # fork, or a genuine `_domain` change (spec 2026-09-26 R6). Every
+    # per-ingest field lives in the staging folder's document.json, written
+    # by the extraction, so re-ingesting an unchanged note writes nothing to
+    # it and gives Obsidian Git nothing to commit or conflict on. Stamped
+    # line by line (`artmind.frontmatter`): the body, the user's own keys,
+    # their order and the line endings are kept. Stamping first, then
+    # re-reading, means the body hashed below is the body as it now stands.
+    stamped = needs_stamp(existing_meta, resolution.artmind_id, effective_domain)
+    if stamped:
+        from artmind.frontmatter import FrontmatterEditError
 
-    version_decision = decide_version(body, existing_meta)
+        try:
+            _stamp_note(source, resolution.artmind_id, effective_domain)
+        except FrontmatterEditError as e:
+            file_result["error"] = f"{source}: cannot stamp identity into its frontmatter: {e}"
+            logger.error(file_result["error"])
+            return file_result
+        existing_meta, body = _parse_md_frontmatter(source.read_text(encoding="utf-8"))
+
+    # The baseline is what the last successful extraction staged
+    # (document.json), with a pre-R6 note's own frontmatter as the fallback.
+    # A domain change looks in the old domain's folder too; a folder that is
+    # nowhere near where the note now points (a `git mv` left it under the
+    # old name, a hand-edited `_domain`) is found by `_locate_staged`'s
+    # fallback scan, so the version carries on.
+    staged = None
+    staged_folder = None
+    if resolution.verdict != "new":
+        stems = [source.stem] + ([Path(resolution.prior_path).stem] if resolution.prior_path else [])
+        found = _locate_staged(
+            resolution.artmind_id, stems, [effective_domain, prior_domain],
+            search=resolution.verdict in ("adopt", "heal"),
+        )
+        if found:
+            staged_folder, staged = found
+    version_decision = decide_version(body, ingest_baseline(staged, existing_meta))
     tier = "content" if domain_changed else version_decision.tier
 
     ingested_at = datetime.now(_datetime.timezone.utc).isoformat()
-    new_meta = build_frontmatter(
-        existing_meta,
-        artmind_id=resolution.artmind_id,
-        version=version_decision.version,
-        content_sha256=version_decision.content_sha256,
-        domain=effective_domain,
-        source_commit=_vault_current_commit(),
-        source_path=canonical_path(source),
-        source_type="md",
-        ingested_at=ingested_at,
-        body=body,
-    )
 
-    # The versioning table's "nothing differs" row, as opposed to "only
-    # frontmatter differs" (docs/document-identity.md, "Versioning") --
-    # decide_version alone can't tell these apart, since it only ever
-    # compares the BODY. `file_unchanged` catches the pure "nothing differs"
-    # case: nothing else in the frontmatter differs either, ignoring the two
-    # fields meant to refresh on every touch regardless. When it's True there
-    # is genuinely nothing to WRITE -- skip the file rewrite (so git sees no
-    # diff and commits nothing) and the registry refresh.
-    #
-    # `apply_metadata_only` below still runs unconditionally for every
-    # metadata_only tier, `file_unchanged` or not -- it must NOT be gated on
-    # the same check. A human hand-editing only `tags`/`project`/`area` is
-    # invisible to `file_unchanged`: by the time this function reads the
-    # file, the edit is already IN `existing_meta` (parsed fresh off disk),
-    # and `build_frontmatter` only ever carries authored fields forward from
-    # `existing_meta` -- it never independently recomputes them, so
-    # `new_meta`'s authored fields are always identical to `existing_meta`'s
-    # regardless of whether a human just changed them. Skipping the cheap,
-    # idempotent graph push in that case would silently stop a genuine
-    # frontmatter edit from ever reaching the graph until the next real
-    # content change. The file-rewrite skip has no such risk: whether or not
-    # this run rewrites the file, its bytes end up identical either way.
-    file_unchanged = tier == "metadata_only" and frontmatter_unchanged(existing_meta, new_meta)
-
-    if not file_unchanged:
-        write_document(source, new_meta, body)
+    if stamped or tier == "content" or resolution.verdict != "reingest":
         _register_document(
             effective_domain, source, resolution.artmind_id,
             content_sha256=version_decision.content_sha256,
@@ -700,11 +897,26 @@ def _ingest_vault_native(
         "registered_path": str(source.resolve()),
         "resolution_verdict": resolution.verdict,
         "tier": tier,
+        # What extract_kg records in document.json (spec R6) -- the next
+        # ingest's baseline, and this version's provenance.
+        "provenance": {
+            "content_sha256": version_decision.content_sha256,
+            "source_commit": _vault_current_commit(),
+            "ingested_at": ingested_at,
+            "source_path": canonical_path(source),
+            "source_type": "md",
+        },
     })
-    if not file_unchanged:
+    if stamped:
         file_result["touched_path"] = source
+    if staged_folder is not None:
+        # Where the baseline was found: `extract_kg` removes it if the
+        # extraction writes the document under another name or domain.
+        file_result["baseline_folder"] = str(staged_folder)
 
     if tier == "metadata_only":
+        if resolution.verdict == "move" and staged_folder is not None:
+            _repoint_staged_document(staged_folder, staged, source)
         try:
             from artmind.delta import apply_metadata_only
 
@@ -712,9 +924,9 @@ def _ingest_vault_native(
                 doc_id=resolution.artmind_id,
                 domain=effective_domain,
                 metadata={
-                    k: new_meta.get(k)
+                    k: existing_meta.get(k)
                     for k in ("title", "project", "area", "tags", "created_on", "modified_on")
-                    if new_meta.get(k)
+                    if existing_meta.get(k)
                 },
             )
         except Exception as e:
@@ -723,7 +935,7 @@ def _ingest_vault_native(
         logger.info(
             "── Ingest done in {:.1f}s: {} (metadata_only, v{}{})",
             time.monotonic() - t_file_start, source.name, version_decision.version,
-            ", unchanged" if file_unchanged else "",
+            "" if stamped else ", note unchanged",
         )
         return file_result
 
@@ -949,12 +1161,13 @@ def _ingest_binary_derived(
     `MARKDOWNS_DIR / f"{stem}.md"` — the same flat, non-domain-scoped
     convention `_ingest_binary_or_adhoc` already uses for its own markdown
     writes. The only decision left is `no_op` vs `convert`: the incoming
-    binary's hash (`_compute_sha256(source)`) is compared against
-    `_source_sha256`, a fingerprint recorded in that markdown's own
-    frontmatter the last time it was converted. Whether the resulting
-    document body actually changed (and therefore whether `_version` bumps)
-    is decided the usual way, by `decide_version` against the file's own
-    `_content_sha256` — the same mechanism `_ingest_vault_native` uses.
+    binary's hash (`_compute_sha256(source)`) is compared against the
+    `source_sha256` the last extraction recorded in the staging folder's
+    `document.json` (spec 2026-09-26 R6; a pre-R6 conversion's own
+    `_source_sha256` frontmatter is the fallback). Whether the resulting
+    document body actually changed (and therefore whether the version bumps)
+    is decided the usual way, by `decide_version` against the same baseline
+    -- the same mechanism `_ingest_vault_native` uses.
 
     Matched by domain+filename, unchanged in spirit from Phase 2's
     `_canonical_key` — a binary source stays path-keyed, per docs/document-
@@ -1007,11 +1220,17 @@ def _ingest_binary_derived(
             registered_path.read_text(encoding="utf-8")
         )
 
-    if existing_meta and existing_meta.get("_source_sha256") == source_sha256:
+    # The baseline is the staging folder's document.json (spec 2026-09-26 R6),
+    # with a pre-R6 conversion's own frontmatter as the fallback: a binary
+    # whose extraction failed is never mistaken for converted and extracted.
+    staged = staged_document(effective_domain, [stem], existing_meta.get("_artmind_id"), search=True)
+    baseline = ingest_baseline(staged, existing_meta)
+
+    if existing_meta and baseline.get("_source_sha256") == source_sha256:
         file_result["status"] = "ok"
         file_result["domain"] = effective_domain
         file_result["artmind_id"] = existing_meta.get("_artmind_id")
-        file_result["version"] = int(existing_meta.get("_version") or 1)
+        file_result["version"] = int(baseline.get("_version") or 1)
         file_result["registered_path"] = str(registered_path)
         file_result["tier"] = "no_op"
         file_result["chunk_count"] = 0
@@ -1027,23 +1246,12 @@ def _ingest_binary_derived(
         return file_result
 
     artmind_id = existing_meta.get("_artmind_id") or mint_artmind_id()
-    version_decision = decide_version(body, existing_meta)
+    version_decision = decide_version(body, baseline)
 
     MARKDOWNS_DIR.mkdir(parents=True, exist_ok=True)
-    new_meta = build_frontmatter(
-        existing_meta,
-        artmind_id=artmind_id,
-        version=version_decision.version,
-        content_sha256=version_decision.content_sha256,
-        domain=effective_domain,
-        source_commit=_vault_current_commit(),
-        source_path=orig_registry_path,
-        source_type=source.suffix.lstrip(".").lower(),
-        ingested_at=datetime.now(_datetime.timezone.utc).isoformat(),
-        body=body,
-    )
-    new_meta["_source_sha256"] = source_sha256
-    write_document(registered_path, new_meta, body)
+    # Identity only, like a human note (spec R6): the per-conversion fields go
+    # to document.json with the extraction (`provenance` below).
+    write_document(registered_path, {"_artmind_id": artmind_id, "_domain": effective_domain}, body)
 
     _register_document(
         effective_domain, registered_path, artmind_id,
@@ -1064,6 +1272,26 @@ def _ingest_binary_derived(
     file_result["registered_path"] = str(registered_path)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
+    file_result["provenance"] = {
+        "content_sha256": version_decision.content_sha256,
+        "source_sha256": source_sha256,
+        "source_commit": _vault_current_commit(),
+        "ingested_at": datetime.now(_datetime.timezone.utc).isoformat(),
+        "source_path": orig_registry_path,
+        "source_type": source.suffix.lstrip(".").lower(),
+    }
+    # The registry only knows the derived markdown, so an `extract-kg` retry
+    # after a failed extraction (nothing staged yet) could not tell which
+    # binary this came from. Kept beside the chunks -- the retry's input --
+    # and rewritten by every conversion, so it is always the one whose
+    # extraction is pending. Machine-independent: hash, extension, vault path.
+    (chunks_dir / CONVERSION_SIDECAR).write_text(
+        json.dumps(
+            {k: file_result["provenance"][k] for k in _CONVERSION_KEYS},
+            indent=2, ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
 
     logger.info(
         "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
@@ -2373,11 +2601,20 @@ def extract_kg(
         document["logical_id"] = logical_id
     else:
         document["artmind_id"] = doc_id
+        # Per-ingest provenance lives here, not in the note (spec 2026-09-26
+        # R6): `content_sha256` is the next ingest's versioning baseline and
+        # `vault resolve`'s tie to the note's body. Written by the extraction
+        # itself, so it never claims a version whose extraction failed.
+        document.update(file_result.get("provenance") or {})
 
     # Filing metadata (ADR 0010): project, area, tags, title, created_on, modified_on
     # All optional; sourced from YAML frontmatter, with sensible defaults for temporal fields.
     if meta.get("title"):
         document["title"] = str(meta["title"])
+    elif logical_id is None:
+        # The title artmind used to seed into the note (spec R6: it no
+        # longer writes anything but identity there).
+        document["title"] = registered_path.stem
     if meta.get("project"):
         document["project"] = str(meta["project"])
     if meta.get("area"):
@@ -2389,9 +2626,20 @@ def extract_kg(
         elif isinstance(tags, list):
             document["tags"] = [str(t) for t in tags]
 
-    # Temporal metadata: prefer frontmatter, fall back to filesystem
+    # Temporal metadata: prefer frontmatter, then the value a previous
+    # extraction recorded, then the filesystem. The birthtime differs per
+    # machine and checkout, so recomputing it at every extract would churn
+    # document.json (and conflict across machines): the value first recorded
+    # wins.
+    prior_staged = (
+        _read_staged_document(doc_kg_dir, doc_id)
+        or _read_staged_document(file_result.get("baseline_folder"), doc_id)
+        or {}
+    )
     if meta.get("created_on"):
         document["created_on"] = str(meta["created_on"])
+    elif prior_staged.get("created_on"):
+        document["created_on"] = str(prior_staged["created_on"])
     elif registered_path.exists():
         ctime = registered_path.stat().st_birthtime if hasattr(registered_path.stat(), "st_birthtime") else registered_path.stat().st_ctime
         document["created_on"] = _datetime.datetime.fromtimestamp(ctime, tz=_datetime.timezone.utc).isoformat()
@@ -2445,6 +2693,9 @@ def extract_kg(
         "relationships.json": all_relationships,
         "observations.json": all_observations,
     })
+    # The document now has its staging folder under this name and domain; the
+    # one its baseline came from (a note moved or re-domained since) is stale.
+    _remove_superseded_staging(file_result.get("baseline_folder"), doc_kg_dir, doc_id)
 
     # Vectors move to a gitignored sidecar rather than vanishing: chunks.json
     # above is what git tracks (and cannot delta a changed vector against),

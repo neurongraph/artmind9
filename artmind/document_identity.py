@@ -70,8 +70,9 @@ MOVED_FIELDS = {
     "_status": None,
 }
 
-# Authored: artmind seeds a value once (only if absent), then never touches it
-# again — a human's edit to any of these must survive every future ingest.
+# Authored: a human's own fields. artmind reads them (the graph's Document
+# carries them) but no longer seeds them into a note (spec R6); a value a
+# human writes survives every ingest.
 AUTHORED_FIELDS = (
     "title",
     "project",
@@ -233,45 +234,6 @@ class VersionDecision:
     content_sha256: str
 
 
-# Fields expected to refresh on every touch regardless of whether anything a
-# human or a re-ingest would care about actually changed -- both are pure
-# provenance ("`_source_commit` records the vault's git sha at ingest --
-# provenance, not identity", docs/document-identity.md), never meaningful to
-# compare for a versioning decision.
-_PROVENANCE_ONLY_FIELDS = frozenset({"_ingested_at", "_source_commit"})
-
-
-def frontmatter_unchanged(existing_meta: dict, new_meta: dict) -> bool:
-    """Whether `new_meta` carries no information beyond what `existing_meta`
-    already had, ignoring `_PROVENANCE_ONLY_FIELDS`.
-
-    This is what actually distinguishes "nothing differs" from "only
-    frontmatter differs" -- the versioning table's own two separate rows
-    (docs/document-identity.md, "Versioning") -- something `decide_version`
-    alone cannot do, since it only ever compares the BODY. Without this
-    check, `_ingested_at`/`_source_commit` refreshing unconditionally meant a
-    genuinely no-op touch still produced different file bytes on every
-    ingest, so `git diff` always found something to commit -- exactly the
-    "letting git's own diff decide whether anything actually changed"
-    design `decide_version`'s own docstring describes, but which the
-    always-fresh timestamp silently defeated.
-
-    **Answers "would rewriting the file change anything", not "is the graph
-    already in sync".** A human hand-editing an authored field (tags/title/
-    project/area) is invisible here: `existing_meta` is parsed fresh off the
-    just-edited file, and callers only ever carry authored fields forward
-    from `existing_meta` rather than recomputing them, so `new_meta`'s
-    authored fields are always identical to `existing_meta`'s regardless of
-    whether a human just changed them. Safe to gate a file-rewrite/commit on
-    (rewriting produces the same bytes either way); NOT safe to gate a graph
-    metadata push on -- that must still run whenever the tier calls for it,
-    using the file's current values, or a genuine edit never reaches the
-    graph until the next real content change.
-    """
-    keys = (set(existing_meta) | set(new_meta)) - _PROVENANCE_ONLY_FIELDS
-    return all(existing_meta.get(k) == new_meta.get(k) for k in keys)
-
-
 def ingest_baseline(staged: dict | None, frontmatter: dict) -> dict:
     """What the last successful ingest left behind -- `{"_content_sha256",
     "_version", "_source_sha256"}` -- for `decide_version` (and a binary's
@@ -337,58 +299,6 @@ def lift_declared_version(body: str) -> str | None:
     from artmind.temporal import _find_header_value
 
     return _find_header_value(body, ["Version"])
-
-
-def build_frontmatter(
-    existing_meta: dict,
-    *,
-    artmind_id: str,
-    version: int,
-    content_sha256: str,
-    domain: str,
-    status: str = "latest",
-    valid_from: str | None = None,
-    valid_to: str | None = None,
-    valid_time_source: str | None = None,
-    source_commit: str | None = None,
-    source_path: str,
-    source_type: str,
-    ingested_at: str,
-    body: str | None = None,
-) -> dict:
-    """Merge the system block onto `existing_meta`.
-
-    Authored fields are seeded via `setdefault` — present once, in the file
-    itself, they are never overwritten by any later call. `title` seeds from
-    the source filename stem; `created_on` from the ingest timestamp;
-    `declared_version` lifts from the body's own "Version" header when `body`
-    is given and the document doesn't already declare one.
-    """
-    out = dict(existing_meta)
-    out["_artmind_id"] = artmind_id
-    out["_version"] = version
-    out["_content_sha256"] = content_sha256
-    out["_domain"] = domain
-    out["_status"] = status
-    if valid_from is not None:
-        out["_valid_from"] = valid_from
-    if valid_to is not None:
-        out["_valid_to"] = valid_to
-    if valid_time_source is not None:
-        out["_valid_time_source"] = valid_time_source
-    if source_commit is not None:
-        out["_source_commit"] = source_commit
-    out["_source_path"] = source_path
-    out["_source_type"] = source_type
-    out["_ingested_at"] = ingested_at
-
-    out.setdefault("title", Path(source_path).stem)
-    out.setdefault("created_on", ingested_at)
-    if body is not None and "declared_version" not in out:
-        lifted = lift_declared_version(body)
-        if lifted:
-            out["declared_version"] = lifted
-    return out
 
 
 def serialize_frontmatter(meta: dict) -> str:

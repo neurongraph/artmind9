@@ -13,11 +13,9 @@ from artmind.document_identity import (
     MOVED_FIELDS,
     Resolution,
     SYSTEM_FIELDS,
-    build_frontmatter,
     canonical_path,
     compute_content_sha256,
     decide_version,
-    frontmatter_unchanged,
     ingest_baseline,
     lift_declared_version,
     markdown_path_for,
@@ -263,61 +261,7 @@ def test_moved_fields_are_system_fields_and_never_identity():
     }
 
 
-# ── frontmatter_unchanged: splitting "metadata_only" into the versioning
-# table's real two rows ──────────────────────────────────────────────────────
-# decide_version only ever compares the BODY, so its "metadata_only" tier
-# collapses the table's "only frontmatter differs" and "nothing differs" rows
-# into one. Regression: with nothing to separate them, `_ingested_at`/
-# `_source_commit` refreshing unconditionally on every touch meant a
-# genuinely no-op re-ingest still produced different file bytes every time,
-# so git always found something to commit.
-
-
-def test_frontmatter_unchanged_true_when_only_provenance_fields_differ():
-    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z", "_source_commit": "aaa", "tags": ["x"]}
-    new = {"_version": 2, "_ingested_at": "2026-02-02T00:00:00Z", "_source_commit": "bbb", "tags": ["x"]}
-    assert frontmatter_unchanged(existing, new) is True
-
-
-def test_frontmatter_unchanged_false_when_an_authored_field_differs():
-    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z", "tags": ["x"]}
-    new = {"_version": 2, "_ingested_at": "2026-02-02T00:00:00Z", "tags": ["x", "urgent"]}
-    assert frontmatter_unchanged(existing, new) is False
-
-
-def test_frontmatter_unchanged_false_when_version_differs():
-    existing = {"_version": 2, "_ingested_at": "2026-01-01T00:00:00Z"}
-    new = {"_version": 3, "_ingested_at": "2026-02-02T00:00:00Z"}
-    assert frontmatter_unchanged(existing, new) is False
-
-
-def test_frontmatter_unchanged_false_when_new_meta_adds_a_key():
-    existing = {"_version": 2}
-    new = {"_version": 2, "project": "Q4 planning"}
-    assert frontmatter_unchanged(existing, new) is False
-
-
 # ── frontmatter contract ─────────────────────────────────────────────────────
-
-
-def test_build_frontmatter_seeds_title_and_created_on_once():
-    meta = build_frontmatter(
-        {}, artmind_id="id-1", version=1, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-01-01T00:00:00Z",
-    )
-    assert meta["title"] == "foo"
-    assert meta["created_on"] == "2026-01-01T00:00:00Z"
-
-
-def test_build_frontmatter_never_overwrites_existing_authored_fields():
-    existing = {"title": "My Custom Title", "created_on": "2020-01-01", "tags": "a,b"}
-    meta = build_frontmatter(
-        existing, artmind_id="id-1", version=2, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-06-01T00:00:00Z",
-    )
-    assert meta["title"] == "My Custom Title"
-    assert meta["created_on"] == "2020-01-01"
-    assert meta["tags"] == "a,b"
 
 
 def test_lift_declared_version_from_table_header():
@@ -334,42 +278,6 @@ def test_lift_declared_version_keeps_annotation_verbatim():
 
 def test_lift_declared_version_absent_returns_none():
     assert lift_declared_version("# No version header here\n") is None
-
-
-def test_build_frontmatter_lifts_declared_version_from_body_once():
-    body = "| Version | 3.0 |\n"
-    meta = build_frontmatter(
-        {}, artmind_id="id-1", version=1, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-01-01T00:00:00Z",
-        body=body,
-    )
-    assert meta["declared_version"] == "3.0"
-
-
-def test_build_frontmatter_never_overwrites_existing_declared_version():
-    existing = {"declared_version": "9.9"}
-    meta = build_frontmatter(
-        existing, artmind_id="id-1", version=2, content_sha256="sha", domain="general",
-        source_path="notes/foo.md", source_type="md", ingested_at="2026-01-01T00:00:00Z",
-        body="| Version | 3.0 |\n",
-    )
-    assert meta["declared_version"] == "9.9"
-
-
-def test_build_frontmatter_sets_the_full_system_block():
-    meta = build_frontmatter(
-        {}, artmind_id="id-1", version=1, content_sha256="sha", domain="general",
-        valid_from="2026-01-01", valid_to=None, valid_time_source="header",
-        source_commit="abc123", source_path="notes/foo.md", source_type="md",
-        ingested_at="2026-01-01T00:00:00Z",
-    )
-    assert meta["_artmind_id"] == "id-1"
-    assert meta["_version"] == 1
-    assert meta["_domain"] == "general"
-    assert meta["_status"] == "latest"
-    assert meta["_valid_from"] == "2026-01-01"
-    assert "_valid_to" not in meta  # None is omitted, not written as null
-    assert meta["_source_commit"] == "abc123"
 
 
 def test_serialize_frontmatter_orders_system_then_authored_then_extra():
