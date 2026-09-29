@@ -72,9 +72,9 @@ class Kind:
 
 def kinds() -> dict[str, Kind]:
     """Every registered kind, by directory name, in apply order."""
-    from artmind import conflict_records
+    from artmind import conflict_records, supersession_records
 
-    return {kind.name: kind for kind in (conflict_records.KIND,)}
+    return {kind.name: kind for kind in (supersession_records.KIND, conflict_records.KIND)}
 
 
 def curation_dir() -> Path:

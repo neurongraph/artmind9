@@ -3730,3 +3730,38 @@ def test_vault_status_prints_pending_curation_on_the_graph_line(capsys):
     })
 
     assert "graph      b  0 docs / 0 tables / 3 curation records behind" in capsys.readouterr().out
+
+
+def test_sync_applies_and_removes_supersession_records(repo, monkeypatch, curation_graph):
+    from artmind import curation_records, supersession_records
+
+    def _supersession(newer, older):
+        return {"id": supersession_records.record_id(newer, older, "document"), "newer_doc_id": newer,
+                "older_doc_id": older, "scope": "document", "effective": "2026-03-01",
+                "detected_by": "manual", "domains": ["banking"]}
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    gone = _supersession("d2", "d1")
+    curation_records.write_record("supersessions", gone)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    base = vs.head_sha(repo)
+    added = _supersession("d3", "d2")
+    curation_records.write_record("supersessions", added)
+    curation_records.delete_record("supersessions", gone["id"])
+    _commit_all(repo, "d3 supersedes d2; d2 no longer supersedes d1")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+
+    result = vs.sync(repo)
+
+    merges = [p for c, p in curation_graph.calls if "MERGE (newer)-[s:SUPERSEDES" in c]
+    deletes = [p for c, p in curation_graph.calls if "MATCH (newer)-[s:SUPERSEDES {scope: $scope}]->(older)" in c]
+    assert [(p["newer"], p["older"]) for p in merges] == [("d3", "d2")]
+    assert deletes == [{"newer": "d2", "older": "d1", "scope": "document"}], "removed from the record as it was at base"
+    recomputes = [p for c, p in curation_graph.calls if "older.superseded_by = CASE" in c]
+    assert recomputes == [{"older": "d2"}, {"older": "d1"}], "each apply and removal re-derives its older document"
+    assert result["curation"] == {"supersessions": {"apply": 1, "remove": 1}}
