@@ -839,3 +839,82 @@ def test_structured_ingest_and_export_leave_git_history_and_index_untouched(tmp_
     assert _git_out(tmp_path, "diff", "--cached", "--name-only") == "", "artmind must not stage anything"
     untracked = set(_git_out(tmp_path, "ls-files", "-z", "--others", "--exclude-standard").split("\0"))
     assert {"structured_text/banking/products.csv", "structured_text/banking/products.meta.json"} <= untracked
+
+
+def test_a_registry_only_import_restores_curation_and_keeps_the_parquet(tmp_path, monkeypatch):
+    """`vault sync`'s curation-only case: the classification changed on
+    another machine, the rows did not."""
+    import csv as _csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry, text_export
+    from artmind.structured.duckdb_adapter import parquet_path_for
+    from artmind.structured.pipeline import ingest_structured_file
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    db._init_db()
+    source = tmp_path / "products.csv"
+    with open(source, "w", newline="") as f:
+        _csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(source, "banking")
+    table = registry.get_table("products", domain="banking")
+    registry.upsert_mapping(table["id"], "name", "PRODUCT", 1.0, confirmed=True)
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")], meta_only=True)
+    registry.clear_mappings(table["id"], None)   # this machine's registry, before the sync
+    parquet = parquet_path_for("banking", "products")
+    before = parquet.stat().st_mtime_ns
+
+    text_export.import_structured_text(paths.STRUCTURED_TEXT_DIR, tables=[("banking", "products")], registry_only=True)
+
+    restored = registry.get_table("products", domain="banking")
+    assert [(m["column"], m["confirmed"]) for m in registry.list_mappings(restored["id"])] == [("name", 1)]
+    assert parquet.stat().st_mtime_ns == before
+
+
+def test_a_registry_only_import_loads_a_table_that_has_no_parquet_yet(tmp_path, monkeypatch):
+    """The cheap path never leaves a registered table with no rows: a table
+    whose parquet is missing here is still loaded from its CSV."""
+    import csv as _csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry, text_export
+    from artmind.structured.duckdb_adapter import parquet_path_for
+    from artmind.structured.pipeline import ingest_structured_file
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    db._init_db()
+    source = tmp_path / "products.csv"
+    with open(source, "w", newline="") as f:
+        _csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(source, "banking")
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")])
+    parquet = parquet_path_for("banking", "products")
+    parquet.unlink()
+
+    result = text_export.import_structured_text(
+        paths.STRUCTURED_TEXT_DIR, tables=[("banking", "products")], registry_only=True
+    )
+
+    assert parquet.is_file()
+    assert result["tables_loaded"] == 1
+
+
+def test_a_registry_only_import_refuses_to_run_unscoped(tmp_path, monkeypatch):
+    """`tables=None` is the wholesale wipe (rmtree of the parquet dir);
+    combined with registry_only it would delete every table's rows."""
+    import paths
+    from artmind.structured import text_export
+
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    (tmp_path / "structured").mkdir()
+    keep = tmp_path / "structured" / "keep.parquet"
+    keep.write_text("rows")
+
+    with pytest.raises(ValueError, match="registry_only"):
+        text_export.import_structured_text(tmp_path / "text", registry_only=True)
+
+    assert keep.read_text() == "rows"

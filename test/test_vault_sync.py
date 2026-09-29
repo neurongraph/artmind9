@@ -2189,10 +2189,16 @@ def _patch_track_b(monkeypatch):
     import artmind.table2graph as t2g
     from artmind.structured import registry as structured_registry
 
-    calls = {"import": [], "table_to_graph": []}
+    calls = {"import": [], "table_to_graph": [], "catalogue": []}
     monkeypatch.setattr(
         "artmind.structured.text_export.import_structured_text",
         lambda *a, **k: calls["import"].append(list(k.get("tables"))) or {"tables_loaded": 1},
+    )
+    # The catalogue subgraph is re-projected from the registry after a
+    # restore; never let a test reach a real Neo4j for it.
+    monkeypatch.setattr(
+        "artmind.structured.catalogue.project_catalogue",
+        lambda domain: calls["catalogue"].append(domain) or {"tables": 1, "columns": 1, "mappings": 0},
     )
     monkeypatch.setattr(
         structured_registry, "get_table",
@@ -3856,6 +3862,366 @@ def test_sync_applies_a_synthesis_before_the_rebuild_and_rebuilds_its_key(repo, 
     vs.sync(repo, bootstrap_empty=True)
 
     assert order == ["synthesis", ("rebuild", [key])]
+
+
+# ── a curation-only .meta.json change restores registry rows alone ──────────
+
+
+def _meta(grain="instance", mappings=(), rows=3, columns=("id",), source=None, domain="banking", table="accounts"):
+    import json
+
+    meta = {
+        "table": {"domain": domain, "table_name": table, "grain": grain, "grain_confirmed": 1,
+                  "mapping_status": "ok", "row_count": rows},
+        "columns": [{"name": c, "dtype": "BIGINT"} for c in columns],
+        "column_mappings": [{"column": c, "entity_class": e, "confirmed": 1} for c, e in mappings],
+        "column_roles": [],
+    }
+    if source is not None:
+        meta["table"]["source_path"] = source
+    return json.dumps(meta, sort_keys=True)
+
+
+def _table_base(repo, monkeypatch, tables=(("banking", "accounts"),)):
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    for domain, table in tables:
+        (st_dir / domain).mkdir(parents=True, exist_ok=True)
+        (st_dir / domain / f"{table}.csv").write_text("id\n1\n")
+        (st_dir / domain / f"{table}.meta.json").write_text(_meta(domain=domain, table=table))
+    _commit_all(repo, "a table")
+    return st_dir, vs.head_sha(repo)
+
+
+def test_classify_diff_marks_a_curation_only_meta_change_as_curation(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup", mappings=[("id", "ACCOUNT")]))
+    _commit_all(repo, "db grain / db mappings")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([], [("banking", "accounts")])
+
+
+def test_a_meta_change_beyond_curation_still_regenerates(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup", rows=4))
+    _commit_all(repo, "a refresh changed the row count")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+@pytest.mark.parametrize("change", [
+    {"columns": ("id", "extra")},        # schema
+    {"source": "elsewhere.csv"},         # source
+])
+def test_a_meta_schema_or_source_change_alongside_curation_still_regenerates(repo, monkeypatch, change):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(
+        _meta(grain="lookup", mappings=[("id", "ACCOUNT")], **change)
+    )
+    _commit_all(repo, "curation plus something else")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+def test_changed_rows_with_curation_still_regenerate(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n2\n")
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "rows and grain")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+def test_a_table_new_since_base_or_a_bootstrap_regenerates_in_full(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "loans.csv").write_text("id\n1\n")
+    (st_dir / "banking" / "loans.meta.json").write_text(_meta(table="loans"))
+    _commit_all(repo, "a new table")
+    head = vs.head_sha(repo)
+
+    since = vs.classify_diff(repo, base, head)
+    bootstrap = vs.classify_diff(repo, vs.EMPTY_TREE_SHA, head)
+
+    assert (since.regenerate_tables, since.curate_tables) == ([("banking", "loans")], [])
+    assert (sorted(bootstrap.regenerate_tables), bootstrap.curate_tables) == (
+        [("banking", "accounts"), ("banking", "loans")], [],
+    )
+
+
+def test_a_table_curated_next_to_one_refreshed_is_split_per_table(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch, tables=(("banking", "accounts"), ("banking", "loans")))
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    (st_dir / "banking" / "loans.csv").write_text("id\n1\n2\n")
+    (st_dir / "banking" / "loans.meta.json").write_text(_meta(table="loans", rows=4))
+    _commit_all(repo, "curate accounts, refresh loans")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "loans")], [("banking", "accounts")])
+
+
+def test_a_source_change_on_a_table_that_is_also_curated_regenerates_it(repo, monkeypatch):
+    """A mapping change makes the table's projection stale, so it needs the
+    full regenerate -- the curation-only shortcut must not keep it."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    maps, _ = _patch_table_sources(monkeypatch, repo)
+    maps.mkdir(parents=True)
+    (maps / "accounts.yaml").write_text(_mapping_yaml("acc*"))
+    _commit_all(repo, "a mapping")
+    base = vs.head_sha(repo)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    (maps / "accounts.yaml").write_text(_mapping_yaml("accounts"))
+    _commit_all(repo, "curate the table and edit its mapping")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+@pytest.mark.parametrize("before,after", [("{not json", "[also not json"), ("{}garbage", "\xff\xfe")])
+def test_two_unparseable_metas_are_not_classified_as_curation_only(repo, monkeypatch, before, after):
+    """Both parse to None; None == None must not read as "only curation changed"."""
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    (st_dir / "banking").mkdir(parents=True)
+    (st_dir / "banking" / "accounts.csv").write_text("id\n1\n")
+    meta_file = st_dir / "banking" / "accounts.meta.json"
+    meta_file.write_bytes(before.encode("latin-1"))
+    _commit_all(repo, "a table with a broken meta")
+    base = vs.head_sha(repo)
+    meta_file.write_bytes(after.encode("latin-1"))
+    _commit_all(repo, "a different broken meta")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert (plan.regenerate_tables, plan.curate_tables) == ([("banking", "accounts")], [])
+
+
+def _patch_curation_track_b(monkeypatch, *, parquet_exists=True):
+    calls = _patch_track_b(monkeypatch)
+    calls["registry_only"] = []
+    calls["staged"] = []   # what sat in the import's src_dir AT CALL TIME: (registry_only, domain, table, meta bytes, csv?)
+
+    def _import(*a, **k):
+        # The real import reads `<src_dir>/<domain>/<table>.meta.json`
+        # (and a CSV only for a table it loads in full): a src_dir that lacks
+        # the meta would make a registry-only restore silently do nothing.
+        src_dir = Path(a[0])
+        registry_only = bool(k.get("registry_only"))
+        for domain, table in k.get("tables"):
+            meta_file = src_dir / domain / f"{table}.meta.json"
+            assert meta_file.is_file(), f"{meta_file} was not materialised for the import to read"
+            calls["staged"].append((
+                registry_only, domain, table, meta_file.read_bytes(), (src_dir / domain / f"{table}.csv").is_file(),
+            ))
+        (calls["registry_only"] if registry_only else calls["import"]).append(list(k.get("tables")))
+        return {"tables_loaded": 1}
+
+    monkeypatch.setattr("artmind.structured.text_export.import_structured_text", _import)
+    monkeypatch.setattr(
+        "artmind.structured.duckdb_adapter.parquet_path_for",
+        lambda domain, table: type("P", (), {"is_file": lambda self: parquet_exists})(),
+    )
+    _patch_ingest_and_projection(monkeypatch)
+    return calls
+
+
+def test_sync_restores_only_registry_rows_for_a_curation_only_change(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    dry = vs.sync(repo, dry_run=True)
+    assert calls["registry_only"] == [] and calls["catalogue"] == [], "a dry run applies nothing"
+    result = vs.sync(repo)
+
+    assert calls["registry_only"] == [[("banking", "accounts")]]
+    assert calls["import"] == [] and calls["table_to_graph"] == [], "no parquet rewrite, no re-projection"
+    assert (dry["curated_tables"], dry["regenerate_tables"]) == (result["curated_tables"], result["regenerated_tables"]) == (1, 0)
+    assert calls["catalogue"] == ["banking"], "the graph's catalogue follows the registry"
+    head_meta = subprocess.run(
+        ["git", "show", "HEAD:.artmind/data/structured_text/banking/accounts.meta.json"],
+        cwd=repo, check=True, capture_output=True,
+    ).stdout
+    # The committed `.meta.json` was materialised for the import; the CSV was not (rows are untouched).
+    assert calls["staged"] == [(True, "banking", "accounts", head_meta, False)]
+
+
+def test_a_curation_only_change_restores_registry_rows_through_the_real_import(repo, monkeypatch):
+    """No mock on `import_structured_text`: the meta materialised from `head`
+    is what the registry-only import really reads, and the parquet stays."""
+    pytest.importorskip("duckdb")
+    import csv as _csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured import registry, text_export
+    from artmind.structured.duckdb_adapter import parquet_path_for
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.vault import VaultLayout, write_state
+
+    st_dir = _patch_structured_text_dir(monkeypatch, repo)
+    _patch_kg_dir(monkeypatch, repo)
+    monkeypatch.setattr(db, "DB_PATH", repo.parent / f"{repo.name}-reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", repo.parent / f"{repo.name}-structured")
+    db._init_db()
+    (repo.parent / f"{repo.name}-src").mkdir()
+    source = repo.parent / f"{repo.name}-src" / "products.csv"
+    with open(source, "w", newline="") as f:
+        _csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(source, "banking")
+    table = registry.get_table("products", domain="banking")
+    text_export.export_structured_text(tables=[table])
+    _commit_all(repo, "a table")
+    base = vs.head_sha(repo)
+    registry.upsert_mapping(table["id"], "name", "PRODUCT", 1.0, confirmed=True)
+    text_export.export_structured_text(tables=[registry.get_table("products", domain="banking")], meta_only=True)
+    _commit_all(repo, "db mappings")
+    assert (st_dir / "banking" / "products.csv").read_bytes()  # rows are committed, unchanged since base
+    registry.clear_mappings(table["id"], None)   # this machine's registry, as before the sync
+    parquet = parquet_path_for("banking", "products")
+    before = parquet.stat().st_mtime_ns
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr("artmind.structured.catalogue.project_catalogue", lambda domain: {})
+
+    result = vs.sync(repo)
+
+    assert (result["curated_tables"], result["regenerated_tables"]) == (1, 0)
+    restored = registry.get_table("products", domain="banking")
+    assert [(m["column"], m["confirmed"]) for m in registry.list_mappings(restored["id"])] == [("name", 1)]
+    assert parquet.stat().st_mtime_ns == before
+
+
+def test_a_graph_only_run_does_not_follow_a_curation_only_change_into_the_catalogue(repo, monkeypatch):
+    """A DOCUMENTED LIMITATION (decision 9): the catalogue is derived from the
+    registry, so it follows a curation-only change only when the structured
+    store is in the run too. A `--store graph` run neither restores the
+    registry nor projects the catalogue; the remedy is `artmind db catalogue`."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo, store="graph")
+
+    assert calls["registry_only"] == [] and calls["import"] == [] and calls["staged"] == []
+    assert calls["catalogue"] == [] and calls["table_to_graph"] == []
+
+
+def test_a_curation_only_change_for_a_table_with_no_parquet_here_restores_it_fully(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch, parquet_exists=False)
+
+    dry = vs.sync(repo, dry_run=True)
+    vs.sync(repo)
+
+    assert (calls["import"], calls["registry_only"]) == ([[("banking", "accounts")]], [])
+    assert [(ro, csv) for ro, _, _, _, csv in calls["staged"]] == [(False, True)], "the full restore has its CSV"
+    assert (dry["curated_tables"], dry["regenerate_tables"]) == (0, 1), "dry-run parity for the fallback"
+
+
+def test_a_structured_only_run_never_projects_the_catalogue(repo, monkeypatch):
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_structured_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo, store="structured")
+
+    assert calls["registry_only"] == [[("banking", "accounts")]]
+    assert calls["catalogue"] == []
+
+
+def test_the_structured_range_is_split_too_when_the_stores_start_apart(repo, monkeypatch, graph):
+    """The graph is already at HEAD; DuckDB is one curation commit behind."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    head = vs.head_sha(repo)
+    _synced_at(repo, graph, head, base)
+    calls = _patch_curation_track_b(monkeypatch)
+
+    result = vs.sync(repo)
+
+    assert calls["registry_only"] == [[("banking", "accounts")]]
+    assert calls["import"] == [] and calls["table_to_graph"] == []
+    assert calls["catalogue"] == ["banking"]
+    assert (result["curated_tables"], result["regenerated_tables"]) == (1, 0)
+
+
+def test_the_catalogue_is_projected_once_per_restored_domain(repo, monkeypatch):
+    tables = (("banking", "accounts"), ("banking", "loans"), ("retail", "orders"))
+    st_dir, base = _table_base(repo, monkeypatch, tables=tables)
+    for domain, table in tables[:2] + tables[2:]:
+        (st_dir / domain / f"{table}.meta.json").write_text(_meta(grain="lookup", domain=domain, table=table))
+    _commit_all(repo, "curate three tables in two domains")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo)
+
+    assert sorted(calls["registry_only"][0]) == [("banking", "accounts"), ("banking", "loans"), ("retail", "orders")]
+    assert calls["catalogue"] == ["banking", "retail"]
+
+
+def test_a_domain_scoped_run_projects_only_that_domains_catalogue(repo, monkeypatch, graph):
+    tables = (("banking", "accounts"), ("retail", "orders"))
+    st_dir, base = _table_base(repo, monkeypatch, tables=tables)
+    for domain, table in tables:
+        (st_dir / domain / f"{table}.meta.json").write_text(_meta(grain="lookup", domain=domain, table=table))
+    _commit_all(repo, "curate both")
+    from artmind.vault import VaultLayout, write_state
+    write_state(VaultLayout(repo), {"last_synced_commit": base})
+    calls = _patch_curation_track_b(monkeypatch)
+
+    vs.sync(repo, domains=["retail"])
+
+    assert calls["registry_only"] == [[("retail", "orders")]]
+    assert calls["catalogue"] == ["retail"]
+    assert graph.bookmark_writes == [], "a domain-scoped run never advances a bookmark"
+
+
+def test_a_failed_catalogue_projection_does_not_advance_the_bookmarks(repo, monkeypatch, graph):
+    """The catalogue is derived from the registry rows just restored; if it
+    cannot be projected the range must be retried, not stamped as applied."""
+    st_dir, base = _table_base(repo, monkeypatch)
+    (st_dir / "banking" / "accounts.meta.json").write_text(_meta(grain="lookup"))
+    _commit_all(repo, "db grain --set lookup")
+    _synced_at(repo, graph, base, base)
+    graph.bookmark_writes.clear()
+    _patch_curation_track_b(monkeypatch)
+
+    def _boom(domain):
+        raise RuntimeError("AuraDB unreachable")
+
+    monkeypatch.setattr("artmind.structured.catalogue.project_catalogue", _boom)
+
+    with pytest.raises(RuntimeError, match="AuraDB unreachable"):
+        vs.sync(repo)
+
+    assert graph.bookmark_writes == []
+    assert _bookmarks(repo) == (base, base)
 
 
 def _replay_setup(repo, monkeypatch, *, retire_at_base):

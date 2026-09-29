@@ -28,6 +28,7 @@ and track D rebuilds the members of every same-as group changed in
 from __future__ import annotations
 
 import io
+import json
 import subprocess
 import tarfile
 import tempfile
@@ -264,6 +265,7 @@ class SyncPlan:
     same_as_keys: list[tuple[str, str, str]] = field(default_factory=list)  # track D: keys to rebuild
     same_as_groups: int = 0                                                 # track D: groups added/removed/changed
     curation: list[tuple[str, str, str]] = field(default_factory=list)      # track C: (kind, record_id, "apply"|"remove")
+    curate_tables: list[tuple[str, str]] = field(default_factory=list)      # track B: registry-only (curation) changes
 
 
 def _in_scope(domain: str, domains: list[str] | None) -> bool:
@@ -589,6 +591,66 @@ def _classify_structured_text_diff(
     return regenerate, retract
 
 
+#: What a registry-only curation command changes in a table's `.meta.json`
+#: (`db grain`, `db mappings`, `db bridge`, `db propose`).
+_CURATION_TABLE_FIELDS = ("grain", "grain_confirmed", "grain_status", "bridge_status", "mapping_status")
+_CURATION_META_LISTS = ("column_mappings", "column_roles")
+
+
+def _meta_without_curation(data: bytes | None):
+    """A `.meta.json` with its curation fields dropped, for comparison; None
+    when it is not a JSON object."""
+    try:
+        meta = json.loads(data.decode("utf-8")) if data is not None else None
+    except (UnicodeDecodeError, ValueError):
+        return None
+    if not isinstance(meta, dict):
+        return None
+    meta = {k: v for k, v in meta.items() if k not in _CURATION_META_LISTS}
+    if isinstance(meta.get("table"), dict):
+        meta["table"] = {k: v for k, v in meta["table"].items() if k not in _CURATION_TABLE_FIELDS}
+    return meta
+
+
+def _split_curation_only(
+    vault_dir: Path, base: str, head: str, tables: list[tuple[str, str]]
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """`(full, curation_only)` for tables track B would regenerate. A table
+    whose CSV is the same blob at `base` and `head` and whose `.meta.json`
+    changed only in curation fields (grain, bridge columns, column
+    mappings, their proposal statuses) needs its registry rows restored --
+    not its rows re-imported into parquet, nor its graph projection rebuilt
+    (`table2graph` reads neither)."""
+    import paths
+
+    if not tables or base == EMPTY_TREE_SHA:
+        return list(tables), []
+    try:
+        st_rel = Path(paths.STRUCTURED_TEXT_DIR).relative_to(vault_dir)
+    except ValueError:
+        return list(tables), []
+    csv = {t: str(st_rel / t[0] / f"{t[1]}.csv") for t in tables}
+    meta = {t: str(st_rel / t[0] / f"{t[1]}{_META_SUFFIX}") for t in tables}
+    base_oids = _oids_at(vault_dir, base, list(csv.values()))
+    head_oids = _oids_at(vault_dir, head, list(csv.values()))
+    base_meta = _blobs_at(vault_dir, base, list(meta.values()))
+    head_meta = _blobs_at(vault_dir, head, list(meta.values()))
+    full, curation_only = [], []
+    for t in tables:
+        same_rows = csv[t] in head_oids and base_oids.get(csv[t]) == head_oids[csv[t]]
+        before, after = base_meta.get(meta[t]), head_meta.get(meta[t])
+        before_rest = _meta_without_curation(before)
+        if (
+            same_rows and before is not None and after is not None and before != after
+            and before_rest is not None
+            and before_rest == _meta_without_curation(after)
+        ):
+            curation_only.append(t)
+        else:
+            full.append(t)
+    return full, curation_only
+
+
 def _mapping_at(vault_dir: Path, rev: str, relpath: str):
     """The table mapping at `relpath` as committed at `rev` -- never the
     working tree (spec 2026-09-26 §14 A1). Raises `MappingError` (a
@@ -819,10 +881,9 @@ def _curation_relpath(vault_dir: Path, kind: str, record_id: str) -> str:
     return str(_curation_rel(vault_dir) / kind / f"{record_id}.json")
 
 
-def _blobs_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, bytes]:
-    """`{relpath: committed bytes}` for the files among `relpaths` that exist
-    at `rev`: one `git ls-tree` and one `git cat-file --batch`, raw blobs
-    (the bytes `curation_records.fingerprint` hashes)."""
+def _oids_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, str]:
+    """`{relpath: blob oid}` for the files among `relpaths` that exist at
+    `rev` -- one `git ls-tree`, no content read."""
     if not relpaths:
         return {}
     listing = _git(vault_dir, ["ls-tree", "-r", "-z", rev, "--", *relpaths])
@@ -834,6 +895,14 @@ def _blobs_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, bytes
         fields = meta.split(" ")
         if len(fields) == 3 and fields[1] == "blob":
             oid_of[path] = fields[2]
+    return oid_of
+
+
+def _blobs_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, bytes]:
+    """`{relpath: committed bytes}` for the files among `relpaths` that exist
+    at `rev`: one `git ls-tree` and one `git cat-file --batch`, raw blobs
+    (the bytes `curation_records.fingerprint` hashes)."""
+    oid_of = _oids_at(vault_dir, rev, relpaths)
     blobs = _cat_blobs(vault_dir, list(oid_of.values()))
     return {path: blobs[oid] for path, oid in oid_of.items() if oid in blobs}
 
@@ -1001,9 +1070,12 @@ def classify_diff(
     (`table:<domain>:<table>` no mapping covers any more) in the same run."""
     plan = SyncPlan(base=base, head=head)
     plan.replay_docs, kg_retract = _classify_kg_diff(vault_dir, base, head, domains)
-    plan.regenerate_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
+    changed_tables, table_retract = _classify_structured_text_diff(vault_dir, base, head, domains)
+    plan.regenerate_tables, plan.curate_tables = _split_curation_only(vault_dir, base, head, changed_tables)
     source_regenerate, source_retract = _classify_table_sources(vault_dir, base, head, domains)
     for key in source_regenerate:
+        if key in plan.curate_tables:
+            plan.curate_tables.remove(key)
         if key not in plan.regenerate_tables:
             plan.regenerate_tables.append(key)
 
@@ -1272,13 +1344,28 @@ def sync(
     project_tables = list(plan.regenerate_tables)
     if "structured" not in stores:
         structured_tables: list[tuple[str, str]] = []
+        structured_curate: list[tuple[str, str]] = []
     elif "graph" in stores and bases["structured"] == bases["graph"]:
         structured_tables = list(project_tables)
+        structured_curate = list(plan.curate_tables)
     else:
-        structured_tables, _ = _classify_structured_text_diff(vault_dir, bases["structured"], head, domains)
+        changed, _ = _classify_structured_text_diff(vault_dir, bases["structured"], head, domains)
+        structured_tables, structured_curate = _split_curation_only(vault_dir, bases["structured"], head, changed)
     # A projected table is restored too, so table2graph reads DuckDB at
     # `head` whatever the structured bookmark says (idempotent).
     restore_tables = project_tables + [key for key in structured_tables if key not in project_tables]
+    # A curation-only change restores registry rows alone -- unless this
+    # machine has no parquet for the table yet, which needs the rows too.
+    from artmind.structured.duckdb_adapter import parquet_path_for
+
+    curate_tables = []
+    for key in structured_curate:
+        if key in restore_tables:
+            continue
+        if parquet_path_for(*key).is_file():
+            curate_tables.append(key)
+        else:
+            restore_tables.append(key)
 
     if dry_run:
         structured_only_dry: list[str] = []
@@ -1316,6 +1403,7 @@ def sync(
             "unchanged": len(unchanged),
             "retract": len(plan.retract),
             "regenerate_tables": len(restore_tables),
+            "curated_tables": len(curate_tables),
             "structured_only_tables": structured_only_dry,
             "same_as_groups": plan.same_as_groups,
             "same_as_keys": len(plan.same_as_keys),
@@ -1344,15 +1432,31 @@ def sync(
         #    itself be mistaken for a track-A input in this same run (the
         #    diff_range above is already fixed from `plan`). Inputs come from
         #    `head`, never the live structured_text dir.
-        if restore_tables:
+        if restore_tables or curate_tables:
             st_rel = STRUCTURED_TEXT_DIR.relative_to(vault_dir)
             wanted = [str(st_rel / MANIFEST_NAME)]
             for domain, table_name in restore_tables:
                 wanted.append(str(st_rel / domain / f"{table_name}.csv"))
                 wanted.append(str(st_rel / domain / f"{table_name}{META_SUFFIX}"))
+            for domain, table_name in curate_tables:
+                wanted.append(str(st_rel / domain / f"{table_name}{META_SUFFIX}"))
             _materialize(vault_dir, head, _present_at(vault_dir, head, wanted), scratch)
             (scratch / st_rel).mkdir(parents=True, exist_ok=True)
-            import_structured_text(scratch / st_rel, tables=restore_tables)
+            if restore_tables:
+                import_structured_text(scratch / st_rel, tables=restore_tables)
+            if curate_tables:
+                import_structured_text(scratch / st_rel, tables=curate_tables, registry_only=True)
+            if "graph" in stores:
+                # The graph's catalogue subgraph (:Table/:TableColumn/
+                # MAPS_TO_CLASS) is derived from the registry just restored.
+                # Called directly, not through pipeline's `_best_effort`
+                # wrapper: that one logs and swallows a failure, which here
+                # would let the bookmark advance past a catalogue that never
+                # reached the graph. Raised, the range is retried (§9).
+                from artmind.structured.catalogue import project_catalogue
+
+                for d in sorted({d for d, _ in restore_tables + curate_tables}):
+                    project_catalogue(d)
         if project_tables:
             mappings_at_head = _dir_at(vault_dir, head, paths.TABLE_MAPPINGS_DIR, scratch)
             schemas_at_head = _dir_at(vault_dir, head, paths.DOMAIN_SCHEMAS_DIR, scratch)
@@ -1462,6 +1566,7 @@ def sync(
         "unchanged": len(unchanged),
         "retracted": len(plan.retract),
         "regenerated_tables": len(restore_tables),
+        "curated_tables": len(curate_tables),
         "structured_only_tables": structured_only,
         "same_as_groups": plan.same_as_groups,
         "same_as_keys": len(plan.same_as_keys),

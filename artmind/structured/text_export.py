@@ -290,7 +290,7 @@ def _csv_header(csv_path: Path) -> list[str]:
 
 
 def import_structured_text(
-    src_dir: Path | None = None, *, tables: list[tuple[str, str]] | None = None
+    src_dir: Path | None = None, *, tables: list[tuple[str, str]] | None = None, registry_only: bool = False
 ) -> dict:
     """Wipe and rebuild the structured store from `src_dir`'s CSV + per-table
     `.meta.json` (legacy `manifest.json` as a fallback).
@@ -310,7 +310,14 @@ def import_structured_text(
     `read_csv` matches that map to the file *positionally*, not by name, so a
     mismatch would silently read every column as the wrong type instead of
     raising.
+
+    `registry_only=True` (with `tables`) restores only the registry rows --
+    a table's classifications changed but not its rows (`vault sync`'s
+    curation-only case) -- and leaves an existing parquet file as it is; a
+    table with no parquet yet is still loaded from its CSV.
     """
+    if registry_only and tables is None:
+        raise ValueError("registry_only needs `tables`: an unscoped import wipes every table's parquet")
     src_dir = Path(src_dir) if src_dir else paths.STRUCTURED_TEXT_DIR
     manifest = load_structured_dump(src_dir)
 
@@ -341,6 +348,8 @@ def import_structured_text(
     loaded = 0
     skipped: list[str] = []
     for table in target_rows:
+        if registry_only and Path(table["parquet_path"]).is_file():
+            continue
         csv_path = _table_csv_path(src_dir, table["domain"], table["table_name"])
         if not csv_path.is_file():
             logger.warning(
