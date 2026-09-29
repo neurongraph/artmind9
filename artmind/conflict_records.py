@@ -30,28 +30,40 @@ from artmind.curation_records import Kind
 
 NAME = "conflicts"
 
-_APPLY = """
+# `apply` is four statements, not one: the node and its fields; the edges
+# (which report whether both entities matched); the evidence (which reports how
+# many chunks matched); and only then the fingerprint. A fingerprint on a node
+# that is missing an edge or an evidence link would make the next sync skip the
+# record as "already applied" and leave the conflict incomplete forever.
+_APPLY_NODE = """
 MERGE (co:Conflict {id: $id})
 SET co._source = 'adjudicator',
     co.verdict = $verdict, co.aspect = $aspect,
     co.claim_a = $claim_a, co.claim_b = $claim_b, co.severity = $severity,
     co.entity_class = $entity_class, co.domains = $domains,
     co.status = $status, co.resolution_reason = $resolution_reason, co.resolved_at = $resolved_at,
-    co.detected_at = $detected_at, co.detected_by_model = $detected_by_model,
-    co.record_fingerprint = $fingerprint
-WITH co
+    co.detected_at = $detected_at, co.detected_by_model = $detected_by_model
+"""
+
+# A MATCH on a missing entity yields no row, so `n` is 1 exactly when BOTH matched.
+_APPLY_EDGES = """
+MATCH (co:Conflict {id: $id})
 MATCH (a:Entity {_id: $idA}), (b:Entity {_id: $idB})
 MERGE (co)-[:CONFLICT_OF]->(a)
 MERGE (co)-[:CONFLICT_OF]->(b)
 MERGE (a)-[ra:CONFLICTS_WITH]->(b) SET ra.conflict_id = $id, ra.aspect = $aspect
 MERGE (b)-[rb:CONFLICTS_WITH]->(a) SET rb.conflict_id = $id, rb.aspect = $aspect
+RETURN count(*) AS n
 """
 
 _APPLY_EVIDENCE = """
 UNWIND $evidence AS ev
 MATCH (co:Conflict {id: $id}), (c:DocChunk {id: ev.chunk_id})
 MERGE (co)-[:EVIDENCE {side: ev.side}]->(c)
+RETURN count(DISTINCT c.id) AS n
 """
+
+_APPLY_FINGERPRINT = "MATCH (co:Conflict {id: $id}) SET co.record_fingerprint = $fingerprint"
 
 _REMOVE_EDGES = "MATCH (:Entity)-[r:CONFLICTS_WITH {conflict_id: $id}]->(:Entity) DELETE r"
 _REMOVE_NODE = "MATCH (co:Conflict {id: $id, _source: 'adjudicator'}) DETACH DELETE co"
@@ -142,31 +154,49 @@ def record_from_graph(session, conflict_id: str) -> dict | None:
     }
 
 
+def _count(result) -> int:
+    row = result.single()
+    return int(row["n"]) if row and row["n"] is not None else 0
+
+
 def apply(tx, record: dict, fingerprint: str) -> set:
     """MERGE the `:Conflict` node from `record` -- every field SET, so the
     record, not whatever the graph held, is the truth -- plus its
-    `CONFLICT_OF`/`CONFLICTS_WITH` edges (when both entities exist) and its
-    `EVIDENCE` edges (to the chunks that exist). Idempotent. Changes no
-    projection, so returns no keys."""
+    `CONFLICT_OF`/`CONFLICTS_WITH` edges and its `EVIDENCE` edges. Idempotent.
+    Changes no projection, so returns no keys.
+
+    The record's fingerprint is written LAST and only when the record is
+    complete: both entities matched and every evidence chunk matched. An
+    incomplete apply (an entity or chunk this graph has not replayed yet, or
+    an id a same-as merge changed) leaves the node without a fingerprint that
+    matches the file, so the next sync sees the record as changed and applies
+    it again -- healing once the missing pieces arrive; a target that never
+    arrives stays honestly pending."""
     entities = record.get("entities") or []
     id_a = entities[0]["id"] if len(entities) > 0 else None
     id_b = entities[1]["id"] if len(entities) > 1 else None
     tx.run(
-        _APPLY,
+        _APPLY_NODE,
         id=record["id"], verdict=record.get("verdict"), aspect=record.get("aspect"),
         claim_a=record.get("claim_a"), claim_b=record.get("claim_b"), severity=record.get("severity"),
         entity_class=record.get("entity_class"), domains=list(record.get("domains") or []),
         status=record.get("status") or "open", resolution_reason=record.get("resolution_reason"),
         resolved_at=record.get("resolved_at"), detected_at=record.get("detected_at"),
-        detected_by_model=record.get("detected_by_model"), fingerprint=fingerprint,
-        idA=id_a, idB=id_b,
+        detected_by_model=record.get("detected_by_model"),
     )
+    entities_matched = _count(tx.run(
+        _APPLY_EDGES, id=record["id"], aspect=record.get("aspect"), idA=id_a, idB=id_b,
+    )) >= 1
     evidence = [
         {"side": ev.get("side"), "chunk_id": ev["chunk_id"]}
         for ev in record.get("evidence") or [] if ev.get("chunk_id")
     ]
+    evidence_matched = True
     if evidence:
-        tx.run(_APPLY_EVIDENCE, id=record["id"], evidence=evidence)
+        wanted = len({ev["chunk_id"] for ev in evidence})
+        evidence_matched = _count(tx.run(_APPLY_EVIDENCE, id=record["id"], evidence=evidence)) >= wanted
+    if entities_matched and evidence_matched:
+        tx.run(_APPLY_FINGERPRINT, id=record["id"], fingerprint=fingerprint)
     return set()
 
 

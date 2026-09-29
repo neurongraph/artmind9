@@ -178,10 +178,20 @@ class _MaterializeSession:
         self.calls.append((cypher, params))
         if "properties(co) AS co" in cypher:
             return _Rows([self._graph_node] if self._graph_node else [])
+        if "MATCH (a:Entity {_id: $idA}" in cypher:
+            return _Rows([{"n": 1}])   # both entities are in the graph
+        if "DocChunk" in cypher:
+            return _Rows([{"n": len({e["chunk_id"] for e in params["evidence"]})}])
         return _Rows([])
 
     def applied(self):
         return [p for c, p in self.calls if c.strip().startswith("MERGE (co:Conflict {id: $id})")]
+
+    def edged(self):
+        return [p for c, p in self.calls if "MATCH (a:Entity {_id: $idA}" in c]
+
+    def fingerprinted(self):
+        return [p for c, p in self.calls if "co.record_fingerprint = $fingerprint" in c]
 
 
 _PAIR = {
@@ -212,8 +222,9 @@ def test_materialize_writes_the_conflicts_record_and_applies_that_record(curatio
     assert (record["status"], record["claim_a"], record["claim_b"]) == ("open", "CEO", "Manager")
     applied = session.applied()
     assert len(applied) == 1
-    assert (applied[0]["idA"], applied[0]["idB"], applied[0]["status"]) == ("ea", "eb", "open")
-    assert applied[0]["fingerprint"] == _curation_records.fingerprint(path.read_bytes())
+    assert applied[0]["status"] == "open"
+    assert [(p["idA"], p["idB"]) for p in session.edged()] == [("ea", "eb")]
+    assert session.fingerprinted() == [{"id": cid, "fingerprint": _curation_records.fingerprint(path.read_bytes())}]
 
 
 def test_re_detecting_a_recorded_conflict_never_reopens_or_rewrites_it(curation_dir):

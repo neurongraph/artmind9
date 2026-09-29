@@ -122,6 +122,10 @@ class RecordingSession(FakeSession):
         self.runs.append((cypher, kwargs))
         if "properties(co) AS co" in cypher:
             return _Rows([self._graph_node] if self._graph_node else [])
+        if "MATCH (a:Entity {_id: $idA}" in cypher:
+            return _Rows([{"n": 1}])   # both entities are in the graph
+        if "DocChunk" in cypher:
+            return _Rows([{"n": len({e["chunk_id"] for e in kwargs["evidence"]})}])
         return _Rows([])
 
 
@@ -143,6 +147,14 @@ def _applied(session):
     return [kw for cy, kw in session.runs if cy.strip().startswith("MERGE (co:Conflict {id: $id})")]
 
 
+def _fingerprinted(session):
+    return [kw for cy, kw in session.runs if "co.record_fingerprint = $fingerprint" in cy]
+
+
+def _edged(session):
+    return [kw for cy, kw in session.runs if "MATCH (a:Entity {_id: $idA}" in cy]
+
+
 def test_resolving_a_recorded_conflict_updates_its_file_and_applies_it(monkeypatch, curation_dir):
     _stored(curation_dir)
     session = RecordingSession()
@@ -156,9 +168,10 @@ def test_resolving_a_recorded_conflict_updates_its_file_and_applies_it(monkeypat
     applied = _applied(session)
     assert len(applied) == 1
     assert (applied[0]["status"], applied[0]["resolution_reason"]) == ("dismissed", "not a real clash")
-    assert applied[0]["fingerprint"] == curation_records.fingerprint(
-        (curation_dir / "conflicts" / "abc123.json").read_bytes()
-    )
+    assert _fingerprinted(session) == [{
+        "id": "abc123",
+        "fingerprint": curation_records.fingerprint((curation_dir / "conflicts" / "abc123.json").read_bytes()),
+    }]
     assert not [cy for cy, _ in session.runs if "properties(co) AS co" in cy], "the file is read, not the graph"
     assert out == {"id": "abc123", "status": "dismissed", "reason": "not a real clash"}
 
@@ -191,4 +204,4 @@ def test_resolving_a_conflict_detected_before_records_writes_its_first_record(mo
     record = json.loads((curation_dir / "conflicts" / "abc123.json").read_text())
     assert record["status"] == "resolved"
     assert [e["id"] for e in record["entities"]] == ["ea", "eb"]
-    assert _applied(session)[0]["idA"] == "ea"
+    assert (_edged(session)[0]["idA"], _edged(session)[0]["idB"]) == ("ea", "eb")

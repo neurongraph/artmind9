@@ -948,6 +948,11 @@ def _apply_curation(
             if action == "remove":
                 record = curation_records.parse(removed.get(_curation_relpath(vault_dir, kind_name, record_id)))
                 if record is None or record.get("id") != record_id:
+                    logger.warning(
+                        "vault sync: the {} record {} is unreadable at its base commit {}, so it is removed "
+                        "from a stub {{'id': ...}} record -- a kind that needs the record body cannot use it",
+                        kind_name, record_id, base[:12],
+                    )
                     record = {"id": record_id}
                 keys |= set(session.execute_write(kind.remove, record) or ())
                 continue
@@ -1131,12 +1136,16 @@ def _advance_bookmarks(
     from artmind.vault import VaultLayout, write_state
 
     new = Bookmarks(graph=marks.graph, structured=marks.structured, legacy=marks.legacy)
+    # A store already at `commit` is not written again: a sync with nothing
+    # new would only churn the graph node's `applied_at` (and state.json).
     if "graph" in stores:
-        sync_state.write_graph_bookmark(vault_id, commit)
+        if marks.graph != commit:
+            sync_state.write_graph_bookmark(vault_id, commit)
         new.graph = commit
     updates: dict = {}
     if "structured" in stores:
-        updates[STRUCTURED_BOOKMARK_KEY] = commit
+        if marks.structured != commit:
+            updates[STRUCTURED_BOOKMARK_KEY] = commit
         new.structured = commit
     remove: tuple[str, ...] = ()
     if new.legacy is not None:

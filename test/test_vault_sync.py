@@ -44,11 +44,13 @@ class _FakeGraphState:
         self.bookmarks: dict[str, str] = {}
         self.fingerprints: dict[str, str | None] = {}
         self.fingerprint_reads: list[list[str]] = []
+        self.bookmark_writes: list[tuple[str, str]] = []
 
     def read_graph_bookmark(self, vault_id, *, timeout=None):
         return self.bookmarks.get(vault_id)
 
     def write_graph_bookmark(self, vault_id, commit):
+        self.bookmark_writes.append((vault_id, commit))
         self.bookmarks[vault_id] = commit
 
     def read_document_fingerprints(self, doc_ids, *, timeout=None):
@@ -2224,6 +2226,38 @@ def _three_commits(repo, monkeypatch):
     return shas
 
 
+def test_a_sync_with_nothing_new_does_not_rewrite_the_bookmarks(repo, monkeypatch, graph):
+    """base == head and both bookmarks already there: writing the graph
+    bookmark again would only churn `applied_at` on every sync."""
+    _, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c3, c3)
+    _patch_ingest_and_projection(monkeypatch)
+    from artmind import vault
+
+    state_writes = []
+    real_write_state = vault.write_state
+    monkeypatch.setattr(vault, "write_state", lambda *a, **k: state_writes.append((a, k)) or real_write_state(*a, **k))
+
+    result = vs.sync(repo)
+
+    assert graph.bookmark_writes == []
+    assert state_writes == []
+    assert (result["graph_bookmark"], result["structured_bookmark"]) == (c3, c3)
+
+
+def test_a_sync_that_advances_writes_the_graph_bookmark(repo, monkeypatch, graph):
+    c1, _, c3 = _three_commits(repo, monkeypatch)
+    _synced_at(repo, graph, c1, c1)
+    graph.bookmark_writes.clear()
+    _patch_ingest_and_projection(monkeypatch)
+    _patch_track_b(monkeypatch)
+
+    vs.sync(repo)
+
+    assert graph.bookmark_writes == [(VAULT_ID, c3)]
+    assert _bookmarks(repo) == (c3, c3)
+
+
 def test_the_legacy_cursor_seeds_both_bookmarks_then_is_retired(repo, monkeypatch, graph):
     c1, _, c3 = _three_commits(repo, monkeypatch)
     from artmind.vault import VaultLayout, read_state, write_state
@@ -3219,9 +3253,25 @@ class _CurationGraph:
         self.calls = []
         self.fingerprints: dict[str, str | None] = {}
         self.events = events
+        #: The entity ids this graph holds (the edges statement matches both or
+        #: nothing) and the chunk ids it holds (None: every chunk exists).
+        self.entities: set[str] = {"ea", "eb"}
+        self.chunks: set[str] | None = None
+        #: What every fingerprint statement sent, in order.
+        self.fingerprinted: list[dict] = []
 
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
+        if "co.record_fingerprint = $fingerprint" in cypher:   # whichever statement carries it
+            self.fingerprinted.append(params)
+            self.fingerprints[params["id"]] = params["fingerprint"]
+        if "MATCH (a:Entity {_id: $idA}" in cypher:
+            return _Rows([{"n": 1 if {params["idA"], params["idB"]} <= self.entities else 0}])
+        if "MERGE (co)-[:EVIDENCE" in cypher:
+            wanted = {e["chunk_id"] for e in params["evidence"]}
+            return _Rows([{"n": len(wanted if self.chunks is None else wanted & self.chunks)}])
+        if "co.record_fingerprint = $fingerprint" in cypher:
+            return _Rows()
         if "record_fingerprint AS fingerprint" in cypher:
             return _Rows({"id": i, "fingerprint": self.fingerprints[i]} for i in params["ids"] if i in self.fingerprints)
         if cypher.strip().startswith("MERGE (co:Conflict {id: $id})"):
@@ -3338,7 +3388,7 @@ def test_sync_applies_a_record_as_committed_not_as_in_the_working_tree(repo, mon
 
     applied = curation_graph.applied()
     assert [(p["id"], p["status"]) for p in applied] == [("c1", "resolved")]
-    assert applied[0]["fingerprint"] == curation_records.fingerprint(committed)
+    assert curation_graph.fingerprinted == [{"id": "c1", "fingerprint": curation_records.fingerprint(committed)}]
     assert result["curation"] == {"conflicts": {"apply": 1, "remove": 0}}
     assert _bookmarks(repo) == (vs.head_sha(repo), vs.head_sha(repo))
 
@@ -3357,6 +3407,80 @@ def test_sync_removes_a_deleted_record(repo, monkeypatch, curation_graph):
 
     assert curation_graph.events == [("remove", "c1")]
     assert ("MATCH (:Entity)-[r:CONFLICTS_WITH {conflict_id: $id}]->(:Entity) DELETE r", {"id": "c1"}) in curation_graph.calls
+
+
+def test_an_incompletely_applied_record_is_not_skipped_by_the_next_sync(repo, monkeypatch, curation_graph):
+    """The record's entity `eb` has not been replayed here yet, so apply leaves
+    the node edge-less. If it also stamped the fingerprint, the next sync's
+    `drop_unchanged_curation` would see a match and skip the record forever."""
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    curation_records.write_record("conflicts", _conflict("c1"))
+    _commit_all(repo, "a conflict between ea and eb")
+    head = vs.head_sha(repo)
+    curation_graph.entities = {"ea"}   # eb is absent
+
+    plan = vs.classify_diff(repo, base, head)
+    vs._apply_curation(repo, base, head, plan.curation, "post")
+
+    assert curation_graph.fingerprinted == [], "an incomplete apply must not stamp the fingerprint"
+    assert [p["id"] for p in curation_graph.applied()] == ["c1"], "the node was still written"
+    again = vs.classify_diff(repo, base, head)
+    assert vs.drop_unchanged_curation(repo, again) == 0
+    assert again.curation == [("conflicts", "c1", "apply")], "the next sync applies it again"
+
+    curation_graph.entities = {"ea", "eb"}   # eb arrives
+    vs._apply_curation(repo, base, head, again.curation, "post")
+
+    assert [p["id"] for p in curation_graph.fingerprinted] == ["c1"]
+    healed = vs.classify_diff(repo, base, head)
+    assert vs.drop_unchanged_curation(repo, healed) == 1
+    assert healed.curation == []
+
+
+def test_a_record_with_a_missing_evidence_chunk_is_not_skipped_by_the_next_sync(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch)
+    record = _conflict("c1")
+    record["evidence"] = [{"side": "a", "chunk_id": "d1_001", "doc_id": "d1"},
+                          {"side": "b", "chunk_id": "d2_004", "doc_id": "d2"}]
+    curation_records.write_record("conflicts", record)
+    _commit_all(repo, "a conflict with evidence")
+    head = vs.head_sha(repo)
+    curation_graph.chunks = {"d1_001"}   # d2_004's document is not replayed yet
+
+    plan = vs.classify_diff(repo, base, head)
+    vs._apply_curation(repo, base, head, plan.curation, "post")
+
+    assert curation_graph.fingerprinted == []
+    again = vs.classify_diff(repo, base, head)
+    assert vs.drop_unchanged_curation(repo, again) == 0
+
+
+def test_removing_a_record_whose_base_version_is_unreadable_warns_and_still_removes(repo, monkeypatch, curation_graph):
+    from loguru import logger
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    folder = _patch_curation_dir(monkeypatch, repo) / "conflicts"
+    folder.mkdir(parents=True)
+    (folder / "c9.json").write_text("this is not json")
+    _commit_all(repo, "a corrupt record")
+    base = vs.head_sha(repo)
+    (folder / "c9.json").unlink()
+    _commit_all(repo, "drop it")
+
+    messages: list[str] = []
+    sink_id = logger.add(lambda message: messages.append(message.record["message"]), level="WARNING")
+    try:
+        vs._apply_curation(repo, base, vs.head_sha(repo), [("conflicts", "c9", "remove")], "post")
+    finally:
+        logger.remove(sink_id)
+
+    assert any("conflicts" in m and "c9" in m and base[:12] in m for m in messages), messages
+    assert ("MATCH (co:Conflict {id: $id, _source: 'adjudicator'}) DETACH DELETE co", {"id": "c9"}) in curation_graph.calls
 
 
 def test_sync_skips_a_record_the_shared_graph_already_carries(repo, monkeypatch, curation_graph):
@@ -3476,6 +3600,7 @@ def test_sync_replays_an_update_folder_as_a_user_chat_and_embeds_it(repo, monkey
 
     chats = [p for c, p in curation_graph.calls if "CREATE (n:UserChat {id: $id})" in c]
     assert [(p["id"], p["props"]["raw_text"]) for p in chats] == [(chat_id, "Alice is the CEO.")]
+    assert not [c for c, _ in curation_graph.calls if "CREATE (n:Document {id: $id})" in c], "a chat is never a :Document"
     assert embedded == [{"domain": "general"}]
 
 
@@ -3496,6 +3621,7 @@ def test_a_shared_graph_that_already_has_the_update_does_not_replay_it(repo, mon
 
     assert calls["write_to_neo4j"] == []
     assert result["unchanged"] == 1
+    assert graph.fingerprint_reads == [[chat_id]], "the graph was asked about the chat's own id, once"
     assert embedded == []
 
 
@@ -3535,6 +3661,7 @@ def test_pending_work_counts_an_update_folder_the_graph_lacks_as_a_doc(repo, mon
 
     pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
     assert (pending["graph"]["state"], pending["graph"]["docs"]) == ("behind", 1)
+    assert graph.fingerprint_reads == [[chat_id]], "the update is counted by its chat id, not its folder name"
 
     graph.fingerprints[chat_id] = sync_state.folder_fingerprint(folder)
     pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))

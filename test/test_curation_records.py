@@ -145,37 +145,97 @@ def test_a_detected_conflict_becomes_an_open_record_with_both_sides():
     json.dumps(record)  # plain JSON, nothing a file cannot hold
 
 
+class _ConflictGraph(_Tx):
+    """A graph that answers `apply`'s completeness counts realistically: the
+    edges statement reports 1 row when both entities are in `entities` (0
+    otherwise -- a MATCH on a missing node yields nothing), the evidence
+    statement reports how many distinct chunk ids are in `chunks`."""
+
+    def __init__(self, entities=("ea", "eb"), chunks=("d1_001", "d2_004")):
+        super().__init__()
+        self.entities = set(entities)
+        self.chunks = set(chunks)
+
+    def run(self, cypher, **params):
+        self.calls.append((cypher, params))
+        if "MATCH (a:Entity {_id: $idA}" in cypher:
+            return _Result([{"n": 1 if {params["idA"], params["idB"]} <= self.entities else 0}])
+        if "DocChunk" in cypher:
+            return _Result([{"n": len({e["chunk_id"] for e in params["evidence"]} & self.chunks)}])
+        return _Result()
+
+    def fingerprint_calls(self):
+        return [(c, p) for c, p in self.calls if "record_fingerprint" in c]
+
+
 def test_apply_sets_every_field_from_the_record_and_joins_both_entities():
-    tx = _Tx()
+    tx = _ConflictGraph()
     record = _record(status="resolved", resolution_reason="v3 settled it", resolved_at="2026-09-28T11:00:00+00:00")
 
     keys = conflict_records.apply(tx, record, "fp-1")
 
     assert keys == set()
-    (cypher, params), (ev_cypher, ev_params) = tx.calls
+    (cypher, params), (edge_cypher, edge_params), (ev_cypher, ev_params), (fp_cypher, fp_params) = tx.calls
     assert cypher.strip().startswith("MERGE (co:Conflict {id: $id})")
     assert "ON CREATE" not in cypher, "the record is the truth: every field is SET"
-    assert "MERGE (a)-[ra:CONFLICTS_WITH]->(b)" in cypher and "MERGE (co)-[:CONFLICT_OF]->(a)" in cypher
+    assert "record_fingerprint" not in cypher, "the fingerprint is written only once the record is fully applied"
+    assert "MERGE (a)-[ra:CONFLICTS_WITH]->(b)" in edge_cypher and "MERGE (co)-[:CONFLICT_OF]->(a)" in edge_cypher
     assert params == {
         "id": "c0ffee", "verdict": "conflicting_claims", "aspect": "approval limit",
         "claim_a": "CEO", "claim_b": "Manager", "severity": "high", "entity_class": "POLICY",
         "domains": ["banking.ops", "banking.risk"], "status": "resolved",
         "resolution_reason": "v3 settled it", "resolved_at": "2026-09-28T11:00:00+00:00",
         "detected_at": "2026-09-28T10:00:00+00:00", "detected_by_model": "model-x",
-        "fingerprint": "fp-1", "idA": "ea", "idB": "eb",
     }
+    assert edge_params == {"id": "c0ffee", "aspect": "approval limit", "idA": "ea", "idB": "eb"}
     assert "MERGE (co)-[:EVIDENCE {side: ev.side}]->(c)" in ev_cypher
     assert ev_params == {"id": "c0ffee", "evidence": [
         {"side": "a", "chunk_id": "d1_001"}, {"side": "b", "chunk_id": "d2_004"},
     ]}
+    assert "co.record_fingerprint = $fingerprint" in fp_cypher
+    assert fp_params == {"id": "c0ffee", "fingerprint": "fp-1"}
 
 
-def test_apply_without_evidence_sends_no_evidence_statement():
-    tx = _Tx()
+def test_apply_without_evidence_sends_no_evidence_statement_and_still_fingerprints():
+    tx = _ConflictGraph()
 
     conflict_records.apply(tx, _record(evidence=[]), "fp")
 
-    assert len(tx.calls) == 1
+    assert len(tx.calls) == 3
+    assert not [c for c, _ in tx.calls if "DocChunk" in c]
+    assert tx.fingerprint_calls()[0][1] == {"id": "c0ffee", "fingerprint": "fp"}
+
+
+def test_apply_with_an_entity_missing_leaves_the_record_unfingerprinted():
+    """An entity this graph has not replayed yet (or one whose id a same-as
+    merge changed): the node lands without its edges. A fingerprint then would
+    make the next sync skip the record and leave the conflict edge-less
+    forever."""
+    tx = _ConflictGraph(entities=("ea",))   # eb is absent
+
+    conflict_records.apply(tx, _record(), "fp-1")
+
+    assert tx.fingerprint_calls() == []
+    assert "MATCH (a:Entity {_id: $idA}" in tx.calls[1][0], "the edges were still attempted"
+
+
+def test_apply_with_an_evidence_chunk_missing_leaves_the_record_unfingerprinted():
+    tx = _ConflictGraph(chunks=("d1_001",))   # d2_004 is absent
+
+    conflict_records.apply(tx, _record(), "fp-1")
+
+    assert tx.fingerprint_calls() == []
+    assert any("DocChunk" in c for c, _ in tx.calls), "the evidence was still attempted"
+
+
+def test_apply_fingerprints_last_and_only_when_everything_matched():
+    tx = _ConflictGraph()
+
+    conflict_records.apply(tx, _record(), "fp-1")
+
+    assert len(tx.fingerprint_calls()) == 1
+    assert "record_fingerprint" in tx.calls[-1][0]
+    assert tx.calls[-1][1] == {"id": "c0ffee", "fingerprint": "fp-1"}
 
 
 def test_remove_deletes_the_edges_and_only_an_adjudicator_node():

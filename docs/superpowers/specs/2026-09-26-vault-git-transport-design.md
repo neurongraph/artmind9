@@ -327,14 +327,16 @@ machine; with a shared AuraDB it survives only until the next wipe-and-rebuild.
 
 | Write today | Stored as | New file in the vault | Applied by |
 |---|---|---|---|
-| `artmind update` facts (`update.py`, direct Cypher) | Neo4j + gitignored registry drafts | `.artmind/data/kg/<domain>/update__<session_id>__<draft_id>/` — `document.json` + `observations.json`, the same shape as a document (§14 A9) | track A replay, like any document |
+| `artmind update` facts (`update.py`, direct Cypher) | Neo4j + gitignored registry drafts | `.artmind/data/kg/<domain>/update__<session_id>__<draft_id>/` — `document.json` + `observations.json`, the same shape as a document (§14 A9) | track A replay, like any document (as a `:UserChat`, §15 A9) |
 | Conflicts and their resolutions (`conflicts.materialize`, `conflicts.resolve_conflict`) | `:Conflict` nodes only | `.artmind/data/curation/conflicts/<id>.json`, one file per conflict record (§14 A6, A9) | new track C: MERGE the record, or remove it when its file is deleted |
 | `same_as.yaml` edits | already a vault file | — | new track D: rebuild the keys in groups added/removed/changed between base and head |
 
-`update confirm` keeps writing Neo4j immediately (the user expects the fact now) **and**
-writes the staging folder; replaying it elsewhere is idempotent. Conflict ids must be
-deterministic across machines for C to work — they are derived from the conflicting
-observations, which needs verifying in `conflicts.materialize` before implementation.
+`update confirm` still puts the fact in Neo4j immediately (the user expects it now), but
+through the folder: it writes the `update__<session>__<draft>` staging folder and commits the
+graph *from* it with `ingest._commit_document_tx` as a `:UserChat` (§15 A9), so replaying it
+elsewhere is idempotent. Conflict ids are deterministic across machines
+(`conflicts.conflict_id`: sha1 of the sorted entity ids plus the aspect; see §15 A9), so track
+C's MERGE by id is idempotent.
 
 ## 8. Topologies
 
@@ -510,8 +512,8 @@ drafts. Its id, `update:<session_id>:<draft_id>`, is deterministic (a retried co
 same folder) and cannot collide across machines (a session's uuid4 lives in one machine's
 registry). `update confirm` writes the folder and commits the graph from it through
 `ingest._commit_document_tx` -- the transaction `vault sync` replays it with -- as a `:UserChat`
-(not a `:Document`). Deleting the folder (`artmind update retract`, or by hand) retracts it
-everywhere.
+(not a `:Document`). Deleting the folder retracts it everywhere; `artmind update retract`
+retracts the graph first and only then deletes the folder, so the retraction travels.
 
 Track D rebuilds with `same_as.yaml` as committed at `head`, never the working tree, and expands
 every key it rebuilds to the whole same-as groups touching it.
