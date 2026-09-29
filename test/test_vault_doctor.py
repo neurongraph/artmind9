@@ -65,7 +65,37 @@ def test_an_outdated_gitignore_block_fails_and_points_at_init(repo):
     assert result["ok"] is False
     assert check["status"] == "fail"
     assert "outdated" in check["detail"]
+    assert "(v1; this artmind writes v4)" in check["detail"]
     assert "artmind init" in check["fix"]
+
+
+def test_a_v3_block_is_flagged_by_version_and_its_tracked_scratch_file_listed_after_init(repo):
+    """A vault initialised before block v4 ignores scratch folders only: a
+    curation record's temp file a crash left behind was committable. Doctor
+    names both versions; after `artmind init` (write_gitignore) the file is
+    ignored-but-tracked and doctor prints the exact untrack command."""
+    from _historical_blocks import V3_GITIGNORE_BLOCK
+
+    (repo / ".gitignore").write_text(V3_GITIGNORE_BLOCK)
+    scratch = repo / ".artmind" / "data" / "curation" / "conflicts" / "abc.json.artmind-tmp"
+    scratch.parent.mkdir(parents=True)
+    scratch.write_text("{}")
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-qm", "a crash left a record's scratch file, and it was committed")
+
+    result = doc.run(repo)
+
+    block = _by_name(result)[".gitignore artmind block"]
+    assert block["status"] == "fail"
+    assert block["detail"] == "artmind block outdated (v3; this artmind writes v4)"
+    assert "artmind init" in block["fix"]
+    assert _by_name(result)["ignored paths still tracked"]["status"] == "ok", "v3 does not ignore a file"
+
+    assert vault.write_gitignore(repo) is True
+    tracked = _by_name(doc.run(repo))["ignored paths still tracked"]
+
+    assert tracked["status"] == "fail"
+    assert tracked["fix"] == "git rm -r --cached -- .artmind/data/curation/conflicts/abc.json.artmind-tmp"
 
 
 def test_a_missing_gitattributes_fails(repo):

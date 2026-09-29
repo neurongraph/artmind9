@@ -12,6 +12,7 @@ from _historical_blocks import (
     V1_GITIGNORE_BLOCK,
     V2_GITIGNORE_BLOCK_A,
     V2_GITIGNORE_BLOCK_B,
+    V3_GITIGNORE_BLOCK,
 )
 
 
@@ -612,12 +613,13 @@ _HISTORICAL_GITIGNORE_BLOCKS = {
     "v1": V1_GITIGNORE_BLOCK,
     "v2-a": V2_GITIGNORE_BLOCK_A,
     "v2-b": V2_GITIGNORE_BLOCK_B,
+    "v3": V3_GITIGNORE_BLOCK,
 }
 
 
 @pytest.mark.parametrize("name", sorted(_HISTORICAL_GITIGNORE_BLOCKS))
 @pytest.mark.parametrize("crlf", [False, True])
-def test_a_real_historical_block_upgrades_to_v3_byte_exactly(tmp_path, name, crlf):
+def test_a_real_historical_block_upgrades_to_current_byte_exactly(tmp_path, name, crlf):
     old_block = _HISTORICAL_GITIGNORE_BLOCKS[name]
     path = tmp_path / ".gitignore"
     text = "user-before\n*.log\n\n" + old_block + "user-after\n"
@@ -662,6 +664,20 @@ def test_table_folders_and_atomic_write_scratch_are_ignored(tmp_path):
     assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.artmind-tmp/document.json")
     assert _ignored(tmp_path, ".artmind/data/kg/banking/doc.artmind-old/document.json")
     assert not _ignored(tmp_path, ".artmind/data/kg/banking/doc/document.json")
+
+
+def test_scratch_files_are_ignored_as_well_as_scratch_folders(tmp_path):
+    """A curation record's temp file (Plan C) and a note rewrite's temp file
+    are FILES; v3 ignored only `*.artmind-tmp/` folders, so a crash between
+    write and rename left a file Obsidian Git would commit (block v4)."""
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+
+    assert _ignored(tmp_path, ".artmind/data/curation/conflicts/abc.json.artmind-tmp")
+    assert _ignored(tmp_path, ".artmind/data/0f3a.artmind-tmp")
+    assert _ignored(tmp_path, ".artmind/data/kg/banking/doc/document.json.artmind-old")
+    assert not _ignored(tmp_path, ".artmind/data/curation/conflicts/abc.json")
+    assert not _ignored(tmp_path, "notes/draft.artmind-tmp"), "only artmind's data dir is scratch space"
 
 
 def test_agent_auth_os_noise_and_obsidian_ui_state_are_ignored(tmp_path):
