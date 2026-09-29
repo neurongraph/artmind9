@@ -120,28 +120,35 @@ def preflight(vault_dir: Path) -> None:
             f"unresolved conflicts in {len(unmerged)} file(s) under {MARKER}/ ({', '.join(unmerged[:5])}"
             f"{', ...' if len(unmerged) > 5 else ''}) -- resolve them first"
         )
+    # The worker writes the same graph keys `sync` replays, and its staging
+    # writes are what `sync` would be reading.
+    if worker_running(vault_dir):
+        raise VaultSyncError(
+            "the ingest worker is running for this vault -- wait for it to finish "
+            "(`artmind ingest job-status`), then re-run `vault sync`"
+        )
+
+
+def worker_running(vault_dir: Path) -> bool:
+    """Whether the ingest worker is running for this vault -- `vault sync`
+    and `vault migrate-frontmatter` both refuse while it is.
+
+    Checked at every location a live worker for this vault could plausibly
+    hold (re-review item 2):
+     - this vault's own pid file (item 1's fix; the common case)
+     - paths.WORKER_PID_FILE: the process-wide location, which differs
+       from the vault's own when ARTMIND_HOME is explicitly pointed
+       elsewhere (a supported setup) -- the worker for THIS vault then
+       writes there, not under vault_dir/.artmind/
+     - paths.DATA_DIR / "worker.pid": the legacy (pre-item-1) location --
+       a worker started before that fix, still running old code, would
+       still hold this one. Drop this fallback after one release."""
     from artmind.vault import VaultLayout
     from artmind.worker_pid import live_pid
     import paths
 
-    # The worker writes the same graph keys `sync` replays, and its staging
-    # writes are what `sync` would be reading. Checked at every location a
-    # live worker for this vault could plausibly hold (re-review item 2):
-    #  - this vault's own pid file (item 1's fix; the common case)
-    #  - paths.WORKER_PID_FILE: the process-wide location, which differs
-    #    from the vault's own when ARTMIND_HOME is explicitly pointed
-    #    elsewhere (a supported setup) -- the worker for THIS vault then
-    #    writes there, not under vault_dir/.artmind/
-    #  - paths.DATA_DIR / "worker.pid": the legacy (pre-item-1) location --
-    #    a worker started before that fix, still running old code, would
-    #    still hold this one. Drop this fallback after one release.
     pid_files = {VaultLayout(vault_dir).worker_pid, paths.WORKER_PID_FILE, paths.DATA_DIR / "worker.pid"}
-    for pid_file in pid_files:
-        if live_pid(pid_file) is not None:
-            raise VaultSyncError(
-                "the ingest worker is running for this vault -- wait for it to finish "
-                "(`artmind ingest job-status`), then re-run `vault sync`"
-            )
+    return any(live_pid(pid_file) is not None for pid_file in pid_files)
 
 
 def _diff_name_status(vault_dir: Path, base: str, head: str, scope: Path) -> list[tuple[str, str]]:

@@ -3582,7 +3582,7 @@ def _echo_sync_status(sync: dict) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), and read-only readiness checks for Obsidian Git (`doctor`)."""
+    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), read-only readiness checks for Obsidian Git (`doctor`), and the one-off move of per-ingest fields out of notes (`migrate-frontmatter`)."""
     pass
 
 
@@ -3738,6 +3738,52 @@ def vault_doctor_cmd(compact):
     _echo_json(result, compact)
     if not result["ok"]:
         raise SystemExit(1)
+
+
+@vault.command("migrate-frontmatter")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Report which notes would be rewritten and what would move into document.json, writing nothing.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def vault_migrate_frontmatter_cmd(dry_run, compact):
+    """Move per-ingest fields (_version, _content_sha256, ...) out of every note's frontmatter into its staging document.json -- once.
+
+    Notes keep only `_artmind_id` and `_domain` (spec 2026-09-26 R6); older
+    artmind also wrote `_version`, `_content_sha256`, `_source_sha256`,
+    `_source_commit`, `_ingested_at`, `_source_path`, `_source_type` and
+    `_status` on every ingest. This copies each into the note's staging
+    folder (`.artmind/data/kg/<domain>/<note>/document.json`) where that key
+    is absent, then rewrites the note without them -- body, your own keys,
+    their order and line endings untouched. Converted binaries' markdown
+    (`.artmind/data/documents/markdowns/`) is migrated the same way.
+
+    Pause Obsidian Git's auto commit-and-sync first (the command reminds
+    you), then commit the result as one change. Idempotent and resumable:
+    re-run it after an interruption. A note with no staging folder keeps its
+    fields (they still work) and is listed under `skipped`, as is any note
+    that cannot be migrated safely (unreadable frontmatter, a BOM, a copy that
+    shares another note's `_artmind_id`, a symlink out of the vault); it is
+    left untouched and the run carries on. Refuses while a merge/rebase is in
+    progress, the ingest worker is running, or the vault is not a git repo.
+    Writes no git and no graph.
+    """
+    _setup_logger()
+    from artmind import vault as vault_mod
+    from artmind.frontmatter_migration import PAUSE_NOTICE, MigrationError, migrate
+
+    try:
+        vault_dir = vault_mod.resolve_vault()
+    except vault_mod.VaultError as e:
+        raise click.ClickException(str(e))
+    if vault_dir is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    click.echo(PAUSE_NOTICE, err=True)
+    try:
+        result = migrate(vault_dir, dry_run=dry_run)
+    except MigrationError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
