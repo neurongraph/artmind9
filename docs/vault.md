@@ -91,7 +91,8 @@ Two corollaries:
         │   └── a_deck_chunks/          ← chunk_001.md, chunks_meta.json
         ├── kg/<domain>/<doc>/          ← extraction output; COMMITTED
         ├── kg/<domain>/update__<session>__<draft>/  ← an `artmind update` fact; COMMITTED
-        ├── curation/<kind>/<id>.json   ← curation records (conflicts); COMMITTED
+        ├── curation/<kind>/<id>.json   ← curation records (conflicts, supersessions,
+        │                                  lifecycle, syntheses); COMMITTED
         ├── document_registry.db        ← path↔id cache; NOT committed
         ├── graph_snapshot/             ← *.tar.gz; NOT committed
         └── structured_snapshot/        ← *.tar.gz; NOT committed
@@ -353,7 +354,10 @@ never commits. What it replays:
   retracted from the graph;
 - a structured table whose CSV or `.meta.json` changed: restored into DuckDB,
   and re-projected into the graph when a table mapping names it. A table no
-  mapping names stays a structured-store table only;
+  mapping names stays a structured-store table only. A table whose CSV is
+  unchanged and whose `.meta.json` changed only in grain, bridge columns or
+  column mappings is restored into the registry alone (see "Curation that
+  travels");
 - every table a changed, added or removed **table mapping** matches, and the
   mapped tables of a domain whose **schema** changed (and of its dotted child
   domains). A table that a removed or narrowed mapping no longer covers is
@@ -391,6 +395,10 @@ every curation write is also a vault file:
 |---|---|---|
 | a fact added with `artmind update` | `kg/<domain>/update__<session>__<draft>/` (a staging folder) | `update confirm`; `update retract` deletes it |
 | a detected conflict, and its resolution | `curation/conflicts/<id>.json` | `ingest detect-conflicts`, `ingest resolve-conflict` |
+| a supersession | `curation/supersessions/<id>.json` | `ingest supersede`, `ingest detect-supersession`, the adjudicator |
+| a retired document | `curation/lifecycle/<id>.json` (exists while retired) | `docs retire`; `docs restore` deletes it |
+| an LLM-synthesised description | `curation/syntheses/<entity id>.json` | `projection synthesize` |
+| a table's grain, bridge columns, column mappings | the table's `.meta.json` | `db grain`, `db mappings`, `db bridge`, `db propose` |
 | a same-as group | `.artmind/same_as.yaml` | `sameas approve`, or you |
 
 Curation records are **one file per record**, never one shared file: every
@@ -401,6 +409,24 @@ file; re-detecting a conflict whose file exists never rewrites it (a
 resolved conflict is not reopened). If two machines both detect one before
 either pulls, git reports a conflict on that one file — keep either side
 (`git checkout --ours` or `--theirs` on it), it is the same conflict.
+
+A **retirement sticks**: re-ingesting a retired document, or `vault sync`
+replaying it, commits the new version and leaves it retired — only `docs
+restore` brings it back. A supersession sets the older document's `valid_to`
+and `superseded_by` from **all** the supersessions pointing at it, so deleting
+one supersession's file restores what the others say (nothing, when none is
+left); it does not un-retire the older document. A synthesis carries no
+embedding: `vault sync` re-embeds the entity locally. A table whose rows did
+not change but whose classifications did is restored into the registry alone —
+no parquet rewrite, no re-projection — and the graph's table catalogue is
+re-projected for its domain. That projection is not best-effort: if it fails
+the sync stops before any bookmark advances and the same range is retried.
+
+Two limits. The catalogue follows only in a run that includes both the graph
+and the structured store: `vault sync --store graph` does not restore a
+curation-only table change, so run `artmind db catalogue --domain <d>` there.
+And syntheses made before records existed have no file, so they travel only
+after `artmind projection synthesize --domain <d> --force` re-runs them.
 
 Same-as **proposals** (`sameas propose`, `ingest refine-graph`, and the
 adjudicator's "same entity" verdicts) stay on the machine that made them: they

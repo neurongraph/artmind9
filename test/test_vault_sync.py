@@ -4152,6 +4152,39 @@ def test_a_structured_only_run_never_projects_the_catalogue(repo, monkeypatch):
     assert calls["catalogue"] == []
 
 
+def test_pending_work_counts_every_curation_kind(repo, monkeypatch, curation_graph):
+    """Lifecycle, supersession and synthesis records are counted like
+    conflicts: each kind's own fingerprint read, one query per kind."""
+    from artmind import curation_records, synthesis_records
+    from artmind.observations import entity_id
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    base = vs.head_sha(repo)
+    curation_records.write_record("lifecycle", _lifecycle("docid-1"))
+    curation_records.write_record("supersessions", {
+        "id": "s1", "newer_doc_id": "d2", "older_doc_id": "d1", "scope": "document",
+        "effective": None, "detected_by": "manual", "domains": ["banking"],
+    })
+    key = ("widget", "RATE", "banking")
+    curation_records.write_record("syntheses", synthesis_records.record_from(key, {
+        "id": entity_id(key), "text": "t", "observation_set_hash": "h", "observation_ids": [],
+        "created_at": "t", "model": "m",
+    }))
+    _commit_all(repo, "three kinds of curation")
+    head = vs.head_sha(repo)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"]) == ("behind", 3)
+    reads = [c for c, _ in curation_graph.calls if "AS fingerprint" in c]
+    assert len(reads) == 3, "one fingerprint read per kind"
+    assert "3 curation records" in vs.staleness_message(pending)
+
+
 def test_the_structured_range_is_split_too_when_the_stores_start_apart(repo, monkeypatch, graph):
     """The graph is already at HEAD; DuckDB is one curation commit behind."""
     st_dir, base = _table_base(repo, monkeypatch)

@@ -1518,7 +1518,12 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, c
 @click.option("--effective", default=None, help="ISO date the supersession takes effect")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
-    """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to)."""
+    """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to).
+
+    The assertion is also a vault file (.artmind/data/curation/supersessions/),
+    so `vault sync` applies it on every other machine; the older document is
+    retired, which is its own vault file too.
+    """
     if scope != "document":
         raise click.ClickException(
             f"--scope {scope} is not yet supported. Sub-document supersession needs "
@@ -2780,6 +2785,10 @@ def docs_retire(domain: str, document_name: str, compact: bool) -> None:
     Entities left with no `latest` observation anywhere are then deleted by the
     projection rebuild — not because retire decided they were orphans, but
     because nothing asserts them any more. Reversible with `docs restore`.
+
+    The retirement is also a vault file (.artmind/data/curation/lifecycle/),
+    so `vault sync` retires the document on every other machine, and a later
+    re-ingest or replay of it keeps it retired.
     """
     _setup_logger()
     from artmind.lifecycle import resolve_document_id, retire_document
@@ -2801,7 +2810,8 @@ def docs_restore(domain: str, document_name: str, compact: bool) -> None:
 
     The exact inverse of `docs retire`. Because entity ids are deterministic
     and the projection is derived, restoring recreates the same entities with
-    the same ids rather than a parallel set.
+    the same ids rather than a parallel set. Deletes the retirement's vault
+    file, so `vault sync` restores it on every other machine too.
     """
     _setup_logger()
     from artmind.lifecycle import resolve_document_id, restore_document
@@ -2997,7 +3007,9 @@ def projection_synthesize(
     immediately (Entity.description + a fresh embedding, in the same write as
     the :Synthesis node) — a later `projection rebuild` will read the
     :Synthesis store back and reproduce the identical description, proving it
-    is a real input rather than a side effect.
+    is a real input rather than a side effect. Each synthesis is also a vault
+    file (.artmind/data/curation/syntheses/), so `vault sync` gives every
+    other machine the same description without another LLM call.
     """
     _setup_logger()
     from artmind.synthesize import synthesize
@@ -3637,11 +3649,15 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
 
     Curation travels the same way: an `artmind update` is a document folder
     (kg/<domain>/update__<session>__<draft>/, replayed as a UserChat); a
-    curation record under .artmind/data/curation/<kind>/ (a detected or
-    resolved conflict) is applied when added or changed and removed when
-    deleted; and the members of every same-as group added, removed or
-    changed in .artmind/same_as.yaml are rebuilt, with the groups as
-    committed at HEAD. Same-as proposals stay machine-local.
+    curation record under .artmind/data/curation/<kind>/ (a conflict, a
+    supersession, a retirement, a synthesis) is applied when added or changed
+    and removed when deleted; the members of every same-as group added,
+    removed or changed in .artmind/same_as.yaml are rebuilt, with the groups
+    as committed at HEAD; and a table whose .meta.json changed only in its
+    classifications (grain, bridge columns, mappings) has its registry rows
+    restored without re-importing its rows, and the graph's table catalogue
+    re-projected for its domain. A replayed document that is retired at HEAD
+    stays retired. Same-as proposals stay machine-local.
 
     Each store keeps its own bookmark: the graph's lives in the graph
     (one :ArtmindSyncState node per vault_id, so a shared AuraDB carries one

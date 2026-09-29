@@ -21,10 +21,14 @@ row, cleared or overwritten with no graph write involved.
 
 **What travels to other machines.** In a vault, `same_as.yaml` is
 `.artmind/same_as.yaml` (committed), and every detected conflict — with its
-resolution — is its own file under `.artmind/data/curation/conflicts/`.
-Obsidian Git commits both, and `artmind vault sync` on another machine
-rebuilds the changed same-as groups and applies the conflict records, so a
-machine with its own Neo4j ends up with the same curation. Same-as
+resolution — every supersession, every retirement and every synthesis is its
+own file under `.artmind/data/curation/`. Structured-table classifications
+(Workflow D) travel in the table's `.meta.json`, which each `db grain` /
+`db mappings` / `db bridge` / `db propose` rewrites. Obsidian Git commits all
+of them, and `artmind vault sync` on another machine applies them, so a
+machine with its own Neo4j ends up with the same curation. Syntheses made
+before records existed have no file and do not travel until
+`artmind projection synthesize --domain <d> --force` re-runs them. Same-as
 **proposals** (the review queue) do not travel: they stay on the machine
 that ran `sameas propose` / `detect-conflicts` / `refine-graph`, and only an
 approved group does.
@@ -290,9 +294,13 @@ artmind db bridge --domain <d> --compact   # the routing surface the query side 
 artmind db catalogue --domain <d>          # push confirmations into Neo4j (no re-ingest)
 ```
 
-`db catalogue` matters: confirming a mapping updates the registry only. The
-graph's catalogue subgraph is refreshed by ingest hooks, so a later
-confirmation needs this explicit re-projection to reach Neo4j.
+`db catalogue` matters: confirming a mapping updates the registry (and the
+table's `.meta.json`) only. The graph's catalogue subgraph is refreshed by
+ingest hooks, so a later confirmation needs this explicit re-projection to
+reach Neo4j on this machine; on other machines `vault sync` restores the
+confirmation and re-projects the catalogue itself (in a run that includes both
+the graph and the structured store — after `vault sync --store graph` alone,
+run `db catalogue` there).
 
 ### What confirming a bridge column currently buys
 

@@ -300,6 +300,11 @@ artmind docs retire --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 artmind docs restore --domain YOUR_DOMAIN --documentName DOCUMENT_NAME
 ```
 
+A retirement is a vault file (`.artmind/data/curation/lifecycle/`), so it
+reaches every machine through `vault sync`, and it **sticks**: re-ingesting
+the document, or another machine replaying it, keeps it retired. Only `docs
+restore` brings it back.
+
 **Archive** — the only actual removal artmind has (there is deliberately no
 `purge`). Bundles the document (staged KG JSON, vault markdown, original
 binary if any, a manifest) under `ARTMIND_ARCHIVE_DIR`, then removes it from

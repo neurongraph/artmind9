@@ -517,3 +517,47 @@ retracts the graph first and only then deletes the folder, so the retraction tra
 
 Track D rebuilds with `same_as.yaml` as committed at `head`, never the working tree, and expands
 every key it rebuilds to the whole same-as groups touching it.
+
+**A10. Every graph-only curation write travels (extends §7 and A9).** Tracing every command the
+chat and admin agents can run found four more writes that lived only in Neo4j or SQLite. Each
+is now a curation kind (A9's one file per record) or a table's `.meta.json`:
+
+- **Supersession** (`ingest supersede`, `ingest detect-supersession`, the adjudicator's
+  "superseded" verdict): `curation/supersessions/<sha1(newer|older|scope)>.json`. The older
+  document's `valid_to` and `superseded_by` are *derived* from every `SUPERSEDES` edge still
+  pointing at it (latest `effective` wins, ties by id; both null when none remains), so
+  un-asserting one -- deleting its file -- restores exactly what the remaining assertions say,
+  on every machine, whatever order they apply in. Only supersession writes those two properties
+  (a document's own window is `_valid_from`/`_valid_to`), which is what makes the derivation exact.
+- **Retirement** (`docs retire`/`restore`, archive restore, a document-scoped supersession):
+  `curation/lifecycle/<sha1(doc_id)>.json`, present exactly while the document is retired. A
+  retirement is **sticky**: a later re-ingest or replay of that document commits it and moves it
+  straight back to history in the same transaction, and `vault sync` re-applies the record
+  committed at `head` after replaying the document. Only `docs restore` (deleting the record)
+  brings it back. Un-asserting a supersession does not un-retire; the two records are
+  independent.
+- **Synthesis** (`projection synthesize`): `curation/syntheses/<entity id>.json` -- the
+  `:Synthesis` node plus the entity key, no embedding (derived; re-embedded locally). Applied
+  before `vault sync`'s rebuild, with its key in it, so the rebuilt description is the synthesis
+  and no machine pays the LLM again.
+- **Structured-store curation** (`db grain`, `db mappings`, `db bridge`, `db propose`): the command
+  re-exports the table's `.meta.json` (not its CSV). `vault sync` restores only the registry rows
+  of a table whose CSV is unchanged and whose meta changed only in curation fields -- no parquet
+  rewrite, no `table2graph` -- and re-projects the graph's catalogue subgraph for the domains whose
+  registry rows it restored. The projection is called directly, so a failure aborts the sync before
+  any bookmark advances and the same range is retried (all-or-nothing, §9).
+
+Limitations, by design:
+
+- The catalogue follows only in a run where the graph *and* the structured store are both in the
+  run. A `--store graph` run does not restore curation-only table changes (the structured
+  bookmark has not moved), and a `--store structured` run never touches Neo4j; the remedy is
+  `artmind db catalogue --domain <d>`.
+- Curation that predates records has no file and does not travel until re-asserted. In
+  particular a `:Synthesis` written before A10 has no record and no `key`; sync skips it while its
+  observation-set hash is current, so it travels only after `projection synthesize --force`.
+
+Still machine-local, by design (§14 A6): same-as proposals (`sameas propose`/`reject`,
+`ingest refine-graph`, `detect-conflicts`' same-entity verdicts) -- a review queue whose approved
+outcome travels as `same_as.yaml`. `query graph text2cypher` cannot write at all: it runs through
+`graph_query.read_session()`, which the server enforces as read-only.
