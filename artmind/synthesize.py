@@ -164,10 +164,17 @@ def synthesize_key(
         "created_at": datetime.now(timezone.utc).isoformat(),
         "model": model,
     }
+    # The synthesis travels (spec 2026-09-26 §15 A10): its record file is
+    # written first, and the node is written from it -- the same path `vault
+    # sync` applies on every other machine, which saves the LLM call there.
+    from artmind import curation_records, synthesis_records
+
+    record = synthesis_records.record_from(key, synthesis)
+    fingerprint = curation_records.write_record(synthesis_records.NAME, record)
 
     def _write(tx):
-        tx.run("MERGE (s:Synthesis {id: $id}) SET s = $props", id=eid, props=synthesis)
-        outcome = projection.rebuild_key(tx, key, synthesis=synthesis)
+        synthesis_records.apply(tx, record, fingerprint)
+        outcome = projection.rebuild_key(tx, key, synthesis=record)
         # rebuild_key already wrote description = synthesis["text"] and
         # flagged embedding_stale = true (the description changed). Overwrite
         # both here, in the SAME transaction — the embedding is never null

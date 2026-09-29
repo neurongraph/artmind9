@@ -3825,6 +3825,39 @@ def test_sync_restores_a_document_whose_lifecycle_record_was_deleted(repo, monke
     assert guards == [{"doc_id": "docid-1", "id": _lifecycle("docid-1")["id"]}], "the doc id comes from the record at base"
 
 
+def test_sync_applies_a_synthesis_before_the_rebuild_and_rebuilds_its_key(repo, monkeypatch, curation_graph):
+    """The rebuild reads `:Synthesis` back through its synthesis_loader, so
+    the node must exist first -- and its key must be in the rebuild."""
+    from artmind import curation_records, synthesis_records
+    from artmind.observations import entity_id
+    import artmind.table2graph as t2g
+
+    key = ("widget rate", "RATE_ENTRY", "banking")
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _patch_curation_dir(monkeypatch, repo)
+    curation_records.write_record("syntheses", synthesis_records.record_from(key, {
+        "id": entity_id(key), "text": "Synthesised.", "observation_set_hash": "h",
+        "observation_ids": ["o1"], "created_at": "t", "model": "m",
+    }))
+    _commit_all(repo, "a synthesis from the other machine")
+    _patch_ingest_and_projection(monkeypatch)
+    order = []
+    real_run = curation_graph.run
+
+    def _run(cypher, **params):
+        if cypher.startswith("MERGE (s:Synthesis"):
+            order.append("synthesis")
+        return real_run(cypher, **params)
+
+    curation_graph.run = _run
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: order.append(("rebuild", sorted(keys))) or {})
+
+    vs.sync(repo, bootstrap_empty=True)
+
+    assert order == ["synthesis", ("rebuild", [key])]
+
+
 def _replay_setup(repo, monkeypatch, *, retire_at_base):
     """doc1 committed (retired at base when asked), then re-extracted; the
     state cursor sits at the first commit. Returns the base commit."""

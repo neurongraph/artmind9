@@ -128,8 +128,8 @@ def test_remove_of_a_record_missing_a_content_field_falls_back_to_the_record_id(
 
 
 def test_the_supersessions_kind_runs_before_the_rebuild():
-    assert list(curation_records.kinds()) == ["lifecycle", "supersessions", "conflicts"], (
-        "lifecycle first, then supersessions, both before conflicts"
+    assert list(curation_records.kinds()) == ["lifecycle", "supersessions", "syntheses", "conflicts"], (
+        "lifecycle first, then supersessions, then syntheses, all before conflicts"
     )
     kind = curation_records.kinds()["supersessions"]
 
