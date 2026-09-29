@@ -1243,7 +1243,7 @@ def batch_keys(keys, groups: list[list[tuple]], size: int = REBUILD_BATCH) -> li
     return batches
 
 
-def _rebuild_in_batches(keys: list) -> dict:
+def _rebuild_in_batches(keys: list, groups: list | None = None) -> dict:
     """The projection rebuild for a committed table, one transaction per batch.
 
     This departs from a document commit, whose rebuild runs inside the same
@@ -1252,11 +1252,16 @@ def _rebuild_in_batches(keys: list) -> dict:
     which part of the projection is stale -- and if a batch fails, it stays
     stale until repaired. Every batch is idempotent, so the repair is to run
     the same `ingest table2graph` again (or `artmind projection rebuild`).
+
+    `groups` are the same-as groups to batch and rebuild with. None reads
+    `same_as.yaml` from disk -- right for `ingest table2graph`, wrong for
+    `vault sync`, which passes the file as committed at `head` so an
+    uncommitted edit never reaches the graph (spec 2026-09-26 §6 A1).
     """
     from artmind import projection, same_as
     from artmind.graph_query import neo4j_session
 
-    groups = same_as.load_groups()
+    groups = same_as.load_groups() if groups is None else groups
     batches = batch_keys(keys, groups, REBUILD_BATCH)
     totals = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": len(batches)}
     with neo4j_session() as session:

@@ -96,9 +96,30 @@ def load_groups(path: Path | None = None) -> list[list[tuple[str, str, str]]]:
     if not target.exists():
         return []
     try:
-        raw = yaml.safe_load(target.read_text(encoding="utf-8")) or {}
+        text = target.read_text(encoding="utf-8")
     except Exception as e:
-        logger.warning("same_as: could not parse {}: {}", target, e)
+        logger.warning("same_as: could not read {}: {}", target, e)
+        return []
+    return parse_groups(text, source=str(target))
+
+
+def parse_groups(text: str | None, *, source: str = "same_as.yaml") -> list[list[tuple[str, str, str]]]:
+    """`load_groups` over the file's TEXT rather than its path.
+
+    `vault sync` hands this the file as committed at a revision (`git show
+    <rev>:.artmind/same_as.yaml`) -- never the working tree (spec 2026-09-26
+    §6 A1). Same tolerance as `load_groups`: None, empty, unparseable or
+    non-mapping text yields no groups and (for a parse failure) a warning.
+    """
+    if not text:
+        return []
+    try:
+        raw = yaml.safe_load(text) or {}
+    except Exception as e:
+        logger.warning("same_as: could not parse {}: {}", source, e)
+        return []
+    if not isinstance(raw, dict):
+        logger.warning("same_as: {} is not a mapping with a 'groups' list; ignoring it", source)
         return []
 
     groups: list[list[tuple[str, str, str]]] = []
