@@ -19,6 +19,16 @@ confident about, since walking it back later costs one edit and one rebuild.
 Structured-table classifications (Workflow D) are lighter still: a registry
 row, cleared or overwritten with no graph write involved.
 
+**What travels to other machines.** In a vault, `same_as.yaml` is
+`.artmind/same_as.yaml` (committed), and every detected conflict — with its
+resolution — is its own file under `.artmind/data/curation/conflicts/`.
+Obsidian Git commits both, and `artmind vault sync` on another machine
+rebuilds the changed same-as groups and applies the conflict records, so a
+machine with its own Neo4j ends up with the same curation. Same-as
+**proposals** (the review queue) do not travel: they stay on the machine
+that ran `sameas propose` / `detect-conflicts` / `refine-graph`, and only an
+approved group does.
+
 ## Required Inputs
 
 - `domain` (one or more): ask if not provided. Pass every sibling domain the
@@ -128,8 +138,9 @@ severity, and cite both documents' provenance per finding.
 Same-as groups are the reversible mechanism they're described as above — this
 is not a forensic recovery, it's the ordinary undo path:
 
-1. Open `same_as.yaml` (in the run folder) and remove the offending group, or
-   remove just the wrong member from it.
+1. Open `same_as.yaml` (in the run folder — `.artmind/same_as.yaml` in a
+   vault, where other machines pick the edit up with `vault sync`) and remove
+   the offending group, or remove just the wrong member from it.
 2. `artmind projection rebuild --domain <d> --compact` (or a bare
    `artmind projection rebuild --compact` to also clear drift).
 3. The un-merged entity returns under its original deterministic id —
@@ -343,7 +354,10 @@ artmind ingest resolve-conflict <conflict_id> --status resolved --reason "<why>"
 ```
 
 Use `--status dismissed` for a false positive. `query graph conflicts --status all`
-shows closed ones afterwards. This applies to adjudicator-produced conflicts
+shows closed ones afterwards. The resolution is written to the conflict's
+record file (`.artmind/data/curation/conflicts/<id>.json`), so it travels to
+every machine with `vault sync`; re-detecting the conflict later never
+reopens it. This applies to adjudicator-produced conflicts
 (`_source: 'adjudicator'`, the ones `query graph conflicts` surfaces);
 projection-produced conflicts (`_source: 'projection'`, a single entity's own
 property disputed within one instant — see artmind-query's Adjudicate step)

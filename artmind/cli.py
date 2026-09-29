@@ -3601,7 +3601,7 @@ def vault_status(compact: bool):
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
-    """Replay committed KG-staging, structured-text, table-mapping and schema changes into Neo4j/DuckDB since each store's bookmark.
+    """Replay committed KG-staging, structured-text, table-mapping, schema and curation changes into Neo4j/DuckDB since each store's bookmark.
 
     Detects exactly which document folders under .artmind/data/kg/**, which
     structured-store tables under .artmind/data/structured_text/**, and which
@@ -3613,6 +3613,14 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
     removed mapping no longer covers is retracted from the graph; a table no
     mapping names is restored to the structured store only. Complements (does
     not replace) `session close`/`session initiate`'s whole-graph snapshot.
+
+    Curation travels the same way: an `artmind update` is a document folder
+    (kg/<domain>/update__<session>__<draft>/, replayed as a UserChat); a
+    curation record under .artmind/data/curation/<kind>/ (a detected or
+    resolved conflict) is applied when added or changed and removed when
+    deleted; and the members of every same-as group added, removed or
+    changed in .artmind/same_as.yaml are rebuilt, with the groups as
+    committed at HEAD. Same-as proposals stay machine-local.
 
     Each store keeps its own bookmark: the graph's lives in the graph
     (one :ArtmindSyncState node per vault_id, so a shared AuraDB carries one

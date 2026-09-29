@@ -327,8 +327,8 @@ machine; with a shared AuraDB it survives only until the next wipe-and-rebuild.
 
 | Write today | Stored as | New file in the vault | Applied by |
 |---|---|---|---|
-| `artmind update` facts (`update.py`, direct Cypher) | Neo4j + gitignored registry drafts | `.artmind/data/kg/<domain>/update__<session_id>/` — `document.json` + `observations.json`, the same shape as a document | track A replay, like any document |
-| Conflict resolutions (`conflicts.resolve_conflict`) | `:Conflict.status` only | `.artmind/data/curation/conflicts.yaml` keyed by conflict id (status, reason, resolved_at) | new track C: set statuses from the file |
+| `artmind update` facts (`update.py`, direct Cypher) | Neo4j + gitignored registry drafts | `.artmind/data/kg/<domain>/update__<session_id>__<draft_id>/` — `document.json` + `observations.json`, the same shape as a document (§14 A9) | track A replay, like any document |
+| Conflicts and their resolutions (`conflicts.materialize`, `conflicts.resolve_conflict`) | `:Conflict` nodes only | `.artmind/data/curation/conflicts/<id>.json`, one file per conflict record (§14 A6, A9) | new track C: MERGE the record, or remove it when its file is deleted |
 | `same_as.yaml` edits | already a vault file | — | new track D: rebuild the keys in groups added/removed/changed between base and head |
 
 `update confirm` keeps writing Neo4j immediately (the user expects the fact now) **and**
@@ -400,8 +400,8 @@ Hermetic tests use real throwaway git repos (`git init` in `tmp_path`), not mock
   A bookmark whose commit has been rewritten away (no longer an ancestor of `HEAD`) is
   refused, not silently diffed.
 - **Preflight:** `MERGE_HEAD` present → refuses, bookmarks untouched.
-- **§7 tracks:** an `update__*` folder replays; a `conflicts.yaml` change sets
-  `:Conflict.status`; a `same_as.yaml` group change rebuilds exactly its keys.
+- **§7 tracks:** an `update__*` folder replays; a changed conflict record file
+  MERGEs its `:Conflict`; a `same_as.yaml` group change rebuilds exactly its keys.
 - **Legacy compatibility:** a vault with `manifest.json` and fat frontmatter still
   imports and versions correctly.
 
@@ -477,9 +477,9 @@ only `observations.json`, so a folder committed in two halves still converges.
 
 **A6. Conflict records travel, not just their status (amends §7).** Conflicts are *detected* by
 an LLM and written only to Neo4j, so a machine with its own Neo4j never sees them at all.
-`.artmind/data/curation/conflicts.yaml` holds the conflict record itself (id, the two entity
-keys, aspect, verdict, evidence summary, status, reason, timestamps); apply MERGEs `:Conflict`
-nodes and `CONFLICTS_WITH` edges from it. Ids are deterministic (§13), so re-detecting the same
+The conflict record itself (id, the two entity keys, aspect, verdict, evidence summary, status,
+reason, timestamps) travels as a vault file -- one file per conflict, not a shared
+`conflicts.yaml` (§14 A9); apply MERGEs `:Conflict` nodes and `CONFLICTS_WITH` edges from it. Ids are deterministic (§13), so re-detecting the same
 conflict on another machine MERGEs onto the same record rather than duplicating it.
 Same-as **proposals** stay machine-local: they are a review queue, and an approved group already
 travels as `same_as.yaml`.
@@ -489,3 +489,29 @@ A conflicted human note does not affect what sync applies, and Obsidian shows it
 
 **A8. Automatic apply is in scope (amends §12 item 6).** Opt-in `ARTMIND_VAULT_AUTO_APPLY=1`:
 `serve` polls `HEAD` and runs the same apply when the preflight passes and the graph is behind.
+
+## 15. Amendments (2026-09-28, phase 4 -- curation travels)
+
+**A9. One file per curation record; update folders per confirmed draft (amends §7, §14 A6).**
+Every path under `.artmind/data/**` is `merge=binary` (R3), so one shared `conflicts.yaml` would
+turn two machines' independent curation into a whole-file conflict that blocks `vault sync`.
+Each curation record is its own file, `.artmind/data/curation/<kind>/<id>.json`, written
+atomically and serialised deterministically; `conflicts` is the first kind
+(`artmind/curation_records.py`, `artmind/conflict_records.py`). A detection never rewrites an
+existing record, so a conflict another machine recorded -- and perhaps resolved -- is neither
+reopened nor churned; two machines colliding on one record only happens when both detect it
+before either pulls, and then either side may be kept. The graph carries each record's
+fingerprint (`:Conflict.record_fingerprint`), so a shared graph skips records it already has, and
+`vault status` counts only what is really pending.
+
+An `artmind update` is one folder per confirmed draft,
+`kg/<domain>/update__<session_id>__<draft_id>/`, not per session: a session can confirm several
+drafts. Its id, `update:<session_id>:<draft_id>`, is deterministic (a retried confirm rewrites the
+same folder) and cannot collide across machines (a session's uuid4 lives in one machine's
+registry). `update confirm` writes the folder and commits the graph from it through
+`ingest._commit_document_tx` -- the transaction `vault sync` replays it with -- as a `:UserChat`
+(not a `:Document`). Deleting the folder (`artmind update retract`, or by hand) retracts it
+everywhere.
+
+Track D rebuilds with `same_as.yaml` as committed at `head`, never the working tree, and expands
+every key it rebuilds to the whole same-as groups touching it.

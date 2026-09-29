@@ -18,6 +18,12 @@ Each store has its own bookmark (§6 A2): the graph's in the graph
 whose committed fingerprint the graph already carries is skipped (§6 A3),
 and `pending_work`/`query_staleness_warning` report what is still to apply
 (§6 A4). artmind never writes to this vault's git (D2) -- only reads it.
+
+Curation travels too (spec §7, §15 A9): `artmind update` folders
+(`kg/<domain>/update__*`) replay with track A; track C applies curation
+records (`.artmind/data/curation/<kind>/<id>.json`, `artmind.curation_records`)
+and track D rebuilds the members of every same-as group changed in
+`.artmind/same_as.yaml`, with the groups as committed at `head`.
 """
 from __future__ import annotations
 

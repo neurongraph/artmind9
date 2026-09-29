@@ -90,6 +90,8 @@ Two corollaries:
         │   ├── a_deck_artifacts/       ← extracted images + their descriptions
         │   └── a_deck_chunks/          ← chunk_001.md, chunks_meta.json
         ├── kg/<domain>/<doc>/          ← extraction output; COMMITTED
+        ├── kg/<domain>/update__<session>__<draft>/  ← an `artmind update` fact; COMMITTED
+        ├── curation/<kind>/<id>.json   ← curation records (conflicts); COMMITTED
         ├── document_registry.db        ← path↔id cache; NOT committed
         ├── graph_snapshot/             ← *.tar.gz; NOT committed
         └── structured_snapshot/        ← *.tar.gz; NOT committed
@@ -355,7 +357,14 @@ never commits. What it replays:
 - every table a changed, added or removed **table mapping** matches, and the
   mapped tables of a domain whose **schema** changed (and of its dotted child
   domains). A table that a removed or narrowed mapping no longer covers is
-  retracted from the graph.
+  retracted from the graph;
+- an **`artmind update`** — each confirmed draft is a staging folder,
+  `kg/<domain>/update__<session>__<draft>/`, replayed like any document folder
+  (as a `UserChat`, not a `Document`); a deleted one is retracted;
+- every **same-as group** added, removed or changed in `.artmind/same_as.yaml`:
+  exactly its members are rebuilt, with the groups as committed at `HEAD`;
+- every **curation record** added, changed or deleted under
+  `.artmind/data/curation/` (see "Curation that travels" below).
 
 A table's identity is `(domain, table_name)`, not a SQLite id: `.meta.json`
 carries no machine-local id at all — neither the table's own nor any child
@@ -371,6 +380,31 @@ with no Obsidian that must still follow the remote (e.g. a
 query-only host) uses a plain `git pull --no-rebase` on a launchd/cron timer
 instead — documented, not built into artmind. Design:
 `docs/superpowers/specs/2026-09-26-vault-git-transport-design.md`.
+
+#### Curation that travels
+
+The graph must be rebuildable from the vault alone: a machine with its own
+Neo4j never sees a write that exists only in another machine's graph. So
+every curation write is also a vault file:
+
+| Curation | Vault file | Written by |
+|---|---|---|
+| a fact added with `artmind update` | `kg/<domain>/update__<session>__<draft>/` (a staging folder) | `update confirm`; `update retract` deletes it |
+| a detected conflict, and its resolution | `curation/conflicts/<id>.json` | `ingest detect-conflicts`, `ingest resolve-conflict` |
+| a same-as group | `.artmind/same_as.yaml` | `sameas approve`, or you |
+
+Curation records are **one file per record**, never one shared file: every
+path under `.artmind/data/` merges as a whole file, so a shared file would
+make any two machines' curation a git conflict. A conflict's id is
+deterministic, so two machines detecting the same conflict name the same
+file; re-detecting a conflict whose file exists never rewrites it (a
+resolved conflict is not reopened). If two machines both detect one before
+either pulls, git reports a conflict on that one file — keep either side
+(`git checkout --ours` or `--theirs` on it), it is the same conflict.
+
+Same-as **proposals** (`sameas propose`, `ingest refine-graph`, and the
+adjudicator's "same entity" verdicts) stay on the machine that made them: they
+are a review queue, and an approved group travels as `same_as.yaml`.
 
 #### Sync bookmarks, fingerprints, and the two topologies
 
@@ -424,9 +458,10 @@ store is already known-current, or `--store <name> --bootstrapEmpty` to
 replay everything committed.
 
 `artmind vault status` shows HEAD, both bookmarks, how many documents and
-tables each store is behind (after the fingerprint check), a merge in
-progress, and unresolved conflicts under `.artmind/`; `--compact` gives the
-same as JSON. After a successful `artmind query ...` in a vault this machine
+tables each store is behind (after the fingerprint check) — and, for the
+graph, how many curation records and same-as groups — a merge in progress,
+and unresolved conflicts under `.artmind/`; `--compact` gives the same as
+JSON. After a successful `artmind query ...` in a vault this machine
 has synced, a line such as
 
     artmind: graph is 3 docs / 1 tables behind the vault — run `artmind vault sync`
