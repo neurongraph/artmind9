@@ -1461,14 +1461,21 @@ ADVISORY_TIMEOUT = 2.0
 def _store_pending(
     vault_dir: Path, store: str, bookmark: str | None, head: str, *, timeout: float | None
 ) -> dict:
-    """`{"bookmark", "state", "docs", "tables", "detail"}` for one store.
-    `state` is `current`, `behind`, `no_bookmark`, `not_ancestor` (the
-    bookmark is not in HEAD's history: pull first) or `error` (the range
-    cannot be classified -- e.g. a table mapping broken at HEAD; `detail`
-    says why, and `vault sync` would refuse with the same message). `docs`
-    counts documents still to replay or retract after the fingerprint check
-    (graph only); `tables` lists `(domain, table)` still to restore/project."""
-    report = {"bookmark": bookmark, "state": "current", "docs": 0, "tables": [], "detail": None}
+    """`{"bookmark", "state", "docs", "tables", "curation", "same_as_groups",
+    "detail"}` for one store. `state` is `current`, `behind`, `no_bookmark`,
+    `not_ancestor` (the bookmark is not in HEAD's history: pull first) or
+    `error` (the range cannot be classified -- e.g. a table mapping broken at
+    HEAD; `detail` says why, and `vault sync` would refuse with the same
+    message). `docs` counts documents -- `artmind update` folders included --
+    still to replay or retract after the fingerprint check (graph only);
+    `tables` lists `(domain, table)` still to restore/project; `curation`
+    counts curation records still to apply or remove after their own
+    fingerprint check, and `same_as_groups` the same-as groups changed in the
+    range (graph only)."""
+    report = {
+        "bookmark": bookmark, "state": "current", "docs": 0, "tables": [],
+        "curation": 0, "same_as_groups": 0, "detail": None,
+    }
     if bookmark is None:
         report["state"] = "no_bookmark"
         return report
@@ -1484,9 +1491,9 @@ def _store_pending(
     try:
         if store == "structured":
             tables, _ = _classify_structured_text_diff(vault_dir, bookmark, head, None)
-            docs = 0
+            docs = curation = same_as_groups = 0
         else:
-            docs, tables = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
+            docs, tables, curation, same_as_groups = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
     except VaultSyncError as e:
         report.update(state="error", detail=str(e))
         return report
@@ -1500,17 +1507,24 @@ def _store_pending(
         # path can legitimately raise, so a genuine bug still crashes.
         report.update(state="error", detail=f"graph unreachable: {e}")
         return report
-    report.update(state="behind" if docs or tables else "current", docs=docs, tables=sorted(tables))
+    behind = docs or tables or curation or same_as_groups
+    report.update(
+        state="behind" if behind else "current", docs=docs, tables=sorted(tables),
+        curation=curation, same_as_groups=same_as_groups,
+    )
     return report
 
 
 def _graph_pending(
     vault_dir: Path, bookmark: str, head: str, *, timeout: float | None
-) -> tuple[int, set[tuple[str, str]]]:
-    """`(docs, tables)` the graph still has to apply between `bookmark` and
-    `head`: a replay counts unless the graph already carries its committed
-    fingerprint; a retraction counts only while the graph still has the
-    document. ONE Cypher read covers both."""
+) -> tuple[int, set[tuple[str, str]], int, int]:
+    """`(docs, tables, curation, same_as_groups)` the graph still has to
+    apply between `bookmark` and `head`: a replay counts unless the graph
+    already carries its committed fingerprint; a retraction counts only while
+    the graph still has the document. ONE Cypher read covers both. Curation
+    records are counted the same way (one read per kind in the range), and
+    every same-as group changed in the range counts -- the graph keeps no
+    per-group fingerprint to compare against."""
     from artmind import sync_state
 
     plan = classify_diff(vault_dir, bookmark, head)
@@ -1523,7 +1537,16 @@ def _graph_pending(
     tables = set(plan.regenerate_tables)
     tables |= {tuple(doc_id.split(":", 2)[1:]) for doc_id in retract if doc_id.startswith("table:")}
     docs = len(replay) + sum(1 for doc_id in retract if not doc_id.startswith("table:"))
-    return docs, tables
+    curation = 0
+    if plan.curation:
+        committed_records = committed_curation_fingerprints(vault_dir, head, plan)
+        held = _graph_curation_fingerprints(plan.curation, timeout=timeout)
+        curation = sum(
+            1 for kind, record_id, action in plan.curation
+            if (action == "apply" and held.get((kind, record_id)) != committed_records.get((kind, record_id)))
+            or (action == "remove" and (kind, record_id) in held)
+        )
+    return docs, tables, curation, plan.same_as_groups
 
 
 def pending_work(
@@ -1548,10 +1571,23 @@ def _one_line(detail: object) -> str:
     return " ".join(str(detail).split())
 
 
+def curation_phrase(report: dict) -> str:
+    """` / K curation records / G same-as groups` for a graph store's
+    pending report -- each part only when non-zero, so the line reads as
+    before when no curation is pending."""
+    parts = []
+    if report.get("curation"):
+        parts.append(f"{report['curation']} curation records")
+    if report.get("same_as_groups"):
+        parts.append(f"{report['same_as_groups']} same-as groups")
+    return "".join(f" / {part}" for part in parts)
+
+
 def staleness_message(pending: dict) -> str | None:
     """The one advisory line for stderr, or None when nothing is pending.
     `M tables` counts every table either store still has to apply -- a table
-    restored into DuckDB is also what the graph projects."""
+    restored into DuckDB is also what the graph projects. Pending curation
+    records and same-as groups follow, when there are any."""
     graph = pending.get("graph", {})
     structured = pending.get("structured", {})
     for name, report in (("graph", graph), ("structured", structured)):
@@ -1576,11 +1612,12 @@ def staleness_message(pending: dict) -> str | None:
         )
     tables = {tuple(t) for t in graph.get("tables", [])} | {tuple(t) for t in structured.get("tables", [])}
     docs = graph.get("docs", 0)
-    if not docs and not tables:
+    extra = curation_phrase(graph)
+    if not docs and not tables and not extra:
         return None
-    if not docs and not graph.get("tables"):
+    if not docs and not graph.get("tables") and not extra:
         return f"artmind: structured store is {len(tables)} tables behind the vault — run `artmind vault sync`"
-    return f"artmind: graph is {docs} docs / {len(tables)} tables behind the vault — run `artmind vault sync`"
+    return f"artmind: graph is {docs} docs / {len(tables)} tables{extra} behind the vault — run `artmind vault sync`"
 
 
 def query_staleness_warning(vault_dir: Path | None) -> str | None:

@@ -2767,9 +2767,11 @@ def test_pending_work_reports_current_when_a_stores_bookmark_is_already_head(rep
 
     pending = vs.pending_work(repo, c3, marks)
 
-    assert pending["graph"] == {"bookmark": c3, "state": "current", "docs": 0, "tables": [], "detail": None}
+    assert pending["graph"] == {
+        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
+    }
     assert pending["structured"] == {
-        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "detail": None,
+        "bookmark": c3, "state": "current", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
     }
 
 
@@ -2783,9 +2785,11 @@ def test_pending_work_reports_no_bookmark_when_a_store_has_never_synced(repo, mo
 
     pending = vs.pending_work(repo, c3, marks)
 
-    assert pending["graph"] == {"bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "detail": None}
+    assert pending["graph"] == {
+        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
+    }
     assert pending["structured"] == {
-        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "detail": None,
+        "bookmark": None, "state": "no_bookmark", "docs": 0, "tables": [], "curation": 0, "same_as_groups": 0, "detail": None,
     }
 
 
@@ -3512,3 +3516,90 @@ def test_a_deleted_update_folder_retracts_its_user_chat(repo, monkeypatch):
     vs.sync(repo)
 
     assert calls["retract_document"] == [(chat_id, "general")]
+
+
+# ── pending work counts updates, curation records and same-as groups (§6 A4) ──
+
+
+def test_pending_work_counts_an_update_folder_the_graph_lacks_as_a_doc(repo, monkeypatch, graph):
+    from artmind import sync_state
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    (repo / "a.txt").write_text("x")
+    _commit_all(repo, "base")
+    base = vs.head_sha(repo)
+    folder, chat_id = _write_update_folder(kg_dir, "general", "s1", 7)
+    _commit_all(repo, "an update")
+    head = vs.head_sha(repo)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+    assert (pending["graph"]["state"], pending["graph"]["docs"]) == ("behind", 1)
+
+    graph.fingerprints[chat_id] = sync_state.folder_fingerprint(folder)
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+    assert (pending["graph"]["state"], pending["graph"]["docs"]) == ("current", 0)
+
+
+def test_pending_work_counts_only_curation_records_the_graph_does_not_hold(repo, monkeypatch, curation_graph):
+    from artmind import curation_records
+
+    base = _curation_base(repo, monkeypatch, _conflict("gone"), _conflict("kept-gone"), _conflict("stale"))
+    fp = curation_records.write_record("conflicts", _conflict("applied"))
+    curation_records.write_record("conflicts", _conflict("new"))
+    curation_records.delete_record("conflicts", "gone")
+    curation_records.delete_record("conflicts", "kept-gone")
+    curation_records.write_record("conflicts", _conflict("stale", status="resolved"))
+    _commit_all(repo, "two added, two removed, one changed")
+    head = vs.head_sha(repo)
+    # "applied" is already in the graph at this version; "gone" is still in
+    # the graph; "kept-gone" was already removed from it; "stale" is in the
+    # graph too, but under the fingerprint from before it changed -- present
+    # AND different from what's committed at head, which must count as
+    # pending exactly like an absent record does (not just "held is None").
+    curation_graph.fingerprints = {"applied": fp, "gone": "whatever", "stale": "an outdated fingerprint"}
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["curation"], pending["graph"]["docs"]) == ("behind", 3, 0)
+
+
+def test_pending_work_counts_changed_same_as_groups(repo, monkeypatch, graph):
+    path, base = _same_as_base(repo, monkeypatch, _ACME)
+    _write_groups(path, _ACME, _FCA)
+    _commit_all(repo, "add fca")
+    head = vs.head_sha(repo)
+
+    pending = vs.pending_work(repo, head, vs.Bookmarks(graph=base, structured=head))
+
+    assert (pending["graph"]["state"], pending["graph"]["same_as_groups"]) == ("behind", 1)
+
+
+def test_the_staleness_line_names_curation_and_same_as_only_when_pending():
+    report = {"bookmark": "b", "state": "behind", "docs": 1, "tables": [], "curation": 2, "same_as_groups": 1, "detail": None}
+
+    assert vs.staleness_message({"graph": report, "structured": _current("b")}) == (
+        "artmind: graph is 1 docs / 0 tables / 2 curation records / 1 same-as groups behind the vault"
+        " — run `artmind vault sync`"
+    )
+    only_curation = dict(report, docs=0, same_as_groups=0)
+    assert vs.staleness_message({"graph": only_curation, "structured": _current("b")}) == (
+        "artmind: graph is 0 docs / 0 tables / 2 curation records behind the vault — run `artmind vault sync`"
+    )
+    assert vs.staleness_message({"graph": _current("b"), "structured": _current("b")}) is None
+
+
+def test_vault_status_prints_pending_curation_on_the_graph_line(capsys):
+    from artmind.cli import _echo_sync_status
+
+    _echo_sync_status({
+        "head": "h", "graph_error": None, "legacy_cursor": None, "operation_in_progress": None,
+        "unresolved_conflicts": [], "message": None,
+        "stores": {
+            "graph": {"bookmark": "b", "state": "behind", "docs": 0, "tables": [], "curation": 3,
+                      "same_as_groups": 0, "detail": None},
+            "structured": {"bookmark": "b", "state": "current", "docs": 0, "tables": [], "detail": None},
+        },
+    })
+
+    assert "graph      b  0 docs / 0 tables / 3 curation records behind" in capsys.readouterr().out

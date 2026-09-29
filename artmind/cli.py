@@ -3508,7 +3508,7 @@ def _vault_status_impl(compact: bool) -> None:
 
 def _echo_sync_status(sync: dict) -> None:
     """The `vault sync` half of `vault status`, human-readable."""
-    from artmind.vault_sync import _one_line
+    from artmind.vault_sync import _one_line, curation_phrase
 
     click.echo(f"HEAD:     {sync['head'] or '(no commits yet)'}")
     for store, label in (("graph", "graph     "), ("structured", "structured")):
@@ -3520,7 +3520,10 @@ def _echo_sync_status(sync: dict) -> None:
         state = report.get("state")
         if state == "behind":
             tables = len(report.get("tables") or [])
-            what = f"{report['docs']} docs / {tables} tables behind" if store == "graph" else f"{tables} tables behind"
+            what = (
+                f"{report['docs']} docs / {tables} tables{curation_phrase(report)} behind"
+                if store == "graph" else f"{tables} tables behind"
+            )
         else:
             what = {
                 "current": "current",
