@@ -14,6 +14,12 @@ tabular source's identity is path-only, and losing the registry loses it for
 good. `reindex` reports these as a known gap (any `.md` with no `_artmind_id`
 is reported too, for the same reason) rather than silently doing nothing
 about them.
+
+Identity (`_artmind_id`, `_domain`) comes from each note's frontmatter; the
+content hash from the staging folder's `document.json` (spec 2026-09-26 R6;
+stem lookup only -- a reindex over thousands of notes must not scan a domain
+per note), a pre-R6 note's own `_content_sha256` as the fallback, else the
+body itself.
 """
 from __future__ import annotations
 
@@ -51,7 +57,8 @@ def reindex() -> dict:
     if ARTMIND_VAULT_DIR is None:
         raise RuntimeError("ARTMIND_VAULT_DIR is not configured -- nothing to reindex from")
 
-    from artmind.ingest import _parse_md_frontmatter  # local: avoid a cycle, ingest imports this module
+    from artmind.document_identity import ingest_baseline
+    from artmind.ingest import _parse_md_frontmatter, staged_document  # local: avoid a cycle
 
     registered = 0
     skipped_no_id: list[str] = []
@@ -71,7 +78,14 @@ def reindex() -> dict:
             if not artmind_id:
                 skipped_no_id.append(str(path))
                 continue
-            content_sha256 = meta.get("_content_sha256") or compute_content_sha256(body)
+            # `_domain` is hand-editable: only a plain directory name may reach
+            # the staging lookup (`kg/<domain>/`), and only a string can be
+            # stored. Anything else is "no domain": the body hash below.
+            domain = meta.get("_domain")
+            domain = domain if isinstance(domain, str) else ""
+            safe_domain = domain if domain and "/" not in domain and ".." not in domain else None
+            staged = staged_document(safe_domain, [path.stem], artmind_id)
+            content_sha256 = ingest_baseline(staged, meta)["_content_sha256"] or compute_content_sha256(body)
             conn.execute(
                 """
                 INSERT INTO documents (artmind_id, domain, path, content_sha256, last_ingested_at)
@@ -82,7 +96,7 @@ def reindex() -> dict:
                     content_sha256 = excluded.content_sha256,
                     last_ingested_at = excluded.last_ingested_at
                 """,
-                (artmind_id, meta.get("_domain", ""), canonical_path(path), content_sha256, now),
+                (artmind_id, domain, canonical_path(path), content_sha256, now),
             )
             registered += 1
         conn.commit()

@@ -37,7 +37,7 @@ from loguru import logger
 
 from artmind import vault_git
 from artmind.db import _get_db
-from artmind.document_identity import compute_content_sha256, resolve_canonical_path
+from artmind.document_identity import canonical_path, compute_content_sha256, resolve_canonical_path
 from artmind.graph_query import neo4j_session, read_session
 from artmind.lifecycle import resolve_document_id
 from paths import ARTMIND_ARCHIVE_DIR, ARTMIND_VAULT_DIR, KG_DIR, ORIGINALS_DIR
@@ -45,7 +45,7 @@ from paths import ARTMIND_ARCHIVE_DIR, ARTMIND_VAULT_DIR, KG_DIR, ORIGINALS_DIR
 INDEX_FILENAME = "index.jsonl"
 
 
-class ArchiveCollision(Exception):
+class ArchiveCollision(ValueError):
     """A restore-from-archive collision — the target vault path now holds a
     different file, or the id is already live. The same two-claimant refusal
     as `document_identity.IdentityConflict`; resolved with `--toPath` /
@@ -171,19 +171,39 @@ def archive_document(domain: str, document_name: str) -> dict:
         except ValueError:
             vault_path = Path(str(vault_rel_path))
 
-    from artmind.ingest import _parse_md_frontmatter  # local: avoid a cycle
+    from artmind.ingest import (  # local: avoid a cycle
+        _locate_staged,
+        _parse_md_frontmatter,
+        _read_staged_document,
+    )
 
     meta: dict = {}
     if vault_path is not None and vault_path.exists():
         meta, _ = _parse_md_frontmatter(vault_path.read_text(encoding="utf-8"))
 
     stem = vault_path.stem if vault_path is not None else Path(str(info.get("name") or doc_id)).stem
-    source_type = meta.get("_source_type", "md")
+    kg_dir = KG_DIR / domain / stem
+    # The source type is per-ingest provenance: the staging folder's
+    # document.json carries it (spec 2026-09-26 R6), a pre-R6 note's own
+    # frontmatter is the fallback. Looked up by the note's current stem first;
+    # a note that was moved since its extraction has its folder under the OLD
+    # stem, so a miss falls back to finding it by id (`_locate_staged`).
+    staged = _read_staged_document(kg_dir, doc_id)
+    stems = [stem]
+    if staged is None:
+        located = _locate_staged(doc_id, [stem], [domain])
+        if located:
+            kg_dir, staged = located[0], located[1]
+            stems.append(kg_dir.name)
+    staged = staged or {}
+    source_type = staged.get("source_type") or meta.get("_source_type", "md")
     original_path: Path | None = None
     if source_type and source_type != "md":
-        candidate = ORIGINALS_DIR / f"{stem}.{source_type}"
-        if candidate.exists():
-            original_path = candidate
+        for candidate_stem in stems:
+            candidate = ORIGINALS_DIR / f"{candidate_stem}.{source_type}"
+            if candidate.exists():
+                original_path = candidate
+                break
 
     bundle_dir = ARTMIND_ARCHIVE_DIR / doc_id
     if bundle_dir.exists():
@@ -198,7 +218,6 @@ def archive_document(domain: str, document_name: str) -> dict:
     if original_path is not None:
         shutil.copy2(original_path, bundle_dir / f"original.{source_type}")
 
-    kg_dir = KG_DIR / domain / stem
     if kg_dir.exists():
         shutil.copytree(kg_dir, bundle_dir / "kg" / domain / stem)
 
@@ -291,45 +310,41 @@ def restore_from_archive(
     else:
         target_path = Path(target_rel)
 
+    # A note already at the target is never overwritten with anything but its
+    # own bytes -- with or without `to_path` -- and a bundle with no
+    # document.md has nothing to compare against.
     doc_md = bundle_dir / "document.md"
-    if target_path.exists() and not to_path:
-        if not doc_md.exists() or target_path.read_bytes() != doc_md.read_bytes():
-            raise ArchiveCollision(
-                f"{target_path} already holds a different file -- pass to_path= "
-                "to restore elsewhere"
-            )
+    if target_path.exists() and (not doc_md.exists() or target_path.read_bytes() != doc_md.read_bytes()):
+        raise ArchiveCollision(
+            f"{target_path} already holds a different file -- "
+            + ("pass a to_path= that is free" if to_path else "pass to_path= to restore elsewhere")
+        )
 
-    target_path.parent.mkdir(parents=True, exist_ok=True)
-    if doc_md.exists():
-        shutil.copy2(doc_md, target_path)
+    # Everything that can fail is computed BEFORE anything is written, so a bad
+    # bundle leaves no note, no parent directory, no staging folder and no
+    # registry row.
+    #
+    # A fresh id changes only the id line (spec 2026-09-26 R6): the note's
+    # other keys, their order, its body and line endings are the user's. A note
+    # that cannot be edited line by line (a BOM, unparsable YAML) fails here.
+    restamped: str | None = None
+    if new_id and doc_md.exists():
+        from artmind import frontmatter
 
-    if new_id and target_path.exists():
-        from artmind.ingest import _parse_md_frontmatter
-        from artmind.document_identity import render_document
-
-        meta, body = _parse_md_frontmatter(target_path.read_text(encoding="utf-8"))
-        meta["_artmind_id"] = new_id
-        target_path.write_text(render_document(meta, body), encoding="utf-8")
-
-    source_type = manifest.get("source_type", "md")
-    original_bundle_path = bundle_dir / f"original.{source_type}"
-    if manifest.get("has_original_binary") and original_bundle_path.exists():
-        ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(original_bundle_path, ORIGINALS_DIR / f"{target_path.stem}.{source_type}")
+        try:
+            restamped = frontmatter.set_fields(frontmatter.read_note(doc_md), {"_artmind_id": new_id})
+        except frontmatter.FrontmatterEditError as exc:
+            raise ValueError(
+                f"cannot restore {archive_id!r} under a new id: {doc_md} cannot be edited "
+                f"without rewriting more than its id line ({exc}); nothing was restored"
+            ) from exc
 
     orig_stem = Path(str(manifest.get("original_vault_path") or archive_id)).stem
     bundle_kg_dir = bundle_dir / "kg" / domain / orig_stem
     doc_kg_dir = KG_DIR / domain / target_path.stem
-    restored_kg = False
+    files: dict[str, bytes] | None = None
     if bundle_kg_dir.exists():
-        from artmind.atomic_dir import write_dir_atomic
-
-        # The whole folder is rebuilt from the bundle and swapped in at once
-        # (spec 2026-09-26 §5 R2, §14 A4): an Obsidian Git timer commit never
-        # captures a half-copied folder, nor the bundle's document.json before
-        # its identity is re-pointed below. Wholesale (`carry_over=False`), as
-        # the rmtree + copytree this replaces was.
-        files: dict[str, bytes] = {
+        files = {
             p.relative_to(bundle_kg_dir).as_posix(): p.read_bytes()
             for p in sorted(bundle_kg_dir.rglob("*"))
             if p.is_file()
@@ -339,13 +354,47 @@ def restore_from_archive(
             # still point at the archived original; re-point them so the
             # commit below writes under `restore_id`/`target_path`, not a
             # collision with the id/path this bundle was archived from.
-            doc_json = json.loads(files["document.json"].decode("utf-8"))
+            try:
+                doc_json = json.loads(files["document.json"].decode("utf-8"))
+                if not isinstance(doc_json, dict):
+                    raise ValueError("it is not a JSON object")
+            except ValueError as exc:  # JSONDecodeError and UnicodeDecodeError are ValueErrors
+                raise ValueError(
+                    f"cannot restore {archive_id!r}: the bundle's document.json is unreadable "
+                    f"({exc}); nothing was restored"
+                ) from exc
             doc_json["id"] = restore_id
             if "artmind_id" in doc_json:
                 doc_json["artmind_id"] = restore_id
             doc_json["path"] = str(target_path)
+            doc_json["source_path"] = canonical_path(target_path)
             doc_json["name"] = target_path.name
             files["document.json"] = json.dumps(doc_json, ensure_ascii=False, indent=2).encode("utf-8")
+
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    if restamped is not None:
+        from artmind import frontmatter
+        from artmind.vault import note_scratch_dir
+
+        frontmatter.write_note(target_path, restamped, scratch_dir=note_scratch_dir(ARTMIND_VAULT_DIR))
+    elif doc_md.exists():
+        shutil.copy2(doc_md, target_path)
+
+    source_type = manifest.get("source_type", "md")
+    original_bundle_path = bundle_dir / f"original.{source_type}"
+    if manifest.get("has_original_binary") and original_bundle_path.exists():
+        ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(original_bundle_path, ORIGINALS_DIR / f"{target_path.stem}.{source_type}")
+
+    restored_kg = False
+    if files is not None:
+        from artmind.atomic_dir import write_dir_atomic
+
+        # The whole folder is rebuilt from the bundle and swapped in at once
+        # (spec 2026-09-26 §5 R2, §14 A4): an Obsidian Git timer commit never
+        # captures a half-copied folder, nor the bundle's document.json before
+        # its identity is re-pointed above. Wholesale (`carry_over=False`), as
+        # the rmtree + copytree this replaces was.
         write_dir_atomic(doc_kg_dir, files, carry_over=False)
         restored_kg = True
 

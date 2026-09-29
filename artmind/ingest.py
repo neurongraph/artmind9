@@ -469,12 +469,9 @@ def _stamp_note(source: Path, artmind_id: str, domain: str) -> None:
     new = frontmatter.set_fields(raw, {"_artmind_id": artmind_id, "_domain": domain})
     if new == raw:
         return
-    scratch = None
-    if ARTMIND_VAULT_DIR is not None and (Path(ARTMIND_VAULT_DIR) / ".artmind").is_dir():
-        from artmind.vault import VaultLayout
+    from artmind.vault import note_scratch_dir
 
-        scratch = VaultLayout(Path(ARTMIND_VAULT_DIR)).data_dir
-    frontmatter.write_note(source, new, scratch_dir=scratch)
+    frontmatter.write_note(source, new, scratch_dir=note_scratch_dir(ARTMIND_VAULT_DIR))
 
 
 def _canonical_key(source: Path, domain: str) -> str:

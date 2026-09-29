@@ -229,6 +229,16 @@ class VaultLayout:
         return self.data_dir / "refine"
 
 
+def note_scratch_dir(vault_dir: Path | str | None) -> Path | None:
+    """Where a note write's temp file goes: the vault's `.artmind/data/`
+    (git-ignored) when `vault_dir` is a real vault, so a crash leaves a scratch
+    file that will not be committed rather than one beside the note. None (the
+    note's own directory) when there is no vault or it has no `.artmind/`."""
+    if vault_dir is None or not (Path(vault_dir) / ".artmind").is_dir():
+        return None
+    return VaultLayout(Path(vault_dir)).data_dir
+
+
 # The ownership rule as a mechanism rather than prose (docs/vault.md, "What is
 # in git, and what is not"). .artmind/ belongs to artmind and is versioned with
 # the vault; everything below is the short list of exceptions, and each is a
