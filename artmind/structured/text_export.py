@@ -41,6 +41,7 @@ from loguru import logger
 
 import paths
 from artmind.structured import registry, view_name
+from artmind.document_identity import canonical_path, resolve_canonical_path
 from artmind.structured.duckdb_adapter import DuckDBDatasource, parquet_path_for
 from artmind.structured.scd2 import SYSTEM_COLUMNS
 
@@ -92,17 +93,41 @@ def _table_meta_path(dest_dir: Path, domain: str, table_name: str) -> Path:
     return dest_dir / domain / f"{table_name}{META_SUFFIX}"
 
 
+def _portable(value):
+    """`value` vault-relative when it is an absolute filesystem path inside the
+    vault, else unchanged (a DSN, a path outside the vault, no vault). Meta
+    files are committed: an absolute path would differ per machine."""
+    if not isinstance(value, str) or "://" in value or not Path(value).is_absolute():
+        return value
+    return canonical_path(Path(value))
+
+
+def _unportable(value):
+    """Inverse of `_portable` for THIS machine; legacy absolute values and
+    anything that is not a vault-relative path are returned as they are."""
+    if not isinstance(value, str) or not value or "://" in value or Path(value).is_absolute():
+        return value
+    try:
+        return str(resolve_canonical_path(value))
+    except ValueError:  # no vault configured: leave it
+        return value
+
+
 def _table_meta(dump: dict, row: dict) -> dict:
     """One table's slice of a `registry.dump_all()`-shaped dump. Carries no
     machine-local id: neither `table.id` nor any child row's `table_id` (spec
     2026-09-26 §14 A3) -- within a per-table file every child unambiguously
     belongs to that table, so the id is redundant on disk."""
     table_id = row["id"]
+    table = {k: v for k, v in row.items() if k not in _MACHINE_LOCAL_TABLE_FIELDS}
+    if table.get("source_file"):
+        table["source_file"] = _portable(table["source_file"])
+    datasource = next((d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None)
+    if datasource and datasource.get("path_or_dsn"):
+        datasource = {**datasource, "path_or_dsn": _portable(datasource["path_or_dsn"])}
     return {
-        "table": {k: v for k, v in row.items() if k not in _MACHINE_LOCAL_TABLE_FIELDS},
-        "datasource": next(
-            (d for d in dump.get("datasources", []) if d["name"] == row["datasource"]), None
-        ),
+        "table": table,
+        "datasource": datasource,
         **{
             key: [
                 {k: v for k, v in r.items() if k != "table_id"}
@@ -179,6 +204,10 @@ def load_structured_dump(src_dir: Path) -> dict:
     for path in meta_paths:
         meta = json.loads(path.read_text(encoding="utf-8"))
         table = dict(meta["table"])
+        if table.get("source_file"):
+            table["source_file"] = _unportable(table["source_file"])
+        if meta.get("datasource") and meta["datasource"].get("path_or_dsn"):
+            meta["datasource"] = {**meta["datasource"], "path_or_dsn": _unportable(meta["datasource"]["path_or_dsn"])}
         have.add((table["domain"], table["table_name"]))
         sources.append((table, {key: meta.get(key, []) for key in _DUMP_KEYS}))
         _add_datasource(meta.get("datasource"))

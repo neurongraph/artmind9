@@ -37,7 +37,7 @@ duplicate.
 | `_artmind_id` in frontmatter | Registry state | Verdict |
 |---|---|---|
 | **present** | id known, **path matches** | **re-ingest** — bump the version only if the body hash changed |
-| **present** | id known, registered path **no longer exists** | **move** — update the recorded path, identity survives. This is `git mv`, and it must be silent. |
+| **present** | id known, registered path **no longer exists** | **move** — update the recorded path (registry, the staged `document.json`, and the graph's `:Document` `path`/`source_path`/`name`; all vault-relative), identity survives. This is `git mv`, and it must be silent. |
 | **present** | id known, registered path **still exists** and holds a different file | **refuse** — two live claimants. Require `--fork` (mint a fresh id for the newcomer) or `--adopt` (transfer identity, retire the other). |
 | **present** | id **unknown** to the registry | **adopt** — trust the frontmatter and register it under that id. Do **not** mint a new one. |
 | **absent** | path known | **heal** — recover the id from the registry and write it back into frontmatter |

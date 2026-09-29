@@ -270,6 +270,128 @@ def test_classify_diff_does_not_retract_when_the_new_folder_already_exists_at_he
     assert plan.retract == []
 
 
+def _rm_folder(kg_dir, domain, docdir):
+    import shutil
+    shutil.rmtree(kg_dir / domain / docdir)
+
+
+@pytest.mark.parametrize("new_domain, old_domain", [("a_new", "z_old"), ("z_new", "a_old")])
+def test_classify_diff_does_not_retract_an_id_that_moved_to_another_domain(repo, monkeypatch, new_domain, old_domain):
+    """A domain change (`ingest sync --setDomain`) writes the folder under the
+    new domain and removes the old domain's. `retract_document` demotes
+    `:Document {id}` by id alone, so retracting the old domain's id would
+    demote the node the new domain's folder just replayed. Independent of
+    which domain sorts first."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, old_domain, "note", "docid-1")
+    _commit_all(repo, "add")
+    base = vs.head_sha(repo)
+    _rm_folder(kg_dir, old_domain, "note")
+    _write_doc_folder(kg_dir, new_domain, "note", "docid-1")
+    _commit_all(repo, "move to another domain")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.replay_docs == [(new_domain, "note")]
+    assert plan.retract == []
+
+
+def test_classify_diff_does_not_retract_an_id_already_live_in_another_domain_at_head(repo, monkeypatch):
+    """The new domain's folder was replayed by an earlier sync; this range only
+    holds the old domain's removal."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "old_dom", "note", "docid-1")
+    _commit_all(repo, "add")
+    _write_doc_folder(kg_dir, "new_dom", "note", "docid-1")
+    _commit_all(repo, "added under the new domain (already replayed)")
+    base = vs.head_sha(repo)
+    _rm_folder(kg_dir, "old_dom", "note")
+    _commit_all(repo, "remove the old domain's folder")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.replay_docs == []
+    assert plan.retract == []
+
+
+def test_classify_diff_still_retracts_when_only_another_id_lives_elsewhere(repo, monkeypatch):
+    """A genuine retraction is unaffected: the removed id is live nowhere at
+    head, whatever other documents other domains hold."""
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "old_dom", "note", "docid-1")
+    _write_doc_folder(kg_dir, "new_dom", "other", "docid-2")
+    _commit_all(repo, "add")
+    base = vs.head_sha(repo)
+    _rm_folder(kg_dir, "old_dom", "note")
+    _commit_all(repo, "remove")
+
+    plan = vs.classify_diff(repo, base, vs.head_sha(repo))
+
+    assert plan.retract == [("old_dom", "docid-1")]
+
+
+def _git(path, *args):
+    subprocess.run(["git", *args], cwd=path, check=True, capture_output=True)
+
+
+def test_two_clones_a_domain_change_leaves_the_document_live_in_the_new_domain(tmp_path, monkeypatch):
+    """Real git, two clones, only Neo4j faked (an in-memory graph whose retract
+    demotes by id alone, like `retract_document`'s Cypher). Machine A moves a
+    note's staging folder to another domain in a later commit; machine B pulls
+    and syncs: the document must end up live under the NEW domain, and no
+    retraction may be sent for it."""
+    import artmind.ingest as ing
+    import artmind.table2graph as t2g
+
+    origin, a, b = tmp_path / "origin.git", tmp_path / "a", tmp_path / "b"
+    subprocess.run(["git", "init", "-q", "--bare", str(origin)], check=True)
+    for clone in (a, b):
+        subprocess.run(["git", "clone", "-q", str(origin), str(clone)], check=True, capture_output=True)
+        _git(clone, "config", "user.email", "t@example.com")
+        _git(clone, "config", "user.name", "T")
+    (a / ".artmind").mkdir()
+    (a / ".artmind" / "vault.yaml").write_text(f'vault_id: "{VAULT_ID}"\n')
+    kg_a = a / ".artmind" / "data" / "kg"
+    _write_doc_folder(kg_a, "general", "note", "docid-1")
+    _commit_all(a, "ingest")
+    _git(a, "push", "-q", "origin", "HEAD")
+    _git(b, "pull", "-q", "origin", "HEAD")
+
+    live: dict[str, str] = {}  # doc id -> domain of the node currently labelled :Document
+    retractions: list[tuple[str, str]] = []
+
+    def fake_write(folder, domain, defer_rebuild=False):
+        import json
+        live[json.loads((folder / "document.json").read_text())["id"]] = domain
+        return {"deferred_keys": [], "unembedded_chunk_ids": []}
+
+    def fake_retract(doc_id, domain):
+        retractions.append((doc_id, domain))
+        live.pop(doc_id, None)  # by id only: the real MATCH has no domain filter
+        return {"doc_id": doc_id, "domain": domain, "affected_keys": []}
+
+    monkeypatch.setattr(ing, "_write_to_neo4j", fake_write)
+    monkeypatch.setattr(ing, "retract_document", fake_retract)
+    monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {})
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: 0)
+    _patch_structured_text_dir(monkeypatch, b)
+    _patch_kg_dir(monkeypatch, b)
+    vs.sync(b, bootstrap_empty=True)
+    assert live == {"docid-1": "general"}
+
+    (kg_a / "technical").mkdir()
+    _git(a, "mv", ".artmind/data/kg/general/note", ".artmind/data/kg/technical/note")
+    _commit_all(a, "change domain")
+    _git(a, "push", "-q", "origin", "HEAD")
+    _git(b, "pull", "-q", "origin", "HEAD")
+    result = vs.sync(b)
+
+    assert retractions == []
+    assert live == {"docid-1": "technical"}
+    assert result["replayed"] == 1 and result["retracted"] == 0
+
+
 # ── _document_ids_at_head: never sends a path through cat-file (re-review item 1) ─
 
 

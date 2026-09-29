@@ -357,6 +357,36 @@ def test_archive_document_raises_when_not_found(env, monkeypatch):
         archive.archive_document("general", "nope")
 
 
+@pytest.mark.parametrize("graph_path", ["notes/policy.md", "ABS"])
+def test_archive_manifest_records_a_vault_relative_path(env, monkeypatch, graph_path):
+    """The bundle travels between machines: `original_vault_path` is never a
+    machine-absolute path -- including when the graph still holds a legacy
+    absolute `Document.path`."""
+    vault, archive_root, kg_dir, originals = env
+    doc = vault / "notes" / "policy.md"
+    doc.parent.mkdir(parents=True)
+    doc.write_text("---\n_artmind_id: doc-1\n---\n\nBody.\n", encoding="utf-8")
+    _stub_archive_graph(monkeypatch, "doc-1", str(doc.resolve()) if graph_path == "ABS" else graph_path, "policy.md")
+
+    archive.archive_document("general", "policy")
+
+    manifest = json.loads((archive_root / "doc-1" / "manifest.json").read_text())
+    assert manifest["original_vault_path"] == "notes/policy.md"
+
+
+def test_restore_still_accepts_a_legacy_absolute_original_vault_path(env, monkeypatch):
+    vault, archive_root, kg_dir, originals = env
+    target = vault / "notes" / "policy.md"
+    bundle_dir = _seed_bundle(archive_root, "doc-1", vault_path=str(target))
+    monkeypatch.setattr(archive, "_document_info", lambda doc_id: {})
+    monkeypatch.setattr("artmind.ingest.commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda doc_id, domain=None: {})
+
+    archive.restore_from_archive("doc-1")
+
+    assert target.read_bytes() == (bundle_dir / "document.md").read_bytes()
+
+
 # ── restore_from_archive ──────────────────────────────────────────────────────
 
 
@@ -520,7 +550,7 @@ def test_restore_under_a_new_path_repoints_the_staged_source_path_too(env, monke
     document = json.loads((kg_dir / "general" / "q" / "document.json").read_text(encoding="utf-8"))
     assert document["source_path"] == canonical_path(vault / "n" / "q.md") == "n/q.md"
     assert (document["id"], document["artmind_id"], document["name"]) == ("doc-2", "doc-2", "q.md")
-    assert document["path"] == str(vault / "n" / "q.md")
+    assert document["path"] == "n/q.md", "vault-relative: the staging folder is committed"
 
 
 def test_restore_to_path_refuses_an_existing_different_note(env, monkeypatch):

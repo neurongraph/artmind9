@@ -425,7 +425,7 @@ def _repoint_staged_document(folder: Path, document: dict, source: Path) -> None
     then removes the old folder, `extract_kg`); `_locate_staged` finds it by
     id in the meantime. Never fatal: a note that moved is not worth a failed
     ingest."""
-    patch = {"source_path": canonical_path(source), "path": str(source.resolve()), "name": source.name}
+    patch = {"source_path": canonical_path(source), "path": canonical_path(source), "name": source.name}
     if all(document.get(k) == v for k, v in patch.items()):
         return
     try:
@@ -925,6 +925,21 @@ def _ingest_vault_native(
     if tier == "metadata_only":
         if resolution.verdict == "move" and staged_folder is not None:
             _repoint_staged_document(staged_folder, staged, source)
+        if resolution.verdict == "move":
+            # The graph's own node follows the note too: without this the
+            # machine that ran the ingest keeps the old path (a machine that
+            # replays the repointed staging folder already gets the new one).
+            try:
+                from artmind.delta import apply_move
+
+                apply_move(
+                    doc_id=resolution.artmind_id,
+                    path=canonical_path(source),
+                    source_path=canonical_path(source),
+                    name=source.name,
+                )
+            except Exception as e:
+                logger.warning("graph path update skipped for moved note {}: {}", source.name, e)
         try:
             from artmind.delta import apply_metadata_only
 
@@ -2664,7 +2679,10 @@ def extract_kg(
         "id": doc_id,
         "version": version,
         "name": registered_path.name,
-        "path": str(registered_path),
+        # Vault-relative when the file is in the vault (`canonical_path`): the
+        # staging folder is committed, and an absolute path would differ per
+        # machine and leak the local layout.
+        "path": canonical_path(registered_path),
         "_domain": domain,
     }
     if logical_id is not None:

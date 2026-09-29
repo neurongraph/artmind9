@@ -201,6 +201,11 @@ function — `retract_document` operates on a `doc_id`/domain pair, and a table'
 `document.json` (written by `table2graph.write_staged`) has a `doc_id` exactly like any
 other document's.
 
+**A domain change is not a retraction.** `retract_document` demotes by id with no domain
+filter, so a removed folder whose id is still carried by a `document.json` at `head` --
+under the same domain (a rename) or another (`ingest sync --setDomain`) -- is a move, and
+is not retracted (`_classify_kg_diff` reads liveness across every domain at `head`).
+
 ## 9. Failure handling and idempotency
 
 All-or-nothing per run, matching this codebase's existing philosophy

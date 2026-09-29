@@ -548,12 +548,18 @@ def _classify_kg_diff(
 
     # A moved/renamed note keeps its `_artmind_id`; its staging folder just
     # changes name, so the old folder's removal above looks like a delete of
-    # that id. Don't retract an id any `document.json` at `head`, in the
-    # same domain, still carries -- whether the new folder appeared in THIS
+    # that id. Don't retract an id any `document.json` at `head` still
+    # carries -- in the SAME domain (a rename) or in ANOTHER (a domain change:
+    # `ingest sync --setDomain` writes the folder under the new domain and
+    # removes the old one). `retract_document` demotes `:Document {id}` by id
+    # alone, so retracting the old domain's id would demote the node the new
+    # domain's folder just replayed. Whether the new folder appeared in THIS
     # diff range (replayed above) or in an earlier one already applied
-    # (spec 2026-09-27 item 2).
-    live = _document_ids_at_head(vault_dir, head, kg_rel, [d for d, _ in retract_candidates])
-    retract = [(d, doc_id) for d, doc_id in retract_candidates if doc_id not in live.get(d, set())]
+    # (spec 2026-09-27 item 2) makes no difference: liveness is read at `head`.
+    # `[""]` scans every domain: `kg_rel / ""` is the whole KG tree.
+    live_by_domain = _document_ids_at_head(vault_dir, head, kg_rel, [""])
+    live = set().union(*live_by_domain.values()) if live_by_domain else set()
+    retract = [(d, doc_id) for d, doc_id in retract_candidates if doc_id not in live]
     return replay, retract
 
 

@@ -354,7 +354,11 @@ never commits. What it replays:
 
 - a KG document folder in which **any** file changed, so a folder that an
   auto-commit caught in two halves still converges; a removed folder is
-  retracted from the graph;
+  retracted from the graph -- unless its document id is still carried by a
+  folder at `HEAD`, in the same domain (a renamed note) or another (a domain
+  change: `ingest sync --setDomain` writes the folder under the new domain and
+  removes the old one). That is a move, not a retraction, and retracting the
+  old folder's id would demote the document just replayed under the new one;
 - a structured table whose CSV or `.meta.json` changed: restored into DuckDB,
   and re-projected into the graph when a table mapping names it. A table no
   mapping names stays a structured-store table only. A table whose CSV is
@@ -583,7 +587,12 @@ lines alone: the body, your own keys and their order, comments and line
 endings are untouched. Everything that changes per ingest (the version, the
 body hash, the source commit, when and from where it was ingested) lives in
 the note's staging folder, `.artmind/data/kg/<domain>/<note>/document.json`,
-written by the extraction. So re-ingesting a note writes nothing to it,
+written by the extraction. Paths recorded there (and in an archive bundle's
+`manifest.json`, and a table's `.meta.json`) are **vault-relative**, so a
+committed tree is identical on every machine and leaks no local layout; older,
+absolute values are still read. A `git mv` of an unchanged note updates the
+path in that `document.json` *and* on the graph's `:Document` (a machine that
+replays gets it from the folder). So re-ingesting a note writes nothing to it,
 Obsidian Git has nothing of artmind's to commit, and two machines never
 conflict on artmind's lines in your notes.
 

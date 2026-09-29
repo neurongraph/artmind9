@@ -243,6 +243,24 @@ def classify_reingest(
 # ── metadata-only fast path ─────────────────────────────────────────────────
 
 
+def apply_move(doc_id: str, path: str, source_path: str, name: str) -> dict:
+    """A `git mv` of an unchanged note: point its `:Document` at the new
+    place. The same three properties `ingest._repoint_staged_document` writes
+    into the staging folder's `document.json` (and so what a `vault sync`
+    replay sets on another machine). Matched by id alone -- the id is the
+    identity, and a move never changes the domain."""
+    from artmind.graph_query import neo4j_session
+
+    props = {"path": path, "source_path": source_path, "name": name}
+    with neo4j_session() as session:
+        session.run(
+            "MATCH (d:Document {id: $doc_id}) SET d += $props",
+            doc_id=doc_id,
+            props=props,
+        )
+    return {"doc_id": doc_id, "applied": props}
+
+
 def apply_metadata_only(
     doc_id: str,
     domain: str,
@@ -285,7 +303,7 @@ def apply_metadata_only(
     with neo4j_session() as session:
         session.run(
             f"""
-            MATCH (d:Document {{id: $doc_id, domain: $domain}})
+            MATCH (d:Document {{id: $doc_id, _domain: $domain}})
             {doc_set}
             """,
             doc_id=doc_id,

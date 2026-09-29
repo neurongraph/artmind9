@@ -150,6 +150,17 @@ def _delete_document_tx(tx, doc_id: str) -> dict:
 # ── archive ───────────────────────────────────────────────────────────────────
 
 
+def _portable_vault_path(path_str: str) -> str:
+    """`path_str` vault-relative when it is an absolute path inside the
+    configured vault (a legacy `Document.path`), else unchanged."""
+    if ARTMIND_VAULT_DIR is not None and Path(path_str).is_absolute():
+        try:
+            return Path(path_str).resolve().relative_to(Path(ARTMIND_VAULT_DIR).resolve()).as_posix()
+        except (ValueError, OSError):
+            pass
+    return path_str
+
+
 def archive_document(domain: str, document_name: str) -> dict:
     """Archive one document: bundle it, remove it from the graph, delete its
     file from the vault (Obsidian Git commits the removal, artmind does not),
@@ -229,7 +240,9 @@ def archive_document(domain: str, document_name: str) -> dict:
         "version": info.get("version"),
         "valid_from": valid_from,
         "valid_to": valid_to,
-        "original_vault_path": str(vault_rel_path) if vault_rel_path else None,
+        # Vault-relative, never machine-absolute: the bundle travels between
+        # machines. The graph's `path` may still be a legacy absolute one.
+        "original_vault_path": _portable_vault_path(str(vault_rel_path)) if vault_rel_path else None,
         "source_type": source_type,
         "has_original_binary": original_path is not None,
         "vault_commit": vault_git.current_commit(),
@@ -366,7 +379,7 @@ def restore_from_archive(
             doc_json["id"] = restore_id
             if "artmind_id" in doc_json:
                 doc_json["artmind_id"] = restore_id
-            doc_json["path"] = str(target_path)
+            doc_json["path"] = canonical_path(target_path)
             doc_json["source_path"] = canonical_path(target_path)
             doc_json["name"] = target_path.name
             files["document.json"] = json.dumps(doc_json, ensure_ascii=False, indent=2).encode("utf-8")

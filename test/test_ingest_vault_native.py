@@ -15,8 +15,11 @@ import subprocess
 
 import pytest
 
+import artmind.delta
 import artmind.ingest as ing
 from conftest import stage_as_extracted
+
+_REAL_APPLY_MOVE = getattr(artmind.delta, "apply_move", None)
 
 
 def _init_git_repo(path):
@@ -25,6 +28,32 @@ def _init_git_repo(path):
     subprocess.run(["git", "config", "user.name", "Test"], cwd=path, check=True)
     subprocess.run(["git", "add", "-A"], cwd=path, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=path, check=True)
+
+
+class _RecordingGraphSession:
+    """What `graph_query.neo4j_session()` yields, recording every `run`."""
+
+    def __init__(self, runs):
+        self.runs = runs
+
+    def run(self, query, **params):
+        self.runs.append((query, params))
+
+
+@pytest.fixture()
+def graph_runs(monkeypatch):
+    """Every Cypher statement sent through `neo4j_session()`, as (query, params)."""
+    runs: list = []
+
+    class _Ctx:
+        def __enter__(self):
+            return _RecordingGraphSession(runs)
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: _Ctx())
+    return runs
 
 
 @pytest.fixture()
@@ -46,6 +75,7 @@ def vault(tmp_path, monkeypatch):
 
     # No real Neo4j: the metadata-only fast path's graph update is a no-op.
     monkeypatch.setattr("artmind.delta.apply_metadata_only", lambda **k: None)
+    monkeypatch.setattr("artmind.delta.apply_move", lambda **k: None, raising=False)
     # Staging folders (document.json: the versioning baseline, spec R6).
     monkeypatch.setattr(ing, "KG_DIR", tmp_path / "kg")
 
@@ -367,11 +397,58 @@ def test_a_git_mv_repoints_the_staged_document_at_the_new_path(vault):
     moved = ing.ingest_file(new, "gemma4:e4b", "general", chunk_size=6000)
 
     assert moved["tier"] == "metadata_only"
-    expected = {**before, "source_path": "notes/renamed.md", "path": str(new.resolve()), "name": "renamed.md"}
+    expected = {**before, "source_path": "notes/renamed.md", "path": "notes/renamed.md", "name": "renamed.md"}
     raw = (folder / "document.json").read_text(encoding="utf-8")
     assert raw == json.dumps(expected, indent=2, ensure_ascii=False), "only those three keys change"
     assert sorted(p.name for p in folder.parent.iterdir()) == ["doc"], "no scratch left beside the folder"
     assert json.loads(raw)["version"] == 2 and json.loads(raw)["content_sha256"] == before["content_sha256"]
+
+
+def test_a_git_mv_updates_the_graph_document_path_too(vault, graph_runs, monkeypatch):
+    """The unchanged-content branch used to skip the graph: the machine that
+    ran the ingest kept the OLD path (a machine that replays the repointed
+    staging folder was right). The `:Document` is matched by id and gets the
+    same three properties the staging folder's document.json got."""
+    v, doc = vault
+    _ingest_to_version_2(doc)
+    doc_id = json.loads((ing.KG_DIR / "general" / "doc" / "document.json").read_text())["id"]
+    monkeypatch.setattr("artmind.delta.apply_move", _REAL_APPLY_MOVE, raising=False)
+    new = _git_mv(v, "notes/doc.md", "notes/renamed.md")
+
+    moved = ing.ingest_file(new, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert moved["tier"] == "metadata_only"
+    assert len(graph_runs) == 1
+    query, params = graph_runs[0]
+    assert "MATCH (d:Document {id: $doc_id})" in query and "SET d += $props" in query
+    assert params == {
+        "doc_id": doc_id,
+        "props": {"path": "notes/renamed.md", "source_path": "notes/renamed.md", "name": "renamed.md"},
+    }
+
+
+def test_an_unchanged_note_that_did_not_move_sends_no_path_update(vault, graph_runs, monkeypatch):
+    v, doc = vault
+    _ingest_to_version_2(doc)
+    monkeypatch.setattr("artmind.delta.apply_move", _REAL_APPLY_MOVE, raising=False)
+
+    again = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert again["tier"] == "metadata_only"
+    assert graph_runs == []
+
+
+def test_document_json_holds_no_absolute_path(vault, monkeypatch):
+    """The staging folder is committed; an absolute path differs per machine
+    and leaks the local layout. `path` and `source_path` are vault-relative."""
+    v, doc = vault
+    _stub_llm(monkeypatch)
+    _, folder = _ingest_and_extract(doc)
+
+    document = json.loads((folder / "document.json").read_text())
+
+    assert (document["path"], document["source_path"]) == ("notes/doc.md", "notes/doc.md")
+    assert [k for k, val in document.items() if isinstance(val, str) and val.startswith("/")] == []
 
 
 def test_content_change_after_a_git_mv_extracts_under_the_new_name_and_drops_the_old_folder(vault, monkeypatch):
