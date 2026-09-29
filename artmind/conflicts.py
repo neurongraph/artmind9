@@ -271,37 +271,35 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
         return None
     if verdict["verdict"] != "conflicting_claims":
         return None
+    from artmind import conflict_records, curation_records
+
     cid = conflict_id(pair["id_a"], pair["id_b"], verdict["aspect"] or pair["entity_class"])
-    domains = sorted({pair["domain_a"], pair["domain_b"]})
-    session.run(
-        """
-        MERGE (co:Conflict {id:$id})
-        ON CREATE SET co.aspect=$aspect, co.claim_a=$claim_a, co.claim_b=$claim_b,
-                      co.severity=$severity, co.status='open', co.domains=$domains,
-                      co.detected_at=$now, co.detected_by_model=$model,
-                      co._source='adjudicator'
-        WITH co
-        MATCH (a:Entity {_id:$idA}), (b:Entity {_id:$idB})
-        MERGE (co)-[:CONFLICT_OF]->(a)
-        MERGE (co)-[:CONFLICT_OF]->(b)
-        MERGE (a)-[ra:CONFLICTS_WITH]->(b) SET ra.conflict_id=$id, ra.aspect=$aspect
-        MERGE (b)-[rb:CONFLICTS_WITH]->(a) SET rb.conflict_id=$id, rb.aspect=$aspect
-        """,
-        id=cid, aspect=verdict["aspect"], claim_a=verdict["claim_a"], claim_b=verdict["claim_b"],
-        severity=verdict["severity"], domains=domains,
-        now=datetime.now(timezone.utc).isoformat(), model=model,
-        idA=pair["id_a"], idB=pair["id_b"],
-    )
-    for side, chunks in (("a", evidence_a), ("b", evidence_b)):
-        for c in chunks:
-            session.run(
-                """
-                MATCH (co:Conflict {id:$id}), (c:DocChunk {id:$cid})
-                MERGE (co)-[e:EVIDENCE {side:$side}]->(c)
-                """,
-                id=cid, cid=c["id"], side=side,
-            )
+    # The conflict travels as a vault file (spec 2026-09-26 §14 A6), and the
+    # vault's record wins over a fresh detection: re-detecting a conflict
+    # another machine already recorded -- and perhaps resolved -- must neither
+    # reopen it nor rewrite its file.
+    record = curation_records.read_record(conflict_records.NAME, cid)
+    if record is None:
+        record = conflict_records.record_from_detection(
+            cid, pair, verdict, evidence_a, evidence_b, model, datetime.now(timezone.utc).isoformat(),
+        )
+        existing = conflict_records.record_from_graph(session, cid)
+        if existing is not None:
+            # Detected before records existed: the node's own fields survive,
+            # exactly as the old `ON CREATE SET` kept them.
+            for name in _KEPT_ON_REDETECTION:
+                record[name] = existing[name]
+    fingerprint = curation_records.write_record(conflict_records.NAME, record)
+    conflict_records.apply(session, record, fingerprint)
     return cid
+
+
+#: A re-detected conflict whose `:Conflict` node predates its record keeps
+#: these from the node -- above all its status: a re-detection never reopens.
+_KEPT_ON_REDETECTION = (
+    "aspect", "claim_a", "claim_b", "severity", "status", "resolution_reason",
+    "resolved_at", "detected_at", "detected_by_model",
+)
 
 
 def detect_conflicts(
@@ -404,16 +402,37 @@ def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -
     re-detection pass cannot adjudicate — closing it is a human judgment, so it
     is an explicit command and never a side effect.
 
-    Raises ValueError when the id matches no Conflict node. That includes the
-    orphaned-edge case: a CONFLICTS_WITH edge whose Conflict node was deleted
-    still surfaces in list_conflicts (reported as 'open' via coalesce) but has
-    nowhere to record a status.
+    An adjudicator conflict's resolution travels (spec 2026-09-26 §14 A6):
+    its record file under `.artmind/data/curation/conflicts/` is updated --
+    or, for a conflict detected before records existed, written for the
+    first time from the graph -- and the graph is written from that record,
+    the same path `vault sync` applies on every other machine. A projection
+    conflict (`_source: 'projection'`) has no record: it is derived from
+    observations and rebuilt with the projection, so its status stays a
+    graph-only write, as before.
+
+    Raises ValueError when the id matches neither a record nor a Conflict
+    node. That includes the orphaned-edge case: a CONFLICTS_WITH edge whose
+    Conflict node was deleted still surfaces in list_conflicts (reported as
+    'open' via coalesce) but has nowhere to record a status.
     """
     if status not in RESOLUTION_STATUSES:
         raise ValueError(
             f"status must be one of {', '.join(RESOLUTION_STATUSES)}; got {status!r}"
         )
+    from artmind import conflict_records, curation_records
+
+    now = datetime.now(timezone.utc).isoformat()
     with neo4j_session() as session:
+        record = curation_records.read_record(conflict_records.NAME, conflict_id)
+        if record is None:
+            record = conflict_records.record_from_graph(session, conflict_id)
+        if record is not None:
+            record.update(status=status, resolution_reason=reason, resolved_at=now)
+            fingerprint = curation_records.write_record(conflict_records.NAME, record)
+            conflict_records.apply(session, record, fingerprint)
+            logger.info("conflict {} → {} ({}), recorded in the vault", conflict_id, status, reason or "no reason given")
+            return {"id": conflict_id, "status": status, "reason": reason}
         rec = session.run(
             """
             MATCH (co:Conflict {id: $id})
@@ -424,7 +443,7 @@ def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -
             """,
             id=conflict_id,
             status=status,
-            now=datetime.now(timezone.utc).isoformat(),
+            now=now,
             reason=reason,
         ).single()
     if not rec:

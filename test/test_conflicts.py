@@ -145,3 +145,105 @@ def test_materialize_superseded_creates_supersedes_not_conflict(monkeypatch):
     cid = c.materialize(FakeSession(), pair, verdict, [], [], "m")
     assert cid is None
     assert calls["supersede"] == 1
+
+
+
+# ── materialize writes the conflict's record and applies it (spec §14 A6) ────
+
+
+import json as _json
+
+import pytest as _pytest
+
+from artmind import curation_records as _curation_records
+
+
+class _Rows:
+    def __init__(self, rows):
+        self._rows = rows
+
+    def single(self):
+        return self._rows[0] if self._rows else None
+
+    def data(self):
+        return self._rows
+
+
+class _MaterializeSession:
+    def __init__(self, graph_node=None):
+        self.calls = []
+        self._graph_node = graph_node
+
+    def run(self, cypher, **params):
+        self.calls.append((cypher, params))
+        if "properties(co) AS co" in cypher:
+            return _Rows([self._graph_node] if self._graph_node else [])
+        return _Rows([])
+
+    def applied(self):
+        return [p for c, p in self.calls if c.strip().startswith("MERGE (co:Conflict {id: $id})")]
+
+
+_PAIR = {
+    "id_a": "ea", "name_a": "Fee reversal", "domain_a": "banking.ops", "key_a": "fee reversal|POLICY|banking.ops",
+    "id_b": "eb", "name_b": "Fee reversals", "domain_b": "banking.risk", "key_b": "fee reversals|POLICY|banking.risk",
+    "entity_class": "POLICY",
+}
+_VERDICT = {"verdict": "conflicting_claims", "aspect": "approval limit", "claim_a": "CEO", "claim_b": "Manager", "severity": "high"}
+
+
+@_pytest.fixture()
+def curation_dir(tmp_path, monkeypatch):
+    import paths
+
+    target = tmp_path / "curation"
+    monkeypatch.setattr(paths, "CURATION_DIR", target)
+    return target
+
+
+def test_materialize_writes_the_conflicts_record_and_applies_that_record(curation_dir):
+    session = _MaterializeSession()
+
+    cid = conflicts_mod.materialize(session, _PAIR, _VERDICT, [{"id": "d1_001", "doc_id": "d1"}], [], "m")
+
+    assert cid == conflict_id("ea", "eb", "approval limit")
+    path = curation_dir / "conflicts" / f"{cid}.json"
+    record = _json.loads(path.read_text())
+    assert (record["status"], record["claim_a"], record["claim_b"]) == ("open", "CEO", "Manager")
+    applied = session.applied()
+    assert len(applied) == 1
+    assert (applied[0]["idA"], applied[0]["idB"], applied[0]["status"]) == ("ea", "eb", "open")
+    assert applied[0]["fingerprint"] == _curation_records.fingerprint(path.read_bytes())
+
+
+def test_re_detecting_a_recorded_conflict_never_reopens_or_rewrites_it(curation_dir):
+    session = _MaterializeSession()
+    cid = conflicts_mod.materialize(session, _PAIR, _VERDICT, [], [], "m")
+    path = curation_dir / "conflicts" / f"{cid}.json"
+    record = _json.loads(path.read_text())
+    record.update(status="resolved", resolution_reason="settled", resolved_at="t1")
+    _curation_records.write_record("conflicts", record)
+    before = path.read_bytes()
+
+    again = _MaterializeSession()
+    conflicts_mod.materialize(again, _PAIR, dict(_VERDICT, claim_a="a different wording"), [], [], "other-model")
+
+    assert path.read_bytes() == before
+    assert again.applied()[0]["status"] == "resolved"
+    assert again.applied()[0]["claim_a"] == "CEO"
+    assert not [c for c, _ in again.calls if "properties(co) AS co" in c], "the file wins; the graph is not read"
+
+
+def test_re_detecting_a_conflict_that_predates_records_keeps_the_nodes_status(curation_dir):
+    session = _MaterializeSession(graph_node={
+        "co": {"id": "x", "aspect": "approval limit", "claim_a": "old A", "claim_b": "old B", "severity": "medium",
+               "status": "dismissed", "resolution_reason": "noise", "resolved_at": "t1",
+               "detected_at": "t0", "detected_by_model": "old-model", "_source": "adjudicator"},
+        "entities": [], "evidence": [],
+    })
+
+    cid = conflicts_mod.materialize(session, _PAIR, _VERDICT, [], [], "m")
+
+    record = _json.loads((curation_dir / "conflicts" / f"{cid}.json").read_text())
+    assert (record["status"], record["claim_a"], record["detected_at"]) == ("dismissed", "old A", "t0")
+    assert [e["id"] for e in record["entities"]] == ["ea", "eb"], "the entities come from this detection"

@@ -30,6 +30,8 @@ class FakeSession:
 
 
 def test_resolve_conflict_sets_status_and_provenance(monkeypatch):
+    """A conflict with no record (a projection conflict: derived, rebuilt with
+    the projection) keeps its graph-only status write."""
     session = FakeSession()
     monkeypatch.setattr(c, "neo4j_session", lambda: session)
 
@@ -37,7 +39,7 @@ def test_resolve_conflict_sets_status_and_provenance(monkeypatch):
 
     assert out["id"] == "abc123"
     assert out["status"] == "resolved"
-    cypher, kwargs = session.runs[0]
+    cypher, kwargs = next((cy, kw) for cy, kw in session.runs if "co.status = $status" in cy)
     assert "co.status = $status" in cypher
     assert "co.resolved_at" in cypher
     assert kwargs["status"] == "resolved"
@@ -77,3 +79,116 @@ def test_resolve_conflict_cli_reports_unknown_id(monkeypatch):
     assert result.exit_code != 0
     assert "abc123" in result.output
     assert "No Conflict node" in result.output
+
+
+# ── an adjudicator conflict's resolution travels as its record (spec §14 A6) ──
+
+
+import json
+
+import pytest
+
+from artmind import conflict_records, curation_records
+
+
+@pytest.fixture()
+def curation_dir(tmp_path, monkeypatch):
+    import paths
+
+    target = tmp_path / "curation"
+    monkeypatch.setattr(paths, "CURATION_DIR", target)
+    return target
+
+
+class _Rows:
+    def __init__(self, rows):
+        self._rows = rows
+
+    def single(self):
+        return self._rows[0] if self._rows else None
+
+    def data(self):
+        return self._rows
+
+
+class RecordingSession(FakeSession):
+    """Answers `record_from_graph`'s read with `graph_node` (None: no node)."""
+
+    def __init__(self, graph_node=None):
+        super().__init__()
+        self._graph_node = graph_node
+
+    def run(self, cypher, **kwargs):
+        self.runs.append((cypher, kwargs))
+        if "properties(co) AS co" in cypher:
+            return _Rows([self._graph_node] if self._graph_node else [])
+        return _Rows([])
+
+
+def _stored(curation_dir, **overrides):
+    record = {
+        "id": "abc123", "verdict": "conflicting_claims", "aspect": "limit", "claim_a": "A", "claim_b": "B",
+        "severity": "high", "entity_class": "POLICY",
+        "entities": [{"side": "a", "id": "ea", "key": "a|POLICY|x", "name": "A", "domain": "x"},
+                     {"side": "b", "id": "eb", "key": "b|POLICY|y", "name": "B", "domain": "y"}],
+        "domains": ["x", "y"], "evidence": [], "status": "open", "resolution_reason": None,
+        "resolved_at": None, "detected_at": "t0", "detected_by_model": "m", "source": "adjudicator",
+    }
+    record.update(overrides)
+    curation_records.write_record("conflicts", record)
+    return record
+
+
+def _applied(session):
+    return [kw for cy, kw in session.runs if cy.strip().startswith("MERGE (co:Conflict {id: $id})")]
+
+
+def test_resolving_a_recorded_conflict_updates_its_file_and_applies_it(monkeypatch, curation_dir):
+    _stored(curation_dir)
+    session = RecordingSession()
+    monkeypatch.setattr(c, "neo4j_session", lambda: session)
+
+    out = c.resolve_conflict("abc123", "dismissed", reason="not a real clash")
+
+    record = json.loads((curation_dir / "conflicts" / "abc123.json").read_text())
+    assert (record["status"], record["resolution_reason"]) == ("dismissed", "not a real clash")
+    assert record["resolved_at"]
+    applied = _applied(session)
+    assert len(applied) == 1
+    assert (applied[0]["status"], applied[0]["resolution_reason"]) == ("dismissed", "not a real clash")
+    assert applied[0]["fingerprint"] == curation_records.fingerprint(
+        (curation_dir / "conflicts" / "abc123.json").read_bytes()
+    )
+    assert not [cy for cy, _ in session.runs if "properties(co) AS co" in cy], "the file is read, not the graph"
+    assert out == {"id": "abc123", "status": "dismissed", "reason": "not a real clash"}
+
+
+def test_resolving_a_recorded_conflict_this_graph_has_not_seen_yet_still_applies(monkeypatch, curation_dir):
+    """The record arrived with a pull and `vault sync` has not run: the file
+    is the truth, so resolving writes it and MERGEs the node."""
+    _stored(curation_dir)
+    session = RecordingSession(graph_node=None)
+    monkeypatch.setattr(c, "neo4j_session", lambda: session)
+
+    c.resolve_conflict("abc123", "resolved")
+
+    assert _applied(session)[0]["status"] == "resolved"
+
+
+def test_resolving_a_conflict_detected_before_records_writes_its_first_record(monkeypatch, curation_dir):
+    session = RecordingSession(graph_node={
+        "co": {"id": "abc123", "aspect": "limit", "claim_a": "A", "claim_b": "B", "severity": "high",
+               "status": "open", "detected_at": "t0", "detected_by_model": "m", "domains": ["x", "y"],
+               "_source": "adjudicator"},
+        "entities": [{"id": "ea", "key": "a|POLICY|x", "name": "A", "domain": "x"},
+                     {"id": "eb", "key": "b|POLICY|y", "name": "B", "domain": "y"}],
+        "evidence": [],
+    })
+    monkeypatch.setattr(c, "neo4j_session", lambda: session)
+
+    c.resolve_conflict("abc123", "resolved", reason="ok")
+
+    record = json.loads((curation_dir / "conflicts" / "abc123.json").read_text())
+    assert record["status"] == "resolved"
+    assert [e["id"] for e in record["entities"]] == ["ea", "eb"]
+    assert _applied(session)[0]["idA"] == "ea"
