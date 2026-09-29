@@ -41,16 +41,30 @@ artmind ingest async path/to/document.pdf --domain YOUR_DOMAIN
 ```
 Then track it with the admin UI's dashboard (`artmind admin-ui`, then open `/dashboard`) or `artmind ingest job-status JOB_ID`.
 
-**A vault-native markdown file gets its identity seeded on first ingest**:
-`_artmind_id` (a uuid7), `_version`, `_content_sha256`, and the rest of the
-system frontmatter block are written into the file itself; the Obsidian Git
-plugin commits the change (artmind never commits). If a vault's git setup looks
-wrong (pushes rejected, a merge rebasing, generated folders committed), run
-`artmind vault doctor`: it prints the exact fix for each problem. Re-ingesting the same file later
-bumps `_version` only if the body changed; editing only frontmatter (tags,
-title) takes a metadata-only fast path with no new version and no
-re-extraction. If `--domain` is omitted, a file's own `_domain` frontmatter
-wins over anything passed on the command line.
+**A vault-native markdown file gets its identity stamped on first ingest**:
+`_artmind_id` (a uuid7) and `_domain` — and nothing else — are written into the
+file's frontmatter, leaving its body and your own keys untouched; the Obsidian
+Git plugin commits the change (artmind never commits). The version, body hash
+and other per-ingest provenance live in the staging folder's `document.json`
+(`.artmind/data/kg/<domain>/<note>/`), so re-ingesting never rewrites the note.
+If a vault's git setup looks wrong (pushes rejected, a merge rebasing, generated
+folders committed), run `artmind vault doctor`: it prints the exact fix for
+each problem. Re-ingesting the same file later bumps the version only if the
+body changed (an extraction that failed is retried at the same version);
+editing only frontmatter (tags, title) takes a metadata-only fast path with no
+new version and no re-extraction. If `--domain` is omitted, a file's own
+`_domain` frontmatter wins over anything passed on the command line.
+
+**Notes from an older artmind still carry `_version`, `_content_sha256`,
+`_ingested_at` and friends.** They keep working. To move them into
+`document.json` once: stop the ingest worker (the command refuses while it
+runs, `--dryRun` included; `artmind ingest job-status` shows it), pause
+Obsidian Git's auto commit-and-sync, then run
+`artmind vault migrate-frontmatter --dryRun` and `artmind vault
+migrate-frontmatter` (idempotent; re-run after an interruption), and commit
+the result as one change. A note with no staging folder, unparsable or
+BOM-prefixed frontmatter, or a duplicate `_artmind_id` is left untouched and
+listed under `skipped` with the reason.
 
 **A multi-file batch defers its projection rebuild to one pass at the end**
 (true for both a folder `sync` and a multi-file `async` job) — every
@@ -527,6 +541,7 @@ pattern matches the chosen name.
 | Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
 | Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot (it restores the graph's sync bookmark too), or `write-to-graph` if JSON exists |
+| `vault sync`: "unresolved conflicts in N file(s) under .artmind/" | Obsidian Git's merge stopped on a conflict in artmind's generated files — two machines regenerated the same document folder, table or curation record | `artmind vault resolve --dryRun` to see the side each takes, then `artmind vault resolve` (one whole side per unit, staged, never committed; it refuses while the worker runs or when no merge is in progress); resolve any `reported` or `pending` notes in Obsidian, let Obsidian Git commit the merge, then `vault sync` |
 | `vault sync`: "no graph/structured bookmark recorded yet" | This store has never been synced on this graph/machine (or the snapshot predates bookmarks) | `vault sync --bootstrapSynced` if the store is known-current, else `--bootstrapEmpty`; add `--store graph`/`--store structured` to do one store only |
 | `vault sync`: "the graph bookmark ... is not a commit in this clone" / "not an ancestor of HEAD" | Another machine sharing the graph synced commits this clone has not pulled — or, if pulling doesn't clear it, history was rewritten | Let Obsidian Git pull (merge), then re-run `vault sync`. Still refused after pulling? Follow the message: `vault sync --store <name> --bootstrapSynced` if that store is known-current, else `--store <name> --bootstrapEmpty` |
 | Duplicate entities after merging domains | Same-as review not run | Run `refine-graph --dry-run` to propose, then `sameas approve` (see Situation G) |

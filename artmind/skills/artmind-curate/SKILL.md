@@ -33,6 +33,15 @@ before records existed have no file and do not travel until
 that ran `sameas propose` / `detect-conflicts` / `refine-graph`, and only an
 approved group does.
 
+**When two machines wrote the same record before pulling** (both detected
+one conflict, or one resolved it while the other re-detected it), Obsidian
+Git's merge stops on that record file. `artmind vault resolve` settles it
+the same way on every machine (`--dryRun` shows the pick first): a decision
+(resolved/dismissed) beats open, then the later change; a manual supersession
+beats a detected one; the later synthesis wins. It stages its pick and never
+commits — Obsidian Git concludes the merge. It never touches `same_as.yaml` —
+a conflict there is reported, and you merge the groups by hand.
+
 ## Required Inputs
 
 - `domain` (one or more): ask if not provided. Pass every sibling domain the

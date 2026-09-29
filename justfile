@@ -150,6 +150,14 @@ docs-archived:
 vault-doctor:
     uv run artmind vault doctor
 
+# settle merge conflicts in artmind's generated files (.artmind/data/**): one whole side per folder/table/record, staged, never committed (usage: just vault-resolve [--dryRun])
+vault-resolve *flags:
+    uv run artmind vault resolve {{ flags }}
+
+# once: move per-ingest fields out of every note's frontmatter into its document.json -- pause Obsidian Git's auto-commit first (usage: just vault-migrate-frontmatter [--dryRun])
+vault-migrate-frontmatter *flags:
+    uv run artmind vault migrate-frontmatter {{ flags }}
+
 # replay an archived bundle -- lands back as history, never latest (usage: just docs-restore-from-archive <artmind_id>)
 docs-restore-from-archive id:
     uv run artmind docs restore-from-archive --id {{ id }}
