@@ -157,6 +157,39 @@ every `artmind query` reminds you on stderr, for example:
 - Renaming or moving notes is safe: identity follows `_artmind_id`, not the
   file name.
 
+### 3.1 The same, from Obsidian
+
+The artmind Obsidian plugin turns this section into clicks. Install it once,
+from the artmind checkout, into the vault (Obsidian Git then carries it to the
+other laptop):
+
+```bash
+just obsidian-plugin-install ~/artmind_vaults/my_vault
+```
+
+and enable **artmind** under Settings → Community plugins. Its status bar item
+always shows where the vault stands and does the one thing that state needs
+when clicked:
+
+| Status bar | Click |
+|---|---|
+| `⚠ resolve artmind conflicts` | the `vault resolve` preview, then [Resolve] |
+| `⚠ artmind` | the side panel, at the problem and its fix |
+| `◌ ingesting 2/5` | the side panel, at the job |
+| `◉ 3 docs · 1 table behind` | Sync (offers Obsidian Git's Pull first when the last pull is old) |
+| `◉ 1 table → graph` | the `table2graph` review, then [Project to graph] |
+| `◉ 2 to ingest` | Ingest what changed (offers Sync first when a store is behind) |
+| `◉ artmind` | the side panel |
+
+It never syncs, ingests or writes to the graph without a click, never writes
+to git (Pull, Commit-and-sync and Commit are Obsidian Git's, which it
+triggers), and never runs `--bootstrapEmpty` for you: §2.3 is still a terminal
+step. After an ingest, a `table2graph` or a resolve, its notice offers
+[Commit-and-sync] so the other laptop gets the result sooner (turn that off in
+its settings). If Obsidian was started from the Dock and cannot find
+`artmind`, set its path in the plugin's settings (`which artmind` in a
+terminal).
+
 ---
 
 ## 4. Ingest and curation: the ideas you need

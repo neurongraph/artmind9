@@ -28,6 +28,7 @@ ingest dashboard).
 | `artmind/schema_reference.py` | Parses `domains/schemas/*_schema.yaml` prompts and renders an HTML **fragment** for the admin-ui's "Schemas" tab (`GET /api/schema-reference?prefix=`), reading the run folder's live schemas on every request. Grouped by domain family — the part of a filename before its first `.`. No checked-in copy. |
 | `artmind/server.py` | The warm `serve` daemon. |
 | `artmind/opencode/` | opencode/ACP persona, seeded into the run folder. |
+| `obsidian/artmind-obsidian/` | The Obsidian plugin (TypeScript, esbuild, vitest). It only runs the `artmind` CLI with `--compact`; `test/fixtures/*.json` are that JSON, regenerated from the real CLI by `test/test_plugin_fixtures.py` (`ARTMIND_REGEN_PLUGIN_FIXTURES=1`). A CLI output change fails that test first: regenerate, then run `just obsidian-plugin-test`. Install with `just obsidian-plugin-install <vault>`. Spec: `docs/superpowers/specs/2026-09-30-obsidian-plugin-design.md`. |
 | `artmind/setup.py` | `scaffold_run_folder()` (the `init` command) and Neo4j constraint/index setup. |
 | `paths.py` | **Root-level module** (not inside the package). Resolves `ARTMIND_HOME` / `ARTMIND_DATA_DIR` and loads `.env`. Packaged via `py-modules`. |
 | `utils/` | Shared helpers; packaged alongside `artmind`. |
@@ -35,7 +36,8 @@ ingest dashboard).
 | `docs/INSTALL.md` | Authoritative install/runtime reference. Read it before changing packaging. |
 | `justfile` | Task runner; the entry point for every routine operation. |
 
-Not source, do not edit: `build/`, `artmind9.egg-info/`, `__pycache__/`.
+Not source, do not edit: `build/`, `artmind9.egg-info/`, `__pycache__/`,
+`obsidian/artmind-obsidian/node_modules/` and its build output `main.js`.
 `tests/` (plural) is a **vestigial directory containing only stale `__pycache__`** —
 the real suite is `test/`. Add tests to `test/`.
 
