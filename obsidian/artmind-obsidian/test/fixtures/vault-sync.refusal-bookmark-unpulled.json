@@ -1,0 +1,10 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ the graph bookmark 111111111111 is not a commit in this clone -- another     │\n│ machine sharing this graph has applied commits this clone has not pulled     │\n│ yet. Let Obsidian Git pull, then re-run `vault sync`. If it is still not     │\n│ found after pulling (history was rewritten), re-run with `--store graph      │\n│ --bootstrapSynced` if graph is already known-current, or `--store graph      │\n│ --bootstrapEmpty` to replay everything committed.                            │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}

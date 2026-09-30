@@ -1,0 +1,48 @@
+{
+  "args": [
+    "ingest",
+    "job-status",
+    "00000000-0000-4000-8000-000000000001",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "job_id": "00000000-0000-4000-8000-000000000001",
+    "status": "failed",
+    "file_count": 5,
+    "processed_count": 5,
+    "queued_at": "2026-09-30T12:00:00",
+    "started_at": "2026-09-30T12:00:00",
+    "completed_at": "2026-09-30T12:00:00",
+    "error_message": null,
+    "domain": "general",
+    "files": [
+      {
+        "filename": "/vault/Notes/file1.md",
+        "status": "completed",
+        "current_step": null
+      },
+      {
+        "filename": "/vault/Notes/file2.md",
+        "status": "completed",
+        "current_step": null
+      },
+      {
+        "filename": "/vault/Notes/file3.md",
+        "status": "completed",
+        "current_step": null
+      },
+      {
+        "filename": "/vault/Notes/file4.md",
+        "status": "completed",
+        "current_step": null
+      },
+      {
+        "filename": "/vault/Notes/file5.md",
+        "status": "failed",
+        "current_step": null
+      }
+    ]
+  },
+  "stderr": null
+}

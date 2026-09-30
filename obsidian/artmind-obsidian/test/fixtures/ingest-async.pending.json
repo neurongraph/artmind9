@@ -1,0 +1,17 @@
+{
+  "args": [
+    "ingest",
+    "async",
+    "--pending",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "job_id": "00000000-0000-4000-8000-000000000001",
+    "domain": null,
+    "file_count": 3,
+    "submitted_at": "2026-09-30T12:00:00",
+    "message": "Job submitted with 3 file(s)"
+  },
+  "stderr": null
+}

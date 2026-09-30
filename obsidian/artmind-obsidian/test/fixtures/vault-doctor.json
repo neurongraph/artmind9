@@ -1,0 +1,57 @@
+{
+  "args": [
+    "vault",
+    "doctor",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": {
+    "vault": "/vault",
+    "ok": false,
+    "checks": [
+      {
+        "name": ".gitignore artmind block",
+        "status": "ok",
+        "detail": "present and current",
+        "fix": null
+      },
+      {
+        "name": ".gitattributes artmind block",
+        "status": "ok",
+        "detail": "present and current",
+        "fix": null
+      },
+      {
+        "name": "ignored paths still tracked",
+        "status": "ok",
+        "detail": "none",
+        "fix": null
+      },
+      {
+        "name": "pull.rebase",
+        "status": "fail",
+        "detail": "pull.rebase is 'true': pulls would rebase, rewriting the commit shas artmind uses as provenance and sync cursors (spec D5)",
+        "fix": "git config pull.rebase false"
+      },
+      {
+        "name": "Obsidian Git",
+        "status": "warn",
+        "detail": ".obsidian/plugins/obsidian-git/data.json not found: the plugin is not installed, or never configured, in this vault",
+        "fix": "install Obsidian Git (Settings -> Community plugins), then set sync method: merge, pull on startup: on, auto commit-and-sync interval: 5-10 minutes"
+      },
+      {
+        "name": "ARTMIND_VAULT_GIT_PUSH",
+        "status": "ok",
+        "detail": "not set",
+        "fix": null
+      },
+      {
+        "name": "other sync tools",
+        "status": "ok",
+        "detail": "none detected",
+        "fix": null
+      }
+    ]
+  },
+  "stderr": null
+}

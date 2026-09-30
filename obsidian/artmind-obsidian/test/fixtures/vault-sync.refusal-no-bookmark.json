@@ -1,0 +1,10 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ no graph or structured bookmark recorded yet for this vault -- pass          │\n│ --bootstrapEmpty to replay everything committed (correct for an empty        │\n│ Neo4j/DuckDB), or --bootstrapSynced if it is already known-current (e.g.     │\n│ right after `session initiate`/`db restore`)                                 │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}

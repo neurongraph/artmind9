@@ -1,0 +1,85 @@
+{
+  "args": [
+    "ingest",
+    "table2graph",
+    "team",
+    "--dryRun",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "command": "ingest table2graph",
+    "tables": [
+      {
+        "table": "team",
+        "domain": "general",
+        "mapping": "/vault/.artmind/domains/table_mappings/team.yaml",
+        "doc_id": "table:general:team",
+        "refresh_mode": "replace",
+        "rows": 4,
+        "entities": {
+          "person": {
+            "class": "PERSON",
+            "built": 3,
+            "kept": 3,
+            "skipped": {
+              "required property 'full_name' is empty": 1
+            }
+          },
+          "org": {
+            "class": "ORGANIZATION",
+            "built": 4,
+            "kept": 3,
+            "skipped": {}
+          },
+          "manager": {
+            "class": "PERSON",
+            "built": 1,
+            "kept": 1,
+            "skipped": {}
+          }
+        },
+        "lookups": {
+          "manager": {
+            "resolved": 1,
+            "stubbed": 1,
+            "skipped_unresolved": 0,
+            "skipped_ambiguous": 0,
+            "empty": 2,
+            "unresolved_values": [
+              "Zed Unknown"
+            ],
+            "ambiguous_values": []
+          }
+        },
+        "relationships": {
+          "person-works_at->org": {
+            "written": 3,
+            "skipped": {
+              "an endpoint is missing in this row": 1
+            }
+          },
+          "person-reports_to->manager": {
+            "written": 2,
+            "skipped": {
+              "an endpoint is missing in this row": 2
+            }
+          }
+        },
+        "chunks": 4,
+        "observations": 7,
+        "relationship_observations": 5,
+        "warnings": [
+          "entities.person.properties.full_name: property 'full_name' is not declared on PERSON in the schema",
+          "entities.person.properties.seniority: property 'seniority' is not declared on PERSON in the schema",
+          "entities.org.properties.org_name: property 'org_name' is not declared on ORGANIZATION in the schema",
+          "entities.manager.properties.manager_name: property 'manager_name' is not declared on PERSON in the schema",
+          "relationships[person-reports_to->manager]: rel_type 'reports_to' is not declared between PERSON and PERSON in the schema"
+        ],
+        "as_of": null,
+        "dry_run": true
+      }
+    ]
+  },
+  "stderr": null
+}

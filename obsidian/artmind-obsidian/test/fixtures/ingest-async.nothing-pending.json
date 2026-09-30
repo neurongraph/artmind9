@@ -1,0 +1,14 @@
+{
+  "args": [
+    "ingest",
+    "async",
+    "--pending",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "job_id": null,
+    "file_count": 0
+  },
+  "stderr": null
+}

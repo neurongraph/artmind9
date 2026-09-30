@@ -1,0 +1,10 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ the structured bookmark 111111111111 is not an ancestor of HEAD 222222222222 │\n│ -- this clone is behind (or has diverged from) what that store already       │\n│ reflects. Let Obsidian Git pull and merge, then re-run `vault sync`. If that │\n│ doesn't fix it (the bookmark's commit was rewritten away, not just           │\n│ unpulled), re-run with `--store structured --bootstrapSynced` if structured  │\n│ is already known-current, or `--store structured --bootstrapEmpty` to replay │\n│ everything committed.                                                        │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}

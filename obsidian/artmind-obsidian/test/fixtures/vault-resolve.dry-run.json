@@ -1,0 +1,53 @@
+{
+  "args": [
+    "vault",
+    "resolve",
+    "--dryRun",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "head": "1111111111111111111111111111111111111111",
+    "merge_head": "2222222222222222222222222222222222222222",
+    "resolved": [
+      {
+        "unit": ".artmind/data/kg/general/policy",
+        "kind": "kg",
+        "paths": [
+          ".artmind/data/kg/general/policy/chunks.json",
+          ".artmind/data/kg/general/policy/document.json",
+          ".artmind/data/kg/general/policy/observations.json",
+          ".artmind/data/kg/general/policy/relationships.json"
+        ],
+        "side": "theirs",
+        "rule": "the side extracted from the merged note's body"
+      }
+    ],
+    "pending": [
+      {
+        "unit": ".artmind/data/kg/general/memo",
+        "kind": "kg",
+        "paths": [
+          ".artmind/data/kg/general/memo/chunks.json",
+          ".artmind/data/kg/general/memo/document.json",
+          ".artmind/data/kg/general/memo/observations.json",
+          ".artmind/data/kg/general/memo/relationships.json"
+        ],
+        "why": "its note Notes/memo.md is still conflicted -- resolve the note, then re-run `vault resolve`"
+      }
+    ],
+    "reported": [
+      {
+        "path": ".artmind/same_as.yaml",
+        "why": "human-curated (same_as.yaml, schemas, table mappings, vault.yaml) -- resolve it by hand"
+      },
+      {
+        "path": "Notes/memo.md",
+        "why": "your note -- resolve it in Obsidian"
+      }
+    ],
+    "remaining": 3,
+    "dry_run": true
+  },
+  "stderr": null
+}

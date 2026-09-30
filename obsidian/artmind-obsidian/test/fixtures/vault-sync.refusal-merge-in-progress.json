@@ -1,0 +1,10 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ a merge is in progress in this vault -- finish it in Obsidian (or git)       │\n│ first, then re-run `vault sync`                                              │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}

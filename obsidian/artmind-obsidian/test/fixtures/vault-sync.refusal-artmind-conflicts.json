@@ -1,0 +1,10 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ unresolved conflicts in 1 file(s) under .artmind/ (.artmind/same_as.yaml) -- │\n│ run `artmind vault resolve` for artmind's generated files under              │\n│ .artmind/data/, resolve the rest by hand                                     │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}

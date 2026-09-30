@@ -1,0 +1,10 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ the ingest worker is running for this vault -- wait for it to finish         │\n│ (`artmind ingest job-status`), then re-run `vault sync`                      │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}

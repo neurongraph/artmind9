@@ -1,0 +1,40 @@
+{
+  "args": [
+    "ingest",
+    "jobs-active",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": [
+    {
+      "job_id": "00000000-0000-4000-8000-000000000001",
+      "status": "processing",
+      "file_count": 3,
+      "processed_count": 1,
+      "queued_at": "2026-09-30T12:00:00",
+      "started_at": "2026-09-30T12:00:00",
+      "domain": "general",
+      "files": [
+        {
+          "filename": "/vault/Notes/file1.md",
+          "status": "completed",
+          "current_step": null,
+          "doc_sha256": null
+        },
+        {
+          "filename": "/vault/Notes/file2.md",
+          "status": "processing",
+          "current_step": "extract_kg",
+          "doc_sha256": null
+        },
+        {
+          "filename": "/vault/Notes/file3.md",
+          "status": "queued",
+          "current_step": null,
+          "doc_sha256": null
+        }
+      ]
+    }
+  ],
+  "stderr": null
+}

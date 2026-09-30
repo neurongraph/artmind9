@@ -1,0 +1,43 @@
+{
+  "args": [
+    "vault",
+    "sync",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "stores": [
+      "graph",
+      "structured"
+    ],
+    "bases": {
+      "graph": "1111111111111111111111111111111111111111",
+      "structured": "1111111111111111111111111111111111111111"
+    },
+    "head": "2222222222222222222222222222222222222222",
+    "graph_bookmark": "2222222222222222222222222222222222222222",
+    "structured_bookmark": "2222222222222222222222222222222222222222",
+    "cursor_advanced": true,
+    "replayed": 2,
+    "unchanged": 0,
+    "retracted": 0,
+    "regenerated_tables": 1,
+    "curated_tables": 0,
+    "structured_only_tables": [
+      "general/team"
+    ],
+    "same_as_groups": 0,
+    "same_as_keys": 0,
+    "curation": {},
+    "curation_unchanged": 0,
+    "projection": {
+      "rebuilt": 0,
+      "deleted": 0,
+      "absent": 0,
+      "keys": 0,
+      "batches": 0
+    },
+    "domains_swept": []
+  },
+  "stderr": null
+}

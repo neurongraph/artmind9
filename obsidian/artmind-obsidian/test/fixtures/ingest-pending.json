@@ -1,0 +1,34 @@
+{
+  "args": [
+    "ingest",
+    "pending",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "notes": [
+      {
+        "path": "Notes/new_idea.md",
+        "reason": "new"
+      },
+      {
+        "path": "Notes/welcome.md",
+        "reason": "new"
+      }
+    ],
+    "binaries": [
+      {
+        "path": "Team/org_chart.pdf",
+        "reason": "new"
+      }
+    ],
+    "tables": [
+      {
+        "path": "Team/team.csv",
+        "reason": "new"
+      }
+    ],
+    "errors": []
+  },
+  "stderr": null
+}

@@ -1,0 +1,18 @@
+{
+  "args": [
+    "ingest",
+    "table2graph",
+    "--pending",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": [
+    {
+      "table": "team",
+      "domain": "general",
+      "mapping": "team.yaml",
+      "reason": "missing"
+    }
+  ],
+  "stderr": null
+}

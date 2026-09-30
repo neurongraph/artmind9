@@ -1,0 +1,31 @@
+{
+  "args": [
+    "ingest",
+    "job-results",
+    "00000000-0000-4000-8000-000000000001",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "job_id": "00000000-0000-4000-8000-000000000001",
+    "status": "failed",
+    "file_count": 2,
+    "files": [
+      {
+        "filename": "/vault/Notes/file1.md",
+        "status": "completed",
+        "error_message": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "filename": "/vault/Notes/file2.md",
+        "status": "failed",
+        "error_message": "KG ingestion failed",
+        "started_at": null,
+        "completed_at": null
+      }
+    ]
+  },
+  "stderr": null
+}

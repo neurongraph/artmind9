@@ -1,0 +1,49 @@
+{
+  "args": [
+    "vault",
+    "status",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "vault": "/vault",
+    "artmind_dir": "/artmind-home",
+    "data_dir": "/artmind-home/data",
+    "manifest": "/vault/.artmind/vault.yaml",
+    "config": [],
+    "graph": {
+      "uri": "neo4j://127.0.0.1:7687",
+      "database": "neo4j"
+    },
+    "sync": {
+      "head": "1111111111111111111111111111111111111111",
+      "vault_id": "00000000-0000-4000-8000-000000000001",
+      "operation_in_progress": null,
+      "unresolved_conflicts": [],
+      "legacy_cursor": null,
+      "graph_error": null,
+      "stores": {
+        "graph": {
+          "bookmark": "1111111111111111111111111111111111111111",
+          "state": "current",
+          "docs": 0,
+          "tables": [],
+          "curation": 0,
+          "same_as_groups": 0,
+          "detail": null
+        },
+        "structured": {
+          "bookmark": "1111111111111111111111111111111111111111",
+          "state": "current",
+          "docs": 0,
+          "tables": [],
+          "curation": 0,
+          "same_as_groups": 0,
+          "detail": null
+        }
+      },
+      "message": null
+    }
+  },
+  "stderr": null
+}

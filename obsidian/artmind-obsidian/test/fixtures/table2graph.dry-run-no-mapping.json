@@ -1,0 +1,12 @@
+{
+  "args": [
+    "ingest",
+    "table2graph",
+    "budget",
+    "--dryRun",
+    "--compact"
+  ],
+  "exit_code": 1,
+  "json": null,
+  "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ no table mapping matches 'budget' (domain general) — add one under           │\n│ domains/table_mappings/ or pass --mapping                                    │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+}
