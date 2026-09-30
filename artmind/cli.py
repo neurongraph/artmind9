@@ -257,6 +257,10 @@ click.rich_click.COMMAND_GROUPS = {
 
 
 @click.group()
+@click.version_option(
+    package_name="artmind9", prog_name="artmind", message="%(prog)s %(version)s",
+    help="Print the installed artmind version (`artmind X.Y.Z`) and exit.",
+)
 def cli():
     """Artmind — a knowledge system that synchronizes with your mind."""
     pass
