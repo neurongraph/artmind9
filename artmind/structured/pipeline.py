@@ -415,6 +415,23 @@ def _resolve_refresh_mode(
     return "temporal"
 
 
+def registered_tables(
+    source: Path, domain: str, *, table: str | None = None, sheet: str | None = None, header_row: int = 0
+) -> tuple[list[dict], list[dict | None]]:
+    """`(table_specs, registry_rows)` for the tables `source` loads into under
+    `domain` -- one per sheet -- with `None` for a table not registered yet.
+    Reads only."""
+    table_specs = _enumerate_source_tables(source, table=table, sheet=sheet, header_row=header_row)
+    return table_specs, [registry.get_table(spec["table_name"], domain=domain) for spec in table_specs]
+
+
+def is_unchanged(existing_rows: list[dict | None], file_sha256: str) -> bool:
+    """Every table the file loads is registered, from these exact bytes --
+    what `ingest_structured_file` skips on (without `force`), and what
+    `ingest pending` (spec 2026-09-30 §6 X2) leaves out."""
+    return bool(existing_rows) and all(row and row.get("sha256") == file_sha256 for row in existing_rows)
+
+
 def ingest_structured_file(
     source: Path,
     domain: str,
@@ -443,20 +460,16 @@ def ingest_structured_file(
 
     registry.register_datasource(DATASOURCE_NAME, "duckdb", str(structured_db_path()))
 
-    table_specs = _enumerate_source_tables(source, table=table, sheet=sheet, header_row=header_row)
+    table_specs, existing_rows = registered_tables(
+        source, domain, table=table, sheet=sheet, header_row=header_row
+    )
 
-    if not force:
-        existing_rows = [
-            registry.get_table(spec["table_name"], domain=domain) for spec in table_specs
-        ]
-        if existing_rows and all(
-            row and row.get("sha256") == file_sha256 for row in existing_rows
-        ):
-            return {
-                "status": "skipped",
-                "domain": domain,
-                "tables": [row["table_name"] for row in existing_rows],
-            }
+    if not force and is_unchanged(existing_rows, file_sha256):
+        return {
+            "status": "skipped",
+            "domain": domain,
+            "tables": [row["table_name"] for row in existing_rows],
+        }
 
     # Resolve every table's mode before writing any, so a refused request
     # (e.g. --refreshMode replace on a temporal table) changes nothing.

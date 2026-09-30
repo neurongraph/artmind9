@@ -5,6 +5,7 @@ import time
 import uuid
 import datetime as _datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from datetime import datetime
 from hashlib import sha1, sha256
 from pathlib import Path
@@ -21,6 +22,8 @@ from artmind.document_identity import (
     is_plain_folder_name,
     ingest_baseline,
     markdown_path_for,
+    Resolution,
+    VersionDecision,
     mint_artmind_id,
     needs_stamp,
     resolve_canonical_path,
@@ -799,19 +802,75 @@ def ingest_file(
     return _ingest_binary_or_adhoc(source, image_model, domain or "general", job_id, chunk_size)
 
 
-def _ingest_vault_native(
+class NotePlanError(ValueError):
+    """A vault-native note that cannot be ingested as it stands: its
+    `_domain` (or `--setDomain`) is not a plain folder name, or it has no
+    domain at all. The message is the one `ingest` reports for the file."""
+
+
+@dataclass(frozen=True)
+class NotePlan:
+    """What ingesting a vault-native note would do, decided without writing
+    anything. `_ingest_vault_native` acts on it; `ingest pending` (spec
+    2026-09-30 §6 X2) only reports it -- one decision, so the two can never
+    disagree about whether a note has changed.
+
+    `existing_meta`/`body` are the note as the ingest hashes it: after the
+    identity stamp when one is due (`stamp`), exactly as `_stamp_note` would
+    leave it."""
+
+    existing_meta: dict
+    body: str
+    prior_domain: str | None
+    effective_domain: str
+    domain_changed: bool
+    resolution: Resolution
+    stamp: bool
+    staged_folder: Path | None
+    staged: dict | None
+    baseline: dict
+    version: VersionDecision
+
+    @property
+    def tier(self) -> str:
+        """`content` (extract) or `metadata_only` (nothing to extract). A
+        `_domain` change is always `content`: the note moves to another
+        schema's extraction."""
+        return "content" if self.domain_changed else self.version.tier
+
+    @property
+    def is_new(self) -> bool:
+        """No ingest of this note ever left a baseline -- no staged
+        extraction and no legacy frontmatter hash or version."""
+        return not self.baseline.get("_content_sha256") and not self.baseline.get("_version")
+
+
+def _stamped_view(source: Path, artmind_id: str, domain: str) -> tuple[dict, str]:
+    """The note's `(frontmatter, body)` as `_stamp_note` would leave it and
+    `source.read_text()` would read it back -- computed, not written.
+    `read_text` decodes with universal newlines, hence the two replaces.
+    Raises `FrontmatterEditError` for a note that cannot be stamped."""
+    from artmind import frontmatter
+
+    text = frontmatter.set_fields(
+        frontmatter.read_note(source), {"_artmind_id": artmind_id, "_domain": domain}
+    )
+    return _parse_md_frontmatter(text.replace("\r\n", "\n").replace("\r", "\n"))
+
+
+def plan_vault_native(
     source: Path,
     *,
     domain: str | None,
-    job_id: str | None,
-    chunk_size: int,
-    set_domain: str | None,
-    fork: bool,
-    adopt: bool,
-) -> dict:
-    file_result = {"filename": source.name, "status": "failed"}
-    t_file_start = time.monotonic()
+    set_domain: str | None = None,
+    fork: bool = False,
+    adopt: bool = False,
+) -> NotePlan:
+    """Decide, reading only, what ingesting `source` would do.
 
+    Raises `NotePlanError` for a bad or missing domain, whatever
+    `resolve_identity` raises (`IdentityConflict`, most likely), and
+    `FrontmatterEditError` when the identity stamp could not be written."""
     raw_text = source.read_text(encoding="utf-8")
     existing_meta, body = _parse_md_frontmatter(raw_text)
 
@@ -820,47 +879,22 @@ def _ingest_vault_native(
     # `_domain` (and --setDomain) becomes `kg/<domain>/`: one plain folder name.
     for label, value in (("_domain in frontmatter", prior_domain), ("--setDomain", set_domain)):
         if value is not None and not is_plain_folder_name(value):
-            file_result["error"] = (
+            raise NotePlanError(
                 f"{source}: {label} {value!r} is not a plain folder name "
                 "(no '/', '\\', '..', leading '.', and not empty)"
             )
-            logger.error(file_result["error"])
-            return file_result
     if not effective_domain:
-        file_result["error"] = (
-            f"{source}: no '_domain' in frontmatter and no --domain given"
-        )
-        logger.error(file_result["error"])
-        return file_result
+        raise NotePlanError(f"{source}: no '_domain' in frontmatter and no --domain given")
     domain_changed = prior_domain is not None and prior_domain != effective_domain
 
-    try:
-        resolution = resolve_identity(source, existing_meta.get("_artmind_id"), fork=fork, adopt=adopt)
-    except Exception as e:  # IdentityConflict, most likely
-        file_result["error"] = str(e)
-        logger.error("Identity resolution failed for {}: {}", source, e)
-        return file_result
-    logger.info("Identity resolution for {}: {}", source.name, resolution.verdict)
+    resolution = resolve_identity(source, existing_meta.get("_artmind_id"), fork=fork, adopt=adopt)
 
     # The note is written only to stamp its identity -- first ingest, heal,
-    # fork, or a genuine `_domain` change (spec 2026-09-26 R6). Every
-    # per-ingest field lives in the staging folder's document.json, written
-    # by the extraction, so re-ingesting an unchanged note writes nothing to
-    # it and gives Obsidian Git nothing to commit or conflict on. Stamped
-    # line by line (`artmind.frontmatter`): the body, the user's own keys,
-    # their order and the line endings are kept. Stamping first, then
-    # re-reading, means the body hashed below is the body as it now stands.
-    stamped = needs_stamp(existing_meta, resolution.artmind_id, effective_domain)
-    if stamped:
-        from artmind.frontmatter import FrontmatterEditError
-
-        try:
-            _stamp_note(source, resolution.artmind_id, effective_domain)
-        except FrontmatterEditError as e:
-            file_result["error"] = f"{source}: cannot stamp identity into its frontmatter: {e}"
-            logger.error(file_result["error"])
-            return file_result
-        existing_meta, body = _parse_md_frontmatter(source.read_text(encoding="utf-8"))
+    # fork, or a genuine `_domain` change (spec 2026-09-26 R6). The body
+    # hashed below is the body as it will stand after that stamp.
+    stamp = needs_stamp(existing_meta, resolution.artmind_id, effective_domain)
+    if stamp:
+        existing_meta, body = _stamped_view(source, resolution.artmind_id, effective_domain)
 
     # The baseline is what the last successful extraction staged
     # (document.json), with a pre-R6 note's own frontmatter as the fallback.
@@ -878,8 +912,75 @@ def _ingest_vault_native(
         )
         if found:
             staged_folder, staged = found
-    version_decision = decide_version(body, ingest_baseline(staged, existing_meta))
-    tier = "content" if domain_changed else version_decision.tier
+    baseline = ingest_baseline(staged, existing_meta)
+    return NotePlan(
+        existing_meta=existing_meta,
+        body=body,
+        prior_domain=prior_domain,
+        effective_domain=effective_domain,
+        domain_changed=domain_changed,
+        resolution=resolution,
+        stamp=stamp,
+        staged_folder=staged_folder,
+        staged=staged,
+        baseline=baseline,
+        version=decide_version(body, baseline),
+    )
+
+
+def _ingest_vault_native(
+    source: Path,
+    *,
+    domain: str | None,
+    job_id: str | None,
+    chunk_size: int,
+    set_domain: str | None,
+    fork: bool,
+    adopt: bool,
+) -> dict:
+    from artmind.frontmatter import FrontmatterEditError
+
+    file_result = {"filename": source.name, "status": "failed"}
+    t_file_start = time.monotonic()
+
+    try:
+        plan = plan_vault_native(source, domain=domain, set_domain=set_domain, fork=fork, adopt=adopt)
+    except NotePlanError as e:
+        file_result["error"] = str(e)
+        logger.error(file_result["error"])
+        return file_result
+    except FrontmatterEditError as e:
+        file_result["error"] = f"{source}: cannot stamp identity into its frontmatter: {e}"
+        logger.error(file_result["error"])
+        return file_result
+    except Exception as e:  # IdentityConflict, most likely
+        file_result["error"] = str(e)
+        logger.error("Identity resolution failed for {}: {}", source, e)
+        return file_result
+    resolution = plan.resolution
+    effective_domain = plan.effective_domain
+    existing_meta = plan.existing_meta
+    logger.info("Identity resolution for {}: {}", source.name, resolution.verdict)
+
+    # Every per-ingest field lives in the staging folder's document.json,
+    # written by the extraction, so re-ingesting an unchanged note writes
+    # nothing to it and gives Obsidian Git nothing to commit or conflict on.
+    # Stamped line by line (`artmind.frontmatter`): the body, the user's own
+    # keys, their order and the line endings are kept.
+    stamped = plan.stamp
+    if stamped:
+        try:
+            _stamp_note(source, resolution.artmind_id, effective_domain)
+        except FrontmatterEditError as e:
+            file_result["error"] = f"{source}: cannot stamp identity into its frontmatter: {e}"
+            logger.error(file_result["error"])
+            return file_result
+
+    staged = plan.staged
+    staged_folder = plan.staged_folder
+    version_decision = plan.version
+    tier = plan.tier
+    body = plan.body
 
     ingested_at = datetime.now(_datetime.timezone.utc).isoformat()
 
@@ -1160,6 +1261,51 @@ def _ingest_binary_or_adhoc(
     return file_result
 
 
+@dataclass(frozen=True)
+class BinaryPlan:
+    """Whether ingesting a binary source (pdf/pptx/docx, an image) would
+    convert it, decided without writing anything. `_ingest_binary_derived`
+    acts on it; `ingest pending` (spec 2026-09-30 §6 X2) only reports it."""
+
+    registered_path: Path
+    existing_meta: dict
+    baseline: dict
+    source_sha256: str
+
+    @property
+    def unchanged(self) -> bool:
+        """Converted before, and the source's bytes are the ones the last
+        extraction recorded: the ingest is a `no_op`."""
+        return bool(self.existing_meta) and self.baseline.get("_source_sha256") == self.source_sha256
+
+    @property
+    def is_new(self) -> bool:
+        """Never converted: no markdown of it exists yet."""
+        return not self.existing_meta
+
+
+def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
+    """Read, never write: the converted markdown this binary maps to and the
+    baseline its last extraction left (spec 2026-09-26 R6: the staging
+    folder's document.json, with a pre-R6 conversion's own frontmatter as
+    the fallback -- a binary whose extraction failed is never mistaken for
+    converted and extracted)."""
+    stem = source.stem
+    registered_path = MARKDOWNS_DIR / f"{stem}.md"
+    existing_meta: dict = {}
+    if registered_path.exists():
+        existing_meta, _ = _parse_md_frontmatter(
+            registered_path.read_text(encoding="utf-8")
+        )
+    staged = staged_document(effective_domain, [stem], existing_meta.get("_artmind_id"), search=True)
+    return BinaryPlan(
+        registered_path=registered_path,
+        existing_meta=existing_meta,
+        baseline=ingest_baseline(staged, existing_meta),
+        source_sha256=_compute_sha256(source),
+    )
+
+
 def _ingest_binary_derived(
     source: Path,
     image_model: str,
@@ -1234,22 +1380,13 @@ def _ingest_binary_derived(
         logger.debug("Copied original to: {}", dest_path)
 
     orig_registry_path = canonical_path(dest_path)
-    source_sha256 = _compute_sha256(source)
+    plan = plan_binary(source, effective_domain)
+    source_sha256 = plan.source_sha256
+    registered_path = plan.registered_path
+    existing_meta = plan.existing_meta
+    baseline = plan.baseline
 
-    registered_path = MARKDOWNS_DIR / f"{stem}.md"
-    existing_meta: dict = {}
-    if registered_path.exists():
-        existing_meta, _ = _parse_md_frontmatter(
-            registered_path.read_text(encoding="utf-8")
-        )
-
-    # The baseline is the staging folder's document.json (spec 2026-09-26 R6),
-    # with a pre-R6 conversion's own frontmatter as the fallback: a binary
-    # whose extraction failed is never mistaken for converted and extracted.
-    staged = staged_document(effective_domain, [stem], existing_meta.get("_artmind_id"), search=True)
-    baseline = ingest_baseline(staged, existing_meta)
-
-    if existing_meta and baseline.get("_source_sha256") == source_sha256:
+    if plan.unchanged:
         file_result["status"] = "ok"
         file_result["domain"] = effective_domain
         file_result["artmind_id"] = existing_meta.get("_artmind_id")
