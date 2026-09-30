@@ -43,6 +43,8 @@ The mapping format is documented in the `artmind-create-schema` skill
 from __future__ import annotations
 
 import fnmatch
+import hashlib
+import json
 import math
 import re
 from dataclasses import dataclass, field
@@ -347,6 +349,10 @@ class TableMapping:
     valid_from: str
     entities: dict[str, EntitySpec]
     relationships: list[RelationshipSpec]
+    #: sha256 of the parsed mapping (`mapping_digest`), recorded on every
+    #: projection's Document as `table_mapping_sha256`: `ingest table2graph
+    #: --pending` compares it to tell an edited mapping from an unchanged one.
+    digest: str = ""
 
     def matches(self, table_name: str, domain: str | None = None) -> bool:
         if domain and self.domain and self.domain != domain:
@@ -408,6 +414,15 @@ def _parse_conditions(raw, where: str) -> list[Condition]:
             present=bool(item["present"]) if "present" in item else None,
         ))
     return out
+
+
+def mapping_digest(data) -> str:
+    """sha256 of a mapping document as parsed -- key order, comments and
+    whitespace do not count, so only an edit that can change what the
+    mapping builds changes it. The same whether the mapping was read from
+    the working tree (`load_mapping`) or from a commit (`vault sync`)."""
+    canonical = json.dumps(data, sort_keys=True, ensure_ascii=False, default=str, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def parse_mapping(data: dict, path: Path | None = None) -> TableMapping:
@@ -501,6 +516,7 @@ def parse_mapping(data: dict, path: Path | None = None) -> TableMapping:
         valid_from=str(document.get("valid_from", "$ingested_at")),
         entities=entities,
         relationships=relationships,
+        digest=mapping_digest(data),
     )
 
 
@@ -531,6 +547,71 @@ def find_mappings(table_name: str, domain: str | None, mappings_dir: Path | None
         if mapping.matches(table_name, domain):
             found.append(mapping)
     return found
+
+
+# ── which projections are out of date (spec 2026-09-30 §6 X4) ────────────────
+
+
+def projection_staleness(table: dict, mapping: TableMapping) -> str | None:
+    """Why `table`'s projection through `mapping` is out of date, or None.
+
+    The projection is this machine's staging folder for the table
+    (`stage_dir`: `kg/<domain>/table__<table>/`, gitignored), whose
+    `document.json` every `table2graph` run -- and every `vault sync` that
+    re-projects the table -- rewrites before committing it to the graph:
+
+    - `missing`: no `document.json` -- never projected here;
+    - `table_refreshed`: its `version` is not the registry's -- the table
+      was re-ingested or refreshed since (`register_table` bumps it on every
+      load, and `.meta.json` carries it between machines);
+    - `mapping_changed`: it names another mapping file, or its
+      `table_mapping_sha256` is not this mapping's digest. A projection made
+      before the digest was recorded carries none, and is judged on the
+      file name alone.
+    """
+    staged = stage_dir(table["domain"], table["table_name"]) / "document.json"
+    try:
+        document = json.loads(staged.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return "missing"
+    if not isinstance(document, dict):
+        return "missing"
+    if int(document.get("version") or 1) != int(table.get("version") or 1):
+        return "table_refreshed"
+    if mapping.path and document.get("table_mapping") != mapping.path.name:
+        return "mapping_changed"
+    recorded = document.get("table_mapping_sha256")
+    if recorded is not None and recorded != mapping.digest:
+        return "mapping_changed"
+    return None
+
+
+def pending_projections(tables: list[dict] | None = None, mappings_dir: Path | None = None) -> list[dict]:
+    """`[{table, domain, mapping, reason}]` for every registered table a
+    mapping matches whose projection is out of date (`projection_staleness`).
+    A table two mappings match is listed as `ambiguous` (with both names):
+    `table2graph` refuses it until one pattern is narrowed. A table no
+    mapping matches is a structured-store table only, and never listed.
+    Read-only. Raises `MappingError` for a mapping that does not parse, as
+    `table2graph` itself would."""
+    if tables is None:
+        from artmind.structured import registry
+
+        tables = registry.list_tables()
+    out = []
+    for table in tables:
+        found = find_mappings(table["table_name"], table["domain"], mappings_dir)
+        if not found:
+            continue
+        entry = {"table": table["table_name"], "domain": table["domain"]}
+        if len(found) > 1:
+            names = ", ".join(m.path.name if m.path else "mapping" for m in found)
+            out.append({**entry, "mapping": names, "reason": "ambiguous"})
+            continue
+        reason = projection_staleness(table, found[0])
+        if reason is not None:
+            out.append({**entry, "mapping": found[0].path.name if found[0].path else None, "reason": reason})
+    return out
 
 
 # ── validation against the schema and the table ──────────────────────────────
@@ -1130,6 +1211,7 @@ def build_staged(
     }
     if mapping.path:
         document["table_mapping"] = mapping.path.name
+    document["table_mapping_sha256"] = mapping.digest
 
     report["chunks"] = len(chunks)
     report["observations"] = len(observations)

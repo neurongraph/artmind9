@@ -541,7 +541,7 @@ def domains_harmonize(domain: str | None, dry_run: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...) and table -> graph projection (table2graph)."""
+    """Manage document ingestion (sync, async, pending, status, results,...) and table -> graph projection (table2graph; table2graph --pending lists the tables waiting)."""
     pass
 
 
@@ -1302,7 +1302,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
 
 
 @ingest.command("table2graph")
-@click.argument("tables", nargs=-1, required=True)
+@click.argument("tables", nargs=-1, required=False)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option(
     "--mapping", "mapping_path", default=None, type=click.Path(exists=True, dir_okay=False),
@@ -1312,6 +1312,12 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
 @click.option("--asOf", "as_of", default=None, help="Temporal (SCD-2) tables only: project just the row versions in force on this ISO date. Default: every version.")
 @click.option("--dryRun", "dry_run", is_flag=True, help="Validate the mapping and report what would be built; write nothing.")
 @click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-chunks` later).")
+@click.option(
+    "--pending", "pending", is_flag=True,
+    help="Instead of projecting: list every registered table a mapping matches whose projection is"
+    " missing, older than the table's last refresh, or older than the mapping's last change, as"
+    " [{table, domain, mapping, reason}]. Read-only. Takes no TABLE; --domain scopes it.",
+)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_table2graph(
     tables: tuple[str, ...],
@@ -1320,6 +1326,7 @@ def ingest_table2graph(
     as_of: str | None,
     dry_run: bool,
     no_embed: bool,
+    pending: bool,
     compact: bool,
 ) -> None:
     """Build graph entities and relationships from structured TABLE(s) — no LLM.
@@ -1330,10 +1337,27 @@ def ingest_table2graph(
     them. The table becomes a Document and each contributing row a DocChunk,
     so provenance and re-runs behave exactly like a document ingest: running
     it again replaces what the previous run wrote. Use --dryRun first.
+
+    --pending lists the tables waiting for a projection instead (`reason`:
+    `missing`, `table_refreshed`, `mapping_changed`, or `ambiguous` when two
+    mappings match). It compares the registry and the mapping with this
+    machine's staged projection (kg/<domain>/table__<table>/document.json).
     """
     _setup_logger()
     from artmind import table2graph
     from artmind.temporal import load_schema
+
+    if pending:
+        if tables or mapping_path or as_of or dry_run:
+            raise click.ClickException("--pending takes no TABLE, --mapping, --asOf or --dryRun")
+        try:
+            rows = structured_registry.list_tables(_parse_domains(domain) if domain else None)
+            _echo_json(table2graph.pending_projections(rows), compact)
+        except table2graph.MappingError as e:
+            raise click.ClickException(str(e))
+        return
+    if not tables:
+        raise click.ClickException("Give one or more TABLEs to project, or --pending to list the tables waiting")
 
     explicit = None
     if mapping_path:
