@@ -41,6 +41,22 @@ artmind ingest async path/to/document.pdf --domain YOUR_DOMAIN
 ```
 Then track it with the admin UI's dashboard (`artmind admin-ui`, then open `/dashboard`) or `artmind ingest job-status JOB_ID`.
 
+**Just what changed, inside a vault:**
+```bash
+artmind ingest pending --compact       # read-only: new/changed mapped files, no LLM
+artmind ingest async --pending         # one background job for exactly that list
+```
+`ingest pending` walks the vault the way `ingest async .` does (mapped folders only, no
+`_Inbox`, no dot-folders) and applies the ingest's own rules: a note is listed when its body
+changed since the extraction staged in its `document.json` (or its `_domain` changed), a
+binary when its bytes differ from the ones last converted, a csv/xlsx when its bytes differ
+from the ones registered. A note that only moved is not listed (re-ingesting it extracts
+nothing). It prints `{notes, binaries, tables, errors}`, each entry a vault-relative `path`
+and a `reason` (`new`/`changed`); `errors` names mapped files the ingest would refuse as they
+stand (an `_artmind_id` collision, a `_domain` that is not a folder name). With nothing
+pending, `ingest async --pending` prints `{"job_id": null, "file_count": 0}` and starts
+nothing. This is what the Obsidian plugin's *Ingest what changed* runs.
+
 **A vault-native markdown file gets its identity stamped on first ingest**:
 `_artmind_id` (a uuid7) and `_domain` — and nothing else — are written into the
 file's frontmatter, leaving its body and your own keys untouched; the Obsidian
@@ -448,6 +464,14 @@ artmind ingest table2graph TABLE --noEmbed  # big table: embed later
 artmind ingest embed-entities --domain DOMAIN && artmind ingest embed-chunks
 ```
 
+**Which tables are waiting?** `artmind ingest table2graph --pending --compact` lists every
+registered table a mapping matches whose projection on this machine is out of date, as
+`[{table, domain, mapping, reason}]`: `missing` (never projected here), `table_refreshed` (the
+table was re-ingested or refreshed since), `mapping_changed` (the mapping was edited since --
+comments and key order do not count), or `ambiguous` (two mappings match; `table2graph`
+refuses until one `table:` pattern is narrowed). Read-only; `--domain` scopes it. It compares
+the registry and the mapping with the staged projection, `kg/<domain>/table__<table>/document.json`.
+
 No `--domain` needed: the table's own registered domain is used (see Situation I). The dry-run
 report's `domain` field shows which one; use that for the `embed-entities` line.
 
@@ -521,6 +545,15 @@ pattern matches the chosen name.
 1. artmind ingest pull-kg --repo ... --repo-path ... --domain DOMAIN
 2. artmind ingest write-to-graph --folder data/kg/DOMAIN
 3. artmind ingest refine-graph --domain DOMAIN --dry-run   # propose duplicate merges
+```
+
+**Vault workflow (what the Obsidian plugin runs):**
+```
+1. artmind vault sync --compact                      # apply the other laptop's commits first
+2. artmind ingest pending --compact                  # what changed here
+3. artmind ingest async --pending --compact          # ingest exactly that, in the background
+4. artmind ingest table2graph --pending --compact    # tables waiting for the graph
+5. artmind ingest table2graph TABLE --dryRun --compact, then without --dryRun
 ```
 
 **Re-run / repair workflow:**

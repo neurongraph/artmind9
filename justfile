@@ -38,6 +38,10 @@ cli-init:
 cli-setup:
     uv run artmind setup
 
+# print the installed artmind version (the Obsidian plugin checks it)
+cli-version:
+    uv run artmind --version
+
 # ── dev (checkout/tooling, not artmind subcommands) ─────────────────────────
 
 # install: put `artmind` on PATH. Editable, so code edits are live.
@@ -234,6 +238,14 @@ ingest-sync file domain="general":
 ingest-async file domain="general":
     uv run artmind ingest async '{{ file }}' --domain {{ domain }}
 
+# list the mapped files an ingest would do work on (new/changed), read-only  (usage: just ingest-pending)
+ingest-pending:
+    uv run artmind ingest pending
+
+# submit exactly the pending files as one background job  (usage: just ingest-async-pending)
+ingest-async-pending:
+    uv run artmind ingest async --pending
+
 # list recent ingestion jobs  (usage: just ingest-jobs [status])
 ingest-jobs status="":
     uv run artmind ingest jobs {{ if status != "" { "--status " + status } else { "" } }}
@@ -265,6 +277,10 @@ ingest-write-to-graph-folder folder domain="":
 # build graph entities from a structured table via its table mapping  (usage: just ingest-table2graph <table> [--dryRun|--noEmbed|--asOf DATE|--mapping FILE])
 ingest-table2graph table flags="":
     uv run artmind ingest table2graph {{ table }} {{ flags }}
+
+# list registered tables whose graph projection is missing or out of date, read-only  (usage: just ingest-table2graph-pending)
+ingest-table2graph-pending:
+    uv run artmind ingest table2graph --pending
 
 # pull KG JSON from an external GitHub repo  (usage: just ingest-pull-kg <repo_url> <repo_path> <domain>)
 ingest-pull-kg repo repo_path domain:

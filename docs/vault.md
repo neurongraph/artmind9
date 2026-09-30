@@ -328,6 +328,45 @@ already do this, and the worker is already per-vault via its pid file.
 Default is `manual`. Nobody should discover automatic LLM spend by surprise;
 `init` offers to change it.
 
+### What an ingest would do: `ingest pending`
+
+Until the triggers above exist, the question "what do I need to ingest?" has a
+read-only answer. `artmind ingest pending` walks the vault as `ingest async .`
+would (mapped folders only, no `_Inbox`, no dot-folders) and applies the
+ingest's own decisions to every file -- the same functions, not a copy of them:
+
+| Kind | Listed when | Decided by |
+|---|---|---|
+| note (`.md`) | its body differs from the one its last extraction staged in `document.json`, or its `_domain` changed | `ingest.plan_vault_native` (`decide_version`) |
+| binary (pdf/pptx/docx, images) | its bytes differ from the ones last converted | `ingest.plan_binary` (`source_sha256`) |
+| table (csv/xlsx) | its bytes differ from the ones registered | `structured.pipeline.is_unchanged` |
+
+Each entry is a vault-relative `path` with a `reason`, `new` or `changed`. A
+note that only moved is not listed: re-ingesting it extracts nothing. Mapped
+files the ingest would refuse as they stand (an `_artmind_id` collision, a
+`_domain` that is not a folder name) are listed under `errors`. `artmind
+ingest async --pending` submits exactly the listed files as one job (and
+prints `{"job_id": null, "file_count": 0}` when there are none), so a file
+is ingested only when it changed -- the cost rule above, kept by hand.
+
+Tables have a second step. `artmind ingest table2graph --pending` lists every
+registered table a mapping matches whose projection on this machine is
+`missing`, `table_refreshed` (the registry's `version` moved past the one the
+projection recorded), `mapping_changed` (the projection recorded another
+mapping file, or another `table_mapping_sha256` -- a digest of the parsed
+mapping, so a comment edit does not count), or `ambiguous` (two mappings
+match). The projection it compares with is the staged
+`kg/<domain>/table__<table>/document.json` that every `table2graph` run, and
+every `vault sync` that re-projects the table, rewrites.
+
+The Obsidian plugin (`obsidian/artmind-obsidian/`,
+`docs/superpowers/specs/2026-09-30-obsidian-plugin-design.md`) runs these,
+`vault status`/`sync`/`resolve`/`doctor` and `artmind --version`, always
+with `--compact`. The JSON it reads is pinned by fixtures under
+`obsidian/artmind-obsidian/test/fixtures/`, regenerated from the real CLI by
+`test/test_plugin_fixtures.py` -- change a command's output and that test
+fails until the fixtures (and the plugin) follow.
+
 ### Git: Obsidian Git owns transport
 
 artmind never commits, pulls or pushes the vault. It writes files — a
