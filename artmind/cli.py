@@ -810,7 +810,7 @@ def ingest_sync(
 
 
 @ingest.command("async")
-@click.argument("file_path", type=click.Path(exists=True))
+@click.argument("file_path", type=click.Path(exists=True), required=False)
 @click.option(
     "--domain", default=None,
     help="Domain to assign. Vault-native markdown: a fallback only — a file's own"
@@ -820,10 +820,30 @@ def ingest_sync(
 )
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
-def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bool):
-    """Submit a file or directory for background ingestion; returns job_id immediately."""
+@click.option(
+    "--pending", "pending", is_flag=True,
+    help="Instead of FILE_PATH: enqueue exactly the files `ingest pending` lists (new or"
+    " changed mapped files in this vault), as one job. Prints {\"job_id\": null,"
+    " \"file_count\": 0} when nothing is pending.",
+)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_async(
+    file_path: str | None, domain: str | None, force: bool, stage_only: bool, pending: bool, compact: bool,
+):
+    """Submit a file or directory for background ingestion; returns job_id immediately.
+
+    With --pending (and no FILE_PATH), submits the vault's pending files
+    instead: exactly what `artmind ingest pending` lists.
+    """
     _require_ingest_extra()
     _setup_logger()
+    if pending:
+        if file_path is not None:
+            raise click.ClickException("--pending takes no FILE_PATH: it submits the vault's pending files")
+        _submit_pending(domain=domain, force=force, stage_only=stage_only, compact=compact)
+        return
+    if file_path is None:
+        raise click.ClickException("Give a FILE_PATH to ingest, or --pending for the vault's pending files")
     path = Path(file_path)
     _check_named_file_supported(path)
 
@@ -873,6 +893,12 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
         raise click.ClickException(f"No files found in {path}")
 
     batch_files = [str(f.resolve()) for f in files]
+    _submit_job(batch_files, domain=domain, force=force, stage_only=stage_only, compact=compact)
+
+
+def _submit_job(batch_files: list[str], *, domain: str | None, force: bool, stage_only: bool, compact: bool) -> None:
+    """Create the job, make sure a worker runs it, print it -- `ingest
+    async`'s one output shape, with or without --pending."""
     job_id = _create_job(batch_files, domain=domain, force=force, stage_only=stage_only)
     _ensure_worker_running()
 
@@ -882,7 +908,27 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
         "file_count": len(batch_files),
         "submitted_at": datetime.now().isoformat(),
         "message": f"Job submitted with {len(batch_files)} file(s)",
-    })
+    }, compact)
+
+
+def _submit_pending(*, domain: str | None, force: bool, stage_only: bool, compact: bool) -> None:
+    """`ingest async --pending` (spec 2026-09-30 §6 X3): one job for exactly
+    `ingest pending`'s list. `--domain` is only the fallback for a file no
+    mapping covers, as for any directory submission."""
+    from artmind.ingest_pending import pending_files
+    from artmind.manifest import load as load_manifest
+
+    vault_dir = _vault_or_raise()
+    if domain is not None and domain not in _get_available_domains():
+        raise click.ClickException(
+            f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
+        )
+    files = pending_files(vault_dir, _pending_report(vault_dir))
+    if not files:
+        _echo_json({"job_id": None, "file_count": 0}, compact)
+        return
+    _validate_manifest_domains(load_manifest(vault_dir))
+    _submit_job([str(f) for f in files], domain=domain, force=force, stage_only=stage_only, compact=compact)
 
 
 def _vault_or_raise() -> Path:

@@ -230,3 +230,92 @@ def test_cli_reports_a_broken_manifest(pvault):
 
     assert result.exit_code != 0
     assert "'ingest' must be a mapping" in result.output
+
+
+# ── `ingest async --pending` (spec 2026-09-30 §6 X3) ─────────────────────────
+
+
+@pytest.fixture()
+def workers(monkeypatch):
+    """Records worker starts instead of spawning `worker.py`."""
+    import artmind.cli as cli
+
+    started = []
+    monkeypatch.setattr(cli, "_ensure_worker_running", lambda: started.append(True))
+    return started
+
+
+def _job_files(job_id: str) -> list[str]:
+    from artmind.db import _get_db
+
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT filename FROM ingestion_job_files WHERE job_id = ? ORDER BY id", (job_id,)
+        ).fetchall()
+    finally:
+        conn.close()
+    return [r[0] for r in rows]
+
+
+def test_async_pending_enqueues_exactly_the_pending_list_as_one_job(pvault, workers):
+    from artmind.cli import cli
+
+    _build(pvault)
+    expected = [str(f) for f in pending_files(pvault)]
+
+    result = CliRunner().invoke(cli, ["ingest", "async", "--pending", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.stdout)
+    assert set(payload) == {"job_id", "domain", "file_count", "submitted_at", "message"}
+    assert payload["file_count"] == len(expected) == 6
+    assert payload["domain"] is None, "each file's mapping decides its domain"
+    assert _job_files(payload["job_id"]) == expected
+    assert workers == [True]
+
+
+def test_async_pending_with_nothing_pending_submits_no_job(pvault, workers):
+    from artmind.cli import cli
+    from artmind.jobs import _list_jobs
+
+    result = CliRunner().invoke(cli, ["ingest", "async", "--pending", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    assert json.loads(result.stdout) == {"job_id": None, "file_count": 0}
+    assert _list_jobs() == []
+    assert workers == []
+
+
+def test_async_pending_takes_no_file_path(pvault, workers):
+    from artmind.cli import cli
+
+    result = CliRunner().invoke(cli, ["ingest", "async", str(pvault), "--pending"])
+
+    assert result.exit_code != 0
+    assert "--pending takes no FILE_PATH" in result.output
+    assert workers == []
+
+
+def test_async_needs_a_file_path_or_pending(pvault, workers):
+    from artmind.cli import cli
+
+    result = CliRunner().invoke(cli, ["ingest", "async"])
+
+    assert result.exit_code != 0
+    assert "Give a FILE_PATH to ingest, or --pending" in result.output
+
+
+def test_async_with_a_path_prints_the_same_shape_compact(pvault, workers):
+    """--compact is new on `ingest async`: the plugin passes it to every command."""
+    from artmind.cli import cli
+
+    _write(pvault, "notes/one.md", "One.\n")
+
+    result = CliRunner().invoke(cli, ["ingest", "async", str(pvault / "notes/one.md"), "--compact"])
+
+    assert result.exit_code == 0, result.output
+    assert "\n" not in result.stdout.strip()
+    payload = json.loads(result.stdout)
+    assert payload["file_count"] == 1
+    assert _job_files(payload["job_id"]) == [str((pvault / "notes/one.md").resolve())]
