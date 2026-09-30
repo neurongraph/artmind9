@@ -211,7 +211,7 @@ click.rich_click.COMMAND_GROUPS = {
         {
             "name": "Sync & jobs",
             "commands": [
-                "sync", "async", "jobs", "jobs-active", "jobs-completed",
+                "sync", "async", "pending", "jobs", "jobs-active", "jobs-completed",
                 "job-status", "job-results", "job-chunks", "retry-job",
             ],
         },
@@ -541,7 +541,7 @@ def domains_harmonize(domain: str | None, dry_run: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, status, results,...) and table -> graph projection (table2graph)."""
+    """Manage document ingestion (sync, async, pending, status, results,...) and table -> graph projection (table2graph)."""
     pass
 
 
@@ -883,6 +883,50 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
         "submitted_at": datetime.now().isoformat(),
         "message": f"Job submitted with {len(batch_files)} file(s)",
     })
+
+
+def _vault_or_raise() -> Path:
+    """The vault this command runs in (`paths.ARTMIND_VAULT_DIR`, as every
+    ingest command resolves it), or a ClickException outside one."""
+    from paths import ARTMIND_VAULT_DIR
+
+    if ARTMIND_VAULT_DIR is None:
+        raise click.ClickException(
+            "Not inside an artmind vault.\n"
+            "  cd into one, or run `artmind init` to make this directory a vault."
+        )
+    return ARTMIND_VAULT_DIR
+
+
+def _pending_report(vault_dir: Path) -> dict:
+    """`ingest_pending.pending`, with a broken manifest as a ClickException."""
+    from artmind.ingest_pending import pending
+    from artmind.manifest import ManifestError
+
+    try:
+        return pending(vault_dir)
+    except ManifestError as e:
+        raise click.ClickException(str(e))
+
+
+@ingest.command("pending")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_pending_cmd(compact: bool):
+    """List the mapped files an ingest would do work on: new, or changed since their last ingest. Read-only, no LLM.
+
+    Walks the vault exactly as `ingest async <vault>` does (mapped folders
+    only; no dot-folders, no _Inbox) and applies the ingest's own rules to
+    each file: a note is listed when its body changed since the extraction
+    staged in its document.json (or its `_domain` changed), a binary when its
+    bytes differ from the ones last converted, a table (csv/xlsx) when its
+    bytes differ from the ones registered. A note that only moved is not
+    listed -- re-ingesting it extracts nothing. Prints `{notes, binaries,
+    tables, errors}`: each entry a vault-relative `path` and a `reason`
+    (`new` / `changed`); `errors` names mapped files the ingest would refuse
+    as they stand. `ingest async --pending` enqueues exactly this list.
+    """
+    _setup_logger()
+    _echo_json(_pending_report(_vault_or_raise()), compact)
 
 
 @ingest.command("jobs")
