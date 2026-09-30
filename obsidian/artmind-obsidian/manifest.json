@@ -1,0 +1,9 @@
+{
+  "id": "artmind",
+  "name": "artmind",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Shows where this vault stands with artmind (sync, ingest, tables for the graph) and offers the one action that state calls for.",
+  "author": "Surjit Das",
+  "isDesktopOnly": true
+}

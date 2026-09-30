@@ -1,0 +1,4 @@
+# npm installs these; `npm ci` restores them from package-lock.json
+node_modules/
+# build output (`npm run build`); `just obsidian-plugin-install` copies it into a vault
+main.js

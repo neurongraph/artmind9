@@ -1,0 +1,20 @@
+/* artmind for Obsidian. Colours come from Obsidian's theme variables. */
+.artmind-status { cursor: pointer; }
+.artmind-tone-red { color: var(--text-error); }
+.artmind-tone-amber { color: var(--color-orange); }
+.artmind-tone-blue { color: var(--color-blue); }
+.artmind-tone-grey { color: var(--text-muted); }
+.artmind-tone-spinner { color: var(--text-accent); }
+.artmind-section { margin-bottom: 1em; }
+.artmind-row { display: flex; justify-content: space-between; gap: 0.5em; }
+.artmind-row-label { color: var(--text-muted); }
+.artmind-error { color: var(--text-error); }
+.artmind-warning { color: var(--color-orange); }
+.artmind-blocked { color: var(--text-muted); font-size: var(--font-smaller); margin: 0 0.5em; }
+.artmind-action { margin: 0.25em 0.25em 0.25em 0; }
+.artmind-notice-buttons { display: flex; gap: 0.5em; margin-top: 0.5em; }
+.artmind-run pre { white-space: pre-wrap; font-size: var(--font-smaller); }
+.artmind-run-failed summary { color: var(--text-error); }
+.artmind-finding code { display: block; margin: 0.25em 0; }
+.artmind-review-buttons { display: flex; gap: 0.5em; margin-top: 1em; align-items: center; }
+.artmind-skip { color: var(--text-muted); margin-left: 1em; }
