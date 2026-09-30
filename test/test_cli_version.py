@@ -1,5 +1,6 @@
 """`artmind --version` (spec 2026-09-30 §6 X1): the Obsidian plugin reads it
 to refuse an artmind older than the one it was built against."""
+import functools
 import re
 import subprocess
 import sys
@@ -13,6 +14,7 @@ from artmind.cli import cli
 REPO = Path(__file__).resolve().parent.parent
 
 
+@functools.cache
 def _pyproject_version() -> str:
     return tomllib.loads((REPO / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
 
