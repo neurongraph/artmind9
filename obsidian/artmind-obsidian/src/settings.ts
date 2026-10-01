@@ -12,8 +12,11 @@ export interface ArtmindSettings {
   notices: Record<NoticeKind, boolean>;
   /** Offer Obsidian Git's Commit-and-sync after artmind writes (spec P6). */
   offerCommitAndSync: boolean;
-  /** Where "Ask admin-ui to create one" opens (`artmind admin-ui`'s default port). */
+  /** Where the admin console (`artmind admin-ui`) is found or started; its default port. */
   adminUiUrl: string;
+  /** The admin console this plugin started (0: none), so Stop never stops
+   * one started elsewhere. Per machine, like the rest of this file. */
+  adminUiPid: number;
 }
 
 export const DEFAULT_SETTINGS: ArtmindSettings = {
@@ -31,6 +34,7 @@ export const DEFAULT_SETTINGS: ArtmindSettings = {
   },
   offerCommitAndSync: true,
   adminUiUrl: "http://127.0.0.1:8379",
+  adminUiPid: 0,
 };
 
 export const NOTICE_LABELS: Record<NoticeKind, string> = {
@@ -60,5 +64,6 @@ export function mergeSettings(saved: unknown): ArtmindSettings {
     notices,
     offerCommitAndSync: pick("offerCommitAndSync"),
     adminUiUrl: pick("adminUiUrl"),
+    adminUiPid: Math.max(0, Math.trunc(pick("adminUiPid"))),
   };
 }

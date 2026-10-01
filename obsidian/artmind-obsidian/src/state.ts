@@ -43,7 +43,7 @@ export interface StateItem {
   detail: string;
 }
 
-export type ActionName = "sync" | "ingest" | "resolve" | "doctor" | "tables";
+export type ActionName = "sync" | "ingest" | "resolve" | "doctor" | "tables" | "admin";
 
 export interface VaultStateResult {
   /** Every state that applies, highest priority first (spec §3.1). */
@@ -240,6 +240,8 @@ export function vaultState(inputs: StateInputs): VaultStateResult {
       (toIngest ? null : "Nothing new or changed to ingest"),
     resolve: cannotRun ?? (merge === "a merge" ? null : "No merge in progress"),
     doctor: cannotRun,
+    // The admin console is started with the same artmind every other call uses.
+    admin: cannotRun,
     tables: cannotRun ?? (neo4jUnreachable ? "Neo4j unreachable" : null) ?? (tables.length ? null : "No tables waiting"),
   };
   const warnings: Partial<Record<ActionName, string>> = {};

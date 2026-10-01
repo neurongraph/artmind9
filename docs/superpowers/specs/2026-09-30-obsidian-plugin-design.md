@@ -120,6 +120,26 @@ when the section is open.
 | `table2graph` finishes | *"hercules_output_20260921 projected: 412 entities."* | [Commit-and-sync] (P6) |
 | `vault resolve` finishes | *"Artmind files resolved."* | [Complete the merge] |
 
+### 3.3a Ribbon icon and admin console
+
+- **Ribbon:** one `brain-circuit` icon in the left ribbon. Click opens the side panel.
+  Right-click offers Open side panel · Sync · Ingest what changed · Open admin console ·
+  Run doctor, each disabled with the reason the toolbar gives. A dot in the top state's tone
+  shows whenever the vault needs something (none when in sync).
+- **Admin console:** **Admin ↗** in the toolbar, the ribbon menu, the command palette, the
+  table review's "Ask admin-ui", and "Chunks and artifacts in the admin console" on the
+  job card (`/dashboard`). Each one:
+  1. probes `GET {adminUiUrl}/api/health` (X8) through `requestUrl`;
+  2. opens it if it serves this vault;
+  3. refuses another vault's console, or a port held by something else, and says which;
+  4. otherwise starts `artmind admin-ui --host H --port P` detached from the vault root,
+     logging to `.artmind/logs/admin-ui.log`, waits up to 20 s for the probe, then opens.
+     A start that fails shows the log's tail.
+- **Lifecycle:** a started console outlives Obsidian, like one started in a terminal, so
+  its chat sessions survive. Its pid is saved in the plugin's settings. **Stop admin
+  console** stops it only when `/api/health` still reports that pid, never one started
+  elsewhere.
+
 ### 3.4 Command palette
 
 Every action is also a command: *artmind: Sync*, *Ingest what changed*, *Show status*,
@@ -250,6 +270,8 @@ Everything else the plugin calls already exists and returns JSON:
 | X5 | Per-file KG counts on jobs | `ingestion_job_files` gains `entity_count` and `relationship_count` (nullable; an additive migration in `db.py`). `ingest_to_kg` counts what it staged (distinct observation keys; relationships) and the worker records it. `job-status`, `job-results`, `jobs-active` and `jobs-completed` return them per file as `entities`/`relationships`, null until the file is extracted. |
 | X6 | `ingest job-chunks` lookup | Reads the file's `doc_sha256` from the job's own row first, falling back to the registry. Before this, a converted binary (registered under its derived markdown) was always "not found in registry". The admin console's `/api/jobs/{id}/chunks` uses the same lookup. |
 | X7 | Stalled jobs and `retry-job --compact` | `job-status` and `jobs-active` report `stalled`: `processing`, but no worker holds the lock (the same check `vault sync` refuses on). `retry-job` on a stalled job also re-queues the file left at `processing`, and re-queues the job even when nothing failed. It refuses a job a live worker still runs. `--compact` prints `{job_id, domain, retried, deregistered, files, stalled, requeued}`. |
+| X8 | `GET /api/health` (admin-ui and chat-ui) | `{app, vault, version, pid}`: which app is on the port, for which vault (null outside one), at which version, in which process. The plugin probes it before opening, and matches `pid` before stopping. |
+| X9 | `artmind init` installs the plugin | With `.obsidian/` present: copies the packaged build into `.obsidian/plugins/artmind/` (only files whose bytes differ; `data.json` untouched) and adds `artmind` to `community-plugins.json` (an unreadable one is left alone). Without `.obsidian/`: skipped, with the reason. `init` prints `installed` / `a -> b` / `current`. |
 
 Each gets pytest coverage in `test/`, on real throwaway vaults, in the existing style.
 Documentation goes in `docs/vault.md` and the ingestion-helper skill, and each new command
@@ -269,9 +291,13 @@ API typings.
 | Views | `StatusBarItem`, `ArtmindView`, `TableReviewModal`, `ResolveModal`, and the notices. They render `VaultState` and call actions; they hold no logic. | the above |
 | `Settings` | The artmind path; poll intervals; notice toggles per kind; "offer to commit-and-sync after artmind writes" (**on**). | — |
 
-**Install:** `just obsidian-plugin-install <vault>` builds the plugin and copies `main.js`,
-`manifest.json` and `styles.css` into `<vault>/.obsidian/plugins/artmind/`. Obsidian Git
-commits those files like any other plugin's, so the other laptop gets it with the next pull.
+**Install:** `artmind init` (X9). `just obsidian-plugin-build` stages `main.js`,
+`manifest.json` and `styles.css` in the package (`artmind/obsidian_plugin/`, gitignored;
+`just dev-install` runs it, and a wheel must be built through the justfile to carry it).
+`init` copies them into `<vault>/.obsidian/plugins/artmind/` and lists `artmind` in
+`.obsidian/community-plugins.json`. The folder is gitignored (block v5), so each machine
+runs the build matching its own artmind, and its settings stay per machine.
+`just obsidian-plugin-install <vault>` remains the quick loop while developing.
 
 **Dormancy:** in a vault with no `.artmind/`, the plugin adds no status bar item and runs no
 polls.

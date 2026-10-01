@@ -13,6 +13,8 @@ export interface PanelHandlers {
   doctor(): void;
   reviewTable(table: string): void;
   retryJob(jobId: string): void;
+  /** Open a page of this vault's admin console, starting it if need be. */
+  openAdmin(path?: string): void;
   commitAndSync(): void;
   setPath(): void;
   copy(text: string): void;
@@ -121,6 +123,7 @@ function toolbar(root: HTMLElement, snapshot: Snapshot, handlers: PanelHandlers)
   tool("Ingest", state.blocked.ingest, handlers.ingest);
   tool("Resolve", state.blocked.resolve, handlers.resolve);
   tool("Doctor", state.blocked.doctor, handlers.doctor);
+  tool("Admin ↗", state.blocked.admin, () => handlers.openAdmin("/")).title ||= "Open the admin console (starts it if need be)";
   if (inputs.git.unsharedArtmindChanges) {
     const missing = snapshot.gitMissing.commitAndSync;
     tool(missing ?? "Commit-and-sync", missing ? "Obsidian Git's Commit-and-sync is missing" : null, handlers.commitAndSync);
@@ -266,6 +269,11 @@ function jobCard(
   }
 
   const list = el(box, "div", { cls: "artmind-files" });
+  const drill = el(box, "a", { cls: "artmind-admin-link", text: "Chunks and artifacts in the admin console ↗", attr: { href: "#" } });
+  drill.addEventListener("click", (event) => {
+    event.preventDefault();
+    handlers.openAdmin("/dashboard");
+  });
   for (const f of files) {
     const key = fileState(f.status);
     const line = el(list, "div", { cls: `artmind-file artmind-file-${key}` });

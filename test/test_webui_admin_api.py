@@ -1452,3 +1452,25 @@ def test_artifact_import_rejects_dotdot_inside_zip_entry_name(monkeypatch, tmp_p
     assert response.status_code == 400, response.text
     assert (dest / "observations.json").read_text() == "existing"
     assert not any(p.name.endswith(".artmind-tmp") for p in dest.parent.iterdir())
+
+
+def test_health_names_the_app_vault_version_and_pid(monkeypatch, tmp_path):
+    """The Obsidian plugin probes this before opening (or stopping) the admin
+    console: a port answering is not proof it is this vault's admin-ui."""
+    import os
+
+    monkeypatch.setattr(paths, "ARTMIND_VAULT_DIR", tmp_path)
+
+    admin = _client().get("/api/health").json()
+    chat = TestClient(create_app()).get("/api/health").json()
+
+    assert admin["app"] == "admin-ui"
+    assert chat["app"] == "chat-ui"
+    assert admin["vault"] == str(tmp_path)
+    assert admin["pid"] == os.getpid()
+    assert admin["version"]
+
+
+def test_health_outside_a_vault_reports_none(monkeypatch):
+    monkeypatch.setattr(paths, "ARTMIND_VAULT_DIR", None)
+    assert _client().get("/api/health").json()["vault"] is None

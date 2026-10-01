@@ -4049,6 +4049,22 @@ def init(directory: str, interactive: bool, remote_url: str | None):
         click.echo(f"Remote:   could not add {remote_url!r} (see logs)")
     click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
+    plugin = summary.get("obsidian_plugin") or {}
+    plugin_status = plugin.get("status")
+    reload_hint = " -- reload it in Obsidian (or restart Obsidian)"
+    if plugin_status == "installed":
+        enabled = " and enabled" if plugin.get("enabled") == "added" else ""
+        click.echo(f"Plugin:   artmind {plugin['version']} installed{enabled} in .obsidian/plugins/artmind/{reload_hint}")
+    elif plugin_status == "updated":
+        click.echo(f"Plugin:   artmind {plugin['previous']} -> {plugin['version']}{reload_hint}")
+    elif plugin_status == "current":
+        click.echo(f"Plugin:   artmind {plugin['version']} (current)")
+    elif plugin_status == "no_obsidian":
+        click.echo("Plugin:   skipped -- no .obsidian/ yet; open this folder as a vault in Obsidian once, then re-run `artmind init`")
+    elif plugin_status == "not_packaged":
+        click.echo("Plugin:   skipped -- this artmind build has no Obsidian plugin (`just obsidian-plugin-build` in the checkout)")
+    if plugin.get("enabled") == "failed":
+        click.echo("          could not read .obsidian/community-plugins.json -- enable artmind in Obsidian's settings")
     click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
     vault_id = summary.get("vault_id")
     if vault_id and summary.get("vault_id_minted"):

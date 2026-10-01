@@ -244,7 +244,7 @@ def note_scratch_dir(vault_dir: Path | str | None) -> Path | None:
 # the vault; everything below is the short list of exceptions, and each is a
 # secret, a churning binary, or machine-local state.
 GITIGNORE_BLOCK = """\
-# ── artmind (v4) ──────────────────────────────────────────────────────────────
+# ── artmind (v5) ──────────────────────────────────────────────────────────────
 # .artmind/ belongs to artmind and is versioned with your vault, so a clone
 # reproduces the graph without paying for extraction again. These are the
 # exceptions, and each is a secret, a churning binary, or machine-local state.
@@ -319,6 +319,10 @@ GITIGNORE_BLOCK = """\
 Thumbs.db
 /.obsidian/workspace.json
 /.obsidian/workspace-mobile.json
+# The artmind Obsidian plugin: `artmind init` installs the build matching THIS
+# machine's artmind, and its settings name this machine's paths and processes,
+# so each machine keeps its own.
+/.obsidian/plugins/artmind/
 # ── end artmind ───────────────────────────────────────────────────────────────
 """
 

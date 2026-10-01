@@ -20,6 +20,7 @@ from paths import (
     ORIGINALS_DIR,
     PACKAGE_ENV_EXAMPLE,
     PACKAGE_META_YAML,
+    PACKAGE_OBSIDIAN_PLUGIN_DIR,
     PACKAGE_OPENCODE_DIR,
     PACKAGE_SCHEMAS_DIR,
     PACKAGE_SKILLS_DIR,
@@ -429,6 +430,7 @@ def scaffold_vault(
     gitignore_written = write_gitignore(root)
     gitattributes_written = write_gitattributes(root)
     machine_config = ensure_machine_config()
+    obsidian_plugin = install_obsidian_plugin(root)
 
     git_remote_status = None
     if git_remote:
@@ -447,7 +449,86 @@ def scaffold_vault(
         "git_remote": git_remote_status,
         "vault_id": vault_id,
         "vault_id_minted": vault_id_minted,
+        "obsidian_plugin": obsidian_plugin,
     }
+
+
+OBSIDIAN_PLUGIN_ID = "artmind"
+OBSIDIAN_PLUGIN_FILES = ("main.js", "manifest.json", "styles.css")
+
+
+def _plugin_version(manifest: Path) -> str | None:
+    import json
+
+    try:
+        return json.loads(manifest.read_text(encoding="utf-8")).get("version")
+    except (OSError, ValueError, AttributeError):
+        return None
+
+
+def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
+    """Install the packaged Obsidian plugin into `root`'s `.obsidian/`, and
+    enable it. Every run, like any package asset: the three build files are
+    replaced (only when their bytes differ), so a vault always runs the plugin
+    matching THIS machine's artmind. The plugin's own `data.json` (its
+    settings) is never touched.
+
+    Nothing happens without `.obsidian/`: creating Obsidian's config folder is
+    Obsidian's job, and a folder never opened in Obsidian has no use for it.
+    The folder is gitignored (`GITIGNORE_BLOCK`), so each machine installs its
+    own build rather than pulling the other machine's.
+
+    Enabling means listing the id in `.obsidian/community-plugins.json`, which
+    Obsidian reads at startup -- so a running Obsidian needs a reload to pick
+    up either change, and community plugins must be on for the vault (Obsidian
+    asks once; artmind does not flip that switch). An unreadable
+    `community-plugins.json` is left alone rather than rewritten.
+
+    Returns `{status, version, previous, enabled}`: status is "installed",
+    "updated", "current", "no_obsidian" or "not_packaged" (a build without
+    the plugin staged -- see `just obsidian-plugin-build`); enabled is
+    "added", "already", "failed" or None when nothing was installed.
+    """
+    import json
+
+    source = Path(source or PACKAGE_OBSIDIAN_PLUGIN_DIR)
+    result: dict = {"status": None, "version": None, "previous": None, "enabled": None}
+    obsidian = Path(root) / ".obsidian"
+    if not obsidian.is_dir():
+        result["status"] = "no_obsidian"
+        return result
+    if not all((source / name).is_file() for name in OBSIDIAN_PLUGIN_FILES):
+        result["status"] = "not_packaged"
+        return result
+
+    dest = obsidian / "plugins" / OBSIDIAN_PLUGIN_ID
+    existed = (dest / "manifest.json").is_file()
+    result["previous"] = _plugin_version(dest / "manifest.json") if existed else None
+    result["version"] = _plugin_version(source / "manifest.json")
+    dest.mkdir(parents=True, exist_ok=True)
+    changed = False
+    for name in OBSIDIAN_PLUGIN_FILES:
+        target = dest / name
+        data = (source / name).read_bytes()
+        if not target.is_file() or target.read_bytes() != data:
+            target.write_bytes(data)
+            changed = True
+    result["status"] = "current" if not changed else ("updated" if existed else "installed")
+
+    enabled_file = obsidian / "community-plugins.json"
+    try:
+        enabled = json.loads(enabled_file.read_text(encoding="utf-8")) if enabled_file.is_file() else []
+        if not isinstance(enabled, list):
+            raise ValueError("not a list")
+    except (OSError, ValueError):
+        result["enabled"] = "failed"
+        return result
+    if OBSIDIAN_PLUGIN_ID in enabled:
+        result["enabled"] = "already"
+    else:
+        enabled_file.write_text(json.dumps([*enabled, OBSIDIAN_PLUGIN_ID], indent=2), encoding="utf-8")
+        result["enabled"] = "added"
+    return result
 
 
 def _symlink_skills(dest: Path) -> list[str]:

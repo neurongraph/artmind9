@@ -77,6 +77,14 @@ export class Plugin {
     this.data = data;
   }
 
+  ribbonIcons: Array<{ icon: string; title: string; el: HTMLElement; onClick: (evt: MouseEvent) => unknown }> = [];
+
+  addRibbonIcon(icon: string, title: string, onClick: (evt: MouseEvent) => unknown): HTMLElement {
+    const el = document.createElement("div");
+    this.ribbonIcons.push({ icon, title, el, onClick });
+    return el;
+  }
+
   addStatusBarItem(): HTMLElement {
     const el = document.createElement("div");
     this.statusBarItems.push(el);
@@ -137,4 +145,54 @@ export function parseYaml(text: string): unknown {
 
 export function normalizePath(path: string): string {
   return path.replace(/\\/g, "/").replace(/\/+/g, "/").replace(/^\/|\/$/g, "");
+}
+
+/** Records the items a menu was built with, and where it was shown. */
+export class MenuItem {
+  title = "";
+  icon = "";
+  disabled = false;
+  onClickFn: (() => unknown) | null = null;
+  setTitle(title: string): this {
+    this.title = title;
+    return this;
+  }
+  setIcon(icon: string): this {
+    this.icon = icon;
+    return this;
+  }
+  setDisabled(disabled: boolean): this {
+    this.disabled = disabled;
+    return this;
+  }
+  onClick(fn: () => unknown): this {
+    this.onClickFn = fn;
+    return this;
+  }
+}
+
+export class Menu {
+  static shown: Menu[] = [];
+  items: MenuItem[] = [];
+  addItem(build: (item: MenuItem) => unknown): this {
+    const item = new MenuItem();
+    build(item);
+    this.items.push(item);
+    return this;
+  }
+  addSeparator(): this {
+    return this;
+  }
+  showAtMouseEvent(): void {
+    Menu.shown.push(this);
+  }
+}
+
+export function setIcon(el: HTMLElement, icon: string): void {
+  el.setAttribute("data-icon", icon);
+}
+
+/** Tests that reach the network replace this. */
+export async function requestUrl(_request: unknown): Promise<never> {
+  throw new Error("requestUrl is not available in tests");
 }

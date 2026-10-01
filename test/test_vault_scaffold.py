@@ -13,6 +13,7 @@ from _historical_blocks import (
     V2_GITIGNORE_BLOCK_A,
     V2_GITIGNORE_BLOCK_B,
     V3_GITIGNORE_BLOCK,
+    V4_GITIGNORE_BLOCK,
 )
 
 
@@ -614,6 +615,7 @@ _HISTORICAL_GITIGNORE_BLOCKS = {
     "v2-a": V2_GITIGNORE_BLOCK_A,
     "v2-b": V2_GITIGNORE_BLOCK_B,
     "v3": V3_GITIGNORE_BLOCK,
+    "v4": V4_GITIGNORE_BLOCK,
 }
 
 

@@ -82,3 +82,17 @@
 .artmind-meter-relationships .artmind-meter-fill { background: var(--color-cyan); }
 .artmind-meter-chunks .artmind-meter-fill { background: var(--text-accent); }
 .artmind-meter-label { min-width: 3em; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+
+/* ── ribbon icon: a dot when the vault needs something ───────────────── */
+.artmind-ribbon { position: relative; }
+.artmind-ribbon-attention::after {
+  content: ""; position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ribbon-background, var(--background-secondary));
+}
+.artmind-ribbon-red::after { background: var(--text-error); }
+.artmind-ribbon-amber::after { background: var(--color-orange); }
+.artmind-ribbon-blue::after { background: var(--color-blue); }
+.artmind-ribbon-grey::after { background: var(--text-muted); }
+.artmind-ribbon-spinner::after { background: var(--text-accent); }
+
+.artmind-admin-link { display: inline-block; margin-top: 0.4em; font-size: var(--font-smaller); }

@@ -48,6 +48,7 @@ function handlers(): PanelHandlers & { calls: string[] } {
     doctor: record("doctor"),
     reviewTable: record("reviewTable"),
     retryJob: record("retryJob"),
+    openAdmin: record("openAdmin"),
     commitAndSync: record("commitAndSync"),
     setPath: record("setPath"),
     copy: record("copy"),
@@ -279,6 +280,17 @@ describe("the side panel (spec §3.2)", () => {
     button(root, "Retry job").click();
     expect(h.calls).toEqual(["retryJob:00000000-0000-4000-8000-000000000001"]);
     expect(button(root, "Retry job").disabled).toBe(true);
+  });
+
+  it("opens the admin console from the toolbar, and its dashboard from the job card", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.running").json }), h);
+    button(root, "Admin ↗").click();
+    (root.querySelector(".artmind-admin-link") as HTMLAnchorElement).click();
+
+    expect(h.calls).toEqual(["openAdmin:/", "openAdmin:/dashboard"]);
   });
 
   it("lists the activity, each run expanding to its raw output", () => {

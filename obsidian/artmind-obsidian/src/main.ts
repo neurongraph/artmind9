@@ -1,4 +1,6 @@
 import { FileSystemAdapter, Plugin, parseYaml } from "obsidian";
+import { AdminConsole, adminOutcomeText, stopOutcomeText } from "./admin";
+import { realAdminDeps } from "./adminDeps";
 import { ObsidianGitBridge, type CommandsLike } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
 import { Controller, type Snapshot } from "./controller";
@@ -10,6 +12,7 @@ import { Watchers } from "./watchers";
 import { ObsidianNotifier } from "./views/notices";
 import { ArtmindView, VIEW_TYPE } from "./views/panel";
 import { ResolveModal } from "./views/resolveModal";
+import { RibbonIcon } from "./views/ribbon";
 import { ArtmindSettingTab } from "./views/settingsTab";
 import { StatusBarItem } from "./views/statusBar";
 import { TableReviewModal } from "./views/tableReview";
@@ -25,6 +28,9 @@ export default class ArtmindPlugin extends Plugin {
   private controller: Controller | null = null;
   private watchers: Watchers | null = null;
   private statusBar: StatusBarItem | null = null;
+  private ribbon: RibbonIcon | null = null;
+  private admin: AdminConsole | null = null;
+  private notifier = new ObsidianNotifier();
   private mappings: Mapping[] = [];
   private last: Snapshot | null = null;
 
@@ -44,7 +50,7 @@ export default class ArtmindPlugin extends Plugin {
       cli,
       git: new GitReader(root),
       bridge,
-      notifier: new ObsidianNotifier(),
+      notifier: this.notifier,
       views: {
         render: (snapshot) => this.render(snapshot),
         openPanel: (section) => void this.openPanel(section),
@@ -78,6 +84,23 @@ export default class ArtmindPlugin extends Plugin {
     this.watchers = watchers;
     controller.attachWatchers(watchers);
 
+    this.admin = new AdminConsole(realAdminDeps(root, () => cli.path), {
+      url: () => this.artmindSettings.adminUiUrl,
+      vaultRoot: root,
+      startedPid: () => this.artmindSettings.adminUiPid,
+      // Not saveSettings: a pid changes nothing artmind needs re-checked.
+      saveStartedPid: async (pid) => {
+        this.artmindSettings.adminUiPid = pid;
+        await this.saveData(this.artmindSettings);
+      },
+    });
+    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => void this.openPanel("status")), {
+      openPanel: () => void this.openPanel("status"),
+      sync: () => void controller.sync(),
+      ingest: () => void controller.ingestWhatChanged(),
+      openAdmin: () => void this.openAdmin(),
+      doctor: () => void controller.runDoctor(),
+    });
     this.statusBar = new StatusBarItem(this.addStatusBarItem(), (action) => controller.perform(action));
     this.registerView(VIEW_TYPE, (leaf) => new ArtmindView(leaf, this.panelHandlers()));
     this.addSettingTab(new ArtmindSettingTab(this.app, this));
@@ -119,6 +142,7 @@ export default class ArtmindPlugin extends Plugin {
   private render(snapshot: Snapshot): void {
     this.last = snapshot;
     this.statusBar?.render(snapshot.state);
+    this.ribbon?.render(snapshot.state);
     for (const leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE)) {
       if (leaf.view instanceof ArtmindView) leaf.view.update(snapshot);
     }
@@ -154,7 +178,7 @@ export default class ArtmindPlugin extends Plugin {
       dryRun: (t) => controller.tableDryRun(t),
       project: (t) => controller.tableProject(t),
       openMapping: (path) => this.openExternal(path),
-      askAdminUi: () => window.open(this.artmindSettings.adminUiUrl),
+      askAdminUi: () => void this.openAdmin(),
     }).open();
   }
 
@@ -175,6 +199,21 @@ export default class ArtmindPlugin extends Plugin {
     void shell.openPath(fullPath);
   }
 
+  /** Open `path` on this vault's admin console, starting it if need be. */
+  private async openAdmin(path = "/"): Promise<void> {
+    const admin = this.admin;
+    if (!admin) return;
+    if (!admin.isStarting) this.notifier.show("prompt", "Opening the admin console…");
+    const outcome = await admin.open(path);
+    const text = adminOutcomeText(outcome);
+    if (text) this.notifier.show(outcome.kind === "opened" || outcome.kind === "busy" ? "prompt" : "error", text);
+  }
+
+  private async stopAdmin(): Promise<void> {
+    const outcome = await this.admin?.stop();
+    if (outcome) this.notifier.show(outcome.kind === "stopped" || outcome.kind === "not_running" ? "prompt" : "error", stopOutcomeText(outcome));
+  }
+
   private panelHandlers() {
     return {
       sync: () => void this.controller?.sync(),
@@ -183,6 +222,7 @@ export default class ArtmindPlugin extends Plugin {
       resolve: () => this.openResolve(),
       doctor: () => void this.controller?.runDoctor(),
       reviewTable: (table: string) => this.openTableReview(table),
+      openAdmin: (path?: string) => void this.openAdmin(path),
       commitAndSync: () => void this.controller?.gitAction("commitAndSync"),
       setPath: () => {
         const setting = (this.app as unknown as AppInternals).setting;
@@ -203,6 +243,8 @@ export default class ArtmindPlugin extends Plugin {
       ["doctor", "Run doctor", () => void this.controller?.runDoctor()],
       ["review-tables", "Review tables for graph", () => this.controller?.reviewTables()],
       ["open-panel", "Open side panel", () => void this.openPanel("status")],
+      ["open-admin-console", "Open admin console", () => void this.openAdmin()],
+      ["stop-admin-console", "Stop admin console", () => void this.stopAdmin()],
     ];
     for (const [id, name, callback] of commands) this.addCommand({ id, name, callback });
   }

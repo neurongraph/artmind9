@@ -64,6 +64,30 @@ def create_app(
     app.mount("/static", StaticFiles(directory=WEBUI_DIR / "static"), name="static")
     templates = Jinja2Templates(directory=WEBUI_DIR / "templates")
 
+    @app.get("/api/health")
+    async def health():
+        """Who is on this port: which app, for which vault, at which version,
+        in which process. The Obsidian plugin probes it before opening the
+        admin console -- a port answering is not proof it is artmind, let
+        alone this vault's -- and matches `pid` before stopping one it started.
+        """
+        import os
+        from importlib.metadata import PackageNotFoundError, version
+
+        import paths
+
+        try:
+            artmind_version = version("artmind9")
+        except PackageNotFoundError:
+            artmind_version = None
+        vault = paths.ARTMIND_VAULT_DIR
+        return {
+            "app": "admin-ui" if admin_routes else "chat-ui",
+            "vault": str(vault) if vault else None,
+            "version": artmind_version,
+            "pid": os.getpid(),
+        }
+
     @app.get("/")
     async def index(request: Request):
         context = {"page_title": page_title} if page_title is not None else {}

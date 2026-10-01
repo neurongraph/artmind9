@@ -166,6 +166,10 @@ PACKAGE_ENV_EXAMPLE = _SELF_DIR / "artmind" / "env.example"
 # relative to its cwd, i.e. ARTMIND_AGENT_CWD -- the run folder outside a
 # vault, the vault root (symlinked in by scaffold_vault) inside one.
 PACKAGE_OPENCODE_DIR = _SELF_DIR / "artmind" / "opencode"
+# The built Obsidian plugin (main.js, manifest.json, styles.css), staged here by
+# `just obsidian-plugin-build` -- a build output, gitignored, never edited.
+# `artmind init` installs it into the vault's .obsidian/plugins/artmind/.
+PACKAGE_OBSIDIAN_PLUGIN_DIR = _SELF_DIR / "artmind" / "obsidian_plugin"
 
 # ``PROJECT_ROOT`` retained for backward compatibility (worker.py, ingest.py).
 PROJECT_ROOT = _SELF_DIR

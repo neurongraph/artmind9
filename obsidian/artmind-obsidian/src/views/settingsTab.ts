@@ -61,8 +61,11 @@ export class ArtmindSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("admin-ui URL")
-      .setDesc("Opened by \"Ask admin-ui to create one\" when no table mapping matches.")
+      .setName("Admin console URL")
+      .setDesc(
+        "Where this vault's admin console (artmind admin-ui) is found, or started when nothing answers there. " +
+          "Give each vault its own port to run several at once.",
+      )
       .addText((text) =>
         text.setValue(settings.adminUiUrl).onChange((value) => {
           settings.adminUiUrl = value.trim();

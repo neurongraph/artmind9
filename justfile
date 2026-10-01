@@ -54,7 +54,7 @@ cli-version:
 # Install the global `artmind` command. Deliberately does NOT run `artmind init`
 # any more: init means "make THIS directory a vault" (docs/vault.md), and at
 # install time there is no vault. Create one with `cd <dir> && artmind init`.
-dev-install: dev-stop-daemons
+dev-install: dev-stop-daemons obsidian-plugin-build
     uv tool install --force --editable '.[ingest]'
     @echo "Installed. Create a vault with:  mkdir ~/MyVault && cd ~/MyVault && artmind init"
 
@@ -554,9 +554,11 @@ obsidian-plugin-deps:
 obsidian-plugin-test: obsidian-plugin-deps
     cd obsidian/artmind-obsidian && npm test && npm run typecheck
 
-# build the plugin's main.js (type check, then esbuild)
+# build the plugin's main.js (type check, then esbuild), and stage it in the package (artmind/obsidian_plugin/) for `artmind init` to install
 obsidian-plugin-build: obsidian-plugin-deps
     cd obsidian/artmind-obsidian && npm run build
+    mkdir -p artmind/obsidian_plugin
+    cp obsidian/artmind-obsidian/main.js obsidian/artmind-obsidian/manifest.json obsidian/artmind-obsidian/styles.css artmind/obsidian_plugin/
 
 # build, then copy main.js, manifest.json and styles.css into <vault>/.obsidian/plugins/artmind/  (usage: just obsidian-plugin-install ~/artmind_vaults/my_vault)
 obsidian-plugin-install vault: obsidian-plugin-build

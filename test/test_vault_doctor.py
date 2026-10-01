@@ -65,7 +65,7 @@ def test_an_outdated_gitignore_block_fails_and_points_at_init(repo):
     assert result["ok"] is False
     assert check["status"] == "fail"
     assert "outdated" in check["detail"]
-    assert "(v1; this artmind writes v4)" in check["detail"]
+    assert "(v1; this artmind writes v5)" in check["detail"]
     assert "artmind init" in check["fix"]
 
 
@@ -87,7 +87,7 @@ def test_a_v3_block_is_flagged_by_version_and_its_tracked_scratch_file_listed_af
 
     block = _by_name(result)[".gitignore artmind block"]
     assert block["status"] == "fail"
-    assert block["detail"] == "artmind block outdated (v3; this artmind writes v4)"
+    assert block["detail"] == "artmind block outdated (v3; this artmind writes v5)"
     assert "artmind init" in block["fix"]
     assert _by_name(result)["ignored paths still tracked"]["status"] == "ok", "v3 does not ignore a file"
 

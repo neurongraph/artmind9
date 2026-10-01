@@ -53,6 +53,9 @@ now, `ARTMIND_VAULT` is the only way to point at a vault other than the one
 - A running **Neo4j** with vector-index support.
 - LLM/embeddings access: local **Ollama**, or an **OpenRouter** API key.
 - `git` — a vault is a git repo.
+- Node.js + npm — `just dev-install` builds the Obsidian plugin (`just obsidian-plugin-build`)
+  and stages it in the package for `artmind init` to install. A wheel built outside the
+  justfile ships without the plugin.
 
 ## Install
 
@@ -77,8 +80,11 @@ artmind init
 staging) by default and excludes only a short list — secrets, churning
 binaries, and machine-local state (see the table above) — seeds the starter
 domain schemas, symlinks artmind's skills into `.claude/skills/`, and writes a
-starter `vault.yaml`. It is idempotent and needs no Neo4j, and it **never
-overwrites** a schema or config file you have edited.
+starter `vault.yaml`. If the folder is already an Obsidian vault (has
+`.obsidian/`), it also installs and enables the artmind Obsidian plugin in
+`.obsidian/plugins/artmind/` (per machine, gitignored; re-run `init` after an
+upgrade, then reload Obsidian). It is idempotent and needs no Neo4j, and it
+**never overwrites** a schema or config file you have edited.
 
 Then:
 

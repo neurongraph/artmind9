@@ -36,3 +36,6 @@ logs/
 /opencode.json
 .agents/skills/
 .pytest_cache/
+
+# The built Obsidian plugin, staged by `just obsidian-plugin-build` for `artmind init`.
+/artmind/obsidian_plugin/

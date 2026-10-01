@@ -139,7 +139,7 @@ every `artmind query` reminds you on stderr, for example:
 | Edited a schema or table mapping | Nothing extra here. On the **other** laptop, `vault sync` rebuilds the affected tables | Sync reads mappings and schemas as committed. Let Obsidian Git commit your edit first. |
 | Obsidian Git reports a **merge conflict** | Notes: fix in Obsidian. Files under `.artmind/data/`: `artmind vault resolve --dryRun`, then `artmind vault resolve` | `resolve` picks one whole side the same way on both laptops, then Obsidian Git commits the merge. Sync refuses until it's settled. |
 | Something looks off | `artmind vault status` (and `vault doctor`) | Shows HEAD, each store's bookmark, what's pending, and any merge or conflicts. |
-| Upgraded artmind | `just dev-install`, then `artmind init` in the vault, then restart `admin-ui` / `serve` from inside the vault | `init` upgrades the `.gitignore` block. `dev-install` stops daemons but doesn't restart them. |
+| Upgraded artmind | `just dev-install`, then `artmind init` in the vault, then restart `admin-ui` / `serve` from inside the vault, and reload Obsidian | `init` upgrades the `.gitignore` block and the Obsidian plugin. `dev-install` stops daemons but doesn't restart them. |
 
 **Rules for ingesting on both laptops:**
 
@@ -159,17 +159,29 @@ every `artmind query` reminds you on stderr, for example:
 
 ### 3.1 The same, from Obsidian
 
-The artmind Obsidian plugin turns this section into clicks. Install it once,
-from the artmind checkout, into the vault (Obsidian Git then carries it to the
-other laptop):
+The artmind Obsidian plugin turns this section into clicks. `artmind init`
+installs it, on **each laptop**: it copies the plugin into
+`.obsidian/plugins/artmind/` and enables it. The folder is gitignored, so each
+laptop runs the plugin matching its own artmind, and an upgrade
+(`artmind init` again) replaces it.
 
 ```bash
-just obsidian-plugin-install ~/artmind_vaults/my_vault
+cd ~/artmind_vaults/my_vault && artmind init
 ```
 
-and enable **artmind** under Settings → Community plugins. Its status bar item
-always shows where the vault stands and does the one thing that state needs
-when clicked:
+Then reload Obsidian. The first time, Obsidian asks you to turn on community
+plugins for the vault. (Open the folder in Obsidian once before `init`: with no
+`.obsidian/` yet, `init` skips the plugin and says so.)
+
+The plugin adds an **artmind icon to the left ribbon**: click it for the side
+panel, right-click for Sync, Ingest, the admin console and Doctor. A dot on it
+means the vault needs something. **Admin ↗** in the panel (or the command
+"Open admin console") opens this vault's admin console, starting
+`artmind admin-ui` first if nothing is running. It keeps running after Obsidian
+quits; "Stop admin console" stops one the plugin started.
+
+Its status bar item always shows where the vault stands and does the one thing
+that state needs when clicked:
 
 | Status bar | Click |
 |---|---|
