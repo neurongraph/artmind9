@@ -13,7 +13,15 @@ export function adminLogPath(vaultRoot: string): string {
   return join(vaultRoot, ".artmind", "logs", "admin-ui.log");
 }
 
-export function realAdminDeps(vaultRoot: string, artmindPath: () => string): AdminDeps {
+/** The system browser. Desktop only (isDesktopOnly): Electron's shell is always there. */
+export function openInBrowser(url: string): void {
+  const { shell } = require("electron") as { shell: { openExternal(url: string): Promise<void> } };
+  void shell.openExternal(url);
+}
+
+/** `open` decides where a page goes (an Obsidian tab or the browser);
+ * the browser when none is given. */
+export function realAdminDeps(vaultRoot: string, artmindPath: () => string, open: (url: string) => void = openInBrowser): AdminDeps {
   const log = adminLogPath(vaultRoot);
   return {
     async probe(base: string): Promise<Probe> {
@@ -52,11 +60,7 @@ export function realAdminDeps(vaultRoot: string, artmindPath: () => string): Adm
       child.unref();
       return { pid: child.pid ?? null, exited };
     },
-    open(url: string) {
-      // Desktop only (isDesktopOnly): Electron's shell is always there.
-      const { shell } = require("electron") as { shell: { openExternal(url: string): Promise<void> } };
-      void shell.openExternal(url);
-    },
+    open,
     kill(pid: number) {
       try {
         process.kill(pid, "SIGTERM");

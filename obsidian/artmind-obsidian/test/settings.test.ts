@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS, NOTICE_LABELS, mergeSettings } from "../src/settings"
 describe("settings (spec §7)", () => {
   it("offers commit-and-sync after artmind writes by default (P6)", () => {
     expect(DEFAULT_SETTINGS.offerCommitAndSync).toBe(true);
+    expect(DEFAULT_SETTINGS.adminInObsidianTab).toBe(true);
     expect(DEFAULT_SETTINGS.headPollSeconds).toBe(15);
     expect(DEFAULT_SETTINGS.jobPollSeconds).toBe(3);
     expect(DEFAULT_SETTINGS.newFileGroupSeconds).toBe(10);
@@ -20,6 +21,8 @@ describe("settings (spec §7)", () => {
     expect(merged.notices.newFiles).toBe(false);
     expect(merged.notices.syncDone).toBe(true);
     expect(merged.offerCommitAndSync).toBe(false);
+    expect(mergeSettings({ adminInObsidianTab: false }).adminInObsidianTab).toBe(false);
+    expect(mergeSettings({ adminInObsidianTab: "yes" }).adminInObsidianTab).toBe(true);
     expect(merged.headPollSeconds).toBe(15);
   });
 

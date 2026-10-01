@@ -1,6 +1,6 @@
 import { FileSystemAdapter, Plugin, parseYaml } from "obsidian";
-import { AdminConsole, adminOutcomeText, stopOutcomeText } from "./admin";
-import { realAdminDeps } from "./adminDeps";
+import { AdminConsole, adminOutcomeText, hostPort, stopOutcomeText } from "./admin";
+import { openInBrowser, realAdminDeps } from "./adminDeps";
 import { ObsidianGitBridge, type CommandsLike } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
 import { Controller, type Snapshot } from "./controller";
@@ -9,6 +9,7 @@ import { type Mapping, VAULT_YAML, promptsOnArrival, readMappings } from "./mani
 import { type ArtmindSettings, mergeSettings } from "./settings";
 import type { PanelSection } from "./state";
 import { Watchers } from "./watchers";
+import { type WebViewerApp, openInWebViewer, webViewerAvailable } from "./webviewer";
 import { ObsidianNotifier } from "./views/notices";
 import { ArtmindView, VIEW_TYPE } from "./views/panel";
 import { ResolveModal } from "./views/resolveModal";
@@ -84,7 +85,7 @@ export default class ArtmindPlugin extends Plugin {
     this.watchers = watchers;
     controller.attachWatchers(watchers);
 
-    this.admin = new AdminConsole(realAdminDeps(root, () => cli.path), {
+    this.admin = new AdminConsole(realAdminDeps(root, () => cli.path, (url) => void this.openAdminPage(url)), {
       url: () => this.artmindSettings.adminUiUrl,
       vaultRoot: root,
       startedPid: () => this.artmindSettings.adminUiPid,
@@ -207,6 +208,16 @@ export default class ArtmindPlugin extends Plugin {
     const outcome = await admin.open(path);
     const text = adminOutcomeText(outcome);
     if (text) this.notifier.show(outcome.kind === "opened" || outcome.kind === "busy" ? "prompt" : "error", text);
+  }
+
+  /** In an Obsidian tab when the setting asks and the Web viewer is on;
+   * the browser otherwise, including when the Web viewer refuses. */
+  private async openAdminPage(url: string): Promise<void> {
+    const app = this.app as unknown as WebViewerApp;
+    if (this.artmindSettings.adminInObsidianTab && webViewerAvailable(app)) {
+      if (await openInWebViewer(app, url, hostPort(url).base)) return;
+    }
+    openInBrowser(url);
   }
 
   private async stopAdmin(): Promise<void> {

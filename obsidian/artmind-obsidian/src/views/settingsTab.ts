@@ -73,6 +73,16 @@ export class ArtmindSettingTab extends PluginSettingTab {
         }),
       );
 
+    new Setting(containerEl)
+      .setName("Open the admin console in an Obsidian tab")
+      .setDesc("Uses the Web viewer core plugin. When it's off, the admin console opens in your browser.")
+      .addToggle((toggle) =>
+        toggle.setValue(settings.adminInObsidianTab).onChange((value) => {
+          settings.adminInObsidianTab = value;
+          save();
+        }),
+      );
+
     el(containerEl, "h3", { text: "Notices" });
     for (const kind of Object.keys(NOTICE_LABELS) as NoticeKind[]) {
       new Setting(containerEl).setName(NOTICE_LABELS[kind]).addToggle((toggle) =>

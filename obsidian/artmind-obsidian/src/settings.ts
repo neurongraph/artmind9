@@ -17,6 +17,9 @@ export interface ArtmindSettings {
   /** The admin console this plugin started (0: none), so Stop never stops
    * one started elsewhere. Per machine, like the rest of this file. */
   adminUiPid: number;
+  /** Open the admin console in an Obsidian tab (the Web viewer core
+   * plugin) rather than the browser; the browser whenever it's off. */
+  adminInObsidianTab: boolean;
 }
 
 export const DEFAULT_SETTINGS: ArtmindSettings = {
@@ -35,6 +38,7 @@ export const DEFAULT_SETTINGS: ArtmindSettings = {
   offerCommitAndSync: true,
   adminUiUrl: "http://127.0.0.1:8379",
   adminUiPid: 0,
+  adminInObsidianTab: true,
 };
 
 export const NOTICE_LABELS: Record<NoticeKind, string> = {
@@ -65,5 +69,6 @@ export function mergeSettings(saved: unknown): ArtmindSettings {
     offerCommitAndSync: pick("offerCommitAndSync"),
     adminUiUrl: pick("adminUiUrl"),
     adminUiPid: Math.max(0, Math.trunc(pick("adminUiPid"))),
+    adminInObsidianTab: pick("adminInObsidianTab"),
   };
 }

@@ -177,7 +177,9 @@ The plugin adds an **artmind icon to the left ribbon**: click it for the side
 panel, right-click for Sync, Ingest, the admin console and Doctor. A dot on it
 means the vault needs something. **Admin ↗** in the panel (or the command
 "Open admin console") opens this vault's admin console, starting
-`artmind admin-ui` first if nothing is running. It keeps running after Obsidian
+`artmind admin-ui` first if nothing is running. It opens as an Obsidian tab when
+the Web viewer core plugin is on, otherwise in your browser (see the plugin's
+settings). It keeps running after Obsidian
 quits; "Stop admin console" stops one the plugin started.
 
 Its status bar item always shows where the vault stands and does the one thing

@@ -135,6 +135,11 @@ when the section is open.
   4. otherwise starts `artmind admin-ui --host H --port P` detached from the vault root,
      logging to `.artmind/logs/admin-ui.log`, waits up to 20 s for the probe, then opens.
      A start that fails shows the log's tail.
+- **Where it opens:** in an Obsidian tab in the main area, through the Web viewer core
+  plugin (setting "Open the admin console in an Obsidian tab", on by default), reusing a
+  tab already showing the console. The Web viewer has no public API: its view type
+  (`webviewer`) and state (`{url, navigate}`) are Obsidian internals, probed at each open,
+  so a missing or renamed internal, or the plugin being off, falls back to the browser.
 - **Lifecycle:** a started console outlives Obsidian, like one started in a terminal, so
   its chat sessions survive. Its pid is saved in the plugin's settings. **Stop admin
   console** stops it only when `/api/health` still reports that pid, never one started
