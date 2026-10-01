@@ -74,7 +74,9 @@ def _init_db() -> None:
             doc_sha256       TEXT,
             started_at       TEXT,
             completed_at     TEXT,
-            error_message    TEXT
+            error_message    TEXT,
+            entity_count       INTEGER,
+            relationship_count INTEGER
         )
     """)
     cursor.execute("""
@@ -228,6 +230,14 @@ def _init_db() -> None:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN force INTEGER DEFAULT 0")
     if "stage_only" not in existing:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN stage_only INTEGER DEFAULT 0")
+    # What a file's extraction staged, for the progress views (admin console,
+    # Obsidian panel). NULL, not 0, until a file has been extracted: a file
+    # that was skipped, failed, or took a no-op/metadata-only fast path has
+    # no count, and "no count" must not read as "extracted nothing".
+    existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_job_files)")}
+    for col in ("entity_count", "relationship_count"):
+        if col not in existing:
+            cursor.execute(f"ALTER TABLE ingestion_job_files ADD COLUMN {col} INTEGER")
 
     # Phase 2 dropped path/filename-derived identity (logical_id) for
     # frontmatter-carried `artmind_id`, and Phase 5 shrank the row further

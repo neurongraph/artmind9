@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Snapshot } from "../src/controller";
 import { type StateInputs, vaultState } from "../src/state";
 import { ObsidianNotifier } from "../src/views/notices";
-import { type PanelHandlers, renderPanel } from "../src/views/panel";
+import { type PanelHandlers, newPanelUi, renderPanel } from "../src/views/panel";
 import { ResolveModal, renderResolve, resolveBlockedReason } from "../src/views/resolveModal";
 import { StatusBarItem } from "../src/views/statusBar";
 import { LOOKUP_PREVIEW, TableReviewModal, renderTableProblem, renderTableReview } from "../src/views/tableReview";
@@ -120,10 +120,40 @@ describe("the side panel (spec §3.2)", () => {
 
     expect(text(root)).toContain("⚠ resolve artmind conflicts");
     expect(text(root)).toContain("Commits to push2");
-    expect(button(root, "Sync").disabled).toBe(true);
-    expect(text(root)).toContain("A merge is in progress — finish it first");
+    const sync = button(root, "Sync");
+    expect(sync.disabled).toBe(true);
+    expect(sync.title).toBe("A merge is in progress — finish it first");
     button(root, "Resolve").click();
     expect(h.calls).toEqual(["resolve"]);
+  });
+
+  it("leads with the top state and offers its action as the one primary button", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, unsharedArtmindChanges: 0 } }), h);
+
+    const header = root.querySelector(".artmind-header")!;
+    expect(header.querySelector(".artmind-health")!.textContent).toBe("◉ 2 docs · 1 table behind↑ 3 to push");
+    const primary = root.querySelector(".artmind-primary button")!;
+    expect(primary.textContent).toBe("Sync");
+    (primary as HTMLButtonElement).click();
+    expect(h.calls).toEqual(["sync"]);
+  });
+
+  it("collapses Sync and Activity by default, and remembers a toggle across renders", () => {
+    const root = document.createElement("div");
+    const ui = newPanelUi();
+    const open = (id: string) => (root.querySelector(`[data-section="${id}"]`) as HTMLDetailsElement).open;
+
+    renderPanel(root, snapshot({ tablesPending: fixture("table2graph.pending").json }), handlers(), ui);
+    expect([open("status"), open("tables"), open("activity")]).toEqual([false, true, false]);
+
+    const status = root.querySelector('[data-section="status"]') as HTMLDetailsElement;
+    status.open = true;
+    status.dispatchEvent(new Event("toggle"));
+    renderPanel(root, snapshot(), handlers(), ui);
+    expect(open("status")).toBe(true);
   });
 
   it("lists the tables waiting, each opening its review", () => {
@@ -181,6 +211,46 @@ describe("the side panel (spec §3.2)", () => {
     const root = document.createElement("div");
     renderPanel(root, snapshot({ status: fixture("vault-status.no-bookmark").json }), handlers());
     expect(text(root)).toContain("artmind vault sync --bootstrapEmpty");
+  });
+
+  it("draws a running job: file states, per-file counts scaled to the largest, chunk progress", () => {
+    const root = document.createElement("div");
+
+    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.running").json }), handlers());
+
+    const card = root.querySelector('[data-section="job"]')!;
+    expect(card.querySelector("summary")!.textContent).toBe("Ingest job2/5 files");
+    expect(card.querySelector(".artmind-legend")!.textContent).toBe("2 done · 1 running · 2 queued");
+    expect([...card.querySelectorAll(".artmind-segment")].map((s) => [s.className.split("-").pop(), (s as HTMLElement).style.flexGrow]))
+      .toEqual([["done", "2"], ["running", "1"], ["queued", "2"]]);
+    expect(card.querySelector(".artmind-totals")!.textContent).toBe("34 entities · 20 relationships");
+
+    const rows = [...card.querySelectorAll(".artmind-file")];
+    const meters = (row: Element) =>
+      [...row.querySelectorAll(".artmind-meter")].map((m) => [
+        m.querySelector(".artmind-meter-label")!.textContent,
+        (m.querySelector(".artmind-meter-fill") as HTMLElement).style.width,
+      ]);
+    // file2 has the most of both, so its bars are full and file1's are relative to it.
+    expect(meters(rows[0])).toEqual([["12 E", "55%"], ["7 R", "54%"]]);
+    expect(meters(rows[1])).toEqual([["22 E", "100%"], ["13 R", "100%"]]);
+    const chunks = rows[2].querySelector(".artmind-meter-chunks")!;
+    expect(chunks.getAttribute("title")).toBe("entities 4/7 · properties 0/7 · relationships 3/7");
+    expect(chunks.textContent).toBe("7 chunks");
+    expect(rows[3].textContent).toBe("…file4.mdqueued");
+  });
+
+  it("keeps the finished job up as Last ingest job, with each failure's reason", () => {
+    const root = document.createElement("div");
+
+    renderPanel(root, snapshot({}, { jobResults: fixture("ingest-job-results.done").json }), handlers());
+
+    const card = root.querySelector('[data-section="job"]')!;
+    expect(card.querySelector("summary")!.textContent).toBe("Last ingest job2/2 files");
+    expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-red")).toBe(true);
+    const rows = [...card.querySelectorAll(".artmind-file")];
+    expect(rows[0].textContent).toBe("✓file1.md12 E7 R");
+    expect(rows[1].textContent).toBe("✗file2.mdKG ingestion failed");
   });
 
   it("lists the activity, each run expanding to its raw output", () => {

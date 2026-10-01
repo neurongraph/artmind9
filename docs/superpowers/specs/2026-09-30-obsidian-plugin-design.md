@@ -64,19 +64,44 @@ ingest > in sync. The side panel shows every state that applies.
 
 ### 3.2 Side panel (`ArtmindView`, right sidebar)
 
-- **Status:**
-  - HEAD, the graph bookmark and the structured bookmark (from `vault status --compact`);
-  - pending counts: documents, tables, curation records and same-as groups;
-  - files to ingest, tables waiting for the graph, commits waiting to push;
-  - the last sync's time and result.
-- **Actions:** Sync · Ingest what changed · Resolve · Doctor. Each is disabled whenever it
-  can't run, with the reason shown. For example: Sync while an ingest job runs or a merge is
-  in progress; Resolve when there's no merge.
-- **Tables:** the tables waiting for the graph, each opening the review (§5.1).
-- **Doctor findings:** each finding with its fix command and a **[Copy]** button. The plugin
-  never runs a fix, because the doctor's fixes are `git` commands (P5).
-- **Activity:** the last 20 runs (command, time, one-line summary), each expanding to its raw
-  output.
+Top to bottom, most urgent first:
+
+- **Header:** the status bar's state and its detail, the secondary indicators, any other
+  states that apply, and **one primary button** for whatever the top state asks for: Sync
+  when behind, Ingest what changed when files are waiting, Resolve during a conflict,
+  Review `<table>` when tables are waiting. Below it, a small toolbar with Sync · Ingest ·
+  Resolve · Doctor (plus Commit-and-sync when there are artmind changes to share). Each is
+  disabled whenever it can't run, with the reason as its tooltip. For example: Sync while an
+  ingest job runs or a merge is in progress; Resolve when there's no merge. A blocked
+  primary button shows its reason inline.
+- **Callouts**, only when they apply: problems (artmind missing or too old, Neo4j
+  unreachable, failed background reads) and the first-sync bootstrap step.
+- **Ingest job:** the running job, or the last job once it finishes (its `job-results`
+  are fetched when the poll sees it end). It shows:
+  - a segmented bar of file states (done · running · queued · skipped · failed), with a
+    legend;
+  - totals of entities and relationships;
+  - one row per file. An extracted file shows two compact bars, entities (E) and
+    relationships (R), each scaled to the largest file in the job. A file in `extract_kg`
+    shows its chunk progress, with per-step counts in the tooltip. A failed file shows its
+    error.
+  - The counts are `entity_count`/`relationship_count` on `ingestion_job_files` (§6):
+    distinct entities and relationships the file's extraction staged. They are null for a
+    file never extracted (skipped, failed, a no-op or metadata-only re-ingest).
+
+Then collapsible sections. Each header carries a one-line badge, so the panel reads with
+everything collapsed. The panel remembers which sections are open across re-renders, and
+opening the panel at a section expands it.
+
+- **Sync** (collapsed by default; badge `graph ✓ · structured ⚠`): HEAD, the graph and
+  structured bookmarks, pending counts (documents, tables, curation records, same-as
+  groups), files to ingest, tables waiting for the graph, commits waiting to push, and the
+  last sync's time and result.
+- **Tables for the graph:** the tables waiting, each opening the review (§5.1).
+- **Doctor** (after a run): each finding with its fix command and a **[Copy]** button. The
+  plugin never runs a fix, because the doctor's fixes are `git` commands (P5).
+- **Activity** (collapsed by default): the last 20 runs (command, time, one-line summary),
+  each expanding to its raw output.
 
 ### 3.3 Notices
 
@@ -216,6 +241,8 @@ Everything else the plugin calls already exists and returns JSON:
 | X2 | `artmind ingest pending [--compact]` | Read-only, no LLM. Lists mapped files that are new, or whose content changed since their last ingest: `{notes: [...], binaries: [...], tables: [...]}`, with vault-relative paths and a reason (`new` / `changed`). It uses the same identity and version rules as ingest (body hash for notes, source hash for binaries, bytes for tables), so what it lists is exactly what an ingest would do work on. |
 | X3 | `artmind ingest async --pending` | Enqueues exactly X2's list as one job. Its output is the same JSON as `ingest async`. With nothing pending, it returns `{"job_id": null, "file_count": 0}`. |
 | X4 | `artmind ingest table2graph --pending [--compact]` | Lists each registered table that a mapping matches but whose graph projection is missing, or older than the table's last refresh or the mapping's last change: `[{table, domain, mapping, reason}]`. Read-only. |
+| X5 | Per-file KG counts on jobs | `ingestion_job_files` gains `entity_count` and `relationship_count` (nullable; an additive migration in `db.py`). `ingest_to_kg` counts what it staged (distinct observation keys; relationships) and the worker records it. `job-status`, `job-results`, `jobs-active` and `jobs-completed` return them per file as `entities`/`relationships`, null until the file is extracted. |
+| X6 | `ingest job-chunks` lookup | Reads the file's `doc_sha256` from the job's own row first, falling back to the registry. Before this, a converted binary (registered under its derived markdown) was always "not found in registry". The admin console's `/api/jobs/{id}/chunks` uses the same lookup. |
 
 Each gets pytest coverage in `test/`, on real throwaway vaults, in the existing style.
 Documentation goes in `docs/vault.md` and the ingestion-helper skill, and each new command

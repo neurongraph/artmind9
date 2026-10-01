@@ -84,6 +84,7 @@ def _update_job_file_status(
     started_at: str | None = None,
     completed_at: str | None = None,
     error_message: str | None = None,
+    kg_counts: dict | None = None,
 ) -> None:
     """Update per-file status in ingestion_job_files."""
     conn = _get_db()
@@ -108,6 +109,9 @@ def _update_job_file_status(
         if error_message is not None:
             updates.append("error_message = ?")
             params.append(error_message)
+        if kg_counts is not None:
+            updates.extend(["entity_count = ?", "relationship_count = ?"])
+            params.extend([kg_counts.get("entities"), kg_counts.get("relationships")])
         if not updates:
             return
         params.extend([job_id, filename])
@@ -134,7 +138,7 @@ def _fetch_active_jobs() -> list[dict]:
         for row in rows:
             job_id = row[0]
             files = conn.execute(
-                "SELECT filename, status, current_step, doc_sha256"
+                "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count"
                 " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
@@ -147,7 +151,10 @@ def _fetch_active_jobs() -> list[dict]:
                 "started_at": row[5],
                 "domain": row[6] or "general",
                 "files": [
-                    {"filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3]}
+                    {
+                        "filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3],
+                        "entities": f[4], "relationships": f[5],
+                    }
                     for f in files
                 ],
             })
@@ -171,7 +178,8 @@ def _fetch_completed_jobs(limit: int = 100) -> list[dict]:
         for row in jobs:
             job_id = row[0]
             files = conn.execute(
-                "SELECT filename, status, error_message, started_at, completed_at"
+                "SELECT filename, status, error_message, started_at, completed_at,"
+                " entity_count, relationship_count"
                 " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
@@ -192,6 +200,8 @@ def _fetch_completed_jobs(limit: int = 100) -> list[dict]:
                         "error_message": f[2],
                         "started_at": f[3],
                         "completed_at": f[4],
+                        "entities": f[5],
+                        "relationships": f[6],
                     }
                     for f in files
                 ],
@@ -213,6 +223,30 @@ def _fetch_chunks(doc_sha256: str) -> list[dict]:
         return [{"seq": r[0], "e": r[1], "p": r[2], "r": r[3]} for r in rows]
     finally:
         conn.close()
+
+
+def _job_file_sha256(job_id: str, document: str) -> str | None:
+    """The doc_sha256 the worker recorded for `document` (a basename, as the
+    progress views show it) in this job, or None if it has none yet.
+
+    Read from the job's own file row rather than the document registry: a
+    converted binary registers under its derived markdown, so the registry
+    never knows `report.pdf` by that name -- and the job row is unambiguous
+    where two domains hold same-named documents.
+    """
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT filename, doc_sha256 FROM ingestion_job_files WHERE job_id = ? AND doc_sha256 IS NOT NULL",
+            (job_id,),
+        ).fetchall()
+    finally:
+        conn.close()
+    target = document.upper()
+    for filename, sha in rows:
+        if Path(filename).name.upper() == target:
+            return sha
+    return None
 
 
 def _get_chunk_progress(doc_sha256: str) -> dict:
@@ -248,13 +282,16 @@ def _get_job_status(job_id: str) -> dict | None:
         if not row:
             return None
         cursor.execute(
-            "SELECT filename, status, current_step, doc_sha256"
+            "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count"
             " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
         files = []
         for r in cursor.fetchall():
-            entry = {"filename": r[0], "status": r[1], "current_step": r[2]}
+            entry = {
+                "filename": r[0], "status": r[1], "current_step": r[2],
+                "entities": r[4], "relationships": r[5],
+            }
             if r[3] and r[2] == "extract_kg":
                 entry["chunk_progress"] = _get_chunk_progress(r[3])
             files.append(entry)
@@ -288,7 +325,8 @@ def _get_job_results(job_id: str) -> dict | None:
             return None
         status, file_count, error_message = row
         cursor.execute(
-            "SELECT filename, status, error_message, started_at, completed_at"
+            "SELECT filename, status, error_message, started_at, completed_at,"
+            " entity_count, relationship_count"
             " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
@@ -299,6 +337,8 @@ def _get_job_results(job_id: str) -> dict | None:
                 "error_message": r[2],
                 "started_at": r[3],
                 "completed_at": r[4],
+                "entities": r[5],
+                "relationships": r[6],
             }
             for r in cursor.fetchall()
         ]

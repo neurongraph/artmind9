@@ -20,27 +20,37 @@
       {
         "filename": "/vault/Notes/file1.md",
         "status": "completed",
-        "current_step": null
+        "current_step": null,
+        "entities": 12,
+        "relationships": 7
       },
       {
         "filename": "/vault/Notes/file2.md",
         "status": "completed",
-        "current_step": null
+        "current_step": null,
+        "entities": 22,
+        "relationships": 13
       },
       {
         "filename": "/vault/Notes/file3.md",
         "status": "completed",
-        "current_step": null
+        "current_step": null,
+        "entities": 32,
+        "relationships": 19
       },
       {
         "filename": "/vault/Notes/file4.md",
         "status": "completed",
-        "current_step": null
+        "current_step": null,
+        "entities": 42,
+        "relationships": 25
       },
       {
         "filename": "/vault/Notes/file5.md",
         "status": "failed",
-        "current_step": null
+        "current_step": null,
+        "entities": null,
+        "relationships": null
       }
     ]
   },

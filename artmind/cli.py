@@ -48,6 +48,7 @@ from artmind.jobs import (
     _create_job,
     _fetch_active_jobs,
     _fetch_chunks,
+    _job_file_sha256,
     _fetch_completed_jobs,
     _get_job_results,
     _get_job_status,
@@ -1057,10 +1058,13 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
     # Not job["domain"]: a manifest-driven batch resolves each file's domain
     # individually (docs/vault.md), so the job's own stored domain is only
     # ever a fallback and rarely names the domain THIS document landed under.
-    file_result = _build_file_result_from_db(document, None)
-    if file_result is None:
-        raise click.ClickException(f"Document '{document}' not found in registry")
-    _echo_json(_fetch_chunks(file_result["sha256"]), compact)
+    sha = _job_file_sha256(job_id, document)
+    if sha is None:
+        file_result = _build_file_result_from_db(document, None)
+        if file_result is None:
+            raise click.ClickException(f"Document '{document}' not found in registry")
+        sha = file_result["sha256"]
+    _echo_json(_fetch_chunks(sha), compact)
 
 
 @ingest.command("embed-entities")

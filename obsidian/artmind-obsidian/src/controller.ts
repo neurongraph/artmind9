@@ -331,6 +331,11 @@ export class Controller {
     }
     this.inputs = { ...this.inputs, activeJob: null };
     this.markWrite();
+    // The panel's job card stays up as "Last job" (counts and errors per file)
+    // until the next one starts; job-status alone carries no error messages.
+    const results = await this.deps.cli.jobResults(current.job_id);
+    this.record(results);
+    if (results.ok) this.jobResults = results.json as JobResults;
     this.notify("ingestDone", ingestDoneText(current), [
       { label: "Details", run: () => void this.showJobDetails(current.job_id) },
       ...this.commitButtons(),

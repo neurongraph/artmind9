@@ -16,14 +16,18 @@
         "status": "completed",
         "error_message": null,
         "started_at": null,
-        "completed_at": null
+        "completed_at": null,
+        "entities": 12,
+        "relationships": 7
       },
       {
         "filename": "/vault/Notes/file2.md",
         "status": "failed",
         "error_message": "KG ingestion failed",
         "started_at": null,
-        "completed_at": null
+        "completed_at": null,
+        "entities": null,
+        "relationships": null
       }
     ]
   },

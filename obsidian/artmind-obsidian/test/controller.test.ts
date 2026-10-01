@@ -430,6 +430,17 @@ describe("a job finishing", () => {
     expect(t.views.opened).toEqual(["panel:job"]);
   });
 
+  it("keeps the finished job's results for the panel, without opening it", async () => {
+    const t = setup();
+    t.controller.inputs = { ...t.controller.inputs, activeJob: fixture("ingest-job-status.running").json };
+
+    await t.controller.pollJob();
+
+    expect(t.cli.calls).toContain("jobResults 00000000-0000-4000-8000-000000000001");
+    expect(t.controller.snapshot().jobResults?.files[0].entities).toBe(12);
+    expect(t.views.opened).toEqual([]);
+  });
+
   it("keeps polling while the job runs", async () => {
     const t = setup({ script: { jobStatus: replay("ingest-job-status.running") } });
     t.controller.inputs = { ...t.controller.inputs, activeJob: fixture("ingest-job-status.running").json };

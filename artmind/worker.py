@@ -222,6 +222,7 @@ def _process_job(
                         current_step=None,
                         completed_at=datetime.now().isoformat(),
                         error_message=None if kg_ok else "KG ingestion failed",
+                        kg_counts=result.get("kg_counts"),
                     )
                 elif result.get("status") == "skipped":
                     # ingest_file already updated status to "skipped"

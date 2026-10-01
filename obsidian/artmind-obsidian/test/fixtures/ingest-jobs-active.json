@@ -19,19 +19,25 @@
           "filename": "/vault/Notes/file1.md",
           "status": "completed",
           "current_step": null,
-          "doc_sha256": null
+          "doc_sha256": null,
+          "entities": 12,
+          "relationships": 7
         },
         {
           "filename": "/vault/Notes/file2.md",
           "status": "processing",
           "current_step": "extract_kg",
-          "doc_sha256": null
+          "doc_sha256": "sha-file2",
+          "entities": null,
+          "relationships": null
         },
         {
           "filename": "/vault/Notes/file3.md",
           "status": "queued",
           "current_step": null,
-          "doc_sha256": null
+          "doc_sha256": null,
+          "entities": null,
+          "relationships": null
         }
       ]
     }

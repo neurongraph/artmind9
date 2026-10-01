@@ -34,6 +34,7 @@ from artmind.jobs import (
     _create_job,
     _fetch_active_jobs,
     _fetch_chunks,
+    _job_file_sha256,
     _fetch_completed_jobs,
     _get_job_results,
     _get_job_status,
@@ -306,13 +307,16 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         # domain individually (docs/vault.md), so the job's own stored domain
         # is only ever a fallback and rarely names the domain THIS document
         # landed under.
-        file_result = _build_file_result_from_db(doc, None)
-        if file_result is None:
-            raise HTTPException(
-                status_code=404,
-                detail=f"Document '{doc}' not found in registry",
-            )
-        return _camelize(_fetch_chunks(file_result["sha256"]))
+        sha = _job_file_sha256(job_id, doc)
+        if sha is None:
+            file_result = _build_file_result_from_db(doc, None)
+            if file_result is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Document '{doc}' not found in registry",
+                )
+            sha = file_result["sha256"]
+        return _camelize(_fetch_chunks(sha))
 
     @app.post("/api/documents/{doc}/resume-extract")
     async def api_resume_extract(doc: str, payload: ResumeExtractRequest):

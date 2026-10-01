@@ -126,6 +126,16 @@ artmind ingest jobs
 artmind ingest jobs --status failed
 ```
 
+With `--compact`, each file in `job-status`/`job-results` carries `entities` and
+`relationships`: what its extraction staged (distinct entities, not observations). They are
+`null` until the file is extracted, and stay `null` for a skipped, failed, or no-op file, so
+read `null` as "not extracted", never as "extracted nothing". While a file is in `extract_kg`,
+`job-status` also gives its `chunk_progress` (chunks done per step).
+
+Job history is per data dir: inside a vault, it's the vault's `.artmind/data`. Jobs run before
+the vault existed live in the old `~/artmind_data` registry, and don't show from inside the
+vault.
+
 If files failed, go to **Situation E** (retry).
 
 ---
@@ -231,7 +241,7 @@ Large documents (hundreds of chunks) can hit transient LLM-provider connection e
    ```
    Returns one row per chunk — `{"seq": 1, "e": "ok", "p": "ok", "r": "ok"}` — where `e`/`p`/`r` are the entities/properties/relationships steps. Chunks already `ok` should stay `ok`; only chunks previously `failed` or unattempted should change.
 
-   **Don't query the registry DB directly for this.** The live registry lives under `$ARTMIND_DATA_DIR` (default `~/artmind_data`), not in the working directory — and a stale `data/document_registry.db` may well exist in a source checkout, so a relative path can read the wrong database and return confidently wrong answers at exactly the moment you are checking whether work is being redone.
+   **Don't query the registry DB directly for this.** The live registry lives under the data dir (a vault's `.artmind/data`, else `$ARTMIND_DATA_DIR`, default `~/artmind_data`), not in the working directory — and a stale `data/document_registry.db` may well exist in a source checkout, so a relative path can read the wrong database and return confidently wrong answers at exactly the moment you are checking whether work is being redone.
 
    In the log itself, a genuine skip shows only the `Chunk N/743 (...)` header line with no `entities`/`properties`/`relationships` sub-lines — real work shows all three (or a silent `skipped` if the chunk legitimately had zero entities).
 

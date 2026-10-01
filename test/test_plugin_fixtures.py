@@ -281,12 +281,26 @@ def _jobs(states: list[tuple[str, str | None]], *, status: str, processed: int) 
     _update_job_status(job_id, status=status, processed_count=processed, started_at="2026-09-30T12:00:00")
     if status in ("completed", "failed"):
         _update_job_status(job_id, completed_at="2026-09-30T12:05:00")
-    for path, (file_status, error) in zip(files, states):
+    from artmind.ingest import _init_chunk_rows, _update_chunk_step
+
+    for i, (path, (file_status, error)) in enumerate(zip(files, states), start=1):
+        processing = file_status == "processing"
         _update_job_file_status(
             job_id, path, status=file_status,
-            current_step="extract_kg" if file_status == "processing" else None,
+            current_step="extract_kg" if processing else None,
+            doc_sha256=f"sha-file{i}" if processing else None,
             error_message=error,
+            # Varied, so a view scaling bars to the job's largest file has
+            # something to scale.
+            kg_counts={"entities": 10 * i + 2, "relationships": 6 * i + 1} if file_status == "completed" else None,
         )
+        if processing:
+            # Mid-extraction: 7 chunks, entities done on 4, relationships on 3.
+            _init_chunk_rows(f"sha-file{i}", f"doc-file{i}", 7)
+            for seq in range(1, 5):
+                _update_chunk_step(f"sha-file{i}", seq, "entities", "ok")
+            for seq in range(1, 4):
+                _update_chunk_step(f"sha-file{i}", seq, "relationships", "ok")
     return job_id
 
 

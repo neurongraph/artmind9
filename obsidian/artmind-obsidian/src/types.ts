@@ -45,11 +45,27 @@ export interface SyncResult {
   structured_bookmark?: string;
 }
 
-export interface JobFile {
+/** What a file's extraction staged; null until it has been extracted (and
+ * for a skipped, failed, or no-op file, which never is). */
+export interface KgCounts {
+  entities?: number | null;
+  relationships?: number | null;
+}
+
+/** Per-chunk extraction progress, present while a file is in `extract_kg`. */
+export interface ChunkProgress {
+  total_chunks: number;
+  entities_done: number;
+  properties_done: number;
+  relationships_done: number;
+}
+
+export interface JobFile extends KgCounts {
   filename: string;
   status: string;
   current_step: string | null;
   error_message?: string | null;
+  chunk_progress?: ChunkProgress;
 }
 
 /** `artmind ingest job-status <id> --compact` (and each `jobs-active` row). */
@@ -67,7 +83,7 @@ export interface JobResults {
   job_id: string;
   status: string;
   file_count: number;
-  files: Array<{ filename: string; status: string; error_message: string | null }>;
+  files: Array<{ filename: string; status: string; error_message: string | null } & KgCounts>;
 }
 
 /** `artmind ingest async [--pending] --compact`. */

@@ -20,27 +20,43 @@
       {
         "filename": "/vault/Notes/file1.md",
         "status": "completed",
-        "current_step": null
+        "current_step": null,
+        "entities": 12,
+        "relationships": 7
       },
       {
         "filename": "/vault/Notes/file2.md",
         "status": "completed",
-        "current_step": null
+        "current_step": null,
+        "entities": 22,
+        "relationships": 13
       },
       {
         "filename": "/vault/Notes/file3.md",
         "status": "processing",
-        "current_step": "extract_kg"
+        "current_step": "extract_kg",
+        "entities": null,
+        "relationships": null,
+        "chunk_progress": {
+          "total_chunks": 7,
+          "entities_done": 4,
+          "properties_done": 0,
+          "relationships_done": 3
+        }
       },
       {
         "filename": "/vault/Notes/file4.md",
         "status": "queued",
-        "current_step": null
+        "current_step": null,
+        "entities": null,
+        "relationships": null
       },
       {
         "filename": "/vault/Notes/file5.md",
         "status": "queued",
-        "current_step": null
+        "current_step": null,
+        "entities": null,
+        "relationships": null
       }
     ]
   },

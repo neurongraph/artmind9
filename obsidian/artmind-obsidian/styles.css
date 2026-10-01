@@ -5,7 +5,6 @@
 .artmind-tone-blue { color: var(--color-blue); }
 .artmind-tone-grey { color: var(--text-muted); }
 .artmind-tone-spinner { color: var(--text-accent); }
-.artmind-section { margin-bottom: 1em; }
 .artmind-row { display: flex; justify-content: space-between; gap: 0.5em; }
 .artmind-row-label { color: var(--text-muted); }
 .artmind-error { color: var(--text-error); }
@@ -18,3 +17,55 @@
 .artmind-finding code { display: block; margin: 0.25em 0; }
 .artmind-review-buttons { display: flex; gap: 0.5em; margin-top: 1em; align-items: center; }
 .artmind-skip { color: var(--text-muted); margin-left: 1em; }
+
+/* ── panel layout ─────────────────────────────────────────────────────── */
+.artmind-panel { display: flex; flex-direction: column; gap: 0.6em; }
+.artmind-header { padding-bottom: 0.6em; border-bottom: 1px solid var(--background-modifier-border); }
+.artmind-health { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5em; font-weight: var(--font-semibold); }
+.artmind-health-secondary { font-weight: normal; font-size: var(--font-smaller); color: var(--text-muted); }
+.artmind-health-detail { font-size: var(--font-smaller); color: var(--text-muted); margin: 0.15em 0 0.4em; }
+.artmind-state { font-size: var(--font-smaller); }
+.artmind-primary { margin: 0.5em 0 0.25em; display: flex; flex-wrap: wrap; align-items: center; }
+.artmind-primary .artmind-action { margin: 0; }
+.artmind-hint { font-size: var(--font-smaller); color: var(--text-muted); }
+.artmind-toolbar { display: flex; flex-wrap: wrap; gap: 0.3em; margin-top: 0.4em; }
+.artmind-tool { font-size: var(--font-smaller); padding: 0 0.6em; height: 1.9em; }
+.artmind-muted { color: var(--text-muted); font-size: var(--font-smaller); }
+
+.artmind-callout { border-left: 3px solid; border-radius: var(--radius-s); padding: 0.4em 0.6em; background: var(--background-secondary); }
+.artmind-callout p { margin: 0.2em 0; }
+.artmind-callout-red { border-color: var(--text-error); }
+.artmind-callout-amber { border-color: var(--color-orange); }
+.artmind-callout-title { font-weight: var(--font-semibold); }
+
+.artmind-section > summary { display: flex; align-items: center; gap: 0.5em; cursor: pointer; padding: 0.2em 0; font-weight: var(--font-semibold); }
+.artmind-section-title { flex: 1; }
+.artmind-badge { font-weight: normal; font-size: var(--font-smaller); }
+.artmind-section-body { padding: 0.3em 0 0.2em; }
+
+/* ── ingest job card ──────────────────────────────────────────────────── */
+.artmind-segments { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--background-modifier-border); gap: 1px; }
+.artmind-segment { flex-basis: 0; }
+.artmind-segment-done { background: var(--color-green); }
+.artmind-segment-running { background: var(--text-accent); }
+.artmind-segment-queued { background: var(--background-modifier-border-hover); }
+.artmind-segment-skipped { background: var(--text-faint); }
+.artmind-segment-failed { background: var(--text-error); }
+.artmind-legend, .artmind-totals { font-size: var(--font-smaller); color: var(--text-muted); margin-top: 0.3em; }
+.artmind-totals { color: var(--text-normal); }
+.artmind-files { margin-top: 0.4em; max-height: 18em; overflow-y: auto; }
+.artmind-file { display: grid; grid-template-columns: 1.2em minmax(0, 1fr) auto; align-items: center; gap: 0.4em; font-size: var(--font-smaller); padding: 0.1em 0; }
+.artmind-file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.artmind-file-detail { display: flex; gap: 0.5em; justify-content: flex-end; min-width: 0; }
+.artmind-file-detail .artmind-error { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 12em; }
+.artmind-file-done .artmind-file-glyph { color: var(--color-green); }
+.artmind-file-running .artmind-file-glyph { color: var(--text-accent); }
+.artmind-file-failed .artmind-file-glyph { color: var(--text-error); }
+.artmind-file-queued, .artmind-file-skipped { color: var(--text-muted); }
+.artmind-meter { display: inline-flex; align-items: center; gap: 0.3em; }
+.artmind-meter-track { width: 3.2em; height: 5px; border-radius: 3px; background: var(--background-modifier-border); overflow: hidden; }
+.artmind-meter-fill { display: block; height: 100%; }
+.artmind-meter-entities .artmind-meter-fill { background: var(--color-purple); }
+.artmind-meter-relationships .artmind-meter-fill { background: var(--color-cyan); }
+.artmind-meter-chunks .artmind-meter-fill { background: var(--text-accent); }
+.artmind-meter-label { min-width: 3em; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-muted); }

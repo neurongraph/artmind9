@@ -2260,10 +2260,29 @@ def ingest_to_kg(
     doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model)
     if doc_kg_dir is None:
         return False
+    file_result["kg_counts"] = staged_counts(doc_kg_dir)
     if stage_only:
         logger.info("Staged (not committed): {}", doc_kg_dir)
         return True
     return commit_to_graph(doc_kg_dir, domain, defer_rebuild=defer_rebuild)
+
+
+def staged_counts(doc_kg_dir: Path) -> dict | None:
+    """Entities and relationships one document's staging folder holds, for the
+    job progress views. Entities are distinct observation keys -- an entity
+    seen in five chunks is five observations but one entity. None when the
+    folder can't be read: a count is display-only and must never fail a file.
+    """
+    try:
+        observations = json.loads((doc_kg_dir / "observations.json").read_text(encoding="utf-8"))
+        relationships = json.loads((doc_kg_dir / "relationships.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        logger.warning("Could not count staged KG in {}: {}", doc_kg_dir, e)
+        return None
+    return {
+        "entities": len({o.get("key") for o in observations}),
+        "relationships": len(relationships),
+    }
 
 
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
