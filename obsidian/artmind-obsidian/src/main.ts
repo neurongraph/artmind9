@@ -179,6 +179,7 @@ export default class ArtmindPlugin extends Plugin {
     return {
       sync: () => void this.controller?.sync(),
       ingest: () => void this.controller?.ingestWhatChanged(),
+      retryJob: (jobId: string) => void this.controller?.retryJob(jobId),
       resolve: () => this.openResolve(),
       doctor: () => void this.controller?.runDoctor(),
       reviewTable: (table: string) => this.openTableReview(table),

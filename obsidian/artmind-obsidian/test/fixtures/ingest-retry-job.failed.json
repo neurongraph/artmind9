@@ -1,0 +1,21 @@
+{
+  "args": [
+    "ingest",
+    "retry-job",
+    "00000000-0000-4000-8000-000000000001",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "job_id": "00000000-0000-4000-8000-000000000001",
+    "domain": "general",
+    "retried": 1,
+    "deregistered": 0,
+    "files": [
+      "/vault/Notes/file2.md"
+    ],
+    "stalled": false,
+    "requeued": true
+  },
+  "stderr": null
+}

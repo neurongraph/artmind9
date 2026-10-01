@@ -76,6 +76,20 @@ export interface JobStatus {
   processed_count: number;
   files: JobFile[];
   error_message?: string | null;
+  /** `processing`, but no worker holds the lock: it died mid-job. */
+  stalled?: boolean;
+}
+
+/** `artmind ingest retry-job <id> --compact`. */
+export interface RetryResult {
+  job_id: string;
+  domain: string;
+  retried: number;
+  deregistered: number;
+  files: string[];
+  stalled: boolean;
+  /** Whether the job went back to the queue (and a worker was started). */
+  requeued: boolean;
 }
 
 /** `artmind ingest job-results <id> --compact`. */

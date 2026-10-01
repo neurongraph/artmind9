@@ -1010,24 +1010,35 @@ def ingest_job_results(job_id: str, compact: bool):
 @ingest.command("retry-job")
 @click.argument("job_id")
 @click.option("--include-skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
-def ingest_retry_job(job_id: str, include_skipped: bool):
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_retry_job(job_id: str, include_skipped: bool, compact: bool):
     """Re-queue failed files in a job for reprocessing.
 
     Removes failed files from the document registry and resets the job to queued
     so the worker picks it up again. Use --include-skipped to also force
     re-processing of files that were skipped as duplicates.
+
+    A stalled job (`processing`, but its worker is gone) is re-queued as well,
+    including the file its worker died on. A job a live worker is still
+    running is refused.
     """
     try:
         result = _retry_job(job_id, include_skipped=include_skipped)
     except ValueError as e:
         raise click.ClickException(str(e))
-    if result["retried"] == 0:
+    requeued = result["retried"] > 0 or result["stalled"]
+    if requeued:
+        _ensure_worker_running()
+    if compact:
+        _echo_json({**result, "requeued": requeued}, compact)
+        return
+    if not requeued:
         click.echo(f"No files to retry in job '{job_id}'")
     else:
-        click.echo(f"Job '{job_id}' re-queued ({result['domain']}): {result['retried']} file(s) reset, {result['deregistered']} removed from registry")
+        label = "stalled job re-queued" if result["stalled"] else "re-queued"
+        click.echo(f"Job '{job_id}' {label} ({result['domain']}): {result['retried']} file(s) reset, {result['deregistered']} removed from registry")
         for f in result["files"]:
             click.echo(f"  {f}")
-        _ensure_worker_running()
         click.echo("Worker started.")
 
 

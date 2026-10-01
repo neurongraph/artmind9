@@ -22,7 +22,7 @@ export interface StateInputs {
   problem: ArtmindProblem | null;
 }
 
-export type StateKind = "conflict" | "error" | "job" | "behind" | "tables" | "ingest" | "in_sync";
+export type StateKind = "conflict" | "error" | "stalled" | "job" | "behind" | "tables" | "ingest" | "in_sync";
 export type Tone = "red" | "amber" | "blue" | "grey" | "spinner";
 export type PanelSection = "status" | "error" | "job" | "tables" | "doctor" | "bootstrap";
 
@@ -59,7 +59,7 @@ export interface VaultStateResult {
   neo4jUnreachable: boolean;
 }
 
-const PRIORITY: StateKind[] = ["conflict", "error", "job", "behind", "tables", "ingest", "in_sync"];
+const PRIORITY: StateKind[] = ["conflict", "error", "stalled", "job", "behind", "tables", "ingest", "in_sync"];
 
 export const IN_SYNC: StateItem = {
   kind: "in_sync",
@@ -113,7 +113,9 @@ export function vaultState(inputs: StateInputs): VaultStateResult {
   const neo4jUnreachable = Boolean(graphError && graphError.startsWith("graph unreachable"));
   const merge = sync?.operation_in_progress ?? null;
   const conflicts = sync?.unresolved_conflicts ?? [];
-  const jobRunning = Boolean(inputs.activeJob && ["queued", "processing"].includes(inputs.activeJob.status));
+  // A stalled job is not running: its worker is gone, so it blocks nothing.
+  const jobStalled = Boolean(inputs.activeJob?.stalled);
+  const jobRunning = Boolean(inputs.activeJob && ["queued", "processing"].includes(inputs.activeJob.status)) && !jobStalled;
   const storeStates = Object.values(stores).map((report) => report?.state);
 
   if (conflicts.length) {
@@ -140,6 +142,17 @@ export function vaultState(inputs: StateInputs): VaultStateResult {
       tone: "red",
       action: { type: "openPanel", section: "error" },
       detail: errors.join("; "),
+    });
+  }
+
+  if (jobStalled && inputs.activeJob) {
+    const job = inputs.activeJob;
+    states.push({
+      kind: "stalled",
+      label: `⚠ ingest stalled ${job.processed_count}/${job.file_count}`,
+      tone: "amber",
+      action: { type: "openPanel", section: "job" },
+      detail: `Ingest job ${job.job_id} stopped at ${job.processed_count} of ${plural(job.file_count, "file")}: its worker is gone. Retry it from the job card.`,
     });
   }
 

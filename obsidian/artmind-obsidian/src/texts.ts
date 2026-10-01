@@ -20,6 +20,15 @@ export function ingestDoneText(job: JobStatus): string {
   return failed ? `Ingested ${done}, ${failed} failed.` : `Ingested ${done}.`;
 }
 
+export function stalledText(job: JobStatus): string {
+  return `Ingest stalled at ${job.processed_count} of ${plural(job.file_count, "file")}: the worker stopped.`;
+}
+
+export function retriedText(retried: number, stalled: boolean): string {
+  if (stalled) return retried ? `Restarted the stalled job: retrying ${plural(retried, "file")}.` : "Restarted the stalled job.";
+  return `Retrying ${plural(retried, "failed file")}.`;
+}
+
 export function syncDoneText(result: SyncResult): string {
   const curation = Object.values(result.curation ?? {}).reduce(
     (sum, counts) => sum + Object.values(counts).reduce((a, b) => a + b, 0),

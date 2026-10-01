@@ -47,6 +47,7 @@ function handlers(): PanelHandlers & { calls: string[] } {
     resolve: record("resolve"),
     doctor: record("doctor"),
     reviewTable: record("reviewTable"),
+    retryJob: record("retryJob"),
     commitAndSync: record("commitAndSync"),
     setPath: record("setPath"),
     copy: record("copy"),
@@ -251,6 +252,33 @@ describe("the side panel (spec §3.2)", () => {
     const rows = [...card.querySelectorAll(".artmind-file")];
     expect(rows[0].textContent).toBe("✓file1.md12 E7 R");
     expect(rows[1].textContent).toBe("✗file2.mdKG ingestion failed");
+  });
+
+  it("offers Retry failed on a finished job's failures, and nothing on a clean or running job", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot({}, { jobResults: fixture("ingest-job-results.done").json }), h);
+    expect(root.querySelector(".artmind-retry")!.textContent).toBe("1 file failed.Retry failed");
+    button(root, "Retry failed").click();
+    expect(h.calls).toEqual(["retryJob:00000000-0000-4000-8000-000000000001"]);
+
+    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.running").json }), h);
+    expect(root.querySelector(".artmind-retry")).toBeNull();
+  });
+
+  it("marks a stalled job and offers Retry job", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.stalled").json }), h);
+
+    const card = root.querySelector('[data-section="job"]')!;
+    expect(card.querySelector(".artmind-section-title")!.textContent).toBe("Ingest job (stalled)");
+    expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-amber")).toBe(true);
+    button(root, "Retry job").click();
+    expect(h.calls).toEqual(["retryJob:00000000-0000-4000-8000-000000000001"]);
+    expect(button(root, "Retry job").disabled).toBe(true);
   });
 
   it("lists the activity, each run expanding to its raw output", () => {

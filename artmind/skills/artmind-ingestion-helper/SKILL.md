@@ -227,7 +227,7 @@ Large documents (hundreds of chunks) can hit transient LLM-provider connection e
    ```bash
    artmind ingest extract-kg "DOCUMENT_NAME" --domain YOUR_DOMAIN
    ```
-   This re-reads `kg_chunk_status` for the document and skips every chunk+step already marked `ok`, retrying only `failed`/not-yet-attempted ones. **Important:** `retry-job` only re-queues job-files with status `failed` (see Situation E) — a file killed mid-`processing` stays stuck at `processing` and `retry-job` will silently skip it. `extract-kg` works directly off `kg_chunk_status` and ignores the job-file status entirely, so it's the correct tool here.
+   This re-reads `kg_chunk_status` for the document and skips every chunk+step already marked `ok`, retrying only `failed`/not-yet-attempted ones. `extract-kg` works directly off `kg_chunk_status` and ignores the job-file status entirely, so it's the right tool for one document. To re-run the whole stalled job instead, `retry-job` (Situation E) now re-queues the file the dead worker was on as well.
 
 5. **Large documents take hours — run it detached, not blocking:**
    ```bash
@@ -255,7 +255,11 @@ Once extraction finishes, write it to Neo4j as usual (Situation C).
 artmind ingest retry-job JOB_ID
 ```
 
-This re-queues only files with job-file status `failed` (and `skipped` if `--include-skipped` is passed) — **not** files stuck at `processing`. If a file was mid-`processing` when the worker died, use `extract-kg` directly on that document instead (Situation D.1); `retry-job` won't touch it.
+This re-queues files with job-file status `failed` (and `skipped` if `--include-skipped` is passed), and starts the worker.
+
+**A stalled job** — `job-status` shows `"stalled": true`: the job is `processing` but no worker holds the lock, because the worker died mid-job — is retried the same way. `retry-job` then also re-queues the file left at `processing`, and re-queues the job even if nothing failed (its remaining `queued` files are the retry). Chunk statuses are keyed by content hash, so a re-queued file whose content is unchanged keeps its finished chunks. While a live worker still runs the job, `retry-job` refuses: wait for it, or stop the worker first.
+
+`--compact` prints `{job_id, domain, retried, deregistered, files, stalled, requeued}`. The admin console's dashboard and the Obsidian plugin's job card both offer **Retry** for a failed or stalled job.
 
 To also force re-processing of files that were skipped as duplicates:
 ```bash
@@ -582,7 +586,7 @@ pattern matches the chosen name.
 | `Document not found in registry` | Document was never ingested with `sync`/`async` | Run `artmind ingest sync FILE --domain DOMAIN` first |
 | `No chunks found` | `sync` hasn't been run yet, or only `async` was submitted but not completed | Check with `artmind ingest jobs`; if needed run `sync` |
 | Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
-| Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
+| Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable). Then either `artmind ingest retry-job JOB_ID` (the job now reads as stalled, and the stuck file is re-queued) or `artmind ingest extract-kg DOC --domain DOMAIN` for one file. See Situations D.1 and E. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot (it restores the graph's sync bookmark too), or `write-to-graph` if JSON exists |
 | `vault sync`: "unresolved conflicts in N file(s) under .artmind/" | Obsidian Git's merge stopped on a conflict in artmind's generated files — two machines regenerated the same document folder, table or curation record | `artmind vault resolve --dryRun` to see the side each takes, then `artmind vault resolve` (one whole side per unit, staged, never committed; it refuses while the worker runs or when no merge is in progress); resolve any `reported` or `pending` notes in Obsidian, let Obsidian Git commit the merge, then `vault sync` |
 | `vault sync`: "no graph/structured bookmark recorded yet" | This store has never been synced on this graph/machine (or the snapshot predates bookmarks) | `vault sync --bootstrapSynced` if the store is known-current, else `--bootstrapEmpty`; add `--store graph`/`--store structured` to do one store only |

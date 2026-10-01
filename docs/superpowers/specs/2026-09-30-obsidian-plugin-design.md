@@ -85,13 +85,19 @@ Top to bottom, most urgent first:
     relationships (R), each scaled to the largest file in the job. A file in `extract_kg`
     shows its chunk progress, with per-step counts in the tooltip. A failed file shows its
     error.
+  - **Retry:** a finished job with failed files shows **Retry failed**; a stalled job
+    (`processing`, but its worker is gone, X7) shows **Retry job**. Both run
+    `ingest retry-job`, then follow the job again. A stalled job is also its own state
+    (`⚠ ingest stalled n/m`, amber, after errors): its poll stops, a notice offers Retry once,
+    and it blocks nothing a running job would.
   - The counts are `entity_count`/`relationship_count` on `ingestion_job_files` (§6):
     distinct entities and relationships the file's extraction staged. They are null for a
     file never extracted (skipped, failed, a no-op or metadata-only re-ingest).
 
 Then collapsible sections. Each header carries a one-line badge, so the panel reads with
 everything collapsed. The panel remembers which sections are open across re-renders, and
-opening the panel at a section expands it.
+opening the panel at a section expands it. Each header has a chevron twisty, turning down
+when the section is open.
 
 - **Sync** (collapsed by default; badge `graph ✓ · structured ⚠`): HEAD, the graph and
   structured bookmarks, pending counts (documents, tables, curation records, same-as
@@ -243,6 +249,7 @@ Everything else the plugin calls already exists and returns JSON:
 | X4 | `artmind ingest table2graph --pending [--compact]` | Lists each registered table that a mapping matches but whose graph projection is missing, or older than the table's last refresh or the mapping's last change: `[{table, domain, mapping, reason}]`. Read-only. |
 | X5 | Per-file KG counts on jobs | `ingestion_job_files` gains `entity_count` and `relationship_count` (nullable; an additive migration in `db.py`). `ingest_to_kg` counts what it staged (distinct observation keys; relationships) and the worker records it. `job-status`, `job-results`, `jobs-active` and `jobs-completed` return them per file as `entities`/`relationships`, null until the file is extracted. |
 | X6 | `ingest job-chunks` lookup | Reads the file's `doc_sha256` from the job's own row first, falling back to the registry. Before this, a converted binary (registered under its derived markdown) was always "not found in registry". The admin console's `/api/jobs/{id}/chunks` uses the same lookup. |
+| X7 | Stalled jobs and `retry-job --compact` | `job-status` and `jobs-active` report `stalled`: `processing`, but no worker holds the lock (the same check `vault sync` refuses on). `retry-job` on a stalled job also re-queues the file left at `processing`, and re-queues the job even when nothing failed. It refuses a job a live worker still runs. `--compact` prints `{job_id, domain, retried, deregistered, files, stalled, requeued}`. |
 
 Each gets pytest coverage in `test/`, on real throwaway vaults, in the existing style.
 Documentation goes in `docs/vault.md` and the ingestion-helper skill, and each new command

@@ -12,6 +12,7 @@ export interface PanelHandlers {
   resolve(): void;
   doctor(): void;
   reviewTable(table: string): void;
+  retryJob(jobId: string): void;
   commitAndSync(): void;
   setPath(): void;
   copy(text: string): void;
@@ -212,14 +213,36 @@ function chunkFraction(p: ChunkProgress): number {
 /** One job, live or finished: a segmented bar of file states, the job's
  * totals, and a row per file with its entity and relationship counts (bars
  * scaled to the job's largest file) or, while extracting, its chunk progress. */
-function jobCard(root: HTMLElement, ui: PanelUi, job: { job_id: string; status: string; file_count: number; files: CardFile[] }, live: boolean): void {
+function jobCard(
+  root: HTMLElement,
+  ui: PanelUi,
+  job: { job_id: string; status: string; file_count: number; files: CardFile[]; stalled?: boolean },
+  live: boolean,
+  handlers: PanelHandlers,
+): void {
   const files = job.files;
   const counts = new Map(FILE_STATES.map((s) => [s.key, 0]));
   for (const f of files) counts.set(fileState(f.status), (counts.get(fileState(f.status)) ?? 0) + 1);
   const finished = (counts.get("done") ?? 0) + (counts.get("failed") ?? 0) + (counts.get("skipped") ?? 0);
   const failed = counts.get("failed") ?? 0;
-  const title = live ? "Ingest job" : "Last ingest job";
-  const box = section(root, ui, "job", title, `${finished}/${plural(job.file_count, "file")}`, failed ? "red" : live ? "spinner" : "grey");
+  const stalled = live && Boolean(job.stalled);
+  const title = stalled ? "Ingest job (stalled)" : live ? "Ingest job" : "Last ingest job";
+  const tone = failed ? "red" : stalled ? "amber" : live ? "spinner" : "grey";
+  const box = section(root, ui, "job", title, `${finished}/${plural(job.file_count, "file")}`, tone);
+
+  // Retry: a stalled job (nothing will finish it), or a finished job's
+  // failures. Never a job still running: retry-job would refuse it.
+  if (stalled || (!live && failed)) {
+    const bar = el(box, "div", { cls: `artmind-retry artmind-callout artmind-callout-${stalled ? "amber" : "red"}` });
+    el(bar, "span", {
+      text: stalled ? "The worker stopped mid-job; nothing will finish it." : `${plural(failed, "file")} failed.`,
+    });
+    const button = el(bar, "button", { cls: "mod-cta", text: stalled ? "Retry job" : "Retry failed" });
+    button.addEventListener("click", () => {
+      button.disabled = true;
+      handlers.retryJob(job.job_id);
+    });
+  }
 
   const bar = el(box, "div", { cls: "artmind-segments", attr: { title: `Job ${job.job_id}: ${job.status}` } });
   for (const s of FILE_STATES) {
@@ -271,11 +294,11 @@ function jobCard(root: HTMLElement, ui: PanelUi, job: { job_id: string; status: 
   }
 }
 
-function job(root: HTMLElement, ui: PanelUi, snapshot: Snapshot): void {
+function job(root: HTMLElement, ui: PanelUi, snapshot: Snapshot, handlers: PanelHandlers): void {
   const active: JobStatus | null = snapshot.inputs.activeJob;
-  if (active) return jobCard(root, ui, active, true);
+  if (active) return jobCard(root, ui, active, true, handlers);
   const results: JobResults | null = snapshot.jobResults;
-  if (results) jobCard(root, ui, results, false);
+  if (results) jobCard(root, ui, results, false, handlers);
 }
 
 // ── the collapsible detail ───────────────────────────────────────────────────
@@ -356,7 +379,7 @@ export function renderPanel(root: HTMLElement, snapshot: Snapshot, handlers: Pan
   root.classList.add("artmind-panel");
   header(root, snapshot, handlers);
   problems(root, snapshot, handlers);
-  job(root, ui, snapshot);
+  job(root, ui, snapshot, handlers);
   status(root, ui, snapshot);
   tables(root, ui, snapshot, handlers);
   doctor(root, ui, snapshot, handlers);

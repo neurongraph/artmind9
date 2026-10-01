@@ -10,13 +10,14 @@ import {
   classifyRefusal,
   vaultState,
 } from "./state";
-import { ingestDoneText, newFilesText, projectedText, pulledText, resolvedText, syncDoneText } from "./texts";
+import { ingestDoneText, newFilesText, projectedText, pulledText, resolvedText, retriedText, stalledText, syncDoneText } from "./texts";
 import type {
   DoctorReport,
   IngestPending,
   JobResults,
   JobStatus,
   ResolveReport,
+  RetryResult,
   Submitted,
   SyncResult,
   TablePending,
@@ -40,6 +41,7 @@ export interface CliLike {
   jobStatus(jobId: string): Promise<CliResult>;
   jobResults(jobId: string): Promise<CliResult>;
   jobsActive(): Promise<CliResult>;
+  retryJob(jobId: string): Promise<CliResult>;
   tablesPending(): Promise<CliResult>;
   tableDryRun(table: string): Promise<CliResult>;
   tableProject(table: string): Promise<CliResult>;
@@ -324,6 +326,16 @@ export class Controller {
       return true;
     }
     const current = result.json as JobStatus;
+    if (current.stalled) {
+      // Nothing will move it on; stop polling and say so, once.
+      const wasStalled = job.stalled;
+      this.inputs = { ...this.inputs, activeJob: current };
+      this.render();
+      if (!wasStalled) {
+        this.notify("ingestDone", stalledText(current), [{ label: "Retry", run: () => void this.retryJob(current.job_id) }]);
+      }
+      return false;
+    }
     if (["queued", "processing"].includes(current.status)) {
       this.inputs = { ...this.inputs, activeJob: current };
       this.render();
@@ -353,6 +365,41 @@ export class Controller {
     this.jobResults = result.ok ? (result.json as JobResults) : null;
     this.render();
     this.deps.views.openPanel("job");
+  }
+
+  /** Re-queue a job's failed files, or a stalled job (its worker gone),
+   * and follow it again. `retry-job` refuses a job a live worker still runs. */
+  async retryJob(jobId: string): Promise<void> {
+    const before = this.inputs.activeJob?.job_id === jobId ? this.inputs.activeJob : null;
+    const finished = this.jobResults?.job_id === jobId ? this.jobResults : null;
+    this.markWrite();
+    const result = await this.deps.cli.retryJob(jobId);
+    this.record(result);
+    if (!result.ok) {
+      this.notify("error", `Retry failed: ${result.error}`);
+      return;
+    }
+    const retry = result.json as RetryResult;
+    if (!retry.requeued) {
+      this.notify("prompt", "Nothing to retry in that job.");
+      return;
+    }
+    const fileCount = before?.file_count ?? finished?.file_count ?? retry.retried;
+    this.jobResults = null;
+    this.inputs = {
+      ...this.inputs,
+      activeJob: {
+        job_id: jobId,
+        status: "queued",
+        file_count: fileCount,
+        // Until the first poll replaces it: what was done before stays done.
+        processed_count: before?.processed_count ?? Math.max(0, fileCount - retry.retried),
+        files: [],
+      },
+    };
+    this.notify("prompt", retriedText(retry.retried, retry.stalled));
+    this.watchers?.trackJob();
+    this.render();
   }
 
   // ── actions ────────────────────────────────────────────────────────────────

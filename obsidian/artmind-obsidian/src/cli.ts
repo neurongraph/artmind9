@@ -81,11 +81,14 @@ export const TIMEOUTS_MS: Record<string, number> = {
   "ingest job-status": 30_000,
   "ingest job-results": 30_000,
   "ingest jobs-active": 30_000,
+  "ingest retry-job": 30_000,
   "ingest table2graph": 60 * 60_000,
 };
 export const DEFAULT_TIMEOUT_MS = 5 * 60_000;
 
-const WRITE_COMMANDS = new Set(["vault sync", "vault resolve", "ingest async", "ingest table2graph"]);
+// `ingest retry-job` starts a worker, as `ingest async` does: detached, so
+// the worker outlives the call.
+const WRITE_COMMANDS = new Set(["vault sync", "vault resolve", "ingest async", "ingest retry-job", "ingest table2graph"]);
 
 export function commandKey(args: string[]): string {
   return args[0] === "--version" ? "--version" : args.slice(0, 2).join(" ");
@@ -292,6 +295,7 @@ export class ArtmindCli {
   jobStatus(jobId: string) { return this.run(["ingest", "job-status", jobId]); }
   jobResults(jobId: string) { return this.run(["ingest", "job-results", jobId]); }
   jobsActive() { return this.run(["ingest", "jobs-active"]); }
+  retryJob(jobId: string) { return this.run(["ingest", "retry-job", jobId]); }
   tablesPending() { return this.run(["ingest", "table2graph", "--pending"]); }
   tableDryRun(table: string) { return this.run(["ingest", "table2graph", table, "--dryRun"]); }
   tableProject(table: string) { return this.run(["ingest", "table2graph", table]); }

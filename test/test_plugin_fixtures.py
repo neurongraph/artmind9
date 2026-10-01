@@ -461,12 +461,35 @@ def s_ingest_async_nothing_pending(vault):
     return vault.run("ingest", "async", "--pending", "--compact")
 
 
-def s_ingest_job_status_running(vault):
-    job_id = _jobs(
+def _mid_job():
+    return _jobs(
         [("completed", None), ("completed", None), ("processing", None), ("queued", None), ("queued", None)],
         status="processing", processed=2,
     )
-    return vault.run("ingest", "job-status", job_id, "--compact")
+
+
+def s_ingest_job_status_running(vault):
+    job_id = _mid_job()
+    with _hold_worker_lock(vault):
+        return vault.run("ingest", "job-status", job_id, "--compact")
+
+
+def s_ingest_job_status_stalled(vault):
+    """`processing`, but no worker holds the lock: it died mid-job."""
+    return vault.run("ingest", "job-status", _mid_job(), "--compact")
+
+
+def s_ingest_retry_job_stalled(vault):
+    """Re-queues the file the dead worker was on; the rest stay queued."""
+    return vault.run("ingest", "retry-job", _mid_job(), "--compact")
+
+
+def s_ingest_retry_job_failed(vault):
+    job_id = _jobs(
+        [("completed", None), ("failed", "KG ingestion failed")],
+        status="failed", processed=2,
+    )
+    return vault.run("ingest", "retry-job", job_id, "--compact")
 
 
 def s_ingest_job_status_done(vault):
@@ -482,7 +505,8 @@ def s_ingest_jobs_active(vault):
     """A job started elsewhere (a terminal, the admin-ui): the plugin finds
     it here and follows it."""
     _jobs([("completed", None), ("processing", None), ("queued", None)], status="processing", processed=1)
-    return vault.run("ingest", "jobs-active", "--compact")
+    with _hold_worker_lock(vault):
+        return vault.run("ingest", "jobs-active", "--compact")
 
 
 def s_ingest_job_results_done(vault):
@@ -518,7 +542,8 @@ def fixture_name(scenario: str) -> str:
     """`vault-status-in-sync` -> `vault-status.in-sync`: the command, a dot,
     then the state."""
     for command in ("vault-status", "vault-sync", "vault-resolve", "vault-doctor", "ingest-pending",
-                    "ingest-async", "ingest-job-status", "ingest-job-results", "ingest-jobs-active", "table2graph"):
+                    "ingest-async", "ingest-job-status", "ingest-job-results", "ingest-jobs-active", "ingest-retry-job",
+                    "table2graph"):
         if scenario == command:
             return command
         if scenario.startswith(command + "-"):

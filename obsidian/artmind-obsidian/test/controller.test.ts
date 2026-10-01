@@ -83,6 +83,9 @@ class FakeCli implements CliLike {
   jobResults(jobId: string) {
     return this.answer("jobResults", () => replay("ingest-job-results.done"), jobId);
   }
+  retryJob(jobId: string) {
+    return this.answer("retryJob", () => replay("ingest-retry-job.failed"), jobId);
+  }
   jobsActive() {
     return this.answer("jobsActive", () => result(["ingest", "jobs-active", "--compact"], 0, []));
   }
@@ -439,6 +442,48 @@ describe("a job finishing", () => {
     expect(t.cli.calls).toContain("jobResults 00000000-0000-4000-8000-000000000001");
     expect(t.controller.snapshot().jobResults?.files[0].entities).toBe(12);
     expect(t.views.opened).toEqual([]);
+  });
+
+  it("stops polling a stalled job and offers Retry, once", async () => {
+    const t = setup({ script: { jobStatus: replay("ingest-job-status.stalled"), retryJob: replay("ingest-retry-job.stalled") } });
+    t.controller.inputs = { ...t.controller.inputs, activeJob: fixture("ingest-job-status.running").json };
+
+    expect(await t.controller.pollJob()).toBe(false);
+    expect(t.controller.state.primary.kind).toBe("stalled");
+    expect(t.shown.map((s) => [s.text, s.buttons.map((b) => b.label)])).toEqual([
+      ["Ingest stalled at 2 of 5 files: the worker stopped.", ["Retry"]],
+    ]);
+
+    await t.controller.pollJob();
+    expect(t.shown).toHaveLength(1);
+
+    t.click("Ingest stalled at 2 of 5 files: the worker stopped.", "Retry");
+    await t.settle();
+    expect(t.cli.calls).toContain("retryJob 00000000-0000-4000-8000-000000000001");
+    expect(t.controller.inputs.activeJob).toMatchObject({ job_id: "00000000-0000-4000-8000-000000000001", status: "queued" });
+    expect(t.controller.state.primary.kind).toBe("job");
+    expect(t.shown.at(-1)!.text).toBe("Restarted the stalled job: retrying 1 file.");
+  });
+
+  it("retries a finished job's failed files and follows it again", async () => {
+    const t = setup();
+    t.controller.jobResults = fixture("ingest-job-results.done").json;
+
+    await t.controller.retryJob("00000000-0000-4000-8000-000000000001");
+
+    expect(t.controller.jobResults).toBeNull();
+    expect(t.controller.inputs.activeJob).toMatchObject({ status: "queued", file_count: 2, processed_count: 1 });
+    expect(t.shown.at(-1)!.text).toBe("Retrying 1 failed file.");
+  });
+
+  it("says why a retry was refused", async () => {
+    const refused = { ...replay("ingest-retry-job.failed"), ok: false, exitCode: 1, json: null, error: "Job 'x' is still running; retry it once it finishes" };
+    const t = setup({ script: { retryJob: refused } });
+
+    await t.controller.retryJob("x");
+
+    expect(t.shown.at(-1)!.text).toBe("Retry failed: Job 'x' is still running; retry it once it finishes");
+    expect(t.controller.inputs.activeJob).toBeNull();
   });
 
   it("keeps polling while the job runs", async () => {

@@ -8,15 +8,15 @@
   "exit_code": 0,
   "json": {
     "job_id": "00000000-0000-4000-8000-000000000001",
-    "status": "failed",
+    "status": "processing",
     "file_count": 5,
-    "processed_count": 5,
+    "processed_count": 2,
     "queued_at": "2026-09-30T12:00:00",
     "started_at": "2026-09-30T12:00:00",
-    "completed_at": "2026-09-30T12:00:00",
+    "completed_at": null,
     "error_message": null,
     "domain": "general",
-    "stalled": false,
+    "stalled": true,
     "files": [
       {
         "filename": "/vault/Notes/file1.md",
@@ -34,21 +34,27 @@
       },
       {
         "filename": "/vault/Notes/file3.md",
-        "status": "completed",
-        "current_step": null,
-        "entities": 32,
-        "relationships": 19
+        "status": "processing",
+        "current_step": "extract_kg",
+        "entities": null,
+        "relationships": null,
+        "chunk_progress": {
+          "total_chunks": 7,
+          "entities_done": 4,
+          "properties_done": 0,
+          "relationships_done": 3
+        }
       },
       {
         "filename": "/vault/Notes/file4.md",
-        "status": "completed",
+        "status": "queued",
         "current_step": null,
-        "entities": 42,
-        "relationships": 25
+        "entities": null,
+        "relationships": null
       },
       {
         "filename": "/vault/Notes/file5.md",
-        "status": "failed",
+        "status": "queued",
         "current_step": null,
         "entities": null,
         "relationships": null

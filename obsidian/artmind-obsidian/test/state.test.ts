@@ -23,6 +23,7 @@ function inputs(overrides: Partial<StateInputs> = {}): StateInputs {
 const TRIGGERS: Record<Exclude<StateKind, "in_sync">, Partial<StateInputs>> = {
   conflict: { status: fixture("vault-status.merge-conflict").json },
   error: { status: fixture("vault-status.neo4j-unreachable").json },
+  stalled: { activeJob: fixture("ingest-job-status.stalled").json },
   job: { activeJob: fixture("ingest-job-status.running").json },
   behind: { status: fixture("vault-status.behind").json },
   tables: { tablesPending: fixture("table2graph.pending").json },
@@ -34,6 +35,7 @@ describe("vaultState: each state alone (spec §3.1)", () => {
     ["in_sync", {}, "◉ artmind", "grey", { type: "openPanel", section: "status" }],
     ["conflict", TRIGGERS.conflict, "⚠ resolve artmind conflicts", "red", { type: "openResolve" }],
     ["error", TRIGGERS.error, "⚠ artmind", "red", { type: "openPanel", section: "error" }],
+    ["stalled", TRIGGERS.stalled, "⚠ ingest stalled 2/5", "amber", { type: "openPanel", section: "job" }],
     ["job", TRIGGERS.job, "◌ ingesting 2/5", "spinner", { type: "openPanel", section: "job" }],
     ["behind", TRIGGERS.behind, "◉ 2 docs · 1 table behind", "amber", { type: "sync" }],
     ["tables", TRIGGERS.tables, "◉ 1 table → graph", "blue", { type: "reviewTables" }],
@@ -85,7 +87,10 @@ describe("vaultState: each state alone (spec §3.1)", () => {
 
 describe("vaultState: priority clashes", () => {
   const order = Object.keys(TRIGGERS) as Array<keyof typeof TRIGGERS>;
-  const pairs = order.flatMap((higher, i) => order.slice(i + 1).map((lower) => [higher, lower] as const));
+  // One active job is either stalled or running, never both.
+  const pairs = order
+    .flatMap((higher, i) => order.slice(i + 1).map((lower) => [higher, lower] as const))
+    .filter(([a, b]) => !(a === "stalled" && b === "job"));
 
   /** In-sync inputs with each named state's fixture facts added. */
   function combine(kinds: Array<keyof typeof TRIGGERS>): StateInputs {
@@ -124,6 +129,17 @@ describe("vaultState: priority clashes", () => {
     );
 
     expect(state.states.map((s) => s.kind)).toEqual(["conflict", "error", "job", "behind", "tables", "ingest"]);
+  });
+});
+
+describe("vaultState: a stalled job", () => {
+  it("blocks nothing a running job would: its worker is gone", () => {
+    const stalled = vaultState(inputs({ ...TRIGGERS.stalled, ...TRIGGERS.ingest }));
+    expect(stalled.blocked.sync).toBeNull();
+    expect(stalled.blocked.ingest).toBeNull();
+
+    const running = vaultState(inputs({ ...TRIGGERS.job, ...TRIGGERS.ingest }));
+    expect(running.blocked.sync).toBe("An ingest job is running — sync after it finishes");
   });
 });
 

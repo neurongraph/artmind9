@@ -5,6 +5,37 @@ from pathlib import Path
 from artmind.db import _get_db
 
 
+def worker_alive() -> bool:
+    """Whether an ingest worker holds its pid-file lock right now.
+
+    Inside a vault, the same check `vault sync` refuses on
+    (`vault_sync.worker_running`: the vault's own pid file and both
+    process-wide fallbacks), so "stalled" and "sync would refuse" can never
+    disagree. Read through `paths` at call time, so a test that repoints them
+    is honoured.
+    """
+    import paths
+    from artmind.worker_pid import live_pid
+
+    if paths.ARTMIND_VAULT_DIR:
+        from artmind.vault_sync import worker_running
+
+        return worker_running(Path(paths.ARTMIND_VAULT_DIR))
+    return any(
+        live_pid(pid_file) is not None
+        for pid_file in (paths.WORKER_PID_FILE, paths.DATA_DIR / "worker.pid")
+    )
+
+
+def _stalled(status: str) -> bool:
+    """A job the worker marked `processing` whose worker is gone: it died (a
+    crash, a reboot, a killed terminal) mid-job, and nothing will finish it.
+    Only `processing`, never `queued` -- a job just submitted is queued for
+    the moment before its worker takes the lock, and must not read as stalled.
+    """
+    return status == "processing" and not worker_alive()
+
+
 def _create_job(
     batch_files: list[str], domain: str = "general", force: bool = False, stage_only: bool = False
 ) -> str:
@@ -150,6 +181,7 @@ def _fetch_active_jobs() -> list[dict]:
                 "queued_at": row[4],
                 "started_at": row[5],
                 "domain": row[6] or "general",
+                "stalled": _stalled(row[1]),
                 "files": [
                     {
                         "filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3],
@@ -305,6 +337,7 @@ def _get_job_status(job_id: str) -> dict | None:
             "completed_at": row[6],
             "error_message": row[7],
             "domain": row[8] or "general",
+            "stalled": _stalled(row[1]),
             "files": files,
         }
     finally:
@@ -355,17 +388,29 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
 
     Removes those files from the document registry and resets both the file rows
     and the parent job to 'queued' so the worker picks them up again.
+
+    A stalled job (`processing`, no live worker) also resets the file its
+    worker died on -- left at `processing`, nothing would ever pick it up.
+    While a live worker still has the job, there is nothing to retry yet:
+    resetting its rows underneath it would race the worker, so that refuses.
     """
     conn = _get_db()
     try:
         row = conn.execute(
-            "SELECT domain FROM ingestion_jobs WHERE job_id = ?", (job_id,)
+            "SELECT domain, status FROM ingestion_jobs WHERE job_id = ?", (job_id,)
         ).fetchone()
         if not row:
             raise ValueError(f"Job '{job_id}' not found")
         domain = row[0] or "general"
+        stalled = False
+        if row[1] == "processing":
+            if worker_alive():
+                raise ValueError(f"Job '{job_id}' is still running; retry it once it finishes")
+            stalled = True
 
         statuses = ("failed", "skipped") if include_skipped else ("failed",)
+        if stalled:
+            statuses = (*statuses, "processing")
         placeholders = ",".join("?" * len(statuses))
         file_rows = conn.execute(
             f"SELECT filename FROM ingestion_job_files"
@@ -374,8 +419,10 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
         ).fetchall()
         filenames = [r[0] for r in file_rows]
 
-        if not filenames:
-            return {"job_id": job_id, "domain": domain, "retried": 0, "deregistered": 0, "files": []}
+        if not filenames and not stalled:
+            return {"job_id": job_id, "domain": domain, "retried": 0, "deregistered": 0, "files": [], "stalled": False}
+        # A stalled job with nothing failed (its worker died between files)
+        # still needs re-queueing: its remaining `queued` files are the retry.
 
         # Remove from document registry, matched by bare filename against
         # `path`'s own basename -- Phase 5 dropped the registry's `filename`
@@ -397,13 +444,15 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
 
         # Reset file rows to queued
         fn_placeholders = ",".join("?" * len(filenames))
-        conn.execute(
-            f"UPDATE ingestion_job_files"
-            f" SET status='queued', current_step=NULL, doc_sha256=NULL,"
-            f"     started_at=NULL, completed_at=NULL, error_message=NULL"
-            f" WHERE job_id = ? AND filename IN ({fn_placeholders})",
-            (job_id, *filenames),
-        )
+        if filenames:
+            conn.execute(
+                f"UPDATE ingestion_job_files"
+                f" SET status='queued', current_step=NULL, doc_sha256=NULL,"
+                f"     started_at=NULL, completed_at=NULL, error_message=NULL,"
+                f"     entity_count=NULL, relationship_count=NULL"
+                f" WHERE job_id = ? AND filename IN ({fn_placeholders})",
+                (job_id, *filenames),
+            )
 
         # processed_count = files that are already done and won't be re-queued
         remaining = conn.execute(
@@ -425,6 +474,7 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
             "retried": len(filenames),
             "deregistered": deregistered,
             "files": filenames,
+            "stalled": stalled,
         }
     finally:
         conn.close()

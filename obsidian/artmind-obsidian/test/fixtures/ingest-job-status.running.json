@@ -16,6 +16,7 @@
     "completed_at": null,
     "error_message": null,
     "domain": "general",
+    "stalled": false,
     "files": [
       {
         "filename": "/vault/Notes/file1.md",

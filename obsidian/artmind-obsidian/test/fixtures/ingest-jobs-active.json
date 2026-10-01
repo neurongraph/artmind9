@@ -14,6 +14,7 @@
       "queued_at": "2026-09-30T12:00:00",
       "started_at": "2026-09-30T12:00:00",
       "domain": "general",
+      "stalled": false,
       "files": [
         {
           "filename": "/vault/Notes/file1.md",

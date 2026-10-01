@@ -183,6 +183,14 @@ async function refreshActiveJobs() {
     bar.appendChild(fill);
     card.appendChild(bar);
     card.appendChild(el("div", "dash-note", `${job.processedCount}/${job.fileCount} files`));
+    if (job.stalled) {
+      // processing, but its worker is gone: nothing will finish it unless retried
+      const stalled = el("div", "dash-note status-failed", "Stalled: the worker stopped mid-job. ");
+      const retryBtn = el("button", "btn-link", "Retry");
+      retryBtn.addEventListener("click", () => retryJob(job.jobId, false));
+      stalled.appendChild(retryBtn);
+      card.appendChild(stalled);
+    }
 
     const fileRows = el("div", "file-rows");
     for (const f of job.files) {

@@ -260,7 +260,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             result = _retry_job(job_id, include_skipped=payload.include_skipped)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
-        if result["retried"]:
+        if result["retried"] or result["stalled"]:
             _ensure_worker_running()
         return _camelize(result)
 
