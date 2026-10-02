@@ -1406,7 +1406,7 @@ def ingest_table2graph(
 
     reports = []
     for table_name in tables:
-        row = _resolve_table_row(table_name, domain)
+        row = _resolve_table_row(table_name, domain, allow_mapping_stem=True)
         try:
             if explicit is not None:
                 mapping = explicit
@@ -1885,17 +1885,39 @@ class _TableFirstGroup(click.RichGroup):
         return super().parse_args(ctx, args)
 
 
-def _resolve_table_row(table_name: str, domain: "tuple[str, ...]") -> dict:
-    """Resolve TABLE to a single registry row, mirroring db_schema's --domain handling."""
+def _resolve_table_row(table_name: str, domain: "tuple[str, ...]", *, allow_mapping_stem: bool = False) -> dict:
+    """Resolve TABLE to a single registry row, mirroring db_schema's --domain handling.
+
+    When `allow_mapping_stem=True` and no table is registered under exactly
+    `table_name`, falls back to treating `table_name` as a mapping filename
+    stem: loads `domains/table_mappings/<table_name>.yaml` and finds every
+    registered table that mapping's `table:` patterns cover. Multiple dated
+    variants in the same domain resolve to the latest by `ingested_at`.
+    Cross-domain ambiguity still requires `--domain`.
+    """
     domains = _parse_domains(domain) if domain else None
     matches = [t for t in structured_registry.list_tables(domains) if t["table_name"] == table_name]
+    if not matches and allow_mapping_stem:
+        from paths import TABLE_MAPPINGS_DIR
+        from artmind import table2graph as _t2g
+        stem_path = TABLE_MAPPINGS_DIR / f"{table_name}.yaml"
+        if stem_path.exists():
+            try:
+                stem_mapping = _t2g.load_mapping(stem_path)
+                all_tables = structured_registry.list_tables(domains)
+                matches = [t for t in all_tables if stem_mapping.matches(t["table_name"], t.get("domain"))]
+            except _t2g.MappingError:
+                pass
     if not matches:
         raise click.ClickException(f"table '{table_name}' not found")
     if len(matches) > 1:
-        doms = [t["domain"] for t in matches]
-        raise click.ClickException(
-            f"table '{table_name}' is ambiguous across domains {doms} — narrow with --domain"
-        )
+        unique_domains = {t["domain"] for t in matches}
+        if len(unique_domains) > 1:
+            raise click.ClickException(
+                f"table '{table_name}' is ambiguous across domains {sorted(unique_domains)} — narrow with --domain"
+            )
+        # Same domain, multiple dated variants: pick the latest by ingested_at.
+        matches = [sorted(matches, key=lambda t: t.get("ingested_at") or "", reverse=True)[0]]
     return matches[0]
 
 

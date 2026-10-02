@@ -535,7 +535,7 @@ def cli_env(tmp_path, monkeypatch):
     (mappings / "hr.yaml").write_text(yaml.safe_dump(MAPPING, sort_keys=False))
     monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", mappings)
     monkeypatch.setattr(paths, "KG_DIR", tmp_path / "kg")
-    monkeypatch.setattr(cli, "_resolve_table_row", lambda name, domain: {**TABLE, "table_name": name})
+    monkeypatch.setattr(cli, "_resolve_table_row", lambda name, domain, **kw: {**TABLE, "table_name": name})
     monkeypatch.setattr(t2g, "read_table_rows", lambda table, as_of=None: (ROWS, COLUMNS))
     monkeypatch.setattr(temporal, "load_schema", lambda domain: SCHEMA)
     return tmp_path
@@ -693,3 +693,73 @@ def test_write_staged_swaps_atomically_and_clears_crash_leftovers(tmp_path):
     assert json.loads((target / "document.json").read_text()) == {"id": "table:banking:accounts"}
     assert json.loads((target / "table2graph_report.json").read_text()) == {"rows": 1, "as_of": "2026-09-26"}
     assert sorted(p.name for p in domain_dir.iterdir()) == ["table__accounts"]
+
+
+# ── _resolve_table_row: mapping-stem fallback ─────────────────────────────────
+
+
+def _make_tables(*names, domain="perf"):
+    return [
+        {**TABLE, "table_name": n, "ingested_at": f"2026-{i+1:02d}-01T00:00:00", "domain": domain}
+        for i, n in enumerate(names)
+    ]
+
+
+def test_resolve_table_row_stem_resolves_to_latest_dated_variant(tmp_path, monkeypatch):
+    import click
+    import artmind.cli as cli
+    import paths
+
+    mappings = tmp_path / "mappings"
+    mappings.mkdir()
+    (mappings / "hr.yaml").write_text(yaml.safe_dump(MAPPING, sort_keys=False))
+    monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", mappings)
+    tables = _make_tables("hr_export_20260901", "hr_export_20261002")
+    monkeypatch.setattr(cli.structured_registry, "list_tables", lambda domains=None: tables)
+
+    row = cli._resolve_table_row("hr", (), allow_mapping_stem=True)
+    assert row["table_name"] == "hr_export_20261002"
+
+
+def test_resolve_table_row_stem_single_match(tmp_path, monkeypatch):
+    import artmind.cli as cli
+    import paths
+
+    mappings = tmp_path / "mappings"
+    mappings.mkdir()
+    (mappings / "hr.yaml").write_text(yaml.safe_dump(MAPPING, sort_keys=False))
+    monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", mappings)
+    monkeypatch.setattr(cli.structured_registry, "list_tables", lambda domains=None: _make_tables("hr_export_20261002"))
+
+    row = cli._resolve_table_row("hr", (), allow_mapping_stem=True)
+    assert row["table_name"] == "hr_export_20261002"
+
+
+def test_resolve_table_row_stem_errors_when_no_mapping_file(tmp_path, monkeypatch):
+    import click
+    import artmind.cli as cli
+    import paths
+
+    mappings = tmp_path / "mappings"
+    mappings.mkdir()
+    monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", mappings)
+    monkeypatch.setattr(cli.structured_registry, "list_tables", lambda domains=None: [])
+
+    with pytest.raises(click.ClickException, match="not found"):
+        cli._resolve_table_row("unknown", (), allow_mapping_stem=True)
+
+
+def test_resolve_table_row_stem_cross_domain_requires_domain_flag(tmp_path, monkeypatch):
+    import click
+    import artmind.cli as cli
+    import paths
+
+    mappings = tmp_path / "mappings"
+    mappings.mkdir()
+    (mappings / "hr.yaml").write_text(yaml.safe_dump({**MAPPING, "domain": None}, sort_keys=False))
+    monkeypatch.setattr(paths, "TABLE_MAPPINGS_DIR", mappings)
+    tables = _make_tables("hr_export_20261002", domain="perf") + _make_tables("hr_export_20261002", domain="other")
+    monkeypatch.setattr(cli.structured_registry, "list_tables", lambda domains=None: tables)
+
+    with pytest.raises(click.ClickException, match="ambiguous across domains"):
+        cli._resolve_table_row("hr", (), allow_mapping_stem=True)
