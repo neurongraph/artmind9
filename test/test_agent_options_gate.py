@@ -13,24 +13,41 @@ from __future__ import annotations
 
 import pytest
 
+import artmind.webui.agent as agent_module
 from artmind.webui.agent import agent_options
 from artmind.webui.profiles import ADMIN_PROFILE, BENCHMARK_PROFILE, QA_PROFILE
 from artmind.webui.tool_gate import DENIED_TOOLS
 
+# Read is carved out of the hard-denied set -- it is gated via the PreToolUse
+# hook's path predicate instead (see test_the_read_hook_* below). Grep/Glob/
+# NotebookRead have no such carve-out and stay hard-denied.
+HARD_DENIED_TOOLS = tuple(t for t in DENIED_TOOLS if t != "Read")
+
+
+def _hook_for(options, tool_name):
+    """Pull the single hook callback matched to `tool_name` out of options."""
+    matchers = options.hooks["PreToolUse"]
+    matched = [m for m in matchers if m.matcher == tool_name]
+    assert len(matched) == 1, f"expected exactly one {tool_name}-matched PreToolUse hook"
+    (hook,) = matched[0].hooks
+    return hook
+
 
 def _bash_hook(options):
-    """Pull the single Bash-matched PreToolUse hook callback out of options."""
-    matchers = options.hooks["PreToolUse"]
-    bash_matchers = [m for m in matchers if m.matcher == "Bash"]
-    assert len(bash_matchers) == 1, "expected exactly one Bash-matched PreToolUse hook"
-    (hook,) = bash_matchers[0].hooks
-    return hook
+    return _hook_for(options, "Bash")
+
+
+def _read_hook(options):
+    return _hook_for(options, "Read")
 
 
 def test_a_grounded_profile_denies_the_file_reading_tools():
     options = agent_options(QA_PROFILE)
 
-    assert set(DENIED_TOOLS) <= set(options.disallowed_tools)
+    assert set(HARD_DENIED_TOOLS) <= set(options.disallowed_tools)
+    assert "Read" not in options.disallowed_tools, (
+        "Read is gated via the PreToolUse hook's path predicate, not hard-denied"
+    )
 
 
 def test_a_grounded_profile_gates_bash_via_a_pretooluse_hook():
@@ -112,7 +129,7 @@ async def test_the_benchmark_profile_is_gated():
     options = agent_options(BENCHMARK_PROFILE)
 
     assert options.hooks and "PreToolUse" in options.hooks
-    assert set(DENIED_TOOLS) <= set(options.disallowed_tools)
+    assert set(HARD_DENIED_TOOLS) <= set(options.disallowed_tools)
 
     hook = _bash_hook(options)
     denied = await hook(
@@ -126,6 +143,122 @@ async def test_the_benchmark_profile_is_gated():
         {"signal": None},
     )
     assert denied["hookSpecificOutput"]["permissionDecision"] == "deny"
+
+
+async def test_the_read_hook_allows_a_file_inside_the_package_skills_root(
+    monkeypatch, tmp_path
+):
+    package_skills = tmp_path / "pkg-skills"
+    package_skills.mkdir()
+    target = package_skills / "artmind-query" / "SKILL.md"
+    target.parent.mkdir(parents=True)
+    target.write_text("# query")
+    monkeypatch.setattr(agent_module, "PACKAGE_SKILLS_DIR", package_skills)
+
+    options = agent_options(QA_PROFILE)
+    hook = _read_hook(options)
+    allowed = await hook(
+        {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Read",
+            "tool_input": {"file_path": str(target)},
+            "tool_use_id": "toolu_5",
+        },
+        "toolu_5",
+        {"signal": None},
+    )
+
+    assert allowed["hookSpecificOutput"]["permissionDecision"] == "allow"
+
+
+async def test_the_read_hook_allows_a_file_inside_the_run_folder_skills_root(
+    monkeypatch, tmp_path
+):
+    run_folder = tmp_path / "run-folder"
+    target = run_folder / ".claude" / "skills" / "artmind-query" / "SKILL.md"
+    target.parent.mkdir(parents=True)
+    target.write_text("# query")
+    monkeypatch.setattr(agent_module, "RUN_FOLDER", run_folder)
+
+    options = agent_options(QA_PROFILE)
+    hook = _read_hook(options)
+    allowed = await hook(
+        {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Read",
+            "tool_input": {"file_path": str(target)},
+            "tool_use_id": "toolu_6",
+        },
+        "toolu_6",
+        {"signal": None},
+    )
+
+    assert allowed["hookSpecificOutput"]["permissionDecision"] == "allow"
+
+
+async def test_the_read_hook_denies_a_vault_file_outside_the_skills_roots(tmp_path):
+    note = tmp_path / "notes" / "journal.md"
+    note.parent.mkdir(parents=True)
+    note.write_text("private")
+
+    options = agent_options(QA_PROFILE)
+    hook = _read_hook(options)
+    denied = await hook(
+        {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Read",
+            "tool_input": {"file_path": str(note)},
+            "tool_use_id": "toolu_7",
+        },
+        "toolu_7",
+        {"signal": None},
+    )
+
+    assert denied["hookSpecificOutput"]["permissionDecision"] == "deny"
+
+
+async def test_a_non_read_tool_reaching_the_read_hook_is_allowed():
+    """Defense-in-depth, mirroring the Bash hook's own non-Bash check."""
+    options = agent_options(QA_PROFILE)
+    hook = _read_hook(options)
+
+    result = await hook(
+        {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "mcp__canvas__show_card",
+            "tool_input": {"id": "x"},
+            "tool_use_id": "toolu_8",
+        },
+        "toolu_8",
+        {"signal": None},
+    )
+
+    assert result["hookSpecificOutput"]["permissionDecision"] == "allow"
+
+
+async def test_the_read_hook_really_calls_the_path_predicate(monkeypatch):
+    """A hook that reimplements its own path check instead of delegating to
+    `tool_gate.is_allowed_skill_read` could silently drift from it -- this
+    proves the wiring by swapping the predicate itself and watching the
+    hook's decision follow it (the same trap the module docstring warns about
+    for `can_use_tool` vs `PreToolUse`: a wrong wiring can pass its own unit
+    tests while being inert against the real hook)."""
+    monkeypatch.setattr(agent_module, "is_allowed_skill_read", lambda path, roots: True)
+
+    options = agent_options(QA_PROFILE)
+    hook = _read_hook(options)
+    allowed = await hook(
+        {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Read",
+            "tool_input": {"file_path": "/definitely/not/a/skill.md"},
+            "tool_use_id": "toolu_9",
+        },
+        "toolu_9",
+        {"signal": None},
+    )
+
+    assert allowed["hookSpecificOutput"]["permissionDecision"] == "allow"
 
 
 def test_the_gate_is_not_shadowed_by_the_permission_mode():

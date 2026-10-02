@@ -21,13 +21,24 @@ from claude_agent_sdk import (
 
 from artmind.webui.backends.base import TRACE_CLIP, clip
 from artmind.webui.profiles import AgentProfile, QA_PROFILE
-from artmind.webui.tool_gate import DENIED_TOOLS, denial_message, is_allowed_bash
-from paths import ARTMIND_HOME
+from artmind.webui.tool_gate import (
+    DENIED_TOOLS,
+    denial_message,
+    is_allowed_bash,
+    is_allowed_skill_read,
+)
+from paths import ARTMIND_HOME, PACKAGE_SKILLS_DIR
 
 # The chat agent runs from the clean run folder (config + skills + schemas +
 # logs) — not the source checkout. Its `.claude/skills/` is discovered via the
 # default "project" setting source; the corpus and source tree are not present.
 RUN_FOLDER = ARTMIND_HOME
+
+# Read is allowed only inside these roots -- skill reference files are
+# package assets, not vault content (docs/superpowers/specs/2026-10-02-graph-
+# hierarchy-traversal-design.md §4). `RUN_FOLDER` is read fresh at hook-call
+# time via a closure (not captured here) so a test can monkeypatch either
+# name after import.
 
 __all__ = ["RUN_FOLDER", "TRACE_CLIP", "clip", "agent_options", "EventMapper"]
 
@@ -74,31 +85,42 @@ def agent_options(
     user's vault, so an ungated agent can answer by reading documents directly
     instead of through ``artmind query`` — silently losing supersession,
     materialised conflicts and chunk-level provenance. When
-    ``profile.filesystem_access`` is False, this disallows the file-reading
-    tools (``artmind.webui.tool_gate.DENIED_TOOLS``) outright and installs a
-    ``PreToolUse`` hook, matched to ``Bash`` only, that narrows it to a single
-    ``artmind …`` invocation, denying anything else with a message naming the
-    query command to use instead. It is a hook and deliberately *not* a
-    ``can_use_tool`` callback — see ``tool_gate.py``'s module docstring for
-    why. Every other tool — including in-process MCP tools a front-end
-    registers via ``mcp_servers`` — passes through untouched; the gate's
-    business is Bash and the read tools only. An operator surface sets
-    ``filesystem_access=True`` and gets neither restriction (no hooks at all),
-    since inspecting a failed conversion or reading a log is legitimately its
-    job. See ``tool_gate.py`` for the reasoning behind the predicate itself.
+    ``profile.filesystem_access`` is False, this hard-disallows ``Grep``,
+    ``Glob`` and ``NotebookRead`` (``artmind.webui.tool_gate.DENIED_TOOLS``
+    minus ``Read``) and installs two ``PreToolUse`` hooks:
 
-    The ``HookMatcher(matcher="Bash", ...)`` registration is what scopes the
-    hook to Bash calls in the first place, so this ought to be the only tool
-    the hook ever sees. The callback still checks ``tool_name`` itself and
-    allows anything that isn't Bash, purely as defense-in-depth: live,
-    authenticated verification that the CLI honours the matcher wasn't
-    possible from this checkout's dev sandbox, so the redundant check stays
-    rather than assuming.
+    - matched to ``Bash``, narrowing it to a single ``artmind …`` invocation,
+      denying anything else with a message naming the query command to use
+      instead;
+    - matched to ``Read``, allowing it only when
+      ``tool_gate.is_allowed_skill_read`` says the realpath'd target falls
+      inside ``PACKAGE_SKILLS_DIR`` or ``RUN_FOLDER / ".claude" / "skills"`` —
+      skill reference files are package assets, not vault content, so this is
+      a narrow carve-out rather than a reopening of the gate (docs/superpowers/
+      specs/2026-10-02-graph-hierarchy-traversal-design.md §4).
+
+    Both are hooks and deliberately *not* a ``can_use_tool`` callback — see
+    ``tool_gate.py``'s module docstring for why. Every other tool — including
+    in-process MCP tools a front-end registers via ``mcp_servers`` — passes
+    through untouched. An operator surface sets ``filesystem_access=True`` and
+    gets neither restriction (no hooks at all), since inspecting a failed
+    conversion or reading a log is legitimately its job. See ``tool_gate.py``
+    for the reasoning behind the predicates themselves.
+
+    Each ``HookMatcher`` registration is what scopes its hook to that one tool
+    in the first place, so each callback ought to only ever see that tool. Both
+    callbacks still check ``tool_name`` themselves and allow anything else,
+    purely as defense-in-depth: live, authenticated verification that the CLI
+    honours the matcher wasn't possible from this checkout's dev sandbox, so
+    the redundant check stays rather than assuming.
     """
     denied_tools: list[str] = []
     hooks: dict[str, list[HookMatcher]] = {}
     if not profile.filesystem_access:
-        denied_tools = list(DENIED_TOOLS)
+        # Read is carved out of the hard-denied set: it is gated by path via
+        # the PreToolUse hook below instead. Grep/Glob/NotebookRead have no
+        # such carve-out and stay hard-denied.
+        denied_tools = [t for t in DENIED_TOOLS if t != "Read"]
 
         async def gate(input_data, tool_use_id, context):  # noqa: ANN001
             if input_data.get("tool_name") != "Bash":
@@ -122,7 +144,42 @@ def agent_options(
                 output["permissionDecisionReason"] = reason
             return {"hookSpecificOutput": output}
 
-        hooks = {"PreToolUse": [HookMatcher(matcher="Bash", hooks=[gate])]}
+        async def read_gate(input_data, tool_use_id, context):  # noqa: ANN001
+            if input_data.get("tool_name") != "Read":
+                # Defense-in-depth only -- see the docstring above.
+                return {
+                    "hookSpecificOutput": {
+                        "hookEventName": "PreToolUse",
+                        "permissionDecision": "allow",
+                    }
+                }
+            file_path = (input_data.get("tool_input") or {}).get("file_path", "")
+            skill_roots = [PACKAGE_SKILLS_DIR, RUN_FOLDER / ".claude" / "skills"]
+            if is_allowed_skill_read(file_path, skill_roots):
+                decision, reason = "allow", None
+            else:
+                decision = "deny"
+                reason = (
+                    "Filesystem access is disabled on this surface: only skill "
+                    "reference files may be read directly.\n"
+                    f"Refused: {file_path}\n"
+                    "Use `artmind query vector-text --domain <d> \"<question>\"` to "
+                    "search document text instead."
+                )
+            output = {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": decision,
+            }
+            if reason is not None:
+                output["permissionDecisionReason"] = reason
+            return {"hookSpecificOutput": output}
+
+        hooks = {
+            "PreToolUse": [
+                HookMatcher(matcher="Bash", hooks=[gate]),
+                HookMatcher(matcher="Read", hooks=[read_gate]),
+            ]
+        }
 
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),

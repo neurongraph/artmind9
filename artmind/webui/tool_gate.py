@@ -28,7 +28,9 @@ that actually runs under ``bypassPermissions``.
 """
 from __future__ import annotations
 
+import os
 import re
+from collections.abc import Iterable
 
 # Every tool that can read a file. If the SDK gains another, add it here --
 # the gate is only as good as this list.
@@ -56,6 +58,30 @@ def is_allowed_bash(command: str) -> bool:
     if any(meta in stripped for meta in _SHELL_METACHARACTERS):
         return False
     return bool(_ARTMIND_INVOCATION.match(stripped))
+
+
+def is_allowed_skill_read(path: str, roots: Iterable[os.PathLike[str] | str]) -> bool:
+    """May the agent `Read` this path?
+
+    Allowed only when the *real* path (symlinks resolved) falls inside one of
+    the *real* roots. Skill reference files are package assets, not vault
+    content, so this is a narrow carve-out, not a reopening of the gate --
+    `Grep`/`Glob`/`NotebookRead` stay hard-denied regardless.
+
+    Both sides are realpath'd before comparison: a vault skill directory is a
+    symlink into the installed package, and a malicious path could itself be
+    a symlink pointing back out. Comparison is by path-segment prefix, not by
+    string prefix, so a sibling directory that merely shares a name prefix
+    (`skills` vs `skills-evil`) does not pass.
+    """
+    if not path:
+        return False
+    real_path = os.path.realpath(path)
+    for root in roots:
+        real_root = os.path.realpath(root)
+        if real_path == real_root or real_path.startswith(real_root + os.sep):
+            return True
+    return False
 
 
 def denial_message(command: str) -> str:

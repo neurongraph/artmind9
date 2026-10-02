@@ -6,9 +6,11 @@ strength: it removes the easy path and signposts the right one.
 """
 from __future__ import annotations
 
+import os
+
 import pytest
 
-from artmind.webui.tool_gate import DENIED_TOOLS, is_allowed_bash
+from artmind.webui.tool_gate import DENIED_TOOLS, is_allowed_bash, is_allowed_skill_read
 
 
 @pytest.mark.parametrize("command", [
@@ -87,3 +89,67 @@ def test_the_admin_surface_keeps_filesystem_access():
     from artmind.webui.profiles import ADMIN_PROFILE
 
     assert ADMIN_PROFILE.filesystem_access is True
+
+
+@pytest.fixture
+def skill_roots(tmp_path):
+    """Two allowed roots, mirroring PACKAGE_SKILLS_DIR and <cwd>/.claude/skills."""
+    package_skills = tmp_path / "package" / "artmind" / "skills"
+    vault_skills = tmp_path / "vault" / ".claude" / "skills"
+    (package_skills / "artmind-query").mkdir(parents=True)
+    (vault_skills / "artmind-query").mkdir(parents=True)
+    (package_skills / "artmind-query" / "SKILL.md").write_text("# query")
+    return package_skills, vault_skills
+
+
+def test_a_file_inside_the_package_skills_root_is_allowed(skill_roots):
+    package_skills, vault_skills = skill_roots
+    target = package_skills / "artmind-query" / "SKILL.md"
+
+    assert is_allowed_skill_read(str(target), [package_skills, vault_skills]) is True
+
+
+def test_a_file_inside_the_vault_skills_root_is_allowed(skill_roots):
+    package_skills, vault_skills = skill_roots
+    target = vault_skills / "artmind-query" / "SKILL.md"
+    target.write_text("# query")
+
+    assert is_allowed_skill_read(str(target), [package_skills, vault_skills]) is True
+
+
+def test_a_dot_dot_escape_from_a_root_is_denied(skill_roots):
+    package_skills, vault_skills = skill_roots
+    secret = package_skills.parent.parent / "secrets.md"
+    secret.write_text("shh")
+    escaping = package_skills / "artmind-query" / ".." / ".." / ".." / "secrets.md"
+
+    assert is_allowed_skill_read(str(escaping), [package_skills, vault_skills]) is False
+
+
+def test_a_symlink_pointing_outside_a_root_is_denied(skill_roots, tmp_path):
+    package_skills, vault_skills = skill_roots
+    outside = tmp_path / "outside.md"
+    outside.write_text("not a skill")
+    link = package_skills / "artmind-query" / "escape.md"
+    os.symlink(outside, link)
+
+    assert is_allowed_skill_read(str(link), [package_skills, vault_skills]) is False
+
+
+def test_a_sibling_dir_sharing_a_name_prefix_is_denied(skill_roots, tmp_path):
+    package_skills, vault_skills = skill_roots
+    evil = package_skills.parent / "skills-evil" / "SKILL.md"
+    evil.parent.mkdir(parents=True)
+    evil.write_text("not a skill")
+
+    assert is_allowed_skill_read(str(evil), [package_skills, vault_skills]) is False
+
+
+def test_a_non_skill_vault_file_is_denied(skill_roots, tmp_path):
+    package_skills, vault_skills = skill_roots
+    vault_root = vault_skills.parent.parent
+    note = vault_root / "notes" / "journal.md"
+    note.parent.mkdir(parents=True)
+    note.write_text("private")
+
+    assert is_allowed_skill_read(str(note), [package_skills, vault_skills]) is False
