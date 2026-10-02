@@ -48,7 +48,10 @@ Bash, idempotent: every step checks before acting and skips when done.
 
 1. Require macOS and Homebrew; `brew install` whichever of
    `uv just gh node colima docker` are missing.
-2. `gh auth status || gh auth login`.
+2. `gh auth status || gh auth login`, then `gh auth setup-git` (so `git push`
+   over https uses gh's credentials). Install Obsidian (`brew install --cask
+   obsidian`) if `/Applications/Obsidian.app` is missing. Warn if
+   `git config --global user.name`/`user.email` are unset.
 3. `colima status || colima start`.
 4. Clone `neurongraph/artmind9` and `neurongraph/neo4j-manager` into
    `${ARTMIND_SRC:-$HOME/projects}` unless already present (an existing
@@ -98,18 +101,24 @@ artmind vault new NAME [--join] [--dir PATH] [--githubOwner OWNER] [--localOnly]
 | # | Step | New vault | `--join` |
 |---|---|---|---|
 | 1 | Pre-flight | all checks below; one confirmation summary | same |
-| 2 | Machine config | `ensure_machine_config()` (no-op when the file exists; the credential itself was checked in pre-flight) | same |
+| 2 | Machine config | nothing to do: pre-flight required `~/.artmind/config.env` to exist (seeded by `bootstrap.sh`) and checked its credential | same |
 | 3 | Neo4j | `neo4j-manager create NAME --json --wait` (skipped with `--neo4jUri`) | same (this machine's own instance) |
 | 4 | Folder | `mkdir`, `git init`, `mkdir .obsidian` | `gh repo clone OWNER/NAME DIR`, `mkdir -p .obsidian` |
 | 5 | Scaffold | `scaffold_vault(root, config_answers={neo4j_uri: bolt_url, neo4j_username: user, neo4j_password: password, neo4j_database: "neo4j"})` — installs + enables the artmind plugin because `.obsidian/` exists | same |
 | 6 | Community plugins | install, enable, seed settings (§3); skipped with `--noPlugins` | same |
 | 7 | Graph schema | `setup_all()` anchored at the vault | same |
-| 8 | Publish | `git add -A && git commit -m "artmind: initialise vault NAME"`, then `gh repo create OWNER/NAME --private --source . --remote origin --push` (commit only with `--localOnly`) | skipped |
+| 8 | Publish | each sub-step idempotent: commit if HEAD is missing or the tree is dirty (`git add -A && git commit -m "artmind: initialise vault NAME"`); `gh repo create OWNER/NAME --private` unless it exists; `git remote add origin https://github.com/OWNER/NAME.git` unless `origin` exists; `git push -u origin HEAD` (commit only with `--localOnly`) | skipped |
 | 9 | Bookmark | `vault sync --bootstrapSynced` (empty graph, one commit: already in sync) | `vault sync --bootstrapEmpty` (rebuild this machine's graph from the commits) |
 | 10 | Hand-off | `open -a Obsidian` (unless `--noOpen`); print "Open folder as vault → DIR → Turn on community plugins" | same |
 
-Steps 7 and 9 call the library functions in-process (`setup_all`,
-`vault_sync.sync`), not the CLI.
+Steps 7 and 9 run as **child processes** (`python -m artmind setup`,
+`python -m artmind vault sync ...`) with `cwd=DIR` and `ARTMIND_VAULT=DIR`, not
+in-process: `paths.py` resolves the active vault and loads its `config.env`
+once at import, so an in-process call would use the vault (or run folder) the
+command was started from. The child's environment drops every key loaded from
+`paths.LOADED_ENV_FILES` plus `ARTMIND_HOME`, `ARTMIND_DATA_DIR`,
+`ARTMIND_VAULT_DIR` — otherwise an inherited `ARTMIND_KG_NEO4J_URI` beats the
+new vault's own config (`load_dotenv(override=False)`).
 
 The repo is created last (step 8) so a failure in any earlier step never
 leaves an orphan repo on GitHub.
@@ -121,7 +130,8 @@ All checks run, and every failure is reported together in one error.
 | Check | New vault | `--join` |
 |---|---|---|
 | `NAME` valid | `[A-Za-z0-9._-]+` | same |
-| machine config | `~/.artmind/config.env` exists and the configured LLM provider's required credential is non-empty | same |
+| machine config | `~/.artmind/config.env` exists (else: run `bootstrap.sh`) and the configured LLM provider's required credential is non-empty | same |
+| git identity | `git config user.name` and `user.email` set (step 8 commits) | not needed |
 | tools on PATH | `git`; `gh` (authenticated) unless `--localOnly`; `neo4j-manager` unless `--neo4jUri` | `git`, `gh`, `neo4j-manager` unless `--neo4jUri` |
 | GitHub `OWNER/NAME` (`gh repo view`) | must **not** exist → else suggest `--join` or another name | must exist |
 | folder `DIR` | absent or empty | absent or empty |
