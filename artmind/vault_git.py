@@ -1,8 +1,8 @@
 """Read-only git helpers for the vault (spec 2026-09-26, D1/D2).
 
 artmind never writes to the vault's git repo -- the Obsidian Git plugin owns
-commit, pull and push. What remains here only reads: provenance (`HEAD`),
-dirtiness for snapshot manifests, and configuring a remote at `init` time.
+commit, pull and push. What remains here only reads: provenance (`HEAD`) and
+dirtiness for snapshot manifests.
 """
 from __future__ import annotations
 
@@ -49,27 +49,3 @@ def is_dirty() -> bool | None:
     return bool(out.strip())
 
 
-def add_remote(root: Path, url: str, name: str = "origin") -> str:
-    """Configure a git remote for `root` (`artmind init --interactive`/`--remote`).
-    Configuration, not transport: artmind still never pushes to it.
-
-    Takes an explicit `root` rather than going through `_vault_root()`, since
-    this runs at scaffold time -- before `root` is necessarily the process's
-    resolved "active" vault.
-
-    Returns "added", "exists" (a `name` remote is already configured -- left
-    alone rather than silently repointed), or "failed" (not a git repo yet, or
-    the git command itself errored). Never raises.
-    """
-    root = Path(root)
-    if not (root / ".git").exists():
-        return "failed"
-    rc, out, _ = run_command(["git", "remote"], cwd=root)
-    if rc == 0 and name in out.split():
-        return "exists"
-    rc, out, err = run_command(["git", "remote", "add", name, url], cwd=root)
-    if rc != 0:
-        logger.warning("vault_git: git remote add failed ({}): {}", rc, err or out)
-        return "failed"
-    logger.info("vault_git: added remote {} -> {}", name, url)
-    return "added"

@@ -91,27 +91,8 @@ def test_vault_reports_the_active_vault(tmp_path, monkeypatch):
     assert str(tmp_path.resolve()) in result.output
 
 
-def test_init_remote_flag_configures_origin_non_interactively(tmp_path, monkeypatch):
-    """--remote works without --interactive -- e.g. from a script."""
-    monkeypatch.chdir(tmp_path)
-
-    result = CliRunner().invoke(
-        cli, ["init", "--remote", "https://github.com/example/vault.git"]
-    )
-
-    assert result.exit_code == 0, result.output
-    remotes = subprocess.run(
-        ["git", "remote", "-v"], cwd=tmp_path, capture_output=True, text=True
-    ).stdout
-    assert "https://github.com/example/vault.git" in remotes
-    assert "Remote:   origin -> https://github.com/example/vault.git" in result.output
-
-
 def test_init_default_is_non_interactive(tmp_path, monkeypatch):
-    """No flags, no stdin available (CliRunner's default) -- must still exit 0
-    with the plain-placeholder config.env, exactly like before --interactive
-    existed. This is the automation path (`just dev-install`): nobody is at
-    the keyboard, so prompting by default here would break it."""
+    """No stdin available (CliRunner's default) -- `init` never prompts, so automation can run it unattended. It writes the plain-placeholder config.env."""
     monkeypatch.chdir(tmp_path)
 
     result = CliRunner().invoke(cli, ["init"])
@@ -119,47 +100,6 @@ def test_init_default_is_non_interactive(tmp_path, monkeypatch):
     assert result.exit_code == 0, result.output
     config = vault.VaultLayout(tmp_path).config_env.read_text()
     assert "ARTMIND_KG_NEO4J_USERNAME=neo4j" in config
-
-
-def test_init_interactive_prompts_for_neo4j_connection_and_remote(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
-    answers = "\n".join([
-        "neo4j+s://mydb.databases.neo4j.io",  # Neo4j URI
-        "myuser",  # Neo4j username
-        "hunter2",  # Neo4j password
-        "mydb",  # Neo4j database
-        "https://github.com/example/vault.git",  # remote URL
-    ]) + "\n"
-
-    result = CliRunner().invoke(cli, ["init", "--interactive"], input=answers)
-
-    assert result.exit_code == 0, result.output
-    config = vault.VaultLayout(tmp_path).config_env.read_text()
-    assert "ARTMIND_KG_NEO4J_URI=neo4j+s://mydb.databases.neo4j.io" in config
-    assert "ARTMIND_KG_NEO4J_USERNAME=myuser" in config
-    assert "ARTMIND_KG_NEO4J_PASSWORD=hunter2" in config
-    assert "ARTMIND_KG_NEO4J_DATABASE=mydb" in config
-    assert "ARTMIND_VAULT_GIT_PUSH" not in config
-    remotes = subprocess.run(
-        ["git", "remote", "-v"], cwd=tmp_path, capture_output=True, text=True
-    ).stdout
-    assert "https://github.com/example/vault.git" in remotes
-
-
-def test_init_interactive_skips_prompts_when_config_env_already_exists(tmp_path, monkeypatch):
-    """Re-running `init --interactive` on an already-configured vault must not
-    prompt at all -- there's no answers to gather, and a leftover config.env
-    may hold hand-edited (e.g. Aura) values nothing here should touch."""
-    monkeypatch.chdir(tmp_path)
-    CliRunner().invoke(cli, ["init"])
-    config = vault.VaultLayout(tmp_path).config_env
-    config.write_text("ARTMIND_KG_NEO4J_DATABASE=mine\n")
-
-    # No input supplied: if this tried to prompt, it would abort on EOF.
-    result = CliRunner().invoke(cli, ["init", "--interactive"], input="")
-
-    assert result.exit_code == 0, result.output
-    assert config.read_text() == "ARTMIND_KG_NEO4J_DATABASE=mine\n"
 
 
 def test_vault_outside_a_vault_explains_rather_than_guessing(tmp_path, monkeypatch):
@@ -484,3 +424,22 @@ def test_echo_sync_status_collapses_a_multiline_graph_error_to_one_line(capsys):
     graph_line = next(line for line in out.splitlines() if line.startswith("Sync:     graph"))
     assert "\n" not in graph_line
     assert graph_line == "Sync:     graph      (unknown — graph unreachable: line one line two)"
+
+
+def test_init_no_longer_takes_interactive_or_remote(tmp_path, monkeypatch):
+    """Replaced by `artmind vault new` (spec 2026-10-02 §4)."""
+    monkeypatch.chdir(tmp_path)
+
+    for flag in (["--interactive"], ["--remote", "https://github.com/example/vault.git"]):
+        result = CliRunner().invoke(cli, ["init", *flag])
+        assert result.exit_code == 2
+        assert "No such option" in result.output
+
+
+def test_init_points_new_vaults_at_vault_new(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    result = CliRunner().invoke(cli, ["init"])
+
+    assert result.exit_code == 0, result.output
+    assert "artmind vault new" in result.output

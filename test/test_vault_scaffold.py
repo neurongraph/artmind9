@@ -407,7 +407,7 @@ def test_scaffold_run_folder_does_not_plant_an_uningored_skills_copy_in_a_vault(
     assert ".artmind/.opencode" not in status, status
 
 
-# ── config_answers / git_remote (artmind init --interactive) ────────────────
+# ── config_answers (artmind vault new) ──────────────────────────────────────
 
 
 def test_scaffold_writes_supplied_config_answers(tmp_path):
@@ -440,25 +440,6 @@ def test_scaffold_config_answers_never_overwrite_an_existing_config_env(tmp_path
     scaffold_vault(tmp_path, config_answers={"neo4j_database": "clobbered"})
 
     assert config.read_text() == "ARTMIND_KG_NEO4J_DATABASE=mine\n"
-
-
-def test_scaffold_configures_a_git_remote_when_given_one(tmp_path):
-    from artmind.setup import scaffold_vault
-
-    _init_repo(tmp_path)
-    result = scaffold_vault(tmp_path, git_remote="https://github.com/example/vault.git")
-
-    assert result["git_remote"] == "added"
-    remotes = _git(tmp_path, "remote", "-v")
-    assert "https://github.com/example/vault.git" in remotes
-
-
-def test_scaffold_reports_no_git_remote_action_when_none_given(tmp_path):
-    from artmind.setup import scaffold_vault
-
-    result = scaffold_vault(tmp_path)
-
-    assert result["git_remote"] is None
 
 
 # ── versioned artmind blocks (spec 2026-09-26 §5 R3, R4) ──────────────────────

@@ -362,9 +362,9 @@ def _render_config_env(
 ) -> str:
     """Render this vault's own config.env. Called with no arguments this
     reproduces the old hardcoded starter file exactly (every existing test
-    and every non-interactive `artmind init` keeps seeing the same
-    placeholders); `artmind init --interactive` (cli.py) supplies real
-    answers gathered from the user instead.
+    and every plain `artmind init` keeps seeing the same placeholders);
+    `artmind vault new` (vault_new.py) supplies real answers from
+    neo4j-manager or its flags instead.
     """
     return _CONFIG_ENV_TEMPLATE.format(
         neo4j_uri=neo4j_uri,
@@ -378,7 +378,6 @@ def scaffold_vault(
     root: Path,
     *,
     config_answers: dict | None = None,
-    git_remote: str | None = None,
 ) -> dict:
     """Make `root` an artmind vault. Idempotent, and never destructive.
 
@@ -389,13 +388,9 @@ def scaffold_vault(
     always-current property a different way -- they are symlinked to the
     installed copy rather than copied.
 
-    `config_answers` (kwargs for `_render_config_env`) only affects a config.env
-    that doesn't exist yet -- same idempotence rule as everything else here.
-    `git_remote`, if given, configures `origin` for `root`'s git repo (added
-    fresh; an already-configured `origin` is left alone -- see
-    `vault_git.add_remote`); this one isn't gated on freshness the way
-    config.env is, since setting a remote is safe to retry and has no
-    "already customized by hand" content to clobber.
+    `config_answers` (kwargs for `_render_config_env`; `artmind vault new` supplies
+    them) only affects a config.env that doesn't exist yet -- same idempotence
+    rule as everything else here.
     """
     root = Path(root).expanduser().resolve()
     layout = VaultLayout(root)
@@ -432,12 +427,6 @@ def scaffold_vault(
     machine_config = ensure_machine_config()
     obsidian_plugin = install_obsidian_plugin(root)
 
-    git_remote_status = None
-    if git_remote:
-        from artmind.vault_git import add_remote
-
-        git_remote_status = add_remote(root, git_remote)
-
     return {
         "vault": str(root),
         "schemas": seeded_schemas,
@@ -446,7 +435,6 @@ def scaffold_vault(
         "gitignore": gitignore_written,
         "gitattributes": gitattributes_written,
         "machine_config": machine_config,
-        "git_remote": git_remote_status,
         "vault_id": vault_id,
         "vault_id_minted": vault_id_minted,
         "obsidian_plugin": obsidian_plugin,
