@@ -72,50 +72,8 @@ deterministically.
 
 Add `--compact` to every command — it halves the JSON you must read.
 
-## Structured store (`db`)
-
 A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
-in a separate SQL store, independent of the graph above. Rows never become graph
-nodes — the graph only ever holds a catalogue of what tables/columns exist.
-
-- `artmind db bridge --domain <d> --compact` — **the routing entry point.** Per
-  table: `entity_classes` (routing key), `bridge_columns` (values that seed graph
-  retrieval), and `grain`. Add `--entityClass <CLASS>` for class-first discovery.
-- `artmind db list --domain <d> --compact` — which structured tables (if any)
-  exist for this domain. Physical listing only; prefer `db bridge` for routing.
-- `artmind db schema <table> --compact` — columns, types, and (once confirmed)
-  column→entity-class mappings for a table.
-- `artmind db sql "<SQL>" --compact` — raw read-only SQL, no LLM involved.
-- `artmind db timeline <table> --domain <d> [--asOf <date>] --compact` — point-in-time
-  query over a `refresh_mode: temporal` table's captured SCD-2 history: omit `--asOf`
-  for the currently-open rows, or pass a date to see the table as it stood then. Use
-  this instead of hand-writing `_valid_from`/`_valid_to` filters in `db sql` — it only
-  applies to temporal tables (check `db schema`'s `refresh_mode` field first; a
-  `replace`-mode table has no history to query and the command errors clearly if asked).
-- `artmind db mappings <table> --compact` — review proposed vs confirmed
-  column→entityClass mappings for a table (registry rows, not a file). Bulk-confirm
-  everything proposed with `--acceptProposed`, or manage one mapping at a time with
-  the `set`/`confirm`/`clear` subcommands (`db mappings <table> set --column c
-  --entityClass PRODUCT`, `... confirm --column c --entityClass PRODUCT`,
-  `... clear --column c` or `... clear` for all).
-- `artmind db catalogue --domain <d> --compact` — rebuild the Neo4j catalogue
-  subgraph (Table/TableColumn/EntityClass) for a domain from the registry. Ingest
-  already does this automatically; use this on demand after confirming mappings
-  later, to reflect that confirmation in the graph without re-ingesting.
-- `artmind query text2sql "<question>" --domain <d> --compact` — natural language
-  to read-only DuckDB SQL against the structured store, then executes it (add
-  `--dry-run` to see the generated SQL without running it). The SQL/graph analogue
-  of `query graph text2cypher`.
-- `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact` —
-  resolve a free-text value (e.g. from a user question or a structured row) to a
-  canonical column value and/or graph entity name, via exact/fuzzy matching.
-  `--column` is optional; omit it to resolve against the graph only. Useful to
-  normalize a value before using it in `text2sql`/graph retrieval, or to check
-  whether a structured column value and a KG entity name refer to the same thing.
-
-There is no monolithic `hybrid` command — the skill itself is the router/fuser,
-composing `resolve-key`, `text2sql`/`db sql`, and graph patterns in its own
-reasoning. See "Store routing" below for how to decide.
+in a separate SQL store, independent of the graph above — see "Store routing" below.
 
 ## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
 
@@ -143,120 +101,17 @@ artmind query domains-overview --compact
 
 #### Store routing
 
-Once the domain set is fixed, read the **bridge** — the one call that says
-whether a structured store exists here, which tables are about the classes in
-the question, and which of their columns hold values worth searching the graph
-for:
+Once the domain set is fixed, check whether a structured store is even in play:
 
 ```bash
 artmind db bridge --domain <d> --compact
 ```
 
-Per table it returns `entity_classes` (the routing key — many-to-many with
-tables, which a single dotted `--domain` never could be), `bridge_columns`
-(whose *values* seed graph retrieval), and `grain`.
-
-Do not route on `--domain` alone. Documents usually carry a genre-scoped domain
-(`<corpus>.<genre>`) because that is the level an extraction schema lives at,
-while tables carry the corpus root (`<corpus>`), because a table has no genre.
-`db bridge` matches the hierarchy in both directions, so asking from a leaf
-domain still finds tables registered at the root. To go the other way — "which
-tables involve this class at all?" — use `--entityClass`:
-
-```bash
-artmind db bridge --entityClass <CLASS> --compact
-```
-
-An empty `tables` list means the domain is genuinely pure-graph — skip
-SQL/hybrid entirely and go straight to Discover below. Otherwise classify the
-question first; only pull table shape if the classification needs it, so a
-narrative-only session in a domain that happens to have tables never pays for a
-schema call it doesn't use:
-
-- **Narrative/relationship** ("tell me about X", "how are X and Y related",
-  "why did…") → graph path — Discover/Resolve/Retrieve as documented below
-  (patterns / `text2cypher`). No structured store involved, no `db schema` call.
-- **Analytical/aggregate** ("average/total/count/sum by X") → pull the table
-  shape you need with `artmind db schema --domain <d> --compact` (or `db schema
-  <table>` for one table) — the column/type context an LLM needs to write SQL —
-  then SQL only: `artmind query text2sql "<question>" --domain <d> --compact`
-  (or `db sql "<SQL>"` if you already know the exact query — e.g. from a prior
-  `--dry-run`). No graph retrieval needed.
-- **Hybrid** (the question names something that lives as a graph entity but
-  needs a number that lives in a table) → pull `db schema` as above, then
-  canonicalize, then query SQL, then optionally add graph context, then
-  synthesize:
-  1. `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact`
-     to turn the user's phrase into the exact value stored in the column (and/or
-     the matching graph entity name) — don't hand a raw user phrase to
-     `text2sql`/`db sql` and hope it matches the stored spelling.
-  2. `artmind query text2sql "<question with canonical value>" --domain <d>
-     --compact` (or `db sql` with the canonical value substituted in) for the
-     numbers.
-  3. If the question also needs relationship context (not just a number), add
-     one graph pattern or `entity-context` call on the resolved entity.
-  4. Synthesize the combined answer yourself in this turn — there is no
-     "fusion" command; steps 1-3 are already composed by you, the skill.
-- **Records-plus-guidance** ("which X is in state Y, and what does our
-  policy/training require when handling it") → the two stores hold
-  *complementary* content, not overlapping content: the tables record what IS
-  true of particular people and cases, the graph states what SHOULD be done
-  about that kind of case. Do not try to join them by class: a subject class the
-  tables are full of is often nearly empty in the graph, because documents state
-  rules *about* that subject rather than instantiating it. Join on **values**
-  instead:
-  1. `db sql`/`text2sql` for the records, selecting the `bridge_columns` that
-     `db bridge` listed, not just the ids.
-  2. Feed those returned cell values as the query string to
-     `artmind query vector-text "<values + question terms>" --domain <corpus>
-     --asOf today --compact`. Unscoped across the corpus is fine and fast;
-     `--asOf today` matters — without it retired policy versions rank
-     alongside current ones.
-  3. Synthesize, citing the guidance documents by name.
-
-If a table's `grain` is `normative`, it asserts rules a document may also
-state. The graph wins on disagreement — report the difference rather than
-silently picking a side.
-
-Worked examples:
-
-- **Usage A — "Total balance across SmartSaver accounts."** Hybrid: `SmartSaver`
-  is a PRODUCT entity in the graph but `balance` lives in a table. Run
-  `resolve-key "SmartSaver" --domain banking --column product_name --compact` to
-  get the canonical `product_name` value, then `text2sql "total balance where
-  product_name is <canonical>" --domain banking --compact` (or `db sql` with the
-  literal substituted in) for the sum. Add a graph pattern only if the answer
-  also needs product relationships/ownership, not just the total.
-- **Usage B — "Average X by month."** Analytical-only: no entity to resolve, no
-  graph involvement — go straight to `text2sql "average X by month" --domain
-  <d> --compact`, or `db sql` if you already have the exact SQL from a prior
-  `--dry-run`.
-- **Usage C — "Which vulnerable customer has an open complaint, and what extra
-  care does our training and complaints guidance require?"** Records-plus-
-  guidance. `db bridge --domain banking --compact` shows
-  `vulnerable_customers` carrying `vulnerability_driver` and `support_needed`
-  as `bridge_columns`. `db sql` joins it to `complaints` on the open status,
-  returning those two columns alongside the customer. Their *values* then
-  become the retrieval phrase: `query vector-text "<driver> <support> handling
-  complaints extra care" --domain banking --asOf today --compact`, which
-  reaches the training and complaints-policy documents. Note the class join
-  would have failed here — the graph has almost no CUSTOMER entities, because
-  the documents set rules about vulnerable customers rather than listing them.
-
-`--asOf` consistency: if the question is temporal ("as of last quarter", "as of
-<date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain that
-accepts one — `vector-text` and `query text2sql` both honor it (entity commands like
-patterns/`entity-context`/`entity-listing` take no `--asOf` at all; see Retrieve
-below). `db sql` itself has no notion of "as of" (raw SQL, nothing injected) — for a
-temporal structured table, use `artmind db timeline <table> --asOf <date> --compact`
-instead of hand-writing `_valid_from`/`_valid_to` filters in `db sql`. Note
-`_valid_from`/`_valid_to`/`db timeline` only apply to `refresh_mode: temporal` tables
-(check `db schema`'s `refresh_mode` field) — a `replace`-mode table has no history to
-query. One date, threaded through every command that can take one, not decided
-independently per command.
-
-`--compact` applies to `db`/`query text2sql`/`query resolve-key` exactly like
-every other command in this skill — nothing SQL-specific changes that.
+An empty `tables` list means the domain is genuinely pure-graph — skip ahead to
+Discover below, no further `db` calls. If it returns any tables, read
+`references/structured-store.md` before classifying the question — it covers
+store routing (narrative vs analytical vs hybrid vs records-plus-guidance),
+worked examples, and how `--asOf` threads through the hybrid chain.
 
 ### 1. Discover — learn the domain's shape
 
@@ -334,33 +189,16 @@ Routing notes:
   ids in `more_chunks`, fetchable via `chunks --idList`). Use pattern4 when you
   only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
-- **timeline vs entity-history**: `timeline` is domain-scoped, not entity-scoped — it lists every entity of an occurrent class ordered by `valid_from`, for "what happened in this domain, in order". For ONE entity's own history — "what was X's value before it changed", "what did X look like on date D" — use `entity-history` instead: it reads every observation behind that entity, fact-level (`_valid_from`), spanning both current and retired (`docs retire`/superseded) sources. `--property P` narrows to one property's value at each point.
-- **`_temporal_props` is the signal to drill into `entity-history`.** An entity carrying
-  `_temporal_props: ["rate_value", ...]` means that property genuinely varies across
-  instants — the value on the entity itself is only the current winner (latest
-  `valid_from`). If the question asks about change over time ("has this changed",
-  "what was it before") and the property is listed there, don't stop at the entity's own
-  value; call `entity-history --entityId <id> --property <p>` to get every instant.
 - Patterns 2/3/4 return `doc_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `_domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
-- **No `--asOf` on entity commands, and none needed.** The projection (`:Entity`) is
-  current by construction — a retired document's contributions are relabelled out of it
-  entirely (see `docs retire` / the History labels above), so there is nothing stale left
-  to filter out. None of the ten `pattern*` commands, `entity-listing`, `entity-resolve`,
-  `entity-context`, or `graph metadata` accept it — don't pass it.
-- **`--asOf` still exists, with a narrower meaning, on the commands that keep it**:
-  `vector-text`, `chunks`, `docs list`, `pattern10`, `db timeline`, `db sql`. On all of
-  these it is a **floor** ("in force by this date"), not a point-in-time snapshot —
-  `valid_to` is rarely set, so a still-open row satisfies any `--asOf` at or after its
-  `valid_from`. On `pattern10` specifically it is a **presence flag**, not a date value:
-  passing it (any value) additionally matches `:DocumentHistory`/`:DocChunkHistory` for
-  that document, surfacing retired chunks alongside current ones; omitting it matches
-  only the current document. Use it when the question is explicitly historical ("what
-  did the policy say in January", "history of…", "previous version", "what changed");
-  omit it otherwise. `entity-history` (below) is the one command with a genuine
-  point-in-time `--asOf`, because it's reading the fact-level valid-time axis directly.
+- **No `--asOf` on entity commands, and none needed** — the projection (`:Entity`) is
+  current by construction, so none of the ten `pattern*` commands, `entity-listing`,
+  `entity-resolve`, `entity-context`, or `graph metadata` accept it. For a temporal
+  question ("as of <date>", "history of…", "what changed"), or an entity carrying
+  `_temporal_props`, read `references/temporal.md` — it covers `--asOf`'s narrower
+  per-command meaning, `timeline` vs `entity-history`, and `_temporal_props`.
 
 ### 4. Ground — pull source text when narrative evidence is needed
 
@@ -380,74 +218,13 @@ vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) searc
 
 ### 5. Adjudicate — surface disagreements, never blend
 
-`:Conflict` now has two shapes sharing one label, told apart by `_source` (see the
-structural schema above) — check for both before concluding nothing disagrees:
-
-**Adjudicator-produced (`_source: 'adjudicator'`)** — a pairwise, cross-entity
-disagreement found by a detection pass (`ingest detect-conflicts`, artmind-curate's
-territory), linked via a `CONFLICTS_WITH` edge between the two entities.
-
-1. **Free check:** if Retrieve already called `entity-context`/`pattern3`/`pattern4` on
-   the resolved entity, scan the `connections` it returned for an edge of type
-   `CONFLICTS_WITH` — those relationship-agnostic patterns fetch every one-hop edge, so
-   a live conflict is often already sitting in context with zero extra calls. This only
-   fires if you resolved to the *specific claim-bearing entity* (e.g. "Mortgage
-   Statement"), not an umbrella container (e.g. the policy or process that mentions it)
-   — CONFLICTS_WITH sits on the concrete entities being compared, not their containers.
-2. **Dedicated lookup**, for anything step 1 didn't cover or when you haven't already
-   called an entity-anchored pattern:
-
-```bash
-artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
-```
-
-This matches the `CONFLICTS_WITH` edge between entities directly and reaches only this
-adjudicator shape — it has no visibility into a projection conflict (below). Each row
-carries a `materialized` flag: `true` means `claim_a`/`claim_b`/`evidence`/`severity` are
-populated straight from the `Conflict` node; `false` means only `aspect` and the two
-entities are known (the edge survives independently of the node), so pull grounding
-yourself via `chunks`/`vector-text` on those entities before stating the claims. Either
-way, surface `aspect` and both entities' `name`/`domain`; never assert `claim_a`/`claim_b`
-text that isn't actually present on a `materialized: true` row. This shape is a detection
-pass's output — a snapshot, not a live guarantee — so also independently compare the
-claims you actually retrieved (below) to catch a disagreement introduced by a document
-ingested since the last `detect-conflicts` run.
-
-**Projection-produced (`_source: 'projection'`)** — one entity's own property disputed
-*within a single instant* (two observations with the same `valid_from` disagreeing;
-disagreement across different instants is temporal variation, not a conflict — see
-`_temporal_props` above). Raised automatically by every rebuild via `CONFLICT_OF` to that
-one entity and `EVIDENCE` to the disputing `:Observation`s — never orphaned, since it's
-recomputed from scratch every time, and never a snapshot to go stale. **There is no
-dedicated command for this shape yet** — `query graph conflicts` cannot reach it (no
-`CONFLICTS_WITH` edge exists for a single-entity dispute). The way to notice one: pull
-`entity-history --entityId <id> --property <p>` and look for two rows sharing the same
-`_valid_from` with different values; if you see that, report it as an open dispute
-directly from those rows rather than expecting `query graph conflicts` to surface it.
-
-**Fan-out caveat** (adjudicator shape): one real disagreement (e.g. a document-tier
-reclassification) can produce many pairwise conflict rows sharing the same root cause
-across different document pairs in the same tier bucket — group rows by shared
-`aspect`/entity-class pattern and report the *underlying* disagreement once, not each
-pairwise row separately.
-
-After grounding, compare quantitative/authority claims across the retrieved
-documents and domains (no extra LLM calls — the evidence is already in context).
-When two sources disagree, surface BOTH claims with BOTH provenances in this format:
-
-> Sources disagree: policy_complaints.md (banking_policy) says X; escalation_matrix.md
-> (banking_sop_guides) says Y.
-
-Never average, reconcile silently, or drop one side. If retrieval returned only one
-side, re-run Ground with the sibling domains from Route before concluding.
-
-Qualify claims by time: report present-tense answers "as of <date>, source A says X".
-A claim whose document is superseded (has `superseded_by` / a `valid_to` in the past)
-is HISTORY, not a live disagreement — say so. Before treating a materialized Conflict
-as live, verify both documents' valid-time windows overlap and neither supersedes the
-other — detect-conflicts' LLM adjudication tries to catch this at detection time, but
-it isn't a structural guarantee, so re-check at query time using each side's
-`valid_to`/`superseded_by`.
+Never average, reconcile silently, or drop one side when two sources disagree —
+surface both claims with both provenances. `:Conflict` has two shapes sharing one
+label (adjudicator-produced and projection-produced); before concluding nothing
+disagrees, or whenever a question involves comparing claims across documents or
+entities, read `references/conflicts.md` for how to check for both shapes, the
+fan-out caveat, and how to qualify a claim by time (superseded documents are
+history, not a live disagreement).
 
 ## Fallback Ladder
 

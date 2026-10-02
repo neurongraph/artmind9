@@ -1,27 +1,33 @@
-"""Guards artmind-query/SKILL.md's structural-schema prose against drift.
+"""Guards artmind-query's structural-schema prose against drift.
 
 Mirrors test_cli_guide.py's COMMAND_GROUPS precedent: the canonical facts
 about the fixed structural graph (node labels, relationship types, history
 label pairs) live as data in artmind/structural_schema.py, and this test
-reads the skill file as plain text and checks it against that data — no
-Neo4j, no network, per the hermetic suite's own rules.
+reads the skill's files as plain text and checks them against that data —
+no Neo4j, no network, per the hermetic suite's own rules.
 
 This is the guard the Phase 7 prompt asked for. Without it, a future
 structural change (a new relationship, a retired label) can update the code
 and text2cypher's generated prompt while leaving the skill's own prose
 teaching an agent the old shape — exactly what happened to the dead
 `(:UserChat)-[:MENTIONS]->(:Entity)` line this phase removed.
+
+The skill is split across SKILL.md plus `references/*.md` (design doc
+2026-10-02-graph-hierarchy-traversal-design.md §4) — this reads every `*.md`
+under the skill directory, not just SKILL.md, so a future move between them
+doesn't silently narrow what this test checks.
 """
 
 from pathlib import Path
 
 from artmind.structural_schema import RETIRED_NAMES, canonical_names
 
-SKILL_PATH = Path(__file__).resolve().parent.parent / "artmind" / "skills" / "artmind-query" / "SKILL.md"
+SKILL_DIR = Path(__file__).resolve().parent.parent / "artmind" / "skills" / "artmind-query"
+SKILL_PATH = SKILL_DIR / "SKILL.md"
 
 
 def _skill_text() -> str:
-    return SKILL_PATH.read_text()
+    return "\n".join(p.read_text() for p in sorted(SKILL_DIR.rglob("*.md")))
 
 
 def test_skill_file_exists() -> None:
