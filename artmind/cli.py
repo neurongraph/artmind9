@@ -3838,7 +3838,7 @@ def vault_status(compact: bool):
 @click.option("--neo4jUser", "neo4j_user", default=None, help="Username for --neo4jUri.")
 @click.option("--neo4jPassword", "neo4j_password", default=None, help="Password for --neo4jUri.")
 @click.option("--neo4jDatabase", "neo4j_database", default="neo4j", show_default=True, help="Neo4j database name.")
-@click.option("--noPlugins", "no_plugins", is_flag=True, help="Skip installing the Obsidian community plugins.")
+@click.option("--noPlugins", "no_plugins", is_flag=True, help="Skip the Obsidian plugins: no community plugins, and Web Viewer is not switched on.")
 @click.option("--noOpen", "no_open", is_flag=True, help="Don't open Obsidian at the end.")
 @click.option("--yes", "yes", is_flag=True, help="Don't ask for confirmation.")
 def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, neo4j_user,

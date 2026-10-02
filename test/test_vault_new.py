@@ -315,6 +315,8 @@ def test_local_only_commits_but_never_touches_github(world):
 
     vn.run_plan(plan, echo=_quiet)
 
+    assert not (plan.dir / ".obsidian" / "core-plugins.json").exists()  # --noPlugins (the _plan default)
+
     assert world.sent("gh") == []
     assert world.sent("git", "push") == []
     assert "initialise vault demo" in _git(plan.dir, "log", "--oneline")
@@ -345,9 +347,13 @@ def test_plugins_step_installs_the_packaged_plugins(world, monkeypatch, tmp_path
     }
     plan = _plan(world, local_only=True, plugins=True)
 
-    vn.run_plan(plan, fetch=files.__getitem__, echo=_quiet)
+    messages = []
+    vn.run_plan(plan, fetch=files.__getitem__, echo=messages.append)
 
     assert (plan.dir / ".obsidian" / "plugins" / "obsidian-git" / "main.js").read_bytes() == b"js"
+    assert json.loads((plan.dir / ".obsidian" / "core-plugins.json").read_text()) == {"webviewer": True}
+    assert "  plugin obsidian-git: downloading..." in messages
+    assert messages.index("  plugin obsidian-git: downloading...") < messages.index("  plugin obsidian-git: installed")
     enabled = json.loads((plan.dir / ".obsidian" / "community-plugins.json").read_text())
     assert "obsidian-git" in enabled
 

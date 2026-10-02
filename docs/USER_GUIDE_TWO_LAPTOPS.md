@@ -70,7 +70,8 @@ It creates a neo4j-manager instance for A, the vault folder, `.artmind/`
 (including the `vault_id` every clone shares, and `.artmind/config.env` with
 A's Neo4j password — gitignored, stays on A), the Obsidian Git, Unhide,
 VSCode Editor and Ghostty Terminal plugins with Obsidian Git set to merge,
-commit-and-sync every 10 minutes and pull on startup, the graph schema, a
+commit-and-sync every 10 minutes and pull on startup, Obsidian's core Web
+Viewer plugin switched on, the graph schema, a
 first commit pushed to a new private GitHub repo, and A's sync bookmark. It
 ends by opening Obsidian: choose **Open folder as vault**, pick the folder,
 and **Turn on community plugins**.

@@ -767,7 +767,10 @@ upgrade. Creating a vault from nothing is `artmind vault new NAME`
   whose bolt URL and password go straight into `.artmind/config.env`;
 - the folder (`~/artmind_vaults/NAME` by default) with `git init` and
   `.obsidian/`, then `scaffold_vault` — the same code `init` runs;
-- the Obsidian community plugins in `artmind/obsidian/community_plugins.yaml`;
+- the Obsidian community plugins in `artmind/obsidian/community_plugins.yaml`
+  (downloaded in parallel), and the core Web Viewer plugin, switched on in
+  `.obsidian/core-plugins.json` (an id that file does not list keeps
+  Obsidian's default, so nothing else changes);
 - `artmind setup`, a bootstrap commit, a **private** GitHub repo
   `<active gh account>/NAME` (`gh repo create`) and the push;
 - the first bookmark: `vault sync --bootstrapSynced`.

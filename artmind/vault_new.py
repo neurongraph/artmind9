@@ -409,7 +409,10 @@ def _step_plugins(ctx: _Ctx) -> None:
     if not ctx.plan.plugins:
         ctx.echo("  plugins: skipped (--noPlugins)")
         return
-    results = obsidian_community.install_community_plugins(ctx.plan.dir / ".obsidian", fetch=ctx.fetch)
+    obsidian = ctx.plan.dir / ".obsidian"
+    for core_id, status in obsidian_community.enable_core_plugins(obsidian).items():
+        ctx.echo(f"  core plugin {core_id}: {status}")
+    results = obsidian_community.install_community_plugins(obsidian, fetch=ctx.fetch, echo=ctx.echo)
     for r in results:
         ctx.echo(f"  plugin {r['id']}: {r['status']}" + (f" -- {r['error']}" if r["error"] else ""))
 
