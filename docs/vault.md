@@ -727,8 +727,10 @@ prompt fix that never reaches the vault looks like a model failure. So:
   `setup` used to overwrite every same-named package schema and `meta.yaml`).
   Only a plain run folder outside any vault still has its schemas refreshed
   from the package on every `setup`
-- `artmind domains update` refreshes package-derived schemas you have not
-  modified, and **reports** the ones that diverged for you to merge
+- `artmind domains update` (planned, not yet a command) refreshes
+  package-derived schemas you have not modified, and **reports** the ones that
+  diverged for you to merge. Until it exists, delete the vault's copy of an
+  unmodified schema and re-run `artmind init` to take the packaged one
 - `artmind domains add` stays, for vault-local schemas
 
 **Table mappings** (`ingest table2graph`) live beside them in

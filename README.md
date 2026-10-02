@@ -10,6 +10,94 @@ Runs fully locally with Ollama and a local Neo4j, or against hosted providers (O
 
 ---
 
+## Getting started
+
+On a Mac, two commands take you from nothing to a ready Obsidian vault backed
+by its own Neo4j graph and a private GitHub repo:
+
+```bash
+git clone https://github.com/neurongraph/artmind9.git ~/projects/artmind9
+cd ~/projects/artmind9 && bash scripts/bootstrap.sh   # once per machine
+# open a new terminal, edit ~/.artmind/config.env (LLM provider, model, key), then:
+artmind vault new my_vault                            # once per vault (--join on a second machine)
+```
+
+You need [Homebrew](https://brew.sh) installed first.
+**[docs/INSTALL.md](docs/INSTALL.md) is the full guide:**
+- what `bootstrap.sh` and `vault new` do, and every `vault new` option
+  (AuraDB, local-only, joining from a second machine);
+- the manual install;
+- the vault layout;
+- upgrading.
+
+[docs/vault.md](docs/vault.md) explains why the vault works the way it does.
+
+`artmind` is a global command that anchors to whichever **vault** you're
+standing in: a directory containing `.artmind/`, found by walking up from the
+current directory the way git finds `.git/`. **Run the commands below from
+inside a vault.** `uv run artmind` from this checkout is not inside one.
+
+### Configuration
+
+Machine-wide: `~/.artmind/config.env`, created by `bootstrap.sh` from
+`artmind/env.example`. It holds the credentials and models shared by every
+vault. The shipped defaults:
+
+```dotenv
+# LLM for extraction: ollama (default), openrouter (+ ARTMIND_OPENROUTER_API_KEY) or ibm_ica
+ARTMIND_KG_LLM_PROVIDER=ollama
+ARTMIND_KG_LLM_URL=http://localhost:11434
+ARTMIND_KG_LLM_MODEL=ministral-3:14b
+
+# Embeddings (always Ollama)
+ARTMIND_KG_EMBEDDINGS_PROVIDER=ollama
+ARTMIND_KG_EMBEDDINGS_URL=http://localhost:11434
+ARTMIND_KG_EMBEDDINGS_MODEL=nomic-embed-text:latest
+ARTMIND_KG_EMBEDDING_DIMENSIONS=768
+
+# Image descriptions (used when ingesting PDFs that contain images)
+ARTMIND_IMAGE_MODEL=gemma4:e4b
+ARTMIND_OLLAMA_TIMEOUT=600
+
+# Your identity for update audit trails
+ARTMIND_USER="Your Name"
+```
+
+Per-vault: `<vault>/.artmind/config.env`, this vault's Neo4j connection.
+`artmind vault new` writes it from the instance it creates. It's gitignored,
+because it holds a password:
+
+```dotenv
+ARTMIND_KG_NEO4J_URI=bolt://127.0.0.1:7687
+ARTMIND_KG_NEO4J_USERNAME=neo4j
+ARTMIND_KG_NEO4J_PASSWORD=...
+ARTMIND_KG_NEO4J_DATABASE=neo4j
+```
+
+Config loads most-specific-first, so a vault's value overrides the machine's,
+and a real environment variable beats both.
+
+### Ollama models
+
+With the default Ollama provider, pull the models the config names:
+
+```bash
+ollama pull nomic-embed-text     # embeddings (required)
+ollama pull ministral-3:14b      # extraction (or any instruction-following model that emits JSON)
+ollama pull gemma4:e4b           # image descriptions (optional, for PDFs with images)
+```
+
+Larger extraction models produce better graphs.
+
+### Graph setup
+
+`artmind vault new` already ran `artmind setup`, which creates the SQLite
+tables and Neo4j constraints, indexes, vector and full-text indexes. It's
+idempotent: re-run it inside the vault after pointing it at a different
+Neo4j, or if you hit a Neo4j `IndexNotFound` error.
+
+---
+
 ## How it works
 
 ```
@@ -33,164 +121,6 @@ After ingestion, **curation** (`sameas propose`/`approve`, `ingest refine-graph`
 
 ---
 
-## Prerequisites
-
-| Requirement | Notes |
-|---|---|
-| Python >= 3.14.4 | You might need to install it using `pyenv install 3.14.4` |
-| [uv](https://docs.astral.sh/uv/) | Package manager — `brew install uv` or `pip install uv` |
-| [Ollama](https://ollama.ai) | Local LLM inference — runs models for extraction and embeddings |
-| [Neo4j](https://neo4j.com/download/) >= 5.x | Graph database with the **APOC** plugin installed |
-| [just](https://just.systems) *(optional)* | Task runner for convenience recipes — `brew install just` |
-
-### Ollama models
-
-Pull the models you intend to use. The defaults in `.env.example`:
-
-```bash
-ollama pull nomic-embed-text     # embeddings (required)
-ollama pull gemma4:e4b           # image descriptions (optional, for PDFs with images)
-# pick a reasoning model for extraction, e.g.:
-ollama pull qwen3.6:35b-a3b-coding-nvfp4
-```
-
-Any Ollama model that follows instructions and produces JSON works for extraction. Larger models produce better graphs.
-
-### Neo4j + APOC
-
-Install Neo4j Desktop or run it via Docker. The **APOC** plugin is required for the `refine-graph` entity resolution command.
-
-**Docker (quick start):**
-```bash
-docker run \
-  --name artmind-neo4j \
-  -p 7474:7474 -p 7687:7687 \
-  -e NEO4J_AUTH=neo4j/your_password \
-  -e NEO4J_PLUGINS='["apoc"]' \
-  neo4j:latest
-```
-
----
-
-## Installation
-
-```bash
-git clone https://github.com/surjitdas/artmind9.git
-cd artmind9
-uv sync
-```
-
-Copy the environment template and fill in your values:
-
-```bash
-cp .env.example .env
-```
-
-This checkout-local `.env` is for running the test suite and hacking on artmind
-itself. It is **not** loaded by `artmind` commands by default — a vault's own
-`config.env` is (see below) — so a real invocation from within the checkout
-needs `ARTMIND_ALLOW_REPO_ENV=1` to pick it up.
-
-### Install the CLI
-
-```bash
-just dev-install
-```
-
-`artmind` then works from any directory, anchoring to whichever **vault** you are
-standing in — a directory containing `.artmind/`, discovered by walking up from
-the current directory exactly as git finds `.git/`. Installing the CLI does not
-create anything; creating a vault is a separate step, below.
-
-To uninstall (leaves every vault intact):
-
-```bash
-just dev-uninstall
-# or:
-uv tool uninstall artmind9
-```
-
-### Create a vault
-
-```bash
-# after bash scripts/bootstrap.sh and editing ~/.artmind/config.env
-artmind vault new MyVault
-```
-
-Your documents, schemas, curation and derived data all live inside that
-directory; it is also a git repo and can be an Obsidian vault. Only credentials
-stay machine-wide, in `~/.artmind/config.env`.
-
-See [docs/INSTALL.md](docs/INSTALL.md) for the full layout and
-[docs/vault.md](docs/vault.md) for why it works this way.
-
-Machine-wide — `~/.artmind/config.env`. Credentials and models, shared by every
-vault:
-
-```dotenv
-# LLM for extraction
-ARTMIND_KG_LLM_PROVIDER=ollama
-ARTMIND_KG_LLM_URL=http://localhost:11434
-ARTMIND_KG_LLM_MODEL=qwen3.6:35b-a3b-coding-nvfp4
-
-# Embeddings
-ARTMIND_KG_EMBEDDINGS_PROVIDER=ollama
-ARTMIND_KG_EMBEDDINGS_URL=http://localhost:11434
-ARTMIND_KG_EMBEDDINGS_MODEL=nomic-embed-text:latest
-ARTMIND_KG_EMBEDDING_DIMENSIONS=768
-
-# Image descriptions (used when ingesting PDFs that contain images)
-ARTMIND_IMAGE_MODEL=gemma4:e4b
-ARTMIND_OLLAMA_TIMEOUT=600
-
-# Your identity for update audit trails (optional)
-ARTMIND_USER=you@example.com
-```
-
-Per-vault — `<vault>/.artmind/config.env`. Each vault has its own graph, and
-this file is gitignored because it holds a password:
-
-```dotenv
-ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
-ARTMIND_KG_NEO4J_USERNAME=neo4j
-ARTMIND_KG_NEO4J_PASSWORD=your_password
-ARTMIND_KG_NEO4J_DATABASE=your_neo4j_database
-```
-
-Config loads most-specific-first, so a vault's value overrides the machine's,
-and a real environment variable beats both.
-
-Verify the CLI is available:
-
-```bash
-uv run artmind --help
-```
-
----
-
-## Setup (first run)
-
-Before ingesting or updating, initialize the SQLite tables and Neo4j constraints/indexes:
-
-```bash
-uv run artmind setup
-```
-
-Output:
-```
-SQLite:               ok
-Neo4j constraints:    document_id, chunk_id, user_chat_id, conflict_id, entity_id (unique)
-Neo4j indexes:        entity_lookup, entity_domain, entity_name_domain, document_domain, chunk_domain, chunk_doc_id, user_chat_domain, entity_valid_from, entity_valid_to, entity_event_at, chunk_valid_to, document_valid_from, document_valid_to, conflict_status
-Neo4j vector indexes: chunk_embedding (dim=768), user_chat_embedding (dim=768), entity_embedding (dim=768)
-Neo4j fulltext indexes: chunk_text_ft, user_chat_text_ft, entity_name_ft
-
-Setup complete.
-```
-
-This is **idempotent** — safe to run at any time. Run it again if you ever hit a `Neo4j IndexNotFound` error after a fresh database or schema change.
-
----
-
 ## Domains
 
 A domain is a YAML schema that scopes ingestion and queries. artmind ships with these built-in domains:
@@ -209,12 +139,12 @@ A domain is a YAML schema that scopes ingestion and queries. artmind ships with 
 List available domains:
 
 ```bash
-uv run artmind domains list
+artmind domains list
 ```
 
 For further help on the domains commands use:
 ```bash
-uv run artmind domains --help
+artmind domains --help
 ```
 
 ### Hierarchical domains
@@ -225,29 +155,29 @@ All read queries (graph search, vector search, find candidates) match the reques
 
 ```bash
 # ingest a thriller novel into its own sub-domain
-uv run artmind ingest sync novel.pdf --domain fiction.thriller
+artmind ingest sync novel.pdf --domain fiction.thriller
 
 # query rolls up all fiction sub-domains automatically
-uv run artmind query graph pattern1 --domain fiction --entityClass PERSON
+artmind query graph pattern1 --domain fiction --entityClass PERSON
 ```
 
 **Schema harmonization** ensures sub-domain schemas inherit all entity types from their parent. Run it after updating a parent schema to propagate new entity types down:
 
 ```bash
 # sync all child schemas against their parents
-uv run artmind domains harmonize
+artmind domains harmonize
 
 # sync one child schema (dry-run to preview changes)
-uv run artmind domains harmonize --domain fiction.thriller --dry-run
+artmind domains harmonize --domain fiction.thriller --dry-run
 ```
 
 **POOLE+ entity standard**: All built-in schemas follow the POOLE+ convention — `PERSON`, `OBJECT`, `ORGANIZATION`, `LOCATION`, `EVENT` are universal base types present in every domain. Domain-specific types (e.g. `METHOD`, `FINDING` in `technical_paper`) extend these. When creating a custom schema with `artmind-create-schema`, follow the same convention: map characters to `PERSON`, places to `LOCATION`, companies to `ORGANIZATION`, and so on before adding domain-specific extras.
 
 ### Creating a custom schema
 
-Use the `artmind-create-schema` Claude Code skill to author a new domain schema tailored to your documents. The skill reads your sample documents, designs entity classes and relationship patterns specific to the domain, and writes a complete `artmind/domains/schemas/{name}_schema.yaml` file.
+Use the `artmind-create-schema` Claude Code skill to author a new domain schema tailored to your documents. The skill reads your sample documents, designs entity classes and relationship patterns specific to the domain, and writes a complete `.artmind/domains/schemas/{name}_schema.yaml` file in the vault.
 
-In a Claude Code session within this project:
+In a Claude Code session in the vault (the admin-ui agent works too):
 
 ```
 /artmind-create-schema
@@ -297,8 +227,8 @@ files.
 ### Synchronous (recommended for single files)
 
 ```bash
-uv run artmind ingest sync path/to/document.pdf --domain fiction
-uv run artmind ingest sync path/to/notes.md --domain technical_paper
+artmind ingest sync path/to/document.pdf --domain fiction
+artmind ingest sync path/to/notes.md --domain technical_paper
 ```
 
 artmind will:
@@ -312,23 +242,23 @@ artmind will:
 Submit a file to the background queue:
 
 ```bash
-uv run artmind ingest async path/to/document.pdf --domain fiction
+artmind ingest async path/to/document.pdf --domain fiction
 # returns a job_id
 ```
 
 Check job status:
 
 ```bash
-uv run artmind ingest jobs
-uv run artmind ingest job-status <job_id>
+artmind ingest jobs
+artmind ingest job-status <job_id>
 ```
 
-Or watch it live in the admin UI's dashboard (`uv run artmind admin-ui`, then open `/dashboard`).
+Or watch it live in the admin UI's dashboard (`artmind admin-ui`, then open `/dashboard`).
 
 There are other job related commands as well which you can find with:
 
 ```bash
-uv run artmind ingest --help
+artmind ingest --help
 ```
 
 ### When a conversion comes out wrong
@@ -344,17 +274,17 @@ ownership rule", for why.
 Re-run only the LLM extraction step on an already-ingested document:
 
 ```bash
-uv run artmind ingest extract-kg document_name --domain fiction
+artmind ingest extract-kg document_name --domain fiction
 ```
 
 Write previously-extracted KG JSON to Neo4j without re-running the LLM:
 
 ```bash
 # single document
-uv run artmind ingest write-to-graph document_name --domain fiction
+artmind ingest write-to-graph document_name --domain fiction
 
 # batch — write all documents in a folder
-uv run artmind ingest write-to-graph --folder data/kg/fiction
+artmind ingest write-to-graph --folder .artmind/data/kg/fiction
 ```
 
 In folder mode each immediate sub-folder that contains a `document.json` is written to Neo4j. If `--domain` is omitted the domain is inferred from the folder name.
@@ -363,22 +293,22 @@ In folder mode each immediate sub-folder that contains a `document.json` is writ
 
 KG extraction is the most compute-intensive part of the pipeline. In team and multi-region setups it often makes sense to run extraction once and share the results as checked-in JSON files in a Git repository, rather than re-extracting on every machine.
 
-The `pull-kg` command fetches a domain folder from an external repository using a sparse Git checkout (only the target path is downloaded) and copies the document sub-folders into your local `data/kg/<domain>/` directory. From there you load them into Neo4j with `write-to-graph --folder`.
+The `pull-kg` command fetches a domain folder from an external repository using a sparse Git checkout (only the target path is downloaded) and copies the document sub-folders into the vault's `.artmind/data/kg/<domain>/`. From there you load them into Neo4j with `write-to-graph --folder`.
 
 **Typical workflow — importing `sales_collateral` from another region:**
 
 ```bash
 # 1. Pull the KG JSON from the APAC team's repo
-uv run artmind ingest pull-kg \
+artmind ingest pull-kg \
   --repo git@github.com:acme/apac-kg-store.git \
   --repo-path data/kg/sales_collateral \
   --domain sales_collateral
 
 # 2. Write all pulled documents to Neo4j
-uv run artmind ingest write-to-graph --folder data/kg/sales_collateral
+artmind ingest write-to-graph --folder .artmind/data/kg/sales_collateral
 
 # 3. Optionally resolve duplicate entities across the merged data
-uv run artmind ingest refine-graph --domain sales_collateral --dry-run
+artmind ingest refine-graph --domain sales_collateral --dry-run
 ```
 
 **Conflict handling:** If any document sub-folder already exists locally, the pull aborts and lists the conflicting names so you can resolve them manually (e.g. rename or delete the local copy) before re-running.
@@ -391,24 +321,24 @@ Extraction runs per-chunk, so a freshly ingested domain accumulates near-duplica
 
 ```bash
 # propose: cross-domain/cross-class identity + conflict candidates via the LLM adjudicator
-uv run artmind sameas propose --domain fiction --compact
+artmind sameas propose --domain fiction --compact
 
 # propose: intra-domain naming-variant merge candidates via name-similarity clustering
-uv run artmind ingest refine-graph --domain fiction --dry-run --output merges.json
-uv run artmind ingest refine-graph --domain fiction --from-file merges.json
+artmind ingest refine-graph --domain fiction --dry-run --output merges.json
+artmind ingest refine-graph --domain fiction --from-file merges.json
 
 # review the queue, then approve or reject each proposal
-uv run artmind sameas list --status open --compact
-uv run artmind sameas approve <proposal_id>
-uv run artmind sameas reject <proposal_id>
+artmind sameas list --status open --compact
+artmind sameas approve <proposal_id>
+artmind sameas reject <proposal_id>
 ```
 
 Pass `--domain` more than once (to `sameas propose` or `ingest detect-conflicts`) to compare sibling domains — a "same thing" verdict proposes a same-as group; a "conflicting claims" verdict proposes a `Conflict` node instead:
 
 ```bash
-uv run artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --dry-run --output conflicts.json
-uv run artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --from-file conflicts.json
-uv run artmind ingest resolve-conflict <conflict_id> --status resolved --reason "..."
+artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --dry-run --output conflicts.json
+artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --from-file conflicts.json
+artmind ingest resolve-conflict <conflict_id> --status resolved --reason "..."
 ```
 
 The `artmind-curate` Claude Code skill (below) drives this workflow conversationally, including the review gates. Other standalone commands:
@@ -421,14 +351,14 @@ The `artmind-curate` Claude Code skill (below) drives this workflow conversation
 **Focused merging with `--filter`**: to merge specific entities you've spotted without analyzing the whole domain:
 
 ```bash
-uv run artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Moriarty" --dry-run --output merges.json
-uv run artmind ingest refine-graph --from-file merges.json
+artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Moriarty" --dry-run --output merges.json
+artmind ingest refine-graph --from-file merges.json
 ```
 
 ### Remove a document
 
 ```bash
-uv run artmind docs archive --domain fiction --documentName document_name
+artmind docs archive --domain fiction --documentName document_name
 ```
 
 ---
@@ -440,16 +370,16 @@ Neo4j is a running service — if your instance is ephemeral (Docker without vol
 ### Save the graph (end of session)
 
 ```bash
-uv run artmind session close
+artmind session close
 # or: just session-close
 ```
 
-Exports all nodes and relationships to `data/graph_snapshot/snapshot_<timestamp>.tar.gz`.
+Exports all nodes and relationships to `.artmind/data/graph_snapshot/snapshot_<timestamp>.tar.gz`.
 
 ### Restore the graph (start of session)
 
 ```bash
-uv run artmind session initiate
+artmind session initiate
 # or: just session-initiate
 ```
 
@@ -479,7 +409,7 @@ Beyond ingesting documents, you can add facts directly in natural language — a
 ### Draft — extract and find candidates
 
 ```bash
-uv run artmind update draft \
+artmind update draft \
   --domain fiction \
   --text "Holmes and Watson first met at St Bartholomew's Hospital in 1881."
 ```
@@ -495,7 +425,7 @@ Returns JSON with:
 Once you've resolved which extracted entities map to existing nodes (link), should be created new (create), or skipped:
 
 ```bash
-uv run artmind update confirm \
+artmind update confirm \
   --session <session_id> \
   --resolutions '[
     {"entity_temp_id": "e0", "action": "link",   "node_id": "<existing_node_id>"},
@@ -509,18 +439,18 @@ Returns: `{nodes_created, nodes_updated, relationships_written, user_chat_id}`
 ### History — list update sessions
 
 ```bash
-uv run artmind update history
-uv run artmind update history --domain fiction --limit 10
+artmind update history
+artmind update history --domain fiction --limit 10
 ```
 
 ### Export — dump UserChat nodes to markdown
 
 ```bash
 # one file per session, in chronological order
-uv run artmind update export --format sequential --output data/chats/
+artmind update export --format sequential --output data/chats/
 
 # one file per entity, showing all chats that mention it
-uv run artmind update export --format by-entity --output data/chats/ --domain fiction
+artmind update export --format by-entity --output data/chats/ --domain fiction
 ```
 
 ### Claude Code skill: `artmind-update`
@@ -563,14 +493,14 @@ Skill: Written. 1 node created, 2 linked, 1 relationship written.
 Inspect the graph schema for a domain:
 
 ```bash
-uv run artmind query graph metadata --domain fiction
+artmind query graph metadata --domain fiction
 ```
 
 List all entities grouped by type:
 
 ```bash
-uv run artmind query graph entity-listing --domain fiction
-uv run artmind query graph entity-listing --domain fiction --nameFilter "Holmes"
+artmind query graph entity-listing --domain fiction
+artmind query graph entity-listing --domain fiction --nameFilter "Holmes"
 ```
 
 **Ten templated graph patterns** (plus LLM-generated `text2cypher`) cover the common retrieval shapes:
@@ -596,14 +526,14 @@ Patterns 2, 3, and 4 include source attribution — each row returns `doc_source
 **Entity resolution** maps a free-text reference — a name fragment or a pure description — to canonical graph entities, combining Lucene full-text over names/descriptions with vector similarity over entity embeddings via RRF:
 
 ```bash
-uv run artmind query entity-resolve --domain fiction "the detective"
+artmind query entity-resolve --domain fiction "the detective"
 # → ranked entities with id, name, entity_class, description
 ```
 
 Entity embeddings (name + description) are written automatically during ingestion and updates. For graphs created before this feature, backfill once:
 
 ```bash
-uv run artmind ingest embed-entities --domain fiction
+artmind ingest embed-entities --domain fiction
 ```
 
 **Degree modes for `pattern9`**: by default "most connected" ranks by entity-to-entity relationships. Use `--degreeMode mentions` to rank by how often source chunks/chats mention the entity (salience), or `--degreeMode all` to count every edge.
@@ -613,49 +543,49 @@ uv run artmind ingest embed-entities --domain fiction
 ```bash
 # everything about one resolved entity in a single call:
 # properties + one-hop relationships + the text of its most current source chunks
-uv run artmind query entity-context --domain fiction --entityId <id> --includeChunks 5
+artmind query entity-context --domain fiction --entityId <id> --includeChunks 5
 
 # fetch chunk text by exact id (the doc_sources / evidence ids other commands return);
 # --expand 1 adds the adjacent chunks of the same document
-uv run artmind query chunks --domain fiction --idList <chunk_id> --expand 1
+artmind query chunks --domain fiction --idList <chunk_id> --expand 1
 ```
 
 **Temporal filtering** — timed nodes carry `valid_from`/`valid_to`; superseded documents carry `superseded_by`. Add `--asOf today` (or any ISO date) to filter to what was valid at that time; untimed knowledge is always visible. `pattern5` and `pattern10` cannot currency-scope their output and report `asOf_ignored: true` instead.
 
-Other query-level commands: `query domains-overview` (per-domain routing summary), `query graph conflicts --domain <d>` (materialized disagreements with evidence), `query graph timeline --domain <d> --entityId <id>` (an entity's dated events and changes).
+Other query-level commands: `query domains-overview` (per-domain routing summary), `query graph conflicts --domain <d>` (materialized disagreements with evidence), `query graph timeline --domain <d>` (every dated event in a domain, ordered by `valid_from`; `--from`/`--to` narrow it), `query entity-history` (one entity's fact history).
 
 Examples:
 
 ```bash
 # list all locations in a fiction domain
-uv run artmind query graph pattern1 --domain fiction --entityClass LOCATION
+artmind query graph pattern1 --domain fiction --entityClass LOCATION
 
 # get properties of a named person (with document and chat sources)
-uv run artmind query graph pattern2 --domain fiction --entityNameList "Sherlock Holmes"
+artmind query graph pattern2 --domain fiction --entityNameList "Sherlock Holmes"
 
 # full neighborhood of a person
-uv run artmind query graph pattern4 --domain fiction --entityClass PERSON --entityName "Watson"
+artmind query graph pattern4 --domain fiction --entityClass PERSON --entityName "Watson"
 
 # shortest path between two persons
-uv run artmind query graph pattern5 --domain fiction \
+artmind query graph pattern5 --domain fiction \
   --entityClass1 PERSON --entityName1 "Holmes" \
   --entityClass2 PERSON --entityName2 "Moriarty" \
   --mode shortest
 
 # top 5 most-connected persons
-uv run artmind query graph pattern9 --domain fiction --entityClass PERSON --topN 5
+artmind query graph pattern9 --domain fiction --entityClass PERSON --topN 5
 
 # retrieve all text chunks for a document
-uv run artmind query graph pattern10 --domain fiction --documentName "The Copper Beeches"
+artmind query graph pattern10 --domain fiction --documentName "The Copper Beeches"
 
 # focused structural metadata (Document/DocChunk/UserChat/Entity counts)
-uv run artmind query graph structural-metadata --domain fiction
+artmind query graph structural-metadata --domain fiction
 
 # LLM-generated Cypher for arbitrary graph questions
-uv run artmind query graph text2cypher --domain fiction "How many DocChunks are there for each Document?"
+artmind query graph text2cypher --domain fiction "How many DocChunks are there for each Document?"
 
 # dry-run: inspect the generated Cypher without executing
-uv run artmind query graph text2cypher --domain fiction --dry-run "Which persons are connected to more than 3 locations?"
+artmind query graph text2cypher --domain fiction --dry-run "Which persons are connected to more than 3 locations?"
 ```
 
 All graph commands emit JSON. Pass `--compact` for single-line output.
@@ -665,7 +595,7 @@ All graph commands emit JSON. Pass `--compact` for single-line output.
 Search source text using both semantic similarity (vector embeddings) and keyword matching (full-text). Results are combined using Reciprocal Rank Fusion to balance both relevance signals. Returns both document chunks (`source_type: "document"`) and user chat entries (`source_type: "user_chat"`):
 
 ```bash
-uv run artmind query vector-text --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
+artmind query vector-text --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
 ```
 
 This single command automatically handles:
@@ -735,21 +665,26 @@ Interactive guide for the ingestion pipeline — picking the right command, chec
 
 ## Justfile recipes
 
-If you have `just` installed, common commands are available as short recipes:
+From the checkout, common commands are short `just` recipes. They run with
+the checkout as their working directory, so recipes that need a vault are
+pointed at one with `ARTMIND_VAULT`, and file arguments need absolute paths:
 
 ```bash
-just                            # list all recipes
-just dev-install                # put `artmind` on PATH (create a vault with `artmind vault new NAME`)
-just dev-uninstall                  # remove the global artmind command
-just dev-test                       # run the test suite
-just ingest-sync path/to/file   # ingest a file (default domain: general)
-just ingest-write-to-graph-folder data/kg/fiction  # batch write a folder of KG JSON
-just ingest-pull-kg <repo> <path> <domain>         # pull KG from external repo
+just                                    # list all recipes
+just dev-install                        # put `artmind` on PATH
+just dev-uninstall                      # remove the global artmind command
+just dev-test                           # run the test suite
+just vault-new my_vault                 # create a vault (flags as for `artmind vault new`)
+
+export ARTMIND_VAULT=~/artmind_vaults/my_vault
+just ingest-sync ~/path/to/file         # ingest a file (default domain: general)
+just ingest-write-to-graph-folder "$ARTMIND_VAULT/.artmind/data/kg/fiction"   # batch write a folder of KG JSON
+just ingest-pull-kg <repo> <path> <domain>                    # pull KG from external repo
 just query-graph-metadata fiction
 just query-graph-entities fiction
 just query-text fiction "your question here"
-just session-close              # export Neo4j graph to snapshot
-just session-initiate           # wipe Neo4j and restore from latest snapshot
+just session-close                      # export Neo4j graph to snapshot
+just session-initiate                   # wipe Neo4j and restore from latest snapshot
 ```
 
 ---
@@ -759,7 +694,7 @@ just session-initiate           # wipe Neo4j and restore from latest snapshot
 The full suite lives in `test/` and needs no running Neo4j or LLM.
 
 ```bash
-uv run --group dev pytest test/ -v
+just dev-test        # = uv run --group dev pytest test/ -v
 ```
 
 ---
@@ -786,6 +721,13 @@ artmind/                core package
   jobs.py               async job management
   db.py                 SQLite schema (documents, jobs, update sessions/drafts)
   vault.py              vault discovery + layout (docs/vault.md)
+  vault_new.py          `artmind vault new`: provision or join a vault in one command
+  vault_sync.py         git-diff-driven replay of committed changes into Neo4j/DuckDB
+  obsidian_community.py install Obsidian community plugins for `vault new`
+  table2graph.py        project structured-table rows into graph entities
+  structured/           the structured (SQL/DuckDB) store
+  server.py             the warm `artmind serve` daemon
+  webui/                chat UI and admin console (admin-ui)
   skills/                Claude Code skills — source of truth, seeded/symlinked into a vault's .claude/skills/
     artmind-query/        natural-language graph queries
     artmind-update/       natural-language graph updates
@@ -795,7 +737,9 @@ artmind/                core package
   domains/schemas/       built-in domain YAML schemas, seeded into a new vault
 
 banking_document_corpus/ bundled example corpus for the banking.* domains
+obsidian/artmind-obsidian/ the artmind Obsidian plugin (TypeScript)
 scripts/
+  bootstrap.sh          one-time machine setup (docs/INSTALL.md)
   migrate_poole.py      one-time migration script (CHARACTER/AUTHOR/PLACE → POOLE types)
 docs/                   design docs, including vault.md (the vault spec) and INSTALL.md
 test/                   pytest suite
