@@ -353,6 +353,10 @@ class TableMapping:
     #: projection's Document as `table_mapping_sha256`: `ingest table2graph
     #: --pending` compares it to tell an edited mapping from an unchanged one.
     digest: str = ""
+    #: When True, `build_staged` returns an empty chunks list -- no DocChunk
+    #: nodes are written. Use for table sources where the structured query route
+    #: (text2sql) makes chunk-level provenance and vector search redundant.
+    skip_chunks: bool = False
 
     def matches(self, table_name: str, domain: str | None = None) -> bool:
         if domain and self.domain and self.domain != domain:
@@ -517,6 +521,7 @@ def parse_mapping(data: dict, path: Path | None = None) -> TableMapping:
         entities=entities,
         relationships=relationships,
         digest=mapping_digest(data),
+        skip_chunks=bool(data.get("skip_chunks", False)),
     )
 
 
@@ -1180,20 +1185,23 @@ def build_staged(
             stats["written"] += 1
 
     # ── chunks: only rows that contributed something ────────────────────────
-    contributing = {o["chunk_id"] for o in observations} | {r["chunk_id"] for r in relationships}
-    chunks = [
-        {
-            "id": row.chunk_id,
-            "name": f"{table_name} row {row.row_key}",
-            "doc_id": doc_id,
-            "text": row_text(mapping, table_name, row, columns),
-            "_domain": domain,
-            "row_key": row.row_key,
-            "row_index": row.index,
-            **({"_valid_from": row.valid_from} if row.valid_from else {}),
-        }
-        for row in parsed_rows if row.chunk_id in contributing
-    ]
+    if mapping.skip_chunks:
+        chunks: list[dict] = []
+    else:
+        contributing = {o["chunk_id"] for o in observations} | {r["chunk_id"] for r in relationships}
+        chunks = [
+            {
+                "id": row.chunk_id,
+                "name": f"{table_name} row {row.row_key}",
+                "doc_id": doc_id,
+                "text": row_text(mapping, table_name, row, columns),
+                "_domain": domain,
+                "row_key": row.row_key,
+                "row_index": row.index,
+                **({"_valid_from": row.valid_from} if row.valid_from else {}),
+            }
+            for row in parsed_rows if row.chunk_id in contributing
+        ]
 
     valid_froms = [r.valid_from for r in parsed_rows if r.valid_from]
     document = {

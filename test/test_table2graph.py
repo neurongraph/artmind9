@@ -307,6 +307,15 @@ def test_document_and_chunks_carry_table_provenance():
     assert "Seg Date" not in next(c for c in staged["chunks"] if c["row_key"] == "002")["text"]
 
 
+def test_skip_chunks_produces_no_docchunk_nodes():
+    staged, report = _build(mapping=_mapping(skip_chunks=True))
+    assert staged["chunks"] == []
+    assert report["chunks"] == 0
+    # Observations and relationships are still written.
+    assert len(staged["observations"]) > 0
+    assert len(staged["relationships"]) > 0
+
+
 def test_build_is_deterministic():
     assert _build()[0] == _build()[0]
 
