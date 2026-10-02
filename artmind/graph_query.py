@@ -1377,3 +1377,354 @@ def entity_history(
         },
         "rows": rows,
     }
+
+
+# ── hierarchy ────────────────────────────────────────────────────────────────
+#
+# Design: docs/superpowers/specs/2026-10-02-graph-hierarchy-traversal-design.md
+#
+# Why a bounded BFS in Python rather than one Cypher query: every entity-to-
+# entity edge is `:RELATES_TO` with the real meaning in `rel_type`, and that
+# meaning points child->parent for some rel types (reports_to) and parent->
+# child for others (manages) in the same org chart. A variable-length Cypher
+# pattern can't express "stop expanding a node I've already visited" (so a
+# cycle or a dense DAG enumerates exponentially), can't report *where* it
+# stopped, and can't tell multi-parent nodes from a cycle. A level-at-a-time
+# BFS makes every one of those safeguards an explicit, testable step.
+
+HIERARCHY_MAX_DEPTH = 10
+HIERARCHY_DEFAULT_DEPTH = 5
+HIERARCHY_DEFAULT_LIMIT = 1500
+HIERARCHY_MAX_LIMIT = 2000
+
+# Caps how many back edges the response body carries; `summary.back_edges`
+# always holds the true count. A dense DAG can produce far more of these than
+# anyone would read.
+_HIERARCHY_BACK_EDGES_CAP = 50
+
+
+def _run_in_session(session, cypher: str, params: dict) -> list[dict]:
+    """Like `_run_read_query`, but reuses an already-open session.
+
+    `hierarchy` makes several round trips (one BFS level each) that must all
+    see the same read snapshot and share one driver round trip budget --
+    `_run_read_query` opens a fresh `read_session()` per call, which is right
+    for every single-query command but wrong here.
+    """
+    return [serialize_record(record) for record in session.run(cypher, **params)]
+
+
+def _flatten_repeatable(value: "str | Sequence[str] | None") -> list[str]:
+    """Flatten a str/sequence of (possibly comma-separated) values into a
+    deduped, stripped list, same splitting rule as `normalize_domains` but
+    without that function's "at least one" requirement -- every caller here
+    (childOf/parentOf/nodeClass) is optional."""
+    if not value:
+        return []
+    raw: list[str] = [value] if isinstance(value, str) else list(value)
+    out: list[str] = []
+    seen: set[str] = set()
+    for item in raw:
+        for part in str(item).split(","):
+            v = part.strip()
+            if v and v not in seen:
+                seen.add(v)
+                out.append(v)
+    return out
+
+
+def _normalize_rel_types(value: "str | Sequence[str] | None") -> list[str]:
+    """Flatten + normalize a str/sequence of rel types, same rule ingestion
+    writes `rel_type` with (`ingest.py`'s relationship-write path: upper-case,
+    non-alphanumerics to `_`), so a `--childOf "reports to"` matches what is
+    actually stored."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for item in _flatten_repeatable(value):
+        rel = re.sub(r"[^A-Za-z0-9_]", "_", item).upper()
+        if rel and rel not in seen:
+            seen.add(rel)
+            out.append(rel)
+    return out
+
+
+def _hierarchy_level_query(direction: str) -> str:
+    """Cypher for one BFS level: expand `$frontier` by one hop along the
+    `--childOf`/`--parentOf` edge spec.
+
+    `direction='down'`: a `childOf` rel type matches when the *candidate* `c`
+    is the edge's startNode (child-points-at-parent), a `parentOf` rel type
+    matches when the *frontier node* `p` is the startNode (parent-points-at-
+    child). `direction='up'` walks ancestors by swapping which side must be
+    the startNode for each set -- same edge spec, orientation reversed, so
+    one mental model (and one query shape) covers both directions.
+    """
+    if direction == "up":
+        child_match, parent_match = "startNode(r) = p", "startNode(r) = c"
+    else:
+        child_match, parent_match = "startNode(r) = c", "startNode(r) = p"
+    return f"""
+    UNWIND $frontier AS pid
+    MATCH (p:Entity {{_id: pid}})-[r:RELATES_TO]-(c:Entity)
+    WHERE {domain_predicate("c")}
+      AND (   (r.rel_type IN $childOf  AND {child_match})
+           OR (r.rel_type IN $parentOf AND {parent_match}))
+      AND ($nodeLabels IS NULL OR any(l IN labels(c) WHERE l IN $nodeLabels))
+    RETURN pid AS parent_id, c {{._id, .name, .entity_class}} AS node, r.rel_type AS via
+    ORDER BY parent_id, node.name
+    LIMIT $levelCap
+    """
+
+
+def hierarchy_edge_candidates(
+    session, domains: list[str], root_id: str, node_labels: "list[str] | None" = None
+) -> list[dict]:
+    """Discovery mode: the `rel_type` vocabulary one hop around `root_id`.
+
+    `graph metadata` only ever reports the Neo4j relationship *type*, which is
+    always `RELATES_TO` -- this is the only cheap way to learn which
+    `rel_type` values actually surround an entity, and which direction they
+    run, before picking a `--childOf`/`--parentOf` edge spec. Convention: an
+    `in` edge (the neighbour is the edge's startNode) means the neighbour
+    points at the root, e.g. for `REPORTS_TO` that makes the neighbour a
+    child.
+    """
+    cypher_params: dict = {"domains": domains, "rootId": root_id, "nodeLabels": node_labels}
+    cypher = f"""
+    MATCH (p:Entity {{_id: $rootId}})-[r:RELATES_TO]-(c:Entity)
+    WHERE {domain_predicate("c")}
+      AND ($nodeLabels IS NULL OR any(l IN labels(c) WHERE l IN $nodeLabels))
+    WITH r.rel_type AS relType,
+         CASE WHEN startNode(r) = c THEN 'in' ELSE 'out' END AS direction,
+         c.entity_class AS neighborClass
+    RETURN relType AS rel_type, direction, count(*) AS count,
+           collect(DISTINCT neighborClass) AS neighbor_classes
+    ORDER BY count DESC, relType
+    """
+    return _run_in_session(session, cypher, cypher_params)
+
+
+def _resolve_hierarchy_root(
+    session,
+    domains: list[str],
+    entity_id: str | None,
+    entity_name: str | None,
+    entity_class: str | None,
+) -> dict:
+    """The walk's root. An id must match exactly (0 or 1 rows, ids are
+    unique); a name (+ optional class) must match exactly one entity or the
+    command errors out listing every candidate -- a fan-out here would
+    silently merge separate trees, which `_entity_selector`'s normal
+    CONTAINS-match callers tolerate but a traversal root cannot.
+    """
+    if not entity_id and not entity_name:
+        raise ValueError("--entityId or --entityName is required")
+    cypher_params: dict = {"domains": domains}
+    selector = _entity_selector({"entityId": entity_id, "entityName": entity_name}, cypher_params, "e")
+    class_filter = f" AND e:{normalize_entity_class(entity_class)}" if entity_class else ""
+    rows = _run_in_session(
+        session,
+        f"""
+        MATCH (e:Entity)
+        WHERE {domain_predicate("e")}
+          AND {selector}{class_filter}
+        RETURN e {{._id, .name, .entity_class}} AS entity
+        ORDER BY e.name
+        """,
+        cypher_params,
+    )
+    if not rows:
+        descriptor = entity_id or entity_name
+        raise ValueError(f"No entity found matching {descriptor!r}")
+    if len(rows) > 1:
+        candidates = "; ".join(f"{r['entity']['name']} ({r['entity']['_id']})" for r in rows)
+        raise ValueError(
+            f"--entityName {entity_name!r} matched {len(rows)} entities -- "
+            f"pass --entityId instead: {candidates}"
+        )
+    return rows[0]["entity"]
+
+
+def hierarchy(
+    domains: "str | Sequence[str]",
+    entity_id: str | None = None,
+    entity_name: str | None = None,
+    entity_class: str | None = None,
+    child_of: "str | Sequence[str] | None" = None,
+    parent_of: "str | Sequence[str] | None" = None,
+    direction: str = "down",
+    max_depth: int = HIERARCHY_DEFAULT_DEPTH,
+    limit: int = HIERARCHY_DEFAULT_LIMIT,
+    node_class: "str | Sequence[str] | None" = None,
+    question: str | None = None,
+) -> dict:
+    """Bounded BFS over the `--childOf`/`--parentOf` edge spec, rooted at one
+    resolved entity. Neither option given -> discovery mode: no traversal,
+    just the `rel_type` vocabulary around the root (`edge_candidates`).
+
+    All levels run inside one `read_session()` -- a cycle or a dense matrix
+    org can mean several round trips, and they must all see one consistent
+    read snapshot rather than drifting across separately-opened sessions.
+    """
+    domains = normalize_domains(domains)
+    max_depth = int(max_depth)
+    if not (1 <= max_depth <= HIERARCHY_MAX_DEPTH):
+        raise ValueError(f"--maxDepth must be between 1 and {HIERARCHY_MAX_DEPTH}; got {max_depth}")
+    limit = int(limit)
+    if not (1 <= limit <= HIERARCHY_MAX_LIMIT):
+        raise ValueError(f"--limit must be between 1 and {HIERARCHY_MAX_LIMIT}; got {limit}")
+    if direction not in ("down", "up"):
+        raise ValueError("--direction must be 'down' or 'up'")
+
+    child_rels = _normalize_rel_types(child_of)
+    parent_rels = _normalize_rel_types(parent_of)
+    overlap = sorted(set(child_rels) & set(parent_rels))
+    if overlap:
+        raise ValueError(
+            f"Relationship type(s) {', '.join(overlap)} cannot appear in both "
+            "--childOf and --parentOf"
+        )
+    node_labels = [normalize_entity_class(c) for c in _flatten_repeatable(node_class)] or None
+
+    with read_session() as session:
+        root = _resolve_hierarchy_root(session, domains, entity_id, entity_name, entity_class)
+        root_id = root["_id"]
+
+        output_parameters: dict = {}
+        if entity_id:
+            output_parameters["entityId"] = entity_id
+        if entity_name:
+            output_parameters["entityName"] = entity_name
+        if entity_class:
+            output_parameters["entityClass"] = normalize_entity_class(entity_class)
+        if node_labels:
+            output_parameters["nodeClass"] = node_labels
+
+        if not child_rels and not parent_rels:
+            candidates = hierarchy_edge_candidates(session, domains, root_id, node_labels)
+            return {
+                **_domain_output(domains),
+                "query_type": "graph",
+                "command": "hierarchy",
+                "parameters": output_parameters,
+                "question": question,
+                "root": root,
+                "edge_candidates": candidates,
+            }
+
+        output_parameters["childOf"] = child_rels
+        output_parameters["parentOf"] = parent_rels
+        output_parameters["maxDepth"] = max_depth
+        output_parameters["limit"] = limit
+
+        level_cypher = _hierarchy_level_query(direction)
+        visited: dict[str, dict] = {root_id: {"depth": 0, "parents": []}}
+        rows_by_id: dict[str, dict] = {}
+        back_edges: list[dict] = []
+        total_nodes = 0
+        truncated = False
+        truncated_reason: str | None = None
+        max_depth_reached = 0
+
+        frontier = [root_id]
+        depth = 0
+        while depth < max_depth and frontier:
+            depth += 1
+            budget_left = limit - total_nodes
+            level_cap = budget_left + 1
+            level_rows = _run_in_session(
+                session,
+                level_cypher,
+                {
+                    "domains": domains,
+                    "frontier": frontier,
+                    "childOf": child_rels,
+                    "parentOf": parent_rels,
+                    "nodeLabels": node_labels,
+                    "levelCap": level_cap,
+                },
+            )
+            hit_cap = len(level_rows) > budget_left
+            new_frontier: list[str] = []
+            for row in level_rows[:budget_left]:
+                parent_id = row["parent_id"]
+                node = row["node"]
+                rel_type = row["via"]
+                child_id = node["_id"]
+                if child_id not in visited:
+                    visited[child_id] = {
+                        "depth": depth,
+                        "parents": [{"_id": parent_id, "rel_type": rel_type}],
+                    }
+                    rows_by_id[child_id] = node
+                    new_frontier.append(child_id)
+                    total_nodes += 1
+                elif visited[child_id]["depth"] == depth:
+                    visited[child_id]["parents"].append({"_id": parent_id, "rel_type": rel_type})
+                else:
+                    back_edges.append({"from": parent_id, "to": child_id, "rel_type": rel_type})
+            max_depth_reached = depth
+            if hit_cap:
+                truncated, truncated_reason = True, "limit"
+                frontier = []
+                break
+            frontier = new_frontier
+
+        if not truncated and frontier:
+            probe_rows = _run_in_session(
+                session,
+                level_cypher,
+                {
+                    "domains": domains,
+                    "frontier": frontier,
+                    "childOf": child_rels,
+                    "parentOf": parent_rels,
+                    "nodeLabels": node_labels,
+                    "levelCap": 1,
+                },
+            )
+            if probe_rows:
+                truncated, truncated_reason = True, "max_depth"
+
+        rows = [
+            {**rows_by_id[nid], "depth": v["depth"], "parents": v["parents"]}
+            for nid, v in visited.items()
+            if nid != root_id
+        ]
+        by_depth: dict[str, int] = {}
+        by_class: dict[str, int] = {}
+        multi_parent = 0
+        for nid, v in visited.items():
+            if nid == root_id:
+                continue
+            depth_key = str(v["depth"])
+            by_depth[depth_key] = by_depth.get(depth_key, 0) + 1
+            cls = rows_by_id[nid].get("entity_class")
+            if cls:
+                by_class[cls] = by_class.get(cls, 0) + 1
+            if len(v["parents"]) > 1:
+                multi_parent += 1
+
+        summary = {
+            "total": len(rows),
+            "by_depth": by_depth,
+            "by_class": by_class,
+            "max_depth_reached": max_depth_reached,
+            "truncated": truncated,
+            "truncated_reason": truncated_reason,
+            "multi_parent": multi_parent,
+            "back_edges": len(back_edges),
+        }
+
+        return {
+            **_domain_output(domains),
+            "query_type": "graph",
+            "command": "hierarchy",
+            "direction": direction,
+            "parameters": output_parameters,
+            "question": question,
+            "root": root,
+            "rows": rows,
+            "summary": summary,
+            "back_edges": back_edges[:_HIERARCHY_BACK_EDGES_CAP],
+        }

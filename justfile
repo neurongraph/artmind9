@@ -452,6 +452,10 @@ query-graph-conflicts domain flags="":
 query-graph-timeline domain from="" to="":
     uv run artmind query graph timeline --domain {{ domain }} {{ if from != "" { "--from " + from } else { "" } }} {{ if to != "" { "--to " + to } else { "" } }}
 
+# bounded transitive walk (descendants/ancestors) along chosen rel types; no --childOf/--parentOf = discovery mode  (usage: just query-graph-hierarchy <domain> <entity_id> [flags])
+query-graph-hierarchy domain entity_id flags="":
+    uv run artmind query graph hierarchy --domain {{ domain }} --entityId {{ entity_id }} {{ flags }}
+
 # every observation behind ONE entity, ordered by fact-level valid time -- spans current and retired sources  (usage: just query-entity-history <domain> <entity_id> [property] [as_of])
 query-entity-history domain entity_id property="" as_of="":
     uv run artmind query entity-history --domain {{ domain }} --entityId {{ entity_id }} {{ if property != "" { "--property " + property } else { "" } }} {{ if as_of != "" { "--asOf " + as_of } else { "" } }}

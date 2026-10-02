@@ -182,7 +182,7 @@ docstring, the relevant skill in `artmind/skills/`, and the `justfile` recipe to
 Two levels under `query`, and mixing them up is a common error:
 
 - `artmind query graph <cmd>` — `metadata`, `structural-metadata`, `entity-listing`,
-  `pattern1`–`pattern10`, `text2cypher`, `conflicts`, `timeline`
+  `pattern1`–`pattern10`, `text2cypher`, `conflicts`, `timeline`, `hierarchy`
 - `artmind query <cmd>` — `domains-overview`, `vector-text`, `entity-resolve`,
   `chunks`, `entity-context`, `text2sql`, `resolve-key`
 

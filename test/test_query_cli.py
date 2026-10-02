@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 from click.testing import CliRunner
 
+from artmind import graph_query
 from artmind.cli import cli
 
 
@@ -212,6 +213,100 @@ def test_graph_pattern_cli_rejects_invalid_mode_before_dispatch(runner):
 
     assert result.exit_code != 0
     assert "Invalid value for '--mode'" in result.output
+
+
+def test_graph_hierarchy_cli_discovery_mode(runner):
+    payload = {
+        "domain": "banking",
+        "query_type": "graph",
+        "command": "hierarchy",
+        "root": {"_id": "e1", "name": "Alex", "entity_class": "ROLE_PERSON"},
+        "edge_candidates": [{"rel_type": "REPORTS_TO", "direction": "in", "count": 3, "neighbor_classes": ["ROLE_PERSON"]}],
+    }
+    with patch("artmind.cli.graph_query.hierarchy", return_value=payload) as query:
+        result = runner.invoke(
+            cli,
+            ["query", "graph", "hierarchy", "--domain", "banking", "--entityId", "e1"],
+        )
+
+    assert result.exit_code == 0, result.output
+    query.assert_called_once_with(
+        ["banking"],
+        entity_id="e1",
+        entity_name=None,
+        entity_class=None,
+        child_of=[],
+        parent_of=[],
+        direction="down",
+        max_depth=graph_query.HIERARCHY_DEFAULT_DEPTH,
+        limit=graph_query.HIERARCHY_DEFAULT_LIMIT,
+        node_class=[],
+        question=None,
+    )
+    assert json.loads(result.output) == payload
+
+
+def test_graph_hierarchy_cli_passes_traversal_options(runner):
+    payload = {"domain": "banking", "query_type": "graph", "command": "hierarchy", "rows": []}
+    with patch("artmind.cli.graph_query.hierarchy", return_value=payload) as query:
+        result = runner.invoke(
+            cli,
+            [
+                "query", "graph", "hierarchy",
+                "--domain", "banking",
+                "--entityName", "Alex Smith",
+                "--entityClass", "ROLE_PERSON",
+                "--childOf", "REPORTS_TO,MEMBER_OF",
+                "--parentOf", "MANAGES",
+                "--direction", "up",
+                "--maxDepth", "3",
+                "--limit", "500",
+                "--nodeClass", "ROLE_PERSON",
+                "--nodeClass", "ORGANIZATIONAL_UNIT",
+                "--compact",
+                "who does Alex report to?",
+            ],
+        )
+
+    assert result.exit_code == 0, result.output
+    query.assert_called_once_with(
+        ["banking"],
+        entity_id=None,
+        entity_name="Alex Smith",
+        entity_class="ROLE_PERSON",
+        child_of=["REPORTS_TO", "MEMBER_OF"],
+        parent_of=["MANAGES"],
+        direction="up",
+        max_depth=3,
+        limit=500,
+        node_class=["ROLE_PERSON", "ORGANIZATIONAL_UNIT"],
+        question="who does Alex report to?",
+    )
+    assert result.output.strip() == json.dumps(payload, separators=(",", ":"))
+
+
+def test_graph_hierarchy_cli_rejects_bad_direction(runner):
+    result = runner.invoke(
+        cli,
+        ["query", "graph", "hierarchy", "--domain", "banking", "--entityId", "e1", "--direction", "sideways"],
+    )
+
+    assert result.exit_code != 0
+    assert "Invalid value for '--direction'" in result.output
+
+
+def test_graph_hierarchy_cli_surfaces_validation_errors(runner):
+    with patch(
+        "artmind.cli.graph_query.hierarchy",
+        side_effect=ValueError("--entityId or --entityName is required"),
+    ):
+        result = runner.invoke(
+            cli,
+            ["query", "graph", "hierarchy", "--domain", "banking"],
+        )
+
+    assert result.exit_code != 0
+    assert "--entityId or --entityName is required" in result.output
 
 
 def test_compact_json_output(runner):

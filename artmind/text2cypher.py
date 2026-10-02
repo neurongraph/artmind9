@@ -147,6 +147,11 @@ RULES:
   them to answer a "what is true now" question; the base labels are current by
   construction. Only match a History label when the question explicitly asks about
   retired, superseded, or historical content.
+- For an unbounded transitive walk ("all descendants of X", "everyone under X",
+  "X's whole reporting line", "chain of command"), this tool is the wrong fit: the
+  dedicated `artmind query graph hierarchy` command bounds depth/limit, detects
+  cycles, and already knows which rel types run child→parent vs parent→child.
+  Bound any such path to `*1..3` here rather than leaving it unbounded.
 
 {STRUCTURAL_SCHEMA}
 

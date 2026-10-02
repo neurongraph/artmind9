@@ -90,6 +90,22 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     return normalize_domains(list(values))
 
 
+def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
+    """Flatten repeatable/comma-split option values into a deduped list,
+    mirroring `_parse_domains`'s own convention for --domain, but without its
+    "at least one" requirement -- callers here (--childOf/--parentOf/
+    --nodeClass) are optional."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        for part in value.split(","):
+            item = part.strip()
+            if item and item not in seen:
+                seen.add(item)
+                out.append(item)
+    return out
+
+
 def _parse_tables(values: "tuple[str, ...]") -> list[str]:
     """Flatten repeatable/comma-split --table values into a deduped list,
     mirroring `_parse_domains`'s own convention for --domain."""
@@ -2391,7 +2407,7 @@ def _warn_if_vault_stale(*_args, **_kwargs) -> None:
 
 @query.group()
 def graph():
-    """Execute graph queries (metadata, entity listing, filing listing, vocabulary, pattern1–pattern10, timeline, conflicts, text2cypher)."""
+    """Execute graph queries (metadata, entity listing, filing listing, vocabulary, pattern1–pattern10, timeline, conflicts, hierarchy, text2cypher)."""
     pass
 
 
@@ -2734,6 +2750,60 @@ def graph_timeline(domain: tuple, from_: str | None, to: str | None, compact: bo
     """
     domains = _parse_domains(domain)
     _echo_json(graph_query.timeline(domains, from_=from_, to=to), compact)
+
+
+@graph.command("hierarchy")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--entityId", "entity_id", default=None, help="Exact id of the root entity")
+@click.option("--entityName", "entity_name", default=None, help="Name of the root entity (must resolve to exactly one; otherwise errors listing candidates)")
+@click.option("--entityClass", "entity_class", default=None, help="Narrow --entityName resolution to this class")
+@click.option("--childOf", "child_of", multiple=True, help="Rel type(s) where (child)-[rel]->(parent) (repeatable; comma-splittable)")
+@click.option("--parentOf", "parent_of", multiple=True, help="Rel type(s) where (parent)-[rel]->(child) (repeatable; comma-splittable)")
+@click.option("--direction", type=click.Choice(["down", "up"]), default="down", show_default=True, help="down = descendants, up = ancestors (chain of command)")
+@click.option("--maxDepth", "max_depth", type=int, default=graph_query.HIERARCHY_DEFAULT_DEPTH, show_default=True, help=f"1-{graph_query.HIERARCHY_MAX_DEPTH}")
+@click.option("--limit", type=int, default=graph_query.HIERARCHY_DEFAULT_LIMIT, show_default=True, help=f"Total node budget, max {graph_query.HIERARCHY_MAX_LIMIT}")
+@click.option("--nodeClass", "node_class", multiple=True, help="Classes the walk may enter (repeatable; comma-splittable). Default: any :Entity in the selected domains")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_hierarchy_cmd(
+    domain: tuple,
+    entity_id: str | None,
+    entity_name: str | None,
+    entity_class: str | None,
+    child_of: tuple,
+    parent_of: tuple,
+    direction: str,
+    max_depth: int,
+    limit: int,
+    node_class: tuple,
+    compact: bool,
+    question: str | None,
+) -> None:
+    """Bounded transitive walk (descendants or ancestors) along chosen rel types.
+
+    Neither --childOf nor --parentOf given means discovery mode: no traversal,
+    just the rel_type vocabulary one hop around the root (edge_candidates),
+    so you can see which rel types exist and in which direction before
+    picking an edge spec.
+    """
+    domains = _parse_domains(domain)
+    try:
+        result = graph_query.hierarchy(
+            domains,
+            entity_id=entity_id,
+            entity_name=entity_name,
+            entity_class=entity_class,
+            child_of=_parse_repeatable(child_of),
+            parent_of=_parse_repeatable(parent_of),
+            direction=direction,
+            max_depth=max_depth,
+            limit=limit,
+            node_class=_parse_repeatable(node_class),
+            question=question,
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @query.command("domains-overview")

@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock
+
 import pytest
 
 from artmind import graph_query
@@ -480,3 +482,299 @@ def test_structural_metadata_returns_expected_shape(monkeypatch):
     assert len(result["rows"]) == 2
     assert result["rows"][0]["label"] == "Document"
     assert result["rows"][1]["relationship"] == "PART_OF"
+
+
+# ── hierarchy ────────────────────────────────────────────────────────────────
+
+
+def _root_row(entity_id="root1", name="Root", entity_class="ROLE_PERSON"):
+    return {"entity": {"_id": entity_id, "name": name, "entity_class": entity_class}}
+
+
+def _node(entity_id, name, entity_class="ROLE_PERSON"):
+    return {"_id": entity_id, "name": name, "entity_class": entity_class}
+
+
+def _scripted_session(call_results: list[list[dict]]):
+    """A fake `read_session()` whose `session.run()` returns `call_results[i]`
+    on the i-th call (one call == one round trip), recording each call's
+    cypher + parameters -- the `run_side_effect` pattern from test_update.py,
+    adapted for a sequence of distinct per-level responses."""
+    calls: list[dict] = []
+    session = MagicMock()
+
+    def run_side_effect(cypher, **kwargs):
+        idx = len(calls)
+        calls.append({"cypher": cypher, "params": kwargs})
+        return list(call_results[idx]) if idx < len(call_results) else []
+
+    session.run.side_effect = run_side_effect
+    ctx = MagicMock()
+    ctx.__enter__ = MagicMock(return_value=session)
+    ctx.__exit__ = MagicMock(return_value=False)
+    return ctx, calls
+
+
+def _patch_session(monkeypatch, call_results: list[list[dict]]):
+    ctx, calls = _scripted_session(call_results)
+    monkeypatch.setattr(graph_query, "read_session", lambda: ctx)
+    return calls
+
+
+def test_hierarchy_requires_an_entity_id_or_name():
+    with pytest.raises(ValueError, match="--entityId"):
+        graph_query.hierarchy("fiction")
+
+
+def test_hierarchy_rejects_rel_type_in_both_child_and_parent_of():
+    with pytest.raises(ValueError, match="REPORTS_TO"):
+        graph_query.hierarchy(
+            "fiction", entity_id="root1", child_of="REPORTS_TO", parent_of="reports_to"
+        )
+
+
+@pytest.mark.parametrize("max_depth", [0, 11, -1])
+def test_hierarchy_rejects_max_depth_out_of_range(max_depth):
+    with pytest.raises(ValueError, match="maxDepth"):
+        graph_query.hierarchy("fiction", entity_id="root1", child_of="REPORTS_TO", max_depth=max_depth)
+
+
+@pytest.mark.parametrize("limit", [0, 2001, -5])
+def test_hierarchy_rejects_limit_out_of_range(limit):
+    with pytest.raises(ValueError, match="limit"):
+        graph_query.hierarchy("fiction", entity_id="root1", child_of="REPORTS_TO", limit=limit)
+
+
+def test_hierarchy_name_fan_out_raises_with_candidates(monkeypatch):
+    _patch_session(monkeypatch, [
+        [_root_row("e1", "Alex Smith"), _root_row("e2", "Alex Smythe")],
+    ])
+
+    with pytest.raises(ValueError, match="Alex Smith"):
+        graph_query.hierarchy("fiction", entity_name="Alex")
+
+
+def test_hierarchy_discovery_mode_returns_edge_candidates(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [
+            {"rel_type": "REPORTS_TO", "direction": "in", "count": 3, "neighbor_classes": ["ROLE_PERSON"]},
+            {"rel_type": "MANAGES", "direction": "out", "count": 2, "neighbor_classes": ["ROLE_PERSON"]},
+        ],
+    ])
+
+    result = graph_query.hierarchy("fiction", entity_id="root1")
+
+    assert result["command"] == "hierarchy"
+    assert result["root"]["_id"] == "root1"
+    assert result["edge_candidates"] == [
+        {"rel_type": "REPORTS_TO", "direction": "in", "count": 3, "neighbor_classes": ["ROLE_PERSON"]},
+        {"rel_type": "MANAGES", "direction": "out", "count": 2, "neighbor_classes": ["ROLE_PERSON"]},
+    ]
+    assert "rows" not in result
+    assert calls[1]["params"]["rootId"] == "root1"
+
+
+def test_hierarchy_single_level_sends_frontier_and_rel_type_params(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [{"parent_id": "root1", "node": _node("c1", "Child One"), "via": "REPORTS_TO"}],
+        [],
+    ])
+
+    result = graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", max_depth=5, limit=1500,
+    )
+
+    level_call = calls[1]
+    assert level_call["params"]["frontier"] == ["root1"]
+    assert level_call["params"]["childOf"] == ["REPORTS_TO"]
+    assert level_call["params"]["parentOf"] == []
+    assert level_call["params"]["levelCap"] == 1501
+
+    assert result["direction"] == "down"
+    assert result["rows"] == [
+        {"_id": "c1", "name": "Child One", "entity_class": "ROLE_PERSON",
+         "depth": 1, "parents": [{"_id": "root1", "rel_type": "REPORTS_TO"}]}
+    ]
+    assert result["summary"]["total"] == 1
+    assert result["summary"]["by_depth"] == {"1": 1}
+    assert result["summary"]["truncated"] is False
+    assert result["summary"]["back_edges"] == 0
+    assert result["summary"]["multi_parent"] == 0
+
+
+def test_hierarchy_direction_up_swaps_the_cypher_startnode_clause(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [],
+    ])
+
+    graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", direction="up",
+    )
+
+    level_cypher = calls[1]["cypher"]
+    assert "startNode(r) = p" in level_cypher
+    # The clause attached to childOf must be the one that is swapped for 'up'.
+    child_clause_idx = level_cypher.index("$childOf")
+    parent_clause_idx = level_cypher.index("$parentOf")
+    assert "startNode(r) = p" in level_cypher[child_clause_idx:child_clause_idx + 40]
+    assert "startNode(r) = c" in level_cypher[parent_clause_idx:parent_clause_idx + 40]
+
+
+def test_hierarchy_direction_down_default_cypher(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [],
+    ])
+
+    graph_query.hierarchy("fiction", entity_id="root1", child_of="REPORTS_TO")
+
+    level_cypher = calls[1]["cypher"]
+    child_clause_idx = level_cypher.index("$childOf")
+    parent_clause_idx = level_cypher.index("$parentOf")
+    assert "startNode(r) = c" in level_cypher[child_clause_idx:child_clause_idx + 40]
+    assert "startNode(r) = p" in level_cypher[parent_clause_idx:parent_clause_idx + 40]
+
+
+def test_hierarchy_cycle_produces_back_edge_without_reexpansion(monkeypatch):
+    """A -> B -> A: B's level-2 edge back to the already-visited root (at a
+    different depth) must become a back_edge, and root must never be
+    re-expanded as if it were a new frontier member."""
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [{"parent_id": "root1", "node": _node("b1", "B"), "via": "REPORTS_TO"}],
+        [{"parent_id": "b1", "node": _node("root1", "Root"), "via": "REPORTS_TO"}],
+    ])
+
+    result = graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", max_depth=5,
+    )
+
+    assert result["back_edges"] == [{"from": "b1", "to": "root1", "rel_type": "REPORTS_TO"}]
+    assert result["summary"]["back_edges"] == 1
+    assert len(calls) == 3, "root must not be re-expanded as a new frontier member"
+    assert [r["_id"] for r in result["rows"]] == ["b1"]
+
+
+def test_hierarchy_multi_parent_at_same_depth(monkeypatch):
+    """Two parents in the frontier both reach the same child at the same
+    depth: a matrix-org fan-in, not a cycle -- the child gets two parents
+    recorded, not two rows."""
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [
+            {"parent_id": "root1", "node": _node("a1", "A"), "via": "REPORTS_TO"},
+            {"parent_id": "root1", "node": _node("b1", "B"), "via": "REPORTS_TO"},
+        ],
+        [
+            {"parent_id": "a1", "node": _node("c1", "C"), "via": "REPORTS_TO"},
+            {"parent_id": "b1", "node": _node("c1", "C"), "via": "REPORTS_TO"},
+        ],
+        [],
+    ])
+
+    result = graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", max_depth=5,
+    )
+
+    by_id = {r["_id"]: r for r in result["rows"]}
+    assert sorted(p["_id"] for p in by_id["c1"]["parents"]) == ["a1", "b1"]
+    assert result["summary"]["multi_parent"] == 1
+    assert result["summary"]["back_edges"] == 0
+    assert len(calls) == 4, "c1 must be expanded exactly once despite two parents"
+
+
+def test_hierarchy_limit_truncation(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [
+            {"parent_id": "root1", "node": _node("c1", "C1"), "via": "REPORTS_TO"},
+            {"parent_id": "root1", "node": _node("c2", "C2"), "via": "REPORTS_TO"},
+        ],
+    ])
+
+    result = graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", limit=1,
+    )
+
+    assert calls[1]["params"]["levelCap"] == 2
+    assert result["summary"]["truncated"] is True
+    assert result["summary"]["truncated_reason"] == "limit"
+    assert len(result["rows"]) == 1
+
+
+def test_hierarchy_max_depth_probe_marks_truncated(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [{"parent_id": "root1", "node": _node("c1", "C1"), "via": "REPORTS_TO"}],
+        [{"parent_id": "c1", "node": _node("c2", "C2"), "via": "REPORTS_TO"}],  # the probe
+    ])
+
+    result = graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", max_depth=1,
+    )
+
+    assert result["summary"]["truncated"] is True
+    assert result["summary"]["truncated_reason"] == "max_depth"
+    assert result["summary"]["max_depth_reached"] == 1
+    assert calls[2]["params"]["levelCap"] == 1
+    assert calls[2]["params"]["frontier"] == ["c1"]
+
+
+def test_hierarchy_max_depth_reached_naturally_is_not_truncated(monkeypatch):
+    """The probe at max_depth finds nothing further -- the walk ended exactly
+    at max_depth because there was nothing more, not because it was cut off."""
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [{"parent_id": "root1", "node": _node("c1", "C1"), "via": "REPORTS_TO"}],
+        [],  # the probe finds nothing beyond c1
+    ])
+
+    result = graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO", max_depth=1,
+    )
+
+    assert result["summary"]["truncated"] is False
+    assert result["summary"]["truncated_reason"] is None
+    assert len(calls) == 3
+
+
+def test_hierarchy_empty_result(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [],
+    ])
+
+    result = graph_query.hierarchy("fiction", entity_id="root1", child_of="REPORTS_TO")
+
+    assert result["rows"] == []
+    assert result["summary"]["total"] == 0
+    assert result["summary"]["truncated"] is False
+    assert len(calls) == 2, "an empty level must not trigger a max_depth probe"
+
+
+def test_hierarchy_node_class_filters_the_walk(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [],
+    ])
+
+    graph_query.hierarchy(
+        "fiction", entity_id="root1", child_of="REPORTS_TO",
+        node_class=["ROLE_PERSON", "ORGANIZATIONAL_UNIT"],
+    )
+
+    assert calls[1]["params"]["nodeLabels"] == ["ROLE_PERSON", "ORGANIZATIONAL_UNIT"]
+
+
+def test_hierarchy_rel_types_are_normalized_like_ingest(monkeypatch):
+    calls = _patch_session(monkeypatch, [
+        [_root_row("root1", "Root")],
+        [],
+    ])
+
+    graph_query.hierarchy("fiction", entity_id="root1", child_of="reports to")
+
+    assert calls[1]["params"]["childOf"] == ["REPORTS_TO"]
