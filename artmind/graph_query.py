@@ -1663,7 +1663,15 @@ def hierarchy(
                     visited[child_id]["parents"].append({"_id": parent_id, "rel_type": rel_type})
                 else:
                     back_edges.append({"from": parent_id, "to": child_id, "rel_type": rel_type})
-            max_depth_reached = depth
+            # Only count this depth as "reached" if it actually surfaced a new
+            # node (or was where the limit cut things off) -- a level whose
+            # rows were all back-edges/multi-parent re-visits found nothing
+            # new, so by_depth has no entry for it and max_depth_reached must
+            # not claim one either (this is what the live banking-adjacent
+            # performance_management check caught: depth 5 returned zero new
+            # rows yet still advanced the counter past depth 4's real stop).
+            if new_frontier or hit_cap:
+                max_depth_reached = depth
             if hit_cap:
                 truncated, truncated_reason = True, "limit"
                 frontier = []
