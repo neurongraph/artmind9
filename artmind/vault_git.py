@@ -1,7 +1,8 @@
 """Read-only git helpers for the vault (spec 2026-09-26, D1/D2).
 
 artmind never writes to the vault's git repo -- the Obsidian Git plugin owns
-commit, pull and push. What remains here only reads: provenance (`HEAD`) and
+commit, pull and push (the one exception, `vault new`'s bootstrap commit and
+first push at creation, lives in vault_new.py, not here). What remains here only reads: provenance (`HEAD`) and
 dirtiness for snapshot manifests.
 """
 from __future__ import annotations

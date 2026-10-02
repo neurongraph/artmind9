@@ -343,8 +343,9 @@ ARTMIND_KG_NEO4J_PASSWORD={neo4j_password}
 ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
 
 # ── optional ──────────────────────────────────────────────────────────────────
-# artmind never commits, pulls or pushes this vault's git repo -- the Obsidian
-# Git plugin owns that (docs/vault.md, "Git: Obsidian Git owns transport").
+# Beyond `artmind vault new`'s one bootstrap commit and first push, artmind
+# never commits, pulls or pushes this vault's git repo -- the Obsidian Git
+# plugin owns that (docs/vault.md, "Git: Obsidian Git owns transport").
 
 # Relocate derived data out of the vault. Only needed if the vault lives on a
 # sync service that would choke on KG staging and snapshots; the default is

@@ -374,9 +374,12 @@ note's identity (once; see "Frontmatter: identity only" below), KG staging
 under `.artmind/data/kg/`, structured text under
 `.artmind/data/structured_text/` — and the Obsidian Git plugin commits and
 syncs them like any other change. One writer per repo means no `index.lock`
-races and no rejected pushes. The single exception is `artmind vault
-resolve`, which stages its pick for a conflicted generated file during a
-merge (below) and still never commits.
+races and no rejected pushes. There are two exceptions. `artmind vault
+resolve` stages its pick for a conflicted generated file during a merge
+(below) and still never commits. `artmind vault new` makes the vault's
+first commit and its first push to the new GitHub repo, once, at creation
+(before Obsidian has opened it, so there is no second writer yet). Every
+later commit and push belongs to Obsidian Git.
 
 Recommended plugin settings (names vary by plugin version): sync method
 **merge** (not rebase — commit shas are provenance and the sync bookmarks),
