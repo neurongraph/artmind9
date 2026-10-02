@@ -70,26 +70,21 @@ vault are separate acts.
 
 ## Create a vault
 
+On a new machine, `bash scripts/bootstrap.sh` does the install above plus the
+tools around it (gh, node, colima/docker, Obsidian, neo4j-manager) and
+creates `~/.artmind/config.env`. Edit that file (LLM provider, model, API
+key), then:
+
 ```bash
-mkdir ~/MyVault && cd ~/MyVault
-artmind init
+artmind vault new MyVault        # Neo4j instance + ~/artmind_vaults/MyVault + private GitHub repo + Obsidian plugins
 ```
 
-`artmind init` runs `git init` if needed, creates `.artmind/`, writes a
-`.gitignore` that commits derived output (converted markdown, chunks, KG
-staging) by default and excludes only a short list — secrets, churning
-binaries, and machine-local state (see the table above) — seeds the starter
-domain schemas, symlinks artmind's skills into `.claude/skills/`, and writes a
-starter `vault.yaml`. If the folder is already an Obsidian vault (has
-`.obsidian/`), it also installs and enables the artmind Obsidian plugin in
-`.obsidian/plugins/artmind/` (per machine, gitignored; re-run `init` after an
-upgrade, then reload Obsidian). It is idempotent and needs no Neo4j, and it
-**never overwrites** a schema or config file you have edited.
-
-Then:
+`vault new` runs `artmind init` and `artmind setup` for you; see
+`docs/vault.md`, "`artmind vault new`". To make an existing folder a vault
+by hand instead, or to bring a vault up to date after an upgrade:
 
 ```bash
-$EDITOR ~/.artmind/config.env          # provider, API keys, models (machine-wide)
+cd ~/MyVault && artmind init
 $EDITOR ~/MyVault/.artmind/config.env  # this vault's Neo4j connection
 artmind setup                          # Neo4j constraints/indexes + SQLite tables (never overwrites vault schemas)
 ```

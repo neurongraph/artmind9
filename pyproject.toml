@@ -71,4 +71,4 @@ py-modules = ["paths"]
 # the wheel so a non-editable install can seed them into the run folder (~/.artmind).
 # obsidian_plugin/ is the built Obsidian plugin, staged by `just obsidian-plugin-build`
 # (a build output, gitignored): build the wheel through the justfile, or it ships without it.
-artmind = ["skills/**/*", "domains/schemas/**/*", "opencode/**/*", "env.example", "cli_guide_examples.json", "obsidian_plugin/*"]
+artmind = ["skills/**/*", "domains/schemas/**/*", "opencode/**/*", "env.example", "cli_guide_examples.json", "obsidian_plugin/*", "obsidian/*.yaml"]

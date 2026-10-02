@@ -362,9 +362,9 @@ def _render_config_env(
 ) -> str:
     """Render this vault's own config.env. Called with no arguments this
     reproduces the old hardcoded starter file exactly (every existing test
-    and every non-interactive `artmind init` keeps seeing the same
-    placeholders); `artmind init --interactive` (cli.py) supplies real
-    answers gathered from the user instead.
+    and every plain `artmind init` keeps seeing the same placeholders);
+    `artmind vault new` (vault_new.py) supplies real answers from
+    neo4j-manager or its flags instead.
     """
     return _CONFIG_ENV_TEMPLATE.format(
         neo4j_uri=neo4j_uri,
@@ -378,7 +378,6 @@ def scaffold_vault(
     root: Path,
     *,
     config_answers: dict | None = None,
-    git_remote: str | None = None,
 ) -> dict:
     """Make `root` an artmind vault. Idempotent, and never destructive.
 
@@ -389,13 +388,9 @@ def scaffold_vault(
     always-current property a different way -- they are symlinked to the
     installed copy rather than copied.
 
-    `config_answers` (kwargs for `_render_config_env`) only affects a config.env
-    that doesn't exist yet -- same idempotence rule as everything else here.
-    `git_remote`, if given, configures `origin` for `root`'s git repo (added
-    fresh; an already-configured `origin` is left alone -- see
-    `vault_git.add_remote`); this one isn't gated on freshness the way
-    config.env is, since setting a remote is safe to retry and has no
-    "already customized by hand" content to clobber.
+    `config_answers` (kwargs for `_render_config_env`; `artmind vault new` supplies
+    them) only affects a config.env that doesn't exist yet -- same idempotence
+    rule as everything else here.
     """
     root = Path(root).expanduser().resolve()
     layout = VaultLayout(root)
@@ -432,12 +427,6 @@ def scaffold_vault(
     machine_config = ensure_machine_config()
     obsidian_plugin = install_obsidian_plugin(root)
 
-    git_remote_status = None
-    if git_remote:
-        from artmind.vault_git import add_remote
-
-        git_remote_status = add_remote(root, git_remote)
-
     return {
         "vault": str(root),
         "schemas": seeded_schemas,
@@ -446,7 +435,6 @@ def scaffold_vault(
         "gitignore": gitignore_written,
         "gitattributes": gitattributes_written,
         "machine_config": machine_config,
-        "git_remote": git_remote_status,
         "vault_id": vault_id,
         "vault_id_minted": vault_id_minted,
         "obsidian_plugin": obsidian_plugin,
@@ -464,6 +452,28 @@ def _plugin_version(manifest: Path) -> str | None:
         return json.loads(manifest.read_text(encoding="utf-8")).get("version")
     except (OSError, ValueError, AttributeError):
         return None
+
+
+def enable_obsidian_plugin(obsidian: Path, plugin_id: str) -> str:
+    """List `plugin_id` in `<obsidian>/community-plugins.json`, the file Obsidian
+    reads at startup to decide which community plugins run.
+
+    Returns "added", "already", or "failed" -- the file is unreadable or not a
+    JSON list, and is left alone rather than rewritten.
+    """
+    import json
+
+    enabled_file = Path(obsidian) / "community-plugins.json"
+    try:
+        enabled = json.loads(enabled_file.read_text(encoding="utf-8")) if enabled_file.is_file() else []
+        if not isinstance(enabled, list):
+            raise ValueError("not a list")
+    except (OSError, ValueError):
+        return "failed"
+    if plugin_id in enabled:
+        return "already"
+    enabled_file.write_text(json.dumps([*enabled, plugin_id], indent=2), encoding="utf-8")
+    return "added"
 
 
 def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
@@ -489,8 +499,6 @@ def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
     the plugin staged -- see `just obsidian-plugin-build`); enabled is
     "added", "already", "failed" or None when nothing was installed.
     """
-    import json
-
     source = Path(source or PACKAGE_OBSIDIAN_PLUGIN_DIR)
     result: dict = {"status": None, "version": None, "previous": None, "enabled": None}
     obsidian = Path(root) / ".obsidian"
@@ -515,19 +523,7 @@ def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
             changed = True
     result["status"] = "current" if not changed else ("updated" if existed else "installed")
 
-    enabled_file = obsidian / "community-plugins.json"
-    try:
-        enabled = json.loads(enabled_file.read_text(encoding="utf-8")) if enabled_file.is_file() else []
-        if not isinstance(enabled, list):
-            raise ValueError("not a list")
-    except (OSError, ValueError):
-        result["enabled"] = "failed"
-        return result
-    if OBSIDIAN_PLUGIN_ID in enabled:
-        result["enabled"] = "already"
-    else:
-        enabled_file.write_text(json.dumps([*enabled, OBSIDIAN_PLUGIN_ID], indent=2), encoding="utf-8")
-        result["enabled"] = "added"
+    result["enabled"] = enable_obsidian_plugin(obsidian, OBSIDIAN_PLUGIN_ID)
     return result
 
 

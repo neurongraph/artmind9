@@ -1,0 +1,40 @@
+# Obsidian community plugins `artmind vault new` installs into every vault
+# (spec docs/superpowers/specs/2026-10-02-vault-new-design.md §3).
+#
+# Each plugin's GitHub repo is looked up by id in Obsidian's official registry
+# at install time. `data`, when given, seeds the plugin's data.json once --
+# only when the vault has none, so a user's own settings always win.
+- id: obsidian-git
+  data:
+    # docs/USER_GUIDE_TWO_LAPTOPS.md §2.2: merge, never rebase; commit-and-sync
+    # every 5-10 minutes; pull on startup.
+    syncMethod: merge
+    autoSaveInterval: 10
+    autoPullOnBoot: true
+- id: unhide
+  data:
+    errorNoticeTimeout: 0
+    language: ""
+    noticeTimeout: 5
+    openChangelogOnUpdate: true
+    protectSync: true
+    showConfigurationFolder: true
+    showHiddenFiles: true
+    showingRules:
+      - "+/"
+      - '-/\.git(?:\/|$)/u'
+      - '-/\.venv(?:\/|$)/u'
+- id: vscode-editor
+  data:
+    extensions: [ts, js, py, css, c, cpp, go, rs, java, lua, php, cs, json, yaml, env]
+    folding: true
+    lineNumbers: true
+    wordWrap: true
+    minimap: true
+    semanticValidation: true
+    syntaxValidation: true
+    themeColor: AUTO
+    fontSize: 14
+    fontFamily: "'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace"
+    fontLigatures: true
+- id: ghostty-terminal

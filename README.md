@@ -113,8 +113,8 @@ uv tool uninstall artmind9
 ### Create a vault
 
 ```bash
-mkdir ~/MyVault && cd ~/MyVault
-artmind init
+# after bash scripts/bootstrap.sh and editing ~/.artmind/config.env
+artmind vault new MyVault
 ```
 
 Your documents, schemas, curation and derived data all live inside that
@@ -739,7 +739,7 @@ If you have `just` installed, common commands are available as short recipes:
 
 ```bash
 just                            # list all recipes
-just dev-install                # put `artmind` on PATH (create a vault with `artmind init`)
+just dev-install                # put `artmind` on PATH (create a vault with `artmind vault new NAME`)
 just dev-uninstall                  # remove the global artmind command
 just dev-test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
