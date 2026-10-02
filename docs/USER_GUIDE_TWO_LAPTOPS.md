@@ -47,28 +47,30 @@ Three rules explain everything below:
 
 ### 2.1 On both laptops: install artmind and set the machine config
 
-1. Install artmind (from the checkout: `just dev-install`).
+1. Run `bash scripts/bootstrap.sh` from the artmind checkout. It installs the
+   tools (uv, just, gh, node, colima, docker, Obsidian), logs you in to GitHub,
+   clones and installs artmind and neo4j-manager, and creates
+   `~/.artmind/config.env`. Safe to re-run.
 2. Edit `~/.artmind/config.env`. It holds your models and API keys, is private
    to the machine, and is never committed. **Use the same embedding model and
    `ARTMIND_KG_EMBEDDING_DIMENSIONS` on both laptops.** The dimension is baked
    into Neo4j's vector index when `artmind setup` runs. The two laptops embed
    independently, so a mismatch makes the two graphs answer differently.
-3. Start a local Neo4j instance, and note its **bolt URI, username, password
-   and database**, for example `neo4j://127.0.0.1:7689`.
 
 ### 2.2 Laptop A: create the vault
 
 ```bash
-mkdir ~/artmind_vaults/my_vault && cd ~/artmind_vaults/my_vault
-artmind init --interactive      # prompts for A's Neo4j connection and the GitHub remote URL
-artmind setup                   # creates the Neo4j constraints and indexes (run it inside the vault)
-artmind vault doctor            # read-only checks; fix anything it flags
+artmind vault new my_vault      # Neo4j instance, ~/artmind_vaults/my_vault, private repo <you>/my_vault, plugins, first commit + push
 ```
 
-`init` creates `.artmind/`, the `.gitignore`/`.gitattributes` blocks, starter
-schemas, and `.artmind/vault.yaml`, which includes a `vault_id` every clone
-shares. It also writes `.artmind/config.env` with A's Neo4j password. That file
-is gitignored and stays on A.
+It creates a neo4j-manager instance for A, the vault folder, `.artmind/`
+(including the `vault_id` every clone shares, and `.artmind/config.env` with
+A's Neo4j password — gitignored, stays on A), the Obsidian Git, Unhide,
+VSCode Editor and Ghostty Terminal plugins with Obsidian Git set to merge,
+commit-and-sync every 10 minutes and pull on startup, the graph schema, a
+first commit pushed to a new private GitHub repo, and A's sync bookmark. It
+ends by opening Obsidian: choose **Open folder as vault**, pick the folder,
+and **Turn on community plugins**.
 
 Then, still on A:
 
@@ -87,36 +89,20 @@ Then, still on A:
    `.artmind/domains/schemas/<domain>_schema.yaml`, table mappings in
    `.artmind/domains/table_mappings/*.yaml`. The easiest way is to ask the
    admin-ui agent to create them (it uses the create-schema skill).
-3. **Open the folder as an Obsidian vault**, install the **Obsidian Git** plugin,
-   and set:
-   - sync method: **merge**, never rebase;
-   - auto commit-and-sync: every **5–10 minutes**;
-   - pull on startup: **on**.
-
-   Don't also sync this folder with iCloud, Dropbox or Obsidian Sync.
-4. **First commit and push.** Run Obsidian Git's *Commit-and-sync*. If the push
-   asks for an upstream, run this once from a terminal:
-   `git push -u origin "$(git branch --show-current)"`.
-5. **Set A's bookmarks:** `artmind vault sync --bootstrapEmpty`.
+Don't also sync this folder with iCloud, Dropbox or Obsidian Sync.
 
 ### 2.3 Laptop B: join the vault
 
 ```bash
-git clone <your GitHub repo URL> ~/artmind_vaults/my_vault
-cd ~/artmind_vaults/my_vault
-artmind init --interactive      # prompts for B's own Neo4j; keeps everything already committed
-artmind setup
-artmind vault sync --bootstrapEmpty   # builds B's graph and tables from everything committed
+artmind vault new my_vault --join   # clones <you>/my_vault, B's own Neo4j instance, rebuilds B's graph
 artmind vault doctor
 ```
 
-Running `init` on a clone only adds what's missing, mainly B's own
-`config.env`. It never overwrites schemas, mappings or `vault_id`. Then open
-the folder in Obsidian. The Obsidian Git plugin and its settings came with the
-clone, so check they are the same as on A.
-
-The first `--bootstrapEmpty` replays every document and table. It makes no LLM
-calls, but embeddings are computed locally, so a big vault takes a while.
+`--join` clones the repo, creates a neo4j-manager instance for B, writes B's
+own `config.env`, installs the plugins and runs `setup`. Then it runs
+`vault sync --bootstrapEmpty`, which replays every document and table into
+B's graph. That makes no LLM calls, but embeddings are computed locally, so a
+big vault takes a while. Open the folder in Obsidian the same way as on A.
 
 ---
 

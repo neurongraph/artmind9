@@ -745,38 +745,40 @@ vault"**, the way `git init` makes one a repo.
 3. seed starter schemas into `.artmind/domains/`
 4. symlink skills into `.claude/skills/`
 5. symlink ACP agent-mode personas into `.opencode/agent/`
-6. write `.artmind/config.env` (placeholders, or real answers — see below) and
-   a starter `vault.yaml`
-7. configure a git remote, if one was given
+6. write `.artmind/config.env` (placeholders, or real answers when called by
+   `vault new`) and a starter `vault.yaml`
+7. install and enable the artmind Obsidian plugin, if `.obsidian/` exists
 8. print next steps
 
 `just dev-install` must **stop running `artmind init`** — installing the CLI and
 creating a vault are separate acts, and at install time there is no vault.
 
-### `--interactive` and `--remote`
+### `artmind vault new` — creating or joining a vault
 
-Plain `artmind init` (no flags) writes `.artmind/config.env` with the same
-placeholders it always has and configures no git remote — this is the
-default specifically so automation (`just dev-install`, CI, a provisioning
-script) invoking `artmind init` with nobody at the keyboard never blocks on
-stdin.
+`init` never prompts and never provisions anything outside the folder: it is
+the idempotent "converge this folder into a vault" step, re-run after every
+upgrade. Creating a vault from nothing is `artmind vault new NAME`
+(spec `docs/superpowers/specs/2026-10-02-vault-new-design.md`):
 
-`artmind init --interactive` prompts for this vault's Neo4j connection
-(URI, username, password, database) and a git remote URL (configured for
-Obsidian Git to push to; artmind itself never pushes) — built on `click.prompt`/
-`click.confirm`, the same primitives the rest of the CLI already uses for
-interactive input (`cli.py`'s `_prompt_for_domain`, `docs archive`'s
-confirmation), so this adds no new dependency. The connection prompts only
-fire when `config.env` doesn't exist yet — re-running `init --interactive`
-against an already-configured vault (hand-edited Aura credentials, a
-non-default database) never overwrites it, the same idempotence rule
-non-interactive `init` already followed.
+- a neo4j-manager instance `NAME` (`neo4j-manager create NAME --json --wait`),
+  whose bolt URL and password go straight into `.artmind/config.env`;
+- the folder (`~/artmind_vaults/NAME` by default) with `git init` and
+  `.obsidian/`, then `scaffold_vault` — the same code `init` runs;
+- the Obsidian community plugins in `artmind/obsidian/community_plugins.yaml`;
+- `artmind setup`, a bootstrap commit, a **private** GitHub repo
+  `<active gh account>/NAME` (`gh repo create`) and the push;
+- the first bookmark: `vault sync --bootstrapSynced`.
 
-`--remote <url>` sets the git remote (as `origin`) independently of
-`--interactive` — useful from a script that already knows the target GitHub
-repo. It works even against an existing vault; an `origin` that's already
-configured is always left alone rather than silently repointed
-(`vault_git.add_remote`).
+`vault new NAME --join` is the second-machine variant: it clones
+`<owner>/NAME`, creates this machine's own neo4j-manager instance, and
+bookmarks with `--bootstrapEmpty`, rebuilding the graph from the commits.
+
+All pre-flight checks run before anything is created: the GitHub repo, the
+folder and the neo4j instance must not exist yet (the repo must exist for
+`--join`), and every clash is reported at once. Progress is recorded in
+`~/.artmind/vault_new/NAME.json`, so a failed run resumes when re-run.
+`--localOnly` skips GitHub; `--neo4jUri/--neo4jUser/--neo4jPassword` use an
+existing Neo4j (e.g. AuraDB) instead of neo4j-manager.
 
 ## Machine-level config — the only global state
 
@@ -813,7 +815,7 @@ created had Neo4j placeholders and nothing else: no provider, no API key, no
 model, and no explanation.
 
 `setup.ensure_machine_config()` closes this now, called from both
-`scaffold_run_folder` (`just dev-install` / `artmind setup`) and
+`scaffold_run_folder` (`artmind setup`), `scripts/bootstrap.sh`, and
 `scaffold_vault` (`artmind init`), whichever runs first:
 
 1. `~/.artmind/config.env` already exists → left alone.
