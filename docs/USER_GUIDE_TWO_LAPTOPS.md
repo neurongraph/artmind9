@@ -47,10 +47,13 @@ Three rules explain everything below:
 
 ### 2.1 On both laptops: install artmind and set the machine config
 
-1. Run `bash scripts/bootstrap.sh` from the artmind checkout. It installs the
-   tools (uv, just, gh, node, colima, docker, Obsidian), logs you in to GitHub,
-   clones and installs artmind and neo4j-manager, and creates
-   `~/.artmind/config.env`. Safe to re-run.
+1. Install [Homebrew](https://brew.sh), clone artmind
+   (`git clone https://github.com/neurongraph/artmind9.git ~/projects/artmind9`),
+   and run `bash scripts/bootstrap.sh` from inside the checkout. It installs
+   the tools (uv, just, gh, node, colima, docker, Obsidian), logs you in to
+   GitHub, installs this checkout and neo4j-manager (cloned next to it), puts
+   Homebrew and `~/.local/bin` on your zsh `PATH`, and creates
+   `~/.artmind/config.env`. Safe to re-run. Open a new terminal afterwards.
 2. Edit `~/.artmind/config.env`. It holds your models and API keys, is private
    to the machine, and is never committed. **Use the same embedding model and
    `ARTMIND_KG_EMBEDDING_DIMENSIONS` on both laptops.** The dimension is baked

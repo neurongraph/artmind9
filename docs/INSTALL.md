@@ -70,10 +70,19 @@ vault are separate acts.
 
 ## Create a vault
 
-On a new machine, `bash scripts/bootstrap.sh` does the install above plus the
-tools around it (gh, node, colima/docker, Obsidian, neo4j-manager) and
-creates `~/.artmind/config.env`. Edit that file (LLM provider, model, API
-key), then:
+On a clean Mac, install [Homebrew](https://brew.sh) (it also brings `git`),
+then clone this repo and run the bootstrap script from inside it:
+
+```bash
+git clone https://github.com/neurongraph/artmind9.git ~/projects/artmind9
+cd ~/projects/artmind9 && bash scripts/bootstrap.sh
+```
+
+It does the install above plus the tools around it (gh, node, colima/docker,
+Obsidian, neo4j-manager, cloned next to this checkout), puts Homebrew and
+`~/.local/bin` on your zsh `PATH`, and creates `~/.artmind/config.env`. It is
+safe to re-run. Open a new terminal, edit `~/.artmind/config.env` (LLM
+provider, model, API key), then:
 
 ```bash
 artmind vault new MyVault        # Neo4j instance + ~/artmind_vaults/MyVault + private GitHub repo + Obsidian plugins
