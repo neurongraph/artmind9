@@ -328,6 +328,47 @@ entity_types:
         hint: positive | negative | neutral | mixed
       frequency_of_mention:
         hint: if notable
+  IDEA:
+    kind: recurrent
+    description: A thought, insight, realization, opinion, or creative notion recorded in the entry
+      — distinct from a PLAN (no commitment to act) and EVENT (not something that happened).
+    type_examples:
+    - creative
+    - business
+    - insight
+    - realization
+    - opinion
+    - hypothesis
+    - suggestion
+    - question
+    properties:
+      idea_type:
+        hint: creative | business | insight | realization | opinion | hypothesis | suggestion
+      trigger:
+        hint: what prompted this idea
+      status:
+        hint: nascent | developing | abandoned | acted_upon
+      significance:
+        hint: why it matters to the diarist
+      conviction:
+        hint: tentative musing vs firm belief
+    relates_to:
+      PERSON:
+      - originated_by
+      - inspired_by
+      - shared_with
+      - discussed_with
+      EVENT:
+      - sparked_by
+      ACTIVITY:
+      - inspired
+      PLAN:
+      - leads_to
+      - informs
+      EMOTION:
+      - evokes
+      OBJECT:
+      - concerns
   STATE_CHANGE:
     kind: occurrent
     description: A change in an entity's state, status, or relationship over time — extract when an entry
