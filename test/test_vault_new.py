@@ -253,3 +253,167 @@ def test_describe_summarises_what_will_be_created(world):
     assert text.splitlines()[0] == "Create vault demo:"
     assert "neo4j    demo  (local instance, via neo4j-manager)" in text
     assert "github   neurongraph/demo  (new, private)" in text
+
+
+# ── run_plan ──────────────────────────────────────────────────────────────────
+
+
+def test_new_vault_runs_every_step_with_the_right_arguments(world):
+    plan = _plan(world)
+    vn.preflight(plan)
+
+    vn.run_plan(plan, echo=_quiet)
+
+    assert world.sent("neo4j-manager", "create") == [["neo4j-manager", "create", "demo", "--json", "--wait"]]
+    config = (plan.dir / ".artmind" / "config.env").read_text()
+    assert "ARTMIND_KG_NEO4J_URI=bolt://127.0.0.1:7688" in config
+    assert "ARTMIND_KG_NEO4J_USERNAME=neo4j" in config
+    assert "ARTMIND_KG_NEO4J_PASSWORD=pw-123" in config
+    assert (plan.dir / ".obsidian").is_dir()
+    children = [c[3:] for c in world.sent(sys.executable, "-m", "artmind")]
+    assert children == [["setup"], ["vault", "sync", "--bootstrapSynced", "--compact"]]
+    assert "initialise vault demo" in _git(plan.dir, "log", "--oneline")
+    assert _git(plan.dir, "status", "--porcelain") == ""
+    assert world.sent("gh", "repo", "create") == [["gh", "repo", "create", "neurongraph/demo", "--private"]]
+    assert _git(plan.dir, "remote", "get-url", "origin").strip() == "https://github.com/neurongraph/demo.git"
+    assert world.sent("git", "push") == [["git", "push", "-q", "-u", "origin", "HEAD"]]
+    assert world.index("git", "commit") < world.index("gh", "repo", "create") < world.index("git", "push")
+    assert world.index("git", "push") < world.index(sys.executable, "-m", "artmind", "vault")
+    assert not vn.state_path("demo").exists()
+
+
+def test_children_run_inside_the_new_vault(world):
+    plan = _plan(world)
+
+    vn.run_plan(plan, echo=_quiet)
+
+    for call in world.calls:
+        if call["cmd"][:3] == [sys.executable, "-m", "artmind"]:
+            assert call["cwd"] == plan.dir
+            assert call["env"]["ARTMIND_VAULT"] == str(plan.dir)
+            assert "ARTMIND_HOME" not in call["env"]
+
+
+def test_join_clones_and_rebuilds_the_graph(world):
+    world.repos.add("neurongraph/demo")
+    plan = _plan(world, join=True)
+
+    vn.run_plan(plan, echo=_quiet)
+
+    assert world.sent("gh", "repo", "clone") == [["gh", "repo", "clone", "neurongraph/demo", str(plan.dir)]]
+    assert world.sent("neo4j-manager", "create") == [["neo4j-manager", "create", "demo", "--json", "--wait"]]
+    assert world.sent("gh", "repo", "create") == []
+    assert world.sent("git", "push") == []
+    assert world.sent("git", "commit") == []
+    children = [c[3:] for c in world.sent(sys.executable, "-m", "artmind")]
+    assert children == [["setup"], ["vault", "sync", "--bootstrapEmpty", "--compact"]]
+    assert "ARTMIND_KG_NEO4J_PASSWORD=pw-123" in (plan.dir / ".artmind" / "config.env").read_text()
+
+
+def test_local_only_commits_but_never_touches_github(world):
+    plan = _plan(world, local_only=True)
+
+    vn.run_plan(plan, echo=_quiet)
+
+    assert world.sent("gh") == []
+    assert world.sent("git", "push") == []
+    assert "initialise vault demo" in _git(plan.dir, "log", "--oneline")
+
+
+def test_a_given_neo4j_connection_skips_neo4j_manager(world):
+    plan = _plan(world, local_only=True, neo4j_uri="neo4j+s://x.databases.neo4j.io",
+                 neo4j_user="aura", neo4j_password="secret")
+
+    vn.run_plan(plan, echo=_quiet)
+
+    assert world.sent("neo4j-manager") == []
+    config = (plan.dir / ".artmind" / "config.env").read_text()
+    assert "ARTMIND_KG_NEO4J_URI=neo4j+s://x.databases.neo4j.io" in config
+    assert "ARTMIND_KG_NEO4J_USERNAME=aura" in config
+
+
+def test_plugins_step_installs_the_packaged_plugins(world, monkeypatch, tmp_path):
+    plugin_list = tmp_path / "plugins.yaml"
+    plugin_list.write_text("- id: obsidian-git\n")
+    monkeypatch.setattr(vn.obsidian_community, "PLUGINS_FILE", plugin_list)
+    repo = "vinzent03/obsidian-git"
+    files = {
+        vn.obsidian_community.REGISTRY_URL: json.dumps([{"id": "obsidian-git", "repo": repo}]).encode(),
+        f"https://github.com/{repo}/releases/latest/download/main.js": b"js",
+        f"https://github.com/{repo}/releases/latest/download/manifest.json": b"{}",
+        f"https://github.com/{repo}/releases/latest/download/styles.css": b"css",
+    }
+    plan = _plan(world, local_only=True, plugins=True)
+
+    vn.run_plan(plan, fetch=files.__getitem__, echo=_quiet)
+
+    assert (plan.dir / ".obsidian" / "plugins" / "obsidian-git" / "main.js").read_bytes() == b"js"
+    enabled = json.loads((plan.dir / ".obsidian" / "community-plugins.json").read_text())
+    assert "obsidian-git" in enabled
+
+
+def test_open_obsidian_runs_open(world):
+    plan = _plan(world, local_only=True, open_obsidian=True)
+
+    vn.run_plan(plan, echo=_quiet)
+
+    assert world.sent("open") == [["open", "-a", "Obsidian"]]
+
+
+def test_a_failed_step_resumes_without_redoing_finished_steps(world):
+    plan = _plan(world)
+    world.fail_child.add("setup")
+
+    with pytest.raises(vn.VaultNewError, match="step 'setup' failed") as excinfo:
+        vn.run_plan(plan, echo=_quiet)
+    assert "boom" in str(excinfo.value)
+    assert "re-run" in str(excinfo.value)
+    assert vn.state_path("demo").exists()
+
+    world.fail_child.clear()
+    assert vn.preflight(plan) is True  # its own folder and instance are not clashes
+    vn.run_plan(plan, echo=_quiet)
+
+    assert len(world.sent("neo4j-manager", "create")) == 1
+    assert len(world.sent(sys.executable, "-m", "artmind", "setup")) == 2
+    assert len(world.sent("gh", "repo", "create")) == 1
+    assert not vn.state_path("demo").exists()
+
+
+def test_a_crash_after_creating_the_repo_resumes_without_a_clash(world):
+    plan = _plan(world)
+    world.fail_child.add("vault")  # the bookmark step, after publish
+
+    with pytest.raises(vn.VaultNewError, match="step 'bookmark' failed"):
+        vn.run_plan(plan, echo=_quiet)
+
+    world.fail_child.clear()
+    assert vn.preflight(plan) is True
+    vn.run_plan(plan, echo=_quiet)
+    assert len(world.sent("gh", "repo", "create")) == 1
+
+
+def test_resuming_with_different_options_is_refused(world):
+    vn.State.begin(_plan(world, local_only=True)).start("neo4j")
+
+    with pytest.raises(vn.VaultNewError, match="used different options"):
+        vn.preflight(_plan(world))
+
+
+# ── child_env ─────────────────────────────────────────────────────────────────
+
+
+def test_child_env_drops_loaded_config_and_anchors_the_vault(tmp_path, monkeypatch):
+    loaded = tmp_path / "config.env"
+    loaded.write_text("ARTMIND_KG_NEO4J_URI=bolt://other-vault:7687\n")
+    monkeypatch.setattr(vn.paths, "LOADED_ENV_FILES", [loaded])
+    monkeypatch.setenv("ARTMIND_KG_NEO4J_URI", "bolt://other-vault:7687")
+    monkeypatch.setenv("ARTMIND_HOME", "/somewhere/else")
+    monkeypatch.setenv("UNRELATED_SETTING", "kept")
+
+    env = vn.child_env(tmp_path / "vault")
+
+    assert "ARTMIND_KG_NEO4J_URI" not in env
+    assert "ARTMIND_HOME" not in env
+    assert env["UNRELATED_SETTING"] == "kept"
+    assert env["ARTMIND_VAULT"] == str(tmp_path / "vault")

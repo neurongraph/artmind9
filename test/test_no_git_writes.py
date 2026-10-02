@@ -54,12 +54,15 @@ SPLAT = [
 ]
 # Each of these files defines ONE such wrapper (its callers are scanned as
 # `_git(...)`/`_read(...)` above): a read-only one by review, or, kg_pull's,
-# a throwaway clone of someone else's repo, never the vault.
+# a throwaway clone of someone else's repo, never the vault. vault_new.py is
+# the exception: it creates the vault's initial commit and pushes to GitHub as
+# part of vault CREATION (not ongoing vault management).
 SPLAT_WRAPPERS: dict[str, int] = {
     "artmind/vault_sync.py": 1,
     "artmind/vault_doctor.py": 1,
     "artmind/vault_resolve.py": 1,
     "artmind/kg_pull.py": 1,
+    "artmind/vault_new.py": 1,
 }
 _GIT_ARGV_OPEN = re.compile(r"""\[\s*["']git["']\s*,?""")
 

@@ -293,3 +293,200 @@ def describe(plan: Plan, resuming: bool) -> str:
         f"  neo4j    {neo4j}",
         f"  github   {github}",
     ])
+
+
+# ── steps ─────────────────────────────────────────────────────────────────────
+
+# Keys that pick the vault or run folder. A child must find the new vault, not
+# inherit the parent's.
+_ANCHOR_KEYS = ("ARTMIND_HOME", "ARTMIND_DATA_DIR", "ARTMIND_VAULT", "ARTMIND_VAULT_DIR")
+
+
+@dataclass
+class _Ctx:
+    plan: Plan
+    run: Callable[..., subprocess.CompletedProcess]
+    fetch: Callable[[str], bytes]
+    echo: Callable[[str], None]
+    neo4j: dict | None = None  # neo4j-manager's JSON for this vault's instance
+
+
+def _check(result: subprocess.CompletedProcess, what: str) -> subprocess.CompletedProcess:
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or "").strip().splitlines()[-5:]
+        raise VaultNewError(f"{what} failed (exit {result.returncode}): " + " | ".join(detail))
+    return result
+
+
+def _git(ctx: _Ctx, *args: str, check: bool = True) -> subprocess.CompletedProcess:
+    result = ctx.run(["git", *args], cwd=ctx.plan.dir)
+    return _check(result, f"git {args[0]}") if check else result
+
+
+def child_env(vault_dir: Path) -> dict:
+    """Environment for an `artmind` child anchored at `vault_dir`.
+
+    `paths.py` loads config files with `load_dotenv(override=False)`, so a key
+    this process loaded -- the Neo4j URI of whatever vault `vault new` was run
+    from -- would beat the new vault's own config.env in the child. Drop every
+    key that came from a loaded file, plus the anchor keys, and point
+    ARTMIND_VAULT at the new vault.
+    """
+    loaded: set[str] = set()
+    for env_file in paths.LOADED_ENV_FILES:
+        loaded.update(dotenv_values(env_file))
+    env = {k: v for k, v in os.environ.items() if k not in loaded and k not in _ANCHOR_KEYS}
+    env["ARTMIND_VAULT"] = str(vault_dir)
+    return env
+
+
+def _artmind(ctx: _Ctx, *args: str) -> subprocess.CompletedProcess:
+    """Run `artmind ARGS` inside the new vault: a child process, because
+    `paths.py` resolves the active vault once, at import."""
+    cmd = [sys.executable, "-m", "artmind", *args]
+    result = ctx.run(cmd, cwd=ctx.plan.dir, env=child_env(ctx.plan.dir))
+    return _check(result, f"artmind {' '.join(args)}")
+
+
+def _neo4j_connection(ctx: _Ctx) -> dict:
+    """`config_answers` for scaffold_vault, from the flags or neo4j-manager."""
+    plan = ctx.plan
+    if not plan.uses_neo4j_manager:
+        return {
+            "neo4j_uri": plan.neo4j_uri, "neo4j_username": plan.neo4j_user,
+            "neo4j_password": plan.neo4j_password, "neo4j_database": plan.neo4j_database,
+        }
+    if ctx.neo4j is None:  # resumed after the neo4j step: ask again
+        status = _check(ctx.run(["neo4j-manager", "status", plan.name, "--json"]), "neo4j-manager status")
+        ctx.neo4j = json.loads(status.stdout)
+    return {
+        "neo4j_uri": ctx.neo4j["bolt_url"], "neo4j_username": ctx.neo4j["user"],
+        "neo4j_password": ctx.neo4j["password"], "neo4j_database": plan.neo4j_database,
+    }
+
+
+def _step_neo4j(ctx: _Ctx) -> None:
+    plan = ctx.plan
+    if not plan.uses_neo4j_manager:
+        ctx.echo(f"  neo4j: using {plan.neo4j_uri}")
+        return
+    status = ctx.run(["neo4j-manager", "status", plan.name, "--json"])
+    if status.returncode == 0:  # created by the unfinished run being resumed
+        ctx.neo4j = json.loads(status.stdout)
+        if ctx.neo4j.get("state") != "running":
+            _check(ctx.run(["neo4j-manager", "start", plan.name]), "neo4j-manager start")
+        ctx.echo(f"  neo4j: reusing instance {plan.name} at {ctx.neo4j['bolt_url']}")
+        return
+    created = _check(ctx.run(["neo4j-manager", "create", plan.name, "--json", "--wait"]), "neo4j-manager create")
+    ctx.neo4j = json.loads(created.stdout)
+    ctx.echo(f"  neo4j: created instance {plan.name} at {ctx.neo4j['bolt_url']}")
+
+
+def _step_folder(ctx: _Ctx) -> None:
+    plan = ctx.plan
+    if plan.join:
+        if not (plan.dir / ".git").exists():
+            _check(ctx.run(["gh", "repo", "clone", plan.repo, str(plan.dir)]), "gh repo clone")
+    else:
+        plan.dir.mkdir(parents=True, exist_ok=True)
+        if not (plan.dir / ".git").exists():
+            _git(ctx, "init", "-q")
+    # Before scaffold_vault, so it installs and enables the artmind plugin
+    # (install_obsidian_plugin does nothing without .obsidian/).
+    (plan.dir / ".obsidian").mkdir(exist_ok=True)
+    ctx.echo(f"  folder: {plan.dir}")
+
+
+def _step_scaffold(ctx: _Ctx) -> None:
+    from artmind.setup import scaffold_vault
+
+    summary = scaffold_vault(ctx.plan.dir, config_answers=_neo4j_connection(ctx))
+    plugin = (summary.get("obsidian_plugin") or {}).get("status")
+    ctx.echo(f"  scaffold: .artmind/ written (artmind plugin: {plugin})")
+
+
+def _step_plugins(ctx: _Ctx) -> None:
+    if not ctx.plan.plugins:
+        ctx.echo("  plugins: skipped (--noPlugins)")
+        return
+    results = obsidian_community.install_community_plugins(ctx.plan.dir / ".obsidian", fetch=ctx.fetch)
+    for r in results:
+        ctx.echo(f"  plugin {r['id']}: {r['status']}" + (f" -- {r['error']}" if r["error"] else ""))
+
+
+def _step_setup(ctx: _Ctx) -> None:
+    _artmind(ctx, "setup")
+    ctx.echo("  setup: graph constraints and indexes created")
+
+
+def _step_publish(ctx: _Ctx) -> None:
+    plan = ctx.plan
+    if plan.join:
+        return
+    has_head = _git(ctx, "rev-parse", "--verify", "-q", "HEAD", check=False).returncode == 0
+    dirty = bool(_git(ctx, "status", "--porcelain", check=False).stdout.strip())
+    if not has_head or dirty:
+        _git(ctx, "add", "-A")
+        _git(ctx, "commit", "-q", "-m", f"artmind: initialise vault {plan.name}")
+    if plan.owner is None:
+        ctx.echo("  publish: committed locally (--localOnly)")
+        return
+    if ctx.run(["gh", "repo", "view", plan.repo, "--json", "name"]).returncode != 0:
+        _check(ctx.run(["gh", "repo", "create", plan.repo, "--private"]), "gh repo create")
+    if _git(ctx, "remote", "get-url", "origin", check=False).returncode != 0:
+        _git(ctx, "remote", "add", "origin", plan.remote_url)
+    _git(ctx, "push", "-q", "-u", "origin", "HEAD")
+    ctx.echo(f"  publish: pushed to {plan.remote_url} (private)")
+
+
+def _step_bookmark(ctx: _Ctx) -> None:
+    # New: an empty graph and a one-commit vault are already in sync.
+    # Join: this machine's graph is empty, so replay everything committed.
+    flag = "--bootstrapEmpty" if ctx.plan.join else "--bootstrapSynced"
+    _artmind(ctx, "vault", "sync", flag, "--compact")
+    ctx.echo(f"  bookmark: vault sync {flag}")
+
+
+def _handoff(ctx: _Ctx) -> None:
+    plan = ctx.plan
+    if plan.open_obsidian and ctx.run(["open", "-a", "Obsidian"]).returncode != 0:
+        ctx.echo("  Obsidian did not open -- is it installed? (brew install --cask obsidian)")
+    ctx.echo(
+        f"\nVault {plan.name} is ready. In Obsidian:\n"
+        f"  1. Open folder as vault -> {plan.dir}\n"
+        f"  2. Turn on community plugins when asked -- artmind and the community\n"
+        f"     plugins are already installed and enabled."
+    )
+
+
+STEPS: dict[str, Callable[[_Ctx], None]] = {
+    "neo4j": _step_neo4j,
+    "folder": _step_folder,
+    "scaffold": _step_scaffold,
+    "plugins": _step_plugins,
+    "setup": _step_setup,
+    "publish": _step_publish,
+    "bookmark": _step_bookmark,
+}
+
+
+def run_plan(plan: Plan, *, run=None, fetch=None, echo: Callable[[str], None] = print) -> None:
+    """Run every step not already done by an earlier run of this `vault new`."""
+    ctx = _Ctx(plan=plan, run=run or RUN, fetch=fetch or FETCH, echo=echo)
+    state = State.begin(plan)
+    for name, step in STEPS.items():
+        if state.done(name):
+            echo(f"  {name}: done in an earlier run")
+            continue
+        state.start(name)
+        try:
+            step(ctx)
+        except (VaultNewError, OSError, ValueError, KeyError) as e:
+            raise VaultNewError(
+                f"step '{name}' failed: {e}\n"
+                f"Fix the cause and re-run the same `artmind vault new {plan.name} ...` command: "
+                "finished steps are skipped."
+            ) from e
+        state.finish(name)
+    _handoff(ctx)
+    state.clear()
