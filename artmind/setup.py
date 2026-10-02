@@ -466,6 +466,28 @@ def _plugin_version(manifest: Path) -> str | None:
         return None
 
 
+def enable_obsidian_plugin(obsidian: Path, plugin_id: str) -> str:
+    """List `plugin_id` in `<obsidian>/community-plugins.json`, the file Obsidian
+    reads at startup to decide which community plugins run.
+
+    Returns "added", "already", or "failed" -- the file is unreadable or not a
+    JSON list, and is left alone rather than rewritten.
+    """
+    import json
+
+    enabled_file = Path(obsidian) / "community-plugins.json"
+    try:
+        enabled = json.loads(enabled_file.read_text(encoding="utf-8")) if enabled_file.is_file() else []
+        if not isinstance(enabled, list):
+            raise ValueError("not a list")
+    except (OSError, ValueError):
+        return "failed"
+    if plugin_id in enabled:
+        return "already"
+    enabled_file.write_text(json.dumps([*enabled, plugin_id], indent=2), encoding="utf-8")
+    return "added"
+
+
 def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
     """Install the packaged Obsidian plugin into `root`'s `.obsidian/`, and
     enable it. Every run, like any package asset: the three build files are
@@ -489,8 +511,6 @@ def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
     the plugin staged -- see `just obsidian-plugin-build`); enabled is
     "added", "already", "failed" or None when nothing was installed.
     """
-    import json
-
     source = Path(source or PACKAGE_OBSIDIAN_PLUGIN_DIR)
     result: dict = {"status": None, "version": None, "previous": None, "enabled": None}
     obsidian = Path(root) / ".obsidian"
@@ -515,19 +535,7 @@ def install_obsidian_plugin(root: Path, source: Path | None = None) -> dict:
             changed = True
     result["status"] = "current" if not changed else ("updated" if existed else "installed")
 
-    enabled_file = obsidian / "community-plugins.json"
-    try:
-        enabled = json.loads(enabled_file.read_text(encoding="utf-8")) if enabled_file.is_file() else []
-        if not isinstance(enabled, list):
-            raise ValueError("not a list")
-    except (OSError, ValueError):
-        result["enabled"] = "failed"
-        return result
-    if OBSIDIAN_PLUGIN_ID in enabled:
-        result["enabled"] = "already"
-    else:
-        enabled_file.write_text(json.dumps([*enabled, OBSIDIAN_PLUGIN_ID], indent=2), encoding="utf-8")
-        result["enabled"] = "added"
+    result["enabled"] = enable_obsidian_plugin(obsidian, OBSIDIAN_PLUGIN_ID)
     return result
 
 
