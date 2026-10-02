@@ -3807,7 +3807,7 @@ def _echo_sync_status(sync: dict) -> None:
 
 @cli.group("vault")
 def vault():
-    """Which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), settling merge conflicts in artmind's generated files (`resolve`), read-only readiness checks for Obsidian Git (`doctor`), and the one-off move of per-ingest fields out of notes (`migrate-frontmatter`)."""
+    """Create or join a vault in one command (`new`), which vault is active and how far behind it each store is (`status`), git-diff-driven sync into Neo4j/the structured store (`sync`), settling merge conflicts in artmind's generated files (`resolve`), read-only readiness checks for Obsidian Git (`doctor`), and the one-off move of per-ingest fields out of notes (`migrate-frontmatter`)."""
     pass
 
 
@@ -3826,6 +3826,55 @@ def vault_status(compact: bool):
     """
     _setup_logger()
     _vault_status_impl(compact)
+
+
+@vault.command("new")
+@click.argument("name")
+@click.option("--join", is_flag=True, help="Join an existing vault (a second machine): clone OWNER/NAME from GitHub instead of creating it, and rebuild this machine's graph from its commits.")
+@click.option("--dir", "directory", type=click.Path(file_okay=False), default=None, help="Where the vault goes. Default: ~/artmind_vaults/NAME.")
+@click.option("--githubOwner", "github_owner", default=None, help="GitHub user or org that owns the repo. Default: the active `gh` account.")
+@click.option("--localOnly", "local_only", is_flag=True, help="No GitHub repo: commit locally only (throwaway or test vaults).")
+@click.option("--neo4jUri", "neo4j_uri", default=None, help="Use this Neo4j (e.g. AuraDB) instead of creating a neo4j-manager instance. Needs --neo4jUser and --neo4jPassword.")
+@click.option("--neo4jUser", "neo4j_user", default=None, help="Username for --neo4jUri.")
+@click.option("--neo4jPassword", "neo4j_password", default=None, help="Password for --neo4jUri.")
+@click.option("--neo4jDatabase", "neo4j_database", default="neo4j", show_default=True, help="Neo4j database name.")
+@click.option("--noPlugins", "no_plugins", is_flag=True, help="Skip installing the Obsidian community plugins.")
+@click.option("--noOpen", "no_open", is_flag=True, help="Don't open Obsidian at the end.")
+@click.option("--yes", "yes", is_flag=True, help="Don't ask for confirmation.")
+def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, neo4j_user,
+                  neo4j_password, neo4j_database, no_plugins, no_open, yes):
+    """Create a ready-to-open vault NAME, or join an existing one with --join.
+
+    NAME is also the GitHub repo (private, owned by the active `gh` account)
+    and the neo4j-manager instance. In order: a Neo4j instance, the folder
+    (git init, or a clone with --join), the artmind scaffold and Obsidian
+    plugins, the graph schema (`setup`), a bootstrap commit pushed to the new
+    repo, and the first `vault sync` bookmark. Nothing is created until every
+    pre-flight check passes; a failed run resumes when re-run.
+
+    Edit ~/.artmind/config.env (LLM provider, model, key) first --
+    scripts/bootstrap.sh creates it. To bring an existing vault up to date
+    after an upgrade, use `artmind init` inside it instead.
+    """
+    from artmind import vault_new as vn
+
+    try:
+        plan = vn.build_plan(
+            name, join=join, directory=directory, github_owner=github_owner,
+            local_only=local_only, neo4j_uri=neo4j_uri, neo4j_user=neo4j_user,
+            neo4j_password=neo4j_password, neo4j_database=neo4j_database,
+            plugins=not no_plugins, open_obsidian=not no_open,
+        )
+        resuming = vn.preflight(plan)
+    except vn.VaultNewError as e:
+        raise click.ClickException(str(e))
+    click.echo(vn.describe(plan, resuming))
+    if not yes:
+        click.confirm("Proceed?", default=True, abort=True)
+    try:
+        vn.run_plan(plan, echo=click.echo)
+    except vn.VaultNewError as e:
+        raise click.ClickException(str(e))
 
 
 @vault.command("sync")

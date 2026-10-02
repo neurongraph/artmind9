@@ -152,6 +152,10 @@ docs-archive domain document:
 docs-archived:
     uv run artmind docs archived
 
+# create a ready-to-open vault (Neo4j, private GitHub repo, Obsidian plugins), or join one with --join (usage: just vault-new my_vault [--join] [--localOnly] [--yes])
+vault-new name *flags:
+    uv run artmind vault new {{ name }} {{ flags }}
+
 # read-only checks that this vault is safe for Obsidian Git to auto-commit and merge (usage: just vault-doctor)
 vault-doctor:
     uv run artmind vault doctor
