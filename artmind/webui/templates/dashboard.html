@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>artmind admin — dashboard</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <link rel="stylesheet" href="/static/dashboard.css">
+  <link rel="stylesheet" href="{{ static_url('style.css') }}">
+  <link rel="stylesheet" href="{{ static_url('dashboard.css') }}">
   <script>
     (function () {
       var saved = localStorage.getItem("artmind-theme");
@@ -439,7 +439,7 @@
     <div id="job-drawer-body" class="trace-list"></div>
   </aside>
 
-  <script src="/static/dashboard.js"></script>
-  <script src="/static/benchmark.js"></script>
+  <script src="{{ static_url('dashboard.js') }}"></script>
+  <script src="{{ static_url('benchmark.js') }}"></script>
 </body>
 </html>

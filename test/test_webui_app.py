@@ -57,6 +57,21 @@ def test_index_serves_html():
     assert "text/html" in response.headers["content-type"]
 
 
+@pytest.mark.parametrize("template_name", ["index.html", "admin.html"])
+def test_pages_version_static_assets_by_mtime(template_name):
+    """Obsidian's Web Viewer kept running a cached app.js after the server
+    restarted with a newer one (source links never got rewritten) -- every
+    asset URL must change when its file does, and still resolve."""
+    from artmind.webui.app import WEBUI_DIR
+
+    client = TestClient(create_app(registry=SessionRegistry(client_factory=FakeBackend), template_name=template_name))
+    html = client.get("/").text
+    mtime = (WEBUI_DIR / "static" / "app.js").stat().st_mtime_ns
+    assert f'src="/static/app.js?v={mtime}"' in html
+    assert 'src="/static/app.js"' not in html
+    assert client.get(f"/static/app.js?v={mtime}").status_code == 200
+
+
 def test_index_uses_custom_template_name():
     """create_app's `/` route must actually render whatever template_name
     it was given, not a hardcoded "index.html" — proven here by pointing it

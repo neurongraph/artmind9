@@ -44,6 +44,17 @@ class OpenSourceRequest(BaseModel):
     path: str
 
 
+def static_url(name: str) -> str:
+    """`/static/<name>?v=<mtime>` -- a changed asset gets a new URL. /static is
+    served with no cache headers, so a browser (notably Obsidian's Web Viewer)
+    otherwise keeps running its cached app.js against a restarted, newer server."""
+    try:
+        version = (WEBUI_DIR / "static" / name).stat().st_mtime_ns
+    except OSError:
+        version = 0
+    return f"/static/{name}?v={version}"
+
+
 def create_app(
     registry: SessionRegistry | None = None,
     template_name: str = "index.html",
@@ -69,6 +80,7 @@ def create_app(
     app = FastAPI(lifespan=lifespan)
     app.mount("/static", StaticFiles(directory=WEBUI_DIR / "static"), name="static")
     templates = Jinja2Templates(directory=WEBUI_DIR / "templates")
+    templates.env.globals["static_url"] = static_url
 
     @app.get("/api/health")
     async def health():
