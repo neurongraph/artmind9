@@ -918,8 +918,8 @@ Answering questions over the accumulated knowledge — the consuming face of the
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
 | 6.1.1 | ✓ | Schema metadata | The graph describes its own labels, properties, and relationship types. | `artmind query graph metadata` |
-| 6.1.2 | ✓ | Structural census | Focused counts and relationships for the core node types — Document, DocChunk, UserChat, Observation, and the Entity projection. | `artmind query graph structural-metadata` |
-| 6.1.3 | ✓ | Entity inventory | Entity names grouped by label/class. | `artmind query graph entity-listing` |
+| 6.1.2 | ✓ | Structural census | Focused counts and relationships for the core node types — Document, DocChunk, UserChat, Observation, and the Entity projection — with its Document `names` list capped (`--maxNames`, `names_total` alongside) for corpora with hundreds of documents. | `artmind query graph structural-metadata` |
+| 6.1.3 | ✓ | Entity inventory | Entity names grouped by label/class, each group's name list capped (`--maxNames`, `names_total` alongside) for a class with many entities. | `artmind query graph entity-listing` |
 | 6.1.4 | ✓ | Domain overview | Per-domain routing summary: document names/counts, entity counts, top classes. | `artmind query domains-overview` |
 
 ### 6.2 Templated graph retrieval (deterministic, no LLM)
@@ -927,15 +927,15 @@ Answering questions over the accumulated knowledge — the consuming face of the
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
 | 6.2.1 | ✓ | Class listing | List entities of a class. | `pattern1` |
-| 6.2.2 | ✓ | Entity detail | Info on one or more named entities. | `pattern2` |
-| 6.2.3 | ✓ | Relationship summary | Entity plus a lightweight relationship summary. | `pattern3` |
-| 6.2.4 | ✓ | Neighborhood expansion | Entity plus its full neighborhood. | `pattern4` |
+| 6.2.2 | ✓ | Entity detail | Info on one or more named entities, with each entity's `doc_sources`/`source_documents` capped (`--maxDocSources`/`--maxSourceDocuments`, `*_total` alongside) for one mentioned across many documents. | `pattern2` |
+| 6.2.3 | ✓ | Relationship summary | Entity plus a lightweight relationship summary, with `doc_sources`/`source_documents`/`connections` all capped (`--maxDocSources`/`--maxSourceDocuments`/`--maxConnections`, `*_total` alongside) for a hub entity. | `pattern3` |
+| 6.2.4 | ✓ | Neighborhood expansion | Entity plus its full neighborhood, with the same doc/connection caps as pattern3 plus each neighbour's own list properties capped (`--maxListItems`, `truncated_properties` alongside). | `pattern4` |
 | 6.2.5 | ✓ | Pathfinding | Paths between two entities — shortest, or all within bounded depth. | `pattern5` |
 | 6.2.6 | ✓ | Direct relationships | Direct relationships between two named entities. | `pattern6` |
 | 6.2.7 | ✓ | Fragment search | Search entities by name or description fragment. | `pattern7` |
-| 6.2.8 | ✓ | Anchored class filter | Entities of class X connected to entity Y. | `pattern8` |
+| 6.2.8 | ✓ | Anchored class filter | Entities of class X connected to entity Y, rows capped (`--limit`, default 50) with `rows_total`/`truncated`, paginated with `--offset`. | `pattern8` |
 | 6.2.9 | ✓ | Centrality ranking | Top-N entities of a class by connection count. | `pattern9` |
-| 6.2.10 | ✓ | Document chunks | All text chunks of a named document. | `pattern10` |
+| 6.2.10 | ✓ | Document chunks | All text chunks of a named document, capped (`--limit`, default 300) with `rows_total`/`truncated`, paginated with `--offset` (ordered by chunk id, so offsets are stable). | `pattern10` |
 
 ### 6.3 Hybrid semantic search
 
@@ -948,7 +948,7 @@ Answering questions over the accumulated knowledge — the consuming face of the
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.4.1 | ✓ | NL → graph query | A natural-language question is compiled to a graph query (Cypher), executed, and results returned. | `artmind query graph text2cypher` |
+| 6.4.1 | ✓ | NL → graph query | A natural-language question is compiled to a graph query (Cypher), executed, and results returned, with rows capped post-fetch (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own. | `artmind query graph text2cypher` |
 | 6.4.2 | ✓ | NL → SQL | A natural-language question is compiled to read-only SQL against the structured store and executed. | `artmind query text2sql` |
 
 ### 6.5 Evidence & provenance retrieval
@@ -956,7 +956,7 @@ Answering questions over the accumulated knowledge — the consuming face of the
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
 | 6.5.1 | ✓ | Evidence fetch | Chunk text is retrievable by the exact evidence ids other queries return. | `artmind query chunks` |
-| 6.5.2 | ✓ | Entity dossier | One call returns an entity's properties, one-hop relationships, and source chunk text. | `artmind query entity-context` |
+| 6.5.2 | ✓ | Entity dossier | One call returns an entity's properties, one-hop relationships, and source chunk text — bounded for hub entities and rankable toward a question (`--query`). | `artmind query entity-context` |
 
 ### 6.6 Temporal & conflict views
 
@@ -1025,18 +1025,32 @@ enough for an agent or `text2cypher` to sanity-check corpus size without parsing
 metadata payload. Counting `Observation` separately from `Entity` is deliberate: the two
 populations can have very different counts (many observations aggregating into few
 entities), and conflating them would hide exactly the ratio that signals how much a domain's
-extraction is fragmenting one real-world thing into many names.
+extraction is fragmenting one real-world thing into many names. The `Document` row's `names`
+is fetched in full and then sorted/capped in Python (`--maxNames`, default 50, `names_total`
+alongside) rather than sliced in Cypher — a corpus of 1000+ documents would otherwise return
+a list too large for an agent harness to show before truncating it mid-array. There is no
+`--offset` here: raising `--maxNames` is cheap (names are short strings), and the better fix
+for "I need one specific document" is `pattern10 --documentName`, not paging through the
+full list.
 *Test hint* — confirm the returned `Document` row's `names` list matches what `pattern10`/
 `domains-overview` independently report for the same domain; separately, confirm
 `Observation` and `Entity` counts are reported as two distinct rows, not folded together.
+Confirm `names_total` reflects the full count even when `names` itself is capped below it.
 
 **6.1.3 Entity inventory**
 *Why it matters* — grouping is by label (the entity class), not by domain, and every group
 carries the raw name list an LLM can pattern-match against — this is the exact payload
 `text2cypher` compresses into its prompt's entity-listing section, so the two must stay
-literally the same function call, not two independent implementations that could drift.
+literally the same function call, not two independent implementations that could drift. Each
+group's `names` is capped the same way as structural-metadata's (`--maxNames`, default 50,
+`names_total` alongside, Python-side sort+cap after a full fetch) — a class with hundreds of
+entities (protagonists, recurring characters, every clause of a policy) would otherwise
+dominate the payload. `--nameFilter` is the intended narrowing path when the full list
+matters, not a larger `--maxNames`.
 *Test hint* — confirm `entity-listing --nameFilter <fragment>` and `text2cypher`'s prompt
 (via `--dry-run`) agree on which entities exist for a fragment that matches only one class.
+Confirm each `typeGroups[].names_total` reflects that group's full count independent of the
+shared `--maxNames` cap.
 
 **6.1.4 Domain overview**
 *Why it matters* — this is the one query command with no `--domain` filter (see the scoring
@@ -1071,6 +1085,36 @@ fragment."
 an `asOf_ignored` key, which no longer exists); confirm pattern10 without `--asOf` returns
 only current chunks, and with it (any value) also surfaces a retired document's chunks.
 
+**6.2.2–6.2.4, 6.2.8, 6.2.10 Bounding and pagination**
+*Why it matters* — patterns 2/3/4 can return as unbounded output as `entity-context` could
+before it was capped (6.5.2): a hub entity's `doc_sources`/`source_documents`/`connections`
+each grow with how much it has aggregated. Capped the same way — a stable sort (by name/id,
+not relevance) over the full fetch, first N, `*_total` alongside — but without
+`entity-context`'s ranking, since these three patterns are explicitly the "just the
+structure, no evidence ranking" alternative to it. That asymmetry is deliberate, not a gap:
+raising `--maxConnections`/`--maxDocSources`/`--maxSourceDocuments` is the right move for "a
+few more are fine," but for a genuine hub, the correct escalation is to `entity-context
+--relType <type> --query "<question>"` instead of a bigger page, since only it can put the
+edge that answers the question on top. Each connection's relationship-property map also no
+longer echoes the edge's raw `chunk_ids`/`doc_ids` (unbounded per edge) — only
+`observation_count` and a derived `doc_count` survive. Patterns 8 and 10 took the opposite
+fix: neither has an equally-ranked alternative command ("entities of class X connected to Y"
+and "chunk N of a specific document" have no relevance signal to sort by), so instead of a
+"narrow or re-rank" escape hatch they got real pagination — `--offset`/`--limit`, `SKIP
+$offset` pushed into the Cypher itself (pattern10 slices a server-side `collect()` instead,
+since each chunk carries its own `.text` and pulling the whole document across the wire just
+to slice it in Python would defeat the point), with `rows_total`/`truncated` surfaced from a
+`_rowsTotal` computed in the same query pass (a `count()` subquery for pattern8, `size()` of
+the collected pairs for pattern10) rather than a second full-count query. pattern10 orders by
+`c.id` before collecting, so repeated `--offset` calls return a stable, non-overlapping walk.
+*Test hint* — on an entity with more `doc_sources`/`connections` than the default cap, assert
+on the actual Cypher/parameters sent (never on a mocked session's summary counts — see the
+`update confirm` lesson elsewhere in this repo) that `*_total` reflects the full count while
+the returned list is capped; for pattern4, confirm a neighbour with more than
+`--maxListItems` properties reports `truncated_properties`. For pattern8/pattern10, confirm
+`rows_total > len(rows)` sets `truncated: true`, and that re-running with `--offset
+<limit>` returns the next, non-overlapping slice (pattern10: ordered by chunk id).
+
 **6.3.1 Fused text search / 6.3.2 Entity resolution**
 *Why it matters* — both commands run two independently-ranked queries (Lucene fulltext and
 cosine-similarity vector search) and combine them with the same `_rrf_combine` function
@@ -1096,6 +1140,20 @@ node still passes.
 *Test hint* — force the LLM mock to return a query with no domain reference and confirm
 `generate_cypher` raises before `_run_read_query` is ever called; separately, confirm a
 normal domain-scoped query still executes and returns rows.
+
+Rows are capped the same way as every other unbounded output here (`--maxRows`, default
+200, `rows_total`/`truncated` alongside), but unlike the templated patterns the full result
+is still fetched before truncating — there is no generic way to push a `LIMIT` into
+arbitrary LLM-generated Cypher without risking a semantically wrong answer (a `LIMIT` placed
+before an aggregation changes what gets aggregated). There is also no `--offset`: the
+generated query is a fresh LLM call every time, so "get the next page" has no stable meaning
+across calls the way pattern10's chunk-id ordering does. The prompt instead nudges the LLM to
+add a deterministic `ORDER BY` whenever its own match isn't highly selective, so which rows
+survive a given truncation is stable across identical questions rather than arbitrary.
+*Test hint* — force a mock query to return more than `--maxRows` rows and confirm
+`rows_total`/`truncated` reflect the full count while `rows` is capped; confirm `--maxRows 0`
+is accepted (empty `rows`, `truncated: true` whenever any row exists) and a negative value
+raises before any query runs.
 
 **6.4.2 NL → SQL**
 *Why it matters* — unlike 6.4.1, this path's domain scope is enforced by construction, not
@@ -1125,8 +1183,17 @@ orders returned chunks current-first (`valid_to IS NULL DESC`) before truncating
 and the overflow `more_chunks` (ids only) is exactly what `query chunks` expects next. It
 takes no `--asOf`: the entity and its projected source chunks are current by construction,
 the same reasoning behind every entity command's `--asOf` removal (6.2's grounding note).
+It is bounded for hub entities (hundreds of observations): `connection_summary` counts
+every edge by `rel_type`/direction while `connections` lists only `--maxConnections`
+(filterable with `--relType`), list properties keep their newest `--maxListItems`
+(`truncated_properties` reports full lengths), and `more_chunks`/`source_documents` are
+capped with `*_total` counts. `--query "<question>"` ranks connections (question words
+against target name and rel_type, then embedding similarity) and chunks (vector + BM25,
+RRF) toward the question, so the evidence that answers it is what survives the cut.
 *Test hint* — set `--includeChunks 1` on an entity with more than one source chunk and
-confirm the first is full text while the rest appear only in `more_chunks` as fetchable ids.
+confirm the first is full text while the rest appear only in `more_chunks` as fetchable ids;
+on a hub entity, compare `connections` with and without `--query` for a question whose
+answer is one specific edge.
 
 **6.6.1 Entity timeline**
 *Why it matters* — this is domain-scoped, not entity-scoped — a real re-specification, not

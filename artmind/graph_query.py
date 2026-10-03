@@ -3,7 +3,8 @@ from contextlib import contextmanager
 from datetime import date
 from typing import Any, Sequence
 
-from neo4j import READ_ACCESS, GraphDatabase
+from neo4j import READ_ACCESS, GraphDatabase, NotificationMinimumSeverity
+from neo4j.exceptions import ClientError
 from neo4j.graph import Node, Path, Relationship
 
 from utils.functions import load_env
@@ -167,6 +168,29 @@ PATTERN_OPTION_ALTERNATIVES = {
     "entityNameList": "entityIdList",
 }
 
+# Patterns 2/3/4 return per-entity `doc_sources`/`source_documents` lists that
+# grow with how many documents mention the entity -- unbounded for a hub.
+# Capped like every other list here: a stable sort, the first N, with a
+# `_total` count alongside.
+PATTERN_MAX_DOC_SOURCES = 20
+PATTERN_MAX_SOURCE_DOCUMENTS = 10
+# Patterns 3/4 also return `connections` (every RELATES_TO edge) -- same
+# problem entity_context's ENTITY_CONTEXT_MAX_CONNECTIONS already solves for
+# the hub-entity case, applied here too.
+PATTERN_MAX_CONNECTIONS = 25
+# Pattern4 additionally embeds each neighbour's *own* full properties under
+# `connected_to.data` -- including that neighbour's own unbounded list
+# properties (e.g. `recent_activity`), multiplied across every connection.
+# Reuses _cap_entity_lists, the same helper entity_context uses for the
+# anchor entity itself.
+PATTERN4_MAX_LIST_ITEMS = 10
+# Pattern8 returns one row per RELATES_TO edge touching the matched entities
+# -- unbounded for a hub. Pattern10 returns one row per chunk in a document
+# -- unbounded for a long document. Both get a LIMIT with an exact
+# `rows_total` (see the `_rowsTotal` sentinel execute_pattern lifts out).
+PATTERN8_DEFAULT_LIMIT = 50
+PATTERN10_DEFAULT_LIMIT = 300
+
 
 def normalize_entity_class(value: str) -> str:
     """Normalize a user-supplied entity class to the label shape ingestion writes."""
@@ -209,6 +233,12 @@ def neo4j_session(access_mode: str | None = None, *, timeout: float | None = Non
         session_kwargs: dict = {"database": settings["database"]}
         if access_mode is not None:
             session_kwargs["default_access_mode"] = access_mode
+        if access_mode == READ_ACCESS:
+            # Query-layer reads project properties a domain may never have
+            # written (superseded_by, ...): the server's "property key does not
+            # exist" warnings are expected there, and they land on stderr --
+            # i.e. in the calling agent's context -- as multi-line noise.
+            session_kwargs["notifications_min_severity"] = NotificationMinimumSeverity.OFF
         with driver.session(**session_kwargs) as session:
             yield session
     finally:
@@ -343,14 +373,34 @@ def graph_metadata(domains: "str | Sequence[str]") -> dict:
     }
 
 
-def structural_metadata(domains: "str | Sequence[str]") -> dict:
+# A domain with a document-per-day journal easily holds 1000+ Document names;
+# unbounded, that single `names` list dwarfed everything else this command
+# returns. Capped like every other hub list: sorted for a stable cut, the
+# first `max_names`, with `names_total` carrying the true count. The sort/cap
+# happens in Python, not Cypher — `apoc.coll.sort` would reintroduce an APOC
+# dependency the rest of the codebase has deliberately moved away from (see
+# the "gone" / native-Cypher-replacement comments in projection.py,
+# refine_graph.py, sameas.py), and the full `names` list is already in hand
+# the moment the query returns.
+STRUCTURAL_METADATA_MAX_NAMES = 50
+
+
+def structural_metadata(
+    domains: "str | Sequence[str]", max_names: int = STRUCTURAL_METADATA_MAX_NAMES
+) -> dict:
     """Return focused metadata about Document, DocChunk, UserChat, and Entity nodes.
 
     Unlike graph_metadata() which returns the full schema, this returns only the
     structural node types and relationships with counts and Document names — compact
     enough for agents and text2cypher prompts to parse quickly.
+
+    `names` is capped to `max_names` (sorted first) with `names_total` carrying
+    the full count — a domain with one Document per day can hold thousands.
     """
     domains = normalize_domains(domains)
+    max_names = int(max_names)
+    if max_names < 0:
+        raise ValueError("--maxNames must be >= 0")
     cypher = f"""
     CALL () {{
       MATCH (d:Document)
@@ -400,11 +450,18 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
     }}
     RETURN label, count, names, relationship, from_label, to_label
     """
+    rows = _run_read_query(cypher, {"domains": domains})
+    for row in rows:
+        names = row.get("names")
+        if names is not None:
+            names = sorted(names)
+            row["names_total"] = len(names)
+            row["names"] = names[:max_names]
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "structural_metadata",
-        "rows": _run_read_query(cypher, {"domains": domains}),
+        "rows": rows,
     }
 
 
@@ -553,16 +610,32 @@ def filing_listing(
     }
 
 
+# A single type group (e.g. EVENT) can hold hundreds of names in a dense
+# domain. Capped per group like structural_metadata's Document names: sorted
+# for a stable cut, the first `max_names`, with `names_total` carrying the
+# true count for that group.
+ENTITY_LISTING_MAX_NAMES = 50
+
+
 def entity_listing(
     domains: "str | Sequence[str]",
     name_filter: str | None = None,
     count_all: bool = False,
+    max_names: int = ENTITY_LISTING_MAX_NAMES,
 ) -> dict:
     """No `--asOf` (Phase 4) — the projection is current by construction, and
     there is nothing left in force "by a date" to filter to: an Entity is
     either asserted right now (it exists) or it isn't (the rebuild deleted
-    it)."""
+    it).
+
+    Each type group's `names` is capped to `max_names` (sorted first), with
+    `names_total` carrying the full count — a dense domain can hold hundreds
+    of names under one label/type.
+    """
     domains = normalize_domains(domains)
+    max_names = int(max_names)
+    if max_names < 0:
+        raise ValueError("--maxNames must be >= 0")
     cypher = f"""
     MATCH (n:Entity)
     WHERE {domain_predicate("n")} AND n.name IS NOT NULL
@@ -572,11 +645,17 @@ def entity_listing(
     RETURN label, collect({{type: type, names: names}}) AS typeGroups
     ORDER BY label
     """
+    rows = _run_read_query(cypher, {"domains": domains, "nameFilter": name_filter})
+    for row in rows:
+        for group in row.get("typeGroups", []):
+            names = sorted(group.get("names") or [])
+            group["names_total"] = len(names)
+            group["names"] = names[:max_names]
     result: dict = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_listing",
-        "rows": _run_read_query(cypher, {"domains": domains, "nameFilter": name_filter}),
+        "rows": rows,
     }
     if name_filter is not None:
         result["name_filter"] = name_filter
@@ -629,6 +708,11 @@ def normalize_pattern_parameters(pattern: str, parameters: dict) -> dict:
         params["topN"] = int(params["topN"])
     if "limit" in params:
         params["limit"] = int(params["limit"])
+    if "offset" in params:
+        params["offset"] = int(params["offset"])
+    for key in ("maxConnections", "maxDocSources", "maxSourceDocuments", "maxListItems"):
+        if key in params:
+            params[key] = int(params[key])
     params.setdefault("mode", "shortest")
     return params
 
@@ -655,6 +739,72 @@ def _entity_list_selector(parameters: dict, cypher_params: dict, var: str) -> st
         return f"{var}._id IN $entityIdList"
     cypher_params["entityNameList"] = parameters["entityNameList"]
     return f"ANY(n IN $entityNameList WHERE toLower({var}.name) CONTAINS toLower(n))"
+
+
+def _cap_list_with_total(items: "list[dict] | None", cap: int, sort_key) -> tuple[list[dict], int]:
+    """Sort `items` by `sort_key`, cap to the first `cap`, return (capped, total)."""
+    ordered = sorted(items or [], key=sort_key)
+    return ordered[:cap], len(ordered)
+
+
+def _bound_pattern_doc_lists(row: dict, max_doc_sources: int, max_source_documents: int) -> None:
+    """Cap patterns 2/3/4's `doc_sources`/`source_documents` in place, adding
+    `*_total` counts -- the same growth problem structural_metadata's
+    Document `names` has, one level down: an entity mentioned in hundreds of
+    documents collects a `source_documents` entry per document."""
+    if "doc_sources" in row:
+        capped, total = _cap_list_with_total(
+            row["doc_sources"], max_doc_sources, lambda d: str(d.get("name") or d.get("id") or "")
+        )
+        row["doc_sources"], row["doc_sources_total"] = capped, total
+    if "source_documents" in row:
+        capped, total = _cap_list_with_total(
+            row["source_documents"], max_source_documents, lambda d: str(d.get("name") or d.get("id") or "")
+        )
+        row["source_documents"], row["source_documents_total"] = capped, total
+
+
+def _bound_pattern_connections(
+    row: dict, max_connections: int, max_list_items: "int | None" = None
+) -> None:
+    """Cap patterns 3/4's `connections` in place, adding `connections_total`.
+
+    Pattern4 additionally embeds each neighbour's own full properties under
+    `connected_to.data` -- the same hub-entity list-growth problem
+    entity_context's `_cap_entity_lists` already solves for the anchor
+    entity, now applied to every neighbour still in the capped `connections`
+    (a neighbour's own e.g. `recent_activity` list, multiplied across every
+    edge, is what made pattern4 the worst offender of the patterns checked).
+    """
+    capped, total = _cap_list_with_total(
+        row.get("connections"),
+        max_connections,
+        lambda c: (str((c.get("target") or c.get("connected_to") or {}).get("name") or ""), str(c.get("rel_type") or "")),
+    )
+    if max_list_items is not None:
+        for conn in capped:
+            connected_to = conn.get("connected_to")
+            data = connected_to.get("data") if connected_to else None
+            if isinstance(data, dict):
+                capped_data, truncated = _cap_entity_lists(data, max_list_items)
+                connected_to["data"] = capped_data
+                if truncated:
+                    connected_to["truncated_properties"] = truncated
+    row["connections"], row["connections_total"] = capped, total
+
+
+def _bound_pattern_rows(pattern: str, rows: list[dict], params: dict) -> list[dict]:
+    """Apply the per-pattern output caps described atop PATTERN_MAX_DOC_SOURCES."""
+    if pattern in ("pattern2", "pattern3", "pattern4"):
+        max_doc_sources = params.get("maxDocSources", PATTERN_MAX_DOC_SOURCES)
+        max_source_documents = params.get("maxSourceDocuments", PATTERN_MAX_SOURCE_DOCUMENTS)
+        max_connections = params.get("maxConnections", PATTERN_MAX_CONNECTIONS)
+        max_list_items = params.get("maxListItems", PATTERN4_MAX_LIST_ITEMS) if pattern == "pattern4" else None
+        for row in rows:
+            _bound_pattern_doc_lists(row, max_doc_sources, max_source_documents)
+            if pattern in ("pattern3", "pattern4"):
+                _bound_pattern_connections(row, max_connections, max_list_items)
+    return rows
 
 
 def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
@@ -710,7 +860,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               rel_type: r.rel_type,
-              properties: properties(r),
+              properties: {{observation_count: r.observation_count, doc_count: size(coalesce(r.doc_ids, []))}},
               target: {{name: t.name, label: labels(t)}}
             }} END) AS connections
             OPTIONAL MATCH (e)-[:AGGREGATES]->(o:Observation)
@@ -736,7 +886,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               rel_type: r.rel_type,
-              rel_properties: properties(r),
+              rel_properties: {{observation_count: r.observation_count, doc_count: size(coalesce(r.doc_ids, []))}},
               connected_to: {{label: labels(t), data: properties(t)}}
             }} END) AS connections
             OPTIONAL MATCH (e)-[:AGGREGATES]->(o:Observation)
@@ -846,16 +996,27 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         label = parameters["entityClass"]
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "t")
-        return (
-            f"""
+        cypher_params["limit"] = parameters.get("limit", PATTERN8_DEFAULT_LIMIT)
+        cypher_params["offset"] = parameters.get("offset", 0)
+        match_clause = f"""
             MATCH (e:{label})-[r:RELATES_TO]-(t:Entity)
             WHERE {domain_predicate("e")}
               AND {domain_predicate("t")}
-              AND {selector}
+              AND {selector}"""
+        return (
+            f"""
+            CALL () {{
+            {match_clause}
+              RETURN count(r) AS total
+            }}
+            {match_clause}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    r.rel_type AS relType,
-                   properties(r) AS relProps
+                   r {{.rel_type, .observation_count, doc_count: size(coalesce(r.doc_ids, []))}} AS relProps,
+                   total AS _rowsTotal
             ORDER BY e.name, relType
+            SKIP $offset
+            LIMIT $limit
             """,
             cypher_params,
         )
@@ -907,6 +1068,13 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         as_of = parameters.get("asOf")
         doc_return = "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by } AS document"
         chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
+        # A long document can hold hundreds of chunks, each carrying its own
+        # `.text` -- unlike structural_metadata/entity_listing's short names,
+        # not something to pull across the wire in full just to slice it in
+        # Python. Collected into {d, c} pairs and sliced here instead, with
+        # `_rowsTotal` riding along on every surviving row (execute_pattern
+        # lifts it out to a top-level `rows_total`) -- one pass, no second
+        # full-document fetch to get the exact count.
         if as_of:
             cypher = f"""
             CALL () {{
@@ -921,20 +1089,35 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             WITH d
             MATCH (c)-[:PART_OF]->(d)
             WHERE c:DocChunk OR c:DocChunkHistory
-            RETURN {doc_return}, {chunk_return}
+            WITH d, c
             ORDER BY c.id
+            WITH collect({{d: d, c: c}}) AS pairs
+            WITH pairs, size(pairs) AS _rowsTotal
+            UNWIND pairs[$offset..$offset + $limit] AS pair
+            WITH pair.d AS d, pair.c AS c, _rowsTotal
+            RETURN {doc_return}, {chunk_return}, _rowsTotal
             """
         else:
             cypher = f"""
             MATCH (d:Document)
             WHERE {domain_predicate("d")} AND toLower(d.name) CONTAINS toLower($documentName)
             MATCH (c:DocChunk)-[:PART_OF]->(d)
-            RETURN {doc_return}, {chunk_return}
+            WITH d, c
             ORDER BY c.id
+            WITH collect({{d: d, c: c}}) AS pairs
+            WITH pairs, size(pairs) AS _rowsTotal
+            UNWIND pairs[$offset..$offset + $limit] AS pair
+            WITH pair.d AS d, pair.c AS c, _rowsTotal
+            RETURN {doc_return}, {chunk_return}, _rowsTotal
             """
         return (
             cypher,
-            {"domains": parameters["domains"], "documentName": parameters["documentName"]},
+            {
+                "domains": parameters["domains"],
+                "documentName": parameters["documentName"],
+                "limit": parameters.get("limit", PATTERN10_DEFAULT_LIMIT),
+                "offset": parameters.get("offset", 0),
+            },
         )
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
 
@@ -956,6 +1139,16 @@ def execute_pattern(
         for key, value in params.items()
         if key != "domains" and value is not None
     }
+    rows = strip_internal_props(_run_read_query(cypher, cypher_params))
+    # pattern8/pattern10 ride an exact total count along on every row (as
+    # `_rowsTotal`, computed in the same Cypher pass as the capped rows, so
+    # getting it costs no second full fetch) -- lifted here to a top-level
+    # `rows_total` rather than left duplicated on each row.
+    rows_total = None
+    for row in rows:
+        if isinstance(row, dict) and "_rowsTotal" in row:
+            rows_total = row.pop("_rowsTotal")
+    rows = _bound_pattern_rows(pattern, rows, params)
     result = {
         **_domain_output(domains),
         "query_type": "graph",
@@ -963,8 +1156,11 @@ def execute_pattern(
         "pattern": pattern,
         "question": question,
         "parameters": output_parameters,
-        "rows": strip_internal_props(_run_read_query(cypher, cypher_params)),
+        "rows": rows,
     }
+    if rows_total is not None:
+        result["rows_total"] = rows_total
+        result["truncated"] = rows_total > len(rows)
     return result
 
 
@@ -1035,79 +1231,434 @@ def chunks_by_id(
     }
 
 
-def _entity_context_query() -> str:
-    """Cypher for entity_context: entity + one-hop relationships + source text.
+# entity_context output bounds. A hub entity (a person who appears in a
+# thousand journal entries) aggregates hundreds of observations: unbounded, its
+# dossier ran to ~270 KB -- 547 relationship edges each carrying its full
+# chunk_ids/doc_ids lists, every list property at full length -- which agent
+# harnesses truncate before the model reads the part that answers the question.
+ENTITY_CONTEXT_MAX_CONNECTIONS = 25
+ENTITY_CONTEXT_MAX_LIST_ITEMS = 10
+ENTITY_CONTEXT_MAX_MORE_CHUNKS = 20
+ENTITY_CONTEXT_MAX_SOURCE_DOCUMENTS = 10
+
+# Projection bookkeeping that means nothing to a reader of the dossier.
+_ENTITY_CONTEXT_DROPPED_PROPS = frozenset({"_observation_set_hash", "embedding_stale"})
+
+
+def _query_score(var: str) -> str:
+    """Cosine of `var`'s embedding against $queryVector, null when either is
+    missing -- an un-embedded node then ranks after every scored one rather
+    than failing the query."""
+    return (
+        f"CASE WHEN $queryVector IS NULL OR {var}.embedding IS NULL THEN null "
+        f"ELSE vector.similarity.cosine({var}.embedding, $queryVector) END"
+    )
+
+
+def _entity_context_queries() -> dict[str, str]:
+    """The reads behind entity_context, run in one session.
 
     No `--asOf` (Phase 4) — the entity and its projected chunks are current by
-    construction. Chunks are ordered current-first (valid_to IS NULL), then by
-    id; the first $includeChunks are returned with text, the rest as ids only.
+    construction.
+
+    Split rather than one query so that nothing heavy is collected before it is
+    ranked and capped: `connections` and `chunk_refs` return one small row per
+    edge / chunk (no text, no chunk_ids/doc_ids lists) and are ranked in Python;
+    only the chunks that make the cut have their text fetched (`chunk_text`).
+    `chunk_keyword` is the BM25 leg of `--query` ranking, restricted to the
+    entity's own chunks.
 
     Source chunks are reached via `(e)-[:AGGREGATES]->(:Observation)
     -[:EXTRACTED_FROM]->(c:DocChunk)` — an Entity has never had a direct
-    EXTRACTED_FROM edge since Phase 3 moved that provenance onto observations;
-    matching `(e)-[:EXTRACTED_FROM]->(c)` directly (as this query did before)
-    silently returned zero chunks for every entity.
+    EXTRACTED_FROM edge since Phase 3 moved that provenance onto observations.
+    `DISTINCT c`: several observations of one entity in one chunk (renamed
+    mentions, re-extraction) must not repeat the chunk.
 
     `source_documents` joins each observation's `doc_id` to its :Document
     instead, so a table-derived entity -- which has no chunks -- still names
     the spreadsheet it came from.
     """
-    return f"""
-    MATCH (e:Entity {{_id: $entityId}})
-    WHERE {domain_predicate("e")}
-    OPTIONAL MATCH (e)-[r:RELATES_TO]-(t:Entity)
+    anchor = f"MATCH (e:Entity {{_id: $entityId}})\n    WHERE {domain_predicate('e')}"
+    return {
+        "entity": f"""
+    {anchor}
+    RETURN e {{.*, label: labels(e)}} AS entityData
+    """,
+        "connections": f"""
+    {anchor}
+    MATCH (e)-[r:RELATES_TO]-(t:Entity)
     WHERE {domain_predicate("t")}
-    WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
-      rel_type: r.rel_type,
-      properties: properties(r),
-      target: {{id: t._id, name: t.name, label: labels(t)}}
-    }} END) AS connections
-    OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+    RETURN r.rel_type AS rel_type,
+           CASE WHEN startNode(r) = e THEN 'out' ELSE 'in' END AS direction,
+           t._id AS target_id, t.name AS target_name, t.entity_class AS target_class,
+           r.observation_count AS observation_count,
+           size(coalesce(r.doc_ids, [])) AS doc_count,
+           {_query_score("t")} AS score
+    """,
+        "chunk_refs": f"""
+    {anchor}
+    MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+    WITH DISTINCT c
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
-    WITH e, connections, c, d
-    ORDER BY c.valid_to IS NULL DESC, c.id
-    WITH e, connections, [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE c {{
+    RETURN c.id AS id, c.name AS name, c.doc_id AS doc_id,
+           c.valid_to IS NULL AS current, d.valid_from AS doc_valid_from,
+           {_query_score("c")} AS score
+    """,
+        "chunk_keyword": """
+    CALL db.index.fulltext.queryNodes('chunk_text_ft', $ftQuery)
+    YIELD node, score
+    WHERE node.id IN $chunkIds
+    RETURN node.id AS id, score
+    ORDER BY score DESC
+    """,
+        "chunk_text": """
+    UNWIND $chunkIds AS cid
+    MATCH (c:DocChunk {id: cid})
+    OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+    RETURN c {
       .id, .name, .doc_id, ._domain, .valid_to, .text,
-      document: d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }}
-    }} END) WHERE x IS NOT NULL] AS allChunks
-    OPTIONAL MATCH (e)-[:AGGREGATES]->(so:Observation)
-    OPTIONAL MATCH (sd:Document {{id: so.doc_id}})
-    WITH e, connections, allChunks,
-         collect(DISTINCT sd {{ .id, .name, .path, .source_path, ._domain }}) AS source_documents
-    RETURN e {{.*, label: labels(e)}} AS entityData,
-           [x IN connections WHERE x IS NOT NULL] AS connections,
-           allChunks[0..$includeChunks] AS chunks,
-           [x IN allChunks[$includeChunks..] | {{id: x.id, name: x.name, doc_id: x.doc_id}}] AS more_chunks,
-           source_documents
+      document: d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }
+    } AS chunk
+    """,
+        "source_documents": f"""
+    {anchor}
+    MATCH (e)-[:AGGREGATES]->(so:Observation)
+    WITH DISTINCT so.doc_id AS did
+    MATCH (sd:Document {{id: did}})
+    RETURN sd {{ .id, .name, .path, .source_path, ._domain, .valid_from }} AS document
+    """,
+    }
+
+
+# Question words that carry no topic. Kept small on purpose: a dropped content
+# word costs ranking, a kept stopword only adds a little noise.
+_QUERY_STOPWORDS = frozenset(
+    "a about an and any are as at be been by can could did do does for from had has have "
+    "her hers him his how i in into is it its me my of on or our she so than that the "
+    "their them they this to was we were what when where which who whom whose why will "
+    "with would you your".split()
+)
+_TERM_RE = re.compile(r"[a-z0-9]+")
+
+
+def _stem(token: str) -> str:
+    # plural/possessive folding only -- "birthdays" and "birthday's" meet "birthday"
+    return token[:-1] if len(token) > 3 and token.endswith("s") else token
+
+
+def _query_terms(text: str, exclude: Sequence[str] = ()) -> list[str]:
+    """Topic words of `text`, minus stopwords and any word of `exclude`.
+
+    `exclude` is the anchor entity's own names: in its neighbourhood "Holmes"
+    matches everything and ranks nothing. Returned unstemmed (for Lucene) in
+    first-seen order; compare against `_stem`med words.
     """
+    excluded = {_stem(t) for name in exclude for t in _TERM_RE.findall(str(name).lower())}
+    out: list[str] = []
+    seen: set[str] = set()
+    for token in _TERM_RE.findall(text.lower()):
+        stem = _stem(token)
+        if token in _QUERY_STOPWORDS or len(token) < 2 or stem in excluded or stem in seen:
+            continue
+        seen.add(stem)
+        out.append(token)
+    return out
+
+
+def _term_hits(text: str | None, terms: Sequence[str]) -> int:
+    words = {_stem(t) for t in _TERM_RE.findall((text or "").lower())}
+    return sum(1 for t in terms if _stem(t) in words)
+
+
+def _fuse_ranks(*rankings: Sequence[str], k: int = 60) -> dict[str, float]:
+    """Reciprocal Rank Fusion over id rankings (best first) -- the same fusion
+    vector-text uses, so a chunk strong on either leg surfaces."""
+    fused: dict[str, float] = {}
+    for ranking in rankings:
+        for rank, item in enumerate(ranking, start=1):
+            fused[item] = fused.get(item, 0.0) + 1.0 / (k + rank)
+    return fused
+
+
+def _sort_desc(rows: list[dict], field: str) -> None:
+    """Stable in-place sort on `field`, largest first, missing values last.
+
+    Callers chain these least-significant key first (stability carries the
+    earlier passes through as tie-breaks)."""
+
+    def key(row: dict) -> tuple:
+        value = row.get(field)
+        return (value is not None, value if value is not None else 0)
+
+    rows.sort(key=key, reverse=True)
+
+
+def _rank_connections(
+    rows: list[dict],
+    *,
+    ranked: bool,
+    terms: Sequence[str] = (),
+    anchor_terms: Sequence[str] = (),
+    rel_types: Sequence[str] = (),
+    max_connections: int = ENTITY_CONTEXT_MAX_CONNECTIONS,
+) -> dict:
+    """Summarise every edge, then return the top `max_connections` of those
+    matching `rel_types` (all when empty) in compact form.
+
+    The summary always covers every edge, so a capped or filtered result still
+    shows the entity's whole shape -- the cue for which `--relType` to drill
+    into. When `ranked` (a `--query` was given), edges whose target name or
+    rel_type shares the question's topic `terms` come first -- among those,
+    the ones also naming the anchor itself (`anchor_terms`: "Holmes's First
+    Case" over "Watson's First Case") -- then embedding similarity; target
+    embeddings alone crowd together (every neighbour of a person is "about"
+    that person), so the name match is what lifts the asked-about edge above
+    the rest. Unranked -- and as the tie-break --
+    evidence weight (observation_count, then doc_count), then target name.
+    """
+    summary: dict[tuple[str, str], int] = {}
+    for row in rows:
+        key = (row.get("rel_type") or "", row.get("direction") or "")
+        summary[key] = summary.get(key, 0) + 1
+    wanted = {t.strip().upper() for t in rel_types if t and t.strip()}
+    selected = sorted(
+        (dict(r) for r in rows if not wanted or (r.get("rel_type") or "").upper() in wanted),
+        key=lambda r: (str(r.get("target_name") or ""), str(r.get("target_id") or "")),
+    )
+    _sort_desc(selected, "doc_count")
+    _sort_desc(selected, "observation_count")
+    if ranked:
+        _sort_desc(selected, "score")
+        if terms:
+            for row in selected:
+                # the edge's type counts too: "what gifts did she receive" names
+                # RECEIVES/GIFTS edges, not their targets
+                rel_words = (row.get("rel_type") or "").replace("_", " ")
+                row["_hits"] = _term_hits(f"{row.get('target_name') or ''} {rel_words}", terms)
+                # a tie-break among topic matches only: nearly every neighbour
+                # of a person names that person, so on its own it ranks nothing
+                row["_anchor_hits"] = (
+                    _term_hits(row.get("target_name"), anchor_terms) if row["_hits"] else 0
+                )
+            _sort_desc(selected, "_anchor_hits")
+            _sort_desc(selected, "_hits")
+    connections = [
+        {
+            "rel_type": row.get("rel_type"),
+            "direction": row.get("direction"),
+            "target": {
+                "id": row.get("target_id"),
+                "name": row.get("target_name"),
+                "entity_class": row.get("target_class"),
+            },
+            "observation_count": row.get("observation_count"),
+            "doc_count": row.get("doc_count"),
+        }
+        for row in selected[:max_connections]
+    ]
+    return {
+        "connection_summary": [
+            {"rel_type": rt, "direction": d, "count": n}
+            for (rt, d), n in sorted(summary.items(), key=lambda kv: (-kv[1], kv[0]))
+        ],
+        "connections_total": len(rows),
+        "connections_matched": len(selected),
+        "connections": connections,
+    }
+
+
+def _rank_chunk_refs(
+    rows: list[dict], *, ranked: bool, keyword_ids: Sequence[str] = ()
+) -> list[dict]:
+    """Current chunks first; then, when `ranked`, the RRF of embedding
+    similarity and the BM25 order `keyword_ids`; else newest document first
+    (valid_from, then doc id -- time-ordered on ingest). Chunk id keeps a
+    document's chunks in reading order."""
+    ordered = sorted((dict(r) for r in rows), key=lambda r: str(r.get("id") or ""))
+    _sort_desc(ordered, "doc_id")
+    _sort_desc(ordered, "doc_valid_from")
+    if ranked:
+        by_vector = sorted(
+            (r for r in ordered if r.get("score") is not None), key=lambda r: -r["score"]
+        )
+        fused = _fuse_ranks([r["id"] for r in by_vector], list(keyword_ids))
+        for row in ordered:
+            row["_relevance"] = fused.get(row.get("id"))
+        _sort_desc(ordered, "_relevance")
+    ordered.sort(key=lambda r: bool(r.get("current")), reverse=True)
+    return ordered
+
+
+def _cap_entity_lists(entity: dict, max_items: int) -> tuple[dict, dict]:
+    """Drop projection bookkeeping and keep only the newest `max_items` of each
+    list property (lists are unioned oldest-first, so the tail is the newest).
+
+    Returns the capped entity and `{property: full_length}` for every list cut.
+    """
+    capped: dict = {}
+    truncated: dict = {}
+    for prop, value in entity.items():
+        if prop in _ENTITY_CONTEXT_DROPPED_PROPS:
+            continue
+        if isinstance(value, list) and prop != "label" and len(value) > max_items:
+            truncated[prop] = len(value)
+            value = value[-max_items:] if max_items else []
+        capped[prop] = value
+    return capped, truncated
+
+
+def _order_source_documents(
+    documents: list[dict], first_doc_ids: Sequence[str], cap: int
+) -> list[dict]:
+    """The documents behind the returned chunks first (in chunk order), then the
+    rest newest first, up to `cap` -- never dropping a returned chunk's own
+    document, which is the one a Sources link must name."""
+    by_id = {d.get("id"): d for d in documents}
+    ordered: list[dict] = []
+    seen: set = set()
+    for did in first_doc_ids:
+        if did in by_id and did not in seen:
+            seen.add(did)
+            ordered.append(by_id[did])
+    rest = [d for d in documents if d.get("id") not in seen]
+    _sort_desc(rest, "id")
+    _sort_desc(rest, "valid_from")
+    return ordered + rest[: max(cap - len(ordered), 0)]
+
+
+def _read_rows(session, cypher: str, params: dict) -> list[dict]:
+    return [serialize_record(record) for record in session.run(cypher, **params)]
+
+
+def _keyword_chunk_ids(session, cypher: str, terms: Sequence[str], chunk_ids: list[str]) -> list[str]:
+    """BM25 order of the entity's chunks for the question's topic terms; empty
+    when there are none or the fulltext index is missing (vector leg alone).
+    Each term is OR-ed with its `_stem` -- the index's analyzer doesn't stem,
+    so "gifts" would otherwise miss "gift"."""
+    variants = dict.fromkeys(v for t in terms for v in (t, _stem(t)))
+    ft_query = sanitize_lucene_query(" ".join(variants))
+    if not ft_query or not chunk_ids:
+        return []
+    try:
+        rows = _read_rows(session, cypher, {"ftQuery": ft_query, "chunkIds": chunk_ids})
+    except ClientError as exc:
+        if "index" in str(exc).lower():
+            return []
+        raise
+    return [r["id"] for r in rows]
 
 
 def entity_context(
     domains: "str | Sequence[str]",
     entity_id: str,
     include_chunks: int = 5,
+    *,
+    query: str | None = None,
+    rel_types: Sequence[str] = (),
+    max_connections: int = ENTITY_CONTEXT_MAX_CONNECTIONS,
+    max_list_items: int = ENTITY_CONTEXT_MAX_LIST_ITEMS,
 ) -> dict:
     """One-call grounded picture of a resolved entity: properties, one-hop
-    relationships, and the text of its most current source chunks. Replaces
-    the pattern4 + chunk-fetch sequence for entity-anchored questions."""
+    relationships, and the text of its most relevant source chunks. Replaces
+    the pattern4 + chunk-fetch sequence for entity-anchored questions.
+
+    Bounded for hub entities: connections are summarised in full but returned
+    only up to `max_connections` (filterable by `rel_types`), list properties
+    are cut to their newest `max_list_items`, and overflow chunk ids / source
+    documents are capped -- each cut reported as a `*_total` count. `query`
+    (the user's question) ranks chunks and connections by relevance to it, so
+    the evidence that answers it is what makes the cut.
+    """
     domains = normalize_domains(domains)
     if not (entity_id or "").strip():
         raise ValueError("--entityId is required")
     include_chunks = int(include_chunks)
     if include_chunks < 0:
         raise ValueError("--includeChunks must be >= 0")
-    cypher = _entity_context_query()
-    params = {
-        "domains": domains,
-        "entityId": entity_id.strip(),
-        "includeChunks": include_chunks,
-    }
+    max_connections = int(max_connections)
+    if max_connections < 0:
+        raise ValueError("--maxConnections must be >= 0")
+    max_list_items = int(max_list_items)
+    if max_list_items < 0:
+        raise ValueError("--maxListItems must be >= 0")
+    entity_id = entity_id.strip()
+    query = (query or "").strip() or None
+    rel_types = [t.strip() for t in rel_types if t and t.strip()]
+
+    query_vector = None
+    if query:
+        # deferred: vector_query imports this module
+        from artmind.vector_query import embed_question
+
+        query_vector = embed_question(query)
+    ranked = query_vector is not None
+
+    queries = _entity_context_queries()
+    params = {"domains": domains, "entityId": entity_id, "queryVector": query_vector}
+    rows: list[dict] = []
+    with read_session() as session:
+        entity_rows = _read_rows(session, queries["entity"], params)
+        if entity_rows:
+            raw_entity = entity_rows[0]["entityData"]
+            anchor_names = [raw_entity.get("name") or "", *(raw_entity.get("aliases") or [])]
+            terms = _query_terms(query, anchor_names) if ranked else []
+            anchor_terms = _query_terms(" ".join(anchor_names)) if ranked else []
+            connection_rows = _read_rows(session, queries["connections"], params)
+            chunk_rows = _read_rows(session, queries["chunk_refs"], params)
+            keyword_ids = (
+                _keyword_chunk_ids(session, queries["chunk_keyword"], terms, [c["id"] for c in chunk_rows])
+                if ranked
+                else []
+            )
+            chunk_refs = _rank_chunk_refs(chunk_rows, ranked=ranked, keyword_ids=keyword_ids)
+            top_refs = chunk_refs[:include_chunks]
+            texts = {}
+            if top_refs:
+                for r in _read_rows(session, queries["chunk_text"], {"chunkIds": [c["id"] for c in top_refs]}):
+                    texts[r["chunk"]["id"]] = r["chunk"]
+            documents = [
+                r["document"] for r in _read_rows(session, queries["source_documents"], params)
+            ]
+
+            entity, truncated = _cap_entity_lists(raw_entity, max_list_items)
+            row = {"entityData": entity}
+            if truncated:
+                row["truncated_properties"] = truncated
+            row.update(
+                _rank_connections(
+                    connection_rows,
+                    ranked=ranked,
+                    terms=terms,
+                    anchor_terms=anchor_terms,
+                    rel_types=rel_types,
+                    max_connections=max_connections,
+                )
+            )
+            row["chunks_total"] = len(chunk_refs)
+            row["chunks"] = [texts[c["id"]] for c in top_refs if c["id"] in texts]
+            row["more_chunks"] = [
+                {"id": c["id"], "name": c.get("name"), "doc_id": c.get("doc_id")}
+                for c in chunk_refs[include_chunks : include_chunks + ENTITY_CONTEXT_MAX_MORE_CHUNKS]
+            ]
+            row["source_documents_total"] = len(documents)
+            row["source_documents"] = _order_source_documents(
+                documents, [c.get("doc_id") for c in top_refs], ENTITY_CONTEXT_MAX_SOURCE_DOCUMENTS
+            )
+            rows.append(row)
+
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_context",
-        "parameters": {"entityId": entity_id.strip(), "includeChunks": include_chunks},
-        "rows": strip_internal_props(_run_read_query(cypher, params)),
+        "parameters": {
+            "entityId": entity_id,
+            "includeChunks": include_chunks,
+            "maxConnections": max_connections,
+            "maxListItems": max_list_items,
+            **({"relType": rel_types} if rel_types else {}),
+            **({"query": query} if query else {}),
+        },
+        "rows": strip_internal_props(rows),
     }
 
 

@@ -2460,23 +2460,33 @@ def graph_metadata_cmd(domain: tuple, compact: bool) -> None:
 
 @graph.command("structural-metadata")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--maxNames", "max_names", type=int, default=graph_query.STRUCTURAL_METADATA_MAX_NAMES, show_default=True, help="Max Document names returned (sorted first); names_total carries the full count")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_structural_metadata_cmd(domain: tuple, compact: bool) -> None:
+def graph_structural_metadata_cmd(domain: tuple, max_names: int, compact: bool) -> None:
     """Return focused structural metadata (Document, DocChunk, UserChat, Entity counts and relationships)."""
     domains = _parse_domains(domain)
-    _echo_json(graph_query.structural_metadata(domains), compact)
+    try:
+        result = graph_query.structural_metadata(domains, max_names=max_names)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @graph.command("entity-listing")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
+@click.option("--maxNames", "max_names", type=int, default=graph_query.ENTITY_LISTING_MAX_NAMES, show_default=True, help="Max names returned per type group (sorted first); names_total carries the full count")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_entity_listing_cmd(domain: tuple, name_filter: str | None, count_all: bool, compact: bool) -> None:
+def graph_entity_listing_cmd(
+    domain: tuple, name_filter: str | None, count_all: bool, max_names: int, compact: bool
+) -> None:
     """Return entity names grouped by label/type."""
     domains = _parse_domains(domain)
     try:
-        result = graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all)
+        result = graph_query.entity_listing(
+            domains, name_filter=name_filter, count_all=count_all, max_names=max_names
+        )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -2539,16 +2549,20 @@ def graph_pattern1(domain: tuple, entity_class: str, limit: int, compact: bool, 
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
+@click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern2(
-    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+    domain: tuple, entity_name_list: tuple, entity_id_list: tuple,
+    max_doc_sources: int, max_source_documents: int, compact: bool, question: str | None
 ) -> None:
     """Info on one or more named entities."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
         "pattern2", domains, compact, question,
         entityNameList=entity_name_list, entityIdList=entity_id_list,
+        maxDocSources=max_doc_sources, maxSourceDocuments=max_source_documents,
     )
 
 
@@ -2556,16 +2570,23 @@ def graph_pattern2(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--maxConnections", "max_connections", type=int, default=graph_query.PATTERN_MAX_CONNECTIONS, show_default=True, help="Max connections returned per entity; connections_total carries the full count")
+@click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
+@click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern3(
-    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+    domain: tuple, entity_name_list: tuple, entity_id_list: tuple,
+    max_connections: int, max_doc_sources: int, max_source_documents: int,
+    compact: bool, question: str | None
 ) -> None:
     """Entity + lightweight relationship summary."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
         "pattern3", domains, compact, question,
         entityNameList=entity_name_list, entityIdList=entity_id_list,
+        maxConnections=max_connections, maxDocSources=max_doc_sources,
+        maxSourceDocuments=max_source_documents,
     )
 
 
@@ -2574,10 +2595,15 @@ def graph_pattern3(
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
 @click.option("--entityName", "entity_name", default=None, help="Entity name (substring match)")
 @click.option("--entityId", "entity_id", default=None, help="Exact entity id (overrides --entityName)")
+@click.option("--maxConnections", "max_connections", type=int, default=graph_query.PATTERN_MAX_CONNECTIONS, show_default=True, help="Max connections returned; connections_total carries the full count")
+@click.option("--maxListItems", "max_list_items", type=int, default=graph_query.PATTERN4_MAX_LIST_ITEMS, show_default=True, help="Max items kept (newest first) of each list property on a connected entity")
+@click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned; doc_sources_total carries the full count")
+@click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned; source_documents_total carries the full count")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern4(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
+    max_connections: int, max_list_items: int, max_doc_sources: int, max_source_documents: int,
     compact: bool, question: str | None
 ) -> None:
     """Entity + full neighborhood."""
@@ -2585,6 +2611,8 @@ def graph_pattern4(
     _run_graph_pattern(
         "pattern4", domains, compact, question,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id,
+        maxConnections=max_connections, maxListItems=max_list_items,
+        maxDocSources=max_doc_sources, maxSourceDocuments=max_source_documents,
     )
 
 
@@ -2674,17 +2702,19 @@ def graph_pattern7(domain: tuple, search_term: str, limit: int, compact: bool, q
 @click.option("--entityClass", "entity_class", required=True, help="Class of entities to return")
 @click.option("--entityName", "entity_name", default=None, help="Name of the connected entity")
 @click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
+@click.option("--limit", type=int, default=graph_query.PATTERN8_DEFAULT_LIMIT, show_default=True, help="Max rows; rows_total carries the full count")
+@click.option("--offset", type=int, default=0, show_default=True, help="Skip this many rows before --limit; page past a truncated result with offset += limit")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern8(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
-    compact: bool, question: str | None
+    limit: int, offset: int, compact: bool, question: str | None
 ) -> None:
     """Entities of class X connected to entity Y."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
         "pattern8", domains, compact, question,
-        entityClass=entity_class, entityName=entity_name, entityId=entity_id,
+        entityClass=entity_class, entityName=entity_name, entityId=entity_id, limit=limit, offset=offset,
     )
 
 
@@ -2717,27 +2747,32 @@ def graph_pattern9(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
 @click.option("--asOf", "as_of", default=None, help="Present (any value) to also reach retired/superseded chunks and documents (:DocumentHistory / :DocChunkHistory). Chunks carry no date of their own, so this is a presence flag, not a point-in-time filter — omit for current content only")
+@click.option("--limit", type=int, default=graph_query.PATTERN10_DEFAULT_LIMIT, show_default=True, help="Max chunks; rows_total carries the full count")
+@click.option("--offset", type=int, default=0, show_default=True, help="Skip this many chunks (ordered by chunk id) before --limit; page past a truncated result with offset += limit")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern10(
-    domain: tuple, document_name: str, as_of: str | None, compact: bool, question: str | None
+    domain: tuple, document_name: str, as_of: str | None, limit: int, offset: int, compact: bool, question: str | None
 ) -> None:
     """Retrieve all text chunks for a named document."""
     domains = _parse_domains(domain)
-    _run_graph_pattern("pattern10", domains, compact, question, as_of=as_of, documentName=document_name)
+    _run_graph_pattern(
+        "pattern10", domains, compact, question, as_of=as_of, documentName=document_name, limit=limit, offset=offset
+    )
 
 
 @graph.command("text2cypher")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.option("--dry-run", "dry_run", is_flag=True, help="Show generated Cypher without executing it")
+@click.option("--maxRows", "max_rows", type=int, default=text2cypher.TEXT2CYPHER_MAX_ROWS, show_default=True, help="Max rows returned; rows_total carries the full count")
 @click.argument("question")
-def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, question: str) -> None:
+def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int, question: str) -> None:
     """Generate and execute a Cypher query from a natural-language question (LLM-powered)."""
     domains = _parse_domains(domain)
     try:
         result = text2cypher.execute_text2cypher(
-            question=question, domains=domains, dry_run=dry_run
+            question=question, domains=domains, dry_run=dry_run, max_rows=max_rows
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
@@ -2886,12 +2921,40 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityId", "entity_id", required=True, help="Exact entity id (from entity-resolve)")
 @click.option("--includeChunks", "include_chunks", type=int, default=5, show_default=True, help="Source chunks returned with full text (rest as ids)")
+@click.option("--query", "query_text", default=None, help="The question being answered: ranks chunks and connections by similarity to it")
+@click.option("--relType", "rel_types", multiple=True, help="Only return connections of this rel_type (repeatable; comma-splittable). connection_summary still covers all")
+@click.option("--maxConnections", "max_connections", type=int, default=graph_query.ENTITY_CONTEXT_MAX_CONNECTIONS, show_default=True, help="Connections returned (connection_summary counts every edge)")
+@click.option("--maxListItems", "max_list_items", type=int, default=graph_query.ENTITY_CONTEXT_MAX_LIST_ITEMS, show_default=True, help="Newest items kept per list property (full lengths in truncated_properties)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def query_entity_context(domain: tuple, entity_id: str, include_chunks: int, compact: bool) -> None:
-    """Entity properties + one-hop relationships + source chunk text in one call."""
+def query_entity_context(
+    domain: tuple,
+    entity_id: str,
+    include_chunks: int,
+    query_text: str | None,
+    rel_types: tuple,
+    max_connections: int,
+    max_list_items: int,
+    compact: bool,
+) -> None:
+    """Entity properties + one-hop relationships + source chunk text in one call.
+
+    Bounded for hub entities: every edge is counted in connection_summary, but
+    only the top --maxConnections are listed. Pass --query with the question to
+    rank chunks and connections by relevance, and --relType to drill into one
+    kind of relationship.
+    """
     domains = _parse_domains(domain)
+    rel_type_list = [t.strip() for value in rel_types for t in value.split(",") if t.strip()]
     try:
-        result = graph_query.entity_context(domains, entity_id, include_chunks=include_chunks)
+        result = graph_query.entity_context(
+            domains,
+            entity_id,
+            include_chunks=include_chunks,
+            query=query_text,
+            rel_types=rel_type_list,
+            max_connections=max_connections,
+            max_list_items=max_list_items,
+        )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

@@ -43,7 +43,7 @@ def test_graph_entity_listing_cli_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], name_filter=None, count_all=False)
+    query.assert_called_once_with(["fiction"], name_filter=None, count_all=False, max_names=50)
     assert json.loads(result.output) == payload
 
 
@@ -62,7 +62,7 @@ def test_graph_entity_listing_cli_passes_name_filter(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], name_filter="holmes", count_all=False)
+    query.assert_called_once_with(["fiction"], name_filter="holmes", count_all=False, max_names=50)
     assert json.loads(result.output) == payload
 
 
@@ -81,7 +81,7 @@ def test_graph_entity_listing_cli_passes_count_all(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], name_filter=None, count_all=True)
+    query.assert_called_once_with(["fiction"], name_filter=None, count_all=True, max_names=50)
     assert json.loads(result.output)["total_entities"] == 42
 
 
@@ -153,6 +153,88 @@ def test_graph_pattern_cli_dispatches_every_pattern(runner, pattern, args, expec
     for key, value in expected.items():
         assert call_kwargs[key] == value
     assert json.loads(result.output) == payload
+
+
+def test_graph_pattern8_cli_passes_offset_and_limit(runner):
+    payload = {
+        "domain": "fiction",
+        "query_type": "graph",
+        "command": "pattern",
+        "pattern": "pattern8",
+        "question": None,
+        "parameters": {},
+        "rows": [],
+        "rows_total": 0,
+        "truncated": False,
+    }
+    with patch("artmind.cli.graph_query.execute_pattern", return_value=payload) as query:
+        result = runner.invoke(
+            cli,
+            [
+                "query", "graph", "pattern8", "--domain", "fiction",
+                "--entityClass", "Object", "--entityName", "Holmes",
+                "--limit", "10", "--offset", "20",
+            ],
+        )
+
+    assert result.exit_code == 0, result.output
+    call_kwargs = query.call_args.kwargs
+    assert call_kwargs["limit"] == 10
+    assert call_kwargs["offset"] == 20
+
+
+def test_graph_pattern8_cli_defaults_offset_to_zero(runner):
+    payload = {"domain": "fiction", "query_type": "graph", "command": "pattern", "pattern": "pattern8", "rows": []}
+    with patch("artmind.cli.graph_query.execute_pattern", return_value=payload) as query:
+        result = runner.invoke(
+            cli,
+            ["query", "graph", "pattern8", "--domain", "fiction", "--entityClass", "Object", "--entityName", "Holmes"],
+        )
+
+    assert result.exit_code == 0, result.output
+    assert query.call_args.kwargs["offset"] == 0
+    assert query.call_args.kwargs["limit"] == graph_query.PATTERN8_DEFAULT_LIMIT
+
+
+def test_graph_pattern10_cli_passes_offset_and_limit(runner):
+    payload = {
+        "domain": "fiction",
+        "query_type": "graph",
+        "command": "pattern",
+        "pattern": "pattern10",
+        "question": None,
+        "parameters": {},
+        "rows": [],
+        "rows_total": 0,
+        "truncated": False,
+    }
+    with patch("artmind.cli.graph_query.execute_pattern", return_value=payload) as query:
+        result = runner.invoke(
+            cli,
+            [
+                "query", "graph", "pattern10", "--domain", "fiction",
+                "--documentName", "The Copper Beeches", "--limit", "50", "--offset", "100",
+            ],
+        )
+
+    assert result.exit_code == 0, result.output
+    call_kwargs = query.call_args.kwargs
+    assert call_kwargs["documentName"] == "The Copper Beeches"
+    assert call_kwargs["limit"] == 50
+    assert call_kwargs["offset"] == 100
+
+
+def test_graph_pattern10_cli_defaults_offset_to_zero(runner):
+    payload = {"domain": "fiction", "query_type": "graph", "command": "pattern", "pattern": "pattern10", "rows": []}
+    with patch("artmind.cli.graph_query.execute_pattern", return_value=payload) as query:
+        result = runner.invoke(
+            cli,
+            ["query", "graph", "pattern10", "--domain", "fiction", "--documentName", "The Copper Beeches"],
+        )
+
+    assert result.exit_code == 0, result.output
+    assert query.call_args.kwargs["offset"] == 0
+    assert query.call_args.kwargs["limit"] == graph_query.PATTERN10_DEFAULT_LIMIT
 
 
 def test_graph_pattern_cli_surfaces_validation_errors(runner):

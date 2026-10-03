@@ -1,3 +1,5 @@
+import pytest
+
 from artmind import vector_query
 
 
@@ -303,6 +305,26 @@ def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
     assert len(result["rows"]) == 2
     # ent-1 appears in both legs, so it must rank first
     assert result["rows"][0]["entity"]["_id"] == "ent-1"
+    # score is the fused RRF score, not a leg's raw (cosine vs BM25) score
+    assert result["rows"][0]["matched_by"] == ["vector", "fulltext"]
+    assert result["rows"][1]["matched_by"] == ["vector"]
+    assert result["rows"][0]["score"] == pytest.approx(2 / 61, abs=1e-6)
+    assert result["rows"][0]["score"] > result["rows"][1]["score"]
+
+
+def test_entity_resolve_reports_aggregation_size():
+    """Both legs project the entity's observation and connection counts, so a
+    caller can spot a hub before asking for its (large) context."""
+    import inspect
+
+    source = inspect.getsource(vector_query.entity_resolve)
+    assert source.count("observation_count: ") == 2
+    assert source.count("connection_count: COUNT {{ (") == 2
+
+
+def test_rrf_combine_without_annotate_keeps_rows_unchanged():
+    rows = [{"score": 0.9, "chunk": {"id": "c1"}}]
+    assert vector_query._rrf_combine(rows, [], topK=1) == rows
 
 
 def test_entity_resolve_survives_missing_vector_index(monkeypatch):

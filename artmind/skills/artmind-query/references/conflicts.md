@@ -10,19 +10,21 @@ SKILL.md's structural schema) — check for both before concluding nothing disag
 disagreement found by a detection pass (`ingest detect-conflicts`, artmind-curate's
 territory), linked via a `CONFLICTS_WITH` edge between the two entities.
 
-1. **Free check:** if Retrieve already called `entity-context`/`pattern3`/`pattern4` on
-   the resolved entity, scan the `connections` it returned for an edge of type
-   `CONFLICTS_WITH` — those relationship-agnostic patterns fetch every one-hop edge, so
-   a live conflict is often already sitting in context with zero extra calls. This only
-   fires if you resolved to the *specific claim-bearing entity* (e.g. "Mortgage
-   Statement"), not an umbrella container (e.g. the policy or process that mentions it)
-   — CONFLICTS_WITH sits on the concrete entities being compared, not their containers.
-2. **Dedicated lookup**, for anything step 1 didn't cover or when you haven't already
-   called an entity-anchored pattern:
+This edge is its own Neo4j relationship type, `:CONFLICTS_WITH` — **not** a
+`RELATES_TO` edge — so `entity-context`/`pattern3`/`pattern4` never return it: their
+`connections` traverse `RELATES_TO` only. A `connections` entry whose `rel_type` reads
+`CONFLICTS_WITH` is something different: an *extracted* relationship (the source text
+said the two clash — an argument, a rivalry), not a detected disagreement between
+sources. Don't report it as one. The only way to reach the adjudicator shape is the
+dedicated lookup:
 
 ```bash
 artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
 ```
+
+Resolve to the *specific claim-bearing entity* (e.g. "Mortgage Statement"), not an
+umbrella container (e.g. the policy or process that mentions it) — CONFLICTS_WITH sits
+on the concrete entities being compared, not their containers.
 
 This matches the `CONFLICTS_WITH` edge between entities directly and reaches only this
 adjudicator shape — it has no visibility into a projection conflict (below). Each row

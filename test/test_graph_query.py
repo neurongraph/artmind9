@@ -362,9 +362,10 @@ def test_document_projections_carry_source_path():
     """A binary's `path` is its internal converted copy; `source_path` is the
     vault original a Sources link must open."""
     assert ".path, .source_path" in graph_query._chunks_query(0, None)
-    context = graph_query._entity_context_query()
-    assert "document: d { .id, .name, .path, .source_path" in context
-    assert "(sd:Document {id: so.doc_id})" in context and "source_documents" in context
+    context = graph_query._entity_context_queries()
+    assert "document: d { .id, .name, .path, .source_path" in context["chunk_text"]
+    assert "(sd:Document {id: did})" in context["source_documents"]
+    assert "sd { .id, .name, .path, .source_path" in context["source_documents"]
     cypher, _ = graph_query._pattern_query("pattern10", {"domains": ["fiction"], "documentName": "a.md"})
     assert ".path, .source_path" in cypher
 
@@ -507,6 +508,186 @@ def test_structural_metadata_returns_expected_shape(monkeypatch):
     assert len(result["rows"]) == 2
     assert result["rows"][0]["label"] == "Document"
     assert result["rows"][1]["relationship"] == "PART_OF"
+
+
+def test_structural_metadata_caps_document_names(monkeypatch):
+    names = [f"doc{i}" for i in range(5)]
+    fake_rows = [
+        {"label": "Document", "count": 5, "names": list(reversed(names)),
+         "relationship": None, "from_label": None, "to_label": None},
+    ]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.structural_metadata("fiction", max_names=2)
+
+    row = result["rows"][0]
+    assert row["names_total"] == 5
+    assert row["names"] == ["doc0", "doc1"]  # sorted, then capped
+
+
+def test_structural_metadata_rejects_negative_max_names():
+    with pytest.raises(ValueError, match="--maxNames"):
+        graph_query.structural_metadata("fiction", max_names=-1)
+
+
+def test_entity_listing_caps_names_per_type_group(monkeypatch):
+    fake_rows = [
+        {"label": "PERSON", "typeGroups": [
+            {"type": None, "names": ["Zed", "Alice", "Bob"]},
+        ]},
+    ]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.entity_listing("fiction", max_names=2)
+
+    group = result["rows"][0]["typeGroups"][0]
+    assert group["names_total"] == 3
+    assert group["names"] == ["Alice", "Bob"]  # sorted, then capped
+
+
+# ── pattern2/3/4 doc_sources / source_documents / connections capping ───────
+
+
+def test_pattern2_caps_doc_sources_and_source_documents(monkeypatch):
+    doc_sources = [{"id": f"c{i}", "name": f"c{i}"} for i in range(3)]
+    source_documents = [{"id": f"d{i}", "name": f"d{i}"} for i in range(3)]
+    fake_rows = [
+        {"entityData": {"name": "Holmes"}, "doc_sources": doc_sources, "source_documents": source_documents},
+    ]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.execute_pattern(
+        "fiction", "pattern2", entityNameList=["Holmes"], maxDocSources=2, maxSourceDocuments=1,
+    )
+
+    row = result["rows"][0]
+    assert row["doc_sources_total"] == 3
+    assert len(row["doc_sources"]) == 2
+    assert row["source_documents_total"] == 3
+    assert len(row["source_documents"]) == 1
+
+
+def test_pattern3_connections_cypher_drops_raw_chunk_and_doc_id_lists():
+    cypher, _ = graph_query._pattern_query(
+        "pattern3", {"domains": ["fiction"], "entityNameList": ["Holmes"]}
+    )
+    assert "properties(r)" not in cypher
+    assert "doc_count: size(coalesce(r.doc_ids, []))" in cypher
+    assert "observation_count: r.observation_count" in cypher
+
+
+def test_pattern3_caps_connections_with_total(monkeypatch):
+    connections = [
+        {"rel_type": "KNOWS", "target": {"name": name}}
+        for name in ["Zed", "Alice", "Bob"]
+    ]
+    fake_rows = [{"entityData": {"name": "Holmes"}, "connections": connections, "doc_sources": [], "source_documents": []}]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.execute_pattern(
+        "fiction", "pattern3", entityNameList=["Holmes"], maxConnections=2,
+    )
+
+    row = result["rows"][0]
+    assert row["connections_total"] == 3
+    assert len(row["connections"]) == 2
+    assert [c["target"]["name"] for c in row["connections"]] == ["Alice", "Bob"]
+
+
+def test_pattern4_connections_cypher_drops_raw_chunk_and_doc_id_lists():
+    cypher, _ = graph_query._pattern_query(
+        "pattern4", {"domains": ["fiction"], "entityClass": "PERSON", "entityName": "Holmes"}
+    )
+    assert "rel_properties: {observation_count: r.observation_count, doc_count: size(coalesce(r.doc_ids, []))}" in cypher
+
+
+def test_pattern4_caps_connected_entity_list_properties(monkeypatch):
+    connected_data = {"name": "Watson", "recent_activity": ["a", "b", "c", "d"]}
+    connections = [{"rel_type": "KNOWS", "connected_to": {"name": "Watson", "data": connected_data}}]
+    fake_rows = [{"entityData": {"name": "Holmes"}, "connections": connections, "doc_sources": [], "source_documents": []}]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.execute_pattern(
+        "fiction", "pattern4", entityClass="PERSON", entityName="Holmes", maxListItems=2,
+    )
+
+    data = result["rows"][0]["connections"][0]["connected_to"]["data"]
+    assert data["recent_activity"] == ["c", "d"]
+    assert result["rows"][0]["connections"][0]["connected_to"]["truncated_properties"] == {"recent_activity": 4}
+
+
+# ── pattern8/pattern10 pagination ────────────────────────────────────────────
+
+
+def test_pattern8_cypher_has_skip_and_offset_param():
+    cypher, params = graph_query._pattern_query(
+        "pattern8", {"domains": ["fiction"], "entityClass": "LOCATION", "entityName": "London", "limit": 10, "offset": 20}
+    )
+    assert "SKIP $offset" in cypher
+    assert "LIMIT $limit" in cypher
+    assert params["offset"] == 20
+    assert params["limit"] == 10
+
+
+def test_pattern8_defaults_offset_to_zero():
+    _, params = graph_query._pattern_query(
+        "pattern8", {"domains": ["fiction"], "entityClass": "LOCATION", "entityName": "London"}
+    )
+    assert params["offset"] == 0
+
+
+def test_pattern8_surfaces_rows_total_and_truncated(monkeypatch):
+    fake_rows = [
+        {"entityData": {"name": "Watson"}, "relType": "KNOWS", "relProps": {}, "_rowsTotal": 5},
+    ]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.execute_pattern(
+        "fiction", "pattern8", entityClass="PERSON", entityName="Holmes", limit=1,
+    )
+
+    assert result["rows_total"] == 5
+    assert result["truncated"] is True
+    assert "_rowsTotal" not in result["rows"][0]
+
+
+def test_pattern10_cypher_slices_pairs_by_offset_and_limit():
+    cypher, params = graph_query._pattern_query(
+        "pattern10", {"domains": ["fiction"], "documentName": "The Copper Beeches", "limit": 10, "offset": 20}
+    )
+    assert "pairs[$offset..$offset + $limit]" in cypher
+    assert params["offset"] == 20
+    assert params["limit"] == 10
+
+
+def test_pattern10_defaults_offset_to_zero():
+    _, params = graph_query._pattern_query(
+        "pattern10", {"domains": ["fiction"], "documentName": "The Copper Beeches"}
+    )
+    assert params["offset"] == 0
+
+
+def test_pattern10_as_of_branch_also_slices_by_offset():
+    cypher, _ = graph_query._pattern_query(
+        "pattern10", {"domains": ["fiction"], "documentName": "The Copper Beeches", "asOf": "2024-01-01"}
+    )
+    assert "DocumentHistory" in cypher
+    assert "pairs[$offset..$offset + $limit]" in cypher
+
+
+def test_pattern10_surfaces_rows_total_and_truncated(monkeypatch):
+    fake_rows = [
+        {"document": {"name": "doc"}, "chunk": {"id": "c1"}, "_rowsTotal": 42},
+    ]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.execute_pattern(
+        "fiction", "pattern10", documentName="The Copper Beeches", limit=1,
+    )
+
+    assert result["rows_total"] == 42
+    assert result["truncated"] is True
+    assert "_rowsTotal" not in result["rows"][0]
 
 
 # ── hierarchy ────────────────────────────────────────────────────────────────

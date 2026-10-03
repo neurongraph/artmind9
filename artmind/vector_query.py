@@ -12,7 +12,9 @@ from artmind.graph_query import (
 from utils.functions import load_env
 
 
-def _rrf_combine(vector_rows: list, text_rows: list, topK: int, k: int = 60) -> list:
+def _rrf_combine(
+    vector_rows: list, text_rows: list, topK: int, k: int = 60, *, annotate: bool = False
+) -> list:
     """Combine vector and full-text search results using Reciprocal Rank Fusion.
 
     RRF assigns a score to each result based on its rank in each ranking list:
@@ -23,6 +25,11 @@ def _rrf_combine(vector_rows: list, text_rows: list, topK: int, k: int = 60) -> 
         text_rows: Results from full-text search, already ranked
         topK: Number of final results to return
         k: Constant for RRF formula (default 60)
+        annotate: Replace each row's leg-specific `score` with the fused RRF
+            score and add `matched_by` (the legs that found it). The legs'
+            raw scores are on different scales (cosine 0-1, BM25 unbounded),
+            so a caller comparing them is misled -- a weak keyword hit can
+            outscore the strong semantic match ranked above it.
 
     Returns:
         Combined and reranked results
@@ -60,7 +67,20 @@ def _rrf_combine(vector_rows: list, text_rows: list, topK: int, k: int = 60) -> 
 
     # Sort by RRF score and return top K
     combined = sorted(result_map.values(), key=lambda x: x["rrf_score"], reverse=True)[:topK]
-    return [item["data"] for item in combined]
+    if not annotate:
+        return [item["data"] for item in combined]
+    return [
+        {
+            **item["data"],
+            "score": round(item["rrf_score"], 6),
+            "matched_by": [
+                leg
+                for leg, rank in (("vector", item["vector_rank"]), ("fulltext", item["text_rank"]))
+                if rank is not None
+            ],
+        }
+        for item in combined
+    ]
 
 
 def _get_result_id(row: dict) -> str:
@@ -257,6 +277,11 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     The fulltext leg catches name fragments; the vector leg catches purely
     descriptive references ("the detective") that share no words with the name.
 
+    Each hit carries `observation_count` and `connection_count` -- how much
+    the entity has aggregated -- so a caller can tell a hub (hundreds of
+    observations) from a passing mention before asking for its context, and
+    `score` is the fused RRF score with `matched_by` naming the legs.
+
     No `--asOf` (Phase 4) — the projection is current by construction.
     """
     from artmind.graph_query import normalize_domains, domain_predicate, _domain_output
@@ -270,7 +295,9 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     YIELD node AS e, score
     WHERE {domain_predicate("e")}
     RETURN score,
-           e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e) }} AS entity
+           e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
+                observation_count: e._observation_count,
+                connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
     ORDER BY score DESC
     LIMIT $topK
     """
@@ -286,7 +313,9 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     WHERE {domain_predicate("node")}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     RETURN score,
-           node {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(node) }} AS entity
+           node {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(node),
+                   observation_count: node._observation_count,
+                   connection_count: COUNT {{ (node)-[:RELATES_TO]-(:Entity) }} }} AS entity
     ORDER BY score DESC
     LIMIT $topK
     """
@@ -325,7 +354,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
             logger.warning("entity-resolve vector leg unavailable: {}", e)
             vec_rows = []
 
-    combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK))
+    combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK), annotate=True)
 
     return {
         **_domain_output(domains),

@@ -213,6 +213,54 @@ def test_execute_text2cypher_runs_query(monkeypatch):
     assert result["command"] == "text2cypher"
 
 
+def test_execute_text2cypher_caps_rows_with_total(monkeypatch):
+    llm_response = json.dumps({
+        "cypher": "MATCH (n:PERSON) WHERE n.domain IN $domains RETURN n.name AS name ORDER BY name",
+        "parameters": {"domains": ["fiction"]},
+    })
+    fake_rows = [{"name": f"n{i}"} for i in range(5)]
+
+    monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)
+    monkeypatch.setattr(text2cypher, "entity_listing", lambda domain: FAKE_LISTING)
+    monkeypatch.setattr(text2cypher, "call_llm", lambda model, prompt: llm_response)
+    monkeypatch.setattr(text2cypher, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = text2cypher.execute_text2cypher(
+        "List persons", "fiction", model="test-model", max_rows=2
+    )
+
+    assert result["rows"] == [{"name": "n0"}, {"name": "n1"}]
+    assert result["rows_total"] == 5
+    assert result["truncated"] is True
+
+
+def test_execute_text2cypher_not_truncated_when_rows_fit(monkeypatch):
+    llm_response = json.dumps({
+        "cypher": "MATCH (n:PERSON) WHERE n.domain IN $domains RETURN n.name AS name",
+        "parameters": {"domains": ["fiction"]},
+    })
+
+    monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)
+    monkeypatch.setattr(text2cypher, "entity_listing", lambda domain: FAKE_LISTING)
+    monkeypatch.setattr(text2cypher, "call_llm", lambda model, prompt: llm_response)
+    monkeypatch.setattr(text2cypher, "_run_read_query", lambda cypher, params: [{"name": "n0"}])
+
+    result = text2cypher.execute_text2cypher(
+        "List persons", "fiction", model="test-model", max_rows=200
+    )
+
+    assert result["rows_total"] == 1
+    assert result["truncated"] is False
+
+
+def test_execute_text2cypher_rejects_negative_max_rows(monkeypatch):
+    monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)
+    monkeypatch.setattr(text2cypher, "entity_listing", lambda domain: FAKE_LISTING)
+
+    with pytest.raises(ValueError, match="--maxRows"):
+        text2cypher.execute_text2cypher("List persons", "fiction", max_rows=-1)
+
+
 def test_schema_summary_handles_empty_metadata():
     assert "no schema" in text2cypher._schema_summary({"rows": []})
 

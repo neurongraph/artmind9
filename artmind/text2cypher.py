@@ -15,6 +15,16 @@ from artmind.structural_schema import render_prompt_block
 from utils.functions import load_env, resolve_llm_model
 
 
+# The LLM is told to "keep the query concise" but nothing enforces a LIMIT --
+# an unscoped MATCH over a dense domain can return as many rows as pattern3/4
+# ever could. Capped the same way as every other unbounded output here: the
+# full result is still fetched (there's no generic way to push a LIMIT into
+# an arbitrary LLM-generated query without risking a semantically wrong
+# answer), but only the first `TEXT2CYPHER_MAX_ROWS` are returned, with
+# `rows_total`/`truncated` alongside.
+TEXT2CYPHER_MAX_ROWS = 200
+
+
 _WRITE_KEYWORDS_RE = re.compile(
     r"\b(CREATE|DELETE|DETACH|SET|REMOVE|MERGE|DROP|FOREACH)\b"
     r"|\bLOAD\s+CSV\b"
@@ -152,6 +162,10 @@ RULES:
   dedicated `artmind query graph hierarchy` command bounds depth/limit, detects
   cycles, and already knows which rel types run child→parent vs parent→child.
   Bound any such path to `*1..3` here rather than leaving it unbounded.
+- If the match could return many rows (no highly-selective filter in the WHERE
+  clause), add an explicit ORDER BY on a stable field (e.g. a name or id) before
+  returning. The caller truncates to a fixed row count — without an ORDER BY,
+  which rows survive that cut is arbitrary and can change between runs.
 
 {STRUCTURAL_SCHEMA}
 
@@ -219,14 +233,22 @@ def execute_text2cypher(
     domains,
     model: str | None = None,
     dry_run: bool = False,
+    max_rows: int = TEXT2CYPHER_MAX_ROWS,
 ) -> dict:
     """Generate and optionally execute a Cypher query from natural language.
 
     If dry_run is True, returns the generated Cypher without executing it.
+
+    `rows` is capped to `max_rows` with `rows_total`/`truncated` alongside --
+    see TEXT2CYPHER_MAX_ROWS's docstring for why the LLM's own query isn't
+    trusted to bound itself.
     """
     from artmind.graph_query import _domain_output, normalize_domains
 
     domains = normalize_domains(domains)
+    max_rows = int(max_rows)
+    if max_rows < 0:
+        raise ValueError("--maxRows must be >= 0")
     result = generate_cypher(question, domains, model)
     cypher = result["cypher"]
     parameters = result["parameters"]
@@ -246,7 +268,10 @@ def execute_text2cypher(
         return output
 
     try:
-        output["rows"] = strip_internal_props(_run_read_query(cypher, parameters))
+        rows = strip_internal_props(_run_read_query(cypher, parameters))
+        output["rows_total"] = len(rows)
+        output["truncated"] = len(rows) > max_rows
+        output["rows"] = rows[:max_rows]
     except Neo4jError as exc:
         # neo4j exception classes often carry an empty str()/repr() (message lives on
         # .message/.code instead), so a bare `raise` or `str(exc)` surfaces nothing
