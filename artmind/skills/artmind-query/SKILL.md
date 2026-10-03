@@ -191,7 +191,7 @@ Routing notes:
   only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
 - **pattern4 vs hierarchy**: pattern4 is one hop only. For a transitive walk — everyone under X, X's whole reporting line, chain of command — use `hierarchy` instead; see `references/hierarchy.md`.
-- Patterns 2/3/4 return `doc_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
+- Patterns 2/3/4 return `doc_sources` (chunk ids) and `source_documents` (the documents those chunks belong to, with `path`/`source_path` for the Sources list) — use the ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `_domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
@@ -244,3 +244,29 @@ history, not a live disagreement).
 ## Answer Style
 
 Answer directly and naturally. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
+
+### Sources
+
+End every answer that used artmind data with a `### Sources` section: one bullet per
+document or table the answer actually relies on — not everything retrieval returned —
+as a markdown link to its file, followed by its domain:
+
+```markdown
+### Sources
+- [Delivery Leads.md](<performance_management/Delivery Leads.md>) — performance_management
+- [hercules_output_20261002](<performance_management/hercules_output_20261002.xlsx>) — performance_management (table)
+```
+
+- **Link target:** the document's `source_path` when present, else its `path`, copied
+  exactly as returned. `source_path` is the original file (a PDF stays a PDF); a
+  binary's `path` points at an internal converted copy that won't open. Table-backed
+  facts: link the `source_file` from `text2sql`'s `source_tables` (or `db list`).
+- **Always wrap the target in `<…>`** — paths contain spaces, which break a bare
+  markdown link.
+- **Links go only in Sources.** In the body, name a document in plain text
+  ("per Delivery Leads.md") — never as a link.
+- The chat UI turns these links into "open in Obsidian" links. Never write an
+  `obsidian://` URI yourself, and never invent a path: if no returned row carried one
+  for a document, list its name and domain without a link.
+- Omit the section only when no artmind data was used (e.g. the data doesn't answer
+  the question).

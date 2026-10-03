@@ -344,6 +344,31 @@ def test_neighborhood_patterns_exclude_structural_nodes(pattern):
     assert "(t:Entity)" in cypher
 
 
+@pytest.mark.parametrize("pattern", ["pattern2", "pattern3", "pattern4"])
+def test_doc_source_patterns_return_source_documents_with_paths(pattern):
+    """Answers cite their documents by path (artmind-query skill, Sources) --
+    patterns 2/3/4 must carry the documents behind `doc_sources`, not just
+    chunk ids the agent can't turn into a link."""
+    params = {"domains": ["fiction"], "entityClass": "PERSON", "entityName": "Holmes", "entityNameList": ["Holmes"]}
+    cypher, _ = graph_query._pattern_query(pattern, params)
+    # joined on the observation's doc_id: table2graph observations have no chunk
+    assert "(sd:Document {id: o.doc_id})" in cypher
+    assert "(o)-[:EXTRACTED_FROM]->(chunk:DocChunk)" in cypher
+    assert "sd { .id, .name, .path, .source_path, ._domain }) AS source_documents" in cypher
+    assert "doc_sources, source_documents" in cypher
+
+
+def test_document_projections_carry_source_path():
+    """A binary's `path` is its internal converted copy; `source_path` is the
+    vault original a Sources link must open."""
+    assert ".path, .source_path" in graph_query._chunks_query(0, None)
+    context = graph_query._entity_context_query()
+    assert "document: d { .id, .name, .path, .source_path" in context
+    assert "(sd:Document {id: so.doc_id})" in context and "source_documents" in context
+    cypher, _ = graph_query._pattern_query("pattern10", {"domains": ["fiction"], "documentName": "a.md"})
+    assert ".path, .source_path" in cypher
+
+
 def test_pattern9_degree_modes():
     base = {"domains": ["fiction"], "entityClass": "PERSON", "topN": 5}
 

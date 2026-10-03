@@ -131,6 +131,24 @@ def _fusion_hints(domains: list[str]) -> dict:
     return hints
 
 
+def _source_tables(sql: str, tables: list[dict]) -> list[dict]:
+    """The registered tables `sql` reads, each with the file it was ingested
+    from (vault-relative when inside the vault), so an answer can cite -- and
+    the chat UI can link -- the spreadsheet behind a SQL result. A table counts
+    when its name appears in the SQL as a whole identifier."""
+    from pathlib import Path
+
+    from artmind.document_identity import canonical_path
+
+    used = []
+    for table in tables:
+        name = table["table_name"]
+        if re.search(rf"(?<![\w]){re.escape(name)}(?![\w])", sql, re.IGNORECASE):
+            source = table.get("source_file")
+            used.append({"table": name, "source_file": canonical_path(Path(source)) if source else None})
+    return used
+
+
 def build_text2sql_prompt(
     question: str, schema_info: str, domains: list[str], as_of: str | None = None
 ) -> str:
@@ -274,6 +292,8 @@ def execute_text2sql(
     # dropping a normative table's rows would be worse: the disagreement is the
     # thing worth seeing.
     output.update(_fusion_hints(domains))
+    tables = structured_registry.list_tables(domains)
+    output["source_tables"] = _source_tables(sql, tables)
 
     if dry_run:
         output["rows"] = []
@@ -287,7 +307,7 @@ def execute_text2sql(
     # an earlier ingest. An in-memory connection starts with no views at all,
     # so only the tables explicitly listed here are queryable.
     ds = DuckDBDatasource.in_memory()
-    ds.ensure_views(structured_registry.list_tables(domains))
+    ds.ensure_views(tables)
     try:
         output["rows"] = ds.run_sql(sql)
     except duckdb.Error as exc:

@@ -3,10 +3,11 @@
 import asyncio
 import json
 import logging
+import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -16,6 +17,7 @@ from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND
 from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
 from artmind.webui.sessions import SessionRegistry
+from artmind.webui.source_links import SourceLinkError, obsidian_uri, open_uri, vault_relative
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,10 @@ class ChatRequest(BaseModel):
         if value not in BACKEND_NAMES:
             raise ValueError(f"backend must be one of {BACKEND_NAMES}")
         return value
+
+
+class OpenSourceRequest(BaseModel):
+    path: str
 
 
 def create_app(
@@ -105,6 +111,25 @@ def create_app(
                 yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
 
         return StreamingResponse(stream(), media_type="text/event-stream")
+
+    @app.post("/api/open-source")
+    async def open_source(payload: OpenSourceRequest):
+        """Open a cited source document in Obsidian -- see `source_links`."""
+        import paths
+
+        vault = paths.ARTMIND_VAULT_DIR
+        if vault is None:
+            raise HTTPException(status_code=409, detail="no vault: source links open only inside a vault")
+        try:
+            rel = vault_relative(payload.path, vault)
+        except SourceLinkError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from None
+        uri = obsidian_uri(vault, rel)
+        try:
+            await asyncio.to_thread(open_uri, uri)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise HTTPException(status_code=500, detail=f"could not open {uri}: {exc}") from None
+        return {"ok": True, "path": rel, "uri": uri}
 
     @app.post("/api/session/{session_id}/interrupt")
     async def interrupt(session_id: str):

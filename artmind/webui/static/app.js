@@ -170,8 +170,76 @@ function finalizeText() {
   textBlock.el.classList.remove("streaming");
   textBlock.el.innerHTML = DOMPurify.sanitize(marked.parse(textBlock.raw));
   addCopyButtons(textBlock.el);
+  linkVaultSources(textBlock.el);
   textBlock = null;
 }
+
+// ── vault source links ───────────────────────────────────────────────
+// Answers end with a Sources list linking each document's vault path
+// (artmind-query skill). Each such link gets its obsidian:// URI as href, so
+// a plain browser click and Web Viewer's right-click "Open link in default
+// browser" both work; a click is sent to the server instead, because Web
+// Viewer drops a page's obsidian:// navigation (see webui/source_links.py).
+let vaultDir = null;
+fetch("/api/health")
+  .then((r) => r.json())
+  .then((h) => { vaultDir = h.vault; })
+  .catch(() => {});
+
+function vaultRelative(href) {
+  let path;
+  try {
+    path = decodeURIComponent(href);
+  } catch (_) {
+    return null;
+  }
+  if (/^[a-z][a-z0-9+.-]*:/i.test(path) || /^[#?]/.test(path)) return null;
+  if (path.startsWith("/")) {
+    if (!path.startsWith(vaultDir + "/")) return null;
+    path = path.slice(vaultDir.length + 1);
+  }
+  path = path.replace(/^\.\//, "");
+  if (!path || path.split("/").includes("..")) return null;
+  return path;
+}
+
+function obsidianUri(rel) {
+  const vaultName = vaultDir.split("/").pop();
+  const file = rel.endsWith(".md") ? rel.slice(0, -3) : rel;
+  return `obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodeURIComponent(file)}`;
+}
+
+function linkVaultSources(scope) {
+  if (!vaultDir) return;
+  for (const a of scope.querySelectorAll("a[href]")) {
+    const rel = vaultRelative(a.getAttribute("href"));
+    if (!rel) continue;
+    a.dataset.vaultPath = rel;
+    a.href = obsidianUri(rel);
+    a.classList.add("vault-link");
+    a.title = `Open ${rel} in Obsidian`;
+  }
+}
+
+chatEl.addEventListener("click", async (e) => {
+  const a = e.target.closest("a[data-vault-path]");
+  if (!a) return;
+  e.preventDefault();
+  try {
+    const r = await fetch("/api/open-source", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path: a.dataset.vaultPath }),
+    });
+    if (!r.ok) {
+      const body = await r.json().catch(() => ({}));
+      showNotice(`Couldn't open ${a.dataset.vaultPath}: ${body.detail ?? `HTTP ${r.status}`}`);
+    }
+  } catch (err) {
+    console.error("open-source failed", err);
+    window.location.href = a.href; // server unreachable: let the browser try
+  }
+});
 
 function addCopyButtons(scope) {
   for (const pre of scope.querySelectorAll("pre")) {

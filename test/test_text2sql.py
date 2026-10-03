@@ -269,6 +269,24 @@ def test_execute_text2sql_runs_query(monkeypatch):
     assert result["command"] == "text2sql"
 
 
+def test_source_tables_names_tables_the_sql_reads_with_their_source_file(monkeypatch, tmp_path):
+    from artmind import document_identity
+
+    vault = tmp_path / "vault"
+    (vault / "pm").mkdir(parents=True)
+    monkeypatch.setattr(document_identity, "ARTMIND_VAULT_DIR", vault)
+    tables = [
+        {"table_name": "products", "source_file": str(vault / "pm" / "products.xlsx")},
+        {"table_name": "products_archive", "source_file": "/elsewhere/archive.csv"},
+        {"table_name": "orders"},
+    ]
+    used = text2sql._source_tables('SELECT * FROM "Products" JOIN orders USING (id)', tables)
+    assert used == [
+        {"table": "products", "source_file": "pm/products.xlsx"},
+        {"table": "orders", "source_file": None},
+    ]
+
+
 def test_execute_text2sql_wraps_duckdb_error_with_sql(monkeypatch):
     import duckdb
 

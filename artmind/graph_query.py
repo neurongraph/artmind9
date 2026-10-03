@@ -675,6 +675,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             """,
             {"domains": parameters["domains"], "limit": parameters.get("limit", 200)},
         )
+    # Patterns 2/3/4 return `source_documents` for an answer's Sources list,
+    # joined on the observation's `doc_id` rather than through its chunk: a
+    # table2graph observation has no EXTRACTED_FROM chunk, only the doc_id of
+    # its table's :Document (whose path is the spreadsheet).
     if pattern == "pattern2":
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
@@ -683,10 +687,13 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             MATCH (e:Entity)
             WHERE {domain_predicate("e")}
               AND {selector}
-            OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
-            WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources
+            OPTIONAL MATCH (e)-[:AGGREGATES]->(o:Observation)
+            OPTIONAL MATCH (o)-[:EXTRACTED_FROM]->(chunk:DocChunk)
+            OPTIONAL MATCH (sd:Document {{id: o.doc_id}})
+            WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources,
+                 collect(DISTINCT sd {{ .id, .name, .path, .source_path, ._domain }}) AS source_documents
             RETURN e {{.*, label: labels(e)}} AS entityData,
-                   doc_sources
+                   doc_sources, source_documents
             ORDER BY entityData.name
             """,
             cypher_params,
@@ -706,9 +713,12 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               properties: properties(r),
               target: {{name: t.name, label: labels(t)}}
             }} END) AS connections
-            OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
-            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources
-            RETURN properties(e) AS entityData, connections, doc_sources
+            OPTIONAL MATCH (e)-[:AGGREGATES]->(o:Observation)
+            OPTIONAL MATCH (o)-[:EXTRACTED_FROM]->(chunk:DocChunk)
+            OPTIONAL MATCH (sd:Document {{id: o.doc_id}})
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources,
+                 collect(DISTINCT sd {{ .id, .name, .path, .source_path, ._domain }}) AS source_documents
+            RETURN properties(e) AS entityData, connections, doc_sources, source_documents
             ORDER BY entityData.name
             """,
             cypher_params,
@@ -729,9 +739,12 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
             }} END) AS connections
-            OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(chunk:DocChunk)
-            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources
-            RETURN properties(e) AS entityData, connections, doc_sources
+            OPTIONAL MATCH (e)-[:AGGREGATES]->(o:Observation)
+            OPTIONAL MATCH (o)-[:EXTRACTED_FROM]->(chunk:DocChunk)
+            OPTIONAL MATCH (sd:Document {{id: o.doc_id}})
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, ._domain, source_type: 'document' }}) AS doc_sources,
+                 collect(DISTINCT sd {{ .id, .name, .path, .source_path, ._domain }}) AS source_documents
+            RETURN properties(e) AS entityData, connections, doc_sources, source_documents
             ORDER BY entityData.name
             """,
             cypher_params,
@@ -892,7 +905,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # chunks become visible too. Coarser than "in force by T" elsewhere,
         # and said so in the CLI help rather than implied.
         as_of = parameters.get("asOf")
-        doc_return = "d { .id, .name, .path, ._domain, .valid_from, .valid_to, .superseded_by } AS document"
+        doc_return = "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by } AS document"
         chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
         if as_of:
             cypher = f"""
@@ -983,7 +996,7 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
       AND {domain_predicate("c")}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, ._domain, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, ._domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
+           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
     ORDER BY c.id
     """
 
@@ -1034,6 +1047,10 @@ def _entity_context_query() -> str:
     EXTRACTED_FROM edge since Phase 3 moved that provenance onto observations;
     matching `(e)-[:EXTRACTED_FROM]->(c)` directly (as this query did before)
     silently returned zero chunks for every entity.
+
+    `source_documents` joins each observation's `doc_id` to its :Document
+    instead, so a table-derived entity -- which has no chunks -- still names
+    the spreadsheet it came from.
     """
     return f"""
     MATCH (e:Entity {{_id: $entityId}})
@@ -1051,12 +1068,17 @@ def _entity_context_query() -> str:
     ORDER BY c.valid_to IS NULL DESC, c.id
     WITH e, connections, [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE c {{
       .id, .name, .doc_id, ._domain, .valid_to, .text,
-      document: d {{ .id, .name, ._domain, .valid_from, .valid_to, .superseded_by }}
+      document: d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }}
     }} END) WHERE x IS NOT NULL] AS allChunks
+    OPTIONAL MATCH (e)-[:AGGREGATES]->(so:Observation)
+    OPTIONAL MATCH (sd:Document {{id: so.doc_id}})
+    WITH e, connections, allChunks,
+         collect(DISTINCT sd {{ .id, .name, .path, .source_path, ._domain }}) AS source_documents
     RETURN e {{.*, label: labels(e)}} AS entityData,
            [x IN connections WHERE x IS NOT NULL] AS connections,
            allChunks[0..$includeChunks] AS chunks,
-           [x IN allChunks[$includeChunks..] | {{id: x.id, name: x.name, doc_id: x.doc_id}}] AS more_chunks
+           [x IN allChunks[$includeChunks..] | {{id: x.id, name: x.name, doc_id: x.doc_id}}] AS more_chunks,
+           source_documents
     """
 
 
@@ -1212,9 +1234,11 @@ def list_conflicts(
     WITH conflictId, aspect, entities, co, coalesce(co.status, 'open') AS effectiveStatus
     WHERE $status = 'all' OR effectiveStatus = $status
     OPTIONAL MATCH (co)-[ev:EVIDENCE]->(c:DocChunk)
+    OPTIONAL MATCH (c)-[:PART_OF]->(cd:Document)
     WITH conflictId, aspect, entities, co, effectiveStatus,
          [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE {{
-           side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c._domain, text: c.text
+           side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c._domain, text: c.text,
+           document: cd {{ .name, .path, .source_path }}
          }} END) WHERE x IS NOT NULL] AS evidence
     RETURN {{
       id: conflictId, aspect: aspect, status: effectiveStatus,
