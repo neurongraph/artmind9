@@ -39,3 +39,6 @@ logs/
 
 # The built Obsidian plugin, staged by `just obsidian-plugin-build` for `artmind init`.
 /artmind/obsidian_plugin/
+
+# brainstorming visual-companion mockups
+.superpowers/
