@@ -123,6 +123,7 @@ function addUserMessage(text) {
   wrap.appendChild(el("div", "pill", text));
   chatEl.appendChild(wrap);
   scrollToBottom(true);
+  pushHistory(wrap.outerHTML);
 }
 
 function ensureTurn() {
@@ -183,7 +184,10 @@ function finalizeText() {
 let vaultDir = null;
 fetch("/api/health")
   .then((r) => r.json())
-  .then((h) => { vaultDir = h.vault; })
+  .then((h) => {
+    vaultDir = h.vault;
+    linkVaultSources(chatEl); // links anything rendered before this resolved, restored history included
+  })
   .catch(() => {});
 
 function vaultRelative(href) {
@@ -222,7 +226,25 @@ function linkVaultSources(scope) {
   }
 }
 
+// Copy buttons and vault-source links are handled by one delegated listener
+// here, rather than a listener attached to each element, because a restored
+// turn (see "chat history persistence" below) is re-inserted as raw HTML --
+// a listener attached directly to the original element would not survive
+// that round trip through storage.
 chatEl.addEventListener("click", async (e) => {
+  const copyBtn = e.target.closest(".copy-btn");
+  if (copyBtn) {
+    const pre = copyBtn.closest("pre");
+    try {
+      await navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent);
+      copyBtn.textContent = "copied";
+    } catch (err) {
+      console.error("copy failed", err);
+      copyBtn.textContent = "failed";
+    }
+    setTimeout(() => (copyBtn.textContent = "copy"), 1200);
+    return;
+  }
   const a = e.target.closest("a[data-vault-path]");
   if (!a) return;
   e.preventDefault();
@@ -244,18 +266,9 @@ chatEl.addEventListener("click", async (e) => {
 
 function addCopyButtons(scope) {
   for (const pre of scope.querySelectorAll("pre")) {
+    if (pre.querySelector(".copy-btn")) continue; // idempotent: restored HTML already has one
     const btn = el("button", "copy-btn", "copy");
     btn.type = "button";
-    btn.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent);
-        btn.textContent = "copied";
-      } catch (err) {
-        console.error("copy failed", err);
-        btn.textContent = "failed";
-      }
-      setTimeout(() => (btn.textContent = "copy"), 1200);
-    });
     pre.appendChild(btn);
   }
 }
@@ -264,6 +277,45 @@ function showNotice(text) {
   chatEl.appendChild(el("div", "notice", text));
   scrollToBottom(true);
 }
+
+// ── chat history persistence ────────────────────────────────────────
+// Obsidian's Web Viewer has one tab; opening a cited source navigates it
+// away, and pressing back is a brand-new page load with the conversation
+// gone even though nothing was said to warrant losing it. Each user pill /
+// assistant turn / backend-switch divider is stored as its own already-
+// rendered HTML, captured right after sanitizing and after
+// addCopyButtons/linkVaultSources ran -- so restoring is just re-inserting
+// that markup, and the delegated listener above means a restored copy
+// button or source link needs no extra wiring. sessionStorage survives a
+// reload and this kind of in-tab navigation, but not a new tab or a closed
+// one. This does NOT resume the agent itself (ACP has no verified resume,
+// see backends/acp.py) -- a restored conversation looks right, but a new
+// message starts the agent fresh with no memory of it.
+const CHAT_HISTORY_KEY = "artmind-chat-history";
+let chatHistory = [];
+try {
+  chatHistory = JSON.parse(sessionStorage.getItem(CHAT_HISTORY_KEY) ?? "[]");
+} catch (_) {
+  chatHistory = [];
+}
+
+function pushHistory(html) {
+  chatHistory.push(html);
+  try {
+    sessionStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatHistory));
+  } catch (_) { /* storage full or unavailable: history just won't survive */ }
+}
+
+function restoreHistory() {
+  for (const html of chatHistory) {
+    const wrapper = el("div");
+    wrapper.innerHTML = html;
+    const node = wrapper.firstElementChild;
+    if (node) chatEl.appendChild(node);
+  }
+  if (chatHistory.length > 0) scrollToBottom(true);
+}
+restoreHistory();
 
 // ── event dispatch ───────────────────────────────────────────────────
 function handleEvent(ev) {
@@ -361,6 +413,7 @@ async function send() {
   } finally {
     finalizeThinking();
     finalizeText();
+    if (turnEl) pushHistory(turnEl.outerHTML);
     turnEl = null;
     setStreaming(false);
     promptEl.focus();
@@ -387,9 +440,9 @@ for (const radio of backendRadios) {
     backend = radio.value;
     sessionId = crypto.randomUUID();
     if (chatEl.childElementCount > 0) {
-      chatEl.appendChild(
-        el("div", "conversation-divider", `New conversation · ${BACKEND_LABELS[backend]}`)
-      );
+      const divider = el("div", "conversation-divider", `New conversation · ${BACKEND_LABELS[backend]}`);
+      chatEl.appendChild(divider);
+      pushHistory(divider.outerHTML);
       scrollToBottom(true);
     }
     promptEl.focus();
