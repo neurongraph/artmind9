@@ -42,9 +42,10 @@ def vault_relative(path: str, vault: Path) -> str:
 def obsidian_uri(vault: Path, rel: str) -> str:
     """`obsidian://open` for vault-relative `rel`. Obsidian names a vault after
     its folder; a note is addressed without its `.md`, any other file with its
-    extension."""
+    extension. `paneType=tab` opens it in a new tab: the active tab is the
+    Web Viewer showing the UI, and replacing it loses the conversation."""
     file = rel[:-3] if rel.endswith(".md") else rel
-    return f"obsidian://open?vault={quote(vault.name, safe='')}&file={quote(file, safe='')}"
+    return f"obsidian://open?vault={quote(vault.name, safe='')}&file={quote(file, safe='')}&paneType=tab"
 
 
 def open_uri(uri: str) -> None:

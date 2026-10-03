@@ -206,7 +206,8 @@ function vaultRelative(href) {
 function obsidianUri(rel) {
   const vaultName = vaultDir.split("/").pop();
   const file = rel.endsWith(".md") ? rel.slice(0, -3) : rel;
-  return `obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodeURIComponent(file)}`;
+  // paneType=tab: a new Obsidian tab, never the Web Viewer's own (see source_links.py).
+  return `obsidian://open?vault=${encodeURIComponent(vaultName)}&file=${encodeURIComponent(file)}&paneType=tab`;
 }
 
 function linkVaultSources(scope) {

@@ -48,10 +48,10 @@ def test_vault_relative_rejects_absolute_path_outside_vault(vault):
 
 def test_obsidian_uri_drops_md_extension_only(vault):
     assert obsidian_uri(vault, "performance_management/Delivery Leads.md") == (
-        "obsidian://open?vault=my_work&file=performance_management%2FDelivery%20Leads"
+        "obsidian://open?vault=my_work&file=performance_management%2FDelivery%20Leads&paneType=tab"
     )
     assert obsidian_uri(vault, "performance_management/report.xlsx") == (
-        "obsidian://open?vault=my_work&file=performance_management%2Freport.xlsx"
+        "obsidian://open?vault=my_work&file=performance_management%2Freport.xlsx&paneType=tab"
     )
 
 
@@ -68,7 +68,7 @@ def test_open_source_hands_obsidian_uri_to_os(client_and_opened):
     client, opened = client_and_opened
     response = client.post("/api/open-source", json={"path": "performance_management/Delivery Leads.md"})
     assert response.status_code == 200
-    assert opened == ["obsidian://open?vault=my_work&file=performance_management%2FDelivery%20Leads"]
+    assert opened == ["obsidian://open?vault=my_work&file=performance_management%2FDelivery%20Leads&paneType=tab"]
     assert response.json()["path"] == "performance_management/Delivery Leads.md"
 
 
