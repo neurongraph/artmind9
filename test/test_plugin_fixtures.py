@@ -217,8 +217,8 @@ def vault(tmp_path, monkeypatch):
     })
     monkeypatch.setattr(ing, "retract_document", lambda doc_id, domain: {"doc_id": doc_id, "affected_keys": []})
     monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {"rebuilt": len(keys), "keys": len(keys)})
-    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None: 0)
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: 0)
+    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: 0)
 
     import artmind.cli as cli_module
 

@@ -458,7 +458,7 @@ def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatc
 
     summary = ing.rebuild_projection("general")
 
-    assert swept_chunks == [{"domain": "general"}]
+    assert swept_chunks == [{"domain": "general", "strict": True}]
     assert summary["chunks_embedded"] == 7, (
         "a dropped or mis-assigned summary['chunks_embedded'] = ... line must fail this test"
     )
