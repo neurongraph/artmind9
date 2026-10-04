@@ -17,6 +17,11 @@
     "error_message": null,
     "domain": "general",
     "stalled": true,
+    "finalize": {
+      "state": "none",
+      "domains": [],
+      "error": null
+    },
     "files": [
       {
         "filename": "/vault/Notes/file1.md",

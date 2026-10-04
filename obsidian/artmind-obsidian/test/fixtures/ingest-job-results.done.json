@@ -10,6 +10,11 @@
     "job_id": "00000000-0000-4000-8000-000000000001",
     "status": "failed",
     "file_count": 2,
+    "finalize": {
+      "state": "none",
+      "domains": [],
+      "error": null
+    },
     "files": [
       {
         "filename": "/vault/Notes/file1.md",

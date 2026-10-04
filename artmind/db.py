@@ -61,7 +61,10 @@ def _init_db() -> None:
             results_json     TEXT,
             domain           TEXT DEFAULT 'general',
             force            INTEGER DEFAULT 0,
-            stage_only       INTEGER DEFAULT 0
+            stage_only       INTEGER DEFAULT 0,
+            finalize_domains TEXT,
+            finalize_state   TEXT,
+            finalize_error   TEXT
         )
     """)
     cursor.execute("""
@@ -230,6 +233,14 @@ def _init_db() -> None:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN force INTEGER DEFAULT 0")
     if "stage_only" not in existing:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN stage_only INTEGER DEFAULT 0")
+    # What a job still owes after its file loop (plan 2026-10-03 B2): the
+    # domains whose deferred projection rebuild + embed sweeps have not run
+    # yet (a JSON list), and whether they did. Persisted so a resumed or
+    # retried job finishes them even with 0 queued files. NULL state = owes
+    # nothing ("none").
+    for col in ("finalize_domains", "finalize_state", "finalize_error"):
+        if col not in existing:
+            cursor.execute(f"ALTER TABLE ingestion_jobs ADD COLUMN {col} TEXT")
     # What a file's extraction staged, for the progress views (admin console,
     # Obsidian panel). NULL, not 0, until a file has been extracted: a file
     # that was skipped, failed, or took a no-op/metadata-only fast path has
