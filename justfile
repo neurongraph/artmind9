@@ -96,6 +96,11 @@ dev-test:
 dev-cli-help:
     uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 
+# B1 before/after on a DISPOSABLE Neo4j (own name + port; never touches another container):
+# the old single-transaction full rebuild must hit the memory limit, the batched one must pass  (usage: just dev-rebuild-memcheck)
+dev-rebuild-memcheck:
+    uv run --group dev python scripts/rebuild_memory_check.py
+
 # check every command is routed into the admin-ui CLI guide (see cli_guide.py)
 dev-cli-guide-check:
     uv run --group dev pytest test/test_cli_guide.py -v
