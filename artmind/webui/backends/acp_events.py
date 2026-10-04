@@ -74,7 +74,21 @@ class ACPEventMapper:
             )
         elif kind == "tool_call_update":
             status = update.get("status")
-            if status in ("completed", "failed"):
+            if status == "in_progress" and "rawInput" in update:
+                # opencode's ACP lifecycle stages tool calls: the opening
+                # ``tool_call`` notification often carries only a placeholder
+                # ``rawInput`` (e.g. ``{"cwd": ...}`` for bash) before the real
+                # arguments resolve; this update is where the real command
+                # shows up, so patch the already-rendered trace card.
+                events.append(
+                    {
+                        "type": "tool_call_update",
+                        "id": update.get("toolCallId", ""),
+                        "name": update.get("title") or update.get("kind") or "tool",
+                        "input": clip(update["rawInput"]),
+                    }
+                )
+            elif status in ("completed", "failed"):
                 content = _tool_output(update)
                 if status == "failed":
                     content = f"[failed] {content}".rstrip()

@@ -48,6 +48,12 @@ async def test_happy_turn_yields_expected_event_sequence(tmp_path):
             "type": "tool_call",
             "id": "call-1",
             "name": "artmind query",
+            "input": '{"cwd": "/work"}',
+        },
+        {
+            "type": "tool_call_update",
+            "id": "call-1",
+            "name": "artmind query pattern1",
             "input": '{"command": "artmind query pattern1"}',
         },
         {"type": "tool_result", "tool_id": "call-1", "content": "42 rows"},

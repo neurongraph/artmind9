@@ -3,7 +3,8 @@
 A backend owns one conversation (one browser tab): it holds the agent
 process/connection, accepts one prompt at a time, and yields the neutral UI
 event dicts that ``static/app.js`` renders (``text_delta``, ``thinking_delta``,
-``block_done``, ``tool_call``, ``tool_result``, ``turn_done``, ``error``).
+``block_done``, ``tool_call``, ``tool_call_update``, ``tool_result``,
+``turn_done``, ``error``).
 
 Dependency-free (stdlib only): both the Claude SDK path (``agent.py``) and the
 ACP path (``acp_events.py``) import from here, so the ACP path never has to

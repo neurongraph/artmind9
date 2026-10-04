@@ -47,6 +47,16 @@ def run_happy(msg, lines):
             "title": "artmind query",
             "kind": "execute",
             "status": "pending",
+            "rawInput": {"cwd": "/work"},
+        }
+    )
+    notify(
+        {
+            "sessionUpdate": "tool_call_update",
+            "toolCallId": "call-1",
+            "status": "in_progress",
+            "kind": "execute",
+            "title": "artmind query pattern1",
             "rawInput": {"command": "artmind query pattern1"},
         }
     )

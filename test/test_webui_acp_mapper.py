@@ -90,7 +90,7 @@ def test_tool_call_update_failed_is_prefixed():
     assert "command not found" in event["content"]
 
 
-def test_tool_call_update_in_progress_is_ignored():
+def test_tool_call_update_in_progress_without_raw_input_is_ignored():
     mapper = ACPEventMapper()
     assert (
         mapper.map_update(
@@ -102,6 +102,26 @@ def test_tool_call_update_in_progress_is_ignored():
         )
         == []
     )
+
+
+def test_tool_call_update_in_progress_with_raw_input_patches_the_card():
+    # opencode stages tool calls: the opening "tool_call" often carries only a
+    # placeholder rawInput (e.g. {"cwd": ...} for bash) before resolving the
+    # real command on a later "in_progress" update.
+    mapper = ACPEventMapper()
+    [event] = mapper.map_update(
+        {
+            "sessionUpdate": "tool_call_update",
+            "toolCallId": "call-1",
+            "status": "in_progress",
+            "title": "artmind query pattern1",
+            "rawInput": {"command": "artmind query pattern1"},
+        }
+    )
+    assert event["type"] == "tool_call_update"
+    assert event["id"] == "call-1"
+    assert event["name"] == "artmind query pattern1"
+    assert "pattern1" in event["input"]
 
 
 def test_unknown_update_variants_are_ignored():

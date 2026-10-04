@@ -98,6 +98,15 @@ function addToolCard(ev) {
   traceListEl.scrollTop = traceListEl.scrollHeight;
 }
 
+function updateToolCard(ev) {
+  const card = traceListEl.querySelector(`[data-tool-id="${CSS.escape(ev.id)}"]`);
+  if (!card) return;
+  card.querySelector(".tool-name").textContent = ev.name;
+  const details = card.querySelector("details");
+  details.querySelector("summary").textContent = ev.input;
+  details.querySelector("pre").textContent = ev.input;
+}
+
 function attachToolResult(ev) {
   const card = traceListEl.querySelector(`[data-tool-id="${CSS.escape(ev.tool_id)}"]`);
   if (!card) return;
@@ -335,6 +344,9 @@ function handleEvent(ev) {
       break;
     case "tool_call":
       addToolCard(ev);
+      break;
+    case "tool_call_update":
+      updateToolCard(ev);
       break;
     case "tool_result":
       attachToolResult(ev);
