@@ -12,13 +12,18 @@ import {
   ingestDoneText,
   ingestLabel,
   newFilesText,
+  nextStepText,
   projectedText,
   pulledText,
+  readinessText,
   rebuiltText,
   resolvedText,
   synthesizedText,
   syncDoneText,
+  withNext,
 } from "../src/texts";
+import { checklist } from "../src/checklist";
+import { EMPTY_INPUTS } from "../src/state";
 import { fixture } from "./fixtures";
 
 describe("notice texts (spec §3.3)", () => {
@@ -120,5 +125,41 @@ describe("the checklist's notice texts (checklist spec §5)", () => {
     expect(CONFIRM.applyFirst).toBe("The other laptop has changes not applied to your graph.");
     expect(CONFIRM.pullFirst).toBe("Pull from GitHub first?");
     expect(AUTO_PULL_HINT).toBe("Turn on Obsidian Git's auto pull to see the other laptop's changes");
+  });
+});
+
+describe("next steps and readiness (checklist spec §3.1, §5)", () => {
+  const done = {
+    ...EMPTY_INPUTS,
+    status: fixture("vault-status.in-sync").json,
+    pending: { notes: [], binaries: [], tables: [], errors: [] },
+    tablesPending: [],
+    tablesReview: { query_type: "structured", command: "db review", pending_count: 0, tables: [] },
+    projection: fixture("projection-status.ready").json,
+    synthesis: [],
+    git: { ahead: 0, artmindChanges: [] },
+  };
+
+  it("names the current step's action", () => {
+    expect(nextStepText(checklist({ ...done, projection: fixture("projection-status.needs-rebuild").json }))).toBe("Next: rebuild graph.");
+    expect(nextStepText(checklist({ ...done, git: { ahead: 1, artmindChanges: [] } }))).toBe("Next: commit & push.");
+    expect(nextStepText(checklist({ ...done, pending: fixture("ingest-pending").json }))).toBe("Next: ingest 4 files.");
+    expect(nextStepText(checklist({ ...done, tablesPending: fixture("table2graph.pending").json }))).toBe("Next: review & project.");
+    expect(nextStepText(checklist(done))).toBe("");
+  });
+
+  it("appends it to a notice, or leaves the notice alone", () => {
+    expect(withNext("Applied to graph: 2 docs, 1 table.", checklist({ ...done, pending: fixture("ingest-pending").json }))).toBe(
+      "Applied to graph: 2 docs, 1 table. Next: ingest 4 files.",
+    );
+    expect(withNext("Applied to graph: 2 docs, 1 table.", checklist(done))).toBe("Applied to graph: 2 docs, 1 table.");
+  });
+
+  it("says how far the graph is from ready", () => {
+    expect(readinessText(checklist(done))).toBe("Graph ready ✓");
+    expect(readinessText(checklist({ ...done, pending: fixture("ingest-pending").json }))).toBe("1 step to a ready graph");
+    expect(readinessText(checklist({ ...done, pending: fixture("ingest-pending").json, status: fixture("vault-status.behind").json }))).toBe(
+      "2 steps to a ready graph",
+    );
   });
 });

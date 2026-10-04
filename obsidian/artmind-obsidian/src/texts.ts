@@ -1,5 +1,6 @@
 import { type RowId, behindParts, plural } from "./state";
 import type { JobStatus, ProjectionStatus, RebuildResult, SyncResult, TableReport, VaultStatus } from "./types";
+import type { Checklist } from "./checklist";
 
 /** The words of every notice (spec §3.3), from the JSON the CLI printed. */
 
@@ -177,4 +178,22 @@ export function rebuiltText(result: RebuildResult, projection: ProjectionStatus 
 
 export function synthesizedText(n: number): string {
   return `Synthesized ${countOf(n, "description", "descriptions")}.`;
+}
+
+/** The panel header (checklist spec §3.2). */
+export function readinessText(cl: Checklist): string {
+  return cl.ready ? "Graph ready ✓" : `${plural(cl.stepsLeft, "step")} to a ready graph`;
+}
+
+/** `Next: rebuild graph.` from the current row's main button, or "" (spec §5). */
+export function nextStepText(cl: Checklist): string {
+  const label = cl.rows.find((r) => r.id === cl.current)?.buttons[0]?.label;
+  if (!label) return "";
+  const bare = label.replace(/…$/, "").replace(/ ↗$/, "");
+  return `Next: ${bare[0].toLowerCase()}${bare.slice(1)}.`;
+}
+
+export function withNext(text: string, cl: Checklist): string {
+  const next = nextStepText(cl);
+  return next ? `${text} ${next}` : text;
 }

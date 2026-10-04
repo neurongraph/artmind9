@@ -176,7 +176,7 @@ export function behindParts(stores: Partial<Record<"graph" | "structured", Store
   return parts;
 }
 
-function problemText(problem: ArtmindProblem): string {
+export function problemText(problem: ArtmindProblem): string {
   switch (problem.kind) {
     case "missing":
       return `artmind not found (looked in ${problem.looked.join(", ") || "nowhere"})`;
