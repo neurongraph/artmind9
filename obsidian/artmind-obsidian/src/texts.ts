@@ -197,3 +197,6 @@ export function withNext(text: string, cl: Checklist): string {
   const next = nextStepText(cl);
   return next ? `${text} ${next}` : text;
 }
+
+/** The status bar's label when no step is left. */
+export const STATUS_READY = "graph ready";

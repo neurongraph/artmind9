@@ -1,5 +1,6 @@
 import { FileSystemAdapter, Plugin, parseYaml } from "obsidian";
 import { AdminConsole, adminOutcomeText, hostPort, stopOutcomeText } from "./admin";
+import { checklist } from "./checklist";
 import { openInBrowser, realAdminDeps } from "./adminDeps";
 import { ObsidianGitBridge, type CommandsLike } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
@@ -95,14 +96,13 @@ export default class ArtmindPlugin extends Plugin {
         await this.saveData(this.artmindSettings);
       },
     });
-    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => void this.openPanel("status")), {
-      openPanel: () => void this.openPanel("status"),
-      sync: () => void controller.sync(),
-      ingest: () => void controller.ingestWhatChanged(),
+    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => void this.openPanel()), {
+      openPanel: () => void this.openPanel(),
       openAdmin: () => void this.openAdmin(),
       doctor: () => void controller.runDoctor(),
     });
-    this.statusBar = new StatusBarItem(this.addStatusBarItem(), (action) => controller.perform(action));
+    // Opens the panel; Task 10 makes it open at the current row.
+    this.statusBar = new StatusBarItem(this.addStatusBarItem(), () => void this.openPanel());
     this.registerView(VIEW_TYPE, (leaf) => new ArtmindView(leaf, this.panelHandlers()));
     this.addSettingTab(new ArtmindSettingTab(this.app, this));
     this.addCommands();
@@ -142,8 +142,9 @@ export default class ArtmindPlugin extends Plugin {
 
   private render(snapshot: Snapshot): void {
     this.last = snapshot;
-    this.statusBar?.render(snapshot.state);
-    this.ribbon?.render(snapshot.state);
+    const cl = checklist(snapshot.inputs);
+    this.statusBar?.render(cl);
+    this.ribbon?.render(cl);
     for (const leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE)) {
       if (leaf.view instanceof ArtmindView) leaf.view.update(snapshot);
     }

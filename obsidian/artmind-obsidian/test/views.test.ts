@@ -5,6 +5,7 @@ import { Notice } from "./mocks/obsidian";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Snapshot } from "../src/controller";
 import { EMPTY_INPUTS, type StateInputs, vaultState } from "../src/state";
+import { checklist } from "../src/checklist";
 import { ObsidianNotifier } from "../src/views/notices";
 import { type PanelHandlers, newPanelUi, renderPanel } from "../src/views/panel";
 import { ResolveModal, renderResolve, resolveBlockedReason } from "../src/views/resolveModal";
@@ -34,6 +35,21 @@ function snapshot(overrides: Partial<StateInputs> = {}, extra: Partial<Snapshot>
     gitMissing: {},
     looked: [],
     ...extra,
+  };
+}
+
+/** Every row of the checklist done: each view test changes one thing. */
+function readyInputs(overrides: Partial<StateInputs> = {}): StateInputs {
+  return {
+    ...EMPTY_INPUTS,
+    status: fixture("vault-status.in-sync").json,
+    pending: { notes: [], binaries: [], tables: [], errors: [] },
+    tablesPending: [],
+    tablesReview: { query_type: "structured", command: "db review", pending_count: 0, tables: [] },
+    projection: fixture("projection-status.ready").json,
+    synthesis: [],
+    git: { ahead: 0, artmindChanges: [] },
+    ...overrides,
   };
 }
 
@@ -69,25 +85,33 @@ beforeEach(() => {
   Notice.shown.length = 0;
 });
 
-describe("StatusBarItem (spec §3.1)", () => {
-  it("shows the primary state, its tone and the secondary indicators; a click runs its action", () => {
+describe("StatusBarItem (checklist spec §4)", () => {
+  it("shows a dot per row and footer, the current step and its tone; a click only opens the panel", () => {
     const el = document.createElement("div");
     el.classList.add("status-bar-item");
-    const performed: unknown[] = [];
-    const item = new StatusBarItem(el, (action) => performed.push(action));
+    let opened = 0;
+    const item = new StatusBarItem(el, () => opened++);
 
-    item.render(snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, artmindChanges: [".artmind/a.json"] } }).state);
+    item.render(checklist(readyInputs({ status: fixture("vault-status.behind").json, pending: fixture("ingest-pending").json })));
 
-    expect(el.textContent).toBe("◉ 2 docs · 1 table behind  ↑ 3 to push  ✎ artmind changes to share");
+    expect(el.textContent).toBe("artmind ○○●●● 2 docs · 1 table to apply");
     expect(el.classList.contains("artmind-tone-amber")).toBe(true);
     expect(el.classList.contains("status-bar-item")).toBe(true);
+    expect(el.getAttribute("aria-label")).toBe("From the other laptop — 2 docs · 1 table to apply");
     el.click();
-    expect(performed).toEqual([{ type: "sync" }]);
+    expect(opened).toBe(1);
 
-    item.render(snapshot().state);
-    expect(el.textContent).toBe("◉ artmind");
+    item.render(checklist(readyInputs()));
+    expect(el.textContent).toBe("artmind ●●●●● graph ready");
     expect(el.classList.contains("artmind-tone-amber")).toBe(false);
     expect(el.classList.contains("artmind-tone-grey")).toBe(true);
+    expect(el.getAttribute("aria-label")).toBe("Graph ready ✓");
+  });
+
+  it("names the footer once it is the only step left", () => {
+    const el = document.createElement("div");
+    new StatusBarItem(el, () => undefined).render(checklist(readyInputs({ git: { ahead: 2, artmindChanges: [] } })));
+    expect(el.textContent).toBe("artmind ●●●●○ ↑ 2 to push");
   });
 });
 
