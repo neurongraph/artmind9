@@ -246,14 +246,19 @@ def _hold_worker_lock(vault: Vault):
 
 def _behind(vault: Vault) -> None:
     """Synced, then the other laptop's commit pulled: two documents and one
-    structured table this machine's stores have not applied."""
+    structured table this machine's stores have not applied. The table is
+    loaded here to produce its committed text, then this machine's record of
+    having written it is dropped -- as on the machine that pulled it."""
     from artmind.structured.pipeline import ingest_structured_file
+    from artmind.vault import VaultLayout, write_state
+    from artmind.vault_sync import TABLE_FINGERPRINTS_KEY
 
     vault.sync_bootstrap()
     vault.kg_doc("quarterly_review", "doc-quarterly-review")
     vault.kg_doc("hiring_plan", "doc-hiring-plan")
     source = vault.write("Team/team.csv", "name,employer,level\nAnn Lee,Acme,senior\nBo Chan,Acme,junior\n")
     ingest_structured_file(source, "general")
+    write_state(VaultLayout(vault.root), {}, remove=(TABLE_FINGERPRINTS_KEY,))
     vault.commit("from laptop B")
 
 
