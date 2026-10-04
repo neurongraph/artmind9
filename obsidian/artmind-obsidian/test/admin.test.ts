@@ -8,6 +8,7 @@ import {
   START_TIMEOUT_MS,
   adminOutcomeText,
   hostPort,
+  promptPath,
   stopOutcomeText,
 } from "../src/admin";
 
@@ -142,5 +143,14 @@ describe("hostPort", () => {
   it("reads host, port and base from the setting", () => {
     expect(hostPort("http://127.0.0.1:8379/")).toEqual({ host: "127.0.0.1", port: 8379, base: "http://127.0.0.1:8379" });
     expect(hostPort("http://localhost")).toEqual({ host: "localhost", port: 80, base: "http://localhost" });
+  });
+});
+
+describe("promptPath (Plan 1, B7)", () => {
+  it("prefills the admin console's chat through /?prompt=, encoded", () => {
+    expect(promptPath("Review the proposed classifications for table team (domain general)")).toBe(
+      "/?prompt=Review%20the%20proposed%20classifications%20for%20table%20team%20(domain%20general)",
+    );
+    expect(promptPath("a&b=c")).toBe("/?prompt=a%26b%3Dc");
   });
 });
