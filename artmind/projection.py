@@ -1620,35 +1620,84 @@ def read_state(tx) -> dict | None:
     return rec.get("p") if rec else None
 
 
+_UNEMBEDDED_ENTITIES_BY_DOMAIN = """
+MATCH (e:Entity)
+WHERE e.name IS NOT NULL AND (e.embedding IS NULL OR e.embedding_stale)
+RETURN e._domain AS domain, count(e) AS n
+"""
+
+_UNPROJECTED_KEYS_BY_DOMAIN = """
+MATCH (o:Observation)
+WHERE o.key IS NOT NULL AND NOT EXISTS { MATCH (:Entity)-[:AGGREGATES]->(o) }
+RETURN o._domain AS domain, count(DISTINCT o.key) AS n
+"""
+
+_UNEMBEDDED_CHUNKS_BY_DOMAIN = """
+MATCH (c:DocChunk) WHERE c.embedding IS NULL
+RETURN c._domain AS domain, count(c) AS n
+"""
+
+_GAP_FIELDS = ("unembedded_entities", "unprojected_keys", "unembedded_chunks")
+
+
+def _gaps_by_domain(tx) -> dict[str, dict[str, int]]:
+    """`{domain: {unembedded_entities, unprojected_keys, unembedded_chunks}}`
+    in three grouped reads -- never one query per domain. An entity counts
+    exactly when the entity embed sweep would pick it up; an observation key
+    counts when no Entity AGGREGATES its observation yet (so a same-as
+    member, which hangs off its canonical's Entity, does not). A node with no
+    domain is grouped under "(none)"."""
+    domains: dict[str, dict[str, int]] = {}
+    for field_name, cypher in zip(
+        _GAP_FIELDS,
+        (_UNEMBEDDED_ENTITIES_BY_DOMAIN, _UNPROJECTED_KEYS_BY_DOMAIN, _UNEMBEDDED_CHUNKS_BY_DOMAIN),
+    ):
+        for row in tx.run(cypher).data():
+            entry = domains.setdefault(row["domain"] or "(none)", dict.fromkeys(_GAP_FIELDS, 0))
+            entry[field_name] = row["n"]
+    return {d: domains[d] for d in sorted(domains)}
+
+
 def status(tx) -> dict:
     """Compare the recorded `:ProjectionState` against `same_as.yaml` and the
-    schema set right now. Read-only, deliberately: queries run through
-    `read_session()` (`READ_ACCESS`), so drift is reported, never auto-fixed —
-    that guarantee is worth more than the convenience of a query silently
-    triggering a write."""
+    schema set right now, and count what the projection is still missing.
+    Read-only, deliberately: queries run through `read_session()`
+    (`READ_ACCESS`), so drift is reported, never auto-fixed.
+
+    `drift` is true when there is no recorded state or either hash differs.
+    `unembedded_entities`, `unprojected_keys` and `unembedded_chunks` are
+    totals of `domains`' per-domain counts; any of them non-zero, or `drift`,
+    means `projection rebuild --sweep` has work to do."""
     from artmind import same_as
-    from artmind.embed_sweep import count_unembedded_chunks
 
     current_same_as = same_as.content_hash()
     current_schema = schema_set_hash()
     recorded = read_state(tx)
+    gaps = _gaps_by_domain(tx)
+    totals = {f: sum(g[f] for g in gaps.values()) for f in _GAP_FIELDS}
     if not recorded:
         return {
             "known": False,
+            "drift": True,
             "same_as_drift": True,
             "schema_drift": True,
             "current_same_as_hash": current_same_as,
             "current_schema_hash": current_schema,
-            "unembedded_chunks": count_unembedded_chunks(tx),
+            **totals,
+            "domains": gaps,
         }
+    same_as_drift = recorded.get("same_as_hash") != current_same_as
+    schema_drift = recorded.get("schema_hash") != current_schema
     return {
         "known": True,
+        "drift": same_as_drift or schema_drift,
         "last_rebuilt_at": recorded.get("last_rebuilt_at"),
-        "same_as_drift": recorded.get("same_as_hash") != current_same_as,
-        "schema_drift": recorded.get("schema_hash") != current_schema,
+        "same_as_drift": same_as_drift,
+        "schema_drift": schema_drift,
         "recorded_same_as_hash": recorded.get("same_as_hash"),
         "current_same_as_hash": current_same_as,
         "recorded_schema_hash": recorded.get("schema_hash"),
         "current_schema_hash": current_schema,
-        "unembedded_chunks": count_unembedded_chunks(tx),
+        **totals,
+        "domains": gaps,
     }
