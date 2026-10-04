@@ -11,7 +11,7 @@
 .artmind-warning { color: var(--color-orange); }
 .artmind-blocked { color: var(--text-muted); font-size: var(--font-smaller); margin: 0 0.5em; }
 .artmind-action { margin: 0.25em 0.25em 0.25em 0; }
-.artmind-notice-buttons { display: flex; gap: 0.5em; margin-top: 0.5em; }
+
 .artmind-run pre { white-space: pre-wrap; font-size: var(--font-smaller); }
 .artmind-run-failed summary { color: var(--text-error); }
 .artmind-finding code { display: block; margin: 0.25em 0; }
@@ -21,13 +21,7 @@
 /* ── panel layout ─────────────────────────────────────────────────────── */
 .artmind-panel { display: flex; flex-direction: column; gap: 0.6em; }
 .artmind-header { padding-bottom: 0.6em; border-bottom: 1px solid var(--background-modifier-border); }
-.artmind-health { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5em; font-weight: var(--font-semibold); }
-.artmind-health-secondary { font-weight: normal; font-size: var(--font-smaller); color: var(--text-muted); }
-.artmind-health-detail { font-size: var(--font-smaller); color: var(--text-muted); margin: 0.15em 0 0.4em; }
-.artmind-state { font-size: var(--font-smaller); }
-.artmind-primary { margin: 0.5em 0 0.25em; display: flex; flex-wrap: wrap; align-items: center; }
-.artmind-primary .artmind-action { margin: 0; }
-.artmind-hint { font-size: var(--font-smaller); color: var(--text-muted); }
+
 .artmind-toolbar { display: flex; flex-wrap: wrap; gap: 0.3em; margin-top: 0.4em; }
 .artmind-tool { font-size: var(--font-smaller); padding: 0 0.6em; height: 1.9em; }
 .artmind-muted { color: var(--text-muted); font-size: var(--font-smaller); }
@@ -96,3 +90,35 @@
 .artmind-ribbon-spinner::after { background: var(--text-accent); }
 
 .artmind-admin-link { display: inline-block; margin-top: 0.4em; font-size: var(--font-smaller); }
+
+/* ── the readiness checklist (checklist spec §3) ───────────────────────── */
+.artmind-header-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5em; color: var(--text-muted); font-size: var(--font-smaller); }
+.artmind-refresh { font-size: var(--font-ui-medium); padding: 0 0.4em; height: 1.6em; }
+.artmind-readiness { font-weight: var(--font-semibold); margin-top: 0.2em; }
+.artmind-checklist { display: flex; flex-direction: column; gap: 0.15em; }
+.artmind-step { padding: 0.35em 0.5em; border-radius: var(--radius-s); border-left: 3px solid transparent; }
+.artmind-step-current { background: var(--background-secondary); border-left-color: var(--interactive-accent); }
+.artmind-step-line { display: grid; grid-template-columns: 1.2em auto minmax(0, 1fr); align-items: baseline; gap: 0.4em; }
+.artmind-step-glyph { text-align: center; }
+.artmind-step-title { font-weight: var(--font-semibold); white-space: nowrap; }
+.artmind-step-summary { color: var(--text-muted); font-size: var(--font-smaller); text-align: right; overflow: hidden; text-overflow: ellipsis; }
+.artmind-step-done .artmind-step-title { color: var(--text-muted); font-weight: normal; }
+.artmind-step-buttons { display: flex; flex-wrap: wrap; gap: 0.3em; justify-content: flex-end; margin-top: 0.3em; }
+.artmind-step-buttons .artmind-action { margin: 0; }
+.artmind-outline { background: transparent; box-shadow: inset 0 0 0 1px var(--background-modifier-border); }
+.artmind-step-detail { font-size: var(--font-smaller); color: var(--text-muted); padding-left: 1.6em; }
+.artmind-step-items { font-size: var(--font-smaller); padding-left: 1.6em; margin-top: 0.15em; }
+.artmind-step-items > summary { color: var(--text-muted); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.artmind-step-item { padding: 0.05em 0; overflow-wrap: anywhere; }
+.artmind-step .artmind-section-job { margin-top: 0.4em; }
+.artmind-footer { border-top: 1px solid var(--background-modifier-border); padding-top: 0.4em; }
+.artmind-header-vault { color: var(--text-muted); font-size: var(--font-smaller); }
+
+/* ── notices, modals ───────────────────────────────────────────────────── */
+.artmind-notice-link { cursor: pointer; }
+.artmind-confirm-text { margin: 0 0 0.5em; }
+.artmind-synth-domains { display: flex; flex-direction: column; gap: 0.2em; margin: 0.5em 0; }
+.artmind-synth-domain { display: flex; align-items: center; gap: 0.3em; }
+.artmind-synth-cap { display: flex; align-items: center; gap: 0.4em; }
+.artmind-synth-cap input { width: 6em; }
+.artmind-synth-total { font-weight: var(--font-semibold); }
