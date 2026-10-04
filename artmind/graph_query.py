@@ -24,8 +24,14 @@ def sanitize_lucene_query(text: str) -> str:
     Returns an empty string when nothing searchable remains; callers should
     skip the fulltext query in that case.
     """
-    cleaned = _LUCENE_SPECIALS_RE.sub(" ", text)
-    return " ".join(cleaned.split())
+    terms = []
+    for token in text.split():
+        parts = _LUCENE_SPECIALS_RE.sub(" ", token).split()
+        # A token joined by specials (`2025-12-31`, `back-to-back`, `g/h`)
+        # stays one phrase: split into separate OR'd terms, a date matches
+        # every other date sharing a day or month number.
+        terms.append(f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts))
+    return " ".join(t for t in terms if t)
 
 
 def normalize_domains(value: "str | Sequence[str]") -> list[str]:

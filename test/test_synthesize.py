@@ -226,3 +226,77 @@ def test_synthesize_key_skips_when_no_observations(monkeypatch):
         )
 
     assert result["status"] == "skipped_no_observations"
+
+
+# ── same-as merge units: synthesis covers what the rebuild aggregates ────────
+
+def test_synthesize_key_reads_every_same_as_member_and_hashes_the_whole_unit(monkeypatch):
+    """A same-as merge unit's Entity aggregates every member key's
+    observations, and `rebuild` hashes that whole set. A synthesis hashed over
+    the canonical's own observations alone never matches it: the entity reads
+    as "to synthesize" forever and the rebuild discards the synthesis (found
+    live: `bill payment` + `bill payments`, my_second_brain, 2026-10-04)."""
+    import hashlib
+
+    canonical = ("bill payment", "ACTIVITY", "personal_journal")
+    member = ("bill payments", "ACTIVITY", "personal_journal")
+    by_key = {
+        "bill payment|ACTIVITY|personal_journal": [{"id": "o1", "description": "Paid rent."}],
+        "bill payments|ACTIVITY|personal_journal": [{"id": "o2", "description": "Paid electricity."}],
+    }
+    read_keys: list[str] = []
+
+    def fake_read(tx, key):
+        read_keys.append(key)
+        return by_key.get(key, [])
+
+    monkeypatch.setattr("artmind.synthesize.projection.read_latest_observations", fake_read)
+    prompts: list[str] = []
+    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt: prompts.append(prompt) or "{}")
+    monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "Pays bills."})
+    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    rebuild_calls: list[dict] = []
+
+    def fake_rebuild_key(tx, key, *, member_keys=None, unit_of=None, synthesis=None):
+        rebuild_calls.append({"key": key, "member_keys": member_keys, "unit_of": unit_of})
+        return "rebuilt"
+
+    monkeypatch.setattr("artmind.synthesize.projection.rebuild_key", fake_rebuild_key)
+    run_calls: list[tuple] = []
+    session = _mock_session(run_calls)
+
+    with patch("artmind.synthesize.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value = session
+        result = synthesize_key(
+            canonical, "Bill Payments", "ACTIVITY",
+            model="m", embed_model="e", same_as_groups=[[canonical, member]],
+        )
+
+    assert result["status"] == "synthesized"
+    assert sorted(read_keys) == sorted(by_key)
+    assert "Paid electricity." in prompts[0]
+    written = [c for c in run_calls if "MERGE (s:Synthesis" in c[0]]
+    assert written[0][1]["props"]["observation_set_hash"] == hashlib.sha256(b"o1|o2").hexdigest()
+    assert rebuild_calls == [{"key": canonical, "member_keys": [canonical, member], "unit_of": {canonical: canonical, member: canonical}}]
+
+
+def test_synthesize_key_without_a_group_reads_only_its_own_key(monkeypatch):
+    read_keys: list[str] = []
+    monkeypatch.setattr(
+        "artmind.synthesize.projection.read_latest_observations",
+        lambda tx, key: read_keys.append(key) or [{"id": "o1", "description": "A widget."}],
+    )
+    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt: "{}")
+    monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "W."})
+    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr("artmind.synthesize.projection.rebuild_key", lambda tx, key, **kw: "rebuilt")
+    session = _mock_session([])
+
+    with patch("artmind.synthesize.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value = session
+        synthesize_key(
+            ("widget rate", "RATE_ENTRY", "banking.reference"), "Widget Rate", "RATE_ENTRY",
+            model="m", embed_model="e", same_as_groups=[],
+        )
+
+    assert read_keys == ["widget rate|RATE_ENTRY|banking.reference"]

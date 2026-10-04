@@ -117,14 +117,29 @@ Respond with ONLY a JSON object (no markdown fencing, no explanation):
 
 
 def synthesize_key(
-    key: tuple[str, str, str], name: str, entity_class: str, *, model: str, embed_model: str
+    key: tuple[str, str, str], name: str, entity_class: str, *, model: str, embed_model: str,
+    same_as_groups: list[list[tuple[str, str, str]]] | None = None,
 ) -> dict:
     """One entity's full synthesize cycle. See module docstring for the
-    embedding-safety and apply-in-same-pass invariants."""
+    embedding-safety and apply-in-same-pass invariants.
+
+    A same-as merge unit's Entity aggregates every member key's
+    observations, so the synthesis reads -- and hashes -- all of them, and
+    its `rebuild_key` keeps the whole unit. Hashing the canonical's own
+    observations alone never matches the rebuild's `_observation_set_hash`:
+    the rebuild would discard the synthesis and the entity would read as
+    "to synthesize" forever."""
+    if same_as_groups is None:
+        from artmind import same_as
+
+        same_as_groups = same_as.load_groups()
+    member_keys, unit_of = projection.merge_unit(key, same_as_groups)
     key_str = key_string(key)
     with neo4j_session() as session:
         observations = session.execute_read(
-            lambda tx: projection.read_latest_observations(tx, key_str)
+            lambda tx: [
+                o for mk in member_keys for o in projection.read_latest_observations(tx, key_string(mk))
+            ]
         )
     if not observations:
         return {"key": key_str, "name": name, "status": "skipped_no_observations"}
@@ -174,7 +189,7 @@ def synthesize_key(
 
     def _write(tx):
         synthesis_records.apply(tx, record, fingerprint)
-        outcome = projection.rebuild_key(tx, key, synthesis=record)
+        outcome = projection.rebuild_key(tx, key, member_keys=member_keys, unit_of=unit_of, synthesis=record)
         # rebuild_key already wrote description = synthesis["text"] and
         # flagged embedding_stale = true (the description changed). Overwrite
         # both here, in the SAME transaction — the embedding is never null
@@ -228,6 +243,9 @@ def synthesize(
             "candidates": [{"key": r["key"], "name": r["name"]} for r in candidates],
         }
 
+    from artmind import same_as
+
+    groups = same_as.load_groups()
     results = []
     synthesized = 0
     for row in candidates:
@@ -235,7 +253,8 @@ def synthesize(
         if len(key) != 3:
             continue
         outcome = synthesize_key(
-            key, row["name"], row["entity_class"], model=resolved_model, embed_model=embed_model
+            key, row["name"], row["entity_class"], model=resolved_model, embed_model=embed_model,
+            same_as_groups=groups,
         )
         results.append(outcome)
         if outcome["status"] == "synthesized":

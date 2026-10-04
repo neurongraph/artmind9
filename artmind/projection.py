@@ -1091,6 +1091,20 @@ def _plan_groups(
     return unit_of, members_of, links
 
 
+def merge_unit(
+    key: tuple[str, str, str], groups: list[list[tuple[str, str, str]]]
+) -> tuple[list[tuple[str, str, str]], dict[tuple[str, str, str], tuple[str, str, str]]]:
+    """`(member_keys, unit_of)` for one key, planned exactly as `rebuild`
+    plans it: every raw key whose observations feed `key`'s Entity, and the
+    unit map for its `RELATES_TO` endpoints. `([key], {})` outside any merge
+    group. For a single-key caller (`synthesize`) that must read -- and hash
+    -- the same observation set the rebuild aggregates."""
+    touching = [group for group in groups if key in group]
+    in_scope = {member for group in touching for member in group} | {key}
+    unit_of, members_of, _ = _plan_groups(in_scope, touching)
+    return members_of.get(key, [key]), unit_of
+
+
 def _sync_same_as_links_batch(tx, links: list[tuple[tuple[str, str, str], tuple[str, str, str]]]) -> None:
     """`MERGE` a `SAME_AS` edge, both directions, for every link pair in
     `rebuild`'s plan in one batched UNWIND instead of one MERGE per pair. A

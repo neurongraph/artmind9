@@ -50,8 +50,19 @@ def test_sanitize_lucene_query_strips_specials_keeps_terms():
         graph_query.sanitize_lucene_query("St Bartholomew's Hospital (London)?")
         == "St Bartholomew's Hospital London"
     )
-    assert graph_query.sanitize_lucene_query("a+b -c \"d\" e:f g/h") == "a b c d e f g h"
+    assert graph_query.sanitize_lucene_query("a+b -c \"d\" e:f g/h") == '"a b" c d "e f" "g h"'
     assert graph_query.sanitize_lucene_query("?? !! ()") == ""
+
+
+def test_sanitize_lucene_query_keeps_a_joined_token_together_as_a_phrase():
+    """`2025-12-31` split into the OR of `2025`, `12` and `31` ranks every
+    other date ending in 12 or 31 above the day itself (found live: pattern7
+    returned 2023-12-31, 2022-12-31, 2025-07-31... and none of the six
+    entities named `... on 2025-12-31`). Kept together as a phrase, only the
+    sequence matches."""
+    assert graph_query.sanitize_lucene_query("what happened on 2025-12-31?") == 'what happened on "2025 12 31"'
+    assert graph_query.sanitize_lucene_query("back-to-back calls") == '"back to back" calls'
+    assert graph_query.sanitize_lucene_query("-leading and trailing- dashes") == "leading and trailing dashes"
 
 
 def test_pattern7_sanitizes_search_term():
@@ -60,7 +71,7 @@ def test_pattern7_sanitizes_search_term():
         {"domains": ["fiction"], "searchTerm": "copper-beeches (estate)?", "limit": 10},
     )
     assert "entity_name_ft" in cypher
-    assert params["searchTerm"] == "copper beeches estate"
+    assert params["searchTerm"] == '"copper beeches" estate'
 
 
 def test_pattern7_rejects_unsearchable_term():
