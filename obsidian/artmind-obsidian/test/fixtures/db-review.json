@@ -1,0 +1,27 @@
+{
+  "args": [
+    "db",
+    "review",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "query_type": "structured",
+    "command": "db review",
+    "pending_count": 1,
+    "tables": [
+      {
+        "table": "team",
+        "domain": "general",
+        "grain": "instance",
+        "grain_confirmed": false,
+        "grain_status": "failed",
+        "bridge_status": "failed",
+        "mapping_status": "failed",
+        "mappings": [],
+        "bridge_columns": []
+      }
+    ]
+  },
+  "stderr": null
+}

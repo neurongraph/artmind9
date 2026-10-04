@@ -1,0 +1,30 @@
+{
+  "args": [
+    "projection",
+    "rebuild",
+    "--sweep",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "rebuilt": 3,
+    "deleted": 0,
+    "absent": 0,
+    "keys": 3,
+    "batches": 1,
+    "domains": [
+      "general",
+      "habits"
+    ],
+    "recorded": true,
+    "domains_swept": [
+      "general",
+      "habits"
+    ],
+    "embedded": 3,
+    "chunks_embedded": 6,
+    "sweep_errors": [],
+    "finalize_resolved": []
+  },
+  "stderr": null
+}

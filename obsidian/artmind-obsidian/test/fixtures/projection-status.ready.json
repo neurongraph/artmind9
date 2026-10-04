@@ -1,0 +1,24 @@
+{
+  "args": [
+    "projection",
+    "status",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "known": true,
+    "drift": false,
+    "last_rebuilt_at": "2026-09-30T12:00:00+00:00",
+    "same_as_drift": false,
+    "schema_drift": false,
+    "recorded_same_as_hash": "",
+    "current_same_as_hash": "",
+    "recorded_schema_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "current_schema_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "unembedded_entities": 0,
+    "unprojected_keys": 0,
+    "unembedded_chunks": 0,
+    "domains": {}
+  },
+  "stderr": null
+}
