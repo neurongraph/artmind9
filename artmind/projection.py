@@ -1389,6 +1389,87 @@ def full_rebuild(tx, domains: list[str] | None = None, *, synthesis_loader=None)
     return summary
 
 
+#: Keys rebuilt per transaction. Neo4j caps a transaction's memory
+#: (`db.memory.transaction.total.max`), and a rebuild's footprint grows with
+#: its key count: a 1223-row table (2450 keys) failed at commit on a 343 MiB
+#: cap once its entities carried embeddings, and a 4,332-key directory ingest
+#: ran a 2 GB colima VM out of memory and killed Neo4j (2026-10-03).
+REBUILD_BATCH = 400
+
+
+def batch_keys(keys, groups: list[list[tuple]], size: int = REBUILD_BATCH) -> list[list[tuple]]:
+    """Split `keys` into rebuild batches of about `size`. Pure.
+
+    A same-as group never straddles two batches: `_plan_groups` only folds a
+    group whose members are all in the keys it is given, so the group is kept
+    whole even when that overfills a batch. Deterministic (sorted), so a rerun
+    rebuilds in the same order.
+    """
+    group_of: dict[tuple, int] = {}
+    for index, group in enumerate(groups):
+        for member in group:
+            group_of.setdefault(tuple(member), index)
+    units: dict[object, list[tuple]] = {}
+    for key in sorted({tuple(k) for k in keys}):
+        units.setdefault(("group", group_of[key]) if key in group_of else ("key", key), []).append(key)
+    batches: list[list[tuple]] = []
+    current: list[tuple] = []
+    for unit in units.values():
+        if current and len(current) + len(unit) > size:
+            batches.append(current)
+            current = []
+        current.extend(unit)
+    if current:
+        batches.append(current)
+    return batches
+
+
+def rebuild_in_batches(keys, groups: list | None = None, *, size: int | None = None) -> dict:
+    """Rebuild `keys`, one write transaction per batch of `size` (default
+    `REBUILD_BATCH`).
+
+    The end state equals one big `rebuild`: each batch deletes and rewrites
+    every `RELATES_TO` edge touching its own entities, resolving them from
+    both ends, so an edge to an entity in a later batch is written when that
+    batch runs. A zero-observation key is GC'd in whichever batch holds it.
+
+    The cost is a window in which part of the projection is stale, and if a
+    batch fails it stays stale until repaired. Every batch is idempotent, so
+    the repair is to run the same command again (or `artmind projection
+    rebuild --sweep`).
+
+    `groups` are the same-as groups to batch and rebuild with. None reads
+    `same_as.yaml` from disk -- right for `ingest table2graph`, wrong for
+    `vault sync`, which passes the file as committed at `head` so an
+    uncommitted edit never reaches the graph (spec 2026-09-26 §6 A1).
+    """
+    from artmind import same_as
+    from artmind.graph_query import neo4j_session
+
+    groups = same_as.load_groups() if groups is None else groups
+    batches = batch_keys(keys, groups, REBUILD_BATCH if size is None else size)
+    totals = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": len(batches)}
+    with neo4j_session() as session:
+        for number, batch in enumerate(batches, start=1):
+            try:
+                summary = session.execute_write(
+                    lambda tx: rebuild(
+                        tx, batch, same_as_groups=groups,
+                        synthesis_loader=lambda ks: load_synthesis_batch(tx, ks),
+                    )
+                )
+            except Exception as e:
+                raise RuntimeError(
+                    f"projection rebuild failed on batch {number}/{len(batches)} ({e}); the "
+                    "observations are committed but part of the projection is stale -- re-run "
+                    "the same command (every batch is idempotent) or `artmind projection rebuild --sweep`"
+                ) from e
+            for field_name in ("rebuilt", "deleted", "absent", "keys"):
+                totals[field_name] += summary.get(field_name, 0)
+            logger.info("projection: rebuilt batch {}/{} ({} key(s))", number, len(batches), len(batch))
+    return totals
+
+
 def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tuple[str, str, str]]:
     """The aggregate keys a document's observations contribute to.
 
