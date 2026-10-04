@@ -7,7 +7,8 @@ import { childEnv, type Runner, spawnRunner } from "./cli";
 export const GIT_READS = [
   ["rev-parse", "HEAD"],
   ["rev-list", "--count", "@{upstream}..HEAD"],
-  ["status", "--porcelain", "-z", "--", ".artmind"],
+  // Every untracked file, not its folder: the footer counts docs.
+  ["status", "--porcelain", "-z", "--untracked-files=all", "--", ".artmind"],
 ] as const;
 
 export class GitReader {
