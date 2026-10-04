@@ -52,7 +52,7 @@ just obsidian-plugin-test                                   # npm test && npm ru
 
 1. **Rows carry `buttons: RowButton[]`, not one `action`.** Row 3 can show [Review in admin console ↗] and [Review & project…] at once, and row 2 can show [Ingest N files] and [Retry failed]. The first button is the row's main action; only the current row's first button is filled (`mod-cta`).
 2. **`RowId`s:** `remote` (1 From the other laptop), `documents` (2), `tables` (3), `graph` (4), `descriptions` (5), `vault` (footer). A notice or the status bar opens the panel at a `PanelTarget`: a `RowId`, or `problems` / `doctor` / `activity`.
-3. **"N commits on GitHub" is not shown.** The plugin only reads git and never fetches (plugin spec P5), so it cannot know about commits not yet pulled. Row 1 offers **Pull** when a bookmark is not in this clone's history (`not_ancestor`), and **Apply to graph** always asks "Pull from GitHub first?" when the last pull is older than 5 minutes. That modal opens even when Apply is the current step: it replaces today's notice #9, which did the same, and row 1 cannot see GitHub.
+3. **Obsidian Git's auto pull keeps row 1 current (spec D10).** The plugin never fetches (plugin spec P5), so it can't count commits not yet pulled, and row 1 has no "N commits on GitHub" state. On every refresh the plugin reads `autoPullInterval` (minutes) from `<configDir>/plugins/obsidian-git/data.json` through `app.vault.adapter.read`, the same way it re-reads the manifest. A missing file, bad JSON, or a missing or non-positive key counts as 0, Obsidian Git's default. (The user's vault today has `{"syncMethod":"merge","autoSaveInterval":10,"autoPullOnBoot":true}`, so 0.) `StateInputs.obsidianGit` is `{ autoPullMinutes }`, or null before the first read. When it is 0, row 1 adds the line "Turn on Obsidian Git's auto pull to see the other laptop's changes", and **Apply to graph** asks "Pull from GitHub first?" when the last pull seen is older than 5 minutes. When it is above 0 that modal never opens. **Pull** stays on row 1 as an outline button in every state where pulling makes sense (not during a merge or conflict); it is the main button only when a bookmark is not in this clone's history (`not_ancestor`).
 4. **Ingest no longer asks to pull.** Its confirm modal asks only "apply first" (row 1 ●). [Apply first] goes through Apply's own pull check.
 5. **A job is running while `finalize.state == "pending"`**, even after its files are done: the job poll continues, row 2 says *finishing: building the graph*, row 4 waits, and the footer stays hidden.
 6. **The 30 s own-write grace is removed.** The footer exists to show what the plugin's own ingest and synthesize wrote, so those changes count at once. The footer is hidden while a job runs.
@@ -74,6 +74,7 @@ just obsidian-plugin-test                                   # npm test && npm ru
 | `src/cli.ts` | 1 | `projectionStatus`, `projectionRebuildSweep`, `synthesizeDryRun`, `synthesize`, `dbReview`; timeouts; `projection rebuild`/`synthesize` are writes, `--dry-run` reads |
 | `src/state.ts` | 2, 9, 10 | `StateInputs` (extended), `EMPTY_INPUTS`, `RowId`, `PanelTarget`, `LastJob`, `Outcome`, `RebuildOutcome`, `Busy`; `classifyRefusal`; `vaultState` deleted in Task 10 |
 | `src/git.ts` | 3 | `--untracked-files=all` |
+| `src/bridge.ts` | 3b | `obsidianGitDataPath`, `autoPullMinutes`: Obsidian Git's `autoPullInterval` from its `data.json` |
 | `src/texts.ts` | 4 | every label (`LABELS`, `COMMANDS`, `ROW_TITLES`, `CONFIRM`, `NOTICE`), notice texts, `failedText`, `nextStepText`, `withNext`, `readinessText` |
 | `src/checklist.ts` (new) | 5 | pure `checklist(inputs)`, `jobRunning`, `changeSources`, `rebuildReasons` |
 | `src/persist.ts` (new) | 6 | `Persisted`, `readPersisted`, `withPersisted` |
@@ -89,7 +90,7 @@ just obsidian-plugin-test                                   # npm test && npm ru
 | `src/views/jobCard.ts` (new) | 11 | the job card, moved out of `panel.ts` |
 | `src/views/checklistView.ts` (new) | 11 | header, rows, footer |
 | `src/views/panel.ts` | 11 | `renderPanel` = checklist + tools + callouts + Stores + Activity; `ArtmindView.focus(target)` |
-| `src/main.ts` | 7, 8, 10, 11 | wiring; palette commands; persistence |
+| `src/main.ts` | 7, 8, 10, 11 | wiring; palette commands; persistence; reads Obsidian Git's `data.json` on refresh |
 | `styles.css` | 12 | checklist styles |
 | `docs/USER_GUIDE_TWO_LAPTOPS.md` | 13 | §3.1 rewritten for the checklist |
 | `test/*.test.ts` | each task | as named per task; new `test/checklist.test.ts`, `test/persist.test.ts`, `test/modals.test.ts`, `test/styles.test.ts` |
@@ -110,7 +111,7 @@ Line numbers are `src/controller.ts` / `src/main.ts` before this plan. "→ row"
 | 6 | controller 384 | "Nothing to retry in that job." | unchanged text, `prompt` → documents |
 | 7 | controller 400 | "Retrying N failed files." | unchanged, `prompt` → documents |
 | 8 | controller 433 | Obsidian Git instruction | unchanged text, `error` → the row whose button it was |
-| 9 | controller 449 | "Pull from GitHub first?" [Pull, then sync][Sync without pulling] | confirm modal: "Pull from GitHub first?" [Pull, then apply][Apply without pulling] |
+| 9 | controller 449 | "Pull from GitHub first?" [Pull, then sync][Sync without pulling] | confirm modal: "Pull from GitHub first?" [Pull, then apply][Apply without pulling], only when Obsidian Git's auto pull is off and the last pull seen is older than 5 minutes (decision 3) |
 | 10 | controller 466 | "Synced: …" | `applyDone`: "Applied to graph: 2 docs, 1 table." (+ " Next: …") → remote |
 | 11 | controller 500 | "Ingest in progress — will sync when it finishes" | `prompt`: "Ingest in progress — will apply to graph when it finishes." → remote |
 | 12 | controller 478 | "Resolve first" [Resolve] | `prompt`: "Resolve the artmind conflicts first." → remote (row has [Resolve…]) |
@@ -520,6 +521,7 @@ describe("StateInputs", () => {
       lastRebuild: null,
       busy: { apply: false, rebuild: false, synthesize: false },
       actionErrors: {},
+      obsidianGit: null,
     });
   });
 });
@@ -621,6 +623,8 @@ export interface StateInputs {
   busy: Busy;
   /** The raw error of each row's last failed action: its row's detail, never a notice. */
   actionErrors: Partial<Record<RowId, string>>;
+  /** Obsidian Git's `autoPullInterval` (0: off), or null before the first read (D10). */
+  obsidianGit: { autoPullMinutes: number } | null;
 }
 
 export const NOT_BUSY: Busy = { apply: false, rebuild: false, synthesize: false };
@@ -640,6 +644,7 @@ export const EMPTY_INPUTS: StateInputs = {
   lastRebuild: null,
   busy: NOT_BUSY,
   actionErrors: {},
+  obsidianGit: null,
 };
 ```
 
@@ -791,6 +796,92 @@ Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>"
 
 ---
 
+### Task 3b: Obsidian Git's auto pull interval (spec D10)
+
+Obsidian Git keeps its settings in `<configDir>/plugins/obsidian-git/data.json`, and `autoPullInterval` (minutes; 0 when absent) is what this plan needs. Task 10 has `main.ts` read the file on every refresh through `app.vault.adapter.read`, since Obsidian does not index `.obsidian/`. This task adds only the pure parser.
+
+**Files:**
+- Modify: `obsidian/artmind-obsidian/src/bridge.ts` (append)
+- Test: `obsidian/artmind-obsidian/test/bridge.test.ts`
+
+- [ ] **Step 1: Write the failing test**
+
+In `test/bridge.test.ts`, change the import from `../src/bridge` to:
+
+```ts
+import { type CommandsLike, INSTRUCTIONS, KNOWN_IDS, ObsidianGitBridge, autoPullMinutes, obsidianGitDataPath } from "../src/bridge";
+```
+
+and append:
+
+```ts
+describe("Obsidian Git's auto pull (checklist spec D10)", () => {
+  it("lives in the vault's config dir", () => {
+    expect(obsidianGitDataPath(".obsidian")).toBe(".obsidian/plugins/obsidian-git/data.json");
+  });
+
+  it("reads autoPullInterval in minutes", () => {
+    expect(autoPullMinutes('{"syncMethod":"merge","autoPullInterval":10}')).toBe(10);
+  });
+
+  it("counts as off when the key, the file or the JSON is missing or wrong", () => {
+    // The user's vault today (Obsidian Git 2.41.1): no autoPullInterval, so its default, 0.
+    expect(autoPullMinutes('{"syncMethod":"merge","autoSaveInterval":10,"autoPullOnBoot":true}')).toBe(0);
+    expect(autoPullMinutes(null)).toBe(0);
+    expect(autoPullMinutes("")).toBe(0);
+    expect(autoPullMinutes("{not json")).toBe(0);
+    expect(autoPullMinutes("null")).toBe(0);
+    expect(autoPullMinutes('{"autoPullInterval":"10"}')).toBe(0);
+    expect(autoPullMinutes('{"autoPullInterval":-5}')).toBe(0);
+  });
+});
+```
+
+- [ ] **Step 2: Run it to verify it fails**
+
+Run: `cd obsidian/artmind-obsidian && npx vitest run test/bridge.test.ts`
+Expected: FAIL: `autoPullMinutes is not a function`.
+
+- [ ] **Step 3: Implement**
+
+Append to `src/bridge.ts`:
+
+```ts
+/** Obsidian Git's settings file, under the vault's config dir (`app.vault.configDir`). */
+export function obsidianGitDataPath(configDir: string): string {
+  return `${configDir}/plugins/obsidian-git/data.json`;
+}
+
+/** `autoPullInterval` (minutes) from Obsidian Git's `data.json`: 0, its
+ * default, when the file is missing, isn't JSON, or holds no positive
+ * number there. Above 0, pulls reach row 1 by themselves (spec D10). */
+export function autoPullMinutes(text: string | null): number {
+  if (!text) return 0;
+  try {
+    const value = (JSON.parse(text) as { autoPullInterval?: unknown } | null)?.autoPullInterval;
+    return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : 0;
+  } catch {
+    return 0;
+  }
+}
+```
+
+- [ ] **Step 4: Run the tests**
+
+Run: `cd obsidian/artmind-obsidian && npx vitest run test/bridge.test.ts && npm run typecheck`
+Expected: PASS.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add obsidian/artmind-obsidian/src/bridge.ts obsidian/artmind-obsidian/test/bridge.test.ts
+git commit -m "feat(obsidian): read Obsidian Git's autoPullInterval from its data.json
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>"
+```
+
+---
+
 ### Task 4: Every label, and the new notice texts (`texts.ts`)
 
 Additive: today's `pulledText`, `newFilesText`, `ingestDoneText`, `stalledText` and `syncDoneText` stay until Task 10 rewrites them with the controller.
@@ -805,6 +896,7 @@ In `test/texts.test.ts`, replace the import line from `../src/texts` with:
 
 ```ts
 import {
+  AUTO_PULL_HINT,
   COMMANDS,
   CONFIRM,
   LABELS,
@@ -888,6 +980,7 @@ describe("the checklist's notice texts (checklist spec §5)", () => {
     expect(NOTICE.applyQueued).toBe("Ingest in progress — will apply to graph when it finishes.");
     expect(CONFIRM.applyFirst).toBe("The other laptop has changes not applied to your graph.");
     expect(CONFIRM.pullFirst).toBe("Pull from GitHub first?");
+    expect(AUTO_PULL_HINT).toBe("Turn on Obsidian Git's auto pull to see the other laptop's changes");
   });
 });
 ```
@@ -981,6 +1074,9 @@ export const NOTICE = {
   nothingToRetry: "Nothing to retry in that job.",
   neo4jIngest: "Neo4j is unreachable: extraction will run, the graph write will fail.",
 } as const;
+
+/** Row 1's extra line when Obsidian Git's auto pull is off (spec D10). */
+export const AUTO_PULL_HINT = "Turn on Obsidian Git's auto pull to see the other laptop's changes";
 
 /** `4,332`: counts in the checklist and its notices. */
 export function count(n: number): string {
@@ -1082,6 +1178,7 @@ function inputs(overrides: Partial<StateInputs> = {}): StateInputs {
     projection: READY,
     synthesis: [],
     git: { ahead: 0, artmindChanges: [] },
+    obsidianGit: { autoPullMinutes: 10 },
     ...overrides,
   };
 }
@@ -1105,8 +1202,8 @@ const lastJobOf = (name: string, at = 1_000) => ({ status: fixture(name).json, r
 
 describe("checklist: each row state (checklist spec §3.2)", () => {
   it.each<[string, RowId, Partial<StateInputs>, [string, string, string, string[]]]>([
-    ["remote up to date", "remote", {}, ["done", "✓", "up to date", []]],
-    ["remote behind", "remote", { status: fixture("vault-status.behind").json }, ["todo", "●", "2 docs · 1 table to apply", ["Apply to graph"]]],
+    ["remote up to date", "remote", {}, ["done", "✓", "up to date", ["Pull"]]],
+    ["remote behind", "remote", { status: fixture("vault-status.behind").json }, ["todo", "●", "2 docs · 1 table to apply", ["Apply to graph", "Pull"]]],
     ["remote in conflict", "remote", { status: fixture("vault-status.merge-conflict").json }, ["attention", "⚠", "1 artmind file in conflict", ["Resolve…"]]],
     ["remote merge left to complete", "remote", withStatus((s) => (s.sync.unresolved_conflicts = [])), ["todo", "●", "resolved, complete the merge", ["Complete the merge"]]],
     ["remote not pulled", "remote", withStatus((s) => {
@@ -1114,8 +1211,8 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
       s.sync.unresolved_conflicts = [];
       s.sync.stores.graph.state = "not_ancestor";
     }), ["todo", "●", "the other laptop's commits aren't pulled", ["Pull"]]],
-    ["remote first time", "remote", { status: fixture("vault-status.no-bookmark").json }, ["todo", "●", "first sync on this laptop", []]],
-    ["remote Neo4j down", "remote", { status: fixture("vault-status.neo4j-unreachable").json }, ["attention", "!", "Neo4j unreachable", []]],
+    ["remote first time", "remote", { status: fixture("vault-status.no-bookmark").json }, ["todo", "●", "first sync on this laptop", ["Pull"]]],
+    ["remote Neo4j down", "remote", { status: fixture("vault-status.neo4j-unreachable").json }, ["attention", "!", "Neo4j unreachable", ["Pull"]]],
     ["remote artmind missing", "remote", { problem: { kind: "missing", looked: [] } }, ["attention", "✗", "artmind can't run", []]],
     ["remote applying", "remote", { busy: { apply: true, rebuild: false, synthesize: false } }, ["running", "◌", "applying to graph…", []]],
     ["remote not read yet", "remote", { status: null }, ["waiting", "○", "checking…", []]],
@@ -1154,6 +1251,22 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
 
   it("row 1 says when it last applied", () => {
     expect(row({ lastApply: { at: Date.now(), ok: true, summary: "x" } }, "remote").summary).toMatch(/^up to date · applied \d\d:\d\d$/);
+  });
+
+  it("row 1 asks for Obsidian Git's auto pull when it is off, and only then (D10)", () => {
+    const hint = "Turn on Obsidian Git's auto pull to see the other laptop's changes";
+    expect(row({ obsidianGit: { autoPullMinutes: 0 } }, "remote").detail).toEqual([hint]);
+    expect(row({ obsidianGit: { autoPullMinutes: 0 }, status: fixture("vault-status.behind").json }, "remote").detail).toEqual([hint]);
+    expect(row({ obsidianGit: { autoPullMinutes: 10 } }, "remote").detail).toEqual([]);
+    expect(row({ obsidianGit: null }, "remote").detail).toEqual([]);
+    expect(row({ obsidianGit: { autoPullMinutes: 0 }, status: null }, "remote").detail).toEqual([]);
+  });
+
+  it("row 1 keeps Pull as an outline button, never during a merge", () => {
+    const behind = checklist(inputs({ status: fixture("vault-status.behind").json }));
+    expect(behind.current).toBe("remote");
+    expect(behind.rows[0].buttons.map((b) => [b.label, b.action.type])).toEqual([["Apply to graph", "apply"], ["Pull", "pull"]]);
+    expect(row({ status: fixture("vault-status.merge-conflict").json }, "remote").buttons.map((b) => b.label)).toEqual(["Resolve…"]);
   });
 
   it("row 1 shows the bootstrap step for a first time on this laptop", () => {
@@ -1330,6 +1443,7 @@ describe("checklist: blocked commands (checklist spec §4, palette)", () => {
   it("a merge in progress blocks apply and ingest", () => {
     const { blocked } = checklist(inputs({ status: fixture("vault-status.merge-conflict").json, pending: fixture("ingest-pending").json }));
     expect(blocked.ingest).toBe("A merge is in progress — finish it first");
+    expect(blocked.pull).toBe("A merge is in progress — finish it first");
     expect(blocked.resolve).toBeNull();
   });
 });
@@ -1410,7 +1524,7 @@ In `src/state.ts`, change `function problemText(problem: ArtmindProblem): string
 
 ```ts
 import { BOOTSTRAP_STEP, type RowId, type StateInputs, type Tone, behindParts, plural, problemText } from "./state";
-import { LABELS, NOTICE, ROW_TITLES, count, countOf, ingestLabel } from "./texts";
+import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, count, countOf, ingestLabel } from "./texts";
 import type { JobStatus, TablePending, TableToReview } from "./types";
 
 export type { RowId } from "./state";
@@ -1610,7 +1724,7 @@ export function checklist(inputs: StateInputs): Checklist {
   const cannotRun = inputs.problem ? problemText(inputs.problem) : null;
   const mergeText = merge ? `${merge[0].toUpperCase()}${merge.slice(1)} is in progress — finish it first` : null;
   const blocked: Record<CommandId, string | null> = {
-    pull: null,
+    pull: mergeText,
     apply: first(
       cannotRun,
       inputs.busy.apply ? "Already applying" : null,
@@ -1654,6 +1768,9 @@ export function checklist(inputs: StateInputs): Checklist {
   };
 
   // ── 1 From the other laptop ──
+  // Pull stays available as an outline button wherever pulling makes sense;
+  // it is the main button only when a bookmark isn't in this clone (D10).
+  const pullButton = button({ type: "pull" }, LABELS.pull, blocked.pull);
   let remote: Row;
   if (cannotRun) remote = makeRow("remote", { state: "attention", glyph: "✗", tone: "red", summary: "artmind can't run", detail: [cannotRun] });
   else if (!inputs.status) remote = makeRow("remote", { state: "waiting", glyph: "○", tone: "grey", summary: "checking…" });
@@ -1677,24 +1794,35 @@ export function checklist(inputs: StateInputs): Checklist {
       buttons: [button({ type: "completeMerge" }, LABELS.completeMerge, null)],
     });
   } else if (graphError) {
-    remote = makeRow("remote", { state: "attention", glyph: "!", tone: "red", summary: neo4jUnreachable ? "Neo4j unreachable" : "can't read the graph", detail: [graphError] });
+    remote = makeRow("remote", {
+      state: "attention",
+      glyph: "!",
+      tone: "red",
+      summary: neo4jUnreachable ? "Neo4j unreachable" : "can't read the graph",
+      detail: [graphError],
+      buttons: [pullButton],
+    });
   } else if (storeErrors.length) {
-    remote = makeRow("remote", { state: "attention", glyph: "!", tone: "red", summary: "an apply would fail", detail: storeErrors });
+    remote = makeRow("remote", { state: "attention", glyph: "!", tone: "red", summary: "an apply would fail", detail: storeErrors, buttons: [pullButton] });
   } else if (notAncestor) {
-    remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "the other laptop's commits aren't pulled", buttons: [button({ type: "pull" }, LABELS.pull, blocked.pull)] });
+    remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "the other laptop's commits aren't pulled", buttons: [pullButton] });
   } else if (noBookmark) {
-    remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "first sync on this laptop", detail: [BOOTSTRAP_STEP] });
+    remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "first sync on this laptop", detail: [BOOTSTRAP_STEP], buttons: [pullButton] });
   } else if (behind) {
     remote = makeRow("remote", {
       state: "todo",
       glyph: "●",
       tone: "amber",
       summary: `${behindParts(stores).join(" · ") || "changes"} to apply`,
-      buttons: [button({ type: "apply" }, LABELS.apply, blocked.apply)],
+      buttons: [button({ type: "apply" }, LABELS.apply, blocked.apply), pullButton],
     });
   } else {
     const applied = inputs.lastApply?.ok ? ` · applied ${clock(inputs.lastApply.at)}` : "";
-    remote = makeRow("remote", { state: "done", glyph: "✓", tone: "grey", summary: `up to date${applied}` });
+    remote = makeRow("remote", { state: "done", glyph: "✓", tone: "grey", summary: `up to date${applied}`, buttons: [pullButton] });
+  }
+  // With auto pull off, nothing tells row 1 the other laptop pushed (D10).
+  if (inputs.obsidianGit?.autoPullMinutes === 0 && remote.state !== "waiting" && !cannotRun) {
+    remote = { ...remote, detail: [...remote.detail, AUTO_PULL_HINT] };
   }
 
   // ── 2 Documents ──
@@ -2703,7 +2831,7 @@ Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>"
 
 ### Task 10: The controller runs on the checklist — no buttons in notices, confirm modals, Rebuild graph, Synthesize…, Commit & push, the palette
 
-The switch. Notices lose their buttons and gain a target row; out-of-order clicks open the confirm modal; the new actions run through the write queue; the heavy reads get their cadence; the last job, apply and rebuild are saved. `main.ts` is rewritten in full here, palette included. The panel keeps rendering from `snapshot.state` / `lastSync` / `jobResults` (kept in `Snapshot` for one task) until Task 11 rewrites it.
+The switch. Notices lose their buttons and gain a target row; every refresh also reads Obsidian Git's auto pull interval (Task 3b's parser, through `app.vault.adapter.read`); out-of-order clicks open the confirm modal; the new actions run through the write queue; the heavy reads get their cadence; the last job, apply and rebuild are saved. `main.ts` is rewritten in full here, palette included. The panel keeps rendering from `snapshot.state` / `lastSync` / `jobResults` (kept in `Snapshot` for one task) until Task 11 rewrites it.
 
 **Files:**
 - Modify: `obsidian/artmind-obsidian/src/settings.ts`, `src/views/settingsTab.ts:53-61`
@@ -3121,6 +3249,8 @@ function setup(options: {
   settings?: Partial<ArtmindSettings>;
   gitCommands?: GitAction[];
   pullIsOld?: boolean;
+  /** Obsidian Git's autoPullInterval; 0 (its default) unless a test turns it on. */
+  autoPull?: number;
   changes?: string[];
   ahead?: number | null;
   domains?: string[];
@@ -3162,6 +3292,7 @@ function setup(options: {
     settings: () => ({ ...DEFAULT_SETTINGS, ...options.settings }),
     detect: async () => options.detected ?? { path: "/Users/me/.local/bin/artmind", looked: ["/Users/me/.local/bin/artmind"] },
     domains: () => options.domains ?? ["general"],
+    readObsidianGit: async () => ({ autoPullMinutes: options.autoPull ?? 0 }),
     persisted: options.persisted,
     persist: (p) => saved.push(p),
     now: () => clock,
@@ -3326,7 +3457,7 @@ describe("Apply to graph (checklist spec §3.3)", () => {
     return t;
   }
 
-  it("asks to pull first when the last pull is old, in the confirm modal", async () => {
+  it("asks to pull first when auto pull is off and the last pull is old, in the confirm modal", async () => {
     const t = await behind({ pullIsOld: true });
 
     await t.controller.apply();
@@ -3341,6 +3472,22 @@ describe("Apply to graph (checklist spec §3.3)", () => {
     await t.flush();
     expect(t.ran).toEqual(["pull"]);
     expect(t.cli.calls).toContain("sync");
+  });
+
+  it("never asks to pull when Obsidian Git's auto pull is on (D10)", async () => {
+    const t = await behind({ pullIsOld: true, autoPull: 10 });
+    t.cli.calls.length = 0;
+
+    await t.controller.apply();
+
+    expect(t.views.confirms).toEqual([]);
+    expect(t.cli.calls[0]).toBe("sync");
+    expect(t.controller.inputs.obsidianGit).toEqual({ autoPullMinutes: 10 });
+  });
+
+  it("with auto pull off, row 1 says to turn it on", async () => {
+    const t = await behind();
+    expect(t.rowOf("remote").detail).toContain("Turn on Obsidian Git's auto pull to see the other laptop's changes");
   });
 
   it("applies straight away when Obsidian Git has no Pull command", async () => {
@@ -4071,6 +4218,9 @@ export interface ControllerDeps {
   detect: () => Promise<{ path: string | null; looked: string[] }>;
   /** The domains `.artmind/vault.yaml` maps: the synthesize dry runs' domains. */
   domains: () => string[];
+  /** Obsidian Git's auto pull interval, read from its `data.json` on every
+   * refresh (spec D10); an unreadable file reads as 0. */
+  readObsidianGit: () => Promise<{ autoPullMinutes: number }>;
   /** What `saveData` kept from the last session. */
   persisted?: Persisted;
   /** Called whenever the last job, apply or rebuild changes. */
@@ -4242,8 +4392,9 @@ export class Controller {
   }
 
   /** Every read at once: status, pending files and tables, active jobs, the
-   * git facts and, when `heavy` (or never yet), projection status, db
-   * review and the synthesize dry runs. Nothing here writes. */
+   * git facts, Obsidian Git's auto pull setting and, when `heavy` (or never
+   * yet), projection status, db review and the synthesize dry runs.
+   * Nothing here writes. */
   async refresh(opts: { heavy?: boolean } = {}): Promise<void> {
     const problem = this.inputs.problem;
     if (problem && problem.kind !== "failed") {
@@ -4252,13 +4403,14 @@ export class Controller {
     }
     const heavy = Boolean(opts.heavy) || this.lastHeavyAt === Number.NEGATIVE_INFINITY;
     const { cli, git } = this.deps;
-    const [status, pending, tables, active, ahead, changes, heavyReads] = await Promise.all([
+    const [status, pending, tables, active, ahead, changes, obsidianGit, heavyReads] = await Promise.all([
       cli.status(),
       cli.ingestPending(),
       cli.tablesPending(),
       this.inputs.activeJob ? Promise.resolve(null) : cli.jobsActive(),
       git.ahead(),
       git.artmindChanges(),
+      this.deps.readObsidianGit(),
       heavy ? this.readHeavy() : Promise.resolve(null),
     ]);
     const readErrors: string[] = [];
@@ -4279,6 +4431,7 @@ export class Controller {
       tablesPending: tables.ok ? (tables.json as TablePending[]) : null,
       git: { ahead, artmindChanges: changes },
       problem: status.ok ? null : { kind: "failed", command: "vault status", message: status.error ?? "failed" },
+      obsidianGit,
       ...(heavyReads ?? {}),
     });
   }
@@ -4456,11 +4609,19 @@ export class Controller {
     next();
   }
 
-  /** Apply to graph (`vault sync`): asks to pull first when the last pull is
-   * old (spec §3.3); a refusal becomes a text-only notice. */
+  /** Whether Apply should ask "Pull from GitHub first?" (spec §3.3, D10):
+   * only with Obsidian Git's auto pull off (or not read yet) and the last
+   * pull seen more than 5 minutes ago. */
+  private shouldOfferPull(): boolean {
+    const autoPull = this.inputs.obsidianGit?.autoPullMinutes ?? 0;
+    return autoPull === 0 && Boolean(this.watchers?.pullIsOld()) && this.deps.bridge.has("pull");
+  }
+
+  /** Apply to graph (`vault sync`): asks to pull first when auto pull is off
+   * and the last pull is old; a refusal becomes a text-only notice. */
   async apply(opts: { skipPull?: boolean; then?: () => void } = {}): Promise<void> {
     if (!this.guard("apply", "remote")) return;
-    if (!opts.skipPull && this.watchers?.pullIsOld() && this.deps.bridge.has("pull")) {
+    if (!opts.skipPull && this.shouldOfferPull()) {
       this.deps.views.confirm({
         text: CONFIRM.pullFirst,
         choices: [
@@ -4684,7 +4845,7 @@ Replace `src/main.ts` with:
 import { FileSystemAdapter, Plugin, parseYaml } from "obsidian";
 import { AdminConsole, adminOutcomeText, hostPort, stopOutcomeText } from "./admin";
 import { openInBrowser, realAdminDeps } from "./adminDeps";
-import { ObsidianGitBridge, type CommandsLike } from "./bridge";
+import { ObsidianGitBridge, type CommandsLike, autoPullMinutes, obsidianGitDataPath } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
 import { Controller, type Snapshot } from "./controller";
 import { GitReader } from "./git";
@@ -4755,6 +4916,7 @@ export default class ArtmindPlugin extends Plugin {
       settings: () => this.artmindSettings,
       detect: () => detectArtmind(this.artmindSettings.artmindPath, defaultDetectDeps()),
       domains: () => this.mappings.map((m) => m.domain),
+      readObsidianGit: () => this.readObsidianGit(),
       persisted: this.persisted,
       persist: (persisted) => {
         this.persisted = persisted;
@@ -4833,6 +4995,19 @@ export default class ArtmindPlugin extends Plugin {
   /** The settings and the persisted panel state, in one `data.json`. */
   private async saveAll(): Promise<void> {
     await this.saveData(withPersisted(this.artmindSettings, this.persisted));
+  }
+
+  /** Obsidian Git's `autoPullInterval` (spec D10). `.obsidian/` is not
+   * indexed either: read through the adapter, on every refresh like the
+   * manifest. A missing or unreadable file counts as 0 (auto pull off). */
+  private async readObsidianGit(): Promise<{ autoPullMinutes: number }> {
+    let text: string | null = null;
+    try {
+      text = await this.app.vault.adapter.read(obsidianGitDataPath(this.app.vault.configDir));
+    } catch {
+      text = null;
+    }
+    return { autoPullMinutes: autoPullMinutes(text) };
   }
 
   /** `.artmind/` is a dot-folder Obsidian does not index: read it through the adapter. */
@@ -5504,6 +5679,7 @@ describe("StateInputs", () => {
       lastRebuild: null,
       busy: { apply: false, rebuild: false, synthesize: false },
       actionErrors: {},
+      obsidianGit: null,
     });
   });
 });
@@ -6057,6 +6233,8 @@ export interface StateInputs {
   busy: Busy;
   /** The raw error of each row's last failed action: its row's detail, never a notice. */
   actionErrors: Partial<Record<RowId, string>>;
+  /** Obsidian Git's `autoPullInterval` (0: off), or null before the first read (D10). */
+  obsidianGit: { autoPullMinutes: number } | null;
 }
 
 export const NOT_BUSY: Busy = { apply: false, rebuild: false, synthesize: false };
@@ -6076,6 +6254,7 @@ export const EMPTY_INPUTS: StateInputs = {
   lastRebuild: null,
   busy: NOT_BUSY,
   actionErrors: {},
+  obsidianGit: null,
 };
 
 export function plural(n: number, one: string, many = `${one}s`): string {
@@ -6312,7 +6491,7 @@ The side panel is a **readiness checklist**, top to bottom:
 
 | Row | What it says | Its button |
 |---|---|---|
-| From the other laptop | ✓ up to date, or what there is to apply, or conflicts | **Pull** · **Apply to graph** (`artmind vault sync`) · **Resolve…** · **Complete the merge** |
+| From the other laptop | ✓ up to date, or what there is to apply, or conflicts; a hint when Obsidian Git's auto pull is off | **Apply to graph** (`artmind vault sync`) · **Resolve…** · **Complete the merge** · **Pull** (always there) |
 | Documents | how many files to ingest (expand for the paths), the running job, failures | **Ingest N files** · **Retry failed** · **Retry job** |
 | Tables | tables whose classifications need review; tables ready for the graph | **Review in admin console ↗** (opens the chat with the request filled in; you send it) · **Review & project…** |
 | Graph | ✓ built and embedded, or *needs rebuild* with each reason | **Rebuild graph** (`artmind projection rebuild --sweep`) |
@@ -6324,8 +6503,13 @@ steps are left; **↻** re-reads everything. The **current step** (the first row
 not done) is highlighted and has the only filled button. Other buttons still
 work; clicking one out of order asks first (for example, *Ingest* while the
 other laptop's changes aren't applied offers [Apply first] [Ingest anyway]).
-*Apply to graph* asks "Pull from GitHub first?" when the last pull is more than
-five minutes old.
+
+Row 1 stays current by itself when **Obsidian Git's auto pull** is on (Obsidian
+Git settings → "Auto pull interval", in minutes): the plugin reads that setting
+and never fetches on its own. While auto pull is off, row 1 says "Turn on
+Obsidian Git's auto pull to see the other laptop's changes", and *Apply to
+graph* asks "Pull from GitHub first?" when the last pull is more than five
+minutes old. **Pull** is always on row 1 for a pull by hand.
 
 The status bar shows `artmind ●●○○○` and the current step: one dot per row
 plus the footer, filled when done. Clicking it opens the panel at that row.
@@ -6389,13 +6573,17 @@ In Obsidian: Settings → Community plugins → artmind off, then on (or reload 
 - the ribbon icon's right-click offers only *Open side panel*, *Open admin console*, *Run doctor*;
 - the palette lists the twelve commands of Task 10 Step 13; none contains "sync".
 
-- [ ] **Step 3: Pull**
+- [ ] **Step 3: Pull, with Obsidian Git's auto pull off**
+
+Check `.obsidian/plugins/obsidian-git/data.json` has no `autoPullInterval` (or 0); the user's vault today has `{"syncMethod":"merge","autoSaveInterval":10,"autoPullOnBoot":true}`. Expected: row 1 carries the line "Turn on Obsidian Git's auto pull to see the other laptop's changes" and an outline **Pull**.
 
 On the other laptop (or a second clone), commit and push one note change. Here, run the palette's **Pull**. Expected: a text-only notice "Pulled: 1 doc to apply to graph." with no button; clicking it opens the panel at row 1, which shows `● 1 doc to apply` with a filled **Apply to graph**. Status bar: `artmind ○…  1 doc to apply`.
 
 - [ ] **Step 4: Apply to graph**
 
 Wait more than five minutes after the pull, then click **Apply to graph**. Expected: the confirm modal "Pull from GitHub first?" [Pull, then apply] [Apply without pulling]. Choose **Apply without pulling**. Row 1 shows `◌ applying to graph…`, then `✓ up to date · applied HH:MM`. Notice: "Applied to graph: 1 doc, 0 tables." plus " Next: …" naming the new current step.
+
+Now turn auto pull on: Obsidian Git settings → Auto pull interval → 5. Press ↻. Expected: the hint line on row 1 is gone. Push another note from the other laptop and wait for Obsidian Git's auto pull: the "Pulled: 1 doc to apply to graph." notice arrives with no click here. Wait more than five minutes, then click **Apply to graph**: it applies straight away, with no "Pull from GitHub first?" modal. Leave auto pull as you prefer afterwards.
 
 - [ ] **Step 5: Ingest**
 
@@ -6433,11 +6621,12 @@ Stop Neo4j (`colima stop` or `docker stop <neo4j container>`), press ↻ and cli
 - D7 notices advise, no buttons, click opens the row: Task 10 (`Notifier.show(kind, text, target)`, `ObsidianNotifier`), notice map above.
 - D8 status bar and ribbon open the panel, never act: Tasks 7, 8, 10 (`main.ts`).
 - D9 backend: Plan 1.
+- D10 auto pull keeps row 1 current: Task 3b (`autoPullMinutes`, `obsidianGitDataPath`), Task 2 (`StateInputs.obsidianGit`), Task 5 (row 1's hint line, Pull as an outline button; no "N commits on GitHub" state), Task 10 (`readObsidianGit` on every refresh through `app.vault.adapter.read`; `shouldOfferPull` asks only with auto pull off and an old pull; tests "never asks to pull when Obsidian Git's auto pull is on"), Task 13 (guide), Task 14 Steps 3–4.
 
 **§3 The checklist**
 - §3.1 layout, header "Graph ready ✓" / "N steps to a ready graph", ↻: Task 5 (`readinessText`), Task 11 (header test); callouts below the footer (problems, doctor) plus Stores and Activity: Task 11.
-- §3.2 rows: row 1 (up to date · applied, Apply, Pull, Resolve…, Complete the merge, first sync) — Task 5 cases; row 2 (N to ingest with new/changed paths, ingesting n/m, finishing: building the graph, N failed → Retry failed, stalled → Retry job, pending errors, Neo4j warning) — Task 5, Task 11 job card; row 3 (N need review → Review in admin console ↗ via `/?prompt=`, N ready → Review & project…, two mappings → Ask admin-ui) — Tasks 5, 6, 11; row 4 (built · embedded · rebuilt, needs rebuild with each reason incl. schema/same_as/entities/chunks/keys/last job's rebuild failed/sweep errors, after ingest finishes) — Task 5; row 5 (count · ~N LLM calls (model) → Synthesize…) — Task 5; footer (✎ N artmind files to commit · ↑ N, from: ingest · syntheses) — Tasks 3, 5. Order rules and `ready` — Task 5. No commit offer after table2graph — Task 10 (`tableProject`; test "offers no commit after it").
-- §3.3 confirm modal: Ingest while row 1 ● → [Apply first][Ingest anyway]; Apply with an old pull → [Pull, then apply][Apply without pulling] — Task 9 (modal), Task 10 (flows and tests); replaces notices #9, #17, #18.
+- §3.2 rows: row 1 (up to date · applied, Apply, Resolve…, Complete the merge, first sync, Pull always as an outline button, the auto-pull hint) — Task 5 cases; row 2 (N to ingest with new/changed paths, ingesting n/m, finishing: building the graph, N failed → Retry failed, stalled → Retry job, pending errors, Neo4j warning) — Task 5, Task 11 job card; row 3 (N need review → Review in admin console ↗ via `/?prompt=`, N ready → Review & project…, two mappings → Ask admin-ui) — Tasks 5, 6, 11; row 4 (built · embedded · rebuilt, needs rebuild with each reason incl. schema/same_as/entities/chunks/keys/last job's rebuild failed/sweep errors, after ingest finishes) — Task 5; row 5 (count · ~N LLM calls (model) → Synthesize…) — Task 5; footer (✎ N artmind files to commit · ↑ N, from: ingest · syntheses) — Tasks 3, 5. Order rules and `ready` — Task 5. No commit offer after table2graph — Task 10 (`tableProject`; test "offers no commit after it").
+- §3.3 confirm modal: Ingest while row 1 ● → [Apply first][Ingest anyway]; Apply with auto pull off and an old pull → [Pull, then apply][Apply without pulling], never with auto pull on — Task 9 (modal), Task 10 (flows and tests); Ingest never asks about pulling (decision 4); replaces notices #9, #17, #18.
 - §3.4 Synthesize… modal: per-domain counts, model, cap, total, [Synthesize][Cancel], runs each domain in turn through the write queue, re-reads row 5 and the footer — Task 9, Task 10 (`synthesize`, `refresh({ heavy: true })`), Task 1 (`synthesize` is a write).
 
 **§4 Other surfaces**
@@ -6449,8 +6638,8 @@ Stop Neo4j (`colima stop` or `docker stop <neo4j container>`), press ↻ and cli
 
 **§5 Notices** — text only, 6 s / 10 s, click opens the row, action-finished notices name the next step (`withNext`), raw stderr never in a notice (`failedText`, raw error to `actionErrors` → row detail), blocked only for palette runs: Tasks 4, 5, 10; every notice #1–#28 mapped in the table above.
 
-**§5.1 State model** — `StateInputs` gains `projection`, `tablesReview`, `synthesis`, `lastJob` (and `lastApply`, `lastRebuild`, `busy`, `actionErrors`): Task 2; pure `checklist(inputs)` returning rows with `id`, `state`, `glyph`, `tone`, `title`, `detail[]`, `items[]`, buttons with `blockedReason`, `optional`, plus `current`, `ready`: Task 5 (`buttons[]` instead of one `action`: decision 1); `vaultState` replaced: Task 11; read cadence (↻, after writes, after a job, focus ≤ 1/min): Task 10.
+**§5.1 State model** — `StateInputs` gains `projection`, `tablesReview`, `synthesis`, `lastJob` (and `lastApply`, `lastRebuild`, `busy`, `actionErrors`, `obsidianGit`): Task 2; pure `checklist(inputs)` returning rows with `id`, `state`, `glyph`, `tone`, `title`, `detail[]`, `items[]`, buttons with `blockedReason`, `optional`, plus `current`, `ready`: Task 5 (`buttons[]` instead of one `action`: decision 1); `vaultState` replaced: Task 11; read cadence (↻, after writes, after a job, focus ≤ 1/min): Task 10.
 
 **§7 Plugin testing** — `checklist()` table-driven per row state, current step, ready, footer emphasis: Task 5. Notifier has no buttons and clicks open its row: Task 10/11 views tests. Confirm modal only for out-of-order clicks (and the pull check): Task 10 ("following the current step never asks"). Panel render: only the current row's button filled: Task 11. End to end: Task 14.
 
-**Placeholder scan** — every code step has its code; the only "if" step is Task 0's stop condition. **Type consistency** — `RowId`/`PanelTarget`/`StateInputs` in `state.ts` (Task 2, kept in Task 11); `Checklist`/`Row`/`RowAction`/`CommandId` in `checklist.ts` (Task 5); `ConfirmRequest` in `confirmModal.ts` (Task 9); `NoticeLevel`/`Notifier`/`ViewsLike` in `controller.ts` (Task 10); `PanelUi`/`section` in `sections.ts` (Task 11); controller methods `apply`, `ingestWhatChanged`, `rebuild`, `openSynthesize`, `synthesize`, `synthesisPlan`, `commitPush`, `pull`, `openResolve`, `reviewTables`, `run`, `refresh({ heavy })`, `scheduleRefresh(reason)`, `persisted()` are the names main and the tests call.
+**Placeholder scan** — every code step has its code; the only "if" step is Task 0's stop condition. **Type consistency** — `RowId`/`PanelTarget`/`StateInputs` in `state.ts` (Task 2, kept in Task 11); `Checklist`/`Row`/`RowAction`/`CommandId` in `checklist.ts` (Task 5); `autoPullMinutes`/`obsidianGitDataPath` in `bridge.ts` (Task 3b), `readObsidianGit` in `ControllerDeps` and `main.ts` (Task 10), `AUTO_PULL_HINT` in `texts.ts` (Task 4); `ConfirmRequest` in `confirmModal.ts` (Task 9); `NoticeLevel`/`Notifier`/`ViewsLike` in `controller.ts` (Task 10); `PanelUi`/`section` in `sections.ts` (Task 11); controller methods `apply`, `ingestWhatChanged`, `rebuild`, `openSynthesize`, `synthesize`, `synthesisPlan`, `commitPush`, `pull`, `openResolve`, `reviewTables`, `run`, `refresh({ heavy })`, `scheduleRefresh(reason)`, `persisted()` are the names main and the tests call.
