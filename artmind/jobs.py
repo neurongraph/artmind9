@@ -224,6 +224,34 @@ def _set_finalize_state(job_id: str, state: str, error: str | None = None) -> No
         conn.close()
 
 
+def _resolve_failed_finalizes() -> list[str]:
+    """Mark every job whose deferred rebuild failed as `done`, and return
+    their ids. Only `projection rebuild --sweep` calls this, and only after a
+    clean run: a full rebuild of every domain plus both sweeps for each is a
+    superset of what any of those jobs still owed. A host with no registry DB
+    (query-only) has no jobs, and gets no DB created for it."""
+    import artmind.db as db
+
+    if not Path(db.DB_PATH).exists():
+        return []
+    conn = _get_db()
+    try:
+        ids = [
+            r[0] for r in conn.execute(
+                "SELECT job_id FROM ingestion_jobs WHERE finalize_state = 'failed' ORDER BY queued_at"
+            ).fetchall()
+        ]
+        if ids:
+            conn.executemany(
+                "UPDATE ingestion_jobs SET finalize_state = 'done', finalize_error = NULL WHERE job_id = ?",
+                [(job_id,) for job_id in ids],
+            )
+            conn.commit()
+        return ids
+    finally:
+        conn.close()
+
+
 def _fetch_active_jobs() -> list[dict]:
     """Return queued/processing jobs with their file rows."""
     conn = _get_db()

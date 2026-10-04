@@ -3654,3 +3654,39 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
     if domain:
         summary.update(_sweep_domain(domain, swept_keys))
     return summary
+
+
+def rebuild_and_sweep_all() -> dict:
+    """`projection rebuild --sweep`: the one repair command.
+
+    A full, unscoped, batched rebuild (`projection.full_rebuild_batched`,
+    which clears drift once the last batch commits), then both strict embed
+    sweeps for every domain a key belongs to. Returns the rebuild totals plus
+    `domains_swept`, `embedded`, `chunks_embedded`, `sweep_errors` (each
+    prefixed with its domain; empty when every sweep ran) and
+    `finalize_resolved` (the ingest jobs whose failed deferred rebuild this
+    run superseded -- only when no sweep was skipped).
+    """
+    from artmind import projection
+    from artmind.graph_query import neo4j_session
+    from artmind.jobs import _resolve_failed_finalizes
+
+    summary = projection.full_rebuild_batched(None)
+    with neo4j_session() as session:
+        keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, None)))
+    by_domain: dict[str, list] = {}
+    for key in keys:
+        if key[2]:
+            by_domain.setdefault(key[2], []).append(key)
+    embedded = chunks = 0
+    errors: list[str] = []
+    for domain in sorted(by_domain):
+        swept = _sweep_domain(domain, by_domain[domain])
+        embedded += swept["embedded"]
+        chunks += swept["chunks_embedded"]
+        errors.extend(f"{domain}: {err}" for err in swept["sweep_errors"])
+    summary.update(
+        domains_swept=sorted(by_domain), embedded=embedded, chunks_embedded=chunks, sweep_errors=errors,
+    )
+    summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
+    return summary

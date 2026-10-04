@@ -3226,8 +3226,12 @@ def projection():
 
 @projection.command("rebuild")
 @click.option("--domain", default=None, help="Restrict to one domain family (default: every domain)")
+@click.option(
+    "--sweep", is_flag=True,
+    help="Repair: rebuild every domain, then run both embed sweeps for each domain rebuilt",
+)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def projection_rebuild(domain: str | None, compact: bool) -> None:
+def projection_rebuild(domain: str | None, sweep: bool, compact: bool) -> None:
     """Recompute Entities from observations.
 
     Deterministic and needs no language model. Entity ids are
@@ -3235,13 +3239,29 @@ def projection_rebuild(domain: str | None, compact: bool) -> None:
     projection and rebuilding it produces a byte-identical result — which is
     also why this is safe to run at any time.
 
-    Two embed sweeps follow automatically when `--domain` is given: the
-    entity sweep, since a rebuild leaves everything it touched marked
-    `embedding_stale`; and a domain-scoped chunk sweep, which recovers any
-    chunk a deferred batch-ingest commit left unembedded. Neither sweep runs
-    on a domain-unscoped rebuild (no `--domain`).
+    Commits in batches of 400 keys, one transaction each, so a large graph
+    never needs one huge transaction (that ran Neo4j out of memory). Without
+    `--domain` it then records `:ProjectionState`, which clears `projection
+    status`'s drift — only after the last batch committed, so a rebuild that
+    fails part-way leaves drift visible. Re-running is always safe.
+
+    `--sweep` is the repair command (the Obsidian plugin's "Rebuild graph"):
+    a full rebuild of every domain, then the entity and chunk embed sweeps
+    for each domain it rebuilt (`domains_swept`). A sweep that could not run
+    is listed under `sweep_errors`; a clean run also clears any ingest job
+    whose deferred rebuild had failed (`finalize_resolved`).
+
+    With `--domain` (no `--sweep`), both sweeps run for that domain and drift
+    is not cleared. A plain domain-unscoped rebuild runs no sweep.
     """
     _setup_logger()
+    if sweep and domain:
+        raise click.UsageError("--sweep rebuilds every domain; drop --domain")
+    if sweep:
+        from artmind.ingest import rebuild_and_sweep_all
+
+        _echo_json(rebuild_and_sweep_all(), compact)
+        return
     from artmind.ingest import rebuild_projection
 
     _echo_json(rebuild_projection(domain), compact)
