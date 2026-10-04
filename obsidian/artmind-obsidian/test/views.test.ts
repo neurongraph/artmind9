@@ -4,7 +4,7 @@
 import { Notice } from "./mocks/obsidian";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Snapshot } from "../src/controller";
-import { type StateInputs, vaultState } from "../src/state";
+import { EMPTY_INPUTS, type StateInputs, vaultState } from "../src/state";
 import { ObsidianNotifier } from "../src/views/notices";
 import { type PanelHandlers, newPanelUi, renderPanel } from "../src/views/panel";
 import { ResolveModal, renderResolve, resolveBlockedReason } from "../src/views/resolveModal";
@@ -13,12 +13,12 @@ import { LOOKUP_PREVIEW, TableReviewModal, renderTableProblem, renderTableReview
 import { fixture } from "./fixtures";
 
 function snapshot(overrides: Partial<StateInputs> = {}, extra: Partial<Snapshot> = {}): Snapshot {
-  const inputs: StateInputs = {
+  const inputs: StateInputs = { ...EMPTY_INPUTS,
     status: fixture("vault-status.in-sync").json,
     activeJob: null,
     pending: { notes: [], binaries: [], tables: [], errors: [] },
     tablesPending: [],
-    git: { ahead: 0, unsharedArtmindChanges: 0 },
+    git: { ahead: 0, artmindChanges: [] },
     problem: null,
     ...overrides,
   };
@@ -76,7 +76,7 @@ describe("StatusBarItem (spec §3.1)", () => {
     const performed: unknown[] = [];
     const item = new StatusBarItem(el, (action) => performed.push(action));
 
-    item.render(snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, unsharedArtmindChanges: 1 } }).state);
+    item.render(snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, artmindChanges: [".artmind/a.json"] } }).state);
 
     expect(el.textContent).toBe("◉ 2 docs · 1 table behind  ↑ 3 to push  ✎ artmind changes to share");
     expect(el.classList.contains("artmind-tone-amber")).toBe(true);
@@ -118,7 +118,7 @@ describe("the side panel (spec §3.2)", () => {
     const root = document.createElement("div");
     const h = handlers();
 
-    renderPanel(root, snapshot({ status: fixture("vault-status.merge-conflict").json, git: { ahead: 2, unsharedArtmindChanges: 0 } }), h);
+    renderPanel(root, snapshot({ status: fixture("vault-status.merge-conflict").json, git: { ahead: 2, artmindChanges: [] } }), h);
 
     expect(text(root)).toContain("⚠ resolve artmind conflicts");
     expect(text(root)).toContain("Commits to push2");
@@ -133,7 +133,7 @@ describe("the side panel (spec §3.2)", () => {
     const root = document.createElement("div");
     const h = handlers();
 
-    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, unsharedArtmindChanges: 0 } }), h);
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, artmindChanges: [] } }), h);
 
     const header = root.querySelector(".artmind-header")!;
     expect(header.querySelector(".artmind-health")!.textContent).toBe("◉ 2 docs · 1 table behind↑ 3 to push");
@@ -185,13 +185,13 @@ describe("the side panel (spec §3.2)", () => {
   it("offers Commit-and-sync for artmind changes to share, or the instruction when it is missing", () => {
     const root = document.createElement("div");
     const h = handlers();
-    renderPanel(root, snapshot({ git: { ahead: 0, unsharedArtmindChanges: 2 } }), h);
+    renderPanel(root, snapshot({ git: { ahead: 0, artmindChanges: [".artmind/a.json", ".artmind/b.json"] } }), h);
     button(root, "Commit-and-sync").click();
     expect(h.calls).toEqual(["commitAndSync"]);
 
     renderPanel(
       root,
-      snapshot({ git: { ahead: 0, unsharedArtmindChanges: 2 } }, { gitMissing: { commitAndSync: "Run Obsidian Git: Commit-and-sync" }, bridgeWarning: "Obsidian Git has no Commit-and-sync command" }),
+      snapshot({ git: { ahead: 0, artmindChanges: [".artmind/a.json", ".artmind/b.json"] } }, { gitMissing: { commitAndSync: "Run Obsidian Git: Commit-and-sync" }, bridgeWarning: "Obsidian Git has no Commit-and-sync command" }),
       h,
     );
     expect(button(root, "Run Obsidian Git: Commit-and-sync").disabled).toBe(true);

@@ -1,4 +1,13 @@
-import type { IngestPending, JobStatus, StoreReport, TablePending, VaultStatus } from "./types";
+import type {
+  DbReview,
+  IngestPending,
+  JobResults,
+  JobStatus,
+  ProjectionStatus,
+  StoreReport,
+  TablePending,
+  VaultStatus,
+} from "./types";
 
 /** Why artmind itself cannot be used (spec §8). */
 export type ArtmindProblem =
@@ -6,21 +15,98 @@ export type ArtmindProblem =
   | { kind: "too_old"; found: string; need: string }
   | { kind: "failed"; command: string; message: string };
 
-/** Everything `vaultState` decides from. All of it is read, never written. */
+/** The checklist's rows (checklist spec §3.2), top to bottom; `vault` is the footer. */
+export const ROW_IDS = ["remote", "documents", "tables", "graph", "descriptions", "vault"] as const;
+export type RowId = (typeof ROW_IDS)[number];
+
+/** Where a notice or the status bar opens the panel: a row, or a callout. */
+export type PanelTarget = RowId | "problems" | "doctor" | "activity";
+
+/** The last ingest job that finished, saved with `saveData` so its card
+ * and its failures survive a reload. `results` is null when
+ * `job-results` failed. */
+export interface LastJob {
+  status: JobStatus;
+  results: JobResults | null;
+  at: number;
+}
+
+/** How a write action ended. `summary` is the notice text on success, the
+ * raw error on failure (shown only in its row's detail). */
+export interface Outcome {
+  at: number;
+  ok: boolean;
+  summary: string;
+}
+
+/** A rebuild's outcome, with the embed sweeps that could not run. */
+export interface RebuildOutcome extends Outcome {
+  errors: string[];
+}
+
+/** One mapped domain's `projection synthesize --dry-run`. */
+export interface DomainSynthesis {
+  domain: string;
+  count: number;
+  model: string;
+}
+
+/** A plugin write still running: its row shows ◌, its button is blocked. */
+export interface Busy {
+  apply: boolean;
+  rebuild: boolean;
+  synthesize: boolean;
+}
+
+/** Everything `checklist` (and, until Task 11, `vaultState`) decides from. */
 export interface StateInputs {
   /** `vault status --compact`, or null before the first read. */
   status: VaultStatus | null;
-  /** The ingest job being tracked, while it is queued or processing. */
+  /** The ingest job being tracked, while it is queued, processing or finalizing. */
   activeJob: JobStatus | null;
   /** `ingest pending --compact`. */
   pending: IngestPending | null;
   /** `ingest table2graph --pending --compact`. */
   tablesPending: TablePending[] | null;
-  /** Read-only git facts. `unsharedArtmindChanges` already excludes what
-   * the plugin itself wrote in the last 30 s (spec §4.5). */
-  git: { ahead: number | null; unsharedArtmindChanges: number };
+  /** Read-only git facts: commits not pushed (null: no upstream) and the
+   * uncommitted paths under `.artmind/`. */
+  git: { ahead: number | null; artmindChanges: string[] };
   problem: ArtmindProblem | null;
+  /** `projection status --compact`. */
+  projection: ProjectionStatus | null;
+  /** `db review --compact`. */
+  tablesReview: DbReview | null;
+  /** Per mapped domain, or null when not counted yet. */
+  synthesis: DomainSynthesis[] | null;
+  lastJob: LastJob | null;
+  lastApply: Outcome | null;
+  lastRebuild: RebuildOutcome | null;
+  busy: Busy;
+  /** The raw error of each row's last failed action: its row's detail, never a notice. */
+  actionErrors: Partial<Record<RowId, string>>;
+  /** Obsidian Git's `autoPullInterval` (0: off), or null before the first read (D10). */
+  obsidianGit: { autoPullMinutes: number } | null;
 }
+
+export const NOT_BUSY: Busy = { apply: false, rebuild: false, synthesize: false };
+
+export const EMPTY_INPUTS: StateInputs = {
+  status: null,
+  activeJob: null,
+  pending: null,
+  tablesPending: null,
+  git: { ahead: null, artmindChanges: [] },
+  problem: null,
+  projection: null,
+  tablesReview: null,
+  synthesis: null,
+  lastJob: null,
+  lastApply: null,
+  lastRebuild: null,
+  busy: NOT_BUSY,
+  actionErrors: {},
+  obsidianGit: null,
+};
 
 export type StateKind = "conflict" | "error" | "stalled" | "job" | "behind" | "tables" | "ingest" | "in_sync";
 export type Tone = "red" | "amber" | "blue" | "grey" | "spinner";
@@ -222,7 +308,7 @@ export function vaultState(inputs: StateInputs): VaultStateResult {
 
   const secondary: string[] = [];
   if (inputs.git.ahead) secondary.push(`↑ ${inputs.git.ahead} to push`);
-  if (inputs.git.unsharedArtmindChanges) secondary.push("✎ artmind changes to share");
+  if (inputs.git.artmindChanges.length) secondary.push("✎ artmind changes to share");
 
   const cannotRun = inputs.problem ? problemText(inputs.problem) : null;
   const blocked: Record<ActionName, string | null> = {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { errorText } from "../src/cli";
-import { type ArtmindProblem, type StateInputs, type StateKind, classifyRefusal, vaultState } from "../src/state";
+import { type ArtmindProblem, EMPTY_INPUTS, type StateInputs, type StateKind, classifyRefusal, vaultState } from "../src/state";
 import type { IngestPending } from "../src/types";
 import { fixture } from "./fixtures";
 
@@ -8,12 +8,12 @@ const NOTHING_PENDING: IngestPending = { notes: [], binaries: [], tables: [], er
 
 /** In sync, nothing waiting: every case changes one thing from here. */
 function inputs(overrides: Partial<StateInputs> = {}): StateInputs {
-  return {
+  return { ...EMPTY_INPUTS,
     status: fixture("vault-status.in-sync").json,
     activeJob: null,
     pending: NOTHING_PENDING,
     tablesPending: [],
-    git: { ahead: 0, unsharedArtmindChanges: 0 },
+    git: { ahead: 0, artmindChanges: [] },
     problem: null,
     ...overrides,
   };
@@ -145,7 +145,7 @@ describe("vaultState: a stalled job", () => {
 
 describe("vaultState: secondary indicators and blocked actions", () => {
   it("shows commits to push and artmind changes to share", () => {
-    const state = vaultState(inputs({ git: { ahead: 3, unsharedArtmindChanges: 2 } }));
+    const state = vaultState(inputs({ git: { ahead: 3, artmindChanges: [".artmind/a.json", ".artmind/b.json"] } }));
 
     expect(state.secondary).toEqual(["↑ 3 to push", "✎ artmind changes to share"]);
   });
@@ -196,5 +196,27 @@ describe("classifyRefusal: every vault sync refusal becomes an action (spec §4.
     expect(classifyRefusal(errorText(fixture("vault-sync.refusal-no-bookmark").stderr!)!).text).toContain(
       "artmind vault sync --bootstrapEmpty",
     );
+  });
+});
+
+describe("StateInputs", () => {
+  it("starts empty: nothing read, nothing running, nothing remembered", () => {
+    expect(EMPTY_INPUTS).toEqual({
+      status: null,
+      activeJob: null,
+      pending: null,
+      tablesPending: null,
+      git: { ahead: null, artmindChanges: [] },
+      problem: null,
+      projection: null,
+      tablesReview: null,
+      synthesis: null,
+      lastJob: null,
+      lastApply: null,
+      lastRebuild: null,
+      busy: { apply: false, rebuild: false, synthesize: false },
+      actionErrors: {},
+      obsidianGit: null,
+    });
   });
 });

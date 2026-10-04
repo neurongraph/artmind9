@@ -4,6 +4,7 @@ import type { ArtmindSettings, NoticeKind } from "./settings";
 import {
   type Action,
   type ArtmindProblem,
+  EMPTY_INPUTS,
   type PanelSection,
   type StateInputs,
   type VaultStateResult,
@@ -133,14 +134,7 @@ export class Controller {
   private refreshPending = false;
   private lastWriteAt = Number.NEGATIVE_INFINITY;
   private syncQueued: (() => void) | null = null;
-  inputs: StateInputs = {
-    status: null,
-    activeJob: null,
-    pending: null,
-    tablesPending: null,
-    git: { ahead: null, unsharedArtmindChanges: 0 },
-    problem: null,
-  };
+  inputs: StateInputs = { ...EMPTY_INPUTS };
   activity: ActivityEntry[] = [];
   lastSync: Snapshot["lastSync"] = null;
   doctor: DoctorReport | null = null;
@@ -290,11 +284,12 @@ export class Controller {
       this.watchers?.trackJob();
     }
     this.inputs = {
+      ...this.inputs,
       status: status.ok ? (status.json as VaultStatus) : this.inputs.status,
       activeJob,
       pending: pending.ok ? (pending.json as IngestPending) : null,
       tablesPending: tables.ok ? (tables.json as TablePending[]) : null,
-      git: { ahead, unsharedArtmindChanges: ownWrite ? 0 : changes.length },
+      git: { ahead, artmindChanges: ownWrite ? [] : changes },
       problem: status.ok ? null : { kind: "failed", command: "vault status", message: status.error ?? "failed" },
     };
     this.readErrors = readErrors;

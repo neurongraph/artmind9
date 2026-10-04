@@ -1,17 +1,17 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from "vitest";
-import { type StateInputs, vaultState } from "../src/state";
+import { EMPTY_INPUTS, type StateInputs, vaultState } from "../src/state";
 import { RibbonIcon, attentionTone, ribbonItems } from "../src/views/ribbon";
 import { fixture } from "./fixtures";
 import { Menu } from "./mocks/obsidian";
 
 function state(overrides: Partial<StateInputs> = {}) {
-  return vaultState({
+  return vaultState({ ...EMPTY_INPUTS,
     status: fixture("vault-status.in-sync").json,
     activeJob: null,
     pending: { notes: [], binaries: [], tables: [], errors: [] },
     tablesPending: [],
-    git: { ahead: 0, unsharedArtmindChanges: 0 },
+    git: { ahead: 0, artmindChanges: [] },
     problem: null,
     ...overrides,
   });

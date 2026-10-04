@@ -124,7 +124,7 @@ function toolbar(root: HTMLElement, snapshot: Snapshot, handlers: PanelHandlers)
   tool("Resolve", state.blocked.resolve, handlers.resolve);
   tool("Doctor", state.blocked.doctor, handlers.doctor);
   tool("Admin ↗", state.blocked.admin, () => handlers.openAdmin("/")).title ||= "Open the admin console (starts it if need be)";
-  if (inputs.git.unsharedArtmindChanges) {
+  if (inputs.git.artmindChanges.length) {
     const missing = snapshot.gitMissing.commitAndSync;
     tool(missing ?? "Commit-and-sync", missing ? "Obsidian Git's Commit-and-sync is missing" : null, handlers.commitAndSync);
   }
