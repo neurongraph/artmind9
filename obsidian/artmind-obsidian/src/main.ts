@@ -1,7 +1,7 @@
 import { FileSystemAdapter, Plugin, parseYaml } from "obsidian";
 import { AdminConsole, adminOutcomeText, hostPort, stopOutcomeText } from "./admin";
 import { openInBrowser, realAdminDeps } from "./adminDeps";
-import { ObsidianGitBridge, type CommandsLike } from "./bridge";
+import { ObsidianGitBridge, type CommandsLike, autoPullMinutes, obsidianGitDataPath } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
 import { Controller, type Snapshot } from "./controller";
 import { GitReader } from "./git";
@@ -106,19 +106,15 @@ export default class ArtmindPlugin extends Plugin {
       url: () => this.artmindSettings.adminUiUrl,
       vaultRoot: root,
       startedPid: () => this.artmindSettings.adminUiPid,
-      // Not saveSettings: a pid changes nothing artmind needs re-checked.
-      saveStartedPid: async (pid) => {
-        this.artmindSettings.adminUiPid = pid;
-        await this.saveData(this.artmindSettings);
-      },
+      saveStartedPid: (pid) => this.saveStartedPid(pid),
     });
-    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => void this.openPanel()), {
+    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => controller.openPanelAtCurrent()), {
       openPanel: () => void this.openPanel(),
       openAdmin: () => void this.openAdmin(),
       doctor: () => void controller.runDoctor(),
     });
-    // Opens the panel; clicks open at the current row.
-    this.statusBar = new StatusBarItem(this.addStatusBarItem(), () => void this.openPanel());
+    // Opens the panel at the current row; never runs an action (spec D8).
+    this.statusBar = new StatusBarItem(this.addStatusBarItem(), () => controller.openPanelAtCurrent());
     this.registerView(VIEW_TYPE, (leaf) => new ArtmindView(leaf, this.panelHandlers()));
     this.addSettingTab(new ArtmindSettingTab(this.app, this));
     this.addCommands();
@@ -156,15 +152,23 @@ export default class ArtmindPlugin extends Plugin {
     }
   }
 
+  /** Obsidian Git's settings live under the config dir, which Obsidian does
+   * not index: read through the adapter. Unreadable counts as off (D10). */
   private async readObsidianGit(): Promise<{ autoPullMinutes: number }> {
+    let text: string | null = null;
     try {
-      const raw = await this.app.vault.adapter.read(".obsidian/plugins/obsidian-git/data.json");
-      const d = JSON.parse(raw) as Record<string, unknown>;
-      const n = Number(d?.autoPullInterval ?? 0);
-      return { autoPullMinutes: Number.isFinite(n) ? n : 0 };
+      text = await this.app.vault.adapter.read(obsidianGitDataPath(this.app.vault.configDir));
     } catch {
-      return { autoPullMinutes: 0 };
+      text = null;
     }
+    return { autoPullMinutes: autoPullMinutes(text) };
+  }
+
+  /** Not saveSettings: a pid changes nothing artmind needs re-checked. But
+   * saveAll, so the persisted state is written back with it. */
+  private async saveStartedPid(pid: number): Promise<void> {
+    this.artmindSettings.adminUiPid = pid;
+    await this.saveAll();
   }
 
   /** Saves settings and the persisted controller state together. */
@@ -293,7 +297,7 @@ export default class ArtmindPlugin extends Plugin {
       ["synthesize", COMMANDS.synthesize, () => c()?.openSynthesize()],
       ["commit-push", COMMANDS.commitPush, () => c()?.commitPush()],
       ["review-tables", COMMANDS.reviewTables, () => c()?.reviewTables()],
-      ["resolve", COMMANDS.resolve, () => this.openResolve()],
+      ["resolve", COMMANDS.resolve, () => c()?.openResolve()],
       ["doctor", COMMANDS.doctor, () => void c()?.runDoctor()],
       ["open-panel", COMMANDS.openPanel, () => void this.openPanel()],
       ["open-admin-console", COMMANDS.openAdmin, () => void this.openAdmin()],

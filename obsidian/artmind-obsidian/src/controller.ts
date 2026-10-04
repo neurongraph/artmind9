@@ -435,7 +435,8 @@ export class Controller {
     this.record(results);
     this.update({ activeJob: null, lastJob: { status: current, results: results.ok ? (results.json as JobResults) : null, at: this.now() } });
     await this.refresh({ heavy: true });
-    this.notify("ingestDone", withNext(ingestDoneText(current), this.checklist), "documents");
+    if (current.finalize?.state === "failed") this.notify("error", ingestDoneText(current), "graph");
+    else this.notify("ingestDone", withNext(ingestDoneText(current), this.checklist), "documents");
     const queued = this.applyQueued;
     this.applyQueued = null;
     if (queued) queued();
@@ -525,7 +526,12 @@ export class Controller {
   }
 
   pull(): boolean {
-    return this.gitAction("pull", "remote");
+    return this.guard("pull", "remote") && this.gitAction("pull", "remote");
+  }
+
+  /** The status bar and ribbon: the panel, at the current step (spec §4). */
+  openPanelAtCurrent(): void {
+    this.deps.views.openPanel(this.checklist.current ?? "remote");
   }
 
   /** Obsidian Git's Pull, then `next` once HEAD settles. */
@@ -725,7 +731,9 @@ export class Controller {
     const report = (result.json as { tables: TableReport[] }).tables[0];
     this.setActionError("tables", null);
     await this.refresh({ heavy: true });
-    this.notify("table2graphDone", withNext(projectedText(report), this.checklist), "tables");
+    // Its output is gitignored: never point at Commit & push from here.
+    const text = projectedText(report);
+    this.notify("table2graphDone", this.checklist.current === "vault" ? text : withNext(text, this.checklist), "tables");
     return true;
   }
 

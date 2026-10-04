@@ -43,7 +43,7 @@ describe("notice texts (checklist spec §5)", () => {
     expect(ingestDoneText(fixture("ingest-job-status.done").json)).toBe("Ingested 4 files, 1 failed.");
     const allGood = { ...fixture("ingest-job-status.done").json, files: [{ filename: "a", status: "completed", current_step: null }] };
     expect(ingestDoneText(allGood)).toBe("Ingested 1 file.");
-    expect(ingestDoneText(fixture("ingest-job-status.finalize-failed").json)).toBe("Ingested 2 files; building the graph failed.");
+    expect(ingestDoneText(fixture("ingest-job-status.finalize-failed").json)).toBe("Ingested 2 files, but building the graph failed — details in the artmind panel.");
   });
 
   it("a stalled job: one line, details in the panel", () => {

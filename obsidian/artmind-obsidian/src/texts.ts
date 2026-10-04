@@ -19,7 +19,8 @@ export function ingestDoneText(job: JobStatus): string {
   const failed = job.files.filter((f) => f.status === "failed").length;
   const done = job.files.filter((f) => f.status === "completed").length;
   const base = `Ingested ${plural(done, "file")}${failed ? `, ${failed} failed` : ""}`;
-  return job.finalize?.state === "failed" ? `${base}; building the graph failed.` : `${base}.`;
+  // A failed finalize is an error notice (spec §5): one line, then the panel.
+  return job.finalize?.state === "failed" ? `${base}, but building the graph failed — details in the artmind panel.` : `${base}.`;
 }
 
 export function stalledText(job: JobStatus): string {

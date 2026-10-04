@@ -613,7 +613,9 @@ describe("a job finishing (checklist spec §5)", () => {
 
     await t.controller.pollJob();
 
-    expect(t.shown.map((s) => s.text)).toEqual(["Ingested 2 files; building the graph failed. Next: rebuild graph."]);
+    expect(t.shown).toEqual([
+      { kind: "error", text: "Ingested 2 files, but building the graph failed — details in the artmind panel.", target: "graph" },
+    ]);
     expect(t.rowOf("graph").detail).toContain(`last job's rebuild failed: ${failed.finalize.error}`);
   });
 
@@ -812,6 +814,16 @@ describe("review screens", () => {
     expect(t.ran).toEqual([]);
   });
 
+  it("never suggests Commit & push after projecting a table, even when it is the next step", async () => {
+    const t = setup({ changes: [".artmind/data/kg/general/doc/observations.json"] });
+    await t.controller.refresh();
+    expect(t.controller.checklist.current).toBe("vault");
+
+    await t.controller.tableProject("team");
+
+    expect(t.shown).toEqual([{ kind: "table2graphDone", text: "team projected: 7 entities.", target: "tables" }]);
+  });
+
   it("reports a table with no mapping", async () => {
     const t = setup({ script: { tableDryRun: replay("table2graph.dry-run-no-mapping") } });
 
@@ -883,6 +895,36 @@ describe("row buttons (run)", () => {
     expect(t.views.opened).toEqual(["admin:/?prompt=Review%20x", "table:team", "synthesize"]);
     expect(t.shown).toContainEqual({ kind: "blocked", text: "No merge in progress", target: "remote" });
     expect(t.cli.calls).toContain("projectionRebuildSweep");
+  });
+});
+
+describe("palette and status bar gates (checklist spec §4)", () => {
+  it("Pull is blocked during a merge, with the reason as a notice", async () => {
+    const t = setup({ script: { status: replay("vault-status.merge-conflict") } });
+    await t.controller.refresh();
+
+    expect(t.controller.pull()).toBe(false);
+
+    expect(t.ran).toEqual([]);
+    expect(t.shown.at(-1)).toMatchObject({ kind: "blocked", target: "remote" });
+  });
+
+  it("the status bar and ribbon open the panel at the current row", async () => {
+    const t = setup({ script: { projectionStatus: replay("projection-status.needs-rebuild") } });
+    await t.controller.refresh();
+
+    t.controller.openPanelAtCurrent();
+
+    expect(t.views.opened).toEqual(["panel:graph"]);
+  });
+
+  it("opens at row 1 when nothing is left to do", async () => {
+    const t = setup();
+    await t.controller.refresh();
+
+    t.controller.openPanelAtCurrent();
+
+    expect(t.views.opened).toEqual(["panel:remote"]);
   });
 });
 
