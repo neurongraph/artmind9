@@ -14,7 +14,7 @@ import { Watchers } from "./watchers";
 import { type WebViewerApp, openInWebViewer, webViewerAvailable } from "./webviewer";
 import { ConfirmModal } from "./views/confirmModal";
 import { ObsidianNotifier } from "./views/notices";
-import { ArtmindView, VIEW_TYPE } from "./views/panel";
+import { ArtmindView, type PanelHandlers, VIEW_TYPE } from "./views/panel";
 import { ResolveModal } from "./views/resolveModal";
 import { RibbonIcon } from "./views/ribbon";
 import { ArtmindSettingTab } from "./views/settingsTab";
@@ -182,7 +182,7 @@ export default class ArtmindPlugin extends Plugin {
     }
   }
 
-  private async openPanel(target: PanelTarget | string = "remote"): Promise<void> {
+  private async openPanel(target: PanelTarget = "remote"): Promise<void> {
     let leaf = this.app.workspace.getLeavesOfType(VIEW_TYPE)[0];
     if (!leaf) {
       leaf = this.app.workspace.getRightLeaf(false) ?? this.app.workspace.getLeaf(true);
@@ -267,16 +267,12 @@ export default class ArtmindPlugin extends Plugin {
     if (outcome) this.notifier.show(outcome.kind === "stopped" || outcome.kind === "not_running" ? "prompt" : "error", stopOutcomeText(outcome));
   }
 
-  private panelHandlers() {
+  private panelHandlers(): PanelHandlers {
     return {
-      sync: () => void this.controller?.apply(),
-      ingest: () => void this.controller?.ingestWhatChanged(),
-      retryJob: (jobId: string) => void this.controller?.retryJob(jobId),
-      resolve: () => this.openResolve(),
-      doctor: () => void this.controller?.runDoctor(),
-      reviewTable: (table: string) => this.openTableReview(table),
+      refresh: () => void this.controller?.refresh({ heavy: true }),
+      run: (action) => this.controller?.run(action),
       openAdmin: (path?: string) => void this.openAdmin(path),
-      commitAndSync: () => void this.controller?.gitAction("commitAndSync"),
+      doctor: () => void this.controller?.runDoctor(),
       setPath: () => {
         const setting = (this.app as unknown as AppInternals).setting;
         setting?.open();

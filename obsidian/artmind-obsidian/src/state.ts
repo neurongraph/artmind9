@@ -58,7 +58,7 @@ export interface Busy {
   synthesize: boolean;
 }
 
-/** Everything `checklist` (and, until Task 11, `vaultState`) decides from. */
+/** Everything `checklist` decides from. */
 export interface StateInputs {
   /** `vault status --compact`, or null before the first read. */
   status: VaultStatus | null;
@@ -108,52 +108,7 @@ export const EMPTY_INPUTS: StateInputs = {
   obsidianGit: null,
 };
 
-export type StateKind = "conflict" | "error" | "stalled" | "job" | "behind" | "tables" | "ingest" | "in_sync";
 export type Tone = "red" | "amber" | "blue" | "grey" | "spinner";
-export type PanelSection = "status" | "error" | "job" | "tables" | "doctor" | "bootstrap";
-
-export type Action =
-  | { type: "openResolve" }
-  | { type: "openPanel"; section: PanelSection }
-  | { type: "sync" }
-  | { type: "pull" }
-  | { type: "reviewTables" }
-  | { type: "ingest" };
-
-export interface StateItem {
-  kind: StateKind;
-  label: string;
-  tone: Tone;
-  action: Action;
-  /** One line for the panel. */
-  detail: string;
-}
-
-export type ActionName = "sync" | "ingest" | "resolve" | "doctor" | "tables" | "admin";
-
-export interface VaultStateResult {
-  /** Every state that applies, highest priority first (spec §3.1). */
-  states: StateItem[];
-  /** What the status bar shows. */
-  primary: StateItem;
-  /** `↑ 3 to push`, `✎ artmind changes to share`. */
-  secondary: string[];
-  /** Why each action cannot run right now, or null when it can (spec §3.2). */
-  blocked: Record<ActionName, string | null>;
-  /** Shown beside Ingest when it may run but its graph write will fail. */
-  warnings: Partial<Record<ActionName, string>>;
-  neo4jUnreachable: boolean;
-}
-
-const PRIORITY: StateKind[] = ["conflict", "error", "stalled", "job", "behind", "tables", "ingest", "in_sync"];
-
-export const IN_SYNC: StateItem = {
-  kind: "in_sync",
-  label: "◉ artmind",
-  tone: "grey",
-  action: { type: "openPanel", section: "status" },
-  detail: "Every store is at HEAD and nothing is waiting.",
-};
 
 export function plural(n: number, one: string, many = `${one}s`): string {
   return `${n} ${n === 1 ? one : many}`;
@@ -185,155 +140,6 @@ export function problemText(problem: ArtmindProblem): string {
     case "failed":
       return `\`artmind ${problem.command}\` failed: ${problem.message}`;
   }
-}
-
-/** The whole of the plugin's judgement, as a pure function: which states
- * apply (spec §3.1, highest priority first), which one the status bar
- * shows, what each action is blocked by (§3.2, §4.2) and the secondary
- * indicators. The views render this; they decide nothing. */
-export function vaultState(inputs: StateInputs): VaultStateResult {
-  const states: StateItem[] = [];
-  const sync = inputs.status?.sync;
-  const stores = sync?.stores ?? {};
-  const graphError = sync?.graph_error ?? null;
-  const neo4jUnreachable = Boolean(graphError && graphError.startsWith("graph unreachable"));
-  const merge = sync?.operation_in_progress ?? null;
-  const conflicts = sync?.unresolved_conflicts ?? [];
-  // A stalled job is not running: its worker is gone, so it blocks nothing.
-  const jobStalled = Boolean(inputs.activeJob?.stalled);
-  const jobRunning = Boolean(inputs.activeJob && ["queued", "processing"].includes(inputs.activeJob.status)) && !jobStalled;
-  const storeStates = Object.values(stores).map((report) => report?.state);
-
-  if (conflicts.length) {
-    states.push({
-      kind: "conflict",
-      label: "⚠ resolve artmind conflicts",
-      tone: "red",
-      action: { type: "openResolve" },
-      detail: `${plural(conflicts.length, "file")} under .artmind/ ${conflicts.length === 1 ? "has" : "have"} unresolved conflicts.`,
-    });
-  }
-
-  const errors: string[] = [];
-  if (inputs.problem) errors.push(problemText(inputs.problem));
-  if (neo4jUnreachable) errors.push(`Neo4j unreachable (${inputs.status?.graph.uri || "no URI configured"})`);
-  else if (graphError) errors.push(graphError);
-  for (const [name, report] of Object.entries(stores)) {
-    if (report?.state === "error") errors.push(`the ${name} store's sync would fail: ${report.detail ?? "unknown error"}`);
-  }
-  if (errors.length) {
-    states.push({
-      kind: "error",
-      label: "⚠ artmind",
-      tone: "red",
-      action: { type: "openPanel", section: "error" },
-      detail: errors.join("; "),
-    });
-  }
-
-  if (jobStalled && inputs.activeJob) {
-    const job = inputs.activeJob;
-    states.push({
-      kind: "stalled",
-      label: `⚠ ingest stalled ${job.processed_count}/${job.file_count}`,
-      tone: "amber",
-      action: { type: "openPanel", section: "job" },
-      detail: `Ingest job ${job.job_id} stopped at ${job.processed_count} of ${plural(job.file_count, "file")}: its worker is gone. Retry it from the job card.`,
-    });
-  }
-
-  if (jobRunning && inputs.activeJob) {
-    const job = inputs.activeJob;
-    states.push({
-      kind: "job",
-      label: `◌ ingesting ${job.processed_count}/${job.file_count}`,
-      tone: "spinner",
-      action: { type: "openPanel", section: "job" },
-      detail: `Ingest job ${job.job_id}: ${job.processed_count} of ${plural(job.file_count, "file")} done.`,
-    });
-  }
-
-  if (storeStates.includes("not_ancestor")) {
-    states.push({
-      kind: "behind",
-      label: "◉ pull first",
-      tone: "amber",
-      action: { type: "pull" },
-      detail: "A store's sync bookmark is ahead of this clone: pull from GitHub, then sync.",
-    });
-  } else if (storeStates.includes("no_bookmark")) {
-    states.push({
-      kind: "behind",
-      label: "◉ sync not set up",
-      tone: "amber",
-      action: { type: "openPanel", section: "bootstrap" },
-      detail: "This laptop hasn't synced this vault before.",
-    });
-  } else if (storeStates.includes("behind")) {
-    const parts = behindParts(stores);
-    states.push({
-      kind: "behind",
-      label: `◉ ${parts.join(" · ") || "stores"} behind`,
-      tone: "amber",
-      action: { type: "sync" },
-      detail: `The other laptop's changes are not applied here yet: ${parts.join(", ")}.`,
-    });
-  }
-
-  const tables = (inputs.tablesPending ?? []).filter((t) => t.reason !== "ambiguous");
-  if (tables.length) {
-    states.push({
-      kind: "tables",
-      label: `◉ ${plural(tables.length, "table")} → graph`,
-      tone: "blue",
-      action: { type: "reviewTables" },
-      detail: tables.map((t) => `${t.table} (${t.reason.replace("_", " ")})`).join(", "),
-    });
-  }
-
-  const pending = inputs.pending;
-  const toIngest = pending ? pending.notes.length + pending.binaries.length + pending.tables.length : 0;
-  if (toIngest) {
-    states.push({
-      kind: "ingest",
-      label: `◉ ${toIngest} to ingest`,
-      tone: "blue",
-      action: { type: "ingest" },
-      detail: `${plural(pending!.notes.length, "note")}, ${plural(pending!.binaries.length, "binary", "binaries")}, ${plural(pending!.tables.length, "table")} new or changed.`,
-    });
-  }
-
-  states.sort((a, b) => PRIORITY.indexOf(a.kind) - PRIORITY.indexOf(b.kind));
-  const primary = states[0] ?? IN_SYNC;
-
-  const secondary: string[] = [];
-  if (inputs.git.ahead) secondary.push(`↑ ${inputs.git.ahead} to push`);
-  if (inputs.git.artmindChanges.length) secondary.push("✎ artmind changes to share");
-
-  const cannotRun = inputs.problem ? problemText(inputs.problem) : null;
-  const blocked: Record<ActionName, string | null> = {
-    sync:
-      cannotRun ??
-      (jobRunning ? "An ingest job is running — sync after it finishes" : null) ??
-      (merge ? `${merge[0].toUpperCase()}${merge.slice(1)} is in progress — finish it first` : null) ??
-      (conflicts.length ? "Resolve the artmind conflicts first" : null) ??
-      (neo4jUnreachable ? "Neo4j unreachable" : null) ??
-      (storeStates.includes("no_bookmark") ? "This laptop hasn't synced this vault before" : null),
-    ingest:
-      cannotRun ??
-      (jobRunning ? "An ingest job is already running" : null) ??
-      (merge ? `${merge[0].toUpperCase()}${merge.slice(1)} is in progress — finish it first` : null) ??
-      (toIngest ? null : "Nothing new or changed to ingest"),
-    resolve: cannotRun ?? (merge === "a merge" ? null : "No merge in progress"),
-    doctor: cannotRun,
-    // The admin console is started with the same artmind every other call uses.
-    admin: cannotRun,
-    tables: cannotRun ?? (neo4jUnreachable ? "Neo4j unreachable" : null) ?? (tables.length ? null : "No tables waiting"),
-  };
-  const warnings: Partial<Record<ActionName, string>> = {};
-  if (neo4jUnreachable) warnings.ingest = "Neo4j is unreachable: extraction will run, the graph write will fail";
-
-  return { states, primary, secondary, blocked, warnings, neo4jUnreachable };
 }
 
 /** What a `vault sync` refusal becomes (spec §4.2): never a raw error. */

@@ -9,14 +9,11 @@ import {
   type Busy,
   type DomainSynthesis,
   EMPTY_INPUTS,
-  type Outcome,
   type PanelTarget,
   type RowId,
   type StateInputs,
-  type VaultStateResult,
   classifyRefusal,
   plural,
-  vaultState,
 } from "./state";
 import {
   CONFIRM,
@@ -131,10 +128,6 @@ export interface ActivityEntry {
 export interface Snapshot {
   inputs: StateInputs;
   checklist: Checklist;
-  /** Today's panel reads these three; Task 11 removes them. */
-  state: VaultStateResult;
-  lastSync: Outcome | null;
-  jobResults: JobResults | null;
   activity: ActivityEntry[];
   doctor: DoctorReport | null;
   /** Failures of the background reads, heavy ones included. */
@@ -215,9 +208,6 @@ export class Controller {
     return {
       inputs: this.inputs,
       checklist: this.checklist,
-      state: vaultState(this.inputs),
-      lastSync: this.inputs.lastApply,
-      jobResults: this.inputs.lastJob?.results ?? null,
       activity: this.activity,
       doctor: this.doctor,
       readErrors: [...this.readErrors, ...this.heavyErrors],
