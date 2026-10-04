@@ -42,6 +42,7 @@ them that a step is waiting. Four specific gaps:
 | D7 | **Notices give advice and carry no buttons.** Clicking a notice's text opens the panel at the relevant row. |
 | D8 | **The status bar and ribbon open the panel; they never run an action.** |
 | D9 | The backend and CLI fixes below (§6) are part of this work, not a separate task. |
+| D10 | **Obsidian Git's auto pull keeps row 1 current.** The plugin never fetches: git can't see unpulled commits without a fetch, and fetching would be a git write. Instead, the plugin reads Obsidian Git's `autoPullInterval` from `.obsidian/plugins/obsidian-git/data.json`. When it is above 0, pulled commits reach row 1 by themselves and the plugin never asks "Pull first?". When it is 0 or unreadable, row 1 shows a hint to turn it on, and the pull prompt (§3.3) stays. |
 
 ## 3. The checklist
 
@@ -77,7 +78,7 @@ Each row is computed as a pure function of the state inputs (§5.1). Glyphs: `�
 
 | Row | States → button | Reads |
 |---|---|---|
-| **1 From the other laptop** | ✓ *up to date* · ● *N commits on GitHub* → **Pull** · ● *3 docs · 1 table to apply* → **Apply to graph** · ⚠ *conflicts* → **Resolve…** · ● *resolved, complete the merge* → **Complete the merge** (`obsidian-git:commit`) · ● *first sync on this laptop* (today's bootstrap callout text) | `vault status`, git upstream |
+| **1 From the other laptop** | ✓ *up to date* · ● *3 docs · 1 table to apply* → **Apply to graph** · ⚠ *conflicts* → **Resolve…** · ● *resolved, complete the merge* → **Complete the merge** (`obsidian-git:commit`) · ● *first sync on this laptop* (today's bootstrap callout text) · **Pull** stays available as an outline button. When Obsidian Git's auto pull is off, a hint line reads "Turn on Obsidian Git's auto pull to see the other laptop's changes" (D10) | `vault status`, Obsidian Git `data.json` |
 | **2 Documents** | ✓ *all ingested* · ● *N to ingest*, expanding to paths with `new`/`changed` → **Ingest N files** · ◌ *ingesting n/m*, expanding to today's job card · ◌ ***finishing: building the graph*** (when `finalize.state == pending`) · ✗ *N failed*, expanding to errors → **Retry failed** · ⚠ *stalled* → **Retry job** · plus any `ingest pending` errors | `ingest pending`, `job-status` |
 | **3 Tables** | ✓ · ● *N need review* (classifications unconfirmed) → **Review in admin console ↗** · ● *N ready for the graph* → **Review & project…** (today's `TableReviewModal`) · ● *no mapping* → **Ask admin-ui** | `db review` (new to the plugin), `table2graph --pending` |
 | **4 Graph** | ✓ *built · embedded · rebuilt 10:02* · ! *needs rebuild*, with each reason on its own line: *schema changed* · *same_as edited* · *N entities not embedded* · *N chunks not embedded* · *N observation keys not projected* · *last job's rebuild failed: …* → **Rebuild graph** · ○ *after ingest finishes* (while row 2 is ◌) | `projection status` (extended, B3), `job-status.finalize` (B2) |
@@ -102,8 +103,11 @@ Following the current step never opens it. It replaces today's notices #9 and #1
 
 - **Ingest while row 1 is ●:** "The other laptop has changes not applied to your
   graph." [Apply first] [Ingest anyway]
-- **Apply to graph when the last pull is older than 5 minutes:** "Pull from GitHub
-  first?" [Pull, then apply] [Apply without pulling]
+- **Apply to graph when Obsidian Git's auto pull is off and the last pull seen is
+  older than 5 minutes:** "Pull from GitHub first?" [Pull, then apply]
+  [Apply without pulling]. With auto pull on, this prompt never appears (D10), so
+  following the current step never opens a modal. Ingest never asks about pulling:
+  its [Apply first] goes through this same check.
 
 ### 3.4 Synthesize… modal
 
