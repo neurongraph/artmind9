@@ -1377,6 +1377,10 @@ def full_rebuild(tx, domains: list[str] | None = None, *, synthesis_loader=None)
     `:ProjectionState` — same_as.yaml and the schema set are both global, so a
     partial, one-domain-family full_rebuild can't honestly claim the whole
     projection has caught up with them.
+
+    One transaction for every key: only for callers that already hold a
+    transaction and a bounded key set (`sameas approve`, snapshot import).
+    Everything else uses `full_rebuild_batched`.
     """
     from artmind import same_as
 
@@ -1386,6 +1390,122 @@ def full_rebuild(tx, domains: list[str] | None = None, *, synthesis_loader=None)
     summary = rebuild(tx, keys, same_as_groups=groups, synthesis_loader=synthesis_loader)
     if domains is None:
         record_rebuild(tx, same_as_hash=same_as.content_hash(), schema_hash=schema_set_hash())
+    return summary
+
+
+#: Keys rebuilt per transaction. Neo4j caps a transaction's memory
+#: (`db.memory.transaction.total.max`), and a rebuild's footprint grows with
+#: its key count: a 1223-row table (2450 keys) failed at commit on a 343 MiB
+#: cap once its entities carried embeddings, and a 4,332-key directory ingest
+#: ran a 2 GB colima VM out of memory and killed Neo4j (2026-10-03).
+REBUILD_BATCH = 400
+
+
+def batch_keys(keys, groups: list[list[tuple]], size: int = REBUILD_BATCH) -> list[list[tuple]]:
+    """Split `keys` into rebuild batches of about `size`. Pure.
+
+    A same-as group never straddles two batches: `_plan_groups` only folds a
+    group whose members are all in the keys it is given, so the group is kept
+    whole even when that overfills a batch. Deterministic (sorted), so a rerun
+    rebuilds in the same order.
+    """
+    group_of: dict[tuple, int] = {}
+    for index, group in enumerate(groups):
+        for member in group:
+            group_of.setdefault(tuple(member), index)
+    units: dict[object, list[tuple]] = {}
+    for key in sorted({tuple(k) for k in keys}):
+        units.setdefault(("group", group_of[key]) if key in group_of else ("key", key), []).append(key)
+    batches: list[list[tuple]] = []
+    current: list[tuple] = []
+    for unit in units.values():
+        if current and len(current) + len(unit) > size:
+            batches.append(current)
+            current = []
+        current.extend(unit)
+    if current:
+        batches.append(current)
+    return batches
+
+
+def rebuild_in_batches(keys, groups: list | None = None, *, size: int | None = None) -> dict:
+    """Rebuild `keys`, one write transaction per batch of `size` (default
+    `REBUILD_BATCH`).
+
+    The end state equals one big `rebuild`: each batch deletes and rewrites
+    every `RELATES_TO` edge touching its own entities, resolving them from
+    both ends, so an edge to an entity in a later batch is written when that
+    batch runs. A zero-observation key is GC'd in whichever batch holds it.
+
+    The cost is a window in which part of the projection is stale, and if a
+    batch fails it stays stale until repaired. Every batch is idempotent, so
+    the repair is to run the same command again (or `artmind projection
+    rebuild --sweep`).
+
+    `groups` are the same-as groups to batch and rebuild with. None reads
+    `same_as.yaml` from disk -- right for `ingest table2graph`, wrong for
+    `vault sync`, which passes the file as committed at `head` so an
+    uncommitted edit never reaches the graph (spec 2026-09-26 §6 A1).
+    """
+    from artmind import same_as
+    from artmind.graph_query import neo4j_session
+
+    groups = same_as.load_groups() if groups is None else groups
+    batches = batch_keys(keys, groups, REBUILD_BATCH if size is None else size)
+    totals = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": len(batches)}
+    with neo4j_session() as session:
+        for number, batch in enumerate(batches, start=1):
+            try:
+                summary = session.execute_write(
+                    lambda tx: rebuild(
+                        tx, batch, same_as_groups=groups,
+                        synthesis_loader=lambda ks: load_synthesis_batch(tx, ks),
+                    )
+                )
+            except Exception as e:
+                raise RuntimeError(
+                    f"projection rebuild failed on batch {number}/{len(batches)} ({e}); the "
+                    "observations are committed but part of the projection is stale -- re-run "
+                    "the same command (every batch is idempotent) or `artmind projection rebuild --sweep`"
+                ) from e
+            for field_name in ("rebuilt", "deleted", "absent", "keys"):
+                totals[field_name] += summary.get(field_name, 0)
+            logger.info("projection: rebuilt batch {}/{} ({} key(s))", number, len(batches), len(batch))
+    return totals
+
+
+def full_rebuild_batched(domains: list[str] | None = None) -> dict:
+    """Rebuild every key (in `domains`, or every domain), in batches.
+
+    The deferred path for a directory ingest and the recovery path for drift.
+    Unlike `full_rebuild`, it opens its own sessions: one read transaction for
+    `all_keys`, one write transaction per batch (`rebuild_in_batches`), and,
+    when `domains is None`, one final write transaction for `:ProjectionState`.
+    That final write runs only after the last batch committed, so a failure
+    part-way leaves `projection status` reporting drift. The hashes it records
+    are taken before the first batch, so a `same_as.yaml` edit made while the
+    rebuild runs also stays visible as drift.
+
+    Returns `rebuild_in_batches`' totals plus `domains` (every domain a
+    rebuilt key belongs to) and `recorded`.
+    """
+    from artmind import same_as
+    from artmind.graph_query import neo4j_session
+
+    groups = same_as.load_groups()
+    same_as_hash = same_as.content_hash()
+    schema_hash = schema_set_hash()
+    with neo4j_session() as session:
+        keys = session.execute_read(lambda tx: all_keys(tx, domains))
+    logger.info("Full projection rebuild over {} key(s), in batches of {}", len(keys), REBUILD_BATCH)
+    summary = rebuild_in_batches(sorted(keys), groups)
+    summary["domains"] = sorted({k[2] for k in keys if k[2]})
+    if domains is None:
+        with neo4j_session() as session:
+            session.execute_write(
+                lambda tx: record_rebuild(tx, same_as_hash=same_as_hash, schema_hash=schema_hash)
+            )
+    summary["recorded"] = domains is None
     return summary
 
 
@@ -1500,35 +1620,84 @@ def read_state(tx) -> dict | None:
     return rec.get("p") if rec else None
 
 
+_UNEMBEDDED_ENTITIES_BY_DOMAIN = """
+MATCH (e:Entity)
+WHERE e.name IS NOT NULL AND (e.embedding IS NULL OR e.embedding_stale)
+RETURN e._domain AS domain, count(e) AS n
+"""
+
+_UNPROJECTED_KEYS_BY_DOMAIN = """
+MATCH (o:Observation)
+WHERE o.key IS NOT NULL AND NOT EXISTS { MATCH (:Entity)-[:AGGREGATES]->(o) }
+RETURN o._domain AS domain, count(DISTINCT o.key) AS n
+"""
+
+_UNEMBEDDED_CHUNKS_BY_DOMAIN = """
+MATCH (c:DocChunk) WHERE c.embedding IS NULL
+RETURN c._domain AS domain, count(c) AS n
+"""
+
+_GAP_FIELDS = ("unembedded_entities", "unprojected_keys", "unembedded_chunks")
+
+
+def _gaps_by_domain(tx) -> dict[str, dict[str, int]]:
+    """`{domain: {unembedded_entities, unprojected_keys, unembedded_chunks}}`
+    in three grouped reads -- never one query per domain. An entity counts
+    exactly when the entity embed sweep would pick it up; an observation key
+    counts when no Entity AGGREGATES its observation yet (so a same-as
+    member, which hangs off its canonical's Entity, does not). A node with no
+    domain is grouped under "(none)"."""
+    domains: dict[str, dict[str, int]] = {}
+    for field_name, cypher in zip(
+        _GAP_FIELDS,
+        (_UNEMBEDDED_ENTITIES_BY_DOMAIN, _UNPROJECTED_KEYS_BY_DOMAIN, _UNEMBEDDED_CHUNKS_BY_DOMAIN),
+    ):
+        for row in tx.run(cypher).data():
+            entry = domains.setdefault(row["domain"] or "(none)", dict.fromkeys(_GAP_FIELDS, 0))
+            entry[field_name] = row["n"]
+    return {d: domains[d] for d in sorted(domains)}
+
+
 def status(tx) -> dict:
     """Compare the recorded `:ProjectionState` against `same_as.yaml` and the
-    schema set right now. Read-only, deliberately: queries run through
-    `read_session()` (`READ_ACCESS`), so drift is reported, never auto-fixed —
-    that guarantee is worth more than the convenience of a query silently
-    triggering a write."""
+    schema set right now, and count what the projection is still missing.
+    Read-only, deliberately: queries run through `read_session()`
+    (`READ_ACCESS`), so drift is reported, never auto-fixed.
+
+    `drift` is true when there is no recorded state or either hash differs.
+    `unembedded_entities`, `unprojected_keys` and `unembedded_chunks` are
+    totals of `domains`' per-domain counts; any of them non-zero, or `drift`,
+    means `projection rebuild --sweep` has work to do."""
     from artmind import same_as
-    from artmind.embed_sweep import count_unembedded_chunks
 
     current_same_as = same_as.content_hash()
     current_schema = schema_set_hash()
     recorded = read_state(tx)
+    gaps = _gaps_by_domain(tx)
+    totals = {f: sum(g[f] for g in gaps.values()) for f in _GAP_FIELDS}
     if not recorded:
         return {
             "known": False,
+            "drift": True,
             "same_as_drift": True,
             "schema_drift": True,
             "current_same_as_hash": current_same_as,
             "current_schema_hash": current_schema,
-            "unembedded_chunks": count_unembedded_chunks(tx),
+            **totals,
+            "domains": gaps,
         }
+    same_as_drift = recorded.get("same_as_hash") != current_same_as
+    schema_drift = recorded.get("schema_hash") != current_schema
     return {
         "known": True,
+        "drift": same_as_drift or schema_drift,
         "last_rebuilt_at": recorded.get("last_rebuilt_at"),
-        "same_as_drift": recorded.get("same_as_hash") != current_same_as,
-        "schema_drift": recorded.get("schema_hash") != current_schema,
+        "same_as_drift": same_as_drift,
+        "schema_drift": schema_drift,
         "recorded_same_as_hash": recorded.get("same_as_hash"),
         "current_same_as_hash": current_same_as,
         "recorded_schema_hash": recorded.get("schema_hash"),
         "current_schema_hash": current_schema,
-        "unembedded_chunks": count_unembedded_chunks(tx),
+        **totals,
+        "domains": gaps,
     }

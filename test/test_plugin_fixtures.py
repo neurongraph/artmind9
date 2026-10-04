@@ -32,6 +32,7 @@ import json
 import os
 import re
 import subprocess
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
@@ -217,8 +218,8 @@ def vault(tmp_path, monkeypatch):
     })
     monkeypatch.setattr(ing, "retract_document", lambda doc_id, domain: {"doc_id": doc_id, "affected_keys": []})
     monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {"rebuilt": len(keys), "keys": len(keys)})
-    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None: 0)
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: 0)
+    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: 0)
 
     import artmind.cli as cli_module
 
@@ -246,14 +247,19 @@ def _hold_worker_lock(vault: Vault):
 
 def _behind(vault: Vault) -> None:
     """Synced, then the other laptop's commit pulled: two documents and one
-    structured table this machine's stores have not applied."""
+    structured table this machine's stores have not applied. The table is
+    loaded here to produce its committed text, then this machine's record of
+    having written it is dropped -- as on the machine that pulled it."""
     from artmind.structured.pipeline import ingest_structured_file
+    from artmind.vault import VaultLayout, write_state
+    from artmind.vault_sync import TABLE_FINGERPRINTS_KEY
 
     vault.sync_bootstrap()
     vault.kg_doc("quarterly_review", "doc-quarterly-review")
     vault.kg_doc("hiring_plan", "doc-hiring-plan")
     source = vault.write("Team/team.csv", "name,employer,level\nAnn Lee,Acme,senior\nBo Chan,Acme,junior\n")
     ingest_structured_file(source, "general")
+    write_state(VaultLayout(vault.root), {}, remove=(TABLE_FINGERPRINTS_KEY,))
     vault.commit("from laptop B")
 
 
@@ -534,6 +540,159 @@ def s_table2graph_pending(vault):
     return vault.run("ingest", "table2graph", "--pending", "--compact")
 
 
+# ── Neo4j as the projection commands read it ────────────────────────────────
+
+
+class _Rows:
+    def __init__(self, rows):
+        self._rows = list(rows)
+
+    def data(self):
+        return list(self._rows)
+
+    def single(self):
+        return self._rows[0] if self._rows else None
+
+    def consume(self):
+        return None
+
+
+class ProjectionGraph:
+    """Canned rows per query shape for `projection status`, `projection
+    rebuild --sweep` and `projection synthesize --dry-run`. An unexpected
+    query raises, so a new read cannot slip into a fixture unnoticed."""
+
+    def __init__(self, *, state=None, entity_gaps=(), unprojected=(), chunk_gaps=(), keys=(), entities=()):
+        self.state = state
+        self.entity_gaps = list(entity_gaps)
+        self.unprojected = list(unprojected)
+        self.chunk_gaps = list(chunk_gaps)
+        self.keys = list(keys)
+        self.entities = list(entities)
+
+    def run(self, cypher, **params):
+        if "MERGE (s:ProjectionState" in cypher:
+            self.state = {"same_as_hash": params["same_as_hash"], "schema_hash": params["schema_hash"],
+                          "last_rebuilt_at": params["now"]}
+            return _Rows([])
+        if "ProjectionState" in cypher:
+            return _Rows([{"p": self.state}] if self.state else [])
+        if "RETURN DISTINCT n.key" in cypher:
+            return _Rows([{"key": k} for k in self.keys] if "(n:Observation)" in cypher else [])
+        if "MATCH (e:Entity)" in cypher and "embedding IS NULL" in cypher:
+            return _Rows(self.entity_gaps)
+        if "MATCH (o:Observation)" in cypher and "AGGREGATES" in cypher:
+            return _Rows(self.unprojected)
+        if "MATCH (c:DocChunk)" in cypher:
+            return _Rows(self.chunk_gaps)
+        if "MATCH (s:Synthesis" in cypher:
+            return _Rows(self.entities)
+        raise AssertionError(f"unexpected query in a plugin fixture: {cypher!r}")
+
+    def execute_read(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    execute_write = execute_read
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+@contextmanager
+def _graph(graph: ProjectionGraph):
+    import artmind.graph_query as graph_query
+    import artmind.synthesize as synthesize_module
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(graph_query, "neo4j_session", lambda *a, **k: graph)
+        mp.setattr(synthesize_module, "neo4j_session", lambda *a, **k: graph)
+        yield mp
+
+
+def _current_projection_state() -> dict:
+    from artmind import projection, same_as
+
+    return {"same_as_hash": same_as.content_hash(), "schema_hash": projection.schema_set_hash(),
+            "last_rebuilt_at": "2026-09-30T12:00:00+00:00"}
+
+
+def s_projection_status_ready(vault):
+    with _graph(ProjectionGraph(state=_current_projection_state())):
+        return vault.run("projection", "status", "--compact")
+
+
+def s_projection_status_needs_rebuild(vault):
+    """What job 0c616a6f left: rebuilt, but neither sweep reached Neo4j --
+    plus a same_as.yaml edit since the last full rebuild."""
+    graph = ProjectionGraph(
+        state={**_current_projection_state(), "same_as_hash": "0" * 64},
+        entity_gaps=[{"domain": "general", "n": 2801}, {"domain": "habits", "n": 12}],
+        unprojected=[{"domain": "general", "n": 40}],
+        chunk_gaps=[{"domain": "general", "n": 310}],
+    )
+    with _graph(graph):
+        return vault.run("projection", "status", "--compact")
+
+
+def s_projection_rebuild_sweep(vault):
+    import artmind.ingest as ing
+    from artmind import projection
+
+    graph = ProjectionGraph(keys=["ann lee|PERSON|general", "acme|ORGANIZATION|general", "morning run|HABIT|habits"])
+    with _graph(graph) as mp:
+        mp.setattr(projection, "rebuild",
+                   lambda tx, keys, **kw: {"rebuilt": len(keys), "deleted": 0, "absent": 0, "keys": len(keys)})
+        mp.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: len(keys))
+        mp.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: 3)
+        return vault.run("projection", "rebuild", "--sweep", "--compact")
+
+
+def s_projection_synthesize_dry_run(vault):
+    rows = [
+        {"id": "e1", "key": "ann lee|PERSON|general", "name": "Ann Lee", "entity_class": "PERSON",
+         "observation_count": 4, "current_hash": "h1", "synth_hash": None, "has_open_conflict": False},
+        {"id": "e2", "key": "acme|ORGANIZATION|general", "name": "Acme", "entity_class": "ORGANIZATION",
+         "observation_count": 3, "current_hash": "h2", "synth_hash": "h2", "has_open_conflict": False},
+        {"id": "e3", "key": "bo chan|PERSON|general", "name": "Bo Chan", "entity_class": "PERSON",
+         "observation_count": 1, "current_hash": "h3", "synth_hash": None, "has_open_conflict": False},
+    ]
+    with _graph(ProjectionGraph(entities=rows)) as mp:
+        mp.setenv("ARTMIND_KG_LLM_PROVIDER", "ollama")
+        mp.setenv("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+        return vault.run("projection", "synthesize", "--domain", "general", "--dry-run", "--compact")
+
+
+def s_db_review(vault):
+    _table_registered_and_mapped(vault)
+    return vault.run("db", "review", "--compact")
+
+
+def s_ingest_job_status_finishing(vault):
+    """Every file done; the deferred rebuild is running (`finalize.state == pending`)."""
+    from artmind.jobs import _add_finalize_domain
+
+    job_id = _jobs([("completed", None), ("completed", None)], status="processing", processed=2)
+    _add_finalize_domain(job_id, "general")
+    with _hold_worker_lock(vault):
+        return vault.run("ingest", "job-status", job_id, "--compact")
+
+
+def s_ingest_job_status_finalize_failed(vault):
+    """Every file committed, but the deferred rebuild could not reach Neo4j."""
+    from artmind.jobs import _add_finalize_domain, _set_finalize_state
+
+    job_id = _jobs([("completed", None), ("completed", None)], status="completed", processed=2)
+    _add_finalize_domain(job_id, "general")
+    _set_finalize_state(
+        job_id, "failed",
+        error="general: projection rebuild failed on batch 3/11 (Couldn't connect to 127.0.0.1:7687)",
+    )
+    return vault.run("ingest", "job-status", job_id, "--compact")
+
+
 SCENARIOS = {
     name[2:].replace("_", "-"): fn for name, fn in sorted(globals().items()) if name.startswith("s_") and callable(fn)
 }
@@ -543,7 +702,7 @@ def fixture_name(scenario: str) -> str:
     then the state."""
     for command in ("vault-status", "vault-sync", "vault-resolve", "vault-doctor", "ingest-pending",
                     "ingest-async", "ingest-job-status", "ingest-job-results", "ingest-jobs-active", "ingest-retry-job",
-                    "table2graph"):
+                    "table2graph", "projection-status", "projection-rebuild", "projection-synthesize", "db-review"):
         if scenario == command:
             return command
         if scenario.startswith(command + "-"):
@@ -557,6 +716,7 @@ _SHA = re.compile(r"\b[0-9a-f]{40}\b")
 _ABBREVIATED_SHA = re.compile(r"\b[0-9a-f]{12}\b")
 _UUID = re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b")
 _TIMESTAMP = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?")
+_SHA256 = re.compile(r"\b[0-9a-f]{64}\b")
 
 
 def normalise(record: dict, vault: Vault) -> dict:
@@ -573,6 +733,14 @@ def normalise(record: dict, vault: Vault) -> dict:
         (str(Path.home()), "/home"),
     ):
         text = text.replace(real, fake)
+    # sha256 digests (`projection status`' same_as/schema hashes): stable
+    # stand-ins, equal where the originals were equal, so a schema edit
+    # elsewhere never churns a fixture.
+    digests: dict[str, str] = {}
+    for found in _SHA256.findall(text):
+        digests.setdefault(found, (format(len(digests) + 10, "x") * 64)[:64])
+    for found, fake in digests.items():
+        text = text.replace(found, fake)
     shas: dict[str, str] = {}
     for sha in _SHA.findall(text):
         shas.setdefault(sha, (format(len(shas) + 1, "x") * 40)[:40])

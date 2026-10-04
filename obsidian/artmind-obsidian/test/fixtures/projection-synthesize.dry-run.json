@@ -1,0 +1,30 @@
+{
+  "args": [
+    "projection",
+    "synthesize",
+    "--domain",
+    "general",
+    "--dry-run",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "domain": "general",
+    "command": "projection_synthesize",
+    "model": "ministral-3:14b",
+    "dry_run": true,
+    "examined": 3,
+    "counts": {
+      "synthesize": 1,
+      "skipped_unchanged": 1,
+      "skipped_too_few_observations": 1
+    },
+    "candidates": [
+      {
+        "key": "ann lee|PERSON|general",
+        "name": "Ann Lee"
+      }
+    ]
+  },
+  "stderr": null
+}

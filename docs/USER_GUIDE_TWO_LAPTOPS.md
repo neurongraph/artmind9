@@ -163,36 +163,55 @@ Then reload Obsidian. The first time, Obsidian asks you to turn on community
 plugins for the vault. (Open the folder in Obsidian once before `init`: with no
 `.obsidian/` yet, `init` skips the plugin and says so.)
 
-The plugin adds an **artmind icon to the left ribbon**: click it for the side
-panel, right-click for Sync, Ingest, the admin console and Doctor. A dot on it
-means the vault needs something. **Admin ↗** in the panel (or the command
-"Open admin console") opens this vault's admin console, starting
+The plugin adds an **artmind icon to the left ribbon**. Click it for the side
+panel; right-click for *Open side panel*, *Open admin console* and *Run
+doctor*. A dot on it means a step is waiting. **Admin ↗** in the panel (or the
+command "Open admin console") opens this vault's admin console, starting
 `artmind admin-ui` first if nothing is running. It opens as an Obsidian tab when
 the Web viewer core plugin is on, otherwise in your browser (see the plugin's
-settings). It keeps running after Obsidian
-quits; "Stop admin console" stops one the plugin started.
+settings). It keeps running after Obsidian quits; "Stop admin console" stops
+one the plugin started.
 
-Its status bar item always shows where the vault stands and does the one thing
-that state needs when clicked:
+The side panel is a **readiness checklist**, top to bottom:
 
-| Status bar | Click |
-|---|---|
-| `⚠ resolve artmind conflicts` | the `vault resolve` preview, then [Resolve] |
-| `⚠ artmind` | the side panel, at the problem and its fix |
-| `◌ ingesting 2/5` | the side panel, at the job |
-| `◉ 3 docs · 1 table behind` | Sync (offers Obsidian Git's Pull first when the last pull is old) |
-| `◉ 1 table → graph` | the `table2graph` review, then [Project to graph] |
-| `◉ 2 to ingest` | Ingest what changed (offers Sync first when a store is behind) |
-| `◉ artmind` | the side panel |
+| Row | What it says | Its button |
+|---|---|---|
+| From the other laptop | ✓ up to date, or what there is to apply, or conflicts; a hint when Obsidian Git's auto pull is off | **Apply to graph** (`artmind vault sync`) · **Resolve…** · **Complete the merge** · **Pull** (always there) |
+| Documents | how many files to ingest (expand for the paths), the running job, failures | **Ingest N files** · **Retry failed** · **Retry job** |
+| Tables | tables whose classifications need review; tables ready for the graph | **Review in admin console ↗** (opens the chat with the request filled in; you send it) · **Review & project…** |
+| Graph | ✓ built and embedded, or *needs rebuild* with each reason | **Rebuild graph** (`artmind projection rebuild --sweep`) |
+| Descriptions (optional) | how many entity descriptions could be synthesized, and the LLM calls that costs | **Synthesize…** (pick domains and an optional cap first) |
+| Vault (footer) | artmind files to commit and commits to push | **Commit & push** (Obsidian Git's commit, pull, push) |
 
-It never syncs, ingests or writes to the graph without a click, never writes
-to git (Pull, Commit-and-sync and Commit are Obsidian Git's, which it
-triggers), and never runs `--bootstrapEmpty` for you: §2.3 is still a terminal
-step. After an ingest, a `table2graph` or a resolve, its notice offers
-[Commit-and-sync] so the other laptop gets the result sooner (turn that off in
-its settings). If Obsidian was started from the Dock and cannot find
-`artmind`, set its path in the plugin's settings (`which artmind` in a
-terminal).
+The header says **Graph ready ✓** when the first four rows are done, or how many
+steps are left; **↻** re-reads everything. The **current step** (the first row
+not done) is highlighted and has the only filled button. Other buttons still
+work; clicking one out of order asks first (for example, *Ingest* while the
+other laptop's changes aren't applied offers [Apply first] [Ingest anyway]).
+
+Row 1 stays current by itself when **Obsidian Git's auto pull** is on (Obsidian
+Git settings → "Auto pull interval", in minutes): the plugin reads that setting
+and never fetches on its own. While auto pull is off, row 1 says "Turn on
+Obsidian Git's auto pull to see the other laptop's changes", and *Apply to
+graph* asks "Pull from GitHub first?" when the last pull is more than five
+minutes old. **Pull** is always on row 1 for a pull by hand.
+
+The status bar shows `artmind ●●○○○` and the current step: one dot per row
+plus the footer, filled when done. Clicking it opens the panel at that row.
+
+Notices are text only: they say what finished and what is next ("Ingested 365
+files, 3 failed. Next: retry failed."), and clicking one opens the panel at its
+row. Every action is also a command: *Pull*, *Apply to graph*, *Ingest what
+changed*, *Rebuild graph*, *Synthesize…*, *Commit & push*, *Review tables for
+graph*, *Resolve artmind conflicts*, *Run doctor*. A command that can't run
+right now says why.
+
+The plugin never ingests, rebuilds, synthesizes or writes to the graph without
+a click, never writes to git (Pull, Commit & push and Complete the merge run
+Obsidian Git's own commands), and never runs `--bootstrapEmpty` for you: §2.3 is
+still a terminal step, and row 1 shows it. If Obsidian was started from the Dock
+and cannot find `artmind`, set its path in the plugin's settings (`which
+artmind` in a terminal).
 
 ---
 

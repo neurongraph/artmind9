@@ -15,6 +15,11 @@
       "started_at": "2026-09-30T12:00:00",
       "domain": "general",
       "stalled": false,
+      "finalize": {
+        "state": "none",
+        "domains": [],
+        "error": null
+      },
       "files": [
         {
           "filename": "/vault/Notes/file1.md",

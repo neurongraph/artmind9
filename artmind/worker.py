@@ -14,7 +14,13 @@ from loguru import logger
 
 from artmind.db import _get_db
 from artmind.ingest import ingest_file, ingest_to_kg, kg_work_was_done
-from artmind.jobs import _update_job_file_status, _update_job_status
+from artmind.jobs import (
+    _add_finalize_domain,
+    _get_finalize,
+    _set_finalize_state,
+    _update_job_file_status,
+    _update_job_status,
+)
 from artmind.structured import is_structured_source
 from artmind.structured.pipeline import ingest_structured_file
 from paths import ARTMIND_VAULT_DIR, LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
@@ -119,6 +125,39 @@ def _final_file_statuses(job_id: str) -> list[str]:
         conn.close()
 
 
+def _finalize_job(job_id: str) -> None:
+    """Run the deferred projection rebuild + embed sweeps the job row owes.
+
+    Reads the owed domains from the row, never from this run, so a resumed
+    or retried job finishes them even with 0 queued files. Catches
+    everything: a failure marks `finalize` failed with the reason and moves
+    on to the next domain. Before this, an uncaught Neo4j error killed the
+    worker (2026-10-03). A sweep that could not run (`sweep_errors`) counts
+    as a failure too.
+    """
+    finalize = _get_finalize(job_id)
+    if not finalize["domains"] or finalize["state"] not in ("pending", "failed"):
+        return
+    from artmind.ingest import rebuild_projection
+
+    _set_finalize_state(job_id, "pending")
+    logger.info("═══ Deferred projection rebuild over {} domain(s)", len(finalize["domains"]))
+    errors: list[str] = []
+    for domain in finalize["domains"]:
+        try:
+            summary = rebuild_projection(domain)
+        except Exception as e:
+            logger.error("Deferred projection rebuild failed for {}: {}", domain, e)
+            errors.append(f"{domain}: {e}")
+            continue
+        logger.info("Projection rebuilt for {}: {}", domain, summary)
+        errors.extend(f"{domain}: {err}" for err in summary.get("sweep_errors") or [])
+    if errors:
+        _set_finalize_state(job_id, "failed", error="; ".join(errors))
+    else:
+        _set_finalize_state(job_id, "done")
+
+
 def _process_job(
     job_id: str, domain: str, env: dict, force: bool = False, stage_only: bool = False
 ) -> None:
@@ -138,9 +177,10 @@ def _process_job(
     # batching (cli.py::ingest_sync). Before this, the worker committed once
     # per file with no deferral at all: correct, just N incremental rebuilds
     # (and N embed sweeps against descriptions the next file was about to
-    # change) instead of one.
+    # change) instead of one. What the job owes is persisted on its row
+    # (`_add_finalize_domain`), not kept in this run, so a retried job with 0
+    # queued files still finishes it (`_finalize_job`).
     defer_rebuild = len(queued_files) > 1 and not stage_only
-    deferred_domains: set[str] = set()
 
     # The manifest is the source of truth, re-read here rather than frozen
     # into the job row: a mapping corrected between queueing and processing
@@ -214,7 +254,7 @@ def _process_job(
                     # only the latter leaves anything for a deferred rebuild
                     # to pick up (see ingest.kg_work_was_done).
                     if kg_ok and defer_rebuild and kg_work_was_done(result):
-                        deferred_domains.add(effective_domain)
+                        _add_finalize_domain(job_id, effective_domain)
                     _update_job_file_status(
                         job_id,
                         file_path_str,
@@ -251,13 +291,7 @@ def _process_job(
         _update_job_status(job_id, processed_count=processed_count)
         logger.info("Progress: {} processed", processed_count)
 
-    if deferred_domains:
-        from artmind.ingest import rebuild_projection
-
-        logger.info("═══ Deferred projection rebuild over {} domain(s)", len(deferred_domains))
-        for deferred_domain in sorted(deferred_domains):
-            summary = rebuild_projection(deferred_domain)
-            logger.info("Projection rebuilt for {}: {}", deferred_domain, summary)
+    _finalize_job(job_id)
 
     statuses = _final_file_statuses(job_id)
     final = "failed" if any(s == "failed" for s in statuses) else "completed"

@@ -2,12 +2,22 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_SETTINGS, NOTICE_LABELS, mergeSettings } from "../src/settings";
 
 describe("settings (spec §7)", () => {
-  it("offers commit-and-sync after artmind writes by default (P6)", () => {
-    expect(DEFAULT_SETTINGS.offerCommitAndSync).toBe(true);
+  it("has no commit offer any more: the footer replaces it (checklist spec §4)", () => {
+    expect("offerCommitAndSync" in DEFAULT_SETTINGS).toBe(false);
     expect(DEFAULT_SETTINGS.adminInObsidianTab).toBe(true);
     expect(DEFAULT_SETTINGS.headPollSeconds).toBe(15);
     expect(DEFAULT_SETTINGS.jobPollSeconds).toBe(3);
     expect(DEFAULT_SETTINGS.newFileGroupSeconds).toBe(10);
+    expect(Object.keys(DEFAULT_SETTINGS.notices).sort()).toEqual([
+      "applyDone",
+      "ingestDone",
+      "newFiles",
+      "pulled",
+      "rebuildDone",
+      "resolveDone",
+      "synthesizeDone",
+      "table2graphDone",
+    ]);
     expect(Object.values(DEFAULT_SETTINGS.notices).every(Boolean)).toBe(true);
   });
 
@@ -16,11 +26,12 @@ describe("settings (spec §7)", () => {
   });
 
   it("keeps saved values and defaults the rest", () => {
-    const merged = mergeSettings({ artmindPath: "/opt/artmind", notices: { newFiles: false }, offerCommitAndSync: false });
+    const merged = mergeSettings({ artmindPath: "/opt/artmind", notices: { newFiles: false, rebuildDone: false }, offerCommitAndSync: false });
     expect(merged.artmindPath).toBe("/opt/artmind");
     expect(merged.notices.newFiles).toBe(false);
-    expect(merged.notices.syncDone).toBe(true);
-    expect(merged.offerCommitAndSync).toBe(false);
+    expect(merged.notices.rebuildDone).toBe(false);
+    expect(merged.notices.synthesizeDone).toBe(true);
+    expect("offerCommitAndSync" in merged).toBe(false);
     expect(mergeSettings({ adminInObsidianTab: false }).adminInObsidianTab).toBe(false);
     expect(mergeSettings({ adminInObsidianTab: "yes" }).adminInObsidianTab).toBe(true);
     expect(merged.headPollSeconds).toBe(15);

@@ -3522,13 +3522,20 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
     return True
 
 
-def _sweep_embeddings(domain: str, keys: list) -> int:
+class SweepSkipped(RuntimeError):
+    """A strict embed sweep could not run at all (Neo4j or the embedding
+    service unreachable). Its message is what `sweep_errors` reports."""
+
+
+def _sweep_embeddings(domain: str, keys: list, *, strict: bool = False) -> int:
     """Post-commit embed sweep, scoped to the affected keys.
 
-    Never fatal: the commit already succeeded and the graph is correct. An
-    entity the sweep could not embed keeps `embedding_stale = true` and is
-    picked up next time — which is the whole point of flagging rather than
-    nulling.
+    Never fatal by default: the commit already succeeded and the graph is
+    correct. An entity the sweep could not embed keeps `embedding_stale =
+    true` and is picked up next time, which is the whole point of flagging
+    rather than nulling. `strict=True` (the rebuild paths) raises
+    `SweepSkipped` when the sweep could not run at all, so a dead connection
+    is reported instead of reading as "nothing to embed".
     """
     if not keys:
         return 0
@@ -3544,10 +3551,12 @@ def _sweep_embeddings(domain: str, keys: list) -> int:
             "Embed sweep skipped for {} ({}); entities stay marked stale and will be "
             "picked up by the next sweep", domain, e,
         )
+        if strict:
+            raise SweepSkipped(f"entity embed sweep skipped for {domain} ({e})") from e
         return 0
 
 
-def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = None) -> int:
+def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = None, *, strict: bool = False) -> int:
     """Post-commit / post-rebuild chunk-embed sweep.
 
     Two scoping modes, mirroring `_sweep_embeddings`'s own two callers:
@@ -3571,6 +3580,9 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
 
     Neither scope given (`chunk_ids` falsy and `domain` `None`) is a real
     no-op — nothing to scope to — and returns `0` without opening a session.
+
+    `strict=True` raises `SweepSkipped` instead of returning 0 when the sweep
+    could not run (see `_sweep_embeddings`).
     """
     if not chunk_ids and not domain:
         return 0
@@ -3588,43 +3600,93 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
             "Chunk embed sweep skipped for {} ({}); they stay unembedded "
             "and will be picked up by the next sweep", scope_desc, e,
         )
+        if strict:
+            raise SweepSkipped(f"chunk embed sweep skipped for {scope_desc} ({e})") from e
         return 0
 
 
+def _sweep_domain(domain: str, keys: list) -> dict:
+    """Both strict sweeps for one domain. Never raises: a skipped sweep
+    becomes an entry in `sweep_errors`, and the other sweep still runs."""
+    out: dict = {"embedded": 0, "chunks_embedded": 0, "sweep_errors": []}
+    try:
+        out["embedded"] = _sweep_embeddings(domain, keys, strict=True)
+    except SweepSkipped as e:
+        out["sweep_errors"].append(str(e))
+    try:
+        out["chunks_embedded"] = _sweep_chunk_embeddings(domain=domain, strict=True)
+    except SweepSkipped as e:
+        out["sweep_errors"].append(str(e))
+    return out
+
+
 def rebuild_projection(domain: str | None = None, keys: list | None = None) -> dict:
-    """Rebuild the projection outside an ingest — the deferred directory path,
+    """Rebuild the projection outside an ingest: the deferred directory path,
     and the recovery path for drift.
 
-    A full rebuild when `keys` is omitted. Two embed sweeps follow: the
-    entity sweep, because a rebuild leaves everything it touched flagged
-    stale; and the chunk sweep, because a batch ingest's per-document
-    `commit_to_graph` calls run with `defer_rebuild=True` and skip their own
-    chunk sweep specifically because it's deferred (see `commit_to_graph`) —
-    this domain-wide sweep is what recovers the chunks those deferred
-    commits left unembedded. Both sweeps only run `if domain:` — a global
-    rebuild across every domain (`domain=None`) skips both, the same
-    asymmetry the entity sweep already had before the chunk sweep existed.
+    A full rebuild when `keys` is omitted, committed in batches
+    (`projection.full_rebuild_batched`). One transaction for 4,332 keys ran a
+    2 GB colima VM out of memory and killed Neo4j (2026-10-03). Two embed
+    sweeps follow: the entity sweep, because a rebuild leaves everything it
+    touched flagged stale; and the chunk sweep, because a batch ingest's
+    per-document `commit_to_graph` calls run with `defer_rebuild=True` and skip
+    their own chunk sweep. Both sweeps only run `if domain:`. A global rebuild
+    (`domain=None`) skips both; `rebuild_and_sweep_all` is the global rebuild
+    that sweeps. A sweep that could not run at all is listed under `sweep_errors`
+    (empty when both ran); the worker treats a non-empty list as a failed finalize.
     """
     from artmind import projection
     from artmind.graph_query import neo4j_session
 
     domains = [domain] if domain else None
-    with neo4j_session() as session:
-        if keys:
+    if keys:
+        with neo4j_session() as session:
             summary = session.execute_write(
                 lambda tx: projection.rebuild(
                     tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
                 )
             )
-            swept_keys = list(keys)
-        else:
-            summary = session.execute_write(
-                lambda tx: projection.full_rebuild(
-                    tx, domains, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
-                )
-            )
+        swept_keys = list(keys)
+    else:
+        summary = projection.full_rebuild_batched(domains)
+        with neo4j_session() as session:
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
     if domain:
-        summary["embedded"] = _sweep_embeddings(domain, swept_keys)
-        summary["chunks_embedded"] = _sweep_chunk_embeddings(domain=domain)
+        summary.update(_sweep_domain(domain, swept_keys))
+    return summary
+
+
+def rebuild_and_sweep_all() -> dict:
+    """`projection rebuild --sweep`: the one repair command.
+
+    A full, unscoped, batched rebuild (`projection.full_rebuild_batched`,
+    which clears drift once the last batch commits), then both strict embed
+    sweeps for every domain a key belongs to. Returns the rebuild totals plus
+    `domains_swept`, `embedded`, `chunks_embedded`, `sweep_errors` (each
+    prefixed with its domain; empty when every sweep ran) and
+    `finalize_resolved` (the ingest jobs whose failed deferred rebuild this
+    run superseded -- only when no sweep was skipped).
+    """
+    from artmind import projection
+    from artmind.graph_query import neo4j_session
+    from artmind.jobs import _resolve_failed_finalizes
+
+    summary = projection.full_rebuild_batched(None)
+    with neo4j_session() as session:
+        keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, None)))
+    by_domain: dict[str, list] = {}
+    for key in keys:
+        if key[2]:
+            by_domain.setdefault(key[2], []).append(key)
+    embedded = chunks = 0
+    errors: list[str] = []
+    for domain in sorted(by_domain):
+        swept = _sweep_domain(domain, by_domain[domain])
+        embedded += swept["embedded"]
+        chunks += swept["chunks_embedded"]
+        errors.extend(f"{domain}: {err}" for err in swept["sweep_errors"])
+    summary.update(
+        domains_swept=sorted(by_domain), embedded=embedded, chunks_embedded=chunks, sweep_errors=errors,
+    )
+    summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
     return summary

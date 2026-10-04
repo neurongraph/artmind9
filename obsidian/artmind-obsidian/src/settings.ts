@@ -1,7 +1,15 @@
 /** The plugin's settings (spec §7), stored by Obsidian in
  * `.obsidian/plugins/artmind/data.json`. */
 
-export type NoticeKind = "pulled" | "newFiles" | "ingestDone" | "syncDone" | "table2graphDone" | "resolveDone";
+export type NoticeKind =
+  | "pulled"
+  | "newFiles"
+  | "ingestDone"
+  | "applyDone"
+  | "table2graphDone"
+  | "resolveDone"
+  | "rebuildDone"
+  | "synthesizeDone";
 
 export interface ArtmindSettings {
   /** Path to the `artmind` executable; empty means auto-detect. */
@@ -10,8 +18,6 @@ export interface ArtmindSettings {
   jobPollSeconds: number;
   newFileGroupSeconds: number;
   notices: Record<NoticeKind, boolean>;
-  /** Offer Obsidian Git's Commit-and-sync after artmind writes (spec P6). */
-  offerCommitAndSync: boolean;
   /** Where the admin console (`artmind admin-ui`) is found or started; its default port. */
   adminUiUrl: string;
   /** The admin console this plugin started (0: none), so Stop never stops
@@ -31,23 +37,26 @@ export const DEFAULT_SETTINGS: ArtmindSettings = {
     pulled: true,
     newFiles: true,
     ingestDone: true,
-    syncDone: true,
+    applyDone: true,
     table2graphDone: true,
     resolveDone: true,
+    rebuildDone: true,
+    synthesizeDone: true,
   },
-  offerCommitAndSync: true,
   adminUiUrl: "http://127.0.0.1:8379",
   adminUiPid: 0,
   adminInObsidianTab: true,
 };
 
 export const NOTICE_LABELS: Record<NoticeKind, string> = {
-  pulled: "A pull left a store behind",
+  pulled: "A pull leaves changes to apply to graph",
   newFiles: "A binary or table lands in a mapped folder",
   ingestDone: "An ingest job finishes",
-  syncDone: "Sync finishes",
-  table2graphDone: "table2graph finishes",
-  resolveDone: "vault resolve finishes",
+  applyDone: "Apply to graph finishes",
+  table2graphDone: "A table is projected to the graph",
+  resolveDone: "Resolving artmind conflicts finishes",
+  rebuildDone: "Rebuild graph finishes",
+  synthesizeDone: "Synthesize finishes",
 };
 
 /** Saved data over the defaults; a missing or malformed field keeps its default. */
@@ -66,7 +75,6 @@ export function mergeSettings(saved: unknown): ArtmindSettings {
     jobPollSeconds: Math.max(1, pick("jobPollSeconds")),
     newFileGroupSeconds: Math.max(1, pick("newFileGroupSeconds")),
     notices,
-    offerCommitAndSync: pick("offerCommitAndSync"),
     adminUiUrl: pick("adminUiUrl"),
     adminUiPid: Math.max(0, Math.trunc(pick("adminUiPid"))),
     adminInObsidianTab: pick("adminInObsidianTab"),

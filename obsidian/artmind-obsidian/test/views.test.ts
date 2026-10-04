@@ -3,32 +3,38 @@
 // by path for its test-only record of the notices shown.
 import { Notice } from "./mocks/obsidian";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { checklist } from "../src/checklist";
 import type { Snapshot } from "../src/controller";
-import { type StateInputs, vaultState } from "../src/state";
+import { EMPTY_INPUTS, type StateInputs } from "../src/state";
 import { ObsidianNotifier } from "../src/views/notices";
-import { type PanelHandlers, newPanelUi, renderPanel } from "../src/views/panel";
+import { ArtmindView, type PanelHandlers, newPanelUi, renderPanel } from "../src/views/panel";
 import { ResolveModal, renderResolve, resolveBlockedReason } from "../src/views/resolveModal";
 import { StatusBarItem } from "../src/views/statusBar";
 import { LOOKUP_PREVIEW, TableReviewModal, renderTableProblem, renderTableReview } from "../src/views/tableReview";
 import { fixture } from "./fixtures";
 
-function snapshot(overrides: Partial<StateInputs> = {}, extra: Partial<Snapshot> = {}): Snapshot {
-  const inputs: StateInputs = {
+/** Every row of the checklist done: each view test changes one thing. */
+function readyInputs(overrides: Partial<StateInputs> = {}): StateInputs {
+  return {
+    ...EMPTY_INPUTS,
     status: fixture("vault-status.in-sync").json,
-    activeJob: null,
     pending: { notes: [], binaries: [], tables: [], errors: [] },
     tablesPending: [],
-    git: { ahead: 0, unsharedArtmindChanges: 0 },
-    problem: null,
+    tablesReview: { query_type: "structured", command: "db review", pending_count: 0, tables: [] },
+    projection: fixture("projection-status.ready").json,
+    synthesis: [],
+    git: { ahead: 0, artmindChanges: [] },
     ...overrides,
   };
+}
+
+function snapshot(overrides: Partial<StateInputs> = {}, extra: Partial<Snapshot> = {}): Snapshot {
+  const inputs = readyInputs(overrides);
   return {
     inputs,
-    state: vaultState(inputs),
+    checklist: checklist(inputs),
     activity: [],
-    lastSync: null,
     doctor: null,
-    jobResults: null,
     readErrors: [],
     bridgeWarning: null,
     gitMissing: {},
@@ -39,117 +45,288 @@ function snapshot(overrides: Partial<StateInputs> = {}, extra: Partial<Snapshot>
 
 function handlers(): PanelHandlers & { calls: string[] } {
   const calls: string[] = [];
-  const record = (name: string) => (arg?: string) => calls.push(arg === undefined ? name : `${name}:${arg}`);
   return {
     calls,
-    sync: record("sync"),
-    ingest: record("ingest"),
-    resolve: record("resolve"),
-    doctor: record("doctor"),
-    reviewTable: record("reviewTable"),
-    retryJob: record("retryJob"),
-    openAdmin: record("openAdmin"),
-    commitAndSync: record("commitAndSync"),
-    setPath: record("setPath"),
-    copy: record("copy"),
+    refresh: () => void calls.push("refresh"),
+    run: (action) => void calls.push(`run:${JSON.stringify(action)}`),
+    openAdmin: (path) => void calls.push(path === undefined ? "openAdmin" : `openAdmin:${path}`),
+    doctor: () => void calls.push("doctor"),
+    setPath: () => void calls.push("setPath"),
+    copy: (text) => void calls.push(`copy:${text}`),
   };
 }
 
-function text(root: HTMLElement): string {
+function text(root: Element): string {
   return root.textContent ?? "";
 }
 
-function button(root: HTMLElement, label: string): HTMLButtonElement {
+function button(root: Element, label: string): HTMLButtonElement {
   const found = [...root.querySelectorAll("button")].find((b) => b.textContent === label);
   if (!found) throw new Error(`no button "${label}"`);
   return found;
 }
 
+function rowEl(root: HTMLElement, id: string): HTMLElement {
+  const found = root.querySelector<HTMLElement>(`[data-row="${id}"]`);
+  if (!found) throw new Error(`no row ${id}`);
+  return found;
+}
+
+const RUNNING_JOB = { activeJob: fixture("ingest-job-status.running").json };
+const FAILED_LAST_JOB = { lastJob: { status: fixture("ingest-job-status.done").json, results: fixture("ingest-job-results.done").json, at: 1 } };
+
 beforeEach(() => {
   Notice.shown.length = 0;
 });
 
-describe("StatusBarItem (spec §3.1)", () => {
-  it("shows the primary state, its tone and the secondary indicators; a click runs its action", () => {
+describe("StatusBarItem (checklist spec §4)", () => {
+  it("shows a dot per row and footer, the current step and its tone; a click only opens the panel", () => {
     const el = document.createElement("div");
     el.classList.add("status-bar-item");
-    const performed: unknown[] = [];
-    const item = new StatusBarItem(el, (action) => performed.push(action));
+    let opened = 0;
+    const item = new StatusBarItem(el, () => opened++);
 
-    item.render(snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, unsharedArtmindChanges: 1 } }).state);
+    item.render(checklist(readyInputs({ status: fixture("vault-status.behind").json, pending: fixture("ingest-pending").json })));
 
-    expect(el.textContent).toBe("◉ 2 docs · 1 table behind  ↑ 3 to push  ✎ artmind changes to share");
+    expect(el.textContent).toBe("artmind ○○●●● 2 docs · 1 table to apply");
     expect(el.classList.contains("artmind-tone-amber")).toBe(true);
     expect(el.classList.contains("status-bar-item")).toBe(true);
+    expect(el.getAttribute("aria-label")).toBe("From the other laptop — 2 docs · 1 table to apply");
     el.click();
-    expect(performed).toEqual([{ type: "sync" }]);
+    expect(opened).toBe(1);
 
-    item.render(snapshot().state);
-    expect(el.textContent).toBe("◉ artmind");
+    item.render(checklist(readyInputs()));
+    expect(el.textContent).toBe("artmind ●●●●● graph ready");
     expect(el.classList.contains("artmind-tone-amber")).toBe(false);
     expect(el.classList.contains("artmind-tone-grey")).toBe(true);
+    expect(el.getAttribute("aria-label")).toBe("Graph ready ✓");
+  });
+
+  it("names the footer once it is the only step left", () => {
+    const el = document.createElement("div");
+    new StatusBarItem(el, () => undefined).render(checklist(readyInputs({ git: { ahead: 2, artmindChanges: [] } })));
+    expect(el.textContent).toBe("artmind ●●●●○ ↑ 2 to push");
   });
 });
 
-describe("notices (spec §3.3)", () => {
-  it("a notice with buttons stays until a button closes it and runs it", () => {
-    const run = vi.fn();
-
-    new ObsidianNotifier().show("pulled", "Pulled from the other laptop — 2 docs behind.", [{ label: "Sync now", run }]);
+describe("notices (checklist spec §5, D7)", () => {
+  it("are text only, fade after 6 s, and a click opens the panel at their row", () => {
+    const opened: string[] = [];
+    new ObsidianNotifier((target) => opened.push(target)).show("pulled", "Pulled: 2 docs to apply to graph.", "remote");
 
     const notice = Notice.shown[0];
-    expect(notice.duration).toBe(0);
+    expect(notice.duration).toBe(6_000);
     const holder = document.createElement("div");
     holder.appendChild(notice.message as DocumentFragment);
-    expect(text(holder)).toBe("Pulled from the other laptop — 2 docs behind.Sync now");
-    button(holder, "Sync now").click();
-    expect(run).toHaveBeenCalledOnce();
+    expect(holder.querySelectorAll("button")).toHaveLength(0);
+    expect(text(holder)).toBe("Pulled: 2 docs to apply to graph.");
+    (holder.querySelector(".artmind-notice") as HTMLElement).click();
+    expect(opened).toEqual(["remote"]);
     expect(notice.hidden).toBe(true);
   });
 
-  it("a plain notice fades", () => {
-    new ObsidianNotifier().show("syncDone", "Synced: 3 docs, 1 table, 2 curation records.");
-    expect(Notice.shown[0].duration).toBe(6_000);
+  it("an error stays 10 s; a notice with no row opens nothing", () => {
+    const opened: string[] = [];
+    const notifier = new ObsidianNotifier((target) => opened.push(target));
+    notifier.show("error", "Couldn't apply to graph — details in the artmind panel.", "remote");
+    notifier.show("prompt", "Opening the admin console…");
+
+    expect(Notice.shown.map((n) => n.duration)).toEqual([10_000, 6_000]);
+    const holder = document.createElement("div");
+    holder.appendChild(Notice.shown[1].message as DocumentFragment);
+    (holder.querySelector(".artmind-notice") as HTMLElement).click();
+    expect(opened).toEqual([]);
   });
 });
 
-describe("the side panel (spec §3.2)", () => {
-  it("shows status, pending counts, and disables actions with the reason", () => {
+describe("the side panel: the readiness checklist (checklist spec §3)", () => {
+  it("the header names the vault, says how far the graph is from ready, and ↻ re-reads", () => {
     const root = document.createElement("div");
     const h = handlers();
 
-    renderPanel(root, snapshot({ status: fixture("vault-status.merge-conflict").json, git: { ahead: 2, unsharedArtmindChanges: 0 } }), h);
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, pending: fixture("ingest-pending").json }), h);
 
-    expect(text(root)).toContain("⚠ resolve artmind conflicts");
-    expect(text(root)).toContain("Commits to push2");
-    const sync = button(root, "Sync");
-    expect(sync.disabled).toBe(true);
-    expect(sync.title).toBe("A merge is in progress — finish it first");
-    button(root, "Resolve").click();
-    expect(h.calls).toEqual(["resolve"]);
+    expect(root.querySelector(".artmind-header-vault")!.textContent).toBe("artmind · vault");
+    expect(root.querySelector(".artmind-readiness")!.textContent).toBe("2 steps to a ready graph");
+    button(root, "↻").click();
+    expect(h.calls).toEqual(["refresh"]);
+
+    renderPanel(root, snapshot(), h);
+    expect(root.querySelector(".artmind-readiness")!.textContent).toBe("Graph ready ✓");
   });
 
-  it("leads with the top state and offers its action as the one primary button", () => {
+  it("lists the five rows, then the footer, each with its glyph, title and summary", () => {
+    const root = document.createElement("div");
+
+    renderPanel(root, snapshot({ projection: fixture("projection-status.needs-rebuild").json }), handlers());
+
+    expect([...root.querySelectorAll("[data-row]")].map((r) => r.getAttribute("data-row"))).toEqual([
+      "remote",
+      "documents",
+      "tables",
+      "graph",
+      "descriptions",
+      "vault",
+    ]);
+    const graph = rowEl(root, "graph");
+    expect(graph.querySelector(".artmind-step-line")!.textContent).toBe("!Graphneeds rebuild");
+    expect([...graph.querySelectorAll(".artmind-step-detail")].map((d) => d.textContent)).toEqual([
+      "same_as edited",
+      "2,813 entities not embedded",
+      "310 chunks not embedded",
+      "40 observation keys not projected",
+    ]);
+    expect(rowEl(root, "vault").parentElement!.classList.contains("artmind-footer")).toBe(true);
+  });
+
+  it("only the current step's button is filled; the others are outline and still work", () => {
     const root = document.createElement("div");
     const h = handlers();
 
-    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, git: { ahead: 3, unsharedArtmindChanges: 0 } }), h);
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, pending: fixture("ingest-pending").json }), h);
 
-    const header = root.querySelector(".artmind-header")!;
-    expect(header.querySelector(".artmind-health")!.textContent).toBe("◉ 2 docs · 1 table behind↑ 3 to push");
-    const primary = root.querySelector(".artmind-primary button")!;
-    expect(primary.textContent).toBe("Sync");
-    (primary as HTMLButtonElement).click();
-    expect(h.calls).toEqual(["sync"]);
+    const filled = [...root.querySelectorAll("button.mod-cta")];
+    expect(filled.map((b) => b.textContent)).toEqual(["Apply to graph"]);
+    expect(rowEl(root, "remote").contains(filled[0])).toBe(true);
+    const ingest = button(rowEl(root, "documents"), "Ingest 4 files");
+    expect(ingest.classList.contains("artmind-outline")).toBe(true);
+    expect(ingest.disabled).toBe(false);
+    ingest.click();
+    expect(h.calls).toEqual(['run:{"type":"ingest"}']);
   });
 
-  it("collapses Sync and Activity by default, and remembers a toggle across renders", () => {
+  it("a blocked button is disabled, with its reason", () => {
+    const root = document.createElement("div");
+
+    renderPanel(root, snapshot({ ...RUNNING_JOB, status: fixture("vault-status.behind").json }), handlers());
+
+    const apply = button(rowEl(root, "remote"), "Apply to graph");
+    expect(apply.disabled).toBe(true);
+    expect(apply.title).toBe("An ingest job is running — apply after it finishes");
+  });
+
+  it("row 2 expands to its paths, and stays open across renders", () => {
+    const root = document.createElement("div");
+    const ui = newPanelUi();
+    const s = snapshot({ pending: fixture("ingest-pending").json });
+
+    renderPanel(root, s, handlers(), ui);
+
+    const items = root.querySelector<HTMLDetailsElement>('[data-items="documents"]')!;
+    expect(items.querySelector("summary")!.textContent).toBe("new_idea.md (new) · welcome.md (new) · org_chart.pdf (new) · +1");
+    expect([...items.querySelectorAll(".artmind-step-item")].map((i) => i.textContent)).toEqual([
+      "Notes/new_idea.md (new)",
+      "Notes/welcome.md (new)",
+      "Team/org_chart.pdf (new)",
+      "Team/team.csv (new)",
+    ]);
+    expect(items.open).toBe(false);
+    items.open = true;
+    items.dispatchEvent(new Event("toggle"));
+    renderPanel(root, s, handlers(), ui);
+    expect(root.querySelector<HTMLDetailsElement>('[data-items="documents"]')!.open).toBe(true);
+  });
+
+  it("row 3 deep-links into the admin console's chat", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+    const review = fixture("db-review").json;
+
+    renderPanel(root, snapshot({ tablesReview: review }), h);
+    button(rowEl(root, "tables"), "Review in admin console ↗").click();
+
+    const prompt = `Review the proposed classifications for table ${review.tables[0].table} (domain ${review.tables[0].domain})`;
+    expect(h.calls).toEqual([`run:${JSON.stringify({ type: "adminPrompt", prompt })}`]);
+  });
+
+  it("the footer is hidden during a job, and filled only once rows 1-4 are done", () => {
+    const root = document.createElement("div");
+
+    renderPanel(root, snapshot({ ...RUNNING_JOB, git: { ahead: 2, artmindChanges: [] } }), handlers());
+    expect(root.querySelector('[data-row="vault"]')).toBeNull();
+
+    renderPanel(root, snapshot({ git: { ahead: 2, artmindChanges: [] } }), handlers());
+    expect(button(rowEl(root, "vault"), "Commit & push").classList.contains("mod-cta")).toBe(true);
+
+    renderPanel(root, snapshot({ pending: fixture("ingest-pending").json, git: { ahead: 2, artmindChanges: [] } }), handlers());
+    expect(button(rowEl(root, "vault"), "Commit & push").classList.contains("artmind-outline")).toBe(true);
+  });
+
+  it("row 2 holds a running job's card: file states, per-file counts scaled to the largest, chunk progress", () => {
+    const root = document.createElement("div");
+
+    renderPanel(root, snapshot(RUNNING_JOB), handlers());
+
+    const card = rowEl(root, "documents").querySelector('[data-section="job"]')!;
+    expect(card.querySelector("summary")!.textContent).toBe("Ingest job2/5 files");
+    expect(card.querySelector(".artmind-legend")!.textContent).toBe("2 done · 1 running · 2 queued");
+    expect([...card.querySelectorAll(".artmind-segment")].map((s) => [s.className.split("-").pop(), (s as HTMLElement).style.flexGrow]))
+      .toEqual([["done", "2"], ["running", "1"], ["queued", "2"]]);
+    expect(card.querySelector(".artmind-totals")!.textContent).toBe("34 entities · 20 relationships");
+
+    const rows = [...card.querySelectorAll(".artmind-file")];
+    const meters = (row: Element) =>
+      [...row.querySelectorAll(".artmind-meter")].map((m) => [
+        m.querySelector(".artmind-meter-label")!.textContent,
+        (m.querySelector(".artmind-meter-fill") as HTMLElement).style.width,
+      ]);
+    expect(meters(rows[0])).toEqual([["12 E", "55%"], ["7 R", "54%"]]);
+    expect(meters(rows[1])).toEqual([["22 E", "100%"], ["13 R", "100%"]]);
+    const chunks = rows[2].querySelector(".artmind-meter-chunks")!;
+    expect(chunks.getAttribute("title")).toBe("entities 4/7 · properties 0/7 · relationships 3/7");
+    expect(chunks.textContent).toBe("7 chunks");
+    expect(rows[3].textContent).toBe("…file4.mdqueued");
+  });
+
+  it("keeps the last job up as Last ingest job, each failure with its reason, and Retry failed on row 2", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot(FAILED_LAST_JOB), h);
+
+    const card = root.querySelector('[data-section="job"]')!;
+    expect(card.querySelector("summary")!.textContent).toBe("Last ingest job2/2 files");
+    expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-red")).toBe(true);
+    const rows = [...card.querySelectorAll(".artmind-file")];
+    expect(rows[0].textContent).toBe("✓file1.md12 E7 R");
+    expect(rows[1].textContent).toBe("✗file2.mdKG ingestion failed");
+    expect(card.querySelector(".artmind-retry")).toBeNull();
+    button(rowEl(root, "documents"), "Retry failed").click();
+    expect(h.calls).toEqual(['run:{"type":"retryJob","jobId":"00000000-0000-4000-8000-000000000001"}']);
+  });
+
+  it("marks a stalled job, and row 2 offers Retry job", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.stalled").json }), h);
+
+    const card = root.querySelector('[data-section="job"]')!;
+    expect(card.querySelector(".artmind-section-title")!.textContent).toBe("Ingest job (stalled)");
+    expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-amber")).toBe(true);
+    button(rowEl(root, "documents"), "Retry job").click();
+    expect(h.calls).toEqual(['run:{"type":"retryJob","jobId":"00000000-0000-4000-8000-000000000001"}']);
+  });
+
+  it("opens the admin console from the tools, and its dashboard from the job card", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot(RUNNING_JOB), h);
+    button(root, "Admin ↗").click();
+    (root.querySelector(".artmind-admin-link") as HTMLAnchorElement).click();
+
+    expect(h.calls).toEqual(["openAdmin:/", "openAdmin:/dashboard"]);
+  });
+
+  it("collapses Stores and Activity by default, and remembers a toggle across renders", () => {
     const root = document.createElement("div");
     const ui = newPanelUi();
     const open = (id: string) => (root.querySelector(`[data-section="${id}"]`) as HTMLDetailsElement).open;
 
-    renderPanel(root, snapshot({ tablesPending: fixture("table2graph.pending").json }), handlers(), ui);
-    expect([open("status"), open("tables"), open("activity")]).toEqual([false, true, false]);
+    renderPanel(root, snapshot(), handlers(), ui);
+    expect([open("status"), open("activity")]).toEqual([false, false]);
+    expect(root.querySelector('[data-section="status"] .artmind-section-title')!.textContent).toBe("Stores");
 
     const status = root.querySelector('[data-section="status"]') as HTMLDetailsElement;
     status.open = true;
@@ -158,16 +335,14 @@ describe("the side panel (spec §3.2)", () => {
     expect(open("status")).toBe(true);
   });
 
-  it("lists the tables waiting, each opening its review", () => {
+  it("shows Neo4j unreachable and failed reads in the problems callout", () => {
     const root = document.createElement("div");
-    const h = handlers();
 
-    renderPanel(root, snapshot({ tablesPending: fixture("table2graph.pending").json }), h);
+    renderPanel(root, snapshot({ status: fixture("vault-status.neo4j-unreachable").json }, { readErrors: ["artmind db review --compact: boom"] }), handlers());
 
-    const link = [...root.querySelectorAll("a")].find((a) => a.textContent === "team (general)")!;
-    link.click();
-    expect(h.calls).toEqual(["reviewTable:team"]);
-    expect(text(root)).toContain("missing");
+    const problems = root.querySelector('[data-section="problems"]')!;
+    expect(text(problems)).toContain("Neo4j unreachable (neo4j://127.0.0.1:7687)");
+    expect(text(problems)).toContain("artmind db review --compact: boom");
   });
 
   it("shows each doctor finding with its fix and a Copy button, and never runs it", () => {
@@ -182,22 +357,6 @@ describe("the side panel (spec §3.2)", () => {
     expect(h.calls).toEqual(["copy:git config pull.rebase false"]);
   });
 
-  it("offers Commit-and-sync for artmind changes to share, or the instruction when it is missing", () => {
-    const root = document.createElement("div");
-    const h = handlers();
-    renderPanel(root, snapshot({ git: { ahead: 0, unsharedArtmindChanges: 2 } }), h);
-    button(root, "Commit-and-sync").click();
-    expect(h.calls).toEqual(["commitAndSync"]);
-
-    renderPanel(
-      root,
-      snapshot({ git: { ahead: 0, unsharedArtmindChanges: 2 } }, { gitMissing: { commitAndSync: "Run Obsidian Git: Commit-and-sync" }, bridgeWarning: "Obsidian Git has no Commit-and-sync command" }),
-      h,
-    );
-    expect(button(root, "Run Obsidian Git: Commit-and-sync").disabled).toBe(true);
-    expect(text(root)).toContain("Obsidian Git has no Commit-and-sync command");
-  });
-
   it("explains a missing artmind and offers Set path", () => {
     const root = document.createElement("div");
     const h = handlers();
@@ -209,88 +368,10 @@ describe("the side panel (spec §3.2)", () => {
     expect(h.calls).toEqual(["setPath"]);
   });
 
-  it("shows the bootstrap step when this laptop never synced", () => {
+  it("shows the bootstrap step in row 1 when this laptop never applied the vault", () => {
     const root = document.createElement("div");
     renderPanel(root, snapshot({ status: fixture("vault-status.no-bookmark").json }), handlers());
-    expect(text(root)).toContain("artmind vault sync --bootstrapEmpty");
-  });
-
-  it("draws a running job: file states, per-file counts scaled to the largest, chunk progress", () => {
-    const root = document.createElement("div");
-
-    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.running").json }), handlers());
-
-    const card = root.querySelector('[data-section="job"]')!;
-    expect(card.querySelector("summary")!.textContent).toBe("Ingest job2/5 files");
-    expect(card.querySelector(".artmind-legend")!.textContent).toBe("2 done · 1 running · 2 queued");
-    expect([...card.querySelectorAll(".artmind-segment")].map((s) => [s.className.split("-").pop(), (s as HTMLElement).style.flexGrow]))
-      .toEqual([["done", "2"], ["running", "1"], ["queued", "2"]]);
-    expect(card.querySelector(".artmind-totals")!.textContent).toBe("34 entities · 20 relationships");
-
-    const rows = [...card.querySelectorAll(".artmind-file")];
-    const meters = (row: Element) =>
-      [...row.querySelectorAll(".artmind-meter")].map((m) => [
-        m.querySelector(".artmind-meter-label")!.textContent,
-        (m.querySelector(".artmind-meter-fill") as HTMLElement).style.width,
-      ]);
-    // file2 has the most of both, so its bars are full and file1's are relative to it.
-    expect(meters(rows[0])).toEqual([["12 E", "55%"], ["7 R", "54%"]]);
-    expect(meters(rows[1])).toEqual([["22 E", "100%"], ["13 R", "100%"]]);
-    const chunks = rows[2].querySelector(".artmind-meter-chunks")!;
-    expect(chunks.getAttribute("title")).toBe("entities 4/7 · properties 0/7 · relationships 3/7");
-    expect(chunks.textContent).toBe("7 chunks");
-    expect(rows[3].textContent).toBe("…file4.mdqueued");
-  });
-
-  it("keeps the finished job up as Last ingest job, with each failure's reason", () => {
-    const root = document.createElement("div");
-
-    renderPanel(root, snapshot({}, { jobResults: fixture("ingest-job-results.done").json }), handlers());
-
-    const card = root.querySelector('[data-section="job"]')!;
-    expect(card.querySelector("summary")!.textContent).toBe("Last ingest job2/2 files");
-    expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-red")).toBe(true);
-    const rows = [...card.querySelectorAll(".artmind-file")];
-    expect(rows[0].textContent).toBe("✓file1.md12 E7 R");
-    expect(rows[1].textContent).toBe("✗file2.mdKG ingestion failed");
-  });
-
-  it("offers Retry failed on a finished job's failures, and nothing on a clean or running job", () => {
-    const root = document.createElement("div");
-    const h = handlers();
-
-    renderPanel(root, snapshot({}, { jobResults: fixture("ingest-job-results.done").json }), h);
-    expect(root.querySelector(".artmind-retry")!.textContent).toBe("1 file failed.Retry failed");
-    button(root, "Retry failed").click();
-    expect(h.calls).toEqual(["retryJob:00000000-0000-4000-8000-000000000001"]);
-
-    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.running").json }), h);
-    expect(root.querySelector(".artmind-retry")).toBeNull();
-  });
-
-  it("marks a stalled job and offers Retry job", () => {
-    const root = document.createElement("div");
-    const h = handlers();
-
-    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.stalled").json }), h);
-
-    const card = root.querySelector('[data-section="job"]')!;
-    expect(card.querySelector(".artmind-section-title")!.textContent).toBe("Ingest job (stalled)");
-    expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-amber")).toBe(true);
-    button(root, "Retry job").click();
-    expect(h.calls).toEqual(["retryJob:00000000-0000-4000-8000-000000000001"]);
-    expect(button(root, "Retry job").disabled).toBe(true);
-  });
-
-  it("opens the admin console from the toolbar, and its dashboard from the job card", () => {
-    const root = document.createElement("div");
-    const h = handlers();
-
-    renderPanel(root, snapshot({ activeJob: fixture("ingest-job-status.running").json }), h);
-    button(root, "Admin ↗").click();
-    (root.querySelector(".artmind-admin-link") as HTMLAnchorElement).click();
-
-    expect(h.calls).toEqual(["openAdmin:/", "openAdmin:/dashboard"]);
+    expect(text(rowEl(root, "remote"))).toContain("artmind vault sync --bootstrapEmpty");
   });
 
   it("lists the activity, each run expanding to its raw output", () => {
@@ -303,7 +384,17 @@ describe("the side panel (spec §3.2)", () => {
     expect(details.querySelector("summary")!.textContent).toContain("artmind vault sync --compact — failed: boom");
     expect(details.querySelector("pre")!.textContent).toBe("raw stderr");
   });
+
+  it("focusing a row expands its list", () => {
+    const view = new ArtmindView({} as never, handlers());
+    view.update(snapshot({ pending: fixture("ingest-pending").json }));
+
+    view.focus("documents");
+
+    expect(view.contentEl.querySelector<HTMLDetailsElement>('[data-items="documents"]')!.open).toBe(true);
+  });
 });
+
 
 describe("the table2graph review (spec §5.1)", () => {
   const report = fixture("table2graph.dry-run").json.tables[0];

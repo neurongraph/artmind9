@@ -96,6 +96,11 @@ dev-test:
 dev-cli-help:
     uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 
+# B1 before/after on a DISPOSABLE Neo4j (own name + port; never touches another container):
+# the old single-transaction full rebuild must hit the memory limit, the batched one must pass  (usage: just dev-rebuild-memcheck)
+dev-rebuild-memcheck:
+    uv run --group dev python scripts/rebuild_memory_check.py
+
 # check every command is routed into the admin-ui CLI guide (see cli_guide.py)
 dev-cli-guide-check:
     uv run --group dev pytest test/test_cli_guide.py -v
@@ -174,11 +179,15 @@ docs-restore-from-archive id:
 
 # ── artmind projection ───────────────────────────────────────────────────────
 
-# recompute Entities from observations (default: every domain)  (usage: just projection-rebuild [domain])
+# recompute Entities from observations, in batches (default: every domain)  (usage: just projection-rebuild [domain])
 projection-rebuild domain="":
     uv run artmind projection rebuild {{ if domain != "" { "--domain " + domain } else { "" } }}
 
-# report drift between the live projection and same_as.yaml / the schema set  (usage: just projection-status)
+# the repair: batched full rebuild of every domain, then both embed sweeps per domain  (usage: just projection-rebuild-sweep)
+projection-rebuild-sweep:
+    uv run artmind projection rebuild --sweep
+
+# report drift and unembedded entities / unprojected keys / unembedded chunks, per domain  (usage: just projection-status)
 projection-status:
     uv run artmind projection status
 

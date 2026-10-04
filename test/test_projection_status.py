@@ -20,21 +20,33 @@ class _Result:
 
 
 class _FakeProjectionTx:
-    """Minimal `tx`-like fake answering exactly the two query shapes
-    `status` issues: the `:ProjectionState` lookup (`read_state`) and the
-    unembedded-chunk count. Anything else raises, so a query this test
-    doesn't expect is a loud failure rather than a silently-truthy result."""
+    """Minimal `tx`-like fake answering exactly the query shapes `status`
+    issues: the `:ProjectionState` lookup and the three per-domain gap counts
+    (un-embedded entities, un-projected observation keys, un-embedded chunks).
+    Anything else raises, so an unexpected query is a loud failure rather than
+    a silently-truthy result. Every query is recorded in `queries`."""
 
-    def __init__(self, state: dict | None, unembedded_count: int):
+    def __init__(self, state: dict | None, unembedded_count: int = 0, *,
+                 entity_rows=(), unprojected_rows=(), chunk_rows=None):
         self._state = state
-        self._unembedded_count = unembedded_count
+        self.entity_rows = list(entity_rows)
+        self.unprojected_rows = list(unprojected_rows)
+        if chunk_rows is None:
+            chunk_rows = [{"domain": "general", "n": unembedded_count}] if unembedded_count else []
+        self.chunk_rows = list(chunk_rows)
+        self.queries: list[str] = []
 
     def run(self, cypher, **params):
+        self.queries.append(cypher)
         if "ProjectionState" in cypher:
             rows = [{"p": self._state}] if self._state is not None else []
             return _Result(rows)
-        if "DocChunk" in cypher and "count(c)" in cypher:
-            return _Result([{"n": self._unembedded_count}])
+        if "MATCH (e:Entity)" in cypher and "embedding" in cypher:
+            return _Result(self.entity_rows)
+        if "MATCH (o:Observation)" in cypher and "AGGREGATES" in cypher:
+            return _Result(self.unprojected_rows)
+        if "MATCH (c:DocChunk)" in cypher and "count(c)" in cypher:
+            return _Result(self.chunk_rows)
         raise AssertionError(f"projection.status issued an unexpected query: {cypher!r}")
 
 
@@ -81,3 +93,57 @@ def test_unembedded_chunks_value_differs_between_the_two_branches():
 
     assert unknown["unembedded_chunks"] == 3
     assert known["unembedded_chunks"] == 9
+
+
+# ── B3: what is missing, per domain ─────────────────────────────────────────
+
+
+def test_status_counts_unembedded_entities_and_unprojected_keys_per_domain():
+    from artmind.projection import status
+
+    tx = _FakeProjectionTx(
+        state=None,
+        entity_rows=[{"domain": "general", "n": 2801}, {"domain": "habits", "n": 1}],
+        unprojected_rows=[{"domain": "general", "n": 40}],
+        chunk_rows=[{"domain": "habits", "n": 4}, {"domain": None, "n": 2}],
+    )
+
+    result = status(tx)
+
+    assert (result["unembedded_entities"], result["unprojected_keys"], result["unembedded_chunks"]) == (2802, 40, 6)
+    assert result["domains"] == {
+        "(none)": {"unembedded_entities": 0, "unprojected_keys": 0, "unembedded_chunks": 2},
+        "general": {"unembedded_entities": 2801, "unprojected_keys": 40, "unembedded_chunks": 0},
+        "habits": {"unembedded_entities": 1, "unprojected_keys": 0, "unembedded_chunks": 4},
+    }
+
+
+def test_status_counts_with_the_embed_sweeps_own_predicates():
+    """`unembedded_entities` must count exactly what the entity sweep would
+    pick up, and an observation is unprojected when no Entity AGGREGATES it --
+    a same-as member's observations hang off the canonical's Entity, so
+    matching on the key alone would count every merged alias."""
+    from artmind.projection import status
+
+    tx = _FakeProjectionTx(state=None)
+    status(tx)
+
+    (entity_q,) = [q for q in tx.queries if "MATCH (e:Entity)" in q]
+    assert "e.name IS NOT NULL" in entity_q
+    assert "e.embedding IS NULL OR e.embedding_stale" in entity_q
+    (obs_q,) = [q for q in tx.queries if "MATCH (o:Observation)" in q]
+    assert "NOT EXISTS { MATCH (:Entity)-[:AGGREGATES]->(o) }" in obs_q
+    assert "count(DISTINCT o.key)" in obs_q
+    assert len(tx.queries) == 4, "one state read and three grouped counts, never a query per domain"
+
+
+def test_drift_is_one_flag(monkeypatch):
+    import artmind.projection as projection
+    import artmind.same_as as same_as
+
+    monkeypatch.setattr(same_as, "content_hash", lambda path=None: "a")
+    monkeypatch.setattr(projection, "schema_set_hash", lambda domains_dir=None: "b")
+
+    assert projection.status(_FakeProjectionTx(state=None))["drift"] is True
+    assert projection.status(_FakeProjectionTx(state={"same_as_hash": "a", "schema_hash": "b"}))["drift"] is False
+    assert projection.status(_FakeProjectionTx(state={"same_as_hash": "x", "schema_hash": "b"}))["drift"] is True

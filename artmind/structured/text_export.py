@@ -302,6 +302,15 @@ def export_structured_text(
         if row is not None:
             written.append(_write_meta(dest_dir, _table_meta(dump, row)))
 
+    # Remember what this machine wrote, so `vault status` does not report
+    # its own tables as "to apply" once they are committed (plan 2026-10-03 B6).
+    vault_dir = paths.ARTMIND_VAULT_DIR
+    if vault_dir is not None and dest_dir.resolve() == Path(paths.STRUCTURED_TEXT_DIR).resolve():
+        from artmind.vault_sync import record_table_text_fingerprints
+
+        record_table_text_fingerprints(
+            Path(vault_dir), dest_dir, [(t["domain"], t["table_name"]) for t in target_tables]
+        )
     logger.info("structured text export: {} table(s) -> {}", len(target_tables), dest_dir)
     return {
         "tables": len(target_tables),

@@ -27,6 +27,7 @@ and track D rebuilds the members of every same-as group changed in
 """
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import subprocess
@@ -927,6 +928,78 @@ def _blobs_at(vault_dir: Path, rev: str, relpaths: list[str]) -> dict[str, bytes
     return {path: blobs[oid] for path, oid in oid_of.items() if oid in blobs}
 
 
+#: Machine-local `state.json` key: `{"<domain>/<table>": fingerprint}` of the
+#: structured text this machine itself last wrote (`export_structured_text`).
+#: `vault status` skips a table whose committed text equals it: this
+#: machine's stores already hold it.
+TABLE_FINGERPRINTS_KEY = "table_text_fingerprints"
+
+
+def git_blob_oid(data: bytes) -> str:
+    """The object id git gives `data` as a blob (`git hash-object`), so a file
+    on disk compares with `_oids_at` without a git call."""
+    return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
+
+
+def table_text_fingerprint(csv_oid: str, meta: bytes | None) -> str:
+    """One table's structured text as a comparable string: the CSV's blob id
+    plus a digest of its whole `.meta.json`. Curation fields are included,
+    so a curation-only change from the other machine still counts for the
+    structured store."""
+    return f"{csv_oid}:{hashlib.sha256(meta or b'').hexdigest()}"
+
+
+def record_table_text_fingerprints(vault_dir: Path, st_dir: Path, tables: list[tuple[str, str]]) -> None:
+    """Remember, in this machine's `state.json`, the text it just wrote for
+    `tables` under `st_dir`. A table with no CSV there is skipped."""
+    from artmind.vault import VaultLayout, read_state, write_state
+
+    if not tables:
+        return
+    layout = VaultLayout(vault_dir)
+    held = dict(read_state(layout).get(TABLE_FINGERPRINTS_KEY) or {})
+    for domain, table_name in tables:
+        csv_path = st_dir / domain / f"{table_name}.csv"
+        if not csv_path.is_file():
+            continue
+        meta_path = st_dir / domain / f"{table_name}{_META_SUFFIX}"
+        meta = meta_path.read_bytes() if meta_path.is_file() else None
+        held[f"{domain}/{table_name}"] = table_text_fingerprint(git_blob_oid(csv_path.read_bytes()), meta)
+    write_state(layout, {TABLE_FINGERPRINTS_KEY: held})
+
+
+def _drop_tables_held_here(vault_dir: Path, head: str, tables) -> list[tuple[str, str]]:
+    """`tables` minus those whose text committed at `head` is exactly what
+    this machine last wrote: its structured store already holds them. Reads
+    only blob ids for the CSVs (one `git ls-tree`) and the small
+    `.meta.json` blobs. Reporting only: `vault sync` still restores every
+    table its diff names (idempotent)."""
+    import paths
+    from artmind.vault import VaultLayout, read_state
+
+    tables = list(tables)
+    if not tables:
+        return tables
+    held = read_state(VaultLayout(vault_dir)).get(TABLE_FINGERPRINTS_KEY) or {}
+    if not held:
+        return tables
+    try:
+        st_rel = Path(paths.STRUCTURED_TEXT_DIR).relative_to(vault_dir)
+    except ValueError:
+        return tables
+    csv = {t: str(st_rel / t[0] / f"{t[1]}.csv") for t in tables}
+    meta = {t: str(st_rel / t[0] / f"{t[1]}{_META_SUFFIX}") for t in tables}
+    oids = _oids_at(vault_dir, head, list(csv.values()))
+    metas = _blobs_at(vault_dir, head, list(meta.values()))
+    return [
+        t for t in tables
+        if not (
+            csv[t] in oids
+            and held.get(f"{t[0]}/{t[1]}") == table_text_fingerprint(oids[csv[t]], metas.get(meta[t]))
+        )
+    ]
+
+
 def _classify_curation(
     vault_dir: Path, base: str, head: str, domains: list[str] | None
 ) -> list[tuple[str, str, str]]:
@@ -1672,6 +1745,7 @@ def _store_pending(
     try:
         if store == "structured":
             tables, _ = _classify_structured_text_diff(vault_dir, bookmark, head, None)
+            tables = _drop_tables_held_here(vault_dir, head, tables)
             docs = curation = same_as_groups = 0
         else:
             docs, tables, curation, same_as_groups = _graph_pending(vault_dir, bookmark, head, timeout=timeout)
@@ -1704,6 +1778,10 @@ def _graph_pending(
     already carries its committed fingerprint; a retraction counts only while
     the graph still has the document. ONE Cypher read covers both.
 
+    A table counts unless its committed text is what this machine itself last
+    exported (`_drop_tables_held_here`), the table counterpart of the document
+    fingerprint check.
+
     Curation mirrors what `sync` does. Every PRE-phase apply counts -- a sync
     re-applies those whatever the graph carries (`drop_unchanged_curation`),
     so they are pending and the graph is not read for them -- including the
@@ -1723,7 +1801,7 @@ def _graph_pending(
     in_graph = sync_state.read_document_fingerprints(ids, timeout=timeout) if ids else {}
     replay = [key for key in plan.replay_docs if not _is_unchanged(committed.get(key), in_graph)]
     retract = [doc_id for _, doc_id in plan.retract if doc_id in in_graph]
-    tables = set(plan.regenerate_tables)
+    tables = set(_drop_tables_held_here(vault_dir, head, plan.regenerate_tables))
     tables |= {tuple(doc_id.split(":", 2)[1:]) for doc_id in retract if doc_id.startswith("table:")}
     docs = len(replay) + sum(1 for doc_id in retract if not doc_id.startswith("table:"))
     plan.replay_docs = replay

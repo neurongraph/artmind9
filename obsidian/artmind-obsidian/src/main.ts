@@ -1,21 +1,25 @@
 import { FileSystemAdapter, Plugin, parseYaml } from "obsidian";
 import { AdminConsole, adminOutcomeText, hostPort, stopOutcomeText } from "./admin";
 import { openInBrowser, realAdminDeps } from "./adminDeps";
-import { ObsidianGitBridge, type CommandsLike } from "./bridge";
+import { ObsidianGitBridge, type CommandsLike, autoPullMinutes, obsidianGitDataPath } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
 import { Controller, type Snapshot } from "./controller";
 import { GitReader } from "./git";
 import { type Mapping, VAULT_YAML, promptsOnArrival, readMappings } from "./manifest";
+import { NOTHING_PERSISTED, type Persisted, readPersisted, withPersisted } from "./persist";
 import { type ArtmindSettings, mergeSettings } from "./settings";
-import type { PanelSection } from "./state";
+import type { PanelTarget } from "./state";
+import { COMMANDS } from "./texts";
 import { Watchers } from "./watchers";
 import { type WebViewerApp, openInWebViewer, webViewerAvailable } from "./webviewer";
+import { ConfirmModal } from "./views/confirmModal";
 import { ObsidianNotifier } from "./views/notices";
-import { ArtmindView, VIEW_TYPE } from "./views/panel";
+import { ArtmindView, type PanelHandlers, VIEW_TYPE } from "./views/panel";
 import { ResolveModal } from "./views/resolveModal";
 import { RibbonIcon } from "./views/ribbon";
 import { ArtmindSettingTab } from "./views/settingsTab";
 import { StatusBarItem } from "./views/statusBar";
+import { SynthesizeModal } from "./views/synthesizeModal";
 import { TableReviewModal } from "./views/tableReview";
 
 /** Obsidian's private `app.commands` and `app.setting`, typed as far as used. */
@@ -26,17 +30,20 @@ interface AppInternals {
 
 export default class ArtmindPlugin extends Plugin {
   artmindSettings!: ArtmindSettings;
+  private persisted: Persisted = NOTHING_PERSISTED;
   private controller: Controller | null = null;
   private watchers: Watchers | null = null;
   private statusBar: StatusBarItem | null = null;
   private ribbon: RibbonIcon | null = null;
   private admin: AdminConsole | null = null;
-  private notifier = new ObsidianNotifier();
+  private notifier = new ObsidianNotifier((target) => void this.openPanel(target));
   private mappings: Mapping[] = [];
   private last: Snapshot | null = null;
 
   override async onload(): Promise<void> {
-    this.artmindSettings = mergeSettings(await this.loadData());
+    const data = await this.loadData();
+    this.artmindSettings = mergeSettings(data);
+    this.persisted = readPersisted(data);
     // Dormant outside an artmind vault (spec §7): no status bar, no polls.
     if (!(await this.app.vault.adapter.exists(VAULT_YAML))) return;
     const adapter = this.app.vault.adapter;
@@ -54,12 +61,22 @@ export default class ArtmindPlugin extends Plugin {
       notifier: this.notifier,
       views: {
         render: (snapshot) => this.render(snapshot),
-        openPanel: (section) => void this.openPanel(section),
+        openPanel: (target) => void this.openPanel(target),
         openResolve: () => this.openResolve(),
         openTableReview: (table) => this.openTableReview(table),
+        confirm: (request) => new ConfirmModal(this.app, request).open(),
+        openSynthesize: () => this.openSynthesize(),
+        openAdmin: (path) => void this.openAdmin(path),
       },
       settings: () => this.artmindSettings,
       detect: () => detectArtmind(this.artmindSettings.artmindPath, defaultDetectDeps()),
+      domains: () => this.mappings.map((m) => m.domain),
+      readObsidianGit: () => this.readObsidianGit(),
+      persisted: this.persisted,
+      persist: (p) => {
+        this.persisted = p;
+        void this.saveAll();
+      },
     });
     this.controller = controller;
     const watchers = new Watchers(
@@ -68,11 +85,11 @@ export default class ArtmindPlugin extends Plugin {
         onHeadSettled: () => void controller.onHeadSettled(),
         onNewFiles: (paths) => controller.onNewFiles(paths),
         promptsOnArrival: (path) => promptsOnArrival(this.mappings, path),
-        refresh: () => {
+        refresh: (reason) => {
           // Obsidian does not index `.artmind/`, so no event says the
           // manifest changed: re-read it whenever state is refreshed.
           void this.loadMappings();
-          controller.scheduleRefresh();
+          controller.scheduleRefresh(reason);
         },
         pollJob: () => controller.pollJob(),
       },
@@ -89,20 +106,15 @@ export default class ArtmindPlugin extends Plugin {
       url: () => this.artmindSettings.adminUiUrl,
       vaultRoot: root,
       startedPid: () => this.artmindSettings.adminUiPid,
-      // Not saveSettings: a pid changes nothing artmind needs re-checked.
-      saveStartedPid: async (pid) => {
-        this.artmindSettings.adminUiPid = pid;
-        await this.saveData(this.artmindSettings);
-      },
+      saveStartedPid: (pid) => this.saveStartedPid(pid),
     });
-    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => void this.openPanel("status")), {
-      openPanel: () => void this.openPanel("status"),
-      sync: () => void controller.sync(),
-      ingest: () => void controller.ingestWhatChanged(),
+    this.ribbon = new RibbonIcon(this.addRibbonIcon("brain-circuit", "artmind", () => controller.openPanelAtCurrent()), {
+      openPanel: () => void this.openPanel(),
       openAdmin: () => void this.openAdmin(),
       doctor: () => void controller.runDoctor(),
     });
-    this.statusBar = new StatusBarItem(this.addStatusBarItem(), (action) => controller.perform(action));
+    // Opens the panel at the current row; never runs an action (spec D8).
+    this.statusBar = new StatusBarItem(this.addStatusBarItem(), () => controller.openPanelAtCurrent());
     this.registerView(VIEW_TYPE, (leaf) => new ArtmindView(leaf, this.panelHandlers()));
     this.addSettingTab(new ArtmindSettingTab(this.app, this));
     this.addCommands();
@@ -125,7 +137,7 @@ export default class ArtmindPlugin extends Plugin {
   }
 
   async saveSettings(): Promise<void> {
-    await this.saveData(this.artmindSettings);
+    await this.saveAll();
     const controller = this.controller;
     if (!controller) return;
     if (!(await controller.checkArtmind())) await controller.refresh();
@@ -140,16 +152,41 @@ export default class ArtmindPlugin extends Plugin {
     }
   }
 
+  /** Obsidian Git's settings live under the config dir, which Obsidian does
+   * not index: read through the adapter. Unreadable counts as off (D10). */
+  private async readObsidianGit(): Promise<{ autoPullMinutes: number }> {
+    let text: string | null = null;
+    try {
+      text = await this.app.vault.adapter.read(obsidianGitDataPath(this.app.vault.configDir));
+    } catch {
+      text = null;
+    }
+    return { autoPullMinutes: autoPullMinutes(text) };
+  }
+
+  /** Not saveSettings: a pid changes nothing artmind needs re-checked. But
+   * saveAll, so the persisted state is written back with it. */
+  private async saveStartedPid(pid: number): Promise<void> {
+    this.artmindSettings.adminUiPid = pid;
+    await this.saveAll();
+  }
+
+  /** Saves settings and the persisted controller state together. */
+  private async saveAll(): Promise<void> {
+    const persisted = this.controller?.persisted() ?? this.persisted;
+    await this.saveData(withPersisted(this.artmindSettings, persisted));
+  }
+
   private render(snapshot: Snapshot): void {
     this.last = snapshot;
-    this.statusBar?.render(snapshot.state);
-    this.ribbon?.render(snapshot.state);
+    this.statusBar?.render(snapshot.checklist);
+    this.ribbon?.render(snapshot.checklist);
     for (const leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE)) {
       if (leaf.view instanceof ArtmindView) leaf.view.update(snapshot);
     }
   }
 
-  private async openPanel(section: PanelSection = "status"): Promise<void> {
+  private async openPanel(target: PanelTarget = "remote"): Promise<void> {
     let leaf = this.app.workspace.getLeavesOfType(VIEW_TYPE)[0];
     if (!leaf) {
       leaf = this.app.workspace.getRightLeaf(false) ?? this.app.workspace.getLeaf(true);
@@ -158,7 +195,7 @@ export default class ArtmindPlugin extends Plugin {
     await this.app.workspace.revealLeaf(leaf);
     if (leaf.view instanceof ArtmindView) {
       if (this.last) leaf.view.update(this.last);
-      leaf.view.focus(section);
+      leaf.view.focus(target);
     }
   }
 
@@ -180,6 +217,15 @@ export default class ArtmindPlugin extends Plugin {
       project: (t) => controller.tableProject(t),
       openMapping: (path) => this.openExternal(path),
       askAdminUi: () => void this.openAdmin(),
+    }).open();
+  }
+
+  private openSynthesize(): void {
+    const controller = this.controller;
+    if (!controller) return;
+    new SynthesizeModal(this.app, {
+      plan: () => controller.synthesisPlan(),
+      run: (domains, limit) => void controller.synthesize(domains, limit),
     }).open();
   }
 
@@ -225,16 +271,12 @@ export default class ArtmindPlugin extends Plugin {
     if (outcome) this.notifier.show(outcome.kind === "stopped" || outcome.kind === "not_running" ? "prompt" : "error", stopOutcomeText(outcome));
   }
 
-  private panelHandlers() {
+  private panelHandlers(): PanelHandlers {
     return {
-      sync: () => void this.controller?.sync(),
-      ingest: () => void this.controller?.ingestWhatChanged(),
-      retryJob: (jobId: string) => void this.controller?.retryJob(jobId),
-      resolve: () => this.openResolve(),
-      doctor: () => void this.controller?.runDoctor(),
-      reviewTable: (table: string) => this.openTableReview(table),
+      refresh: () => void this.controller?.refresh({ heavy: true }),
+      run: (action) => this.controller?.run(action),
       openAdmin: (path?: string) => void this.openAdmin(path),
-      commitAndSync: () => void this.controller?.gitAction("commitAndSync"),
+      doctor: () => void this.controller?.runDoctor(),
       setPath: () => {
         const setting = (this.app as unknown as AppInternals).setting;
         setting?.open();
@@ -244,18 +286,22 @@ export default class ArtmindPlugin extends Plugin {
     };
   }
 
-  /** Every action is also a command (spec §3.4). */
+  /** Every action is also a command (checklist spec §4). */
   private addCommands(): void {
+    const c = () => this.controller;
     const commands: Array<[string, string, () => void]> = [
-      ["sync", "Sync", () => void this.controller?.sync()],
-      ["ingest-what-changed", "Ingest what changed", () => void this.controller?.ingestWhatChanged()],
-      ["show-status", "Show status", () => void this.controller?.refresh().then(() => this.openPanel("status"))],
-      ["resolve", "Resolve artmind conflicts", () => this.openResolve()],
-      ["doctor", "Run doctor", () => void this.controller?.runDoctor()],
-      ["review-tables", "Review tables for graph", () => this.controller?.reviewTables()],
-      ["open-panel", "Open side panel", () => void this.openPanel("status")],
-      ["open-admin-console", "Open admin console", () => void this.openAdmin()],
-      ["stop-admin-console", "Stop admin console", () => void this.stopAdmin()],
+      ["pull", COMMANDS.pull, () => void c()?.run({ type: "pull" })],
+      ["apply", COMMANDS.apply, () => void c()?.apply()],
+      ["ingest-what-changed", COMMANDS.ingest, () => void c()?.ingestWhatChanged()],
+      ["rebuild", COMMANDS.rebuild, () => void c()?.rebuild()],
+      ["synthesize", COMMANDS.synthesize, () => c()?.openSynthesize()],
+      ["commit-push", COMMANDS.commitPush, () => c()?.commitPush()],
+      ["review-tables", COMMANDS.reviewTables, () => c()?.reviewTables()],
+      ["resolve", COMMANDS.resolve, () => c()?.openResolve()],
+      ["doctor", COMMANDS.doctor, () => void c()?.runDoctor()],
+      ["open-panel", COMMANDS.openPanel, () => void this.openPanel()],
+      ["open-admin-console", COMMANDS.openAdmin, () => void this.openAdmin()],
+      ["stop-admin-console", COMMANDS.stopAdmin, () => void this.stopAdmin()],
     ];
     for (const [id, name, callback] of commands) this.addCommand({ id, name, callback });
   }

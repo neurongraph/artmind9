@@ -219,7 +219,7 @@ flowchart LR
     T5["clock past _projection_expires_at"] --> DETECT
     T6["schema change — kind flip, new domain"] --> DETECT
     DETECT["ProjectionState detects drift<br/>hashes + timestamp"] --> FULL["projection rebuild<br/>human-run"]
-    T7["directory ingest"] --> DEFER["deferred — one full rebuild at the end"]
+    T7["directory ingest"] --> DEFER["deferred — one batched rebuild per domain at the end"]
     DEFER --> SW["embed sweep"] --> SY["then, explicitly: projection synthesize"]
 ```
 
@@ -228,7 +228,8 @@ flowchart LR
 | | Sequence |
 |---|---|
 | **single file** | write observations + rebuild *(one transaction)* → commit → embed sweep |
-| **directory** | per-document observation writes → one full rebuild *(one transaction)* → commit → embed sweep → *(explicit)* `projection synthesize` |
+| **directory** | per-document observation writes → per domain: full rebuild **in batches of 400 keys, one transaction each** → embed sweeps → *(explicit)* `projection synthesize` |
+| **repair** | `projection rebuild --sweep`: batched full rebuild of every domain → `:ProjectionState` recorded → entity + chunk sweeps per domain |
 
 Triggers 1–3 are **invisible**: the rebuild is a step inside the operation that
 dirtied the projection, and a failure fails that operation. Nobody types
@@ -239,6 +240,32 @@ schema edit. A singleton `:ProjectionState` node records the `same_as.yaml` hash
 the schema-set hash and the last rebuild time, so `projection status` reports drift
 and CLI queries warn. Queries **cannot** self-heal: `read_session()` is opened with
 `READ_ACCESS`, and that guarantee is worth more than the convenience.
+
+### Batched full rebuild, `finalize`, and `--sweep`
+
+A full rebuild (`projection.full_rebuild_batched`) reads every key in one read
+transaction and commits them in batches (`REBUILD_BATCH = 400`). A same-as
+group always stays within one batch. The end state equals one big
+transaction: each batch rewrites every `RELATES_TO` edge touching its own
+entities, from both ends. `:ProjectionState` is written last, in its own
+transaction, and only for an unscoped rebuild, only after every batch has
+committed. A failure part-way therefore leaves `projection status` reporting
+drift. Every batch is idempotent; the repair is to run it again.
+
+An ingest job **owes** its deferred rebuild on its row: `ingestion_jobs.finalize_domains`
+is appended as each file's commit defers. After the file loop, the worker
+rebuilds and sweeps each owed domain. A retried or resumed job does the same
+with 0 queued files. `ingest job-status` / `jobs-active` / `job-results`
+report `finalize: {state: none|pending|done|failed, domains, error}`. A
+rebuild that raises, or a sweep that could not reach Neo4j (`sweep_errors`),
+makes it `failed`. The worker keeps running.
+
+`projection status` also counts what is missing: `unembedded_entities` (what
+the entity sweep would pick up), `unprojected_keys` (observation keys no
+Entity aggregates yet), `unembedded_chunks`, each broken down under
+`domains`, plus one `drift` flag. **`projection rebuild --sweep`** is the
+repair for all of them, and what the Obsidian plugin's "Rebuild graph" runs.
+A clean run also marks every `failed` job finalize `done` (`finalize_resolved`).
 
 ### Snapshot restore (`snapshot restore` / `session initiate`)
 

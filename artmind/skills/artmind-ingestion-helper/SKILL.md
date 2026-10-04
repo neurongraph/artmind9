@@ -94,6 +94,16 @@ step in the pipeline that spends language-model budget without being asked
 to, so it never runs automatically. See `/artmind-curate` for the full
 `projection synthesize` reference.
 
+**If the deferred rebuild fails** (Neo4j down or out of memory), the job's files
+still show `completed`, but `ingest job-status <id> --compact` shows
+`finalize.state: "failed"` and the reason. `pending` with `stalled: true` means
+the worker died mid-rebuild: `ingest retry-job <id>` finishes it even though no
+file is re-queued. To repair directly, and to clear a failed `finalize`:
+```bash
+artmind projection rebuild --sweep --compact   # batched full rebuild + both embed sweeps per domain
+artmind projection status --compact            # expect drift false, unembedded_entities 0, unprojected_keys 0
+```
+
 **Which to use?**
 - Single file or small batch → `sync` (simpler, log is right there)
 - Large batch or want to keep working → `async`
@@ -520,7 +530,7 @@ shared AuraDB a document the other machine ingested is skipped by fingerprint, s
 **If it fails after "observations committed".** Rows commit in one transaction, then the
 projection is rebuilt in batches (a large table overruns Neo4j's per-transaction memory,
 `MemoryPoolOutOfMemoryError`, in one). A failed batch leaves part of the projection stale:
-re-run the same `ingest table2graph` — it is idempotent — or `artmind projection rebuild`.
+re-run the same `ingest table2graph` — it is idempotent — or `artmind projection rebuild --sweep`.
 
 **Refreshed tables.** A replace-mode table is one snapshot. For history, load every export
 of the same report into ONE temporal table — the table name otherwise comes from the file

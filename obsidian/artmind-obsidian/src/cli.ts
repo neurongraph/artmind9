@@ -83,23 +83,40 @@ export const TIMEOUTS_MS: Record<string, number> = {
   "ingest jobs-active": 30_000,
   "ingest retry-job": 30_000,
   "ingest table2graph": 60 * 60_000,
+  "projection status": 2 * 60_000,
+  // A full rebuild of a large vault, in batches, then both embed sweeps.
+  "projection rebuild": 2 * 60 * 60_000,
+  "projection synthesize": 60 * 60_000,
+  "db review": 60_000,
 };
 export const DEFAULT_TIMEOUT_MS = 5 * 60_000;
+/** `projection synthesize --dry-run` shares its key with the real run, but
+ * makes one read and no LLM call. */
+export const SYNTHESIZE_DRY_RUN_TIMEOUT_MS = 5 * 60_000;
 
 // `ingest retry-job` starts a worker, as `ingest async` does: detached, so
 // the worker outlives the call.
-const WRITE_COMMANDS = new Set(["vault sync", "vault resolve", "ingest async", "ingest retry-job", "ingest table2graph"]);
+const WRITE_COMMANDS = new Set([
+  "vault sync",
+  "vault resolve",
+  "ingest async",
+  "ingest retry-job",
+  "ingest table2graph",
+  "projection rebuild",
+  "projection synthesize",
+]);
 
 export function commandKey(args: string[]): string {
   return args[0] === "--version" ? "--version" : args.slice(0, 2).join(" ");
 }
 
 /** Writes go through one queue, one at a time (spec §7): sync, ingest
- * submission, table2graph and resolve. Their dry runs, and
- * `table2graph --pending`, only read. */
+ * submission, table2graph, resolve, rebuild and synthesize. Their dry runs
+ * (`--dryRun`, or synthesize's `--dry-run`), and `table2graph --pending`,
+ * only read. */
 export function isWrite(args: string[]): boolean {
   const key = commandKey(args);
-  if (!WRITE_COMMANDS.has(key) || args.includes("--dryRun")) return false;
+  if (!WRITE_COMMANDS.has(key) || args.includes("--dryRun") || args.includes("--dry-run")) return false;
   return !(key === "ingest table2graph" && args.includes("--pending"));
 }
 
@@ -299,4 +316,13 @@ export class ArtmindCli {
   tablesPending() { return this.run(["ingest", "table2graph", "--pending"]); }
   tableDryRun(table: string) { return this.run(["ingest", "table2graph", table, "--dryRun"]); }
   tableProject(table: string) { return this.run(["ingest", "table2graph", table]); }
+  projectionStatus() { return this.run(["projection", "status"]); }
+  projectionRebuildSweep() { return this.run(["projection", "rebuild", "--sweep"]); }
+  synthesizeDryRun(domain: string) {
+    return this.run(["projection", "synthesize", "--domain", domain, "--dry-run"], { timeoutMs: SYNTHESIZE_DRY_RUN_TIMEOUT_MS });
+  }
+  synthesize(domain: string, limit: number | null) {
+    return this.run(["projection", "synthesize", "--domain", domain, ...(limit === null ? [] : ["--limit", String(limit)])]);
+  }
+  dbReview() { return this.run(["db", "review"]); }
 }

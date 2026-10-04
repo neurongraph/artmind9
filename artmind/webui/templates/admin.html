@@ -84,7 +84,7 @@
 
   <div class="composer-wrap">
     <form id="composer" class="composer">
-      <textarea id="prompt" rows="1" placeholder="Ask the admin assistant…" aria-label="Message" autofocus></textarea>
+      <textarea id="prompt" rows="1" placeholder="Ask the admin assistant…" aria-label="Message" autofocus>{{ prefill | default("") }}</textarea>
       <button id="send" type="submit" class="send-btn" disabled aria-label="Send">
         <svg class="icon-send" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
           <path d="M12 19V5m0 0-6 6m6-6 6 6"></path>

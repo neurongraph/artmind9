@@ -24,6 +24,9 @@ logger = logging.getLogger(__name__)
 WEBUI_DIR = Path(__file__).resolve().parent
 DEFAULT_UI_PORT = 8378
 DEFAULT_ADMIN_UI_PORT = 8379
+#: Longest `?prompt=` the admin console prefills (the Obsidian plugin's
+#: table-review deep link is one sentence; anything longer is not a link).
+PREFILL_MAX_CHARS = 2000
 SWEEP_INTERVAL_S = 60
 
 
@@ -109,6 +112,11 @@ def create_app(
     @app.get("/")
     async def index(request: Request):
         context = {"page_title": page_title} if page_title is not None else {}
+        if admin_routes:
+            # `?prompt=` prefills the agent chat's composer (plan 2026-10-03
+            # B7). Rendered into the textarea, autoescaped; app.js only
+            # enables Send -- nothing is ever sent without the operator.
+            context["prefill"] = request.query_params.get("prompt", "")[:PREFILL_MAX_CHARS]
         return templates.TemplateResponse(request, template_name, context)
 
     @app.post("/api/chat")

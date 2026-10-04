@@ -68,6 +68,15 @@ export interface JobFile extends KgCounts {
   chunk_progress?: ChunkProgress;
 }
 
+/** What a job still owes once its files are done: the deferred projection
+ * rebuild and embed sweeps for the domains it touched (Plan 1, B2).
+ * `pending` while the worker runs them; `failed` with the error otherwise. */
+export interface JobFinalize {
+  state: "none" | "pending" | "done" | "failed";
+  domains: string[];
+  error: string | null;
+}
+
 /** `artmind ingest job-status <id> --compact` (and each `jobs-active` row). */
 export interface JobStatus {
   job_id: string;
@@ -78,6 +87,8 @@ export interface JobStatus {
   error_message?: string | null;
   /** `processing`, but no worker holds the lock: it died mid-job. */
   stalled?: boolean;
+  /** Absent from an artmind older than Plan 1. */
+  finalize?: JobFinalize;
 }
 
 /** `artmind ingest retry-job <id> --compact`. */
@@ -98,6 +109,7 @@ export interface JobResults {
   status: string;
   file_count: number;
   files: Array<{ filename: string; status: string; error_message: string | null } & KgCounts>;
+  finalize?: JobFinalize;
 }
 
 /** `artmind ingest async [--pending] --compact`. */
@@ -167,4 +179,90 @@ export interface DoctorReport {
   vault: string;
   ok: boolean;
   checks: Array<{ name: string; status: "ok" | "warn" | "fail" | "unknown"; detail: string; fix: string | null }>;
+}
+
+export interface ProjectionDomainGaps {
+  unembedded_entities: number;
+  unprojected_keys: number;
+  unembedded_chunks: number;
+}
+
+/** `artmind projection status --compact` (Plan 1, B3). `known` is false
+ * before the first full rebuild; then the recorded hashes are absent. */
+export interface ProjectionStatus {
+  known: boolean;
+  drift: boolean;
+  last_rebuilt_at?: string | null;
+  same_as_drift: boolean;
+  schema_drift: boolean;
+  recorded_same_as_hash?: string | null;
+  current_same_as_hash: string;
+  recorded_schema_hash?: string | null;
+  current_schema_hash: string;
+  unembedded_entities: number;
+  unprojected_keys: number;
+  unembedded_chunks: number;
+  domains: Record<string, ProjectionDomainGaps>;
+}
+
+/** `artmind projection rebuild --sweep --compact` (Plan 1, B4).
+ * `sweep_errors` are `"<domain>: <message>"`; empty when every sweep ran. */
+export interface RebuildResult {
+  rebuilt: number;
+  deleted: number;
+  absent: number;
+  keys: number;
+  batches: number;
+  domains?: string[];
+  recorded?: boolean;
+  domains_swept: string[];
+  embedded: number;
+  chunks_embedded: number;
+  sweep_errors: string[];
+  finalize_resolved: string[];
+}
+
+/** `artmind projection synthesize --domain D --dry-run --compact`.
+ * `counts.synthesize` is how many descriptions a real run would write. */
+export interface SynthesizeDryRun {
+  domain: string;
+  command: string;
+  model: string;
+  dry_run: true;
+  examined: number;
+  counts: Record<string, number>;
+  candidates?: Array<{ key: string; name: string }>;
+}
+
+/** `artmind projection synthesize --domain D [--limit N] --compact`. */
+export interface SynthesizeResult {
+  domain: string;
+  command: string;
+  model: string;
+  dry_run: false;
+  examined: number;
+  synthesized: number;
+  counts: Record<string, number>;
+  results: unknown[];
+}
+
+/** One table of `artmind db review --compact`: what is still unconfirmed. */
+export interface TableToReview {
+  table: string;
+  domain: string;
+  grain: string | null;
+  grain_confirmed: boolean;
+  grain_status: string | null;
+  bridge_status: string | null;
+  mapping_status: string | null;
+  mappings: Array<{ column: string; entity_class: string; confidence: number | null }>;
+  bridge_columns: Array<{ column: string; confidence: number | null }>;
+}
+
+/** `artmind db review --compact`. An empty `tables` means nothing to review. */
+export interface DbReview {
+  query_type: string;
+  command: string;
+  pending_count: number;
+  tables: TableToReview[];
 }

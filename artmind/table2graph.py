@@ -9,7 +9,7 @@ table and the same mapping always produce byte-identical observations.
 What it writes is exactly what a document commit writes, through the same
 transaction (`ingest._commit_document_tx`) -- except that the projection
 rebuild runs afterwards in batches, because a table's thousands of keys
-overrun Neo4j's per-transaction memory (see `_rebuild_in_batches`):
+overrun Neo4j's per-transaction memory (see `projection.rebuild_in_batches`):
 
 - the table is a `:Document` (`id = table:<domain>:<table>`), and each row it
   contributes is a `:DocChunk` carrying the row rendered as text -- so every
@@ -54,6 +54,8 @@ from pathlib import Path
 
 import yaml
 from loguru import logger
+
+from artmind.projection import REBUILD_BATCH, batch_keys  # noqa: F401  (re-exported: vault_sync, update, tests)
 
 #: Pseudo-columns a field spec may read in place of a real column.
 PSEUDO_COLUMNS = frozenset({"$valid_from", "$ingested_at", "$table"})
@@ -1299,80 +1301,19 @@ def write_staged(staged: dict, report: dict, directory: Path) -> None:
     )
 
 
-#: Keys rebuilt per transaction. A table's commit is thousands of keys, and
-#: Neo4j caps a transaction's memory (`dbms.memory.transaction.total.max`) --
-#: found live: a 1223-row table, 2450 keys, failed at commit on a 343 MiB cap
-#: once its entities carried embeddings.
-REBUILD_BATCH = 400
-
-
-def batch_keys(keys, groups: list[list[tuple]], size: int = REBUILD_BATCH) -> list[list[tuple]]:
-    """Split `keys` into rebuild batches of about `size`. Pure.
-
-    A same-as group never straddles two batches: `projection._plan_groups`
-    only folds a group whose members are all in the keys it is given, so the
-    group is kept whole even when that overfills a batch. Deterministic
-    (sorted), so a rerun rebuilds in the same order.
-    """
-    group_of: dict[tuple, int] = {}
-    for index, group in enumerate(groups):
-        for member in group:
-            group_of.setdefault(tuple(member), index)
-    units: dict[object, list[tuple]] = {}
-    for key in sorted({tuple(k) for k in keys}):
-        units.setdefault(("group", group_of[key]) if key in group_of else ("key", key), []).append(key)
-    batches: list[list[tuple]] = []
-    current: list[tuple] = []
-    for unit in units.values():
-        if current and len(current) + len(unit) > size:
-            batches.append(current)
-            current = []
-        current.extend(unit)
-    if current:
-        batches.append(current)
-    return batches
-
-
 def _rebuild_in_batches(keys: list, groups: list | None = None) -> dict:
     """The projection rebuild for a committed table, one transaction per batch.
 
     This departs from a document commit, whose rebuild runs inside the same
     transaction as its observations; a table is simply too big for one. The
-    cost is a window between the observation commit and the last batch in
-    which part of the projection is stale -- and if a batch fails, it stays
-    stale until repaired. Every batch is idempotent, so the repair is to run
-    the same `ingest table2graph` again (or `artmind projection rebuild`).
-
-    `groups` are the same-as groups to batch and rebuild with. None reads
-    `same_as.yaml` from disk -- right for `ingest table2graph`, wrong for
-    `vault sync`, which passes the file as committed at `head` so an
-    uncommitted edit never reaches the graph (spec 2026-09-26 §6 A1).
+    batching itself is `projection.rebuild_in_batches`, shared with the full
+    rebuild; this wrapper only pins the batch size to this module's
+    `REBUILD_BATCH`, read at call time, and keeps the name `vault_sync` and
+    `update` import. `groups`: see `projection.rebuild_in_batches`.
     """
-    from artmind import projection, same_as
-    from artmind.graph_query import neo4j_session
+    from artmind import projection
 
-    groups = same_as.load_groups() if groups is None else groups
-    batches = batch_keys(keys, groups, REBUILD_BATCH)
-    totals = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": len(batches)}
-    with neo4j_session() as session:
-        for number, batch in enumerate(batches, start=1):
-            try:
-                summary = session.execute_write(
-                    lambda tx: projection.rebuild(
-                        tx, batch, same_as_groups=groups,
-                        synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks),
-                    )
-                )
-            except Exception as e:
-                raise RuntimeError(
-                    f"projection rebuild failed on batch {number}/{len(batches)} ({e}); the "
-                    "observations are committed but part of the projection is stale -- "
-                    "re-run the same `ingest table2graph` (idempotent) or `artmind projection rebuild`"
-                ) from e
-            for field_name in ("rebuilt", "deleted", "absent", "keys"):
-                totals[field_name] += summary.get(field_name, 0)
-            logger.info("table2graph: rebuilt batch {}/{} ({} key(s))", number, len(batches), len(batch))
-    return totals
+    return projection.rebuild_in_batches(keys, groups, size=REBUILD_BATCH)
 
 
 def table_to_graph(

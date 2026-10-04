@@ -59,9 +59,22 @@ describe("GitReader", () => {
     writeFileSync(join(clone, ".artmind", "data", "a record.json"), "{}");
     writeFileSync(join(clone, "outside.md"), "not artmind\n");
 
-    expect(await new GitReader(clone).artmindChanges()).toEqual([".artmind/"]);
+    expect(await new GitReader(clone).artmindChanges()).toEqual([".artmind/data/a record.json"]);
     git(clone, "add", ".artmind");
     expect(await new GitReader(clone).artmindChanges()).toEqual([".artmind/data/a record.json"]);
+  });
+
+  it("lists each untracked file of a new doc folder, so the footer can count docs", async () => {
+    const { clone } = repo();
+    const doc = join(clone, ".artmind", "data", "kg", "general", "doc1");
+    mkdirSync(doc, { recursive: true });
+    writeFileSync(join(doc, "document.json"), "{}");
+    writeFileSync(join(doc, "chunks.json"), "[]");
+
+    expect((await new GitReader(clone).artmindChanges()).sort()).toEqual([
+      ".artmind/data/kg/general/doc1/chunks.json",
+      ".artmind/data/kg/general/doc1/document.json",
+    ]);
   });
 
   it("only ever reads (spec P5)", () => {

@@ -448,9 +448,9 @@ def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatc
 
     import artmind.projection as projection
 
-    monkeypatch.setattr(projection, "full_rebuild", lambda tx, domains=None, **kw: {})
+    monkeypatch.setattr(projection, "full_rebuild_batched", lambda domains=None: {})
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
-    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, **kw: 0)
     swept_chunks: list = []
     monkeypatch.setattr(
         ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 7
@@ -458,14 +458,14 @@ def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatc
 
     summary = ing.rebuild_projection("general")
 
-    assert swept_chunks == [{"domain": "general"}]
+    assert swept_chunks == [{"domain": "general", "strict": True}]
     assert summary["chunks_embedded"] == 7, (
         "a dropped or mis-assigned summary['chunks_embedded'] = ... line must fail this test"
     )
 
 
 def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatch):
-    """No `domain` — a multi-domain/global rebuild -- must skip the chunk
+    """No `domain` -- a multi-domain/global rebuild -- must skip the chunk
     sweep entirely, mirroring how the entity sweep is already skipped in
     that case."""
     session = _RetractSession()
@@ -473,7 +473,7 @@ def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatc
 
     import artmind.projection as projection
 
-    monkeypatch.setattr(projection, "full_rebuild", lambda tx, domains=None, **kw: {})
+    monkeypatch.setattr(projection, "full_rebuild_batched", lambda domains=None: {})
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
     swept_chunks: list = []
     monkeypatch.setattr(

@@ -467,6 +467,15 @@ promptEl.addEventListener("keydown", (e) => {
   }
 });
 
+// A deep link (`/?prompt=…`, the Obsidian plugin's table-review row) arrives
+// with the composer already filled server-side. Never sent: the operator
+// reads it, edits it if they want, and presses Enter.
+if (promptEl.value.trim() !== "") {
+  autogrow();
+  sendBtn.disabled = false;
+  promptEl.setSelectionRange(promptEl.value.length, promptEl.value.length);
+}
+
 composerEl.addEventListener("submit", (e) => {
   e.preventDefault();
   if (streaming) stop();

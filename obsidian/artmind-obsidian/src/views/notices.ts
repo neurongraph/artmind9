@@ -1,22 +1,26 @@
 import { Notice } from "obsidian";
-import type { NoticeButton, Notifier } from "../controller";
-import type { NoticeKind } from "../settings";
+import type { NoticeLevel, Notifier } from "../controller";
+import type { PanelTarget } from "../state";
 import { el } from "./dom";
 
-/** Notices with buttons (spec §3.3). One with buttons stays until clicked
- * or dismissed; a plain one fades. Clicking a button closes its notice. */
+/** Text-only notices (checklist spec §5, D7). Each fades: 10 s for an
+ * error, 6 s otherwise. Clicking one opens the panel at its row. */
 export class ObsidianNotifier implements Notifier {
-  show(kind: NoticeKind | "prompt" | "error", text: string, buttons: NoticeButton[] = []): void {
+  private openTarget: (target: PanelTarget) => void;
+
+  constructor(openTarget: (target: PanelTarget) => void) {
+    this.openTarget = openTarget;
+  }
+
+  show(kind: NoticeLevel, text: string, target: PanelTarget | null = null): void {
     const fragment = document.createDocumentFragment();
-    el(fragment, "div", { cls: `artmind-notice artmind-notice-${kind}`, text });
-    const row = buttons.length ? el(fragment, "div", { cls: "artmind-notice-buttons" }) : null;
-    const notice = new Notice(fragment, buttons.length ? 0 : kind === "error" ? 10_000 : 6_000);
-    for (const button of buttons) {
-      el(row, "button", { text: button.label }).addEventListener("click", (event) => {
-        event.stopPropagation();
-        notice.hide();
-        button.run();
-      });
-    }
+    const body = el(fragment, "div", { cls: `artmind-notice artmind-notice-${kind}`, text });
+    const notice = new Notice(fragment, kind === "error" ? 10_000 : 6_000);
+    if (!target) return;
+    body.classList.add("artmind-notice-link");
+    body.addEventListener("click", () => {
+      notice.hide();
+      this.openTarget(target);
+    });
   }
 }

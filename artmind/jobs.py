@@ -1,3 +1,4 @@
+import json
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -155,13 +156,109 @@ def _update_job_file_status(
         conn.close()
 
 
+FINALIZE_STATES = ("pending", "done", "failed")
+
+
+def _finalize(state: str | None, domains_json: str | None, error: str | None) -> dict:
+    """The `finalize` block every job read path returns: whether the job's
+    deferred projection rebuild and embed sweeps have run.
+
+    `none` -- the job deferred nothing; `pending` -- owed and not finished
+    (running now, or its worker died -- see `stalled`); `done`; `failed` --
+    `error` says why. `domains` -- what it owes (or owed)."""
+    return {
+        "state": state or "none",
+        "domains": json.loads(domains_json) if domains_json else [],
+        "error": error,
+    }
+
+
+def _add_finalize_domain(job_id: str, domain: str) -> None:
+    """Record that `job_id` owes `domain` a rebuild + sweeps, as each file's
+    KG commit defers. Idempotent per domain; marks the job `pending`. A
+    missing job is a no-op."""
+    conn = _get_db()
+    try:
+        row = conn.execute(
+            "SELECT finalize_domains FROM ingestion_jobs WHERE job_id = ?", (job_id,)
+        ).fetchone()
+        if row is None:
+            return
+        domains = json.loads(row[0]) if row[0] else []
+        if domain not in domains:
+            domains.append(domain)
+        conn.execute(
+            "UPDATE ingestion_jobs SET finalize_domains = ?, finalize_state = 'pending',"
+            " finalize_error = NULL WHERE job_id = ?",
+            (json.dumps(sorted(domains)), job_id),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _get_finalize(job_id: str) -> dict:
+    conn = _get_db()
+    try:
+        row = conn.execute(
+            "SELECT finalize_state, finalize_domains, finalize_error FROM ingestion_jobs WHERE job_id = ?",
+            (job_id,),
+        ).fetchone()
+    finally:
+        conn.close()
+    return _finalize(*row) if row else _finalize(None, None, None)
+
+
+def _set_finalize_state(job_id: str, state: str, error: str | None = None) -> None:
+    """Set the finalize state; `error` is written as given, so `done` clears it."""
+    if state not in FINALIZE_STATES:
+        raise ValueError(f"finalize state must be one of {FINALIZE_STATES}, not {state!r}")
+    conn = _get_db()
+    try:
+        conn.execute(
+            "UPDATE ingestion_jobs SET finalize_state = ?, finalize_error = ? WHERE job_id = ?",
+            (state, error, job_id),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _resolve_failed_finalizes() -> list[str]:
+    """Mark every job whose deferred rebuild failed as `done`, and return
+    their ids. Only `projection rebuild --sweep` calls this, and only after a
+    clean run: a full rebuild of every domain plus both sweeps for each is a
+    superset of what any of those jobs still owed. A host with no registry DB
+    (query-only) has no jobs, and gets no DB created for it."""
+    import artmind.db as db
+
+    if not Path(db.DB_PATH).exists():
+        return []
+    conn = _get_db()
+    try:
+        ids = [
+            r[0] for r in conn.execute(
+                "SELECT job_id FROM ingestion_jobs WHERE finalize_state = 'failed' ORDER BY queued_at"
+            ).fetchall()
+        ]
+        if ids:
+            conn.executemany(
+                "UPDATE ingestion_jobs SET finalize_state = 'done', finalize_error = NULL WHERE job_id = ?",
+                [(job_id,) for job_id in ids],
+            )
+            conn.commit()
+        return ids
+    finally:
+        conn.close()
+
+
 def _fetch_active_jobs() -> list[dict]:
     """Return queued/processing jobs with their file rows."""
     conn = _get_db()
     try:
         rows = conn.execute(
             "SELECT job_id, status, file_count, processed_count,"
-            " queued_at, started_at, domain"
+            " queued_at, started_at, domain, finalize_state, finalize_domains, finalize_error"
             " FROM ingestion_jobs WHERE status IN ('queued','processing')"
             " ORDER BY queued_at DESC LIMIT 20"
         ).fetchall()
@@ -182,6 +279,7 @@ def _fetch_active_jobs() -> list[dict]:
                 "started_at": row[5],
                 "domain": row[6] or "general",
                 "stalled": _stalled(row[1]),
+                "finalize": _finalize(row[7], row[8], row[9]),
                 "files": [
                     {
                         "filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3],
@@ -307,7 +405,8 @@ def _get_job_status(job_id: str) -> dict | None:
     try:
         cursor.execute(
             "SELECT job_id, status, file_count, processed_count, queued_at, started_at,"
-            " completed_at, error_message, domain FROM ingestion_jobs WHERE job_id = ?",
+            " completed_at, error_message, domain, finalize_state, finalize_domains, finalize_error"
+            " FROM ingestion_jobs WHERE job_id = ?",
             (job_id,),
         )
         row = cursor.fetchone()
@@ -338,6 +437,7 @@ def _get_job_status(job_id: str) -> dict | None:
             "error_message": row[7],
             "domain": row[8] or "general",
             "stalled": _stalled(row[1]),
+            "finalize": _finalize(row[9], row[10], row[11]),
             "files": files,
         }
     finally:
@@ -350,13 +450,15 @@ def _get_job_results(job_id: str) -> dict | None:
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "SELECT status, file_count, error_message FROM ingestion_jobs WHERE job_id = ?",
+            "SELECT status, file_count, error_message, finalize_state, finalize_domains, finalize_error"
+            " FROM ingestion_jobs WHERE job_id = ?",
             (job_id,),
         )
         row = cursor.fetchone()
         if not row:
             return None
-        status, file_count, error_message = row
+        status, file_count, error_message = row[:3]
+        finalize = _finalize(*row[3:])
         cursor.execute(
             "SELECT filename, status, error_message, started_at, completed_at,"
             " entity_count, relationship_count"
@@ -375,7 +477,10 @@ def _get_job_results(job_id: str) -> dict | None:
             }
             for r in cursor.fetchall()
         ]
-        result = {"job_id": job_id, "status": status, "file_count": file_count, "files": files}
+        result = {
+            "job_id": job_id, "status": status, "file_count": file_count,
+            "finalize": finalize, "files": files,
+        }
         if error_message:
             result["error_message"] = error_message
         return result

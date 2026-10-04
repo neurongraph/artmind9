@@ -32,7 +32,7 @@ describe("ArtmindPlugin", () => {
     expect(a.layoutReady).toEqual([]);
   });
 
-  it("in an artmind vault, adds the status bar, the panel and every command (spec §3.4)", async () => {
+  it("in an artmind vault, adds the status bar, the panel and every command (checklist spec §4)", async () => {
     const a = app(true);
     const plugin = new ArtmindPlugin(a as never, { id: "artmind" } as never) as any;
 
@@ -42,18 +42,51 @@ describe("ArtmindPlugin", () => {
     expect(plugin.ribbonIcons.map((r: { icon: string; title: string }) => [r.icon, r.title])).toEqual([["brain-circuit", "artmind"]]);
     expect(plugin.views).toEqual(["artmind-view"]);
     expect(plugin.commands.map((c: { name: string }) => c.name)).toEqual([
-      "Sync",
+      "Pull",
+      "Apply to graph",
       "Ingest what changed",
-      "Show status",
+      "Rebuild graph",
+      "Synthesize…",
+      "Commit & push",
+      "Review tables for graph",
       "Resolve artmind conflicts",
       "Run doctor",
-      "Review tables for graph",
       "Open side panel",
       "Open admin console",
       "Stop admin console",
     ]);
     expect(a.layoutReady).toHaveLength(1);
     expect(plugin.events).toEqual([]);
+    plugin.onunload();
+  });
+
+  it("saving the admin console's pid keeps the persisted state (checklist spec §4)", async () => {
+    const a = app(true);
+    const plugin = new ArtmindPlugin(a as never, { id: "artmind" } as never) as any;
+    const lastApply = { at: 2_000, ok: true, summary: "Applied to graph: 2 docs, 1 table." };
+    plugin.data = { state: { lastJob: null, lastApply, lastRebuild: null } };
+    await plugin.onload();
+
+    await plugin.saveStartedPid(4242);
+
+    expect(plugin.data.adminUiPid).toBe(4242);
+    expect(plugin.data.state.lastApply).toEqual(lastApply);
+    plugin.onunload();
+  });
+
+  it("reads Obsidian Git's auto pull from the vault's config dir, through the tested parser (spec D10)", async () => {
+    const a = app(true);
+    const reads: string[] = [];
+    (a.vault.adapter as any).read = async (path: string) => {
+      reads.push(path);
+      return path.endsWith("obsidian-git/data.json") ? '{"autoPullInterval":"5"}' : 'ingest:\n  mappings: []\n';
+    };
+    (a.vault as any).configDir = ".config-obsidian";
+    const plugin = new ArtmindPlugin(a as never, { id: "artmind" } as never) as any;
+    await plugin.onload();
+
+    expect(await plugin.readObsidianGit()).toEqual({ autoPullMinutes: 0 });
+    expect(reads).toContain(".config-obsidian/plugins/obsidian-git/data.json");
     plugin.onunload();
   });
 });
