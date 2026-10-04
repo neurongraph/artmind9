@@ -3221,6 +3221,10 @@ def projection():
     retire, a restore), and a failure fails that operation. These commands
     exist for the cases that have no natural host — a directory ingest that
     deferred its rebuild, a hand-edited curation file, a schema change.
+
+    `projection rebuild --sweep` is the one repair command: a batched full
+    rebuild, then both embed sweeps for every domain. `projection status`
+    says whether it is needed.
     """
 
 
@@ -3270,13 +3274,16 @@ def projection_rebuild(domain: str | None, sweep: bool, compact: bool) -> None:
 @projection.command("status")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def projection_status(compact: bool) -> None:
-    """Report drift between the live projection and same_as.yaml / the schema set.
+    """Report drift and what the projection is still missing.
 
-    Compares the `:ProjectionState` singleton (recorded by the last FULL
-    `projection rebuild`) against `same_as.yaml`'s current hash and the domain
-    schemas' current hash right now. Read-only — queries cannot self-heal
-    (`read_session()` stays READ_ACCESS), so this only ever reports; running
-    `projection rebuild` is what clears drift.
+    Drift: compares the `:ProjectionState` singleton (recorded by the last
+    FULL `projection rebuild`) against `same_as.yaml`'s current hash and the
+    domain schemas' current hash right now; `drift` is either. Gaps:
+    `unembedded_entities` (what the entity embed sweep would pick up),
+    `unprojected_keys` (observation keys no Entity aggregates yet),
+    `unembedded_chunks`, with a per-domain breakdown under `domains`.
+    Read-only: queries cannot self-heal (`read_session()` stays
+    READ_ACCESS). `projection rebuild --sweep` clears all of it.
     """
     _setup_logger()
     from artmind import projection

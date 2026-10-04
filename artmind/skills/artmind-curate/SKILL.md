@@ -125,8 +125,8 @@ is a global signal a partial rebuild can't honestly clear. After approving
 everything in a review session, run:
 
 ```bash
-artmind projection status --compact      # confirm same_as_drift: true
-artmind projection rebuild --compact     # clears it
+artmind projection status --compact            # confirm same_as_drift: true
+artmind projection rebuild --sweep --compact   # clears it, and re-embeds what the rebuild touched
 ```
 
 Skipping the second command leaves `projection status` reporting drift
@@ -154,8 +154,9 @@ is not a forensic recovery, it's the ordinary undo path:
 1. Open `same_as.yaml` (in the run folder — `.artmind/same_as.yaml` in a
    vault, where other machines pick the edit up with `vault sync`) and remove
    the offending group, or remove just the wrong member from it.
-2. `artmind projection rebuild --domain <d> --compact` (or a bare
-   `artmind projection rebuild --compact` to also clear drift).
+2. `artmind projection rebuild --domain <d> --compact` (or
+   `artmind projection rebuild --sweep --compact` to rebuild every domain,
+   clear drift and re-embed).
 3. The un-merged entity returns under its original deterministic id —
    confirm with `entity-resolve` on its name.
 
@@ -331,8 +332,9 @@ projection (a document commit, `docs retire`, `sameas approve`). Reach for
 them directly only for the cases with no natural host:
 
 ```bash
-artmind projection status --compact             # drift: same_as.yaml / schema-set hash vs. last full rebuild
-artmind projection rebuild [--domain <d>] --compact   # recompute Entities from observations; no LLM
+artmind projection status --compact             # drift + unembedded_entities / unprojected_keys / unembedded_chunks, per domain
+artmind projection rebuild [--domain <d>] --compact   # recompute Entities from observations, in batches; no LLM
+artmind projection rebuild --sweep --compact    # the repair: every domain, then both embed sweeps per domain
 artmind projection synthesize --domain <d> [--nameFilter <f>] [--force] --compact
 ```
 

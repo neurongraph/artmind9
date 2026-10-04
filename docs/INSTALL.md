@@ -220,6 +220,29 @@ artmind admin-ui       # operator console: agent chat, ingest dashboard, CLI gui
 The chat agent's working directory is the vault, so it can read your documents
 and find artmind's skills at `.claude/skills/`.
 
+### Neo4j memory
+
+Give Neo4j a bounded heap and a transaction-memory cap. With a cap, a
+transaction that is too large fails cleanly with
+`MemoryPoolOutOfMemoryError`. Without one, it grows until the JVM, or the
+Docker VM it runs in, is killed.
+
+| Setting | Recommended | Docker env var |
+|---|---|---|
+| `server.memory.heap.max_size` (and `initial_size`) | `1G` | `NEO4J_server_memory_heap_max__size=1G` |
+| `server.memory.pagecache.size` | `512M` | `NEO4J_server_memory_pagecache_size=512M` |
+| `db.memory.transaction.total.max` | `512M` (must stay below the heap) | `NEO4J_db_memory_transaction_total_max=512M` |
+
+**colima / Docker VM: at least 4 GiB** (`colima stop && colima start --memory 4`).
+On 2026-10-03, a 2 GiB VM was run out of memory by one 4,332-key rebuild
+transaction, and Neo4j was killed.
+
+artmind keeps its own transactions small. A full projection rebuild commits
+400 keys per transaction (`projection.REBUILD_BATCH`), and `table2graph` uses
+the same batches. To see the cap and the batching work, run
+`just dev-rebuild-memcheck` from the checkout. It uses a disposable Neo4j
+container on its own port and never touches yours.
+
 ### Core vs the `[ingest]` extra
 
 Document ingestion (`artmind ingest sync`/`async`/`extract-kg`) needs a heavy ML
