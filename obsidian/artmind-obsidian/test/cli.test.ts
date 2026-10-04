@@ -6,6 +6,8 @@ import { beforeAll, describe, expect, it } from "vitest";
 import {
   ArtmindCli,
   type DetectDeps,
+  SYNTHESIZE_DRY_RUN_TIMEOUT_MS,
+  TIMEOUTS_MS,
   childEnv,
   commandKey,
   detectArtmind,
@@ -185,6 +187,12 @@ describe("which commands write", () => {
     [["vault", "status", "--compact"], false],
     [["ingest", "pending", "--compact"], false],
     [["--version"], false],
+    [["projection", "rebuild", "--sweep", "--compact"], true],
+    [["projection", "synthesize", "--domain", "general", "--compact"], true],
+    [["projection", "synthesize", "--domain", "general", "--limit", "5", "--compact"], true],
+    [["projection", "synthesize", "--domain", "general", "--dry-run", "--compact"], false],
+    [["projection", "status", "--compact"], false],
+    [["db", "review", "--compact"], false],
   ])("%j -> %s", (args, write) => {
     expect(isWrite(args as string[])).toBe(write);
   });
@@ -265,5 +273,51 @@ describe("detectArtmind", () => {
   it("lists every place it looked when nothing is there", async () => {
     const found = await detectArtmind("", deps([], "/tools", "/Users/me/.local/bin"));
     expect(found).toEqual({ path: null, looked: ["/Users/me/.local/bin/artmind", "/tools/artmind9/bin/artmind"] });
+  });
+});
+
+describe("the readiness checklist's commands (Plan 1)", () => {
+  it("sends exactly these args, with --compact added", async () => {
+    const { cli, lines } = fakeCli([{ match: "", stdout: "{}" }]);
+
+    await cli.projectionStatus();
+    await cli.projectionRebuildSweep();
+    await cli.synthesizeDryRun("general");
+    await cli.synthesize("general", null);
+    await cli.synthesize("habits", 20);
+    await cli.dbReview();
+
+    expect(lines().filter((l) => l.startsWith("start "))).toEqual([
+      "start projection status --compact",
+      "start projection rebuild --sweep --compact",
+      "start projection synthesize --domain general --dry-run --compact",
+      "start projection synthesize --domain general --compact",
+      "start projection synthesize --domain habits --limit 20 --compact",
+      "start db review --compact",
+    ]);
+  });
+
+  it("gives the long writes long timeouts, and the reads short ones", () => {
+    expect(TIMEOUTS_MS["projection rebuild"]).toBe(2 * 60 * 60_000);
+    expect(TIMEOUTS_MS["projection synthesize"]).toBe(60 * 60_000);
+    expect(TIMEOUTS_MS["projection status"]).toBe(2 * 60_000);
+    expect(TIMEOUTS_MS["db review"]).toBe(60_000);
+    expect(SYNTHESIZE_DRY_RUN_TIMEOUT_MS).toBe(5 * 60_000);
+  });
+
+  it("queues a rebuild behind a running apply, as every write is", async () => {
+    const { cli, lines } = fakeCli([
+      { match: "vault sync", stdout: "{}", delayMs: 300 },
+      { match: "projection rebuild", stdout: "{}" },
+    ]);
+
+    await Promise.all([cli.sync(), cli.projectionRebuildSweep()]);
+
+    expect(lines()).toEqual([
+      "start vault sync --compact",
+      "end vault sync --compact",
+      "start projection rebuild --sweep --compact",
+      "end projection rebuild --sweep --compact",
+    ]);
   });
 });
