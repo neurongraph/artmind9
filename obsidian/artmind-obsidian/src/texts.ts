@@ -6,23 +6,24 @@ import type { Checklist } from "./checklist";
 
 export function pulledText(status: VaultStatus): string {
   const parts = behindParts(status.sync.stores);
-  return `Pulled from the other laptop — ${parts.join(" · ") || "stores"} behind.`;
+  return `Pulled: ${parts.join(", ") || "changes"} to apply to graph.`;
 }
 
 export function newFilesText(paths: string[]): string {
   const folders = [...new Set(paths.map((p) => (p.includes("/") ? p.slice(0, p.lastIndexOf("/")) : "the vault root")))];
   const where = folders.length === 1 ? folders[0].split("/").pop()! : plural(folders.length, "folder");
-  return `${plural(paths.length, "new file")} in ${where}.`;
+  return `${plural(paths.length, "new file")} in ${where}, ready to ingest.`;
 }
 
 export function ingestDoneText(job: JobStatus): string {
   const failed = job.files.filter((f) => f.status === "failed").length;
   const done = job.files.filter((f) => f.status === "completed").length;
-  return failed ? `Ingested ${done}, ${failed} failed.` : `Ingested ${done}.`;
+  const base = `Ingested ${plural(done, "file")}${failed ? `, ${failed} failed` : ""}`;
+  return job.finalize?.state === "failed" ? `${base}; building the graph failed.` : `${base}.`;
 }
 
 export function stalledText(job: JobStatus): string {
-  return `Ingest stalled at ${job.processed_count} of ${plural(job.file_count, "file")}: the worker stopped.`;
+  return `Ingest stalled at ${job.processed_count} of ${plural(job.file_count, "file")} — details in the artmind panel.`;
 }
 
 export function retriedText(retried: number, stalled: boolean): string {
@@ -30,18 +31,6 @@ export function retriedText(retried: number, stalled: boolean): string {
   return `Retrying ${plural(retried, "failed file")}.`;
 }
 
-export function syncDoneText(result: SyncResult): string {
-  const curation = Object.values(result.curation ?? {}).reduce(
-    (sum, counts) => sum + Object.values(counts).reduce((a, b) => a + b, 0),
-    0,
-  );
-  const parts = [
-    plural((result.replayed ?? 0) + (result.retracted ?? 0), "doc"),
-    plural((result.regenerated_tables ?? 0) + (result.curated_tables ?? 0), "table"),
-    plural(curation, "curation record"),
-  ];
-  return `Synced: ${parts.join(", ")}.`;
-}
 
 export function projectedText(report: TableReport): string {
   const entities = Object.values(report.entities).reduce((sum, e) => sum + e.kept, 0);

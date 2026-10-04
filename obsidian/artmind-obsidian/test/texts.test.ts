@@ -18,38 +18,36 @@ import {
   readinessText,
   rebuiltText,
   resolvedText,
+  stalledText,
   synthesizedText,
-  syncDoneText,
   withNext,
 } from "../src/texts";
 import { checklist } from "../src/checklist";
 import { EMPTY_INPUTS } from "../src/state";
 import { fixture } from "./fixtures";
 
-describe("notice texts (spec §3.3)", () => {
-  it("a pull that left the stores behind", () => {
-    expect(pulledText(fixture("vault-status.behind").json)).toBe("Pulled from the other laptop — 2 docs · 1 table behind.");
+describe("notice texts (checklist spec §5)", () => {
+  it("a pull that left changes to apply", () => {
+    expect(pulledText(fixture("vault-status.behind").json)).toBe("Pulled: 2 docs, 1 table to apply to graph.");
   });
 
   it("new files, named by their folder", () => {
     expect(newFilesText(["Team_performance_management/a.pdf", "Team_performance_management/b.xlsx"])).toBe(
-      "2 new files in Team_performance_management.",
+      "2 new files in Team_performance_management, ready to ingest.",
     );
-    expect(newFilesText(["A/x.pdf", "B/y.pdf"])).toBe("2 new files in 2 folders.");
-    expect(newFilesText(["deep/er/x.csv"])).toBe("1 new file in er.");
+    expect(newFilesText(["A/x.pdf", "B/y.pdf"])).toBe("2 new files in 2 folders, ready to ingest.");
+    expect(newFilesText(["deep/er/x.csv"])).toBe("1 new file in er, ready to ingest.");
   });
 
   it("an ingest job that finished", () => {
-    expect(ingestDoneText(fixture("ingest-job-status.done").json)).toBe("Ingested 4, 1 failed.");
+    expect(ingestDoneText(fixture("ingest-job-status.done").json)).toBe("Ingested 4 files, 1 failed.");
     const allGood = { ...fixture("ingest-job-status.done").json, files: [{ filename: "a", status: "completed", current_step: null }] };
-    expect(ingestDoneText(allGood)).toBe("Ingested 1.");
+    expect(ingestDoneText(allGood)).toBe("Ingested 1 file.");
+    expect(ingestDoneText(fixture("ingest-job-status.finalize-failed").json)).toBe("Ingested 2 files; building the graph failed.");
   });
 
-  it("a sync that finished", () => {
-    expect(syncDoneText(fixture("vault-sync.success").json)).toBe("Synced: 2 docs, 1 table, 0 curation records.");
-    expect(syncDoneText({ replayed: 3, regenerated_tables: 1, curation: { conflict: { apply: 2 } } })).toBe(
-      "Synced: 3 docs, 1 table, 2 curation records.",
-    );
+  it("a stalled job: one line, details in the panel", () => {
+    expect(stalledText(fixture("ingest-job-status.stalled").json)).toBe("Ingest stalled at 2 of 5 files — details in the artmind panel.");
   });
 
   it("a table projected", () => {

@@ -32,7 +32,7 @@ describe("ArtmindPlugin", () => {
     expect(a.layoutReady).toEqual([]);
   });
 
-  it("in an artmind vault, adds the status bar, the panel and every command (spec §3.4)", async () => {
+  it("in an artmind vault, adds the status bar, the panel and every command (checklist spec §4)", async () => {
     const a = app(true);
     const plugin = new ArtmindPlugin(a as never, { id: "artmind" } as never) as any;
 
@@ -42,12 +42,15 @@ describe("ArtmindPlugin", () => {
     expect(plugin.ribbonIcons.map((r: { icon: string; title: string }) => [r.icon, r.title])).toEqual([["brain-circuit", "artmind"]]);
     expect(plugin.views).toEqual(["artmind-view"]);
     expect(plugin.commands.map((c: { name: string }) => c.name)).toEqual([
-      "Sync",
+      "Pull",
+      "Apply to graph",
       "Ingest what changed",
-      "Show status",
+      "Rebuild graph",
+      "Synthesize…",
+      "Commit & push",
+      "Review tables for graph",
       "Resolve artmind conflicts",
       "Run doctor",
-      "Review tables for graph",
       "Open side panel",
       "Open admin console",
       "Stop admin console",

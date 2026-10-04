@@ -7,8 +7,7 @@ export interface SettingsHost extends Plugin {
   saveSettings(): Promise<void>;
 }
 
-/** Settings → artmind (spec §7): the artmind path, poll intervals, a toggle
- * per notice kind, and the commit-and-sync offer (on by default, P6). */
+/** Settings → artmind (spec §7): the artmind path, poll intervals, the admin console, and a toggle per notice kind. */
 export class ArtmindSettingTab extends PluginSettingTab {
   private host: SettingsHost;
 
@@ -49,16 +48,6 @@ export class ArtmindSettingTab extends PluginSettingTab {
     seconds("HEAD poll (seconds)", "How often to check whether a pull moved HEAD. Takes effect after a reload.", "headPollSeconds");
     seconds("Job poll (seconds)", "How often to read a running ingest job. Takes effect after a reload.", "jobPollSeconds");
     seconds("New-file grouping (seconds)", "Arrivals this close together share one notice. Takes effect after a reload.", "newFileGroupSeconds");
-
-    new Setting(containerEl)
-      .setName("Offer to commit-and-sync after artmind writes")
-      .setDesc("After an ingest, table2graph or resolve, the result notice offers Obsidian Git's Commit-and-sync.")
-      .addToggle((toggle) =>
-        toggle.setValue(settings.offerCommitAndSync).onChange((value) => {
-          settings.offerCommitAndSync = value;
-          save();
-        }),
-      );
 
     new Setting(containerEl)
       .setName("Admin console URL")

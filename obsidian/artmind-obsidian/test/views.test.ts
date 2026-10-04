@@ -25,6 +25,7 @@ function snapshot(overrides: Partial<StateInputs> = {}, extra: Partial<Snapshot>
   };
   return {
     inputs,
+    checklist: checklist(inputs),
     state: vaultState(inputs),
     activity: [],
     lastSync: null,
@@ -115,25 +116,33 @@ describe("StatusBarItem (checklist spec §4)", () => {
   });
 });
 
-describe("notices (spec §3.3)", () => {
-  it("a notice with buttons stays until a button closes it and runs it", () => {
-    const run = vi.fn();
-
-    new ObsidianNotifier().show("pulled", "Pulled from the other laptop — 2 docs behind.", [{ label: "Sync now", run }]);
+describe("notices (checklist spec §5, D7)", () => {
+  it("are text only, fade after 6 s, and a click opens the panel at their row", () => {
+    const opened: string[] = [];
+    new ObsidianNotifier((target) => opened.push(target)).show("pulled", "Pulled: 2 docs to apply to graph.", "remote");
 
     const notice = Notice.shown[0];
-    expect(notice.duration).toBe(0);
+    expect(notice.duration).toBe(6_000);
     const holder = document.createElement("div");
     holder.appendChild(notice.message as DocumentFragment);
-    expect(text(holder)).toBe("Pulled from the other laptop — 2 docs behind.Sync now");
-    button(holder, "Sync now").click();
-    expect(run).toHaveBeenCalledOnce();
+    expect(holder.querySelectorAll("button")).toHaveLength(0);
+    expect(text(holder)).toBe("Pulled: 2 docs to apply to graph.");
+    (holder.querySelector(".artmind-notice") as HTMLElement).click();
+    expect(opened).toEqual(["remote"]);
     expect(notice.hidden).toBe(true);
   });
 
-  it("a plain notice fades", () => {
-    new ObsidianNotifier().show("syncDone", "Synced: 3 docs, 1 table, 2 curation records.");
-    expect(Notice.shown[0].duration).toBe(6_000);
+  it("an error stays 10 s; a notice with no row opens nothing", () => {
+    const opened: string[] = [];
+    const notifier = new ObsidianNotifier((target) => opened.push(target));
+    notifier.show("error", "Couldn't apply to graph — details in the artmind panel.", "remote");
+    notifier.show("prompt", "Opening the admin console…");
+
+    expect(Notice.shown.map((n) => n.duration)).toEqual([10_000, 6_000]);
+    const holder = document.createElement("div");
+    holder.appendChild(Notice.shown[1].message as DocumentFragment);
+    (holder.querySelector(".artmind-notice") as HTMLElement).click();
+    expect(opened).toEqual([]);
   });
 });
 

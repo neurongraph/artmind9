@@ -422,9 +422,11 @@ export class ArtmindView extends ItemView {
     renderPanel(this.contentEl, snapshot, this.handlers, this.ui);
   }
 
-  focus(section: PanelSection): void {
-    if (this.ui.collapsed.delete(section) && this.last) this.update(this.last);
-    this.contentEl.querySelector(`[data-section="${section}"]`)?.scrollIntoView({ block: "start" });
+  /** Scroll to a row (`data-row`) or a section (`data-section`), opening a
+   * collapsed section first. */
+  focus(target: string): void {
+    if (this.ui.collapsed.delete(target) && this.last) this.update(this.last);
+    this.contentEl.querySelector(`[data-row="${target}"], [data-section="${target}"]`)?.scrollIntoView({ block: "start" });
   }
 
   override async onOpen(): Promise<void> {
