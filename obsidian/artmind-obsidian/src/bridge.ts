@@ -84,3 +84,21 @@ export class ObsidianGitBridge {
     return `Obsidian Git has no ${missing.map((a) => LABELS[a]).join(", ")} command (renamed?): those buttons show what to run instead.`;
   }
 }
+
+/** Obsidian Git's settings file, under the vault's config dir (`app.vault.configDir`). */
+export function obsidianGitDataPath(configDir: string): string {
+  return `${configDir}/plugins/obsidian-git/data.json`;
+}
+
+/** `autoPullInterval` (minutes) from Obsidian Git's `data.json`: 0, its
+ * default, when the file is missing, isn't JSON, or holds no positive
+ * number there. Above 0, pulls reach row 1 by themselves (spec D10). */
+export function autoPullMinutes(text: string | null): number {
+  if (!text) return 0;
+  try {
+    const value = (JSON.parse(text) as { autoPullInterval?: unknown } | null)?.autoPullInterval;
+    return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : 0;
+  } catch {
+    return 0;
+  }
+}

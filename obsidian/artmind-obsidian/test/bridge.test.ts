@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type CommandsLike, INSTRUCTIONS, KNOWN_IDS, ObsidianGitBridge } from "../src/bridge";
+import { type CommandsLike, INSTRUCTIONS, KNOWN_IDS, ObsidianGitBridge, autoPullMinutes, obsidianGitDataPath } from "../src/bridge";
 
 /** `app.commands` as Obsidian holds it, recording what ran. */
 function commands(entries: Array<[string, string]>): CommandsLike & { ran: string[] } {
@@ -81,5 +81,26 @@ describe("ObsidianGitBridge", () => {
 
   it("tries only obsidian-git ids", () => {
     for (const ids of Object.values(KNOWN_IDS)) for (const id of ids) expect(id.startsWith("obsidian-git:")).toBe(true);
+  });
+});
+
+describe("Obsidian Git's auto pull (checklist spec D10)", () => {
+  it("lives in the vault's config dir", () => {
+    expect(obsidianGitDataPath(".obsidian")).toBe(".obsidian/plugins/obsidian-git/data.json");
+  });
+
+  it("reads autoPullInterval in minutes", () => {
+    expect(autoPullMinutes('{"syncMethod":"merge","autoPullInterval":10}')).toBe(10);
+  });
+
+  it("counts as off when the key, the file or the JSON is missing or wrong", () => {
+    // The user's vault today (Obsidian Git 2.41.1): no autoPullInterval, so its default, 0.
+    expect(autoPullMinutes('{"syncMethod":"merge","autoSaveInterval":10,"autoPullOnBoot":true}')).toBe(0);
+    expect(autoPullMinutes(null)).toBe(0);
+    expect(autoPullMinutes("")).toBe(0);
+    expect(autoPullMinutes("{not json")).toBe(0);
+    expect(autoPullMinutes("null")).toBe(0);
+    expect(autoPullMinutes('{"autoPullInterval":"10"}')).toBe(0);
+    expect(autoPullMinutes('{"autoPullInterval":-5}')).toBe(0);
   });
 });
