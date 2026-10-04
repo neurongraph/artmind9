@@ -1377,6 +1377,10 @@ def full_rebuild(tx, domains: list[str] | None = None, *, synthesis_loader=None)
     `:ProjectionState` — same_as.yaml and the schema set are both global, so a
     partial, one-domain-family full_rebuild can't honestly claim the whole
     projection has caught up with them.
+
+    One transaction for every key: only for callers that already hold a
+    transaction and a bounded key set (`sameas approve`, snapshot import).
+    Everything else uses `full_rebuild_batched`.
     """
     from artmind import same_as
 
@@ -1468,6 +1472,41 @@ def rebuild_in_batches(keys, groups: list | None = None, *, size: int | None = N
                 totals[field_name] += summary.get(field_name, 0)
             logger.info("projection: rebuilt batch {}/{} ({} key(s))", number, len(batches), len(batch))
     return totals
+
+
+def full_rebuild_batched(domains: list[str] | None = None) -> dict:
+    """Rebuild every key (in `domains`, or every domain), in batches.
+
+    The deferred path for a directory ingest and the recovery path for drift.
+    Unlike `full_rebuild`, it opens its own sessions: one read transaction for
+    `all_keys`, one write transaction per batch (`rebuild_in_batches`), and,
+    when `domains is None`, one final write transaction for `:ProjectionState`.
+    That final write runs only after the last batch committed, so a failure
+    part-way leaves `projection status` reporting drift. The hashes it records
+    are taken before the first batch, so a `same_as.yaml` edit made while the
+    rebuild runs also stays visible as drift.
+
+    Returns `rebuild_in_batches`' totals plus `domains` (every domain a
+    rebuilt key belongs to) and `recorded`.
+    """
+    from artmind import same_as
+    from artmind.graph_query import neo4j_session
+
+    groups = same_as.load_groups()
+    same_as_hash = same_as.content_hash()
+    schema_hash = schema_set_hash()
+    with neo4j_session() as session:
+        keys = session.execute_read(lambda tx: all_keys(tx, domains))
+    logger.info("Full projection rebuild over {} key(s), in batches of {}", len(keys), REBUILD_BATCH)
+    summary = rebuild_in_batches(sorted(keys), groups)
+    summary["domains"] = sorted({k[2] for k in keys if k[2]})
+    if domains is None:
+        with neo4j_session() as session:
+            session.execute_write(
+                lambda tx: record_rebuild(tx, same_as_hash=same_as_hash, schema_hash=schema_hash)
+            )
+    summary["recorded"] = domains is None
+    return summary
 
 
 def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tuple[str, str, str]]:

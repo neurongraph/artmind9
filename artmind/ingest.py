@@ -3592,37 +3592,34 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
 
 
 def rebuild_projection(domain: str | None = None, keys: list | None = None) -> dict:
-    """Rebuild the projection outside an ingest — the deferred directory path,
+    """Rebuild the projection outside an ingest: the deferred directory path,
     and the recovery path for drift.
 
-    A full rebuild when `keys` is omitted. Two embed sweeps follow: the
-    entity sweep, because a rebuild leaves everything it touched flagged
-    stale; and the chunk sweep, because a batch ingest's per-document
-    `commit_to_graph` calls run with `defer_rebuild=True` and skip their own
-    chunk sweep specifically because it's deferred (see `commit_to_graph`) —
-    this domain-wide sweep is what recovers the chunks those deferred
-    commits left unembedded. Both sweeps only run `if domain:` — a global
-    rebuild across every domain (`domain=None`) skips both, the same
-    asymmetry the entity sweep already had before the chunk sweep existed.
+    A full rebuild when `keys` is omitted, committed in batches
+    (`projection.full_rebuild_batched`). One transaction for 4,332 keys ran a
+    2 GB colima VM out of memory and killed Neo4j (2026-10-03). Two embed
+    sweeps follow: the entity sweep, because a rebuild leaves everything it
+    touched flagged stale; and the chunk sweep, because a batch ingest's
+    per-document `commit_to_graph` calls run with `defer_rebuild=True` and skip
+    their own chunk sweep. Both sweeps only run `if domain:`. A global rebuild
+    (`domain=None`) skips both; `rebuild_and_sweep_all` is the global rebuild
+    that sweeps.
     """
     from artmind import projection
     from artmind.graph_query import neo4j_session
 
     domains = [domain] if domain else None
-    with neo4j_session() as session:
-        if keys:
+    if keys:
+        with neo4j_session() as session:
             summary = session.execute_write(
                 lambda tx: projection.rebuild(
                     tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
                 )
             )
-            swept_keys = list(keys)
-        else:
-            summary = session.execute_write(
-                lambda tx: projection.full_rebuild(
-                    tx, domains, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks)
-                )
-            )
+        swept_keys = list(keys)
+    else:
+        summary = projection.full_rebuild_batched(domains)
+        with neo4j_session() as session:
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
     if domain:
         summary["embedded"] = _sweep_embeddings(domain, swept_keys)
