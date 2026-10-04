@@ -199,3 +199,46 @@ def test_chat_connect_failure_streams_error_not_500():
     assert response.status_code == 200
     events = _parse_sse(response.text)
     assert events == [{"type": "error", "message": "connect failed"}]
+
+
+# ── B7: deep link into the admin console's agent chat ───────────────────────
+
+REVIEW = "Review the proposed classifications for table <team> (domain general)"
+
+
+def _admin_client() -> TestClient:
+    return TestClient(create_app(
+        registry=SessionRegistry(client_factory=FakeBackend), template_name="admin.html", admin_routes=True,
+    ))
+
+
+def test_admin_console_prefills_the_chat_from_a_prompt_query():
+    body = _admin_client().get("/", params={"prompt": REVIEW}).text
+    assert (
+        ">Review the proposed classifications for table &lt;team&gt; (domain general)</textarea>" in body
+    ), "prefilled, and HTML-escaped"
+
+
+def test_admin_console_without_a_prompt_has_an_empty_composer():
+    body = _admin_client().get("/").text
+    assert 'autofocus></textarea>' in body
+
+
+def test_an_overlong_prompt_is_capped():
+    from artmind.webui.app import PREFILL_MAX_CHARS
+
+    body = _admin_client().get("/", params={"prompt": "x" * (PREFILL_MAX_CHARS + 500)}).text
+    assert "x" * PREFILL_MAX_CHARS + "</textarea>" in body
+    assert "x" * (PREFILL_MAX_CHARS + 1) not in body
+
+
+def test_the_chat_ui_ignores_a_prompt_query():
+    client, _ = _client()
+    assert "Review the proposed" not in client.get("/", params={"prompt": REVIEW}).text
+
+
+def test_a_prefilled_page_starts_no_agent_turn():
+    registry = SessionRegistry(client_factory=FakeBackend)
+    client = TestClient(create_app(registry=registry, template_name="admin.html", admin_routes=True))
+    client.get("/", params={"prompt": REVIEW})
+    assert registry._sessions == {}, "rendering the page must never reach the agent"
