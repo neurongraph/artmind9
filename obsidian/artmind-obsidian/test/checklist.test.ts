@@ -80,6 +80,7 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
     ["descriptions to synthesize", "descriptions", { synthesis: [{ domain: "general", count: 41, model: "ministral-3:14b" }] }, ["optional", "◇", "41 could be synthesized · ~41 LLM calls (ministral-3:14b)", ["Synthesize…"]]],
     ["descriptions not counted", "descriptions", { synthesis: null }, ["optional", "◇", "not counted yet", []]],
     ["descriptions synthesizing", "descriptions", { busy: { apply: false, rebuild: false, synthesize: true } }, ["running", "◌", "synthesizing…", []]],
+    ["descriptions synthesizing with progress", "descriptions", { busy: { apply: false, rebuild: false, synthesize: true }, synthesis: [{ domain: "general", count: 41, model: "m" }], git: { ahead: 0, artmindChanges: [".artmind/data/curation/syntheses/e1.json", ".artmind/data/curation/syntheses/e2.json"] } }, ["running", "◌", "synthesizing… 2/41", []]],
 
     ["vault shared", "vault", {}, ["done", "✓", "shared", []]],
     ["vault to push", "vault", { git: { ahead: 2, artmindChanges: [] } }, ["todo", "●", "↑ 2 to push", ["Commit & push"]]],

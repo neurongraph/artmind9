@@ -395,7 +395,11 @@ export function checklist(inputs: StateInputs): Checklist {
 
   // ── 5 Descriptions (optional: never amber, never current) ──
   let descriptions: Row;
-  if (inputs.busy.synthesize) descriptions = makeRow("descriptions", { state: "running", glyph: "◌", tone: "spinner", summary: "synthesizing…" });
+  if (inputs.busy.synthesize) {
+    const written = changeSources(changes).syntheses;
+    const progress = written > 0 && toSynthesize > 0 ? ` ${count(written)}/${count(toSynthesize)}` : "";
+    descriptions = makeRow("descriptions", { state: "running", glyph: "◌", tone: "spinner", summary: `synthesizing…${progress}` });
+  }
   else if (synthesis === null) descriptions = makeRow("descriptions", { state: "optional", glyph: "◇", tone: "grey", summary: "not counted yet" });
   else if (!toSynthesize) descriptions = makeRow("descriptions", { state: "done", glyph: "✓", tone: "grey", summary: "up to date" });
   else {
