@@ -1,10 +1,10 @@
 import { Menu } from "obsidian";
-import type { Tone, VaultStateResult } from "../state";
+import type { Checklist } from "../checklist";
+import type { Tone } from "../state";
+import { COMMANDS } from "../texts";
 
 export interface RibbonHandlers {
   openPanel(): void;
-  sync(): void;
-  ingest(): void;
   openAdmin(): void;
   doctor(): void;
 }
@@ -17,31 +17,28 @@ export interface RibbonItem {
   run: () => void;
 }
 
-/** The right-click menu: the panel, then the everyday actions, each under
- * the same rules as the panel's toolbar. */
-export function ribbonItems(state: VaultStateResult, handlers: RibbonHandlers): RibbonItem[] {
+/** The right-click menu (checklist spec §4): no row action is here; they
+ * are the panel's and the palette's. */
+export function ribbonItems(cl: Checklist, handlers: RibbonHandlers): RibbonItem[] {
   return [
-    { title: "Open side panel", icon: "panel-right", blocked: null, run: handlers.openPanel },
-    { title: "Sync", icon: "refresh-cw", blocked: state.blocked.sync, run: handlers.sync },
-    { title: "Ingest what changed", icon: "file-input", blocked: state.blocked.ingest, run: handlers.ingest },
-    { title: "Open admin console", icon: "external-link", blocked: state.blocked.admin, run: handlers.openAdmin },
-    { title: "Run doctor", icon: "stethoscope", blocked: state.blocked.doctor, run: handlers.doctor },
+    { title: COMMANDS.openPanel, icon: "panel-right", blocked: null, run: handlers.openPanel },
+    { title: COMMANDS.openAdmin, icon: "external-link", blocked: cl.blocked.admin, run: handlers.openAdmin },
+    { title: COMMANDS.doctor, icon: "stethoscope", blocked: cl.blocked.doctor, run: handlers.doctor },
   ];
 }
 
-/** The dot on the icon: the top state's tone whenever it asks for
- * something, none when every store is at HEAD and nothing waits. */
-export function attentionTone(state: VaultStateResult): Tone | null {
-  return state.primary.kind === "in_sync" ? null : state.primary.tone;
+/** The dot on the icon: the current step's tone, none when nothing is left. */
+export function attentionTone(cl: Checklist): Tone | null {
+  return cl.rows.find((r) => r.id === cl.current)?.tone ?? null;
 }
 
 const TONES: Tone[] = ["red", "amber", "blue", "grey", "spinner"];
 
-/** The left ribbon's artmind icon. Click opens the panel; right-click offers
- * the actions; a dot says the vault needs something. */
+/** The left ribbon's artmind icon. A click opens the panel (D8); right-click
+ * offers the panel, the admin console and the doctor. */
 export class RibbonIcon {
   private el: HTMLElement;
-  private state: VaultStateResult | null = null;
+  private state: Checklist | null = null;
   private handlers: RibbonHandlers;
 
   constructor(el: HTMLElement, handlers: RibbonHandlers) {
@@ -57,7 +54,7 @@ export class RibbonIcon {
   menu(): Menu {
     const menu = new Menu();
     if (!this.state) {
-      menu.addItem((item) => item.setTitle("Open side panel").setIcon("panel-right").onClick(() => this.handlers.openPanel()));
+      menu.addItem((item) => item.setTitle(COMMANDS.openPanel).setIcon("panel-right").onClick(() => this.handlers.openPanel()));
       return menu;
     }
     for (const entry of ribbonItems(this.state, this.handlers)) {
@@ -70,11 +67,12 @@ export class RibbonIcon {
     return menu;
   }
 
-  render(state: VaultStateResult): void {
-    this.state = state;
-    const tone = attentionTone(state);
+  render(cl: Checklist): void {
+    this.state = cl;
+    const tone = attentionTone(cl);
     this.el.classList.toggle("artmind-ribbon-attention", tone !== null);
     for (const t of TONES) this.el.classList.toggle(`artmind-ribbon-${t}`, t === tone);
-    this.el.setAttribute("aria-label", tone ? `artmind: ${state.primary.label}` : "artmind");
+    const current = cl.rows.find((r) => r.id === cl.current);
+    this.el.setAttribute("aria-label", current ? `artmind: ${current.summary}` : "artmind");
   }
 }
