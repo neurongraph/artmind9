@@ -266,7 +266,6 @@ click.rich_click.COMMAND_GROUPS = {
                 "entity-history",
                 "text2sql",
                 "resolve-key",
-                "propose-placement",
             ],
         },
     ],
@@ -2429,7 +2428,7 @@ def _warn_if_vault_stale(*_args, **_kwargs) -> None:
 
 @query.group()
 def graph():
-    """Execute graph queries (metadata, entity listing, filing listing, vocabulary, pattern1–pattern10, timeline, conflicts, hierarchy, text2cypher)."""
+    """Execute graph queries (metadata, entity listing, filing listing, pattern1–pattern10, timeline, conflicts, hierarchy, text2cypher)."""
     pass
 
 
@@ -2511,23 +2510,6 @@ def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | Non
             tags=tags,
             as_of=as_of,
         )
-    except ValueError as exc:
-        raise click.ClickException(str(exc)) from exc
-    _echo_json(result, compact)
-
-
-@graph.command("vocabulary")
-@click.option("--domain", "domain", multiple=True, help="Domain to scope vocabulary to (repeatable; comma-splittable). Optional.")
-@click.option("--minCount", "min_count", type=int, default=1, show_default=True, help="Drop labels with fewer than N documents backing them")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_vocabulary_cmd(domain: tuple, min_count: int, compact: bool) -> None:
-    """Return the controlled filing vocabulary (project/area/tags/domain, with counts).
-
-    Grounds A6 placement classifier proposals in labels already in use (ADR 0012).
-    """
-    domains = _parse_domains(domain) if domain else None
-    try:
-        result = graph_query.filing_vocabulary(domains=domains, min_count=min_count)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -3009,39 +2991,6 @@ def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_
     domains = _parse_domains(domain)
     try:
         result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
-    except ValueError as exc:
-        raise click.ClickException(str(exc)) from exc
-    _echo_json(result, compact)
-
-
-@query.command("propose-placement")
-@click.option("--text", "text", default=None, help="Text to classify (omit to read from stdin)")
-@click.option("--context", "context", default=None, help="Optional additional context for the classifier")
-@click.option("--domain", "domain", multiple=True, help="Constrain proposals to these domain(s) (repeatable; optional)")
-@click.option("--model", default=None, help="LLM model override (default: ARTMIND_KG_LLM_MODEL / ministral-3:14b)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def query_propose_placement(
-    text: str | None,
-    context: str | None,
-    domain: tuple,
-    model: str | None,
-    compact: bool,
-) -> None:
-    """Propose placement (domain/title/area/project/tags) for a block of text (A6, ADR 0012).
-
-    Suggester only — never writes. The canvas placement Card renders the proposal
-    for user review; the doc-first path writes frontmatter and re-ingests only
-    after confirmation.
-    """
-    from artmind.placement import propose_placement
-    if text is None:
-        import sys
-        text = sys.stdin.read()
-    if not text or not text.strip():
-        raise click.ClickException("--text or stdin content is required")
-    domains = list(domain) if domain else None
-    try:
-        result = propose_placement(text=text, context=context, domains=domains, model=model)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
