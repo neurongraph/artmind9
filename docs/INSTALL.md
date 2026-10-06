@@ -260,7 +260,7 @@ from git (or from a checkout with `uv tool install .`):
 A core-only install still lists the ingest commands in `--help`, but running
 one prints a hint to add the extra rather than an import error. `docling`
 must also be on `PATH` for non-markdown conversion. Query-only and pure-client
-hosts (e.g. the canvas backend) want core; the machine that ingests wants the
+hosts want core; the machine that ingests wants the
 extra. Neither git install includes the Obsidian plugin, which is a build
 output (see the prerequisites).
 

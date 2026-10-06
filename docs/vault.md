@@ -949,7 +949,7 @@ defaults with it; restore defaults without.
 
 ## Open
 
-- **Query-only consumers** (the canvas backend) need `--vault` or `ARTMIND_VAULT`.
+- **Query-only consumers** need `--vault` or `ARTMIND_VAULT`.
 - **Whether `data/kg/<doc>/chunks/chunk_NNN.json` is redundant** with the
   aggregated `chunks.json`. If it is, committing both doubles the largest
   committed artifact for nothing.

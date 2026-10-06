@@ -69,7 +69,7 @@ in front of it* — long-running daemons, and run-folder copies.
 
 **Core vs `[ingest]` extra.** The heavy ingestion ML stack (`docling` →
 torch/CUDA/transformers, plus `langchain-text-splitters` and `openpyxl`) lives
-behind an optional extra so query-only/pure-client consumers (the canvas backend)
+behind an optional extra so query-only/pure-client consumers
 stay lean. `just dev-install` installs `.[ingest]` — the dev box is full-featured.
 A core-only install (`uv tool install artmind9`) omits document ingestion:
 `import artmind.cli` still loads (the three libs are imported lazily — langchain

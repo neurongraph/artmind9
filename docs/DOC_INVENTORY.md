@@ -18,8 +18,7 @@ stay accurate and maintained. Read these first when onboarding.
 |---|---|---|
 | [README.md](../README.md) | 2026-07-22 | Main entry point. |
 | [CONTEXT.md](../CONTEXT.md) | 2026-08-23 | Living glossary — artmind's domain model/vocabulary. |
-| [CONTEXT-MAP.md](../CONTEXT-MAP.md) | 2026-08-23 | Index across the `artmind` and `artmind_canvas` contexts. |
-| [artmind_canvas/CONTEXT.md](../artmind_canvas/CONTEXT.md) | 2026-08-16 | Canvas subproject's domain glossary. |
+| [CONTEXT-MAP.md](../CONTEXT-MAP.md) | 2026-08-23 | Index of contexts. |
 | [docs/INSTALL.md](INSTALL.md) | 2026-08-15 | Authoritative install/runtime reference (per CLAUDE.md). |
 | [docs/document-identity.md](document-identity.md) | 2026-08-24 | Current identity/versioning mechanism. Post-redesign. |
 | [docs/projection-pipeline.md](projection-pipeline.md) | 2026-08-25 | Current observation→projection mechanism. Post-redesign. |
@@ -28,7 +27,6 @@ stay accurate and maintained. Read these first when onboarding.
 | [docs/CAPABILITIES.md](CAPABILITIES.md) | 2026-08-27 | Actively-maintained capability map / scoring checklist. |
 | [docs/apqc-fibo-vs-banking-schemas.md](apqc-fibo-vs-banking-schemas.md) | 2026-07-06 | Standing rationale doc (APQC/FIBO vs. `banking_*` schemas); not tied to a build phase. |
 | [docs/INCREMENTAL_INGESTION_v2.md](INCREMENTAL_INGESTION_v2.md) | 2026-07-22 | "Reflects the system as it runs today" — explicitly the current reader's guide. |
-| [artmind_canvas/docs/ROADMAP.md](../artmind_canvas/docs/ROADMAP.md) | 2026-08-18 | Live roadmap for the canvas subproject. |
 | [benchmarking/questions.md](../benchmarking/questions.md) | 2026-08-23 | Live gold-standard Q&A fixture, reused across runs. |
 | [benchmarking/specs.md](../benchmarking/specs.md) | 2026-06-14 | Current benchmarking/evaluation framework spec. |
 
@@ -87,7 +85,6 @@ See [docs/archive/README.md](archive/README.md) for browsing guide.
 | `docs/corpus_project_status/*.md` (8 files: CORPUS_PLAN, PHASE_3_DOCS_SUMMARY, PHASE_3_DOCUMENT_LIST, PHASE_4_STATUS, PROJECT_COMPLETION_SUMMARY, SMARTSAVER_VERTICAL_SLICE_STATUS, corpus_background, planning_document) | Documents the creation of the synthetic "FirstUK Bank" **document corpus content itself**, not the artmind codebase — this is `document_corpus`-adjacent even though it physically sits under `docs/`. Recommend relocating next to the corpus data (`banking_document_corpus/` or `data/documents/`) rather than treating it as codebase docs. |
 | [benchmarking/baseline-2026-08-23.md](../benchmarking/baseline-2026-08-23.md), [benchmarking/after-cutover.md](../benchmarking/after-cutover.md) | Benchmark **run results** (data snapshots from specific runs), not documentation of the code. Keep alongside `redesign-quality-scorecard.md` as the redesign's permanent before/after record. |
 | [docs/CAPABILITIES-REVIEW-PROMPT.md](CAPABILITIES-REVIEW-PROMPT.md) | A reusable review *prompt*/process template for auditing `CAPABILITIES.md`, not documentation of the system itself. |
-| `artmind_canvas/docs/adr/0001–0015` | Architecture Decision Records — already correctly homed, already historical-by-design. No action needed; distinct from "specs that built X" because an ADR log exists precisely to be a permanent trail. |
 
 ## Excluded from scope entirely
 
@@ -95,7 +92,7 @@ See [docs/archive/README.md](archive/README.md) for browsing guide.
 - `test/data/docs/personal_journal/**` — unit test fixtures.
 - `.agents/skills/**`, `.claude/skills/**`, `.pi/skills/**`, `artmind/skills/**` — agent skill source (`artmind/skills/` is the source of truth per CLAUDE.md; the others are symlinks/seeded copies).
 - `artmind/opencode/agent/*.md` — opencode persona source, same treatment as skills.
-- `.venv/**`, `artmind_canvas/backend/.venv/**` — vendored third-party packages.
+- `.venv/**` — vendored third-party packages.
 
 ## Suggested next steps
 

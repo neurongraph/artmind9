@@ -8,8 +8,6 @@
 #   dev-    — checkout/tooling operations, not `artmind` subcommands at all
 #             (install, uninstall, daemon management, tests, skill sync,
 #             docs generation scripts)
-#   canvas- — the artmind_canvas client (a separate FastAPI backend + Vite
-#             frontend under artmind_canvas/, not an `artmind` subcommand)
 #   obsidian- — the artmind Obsidian plugin (TypeScript, under
 #             obsidian/artmind-obsidian/, not an `artmind` subcommand)
 
@@ -21,10 +19,6 @@
 SERVE_PORT := env_var_or_default('ARTMIND_SERVE_PORT', '8377')
 CHAT_UI_PORT := '8378'
 ADMIN_UI_PORT := '8379'
-# artmind_canvas backend (a separate uv project under artmind_canvas/backend).
-# Outside the daemon triad; its process command line contains "artmind_canvas_backend"
-# so `_free-port`'s *artmind* match still recognises and stops it.
-CANVAS_PORT := '8380'
 
 # list available recipes
 default:
@@ -65,7 +59,7 @@ dev-uninstall:
 # stop running artmind daemons (`serve`, `chat-ui`, `admin-ui`, ingestion worker).
 # They load code at start, so one left running keeps serving the OLD build after
 # a reinstall — and each holding its port makes the next `artmind <cmd>` fail to bind.
-dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0") (_free-port CANVAS_PORT "canvas backend" "0")
+dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0")
     #!/usr/bin/env bash
     set -uo pipefail
     # The three listeners are handled by _free-port above. The ingestion worker
@@ -531,30 +525,6 @@ serve-ui: serve-restart (_free-port CHAT_UI_PORT "artmind chat-ui")
 # start the query daemon plus the admin web UI (foreground; Ctrl-C stops the UI only)
 serve-admin-ui: serve-restart (_free-port ADMIN_UI_PORT "artmind admin-ui")
     uv run artmind admin-ui
-
-# ── canvas (artmind_canvas client — a pure client of artmind, ADR 0003) ──────
-#
-# The canvas is two processes with their own toolchains, deliberately decoupled
-# from artmind's daemons: a FastAPI backend (own uv project, port 8380) and a
-# Vite React frontend (npm, port 5173 in dev, proxying /api/* to 8380). These
-# recipes cd into artmind_canvas/ subtrees; the frontend needs a npm registry,
-# so `npm install`/`build` cannot run in a network-restricted sandbox.
-
-# install frontend deps (backend deps are synced lazily on first `uv run`)
-canvas-install:
-    cd artmind_canvas/frontend && npm install
-
-# run the canvas backend (FastAPI + SSE, port 8380; foreground)
-canvas-backend: (_free-port CANVAS_PORT "canvas backend")
-    cd artmind_canvas/backend && uv run python -m artmind_canvas_backend.app
-
-# run the Vite dev server (port 5173, proxies /api/* to the backend; foreground)
-canvas-frontend:
-    cd artmind_canvas/frontend && npm run dev
-
-# build the frontend to dist/ (the backend mounts it via StaticFiles in prod)
-canvas-build:
-    cd artmind_canvas/frontend && npm run build
 
 # ── obsidian (the artmind Obsidian plugin, obsidian/artmind-obsidian/) ───────
 #
