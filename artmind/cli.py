@@ -3921,7 +3921,7 @@ def vault_status(compact: bool):
 @vault.command("new")
 @click.argument("name")
 @click.option("--join", is_flag=True, help="Join an existing vault (a second machine): clone OWNER/NAME from GitHub instead of creating it, and rebuild this machine's graph from its commits.")
-@click.option("--dir", "directory", type=click.Path(file_okay=False), default=None, help="Where the vault goes. Default: ~/artmind_vaults/NAME.")
+@click.option("--dir", "directory", type=click.Path(file_okay=False), default=None, help="Where the vault goes. Default: $ARTMIND_VAULTS_DIR/NAME (~/artmind_vaults/NAME if unset).")
 @click.option("--githubOwner", "github_owner", default=None, help="GitHub user or org that owns the repo. Default: the active `gh` account.")
 @click.option("--localOnly", "local_only", is_flag=True, help="No GitHub repo: commit locally only (throwaway or test vaults).")
 @click.option("--neo4jUri", "neo4j_uri", default=None, help="Use this Neo4j (e.g. AuraDB) instead of creating a neo4j-manager instance. Needs --neo4jUser and --neo4jPassword.")

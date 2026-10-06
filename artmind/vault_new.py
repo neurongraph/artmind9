@@ -119,7 +119,7 @@ def build_plan(
     if any(connection) and not all(connection):
         raise VaultNewError("--neo4jUri, --neo4jUser and --neo4jPassword go together.")
     owner = None if local_only else (github_owner or resolve_owner(run))
-    vault_dir = Path(directory).expanduser() if directory else Path.home() / "artmind_vaults" / name
+    vault_dir = Path(directory).expanduser() if directory else paths.ARTMIND_VAULTS_DIR / name
     return Plan(
         name=name, dir=vault_dir.resolve(), join=join, owner=owner,
         neo4j_uri=neo4j_uri, neo4j_user=neo4j_user, neo4j_password=neo4j_password,

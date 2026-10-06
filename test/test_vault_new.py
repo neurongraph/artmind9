@@ -175,7 +175,15 @@ def test_neo4j_flags_go_together(world):
 def test_default_dir_is_under_artmind_vaults(world):
     plan = vn.build_plan("demo", local_only=True)
 
-    assert plan.dir == (Path.home() / "artmind_vaults" / "demo").resolve()
+    import paths
+    assert plan.dir == (paths.ARTMIND_VAULTS_DIR / "demo").resolve()
+
+
+def test_default_dir_respects_artmind_vaults_dir(world, monkeypatch, tmp_path):
+    custom_root = tmp_path / "custom_vaults"
+    monkeypatch.setattr("paths.ARTMIND_VAULTS_DIR", custom_root)
+    plan = vn.build_plan("demo", local_only=True)
+    assert plan.dir == (custom_root / "demo").resolve()
 
 
 # ── preflight ─────────────────────────────────────────────────────────────────

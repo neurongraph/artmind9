@@ -81,7 +81,7 @@ It never changes the name, so the three always match. In order, it:
 
 1. creates the Neo4j instance (`neo4j-manager create NAME --json --wait`) and
    writes its bolt URL and password into the vault's own `.artmind/config.env`;
-2. creates `~/artmind_vaults/NAME`, runs `git init`, and creates `.obsidian/`;
+2. creates `$ARTMIND_VAULTS_DIR/NAME` (`~/artmind_vaults/NAME` by default), runs `git init`, and creates `.obsidian/`;
 3. runs the same scaffold as `artmind init`, which installs and enables the
    artmind Obsidian plugin;
 4. installs and enables the community plugins (Obsidian Git, Unhide, VSCode
@@ -107,7 +107,7 @@ the same command: finished steps are skipped (progress is kept in
 | Option | Use it for |
 |---|---|
 | `--join` | A second machine: clone the existing vault and rebuild its graph locally |
-| `--dir PATH` | Put the vault somewhere other than `~/artmind_vaults/NAME` |
+| `--dir PATH` | Put the vault somewhere other than `$ARTMIND_VAULTS_DIR/NAME` (default `~/artmind_vaults/NAME`) |
 | `--githubOwner ORG` | Create the repo under an organisation instead of your gh account |
 | `--localOnly` | No GitHub at all: commit locally only (throwaway and test vaults) |
 | `--neo4jUri URI --neo4jUser U --neo4jPassword P [--neo4jDatabase D]` | Use an existing Neo4j, for example AuraDB, instead of creating a neo4j-manager instance |

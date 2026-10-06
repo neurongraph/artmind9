@@ -153,6 +153,16 @@ ARTMIND_ARCHIVE_DIR = Path(
     os.environ.get("ARTMIND_ARCHIVE_DIR") or (Path.home() / "artmind_archive")
 ).expanduser().resolve()
 
+# ── default vaults root (`artmind vault new` places vaults here) ───────────────
+# `vault new NAME` puts vaults at ARTMIND_VAULTS_DIR/NAME unless --dir is given.
+# Set this (env var or ~/.artmind/config.env) to move all new vaults somewhere
+# other than ~/artmind_vaults. Existing vaults are not moved; each is found by
+# walking up from the current directory (or ARTMIND_VAULT) regardless of this
+# setting.
+ARTMIND_VAULTS_DIR = Path(
+    os.environ.get("ARTMIND_VAULTS_DIR") or (Path.home() / "artmind_vaults")
+).expanduser().resolve()
+
 # ── package-shipped seed defaults (read-only; copied into the run folder) ──────
 PACKAGE_SKILLS_DIR = _SELF_DIR / "artmind" / "skills"
 PACKAGE_SCHEMAS_DIR = _SELF_DIR / "artmind" / "domains" / "schemas"
