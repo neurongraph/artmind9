@@ -19,7 +19,7 @@ guarantee the state, and it turns out to decide the rest too.
 | 3 | **Machine config** | `~/.artmind/config.env` · `~/.artmind/skills/` | LLM provider, credentials, models · the canonical skills copy | authoritative for credentials; skills are derived from the package |
 | 4 | **The graph** | `neo4j+s://…neo4j.io` (**hosted AuraDB**) | Documents · DocChunks · Observations · the projection | **derived** |
 | 5 | **Installed runtime** | `~/.local/share/uv/tools/artmind9/` (shim at `~/.local/bin/artmind`) | the `artmind` command | derived — editable, points back at the checkout |
-| 6 | **Model service** | Ollama (local) or OpenRouter | extraction + embedding models | external dependency, not a store |
+| 6 | **Model service** | Ollama (embeddings always; extraction LLM too, or OpenRouter instead) | extraction + embedding models | external dependency, not a store |
 
 There is no run folder, no data dir and no archive root any more. All three were
 positions that had to be kept pointing at the right vault; they are now positions

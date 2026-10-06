@@ -4,7 +4,7 @@
 
 artmind ingests documents (PDFs, Markdown, text), extracts entities, properties, and relationships using a local LLM, stores them in a Neo4j knowledge graph with vector embeddings, and lets you query and update them — either with structured graph patterns via the CLI or through natural language using Claude Code skills.
 
-Runs fully locally with Ollama and a local Neo4j, or against hosted providers (OpenRouter for the LLM, a hosted Neo4j AuraDB instance) — your choice.
+Runs fully locally with Ollama and a local Neo4j, or against hosted providers (OpenRouter for the extraction LLM, a hosted Neo4j AuraDB instance) — your choice. Embeddings always run on Ollama.
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/neurongraph/artmind9)
 

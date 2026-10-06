@@ -188,7 +188,9 @@ Prerequisites:
 - A **Neo4j** with vector-index support and the APOC plugin.
   [neo4j-manager](https://github.com/neurongraph/neo4j-manager) runs one in
   Docker/colima per vault, or you can use your own, or AuraDB.
-- LLM/embeddings access: local **Ollama**, or an **OpenRouter** API key.
+- **Ollama**, always: embeddings only run on Ollama (OpenRouter has no
+  embeddings support here), so `ollama pull nomic-embed-text` is required. The
+  extraction LLM can be local Ollama too, or an **OpenRouter** API key.
 - `git`, because a vault is a git repo. Also `gh`, if `vault new` should
   create the GitHub repo.
 - Node.js + npm. `just dev-install` builds the Obsidian plugin (`just
