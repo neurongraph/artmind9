@@ -1,7 +1,7 @@
 # Structured store (`db`)
 
 Read this when `artmind db bridge` returns any tables for the selected domain(s) — a
-pure-graph domain never needs this file; go straight to Discover in SKILL.md.
+pure-graph domain never needs this file; go straight to Views in SKILL.md.
 
 A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
 in a separate SQL store, independent of the graph above. Rows never become graph
@@ -73,7 +73,7 @@ artmind db bridge --entityClass <CLASS> --compact
 ```
 
 An empty `tables` list means the domain is genuinely pure-graph — skip
-SQL/hybrid entirely and go straight to Discover below. Otherwise classify the
+SQL/hybrid entirely and go straight to Views in SKILL.md. Otherwise classify the
 question first; only pull table shape if the classification needs it, so a
 narrative-only session in a domain that happens to have tables never pays for a
 schema call it doesn't use:
