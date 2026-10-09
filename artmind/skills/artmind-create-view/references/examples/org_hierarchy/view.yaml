@@ -1,0 +1,37 @@
+name: org_hierarchy
+version: 1
+domains: [banking_org]
+summary: The reporting tree under a person or team, as a nested list
+examples:
+  - "Who reports to the head of retail banking, all the way down?"
+  - "Show me the org chart under Jane Smith"
+params:
+  root:
+    type: entity
+    description: The person or unit at the top of the tree
+  max_depth:
+    type: int
+    default: 3
+    min: 1
+    max: 4
+    description: Levels below the root to include
+cypher: |
+  MATCH (root:Entity {_id: $root})
+  MATCH path = (e:Entity)-[:RELATES_TO*0..4]->(root)
+  WHERE length(path) <= $max_depth
+    AND all(x IN nodes(path) WHERE x._domain IN $domains)
+    AND all(rel IN relationships(path) WHERE rel.rel_type = 'REPORTS_TO')
+  WITH e, path
+  ORDER BY length(path)
+  WITH e, head(collect(path)) AS shortest
+  WITH e, CASE WHEN length(shortest) = 0 THEN null ELSE nodes(shortest)[1]._id END AS manager_id
+  RETURN e._id AS _id, manager_id AS parent, e.name AS name
+  ORDER BY name
+max_rows: 200
+presentation:
+  format: tree
+  tree: {id: _id, parent: parent, label: name}
+provenance:
+  created: 2026-10-09
+  origin: authored
+  source_question: null

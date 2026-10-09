@@ -1,0 +1,36 @@
+name: regulation_exposure
+version: 1
+domains: [finance]
+summary: Regulations reaching a product through any depth of PART_OF / GOVERNED_BY
+examples:
+  - "Which regulations apply to the mortgage product?"
+  - "What rules govern Product X, directly or indirectly?"
+params:
+  product:
+    type: entity
+    entity_class: Product
+    description: The product to start from
+  max_depth:
+    type: int
+    default: 4
+    min: 1
+    max: 6
+    description: Maximum traversal depth
+cypher: |
+  MATCH (p:Entity {_id: $product})
+  MATCH path = (p)-[:RELATES_TO*1..6]-(r:Entity {entity_class: 'REGULATION'})
+  WHERE length(path) <= $max_depth
+    AND all(x IN nodes(path) WHERE x._domain IN $domains)
+    AND all(rel IN relationships(path) WHERE rel.rel_type IN ['PART_OF', 'GOVERNED_BY'])
+  RETURN r._id AS _id, r.name AS regulation, min(length(path)) AS hops
+  ORDER BY hops, regulation
+max_rows: 200
+presentation:
+  format: table
+  table:
+    columns: [regulation, hops]
+    headers: {hops: Distance}
+provenance:
+  created: 2026-10-09
+  origin: authored
+  source_question: null
