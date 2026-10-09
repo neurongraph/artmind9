@@ -192,6 +192,7 @@ DOMAIN_META_PATH = ARTMIND_HOME / "domains" / "meta.yaml"
 # `*.yaml` curation glob) would otherwise have to learn to skip them. Never
 # seeded by `init` -- a mapping names a specific table, so it is user data.
 TABLE_MAPPINGS_DIR = ARTMIND_HOME / "domains" / "table_mappings"
+DOMAIN_VIEWS_DIR = ARTMIND_HOME / "domains" / "views"   # kg_views: user-authored, never seeded
 LOGS_DIR = ARTMIND_HOME / "logs"
 INGEST_LOG_FILE = LOGS_DIR / "artmind_ingestion.log"
 QUERY_LOG_FILE = LOGS_DIR / "artmind_query.log"
