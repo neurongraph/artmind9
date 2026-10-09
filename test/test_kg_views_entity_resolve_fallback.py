@@ -30,3 +30,6 @@ def test_entity_resolve_falls_back_to_fulltext_when_embedding_fails():
     assert [r["entity"]["_id"] for r in result["rows"]] == ["e1"]
     assert result["rows"][0]["matched_by"] == ["fulltext"]
     assert session.run.call_count == 1  # only the fulltext query ran
+    args, kwargs = session.run.call_args
+    assert kwargs["topK"] == 5
+    assert kwargs["domains"] == ["finance"]

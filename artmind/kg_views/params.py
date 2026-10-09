@@ -73,6 +73,7 @@ def _lookup_entity_id(spec: ParamSpec, entity_id: str, domains: list[str]) -> di
         raise ViewError(f"param {spec.name!r}: no entity with _id {entity_id!r}")
     row = dict(record)
     domain = row.get("domain") or ""
+    # Intentionally mirrors graph_query.domain_predicate: exact domain or child prefix.
     if not any(domain == d or domain.startswith(d + ".") for d in domains):
         raise ViewError(
             f"param {spec.name!r}: entity {entity_id!r} is in domain {domain!r}, "
@@ -107,22 +108,26 @@ def resolve_params(spec: ViewSpec, raw: dict[str, str], domains: list[str]) -> R
     if unknown:
         raise ViewError(f"view {spec.name!r} has no parameter(s) {unknown}; it takes {sorted(spec.params)}")
     out = Resolution()
+    entity_names = []
     for name, pspec in spec.params.items():
         if name not in raw:
             if pspec.required:
                 raise ViewError(f"view {spec.name!r} needs --param {name}=<{pspec.describe()}>")
             value = coerce_value(pspec, pspec.default)
-            out.bindings[name] = value
-            out.echo[name] = value
+        elif pspec.type != "entity":
+            value = coerce_value(pspec, raw[name])
+        else:
+            entity_names.append(name)
             continue
-        text = raw[name]
-        if pspec.type != "entity":
-            value = coerce_value(pspec, text)
-            out.bindings[name] = value
-            out.echo[name] = value
-            continue
+        out.bindings[name] = value
+        out.echo[name] = value
+    for name in entity_names:
+        pspec = spec.params[name]
+        text = raw[name].strip()
+        if not text:
+            raise ViewError(f"empty value for entity param {name}")
         if text.startswith("@"):
-            entity = _lookup_entity_id(pspec, text[1:], domains)
+            entity = _lookup_entity_id(pspec, text[1:].strip(), domains)
         else:
             status, found = _resolve_entity_name(pspec, text, domains)
             if status != "ok":

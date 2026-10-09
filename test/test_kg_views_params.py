@@ -144,3 +144,63 @@ def test_missing_required_unknown_and_bad_values():
         resolve_params(make_spec(), {"product": "x", "nope": "1"}, ["finance"])
     with patched_resolve([hit("e1", "M")]), pytest.raises(ViewError, match="param 'depth'"):
         resolve_params(make_spec(), {"product": "M", "depth": "9"}, ["finance"])
+
+
+def make_multi_spec():
+    return parse_view(
+        {
+            "name": "v2", "version": 1, "domains": ["finance"], "summary": "s", "examples": ["q"],
+            "params": {
+                "tags": {"type": "list", "items": "string"},
+                "kind": {"type": "enum", "values": ["a", "b"]},
+                "limit": {"type": "int", "default": 7},
+            },
+            "cypher": "MATCH (p:Entity) WHERE p._domain IN $domains AND p.t IN $tags AND p.k = $kind "
+                      "RETURN p.name AS name LIMIT $limit",
+            "presentation": {"format": "list", "list": {"label": "name"}},
+            "provenance": {"created": "2026-10-09", "origin": "authored"},
+        },
+        "v2",
+    )
+
+
+def test_list_enum_and_default_for_omitted_optional():
+    res = resolve_params(make_multi_spec(), {"tags": "x, y,z", "kind": "b"}, ["finance"])
+    assert res.bindings == {"tags": ["x", "y", "z"], "kind": "b", "limit": 7}
+    assert res.echo["limit"] == 7
+
+
+def test_at_id_prefix_branch_accepts_child_and_rejects_lookalike():
+    ok = {"_id": "x", "name": "n", "entity_class": "Product", "domain": "finance.retail"}
+    session_patch, _ = at_id_session(ok)
+    with session_patch:
+        assert resolve_params(make_spec(), {"product": "@x"}, ["finance"]).bindings["product"] == "x"
+    bad = dict(ok, domain="financex")
+    session_patch, _ = at_id_session(bad)
+    with session_patch, pytest.raises(ViewError, match="outside the requested domains"):
+        resolve_params(make_spec(), {"product": "@x"}, ["finance"])
+
+
+def test_whitespace_padded_inputs_are_stripped():
+    record = {"_id": "ent_9", "name": "n", "entity_class": "Product", "domain": "finance"}
+    session_patch, session = at_id_session(record)
+    with session_patch:
+        res = resolve_params(make_spec(), {"product": "  @ent_9 "}, ["finance"])
+    assert session.run.call_args.args[1] == {"id": "ent_9"}
+    assert res.echo["product"]["input"] == "@ent_9"
+    with patched_resolve([hit("e1", "Mortgage")]) as resolve:
+        res = resolve_params(make_spec(), {"product": "mortgage "}, ["finance"])
+    resolve.assert_called_once_with(["finance"], "mortgage", 10)
+    assert res.bindings["product"] == "e1"
+
+
+def test_empty_entity_value_is_an_error():
+    with pytest.raises(ViewError, match="empty value for entity param product"):
+        resolve_params(make_spec(), {"product": "   "}, ["finance"])
+
+
+def test_invalid_scalar_reported_before_ambiguous_entity():
+    rows = [hit("e1", "Mortgage A"), hit("e2", "Mortgage B")]
+    with patched_resolve(rows) as resolve, pytest.raises(ViewError, match="param 'depth'"):
+        resolve_params(make_spec(), {"product": "mortgage", "depth": "9"}, ["finance"])
+    resolve.assert_not_called()
