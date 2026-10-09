@@ -213,7 +213,7 @@ def write_note(path: Path, text: str, *, scratch_dir: Path | None = None) -> Non
     """Replace `path` with `text` atomically: a temp file, fsynced, renamed
     over it -- an interrupted write leaves the old note or the new one, never
     half of either. The temp file is created in `scratch_dir` (the vault's
-    `.artmind/data/`, where `.gitignore` ignores it) when that folder exists or
+    `.artmind/data/`, where `.gitignore` ignores `*.artmind-tmp`) when that folder exists or
     can be made under an existing `.artmind/`, else beside the note; it is
     created with the note's own permission bits, so a private note is never
     briefly readable by others. A symlinked note is written through, the link

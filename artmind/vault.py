@@ -230,9 +230,10 @@ class VaultLayout:
 
 
 def note_scratch_dir(vault_dir: Path | str | None) -> Path | None:
-    """Where a note write's temp file goes: the vault's `.artmind/data/`
-    (git-ignored) when `vault_dir` is a real vault, so a crash leaves a scratch
-    file that will not be committed rather than one beside the note. None (the
+    """Where a note write's temp file goes: the vault's `.artmind/data/` when
+    `vault_dir` is a real vault. That folder is committed, but GITIGNORE_BLOCK
+    ignores `*.artmind-tmp` files under it, so a crash leaves a scratch file
+    that will not be committed rather than one beside the note. None (the
     note's own directory) when there is no vault or it has no `.artmind/`."""
     if vault_dir is None or not (Path(vault_dir) / ".artmind").is_dir():
         return None
