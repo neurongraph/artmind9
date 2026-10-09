@@ -24,7 +24,7 @@ def _cell(value: Any) -> str:
 
 
 def _table_cell(value: Any) -> str:
-    return _cell(value).replace("|", "\\|").replace("\r", " ").replace("\n", " ")
+    return _cell(value).replace("\\", "\\\\").replace("|", "\\|").replace("\r", " ").replace("\n", " ")
 
 
 def _render_table(rows: list[dict], opts: dict) -> str:
@@ -39,12 +39,16 @@ def _render_table(rows: list[dict], opts: dict) -> str:
     return "\n".join(lines)
 
 
+def _line(value: Any) -> str:
+    return _cell(value).replace("\r", " ").replace("\n", " ")
+
+
 def _render_list(rows: list[dict], opts: dict) -> str:
     label_col, detail_col = opts["label"], opts.get("detail")
     lines = []
     for row in rows:
-        line = f"- **{_cell(row.get(label_col))}**"
-        detail = _cell(row.get(detail_col)) if detail_col else ""
+        line = f"- **{_line(row.get(label_col))}**"
+        detail = _line(row.get(detail_col)) if detail_col else ""
         if detail:
             line += f" \u2014 {detail}"
         lines.append(line)
@@ -63,7 +67,7 @@ def _render_tree(rows: list[dict], opts: dict) -> str:
             continue
         node = _cell(node)
         if node not in labels:
-            labels[node] = _cell(row.get(label_col))
+            labels[node] = _line(row.get(label_col))
             order.append(node)
         parent = row.get(parent_col)
         edges.append((None if parent is None else _cell(parent), node))
@@ -100,7 +104,7 @@ def _render_tree(rows: list[dict], opts: dict) -> str:
 
 
 def _mermaid_text(text: str) -> str:
-    for char, code in (('"', "#quot;"), ("[", "#91;"), ("]", "#93;"), ("|", "#124;")):
+    for char, code in (("#", "#35;"), ('"', "#quot;"), ("[", "#91;"), ("]", "#93;"), ("|", "#124;")):
         text = text.replace(char, code)
     return text.replace("\r", " ").replace("\n", " ")
 

@@ -100,3 +100,42 @@ def test_truncation_footer_and_empty():
     assert out.endswith("\n\n_Showing 1 of 40 rows._")
     assert render_markdown([], P("list", label="n")) == "_No rows._"
     assert "Showing" not in render_markdown(rows, P("list", label="n"), truncated=False, rows_total=1)
+
+
+def test_mermaid_flow_golden_with_missing_edge_label():
+    rows = [{"s": "a", "t": "b", "e": "go"}, {"s": "b", "t": "c", "e": None}]
+    out = render_markdown(rows, P("mermaid_flow", source="s", target="t", edge_label="e"))
+    assert out == (
+        "```mermaid\nflowchart TD\n"
+        '  n0["a"]\n  n1["b"]\n  n2["c"]\n'
+        '  n0 -->|"go"| n1\n  n1 --> n2\n```'
+    )
+
+
+def test_tree_self_parent_is_a_root():
+    rows = [{"id": "a", "parent": "a", "name": "A"}]
+    out = render_markdown(rows, P("tree", id="id", parent="parent", label="name"))
+    assert out.splitlines()[0] == "- A"
+
+
+def test_tree_deep_chain_no_recursion_error():
+    rows = [{"id": str(i), "parent": str(i - 1) if i else None, "name": f"n{i}"} for i in range(2000)]
+    out = render_markdown(rows, P("tree", id="id", parent="parent", label="name"))
+    assert len(out.splitlines()) == 2000
+
+
+def test_table_backslash_before_pipe():
+    out = render_markdown([{"a": "x\\|y"}], P("table", columns=["a"]))
+    assert out.splitlines()[2] == "| x\\\\\\|y |"
+
+
+def test_mermaid_hash_escaped_first():
+    out = render_markdown([{"s": "#quot;", "t": "b"}], P("mermaid_graph", source="s", target="t"))
+    assert 'n0["#35;quot;"]' in out
+
+
+def test_newlines_in_list_and_tree_labels():
+    out = render_markdown([{"n": "a\nb", "d": "c\r\nd"}], P("list", label="n", detail="d"))
+    assert out == "- **a b** — c  d"
+    rows = [{"id": "a", "parent": None, "name": "x\ny"}]
+    assert render_markdown(rows, P("tree", id="id", parent="parent", label="name")) == "- x y"
