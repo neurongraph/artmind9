@@ -613,3 +613,61 @@ def test_setup_all_inside_a_vault_leaves_its_schemas_and_meta_alone(tmp_path, mo
 
     assert (home / "domains" / "schemas" / "general_schema.yaml").read_text() == "my edited general"
     assert (home / "domains" / "meta.yaml").read_text() == "my edited meta"
+
+
+def _seed_user_view(home):
+    keep = home / "domains" / "views" / "mine"
+    _write(keep / "view.yaml", "name: mine\n")
+    _write(keep / "SKILL.md", "---\nname: mine\ndescription: d\n---\n")
+    return keep
+
+
+def _view_bytes(keep):
+    return {p.name: p.read_bytes() for p in keep.iterdir()}
+
+
+def test_scaffold_run_folder_never_seeds_or_overwrites_views(tmp_path, monkeypatch):
+    """Views are user data: `artmind setup` overwrites skills/schemas wholesale
+    (the non-vault branch really runs here) but never `domains/views/`."""
+    import artmind.setup as setup
+
+    home, data = tmp_path / "home", tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: None)
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "DOMAIN_META_PATH", home / "domains" / "meta.yaml")
+    monkeypatch.setattr(setup, "PACKAGE_META_YAML", tmp_path / "no-such-meta")
+    # A real package schemas tree, so seeding genuinely runs (overwrite=True).
+    _write(tmp_path / "pkg-schemas" / "demo_schema.yaml", "kind: demo\n")
+    monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", tmp_path / "pkg-schemas")
+    monkeypatch.setattr(setup, "validate_all_or_raise", lambda *a, **k: None)
+    keep = _seed_user_view(home)
+    before = _view_bytes(keep)
+
+    setup.scaffold_run_folder()
+    setup.scaffold_run_folder()
+
+    assert (home / "domains" / "schemas" / "demo_schema.yaml").read_text() == "kind: demo\n"
+    assert _view_bytes(keep) == before
+    assert not (home / "domains" / "views" / "demo_schema.yaml").exists()
+
+
+def test_scaffold_run_folder_leaves_views_untouched_in_a_vault(tmp_path, monkeypatch):
+    import artmind.setup as setup
+    from artmind.vault import VaultLayout
+
+    vault_root = tmp_path / "myvault"
+    vault_root.mkdir()
+    home = VaultLayout(vault_root).artmind_dir
+    data = tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "validate_all_or_raise", lambda *a, **k: None)
+    keep = _seed_user_view(home)
+    before = _view_bytes(keep)
+
+    setup.scaffold_run_folder()
+    setup.scaffold_run_folder()
+
+    assert _view_bytes(keep) == before
