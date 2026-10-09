@@ -1,6 +1,6 @@
 ---
 name: artmind-create-view
-description: Creates, promotes and edits saved graph views for the artmind knowledge graph -- reviewed, parameterised, read-only Cypher queries (view.yaml) plus agent guidance (SKILL.md) that artmind-query runs with one call. Use when an operator wants a reusable lens on a domain ("save this as a view", "make a view for the org structure"), or to change an existing view.
+description: Creates, promotes and edits saved graph views for the artmind knowledge graph -- reviewed, parameterised, read-only Cypher queries (view.yaml) plus agent guidance (SKILL.md) that artmind-query runs with one call. Use when an operator wants a reusable lens on a domain ("save this as a view", "create a view for the org structure"), or to edit a view that already exists.
 ---
 
 # artmind View Creator
@@ -30,6 +30,8 @@ worked views to copy from.
   prompts: `save` overwrites the saved view and `delete` removes the folder at once.
   Approval of the rendered test output is the gate for save; name the view and ask
   before a delete.
+- Results are capped at `max_rows` (default 200); set it deliberately and expect the
+  `truncated` flag on larger results.
 - Drafts live in a plain temporary folder, never in the views directory and not under
   `.artmind/data/` (that is committed with the vault). Create one with `mktemp -d` and
   put the draft in `<tmp>/<view_name>/` (the folder name must equal the view's `name`).
@@ -41,11 +43,12 @@ worked views to copy from.
    would ask. Ask for what is missing; do not guess the domain.
 2. **Look up the real vocabulary** for those domains:
    ```bash
-   artmind query graph structural-metadata --domain <d> --compact
-   artmind query graph metadata --domain <d> --compact
-   artmind query graph entity-listing --domain <d> --compact
+   artmind query graph metadata --domain <d> --compact        # labels, properties, relationship types
+   artmind query graph entity-listing --domain <d> --compact   # class names with sample entities
    ```
-   Note the exact entity classes, `rel_type` values and properties you will use.
+   (`structural-metadata` gives document names and counts only; it does not help here.)
+   Note the exact entity classes, `rel_type` values and properties you will use, and
+   check the direction of each relationship you traverse.
 3. **Draft** `<tmp>/<name>/view.yaml` and `<tmp>/<name>/SKILL.md`:
    - parameters (snake_case names) for everything a user would vary; an entity the user
      names is a `type: entity` parameter (it auto-resolves from a name to an `_id`; it
@@ -108,7 +111,7 @@ To remove a view: `artmind views delete <name>` -- only after the operator has s
 ## Failure modes
 
 - `needs_disambiguation` on test: expected for ambiguous names; rerun with `@<_id>`.
-- `invalid` entries in `views list`: run `artmind views validate <name>` for the reason.
+- `artmind query views list` shows broken views as `invalid` entries; `artmind views validate <name>` gives the reason.
 - Query fails with a Neo4j error: the message names the view and version; fix the Cypher
   and re-test. Do not save a view that has not produced a sensible result.
 - `save` refuses with a version message: bump `version` above the saved one.

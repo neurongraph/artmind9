@@ -15,7 +15,7 @@ regulation's text (what it requires), use this view to find it, then Ground.
 ## Output
 
 One row per regulation. `regulation` is its name; `hops` is the shortest chain of
-PART_OF / GOVERNED_BY links from the product (1 = direct).
+PART_OF / GOVERNED_BY edges pointing away from the product (1 = direct).
 
 ## Presenting the answer
 
@@ -30,5 +30,9 @@ regulation. Always state which product the name resolved to.
 
 ## Known limits
 
-Follows only PART_OF and GOVERNED_BY; regulations linked by other relationship types
-are not found. Depth is capped at 6.
+Follows only PART_OF and GOVERNED_BY edges pointing away from the product; regulations
+linked by other relationship types are not found. Depth is capped at 6.
+
+Illustrative template: it assumes PART_OF points part to whole and GOVERNED_BY points
+governed to regulator, and that regulations are class `REGULATION`. Verify direction and
+class names with `query graph metadata` before reusing it.

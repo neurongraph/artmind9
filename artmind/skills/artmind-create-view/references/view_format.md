@@ -23,7 +23,7 @@ examples:                            # 1-5 questions; the catalogue shows them a
 params:
   product:
     type: entity
-    entity_class: Product            # optional; narrows auto-resolve
+    entity_class: PRODUCT            # optional; narrows auto-resolve (case-insensitive)
     description: The product to start from
   max_depth:
     type: int
@@ -102,8 +102,8 @@ Exactly one sub-block, matching `format`:
 | format | block | renders |
 |---|---|---|
 | `table` | `{columns: [..], headers: {col: Label}}` (headers optional) | markdown table |
-| `list` | `{label: col, detail: col}` (detail optional) | `- **label** - detail` |
-| `tree` | `{id: col, parent: col, label: col}` | nested list; rows with a missing/null parent are roots; a node reached twice (cycle, second parent) is shown once more as `label (see above)` |
+| `list` | `{label: col, detail: col}` (detail optional) | `- **label** — detail` |
+| `tree` | `{id: col, parent: col, label: col}` | nested list; rows with a missing/null parent are roots; a node reached twice (cycle, second parent) is shown once more as `label ↻ (see above)` |
 | `mermaid_graph` | `{source: col, target: col, edge_label: col}` (edge_label optional) | `graph LR` |
 | `mermaid_flow` | same keys | `flowchart TD` |
 
@@ -137,6 +137,10 @@ entity that matched nothing. `artmind views validate` results carry the folder `
 ## Cypher checklist
 
 - `x._domain IN $domains` on every matched node (`all(x IN nodes(path) WHERE x._domain IN $domains)` for paths).
+- Cypher literals must match the stored `entity_class` / `rel_type` exactly: `rel_type` is
+  upper-cased and class names come from the `metadata` / `entity-listing` output (schemas
+  use UPPER_SNAKE names such as `REGULATION`). A param's `entity_class` filter, by
+  contrast, is compared case-insensitively.
 - Entity-to-entity edges are `RELATES_TO`; filter `rel.rel_type = 'UPPER_CASE'` (stored upper-cased).
 - Computed properties are underscore-prefixed (`_id`, `_domain`).
 - Bound every variable-length path; `ORDER BY` a stable column; alias every returned column.
