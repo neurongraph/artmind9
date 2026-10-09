@@ -130,3 +130,36 @@ def test_domain_outside_the_view_is_a_click_error(views_root):
     write_view(views_root, "fin")
     res = invoke("query", "views", "run", "fin", "--domain", "hr")
     assert res.exit_code != 0 and "cannot run for ['hr']" in res.output
+
+
+@pytest.mark.parametrize("status", ["needs_disambiguation", "no_match"])
+def test_query_views_run_non_ok_statuses_exit_zero(views_root, status):
+    write_view(views_root, "fin")
+    with patch("artmind.kg_views.runner.run_view", return_value=ok_envelope(status=status)):
+        res = invoke("query", "views", "run", "fin", "--domain", "finance", "--compact")
+    assert res.exit_code == 0, res.output
+    assert json.loads(res.stdout)["status"] == status
+
+
+def test_query_views_run_param_without_equals_is_a_click_error(views_root):
+    write_view(views_root, "fin")
+    res = invoke("query", "views", "run", "fin", "--domain", "finance", "--param", "noequals")
+    assert res.exit_code != 0 and "name=value" in res.output
+
+
+def test_query_views_run_view_error_is_a_click_error(views_root):
+    from artmind.kg_views.model import ViewError
+
+    write_view(views_root, "fin")
+    with patch("artmind.kg_views.runner.run_view", side_effect=ViewError("view fin v1 failed: boom")):
+        res = invoke("query", "views", "run", "fin", "--domain", "finance")
+    assert res.exit_code != 0 and "view fin v1 failed: boom" in res.output
+
+
+def test_query_views_list_without_domain_lists_all_and_splits_commas(views_root):
+    write_view(views_root, "fin", domains=("finance",))
+    write_view(views_root, "hr", domains=("hr",))
+    write_view(views_root, "ops", domains=("ops",))
+    names = lambda *a: sorted(v["name"] for v in json.loads(invoke(*a).stdout)["views"])
+    assert names("query", "views", "list", "--compact") == ["fin", "hr", "ops"]
+    assert names("query", "views", "list", "--domain", "finance,hr", "--compact") == ["fin", "hr"]
