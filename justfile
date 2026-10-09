@@ -499,7 +499,7 @@ query-resolve-key domain phrase column="" table="":
 query-views-list domain:
     uv run artmind query views list --domain {{ domain }}
 
-# run a saved view  (usage: just query-views-run <domain> <name> "<k=v> <k=v>")
+# run a saved view  (usage: just query-views-run <domain> <name> "<k=v> <k=v>"; values cannot contain spaces -- pass an entity as k=@<_id>)
 query-views-run domain name params="":
     uv run artmind query views run {{ name }} --domain {{ domain }} --render markdown $(for p in {{ params }}; do printf -- '--param %s ' "$p"; done)
 
@@ -507,7 +507,7 @@ query-views-run domain name params="":
 views-validate path:
     uv run artmind views validate --path {{ path }}
 
-# run a draft view live, with rendering and EXPLAIN  (usage: just views-test <path> <domain> "<k=v> <k=v>")
+# run a draft view live, with rendering and EXPLAIN  (usage: just views-test <path> <domain> "<k=v> <k=v>"; values cannot contain spaces)
 views-test path domain params="":
     uv run artmind views test --path {{ path }} --domain {{ domain }} $(for p in {{ params }}; do printf -- '--param %s ' "$p"; done)
 

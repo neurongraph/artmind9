@@ -1,6 +1,6 @@
 # kg_views — saved, parameterised graph queries with agent guidance — design
 
-Status: approved (2026-10-09). Not implemented.
+Status: approved (2026-10-09). Implemented on branch `feat/kg-views` (plan: docs/superpowers/plans/2026-10-09-kg-views.md).
 
 ## 1. Problem
 
@@ -190,7 +190,7 @@ The agent reads it only after picking the view from the catalogue.
 |---|---|---|
 | `__init__.py` | Public surface re-exports. | — |
 | `model.py` | `ViewSpec`, `ParamSpec`, `Presentation` dataclasses; `parse_view(dict, folder_name)`; every rule in §4.4. Pure. | `text2cypher.validate_*` |
-| `store.py` | `views_dir()` (vault → `VaultLayout.domains_dir / "views"`, otherwise run folder); `list_views(domains)`, `load_view(name)`, `save_view(draft_dir)`, `delete_view(name)`; the version guard (§7); domain filtering via `expand_domain_family`. | `model`, `vault`, `paths` |
+| `store.py` | `views_dir()` = `paths.DOMAIN_VIEWS_DIR` (`ARTMIND_HOME/domains/views`; inside a vault `ARTMIND_HOME` is `.artmind/`, so this equals `VaultLayout.views_dir`); `list_views(domains)`, `load_view(name)`, `save_view(draft_dir)` (atomic), `delete_view(name)`; the version guard (§7); catalogue domain filtering is pure string logic on the dotted hierarchy (no Neo4j). | `model`, `paths`, `atomic_dir` |
 | `params.py` | Coerce `--param k=v` strings to typed values; defaults/ranges/enum; entity auto-resolve and the `@<_id>` bypass (§7). | `model`, `vector_query`, `graph_query` |
 | `runner.py` | Bind `$domains` + params, execute in `read_session`, apply `max_rows` truncation, build the result envelope (§6.3). | `graph_query`, `params`, `render` |
 | `render.py` | `render_markdown(rows, presentation, truncated, rows_total) -> str` for every format. Pure. | `model` |
@@ -223,8 +223,8 @@ artmind views save     --path DIR                                # validate + ve
 artmind views delete   NAME
 ```
 
-Drafts are plain folders in the note scratch dir (`vault.note_scratch_dir`, or
-the session scratchpad outside a vault). `views test` prints the envelope with
+Drafts are plain temp folders (`mktemp -d`), deliberately outside `.artmind/data/`,
+which is committed. `views test` prints the envelope with
 `rendered` always included, the EXPLAIN plan, and a warning when zero rows come back.
 
 All new commands are added to `COMMAND_GROUPS` in `cli.py` (so
