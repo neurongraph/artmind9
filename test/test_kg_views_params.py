@@ -88,7 +88,7 @@ def test_several_inexact_candidates_need_disambiguation_top_five():
     assert res.status == "needs_disambiguation"
     assert len(res.candidates) == 5
     assert set(res.candidates[0]) == {"_id", "name", "entity_class", "observation_count"}
-    assert res.bindings == {}
+    assert "product" not in res.bindings  # scalars bind first; the entity does not
 
 
 def test_entity_class_filter_drops_other_classes():
