@@ -663,6 +663,8 @@ def test_scaffold_run_folder_leaves_views_untouched_in_a_vault(tmp_path, monkeyp
     _patch_scaffold_dirs(setup, monkeypatch, home, data)
     monkeypatch.setattr(setup, "resolve_vault", lambda: vault_root)
     monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "DOMAIN_META_PATH", home / "domains" / "meta.yaml")
+    monkeypatch.setattr(setup, "PACKAGE_META_YAML", tmp_path / "no-such-meta")
     monkeypatch.setattr(setup, "validate_all_or_raise", lambda *a, **k: None)
     keep = _seed_user_view(home)
     before = _view_bytes(keep)
