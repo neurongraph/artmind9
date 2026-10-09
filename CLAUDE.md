@@ -20,6 +20,7 @@ ingest dashboard).
 | `artmind/graph_query.py`, `vector_query.py`, `text2cypher.py` | Query layer: templated Cypher patterns, RRF vector+fulltext search, LLM-generated Cypher. |
 | `artmind/ingest.py`, `extraction.py`, `jobs.py`, `worker.py` | Ingestion pipeline and its background worker. |
 | `artmind/table2graph.py` | `ingest table2graph`: projects structured-table rows into entities/relationships via a declarative mapping in the run folder's `domains/table_mappings/*.yaml` (no LLM), committed through the same `_commit_document_tx` as a document. Mapping format: `artmind/skills/artmind-create-schema/references/table_mapping.md`. |
+| `artmind/kg_views/` | Saved, parameterised, read-only graph queries ("views"). `model` (view.yaml contract), `render` (markdown per presentation format), `params` (entity auto-resolve), `store` (reads `<ARTMIND_HOME>/domains/views/<name>/{view.yaml,SKILL.md}` from disk on every call; never seeded by `setup`; refuses a changed view without a `version` bump and refuses a version downgrade; save is atomic), `runner` (60 s server-side query timeout). CLI: `artmind query views list/show/run` (proxied by `serve`) and `artmind views validate/test/save/delete` (`views test` reports zero rows, truncation and ambiguous/no-match entities in a JSON `warnings` list). Format reference: `artmind/skills/artmind-create-view/references/view_format.md`. |
 | `artmind/refine_pipeline.py`, `refine_graph.py`, `conflicts.py`, `consolidate.py`, `temporal.py`, `harmonizer.py` | Graph maintenance: merging, conflict detection, temporal normalization. |
 | `artmind/skills/` | **Source of truth for agent skills.** Shipped in the wheel and seeded into the run folder. |
 | `artmind/domains/schemas/` | Default domain schemas (YAML), also seeded. |
@@ -184,7 +185,8 @@ Two levels under `query`, and mixing them up is a common error:
 - `artmind query graph <cmd>` — `metadata`, `structural-metadata`, `entity-listing`,
   `pattern1`–`pattern10`, `text2cypher`, `conflicts`, `timeline`, `hierarchy`
 - `artmind query <cmd>` — `domains-overview`, `vector-text`, `entity-resolve`,
-  `chunks`, `entity-context`, `text2sql`, `resolve-key`
+  `chunks`, `entity-context`, `text2sql`, `resolve-key`, `views list|show|run`
+- `artmind views <cmd>` — authoring: `validate`, `test`, `save`, `delete` (not proxied)
 
 `text2sql`/`resolve-key` query the structured (SQL) store, not the graph — see
 `artmind db <cmd>` (`list`, `schema`, `sql`, `mappings`, `catalogue`, `refresh`,

@@ -82,7 +82,7 @@ Two corollaries:
     ├── vault.yaml                      ← the ingest manifest + vault_id; COMMITTED
     ├── config.env                      ← this vault's graph; NOT committed
     ├── same_as.yaml                    ← curation; COMMITTED
-    ├── domains/                        ← schemas, meta-schema, table_mappings/; COMMITTED
+    ├── domains/                        ← schemas, meta-schema, table_mappings/, views/; COMMITTED
     ├── logs/  state.json  serve.json   ← machine-local; NOT committed
     └── data/
         ├── documents/markdowns/
@@ -739,6 +739,8 @@ overwritten by `init` — a mapping names a specific table, so it is always
 vault data — and `snapshot` curation archives them with the schemas. An edited
 mapping or schema reaches another machine's graph through `artmind vault sync`
 once Obsidian Git has committed and pulled it.
+
+Saved graph views live in `.artmind/domains/views/<name>/` (`view.yaml` + `SKILL.md`), are committed, and are never seeded or overwritten by `artmind setup`.
 
 ## `artmind init`
 
