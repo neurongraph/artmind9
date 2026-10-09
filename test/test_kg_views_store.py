@@ -123,7 +123,71 @@ def test_save_validates_the_draft_first(views_root, tmp_path):
     (draft / "SKILL.md").unlink()
     with pytest.raises(ViewError, match="no SKILL.md"):
         store.save_view(draft)
-    assert not views_root.exists()
+    assert not (views_root / "v1").exists()
+
+
+def test_save_refuses_a_version_downgrade_even_with_same_fingerprint(views_root, tmp_path):
+    store.save_view(write_view(tmp_path / "d1", "v1", version=3))
+    with pytest.raises(ViewError, match="downgrade version 3 -> 2"):
+        store.save_view(write_view(tmp_path / "d2", "v1", version=2))
+    assert store.load_view("v1").spec.version == 3
+    assert store.save_view(write_view(tmp_path / "d3", "v1", version=3))["replaced"] is True
+
+
+def test_first_save_leaves_no_stray_folders(views_root, tmp_path):
+    store.save_view(write_view(tmp_path / "d", "v1"))
+    assert [p.name for p in views_root.iterdir()] == ["v1"]
+    store.save_view(write_view(tmp_path / "d2", "v1", version=2,
+                               cypher="MATCH (n:Entity) WHERE n._domain IN $domains RETURN n.description AS name"))
+    assert [p.name for p in views_root.iterdir()] == ["v1"]
+
+
+def test_scratch_siblings_are_not_listed(views_root):
+    write_view(views_root, "v1")
+    (views_root / "v1.artmind-tmp").mkdir()
+    good, invalid = store.list_views()
+    assert [v.spec.name for v in good] == ["v1"] and invalid == []
+
+
+@pytest.mark.parametrize("content", [None, "", "- a\n- b\n", "a: [unclosed\n", b"\xff\xfe\x00bad"])
+def test_list_reports_each_kind_of_broken_view_yaml(views_root, content):
+    write_view(views_root, "ok")
+    bad = write_view(views_root, "bad")
+    if content is None:
+        (bad / "view.yaml").unlink()
+    elif isinstance(content, bytes):
+        (bad / "view.yaml").write_bytes(content)
+    else:
+        (bad / "view.yaml").write_text(content)
+    good, invalid = store.list_views()
+    assert [v.spec.name for v in good] == ["ok"]
+    assert [i["name"] for i in invalid] == ["bad"]
+    with pytest.raises(ViewError):
+        store.load_view("bad")
+
+
+def test_non_utf8_skill_md_is_invalid_and_unsavable(views_root, tmp_path):
+    bad = write_view(views_root, "bad")
+    (bad / "SKILL.md").write_bytes(b"---\nname: bad\n\xff\n---\n")
+    assert [i["name"] for i in store.list_views()[1]] == ["bad"]
+    with pytest.raises(ViewError):
+        store.save_view(bad)
+
+
+def test_domain_filter_drops_invalid_views_from_both_lists(views_root):
+    write_view(views_root, "fin", domains=("finance",))
+    bad = write_view(views_root, "bad")
+    (bad / "view.yaml").write_text("name: bad\n")
+    good, invalid = store.list_views(["finance"])
+    assert [v.spec.name for v in good] == ["fin"]
+    assert [i["name"] for i in invalid] == ["bad"]  # reported regardless of the filter
+
+
+def test_listing_is_symmetric_but_running_needs_coverage(views_root):
+    write_view(views_root, "retail", domains=("finance.retail",))
+    spec = store.list_views(["finance"])[0][0].spec
+    assert spec.name == "retail"  # listed under the ancestor domain...
+    assert not store.domain_covered("finance", spec.domains)  # ...but not runnable there
 
 
 def test_delete(views_root, tmp_path):

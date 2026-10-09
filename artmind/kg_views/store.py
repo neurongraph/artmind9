@@ -13,6 +13,7 @@ from pathlib import Path
 
 import yaml
 
+from artmind.atomic_dir import is_scratch, write_dir_atomic
 from artmind.kg_views.model import NAME_RE, ViewError, ViewSpec, parse_view
 
 VIEW_FILE = "view.yaml"
@@ -60,11 +61,13 @@ def load_view_dir(path: Path) -> LoadedView:
     if not skill_path.is_file():
         raise ViewError(f"{path} has no {SKILL_FILE}")
     try:
-        data = yaml.safe_load(yaml_path.read_text())
+        data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
+        skill_md = skill_path.read_text(encoding="utf-8")
     except yaml.YAMLError as exc:
         raise ViewError(f"{VIEW_FILE} is not valid YAML: {exc}") from exc
+    except (UnicodeDecodeError, OSError) as exc:
+        raise ViewError(f"{path} could not be read as UTF-8 text: {exc}") from exc
     spec = parse_view(data, path.name)
-    skill_md = skill_path.read_text()
     check_skill_md(skill_md, spec.name)
     return LoadedView(spec=spec, skill_md=skill_md, path=path)
 
@@ -105,7 +108,7 @@ def view_folders() -> list[Path]:
     root = views_dir()
     if not root.is_dir():
         return []
-    return sorted(p for p in root.iterdir() if p.is_dir() and not p.name.startswith("."))
+    return sorted(p for p in root.iterdir() if p.is_dir() and not p.name.startswith(".") and not is_scratch(p))
 
 
 def list_views(domains: list[str] | None = None) -> tuple[list[LoadedView], list[dict]]:
@@ -131,7 +134,10 @@ def save_view(draft_dir: Path) -> dict:
     params + presentation) differs, the draft's `version` must be greater.
     There is deliberately no force flag -- bump the version.
     """
-    draft = load_view_dir(Path(draft_dir))
+    try:
+        draft = load_view_dir(Path(draft_dir))
+    except (OSError, UnicodeDecodeError) as exc:
+        raise ViewError(f"cannot read draft {draft_dir}: {exc}") from exc
     name = draft.spec.name
     root = views_dir()
     target = root / name
@@ -142,6 +148,11 @@ def save_view(draft_dir: Path) -> dict:
             existing = load_view_dir(target)
         except (ViewError, OSError):
             existing = None  # a broken saved view cannot be compared; allow the fix
+        if existing is not None and draft.spec.version < existing.spec.version:
+            raise ViewError(
+                f"view {name!r}: saving would downgrade version "
+                f"{existing.spec.version} -> {draft.spec.version}"
+            )
         if (
             existing is not None
             and existing.spec.fingerprint() != draft.spec.fingerprint()
@@ -152,16 +163,17 @@ def save_view(draft_dir: Path) -> dict:
                 f"{draft.spec.version} is not greater than the saved version "
                 f"{existing.spec.version}; bump `version` in {VIEW_FILE}"
             )
-    root.mkdir(parents=True, exist_ok=True)
-    staging = root / f".{name}.saving"
-    if staging.exists():
-        shutil.rmtree(staging)
-    staging.mkdir()
-    shutil.copy2(draft.path / VIEW_FILE, staging / VIEW_FILE)
-    shutil.copy2(draft.path / SKILL_FILE, staging / SKILL_FILE)
-    if target.exists():
-        shutil.rmtree(target)
-    staging.rename(target)
+    try:
+        write_dir_atomic(
+            target,
+            {
+                VIEW_FILE: (draft.path / VIEW_FILE).read_bytes(),
+                SKILL_FILE: (draft.path / SKILL_FILE).read_bytes(),
+            },
+            carry_over=False,
+        )
+    except OSError as exc:
+        raise ViewError(f"could not save view {name!r}: {exc}") from exc
     return {"saved": name, "version": draft.spec.version, "path": str(target), "replaced": replaced}
 
 
@@ -170,5 +182,8 @@ def delete_view(name: str) -> dict:
     target = views_dir() / name
     if not target.is_dir():
         raise ViewError(f"no saved view named {name!r}")
-    shutil.rmtree(target)
+    try:
+        shutil.rmtree(target)
+    except OSError as exc:
+        raise ViewError(f"could not delete view {name!r}: {exc}") from exc
     return {"deleted": name, "path": str(target)}
