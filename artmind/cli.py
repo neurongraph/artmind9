@@ -220,7 +220,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query"]},
+        {"name": "Query", "commands": ["query", "views"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -3073,6 +3073,96 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
         result = views_runner.run_view(
             loaded.spec, domains, views_params.parse_param_args(params), render=render == "markdown"
         )
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@cli.group("views")
+def views_group() -> None:
+    """Author saved graph views: validate, test against the live graph, save, delete.
+
+    Drafts are plain folders holding view.yaml + SKILL.md (use `--path`). Read and run
+    saved views with `artmind query views`. Use the artmind-create-view skill for the
+    guided draft -> test -> approve -> save loop.
+    """
+    pass
+
+
+def _validate_folder(folder: Path) -> dict:
+    try:
+        loaded = views_store.load_view_dir(folder)
+    except (ViewError, OSError) as exc:
+        return {"name": folder.name, "valid": False, "error": str(exc)}
+    return {"name": loaded.spec.name, "valid": True, "version": loaded.spec.version}
+
+
+@views_group.command("validate")
+@click.option("--path", "path", type=click.Path(exists=True, file_okay=False, path_type=Path), default=None, help="A draft folder (view.yaml + SKILL.md) instead of a saved view")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name", required=False)
+def views_validate(path: Path | None, compact: bool, name: str | None) -> None:
+    """Static checks only (no Neo4j). With no NAME/--path, validates every saved view. Exit 1 if any fails."""
+    if name and path:
+        raise click.UsageError("give NAME or --path, not both")
+    if path:
+        folders = [path]
+    elif name:
+        try:
+            views_store.check_name(name)
+        except ViewError as exc:
+            raise click.ClickException(str(exc)) from exc
+        folders = [views_store.views_dir() / name]
+    else:
+        folders = views_store.view_folders()
+    results = [_validate_folder(f) for f in folders]
+    _echo_json({"results": results}, compact)
+    if not all(r["valid"] for r in results):
+        raise click.exceptions.Exit(1)
+
+
+@views_group.command("test")
+@click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to run against (repeatable; comma-splittable)")
+@click.option("--param", "params", multiple=True, help="name=value (repeatable)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
+    """Validate a draft, run it live, and show rows, rendered markdown and the EXPLAIN plan. Writes nothing."""
+    domains = _parse_domains(domain)
+    try:
+        loaded = views_store.load_view_dir(path)
+        result = views_runner.run_view(
+            loaded.spec, domains, views_params.parse_param_args(params), render=True, explain=True
+        )
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    warnings = []
+    if result["status"] == "ok" and result["rows_total"] == 0:
+        warnings.append("zero rows: check class names, rel_type literals (upper-case) and the parameter values")
+    if result.get("truncated"):
+        warnings.append(f"result truncated to max_rows={loaded.spec.max_rows} of {result['rows_total']}")
+    _echo_json({**result, "warnings": warnings}, compact)
+
+
+@views_group.command("save")
+@click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def views_save(path: Path, compact: bool) -> None:
+    """Validate a draft and copy it into the views directory. A changed query needs a higher `version` (no --force)."""
+    try:
+        result = views_store.save_view(path)
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@views_group.command("delete")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name")
+def views_delete(compact: bool, name: str) -> None:
+    """Delete a saved view folder."""
+    try:
+        result = views_store.delete_view(name)
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
