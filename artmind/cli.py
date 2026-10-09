@@ -13,6 +13,10 @@ import yaml
 from loguru import logger
 
 from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
+from artmind.kg_views import params as views_params
+from artmind.kg_views import runner as views_runner
+from artmind.kg_views import store as views_store
+from artmind.kg_views.model import ViewError
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.unified_snapshot import (
@@ -255,6 +259,7 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind query": [
         {"name": "Graph patterns", "commands": ["graph"]},
+        {"name": "Saved views", "commands": ["views"]},
         {
             "name": "Lookups",
             "commands": [
@@ -2381,6 +2386,9 @@ def query():
     line on stderr says when the graph or structured store is behind the
     vault's HEAD (never in stdout, so --compact JSON stays clean). Set
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
+
+    Groups: `graph` (patterns, metadata, text2cypher, ...) and `views` (saved,
+    parameterised queries: list / show / run). The rest are lookup commands.
     """
     pass
 
@@ -2992,6 +3000,80 @@ def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_
     try:
         result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
     except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+# ── artmind query views / artmind views (kg_views) ─────────────────────────────
+
+
+def _view_summary(loaded: views_store.LoadedView) -> dict:
+    spec = loaded.spec
+    params = {}
+    for name, pspec in spec.params.items():
+        entry = {"type": pspec.type, "required": pspec.required, "description": pspec.description}
+        if pspec.entity_class:
+            entry["entity_class"] = pspec.entity_class
+        params[name] = entry
+    return {
+        "name": spec.name,
+        "version": spec.version,
+        "domains": list(spec.domains),
+        "summary": spec.summary,
+        "examples": list(spec.examples),
+        "params": params,
+        "presentation_format": spec.presentation.format,
+    }
+
+
+@query.group("views")
+def query_views() -> None:
+    """Saved, parameterised graph queries ("views"): list the catalogue, show one, run one.
+
+    A view is a reviewed read-only Cypher query plus agent guidance, authored with
+    `artmind views` and stored with the domain schemas. `list` once per domain per
+    conversation; if a view fits the question, `show` it, then `run` it.
+    """
+    pass
+
+
+@query_views.command("list")
+@click.option("--domain", "domain", multiple=True, help="Only views for this domain family (repeatable; comma-splittable). Default: all views")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_views_list(domain: tuple, compact: bool) -> None:
+    """The view catalogue: name, summary, example questions, parameters. Invalid views are reported, not hidden."""
+    domains = _parse_domains(domain) if domain else None
+    loaded, invalid = views_store.list_views(domains)
+    _echo_json({"views": [_view_summary(v) for v in loaded], "invalid": invalid}, compact)
+
+
+@query_views.command("show")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name")
+def query_views_show(compact: bool, name: str) -> None:
+    """The full view.yaml plus the view's SKILL.md guidance (read it before running the view)."""
+    try:
+        loaded = views_store.load_view(name)
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"view": loaded.spec.to_dict(), "skill_md": loaded.skill_md}, compact)
+
+
+@query_views.command("run")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--param", "params", multiple=True, help="name=value (repeatable). Entity params take a name, or @<_id> to skip resolution; list params are comma-separated")
+@click.option("--render", "render", type=click.Choice(["markdown"]), default=None, help="Also return `rendered`: deterministic markdown per the view's presentation")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name")
+def query_views_run(domain: tuple, params: tuple, render: str | None, compact: bool, name: str) -> None:
+    """Run a saved view. status is ok | needs_disambiguation (ask the user, rerun with @<_id>) | no_match."""
+    domains = _parse_domains(domain)
+    try:
+        loaded = views_store.load_view(name)
+        result = views_runner.run_view(
+            loaded.spec, domains, views_params.parse_param_args(params), render=render == "markdown"
+        )
+    except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
 
