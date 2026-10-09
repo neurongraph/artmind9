@@ -13,7 +13,7 @@ from pathlib import Path
 
 import yaml
 
-from artmind.atomic_dir import is_scratch, write_dir_atomic
+from artmind.atomic_dir import is_scratch, recover, write_dir_atomic
 from artmind.kg_views.model import NAME_RE, ViewError, ViewSpec, parse_view
 
 VIEW_FILE = "view.yaml"
@@ -141,6 +141,7 @@ def save_view(draft_dir: Path) -> dict:
     name = draft.spec.name
     root = views_dir()
     target = root / name
+    recover(target)  # heal a save a crash interrupted, so the guard sees the real saved view
     replaced = False
     if target.is_dir():
         replaced = True

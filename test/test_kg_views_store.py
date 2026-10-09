@@ -134,6 +134,15 @@ def test_save_refuses_a_version_downgrade_even_with_same_fingerprint(views_root,
     assert store.save_view(write_view(tmp_path / "d3", "v1", version=3))["replaced"] is True
 
 
+def test_save_recovers_an_interrupted_swap_before_the_guard(views_root, tmp_path):
+    store.save_view(write_view(tmp_path / "d1", "v1", version=3))
+    (views_root / "v1").rename(views_root / "v1.artmind-old")  # crash between the two renames
+    with pytest.raises(ViewError, match="downgrade version 3 -> 1"):
+        store.save_view(write_view(tmp_path / "d2", "v1", version=1))
+    assert store.load_view("v1").spec.version == 3
+    assert [p.name for p in views_root.iterdir()] == ["v1"]
+
+
 def test_first_save_leaves_no_stray_folders(views_root, tmp_path):
     store.save_view(write_view(tmp_path / "d", "v1"))
     assert [p.name for p in views_root.iterdir()] == ["v1"]
