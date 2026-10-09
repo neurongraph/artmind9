@@ -276,8 +276,11 @@ the view's `domains` after family expansion.
 
 **Errors.** Invalid param values give a `ClickException` naming the param and its
 spec. A view that fails to load or validate is skipped by `list` (reported under
-`invalid`) and is a `ClickException` for `show`/`run`. A `Neo4jError` is wrapped as
-`view <name> v<N> failed: …`. Stale-store warnings on stderr fire as for every
+`invalid`) and is a `ClickException` for `show`/`run`. A `Neo4jError` or driver
+error (e.g. `ServiceUnavailable`), including during domain expansion and entity
+resolution, is wrapped as `view <name> v<N> failed: …`. The view query (and its
+EXPLAIN) carries a server-side transaction timeout (`VIEW_QUERY_TIMEOUT_S`, 60 s)
+so a runaway traversal cannot hang the caller or the `serve` daemon. Stale-store warnings on stderr fire as for every
 `query` command (same group result callback).
 
 **Version guard** (`views save`). Fingerprint = hash of the canonical

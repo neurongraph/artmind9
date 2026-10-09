@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import re
 
-from neo4j.exceptions import Neo4jError
+from neo4j import Query
+from neo4j.exceptions import DriverError, Neo4jError
 
 from artmind.graph_query import (
     expand_domain_family,
@@ -18,7 +19,13 @@ from artmind.kg_views.render import render_markdown
 from artmind.kg_views.store import domain_covered
 
 
-def _failure(spec: ViewSpec, exc: Neo4jError) -> ViewError:
+# Bound a runaway traversal server-side; the read path has no other time limit.
+VIEW_QUERY_TIMEOUT_S = 60
+
+_DB_ERRORS = (Neo4jError, DriverError)
+
+
+def _failure(spec: ViewSpec, exc: Exception) -> ViewError:
     detail = getattr(exc, "message", None) or str(exc) or exc.__class__.__name__
     return ViewError(f"view {spec.name} v{spec.version} failed: {detail}")
 
@@ -39,9 +46,9 @@ def _run(spec: ViewSpec, bindings: dict) -> list[dict]:
         with read_session() as session:
             return [
                 strip_internal_props(serialize_record(rec))
-                for rec in session.run(spec.cypher, bindings)
+                for rec in session.run(Query(spec.cypher, timeout=VIEW_QUERY_TIMEOUT_S), bindings)
             ]
-    except Neo4jError as exc:
+    except _DB_ERRORS as exc:
         raise _failure(spec, exc) from exc
 
 
@@ -60,8 +67,8 @@ def explain_plan(spec: ViewSpec, bindings: dict) -> dict | None:
     query = f"{prefix}EXPLAIN {spec.cypher[len(prefix):]}"
     try:
         with read_session() as session:
-            summary = session.run(query, bindings).consume()
-    except Neo4jError as exc:
+            summary = session.run(Query(query, timeout=VIEW_QUERY_TIMEOUT_S), bindings).consume()
+    except _DB_ERRORS as exc:
         raise _failure(spec, exc) from exc
     return _plan_tree(summary.plan)
 
@@ -80,8 +87,11 @@ def run_view(
         raise ViewError(
             f"view {spec.name!r} covers {list(spec.domains)}; it cannot run for {uncovered}"
         )
-    expanded = _expand(domains)
-    resolution = params_mod.resolve_params(spec, raw_params, expanded)
+    try:
+        expanded = _expand(domains)
+        resolution = params_mod.resolve_params(spec, raw_params, expanded)
+    except _DB_ERRORS as exc:
+        raise _failure(spec, exc) from exc
     envelope: dict = {
         "view": spec.name,
         "version": spec.version,

@@ -7,7 +7,7 @@ MagicMock session answers every query happily, so counts alone prove nothing.
 from unittest.mock import MagicMock, patch
 
 import pytest
-from neo4j.exceptions import ClientError
+from neo4j.exceptions import ClientError, ServiceUnavailable
 
 from artmind.kg_views import runner
 from artmind.kg_views.model import ViewError, parse_view
@@ -38,9 +38,12 @@ def make_spec(max_rows=200, domains=("finance",)):
 class Recorder:
     def __init__(self, rows, plan=None, raises=None):
         self.calls: list[tuple[str, dict]] = []
+        self.queries: list = []
         self.rows, self.plan, self.raises = rows, plan, raises
 
     def run_side_effect(self, cypher, parameters=None, **kwargs):
+        self.queries.append(cypher)
+        cypher = getattr(cypher, "text", cypher)
         self.calls.append((cypher, parameters))
         if self.raises and not cypher.lstrip().startswith("EXPLAIN"):
             raise self.raises
@@ -118,6 +121,12 @@ def test_truncates_to_max_rows_and_reports_totals():
          {"param": "product", "candidates": [{"_id": "a"}]}),
         (resolved("no_match", param="product", input="zzz", bindings={}, echo={}),
          {"param": "product", "input": "zzz"}),
+        (resolved("needs_disambiguation", param="product", candidates=[{"_id": "a"}],
+                  bindings={"max_depth": 4}, echo={"max_depth": 4}),
+         {"param": "product", "candidates": [{"_id": "a"}], "params": {"max_depth": 4}}),
+        (resolved("no_match", param="product", input="zzz",
+                  bindings={"max_depth": 4}, echo={"max_depth": 4}),
+         {"param": "product", "input": "zzz", "params": {"max_depth": 4}}),
     ],
 )
 def test_unresolved_entity_returns_no_rows_and_runs_no_cypher(resolution, expected):
@@ -127,7 +136,9 @@ def test_unresolved_entity_returns_no_rows_and_runs_no_cypher(resolution, expect
     assert out["status"] == resolution.status
     for key, value in expected.items():
         assert out[key] == value
-    assert "rows" not in out and "rendered" not in out
+    for absent in ("rows", "rows_total", "truncated", "presentation", "rendered"):
+        assert absent not in out
+    assert out["params"] == resolution.echo
 
 
 def test_domain_guard_refuses_uncovered_domains_before_touching_the_graph():
@@ -155,8 +166,44 @@ def test_neo4j_error_is_wrapped_with_view_name_and_version():
     with rec.patch(), patch.object(runner, "expand_domain_family", side_effect=family), patch.object(
         runner.params_mod, "resolve_params", return_value=resolved()
     ):
-        with pytest.raises(ViewError, match=r"view v1 v3 failed: boom"):
+        with pytest.raises(ViewError, match=r"view v1 v3 failed: boom") as ei:
             runner.run_view(make_spec(), ["finance"], {})
+    assert ei.value.__cause__ is error
+
+
+def test_driver_error_during_query_is_wrapped():
+    error = ServiceUnavailable("db down")
+    rec = Recorder([], raises=error)
+    with rec.patch(), patch.object(runner, "expand_domain_family", side_effect=family), patch.object(
+        runner.params_mod, "resolve_params", return_value=resolved()
+    ):
+        with pytest.raises(ViewError, match=r"view v1 v3 failed: db down") as ei:
+            runner.run_view(make_spec(), ["finance"], {})
+    assert ei.value.__cause__ is error
+
+
+def test_driver_error_before_the_query_is_wrapped():
+    error = ServiceUnavailable("db down")
+    rec = Recorder([])
+    with rec.patch(), patch.object(runner, "expand_domain_family", side_effect=error):
+        with pytest.raises(ViewError, match=r"view v1 v3 failed") as ei:
+            runner.run_view(make_spec(), ["finance"], {})
+    assert ei.value.__cause__ is error
+    assert rec.calls == []
+    with rec.patch(), patch.object(runner, "expand_domain_family", side_effect=family), patch.object(
+        runner.params_mod, "resolve_params", side_effect=error
+    ):
+        with pytest.raises(ViewError, match=r"view v1 v3 failed") as ei:
+            runner.run_view(make_spec(), ["finance"], {})
+    assert ei.value.__cause__ is error
+
+
+def test_view_and_explain_queries_carry_the_timeout():
+    rec = Recorder([], plan=None)
+    run(make_spec(), rec, explain=True)
+    assert [q.timeout for q in rec.queries] == [runner.VIEW_QUERY_TIMEOUT_S] * 2
+    assert runner.VIEW_QUERY_TIMEOUT_S == 60
+    assert [q.text for q in rec.queries] == [CYPHER, "EXPLAIN " + CYPHER]
 
 
 def test_explain_sends_explain_prefixed_cypher_with_the_same_bindings():
