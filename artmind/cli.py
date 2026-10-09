@@ -3092,9 +3092,9 @@ def views_group() -> None:
 def _validate_folder(folder: Path) -> dict:
     try:
         loaded = views_store.load_view_dir(folder)
-    except (ViewError, OSError) as exc:
-        return {"name": folder.name, "valid": False, "error": str(exc)}
-    return {"name": loaded.spec.name, "valid": True, "version": loaded.spec.version}
+    except (ViewError, OSError, UnicodeDecodeError) as exc:
+        return {"name": folder.name, "path": str(folder), "valid": False, "error": str(exc)}
+    return {"name": loaded.spec.name, "path": str(folder), "valid": True, "version": loaded.spec.version}
 
 
 @views_group.command("validate")
@@ -3134,10 +3134,18 @@ def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
         result = views_runner.run_view(
             loaded.spec, domains, views_params.parse_param_args(params), render=True, explain=True
         )
-    except ViewError as exc:
+    except (ViewError, OSError, UnicodeDecodeError) as exc:
         raise click.ClickException(str(exc)) from exc
     warnings = []
-    if result["status"] == "ok" and result["rows_total"] == 0:
+    status = result["status"]
+    if status == "needs_disambiguation":
+        p = result.get("param")
+        warnings.append(
+            f"entity param '{p}' is ambiguous: pick an _id from candidates and rerun with --param {p}=@<_id>"
+        )
+    elif status == "no_match":
+        warnings.append(f"entity param '{result.get('param')}' matched nothing for '{result.get('input')}'")
+    elif result["rows_total"] == 0:
         warnings.append("zero rows: check class names, rel_type literals (upper-case) and the parameter values")
     if result.get("truncated"):
         warnings.append(f"result truncated to max_rows={loaded.spec.max_rows} of {result['rows_total']}")

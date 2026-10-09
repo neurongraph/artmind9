@@ -58,7 +58,9 @@ def ok_envelope(**kw):
 def test_validate_draft_saved_and_all(views_root, tmp_path):
     draft = write_view(tmp_path / "drafts", "d1")
     ok = invoke("views", "validate", "--path", str(draft), "--compact")
-    assert ok.exit_code == 0 and json.loads(ok.stdout)["results"] == [{"name": "d1", "valid": True, "version": 1}]
+    assert ok.exit_code == 0 and json.loads(ok.stdout)["results"] == [
+        {"name": "d1", "path": str(draft), "valid": True, "version": 1}
+    ]
 
     (draft / "view.yaml").write_text("name: d1\n")
     bad = invoke("views", "validate", "--path", str(draft), "--compact")
@@ -98,3 +100,82 @@ def test_save_then_delete_round_trip(views_root, tmp_path):
 
     gone = invoke("views", "delete", "d1", "--compact")
     assert json.loads(gone.stdout)["deleted"] == "d1" and not (views_root / "d1").exists()
+
+
+def test_delete_missing_view_fails(views_root):
+    res = invoke("views", "delete", "nope")
+    assert res.exit_code != 0 and "nope" in res.output
+
+
+def test_validate_by_name(views_root):
+    write_view(views_root, "saved")
+    good = invoke("views", "validate", "saved", "--compact")
+    assert good.exit_code == 0
+    r = json.loads(good.stdout)["results"][0]
+    assert r["valid"] is True and r["path"].endswith("saved")
+    missing = invoke("views", "validate", "ghost", "--compact")
+    assert missing.exit_code == 1
+    assert json.loads(missing.stdout)["results"][0]["valid"] is False
+
+
+def test_test_invalid_draft_and_bad_param_fail(tmp_path):
+    bad = tmp_path / "bad"
+    bad.mkdir()
+    (bad / "view.yaml").write_text("name: bad\n")
+    (bad / "SKILL.md").write_text("x")
+    assert invoke("views", "test", "--path", str(bad), "--domain", "finance").exit_code != 0
+    draft = write_view(tmp_path / "drafts", "d1")
+    res = invoke("views", "test", "--path", str(draft), "--domain", "finance", "--param", "noequals")
+    assert res.exit_code != 0
+
+
+def test_test_draft_without_view_yaml_is_clean_error(tmp_path):
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    res = invoke("views", "test", "--path", str(empty), "--domain", "finance")
+    assert res.exit_code != 0 and "Traceback" not in res.output
+    assert not isinstance(res.exception, (OSError, UnicodeDecodeError))
+
+
+def _test_with(tmp_path, envelope):
+    draft = write_view(tmp_path / "drafts", "d1")
+    with patch("artmind.kg_views.runner.run_view", return_value=envelope):
+        res = invoke("views", "test", "--path", str(draft), "--domain", "finance", "--compact")
+    assert res.exit_code == 0, res.output
+    return json.loads(res.stdout)["warnings"]
+
+
+def test_warnings_truncation_ambiguity_no_match(tmp_path):
+    w = _test_with(tmp_path, ok_envelope(rows_total=500, truncated=True))
+    assert any("truncated" in x for x in w)
+    w = _test_with(tmp_path, ok_envelope(status="needs_disambiguation", param="product", candidates=[{"_id": "a"}]))
+    assert len(w) == 1 and "'product' is ambiguous" in w[0] and "product=@<_id>" in w[0]
+    w = _test_with(tmp_path, ok_envelope(status="no_match", param="product", input="Zed"))
+    assert w == ["entity param 'product' matched nothing for 'Zed'"]
+
+
+def test_save_invalid_draft_saves_nothing(views_root, tmp_path):
+    bad = tmp_path / "bad"
+    bad.mkdir()
+    (bad / "view.yaml").write_text("name: bad\n")
+    (bad / "SKILL.md").write_text("x")
+    res = invoke("views", "save", "--path", str(bad))
+    assert res.exit_code != 0
+    assert not views_root.exists() or not any(views_root.iterdir())
+
+
+def test_test_never_saves(views_root, tmp_path):
+    draft = write_view(tmp_path / "drafts", "d1")
+    with patch("artmind.kg_views.store.save_view") as save, \
+         patch("artmind.kg_views.runner.run_view", return_value=ok_envelope()):
+        res = invoke("views", "test", "--path", str(draft), "--domain", "finance")
+    assert res.exit_code == 0
+    save.assert_not_called()
+    assert not views_root.exists() or not any(views_root.iterdir())
+
+
+def test_save_refused_by_version_guard(views_root, tmp_path):
+    write_view(views_root, "d1", version=1)
+    changed = write_view(tmp_path / "c", "d1", version=1, cypher=CYPHER + " LIMIT 5")
+    res = invoke("views", "save", "--path", str(changed))
+    assert res.exit_code != 0 and "bump `version`" in res.output
