@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
@@ -124,7 +125,7 @@ def jsonable(value: Any) -> Any:
 
 # ── Cypher inspection ────────────────────────────────────────────────────────
 
-_MASK_RE = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"|//[^\n]*|/\*.*?\*/", re.S)
+_MASK_RE = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"|`[^`]*`|//[^\n]*|/\*.*?\*/", re.S)
 _TERMINATOR_RE = re.compile(r"(ORDER\s+BY|SKIP|LIMIT)\b", re.I)
 
 
@@ -165,18 +166,19 @@ def final_return_aliases(cypher: str) -> list[str]:
             items.append(cypher[item_start:i])
             item_start = i + 1
         elif depth == 0 and (i == 0 or not (masked[i - 1].isalnum() or masked[i - 1] == "_")):
-            if _TERMINATOR_RE.match(masked, i):
+            if _TERMINATOR_RE.match(masked, i) and masked[i - 1 : i] != ".":
                 break
         i += 1
     items.append(cypher[item_start:i])
     aliases: list[str] = []
     for n, raw in enumerate(items):
         text = " ".join(raw.split())
+        text = text.rstrip(";").rstrip()
         if n == 0:
             text = re.sub(r"^DISTINCT\s+", "", text, flags=re.I)
         if text == "*":
             raise ViewError("RETURN * is not allowed: name every column with AS")
-        m = re.search(r"\bAS\s+([A-Za-z_][A-Za-z0-9_]*)$", text, re.I)
+        m = re.search(r"\bAS\s+`?([A-Za-z_][A-Za-z0-9_]*)`?$", text, re.I)
         aliases.append(m.group(1) if m else text)
     return aliases
 
@@ -204,10 +206,14 @@ def _coerce_scalar(ptype: str, raw: Any) -> Any:
         if isinstance(raw, bool):
             raise ValueError(f"expected a number, got {raw!r}")
         if isinstance(raw, (int, float)):
-            return float(raw)
-        if isinstance(raw, str):
-            return float(raw.strip())
-        raise ValueError(f"expected a number, got {raw!r}")
+            value = float(raw)
+        elif isinstance(raw, str):
+            value = float(raw.strip())
+        else:
+            raise ValueError(f"expected a number, got {raw!r}")
+        if not math.isfinite(value):
+            raise ValueError(f"expected a finite number, got {raw!r}")
+        return value
     if ptype == "bool":
         if isinstance(raw, bool):
             return raw
@@ -267,7 +273,7 @@ def _need(cond: bool, msg: str) -> None:
 
 def _str_list(value: Any, what: str, *, lo: int = 1, hi: int | None = None) -> tuple[str, ...]:
     _need(isinstance(value, list) and all(isinstance(v, str) and v.strip() for v in value),
-          f"{what} must be a list of non-empty strings")
+          f"{what} must be a list of non-empty strings (quote YAML booleans like 'no'/'yes')")
     _need(len(value) >= lo, f"{what} needs at least {lo} item(s)")
     _need(hi is None or len(value) <= hi, f"{what} allows at most {hi} items")
     return tuple(v.strip() for v in value)
@@ -327,7 +333,7 @@ def _parse_presentation(data: Any, aliases: list[str]) -> Presentation:
     unknown = set(block) - required - optional
     _need(not unknown, f"presentation.{fmt} has unknown keys {sorted(unknown)}")
     columns: list[str] = []
-    for key, value in block.items():
+    for key, value in sorted(block.items(), key=lambda kv: kv[0] == "headers"):
         if key == "columns":
             columns += list(_str_list(value, "presentation.table.columns"))
         elif key == "headers":
@@ -340,7 +346,7 @@ def _parse_presentation(data: Any, aliases: list[str]) -> Presentation:
             columns.append(value)
     missing = [c for c in columns if c not in aliases]
     _need(not missing, f"presentation names columns {missing} that the final RETURN does not alias "
-                       f"(RETURN has {aliases})")
+                       f"(RETURN has {aliases}; aliases must be plain identifiers, no backticks)")
     return Presentation(format=fmt, options=block)
 
 
@@ -373,8 +379,11 @@ def parse_view(data: Any, folder_name: str) -> ViewSpec:
           "max_rows must be a positive integer")
 
     try:
-        validate_read_only(cypher)
-        validate_domain_scoped(cypher)
+        masked = _mask(cypher)
+        _need(";" not in masked.rstrip().removesuffix(";"),
+              "one statement per view: remove the extra ';'")
+        validate_read_only(masked)
+        validate_domain_scoped(masked)
     except ValueError as exc:
         raise ViewError(str(exc)) from exc
 
@@ -395,6 +404,8 @@ def parse_view(data: Any, folder_name: str) -> ViewSpec:
           and {"created", "origin"} <= set(prov),
           "provenance needs created and origin (and optionally source_question)")
     created = prov["created"]
+    if isinstance(created, datetime):
+        created = created.date()
     if isinstance(created, str):
         try:
             created = date.fromisoformat(created)

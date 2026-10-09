@@ -249,3 +249,93 @@ def test_coerce_ok(kw, raw, expected):
 def test_coerce_rejects_and_names_the_param(kw, raw):
     with pytest.raises(ParamError, match="param 'p'"):
         coerce_value(spec(**kw), raw)
+
+
+# ── hardening ────────────────────────────────────────────────────────────────
+
+
+def _with_cypher(cy: str) -> dict:
+    data = good()
+    data["cypher"] = cy
+    data["params"] = {}
+    data["presentation"] = {"format": "table", "table": {"columns": ["a"]}}
+    return data
+
+
+def test_domains_only_in_comment_is_not_scoped():
+    with pytest.raises(ViewError, match=r"\$domains"):
+        parse(_with_cypher("MATCH (n) // $domains\nRETURN n.a AS a"))
+
+
+def test_domains_only_in_string_literal_is_not_scoped():
+    with pytest.raises(ViewError, match=r"\$domains"):
+        parse(_with_cypher("MATCH (n) WHERE n.x = '$domains' RETURN n.a AS a"))
+
+
+def test_write_keyword_in_string_literal_is_accepted():
+    parse(_with_cypher("MATCH (n {name: 'Set Theory'}) WHERE n._domain IN $domains RETURN n.a AS a"))
+
+
+def test_multiple_statements_rejected():
+    with pytest.raises(ViewError, match="one statement per view"):
+        parse(_with_cypher("MATCH (n) WHERE n._domain IN $domains RETURN n.a AS a; MATCH (m) RETURN m.a AS a"))
+
+
+def test_trailing_semicolon_and_semicolon_in_string_ok():
+    parse(_with_cypher("MATCH (n {t: 'a;b'}) WHERE n._domain IN $domains RETURN n.a AS a ;\n"))
+
+
+def test_aliases_ignore_limit_like_property_names():
+    cy = "MATCH (n) RETURN n.a AS a, n.skipper AS b, n.limit AS c"
+    assert final_return_aliases(cy) == ["a", "b", "c"]
+    assert final_return_aliases("MATCH (n) RETURN n.a, n.limit") == ["n.a", "n.limit"]
+
+
+def test_backticked_span_is_not_a_param():
+    assert cypher_param_names("MATCH (n) WHERE n.`x$e` = $a RETURN n") == {"a"}
+
+
+def test_backticked_plain_alias_is_unwrapped():
+    assert final_return_aliases("MATCH (n) RETURN n.a AS `a`, n.b AS b") == ["a", "b"]
+
+
+def test_backticked_unusable_alias_error_hint():
+    data = _with_cypher("MATCH (n) WHERE n._domain IN $domains RETURN n.a AS `my col`")
+    data["presentation"]["table"]["columns"] = ["my col"]
+    with pytest.raises(ViewError, match="plain identifiers"):
+        parse(data)
+
+
+def test_malformed_columns_is_viewerror_not_typeerror():
+    data = good()
+    data["presentation"] = {"format": "table", "table": {"columns": "hops", "headers": {"hops": "H"}}}
+    with pytest.raises(ViewError, match="columns"):
+        parse(data)
+
+
+def test_yaml_boolean_hint():
+    data = good()
+    data["domains"] = [False]
+    with pytest.raises(ViewError, match="quote YAML booleans"):
+        parse(data)
+
+
+def test_created_datetime_normalised_to_date():
+    from datetime import datetime
+
+    data = good()
+    data["provenance"]["created"] = datetime(2026, 10, 9, 12, 30)
+    assert parse(data).provenance["created"] == "2026-10-09"
+
+
+@pytest.mark.parametrize("raw", ["nan", "inf", "-inf", float("nan"), float("inf")])
+def test_float_rejects_non_finite(raw):
+    with pytest.raises(ParamError, match="param 'p'"):
+        coerce_value(spec(type="float"), raw)
+
+
+def test_aliases_union_lowercase_order_limit_distinct():
+    assert final_return_aliases("MATCH (a) RETURN a.x AS x UNION MATCH (b) RETURN b.y AS x") == ["x"]
+    assert final_return_aliases("match (a) return a.x as x, a.y as y") == ["x", "y"]
+    assert final_return_aliases("MATCH (a) RETURN a.x AS x ORDER BY x LIMIT 3") == ["x"]
+    assert final_return_aliases("MATCH (a) RETURN DISTINCT a.x AS x, a.y AS y") == ["x", "y"]
