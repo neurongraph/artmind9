@@ -9,6 +9,12 @@ temporal:
     valid_from:
     - Date
     - date
+  # A daily note's date lives in its filename (2026-01-07.md) and, often, as a
+  # bare first line -- never as a `Date:` label. Tried after the labels, in order.
+  document_patterns:
+    valid_from:
+    - filename: '^(\d{4}-\d{2}-\d{2})$'
+    - first_line: '^(\d{4}-\d{2}-\d{2})$'
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -166,7 +172,9 @@ entity_types:
     - milestone
     properties:
       date_or_time:
+        hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
         temporal: valid_from
+        exclusive: true
       participants:
         hint: list with roles
       outcome:
@@ -224,7 +232,9 @@ entity_types:
       outcome_or_result:
         hint: if mentioned
       date_or_time:
+        hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
         temporal: valid_from
+        exclusive: true
     relates_to:
       LOCATION:
       - takes_place_at
@@ -347,6 +357,7 @@ entity_types:
       date_or_time:
         hint: when the change occurred — anchored to the entry date if relative
         temporal: valid_from
+        exclusive: true
     relates_to:
       PERSON:
       - state_of

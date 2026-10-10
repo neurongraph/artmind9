@@ -267,7 +267,12 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     result = {
         "status": "ok",
         "filename": registered_path.name,
-        "sha256": doc_sha256,
+        # The extraction key, not the registry's: every ingest path keys
+        # `extract_kg`'s chunk cache and `kg_chunk_status` rows by the hash of
+        # the registered FILE, while the registry stores the body-only
+        # `content_sha256` for a note or conversion. Handing that to
+        # `extract_kg` missed the cache and re-ran every LLM step.
+        "sha256": _compute_sha256(registered_path) if registered_path.is_file() else doc_sha256,
         "registered_path": str(registered_path),
         "domain": domain,
         "chunks_dir": str(chunks_dir),
@@ -2310,12 +2315,28 @@ def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> in
     return max(1, min(override, chunk_count)) if chunk_count > 0 else 1
 
 
-def _document_valid_time(md_file: Path, frontmatter: dict, schema: dict) -> dict:
+def _document_valid_time(
+    md_file: Path,
+    frontmatter: dict,
+    schema: dict,
+    *,
+    filename: str | None = None,
+    prior: dict | None = None,
+) -> dict:
     """The document's valid-time window, resolved at ingest.
 
     Frontmatter first (Phase 2's `_valid_from` / `_valid_to` are part of the
     system contract), then the document's own header table via the schema's
-    `temporal.document` mapping, then the schema default.
+    `temporal.document` mapping, then its `temporal.document_patterns`
+    (matched against `filename` and the body's first line), then the schema
+    default.
+
+    The `ingestion_date` default is "the date this document was first
+    extracted", not "today": when `prior` (the document's previously staged
+    `document.json`) already recorded a default date, that date is kept --
+    the same first-recorded-wins rule as `created_on`. Recomputing it on every
+    extraction gave one batch four different "ingestion dates" and churned
+    the committed staging.
 
     Emitted with `_`-prefixed names because artmind owns them — the underscore
     IS the rule, and an LLM-extracted `status` colliding with the system's own
@@ -2336,6 +2357,7 @@ def _document_valid_time(md_file: Path, frontmatter: dict, schema: dict) -> dict
 
     temporal = schema.get("temporal") or {}
     mapping = temporal.get("document") or {}
+    patterns = temporal.get("document_patterns") or {}
     defaults = temporal.get("defaults") or {}
     body = ""
     if md_file.exists():
@@ -2344,7 +2366,20 @@ def _document_valid_time(md_file: Path, frontmatter: dict, schema: dict) -> dict
         except Exception as e:
             logger.warning("Could not read {} for valid-time lifting: {}", md_file, e)
 
-    lifted = lift_document_dates(body, frontmatter, mapping, defaults) if mapping else {}
+    lifted = (
+        lift_document_dates(
+            body, frontmatter, mapping, defaults,
+            patterns=patterns, filename=filename or md_file.name,
+        )
+        if mapping or patterns else {}
+    )
+    if (
+        lifted.get("valid_from_inferred")
+        and prior
+        and prior.get("_valid_from")
+        and prior.get("_valid_time_source") == lifted.get("time_source")
+    ):
+        lifted["valid_from"] = str(prior["_valid_from"])
     if lifted.get("valid_from"):
         out["_valid_from"] = lifted["valid_from"]
     if lifted.get("valid_to"):
@@ -2359,14 +2394,69 @@ def _document_valid_time(md_file: Path, frontmatter: dict, schema: dict) -> dict
     return out
 
 
+def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> tuple[str | None, str | None]:
+    """A fact's own (valid_from, valid_to), from its class's `temporal:`-tagged
+    properties; None for a date absent or not readable as one ("today").
+
+    `entity_dates` is `temporal._entity_temporal_mapping(schema)`. Shared by
+    `_build_observations` and `artmind.retime`, which re-derives it from a
+    staged observation (its domain properties keep their names flattened).
+    """
+    from artmind.temporal import parse_iso
+
+    fact_valid_from, fact_valid_to = None, None
+    for canon_key, prop_name in (entity_dates.get(entity_class) or {}).items():
+        parsed = parse_iso(str(props.get(prop_name))) if props.get(prop_name) else None
+        if not parsed:
+            continue
+        if canon_key == "valid_from":
+            fact_valid_from = parsed
+        elif canon_key == "valid_to":
+            fact_valid_to = parsed
+    return fact_valid_from, fact_valid_to
+
+
+def _exclusive_properties(schema: dict) -> dict[str, set[str]]:
+    """{property name: classes declaring it}, for each property some class
+    declares with `exclusive: true`.
+
+    Opt-in per property, never inferred: a name one class tags as a date can
+    be real data on a class that doesn't declare it (contracts'
+    `effective_date` on an OBLIGATION), but a journal's `date_or_time` on a
+    PERSON only ever means "mentioned in this entry" -- noise the extractor
+    adds whether or not it is told not to.
+    """
+    declared: dict[str, set[str]] = {}
+    exclusive: set[str] = set()
+    for cls, decl in (schema.get("entity_types") or {}).items():
+        for prop, prop_decl in (decl.get("properties") or {}).items():
+            declared.setdefault(prop, set()).add(cls)
+            if isinstance(prop_decl, dict) and prop_decl.get("exclusive"):
+                exclusive.add(prop)
+    return {prop: declared[prop] for prop in exclusive}
+
+
+def _strip_exclusive(props: dict, entity_class: str, exclusive: dict[str, set[str]]) -> dict:
+    """`props` without any exclusive property `entity_class` doesn't declare."""
+    return {k: v for k, v in props.items() if k not in exclusive or entity_class in exclusive[k]}
+
+
 def _build_observations(
     entities: list[dict],
     properties: list[dict],
     canonical_names: dict[str, str],
     schema: dict,
     document: dict,
+    *,
+    only_mapped: bool = False,
 ) -> list[dict]:
     """Turn this document version's extraction output into Observation props.
+
+    `only_mapped` drops an entity whose raw name `canonical_names` lacks,
+    instead of keeping it under its raw name: with a mapping recovered from
+    staged observations, an absent name is a mention canonicalization folded
+    into another entity of the same chunk, which made no observation then
+    and must not mint one now.
 
     One observation per (chunk, extracted-entity-identity). The entity's own
     schema-declared date property (a property tagged `temporal: valid_from`)
@@ -2375,10 +2465,11 @@ def _build_observations(
     rebuild needs to tell a conflict from ordinary history.
     """
     from artmind.observations import build_observation, class_kind
-    from artmind.temporal import _entity_temporal_mapping, parse_iso
+    from artmind.temporal import _entity_temporal_mapping
 
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
     entity_dates = _entity_temporal_mapping(schema)
+    exclusive = _exclusive_properties(schema)
     doc_valid_from = document.get("_valid_from")
     doc_valid_to = document.get("_valid_to")
     doc_id = document["id"]
@@ -2389,22 +2480,20 @@ def _build_observations(
     for entity in entities:
         chunk_id = entity.get("chunk_id") or ""
         raw_name = entity.get("name") or ""
+        if only_mapped and raw_name not in canonical_names:
+            continue
         canonical = canonical_names.get(raw_name) or raw_name
         if not canonical or not chunk_id:
             continue
 
-        domain_props = dict(props_by_id.get(entity.get("id"), {}))
+        domain_props = _strip_exclusive(
+            dict(props_by_id.get(entity.get("id"), {})), entity.get("entity_class") or "", exclusive,
+        )
 
         # A fact carrying its own dates overrides the document's.
-        fact_valid_from, fact_valid_to = None, None
-        for canon_key, prop_name in (entity_dates.get(entity.get("entity_class") or "") or {}).items():
-            parsed = parse_iso(str(domain_props.get(prop_name))) if domain_props.get(prop_name) else None
-            if not parsed:
-                continue
-            if canon_key == "valid_from":
-                fact_valid_from = parsed
-            elif canon_key == "valid_to":
-                fact_valid_to = parsed
+        fact_valid_from, fact_valid_to = _fact_valid_time(
+            entity_dates, entity.get("entity_class") or "", domain_props
+        )
 
         observation = build_observation(
             entity,
@@ -2436,8 +2525,14 @@ def extract_kg(
     embed_model: str = "nomic-embed-text:latest",
     max_workers: int | None = None,
     chunk_size: int | None = None,
+    canonical_names: dict[str, str] | None = None,
 ) -> Path | None:
     """Extract KG from persisted chunks and merge into document-level JSON files.
+
+    `canonical_names` (raw extracted name -> canonical name) skips the
+    per-document canonicalization LLM call and uses this mapping instead --
+    for a re-run that must not re-decide identity (`ingest retime
+    --redoProperties`); a name it lacks is dropped (see `_build_observations`).
 
     Resumable: already-ok steps are skipped. Failed steps get a second attempt
     in the pre-merge retry pass before the merge proceeds.
@@ -2496,7 +2591,12 @@ def extract_kg(
     if not domain_schema_file.exists():
         logger.error("Domain schema not found: {}", domain_schema_file)
         return None
-    schema = yaml.safe_load(domain_schema_file.read_text(encoding="utf-8"))
+    # `load_schema`, not a bare YAML read: a dotted child domain inherits its
+    # parent's `temporal:` block (labels, patterns, defaults, anchor) here --
+    # the only place a document's date is resolved.
+    from artmind.temporal import load_schema
+
+    schema = load_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
 
     doc_kg_dir = KG_DIR / domain / registered_path.stem
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
@@ -2529,6 +2629,27 @@ def extract_kg(
         existing = _get_chunk_statuses(doc_sha256)
         resumed_doc_id = next(iter(existing.values()))["doc_id"] if existing else None
         doc_id, version = _resolve_doc_identity(domain, logical_id, resumed_doc_id)
+
+    # ── the document's own date, resolved BEFORE any chunk extracts ───────
+    # Deterministic (frontmatter, header, filename, first line -- never the
+    # LLM), so it can be known up front, and the properties prompt needs it:
+    # it is what "today" or "this evening" in a chunk resolves against
+    # (`temporal.relative_anchor`). Chunks extract in parallel and most never
+    # see the line the date is written on.
+    meta: dict = {}
+    if md_file.exists():
+        meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+    prior_staged = (
+        _read_staged_document(doc_kg_dir, doc_id)
+        or _read_staged_document(file_result.get("baseline_folder"), doc_id)
+        or {}
+    )
+    document_dates = _document_valid_time(
+        md_file, meta, schema, filename=registered_path.name, prior=prior_staged,
+    )
+    from artmind.temporal import relative_anchor_date
+
+    anchor_date = relative_anchor_date(schema, document_dates)
 
     # ── name vocabulary, retrieved ONCE before any chunk extracts ─────────
     # Cross-document drift control: showing the extractor names already in use
@@ -2680,7 +2801,8 @@ def extract_kg(
                 f"chunk_{seq:03d}_properties",
                 text_model,
                 build_properties_prompt(
-                    chunk_text, data.get("raw_entities", []), schema, vocabulary=property_vocabulary
+                    chunk_text, data.get("raw_entities", []), schema,
+                    vocabulary=property_vocabulary, anchor_date=anchor_date,
                 ),
                 doc_kg_dir,
             )
@@ -2827,10 +2949,7 @@ def extract_kg(
         all_properties.extend(data.get("properties", []))
         all_relationships.extend(data.get("relationships", []))
 
-    # Build document node from markdown frontmatter
-    meta = {}
-    if md_file.exists():
-        meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+    # Build document node from markdown frontmatter (`meta`, read above)
     document: dict = {
         "id": doc_id,
         "version": version,
@@ -2875,11 +2994,6 @@ def extract_kg(
     # machine and checkout, so recomputing it at every extract would churn
     # document.json (and conflict across machines): the value first recorded
     # wins.
-    prior_staged = (
-        _read_staged_document(doc_kg_dir, doc_id)
-        or _read_staged_document(file_result.get("baseline_folder"), doc_id)
-        or {}
-    )
     if meta.get("created_on"):
         document["created_on"] = str(meta["created_on"])
     elif prior_staged.get("created_on"):
@@ -2912,20 +3026,23 @@ def extract_kg(
     # the commit transaction. Deriving it afterwards (as `normalize_time` did)
     # is too late: the rebuild has already run, and the hook that computed it
     # swallowed its own exceptions.
-    document_dates = _document_valid_time(md_file, meta, schema)
+    # (`document_dates` was resolved before any chunk extracted -- see above.)
     document.update(document_dates)
 
     # ── per-document canonicalization: ONE call, after ALL chunks ──────────
     # Intra-document drift control. Chunks extracted in parallel and could not
     # see each other, so the same thing may carry several names; this is the
     # first point at which anything can see the whole document's output.
-    canonical_names = canonicalize_document(
-        all_entities, schema=schema, vocabulary=vocabulary,
-        model=text_model, debug_dir=doc_kg_dir,
-    )
+    names_supplied = canonical_names is not None
+    if not names_supplied:
+        canonical_names = canonicalize_document(
+            all_entities, schema=schema, vocabulary=vocabulary,
+            model=text_model, debug_dir=doc_kg_dir,
+        )
 
     all_observations = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,
+        only_mapped=names_supplied,
     )
 
     # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must

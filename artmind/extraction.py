@@ -125,16 +125,22 @@ def build_entities_prompt(text: str, schema: dict, vocabulary: list | None = Non
 
 
 def build_properties_prompt(
-    text: str, entities: list[dict], schema: dict, vocabulary: dict | None = None
+    text: str,
+    entities: list[dict],
+    schema: dict,
+    vocabulary: dict | None = None,
+    anchor_date: str | None = None,
 ) -> str:
     """`vocabulary` is the retrieved property-key vocabulary (see
-    `artmind.canonicalize.retrieve_property_vocabulary`) — omitted, the
+    `artmind.canonicalize.retrieve_property_vocabulary`); `anchor_date` the
+    document's own date, for resolving relative phrases (see
+    `prompt_builder._render_anchor_date_section`) — either omitted, the
     prompt renders exactly as before."""
     from artmind.prompt_builder import assemble_properties_prompt
 
     ent_list = entities_list_text(entities)
     return (
-        assemble_properties_prompt(schema, vocabulary=vocabulary)
+        assemble_properties_prompt(schema, vocabulary=vocabulary, anchor_date=anchor_date)
         .replace("{entities_list}", ent_list)
         .replace("{text}", text)
     )

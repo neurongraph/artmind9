@@ -181,6 +181,17 @@ def _render_temporal(t: dict[str, Any] | None) -> str:
             vv = v if isinstance(v, str) else ", ".join(v)
             fields.append(f"<code>{_esc(k)}</code>: {_esc(vv)}")
         parts.append(f'<div><strong>Document:</strong> {" &middot; ".join(fields)}</div>')
+    patterns = t.get("document_patterns") or {}
+    if patterns:
+        fields = []
+        for k, entries in patterns.items():
+            rendered = ", ".join(
+                f"{_esc(src)} <code>{_esc(rx)}</code>"
+                for entry in (entries or []) if isinstance(entry, dict)
+                for src, rx in entry.items()
+            )
+            fields.append(f"<code>{_esc(k)}</code>: {rendered}")
+        parts.append(f'<div><strong>Document patterns:</strong> {" &middot; ".join(fields)}</div>')
     if t.get("relative_anchor"):
         parts.append(f'<div><strong>Relative anchor:</strong> <code>{_esc(t["relative_anchor"])}</code></div>')
     return f'<div class="sr-temporal">{"".join(parts)}</div>' if parts else ""

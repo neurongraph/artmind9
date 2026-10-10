@@ -279,6 +279,10 @@ ingest-extract-kg document domain:
 ingest-write-to-graph document domain:
     uv run artmind ingest write-to-graph {{ document }} --domain {{ domain }}
 
+# re-derive staged documents' dates from the current schema, no LLM  (usage: just ingest-retime <domain> [--dryRun|--redoProperties|--limit N])
+ingest-retime domain *args:
+    uv run artmind ingest retime --domain {{ domain }} {{ args }}
+
 # batch write all document KG JSON in a folder to Neo4j  (usage: just ingest-write-to-graph-folder <folder> [domain])
 ingest-write-to-graph-folder folder domain="":
     uv run artmind ingest write-to-graph --folder '{{ folder }}' {{ if domain != "" { "--domain " + domain } else { "" } }}

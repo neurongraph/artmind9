@@ -247,3 +247,102 @@ def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):
 
 
 
+
+
+# ── temporal.document_patterns: dates that live outside any label ──────────
+# A daily note (`2026-01-07.md`) carries its date only in the filename and as
+# a bare first line -- no `Date:` label, no frontmatter key -- so the label
+# mapping alone always fell through to the ingestion-date default.
+
+_JOURNAL_DEFAULTS = {"valid_from": "ingestion_date", "time_source": "default_ingestion"}
+
+
+def test_lift_document_dates_from_filename_pattern():
+    out = lift_document_dates(
+        "2026-01-07\n\nGovernance call today.", {}, {"valid_from": ["Date", "date"]},
+        _JOURNAL_DEFAULTS,
+        patterns={"valid_from": [{"filename": r"^(\d{4}-\d{2}-\d{2})$"}]},
+        filename="2026-01-07.md",
+    )
+    assert out["valid_from"] == "2026-01-07"
+    assert out["time_source"] == "filename"
+    assert "valid_from_inferred" not in out
+
+
+def test_lift_document_dates_from_first_line_pattern():
+    out = lift_document_dates(
+        "\n# 7 January 2026\n\nBody.", {}, {"valid_from": ["Date"]}, _JOURNAL_DEFAULTS,
+        patterns={"valid_from": [{"first_line": r"(\d{1,2} [A-Za-z]+ \d{4})"}]},
+        filename="untitled.md",
+    )
+    assert out["valid_from"] == "2026-01-07"
+    assert out["time_source"] == "first_line"
+
+
+def test_lift_document_dates_patterns_tried_in_order_after_labels():
+    patterns = {"valid_from": [
+        {"filename": r"^(\d{4}-\d{2}-\d{2})"},
+        {"first_line": r"(\d{4}-\d{2}-\d{2})"},
+    ]}
+    # The filename doesn't match, so the second pattern answers.
+    out = lift_document_dates("2026-02-03\n", {}, {"valid_from": ["Date"]}, None,
+                              patterns=patterns, filename="notes.md")
+    assert (out["valid_from"], out["time_source"]) == ("2026-02-03", "first_line")
+    # A label always wins over a pattern.
+    out = lift_document_dates("Date: 2025-12-31\n", {}, {"valid_from": ["Date"]}, None,
+                              patterns=patterns, filename="2026-01-07.md")
+    assert (out["valid_from"], out["time_source"]) == ("2025-12-31", "header")
+
+
+def test_lift_document_dates_pattern_match_must_parse_as_a_date():
+    # A capture that isn't a date is skipped, not stored raw: a pattern is
+    # only ever a guess about where a date might be.
+    out = lift_document_dates(
+        "Body.", {}, {"valid_from": ["Date"]}, _JOURNAL_DEFAULTS,
+        patterns={"valid_from": [{"filename": r"^(\w+)"}]}, filename="meeting.md",
+    )
+    assert out["time_source"] == "default_ingestion"
+
+
+def test_lift_document_dates_pattern_without_label_mapping():
+    out = lift_document_dates(
+        "Body.", {}, {}, None,
+        patterns={"valid_from": [{"filename": r"(\d{4}-\d{2}-\d{2})"}]}, filename="log 2026-03-04.md",
+    )
+    assert out == {"valid_from": "2026-03-04", "time_source": "filename"}
+
+
+def test_lift_document_dates_ignores_malformed_pattern_entries():
+    out = lift_document_dates(
+        "2026-01-07\n", {}, {}, None,
+        patterns={"valid_from": ["not-a-dict", {"bogus_source": "x"}, {"first_line": r"(\d{4}-\d{2}-\d{2})"}]},
+        filename="x.md",
+    )
+    assert out["valid_from"] == "2026-01-07"
+
+
+def test_load_schema_child_document_patterns_override_parent(tmp_path):
+    from artmind.temporal import load_schema
+
+    (tmp_path / "journal_schema.yaml").write_text(
+        "temporal:\n  document_patterns:\n    valid_from:\n    - filename: 'a'\n", encoding="utf-8")
+    (tmp_path / "journal.work_schema.yaml").write_text(
+        "temporal:\n  document_patterns:\n    valid_from:\n    - first_line: 'b'\n", encoding="utf-8")
+    merged = load_schema("journal.work", schemas_dir=tmp_path)["temporal"]
+    assert merged["document_patterns"] == {"valid_from": [{"first_line": "b"}]}
+    (tmp_path / "journal.home_schema.yaml").write_text("temporal: {}\n", encoding="utf-8")
+    inherited = load_schema("journal.home", schemas_dir=tmp_path)["temporal"]
+    assert inherited["document_patterns"] == {"valid_from": [{"filename": "a"}]}
+
+
+def test_relative_anchor_date_from_document_valid_from():
+    from artmind.temporal import relative_anchor_date
+
+    schema = {"temporal": {"relative_anchor": "document.valid_from",
+                           "defaults": {"time_source": "default_ingestion"}}}
+    assert relative_anchor_date(schema, {"_valid_from": "2026-01-07", "_valid_time_source": "filename"}) == "2026-01-07"
+    # An ingestion-date default anchors nothing.
+    assert relative_anchor_date(schema, {"_valid_from": "2026-10-10", "_valid_time_source": "default_ingestion"}) is None
+    # No anchor declared, or no date at all.
+    assert relative_anchor_date({}, {"_valid_from": "2026-01-07", "_valid_time_source": "filename"}) is None
+    assert relative_anchor_date(schema, {}) is None
