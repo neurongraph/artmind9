@@ -295,3 +295,36 @@ def test_retime_domain_document_filter(tmp_path, monkeypatch):
     assert retime_domain("journal", dry_run=True, documents=["2026-01-07.md"])["scanned"] == 1
     assert retime_domain("journal", dry_run=True, documents=["2026-01-07"])["scanned"] == 1
     assert retime_domain("journal", dry_run=True, documents=["2026-01-08.md"])["scanned"] == 0
+
+
+def test_redo_properties_drops_a_mention_that_was_folded_away(tmp_path, monkeypatch):
+    """Found live (2026-01-21): canonicalization folded a chunk's "Ami" into
+    another person in the same chunk, so "Ami" left no observation and no
+    record of its canonical name. A redo that let it fall back to its raw
+    name minted a new "Ami" entity; it must produce exactly the observations
+    the first extraction did."""
+    from artmind.retime import retime_domain
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-21.md", "Met Amitesh. Ami joined later.\n")
+    anchors = _stub_llm(monkeypatch)
+
+    def llm(step_name, model, prompt, debug_dir):
+        if step_name.endswith("_entities"):
+            return [{"id": "e1", "entity_class": "EVENT", "name": "Amitesh"},
+                    {"id": "e2", "entity_class": "EVENT", "name": "Ami"}], True
+        return [], True
+
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+    monkeypatch.setattr(ing, "canonicalize_document",
+                        lambda entities, **k: {"Amitesh": "Amitesh Mishra", "Ami": "Amitesh Mishra"})
+    _, first = _extract(doc)
+    assert [(o["name"], o["canonical_name"]) for o in first] == [("Amitesh", "Amitesh Mishra")]
+
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+    monkeypatch.setattr(ing, "canonicalize_document",
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
+    retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    redone = json.loads((ing.KG_DIR / "journal" / "2026-01-21" / "observations.json").read_text())
+    assert [o["id"] for o in redone] == [o["id"] for o in first]

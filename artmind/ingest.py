@@ -2422,8 +2422,16 @@ def _build_observations(
     canonical_names: dict[str, str],
     schema: dict,
     document: dict,
+    *,
+    only_mapped: bool = False,
 ) -> list[dict]:
     """Turn this document version's extraction output into Observation props.
+
+    `only_mapped` drops an entity whose raw name `canonical_names` lacks,
+    instead of keeping it under its raw name: with a mapping recovered from
+    staged observations, an absent name is a mention canonicalization folded
+    into another entity of the same chunk, which made no observation then
+    and must not mint one now.
 
     One observation per (chunk, extracted-entity-identity). The entity's own
     schema-declared date property (a property tagged `temporal: valid_from`)
@@ -2446,6 +2454,8 @@ def _build_observations(
     for entity in entities:
         chunk_id = entity.get("chunk_id") or ""
         raw_name = entity.get("name") or ""
+        if only_mapped and raw_name not in canonical_names:
+            continue
         canonical = canonical_names.get(raw_name) or raw_name
         if not canonical or not chunk_id:
             continue
@@ -2494,7 +2504,7 @@ def extract_kg(
     `canonical_names` (raw extracted name -> canonical name) skips the
     per-document canonicalization LLM call and uses this mapping instead --
     for a re-run that must not re-decide identity (`ingest retime
-    --redoProperties`); a name it lacks stays as extracted.
+    --redoProperties`); a name it lacks is dropped (see `_build_observations`).
 
     Resumable: already-ok steps are skipped. Failed steps get a second attempt
     in the pre-merge retry pass before the merge proceeds.
@@ -2995,7 +3005,8 @@ def extract_kg(
     # Intra-document drift control. Chunks extracted in parallel and could not
     # see each other, so the same thing may carry several names; this is the
     # first point at which anything can see the whole document's output.
-    if canonical_names is None:
+    names_supplied = canonical_names is not None
+    if not names_supplied:
         canonical_names = canonicalize_document(
             all_entities, schema=schema, vocabulary=vocabulary,
             model=text_model, debug_dir=doc_kg_dir,
@@ -3003,6 +3014,7 @@ def extract_kg(
 
     all_observations = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,
+        only_mapped=names_supplied,
     )
 
     # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must
