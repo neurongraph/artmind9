@@ -73,15 +73,67 @@ def _find_header_value(md_text: str, labels: list[str]) -> str | None:
     return None
 
 
-def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict, defaults: dict | None = None) -> dict:
-    """Return canonical document props from header labels / frontmatter.
+#: The places a `temporal.document_patterns` entry can look, each mapped to
+#: the text it reads. The source name doubles as the recorded `time_source`.
+_PATTERN_SOURCES = ("filename", "first_line")
+
+
+def _match_document_pattern(
+    patterns: list, md_text: str, filename: str | None
+) -> tuple[str, str] | None:
+    """The first `document_patterns` entry whose regex finds a date: (iso, source).
+
+    Each entry is a one-key map, `{filename: <regex>}` (matched against the
+    filename without its extension) or `{first_line: <regex>}` (the body's
+    first non-blank line, stripped). The regex's first group is the date, or
+    the whole match when it has no group. A match that `parse_iso` can't read
+    is skipped rather than stored raw -- a pattern is a guess about where a
+    date might be, unlike a label, which says "the date is here".
+    """
+    first_line = next((ln.strip() for ln in md_text.splitlines() if ln.strip()), "")
+    subjects = {"filename": Path(filename).stem if filename else "", "first_line": first_line}
+    for entry in patterns or []:
+        if not isinstance(entry, dict) or len(entry) != 1:
+            logger.warning("temporal.document_patterns: ignoring malformed entry {!r}", entry)
+            continue
+        ((source, regex),) = entry.items()
+        if source not in _PATTERN_SOURCES:
+            logger.warning(
+                "temporal.document_patterns: unknown source {!r} (expected one of {})",
+                source, ", ".join(_PATTERN_SOURCES),
+            )
+            continue
+        m = re.search(str(regex), subjects[source])
+        if not m:
+            continue
+        iso = parse_iso(m.group(1) if m.groups() else m.group(0))
+        if iso:
+            return iso, source
+    return None
+
+
+def lift_document_dates(
+    md_text: str,
+    frontmatter: dict,
+    mapping: dict,
+    defaults: dict | None = None,
+    *,
+    patterns: dict | None = None,
+    filename: str | None = None,
+) -> dict:
+    """Return canonical document props from header labels / frontmatter / patterns.
 
     mapping example: {"valid_from": ["Effective Date"], "version": ["Version"]}
-    Records time_source: 'header' | 'frontmatter'.
+    patterns example: {"valid_from": [{"filename": r"^(\\d{4}-\\d{2}-\\d{2})$"}]}
+    Labels are tried first; `patterns` (the schema's `temporal.document_patterns`)
+    only when no label answers -- see `_match_document_pattern`.
+    Records time_source: 'header' | 'frontmatter' | 'filename' | 'first_line'.
     """
     out: dict = {}
     source = None
-    for canon, labels in mapping.items():
+    patterns = patterns or {}
+    for canon in [*mapping, *(k for k in patterns if k not in mapping)]:
+        labels = mapping.get(canon) or []
         raw = _find_header_value(md_text, labels)
         if raw is not None:
             source = source or "header"
@@ -94,6 +146,11 @@ def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict, defaults
         if raw is None and canon == "valid_from" and frontmatter.get("date"):
             raw = str(frontmatter["date"])
             source = source or "frontmatter"
+        if raw is None and patterns.get(canon):
+            matched = _match_document_pattern(patterns[canon], md_text, filename)
+            if matched:
+                raw, pattern_source = matched
+                source = source or pattern_source
         if raw is None:
             continue
         if canon == "version":
@@ -122,6 +179,9 @@ def _deep_merge_temporal(parent: dict, child: dict) -> dict:
       - defaults: parent as base, child overrides individual keys.
       - relative_anchor: child scalar wins if present, else parent's.
       - document: per-canonical-key union of label lists, parent-first, deduped.
+      - document_patterns: per-canonical-key, the child's list replaces the
+        parent's -- patterns are tried in order, so a union would leave the
+        parent's guesses ahead of the child's.
 
     `entities` is deliberately absent here (Phase 1): per-class temporal mapping
     now lives on each class's own `properties` declarations (a property tagged
@@ -154,6 +214,10 @@ def _deep_merge_temporal(parent: dict, child: dict) -> dict:
         document[key] = seen
     if document:
         merged["document"] = document
+
+    patterns = {**(parent.get("document_patterns") or {}), **(child.get("document_patterns") or {})}
+    if patterns:
+        merged["document_patterns"] = patterns
 
     return merged
 
@@ -237,6 +301,27 @@ def _entity_temporal_mapping(schema: dict) -> dict:
         if class_map:
             mapping[cls] = class_map
     return mapping
+
+
+def relative_anchor_date(schema: dict, document_dates: dict) -> str | None:
+    """The date this document's relative phrases resolve against, or None.
+
+    `temporal.relative_anchor` names a document-level date, e.g.
+    `document.valid_from`; `document_dates` is `_document_valid_time`'s
+    output (`_valid_from`, `_valid_time_source`, ...). None when the schema
+    sets no anchor or names anything else, and when the document's date is
+    only the schema's default: an ingestion date anchors nothing -- "today"
+    in a journal entry is the entry's day, not the day it was ingested.
+    """
+    t = schema.get("temporal") or {}
+    anchor = t.get("relative_anchor")
+    if not isinstance(anchor, str) or not anchor.startswith("document."):
+        return None
+    default_source = (t.get("defaults") or {}).get("time_source", "default_ingestion")
+    if document_dates.get("_valid_time_source") == default_source:
+        return None
+    value = document_dates.get("_" + anchor.split(".", 1)[1])
+    return parse_iso(str(value)) if value else None
 
 
 def _temporal_mapping(schema: dict) -> tuple[dict, dict, str | None]:

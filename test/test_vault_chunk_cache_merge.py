@@ -57,7 +57,7 @@ def _seams(monkeypatch, seen):
         return "p"
 
     monkeypatch.setattr(ing, "build_entities_prompt", entities_prompt)
-    monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema, vocabulary=None: "p")
+    monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema, vocabulary=None, anchor_date=None: "p")
     monkeypatch.setattr(ing, "build_relationships_prompt", lambda text, ents, schema: "p")
     monkeypatch.setattr(ing, "_llm_extract", lambda step_name, model, prompt, debug_dir: ([], True))
 

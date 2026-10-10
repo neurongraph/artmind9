@@ -183,6 +183,20 @@ artmind ingest embed-chunks
 
 ---
 
+### C.1 — Documents carry the wrong date (all `_valid_time_source: default_ingestion`)
+
+Every document's date is resolved once, at extraction, and frozen into its staging folder. Symptom: `MATCH (d:Document) WHERE d._domain = $domain RETURN d._valid_time_source, count(*)` shows only `default_ingestion`, and `_valid_from` is a day you ran ingestion. Cause: no schema label or pattern matched the date. Fix it in the schema first (`temporal.document_patterns` for a date in the filename or first line; see the `artmind-create-schema` skill), then re-date what is already ingested:
+
+```bash
+artmind ingest retime --domain YOUR_DOMAIN --dryRun     # preview: counts per source, sample before/after
+artmind ingest retime --domain YOUR_DOMAIN              # no LLM: rewrite staging, commit, one rebuild
+artmind ingest retime --domain YOUR_DOMAIN --redoProperties --limit 5   # LLM: re-extract date properties
+```
+
+With no flags it is deterministic and cheap. `--redoProperties` re-runs only the properties step, with the document's date in the prompt, so `date_or_time`-style properties become ISO dates instead of "today". It costs one LLM call per chunk plus one per document, and it skips documents whose chunk cache isn't on this machine. Run it with `--limit` first.
+
+---
+
 ### D. Re-run LLM extraction on an already-ingested document
 
 Use when extraction failed mid-way, or you updated the schema and want to re-extract.

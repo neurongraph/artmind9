@@ -109,7 +109,7 @@ def test_extract_kg_does_not_crash_on_the_cli_retry_file_result(tmp_path, monkey
     monkeypatch.setattr(ing, "KG_DIR", tmp_path / "kg")
     monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
     monkeypatch.setattr(ing, "build_entities_prompt", lambda text, schema, vocabulary=None: "p")
-    monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema, vocabulary=None: "p")
+    monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema, vocabulary=None, anchor_date=None: "p")
     monkeypatch.setattr(ing, "build_relationships_prompt", lambda text, ents, schema: "p")
     monkeypatch.setattr(ing, "_llm_extract", lambda step_name, model, prompt, debug_dir: ([], True))
 
@@ -281,3 +281,25 @@ def test_a_vault_native_retry_records_the_notes_current_path(tmp_path, monkeypat
 
     assert rebuilt["provenance"]["source_path"] == "notes/retry_doc.md"
     assert rebuilt["provenance"]["source_type"] == "md"
+
+
+def test_extract_kg_retry_resumes_from_the_cache_instead_of_re_extracting(tmp_path, monkeypatch):
+    """The registry holds the note's body-only `content_sha256`, but
+    extraction keys its chunk cache and `kg_chunk_status` rows by the hash of
+    the registered FILE. Handing the registry value to `extract_kg` missed
+    both, so a retry silently re-ran every LLM step from scratch."""
+    _v, _doc, first = _ingest_vault_doc(tmp_path, monkeypatch)
+    calls: list = []
+    monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
+    monkeypatch.setattr(ing, "build_entities_prompt", lambda *a, **k: "p")
+    monkeypatch.setattr(ing, "build_properties_prompt", lambda *a, **k: "p")
+    monkeypatch.setattr(ing, "build_relationships_prompt", lambda *a, **k: "p")
+    monkeypatch.setattr(ing, "_llm_extract", lambda step, *a: calls.append(step) or ([], True))
+    assert ing.extract_kg(first, "general", max_workers=1) is not None
+    assert calls == ["chunk_001_entities"]
+
+    retry = ing._build_file_result_from_db("retry_doc.md", "general")
+    assert retry["sha256"] == first["sha256"]
+    calls.clear()
+    assert ing.extract_kg(retry, "general", max_workers=1) is not None
+    assert calls == [], "a retry after a successful extraction is all cache hits"

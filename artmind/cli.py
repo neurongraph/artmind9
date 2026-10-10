@@ -238,7 +238,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
+            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
         },
         {
             "name": "Refinement",
@@ -1221,6 +1221,52 @@ def _run_chunk_embed_sweep() -> None:
         "Embed sweep after write-to-graph: {} embedded, {} still missing a vector",
         result["embedded"], result["remaining"],
     )
+
+
+@ingest.command("retime")
+@click.option("--domain", required=True, help="Domain whose staged documents to re-date")
+@click.option("--dryRun", "dry_run", is_flag=True, help="Report what would change; write nothing")
+@click.option("--redoProperties", "redo_properties", is_flag=True,
+              help="Also re-extract each chunk's properties with the document's date in the prompt "
+                   "(LLM: one call per chunk plus one per document). Needs this machine's chunk cache.")
+@click.option("--limit", type=int, default=None, help="Only the first N documents (try a few first)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_retime(domain: str, dry_run: bool, redo_properties: bool, limit: int | None, compact: bool) -> None:
+    """Re-derive the valid time of a domain's already-staged documents.
+
+    \b
+    A document's date is resolved once, at extraction, and frozen into its
+    staging folder -- so a schema change that would date it differently (a new
+    temporal.document_patterns entry, say) reaches nothing already ingested.
+    This recomputes document.json's _valid_from/_valid_time_source and every
+    observation's _valid_from/_doc_valid_from from the current schema, with no
+    LLM call, commits the changed folders and rebuilds the projection once.
+
+    \b
+    --redoProperties additionally re-runs the properties step (only) so date
+    properties such as date_or_time resolve against the document's date
+    (temporal.relative_anchor). Try it with --limit first.
+    """
+    _setup_logger()
+    from artmind.retime import retime_domain
+
+    env = load_env()
+    if redo_properties and not dry_run:
+        _require_ingest_extra()
+    try:
+        report = retime_domain(
+            domain,
+            dry_run=dry_run,
+            redo_properties=redo_properties,
+            limit=limit,
+            text_model=resolve_llm_model(env),
+            embed_model=env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"),
+        )
+    except FileNotFoundError as e:
+        raise click.ClickException(str(e))
+    _echo_json(report, compact)
+    if report["commit_failed"]:
+        raise click.ClickException(f"{len(report['commit_failed'])} document(s) failed to commit -- see the log")
 
 
 @ingest.command("write-to-graph")

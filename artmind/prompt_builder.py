@@ -176,9 +176,51 @@ def _render_property_vocabulary_section(vocabulary: dict | None) -> str:
     )
 
 
+def _render_anchor_date_section(entity_types: dict, anchor_date: str | None) -> str:
+    """The DATES instruction for a document with a known date, or ''.
+
+    Without it the extractor only ever sees a chunk, never the document's
+    date, so a temporal property comes back as the phrase the diarist wrote
+    ("today", "evening") -- which `parse_iso` cannot read, so the fact never
+    gets a date of its own. Lists the exact `temporal:`-tagged properties so
+    the instruction cannot bleed into free-text ones. Rendered into
+    PROPERTY_BLOCKS rather than as a template token: a vault's `meta.yaml`
+    is the user's own file and may predate any new token.
+    """
+    if not anchor_date:
+        return ""
+    names = [
+        f"{cls}.{prop}"
+        for cls, decl in entity_types.items()
+        for prop, prop_decl in (decl.get("properties") or {}).items()
+        if isinstance(prop_decl, dict) and prop_decl.get("temporal")
+    ]
+    if not names:
+        return ""
+    return (
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "DATES:\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"This passage is from a document dated {anchor_date}. Relative time\n"
+        f'expressions in it ("today", "this evening", "yesterday", "last Tuesday")\n'
+        "are relative to that date.\n"
+        f"For {', '.join(names)}:\n"
+        "  - Start the value with the resolved calendar date as YYYY-MM-DD, then\n"
+        '    the original wording if it adds anything, e.g. "2026-01-07 (evening)".\n'
+        "  - Use a date the passage states or implies; never invent one.\n"
+        "  - Omit the property when the passage gives no time reference at all."
+    )
+
+
 def assemble_properties_prompt(
-    schema: dict, meta: dict | None = None, vocabulary: dict | None = None
+    schema: dict,
+    meta: dict | None = None,
+    vocabulary: dict | None = None,
+    anchor_date: str | None = None,
 ) -> str:
+    """`anchor_date` is the document's own date (`temporal.relative_anchor`,
+    see `artmind.temporal.relative_anchor_date`) -- omitted, the prompt
+    renders exactly as before."""
     meta = meta if meta is not None else load_meta()
     entity_types = schema.get("entity_types") or {}
     blocks = [
@@ -186,6 +228,9 @@ def assemble_properties_prompt(
         for cls, decl in entity_types.items()
         if decl.get("properties")
     ]
+    dates = _render_anchor_date_section(entity_types, anchor_date)
+    if dates:
+        blocks.append(dates)
     tokens = {
         "SUBJECT": schema.get("subject") or schema.get("description", "")[:120],
         "PROPERTY_BLOCKS": "\n\n".join(blocks),

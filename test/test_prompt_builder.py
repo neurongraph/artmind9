@@ -125,3 +125,42 @@ def test_relationship_pairs_merges_both_sides_of_a_duplicate_declaration():
 
 def test_relationship_pairs_empty_when_no_relates_to():
     assert relationship_pairs({"A": {}, "B": {}}) == []
+
+
+# ── the document-date anchor (temporal.relative_anchor) ────────────────────
+
+_DATED_SCHEMA = {
+    **SCHEMA,
+    "entity_types": {
+        **SCHEMA["entity_types"],
+        "EVENT": {
+            "kind": "occurrent",
+            "description": "Something that happened.",
+            "properties": {"date_or_time": {"temporal": "valid_from"}, "outcome": {}},
+        },
+    },
+}
+
+
+def test_assemble_properties_prompt_without_anchor_is_unchanged():
+    assert "DATES" not in assemble_properties_prompt(_DATED_SCHEMA)
+    assert assemble_properties_prompt(_DATED_SCHEMA) == assemble_properties_prompt(
+        _DATED_SCHEMA, anchor_date=None
+    )
+
+
+def test_assemble_properties_prompt_anchors_relative_dates_to_the_document_date():
+    prompt = assemble_properties_prompt(_DATED_SCHEMA, anchor_date="2026-01-07")
+    assert "DATES" in prompt
+    assert "2026-01-07" in prompt
+    # Names the exact date properties, so the instruction can't bleed into
+    # free-text properties.
+    assert "EVENT.date_or_time" in prompt
+    assert "PERSON.role" not in prompt.split("DATES", 1)[1]
+    # Leads with the ISO date -- what parse_iso reads -- keeping the wording.
+    assert "YYYY-MM-DD" in prompt
+
+
+def test_assemble_properties_prompt_anchor_ignored_when_no_property_is_temporal():
+    # Nothing to resolve: SCHEMA declares no `temporal:` property.
+    assert "DATES" not in assemble_properties_prompt(SCHEMA, anchor_date="2026-01-07")

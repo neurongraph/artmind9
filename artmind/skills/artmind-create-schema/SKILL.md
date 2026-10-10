@@ -259,9 +259,44 @@ temporal:
 
 Include this only when documents in this domain carry their own date
 (a "Version"/"Effective Date" header) or express dates relative to
-themselves (a journal entry's "today"). `relative_anchor` names which
-document-level date resolves a relative phrase like "next Tuesday." Both are
-optional — omit the whole block for a domain with no natural document date.
+themselves (a journal entry's "today"). Both keys are optional — omit the
+whole block for a domain with no natural document date.
+
+`document.valid_from` lists **labels**: a frontmatter key, a `Label: value`
+line, or a `| Label | value |` table row. A label alone never reads a
+filename or a bare date line. When the date is written only there (a daily
+note named `2026-01-07.md` whose first line is `2026-01-07`), add
+`document_patterns` too:
+
+```yaml
+temporal:
+  document:
+    valid_from: [Date, date]
+  document_patterns:
+    valid_from:
+    - filename: '^(\d{4}-\d{2}-\d{2})$'      # the filename without its extension
+    - first_line: '^(\d{4}-\d{2}-\d{2})$'    # the first non-blank body line, stripped
+  relative_anchor: document.valid_from
+```
+
+Patterns are tried after the labels, in list order. The first capture group
+is the date (or the whole match when there is no group), and it must parse
+as a date (`2026-01-07`, `7 January 2026`, `January 7, 2026`). A match that
+does not parse is skipped. Single-quote each regex in YAML. The document then
+records `_valid_time_source: filename` or `first_line`. Check the
+patterns against your real filenames: when nothing matches, every document
+silently gets its ingestion date instead.
+
+`relative_anchor: document.valid_from` puts the document's date into the
+properties prompt, so each `temporal:`-tagged property is extracted as an ISO
+date resolved against it ("today" in the 2026-01-07 entry → `2026-01-07`).
+This happens only when a label or pattern found the date. An ingestion-date
+default anchors nothing.
+
+To re-date documents that are already ingested after you change any of this,
+run `artmind ingest retime --domain <domain>` (no LLM; add `--dryRun` to
+preview). `--redoProperties` also re-extracts the date properties against
+the anchor; that costs one LLM call per chunk.
 
 **Inheritance, if this is a child schema** (e.g. `banking.risk_governance`
 under `banking`): the child's `temporal:` block is deep-merged underneath
@@ -438,6 +473,9 @@ persona: {optional — feeds {{PERSONA}}; defaults to "a subject-matter analyst"
 temporal:                              # optional — only if documents carry their own date
   document:
     valid_from: [Label, alt_label]
+  document_patterns:                   # optional — a date in the filename / first line
+    valid_from:
+    - filename: '^(\d{4}-\d{2}-\d{2})$'
   relative_anchor: document.valid_from
 
 entity_types:
