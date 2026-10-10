@@ -159,6 +159,9 @@ def test_assemble_properties_prompt_anchors_relative_dates_to_the_document_date(
     assert "PERSON.role" not in prompt.split("DATES", 1)[1]
     # Leads with the ISO date -- what parse_iso reads -- keeping the wording.
     assert "YYYY-MM-DD" in prompt
+    # Found live: without this, the model stamped `date_or_time` onto every
+    # PERSON/LOCATION/OBJECT in the passage.
+    assert "Do not add a date property to any other entity" in prompt
 
 
 def test_assemble_properties_prompt_anchor_ignored_when_no_property_is_temporal():

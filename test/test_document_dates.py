@@ -277,3 +277,12 @@ def test_a_child_domain_inherits_its_parents_temporal_block(tmp_path, monkeypatc
 
     assert (document["_valid_from"], document["_valid_time_source"]) == ("2026-01-07", "filename")
     assert anchors == ["2026-01-07"], "the inherited relative_anchor applies too"
+
+
+def test_retime_domain_document_filter(tmp_path, monkeypatch):
+    from artmind.retime import retime_domain
+
+    _ingested_under_the_old_schema(tmp_path, monkeypatch)
+    assert retime_domain("journal", dry_run=True, documents=["2026-01-07.md"])["scanned"] == 1
+    assert retime_domain("journal", dry_run=True, documents=["2026-01-07"])["scanned"] == 1
+    assert retime_domain("journal", dry_run=True, documents=["2026-01-08.md"])["scanned"] == 0

@@ -204,7 +204,10 @@ def _render_anchor_date_section(entity_types: dict, anchor_date: str | None) -> 
         f"This passage is from a document dated {anchor_date}. Relative time\n"
         f'expressions in it ("today", "this evening", "yesterday", "last Tuesday")\n'
         "are relative to that date.\n"
-        f"For {', '.join(names)}:\n"
+        f"Only these properties take a date: {', '.join(names)}.\n"
+        "Do not add a date property to any other entity or class -- a person,\n"
+        "place or object is not dated by appearing in this passage.\n"
+        "For each of them:\n"
         "  - Start the value with the resolved calendar date as YYYY-MM-DD, then\n"
         '    the original wording if it adds anything, e.g. "2026-01-07 (evening)".\n'
         "  - Use a date the passage states or implies; never invent one.\n"

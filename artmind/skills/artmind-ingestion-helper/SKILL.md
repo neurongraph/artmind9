@@ -191,6 +191,7 @@ Every document's date is resolved once, at extraction, and frozen into its stagi
 artmind ingest retime --domain YOUR_DOMAIN --dryRun     # preview: counts per source, sample before/after
 artmind ingest retime --domain YOUR_DOMAIN              # no LLM: rewrite staging, commit, one rebuild
 artmind ingest retime --domain YOUR_DOMAIN --redoProperties --limit 5   # LLM: re-extract date properties
+artmind ingest retime --domain YOUR_DOMAIN --redoProperties --document 2026-01-18.md   # one chosen entry
 ```
 
 With no flags it is deterministic and cheap. `--redoProperties` re-runs only the properties step, with the document's date in the prompt, so `date_or_time`-style properties become ISO dates instead of "today". It costs one LLM call per chunk plus one per document, and it skips documents whose chunk cache isn't on this machine. Run it with `--limit` first.

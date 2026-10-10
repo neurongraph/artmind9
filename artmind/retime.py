@@ -191,6 +191,7 @@ def retime_domain(
     dry_run: bool = False,
     redo_properties: bool = False,
     limit: int | None = None,
+    documents: list[str] | None = None,
     text_model: str | None = None,
     embed_model: str | None = None,
 ) -> dict:
@@ -203,6 +204,10 @@ def retime_domain(
     schema = load_schema(domain, schemas_dir=ingest.DOMAIN_SCHEMAS_DIR)  # inherits a parent's temporal
 
     folders = staging_folders(domain)
+    if documents:
+        # A folder is named by its document's stem: match "2026-01-07" or "2026-01-07.md".
+        wanted = {Path(d).stem for d in documents}
+        folders = [f for f in folders if f.name in wanted]
     if limit is not None:
         folders = folders[:limit]
     results, committed, failed = [], 0, []

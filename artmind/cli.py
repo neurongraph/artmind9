@@ -1230,8 +1230,12 @@ def _run_chunk_embed_sweep() -> None:
               help="Also re-extract each chunk's properties with the document's date in the prompt "
                    "(LLM: one call per chunk plus one per document). Needs this machine's chunk cache.")
 @click.option("--limit", type=int, default=None, help="Only the first N documents (try a few first)")
+@click.option("--document", "documents", multiple=True,
+              help="Only this document (e.g. 2026-01-07.md); repeatable, comma-separated")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_retime(domain: str, dry_run: bool, redo_properties: bool, limit: int | None, compact: bool) -> None:
+def ingest_retime(
+    domain: str, dry_run: bool, redo_properties: bool, limit: int | None, documents: tuple, compact: bool,
+) -> None:
     """Re-derive the valid time of a domain's already-staged documents.
 
     \b
@@ -1259,6 +1263,7 @@ def ingest_retime(domain: str, dry_run: bool, redo_properties: bool, limit: int 
             dry_run=dry_run,
             redo_properties=redo_properties,
             limit=limit,
+            documents=[d.strip() for v in documents for d in v.split(",") if d.strip()] or None,
             text_model=resolve_llm_model(env),
             embed_model=env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"),
         )
