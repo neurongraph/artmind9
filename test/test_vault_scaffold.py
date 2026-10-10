@@ -754,3 +754,16 @@ def test_scaffold_writes_gitattributes(tmp_path):
 
     assert summary["gitattributes"] is True
     assert vault.block_status(tmp_path / ".gitattributes", vault.GITATTRIBUTES_BLOCK) == "current"
+
+
+def test_saved_views_are_committed_not_ignored(tmp_path):
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+    views = vault.VaultLayout(tmp_path).views_dir / "mine"
+    views.mkdir(parents=True)
+    (views / "view.yaml").write_text("name: mine\n")
+
+    assert not _ignored(tmp_path, ".artmind/domains/views/mine/view.yaml")
+    assert ".artmind/domains/views/mine/view.yaml" in _git(
+        tmp_path, "status", "--porcelain", "--untracked-files=all"
+    )

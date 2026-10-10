@@ -1,6 +1,6 @@
 # kg_views — saved, parameterised graph queries with agent guidance — design
 
-Status: approved (2026-10-09). Not implemented.
+Status: approved (2026-10-09). Implemented on branch `feat/kg-views` (plan: docs/superpowers/plans/2026-10-09-kg-views.md).
 
 ## 1. Problem
 
@@ -190,7 +190,7 @@ The agent reads it only after picking the view from the catalogue.
 |---|---|---|
 | `__init__.py` | Public surface re-exports. | — |
 | `model.py` | `ViewSpec`, `ParamSpec`, `Presentation` dataclasses; `parse_view(dict, folder_name)`; every rule in §4.4. Pure. | `text2cypher.validate_*` |
-| `store.py` | `views_dir()` (vault → `VaultLayout.domains_dir / "views"`, otherwise run folder); `list_views(domains)`, `load_view(name)`, `save_view(draft_dir)`, `delete_view(name)`; the version guard (§7); domain filtering via `expand_domain_family`. | `model`, `vault`, `paths` |
+| `store.py` | `views_dir()` = `paths.DOMAIN_VIEWS_DIR` (`ARTMIND_HOME/domains/views`; inside a vault `ARTMIND_HOME` is `.artmind/`, so this equals `VaultLayout.views_dir`); `list_views(domains)`, `load_view(name)`, `save_view(draft_dir)` (atomic), `delete_view(name)`; the version guard (§7); catalogue domain filtering is pure string logic on the dotted hierarchy (no Neo4j). | `model`, `paths`, `atomic_dir` |
 | `params.py` | Coerce `--param k=v` strings to typed values; defaults/ranges/enum; entity auto-resolve and the `@<_id>` bypass (§7). | `model`, `vector_query`, `graph_query` |
 | `runner.py` | Bind `$domains` + params, execute in `read_session`, apply `max_rows` truncation, build the result envelope (§6.3). | `graph_query`, `params`, `render` |
 | `render.py` | `render_markdown(rows, presentation, truncated, rows_total) -> str` for every format. Pure. | `model` |
@@ -223,8 +223,8 @@ artmind views save     --path DIR                                # validate + ve
 artmind views delete   NAME
 ```
 
-Drafts are plain folders in the note scratch dir (`vault.note_scratch_dir`, or
-the session scratchpad outside a vault). `views test` prints the envelope with
+Drafts are plain temp folders (`mktemp -d`), deliberately outside `.artmind/data/`,
+which is committed. `views test` prints the envelope with
 `rendered` always included, the EXPLAIN plan, and a warning when zero rows come back.
 
 All new commands are added to `COMMAND_GROUPS` in `cli.py` (so
@@ -250,7 +250,7 @@ All new commands are added to `COMMAND_GROUPS` in `cli.py` (so
 - `status`: `ok | needs_disambiguation | no_match`. Only `ok` carries `rows`,
   `rows_total`, `truncated` and (with `--render markdown`) `rendered`.
 - `needs_disambiguation` carries `param` and `candidates: [{_id, name, entity_class, observation_count}]` (top 5).
-- `no_match` carries `param` and `input`.
+- `no_match` carries `param`, `input` and `suggestions: [{_id, name, entity_class, observation_count}]` (top 5 vector-only candidates; may be empty).
 - The resolved entity is echoed back so the agent can state its interpretation.
 - Rows go through `strip_internal_props` / `serialize_value` like other query output.
 
@@ -259,10 +259,15 @@ All new commands are added to `COMMAND_GROUPS` in `cli.py` (so
 **Entity auto-resolve** (`params.py`). It is deterministic and has no score thresholds:
 
 1. Call `vector_query.entity_resolve(domains, input, topK=10)`.
-2. If the param declares `entity_class`, drop candidates of other classes.
-3. Exactly one case-insensitive exact-name match → accept it.
-4. Otherwise exactly one candidate → accept it.
-5. Otherwise, more than one candidate → `needs_disambiguation` (top 5). None → `no_match`.
+2. If the param declares `entity_class`, drop candidates of other classes (case-insensitive).
+3. If any remaining candidate has `fulltext` in `matched_by`, keep only those. Then: exactly one
+   case-insensitive exact-name match → accept it; else exactly one candidate → accept it; else
+   `needs_disambiguation` (top 5).
+4. If no remaining candidate was matched by fulltext → `no_match`, carrying `suggestions`: the
+   top 5 vector-only candidates (empty if none).
+
+Why: the vector leg always returns nearest neighbours, even for nonsense input, so only
+fulltext evidence counts as a match; vector-only hits are merely suggestions.
 
 `@<_id>` skips resolution but is still checked: the node exists, `_domain` is in
 the requested (expanded) domains, and `entity_class` matches if one is declared.
@@ -276,8 +281,11 @@ the view's `domains` after family expansion.
 
 **Errors.** Invalid param values give a `ClickException` naming the param and its
 spec. A view that fails to load or validate is skipped by `list` (reported under
-`invalid`) and is a `ClickException` for `show`/`run`. A `Neo4jError` is wrapped as
-`view <name> v<N> failed: …`. Stale-store warnings on stderr fire as for every
+`invalid`) and is a `ClickException` for `show`/`run`. A `Neo4jError` or driver
+error (e.g. `ServiceUnavailable`), including during domain expansion and entity
+resolution, is wrapped as `view <name> v<N> failed: …`. The view query (and its
+EXPLAIN) carries a server-side transaction timeout (`VIEW_QUERY_TIMEOUT_S`, 60 s)
+so a runaway traversal cannot hang the caller or the `serve` daemon. Stale-store warnings on stderr fire as for every
 `query` command (same group result callback).
 
 **Version guard** (`views save`). Fingerprint = hash of the canonical
@@ -313,7 +321,7 @@ refuses. There is no `--force`; bump the version.
     follow its SKILL.md → `views run … --render markdown --compact`.
   - If Route already returned `resolved_entities`, pass them as `--param k=@<_id>`.
   - `needs_disambiguation` → ask the user, then rerun with `@<_id>`. `no_match` →
-    tell the user and fall through.
+    tell the user, offer `suggestions` as "did you mean" (rerun with `@<_id>`), else fall through.
   - No fitting view, or an empty or unhelpful result → continue with Discover as normal.
 
 ### 8.2 New skill `artmind/skills/artmind-create-view/`

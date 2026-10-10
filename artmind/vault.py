@@ -119,6 +119,12 @@ class VaultLayout:
         return self.domains_dir / "schemas"
 
     @property
+    def views_dir(self) -> Path:
+        """kg_views: one `<name>/{view.yaml,SKILL.md}` folder per saved view.
+        User-authored and committed; never seeded or overwritten by setup."""
+        return self.domains_dir / "views"
+
+    @property
     def meta_yaml(self) -> Path:
         return self.domains_dir / "meta.yaml"
 

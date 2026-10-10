@@ -152,6 +152,7 @@ with guidance rather than guessing.
 | `.artmind/vault.yaml` | the ingest manifest: folder→domain mapping, and the `vault_id` every clone shares | yes |
 | `.artmind/domains/schemas/`, `meta.yaml` | domain schemas + meta-schema | yes |
 | `.artmind/domains/table_mappings/` | `ingest table2graph` mappings | yes |
+| `.artmind/domains/views/` | saved graph views (`artmind views save`); never seeded or overwritten by `setup` | yes |
 | `.artmind/same_as.yaml` | same-as curation | yes |
 | `.artmind/config.env` | this vault's Neo4j connection (holds a password) | no |
 | `.artmind/data/documents/markdowns/` | converted markdown, extracted images | yes |

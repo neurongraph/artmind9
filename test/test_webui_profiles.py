@@ -54,6 +54,7 @@ def test_qa_is_read_and_contribute_only():
     for operator_skill in (
         "artmind-curate",
         "artmind-create-schema",
+        "artmind-create-view",
         "artmind-ingestion-helper",
     ):
         assert operator_skill not in QA_PROFILE.skills
@@ -66,6 +67,7 @@ def test_admin_owns_the_full_maintenance_set():
     for operator_skill in (
         "artmind-curate",
         "artmind-create-schema",
+        "artmind-create-view",
         "artmind-ingestion-helper",
     ):
         assert operator_skill in ADMIN_PROFILE.skills

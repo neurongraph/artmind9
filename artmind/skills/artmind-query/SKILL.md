@@ -77,7 +77,7 @@ shrink what a command returns; bounding that is each command's own options (see
 A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
 in a separate SQL store, independent of the graph above — see "Store routing" below.
 
-## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
+## The Query Protocol: Route → Views → Discover → Resolve → Retrieve → Ground → Adjudicate
 
 ### 0. Route — pick the domain set
 
@@ -88,9 +88,9 @@ domains by design (e.g. `banking_policy` vs `banking_sop_guides`). Before answer
 artmind query domains-overview --compact
 ```
 
-- If the user names an exact single small domain, use it and skip to Discover.
+- If the user names an exact single small domain, use it and go on to Views.
 - If the user names two or more SPECIFIC domains directly (e.g. "compare banking_policy
-  and banking_sop_guides"), use exactly those domains and skip to Discover — no
+  and banking_sop_guides"), use exactly those domains and go on to Views — no
   sub-agent needed, since routing is already resolved.
 - If the user names an AREA ("banking", "our policies"), or it's unclear which
   domain(s) hold the answer, or listings look large, launch ONE sub-agent that runs
@@ -109,13 +109,57 @@ Once the domain set is fixed, check whether a structured store is even in play:
 artmind db bridge --domain <d> --compact
 ```
 
-An empty `tables` list means the domain is genuinely pure-graph — skip ahead to
-Discover below, no further `db` calls. If it returns any tables, read
+An empty `tables` list means the domain is genuinely pure-graph — go on to
+Views below, no further `db` calls. If it returns any tables, read
 `references/structured-store.md` before classifying the question — it covers
 store routing (narrative vs analytical vs hybrid vs records-plus-guidance),
 worked examples, and how `--asOf` threads through the hybrid chain.
 
-### 1. Discover — learn the domain's shape
+### 1. Views — check for a saved view first
+
+A **view** is a reviewed, parameterised, read-only graph query that a domain owner saved
+for a question that keeps coming up, together with guidance on how to present it. A
+matching view replaces Discover, Resolve and Retrieve: one call instead of several.
+
+List the catalogue **once per domain per conversation** (it needs the domain set from
+Route), and reuse that listing for later questions in the same conversation:
+
+```bash
+artmind query views list --domain <domain> --compact
+```
+
+Re-list only if the user says they just added or changed a view. An empty `views` list
+means this domain has none: go on to Discover. `invalid` entries are broken views;
+ignore them (mention them only if the user asks about views).
+
+If the question matches a view's `summary` or `examples`:
+
+1. `artmind query views show <name> --compact` and follow the view's `skill_md`: it says
+   when the view is the wrong tool, what each column means, and how to present the result.
+2. Run it, passing one `--param name=value` per entry in the view's `params`:
+
+   ```bash
+   artmind query views run <name> --domain <domain> --param <p>=<value> --render markdown --compact
+   ```
+
+   If Route already returned `resolved_entities`, pass the id as `--param <p>=@<_id>`:
+   an `@` value skips name resolution. Otherwise give the name as the user said it; the
+   view resolves it.
+3. Read `status`:
+   - `ok`: state which entity each `params` entry resolved to (so the user can catch a
+     wrong interpretation), then present `rendered` as the view's `skill_md` directs. Do
+     not re-format the rows. If `truncated` is true, say how many rows were shown of
+     `rows_total`. Continue to Ground when the answer needs source text.
+   - `needs_disambiguation`: show the `candidates` (name, class, `observation_count`),
+     ask the user which one, then rerun with `--param <param>=@<_id>`.
+   - `no_match`: tell the user nothing matched `input`. If `suggestions` is non-empty,
+     offer them as "did you mean" (name, class); if the user picks one, rerun with
+     `--param <param>=@<_id>`. Otherwise continue with Discover.
+
+If no view fits, or the result is empty or does not answer the question, continue with
+Discover as normal. Never invent a view name; only run names returned by `views list`.
+
+### 2. Discover — learn the domain's shape
 
 Start every new domain/question session with:
 
@@ -143,9 +187,9 @@ If `total_entities` is large (> ~100), do not fetch the full listing. Narrow wit
 
 Document/chunk rows and `metadata` carry `valid_from`/`valid_to`/`superseded_by` — use them to judge document currency.
 
-### 2. Resolve — map question names to exact graph nodes
+### 3. Resolve — map question names to exact graph nodes
 
-Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and skip straight to step 3 — don't re-resolve. Otherwise, before running retrieval patterns:
+Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and skip straight to Retrieve — don't re-resolve. Otherwise, before running retrieval patterns:
 
 1. Resolve every entity reference in the question:
 
@@ -160,7 +204,7 @@ This combines Lucene full-text over entity names/descriptions with vector simila
 
 If entity-resolve returns nothing for an old graph, embeddings may be missing — `artmind ingest embed-entities --domain <domain>` backfills them.
 
-### 3. Retrieve — run the right pattern
+### 4. Retrieve — run the right pattern
 
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
 `timeline`, `conflicts`, `metadata`, `structural-metadata` and
@@ -275,7 +319,7 @@ How to work with it:
 4. A list cut in `truncated_properties` keeps only the newest entries. For an older value
    use `entity-history --entityId <id> --property <p>`, not a larger `--maxListItems`.
 
-### 4. Ground — pull source text when narrative evidence is needed
+### 5. Ground — pull source text when narrative evidence is needed
 
 Grounding has a deterministic path and a search path — prefer the deterministic one:
 
@@ -291,7 +335,7 @@ artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<quest
 
 vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
 
-### 5. Adjudicate — surface disagreements, never blend
+### 6. Adjudicate — surface disagreements, never blend
 
 Never average, reconcile silently, or drop one side when two sources disagree —
 surface both claims with both provenances. `:Conflict` has two shapes sharing one

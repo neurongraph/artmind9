@@ -13,6 +13,10 @@ import yaml
 from loguru import logger
 
 from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
+from artmind.kg_views import params as views_params
+from artmind.kg_views import runner as views_runner
+from artmind.kg_views import store as views_store
+from artmind.kg_views.model import ViewError
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.unified_snapshot import (
@@ -216,7 +220,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query"]},
+        {"name": "Query", "commands": ["query", "views"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -255,6 +259,7 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind query": [
         {"name": "Graph patterns", "commands": ["graph"]},
+        {"name": "Saved views", "commands": ["views"]},
         {
             "name": "Lookups",
             "commands": [
@@ -2381,6 +2386,9 @@ def query():
     line on stderr says when the graph or structured store is behind the
     vault's HEAD (never in stdout, so --compact JSON stays clean). Set
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
+
+    Groups: `graph` (patterns, metadata, text2cypher, ...) and `views` (saved,
+    parameterised queries: list / show / run). The rest are lookup commands.
     """
     pass
 
@@ -2992,6 +3000,183 @@ def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_
     try:
         result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
     except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+# ── artmind query views / artmind views (kg_views) ─────────────────────────────
+
+
+def _view_summary(loaded: views_store.LoadedView) -> dict:
+    spec = loaded.spec
+    params = {}
+    for name, pspec in spec.params.items():
+        entry = {"type": pspec.type, "required": pspec.required, "description": pspec.description}
+        if pspec.entity_class:
+            entry["entity_class"] = pspec.entity_class
+        params[name] = entry
+    return {
+        "name": spec.name,
+        "version": spec.version,
+        "domains": list(spec.domains),
+        "summary": spec.summary,
+        "examples": list(spec.examples),
+        "params": params,
+        "presentation_format": spec.presentation.format,
+    }
+
+
+@query.group("views")
+def query_views() -> None:
+    """Saved, parameterised graph queries ("views"): list the catalogue, show one, run one.
+
+    A view is a reviewed read-only Cypher query plus agent guidance, authored with
+    `artmind views` and stored with the domain schemas. `list` once per domain per
+    conversation; if a view fits the question, `show` it, then `run` it.
+    """
+    pass
+
+
+@query_views.command("list")
+@click.option("--domain", "domain", multiple=True, help="Only views for this domain family (repeatable; comma-splittable). Default: all views")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_views_list(domain: tuple, compact: bool) -> None:
+    """The view catalogue: name, summary, example questions, parameters. Invalid views are reported, not hidden."""
+    domains = _parse_domains(domain) if domain else None
+    loaded, invalid = views_store.list_views(domains)
+    _echo_json({"views": [_view_summary(v) for v in loaded], "invalid": invalid}, compact)
+
+
+@query_views.command("show")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name")
+def query_views_show(compact: bool, name: str) -> None:
+    """The full view.yaml plus the view's SKILL.md guidance (read it before running the view)."""
+    try:
+        loaded = views_store.load_view(name)
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"view": loaded.spec.to_dict(), "skill_md": loaded.skill_md}, compact)
+
+
+@query_views.command("run")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--param", "params", multiple=True, help="name=value (repeatable). Entity params take a name, or @<_id> to skip resolution; list params are comma-separated")
+@click.option("--render", "render", type=click.Choice(["markdown"]), default=None, help="Also return `rendered`: deterministic markdown per the view's presentation")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name")
+def query_views_run(domain: tuple, params: tuple, render: str | None, compact: bool, name: str) -> None:
+    """Run a saved view. status is ok | needs_disambiguation (ask the user, rerun with @<_id>) | no_match."""
+    domains = _parse_domains(domain)
+    try:
+        loaded = views_store.load_view(name)
+        result = views_runner.run_view(
+            loaded.spec, domains, views_params.parse_param_args(params), render=render == "markdown"
+        )
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@cli.group("views")
+def views_group() -> None:
+    """Author saved graph views: validate, test against the live graph, save, delete.
+
+    Drafts are plain folders holding view.yaml + SKILL.md (use `--path`). Read and run
+    saved views with `artmind query views`. Use the artmind-create-view skill for the
+    guided draft -> test -> approve -> save loop.
+    """
+    pass
+
+
+def _validate_folder(folder: Path) -> dict:
+    try:
+        loaded = views_store.load_view_dir(folder)
+    except (ViewError, OSError, UnicodeDecodeError) as exc:
+        return {"name": folder.name, "path": str(folder), "valid": False, "error": str(exc)}
+    return {"name": loaded.spec.name, "path": str(folder), "valid": True, "version": loaded.spec.version}
+
+
+@views_group.command("validate")
+@click.option("--path", "path", type=click.Path(exists=True, file_okay=False, path_type=Path), default=None, help="A draft folder (view.yaml + SKILL.md) instead of a saved view")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name", required=False)
+def views_validate(path: Path | None, compact: bool, name: str | None) -> None:
+    """Static checks only (no Neo4j). With no NAME/--path, validates every saved view. Exit 1 if any fails."""
+    if name and path:
+        raise click.UsageError("give NAME or --path, not both")
+    if path:
+        folders = [path]
+    elif name:
+        try:
+            views_store.check_name(name)
+        except ViewError as exc:
+            raise click.ClickException(str(exc)) from exc
+        folders = [views_store.views_dir() / name]
+    else:
+        folders = views_store.view_folders()
+    results = [_validate_folder(f) for f in folders]
+    _echo_json({"results": results}, compact)
+    if not all(r["valid"] for r in results):
+        raise click.exceptions.Exit(1)
+
+
+@views_group.command("test")
+@click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to run against (repeatable; comma-splittable)")
+@click.option("--param", "params", multiple=True, help="name=value (repeatable)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
+    """Validate a draft, run it live, and show rows, rendered markdown and the EXPLAIN plan. Writes nothing."""
+    domains = _parse_domains(domain)
+    try:
+        loaded = views_store.load_view_dir(path)
+        result = views_runner.run_view(
+            loaded.spec, domains, views_params.parse_param_args(params), render=True, explain=True
+        )
+    except (ViewError, OSError, UnicodeDecodeError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    warnings = []
+    status = result["status"]
+    if status == "needs_disambiguation":
+        p = result.get("param")
+        warnings.append(
+            f"entity param '{p}' is ambiguous: pick an _id from candidates and rerun with --param {p}=@<_id>"
+        )
+    elif status == "no_match":
+        p, text = result.get("param"), result.get("input")
+        names = [s.get("name") or s.get("_id") for s in result.get("suggestions") or []]
+        msg = f"entity param '{p}' matched nothing for '{text}'"
+        if names:
+            msg += f"; closest: {', '.join(names)} (rerun with --param {p}=@<_id> if one is right)"
+        warnings.append(msg)
+    elif result["rows_total"] == 0:
+        warnings.append("zero rows: check class names, rel_type literals (upper-case) and the parameter values")
+    if result.get("truncated"):
+        warnings.append(f"result truncated to max_rows={loaded.spec.max_rows} of {result['rows_total']}")
+    _echo_json({**result, "warnings": warnings}, compact)
+
+
+@views_group.command("save")
+@click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def views_save(path: Path, compact: bool) -> None:
+    """Validate a draft and copy it into the views directory. A changed query needs a higher `version` (no --force)."""
+    try:
+        result = views_store.save_view(path)
+    except ViewError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@views_group.command("delete")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("name")
+def views_delete(compact: bool, name: str) -> None:
+    """Delete a saved view folder."""
+    try:
+        result = views_store.delete_view(name)
+    except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
 

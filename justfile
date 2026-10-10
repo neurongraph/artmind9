@@ -495,6 +495,22 @@ query-text2sql domain question dry_run="":
 query-resolve-key domain phrase column="" table="":
     uv run artmind query resolve-key --domain {{ domain }} {{ if column != "" { "--column " + column } else { "" } }} {{ if table != "" { "--table " + table } else { "" } }} "{{ phrase }}"
 
+# saved graph views: catalogue for a domain  (usage: just query-views-list <domain>)
+query-views-list domain:
+    uv run artmind query views list --domain {{ domain }}
+
+# run a saved view  (usage: just query-views-run <domain> <name> "<k=v> <k=v>"; values cannot contain spaces -- pass an entity as k=@<_id>)
+query-views-run domain name params="":
+    uv run artmind query views run {{ name }} --domain {{ domain }} --render markdown $(for p in {{ params }}; do printf -- '--param %s ' "$p"; done)
+
+# validate a draft view folder, no Neo4j  (usage: just views-validate <path>)
+views-validate path:
+    uv run artmind views validate --path {{ path }}
+
+# run a draft view live, with rendering and EXPLAIN  (usage: just views-test <path> <domain> "<k=v> <k=v>"; values cannot contain spaces)
+views-test path domain params="":
+    uv run artmind views test --path {{ path }} --domain {{ domain }} $(for p in {{ params }}; do printf -- '--param %s ' "$p"; done)
+
 # ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)
