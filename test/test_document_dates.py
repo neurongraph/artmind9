@@ -328,3 +328,76 @@ def test_redo_properties_drops_a_mention_that_was_folded_away(tmp_path, monkeypa
 
     redone = json.loads((ing.KG_DIR / "journal" / "2026-01-21" / "observations.json").read_text())
     assert [o["id"] for o in redone] == [o["id"] for o in first]
+
+
+# ── `exclusive: true`: a property only its declaring classes may carry ─────
+
+EXCLUSIVE_SCHEMA = JOURNAL_SCHEMA.replace(
+    "      date_or_time:\n        temporal: valid_from\n",
+    "      date_or_time:\n        temporal: valid_from\n        exclusive: true\n",
+) + """  PERSON:
+    kind: recurrent
+    description: A person.
+    properties:
+      role: {}
+"""
+
+
+def _two_class_llm(monkeypatch):
+    def llm(step_name, model, prompt, debug_dir):
+        if step_name.endswith("_entities"):
+            return [{"id": "e1", "entity_class": "EVENT", "name": "Call"},
+                    {"id": "e2", "entity_class": "PERSON", "name": "Srinath"}], True
+        if step_name.endswith("_properties"):
+            return [{"id": "e1", "properties": {"date_or_time": "2026-01-07 (evening)"}},
+                    {"id": "e2", "properties": {"date_or_time": "2026-01-07", "role": "chair"}}], True
+        return [], True
+
+    _stub_llm(monkeypatch)
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+
+
+def test_an_exclusive_property_is_stripped_from_classes_that_do_not_declare_it(tmp_path, monkeypatch):
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
+    (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")
+    _two_class_llm(monkeypatch)
+
+    _, observations = _extract(doc)
+
+    by_class = {o["entity_class"]: o for o in observations}
+    assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (evening)"
+    assert "date_or_time" not in by_class["PERSON"]
+    assert by_class["PERSON"]["role"] == "chair", "only the exclusive property goes"
+
+
+def test_a_non_exclusive_property_is_left_alone(tmp_path, monkeypatch):
+    # Without the flag a class may carry another class's date property --
+    # e.g. contracts' effective_date on an OBLIGATION is real data.
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
+    (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(
+        EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", ""), encoding="utf-8")
+    _two_class_llm(monkeypatch)
+
+    _, observations = _extract(doc)
+
+    assert {o["entity_class"]: o for o in observations}["PERSON"]["date_or_time"] == "2026-01-07"
+
+
+def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, monkeypatch):
+    import yaml
+
+    from artmind.retime import retime_folder
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
+    schema_file = ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml"
+    schema_file.write_text(EXCLUSIVE_SCHEMA.replace("        exclusive: true\n", ""), encoding="utf-8")
+    _two_class_llm(monkeypatch)
+    _extract(doc)
+    schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")  # the flag lands later
+
+    assert retime_folder(ing.KG_DIR / "journal" / "2026-01-07", yaml.safe_load(EXCLUSIVE_SCHEMA))["changed"]
+
+    observations = json.loads((ing.KG_DIR / "journal" / "2026-01-07" / "observations.json").read_text())
+    by_class = {o["entity_class"]: o for o in observations}
+    assert "date_or_time" not in by_class["PERSON"]
+    assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (evening)"

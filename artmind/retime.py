@@ -62,15 +62,22 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
 
     The same decision `ingest._build_observations` + `build_observation` make:
     a fact's own date (its class's `temporal:` property) wins, else the
-    document's; `_doc_valid_from` is always the document's."""
+    document's; `_doc_valid_from` is always the document's. An `exclusive:`
+    property the observation's class doesn't declare is dropped, as
+    extraction now drops it."""
     from artmind.temporal import _entity_temporal_mapping
 
     entity_dates = _entity_temporal_mapping(schema)
+    exclusive = ingest._exclusive_properties(schema)
     doc_from, doc_to = document.get("_valid_from"), document.get("_valid_to")
     out = []
     for obs in observations:
-        fact_from, fact_to = ingest._fact_valid_time(entity_dates, obs.get("entity_class") or "", obs)
-        new = {k: v for k, v in obs.items() if k not in _OBSERVATION_TIME_KEYS}
+        cls = obs.get("entity_class") or ""
+        fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
+        new = {
+            k: v for k, v in ingest._strip_exclusive(obs, cls, exclusive).items()
+            if k not in _OBSERVATION_TIME_KEYS
+        }
         times = {
             "_valid_from": fact_from or doc_from,
             "_valid_to": fact_to or doc_to,

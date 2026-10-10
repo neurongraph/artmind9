@@ -2416,6 +2416,31 @@ def _fact_valid_time(entity_dates: dict, entity_class: str, props: dict) -> tupl
     return fact_valid_from, fact_valid_to
 
 
+def _exclusive_properties(schema: dict) -> dict[str, set[str]]:
+    """{property name: classes declaring it}, for each property some class
+    declares with `exclusive: true`.
+
+    Opt-in per property, never inferred: a name one class tags as a date can
+    be real data on a class that doesn't declare it (contracts'
+    `effective_date` on an OBLIGATION), but a journal's `date_or_time` on a
+    PERSON only ever means "mentioned in this entry" -- noise the extractor
+    adds whether or not it is told not to.
+    """
+    declared: dict[str, set[str]] = {}
+    exclusive: set[str] = set()
+    for cls, decl in (schema.get("entity_types") or {}).items():
+        for prop, prop_decl in (decl.get("properties") or {}).items():
+            declared.setdefault(prop, set()).add(cls)
+            if isinstance(prop_decl, dict) and prop_decl.get("exclusive"):
+                exclusive.add(prop)
+    return {prop: declared[prop] for prop in exclusive}
+
+
+def _strip_exclusive(props: dict, entity_class: str, exclusive: dict[str, set[str]]) -> dict:
+    """`props` without any exclusive property `entity_class` doesn't declare."""
+    return {k: v for k, v in props.items() if k not in exclusive or entity_class in exclusive[k]}
+
+
 def _build_observations(
     entities: list[dict],
     properties: list[dict],
@@ -2444,6 +2469,7 @@ def _build_observations(
 
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
     entity_dates = _entity_temporal_mapping(schema)
+    exclusive = _exclusive_properties(schema)
     doc_valid_from = document.get("_valid_from")
     doc_valid_to = document.get("_valid_to")
     doc_id = document["id"]
@@ -2460,7 +2486,9 @@ def _build_observations(
         if not canonical or not chunk_id:
             continue
 
-        domain_props = dict(props_by_id.get(entity.get("id"), {}))
+        domain_props = _strip_exclusive(
+            dict(props_by_id.get(entity.get("id"), {})), entity.get("entity_class") or "", exclusive,
+        )
 
         # A fact carrying its own dates overrides the document's.
         fact_valid_from, fact_valid_to = _fact_valid_time(

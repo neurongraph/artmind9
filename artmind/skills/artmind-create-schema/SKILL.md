@@ -247,6 +247,24 @@ separate `event_at` axis. A property tagged anything else (including the
 retired `event_at`) is silently ignored by the observation builder, not an
 error — so a typo here fails silently. Double-check the two spellings.
 
+Add `exclusive: true` beside `temporal:` when only the classes that declare
+the property may carry it:
+
+```yaml
+      date_or_time:
+        temporal: valid_from
+        exclusive: true
+```
+
+The extractor sometimes adds a date property to every entity a passage
+mentions. A journal's `date_or_time` on a PERSON only means "mentioned in
+this entry", and on a recurrent entity it reads like a fact about that
+person. With `exclusive: true`, extraction drops the property from every
+class that doesn't declare it, and `ingest retime` drops it from
+observations that are already staged. Leave it off when the name can be
+real data on other classes: `effective_date` on a contract OBLIGATION is a
+fact, so don't make it exclusive.
+
 **2. A `temporal:` block at the schema's top level**, for the *document's*
 own date (not an entity's):
 
