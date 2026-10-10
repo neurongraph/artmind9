@@ -235,10 +235,19 @@ def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, mo
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 
+    # The first extraction canonicalized "Governance Call" to "Governance Sync".
+    obs_file = folder / "observations.json"
+    staged = json.loads(obs_file.read_text())
+    obs_file.write_text(json.dumps([{**o, "canonical_name": "Governance Sync"} for o in staged]))
+    monkeypatch.setattr(ing, "canonicalize_document",
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
+
     report = retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
     assert report["committed"] == 1, report
     assert steps == ["chunk_001_properties"], "entities and relationships are not re-run"
+    (obs,) = json.loads(obs_file.read_text())
+    assert obs["canonical_name"] == "Governance Sync", "a properties redo keeps every entity's identity"
     assert anchors == [None, "2026-01-07"]
     document = json.loads((folder / "document.json").read_text())
     assert document["_valid_from"] == "2026-01-07"

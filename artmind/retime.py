@@ -14,8 +14,8 @@ An undated document keeps the date first recorded for it (`prior=`), so a
 retime never re-stamps "today".
 
 `redo_properties=True` is the one LLM path: it re-runs only the properties step
-of each document's chunks (one call per chunk, plus the per-document
-canonicalization call), so a `temporal:`-tagged property such as
+of each document's chunks (one call per chunk; canonicalization is NOT re-run --
+each entity keeps the canonical name it already has), so a `temporal:`-tagged property such as
 `date_or_time` is re-extracted with the document's date in the prompt
 (`temporal.relative_anchor`). It needs the document's per-chunk extraction
 cache on this machine, and skips a document without one rather than let
@@ -161,9 +161,21 @@ def _redo_properties(doc_kg_dir: Path, domain: str, text_model: str, embed_model
     sha = file_result.get("sha256") or ""
     if not _has_complete_cache(doc_kg_dir, sha):
         return {"document": name, "skipped": "no complete per-chunk extraction cache on this machine"}
+    # Identity is not what is being redone: canonicalization is an LLM call
+    # that answers differently run to run ("Drive to Pune" became "Travel to
+    # Pune" on a live redo), so re-running it would merge and split entities
+    # across the graph. The entities step is not re-run, so the raw names are
+    # the ones already staged; map them to the canonical names they got.
+    canonical_names = {
+        o["name"]: o["canonical_name"]
+        for o in _load_json(doc_kg_dir / "observations.json", [])
+        if o.get("name") and o.get("canonical_name")
+    }
     _reset_properties_step(sha)
     before = document.get("_valid_from")
-    if ingest.extract_kg(file_result, domain, text_model, embed_model) is None:
+    if ingest.extract_kg(
+        file_result, domain, text_model, embed_model, canonical_names=canonical_names,
+    ) is None:
         return {"document": name, "skipped": "extract_kg failed -- see the log"}
     after = (_load_json(doc_kg_dir / "document.json") or {})
     return {

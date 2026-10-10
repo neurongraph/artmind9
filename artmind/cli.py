@@ -1228,7 +1228,7 @@ def _run_chunk_embed_sweep() -> None:
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report what would change; write nothing")
 @click.option("--redoProperties", "redo_properties", is_flag=True,
               help="Also re-extract each chunk's properties with the document's date in the prompt "
-                   "(LLM: one call per chunk plus one per document). Needs this machine's chunk cache.")
+                   "(LLM: one call per chunk; entity names are kept). Needs this machine's chunk cache.")
 @click.option("--limit", type=int, default=None, help="Only the first N documents (try a few first)")
 @click.option("--document", "documents", multiple=True,
               help="Only this document (e.g. 2026-01-07.md); repeatable, comma-separated")

@@ -2487,8 +2487,14 @@ def extract_kg(
     embed_model: str = "nomic-embed-text:latest",
     max_workers: int | None = None,
     chunk_size: int | None = None,
+    canonical_names: dict[str, str] | None = None,
 ) -> Path | None:
     """Extract KG from persisted chunks and merge into document-level JSON files.
+
+    `canonical_names` (raw extracted name -> canonical name) skips the
+    per-document canonicalization LLM call and uses this mapping instead --
+    for a re-run that must not re-decide identity (`ingest retime
+    --redoProperties`); a name it lacks stays as extracted.
 
     Resumable: already-ok steps are skipped. Failed steps get a second attempt
     in the pre-merge retry pass before the merge proceeds.
@@ -2989,10 +2995,11 @@ def extract_kg(
     # Intra-document drift control. Chunks extracted in parallel and could not
     # see each other, so the same thing may carry several names; this is the
     # first point at which anything can see the whole document's output.
-    canonical_names = canonicalize_document(
-        all_entities, schema=schema, vocabulary=vocabulary,
-        model=text_model, debug_dir=doc_kg_dir,
-    )
+    if canonical_names is None:
+        canonical_names = canonicalize_document(
+            all_entities, schema=schema, vocabulary=vocabulary,
+            model=text_model, debug_dir=doc_kg_dir,
+        )
 
     all_observations = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,
