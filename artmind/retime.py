@@ -14,8 +14,10 @@ An undated document keeps the date first recorded for it (`prior=`), so a
 retime never re-stamps "today".
 
 `redo_properties=True` is the one LLM path: it re-runs only the properties step
-of each document's chunks (one call per chunk; canonicalization is NOT re-run --
-each entity keeps the canonical name it already has), so a `temporal:`-tagged property such as
+of each document's chunks, and only for entities of classes that declare a
+`temporal:` property -- every other entity keeps its cached properties and is
+never shown to the model (one call per chunk that has such an entity;
+canonicalization is NOT re-run -- each entity keeps its canonical name), so a `temporal:`-tagged property such as
 `date_or_time` is re-extracted with the document's date in the prompt
 (`temporal.relative_anchor`). It needs the document's per-chunk extraction
 cache on this machine, and skips a document without one rather than let
@@ -35,6 +37,7 @@ from loguru import logger
 from artmind import ingest
 from artmind.atomic_dir import is_scratch
 from artmind.document_identity import resolve_canonical_path
+from artmind.observations import normalize_property_keys, property_key_rules
 
 #: The fields a retime owns -- everything else in a staging folder is left
 #: byte-for-byte alone.
@@ -62,17 +65,20 @@ def retime_observations(observations: list[dict], document: dict, schema: dict) 
 
     The same decision `ingest._build_observations` + `build_observation` make:
     a fact's own date (its class's `temporal:` property) wins, else the
-    document's; `_doc_valid_from` is always the document's. An `exclusive:`
+    document's; `_doc_valid_from` is always the document's. Property keys are
+    normalized (`observations.normalize_property_keys`) and an `exclusive:`
     property the observation's class doesn't declare is dropped, as
-    extraction now drops it."""
+    extraction now does both."""
     from artmind.temporal import _entity_temporal_mapping
 
     entity_dates = _entity_temporal_mapping(schema)
     exclusive = ingest._exclusive_properties(schema)
+    key_rules = property_key_rules(schema)
     doc_from, doc_to = document.get("_valid_from"), document.get("_valid_to")
     out = []
     for obs in observations:
         cls = obs.get("entity_class") or ""
+        obs = normalize_property_keys(obs, *key_rules)
         fact_from, fact_to = ingest._fact_valid_time(entity_dates, cls, obs)
         new = {
             k: v for k, v in ingest._strip_exclusive(obs, cls, exclusive).items()
@@ -156,7 +162,9 @@ def _has_complete_cache(doc_kg_dir: Path, sha: str) -> bool:
     )
 
 
-def _redo_properties(doc_kg_dir: Path, domain: str, text_model: str, embed_model: str) -> dict:
+def _redo_properties(
+    doc_kg_dir: Path, domain: str, schema: dict, text_model: str, embed_model: str,
+) -> dict:
     """Re-extract one document's properties with its date in the prompt."""
     document = _load_json(doc_kg_dir / "document.json") or {}
     name = document.get("name") or doc_kg_dir.name
@@ -180,8 +188,15 @@ def _redo_properties(doc_kg_dir: Path, domain: str, text_model: str, embed_model
     }
     _reset_properties_step(sha)
     before = document.get("_valid_from")
+    # Only classes with a date property have anything to redo. Re-asking about
+    # the rest re-rolled 10,217 undated observations on the live journal and,
+    # told not to date them, the model moved ~830 dates into invented keys.
+    from artmind.temporal import _entity_temporal_mapping
+
+    dated_classes = set(_entity_temporal_mapping(schema))
     if ingest.extract_kg(
-        file_result, domain, text_model, embed_model, canonical_names=canonical_names,
+        file_result, domain, text_model, embed_model,
+        canonical_names=canonical_names, redo_property_classes=dated_classes,
     ) is None:
         return {"document": name, "skipped": "extract_kg failed -- see the log"}
     after = (_load_json(doc_kg_dir / "document.json") or {})
@@ -233,7 +248,7 @@ def retime_domain(
     for folder in folders:
         try:
             if redo_properties and not dry_run:
-                result = _redo_properties(folder, domain, text_model, embed_model)
+                result = _redo_properties(folder, domain, schema, text_model, embed_model)
             else:
                 result = retime_folder(folder, schema, write=not dry_run)
         except Exception as e:  # one bad folder must not stop the domain

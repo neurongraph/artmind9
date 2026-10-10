@@ -195,10 +195,16 @@ def retrieve_property_vocabulary(
         logger.warning("Property vocabulary: query failed, extracting without it ({})", e)
         return {}
 
+    # A key the schema would rename (a number variant of a declared key, or
+    # an alias) is drift, not vocabulary: offering it back, ranked by how
+    # often it was already used, is what kept it in use.
+    from artmind.observations import canonical_property_key, property_key_rules
+
+    aliases, declared = property_key_rules(schema)
     vocabulary: dict[str, list[str]] = {}
     for row in rows:
         cls, key = row.get("entity_class"), row.get("key")
-        if not cls or not key:
+        if not cls or not key or canonical_property_key(key, aliases, declared) != key:
             continue
         keys = vocabulary.setdefault(cls, [])
         if key not in keys and len(keys) < limit:

@@ -323,6 +323,37 @@ child adds or overrides. This happens whether or not you ever run
 `domains harmonize`; harmonize only copies missing `entity_types` classes,
 never `temporal:`.
 
+### Step 7b — One concept, one property key (`property_aliases`)
+
+The extractor may give one concept several key names: singular and plural, or
+near-synonyms. Each spelling becomes a separate property to anything that
+reads the graph, so a fact stored under one key is invisible to a query for
+the other. Two rules keep keys stable:
+
+- **Declare property names in the singular.** The properties prompt tells
+  the model to use singular keys (`notable_characteristic`, not
+  `notable_characteristics`), so a plural declaration splits the data.
+  Singular and plural variants of a declared key are folded onto it
+  automatically, so a stray plural needs no alias.
+- **Use the same name across classes for the same idea.** If LOCATION
+  declares `narrative_function` and OBJECT declares `narrative_role`, the
+  model will put both on every class. For names that are already in use,
+  add a top-level map:
+
+```yaml
+property_aliases:                # variant: canonical_key -- applies to every class
+  narrative_function: narrative_role
+  relationship_to_writer: relationship_to_diarist
+```
+
+Aliases are applied deterministically at extraction, and `artmind ingest
+retime --domain <domain>` applies them to data that is already ingested,
+with no LLM. When two keys land on one name, their values are merged.
+`artmind domains validate` rejects an alias whose variant is a declared
+property, a chain (`a: b`, `b: c`), and a structural key such as `name`.
+Merge only real synonyms: `frequency` on an ACTIVITY and `frequency_of_visit`
+on a LOCATION are different questions.
+
 ### Step 8 — Domain-wide guidance (optional)
 
 For a judgment call that applies across the whole domain rather than to one
@@ -536,6 +567,8 @@ guidance:                              # optional — schema-wide, not per-class
   — spelled exactly that way, nothing else (not event_at)
 □ relates_to covers all major class-pair combinations, declared from one side only
 □ domain-specific vocabulary used throughout (no generic placeholders left in)
+□ property names are singular, and one idea has one name across classes
+  (`property_aliases` maps the variants already in use)
 □ `artmind domains validate --domain {name}` reports no violations
 □ `artmind domains entities-prompt/properties-prompt/relationships-prompt {name}`
   read correctly end to end

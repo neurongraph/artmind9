@@ -213,6 +213,88 @@ def relation_observation_id(chunk_id: str, source_observation_id: str, rel_type:
 # ── building observations ────────────────────────────────────────────────────
 
 
+# ── property-key normalization: one concept, one key ───────────────────────
+
+
+def _number_variants(key: str) -> list[str]:
+    """`key` with its last `_`-segment in the other grammatical number:
+    `notable_characteristics` <-> `notable_characteristic`,
+    `activities` <-> `activity`. Candidates only -- a caller keeps one only
+    when the schema declares it."""
+    head, _, last = key.rpartition("_")
+    prefix = f"{head}_" if head else ""
+    forms = set()
+    if last.endswith("ies") and len(last) > 3:
+        forms.add(last[:-3] + "y")
+    if last.endswith("es") and len(last) > 2:
+        forms.add(last[:-2])
+    if last.endswith("s") and not last.endswith("ss") and len(last) > 1:
+        forms.add(last[:-1])
+    if last.endswith("y") and len(last) > 1:
+        forms.add(last[:-1] + "ies")
+    forms.update({last + "s", last + "es"})
+    forms.discard(last)
+    return [prefix + f for f in sorted(forms)]
+
+
+def property_key_rules(schema: dict) -> tuple[dict[str, str], frozenset[str]]:
+    """(aliases, declared keys) for `normalize_property_keys`.
+
+    `aliases` is the schema's top-level `property_aliases:` map
+    (`variant: canonical`), domain-wide; `declared` is every property name any
+    class declares -- a key is the domain's vocabulary, not one class's."""
+    aliases = {str(k): str(v) for k, v in (schema.get("property_aliases") or {}).items()}
+    declared = frozenset(
+        str(prop)
+        for decl in (schema.get("entity_types") or {}).values()
+        for prop in ((decl or {}).get("properties") or {})
+    )
+    return aliases, declared
+
+
+def canonical_property_key(key: str, aliases: dict[str, str], declared: frozenset[str]) -> str:
+    """The key `key` is recorded under: its declared alias target; itself
+    when declared; else a declared number variant of it; else itself."""
+    if key in aliases:
+        return aliases[key]
+    if key in declared:
+        return key
+    return next((v for v in _number_variants(key) if v in declared), key)
+
+
+def _merge_values(a, b):
+    if a == b:
+        return a
+    merged: list = []
+    for value in (a if isinstance(a, list) else [a]) + (b if isinstance(b, list) else [b]):
+        if value not in merged:
+            merged.append(value)
+    return merged[0] if len(merged) == 1 else merged
+
+
+def normalize_property_keys(props: dict, aliases: dict[str, str], declared: frozenset[str]) -> dict:
+    """`props` with every domain-property key under its canonical name.
+
+    The extractor names one concept several ways -- singular and plural
+    (`notable_characteristic` 752x beside the declared
+    `notable_characteristics` 351x on the live journal), or near-synonyms
+    (`narrative_role` / `narrative_function`). Each spelling is a separate
+    property to everything that reads the graph back, so a fact recorded
+    under one is invisible to a query for the other. Deterministic: a key
+    moves only onto a declared key or a schema-declared alias target, and two
+    keys landing on one name have their values merged. `_`-prefixed and
+    structural keys are never touched.
+    """
+    out: dict = {}
+    for key, value in props.items():
+        k = str(key)
+        target = k if k.startswith(RESERVED_PREFIX) or k in _STRUCTURAL_KEYS else (
+            canonical_property_key(k, aliases, declared)
+        )
+        out[target] = _merge_values(out[target], value) if target in out else value
+    return out
+
+
 def flatten_domain_props(props: dict | None) -> dict:
     """Flatten extracted domain properties to Neo4j-storable values.
 

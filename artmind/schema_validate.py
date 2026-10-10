@@ -61,6 +61,7 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
       - `entity_types` is a map (the pre-redesign list form is rejected)
       - every class declares `kind`, and it is one of `meta['kinds']`
       - no class name, property name, or relates_to target uses the reserved prefix
+      - `property_aliases`, if present, is a flat {variant: canonical} map
     """
     errors: list[str] = []
     prefix = meta.get("reserved_prefix", "_")
@@ -103,6 +104,36 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
         for target in (decl.get("relates_to") or {}):
             _check_reserved(target, prefix, f"{where}.relates_to", errors)
 
+    errors.extend(_property_alias_errors(schema, entity_types, prefix, label))
+    return errors
+
+
+def _property_alias_errors(schema: dict, entity_types: dict, prefix: str, label: str) -> list[str]:
+    """`property_aliases:` is `{variant: canonical}`, applied to every class
+    (`observations.normalize_property_keys`). A declared key as a variant
+    would rename a property some class asks for; a chain or a structural /
+    reserved target is never what the author meant."""
+    from artmind.observations import _STRUCTURAL_KEYS
+
+    aliases = schema.get("property_aliases")
+    if aliases is None:
+        return []
+    where = f"{label}.property_aliases"
+    if not isinstance(aliases, dict):
+        return [f"{where}: must be a map of {{variant: canonical_key}}"]
+    declared = {
+        str(p) for d in entity_types.values() if isinstance(d, dict) for p in (d.get("properties") or {})
+    }
+    errors: list[str] = []
+    for variant, target in aliases.items():
+        variant, target = str(variant), str(target)
+        if variant in declared:
+            errors.append(f"{where}: {variant!r} is a declared property -- it cannot also be an alias")
+        if target in aliases:
+            errors.append(f"{where}: {variant!r} -> {target!r} -> {aliases[target]!r} is a chain; "
+                          f"map {variant!r} straight to the final key")
+        if target.startswith(prefix) or target in _STRUCTURAL_KEYS or variant in _STRUCTURAL_KEYS:
+            errors.append(f"{where}: {variant!r} -> {target!r} touches a structural/reserved key")
     return errors
 
 
