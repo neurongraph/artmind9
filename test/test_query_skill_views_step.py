@@ -45,6 +45,8 @@ def test_views_step_content():
         "needs_disambiguation",
         "no_match",
         "continue with Discover",
+        "suggestions",
+        "did you mean",
     ):
         assert needle in section, needle
 

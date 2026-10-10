@@ -33,8 +33,12 @@ def make_spec(entity_class="Product"):
     )
 
 
-def hit(_id, name, cls="Product", obs=3):
-    return {"entity": {"_id": _id, "name": name, "entity_class": cls, "observation_count": obs}, "score": 0.1}
+def hit(_id, name, cls="Product", obs=3, matched_by=("fulltext", "vector")):
+    return {
+        "entity": {"_id": _id, "name": name, "entity_class": cls, "observation_count": obs},
+        "score": 0.1,
+        "matched_by": list(matched_by),
+    }
 
 
 def patched_resolve(rows):
@@ -102,6 +106,70 @@ def test_no_candidates_is_no_match():
     with patched_resolve([hit("e1", "Mortgage", cls="Regulation")]):
         res = resolve_params(make_spec("Product"), {"product": "Mortgage"}, ["finance"])
     assert (res.status, res.param, res.input) == ("no_match", "product", "Mortgage")
+    assert res.suggestions == []
+
+
+def test_vector_only_hits_are_no_match_with_suggestions():
+    rows = [hit(f"e{i}", f"Other {i}", matched_by=("vector",)) for i in range(7)]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "qzxwvplk"}, ["finance"])
+    assert (res.status, res.param, res.input) == ("no_match", "product", "qzxwvplk")
+    assert res.candidates == []
+    assert [s["_id"] for s in res.suggestions] == [f"e{i}" for i in range(5)]
+    assert set(res.suggestions[0]) == {"_id", "name", "entity_class", "observation_count"}
+
+
+def test_no_rows_at_all_is_no_match_with_empty_suggestions():
+    with patched_resolve([]):
+        res = resolve_params(make_spec(), {"product": "zzz"}, ["finance"])
+    assert res.status == "no_match" and res.suggestions == []
+
+
+def test_mixed_list_drops_vector_only_noise_from_candidates():
+    rows = [
+        hit("e1", "Manas Kumar", matched_by=("fulltext", "vector")),
+        hit("n1", "Noise", matched_by=("vector",)),
+        hit("e2", "Manas Rao", matched_by=("fulltext",)),
+        hit("n2", "More noise", matched_by=("vector",)),
+    ]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "Manas"}, ["finance"])
+    assert res.status == "needs_disambiguation"
+    assert [c["_id"] for c in res.candidates] == ["e1", "e2"]
+
+
+def test_single_fulltext_hit_among_vector_noise_is_accepted():
+    rows = [hit("n1", "Noise", matched_by=("vector",)), hit("e1", "Manas Kumar", matched_by=("fulltext",))]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "Manas"}, ["finance"])
+    assert res.status == "ok" and res.bindings["product"] == "e1"
+
+
+def test_exact_name_among_fulltext_hits_ignores_vector_only_exact():
+    rows = [
+        hit("v1", "Mortgage", matched_by=("vector",)),
+        hit("e1", "Mortgage Insurance", matched_by=("fulltext",)),
+        hit("e2", "mortgage", matched_by=("fulltext",)),
+    ]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "Mortgage"}, ["finance"])
+    assert res.status == "ok" and res.bindings["product"] == "e2"
+
+
+def test_class_filter_applies_before_fulltext_check():
+    rows = [hit("e1", "Mortgage", cls="Regulation", matched_by=("fulltext",)),
+            hit("v1", "Mortgage Plus", matched_by=("vector",))]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec("Product"), {"product": "Mortgage"}, ["finance"])
+    assert res.status == "no_match"
+    assert [s["_id"] for s in res.suggestions] == ["v1"]
+
+
+def test_fulltext_only_fallback_rows_are_accepted():
+    rows = [hit("e1", "Retail Mortgage", matched_by=("fulltext",))]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "mortgage"}, ["finance"])
+    assert res.status == "ok"
 
 
 def at_id_session(record):

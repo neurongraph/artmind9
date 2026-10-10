@@ -152,6 +152,14 @@ def test_warnings_truncation_ambiguity_no_match(tmp_path):
     assert len(w) == 1 and "'product' is ambiguous" in w[0] and "product=@<_id>" in w[0]
     w = _test_with(tmp_path, ok_envelope(status="no_match", param="product", input="Zed"))
     assert w == ["entity param 'product' matched nothing for 'Zed'"]
+    w = _test_with(tmp_path, ok_envelope(
+        status="no_match", param="product", input="Zed",
+        suggestions=[{"_id": "a", "name": "Zeta"}, {"_id": "b", "name": "Zen"}],
+    ))
+    assert w == [
+        "entity param 'product' matched nothing for 'Zed'; closest: Zeta, Zen "
+        "(rerun with --param product=@<_id> if one is right)"
+    ]
 
 
 def test_save_invalid_draft_saves_nothing(views_root, tmp_path):

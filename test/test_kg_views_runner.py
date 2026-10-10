@@ -119,14 +119,15 @@ def test_truncates_to_max_rows_and_reports_totals():
     [
         (resolved("needs_disambiguation", param="product", candidates=[{"_id": "a"}], bindings={}, echo={}),
          {"param": "product", "candidates": [{"_id": "a"}]}),
-        (resolved("no_match", param="product", input="zzz", bindings={}, echo={}),
-         {"param": "product", "input": "zzz"}),
+        (resolved("no_match", param="product", input="zzz", suggestions=[{"_id": "s1"}],
+                  bindings={}, echo={}),
+         {"param": "product", "input": "zzz", "suggestions": [{"_id": "s1"}]}),
         (resolved("needs_disambiguation", param="product", candidates=[{"_id": "a"}],
                   bindings={"max_depth": 4}, echo={"max_depth": 4}),
          {"param": "product", "candidates": [{"_id": "a"}], "params": {"max_depth": 4}}),
         (resolved("no_match", param="product", input="zzz",
                   bindings={"max_depth": 4}, echo={"max_depth": 4}),
-         {"param": "product", "input": "zzz", "params": {"max_depth": 4}}),
+         {"param": "product", "input": "zzz", "suggestions": [], "params": {"max_depth": 4}}),
     ],
 )
 def test_unresolved_entity_returns_no_rows_and_runs_no_cypher(resolution, expected):

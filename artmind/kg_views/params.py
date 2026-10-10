@@ -32,6 +32,7 @@ class Resolution:
     param: str | None = None
     input: str | None = None
     candidates: list = field(default_factory=list)
+    suggestions: list = field(default_factory=list)
 
 
 def parse_param_args(pairs: tuple[str, ...] | list[str]) -> dict[str, str]:
@@ -88,18 +89,24 @@ def _lookup_entity_id(spec: ParamSpec, entity_id: str, domains: list[str]) -> di
 
 
 def _resolve_entity_name(spec: ParamSpec, text: str, domains: list[str]) -> tuple[str, dict | list]:
-    """Spec section 7 rule. Returns ("ok", entity) | ("needs_disambiguation", [..]) | ("no_match", [])."""
+    """Spec section 7 rule.
+
+    Returns ("ok", entity) | ("needs_disambiguation", [..]) | ("no_match", suggestions).
+    The vector leg always returns nearest neighbours, so only fulltext evidence
+    counts as a match; vector-only hits are offered as suggestions.
+    """
     result = vector_query.entity_resolve(domains, text, ENTITY_RESOLVE_TOP_K)
-    candidates = [r["entity"] for r in result.get("rows", []) if r.get("entity")]
-    candidates = [c for c in candidates if _class_matches(c, spec.entity_class)]
-    exact = [c for c in candidates if str(c.get("name") or "").casefold() == text.casefold()]
+    rows = [r for r in result.get("rows", []) if r.get("entity")]
+    rows = [r for r in rows if _class_matches(r["entity"], spec.entity_class)]
+    matched = [r["entity"] for r in rows if "fulltext" in (r.get("matched_by") or [])]
+    if not matched:
+        return "no_match", [_slim(r["entity"]) for r in rows[:MAX_CANDIDATES]]
+    exact = [c for c in matched if str(c.get("name") or "").casefold() == text.casefold()]
     if len(exact) == 1:
         return "ok", exact[0]
-    if len(candidates) == 1:
-        return "ok", candidates[0]
-    if candidates:
-        return "needs_disambiguation", [_slim(c) for c in candidates[:MAX_CANDIDATES]]
-    return "no_match", []
+    if len(matched) == 1:
+        return "ok", matched[0]
+    return "needs_disambiguation", [_slim(c) for c in matched[:MAX_CANDIDATES]]
 
 
 def resolve_params(spec: ViewSpec, raw: dict[str, str], domains: list[str]) -> Resolution:
@@ -132,7 +139,10 @@ def resolve_params(spec: ViewSpec, raw: dict[str, str], domains: list[str]) -> R
             status, found = _resolve_entity_name(pspec, text, domains)
             if status != "ok":
                 out.status, out.param, out.input = status, name, text
-                out.candidates = found if status == "needs_disambiguation" else []
+                if status == "needs_disambiguation":
+                    out.candidates = found
+                else:
+                    out.suggestions = found
                 return out
             entity = found
         out.bindings[name] = entity["_id"]

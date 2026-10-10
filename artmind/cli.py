@@ -3144,7 +3144,12 @@ def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
             f"entity param '{p}' is ambiguous: pick an _id from candidates and rerun with --param {p}=@<_id>"
         )
     elif status == "no_match":
-        warnings.append(f"entity param '{result.get('param')}' matched nothing for '{result.get('input')}'")
+        p, text = result.get("param"), result.get("input")
+        names = [s.get("name") or s.get("_id") for s in result.get("suggestions") or []]
+        msg = f"entity param '{p}' matched nothing for '{text}'"
+        if names:
+            msg += f"; closest: {', '.join(names)} (rerun with --param {p}=@<_id> if one is right)"
+        warnings.append(msg)
     elif result["rows_total"] == 0:
         warnings.append("zero rows: check class names, rel_type literals (upper-case) and the parameter values")
     if result.get("truncated"):

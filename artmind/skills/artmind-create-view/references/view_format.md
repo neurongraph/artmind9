@@ -60,7 +60,9 @@ have a default: the user always names the entity.
 
 An `entity` param is given a name on the CLI and resolved to the entity's `_id`, which is
 what `$param` holds in the Cypher (`MATCH (p:Entity {_id: $product})`). `@<_id>` skips
-resolution.
+resolution. Resolution accepts only names with fulltext evidence: one exact-name hit (or a
+single hit) is taken, several are `needs_disambiguation`, none is `no_match` with
+`suggestions` (nearest entities by embedding, to rerun with `@<_id>`).
 
 ### Validation (load, validate, test and save all run it)
 
@@ -132,7 +134,7 @@ description: <when to use this view, in one or two sentences; what it is not for
 writes nothing and returns the run envelope plus `rendered` (markdown per the
 presentation), the EXPLAIN `plan` (operator tree) and `warnings`: zero rows, truncation to
 `max_rows`, an ambiguous entity (`needs_disambiguation`, rerun with `@<_id>`) or an
-entity that matched nothing. `artmind views validate` results carry the folder `path`.
+entity that matched nothing (`no_match`, with `suggestions`). `artmind views validate` results carry the folder `path`.
 
 ## Cypher checklist
 

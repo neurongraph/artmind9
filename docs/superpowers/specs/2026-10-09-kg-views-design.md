@@ -250,7 +250,7 @@ All new commands are added to `COMMAND_GROUPS` in `cli.py` (so
 - `status`: `ok | needs_disambiguation | no_match`. Only `ok` carries `rows`,
   `rows_total`, `truncated` and (with `--render markdown`) `rendered`.
 - `needs_disambiguation` carries `param` and `candidates: [{_id, name, entity_class, observation_count}]` (top 5).
-- `no_match` carries `param` and `input`.
+- `no_match` carries `param`, `input` and `suggestions: [{_id, name, entity_class, observation_count}]` (top 5 vector-only candidates; may be empty).
 - The resolved entity is echoed back so the agent can state its interpretation.
 - Rows go through `strip_internal_props` / `serialize_value` like other query output.
 
@@ -259,10 +259,15 @@ All new commands are added to `COMMAND_GROUPS` in `cli.py` (so
 **Entity auto-resolve** (`params.py`). It is deterministic and has no score thresholds:
 
 1. Call `vector_query.entity_resolve(domains, input, topK=10)`.
-2. If the param declares `entity_class`, drop candidates of other classes.
-3. Exactly one case-insensitive exact-name match → accept it.
-4. Otherwise exactly one candidate → accept it.
-5. Otherwise, more than one candidate → `needs_disambiguation` (top 5). None → `no_match`.
+2. If the param declares `entity_class`, drop candidates of other classes (case-insensitive).
+3. If any remaining candidate has `fulltext` in `matched_by`, keep only those. Then: exactly one
+   case-insensitive exact-name match → accept it; else exactly one candidate → accept it; else
+   `needs_disambiguation` (top 5).
+4. If no remaining candidate was matched by fulltext → `no_match`, carrying `suggestions`: the
+   top 5 vector-only candidates (empty if none).
+
+Why: the vector leg always returns nearest neighbours, even for nonsense input, so only
+fulltext evidence counts as a match; vector-only hits are merely suggestions.
 
 `@<_id>` skips resolution but is still checked: the node exists, `_domain` is in
 the requested (expanded) domains, and `entity_class` matches if one is declared.
@@ -316,7 +321,7 @@ refuses. There is no `--force`; bump the version.
     follow its SKILL.md → `views run … --render markdown --compact`.
   - If Route already returned `resolved_entities`, pass them as `--param k=@<_id>`.
   - `needs_disambiguation` → ask the user, then rerun with `@<_id>`. `no_match` →
-    tell the user and fall through.
+    tell the user, offer `suggestions` as "did you mean" (rerun with `@<_id>`), else fall through.
   - No fitting view, or an empty or unhelpful result → continue with Discover as normal.
 
 ### 8.2 New skill `artmind/skills/artmind-create-view/`

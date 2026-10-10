@@ -70,7 +70,8 @@ worked views to copy from.
    It runs the query for real (60 s server-side limit) and returns `rows`, `rendered`,
    the EXPLAIN `plan` and a `warnings` list (zero rows, truncation, an ambiguous or
    unmatched entity). Zero rows almost always means a wrong class name or `rel_type`.
-   If `status` is `needs_disambiguation`, pick a candidate and rerun with `@<_id>`. A
+   If `status` is `needs_disambiguation`, pick a candidate and rerun with `@<_id>`. If `no_match`, nothing matched by name (only
+   fulltext evidence counts); `suggestions` lists the closest entities to rerun with `@<_id>`. A
    database failure is reported as `view <name> v<N> failed: ...`.
 6. **Show the operator** the rendered markdown, a few raw rows, and a one-line reading of
    the plan (look for `AllNodesScan`/`CartesianProduct` on a large domain: add a label or
@@ -111,6 +112,8 @@ To remove a view: `artmind views delete <name>` -- only after the operator has s
 ## Failure modes
 
 - `needs_disambiguation` on test: expected for ambiguous names; rerun with `@<_id>`.
+- `no_match` on test: the name found no fulltext hit (a nonsense or too-different name);
+  check `suggestions` and rerun with `@<_id>`, or try a name fragment that appears in the entity.
 - `artmind query views list` shows broken views as `invalid` entries; `artmind views validate <name>` gives the reason.
 - Query fails with a Neo4j error: the message names the view and version; fix the Cypher
   and re-test. Do not save a view that has not produced a sensible result.

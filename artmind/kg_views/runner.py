@@ -103,7 +103,9 @@ def run_view(
         envelope.update(param=resolution.param, candidates=resolution.candidates)
         return envelope
     if resolution.status == "no_match":
-        envelope.update(param=resolution.param, input=resolution.input)
+        envelope.update(
+            param=resolution.param, input=resolution.input, suggestions=resolution.suggestions
+        )
         return envelope
 
     bindings = {**resolution.bindings, "domains": expanded}

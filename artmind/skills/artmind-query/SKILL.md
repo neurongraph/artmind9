@@ -152,7 +152,9 @@ If the question matches a view's `summary` or `examples`:
      `rows_total`. Continue to Ground when the answer needs source text.
    - `needs_disambiguation`: show the `candidates` (name, class, `observation_count`),
      ask the user which one, then rerun with `--param <param>=@<_id>`.
-   - `no_match`: tell the user nothing matched `input`, then continue with Discover.
+   - `no_match`: tell the user nothing matched `input`. If `suggestions` is non-empty,
+     offer them as "did you mean" (name, class); if the user picks one, rerun with
+     `--param <param>=@<_id>`. Otherwise continue with Discover.
 
 If no view fits, or the result is empty or does not answer the question, continue with
 Discover as normal. Never invent a view name; only run names returned by `views list`.
