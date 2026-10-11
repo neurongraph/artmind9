@@ -68,6 +68,7 @@ from paths import (
     WORKER_PID_FILE,
 )
 from utils.functions import load_env, resolve_llm_model
+from artmind.traces.span import TracedGroup, observe_output
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -288,6 +289,7 @@ def cli():
 
 
 def _echo_json(payload: dict, compact: bool = False) -> None:
+    observe_output(payload)  # query-trace span evidence; a no-op outside a traced query
     # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set
     # (`db sql`, `query text2sql`) and aren't JSON-serializable. `default=str`
     # renders them rather than crashing the CLI's only output path -- same call
@@ -2429,7 +2431,7 @@ def db_restore_text(path, confirm, table, domain, compact):
     _echo_json(summary, compact)
 
 
-@cli.group()
+@cli.group(cls=TracedGroup)
 def query():
     """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key).
 
@@ -2440,6 +2442,10 @@ def query():
 
     Groups: `graph` (patterns, metadata, text2cypher, ...) and `views` (saved,
     parameterised queries: list / show / run). The rest are lookup commands.
+
+    Inside the admin console or a benchmark run, every query call is recorded
+    as a span of the turn's trace (command, args, rows, evidence ids, LLM
+    calls). Read them with `artmind traces`.
     """
     pass
 
