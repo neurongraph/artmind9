@@ -154,6 +154,10 @@ def attach(dossier: Dossier, trace_id: str, *, today: date | None = None) -> Dos
     if dossier.meta.get("status") not in _ACTIVE:
         raise DossierError(f"{dossier.review_id} is {dossier.meta.get('status')}; reopen it "
                            f"(`artmind review status {dossier.review_id} open`) before attaching a trace")
+    elsewhere = [rid for rid in open_reviews_for(trace_id) if rid != dossier.review_id]
+    if elsewhere:
+        raise DossierError(f"trace {trace_id} is already in open dossier(s) {', '.join(elsewhere)}: "
+                           "one problem, one dossier")
     shown = show(trace_id)
     if shown is None:
         raise DossierError(f"no trace {trace_id}")

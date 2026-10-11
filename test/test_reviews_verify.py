@@ -121,3 +121,31 @@ def test_verify_untraced_run_fails_cleanly():
     result = verify.verify("rv-2031-01-01-aaaaaa", runner=run)
     assert result["mechanical_ok"] is False and result["error"] == "agent crashed"
     assert result["checks"][0]["check"] == "traced"
+
+
+def test_summarize_ignores_unnamed_views():
+    _turn("t-v", answer="x", fell_through=False, basis="graph")
+    store.insert_span({"span_id": "sv1", "trace_id": "t-v", "command": "query views run", "args": "{}", "exit_code": 0,
+                       "duration_ms": 1, "rows": 1, "rows_total": None, "truncated": 0,
+                       "evidence": json.dumps({"view": {"status": "ok"}}), "started_at": time.time()}, [])
+    store.insert_span({"span_id": "sv2", "trace_id": "t-v", "command": "query views run", "args": "{}", "exit_code": 0,
+                       "duration_ms": 1, "rows": 1, "rows_total": None, "truncated": 0,
+                       "evidence": json.dumps({"view": {"name": "trips"}}), "started_at": time.time()}, [])
+    from artmind.traces.analysis import show
+
+    assert verify.summarize(show("t-v"))["views"] == ["trips"]
+
+
+def test_verify_trace_is_linked_to_the_dossier_and_kept_out_of_triage():
+    from artmind.reviews.index import reindex
+    from artmind.traces import analysis
+
+    _turn("t-orig", answer="Two.", fell_through=False, basis="graph")
+    _turn("t-new", answer="Three.", fell_through=False, basis="graph")
+    store.add_feedback("t-new", "wrong")          # would otherwise top the triage queue
+    _dossier()
+    verify.verify("rv-2031-01-01-aaaaaa", runner=_runner_recording("t-new", {}))
+    assert dz.load("rv-2031-01-01-aaaaaa").meta["verify_trace_ids"] == ["t-new"]
+    assert "t-new" not in [i["trace_id"] for i in analysis.triage()]
+    reindex()                                      # survives a rebuild from the files
+    assert "t-new" not in [i["trace_id"] for i in analysis.triage()]

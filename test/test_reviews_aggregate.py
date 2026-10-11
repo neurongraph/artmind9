@@ -95,3 +95,11 @@ def test_attach_refusals():
         scaffold.attach(closed, "t9")
     with pytest.raises(dz.DossierError, match="no trace"):
         scaffold.attach(_dossier("rv-2031-01-03-cccccc"), "missing")
+
+
+def test_attach_refuses_a_trace_held_by_another_open_dossier():
+    _trace("t9")
+    _dossier("rv-2031-01-01-aaaaaa", traces=("t9",))
+    other = _dossier("rv-2031-01-02-bbbbbb", traces=("t1",))
+    with pytest.raises(dz.DossierError, match="rv-2031-01-01-aaaaaa"):
+        scaffold.attach(other, "t9")

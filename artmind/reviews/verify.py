@@ -54,8 +54,8 @@ def summarize(shown: dict) -> dict:
         "fell_through": bool(turn.get("fell_through")),
         "answer_basis": turn.get("answer_basis"),
         "commands": sorted({s["command"] for s in spans if layer_of(s.get("command")) != "discovery"}),
-        "views": sorted({(s.get("evidence") or {}).get("view", {}).get("name")
-                         for s in spans if (s.get("evidence") or {}).get("view")}),
+        "views": sorted({name for s in spans
+                         if (name := ((s.get("evidence") or {}).get("view") or {}).get("name"))}),
         "sources": parse_sources(turn.get("answer")),
     }
 
@@ -119,6 +119,10 @@ def verify(review_id: str, *, run_id: str | None = None, backend: str = "claude-
                        "mechanical_ok": False})
     else:
         result.update(compare(original, new))
+    if new_id:
+        # Linked to the dossier (and indexed), so the verify turn is "reviewed":
+        # it never lands in `traces triage` as a fresh failure to diagnose.
+        dossier.meta["verify_trace_ids"] = [*(dossier.meta.get("verify_trace_ids") or []), new_id]
     verdict = "pass" if result["mechanical_ok"] else "fail"
     append_log(dossier, f"verify run `{run_id}` → trace `{new_id}`: mechanical checks {verdict} "
                         f"(grade against the evaluation comment, then `artmind review status {review_id} verified`)")
