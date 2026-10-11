@@ -194,7 +194,7 @@ artmind ingest retime --domain YOUR_DOMAIN --redoProperties --limit 5   # LLM: r
 artmind ingest retime --domain YOUR_DOMAIN --redoProperties --document 2026-01-18.md   # one chosen entry
 ```
 
-With no flags it is deterministic and cheap. `--redoProperties` re-runs only the properties step, with the document's date in the prompt, so `date_or_time`-style properties become ISO dates instead of "today". It costs one LLM call per chunk, keeps every entity's existing canonical name (identity is not re-decided), and skips documents whose chunk cache isn't on this machine. Run it with `--limit` first.
+With no flags it is deterministic and cheap. It also applies the schema's property-key rules (`property_aliases`, singular/plural folding) and `exclusive:` properties to existing observations, so run it after changing either. `--redoProperties` re-runs only the properties step, and only for entities of classes that declare a `temporal:` property, with the document's date in the prompt. `date_or_time`-style properties become ISO dates instead of "today". Every other entity keeps its properties and is never shown to the model. It costs one LLM call per chunk that has a dated entity, keeps every entity's existing canonical name (identity is not re-decided), and skips documents whose chunk cache isn't on this machine. Run it with `--limit` first.
 
 ---
 

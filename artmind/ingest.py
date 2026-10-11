@@ -2464,12 +2464,15 @@ def _build_observations(
     while `_doc_valid_from` always carries the document's — the two axes the
     rebuild needs to tell a conflict from ordinary history.
     """
-    from artmind.observations import build_observation, class_kind
+    from artmind.observations import (
+        build_observation, class_kind, normalize_property_keys, property_key_rules,
+    )
     from artmind.temporal import _entity_temporal_mapping
 
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties}
     entity_dates = _entity_temporal_mapping(schema)
     exclusive = _exclusive_properties(schema)
+    key_rules = property_key_rules(schema)
     doc_valid_from = document.get("_valid_from")
     doc_valid_to = document.get("_valid_to")
     doc_id = document["id"]
@@ -2487,7 +2490,8 @@ def _build_observations(
             continue
 
         domain_props = _strip_exclusive(
-            dict(props_by_id.get(entity.get("id"), {})), entity.get("entity_class") or "", exclusive,
+            normalize_property_keys(dict(props_by_id.get(entity.get("id"), {})), *key_rules),
+            entity.get("entity_class") or "", exclusive,
         )
 
         # A fact carrying its own dates overrides the document's.
@@ -2526,6 +2530,7 @@ def extract_kg(
     max_workers: int | None = None,
     chunk_size: int | None = None,
     canonical_names: dict[str, str] | None = None,
+    redo_property_classes: set[str] | None = None,
 ) -> Path | None:
     """Extract KG from persisted chunks and merge into document-level JSON files.
 
@@ -2533,6 +2538,12 @@ def extract_kg(
     per-document canonicalization LLM call and uses this mapping instead --
     for a re-run that must not re-decide identity (`ingest retime
     --redoProperties`); a name it lacks is dropped (see `_build_observations`).
+
+    `redo_property_classes` scopes a re-run properties step to entities of
+    those classes: only they are sent to the model and only their properties
+    are replaced; every other entity keeps the properties already cached.
+    Re-asking about everything re-rolls answers that were never in question
+    (see `artmind.retime`).
 
     Resumable: already-ok steps are skipped. Failed steps get a second attempt
     in the pre-merge retry pass before the merge proceeds.
@@ -2796,25 +2807,42 @@ def extract_kg(
         # ── properties ────────────────────────────────────────────────────────
         properties_status = status.get("properties_status", "pending")
         if has_entities and entities_status == "ok" and properties_status != "ok":
-            logger.info("  Chunk {} — properties", seq)
-            raw_props, ok = _llm_extract(
-                f"chunk_{seq:03d}_properties",
-                text_model,
-                build_properties_prompt(
-                    chunk_text, data.get("raw_entities", []), schema,
-                    vocabulary=property_vocabulary, anchor_date=anchor_date,
-                ),
-                doc_kg_dir,
-            )
-            _update_chunk_step(doc_sha256, seq, "properties", "ok" if ok else "failed")
-            if ok:
-                raw_props = _filter_valid_items(raw_props, seq, "property")
-                props = _rewrite_ref_ids(raw_props, id_map, "id")
-                data["properties"] = [
-                    {**p, "chunk_id": chunk_id, "doc_id": doc_id} for p in props
+            prompt_entities = data.get("raw_entities", [])
+            if redo_property_classes is not None:
+                prompt_entities = [
+                    e for e in prompt_entities if e.get("entity_class") in redo_property_classes
                 ]
-            else:
+            if not prompt_entities:
+                # A scoped redo with nothing in scope in this chunk: the
+                # cached properties already are the answer.
+                _update_chunk_step(doc_sha256, seq, "properties", "ok")
                 data.setdefault("properties", [])
+            else:
+                logger.info("  Chunk {} — properties", seq)
+                raw_props, ok = _llm_extract(
+                    f"chunk_{seq:03d}_properties",
+                    text_model,
+                    build_properties_prompt(
+                        chunk_text, prompt_entities, schema,
+                        vocabulary=property_vocabulary, anchor_date=anchor_date,
+                    ),
+                    doc_kg_dir,
+                )
+                _update_chunk_step(doc_sha256, seq, "properties", "ok" if ok else "failed")
+                if ok:
+                    raw_props = _filter_valid_items(raw_props, seq, "property")
+                    props = [
+                        {**p, "chunk_id": chunk_id, "doc_id": doc_id}
+                        for p in _rewrite_ref_ids(raw_props, id_map, "id")
+                    ]
+                    if redo_property_classes is not None:
+                        redone = {id_map.get(e["id"], e["id"]) for e in prompt_entities}
+                        props = [
+                            p for p in data.get("properties", []) if p.get("id") not in redone
+                        ] + [p for p in props if p.get("id") in redone]
+                    data["properties"] = props
+                else:
+                    data.setdefault("properties", [])
         elif not has_entities or entities_status != "ok":
             data.setdefault("properties", [])
             _update_chunk_step(doc_sha256, seq, "properties", "skipped")

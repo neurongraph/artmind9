@@ -226,8 +226,9 @@ def load_schema(domain: str, schemas_dir: Path | None = None) -> dict:
     """Load a domain's schema, deep-merging inherited `temporal:` from a dotted parent.
 
     For a leaf domain like `banking.policy`, also loads `banking_schema.yaml` and
-    merges its `temporal:` block underneath the child's (see `_deep_merge_temporal`).
-    Non-temporal keys (prompts, entity_types, etc.) are NOT inherited here — that
+    merges its `temporal:` block underneath the child's (see `_deep_merge_temporal`)
+    and its `property_aliases:` map (child entries win).
+    Other keys (prompts, entity_types, etc.) are NOT inherited here — that
     composition happens at build time via `artmind domains harmonize`.
 
     `schemas_dir` defaults to `DOMAIN_SCHEMAS_DIR`. `vault sync` passes a scratch
@@ -248,6 +249,11 @@ def load_schema(domain: str, schemas_dir: Path | None = None) -> dict:
             schema["temporal"] = _deep_merge_temporal(
                 parent_schema.get("temporal") or {}, schema.get("temporal") or {}
             )
+            # A domain family names its properties one way: the parent's
+            # aliases apply under the child, the child's own entries winning.
+            aliases = {**(parent_schema.get("property_aliases") or {}), **(schema.get("property_aliases") or {})}
+            if aliases:
+                schema["property_aliases"] = aliases
     return schema
 
 

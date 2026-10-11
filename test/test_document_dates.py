@@ -401,3 +401,72 @@ def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, 
     by_class = {o["entity_class"]: o for o in observations}
     assert "date_or_time" not in by_class["PERSON"]
     assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (evening)"
+
+
+def test_redo_properties_reextracts_only_date_tagged_classes(tmp_path, monkeypatch):
+    """Found live on the full personal_journal redo: re-extracting EVERY
+    class re-rolled 10,217 undated observations and, told not to date them,
+    the model moved ~830 dates into invented keys (date_or_time_qualifier,
+    time_of_visit). Only classes with a `temporal:` property need a redo; the
+    rest must not even be shown to the model."""
+    from artmind.retime import retime_domain
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath today.\n")
+    (ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml").write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")
+    _two_class_llm(monkeypatch)
+    _, first = _extract(doc)
+    person_before = {k: v for k, v in next(o for o in first if o["entity_class"] == "PERSON").items()}
+
+    shown: list = []
+
+    def properties_prompt(text, ents, schema, vocabulary=None, anchor_date=None):
+        shown.append(sorted(e["entity_class"] for e in ents))
+        return "properties"
+
+    def llm(step_name, model, prompt, debug_dir):
+        assert step_name.endswith("_properties"), step_name
+        # Even if the model answers for an entity it wasn't asked about, that
+        # answer is ignored.
+        return [{"id": "e1", "properties": {"date_or_time": "2026-01-07 (afternoon)"}},
+                {"id": "e2", "properties": {"date_or_time_qualifier": "2026-01-07", "role": "guest"}}], True
+
+    monkeypatch.setattr(ing, "build_properties_prompt", properties_prompt)
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+    monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
+
+    retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
+
+    assert shown == [["EVENT"]], "PERSON is never sent back to the model"
+    redone = json.loads((ing.KG_DIR / "journal" / "2026-01-07" / "observations.json").read_text())
+    by_class = {o["entity_class"]: o for o in redone}
+    assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (afternoon)"
+    assert by_class["PERSON"] == person_before, "an undated class's observation is untouched"
+
+
+def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
+    from artmind.retime import retime_folder
+    import yaml
+
+    doc = _vault(tmp_path, monkeypatch, "2026-01-07.md", "Call with Srinath.\n")
+    schema_file = ing.DOMAIN_SCHEMAS_DIR / "journal_schema.yaml"
+    schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")   # PERSON declares `role`
+    _two_class_llm(monkeypatch)
+
+    def llm(step_name, model, prompt, debug_dir):
+        if step_name.endswith("_entities"):
+            return [{"id": "e2", "entity_class": "PERSON", "name": "Srinath"}], True
+        if step_name.endswith("_properties"):
+            return [{"id": "e2", "properties": {"roles": "chair", "narrative_function": "host"}}], True
+        return [], True
+
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+    _, (obs,) = _extract(doc)
+    assert obs["role"] == "chair" and "roles" not in obs, "number variant folded at extraction"
+    assert obs["narrative_function"] == "host", "no alias declared yet"
+
+    with_alias = EXCLUSIVE_SCHEMA + "property_aliases:\n  narrative_function: narrative_role\n"
+    schema_file.write_text(with_alias, encoding="utf-8")
+    assert retime_folder(ing.KG_DIR / "journal" / "2026-01-07", yaml.safe_load(with_alias))["changed"]
+    (obs,) = json.loads((ing.KG_DIR / "journal" / "2026-01-07" / "observations.json").read_text())
+    assert obs["narrative_role"] == "host" and "narrative_function" not in obs, "retime applies a new alias"

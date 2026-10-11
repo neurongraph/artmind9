@@ -22,6 +22,16 @@ temporal:
     superseded_by: null
     time_source: default_ingestion
     valid_from_inferred: true
+# One concept, one key. Applied to every class at extraction and by
+# `artmind ingest retime` (no LLM); singular/plural variants of a declared key
+# fold onto it automatically and need no entry here.
+property_aliases:
+  narrative_function: narrative_role
+  relationship_to_writer: relationship_to_diarist
+  emotional_significance_to_diarist: emotional_significance
+  location_on_date: location
+  outcome_or_result: outcome
+  time_of_visit: time_of_day
 entity_types:
   PERSON:
     kind: recurrent
@@ -44,11 +54,11 @@ entity_types:
         hint: e.g., "wife", "son", "colleague"
       current_state:
         hint: health, mood, life situation as mentioned
-      recurring_behaviours:
+      recurring_behaviour:
         hint: patterns evident across entries
-      notable_characteristics:
+      notable_characteristic:
         hint: distinguishing qualities
-      personality_traits:
+      personality_trait:
         hint: list — as revealed in this entry
       age_or_life_stage:
         hint: if mentioned
@@ -151,7 +161,7 @@ entity_types:
         hint: which people are linked to this place
       location:
         hint: city, neighbourhood if mentioned
-      narrative_function:
+      narrative_role:
         hint: why it matters in this entry
   EVENT:
     kind: occurrent
@@ -229,7 +239,7 @@ entity_types:
         hint: relaxation, duty, health, social
       emotional_valence:
         hint: enjoyed, dreaded, routine
-      outcome_or_result:
+      outcome:
         hint: if mentioned
       date_or_time:
         hint: ISO date (YYYY-MM-DD) resolved against the entry date, then any time of day
@@ -332,7 +342,7 @@ entity_types:
     properties:
       org_type:
         hint: employer | school | healthcare | etc.
-      relationship_to_writer:
+      relationship_to_diarist:
         hint: works_at | member_of | attended | etc.
       sentiment:
         hint: positive | negative | neutral | mixed
