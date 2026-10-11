@@ -170,7 +170,11 @@ skill requires every answer to have one, and each entry names a document.
 - The basis is `vector` when every cited document came only from `vector`
   spans, and `graph` when every one came only from `view`/`graph`/
   `text2cypher` spans. A mix of both is `mixed`. Structured-store answers
-  are `sql`. No Sources section, or no productive span, is `none`.
+  are `sql`.
+- When no cited document can be matched to a span (graph patterns often
+  return entities with no document paths), or the answer has no Sources
+  section, the basis is taken from the layers that returned rows. It is
+  `none` only when no retrieval span returned rows.
 - This is a heuristic, and the dossier shows its inputs.
 
 A **graph miss** is a turn where `fell_through` is true and `answer_basis`
