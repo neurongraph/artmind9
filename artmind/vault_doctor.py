@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
+import shutil
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -111,6 +113,45 @@ def check_tracked_ignored(vault_dir: Path) -> Check:
         + ", ".join(paths[:5]) + (", ..." if len(paths) > 5 else ""),
         command,
     )
+
+
+_GITHUB_REMOTE = re.compile(r"^(?:git@github\.com:|ssh://git@github\.com/|https://github\.com/)([^/]+)/(.+?)(?:\.git)?/?$")
+
+
+def _gh_visibility(slug: str) -> tuple[int, str, str]:
+    return run_command(["gh", "repo", "view", slug, "--json", "visibility", "--jq", ".visibility"], timeout=15)
+
+
+def check_review_privacy(vault_dir: Path) -> Check:
+    """Review dossiers (.artmind/reviews/, spec 2026-10-11 §8.1) hold private
+    corpus evidence and are committed with the vault. Warn when that repo is a
+    public GitHub repo. Read-only: `git ls-files`, `git remote get-url`, `gh repo view`."""
+    name = "review dossiers privacy"
+    rc, tracked, _ = _git(vault_dir, ["ls-files", "--", ".artmind/reviews"])
+    if rc != 0 or not tracked.strip():
+        return Check(name, OK, "no review dossiers are tracked")
+    rc, url, _ = _git(vault_dir, ["remote", "get-url", "origin"], expected_codes=(2,))
+    url = url.strip()
+    if rc != 0 or not url:
+        return Check(name, OK, "review dossiers are tracked; the vault has no origin remote")
+    match = _GITHUB_REMOTE.match(url)
+    if not match:
+        return Check(name, OK, "origin is not on GitHub; its visibility is not checked")
+    slug = f"{match.group(1)}/{match.group(2)}"
+    if shutil.which("gh") is None:
+        return Check(name, UNKNOWN, f"review dossiers are tracked in {slug} on GitHub, but `gh` is not installed, "
+                     "so the repo's visibility is unknown",
+                     fix="install the GitHub CLI and run `gh auth login`, or confirm the vault repo is private")
+    rc, out, err = _gh_visibility(slug)
+    visibility = out.strip().upper()
+    if rc != 0 or not visibility:
+        return Check(name, UNKNOWN, f"`gh repo view {slug}` failed: {(err or out).strip()[:200]}")
+    if visibility == "PUBLIC":
+        return Check(name, WARN, f"review dossiers in .artmind/reviews/ hold private corpus evidence and are "
+                     f"tracked in a PUBLIC GitHub repo ({slug})",
+                     fix=f"make {slug} private (`gh repo edit {slug} --visibility private`), "
+                         "or stop tracking .artmind/reviews/")
+    return Check(name, OK, f"tracked review dossiers live in a {visibility.lower()} repo ({slug})")
 
 
 def check_pull_rebase(vault_dir: Path) -> Check:
@@ -223,6 +264,7 @@ def run(vault_dir: Path) -> dict:
         check_block(vault_dir, ".gitignore", GITIGNORE_BLOCK),
         check_block(vault_dir, ".gitattributes", GITATTRIBUTES_BLOCK),
         check_tracked_ignored(vault_dir),
+        check_review_privacy(vault_dir),
         check_pull_rebase(vault_dir),
         *check_obsidian_git(vault_dir),
         check_deprecated_push(vault_dir),

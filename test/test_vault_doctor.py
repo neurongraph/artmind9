@@ -223,3 +223,64 @@ def test_a_tracked_table_folder_with_a_non_ascii_name_gets_an_exact_untrack_comm
     check = _by_name(doc.run(repo))["ignored paths still tracked"]
 
     assert check["fix"] == "git rm -r --cached -- '.artmind/data/kg/banking/table__Café'"
+
+
+NAME = "review dossiers privacy"
+
+
+def _track_dossier(repo):
+    reviews = repo / ".artmind" / "reviews"
+    reviews.mkdir(parents=True, exist_ok=True)
+    (reviews / "rv-2026-01-02-abcdef.md").write_text("---\nreview_id: rv-2026-01-02-abcdef\n---\n")
+    _git(repo, "add", ".artmind/reviews")
+
+
+def test_review_privacy_no_dossiers(repo):
+    assert _by_name(doc.run(repo))[NAME]["status"] == "ok"
+
+
+def test_review_privacy_no_origin(repo):
+    _track_dossier(repo)
+    check = _by_name(doc.run(repo))[NAME]
+    assert check["status"] == "ok" and "no origin" in check["detail"]
+
+
+def test_review_privacy_not_github(repo):
+    _track_dossier(repo)
+    _git(repo, "remote", "add", "origin", "https://gitlab.example.com/me/vault.git")
+    check = _by_name(doc.run(repo))[NAME]
+    assert check["status"] == "ok" and "not on GitHub" in check["detail"]
+
+
+def test_review_privacy_gh_missing(repo, monkeypatch):
+    _track_dossier(repo)
+    _git(repo, "remote", "add", "origin", "git@github.com:me/vault.git")
+    monkeypatch.setattr(doc.shutil, "which", lambda name: None)
+    assert _by_name(doc.run(repo))[NAME]["status"] == "unknown"
+
+
+@pytest.mark.parametrize("visibility,status", [("PUBLIC", "warn"), ("PRIVATE", "ok"), ("INTERNAL", "ok")])
+def test_review_privacy_visibility(repo, monkeypatch, visibility, status):
+    _track_dossier(repo)
+    _git(repo, "remote", "add", "origin", "https://github.com/me/vault.git")
+    monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
+    seen = {}
+
+    def fake(slug):
+        seen["slug"] = slug
+        return 0, visibility + "\n", ""
+
+    monkeypatch.setattr(doc, "_gh_visibility", fake)
+    check = _by_name(doc.run(repo))[NAME]
+    assert seen["slug"] == "me/vault"
+    assert check["status"] == status
+    if status == "warn":
+        assert check["fix"]
+
+
+def test_review_privacy_gh_error_is_unknown(repo, monkeypatch):
+    _track_dossier(repo)
+    _git(repo, "remote", "add", "origin", "https://github.com/me/vault")
+    monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
+    monkeypatch.setattr(doc, "_gh_visibility", lambda slug: (1, "", "not logged in"))
+    assert _by_name(doc.run(repo))[NAME]["status"] == "unknown"
