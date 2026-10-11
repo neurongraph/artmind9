@@ -162,11 +162,15 @@ def _input_text(value: Any) -> str:
     return value if isinstance(value, str) else json.dumps(value, default=str)
 
 
+#: A single- or double-quoted shell argument (double quotes may contain \" escapes).
+_QUOTED = re.compile(r"'[^']*'" r'|"(?:[^"\\]|\\.)*"')
+
+
 def _command_text(value: Any) -> str:
     if isinstance(value, dict) and isinstance(value.get("command"), str):
-        # Strip single-quoted shell arguments so the leaf match only tests
-        # CLI subcommand tokens, not free-text query content inside quotes.
-        return re.sub(r"'[^']*'", " ", value["command"])
+        # Strip quoted shell arguments so the leaf match only tests CLI
+        # subcommand tokens, not free-text question content inside quotes.
+        return _QUOTED.sub(" ", value["command"])
     return _input_text(value)
 
 

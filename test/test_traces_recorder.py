@@ -159,3 +159,13 @@ def test_answer_joins_text_blocks_around_tool_calls():
     rec.finish()
     answer = store.get_turn(rec.trace_id)["answer"]
     assert answer.startswith("Looking. ") and answer.endswith("— b\n")
+
+
+def test_leaf_word_inside_a_double_quoted_question_does_not_match():
+    tools = {"a": {"input": {"command": 'artmind query vector-text --domain b "how are \\"chunks\\" made"'},
+                   "call_ts": 1.0, "result_ts": 2.0},
+             "b": {"input": {"command": 'artmind query chunks --domain b --idList c1'},
+                   "call_ts": 1.2, "result_ts": 2.0}}
+    assert match_tool_ids([{"span_id": "s1", "command": "query chunks", "started_at": 1.5}], tools) == [("s1", "b")]
+    del tools["b"]
+    assert match_tool_ids([{"span_id": "s1", "command": "query chunks", "started_at": 1.5}], tools) == []
