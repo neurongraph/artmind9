@@ -19,7 +19,7 @@ def _span(command, rows=1, exit_code=0, started_at=0.0, documents=None):
     ("query entity-context", "graph"),
     ("query graph text2cypher", "text2cypher"),
     ("query vector-text", "vector"),
-    ("query chunks", "vector"),
+    ("query chunks", "provenance"),
     ("query text2sql", "sql"),
     ("query resolve-key", "sql"),
     ("query entity-resolve", "discovery"),
@@ -61,9 +61,10 @@ def test_productive_view_without_vector_is_graph():
     assert d["answer_basis"] == "graph"
 
 
-def test_entity_context_then_chunks_is_mixed_when_both_cited():
+def test_entity_context_then_vector_text_is_mixed_when_both_cited():
+    """Rewrite of the old chunks-mixed test: use vector-text for the vector side."""
     spans = [_span("query entity-context", rows=1, started_at=1, documents=["b/A.md"]),
-             _span("query chunks", rows=2, started_at=2, documents=["b/B.md"])]
+             _span("query vector-text", rows=2, started_at=2, documents=["b/B.md"])]
     answer = "### Sources\n- [A](<b/A.md>) — b\n- [B](<b/B.md>) — b\n"
     d = derive(spans, answer)
     assert d["fell_through"] is True
@@ -108,3 +109,101 @@ def test_same_basename_in_another_folder_does_not_match():
     spans = [_span("query graph pattern2", rows=1, documents=["a/README.md"]),
              _span("query vector-text", rows=1, started_at=1, documents=["b/README.md"])]
     assert answer_basis("### Sources\n- [README](<b/README.md>) — b\n", spans) == "vector"
+
+
+# ── New tests for the updated heuristics ─────────────────────────────────────
+
+def test_live_shape_graph_provenance_not_fall_through():
+    """Live admin-console shape: graph answered, chunks fetched for provenance,
+    vector-text ran as a cross-check with OTHER documents → not a fall-through."""
+    spans = [
+        _span("query domains-overview", rows=1, started_at=1),
+        _span("query views list", rows=1, started_at=2),
+        _span("query entity-resolve", rows=5, started_at=3),
+        _span("query entity-resolve", rows=5, started_at=3.1),
+        _span("query graph entity-listing", rows=7, started_at=4),      # graph attempt 1, productive
+        _span("query entity-resolve", rows=3, started_at=5),
+        _span("query graph pattern6", rows=2, started_at=6),             # graph attempt 2, productive
+        _span("query graph text2cypher", rows=0, exit_code=1, started_at=7),  # graph attempt 3, not productive
+        _span("query chunks", rows=0, started_at=8),                     # provenance, not productive
+        _span("query chunks", rows=11, started_at=9,
+              documents=["journal/2025-05-19.md",
+                         "journal/2025-06-01.md",
+                         "journal/2025-07-15.md"]),                      # provenance, productive
+        _span("query graph entity-listing", rows=4, started_at=10),     # graph attempt 4, productive
+        _span("query vector-text", rows=8, started_at=11,
+              documents=["other/2024-01-01.md", "other/2024-02-01.md"]),  # vector cross-check (not cited)
+    ]
+    answer = (
+        "The information shows the following.\n\n### Sources\n"
+        "- [Entry A](journal/2025-05-19.md)\n"
+        "- [Entry B](journal/2025-06-01.md)\n"
+        "- [Entry C](journal/2025-07-15.md)\n"
+    )
+    d = derive(spans, answer)
+    assert d["fell_through"] is False
+    assert d["answer_basis"] == "graph"
+    assert d["graph_attempts"] == 4
+    assert d["graph_productive"] == 3
+
+
+def test_graph_miss_empty_graph_vector_cited():
+    """Graph returned nothing; vector-text result is cited → fell_through True, basis vector."""
+    spans = [
+        _span("query graph pattern2", rows=0, started_at=1),
+        _span("query vector-text", rows=3, started_at=2,
+              documents=["b/Report.md"]),
+    ]
+    answer = "### Sources\n- [Report](b/Report.md)\n"
+    d = derive(spans, answer)
+    assert d["fell_through"] is True
+    assert d["answer_basis"] == "vector"
+    assert d["graph_productive"] == 0
+
+
+def test_graph_productive_vector_crosscheck_both_cited_is_mixed_fell_through():
+    """Graph answered AND vector-text was consulted; answer cites docs from both → mixed, fell_through True."""
+    spans = [
+        _span("query graph pattern2", rows=1, started_at=1, documents=["b/A.md"]),
+        _span("query chunks", rows=1, started_at=2, documents=["b/A.md"]),          # provenance
+        _span("query vector-text", rows=2, started_at=3, documents=["b/A.md"]),     # vector also has it
+    ]
+    answer = "### Sources\n- [A](b/A.md)\n"
+    d = derive(spans, answer)
+    # b/A.md matches provenance (→ graph group) AND vector-text (→ vector group) → mixed
+    assert d["answer_basis"] == "mixed"
+    assert d["fell_through"] is True
+
+
+def test_no_sources_empty_graph_vector_productive_fell_through_via_rule_b():
+    """No Sources section; graph returned nothing; vector productive → fell_through via rule (b)."""
+    spans = [
+        _span("query graph pattern1", rows=0, started_at=1),
+        _span("query vector-text", rows=5, started_at=2),
+    ]
+    d = derive(spans, "The answer is here.")
+    assert d["fell_through"] is True
+    assert d["graph_productive"] == 0
+
+
+def test_no_sources_graph_productive_vector_productive_not_fell_through():
+    """No Sources section; graph returned rows; vector also ran → NOT a fall-through (rule b requires graph_productive==0)."""
+    spans = [
+        _span("query graph pattern1", rows=3, started_at=1),
+        _span("query vector-text", rows=5, started_at=2),
+    ]
+    d = derive(spans, "The answer is here.")
+    assert d["fell_through"] is False
+    assert d["graph_productive"] == 1
+
+
+def test_chunks_provenance_included_in_retrieval_path():
+    """query chunks spans appear in retrieval_path with layer 'provenance', not 'vector'."""
+    spans = [
+        _span("query graph pattern3", rows=2, started_at=1),
+        _span("query chunks", rows=5, started_at=2, documents=["b/Doc.md"]),
+    ]
+    d = derive(spans, "")
+    layers = [p["layer"] for p in d["retrieval_path"]]
+    assert layers == ["graph", "provenance"]
+    assert d["fell_through"] is False  # no vector-text at all

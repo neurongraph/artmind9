@@ -144,7 +144,8 @@ When a turn ends, `TraceRecorder` labels every span with a retrieval
 | `view` | `query views run` |
 | `graph` | `query graph pattern1`–`pattern10`, `entity-listing`, `filing-listing`, `timeline`, `hierarchy`, `conflicts`, `entity-context`, `entity-history` |
 | `text2cypher` | `query graph text2cypher` |
-| `vector` | `query vector-text`, `query chunks` |
+| `provenance` | `query chunks` (source text fetched by id for graph results; counts on the graph side, never as a search) |
+| `vector` | `query vector-text` |
 | `sql` | `query text2sql`, `query resolve-key` |
 | `discovery` | `domains-overview`, `metadata`, `structural-metadata`, `entity-resolve`, `views list/show` (these locate things and return no evidence for an answer) |
 
@@ -159,7 +160,7 @@ The recorder then stores these derived columns on `trace_turns`:
 | `retrieval_path` | JSON, ordered: `[{span_id, layer, command, rows, productive}]`, `discovery` excluded |
 | `graph_attempts` | count of `view` + `graph` + `text2cypher` spans |
 | `graph_productive` | count of those that were productive |
-| `fell_through` | true when at least one `view`/`graph`/`text2cypher` span ran and a `vector` span ran after the last of them |
+| `fell_through` | true when at least one `view`/`graph`/`text2cypher` span ran, a `vector` span ran after the first of them, and either a cited document came from a `vector` span, or no cited document could be matched and no graph attempt returned rows. A `vector-text` cross-check after the graph already answered is not a fall-through. |
 | `answer_basis` | `graph` \| `vector` \| `mixed` \| `sql` \| `none` (below) |
 
 `answer_basis` comes from the answer's `### Sources` section. The query
@@ -169,8 +170,8 @@ skill requires every answer to have one, and each entry names a document.
   evidence came from it.
 - The basis is `vector` when every cited document came only from `vector`
   spans, and `graph` when every one came only from `view`/`graph`/
-  `text2cypher` spans. A mix of both is `mixed`. Structured-store answers
-  are `sql`.
+  `text2cypher`/`provenance` spans. A mix of both is `mixed`. Structured-store
+  answers are `sql`.
 - When no cited document can be matched to a span (graph patterns often
   return entities with no document paths), or the answer has no Sources
   section, the basis is taken from the layers that returned rows. It is

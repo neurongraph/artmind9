@@ -6,13 +6,18 @@ returns them: `command`, `rows`, `exit_code`, `started_at`, `evidence`.
 import re
 from urllib.parse import unquote
 
+#: Layers that count as a graph *attempt* (graph_attempts column).
 GRAPH_LAYERS = frozenset({"view", "graph", "text2cypher"})
+
+#: Graph layers plus provenance (chunk fetches that support graph results).
+#: All of these group as "graph" for answer-basis purposes.
+GRAPH_SIDE = GRAPH_LAYERS | frozenset({"provenance"})
 
 _EXACT = {
     "query views run": "view",
     "query graph text2cypher": "text2cypher",
     "query vector-text": "vector",
-    "query chunks": "vector",
+    "query chunks": "provenance",   # source text fetched by id for graph results
     "query text2sql": "sql",
     "query resolve-key": "sql",
     "query entity-context": "graph",
@@ -30,7 +35,7 @@ _LINK = re.compile(r"\]\(\s*(?:<([^>]+)>|([^)\s]+))\s*\)")
 
 
 def layer_of(command: str | None) -> str:
-    """`view` | `graph` | `text2cypher` | `vector` | `sql` | `discovery`.
+    """`view` | `graph` | `text2cypher` | `provenance` | `vector` | `sql` | `discovery`.
     Unknown commands count as discovery: they locate things, they are not
     evidence for an answer."""
     if not command:
@@ -65,7 +70,8 @@ def _same_document(cited: str, held: str) -> bool:
 
 
 def _group(layer: str) -> str:
-    return "graph" if layer in GRAPH_LAYERS else layer
+    """Map a layer to its answer-basis group. provenance counts on the graph side."""
+    return "graph" if layer in GRAPH_SIDE else layer
 
 
 def _productive(span: dict) -> bool:
@@ -84,18 +90,30 @@ def _basis_from(groups: set[str]) -> str:
     return "mixed"
 
 
+def _cited_groups(answer: str | None, productive_spans: list[dict]) -> set[str]:
+    """Groups of productive spans whose evidence.documents match a cited path.
+
+    Returns an empty set when the answer has no Sources section or when no
+    cited document could be matched to any span's evidence."""
+    cited = parse_sources(answer)
+    if not cited:
+        return set()
+    found: set[str] = set()
+    for path_str in cited:
+        for span in productive_spans:
+            docs = (span.get("evidence") or {}).get("documents") or []
+            if any(_same_document(path_str, d.get("path") or "") for d in docs):
+                found.add(_group(layer_of(span.get("command") or "")))
+    return found
+
+
 def answer_basis(answer: str | None, spans: list[dict]) -> str:
     productive = [s for s in spans if _productive(s) and layer_of(s.get("command")) != "discovery"]
     if not productive:
         return "none"
-    found: set[str] = set()
-    for cited in parse_sources(answer):
-        for span in productive:
-            docs = (span.get("evidence") or {}).get("documents") or []
-            if any(_same_document(cited, d.get("path") or "") for d in docs):
-                found.add(_group(layer_of(span["command"])))
-    if found:
-        return _basis_from(found)
+    cg = _cited_groups(answer, productive)
+    if cg:
+        return _basis_from(cg)
     return _basis_from({_group(layer_of(s["command"])) for s in productive})
 
 
@@ -108,12 +126,36 @@ def derive(spans: list[dict], answer: str | None) -> dict:
             continue
         path.append({"span_id": span.get("span_id"), "layer": layer, "command": span.get("command"),
                      "rows": span.get("rows") or 0, "productive": _productive(span)})
+
+    # graph_attempts counts only GRAPH_LAYERS spans (not provenance)
     graph_idx = [i for i, step in enumerate(path) if step["layer"] in GRAPH_LAYERS]
-    fell_through = bool(graph_idx) and any(step["layer"] == "vector" for step in path[graph_idx[-1] + 1:])
+    graph_attempts = len(graph_idx)
+    graph_productive = sum(1 for i in graph_idx if path[i]["productive"])
+
+    # fell_through: graph was attempted, a vector-text span ran after the first
+    # graph attempt, AND either the cited sources point to vector, OR no cited
+    # document matched any span and the graph produced nothing.
+    fell_through = False
+    if graph_idx:
+        first_graph_pos = graph_idx[0]
+        vector_after = [i for i, step in enumerate(path)
+                        if step["layer"] == "vector" and i > first_graph_pos]
+        if vector_after:
+            productive_spans = [s for s in ordered
+                                if _productive(s) and layer_of(s.get("command")) != "discovery"]
+            cg = _cited_groups(answer, productive_spans)
+            if cg:
+                # Rule (a): cited sources include the vector layer
+                fell_through = "vector" in cg
+            else:
+                # Rule (b): no cited source matched any span, and the graph side
+                # returned nothing, so vector-text is the only plausible source.
+                fell_through = (graph_productive == 0)
+
     return {
         "retrieval_path": path,
-        "graph_attempts": len(graph_idx),
-        "graph_productive": sum(1 for i in graph_idx if path[i]["productive"]),
+        "graph_attempts": graph_attempts,
+        "graph_productive": graph_productive,
         "fell_through": fell_through,
         "answer_basis": answer_basis(answer, ordered),
     }
