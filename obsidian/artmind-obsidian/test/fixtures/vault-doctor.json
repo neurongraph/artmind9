@@ -28,6 +28,12 @@
         "fix": null
       },
       {
+        "name": "review dossiers privacy",
+        "status": "ok",
+        "detail": "no review dossiers are tracked",
+        "fix": null
+      },
+      {
         "name": "pull.rebase",
         "status": "fail",
         "detail": "pull.rebase is 'true': pulls would rebase, rewriting the commit shas artmind uses as provenance and sync cursors (spec D5)",

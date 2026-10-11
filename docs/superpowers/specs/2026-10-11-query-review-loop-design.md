@@ -501,6 +501,14 @@ It then grades the bundle against the checklist. Each finding is tagged
 - Status lives in the dossier's frontmatter. `trace_reviews` is a local
   index rebuilt from frontmatter by `artmind review reindex`, which follows
   the model of `docs reindex`.
+- CLI (P2): `artmind review new <trace_id>` scaffolds a dossier from a trace
+  (Symptom, Regression question, Agent prompt preamble and Log pre-filled;
+  `private_terms` harvested from the trace's resolved entity names and
+  arguments); `list`, `show`, `status <id> <status> --note`, `validate`
+  (per-stage completeness), `reindex`, `leakcheck`. Dossier temp files are
+  written to `logs/`, never the committed folder. An unresolved merge
+  conflict in a dossier blocks `vault sync` (its preflight refuses
+  conflicts under `.artmind/`), like any artmind file.
 
 ### 8.2 Format
 
@@ -511,8 +519,10 @@ status: open            # open | in-progress | fixed | verified | dismissed
 stage: schema           # corpus-gap | synthesis | routing | missing-view | identity | extraction | schema
 elements: [banking.cases/Case-ASSIGNED_TO->]
 trace_ids: [<id>, …]
+private_terms: [<private names and values the dossier quotes>]
 graph_state: {artmind_version: …, schemas: {…}, vault_head: …}
 created: 2026-10-11
+updated: 2026-10-11
 ---
 ## Symptom          question, answer excerpt, rating + expected note, per trace
 ## Diagnosis        stage verdict; evidence chain (span → rows → chunk sentence → staging entry)
@@ -545,7 +555,11 @@ public. The dossier's agent prompt therefore always starts with:
 `artmind review leakcheck <review_id> [--base <ref>]` checks `git diff
 <base>` in the current checkout, staged and unstaged. It flags any added line
 that contains an entity name from the dossier's evidence, or that shares a
-5-word sequence (case-folded) with the dossier's quoted text. It exits
+5-word sequence (case-folded) with the dossier's quoted
+text: the `>` blockquotes in Symptom, Diagnosis and Shape audit, and the
+Shape audit table rows. The reviewer's own prose is not private, so a
+coding session may paraphrase the diagnosis. Untracked files count as
+added; `.artmind/reviews/` is skipped. It exits
 non-zero when it finds a hit. It is a backstop, not an enforcement
 mechanism, and the agent prompt makes passing it an acceptance criterion.
 

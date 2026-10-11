@@ -168,6 +168,34 @@ def insert_review_stub(review_id: str, trace_id: str, status: str = "open") -> N
         conn.close()
 
 
+def index_review(review_id: str, trace_ids: list[str], *, stage: str | None, elements: list[str],
+                 status: str, dossier_path: str | None) -> None:
+    """Replace `review_id`'s rows in the local dossier index, one per trace."""
+    now = time.time()
+    conn = _connect()
+    try:
+        conn.execute("DELETE FROM trace_reviews WHERE review_id = ?", (review_id,))
+        conn.executemany(
+            "INSERT INTO trace_reviews (review_id, trace_id, stage, elements, status, dossier_path, updated_at)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [(review_id, t, stage, json.dumps(list(elements)), status, dossier_path, now)
+             for t in dict.fromkeys(trace_ids)],
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def clear_review_index() -> int:
+    conn = _connect()
+    try:
+        deleted = conn.execute("DELETE FROM trace_reviews").rowcount
+        conn.commit()
+        return deleted
+    finally:
+        conn.close()
+
+
 def _turn_dict(row: sqlite3.Row) -> dict:
     turn = dict(row)
     for key in ("domains", "graph_state", "retrieval_path"):

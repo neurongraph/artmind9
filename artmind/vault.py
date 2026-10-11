@@ -125,6 +125,13 @@ class VaultLayout:
         return self.domains_dir / "views"
 
     @property
+    def reviews_dir(self) -> Path:
+        """Review dossiers (spec 2026-10-11 §8.1): committed with the vault,
+        so they travel to every machine; one file per review, so two
+        machines never edit the same file."""
+        return self.artmind_dir / "reviews"
+
+    @property
     def meta_yaml(self) -> Path:
         return self.domains_dir / "meta.yaml"
 

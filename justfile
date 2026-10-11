@@ -533,6 +533,20 @@ traces-triage since="":
 traces-stats domain="":
     uv run artmind traces stats {{ if domain != "" { "--domain " + domain } else { "" } }}
 
+# ── artmind review ───────────────────────────────────────────────────────────
+
+# review dossiers in the vault  (usage: just review-list [status])
+review-list status="":
+    uv run artmind review list {{ if status != "" { "--status " + status } else { "" } }}
+
+# check a dossier is complete for its stage  (usage: just review-validate <review_id>)
+review-validate review_id:
+    uv run artmind review validate {{ review_id }}
+
+# scan this checkout's changes for a dossier's private evidence  (usage: just review-leakcheck <review_id> [base])
+review-leakcheck review_id base="master":
+    uv run artmind review leakcheck {{ review_id }} --base {{ base }}
+
 # ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)

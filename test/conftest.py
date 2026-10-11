@@ -77,6 +77,10 @@ from pathlib import Path
 _TEST_RUN_ROOT = tempfile.mkdtemp(prefix="artmind-test-home-")
 os.environ["ARTMIND_HOME"] = _TEST_RUN_ROOT
 os.environ["ARTMIND_DATA_DIR"] = os.path.join(_TEST_RUN_ROOT, "data")
+# A vault selected by env (`export ARTMIND_VAULT=<vault>`, which the
+# artmind-review skill has the operator run in this very checkout) would make
+# `paths.resolve_vault()` point every test at the real vault. Drop it.
+os.environ.pop("ARTMIND_VAULT", None)
 
 # ``paths.MACHINE_CONFIG_DIR``/``MACHINE_CONFIG_ENV`` are computed from
 # ``Path.home()`` directly, not ``ARTMIND_HOME`` (see module docstring) —
