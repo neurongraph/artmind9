@@ -162,3 +162,33 @@ def test_prune_keeps_rated_and_reviewed_turns():
     remaining = {t["trace_id"] for t in store.list_turns()}
     assert remaining == {"old-rated", "old-reviewed", "new"}
     assert store.list_spans("old-plain") == []
+
+
+def test_list_spans_for_batches_multiple_traces():
+    """list_spans_for returns a dict keyed by trace_id with spans in started_at order."""
+    import json
+
+    _turn("tx")
+    _turn("ty")
+    for i, (tid, cmd, at) in enumerate([
+        ("tx", "query graph pattern1", 1.0),
+        ("tx", "query vector-text", 2.0),
+        ("ty", "query graph pattern2", 1.5),
+    ]):
+        store.insert_span(
+            {"span_id": f"sp{i}", "trace_id": tid, "command": cmd, "args": json.dumps({}),
+             "exit_code": 0, "duration_ms": 1, "rows": 1, "rows_total": None, "truncated": 0,
+             "evidence": json.dumps({}), "started_at": at},
+            [],
+        )
+    result = store.list_spans_for(["tx", "ty"])
+    assert set(result.keys()) == {"tx", "ty"}
+    assert [s["command"] for s in result["tx"]] == ["query graph pattern1", "query vector-text"]
+    assert [s["command"] for s in result["ty"]] == ["query graph pattern2"]
+    # args and evidence are decoded just like list_spans
+    assert result["tx"][0]["args"] == {}
+    assert result["tx"][0]["evidence"] == {}
+    # empty list → empty dict
+    assert store.list_spans_for([]) == {}
+    # unknown id → absent key
+    assert "missing" not in store.list_spans_for(["missing"])

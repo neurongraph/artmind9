@@ -56,3 +56,24 @@ def test_triage_and_stats():
 
 def test_prune_reports_count():
     assert _json(["prune", "--days", "90"]) == {"pruned": 0}
+
+
+def test_list_passes_limit_to_db_when_no_filters():
+    """With no --rating and no --domain, --limit should be forwarded to the DB
+    so the store does not fetch unbounded rows."""
+    import json as _json_mod
+    from artmind.traces import store as _store
+    from unittest.mock import patch, MagicMock
+
+    calls = []
+    original = _store.list_turns
+
+    def capturing(*args, **kwargs):
+        calls.append(kwargs)
+        return original(*args, **kwargs)
+
+    with patch.object(_store, "list_turns", side_effect=capturing):
+        result = CliRunner().invoke(cli, ["traces", "list", "--limit", "5", "--compact"])
+    assert result.exit_code == 0
+    # When no rating/domain filter, limit should be passed as a kwarg to list_turns
+    assert any(c.get("limit") == 5 for c in calls), f"calls: {calls}"

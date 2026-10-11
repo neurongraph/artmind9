@@ -3275,8 +3275,11 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     domains = set(_parse_repeatable(domain))
+    # Push the limit down to the DB when there are no Python-side filters so
+    # the store does not fetch an unbounded result set.
+    db_limit = limit if (rating is None and not domains) else None
     turns = []
-    for t in store.list_turns(source=source, since=since_ts):
+    for t in store.list_turns(source=source, since=since_ts, limit=db_limit):
         if rating == "unrated" and t["rating"] is not None:
             continue
         if rating not in (None, "unrated") and t["rating"] != rating:

@@ -78,10 +78,11 @@ def triage(*, since: float | None = None, limit: int = 20) -> list[dict]:
     signals, with `good`-rated graph misses after unrated turns of equal score."""
     turns = [t for t in store.list_turns(since=since) if t["status"] in ("done", "error") and not t["reviewed"]]
     p90 = _p90([t["turns"] or 0 for t in turns])
+    spans_by_trace = store.list_spans_for([t["trace_id"] for t in turns])
     items = []
     for turn in turns:
         rating = turn.get("rating")
-        sig = signals(turn, store.list_spans(turn["trace_id"]), p90)
+        sig = signals(turn, spans_by_trace.get(turn["trace_id"], []), p90)
         score = sum(sig.values())
         if rating == "good" and "graph_miss" not in sig:
             continue

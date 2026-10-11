@@ -207,6 +207,37 @@ def list_spans(trace_id: str) -> list[dict]:
     return spans
 
 
+def list_spans_for(trace_ids: list[str]) -> dict[str, list[dict]]:
+    """Fetch spans for multiple trace ids in a single query.
+
+    Returns ``{trace_id: [spans]}`` with spans in ``started_at`` order.
+    The IN list is chunked at 500 ids to stay within SQLite's variable limit.
+    """
+    if not trace_ids:
+        return {}
+    CHUNK = 500
+    all_spans: list[dict] = []
+    conn = _connect()
+    try:
+        for i in range(0, len(trace_ids), CHUNK):
+            chunk = trace_ids[i : i + CHUNK]
+            marks = ",".join("?" for _ in chunk)
+            rows = [dict(r) for r in conn.execute(
+                f"SELECT * FROM trace_spans WHERE trace_id IN ({marks}) ORDER BY started_at",
+                chunk,
+            )]
+            all_spans.extend(rows)
+    finally:
+        conn.close()
+    for span in all_spans:
+        span["args"] = json.loads(span["args"]) if span["args"] else None
+        span["evidence"] = json.loads(span["evidence"]) if span["evidence"] else {}
+    out: dict[str, list[dict]] = {}
+    for span in all_spans:
+        out.setdefault(span["trace_id"], []).append(span)
+    return out
+
+
 def list_llm_calls(span_ids: list[str]) -> dict[str, list[dict]]:
     if not span_ids:
         return {}
