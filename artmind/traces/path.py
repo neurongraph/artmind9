@@ -91,19 +91,25 @@ def _basis_from(groups: set[str]) -> str:
 
 
 def _cited_groups(answer: str | None, productive_spans: list[dict]) -> set[str]:
-    """Groups of productive spans whose evidence.documents match a cited path.
+    """The group each cited document is credited to, over all citations.
 
-    Returns an empty set when the answer has no Sources section or when no
-    cited document could be matched to any span's evidence."""
+    A document returned by both a graph-side span and a vector span is
+    credited to the graph: a vector-text cross-check that re-finds what the
+    graph already supplied is not a fall-through. Returns an empty set when
+    the answer has no Sources section or no citation matches any span."""
     cited = parse_sources(answer)
     if not cited:
         return set()
     found: set[str] = set()
     for path_str in cited:
+        groups = set()
         for span in productive_spans:
             docs = (span.get("evidence") or {}).get("documents") or []
             if any(_same_document(path_str, d.get("path") or "") for d in docs):
-                found.add(_group(layer_of(span.get("command") or "")))
+                groups.add(_group(layer_of(span.get("command") or "")))
+        if "graph" in groups:
+            groups = {"graph"}
+        found |= groups
     return found
 
 

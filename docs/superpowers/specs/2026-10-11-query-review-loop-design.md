@@ -166,8 +166,10 @@ The recorder then stores these derived columns on `trace_turns`:
 `answer_basis` comes from the answer's `### Sources` section. The query
 skill requires every answer to have one, and each entry names a document.
 
-- Each cited document is matched to the spans whose `chunks` or `entities`
-  evidence came from it.
+- Each cited document is matched to the spans whose `documents` evidence
+  contains it. A document returned by both a graph-side span and a `vector`
+  span is credited to the graph: a `vector-text` cross-check that re-finds
+  what the graph already supplied is not a fall-through.
 - The basis is `vector` when every cited document came only from `vector`
   spans, and `graph` when every one came only from `view`/`graph`/
   `text2cypher`/`provenance` spans. A mix of both is `mixed`. Structured-store

@@ -161,16 +161,26 @@ def test_graph_miss_empty_graph_vector_cited():
     assert d["graph_productive"] == 0
 
 
-def test_graph_productive_vector_crosscheck_both_cited_is_mixed_fell_through():
-    """Graph answered AND vector-text was consulted; answer cites docs from both → mixed, fell_through True."""
+def test_doc_returned_by_graph_and_vector_counts_as_graph():
+    """A vector-text cross-check that re-finds a document the graph side already
+    returned adds nothing: the citation is the graph's, not a fall-through."""
     spans = [
-        _span("query graph pattern2", rows=1, started_at=1, documents=["b/A.md"]),
+        _span("query graph pattern2", rows=1, started_at=1),
         _span("query chunks", rows=1, started_at=2, documents=["b/A.md"]),          # provenance
         _span("query vector-text", rows=2, started_at=3, documents=["b/A.md"]),     # vector also has it
     ]
-    answer = "### Sources\n- [A](b/A.md)\n"
-    d = derive(spans, answer)
-    # b/A.md matches provenance (→ graph group) AND vector-text (→ vector group) → mixed
+    d = derive(spans, "### Sources\n- [A](b/A.md)\n")
+    assert d["answer_basis"] == "graph"
+    assert d["fell_through"] is False
+
+
+def test_vector_only_citation_alongside_graph_citation_is_mixed_fell_through():
+    spans = [
+        _span("query graph pattern2", rows=1, started_at=1),
+        _span("query chunks", rows=1, started_at=2, documents=["b/A.md"]),
+        _span("query vector-text", rows=2, started_at=3, documents=["b/A.md", "b/C.md"]),
+    ]
+    d = derive(spans, "### Sources\n- [A](b/A.md)\n- [C](b/C.md)\n")
     assert d["answer_basis"] == "mixed"
     assert d["fell_through"] is True
 
