@@ -15,6 +15,7 @@ import json
 import logging
 import os
 import time
+from pathlib import Path
 from typing import Any, AsyncIterator
 
 from artmind.webui.backends.acp_events import ACPEventMapper
@@ -38,6 +39,8 @@ class ACPBackend:
         mode: str | None = None,
         model: str | None = None,
         preamble_text: str | None = None,
+        extra_env: dict[str, str] | None = None,
+        trace_context: Path | None = None,
         connect_timeout_s: float = CONNECT_TIMEOUT_S,
     ) -> None:
         self._agent_cmd = agent_cmd
@@ -48,6 +51,8 @@ class ACPBackend:
         # Profile persona to prepend when ``prompt_preamble`` is set; falls back
         # to the Q&A persona to preserve the pre-profile default behaviour.
         self._preamble_text = preamble_text or QA_PROFILE.system_append
+        self._extra_env = extra_env
+        self._trace_context = trace_context
         self._connect_timeout_s = connect_timeout_s
         self._proc: asyncio.subprocess.Process | None = None
         self._read_task: asyncio.Task | None = None
@@ -108,7 +113,7 @@ class ACPBackend:
         if self._prompt_preamble and not self._first_prompt_sent:
             prompt = f"{self._preamble_text}\n\n{prompt}"
         self._first_prompt_sent = True
-        self._mapper = ACPEventMapper()
+        self._mapper = ACPEventMapper(capture=self._trace_context is not None)
         started_at = time.monotonic()
         future = await self._send_request(
             "session/prompt",
@@ -142,6 +147,10 @@ class ACPBackend:
     async def interrupt(self) -> None:
         if self._session_id is not None:
             await self._notify("session/cancel", {"sessionId": self._session_id})
+
+    @property
+    def trace_context_path(self) -> Path | None:
+        return self._trace_context
 
     # ---- durable session lifecycle (ADR 0007 / A7) -----------------------
 
@@ -190,6 +199,8 @@ class ACPBackend:
             except TimeoutError:
                 proc.kill()
                 await proc.wait()
+        if self._trace_context is not None:
+            self._trace_context.unlink(missing_ok=True)
 
     def _subprocess_env(self) -> dict[str, str] | None:
         """Inject ``self._model`` for opencode via ``OPENCODE_CONFIG_CONTENT``,
@@ -211,6 +222,9 @@ class ACPBackend:
         """
         env = dict(os.environ)
         changed = False
+        if self._extra_env:
+            env.update(self._extra_env)
+            changed = True
         if not env.get("OPENROUTER_API_KEY") and env.get("ARTMIND_OPENROUTER_API_KEY"):
             env["OPENROUTER_API_KEY"] = env["ARTMIND_OPENROUTER_API_KEY"]
             changed = True

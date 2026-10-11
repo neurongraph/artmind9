@@ -90,6 +90,8 @@ works, configured via:
 
 import os
 import shlex
+import uuid
+from pathlib import Path
 from typing import Callable
 
 from artmind.webui.backends.base import AgentBackend, UIEvent
@@ -174,12 +176,26 @@ def _sdk_env_overrides() -> dict[str, str]:
     }
 
 
+def new_trace_context() -> Path:
+    """A fresh, empty per-session trace-context file (spec 2026-10-11 §5.1).
+    The admin console writes each turn's trace id into it; the agent's Bash
+    subprocesses find it via ARTMIND_TRACE_CONTEXT. Machine-local (logs/)."""
+    import paths
+
+    directory = paths.LOGS_DIR / "trace-context"
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f"{uuid.uuid4().hex}.id"
+    path.write_text("")
+    return path
+
+
 def create_backend(
     name: str,
     profile: AgentProfile = QA_PROFILE,
     *,
     mcp_servers: dict | None = None,
     allowed_tools: list[str] | None = None,
+    trace_context: Path | None = None,
 ) -> AgentBackend:
     """Build a backend for ``name`` wearing ``profile``'s persona + skills.
 
@@ -192,7 +208,15 @@ def create_backend(
     supports them — ACP has no in-process tool mechanism (it passes an empty
     ``mcpServers`` at ``session/new`` and supports only external MCP servers),
     so the params are ignored there. See the canvas ``show_card`` tool.
+
+    ``trace_context``: a file from ``new_trace_context()``; the agent is
+    spawned with ``ARTMIND_TRACE_CONTEXT`` pointing at it, so every
+    ``artmind query`` it runs is recorded under the turn's trace.
     """
+    from artmind._entry import TRACE_CONTEXT_ENV
+
+    trace_env = {TRACE_CONTEXT_ENV: str(trace_context)} if trace_context else {}
+
     if name == "claude-sdk":
         from artmind.webui.backends.claude_sdk import ClaudeSDKBackend
 
@@ -202,7 +226,8 @@ def create_backend(
             allowed_tools=allowed_tools,
             model=_sdk_model_override or os.environ.get("ARTMIND_SDK_MODEL") or None,
             fallback_model=os.environ.get("ARTMIND_SDK_FALLBACK_MODEL") or None,
-            env=_sdk_env_overrides() or None,
+            env={**_sdk_env_overrides(), **trace_env} or None,
+            trace_context=trace_context,
         )
     if name == "acp":
         from artmind.webui.backends.acp import ACPBackend
@@ -218,19 +243,28 @@ def create_backend(
             mode=os.environ.get("ARTMIND_ACP_MODE", profile.acp_mode) or None,
             model=os.environ.get("ARTMIND_ACP_MODEL") or None,
             preamble_text=profile.system_append,
+            extra_env=trace_env or None,
+            trace_context=trace_context,
         )
     raise ValueError(f"unknown chat backend: {name!r}")
 
 
-def backend_factory(profile: AgentProfile = QA_PROFILE) -> Callable[[str], AgentBackend]:
+def backend_factory(
+    profile: AgentProfile = QA_PROFILE, *, trace: bool = False
+) -> Callable[[str], AgentBackend]:
     """A ``SessionRegistry`` client_factory bound to ``profile``.
 
     Lets each front-end app pick its persona once — ``create_app`` and the
     registry stay profile-agnostic:
 
         create_app(SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE)))
+
+    ``trace=True`` gives every backend its own trace-context file (the admin
+    console's query-trace capture, spec 2026-10-11 §5.1).
     """
-    return lambda name: create_backend(name, profile)
+    if not trace:
+        return lambda name: create_backend(name, profile)
+    return lambda name: create_backend(name, profile, trace_context=new_trace_context())
 
 
 __all__ = [
@@ -243,6 +277,7 @@ __all__ = [
     "ADMIN_PROFILE",
     "create_backend",
     "backend_factory",
+    "new_trace_context",
     "set_acp_agent_cmd",
     "set_sdk_model",
     "set_sdk_base_url",

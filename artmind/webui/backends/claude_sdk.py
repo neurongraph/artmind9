@@ -1,5 +1,6 @@
 """Claude Agent SDK backend: composes the SDK client with the event mapper."""
 
+from pathlib import Path
 from typing import Any, AsyncIterator
 
 from claude_agent_sdk import ClaudeSDKClient
@@ -37,6 +38,7 @@ class ClaudeSDKBackend:
         model: str | None = None,
         fallback_model: str | None = None,
         env: dict[str, str] | None = None,
+        trace_context: Path | None = None,
     ) -> None:
         # Remember the profile + current resume target so ``restart`` can
         # rebuild an equivalent client (optionally resuming the same session).
@@ -53,6 +55,7 @@ class ClaudeSDKBackend:
         self._model = model
         self._fallback_model = fallback_model
         self._env = env
+        self._trace_context = trace_context
         self._session_id: str | None = resume
         self._client = ClaudeSDKClient(
             agent_options(
@@ -66,17 +69,23 @@ class ClaudeSDKBackend:
             )
         )
 
+    @property
+    def trace_context_path(self) -> Path | None:
+        return self._trace_context
+
     async def connect(self) -> None:
         await self._client.connect()
 
     async def disconnect(self) -> None:
         await self._client.disconnect()
+        if self._trace_context is not None:
+            self._trace_context.unlink(missing_ok=True)
 
     async def query(self, prompt: str) -> None:
         await self._client.query(prompt)
 
     async def receive_events(self) -> AsyncIterator[UIEvent]:
-        mapper = EventMapper()
+        mapper = EventMapper(capture=self._trace_context is not None)
         async for message in self._client.receive_response():
             # Capture the session id as it flows past so a later refresh can
             # resume this exact conversation (A7 / ADR 0007).
