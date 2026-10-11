@@ -4,7 +4,6 @@ returns them: `command`, `rows`, `exit_code`, `started_at`, `evidence`.
 """
 
 import re
-from pathlib import PurePosixPath
 from urllib.parse import unquote
 
 GRAPH_LAYERS = frozenset({"view", "graph", "text2cypher"})
@@ -62,9 +61,7 @@ def _norm(path: str) -> str:
 
 def _same_document(cited: str, held: str) -> bool:
     a, b = _norm(cited), _norm(held)
-    if a == b or a.endswith("/" + b) or b.endswith("/" + a):
-        return True
-    return PurePosixPath(a).name == PurePosixPath(b).name
+    return a == b or a.endswith("/" + b) or b.endswith("/" + a)
 
 
 def _group(layer: str) -> str:

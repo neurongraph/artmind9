@@ -25,6 +25,7 @@ def _span(command, rows=1, exit_code=0, started_at=0.0, documents=None):
     ("query entity-resolve", "discovery"),
     ("query graph structural-metadata", "discovery"),
     ("query views list", "discovery"),
+    ("query views show", "discovery"),
     ("query something-new", "discovery"),
     (None, "discovery"),
 ])
@@ -97,7 +98,13 @@ def test_vector_before_graph_is_not_a_fall_through():
     assert derive(spans, "")["fell_through"] is False
 
 
-def test_cited_doc_matches_by_suffix_and_basename():
+def test_cited_doc_matches_by_path_suffix():
     spans = [_span("query graph pattern2", rows=1, documents=["/abs/vault/b/Org.md"]),
              _span("query vector-text", rows=1, started_at=1, documents=["b/Other.md"])]
     assert answer_basis("### Sources\n- [Org](<b/Org.md>) — b\n", spans) == "graph"
+
+
+def test_same_basename_in_another_folder_does_not_match():
+    spans = [_span("query graph pattern2", rows=1, documents=["a/README.md"]),
+             _span("query vector-text", rows=1, started_at=1, documents=["b/README.md"])]
+    assert answer_basis("### Sources\n- [README](<b/README.md>) — b\n", spans) == "vector"
