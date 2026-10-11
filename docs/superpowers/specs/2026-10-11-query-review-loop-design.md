@@ -112,16 +112,20 @@ remains a display-only limit.
 A later review can then tell "the graph has changed since" from "this is still
 broken".
 
-`evidence` is written by the commands themselves (§5.3). Its keys:
+`evidence` is extracted from the command's own JSON output payload (§5.3).
+Its keys:
 
-| Key | Written by | Value |
+| Key | Taken from | Value |
 |---|---|---|
-| `view` | `query views run` | `{name, version, params}` |
-| `pattern` | `query graph patternN` | `{name, params}` |
-| `cypher` | text2cypher, views, patterns | executed Cypher text |
-| `resolved` | entity-resolve, view entity params | `[{query, candidates:[{id, name, class, score}], chosen}]` |
-| `chunks` | vector-text, chunks, entity-context | `[{chunk_id, doc_id, score}]` |
-| `entities` | any command returning entities | `[entity _id]` (capped at 200) |
+| `view` | `query views run` | `{name, version, status, params}` |
+| `cypher` | text2cypher `generated_cypher` | generated Cypher text |
+| `sql` | text2sql `generated_sql` | generated SQL text |
+| `resolved` | entity-resolve `rows`, resolve-key `candidates`, views run `needs_disambiguation` | `[{id, name, entity_class, score}]` in output order |
+| `chunks` | any dict carrying `id` + `doc_id` (or `chunk_id` + `doc_id`) | `[{chunk_id, doc_id}]` |
+| `documents` | any dict carrying `id` + `path`/`source_path`; text2sql `source_tables[].source_file` | `[{doc_id, path}]` |
+| `entities` | any `_id` value | `[entity _id]` |
+
+Each list is deduplicated and capped at 200 items.
 
 ### 4.1 Retrieval path and fall-through
 
@@ -193,81 +197,103 @@ with feedback or a review is never pruned.
 
 The rule for every point: **capture never breaks or slows a query in a way
 the user can notice.** Every trace write is wrapped and its failure swallowed,
-which is the contract `_warn_if_vault_stale` already follows. With no
-`ARTMIND_TRACE_ID` set, all capture code returns immediately.
+which is the contract `_warn_if_vault_stale` already follows. When no trace
+id resolves (§5.2), all capture code returns immediately.
 
 ### 5.1 Admin console turn (`artmind/webui/app.py`, `agent.py`, backends)
 
-- `/api/chat` creates the `trace_id` and inserts the `trace_turns` row. It
-  passes `ARTMIND_TRACE_ID` to the agent through the existing `env` hook
-  (`agent_options(env=…)`), so every Bash subprocess inherits it. The
-  `trace_id` is sent to the browser in the first SSE event, so the UI can
-  attach feedback to it.
-- Each mapped event goes to the SSE stream and also to `trace_events`
-  (unclipped). Capture applies only to the admin profile. A
-  `TraceRecorder` object does the writing, and app.py and the benchmark
-  runner share it.
-- `EventMapper` changes:
-  - Keep `ResultMessage.usage` and the model in `turn_done`.
-  - Emit `thinking` events for capture.
-  - Emit subagent events (`parent_tool_use_id`) marked with
-    `parent_tool_id`. The browser still filters them out.
-- The ACP backend records what it has. Tokens, cost and model may be null.
+- **The trace id cannot travel in the agent's environment.** The agent
+  process lives for the whole browser session (`SessionRegistry`), so its
+  env is fixed at spawn, while the trace id changes every turn. Instead,
+  each admin backend is created with a **trace-context file**,
+  `LOGS_DIR/trace-context/<uuid>.id`, and spawned with
+  `ARTMIND_TRACE_CONTEXT=<that path>`. Every Bash subprocess inherits the
+  variable.
+- `/api/chat` creates the `trace_id`, inserts the `trace_turns` row, and
+  writes the id into the backend's context file before calling `query()`.
+  It truncates the file when the turn ends, so a stray later command is
+  never attributed to a finished turn.
+- The first SSE event of an admin turn is `{"type": "trace", "trace_id":
+  …}`, so the UI can attach feedback to it. The chat UI emits no such event,
+  and its stream is otherwise unchanged.
+- Both mappers add a private `_trace` key to `tool_call`, `tool_result` and
+  `turn_done` events, carrying unclipped input and output, the tool's
+  `parent_tool_use_id`, and on `turn_done` the `usage`, `model` and final
+  `result`. `TraceRecorder.observe(event)` records the event and returns it
+  with `_trace` removed, so the SSE stream and the benchmark's `trace_json`
+  never carry it. The recorder rebuilds `text` and `thinking` events from
+  the deltas, one event per block.
+- Capture applies to the admin console and the benchmark runner only. The
+  ACP backend records what it has, with tokens, cost and model possibly
+  null.
 - The session id is persistent per tab, so one trace is one turn and a
   multi-turn conversation is several traces sharing a `session_id`.
 
-### 5.2 CLI span (`artmind/cli.py`, new `artmind/tracing.py`)
+### 5.2 CLI span (new `artmind/traces/` package, `artmind/cli.py`)
 
-- The `query` group callback calls `tracing.start_span(ctx)` when
-  `ARTMIND_TRACE_ID` is set, and registers `ctx.call_on_close(finish_span)`.
-  `call_on_close` also runs when a command fails, which `result_callback`
-  does not.
-- Span state lives in a `contextvars.ContextVar`. `finish_span` records
-  `exit_code` and `duration_ms`. Commands report `rows` and `truncated`
-  through `tracing.note(rows=…, truncated=…)`.
-- `tool_id` correlation: the CLI cannot see the agent's tool-use id.
-  `finish_span` stores the span with `tool_id` null. When the turn ends,
-  `TraceRecorder` assigns each span to the `Bash` `tool_call` whose time
-  window contains the span's `started_at` and whose command text contains
-  the span's command. Spans that match no call keep a null `tool_id`.
+- **Trace id resolution**, first match wins:
+  1. an in-process override (set by `serve`, §5.4);
+  2. `ARTMIND_TRACE_ID` (tests, manual runs);
+  3. the contents of the file named by `ARTMIND_TRACE_CONTEXT` (an empty
+     file means no trace).
+- The `query` group uses `cls=TracedGroup`. `TracedGroup.invoke` opens a
+  span when a trace id resolves, runs the subcommand, and records the span
+  in a `finally` block. It reads the exit code from the exception it sees:
+  `click.exceptions.Exit`, `ClickException.exit_code`, or 1 for any other
+  exception. `call_on_close` and `result_callback` cannot provide that.
+  Nested groups (`query graph`, `query views`) run inside the outer span and
+  open none of their own.
+- The span's `command` is resolved from the argv by walking the click group
+  tree (`query graph pattern5`). `args` holds the leaf context's `params`
+  when output was produced, and the raw argv otherwise.
+- `tool_id` correlation: the CLI cannot see the agent's tool-use id. When
+  the turn ends, `TraceRecorder` assigns each span to the Bash-like
+  `tool_call` whose window (call → result) contains the span's
+  `started_at`, and whose raw input contains both `artmind` and the span's
+  leaf command name. Spans that match no call keep a null `tool_id`.
+  Timestamps are epoch seconds (REAL), from one clock on one machine.
 - `artmind traces`, `artmind review` and every non-`query` command are not
   spanned.
 
-### 5.3 Evidence notes (query layer)
+### 5.3 Evidence from the output payload
 
-`tracing.note(key, value)` is a no-op without an active span. It is called at
-these points only:
+Every query command prints through `cli._echo_json`. When a span is active,
+`_echo_json` passes the payload to `traces.evidence.summarize(payload)`
+before echoing it. That function returns:
 
-- `kg_views.runner.run_view`
-- `graph_query` pattern entry points
-- `text2cypher.execute_text2cypher`
-- `vector_query.entity_resolve`
-- the `vector-text`, `chunks` and `entity-context` commands
+- `rows`: `len(payload["rows"])`, else `len(payload["candidates"])`, else
+  `len(payload["edge_candidates"])`, else `len(payload["views"])`, else 0
+- `truncated`: `payload["truncated"]` or `payload["summary"]["truncated"]`
+- `rows_total`: `payload["rows_total"]` or `payload["summary"]["total"]`
+- the `evidence` dict in §4
 
-The notes are added inside the existing functions, with no signature
-changes.
+No query function changes signature, and no query module imports the
+tracing code. The extractor is a pure function over JSON shapes, so it is
+tested against fixture payloads, one per command family.
 
 ### 5.4 Proxy (`artmind/_entry.py`, `artmind/server.py`)
 
-- `_entry._proxy` adds `"trace_id": os.environ.get("ARTMIND_TRACE_ID")` to
-  the JSON payload. It stays stdlib-only.
-- `server.QueryRequest` gains `trace_id: str | None`. `run_cli_args` sets
-  `ARTMIND_TRACE_ID` in `os.environ` for the duration of the invoke and
-  restores it afterwards. This is safe because invokes are already
-  serialized by `_invoke_lock`. A daemon started before this ships records
-  nothing, and `artmind traces show` says so when a turn has `Bash` calls to
-  `artmind query` but no spans.
+- `_entry` gains a stdlib-only `_trace_id()`, which resolves steps 2 and 3
+  above. `artmind.traces` reuses it. `_proxy` sends `{"args", "trace_id"}`.
+- `server.QueryRequest` gains `trace_id: str | None`. `run_cli_args` sets the
+  in-process override for the duration of the invoke. Invokes are already
+  serialized by `_invoke_lock`. The daemon's own environment is never read
+  for a trace id, so a daemon started from a traced shell cannot attribute
+  requests to the wrong turn.
+- A daemon started before this ships records nothing. `artmind traces show`
+  says so when a turn has Bash calls to `artmind query` but no spans.
 
 ### 5.5 LLM calls (`utils/functions.py`)
 
-`log_llm_call` also calls `tracing.record_llm_call(...)`, which writes to
+`log_llm_call` also calls `traces.span.record_llm_call(...)`, which writes to
 `trace_llm_calls` when a span is active. `llm_calls.log` is unchanged.
 Ingestion-time calls never have a span, so they are unaffected.
 
 ### 5.6 Benchmark (`artmind/benchmark.py`)
 
-`_run_benchmark` uses `TraceRecorder` with `source=benchmark`. It sets
-`ARTMIND_TRACE_ID` per question and records the same events and spans.
+`_run_benchmark` uses `TraceRecorder` with `source=benchmark`. It creates
+each question's backend with a trace-context file, writes the question's
+trace id into it, and records the same events and spans.
 `benchmark_questions` gains a `trace_id` column. `trace_json` is still
 written for the existing Benchmark tab.
 
@@ -311,7 +337,7 @@ per signal:
 - `turns` is above the 90th percentile for the period
 - the answer matches a "couldn't find / no information / not in the graph"
   phrase list
-- an entity resolved ambiguously (top two candidates within 0.05)
+- an entity resolved ambiguously (the second candidate's score is at least 90% of the first's; RRF scores are small, so the comparison is relative)
 - a span ended with `exit_code != 0`
 
 Turns rated `good` are excluded, **except graph misses**. A correct answer
@@ -565,8 +591,8 @@ The suite is hermetic, following CLAUDE.md §3:
 - **Proxy:** `CliRunner` bypasses `_entry`, so a test starts
   `server.create_app()` under FastAPI's `TestClient`, posts `{"args",
   "trace_id"}`, and asserts the span lands under that trace id and that
-  `ARTMIND_TRACE_ID` is restored afterwards. A separate unit test checks
-  that `_entry._proxy`'s payload includes the env var.
+  the override is cleared afterwards. A separate unit test checks that
+  `_entry._proxy`'s payload carries the id read from the context file.
 - **Admin capture:** extend `test/fake_acp_agent.py`-style fakes to emit a
   scripted event sequence. Assert on the `trace_events` rows (unclipped
   payloads) and the `trace_turns` usage fields. Also assert the SSE output
