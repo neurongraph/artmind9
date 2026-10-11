@@ -69,6 +69,7 @@ from paths import (
 )
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
+from artmind.reviews.dossier import STAGES, STATUSES
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -221,7 +222,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "views", "traces"]},
+        {"name": "Query", "commands": ["query", "views", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -3364,6 +3365,157 @@ def traces_prune(days, compact) -> None:
 
     retention = days if days is not None else int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90"))
     _echo_json({"pruned": store.prune(retention)}, compact)
+
+
+# ── artmind review ────────────────────────────────────────────────────────────
+
+
+@cli.group("review")
+def review_group() -> None:
+    """Review dossiers: diagnosed query failures and the fixes they propose.
+
+    One markdown file per review under <vault>/.artmind/reviews/ -- committed
+    with the vault's private repo (~/.artmind/reviews/ outside a vault). A
+    dossier holds private corpus evidence: never paste it into the public code
+    checkout; `leakcheck` scans a checkout diff for leaks. Driven by the
+    artmind-review skill, run from Claude Code in the checkout with
+    ARTMIND_VAULT=<vault>. Status lives in each file; `reindex` rebuilds the
+    local index from them.
+    """
+    pass
+
+
+def _load_dossier(review_id):
+    from artmind.reviews import dossier as dz
+
+    try:
+        return dz.load(review_id)
+    except dz.DossierError as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
+@review_group.command("new")
+@click.argument("trace_id")
+@click.option("--stage", type=click.Choice(STAGES), default=None, help="Verdict, if already known")
+@click.option("--element", "elements", multiple=True,
+              help="Schema element domain/Class[.prop|-REL->] (repeatable; comma-splittable)")
+@click.option("--force", is_flag=True, help="Open another dossier even if the trace already has an open one")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_new(trace_id, stage, elements, force, compact) -> None:
+    """Scaffold a dossier from a recorded trace (symptom, retrieval path, private terms)."""
+    from artmind.reviews import dossier as dz
+    from artmind.reviews import index, scaffold
+
+    if not force:
+        existing = scaffold.open_reviews_for(trace_id)
+        if existing:
+            raise click.ClickException(
+                f"trace {trace_id} already has open review(s): {', '.join(existing)} (use --force)")
+    try:
+        d = scaffold.scaffold(trace_id, stage=stage, elements=_parse_repeatable(elements))
+    except dz.DossierError as exc:
+        raise click.ClickException(str(exc)) from exc
+    path = dz.save(d)
+    index.index_dossier(d, path)
+    _echo_json({"review_id": d.review_id, "path": str(path)}, compact)
+
+
+@review_group.command("list")
+@click.option("--status", type=click.Choice(STATUSES), default=None)
+@click.option("--stage", type=click.Choice(STAGES), default=None)
+@click.option("--element", default=None, help="Substring of a schema element")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_list(status, stage, element, compact) -> None:
+    """Dossiers in this vault's reviews folder, read from the files."""
+    from artmind.reviews import dossier as dz
+
+    reviews, invalid = [], []
+    for path, d, error in dz.iter_dossiers():
+        if error:
+            invalid.append({"path": str(path), "error": error})
+            continue
+        meta = d.meta
+        if status and meta.get("status") != status:
+            continue
+        if stage and meta.get("stage") != stage:
+            continue
+        if element and not any(element in str(e) for e in meta.get("elements") or []):
+            continue
+        reviews.append({k: meta.get(k) for k in ("review_id", "status", "stage", "elements", "trace_ids",
+                                                 "created", "updated")} | {"path": str(path)})
+    _echo_json({"command": "review_list", "reviews": reviews, "invalid": invalid}, compact)
+
+
+@review_group.command("show")
+@click.argument("review_id")
+@click.option("--markdown", is_flag=True, help="Print the dossier file as is")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_show(review_id, markdown, compact) -> None:
+    """One dossier: frontmatter and sections as JSON, or the raw file."""
+    d = _load_dossier(review_id)
+    if markdown:
+        click.echo(d.path.read_text(encoding="utf-8"), nl=False)
+        return
+    _echo_json({"meta": d.meta, "sections": d.sections, "path": str(d.path)}, compact)
+
+
+@review_group.command("status")
+@click.argument("review_id")
+@click.argument("status", type=click.Choice(STATUSES))
+@click.option("--note", default=None, help="Why, for the dossier's Log")
+def review_status(review_id, status, note) -> None:
+    """Move a dossier to a new status; the change is logged in the dossier."""
+    from artmind.reviews import dossier as dz
+    from artmind.reviews import index
+
+    d = _load_dossier(review_id)
+    old = d.meta.get("status")
+    d.meta["status"] = status
+    dz.append_log(d, f"status {old} → {status}" + (f": {note}" if note else ""))
+    path = dz.save(d)
+    index.index_dossier(d, path)
+    click.echo(f"{review_id}: {old} → {status}")
+
+
+@review_group.command("validate")
+@click.argument("review_id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_validate(review_id, compact) -> None:
+    """Check a dossier is complete for its stage; exits 1 on errors."""
+    from artmind.reviews.validate import validate
+
+    result = validate(_load_dossier(review_id))
+    _echo_json(result, compact)
+    if not result["ok"]:
+        raise SystemExit(1)
+
+
+@review_group.command("reindex")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_reindex(compact) -> None:
+    """Rebuild the local review index from the dossier files."""
+    from artmind.reviews.index import reindex
+
+    _echo_json(reindex(), compact)
+
+
+@review_group.command("leakcheck")
+@click.argument("review_id")
+@click.option("--base", default="HEAD", show_default=True, help="Compare the working tree with this ref, e.g. master")
+@click.option("--repo", default=".", show_default=True, type=click.Path(file_okay=False, exists=True),
+              help="The code checkout to scan")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_leakcheck(review_id, base, repo, compact) -> None:
+    """Scan a checkout's added lines for the dossier's private terms and quoted text; exits 1 on a hit."""
+    from artmind.reviews.leakcheck import LeakcheckError, leakcheck
+
+    try:
+        result = leakcheck(_load_dossier(review_id), repo, base)
+    except LeakcheckError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+    if not result["ok"]:
+        raise SystemExit(1)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
