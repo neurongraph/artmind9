@@ -35,7 +35,7 @@ the command you ran that does answer it. Proposal: a change to the query skill
 
 ### `missing-view`
 The question needs specific Cypher and it recurs (`artmind traces list` shows
-similar questions). Proposal: a `view.yaml` + `SKILL.md` draft
+similar questions) — and `artmind review shape-report` shows whether other dossiers already name the element. Proposal: a `view.yaml` + `SKILL.md` draft
 (`artmind-create-view`'s format); Proof: `artmind views test` output.
 
 ### `identity`

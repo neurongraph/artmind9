@@ -39,10 +39,10 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
    first that failed. Blame the schema last: a schema change forces a re-ingest.
 4. **Shape matters.** For identity, extraction and schema verdicts, compare the
    source text, the extracted subgraph and the question (the shape audit).
-5. **One problem, one dossier.** Before opening a dossier, check
-   `artmind review list --element <element>` for an open dossier on the same
-   schema element; if one exists, add this trace to it (append the symptom,
-   add the trace id to `trace_ids`) instead of opening another.
+5. **One problem, one dossier.** Before opening a dossier run
+   `artmind review shape-report --domain <d>`; if an open dossier already holds
+   your schema element, `artmind review attach <review_id> <trace_id>` instead
+   of opening another.
 6. **Propose, never apply.** No graph writes, no schema edits, no code edits,
    no `artmind update`. The dossier's Agent prompt is for a later coding session.
 
@@ -77,6 +77,32 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
    proposal in one sentence, and the dossier path. Do not paste dossier
    content beyond that.
 
+## Verify a fix
+
+After a coding session (or the operator) applied a dossier's fix — and, for a
+schema or prompt change, re-extracted the affected documents:
+
+1. `artmind review status <review_id> fixed --note "<what changed>"`.
+2. `artmind review verify <review_id>` — runs the regression question as a
+   one-question benchmark (an agent turn: real cost) and prints the original and
+   new traces side by side with mechanical checks: `answered`, and for a graph
+   miss `graph_answer` (no fall-through, basis graph or mixed).
+3. Grade the new answer against the evaluation comment yourself. Pass →
+   `artmind review status <review_id> verified --note "<run id, why it passes>"`.
+   Fail → `artmind review status <review_id> open --note "<what is still wrong>"`
+   and continue the diagnosis with the new trace (`review attach`).
+
+Never mark `verified` on mechanical checks alone.
+
+## Proactive audits
+
+`artmind review shape-report --domain <d> --sample 5 --seed <n>` picks random
+chunks with no failing question. `lost_at_commit` lists staging observations
+with no graph entity for the chunk; `isolated` lists observations no staging
+relationship touches. Audit interesting chunks with
+`artmind review shape --domain <d> --chunk <id>`. Open a dossier only for a
+finding a real question would hit; otherwise note it in the report to the user.
+
 ## Commands
 
 | Command | Use |
@@ -92,6 +118,10 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
 | `artmind review leakcheck <review_id> --base master` | run in a coding session before committing |
 | `artmind review shape <trace_id> [--chunk …] [--pattern '<json>']` | the shape-audit bundle: numbered sentences, graph subgraph, staging, schema, answerability |
 | `artmind review reextract <trace_id> --schema <proposed.yaml> [--pattern …]` | dry-run re-extraction under a proposed schema (or `--meta`): shape diff + answerability; writes nothing |
+| `artmind review shape-report [--domain D] [--sample N --seed S]` | findings by schema element across open dossiers; random chunks to audit proactively |
+| `artmind review attach <review_id> <trace_id>` | add another symptom trace to an open dossier |
+| `artmind review regressions [--status fixed]` | every regression question as one benchmark file |
+| `artmind review verify <review_id> [--runId …]` | re-run the regression question; the new trace beside the original |
 | `artmind query chunks --domain D --idList <id> --expand 1` | source text of a chunk and its neighbours |
 | `artmind query entity-context --domain D --entityId <id>` | an entity's properties, relationships and source chunks |
 | `artmind query vector-text --domain D "<text>"` | find the chunks that state a fact |

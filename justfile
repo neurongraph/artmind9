@@ -555,6 +555,14 @@ review-shape trace_id:
 review-reextract trace_id schema:
     uv run artmind review reextract {{ trace_id }} --schema {{ schema }}
 
+# findings by schema element across open dossiers  (usage: just review-shape-report [domain])
+review-shape-report domain="":
+    uv run artmind review shape-report {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# re-run a dossier's regression question and compare traces  (usage: just review-verify <review_id>)
+review-verify review_id:
+    uv run artmind review verify {{ review_id }}
+
 # ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)
