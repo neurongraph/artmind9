@@ -99,6 +99,11 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
 
 ## Failure modes
 
+- **`review reextract` fails with `404` (provider `ibm_ica`)** — Claude Code exports its own
+  `ANTHROPIC_BASE_URL`, which shadows the one in artmind's `config.env`. Put the extraction
+  endpoint in `ARTMIND_KG_ANTHROPIC_BASE_URL` in `~/.artmind/config.env` (checked first), or
+  export it for the command. A failed step reports `diff: null`, never a fake "everything removed".
+
 - **No spans in the trace** — the `serve` daemon predates trace capture;
   restart it and ask the user to re-run the question.
 - **The graph changed since the trace** — compare `graph_state` in the Symptom

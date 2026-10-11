@@ -158,6 +158,14 @@ def reextract(*, trace_id: str | None = None, domain: str | None = None, chunk_i
         doc = staged["document"]
         anchor = relative_anchor_date(schema, {k: doc.get(k) for k in ("_valid_from", "_valid_to", "_valid_time_source")})
         proposed = extract_chunk(staged["chunk"]["text"], schema, model=model, meta=meta, anchor_date=anchor)
+        if proposed["failed_steps"]:
+            # A failed step leaves the proposed side empty; diffing it would read as
+            # "the proposal removes everything". Report the failure instead.
+            chunks.append({"chunk_id": cid, "document": doc.get("path") or doc.get("name"),
+                           "failed_steps": proposed["failed_steps"], "diff": None,
+                           "error": f"extraction failed at {', '.join(proposed['failed_steps'])} "
+                                    "(see the LLM error above); no diff"})
+            continue
         item = {
             "chunk_id": cid,
             "document": doc.get("path") or doc.get("name"),

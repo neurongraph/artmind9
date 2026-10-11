@@ -124,3 +124,16 @@ def test_bad_schema_file(tmp_path):
     bad.write_text("- not a mapping\n")
     with pytest.raises(reextract.ReextractError):
         reextract.reextract(domain="d", chunk_ids=["doc-1_001"], schema_path=bad, model="m")
+
+
+def test_failed_extraction_reports_no_diff(monkeypatch):
+    """A failed step must not read as 'the proposal removes everything'."""
+    from artmind import extraction
+
+    monkeypatch.setattr(extraction, "extract_with_retry", lambda step, model, prompt, debug_dir=None: ([], False))
+    result = reextract.reextract(domain="d", chunk_ids=["doc-1_001"], model="m",
+                                 pattern=[{"name": "Mira"}, {"rel": "WENT_TO"}, {"name": "Lakeport"}])
+    chunk = result["chunks"][0]
+    assert chunk["failed_steps"] == ["entities"]
+    assert chunk["diff"] is None and "answerability" not in chunk
+    assert "extraction failed" in chunk["error"]
