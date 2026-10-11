@@ -22,6 +22,7 @@ ingest dashboard).
 | `artmind/retime.py` | `ingest retime`: re-derives already-staged documents' valid time from the current schema (`temporal.document` labels, then `temporal.document_patterns` — filename / first line) with no LLM, also applying `property_aliases` / number-variant folding and `exclusive:` properties (`observations.normalize_property_keys`), commits changed folders, rebuilds once. `--redoProperties` re-runs only the properties step, only for entities of `temporal:`-tagged classes, with the document date in the prompt (`temporal.relative_anchor`), keeping canonical names. |
 | `artmind/table2graph.py` | `ingest table2graph`: projects structured-table rows into entities/relationships via a declarative mapping in the run folder's `domains/table_mappings/*.yaml` (no LLM), committed through the same `_commit_document_tx` as a document. Mapping format: `artmind/skills/artmind-create-schema/references/table_mapping.md`. |
 | `artmind/kg_views/` | Saved, parameterised, read-only graph queries ("views"). `model` (view.yaml contract), `render` (markdown per presentation format), `params` (entity auto-resolve), `store` (reads `<ARTMIND_HOME>/domains/views/<name>/{view.yaml,SKILL.md}` from disk on every call; never seeded by `setup`; refuses a changed view without a `version` bump and refuses a version downgrade; save is atomic), `runner` (60 s server-side query timeout). CLI: `artmind query views list/show/run` (proxied by `serve`) and `artmind views validate/test/save/delete` (`views test` reports zero rows, truncation and ambiguous/no-match entities in a JSON `warnings` list). Format reference: `artmind/skills/artmind-create-view/references/view_format.md`. |
+| `artmind/traces/` | Query traces (spec `docs/superpowers/specs/2026-10-11-query-review-loop-design.md`). Every admin-console turn and benchmark question → `trace_turns`/`trace_events` in the registry DB. Every `artmind query` call made under a trace → a `trace_spans` row (via `TracedGroup` on the `query` group; evidence read from the payload `_echo_json` prints) plus its `trace_llm_calls`. The trace id reaches the agent's Bash through a per-session file named by `ARTMIND_TRACE_CONTEXT`, which `_entry` forwards to `serve`. `path` derives graph→vector fall-through and answer basis. CLI: `artmind traces list/show/triage/feedback/stats/prune` (not proxied). |
 | `artmind/refine_pipeline.py`, `refine_graph.py`, `conflicts.py`, `consolidate.py`, `temporal.py`, `harmonizer.py` | Graph maintenance: merging, conflict detection, temporal normalization. |
 | `artmind/skills/` | **Source of truth for agent skills.** Shipped in the wheel and seeded into the run folder. |
 | `artmind/domains/schemas/` | Default domain schemas (YAML), also seeded. |
@@ -112,6 +113,10 @@ curl -s http://127.0.0.1:8377/health
 `just dev-stop-daemons` identifies `serve` by the port it holds and verifies the process is
 artmind before killing, so it won't touch an unrelated process on that port.
 
+Trace capture has the same trap: a `serve` daemon started before `artmind/traces`
+shipped answers proxied queries without recording spans. `artmind traces show`
+warns when a turn ran `artmind query` but has no spans.
+
 ### 2. Skills reach the chat UI through the vault or the run folder
 
 `artmind/skills/` is the **single source of truth**. It reaches consumers three ways:
@@ -188,6 +193,7 @@ Two levels under `query`, and mixing them up is a common error:
 - `artmind query <cmd>` — `domains-overview`, `vector-text`, `entity-resolve`,
   `chunks`, `entity-context`, `text2sql`, `resolve-key`, `views list|show|run`
 - `artmind views <cmd>` — authoring: `validate`, `test`, `save`, `delete` (not proxied)
+- `artmind traces <cmd>` — recorded query traces: `list`, `show`, `triage`, `feedback`, `stats`, `prune` (not proxied)
 
 `text2sql`/`resolve-key` query the structured (SQL) store, not the graph — see
 `artmind db <cmd>` (`list`, `schema`, `sql`, `mappings`, `catalogue`, `refresh`,

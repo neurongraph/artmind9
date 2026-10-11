@@ -515,6 +515,24 @@ views-validate path:
 views-test path domain params="":
     uv run artmind views test --path {{ path }} --domain {{ domain }} $(for p in {{ params }}; do printf -- '--param %s ' "$p"; done)
 
+# ── artmind traces ───────────────────────────────────────────────────────────
+
+# recorded admin-console/benchmark turns, newest first  (usage: just traces-list [rating])
+traces-list rating="":
+    uv run artmind traces list {{ if rating != "" { "--rating " + rating } else { "" } }}
+
+# one turn's full evidence chain  (usage: just traces-show <trace_id>)
+traces-show trace_id:
+    uv run artmind traces show {{ trace_id }}
+
+# turns worth reviewing, ranked  (usage: just traces-triage [since], e.g. 7d)
+traces-triage since="":
+    uv run artmind traces triage {{ if since != "" { "--since " + since } else { "" } }}
+
+# graph-to-vector fall-through per domain and week  (usage: just traces-stats [domain])
+traces-stats domain="":
+    uv run artmind traces stats {{ if domain != "" { "--domain " + domain } else { "" } }}
+
 # ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)
