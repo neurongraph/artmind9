@@ -348,6 +348,113 @@ def _init_db() -> None:
                 f'ALTER TABLE "tables" ADD COLUMN {col} TEXT NOT NULL DEFAULT \'pending\''
             )
 
+    # Query traces (docs/superpowers/specs/2026-10-11-query-review-loop-design.md
+    # §4): admin-console turns and benchmark questions, the agent's events, one
+    # span per `artmind query` call, and the LLM calls those spans made. Local
+    # to this machine like the rest of this DB -- never synced, never committed.
+    # Timestamps are epoch seconds (REAL): spans are matched to the agent's
+    # tool calls by time window, and both sides read one clock.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_turns (
+            trace_id          TEXT PRIMARY KEY,
+            source            TEXT NOT NULL,
+            session_id        TEXT,
+            benchmark_run_id  TEXT,
+            benchmark_seq     INTEGER,
+            question          TEXT NOT NULL,
+            answer            TEXT,
+            domains           TEXT,
+            profile           TEXT,
+            backend           TEXT,
+            model             TEXT,
+            turns             INTEGER,
+            duration_s        REAL,
+            cost_usd          REAL,
+            input_tokens      INTEGER,
+            output_tokens     INTEGER,
+            graph_state       TEXT,
+            retrieval_path    TEXT,
+            graph_attempts    INTEGER,
+            graph_productive  INTEGER,
+            fell_through      INTEGER,
+            answer_basis      TEXT,
+            status            TEXT NOT NULL DEFAULT 'running',
+            error_message     TEXT,
+            started_at        REAL NOT NULL,
+            completed_at      REAL
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_trace_turns_started ON trace_turns(started_at)")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_events (
+            trace_id        TEXT NOT NULL,
+            seq             INTEGER NOT NULL,
+            ts              REAL NOT NULL,
+            type            TEXT NOT NULL,
+            tool_id         TEXT,
+            parent_tool_id  TEXT,
+            name            TEXT,
+            payload         TEXT,
+            PRIMARY KEY (trace_id, seq)
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_spans (
+            span_id      TEXT PRIMARY KEY,
+            trace_id     TEXT NOT NULL,
+            tool_id      TEXT,
+            command      TEXT,
+            args         TEXT,
+            exit_code    INTEGER,
+            duration_ms  INTEGER,
+            rows         INTEGER,
+            rows_total   INTEGER,
+            truncated    INTEGER,
+            evidence     TEXT,
+            started_at   REAL NOT NULL
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_trace_spans_trace ON trace_spans(trace_id)")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_llm_calls (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            span_id      TEXT NOT NULL,
+            seq          INTEGER NOT NULL,
+            call_type    TEXT,
+            model        TEXT,
+            prompt       TEXT,
+            response     TEXT,
+            duration_ms  INTEGER,
+            created_at   REAL NOT NULL
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_trace_llm_calls_span ON trace_llm_calls(span_id)")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_feedback (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            trace_id    TEXT NOT NULL,
+            rating      TEXT NOT NULL,
+            expected    TEXT,
+            created_at  REAL NOT NULL
+        )
+    """)
+    # A local index of review dossiers (P2 writes it; P1 only needs it to
+    # exist so `traces triage` and `prune` can tell reviewed turns apart).
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_reviews (
+            review_id     TEXT PRIMARY KEY,
+            trace_id      TEXT NOT NULL,
+            stage         TEXT,
+            elements      TEXT,
+            status        TEXT NOT NULL DEFAULT 'open',
+            dossier_path  TEXT,
+            updated_at    REAL NOT NULL
+        )
+    """)
+    existing = {row[1] for row in cursor.execute("PRAGMA table_info(benchmark_questions)")}
+    if "trace_id" not in existing:
+        cursor.execute("ALTER TABLE benchmark_questions ADD COLUMN trace_id TEXT")
+
     conn.commit()
     conn.close()
 

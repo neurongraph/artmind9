@@ -70,6 +70,14 @@ def log_llm_call(call_type: str, model: str, prompt: str, response: str) -> None
     with _LLM_LOG_LOCK:
         with open(LLM_CALLS_LOG_FILE, "a", encoding="utf-8") as f:
             f.write(entry)
+    # The same call, attributed to the query-trace span it ran in (spec
+    # 2026-10-11 §5.5); a no-op outside a traced `artmind query`.
+    try:
+        from artmind.traces.span import record_llm_call
+
+        record_llm_call(call_type, model, prompt, response)
+    except Exception:
+        pass
 
 
 _ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")

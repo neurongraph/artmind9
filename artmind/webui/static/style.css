@@ -328,3 +328,11 @@ body.drawer-open .drawer:not(#help-drawer) { transform: translateX(0); }
 }
 .tool-result-label { margin-top: 8px; color: var(--text-muted); font-size: 11px; }
 .trace-summary { color: var(--text-muted); font-size: 12px; padding: 4px 2px 10px; }
+.feedback { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.feedback-btn, .feedback-save {
+  font: inherit; font-size: 12px; padding: 2px 10px; border-radius: 999px;
+  border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer;
+}
+.feedback-btn.selected { color: var(--text); border-color: var(--accent); }
+.feedback-note { flex-basis: 100%; font: inherit; font-size: 13px; resize: vertical; }
+.feedback-status { color: var(--text-muted); font-size: 12px; }

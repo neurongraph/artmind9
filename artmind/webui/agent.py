@@ -210,8 +210,12 @@ class EventMapper:
     types are remembered from ``content_block_start``. Create one per turn.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, capture: bool = False) -> None:
         self._block_types: dict[int, str] = {}
+        # Query-trace capture (spec 2026-10-11 §5.1): add a private `_trace`
+        # key with the unclipped data; TraceRecorder strips it before SSE.
+        self._capture = capture
+        self._model: str | None = None
 
     def map(self, message: Any) -> list[dict[str, Any]]:
         if isinstance(message, StreamEvent):
@@ -220,32 +224,38 @@ class EventMapper:
             # Normal text/thinking content already arrived via stream deltas.
             # A synthetic error response (e.g. auth failure) bypasses streaming
             # entirely, so its text is only ever available here.
+            self._model = message.model or self._model
             events: list[dict[str, Any]] = []
             if message.error:
                 text = "".join(b.text for b in message.content if isinstance(b, TextBlock))
                 events.append({"type": "error", "message": text or message.error})
-            events.extend(
-                {"type": "tool_call", "id": b.id, "name": b.name, "input": clip(b.input)}
-                for b in message.content
-                if isinstance(b, ToolUseBlock)
-            )
+            for b in message.content:
+                if isinstance(b, ToolUseBlock):
+                    event = {"type": "tool_call", "id": b.id, "name": b.name, "input": clip(b.input)}
+                    if self._capture:
+                        event["_trace"] = {"input": b.input, "parent_tool_id": message.parent_tool_use_id}
+                    events.append(event)
             return events
         if isinstance(message, UserMessage):
             content = message.content if isinstance(message.content, list) else []
-            return [
-                {"type": "tool_result", "tool_id": b.tool_use_id, "content": clip(b.content)}
-                for b in content
-                if isinstance(b, ToolResultBlock)
-            ]
+            events = []
+            for b in content:
+                if isinstance(b, ToolResultBlock):
+                    event = {"type": "tool_result", "tool_id": b.tool_use_id, "content": clip(b.content)}
+                    if self._capture:
+                        event["_trace"] = {"content": b.content, "parent_tool_id": message.parent_tool_use_id}
+                    events.append(event)
+            return events
         if isinstance(message, ResultMessage):
-            return [
-                {
-                    "type": "turn_done",
-                    "turns": message.num_turns,
-                    "duration_s": round(message.duration_ms / 1000, 1),
-                    "cost": message.total_cost_usd,
-                }
-            ]
+            event = {
+                "type": "turn_done",
+                "turns": message.num_turns,
+                "duration_s": round(message.duration_ms / 1000, 1),
+                "cost": message.total_cost_usd,
+            }
+            if self._capture:
+                event["_trace"] = {"usage": message.usage, "model": self._model, "result": message.result}
+            return [event]
         return []
 
     def _map_stream_event(self, message: StreamEvent) -> list[dict[str, Any]]:

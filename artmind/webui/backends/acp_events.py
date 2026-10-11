@@ -9,6 +9,7 @@ Unknown update variants (``plan``, ``current_mode_update``, future additions)
 are ignored: ACP agents may emit variants newer than this client.
 """
 
+import json
 from typing import Any
 
 from artmind.webui.backends.base import UIEvent, clip
@@ -26,8 +27,9 @@ def _content_text(content: Any) -> str:
     return clip(content)
 
 
-def _tool_output(update: dict[str, Any]) -> str:
+def _tool_output(update: dict[str, Any], *, clipped: bool = True) -> str:
     """Best-effort text from a tool_call_update's content or rawOutput."""
+    finish = clip if clipped else (lambda v: v if isinstance(v, str) else json.dumps(v, default=str))
     parts = []
     for item in update.get("content") or []:
         if isinstance(item, dict) and item.get("type") == "content":
@@ -35,15 +37,16 @@ def _tool_output(update: dict[str, Any]) -> str:
         elif isinstance(item, dict) and item.get("type") == "diff":
             parts.append(f"[diff] {item.get('path', '')}")
     if parts:
-        return clip("\n".join(parts))
+        return finish("\n".join(parts))
     if "rawOutput" in update:
-        return clip(update["rawOutput"])
+        return finish(update["rawOutput"])
     return ""
 
 
 class ACPEventMapper:
-    def __init__(self) -> None:
+    def __init__(self, capture: bool = False) -> None:
         self._open_block: str | None = None
+        self._capture = capture
 
     def _flush_block(self) -> list[UIEvent]:
         if self._open_block is None:
@@ -64,14 +67,15 @@ class ACPEventMapper:
 
         events = self._flush_block()
         if kind == "tool_call":
-            events.append(
-                {
-                    "type": "tool_call",
-                    "id": update.get("toolCallId", ""),
-                    "name": update.get("title") or update.get("kind") or "tool",
-                    "input": clip(update.get("rawInput", {})),
-                }
-            )
+            event: UIEvent = {
+                "type": "tool_call",
+                "id": update.get("toolCallId", ""),
+                "name": update.get("title") or update.get("kind") or "tool",
+                "input": clip(update.get("rawInput", {})),
+            }
+            if self._capture:
+                event["_trace"] = {"input": update.get("rawInput", {})}
+            events.append(event)
         elif kind == "tool_call_update":
             status = update.get("status")
             if status == "in_progress" and "rawInput" in update:
@@ -80,25 +84,28 @@ class ACPEventMapper:
                 # ``rawInput`` (e.g. ``{"cwd": ...}`` for bash) before the real
                 # arguments resolve; this update is where the real command
                 # shows up, so patch the already-rendered trace card.
-                events.append(
-                    {
-                        "type": "tool_call_update",
-                        "id": update.get("toolCallId", ""),
-                        "name": update.get("title") or update.get("kind") or "tool",
-                        "input": clip(update["rawInput"]),
-                    }
-                )
+                event = {
+                    "type": "tool_call_update",
+                    "id": update.get("toolCallId", ""),
+                    "name": update.get("title") or update.get("kind") or "tool",
+                    "input": clip(update["rawInput"]),
+                }
+                if self._capture:
+                    event["_trace"] = {"input": update["rawInput"]}
+                events.append(event)
             elif status in ("completed", "failed"):
                 content = _tool_output(update)
                 if status == "failed":
                     content = f"[failed] {content}".rstrip()
-                events.append(
-                    {
-                        "type": "tool_result",
-                        "tool_id": update.get("toolCallId", ""),
-                        "content": content,
-                    }
-                )
+                event = {
+                    "type": "tool_result",
+                    "tool_id": update.get("toolCallId", ""),
+                    "content": content,
+                }
+                if self._capture:
+                    raw = _tool_output(update, clipped=False)
+                    event["_trace"] = {"content": f"[failed] {raw}".rstrip() if status == "failed" else raw}
+                events.append(event)
         return events
 
     def finish(self, stop_reason: str, duration_s: float) -> list[UIEvent]:

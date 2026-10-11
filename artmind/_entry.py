@@ -18,6 +18,28 @@ DEFAULT_PORT = 8377
 HEALTH_TIMEOUT = 0.25
 QUERY_TIMEOUT = 600
 
+#: Query-trace id sources (docs/superpowers/specs/2026-10-11-query-review-loop-design.md
+#: §5.2): an explicit id, else the per-session file the admin console rewrites
+#: at the start of every turn (the agent process outlives a turn, so the id
+#: cannot travel in its environment).
+TRACE_ID_ENV = "ARTMIND_TRACE_ID"
+TRACE_CONTEXT_ENV = "ARTMIND_TRACE_CONTEXT"
+
+
+def _trace_id() -> str | None:
+    """The query-trace id this process should record under, or None. Never raises."""
+    explicit = os.environ.get(TRACE_ID_ENV, "").strip()
+    if explicit:
+        return explicit
+    path = os.environ.get(TRACE_CONTEXT_ENV)
+    if not path:
+        return None
+    try:
+        with open(path, encoding="utf-8") as f:
+            return f.read().strip() or None
+    except OSError:
+        return None
+
 
 def _base_url() -> str:
     port = os.environ.get("ARTMIND_SERVE_PORT", str(DEFAULT_PORT))
@@ -33,7 +55,7 @@ def _daemon_alive(base_url: str) -> bool:
 
 
 def _proxy(base_url: str, args: list[str]) -> int:
-    payload = json.dumps({"args": args}).encode()
+    payload = json.dumps({"args": args, "trace_id": _trace_id()}).encode()
     request = urllib.request.Request(
         f"{base_url}/query",
         data=payload,

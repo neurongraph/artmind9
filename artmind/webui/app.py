@@ -3,9 +3,11 @@
 import asyncio
 import json
 import logging
+import os
 import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
@@ -47,6 +49,11 @@ class OpenSourceRequest(BaseModel):
     path: str
 
 
+class FeedbackRequest(BaseModel):
+    rating: Literal["good", "partial", "wrong"]
+    expected: str | None = None
+
+
 def static_url(name: str) -> str:
     """`/static/<name>?v=<mtime>` -- a changed asset gets a new URL. /static is
     served with no cache headers, so a browser (notably Obsidian's Web Viewer)
@@ -63,11 +70,20 @@ def create_app(
     template_name: str = "index.html",
     page_title: str | None = None,
     admin_routes: bool = False,
+    trace_turns: bool = False,
 ) -> FastAPI:
     registry = registry or SessionRegistry()
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
+        if trace_turns:
+            try:
+                from artmind.traces import store
+
+                await asyncio.to_thread(store.prune, int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90")))
+            except Exception:
+                logger.exception("trace prune failed")
+
         async def sweep_loop():
             while True:
                 await asyncio.sleep(SWEEP_INTERVAL_S)
@@ -121,14 +137,37 @@ def create_app(
 
     @app.post("/api/chat")
     async def chat(payload: ChatRequest) -> StreamingResponse:
+        from artmind.traces.recorder import TraceRecorder, public_event
+
         async def stream():
+            recorder = None
+            error = None
             try:
                 client = await registry.get(payload.session_id, payload.backend)
+                context_path = getattr(client, "trace_context_path", None)
+                if trace_turns and context_path is not None:
+                    # Query-trace capture (spec 2026-10-11 §5.1): the id goes into
+                    # the session's context file before the agent sees the prompt.
+                    recorder = await asyncio.to_thread(
+                        TraceRecorder.start,
+                        source="admin", question=payload.prompt, session_id=payload.session_id,
+                        profile="admin", backend=payload.backend, context_path=context_path,
+                    )
+                    if recorder.enabled:
+                        yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
                 await client.query(payload.prompt)
                 async for event in client.receive_events():
+                    event = recorder.observe(event) if recorder is not None else public_event(event)
                     yield f"data: {json.dumps(event)}\n\n"
             except Exception as exc:  # stream errors to the client, don't 500
+                error = str(exc)
                 yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
+            except BaseException:
+                error = error or "interrupted: the client disconnected"
+                raise
+            finally:
+                if recorder is not None:
+                    await asyncio.to_thread(recorder.finish, error=error)
 
         return StreamingResponse(stream(), media_type="text/event-stream")
 
@@ -179,6 +218,17 @@ def create_app(
         await registry.drop(session_id)
         return {"ok": True}
 
+    if trace_turns:
+        @app.post("/api/traces/{trace_id}/feedback")
+        async def trace_feedback(trace_id: str, payload: FeedbackRequest):
+            from artmind.traces import store
+
+            try:
+                await asyncio.to_thread(store.add_feedback, trace_id, payload.rating, payload.expected)
+            except KeyError:
+                raise HTTPException(status_code=404, detail=f"no trace {trace_id}") from None
+            return {"ok": True}
+
     if admin_routes:
         register_dashboard_routes(app, templates)
         register_benchmark_routes(app, templates)
@@ -196,8 +246,9 @@ def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> 
     import uvicorn
 
     app = create_app(
-        SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE)),
+        SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE, trace=True)),
         template_name="admin.html",
         admin_routes=True,
+        trace_turns=True,
     )
     uvicorn.run(app, host=host, port=port, log_level="warning")
