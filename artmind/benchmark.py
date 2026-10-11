@@ -10,6 +10,7 @@ mirroring how ``artmind/cli.py`` lazily imports ``artmind.webui`` for the
 module load time.
 """
 
+import asyncio
 import json
 import re
 import uuid
@@ -482,7 +483,8 @@ async def _run_benchmark(run_id: str) -> None:
 
         context_path = new_trace_context()
         backend_client = create_backend(run["backend"], BENCHMARK_PROFILE, trace_context=context_path)
-        recorder = TraceRecorder.start(
+        recorder = await asyncio.to_thread(
+            TraceRecorder.start,
             source="benchmark", question=prompt, profile="benchmark", backend=run["backend"],
             benchmark_run_id=run_id, benchmark_seq=seq, context_path=context_path,
         )
@@ -511,7 +513,7 @@ async def _run_benchmark(run_id: str) -> None:
         except Exception as exc:
             error_message = str(exc)
         finally:
-            recorder.finish(error=error_message)
+            await asyncio.to_thread(recorder.finish, error=error_message)
             try:
                 await backend_client.disconnect()
             except Exception:

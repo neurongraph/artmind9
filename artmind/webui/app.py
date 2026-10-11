@@ -148,7 +148,8 @@ def create_app(
                 if trace_turns and context_path is not None:
                     # Query-trace capture (spec 2026-10-11 §5.1): the id goes into
                     # the session's context file before the agent sees the prompt.
-                    recorder = TraceRecorder.start(
+                    recorder = await asyncio.to_thread(
+                        TraceRecorder.start,
                         source="admin", question=payload.prompt, session_id=payload.session_id,
                         profile="admin", backend=payload.backend, context_path=context_path,
                     )
@@ -163,7 +164,7 @@ def create_app(
                 yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
             finally:
                 if recorder is not None:
-                    recorder.finish(error=error)
+                    await asyncio.to_thread(recorder.finish, error=error)
 
         return StreamingResponse(stream(), media_type="text/event-stream")
 

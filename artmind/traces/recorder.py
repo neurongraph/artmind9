@@ -11,6 +11,7 @@ and still strips `_trace`; `finish()` swallows its own failures.
 import hashlib
 import json
 import logging
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -161,6 +162,14 @@ def _input_text(value: Any) -> str:
     return value if isinstance(value, str) else json.dumps(value, default=str)
 
 
+def _command_text(value: Any) -> str:
+    if isinstance(value, dict) and isinstance(value.get("command"), str):
+        # Strip single-quoted shell arguments so the leaf match only tests
+        # CLI subcommand tokens, not free-text query content inside quotes.
+        return re.sub(r"'[^']*'", " ", value["command"])
+    return _input_text(value)
+
+
 def match_tool_ids(spans: list[dict], tools: dict[str, dict]) -> list[tuple[str, str]]:
     """(span_id, tool_id) for each span whose start falls in a tool call's
     window and whose leaf command appears in that call's input next to
@@ -175,8 +184,8 @@ def match_tool_ids(spans: list[dict], tools: dict[str, dict]) -> list[tuple[str,
             end = (tool["result_ts"] if tool["result_ts"] is not None else float("inf")) + SKEW_S
             if not (start <= span["started_at"] <= end):
                 continue
-            text = _input_text(tool["input"])
-            if "artmind" in text and leaf and leaf in text and (best_start is None or tool["call_ts"] > best_start):
+            text = _command_text(tool["input"])
+            if "artmind" in text and leaf and re.search(rf"(?<![\w-]){re.escape(leaf)}(?![\w-])", text) and (best_start is None or tool["call_ts"] > best_start):
                 best, best_start = tool_id, tool["call_ts"]
         if best is not None:
             pairs.append((span["span_id"], best))

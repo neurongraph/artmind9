@@ -131,3 +131,31 @@ def test_domains_of_splits_commas_and_reads_argv():
     spans = [{"args": {"domain": ["banking,hr"]}}, {"args": ["vector-text", "--domain", "ops", "q"]},
              {"args": None}]
     assert domains_of(spans) == ["banking", "hr", "ops"]
+
+
+def test_leaf_word_inside_a_question_does_not_match():
+    tools = {"a": {"input": {"command": "artmind query vector-text --domain b 'how are chunks made'"},
+                   "call_ts": 1.0, "result_ts": 2.0}}
+    assert match_tool_ids([{"span_id": "s1", "command": "query chunks", "started_at": 1.5}], tools) == []
+
+
+def test_interrupted_text_block_is_still_stored():
+    rec = TraceRecorder.start(source="admin", question="q")
+    rec.observe({"type": "text_delta", "text": "partial answer"})
+    rec.finish(error="interrupted")
+    assert [e["type"] for e in store.list_events(rec.trace_id)] == ["text"]
+    assert store.get_turn(rec.trace_id)["answer"] == "partial answer"
+
+
+def test_answer_joins_text_blocks_around_tool_calls():
+    rec = TraceRecorder.start(source="admin", question="q")
+    for e in [
+        {"type": "text_delta", "text": "Looking. "}, {"type": "block_done", "block": "text"},
+        {"type": "tool_call", "id": "t", "name": "Bash", "input": "x", "_trace": {"input": {"command": "ls"}}},
+        {"type": "tool_result", "tool_id": "t", "content": "x"},
+        {"type": "text_delta", "text": "Alice.\n\n### Sources\n- [P](<b/P.md>) — b\n"}, {"type": "block_done", "block": "text"},
+    ]:
+        rec.observe(e)
+    rec.finish()
+    answer = store.get_turn(rec.trace_id)["answer"]
+    assert answer.startswith("Looking. ") and answer.endswith("— b\n")
