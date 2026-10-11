@@ -63,6 +63,7 @@ SPLAT_WRAPPERS: dict[str, int] = {
     "artmind/vault_resolve.py": 1,
     "artmind/kg_pull.py": 1,
     "artmind/vault_new.py": 1,
+    "artmind/reviews/leakcheck.py": 1,
 }
 _GIT_ARGV_OPEN = re.compile(r"""\[\s*["']git["']\s*,?""")
 
