@@ -4,7 +4,8 @@
 Every `artmind query` payload is a dict whose main list is `rows` (exceptions:
 `resolve-key` -> `candidates`, hierarchy discovery -> `edge_candidates`,
 `views list` -> `views`). Evidence is found by shape, not by command:
-a chunk is a dict with `doc_id` plus `chunk_id`, or plus `id` and `name`; a
+a chunk is a dict with `doc_id` plus `chunk_id`, or plus `id` and `name` (and
+no `key`, which Observation nodes carry); a
 document is a dict with `id` and `path`/`source_path` but no `doc_id`; an
 entity is any `_id` string.
 """
@@ -58,7 +59,7 @@ def _walk(node: Any, acc: _Acc) -> None:
         doc_id = node.get("doc_id")
         if isinstance(doc_id, str):
             chunk_id = node.get("chunk_id")
-            if chunk_id is None and "name" in node:
+            if chunk_id is None and "name" in node and "key" not in node:
                 chunk_id = node.get("id")
             if isinstance(chunk_id, str) and chunk_id != doc_id:
                 acc.add(acc.chunks, (chunk_id, doc_id))

@@ -114,3 +114,32 @@ def test_lists_are_deduplicated_and_capped():
 def test_non_dict_payloads_do_not_raise():
     assert summarize([1, 2])["rows"] == 2
     assert summarize("text")["rows"] == 0
+
+
+ENTITY_HISTORY = {
+    "query_type": "graph", "command": "entity_history", "entity_id": "e1",
+    "rows": [{"observation": {"id": "obs1", "doc_id": "d1", "key": "person_alice", "name": "Alice",
+                              "_valid_from": "2024-01-01", "role": "Director"}}],
+}
+
+
+def test_entity_history_observations_are_not_chunks():
+    s = summarize(ENTITY_HISTORY)
+    assert s["rows"] == 1
+    assert "chunks" not in s["evidence"]
+
+
+ENTITY_CONTEXT = {"command": "entity_context", "rows": [{
+    "entityData": {"_id": "e1", "name": "Alice"},
+    "chunks": [{"id": "c1", "name": "c1", "doc_id": "d1", "_domain": "b", "text": "t",
+                "document": {"id": "d1", "name": "P", "path": "b/P.md", "source_path": "b/P.md"}}],
+    "more_chunks": [{"id": "c2", "name": "c2", "doc_id": "d1"}],
+    "source_documents": [{"id": "d1", "name": "P", "path": "b/P.md", "source_path": "b/P.md"}],
+}]}
+
+
+def test_entity_context_chunks_documents_entity():
+    ev = summarize(ENTITY_CONTEXT)["evidence"]
+    assert ev["chunks"] == [{"chunk_id": "c1", "doc_id": "d1"}, {"chunk_id": "c2", "doc_id": "d1"}]
+    assert ev["documents"] == [{"doc_id": "d1", "path": "b/P.md"}]
+    assert ev["entities"] == ["e1"]
