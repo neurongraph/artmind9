@@ -9,7 +9,10 @@ from artmind.reviews.dossier import PRIVACY_PREAMBLE, SECTIONS, Dossier, Dossier
 
 ANSWER_EXCERPT = 1500
 _SKIP_ARG_KEYS = frozenset({"domain", "compact", "render", "mode", "format", "as_of", "top_k"})
-_HEXISH = re.compile(r"^[0-9a-f-]{16,}$", re.I)
+# Opaque ids (entity keys, chunk ids like <uuid>_001): not private, and as
+# leakcheck terms they would only raise false alarms.
+_ID_KEY = re.compile(r"(?:^|_)(?:ids?|id_list)\d*$")  # entity_id, entity_id2, chunk_ids, id_list
+_HEXISH = re.compile(r"^[0-9a-f][0-9a-f_-]{15,}$", re.I)
 _ACTIVE = ("open", "in-progress")
 
 _PLACEHOLDERS = {
@@ -57,7 +60,7 @@ def harvest_private_terms(shown: dict) -> list[str]:
         args = span.get("args")
         if isinstance(args, dict):
             for key, value in args.items():
-                if key in _SKIP_ARG_KEYS:
+                if key in _SKIP_ARG_KEYS or _ID_KEY.search(key):
                     continue
                 for item in value if isinstance(value, (list, tuple)) else [value]:
                     add(item)

@@ -83,3 +83,11 @@ def test_warnings():
     assert result["ok"]
     assert any("private_terms" in w for w in result["warnings"])
     assert any("Proof" in w for w in result["warnings"])
+
+
+def test_non_string_sections_do_not_raise():
+    d = _complete()
+    d.sections["Symptom"] = 42
+    d.sections["Regression question"] = ["not", "text"]
+    result = validate(d)
+    assert any("Regression question" in e for e in result["errors"])

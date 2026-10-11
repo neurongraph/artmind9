@@ -100,3 +100,10 @@ def test_reindex_rebuilds_from_files():
     assert result["indexed"] == 1 and result["links"] == 1
     assert [i["path"].endswith("junk.md") for i in result["invalid"]] == [True]
     assert store.clear_review_index() == 1  # only the real dossier's row survived the rebuild
+
+
+def test_ids_are_not_private_terms():
+    shown = {"events": [], "unattributed_spans": [{"evidence": {}, "args": {
+        "id_list": ["01a0fd39-a36f-72d0-9ff0-1c3e39a74976_001"], "entity_id1": "abc", "chunk_ids": ["x" * 20],
+        "reference": "Person A", "name_filter": "01a0fd39-a36f-72d0-9ff0-1c3e39a74976_002"}}]}
+    assert scaffold.harvest_private_terms(shown) == ["Person A"]
