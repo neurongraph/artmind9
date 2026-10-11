@@ -3,7 +3,7 @@ code checkout (spec 2026-10-11 §8.3). Read-only git: `diff` and `ls-files`.
 
 Private = the dossier's `private_terms` (whole word, case-insensitive) and
 its quoted text: blockquote lines in Symptom / Diagnosis / Shape audit and
-table rows in Shape audit. An added line is a hit when it contains a term
+the source-sentence column of the Shape audit table. An added line is a hit when it contains a term
 or shares a 5-word sequence with the quoted text. Reviewer prose outside
 quotes is not private, so a coding agent may paraphrase the diagnosis.
 """
@@ -45,7 +45,12 @@ def quoted_text(dossier: Dossier) -> str:
             if stripped.startswith(">"):
                 lines.append(stripped.lstrip("> "))
             elif title == "Shape audit" and stripped.startswith("|") and not set(stripped) <= set("|-: "):
-                lines.append(stripped)
+                # Only the source-sentence column is evidence; the element and
+                # check cells and the header row are structure every dossier
+                # (and every synthetic test of one) shares.
+                cells = [c.strip() for c in stripped.strip("|").split("|")]
+                if len(cells) >= 3 and cells[0].strip("` ").lower() != "element":
+                    lines.append(cells[2])
     return "\n".join(lines)
 
 

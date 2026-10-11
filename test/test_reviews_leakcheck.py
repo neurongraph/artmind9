@@ -90,3 +90,15 @@ def test_non_ascii_path_is_detected(repo):
     result = leakcheck(_dossier(), repo, base="HEAD~1")
     assert result["hits"], "expected at least one hit for non-ASCII path"
     assert result["hits"][0]["file"] == fname
+
+
+def test_shape_table_structure_is_not_quoted_text_only_its_source_sentences(repo):
+    d = _dossier()
+    d.sections["Shape audit"] = ("| element | check | source sentence | why the question needs it |\n|---|---|---|---|\n"
+                                 "| d/PERSON-WENT_TO-> | coverage | I went over the old bridge at dawn. | count |")
+    # same element/check cells and table header in a test fixture: structure, not evidence
+    (repo / "t.py").write_text('AUDIT = "| element | check | source sentence | why |"\n'
+                               'ROW = "| j/PERSON-WENT_TO-> | coverage | I went to a fake town. |"\n')
+    assert leakcheck(d, repo)["ok"] is True
+    (repo / "t.py").write_text('ROW = "I went over the old bridge at dawn"\n')
+    assert [h["kind"] for h in leakcheck(d, repo)["hits"]] == ["quote"]

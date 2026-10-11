@@ -565,7 +565,7 @@ public. The dossier's agent prompt therefore always starts with:
 that contains an entity name from the dossier's evidence, or that shares a
 5-word sequence (case-folded) with the dossier's quoted
 text: the `>` blockquotes in Symptom, Diagnosis and Shape audit, and the
-Shape audit table rows. The reviewer's own prose is not private, so a
+source-sentence column of the Shape audit table. The reviewer's own prose is not private, so a
 coding session may paraphrase the diagnosis. Untracked files count as
 added; `.artmind/reviews/` is skipped. It exits
 non-zero when it finds a hit. It is a backstop, not an enforcement
