@@ -3,7 +3,18 @@
 import io
 import json
 
+import pytest
+from fastapi.testclient import TestClient
+
 from artmind import _entry
+
+
+@pytest.fixture
+def _db(tmp_path, monkeypatch):
+    import artmind.db as db
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setenv("ARTMIND_NO_STALENESS_CHECK", "1")
 
 
 def test_trace_id_prefers_explicit_env(monkeypatch, tmp_path):
@@ -55,3 +66,32 @@ def test_proxy_payload_carries_trace_id(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr(_entry.urllib.request, "urlopen", fake_urlopen)
     assert _entry._proxy("http://127.0.0.1:1", ["query", "chunks"]) == 0
     assert sent["body"] == {"args": ["query", "chunks"], "trace_id": "t-42"}
+
+
+def test_serve_records_span_under_forwarded_trace_id(_db, monkeypatch):
+    from artmind import cli as cli_mod
+    from artmind.server import create_app
+    from artmind.traces import store
+    from artmind.traces.span import current_trace_id
+
+    monkeypatch.setattr(cli_mod.graph_query, "domains_overview", lambda: {"rows": [{"domain": "b"}]})
+    client = TestClient(create_app())
+    resp = client.post("/query", json={"args": ["query", "domains-overview"], "trace_id": "t-serve"})
+    assert resp.status_code == 200
+    assert resp.json()["exit_code"] == 0
+    spans = store.list_spans("t-serve")
+    assert [(s["command"], s["rows"]) for s in spans] == [("query domains-overview", 1)]
+    monkeypatch.delenv("ARTMIND_TRACE_ID", raising=False)
+    monkeypatch.delenv("ARTMIND_TRACE_CONTEXT", raising=False)
+    assert current_trace_id() is None  # override cleared after the request
+
+
+def test_serve_ignores_its_own_environment(_db, monkeypatch):
+    from artmind import cli as cli_mod
+    from artmind.server import create_app
+    from artmind.traces import store
+
+    monkeypatch.setattr(cli_mod.graph_query, "domains_overview", lambda: {"rows": []})
+    monkeypatch.setenv("ARTMIND_TRACE_ID", "daemon-env")
+    TestClient(create_app()).post("/query", json={"args": ["query", "domains-overview"]})
+    assert store.list_spans("daemon-env") == []
