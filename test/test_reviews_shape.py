@@ -150,3 +150,19 @@ def test_bundle_errors():
         shape.bundle(trace_id="missing")
     with pytest.raises(shape.ShapeError):
         shape.bundle(chunk_ids=["doc-1_001"])  # no domain
+
+
+def test_bundle_calls_find_staging_once_per_doc(fake_graph, monkeypatch):
+    """Two chunks from the same doc should only call find_staging once."""
+    calls = []
+    original_find_staging = shape.find_staging
+
+    def counting_find_staging(domain, doc_id):
+        calls.append((domain, doc_id))
+        return original_find_staging(domain, doc_id)
+
+    monkeypatch.setattr(shape, "find_staging", counting_find_staging)
+    # doc-1_001 and doc-1_002 both belong to doc-1
+    b = shape.bundle(domain="d", chunk_ids=["doc-1_001", "doc-1_002"])
+    assert len(calls) == 1
+    assert calls[0] == ("d", "doc-1")

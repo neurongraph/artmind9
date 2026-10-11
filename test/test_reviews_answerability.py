@@ -28,7 +28,7 @@ def test_match_simple_path_case_insensitive():
 
 def test_no_match_for_missing_companion_edge():
     pat = [{"class": "PERSON", "name": "Mira"}, {"rel": "WENT_TO"}, {"class": "LOCATION", "name": "Lakeport"}]
-    assert ans.match(pat, GRAPH) == {"matched": False, "count": 0, "matches": []}
+    assert ans.match(pat, GRAPH) == {"matched": False, "count": 0, "matches": [], "truncated": False}
 
 
 def test_direction():
@@ -54,10 +54,34 @@ def test_single_node_pattern():
     [{"class": "A"}, {"rel": "R", "dir": "up"}, {"class": "B"}],
     [{"class": "A"}, {"rel": "R"}, {"class": "B"}, {"require": {"node": 3, "properties": ["x"]}}],
     [{"require": {"node": 0, "properties": ["x"]}}, {"class": "A"}],
+    # unknown keys in relationship step (typo "direcion")
+    [{"class": "A"}, {"rel": "R", "direcion": "out"}, {"class": "B"}],
+    # unknown key in node step ("klass")
+    [{"klass": "A"}],
+    # require with both node and edge
+    [{"class": "A"}, {"rel": "R"}, {"class": "B"}, {"require": {"node": 0, "edge": 0, "properties": ["x"]}}],
 ])
 def test_parse_pattern_rejects(bad):
     with pytest.raises(ans.PatternError):
         ans.parse_pattern(bad)
+
+
+def test_parse_pattern_node_with_dir_gives_unknown_key_message():
+    """The dir-in-node-step error is now subsumed; check the message is still helpful."""
+    with pytest.raises(ans.PatternError, match="unknown key"):
+        ans.parse_pattern([{"class": "A"}, {"rel": "R"}, {"class": "B", "dir": "out"}])
+
+
+def test_match_truncated_on_large_star_graph():
+    """A hub with 300 leaves; 2-hop 'any' pattern; max_explored=1000 triggers truncation."""
+    hub = {"id": "hub", "name": "Hub", "class": "HUB", "properties": {}}
+    leaves = [{"id": f"leaf{i}", "name": f"Leaf{i}", "class": "LEAF", "properties": {}} for i in range(300)]
+    edges = [{"source": "hub", "target": f"leaf{i}", "rel_type": "CONNECTS", "properties": {}} for i in range(300)]
+    subgraph = {"nodes": [hub] + leaves, "edges": edges}
+    # pattern: any -> any -> any (3 nodes, 2 hops)
+    pattern = [{}, {"dir": "any"}, {}, {"dir": "any"}, {}]
+    result = ans.match(pattern, subgraph, max_explored=1000)
+    assert result["truncated"] is True
 
 
 def test_load_pattern_arg_json_and_file(tmp_path):

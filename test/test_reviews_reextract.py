@@ -102,8 +102,8 @@ def test_reextract_uses_proposed_schema_writes_nothing_and_checks_pattern(tmp_pa
     assert "Diarist (PERSON)" in chunk["diff"]["nodes"]["added"]
     assert "Arlo Venn (PERSON)" in chunk["diff"]["nodes"]["removed"]
     assert "mira -went_to-> lakeport" in chunk["diff"]["edges"]["added"]
-    assert chunk["answerability"] == {"current": {"matched": False, "count": 0, "matches": []},
-                                      "proposed": {"matched": True, "count": 1, "matches": [["Mira", "Lakeport"]]}}
+    assert chunk["answerability"] == {"current": {"matched": False, "count": 0, "matches": [], "truncated": False},
+                                      "proposed": {"matched": True, "count": 1, "matches": [["Mira", "Lakeport"]], "truncated": False}}
 
 
 def test_reextract_baseline_and_missing_staging(tmp_path, fake_llm):

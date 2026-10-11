@@ -59,10 +59,8 @@ def find_staging(domain: str, doc_id: str) -> Path | None:
     return None
 
 
-def staging_for_chunk(domain: str, chunk_id: str) -> dict | None:
-    folder = find_staging(domain, doc_id_of(chunk_id))
-    if folder is None:
-        return None
+def _staging_from_folder(folder: Path, chunk_id: str) -> dict:
+    """Build per-chunk staging entry from an already-located staging folder."""
     doc = _read_json(folder / "document.json", {})
     chunk = next((c for c in _read_json(folder / "chunks.json", []) if c.get("id") == chunk_id), None)
     return {
@@ -73,6 +71,13 @@ def staging_for_chunk(domain: str, chunk_id: str) -> dict | None:
         "relationships": [r for r in _read_json(folder / "relationships.json", [])
                           if r.get("chunk_id") == chunk_id and r.get("rel_type") != "EXTRACTED_FROM"],
     }
+
+
+def staging_for_chunk(domain: str, chunk_id: str) -> dict | None:
+    folder = find_staging(domain, doc_id_of(chunk_id))
+    if folder is None:
+        return None
+    return _staging_from_folder(folder, chunk_id)
 
 
 def graph_for_chunks(domains: list[str], chunk_ids: list[str]) -> dict:
@@ -156,7 +161,15 @@ def bundle(*, trace_id: str | None = None, domain: str | None = None, chunk_ids=
     from artmind.temporal import load_schema
 
     shown, domain, chunk_ids = resolve_target(trace_id, domain, chunk_ids)
-    staging = {cid: staging_for_chunk(domain, cid) for cid in chunk_ids}
+    # Group chunks by document so find_staging is called once per doc.
+    doc_to_chunks: dict[str, list[str]] = {}
+    for cid in chunk_ids:
+        doc_to_chunks.setdefault(doc_id_of(cid), []).append(cid)
+    staging: dict[str, dict | None] = {}
+    for did, cids in doc_to_chunks.items():
+        folder = find_staging(domain, did)
+        for cid in cids:
+            staging[cid] = _staging_from_folder(folder, cid) if folder is not None else None
     rows = {r["chunk"]["id"]: r for r in graph_query.chunks_by_id([domain], chunk_ids).get("rows") or []}
     text = []
     for cid in chunk_ids:

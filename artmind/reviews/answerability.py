@@ -17,8 +17,12 @@ import json
 from pathlib import Path
 
 MAX_MATCHES = 5
+MAX_EXPLORED = 100_000
 _DIRS = ("out", "in", "any")
 _SKIP_RELS = frozenset({"extracted_from"})
+_NODE_KEYS = frozenset({"class", "name"})
+_REL_KEYS = frozenset({"rel", "dir"})
+_REQUIRE_KEYS = frozenset({"node", "edge", "properties"})
 
 
 class PatternError(ValueError):
@@ -46,16 +50,24 @@ def parse_pattern(pattern) -> tuple[list[dict], list[dict], list[dict]]:
     if not steps or len(steps) % 2 == 0:
         raise PatternError("node and relationship steps alternate, starting and ending with a node")
     nodes, rels = steps[0::2], steps[1::2]
-    if any("rel" in n or "dir" in n for n in nodes):
-        raise PatternError("a node step was given where a relationship step belongs (or vice versa)")
-    if any("class" in r or "name" in r for r in rels):
-        raise PatternError("a relationship step has node keys (class/name); steps must alternate")
-    for rel in rels:
-        if rel.get("dir", "out") not in _DIRS:
-            raise PatternError(f"dir must be one of {_DIRS}, got {rel.get('dir')!r}")
+    for i, n in enumerate(nodes):
+        unknown = sorted(set(n) - _NODE_KEYS)
+        if unknown:
+            raise PatternError(f"unknown key(s) in node step {i}: {unknown}")
+    for i, r in enumerate(rels):
+        unknown = sorted(set(r) - _REL_KEYS)
+        if unknown:
+            raise PatternError(f"unknown key(s) in relationship step {i}: {unknown}")
+        if r.get("dir", "out") not in _DIRS:
+            raise PatternError(f"dir must be one of {_DIRS}, got {r.get('dir')!r}")
     for req in requires:
         if not isinstance(req, dict) or not isinstance(req.get("properties"), list):
             raise PatternError("require is {node|edge: index, properties: [..]}")
+        unknown = sorted(set(req) - _REQUIRE_KEYS)
+        if unknown:
+            raise PatternError(f"unknown key(s) in require step: {unknown}")
+        if "node" in req and "edge" in req:
+            raise PatternError("require names a node or an edge index, not both")
         if "node" in req:
             if not isinstance(req["node"], int) or not 0 <= req["node"] < len(nodes):
                 raise PatternError(f"require node index {req.get('node')!r} is out of range")
@@ -96,7 +108,7 @@ def _has(item: dict, prop: str) -> bool:
     return _filled((item.get("properties") or {}).get(prop))
 
 
-def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES) -> dict:
+def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES, max_explored: int = MAX_EXPLORED) -> dict:
     node_steps, rel_steps, requires = parse_pattern(pattern)
     nodes = {n["id"]: n for n in subgraph.get("nodes") or []}
     out_edges: dict[str, list[dict]] = {}
@@ -107,6 +119,8 @@ def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES) -> dict:
 
     found: list[list[str]] = []
     count = 0
+    walk_calls = 0
+    truncated = False
 
     def satisfied(path_nodes, path_edges) -> bool:
         for req in requires:
@@ -116,7 +130,11 @@ def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES) -> dict:
         return True
 
     def walk(i: int, path_nodes: list[dict], path_edges: list[dict]) -> None:
-        nonlocal count
+        nonlocal count, walk_calls, truncated
+        walk_calls += 1
+        if walk_calls > max_explored:
+            truncated = True
+            return
         if i == len(node_steps):
             if satisfied(path_nodes, path_edges):
                 count += 1
@@ -132,6 +150,8 @@ def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES) -> dict:
         if direction in ("in", "any"):
             candidates += [(e, e["source"]) for e in in_edges.get(here, [])]
         for edge, other in candidates:
+            if truncated:
+                return
             if "rel" in rel and _cf(rel["rel"]) != _cf(edge.get("rel_type")):
                 continue
             node = nodes.get(other)
@@ -140,9 +160,11 @@ def match(pattern, subgraph: dict, *, limit: int = MAX_MATCHES) -> dict:
             walk(i + 1, path_nodes + [node], path_edges + [edge])
 
     for node in nodes.values():
+        if truncated:
+            break
         if _node_ok(node_steps[0], node):
             walk(1, [node], [])
-    return {"matched": count > 0, "count": count, "matches": found}
+    return {"matched": count > 0, "count": count, "matches": found, "truncated": truncated}
 
 
 _OBS_META = frozenset({
@@ -158,7 +180,9 @@ def _staging_node_id(name, cls) -> str:
 
 def from_staging(observations: list[dict], relationships: list[dict]) -> dict:
     """Staging observations/relationships -> subgraph. Nodes merge by
-    (name, class); edges join by name (as commit does), EXTRACTED_FROM skipped."""
+    (name, class); edges join by name (as commit does), EXTRACTED_FROM skipped.
+    Edges join by name only (as commit does); when one name is shared across
+    classes, the first-seen class's node takes the edge."""
     nodes: dict[str, dict] = {}
     by_name: dict[str, str] = {}
     for obs in observations:
