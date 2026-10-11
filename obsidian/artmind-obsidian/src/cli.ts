@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
@@ -148,11 +148,40 @@ export function errorText(stderr: string): string | null {
   return trimmed.pop() ?? null;
 }
 
+/** Every `~/.nvm/versions/node/<version>/bin` that actually exists, newest
+ * version first. nvm only reaches `PATH` via `~/.zshrc` sourcing `nvm.sh` in
+ * an interactive shell, so a Dock-launched app (see `childEnv` below) never
+ * sees it -- and the admin-ui's ACP backend spawns `opencode`, which is
+ * commonly an nvm-managed npm global, bare-name, PATH-resolved (see
+ * `artmind/webui/backends/acp.py`). Listed, not aliased: nvm's "default"
+ * alias is a bare major version ("22"), and resolving that to an installed
+ * patch version correctly would mean re-implementing nvm's own alias chain;
+ * listing every installed version's `bin` and letting the OS's PATH search
+ * take the first one that has the binary gets the same practical result
+ * without it. */
+function nvmBinDirs(home: string): string[] {
+  const versionsDir = join(home, ".nvm", "versions", "node");
+  if (!existsSync(versionsDir)) return [];
+  return readdirSync(versionsDir)
+    .sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))
+    .map((version) => join(versionsDir, version, "bin"))
+    .filter((dir) => existsSync(dir));
+}
+
 /** Dock-launched apps get a bare PATH (spec §7). artmind itself runs `git`
  * and `uv` (the worker converts documents with `uv run docling`), so the
- * usual install locations are appended. */
+ * usual install locations are appended -- plus any nvm-managed node `bin`
+ * (see `nvmBinDirs`), since the admin-ui's ACP backend spawns `opencode`,
+ * itself commonly installed that way. */
 export function childEnv(base: NodeJS.ProcessEnv, home: string): NodeJS.ProcessEnv {
-  const extra = [join(home, ".local", "bin"), "/opt/homebrew/bin", "/usr/local/bin", "/usr/bin", "/bin"];
+  const extra = [
+    join(home, ".local", "bin"),
+    "/opt/homebrew/bin",
+    "/usr/local/bin",
+    "/usr/bin",
+    "/bin",
+    ...nvmBinDirs(home),
+  ];
   const parts = (base.PATH ?? "").split(":").filter(Boolean);
   for (const dir of extra) if (!parts.includes(dir)) parts.push(dir);
   return { ...base, PATH: parts.join(":"), NO_COLOR: "1" };
