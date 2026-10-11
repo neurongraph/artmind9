@@ -3514,10 +3514,14 @@ def review_leakcheck(review_id, base, repo, compact) -> None:
     """Scan a checkout's added lines for the dossier's private terms and quoted text; exits 1 on a hit."""
     from artmind.reviews.leakcheck import LeakcheckError, leakcheck
 
+    # run_command logs every git call at DEBUG; keep stderr for real errors.
+    logger.disable("utils")
     try:
         result = leakcheck(_load_dossier(review_id), repo, base)
     except LeakcheckError as exc:
         raise click.ClickException(str(exc)) from exc
+    finally:
+        logger.enable("utils")
     _echo_json(result, compact)
     if not result["ok"]:
         raise SystemExit(1)
