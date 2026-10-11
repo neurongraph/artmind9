@@ -65,11 +65,10 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
 5. **Walk the stages** (`references/stage-walk.md`): synthesis → routing →
    missing-view → identity → extraction → schema. A **graph miss**
    (`fell_through` with `answer_basis: vector`) has its own entry point.
-6. **Shape audit** for identity / extraction / schema verdicts — the checklist
-   and the staging lookup are in `references/stage-walk.md`.
+6. **Shape audit** for identity / extraction / schema verdicts — run `artmind review shape <trace_id>`; the checklist is in `references/stage-walk.md`.
 7. **Fill the dossier** (`references/dossier-format.md`): set `stage` and
    `elements` in the frontmatter, then Diagnosis, Shape audit, Proposal, Proof
-   (for a view: run `artmind views test`), Synthetic example, the Regression
+   (a view: `artmind views test`; a schema or prompt change: `artmind review reextract`), Synthetic example, the Regression
    question's title and evaluation comment, and the Agent prompt task.
    Add every private name or value you quoted to `private_terms`.
 8. **Validate.** `artmind review validate <review_id>` must report `ok: true`.
@@ -91,13 +90,12 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
 | `artmind review validate <review_id>` | completeness for its stage |
 | `artmind review status <review_id> <status> --note "…"` | open → in-progress → fixed → verified, or dismissed |
 | `artmind review leakcheck <review_id> --base master` | run in a coding session before committing |
+| `artmind review shape <trace_id> [--chunk …] [--pattern '<json>']` | the shape-audit bundle: numbered sentences, graph subgraph, staging, schema, answerability |
+| `artmind review reextract <trace_id> --schema <proposed.yaml> [--pattern …]` | dry-run re-extraction under a proposed schema (or `--meta`): shape diff + answerability; writes nothing |
 | `artmind query chunks --domain D --idList <id> --expand 1` | source text of a chunk and its neighbours |
 | `artmind query entity-context --domain D --entityId <id>` | an entity's properties, relationships and source chunks |
 | `artmind query vector-text --domain D "<text>"` | find the chunks that state a fact |
 | `artmind query views list --domain D` / `artmind views test …` | existing views / prove a drafted view |
-
-`review shape` and `review reextract` (automatic shape bundles and dry-run
-re-extraction) arrive in a later phase; until then do the shape audit by hand.
 
 ## Failure modes
 

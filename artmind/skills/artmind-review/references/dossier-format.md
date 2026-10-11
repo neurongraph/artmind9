@@ -26,7 +26,7 @@ placeholders and do not count as content.
 | Diagnosis | the stage verdict and its evidence chain: span id → rows → chunk sentence (`>` quote) → staging entry | always |
 | Shape audit | findings table `| element | check | source sentence | why the question needs it |`, then the answerability pattern (JSON) | identity, extraction, schema |
 | Proposal | view.yaml + SKILL.md draft · schema YAML diff · meta.yaml prompt diff · code-change spec (files, functions, behaviour) · for corpus-gap: what to ingest | always |
-| Proof | `artmind views test` output for a view (re-extraction diffs come later) | recommended |
+| Proof | `artmind views test` output for a view; `artmind review reextract` baseline and proposal output (shape diff + answerability) for a schema or prompt change | recommended |
 | Synthetic example | the same failure with **invented** entities and text — the only material a coding session may put in the public checkout | all but corpus-gap |
 | Regression question | exactly one `### R-<review_id> — <title>` / `**Question:**` / `**Evaluation comment:**` block | always |
 | Agent prompt | starts with the privacy preamble (pre-filled; keep it verbatim), then a self-contained task: context, files to change, acceptance criteria — tests built on the Synthetic example; `artmind review leakcheck <review_id> --base master` passes; the regression question passes (after a re-ingest if the schema changed) | always |

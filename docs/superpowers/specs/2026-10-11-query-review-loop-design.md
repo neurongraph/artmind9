@@ -436,6 +436,8 @@ answer the question, as a small JSON path pattern. For example:
  {"require": {"node": 0, "properties": ["status", "opened_on"]}}]
 ```
 
+Node and relationship steps alternate; a node step may give `class` and `name`, a relationship step `rel` and `dir` (out | in | any); `require` steps come last and index nodes or edges from 0. Matching is case-insensitive. `review shape --pattern` checks it against both the graph and the staging.
+
 It then grades the bundle against the checklist. Each finding is tagged
 `<domain>/<Class>[.<property>|-<REL>->]`.
 
@@ -456,13 +458,16 @@ It then grades the bundle against the checklist. Each finding is tagged
 
 - Re-runs the entity, property and relationship prompts on just the evidence
   chunks. It uses `extraction.build_*_prompt` and `extract_with_retry` with
-  the proposed schema or prompt templates.
+  the proposed schema or prompt templates. `--schema` takes a full schema YAML.
+- **With neither `--schema` nor `--meta`** it re-extracts under the current
+  schema — the baseline that shows how much LLM variance alone moves the diff.
 - **Writes nothing:** no staging, no graph, no registry. It costs 3 LLM calls
-  per chunk, bounded by `--maxChunks`.
+  per chunk, bounded by `--maxChunks`. `reextract` needs no Neo4j.
 - **Output:** a shape diff between the current staging entries and the
   proposed extraction for the same chunks (nodes, edges and properties
-  added, removed or changed, per chunk). Both sides are compared before
-  canonicalization, so the comparison is like for like.
+  added, removed or changed, per chunk). The proposed side also skips the
+  graph-derived name and property vocabularies, and compares with staging's
+  pre-canonical `name` — so the comparison is like for like.
 - **Answerability:** it checks the reviewer's pattern against both sides,
   and reports `matched` / `not matched` for current and proposed.
 - Identity effects (merges) are out of scope for the dry run. Identity

@@ -74,33 +74,50 @@ chunk text after the graph failed — even if the answer is right.
 
 ## Shape audit
 
-Compare three things for the ground-truth chunks:
+Build the bundle — text, graph, staging, schema for the ground-truth chunks:
 
-- **Text** — `artmind query chunks --domain D --idList <ids> --expand 1`.
-- **Graph** — the entities and relationships extracted from those chunks:
-  `artmind query entity-context --domain D --entityId <id>` for each entity
-  the text mentions (its `chunks` show which chunks it came from).
-- **Staging** — what extraction produced before merge/commit. Find the
-  document's staging folder and filter its files by chunk id:
+```bash
+artmind review shape <trace_id>                      # chunks the answer cited
+artmind review shape <trace_id> --chunk <id> --chunk <id>   # the chunks a correct answer needs
+```
 
-  ```bash
-  KG="$ARTMIND_VAULT/.artmind/data/kg/<domain>"
-  grep -l '"<chunk_id>"' "$KG"/*/chunks.json        # → <folder>/chunks.json
-  # then read <folder>/observations.json and <folder>/relationships.json,
-  # keeping entries whose "chunk_id" is <chunk_id>
-  ```
+- `text` — each chunk's sentences, numbered (quote them as `>` in the dossier).
+- `graph` — the entities extracted from those chunks plus one `RELATES_TO` hop.
+- `staging` — what extraction produced for each chunk before merge/commit. In
+  staging but not in the graph → lost at merge/commit (identity, or a code bug).
+  Not in staging → lost at extraction (or the schema has no place for it).
+- `schema` — the `guidance` and the classes involved.
 
-  In staging but not in the graph → lost at merge/commit (identity or a code
-  bug). Not in staging → lost at extraction (or the schema has no place for it).
-- **Schema** — `$ARTMIND_VAULT/.artmind/domains/schemas/<domain>_schema.yaml`,
-  the classes involved.
-- **Question** — the traversal that would answer it, written as an
-  answerability pattern:
+Write the **answerability pattern** — the traversal that would answer the
+question — and pass it with `--pattern`; the bundle reports whether the graph
+and the staging match it:
 
-  ```json
-  [{"class": "Person"}, {"rel": "WENT_TO", "dir": "out"}, {"class": "Place"},
-   {"require": {"node": 0, "properties": ["name"]}}]
-  ```
+```json
+[{"class": "PERSON", "name": "<who>"}, {"rel": "WENT_TO", "dir": "out"}, {"class": "LOCATION"},
+ {"require": {"edge": 0, "properties": ["date"]}}]
+```
+
+Steps alternate node / relationship (`dir`: out, in, any); `require` steps go
+last and index nodes or edges from 0. Names, classes and relationship types
+compare case-insensitively. If `match` results include `truncated: true`, narrow
+the pattern.
+
+## Proving a schema or prompt fix
+
+Write the proposed schema (a full copy of the domain's schema YAML, edited) or
+a proposed `meta.yaml` to a scratch file **outside the checkout** (e.g. under
+`$TMPDIR`) — it is derived from vault content. Then:
+
+```bash
+artmind review reextract <trace_id> --pattern '<json>'                          # baseline: LLM variance
+artmind review reextract <trace_id> --schema "$TMPDIR/proposed.yaml" --pattern '<json>'
+```
+
+It re-extracts at most `--maxChunks` chunks (3 LLM calls each), writes
+nothing, and reports per chunk the nodes / edges / properties added and
+removed against current staging, and answerability `current` vs `proposed`.
+The proof is: the baseline does not flip answerability, the proposal does.
+Paste the relevant part of the output into the dossier's Proof section.
 
 Grade against the checklist; tag each finding `<domain>/<Class>[.<property>|-<REL>->]`:
 
