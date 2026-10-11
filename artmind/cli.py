@@ -3577,6 +3577,74 @@ def review_reextract(trace_id, chunks, domain, schema_path, meta_path, max_chunk
     _echo_json(result, compact)
 
 
+@review_group.command("shape-report")
+@click.option("--domain", default=None, help="Only elements of this domain (required with --sample)")
+@click.option("--all", "all_statuses", is_flag=True, help="Include fixed, verified and dismissed dossiers")
+@click.option("--sample", "sample_n", type=int, default=None, help="Also sample N random chunks of --domain")
+@click.option("--seed", type=int, default=None, help="Random seed for --sample (repeatable samples)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_shape_report(domain, all_statuses, sample_n, seed, compact) -> None:
+    """Shape findings of open dossiers grouped by schema element, most-seen first --
+    one systemic problem should be one dossier. With --sample, random chunks of the
+    domain with mechanical signals (lost at commit, isolated) to audit proactively."""
+    from artmind.reviews import aggregate, sample
+    from artmind.reviews.dossier import STATUSES as ALL
+
+    if sample_n is not None and not domain:
+        raise click.ClickException("--sample needs --domain")
+    payload = {"elements": aggregate.shape_report(domain=domain, statuses=ALL if all_statuses else aggregate.ACTIVE)}
+    if sample_n is not None:
+        payload["sample"] = sample.sample(domain, sample_n, seed=seed)
+    _echo_json(payload, compact)
+
+
+@review_group.command("attach")
+@click.argument("review_id")
+@click.argument("trace_id")
+def review_attach(review_id, trace_id) -> None:
+    """Add another symptom trace to an open dossier (one problem, one dossier)."""
+    from artmind.reviews import dossier as dz
+    from artmind.reviews import index, scaffold
+
+    d = _load_dossier(review_id)
+    try:
+        scaffold.attach(d, trace_id)
+    except dz.DossierError as exc:
+        raise click.ClickException(str(exc)) from exc
+    path = dz.save(d)
+    index.index_dossier(d, path)
+    click.echo(f"{review_id}: attached trace {trace_id} ({len(d.meta['trace_ids'])} traces)")
+
+
+@review_group.command("regressions")
+@click.option("--status", "statuses", multiple=True, type=click.Choice(STATUSES),
+              help="Only dossiers with this status (repeatable); default: all")
+def review_regressions(statuses) -> None:
+    """Every dossier's regression question as one benchmark-format markdown file (stdout)."""
+    from artmind.reviews.verify import regressions_markdown
+
+    click.echo(regressions_markdown(statuses=statuses or None), nl=False)
+
+
+@review_group.command("verify")
+@click.argument("review_id")
+@click.option("--runId", "run_id", default=None, help="Compare an existing one-question benchmark run instead of running one")
+@click.option("--backend", type=click.Choice(["claude-sdk", "acp"]), default="claude-sdk", show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_verify(review_id, run_id, backend, compact) -> None:
+    """Re-run the dossier's regression question as a one-question benchmark and set the
+    new trace beside the original. Mechanical checks only; grade the answer against the
+    evaluation comment, then `review status <id> verified`. Runs the agent: costs a turn."""
+    from artmind.reviews import dossier as dz
+    from artmind.reviews import verify
+
+    try:
+        result = verify.verify(review_id, run_id=run_id, backend=backend)
+    except dz.DossierError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
 # ── artmind docs ───────────────────────────────────────────────────────────────
 
 

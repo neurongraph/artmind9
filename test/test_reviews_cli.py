@@ -156,3 +156,41 @@ def test_reextract_cli(monkeypatch, tmp_path):
     assert out["writes"] == "none"
     assert seen["trace_id"] == "t1" and seen["max_chunks"] == 2 and seen["model"] == "m"
     assert str(seen["schema_path"]) == str(schema) and seen["meta_path"] is None
+
+
+def test_shape_report_cli(monkeypatch):
+    from artmind.reviews import aggregate, sample
+
+    monkeypatch.setattr(aggregate, "shape_report", lambda **kw: [{"element": "d/A", "kw": sorted(kw)}])
+    monkeypatch.setattr(sample, "sample", lambda domain, n, **kw: {"domain": domain, "n": n, "seed": kw["seed"]})
+    out = json.loads(_run("shape-report", "--domain", "d", "--sample", "3", "--seed", "5", "--compact").stdout)
+    assert out["elements"] == [{"element": "d/A", "kw": ["domain", "statuses"]}]
+    assert out["sample"] == {"domain": "d", "n": 3, "seed": 5}
+    assert "sample" not in json.loads(_run("shape-report", "--compact").stdout)
+    result = _run("shape-report", "--sample", "3", ok=False)
+    assert result.exit_code != 0 and "--domain" in result.output
+
+
+def test_attach_cli():
+    rid = json.loads(_run("new", "t1", "--compact").stdout)["review_id"]
+    store.insert_turn("t2", source="admin", question="Again?", started_at=time.time())
+    store.update_turn("t2", answer="x", status="done", retrieval_path="[]", domains='["d"]')
+    _run("attach", rid, "t2")
+    assert dz.load(rid).meta["trace_ids"] == ["t1", "t2"]
+    result = _run("attach", rid, "t2", ok=False)
+    assert result.exit_code != 0 and "already" in result.output
+
+
+def test_regressions_cli():
+    rid = json.loads(_run("new", "t1", "--compact").stdout)["review_id"]
+    text = _run("regressions").stdout
+    assert text.startswith("# artmind review regressions") and f"R-{rid}" in text
+
+
+def test_verify_cli(monkeypatch):
+    from artmind.reviews import verify
+
+    seen = {}
+    monkeypatch.setattr(verify, "verify", lambda rid, **kw: seen.update(rid=rid, **kw) or {"mechanical_ok": True})
+    out = json.loads(_run("verify", "rv-2031-01-01-aaaaaa", "--runId", "r1", "--compact").stdout)
+    assert out == {"mechanical_ok": True} and seen == {"rid": "rv-2031-01-01-aaaaaa", "run_id": "r1", "backend": "claude-sdk"}
