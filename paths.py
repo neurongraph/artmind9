@@ -196,6 +196,11 @@ TABLE_MAPPINGS_DIR = ARTMIND_HOME / "domains" / "table_mappings"
 # seeded or overwritten by `init`/`setup`.
 DOMAIN_VIEWS_DIR = ARTMIND_HOME / "domains" / "views"
 LOGS_DIR = ARTMIND_HOME / "logs"
+# Review dossiers (docs/superpowers/specs/2026-10-11-query-review-loop-design.md
+# §8.1): <vault>/.artmind/reviews/ in a vault -- committed with the vault's
+# private repo, never ingested (the note walk skips dot-dirs) -- else
+# ~/.artmind/reviews/. They hold private corpus evidence.
+REVIEWS_DIR = ARTMIND_HOME / "reviews"
 INGEST_LOG_FILE = LOGS_DIR / "artmind_ingestion.log"
 QUERY_LOG_FILE = LOGS_DIR / "artmind_query.log"
 LLM_CALLS_LOG_FILE = LOGS_DIR / "llm_calls.log"
