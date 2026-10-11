@@ -147,7 +147,8 @@ def test_interrupted_text_block_is_still_stored():
     assert store.get_turn(rec.trace_id)["answer"] == "partial answer"
 
 
-def test_answer_joins_text_blocks_around_tool_calls():
+def test_answer_is_text_after_last_tool_result():
+    """Answer is the text emitted after the last tool_result, not all text joined."""
     rec = TraceRecorder.start(source="admin", question="q")
     for e in [
         {"type": "text_delta", "text": "Looking. "}, {"type": "block_done", "block": "text"},
@@ -158,7 +159,7 @@ def test_answer_joins_text_blocks_around_tool_calls():
         rec.observe(e)
     rec.finish()
     answer = store.get_turn(rec.trace_id)["answer"]
-    assert answer.startswith("Looking. ") and answer.endswith("— b\n")
+    assert answer == "Alice.\n\n### Sources\n- [P](<b/P.md>) — b\n"
 
 
 def test_leaf_word_inside_a_double_quoted_question_does_not_match():
@@ -169,3 +170,48 @@ def test_leaf_word_inside_a_double_quoted_question_does_not_match():
     assert match_tool_ids([{"span_id": "s1", "command": "query chunks", "started_at": 1.5}], tools) == [("s1", "b")]
     del tools["b"]
     assert match_tool_ids([{"span_id": "s1", "command": "query chunks", "started_at": 1.5}], tools) == []
+
+
+def test_parallel_entity_resolve_calls_attributed_by_arg():
+    """Two overlapping entity-resolve calls get their spans attributed to the
+    correct call based on the reference argument value (not just timing)."""
+    # Both tool windows overlap; spans are started inside both windows.
+    tools = {
+        "call_a": {
+            "input": {"command": "artmind query entity-resolve --domain d --compact 'Person A'"},
+            "call_ts": 1.0, "result_ts": 3.0,
+        },
+        "call_b": {
+            "input": {"command": "artmind query entity-resolve --domain d --compact 'City B'"},
+            "call_ts": 1.5, "result_ts": 3.5,
+        },
+    }
+    # Both spans start at 2.0 — inside both windows.
+    span_a = {"span_id": "sa", "command": "query entity-resolve",
+              "started_at": 2.0, "args": {"domain": ["d"], "reference": "Person A", "compact": True}}
+    span_b = {"span_id": "sb", "command": "query entity-resolve",
+              "started_at": 2.0, "args": {"domain": ["d"], "reference": "City B", "compact": True}}
+    result = match_tool_ids([span_a, span_b], tools)
+    result_map = dict(result)
+    assert result_map["sa"] == "call_a", "Person A span should go to the call that mentions Person A"
+    assert result_map["sb"] == "call_b", "City B span should go to the call that mentions City B"
+
+
+def test_answer_narration_excluded_before_last_tool_result():
+    """Mid-turn narration text (before a tool_result) is excluded from the stored answer."""
+    rec = TraceRecorder.start(source="admin", question="q")
+    for e in [
+        {"type": "text_delta", "text": "Let me check."},
+        {"type": "block_done", "block": "text"},
+        {"type": "tool_call", "id": "t1", "name": "Bash", "input": "x",
+         "_trace": {"input": {"command": "artmind query graph pattern5 --domain d 'q'"}}},
+        {"type": "tool_result", "tool_id": "t1", "content": "rows…"},
+        {"type": "text_delta", "text": "Here is the answer.\n\n### Sources\n- [Doc](path/doc.md)\n"},
+        {"type": "block_done", "block": "text"},
+        {"type": "turn_done", "turns": 2, "_trace": {"result": "Here is the answer."}},
+    ]:
+        rec.observe(e)
+    rec.finish()
+    answer = store.get_turn(rec.trace_id)["answer"]
+    assert answer == "Here is the answer.\n\n### Sources\n- [Doc](path/doc.md)\n"
+    assert "Let me check" not in answer

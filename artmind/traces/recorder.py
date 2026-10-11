@@ -103,6 +103,9 @@ class TraceRecorder:
                       parent=raw.get("parent_tool_id"))
             if event.get("tool_id") in self._tools:
                 self._tools[event["tool_id"]]["result_ts"] = time.time()
+            # Reset answer buffer: the stored answer is text emitted AFTER the
+            # last tool_result, so mid-turn narration is not included.
+            self._answer = []
         elif kind == "turn_done":
             self._done = {**event, **raw}
         elif kind == "error":
@@ -174,23 +177,63 @@ def _command_text(value: Any) -> str:
     return _input_text(value)
 
 
+def _arg_values(span: dict) -> list[str]:
+    """Distinctive string values from a span's args dict.
+
+    Excludes keys `domain` and `compact` (common to all calls of the same
+    command, so they don't help disambiguate between parallel calls).
+    Only string values of length ≥ 3 are returned; boolean flags are skipped.
+    """
+    args = span.get("args")
+    if not isinstance(args, dict):
+        return []
+    values: list[str] = []
+    for k, v in args.items():
+        if k in ("domain", "compact"):
+            continue
+        if isinstance(v, str) and len(v) >= 3:
+            values.append(v)
+        elif isinstance(v, (list, tuple)):
+            for item in v:
+                if isinstance(item, str) and len(item) >= 3:
+                    values.append(item)
+    return values
+
+
 def match_tool_ids(spans: list[dict], tools: dict[str, dict]) -> list[tuple[str, str]]:
     """(span_id, tool_id) for each span whose start falls in a tool call's
     window and whose leaf command appears in that call's input next to
-    `artmind`. The latest-starting matching call wins."""
+    `artmind`.
+
+    Among candidates, each is scored by how many of the span's distinctive
+    argument values (from span["args"]) appear in the raw command string.
+    Highest score wins; ties go to the latest-starting call (existing behaviour).
+    """
     pairs = []
     for span in spans:
         command = span.get("command") or ""
         leaf = command.split()[-1] if command else ""
-        best, best_start = None, None
+        arg_vals = _arg_values(span)
+        best, best_start, best_score = None, None, -1
         for tool_id, tool in tools.items():
             start = tool["call_ts"] - SKEW_S
             end = (tool["result_ts"] if tool["result_ts"] is not None else float("inf")) + SKEW_S
             if not (start <= span["started_at"] <= end):
                 continue
-            text = _command_text(tool["input"])
-            if "artmind" in text and leaf and re.search(rf"(?<![\w-]){re.escape(leaf)}(?![\w-])", text) and (best_start is None or tool["call_ts"] > best_start):
-                best, best_start = tool_id, tool["call_ts"]
+            # Leaf matching uses the quote-stripped text to avoid false hits
+            # on question content that happens to contain a subcommand name.
+            stripped = _command_text(tool["input"])
+            if "artmind" not in stripped:
+                continue
+            if not leaf or not re.search(rf"(?<![\w-]){re.escape(leaf)}(?![\w-])", stripped):
+                continue
+            # Score by how many distinctive arg values appear in the RAW command.
+            raw_cmd = (tool["input"]["command"]
+                       if isinstance(tool["input"], dict) and isinstance(tool["input"].get("command"), str)
+                       else _input_text(tool["input"]))
+            score = sum(1 for v in arg_vals if v in raw_cmd)
+            if score > best_score or (score == best_score and (best_start is None or tool["call_ts"] > best_start)):
+                best, best_start, best_score = tool_id, tool["call_ts"], score
         if best is not None:
             pairs.append((span["span_id"], best))
     return pairs
