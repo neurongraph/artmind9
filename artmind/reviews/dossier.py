@@ -70,11 +70,15 @@ def _split_sections(body: str) -> dict[str, str]:
     sections: dict[str, str] = {}
     current: str | None = None
     buf: list[str] = []
-    fenced = False
+    fence: str | None = None  # the marker (``` or ~~~) of the open code fence
     for line in body.split("\n"):
-        if line.lstrip().startswith("```"):
-            fenced = not fenced
-        match = None if fenced else _HEADING_RE.match(line)
+        stripped = line.lstrip()
+        marker = stripped[:3] if stripped[:3] in ("```", "~~~") else None
+        if marker and fence is None:
+            fence = marker
+        elif marker and marker == fence:
+            fence = None
+        match = None if fence or marker else _HEADING_RE.match(line)
         if match and match.group(1) in SECTIONS:
             if current is not None:
                 sections[current] = "\n".join(buf).strip("\n")

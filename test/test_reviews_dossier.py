@@ -109,3 +109,11 @@ def test_save_load_iter_and_append_log():
 def test_load_missing_raises():
     with pytest.raises(dz.DossierError):
         dz.load("rv-2026-01-02-000000")
+
+
+def test_tilde_fences_and_mixed_markers_hide_headings():
+    d = _dossier()
+    d.sections["Proposal"] = "~~~yaml\n## Symptom\n```\n## Log\n~~~\nafter"
+    back = dz.parse(dz.render(d))
+    assert back.sections["Proposal"] == d.sections["Proposal"]
+    assert back.sections["Symptom"] == d.sections["Symptom"]
