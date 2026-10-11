@@ -116,6 +116,8 @@ class ClaudeSDKBackend:
         conversation continues seamlessly; otherwise it starts a clean session.
         """
         resume = self._session_id if (preserve_context and self._session_id) else None
+        # Deliberately disconnects the inner client, not self.disconnect(), so the
+        # session's trace-context file (spec 2026-10-11 §5.1) survives a refresh.
         await self._client.disconnect()
         self._resume = resume
         self._client = ClaudeSDKClient(

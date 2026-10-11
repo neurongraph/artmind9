@@ -186,6 +186,8 @@ class ACPBackend:
             if task is not None:
                 task.cancel()
         self._fail_pending(RuntimeError("ACP backend disconnected"))
+        if self._trace_context is not None:
+            self._trace_context.unlink(missing_ok=True)
         if proc is None:
             return
         if proc.stdin is not None:
@@ -199,8 +201,6 @@ class ACPBackend:
             except TimeoutError:
                 proc.kill()
                 await proc.wait()
-        if self._trace_context is not None:
-            self._trace_context.unlink(missing_ok=True)
 
     def _subprocess_env(self) -> dict[str, str] | None:
         """Inject ``self._model`` for opencode via ``OPENCODE_CONFIG_CONTENT``,

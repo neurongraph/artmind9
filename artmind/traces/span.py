@@ -76,12 +76,15 @@ class TracedGroup(RichGroup):
         if not trace_id:
             return super().invoke(ctx)
 
-        span = {
-            "span_id": uuid.uuid4().hex, "trace_id": trace_id, "argv": list(tokens),
-            "command": _command_path(self, ctx, tokens), "started_at": time.time(),
-            "summary": None, "params": None, "llm_calls": [],
-        }
-        token = _active.set(span)
+        try:
+            span = {
+                "span_id": uuid.uuid4().hex, "trace_id": trace_id, "argv": list(tokens),
+                "command": _command_path(self, ctx, tokens), "started_at": time.time(),
+                "summary": None, "params": None, "llm_calls": [],
+            }
+            token = _active.set(span)
+        except Exception:
+            return super().invoke(ctx)
         exit_code = 0
         try:
             return super().invoke(ctx)
