@@ -96,3 +96,33 @@ def test_feedback_endpoint(tmp_path):
 def test_feedback_endpoint_absent_without_tracing():
     client = TestClient(create_app())
     assert client.post("/api/traces/x/feedback", json={"rating": "good"}).status_code == 404
+
+
+def test_benchmark_question_is_traced(tmp_path, monkeypatch):
+    import asyncio
+
+    from artmind import benchmark
+    from artmind.webui import backends as backends_mod
+
+    import paths
+
+    monkeypatch.setattr(paths, "LOGS_DIR", tmp_path / "logs")
+    created = []
+
+    def fake_create_backend(name, profile, *, trace_context=None, **kw):
+        backend = TracedFakeBackend(name, trace_context)
+        created.append(backend)
+        return backend
+
+    monkeypatch.setattr(backends_mod, "create_backend", fake_create_backend)
+    run_id = benchmark._create_benchmark_run("q.md", [{"seq": 1, "qid": "Q1", "title": "t", "question": "Who?",
+                                                        "eval_comment": None}])
+    asyncio.run(benchmark._run_benchmark(run_id))
+
+    question = benchmark._get_benchmark_question(run_id, 1)
+    assert question["status"] == "completed"
+    trace_id = question["trace_id"]
+    assert created[0].seen_trace_id == trace_id
+    turn = store.get_turn(trace_id)
+    assert (turn["source"], turn["benchmark_run_id"], turn["benchmark_seq"]) == ("benchmark", run_id, 1)
+    assert benchmark._export_benchmark_json(run_id) is not None  # export still works

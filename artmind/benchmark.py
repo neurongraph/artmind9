@@ -241,6 +241,7 @@ def _update_benchmark_question(
     started_at: str | None = None,
     completed_at: str | None = None,
     error_message: str | None = None,
+    trace_id: str | None = None,
 ) -> None:
     conn = _get_db()
     try:
@@ -255,6 +256,7 @@ def _update_benchmark_question(
             ("started_at", started_at),
             ("completed_at", completed_at),
             ("error_message", error_message),
+            ("trace_id", trace_id),
         ):
             if val is not None:
                 updates.append(f"{col} = ?")
@@ -369,7 +371,7 @@ def _get_benchmark_question(run_id: str, seq: int) -> dict | None:
     try:
         row = conn.execute(
             "SELECT seq, qid, title, question, eval_comment, status, answer_text, trace_json,"
-            " turns, duration_s, cost_usd, started_at, completed_at, error_message"
+            " turns, duration_s, cost_usd, started_at, completed_at, error_message, trace_id"
             " FROM benchmark_questions WHERE run_id = ? AND seq = ?",
             (run_id, seq),
         ).fetchone()
@@ -381,6 +383,7 @@ def _get_benchmark_question(run_id: str, seq: int) -> dict | None:
             "eval_comment": row[4], "status": row[5], "answer_text": row[6], "trace": trace,
             "turns": row[8], "duration_s": row[9], "cost_usd": row[10],
             "started_at": row[11], "completed_at": row[12], "error_message": row[13],
+            "trace_id": row[14],
         }
     finally:
         conn.close()
@@ -455,6 +458,8 @@ async def _run_benchmark(run_id: str) -> None:
     # tested on their own) importable without the Claude Agent SDK installed.
     from artmind.webui.backends import create_backend
     from artmind.webui.profiles import BENCHMARK_PROFILE
+    from artmind.traces.recorder import TraceRecorder
+    from artmind.webui.backends import new_trace_context
 
     run = _get_benchmark_run(run_id)
     if run is None:
@@ -475,7 +480,12 @@ async def _run_benchmark(run_id: str) -> None:
         started_at = datetime.now().isoformat()
         _update_benchmark_question(run_id, seq, status="processing", started_at=started_at)
 
-        backend_client = create_backend(run["backend"], BENCHMARK_PROFILE)
+        context_path = new_trace_context()
+        backend_client = create_backend(run["backend"], BENCHMARK_PROFILE, trace_context=context_path)
+        recorder = TraceRecorder.start(
+            source="benchmark", question=prompt, profile="benchmark", backend=run["backend"],
+            benchmark_run_id=run_id, benchmark_seq=seq, context_path=context_path,
+        )
         answer_parts: list[str] = []
         trace: list[dict] = []
         turns = duration_s = cost_usd = None
@@ -484,6 +494,7 @@ async def _run_benchmark(run_id: str) -> None:
             await backend_client.connect()
             await backend_client.query(prompt)
             async for event in backend_client.receive_events():
+                event = recorder.observe(event)
                 etype = event.get("type")
                 if etype == "text_delta":
                     answer_parts.append(event.get("text", ""))
@@ -500,6 +511,7 @@ async def _run_benchmark(run_id: str) -> None:
         except Exception as exc:
             error_message = str(exc)
         finally:
+            recorder.finish(error=error_message)
             try:
                 await backend_client.disconnect()
             except Exception:
@@ -514,6 +526,7 @@ async def _run_benchmark(run_id: str) -> None:
             turns=turns, duration_s=duration_s, cost_usd=cost_usd,
             completed_at=datetime.now().isoformat(),
             error_message=error_message,
+            trace_id=recorder.trace_id,
         )
         _update_benchmark_run(run_id, processed_count=seq)
 
