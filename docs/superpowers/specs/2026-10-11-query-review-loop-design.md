@@ -123,6 +123,68 @@ broken".
 | `chunks` | vector-text, chunks, entity-context | `[{chunk_id, doc_id, score}]` |
 | `entities` | any command returning entities | `[entity _id]` (capped at 200) |
 
+### 4.1 Retrieval path and fall-through
+
+The `artmind-query` fallback ladder sends many questions to `vector-text`
+after graph calls come back empty or thin. Such an answer can be correct,
+but the graph still failed it: the corpus could answer the question and the
+graph could not. That is the most direct signal of a graph-shape problem,
+and it happens even on answers rated `good`. It is therefore recorded
+explicitly, not left for a reviewer to find in the event list.
+
+When a turn ends, `TraceRecorder` labels every span with a retrieval
+**layer**:
+
+| Layer | Commands |
+|---|---|
+| `view` | `query views run` |
+| `graph` | `query graph pattern1`–`pattern10`, `entity-listing`, `filing-listing`, `timeline`, `hierarchy`, `conflicts`, `entity-context`, `entity-history` |
+| `text2cypher` | `query graph text2cypher` |
+| `vector` | `query vector-text`, `query chunks` |
+| `sql` | `query text2sql`, `query resolve-key` |
+| `discovery` | `domains-overview`, `metadata`, `structural-metadata`, `entity-resolve`, `views list/show` (these locate things and return no evidence for an answer) |
+
+A span is **productive** when `exit_code == 0` and `rows > 0`. `entity-context`
+counts as `graph`. Its relationship rows are graph evidence, and its chunks
+are attached evidence, not a vector search.
+
+The recorder then stores these derived columns on `trace_turns`:
+
+| Column | Value |
+|---|---|
+| `retrieval_path` | JSON, ordered: `[{span_id, layer, command, rows, productive}]`, `discovery` excluded |
+| `graph_attempts` | count of `view` + `graph` + `text2cypher` spans |
+| `graph_productive` | count of those that were productive |
+| `fell_through` | true when at least one `view`/`graph`/`text2cypher` span ran and a `vector` span ran after the last of them |
+| `answer_basis` | `graph` \| `vector` \| `mixed` \| `sql` \| `none` (below) |
+
+`answer_basis` comes from the answer's `### Sources` section. The query
+skill requires every answer to have one, and each entry names a document.
+
+- Each cited document is matched to the spans whose `chunks` or `entities`
+  evidence came from it.
+- The basis is `vector` when every cited document came only from `vector`
+  spans, and `graph` when every one came only from `view`/`graph`/
+  `text2cypher` spans. A mix of both is `mixed`. Structured-store answers
+  are `sql`. No Sources section, or no productive span, is `none`.
+- This is a heuristic, and the dossier shows its inputs.
+
+A **graph miss** is a turn where `fell_through` is true and `answer_basis`
+is `vector`. Even when the answer was right, the graph could not supply it.
+
+`artmind traces stats [--domain] [--since] [--by week]` reports, per domain
+and period:
+
+- turns
+- fall-through rate
+- graph-miss rate
+- graph productivity (`graph_productive / graph_attempts`)
+- answer basis split
+- mean graph attempts before a fall-through
+
+The trend of these numbers is the measure of whether the loop is improving
+the graph.
+
 Retention: rows older than `ARTMIND_TRACE_RETENTION_DAYS` (default 90) are
 pruned when `admin-ui` starts and when `artmind traces prune` runs. A turn
 with feedback or a review is never pruned.
@@ -226,6 +288,7 @@ written for the existing Benchmark tab.
 | `traces show <id> [--compact]` | full JSON evidence chain: turn, events in order, spans (with evidence and LLM calls) nested under the Bash call they belong to, feedback |
 | `traces triage [--since] [--limit]` | the ranked queue (below), excluding turns that already have a review |
 | `traces feedback <id> --rating … [--expected …]` | record feedback |
+| `traces stats [--domain] [--since] [--by week]` | fall-through and graph-miss metrics (§4.1) |
 | `traces prune` | apply retention |
 
 The `traces` and `review` groups go into `COMMAND_GROUPS` in `cli.py`
@@ -233,8 +296,13 @@ The `traces` and `review` groups go into `COMMAND_GROUPS` in `cli.py`
 `justfile` recipe where one is useful.
 
 **Triage order:** turns rated `wrong` first, then `partial`. Unrated turns
-follow, ordered by a score that adds one point per signal:
+and `good`-rated graph misses follow, ordered by a score that adds one point
+per signal:
 
+- a graph miss (§4.1): **3 points**, plus one point for each unproductive
+  graph attempt before the fall-through, capped at 3 extra points
+- `fell_through` without being a graph miss (the graph contributed only
+  partly): 1 point
 - a span with `rows == 0`
 - a `truncated` span
 - text2cypher was used
@@ -246,7 +314,9 @@ follow, ordered by a score that adds one point per signal:
 - an entity resolved ambiguously (top two candidates within 0.05)
 - a span ended with `exit_code != 0`
 
-Turns rated `good` are excluded.
+Turns rated `good` are excluded, **except graph misses**. A correct answer
+from chunk text after the graph failed is still a graph failure. Those turns
+rank after every unrated turn of equal score.
 
 ## 7. The reviewer
 
@@ -289,6 +359,23 @@ For one trace, the skill:
       that could hold the fact in the shape the question needs.
 4. **Cites evidence for every verdict.** Each one needs at least one span
    id, row, chunk sentence or staging entry.
+
+**Graph misses** (§4.1) need a different procedure, because the answer may
+be correct.
+
+- The vector-returned chunks the answer cites are the ground truth. Step 2
+  needs no search.
+- The synthesis stage is skipped when the answer is rated `good` or
+  unrated.
+- The walk starts at **routing**: did the agent's graph attempts ask the
+  right thing? Each unproductive graph span in `retrieval_path` is examined
+  for its command, parameters and resolved entities.
+- **missing-view**, **identity**, **extraction** and **schema** follow in
+  the usual order. The shape audit is always run on the cited chunks.
+- The question being answered here is "why could the graph not produce
+  what these chunks say?" When the graph shape is correct and only the
+  agent's choice of route failed, the verdict is **routing**, and the fix is
+  a change to the query skill or a view.
 
 ### 7.3 Shape audit
 
@@ -444,6 +531,10 @@ vault and never touch the checkout.
   3. Prints the original trace and the new one side by side: stage-relevant
      evidence (view used, rows, resolved entities, chunks), the answer, and
      the evaluation comment.
+- For a dossier opened from a graph miss, the answer being correct is not
+  enough. The new trace must show `fell_through = false` and
+  `answer_basis` of `graph` or `mixed`. The dossier's regression
+  question states this in its evaluation comment.
 - The reviewer skill grades the result. The human confirms. Only then is
   the status set to `verified` and the outcome logged in the dossier. On
   failure, the status goes back to `open` with the new trace appended.
@@ -452,7 +543,7 @@ vault and never touch the checkout.
 
 | Phase | Ships |
 |---|---|
-| P1 | trace tables, `TraceRecorder`, admin-console capture (§5.1), CLI spans and evidence notes (§5.2–5.3), proxy forwarding (§5.4), LLM-call capture (§5.5), benchmark capture (§5.6), feedback UI and endpoint (§5.7), `traces` CLI (§6) |
+| P1 | trace tables, `TraceRecorder`, admin-console capture (§5.1), CLI spans and evidence notes (§5.2–5.3), proxy forwarding (§5.4), LLM-call capture (§5.5), benchmark capture (§5.6), feedback UI and endpoint (§5.7), retrieval path / fall-through derivation (§4.1), `traces` CLI including `stats` (§6) |
 | P2 | `artmind-review` skill with stage attribution (§7.1–7.2), dossier writer and format (§8.1–8.2), `review list/show/reindex`, `.artmind/reviews/` layout, `vault doctor` visibility check, privacy preamble and `review leakcheck` (§8.3) |
 | P3 | `review shape` (§7.3), `review reextract` (§7.4) |
 | P4 | `review shape-report` and appending to existing dossiers (§7.5), `review regressions` and `review verify` (§9) |
@@ -483,7 +574,20 @@ The suite is hermetic, following CLAUDE.md §3:
 - **tool_id matching:** synthetic spans and Bash calls with overlapping
   windows.
 - **Triage:** fixture traces that each carry one signal, with the expected
-  order asserted.
+  order asserted. This includes a `good`-rated graph miss, which must be
+  included, and a `good`-rated turn that is not a graph miss, which must be
+  excluded.
+- **Retrieval path:** fixture span sequences with the layer, `fell_through`
+  and `graph_attempts` asserted for each:
+  - pattern empty → vector
+  - view productive, with no vector call
+  - entity-context followed by chunks
+  - text2cypher error → vector
+  - discovery-only
+  - SQL
+
+  Also test `answer_basis` from Sources sections citing vector-only,
+  graph-only and mixed documents, and one answer without a Sources section.
 - **reextract:** a fixture chunk (synthetic) whose current staging stores a
   status as a flat string property, paired with a proposed schema that
   reifies it. `call_llm` is mocked to return the proposed extraction. Assert
