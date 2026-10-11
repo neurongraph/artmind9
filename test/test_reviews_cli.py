@@ -103,3 +103,19 @@ def test_leakcheck_exit_codes(tmp_path):
     (repo / "a.py").write_text("x = 1\nq = 'How many trips did Person A take'\n")
     result = _run("leakcheck", rid, "--repo", str(repo), "--compact", ok=False)
     assert result.exit_code == 1 and json.loads(result.stdout)["hit_count"] >= 1
+
+
+def test_new_index_failure_exits_nonzero_but_saves_dossier(monkeypatch, tmp_path):
+    """If indexing raises after the dossier is saved, the command exits non-zero
+    but the dossier file must already exist (so the user can reindex later)."""
+    import artmind.reviews.index as idx
+    import paths
+
+    monkeypatch.setattr(idx, "index_dossier", lambda *a, **kw: (_ for _ in ()).throw(RuntimeError("db locked")))
+    result = CliRunner().invoke(cli, ["review", "new", "t1"])
+    assert result.exit_code != 0
+    assert "rv-" in result.output          # review_id in the error message
+    assert "reindex" in result.output      # hint present
+    reviews = list((tmp_path / "reviews").glob("*.md")) if (tmp_path / "reviews").exists() else \
+              list(paths.REVIEWS_DIR.glob("*.md"))
+    assert reviews, "dossier file must have been saved before the error"

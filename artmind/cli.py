@@ -3416,7 +3416,12 @@ def review_new(trace_id, stage, elements, force, compact) -> None:
     except dz.DossierError as exc:
         raise click.ClickException(str(exc)) from exc
     path = dz.save(d)
-    index.index_dossier(d, path)
+    try:
+        index.index_dossier(d, path)
+    except Exception as exc:
+        raise click.ClickException(
+            f"dossier {d.review_id} saved at {path}, but indexing it failed: {exc} -- run `artmind review reindex` later"
+        ) from exc
     _echo_json({"review_id": d.review_id, "path": str(path)}, compact)
 
 
@@ -3469,7 +3474,7 @@ def review_status(review_id, status, note) -> None:
     from artmind.reviews import index
 
     d = _load_dossier(review_id)
-    old = d.meta.get("status")
+    old = d.meta.get("status") or "open"
     d.meta["status"] = status
     dz.append_log(d, f"status {old} → {status}" + (f": {note}" if note else ""))
     path = dz.save(d)

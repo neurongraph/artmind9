@@ -60,7 +60,7 @@ def added_lines(repo: Path, base: str = "HEAD"):
     """(path, line number, text) for every line added vs `base`, plus every
     line of untracked, non-ignored files."""
     current, number = None, 0
-    for line in _git(repo, ["diff", "--no-color", "--unified=0", base]).split("\n"):
+    for line in _git(repo, ["-c", "core.quotePath=false", "diff", "--no-color", "--unified=0", base]).split("\n"):
         if line.startswith("+++ "):
             current = line[6:] if line.startswith("+++ b/") else None
         elif (hunk := _HUNK.match(line)):
@@ -68,7 +68,7 @@ def added_lines(repo: Path, base: str = "HEAD"):
         elif line.startswith("+") and current is not None:
             yield current, number, line[1:]
             number += 1
-    for rel in filter(None, _git(repo, ["ls-files", "--others", "--exclude-standard", "-z"]).split("\0")):
+    for rel in filter(None, _git(repo, ["-c", "core.quotePath=false", "ls-files", "--others", "--exclude-standard", "-z"]).split("\0")):
         path = Path(repo) / rel
         try:
             if path.stat().st_size > MAX_FILE_BYTES:

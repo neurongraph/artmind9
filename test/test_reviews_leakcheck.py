@@ -78,3 +78,15 @@ def test_committed_changes_against_a_base(repo):
 def test_bad_base_raises(repo):
     with pytest.raises(LeakcheckError):
         leakcheck(_dossier(), repo, base="no-such-ref")
+
+
+def test_non_ascii_path_is_detected(repo):
+    """git quotes non-ASCII paths by default; without core.quotePath=false the
+    file is silently skipped and a real private-term hit is missed."""
+    fname = "résumé.py"
+    (repo / fname).write_text("CITY = 'Kestrel Bay'\n")
+    _git(repo, "add", fname)
+    _git(repo, "commit", "-q", "-m", "add resume")
+    result = leakcheck(_dossier(), repo, base="HEAD~1")
+    assert result["hits"], "expected at least one hit for non-ASCII path"
+    assert result["hits"][0]["file"] == fname

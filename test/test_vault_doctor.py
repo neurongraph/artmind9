@@ -284,3 +284,23 @@ def test_review_privacy_gh_error_is_unknown(repo, monkeypatch):
     monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
     monkeypatch.setattr(doc, "_gh_visibility", lambda slug: (1, "", "not logged in"))
     assert _by_name(doc.run(repo))[NAME]["status"] == "unknown"
+
+
+def test_review_privacy_token_in_https_url_warns_without_leaking_token(repo, monkeypatch):
+    """https://<token>@github.com/owner/repo.git must match as a GitHub URL and
+    the token must never appear in the check's detail or fix strings."""
+    _track_dossier(repo)
+    _git(repo, "remote", "add", "origin", "https://x-token-123@github.com/me/vault.git")
+    monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
+    seen = {}
+
+    def fake(slug):
+        seen["slug"] = slug
+        return 0, "PUBLIC\n", ""
+
+    monkeypatch.setattr(doc, "_gh_visibility", fake)
+    check = _by_name(doc.run(repo))[NAME]
+    assert check["status"] == "warn"
+    assert seen.get("slug") == "me/vault"
+    assert "x-token-123" not in (check.get("detail") or "")
+    assert "x-token-123" not in (check.get("fix") or "")

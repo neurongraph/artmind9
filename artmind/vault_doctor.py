@@ -115,7 +115,7 @@ def check_tracked_ignored(vault_dir: Path) -> Check:
     )
 
 
-_GITHUB_REMOTE = re.compile(r"^(?:git@github\.com:|ssh://git@github\.com/|https://github\.com/)([^/]+)/(.+?)(?:\.git)?/?$")
+_GITHUB_REMOTE = re.compile(r"^(?:git@github\.com:|ssh://git@github\.com/|https://(?:[^@/]+@)?github\.com/)([^/]+)/(.+?)(?:\.git)?/?$")
 
 
 def _gh_visibility(slug: str) -> tuple[int, str, str]:
