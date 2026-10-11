@@ -224,7 +224,7 @@ as written — do not infer it.
 | Properties + relationship summary | `artmind query graph pattern3 --entityIdList <id>` |
 | Full one-hop neighborhood / contextual role | `artmind query graph pattern4 --entityClass <LABEL> --entityId <id>` |
 | Everyone under X / X's whole reporting line / full org subtree / chain of command | `artmind query graph hierarchy --entityId <id> --childOf <REL> [--parentOf <REL>] [--direction up] [--maxDepth N]` — omit `--childOf`/`--parentOf` for discovery mode first; see `references/hierarchy.md` |
-| Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --idList <id> [--expand 1]` |
+| Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --idList <id>[,<id>…] [--expand 1]` (repeat the flag or comma-join ids) |
 | Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
 | Search entities by name/description fragment | `artmind query graph pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically) |

@@ -100,7 +100,8 @@ def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
     """Flatten repeatable/comma-split option values into a deduped list,
     mirroring `_parse_domains`'s own convention for --domain, but without its
     "at least one" requirement -- callers here (--childOf/--parentOf/
-    --nodeClass) are optional."""
+    --nodeClass, and the exact-id lists --idList/--entityIdList/--entityId)
+    are optional. Never use it for names: a name may contain a comma."""
     out: list[str] = []
     seen: set[str] = set()
     for value in values:
@@ -2596,7 +2597,7 @@ def graph_pattern1(domain: tuple, entity_class: str, limit: int, compact: bool, 
 @graph.command("pattern2")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
-@click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable; comma-splittable; overrides name list)")
 @click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
 @click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
@@ -2609,7 +2610,7 @@ def graph_pattern2(
     domains = _parse_domains(domain)
     _run_graph_pattern(
         "pattern2", domains, compact, question,
-        entityNameList=entity_name_list, entityIdList=entity_id_list,
+        entityNameList=entity_name_list, entityIdList=_parse_repeatable(entity_id_list),
         maxDocSources=max_doc_sources, maxSourceDocuments=max_source_documents,
     )
 
@@ -2617,7 +2618,7 @@ def graph_pattern2(
 @graph.command("pattern3")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
-@click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable; comma-splittable; overrides name list)")
 @click.option("--maxConnections", "max_connections", type=int, default=graph_query.PATTERN_MAX_CONNECTIONS, show_default=True, help="Max connections returned per entity; connections_total carries the full count")
 @click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
 @click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
@@ -2632,7 +2633,7 @@ def graph_pattern3(
     domains = _parse_domains(domain)
     _run_graph_pattern(
         "pattern3", domains, compact, question,
-        entityNameList=entity_name_list, entityIdList=entity_id_list,
+        entityNameList=entity_name_list, entityIdList=_parse_repeatable(entity_id_list),
         maxConnections=max_connections, maxDocSources=max_doc_sources,
         maxSourceDocuments=max_source_documents,
     )
@@ -2829,7 +2830,7 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int
 
 @graph.command("conflicts")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) (repeatable)")
-@click.option("--entityId", "entity_id", multiple=True, help="Filter to conflicts touching this entity id (repeatable)")
+@click.option("--entityId", "entity_id", multiple=True, help="Filter to conflicts touching this entity id (repeatable; comma-splittable)")
 @click.option("--entityName", "entity_name", default=None, help="Filter to conflicts touching an entity whose name contains this")
 @click.option("--status", type=click.Choice(["open", "resolved", "dismissed", "all"]), default="open", show_default=True)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
@@ -2837,7 +2838,7 @@ def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, st
     """List materialized Conflict nodes scoped to the given domains."""
     domains = _parse_domains(domain)
     _echo_json(
-        graph_query.list_conflicts(domains, entity_ids=list(entity_id), entity_name=entity_name, status=status),
+        graph_query.list_conflicts(domains, entity_ids=_parse_repeatable(entity_id), entity_name=entity_name, status=status),
         compact,
     )
 
@@ -2951,7 +2952,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 
 @query.command("chunks")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable)")
+@click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
@@ -2959,7 +2960,7 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
     """Fetch chunk text by exact id (the doc_sources / evidence ids other commands return)."""
     domains = _parse_domains(domain)
     try:
-        result = graph_query.chunks_by_id(domains, list(id_list), expand=expand, as_of=as_of)
+        result = graph_query.chunks_by_id(domains, _parse_repeatable(id_list), expand=expand, as_of=as_of)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
