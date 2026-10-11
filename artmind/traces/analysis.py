@@ -12,7 +12,8 @@ from artmind.traces.path import GRAPH_LAYERS, is_graph_miss, layer_of
 
 _NOT_FOUND = re.compile(
     r"\b(couldn'?t find|could not find|unable to find|no information|not in the (graph|knowledge graph|data)"
-    r"|does(?: not|n'?t) (contain|answer|say)|no (matching|relevant) (data|results|records|entities))\b",
+    r"|(?:the (?:graph|data|knowledge graph|documents?) )does(?: not|n'?t) (?:contain|answer|say)"
+    r"|no (matching|relevant) (data|results|records|entities))\b",
     re.IGNORECASE,
 )
 _RELATIVE = re.compile(r"^(\d+)([dh])$")
@@ -157,11 +158,12 @@ def show(trace_id: str) -> dict | None:
             "before trace capture shipped answers without recording: restart it (just dev-stop-daemons, "
             "then `artmind serve` from the vault)."
         )
+    tool_call_ids = {e["tool_id"] for e in events if e["type"] == "tool_call"}
     return {
         "turn": turn,
         "feedback": store.latest_feedback(trace_id),
         "events": events,
-        "unattributed_spans": [s for s in spans if not s["tool_id"]],
+        "unattributed_spans": [s for s in spans if not s["tool_id"] or s["tool_id"] not in tool_call_ids],
         "graph_layers": sorted(GRAPH_LAYERS),
         "warnings": warnings,
     }

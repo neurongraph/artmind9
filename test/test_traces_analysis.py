@@ -114,3 +114,38 @@ def test_show_nests_spans_under_tool_calls_and_warns_on_stale_daemon():
     assert shown["events"][0]["spans"][0]["command"] == "query chunks"
     assert shown["warnings"] == []
     assert analysis.show("missing") is None
+
+
+def test_show_orphaned_span_appears_in_unattributed(tmp_path):
+    """A span with a tool_id that matches no tool_call event is unattributed (orphaned)."""
+    now = time.time()
+    _turn("t2", started_at=now)
+    # No tool_call events — just a span with a tool_id of "ghost"
+    store.insert_span(
+        {"span_id": "t2-ghost", "trace_id": "t2", "command": "query chunks", "args": "{}",
+         "exit_code": 0, "duration_ms": 1, "rows": 1, "rows_total": None,
+         "truncated": 0, "evidence": "{}", "started_at": now},
+        [],
+    )
+    store.set_span_tool_ids([("t2-ghost", "ghost")])
+    shown = analysis.show("t2")
+    unattributed_ids = [s["span_id"] for s in shown["unattributed_spans"]]
+    assert "t2-ghost" in unattributed_ids
+
+
+def test_signals_not_found_requires_graph_subject():
+    """'does not contain' only fires when the subject is graph/data/documents."""
+    # Ordinary factual negative — no flag
+    turn_plain = {"fell_through": 0, "answer_basis": "graph", "graph_attempts": 1, "graph_productive": 1,
+                  "turns": 1, "answer": "The policy does not contain an exemption."}
+    assert "not_found_answer" not in analysis.signals(turn_plain, [], turns_p90=None)
+
+    # Graph subject — must fire
+    turn_graph = {"fell_through": 0, "answer_basis": "graph", "graph_attempts": 1, "graph_productive": 1,
+                  "turns": 1, "answer": "The graph does not contain that."}
+    assert analysis.signals(turn_graph, [], turns_p90=None).get("not_found_answer") == 1
+
+    # Existing test phrase still works
+    turn_existing = {"fell_through": 0, "answer_basis": "graph", "graph_attempts": 1, "graph_productive": 1,
+                     "turns": 1, "answer": "I couldn't find that in the graph."}
+    assert analysis.signals(turn_existing, [], turns_p90=None).get("not_found_answer") == 1

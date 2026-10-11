@@ -1,12 +1,13 @@
 """Admin console capture through /api/chat, and the feedback endpoint."""
 
+import asyncio
 import json
 
 import pytest
 from fastapi.testclient import TestClient
 
 from artmind.traces import store
-from artmind.webui.app import create_app
+from artmind.webui.app import ChatRequest, create_app
 from artmind.webui.sessions import SessionRegistry
 
 
@@ -126,3 +127,41 @@ def test_benchmark_question_is_traced(tmp_path, monkeypatch):
     turn = store.get_turn(trace_id)
     assert (turn["source"], turn["benchmark_run_id"], turn["benchmark_seq"]) == ("benchmark", run_id, 1)
     assert benchmark._export_benchmark_json(run_id) is not None  # export still works
+
+
+def test_cancelled_turn_recorded_as_error(tmp_path):
+    """A client disconnect (CancelledError) must be recorded with status='error'."""
+
+    class CancellingBackend(TracedFakeBackend):
+        async def receive_events(self):
+            yield {"type": "tool_call", "id": "tu1", "name": "Bash", "input": "x",
+                   "_trace": {"input": {"command": "artmind query chunks"}, "parent_tool_id": None}}
+            raise asyncio.CancelledError("simulated client disconnect")
+
+    TracedFakeBackend.instances = []
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+    registry = SessionRegistry(client_factory=lambda name: CancellingBackend(name, ctx))
+    app = create_app(registry=registry, admin_routes=True, trace_turns=True)
+    endpoint = [r for r in app.routes if getattr(r, "path", "") == "/api/chat"][0].endpoint
+
+    async def run():
+        resp = await endpoint(ChatRequest(session_id="s1", prompt="Who?"))
+        trace_id = None
+        try:
+            async for chunk in resp.body_iterator:
+                text = chunk if isinstance(chunk, str) else chunk.decode()
+                for line in text.splitlines():
+                    if line.startswith("data: "):
+                        event = json.loads(line[6:])
+                        if event.get("type") == "trace":
+                            trace_id = event["trace_id"]
+        except (asyncio.CancelledError, Exception):
+            pass
+        return trace_id
+
+    trace_id = asyncio.run(run())
+    assert trace_id is not None
+    turn = store.get_turn(trace_id)
+    assert turn["status"] == "error"
+    assert (turn.get("error_message") or "").startswith("interrupted")

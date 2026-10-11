@@ -80,7 +80,7 @@ def create_app(
             try:
                 from artmind.traces import store
 
-                store.prune(int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90")))
+                await asyncio.to_thread(store.prune, int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90")))
             except Exception:
                 logger.exception("trace prune failed")
 
@@ -162,6 +162,9 @@ def create_app(
             except Exception as exc:  # stream errors to the client, don't 500
                 error = str(exc)
                 yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
+            except BaseException:
+                error = error or "interrupted: the client disconnected"
+                raise
             finally:
                 if recorder is not None:
                     await asyncio.to_thread(recorder.finish, error=error)
