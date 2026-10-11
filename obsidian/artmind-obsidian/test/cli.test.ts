@@ -1,4 +1,4 @@
-import { chmodSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -236,6 +236,25 @@ describe("childEnv", () => {
       "/usr/local/bin",
     ]);
     expect(env.NO_COLOR).toBe("1");
+  });
+
+  it("also appends any installed nvm node versions' bin dirs, newest first", () => {
+    const home = mkdtempSync(join(tmpdir(), "artmind-childenv-"));
+    const versions = join(home, ".nvm", "versions", "node");
+    for (const v of ["v18.20.0", "v22.18.0", "v20.11.0"]) {
+      mkdirSync(join(versions, v, "bin"), { recursive: true });
+    }
+    const env = childEnv({ PATH: "/usr/bin:/bin" }, home);
+    expect(env.PATH!.split(":").slice(-3)).toEqual([
+      join(versions, "v22.18.0", "bin"),
+      join(versions, "v20.11.0", "bin"),
+      join(versions, "v18.20.0", "bin"),
+    ]);
+  });
+
+  it("skips nvm entirely when it isn't installed", () => {
+    const env = childEnv({ PATH: "/usr/bin:/bin" }, join(tmpdir(), "artmind-no-nvm-here"));
+    expect(env.PATH).toBe(["/usr/bin", "/bin", join(tmpdir(), "artmind-no-nvm-here", ".local", "bin"), "/opt/homebrew/bin", "/usr/local/bin"].join(":"));
   });
 });
 
