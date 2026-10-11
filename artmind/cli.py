@@ -221,7 +221,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "views"]},
+        {"name": "Query", "commands": ["query", "views", "traces"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -3236,6 +3236,131 @@ def views_delete(compact: bool, name: str) -> None:
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+# ── artmind traces ─────────────────────────────────────────────────────────────
+
+
+@cli.group("traces")
+def traces_group() -> None:
+    """Inspect recorded query traces: admin-console turns and benchmark questions.
+
+    Every admin-console turn and benchmark question is recorded in this machine's
+    registry DB: the agent's events, one span per `artmind query` call (command,
+    args, rows, evidence ids, LLM calls), and whether the graph's attempts fell
+    through to vector search. `triage` ranks turns worth reviewing, `show`
+    prints one turn's evidence chain, `stats` tracks graph-to-vector
+    fall-through per domain. Never synced, never committed.
+    """
+    pass
+
+
+def _since_option(func):
+    return click.option("--since", default=None, help="Only turns since: 7d, 24h or an ISO date")(func)
+
+
+@traces_group.command("list")
+@click.option("--source", type=click.Choice(["admin", "benchmark"]), default=None)
+@click.option("--rating", type=click.Choice(["good", "partial", "wrong", "unrated"]), default=None)
+@click.option("--domain", "domain", multiple=True, help="Only turns touching this domain (repeatable; comma-splittable)")
+@_since_option
+@click.option("--limit", type=int, default=20, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def traces_list(source, rating, domain, since, limit, compact) -> None:
+    """One line per turn, newest first: id, time, rating, question, cost."""
+    from artmind.traces import analysis, store
+
+    try:
+        since_ts = analysis.parse_since(since)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    domains = set(_parse_repeatable(domain))
+    turns = []
+    for t in store.list_turns(source=source, since=since_ts):
+        if rating == "unrated" and t["rating"] is not None:
+            continue
+        if rating not in (None, "unrated") and t["rating"] != rating:
+            continue
+        if domains and not domains & set(t.get("domains") or []):
+            continue
+        turns.append({k: t[k] for k in ("trace_id", "source", "started_at", "rating", "question", "turns",
+                                        "cost_usd", "fell_through", "answer_basis", "status")})
+        if len(turns) >= limit:
+            break
+    _echo_json({"command": "traces_list", "turns": turns}, compact)
+
+
+@traces_group.command("show")
+@click.argument("trace_id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def traces_show(trace_id, compact) -> None:
+    """One turn's full evidence chain: events in order, CLI spans under the
+    Bash call that ran them (with evidence and LLM calls), feedback."""
+    from artmind.traces import analysis
+
+    shown = analysis.show(trace_id)
+    if shown is None:
+        raise click.ClickException(f"no trace {trace_id}")
+    _echo_json(shown, compact)
+
+
+@traces_group.command("triage")
+@_since_option
+@click.option("--limit", type=int, default=20, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def traces_triage(since, limit, compact) -> None:
+    """Rank unreviewed turns worth reviewing: rated wrong, then partial, then
+    unrated turns by signal score; graph misses rated good come last."""
+    from artmind.traces import analysis
+
+    try:
+        items = analysis.triage(since=analysis.parse_since(since), limit=limit)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"command": "traces_triage", "items": items}, compact)
+
+
+@traces_group.command("feedback")
+@click.argument("trace_id")
+@click.option("--rating", type=click.Choice(["good", "partial", "wrong"]), required=True)
+@click.option("--expected", default=None, help="What the answer should have said")
+def traces_feedback(trace_id, rating, expected) -> None:
+    """Rate a turn (the latest rating wins)."""
+    from artmind.traces import store
+
+    try:
+        store.add_feedback(trace_id, rating, expected)
+    except KeyError:
+        raise click.ClickException(f"no trace {trace_id}") from None
+    click.echo(f"{trace_id}: {rating}")
+
+
+@traces_group.command("stats")
+@click.option("--domain", "domain", multiple=True, help="Only these domains (repeatable; comma-splittable)")
+@_since_option
+@click.option("--by", type=click.Choice(["week", "day", "all"]), default="week", show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def traces_stats(domain, since, by, compact) -> None:
+    """Per domain and period: turns, fall-through rate, graph-miss rate, graph
+    productivity, answer basis split, graph attempts before a fall-through."""
+    from artmind.traces import analysis
+
+    try:
+        rows = analysis.stats(domain=_parse_repeatable(domain) or None, since=analysis.parse_since(since), by=by)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"command": "traces_stats", "by": by, "rows": rows}, compact)
+
+
+@traces_group.command("prune")
+@click.option("--days", type=int, default=None, help="Retention in days (default: ARTMIND_TRACE_RETENTION_DAYS or 90)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def traces_prune(days, compact) -> None:
+    """Delete turns older than the retention window that have no feedback and no review."""
+    from artmind.traces import store
+
+    retention = days if days is not None else int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90"))
+    _echo_json({"pruned": store.prune(retention)}, compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
