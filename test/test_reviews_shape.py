@@ -103,7 +103,7 @@ def test_graph_for_chunks_query_and_normalization(fake_graph):
     assert params["chunk_ids"] == ["doc-1_001"] and params["domains"] == ["d"]
     names = {n["name"]: n for n in g["nodes"]}
     assert names["Mira"]["properties"] == {"role": "friend"}  # embedding stripped, meta keys dropped
-    assert g["edges"] == [{"source": "e-m", "target": "e-l", "rel_type": "VISITS",
+    assert g["edges"] == [{"source": "e-m", "target": "e-l", "rel_type": "VISITS", "supported_here": False,
                            "properties": {"observation_count": 1}}]
 
 
@@ -166,3 +166,29 @@ def test_bundle_calls_find_staging_once_per_doc(fake_graph, monkeypatch):
     b = shape.bundle(domain="d", chunk_ids=["doc-1_001", "doc-1_002"])
     assert len(calls) == 1
     assert calls[0] == ("d", "doc-1")
+
+
+def test_graph_answerability_counts_only_edges_supported_by_the_evidence_chunks(monkeypatch):
+    """RELATES_TO aggregates across chunks: an edge asserted only by OTHER chunks
+    must not make the evidence chunk look answerable."""
+    from artmind import graph_query
+
+    rows = [{"entity": {"_id": "e-m", "name": "Mira", "entity_class": "PERSON"},
+             "rels": [{"rel_type": "WENT_TO", "out": True, "other": "e-l", "other_name": "Lakeport",
+                       "other_class": "LOCATION", "observation_count": 3, "chunk_ids": ["doc-7_001", "doc-8_001"]}]}]
+
+    class _Session:
+        def run(self, cypher, **params):
+            return _FakeResult(rows)
+
+    @contextmanager
+    def fake_read_session():
+        yield _Session()
+
+    monkeypatch.setattr(graph_query, "read_session", fake_read_session)
+    monkeypatch.setattr(graph_query, "chunks_by_id", lambda domains, ids, **k: {"rows": []})
+    pattern = [{"name": "Mira"}, {"rel": "WENT_TO"}, {"name": "Lakeport"}]
+    b = shape.bundle(domain="d", chunk_ids=["doc-1_001"], pattern=pattern)
+    assert b["graph"]["edges"][0]["supported_here"] is False
+    assert b["answerability"]["graph"]["matched"] is False
+    assert b["answerability"]["graph_any_chunk"]["matched"] is True

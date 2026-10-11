@@ -26,7 +26,8 @@ WITH DISTINCT e
 OPTIONAL MATCH (e)-[r:RELATES_TO]-(n:Entity)
 WITH e, collect(DISTINCT CASE WHEN r IS NULL THEN NULL ELSE
      {rel_type: r.rel_type, out: startNode(r) = e, other: n._id, other_name: n.name,
-      other_class: n.entity_class, observation_count: r.observation_count} END)[0..$per_entity] AS rels
+      other_class: n.entity_class, observation_count: r.observation_count,
+      chunk_ids: r.chunk_ids} END)[0..$per_entity] AS rels
 RETURN e {.*} AS entity, rels
 """
 
@@ -84,6 +85,7 @@ def graph_for_chunks(domains: list[str], chunk_ids: list[str]) -> dict:
     with graph_query.read_session() as session:
         rows = session.run(GRAPH_CYPHER, chunk_ids=list(chunk_ids), domains=list(domains),
                            per_entity=PER_ENTITY_EDGES).data()
+    wanted = set(chunk_ids)
     nodes: dict[str, dict] = {}
     edges: dict[tuple, dict] = {}
     for row in rows:
@@ -97,8 +99,11 @@ def graph_for_chunks(domains: list[str], chunk_ids: list[str]) -> dict:
             nodes.setdefault(other, {"id": other, "name": rel.get("other_name"), "class": rel.get("other_class"),
                                      "properties": {}, "extracted_here": False})
             src, tgt = (nid, other) if rel.get("out") else (other, nid)
+            # RELATES_TO aggregates every chunk that asserts it; `supported_here`
+            # says whether one of the evidence chunks is among them.
             edges.setdefault((src, tgt, rel.get("rel_type")),
                              {"source": src, "target": tgt, "rel_type": rel.get("rel_type"),
+                              "supported_here": bool(set(rel.get("chunk_ids") or []) & wanted),
                               "properties": {"observation_count": rel.get("observation_count")}})
     return {"nodes": list(nodes.values()), "edges": list(edges.values())}
 
@@ -198,7 +203,11 @@ def bundle(*, trace_id: str | None = None, domain: str | None = None, chunk_ids=
     }
     if pattern is not None:
         result["answerability"] = {
-            "graph": answerability.match(pattern, graph),
+            # Only edges the evidence chunks themselves assert: an edge the graph
+            # holds because of other documents does not make these chunks answerable.
+            "graph": answerability.match(pattern, {"nodes": graph["nodes"],
+                                                   "edges": [e for e in graph["edges"] if e["supported_here"]]}),
+            "graph_any_chunk": answerability.match(pattern, graph),
             "staging": answerability.match(pattern, answerability.from_staging(observations, relationships)),
         }
     return result
