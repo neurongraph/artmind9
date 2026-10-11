@@ -24,6 +24,7 @@ let toolCount = 0;
 let turnEl = null;        // container for the current assistant turn
 let textBlock = null;     // {el, raw}
 let thinkingBlock = null; // {details, label, body, startedAt}
+let traceId = null;       // admin console: this turn's query-trace id
 
 // ── helpers ──────────────────────────────────────────────────────────
 function el(tag, cls, text) {
@@ -326,6 +327,71 @@ function restoreHistory() {
 }
 restoreHistory();
 
+// ── answer feedback (admin console) ─────────────────────────────────
+// Rates one traced turn (spec 2026-10-11 §5.7). Rendered only when the
+// server sent a `trace` event; handlers are delegated on #chat because a
+// restored history is plain HTML with no listeners.
+function feedbackControl(id) {
+  const wrap = el("div", "feedback");
+  wrap.dataset.traceId = id;
+  for (const [rating, label] of [["good", "Good"], ["partial", "Partial"], ["wrong", "Wrong"]]) {
+    const btn = el("button", "feedback-btn", label);
+    btn.type = "button";
+    btn.dataset.rating = rating;
+    wrap.appendChild(btn);
+  }
+  const note = el("textarea", "feedback-note");
+  note.placeholder = "What was expected? (optional)";
+  note.rows = 2;
+  note.hidden = true;
+  wrap.appendChild(note);
+  const save = el("button", "feedback-save", "Save note");
+  save.type = "button";
+  save.hidden = true;
+  wrap.appendChild(save);
+  wrap.appendChild(el("span", "feedback-status"));
+  return wrap;
+}
+
+async function postFeedback(wrap, rating) {
+  const status = wrap.querySelector(".feedback-status");
+  const note = wrap.querySelector(".feedback-note");
+  try {
+    const r = await fetch(`/api/traces/${wrap.dataset.traceId}/feedback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rating, expected: note.value.trim() || null }),
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    wrap.dataset.rating = rating;
+    for (const b of wrap.querySelectorAll(".feedback-btn")) {
+      b.classList.toggle("selected", b.dataset.rating === rating);
+    }
+    status.textContent = "Saved";
+  } catch (err) {
+    status.textContent = `Not saved: ${err.message}`;
+  }
+}
+
+chatEl.addEventListener("click", (e) => {
+  const wrap = e.target.closest(".feedback");
+  if (!wrap) return;
+  const btn = e.target.closest(".feedback-btn");
+  if (btn) {
+    const note = wrap.querySelector(".feedback-note");
+    const save = wrap.querySelector(".feedback-save");
+    const wantsNote = btn.dataset.rating !== "good";
+    note.hidden = !wantsNote;
+    save.hidden = !wantsNote;
+    postFeedback(wrap, btn.dataset.rating);
+    if (wantsNote) note.focus();
+    return;
+  }
+  if (e.target.closest(".feedback-save") && wrap.dataset.rating) {
+    postFeedback(wrap, wrap.dataset.rating);
+  }
+});
+
 // ── event dispatch ───────────────────────────────────────────────────
 function handleEvent(ev) {
   switch (ev.type) {
@@ -350,6 +416,9 @@ function handleEvent(ev) {
       break;
     case "tool_result":
       attachToolResult(ev);
+      break;
+    case "trace":
+      traceId = ev.trace_id;
       break;
     case "turn_done":
       addTraceSummary(ev);
@@ -425,7 +494,9 @@ async function send() {
   } finally {
     finalizeThinking();
     finalizeText();
+    if (turnEl && traceId) turnEl.appendChild(feedbackControl(traceId));
     if (turnEl) pushHistory(turnEl.outerHTML);
+    traceId = null;
     turnEl = null;
     setStreaming(false);
     promptEl.focus();
