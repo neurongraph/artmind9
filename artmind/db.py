@@ -438,17 +438,23 @@ def _init_db() -> None:
             created_at  REAL NOT NULL
         )
     """)
-    # A local index of review dossiers (P2 writes it; P1 only needs it to
-    # exist so `traces triage` and `prune` can tell reviewed turns apart).
+    # A local index of review dossiers (spec 2026-10-11 §8.1): one row per
+    # (dossier, trace) -- a dossier can cover several traces. The dossier
+    # files are the source of truth and `artmind review reindex` rebuilds
+    # this table from them, so the P1 single-key table is simply recreated.
+    old_pk = sorted((r for r in cursor.execute("PRAGMA table_info(trace_reviews)") if r[5]), key=lambda r: r[5])
+    if [r[1] for r in old_pk] == ["review_id"]:
+        cursor.execute("DROP TABLE trace_reviews")
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS trace_reviews (
-            review_id     TEXT PRIMARY KEY,
+            review_id     TEXT NOT NULL,
             trace_id      TEXT NOT NULL,
             stage         TEXT,
             elements      TEXT,
             status        TEXT NOT NULL DEFAULT 'open',
             dossier_path  TEXT,
-            updated_at    REAL NOT NULL
+            updated_at    REAL NOT NULL,
+            PRIMARY KEY (review_id, trace_id)
         )
     """)
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(benchmark_questions)")}
