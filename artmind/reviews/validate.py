@@ -54,7 +54,7 @@ def validate(dossier: Dossier) -> dict:
         if title in sections and not filled(sections[title]):
             errors.append(f"section '{title}' is empty")
     if stage in GRAPH_SHAPE_STAGES | {"missing-view"} and not filled(sections.get("Proof")):
-        warnings.append("section 'Proof' is empty: add `views test` output, or a re-extraction diff once P3 ships")
+        warnings.append("section 'Proof' is empty: add `views test` output, or `review reextract` output for a schema or prompt change")
 
     sections = {title: body if isinstance(body, str) else str(body) for title, body in sections.items()}
     if "Agent prompt" in sections and not sections["Agent prompt"].lstrip().startswith(PRIVACY_PREAMBLE):

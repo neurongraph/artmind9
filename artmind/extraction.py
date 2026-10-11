@@ -115,13 +115,14 @@ def entities_list_text(entities: list[dict]) -> str:
     return "\n".join(f"{e['id']} ({e['entity_class']}): {e['name']}" for e in entities)
 
 
-def build_entities_prompt(text: str, schema: dict, vocabulary: list | None = None) -> str:
+def build_entities_prompt(text: str, schema: dict, vocabulary: list | None = None, *, meta: dict | None = None) -> str:
     """`vocabulary` is the retrieved name vocabulary (see
     `artmind.canonicalize.retrieve_vocabulary`) — omitted, the prompt renders
-    exactly as before."""
+    exactly as before. `meta`: an alternative meta.yaml dict (a proposed
+    prompt template, for `artmind review reextract`); None = the run folder's."""
     from artmind.prompt_builder import assemble_entities_prompt
 
-    return assemble_entities_prompt(schema, vocabulary=vocabulary).replace("{text}", text)
+    return assemble_entities_prompt(schema, meta=meta, vocabulary=vocabulary).replace("{text}", text)
 
 
 def build_properties_prompt(
@@ -130,28 +131,34 @@ def build_properties_prompt(
     schema: dict,
     vocabulary: dict | None = None,
     anchor_date: str | None = None,
+    *,
+    meta: dict | None = None,
 ) -> str:
     """`vocabulary` is the retrieved property-key vocabulary (see
     `artmind.canonicalize.retrieve_property_vocabulary`); `anchor_date` the
     document's own date, for resolving relative phrases (see
     `prompt_builder._render_anchor_date_section`) — either omitted, the
-    prompt renders exactly as before."""
+    prompt renders exactly as before. `meta`: an alternative meta.yaml dict (a
+    proposed prompt template, for `artmind review reextract`); None = the run
+    folder's."""
     from artmind.prompt_builder import assemble_properties_prompt
 
     ent_list = entities_list_text(entities)
     return (
-        assemble_properties_prompt(schema, vocabulary=vocabulary, anchor_date=anchor_date)
+        assemble_properties_prompt(schema, meta=meta, vocabulary=vocabulary, anchor_date=anchor_date)
         .replace("{entities_list}", ent_list)
         .replace("{text}", text)
     )
 
 
-def build_relationships_prompt(text: str, entities: list[dict], schema: dict) -> str:
+def build_relationships_prompt(text: str, entities: list[dict], schema: dict, *, meta: dict | None = None) -> str:
+    """`meta`: an alternative meta.yaml dict (a proposed prompt template, for
+    `artmind review reextract`); None = the run folder's."""
     from artmind.prompt_builder import assemble_relationships_prompt
 
     ent_list = entities_list_text(entities)
     return (
-        assemble_relationships_prompt(schema)
+        assemble_relationships_prompt(schema, meta=meta)
         .replace("{entities_list}", ent_list)
         .replace("{text}", text)
     )

@@ -547,6 +547,14 @@ review-validate review_id:
 review-leakcheck review_id base="master":
     uv run artmind review leakcheck {{ review_id }} --base {{ base }}
 
+# shape-audit bundle for a trace's evidence chunks  (usage: just review-shape <trace_id>)
+review-shape trace_id:
+    uv run artmind review shape {{ trace_id }}
+
+# dry-run re-extraction under a proposed schema, writes nothing  (usage: just review-reextract <trace_id> <proposed_schema.yaml>)
+review-reextract trace_id schema:
+    uv run artmind review reextract {{ trace_id }} --schema {{ schema }}
+
 # ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)

@@ -36,3 +36,11 @@ def test_skill_is_in_no_webui_profile():
 
     for profile in (QA_PROFILE, ADMIN_PROFILE, BENCHMARK_PROFILE):
         assert "artmind-review" not in profile.skills
+
+
+def test_skill_uses_the_shape_tools():
+    walk = (SKILL / "references" / "stage-walk.md").read_text()
+    skill = (SKILL / "SKILL.md").read_text()
+    assert "artmind review shape" in walk and "artmind review reextract" in walk
+    assert "later phase" not in skill
+    assert "outside the checkout" in walk  # proposed schema scratch files stay out of the public repo

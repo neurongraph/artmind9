@@ -3381,7 +3381,8 @@ def review_group() -> None:
     checkout; `leakcheck` scans a checkout diff for leaks. Driven by the
     artmind-review skill, run from Claude Code in the checkout with
     ARTMIND_VAULT=<vault>. Status lives in each file; `reindex` rebuilds the
-    local index from them.
+    local index from them. `shape` and `reextract` support the shape audit and
+    prove a schema or prompt fix before any re-ingest.
     """
     pass
 
@@ -3526,6 +3527,54 @@ def review_leakcheck(review_id, base, repo, compact) -> None:
     _echo_json(result, compact)
     if not result["ok"]:
         raise SystemExit(1)
+
+
+@review_group.command("shape")
+@click.argument("trace_id", required=False)
+@click.option("--chunk", "chunks", multiple=True, help="Evidence chunk id (repeatable; comma-splittable); default: the chunks the answer cited")
+@click.option("--domain", default=None, help="Domain (default: the trace's)")
+@click.option("--pattern", default=None, help="Answerability pattern: JSON, or @path to a JSON file")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_shape(trace_id, chunks, domain, pattern, compact) -> None:
+    """The shape-audit bundle for a trace's evidence chunks: numbered source sentences,
+    the graph subgraph extracted from them (+1 hop), their staging entries, the schema
+    sections involved, and optionally an answerability check against graph and staging."""
+    from artmind.reviews import answerability, shape
+
+    try:
+        parsed = answerability.load_pattern_arg(pattern) if pattern else None
+        result = shape.bundle(trace_id=trace_id, domain=domain, chunk_ids=_parse_repeatable(chunks), pattern=parsed)
+    except (shape.ShapeError, answerability.PatternError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@review_group.command("reextract")
+@click.argument("trace_id", required=False)
+@click.option("--chunk", "chunks", multiple=True, help="Evidence chunk id (repeatable; comma-splittable); default: the chunks the answer cited")
+@click.option("--domain", default=None, help="Domain (default: the trace's)")
+@click.option("--schema", "schema_path", default=None, type=click.Path(dir_okay=False, exists=True),
+              help="Proposed schema YAML (a full schema file); default: the current schema")
+@click.option("--meta", "meta_path", default=None, type=click.Path(dir_okay=False, exists=True),
+              help="Proposed meta.yaml (prompt templates); default: the current one")
+@click.option("--maxChunks", "max_chunks", type=int, default=5, show_default=True, help="At most this many chunks (3 LLM calls each)")
+@click.option("--pattern", default=None, help="Answerability pattern: JSON, or @path to a JSON file")
+@click.option("--model", default=None, help="Extraction model (default: ARTMIND_KG_LLM_MODEL)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def review_reextract(trace_id, chunks, domain, schema_path, meta_path, max_chunks, pattern, model, compact) -> None:
+    """Dry-run re-extraction of evidence chunks under a proposed schema/prompt: a shape
+    diff against current staging, plus answerability before and after. Writes nothing.
+    Run once without --schema/--meta to see how much LLM variance alone moves the diff."""
+    from artmind.reviews import answerability, reextract
+
+    try:
+        parsed = answerability.load_pattern_arg(pattern) if pattern else None
+        result = reextract.reextract(trace_id=trace_id, domain=domain, chunk_ids=_parse_repeatable(chunks),
+                                     schema_path=schema_path, meta_path=meta_path, max_chunks=max_chunks,
+                                     pattern=parsed, model=model)
+    except (reextract.ReextractError, answerability.PatternError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────

@@ -119,3 +119,40 @@ def test_new_index_failure_exits_nonzero_but_saves_dossier(monkeypatch, tmp_path
     reviews = list((tmp_path / "reviews").glob("*.md")) if (tmp_path / "reviews").exists() else \
               list(paths.REVIEWS_DIR.glob("*.md"))
     assert reviews, "dossier file must have been saved before the error"
+
+
+def test_shape_cli(monkeypatch):
+    from artmind.reviews import shape
+
+    seen = {}
+
+    def fake_bundle(**kwargs):
+        seen.update(kwargs)
+        return {"domain": kwargs["domain"], "chunk_ids": kwargs["chunk_ids"]}
+
+    monkeypatch.setattr(shape, "bundle", fake_bundle)
+    out = json.loads(_run("shape", "--domain", "d", "--chunk", "c-1,c-2", "--pattern", '[{"class": "PERSON"}]',
+                          "--compact").stdout)
+    assert out == {"domain": "d", "chunk_ids": ["c-1", "c-2"]}
+    assert seen["pattern"] == [{"class": "PERSON"}] and seen["trace_id"] is None
+
+
+def test_shape_cli_errors(monkeypatch):
+    result = _run("shape", "--domain", "d", "--pattern", "nope", ok=False)
+    assert result.exit_code != 0 and "pattern" in result.output.lower()
+    result = _run("shape", ok=False)
+    assert result.exit_code != 0
+
+
+def test_reextract_cli(monkeypatch, tmp_path):
+    from artmind.reviews import reextract
+
+    seen = {}
+    monkeypatch.setattr(reextract, "reextract", lambda **kw: seen.update(kw) or {"writes": "none", "chunks": []})
+    schema = tmp_path / "s.yaml"
+    schema.write_text("name: d\n")
+    out = json.loads(_run("reextract", "t1", "--schema", str(schema), "--maxChunks", "2", "--model", "m",
+                          "--compact").stdout)
+    assert out["writes"] == "none"
+    assert seen["trace_id"] == "t1" and seen["max_chunks"] == 2 and seen["model"] == "m"
+    assert str(seen["schema_path"]) == str(schema) and seen["meta_path"] is None
