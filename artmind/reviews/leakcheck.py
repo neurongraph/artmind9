@@ -89,7 +89,9 @@ def leakcheck(dossier: Dossier, repo: Path | str, base: str = "HEAD") -> dict:
     repo = Path(repo)
     terms = [t for t in dossier.meta.get("private_terms") or [] if isinstance(t, str) and len(t.strip()) >= MIN_TERM]
     patterns = [(t, re.compile(rf"(?<!\w){re.escape(t.strip())}(?!\w)", re.I)) for t in terms]
-    grams = _ngrams(_tokens(quoted_text(dossier)))
+    # Per quoted line: joining the lines would invent 5-grams across two quotes
+    # (the end of one sentence plus the start of the next).
+    grams = set().union(*(_ngrams(_tokens(line)) for line in quoted_text(dossier).split("\n")))
     hits: list[dict] = []
     for rel, number, text in added_lines(repo, base):
         if rel.startswith(_SKIP_PREFIX):

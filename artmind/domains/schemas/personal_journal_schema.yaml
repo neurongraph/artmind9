@@ -417,3 +417,20 @@ entity_types:
       EVENT:
       - triggered_by
       - resulted_from
+guidance:
+  entities: |-
+    NARRATOR. Journal entries are written in the first person. "I", "me", "my",
+    "myself" always refer to the journal's author. Represent the author as ONE
+    PERSON entity named exactly "Diarist" — never as "Self", "Journal Author",
+    "Narrator", or any other name, and NEVER as another person named in the
+    entry (a guest, a host, the subject of an event). If a sentence names other
+    people, they are separate entities.
+  relationships: |-
+    NARRATOR. Attribute first-person actions ("I drove", "I went", "I stayed",
+    "I worked") to "Diarist".
+    COMPANIONS. "I went to X with Y", "Y and I travelled to X", "we went to X":
+    emit a went_to (or the schema's travel relationship) edge to X for EVERY
+    traveller — Diarist and each named companion — not only for the grammatical
+    subject.
+    RETURNS. "Y returned from X" describes the end of a trip already started;
+    do not emit a second visit/went_to edge for it.
