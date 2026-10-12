@@ -102,3 +102,12 @@ def test_shape_table_structure_is_not_quoted_text_only_its_source_sentences(repo
     assert leakcheck(d, repo)["ok"] is True
     (repo / "t.py").write_text('ROW = "I went over the old bridge at dawn"\n')
     assert [h["kind"] for h in leakcheck(d, repo)["hits"]] == ["quote"]
+
+
+def test_five_grams_do_not_span_two_quoted_lines(repo):
+    d = _dossier()
+    d.sections["Symptom"] = "> We crossed the long valley in the morning.\n>\n> I went back to fetch the old map."
+    (repo / "t.py").write_text('S = "in the morning I went"\n')       # end of one quote + start of the next
+    assert leakcheck(d, repo)["ok"] is True
+    (repo / "t.py").write_text('S = "crossed the long valley in"\n')  # inside one quote
+    assert [h["kind"] for h in leakcheck(d, repo)["hits"]] == ["quote"]
