@@ -55,6 +55,53 @@ def ibm_ica_client_env(env: dict) -> dict:
     return env2
 
 
+_SHADOW_HINTED = False
+
+
+def ibm_ica_shadow_hint(env: dict) -> str | None:
+    """A hint when the ibm_ica endpoint is shadowed, else None.
+
+    artmind loads its config files without overriding real environment
+    variables, so an ``ANTHROPIC_BASE_URL`` some other tool exported -- Claude
+    Code does, for its own endpoint -- beats the one in config.env, and ibm_ica
+    requests go there (typically a 404). ``ARTMIND_KG_ANTHROPIC_BASE_URL`` is
+    checked first (``ibm_ica_client_env``), so setting it in config.env fixes
+    it. The hint names the file, never an endpoint value.
+    """
+    if env.get("ARTMIND_KG_ANTHROPIC_BASE_URL"):
+        return None
+    live = (env.get("ANTHROPIC_BASE_URL") or "").strip()
+    if not live:
+        return None
+    import paths
+    from dotenv import dotenv_values
+
+    for config in paths.LOADED_ENV_FILES:
+        configured = ((dotenv_values(config) or {}).get("ANTHROPIC_BASE_URL") or "").strip()
+        if configured and configured != live:
+            return (
+                f"ANTHROPIC_BASE_URL from the process environment overrides the one in {config} "
+                "(environment variables win over config files), so ibm_ica requests went to the "
+                "environment's endpoint. If another tool exported it (Claude Code does), set "
+                f"ARTMIND_KG_ANTHROPIC_BASE_URL in {config} to the ibm_ica endpoint -- it is checked first."
+            )
+    return None
+
+
+def _warn_ibm_ica_shadow(env: dict, exc: Exception) -> None:
+    """Log the shadowing hint once per process, on a 404 from ibm_ica."""
+    global _SHADOW_HINTED
+    if _SHADOW_HINTED or "404" not in str(exc):
+        return
+    try:
+        hint = ibm_ica_shadow_hint(env)
+    except Exception:
+        return
+    if hint:
+        _SHADOW_HINTED = True
+        logger.warning(hint)
+
+
 def call_llm(model: str, prompt: str) -> str:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
@@ -62,7 +109,11 @@ def call_llm(model: str, prompt: str) -> str:
     if provider == "openrouter":
         result = call_llm_openrouter(model, prompt, timeout, env)
     elif provider == "ibm_ica":
-        result = call_llm_openrouter(model, prompt, timeout, ibm_ica_client_env(env))
+        try:
+            result = call_llm_openrouter(model, prompt, timeout, ibm_ica_client_env(env))
+        except Exception as exc:
+            _warn_ibm_ica_shadow(env, exc)
+            raise
     else:
         host = env.get("ARTMIND_KG_LLM_URL") or None
         result = call_llm_ollama(model, prompt, timeout, host=host)
