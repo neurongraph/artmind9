@@ -75,7 +75,9 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
    Fix every error; read the warnings.
 9. **Report** to the user: the review id, the verdict in one sentence, the
    proposal in one sentence, and the dossier path. Do not paste dossier
-   content beyond that.
+   content beyond that. If the fix is code or a packaged schema, add the
+   handoff: `artmind review prompt <review_id>` prints the prompt to paste
+   into a coding session.
 
 ## Verify a fix
 
@@ -122,6 +124,7 @@ finding a real question would hit; otherwise note it in the report to the user.
 | `artmind review attach <review_id> <trace_id>` | add another symptom trace to an open dossier |
 | `artmind review regressions [--status fixed]` | every regression question as one benchmark file |
 | `artmind review verify <review_id> [--runId …]` | re-run the regression question; the new trace beside the original |
+| `artmind review prompt <review_id> [--base master]` | the ready-to-paste coding-session handoff (needs a dossier that passes `validate`) |
 | `artmind query chunks --domain D --idList <id> --expand 1` | source text of a chunk and its neighbours |
 | `artmind query entity-context --domain D --entityId <id>` | an entity's properties, relationships and source chunks |
 | `artmind query vector-text --domain D "<text>"` | find the chunks that state a fact |

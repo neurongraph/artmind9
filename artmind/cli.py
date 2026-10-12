@@ -3626,6 +3626,26 @@ def review_regressions(statuses) -> None:
     click.echo(regressions_markdown(statuses=statuses or None), nl=False)
 
 
+@review_group.command("prompt")
+@click.argument("review_id")
+@click.option("--base", default="master", show_default=True, help="Branch the coding session starts from and leakchecks against")
+@click.option("--force", is_flag=True, help="Print it even if the dossier does not pass `review validate`")
+def review_prompt(review_id, base, force) -> None:
+    """The ready-to-paste prompt that hands a dossier's fix to a coding session:
+    read the dossier, do its Agent prompt task on a new branch, keep the privacy
+    rules, leakcheck before committing, do not merge. Holds no dossier content."""
+    from artmind.reviews.handoff import coding_prompt
+    from artmind.reviews.validate import validate
+
+    d = _load_dossier(review_id)
+    result = validate(d)
+    if not result["ok"] and not force:
+        raise click.ClickException(
+            f"{review_id} does not pass `artmind review validate`: " + "; ".join(result["errors"])
+            + " -- finish the dossier first (or pass --force)")
+    click.echo(coding_prompt(d, base=base), nl=False)
+
+
 @review_group.command("verify")
 @click.argument("review_id")
 @click.option("--runId", "run_id", default=None, help="Compare an existing one-question benchmark run instead of running one")

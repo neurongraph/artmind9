@@ -571,6 +571,13 @@ added; `.artmind/reviews/` is skipped. It exits
 non-zero when it finds a hit. It is a backstop, not an enforcement
 mechanism, and the agent prompt makes passing it an acceptance criterion.
 
+`artmind review prompt <review_id> [--base master]` prints the handoff to
+paste into a coding session: read the dossier with `review show --markdown`,
+do its Agent prompt task on a new branch, keep the privacy preamble, run
+`review leakcheck` before committing (explaining any false positive), make
+no vault edits and no merge. It holds no dossier content and refuses a
+dossier that fails `review validate` unless `--force`.
+
 Views and vault-schema proposals are vault content. They are applied in the
 vault and never touch the checkout.
 

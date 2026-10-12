@@ -563,6 +563,10 @@ review-shape-report domain="":
 review-verify review_id:
     uv run artmind review verify {{ review_id }}
 
+# the coding-session handoff prompt for a dossier  (usage: just review-prompt <review_id>)
+review-prompt review_id:
+    uv run artmind review prompt {{ review_id }}
+
 # ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)
