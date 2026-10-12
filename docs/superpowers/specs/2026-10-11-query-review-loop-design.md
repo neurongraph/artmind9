@@ -481,8 +481,11 @@ It then grades the bundle against the checklist. Each finding is tagged
   appends the trace (symptom, evidence, finding) to that dossier and does
   not open a new one. One systemic schema problem gets one dossier listing
   every symptom.
+- Findings are the Shape audit table rows (`element | check | …`) plus frontmatter `elements`; `artmind review attach <review_id> <trace_id>` appends a trace (symptom block, trace id, private terms, log line) to an open dossier.
 - `--sample N` runs the shape audit on N random chunks of the domain with
-  no failing question, as a proactive check. The answerability check is
+  no failing question, as a proactive check. It reports two mechanical signals
+  (`lost_at_commit`, `isolated`) per sampled chunk and points at
+  `review shape --chunk` for the graded audit. The answerability check is
   then skipped, and the domain's frequent questions from `traces list` can
   guide which elements matter.
 
@@ -562,7 +565,7 @@ public. The dossier's agent prompt therefore always starts with:
 that contains an entity name from the dossier's evidence, or that shares a
 5-word sequence (case-folded) with the dossier's quoted
 text: the `>` blockquotes in Symptom, Diagnosis and Shape audit, and the
-Shape audit table rows. The reviewer's own prose is not private, so a
+source-sentence column of the Shape audit table. The reviewer's own prose is not private, so a
 coding session may paraphrase the diagnosis. Untracked files count as
 added; `.artmind/reviews/` is skipped. It exits
 non-zero when it finds a hit. It is a backstop, not an enforcement
@@ -590,6 +593,9 @@ vault and never touch the checkout.
 - The reviewer skill grades the result. The human confirms. Only then is
   the status set to `verified` and the outcome logged in the dossier. On
   failure, the status goes back to `open` with the new trace appended.
+- `verify` takes `--runId` to compare an existing one-question benchmark run
+  instead of starting one, logs the outcome in the dossier, and never sets
+  `verified` itself.
 
 ## 10. Phasing
 

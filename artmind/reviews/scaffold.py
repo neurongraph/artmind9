@@ -5,7 +5,7 @@ judgement is left as a placeholder comment for the reviewer."""
 import re
 from datetime import date, datetime
 
-from artmind.reviews.dossier import PRIVACY_PREAMBLE, SECTIONS, Dossier, DossierError, iter_dossiers, new_review_id
+from artmind.reviews.dossier import PRIVACY_PREAMBLE, SECTIONS, Dossier, DossierError, append_log, iter_dossiers, new_review_id
 
 ANSWER_EXCERPT = 1500
 _SKIP_ARG_KEYS = frozenset({"domain", "compact", "render", "mode", "format", "as_of", "top_k"})
@@ -142,3 +142,30 @@ def open_reviews_for(trace_id: str) -> list[str]:
     """Review ids of open or in-progress dossiers that cover `trace_id` (from the files)."""
     return [d.review_id for _, d, err in iter_dossiers()
             if err is None and d.meta.get("status") in _ACTIVE and trace_id in (d.meta.get("trace_ids") or [])]
+
+
+def attach(dossier: Dossier, trace_id: str, *, today: date | None = None) -> Dossier:
+    """Add another symptom trace to an open dossier (spec 2026-10-11 §7.5):
+    its symptom block under Symptom, its id in trace_ids, its private terms."""
+    from artmind.traces.analysis import show
+
+    if trace_id in (dossier.meta.get("trace_ids") or []):
+        raise DossierError(f"trace {trace_id} is already in {dossier.review_id}")
+    if dossier.meta.get("status") not in _ACTIVE:
+        raise DossierError(f"{dossier.review_id} is {dossier.meta.get('status')}; reopen it "
+                           f"(`artmind review status {dossier.review_id} open`) before attaching a trace")
+    elsewhere = [rid for rid in open_reviews_for(trace_id) if rid != dossier.review_id]
+    if elsewhere:
+        raise DossierError(f"trace {trace_id} is already in open dossier(s) {', '.join(elsewhere)}: "
+                           "one problem, one dossier")
+    shown = show(trace_id)
+    if shown is None:
+        raise DossierError(f"no trace {trace_id}")
+    block = f"### Also seen in trace `{trace_id}`\n\n{_symptom(shown)}"
+    dossier.sections["Symptom"] = f"{(dossier.sections.get('Symptom') or '').rstrip()}\n\n{block}"
+    dossier.meta["trace_ids"] = [*(dossier.meta.get("trace_ids") or []), trace_id]
+    terms = dict.fromkeys(dossier.meta.get("private_terms") or [])
+    terms.update(dict.fromkeys(harvest_private_terms(shown)))
+    dossier.meta["private_terms"] = list(terms)
+    append_log(dossier, f"attached trace `{trace_id}`", today=today)
+    return dossier

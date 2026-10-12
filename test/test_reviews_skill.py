@@ -44,3 +44,10 @@ def test_skill_uses_the_shape_tools():
     assert "artmind review shape" in walk and "artmind review reextract" in walk
     assert "later phase" not in skill
     assert "outside the checkout" in walk  # proposed schema scratch files stay out of the public repo
+
+
+def test_skill_covers_aggregation_and_verification():
+    skill = (SKILL / "SKILL.md").read_text()
+    for command in ("review shape-report", "review attach", "review verify", "review regressions"):
+        assert command in skill
+    assert "## Verify a fix" in skill
