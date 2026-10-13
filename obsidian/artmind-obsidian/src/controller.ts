@@ -328,6 +328,13 @@ export class Controller {
       this.render();
       return;
     }
+    if (this.inputs.activeJob?.stalled) {
+      // Polling stops at the first stalled reading, and the reads below skip
+      // the job while one is shown -- so re-read it here, or one bad reading
+      // (a worker that was alive after all) shows "stalled" until a reload.
+      if (await this.pollJob()) this.watchers?.trackJob();
+      else if (!this.inputs.activeJob) return; // finished: pollJob refreshed
+    }
     const heavy = Boolean(opts.heavy) || this.lastHeavyAt === Number.NEGATIVE_INFINITY;
     const { cli, git } = this.deps;
     const [status, pending, tables, active, ahead, changes, obsidianGit, heavyReads] = await Promise.all([
