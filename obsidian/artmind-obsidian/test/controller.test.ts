@@ -635,6 +635,40 @@ describe("a job finishing (checklist spec §5)", () => {
     expect(t.shown.at(-1)!.text).toBe("Restarted the stalled job: retrying 1 file.");
   });
 
+  it("a refresh re-reads a stalled job: finished after all, it becomes the last job", async () => {
+    const t = setup({ script: { projectionStatus: replay("projection-status.needs-rebuild") } });
+    t.controller.inputs = { ...t.controller.inputs, activeJob: fixture("ingest-job-status.stalled").json };
+
+    await t.controller.refresh();
+
+    expect(t.cli.calls).toContain("jobStatus 00000000-0000-4000-8000-000000000001");
+    expect(t.controller.inputs.activeJob).toBeNull();
+    expect(t.controller.inputs.lastJob?.status.stalled).toBe(false);
+    expect(t.rowOf("documents").summary).not.toMatch(/stalled/);
+  });
+
+  it("a refresh re-reads a stalled job: running again, polling resumes", async () => {
+    const t = setup({ script: { jobStatus: replay("ingest-job-status.running") } });
+    t.controller.inputs = { ...t.controller.inputs, activeJob: fixture("ingest-job-status.stalled").json };
+
+    await t.controller.refresh();
+
+    expect(t.controller.inputs.activeJob?.stalled).toBeFalsy();
+    expect(t.tracked).toHaveLength(1);
+    expect(t.shown).toEqual([]);
+  });
+
+  it("a refresh of a still-stalled job keeps it, without a second notice", async () => {
+    const t = setup({ script: { jobStatus: replay("ingest-job-status.stalled") } });
+    t.controller.inputs = { ...t.controller.inputs, activeJob: fixture("ingest-job-status.stalled").json };
+
+    await t.controller.refresh();
+
+    expect(t.controller.inputs.activeJob?.stalled).toBe(true);
+    expect(t.tracked).toEqual([]);
+    expect(t.shown).toEqual([]);
+  });
+
   it("retries a finished job's failed files and follows it again", async () => {
     const t = setup();
     t.controller.inputs = {
