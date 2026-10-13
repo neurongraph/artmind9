@@ -254,7 +254,7 @@ def test_embed_entities(monkeypatch):
 def test_job_chunks_returns_grid(monkeypatch):
     monkeypatch.setattr(dashboard_routes, "_get_job_status", lambda job_id: {"job_id": job_id, "domain": "general"})
     monkeypatch.setattr(dashboard_routes, "_build_file_result_from_db", lambda doc, domain: {"sha256": "abc123"})
-    monkeypatch.setattr(dashboard_routes, "_fetch_chunks", lambda sha: [{"seq": 1, "e": "ok", "p": "ok", "r": "failed"}])
+    monkeypatch.setattr(dashboard_routes, "_fetch_chunks", lambda sha, **kw: [{"seq": 1, "e": "ok", "p": "ok", "r": "failed"}])
     response = _client().get("/api/jobs/j1/chunks?doc=myfile.pdf")
     assert response.status_code == 200
     assert response.json() == [{"seq": 1, "e": "ok", "p": "ok", "r": "failed"}]
@@ -287,7 +287,7 @@ def test_job_chunks_does_not_scope_the_lookup_to_the_jobs_own_domain(monkeypatch
 
     monkeypatch.setattr(dashboard_routes, "_get_job_status", lambda job_id: {"job_id": job_id, "domain": "general"})
     monkeypatch.setattr(dashboard_routes, "_build_file_result_from_db", fake_lookup)
-    monkeypatch.setattr(dashboard_routes, "_fetch_chunks", lambda sha: [])
+    monkeypatch.setattr(dashboard_routes, "_fetch_chunks", lambda sha, **kw: [])
 
     response = _client().get("/api/jobs/j1/chunks?doc=myfile.pdf")
 

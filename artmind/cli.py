@@ -1099,7 +1099,10 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
         if file_result is None:
             raise click.ClickException(f"Document '{document}' not found in registry")
         sha = file_result["sha256"]
-    _echo_json(_fetch_chunks(sha), compact)
+    # job["domain"] is a best-effort guess for per-chunk counts only (a miss
+    # just means no counts, see _chunk_counts) -- not the lookup above, which
+    # must not filter on it (see the comment there).
+    _echo_json(_fetch_chunks(sha, domain=job["domain"], doc_stem=Path(document).stem), compact)
 
 
 @ingest.command("embed-entities")

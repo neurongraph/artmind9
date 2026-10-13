@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 from artmind.db import _get_db
+from paths import KG_DIR
 
 
 def worker_alive() -> bool:
@@ -270,6 +271,19 @@ def _fetch_active_jobs() -> list[dict]:
                 " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
+            file_entries = []
+            for f in files:
+                entry = {
+                    "filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3],
+                    "entities": f[4], "relationships": f[5],
+                }
+                # While a file is mid-extraction, entity/relationship counts are
+                # still NULL (they're only written once the whole document
+                # finishes) -- chunk_progress is the only live signal, same as
+                # _get_job_status.
+                if f[3] and f[2] == "extract_kg":
+                    entry["chunk_progress"] = _get_chunk_progress(f[3])
+                file_entries.append(entry)
             result.append({
                 "job_id": job_id,
                 "status": row[1],
@@ -280,13 +294,7 @@ def _fetch_active_jobs() -> list[dict]:
                 "domain": row[6] or "general",
                 "stalled": _stalled(row[1]),
                 "finalize": _finalize(row[7], row[8], row[9]),
-                "files": [
-                    {
-                        "filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3],
-                        "entities": f[4], "relationships": f[5],
-                    }
-                    for f in files
-                ],
+                "files": file_entries,
             })
         return result
     finally:
@@ -341,8 +349,36 @@ def _fetch_completed_jobs(limit: int = 100) -> list[dict]:
         conn.close()
 
 
-def _fetch_chunks(doc_sha256: str) -> list[dict]:
-    """Return per-chunk KG extraction status for a document."""
+def _chunk_counts(domain: str, doc_stem: str, doc_sha256: str, seq: int) -> dict | None:
+    """Entity/relationship counts for one chunk, read from its extraction
+    cache file (`extract_kg`'s `chunk_data_dir` in ingest.py) -- the same
+    per-chunk JSON that lets a resumed run skip already-ok steps, so it's
+    written as soon as that chunk's entities/relationships step finishes,
+    not just once the whole document is staged. The synthetic EXTRACTED_FROM
+    edge `extract_kg` adds per entity is excluded -- it's bookkeeping, not
+    something the LLM found in the chunk's text.
+
+    None on any miss (wrong domain guess, chunk not processed yet, file
+    gone) -- a best-effort number, never required for the status dots.
+    """
+    chunk_json = KG_DIR / domain / doc_stem / "chunks" / doc_sha256 / f"chunk_{seq:03d}.json"
+    try:
+        data = json.loads(chunk_json.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    relationships = [r for r in data.get("relationships", []) if r.get("rel_type") != "EXTRACTED_FROM"]
+    return {"entities": len(data.get("entities", [])), "relationships": len(relationships)}
+
+
+def _fetch_chunks(doc_sha256: str, domain: str | None = None, doc_stem: str | None = None) -> list[dict]:
+    """Return per-chunk KG extraction status for a document.
+
+    `domain`/`doc_stem` are optional and additive: when given, each row also
+    carries that chunk's own entity/relationship counts (see _chunk_counts)
+    alongside the existing pass/fail dots -- the dots alone say nothing about
+    *how much* a chunk contributed, which is what a user comparing chunks
+    actually wants once the document-level total is already visible above.
+    """
     conn = _get_db()
     try:
         rows = conn.execute(
@@ -350,7 +386,13 @@ def _fetch_chunks(doc_sha256: str) -> list[dict]:
             " FROM kg_chunk_status WHERE doc_sha256 = ? ORDER BY chunk_seq",
             (doc_sha256,),
         ).fetchall()
-        return [{"seq": r[0], "e": r[1], "p": r[2], "r": r[3]} for r in rows]
+        chunks = [{"seq": r[0], "e": r[1], "p": r[2], "r": r[3]} for r in rows]
+        if domain and doc_stem:
+            for chunk in chunks:
+                counts = _chunk_counts(domain, doc_stem, doc_sha256, chunk["seq"])
+                chunk["entities"] = counts["entities"] if counts else None
+                chunk["relationships"] = counts["relationships"] if counts else None
+        return chunks
     finally:
         conn.close()
 

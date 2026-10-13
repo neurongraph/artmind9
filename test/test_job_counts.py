@@ -15,11 +15,13 @@ from fastapi.testclient import TestClient
 
 import artmind.db as db
 import artmind.ingest as ing
+import artmind.jobs as jobs_module
 import artmind.worker as worker_module
 from artmind.cli import cli
 from artmind.jobs import (
     _create_job,
     _fetch_active_jobs,
+    _fetch_chunks,
     _fetch_completed_jobs,
     _get_job_results,
     _get_job_status,
@@ -90,6 +92,86 @@ def test_every_job_read_path_returns_the_recorded_counts():
     _update_job_status(job_id, status="completed", completed_at="2026-10-01T00:00:00")
     completed = _files_by_name(_fetch_completed_jobs()[0])
     assert completed["Blue Carbuncle.pdf"]["relationships"] == 7
+
+
+def test_active_jobs_carry_chunk_progress_for_a_file_mid_extraction():
+    """Entity/relationship counts stay NULL until the whole document finishes
+    (test_counts_are_null_until_a_file_is_extracted above), so a file that's
+    still in extract_kg needs its own live signal -- chunk_progress, the same
+    field _get_job_status already exposes -- or the admin-ui's active-jobs
+    list (which only ever calls _fetch_active_jobs) has nothing to show but
+    per-chunk pass/fail dots."""
+    job_id = _job()
+    _update_job_file_status(job_id, PDF, current_step="extract_kg", doc_sha256="sha-pdf")
+    conn = db._get_db()
+    conn.execute(
+        "INSERT INTO kg_chunk_status (doc_sha256, doc_id, chunk_seq, entities_status,"
+        " properties_status, relationships_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sha-pdf", "doc-1", 1, "ok", "ok", "pending", "2026-10-01T00:00:00"),
+    )
+    conn.commit()
+    conn.close()
+
+    files = _files_by_name(_fetch_active_jobs()[0])
+    assert files["Blue Carbuncle.pdf"]["chunk_progress"] == {
+        "total_chunks": 1, "entities_done": 1, "properties_done": 1, "relationships_done": 0,
+    }
+    assert files["plain.md"].get("chunk_progress") is None, "only the file actually mid-extraction gets it"
+
+
+def test_fetch_chunks_reads_each_chunks_own_counts_from_its_cache_file(tmp_path, monkeypatch):
+    """The document-wide total (fileCountsNote in the admin-ui) already comes
+    from entity_count/relationship_count or chunk_progress -- what a chunk
+    row needs is *that chunk's* contribution, read from the same per-chunk
+    JSON extract_kg writes as each chunk finishes (chunk_data_dir), without
+    waiting for the whole document to be staged. The synthetic
+    EXTRACTED_FROM edge (one per entity) must not inflate the count."""
+    monkeypatch.setattr(jobs_module, "KG_DIR", tmp_path / "kg")
+    conn = db._get_db()
+    conn.execute(
+        "INSERT INTO kg_chunk_status (doc_sha256, doc_id, chunk_seq, entities_status,"
+        " properties_status, relationships_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sha-note", "doc-1", 1, "ok", "ok", "ok", "2026-10-01T00:00:00"),
+    )
+    conn.execute(
+        "INSERT INTO kg_chunk_status (doc_sha256, doc_id, chunk_seq, entities_status,"
+        " properties_status, relationships_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sha-note", "doc-1", 2, "ok", "ok", "pending", "2026-10-01T00:00:00"),
+    )
+    conn.commit()
+    conn.close()
+
+    chunk_dir = tmp_path / "kg" / "fiction" / "plain" / "chunks" / "sha-note"
+    chunk_dir.mkdir(parents=True)
+    (chunk_dir / "chunk_001.json").write_text(json.dumps({
+        "entities": [{"id": "e1"}, {"id": "e2"}],
+        "relationships": [
+            {"rel_type": "KNOWS"},
+            {"rel_type": "EXTRACTED_FROM"},
+            {"rel_type": "EXTRACTED_FROM"},
+        ],
+    }))
+    # Chunk 2's relationships step hasn't run yet -- no cache file at all.
+
+    chunks = _fetch_chunks("sha-note", domain="fiction", doc_stem="plain")
+    assert chunks[0]["seq"] == 1
+    assert (chunks[0]["entities"], chunks[0]["relationships"]) == (2, 1), \
+        "2 entities, 1 real relationship -- the 2 EXTRACTED_FROM edges are bookkeeping, not findings"
+    assert (chunks[1]["entities"], chunks[1]["relationships"]) == (None, None), \
+        "chunk 2 has no cache file yet -- a miss, not a zero"
+
+
+def test_fetch_chunks_omits_counts_without_a_domain_and_stem():
+    conn = db._get_db()
+    conn.execute(
+        "INSERT INTO kg_chunk_status (doc_sha256, doc_id, chunk_seq, entities_status,"
+        " properties_status, relationships_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sha-pdf2", "doc-1", 1, "ok", "ok", "ok", "2026-10-01T00:00:00"),
+    )
+    conn.commit()
+    conn.close()
+    chunks = _fetch_chunks("sha-pdf2")
+    assert "entities" not in chunks[0], "the dots-only shape callers already relied on stays untouched"
 
 
 def test_the_cli_emits_the_counts():
@@ -179,7 +261,7 @@ def test_job_chunks_finds_a_binary_the_registry_knows_only_by_its_markdown(monke
     job_id = _job()
     _update_job_file_status(job_id, PDF, current_step="extract_kg", doc_sha256="sha-pdf")
     asked = []
-    fake_chunks = lambda sha: asked.append(sha) or [{"seq": 1, "e": "ok", "p": "ok", "r": "pending"}]
+    fake_chunks = lambda sha, **kw: asked.append(sha) or [{"seq": 1, "e": "ok", "p": "ok", "r": "pending"}]
     monkeypatch.setattr(cli_module, "_fetch_chunks", fake_chunks)
     monkeypatch.setattr(dashboard_routes, "_fetch_chunks", fake_chunks)
 

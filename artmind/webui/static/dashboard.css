@@ -124,6 +124,7 @@
 .chunk-grid { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
 .chunk-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
 .chunk-seq { width: 32px; color: var(--text-muted); }
+.chunk-counts { flex-shrink: 0; white-space: nowrap; }
 .chunk-row .dot { animation: none; }
 .chunk-row .dot:not(.done):not(.error) { background: var(--border); }
 
@@ -230,6 +231,7 @@
 .file-row summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .file-row[open] summary { font-weight: 600; }
 .file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-counts { flex-shrink: 0; white-space: nowrap; }
 .chunk-drill { padding: 6px 6px 4px 22px; }
 
 /* ── maintenance zone ────────────────────────────────────────────────── */

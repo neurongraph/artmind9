@@ -159,6 +159,21 @@ function fileStatusDot(status) {
   return el("span", `dot ${cls}`.trim());
 }
 
+// Final counts (entities/relationships) only land once a file's extraction
+// finishes -- while it's still mid-extract_kg they're NULL and chunkProgress
+// (set from kg_chunk_status) is the only live signal. Mirrors jobCard.ts in
+// the Obsidian plugin, which reads the same two fields off the same backend.
+function fileCountsNote(f) {
+  if (typeof f.entities === "number") {
+    return `${f.entities} ${f.entities === 1 ? "entity" : "entities"} · ${f.relationships ?? 0} relationship${f.relationships === 1 ? "" : "s"}`;
+  }
+  if (f.chunkProgress && f.chunkProgress.totalChunks) {
+    const p = f.chunkProgress;
+    return `entities ${p.entitiesDone}/${p.totalChunks} · properties ${p.propertiesDone}/${p.totalChunks} · relationships ${p.relationshipsDone}/${p.totalChunks}`;
+  }
+  return null;
+}
+
 async function refreshActiveJobs() {
   const container = document.getElementById("active-jobs");
   const jobs = await api("/api/jobs/active");
@@ -205,6 +220,8 @@ async function refreshActiveJobs() {
       summary.appendChild(fileStatusDot(f.status));
       summary.appendChild(el("span", "file-name", docName));
       summary.appendChild(el("span", "dash-note", f.currentStep || f.status));
+      const countsNote = fileCountsNote(f);
+      if (countsNote) summary.appendChild(el("span", "dash-note file-counts", countsNote));
       row.appendChild(summary);
 
       const drill = el("div", "chunk-drill");
@@ -255,7 +272,22 @@ function pip(status) {
   return el("span", `dot ${cls}`.trim());
 }
 
+// This chunk's own contribution, not the document total (fileCountsNote,
+// shown once already in the row this grid hangs off of) -- read from the
+// per-chunk cache file as soon as that chunk's own steps finish, so it's
+// available long before the whole document is staged. Null (not 0) when
+// nothing's been read yet (step still pending/failed, or no domain/stem
+// guess), so a chunk mid-flight shows no number rather than a false zero.
+function chunkCountsNote(c) {
+  if (typeof c.entities !== "number") return null;
+  return `${c.entities} ${c.entities === 1 ? "entity" : "entities"} · ${c.relationships ?? 0} relationship${c.relationships === 1 ? "" : "s"}`;
+}
+
 async function showChunkGrid(container, jobId, domain, docName, quiet = false) {
+  // Totals (fileCountsNote) belong to the row this grid hangs off of -- the
+  // caller already shows them in the summary/tool-head right above. Repeating
+  // them here just duplicates the same line with nothing new in it; this
+  // grid's only job is per-chunk pass/pending/fail detail.
   if (!quiet) container.innerHTML = "Loading chunks…";
   try {
     const chunks = await api(`/api/jobs/${encodeURIComponent(jobId)}/chunks?doc=${encodeURIComponent(docName)}`);
@@ -271,10 +303,12 @@ async function showChunkGrid(container, jobId, domain, docName, quiet = false) {
       row.appendChild(pip(c.e));
       row.appendChild(pip(c.p));
       row.appendChild(pip(c.r));
+      const countsNote = chunkCountsNote(c);
+      if (countsNote) row.appendChild(el("span", "dash-note chunk-counts", countsNote));
       grid.appendChild(row);
     }
     container.appendChild(grid);
-    container.appendChild(el("div", "dash-note", "entities · properties · relationships"));
+    container.appendChild(el("div", "dash-note", "each row's dots: entities · properties · relationships"));
 
     const resumeBtn = el("button", "btn-link", "Resume extraction");
     resumeBtn.addEventListener("click", async () => {
@@ -313,6 +347,8 @@ async function showJobDetail(jobId, domain) {
       const row = el("div", "tool-card");
       row.appendChild(el("div", "tool-head", `${f.status}: ${docName}`));
       if (f.errorMessage) row.appendChild(el("div", "dash-note", f.errorMessage));
+      const countsNote = fileCountsNote(f);
+      if (countsNote) row.appendChild(el("div", "dash-note", countsNote));
 
       const chunksBtn = el("button", "btn-link", "Show chunks");
       const chunksContainer = el("div", "chunk-container");

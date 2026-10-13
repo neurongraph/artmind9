@@ -35,7 +35,13 @@
           "current_step": "extract_kg",
           "doc_sha256": "sha-file2",
           "entities": null,
-          "relationships": null
+          "relationships": null,
+          "chunk_progress": {
+            "total_chunks": 7,
+            "entities_done": 4,
+            "properties_done": 0,
+            "relationships_done": 3
+          }
         },
         {
           "filename": "/vault/Notes/file3.md",

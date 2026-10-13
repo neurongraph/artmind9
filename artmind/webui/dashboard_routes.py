@@ -316,7 +316,10 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
                     detail=f"Document '{doc}' not found in registry",
                 )
             sha = file_result["sha256"]
-        return _camelize(_fetch_chunks(sha))
+        # job["domain"] is a best-effort guess for per-chunk counts only (a
+        # miss just means no counts, see _chunk_counts) -- not the lookup
+        # above, which must not filter on it (see the comment there).
+        return _camelize(_fetch_chunks(sha, domain=job["domain"], doc_stem=Path(doc).stem))
 
     @app.post("/api/documents/{doc}/resume-extract")
     async def api_resume_extract(doc: str, payload: ResumeExtractRequest):
