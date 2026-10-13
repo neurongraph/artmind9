@@ -215,7 +215,8 @@ def _process_job(
             if is_structured_source(file_path):
                 # No stage_only waypoint for structured files — a parquet load
                 # is inherently a single commit, so the flag is ignored here.
-                res = ingest_structured_file(file_path, _domain_for(file_path), force=force)
+                file_domain = _domain_for(file_path)
+                res = ingest_structured_file(file_path, file_domain, force=force)
                 if res.get("status") in ("ok", "skipped"):
                     _update_job_file_status(
                         job_id,
@@ -223,6 +224,7 @@ def _process_job(
                         status="completed",
                         current_step=None,
                         completed_at=datetime.now().isoformat(),
+                        domain=file_domain,
                     )
                 else:
                     _update_job_file_status(
@@ -232,19 +234,22 @@ def _process_job(
                         current_step=None,
                         completed_at=datetime.now().isoformat(),
                         error_message=res.get("error", "ingest_structured_file failed"),
+                        domain=file_domain,
                     )
             else:
+                file_domain = _domain_for(file_path)
                 result = ingest_file(
-                    file_path, image_model, _domain_for(file_path),
+                    file_path, image_model, file_domain,
                     job_id=job_id, chunk_size=chunk_size,
                 )
                 if result.get("status") == "ok":
+                    effective_domain = result.get("domain", file_domain)
                     _update_job_file_status(
                         job_id, file_path_str,
                         current_step="extract_kg",
                         doc_sha256=result.get("sha256"),
+                        domain=effective_domain,
                     )
-                    effective_domain = result.get("domain", domain)
                     kg_ok = ingest_to_kg(
                         result, effective_domain, text_model, embed_model, chunk_size,
                         stage_only=stage_only, defer_rebuild=defer_rebuild,
@@ -263,6 +268,7 @@ def _process_job(
                         completed_at=datetime.now().isoformat(),
                         error_message=None if kg_ok else "KG ingestion failed",
                         kg_counts=result.get("kg_counts"),
+                        domain=effective_domain,
                     )
                 elif result.get("status") == "skipped":
                     # ingest_file already updated status to "skipped"
@@ -275,6 +281,7 @@ def _process_job(
                         current_step=None,
                         completed_at=datetime.now().isoformat(),
                         error_message=result.get("error", "ingest_file failed"),
+                        domain=file_domain,
                     )
         except Exception as e:
             logger.error("Unexpected error on {}: {}", file_path.name, e)
@@ -285,6 +292,7 @@ def _process_job(
                 current_step=None,
                 completed_at=datetime.now().isoformat(),
                 error_message=str(e),
+                domain=_domain_for(file_path),
             )
 
         processed_count += 1

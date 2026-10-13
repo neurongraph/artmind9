@@ -79,7 +79,8 @@ def _init_db() -> None:
             completed_at     TEXT,
             error_message    TEXT,
             entity_count       INTEGER,
-            relationship_count INTEGER
+            relationship_count INTEGER,
+            domain           TEXT
         )
     """)
     cursor.execute("""
@@ -227,6 +228,8 @@ def _init_db() -> None:
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_job_files)")}
     if "doc_sha256" not in existing:
         cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN doc_sha256 TEXT")
+    if "domain" not in existing:
+        cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN domain TEXT")
 
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_jobs)")}
     if "force" not in existing:

@@ -118,6 +118,7 @@ def _update_job_file_status(
     completed_at: str | None = None,
     error_message: str | None = None,
     kg_counts: dict | None = None,
+    domain: str | None = None,
 ) -> None:
     """Update per-file status in ingestion_job_files."""
     conn = _get_db()
@@ -145,6 +146,9 @@ def _update_job_file_status(
         if kg_counts is not None:
             updates.extend(["entity_count = ?", "relationship_count = ?"])
             params.extend([kg_counts.get("entities"), kg_counts.get("relationships")])
+        if domain is not None:
+            updates.append("domain = ?")
+            params.append(domain)
         if not updates:
             return
         params.extend([job_id, filename])
@@ -267,7 +271,7 @@ def _fetch_active_jobs() -> list[dict]:
         for row in rows:
             job_id = row[0]
             files = conn.execute(
-                "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count"
+                "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain"
                 " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
@@ -283,6 +287,8 @@ def _fetch_active_jobs() -> list[dict]:
                 # _get_job_status.
                 if f[3] and f[2] == "extract_kg":
                     entry["chunk_progress"] = _get_chunk_progress(f[3])
+                if f[6]:  # domain
+                    entry["domain"] = f[6]
                 file_entries.append(entry)
             result.append({
                 "job_id": job_id,
@@ -317,7 +323,7 @@ def _fetch_completed_jobs(limit: int = 100) -> list[dict]:
             job_id = row[0]
             files = conn.execute(
                 "SELECT filename, status, error_message, started_at, completed_at,"
-                " entity_count, relationship_count"
+                " entity_count, relationship_count, domain"
                 " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
@@ -340,6 +346,7 @@ def _fetch_completed_jobs(limit: int = 100) -> list[dict]:
                         "completed_at": f[4],
                         "entities": f[5],
                         "relationships": f[6],
+                        **({"domain": f[7]} if f[7] else {}),
                     }
                     for f in files
                 ],
@@ -455,7 +462,7 @@ def _get_job_status(job_id: str) -> dict | None:
         if not row:
             return None
         cursor.execute(
-            "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count"
+            "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain"
             " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
@@ -467,6 +474,8 @@ def _get_job_status(job_id: str) -> dict | None:
             }
             if r[3] and r[2] == "extract_kg":
                 entry["chunk_progress"] = _get_chunk_progress(r[3])
+            if r[6]:  # domain
+                entry["domain"] = r[6]
             files.append(entry)
         return {
             "job_id": row[0],
