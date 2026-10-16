@@ -63,12 +63,19 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["artmind", "utils"]
 py-modules = ["paths"]
+
+# Discover subpackages rather than listing them: an explicit list silently dropped
+# artmind.webui/traces/kg_views/... from the wheel (an editable install hides it).
+# namespaces=false keeps asset-only dirs (skills/, domains/, opencode/) out of the
+# package list; they ship as package-data below.
+[tool.setuptools.packages.find]
+include = ["artmind*", "utils*"]
+namespaces = false
 
 [tool.setuptools.package-data]
 # Ship the agent skills, default domain schemas, and the .env template inside
 # the wheel so a non-editable install can seed them into the run folder (~/.artmind).
 # obsidian_plugin/ is the built Obsidian plugin, staged by `just obsidian-plugin-build`
 # (a build output, gitignored): build the wheel through the justfile, or it ships without it.
-artmind = ["skills/**/*", "domains/schemas/**/*", "opencode/**/*", "env.example", "cli_guide_examples.json", "obsidian_plugin/*", "obsidian/*.yaml"]
+artmind = ["skills/**/*", "domains/meta.yaml", "domains/schemas/**/*", "opencode/**/*", "env.example", "cli_guide_examples.json", "obsidian_plugin/*", "obsidian/*.yaml", "webui/static/**/*", "webui/templates/*"]

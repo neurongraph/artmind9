@@ -267,6 +267,14 @@ hosts want core; the machine that ingests wants the
 extra. Neither git install includes the Obsidian plugin, which is a build
 output (see the prerequisites).
 
+Both installs ship every `artmind` subpackage plus the web UI assets
+(`webui/static/`, `webui/templates/`), skills, schemas and the opencode persona.
+`pyproject.toml` discovers subpackages (`[tool.setuptools.packages.find]`) rather
+than listing them, and `test/test_packaging.py` guards that. The editable dev
+install reads the checkout, so it cannot reveal a package missing from the wheel:
+to check one, `git archive HEAD | tar -x -C <scratch>`, run `uv build --wheel` there,
+and list the wheel.
+
 ## Daemons
 
 `artmind serve` and the background ingestion worker load code at **start**
