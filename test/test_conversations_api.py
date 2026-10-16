@@ -8,7 +8,8 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from artmind.conversations import store
-from artmind.webui.app import ChatRequest, create_app
+from artmind.traces import store as trace_store
+from artmind.webui.app import ChatRequest, _ClosingStreamingResponse, create_app
 from artmind.webui.sessions import SessionRegistry
 
 
@@ -127,6 +128,8 @@ def test_interrupted_and_failed_turns_are_not_replayed():
     store.ensure("c1", "qa", "q0")
     seq = store.begin_turn("c1", "q0", "claude-sdk")
     store.finish_turn("c1", seq, blocks=[], answer_text="partial", status="interrupted")
+    seq = store.begin_turn("c1", "q0b", "claude-sdk")
+    store.finish_turn("c1", seq, blocks=[], answer_text="half", status="error", error_message="boom")
     app, _ = _app()
     events = _sse(_chat(TestClient(app), "c1", "q1").text)
     assert "context_restored" not in [e["type"] for e in events]
@@ -136,7 +139,7 @@ def test_interrupted_and_failed_turns_are_not_replayed():
 def test_invalid_conversation_ids_are_rejected():
     app, _ = _app()
     client = TestClient(app)
-    for bad in ["", "has space", "../etc", "x" * 65]:
+    for bad in ["", "has space", "../etc", "x" * 65, "abc\n", "x" * 64 + "\n"]:
         assert _chat(client, bad, "hi").status_code == 422
 
 
@@ -213,3 +216,118 @@ def test_chat_ui_turns_have_no_trace_id():
     app, _ = _app()
     _chat(TestClient(app), "c1", "hi")
     assert store.list_turns("c1")[0]["trace_id"] is None
+
+
+def _asgi_scope():
+    return {"type": "http", "asgi": {"version": "3.0", "spec_version": "2.3"}, "http_version": "1.1",
+            "method": "POST", "scheme": "http", "path": "/api/chat", "raw_path": b"/api/chat",
+            "root_path": "", "query_string": b"", "headers": [(b"content-type", b"application/json")],
+            "client": ("127.0.0.1", 1), "server": ("127.0.0.1", 80)}
+
+
+async def test_a_client_disconnect_mid_turn_leaves_an_interrupted_turn_and_no_lock(tmp_path):
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+
+    class HangingBackend(FakeBackend):
+        trace_context_path = ctx
+
+        async def receive_events(self):
+            yield {"type": "text_delta", "text": "partial"}
+            await asyncio.sleep(3600)  # the agent is still working when the client leaves
+
+    registry = SessionRegistry(client_factory=HangingBackend)
+    app = create_app(registry=registry, admin_routes=True, trace_turns=True)
+    body = json.dumps({"conversation_id": "c1", "prompt": "hi"}).encode()
+    got_chunk = asyncio.Event()
+    sent_request = False
+
+    async def receive():
+        nonlocal sent_request
+        if not sent_request:
+            sent_request = True
+            return {"type": "http.request", "body": body, "more_body": False}
+        await got_chunk.wait()
+        return {"type": "http.disconnect"}
+
+    async def send(message):
+        if message["type"] == "http.response.body" and b"partial" in message.get("body", b""):
+            got_chunk.set()
+
+    await app(_asgi_scope(), receive, send)
+
+    turn = store.list_turns("c1")[0]
+    assert turn["status"] == "interrupted"
+    assert turn["blocks"] == [{"type": "text", "md": "partial"}]
+    assert turn["trace_id"] is not None
+    assert trace_store.get_turn(turn["trace_id"])["status"] == "error"
+
+    # the conversation is not locked: a follow-up is accepted, not 409
+    endpoint = [r for r in app.routes if getattr(r, "path", "") == "/api/chat"][0].endpoint
+    again = await endpoint(ChatRequest(conversation_id="c1", prompt="again"))
+    assert again.status_code == 200
+    await again.body_iterator.aclose()
+
+
+async def test_a_response_that_is_never_started_does_not_lock_the_conversation():
+    app, _ = _app()
+    endpoint = [r for r in app.routes if getattr(r, "path", "") == "/api/chat"][0].endpoint
+
+    abandoned = await endpoint(ChatRequest(conversation_id="c1", prompt="one"))
+    assert isinstance(abandoned, _ClosingStreamingResponse)
+    with pytest.raises(HTTPException) as busy:  # claimed as soon as it is returned
+        await endpoint(ChatRequest(conversation_id="c1", prompt="two"))
+    assert busy.value.status_code == 409
+
+    # the server runs the response and the client is already gone
+    async def receive():
+        return {"type": "http.disconnect"}
+
+    async def send(message):
+        raise OSError("client went away")
+
+    with pytest.raises(OSError):
+        await abandoned(_asgi_scope(), receive, send)
+
+    again = await endpoint(ChatRequest(conversation_id="c1", prompt="three"))
+    assert again.status_code == 200
+    async for _ in again.body_iterator:
+        pass
+
+
+def test_a_failed_history_read_does_not_break_a_fresh_turn(monkeypatch):
+    app, _ = _app()
+    _chat(TestClient(app), "c1", "first question")
+
+    def broken(_cid):
+        raise RuntimeError("db unavailable")
+
+    monkeypatch.setattr(store, "list_turns", broken)
+    app2, _ = _app()
+    events = _sse(_chat(TestClient(app2), "c1", "second question").text)
+    assert "error" not in [e["type"] for e in events]
+    assert FakeBackend.instances[0].prompts == ["second question"]
+
+
+def test_an_undelivered_replay_is_replayed_again_on_the_next_turn():
+    app, _ = _app()
+    _chat(TestClient(app), "c1", "first question")
+
+    class FailsOnce(FakeBackend):
+        async def query(self, prompt):
+            await super().query(prompt)
+            if len(FakeBackend.instances) == 1:
+                raise RuntimeError("agent refused the prompt")
+
+    FakeBackend.instances = []
+    registry = SessionRegistry(client_factory=FailsOnce)
+    app2 = create_app(registry=registry)
+    client = TestClient(app2)
+    failed = _sse(_chat(client, "c1", "second question").text)
+    assert failed[0]["type"] == "context_restored"
+    assert failed[-1]["type"] == "error"
+    assert registry.peek("c1") is None  # the agent that missed the replay was dropped
+
+    retried = _sse(_chat(client, "c1", "second question").text)
+    assert retried[0]["type"] == "context_restored"
+    assert retried[0]["turns"] == 1  # the failed turn is not replayed, the good one is

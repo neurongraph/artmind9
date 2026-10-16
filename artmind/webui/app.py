@@ -10,6 +10,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 
+import anyio
+import anyio.to_thread
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -36,7 +38,29 @@ PREFILL_MAX_CHARS = 2000
 SWEEP_INTERVAL_S = 60
 
 
-_CONVERSATION_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+_CONVERSATION_ID = re.compile(r"[A-Za-z0-9_-]{1,64}")
+
+
+class _ClosingStreamingResponse(StreamingResponse):
+    """Closes the body generator when the response ends or is cancelled, so the
+    generator's `finally` (turn recording, agent cleanup) always runs promptly
+    rather than at garbage collection. `on_close` runs last, even when the
+    generator never started (an unstarted generator's `finally` never runs)."""
+
+    def __init__(self, content, *, on_close=None, **kwargs) -> None:
+        super().__init__(content, **kwargs)
+        self._on_close = on_close
+
+    async def __call__(self, scope, receive, send) -> None:
+        try:
+            await super().__call__(scope, receive, send)
+        finally:
+            with anyio.CancelScope(shield=True):
+                try:
+                    await self.body_iterator.aclose()
+                finally:
+                    if self._on_close is not None:
+                        self._on_close()
 
 
 class ChatRequest(BaseModel):
@@ -47,7 +71,7 @@ class ChatRequest(BaseModel):
     @field_validator("conversation_id")
     @classmethod
     def _valid_conversation_id(cls, value: str) -> str:
-        if not _CONVERSATION_ID.match(value):
+        if not _CONVERSATION_ID.fullmatch(value):
             raise ValueError("conversation_id must be 1-64 characters of letters, digits, '-' or '_'")
         return value
 
@@ -88,7 +112,8 @@ def create_app(
 ) -> FastAPI:
     registry = registry or SessionRegistry()
     profile_name = "admin" if admin_routes else "qa"
-    in_flight: set[str] = set()  # conversations with a turn currently streaming
+    # conversations with a turn currently streaming -> that turn's owner token
+    in_flight: dict[str, object] = {}
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -156,17 +181,27 @@ def create_app(
         from artmind.traces.recorder import TraceRecorder, public_event
 
         cid = payload.conversation_id
-        if cid in in_flight:
-            raise HTTPException(status_code=409, detail="this conversation already has a turn in progress")
         existing = await asyncio.to_thread(conv_store.get, cid)
         if existing is not None and existing["profile"] != profile_name:
             raise HTTPException(status_code=404, detail=f"no conversation {cid}")
+        # Nothing is awaited between this check and the claim below, so two
+        # requests cannot both pass it.
+        if cid in in_flight:
+            raise HTTPException(status_code=409, detail="this conversation already has a turn in progress")
+        owner = object()
+        in_flight[cid] = owner
+
+        def release() -> None:
+            # Idempotent, and never releases a later turn's claim.
+            if in_flight.get(cid) is owner:
+                del in_flight[cid]
 
         async def stream():
-            in_flight.add(cid)
             recorder = None
             conv = None
             error = None
+            fresh = False
+            delivered = False
             try:
                 # Recorded first so a turn whose agent fails to start is still
                 # kept (as an error) rather than silently lost.
@@ -178,8 +213,12 @@ def create_app(
                 prompt = payload.prompt
                 if fresh:
                     # The agent has no memory of this conversation: replay it.
-                    prior = await asyncio.to_thread(conv_store.list_turns, cid)
-                    replay = build_context(prior)
+                    replay = None
+                    try:
+                        prior = await asyncio.to_thread(conv_store.list_turns, cid)
+                        replay = build_context(prior)
+                    except Exception:
+                        logger.exception("conversation replay unavailable")
                     if replay is not None:
                         prompt = f"{replay.text}\n\n{payload.prompt}"
                         restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
@@ -196,6 +235,7 @@ def create_app(
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
                 await client.query(prompt)
+                delivered = True
                 async for event in client.receive_events():
                     event = recorder.observe(event) if recorder is not None else public_event(event)
                     conv.observe(event)
@@ -207,14 +247,30 @@ def create_app(
                 error = error or "interrupted: the client disconnected"
                 raise
             finally:
-                in_flight.discard(cid)
-                if recorder is not None:
-                    await asyncio.to_thread(recorder.finish, error=error)
-                if conv is not None:
-                    trace_id = recorder.trace_id if recorder is not None and recorder.enabled else None
-                    await asyncio.to_thread(conv.finish, error=error, trace_id=trace_id)
+                trace_id = recorder.trace_id if recorder is not None and recorder.enabled else None
 
-        return StreamingResponse(stream(), media_type="text/event-stream")
+                def _finish() -> None:
+                    if recorder is not None:
+                        recorder.finish(error=error)
+                    if conv is not None:
+                        conv.finish(error=error, trace_id=trace_id)
+
+                # Shielded: on a client disconnect Starlette cancels this task
+                # and re-cancels every await, which would skip the recording.
+                with anyio.CancelScope(shield=True):
+                    try:
+                        if fresh and not delivered:
+                            # The agent never saw the replayed transcript. Drop
+                            # it so the next turn is fresh again and replays.
+                            try:
+                                await registry.drop(cid)
+                            except Exception:
+                                logger.exception("could not drop an agent that never received its turn")
+                    finally:
+                        release()
+                    await anyio.to_thread.run_sync(_finish)
+
+        return _ClosingStreamingResponse(stream(), media_type="text/event-stream", on_close=release)
 
     @app.post("/api/open-source")
     async def open_source(payload: OpenSourceRequest):
