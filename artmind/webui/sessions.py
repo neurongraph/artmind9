@@ -1,4 +1,4 @@
-"""Per-browser-tab agent sessions for the chat web UI."""
+"""Per-conversation live agent sessions for the chat web UI."""
 
 import asyncio
 import time
@@ -10,7 +10,7 @@ IDLE_TIMEOUT_S = 30 * 60
 
 
 class SessionRegistry:
-    """One lazily-connected agent backend per browser tab, reaped when idle.
+    """One lazily-connected agent backend per conversation, reaped when idle.
 
     ``get``, ``drop``, and ``sweep`` all serialize on a single lock so that
     the check-then-act sequences they perform (look up an entry, then
@@ -29,17 +29,24 @@ class SessionRegistry:
         self._sessions: dict[str, tuple[Any, str, float]] = {}
         self._lock = asyncio.Lock()
 
-    async def get(self, session_id: str, backend: str = DEFAULT_BACKEND) -> Any:
+    async def get_or_create(self, session_id: str, backend: str = DEFAULT_BACKEND) -> tuple[Any, bool]:
+        """The live client for ``session_id`` and whether it is *fresh*.
+
+        ``fresh`` is True when this call created the client -- including when it
+        replaced one whose backend differed -- i.e. whenever the agent has no
+        memory of the conversation. The chat route uses it to decide whether to
+        replay a stored transcript (spec 2026-10-16 §4.1).
+        """
         async with self._lock:
             entry = self._sessions.get(session_id)
             if entry is not None:
                 client, entry_backend, _ = entry
                 if entry_backend == backend:
                     self._sessions[session_id] = (client, backend, time.monotonic())
-                    return client
-                # Defensive: the UI starts a fresh session id on backend
-                # switch, but if a mismatched request arrives, replace the
-                # session rather than answering with the wrong agent.
+                    return client, False
+                # A backend switch inside one conversation: replace the session
+                # rather than answering with the wrong agent. The caller replays
+                # the stored transcript into the new one.
                 self._sessions.pop(session_id)
                 await client.disconnect()
 
@@ -55,7 +62,11 @@ class SessionRegistry:
                         pass
                 raise
             self._sessions[session_id] = (client, backend, time.monotonic())
-            return client
+            return client, True
+
+    async def get(self, session_id: str, backend: str = DEFAULT_BACKEND) -> Any:
+        client, _ = await self.get_or_create(session_id, backend)
+        return client
 
     def peek(self, session_id: str) -> Any | None:
         entry = self._sessions.get(session_id)

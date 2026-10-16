@@ -175,3 +175,28 @@ async def test_get_cleans_up_client_on_connect_failure():
         pass
     # the failed client must not be left registered
     assert registry.peek("tab-1") is None
+
+
+async def test_get_or_create_reports_fresh_only_when_it_creates():
+    registry = SessionRegistry(client_factory=FakeClient)
+    first, fresh_first = await registry.get_or_create("tab-1")
+    second, fresh_second = await registry.get_or_create("tab-1")
+    assert first is second
+    assert (fresh_first, fresh_second) == (True, False)
+
+
+async def test_get_or_create_is_fresh_again_after_the_session_was_dropped():
+    registry = SessionRegistry(client_factory=FakeClient)
+    await registry.get_or_create("tab-1")
+    await registry.drop("tab-1")
+    _, fresh = await registry.get_or_create("tab-1")
+    assert fresh is True
+
+
+async def test_get_or_create_is_fresh_when_the_backend_is_replaced():
+    registry = SessionRegistry(client_factory=FakeClient)
+    old, _ = await registry.get_or_create("tab-1", "claude-sdk")
+    new, fresh = await registry.get_or_create("tab-1", "acp")
+    assert fresh is True
+    assert new is not old and new.backend == "acp"
+    assert old.connected is False
