@@ -561,6 +561,134 @@ def test_delete_drops_the_live_agent_then_the_rows():
     assert client.delete("/api/conversations/c1").status_code == 404
 
 
+def _endpoint(app, path, method):
+    return [r for r in app.routes if getattr(r, "path", "") == path and method in getattr(r, "methods", ())][0].endpoint
+
+
+async def test_delete_while_a_chat_turn_is_in_flight_is_409_and_keeps_the_rows():
+    BlockingBackend.gate = asyncio.Event()
+    app = create_app(registry=SessionRegistry(client_factory=BlockingBackend))
+    chat = _endpoint(app, "/api/chat", "POST")
+    delete = _endpoint(app, "/api/conversations/{conversation_id}", "DELETE")
+
+    first = await chat(ChatRequest(conversation_id="c1", prompt="one"))
+    await first.body_iterator.__anext__()  # the turn is now in flight
+    with pytest.raises(HTTPException) as busy:
+        await delete("c1")
+    assert busy.value.status_code == 409
+    assert store.get("c1") is not None and len(store.list_turns("c1")) == 1
+
+    BlockingBackend.gate.set()
+    async for _ in first.body_iterator:
+        pass
+    assert store.list_turns("c1")[0]["status"] == "done"
+    assert await delete("c1") == {"ok": True}  # the claim was released; now it can go
+
+
+async def test_a_chat_arriving_during_a_delete_is_409_and_the_claim_is_released_after():
+    class SlowDisconnect(FakeBackend):
+        release = asyncio.Event()
+
+        async def disconnect(self):
+            await SlowDisconnect.release.wait()
+
+    SlowDisconnect.release = asyncio.Event()
+    app = create_app(registry=SessionRegistry(client_factory=SlowDisconnect))
+    chat = _endpoint(app, "/api/chat", "POST")
+    delete = _endpoint(app, "/api/conversations/{conversation_id}", "DELETE")
+
+    response = await chat(ChatRequest(conversation_id="c1", prompt="one"))
+    async for _ in response.body_iterator:
+        pass
+    deleting = asyncio.create_task(delete("c1"))
+    await asyncio.sleep(0.05)  # the delete is parked in disconnect(), holding the claim
+
+    with pytest.raises(HTTPException) as busy:
+        await chat(ChatRequest(conversation_id="c1", prompt="racing"))
+    assert busy.value.status_code == 409
+    with pytest.raises(HTTPException) as busy_delete:
+        await delete("c1")
+    assert busy_delete.value.status_code == 409
+
+    SlowDisconnect.release.set()
+    assert await deleting == {"ok": True}
+    assert store.get("c1") is None and store.list_turns("c1") == []
+
+    again = await chat(ChatRequest(conversation_id="c1", prompt="fresh"))
+    async for _ in again.body_iterator:
+        pass
+    assert [t["user_text"] for t in store.list_turns("c1")] == ["fresh"]
+
+
+async def test_a_delete_that_404s_releases_its_claim():
+    app, _ = _app()
+    delete = _endpoint(app, "/api/conversations/{conversation_id}", "DELETE")
+    for _ in range(2):  # a leaked claim would turn the second 404 into a 409
+        with pytest.raises(HTTPException) as missing:
+            await delete("nope")
+        assert missing.value.status_code == 404
+
+
+def test_patch_and_delete_of_another_profiles_conversation_are_404_and_change_nothing():
+    app, _ = _app()
+    client = TestClient(app)
+    _chat(client, "c1", "hi")
+    admin_app, _ = _app(admin_routes=True)
+    admin_client = TestClient(admin_app)
+    assert admin_client.patch("/api/conversations/c1", json={"title": "hijack", "pinned": True}).status_code == 404
+    assert admin_client.delete("/api/conversations/c1").status_code == 404
+    kept = client.get("/api/conversations/c1").json()
+    assert kept["title"] != "hijack" and kept["pinned"] == 0 and kept["title_source"] != "user"
+    assert len(kept["turns"]) == 1
+
+
+def test_limit_is_clamped():
+    for i, cid in enumerate(["a", "b", "c"]):
+        store.ensure(cid, "qa", f"title {cid}", now=100.0 + i)
+    client = TestClient(_app()[0])
+    zero = client.get("/api/conversations?limit=0").json()
+    assert [c["conversation_id"] for c in zero["conversations"]] == ["c"]
+    assert zero["next_cursor"]
+    huge = client.get("/api/conversations?limit=9999")
+    assert huge.status_code == 200
+    assert len(huge.json()["conversations"]) == 3 and huge.json()["next_cursor"] is None
+
+
+def test_archived_filter_paginates():
+    for i, cid in enumerate(["a", "b", "c", "d"]):
+        store.ensure(cid, "qa", f"title {cid}", now=100.0 + i)
+    for cid in ("a", "b", "c"):
+        store.update(cid, "qa", archived=True)
+    client = TestClient(_app()[0])
+    assert [c["conversation_id"] for c in client.get("/api/conversations").json()["conversations"]] == ["d"]
+    page1 = client.get("/api/conversations?archived=true&limit=2").json()
+    assert [c["conversation_id"] for c in page1["conversations"]] == ["c", "b"]
+    page2 = client.get(f"/api/conversations?archived=true&limit=2&cursor={page1['next_cursor']}").json()
+    assert [c["conversation_id"] for c in page2["conversations"]] == ["a"]
+    assert page2["next_cursor"] is None
+
+
+def test_pagination_across_a_tie_on_updated_at_neither_skips_nor_repeats():
+    for cid in ("a", "b", "c"):
+        store.ensure(cid, "qa", f"title {cid}", now=100.0)
+    client = TestClient(_app()[0])
+    seen = []
+    cursor = None
+    while True:
+        url = "/api/conversations?limit=2" + (f"&cursor={cursor}" if cursor else "")
+        page = client.get(url).json()
+        seen += [c["conversation_id"] for c in page["conversations"]]
+        cursor = page["next_cursor"]
+        if cursor is None:
+            break
+    assert seen == ["c", "b", "a"]
+
+
+@pytest.mark.parametrize("cursor", ["nan", "inf:x", "-inf:x", "nan:abc"])
+def test_non_finite_cursors_are_400(cursor):
+    assert TestClient(_app()[0]).get(f"/api/conversations?cursor={cursor}").status_code == 400
+
+
 def test_release_keeps_the_stored_conversation():
     app, registry = _app()
     client = TestClient(app)

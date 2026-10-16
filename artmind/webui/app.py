@@ -4,6 +4,7 @@ import asyncio
 import functools
 import json
 import logging
+import math
 import os
 import re
 import subprocess
@@ -114,9 +115,12 @@ def _parse_cursor(cursor: str | None) -> tuple[float, str] | None:
         return None
     stamp, _, conversation_id = cursor.partition(":")
     try:
-        return float(stamp), conversation_id
+        value = float(stamp)
     except ValueError:
         raise HTTPException(status_code=400, detail="bad cursor") from None
+    if not math.isfinite(value):
+        raise HTTPException(status_code=400, detail="bad cursor")
+    return value, conversation_id
 
 
 def static_url(name: str) -> str:
@@ -141,6 +145,11 @@ def create_app(
     profile_name = "admin" if admin_routes else "qa"
     # conversations with a turn currently streaming -> that turn's owner token
     in_flight: dict[str, object] = {}
+
+    def release_claim(cid: str, owner: object) -> None:
+        # Idempotent, and never releases a later holder's claim.
+        if in_flight.get(cid) is owner:
+            del in_flight[cid]
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -224,9 +233,7 @@ def create_app(
         in_flight[cid] = owner
 
         def release() -> None:
-            # Idempotent, and never releases a later turn's claim.
-            if in_flight.get(cid) is owner:
-                del in_flight[cid]
+            release_claim(cid, owner)
 
         async def stream():
             recorder = None
@@ -404,12 +411,20 @@ def create_app(
 
     @app.delete("/api/conversations/{conversation_id}")
     async def delete_conversation(conversation_id: str):
+        # Holds the same claim as a chat turn for its whole duration, so a chat
+        # POST arriving meanwhile gets 409 instead of recording into rows that
+        # are being deleted. Nothing is awaited between the check and the claim.
         if conversation_id in in_flight:
             raise HTTPException(status_code=409, detail="this conversation has a turn in progress")
-        if await asyncio.to_thread(conv_store.get, conversation_id, profile_name) is None:
-            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
-        await registry.drop(conversation_id)
-        await asyncio.to_thread(conv_store.delete, conversation_id, profile_name)
+        owner = object()
+        in_flight[conversation_id] = owner
+        try:
+            if await asyncio.to_thread(conv_store.get, conversation_id, profile_name) is None:
+                raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+            await registry.drop(conversation_id)
+            await asyncio.to_thread(conv_store.delete, conversation_id, profile_name)
+        finally:
+            release_claim(conversation_id, owner)
         return {"ok": True}
 
     if trace_turns:

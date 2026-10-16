@@ -2071,7 +2071,16 @@ Expected: the route tests FAIL with 404 on `/api/conversations`.
 
 - [ ] **Step 3: Implement the routes**
 
-In `artmind/webui/app.py`, add models next to `FeedbackRequest`:
+In `artmind/webui/app.py`, add `import math`. In `create_app`, right after `in_flight`, add the shared claim-release helper, and have the chat route's `release()` call it (`release_claim(cid, owner)`):
+
+```python
+    def release_claim(cid: str, owner: object) -> None:
+        # Idempotent, and never releases a later holder's claim.
+        if in_flight.get(cid) is owner:
+            del in_flight[cid]
+```
+
+Then add models next to `FeedbackRequest`:
 
 ```python
 class ConversationPatch(BaseModel):
@@ -2095,9 +2104,12 @@ def _parse_cursor(cursor: str | None) -> tuple[float, str] | None:
         return None
     stamp, _, conversation_id = cursor.partition(":")
     try:
-        return float(stamp), conversation_id
+        value = float(stamp)
     except ValueError:
         raise HTTPException(status_code=400, detail="bad cursor") from None
+    if not math.isfinite(value):
+        raise HTTPException(status_code=400, detail="bad cursor")
+    return value, conversation_id
 ```
 
 Then, directly after the `close_session` route, add:
@@ -2136,12 +2148,20 @@ Then, directly after the `close_session` route, add:
 
     @app.delete("/api/conversations/{conversation_id}")
     async def delete_conversation(conversation_id: str):
+        # Holds the same claim as a chat turn for its whole duration, so a chat
+        # POST arriving meanwhile gets 409 instead of recording into rows that
+        # are being deleted. Nothing is awaited between the check and the claim.
         if conversation_id in in_flight:
             raise HTTPException(status_code=409, detail="this conversation has a turn in progress")
-        if await asyncio.to_thread(conv_store.get, conversation_id, profile_name) is None:
-            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
-        await registry.drop(conversation_id)
-        await asyncio.to_thread(conv_store.delete, conversation_id, profile_name)
+        owner = object()
+        in_flight[conversation_id] = owner
+        try:
+            if await asyncio.to_thread(conv_store.get, conversation_id, profile_name) is None:
+                raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+            await registry.drop(conversation_id)
+            await asyncio.to_thread(conv_store.delete, conversation_id, profile_name)
+        finally:
+            release_claim(conversation_id, owner)
         return {"ok": True}
 ```
 
