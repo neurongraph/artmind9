@@ -1,6 +1,7 @@
 """FastAPI app serving the artmind chat web UI."""
 
 import asyncio
+import functools
 import json
 import logging
 import os
@@ -202,13 +203,18 @@ def create_app(
             error = None
             fresh = False
             delivered = False
+            completed = False
+            replay_failed = False
             try:
                 # Recorded first so a turn whose agent fails to start is still
                 # kept (as an error) rather than silently lost.
-                conv = await asyncio.to_thread(
-                    ConversationRecorder.start,
-                    conversation_id=cid, profile=profile_name, user_text=payload.prompt, backend=payload.backend,
-                )
+                # The thread hop is shielded so a cancel during it cannot
+                # orphan a `running` row.
+                with anyio.CancelScope(shield=True):
+                    conv = await anyio.to_thread.run_sync(functools.partial(
+                        ConversationRecorder.start,
+                        conversation_id=cid, profile=profile_name, user_text=payload.prompt, backend=payload.backend,
+                    ))
                 client, fresh = await registry.get_or_create(cid, payload.backend)
                 prompt = payload.prompt
                 if fresh:
@@ -219,6 +225,7 @@ def create_app(
                         replay = build_context(prior)
                     except Exception:
                         logger.exception("conversation replay unavailable")
+                        replay_failed = True  # drop the agent below so the next turn retries the replay
                     if replay is not None:
                         prompt = f"{replay.text}\n\n{payload.prompt}"
                         restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
@@ -227,11 +234,12 @@ def create_app(
                 if trace_turns and context_path is not None:
                     # Query-trace capture (spec 2026-10-11 §5.1): the id goes into
                     # the session's context file before the agent sees the prompt.
-                    recorder = await asyncio.to_thread(
-                        TraceRecorder.start,
-                        source="admin", question=payload.prompt, session_id=cid,
-                        profile="admin", backend=payload.backend, context_path=context_path,
-                    )
+                    with anyio.CancelScope(shield=True):  # as for the conversation recorder
+                        recorder = await anyio.to_thread.run_sync(functools.partial(
+                            TraceRecorder.start,
+                            source="admin", question=payload.prompt, session_id=cid,
+                            profile="admin", backend=payload.backend, context_path=context_path,
+                        ))
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
                 await client.query(prompt)
@@ -239,6 +247,8 @@ def create_app(
                 async for event in client.receive_events():
                     event = recorder.observe(event) if recorder is not None else public_event(event)
                     conv.observe(event)
+                    if event.get("type") == "turn_done":
+                        completed = True
                     yield f"data: {json.dumps(event)}\n\n"
             except Exception as exc:  # stream errors to the client, don't 500
                 error = str(exc)
@@ -257,18 +267,27 @@ def create_app(
 
                 # Shielded: on a client disconnect Starlette cancels this task
                 # and re-cancels every await, which would skip the recording.
-                with anyio.CancelScope(shield=True):
-                    try:
-                        if fresh and not delivered:
-                            # The agent never saw the replayed transcript. Drop
-                            # it so the next turn is fresh again and replays.
+                # The claim is released last, so the next turn cannot start
+                # (and write the trace-context file) while this one is still
+                # finishing.
+                try:
+                    with anyio.CancelScope(shield=True):
+                        # A live agent that did not see this turn through is
+                        # unsafe to reuse: it never received the replay, or it
+                        # keeps producing this turn's remaining events, which
+                        # the next turn would read as its own. Dropping it makes
+                        # the next turn fresh, so it replays the stored history.
+                        if (fresh and not delivered) or (delivered and not completed) or replay_failed:
                             try:
-                                await registry.drop(cid)
+                                with anyio.move_on_after(10, shield=True) as drop_scope:
+                                    await registry.drop(cid)
+                                if drop_scope.cancel_called:
+                                    logger.error("timed out dropping the agent for conversation %s", cid)
                             except Exception:
-                                logger.exception("could not drop an agent that never received its turn")
-                    finally:
-                        release()
-                    await anyio.to_thread.run_sync(_finish)
+                                logger.exception("could not drop the agent for conversation %s", cid)
+                        await anyio.to_thread.run_sync(_finish)
+                finally:
+                    release()
 
         return _ClosingStreamingResponse(stream(), media_type="text/event-stream", on_close=release)
 

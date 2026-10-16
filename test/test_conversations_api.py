@@ -295,18 +295,30 @@ async def test_a_response_that_is_never_started_does_not_lock_the_conversation()
         pass
 
 
-def test_a_failed_history_read_does_not_break_a_fresh_turn(monkeypatch):
+def test_a_failed_history_read_does_not_break_a_fresh_turn_and_is_retried_next_turn(monkeypatch):
     app, _ = _app()
     _chat(TestClient(app), "c1", "first question")
 
-    def broken(_cid):
-        raise RuntimeError("db unavailable")
+    real = store.list_turns
+    calls = []
 
-    monkeypatch.setattr(store, "list_turns", broken)
-    app2, _ = _app()
-    events = _sse(_chat(TestClient(app2), "c1", "second question").text)
+    def flaky(cid):
+        calls.append(cid)
+        if len(calls) == 1:
+            raise RuntimeError("db unavailable")
+        return real(cid)
+
+    monkeypatch.setattr(store, "list_turns", flaky)
+    app2, registry2 = _app()
+    client = TestClient(app2)
+    events = _sse(_chat(client, "c1", "second question").text)
     assert "error" not in [e["type"] for e in events]
     assert FakeBackend.instances[0].prompts == ["second question"]
+    assert registry2.peek("c1") is None  # dropped, so the next turn is fresh and retries the replay
+
+    events = _sse(_chat(client, "c1", "third question").text)
+    assert events[0] == {"type": "context_restored", "turns": 2, "omitted": 0}
+    assert "User: first question\nAssistant: Answer 1" in FakeBackend.instances[1].prompts[0]
 
 
 def test_an_undelivered_replay_is_replayed_again_on_the_next_turn():
@@ -331,3 +343,159 @@ def test_an_undelivered_replay_is_replayed_again_on_the_next_turn():
     retried = _sse(_chat(client, "c1", "second question").text)
     assert retried[0]["type"] == "context_restored"
     assert retried[0]["turns"] == 1  # the failed turn is not replayed, the good one is
+
+
+class QueueAgent(FakeBackend):
+    """Like the Claude SDK: one message stream per agent, and the agent keeps
+    working on a prompt whether or not anyone is reading its events."""
+
+    def __init__(self, backend: str = "claude-sdk"):
+        super().__init__(backend)
+        self.queue: asyncio.Queue = asyncio.Queue()
+
+    work_s = 0.1  # how long the agent works between its two chunks
+
+    async def query(self, prompt):
+        self.prompts.append(prompt)
+
+        tag = prompt.rsplit("\n\n", 1)[-1]  # the user's message, without any replayed transcript
+
+        async def work():
+            await self.queue.put({"type": "text_delta", "text": f"[{tag}] part1 "})
+            await asyncio.sleep(self.work_s)
+            await self.queue.put({"type": "text_delta", "text": f"[{tag}] part2"})
+            await self.queue.put({"type": "turn_done", "turns": 1, "duration_s": 1.0, "cost": 0.0})
+
+        asyncio.get_running_loop().create_task(work())
+
+    async def receive_events(self):
+        while True:
+            event = await self.queue.get()
+            yield event
+            if event["type"] == "turn_done":
+                return
+
+
+async def _asgi_chat(app, cid, prompt, *, disconnect_after_first=False):
+    body = json.dumps({"conversation_id": cid, "prompt": prompt}).encode()
+    first = asyncio.Event()
+    sent = False
+    out: list[str] = []
+    status: list[int] = []
+
+    async def receive():
+        nonlocal sent
+        if not sent:
+            sent = True
+            return {"type": "http.request", "body": body, "more_body": False}
+        if disconnect_after_first:
+            await first.wait()
+            return {"type": "http.disconnect"}
+        await asyncio.sleep(3600)
+
+    async def send(message):
+        if message["type"] == "http.response.start":
+            status.append(message["status"])
+        if message["type"] == "http.response.body" and message.get("body"):
+            out.append(message["body"].decode())
+            first.set()
+
+    await app(_asgi_scope(), receive, send)
+    return status[0], _sse("".join(out))
+
+
+async def test_a_disconnected_turn_never_bleeds_into_the_next_one():
+    registry = SessionRegistry(client_factory=QueueAgent)
+    app = create_app(registry=registry)
+
+    _, events = await _asgi_chat(app, "c1", "one")  # a finished turn, so there is history to replay
+    assert events[-1]["type"] == "turn_done"
+
+    # the client leaves after the first chunk; the agent is still working
+    status, _ = await _asgi_chat(app, "c1", "two", disconnect_after_first=True)
+    assert status == 200
+    assert [t["status"] for t in store.list_turns("c1")] == ["done", "interrupted"]
+    assert registry.peek("c1") is None  # the agent mid-way through "two" was dropped
+
+    status, events = await _asgi_chat(app, "c1", "three")
+    assert status == 200
+    assert events[0] == {"type": "context_restored", "turns": 1, "omitted": 0}
+    answer = "".join(e["text"] for e in events if e["type"] == "text_delta")
+    # only this turn's own output: one part1, one part2, none of the abandoned turn's
+    assert answer.count("part1") == 1 and answer.count("part2") == 1
+    assert "[two]" not in answer and "[one]" not in answer
+    turns = store.list_turns("c1")
+    assert [(t["user_text"], t["status"]) for t in turns] == [("one", "done"), ("two", "interrupted"), ("three", "done")]
+    assert turns[2]["answer_text"] == answer
+
+
+async def test_a_disconnect_on_the_first_turn_gives_a_clean_bare_next_turn():
+    registry = SessionRegistry(client_factory=QueueAgent)
+    app = create_app(registry=registry)
+    await _asgi_chat(app, "c1", "one", disconnect_after_first=True)
+    assert registry.peek("c1") is None
+
+    _, events = await _asgi_chat(app, "c1", "two")
+    assert "context_restored" not in [e["type"] for e in events]  # nothing done to replay
+    assert "".join(e["text"] for e in events if e["type"] == "text_delta") == "[two] part1 [two] part2"
+    assert store.list_turns("c1")[1]["answer_text"] == "[two] part1 [two] part2"
+
+
+def test_a_stream_that_raises_midway_drops_the_agent():
+    class DiesMidway(FakeBackend):
+        async def receive_events(self):
+            yield {"type": "text_delta", "text": "partial"}
+            raise RuntimeError("agent crashed")
+
+    registry = SessionRegistry(client_factory=DiesMidway)
+    client = TestClient(create_app(registry=registry))
+    events = _sse(_chat(client, "c1", "hi").text)
+    assert events[-1] == {"type": "error", "message": "agent crashed"}
+    assert registry.peek("c1") is None
+    assert store.list_turns("c1")[0]["status"] == "error"
+
+
+async def test_the_next_turn_cannot_start_before_the_previous_one_has_finished_recording(tmp_path, monkeypatch):
+    """The trace-context file is shared by a conversation's turns: a late
+    `recorder.finish` of turn one must not clear the id turn two just wrote."""
+    import time
+
+    from artmind.traces import recorder as trace_recorder
+
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+    seen: list[tuple[str, str]] = []
+
+    class CtxAgent(QueueAgent):
+        trace_context_path = ctx
+        work_s = 0.6
+
+        async def query(self, prompt):
+            await super().query(prompt)
+
+            async def look():
+                # turn two looks after any late `finish` of turn one would have run
+                await asyncio.sleep(0.35 if prompt == "two" else 0.02)
+                seen.append((prompt, ctx.read_text()))  # what a tool call would tag its span with
+
+            asyncio.get_running_loop().create_task(look())
+
+    original = trace_recorder.TraceRecorder.finish
+
+    def slow_finish(self, error=None):
+        time.sleep(0.15)
+        original(self, error=error)
+
+    monkeypatch.setattr(trace_recorder.TraceRecorder, "finish", slow_finish)
+    app = create_app(registry=SessionRegistry(client_factory=CtxAgent), admin_routes=True, trace_turns=True)
+
+    first = asyncio.create_task(_asgi_chat(app, "c1", "one"))
+    while True:  # POST "two" until the app accepts it (409 while "one" is still recording)
+        await asyncio.sleep(0.02)
+        status, _ = await _asgi_chat(app, "c1", "two")
+        if status == 200:
+            break
+    await first
+
+    ids = {t["user_text"]: t["trace_id"] for t in store.list_turns("c1")}
+    assert dict(seen) == ids
