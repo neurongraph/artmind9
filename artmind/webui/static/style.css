@@ -340,7 +340,7 @@ body.drawer-open .drawer:not(#help-drawer) { transform: translateX(0); }
 /* ── conversation sidebar ────────────────────────────────────────── */
 .topbar-left { display: flex; align-items: center; gap: 4px; }
 .sidebar {
-  position: fixed; top: 0; left: 0; bottom: 0; z-index: 15;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 25;
   width: 280px; max-width: 85vw; padding-top: 56px;
   display: flex; flex-direction: column;
   background: var(--bg-elev); border-right: 1px solid var(--border);
@@ -403,4 +403,8 @@ body.sidebar-open .sidebar { transform: translateX(0); }
 }
 @media (min-width: 1200px) {
   body.sidebar-open.drawer-open .composer-wrap { width: calc(100% - 280px - 380px); }
+}
+/* Overlay mode: sit below the topbar so its toggle stays clickable. */
+@media (max-width: 899px) {
+  .sidebar { top: 56px; padding-top: 0; }
 }
