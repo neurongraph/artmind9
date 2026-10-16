@@ -115,8 +115,11 @@ def update(
     sets: list[str] = []
     params: list[Any] = []
     if title is not None:
+        title = title.strip()
+        if not title:
+            raise ValueError("title must not be empty")
         sets += ["title = ?", "title_source = 'user'"]
-        params.append(title.strip())
+        params.append(title)
     if pinned is not None:
         sets.append("pinned = ?")
         params.append(1 if pinned else 0)
@@ -157,7 +160,7 @@ def delete(conversation_id: str, profile: str) -> bool:
 
 
 def begin_turn(conversation_id: str, user_text: str, backend: str, *, now: float | None = None) -> int:
-    """Insert the next turn as `running`; return its seq."""
+    """Insert the next turn as `running`; return its seq. The caller must `ensure` the conversation first."""
     ts = _now(now)
     conn = _connect()
     try:
@@ -198,7 +201,7 @@ def finish_turn(
             "UPDATE conversation_turns SET blocks = ?, answer_text = ?, status = ?, error_message = ?,"
             " trace_id = ?, cost_usd = ?, duration_s = ?, completed_at = ?"
             " WHERE conversation_id = ? AND seq = ?",
-            (json.dumps(blocks, ensure_ascii=False), answer_text, status, error_message, trace_id, cost_usd,
+            (json.dumps(blocks, ensure_ascii=False, default=str), answer_text, status, error_message, trace_id, cost_usd,
              duration_s, ts, conversation_id, seq),
         )
         conn.execute("UPDATE conversations SET updated_at = ? WHERE conversation_id = ?", (ts, conversation_id))

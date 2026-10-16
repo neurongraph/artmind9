@@ -164,3 +164,62 @@ def test_sweep_running_marks_only_this_profiles_running_turns():
     assert qa_turns[0]["error_message"] == "interrupted: server restarted"
     assert qa_turns[1]["status"] == "done"
     assert store.list_turns("a")[0]["status"] == "running"
+
+
+def test_update_blank_title_raises_and_leaves_title_unchanged():
+    store.ensure("c1", "qa", "Original")
+    with pytest.raises(ValueError):
+        store.update("c1", "qa", title="   ")
+    assert store.get("c1")["title"] == "Original"
+    assert store.get("c1")["title_source"] == "auto"
+
+
+def test_update_with_no_fields_reports_existence_for_the_profile():
+    store.ensure("c1", "qa", "Hi")
+    assert store.update("c1", "qa") is True
+    assert store.update("c1", "admin") is False
+    assert store.update("nope", "qa") is False
+
+
+def test_finish_turn_on_a_missing_turn_does_not_raise():
+    store.finish_turn("nope", 3, blocks=[], answer_text=None, status="done")
+    assert store.list_turns("nope") == []
+
+
+def test_finish_turn_serialises_non_json_values_in_blocks():
+    import datetime
+
+    store.ensure("c1", "qa", "Hi")
+    seq = store.begin_turn("c1", "Hi", "claude-sdk")
+    store.finish_turn(
+        "c1", seq, status="done", answer_text="x",
+        blocks=[{"type": "tool", "id": "t", "input": {1, 2}, "result": datetime.datetime(2026, 1, 2)}],
+    )
+    turn = store.list_turns("c1")[0]
+    assert turn["status"] == "done"
+    assert turn["blocks"][0]["type"] == "tool"
+    assert "2026-01-02" in turn["blocks"][0]["result"]
+
+
+def test_begin_turn_caps_an_oversize_user_text():
+    from artmind.traces.store import PAYLOAD_CAP
+
+    store.ensure("c1", "qa", "Hi")
+    store.begin_turn("c1", "x" * (PAYLOAD_CAP + 100), "claude-sdk")
+    stored = store.list_turns("c1")[0]["user_text"]
+    assert "truncated" in stored
+    assert len(stored) < PAYLOAD_CAP + 100
+
+
+def test_list_turns_tolerates_corrupt_blocks_json():
+    import artmind.db as db
+
+    store.ensure("c1", "qa", "Hi")
+    store.begin_turn("c1", "Hi", "claude-sdk")
+    conn = db._get_db()
+    try:
+        conn.execute("UPDATE conversation_turns SET blocks = 'not json' WHERE conversation_id = 'c1'")
+        conn.commit()
+    finally:
+        conn.close()
+    assert store.list_turns("c1")[0]["blocks"] == []
