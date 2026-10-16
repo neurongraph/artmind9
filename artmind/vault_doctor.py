@@ -115,11 +115,28 @@ def check_tracked_ignored(vault_dir: Path) -> Check:
     )
 
 
-_GITHUB_REMOTE = re.compile(r"^(?:git@github\.com:|ssh://git@github\.com/|https://(?:[^@/]+@)?github\.com/)([^/]+)/(.+?)(?:\.git)?/?$")
+_GITHUB_REMOTE = re.compile(
+    r"^(?:git@github\.com:|ssh://git@github\.com/|https://(?:([^@/]+)@)?github\.com/)([^/]+)/(.+?)(?:\.git)?/?$"
+)
+
+#: A GitHub login. Anything else in the URL's userinfo (a pasted token, say) is
+#: never handed to `gh` as an argument.
+_GH_LOGIN = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")
 
 
-def _gh_visibility(slug: str) -> tuple[int, str, str]:
-    return run_command(["gh", "repo", "view", slug, "--json", "visibility", "--jq", ".visibility"], timeout=15)
+def _gh_visibility(slug: str, account: str | None = None) -> tuple[int, str, str]:
+    """`gh repo view` for `slug`. When the vault's remote names a GitHub login
+    (`https://<login>@github.com/...`) and `gh` holds a login for it, query as
+    that account: git picks its credential from the URL, but `gh` uses whichever
+    account is active, which on a laptop with several GitHub logins may not see
+    this private repo at all."""
+    extra_env = None
+    if account and _GH_LOGIN.match(account):
+        rc, token, _ = run_command(["gh", "auth", "token", "--user", account], timeout=15, expected_codes=(1,))
+        if rc == 0 and token.strip():
+            extra_env = {"GH_TOKEN": token.strip()}
+    return run_command(["gh", "repo", "view", slug, "--json", "visibility", "--jq", ".visibility"],
+                       timeout=15, extra_env=extra_env)
 
 
 def check_review_privacy(vault_dir: Path) -> Check:
@@ -137,12 +154,12 @@ def check_review_privacy(vault_dir: Path) -> Check:
     match = _GITHUB_REMOTE.match(url)
     if not match:
         return Check(name, OK, "origin is not on GitHub; its visibility is not checked")
-    slug = f"{match.group(1)}/{match.group(2)}"
+    account, slug = match.group(1), f"{match.group(2)}/{match.group(3)}"
     if shutil.which("gh") is None:
         return Check(name, UNKNOWN, f"review dossiers are tracked in {slug} on GitHub, but `gh` is not installed, "
                      "so the repo's visibility is unknown",
                      fix="install the GitHub CLI and run `gh auth login`, or confirm the vault repo is private")
-    rc, out, err = _gh_visibility(slug)
+    rc, out, err = _gh_visibility(slug, account)
     visibility = out.strip().upper()
     if rc != 0 or not visibility:
         return Check(name, UNKNOWN, f"`gh repo view {slug}` failed: {(err or out).strip()[:200]}")

@@ -266,7 +266,7 @@ def test_review_privacy_visibility(repo, monkeypatch, visibility, status):
     monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
     seen = {}
 
-    def fake(slug):
+    def fake(slug, account=None):
         seen["slug"] = slug
         return 0, visibility + "\n", ""
 
@@ -282,7 +282,7 @@ def test_review_privacy_gh_error_is_unknown(repo, monkeypatch):
     _track_dossier(repo)
     _git(repo, "remote", "add", "origin", "https://github.com/me/vault")
     monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
-    monkeypatch.setattr(doc, "_gh_visibility", lambda slug: (1, "", "not logged in"))
+    monkeypatch.setattr(doc, "_gh_visibility", lambda slug, account=None: (1, "", "not logged in"))
     assert _by_name(doc.run(repo))[NAME]["status"] == "unknown"
 
 
@@ -294,7 +294,7 @@ def test_review_privacy_token_in_https_url_warns_without_leaking_token(repo, mon
     monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
     seen = {}
 
-    def fake(slug):
+    def fake(slug, account=None):
         seen["slug"] = slug
         return 0, "PUBLIC\n", ""
 
@@ -304,3 +304,62 @@ def test_review_privacy_token_in_https_url_warns_without_leaking_token(repo, mon
     assert seen.get("slug") == "me/vault"
     assert "x-token-123" not in (check.get("detail") or "")
     assert "x-token-123" not in (check.get("fix") or "")
+
+
+def _run_recorder(monkeypatch, token_rc=0, token="tok-for-login\n"):
+    """Patch doc.run_command; return the list of (argv, extra_env) it saw."""
+    calls = []
+
+    def fake(cmd, timeout=None, cwd=None, extra_env=None, expected_codes=()):
+        calls.append((list(cmd), extra_env))
+        if cmd[:3] == ["gh", "auth", "token"]:
+            return token_rc, token if token_rc == 0 else "", ""
+        return 0, "PRIVATE\n", ""
+
+    monkeypatch.setattr(doc, "run_command", fake)
+    return calls
+
+
+def test_gh_visibility_uses_account_named_in_remote(monkeypatch):
+    calls = _run_recorder(monkeypatch)
+    assert doc._gh_visibility("me/vault", "me") == (0, "PRIVATE\n", "")
+    assert calls[0][0] == ["gh", "auth", "token", "--user", "me"]
+    view_argv, view_env = calls[1]
+    assert view_argv[:3] == ["gh", "repo", "view"]
+    assert view_env == {"GH_TOKEN": "tok-for-login"}
+
+
+def test_gh_visibility_without_account_uses_active_gh_account(monkeypatch):
+    calls = _run_recorder(monkeypatch)
+    doc._gh_visibility("me/vault")
+    assert [c[0][:3] for c in calls] == [["gh", "repo", "view"]]
+    assert calls[0][1] is None
+
+
+def test_gh_visibility_falls_back_when_gh_has_no_login_for_account(monkeypatch):
+    calls = _run_recorder(monkeypatch, token_rc=1)
+    doc._gh_visibility("me/vault", "me")
+    assert calls[-1][0][:3] == ["gh", "repo", "view"]
+    assert calls[-1][1] is None
+
+
+def test_gh_visibility_never_passes_a_token_shaped_userinfo_to_gh(monkeypatch):
+    calls = _run_recorder(monkeypatch)
+    doc._gh_visibility("me/vault", "ghp_abc123SECRET")
+    assert all("ghp_abc123SECRET" not in " ".join(argv) for argv, _ in calls)
+    assert [c[0][:3] for c in calls] == [["gh", "repo", "view"]]
+
+
+def test_review_privacy_passes_remote_login_to_gh(repo, monkeypatch):
+    _track_dossier(repo)
+    _git(repo, "remote", "add", "origin", "https://me@github.com/me/vault.git")
+    monkeypatch.setattr(doc.shutil, "which", lambda name: "/usr/bin/gh")
+    seen = {}
+
+    def fake(slug, account=None):
+        seen.update(slug=slug, account=account)
+        return 0, "PRIVATE\n", ""
+
+    monkeypatch.setattr(doc, "_gh_visibility", fake)
+    assert _by_name(doc.run(repo))[NAME]["status"] == "ok"
+    assert seen == {"slug": "me/vault", "account": "me"}
