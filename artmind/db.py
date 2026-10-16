@@ -460,6 +460,44 @@ def _init_db() -> None:
             PRIMARY KEY (review_id, trace_id)
         )
     """)
+    # Chat conversations (spec 2026-10-16-chat-conversations-design.md §3): the
+    # durable history behind the chat-ui / admin-ui sidebar. Local to this
+    # machine like the rest of this DB -- never synced, never committed -- since
+    # a turn can quote private corpus content. Timestamps are epoch seconds.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS conversations (
+            conversation_id TEXT PRIMARY KEY,
+            profile         TEXT NOT NULL,
+            title           TEXT NOT NULL,
+            title_source    TEXT NOT NULL DEFAULT 'auto',
+            pinned          INTEGER NOT NULL DEFAULT 0,
+            archived_at     REAL,
+            created_at      REAL NOT NULL,
+            updated_at      REAL NOT NULL
+        )
+    """)
+    cursor.execute(
+        "CREATE INDEX IF NOT EXISTS idx_conversations_profile_updated"
+        " ON conversations(profile, updated_at)"
+    )
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS conversation_turns (
+            conversation_id TEXT NOT NULL,
+            seq             INTEGER NOT NULL,
+            user_text       TEXT NOT NULL,
+            blocks          TEXT NOT NULL,
+            answer_text     TEXT,
+            backend         TEXT NOT NULL,
+            status          TEXT NOT NULL,
+            error_message   TEXT,
+            trace_id        TEXT,
+            cost_usd        REAL,
+            duration_s      REAL,
+            started_at      REAL NOT NULL,
+            completed_at    REAL,
+            PRIMARY KEY (conversation_id, seq)
+        )
+    """)
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(benchmark_questions)")}
     if "trace_id" not in existing:
         cursor.execute("ALTER TABLE benchmark_questions ADD COLUMN trace_id TEXT")

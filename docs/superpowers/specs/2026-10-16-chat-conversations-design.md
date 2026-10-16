@@ -93,7 +93,7 @@ New package `artmind/conversations/`:
   `artmind.db._get_db()` (the registry convention): `create`, `get`, `list`
   (profile filter, `archived` filter, keyset pagination on `(updated_at,
   conversation_id)`), `rename`, `set_pinned`, `set_archived`, `delete`,
-  `begin_turn` (returns `seq`), `finish_turn`, `list_turns`, `sweep_running`.
+  `begin_turn` (returns `seq`), `finish_turn`, `list_turns`, `sweep_running(profile)`.
 - `recorder.py` -- `ConversationRecorder`, modelled on `TraceRecorder`:
   `start(...)` creates the conversation row on the first turn and inserts the
   turn as `running` before the agent sees the prompt; `observe(event)` folds the
@@ -163,8 +163,10 @@ else `qa`) and is never client-supplied.
 
 ### 4.3 Lifecycle
 
-- `create_app` lifespan calls `store.sweep_running()` once at startup: any
-  `running` turn becomes `interrupted` (a server crash or restart).
+- `create_app` lifespan calls `store.sweep_running(profile)` once at startup:
+  any `running` turn of this app's profile becomes `interrupted` (a server crash
+  or restart). Scoped to the profile because chat-ui and admin-ui are separate
+  processes sharing one DB; starting one must not touch the other's live turns.
 - The registry's 30-minute idle sweep still drops only live agents. The next
   message after a sweep is `fresh`, so it replays.
 - Skill refresh (`/refresh`) is unchanged: SDK keeps native context across
