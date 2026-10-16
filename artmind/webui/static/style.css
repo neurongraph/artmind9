@@ -380,7 +380,9 @@ body.sidebar-open .sidebar { transform: translateX(0); }
   visibility: hidden;
 }
 .conv-menu summary::-webkit-details-marker { display: none; }
-.conv-row:hover .conv-menu summary, .conv-menu[open] summary { visibility: visible; }
+.conv-row:hover .conv-menu summary, .conv-row:focus-within .conv-menu summary,
+.conv-menu[open] summary { visibility: visible; }
+@media (hover: none) { .conv-menu summary { visibility: visible; } }
 .conv-menu-panel {
   position: absolute; right: 0; top: 100%; z-index: 5; min-width: 130px; padding: 4px;
   display: flex; flex-direction: column;

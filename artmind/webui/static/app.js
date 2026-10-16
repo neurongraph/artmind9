@@ -418,7 +418,11 @@ async function streamTurn(prompt) {
     body: JSON.stringify({ conversation_id: conversationId, prompt, backend }),
     signal: abortController.signal,
   });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  if (!response.ok) {
+    const err = new Error(`HTTP ${response.status}`);
+    err.status = response.status;
+    throw err;
+  }
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -460,7 +464,11 @@ async function send() {
   } catch (err) {
     if (err.name !== "AbortError") {
       console.error(err);
-      showNotice("Connection lost — send again to retry.");
+      showNotice(
+        err.status === 409
+          ? "This conversation is answering in another tab. Wait for it to finish, then send again."
+          : "Connection lost — send again to retry."
+      );
     }
   } finally {
     finalizeThinking();

@@ -2546,7 +2546,10 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
 
   // ── sidebar open/closed ────────────────────────────────────────────
   function setSidebar(open, persist = true) {
+    // Focus inside the panel must move out before it becomes inert.
+    if (!open && sidebarEl.contains(document.activeElement)) promptEl.focus();
     document.body.classList.toggle("sidebar-open", open);
+    toggleEl.setAttribute("aria-expanded", String(open));
     sidebarEl.inert = !open;
     sidebarEl.setAttribute("aria-hidden", String(!open));
     if (!persist || (open && !WIDE.matches)) return; // never persist "open" from a phone-width page
@@ -2563,7 +2566,11 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
   }
 
   function closeSidebarIfOverlay() {
-    if (!WIDE.matches) setSidebar(false, false);
+    if (WIDE.matches || !document.body.classList.contains("sidebar-open")) return;
+    // A list re-render may have removed the focused row: body means focus was lost.
+    const lostFocus = document.activeElement === document.body || sidebarEl.contains(document.activeElement);
+    setSidebar(false, false);
+    if (lostFocus) promptEl.focus();
   }
 
   toggleEl.addEventListener("click", () => {
@@ -2618,7 +2625,9 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
     row.appendChild(open);
 
     const menu = el("details", "conv-menu");
-    menu.appendChild(el("summary", null, "⋯"));
+    const summary = el("summary", null, "⋯");
+    summary.setAttribute("aria-label", "Conversation actions");
+    menu.appendChild(summary);
     const panel = el("div", "conv-menu-panel");
     const actions = [
       [c.pinned ? "Unpin" : "Pin", () => patch(c, { pinned: !c.pinned })],
@@ -2697,7 +2706,12 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
     try {
       const data = await api(`/api/conversations?${query}`);
       if (mySeq !== loadSeq) return;
-      items = reset ? data.conversations : items.concat(data.conversations);
+      if (reset) {
+        items = data.conversations;
+      } else {
+        const seen = new Set(items.map((c) => c.conversation_id));
+        items = items.concat(data.conversations.filter((c) => !seen.has(c.conversation_id)));
+      }
       nextCursor = data.next_cursor;
     } catch (err) {
       if (mySeq !== loadSeq) return;
@@ -2845,9 +2859,17 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
     return new URLSearchParams(window.location.search).get("c");
   }
 
+  // Frees the live agent of the conversation being left. Fire-and-forget; the
+  // server ignores it while that conversation is mid-turn.
+  function releaseLiveAgent(previousId) {
+    if (!chatEl.querySelector(".msg-user")) return; // nothing was said: no agent to free
+    fetch(`/api/session/${encodeURIComponent(previousId)}`, { method: "DELETE", keepalive: true }).catch(() => {});
+  }
+
   function newConversation(push) {
     if (streaming) return;
     openSeq += 1; // an open still in flight must not replace this new chat
+    releaseLiveAgent(conversationId);
     resetView();
     conversationId = crypto.randomUUID();
     if (push) history.pushState({}, "", "/");
@@ -2869,6 +2891,7 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
       return;
     }
     if (streaming || mySeq !== openSeq) return;
+    if (id !== conversationId) releaseLiveAgent(conversationId);
     resetView();
     conversationId = id;
     openedIds.add(id);
@@ -2927,7 +2950,12 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
   setSidebar(initialSidebarState(), false);
   loadList(true);
   const initialId = currentIdFromUrl();
-  if (initialId) openConversation(initialId, false);
+  if (initialId) {
+    // Claim the id now: a message sent before the fetch resolves must go to
+    // this conversation, not to the random id the page started with.
+    conversationId = initialId;
+    openConversation(initialId, false);
+  }
 })();
 ```
 
