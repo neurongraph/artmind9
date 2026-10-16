@@ -2360,7 +2360,7 @@ let backend = "claude-sdk";
 
 // Filled in by conversations.js (loaded after this file): lets the sidebar
 // follow a conversation as its first turn starts.
-const chatHooks = { onTurnStart(_conversationId, _prompt) {} };
+const chatHooks = { onTurnStart(_conversationId, _prompt) {}, onTurnEnd(_conversationId) {} };
 ```
 
 3. Delete the sessionStorage history block. Run:
@@ -2433,7 +2433,7 @@ All existing one-argument callers keep the error-styled default.
 
 7. `streamTurn`: replace `body: JSON.stringify({ session_id: sessionId, prompt, backend }),` with `body: JSON.stringify({ conversation_id: conversationId, prompt, backend }),`.
 
-8. `send()`: after `addUserMessage(prompt);` add `chatHooks.onTurnStart(conversationId, prompt);`, and in its `finally` block delete the line `    if (turnEl) pushHistory(turnEl.outerHTML);`. `stop()`: replace `/api/session/${sessionId}/interrupt` with `/api/session/${conversationId}/interrupt`.
+8. `send()`: after `addUserMessage(prompt);` add `chatHooks.onTurnStart(conversationId, prompt);`, and in its `finally` block delete the line `    if (turnEl) pushHistory(turnEl.outerHTML);` and, after `turnEl = null;`, add `chatHooks.onTurnEnd(conversationId);` (conversations.js reloads the list when a turn ends on a conversation that was opened but is not in the loaded pages). `stop()`: replace `/api/session/${sessionId}/interrupt` with `/api/session/${conversationId}/interrupt`.
 
 9. Replace the whole backend-picker section (from `// ── backend picker` through the closing `}` of the `for (const radio of backendRadios)` loop) with:
 
@@ -2526,6 +2526,10 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
   let nextCursor = null;
   let showArchived = false;
   let filterText = "";
+  let loadSeq = 0;          // a newer list load supersedes an older one still in flight
+  let loading = false;
+  let openSeq = 0;          // last click on a conversation wins
+  const openedIds = new Set(); // conversations that already had turns when opened here
 
   // ── api ────────────────────────────────────────────────────────────
   async function api(path, options) {
@@ -2545,7 +2549,7 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
     document.body.classList.toggle("sidebar-open", open);
     sidebarEl.inert = !open;
     sidebarEl.setAttribute("aria-hidden", String(!open));
-    if (!persist) return;
+    if (!persist || (open && !WIDE.matches)) return; // never persist "open" from a phone-width page
     try {
       localStorage.setItem(SIDEBAR_KEY, open ? "open" : "closed");
     } catch (_) { /* a per-viewer convenience only */ }
@@ -2553,8 +2557,7 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
 
   function initialSidebarState() {
     try {
-      const saved = localStorage.getItem(SIDEBAR_KEY);
-      if (saved) return saved === "open";
+      if (localStorage.getItem(SIDEBAR_KEY) === "closed") return false;
     } catch (_) { /* fall through to the default */ }
     return WIDE.matches;
   }
@@ -2685,27 +2688,37 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
 
   // ── list data ──────────────────────────────────────────────────────
   async function loadList(reset) {
-    if (reset) {
-      items = [];
-      nextCursor = null;
-    }
+    if (!reset && loading) return; // a "Load more" click while a load is in flight
+    const mySeq = ++loadSeq;
+    loading = true;
     const query = new URLSearchParams({ limit: "30" });
     if (showArchived) query.set("archived", "true");
-    if (nextCursor) query.set("cursor", nextCursor);
+    if (!reset && nextCursor) query.set("cursor", nextCursor);
     try {
       const data = await api(`/api/conversations?${query}`);
-      items = items.concat(data.conversations);
+      if (mySeq !== loadSeq) return;
+      items = reset ? data.conversations : items.concat(data.conversations);
       nextCursor = data.next_cursor;
     } catch (err) {
+      if (mySeq !== loadSeq) return;
+      if (reset) {
+        items = [];
+        nextCursor = null;
+      }
       console.error("conversation list failed", err);
       showNotice(`Couldn't load conversations: ${err.message}`);
+    } finally {
+      if (mySeq === loadSeq) loading = false;
     }
     renderList();
   }
 
+  // Row changes are applied to the loaded pages in memory: reloading page 1
+  // would drop later pages and pinned rows that live beyond it.
   async function patch(c, body) {
+    let updated;
     try {
-      await api(`/api/conversations/${encodeURIComponent(c.conversation_id)}`, {
+      updated = await api(`/api/conversations/${encodeURIComponent(c.conversation_id)}`, {
         method: "PATCH",
         headers: JSON_HEADERS,
         body: JSON.stringify(body),
@@ -2714,7 +2727,15 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
       showNotice(`Couldn't update the conversation: ${err.message}`);
       return;
     }
-    await loadList(true);
+    const row = items.find((x) => x.conversation_id === c.conversation_id);
+    if (row) {
+      if (Boolean(updated.archived_at) !== showArchived) {
+        items = items.filter((x) => x !== row); // moved to the other view
+      } else {
+        Object.assign(row, updated);
+      }
+    }
+    renderList();
   }
 
   async function remove(c) {
@@ -2728,8 +2749,10 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
       );
       return;
     }
+    items = items.filter((x) => x.conversation_id !== c.conversation_id);
+    openedIds.delete(c.conversation_id);
     if (c.conversation_id === conversationId) newConversation(true);
-    await loadList(true);
+    renderList();
   }
 
   filterEl.addEventListener("input", () => {
@@ -2737,6 +2760,12 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
     renderList();
   });
   moreEl.addEventListener("click", () => loadList(false));
+  // Only one row menu open at a time; a click anywhere else closes them.
+  document.addEventListener("click", (e) => {
+    for (const menu of listEl.querySelectorAll(".conv-menu[open]")) {
+      if (!menu.contains(e.target)) menu.open = false;
+    }
+  });
   archivedToggleEl.addEventListener("click", () => {
     showArchived = !showArchived;
     loadList(true);
@@ -2818,6 +2847,7 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
 
   function newConversation(push) {
     if (streaming) return;
+    openSeq += 1; // an open still in flight must not replace this new chat
     resetView();
     conversationId = crypto.randomUUID();
     if (push) history.pushState({}, "", "/");
@@ -2827,17 +2857,21 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
 
   async function openConversation(id, push = true) {
     if (streaming) return;
+    const mySeq = ++openSeq;
     let data;
     try {
       data = await api(`/api/conversations/${encodeURIComponent(id)}`);
     } catch (err) {
+      if (streaming || mySeq !== openSeq) return;
       newConversation(false);
       history.replaceState({}, "", "/");
       showNotice(err.status === 404 ? "Conversation not found. Started a new chat." : `Couldn't load it: ${err.message}`);
       return;
     }
+    if (streaming || mySeq !== openSeq) return;
     resetView();
     conversationId = id;
+    openedIds.add(id);
     const last = data.turns[data.turns.length - 1];
     if (last && last.backend !== backend) {
       backend = last.backend;
@@ -2856,7 +2890,14 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
   });
 
   window.addEventListener("popstate", () => {
-    if (streaming) return;
+    if (streaming) {
+      // The live turn owns the page: put its URL back rather than leave the
+      // address bar on a conversation that is not shown.
+      if (currentIdFromUrl() !== conversationId) {
+        history.pushState({ c: conversationId }, "", `/?c=${encodeURIComponent(conversationId)}`);
+      }
+      return;
+    }
     const id = currentIdFromUrl();
     if (id) openConversation(id, false);
     else newConversation(false);
@@ -2867,12 +2908,19 @@ Replace the contents of `artmind/webui/static/conversations.js` with:
     if (currentIdFromUrl() !== id) history.replaceState({ c: id }, "", `/?c=${encodeURIComponent(id)}`);
     if (showArchived) return;
     const at = items.findIndex((c) => c.conversation_id === id);
+    // An existing conversation that is not in the loaded pages keeps its real
+    // title: onTurnEnd reloads the list instead of inventing a placeholder.
+    if (at < 0 && openedIds.has(id)) return;
     const c = at >= 0
       ? items.splice(at, 1)[0]
       : { conversation_id: id, title: makeTitle(prompt), pinned: 0, archived_at: null };
     c.updated_at = Date.now() / 1000;
     items.unshift(c);
     renderList();
+  };
+
+  chatHooks.onTurnEnd = (id) => {
+    if (openedIds.has(id) && !items.some((c) => c.conversation_id === id)) loadList(true);
   };
 
   // ── start ──────────────────────────────────────────────────────────

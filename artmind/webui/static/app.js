@@ -28,7 +28,7 @@ let traceId = null;       // admin console: this turn's query-trace id
 
 // Filled in by conversations.js (loaded after this file): lets the sidebar
 // follow a conversation as its first turn starts.
-const chatHooks = { onTurnStart(_conversationId, _prompt) {} };
+const chatHooks = { onTurnStart(_conversationId, _prompt) {}, onTurnEnd(_conversationId) {} };
 
 // ── helpers ──────────────────────────────────────────────────────────
 function el(tag, cls, text) {
@@ -468,6 +468,7 @@ async function send() {
     if (turnEl && traceId) turnEl.appendChild(feedbackControl(traceId));
     traceId = null;
     turnEl = null;
+    chatHooks.onTurnEnd(conversationId);
     setStreaming(false);
     promptEl.focus();
   }
