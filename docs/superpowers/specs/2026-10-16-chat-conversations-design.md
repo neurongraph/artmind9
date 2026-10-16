@@ -132,10 +132,12 @@ id in the URL before the response arrives).
 5. Stream events as today.
 
 The response always closes its generator (`_ClosingStreamingResponse`), and
-recording finishes under a shielded scope, so a client disconnect leaves the
-turn `interrupted` (not `running`) and releases the in-flight claim. If the
-agent never received the prompt (`fresh` but the query failed), the fresh agent
-is dropped so the next turn is fresh again and replays the transcript.
+recording finishes under a shielded scope before the in-flight claim is
+released, so a client disconnect leaves the turn `interrupted` (not `running`).
+A turn that did not reach `turn_done` (disconnect, Stop, agent error), whose
+prompt was never delivered, or whose replay read failed drops the live agent, so
+the next turn is fresh and replays the stored `done` turns instead of reading
+the abandoned turn's remaining events.
 
 Replay format (plain text, backend-neutral):
 

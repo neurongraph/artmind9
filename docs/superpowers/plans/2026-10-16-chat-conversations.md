@@ -1243,7 +1243,8 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from artmind.conversations import store
-from artmind.webui.app import ChatRequest, create_app
+from artmind.traces import store as trace_store
+from artmind.webui.app import ChatRequest, _ClosingStreamingResponse, create_app
 from artmind.webui.sessions import SessionRegistry
 
 
@@ -1362,6 +1363,8 @@ def test_interrupted_and_failed_turns_are_not_replayed():
     store.ensure("c1", "qa", "q0")
     seq = store.begin_turn("c1", "q0", "claude-sdk")
     store.finish_turn("c1", seq, blocks=[], answer_text="partial", status="interrupted")
+    seq = store.begin_turn("c1", "q0b", "claude-sdk")
+    store.finish_turn("c1", seq, blocks=[], answer_text="half", status="error", error_message="boom")
     app, _ = _app()
     events = _sse(_chat(TestClient(app), "c1", "q1").text)
     assert "context_restored" not in [e["type"] for e in events]
@@ -1371,7 +1374,7 @@ def test_interrupted_and_failed_turns_are_not_replayed():
 def test_invalid_conversation_ids_are_rejected():
     app, _ = _app()
     client = TestClient(app)
-    for bad in ["", "has space", "../etc", "x" * 65]:
+    for bad in ["", "has space", "../etc", "x" * 65, "abc\n", "x" * 64 + "\n"]:
         assert _chat(client, bad, "hi").status_code == 422
 
 
@@ -1448,6 +1451,289 @@ def test_chat_ui_turns_have_no_trace_id():
     app, _ = _app()
     _chat(TestClient(app), "c1", "hi")
     assert store.list_turns("c1")[0]["trace_id"] is None
+
+
+def _asgi_scope():
+    return {"type": "http", "asgi": {"version": "3.0", "spec_version": "2.3"}, "http_version": "1.1",
+            "method": "POST", "scheme": "http", "path": "/api/chat", "raw_path": b"/api/chat",
+            "root_path": "", "query_string": b"", "headers": [(b"content-type", b"application/json")],
+            "client": ("127.0.0.1", 1), "server": ("127.0.0.1", 80)}
+
+
+async def test_a_client_disconnect_mid_turn_leaves_an_interrupted_turn_and_no_lock(tmp_path):
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+
+    class HangingBackend(FakeBackend):
+        trace_context_path = ctx
+
+        async def receive_events(self):
+            yield {"type": "text_delta", "text": "partial"}
+            await asyncio.sleep(3600)  # the agent is still working when the client leaves
+
+    registry = SessionRegistry(client_factory=HangingBackend)
+    app = create_app(registry=registry, admin_routes=True, trace_turns=True)
+    body = json.dumps({"conversation_id": "c1", "prompt": "hi"}).encode()
+    got_chunk = asyncio.Event()
+    sent_request = False
+
+    async def receive():
+        nonlocal sent_request
+        if not sent_request:
+            sent_request = True
+            return {"type": "http.request", "body": body, "more_body": False}
+        await got_chunk.wait()
+        return {"type": "http.disconnect"}
+
+    async def send(message):
+        if message["type"] == "http.response.body" and b"partial" in message.get("body", b""):
+            got_chunk.set()
+
+    await app(_asgi_scope(), receive, send)
+
+    turn = store.list_turns("c1")[0]
+    assert turn["status"] == "interrupted"
+    assert turn["blocks"] == [{"type": "text", "md": "partial"}]
+    assert turn["trace_id"] is not None
+    assert trace_store.get_turn(turn["trace_id"])["status"] == "error"
+
+    # the conversation is not locked: a follow-up is accepted, not 409
+    endpoint = [r for r in app.routes if getattr(r, "path", "") == "/api/chat"][0].endpoint
+    again = await endpoint(ChatRequest(conversation_id="c1", prompt="again"))
+    assert again.status_code == 200
+    await again.body_iterator.aclose()
+
+
+async def test_a_response_that_is_never_started_does_not_lock_the_conversation():
+    app, _ = _app()
+    endpoint = [r for r in app.routes if getattr(r, "path", "") == "/api/chat"][0].endpoint
+
+    abandoned = await endpoint(ChatRequest(conversation_id="c1", prompt="one"))
+    assert isinstance(abandoned, _ClosingStreamingResponse)
+    with pytest.raises(HTTPException) as busy:  # claimed as soon as it is returned
+        await endpoint(ChatRequest(conversation_id="c1", prompt="two"))
+    assert busy.value.status_code == 409
+
+    # the server runs the response and the client is already gone
+    async def receive():
+        return {"type": "http.disconnect"}
+
+    async def send(message):
+        raise OSError("client went away")
+
+    with pytest.raises(OSError):
+        await abandoned(_asgi_scope(), receive, send)
+
+    again = await endpoint(ChatRequest(conversation_id="c1", prompt="three"))
+    assert again.status_code == 200
+    async for _ in again.body_iterator:
+        pass
+
+
+def test_a_failed_history_read_does_not_break_a_fresh_turn_and_is_retried_next_turn(monkeypatch):
+    app, _ = _app()
+    _chat(TestClient(app), "c1", "first question")
+
+    real = store.list_turns
+    calls = []
+
+    def flaky(cid):
+        calls.append(cid)
+        if len(calls) == 1:
+            raise RuntimeError("db unavailable")
+        return real(cid)
+
+    monkeypatch.setattr(store, "list_turns", flaky)
+    app2, registry2 = _app()
+    client = TestClient(app2)
+    events = _sse(_chat(client, "c1", "second question").text)
+    assert "error" not in [e["type"] for e in events]
+    assert FakeBackend.instances[0].prompts == ["second question"]
+    assert registry2.peek("c1") is None  # dropped, so the next turn is fresh and retries the replay
+
+    events = _sse(_chat(client, "c1", "third question").text)
+    assert events[0] == {"type": "context_restored", "turns": 2, "omitted": 0}
+    assert "User: first question\nAssistant: Answer 1" in FakeBackend.instances[1].prompts[0]
+
+
+def test_an_undelivered_replay_is_replayed_again_on_the_next_turn():
+    app, _ = _app()
+    _chat(TestClient(app), "c1", "first question")
+
+    class FailsOnce(FakeBackend):
+        async def query(self, prompt):
+            await super().query(prompt)
+            if len(FakeBackend.instances) == 1:
+                raise RuntimeError("agent refused the prompt")
+
+    FakeBackend.instances = []
+    registry = SessionRegistry(client_factory=FailsOnce)
+    app2 = create_app(registry=registry)
+    client = TestClient(app2)
+    failed = _sse(_chat(client, "c1", "second question").text)
+    assert failed[0]["type"] == "context_restored"
+    assert failed[-1]["type"] == "error"
+    assert registry.peek("c1") is None  # the agent that missed the replay was dropped
+
+    retried = _sse(_chat(client, "c1", "second question").text)
+    assert retried[0]["type"] == "context_restored"
+    assert retried[0]["turns"] == 1  # the failed turn is not replayed, the good one is
+
+
+class QueueAgent(FakeBackend):
+    """Like the Claude SDK: one message stream per agent, and the agent keeps
+    working on a prompt whether or not anyone is reading its events."""
+
+    def __init__(self, backend: str = "claude-sdk"):
+        super().__init__(backend)
+        self.queue: asyncio.Queue = asyncio.Queue()
+
+    work_s = 0.1  # how long the agent works between its two chunks
+
+    async def query(self, prompt):
+        self.prompts.append(prompt)
+
+        tag = prompt.rsplit("\n\n", 1)[-1]  # the user's message, without any replayed transcript
+
+        async def work():
+            await self.queue.put({"type": "text_delta", "text": f"[{tag}] part1 "})
+            await asyncio.sleep(self.work_s)
+            await self.queue.put({"type": "text_delta", "text": f"[{tag}] part2"})
+            await self.queue.put({"type": "turn_done", "turns": 1, "duration_s": 1.0, "cost": 0.0})
+
+        asyncio.get_running_loop().create_task(work())
+
+    async def receive_events(self):
+        while True:
+            event = await self.queue.get()
+            yield event
+            if event["type"] == "turn_done":
+                return
+
+
+async def _asgi_chat(app, cid, prompt, *, disconnect_after_first=False):
+    body = json.dumps({"conversation_id": cid, "prompt": prompt}).encode()
+    first = asyncio.Event()
+    sent = False
+    out: list[str] = []
+    status: list[int] = []
+
+    async def receive():
+        nonlocal sent
+        if not sent:
+            sent = True
+            return {"type": "http.request", "body": body, "more_body": False}
+        if disconnect_after_first:
+            await first.wait()
+            return {"type": "http.disconnect"}
+        await asyncio.sleep(3600)
+
+    async def send(message):
+        if message["type"] == "http.response.start":
+            status.append(message["status"])
+        if message["type"] == "http.response.body" and message.get("body"):
+            out.append(message["body"].decode())
+            first.set()
+
+    await app(_asgi_scope(), receive, send)
+    return status[0], _sse("".join(out))
+
+
+async def test_a_disconnected_turn_never_bleeds_into_the_next_one():
+    registry = SessionRegistry(client_factory=QueueAgent)
+    app = create_app(registry=registry)
+
+    _, events = await _asgi_chat(app, "c1", "one")  # a finished turn, so there is history to replay
+    assert events[-1]["type"] == "turn_done"
+
+    # the client leaves after the first chunk; the agent is still working
+    status, _ = await _asgi_chat(app, "c1", "two", disconnect_after_first=True)
+    assert status == 200
+    assert [t["status"] for t in store.list_turns("c1")] == ["done", "interrupted"]
+    assert registry.peek("c1") is None  # the agent mid-way through "two" was dropped
+
+    status, events = await _asgi_chat(app, "c1", "three")
+    assert status == 200
+    assert events[0] == {"type": "context_restored", "turns": 1, "omitted": 0}
+    answer = "".join(e["text"] for e in events if e["type"] == "text_delta")
+    # only this turn's own output: one part1, one part2, none of the abandoned turn's
+    assert answer.count("part1") == 1 and answer.count("part2") == 1
+    assert "[two]" not in answer and "[one]" not in answer
+    turns = store.list_turns("c1")
+    assert [(t["user_text"], t["status"]) for t in turns] == [("one", "done"), ("two", "interrupted"), ("three", "done")]
+    assert turns[2]["answer_text"] == answer
+
+
+async def test_a_disconnect_on_the_first_turn_gives_a_clean_bare_next_turn():
+    registry = SessionRegistry(client_factory=QueueAgent)
+    app = create_app(registry=registry)
+    await _asgi_chat(app, "c1", "one", disconnect_after_first=True)
+    assert registry.peek("c1") is None
+
+    _, events = await _asgi_chat(app, "c1", "two")
+    assert "context_restored" not in [e["type"] for e in events]  # nothing done to replay
+    assert "".join(e["text"] for e in events if e["type"] == "text_delta") == "[two] part1 [two] part2"
+    assert store.list_turns("c1")[1]["answer_text"] == "[two] part1 [two] part2"
+
+
+def test_a_stream_that_raises_midway_drops_the_agent():
+    class DiesMidway(FakeBackend):
+        async def receive_events(self):
+            yield {"type": "text_delta", "text": "partial"}
+            raise RuntimeError("agent crashed")
+
+    registry = SessionRegistry(client_factory=DiesMidway)
+    client = TestClient(create_app(registry=registry))
+    events = _sse(_chat(client, "c1", "hi").text)
+    assert events[-1] == {"type": "error", "message": "agent crashed"}
+    assert registry.peek("c1") is None
+    assert store.list_turns("c1")[0]["status"] == "error"
+
+
+async def test_the_next_turn_cannot_start_before_the_previous_one_has_finished_recording(tmp_path, monkeypatch):
+    """The trace-context file is shared by a conversation's turns: a late
+    `recorder.finish` of turn one must not clear the id turn two just wrote."""
+    import time
+
+    from artmind.traces import recorder as trace_recorder
+
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+    seen: list[tuple[str, str]] = []
+
+    class CtxAgent(QueueAgent):
+        trace_context_path = ctx
+        work_s = 0.6
+
+        async def query(self, prompt):
+            await super().query(prompt)
+
+            async def look():
+                # turn two looks after any late `finish` of turn one would have run
+                await asyncio.sleep(0.35 if prompt == "two" else 0.02)
+                seen.append((prompt, ctx.read_text()))  # what a tool call would tag its span with
+
+            asyncio.get_running_loop().create_task(look())
+
+    original = trace_recorder.TraceRecorder.finish
+
+    def slow_finish(self, error=None):
+        time.sleep(0.15)
+        original(self, error=error)
+
+    monkeypatch.setattr(trace_recorder.TraceRecorder, "finish", slow_finish)
+    app = create_app(registry=SessionRegistry(client_factory=CtxAgent), admin_routes=True, trace_turns=True)
+
+    first = asyncio.create_task(_asgi_chat(app, "c1", "one"))
+    while True:  # POST "two" until the app accepts it (409 while "one" is still recording)
+        await asyncio.sleep(0.02)
+        status, _ = await _asgi_chat(app, "c1", "two")
+        if status == 200:
+            break
+    await first
+
+    ids = {t["user_text"]: t["trace_id"] for t in store.list_turns("c1")}
+    assert dict(seen) == ids
 ```
 
 - [ ] **Step 3: Run to verify failure**
@@ -1552,13 +1838,18 @@ class ChatRequest(BaseModel):
             error = None
             fresh = False
             delivered = False
+            completed = False
+            replay_failed = False
             try:
                 # Recorded first so a turn whose agent fails to start is still
                 # kept (as an error) rather than silently lost.
-                conv = await asyncio.to_thread(
-                    ConversationRecorder.start,
-                    conversation_id=cid, profile=profile_name, user_text=payload.prompt, backend=payload.backend,
-                )
+                # The thread hop is shielded so a cancel during it cannot
+                # orphan a `running` row.
+                with anyio.CancelScope(shield=True):
+                    conv = await anyio.to_thread.run_sync(functools.partial(
+                        ConversationRecorder.start,
+                        conversation_id=cid, profile=profile_name, user_text=payload.prompt, backend=payload.backend,
+                    ))
                 client, fresh = await registry.get_or_create(cid, payload.backend)
                 prompt = payload.prompt
                 if fresh:
@@ -1569,6 +1860,7 @@ class ChatRequest(BaseModel):
                         replay = build_context(prior)
                     except Exception:
                         logger.exception("conversation replay unavailable")
+                        replay_failed = True  # drop the agent below so the next turn retries the replay
                     if replay is not None:
                         prompt = f"{replay.text}\n\n{payload.prompt}"
                         restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
@@ -1577,11 +1869,12 @@ class ChatRequest(BaseModel):
                 if trace_turns and context_path is not None:
                     # Query-trace capture (spec 2026-10-11 §5.1): the id goes into
                     # the session's context file before the agent sees the prompt.
-                    recorder = await asyncio.to_thread(
-                        TraceRecorder.start,
-                        source="admin", question=payload.prompt, session_id=cid,
-                        profile="admin", backend=payload.backend, context_path=context_path,
-                    )
+                    with anyio.CancelScope(shield=True):  # as for the conversation recorder
+                        recorder = await anyio.to_thread.run_sync(functools.partial(
+                            TraceRecorder.start,
+                            source="admin", question=payload.prompt, session_id=cid,
+                            profile="admin", backend=payload.backend, context_path=context_path,
+                        ))
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
                 await client.query(prompt)
@@ -1589,6 +1882,8 @@ class ChatRequest(BaseModel):
                 async for event in client.receive_events():
                     event = recorder.observe(event) if recorder is not None else public_event(event)
                     conv.observe(event)
+                    if event.get("type") == "turn_done":
+                        completed = True
                     yield f"data: {json.dumps(event)}\n\n"
             except Exception as exc:  # stream errors to the client, don't 500
                 error = str(exc)
@@ -1607,23 +1902,32 @@ class ChatRequest(BaseModel):
 
                 # Shielded: on a client disconnect Starlette cancels this task
                 # and re-cancels every await, which would skip the recording.
-                with anyio.CancelScope(shield=True):
-                    try:
-                        if fresh and not delivered:
-                            # The agent never saw the replayed transcript. Drop
-                            # it so the next turn is fresh again and replays.
+                # The claim is released last, so the next turn cannot start
+                # (and write the trace-context file) while this one is still
+                # finishing.
+                try:
+                    with anyio.CancelScope(shield=True):
+                        # A live agent that did not see this turn through is
+                        # unsafe to reuse: it never received the replay, or it
+                        # keeps producing this turn's remaining events, which
+                        # the next turn would read as its own. Dropping it makes
+                        # the next turn fresh, so it replays the stored history.
+                        if (fresh and not delivered) or (delivered and not completed) or replay_failed:
                             try:
-                                await registry.drop(cid)
+                                with anyio.move_on_after(10, shield=True) as drop_scope:
+                                    await registry.drop(cid)
+                                if drop_scope.cancel_called:
+                                    logger.error("timed out dropping the agent for conversation %s", cid)
                             except Exception:
-                                logger.exception("could not drop an agent that never received its turn")
-                    finally:
-                        release()
-                    await anyio.to_thread.run_sync(_finish)
+                                logger.exception("could not drop the agent for conversation %s", cid)
+                        await anyio.to_thread.run_sync(_finish)
+                finally:
+                    release()
 
         return _ClosingStreamingResponse(stream(), media_type="text/event-stream", on_close=release)
 ```
 
-Notes for the implementer: the profile lookup (404) comes first and the 409 check last, with nothing awaited between the check and the claim in `in_flight`, so two requests cannot both pass. The claim is released by the generator's `finally` and by `_ClosingStreamingResponse`'s `on_close` (an unstarted generator's `finally` never runs); the owner token keeps a late release from freeing a later turn's claim. Recording runs in one shielded `finish` because a client disconnect cancels the task and re-cancels every await. A `fresh` agent whose prompt was never delivered is dropped so the next turn replays again.
+Notes for the implementer: the profile lookup (404) comes first and the 409 check last, with nothing awaited between the check and the claim in `in_flight`, so two requests cannot both pass. The claim is released by the generator's `finally` and by `_ClosingStreamingResponse`'s `on_close` (an unstarted generator's `finally` never runs); the owner token keeps a late release from freeing a later turn's claim. The claim is released only after recording has finished, so the next turn cannot overwrite the shared trace-context file early. Recording runs in one shielded `finish` because a client disconnect cancels the task and re-cancels every await, and the recorder start-ups are shielded so a cancel cannot orphan a `running` row. A live agent that did not see its turn through is dropped (`fresh` but the prompt was never delivered; delivered but no `turn_done`, because it would keep emitting the old turn's events into the next turn; or the replay read failed, so the next turn retries it), and the next turn then replays the stored history.
 
 4e. Update the docstring on the existing `close_session` route to say it releases the live agent and keeps the stored conversation:
 
