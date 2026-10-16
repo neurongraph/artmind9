@@ -104,7 +104,9 @@ New package `artmind/conversations/`:
   The stream's `finally` calls `finish` with `error="interrupted: ..."` on
   `BaseException` so a client disconnect leaves an `interrupted` turn, mirroring
   the existing trace handling in `app.py`.
-- `replay.py` -- `build_context(turns, budget_chars) -> str | None`.
+- `replay.py` -- `build_context(turns, budget=None) -> Replay | None`, where
+  `Replay` carries `text`, `included` and `omitted` (the route needs the counts
+  for the `context_restored` event).
 
 All store calls from request handlers run through `asyncio.to_thread`.
 
@@ -206,10 +208,11 @@ else `qa`) and is never client-supplied.
   generates a new id or deletes the session server-side; the next send carries
   the new `backend`, the registry replaces the client, and replay runs.
 - **Admin-only**: restored turns with a `trace_id` re-render the feedback
-  control (existing `feedbackControl`, delegated handler already in place) and a
-  link to the trace.
-- **`context_restored` event**: renders a `notice` line, "Context restored from
-  N earlier turns (M omitted)".
+  control (existing `feedbackControl`, delegated handler already in place). There
+  is no web trace page to link to, so the `trace_id` is stored for
+  `artmind traces show`.
+- **`context_restored` event**: renders a quiet divider line, "Context restored
+  from N earlier turns (M older omitted)".
 - The composer and streaming code are otherwise unchanged. The `?prompt=`
   prefill stays; it opens a new conversation.
 
