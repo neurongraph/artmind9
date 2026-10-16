@@ -1467,10 +1467,32 @@ from artmind.conversations.replay import build_context
 
 and add `import re` to the stdlib imports at the top of the file.
 
-4b. Replace the `ChatRequest` class with:
+4b. Replace the `ChatRequest` class with the following (and add `import anyio` / `import anyio.to_thread` to the third-party imports). `_ClosingStreamingResponse` closes the body generator when the response ends or is cancelled and runs `on_close` even if the generator never started; `fullmatch` is used because `$` would accept a trailing newline:
 
 ```python
-_CONVERSATION_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+_CONVERSATION_ID = re.compile(r"[A-Za-z0-9_-]{1,64}")
+
+
+class _ClosingStreamingResponse(StreamingResponse):
+    """Closes the body generator when the response ends or is cancelled, so the
+    generator's `finally` (turn recording, agent cleanup) always runs promptly
+    rather than at garbage collection. `on_close` runs last, even when the
+    generator never started (an unstarted generator's `finally` never runs)."""
+
+    def __init__(self, content, *, on_close=None, **kwargs) -> None:
+        super().__init__(content, **kwargs)
+        self._on_close = on_close
+
+    async def __call__(self, scope, receive, send) -> None:
+        try:
+            await super().__call__(scope, receive, send)
+        finally:
+            with anyio.CancelScope(shield=True):
+                try:
+                    await self.body_iterator.aclose()
+                finally:
+                    if self._on_close is not None:
+                        self._on_close()
 
 
 class ChatRequest(BaseModel):
@@ -1481,7 +1503,7 @@ class ChatRequest(BaseModel):
     @field_validator("conversation_id")
     @classmethod
     def _valid_conversation_id(cls, value: str) -> str:
-        if not _CONVERSATION_ID.match(value):
+        if not _CONVERSATION_ID.fullmatch(value):
             raise ValueError("conversation_id must be 1-64 characters of letters, digits, '-' or '_'")
         return value
 
@@ -1497,10 +1519,11 @@ class ChatRequest(BaseModel):
 
 ```python
     profile_name = "admin" if admin_routes else "qa"
-    in_flight: set[str] = set()  # conversations with a turn currently streaming
+    # conversations with a turn currently streaming -> that turn's owner token
+    in_flight: dict[str, object] = {}
 ```
 
-4d. Replace the entire `chat` route (from `@app.post("/api/chat")` through `return StreamingResponse(stream(), media_type="text/event-stream")`) with:
+4d. Replace the entire `chat` route (from `@app.post("/api/chat")` through its final `return`) with:
 
 ```python
     @app.post("/api/chat")
@@ -1508,17 +1531,27 @@ class ChatRequest(BaseModel):
         from artmind.traces.recorder import TraceRecorder, public_event
 
         cid = payload.conversation_id
-        if cid in in_flight:
-            raise HTTPException(status_code=409, detail="this conversation already has a turn in progress")
         existing = await asyncio.to_thread(conv_store.get, cid)
         if existing is not None and existing["profile"] != profile_name:
             raise HTTPException(status_code=404, detail=f"no conversation {cid}")
+        # Nothing is awaited between this check and the claim below, so two
+        # requests cannot both pass it.
+        if cid in in_flight:
+            raise HTTPException(status_code=409, detail="this conversation already has a turn in progress")
+        owner = object()
+        in_flight[cid] = owner
+
+        def release() -> None:
+            # Idempotent, and never releases a later turn's claim.
+            if in_flight.get(cid) is owner:
+                del in_flight[cid]
 
         async def stream():
-            in_flight.add(cid)
             recorder = None
             conv = None
             error = None
+            fresh = False
+            delivered = False
             try:
                 # Recorded first so a turn whose agent fails to start is still
                 # kept (as an error) rather than silently lost.
@@ -1530,8 +1563,12 @@ class ChatRequest(BaseModel):
                 prompt = payload.prompt
                 if fresh:
                     # The agent has no memory of this conversation: replay it.
-                    prior = await asyncio.to_thread(conv_store.list_turns, cid)
-                    replay = build_context(prior)
+                    replay = None
+                    try:
+                        prior = await asyncio.to_thread(conv_store.list_turns, cid)
+                        replay = build_context(prior)
+                    except Exception:
+                        logger.exception("conversation replay unavailable")
                     if replay is not None:
                         prompt = f"{replay.text}\n\n{payload.prompt}"
                         restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
@@ -1548,6 +1585,7 @@ class ChatRequest(BaseModel):
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
                 await client.query(prompt)
+                delivered = True
                 async for event in client.receive_events():
                     event = recorder.observe(event) if recorder is not None else public_event(event)
                     conv.observe(event)
@@ -1559,17 +1597,33 @@ class ChatRequest(BaseModel):
                 error = error or "interrupted: the client disconnected"
                 raise
             finally:
-                in_flight.discard(cid)
-                if recorder is not None:
-                    await asyncio.to_thread(recorder.finish, error=error)
-                if conv is not None:
-                    trace_id = recorder.trace_id if recorder is not None and recorder.enabled else None
-                    await asyncio.to_thread(conv.finish, error=error, trace_id=trace_id)
+                trace_id = recorder.trace_id if recorder is not None and recorder.enabled else None
 
-        return StreamingResponse(stream(), media_type="text/event-stream")
+                def _finish() -> None:
+                    if recorder is not None:
+                        recorder.finish(error=error)
+                    if conv is not None:
+                        conv.finish(error=error, trace_id=trace_id)
+
+                # Shielded: on a client disconnect Starlette cancels this task
+                # and re-cancels every await, which would skip the recording.
+                with anyio.CancelScope(shield=True):
+                    try:
+                        if fresh and not delivered:
+                            # The agent never saw the replayed transcript. Drop
+                            # it so the next turn is fresh again and replays.
+                            try:
+                                await registry.drop(cid)
+                            except Exception:
+                                logger.exception("could not drop an agent that never received its turn")
+                    finally:
+                        release()
+                    await anyio.to_thread.run_sync(_finish)
+
+        return _ClosingStreamingResponse(stream(), media_type="text/event-stream", on_close=release)
 ```
 
-Notes for the implementer: `in_flight.add` is the generator's first statement, so a generator that is never started cannot leak an id; the window between returning the response and the first iteration is a few event-loop ticks and the UI already blocks double-sends within a tab (the 409 guards a *second tab*).
+Notes for the implementer: the profile lookup (404) comes first and the 409 check last, with nothing awaited between the check and the claim in `in_flight`, so two requests cannot both pass. The claim is released by the generator's `finally` and by `_ClosingStreamingResponse`'s `on_close` (an unstarted generator's `finally` never runs); the owner token keeps a late release from freeing a later turn's claim. Recording runs in one shielded `finish` because a client disconnect cancels the task and re-cancels every await. A `fresh` agent whose prompt was never delivered is dropped so the next turn replays again.
 
 4e. Update the docstring on the existing `close_session` route to say it releases the live agent and keeps the stored conversation:
 

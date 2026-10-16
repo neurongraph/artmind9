@@ -131,6 +131,12 @@ id in the URL before the response arrives).
    included, "omitted": dropped}` event first so the UI can show a notice.
 5. Stream events as today.
 
+The response always closes its generator (`_ClosingStreamingResponse`), and
+recording finishes under a shielded scope, so a client disconnect leaves the
+turn `interrupted` (not `running`) and releases the in-flight claim. If the
+agent never received the prompt (`fresh` but the query failed), the fresh agent
+is dropped so the next turn is fresh again and replays the transcript.
+
 Replay format (plain text, backend-neutral):
 
 ```
