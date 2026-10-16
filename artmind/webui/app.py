@@ -18,6 +18,7 @@ from pydantic import BaseModel, field_validator
 from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND, backend_factory
 from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
+from artmind.webui.hosts import guard_app
 from artmind.webui.sessions import SessionRegistry
 from artmind.webui.source_links import SourceLinkError, obsidian_uri, open_uri, vault_relative
 
@@ -239,7 +240,9 @@ def create_app(
 def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
     import uvicorn
 
-    uvicorn.run(create_app(), host=host, port=port, log_level="warning")
+    app = create_app()
+    guard_app(app, host, port)
+    uvicorn.run(app, host=host, port=port, log_level="warning")
 
 
 def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> None:
@@ -251,4 +254,5 @@ def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> 
         admin_routes=True,
         trace_turns=True,
     )
+    guard_app(app, host, port)
     uvicorn.run(app, host=host, port=port, log_level="warning")
