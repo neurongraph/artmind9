@@ -499,3 +499,96 @@ async def test_the_next_turn_cannot_start_before_the_previous_one_has_finished_r
 
     ids = {t["user_text"]: t["trace_id"] for t in store.list_turns("c1")}
     assert dict(seen) == ids
+
+
+def test_get_conversation_404s_for_unknown_and_other_profile():
+    app, _ = _app()
+    client = TestClient(app)
+    _chat(client, "c1", "hi")
+    assert client.get("/api/conversations/nope").status_code == 404
+    admin_app, _ = _app(admin_routes=True)
+    admin_client = TestClient(admin_app)
+    assert admin_client.get("/api/conversations/c1").status_code == 404
+    assert admin_client.get("/api/conversations").json()["conversations"] == []
+
+
+def test_list_paginates_with_a_cursor():
+    for i, cid in enumerate(["a", "b", "c"]):
+        store.ensure(cid, "qa", f"title {cid}", now=100.0 + i)
+    app, _ = _app()
+    client = TestClient(app)
+    page1 = client.get("/api/conversations?limit=2").json()
+    assert [c["conversation_id"] for c in page1["conversations"]] == ["c", "b"]
+    assert page1["next_cursor"]
+    page2 = client.get(f"/api/conversations?limit=2&cursor={page1['next_cursor']}").json()
+    assert [c["conversation_id"] for c in page2["conversations"]] == ["a"]
+    assert page2["next_cursor"] is None
+    assert client.get("/api/conversations?cursor=garbage").status_code == 400
+
+
+def test_patch_renames_pins_and_archives():
+    app, _ = _app()
+    client = TestClient(app)
+    _chat(client, "c1", "hi")
+    body = client.patch("/api/conversations/c1", json={"title": "My thread", "pinned": True}).json()
+    assert (body["title"], body["title_source"], body["pinned"]) == ("My thread", "user", 1)
+    client.patch("/api/conversations/c1", json={"archived": True})
+    assert client.get("/api/conversations").json()["conversations"] == []
+    archived = client.get("/api/conversations?archived=true").json()["conversations"]
+    assert [c["conversation_id"] for c in archived] == ["c1"]
+    client.patch("/api/conversations/c1", json={"archived": False})
+    assert len(client.get("/api/conversations").json()["conversations"]) == 1
+
+
+def test_patch_validates_the_title_and_404s():
+    app, _ = _app()
+    client = TestClient(app)
+    _chat(client, "c1", "hi")
+    assert client.patch("/api/conversations/c1", json={"title": "   "}).status_code == 422
+    assert client.patch("/api/conversations/c1", json={"title": "x" * 201}).status_code == 422
+    assert client.patch("/api/conversations/nope", json={"title": "x"}).status_code == 404
+
+
+def test_delete_drops_the_live_agent_then_the_rows():
+    app, registry = _app()
+    client = TestClient(app)
+    _chat(client, "c1", "hi")
+    assert registry.peek("c1") is not None
+    assert client.delete("/api/conversations/c1").json() == {"ok": True}
+    assert registry.peek("c1") is None
+    assert client.get("/api/conversations/c1").status_code == 404
+    assert store.list_turns("c1") == []
+    assert client.delete("/api/conversations/c1").status_code == 404
+
+
+def test_release_keeps_the_stored_conversation():
+    app, registry = _app()
+    client = TestClient(app)
+    _chat(client, "c1", "hi")
+    assert client.delete("/api/session/c1").json() == {"ok": True}
+    assert registry.peek("c1") is None
+    assert client.get("/api/conversations/c1").status_code == 200
+
+
+def test_startup_marks_this_profiles_running_turns_interrupted_only():
+    store.ensure("q", "qa", "q")
+    store.ensure("a", "admin", "a")
+    store.begin_turn("q", "q", "claude-sdk")
+    store.begin_turn("a", "a", "claude-sdk")
+    app, _ = _app()
+    with TestClient(app):  # entering the context runs the lifespan startup
+        pass
+    assert store.list_turns("q")[0]["status"] == "interrupted"
+    assert store.list_turns("a")[0]["status"] == "running"
+
+
+@pytest.mark.parametrize("template_name", ["index.html", "admin.html"])
+def test_pages_carry_the_sidebar_and_conversations_script(template_name):
+    from artmind.webui.app import WEBUI_DIR
+
+    app, _ = _app(template_name=template_name)
+    html = TestClient(app).get("/").text
+    mtime = (WEBUI_DIR / "static" / "conversations.js").stat().st_mtime_ns
+    assert f'src="/static/conversations.js?v={mtime}"' in html
+    for needle in ('id="sidebar"', 'id="new-chat"', 'id="conv-list"', 'id="sidebar-toggle"'):
+        assert needle in html

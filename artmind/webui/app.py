@@ -93,6 +93,32 @@ class FeedbackRequest(BaseModel):
     expected: str | None = None
 
 
+class ConversationPatch(BaseModel):
+    title: str | None = None
+    pinned: bool | None = None
+    archived: bool | None = None
+
+    @field_validator("title")
+    @classmethod
+    def _title(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if not value or len(value) > 200:
+            raise ValueError("title must be 1-200 characters")
+        return value
+
+
+def _parse_cursor(cursor: str | None) -> tuple[float, str] | None:
+    if not cursor:
+        return None
+    stamp, _, conversation_id = cursor.partition(":")
+    try:
+        return float(stamp), conversation_id
+    except ValueError:
+        raise HTTPException(status_code=400, detail="bad cursor") from None
+
+
 def static_url(name: str) -> str:
     """`/static/<name>?v=<mtime>` -- a changed asset gets a new URL. /static is
     served with no cache headers, so a browser (notably Obsidian's Web Viewer)
@@ -125,6 +151,11 @@ def create_app(
                 await asyncio.to_thread(store.prune, int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90")))
             except Exception:
                 logger.exception("trace prune failed")
+
+        try:
+            await asyncio.to_thread(conv_store.sweep_running, profile_name)
+        except Exception:
+            logger.exception("conversation sweep failed")
 
         async def sweep_loop():
             while True:
@@ -338,6 +369,47 @@ def create_app(
         """Release the live agent for a conversation. The stored conversation
         is kept; DELETE /api/conversations/{id} removes it."""
         await registry.drop(session_id)
+        return {"ok": True}
+
+    @app.get("/api/conversations")
+    async def list_conversations(limit: int = 50, cursor: str | None = None, archived: bool = False):
+        limit = max(1, min(limit, 200))
+        before = _parse_cursor(cursor)
+        rows = await asyncio.to_thread(
+            conv_store.list_conversations, profile_name, archived=archived, limit=limit + 1, before=before
+        )
+        next_cursor = None
+        if len(rows) > limit:
+            rows = rows[:limit]
+            next_cursor = f"{rows[-1]['updated_at']!r}:{rows[-1]['conversation_id']}"
+        return {"conversations": rows, "next_cursor": next_cursor}
+
+    @app.get("/api/conversations/{conversation_id}")
+    async def get_conversation(conversation_id: str):
+        conversation = await asyncio.to_thread(conv_store.get, conversation_id, profile_name)
+        if conversation is None:
+            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+        turns = await asyncio.to_thread(conv_store.list_turns, conversation_id)
+        return {**conversation, "turns": turns}
+
+    @app.patch("/api/conversations/{conversation_id}")
+    async def patch_conversation(conversation_id: str, payload: ConversationPatch):
+        found = await asyncio.to_thread(
+            conv_store.update, conversation_id, profile_name,
+            title=payload.title, pinned=payload.pinned, archived=payload.archived,
+        )
+        if not found:
+            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+        return await asyncio.to_thread(conv_store.get, conversation_id, profile_name)
+
+    @app.delete("/api/conversations/{conversation_id}")
+    async def delete_conversation(conversation_id: str):
+        if conversation_id in in_flight:
+            raise HTTPException(status_code=409, detail="this conversation has a turn in progress")
+        if await asyncio.to_thread(conv_store.get, conversation_id, profile_name) is None:
+            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+        await registry.drop(conversation_id)
+        await asyncio.to_thread(conv_store.delete, conversation_id, profile_name)
         return {"ok": True}
 
     if trace_turns:
