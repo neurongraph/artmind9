@@ -4,6 +4,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -15,6 +16,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, field_validator
 
+from artmind.conversations import store as conv_store
+from artmind.conversations.recorder import ConversationRecorder
+from artmind.conversations.replay import build_context
 from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND, backend_factory
 from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
@@ -32,10 +36,20 @@ PREFILL_MAX_CHARS = 2000
 SWEEP_INTERVAL_S = 60
 
 
+_CONVERSATION_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+
+
 class ChatRequest(BaseModel):
-    session_id: str
+    conversation_id: str
     prompt: str
     backend: str = DEFAULT_BACKEND
+
+    @field_validator("conversation_id")
+    @classmethod
+    def _valid_conversation_id(cls, value: str) -> str:
+        if not _CONVERSATION_ID.match(value):
+            raise ValueError("conversation_id must be 1-64 characters of letters, digits, '-' or '_'")
+        return value
 
     @field_validator("backend")
     @classmethod
@@ -73,6 +87,8 @@ def create_app(
     trace_turns: bool = False,
 ) -> FastAPI:
     registry = registry or SessionRegistry()
+    profile_name = "admin" if admin_routes else "qa"
+    in_flight: set[str] = set()  # conversations with a turn currently streaming
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -139,25 +155,50 @@ def create_app(
     async def chat(payload: ChatRequest) -> StreamingResponse:
         from artmind.traces.recorder import TraceRecorder, public_event
 
+        cid = payload.conversation_id
+        if cid in in_flight:
+            raise HTTPException(status_code=409, detail="this conversation already has a turn in progress")
+        existing = await asyncio.to_thread(conv_store.get, cid)
+        if existing is not None and existing["profile"] != profile_name:
+            raise HTTPException(status_code=404, detail=f"no conversation {cid}")
+
         async def stream():
+            in_flight.add(cid)
             recorder = None
+            conv = None
             error = None
             try:
-                client = await registry.get(payload.session_id, payload.backend)
+                # Recorded first so a turn whose agent fails to start is still
+                # kept (as an error) rather than silently lost.
+                conv = await asyncio.to_thread(
+                    ConversationRecorder.start,
+                    conversation_id=cid, profile=profile_name, user_text=payload.prompt, backend=payload.backend,
+                )
+                client, fresh = await registry.get_or_create(cid, payload.backend)
+                prompt = payload.prompt
+                if fresh:
+                    # The agent has no memory of this conversation: replay it.
+                    prior = await asyncio.to_thread(conv_store.list_turns, cid)
+                    replay = build_context(prior)
+                    if replay is not None:
+                        prompt = f"{replay.text}\n\n{payload.prompt}"
+                        restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
+                        yield f"data: {json.dumps(restored)}\n\n"
                 context_path = getattr(client, "trace_context_path", None)
                 if trace_turns and context_path is not None:
                     # Query-trace capture (spec 2026-10-11 §5.1): the id goes into
                     # the session's context file before the agent sees the prompt.
                     recorder = await asyncio.to_thread(
                         TraceRecorder.start,
-                        source="admin", question=payload.prompt, session_id=payload.session_id,
+                        source="admin", question=payload.prompt, session_id=cid,
                         profile="admin", backend=payload.backend, context_path=context_path,
                     )
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
-                await client.query(payload.prompt)
+                await client.query(prompt)
                 async for event in client.receive_events():
                     event = recorder.observe(event) if recorder is not None else public_event(event)
+                    conv.observe(event)
                     yield f"data: {json.dumps(event)}\n\n"
             except Exception as exc:  # stream errors to the client, don't 500
                 error = str(exc)
@@ -166,8 +207,12 @@ def create_app(
                 error = error or "interrupted: the client disconnected"
                 raise
             finally:
+                in_flight.discard(cid)
                 if recorder is not None:
                     await asyncio.to_thread(recorder.finish, error=error)
+                if conv is not None:
+                    trace_id = recorder.trace_id if recorder is not None and recorder.enabled else None
+                    await asyncio.to_thread(conv.finish, error=error, trace_id=trace_id)
 
         return StreamingResponse(stream(), media_type="text/event-stream")
 
@@ -215,6 +260,8 @@ def create_app(
 
     @app.delete("/api/session/{session_id}")
     async def close_session(session_id: str):
+        """Release the live agent for a conversation. The stored conversation
+        is kept; DELETE /api/conversations/{id} removes it."""
         await registry.drop(session_id)
         return {"ok": True}
 

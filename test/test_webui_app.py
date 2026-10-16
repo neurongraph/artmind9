@@ -10,6 +10,15 @@ from artmind.webui.app import create_app
 from artmind.webui.sessions import SessionRegistry
 
 
+@pytest.fixture(autouse=True)
+def _isolated_db(tmp_path, monkeypatch):
+    # Chat turns are recorded in the registry DB. Without this, conversation
+    # "tab-1" would leak history from one test into the next and trigger replay.
+    import artmind.db as db
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+
+
 class FakeBackend:
     """Replays a canned UI-event sequence for one turn."""
 
@@ -113,7 +122,7 @@ def test_index_accepts_page_title_without_breaking_default_template():
 def test_chat_streams_events_as_sse():
     client, _ = _client()
     response = client.post(
-        "/api/chat", json={"session_id": "tab-1", "prompt": "hello"}
+        "/api/chat", json={"conversation_id": "tab-1", "prompt": "hello"}
     )
     assert response.status_code == 200
     assert response.headers["content-type"].startswith("text/event-stream")
@@ -124,8 +133,8 @@ def test_chat_streams_events_as_sse():
 
 def test_chat_reuses_session_client():
     client, registry = _client()
-    client.post("/api/chat", json={"session_id": "tab-1", "prompt": "one"})
-    client.post("/api/chat", json={"session_id": "tab-1", "prompt": "two"})
+    client.post("/api/chat", json={"conversation_id": "tab-1", "prompt": "one"})
+    client.post("/api/chat", json={"conversation_id": "tab-1", "prompt": "two"})
     assert registry.peek("tab-1").prompts == ["one", "two"]
 
 
@@ -133,7 +142,7 @@ def test_chat_backend_reaches_factory():
     client, registry = _client()
     client.post(
         "/api/chat",
-        json={"session_id": "tab-1", "prompt": "hello", "backend": "acp"},
+        json={"conversation_id": "tab-1", "prompt": "hello", "backend": "acp"},
     )
     assert registry.peek("tab-1").backend == "acp"
 
@@ -142,14 +151,14 @@ def test_chat_rejects_unknown_backend():
     client, _ = _client()
     response = client.post(
         "/api/chat",
-        json={"session_id": "tab-1", "prompt": "hello", "backend": "nope"},
+        json={"conversation_id": "tab-1", "prompt": "hello", "backend": "nope"},
     )
     assert response.status_code == 422
 
 
 def test_interrupt_reaches_session_client():
     client, registry = _client()
-    client.post("/api/chat", json={"session_id": "tab-1", "prompt": "hello"})
+    client.post("/api/chat", json={"conversation_id": "tab-1", "prompt": "hello"})
     response = client.post("/api/session/tab-1/interrupt")
     assert response.status_code == 200
     assert registry.peek("tab-1").interrupted
@@ -162,7 +171,7 @@ def test_interrupt_unknown_session_is_ok():
 
 def test_delete_session_disconnects():
     client, registry = _client()
-    client.post("/api/chat", json={"session_id": "tab-1", "prompt": "hello"})
+    client.post("/api/chat", json={"conversation_id": "tab-1", "prompt": "hello"})
     backend = registry.peek("tab-1")
     response = client.delete("/api/session/tab-1")
     assert response.status_code == 200
@@ -179,7 +188,7 @@ def test_chat_turns_exception_into_error_event():
     app = create_app(registry=registry)
     client = TestClient(app)
     response = client.post(
-        "/api/chat", json={"session_id": "tab-1", "prompt": "hello"}
+        "/api/chat", json={"conversation_id": "tab-1", "prompt": "hello"}
     )
     events = _parse_sse(response.text)
     assert events == [{"type": "error", "message": "boom"}]
@@ -194,7 +203,7 @@ def test_chat_connect_failure_streams_error_not_500():
     app = create_app(registry=registry)
     client = TestClient(app)
     response = client.post(
-        "/api/chat", json={"session_id": "tab-1", "prompt": "hello"}
+        "/api/chat", json={"conversation_id": "tab-1", "prompt": "hello"}
     )
     assert response.status_code == 200
     events = _parse_sse(response.text)

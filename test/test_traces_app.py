@@ -60,7 +60,7 @@ def _admin_client(tmp_path):
 
 def test_admin_turn_is_traced_and_sse_is_clean(tmp_path):
     client, ctx = _admin_client(tmp_path)
-    resp = client.post("/api/chat", json={"session_id": "s1", "prompt": "Who?"})
+    resp = client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"})
     events = _sse(resp.text)
     assert events[0]["type"] == "trace"
     trace_id = events[0]["trace_id"]
@@ -78,7 +78,7 @@ def test_chat_ui_is_not_traced(tmp_path):
     TracedFakeBackend.instances = []
     registry = SessionRegistry(client_factory=lambda name: TracedFakeBackend(name, None))
     client = TestClient(create_app(registry=registry))
-    events = _sse(client.post("/api/chat", json={"session_id": "s1", "prompt": "Who?"}).text)
+    events = _sse(client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"}).text)
     assert [e["type"] for e in events] == ["tool_call", "tool_result", "text_delta", "turn_done"]
     assert all("_trace" not in e for e in events)
     assert store.list_turns() == []
@@ -86,7 +86,7 @@ def test_chat_ui_is_not_traced(tmp_path):
 
 def test_feedback_endpoint(tmp_path):
     client, _ = _admin_client(tmp_path)
-    trace_id = _sse(client.post("/api/chat", json={"session_id": "s1", "prompt": "Who?"}).text)[0]["trace_id"]
+    trace_id = _sse(client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"}).text)[0]["trace_id"]
     ok = client.post(f"/api/traces/{trace_id}/feedback", json={"rating": "wrong", "expected": "Bob"})
     assert ok.status_code == 200
     assert store.latest_feedback(trace_id)["expected"] == "Bob"
@@ -146,7 +146,7 @@ def test_cancelled_turn_recorded_as_error(tmp_path):
     endpoint = [r for r in app.routes if getattr(r, "path", "") == "/api/chat"][0].endpoint
 
     async def run():
-        resp = await endpoint(ChatRequest(session_id="s1", prompt="Who?"))
+        resp = await endpoint(ChatRequest(conversation_id="s1", prompt="Who?"))
         trace_id = None
         try:
             async for chunk in resp.body_iterator:
