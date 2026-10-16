@@ -90,10 +90,12 @@ reliance; the store deletes both explicitly, as `store.prune` does for traces).
 New package `artmind/conversations/`:
 
 - `store.py` -- plain functions, each opens and closes its own connection via
-  `artmind.db._get_db()` (the registry convention): `create`, `get`, `list`
-  (profile filter, `archived` filter, keyset pagination on `(updated_at,
-  conversation_id)`), `rename`, `set_pinned`, `set_archived`, `delete`,
-  `begin_turn` (returns `seq`), `finish_turn`, `list_turns`, `sweep_running(profile)`.
+  `artmind.db._get_db()` (the registry convention): `ensure` (create if absent;
+  the first message sets the title), `get`, `list_conversations` (profile and
+  `archived` filters; ordered pinned first, then most recently active; keyset
+  pagination on `(pinned, updated_at, conversation_id)`), `update` (rename, pin,
+  archive), `delete`, `begin_turn` (returns `seq`), `finish_turn`, `list_turns`
+  (`with_blocks=False` for the lean replay read), `sweep_running(profile)`.
 - `recorder.py` -- `ConversationRecorder`, modelled on `TraceRecorder`:
   `start(...)` creates the conversation row on the first turn and inserts the
   turn as `running` before the agent sees the prompt; `observe(event)` folds the

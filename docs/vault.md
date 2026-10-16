@@ -93,7 +93,7 @@ Two corollaries:
         ├── kg/<domain>/update__<session>__<draft>/  ← an `artmind update` fact; COMMITTED
         ├── curation/<kind>/<id>.json   ← curation records (conflicts, supersessions,
         │                                  lifecycle, syntheses); COMMITTED
-        ├── document_registry.db        ← path↔id cache; NOT committed
+        ├── document_registry.db        ← path↔id cache, traces, chat history; NOT committed
         ├── graph_snapshot/             ← *.tar.gz; NOT committed
         └── structured_snapshot/        ← *.tar.gz; NOT committed
 ```
@@ -119,7 +119,7 @@ machine-local state:
 | Not committed | Why |
 |---|---|
 | `.artmind/config.env` | holds `ARTMIND_KG_NEO4J_PASSWORD`. A vault is a repo you may push. |
-| `.artmind/data/document_registry.db` | a SQLite binary rewritten on every ingest; merges catastrophically, and `docs reindex` rebuilds it |
+| `.artmind/data/document_registry.db` | a SQLite binary rewritten on every ingest; merges catastrophically. `docs reindex` rebuilds the path↔id cache, but not the query traces or chat conversation history it also holds, which are machine-local and private |
 | `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state, meaningless on another machine (`state.json` holds this machine's structured-store sync bookmark) |
 | `*.zip`, `*.tgz`, `*.tar.gz` anywhere | snapshots. Large, opaque, and already a complete copy of what git is versioning |
 | embeddings inside committed KG staging | see "Embeddings" below |
