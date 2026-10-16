@@ -79,20 +79,23 @@ def list_conversations(
     *,
     archived: bool = False,
     limit: int = 50,
-    before: tuple[float, str] | None = None,
+    before: tuple[int, float, str] | None = None,
 ) -> list[dict]:
-    """Most recently active first. `before` is the (updated_at, conversation_id)
-    of the last row of the previous page (keyset pagination)."""
+    """Pinned first, then most recently active. `before` is the (pinned,
+    updated_at, conversation_id) of the last row of the previous page (keyset
+    pagination)."""
     where = ["c.profile = ?", "c.archived_at IS NOT NULL" if archived else "c.archived_at IS NULL"]
     params: list[Any] = [profile]
     if before is not None:
-        where.append("(c.updated_at < ? OR (c.updated_at = ? AND c.conversation_id < ?))")
-        params += [before[0], before[0], before[1]]
+        where.append(
+            "(c.pinned < ? OR (c.pinned = ? AND (c.updated_at < ? OR (c.updated_at = ? AND c.conversation_id < ?))))"
+        )
+        params += [before[0], before[0], before[1], before[1], before[2]]
     params.append(limit)
     sql = (
         "SELECT c.*, (SELECT COUNT(*) FROM conversation_turns t WHERE t.conversation_id = c.conversation_id)"
         " AS turn_count FROM conversations c WHERE " + " AND ".join(where) +
-        " ORDER BY c.updated_at DESC, c.conversation_id DESC LIMIT ?"
+        " ORDER BY c.pinned DESC, c.updated_at DESC, c.conversation_id DESC LIMIT ?"
     )
     conn = _connect()
     try:
@@ -210,21 +213,28 @@ def finish_turn(
         conn.close()
 
 
-def list_turns(conversation_id: str) -> list[dict]:
+def list_turns(conversation_id: str, *, with_blocks: bool = True) -> list[dict]:
+    """The conversation's turns in order. `with_blocks=False` reads only what
+    replay needs (`seq`, `user_text`, `answer_text`, `status`) and returns
+    `blocks: []`, skipping the JSON of the stored blocks."""
+    columns = "*" if with_blocks else "seq, user_text, answer_text, status"
     conn = _connect()
     try:
         rows = conn.execute(
-            "SELECT * FROM conversation_turns WHERE conversation_id = ? ORDER BY seq", (conversation_id,)
+            f"SELECT {columns} FROM conversation_turns WHERE conversation_id = ? ORDER BY seq", (conversation_id,)
         ).fetchall()
     finally:
         conn.close()
     turns = []
     for row in rows:
         turn = dict(row)
-        try:
-            turn["blocks"] = json.loads(turn["blocks"])
-        except (TypeError, ValueError):
+        if not with_blocks:
             turn["blocks"] = []
+        else:
+            try:
+                turn["blocks"] = json.loads(turn["blocks"])
+            except (TypeError, ValueError):
+                turn["blocks"] = []
         turns.append(turn)
     return turns
 

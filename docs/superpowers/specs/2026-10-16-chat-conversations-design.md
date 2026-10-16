@@ -162,7 +162,7 @@ truncated with an ellipsis rather than skipped. Only `done` turns are replayed
 The profile is fixed by the app (`admin` when `create_app(admin_routes=True)`,
 else `qa`) and is never client-supplied.
 
-- `GET  /api/conversations?limit&cursor&archived` -- list for this app's profile.
+- `GET  /api/conversations?limit&cursor&archived` -- list for this app's profile, ordered pinned first, then most recently active.
 - `GET  /api/conversations/{id}` -- conversation plus all turns. 404 if the id
   does not exist or belongs to another profile.
 - `PATCH /api/conversations/{id}` -- `{title?, pinned?, archived?}`.

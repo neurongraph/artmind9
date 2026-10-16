@@ -110,17 +110,19 @@ class ConversationPatch(BaseModel):
         return value
 
 
-def _parse_cursor(cursor: str | None) -> tuple[float, str] | None:
+def _parse_cursor(cursor: str | None) -> tuple[int, float, str] | None:
+    """`<pinned>:<updated_at>:<conversation_id>` (see `list_conversations`)."""
     if not cursor:
         return None
-    stamp, _, conversation_id = cursor.partition(":")
+    pinned, _, rest = cursor.partition(":")
+    stamp, _, conversation_id = rest.partition(":")
     try:
         value = float(stamp)
     except ValueError:
         raise HTTPException(status_code=400, detail="bad cursor") from None
-    if not math.isfinite(value):
+    if pinned not in ("0", "1") or not math.isfinite(value) or not conversation_id:
         raise HTTPException(status_code=400, detail="bad cursor")
-    return value, conversation_id
+    return int(pinned), value, conversation_id
 
 
 def static_url(name: str) -> str:
@@ -222,7 +224,13 @@ def create_app(
         from artmind.traces.recorder import TraceRecorder, public_event
 
         cid = payload.conversation_id
-        existing = await asyncio.to_thread(conv_store.get, cid)
+        try:
+            existing = await asyncio.to_thread(conv_store.get, cid)
+        except Exception:
+            # Unknown ownership: carry on. The recorder disables itself if the
+            # database really is down, and the turn still streams.
+            logger.exception("conversation lookup failed")
+            existing = None
         if existing is not None and existing["profile"] != profile_name:
             raise HTTPException(status_code=404, detail=f"no conversation {cid}")
         # Nothing is awaited between this check and the claim below, so two
@@ -259,7 +267,7 @@ def create_app(
                     # The agent has no memory of this conversation: replay it.
                     replay = None
                     try:
-                        prior = await asyncio.to_thread(conv_store.list_turns, cid)
+                        prior = await asyncio.to_thread(functools.partial(conv_store.list_turns, cid, with_blocks=False))
                         replay = build_context(prior)
                     except Exception:
                         logger.exception("conversation replay unavailable")
@@ -360,7 +368,11 @@ def create_app(
         """Rebuild a live session's agent so a just-authored skill is picked up
         (skills load only at session start — ADR 0007 / A7). On the Claude SDK
         backend the conversation context is resumed; on ACP it restarts clean.
-        Reports whether context was preserved so the UI can tell the user."""
+        Reports whether context was preserved so the UI can tell the user.
+        Refused while a turn is streaming: rebuilding the agent under it would
+        cut that turn off."""
+        if session_id in in_flight:
+            return {"ok": False, "refreshed": False, "reason": "turn in progress"}
         client = await registry.refresh(session_id)
         if client is None:
             return {"ok": False, "refreshed": False, "reason": "no live session"}
@@ -374,9 +386,13 @@ def create_app(
     @app.delete("/api/session/{session_id}")
     async def close_session(session_id: str):
         """Release the live agent for a conversation. The stored conversation
-        is kept; DELETE /api/conversations/{id} removes it."""
+        is kept; DELETE /api/conversations/{id} removes it. A no-op while a
+        turn is streaming (another tab may be showing it): disconnecting the
+        agent under a live turn would cut it off."""
+        if session_id in in_flight:
+            return {"ok": True, "released": False}
         await registry.drop(session_id)
-        return {"ok": True}
+        return {"ok": True, "released": True}
 
     @app.get("/api/conversations")
     async def list_conversations(limit: int = 50, cursor: str | None = None, archived: bool = False):
@@ -388,7 +404,8 @@ def create_app(
         next_cursor = None
         if len(rows) > limit:
             rows = rows[:limit]
-            next_cursor = f"{rows[-1]['updated_at']!r}:{rows[-1]['conversation_id']}"
+            last = rows[-1]
+            next_cursor = f"{int(bool(last['pinned']))}:{last['updated_at']!r}:{last['conversation_id']}"
         return {"conversations": rows, "next_cursor": next_cursor}
 
     @app.get("/api/conversations/{conversation_id}")

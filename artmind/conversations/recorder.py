@@ -26,6 +26,7 @@ class ConversationRecorder:
         self._buffers: dict[str, list[str]] = {"text": [], "thinking": []}
         self._answer: list[str] = []
         self._done: dict = {}
+        self._finished = False  # a `turn_done` event was seen
         self._error: str | None = None
 
     @classmethod
@@ -84,6 +85,7 @@ class ConversationRecorder:
             self._answer = []
         elif kind == "turn_done":
             self._done = event
+            self._finished = True
         elif kind == "error":
             self._error = event.get("message") or "error"
 
@@ -95,6 +97,8 @@ class ConversationRecorder:
             self._flush("thinking")
             self._flush("text")
             message = error or self._error
+            if not message and not self._finished:
+                message = "interrupted: the stream ended before the turn finished"
             if message and message.startswith("interrupted"):
                 status = "interrupted"
             elif message:

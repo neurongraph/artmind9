@@ -100,7 +100,7 @@ def test_list_orders_by_activity_and_paginates_with_a_keyset_cursor():
     assert [c["conversation_id"] for c in page1] == ["c", "b"]
     assert page1[0]["turn_count"] == 0
     last = page1[-1]
-    page2 = store.list_conversations("qa", limit=2, before=(last["updated_at"], last["conversation_id"]))
+    page2 = store.list_conversations("qa", limit=2, before=(last["pinned"], last["updated_at"], last["conversation_id"]))
     assert [c["conversation_id"] for c in page2] == ["a"]
 
 
@@ -109,7 +109,7 @@ def test_list_ties_on_updated_at_do_not_skip_or_repeat():
         store.ensure(cid, "qa", cid, now=100.0)
     page1 = store.list_conversations("qa", limit=2)
     last = page1[-1]
-    page2 = store.list_conversations("qa", limit=2, before=(last["updated_at"], last["conversation_id"]))
+    page2 = store.list_conversations("qa", limit=2, before=(last["pinned"], last["updated_at"], last["conversation_id"]))
     seen = [c["conversation_id"] for c in page1 + page2]
     assert sorted(seen) == ["a", "b", "c"] and len(seen) == 3
 
@@ -223,3 +223,23 @@ def test_list_turns_tolerates_corrupt_blocks_json():
     finally:
         conn.close()
     assert store.list_turns("c1")[0]["blocks"] == []
+
+
+def test_list_puts_pinned_first_and_pages_across_the_boundary():
+    for i, cid in enumerate(["a", "b", "c", "d"]):
+        store.ensure(cid, "qa", cid, now=100.0 + i)
+    store.update("a", "qa", pinned=True)
+    page1 = store.list_conversations("qa", limit=2)
+    assert [c["conversation_id"] for c in page1] == ["a", "d"]
+    last = page1[-1]
+    page2 = store.list_conversations("qa", limit=2, before=(last["pinned"], last["updated_at"], last["conversation_id"]))
+    assert [c["conversation_id"] for c in page2] == ["c", "b"]
+
+
+def test_list_turns_without_blocks_reads_only_what_replay_needs():
+    store.ensure("c1", "qa", "Hi")
+    seq = store.begin_turn("c1", "Hi", "claude-sdk")
+    store.finish_turn("c1", seq, blocks=[{"type": "text", "md": "A"}], answer_text="A", status="done")
+    slim = store.list_turns("c1", with_blocks=False)
+    assert slim == [{"seq": 0, "user_text": "Hi", "answer_text": "A", "status": "done", "blocks": []}]
+    assert store.list_turns("c1")[0]["blocks"] == [{"type": "text", "md": "A"}]

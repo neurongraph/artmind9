@@ -159,6 +159,7 @@ def test_observe_swallows_malformed_events():
     rec = _start()
     rec.observe({"type": "tool_call"})  # no id
     rec.observe({"type": "text_delta"})  # no text
+    rec.observe({"type": "turn_done"})
     rec.finish()
     assert _only_turn()["status"] == "done"
 
@@ -167,3 +168,29 @@ def test_wrong_profile_disables_the_recorder():
     store.ensure("c1", "admin", "Hi")
     rec = ConversationRecorder.start(conversation_id="c1", profile="qa", user_text="Hi", backend="claude-sdk")
     assert not rec.enabled
+
+
+def test_a_stream_that_ends_without_turn_done_is_interrupted():
+    rec = _start()
+    _feed(rec, [{"type": "text_delta", "text": "partial"}, {"type": "block_done", "block": "text"}])
+    rec.finish()
+    turn = _only_turn()
+    assert turn["status"] == "interrupted"
+    assert turn["error_message"] == "interrupted: the stream ended before the turn finished"
+    assert turn["blocks"] == [{"type": "text", "md": "partial"}]
+
+
+def test_a_stream_with_turn_done_is_done():
+    rec = _start()
+    _feed(rec, [{"type": "text_delta", "text": "full"}, {"type": "turn_done", "turns": 1}])
+    rec.finish()
+    turn = _only_turn()
+    assert (turn["status"], turn["error_message"]) == ("done", None)
+
+
+def test_an_explicit_error_wins_over_the_missing_turn_done():
+    rec = _start()
+    _feed(rec, [{"type": "error", "message": "boom"}])
+    rec.finish()
+    turn = _only_turn()
+    assert (turn["status"], turn["error_message"]) == ("error", "boom")

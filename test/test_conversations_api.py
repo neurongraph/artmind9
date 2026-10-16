@@ -302,11 +302,11 @@ def test_a_failed_history_read_does_not_break_a_fresh_turn_and_is_retried_next_t
     real = store.list_turns
     calls = []
 
-    def flaky(cid):
+    def flaky(cid, **kwargs):
         calls.append(cid)
         if len(calls) == 1:
             raise RuntimeError("db unavailable")
-        return real(cid)
+        return real(cid, **kwargs)
 
     monkeypatch.setattr(store, "list_turns", flaky)
     app2, registry2 = _app()
@@ -693,9 +693,129 @@ def test_release_keeps_the_stored_conversation():
     app, registry = _app()
     client = TestClient(app)
     _chat(client, "c1", "hi")
-    assert client.delete("/api/session/c1").json() == {"ok": True}
+    assert client.delete("/api/session/c1").json() == {"ok": True, "released": True}
     assert registry.peek("c1") is None
     assert client.get("/api/conversations/c1").status_code == 200
+
+
+class TrackedBlocking(BlockingBackend):
+    disconnects = 0
+    restarts = 0
+
+    async def disconnect(self):
+        TrackedBlocking.disconnects += 1
+
+    async def restart(self, preserve_context=True):
+        TrackedBlocking.restarts += 1
+
+
+async def test_release_and_refresh_during_a_turn_leave_the_live_agent_alone():
+    BlockingBackend.gate = asyncio.Event()
+    TrackedBlocking.disconnects = TrackedBlocking.restarts = 0
+    registry = SessionRegistry(client_factory=TrackedBlocking)
+    app = create_app(registry=registry)
+    chat = _endpoint(app, "/api/chat", "POST")
+    release = _endpoint(app, "/api/session/{session_id}", "DELETE")
+    refresh = _endpoint(app, "/api/session/{session_id}/refresh", "POST")
+
+    response = await chat(ChatRequest(conversation_id="c1", prompt="one"))
+    await response.body_iterator.__anext__()  # the turn is now in flight
+    live = registry.peek("c1")
+
+    assert await release("c1") == {"ok": True, "released": False}
+    assert await refresh("c1") == {"ok": False, "refreshed": False, "reason": "turn in progress"}
+    assert registry.peek("c1") is live
+    assert TrackedBlocking.disconnects == 0 and TrackedBlocking.restarts == 0
+
+    BlockingBackend.gate.set()
+    events = []
+    async for chunk in response.body_iterator:
+        events.append(chunk)
+    assert any("turn_done" in chunk for chunk in events)
+    assert store.list_turns("c1")[0]["status"] == "done"
+
+    # once the turn is over, refresh and release work again
+    assert (await refresh("c1"))["refreshed"] is True
+    assert TrackedBlocking.restarts == 1
+    assert await release("c1") == {"ok": True, "released": True}
+    assert registry.peek("c1") is None and TrackedBlocking.disconnects == 1
+
+
+def test_pinned_conversation_older_than_a_page_of_newer_ones_is_on_page_one():
+    store.ensure("old", "qa", "old", now=1.0)
+    store.update("old", "qa", pinned=True)
+    for i in range(30):
+        store.ensure(f"n{i:02d}", "qa", f"n{i}", now=100.0 + i)
+    client = TestClient(_app()[0])
+    page1 = client.get("/api/conversations?limit=10").json()
+    assert page1["conversations"][0]["conversation_id"] == "old"
+    assert len(page1["conversations"]) == 10
+
+
+def test_pagination_across_the_pinned_boundary_neither_skips_nor_repeats():
+    for i, cid in enumerate(["a", "b", "c", "d", "e"]):
+        store.ensure(cid, "qa", cid, now=100.0 + i)
+    store.update("a", "qa", pinned=True)
+    store.update("c", "qa", pinned=True)
+    client = TestClient(_app()[0])
+    for limit in (1, 2, 3):
+        seen, cursor = [], None
+        while True:
+            url = f"/api/conversations?limit={limit}" + (f"&cursor={cursor}" if cursor else "")
+            page = client.get(url).json()
+            seen += [c["conversation_id"] for c in page["conversations"]]
+            cursor = page["next_cursor"]
+            if cursor is None:
+                break
+        assert seen == ["c", "a", "e", "d", "b"], limit
+
+
+def test_ties_across_the_pinned_boundary_stay_safe():
+    for cid in ("a", "b", "c", "d"):
+        store.ensure(cid, "qa", cid, now=100.0)
+    store.update("b", "qa", pinned=True)
+    store.update("d", "qa", pinned=True)
+    client = TestClient(_app()[0])
+    page1 = client.get("/api/conversations?limit=3").json()
+    page2 = client.get(f"/api/conversations?limit=3&cursor={page1['next_cursor']}").json()
+    assert [c["conversation_id"] for c in page1["conversations"] + page2["conversations"]] == ["d", "b", "c", "a"]
+
+
+@pytest.mark.parametrize(
+    "cursor", ["100.0:a", "garbage", "2:100.0:a", "-1:100.0:a", "x:100.0:a", "1:nan:a", "1:inf:a", "1:abc:a", "1:100.0:"]
+)
+def test_malformed_cursors_are_400(cursor):
+    assert TestClient(_app()[0]).get(f"/api/conversations?cursor={cursor}").status_code == 400
+
+
+def test_a_failed_conversation_lookup_does_not_500_the_turn(monkeypatch):
+    real = store.get
+
+    def broken(cid, profile=None):
+        raise RuntimeError("db unavailable")
+
+    app, _ = _app()
+    monkeypatch.setattr(store, "get", broken)
+    response = _chat(TestClient(app), "c1", "hi")
+    assert response.status_code == 200
+    assert "turn_done" in [e["type"] for e in _sse(response.text)]
+    monkeypatch.setattr(store, "get", real)
+
+
+def test_replay_reads_turns_without_their_blocks(monkeypatch):
+    app, _ = _app()
+    _chat(TestClient(app), "c1", "first question")
+    seen = []
+    real = store.list_turns
+
+    def spy(cid, **kwargs):
+        seen.append(kwargs)
+        return real(cid, **kwargs)
+
+    monkeypatch.setattr(store, "list_turns", spy)
+    app2, _ = _app()
+    _chat(TestClient(app2), "c1", "second question")
+    assert seen == [{"with_blocks": False}]
 
 
 def test_startup_marks_this_profiles_running_turns_interrupted_only():
