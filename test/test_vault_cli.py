@@ -532,3 +532,53 @@ def test_init_schema_without_force_is_a_usage_error(tmp_path, monkeypatch):
 
     assert result.exit_code == 2
     assert "--force" in result.output
+
+
+# ── init refuses artmind's own source checkout ─────────────────────────────────
+
+
+def _fake_source_checkout(path: Path) -> Path:
+    (path / "artmind").mkdir()
+    (path / "artmind" / "cli.py").write_text("")
+    (path / "pyproject.toml").write_text('[project]\nname = "artmind9"\n')
+    return path
+
+
+def test_init_refuses_the_artmind_source_checkout_and_writes_nothing(tmp_path, monkeypatch):
+    _fake_source_checkout(tmp_path)
+    before = sorted(p.name for p in tmp_path.iterdir())
+    monkeypatch.chdir(tmp_path)
+
+    result = CliRunner().invoke(cli, ["init"])
+
+    assert result.exit_code != 0
+    assert "source checkout" in result.output
+    assert sorted(p.name for p in tmp_path.iterdir()) == before  # no .artmind, .git, .gitignore
+
+
+def test_init_refuses_the_source_checkout_when_given_its_path(tmp_path):
+    _fake_source_checkout(tmp_path)
+
+    result = CliRunner().invoke(cli, ["init", str(tmp_path), "--force"])
+
+    assert result.exit_code != 0
+    assert not (tmp_path / ".artmind").exists()
+
+
+def test_scaffold_vault_refuses_the_source_checkout(tmp_path):
+    import pytest
+    from artmind.setup import scaffold_vault
+
+    _fake_source_checkout(tmp_path)
+
+    with pytest.raises(ValueError, match="source checkout"):
+        scaffold_vault(tmp_path)
+    assert not (tmp_path / ".artmind").exists()
+
+
+def test_init_still_works_in_a_directory_that_merely_has_a_pyproject(tmp_path, monkeypatch):
+    (tmp_path / "pyproject.toml").write_text('[project]\nname = "someone-elses-app"\n')
+    monkeypatch.chdir(tmp_path)
+
+    assert CliRunner().invoke(cli, ["init"]).exit_code == 0
+    assert (tmp_path / ".artmind").is_dir()

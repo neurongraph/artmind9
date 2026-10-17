@@ -4841,7 +4841,7 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
     discarding any local edits to them. It refuses unless git can restore every
     file it would change, so commit first and review the result with `git diff`.
     """
-    from artmind.setup import refresh_vault_domains, scaffold_vault
+    from artmind.setup import SOURCE_CHECKOUT_MESSAGE, is_artmind_source, refresh_vault_domains, scaffold_vault
 
     names = [n.strip() for item in schema_names for n in item.split(",") if n.strip()]
     if names and not force:
@@ -4850,6 +4850,9 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
     root = Path(directory).expanduser().resolve()
     if not root.is_dir():
         raise click.ClickException(f"{root} does not exist.")
+    if is_artmind_source(root):
+        # Before `git init` / scaffolding: nothing may be written into the repo.
+        raise click.ClickException(SOURCE_CHECKOUT_MESSAGE.format(root=root))
 
     git_initialised = False
     if not (root / ".git").exists():
