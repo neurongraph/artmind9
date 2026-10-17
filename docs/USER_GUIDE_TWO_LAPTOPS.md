@@ -176,16 +176,20 @@ The side panel is a **readiness checklist**, top to bottom:
 
 | Row | What it says | Its button |
 |---|---|---|
-| From the other laptop | ✓ up to date, or what there is to apply, or conflicts; a hint when Obsidian Git's auto pull is off | **Apply to graph** (`artmind vault sync`) · **Resolve…** · **Complete the merge** · **Pull** (always there) |
+| Commits to apply | ✓ up to date, or what there is to apply (from the other laptop or from local files), or conflicts; a hint when Obsidian Git's auto pull is off | **Apply to graph** (`artmind vault sync`) · **Resolve…** · **Complete the merge** · **Pull** (always there) |
 | Documents | how many files to ingest (expand for the paths), the running job, failures | **Ingest N files** · **Retry failed** · **Retry job** |
 | Tables | tables whose classifications need review; tables ready for the graph | **Review in admin console ↗** (opens the chat with the request filled in; you send it) · **Review & project…** |
 | Graph | ✓ built and embedded, or *needs rebuild* with each reason | **Rebuild graph** (`artmind projection rebuild --sweep`) |
+| Curate (optional) | how many same-as proposals and open conflicts are waiting for review, or the duplicate and conflict checks you can run | **Review in admin console ↗** and **Adjudicate in admin console ↗** (open the chat with the request filled in; you send it) · **Find duplicates…** (`sameas propose`, one run per domain you pick) · **Detect conflicts…** (`ingest detect-conflicts`, needs two or more domains). Both checks ask for a cap on pairs first (default 200) and show the worst-case LLM calls |
 | Descriptions (optional) | how many entity descriptions could be synthesized, and the LLM calls that costs | **Synthesize…** (pick domains and an optional cap first) |
 | Vault (footer) | artmind files to commit and commits to push | **Commit & push** (Obsidian Git's commit, pull, push) |
 
-The header says **Graph ready ✓** when the first four rows are done, or how many
-steps are left; **↻** re-reads everything. The **current step** (the first row
-not done) is highlighted and has the only filled button. Other buttons still
+The header shows a progress bar and **N of M steps done**, or **Graph ready ✓** when
+the first four rows are done; **↻** re-reads everything. Steps are numbered, with ✓
+for done. The **current step** (the first row not done) is highlighted and its
+first button is the accent button. Every other available action is a raised
+button, and extra actions have an outline. Curate and Descriptions are optional:
+dashed, and they never hold up **Graph ready**. Other buttons still
 work; clicking one out of order asks first (for example, *Ingest* while the
 other laptop's changes aren't applied offers [Apply first] [Ingest anyway]).
 
@@ -196,18 +200,20 @@ Obsidian Git's auto pull to see the other laptop's changes", and *Apply to
 graph* asks "Pull from GitHub first?" when the last pull is more than five
 minutes old. **Pull** is always on row 1 for a pull by hand.
 
-The status bar shows `artmind ●●○○○` and the current step: one dot per row
-plus the footer, filled when done. Clicking it opens the panel at that row.
+The status bar shows `artmind ●●○○○` and the current step: one dot per required row
+plus the footer, filled when done. Curate and Descriptions have no dot. Clicking it opens the panel at that row.
 
 Notices are text only: they say what finished and what is next ("Ingested 365
 files, 3 failed. Next: retry failed."), and clicking one opens the panel at its
 row. Every action is also a command: *Pull*, *Apply to graph*, *Ingest what
-changed*, *Rebuild graph*, *Synthesize…*, *Commit & push*, *Review tables for
-graph*, *Resolve artmind conflicts*, *Run doctor*. A command that can't run
+changed*, *Rebuild graph*, *Synthesize…*, *Find duplicates*, *Detect conflicts*,
+*Commit & push*, *Review tables for graph*, *Resolve artmind conflicts*, *Run doctor*. A command that can't run
 right now says why.
 
-The plugin never ingests, rebuilds, synthesizes or writes to the graph without
-a click, never writes to git (Pull, Commit & push and Complete the merge run
+The plugin never ingests, rebuilds, synthesizes, finds duplicates, detects conflicts
+or writes to the graph without a click. Each action's button shows a spinner and
+a pending label (for example "Starting ingest…") the moment you click it, and it
+ignores further clicks until the action ends. never writes to git (Pull, Commit & push and Complete the merge run
 Obsidian Git's own commands), and never runs `--bootstrapEmpty` for you: §2.3 is
 still a terminal step, and row 1 shows it. If Obsidian was started from the Dock
 and cannot find `artmind`, set its path in the plugin's settings (`which

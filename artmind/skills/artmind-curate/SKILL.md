@@ -71,6 +71,13 @@ Pass one `--domain` for naming-variant merge candidates within it, 2+ for
 cross-domain identity candidates. `--maxPairs` bounds LLM cost (~20s per
 candidate on a local model; `--maxPairs 20` for a first pass).
 
+In the Obsidian plugin, the Curate row runs the first command as **Find
+duplicates…** (one run per domain you pick) and `ingest detect-conflicts` as
+**Detect conflicts…**. Both ask for a `--maxPairs` cap first, and the row's
+counts are the same queues `sameas list --status open` and `query graph
+conflicts` show here. Running them from the plugin or from this skill gives the
+same result.
+
 `ingest refine-graph` is the other proposer — intra-class name-similarity
 clustering rather than semantic neighbours, cheaper and complementary. Its
 `--from-file` step writes proposals into the same queue; it does not touch
