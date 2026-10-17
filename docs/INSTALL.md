@@ -159,7 +159,7 @@ with guidance rather than guessing.
 | `.artmind/data/kg/` | KG extraction staging (JSON) | yes, except `embeddings.json` |
 | `.artmind/data/structured_text/` | the structured store as text (CSV + manifest) | yes |
 | `.artmind/data/curation/` | conflict, supersession, retirement and synthesis records | yes |
-| `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`) | no |
+| `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`), plus ingestion jobs, query traces and chat-ui / admin-ui conversation history (machine-local; not rebuildable) | no |
 | `.artmind/data/graph_snapshot/`, `structured_snapshot/` | snapshots (`*.tar.gz`) | no |
 | `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
 | `.claude/skills/`, `.opencode/agent/` | artmind's skills and agent modes (symlinked) + your own | only yours |

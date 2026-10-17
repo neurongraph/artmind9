@@ -1,0 +1,455 @@
+"use strict";
+
+// Conversation sidebar and server-side history (spec 2026-10-16 §5).
+// Loaded after app.js: it shares app.js's top-level bindings, and the URL
+// (/?c=<id>) is the state, so reload, back/forward and Obsidian Web Viewer
+// round trips all come back to the same conversation.
+(() => {
+  const sidebarEl = document.getElementById("sidebar");
+  const listEl = document.getElementById("conv-list");
+  const moreEl = document.getElementById("conv-more");
+  const filterEl = document.getElementById("conv-filter");
+  const archivedToggleEl = document.getElementById("conv-archived-toggle");
+  const toggleEl = document.getElementById("sidebar-toggle");
+  const newChatEl = document.getElementById("new-chat");
+
+  const SIDEBAR_KEY = "artmind-sidebar";
+  const WIDE = window.matchMedia("(min-width: 900px)");
+  const GROUPS = ["Pinned", "Today", "Yesterday", "Previous 7 days", "Earlier"];
+  const TITLE_MAX = 60;
+
+  let items = [];
+  let nextCursor = null;
+  let showArchived = false;
+  let filterText = "";
+  let loadSeq = 0;          // a newer list load supersedes an older one still in flight
+  let loading = false;
+  let openSeq = 0;          // last click on a conversation wins
+  const openedIds = new Set(); // conversations that already had turns when opened here
+
+  // ── api ────────────────────────────────────────────────────────────
+  async function api(path, options) {
+    const response = await fetch(path, options);
+    if (!response.ok) {
+      const err = new Error(`HTTP ${response.status}`);
+      err.status = response.status;
+      throw err;
+    }
+    return response.json();
+  }
+
+  const JSON_HEADERS = { "Content-Type": "application/json" };
+
+  // ── sidebar open/closed ────────────────────────────────────────────
+  function setSidebar(open, persist = true) {
+    // Focus inside the panel must move out before it becomes inert.
+    if (!open && sidebarEl.contains(document.activeElement)) promptEl.focus();
+    document.body.classList.toggle("sidebar-open", open);
+    toggleEl.setAttribute("aria-expanded", String(open));
+    sidebarEl.inert = !open;
+    sidebarEl.setAttribute("aria-hidden", String(!open));
+    if (!persist || (open && !WIDE.matches)) return; // never persist "open" from a phone-width page
+    try {
+      localStorage.setItem(SIDEBAR_KEY, open ? "open" : "closed");
+    } catch (_) { /* a per-viewer convenience only */ }
+  }
+
+  function initialSidebarState() {
+    try {
+      if (localStorage.getItem(SIDEBAR_KEY) === "closed") return false;
+    } catch (_) { /* fall through to the default */ }
+    return WIDE.matches;
+  }
+
+  function closeSidebarIfOverlay() {
+    if (WIDE.matches || !document.body.classList.contains("sidebar-open")) return;
+    // A list re-render may have removed the focused row: body means focus was lost.
+    const lostFocus = document.activeElement === document.body || sidebarEl.contains(document.activeElement);
+    setSidebar(false, false);
+    if (lostFocus) promptEl.focus();
+  }
+
+  toggleEl.addEventListener("click", () => {
+    setSidebar(!document.body.classList.contains("sidebar-open"));
+  });
+
+  // ── list rendering ─────────────────────────────────────────────────
+  function makeTitle(text) {
+    const oneLine = text.split(/\s+/).filter(Boolean).join(" ");
+    if (!oneLine) return "New conversation";
+    return oneLine.length <= TITLE_MAX ? oneLine : oneLine.slice(0, TITLE_MAX - 1).trimEnd() + "…";
+  }
+
+  function groupOf(c, now) {
+    if (c.pinned) return "Pinned";
+    const startOfToday = new Date(now).setHours(0, 0, 0, 0);
+    const t = c.updated_at * 1000;
+    if (t >= startOfToday) return "Today";
+    if (t >= startOfToday - 86400000) return "Yesterday";
+    if (t >= startOfToday - 7 * 86400000) return "Previous 7 days";
+    return "Earlier";
+  }
+
+  function renderList() {
+    listEl.replaceChildren();
+    const needle = filterText.trim().toLowerCase();
+    const shown = items.filter((c) => !needle || (c.title || "").toLowerCase().includes(needle));
+    if (shown.length === 0) {
+      const text = items.length ? "No matches." : showArchived ? "No archived conversations." : "No conversations yet.";
+      listEl.appendChild(el("div", "conv-empty", text));
+    }
+    const now = Date.now();
+    for (const group of GROUPS) {
+      const rows = shown.filter((c) => groupOf(c, now) === group);
+      if (rows.length === 0) continue;
+      listEl.appendChild(el("div", "conv-group", group));
+      for (const c of rows) listEl.appendChild(rowFor(c));
+    }
+    moreEl.hidden = nextCursor === null;
+    archivedToggleEl.textContent = showArchived ? "Back to conversations" : "Archived";
+  }
+
+  function rowFor(c) {
+    const row = el("div", "conv-row");
+    row.dataset.id = c.conversation_id;
+    if (c.conversation_id === conversationId) row.classList.add("active");
+
+    const open = el("button", "conv-title", c.title || "(untitled)");
+    open.type = "button";
+    open.title = c.title || "";
+    open.addEventListener("click", () => openConversation(c.conversation_id));
+    row.appendChild(open);
+
+    const menu = el("details", "conv-menu");
+    const summary = el("summary", null, "⋯");
+    summary.setAttribute("aria-label", "Conversation actions");
+    menu.appendChild(summary);
+    const panel = el("div", "conv-menu-panel");
+    const actions = [
+      [c.pinned ? "Unpin" : "Pin", () => patch(c, { pinned: !c.pinned })],
+      ["Rename", () => startRename(row, c)],
+      [c.archived_at ? "Unarchive" : "Archive", () => patch(c, { archived: !c.archived_at })],
+    ];
+    for (const [label, run] of actions) {
+      const button = el("button", null, label);
+      button.type = "button";
+      button.addEventListener("click", () => {
+        menu.open = false;
+        run();
+      });
+      panel.appendChild(button);
+    }
+    panel.appendChild(deleteButton(menu, c));
+    menu.appendChild(panel);
+    row.appendChild(menu);
+    return row;
+  }
+
+  // Two-step delete: the first click arms it for 3 s. No window.confirm --
+  // embedded webviews (Obsidian's Web Viewer) may suppress native dialogs.
+  function deleteButton(menu, c) {
+    const button = el("button", "danger", "Delete");
+    button.type = "button";
+    let armed = null;
+    button.addEventListener("click", () => {
+      if (armed === null) {
+        button.textContent = "Confirm delete";
+        armed = setTimeout(() => {
+          armed = null;
+          button.textContent = "Delete";
+        }, 3000);
+        return;
+      }
+      clearTimeout(armed);
+      menu.open = false;
+      remove(c);
+    });
+    return button;
+  }
+
+  function startRename(row, c) {
+    const titleButton = row.querySelector(".conv-title");
+    const input = el("input", "conv-rename");
+    input.type = "text";
+    input.value = c.title || "";
+    input.maxLength = 200;
+    titleButton.replaceWith(input);
+    input.focus();
+    input.select();
+    let finished = false;
+    const finish = async (commit) => {
+      if (finished) return;
+      finished = true;
+      const value = input.value.trim();
+      if (commit && value && value !== c.title) await patch(c, { title: value });
+      else renderList();
+    };
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") finish(true);
+      else if (e.key === "Escape") finish(false);
+    });
+    input.addEventListener("blur", () => finish(true));
+  }
+
+  // ── list data ──────────────────────────────────────────────────────
+  async function loadList(reset) {
+    if (!reset && loading) return; // a "Load more" click while a load is in flight
+    const mySeq = ++loadSeq;
+    loading = true;
+    const query = new URLSearchParams({ limit: "30" });
+    if (showArchived) query.set("archived", "true");
+    if (!reset && nextCursor) query.set("cursor", nextCursor);
+    try {
+      const data = await api(`/api/conversations?${query}`);
+      if (mySeq !== loadSeq) return;
+      if (reset) {
+        items = data.conversations;
+      } else {
+        const seen = new Set(items.map((c) => c.conversation_id));
+        items = items.concat(data.conversations.filter((c) => !seen.has(c.conversation_id)));
+      }
+      nextCursor = data.next_cursor;
+    } catch (err) {
+      if (mySeq !== loadSeq) return;
+      if (reset) {
+        items = [];
+        nextCursor = null;
+      }
+      console.error("conversation list failed", err);
+      showNotice(`Couldn't load conversations: ${err.message}`);
+    } finally {
+      if (mySeq === loadSeq) loading = false;
+    }
+    renderList();
+  }
+
+  // Row changes are applied to the loaded pages in memory: reloading page 1
+  // would drop later pages and pinned rows that live beyond it.
+  async function patch(c, body) {
+    let updated;
+    try {
+      updated = await api(`/api/conversations/${encodeURIComponent(c.conversation_id)}`, {
+        method: "PATCH",
+        headers: JSON_HEADERS,
+        body: JSON.stringify(body),
+      });
+    } catch (err) {
+      showNotice(`Couldn't update the conversation: ${err.message}`);
+      return;
+    }
+    const row = items.find((x) => x.conversation_id === c.conversation_id);
+    if (row) {
+      if (Boolean(updated.archived_at) !== showArchived) {
+        items = items.filter((x) => x !== row); // moved to the other view
+      } else {
+        Object.assign(row, updated);
+      }
+    }
+    renderList();
+  }
+
+  async function remove(c) {
+    try {
+      await api(`/api/conversations/${encodeURIComponent(c.conversation_id)}`, { method: "DELETE" });
+    } catch (err) {
+      showNotice(
+        err.status === 409
+          ? "That conversation is still answering; stop it first."
+          : `Couldn't delete the conversation: ${err.message}`
+      );
+      return;
+    }
+    items = items.filter((x) => x.conversation_id !== c.conversation_id);
+    openedIds.delete(c.conversation_id);
+    if (c.conversation_id === conversationId) newConversation(true);
+    renderList();
+  }
+
+  filterEl.addEventListener("input", () => {
+    filterText = filterEl.value;
+    renderList();
+  });
+  moreEl.addEventListener("click", () => loadList(false));
+  // Only one row menu open at a time; a click anywhere else closes them.
+  document.addEventListener("click", (e) => {
+    for (const menu of listEl.querySelectorAll(".conv-menu[open]")) {
+      if (!menu.contains(e.target)) menu.open = false;
+    }
+  });
+  archivedToggleEl.addEventListener("click", () => {
+    showArchived = !showArchived;
+    loadList(true);
+  });
+
+  // ── view reset and stored-turn rendering ───────────────────────────
+  function resetView() {
+    for (const node of [...chatEl.children]) {
+      if (node.id !== "suggested-chips") node.remove();
+    }
+    traceListEl.replaceChildren();
+    toolCount = 0;
+    traceBadgeEl.textContent = "0";
+    traceBadgeEl.hidden = true;
+    turnEl = null;
+    textBlock = null;
+    thinkingBlock = null;
+    traceId = null;
+  }
+
+  function renderThinking(block) {
+    const details = el("details", "thinking");
+    const summary = el("summary");
+    summary.appendChild(el("span", "thinking-label", "Thought"));
+    details.appendChild(summary);
+    details.appendChild(el("div", "thinking-body", block.md));
+    return details;
+  }
+
+  function renderText(block) {
+    const node = el("div", "md");
+    node.innerHTML = DOMPurify.sanitize(marked.parse(block.md));
+    addCopyButtons(node);
+    linkVaultSources(node);
+    return node;
+  }
+
+  function renderTurns(turns) {
+    let previousBackend = null;
+    for (const t of turns) {
+      if (previousBackend && t.backend !== previousBackend) {
+        chatEl.appendChild(
+          el("div", "conversation-divider", `Continued on ${BACKEND_LABELS[t.backend] ?? t.backend}`)
+        );
+      }
+      previousBackend = t.backend;
+
+      const user = el("div", "msg-user");
+      user.appendChild(el("div", "pill", t.user_text));
+      chatEl.appendChild(user);
+
+      const turn = el("div", "turn");
+      for (const block of t.blocks) {
+        if (block.type === "thinking") turn.appendChild(renderThinking(block));
+        else if (block.type === "text") turn.appendChild(renderText(block));
+        else if (block.type === "tool") {
+          addToolCard({ id: block.id, name: block.name, input: block.input ?? "" });
+          if (block.result !== null && block.result !== undefined) {
+            attachToolResult({ tool_id: block.id, content: block.result });
+          }
+        }
+      }
+      if (t.status === "interrupted") {
+        turn.appendChild(el("div", "turn-status", "Interrupted: this turn did not finish."));
+      } else if (t.status === "error") {
+        turn.appendChild(el("div", "turn-status error", `Error: ${t.error_message ?? "the turn failed"}`));
+      } else if (t.status === "running") {
+        turn.appendChild(el("div", "turn-status", "Still running, or interrupted."));
+      }
+      if (t.trace_id) turn.appendChild(feedbackControl(t.trace_id));
+      chatEl.appendChild(turn);
+    }
+  }
+
+  // ── opening and starting conversations ─────────────────────────────
+  function currentIdFromUrl() {
+    return new URLSearchParams(window.location.search).get("c");
+  }
+
+  // Frees the live agent of the conversation being left. Fire-and-forget; the
+  // server ignores it while that conversation is mid-turn.
+  function releaseLiveAgent(previousId) {
+    if (!chatEl.querySelector(".msg-user")) return; // nothing was said: no agent to free
+    fetch(`/api/session/${encodeURIComponent(previousId)}`, { method: "DELETE", keepalive: true }).catch(() => {});
+  }
+
+  function newConversation(push) {
+    if (streaming) return;
+    openSeq += 1; // an open still in flight must not replace this new chat
+    releaseLiveAgent(conversationId);
+    resetView();
+    conversationId = crypto.randomUUID();
+    if (push) history.pushState({}, "", "/");
+    renderList();
+    promptEl.focus();
+  }
+
+  async function openConversation(id, push = true) {
+    if (streaming) return;
+    const mySeq = ++openSeq;
+    let data;
+    try {
+      data = await api(`/api/conversations/${encodeURIComponent(id)}`);
+    } catch (err) {
+      if (streaming || mySeq !== openSeq) return;
+      newConversation(false);
+      history.replaceState({}, "", "/");
+      showNotice(err.status === 404 ? "Conversation not found. Started a new chat." : `Couldn't load it: ${err.message}`);
+      return;
+    }
+    if (streaming || mySeq !== openSeq) return;
+    if (id !== conversationId) releaseLiveAgent(conversationId);
+    resetView();
+    conversationId = id;
+    openedIds.add(id);
+    const last = data.turns[data.turns.length - 1];
+    if (last && last.backend !== backend) {
+      backend = last.backend;
+      for (const radio of backendRadios) radio.checked = radio.value === backend;
+    }
+    renderTurns(data.turns);
+    if (push) history.pushState({ c: id }, "", `/?c=${encodeURIComponent(id)}`);
+    renderList();
+    scrollToBottom(true);
+    closeSidebarIfOverlay();
+  }
+
+  newChatEl.addEventListener("click", () => {
+    newConversation(true);
+    closeSidebarIfOverlay();
+  });
+
+  window.addEventListener("popstate", () => {
+    if (streaming) {
+      // The live turn owns the page: put its URL back rather than leave the
+      // address bar on a conversation that is not shown.
+      if (currentIdFromUrl() !== conversationId) {
+        history.pushState({ c: conversationId }, "", `/?c=${encodeURIComponent(conversationId)}`);
+      }
+      return;
+    }
+    const id = currentIdFromUrl();
+    if (id) openConversation(id, false);
+    else newConversation(false);
+  });
+
+  // ── follow the live conversation ───────────────────────────────────
+  chatHooks.onTurnStart = (id, prompt) => {
+    if (currentIdFromUrl() !== id) history.replaceState({ c: id }, "", `/?c=${encodeURIComponent(id)}`);
+    if (showArchived) return;
+    const at = items.findIndex((c) => c.conversation_id === id);
+    // An existing conversation that is not in the loaded pages keeps its real
+    // title: onTurnEnd reloads the list instead of inventing a placeholder.
+    if (at < 0 && openedIds.has(id)) return;
+    const c = at >= 0
+      ? items.splice(at, 1)[0]
+      : { conversation_id: id, title: makeTitle(prompt), pinned: 0, archived_at: null };
+    c.updated_at = Date.now() / 1000;
+    items.unshift(c);
+    renderList();
+  };
+
+  chatHooks.onTurnEnd = (id) => {
+    if (openedIds.has(id) && !items.some((c) => c.conversation_id === id)) loadList(true);
+  };
+
+  // ── start ──────────────────────────────────────────────────────────
+  setSidebar(initialSidebarState(), false);
+  loadList(true);
+  const initialId = currentIdFromUrl();
+  if (initialId) {
+    // Claim the id now: a message sent before the fetch resolves must go to
+    // this conversation, not to the random id the page started with.
+    conversationId = initialId;
+    openConversation(initialId, false);
+  }
+})();

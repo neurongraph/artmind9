@@ -3,7 +3,7 @@
 marked.use({ pedantic: false, gfm: true, breaks: false });
 
 // ── page-level state ─────────────────────────────────────────────────
-let sessionId = crypto.randomUUID();
+let conversationId = crypto.randomUUID();
 let backend = "claude-sdk";
 
 const chatEl = document.getElementById("chat");
@@ -25,6 +25,10 @@ let turnEl = null;        // container for the current assistant turn
 let textBlock = null;     // {el, raw}
 let thinkingBlock = null; // {details, label, body, startedAt}
 let traceId = null;       // admin console: this turn's query-trace id
+
+// Filled in by conversations.js (loaded after this file): lets the sidebar
+// follow a conversation as its first turn starts.
+const chatHooks = { onTurnStart(_conversationId, _prompt) {}, onTurnEnd(_conversationId) {} };
 
 // ── helpers ──────────────────────────────────────────────────────────
 function el(tag, cls, text) {
@@ -133,7 +137,6 @@ function addUserMessage(text) {
   wrap.appendChild(el("div", "pill", text));
   chatEl.appendChild(wrap);
   scrollToBottom(true);
-  pushHistory(wrap.outerHTML);
 }
 
 function ensureTurn() {
@@ -237,10 +240,9 @@ function linkVaultSources(scope) {
 }
 
 // Copy buttons and vault-source links are handled by one delegated listener
-// here, rather than a listener attached to each element, because a restored
-// turn (see "chat history persistence" below) is re-inserted as raw HTML --
-// a listener attached directly to the original element would not survive
-// that round trip through storage.
+// here, rather than a listener attached to each element, because a stored
+// conversation is rendered by conversations.js after the fact -- one listener
+// on #chat covers turns however they got there.
 chatEl.addEventListener("click", async (e) => {
   const copyBtn = e.target.closest(".copy-btn");
   if (copyBtn) {
@@ -283,54 +285,15 @@ function addCopyButtons(scope) {
   }
 }
 
-function showNotice(text) {
-  chatEl.appendChild(el("div", "notice", text));
+function showNotice(text, cls = "notice") {
+  chatEl.appendChild(el("div", cls, text));
   scrollToBottom(true);
 }
-
-// ── chat history persistence ────────────────────────────────────────
-// Obsidian's Web Viewer has one tab; opening a cited source navigates it
-// away, and pressing back is a brand-new page load with the conversation
-// gone even though nothing was said to warrant losing it. Each user pill /
-// assistant turn / backend-switch divider is stored as its own already-
-// rendered HTML, captured right after sanitizing and after
-// addCopyButtons/linkVaultSources ran -- so restoring is just re-inserting
-// that markup, and the delegated listener above means a restored copy
-// button or source link needs no extra wiring. sessionStorage survives a
-// reload and this kind of in-tab navigation, but not a new tab or a closed
-// one. This does NOT resume the agent itself (ACP has no verified resume,
-// see backends/acp.py) -- a restored conversation looks right, but a new
-// message starts the agent fresh with no memory of it.
-const CHAT_HISTORY_KEY = "artmind-chat-history";
-let chatHistory = [];
-try {
-  chatHistory = JSON.parse(sessionStorage.getItem(CHAT_HISTORY_KEY) ?? "[]");
-} catch (_) {
-  chatHistory = [];
-}
-
-function pushHistory(html) {
-  chatHistory.push(html);
-  try {
-    sessionStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatHistory));
-  } catch (_) { /* storage full or unavailable: history just won't survive */ }
-}
-
-function restoreHistory() {
-  for (const html of chatHistory) {
-    const wrapper = el("div");
-    wrapper.innerHTML = html;
-    const node = wrapper.firstElementChild;
-    if (node) chatEl.appendChild(node);
-  }
-  if (chatHistory.length > 0) scrollToBottom(true);
-}
-restoreHistory();
 
 // ── answer feedback (admin console) ─────────────────────────────────
 // Rates one traced turn (spec 2026-10-11 §5.7). Rendered only when the
 // server sent a `trace` event; handlers are delegated on #chat because a
-// restored history is plain HTML with no listeners.
+// restored turns are rendered later by conversations.js.
 function feedbackControl(id) {
   const wrap = el("div", "feedback");
   wrap.dataset.traceId = id;
@@ -417,6 +380,13 @@ function handleEvent(ev) {
     case "tool_result":
       attachToolResult(ev);
       break;
+    case "context_restored":
+      showNotice(
+        `Context restored from ${ev.turns} earlier turn${ev.turns === 1 ? "" : "s"}` +
+          (ev.omitted ? ` (${ev.omitted} older omitted)` : "") + ".",
+        "conversation-divider"
+      );
+      break;
     case "trace":
       traceId = ev.trace_id;
       break;
@@ -445,10 +415,14 @@ async function streamTurn(prompt) {
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ session_id: sessionId, prompt, backend }),
+    body: JSON.stringify({ conversation_id: conversationId, prompt, backend }),
     signal: abortController.signal,
   });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  if (!response.ok) {
+    const err = new Error(`HTTP ${response.status}`);
+    err.status = response.status;
+    throw err;
+  }
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -483,21 +457,26 @@ async function send() {
   promptEl.value = "";
   autogrow();
   addUserMessage(prompt);
+  chatHooks.onTurnStart(conversationId, prompt);
   setStreaming(true);
   try {
     await streamTurn(prompt);
   } catch (err) {
     if (err.name !== "AbortError") {
       console.error(err);
-      showNotice("Connection lost — send again to retry.");
+      showNotice(
+        err.status === 409
+          ? "This conversation is answering in another tab. Wait for it to finish, then send again."
+          : "Connection lost — send again to retry."
+      );
     }
   } finally {
     finalizeThinking();
     finalizeText();
     if (turnEl && traceId) turnEl.appendChild(feedbackControl(traceId));
-    if (turnEl) pushHistory(turnEl.outerHTML);
     traceId = null;
     turnEl = null;
+    chatHooks.onTurnEnd(conversationId);
     setStreaming(false);
     promptEl.focus();
   }
@@ -506,26 +485,23 @@ async function send() {
 async function stop() {
   if (abortController) abortController.abort();
   try {
-    await fetch(`/api/session/${sessionId}/interrupt`, { method: "POST" });
+    await fetch(`/api/session/${conversationId}/interrupt`, { method: "POST" });
   } catch (_) { /* server may already be gone */ }
 }
 
 // ── backend picker ───────────────────────────────────────────────────
-// Conversation context lives in the agent process, so switching backends
-// drops the old session and starts a fresh one under a new id.
+// History is stored server-side, so switching backends keeps the conversation:
+// the next send carries the new backend and the server replays the stored
+// transcript into the fresh agent (spec 2026-10-16 §4.1).
 const backendRadios = document.querySelectorAll('input[name="backend"]');
 const BACKEND_LABELS = { "claude-sdk": "Claude (SDK)", "acp": "opencode (ACP)" };
 
 for (const radio of backendRadios) {
   radio.addEventListener("change", () => {
     if (!radio.checked || radio.value === backend) return;
-    fetch(`/api/session/${sessionId}`, { method: "DELETE" }).catch(() => {});
     backend = radio.value;
-    sessionId = crypto.randomUUID();
-    if (chatEl.childElementCount > 0) {
-      const divider = el("div", "conversation-divider", `New conversation · ${BACKEND_LABELS[backend]}`);
-      chatEl.appendChild(divider);
-      pushHistory(divider.outerHTML);
+    if (chatEl.querySelector(".msg-user")) {
+      chatEl.appendChild(el("div", "conversation-divider", `Continued on ${BACKEND_LABELS[backend]}`));
       scrollToBottom(true);
     }
     promptEl.focus();
@@ -565,7 +541,7 @@ composerEl.addEventListener("submit", (e) => {
   else send();
 });
 
-// ── cleanup on tab close ─────────────────────────────────────────────
+// ── release the live agent on tab close (the stored conversation is kept) ──
 window.addEventListener("pagehide", () => {
-  fetch(`/api/session/${sessionId}`, { method: "DELETE", keepalive: true }).catch(() => {});
+  fetch(`/api/session/${conversationId}`, { method: "DELETE", keepalive: true }).catch(() => {});
 });

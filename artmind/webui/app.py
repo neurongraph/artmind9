@@ -1,20 +1,28 @@
 """FastAPI app serving the artmind chat web UI."""
 
 import asyncio
+import functools
 import json
 import logging
+import math
 import os
+import re
 import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 
+import anyio
+import anyio.to_thread
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, field_validator
 
+from artmind.conversations import store as conv_store
+from artmind.conversations.recorder import ConversationRecorder
+from artmind.conversations.replay import build_context
 from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND, backend_factory
 from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
@@ -32,10 +40,42 @@ PREFILL_MAX_CHARS = 2000
 SWEEP_INTERVAL_S = 60
 
 
+_CONVERSATION_ID = re.compile(r"[A-Za-z0-9_-]{1,64}")
+
+
+class _ClosingStreamingResponse(StreamingResponse):
+    """Closes the body generator when the response ends or is cancelled, so the
+    generator's `finally` (turn recording, agent cleanup) always runs promptly
+    rather than at garbage collection. `on_close` runs last, even when the
+    generator never started (an unstarted generator's `finally` never runs)."""
+
+    def __init__(self, content, *, on_close=None, **kwargs) -> None:
+        super().__init__(content, **kwargs)
+        self._on_close = on_close
+
+    async def __call__(self, scope, receive, send) -> None:
+        try:
+            await super().__call__(scope, receive, send)
+        finally:
+            with anyio.CancelScope(shield=True):
+                try:
+                    await self.body_iterator.aclose()
+                finally:
+                    if self._on_close is not None:
+                        self._on_close()
+
+
 class ChatRequest(BaseModel):
-    session_id: str
+    conversation_id: str
     prompt: str
     backend: str = DEFAULT_BACKEND
+
+    @field_validator("conversation_id")
+    @classmethod
+    def _valid_conversation_id(cls, value: str) -> str:
+        if not _CONVERSATION_ID.fullmatch(value):
+            raise ValueError("conversation_id must be 1-64 characters of letters, digits, '-' or '_'")
+        return value
 
     @field_validator("backend")
     @classmethod
@@ -52,6 +92,37 @@ class OpenSourceRequest(BaseModel):
 class FeedbackRequest(BaseModel):
     rating: Literal["good", "partial", "wrong"]
     expected: str | None = None
+
+
+class ConversationPatch(BaseModel):
+    title: str | None = None
+    pinned: bool | None = None
+    archived: bool | None = None
+
+    @field_validator("title")
+    @classmethod
+    def _title(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if not value or len(value) > 200:
+            raise ValueError("title must be 1-200 characters")
+        return value
+
+
+def _parse_cursor(cursor: str | None) -> tuple[int, float, str] | None:
+    """`<pinned>:<updated_at>:<conversation_id>` (see `list_conversations`)."""
+    if not cursor:
+        return None
+    pinned, _, rest = cursor.partition(":")
+    stamp, _, conversation_id = rest.partition(":")
+    try:
+        value = float(stamp)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="bad cursor") from None
+    if pinned not in ("0", "1") or not math.isfinite(value) or not conversation_id:
+        raise HTTPException(status_code=400, detail="bad cursor")
+    return int(pinned), value, conversation_id
 
 
 def static_url(name: str) -> str:
@@ -73,6 +144,14 @@ def create_app(
     trace_turns: bool = False,
 ) -> FastAPI:
     registry = registry or SessionRegistry()
+    profile_name = "admin" if admin_routes else "qa"
+    # conversations with a turn currently streaming -> that turn's owner token
+    in_flight: dict[str, object] = {}
+
+    def release_claim(cid: str, owner: object) -> None:
+        # Idempotent, and never releases a later holder's claim.
+        if in_flight.get(cid) is owner:
+            del in_flight[cid]
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -83,6 +162,11 @@ def create_app(
                 await asyncio.to_thread(store.prune, int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90")))
             except Exception:
                 logger.exception("trace prune failed")
+
+        try:
+            await asyncio.to_thread(conv_store.sweep_running, profile_name)
+        except Exception:
+            logger.exception("conversation sweep failed")
 
         async def sweep_loop():
             while True:
@@ -139,25 +223,78 @@ def create_app(
     async def chat(payload: ChatRequest) -> StreamingResponse:
         from artmind.traces.recorder import TraceRecorder, public_event
 
+        cid = payload.conversation_id
+        try:
+            existing = await asyncio.to_thread(conv_store.get, cid)
+        except Exception:
+            # Unknown ownership: carry on. The recorder disables itself if the
+            # database really is down, and the turn still streams.
+            logger.exception("conversation lookup failed")
+            existing = None
+        if existing is not None and existing["profile"] != profile_name:
+            raise HTTPException(status_code=404, detail=f"no conversation {cid}")
+        # Nothing is awaited between this check and the claim below, so two
+        # requests cannot both pass it.
+        if cid in in_flight:
+            raise HTTPException(status_code=409, detail="this conversation already has a turn in progress")
+        owner = object()
+        in_flight[cid] = owner
+
+        def release() -> None:
+            release_claim(cid, owner)
+
         async def stream():
             recorder = None
+            conv = None
             error = None
+            fresh = False
+            delivered = False
+            completed = False
+            replay_failed = False
             try:
-                client = await registry.get(payload.session_id, payload.backend)
+                # Recorded first so a turn whose agent fails to start is still
+                # kept (as an error) rather than silently lost.
+                # The thread hop is shielded so a cancel during it cannot
+                # orphan a `running` row.
+                with anyio.CancelScope(shield=True):
+                    conv = await anyio.to_thread.run_sync(functools.partial(
+                        ConversationRecorder.start,
+                        conversation_id=cid, profile=profile_name, user_text=payload.prompt, backend=payload.backend,
+                    ))
+                client, fresh = await registry.get_or_create(cid, payload.backend)
+                prompt = payload.prompt
+                if fresh:
+                    # The agent has no memory of this conversation: replay it.
+                    replay = None
+                    try:
+                        prior = await asyncio.to_thread(functools.partial(conv_store.list_turns, cid, with_blocks=False))
+                        replay = build_context(prior)
+                    except Exception:
+                        logger.exception("conversation replay unavailable")
+                        replay_failed = True  # drop the agent below so the next turn retries the replay
+                    if replay is not None:
+                        prompt = f"{replay.text}\n\n{payload.prompt}"
+                        restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
+                        yield f"data: {json.dumps(restored)}\n\n"
                 context_path = getattr(client, "trace_context_path", None)
                 if trace_turns and context_path is not None:
                     # Query-trace capture (spec 2026-10-11 §5.1): the id goes into
                     # the session's context file before the agent sees the prompt.
-                    recorder = await asyncio.to_thread(
-                        TraceRecorder.start,
-                        source="admin", question=payload.prompt, session_id=payload.session_id,
-                        profile="admin", backend=payload.backend, context_path=context_path,
-                    )
+                    with anyio.CancelScope(shield=True):  # as for the conversation recorder
+                        recorder = await anyio.to_thread.run_sync(functools.partial(
+                            TraceRecorder.start,
+                            source="admin", question=payload.prompt, session_id=cid,
+                            profile="admin", backend=payload.backend, context_path=context_path,
+                        ))
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
-                await client.query(payload.prompt)
+                await client.query(prompt)
+                delivered = True
                 async for event in client.receive_events():
                     event = recorder.observe(event) if recorder is not None else public_event(event)
+                    conv.observe(event)
+                    if event.get("type") == "turn_done":
+                        completed = True
                     yield f"data: {json.dumps(event)}\n\n"
             except Exception as exc:  # stream errors to the client, don't 500
                 error = str(exc)
@@ -166,10 +303,39 @@ def create_app(
                 error = error or "interrupted: the client disconnected"
                 raise
             finally:
-                if recorder is not None:
-                    await asyncio.to_thread(recorder.finish, error=error)
+                trace_id = recorder.trace_id if recorder is not None and recorder.enabled else None
 
-        return StreamingResponse(stream(), media_type="text/event-stream")
+                def _finish() -> None:
+                    if recorder is not None:
+                        recorder.finish(error=error)
+                    if conv is not None:
+                        conv.finish(error=error, trace_id=trace_id)
+
+                # Shielded: on a client disconnect Starlette cancels this task
+                # and re-cancels every await, which would skip the recording.
+                # The claim is released last, so the next turn cannot start
+                # (and write the trace-context file) while this one is still
+                # finishing.
+                try:
+                    with anyio.CancelScope(shield=True):
+                        # A live agent that did not see this turn through is
+                        # unsafe to reuse: it never received the replay, or it
+                        # keeps producing this turn's remaining events, which
+                        # the next turn would read as its own. Dropping it makes
+                        # the next turn fresh, so it replays the stored history.
+                        if (fresh and not delivered) or (delivered and not completed) or replay_failed:
+                            try:
+                                with anyio.move_on_after(10, shield=True) as drop_scope:
+                                    await registry.drop(cid)
+                                if drop_scope.cancel_called:
+                                    logger.error("timed out dropping the agent for conversation %s", cid)
+                            except Exception:
+                                logger.exception("could not drop the agent for conversation %s", cid)
+                        await anyio.to_thread.run_sync(_finish)
+                finally:
+                    release()
+
+        return _ClosingStreamingResponse(stream(), media_type="text/event-stream", on_close=release)
 
     @app.post("/api/open-source")
     async def open_source(payload: OpenSourceRequest):
@@ -202,7 +368,11 @@ def create_app(
         """Rebuild a live session's agent so a just-authored skill is picked up
         (skills load only at session start — ADR 0007 / A7). On the Claude SDK
         backend the conversation context is resumed; on ACP it restarts clean.
-        Reports whether context was preserved so the UI can tell the user."""
+        Reports whether context was preserved so the UI can tell the user.
+        Refused while a turn is streaming: rebuilding the agent under it would
+        cut that turn off."""
+        if session_id in in_flight:
+            return {"ok": False, "refreshed": False, "reason": "turn in progress"}
         client = await registry.refresh(session_id)
         if client is None:
             return {"ok": False, "refreshed": False, "reason": "no live session"}
@@ -215,7 +385,63 @@ def create_app(
 
     @app.delete("/api/session/{session_id}")
     async def close_session(session_id: str):
+        """Release the live agent for a conversation. The stored conversation
+        is kept; DELETE /api/conversations/{id} removes it. A no-op while a
+        turn is streaming (another tab may be showing it): disconnecting the
+        agent under a live turn would cut it off."""
+        if session_id in in_flight:
+            return {"ok": True, "released": False}
         await registry.drop(session_id)
+        return {"ok": True, "released": True}
+
+    @app.get("/api/conversations")
+    async def list_conversations(limit: int = 50, cursor: str | None = None, archived: bool = False):
+        limit = max(1, min(limit, 200))
+        before = _parse_cursor(cursor)
+        rows = await asyncio.to_thread(
+            conv_store.list_conversations, profile_name, archived=archived, limit=limit + 1, before=before
+        )
+        next_cursor = None
+        if len(rows) > limit:
+            rows = rows[:limit]
+            last = rows[-1]
+            next_cursor = f"{int(bool(last['pinned']))}:{last['updated_at']!r}:{last['conversation_id']}"
+        return {"conversations": rows, "next_cursor": next_cursor}
+
+    @app.get("/api/conversations/{conversation_id}")
+    async def get_conversation(conversation_id: str):
+        conversation = await asyncio.to_thread(conv_store.get, conversation_id, profile_name)
+        if conversation is None:
+            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+        turns = await asyncio.to_thread(conv_store.list_turns, conversation_id)
+        return {**conversation, "turns": turns}
+
+    @app.patch("/api/conversations/{conversation_id}")
+    async def patch_conversation(conversation_id: str, payload: ConversationPatch):
+        found = await asyncio.to_thread(
+            conv_store.update, conversation_id, profile_name,
+            title=payload.title, pinned=payload.pinned, archived=payload.archived,
+        )
+        if not found:
+            raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+        return await asyncio.to_thread(conv_store.get, conversation_id, profile_name)
+
+    @app.delete("/api/conversations/{conversation_id}")
+    async def delete_conversation(conversation_id: str):
+        # Holds the same claim as a chat turn for its whole duration, so a chat
+        # POST arriving meanwhile gets 409 instead of recording into rows that
+        # are being deleted. Nothing is awaited between the check and the claim.
+        if conversation_id in in_flight:
+            raise HTTPException(status_code=409, detail="this conversation has a turn in progress")
+        owner = object()
+        in_flight[conversation_id] = owner
+        try:
+            if await asyncio.to_thread(conv_store.get, conversation_id, profile_name) is None:
+                raise HTTPException(status_code=404, detail=f"no conversation {conversation_id}")
+            await registry.drop(conversation_id)
+            await asyncio.to_thread(conv_store.delete, conversation_id, profile_name)
+        finally:
+            release_claim(conversation_id, owner)
         return {"ok": True}
 
     if trace_turns:
