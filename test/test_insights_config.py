@@ -1,0 +1,69 @@
+import pytest
+
+import paths
+from artmind.insights import config as cfg_mod
+from artmind.insights.config import KNOWN_DETECTORS, load_config, parse_config
+from artmind.insights.model import InsightsError
+
+
+@pytest.fixture
+def cfg_root(tmp_path, monkeypatch):
+    root = tmp_path / "insights-config"
+    monkeypatch.setattr(paths, "DOMAIN_INSIGHTS_DIR", root)
+    return root
+
+
+def test_missing_file_gives_defaults(cfg_root):
+    c = load_config("demo")
+    assert (c.domain, c.period, c.min_evidence_days, c.min_period_docs) == ("demo", "year", 4, 20)
+    assert (c.max_findings, c.keep_runs, c.narrate, c.anchors) == (25, 12, True, ())
+    assert cfg_mod.config_hash("demo") == ""
+
+
+def test_file_values_are_read_and_hashed(cfg_root):
+    cfg_root.mkdir(parents=True)
+    (cfg_root / "demo.yaml").write_text(
+        "period: quarter\nanchors: ['@e1']\ndetectors:\n  dormancy: {silence_multiple: 4}\n  brokers: {enabled: false}\n"
+    )
+    c = load_config("demo")
+    assert c.period == "quarter" and c.anchors == ("@e1",)
+    assert c.detector("dormancy") == {"silence_multiple": 4}
+    assert c.detector("salience_trend") == {}
+    assert c.enabled("dormancy") and not c.enabled("brokers")
+    assert len(cfg_mod.config_hash("demo")) == 64
+
+
+def test_phase_two_blocks_are_kept_verbatim():
+    c = parse_config({"outcome": {"class": "EMOTION"}, "open_loops": {"class": "PLAN"}}, "demo")
+    assert c.raw == {"outcome": {"class": "EMOTION"}, "open_loops": {"class": "PLAN"}}
+
+
+@pytest.mark.parametrize(
+    "data, message",
+    [
+        ({"colour": "red"}, "unknown key"),
+        ({"domain": "other"}, "domain"),
+        ({"period": "week"}, "period"),
+        ({"min_evidence_days": 0}, "min_evidence_days"),
+        ({"keep_runs": True}, "keep_runs"),
+        ({"anchors": "Asha"}, "anchors"),
+        ({"detectors": {"dormancy": 3}}, "detectors"),
+        ({"detectors": {"dormant": {}}}, "unknown detector"),
+        ({"narrate": "yes"}, "narrate"),
+    ],
+)
+def test_invalid_config_is_refused(data, message):
+    with pytest.raises(InsightsError, match=message):
+        parse_config(data, "demo")
+
+
+def test_bad_yaml_is_an_insights_error(cfg_root):
+    cfg_root.mkdir(parents=True)
+    (cfg_root / "demo.yaml").write_text("period: [unclosed\n")
+    with pytest.raises(InsightsError, match="not valid YAML"):
+        load_config("demo")
+
+
+def test_known_detectors_cover_the_spec():
+    assert {"salience_trend", "type_trend", "dormancy", "communities", "brokers", "kind_mismatch",
+            "vocabulary_sprawl", "relationship_usage", "open_conflicts", "outcome_lift"} <= KNOWN_DETECTORS
