@@ -8,6 +8,8 @@ import statistics
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 
+import networkx as nx
+
 from artmind.insights.config import InsightsConfig
 from artmind.insights.model import InsightsError
 from artmind.insights.projections import SKIP_PROPERTY_KEYS
@@ -53,6 +55,8 @@ class Profile:
     dated_days: int
     open_conflicts: list[dict]
     documents: int = 0
+    entity_edges: list = field(default_factory=list)  # sorted (a, b) _id pairs, a < b; never serialised
+    components: dict = field(default_factory=dict)    # {"count", "largest", "isolated"}
 
     def to_dict(self) -> dict:
         return {
@@ -65,6 +69,7 @@ class Profile:
             "dated_days": self.dated_days,
             "open_conflicts": self.open_conflicts,
             "documents": self.documents,
+            "components": self.components,
         }
 
 
@@ -79,7 +84,7 @@ def _day(value) -> str | None:
     return text
 
 
-def _iso_days(values) -> tuple[str, ...]:
+def iso_days(values) -> tuple[str, ...]:
     return tuple(sorted({d for d in (_day(v) for v in values or []) if d}))
 
 
@@ -131,7 +136,7 @@ def build_profile(projector, schema: dict, config: InsightsConfig) -> tuple[Prof
             EntityRow(
                 _id=r["_id"], name=r.get("name") or r["_id"], cls=r.get("cls") or "UNKNOWN",
                 type=r.get("type") if isinstance(r.get("type"), str) else None,
-                days=_iso_days(r.get("days")), docs=int(r.get("docs") or 0),
+                days=iso_days(r.get("days")), docs=int(r.get("docs") or 0),
             )
             for r in projector.rows("entity_evidence")
         ),
@@ -174,11 +179,22 @@ def build_profile(projector, schema: dict, config: InsightsConfig) -> tuple[Prof
         ({"cls": r.get("cls"), "property": r.get("property"), "n": int(r["n"])} for r in projector.rows("open_conflicts")),
         key=lambda r: (-r["n"], str(r["cls"]), str(r["property"])),
     )
+    edges = sorted({
+        (min(r["a"], r["b"]), max(r["a"], r["b"]))
+        for r in projector.rows("entity_edges")
+        if r.get("a") and r.get("b") and r["a"] != r["b"]
+    })
+    g = nx.Graph()
+    g.add_nodes_from(e._id for e in entities)
+    g.add_edges_from(edges)
+    sizes = sorted((len(c) for c in nx.connected_components(g)), reverse=True)
+    components = {"count": len(sizes), "largest": sizes[0] if sizes else 0, "isolated": sizes.count(1)}
     profile = Profile(
         domain=config.domain, classes=classes, relations=relations,
         docs_per_period=dict(sorted(per_period.items())),
         default_time_share=round(defaulted / len(docs), 4) if docs else 1.0,
         latest_doc=max(dated) if dated else None, dated_days=len(set(dated)), open_conflicts=conflicts, documents=len(docs),
+        entity_edges=edges, components=components,
     )
     return profile, entities
 

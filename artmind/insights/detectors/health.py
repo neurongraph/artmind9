@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 
-from artmind.insights.detectors import Detector, RunContext
+from artmind.insights.detectors import Detector, RunContext, Skip
 from artmind.insights.model import Finding
 from artmind.insights.profile import declared_triples
 
@@ -171,3 +171,5 @@ KIND_MISMATCH = Detector("kind_mismatch", "health", _all, _run_kind)
 VOCABULARY_SPRAWL = Detector("vocabulary_sprawl", "health", _all, _run_sprawl)
 RELATIONSHIP_USAGE = Detector("relationship_usage", "health", _all, _run_relations)
 OPEN_CONFLICTS = Detector("open_conflicts", "health", _all, _run_conflicts)
+ATTRIBUTION_SUSPECTS = Detector("attribution_suspects", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
+FRAGMENTS = Detector("fragments", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])

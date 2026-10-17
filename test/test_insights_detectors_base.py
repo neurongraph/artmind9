@@ -7,7 +7,9 @@ def test_registry_order_and_names():
     names = [d.name for d in registry()]
     assert names == [
         "salience_trend", "type_trend", "dormancy", "communities", "brokers",
+        "outcome_lift", "transitions", "open_loops", "same_as_candidates", "split_signal",
         "kind_mismatch", "vocabulary_sprawl", "relationship_usage", "open_conflicts",
+        "attribution_suspects", "fragments",
     ]
     assert set(names) <= KNOWN_DETECTORS
     assert {d.kind for d in registry()} == {"corpus", "health"}
@@ -30,3 +32,11 @@ def test_context_not_temporal_when_dates_defaulted():
     ctx = make_ctx([ent("a", "PERSON", ["2022-01-01"])], default_time_share=0.9)
     assert not ctx.temporal()
     assert Skip("x").reason == "x"
+
+
+def test_context_extras_default_empty():
+    ctx = make_ctx([ent("a", "PERSON", ["2022-01-01"])])
+    assert ctx.entity_props == {} and ctx.anchor_relations == [] and ctx.profile.entity_edges == []
+    ctx2 = make_ctx([ent("a", "PERSON", ["2022-01-01"])], entity_props={("PERSON", "x"): {"a": "1"}},
+                    anchor_relations=[{"rel": "R", "_id": "a"}], entity_edges=[("a", "b")])
+    assert ctx2.entity_props[("PERSON", "x")] == {"a": "1"} and ctx2.profile.entity_edges == [("a", "b")]

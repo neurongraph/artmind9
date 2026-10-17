@@ -135,3 +135,12 @@ def test_relation_rows_without_a_rel_are_skipped():
     tables["relation_triples"] = tables["relation_triples"] + [{"rel": None, "src": "A", "dst": "B", "n": 3}]
     profile, _ = build_profile(FakeProjector(tables), SCHEMA, parse_config({}, "demo"))
     assert all(r["rel"] is not None for r in profile.relations)
+
+
+def test_profile_components_and_edges():
+    tables = _tables()
+    tables["entity_edges"] = [{"a": "p1", "b": "e1"}, {"a": "e1", "b": "p1"}, {"a": "x1", "b": "x1"}]
+    profile, _ = build_profile(FakeProjector(tables), SCHEMA, parse_config({}, "demo"))
+    assert profile.entity_edges == [("e1", "p1")]
+    assert profile.components == {"count": 2, "largest": 2, "isolated": 1}
+    assert "entity_edges" not in profile.to_dict() and profile.to_dict()["components"]["count"] == 2
