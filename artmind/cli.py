@@ -223,7 +223,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "views", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "views", "insights", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -3313,6 +3313,146 @@ def views_delete(compact: bool, name: str) -> None:
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+# ── artmind insights ───────────────────────────────────────────────────────────
+
+
+@cli.group("insights")
+def insights_group() -> None:
+    """Unprompted findings over a domain's graph: trends, quiet entities, circles, brokers, graph health.
+
+    `refresh` profiles the graph against its schema, runs every detector that applies and
+    writes a diffed snapshot to `<ARTMIND_HOME>/insights/<domain>/` (committed with a vault).
+    `list`, `show` and `runs` read snapshots only (no Neo4j). Tune detectors in
+    `domains/insights/<domain>.yaml`. Not proxied by `serve`.
+    """
+    pass
+
+
+def _one_domain(domain: tuple) -> str:
+    domains = _parse_domains(domain)
+    if len(domains) != 1:
+        raise click.UsageError("insights run per domain: give exactly one --domain")
+    return domains[0]
+
+
+def _latest_insights(domain: str):
+    from artmind.insights import store as insights_store
+    from artmind.insights.model import InsightsError
+
+    try:
+        run = insights_store.load_latest(domain)
+    except InsightsError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if run is None:
+        raise click.ClickException(
+            f"no insights snapshot for {domain}: run `artmind insights refresh --domain {domain}`"
+        )
+    return run
+
+
+@insights_group.command("refresh")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain to analyse (one)")
+@click.option("--force", is_flag=True, help="Run even if graph, schemas, curation and config are unchanged")
+@click.option("--only", "only", default=None, help="Comma-separated detectors; other findings are carried over")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def insights_refresh(domain: tuple, force: bool, only: str | None, compact: bool) -> None:
+    """Profile the graph, run the detectors and write a snapshot. Needs Neo4j."""
+    from artmind.insights import runner as insights_runner
+    from artmind.insights.model import InsightsError
+
+    selected = [s.strip() for s in only.split(",") if s.strip()] if only else None
+    name = _one_domain(domain)
+    try:
+        result = insights_runner.refresh(name, force=force, only=selected)
+    except InsightsError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@insights_group.command("list")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--detector", default=None, help="Only this detector")
+@click.option("--kind", type=click.Choice(["corpus", "health"]), default=None, help="Corpus findings or graph health")
+@click.option("--new", "only_new", is_flag=True, help="Only what changed since the previous run (new, changed, gone)")
+@click.option("--limit", default=50, show_default=True, type=int, help="Maximum findings")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def insights_list(domain: tuple, detector: str | None, kind: str | None, only_new: bool, limit: int, compact: bool) -> None:
+    """Findings from the latest snapshot, highest score first. No Neo4j."""
+    name = _one_domain(domain)
+    run = _latest_insights(name)
+    wanted = {"new", "changed", "gone"} if only_new else {"new", "changed", "same"}
+    items = [
+        f for f in run.findings
+        if f.diff in wanted and (detector is None or f.detector == detector) and (kind is None or f.kind == kind)
+    ]
+    items.sort(key=lambda f: (-f.score, f.key))
+    _echo_json({
+        "domain": name, "created_at": run.created_at, "as_of": run.as_of, "anchors": run.anchors, "diff": run.diff,
+        "findings": [
+            {"key": f.key, "detector": f.detector, "kind": f.kind, "score": f.score, "title": f.title,
+             "diff": f.diff, "action": f.action}
+            for f in items[:limit]
+        ],
+    }, compact)
+
+
+@insights_group.command("show")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("key")
+def insights_show(domain: tuple, compact: bool, key: str) -> None:
+    """One finding with its full evidence and card. No Neo4j."""
+    name = _one_domain(domain)
+    run = _latest_insights(name)
+    match = next((f for f in run.findings if f.key == key), None)
+    if match is None:
+        raise click.ClickException(f"no finding {key!r} in the latest {name} snapshot")
+    _echo_json({"domain": name, "created_at": run.created_at, "as_of": run.as_of, "finding": match.to_dict()}, compact)
+
+
+@insights_group.command("profile")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def insights_profile(domain: tuple, compact: bool) -> None:
+    """The graph's shape profile and inferred anchors. Needs Neo4j; writes nothing."""
+    from neo4j.exceptions import DriverError, Neo4jError
+
+    from artmind.insights.config import load_config
+    from artmind.insights.model import InsightsError
+    from artmind.insights.profile import build_profile, infer_anchors
+    from artmind.insights.projections import Projector
+    from artmind.temporal import load_schema
+
+    name = _one_domain(domain)
+    try:
+        config = load_config(name)
+        profile, entities = build_profile(Projector(graph_query.expand_domain_family(name)), load_schema(name), config)
+        anchors = infer_anchors(entities, config, profile.dated_days)
+    except (InsightsError, Neo4jError, DriverError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"domain": name, "entities": len(entities), "anchors": anchors, "profile": profile.to_dict()}, compact)
+
+
+@insights_group.command("runs")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def insights_runs(domain: tuple, compact: bool) -> None:
+    """Snapshot history with diff counts. No Neo4j."""
+    from artmind.insights import store as insights_store
+    from artmind.insights.model import InsightsError
+
+    name = _one_domain(domain)
+    rows = []
+    try:
+        for path in insights_store.list_runs(name):
+            run = insights_store.load_run(path)
+            rows.append({"run": path.name, "created_at": run.created_at, "as_of": run.as_of,
+                         "findings": sum(1 for f in run.findings if f.diff != "gone"), "diff": run.diff})
+    except InsightsError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"domain": name, "runs": rows}, compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────
