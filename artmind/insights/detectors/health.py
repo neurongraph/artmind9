@@ -176,7 +176,7 @@ OPEN_CONFLICTS = Detector("open_conflicts", "health", _all, _run_conflicts)
 # ── attribution_suspects ──────────────────────────────────────────────────────
 
 def _plan_attribution(ctx: RunContext):
-    return ["anchor"] if ctx.anchor_relations else Skip("no anchor relations")
+    return ["anchor"] if ctx.anchor_relations else Skip("no anchor relations", carry=False)
 
 
 def _run_attribution(ctx: RunContext, _target: str) -> list[Finding]:
@@ -221,7 +221,7 @@ def _run_attribution(ctx: RunContext, _target: str) -> list[Finding]:
 # ── fragments ─────────────────────────────────────────────────────────────────
 
 def _plan_fragments(ctx: RunContext):
-    return ["all"] if ctx.profile.entity_edges else Skip("no entity relations")
+    return ["all"] if ctx.profile.entity_edges else Skip("no entity relations", carry=False)
 
 
 def _run_fragments(ctx: RunContext, _target: str) -> list[Finding]:

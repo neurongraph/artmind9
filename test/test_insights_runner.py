@@ -227,3 +227,22 @@ def test_entity_props_loaded_for_configured_blocks(env):
     props = load_entity_props(proj, cfg, profile)
     assert set(props) == {("PERSON", "mood"), ("PERSON", "relationship_to_diarist")}
     assert ("entity_property", {"cls": "PERSON", "prop": "mood"}) in proj.calls
+
+
+def test_conclusive_skip_drops_previous_findings(env):
+    from dataclasses import replace
+    refresh()
+    run = store.load_latest("demo")
+    run.findings.append(replace(run.findings[0], key="outcome_lift:EVENT:e1", detector="outcome_lift", diff="new"))
+    store.write_run(run)
+    refresh(now="2026-10-17T10:00:00Z", force=True)  # no outcome: block in the config
+    lift = [f for f in store.load_latest("demo").findings if f.detector == "outcome_lift"]
+    assert lift and {f.diff for f in lift} == {"gone"}
+
+
+def test_hashes_include_aliases_file(monkeypatch):
+    monkeypatch.setattr("artmind.projection.schema_set_hash", lambda: "s")
+    monkeypatch.setattr("artmind.same_as.content_hash", lambda: "a")
+    monkeypatch.setattr(runner, "config_hash", lambda d: "c")
+    h = runner._hashes("demo")
+    assert len(h["aliases"]) == 64

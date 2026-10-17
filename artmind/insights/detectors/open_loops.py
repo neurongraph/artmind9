@@ -20,9 +20,9 @@ URGENT = frozenset({"high", "urgent", "immediate", "critical"})
 def _plan(ctx: RunContext):
     block = ctx.config.block("open_loops")
     if block is None:
-        return Skip("not configured")
+        return Skip("not configured", carry=False)
     if block["class"] not in ctx.profile.classes:
-        return Skip(f"open_loops class {block['class']} is not in the graph")
+        return Skip(f"open_loops class {block['class']} is not in the graph", carry=False)
     if ctx.as_of is None:
         return Skip("no document dates")
     return [block["class"]]

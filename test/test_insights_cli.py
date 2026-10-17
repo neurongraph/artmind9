@@ -110,6 +110,37 @@ def test_same_as_export_writes_refine_graph_input(tmp_path, monkeypatch):
     assert "refine-graph --domain demo --from-file" in json.loads(result.output)["next"]
 
 
+def _cand(a, b, score, aid=None, bid=None):
+    return Finding(key=f"same_as_candidates:PERSON:{a}:{b}", detector="same_as_candidates", kind="health",
+                   score=score, title="t", action="curate",
+                   stats={"canonical": {"_id": aid or a, "name": a, "class": "PERSON"},
+                          "alias": {"_id": bid or b, "name": b, "class": "PERSON"}, "rule": "x"})
+
+
+def _export(tmp_path, monkeypatch, findings):
+    monkeypatch.setattr(paths, "INSIGHTS_DIR", tmp_path / "insights")
+    monkeypatch.setattr(paths, "LOGS_DIR", tmp_path / "logs")
+    store.write_run(Run(domain="demo", created_at="2026-10-17T09:00:00Z", as_of=None, fingerprint={}, anchors=[],
+                        profile={}, plan=[], circles=[], diff={}, findings=findings))
+    out = tmp_path / "m.json"
+    result = invoke("same-as", "--domain", "demo", "--export", str(out))
+    assert result.exit_code == 0, result.output
+    return json.loads(out.read_text()), json.loads(result.output)
+
+
+def test_same_as_export_skips_chains(tmp_path, monkeypatch):
+    data, res = _export(tmp_path, monkeypatch, [_cand("B", "A", 0.9), _cand("C", "B", 0.6)])
+    assert data["proposed_merges"] == {"A": "B"}
+    assert res["skipped"] == {"chain": 1, "ambiguous_name": 0}
+    assert "refine-graph resolves names" in data["note"] and data["note"] == res["note"]
+
+
+def test_same_as_export_skips_names_shared_by_two_entities(tmp_path, monkeypatch):
+    data, res = _export(tmp_path, monkeypatch, [_cand("P", "Sam", 0.9, bid="s1"), _cand("Q", "Sam", 0.8, bid="s2")])
+    assert data["proposed_merges"] == {}
+    assert res["skipped"] == {"chain": 0, "ambiguous_name": 2}
+
+
 def test_config_check_exit_code(monkeypatch):
     from artmind.insights import config_check
     monkeypatch.setattr(config_check, "check_config", lambda d, projector=None: {"domain": d, "ok": False, "errors": ["x"], "warnings": []})

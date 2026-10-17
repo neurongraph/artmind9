@@ -28,8 +28,10 @@ from artmind.temporal import load_schema
 
 def _hashes(domain: str) -> dict:
     from artmind import projection, same_as
+    from artmind.insights.detectors.same_as import ALIASES_FILE
 
-    return {"schema": projection.schema_set_hash(), "same_as": same_as.content_hash(), "config": config_hash(domain)}
+    return {"schema": projection.schema_set_hash(), "same_as": same_as.content_hash(), "config": config_hash(domain),
+            "aliases": hashlib.sha256(ALIASES_FILE.read_bytes()).hexdigest()}
 
 
 def _evidence_hash(entities) -> str:
@@ -56,7 +58,7 @@ def run_detectors(ctx: RunContext, selected: set[str] | None) -> tuple[list[Find
             continue
         targets = det.plan(ctx)
         if isinstance(targets, Skip):
-            plan.append(PlanEntry(det.name, "skipped", reason=targets.reason))
+            plan.append(PlanEntry(det.name, "skipped", reason=targets.reason, carry=targets.carry))
             continue
         for target in targets:
             try:
@@ -82,7 +84,7 @@ def _trim(findings: list[Finding], max_per_detector: int) -> list[Finding]:
     return out
 
 
-# Bump when detector logic changes, so an unchanged graph still re-runs under the new logic.
+# Bump when detector logic changes; config and aliases.yaml edits are already in the fingerprint.
 DETECTORS_VERSION = 3
 # A selected detector that reads another's output (brokers read communities' circles).
 DEPENDS = {
@@ -130,8 +132,9 @@ def load_anchor_relations(projector, anchors: list[dict]) -> list[dict]:
 
 
 def _keeps_previous(plan: list[PlanEntry]) -> set[str]:
-    """Detectors that did not really run: all targets failed, or skipped for a reason other than config.
-    Their previous findings are carried over rather than reported as gone."""
+    """Detectors that could not run: all targets failed, or every entry skipped for a transient reason
+    (carry=True, not config-disabled). Their previous findings are carried over rather than reported
+    as gone; a conclusive skip (carry=False) or a disabled detector drops them."""
     by_det: dict[str, list[PlanEntry]] = {}
     for p in plan:
         by_det.setdefault(p.detector, []).append(p)
@@ -139,7 +142,8 @@ def _keeps_previous(plan: list[PlanEntry]) -> set[str]:
     for name, entries in by_det.items():
         if all(e.status == "failed" for e in entries):
             keep.add(name)
-        elif any(e.status == "skipped" and e.reason != "disabled in config" for e in entries):
+        elif any(e.status == "skipped" for e in entries) and all(
+                e.status == "skipped" and e.carry and e.reason != "disabled in config" for e in entries):
             keep.add(name)
     return keep
 

@@ -43,9 +43,9 @@ def day_polarity(ctx: RunContext, block: dict) -> dict[str, int]:
 def _plan(ctx: RunContext):
     block = ctx.config.block("outcome")
     if block is None:
-        return Skip("not configured")
+        return Skip("not configured", carry=False)
     if block["class"] not in ctx.profile.classes:
-        return Skip(f"outcome class {block['class']} is not in the graph")
+        return Skip(f"outcome class {block['class']} is not in the graph", carry=False)
     if not ctx.temporal():
         return Skip("no document dates (valid time mostly defaulted)")
     return ["all"]

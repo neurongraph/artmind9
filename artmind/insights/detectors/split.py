@@ -8,15 +8,17 @@ Such pairs are the highest-priority curation.
 
 from __future__ import annotations
 
-from artmind.insights.detectors import Detector, RunContext, subject
+from artmind.insights.detectors import Detector, RunContext, Skip, subject
 from artmind.insights.model import Finding
 
 SIGNALS = ("salience_trend", "outcome_lift")
 
 
 def _plan(ctx: RunContext):
-    # Always runs: "no candidates this run" is a real answer, so earlier split
-    # findings must go `gone` rather than be carried over as a Skip would.
+    # "No candidates this run" is a real answer (same_as ran): earlier split findings go `gone`.
+    # If same_as did not run (failed, skipped, not selected) there is no answer: keep them.
+    if not ctx.memo.get("same_as_ran"):
+        return Skip("same_as_candidates did not run", carry=True)
     return ["all"]
 
 

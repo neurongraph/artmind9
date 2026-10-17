@@ -3468,23 +3468,40 @@ def insights_runs(domain: tuple, compact: bool) -> None:
 @click.option("--min-score", "min_score", type=click.FloatRange(0, 1), default=0.5, show_default=True)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def insights_same_as(domain: tuple, export: Path | None, min_score: float, compact: bool) -> None:
-    """Probable duplicates from the latest snapshot; --export feeds the same-as review queue. No Neo4j."""
+    """Probable duplicates from the latest snapshot; --export feeds the same-as review queue. No Neo4j.
+
+    The export holds entity names from your vault (private): keep it out of the code checkout.
+    Chains and names shared by two entities are skipped; refine-graph's own stats are the final word.
+    """
     name = _one_domain(domain)
     run = _latest_insights(name)
     items = sorted((f for f in run.findings if f.detector == "same_as_candidates" and f.diff != "gone"
                     and f.score >= min_score), key=lambda f: (-f.score, f.key))
+    ids_by_name: dict[str, set] = {}
+    for f in items:
+        for side in ("alias", "canonical"):
+            ids_by_name.setdefault(f.stats[side]["name"], set()).add(f.stats[side].get("_id"))
     merges: dict[str, str] = {}
     candidates = []
+    skipped = {"chain": 0, "ambiguous_name": 0}
     for f in items:
         alias, canonical = f.stats["alias"]["name"], f.stats["canonical"]["name"]
         if alias == canonical or alias in merges:
             continue
+        if len(ids_by_name[alias]) > 1 or len(ids_by_name[canonical]) > 1:
+            skipped["ambiguous_name"] += 1
+            continue
+        if alias in merges.values() or canonical in merges:
+            skipped["chain"] += 1
+            continue
         merges[alias] = canonical
         candidates.append({"alias": alias, "canonical": canonical, "class": f.stats["canonical"]["class"],
                            "score": f.score, "rule": f.stats.get("rule")})
-    payload = {"source": "artmind insights", "domain": name, "created_at": run.created_at,
+    note = ("refine-graph resolves names to entities; its stats (skipped_ambiguous, skipped_cross_class) are "
+            "the final word. This file holds names from your vault: keep it out of the code checkout.")
+    payload = {"source": "artmind insights", "domain": name, "created_at": run.created_at, "note": note,
                "proposed_merges": merges, "candidates": candidates}
-    result = {"domain": name, "candidates": len(candidates)}
+    result = {"domain": name, "candidates": len(candidates), "skipped": skipped, "note": note}
     if export is not None:
         export.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         result.update(export=str(export),

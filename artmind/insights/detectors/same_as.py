@@ -158,6 +158,7 @@ def _plan(ctx: RunContext):
 
 
 def _run(ctx: RunContext, cls: str) -> list[Finding]:
+    ctx.memo["same_as_ran"] = True
     cfg = ctx.config.detector("same_as_candidates")
     min_score, max_dist = cfg.get("min_score", 0.5), cfg.get("max_name_distance", 0.25)
     rows = ctx.members(cls, floor=cfg.get("min_days", 1))

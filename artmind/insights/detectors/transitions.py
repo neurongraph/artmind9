@@ -27,11 +27,11 @@ TRANSITION_VERBS = frozenset({
 
 def _plan(ctx: RunContext):
     if not ctx.anchors:
-        return Skip("no anchor entity")
+        return Skip("no anchor entity", carry=False)
     if not ctx.temporal():
         return Skip("no document dates (valid time mostly defaulted)")
     if not ctx.anchor_relations:
-        return Skip("the anchor has no dated relations")
+        return Skip("the anchor has no dated relations", carry=False)
     return ["anchor"]
 
 

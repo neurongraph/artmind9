@@ -52,6 +52,7 @@ class PlanEntry:
     target: str | None = None
     reason: str | None = None
     findings: int = 0
+    carry: bool = True  # skipped entries only: False = conclusive, previous findings go `gone`
 
     def to_dict(self) -> dict:
         return asdict(self)

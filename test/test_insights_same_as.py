@@ -3,6 +3,7 @@ import pytest
 from _insights_helpers import ent, make_ctx
 from artmind.insights.detectors.same_as import SAME_AS_CANDIDATES, candidate_pairs, load_alias_groups, name_match, norm
 from artmind.insights.detectors.split import SPLIT_SIGNAL
+from artmind.insights.detectors import Skip
 from artmind.insights.model import Finding
 
 
@@ -128,6 +129,7 @@ def test_split_signal_flags_opposite_trends():
     b = ent("t2", "LOCATION", days(2, 5), name="TPO")
     ctx = make_ctx([a, b])
     ctx.memo["same_as"] = [{"class": "LOCATION", "canonical": "t1", "alias": "t2", "score": 0.7}]
+    ctx.memo["same_as_ran"] = True
     def trend(e, direction):
         return Finding(key=f"salience_trend:LOCATION:{e._id}", detector="salience_trend", kind="corpus", score=0.5,
                        title="x", subjects=[{"_id": e._id, "name": e.name, "class": "LOCATION"}],
@@ -141,7 +143,20 @@ def test_split_signal_flags_opposite_trends():
 
 def test_split_signal_runs_and_finds_nothing_without_candidates():
     ctx = make_ctx([ent("a", "PERSON", days(1, 4))])
+    ctx.memo["same_as_ran"] = True
     assert SPLIT_SIGNAL.plan(ctx) == ["all"] and SPLIT_SIGNAL.run(ctx, "all") == []
+
+
+def test_split_signal_skips_with_carry_when_same_as_did_not_run():
+    ctx = make_ctx([ent("a", "PERSON", days(1, 4))])
+    skip = SPLIT_SIGNAL.plan(ctx)
+    assert isinstance(skip, Skip) and skip.carry is True
+
+
+def test_same_as_marks_itself_as_run_without_pairs():
+    ctx = make_ctx([ent("a", "PERSON", days(1, 4), name="Zed")])
+    assert SAME_AS_CANDIDATES.run(ctx, "PERSON") == []
+    assert ctx.memo["same_as_ran"] is True
 
 
 def test_initials_match_survives_competing_token_subsets():

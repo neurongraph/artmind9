@@ -507,6 +507,10 @@ last stats), `changed` (score moved ≥ 0.15 or a headline stat moved ≥ 25%), 
 `same`. Circles are matched by member Jaccard, so a renamed circle is
 `changed`, not new. "What changed" is the Insights tab's first section.
 
+A detector that could not run (failed, or skipped for a transient reason) keeps
+its previous findings. One skipped for a conclusive reason (not configured, class
+or anchor absent) drops them as `gone`; so does disabling it in config.
+
 ### 9.4 Privacy
 
 Snapshots hold corpus content: names, counts and narrations. They follow the

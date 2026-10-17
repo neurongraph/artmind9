@@ -17,7 +17,10 @@ from artmind.insights.profile import EntityRow, Profile
 
 @dataclass(frozen=True)
 class Skip:
+    """carry=True: could not run now, keep the last findings. carry=False: nothing there now, drop them."""
+
     reason: str
+    carry: bool = True
 
 
 @dataclass
