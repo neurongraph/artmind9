@@ -195,12 +195,21 @@ TABLE_MAPPINGS_DIR = ARTMIND_HOME / "domains" / "table_mappings"
 # kg_views: saved queries, one folder each. User-authored and committed; never
 # seeded or overwritten by `init`/`setup`.
 DOMAIN_VIEWS_DIR = ARTMIND_HOME / "domains" / "views"
+
+# Insights tuning (spec 2026-10-17 §4.3): one <domain>.yaml per domain. User
+# data like views -- never seeded -- and outside schemas/ so tuning a detector
+# never changes projection.schema_set_hash().
+DOMAIN_INSIGHTS_DIR = ARTMIND_HOME / "domains" / "insights"
 LOGS_DIR = ARTMIND_HOME / "logs"
 # Review dossiers (docs/superpowers/specs/2026-10-11-query-review-loop-design.md
 # §8.1): <vault>/.artmind/reviews/ in a vault -- committed with the vault's
 # private repo, never ingested (the note walk skips dot-dirs) -- else
 # ~/.artmind/reviews/. They hold private corpus evidence.
 REVIEWS_DIR = ARTMIND_HOME / "reviews"
+
+# Insights snapshots (spec 2026-10-17 §9.1): <vault>/.artmind/insights/<domain>/
+# in a vault, committed with its private repo; private corpus content.
+INSIGHTS_DIR = ARTMIND_HOME / "insights"
 INGEST_LOG_FILE = LOGS_DIR / "artmind_ingestion.log"
 QUERY_LOG_FILE = LOGS_DIR / "artmind_query.log"
 LLM_CALLS_LOG_FILE = LOGS_DIR / "llm_calls.log"

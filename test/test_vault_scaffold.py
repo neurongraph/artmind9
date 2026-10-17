@@ -17,6 +17,9 @@ from _historical_blocks import (
 )
 
 
+FAKE_CREDENTIAL = "placeholder-not-a-real-value"  # test-only; never a real credential
+
+
 def _git(repo: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", *args], cwd=repo, capture_output=True, text=True, check=True
@@ -239,7 +242,7 @@ def test_the_graph_password_is_still_never_committed(tmp_path):
     _init_repo(tmp_path)
     (tmp_path / ".artmind").mkdir(exist_ok=True)
     vault.write_gitignore(tmp_path)
-    (tmp_path / ".artmind" / "config.env").write_text("ARTMIND_KG_NEO4J_PASSWORD=secret\n")
+    (tmp_path / ".artmind" / "config.env").write_text(f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}\n")
 
     assert "config.env" not in _git(tmp_path, "status", "--porcelain", "--untracked-files=all")
 
@@ -416,14 +419,14 @@ def test_scaffold_writes_supplied_config_answers(tmp_path):
     scaffold_vault(tmp_path, config_answers={
         "neo4j_uri": "neo4j+s://mydb.databases.neo4j.io",
         "neo4j_username": "myuser",
-        "neo4j_password": "hunter2",
+        "neo4j_password": FAKE_CREDENTIAL,
         "neo4j_database": "mydb",
     })
 
     config = vault.VaultLayout(tmp_path).config_env.read_text()
     assert "ARTMIND_KG_NEO4J_URI=neo4j+s://mydb.databases.neo4j.io" in config
     assert "ARTMIND_KG_NEO4J_USERNAME=myuser" in config
-    assert "ARTMIND_KG_NEO4J_PASSWORD=hunter2" in config
+    assert f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}" in config
     assert "ARTMIND_KG_NEO4J_DATABASE=mydb" in config
     assert "ARTMIND_VAULT_GIT_PUSH" not in config
 
@@ -767,3 +770,17 @@ def test_saved_views_are_committed_not_ignored(tmp_path):
     assert ".artmind/domains/views/mine/view.yaml" in _git(
         tmp_path, "status", "--porcelain", "--untracked-files=all"
     )
+
+
+def test_insights_files_are_committed_not_ignored(tmp_path):
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+    layout = vault.VaultLayout(tmp_path)
+    (layout.insights_config_dir).mkdir(parents=True)
+    (layout.insights_config_dir / "demo.yaml").write_text("period: year\n")
+    runs = layout.insights_dir / "demo" / "runs"
+    runs.mkdir(parents=True)
+    (runs / "2026-10-17T09-30-12Z.json").write_text("{}\n")
+
+    for rel in (".artmind/domains/insights/demo.yaml", ".artmind/insights/demo/runs/2026-10-17T09-30-12Z.json"):
+        assert not _ignored(tmp_path, rel)

@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.14.4"
 resolution-markers = [
     "sys_platform == 'darwin'",
@@ -76,6 +76,7 @@ dependencies = [
     { name = "json-repair" },
     { name = "loguru" },
     { name = "neo4j" },
+    { name = "networkx" },
     { name = "ollama" },
     { name = "openai" },
     { name = "python-dotenv" },
@@ -114,6 +115,7 @@ requires-dist = [
     { name = "langchain-text-splitters", marker = "extra == 'ingest'", specifier = ">=1.1.2" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "neo4j", specifier = ">=5.26.0" },
+    { name = "networkx", specifier = ">=3.4" },
     { name = "ollama", specifier = ">=0.6.1" },
     { name = "openai", specifier = ">=1.50.0" },
     { name = "openpyxl", marker = "extra == 'ingest'", specifier = ">=3.1.0" },

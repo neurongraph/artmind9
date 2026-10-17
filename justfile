@@ -514,6 +514,16 @@ views-validate path:
 views-test path domain params="":
     uv run artmind views test --path {{ path }} --domain {{ domain }} $(for p in {{ params }}; do printf -- '--param %s ' "$p"; done)
 
+# ── artmind insights ─────────────────────────────────────────────────────────
+
+# profile the graph, run detectors, write a snapshot  (usage: just insights-refresh <domain> [--force])
+insights-refresh domain *flags:
+    uv run artmind insights refresh --domain {{ domain }} {{ flags }}
+
+# findings from the latest snapshot  (usage: just insights-list <domain>)
+insights-list domain:
+    uv run artmind insights list --domain {{ domain }}
+
 # ── artmind traces ───────────────────────────────────────────────────────────
 
 # recorded admin-console/benchmark turns, newest first  (usage: just traces-list [rating])

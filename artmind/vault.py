@@ -132,6 +132,19 @@ class VaultLayout:
         return self.artmind_dir / "reviews"
 
     @property
+    def insights_config_dir(self) -> Path:
+        """Insights tuning, one `<domain>.yaml` per domain (spec 2026-10-17 §4.3).
+        User-authored and committed; never seeded; outside `schemas/` so tuning
+        never changes schema_set_hash()."""
+        return self.domains_dir / "insights"
+
+    @property
+    def insights_dir(self) -> Path:
+        """Insights snapshots (spec 2026-10-17 §9.1): committed with the vault,
+        private corpus content like reviews."""
+        return self.artmind_dir / "insights"
+
+    @property
     def meta_yaml(self) -> Path:
         return self.domains_dir / "meta.yaml"
 

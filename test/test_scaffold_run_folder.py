@@ -673,3 +673,27 @@ def test_scaffold_run_folder_leaves_views_untouched_in_a_vault(tmp_path, monkeyp
     setup.scaffold_run_folder()
 
     assert _view_bytes(keep) == before
+
+
+def test_scaffold_run_folder_never_touches_insights(tmp_path, monkeypatch):
+    """Insights config and snapshots are user data: setup must leave them alone."""
+    import artmind.setup as setup
+
+    home, data = tmp_path / "home", tmp_path / "data"
+    _patch_scaffold_dirs(setup, monkeypatch, home, data)
+    monkeypatch.setattr(setup, "resolve_vault", lambda: None)
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "DOMAIN_META_PATH", home / "domains" / "meta.yaml")
+    monkeypatch.setattr(setup, "PACKAGE_META_YAML", tmp_path / "no-such-meta")
+    _write(tmp_path / "pkg-schemas" / "demo_schema.yaml", "kind: demo\n")
+    monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", tmp_path / "pkg-schemas")
+    monkeypatch.setattr(setup, "validate_all_or_raise", lambda *a, **k: None)
+    cfg = home / "domains" / "insights" / "demo.yaml"
+    snap = home / "insights" / "demo" / "latest.json"
+    _write(cfg, "period: quarter\n")
+    _write(snap, "{}\n")
+
+    setup.scaffold_run_folder()
+
+    assert cfg.read_text() == "period: quarter\n"
+    assert snap.read_text() == "{}\n"
