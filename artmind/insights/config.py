@@ -30,6 +30,9 @@ _INTS = {  # key: (default, minimum)
     "keep_runs": (12, 1),
     "narrate_top": (15, 0),
 }
+_POS_INT_KEYS = ("min_support", "window", "silence_multiple", "min_silence_days", "min_weight",
+                 "min_circle_size", "min_period_edges", "min_count")
+_POS_NUM_KEYS = ("resolution", "min_log_ratio", "min_jaccard")
 _DOMAIN_RE = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$")
 _RAW_BLOCKS = ("outcome", "transitions", "open_loops")
 KNOWN_KEYS = frozenset({"domain", "anchors", "period", "narrate", "detectors", *_INTS, *_RAW_BLOCKS})
@@ -107,6 +110,13 @@ def parse_config(data: dict | None, domain: str) -> InsightsConfig:
     for name, settings in detectors.items():
         if "enabled" in settings and not isinstance(settings["enabled"], bool):
             raise InsightsError(f"{where}: detector {name} enabled must be true or false")
+        for key, value in settings.items():
+            if key in _POS_INT_KEYS and (not isinstance(value, int) or isinstance(value, bool) or value < 1):
+                raise InsightsError(f"{where}: detector {name} {key} must be a positive integer")
+            if key in _POS_NUM_KEYS and (not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0):
+                raise InsightsError(f"{where}: detector {name} {key} must be a positive number")
+            if key == "classes" and (not isinstance(value, list) or not all(isinstance(c, str) for c in value)):
+                raise InsightsError(f"{where}: detector {name} classes must be a list of strings")
     narrate = data.get("narrate", True)
     if not isinstance(narrate, bool):
         raise InsightsError(f"{where}: narrate must be true or false")

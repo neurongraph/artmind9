@@ -59,6 +59,7 @@ def test_build_profile_measures_classes_documents_and_relations():
     assert ("relation_triples", {"max_targets": 2000}) in proj.calls
     d = profile.to_dict()
     assert "targets" not in d["relations"][0]
+    assert profile.documents == 3 and d["documents"] == 3
 
 
 def test_declared_triples_parse_verbs_with_annotations():
@@ -127,3 +128,10 @@ def test_anchor_inference_rules():
     assert infer_anchors([asha, ben], parse_config({"anchors": ["@p1"]}, "demo"), 10)[0]["_id"] == "p1"
     with pytest.raises(InsightsError, match="matched 0"):
         infer_anchors([asha, ben], parse_config({"anchors": ["Cleo"]}, "demo"), 10)
+
+
+def test_relation_rows_without_a_rel_are_skipped():
+    tables = _tables()
+    tables["relation_triples"] = tables["relation_triples"] + [{"rel": None, "src": "A", "dst": "B", "n": 3}]
+    profile, _ = build_profile(FakeProjector(tables), SCHEMA, parse_config({}, "demo"))
+    assert all(r["rel"] is not None for r in profile.relations)

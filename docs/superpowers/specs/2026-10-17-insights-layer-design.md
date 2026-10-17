@@ -236,8 +236,13 @@ profile ─▶ plan ─▶ project ─▶ compute ─▶ score ─▶ diff ─�
 8. **Snapshot**: atomic write (§9.1).
 
 `refresh` short-circuits if nothing changed. The run's `fingerprint` is the
-schema-set hash, the same-as hash, the insights config hash, the entity count
-and the latest document valid date. If it matches the latest snapshot's,
+schema-set hash, the same-as hash, the insights config hash, the entity count,
+the latest document valid date, the document count (`documents`), an evidence
+total (`evidence`: per entity, evidence days plus document count), the sum of
+relationship triple counts (`relations`) and `detectors_version` (bumped in
+code when detector logic changes). A `--only` run stores the fingerprint with
+an extra `partial: [detector names]` marker, so it never equals a full run's
+and the next plain refresh always runs. If it matches the latest snapshot's,
 refresh prints `insights up to date` and exits 0, unless `--force`.
 
 ## 6. Detector library (v1)
@@ -396,7 +401,7 @@ corpus config. Each carries an `action`.
 |---|---|---|
 | `kind_mismatch` | A declared `recurrent` class that behaves as occurrent (§4.2), or the reverse | `schema`: change `kind`, or fix the class's naming guidance |
 | `vocabulary_sprawl` | A property whose distinct values are > 5× its class's `type_examples` (or > 40 with no examples), plus near-duplicate values (`In progress` / `in progress`) | `schema`: list the values in the hint; `retime --redoProperties` to fold them |
-| `relationship_usage` | Declared triples never observed; observed triples not declared; pairs of rel types with the same endpoint classes and > 50% target overlap (`WENT_TO` vs `VISITS`) | `schema` |
+| `relationship_usage` | Declared triples never observed; observed triples not declared; pairs of rel types with the same endpoint classes and Jaccard >= 0.3 (default; config `min_jaccard`) on their targets (`WENT_TO` vs `VISITS`) | `schema` |
 | `attribution_suspects` | Anchor edges whose target's `type` is atypical for that relationship (for example `WORKS_AT` → a LOCATION-like or role-like ORGANIZATION) | `reextract` or `curate` |
 | `open_conflicts` | Open conflicts grouped by class and property, with trend | `curate` |
 | `fragments` | Small connected components (2–5 entities) cut off from the main graph | `curate` |
@@ -449,9 +454,9 @@ goes in `logs/`, never in the committed folder, the same as review dossiers.
   "domain": "personal_journal",
   "created_at": "2026-10-17T09:30:12Z",
   "as_of": "2026-10-01",
-  "fingerprint": {"schema": "…", "same_as": "…", "config": "…", "entities": 5120, "latest_doc": "2026-10-01"},
+  "fingerprint": {"schema": "…", "same_as": "…", "config": "…", "entities": 5120, "latest_doc": "2026-10-01", "documents": 1840, "evidence": 61000, "relations": 9300, "detectors_version": 1},
   "anchors": [{"_id": "…", "name": "…", "rule": "type=self"}],
-  "profile": {"classes": {…}, "relations": […], "documents_per_period": {…}},
+  "profile": {"classes": {…}, "relations": […], "docs_per_period": {…}},
   "plan": [{"detector": "dormancy", "target": "PERSON", "status": "ran"},
            {"detector": "open_loops", "status": "skipped", "reason": "not configured"}],
   "findings": [{

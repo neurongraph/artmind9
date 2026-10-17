@@ -91,3 +91,87 @@ def test_retention_follows_config(env):
     refresh(force=True)
     result = refresh(now="2026-10-17T12:00:00Z", force=True)
     assert result["pruned"] == ["2026-10-17T09-00-00Z.json"]
+
+
+def _refresh_tables(tables, **kw):
+    return runner.refresh("demo", projector=FakeProjector(tables), now=kw.pop("now", "2026-10-17T09:00:00Z"), **kw)
+
+
+def test_only_brokers_keeps_circles_and_brokers_findings(env):
+    refresh()
+    before = store.load_latest("demo")
+    assert before.circles and any(f.detector == "brokers" for f in before.findings)
+    refresh(now="2026-10-17T11:00:00Z", only=["brokers"])
+    run = store.load_latest("demo")
+    assert run.circles == before.circles
+    brokers = [f for f in run.findings if f.detector == "brokers"]
+    assert brokers and {f.diff for f in brokers} == {"same"}
+    assert {f.key for f in run.findings if f.detector == "communities"} == \
+        {f.key for f in before.findings if f.detector == "communities"}
+    assert {f.diff for f in run.findings if f.detector == "communities"} == {"same"}
+
+
+def test_fingerprint_sees_changed_evidence_days(env):
+    refresh()
+    tables = _tables()
+    row = next(r for r in tables["entity_evidence"] if r["_id"] == "a1")
+    row["days"] = row["days"][1:]  # same entity count and latest date, one day fewer
+    assert _refresh_tables(tables, now="2026-10-17T10:00:00Z")["status"] == "written"
+
+
+def test_partial_run_never_short_circuits_a_full_one(env):
+    refresh()
+    tables = _tables()
+    tables["entity_evidence"][0]["days"] = tables["entity_evidence"][0]["days"][:-1]
+    assert _refresh_tables(tables, now="2026-10-17T10:00:00Z", only=["dormancy"])["status"] == "written"
+    assert _refresh_tables(tables, now="2026-10-17T11:00:00Z")["status"] == "written"
+
+
+def test_corrupt_latest_is_ignored_with_force(env):
+    refresh()
+    (store.domain_dir("demo") / store.LATEST).write_text("{not json")
+    with pytest.raises(InsightsError):
+        refresh(now="2026-10-17T10:00:00Z")
+    assert refresh(now="2026-10-17T10:00:00Z", force=True)["status"] == "written"
+
+
+def test_yaml_error_in_schema_becomes_insights_error(env, monkeypatch):
+    import yaml
+
+    def boom(domain):
+        raise yaml.YAMLError("bad schema")
+
+    monkeypatch.setattr(runner, "load_schema", boom)
+    with pytest.raises(InsightsError, match="bad schema"):
+        refresh()
+
+
+def test_skipped_detector_keeps_previous_findings(env):
+    refresh()
+    run = store.load_latest("demo")
+    seeded = [f for f in run.findings if f.detector == "dormancy"]
+    if not seeded:
+        from dataclasses import replace
+        proto = run.findings[0]
+        run.findings.append(replace(proto, key="dormancy:PERSON:a1", detector="dormancy", diff="new"))
+        store.write_run(run)
+    tables = _tables()
+    for d in tables["documents"]:
+        d["time_source"] = "default_ingestion"
+    _refresh_tables(tables, now="2026-10-17T10:00:00Z", force=True)
+    out = store.load_latest("demo")
+    dorm = [f for f in out.findings if f.detector == "dormancy"]
+    assert dorm and {f.diff for f in dorm} == {"same"}
+    assert any(p.detector == "dormancy" and p.status == "skipped" for p in out.plan)
+
+
+def test_disabled_detector_drops_its_findings(env):
+    refresh()
+    run = store.load_latest("demo")
+    from dataclasses import replace
+    run.findings.append(replace(run.findings[0], key="dormancy:PERSON:a1", detector="dormancy", diff="new"))
+    store.write_run(run)
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\ndetectors:\n  dormancy: {enabled: false}\n")
+    refresh(now="2026-10-17T10:00:00Z", force=True)
+    dorm = [f for f in store.load_latest("demo").findings if f.detector == "dormancy"]
+    assert {f.diff for f in dorm} == {"gone"}

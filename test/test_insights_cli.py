@@ -71,3 +71,21 @@ def test_refresh_passes_options_through(monkeypatch):
 def test_refresh_needs_exactly_one_domain():
     result = invoke("refresh", "--domain", "a,b")
     assert result.exit_code != 0 and "exactly one --domain" in result.output
+
+
+def test_list_limit_must_be_positive(snap):
+    res = CliRunner().invoke(cli, ["insights", "list", "--domain", "demo", "--limit", "0"])
+    assert res.exit_code == 2
+
+
+def test_profile_reports_yaml_error_cleanly(monkeypatch):
+    import yaml
+
+    from artmind.insights import config as cfg
+
+    def boom(domain):
+        raise yaml.YAMLError("broken")
+
+    monkeypatch.setattr(cfg, "load_config", boom)
+    res = CliRunner().invoke(cli, ["insights", "profile", "--domain", "demo"])
+    assert res.exit_code == 1 and "broken" in res.output and "Traceback" not in res.output

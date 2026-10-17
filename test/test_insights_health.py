@@ -90,3 +90,14 @@ def test_open_conflicts_grouped_by_class():
     assert found["open_conflicts:PERSON"].stats == {"open": 40, "by_property": {"occupation": 30, "age": 10}, "headline": 40}
     assert found["open_conflicts:PERSON"].action == "curate"
     assert "open_conflicts:UNKNOWN" in found
+
+
+def test_relationship_usage_tolerates_none_rel():
+    rels = [
+        {"rel": None, "src": "PERSON", "dst": "LOCATION", "n": 20, "declared": False, "targets": ["a"]},
+        {"rel": "VISITS", "src": "PERSON", "dst": "LOCATION", "n": 15, "declared": False, "targets": ["a"]},
+        {"rel": "WENT_TO", "src": "PERSON", "dst": "LOCATION", "n": 15, "declared": False, "targets": ["a"]},
+    ]
+    ctx = make_ctx([ent("p", "PERSON", ["2024-01-01"])], relations=rels)
+    found = RELATIONSHIP_USAGE.run(ctx, "all")
+    assert all("None" not in f.key for f in found)

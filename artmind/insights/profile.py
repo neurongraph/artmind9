@@ -52,6 +52,7 @@ class Profile:
     latest_doc: str | None
     dated_days: int
     open_conflicts: list[dict]
+    documents: int = 0
 
     def to_dict(self) -> dict:
         return {
@@ -63,6 +64,7 @@ class Profile:
             "latest_doc": self.latest_doc,
             "dated_days": self.dated_days,
             "open_conflicts": self.open_conflicts,
+            "documents": self.documents,
         }
 
 
@@ -164,6 +166,7 @@ def build_profile(projector, schema: dict, config: InsightsConfig) -> tuple[Prof
             {"rel": r["rel"], "src": r["src"], "dst": r["dst"], "n": int(r["n"]),
              "declared": (r["rel"], r["src"], r["dst"]) in declared, "targets": list(r.get("targets") or [])}
             for r in projector.rows("relation_triples", max_targets=MAX_RELATION_TARGETS)
+            if r.get("rel") is not None
         ),
         key=lambda r: (-r["n"], str(r["rel"]), str(r["src"]), str(r["dst"])),
     )
@@ -175,7 +178,7 @@ def build_profile(projector, schema: dict, config: InsightsConfig) -> tuple[Prof
         domain=config.domain, classes=classes, relations=relations,
         docs_per_period=dict(sorted(per_period.items())),
         default_time_share=round(defaulted / len(docs), 4) if docs else 1.0,
-        latest_doc=max(dated) if dated else None, dated_days=len(set(dated)), open_conflicts=conflicts,
+        latest_doc=max(dated) if dated else None, dated_days=len(set(dated)), open_conflicts=conflicts, documents=len(docs),
     )
     return profile, entities
 

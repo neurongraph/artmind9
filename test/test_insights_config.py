@@ -85,3 +85,23 @@ def test_domain_name_must_be_a_safe_identifier():
         cfg_mod.config_path("../x")
     with pytest.raises(InsightsError, match="invalid domain name"):
         load_config("../x")
+
+
+@pytest.mark.parametrize("data", [
+    {"detectors": {"communities": {"classes": "PERSON"}}},
+    {"detectors": {"communities": {"classes": [1]}}},
+    {"detectors": {"dormancy": {"min_silence_days": "x"}}},
+    {"detectors": {"dormancy": {"silence_multiple": True}}},
+    {"detectors": {"salience_trend": {"window": 0}}},
+    {"detectors": {"communities": {"resolution": True}}},
+    {"detectors": {"communities": {"resolution": -1}}},
+    {"detectors": {"relationship_usage": {"min_jaccard": "0.3"}}},
+])
+def test_detector_setting_types_are_validated(data):
+    with pytest.raises(InsightsError, match=r"detector \w+ "):
+        parse_config(data, "demo")
+
+
+def test_valid_detector_settings_pass():
+    parse_config({"detectors": {"communities": {"classes": ["PERSON"], "resolution": 1, "min_weight": 3},
+                                "relationship_usage": {"min_jaccard": 0.4}}}, "demo")

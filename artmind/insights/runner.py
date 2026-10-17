@@ -11,6 +11,7 @@ from dataclasses import replace
 from datetime import datetime, timezone
 
 import networkx as nx
+import yaml
 from neo4j.exceptions import DriverError, Neo4jError
 
 from artmind.graph_query import expand_domain_family
@@ -70,14 +71,49 @@ def _trim(findings: list[Finding], max_per_detector: int) -> list[Finding]:
     return out
 
 
+# Bump when detector logic changes, so an unchanged graph still re-runs under the new logic.
+DETECTORS_VERSION = 1
+# A selected detector that reads another's output (brokers read communities' circles).
+DEPENDS = {"brokers": {"communities"}}
+
+
+def _keeps_previous(plan: list[PlanEntry]) -> set[str]:
+    """Detectors that did not really run: all targets failed, or skipped for a reason other than config.
+    Their previous findings are carried over rather than reported as gone."""
+    by_det: dict[str, list[PlanEntry]] = {}
+    for p in plan:
+        by_det.setdefault(p.detector, []).append(p)
+    keep = set()
+    for name, entries in by_det.items():
+        if all(e.status == "failed" for e in entries):
+            keep.add(name)
+        elif any(e.status == "skipped" and e.reason != "disabled in config" for e in entries):
+            keep.add(name)
+    return keep
+
+
 def refresh(domain: str, *, force: bool = False, only: list[str] | None = None,
             projector=None, now: str | None = None) -> dict:
+    try:
+        return _refresh(domain, force=force, only=only, projector=projector, now=now)
+    except InsightsError:
+        raise
+    except (OSError, yaml.YAMLError, ValueError) as exc:
+        raise InsightsError(f"insights refresh for {domain!r} failed: {exc}") from exc
+
+
+def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now: str | None) -> dict:
     config = load_config(domain)
     selected = set(only) if only else None
     if selected:
         unknown = selected - {d.name for d in registry()}
         if unknown:
             raise InsightsError(f"unknown detector(s): {sorted(unknown)}")
+    run_set = None
+    if selected is not None:
+        run_set = set(selected)
+        for name in selected:
+            run_set |= DEPENDS.get(name, set())
     schema = load_schema(domain)
     try:
         projector = projector or Projector(expand_domain_family(domain))
@@ -87,29 +123,47 @@ def refresh(domain: str, *, force: bool = False, only: list[str] | None = None,
     if not entities:
         raise InsightsError(f"domain {domain!r} has no entities in the graph")
     anchors = infer_anchors(entities, config, profile.dated_days)
-    fingerprint = {**_hashes(domain), "entities": len(entities), "latest_doc": profile.latest_doc}
+    fingerprint = {
+        **_hashes(domain), "entities": len(entities), "latest_doc": profile.latest_doc,
+        "documents": profile.documents,
+        "evidence": sum(len(e.days) + e.docs for e in entities),
+        "relations": sum(r["n"] for r in profile.relations),
+        "detectors_version": DETECTORS_VERSION,
+    }
 
-    previous = store.load_latest(domain)
+    try:
+        previous = store.load_latest(domain)
+    except InsightsError:
+        if not force:
+            raise
+        previous = None  # a corrupt latest.json is replaced by a forced refresh
     if previous and previous.fingerprint == fingerprint and not force and selected is None:
         return {"status": "up_to_date", "domain": domain, "created_at": previous.created_at, "as_of": previous.as_of}
+    if selected is not None:
+        fingerprint = {**fingerprint, "partial": sorted(selected)}  # never equals a full run's fingerprint
 
     ctx = RunContext(domain=domain, schema=schema, config=config, profile=profile, entities=entities,
                      anchors={a["_id"] for a in anchors}, as_of=profile.latest_doc)
-    found, plan = run_detectors(ctx, selected)
+    found, plan = run_detectors(ctx, run_set)
+    if selected is not None:  # dependencies ran only to feed the selected detectors
+        found = [f for f in found if f.detector in selected]
     found = _trim(found, config.max_findings)
 
+    keep = _keeps_previous([p for p in plan if selected is None or p.detector in selected])
     prev_findings, carried = None, []
     if previous is not None:
-        prev_findings = [f for f in previous.findings if selected is None or f.detector in selected]
-        if selected is not None:
-            carried = [replace(f, diff="same") for f in previous.findings
-                       if f.detector not in selected and f.diff != "gone"]
+        prev_findings = [f for f in previous.findings
+                         if (selected is None or f.detector in selected) and f.detector not in keep]
+        carried = [replace(f, diff="same") for f in previous.findings
+                   if f.diff != "gone" and ((selected is not None and f.detector not in selected) or f.detector in keep)]
     runs = store.list_runs(domain)
     findings, diff = apply_diff(found, prev_findings, runs[-1].name if previous is not None and runs else None)
+    if previous is not None and carried:
+        diff["same"] += len(carried)
 
     circles = [c for key, (_g, cs) in sorted(ctx.memo.items(), key=lambda kv: str(kv[0]))
                if isinstance(key, tuple) and key[0] == "circles" for c in cs]
-    if selected is not None and "communities" not in selected and previous is not None:
+    if previous is not None and ((selected is not None and "communities" not in selected) or "communities" in keep):
         circles = previous.circles
 
     run = Run(domain=domain, created_at=now or _now(), as_of=profile.latest_doc, fingerprint=fingerprint,

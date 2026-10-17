@@ -101,7 +101,7 @@ def _run_sprawl(ctx: RunContext, _target: str) -> list[Finding]:
 def _run_relations(ctx: RunContext, _target: str) -> list[Finding]:
     cfg = ctx.config.detector("relationship_usage")
     min_count, min_overlap_n = cfg.get("min_count", 5), cfg.get("min_overlap_count", 10)
-    rels = ctx.profile.relations
+    rels = [r for r in ctx.profile.relations if r.get("rel") is not None]
     total = sum(r["n"] for r in rels) or 1
     out = []
     undeclared = [r for r in rels if not r["declared"] and r["n"] >= min_count]
@@ -116,7 +116,7 @@ def _run_relations(ctx: RunContext, _target: str) -> list[Finding]:
         ))
     declared = declared_triples(ctx.schema)
     observed = {(r["rel"], r["src"], r["dst"]) for r in rels}
-    unused = sorted(declared - observed)
+    unused = sorted(declared - observed, key=lambda t: tuple(map(str, t)))
     if unused and rels:
         out.append(Finding(
             key="relationship_usage:unused", detector="relationship_usage", kind="health",
@@ -131,7 +131,7 @@ def _run_relations(ctx: RunContext, _target: str) -> list[Finding]:
         if r["n"] >= min_overlap_n and r["targets"]:
             by_ends[(r["src"], r["dst"])].append(r)
     for (src, dst), group in sorted(by_ends.items()):
-        group = sorted(group, key=lambda r: r["rel"])
+        group = sorted(group, key=lambda r: str(r["rel"]))
         for i, r1 in enumerate(group):
             for r2 in group[i + 1:]:
                 a, b = set(r1["targets"]), set(r2["targets"])

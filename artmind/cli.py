@@ -3376,7 +3376,7 @@ def insights_refresh(domain: tuple, force: bool, only: str | None, compact: bool
 @click.option("--detector", default=None, help="Only this detector")
 @click.option("--kind", type=click.Choice(["corpus", "health"]), default=None, help="Corpus findings or graph health")
 @click.option("--new", "only_new", is_flag=True, help="Only what changed since the previous run (new, changed, gone)")
-@click.option("--limit", default=50, show_default=True, type=int, help="Maximum findings")
+@click.option("--limit", default=50, show_default=True, type=click.IntRange(1), help="Maximum findings")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def insights_list(domain: tuple, detector: str | None, kind: str | None, only_new: bool, limit: int, compact: bool) -> None:
     """Findings from the latest snapshot, highest score first. No Neo4j."""
@@ -3417,6 +3417,7 @@ def insights_show(domain: tuple, compact: bool, key: str) -> None:
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def insights_profile(domain: tuple, compact: bool) -> None:
     """The graph's shape profile and inferred anchors. Needs Neo4j; writes nothing."""
+    import yaml
     from neo4j.exceptions import DriverError, Neo4jError
 
     from artmind.insights.config import load_config
@@ -3430,7 +3431,7 @@ def insights_profile(domain: tuple, compact: bool) -> None:
         config = load_config(name)
         profile, entities = build_profile(Projector(graph_query.expand_domain_family(name)), load_schema(name), config)
         anchors = infer_anchors(entities, config, profile.dated_days)
-    except (InsightsError, Neo4jError, DriverError) as exc:
+    except (InsightsError, Neo4jError, DriverError, yaml.YAMLError, OSError) as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json({"domain": name, "entities": len(entities), "anchors": anchors, "profile": profile.to_dict()}, compact)
 
