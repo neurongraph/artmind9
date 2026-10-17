@@ -92,13 +92,14 @@ def _resolve_entity_name(spec: ParamSpec, text: str, domains: list[str]) -> tupl
     """Spec section 7 rule.
 
     Returns ("ok", entity) | ("needs_disambiguation", [..]) | ("no_match", suggestions).
-    The vector leg always returns nearest neighbours, so only fulltext evidence
-    counts as a match; vector-only hits are offered as suggestions.
+    The vector leg always returns nearest neighbours, so only name evidence
+    (an exact name, or a fulltext hit) counts as a match; vector-only hits are
+    offered as suggestions.
     """
     result = vector_query.entity_resolve(domains, text, ENTITY_RESOLVE_TOP_K)
     rows = [r for r in result.get("rows", []) if r.get("entity")]
     rows = [r for r in rows if _class_matches(r["entity"], spec.entity_class)]
-    matched = [r["entity"] for r in rows if "fulltext" in (r.get("matched_by") or [])]
+    matched = [r["entity"] for r in rows if {"exact", "fulltext"} & set(r.get("matched_by") or [])]
     if not matched:
         return "no_match", [_slim(r["entity"]) for r in rows[:MAX_CANDIDATES]]
     exact = [c for c in matched if str(c.get("name") or "").casefold() == text.casefold()]

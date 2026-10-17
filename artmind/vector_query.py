@@ -83,6 +83,28 @@ def _rrf_combine(
     ]
 
 
+def _put_exact_first(exact_rows: list, combined_rows: list, top_k: int, k: int = 60) -> list:
+    """Put exact-name hits ahead of the fused rows, tagged `exact` in `matched_by`.
+
+    An entity that is also in the fused rows keeps its own legs and RRF score;
+    one that only the exact leg found gets the score of a rank-1 hit. Never
+    shorter than the exact hits, so every one of them survives the top-k cut.
+    """
+    if not exact_rows:
+        return combined_rows
+    by_id = {r["entity"]["_id"]: r for r in combined_rows if r.get("entity")}
+    head: list = []
+    for row in exact_rows:
+        found = by_id.get(row["entity"]["_id"])
+        if found is not None:
+            head.append({**found, "matched_by": ["exact", *found["matched_by"]]})
+        else:
+            head.append({**row, "score": round(1.0 / (k + 1), 6), "matched_by": ["exact"]})
+    exact_ids = {r["entity"]["_id"] for r in head}
+    tail = [r for r in combined_rows if r.get("entity") and r["entity"]["_id"] not in exact_ids]
+    return (head + tail)[: max(top_k, len(head))]
+
+
 def _get_result_id(row: dict) -> str:
     """Extract a unique ID from a result row (chunk, chat, or entity)."""
     if "chunk" in row and row["chunk"]:
@@ -282,6 +304,12 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     observations) from a passing mention before asking for its context, and
     `score` is the fused RRF score with `matched_by` naming the legs.
 
+    A third leg, `exact`, finds entities whose name equals the reference
+    (case-insensitive) and always ranks them first. Lucene scores a short,
+    one-off name like "Sonography for X" above the hub entity "X" itself, and
+    RRF then drops an fulltext-only hit from the cut, so without it a person
+    with hundreds of observations is not returned by their own name.
+
     No `--asOf` (Phase 4) — the projection is current by construction.
     """
     from artmind.graph_query import normalize_domains, domain_predicate, _domain_output
@@ -320,7 +348,26 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     LIMIT $topK
     """
 
+    cypher_exact = f"""
+    MATCH (e:Entity)
+    WHERE {domain_predicate("e")} AND toLower(e.name) = toLower($reference)
+    RETURN e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
+                observation_count: e._observation_count,
+                connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
+    ORDER BY e._observation_count DESC
+    LIMIT $topK
+    """
+
     with read_session() as session:
+        exact_rows: list = []
+        if reference.strip():
+            exact_rows = [
+                strip_internal_props(serialize_record(record))
+                for record in session.run(
+                    cypher_exact, domains=domains, reference=reference.strip(), topK=int(topK)
+                )
+            ]
+
         ft_rows: list = []
         if ft_query:
             ft_rows = [
@@ -355,6 +402,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
             vec_rows = []
 
     combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK), annotate=True)
+    combined_rows = _put_exact_first(exact_rows, combined_rows, int(topK))
 
     return {
         **_domain_output(domains),

@@ -272,3 +272,20 @@ def test_invalid_scalar_reported_before_ambiguous_entity():
     with patched_resolve(rows) as resolve, pytest.raises(ViewError, match="param 'depth'"):
         resolve_params(make_spec(), {"product": "mortgage", "depth": "9"}, ["finance"])
     resolve.assert_not_called()
+
+
+def test_exact_name_leg_alone_is_name_evidence():
+    """A hub entity Lucene ranks below the cut is still found by its exact name."""
+    rows = [hit("e1", "Mortgage", matched_by=("exact",)),
+            hit("n1", "Mortgage Insurance", matched_by=("fulltext", "vector"))]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "Mortgage"}, ["finance"])
+    assert res.status == "ok" and res.bindings["product"] == "e1"
+
+
+def test_exact_name_in_two_classes_is_resolved_by_the_param_class():
+    rows = [hit("p", "Mortgage", cls="Product", matched_by=("exact",)),
+            hit("r", "Mortgage", cls="Regulation", matched_by=("exact",))]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec("Product"), {"product": "Mortgage"}, ["finance"])
+    assert res.status == "ok" and res.bindings["product"] == "p"

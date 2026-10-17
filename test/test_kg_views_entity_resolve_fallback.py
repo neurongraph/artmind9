@@ -13,7 +13,8 @@ from artmind import vector_query
 
 def _session_returning(ft_rows):
     session = MagicMock()
-    session.run.return_value = ft_rows
+    # the exact-name leg finds nothing; every other leg answers with ft_rows
+    session.run.side_effect = lambda cypher, **kw: [] if "toLower(e.name)" in cypher else ft_rows
     ctx = MagicMock()
     ctx.__enter__.return_value = session
     return ctx, session
@@ -29,7 +30,7 @@ def test_entity_resolve_falls_back_to_fulltext_when_embedding_fails():
 
     assert [r["entity"]["_id"] for r in result["rows"]] == ["e1"]
     assert result["rows"][0]["matched_by"] == ["fulltext"]
-    assert session.run.call_count == 1  # only the fulltext query ran
+    assert session.run.call_count == 2  # the exact-name query and the fulltext query; no vector query
     args, kwargs = session.run.call_args
     assert kwargs["topK"] == 5
     assert kwargs["domains"] == ["finance"]
