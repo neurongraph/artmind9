@@ -425,12 +425,24 @@ guidance:
     "Narrator", or any other name, and NEVER as another person named in the
     entry (a guest, a host, the subject of an event). If a sentence names other
     people, they are separate entities.
+    BENEFICIARY vs DESTINATION. "for <Name>" after booking, buying, holding or
+    arranging something (tickets, gifts, clothes, documents, appointments) names
+    the BENEFICIARY of the thing, not a place. Never classify a person as a
+    LOCATION because the word "for" precedes their name: in "I booked tickets
+    for Sarah", Sarah is a PERSON who will travel, not a destination.
   relationships: |-
     NARRATOR. Attribute first-person actions ("I drove", "I went", "I stayed",
     "I worked") to "Diarist".
-    COMPANIONS. "I went to X with Y", "Y and I travelled to X", "we went to X":
-    emit a went_to (or the schema's travel relationship) edge to X for EVERY
-    traveller — Diarist and each named companion — not only for the grammatical
-    subject.
+    COMPANIONS. "I went to X with Y", "Y and I travelled to X", "we went to X",
+    "I dropped Y at the station for their trip to X": emit a went_to (or the
+    schema's travel relationship) edge to X for EVERY traveller — Diarist and
+    each named companion — not only for the grammatical subject. This includes
+    a companion who travels without the Diarist when the Diarist only drops
+    them off or sees them off.
+    INDEPENDENT TRAVEL. When a named person other than the Diarist travels to
+    a place — "Y went to X", "Y is going to X", "Y travelled to X" — emit a
+    went_to edge from that person's PERSON entity to the LOCATION entity for X,
+    dated to the entry date or the date the entry mentions. Treat each such
+    trip as a new visit, even when the Diarist is not part of it.
     RETURNS. "Y returned from X" describes the end of a trip already started;
     do not emit a second visit/went_to edge for it.
