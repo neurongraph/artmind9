@@ -17,7 +17,10 @@ from artmind.insights.profile import EntityRow, Profile
 
 @dataclass(frozen=True)
 class Skip:
+    """carry=True: could not run now, keep the last findings. carry=False: nothing there now, drop them."""
+
     reason: str
+    carry: bool = True
 
 
 @dataclass
@@ -30,6 +33,8 @@ class RunContext:
     anchors: set[str]
     as_of: str | None
     memo: dict = field(default_factory=dict)
+    entity_props: dict = field(default_factory=dict)       # (cls, prop) -> {_id: value}
+    anchor_relations: list = field(default_factory=list)   # {"rel","_id","name","cls","type","days"}
 
     def scored_periods(self) -> list[str]:
         return [p for p, n in sorted(self.profile.docs_per_period.items()) if n >= self.config.min_period_docs]
@@ -58,11 +63,17 @@ def subject(e: EntityRow) -> dict:
 
 
 def registry() -> list[Detector]:
-    """Every detector in run order. `brokers` must follow `communities` (it reads its circles)."""
-    from artmind.insights.detectors import brokers, communities, dormancy, health, salience
+    """Every detector in run order. Readers follow what they read: brokers after communities;
+    transitions after communities (circle shifts); split_signal after salience, lift and same-as."""
+    from artmind.insights.detectors import (
+        brokers, communities, dormancy, health, lift, open_loops, salience, same_as, split, transitions,
+    )
 
     return [
         salience.SALIENCE_TREND, salience.TYPE_TREND, dormancy.DORMANCY,
         communities.COMMUNITIES, brokers.BROKERS,
+        lift.OUTCOME_LIFT, transitions.TRANSITIONS, open_loops.OPEN_LOOPS,
+        same_as.SAME_AS_CANDIDATES, split.SPLIT_SIGNAL,
         health.KIND_MISMATCH, health.VOCABULARY_SPRAWL, health.RELATIONSHIP_USAGE, health.OPEN_CONFLICTS,
+        health.ATTRIBUTION_SUSPECTS, health.FRAGMENTS,
     ]

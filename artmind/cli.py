@@ -260,6 +260,10 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
     ],
+    "artmind insights": [
+        {"name": "Snapshots", "commands": ["refresh", "list", "show", "runs", "profile"]},
+        {"name": "Curation & config", "commands": ["same-as", "config"]},
+    ],
     "artmind query": [
         {"name": "Graph patterns", "commands": ["graph"]},
         {"name": "Saved views", "commands": ["views"]},
@@ -3324,7 +3328,8 @@ def insights_group() -> None:
 
     `refresh` profiles the graph against its schema, runs every detector that applies and
     writes a diffed snapshot to `<ARTMIND_HOME>/insights/<domain>/` (committed with a vault).
-    `list`, `show` and `runs` read snapshots only (no Neo4j). Tune detectors in
+    `list`, `show`, `runs` and `same-as` read snapshots only (no Neo4j); `config check` validates
+    the config against the live graph. Tune detectors in
     `domains/insights/<domain>.yaml`. Not proxied by `serve`.
     """
     pass
@@ -3454,6 +3459,83 @@ def insights_runs(domain: tuple, compact: bool) -> None:
     except InsightsError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json({"domain": name, "runs": rows}, compact)
+
+
+@insights_group.command("same-as")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--export", "export", type=click.Path(dir_okay=False, path_type=Path), default=None,
+              help="Write the candidates as `ingest refine-graph --from-file` input")
+@click.option("--min-score", "min_score", type=click.FloatRange(0, 1), default=0.5, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def insights_same_as(domain: tuple, export: Path | None, min_score: float, compact: bool) -> None:
+    """Probable duplicates from the latest snapshot; --export feeds the same-as review queue. No Neo4j.
+
+    The export holds entity names from your vault (private): keep it out of the code checkout.
+    Chains and names shared by two entities are skipped; refine-graph's own stats are the final word.
+    """
+    name = _one_domain(domain)
+    run = _latest_insights(name)
+    items = sorted((f for f in run.findings if f.detector == "same_as_candidates" and f.diff != "gone"
+                    and f.score >= min_score), key=lambda f: (-f.score, f.key))
+    ids_by_name: dict[str, set] = {}
+    for f in items:
+        for side in ("alias", "canonical"):
+            ids_by_name.setdefault(f.stats[side]["name"], set()).add(f.stats[side].get("_id"))
+    merges: dict[str, str] = {}
+    candidates = []
+    skipped = {"chain": 0, "ambiguous_name": 0}
+    for f in items:
+        alias, canonical = f.stats["alias"]["name"], f.stats["canonical"]["name"]
+        if alias == canonical or alias in merges:
+            continue
+        if len(ids_by_name[alias]) > 1 or len(ids_by_name[canonical]) > 1:
+            skipped["ambiguous_name"] += 1
+            continue
+        if alias in merges.values() or canonical in merges:
+            skipped["chain"] += 1
+            continue
+        merges[alias] = canonical
+        candidates.append({"alias": alias, "canonical": canonical, "class": f.stats["canonical"]["class"],
+                           "score": f.score, "rule": f.stats.get("rule")})
+    note = ("refine-graph resolves names to entities; its stats (skipped_ambiguous, skipped_cross_class) are "
+            "the final word. This file holds names from your vault: keep it out of the code checkout.")
+    payload = {"source": "artmind insights", "domain": name, "created_at": run.created_at, "note": note,
+               "proposed_merges": merges, "candidates": candidates}
+    result = {"domain": name, "candidates": len(candidates), "skipped": skipped, "note": note}
+    if export is not None:
+        export.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        result.update(export=str(export),
+                      next=f"artmind ingest refine-graph --domain {name} --from-file {export}")
+    else:
+        result["proposed_merges"] = merges
+    _echo_json(result, compact)
+
+
+@insights_group.group("config")
+def insights_config_group() -> None:
+    """Check domains/insights/<domain>.yaml against the live graph."""
+    pass
+
+
+@insights_config_group.command("check")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def insights_config_check(domain: tuple, compact: bool) -> None:
+    """Errors (exit 1): unknown classes or properties, unresolvable anchors. Warnings: values never seen. Needs Neo4j."""
+    import yaml as _yaml
+    from neo4j.exceptions import DriverError, Neo4jError
+
+    from artmind.insights import config_check
+    from artmind.insights.model import InsightsError
+
+    name = _one_domain(domain)
+    try:
+        result = config_check.check_config(name)
+    except (InsightsError, Neo4jError, DriverError, _yaml.YAMLError, OSError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+    if not result["ok"]:
+        raise click.exceptions.Exit(1)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────

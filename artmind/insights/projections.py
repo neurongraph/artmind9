@@ -53,6 +53,26 @@ WITH r.rel_type AS rel, a.entity_class AS src, b.entity_class AS dst, count(*) A
 RETURN rel AS rel, src AS src, dst AS dst, n AS n, targets[..$max_targets] AS targets
 ORDER BY n DESC, rel, src, dst
 """,
+    # The anchor's relations at observation level, so each target carries the days it was asserted.
+    "anchor_relations": """
+MATCH (e:Entity)-[:AGGREGATES]->(o:Observation)-[r:ASSERTS_RELATION]->(:Observation)<-[:AGGREGATES]-(t:Entity)
+WHERE e._id IN $anchors AND e._domain IN $domains AND t._domain IN $domains
+WITH r.rel_type AS rel, t, collect(DISTINCT o._doc_valid_from) AS days
+RETURN rel AS rel, t._id AS _id, t.name AS name, t.entity_class AS cls, t.type AS type, days AS days
+ORDER BY rel, _id
+""",
+    "entity_property": """
+MATCH (e:Entity)
+WHERE e._domain IN $domains AND e.entity_class = $cls AND e[$prop] IS NOT NULL
+RETURN e._id AS _id, CASE WHEN valueType(e[$prop]) STARTS WITH 'LIST' THEN null ELSE toString(e[$prop]) END AS value
+ORDER BY _id
+""",
+    "entity_edges": """
+MATCH (a:Entity)-[:RELATES_TO]->(b:Entity)
+WHERE a._domain IN $domains AND b._domain IN $domains AND a._id <> b._id
+RETURN DISTINCT a._id AS a, b._id AS b
+ORDER BY a, b
+""",
     "open_conflicts": """
 MATCH (c:Conflict)-[:CONFLICT_OF]->(e:Entity)
 WHERE e._domain IN $domains AND c._domain IN $domains AND c.status = 'open'

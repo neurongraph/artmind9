@@ -524,6 +524,14 @@ insights-refresh domain *flags:
 insights-list domain:
     uv run artmind insights list --domain {{ domain }}
 
+# probable duplicates as same-as review-queue input  (usage: just insights-same-as <domain> <path>; then: artmind ingest refine-graph --domain <domain> --from-file <path>)
+insights-same-as domain path:
+    uv run artmind insights same-as --domain {{ domain }} --export {{ path }}
+
+# check domains/insights/<domain>.yaml against the live graph  (usage: just insights-config-check <domain>)
+insights-config-check domain:
+    uv run artmind insights config check --domain {{ domain }}
+
 # ── artmind traces ───────────────────────────────────────────────────────────
 
 # recorded admin-console/benchmark turns, newest first  (usage: just traces-list [rating])

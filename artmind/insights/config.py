@@ -2,7 +2,7 @@
 
 Every key is optional. Unknown keys and unknown detector names are errors, so a
 typo never silently does nothing. Phase-2 blocks (outcome, transitions,
-open_loops) are validated as mappings and kept verbatim in `raw`.
+open_loops) are validated and normalised into `raw`; read them with `block()`.
 """
 
 from __future__ import annotations
@@ -31,8 +31,11 @@ _INTS = {  # key: (default, minimum)
     "narrate_top": (15, 0),
 }
 _POS_INT_KEYS = ("min_support", "window", "silence_multiple", "min_silence_days", "min_weight",
-                 "min_circle_size", "min_period_edges", "min_count")
-_POS_NUM_KEYS = ("resolution", "min_log_ratio", "min_jaccard")
+                 "min_circle_size", "min_period_edges", "min_count",
+                 "cluster_days", "dominance_min_days", "stale_days", "min_targets", "min_size", "max_size", "min_days", "max_gap_periods")
+_POS_NUM_KEYS = ("resolution", "min_log_ratio", "min_jaccard",
+                 "min_z", "min_score", "max_share", "focus_share", "dominance_share", "max_name_distance",
+                 "circle_min_shift", "fdr", "dominance_margin")
 _DOMAIN_RE = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$")
 _RAW_BLOCKS = ("outcome", "transitions", "open_loops")
 KNOWN_KEYS = frozenset({"domain", "anchors", "period", "narrate", "detectors", *_INTS, *_RAW_BLOCKS})
@@ -60,6 +63,11 @@ class InsightsConfig:
     def enabled(self, name: str) -> bool:
         return bool((self.detectors.get(name) or {}).get("enabled", True))
 
+    def block(self, name: str) -> dict | None:
+        """A validated, normalised phase-2 block (outcome | transitions | open_loops), or None."""
+        value = self.raw.get(name)
+        return dict(value) if value is not None else None
+
 
 def config_dir() -> Path:
     import paths
@@ -76,6 +84,67 @@ def config_path(domain: str) -> Path:
 def config_hash(domain: str) -> str:
     path = config_path(domain)
     return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else ""
+
+
+def _strings(value, where: str, *, required: bool, lower: bool = True) -> list[str]:
+    if value is None and not required:
+        return []
+    if not isinstance(value, list) or not all(isinstance(v, str) and v.strip() for v in value) or (required and not value):
+        raise InsightsError(f"{where} must be a {'non-empty ' if required else ''}list of strings")
+    return [v.strip().casefold() if lower else v.strip() for v in value]
+
+
+def _mapping(value, where: str, allowed: set[str]) -> dict:
+    if not isinstance(value, dict):
+        raise InsightsError(f"{where} must be a mapping")
+    unknown = set(value) - allowed
+    if unknown:
+        raise InsightsError(f"{where}: unknown key(s) {sorted(map(str, unknown))}")
+    return value
+
+
+def _name(value, where: str, default: str | None = None) -> str:
+    if value is None and default is not None:
+        return default
+    if not isinstance(value, str) or not value.strip():
+        raise InsightsError(f"{where} must be a non-empty string")
+    return value.strip()
+
+
+def _parse_outcome(value, where: str) -> dict:
+    v = _mapping(value, where, {"class", "property", "positive", "negative"})
+    block = {
+        "class": _name(v.get("class"), f"{where}.class"),
+        "property": _name(v.get("property"), f"{where}.property", default="type"),
+        "positive": _strings(v.get("positive"), f"{where}.positive", required=True),
+        "negative": _strings(v.get("negative"), f"{where}.negative", required=True),
+    }
+    both = set(block["positive"]) & set(block["negative"])
+    if both:
+        raise InsightsError(f"{where}: {sorted(both)} listed as both positive and negative")
+    return block
+
+
+def _parse_open_loops(value, where: str) -> dict:
+    v = _mapping(value, where, {"class", "property", "urgency_property", "open", "closed"})
+    return {
+        "class": _name(v.get("class"), f"{where}.class"),
+        "property": _name(v.get("property"), f"{where}.property", default="status"),
+        "urgency_property": _name(v.get("urgency_property"), f"{where}.urgency_property", default="urgency"),
+        "open": _strings(v.get("open"), f"{where}.open", required=True),
+        "closed": _strings(v.get("closed"), f"{where}.closed", required=False),
+    }
+
+
+def _parse_transitions(value, where: str) -> dict:
+    v = _mapping(value, where, {"extra_verbs", "classes"})
+    return {
+        "extra_verbs": [s.upper() for s in _strings(v.get("extra_verbs"), f"{where}.extra_verbs", required=False, lower=False)],
+        "classes": _strings(v.get("classes"), f"{where}.classes", required=False, lower=False),
+    }
+
+
+_BLOCK_PARSERS = {"outcome": _parse_outcome, "open_loops": _parse_open_loops, "transitions": _parse_transitions}
 
 
 def parse_config(data: dict | None, domain: str) -> InsightsConfig:
@@ -117,15 +186,17 @@ def parse_config(data: dict | None, domain: str) -> InsightsConfig:
                 raise InsightsError(f"{where}: detector {name} {key} must be a positive number")
             if key == "classes" and (not isinstance(value, list) or not all(isinstance(c, str) for c in value)):
                 raise InsightsError(f"{where}: detector {name} classes must be a list of strings")
+            if key == "aliases" and (not isinstance(value, list) or not all(
+                    isinstance(g, list) and len(g) >= 2 and all(isinstance(n, str) and n.strip() for n in g)
+                    for g in value)):
+                raise InsightsError(f"{where}: detector {name} aliases must be a list of name groups (2+ names each)")
     narrate = data.get("narrate", True)
     if not isinstance(narrate, bool):
         raise InsightsError(f"{where}: narrate must be true or false")
     raw = {}
     for key in _RAW_BLOCKS:
         if key in data:
-            if not isinstance(data[key], dict):
-                raise InsightsError(f"{where}: {key} must be a mapping")
-            raw[key] = data[key]
+            raw[key] = _BLOCK_PARSERS[key](data[key], f"{where}: {key}")
     return InsightsConfig(
         domain=domain, anchors=tuple(a.strip() for a in anchors), period=period,
         narrate=narrate, detectors=dict(detectors), raw=raw, **ints,

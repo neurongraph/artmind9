@@ -28,7 +28,8 @@ def ent(_id, cls, days, name=None, type=None) -> EntityRow:
 
 
 def make_ctx(entities, *, schema=None, effective=None, docs_per_period=None, config=None, anchors=(),
-             as_of=None, relations=(), open_conflicts=(), properties=None, default_time_share=0.0):
+             as_of=None, relations=(), open_conflicts=(), properties=None, default_time_share=0.0,
+             entity_props=None, anchor_relations=(), entity_edges=()):
     from artmind.insights.detectors import RunContext
 
     schema = schema or {}
@@ -47,8 +48,10 @@ def make_ctx(entities, *, schema=None, effective=None, docs_per_period=None, con
         default_time_share=default_time_share,
         latest_doc=as_of or (all_days[-1] if all_days else None),
         dated_days=len(all_days), open_conflicts=list(open_conflicts),
+        entity_edges=list(entity_edges),
     )
     return RunContext(
         domain="demo", schema=schema, config=parse_config(config or {}, "demo"), profile=profile,
         entities=list(entities), anchors=set(anchors), as_of=profile.latest_doc,
+        entity_props=dict(entity_props or {}), anchor_relations=list(anchor_relations),
     )

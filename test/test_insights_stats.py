@@ -50,3 +50,30 @@ def test_median_gap_handles_unsorted_duplicates():
 
 def test_theil_sen_declining_series():
     assert stats.theil_sen_slope([3, 2, 1]) == -1.0
+
+
+def test_period_start():
+    assert stats.period_start("2024") == "2024-01-01"
+    assert stats.period_start("2024-Q3") == "2024-07-01"
+    assert stats.period_start("2024-05") == "2024-05-01"
+
+
+def test_two_proportion_z():
+    z = stats.two_proportion_z(15, 17, 5, 23)
+    assert 4.0 < z < 4.4
+    assert stats.two_proportion_z(0, 0, 5, 10) is None
+    assert stats.two_proportion_z(0, 10, 0, 10) is None   # pooled p = 0
+
+
+def test_levenshtein():
+    assert stats.levenshtein("jonathan", "jonathon") == 1
+    assert stats.levenshtein("", "abc") == 3
+    assert stats.levenshtein("same", "same") == 0
+
+
+def test_bh_qvalues():
+    # p sorted: .01 .02 .03 .5 -> raw q: .04 .04 .04 .5; step-up min from the top keeps them monotone
+    assert stats.bh_qvalues([0.03, 0.01, 0.5, 0.02]) == pytest.approx([0.04, 0.04, 0.5, 0.04])
+    assert stats.bh_qvalues([0.001, 0.04, 0.9]) == pytest.approx([0.003, 0.06, 0.9])
+    assert stats.bh_qvalues([]) == []
+    assert stats.bh_qvalues([0.9, 0.8]) == pytest.approx([0.9, 0.9])
