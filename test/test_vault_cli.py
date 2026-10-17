@@ -445,6 +445,13 @@ def test_init_points_new_vaults_at_vault_new(tmp_path, monkeypatch):
     assert "artmind vault new" in result.output
 
 
+def _flat(output: str) -> str:
+    """CLI error output with the box-drawing frame removed and whitespace collapsed:
+    click's error panel wraps at 80 columns, so a phrase can split across lines
+    depending on the length of a temp path."""
+    return " ".join(output.replace("│", " ").replace("╭", " ").replace("╰", " ").replace("─", " ").split())
+
+
 # ── init --force: refresh a vault's schemas from the package ───────────────────
 
 
@@ -492,7 +499,7 @@ def test_init_force_refuses_and_writes_nothing_when_a_schema_is_uncommitted(tmp_
     result = CliRunner().invoke(cli, ["init", "--force"])
 
     assert result.exit_code != 0
-    assert "Uncommitted changes" in result.output and schema.name in result.output
+    assert "Uncommitted changes" in _flat(result.output) and schema.name in _flat(result.output)
     assert schema.read_text() == "name: unsaved\n"
     assert general.read_text() == "name: unsaved general\n"
 
@@ -522,7 +529,7 @@ def test_init_force_rejects_an_unknown_schema_name(tmp_path, monkeypatch):
     result = CliRunner().invoke(cli, ["init", "--force", "--schema", "nope"])
 
     assert result.exit_code != 0
-    assert "No packaged schema named nope" in result.output
+    assert "No packaged schema named nope" in _flat(result.output)
 
 
 def test_init_schema_without_force_is_a_usage_error(tmp_path, monkeypatch):
@@ -531,7 +538,7 @@ def test_init_schema_without_force_is_a_usage_error(tmp_path, monkeypatch):
     result = CliRunner().invoke(cli, ["init", "--schema", "general"])
 
     assert result.exit_code == 2
-    assert "--force" in result.output
+    assert "--force" in _flat(result.output)
 
 
 # ── init refuses artmind's own source checkout ─────────────────────────────────
@@ -552,7 +559,7 @@ def test_init_refuses_the_artmind_source_checkout_and_writes_nothing(tmp_path, m
     result = CliRunner().invoke(cli, ["init"])
 
     assert result.exit_code != 0
-    assert "source checkout" in result.output
+    assert "source checkout" in _flat(result.output)
     assert sorted(p.name for p in tmp_path.iterdir()) == before  # no .artmind, .git, .gitignore
 
 
