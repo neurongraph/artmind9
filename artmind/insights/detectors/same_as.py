@@ -128,10 +128,11 @@ def _span_overlap(da: tuple[str, ...], db: tuple[str, ...]) -> float:
 
 
 def _resolve_ambiguity(scored: list[tuple], by_id: dict) -> list[tuple]:
-    """A short name (initials / token-subset side) that matches several entities keeps only its one clearly
-    best pair; when no pair is clearly ahead, all of its pairs are dropped."""
+    """A short name on the token-subset side ("Sam" vs "Sam Rivera", "Sam Okoro") that matches several
+    entities keeps only its one clearly best pair; when no pair is clearly ahead, all of its pairs are
+    dropped. Initials matches ("TPO" / "Tech Park One") are specific and never compete here."""
     def short_side(a, b, rule):
-        if rule not in ("initials", "token_subset"):
+        if rule != "token_subset":
             return None
         ta, tb = norm(by_id[a].name).split(), norm(by_id[b].name).split()
         return a if len(ta) < len(tb) else b

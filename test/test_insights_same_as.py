@@ -142,3 +142,15 @@ def test_split_signal_flags_opposite_trends():
 def test_split_signal_runs_and_finds_nothing_without_candidates():
     ctx = make_ctx([ent("a", "PERSON", days(1, 4))])
     assert SPLIT_SIGNAL.plan(ctx) == ["all"] and SPLIT_SIGNAL.run(ctx, "all") == []
+
+
+def test_initials_match_survives_competing_token_subsets():
+    ents = [ent("t1", "LOCATION", days(1, 6)[:3], name="Tech Park One"),
+            ent("t2", "LOCATION", days(1, 6)[3:], name="TPO"),
+            ent("t3", "LOCATION", days(2, 3), name="TPO Office"),
+            ent("t4", "LOCATION", days(3, 3), name="North TPO")]
+    ents += [ent(f"c{i}", "PERSON", days(1, 6), name=w) for i, w in enumerate(["Oak", "Elm", "Fir"])]
+    found = SAME_AS_CANDIDATES.run(make_ctx(ents), "LOCATION")
+    pairs = {(f.stats["canonical"]["_id"], f.stats["alias"]["_id"], f.stats["rule"]) for f in found}
+    assert any(r == "initials" and {a, b} == {"t1", "t2"} for a, b, r in pairs)
+    assert not any(r == "token_subset" for _, _, r in pairs)
