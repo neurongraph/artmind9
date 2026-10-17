@@ -51,9 +51,9 @@ def test_build_profile_measures_classes_documents_and_relations():
     assert profile.classes["PERSON"].declared_kind == "recurrent"
     assert profile.classes["EVENT"].type_counts == {"celebration": 1}
     assert profile.classes["PERSON"].properties["relationship_to_diarist"]["filled_rate"] == 1.0
-    assert profile.docs_per_period == {"2023": 2, "2024": 1}
+    assert profile.docs_per_period == {"2023": 2}
     assert profile.default_time_share == pytest.approx(1 / 3, abs=1e-4)
-    assert profile.latest_doc == "2024-03-01" and profile.dated_days == 3
+    assert profile.latest_doc == "2023-01-02" and profile.dated_days == 2
     assert [(r["rel"], r["declared"]) for r in profile.relations] == [("WENT_TO", True), ("OWNS", False)]
     assert profile.open_conflicts == [{"cls": "PERSON", "property": "occupation", "n": 3}]
     assert ("relation_triples", {"max_targets": 2000}) in proj.calls
@@ -65,6 +65,16 @@ def test_declared_triples_parse_verbs_with_annotations():
     assert declared_triples(SCHEMA) == {
         ("WENT_TO", "PERSON", "LOCATION"), ("VISITS", "PERSON", "LOCATION"), ("PARTICIPATES_IN", "PERSON", "EVENT"),
     }
+
+
+def test_declared_triples_sanitise_tokens_like_ingestion():
+    schema = {"entity_types": {"PERSON": {"relates_to": {"LOCATION": ["works-with"]}}}}
+    assert declared_triples(schema) == {("WORKS_WITH", "PERSON", "LOCATION")}
+
+
+def test_declared_triples_skip_bare_string_verbs():
+    schema = {"entity_types": {"PERSON": {"relates_to": {"LOCATION": "went_to"}}}}
+    assert declared_triples(schema) == set()
 
 
 @pytest.mark.parametrize("declared, median, single, n, expected", [
@@ -83,6 +93,22 @@ def test_summarise_class_falls_back_to_documents_when_undated():
     assert cp.entities == 1 and cp.median_days == 0.0
 
 
+def test_undated_entities_do_not_flip_declared_kind():
+    rows = [ent(f"n{i}", "NOTE", []) for i in range(30)]
+    cp = summarise_class("NOTE", "recurrent", rows, None)
+    assert cp.entities == 30
+    assert cp.median_days == 0.0 and cp.single_day_share == 0.0
+    assert cp.effective_kind == "recurrent"
+
+
+def test_entity_evidence_drops_invalid_calendar_days():
+    proj = FakeProjector({"entity_evidence": [
+        {"_id": "e1", "name": "Odd", "cls": "EVENT", "type": None, "days": ["2024-13-45", "2024-01-05"], "docs": 2},
+    ]})
+    _, entities = build_profile(proj, SCHEMA, parse_config({}, "demo"))
+    assert entities[0].days == ("2024-01-05",)
+
+
 def test_anchor_inference_rules():
     asha = ent("p1", "PERSON", [f"2024-01-{d:02d}" for d in range(1, 11)], name="Asha", type="self")
     ben = ent("p2", "PERSON", ["2024-01-01"], name="Ben")
@@ -92,6 +118,9 @@ def test_anchor_inference_rules():
     asha_untyped = ent("p1", "PERSON", asha.days, name="Asha")
     assert infer_anchors([asha_untyped, ben], cfg, 10) == [{"_id": "p1", "name": "Asha", "rule": "coverage"}]
     assert infer_anchors([ben], cfg, 0) == []
+
+    both_days = ent("p3", "PERSON", ["2024-01-01", "2024-01-02"], name="Cleo")
+    assert infer_anchors([both_days], cfg, 2) == []
 
     assert infer_anchors([asha, ben], parse_config({"anchors": ["ben"]}, "demo"), 10) == [
         {"_id": "p2", "name": "Ben", "rule": "config"}]

@@ -64,6 +64,21 @@ def test_projector_wraps_driver_errors():
         Projector(["demo"], session_factory=rec.factory()).rows("documents")
 
 
+def test_open_conflicts_counts_distinct_conflicts():
+    # A Conflict has CONFLICT_OF edges to both entities of a pair: count nodes, not edges.
+    assert "count(DISTINCT c)" in PROJECTIONS["open_conflicts"]
+    assert "count(*)" not in PROJECTIONS["open_conflicts"]
+
+
+def test_sampled_lists_are_ordered_before_collection():
+    stats = PROJECTIONS["property_stats"]
+    assert "ORDER BY sv" in stats
+    assert stats.index("ORDER BY sv") < stats.index("collect(DISTINCT sv)")
+    triples = PROJECTIONS["relation_triples"]
+    assert "WITH a, r, b ORDER BY b._id" in triples
+    assert triples.index("WITH a, r, b ORDER BY b._id") < triples.index("collect(DISTINCT b._id)")
+
+
 def test_unknown_projection_and_empty_domains():
     with pytest.raises(InsightsError):
         Projector(["demo"], session_factory=Recorder().factory()).rows("nope")

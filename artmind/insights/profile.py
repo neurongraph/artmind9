@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime
 import re
 import statistics
 from collections import Counter, defaultdict
@@ -15,6 +16,7 @@ from artmind.insights.stats import period_of
 _ISO_DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 EFFECTIVE_KIND_MIN_ENTITIES = 20
 ANCHOR_COVERAGE = 0.8
+ANCHOR_MIN_DAYS = 5
 MAX_RELATION_TARGETS = 2000
 
 
@@ -66,7 +68,13 @@ class Profile:
 
 def _day(value) -> str | None:
     text = str(value)[:10] if value is not None else ""
-    return text if _ISO_DAY.match(text) else None
+    if not _ISO_DAY.match(text):
+        return None
+    try:
+        datetime.date.fromisoformat(text)
+    except ValueError:
+        return None
+    return text
 
 
 def _iso_days(values) -> tuple[str, ...]:
@@ -86,7 +94,8 @@ def effective_kind(declared: str | None, median_days: float, single_share: float
 
 
 def summarise_class(name: str, declared: str | None, rows: list[EntityRow], properties: dict | None) -> ClassProfile:
-    counts = [len(r.days) for r in rows]
+    dated_rows = [r for r in rows if r.days]
+    counts = [len(r.days) for r in dated_rows]
     median = float(statistics.median(counts)) if counts else 0.0
     single = sum(1 for c in counts if c <= 1) / len(counts) if counts else 0.0
     types = Counter(r.type.strip().lower() for r in rows if r.type and r.type.strip())
@@ -94,7 +103,7 @@ def summarise_class(name: str, declared: str | None, rows: list[EntityRow], prop
     for stats in props.values():
         stats["filled_rate"] = round(stats.get("filled", 0) / len(rows), 4) if rows else 0.0
     return ClassProfile(
-        name=name, declared_kind=declared, effective_kind=effective_kind(declared, median, single, len(rows)),
+        name=name, declared_kind=declared, effective_kind=effective_kind(declared, median, single, len(dated_rows)),
         entities=len(rows), median_days=median, single_day_share=round(single, 4),
         type_counts=dict(types.most_common(15)), properties=props,
     )
@@ -105,10 +114,12 @@ def declared_triples(schema: dict) -> set[tuple[str, str, str]]:
     out: set[tuple[str, str, str]] = set()
     for src, decl in (schema.get("entity_types") or {}).items():
         for dst, verbs in ((decl or {}).get("relates_to") or {}).items():
+            if isinstance(verbs, str):
+                continue
             for verb in verbs or []:
                 token = re.split(r"[\s(]", str(verb).strip(), maxsplit=1)[0]
                 if token:
-                    out.add((token.upper(), src, dst))
+                    out.add((re.sub(r"[^A-Za-z0-9_]", "_", token).upper(), src, dst))
     return out
 
 
@@ -141,7 +152,9 @@ def build_profile(projector, schema: dict, config: InsightsConfig) -> tuple[Prof
     }
 
     docs = projector.rows("documents")
-    dated = [d for d in (_day(row.get("valid_from")) for row in docs) if d]
+    dated = [
+        d for d in (_day(row.get("valid_from")) for row in docs if row.get("time_source") != "default_ingestion") if d
+    ]
     defaulted = sum(1 for row in docs if not _day(row.get("valid_from")) or row.get("time_source") == "default_ingestion")
     per_period = Counter(period_of(d, config.period) for d in dated)
 
@@ -175,7 +188,7 @@ def infer_anchors(entities: list[EntityRow], config: InsightsConfig, dated_days:
             if ref.startswith("@"):
                 match = [e for e in entities if e._id == ref[1:]]
             else:
-                match = [e for e in entities if e.name.casefold() == ref.casefold()]
+                match = [e for e in entities if str(e.name).casefold() == ref.casefold()]
             if len(match) != 1:
                 raise InsightsError(f"anchor {ref!r} matched {len(match)} entities in {config.domain}; use @<_id>")
             out.append({"_id": match[0]._id, "name": match[0].name, "rule": "config"})
@@ -183,7 +196,7 @@ def infer_anchors(entities: list[EntityRow], config: InsightsConfig, dated_days:
     selves = [e for e in entities if e.cls == "PERSON" and (e.type or "").strip().lower() == "self"]
     if len(selves) == 1:
         return [{"_id": selves[0]._id, "name": selves[0].name, "rule": "type=self"}]
-    if not dated_days:
+    if dated_days < ANCHOR_MIN_DAYS:
         return []
     return [
         {"_id": e._id, "name": e.name, "rule": "coverage"}

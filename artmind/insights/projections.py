@@ -40,6 +40,7 @@ WHERE e._domain IN $domains
 UNWIND [k IN keys(e) WHERE NOT k STARTS WITH '_' AND NOT k IN $skip_keys] AS k
 WITH e.entity_class AS cls, k, e[k] AS v
 WITH cls, k, CASE WHEN valueType(v) STARTS WITH 'LIST' THEN null ELSE toString(v) END AS sv
+ORDER BY sv
 WITH cls, k, count(*) AS filled, count(DISTINCT sv) AS distinct_values, collect(DISTINCT sv) AS vals
 RETURN cls AS cls, k AS property, filled AS filled, distinct_values AS distinct_values, vals[..200] AS sample
 ORDER BY cls, property
@@ -47,6 +48,7 @@ ORDER BY cls, property
     "relation_triples": """
 MATCH (a:Entity)-[r:RELATES_TO]->(b:Entity)
 WHERE a._domain IN $domains AND b._domain IN $domains
+WITH a, r, b ORDER BY b._id
 WITH r.rel_type AS rel, a.entity_class AS src, b.entity_class AS dst, count(*) AS n, collect(DISTINCT b._id) AS targets
 RETURN rel AS rel, src AS src, dst AS dst, n AS n, targets[..$max_targets] AS targets
 ORDER BY n DESC, rel, src, dst
@@ -54,7 +56,7 @@ ORDER BY n DESC, rel, src, dst
     "open_conflicts": """
 MATCH (c:Conflict)-[:CONFLICT_OF]->(e:Entity)
 WHERE e._domain IN $domains AND c._domain IN $domains AND c.status = 'open'
-RETURN e.entity_class AS cls, c.property AS property, count(*) AS n
+RETURN e.entity_class AS cls, c.property AS property, count(DISTINCT c) AS n
 ORDER BY n DESC, cls, property
 """,
 }
