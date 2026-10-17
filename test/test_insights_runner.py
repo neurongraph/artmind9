@@ -183,3 +183,47 @@ def test_disabled_detector_drops_its_findings(env):
     refresh(now="2026-10-17T10:00:00Z", force=True)
     dorm = [f for f in store.load_latest("demo").findings if f.detector == "dormancy"]
     assert {f.diff for f in dorm} == {"gone"}
+
+
+def test_context_extras_are_loaded_and_findings_shared(env, monkeypatch):
+    seen = {}
+    real = runner.run_detectors
+
+    def spy(ctx, selected):
+        out = real(ctx, selected)
+        seen["ctx"] = ctx
+        return out
+    monkeypatch.setattr(runner, "run_detectors", spy)
+    tables = _tables()
+    tables["anchor_relations"] = [{"rel": "WORKS_AT", "_id": "a1", "name": "A1", "cls": "PERSON", "type": None,
+                                   "days": ["2023-01-01", "bad"]}]
+    _refresh_tables(tables, force=True)
+    ctx = seen["ctx"]
+    assert ctx.anchor_relations == [{"rel": "WORKS_AT", "_id": "a1", "name": "A1", "cls": "PERSON", "type": None,
+                                     "days": ("2023-01-01",)}]
+    assert {f.detector for f in ctx.memo["findings"]} >= {"communities", "brokers"}
+
+
+def test_dependencies_for_phase_two_detectors():
+    from artmind.insights.runner import DEPENDS, DETECTORS_VERSION
+    assert DEPENDS["split_signal"] == {"same_as_candidates", "salience_trend", "outcome_lift"}
+    assert DEPENDS["transitions"] == {"communities"}
+    assert DETECTORS_VERSION == 2
+
+
+def test_entity_props_loaded_for_configured_blocks(env):
+    from artmind.insights.config import parse_config
+    from artmind.insights.profile import build_profile
+    from artmind.insights.runner import load_entity_props
+    tables = _tables()
+    tables["property_stats"] = [
+        {"cls": "PERSON", "property": "relationship_to_diarist", "filled": 3, "distinct_values": 2, "sample": []},
+        {"cls": "PERSON", "property": "mood", "filled": 3, "distinct_values": 2, "sample": []},
+    ]
+    tables["entity_property"] = [{"_id": "a1", "value": "friend"}]
+    proj = FakeProjector(tables)
+    cfg = parse_config({"outcome": {"class": "PERSON", "property": "mood", "positive": ["up"], "negative": ["down"]}}, "demo")
+    profile, _ = build_profile(proj, SCHEMA, cfg)
+    props = load_entity_props(proj, cfg, profile)
+    assert set(props) == {("PERSON", "mood"), ("PERSON", "relationship_to_diarist")}
+    assert ("entity_property", {"cls": "PERSON", "prop": "mood"}) in proj.calls

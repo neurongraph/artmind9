@@ -21,7 +21,7 @@ from artmind.insights.config import config_hash, load_config
 from artmind.insights.detectors import RunContext, Skip, registry
 from artmind.insights.diff import apply_diff
 from artmind.insights.model import Finding, InsightsError, PlanEntry, Run
-from artmind.insights.profile import build_profile, infer_anchors
+from artmind.insights.profile import build_profile, infer_anchors, iso_days
 from artmind.insights.projections import Projector
 from artmind.temporal import load_schema
 
@@ -66,6 +66,7 @@ def run_detectors(ctx: RunContext, selected: set[str] | None) -> tuple[list[Find
                 continue
             plan.append(PlanEntry(det.name, "ran", target=target, findings=len(found)))
             findings.extend(found)
+            ctx.memo.setdefault("findings", []).extend(found)
     return findings, plan
 
 
@@ -82,9 +83,50 @@ def _trim(findings: list[Finding], max_per_detector: int) -> list[Finding]:
 
 
 # Bump when detector logic changes, so an unchanged graph still re-runs under the new logic.
-DETECTORS_VERSION = 1
+DETECTORS_VERSION = 2
 # A selected detector that reads another's output (brokers read communities' circles).
-DEPENDS = {"brokers": {"communities"}}
+DEPENDS = {
+    "brokers": {"communities"},
+    "transitions": {"communities"},
+    "split_signal": {"same_as_candidates", "salience_trend", "outcome_lift"},
+}
+
+
+def load_entity_props(projector, config, profile) -> dict:
+    """Per-entity values for the properties the configured detectors read:
+    - the outcome property (unless `type`);
+    - the open_loops status and urgency;
+    - relationship_to_* on recurrent classes, for same-as agreement.
+    Only properties the profile has seen are loaded."""
+    wanted: set[tuple[str, str]] = set()
+    outcome = config.block("outcome")
+    if outcome and outcome["property"] != "type":
+        wanted.add((outcome["class"], outcome["property"]))
+    loops = config.block("open_loops")
+    if loops:
+        wanted |= {(loops["class"], loops["property"]), (loops["class"], loops["urgency_property"])}
+    for cls, cp in profile.classes.items():
+        if cp.effective_kind == "recurrent":
+            wanted |= {(cls, p) for p in cp.properties if p.startswith("relationship_to")}
+    out = {}
+    for cls, prop in sorted(wanted):
+        if cls in profile.classes and prop in profile.classes[cls].properties:
+            out[(cls, prop)] = {r["_id"]: r["value"] for r in projector.rows("entity_property", cls=cls, prop=prop)
+                                if r.get("_id") and r.get("value") is not None}
+    return out
+
+
+def load_anchor_relations(projector, anchors: list[dict]) -> list[dict]:
+    if not anchors:
+        return []
+    out = []
+    for r in projector.rows("anchor_relations", anchors=sorted(a["_id"] for a in anchors)):
+        if not r.get("rel") or not r.get("_id"):
+            continue
+        out.append({"rel": str(r["rel"]), "_id": r["_id"], "name": r.get("name") or r["_id"],
+                    "cls": r.get("cls") or "UNKNOWN", "type": r.get("type") if isinstance(r.get("type"), str) else None,
+                    "days": iso_days(r.get("days"))})
+    return out
 
 
 def _keeps_previous(plan: list[PlanEntry]) -> set[str]:
@@ -128,11 +170,13 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
     try:
         projector = projector or Projector(expand_domain_family(domain))
         profile, entities = build_profile(projector, schema, config)
+        anchors = infer_anchors(entities, config, profile.dated_days) if entities else []
+        entity_props = load_entity_props(projector, config, profile)
+        anchor_relations = load_anchor_relations(projector, anchors)
     except (Neo4jError, DriverError) as exc:
         raise InsightsError(f"graph unavailable: {getattr(exc, 'message', None) or exc}") from exc
     if not entities:
         raise InsightsError(f"domain {domain!r} has no entities in the graph")
-    anchors = infer_anchors(entities, config, profile.dated_days)
     fingerprint = {
         **_hashes(domain), "entities": len(entities), "latest_doc": profile.latest_doc,
         "documents": profile.documents,
@@ -153,7 +197,8 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
         fingerprint = {**fingerprint, "partial": sorted(selected)}  # never equals a full run's fingerprint
 
     ctx = RunContext(domain=domain, schema=schema, config=config, profile=profile, entities=entities,
-                     anchors={a["_id"] for a in anchors}, as_of=profile.latest_doc)
+                     anchors={a["_id"] for a in anchors}, as_of=profile.latest_doc,
+                     entity_props=entity_props, anchor_relations=anchor_relations)
     found, plan = run_detectors(ctx, run_set)
     if selected is not None:  # dependencies ran only to feed the selected detectors
         found = [f for f in found if f.detector in selected]
@@ -171,8 +216,8 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
     if previous is not None and carried:
         diff["same"] += len(carried)
 
-    circles = [c for key, (_g, cs) in sorted(ctx.memo.items(), key=lambda kv: str(kv[0]))
-               if isinstance(key, tuple) and key[0] == "circles" for c in cs]
+    circles = [c for key, val in sorted(ctx.memo.items(), key=lambda kv: str(kv[0]))
+               if isinstance(key, tuple) and key[0] == "circles" for c in val[1]]
     if previous is not None and ((selected is not None and "communities" not in selected) or "communities" in keep):
         circles = previous.circles
 
