@@ -1,5 +1,5 @@
-import { BOOTSTRAP_STEP, type RowId, type StateInputs, type Tone, behindParts, plural, problemText } from "./state";
-import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, count, countOf, ingestLabel } from "./texts";
+import { BOOTSTRAP_STEP, type Busy, type BusyKey, type RowId, type StateInputs, type Tone, behindParts, plural, problemText } from "./state";
+import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, conflictsPrompt, count, countOf, curateSummary, ingestLabel, sameAsPrompt } from "./texts";
 import type { JobStatus, TablePending, TableToReview } from "./types";
 
 export type { RowId } from "./state";
@@ -21,13 +21,32 @@ export type RowAction =
   | { type: "reviewTable"; table: string }
   | { type: "rebuild" }
   | { type: "synthesize" }
+  | { type: "findDuplicates" }
+  | { type: "detectConflicts" }
   | { type: "commitPush" };
+
+/** Which busy flag an action raises while it runs, or null when it only
+ * opens something (a modal, the admin console). */
+export function busyKeyOf(action: RowAction): BusyKey | null {
+  switch (action.type) {
+    case "retryJob":
+      return "retry";
+    case "adminPrompt":
+    case "reviewTable":
+      return null;
+    default:
+      return action.type;
+  }
+}
 
 export interface RowButton {
   action: RowAction;
   label: string;
   /** Why it can't run now (the button is disabled with this as its title), or null. */
   blockedReason: string | null;
+  /** The busy flag its action raises, or null: while it is set the button
+   * shows a spinner. */
+  busyKey: BusyKey | null;
 }
 
 /** One expandable line: a path, a table, a failed file. */
@@ -48,17 +67,31 @@ export interface Row {
   /** Lines under it: reasons, warnings, the last error. */
   detail: string[];
   items: RowItem[];
-  /** The first is the row's main action: filled on the current row only. */
+  /** The first is the row's main action: the current row's is accent-coloured. */
   buttons: RowButton[];
   optional: boolean;
 }
 
 /** Every action the palette offers, with why it is blocked. */
-export type CommandId = "pull" | "apply" | "ingest" | "rebuild" | "synthesize" | "commitPush" | "tables" | "resolve" | "doctor" | "admin";
+export type CommandId =
+  | "pull"
+  | "apply"
+  | "ingest"
+  | "rebuild"
+  | "synthesize"
+  | "findDuplicates"
+  | "detectConflicts"
+  | "commitPush"
+  | "tables"
+  | "resolve"
+  | "doctor"
+  | "admin";
 
 export interface Checklist {
-  /** Rows 1–5, then the footer (`vault`). */
+  /** Rows 1–6, then the footer (`vault`). */
   rows: Row[];
+  /** What is running now (a click until its action ends). */
+  busy: Busy;
   /** The first of rows 1–4 not done; the footer once they all are and it has work; else null. */
   current: RowId | null;
   /** Rows 1–4 all done. */
@@ -148,11 +181,11 @@ export function rebuildReasons(inputs: StateInputs): string[] {
 type RowFields = Pick<Row, "state" | "glyph" | "tone" | "summary"> & Partial<Pick<Row, "detail" | "items" | "buttons">>;
 
 function makeRow(id: RowId, fields: RowFields): Row {
-  return { id, title: ROW_TITLES[id], optional: id === "descriptions", detail: [], items: [], buttons: [], ...fields };
+  return { id, title: ROW_TITLES[id], optional: id === "descriptions" || id === "curate", detail: [], items: [], buttons: [], ...fields };
 }
 
 function button(action: RowAction, label: string, blockedReason: string | null): RowButton {
-  return { action, label, blockedReason };
+  return { action, label, blockedReason, busyKey: busyKeyOf(action) };
 }
 
 function first(...reasons: Array<string | null>): string | null {
@@ -192,6 +225,7 @@ export function checklist(inputs: StateInputs): Checklist {
   const reasons = rebuildReasons(inputs);
   const graphDone = Boolean(inputs.projection) && reasons.length === 0;
   const synthesis = inputs.synthesis;
+  const curate = inputs.curate;
   const toSynthesize = (synthesis ?? []).reduce((sum, d) => sum + d.count, 0);
   const changes = inputs.git.artmindChanges;
   const ahead = inputs.git.ahead;
@@ -199,7 +233,7 @@ export function checklist(inputs: StateInputs): Checklist {
   const cannotRun = inputs.problem ? problemText(inputs.problem) : null;
   const mergeText = merge ? `${merge[0].toUpperCase()}${merge.slice(1)} is in progress — finish it first` : null;
   const blocked: Record<CommandId, string | null> = {
-    pull: mergeText,
+    pull: first(inputs.busy.pull ? "Already pulling" : null, mergeText),
     apply: first(
       cannotRun,
       inputs.busy.apply ? "Already applying" : null,
@@ -208,11 +242,12 @@ export function checklist(inputs: StateInputs): Checklist {
       conflicts.length ? "Resolve the artmind conflicts first" : null,
       neo4jUnreachable ? "Neo4j unreachable" : null,
       noBookmark ? "This laptop has never applied this vault: see the first step" : null,
-      notAncestor ? "Pull first: the other laptop's commits aren't in this clone" : null,
+      notAncestor ? "Pull first: some commits recorded for this vault aren't in this clone" : null,
       behind ? null : "Nothing to apply: the graph has every commit",
     ),
     ingest: first(
       cannotRun,
+      inputs.busy.ingest ? "Already starting an ingest" : null,
       running ? "An ingest job is already running" : null,
       mergeText,
       pending && !entries.length ? "Nothing new or changed to ingest" : null,
@@ -232,24 +267,49 @@ export function checklist(inputs: StateInputs): Checklist {
       synthesis === null ? "Not counted yet: press ↻" : null,
       toSynthesize ? null : "Nothing to synthesize",
     ),
+    findDuplicates: first(
+      cannotRun,
+      inputs.busy.findDuplicates || inputs.busy.detectConflicts ? "A curate run is already going" : null,
+      running ? "Find duplicates after the ingest finishes" : null,
+      neo4jUnreachable ? "Neo4j unreachable" : null,
+      curate === null ? "Not counted yet: press ↻" : null,
+      curate && curate.domains.length ? null : "No domain is mapped in vault.yaml",
+    ),
+    detectConflicts: first(
+      cannotRun,
+      inputs.busy.findDuplicates || inputs.busy.detectConflicts ? "A curate run is already going" : null,
+      running ? "Detect conflicts after the ingest finishes" : null,
+      neo4jUnreachable ? "Neo4j unreachable" : null,
+      curate === null ? "Not counted yet: press ↻" : null,
+      curate && curate.domains.length >= 2 ? null : "Needs two or more mapped domains: conflicts are found across domains",
+    ),
     commitPush: first(
+      inputs.busy.commitPush ? "Already committing" : null,
       running ? "Files are still being written — commit after the ingest finishes" : null,
       changes.length || ahead ? null : "Nothing to commit or push",
     ),
     tables: first(cannotRun, neo4jUnreachable ? "Neo4j unreachable" : null, readyTables.length ? null : "No tables waiting"),
-    resolve: first(cannotRun, merge === "a merge" ? null : "No merge in progress"),
+    resolve: first(cannotRun, inputs.busy.resolve ? "Already resolving" : null, merge === "a merge" ? null : "No merge in progress"),
     doctor: cannotRun,
     admin: cannotRun,
   };
 
-  // ── 1 From the other laptop ──
+  // ── 1 Commits to apply ──
   // Pull stays available as an outline button wherever pulling makes sense;
   // it is the main button only when a bookmark isn't in this clone (D10).
   const pullButton = button({ type: "pull" }, LABELS.pull, blocked.pull);
   let remote: Row;
   if (cannotRun) remote = makeRow("remote", { state: "attention", glyph: "✗", tone: "red", summary: "artmind can't run", detail: [cannotRun] });
   else if (!inputs.status) remote = makeRow("remote", { state: "waiting", glyph: "○", tone: "grey", summary: "checking…" });
-  else if (inputs.busy.apply) remote = makeRow("remote", { state: "running", glyph: "◌", tone: "spinner", summary: "applying to graph…" });
+  else if (inputs.busy.apply) {
+    remote = makeRow("remote", {
+      state: "running",
+      glyph: "◌",
+      tone: "spinner",
+      summary: "applying to graph…",
+      buttons: [button({ type: "apply" }, LABELS.apply, blocked.apply)],
+    });
+  }
   else if (conflicts.length) {
     remote = makeRow("remote", {
       state: "attention",
@@ -280,7 +340,7 @@ export function checklist(inputs: StateInputs): Checklist {
   } else if (storeErrors.length) {
     remote = makeRow("remote", { state: "attention", glyph: "!", tone: "red", summary: "an apply would fail", detail: storeErrors, buttons: [pullButton] });
   } else if (notAncestor) {
-    remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "the other laptop's commits aren't pulled", buttons: [pullButton] });
+    remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "some commits aren't pulled yet", buttons: [pullButton] });
   } else if (noBookmark) {
     remote = makeRow("remote", { state: "todo", glyph: "●", tone: "amber", summary: "first sync on this laptop", detail: [BOOTSTRAP_STEP], buttons: [pullButton] });
   } else if (behind) {
@@ -295,7 +355,7 @@ export function checklist(inputs: StateInputs): Checklist {
     const applied = inputs.lastApply?.ok ? ` · applied ${clock(inputs.lastApply.at)}` : "";
     remote = makeRow("remote", { state: "done", glyph: "✓", tone: "grey", summary: `up to date${applied}`, buttons: [pullButton] });
   }
-  // With auto pull off, nothing tells row 1 the other laptop pushed (D10).
+  // With auto pull off, nothing tells row 1 another laptop pushed (D10).
   if (inputs.obsidianGit?.autoPullMinutes === 0 && remote.state !== "waiting" && !cannotRun) {
     remote = { ...remote, detail: [...remote.detail, AUTO_PULL_HINT] };
   }
@@ -385,7 +445,7 @@ export function checklist(inputs: StateInputs): Checklist {
   const rebuildButton = button({ type: "rebuild" }, LABELS.rebuild, blocked.rebuild);
   let graph: Row;
   if (running) graph = makeRow("graph", { state: "waiting", glyph: "○", tone: "grey", summary: "after ingest finishes" });
-  else if (inputs.busy.rebuild) graph = makeRow("graph", { state: "running", glyph: "◌", tone: "spinner", summary: "rebuilding…" });
+  else if (inputs.busy.rebuild) graph = makeRow("graph", { state: "running", glyph: "◌", tone: "spinner", summary: "rebuilding…", buttons: [rebuildButton] });
   else if (reasons.length) graph = makeRow("graph", { state: "attention", glyph: "!", tone: "amber", summary: "needs rebuild", detail: reasons, buttons: [rebuildButton] });
   else if (!inputs.projection) graph = makeRow("graph", { state: "waiting", glyph: "○", tone: "grey", summary: "not checked yet", buttons: [rebuildButton] });
   else {
@@ -393,12 +453,49 @@ export function checklist(inputs: StateInputs): Checklist {
     graph = makeRow("graph", { state: "done", glyph: "✓", tone: "grey", summary: `built · embedded${Number.isNaN(at) ? "" : ` · rebuilt ${clock(at)}`}` });
   }
 
-  // ── 5 Descriptions (optional: never amber, never current) ──
+  // ── 5 Curate (optional: the review queues of the artmind-curate skill) ──
+  const sameAsOpen = curate?.sameAsOpen ?? 0;
+  const conflictsOpen = curate?.conflictsOpen ?? 0;
+  const curateButtons = [
+    ...(sameAsOpen ? [button({ type: "adminPrompt", prompt: sameAsPrompt(sameAsOpen) }, LABELS.reviewSameAs, blocked.admin)] : []),
+    ...(conflictsOpen ? [button({ type: "adminPrompt", prompt: conflictsPrompt(conflictsOpen) }, LABELS.adjudicate, blocked.admin)] : []),
+    button({ type: "findDuplicates" }, LABELS.findDuplicates, blocked.findDuplicates),
+    button({ type: "detectConflicts" }, LABELS.detectConflicts, blocked.detectConflicts),
+  ];
+  let curateRow: Row;
+  if (inputs.busy.findDuplicates || inputs.busy.detectConflicts) {
+    curateRow = makeRow("curate", {
+      state: "running",
+      glyph: "◌",
+      tone: "spinner",
+      summary: inputs.busy.findDuplicates ? "finding duplicates…" : "detecting conflicts…",
+      buttons: curateButtons,
+    });
+  } else if (curate === null) {
+    curateRow = makeRow("curate", { state: "optional", glyph: "◇", tone: "grey", summary: "not counted yet", buttons: curateButtons });
+  } else {
+    const waiting = sameAsOpen + conflictsOpen > 0;
+    curateRow = makeRow("curate", {
+      state: waiting ? "optional" : "done",
+      glyph: waiting ? "◇" : "✓",
+      tone: waiting ? "blue" : "grey",
+      summary: curateSummary(sameAsOpen, conflictsOpen),
+      buttons: curateButtons,
+    });
+  }
+
+  // ── 6 Descriptions (optional: never amber, never current) ──
   let descriptions: Row;
   if (inputs.busy.synthesize) {
     const written = changeSources(changes).syntheses;
     const progress = written > 0 && toSynthesize > 0 ? ` ${count(written)}/${count(toSynthesize)}` : "";
-    descriptions = makeRow("descriptions", { state: "running", glyph: "◌", tone: "spinner", summary: `synthesizing…${progress}` });
+    descriptions = makeRow("descriptions", {
+      state: "running",
+      glyph: "◌",
+      tone: "spinner",
+      summary: `synthesizing…${progress}`,
+      buttons: [button({ type: "synthesize" }, LABELS.synthesize, blocked.synthesize)],
+    });
   }
   else if (synthesis === null) descriptions = makeRow("descriptions", { state: "optional", glyph: "◇", tone: "grey", summary: "not counted yet" });
   else if (!toSynthesize) descriptions = makeRow("descriptions", { state: "done", glyph: "✓", tone: "grey", summary: "up to date" });
@@ -439,12 +536,12 @@ export function checklist(inputs: StateInputs): Checklist {
     vault = makeRow("vault", { state: "done", glyph: "✓", tone: "grey", summary: ahead === null ? "nothing to share (no upstream)" : "shared" });
   }
 
-  const rows = [remote, documents, tables, graph, descriptions, vault].map((r) => {
+  const rows = [remote, documents, tables, graph, curateRow, descriptions, vault].map((r) => {
     const error = inputs.actionErrors[r.id];
     return error ? { ...r, detail: [...r.detail, error] } : r;
   });
   const left = rows.filter((r) => STEP_IDS.includes(r.id) && r.state !== "done");
   const ready = left.length === 0;
   const current = left[0]?.id ?? (vault.state === "todo" ? "vault" : null);
-  return { rows, current, ready, stepsLeft: left.length, blocked, neo4jUnreachable, jobRunning: running };
+  return { rows, busy: inputs.busy, current, ready, stepsLeft: left.length, blocked, neo4jUnreachable, jobRunning: running };
 }

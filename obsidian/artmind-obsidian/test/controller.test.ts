@@ -130,7 +130,29 @@ class FakeCli implements CliLike {
   dbReview() {
     return this.answer("dbReview", () => result(["db", "review", "--compact"], 0, NO_REVIEW));
   }
+  sameasList() {
+    return this.answer("sameasList", () => replay("sameas-list.empty"));
+  }
+  openConflicts(domains: string[]) {
+    return this.answer("openConflicts", () => replay("query-graph-conflicts.none"), domains.join(","));
+  }
+  sameasPropose(domain: string, maxPairs: number) {
+    return this.answer(
+      "sameasPropose",
+      () => result(["sameas", "propose", "--domain", domain, "--maxPairs", String(maxPairs), "--compact"], 0, DETECTED),
+      `${domain} --maxPairs ${maxPairs}`,
+    );
+  }
+  detectConflicts(domains: string[], maxPairs: number) {
+    return this.answer(
+      "detectConflicts",
+      () => result(["ingest", "detect-conflicts", ...domains.flatMap((d) => ["--domain", d]), "--maxPairs", String(maxPairs), "--compact"], 0, DETECTED),
+      `${domains.join(",")} --maxPairs ${maxPairs}`,
+    );
+  }
 }
+
+const DETECTED = { domains: ["general"], candidates: 12, llm_calls: 12, conflicts: ["c-1"], same_as_proposals: ["sp-1", "sp-2"] };
 
 interface Shown {
   kind: string;
@@ -166,6 +188,7 @@ function setup(options: {
     openTableReview: (table) => views.opened.push(`table:${table}`),
     confirm: (request) => views.confirms.push(request),
     openSynthesize: () => views.opened.push("synthesize"),
+    openCurate: (kind) => views.opened.push(`curate:${kind}`),
     openAdmin: (path) => views.opened.push(`admin:${path}`),
   };
   const controller = new Controller({
@@ -211,7 +234,7 @@ function setup(options: {
   return { cli, controller, shown, views, ran, tracked, saved, choose, flush, rowOf, advance: (ms: number) => (clock += ms) };
 }
 
-const WRITES = ["sync", "ingestAsyncPending", "tableProject", "resolve", "projectionRebuildSweep", "synthesize", "retryJob"];
+const WRITES = ["sync", "ingestAsyncPending", "tableProject", "resolve", "projectionRebuildSweep", "synthesize", "retryJob", "sameasPropose", "detectConflicts"];
 
 describe("reading state (checklist spec §5.1)", () => {
   it("the first refresh runs every read, heavy ones included, and writes nothing", async () => {
@@ -223,7 +246,9 @@ describe("reading state (checklist spec §5.1)", () => {
       "dbReview",
       "ingestPending",
       "jobsActive",
+      "openConflicts general,habits",
       "projectionStatus",
+      "sameasList",
       "status",
       "synthesizeDryRun general",
       "synthesizeDryRun habits",
@@ -381,7 +406,7 @@ describe("Apply to graph (checklist spec §3.3)", () => {
 
   it("with auto pull off, row 1 says to turn it on", async () => {
     const t = await behind();
-    expect(t.rowOf("remote").detail).toContain("Turn on Obsidian Git's auto pull to see the other laptop's changes");
+    expect(t.rowOf("remote").detail).toContain("Turn on Obsidian Git's auto pull to see commits pushed from another laptop");
   });
 
   it("applies straight away when Obsidian Git has no Pull command", async () => {
@@ -1017,5 +1042,172 @@ describe("activity", () => {
     for (let i = 0; i < 25; i++) await t.controller.tableDryRun(`t${i}`);
     expect(t.controller.activity).toHaveLength(20);
     expect(t.controller.activity[0].command).toBe("artmind ingest table2graph team --dryRun --compact");
+  });
+});
+
+const PROPOSALS = replay("sameas-list.open");
+const CONFLICTS = replay("query-graph-conflicts.open");
+
+describe("curate (the artmind-curate skill's commands)", () => {
+  it("counts the open same-as proposals and conflicts with the heavy reads", async () => {
+    const t = setup({ domains: ["general", "habits"], script: { sameasList: PROPOSALS, openConflicts: CONFLICTS } });
+
+    await t.controller.refresh();
+
+    expect(t.controller.inputs.curate).toEqual({ domains: ["general", "habits"], sameAsOpen: 1, conflictsOpen: 1 });
+    const row = t.rowOf("curate");
+    expect(row.summary).toBe("1 same-as proposal to review · 1 open conflict");
+    expect(row.buttons.map((b) => b.label)).toEqual([
+      "Review in admin console ↗",
+      "Adjudicate in admin console ↗",
+      "Find duplicates…",
+      "Detect conflicts…",
+    ]);
+    expect(t.controller.checklist.ready).toBe(true);
+  });
+
+  it("a failed curate read leaves the row uncounted, not zero", async () => {
+    const t = setup({ script: { sameasList: failure(["sameas", "list", "--compact"], "boom") } });
+    await t.controller.refresh();
+    expect(t.controller.inputs.curate).toBeNull();
+    expect(t.rowOf("curate").summary).toBe("not counted yet");
+  });
+
+  it("the review buttons open the admin console with a prepared prompt", async () => {
+    const t = setup({ script: { sameasList: PROPOSALS } });
+    await t.controller.refresh();
+    const review = t.rowOf("curate").buttons[0];
+    t.controller.run(review.action);
+    expect(t.views.opened.at(-1)).toMatch(/^admin:.*prompt=/);
+  });
+
+  it("Detect conflicts needs two mapped domains; Find duplicates needs one", async () => {
+    const t = setup({ domains: ["general"] });
+    await t.controller.refresh();
+    expect(t.controller.checklist.blocked.findDuplicates).toBeNull();
+    expect(t.controller.checklist.blocked.detectConflicts).toBe("Needs two or more mapped domains: conflicts are found across domains");
+    t.controller.openCurate("conflicts");
+    expect(t.views.opened).not.toContain("curate:conflicts");
+    expect(t.shown.at(-1)?.kind).toBe("blocked");
+  });
+
+  it("Find duplicates runs each domain with the cap, shows busy meanwhile, and says what it found", async () => {
+    const t = setup({ domains: ["general", "habits"] });
+    await t.controller.refresh();
+
+    await t.controller.findDuplicates(["general", "habits"], 40);
+
+    expect(t.cli.calls.filter((c) => c.startsWith("sameasPropose"))).toEqual([
+      "sameasPropose general --maxPairs 40",
+      "sameasPropose habits --maxPairs 40",
+    ]);
+    expect(t.views.renders.some((s) => s.checklist.rows.find((r) => r.id === "curate")!.state === "running")).toBe(true);
+    expect(t.controller.inputs.busy.findDuplicates).toBe(false);
+    expect(t.shown.at(-1)).toEqual({ kind: "curateDone", text: "Compared 24 pairs: 2 same-as proposals to review.", target: "curate" });
+  });
+
+  it("Detect conflicts is one run across the chosen domains", async () => {
+    const t = setup({ domains: ["general", "habits"] });
+    await t.controller.refresh();
+
+    await t.controller.detectConflicts(["general", "habits"], 30);
+
+    expect(t.cli.calls.filter((c) => c.startsWith("detectConflicts"))).toEqual(["detectConflicts general,habits --maxPairs 30"]);
+    expect(t.shown.at(-1)).toEqual({ kind: "curateDone", text: "Compared 12 pairs: 1 conflict, 2 same-as proposals.", target: "curate" });
+  });
+
+  it("a failed run is one friendly line; the raw error is the row's detail", async () => {
+    const t = setup({
+      domains: ["general", "habits"],
+      script: { detectConflicts: failure(["ingest", "detect-conflicts"], "LLM down") },
+    });
+    await t.controller.refresh();
+
+    await t.controller.detectConflicts(["general", "habits"], 30);
+
+    expect(t.shown.at(-1)).toEqual({ kind: "error", text: "Couldn't detect conflicts — details in the artmind panel.", target: "curate" });
+    expect(t.rowOf("curate").detail).toContain("LLM down");
+    expect(t.controller.inputs.busy.detectConflicts).toBe(false);
+  });
+});
+
+describe("a click is answered at once (the button shows busy before the CLI answers)", () => {
+  /** A CliLike call that stays pending until released. */
+  function gate() {
+    let release!: (r: CliResult) => void;
+    const promise = new Promise<CliResult>((resolve) => (release = resolve));
+    return { promise, release };
+  }
+
+  it("Ingest: busy is set synchronously by the click, before the CLI answers, and ends with the job", async () => {
+    const g = gate();
+    const t = setup({ script: { ingestPending: result(["ingest", "pending", "--compact"], 0, fixture("ingest-pending").json) } });
+    t.cli.ingestAsyncPending = () => g.promise;
+    await t.controller.refresh();
+
+    t.controller.run({ type: "ingest" });
+
+    expect(t.controller.inputs.busy.ingest).toBe(true);
+    expect(t.controller.checklist.blocked.ingest).toBe("Already starting an ingest");
+    g.release(replay("ingest-async.pending"));
+    await t.flush();
+    expect(t.controller.inputs.busy.ingest).toBe(false);
+    expect(t.controller.inputs.activeJob).not.toBeNull();
+  });
+
+  it("Ingest: busy ends when the CLI refuses", async () => {
+    const t = setup({
+      script: {
+        ingestPending: result(["ingest", "pending", "--compact"], 0, fixture("ingest-pending").json),
+        ingestAsyncPending: failure(["ingest", "async"], "boom"),
+      },
+    });
+    await t.controller.refresh();
+    await t.controller.ingestWhatChanged();
+    expect(t.controller.inputs.busy.ingest).toBe(false);
+  });
+
+  it("Pull: busy until HEAD settles, then refreshes", async () => {
+    const t = setup();
+    await t.controller.refresh();
+    t.cli.calls.length = 0;
+
+    expect(t.controller.pull()).toBe(true);
+    expect(t.controller.inputs.busy.pull).toBe(true);
+    expect(t.controller.checklist.blocked.pull).toBe("Already pulling");
+    await t.flush();
+    expect(t.controller.inputs.busy.pull).toBe(false);
+    expect(t.cli.calls).toContain("status");
+  });
+
+  it("Commit & push: busy while Obsidian Git works, blocked meanwhile", async () => {
+    const t = setup({ ahead: 2 });
+    await t.controller.refresh();
+
+    t.controller.run({ type: "commitPush" });
+
+    expect(t.controller.inputs.busy.commitPush).toBe(true);
+    expect(t.ran).toEqual(["commitAndSync"]);
+    await t.flush();
+    expect(t.controller.inputs.busy.commitPush).toBe(false);
+  });
+
+  it("Retry: busy until retry-job answers", async () => {
+    const g = gate();
+    const t = setup();
+    t.cli.retryJob = () => g.promise;
+    const pending = t.controller.retryJob("job-1");
+    expect(t.controller.inputs.busy.retry).toBe(true);
+    g.release(replay("ingest-retry-job.failed"));
+    await pending;
+    expect(t.controller.inputs.busy.retry).toBe(false);
+  });
+
+  it("Apply and Rebuild end their busy flag even when the CLI throws", async () => {
+    const t = setup({ script: { status: replay("vault-status.behind") } });
+    await t.controller.refresh();
+    t.cli.sync = () => Promise.reject(new Error("spawn failed"));
+    await expect(t.controller.apply({ skipPull: true })).rejects.toThrow("spawn failed");
+    expect(t.controller.inputs.busy.apply).toBe(false);
   });
 });

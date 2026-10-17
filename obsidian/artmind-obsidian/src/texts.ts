@@ -70,7 +70,29 @@ export const LABELS = {
   pullThenApply: "Pull, then apply",
   applyWithoutPulling: "Apply without pulling",
   synthesizeRun: "Synthesize",
+  reviewSameAs: "Review in admin console ↗",
+  adjudicate: "Adjudicate in admin console ↗",
+  findDuplicates: "Find duplicates…",
+  detectConflicts: "Detect conflicts…",
+  findDuplicatesRun: "Find duplicates",
+  detectConflictsRun: "Detect conflicts",
   cancel: "Cancel",
+} as const;
+
+/** A button's label from the click until its action ends (it is disabled,
+ * with a spinner). Actions that only open a modal or the admin console have none. */
+export const PENDING_LABELS = {
+  pull: "Pulling…",
+  apply: "Applying…",
+  resolve: "Resolving…",
+  completeMerge: "Completing…",
+  ingest: "Starting ingest…",
+  retry: "Retrying…",
+  rebuild: "Rebuilding…",
+  synthesize: "Synthesizing…",
+  findDuplicates: "Finding duplicates…",
+  detectConflicts: "Detecting conflicts…",
+  commitPush: "Committing…",
 } as const;
 
 export function ingestLabel(files: number): string {
@@ -84,6 +106,8 @@ export const COMMANDS = {
   ingest: "Ingest what changed",
   rebuild: "Rebuild graph",
   synthesize: "Synthesize…",
+  findDuplicates: "Find duplicate entities…",
+  detectConflicts: "Detect conflicts…",
   commitPush: "Commit & push",
   reviewTables: "Review tables for graph",
   resolve: "Resolve artmind conflicts",
@@ -94,17 +118,18 @@ export const COMMANDS = {
 } as const;
 
 export const ROW_TITLES: Record<RowId, string> = {
-  remote: "From the other laptop",
+  remote: "Commits to apply",
   documents: "Documents",
   tables: "Tables",
   graph: "Graph",
+  curate: "Curate (optional)",
   descriptions: "Descriptions (optional)",
-  vault: "Vault",
+  vault: "Share",
 };
 
 /** The confirm modal's questions (checklist spec §3.3). */
 export const CONFIRM = {
-  applyFirst: "The other laptop has changes not applied to your graph.",
+  applyFirst: "Some committed changes are not applied to your graph yet.",
   pullFirst: "Pull from GitHub first?",
 } as const;
 
@@ -112,7 +137,7 @@ export const CONFIRM = {
 export const NOTICE = {
   applyQueued: "Ingest in progress — will apply to graph when it finishes.",
   resolveFirst: "Resolve the artmind conflicts first.",
-  pullFirst: "Pull first: the other laptop's commits aren't in this clone.",
+  pullFirst: "Pull first: some commits recorded for this vault aren't in this clone.",
   noBookmark: "This laptop has never applied this vault — see the first step in the artmind panel.",
   nothingToIngest: "Nothing new or changed to ingest.",
   nothingToRetry: "Nothing to retry in that job.",
@@ -120,7 +145,32 @@ export const NOTICE = {
 } as const;
 
 /** Row 1's extra line when Obsidian Git's auto pull is off (spec D10). */
-export const AUTO_PULL_HINT = "Turn on Obsidian Git's auto pull to see the other laptop's changes";
+export const AUTO_PULL_HINT = "Turn on Obsidian Git's auto pull to see commits pushed from another laptop";
+
+/** The admin-console prompts of the Curate row (the judgment steps). */
+export function sameAsPrompt(open: number): string {
+  return `Review the ${plural(open, "open same-as proposal")}: show each with its evidence and help me approve or reject it.`;
+}
+
+export function conflictsPrompt(open: number): string {
+  return `Adjudicate the ${plural(open, "open conflict")}: show each pair of claims with its evidence and help me resolve or dismiss it.`;
+}
+
+export function curateSummary(sameAs: number, conflicts: number): string {
+  const parts = [
+    sameAs ? `${plural(sameAs, "same-as proposal")} to review` : null,
+    conflicts ? `${plural(conflicts, "open conflict")}` : null,
+  ].filter((part): part is string => part !== null);
+  return parts.join(" · ") || "nothing to review";
+}
+
+export function proposedText(report: { candidates: number; same_as_proposals: string[] }): string {
+  return `Compared ${plural(report.candidates, "pair")}: ${plural(report.same_as_proposals.length, "same-as proposal")} to review.`;
+}
+
+export function detectedText(report: { candidates: number; conflicts: string[]; same_as_proposals: string[] }): string {
+  return `Compared ${plural(report.candidates, "pair")}: ${plural(report.conflicts.length, "conflict")}, ${plural(report.same_as_proposals.length, "same-as proposal")}.`;
+}
 
 /** `4,332`: counts in the checklist and its notices. */
 export function count(n: number): string {
@@ -173,6 +223,12 @@ export function synthesizedText(n: number): string {
 /** The panel header (checklist spec §3.2). */
 export function readinessText(cl: Checklist): string {
   return cl.ready ? "Graph ready ✓" : `${plural(cl.stepsLeft, "step")} to a ready graph`;
+}
+
+/** `3 of 6 steps done`: the header's progress line, over the numbered steps. */
+export function progressText(cl: Checklist): string {
+  const steps = cl.rows.filter((r) => r.id !== "vault");
+  return `${steps.filter((r) => r.state === "done").length} of ${steps.length} steps done`;
 }
 
 /** `Next: rebuild graph.` from the current row's main button, or "" (spec §5). */

@@ -16,7 +16,7 @@ export type ArtmindProblem =
   | { kind: "failed"; command: string; message: string };
 
 /** The checklist's rows (checklist spec §3.2), top to bottom; `vault` is the footer. */
-export const ROW_IDS = ["remote", "documents", "tables", "graph", "descriptions", "vault"] as const;
+export const ROW_IDS = ["remote", "documents", "tables", "graph", "curate", "descriptions", "vault"] as const;
 export type RowId = (typeof ROW_IDS)[number];
 
 /** Where a notice or the status bar opens the panel: a row, or a callout. */
@@ -51,11 +51,33 @@ export interface DomainSynthesis {
   model: string;
 }
 
-/** A plugin write still running: its row shows ◌, its button is blocked. */
-export interface Busy {
-  apply: boolean;
-  rebuild: boolean;
-  synthesize: boolean;
+/** A plugin action still running: its button shows a spinner and is blocked,
+ * from the moment of the click (before any await), not once the CLI answers. */
+export const BUSY_KEYS = [
+  "pull",
+  "apply",
+  "resolve",
+  "completeMerge",
+  "ingest",
+  "retry",
+  "rebuild",
+  "synthesize",
+  "findDuplicates",
+  "detectConflicts",
+  "commitPush",
+] as const;
+export type BusyKey = (typeof BUSY_KEYS)[number];
+export type Busy = Record<BusyKey, boolean>;
+
+/** What the Curate row counts: the review queues the artmind-curate skill
+ * works through. Both live in Neo4j, so they come with the heavy reads. */
+export interface CurateReading {
+  /** The mapped domains: Detect conflicts needs two or more. */
+  domains: string[];
+  /** `sameas list` (status open). */
+  sameAsOpen: number;
+  /** `query graph conflicts` (status open), over the mapped domains. */
+  conflictsOpen: number;
 }
 
 /** Everything `checklist` decides from. */
@@ -78,6 +100,8 @@ export interface StateInputs {
   tablesReview: DbReview | null;
   /** Per mapped domain, or null when not counted yet. */
   synthesis: DomainSynthesis[] | null;
+  /** Review queues, or null when not counted yet. */
+  curate: CurateReading | null;
   lastJob: LastJob | null;
   lastApply: Outcome | null;
   lastRebuild: RebuildOutcome | null;
@@ -88,7 +112,7 @@ export interface StateInputs {
   obsidianGit: { autoPullMinutes: number } | null;
 }
 
-export const NOT_BUSY: Busy = { apply: false, rebuild: false, synthesize: false };
+export const NOT_BUSY: Busy = Object.fromEntries(BUSY_KEYS.map((key) => [key, false])) as Busy;
 
 export const EMPTY_INPUTS: StateInputs = {
   status: null,
@@ -100,6 +124,7 @@ export const EMPTY_INPUTS: StateInputs = {
   projection: null,
   tablesReview: null,
   synthesis: null,
+  curate: null,
   lastJob: null,
   lastApply: null,
   lastRebuild: null,

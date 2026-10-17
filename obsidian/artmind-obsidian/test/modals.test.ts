@@ -10,6 +10,7 @@ declare module "obsidian" {
   }
 }
 import { ConfirmModal, renderConfirm } from "../src/views/confirmModal";
+import { renderCurate } from "../src/views/curateModal";
 import { SynthesizeModal, llmCalls, renderSynthesize } from "../src/views/synthesizeModal";
 
 function button(root: HTMLElement, label: string): HTMLButtonElement {
@@ -25,7 +26,7 @@ describe("the confirm modal (checklist spec §3.3)", () => {
     renderConfirm(
       root,
       {
-        text: "The other laptop has changes not applied to your graph.",
+        text: "Some committed changes are not applied to your graph yet.",
         choices: [
           { label: "Apply first", run: () => order.push("apply") },
           { label: "Ingest anyway", run: () => order.push("ingest") },
@@ -34,7 +35,7 @@ describe("the confirm modal (checklist spec §3.3)", () => {
       () => order.push("close"),
     );
 
-    expect(root.querySelector("p")!.textContent).toBe("The other laptop has changes not applied to your graph.");
+    expect(root.querySelector("p")!.textContent).toBe("Some committed changes are not applied to your graph yet.");
     expect([...root.querySelectorAll("button")].map((b) => [b.textContent, b.classList.contains("mod-cta")])).toEqual([
       ["Apply first", true],
       ["Ingest anyway", false],
@@ -113,5 +114,43 @@ describe("the Synthesize… modal (checklist spec §3.4)", () => {
     button(modal.contentEl, "Synthesize").click();
     expect(modal.isOpen).toBe(false);
     expect(run).toHaveBeenCalledWith(["general", "habits"], null);
+  });
+});
+
+describe("the curate modals", () => {
+  const reading = { domains: ["general", "habits"], sameAsOpen: 0, conflictsOpen: 0 };
+
+  it("Find duplicates: every domain ticked, a cap per domain, the worst case in the total", () => {
+    const root = document.createElement("div");
+    const run = vi.fn();
+    renderCurate(root, "duplicates", reading, { run, cancel: vi.fn() });
+
+    expect(root.querySelector("h3")!.textContent).toBe("Find duplicate entities");
+    expect(root.querySelector(".artmind-synth-total")!.textContent).toBe("Up to 400 LLM calls in total");
+    const boxes = [...root.querySelectorAll<HTMLInputElement>("input[type=checkbox]")];
+    boxes[1].checked = false;
+    boxes[1].dispatchEvent(new Event("change"));
+    const cap = root.querySelector<HTMLInputElement>("input[type=number]")!;
+    cap.value = "50";
+    cap.dispatchEvent(new Event("input"));
+    expect(root.querySelector(".artmind-synth-total")!.textContent).toBe("Up to 50 LLM calls in total");
+
+    button(root, "Find duplicates").click();
+    expect(run).toHaveBeenCalledWith(["general"], 50);
+  });
+
+  it("Detect conflicts needs two domains, and one run costs at most the cap", () => {
+    const root = document.createElement("div");
+    const run = vi.fn();
+    renderCurate(root, "conflicts", reading, { run, cancel: vi.fn() });
+    expect(root.querySelector(".artmind-synth-total")!.textContent).toBe("Up to 200 LLM calls in total");
+    expect(button(root, "Detect conflicts").disabled).toBe(false);
+
+    const boxes = [...root.querySelectorAll<HTMLInputElement>("input[type=checkbox]")];
+    boxes[0].checked = false;
+    boxes[0].dispatchEvent(new Event("change"));
+    expect(button(root, "Detect conflicts").disabled).toBe(true);
+    expect(button(root, "Detect conflicts").title).toBe("Choose at least 2 domains");
+    expect(run).not.toHaveBeenCalled();
   });
 });

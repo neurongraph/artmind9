@@ -12,14 +12,26 @@ export function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-/** A button that shows why it is disabled, when it is. */
+/** A button that shows why it is disabled, when it is. While its action
+ * runs (`pendingLabel`), it is disabled with a spinner and that label: the
+ * click is answered at once, whatever the CLI takes to answer. */
 export function actionButton(
   parent: HTMLElement,
   label: string,
   blockedReason: string | null,
   onClick: () => void,
+  pendingLabel: string | null = null,
 ): HTMLButtonElement {
-  const button = el(parent, "button", { cls: "artmind-action", text: label });
+  const button = el(parent, "button", { cls: "artmind-action" });
+  if (pendingLabel) {
+    button.disabled = true;
+    button.classList.add("artmind-pending");
+    button.setAttribute("aria-busy", "true");
+    el(button, "span", { cls: "artmind-spinner", attr: { "aria-hidden": "true" } });
+    el(button, "span", { text: pendingLabel });
+    return button;
+  }
+  button.textContent = label;
   if (blockedReason) {
     button.disabled = true;
     button.title = blockedReason;

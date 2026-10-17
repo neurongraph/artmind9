@@ -1,6 +1,6 @@
 import type { Row, RowAction, RowItem } from "../checklist";
 import type { Snapshot } from "../controller";
-import { LABELS, readinessText } from "../texts";
+import { LABELS, PENDING_LABELS, progressText, readinessText } from "../texts";
 import { actionButton, el } from "./dom";
 import { jobCard } from "./jobCard";
 import { type PanelUi, basename } from "./sections";
@@ -38,23 +38,46 @@ function items(box: HTMLElement, row: Row, ui: PanelUi): void {
   }
 }
 
-/** One row: glyph, title, summary, its buttons (the first filled on the
- * current row only, D3), its detail lines, its expandable items; row 2
- * also holds the job card. */
-function renderRow(parent: HTMLElement, row: Row, current: boolean, snapshot: Snapshot, handlers: ChecklistHandlers, ui: PanelUi): void {
+/** What the step's marker (the numbered circle) shows: ✓ once done, else its
+ * number; a step that needs attention keeps its number, in red or amber. */
+export function markerText(row: Row, number: number): string {
+  return row.state === "done" ? "✓" : String(number);
+}
+
+/** One step of the stepper: a numbered circle on a line that fills as steps
+ * finish, the title and summary, its buttons (the current step's first is
+ * accent-coloured, every other available action is a plain button), its
+ * detail lines, its expandable items; step 2 also holds the job card.
+ * `number` is null for the footer. */
+function renderRow(
+  parent: HTMLElement,
+  row: Row,
+  number: number | null,
+  current: boolean,
+  snapshot: Snapshot,
+  handlers: ChecklistHandlers,
+  ui: PanelUi,
+): void {
   const box = el(parent, "div", {
-    cls: `artmind-step artmind-step-${row.state}${current ? " artmind-step-current" : ""}`,
+    cls: `artmind-step artmind-step-${row.state}${current ? " artmind-step-current" : ""}${row.optional ? " artmind-step-optional" : ""}`,
     attr: { "data-row": row.id },
   });
   const line = el(box, "div", { cls: "artmind-step-line" });
-  el(line, "span", { cls: `artmind-step-glyph artmind-tone-${row.tone}`, text: row.glyph });
+  const marker = el(line, "span", {
+    cls: `artmind-step-marker artmind-step-glyph artmind-tone-${row.tone}`,
+    text: number === null ? row.glyph : markerText(row, number),
+    attr: { title: row.glyph },
+  });
+  if (row.state === "running") marker.classList.add("artmind-step-marker-running");
   el(line, "span", { cls: "artmind-step-title", text: row.title });
   el(line, "span", { cls: "artmind-step-summary", text: row.summary });
   if (row.buttons.length) {
     const bar = el(box, "div", { cls: "artmind-step-buttons" });
     row.buttons.forEach((b, index) => {
-      const button = actionButton(bar, b.label, b.blockedReason, () => handlers.run(b.action));
-      button.classList.add(current && index === 0 ? "mod-cta" : "artmind-outline");
+      const pending = b.busyKey && snapshot.checklist.busy[b.busyKey] ? PENDING_LABELS[b.busyKey] : null;
+      const button = actionButton(bar, b.label, b.blockedReason, () => handlers.run(b.action), pending);
+      if (index === 0) button.classList.add(current ? "mod-cta" : "artmind-raised");
+      else button.classList.add("artmind-outline");
     });
   }
   for (const text of row.detail) el(box, "div", { cls: "artmind-step-detail", text });
@@ -67,8 +90,18 @@ function renderRow(parent: HTMLElement, row: Row, current: boolean, snapshot: Sn
   }
 }
 
-/** The readiness checklist (checklist spec §3.1): header with ↻, rows 1–5,
- * then the Vault footer (hidden during a job). */
+/** `▰▰▰▱▱▱`: one block per step, filled once done. */
+function progressBar(parent: HTMLElement, cl: Snapshot["checklist"]): void {
+  const bar = el(parent, "div", { cls: "artmind-progress", attr: { "aria-hidden": "true" } });
+  for (const row of cl.rows) {
+    if (row.id === "vault") continue;
+    el(bar, "span", { cls: `artmind-progress-block${row.state === "done" ? " artmind-progress-done" : ""}` });
+  }
+}
+
+/** The readiness checklist (checklist spec §3.1) as a numbered stepper:
+ * header with ↻ and the progress, steps 1–6, then the Share footer
+ * (hidden during a job). */
 export function renderChecklist(root: HTMLElement, snapshot: Snapshot, handlers: ChecklistHandlers, ui: PanelUi): void {
   const cl = snapshot.checklist;
   const head = el(root, "div", { cls: "artmind-header" });
@@ -79,12 +112,17 @@ export function renderChecklist(root: HTMLElement, snapshot: Snapshot, handlers:
   refresh.addEventListener("click", () => handlers.refresh());
   const current = cl.rows.find((r) => r.id === cl.current);
   el(head, "div", { cls: `artmind-readiness artmind-tone-${cl.ready ? "grey" : (current?.tone ?? "grey")}`, text: readinessText(cl) });
+  const progress = el(head, "div", { cls: "artmind-progress-line" });
+  progressBar(progress, cl);
+  el(progress, "span", { cls: "artmind-muted", text: progressText(cl) });
   if (snapshot.bridgeWarning) el(head, "p", { cls: "artmind-warning", text: snapshot.bridgeWarning });
 
-  const list = el(root, "div", { cls: "artmind-checklist" });
-  for (const row of cl.rows) {
-    if (row.id !== "vault") renderRow(list, row, row.id === cl.current, snapshot, handlers, ui);
-  }
+  const list = el(root, "div", { cls: "artmind-checklist artmind-stepper" });
+  const steps = cl.rows.filter((r) => r.id !== "vault");
+  steps.forEach((row, index) => {
+    const box = el(list, "div", { cls: `artmind-stepper-item${row.state === "done" ? " artmind-stepper-done" : ""}${index === steps.length - 1 ? " artmind-stepper-last" : ""}` });
+    renderRow(box, row, index + 1, row.id === cl.current, snapshot, handlers, ui);
+  });
   const footer = cl.rows.find((r) => r.id === "vault");
-  if (footer && footer.state !== "hidden") renderRow(el(root, "div", { cls: "artmind-footer" }), footer, cl.current === "vault", snapshot, handlers, ui);
+  if (footer && footer.state !== "hidden") renderRow(el(root, "div", { cls: "artmind-footer" }), footer, null, cl.current === "vault", snapshot, handlers, ui);
 }

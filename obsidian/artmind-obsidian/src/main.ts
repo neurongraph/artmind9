@@ -3,7 +3,7 @@ import { AdminConsole, adminOutcomeText, hostPort, stopOutcomeText } from "./adm
 import { openInBrowser, realAdminDeps } from "./adminDeps";
 import { ObsidianGitBridge, type CommandsLike, autoPullMinutes, obsidianGitDataPath } from "./bridge";
 import { ArtmindCli, defaultDetectDeps, detectArtmind } from "./cli";
-import { Controller, type Snapshot } from "./controller";
+import { Controller, type CurateKind, type Snapshot } from "./controller";
 import { GitReader } from "./git";
 import { type Mapping, VAULT_YAML, promptsOnArrival, readMappings } from "./manifest";
 import { NOTHING_PERSISTED, type Persisted, readPersisted, withPersisted } from "./persist";
@@ -19,6 +19,7 @@ import { ResolveModal } from "./views/resolveModal";
 import { RibbonIcon } from "./views/ribbon";
 import { ArtmindSettingTab } from "./views/settingsTab";
 import { StatusBarItem } from "./views/statusBar";
+import { CurateModal } from "./views/curateModal";
 import { SynthesizeModal } from "./views/synthesizeModal";
 import { TableReviewModal } from "./views/tableReview";
 
@@ -66,6 +67,7 @@ export default class ArtmindPlugin extends Plugin {
         openTableReview: (table) => this.openTableReview(table),
         confirm: (request) => new ConfirmModal(this.app, request).open(),
         openSynthesize: () => this.openSynthesize(),
+        openCurate: (kind) => this.openCurate(kind),
         openAdmin: (path) => void this.openAdmin(path),
       },
       settings: () => this.artmindSettings,
@@ -229,6 +231,17 @@ export default class ArtmindPlugin extends Plugin {
     }).open();
   }
 
+  private openCurate(kind: CurateKind): void {
+    const controller = this.controller;
+    if (!controller) return;
+    new CurateModal(this.app, {
+      kind,
+      reading: () => controller.curatePlan(),
+      run: (domains, maxPairs) =>
+        void (kind === "duplicates" ? controller.findDuplicates(domains, maxPairs) : controller.detectConflicts(domains, maxPairs)),
+    }).open();
+  }
+
   /** A note opens in Obsidian; a file under a dot-folder (hidden from
    * Obsidian) opens in the system's editor. */
   private openVaultPath(path: string): void {
@@ -295,6 +308,8 @@ export default class ArtmindPlugin extends Plugin {
       ["ingest-what-changed", COMMANDS.ingest, () => void c()?.ingestWhatChanged()],
       ["rebuild", COMMANDS.rebuild, () => void c()?.rebuild()],
       ["synthesize", COMMANDS.synthesize, () => c()?.openSynthesize()],
+      ["find-duplicates", COMMANDS.findDuplicates, () => c()?.openCurate("duplicates")],
+      ["detect-conflicts", COMMANDS.detectConflicts, () => c()?.openCurate("conflicts")],
       ["commit-push", COMMANDS.commitPush, () => c()?.commitPush()],
       ["review-tables", COMMANDS.reviewTables, () => c()?.reviewTables()],
       ["resolve", COMMANDS.resolve, () => c()?.openResolve()],

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { errorText } from "../src/cli";
-import { EMPTY_INPUTS, classifyRefusal } from "../src/state";
+import { BUSY_KEYS, EMPTY_INPUTS, classifyRefusal } from "../src/state";
 import { fixture } from "./fixtures";
 
 describe("classifyRefusal: every vault sync refusal becomes an action (spec §4.2)", () => {
@@ -34,10 +34,11 @@ describe("StateInputs", () => {
       projection: null,
       tablesReview: null,
       synthesis: null,
+      curate: null,
       lastJob: null,
       lastApply: null,
       lastRebuild: null,
-      busy: { apply: false, rebuild: false, synthesize: false },
+      busy: Object.fromEntries(BUSY_KEYS.map((key) => [key, false])),
       actionErrors: {},
       obsidianGit: null,
     });

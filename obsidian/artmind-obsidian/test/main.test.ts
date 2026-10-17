@@ -47,6 +47,8 @@ describe("ArtmindPlugin", () => {
       "Ingest what changed",
       "Rebuild graph",
       "Synthesize…",
+      "Find duplicate entities…",
+      "Detect conflicts…",
       "Commit & push",
       "Review tables for graph",
       "Resolve artmind conflicts",
