@@ -87,3 +87,48 @@ def test_extraction_keeps_both_travellers_and_one_narrator(schema, monkeypatch):
     relationships_prompt = next(p for s, p in prompts if s.endswith("relationships"))
     assert 'named exactly "Diarist"' in entities_prompt
     assert "COMPANIONS." in relationships_prompt
+
+
+# Invented entries for the beneficiary and independent-travel rules.
+TRIP_ENTRY = "2025-03-15\n\nSarah is travelling to Chicago this morning. I walked her to Union Station."
+TICKET_ENTRY = "2025-06-10\n\nI booked return tickets for Sarah for Friday."
+TRIP_ENTITIES = [
+    {"id": "p1", "name": "Diarist", "entity_class": "PERSON"},
+    {"id": "p2", "name": "Sarah", "entity_class": "PERSON"},
+    {"id": "l1", "name": "Chicago", "entity_class": "LOCATION"},
+]
+
+
+def test_entities_prompt_says_for_a_name_is_a_beneficiary_not_a_destination(schema):
+    prompt = extraction.build_entities_prompt(TICKET_ENTRY, schema)
+    assert "BENEFICIARY vs DESTINATION." in prompt
+    assert "Never classify a person as a\nLOCATION" in prompt
+    assert 'in "I booked tickets\nfor Sarah", Sarah is a PERSON' in prompt
+    assert TICKET_ENTRY in prompt
+
+
+def test_relationships_prompt_carries_independent_travel_and_drop_off_rules(schema):
+    prompt = extraction.build_relationships_prompt(TRIP_ENTRY, TRIP_ENTITIES, schema)
+    assert "INDEPENDENT TRAVEL." in prompt
+    assert '"Y is going to X"' in prompt
+    assert "dropped Y at the station for their trip to X" in prompt
+    assert "p2 (PERSON): Sarah" in prompt
+
+
+def test_independent_travel_keeps_the_companion_a_person_with_a_went_to_edge(schema, monkeypatch):
+    from artmind.reviews import reextract
+
+    def fake(step, model, prompt, debug_dir=None):
+        if step.endswith("entities"):
+            return [dict(e) for e in TRIP_ENTITIES], True
+        if step.endswith("properties"):
+            return [], True
+        return [{"source_id": "p2", "target_id": "l1", "rel_type": "went_to"}], True
+
+    monkeypatch.setattr(extraction, "extract_with_retry", fake)
+    out = reextract.extract_chunk(TRIP_ENTRY, schema, model="test-model")
+    shape = reextract.proposed_side(out["entities"], out["relationships"])
+
+    assert any(name == "sarah" and cls.upper() == "PERSON" for name, cls in shape["nodes"])
+    assert not any(name == "sarah" and cls.upper() == "LOCATION" for name, cls in shape["nodes"])
+    assert ("sarah", "went_to", "chicago") in shape["edges"]
