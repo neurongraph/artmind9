@@ -328,7 +328,9 @@ which is how "work activity rose, creative activity fell" is found.
   - its negative share minus the baseline negative share (and the same for
     positive);
   - a two-proportion z-score.
-- **Kept:** findings with `|z| ≥ 2`.
+- **Kept:** findings with `|z| ≥ min_z` (default 2) **and** a Benjamini–Hochberg
+  q-value ≤ `fdr` (default 0.05) over every subject tested, so hundreds of
+  subjects do not yield chance "worse days" cards. `min_support` defaults to 15.
 - **Score:** `min(1, |z| / 5)`.
 - **Card:** `pairs` (subject, share, baseline, lift), better and worse
   ranked separately. Every lift card carries the fixed caption
@@ -349,8 +351,18 @@ There are two sources:
   change in the dominant target between consecutive periods. The same goes
   for a `circle_shift` above 2× its median change.
 
-Events within `cluster_days` of each other (default 90) are grouped into one
-transition. A transition backed by ≥ 2 independent sources scores higher.
+Events within `cluster_days` (default 90) of a group's **first** event join
+that group, so groups never chain across the timeline. A transition backed by
+≥ 2 independent sources scores higher; event count adds at most 0.2. The key is
+the earliest explicit event's date and label (else the first date and kind), so
+it is stable when other events join.
+
+Dominance needs a target to hold ≥ `dominance_share` (0.4) of a relation's days
+in a period and beat the runner-up by `dominance_margin` (1.5×). Changes are
+compared across up to `max_gap_periods` (2) periods with no dominant target.
+Transition verbs (built-in and `transitions.extra_verbs`) are never also counted
+as dominance. Explicit targets are limited to `transitions.classes` (default:
+recurrent classes), which keeps "started <activity>" out.
 
 - **Card:** `timeline`.
 
@@ -363,8 +375,8 @@ transition. A transition backed by ≥ 2 independent sources scores higher.
 - **Score:** age, weighted by `urgency` when that property is present.
 - **Card:** `ranking`.
 
-Statuses that fit neither `open` nor `closed` are counted and reported as a
-vocabulary-sprawl health finding (§7).
+Statuses that fit neither `open` nor `closed` are counted and reported as one
+health finding, `open_loops:<class>:unclassified` (action `config`).
 
 ### 6.8 `same_as_candidates` — probable duplicates
 
@@ -383,14 +395,21 @@ vocabulary-sprawl health finding (§7).
   - whether their time spans overlap;
   - whether their `relationship_to_*` or `type` values agree.
 - **Score:** a fixed logistic combination of those signals. Its weights are
-  tuned on a small labelled fixture (§13).
+  pinned by a labelled synthetic fixture (`test/test_insights_same_as.py`).
+- **Exclusions:** possessive or relational names ("X's Father", "X Family")
+  never pair with "X". Kinship words pair only in PERSON-like classes. A short
+  name that is a token subset of several entities ("Sam" vs "Sam Rivera",
+  "Sam Okoro") keeps one pair only if it clearly wins (margin 0.15); initials
+  matches ("TPO" / "Tech Park One") are exempt.
+- **Not built:** fulltext-index hits as a candidate source.
 - **Output:** findings, plus `artmind insights same-as --export`, which writes
   candidates in the format `artmind-curate` reads for review. Nothing merges
   automatically.
 
 Kinship pairs ship as a small, editable list in the package
 (`artmind/insights/aliases.yaml`, for example `dad`/`daddy`/`papa`,
-`mom`/`mum`/`mummy`). The config can extend it.
+`mom`/`mum`/`mummy`). The config extends it with
+`detectors.same_as_candidates.aliases: [[name, name, ...], ...]`.
 
 ## 7. Graph-health detectors
 
