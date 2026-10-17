@@ -7,6 +7,7 @@ the committed folder, as for review dossiers.
 
 from __future__ import annotations
 
+import errno
 import json
 import os
 import re
@@ -48,7 +49,17 @@ def _write_atomic(path: Path, text: str) -> None:
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             fh.write(text)
-        os.replace(tmp, path)
+        try:
+            os.replace(tmp, path)
+        except OSError as exc:
+            if exc.errno != errno.EXDEV:
+                raise
+            # LOGS_DIR is on another filesystem than the target: stage beside the target instead.
+            Path(tmp).unlink(missing_ok=True)
+            fd, tmp = tempfile.mkstemp(prefix=".insights-", suffix=".tmp", dir=path.parent)
+            with os.fdopen(fd, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            os.replace(tmp, path)
     except BaseException:
         Path(tmp).unlink(missing_ok=True)
         raise
@@ -59,6 +70,10 @@ def dumps(run: Run) -> str:
 
 
 def write_run(run: Run) -> Path:
+    """Write the run and point `latest.json` at it.
+
+    Two runs within the same second share a filename, so the later one replaces the earlier one.
+    """
     text = dumps(run)
     path = runs_dir(run.domain) / run_filename(run.created_at)
     _write_atomic(path, text)
@@ -69,6 +84,8 @@ def write_run(run: Run) -> Path:
 def load_run(path: Path) -> Run:
     try:
         return Run.from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
+    except InsightsError as exc:
+        raise InsightsError(f"{path} is unreadable: {exc}") from exc
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
         raise InsightsError(f"{path} is unreadable: {exc}") from exc
 
@@ -84,6 +101,10 @@ def list_runs(domain: str) -> list[Path]:
 
 
 def prune(domain: str, keep: int) -> list[str]:
+    """Delete all but the newest `keep` runs and return the removed file names.
+
+    Lexicographic order equals chronological order for the fixed-width UTC `created_at` format.
+    """
     runs = list_runs(domain)
     doomed = runs[:-keep] if keep > 0 and len(runs) > keep else []
     for path in doomed:

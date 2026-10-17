@@ -1,3 +1,4 @@
+import errno
 import json
 
 import pytest
@@ -40,6 +41,44 @@ def test_latest_missing_and_unreadable(roots):
         (roots / "insights" / "demo" / "latest.json").write_text(bad)
         with pytest.raises(InsightsError, match="unreadable"):
             store.load_latest("demo")
+
+
+def test_format_mismatch_names_the_file(roots):
+    (roots / "insights" / "demo").mkdir(parents=True)
+    (roots / "insights" / "demo" / "latest.json").write_text(
+        json.dumps({"format": 99, "domain": "demo", "created_at": "x"}))
+    with pytest.raises(InsightsError, match="unreadable") as info:
+        store.load_latest("demo")
+    assert "format" in str(info.value)
+    assert "latest.json" in str(info.value)
+
+
+def test_write_falls_back_when_logs_dir_is_on_another_device(roots, monkeypatch):
+    real_replace = store.os.replace
+    calls = {"n": 0}
+
+    def cross_device_once(src, dst):
+        if str(src).startswith(str(roots / "logs")) and calls["n"] == 0:
+            calls["n"] += 1
+            raise OSError(errno.EXDEV, "cross-device")
+        return real_replace(src, dst)
+
+    monkeypatch.setattr(store.os, "replace", cross_device_once)
+    path = store.write_run(make_run())
+    assert calls["n"] == 1
+    assert path.read_text() == (roots / "insights" / "demo" / "latest.json").read_text()
+    assert store.load_latest("demo") == make_run()
+    assert not list(roots.rglob("*.tmp"))
+
+
+def test_write_reraises_other_replace_errors(roots, monkeypatch):
+    def denied(src, dst):
+        raise OSError(errno.EACCES, "denied")
+
+    monkeypatch.setattr(store.os, "replace", denied)
+    with pytest.raises(OSError, match="denied"):
+        store.write_run(make_run())
+    assert not list(roots.rglob("*.tmp"))
 
 
 def test_list_and_prune_keep_the_newest(roots):
