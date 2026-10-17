@@ -40,17 +40,16 @@ cli-version:
 
 # ── dev (checkout/tooling, not artmind subcommands) ─────────────────────────
 
-# install: put `artmind` on PATH. Editable, so code edits are live.
-# `artmind` runs from anywhere, and anchors to whichever vault you are standing
-# in. Create one with `artmind init`, then edit <vault>/.artmind/config.env and
-# run `artmind setup`. See docs/INSTALL.md. (For a checkout-independent
-# deploy, drop `--editable`.)
-# Install the global `artmind` command. Deliberately does NOT run `artmind init`
-# any more: init means "make THIS directory a vault" (docs/vault.md), and at
-# install time there is no vault. Create one with `cd <dir> && artmind init`.
+# Install the global `artmind` command. Editable, so code edits are live, and
+# `artmind` runs from anywhere, anchoring to whichever vault you are standing in.
+# Deliberately does NOT create a vault or run `artmind init`: init means "make
+# THIS directory a vault" (docs/vault.md), and at install time there is none.
+# On a fresh machine run scripts/bootstrap.sh instead (it calls this), then
+# `artmind vault new <name>` -- or `--join` on a second machine. See
+# docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
 dev-install: dev-stop-daemons obsidian-plugin-build
     uv tool install --force --editable '.[ingest]'
-    @echo "Installed. Create a vault with:  mkdir ~/MyVault && cd ~/MyVault && artmind init"
+    @echo "Installed. Next: edit ~/.artmind/config.env, then  artmind vault new <name>  (add --join on a second laptop). See docs/INSTALL.md."
 
 # uninstall the global artmind command (leaves ~/.artmind and data intact)
 dev-uninstall:
@@ -151,7 +150,7 @@ docs-archive domain document:
 docs-archived:
     uv run artmind docs archived
 
-# create a ready-to-open vault (Neo4j, private GitHub repo, Obsidian plugins), or join one with --join (usage: just vault-new my_vault [--join] [--localOnly] [--yes])
+# create a ready-to-open vault (Neo4j, private GitHub repo, Obsidian plugins), or join one with --join (usage: just vault-new my_vault [--join] [--githubOwner OWNER] [--localOnly] [--yes])
 vault-new name *flags:
     uv run artmind vault new {{ name }} {{ flags }}
 

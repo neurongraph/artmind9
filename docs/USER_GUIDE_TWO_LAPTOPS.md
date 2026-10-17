@@ -54,11 +54,33 @@ Three rules explain everything below:
    GitHub, installs this checkout and neo4j-manager (cloned next to it), puts
    Homebrew and `~/.local/bin` on your zsh `PATH`, and creates
    `~/.artmind/config.env`. Safe to re-run. Open a new terminal afterwards.
-2. Edit `~/.artmind/config.env`. It holds your models and API keys, is private
-   to the machine, and is never committed. **Use the same embedding model and
-   `ARTMIND_KG_EMBEDDING_DIMENSIONS` on both laptops.** The dimension is baked
-   into Neo4j's vector index when `artmind setup` runs. The two laptops embed
-   independently, so a mismatch makes the two graphs answer differently.
+2. **Install Ollama and pull the embedding model.** `bootstrap.sh` doesn't
+   install Ollama, but embeddings always run on it (OpenRouter has no
+   embeddings API here). Install it from [ollama.com](https://ollama.com), make
+   sure it's running, and pull the model named in your config, by default:
+
+   ```bash
+   ollama pull nomic-embed-text
+   ```
+
+   Laptop B needs it before the join: the rebuild in §2.3 embeds every chunk.
+3. Edit `~/.artmind/config.env`. It holds your models and API keys, is private
+   to the machine, and is never committed. **Use the same embedding model
+   (`ARTMIND_KG_EMBEDDINGS_MODEL`) and `ARTMIND_KG_EMBEDDING_DIMENSIONS` on
+   both laptops.** The dimension is baked into Neo4j's vector index when
+   `artmind setup` runs. The two laptops embed independently, so a mismatch
+   makes the two graphs answer differently. The easiest way to get this right
+   on B is to copy A's values for those two keys.
+
+   The LLM provider settings are checked before `vault new` creates anything,
+   so they must be filled in on B as well, even though a join makes no LLM
+   calls:
+
+   | `ARTMIND_KG_LLM_PROVIDER` | Must be set |
+   |---|---|
+   | `ollama` | nothing |
+   | `openrouter` | `ARTMIND_OPENROUTER_API_KEY` |
+   | `ibm_ica` | `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`. Also set `ARTMIND_KG_ANTHROPIC_BASE_URL` to the same endpoint if you run artmind from a tool that exports its own `ANTHROPIC_BASE_URL` (Claude Code does): the environment variable would otherwise beat the file and ibm_ica requests go to the wrong endpoint. |
 
 ### 2.2 Laptop A: create the vault
 
@@ -97,16 +119,189 @@ Don't also sync this folder with iCloud, Dropbox or Obsidian Sync.
 
 ### 2.3 Laptop B: join the vault
 
+Joining means: clone the vault's private repo, give B its own Neo4j, and
+rebuild B's graph from what is committed. Nothing is copied from A's Neo4j.
+
+**The short version**, when the repo belongs to the GitHub account that `gh` is
+logged in as on B:
+
 ```bash
-artmind vault new my_vault --join   # clones <you>/my_vault, B's own Neo4j instance, rebuilds B's graph
+artmind vault new my_vault --join
 artmind vault doctor
 ```
 
-`--join` clones the repo, creates a neo4j-manager instance for B, writes B's
-own `config.env`, installs the plugins and runs `setup`. Then it runs
-`vault sync --bootstrapEmpty`, which replays every document and table into
-B's graph. That makes no LLM calls, but embeddings are computed locally, so a
-big vault takes a while. Open the folder in Obsidian the same way as on A.
+If the repo belongs to a **different** GitHub account than the one you
+normally use on B, follow all the steps below, including §2.4.
+
+#### Before you start: on laptop A
+
+1. **Let Obsidian Git push everything.** The join clones what is on GitHub,
+   so a commit that is still only on A (a status change, a new note, an
+   ingest) won't reach B. Trigger *Obsidian Git: Commit-and-sync*, then check
+   that nothing is waiting:
+
+   ```bash
+   git -C ~/artmind_vaults/my_vault status -sb    # the first line must not say "ahead"
+   ```
+2. **Note three things** to type on B: the vault name (`my_vault`), the GitHub
+   account that owns the repo (the part before the `/` in
+   `github.com/<owner>/my_vault`), and A's embedding model and dimension (§2.1).
+
+#### On laptop B
+
+1. **Machine setup.** Do §2.1 in full: bootstrap, Ollama with the embedding
+   model pulled, and `~/.artmind/config.env` with the same embedding model and
+   dimension as A and the credentials your LLM provider needs. `vault new`
+   refuses to start if the provider's credentials are missing. The vault's own
+   `.artmind/config.env`, which the join writes, holds only B's Neo4j
+   connection.
+2. **Check the GitHub account `gh` is using.** The join runs `gh` to look up
+   and clone the repo, and `gh` acts as its *active* account.
+
+   ```bash
+   gh auth status
+   ```
+
+   If the owner of the repo is not logged in on B, log in as them
+   (`gh auth login`). If it is logged in but not active, switch:
+
+   ```bash
+   gh auth switch -u <owner>
+   ```
+
+   With one GitHub account there is nothing to do here.
+3. **Join the vault:**
+
+   ```bash
+   artmind vault new my_vault --join                      # the repo is <your active gh account>/my_vault
+   artmind vault new my_vault --join --githubOwner <owner>   # the repo is <owner>/my_vault
+   ```
+
+   Use `--githubOwner` whenever the owner isn't the active `gh` account, or is
+   an organisation. It prints what it is about to do and asks for
+   confirmation (`--yes` skips that). In order, it:
+   - checks everything first: the repo exists and `gh` can see it, the folder
+     and the Neo4j instance don't exist yet, the tools are on `PATH`, and the
+     LLM credentials are set. Every problem is listed at once and nothing has
+     been created;
+   - creates B's Neo4j instance through neo4j-manager (to use a Neo4j you
+     already run there, add `--neo4jUri`, `--neo4jUser` and `--neo4jPassword`);
+   - clones the repo to `~/artmind_vaults/my_vault` (`--dir` to put it
+     elsewhere);
+   - writes the vault's `.artmind/config.env` with B's Neo4j connection and
+     installs the artmind and community plugins;
+   - runs `artmind setup`, then `vault sync --bootstrapEmpty`, which replays
+     every committed document and table into B's graph.
+
+   The rebuild makes no LLM calls, but it embeds every chunk on B's Ollama, so
+   a vault with thousands of notes takes a while. Neo4j needs a 4 GiB colima VM
+   or it can be killed during the rebuild (see *Neo4j memory* in
+   [`INSTALL.md`](./INSTALL.md)).
+4. **If you switched accounts in step 2, switch back** now, so the rest of
+   your work on B uses your usual account:
+
+   ```bash
+   gh auth switch -u <your usual account>
+   ```
+5. **Make Obsidian Git able to push.** With a single GitHub account the
+   default setup usually works, and you can go to step 6. If `gh` was
+   switched in step 2, or Obsidian Git can't push, do §2.4 now.
+6. **Check it:**
+
+   ```bash
+   artmind vault status                                      # HEAD and each store's bookmark; nothing pending
+   artmind vault doctor                                      # read-only readiness checks
+   git -C ~/artmind_vaults/my_vault push --dry-run           # credentials work, nothing is sent
+   ```
+
+   `vault doctor` flags a second sync tool on the folder (iCloud, Dropbox) and
+   Obsidian settings that would make merges unsafe. Fix what it reports before
+   you work.
+7. **Open it in Obsidian.** Choose **Open folder as vault**, pick
+   `~/artmind_vaults/my_vault`, and **Turn on community plugins**. Leave
+   **Obsidian Sync** off for this vault, as on A: Obsidian Git is the only
+   thing that moves the files. The join already installed the artmind
+   plugin; §3.1 describes it.
+
+From now on B follows §3: let Obsidian Git pull, then `artmind vault sync`.
+
+#### If the join fails partway
+
+Re-run **the same command**. Finished steps are skipped and the unfinished one
+resumes; progress is kept in `~/.artmind/vault_new/my_vault.json`. Re-running
+with different options is refused, so use the same flags. To start over from
+nothing, delete that file and the folder, and `neo4j-manager remove my_vault`.
+
+| The message says | Usually means | Do this |
+|---|---|---|
+| `GitHub repo <owner>/my_vault does not exist — nothing to join` | The active `gh` account can't see the repo (a private repo looks missing to the wrong account), or the owner or name is wrong | `gh auth status`; switch to the owner (step 2), or pass the right `--githubOwner` |
+| `gh is not logged in` | No `gh` login on B | `gh auth login` |
+| `… needs ARTMIND_OPENROUTER_API_KEY` (or the ibm_ica keys), `… does not exist — run scripts/bootstrap.sh` | `~/.artmind/config.env` on B is missing or incomplete | Fill it in (§2.1) |
+| `… already exists and is not empty` | The target folder is taken | A different `--dir`, or move the old folder away |
+| `neo4j-manager instance 'my_vault' already exists` | B already has an instance of that name that may hold another vault's data | `neo4j-manager remove my_vault` if it is disposable. The instance name always equals the vault name, so there is no other name to pick |
+| `an unfinished … used different options` | A previous run used other flags | Re-run with those flags, or delete the state file named in the message |
+| A `step 'setup'` or `step 'bookmark'` failure | Neo4j not up yet, Ollama not running, or the embedding model not pulled | Start Ollama, `ollama pull` the model, then re-run |
+
+### 2.4 Laptop B: Obsidian Git pushing as a specific GitHub account
+
+Do this on B if the vault's repo belongs to a GitHub account other than your
+usual one, or if Obsidian Git can't push. `bootstrap.sh` sets git to use `gh`
+for https credentials (`gh auth setup-git`). That asks the *active* `gh`
+account, which is the wrong one when you've switched back (step 4 above). It
+can also fail outright inside Obsidian, which is usually launched from the Dock
+with a smaller `PATH` than your terminal. So give this one repo its own
+credential instead, stored in the macOS Keychain. Everything here is
+**local to this repo's `.git/config`**; your other repos are unaffected.
+
+Run these inside the vault, with `<owner>` the repo's GitHub account:
+
+```bash
+cd ~/artmind_vaults/my_vault
+```
+
+Put the account name into the remote, so git knows which login to use:
+
+```bash
+git remote set-url origin https://<owner>@github.com/<owner>/my_vault.git
+```
+
+Make Keychain the only credential helper for GitHub in this repo. The empty
+value clears the `gh` helper inherited from your global config:
+
+```bash
+git config --local --replace-all credential.https://github.com.helper ""
+```
+
+```bash
+git config --local --add credential.https://github.com.helper osxkeychain
+```
+
+```bash
+git config --local credential.https://github.com.usehttppath false
+```
+
+Store `<owner>`'s token in the Keychain, once. This reads it from `gh`, so
+`<owner>` must be logged in to `gh` on B, though it needn't be the active
+account:
+
+```bash
+printf "protocol=https\nhost=github.com\nusername=<owner>\npassword=%s\n" "$(gh auth token -u <owner>)" | git credential-osxkeychain store
+```
+
+Check it, then let Obsidian Git do a commit-and-sync once:
+
+```bash
+git push --dry-run
+```
+
+If pushes start failing with an authentication error later, the token `gh`
+holds has changed (for example after `gh auth logout` or `gh auth refresh`).
+Re-run the `printf … | git credential-osxkeychain store` line.
+
+With the owner in the remote URL, `vault doctor`'s check that review dossiers
+aren't in a public repo asks `gh` *as that account*, so it still works when
+another account is active. It reports `unknown` only if `gh` holds no login for
+the owner.
 
 ---
 
@@ -289,6 +484,12 @@ Two exceptions:
 ## 5. Quick reference
 
 ```bash
+# joining a vault on a new laptop (§2.3; add §2.4 if the repo is another GitHub account's)
+gh auth status                          # which GitHub account is active
+gh auth switch -u <owner>               # only if the repo's owner is not the active one
+artmind vault new my_vault --join [--githubOwner <owner>]
+git -C ~/artmind_vaults/my_vault push --dry-run
+
 # every session
 artmind vault sync                      # after Obsidian Git pulls
 artmind vault status                    # where each store stands

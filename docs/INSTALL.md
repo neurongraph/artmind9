@@ -36,19 +36,34 @@ you are standing in. Two commands take a clean Mac to a ready Obsidian vault:
    $EDITOR ~/.artmind/config.env
    ```
 
-5. **Create a vault:**
+5. **Install Ollama** from [ollama.com](https://ollama.com), which
+   `bootstrap.sh` does not do. Embeddings always run on it, whatever the LLM
+   provider is. Pull the model named in `config.env`:
+
+   ```bash
+   ollama pull nomic-embed-text
+   ```
+
+6. **Create a vault:**
 
    ```bash
    artmind vault new my_vault
    ```
 
-   On a second machine, join the same vault instead:
+   On a second machine, join the same vault instead (the repo must already
+   exist, and the active `gh` account must be able to see it):
 
    ```bash
    artmind vault new my_vault --join
    ```
 
-6. **Finish in Obsidian.** Obsidian opens at the end. Choose **Open folder as
+   If the repo belongs to a different GitHub account than the one `gh` is
+   using, add `--githubOwner <owner>` and see
+   [`USER_GUIDE_TWO_LAPTOPS.md`](./USER_GUIDE_TWO_LAPTOPS.md), §2.3 and §2.4,
+   for the whole procedure: switching `gh` accounts, and letting Obsidian Git
+   push as the right one.
+
+7. **Finish in Obsidian.** Obsidian opens at the end. Choose **Open folder as
    vault**, pick `~/artmind_vaults/my_vault`, and click **Turn on community
    plugins**. Obsidian keeps that consent to itself, so it's the one step
    artmind can't do for you.
@@ -60,7 +75,8 @@ It's safe to re-run: every step checks first and skips what is already done.
 - `brew install uv just gh node colima docker`, plus Obsidian (`brew install
   --cask obsidian`) if it isn't in `/Applications`.
 - `gh auth login` if you aren't logged in, and `gh auth setup-git`, so `git
-  push` over https uses gh's credentials. It warns if `git config user.name`
+  push` over https uses gh's credentials (the *active* `gh` account's; see the
+  two-laptops guide, §2.4, if you use several). It warns if `git config user.name`
   or `user.email` is unset; `vault new`'s first commit needs both.
 - `colima start`. colima is the Docker runtime neo4j-manager runs Neo4j in.
 - Installs **this checkout** of artmind (`just dev-install`). It clones
@@ -91,12 +107,18 @@ It never changes the name, so the three always match. In order, it:
 7. records the first sync bookmark (`vault sync --bootstrapSynced`).
 
 With `--join`, it clones `<owner>/NAME` instead of steps 2 and 6, and rebuilds
-this machine's graph from the commits (`vault sync --bootstrapEmpty`).
+this machine's graph from the commits (`vault sync --bootstrapEmpty`). `<owner>`
+is the active `gh` account unless you pass `--githubOwner`. The clone and the
+repo lookup run as the active `gh` account, so a private repo owned by another
+account looks like "does not exist" until you `gh auth switch -u <owner>`.
+The rebuild makes no LLM calls but embeds every chunk on this machine's Ollama.
+Only what is pushed to GitHub is joined, so push pending commits from the
+first machine before you join.
 
 **Checks first, resumes after a failure.** Nothing is created until every
 check passes:
 - the GitHub repo, the folder and the Neo4j instance must not exist yet (with
-  `--join`, the repo must exist);
+  `--join`, the repo must exist and be visible to the active `gh` account);
 - the tools must be on `PATH`;
 - `~/.artmind/config.env` must have the credential its LLM provider needs.
 
@@ -106,9 +128,9 @@ the same command: finished steps are skipped (progress is kept in
 
 | Option | Use it for |
 |---|---|
-| `--join` | A second machine: clone the existing vault and rebuild its graph locally |
+| `--join` | A second machine: clone the existing vault and rebuild its graph locally. Needs `--githubOwner` when the repo isn't under the active `gh` account |
 | `--dir PATH` | Put the vault somewhere other than `$ARTMIND_VAULTS_DIR/NAME` (default `~/artmind_vaults/NAME`) |
-| `--githubOwner ORG` | Create the repo under an organisation instead of your gh account |
+| `--githubOwner OWNER` | The GitHub user or organisation that owns the repo, instead of the active `gh` account: where a new repo is created, or where `--join` looks for it |
 | `--localOnly` | No GitHub at all: commit locally only (throwaway and test vaults) |
 | `--neo4jUri URI --neo4jUser U --neo4jPassword P [--neo4jDatabase D]` | Use an existing Neo4j, for example AuraDB, instead of creating a neo4j-manager instance |
 | `--noPlugins` | Skip the Obsidian plugins |
@@ -161,6 +183,8 @@ with guidance rather than guessing.
 | `.artmind/data/curation/` | conflict, supersession, retirement and synthesis records | yes |
 | `.artmind/data/document_registry.db` | path↔id registry (rebuildable via `docs reindex`), plus ingestion jobs, query traces and chat-ui / admin-ui conversation history (machine-local; not rebuildable) | no |
 | `.artmind/data/graph_snapshot/`, `structured_snapshot/` | snapshots (`*.tar.gz`) | no |
+| `.artmind/reviews/` | review dossiers (`artmind review`): diagnosed query failures, which hold private corpus data | yes (private repo only) |
+| `.artmind/.claude-sdk-auth/` | the chat/admin agent's auth config and conversation transcripts | no |
 | `.artmind/logs/`, `state.json`, `serve.json`, `worker.pid` | machine-local runtime state | no |
 | `.claude/skills/`, `.opencode/agent/` | artmind's skills and agent modes (symlinked) + your own | only yours |
 | `.obsidian/` | Obsidian settings and community plugins | yes, except `workspace*.json` and `plugins/artmind/` |
@@ -193,7 +217,7 @@ Prerequisites:
   embeddings support here), so `ollama pull nomic-embed-text` is required. The
   extraction LLM can be local Ollama too, or an **OpenRouter** API key.
 - `git`, because a vault is a git repo. Also `gh`, if `vault new` should
-  create the GitHub repo.
+  create (or `--join` clone) the GitHub repo.
 - Node.js + npm. `just dev-install` builds the Obsidian plugin (`just
   obsidian-plugin-build`) and stages it in the package for `artmind init` to
   install. A wheel built outside the justfile ships without the plugin.
