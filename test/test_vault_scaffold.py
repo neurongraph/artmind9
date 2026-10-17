@@ -770,3 +770,17 @@ def test_saved_views_are_committed_not_ignored(tmp_path):
     assert ".artmind/domains/views/mine/view.yaml" in _git(
         tmp_path, "status", "--porcelain", "--untracked-files=all"
     )
+
+
+def test_insights_files_are_committed_not_ignored(tmp_path):
+    _init_repo(tmp_path)
+    vault.write_gitignore(tmp_path)
+    layout = vault.VaultLayout(tmp_path)
+    (layout.insights_config_dir).mkdir(parents=True)
+    (layout.insights_config_dir / "demo.yaml").write_text("period: year\n")
+    runs = layout.insights_dir / "demo" / "runs"
+    runs.mkdir(parents=True)
+    (runs / "2026-10-17T09-30-12Z.json").write_text("{}\n")
+
+    for rel in (".artmind/domains/insights/demo.yaml", ".artmind/insights/demo/runs/2026-10-17T09-30-12Z.json"):
+        assert not _ignored(tmp_path, rel)
