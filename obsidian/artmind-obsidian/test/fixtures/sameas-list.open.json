@@ -1,0 +1,27 @@
+{
+  "args": [
+    "sameas",
+    "list",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "status": "open",
+    "proposals": [
+      {
+        "id": "sp-ann-lee",
+        "status": "open",
+        "canonical": "ann lee|PERSON|general",
+        "members": [
+          "ann lee|PERSON|general",
+          "annie lee|PERSON|general"
+        ],
+        "source": "detect_conflicts",
+        "reason": "Same person: the notes use both names",
+        "detected_at": "2026-09-30T12:00:00",
+        "detected_by_model": "ministral-3:14b"
+      }
+    ]
+  },
+  "stderr": null
+}
