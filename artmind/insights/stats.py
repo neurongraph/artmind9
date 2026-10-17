@@ -8,13 +8,14 @@ from datetime import date
 
 
 def period_of(day: str, period: str) -> str:
-    """'2024-05-17' -> '2024' | '2024-Q2' | '2024-05'."""
+    """'2024-05-17' -> '2024' | '2024-Q2' | '2024-05'. Malformed days raise ValueError."""
+    d = date.fromisoformat(day[:10])
     if period == "year":
-        return day[:4]
+        return f"{d.year:04d}"
     if period == "quarter":
-        return f"{day[:4]}-Q{(int(day[5:7]) - 1) // 3 + 1}"
+        return f"{d.year:04d}-Q{(d.month - 1) // 3 + 1}"
     if period == "month":
-        return day[:7]
+        return f"{d.year:04d}-{d.month:02d}"
     raise ValueError(f"unknown period {period!r}")
 
 
@@ -31,7 +32,10 @@ def median_gap_days(days: list[str] | tuple[str, ...]) -> float:
 
 
 def theil_sen_slope(values: list[float]) -> float:
-    """Median of pairwise slopes: a trend that one odd period cannot swing."""
+    """Median of pairwise slopes: a trend that one odd period cannot swing.
+
+    The x axis is the index of each value, so the values must be evenly spaced periods.
+    """
     n = len(values)
     if n < 2:
         return 0.0

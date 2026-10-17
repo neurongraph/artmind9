@@ -8,6 +8,7 @@ open_loops) are validated as mappings and kept verbatim in `raw`.
 from __future__ import annotations
 
 import hashlib
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -29,6 +30,7 @@ _INTS = {  # key: (default, minimum)
     "keep_runs": (12, 1),
     "narrate_top": (15, 0),
 }
+_DOMAIN_RE = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$")
 _RAW_BLOCKS = ("outcome", "transitions", "open_loops")
 KNOWN_KEYS = frozenset({"domain", "anchors", "period", "narrate", "detectors", *_INTS, *_RAW_BLOCKS})
 
@@ -53,7 +55,7 @@ class InsightsConfig:
         return settings
 
     def enabled(self, name: str) -> bool:
-        return (self.detectors.get(name) or {}).get("enabled", True) is not False
+        return bool((self.detectors.get(name) or {}).get("enabled", True))
 
 
 def config_dir() -> Path:
@@ -63,6 +65,8 @@ def config_dir() -> Path:
 
 
 def config_path(domain: str) -> Path:
+    if not isinstance(domain, str) or not _DOMAIN_RE.match(domain):
+        raise InsightsError(f"invalid domain name {domain!r}")
     return config_dir() / f"{domain}.yaml"
 
 
@@ -78,7 +82,7 @@ def parse_config(data: dict | None, domain: str) -> InsightsConfig:
         raise InsightsError(f"{where}: must be a mapping")
     unknown = set(data) - KNOWN_KEYS
     if unknown:
-        raise InsightsError(f"{where}: unknown key(s) {sorted(unknown)}")
+        raise InsightsError(f"{where}: unknown key(s) {sorted(map(str, unknown))}")
     if data.get("domain") not in (None, domain):
         raise InsightsError(f"{where}: domain is {data['domain']!r}, expected {domain!r}")
     period = data.get("period", "year")
@@ -94,11 +98,15 @@ def parse_config(data: dict | None, domain: str) -> InsightsConfig:
     if not isinstance(anchors, list) or not all(isinstance(a, str) and a.strip() for a in anchors):
         raise InsightsError(f"{where}: anchors must be a list of names or @<_id> strings")
     detectors = data.get("detectors") or {}
-    if not isinstance(detectors, dict) or not all(isinstance(v, dict) for v in detectors.values()):
+    if not isinstance(detectors, dict) or not all(v is None or isinstance(v, dict) for v in detectors.values()):
         raise InsightsError(f"{where}: detectors must map a detector name to a mapping of settings")
     bad = set(detectors) - KNOWN_DETECTORS
     if bad:
-        raise InsightsError(f"{where}: unknown detector(s) {sorted(bad)}")
+        raise InsightsError(f"{where}: unknown detector(s) {sorted(map(str, bad))}")
+    detectors = {name: dict(settings or {}) for name, settings in detectors.items()}
+    for name, settings in detectors.items():
+        if "enabled" in settings and not isinstance(settings["enabled"], bool):
+            raise InsightsError(f"{where}: detector {name} enabled must be true or false")
     narrate = data.get("narrate", True)
     if not isinstance(narrate, bool):
         raise InsightsError(f"{where}: narrate must be true or false")

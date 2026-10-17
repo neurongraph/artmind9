@@ -67,3 +67,21 @@ def test_bad_yaml_is_an_insights_error(cfg_root):
 def test_known_detectors_cover_the_spec():
     assert {"salience_trend", "type_trend", "dormancy", "communities", "brokers", "kind_mismatch",
             "vocabulary_sprawl", "relationship_usage", "open_conflicts", "outcome_lift"} <= KNOWN_DETECTORS
+
+
+def test_detector_enabled_must_be_a_bool():
+    with pytest.raises(InsightsError, match="enabled"):
+        parse_config({"detectors": {"dormancy": {"enabled": "false"}}}, "demo")
+
+
+def test_empty_detector_entry_means_defaults():
+    c = parse_config({"detectors": {"dormancy": None}}, "demo")
+    assert c.enabled("dormancy") is True
+    assert c.detector("dormancy") == {}
+
+
+def test_domain_name_must_be_a_safe_identifier():
+    with pytest.raises(InsightsError, match="invalid domain name"):
+        cfg_mod.config_path("../x")
+    with pytest.raises(InsightsError, match="invalid domain name"):
+        load_config("../x")
