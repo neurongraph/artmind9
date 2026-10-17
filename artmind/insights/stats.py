@@ -50,3 +50,36 @@ def support_weight(support: float, full: float = 30) -> float:
 
 def rate_per_100(count: int, docs: int) -> float:
     return 100.0 * count / docs if docs else 0.0
+
+
+def period_start(label: str) -> str:
+    """'2024' -> '2024-01-01', '2024-Q3' -> '2024-07-01', '2024-05' -> '2024-05-01'."""
+    if "-Q" in label:
+        year, q = label.split("-Q")
+        return f"{year}-{(int(q) - 1) * 3 + 1:02d}-01"
+    if len(label) == 7:
+        return f"{label}-01"
+    return f"{label}-01-01"
+
+
+def two_proportion_z(x1: int, n1: int, x2: int, n2: int) -> float | None:
+    """z for 'share x1/n1 differs from x2/n2'; None when undefined (an empty side, or a pooled share of 0 or 1)."""
+    if n1 <= 0 or n2 <= 0:
+        return None
+    pooled = (x1 + x2) / (n1 + n2)
+    if pooled <= 0 or pooled >= 1:
+        return None
+    se = math.sqrt(pooled * (1 - pooled) * (1 / n1 + 1 / n2))
+    return (x1 / n1 - x2 / n2) / se
+
+
+def levenshtein(a: str, b: str) -> int:
+    if len(a) < len(b):
+        a, b = b, a
+    previous = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        current = [i]
+        for j, cb in enumerate(b, 1):
+            current.append(min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (ca != cb)))
+        previous = current
+    return previous[-1]

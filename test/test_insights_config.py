@@ -33,11 +33,6 @@ def test_file_values_are_read_and_hashed(cfg_root):
     assert len(cfg_mod.config_hash("demo")) == 64
 
 
-def test_phase_two_blocks_are_kept_verbatim():
-    c = parse_config({"outcome": {"class": "EMOTION"}, "open_loops": {"class": "PLAN"}}, "demo")
-    assert c.raw == {"outcome": {"class": "EMOTION"}, "open_loops": {"class": "PLAN"}}
-
-
 @pytest.mark.parametrize(
     "data, message",
     [
@@ -105,3 +100,40 @@ def test_detector_setting_types_are_validated(data):
 def test_valid_detector_settings_pass():
     parse_config({"detectors": {"communities": {"classes": ["PERSON"], "resolution": 1, "min_weight": 3},
                                 "relationship_usage": {"min_jaccard": 0.4}}}, "demo")
+
+
+def test_outcome_block_is_validated_and_normalised():
+    c = parse_config({"outcome": {"class": "EMOTION", "positive": ["Joy", " pride"], "negative": ["Sadness"]}}, "demo")
+    assert c.block("outcome") == {"class": "EMOTION", "property": "type", "positive": ["joy", "pride"], "negative": ["sadness"]}
+    assert c.block("open_loops") is None
+
+
+def test_open_loops_and_transitions_blocks():
+    c = parse_config({
+        "open_loops": {"class": "PLAN", "open": ["Firm intention"], "closed": ["done"]},
+        "transitions": {"extra_verbs": ["promoted_to"], "classes": ["ORGANIZATION"]},
+    }, "demo")
+    assert c.block("open_loops") == {"class": "PLAN", "property": "status", "urgency_property": "urgency",
+                                     "open": ["firm intention"], "closed": ["done"]}
+    assert c.block("transitions") == {"extra_verbs": ["PROMOTED_TO"], "classes": ["ORGANIZATION"]}
+
+
+@pytest.mark.parametrize("data, message", [
+    ({"outcome": {"positive": ["joy"], "negative": ["sad"]}}, "outcome.class"),
+    ({"outcome": {"class": "E", "positive": [], "negative": ["sad"]}}, "outcome.positive"),
+    ({"outcome": {"class": "E", "positive": ["joy"], "negative": ["Joy"]}}, "both positive and negative"),
+    ({"outcome": {"class": "E", "positive": ["joy"], "negative": ["sad"], "colour": 1}}, "unknown key"),
+    ({"open_loops": {"class": "PLAN"}}, "open_loops.open"),
+    ({"transitions": {"extra_verbs": "joined"}}, "transitions.extra_verbs"),
+    ({"detectors": {"outcome_lift": {"min_z": 0}}}, "min_z"),
+    ({"detectors": {"transitions": {"cluster_days": "x"}}}, "cluster_days"),
+    ({"detectors": {"same_as_candidates": {"aliases": [["a"]]}}}, "aliases"),
+])
+def test_phase_two_blocks_are_refused_when_invalid(data, message):
+    with pytest.raises(InsightsError, match=message):
+        parse_config(data, "demo")
+
+
+def test_same_as_aliases_setting_is_accepted():
+    c = parse_config({"detectors": {"same_as_candidates": {"aliases": [["Nana", "Grandma"]]}}}, "demo")
+    assert c.detector("same_as_candidates")["aliases"] == [["Nana", "Grandma"]]

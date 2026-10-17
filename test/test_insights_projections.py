@@ -84,3 +84,18 @@ def test_unknown_projection_and_empty_domains():
         Projector(["demo"], session_factory=Recorder().factory()).rows("nope")
     with pytest.raises(InsightsError):
         Projector([])
+
+
+def test_phase_two_projections_take_their_params():
+    rec = Recorder(rows=[])
+    p = Projector(["demo"], session_factory=rec.factory())
+    p.rows("anchor_relations", anchors=["me"])
+    p.rows("entity_property", cls="PLAN", prop="status")
+    p.rows("entity_edges")
+    params = [call[1] for call in rec.calls]
+    assert params == [
+        {"anchors": ["me"], "domains": ["demo"]},
+        {"cls": "PLAN", "prop": "status", "domains": ["demo"]},
+        {"domains": ["demo"]},
+    ]
+    assert "ASSERTS_RELATION" in PROJECTIONS["anchor_relations"] and "_doc_valid_from" in PROJECTIONS["anchor_relations"]

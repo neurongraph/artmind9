@@ -50,3 +50,22 @@ def test_median_gap_handles_unsorted_duplicates():
 
 def test_theil_sen_declining_series():
     assert stats.theil_sen_slope([3, 2, 1]) == -1.0
+
+
+def test_period_start():
+    assert stats.period_start("2024") == "2024-01-01"
+    assert stats.period_start("2024-Q3") == "2024-07-01"
+    assert stats.period_start("2024-05") == "2024-05-01"
+
+
+def test_two_proportion_z():
+    z = stats.two_proportion_z(15, 17, 5, 23)
+    assert 4.0 < z < 4.4
+    assert stats.two_proportion_z(0, 0, 5, 10) is None
+    assert stats.two_proportion_z(0, 10, 0, 10) is None   # pooled p = 0
+
+
+def test_levenshtein():
+    assert stats.levenshtein("jonathan", "jonathon") == 1
+    assert stats.levenshtein("", "abc") == 3
+    assert stats.levenshtein("same", "same") == 0
