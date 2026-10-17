@@ -8,14 +8,16 @@ Such pairs are the highest-priority curation.
 
 from __future__ import annotations
 
-from artmind.insights.detectors import Detector, RunContext, Skip, subject
+from artmind.insights.detectors import Detector, RunContext, subject
 from artmind.insights.model import Finding
 
 SIGNALS = ("salience_trend", "outcome_lift")
 
 
 def _plan(ctx: RunContext):
-    return ["all"] if ctx.memo.get("same_as") else Skip("no same-as candidates this run")
+    # Always runs: "no candidates this run" is a real answer, so earlier split
+    # findings must go `gone` rather than be carried over as a Skip would.
+    return ["all"]
 
 
 def _run(ctx: RunContext, _target: str) -> list[Finding]:

@@ -93,5 +93,6 @@ def test_split_signal_flags_opposite_trends():
     assert f.stats["directions"] == {"t1": "fading", "t2": "rising"}
 
 
-def test_split_signal_skips_without_candidates():
-    assert SPLIT_SIGNAL.plan(make_ctx([ent("a", "PERSON", days(1, 4))])).reason == "no same-as candidates this run"
+def test_split_signal_runs_and_finds_nothing_without_candidates():
+    ctx = make_ctx([ent("a", "PERSON", days(1, 4))])
+    assert SPLIT_SIGNAL.plan(ctx) == ["all"] and SPLIT_SIGNAL.run(ctx, "all") == []
