@@ -1,6 +1,168 @@
-from artmind.insights.detectors import Detector, Skip
+"""Graph-health detectors (spec §7): where the graph and its schema disagree.
 
-KIND_MISMATCH = Detector("kind_mismatch", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
-VOCABULARY_SPRAWL = Detector("vocabulary_sprawl", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
-RELATIONSHIP_USAGE = Detector("relationship_usage", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
-OPEN_CONFLICTS = Detector("open_conflicts", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
+Each finding carries an `action` (schema | curate) pointing at the fix.
+"""
+
+from __future__ import annotations
+
+import re
+from collections import defaultdict
+
+from artmind.insights.detectors import Detector, RunContext
+from artmind.insights.model import Finding
+from artmind.insights.profile import declared_triples
+
+
+def _all(ctx: RunContext) -> list[str]:
+    return ["all"]
+
+
+# ── kind_mismatch ─────────────────────────────────────────────────────────────
+
+def _run_kind(ctx: RunContext, _target: str) -> list[Finding]:
+    out = []
+    for cls, cp in sorted(ctx.profile.classes.items()):
+        if not cp.declared_kind or cp.effective_kind == cp.declared_kind:
+            continue
+        score = cp.single_day_share if cp.effective_kind == "occurrent" else min(1.0, cp.median_days / 10)
+        out.append(Finding(
+            key=f"kind_mismatch:{cls}", detector="kind_mismatch", kind="health", score=round(score, 4),
+            title=f"{cls} is declared {cp.declared_kind} but behaves {cp.effective_kind}",
+            stats={"declared": cp.declared_kind, "effective": cp.effective_kind, "entities": cp.entities,
+                   "median_days": cp.median_days, "single_day_share": cp.single_day_share, "headline": cp.median_days},
+            card={"type": "stat"}, action="schema",
+        ))
+    return out
+
+
+# ── vocabulary_sprawl ─────────────────────────────────────────────────────────
+
+def hint_options(hint) -> list[str]:
+    """A hint written as a closed list ('mild, moderate, strong') -> its options; else []."""
+    if not isinstance(hint, str) or "e.g" in hint.lower():
+        return []
+    parts = [p.strip() for p in re.split(r",|\bor\b", hint) if p.strip()]
+    if len(parts) >= 2 and all(len(p.split()) <= 3 for p in parts):
+        return parts
+    return []
+
+
+def _norm(value: str) -> str:
+    return re.sub(r"[\s_\-]+", " ", value.strip().casefold())
+
+
+def _near_duplicates(sample: list[str]) -> list[list[str]]:
+    groups: dict[str, set[str]] = defaultdict(set)
+    for v in sample:
+        groups[_norm(v)].add(v)
+    return sorted(sorted(g) for g in groups.values() if len(g) > 1)[:10]
+
+
+def _expected(schema: dict, cls: str, prop: str) -> tuple[int, str] | None:
+    decl = (schema.get("entity_types") or {}).get(cls) or {}
+    if prop == "type":
+        examples = decl.get("type_examples") or []
+        return (len(examples) * 5, "type_examples") if examples else (40, "no type_examples")
+    spec = (decl.get("properties") or {}).get(prop)
+    options = hint_options(spec.get("hint") if isinstance(spec, dict) else None)
+    return (max(10, len(options) * 5), "hint options") if options else None
+
+
+def _run_sprawl(ctx: RunContext, _target: str) -> list[Finding]:
+    out = []
+    for cls, cp in sorted(ctx.profile.classes.items()):
+        for prop, st in sorted(cp.properties.items()):
+            expected = _expected(ctx.schema, cls, prop)
+            if expected is None:
+                continue
+            limit, basis = expected
+            dups = _near_duplicates(st.get("sample") or [])
+            distinct = st.get("distinct", 0)
+            if distinct <= limit and not dups:
+                continue
+            score = min(1.0, distinct / (limit * 4)) if distinct > limit else 0.3
+            out.append(Finding(
+                key=f"vocabulary_sprawl:{cls}:{prop}", detector="vocabulary_sprawl", kind="health",
+                score=round(score, 4), title=f"{cls}.{prop} has {distinct} distinct values",
+                stats={"distinct": distinct, "expected_max": limit, "basis": basis, "near_duplicates": dups,
+                       "sample": (st.get("sample") or [])[:20], "headline": distinct},
+                card={"type": "stat"}, action="schema",
+            ))
+    return out
+
+
+# ── relationship_usage ────────────────────────────────────────────────────────
+
+def _run_relations(ctx: RunContext, _target: str) -> list[Finding]:
+    cfg = ctx.config.detector("relationship_usage")
+    min_count, min_overlap_n = cfg.get("min_count", 5), cfg.get("min_overlap_count", 10)
+    rels = ctx.profile.relations
+    total = sum(r["n"] for r in rels) or 1
+    out = []
+    undeclared = [r for r in rels if not r["declared"] and r["n"] >= min_count]
+    if undeclared:
+        out.append(Finding(
+            key="relationship_usage:undeclared", detector="relationship_usage", kind="health",
+            score=round(min(1.0, 2 * sum(r["n"] for r in undeclared) / total), 4),
+            title=f"{len(undeclared)} relationship triples are used but not declared",
+            stats={"triples": [{k: r[k] for k in ("rel", "src", "dst", "n")} for r in undeclared[:25]],
+                   "count": len(undeclared), "headline": len(undeclared)},
+            card={"type": "ranking"}, action="schema",
+        ))
+    declared = declared_triples(ctx.schema)
+    observed = {(r["rel"], r["src"], r["dst"]) for r in rels}
+    unused = sorted(declared - observed)
+    if unused and rels:
+        out.append(Finding(
+            key="relationship_usage:unused", detector="relationship_usage", kind="health",
+            score=round(min(1.0, len(unused) / len(declared)), 4),
+            title=f"{len(unused)} declared relationships were never extracted",
+            stats={"triples": [{"rel": r, "src": s, "dst": d} for r, s, d in unused[:50]],
+                   "count": len(unused), "headline": len(unused)},
+            card={"type": "ranking"}, action="schema",
+        ))
+    by_ends: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    for r in rels:
+        if r["n"] >= min_overlap_n and r["targets"]:
+            by_ends[(r["src"], r["dst"])].append(r)
+    for (src, dst), group in sorted(by_ends.items()):
+        group = sorted(group, key=lambda r: r["rel"])
+        for i, r1 in enumerate(group):
+            for r2 in group[i + 1:]:
+                a, b = set(r1["targets"]), set(r2["targets"])
+                overlap = len(a & b) / min(len(a), len(b))
+                if overlap <= 0.5:
+                    continue
+                out.append(Finding(
+                    key=f"relationship_usage:overlap:{src}:{r1['rel']}:{r2['rel']}:{dst}",
+                    detector="relationship_usage", kind="health", score=round(overlap, 4),
+                    title=f"{r1['rel']} and {r2['rel']} ({src} -> {dst}) point at the same targets",
+                    stats={"overlap": round(overlap, 3), "counts": {r1["rel"]: r1["n"], r2["rel"]: r2["n"]},
+                           "headline": round(overlap, 3)},
+                    card={"type": "stat"}, action="schema",
+                ))
+    return out
+
+
+# ── open_conflicts ────────────────────────────────────────────────────────────
+
+def _run_conflicts(ctx: RunContext, _target: str) -> list[Finding]:
+    by_cls: dict[str, dict[str, int]] = defaultdict(dict)
+    for r in ctx.profile.open_conflicts:
+        by_cls[r["cls"] or "UNKNOWN"][str(r["property"])] = r["n"]
+    out = []
+    for cls, props in sorted(by_cls.items()):
+        n = sum(props.values())
+        top = dict(sorted(props.items(), key=lambda kv: (-kv[1], kv[0]))[:10])
+        out.append(Finding(
+            key=f"open_conflicts:{cls}", detector="open_conflicts", kind="health",
+            score=round(min(1.0, n / 100), 4), title=f"{n} open conflicts on {cls}",
+            stats={"open": n, "by_property": top, "headline": n}, card={"type": "ranking"}, action="curate",
+        ))
+    return out
+
+
+KIND_MISMATCH = Detector("kind_mismatch", "health", _all, _run_kind)
+VOCABULARY_SPRAWL = Detector("vocabulary_sprawl", "health", _all, _run_sprawl)
+RELATIONSHIP_USAGE = Detector("relationship_usage", "health", _all, _run_relations)
+OPEN_CONFLICTS = Detector("open_conflicts", "health", _all, _run_conflicts)
