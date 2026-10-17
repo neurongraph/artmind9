@@ -1,4 +1,5 @@
 import shutil
+import subprocess
 from pathlib import Path
 
 from artmind.db import _init_db
@@ -268,7 +269,7 @@ def _seed_vault_domains(schemas_dir: Path, meta_yaml: Path) -> tuple[list[str], 
     ``STARTER_SCHEMAS``, and never over a file that already exists. A vault's
     schemas are hand-authored and committed (docs/vault.md, "Schemas");
     overwriting one because the package ships a same-named file destroys the
-    user's edits. ``artmind domains update`` is the deliberate reconcile path.
+    user's edits. ``artmind init --force`` (``refresh_vault_domains``) is the deliberate reconcile path.
 
     Returns ``(starter_names, schemas_copied, meta_copied)`` -- the starter
     names are reported whether or not they had to be copied.
@@ -290,6 +291,73 @@ def _seed_vault_domains(schemas_dir: Path, meta_yaml: Path) -> tuple[list[str], 
         shutil.copy2(PACKAGE_META_YAML, meta_yaml)
         meta_copied = 1
     return starters, copied, meta_copied
+
+def _uncommitted(root: Path, path: Path) -> bool:
+    """True when `path` has changes git cannot restore: modified, staged, or untracked."""
+    result = subprocess.run(
+        ["git", "status", "--porcelain", "--", str(path)],
+        cwd=root, capture_output=True, text=True,
+    )
+    return result.returncode != 0 or bool(result.stdout.strip())
+
+
+def refresh_vault_domains(root: Path, names: list[str] | None = None) -> dict:
+    """Overwrite a vault's schemas and meta-schema with the packaged versions.
+
+    The deliberate counterpart of ``_seed_vault_domains``, which never touches a
+    file that exists. Without ``names`` it refreshes every schema the vault
+    already has that the package also ships, plus ``meta.yaml``; with ``names``
+    it refreshes just those, adding any the vault lacks.
+
+    A vault's schemas are hand-authored, so nothing is overwritten unless git
+    can bring it back: if any target has uncommitted changes the whole call
+    raises ``ValueError`` naming them and writes nothing.
+
+    Returns ``{"updated": [...], "added": [...], "unchanged": [...]}`` of file names.
+    """
+    layout = VaultLayout(Path(root).expanduser().resolve())
+    shipped = {src.name.removesuffix("_schema.yaml"): src for src in PACKAGE_SCHEMAS_DIR.glob("*_schema.yaml")}
+
+    targets: list[tuple[Path, Path]] = []
+    if names:
+        unknown = sorted(set(names) - set(shipped))
+        if unknown:
+            raise ValueError(f"No packaged schema named {', '.join(unknown)}. Packaged: {', '.join(sorted(shipped))}")
+        for name in names:
+            targets.append((shipped[name], layout.schemas_dir / shipped[name].name))
+    else:
+        for name, src in sorted(shipped.items()):
+            dest = layout.schemas_dir / src.name
+            if dest.exists():
+                targets.append((src, dest))
+        if PACKAGE_META_YAML.is_file() and layout.meta_yaml.exists():
+            targets.append((PACKAGE_META_YAML, layout.meta_yaml))
+
+    result: dict[str, list[str]] = {"updated": [], "added": [], "unchanged": []}
+    changing = []
+    for src, dest in targets:
+        if not dest.exists():
+            result["added"].append(dest.name)
+        elif dest.read_bytes() == src.read_bytes():
+            result["unchanged"].append(dest.name)
+        else:
+            result["updated"].append(dest.name)
+            changing.append(dest)
+
+    dirty = [d.name for d in changing if _uncommitted(layout.root, d)]
+    if dirty:
+        raise ValueError(
+            f"Uncommitted changes in {', '.join(dirty)} -- commit or stash them first so "
+            f"git can restore them; nothing was overwritten."
+        )
+
+    layout.schemas_dir.mkdir(parents=True, exist_ok=True)
+    for src, dest in targets:
+        if dest.name in result["unchanged"]:
+            continue
+        shutil.copy2(src, dest)
+    return result
+
 
 _STARTER_VAULT_YAML = """\
 # artmind ingest manifest (docs/vault.md).

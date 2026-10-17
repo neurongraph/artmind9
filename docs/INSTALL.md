@@ -335,5 +335,7 @@ After upgrading:
 - **Schemas** are the exception. `artmind init` and `artmind setup` only seed
   ones that are missing, so a newer schema in the package never overwrites
   one you have edited. There's no `domains update` command yet (`docs/vault.md`
-  describes it as planned). To take the packaged version of a schema you
-  haven't edited, delete the vault's copy and re-run `artmind init`.
+  describes it as planned). To take the packaged versions, commit the vault, run
+  `artmind init --force` (or `--force --schema NAME` for just one), then review
+  with `git diff .artmind/domains`. It overwrites local edits to those schemas,
+  and refuses if they have uncommitted changes.

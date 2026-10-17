@@ -729,8 +729,11 @@ prompt fix that never reaches the vault looks like a model failure. So:
   from the package on every `setup`
 - `artmind domains update` (planned, not yet a command) refreshes
   package-derived schemas you have not modified, and **reports** the ones that
-  diverged for you to merge. Until it exists, delete the vault's copy of an
-  unmodified schema and re-run `artmind init` to take the packaged one
+  diverged for you to merge. Until it exists, `artmind init --force` is the
+  blunt substitute: it overwrites the vault's schemas and `meta.yaml` with the
+  packaged versions (`--schema NAME` limits it to chosen schemas, adding any the
+  vault lacks), discarding local edits. It refuses unless every file it would
+  change is committed, so `git diff` / `git checkout` can review or undo it
 - `artmind domains add` stays, for vault-local schemas
 
 **Table mappings** (`ingest table2graph`) live beside them in

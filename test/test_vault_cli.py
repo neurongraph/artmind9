@@ -443,3 +443,92 @@ def test_init_points_new_vaults_at_vault_new(tmp_path, monkeypatch):
 
     assert result.exit_code == 0, result.output
     assert "artmind vault new" in result.output
+
+
+# ── init --force: refresh a vault's schemas from the package ───────────────────
+
+
+def _committed_vault(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    assert CliRunner().invoke(cli, ["init"]).exit_code == 0
+    for args in (["config", "user.email", "t@example.com"], ["config", "user.name", "T"],
+                 ["add", "-A"], ["commit", "-q", "-m", "init"]):
+        subprocess.run(["git", *args], cwd=tmp_path, check=True, capture_output=True)
+    return vault.VaultLayout(tmp_path).schemas_dir / "personal_journal_schema.yaml"
+
+
+def test_plain_init_leaves_an_edited_schema_alone(tmp_path, monkeypatch):
+    schema = _committed_vault(tmp_path, monkeypatch)
+    schema.write_text("name: edited\n")
+
+    assert CliRunner().invoke(cli, ["init"]).exit_code == 0
+
+    assert schema.read_text() == "name: edited\n"
+
+
+def test_init_force_restores_the_packaged_schema_over_a_committed_edit(tmp_path, monkeypatch):
+    from artmind.setup import PACKAGE_SCHEMAS_DIR
+
+    schema = _committed_vault(tmp_path, monkeypatch)
+    schema.write_text("name: edited\n")
+    subprocess.run(["git", "commit", "-qam", "hand edit"], cwd=tmp_path, check=True)
+
+    result = CliRunner().invoke(cli, ["init", "--force"])
+
+    assert result.exit_code == 0, result.output
+    assert schema.read_bytes() == (PACKAGE_SCHEMAS_DIR / schema.name).read_bytes()
+    assert "personal_journal_schema.yaml" in result.output
+
+
+def test_init_force_refuses_and_writes_nothing_when_a_schema_is_uncommitted(tmp_path, monkeypatch):
+    schema = _committed_vault(tmp_path, monkeypatch)
+    schema.write_text("name: unsaved\n")
+    general = schema.with_name("general_schema.yaml")
+    general.write_text("name: also unsaved\n")
+    subprocess.run(["git", "add", str(general)], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "g"], cwd=tmp_path, check=True)
+    general.write_text("name: unsaved general\n")
+
+    result = CliRunner().invoke(cli, ["init", "--force"])
+
+    assert result.exit_code != 0
+    assert "Uncommitted changes" in result.output and schema.name in result.output
+    assert schema.read_text() == "name: unsaved\n"
+    assert general.read_text() == "name: unsaved general\n"
+
+
+def test_init_force_schema_limits_the_refresh_and_adds_an_absent_one(tmp_path, monkeypatch):
+    from artmind.setup import PACKAGE_SCHEMAS_DIR
+
+    schema = _committed_vault(tmp_path, monkeypatch)
+    general = schema.with_name("general_schema.yaml")
+    for f in (schema, general):
+        f.write_text("name: edited\n")
+    subprocess.run(["git", "commit", "-qam", "edits"], cwd=tmp_path, check=True)
+    banking = schema.with_name("banking_schema.yaml")
+    assert not banking.exists()
+
+    result = CliRunner().invoke(cli, ["init", "--force", "--schema", "personal_journal,banking"])
+
+    assert result.exit_code == 0, result.output
+    assert schema.read_bytes() == (PACKAGE_SCHEMAS_DIR / schema.name).read_bytes()
+    assert banking.exists()
+    assert general.read_text() == "name: edited\n"
+
+
+def test_init_force_rejects_an_unknown_schema_name(tmp_path, monkeypatch):
+    _committed_vault(tmp_path, monkeypatch)
+
+    result = CliRunner().invoke(cli, ["init", "--force", "--schema", "nope"])
+
+    assert result.exit_code != 0
+    assert "No packaged schema named nope" in result.output
+
+
+def test_init_schema_without_force_is_a_usage_error(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    result = CliRunner().invoke(cli, ["init", "--schema", "general"])
+
+    assert result.exit_code == 2
+    assert "--force" in result.output
