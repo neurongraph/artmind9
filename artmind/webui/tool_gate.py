@@ -43,6 +43,10 @@ _SHELL_METACHARACTERS = (";", "&", "|", ">", "<", "$(", "`", "\n", "\r")
 # `artmind` as a whole word, so `artmindfoo` and `artmind-query` do not pass.
 _ARTMIND_INVOCATION = re.compile(r"^artmind(\s|$)")
 
+# `artmind <sub>` as a command word anywhere: used only on a command already
+# refused, to tell "wrapped in `cd ... &&`" from "no artmind in it at all".
+_WRAPPED_ARTMIND = re.compile(r"(^|[\s;&|(])artmind\s+\S")
+
 
 def is_allowed_bash(command: str) -> bool:
     """May the agent run this shell command?
@@ -90,11 +94,23 @@ def denial_message(command: str) -> str:
     Pedagogical on purpose: the agent is cooperative, so a denial that names
     the right tool redirects it, while a bare refusal invites another attempt.
     """
+    stripped = command.strip()
+    shape_hint = ""
+    if _WRAPPED_ARTMIND.search(stripped):
+        # The agent did try to query the graph, but wrapped the command (a `cd`
+        # into the vault is the usual one). Naming the fix keeps a weaker model
+        # from giving up and answering with a plan instead of a result.
+        shape_hint = (
+            "That is an artmind command, but it was refused for its shape. Run it again as a "
+            "single `artmind ...` command with nothing before or after it: no `cd`, `&&`, `;`, "
+            "pipes, redirects or `$(...)`. The working directory is already the vault.\n"
+        )
     return (
         "Filesystem access is disabled on this surface: answers must be grounded "
         "in the knowledge graph, which carries supersession, conflicts and "
         "per-chunk provenance that reading files does not.\n"
-        f"Refused: {command.strip()[:120]}\n"
+        f"Refused: {stripped[:120]}\n"
+        f"{shape_hint}"
         "Use `artmind query vector-text --domain <d> \"<question>\"` to search "
         "document text, `artmind query chunks --idList <id>` to read a specific "
         "chunk, or `artmind query graph pattern10 --documentName <name>` for a "
