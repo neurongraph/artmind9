@@ -10,7 +10,7 @@ import os
 
 import pytest
 
-from artmind.webui.tool_gate import DENIED_TOOLS, is_allowed_bash, is_allowed_skill_read
+from artmind.webui.tool_gate import DENIED_TOOLS, denial_message, is_allowed_bash, is_allowed_skill_read
 
 
 @pytest.mark.parametrize("command", [
@@ -153,3 +153,34 @@ def test_a_non_skill_vault_file_is_denied(skill_roots, tmp_path):
     note.write_text("private")
 
     assert is_allowed_skill_read(str(note), [package_skills, vault_skills]) is False
+
+
+@pytest.mark.parametrize("command", [
+    "cd /home/me/vault && artmind query views list --domain d --compact",
+    "cd /home/me/vault; artmind query domains-overview",
+    "artmind query views list --domain d | head",
+    "(artmind query domains-overview)",
+])
+def test_a_wrapped_artmind_command_is_refused_with_the_fix_named(command):
+    """A weaker model that is refused for a `cd` prefix gave up and answered
+    with a plan. The denial must say the command was fine and the wrapper was not."""
+    assert is_allowed_bash(command) is False
+    message = denial_message(command)
+    assert "single `artmind ...` command" in message
+    assert "no `cd`" in message
+    assert "already the vault" in message
+
+
+@pytest.mark.parametrize("command", ["cat policies/policy_aml.md", "grep -r x .", "rg artmind", "ls -R"])
+def test_a_file_read_gets_the_ordinary_denial_without_the_shape_hint(command):
+    message = denial_message(command)
+    assert "single `artmind ...` command" not in message
+    assert "Use `artmind query vector-text" in message
+
+
+def test_the_artmind_query_skill_tells_the_agent_not_to_cd():
+    from pathlib import Path
+
+    skill = (Path(__file__).resolve().parents[1] / "artmind" / "skills" / "artmind-query" / "SKILL.md").read_text()
+    assert "single `artmind ...` invocation" in skill
+    assert "never `cd` into it" in skill
