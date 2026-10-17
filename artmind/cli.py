@@ -4818,7 +4818,11 @@ def vault_migrate_frontmatter_cmd(dry_run, compact):
 
 @cli.command("init")
 @click.argument("directory", type=click.Path(file_okay=False), default=".")
-def init(directory: str):
+@click.option("--force", is_flag=True, help="Also overwrite the vault's schemas and meta.yaml with the packaged versions "
+              "(refused if any has uncommitted changes).")
+@click.option("--schema", "schema_names", multiple=True,
+              help="With --force: refresh only this packaged schema (repeatable, comma-splittable; adds it if absent), e.g. personal_journal.")
+def init(directory: str, force: bool, schema_names: tuple[str, ...]):
     """Make DIRECTORY (default: the current one) an artmind vault, or bring an existing one up to date.
 
     The vault is your Obsidian vault, your git repo and your artmind knowledge
@@ -4830,8 +4834,18 @@ def init(directory: str):
     To create a new vault from scratch -- Neo4j instance, GitHub repo and
     Obsidian plugins included -- use `artmind vault new NAME`, which runs this
     underneath.
+
+    A vault's schemas are yours, so a plain `init` never overwrites one. After
+    upgrading artmind, `init --force` replaces the vault's schemas and meta.yaml
+    with the packaged versions (`--schema NAME` limits it to chosen schemas),
+    discarding any local edits to them. It refuses unless git can restore every
+    file it would change, so commit first and review the result with `git diff`.
     """
-    from artmind.setup import scaffold_vault
+    from artmind.setup import refresh_vault_domains, scaffold_vault
+
+    names = [n.strip() for item in schema_names for n in item.split(",") if n.strip()]
+    if names and not force:
+        raise click.UsageError("--schema only applies together with --force.")
 
     root = Path(directory).expanduser().resolve()
     if not root.is_dir():
@@ -4853,10 +4867,25 @@ def init(directory: str):
     except Exception as e:
         raise click.ClickException(str(e))
 
+    refreshed = None
+    if force:
+        try:
+            refreshed = refresh_vault_domains(root, names or None)
+        except ValueError as e:
+            raise click.ClickException(str(e))
+
     click.echo(f"Vault:    {summary['vault']}")
     if git_initialised:
         click.echo("Git:      initialised")
     click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
+    if refreshed is not None:
+        click.echo(
+            f"Refreshed: {', '.join(refreshed['updated']) or '(nothing changed)'}"
+            + (f"; added {', '.join(refreshed['added'])}" if refreshed["added"] else "")
+            + (f"; {len(refreshed['unchanged'])} already current" if refreshed["unchanged"] else "")
+        )
+        if refreshed["updated"]:
+            click.echo("          review with `git diff .artmind/domains`, then commit; re-extract affected documents.")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
     plugin = summary.get("obsidian_plugin") or {}
     plugin_status = plugin.get("status")
