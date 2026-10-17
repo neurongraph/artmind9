@@ -626,6 +626,43 @@ def _check_named_file_supported(path: Path) -> None:
         )
 
 
+_REEXTRACT_HELP = (
+    "Vault notes only: re-run the LLM extraction of notes whose body has not changed, under"
+    " the schema as it stands now -- for after a schema/prompt change (`init --force`), which"
+    " an unchanged note otherwise ignores (it takes the metadata-only fast path). The note is"
+    " not edited and keeps its version; its graph contribution is replaced as for a content"
+    " change. Narrow what it re-extracts with --match or a folder FILE_PATH: it is an LLM"
+    " call per chunk."
+)
+_MATCH_HELP = (
+    "Only ingest files whose path relative to FILE_PATH (or whose name) matches this glob,"
+    " e.g. 'Journal/2026-*.md'. Repeatable. Applies to a directory FILE_PATH."
+)
+
+
+def _filter_match(files: "list[Path]", base: Path, patterns: "tuple[str, ...]") -> "list[Path]":
+    """Keep the files `--match` names: any pattern matching the path relative to
+    `base` (posix) or the bare file name. No patterns keeps everything. Matching
+    nothing is an error -- a mistyped glob must not read as "nothing to do"."""
+    if not patterns:
+        return files
+    import fnmatch
+
+    root = base if base.is_dir() else base.parent
+
+    def _hit(f: Path) -> bool:
+        try:
+            rel = f.relative_to(root).as_posix()
+        except ValueError:
+            rel = f.as_posix()
+        return any(fnmatch.fnmatchcase(rel, p) or fnmatch.fnmatchcase(f.name, p) for p in patterns)
+
+    kept = [f for f in files if _hit(f)]
+    if not kept:
+        raise click.ClickException(f"--match {', '.join(patterns)}: no file under {base} matches")
+    return kept
+
+
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option(
@@ -639,6 +676,8 @@ def _check_named_file_supported(path: Path) -> None:
     help="Force this domain onto every vault-native file ingested, overriding its"
     " own '_domain' frontmatter, and force re-extraction under the new schema.",
 )
+@click.option("--reextract", is_flag=True, help=_REEXTRACT_HELP)
+@click.option("--match", "match", multiple=True, help=_MATCH_HELP)
 @click.option("--fork", is_flag=True, help="On an _artmind_id collision (two live files, one id), mint a fresh id for the newcomer instead of refusing.")
 @click.option("--adopt", is_flag=True, help="On an _artmind_id collision, transfer identity to the newcomer instead of refusing (the old claimant is left as-is).")
 @click.option("--force", is_flag=True, help="Structured (csv/xlsx) files only: ingest even if identical content is already registered.")
@@ -670,6 +709,8 @@ def ingest_sync(
     file_path: str,
     domain: str | None,
     set_domain: str | None,
+    reextract: bool,
+    match: tuple[str, ...],
     fork: bool,
     adopt: bool,
     force: bool,
@@ -701,6 +742,7 @@ def ingest_sync(
     # directory WALK only -- naming a file is an explicit request and is
     # always honoured, mapped or not.
     vault_manifest, files = _manifest_for_ingest(path, files)
+    files = _filter_match(files, path, match)
 
     from paths import ARTMIND_VAULT_DIR
 
@@ -783,7 +825,7 @@ def ingest_sync(
             # the folder mapping > --domain as the fallback.
             result = ingest_file(
                 f, image_model, _mapped_domain(f) or domain, chunk_size=chunk_size,
-                set_domain=set_domain, fork=fork, adopt=adopt,
+                set_domain=set_domain, fork=fork, adopt=adopt, reextract=reextract,
             )
             if result.get("status") == "ok":
                 # artmind never commits (spec 2026-09-26, D1): the frontmatter
@@ -844,6 +886,8 @@ def ingest_sync(
     " structured/binary file with no mapping.",
 )
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
+@click.option("--reextract", is_flag=True, help=_REEXTRACT_HELP)
+@click.option("--match", "match", multiple=True, help=_MATCH_HELP)
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--pending", "pending", is_flag=True,
@@ -853,7 +897,8 @@ def ingest_sync(
 )
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_async(
-    file_path: str | None, domain: str | None, force: bool, stage_only: bool, pending: bool, compact: bool,
+    file_path: str | None, domain: str | None, force: bool, reextract: bool, match: tuple[str, ...],
+    stage_only: bool, pending: bool, compact: bool,
 ):
     """Submit a file or directory for background ingestion; returns job_id immediately.
 
@@ -865,7 +910,11 @@ def ingest_async(
     if pending:
         if file_path is not None:
             raise click.ClickException("--pending takes no FILE_PATH: it submits the vault's pending files")
-        _submit_pending(domain=domain, force=force, stage_only=stage_only, compact=compact)
+        if match:
+            raise click.ClickException("--match filters FILE_PATH's files; --pending takes none")
+        _submit_pending(
+            domain=domain, force=force, stage_only=stage_only, reextract=reextract, compact=compact,
+        )
         return
     if file_path is None:
         raise click.ClickException("Give a FILE_PATH to ingest, or --pending for the vault's pending files")
@@ -874,6 +923,7 @@ def ingest_async(
 
     files = collect_ingest_files(path)
     vault_manifest, files = _manifest_for_ingest(path, files)
+    files = _filter_match(files, path, match)
 
     from paths import ARTMIND_VAULT_DIR
 
@@ -918,13 +968,21 @@ def ingest_async(
         raise click.ClickException(f"No files found in {path}")
 
     batch_files = [str(f.resolve()) for f in files]
-    _submit_job(batch_files, domain=domain, force=force, stage_only=stage_only, compact=compact)
+    _submit_job(
+        batch_files, domain=domain, force=force, stage_only=stage_only, reextract=reextract,
+        compact=compact,
+    )
 
 
-def _submit_job(batch_files: list[str], *, domain: str | None, force: bool, stage_only: bool, compact: bool) -> None:
+def _submit_job(
+    batch_files: list[str], *, domain: str | None, force: bool, stage_only: bool,
+    compact: bool, reextract: bool = False,
+) -> None:
     """Create the job, make sure a worker runs it, print it -- `ingest
     async`'s one output shape, with or without --pending."""
-    job_id = _create_job(batch_files, domain=domain, force=force, stage_only=stage_only)
+    job_id = _create_job(
+        batch_files, domain=domain, force=force, stage_only=stage_only, reextract=reextract,
+    )
     _ensure_worker_running()
 
     _echo_json({
@@ -936,7 +994,9 @@ def _submit_job(batch_files: list[str], *, domain: str | None, force: bool, stag
     }, compact)
 
 
-def _submit_pending(*, domain: str | None, force: bool, stage_only: bool, compact: bool) -> None:
+def _submit_pending(
+    *, domain: str | None, force: bool, stage_only: bool, compact: bool, reextract: bool = False,
+) -> None:
     """`ingest async --pending` (spec 2026-09-30 §6 X3): one job for exactly
     `ingest pending`'s list. `--domain` is only the fallback for a file no
     mapping covers, as for any directory submission."""
@@ -953,7 +1013,10 @@ def _submit_pending(*, domain: str | None, force: bool, stage_only: bool, compac
         _echo_json({"job_id": None, "file_count": 0}, compact)
         return
     _validate_manifest_domains(load_manifest(vault_dir))
-    _submit_job([str(f) for f in files], domain=domain, force=force, stage_only=stage_only, compact=compact)
+    _submit_job(
+        [str(f) for f in files], domain=domain, force=force, stage_only=stage_only,
+        reextract=reextract, compact=compact,
+    )
 
 
 def _vault_or_raise() -> Path:
@@ -1169,12 +1232,17 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
 @click.option("--domain", required=True, help="Target domain for this re-ingest")
 @click.option("--logicalId", "logical_id", required=True, help="Logical id of the prior document (from `docs list`)")
 @click.option("--priorDomain", "prior_domain", default=None, help="Prior domain if different from --domain (forces 'domain' tier)")
+@click.option(
+    "--reextract", is_flag=True,
+    help="Classify as `ingest sync|async --reextract` would: an unchanged body is `content`, not `metadata_only`.",
+)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_classify_reingest(
     markdown_path: str,
     domain: str,
     logical_id: str,
     prior_domain: str | None,
+    reextract: bool,
     compact: bool,
 ) -> None:
     """Classify a hypothetical re-ingest without touching the graph (A4, ADR 0006 (f)).
@@ -1185,6 +1253,9 @@ def ingest_classify_reingest(
     - content: body differs; a re-ingest would run the full pipeline (A1d).
     - domain: --priorDomain differs from --domain; forces re-extraction.
     - initial: no prior document with this logical id.
+
+    With --reextract, an unchanged body reports `content` instead of
+    `metadata_only`: `ingest sync|async --reextract` would run extraction.
     """
     from artmind.delta import classify_reingest
     result = classify_reingest(
@@ -1192,6 +1263,7 @@ def ingest_classify_reingest(
         domain=domain,
         logical_id=logical_id,
         prior_domain=prior_domain,
+        reextract=reextract,
     )
     _echo_json(
         {
@@ -4840,6 +4912,9 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
     with the packaged versions (`--schema NAME` limits it to chosen schemas),
     discarding any local edits to them. It refuses unless git can restore every
     file it would change, so commit first and review the result with `git diff`.
+    Notes already ingested are not re-read under a changed schema (an unchanged
+    note takes the metadata-only fast path): re-extract them with
+    `artmind ingest async|sync <folder> --reextract`.
     """
     from artmind.setup import SOURCE_CHECKOUT_MESSAGE, is_artmind_source, refresh_vault_domains, scaffold_vault
 
@@ -4888,7 +4963,8 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
             + (f"; {len(refreshed['unchanged'])} already current" if refreshed["unchanged"] else "")
         )
         if refreshed["updated"]:
-            click.echo("          review with `git diff .artmind/domains`, then commit; re-extract affected documents.")
+            click.echo("          review with `git diff .artmind/domains`, then commit; then re-extract affected notes "
+                "with `artmind ingest async <folder> --reextract`.")
     click.echo(f"Skills:   {len(summary['skills'])} linked")
     plugin = summary.get("obsidian_plugin") or {}
     plugin_status = plugin.get("status")

@@ -172,6 +172,7 @@ def classify_reingest(
     *,
     prior_domain: str | None = None,
     chunk_size: int = 6000,
+    reextract: bool = False,
 ) -> DeltaResult:
     """Classify an incoming re-ingest.
 
@@ -179,6 +180,9 @@ def classify_reingest(
     Vault). ``domain`` is the target domain of this ingest; ``prior_domain`` is
     the domain the file was last ingested under (defaults to ``domain`` — pass
     the old value explicitly when the caller knows the domain has changed).
+
+    ``reextract`` reports an unchanged body as ``content`` (a re-ingest asked to
+    re-run extraction), not ``metadata_only``.
 
     Never mutates the graph. Never raises for graph-lookup failures — those
     downgrade to ``initial`` so the normal pipeline stays in charge.
@@ -220,6 +224,15 @@ def classify_reingest(
         )
 
     incoming_hashes = _compute_body_block_hashes(md_text, chunk_size=chunk_size)
+
+    if incoming_hashes == prior_hashes and prior_hashes and reextract:
+        return DeltaResult(
+            tier="content",
+            doc_id=prior["id"],
+            version=prior.get("version"),
+            metadata=incoming_metadata,
+            reason=f"body unchanged ({len(prior_hashes)} block(s) match), --reextract requested",
+        )
 
     if incoming_hashes == prior_hashes and prior_hashes:
         return DeltaResult(

@@ -155,7 +155,7 @@ def test_ingest_async_stage_only_passes_flag(monkeypatch, tmp_path):
 
     seen = {}
 
-    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False, reextract=False):
         seen["stage_only"] = stage_only
         return "job-123"
 
@@ -175,7 +175,7 @@ def test_ingest_async_default_stage_only_false(monkeypatch, tmp_path):
 
     seen = {}
 
-    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False, reextract=False):
         seen["stage_only"] = stage_only
         return "job-123"
 

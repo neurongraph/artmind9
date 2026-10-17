@@ -159,7 +159,8 @@ def _finalize_job(job_id: str) -> None:
 
 
 def _process_job(
-    job_id: str, domain: str, env: dict, force: bool = False, stage_only: bool = False
+    job_id: str, domain: str, env: dict, force: bool = False, stage_only: bool = False,
+    reextract: bool = False,
 ) -> None:
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
     text_model = resolve_llm_model(env)
@@ -240,7 +241,7 @@ def _process_job(
                 file_domain = _domain_for(file_path)
                 result = ingest_file(
                     file_path, image_model, file_domain,
-                    job_id=job_id, chunk_size=chunk_size,
+                    job_id=job_id, chunk_size=chunk_size, reextract=reextract,
                 )
                 if result.get("status") == "ok":
                     effective_domain = result.get("domain", file_domain)
@@ -313,7 +314,7 @@ def _worker_loop(env: dict) -> None:
         conn = _get_db()
         try:
             row = conn.execute(
-                "SELECT job_id, domain, force, stage_only FROM ingestion_jobs"
+                "SELECT job_id, domain, force, stage_only, reextract FROM ingestion_jobs"
                 " WHERE status = 'queued' ORDER BY queued_at ASC LIMIT 1"
             ).fetchone()
         finally:
@@ -321,7 +322,8 @@ def _worker_loop(env: dict) -> None:
 
         if row:
             _process_job(
-                row[0], row[1] or "general", env, force=bool(row[2]), stage_only=bool(row[3])
+                row[0], row[1] or "general", env, force=bool(row[2]), stage_only=bool(row[3]),
+                reextract=bool(row[4]),
             )
         else:
             logger.info("Queue empty, worker exiting")

@@ -39,7 +39,8 @@ def _stalled(status: str) -> bool:
 
 
 def _create_job(
-    batch_files: list[str], domain: str = "general", force: bool = False, stage_only: bool = False
+    batch_files: list[str], domain: str = "general", force: bool = False, stage_only: bool = False,
+    reextract: bool = False,
 ) -> str:
     """Create a new ingestion job with per-file rows; return job_id."""
     job_id = str(uuid.uuid4())
@@ -47,8 +48,8 @@ def _create_job(
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO ingestion_jobs (job_id, status, file_count, queued_at, domain, force, stage_only)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO ingestion_jobs (job_id, status, file_count, queued_at, domain, force, stage_only, reextract)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 job_id,
                 "queued",
@@ -57,6 +58,7 @@ def _create_job(
                 domain,
                 int(force),
                 int(stage_only),
+                int(reextract),
             ),
         )
         cursor.executemany(

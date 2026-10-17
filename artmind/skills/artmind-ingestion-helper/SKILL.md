@@ -200,7 +200,7 @@ With no flags it is deterministic and cheap. It also applies the schema's proper
 
 ### D. Re-run LLM extraction on an already-ingested document
 
-Use when extraction failed mid-way, or you updated the schema and want to re-extract.
+Use when extraction failed mid-way. (For a schema change, use `--reextract` below.)
 
 ```bash
 artmind ingest extract-kg DOCUMENT_NAME --domain YOUR_DOMAIN
@@ -213,6 +213,18 @@ artmind ingest write-to-graph DOCUMENT_NAME --domain YOUR_DOMAIN
 ```
 
 **If the document isn't registered at all** (no chunks exist), you need `sync` first (Situation A).
+
+**After a schema/prompt change (e.g. `artmind init --force`), re-extract unchanged vault notes with `--reextract`.**
+An unchanged note otherwise takes the metadata-only fast path (nothing re-extracted), and `ingest pending` does not list it:
+
+```bash
+artmind ingest async "$VAULT/Journal" --reextract --match '2026-10-*.md'   # queued job; `ingest sync` works too
+```
+
+The note is not edited and keeps its version; every chunk is re-extracted (an LLM
+call each, so start with one note or a narrow `--match`), and its graph contribution
+is replaced as for a content change. No separate `extract-kg` / `write-to-graph`
+afterwards. Vault notes only: binaries and tables ignore it.
 
 ---
 
