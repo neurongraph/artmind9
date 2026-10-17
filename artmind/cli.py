@@ -3016,7 +3016,7 @@ def vector_text(domain: tuple, top_k: int, as_of: str | None, compact: bool, que
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("reference")
 def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: str) -> None:
-    """Resolve a name fragment or description to canonical graph entities (fulltext + vector via RRF)."""
+    """Resolve a name fragment or description to canonical graph entities (exact name first, then fulltext + vector via RRF)."""
     domains = _parse_domains(domain)
     try:
         result = vector_query.entity_resolve(domains, reference, top_k)

@@ -271,6 +271,8 @@ def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
 
     class FakeSession:
         def run(self, cypher, **params):
+            if "toLower(e.name)" in cypher:
+                return []
             if "entity_name_ft" in cypher:
                 return [
                     {
@@ -313,13 +315,88 @@ def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
 
 
 def test_entity_resolve_reports_aggregation_size():
-    """Both legs project the entity's observation and connection counts, so a
+    """All three legs project the entity's observation and connection counts, so a
     caller can spot a hub before asking for its (large) context."""
     import inspect
 
     source = inspect.getsource(vector_query.entity_resolve)
-    assert source.count("observation_count: ") == 2
-    assert source.count("connection_count: COUNT {{ (") == 2
+    assert source.count("observation_count: ") == 3  # exact, fulltext and vector legs
+    assert source.count("connection_count: COUNT {{ (") == 3
+
+
+def _resolve_with(monkeypatch, *, exact, ft, vec, top_k=5, reference="Sarah"):
+    """entity_resolve over a fake session that answers each leg from its own rows."""
+    calls = []
+
+    class FakeSession:
+        def run(self, cypher, **params):
+            calls.append((cypher, params))
+            if "toLower(e.name)" in cypher:
+                return exact
+            if "entity_name_ft" in cypher:
+                return ft
+            return vec
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1])
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
+    return vector_query.entity_resolve("journal", reference, top_k), calls
+
+
+def _hit(entity_id, name, score=1.0, cls="PERSON"):
+    return {"score": score, "entity": {"_id": entity_id, "name": name, "entity_class": cls}}
+
+
+def test_entity_resolve_returns_the_exact_name_hub_even_when_lucene_ranks_it_below_the_cut(monkeypatch):
+    """A person with hundreds of observations scores below short one-off names
+    such as 'Tickets for Sarah' in the fulltext leg, and RRF then drops it from
+    the top-k. The exact-name leg must still return it, first."""
+    noise = [_hit(f"n{i}", f"Tickets for Sarah {i}", 4.0 - i / 10, "OBJECT") for i in range(5)]
+    hub = _hit("sarah", "Sarah")
+
+    result, calls = _resolve_with(monkeypatch, exact=[hub], ft=noise, vec=noise)
+
+    assert result["rows"][0]["entity"]["_id"] == "sarah"
+    assert result["rows"][0]["matched_by"] == ["exact"]
+    assert len(result["rows"]) == 5  # top_k holds: the exact hit takes the first slot
+    assert [r["entity"]["_id"] for r in result["rows"][1:]] == ["n0", "n1", "n2", "n3"]
+    exact_cypher, exact_params = next(c for c in calls if "toLower(e.name)" in c[0])
+    assert exact_params["reference"] == "Sarah"
+    assert exact_params["domains"] == ["journal"]
+
+
+def test_entity_resolve_exact_hit_keeps_its_other_legs_and_is_not_duplicated(monkeypatch):
+    hub = _hit("sarah", "Sarah")
+    ft = [_hit("sarah", "Sarah", 3.0), _hit("n1", "Tickets for Sarah", 4.0, "OBJECT")]
+
+    result, _ = _resolve_with(monkeypatch, exact=[hub], ft=ft, vec=[_hit("sarah", "Sarah", 0.9)])
+
+    ids = [r["entity"]["_id"] for r in result["rows"]]
+    assert ids == ["sarah", "n1"]
+    assert result["rows"][0]["matched_by"] == ["exact", "vector", "fulltext"]
+
+
+def test_entity_resolve_never_cuts_exact_hits_to_top_k(monkeypatch):
+    """Same name under two classes (a person and a place): both come back."""
+    exact = [_hit("p", "Sarah"), _hit("l", "Sarah", cls="LOCATION")]
+
+    result, _ = _resolve_with(monkeypatch, exact=exact, ft=[], vec=[], top_k=1)
+
+    assert [r["entity"]["_id"] for r in result["rows"]] == ["p", "l"]
+
+
+def test_entity_resolve_with_no_exact_name_is_unchanged(monkeypatch):
+    ft = [_hit("a", "Sarah Jones", 3.0)]
+
+    result, _ = _resolve_with(monkeypatch, exact=[], ft=ft, vec=[])
+
+    assert [r["matched_by"] for r in result["rows"]] == [["fulltext"]]
 
 
 def test_rrf_combine_without_annotate_keeps_rows_unchanged():
@@ -332,6 +409,8 @@ def test_entity_resolve_survives_missing_vector_index(monkeypatch):
 
     class FakeSession:
         def run(self, cypher, **params):
+            if "toLower(e.name)" in cypher:
+                return []
             if "entity_name_ft" in cypher:
                 return [
                     {"score": 1.0, "entity": {"_id": "ent-1", "name": "Sherlock Holmes"}}
