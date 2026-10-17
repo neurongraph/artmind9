@@ -1,0 +1,9 @@
+# Kinship and common alias names that denote the same person in personal notes.
+# Each group is a set of interchangeable names (case-insensitive). Extend per
+# domain in domains/insights/<domain>.yaml under detectors.same_as_candidates.aliases.
+- [dad, daddy, papa, father, pa, baba, pop]
+- [mom, mum, mummy, mommy, mother, ma, mama, maa]
+- [grandma, granny, nana, grandmother]
+- [grandpa, grandad, granddad, grandfather]
+- [brother, bro]
+- [sister, sis]
