@@ -6,6 +6,7 @@ fingerprint is unchanged, unless forced or limited to `only` detectors.
 
 from __future__ import annotations
 
+import hashlib
 from collections import Counter
 from dataclasses import replace
 from datetime import datetime, timezone
@@ -29,6 +30,15 @@ def _hashes(domain: str) -> dict:
     from artmind import projection, same_as
 
     return {"schema": projection.schema_set_hash(), "same_as": same_as.content_hash(), "config": config_hash(domain)}
+
+
+def _evidence_hash(entities) -> str:
+    """Hash of every entity's evidence days and document count: a moved or
+    re-extracted observation changes it even when counts and dates do not."""
+    h = hashlib.sha256()
+    for e in entities:  # build_profile sorts by _id
+        h.update(f"{e._id}|{e.cls}|{e.docs}|{','.join(e.days)}\n".encode())
+    return h.hexdigest()
 
 
 def _now() -> str:
@@ -126,7 +136,7 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
     fingerprint = {
         **_hashes(domain), "entities": len(entities), "latest_doc": profile.latest_doc,
         "documents": profile.documents,
-        "evidence": sum(len(e.days) + e.docs for e in entities),
+        "evidence": _evidence_hash(entities),
         "relations": sum(r["n"] for r in profile.relations),
         "detectors_version": DETECTORS_VERSION,
     }

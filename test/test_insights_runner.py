@@ -119,6 +119,14 @@ def test_fingerprint_sees_changed_evidence_days(env):
     assert _refresh_tables(tables, now="2026-10-17T10:00:00Z")["status"] == "written"
 
 
+def test_fingerprint_sees_a_moved_day_with_equal_counts(env):
+    refresh()
+    tables = _tables()
+    row = next(r for r in tables["entity_evidence"] if r["_id"] == "a1")
+    row["days"] = ["2023-02-15"] + row["days"][1:]  # one day moved: same count, same latest date
+    assert _refresh_tables(tables, now="2026-10-17T10:00:00Z")["status"] == "written"
+
+
 def test_partial_run_never_short_circuits_a_full_one(env):
     refresh()
     tables = _tables()
