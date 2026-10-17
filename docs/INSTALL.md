@@ -223,6 +223,22 @@ artmind admin-ui       # operator console: agent chat, ingest dashboard, CLI gui
 The chat agent's working directory is the vault, so it can read your documents
 and find artmind's skills at `.claude/skills/`.
 
+### Exposure of the web UIs
+
+`chat-ui` and `admin-ui` have **no authentication** and can read stored
+conversation history, so they bind `127.0.0.1` by default and, on a loopback
+bind, answer `400` to any request whose `Host` header is not `127.0.0.1`,
+`localhost` or `[::1]` (port ignored). That stops DNS-rebinding: a web page
+you visit cannot re-point its own hostname at the UI and read it. `/api/health`
+and `/?prompt=` (what the Obsidian plugin uses, at `http://127.0.0.1:<port>`)
+pass the check like everything else. If you set the plugin's admin-UI URL to
+another hostname, a loopback-bound server will refuse it; use `127.0.0.1` or `localhost`.
+
+`--host 0.0.0.0` (or any non-loopback address) is allowed but turns the check
+off and prints a startup warning: anyone who can reach the port can use the UI
+and read the history. Put your own authenticating proxy or firewall in front
+before doing that. (`artmind serve` is a separate daemon and is not covered.)
+
 ### Neo4j memory
 
 Give Neo4j a bounded heap and a transaction-memory cap. With a cap, a
