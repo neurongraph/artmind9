@@ -89,3 +89,29 @@ def test_profile_reports_yaml_error_cleanly(monkeypatch):
     monkeypatch.setattr(cfg, "load_config", boom)
     res = CliRunner().invoke(cli, ["insights", "profile", "--domain", "demo"])
     assert res.exit_code == 1 and "broken" in res.output and "Traceback" not in res.output
+
+
+def test_same_as_export_writes_refine_graph_input(tmp_path, monkeypatch):
+    monkeypatch.setattr(paths, "INSIGHTS_DIR", tmp_path / "insights")
+    monkeypatch.setattr(paths, "LOGS_DIR", tmp_path / "logs")
+    def cand(a, b, score):
+        return Finding(key=f"same_as_candidates:PERSON:{a}:{b}", detector="same_as_candidates", kind="health",
+                       score=score, title="t", action="curate",
+                       stats={"canonical": {"_id": a, "name": a.title(), "class": "PERSON"},
+                              "alias": {"_id": b, "name": b.title(), "class": "PERSON"}, "rule": "kinship"})
+    run = Run(domain="demo", created_at="2026-10-17T09:00:00Z", as_of="2026-10-01", fingerprint={}, anchors=[],
+              profile={}, plan=[], circles=[], diff={}, findings=[cand("dad", "daddy", 0.9), cand("sam", "sam r", 0.4)])
+    store.write_run(run)
+    out = tmp_path / "merges.json"
+    result = invoke("same-as", "--domain", "demo", "--export", str(out))
+    assert result.exit_code == 0, result.output
+    data = json.loads(out.read_text())
+    assert data["proposed_merges"] == {"Daddy": "Dad"} and data["source"] == "artmind insights"
+    assert "refine-graph --domain demo --from-file" in json.loads(result.output)["next"]
+
+
+def test_config_check_exit_code(monkeypatch):
+    from artmind.insights import config_check
+    monkeypatch.setattr(config_check, "check_config", lambda d, projector=None: {"domain": d, "ok": False, "errors": ["x"], "warnings": []})
+    result = CliRunner().invoke(cli, ["insights", "config", "check", "--domain", "demo", "--compact"])
+    assert result.exit_code == 1 and json.loads(result.output)["errors"] == ["x"]
