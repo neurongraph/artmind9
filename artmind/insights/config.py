@@ -32,10 +32,10 @@ _INTS = {  # key: (default, minimum)
 }
 _POS_INT_KEYS = ("min_support", "window", "silence_multiple", "min_silence_days", "min_weight",
                  "min_circle_size", "min_period_edges", "min_count",
-                 "cluster_days", "dominance_min_days", "stale_days", "min_targets", "min_size", "max_size", "min_days")
+                 "cluster_days", "dominance_min_days", "stale_days", "min_targets", "min_size", "max_size", "min_days", "max_gap_periods")
 _POS_NUM_KEYS = ("resolution", "min_log_ratio", "min_jaccard",
                  "min_z", "min_score", "max_share", "focus_share", "dominance_share", "max_name_distance",
-                 "circle_min_shift")
+                 "circle_min_shift", "fdr", "dominance_margin")
 _DOMAIN_RE = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$")
 _RAW_BLOCKS = ("outcome", "transitions", "open_loops")
 KNOWN_KEYS = frozenset({"domain", "anchors", "period", "narrate", "detectors", *_INTS, *_RAW_BLOCKS})

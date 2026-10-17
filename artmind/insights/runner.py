@@ -83,7 +83,7 @@ def _trim(findings: list[Finding], max_per_detector: int) -> list[Finding]:
 
 
 # Bump when detector logic changes, so an unchanged graph still re-runs under the new logic.
-DETECTORS_VERSION = 2
+DETECTORS_VERSION = 3
 # A selected detector that reads another's output (brokers read communities' circles).
 DEPENDS = {
     "brokers": {"communities"},

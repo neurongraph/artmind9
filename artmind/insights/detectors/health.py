@@ -197,7 +197,8 @@ def _run_attribution(ctx: RunContext, _target: str) -> list[Finding]:
         n = len(rows)
         if sum(c for _, c in ranked[:3]) / n < focus:
             continue
-        rare = {k for k, c in counts.items() if c / n < max_share}
+        top3 = {k for k, _ in ranked[:3]}
+        rare = {k for k, c in counts.items() if c / n < max_share and k not in top3}
         suspects = sorted((r for r in rows if combo[r["_id"]] in rare),
                           key=lambda r: (r["cls"], str(r["name"]), r["_id"]))
         if not suspects:
@@ -225,7 +226,7 @@ def _plan_fragments(ctx: RunContext):
 
 def _run_fragments(ctx: RunContext, _target: str) -> list[Finding]:
     cfg = ctx.config.detector("fragments")
-    lo, hi = cfg.get("min_size", 2), cfg.get("max_size", 5)
+    lo, hi = cfg.get("min_size", 3), cfg.get("max_size", 5)
     g = nx.Graph()
     g.add_edges_from(ctx.profile.entity_edges)
     comps = sorted((sorted(c) for c in nx.connected_components(g)), key=lambda c: (-len(c), c[0]))

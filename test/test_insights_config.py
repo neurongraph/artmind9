@@ -127,6 +127,9 @@ def test_open_loops_and_transitions_blocks():
     ({"transitions": {"extra_verbs": "joined"}}, "transitions.extra_verbs"),
     ({"detectors": {"outcome_lift": {"min_z": 0}}}, "min_z"),
     ({"detectors": {"transitions": {"cluster_days": "x"}}}, "cluster_days"),
+    ({"detectors": {"outcome_lift": {"fdr": 0}}}, "fdr"),
+    ({"detectors": {"transitions": {"dominance_margin": -1}}}, "dominance_margin"),
+    ({"detectors": {"transitions": {"max_gap_periods": 0}}}, "max_gap_periods"),
     ({"detectors": {"same_as_candidates": {"aliases": [["a"]]}}}, "aliases"),
 ])
 def test_phase_two_blocks_are_refused_when_invalid(data, message):

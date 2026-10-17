@@ -69,3 +69,11 @@ def test_levenshtein():
     assert stats.levenshtein("jonathan", "jonathon") == 1
     assert stats.levenshtein("", "abc") == 3
     assert stats.levenshtein("same", "same") == 0
+
+
+def test_bh_qvalues():
+    # p sorted: .01 .02 .03 .5 -> raw q: .04 .04 .04 .5; step-up min from the top keeps them monotone
+    assert stats.bh_qvalues([0.03, 0.01, 0.5, 0.02]) == pytest.approx([0.04, 0.04, 0.5, 0.04])
+    assert stats.bh_qvalues([0.001, 0.04, 0.9]) == pytest.approx([0.003, 0.06, 0.9])
+    assert stats.bh_qvalues([]) == []
+    assert stats.bh_qvalues([0.9, 0.8]) == pytest.approx([0.9, 0.9])

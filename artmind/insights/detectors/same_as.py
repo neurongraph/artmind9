@@ -34,6 +34,10 @@ ALIASES_FILE = Path(__file__).resolve().parent.parent / "aliases.yaml"
 _PUNCT = re.compile(r"[^\w\s]")
 MAX_TOKEN_BUCKET = 50   # a token shared by more entities than this ("office") is not a signal
 MIN_EDIT_LEN = 4
+AMBIGUITY_MARGIN = 0.15   # a short name matching several entities needs a best pair this much ahead
+RELATIONAL = frozenset({"father", "mother", "wife", "husband", "son", "daughter", "brother", "sister", "uncle",
+                        "aunt", "friend", "colleague", "boss", "team", "family", "kids", "children", "parents",
+                        "law"})   # "in-law" normalises to "in law"
 
 
 def norm(name) -> str:
@@ -52,28 +56,40 @@ def _initials(n: str) -> str:
     return "".join(t[0] for t in tokens) if len(tokens) >= 2 else ""
 
 
-def name_match(a: str, b: str, aliases: list[frozenset[str]], max_dist: float) -> tuple[str, float] | None:
+def _possessive(raw) -> bool:
+    """'X's Father' denotes someone related to X, never X; checked on the raw name (norm drops the apostrophe)."""
+    r = str(raw).casefold().replace("\u2019", "'")
+    return "'s " in r or r.endswith("'s")
+
+
+def name_match(a: str, b: str, aliases: list[frozenset[str]], max_dist: float,
+               kinship_ok: bool = True) -> tuple[str, float] | None:
     """(rule, strength) when two normalised names plausibly denote one thing."""
     if a == b:
         return ("exact", 1.0)
-    if any(a in g and b in g for g in aliases):
+    if kinship_ok and any(a in g and b in g for g in aliases):
         return ("kinship", 1.0)
     ta, tb = set(a.split()), set(b.split())
     for short, long_ in ((a, b), (b, a)):
         if " " not in short and 2 <= len(short) <= 4 and short == _initials(long_):
             return ("initials", 0.9)
     if ta < tb or tb < ta:
+        if (ta ^ tb) & RELATIONAL:
+            return None
         return ("token_subset", 0.8)
     if min(len(a), len(b)) >= MIN_EDIT_LEN and a[0] == b[0]:
+        if abs(len(a) - len(b)) / max(len(a), len(b)) > max_dist:
+            return None
         d = levenshtein(a, b) / max(len(a), len(b))
         if d <= max_dist:
             return ("edit", round(0.7 * (1 - d / max_dist) + 0.2, 3))
     return None
 
 
-def candidate_pairs(rows, aliases, max_dist) -> list[tuple[str, str, str, float]]:
+def candidate_pairs(rows, aliases, max_dist, kinship_ok: bool = True) -> list[tuple[str, str, str, float]]:
     """[(id_a, id_b, rule, strength)] with id_a < id_b, from blocked comparisons only."""
-    named = sorted(((e._id, norm(e.name)) for e in rows if norm(e.name)), key=lambda x: x[0])
+    named = sorted(((e._id, norm(e.name)) for e in rows if norm(e.name) and not _possessive(e.name)),
+                   key=lambda x: x[0])
     names = dict(named)
     buckets: list[list[str]] = []
     by_token, by_first, by_initials, by_alias = defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
@@ -97,7 +113,7 @@ def candidate_pairs(rows, aliases, max_dist) -> list[tuple[str, str, str, float]
             pairs.update(tuple(sorted((_id, other))) for other in by_initials[n] if other != _id)
     out = []
     for a, b in sorted(pairs):
-        match = name_match(names[a], names[b], aliases, max_dist)
+        match = name_match(names[a], names[b], aliases, max_dist, kinship_ok)
         if match:
             out.append((a, b, *match))
     return out
@@ -111,6 +127,30 @@ def _span_overlap(da: tuple[str, ...], db: tuple[str, ...]) -> float:
     return 1.0 if shorter == 0 else min(1.0, days_between(start, end) / shorter)
 
 
+def _resolve_ambiguity(scored: list[tuple], by_id: dict) -> list[tuple]:
+    """A short name (initials / token-subset side) that matches several entities keeps only its one clearly
+    best pair; when no pair is clearly ahead, all of its pairs are dropped."""
+    def short_side(a, b, rule):
+        if rule not in ("initials", "token_subset"):
+            return None
+        ta, tb = norm(by_id[a].name).split(), norm(by_id[b].name).split()
+        return a if len(ta) < len(tb) else b
+
+    groups = defaultdict(list)
+    for item in scored:
+        side = short_side(item[0], item[1], item[2])
+        if side is not None:
+            groups[side].append(item)
+    drop = set()
+    for items in groups.values():
+        if len(items) < 2:
+            continue
+        ranked = sorted(items, key=lambda i: (-i[4], i[0], i[1]))
+        keep = ranked[0] if ranked[0][4] - ranked[1][4] >= AMBIGUITY_MARGIN else None
+        drop.update((i[0], i[1]) for i in items if i is not keep)
+    return [i for i in scored if (i[0], i[1]) not in drop]
+
+
 def _plan(ctx: RunContext):
     classes = [c for c in ctx.classes_of_kind("recurrent") if len(ctx.members(c, floor=1)) >= 2]
     return classes or Skip("no recurrent class with two dated entities")
@@ -121,15 +161,16 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
     min_score, max_dist = cfg.get("min_score", 0.5), cfg.get("max_name_distance", 0.25)
     rows = ctx.members(cls, floor=cfg.get("min_days", 1))
     by_id = {e._id: e for e in rows}
-    pairs = candidate_pairs(rows, load_alias_groups(ctx.config), max_dist)
+    props = [p for p in sorted(ctx.profile.classes[cls].properties) if p.startswith("relationship_to")]
+    kinship_ok = cls == "PERSON" or bool(props)
+    pairs = candidate_pairs(rows, load_alias_groups(ctx.config), max_dist, kinship_ok)
     if not pairs:
         return []
     try:
         g = graphs.co_mention_graph(rows, min_weight=1)
     except graphs.GraphTooLarge:
         g = None
-    props = [p for p in sorted(ctx.profile.classes[cls].properties) if p.startswith("relationship_to")]
-    out = []
+    scored = []
     for a, b, rule, strength in pairs:
         ea, eb = by_id[a], by_id[b]
         nb = graphs.jaccard(set(g[a]) - {b}, set(g[b]) - {a}) if g is not None and a in g and b in g else 0.0
@@ -148,8 +189,12 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
         z = (-2.0 + 2.5 * strength + 2.0 * nb - 1.5 * min(1.0, co / 2) + 0.5 * overlap
              + 0.6 * min(agree, 2) - 0.8 * min(disagree, 2))
         score = round(1 / (1 + math.exp(-z)), 4)
+        scored.append((a, b, rule, strength, score, nb, co, overlap, agree, disagree))
+    out = []
+    for a, b, rule, strength, score, nb, co, overlap, agree, disagree in _resolve_ambiguity(scored, by_id):
         if score < min_score:
             continue
+        ea, eb = by_id[a], by_id[b]
         canonical, alias = sorted((ea, eb), key=lambda e: (-len(e.days), -len(e.name), e._id))
         ctx.memo.setdefault("same_as", []).append(
             {"class": cls, "canonical": canonical._id, "alias": alias._id, "score": score})

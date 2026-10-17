@@ -208,7 +208,7 @@ def test_dependencies_for_phase_two_detectors():
     from artmind.insights.runner import DEPENDS, DETECTORS_VERSION
     assert DEPENDS["split_signal"] == {"same_as_candidates", "salience_trend", "outcome_lift"}
     assert DEPENDS["transitions"] == {"communities"}
-    assert DETECTORS_VERSION == 2
+    assert DETECTORS_VERSION == 3
 
 
 def test_entity_props_loaded_for_configured_blocks(env):

@@ -83,3 +83,16 @@ def levenshtein(a: str, b: str) -> int:
             current.append(min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (ca != cb)))
         previous = current
     return previous[-1]
+
+
+def bh_qvalues(pvalues: list[float]) -> list[float]:
+    """Benjamini-Hochberg adjusted p-values (q-values), in the input order."""
+    m = len(pvalues)
+    order = sorted(range(m), key=lambda i: pvalues[i])
+    q = [0.0] * m
+    running = 1.0
+    for rank in range(m, 0, -1):
+        i = order[rank - 1]
+        running = min(running, pvalues[i] * m / rank)
+        q[i] = running
+    return q

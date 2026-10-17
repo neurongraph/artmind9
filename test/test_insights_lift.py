@@ -16,7 +16,7 @@ def world():
     ents.append(ent("t", "PERSON", JOY[:15] + SAD[:2], name="Tess"))
     ents.append(ent("n", "PERSON", JOY[5:10] + SAD[5:10], name="Nell"))
     ents.append(ent("me", "PERSON", DAYS, name="Me"))
-    ents += [ent(f"v{i}", "EVENT", [d], type="clash") for i, d in enumerate(SAD[:12])]
+    ents += [ent(f"v{i}", "EVENT", [d], type="clash") for i, d in enumerate(SAD[:17])]
     return ents
 
 
@@ -58,3 +58,26 @@ def test_non_type_property_uses_entity_props():
     props = {("EMOTION", "valence"): {**{f"j{i}": "Good" for i in range(20)}, **{f"s{i}": "bad" for i in range(20)}}}
     found = {f.key for f in OUTCOME_LIFT.run(ctx_for(config=cfg, entity_props=props), "all")}
     assert "outcome_lift:PERSON:w" in found
+
+
+def test_bh_controls_false_discoveries_across_many_null_subjects():
+    import random
+    rng = random.Random(7)
+    ents = [ent(f"j{i}", "EMOTION", [d], type="joy") for i, d in enumerate(JOY)]
+    ents += [ent(f"s{i}", "EMOTION", [d], type="sadness") for i, d in enumerate(SAD)]
+    for i in range(60):
+        k = rng.choice([8, 8, 9, 10, 11, 12])      # mostly balanced, a few mildly skewed (z ~ 2-3)
+        days = rng.sample(SAD, k) + rng.sample(JOY, 16 - k)
+        ents.append(ent(f"null{i}", "PERSON", days, name=f"Null{i}"))
+    ents.append(ent("strong", "PERSON", SAD[:19] + JOY[:1], name="Strong"))
+    ents.append(ent("me", "PERSON", DAYS, name="Me"))
+    ctx = make_ctx(ents, config=OUTCOME, anchors={"me"}, docs_per_period={"2023": 100})
+    found = OUTCOME_LIFT.run(ctx, "all")
+    assert [f.key for f in found] == ["outcome_lift:PERSON:strong"]
+    st = found[0].stats
+    assert st["q"] <= 0.05 and st["p"] <= st["q"]
+
+
+def test_fdr_and_min_support_are_configurable():
+    cfg = {**OUTCOME, "detectors": {"outcome_lift": {"fdr": 1e-12}}}
+    assert OUTCOME_LIFT.run(ctx_for(config=cfg), "all") == []

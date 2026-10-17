@@ -113,6 +113,7 @@ def _rel(i, cls, type):
 def test_attribution_suspects_flags_rare_target_types_on_focused_relations():
     rels = [_rel(i, "ORGANIZATION", "employer") for i in range(15)]
     rels += [_rel(15 + i, "LOCATION", "workplace") for i in range(10)]
+    rels += [_rel(30 + i, "PERSON", "boss") for i in range(4)]   # fills the top 3 with school 4th
     rels += [_rel(40, "ORGANIZATION", "school")]
     rels += [{"rel": "VISITS", "_id": f"v{i}", "name": f"V{i}", "cls": "LOCATION", "type": f"kind{i}", "days": ("2024-01-01",)}
              for i in range(30)]   # unfocused relation: no suspects
@@ -124,12 +125,20 @@ def test_attribution_suspects_flags_rare_target_types_on_focused_relations():
     assert f.stats["typical"][0] == {"class": "ORGANIZATION", "type": "employer", "count": 15}
 
 
+def test_attribution_suspects_ignores_combos_in_the_top_three():
+    rels = [_rel(i, "ORGANIZATION", "employer") for i in range(87)]
+    rels += [_rel(100 + i, "LOCATION", "workplace") for i in range(10)]
+    rels += [_rel(200 + i, "ORGANIZATION", "school") for i in range(3)]
+    ctx = make_ctx([ent("me", "PERSON", ["2024-01-01"])], anchors={"me"}, anchor_relations=rels)
+    assert ATTRIBUTION_SUSPECTS.run(ctx, "anchor") == []
+
+
 def test_fragments_reports_small_cut_off_groups():
     main = [("m0", f"m{i}") for i in range(1, 8)]
     islands = [("i1", "i2"), ("j1", "j2"), ("j2", "j3")]
     ents = [ent(x, "PERSON", ["2024-01-01"]) for x in {n for e in main + islands for n in e}]
     ctx = make_ctx(ents, entity_edges=sorted(main + islands))
     (f,) = FRAGMENTS.run(ctx, "all")
-    assert f.key == "fragments:all" and f.stats["count"] == 2 and f.stats["main_component"] == 8
-    assert f.stats["sizes"] == {"2": 1, "3": 1}
+    assert f.key == "fragments:all" and f.stats["count"] == 1 and f.stats["main_component"] == 8
+    assert f.stats["sizes"] == {"3": 1}
     assert FRAGMENTS.plan(make_ctx(ents)).reason == "no entity relations"

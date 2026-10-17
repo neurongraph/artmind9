@@ -69,6 +69,52 @@ def test_labelled_fixture_separates_duplicates_from_namesakes():
     assert f.kind == "health" and f.action == "curate" and f.title.startswith("Possibly the same PERSON:")
 
 
+def _pairs(names, cls="PERSON", **kw):
+    ents = [ent(f"e{i}", cls, days(i + 1, 3), name=n) for i, n in enumerate(names)]
+    ctx = make_ctx(ents, **kw)
+    return candidate_pairs(ctx.entities, load_alias_groups(ctx.config), 0.25, **({"kinship_ok": cls == "PERSON"}))
+
+
+def test_possessive_and_relational_names_are_never_candidates():
+    assert _pairs(["Rana Gill", "Rana Gill's Father"]) == []
+    assert _pairs(["Dwarka", "Dwarka's Wife"], cls="LOCATION") == []
+    assert _pairs(["Rana Gill", "Rana Gill Father"]) == []        # relational token, no apostrophe
+    assert _pairs(["Rana Gill", "Rana Gill in-law"]) == []
+    assert _pairs(["Rana Gill", "Rana Gill Singh"])               # an ordinary extension still matches
+
+
+def test_ambiguous_short_names_yield_no_candidates():
+    ents = [ent("s", "PERSON", days(1, 4), name="Sam"), ent("r", "PERSON", days(2, 4), name="Sam Rivera"),
+            ent("o", "PERSON", days(3, 4), name="Sam Okoro")]
+    ctx = make_ctx(ents, docs_per_period={"2023": 100})
+    assert SAME_AS_CANDIDATES.run(ctx, "PERSON") == []
+
+
+def test_ambiguous_short_name_keeps_a_clearly_better_pair():
+    ents = [ent("s", "PERSON", days(1, 4), name="Sam", type="friend"),
+            ent("r", "PERSON", days(1, 8)[4:], name="Sam Rivera", type="friend"),
+            ent("o", "PERSON", days(3, 4) + days(5, 2), name="Sam Okoro", type="colleague")]
+    found = SAME_AS_CANDIDATES.run(make_ctx(ents, docs_per_period={"2023": 100}), "PERSON")
+    assert [(f.stats["canonical"]["_id"], f.stats["alias"]["_id"]) for f in found] in ([("r", "s")], [("s", "r")])
+
+
+def test_kinship_aliases_need_a_person_like_class():
+    ents = [ent("a", "LOCATION", days(1, 4), name="Pop"), ent("b", "LOCATION", days(2, 4), name="Papa")]
+    assert SAME_AS_CANDIDATES.run(make_ctx(ents, docs_per_period={"2023": 100}), "LOCATION") == []
+    ents = [ent("a", "PERSON", days(1, 4), name="Pop"), ent("b", "PERSON", days(2, 4), name="Papa")]
+    assert SAME_AS_CANDIDATES.run(make_ctx(ents, docs_per_period={"2023": 100}), "PERSON")
+
+
+def test_edit_distance_prefilter_skips_very_different_lengths(monkeypatch):
+    from artmind.insights.detectors import same_as
+    calls = []
+    monkeypatch.setattr(same_as, "levenshtein", lambda a, b: calls.append((a, b)) or 99)
+    assert same_as.name_match("jonathan", "jon", [], 0.25) is None
+    assert calls == []
+    same_as.name_match("jonathan", "jonathon", [], 0.25)
+    assert calls == [("jonathan", "jonathon")]
+
+
 def test_config_aliases_extend_the_package_list():
     ents = [ent("n1", "PERSON", days(1, 4), name="Nonno"), ent("g1", "PERSON", days(1, 8)[4:], name="Bapu")]
     plain = make_ctx(ents)

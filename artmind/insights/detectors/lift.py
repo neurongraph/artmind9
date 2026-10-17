@@ -8,11 +8,12 @@ two-proportion z-score. Co-occurrence, never cause: every card says so.
 
 from __future__ import annotations
 
+import math
 from collections import defaultdict
 
 from artmind.insights.detectors import Detector, RunContext, Skip, subject
 from artmind.insights.model import Finding
-from artmind.insights.stats import two_proportion_z
+from artmind.insights.stats import bh_qvalues, two_proportion_z
 
 CAPTION = "Co-occurrence on the same day, not cause."
 
@@ -70,14 +71,14 @@ def _subjects(ctx: RunContext, outcome_cls: str):
 def _run(ctx: RunContext, _target: str) -> list[Finding]:
     block = ctx.config.block("outcome")
     cfg = ctx.config.detector("outcome_lift")
-    min_support, min_z = cfg.get("min_support", 10), cfg.get("min_z", 2.0)
+    min_support, min_z, fdr = cfg.get("min_support", 15), cfg.get("min_z", 2.0), cfg.get("fdr", 0.05)
     mood = day_polarity(ctx, block)
     total = len(mood)
     total_negative = sum(1 for m in mood.values() if m < 0)
     if total == 0:
         return []
     baseline = total_negative / total
-    out = []
+    tested = []
     for suffix, name, subjects, days, cls in _subjects(ctx, block["class"]):
         hits = [mood[d] for d in days if d in mood]
         n1 = len(hits)
@@ -85,7 +86,13 @@ def _run(ctx: RunContext, _target: str) -> list[Finding]:
             continue
         x1 = sum(1 for m in hits if m < 0)
         z = two_proportion_z(x1, n1, total_negative - x1, total - n1)
-        if z is None or abs(z) < min_z:
+        if z is None:
+            continue
+        tested.append((suffix, name, subjects, cls, n1, x1, z, math.erfc(abs(z) / math.sqrt(2))))
+    qs = bh_qvalues([t[7] for t in tested])
+    out = []
+    for (suffix, name, subjects, cls, n1, x1, z, p), q in zip(tested, qs):
+        if q > fdr or abs(z) < min_z:
             continue
         share = x1 / n1
         worse = z > 0
@@ -95,7 +102,8 @@ def _run(ctx: RunContext, _target: str) -> list[Finding]:
             title=f"{'Worse' if worse else 'Better'} days with {name}", subjects=subjects,
             stats={"direction": "worse" if worse else "better", "negative_share": round(share, 3),
                    "baseline_negative_share": round(baseline, 3), "lift": round(share - baseline, 3),
-                   "z": round(z, 3), "support": n1, "class": cls, "headline": round(share - baseline, 3)},
+                   "z": round(z, 3), "p": round(p, 4), "q": round(q, 4), "support": n1, "class": cls,
+                   "headline": round(share - baseline, 3)},
             card={"type": "pairs", "subject": name, "share": round(share, 3), "baseline": round(baseline, 3),
                   "lift": round(share - baseline, 3), "caption": CAPTION},
         ))
