@@ -277,6 +277,14 @@ It also gives drafting a natural home. An unmapped `Inbox/` is never ingested;
 already how PARA and Zettelkasten workflows behave in Obsidian, and it is the
 answer to timer-based commits capturing half-written notes.
 
+To re-extract notes whose body has **not** changed (after a schema or prompt
+change), pass `--reextract` to `ingest sync` / `ingest async`, optionally with
+`--match GLOB` (repeatable; relative to the folder you name) to pick the notes.
+They take the `content` tier instead of the metadata-only fast path: the LLM
+runs again under the schema as it stands, the note's graph contribution is
+replaced as for any content change, and the note is neither edited nor given a
+new version. It costs an LLM call per chunk, so narrow it first.
+
 Domain precedence, highest first: `--setDomain` (force + re-extract) → the file's
 own `_domain` frontmatter → the folder mapping → `--domain` as the fallback for
 unmapped files → prompt.
@@ -733,7 +741,9 @@ prompt fix that never reaches the vault looks like a model failure. So:
   blunt substitute: it overwrites the vault's schemas and `meta.yaml` with the
   packaged versions (`--schema NAME` limits it to chosen schemas, adding any the
   vault lacks), discarding local edits. It refuses unless every file it would
-  change is committed, so `git diff` / `git checkout` can review or undo it
+  change is committed, so `git diff` / `git checkout` can review or undo it.
+  Already-ingested notes are not re-read under the new schema until you run
+  `artmind ingest async <folder> --reextract`
 - `artmind domains add` stays, for vault-local schemas
 
 **Table mappings** (`ingest table2graph`) live beside them in

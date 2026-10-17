@@ -62,6 +62,7 @@ def _init_db() -> None:
             domain           TEXT DEFAULT 'general',
             force            INTEGER DEFAULT 0,
             stage_only       INTEGER DEFAULT 0,
+            reextract        INTEGER DEFAULT 0,
             finalize_domains TEXT,
             finalize_state   TEXT,
             finalize_error   TEXT
@@ -236,6 +237,9 @@ def _init_db() -> None:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN force INTEGER DEFAULT 0")
     if "stage_only" not in existing:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN stage_only INTEGER DEFAULT 0")
+    # `ingest async --reextract`: re-run the LLM extraction of unchanged notes.
+    if "reextract" not in existing:
+        cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN reextract INTEGER DEFAULT 0")
     # What a job still owes after its file loop (plan 2026-10-03 B2): the
     # domains whose deferred projection rebuild + embed sweeps have not run
     # yet (a JSON list), and whether they did. Persisted so a resumed or

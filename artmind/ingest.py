@@ -158,6 +158,21 @@ def _init_chunk_rows(doc_sha256: str, doc_id: str, chunk_count: int) -> None:
         conn.close()
 
 
+def _reset_extraction_cache(chunk_data_dir: Path, doc_sha256: str) -> None:
+    """Forget a note's resumable extraction so `extract_kg` runs every LLM step
+    again. Both caches are keyed by the hash of the (unchanged) file, so without
+    this a requested re-extraction would resume as "all steps already ok" and
+    re-read the old answers. The embedding sidecar is kept: a vector depends on
+    the chunk text, not the schema."""
+    conn = _get_db()
+    try:
+        conn.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
+        conn.commit()
+    finally:
+        conn.close()
+    shutil.rmtree(chunk_data_dir, ignore_errors=True)
+
+
 def _get_chunk_statuses(doc_sha256: str) -> dict[int, dict]:
     """Return {chunk_seq: {doc_id, entities_status, properties_status, relationships_status}}."""
     conn = _get_db()
@@ -783,6 +798,7 @@ def ingest_file(
     set_domain: str | None = None,
     fork: bool = False,
     adopt: bool = False,
+    reextract: bool = False,
 ):
     """Ingest one file. Dispatches on source type (docs/document-identity.md):
 
@@ -793,11 +809,20 @@ def ingest_file(
       are gone — re-ingesting a known identity is now always a replace, and
       a copied template with an unedited body is a legitimate new document
       rather than something to guard against.
+
+    `reextract` (vault-native markdown only) re-runs the LLM extraction of a
+    note whose body is unchanged, under the schema as it stands now: the note
+    takes the `content` tier instead of the `metadata_only` fast path (see
+    `NotePlan.tier`). Binaries and ad-hoc files ignore it.
     """
     if _is_vault_native_markdown(source):
         return _ingest_vault_native(
             source, domain=domain, job_id=job_id, chunk_size=chunk_size,
-            set_domain=set_domain, fork=fork, adopt=adopt,
+            set_domain=set_domain, fork=fork, adopt=adopt, reextract=reextract,
+        )
+    if reextract:
+        logger.warning(
+            "--reextract applies to vault notes only; {} is ingested as usual", source.name
         )
     if _is_binary_source(source):
         return _ingest_binary_derived(
@@ -835,13 +860,17 @@ class NotePlan:
     staged: dict | None
     baseline: dict
     version: VersionDecision
+    reextract: bool = False
 
     @property
     def tier(self) -> str:
         """`content` (extract) or `metadata_only` (nothing to extract). A
         `_domain` change is always `content`: the note moves to another
-        schema's extraction."""
-        return "content" if self.domain_changed else self.version.tier
+        schema's extraction. So is a requested re-extraction (`reextract`):
+        the body is unchanged but the schema it is read under may not be.
+        Neither bumps the version -- `version` is still `decide_version`'s,
+        which only counts a changed body."""
+        return "content" if self.domain_changed or self.reextract else self.version.tier
 
     @property
     def is_new(self) -> bool:
@@ -870,8 +899,10 @@ def plan_vault_native(
     set_domain: str | None = None,
     fork: bool = False,
     adopt: bool = False,
+    reextract: bool = False,
 ) -> NotePlan:
-    """Decide, reading only, what ingesting `source` would do.
+    """Decide, reading only, what ingesting `source` would do. `reextract`
+    makes a note whose body is unchanged take the `content` tier anyway.
 
     Raises `NotePlanError` for a bad or missing domain, whatever
     `resolve_identity` raises (`IdentityConflict`, most likely), and
@@ -930,6 +961,7 @@ def plan_vault_native(
         staged=staged,
         baseline=baseline,
         version=decide_version(body, baseline),
+        reextract=reextract,
     )
 
 
@@ -942,6 +974,7 @@ def _ingest_vault_native(
     set_domain: str | None,
     fork: bool,
     adopt: bool,
+    reextract: bool = False,
 ) -> dict:
     from artmind.frontmatter import FrontmatterEditError
 
@@ -949,7 +982,10 @@ def _ingest_vault_native(
     t_file_start = time.monotonic()
 
     try:
-        plan = plan_vault_native(source, domain=domain, set_domain=set_domain, fork=fork, adopt=adopt)
+        plan = plan_vault_native(
+            source, domain=domain, set_domain=set_domain, fork=fork, adopt=adopt,
+            reextract=reextract,
+        )
     except NotePlanError as e:
         file_result["error"] = str(e)
         logger.error(file_result["error"])
@@ -1011,6 +1047,7 @@ def _ingest_vault_native(
         "registered_path": str(source.resolve()),
         "resolution_verdict": resolution.verdict,
         "tier": tier,
+        "reextract": plan.reextract,
         # What extract_kg records in document.json (spec R6) -- the next
         # ingest's baseline, and this version's provenance.
         "provenance": {
@@ -2617,6 +2654,10 @@ def extract_kg(
     # a fresh, empty directory instead of silently inheriting a prior version's
     # cached chunk text/embedding via the setdefault() calls below.
     chunk_data_dir = doc_kg_dir / "chunks" / doc_sha256
+    if file_result.get("reextract"):
+        # `ingest --reextract`: the body is unchanged, so the cache above would
+        # hit on every step.
+        _reset_extraction_cache(chunk_data_dir, doc_sha256)
     chunk_data_dir.mkdir(parents=True, exist_ok=True)
 
     # Identity: a vault-native document's `_ingest_vault_native` already

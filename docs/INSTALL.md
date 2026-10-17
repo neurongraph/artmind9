@@ -338,4 +338,7 @@ After upgrading:
   describes it as planned). To take the packaged versions, commit the vault, run
   `artmind init --force` (or `--force --schema NAME` for just one), then review
   with `git diff .artmind/domains`. It overwrites local edits to those schemas,
-  and refuses if they have uncommitted changes.
+  and refuses if they have uncommitted changes. Notes already ingested keep
+  their old extraction until you re-run it: `artmind ingest async <folder>
+  --reextract` (optionally `--match 'Journal/2026-*.md'`) re-extracts unchanged
+  notes under the new schema without editing them.
