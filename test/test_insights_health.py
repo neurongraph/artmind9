@@ -101,3 +101,35 @@ def test_relationship_usage_tolerates_none_rel():
     ctx = make_ctx([ent("p", "PERSON", ["2024-01-01"])], relations=rels)
     found = RELATIONSHIP_USAGE.run(ctx, "all")
     assert all("None" not in f.key for f in found)
+
+
+from artmind.insights.detectors.health import ATTRIBUTION_SUSPECTS, FRAGMENTS
+
+
+def _rel(i, cls, type):
+    return {"rel": "WORKS_AT", "_id": f"t{i}", "name": f"T{i}", "cls": cls, "type": type, "days": ("2024-01-01",)}
+
+
+def test_attribution_suspects_flags_rare_target_types_on_focused_relations():
+    rels = [_rel(i, "ORGANIZATION", "employer") for i in range(15)]
+    rels += [_rel(15 + i, "LOCATION", "workplace") for i in range(10)]
+    rels += [_rel(40, "ORGANIZATION", "school")]
+    rels += [{"rel": "VISITS", "_id": f"v{i}", "name": f"V{i}", "cls": "LOCATION", "type": f"kind{i}", "days": ("2024-01-01",)}
+             for i in range(30)]   # unfocused relation: no suspects
+    ctx = make_ctx([ent("me", "PERSON", ["2024-01-01"])], anchors={"me"}, anchor_relations=rels)
+    assert ATTRIBUTION_SUSPECTS.plan(ctx) == ["anchor"]
+    (f,) = ATTRIBUTION_SUSPECTS.run(ctx, "anchor")
+    assert f.key == "attribution_suspects:WORKS_AT" and f.action == "reextract" and f.kind == "health"
+    assert [s["_id"] for s in f.stats["suspects"]] == ["t40"]
+    assert f.stats["typical"][0] == {"class": "ORGANIZATION", "type": "employer", "count": 15}
+
+
+def test_fragments_reports_small_cut_off_groups():
+    main = [("m0", f"m{i}") for i in range(1, 8)]
+    islands = [("i1", "i2"), ("j1", "j2"), ("j2", "j3")]
+    ents = [ent(x, "PERSON", ["2024-01-01"]) for x in {n for e in main + islands for n in e}]
+    ctx = make_ctx(ents, entity_edges=sorted(main + islands))
+    (f,) = FRAGMENTS.run(ctx, "all")
+    assert f.key == "fragments:all" and f.stats["count"] == 2 and f.stats["main_component"] == 8
+    assert f.stats["sizes"] == {"2": 1, "3": 1}
+    assert FRAGMENTS.plan(make_ctx(ents)).reason == "no entity relations"

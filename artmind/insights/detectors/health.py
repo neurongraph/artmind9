@@ -6,7 +6,9 @@ Each finding carries an `action` (schema | curate) pointing at the fix.
 from __future__ import annotations
 
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
+
+import networkx as nx
 
 from artmind.insights.detectors import Detector, RunContext, Skip
 from artmind.insights.model import Finding
@@ -171,5 +173,78 @@ KIND_MISMATCH = Detector("kind_mismatch", "health", _all, _run_kind)
 VOCABULARY_SPRAWL = Detector("vocabulary_sprawl", "health", _all, _run_sprawl)
 RELATIONSHIP_USAGE = Detector("relationship_usage", "health", _all, _run_relations)
 OPEN_CONFLICTS = Detector("open_conflicts", "health", _all, _run_conflicts)
-ATTRIBUTION_SUSPECTS = Detector("attribution_suspects", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
-FRAGMENTS = Detector("fragments", "health", lambda ctx: Skip("not implemented"), lambda ctx, t: [])
+# ── attribution_suspects ──────────────────────────────────────────────────────
+
+def _plan_attribution(ctx: RunContext):
+    return ["anchor"] if ctx.anchor_relations else Skip("no anchor relations")
+
+
+def _run_attribution(ctx: RunContext, _target: str) -> list[Finding]:
+    """On a focused anchor relation (its top-3 target (class, type) combos cover >= focus_share),
+    targets whose (class, type) is rare (< max_share) were probably attributed to the wrong subject."""
+    cfg = ctx.config.detector("attribution_suspects")
+    min_targets, max_share, focus = cfg.get("min_targets", 20), cfg.get("max_share", 0.05), cfg.get("focus_share", 0.8)
+    by_rel: dict[str, list[dict]] = defaultdict(list)
+    for r in ctx.anchor_relations:
+        by_rel[r["rel"]].append(r)
+    out = []
+    for rel, rows in sorted(by_rel.items()):
+        if len(rows) < min_targets:
+            continue
+        combo = {r["_id"]: (r["cls"], (r["type"] or "").strip().lower() or "(none)") for r in rows}
+        counts = Counter(combo[r["_id"]] for r in sorted(rows, key=lambda r: r["_id"]))
+        ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+        n = len(rows)
+        if sum(c for _, c in ranked[:3]) / n < focus:
+            continue
+        rare = {k for k, c in counts.items() if c / n < max_share}
+        suspects = sorted((r for r in rows if combo[r["_id"]] in rare),
+                          key=lambda r: (r["cls"], str(r["name"]), r["_id"]))
+        if not suspects:
+            continue
+        out.append(Finding(
+            key=f"attribution_suspects:{rel}", detector="attribution_suspects", kind="health",
+            score=round(min(1.0, 5 * len(suspects) / n), 4),
+            title=f"{len(suspects)} {rel} targets look misattributed",
+            subjects=[{"_id": r["_id"], "name": r["name"], "class": r["cls"]} for r in suspects[:10]],
+            stats={"targets": n,
+                   "suspects": [{"_id": r["_id"], "name": r["name"], "class": r["cls"], "type": r["type"]}
+                                for r in suspects[:20]],
+                   "typical": [{"class": c, "type": t, "count": k} for (c, t), k in ranked[:3]],
+                   "headline": len(suspects)},
+            card={"type": "ranking"}, action="reextract",
+        ))
+    return out
+
+
+# ── fragments ─────────────────────────────────────────────────────────────────
+
+def _plan_fragments(ctx: RunContext):
+    return ["all"] if ctx.profile.entity_edges else Skip("no entity relations")
+
+
+def _run_fragments(ctx: RunContext, _target: str) -> list[Finding]:
+    cfg = ctx.config.detector("fragments")
+    lo, hi = cfg.get("min_size", 2), cfg.get("max_size", 5)
+    g = nx.Graph()
+    g.add_edges_from(ctx.profile.entity_edges)
+    comps = sorted((sorted(c) for c in nx.connected_components(g)), key=lambda c: (-len(c), c[0]))
+    small = [c for c in comps[1:] if lo <= len(c) <= hi]
+    if not small:
+        return []
+    entities = {e._id: e for e in ctx.entities}
+    def describe(i):
+        e = entities.get(i)
+        return {"_id": i, "name": e.name if e else i, "class": e.cls if e else None}
+    return [Finding(
+        key="fragments:all", detector="fragments", kind="health", score=round(min(1.0, len(small) / 50), 4),
+        title=f"{len(small)} small groups of entities are cut off from the main graph",
+        stats={"count": len(small), "main_component": len(comps[0]),
+               "sizes": {str(k): v for k, v in sorted(Counter(len(c) for c in small).items())},
+               "examples": [[describe(i) for i in c] for c in small[:20]], "headline": len(small)},
+        card={"type": "ranking"}, action="curate",
+    )]
+
+
+ATTRIBUTION_SUSPECTS = Detector("attribution_suspects", "health", _plan_attribution, _run_attribution)
+FRAGMENTS = Detector("fragments", "health", _plan_fragments, _run_fragments)
