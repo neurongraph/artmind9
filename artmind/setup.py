@@ -443,6 +443,29 @@ def _render_config_env(
     )
 
 
+def is_artmind_source(root: Path) -> bool:
+    """True when `root` is a checkout of artmind's own source tree.
+
+    Making it a vault would add `.artmind/`, `.gitattributes` and a `.gitignore`
+    block to the repo, and every `artmind` command run from inside it would then
+    anchor to that vault instead of the one the user meant.
+    """
+    root = Path(root)
+    pyproject = root / "pyproject.toml"
+    if not (root / "artmind" / "cli.py").is_file() or not pyproject.is_file():
+        return False
+    try:
+        return 'name = "artmind9"' in pyproject.read_text(encoding="utf-8")
+    except OSError:
+        return False
+
+
+SOURCE_CHECKOUT_MESSAGE = (
+    "{root} is artmind's own source checkout, not a vault; refusing to turn it into one.\n"
+    "  Pass your vault's path: `artmind init <vault>` (or cd into it first)."
+)
+
+
 def scaffold_vault(
     root: Path,
     *,
@@ -462,6 +485,8 @@ def scaffold_vault(
     rule as everything else here.
     """
     root = Path(root).expanduser().resolve()
+    if is_artmind_source(root):
+        raise ValueError(SOURCE_CHECKOUT_MESSAGE.format(root=root))
     layout = VaultLayout(root)
 
     for directory in (
