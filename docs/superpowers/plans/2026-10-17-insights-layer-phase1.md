@@ -2784,6 +2784,11 @@ def test_latest_missing_and_unreadable(roots):
     (roots / "insights" / "demo" / "latest.json").write_text("{not json")
     with pytest.raises(InsightsError, match="unreadable"):
         store.load_latest("demo")
+    # Valid JSON, wrong shape: a hand-edited or truncated snapshot.
+    for bad in ('[]', '{"format": 1}', '{"format": 1, "domain": "demo", "created_at": "x", "findings": [{"key": "k"}]}'):
+        (roots / "insights" / "demo" / "latest.json").write_text(bad)
+        with pytest.raises(InsightsError, match="unreadable"):
+            store.load_latest("demo")
 
 
 def test_list_and_prune_keep_the_newest(roots):
@@ -2879,7 +2884,7 @@ def write_run(run: Run) -> Path:
 def load_run(path: Path) -> Run:
     try:
         return Run.from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
-    except (OSError, ValueError, KeyError, TypeError) as exc:
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
         raise InsightsError(f"{path} is unreadable: {exc}") from exc
 
 
