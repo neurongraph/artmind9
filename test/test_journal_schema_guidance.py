@@ -102,8 +102,10 @@ TRIP_ENTITIES = [
 def test_entities_prompt_says_for_a_name_is_a_beneficiary_not_a_destination(schema):
     prompt = extraction.build_entities_prompt(TICKET_ENTRY, schema)
     assert "BENEFICIARY vs DESTINATION." in prompt
-    assert "Never classify a person as a\nLOCATION" in prompt
-    assert 'in "I booked tickets\nfor Sarah", Sarah is a PERSON' in prompt
+    assert "PEOPLE ARE NEVER LOCATIONS." in prompt
+    assert "A name is a\nPERSON." in prompt
+    assert "I cancelled my own trip to Chicago." in prompt
+    assert "Sarah is never a destination" in prompt
     assert TICKET_ENTRY in prompt
 
 

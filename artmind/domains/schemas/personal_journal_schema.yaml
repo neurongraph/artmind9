@@ -425,11 +425,17 @@ guidance:
     "Narrator", or any other name, and NEVER as another person named in the
     entry (a guest, a host, the subject of an event). If a sentence names other
     people, they are separate entities.
+    PEOPLE ARE NEVER LOCATIONS. A person's name is always a PERSON entity, never
+    a LOCATION, however the sentence is built. Before you emit a LOCATION, ask:
+    is this a place someone can go to, or is it someone's name? A name is a
+    PERSON.
     BENEFICIARY vs DESTINATION. "for <Name>" after booking, buying, holding or
     arranging something (tickets, gifts, clothes, documents, appointments) names
-    the BENEFICIARY of the thing, not a place. Never classify a person as a
-    LOCATION because the word "for" precedes their name: in "I booked tickets
-    for Sarah", Sarah is a PERSON who will travel, not a destination.
+    the BENEFICIARY of the thing, not a place. The destination, if the entry
+    gives one, is a different word ("to Chicago"). Example: "I booked return
+    tickets for Sarah for Sunday. I cancelled my own trip to Chicago." has TWO
+    entities: Sarah is a PERSON (who has the tickets) and Chicago is the
+    LOCATION. Sarah is never a destination, even when a trip is also mentioned.
   relationships: |-
     NARRATOR. Attribute first-person actions ("I drove", "I went", "I stayed",
     "I worked") to "Diarist".
