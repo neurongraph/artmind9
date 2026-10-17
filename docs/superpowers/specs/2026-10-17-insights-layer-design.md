@@ -229,7 +229,8 @@ profile ─▶ plan ─▶ project ─▶ compute ─▶ score ─▶ diff ─�
 4. **Compute**: pure Python over rows. Graph algorithms use networkx (§8).
 5. **Score**: each detector maps its raw statistic to `score` in [0, 1] with
    a support floor (§6). The run keeps the top `max_findings` per detector
-   (default 25) plus every finding the diff marks new.
+   (default 25). A `--only` refresh carries the other detectors' findings
+   over unchanged, so they are not reported as gone.
 6. **Diff**: against the previous snapshot of the same domain (§9.3).
 7. **Narrate** (optional): §11.
 8. **Snapshot**: atomic write (§9.1).
@@ -253,8 +254,9 @@ overridable under `detectors.<name>`.
 - **Statistic:** a Theil–Sen slope of the normalised rate over the last
   `window` periods (default 3), plus the ratio of the last full period to the
   mean of the earlier ones.
-- **Score:** `|log2 ratio| · min(1, sqrt(support / 30))`. Support is the
-  total evidence days; minimum 8.
+- **Score:** `min(1, |log2 ratio| / 3 · min(1, sqrt(support / 30)))`, so an
+  8× change at full support scores 1.0. Support is the total evidence days;
+  minimum 8.
 - **Card:** `series`, rising and fading in separate rankings.
 
 Occurrent classes get the same treatment per `type` value (`type_trend`),
