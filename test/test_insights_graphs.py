@@ -54,3 +54,17 @@ def test_caps(monkeypatch):
 def test_empty_graph():
     g = graphs.co_mention_graph([])
     assert graphs.louvain(g) == [] and graphs.modularity(g, []) == 0.0
+
+
+def test_pair_budget_raises_before_counting(monkeypatch):
+    monkeypatch.setattr(graphs, "MAX_PAIRS", 5)
+    with pytest.raises(graphs.GraphTooLarge, match="raise min_evidence_days"):
+        graphs.co_mention_graph(two_groups())
+
+
+def test_single_day_entities_are_pruned_and_never_nodes():
+    base = graphs.co_mention_graph(two_groups())
+    solo = ent("solo", "PERSON", ["2023-01-01"])
+    g = graphs.co_mention_graph(two_groups() + [solo])
+    assert "solo" not in g.nodes
+    assert sorted(g.edges(data="weight")) == sorted(base.edges(data="weight"))

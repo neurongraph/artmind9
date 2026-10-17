@@ -18,6 +18,7 @@ from artmind.insights.stats import period_of
 
 MAX_NODES = 5000
 MAX_EDGES = 200_000
+MAX_PAIRS = 2_000_000
 SEED = 7
 
 
@@ -27,11 +28,17 @@ class GraphTooLarge(InsightsError):
 
 def co_mention_graph(members: list[EntityRow], min_weight: int = 2) -> nx.Graph:
     """Entities linked by the number of evidence days they share."""
-    ordered = sorted(members, key=lambda e: e._id)
+    # An entity with fewer evidence days than min_weight can never reach min_weight with anyone.
+    ordered = sorted((e for e in members if len(e.days) >= min_weight), key=lambda e: e._id)
     by_day: dict[str, list[str]] = defaultdict(list)
     for e in ordered:
         for d in e.days:
             by_day[d].append(e._id)
+    total = sum(len(ids) * (len(ids) - 1) // 2 for ids in by_day.values())
+    if total > MAX_PAIRS:
+        raise GraphTooLarge(
+            f"co-mention graph needs {total} pair counts (cap {MAX_PAIRS}); raise min_evidence_days"
+        )
     weights: Counter = Counter()
     for d in sorted(by_day):
         weights.update(itertools.combinations(by_day[d], 2))

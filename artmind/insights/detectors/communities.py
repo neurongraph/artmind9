@@ -65,13 +65,14 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
             subjects=[{"_id": n, "name": g.nodes[n]["name"], "class": cls} for n in ordered[:10]],
             stats={"members": ordered, "size": len(c), "headline": len(c)},
             card={"type": "network",
+                  "truncated": len(c) > NETWORK_CARD_NODES,
                   "nodes": [{"_id": n, "name": g.nodes[n]["name"], "weight": wdeg[n]} for n in top],
                   "edges": [{"source": a, "target": b, "weight": d["weight"]} for a, b, d in sorted(sub.edges(data=True))]},
         ))
     ctx.memo[("circles", cls)] = (g, circles)
     if ctx.temporal() and len(ctx.scored_periods()) >= 2:
         out += _shares(ctx, cls, members, circles)
-        out += _cohesion(ctx, cls, members, min_weight, resolution)
+        out += _cohesion(ctx, cls, members, cfg)
     return out
 
 
@@ -95,11 +96,21 @@ def _shares(ctx: RunContext, cls: str, members, circles) -> list[Finding]:
     return out
 
 
-def _cohesion(ctx: RunContext, cls: str, members, min_weight: int, resolution: float) -> list[Finding]:
-    periods, values = ctx.scored_periods(), []
-    for p in periods:
-        gp = graphs.co_mention_graph(graphs.restrict(members, p, ctx.config.period), min_weight)
+def _cohesion(ctx: RunContext, cls: str, members, cfg: dict) -> list[Finding]:
+    min_weight, resolution = cfg.get("min_weight", 2), cfg.get("resolution", 1.0)
+    min_edges = cfg.get("min_period_edges", 3)
+    periods, values = [], []
+    for p in ctx.scored_periods():
+        try:
+            gp = graphs.co_mention_graph(graphs.restrict(members, p, ctx.config.period), min_weight)
+        except graphs.GraphTooLarge:
+            continue
+        if gp.number_of_edges() < min_edges:
+            continue
+        periods.append(p)
         values.append(round(graphs.modularity(gp, graphs.louvain(gp, resolution)), 4))
+    if len(periods) < 2:
+        return []
     slope = theil_sen_slope(values)
     return [Finding(
         key=f"communities:{cls}:cohesion", detector="communities", kind="corpus",

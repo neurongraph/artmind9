@@ -37,11 +37,16 @@ def _run_kind(ctx: RunContext, _target: str) -> list[Finding]:
 
 # ── vocabulary_sprawl ─────────────────────────────────────────────────────────
 
+_PROSE_STARTS = {"what", "how", "why", "who", "when", "where", "was", "is", "did", "does", "if", "whether"}
+
+
 def hint_options(hint) -> list[str]:
     """A hint written as a closed list ('mild, moderate, strong') -> its options; else []."""
     if not isinstance(hint, str) or "e.g" in hint.lower():
         return []
     parts = [p.strip() for p in re.split(r",|\bor\b", hint) if p.strip()]
+    if any(p.split()[0].lower() in _PROSE_STARTS for p in parts):
+        return []
     if len(parts) >= 2 and all(len(p.split()) <= 3 for p in parts):
         return parts
     return []
@@ -130,8 +135,8 @@ def _run_relations(ctx: RunContext, _target: str) -> list[Finding]:
         for i, r1 in enumerate(group):
             for r2 in group[i + 1:]:
                 a, b = set(r1["targets"]), set(r2["targets"])
-                overlap = len(a & b) / min(len(a), len(b))
-                if overlap <= 0.5:
+                overlap = len(a & b) / len(a | b)
+                if overlap < cfg.get("min_jaccard", 0.3):
                     continue
                 out.append(Finding(
                     key=f"relationship_usage:overlap:{src}:{r1['rel']}:{r2['rel']}:{dst}",

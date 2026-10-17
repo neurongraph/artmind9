@@ -28,6 +28,7 @@ def test_circles_shares_and_cohesion():
     assert any({"b1", "b2", "b3", "b4"} <= s for s in member_sets)
     net = circles[0].card
     assert net["type"] == "network" and net["nodes"] and net["edges"]
+    assert net["truncated"] is False
     assert {f.key.split(":")[2] for f in found} == {"circle", "share", "cohesion"}
     share = next(f for f in found if ":share:" in f.key)
     assert set(share.stats["rates"]) == {"2023", "2024"}
@@ -51,6 +52,19 @@ def test_too_large_becomes_a_health_finding(monkeypatch):
     monkeypatch.setattr(graphs, "MAX_NODES", 3)
     (f,) = COMMUNITIES.run(make_ctx(two_groups(), docs_per_period=DOCS), "PERSON")
     assert f.key == "communities:PERSON:too_large" and f.kind == "health" and f.action == "config"
+
+
+def test_cohesion_needs_two_periods_with_edges():
+    da = [f"2023-01-{d:02d}" for d in range(1, 11)]
+    db = [f"2023-06-{d:02d}" for d in range(1, 11)]
+    only_2023 = [ent(f"a{i}", "PERSON", da, name=f"A{i}") for i in range(1, 5)]
+    only_2023 += [ent(f"b{i}", "PERSON", db, name=f"B{i}") for i in range(1, 5)]
+    ctx = make_ctx(only_2023, docs_per_period=DOCS)
+
+    found = COMMUNITIES.run(ctx, "PERSON")
+
+    assert any(":circle:" in f.key for f in found)
+    assert not any(":cohesion" in f.key for f in found)
 
 
 def test_plan_prefers_configured_classes_and_needs_members():

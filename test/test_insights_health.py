@@ -20,6 +20,7 @@ def test_hint_options():
     assert hint_options("health, mood, life situation as mentioned") == []
     assert hint_options("why this plan matters") == []
     assert hint_options(None) == []
+    assert hint_options("what happened, was it positive/negative/neutral") == []
 
 
 def test_vocabulary_sprawl_on_hinted_and_type_properties():
@@ -64,7 +65,20 @@ def test_relationship_usage():
     }
     assert found["relationship_usage:undeclared"].stats["triples"] == [{"rel": "WORKS_AT", "src": "PERSON", "dst": "PLACE", "n": 6}]
     assert found["relationship_usage:unused"].stats["triples"] == [{"rel": "LIVES_AT", "src": "PERSON", "dst": "LOCATION"}]
-    assert found["relationship_usage:overlap:PERSON:VISITS:WENT_TO:LOCATION"].stats["overlap"] == 1.0
+    assert found["relationship_usage:overlap:PERSON:VISITS:WENT_TO:LOCATION"].stats["overlap"] == 0.8
+
+
+def test_relationship_overlap_uses_jaccard_not_containment():
+    schema = {"entity_types": {"PERSON": {"kind": "recurrent"}}}
+    rels = [
+        {"rel": "WENT_TO", "src": "PERSON", "dst": "LOCATION", "n": 40, "declared": True, "targets": [f"l{i}" for i in range(30)]},
+        {"rel": "COMMUTES_TO", "src": "PERSON", "dst": "LOCATION", "n": 12, "declared": True, "targets": ["l0", "l1", "l2"]},
+    ]
+    ctx = make_ctx([ent("p", "PERSON", ["2024-01-01"])], schema=schema, relations=rels)
+
+    found = {f.key for f in RELATIONSHIP_USAGE.run(ctx, "all")}
+
+    assert not any(k.startswith("relationship_usage:overlap:") for k in found)
 
 
 def test_open_conflicts_grouped_by_class():
