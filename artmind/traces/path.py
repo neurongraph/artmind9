@@ -169,3 +169,85 @@ def derive(spans: list[dict], answer: str | None) -> dict:
 
 def is_graph_miss(turn: dict) -> bool:
     return bool(turn.get("fell_through")) and turn.get("answer_basis") == "vector"
+
+
+#: Commands that may run before the Views check: Route picks the domain set
+#: the check needs (artmind-query, "The first two commands, every time").
+_BEFORE_VIEWS_OK = frozenset({"query domains-overview"})
+
+
+def span_domains(span: dict) -> set[str] | None:
+    """The `--domain` values a span ran with, comma-split; None when it named
+    none (for `views list` that means every domain)."""
+    args = span.get("args")
+    raw: list = []
+    if isinstance(args, dict):
+        value = args.get("domain", args.get("domains"))
+        raw = list(value) if isinstance(value, (list, tuple)) else ([value] if value else [])
+    elif isinstance(args, list):
+        for i, token in enumerate(args):
+            if token == "--domain" and i + 1 < len(args):
+                raw.append(args[i + 1])
+            elif isinstance(token, str) and token.startswith("--domain="):
+                raw.append(token.split("=", 1)[1])
+    out = {d.strip() for item in raw if isinstance(item, str) for d in item.split(",") if d.strip()}
+    return out or None
+
+
+def _covers(listed: str, domain: str) -> bool:
+    """`views list --domain` matches the domain family in both directions."""
+    return listed == domain or domain.startswith(listed + ".") or listed.startswith(domain + ".")
+
+
+def views_check(spans: list[dict], listed_before: set[str] | None = None, *,
+                listed_all_before: bool = False) -> dict:
+    """Did the turn check saved views before any other query?
+
+    Any `query views ...` span counts as the check for its domains (`show`
+    and `run` only name views a listing returned). `listed_before` /
+    `listed_all_before` carry listings from earlier turns of the same
+    conversation, which the skill says to reuse. Status:
+
+    - `first`: every domain a query used was checked before that query ran;
+    - `late`: checked, but only after some other query on that domain;
+    - `skipped`: some queried domain was never checked;
+    - `n/a`: nothing ran besides Route and listing/showing views.
+
+    `views_available` is the largest `views list` row count this turn (None
+    when it did not list), so `skipped`/`late` can be told apart from a
+    domain that has no views at all only when some turn listed them.
+    """
+    listed = set(listed_before or ())
+    listed_all = listed_all_before
+    late = skipped = applicable = False
+    available: int | None = None
+    ran = False
+    unchecked: set[str] = set()
+    for span in sorted(spans, key=lambda s: s.get("started_at") or 0.0):
+        command = span.get("command") or ""
+        domains = span_domains(span)
+        if command.startswith("query views"):
+            if domains is None:
+                listed_all = True
+            else:
+                listed |= domains
+            if command == "query views list":
+                available = max(available or 0, span.get("rows") or 0)
+            if command == "query views run":
+                applicable = True  # a view answering the question is the check working
+                ran = ran or span.get("exit_code") == 0
+            continue
+        if command in _BEFORE_VIEWS_OK or not command.startswith("query"):
+            continue
+        applicable = True
+        if listed_all or not domains:
+            continue
+        missing = {d for d in domains if not any(_covers(l, d) for l in listed)}
+        if missing:
+            late = True
+            unchecked |= missing
+    if unchecked and not listed_all:
+        skipped = any(not any(_covers(l, d) for l in listed) for d in unchecked)
+    status = "n/a" if not applicable else "skipped" if skipped else "late" if late else "first"
+    return {"status": status, "listed": sorted(listed), "listed_all": listed_all,
+            "views_available": available, "view_ran": ran}

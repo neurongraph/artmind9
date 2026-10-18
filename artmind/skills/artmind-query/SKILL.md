@@ -1,11 +1,27 @@
 ---
 name: artmind-query
-description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind
+description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Always checks the domain's saved views (`artmind query views list`) before any other retrieval.
 ---
 
 # artmind Query
 
-Use this skill to answer user questions over an artmind domain through the deterministic query CLI. The skill provides the reasoning layer; the CLI provides templated graph/vector retrieval and JSON output.
+Use this skill to answer user questions over an artmind domain through the deterministic query CLI. The skill provides the reasoning layer; the CLI provides saved views, templated graph/vector retrieval and JSON output.
+
+## The first two commands, every time
+
+For each new domain set in a conversation, before any other `artmind query`, `artmind db`
+or insights command:
+
+1. `artmind query domains-overview --compact` (Route), unless the user named the exact
+   domain(s).
+2. `artmind query views list --domain <domain> --compact` (Views), once per domain.
+
+A saved view is the domain owner's reviewed answer to a recurring question; skipping it
+means re-deriving, often wrongly, what one `views run` call would return. This holds even
+when the question looks like an obvious fit for `entity-context`, a pattern, `text2sql`
+or insights — you cannot know a view does not cover it until you have read the list. If
+you are about to run any other query and have not seen this conversation's `views list`
+output for every domain in the set, stop and run it first.
 
 ## Running commands
 
@@ -89,7 +105,7 @@ Some questions are about patterns rather than facts. Examples:
 - "what tends to go with bad days";
 - "who have I lost touch with".
 
-The domain owner's insights snapshot already answers those. Check it before walking the protocol below:
+The domain owner's insights snapshot already answers those. Check it after Route and Views (a saved view still comes first), before Discover:
 
 ```bash
 artmind query insights list --domain <domain> --compact
@@ -123,26 +139,13 @@ artmind query domains-overview --compact
   sub-agent needed, since routing is already resolved.
 - If the user names an AREA ("banking", "our policies"), or it's unclear which
   domain(s) hold the answer, or listings look large, launch ONE sub-agent that runs
-  `domains-overview` + per-domain `structural-metadata --compact` + `entity-resolve`,
-  and returns ONLY a compact routing report:
-  `{domains, resolved_entities:[{_id,name,class,domain,observation_count}], relevant_classes, relevant_rel_types}`.
-  Main context never sees the raw listings.
+  `domains-overview` + per-domain `views list --compact` + `structural-metadata --compact`
+  + `entity-resolve`, and returns ONLY a compact routing report:
+  `{domains, views:[{domain,name,summary,params}], resolved_entities:[{_id,name,class,domain,observation_count}], relevant_classes, relevant_rel_types}`.
+  Main context never sees the raw listings. Its `views` list is the Views step's
+  catalogue: you still go on to Views and match the question against it.
 - Pass `--domain` once per selected domain on every subsequent command; a single
   command call now spans all of them.
-
-#### Store routing
-
-Once the domain set is fixed, check whether a structured store is even in play:
-
-```bash
-artmind db bridge --domain <d> --compact
-```
-
-An empty `tables` list means the domain is genuinely pure-graph — go on to
-Views below, no further `db` calls. If it returns any tables, read
-`references/structured-store.md` before classifying the question — it covers
-store routing (narrative vs analytical vs hybrid vs records-plus-guidance),
-worked examples, and how `--asOf` threads through the hybrid chain.
 
 ### 1. Views — check for a saved view first
 
@@ -151,17 +154,25 @@ for a question that keeps coming up, together with guidance on how to present it
 matching view replaces Discover, Resolve and Retrieve: one call instead of several.
 
 List the catalogue **once per domain per conversation** (it needs the domain set from
-Route), and reuse that listing for later questions in the same conversation:
+Route), and reuse that listing for later questions in the same conversation — but match
+**every** new question against it, not only the first:
 
 ```bash
 artmind query views list --domain <domain> --compact
 ```
 
-Re-list only if the user says they just added or changed a view. An empty `views` list
-means this domain has none: go on to Discover. `invalid` entries are broken views;
-ignore them (mention them only if the user asks about views).
+This is not optional and not skipped for "simple" questions. Re-list only if the user
+says they just added or changed a view. An empty `views` list means this domain has none:
+go on to Store routing below. `invalid` entries are broken views; ignore them (mention
+them only if the user asks about views).
 
-If the question matches a view's `summary` or `examples`:
+A question **matches** a view when the view's `summary` or `examples` describe the same
+kind of question, even in different words or about a different entity: the `params` are
+there to carry the entity, date or name the user gave. "Who reports to Priya?" matches a
+view whose example is "show me Alex's team". When in doubt, `views show` it and let its
+`skill_md` say whether it fits — that is one cheap call.
+
+If the question matches a view:
 
 1. `artmind query views show <name> --compact` and follow the view's `skill_md`: it says
    when the view is the wrong tool, what each column means, and how to present the result.
@@ -186,11 +197,26 @@ If the question matches a view's `summary` or `examples`:
      `--param <param>=@<_id>`. Otherwise continue with Discover.
 
 If no view fits, or the result is empty or does not answer the question, continue with
-Discover as normal. Never invent a view name; only run names returned by `views list`.
+Store routing and then Discover as normal. Never invent a view name; only run names
+returned by `views list`.
+
+#### Store routing — once no view fits
+
+Check whether a structured store is even in play:
+
+```bash
+artmind db bridge --domain <d> --compact
+```
+
+An empty `tables` list means the domain is genuinely pure-graph — go on to
+Discover below, no further `db` calls. If it returns any tables, read
+`references/structured-store.md` before classifying the question — it covers
+store routing (narrative vs analytical vs hybrid vs records-plus-guidance),
+worked examples, and how `--asOf` threads through the hybrid chain.
 
 ### 2. Discover — learn the domain's shape
 
-Start every new domain/question session with:
+Only after the Views check found no fitting view, start the domain/question session with:
 
 ```bash
 artmind query graph metadata --domain <domain> --compact
@@ -218,7 +244,7 @@ Document/chunk rows and `metadata` carry `valid_from`/`valid_to`/`superseded_by`
 
 ### 3. Resolve — map question names to exact graph nodes
 
-Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and skip straight to Retrieve — don't re-resolve. Otherwise, before running retrieval patterns:
+Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and go on to Retrieve — don't re-resolve (you have already done the Views check by now; those ids also feed a view's `--param <p>=@<_id>`). Otherwise, before running retrieval patterns:
 
 1. Resolve every entity reference in the question:
 
@@ -238,12 +264,16 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
 `timeline`, `conflicts`, `metadata`, `structural-metadata` and
 `entity-listing` all live under the `graph` sub-group (`artmind query graph <cmd>`);
-`entity-context`, `entity-history`, `chunks`, `vector-text`, `entity-resolve` and
+`views`, `entity-context`, `entity-history`, `chunks`, `vector-text`, `entity-resolve` and
 `domains-overview` sit directly under `query` (`artmind query <cmd>`). Copy the prefix
 as written — do not infer it.
 
+This table is for questions the Views check found no view for. A question a saved view
+covers is answered by `artmind query views run <name>` (see Views), not by a row below.
+
 | Question shape | Command |
 |---|---|
+| Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see Views |
 | "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
 | Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
 | "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and retired sources |
@@ -375,6 +405,8 @@ fan-out caveat, and how to qualify a claim by time (superseded documents are
 history, not a live disagreement).
 
 ## Fallback Ladder
+
+The ladder starts after the Views check: a view that fits is tried before any rung below.
 
 1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent. (Same fix as Adjudicate's "only one side retrieved" case — apply it as soon as results look thin, not only after a disagreement surfaces.)
 2. pattern6 empty → pattern5 `--mode shortest`.

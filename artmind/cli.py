@@ -3638,7 +3638,8 @@ def traces_show(trace_id, compact) -> None:
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def traces_triage(since, limit, compact) -> None:
     """Rank unreviewed turns worth reviewing: rated wrong, then partial, then
-    unrated turns by signal score; graph misses rated good come last."""
+    unrated turns by signal score; graph misses rated good come last. Signals
+    include views_skipped / views_late (saved views not checked before other queries)."""
     from artmind.traces import analysis
 
     try:
@@ -3670,7 +3671,9 @@ def traces_feedback(trace_id, rating, expected) -> None:
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def traces_stats(domain, since, by, compact) -> None:
     """Per domain and period: turns, fall-through rate, graph-miss rate, graph
-    productivity, answer basis split, graph attempts before a fall-through."""
+    productivity, answer basis split, graph attempts before a fall-through, and
+    views-first compliance (views checked first / late / skipped, views run,
+    views listed but unused)."""
     from artmind.traces import analysis
 
     try:

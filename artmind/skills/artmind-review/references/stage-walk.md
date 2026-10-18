@@ -31,7 +31,10 @@ A view, pattern or command that answers the question exists and was not used,
 or was used with the wrong parameters (wrong entity id, wrong relationship
 type, wrong domain). Evidence: the unproductive span's command and args, and
 the command you ran that does answer it. Proposal: a change to the query skill
-(which step, which rule) or to a view's `SKILL.md` description.
+(which step, which rule) or to a view's `SKILL.md` description. A
+`views_skipped` or `views_late` triage signal means the agent did not check the
+saved views first; if `artmind query views list` shows a view that answers the
+question, this is the verdict.
 
 ### `missing-view`
 The question needs specific Cypher and it recurs (`artmind traces list` shows

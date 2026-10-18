@@ -54,3 +54,30 @@ def test_views_step_content():
 def test_route_hands_off_to_views_not_discover():
     route = SKILL.split("### 0. Route", 1)[1].split("### 1. Views", 1)[0]
     assert "skip to Discover" not in route and "go on to Views" in route
+
+
+def test_views_check_comes_before_any_other_retrieval():
+    """Agents kept skipping Views: it sat behind Insights and Store routing, both of
+    which handed off to other commands, and the Retrieve table never mentioned it."""
+    first = SKILL.index("## The first two commands, every time")
+    assert first < SKILL.index("## Insights") < SKILL.index("## The Query Protocol")
+    head = " ".join(SKILL[first:SKILL.index("## Grounding Rule")].split())
+    assert "artmind query views list --domain" in head
+    assert "a saved view still comes first" in SKILL.split("## Insights", 1)[1].split("## The Query Protocol", 1)[0]
+
+
+def test_store_routing_runs_only_after_views():
+    route = SKILL.split("### 0. Route", 1)[1].split("### 1. Views", 1)[0]
+    assert "db bridge" not in route
+    assert "views list" in route  # the routing sub-agent reports the catalogue too
+    views = SKILL.split("### 1. Views", 1)[1].split("### 2. Discover", 1)[0]
+    assert "#### Store routing" in views and "artmind db bridge" in views
+    store_ref = (SKILL_DIR / "references" / "structured-store.md").read_text()
+    assert "go straight to Views" not in store_ref
+
+
+def test_retrieve_table_routes_view_questions_to_views_run():
+    retrieve = SKILL.split("### 4. Retrieve", 1)[1].split("### 5. Ground", 1)[0]
+    table = retrieve.split("| Question shape | Command |", 1)[1]
+    first_row = table.split("\n")[2]
+    assert "views run" in first_row
