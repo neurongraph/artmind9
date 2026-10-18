@@ -78,8 +78,8 @@ def test_malformed_yaml_returns_empty_not_raises(tmp_path):
 def test_save_then_load_round_trips_canonical_first(tmp_path):
     path = tmp_path / "same_as.yaml"
     group = [
-        _k("FCA", "REGULATOR", "banking.reference"),
-        _k("Financial Conduct Authority", "REGULATOR", "banking.risk_governance"),
+        _k("fca", "REGULATOR", "banking.reference"),
+        _k("financial conduct authority", "REGULATOR", "banking.risk_governance"),
     ]
     save_groups([group], path)
     reloaded = load_groups(path)
@@ -177,3 +177,24 @@ def test_parse_groups_of_nothing_or_of_garbage_is_no_groups():
     assert parse_groups("") == []
     assert parse_groups("groups: [unclosed") == []
     assert parse_groups("- just\n- a list\n") == []
+
+
+def test_load_groups_folds_display_case_names_to_aggregate_keys(tmp_path):
+    # A hand-written group in display case must still name the stored keys
+    # (casefolded), or it merges nothing; an entity id is not a key.
+    path = tmp_path / "same_as.yaml"
+    path.write_text("""
+groups:
+  - canonical: "Harbour  Tech Park|LOCATION|journal"
+    members:
+      - "Harbour  Tech Park|LOCATION|journal"
+      - "HTP|LOCATION|journal"
+      - "harbour tech park east|LOCATION|journal"
+      - "dd5ec6a07772f333f2de165cbc58ec35bd7134777f77d4a9585d1c63aef007dd"
+""", encoding="utf-8")
+    groups = load_groups(path)
+    assert groups == [[
+        ("harbour tech park", "LOCATION", "journal"),
+        ("htp", "LOCATION", "journal"),
+        ("harbour tech park east", "LOCATION", "journal"),
+    ]]
