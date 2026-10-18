@@ -135,6 +135,15 @@ def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
     group = [canonical_key] + [m for m in member_keys if m != canonical_key]
 
     groups = same_as.load_groups()
+    # Mirror `same_as.validate_groups`, which runs when the file is next read:
+    # a claimed canonical drops the whole group there, silently. Refuse it
+    # here, or the proposal is marked approved and nothing merges.
+    claimed = {key for existing in groups for key in existing}
+    if canonical_key in claimed:
+        raise ValueError(
+            f"canonical {canonical_str!r} is already claimed by an earlier same-as group; "
+            "the proposal stays open"
+        )
     groups.append(group)
     same_as.save_groups(groups)
 

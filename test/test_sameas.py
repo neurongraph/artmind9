@@ -131,6 +131,21 @@ def test_approve_raises_on_unknown_proposal():
             approve("nope")
 
 
+def test_approve_refuses_a_claimed_canonical_instead_of_reporting_approved():
+    """The bug this guards: the proposal was marked approved and the command
+    printed success, but `validate_groups` silently dropped the group on the
+    next read, so nothing merged."""
+    with patch("artmind.sameas.get_proposal", return_value=_fake_proposal()), \
+         patch("artmind.same_as.load_groups", return_value=[[("fca", "REGULATOR", "banking.reference"), ("x", "C", "d")]]), \
+         patch("artmind.same_as.save_groups") as save, \
+         patch("artmind.sameas.neo4j_session") as ctx:
+        with pytest.raises(ValueError, match="already claimed"):
+            approve("pid1")
+
+    save.assert_not_called()
+    ctx.assert_not_called()
+
+
 # ── reject ────────────────────────────────────────────────────────────────────
 
 
