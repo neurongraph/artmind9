@@ -3652,8 +3652,8 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
             continue
         if domains and not domains & set(t.get("domains") or []):
             continue
-        turns.append({k: t[k] for k in ("trace_id", "source", "started_at", "rating", "question", "turns",
-                                        "cost_usd", "fell_through", "answer_basis", "status")})
+        turns.append({k: t[k] for k in ("trace_id", "source", "session_id", "started_at", "rating", "question",
+                                        "turns", "cost_usd", "fell_through", "answer_basis", "status")})
         if len(turns) >= limit:
             break
     _echo_json({"command": "traces_list", "turns": turns}, compact)

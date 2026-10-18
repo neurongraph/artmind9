@@ -77,3 +77,14 @@ def test_list_passes_limit_to_db_when_no_filters():
     assert result.exit_code == 0
     # When no rating/domain filter, limit should be passed as a kwarg to list_turns
     assert any(c.get("limit") == 5 for c in calls), f"calls: {calls}"
+
+
+def test_list_rows_carry_the_conversation_id():
+    store.insert_turn("t-conv", source="admin", question="q", session_id="conv-1")
+    store.update_turn("t-conv", status="done")
+
+    result = CliRunner().invoke(cli, ["traces", "list", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    row = next(t for t in json.loads(result.stdout)["turns"] if t["trace_id"] == "t-conv")
+    assert row["session_id"] == "conv-1"
