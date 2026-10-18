@@ -26,13 +26,18 @@ default:
 
 # ── cli (artmind lifecycle commands) ────────────────────────────────────────
 
-# scaffold the run folder (~/.artmind) + data dirs; seed .env, skills, schemas
-cli-init:
-    uv run artmind init
+# Runs inside VAULT, never here: `artmind init` refuses this source checkout. Re-running it
+# links skills added since the vault was made and refreshes its .gitignore block and plugin.
+# make VAULT an artmind vault or bring it up to date  (usage: just cli-init ~/artmind_vaults/<name>)
+cli-init vault:
+    cd {{quote(vault)}} && artmind init
 
-# initialize SQLite tables and Neo4j constraints/indexes (idempotent)
+# Runs from ~, never from this checkout: inside a vault `setup` targets that vault's .artmind/
+# instead (so ARTMIND_VAULT is unset too). Copies skills, .opencode/ and schemas from the
+# installed package; seeds config.env only if absent; idempotent.
+# refresh ~/.artmind and create SQLite tables + Neo4j constraints/indexes
 cli-setup:
-    uv run artmind setup
+    cd ~ && env -u ARTMIND_VAULT artmind setup
 
 # print the installed artmind version (the Obsidian plugin checks it)
 cli-version:
