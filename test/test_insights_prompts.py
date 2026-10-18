@@ -60,3 +60,21 @@ def test_prompts_carry_version_and_items():
     c = circle_prompt([{"id": "PERSON:a", "members": [{"name": "A"}], "shared": ["Acme"]}])
     assert "PERSON:a" in c
     assert isinstance(PROMPT_VERSION, int)
+
+
+def test_words_from_the_subjects_own_name_are_allowed():
+    plan = finding("open_loops", stats={"age_days": 271},
+                   subjects=[{"_id": "p", "name": "Summer Vacation Trip", "class": "PLAN"}])
+    known = {"vacation", "summer vacation trip", "ben okoro"}
+    assert check_narration("Summer Vacation Trip has been open for 271 days.", plan, known)[0]
+    assert check_narration("The Vacation plan is still open after 271 days.", plan, known)[0]
+    assert check_narration("Vacation with Ben Okoro is open.", plan, known) == (False, "names Ben Okoro")
+
+
+def test_title_numbers_and_list_lengths_are_allowed():
+    broker = Finding(key="b", detector="brokers", kind="corpus", score=0.9, title="Connects 4 circles: Asha Bose",
+                     subjects=[{"_id": "p1", "name": "Asha Bose", "class": "PERSON"}],
+                     stats={"betweenness": 0.53, "circles": ["a", "b", "c"]})
+    assert check_narration("Asha Bose connects 4 circles.", broker, KNOWN)[0]
+    assert check_narration("Asha Bose links 3 circles.", broker, KNOWN)[0]
+    assert check_narration("Asha Bose links 9 circles.", broker, KNOWN)[1] == "number 9 not in stats"

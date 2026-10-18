@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import re
 
-PROMPT_VERSION = 1
+PROMPT_VERSION = 2
 MAX_WORDS = 40
 CIRCLE_MAX_WORDS = 3
 _NUMBER = re.compile(r"(?<![\w.])\d+(?:\.\d+)?")
@@ -93,6 +93,20 @@ def allowed_numbers(stats: dict) -> set[str]:
     return out
 
 
+def _tokens(text: str) -> list[str]:
+    return re.findall(r"[\w']+", text.casefold())
+
+
+def _walk_lists(value):
+    if isinstance(value, dict):
+        for v in value.values():
+            yield from _walk_lists(v)
+    elif isinstance(value, (list, tuple)):
+        yield value
+        for v in value:
+            yield from _walk_lists(v)
+
+
 def check_narration(text: str, finding, known_names: set[str]) -> tuple[bool, str]:
     """(ok, reason). known_names are lowercased names of every entity in the domain."""
     text = (text or "").strip()
@@ -103,14 +117,19 @@ def check_narration(text: str, finding, known_names: set[str]) -> tuple[bool, st
     if finding.detector == "outcome_lift" and _CAUSAL.search(text):
         return False, "causal wording"
     allowed = {str(s.get("name", "")).casefold() for s in finding.subjects}
+    # A phrase made only of words from one of the finding's own subject names
+    # ("Vacation" inside "Summer Vacation Trip") is that subject, not another entity.
+    subject_tokens = [set(_tokens(n)) for n in allowed if n]
     for m in _CAPITALISED.finditer(text):
         words = m.group(0).split()
         for i in range(len(words)):
             for j in range(len(words), i, -1):
                 cand = " ".join(words[i:j]).strip(".,;:'’").casefold()
-                if cand in known_names and cand not in allowed:
+                if cand in known_names and cand not in allowed and \
+                        not any(set(_tokens(cand)) <= toks for toks in subject_tokens):
                     return False, f"names {' '.join(words[i:j]).strip('.,;:')}"
-    numbers = allowed_numbers(finding.stats)
+    numbers = allowed_numbers(finding.stats) | set(_NUMBER.findall(finding.title or ""))
+    numbers |= {str(len(v)) for v in _walk_lists(finding.stats)}
     for n in _NUMBER.findall(text):
         if n not in numbers:
             return False, f"number {n} not in stats"
