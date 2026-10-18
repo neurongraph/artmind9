@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 import pytest
+from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind import vault_new as vn
 
@@ -23,7 +24,7 @@ def test_python_dash_m_artmind_runs_the_cli():
 NEO4J = {
     "name": "demo", "container_name": "neo4j-demo", "state": "running",
     "bolt_url": "bolt://127.0.0.1:7688", "http_url": "http://127.0.0.1:7475",
-    "bolt_port": 7688, "http_port": 7475, "user": "neo4j", "password": "pw-123",
+    "bolt_port": 7688, "http_port": 7475, "user": "neo4j", "password": FAKE_CREDENTIAL,
     "image": "neo4j:latest", "data_dir": "/tmp/neo4j-data/demo/data",
 }
 
@@ -242,7 +243,7 @@ def test_preflight_needs_the_providers_credential(world):
     with pytest.raises(vn.VaultNewError, match="needs ARTMIND_OPENROUTER_API_KEY"):
         vn.preflight(_plan(world))
 
-    vn.MACHINE_CONFIG_ENV.write_text("ARTMIND_KG_LLM_PROVIDER=openrouter\nARTMIND_OPENROUTER_API_KEY=sk-1\n")
+    vn.MACHINE_CONFIG_ENV.write_text(f"ARTMIND_KG_LLM_PROVIDER=openrouter\nARTMIND_OPENROUTER_API_KEY={FAKE_CREDENTIAL}\n")
     assert vn.preflight(_plan(world)) is False
 
 
@@ -276,7 +277,7 @@ def test_new_vault_runs_every_step_with_the_right_arguments(world):
     config = (plan.dir / ".artmind" / "config.env").read_text()
     assert "ARTMIND_KG_NEO4J_URI=bolt://127.0.0.1:7688" in config
     assert "ARTMIND_KG_NEO4J_USERNAME=neo4j" in config
-    assert "ARTMIND_KG_NEO4J_PASSWORD=pw-123" in config
+    assert f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}" in config
     assert (plan.dir / ".obsidian").is_dir()
     children = [c[3:] for c in world.sent(sys.executable, "-m", "artmind")]
     assert children == [["setup"], ["vault", "sync", "--bootstrapSynced", "--compact"]]
@@ -315,7 +316,7 @@ def test_join_clones_and_rebuilds_the_graph(world):
     assert world.sent("git", "commit") == []
     children = [c[3:] for c in world.sent(sys.executable, "-m", "artmind")]
     assert children == [["setup"], ["vault", "sync", "--bootstrapEmpty", "--compact"]]
-    assert "ARTMIND_KG_NEO4J_PASSWORD=pw-123" in (plan.dir / ".artmind" / "config.env").read_text()
+    assert f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}" in (plan.dir / ".artmind" / "config.env").read_text()
 
 
 def test_local_only_commits_but_never_touches_github(world):
@@ -332,7 +333,7 @@ def test_local_only_commits_but_never_touches_github(world):
 
 def test_a_given_neo4j_connection_skips_neo4j_manager(world):
     plan = _plan(world, local_only=True, neo4j_uri="neo4j+s://x.databases.neo4j.io",
-                 neo4j_user="aura", neo4j_password="secret")
+                 neo4j_user="aura", neo4j_password=FAKE_CREDENTIAL)
 
     vn.run_plan(plan, echo=_quiet)
 

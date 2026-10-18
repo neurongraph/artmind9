@@ -1,6 +1,7 @@
 """A hint when another tool's ANTHROPIC_BASE_URL shadows the ibm_ica endpoint."""
 
 import pytest
+from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind import extraction
 
@@ -46,7 +47,7 @@ def test_no_hint_when_config_sets_no_endpoint(tmp_path, monkeypatch):
 
 
 def _ibm_ica_env():
-    return {"ARTMIND_KG_LLM_PROVIDER": "ibm_ica", "ANTHROPIC_AUTH_TOKEN": "t",
+    return {"ARTMIND_KG_LLM_PROVIDER": "ibm_ica", "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL,
             "ANTHROPIC_BASE_URL": "https://other-tool.example"}
 
 

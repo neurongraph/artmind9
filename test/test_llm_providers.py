@@ -2,6 +2,7 @@ import base64
 from unittest.mock import MagicMock, patch
 
 import pytest
+from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind.extraction import call_llm, embed_text, ibm_ica_client_env
 from artmind.llm_providers import describe_image_openrouter, _openrouter_client, _reset_clients
@@ -39,7 +40,7 @@ def test_call_llm_dispatches_to_openrouter_when_configured():
 def test_call_llm_dispatches_to_ibm_ica_via_openrouter_client():
     env = {
         "ARTMIND_KG_LLM_PROVIDER": "ibm_ica",
-        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL,
         "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
     }
     with patch("artmind.extraction.load_env", return_value=env), patch(
@@ -51,7 +52,7 @@ def test_call_llm_dispatches_to_ibm_ica_via_openrouter_client():
     mock_openrouter.assert_called_once()
     args, _ = mock_openrouter.call_args
     sent_env = args[3]
-    assert sent_env["ARTMIND_OPENROUTER_API_KEY"] == "enterprise-token"
+    assert sent_env["ARTMIND_OPENROUTER_API_KEY"] == FAKE_CREDENTIAL
     assert sent_env["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
 
 
@@ -64,12 +65,12 @@ def test_call_llm_ibm_ica_raises_without_auth_token():
 
 def test_ibm_ica_client_env_maps_anthropic_vars_onto_openrouter_shape():
     env = {
-        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL,
         "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
         "OTHER_KEY": "unchanged",
     }
     mapped = ibm_ica_client_env(env)
-    assert mapped["ARTMIND_OPENROUTER_API_KEY"] == "enterprise-token"
+    assert mapped["ARTMIND_OPENROUTER_API_KEY"] == FAKE_CREDENTIAL
     assert mapped["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
     assert mapped["OTHER_KEY"] == "unchanged"
     assert env.get("ARTMIND_OPENROUTER_API_KEY") is None  # original env untouched
@@ -81,7 +82,7 @@ def test_ibm_ica_client_env_raises_without_auth_token():
 
 
 def test_ibm_ica_client_env_omits_url_when_base_url_unset():
-    mapped = ibm_ica_client_env({"ANTHROPIC_AUTH_TOKEN": "tok"})
+    mapped = ibm_ica_client_env({"ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL})
     assert "ARTMIND_KG_LLM_URL" not in mapped
 
 
@@ -95,7 +96,7 @@ def test_ibm_ica_client_env_prefers_the_rescued_url_over_the_shadowed_one():
     original under ARTMIND_KG_ANTHROPIC_BASE_URL before overriding -- this
     must be preferred over the (now wrong) plain name when both are present."""
     env = {
-        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL,
         # shadowed by the SDK backend's own routing override:
         "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica",
         # rescued by _sdk_env_overrides before that override was applied:
@@ -110,7 +111,7 @@ def test_ibm_ica_client_env_falls_back_to_plain_url_outside_chat_ui():
     ever applied) never sets the rescued name -- ANTHROPIC_BASE_URL alone
     must still work exactly as before."""
     env = {
-        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL,
         "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
     }
     mapped = ibm_ica_client_env(env)
@@ -188,14 +189,14 @@ def test_openrouter_client_raises_without_api_key():
 
 
 def test_openrouter_client_uses_default_base_url_when_unset():
-    client = _openrouter_client({"ARTMIND_OPENROUTER_API_KEY": "key"}, 30)
+    client = _openrouter_client({"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}, 30)
     assert str(client.base_url) == "https://openrouter.ai/api/v1/"
 
 
 def test_describe_image_openrouter_sends_base64_vision_payload(tmp_path):
     image = tmp_path / "test.png"
     image.write_bytes(b"fake-image-bytes")
-    env = {"ARTMIND_OPENROUTER_API_KEY": "key"}
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
 
     fake_response = MagicMock()
     fake_response.choices[0].message.content = "a description"
@@ -219,7 +220,7 @@ def test_describe_image_openrouter_sends_base64_vision_payload(tmp_path):
 def test_call_llm_openrouter_raises_clear_error_on_null_choices():
     from artmind.llm_providers import call_llm_openrouter
 
-    env = {"ARTMIND_OPENROUTER_API_KEY": "key"}
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
     fake_response = MagicMock()
     fake_response.choices = None
     fake_response.error = {"message": "Provider returned error", "code": 502}

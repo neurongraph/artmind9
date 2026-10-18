@@ -7,6 +7,7 @@ indefinitely and no reinstall could dislodge it.
 """
 
 import inspect
+from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind.setup import _seed_tree, _setup_neo4j, ensure_machine_config, setup_all
 
@@ -359,7 +360,7 @@ def test_ensure_machine_config_migrates_the_legacy_env_stripping_vault_scoped_ke
         "ARTMIND_USER=me@example.com\n"
         "ARTMIND_KG_LLM_PROVIDER=ollama\n"
         "ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687\n"
-        "ARTMIND_KG_NEO4J_PASSWORD=secret\n"
+        f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}\n"
         "ARTMIND_DATA_DIR=~/artmind_data\n"
         "ARTMIND_VAULT_DIR=~/Projects/artmind-corpus\n"
         "ARTMIND_ARCHIVE_DIR=~/artmind_archive\n"
