@@ -241,7 +241,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
         },
         {
             "name": "Refinement",
@@ -1065,6 +1065,27 @@ def ingest_pending_cmd(compact: bool):
     """
     _setup_logger()
     _echo_json(_pending_report(_vault_or_raise()), compact)
+
+
+@ingest.command("empty-extractions")
+@click.option("--domain", "domain", multiple=True,
+              help="Only these domains or domain families (repeatable; comma-splittable). Default: all")
+@click.option("--minChars", "min_chars", type=int, default=200, show_default=True,
+              help="Ignore notes whose staged chunk text is shorter than this")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_empty_extractions(domain: tuple, min_chars: int, compact: bool) -> None:
+    """List staged notes whose extraction is empty although their text is not. Read-only: no Neo4j, no LLM.
+
+    A re-extraction that came back empty used to replace a note's facts
+    silently. Prints `{notes, scanned}`: each note's vault-relative `path`,
+    `domain`, staged `chars` and `chunks`. Re-extract one with
+    `artmind ingest sync "<path>" --reextract`.
+    """
+    import paths
+    from artmind.staging_audit import empty_extractions
+
+    _echo_json(empty_extractions(paths.KG_DIR, domains=_parse_repeatable(domain) or None,
+                                 min_chars=min_chars), compact)
 
 
 @ingest.command("jobs")
