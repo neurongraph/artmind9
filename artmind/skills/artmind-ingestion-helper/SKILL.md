@@ -206,6 +206,18 @@ Use when extraction failed mid-way. (For a schema change, use `--reextract` belo
 artmind ingest extract-kg DOCUMENT_NAME --domain YOUR_DOMAIN
 ```
 
+`extract-kg` finds the note in **this machine's** registry. A note ingested on
+another machine of the same vault is staged and in the graph but not in this
+registry, and `extract-kg` reports `not found in registry` (it then prints the
+command below). Re-extract such a note from inside the vault with:
+
+```bash
+artmind ingest sync "<vault-relative path>" --reextract
+```
+
+A re-extraction that fails, or comes back empty for an unchanged note, keeps the
+note's previous extraction and marks the file failed — re-run the same command.
+
 This skips chunks that already succeeded and only re-runs failed/missing ones. After it completes, write to Neo4j:
 
 ```bash
@@ -620,9 +632,10 @@ pattern matches the chosen name.
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | `No document sub-folders with document.json found` | Passed a high-level folder (e.g. `data/kg`) instead of the domain folder | The CLI will now search recursively and confirm — just proceed, or pass `--folder data/kg/DOMAIN` directly |
-| `Document not found in registry` | Document was never ingested with `sync`/`async` | Run `artmind ingest sync FILE --domain DOMAIN` first |
+| `Document not found in registry` | Never ingested on **this machine** — either never ingested, or ingested on another machine of the vault (then the message says it is staged) | Never ingested: `artmind ingest sync FILE`. Staged elsewhere: `artmind ingest sync "<path>" --reextract` from inside the vault |
 | `No chunks found` | `sync` hasn't been run yet, or only `async` was submitted but not completed | Check with `artmind ingest jobs`; if needed run `sync` |
-| Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
+| Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time. The file is marked failed and its previous extraction is kept; re-run it (`extract-kg`, or `ingest sync "<path>" --reextract`) |
+| A note's facts are missing from answers though its text is there | Its staged extraction is empty (an earlier bad run, before the loss guard) | `artmind ingest empty-extractions --domain DOMAIN` lists such notes; re-extract each with `artmind ingest sync "<path>" --reextract` |
 | Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable). Then either `artmind ingest retry-job JOB_ID` (the job now reads as stalled, and the stuck file is re-queued) or `artmind ingest extract-kg DOC --domain DOMAIN` for one file. See Situations D.1 and E. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot (it restores the graph's sync bookmark too), or `write-to-graph` if JSON exists |
 | `vault sync`: "unresolved conflicts in N file(s) under .artmind/" | Obsidian Git's merge stopped on a conflict in artmind's generated files — two machines regenerated the same document folder, table or curation record | `artmind vault resolve --dryRun` to see the side each takes, then `artmind vault resolve` (one whole side per unit, staged, never committed; it refuses while the worker runs or when no merge is in progress); resolve any `reported` or `pending` notes in Obsidian, let Obsidian Git commit the merge, then `vault sync` |
