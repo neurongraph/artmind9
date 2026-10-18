@@ -113,6 +113,26 @@ def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
     return out
 
 
+def _registry_miss_message(document_name: str, domain: str) -> str:
+    """`not found in registry`, plus the way out when the note is staged here
+    but was ingested on another machine: the registry is per machine, staging
+    travels with the vault (spec 2026-10-18-extraction-loss-guard-design.md §3.4)."""
+    import paths
+
+    message = f"Document '{document_name}' not found in registry for domain '{domain}'"
+    folder = paths.KG_DIR / domain / Path(document_name).stem
+    try:
+        staged = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return message
+    path = staged.get("path") or document_name if isinstance(staged, dict) else document_name
+    return (
+        f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
+        f"probably ingested on another machine. Re-extract it here with:\n"
+        f'  artmind ingest sync "{path}" --reextract'
+    )
+
+
 def _parse_tables(values: "tuple[str, ...]") -> list[str]:
     """Flatten repeatable/comma-split --table values into a deduped list,
     mirroring `_parse_domains`'s own convention for --domain."""
@@ -1237,7 +1257,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
 
     file_result = _build_file_result_from_db(document_name, domain)
     if file_result is None:
-        raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+        raise click.ClickException(_registry_miss_message(document_name, domain))
     if file_result["chunk_count"] == 0:
         raise click.ClickException(
             f"No chunks found at {file_result['chunks_dir']} — "
@@ -1416,7 +1436,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             raise click.ClickException("--domain is required when specifying a single document")
         file_result = _build_file_result_from_db(document_name, domain)
         if file_result is None:
-            raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+            raise click.ClickException(_registry_miss_message(document_name, domain))
 
         registered_path = Path(file_result["registered_path"])
         doc_kg_dir = KG_DIR / domain / registered_path.stem
