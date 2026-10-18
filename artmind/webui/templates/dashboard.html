@@ -32,11 +32,13 @@
   <main class="dash">
     <div class="tabs view-tabs" data-tab-group="view">
       <button type="button" class="tab active" data-tab="operate">Ingest &amp; browse</button>
+      <button type="button" class="tab" data-tab="insights">Insights</button>
       <button type="button" class="tab" data-tab="benchmark">Benchmark</button>
       <button type="button" class="tab" data-tab="maintenance">Maintenance</button>
       <button type="button" class="tab" data-tab="structured">Structured data</button>
       <button type="button" class="tab" data-tab="cli-guide">CLI guide</button>
       <button type="button" class="tab" data-tab="schemas">Schemas</button>
+      <button type="button" class="tab" data-tab="views">Views</button>
     </div>
 
     <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
@@ -425,7 +427,40 @@
       <p class="dash-empty" id="schema-ref-empty" hidden>No entities or relationships match your search.</p>
     </section>
     </div>
-  </main>
+      <div class="tab-panel" data-tab-group="view" data-tab-panel="insights">
+    <section class="dash-panel dash-zone-wide" id="insights-panel">
+      <h2>Insights</h2>
+      <p class="dash-hint">Deterministic findings from the latest snapshot of a domain. Cards are leads, not conclusions.</p>
+      <form class="dash-form" id="insights-form" onsubmit="return false">
+        <label>
+          Domain
+          <select id="insights-domain"></select>
+        </label>
+        <button id="insights-refresh-btn" type="button" class="btn-secondary">Refresh</button>
+        <label class="checkbox"><input id="insights-force" type="checkbox"> force</label>
+      </form>
+      <p class="dash-note" id="insights-status"></p>
+      <div id="insights-anchors"></div>
+      <div id="insights-body"><p class="dash-empty">Open this tab to load insights.</p></div>
+    </section>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="views">
+    <section class="dash-panel dash-zone-wide" id="views-panel">
+      <h2>Views</h2>
+      <p class="dash-hint">Saved, read-only graph queries. Authoring stays with the artmind-create-view skill.</p>
+      <form class="dash-form" id="views-form" onsubmit="return false">
+        <label>
+          Domain
+          <select id="views-domain"></select>
+        </label>
+      </form>
+      <div id="views-list" class="ins-grid"></div>
+      <div id="views-detail"></div>
+    </section>
+    </div>
+
+</main>
 
   <aside id="job-drawer" class="drawer" aria-hidden="true">
     <div class="drawer-head">
@@ -441,5 +476,9 @@
 
   <script src="{{ static_url('dashboard.js') }}"></script>
   <script src="{{ static_url('benchmark.js') }}"></script>
+  <script src="{{ static_url('vendor/purify.min.js') }}"></script>
+  <script src="{{ static_url('vendor/marked.min.js') }}"></script>
+  <script src="{{ static_url('insights.js') }}"></script>
+  <script src="{{ static_url('views.js') }}"></script>
 </body>
 </html>

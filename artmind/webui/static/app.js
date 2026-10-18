@@ -535,6 +535,22 @@ if (promptEl.value.trim() !== "") {
   promptEl.setSelectionRange(promptEl.value.length, promptEl.value.length);
 }
 
+// `/?ask=…` (the admin console's Insights cards) prefills the composer
+// like `?prompt=` does, but is applied client-side. Never sent.
+(function applyAskParam() {
+  const params = new URLSearchParams(window.location.search);
+  const ask = params.get("ask");
+  if (!ask) return;
+  promptEl.value = ask;
+  autogrow();
+  sendBtn.disabled = ask.trim() === "";
+  promptEl.focus();
+  promptEl.setSelectionRange(promptEl.value.length, promptEl.value.length);
+  params.delete("ask");
+  const qs = params.toString();
+  history.replaceState(history.state, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+})();
+
 composerEl.addEventListener("submit", (e) => {
   e.preventDefault();
   if (streaming) stop();
