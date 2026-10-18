@@ -4044,7 +4044,8 @@ def sameas():
     review queue (the SAME queue conflicts.py's cross-domain adjudicator
     feeds — see `ingest detect-conflicts`, and `ingest refine-graph`, the
     other proposer); `approve` is what actually appends to `same_as.yaml` and
-    triggers a rebuild. Subcommands: propose, list, approve, reject.
+    triggers a rebuild (once for any number of ids). Subcommands: propose, list,
+    approve, reject.
     """
 
 
@@ -4098,22 +4099,34 @@ def sameas_list(status: str, compact: bool) -> None:
 
 
 @sameas.command("approve")
-@click.argument("proposal_id")
-@click.option("--canonical", default=None, help="Override which member becomes canonical (must be one of the proposal's members). Default: the proposer's own suggestion.")
+@click.argument("proposal_ids", nargs=-1, required=True)
+@click.option("--canonical", default=None, help="Override which member becomes canonical (must be one of the proposal's members). One proposal only. Default: the proposer's own suggestion.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def sameas_approve(proposal_id: str, canonical: str | None, compact: bool) -> None:
-    """Approve a proposal: append its group to same_as.yaml and rebuild.
+def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, compact: bool) -> None:
+    """Approve proposals: append their groups to same_as.yaml and rebuild.
 
-    Runs a full rebuild scoped to the domain families the group touches — NOT
-    an incremental one, since the group may include a key no recent commit
-    touched. Does not clear `projection status`'s drift flag by itself; run a
+    Several ids are approved together with ONE same_as.yaml write and ONE
+    rebuild over the union of the domains they touch, instead of a rebuild per
+    id. A proposal that can't be approved (unknown, already resolved, or its
+    canonical already claimed by an earlier group) is listed under `skipped`
+    with the reason and stays as it was; it does not stop the rest. With one
+    id the output is the single-approval object and a refusal is an error.
+
+    Runs a full rebuild scoped to the domains the groups touch -- NOT an
+    incremental one, since a group may include a key no recent commit touched.
+    Does not clear `projection status`'s drift flag by itself; run a
     domain-unscoped `projection rebuild` for that.
     """
     _setup_logger()
-    from artmind.sameas import approve
+    from artmind.sameas import approve, approve_many
 
     try:
-        result = approve(proposal_id, canonical=canonical)
+        if len(proposal_ids) == 1:
+            result = approve(proposal_ids[0], canonical=canonical)
+        elif canonical:
+            raise click.UsageError("--canonical applies to one proposal; approve it on its own")
+        else:
+            result = approve_many(list(proposal_ids))
     except ValueError as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)

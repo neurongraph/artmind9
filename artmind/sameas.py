@@ -17,7 +17,7 @@ A proposal names a canonical member and its group — the same shape
 convention) — so approving one is a direct append, not a translation step.
 
 This module owns the queue's lifecycle (`propose` / `list_proposals` /
-`approve` / `reject`); it never generates candidates itself — "don't write a
+`approve` / `approve_many` / `reject`); it never generates candidates itself — "don't write a
 second proposer."
 """
 from __future__ import annotations
@@ -94,29 +94,18 @@ def get_proposal(proposal_id_: str) -> dict | None:
     return rec.get("p") if rec else None
 
 
-def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
-    """Approve a proposal: append its group to `same_as.yaml`, mark it
-    approved, and run a projection rebuild scoped to the touched top-level
-    domain families.
+def _plan_group(
+    proposal: dict | None, proposal_id_: str, canonical: str | None, claimed: set[tuple[str, str, str]]
+) -> tuple[str, list[tuple[str, str, str]], list[str]]:
+    """The group `proposal` would add, given the keys `claimed` by earlier
+    groups: `(canonical string, group with canonical first, dropped members)`.
 
-    A full (not incremental) rebuild, scoped by domain family — `sameas
-    approve` is rare and human-triggered, not per-document, so correctness
-    over incrementality: an incremental rebuild seeded from a hand-picked key
-    set risks missing a member whose own document commit predates the group
-    (see `projection._plan_groups`'s docstring on what a caller must
-    guarantee).
-
-    `canonical` overrides which member becomes canonical (must be one of the
-    proposal's members); omitted, the proposer's own suggestion is used.
-
-    This does NOT clear `:ProjectionState`'s drift flag — that only happens
-    on a truly full (`--domain` omitted) `projection rebuild`, since this
-    rebuild is scoped to the domains this one group touches, not everything
-    `same_as.yaml` as a whole could affect.
+    Mirrors `same_as.validate_groups` (the check that runs when the file is
+    next read) so a group is refused HERE rather than approved and then
+    silently dropped there: a claimed canonical refuses the whole group, a
+    claimed non-canonical member only drops out of it. Raises `ValueError`
+    with the reason when the proposal can't be approved.
     """
-    from artmind import projection, same_as
-
-    proposal = get_proposal(proposal_id_)
     if not proposal:
         raise ValueError(f"No SameAsProposal with id {proposal_id_!r}")
     if proposal.get("status") != "open":
@@ -132,49 +121,122 @@ def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
     member_keys = [k for m in members_str if (k := _parse_key(m))]
     if not canonical_key or len(member_keys) < 2:
         raise ValueError(f"Proposal {proposal_id_!r} has too few valid keys to form a group")
-    group = [canonical_key] + [m for m in member_keys if m != canonical_key]
-
-    groups = same_as.load_groups()
-    # Mirror `same_as.validate_groups`, which runs when the file is next read:
-    # a claimed canonical drops the whole group there, silently. Refuse it
-    # here, or the proposal is marked approved and nothing merges.
-    claimed = {key for existing in groups for key in existing}
     if canonical_key in claimed:
         raise ValueError(
             f"canonical {canonical_str!r} is already claimed by an earlier same-as group; "
             "the proposal stays open"
         )
-    groups.append(group)
-    same_as.save_groups(groups)
+    others = [m for m in member_keys if m != canonical_key]
+    dropped = [key_string(m) for m in others if m in claimed]
+    kept = [m for m in others if m not in claimed]
+    if not kept:
+        raise ValueError(
+            f"every other member of proposal {proposal_id_!r} is already claimed by an earlier "
+            "same-as group; the proposal stays open"
+        )
+    return canonical_str, [canonical_key] + kept, dropped
 
-    with neo4j_session() as session:
-        session.run(
-            """
-            MATCH (p:SameAsProposal {id: $id})
-            SET p.status = 'approved', p.resolved_at = $now, p.approved_canonical = $canonical
-            """,
-            id=proposal_id_, now=datetime.now(timezone.utc).isoformat(), canonical=canonical_str,
-        )
-        # The FULL domain string per touched key, not its top-level family.
-        # `projection.full_rebuild`'s domain scoping already rolls a domain
-        # UP to its descendants via `STARTS WITH (d + '.')` (see
-        # `all_keys`/`domain_predicate`) — passing the truncated family name
-        # (e.g. "banking") is therefore indistinguishable from a corpus-wide
-        # rebuild whenever every real domain nests one level under it, which
-        # is true of every domain in this schema set today. See
-        # neurongraph/artmind9#12.
-        touched_domains = sorted({k[2] for k in group if k[2]})
-        summary = session.execute_write(
-            lambda tx: projection.full_rebuild(
-                tx, touched_domains or None,
-                synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks),
+
+def approve_many(proposal_ids: list[str], *, canonical: str | None = None) -> dict:
+    """Approve several proposals with ONE `same_as.yaml` write and ONE rebuild.
+
+    Each approval used to rebuild every touched domain, so a batch of N paid
+    N full rebuilds when only the last one's result survives. Here the groups
+    are planned in order against the keys already claimed (by the file and by
+    earlier proposals in this batch), written together, and the projection is
+    rebuilt once over the union of the touched domains.
+
+    A proposal that can't be approved -- unknown, already resolved, a bad
+    canonical, or a canonical already claimed -- is reported in `skipped` with
+    its reason and stays as it was (open ones stay open); it does not stop the
+    others. A claimed non-canonical member only drops out of that group
+    (`dropped_members`).
+
+    Rebuild scope, and what this does NOT clear, are as for `approve`.
+    """
+    from artmind import projection, same_as
+
+    groups = same_as.load_groups()
+    claimed = {key for group in groups for key in group}
+    planned: list[dict] = []
+    skipped: list[dict] = []
+    for pid in dict.fromkeys(proposal_ids):
+        try:
+            canonical_str, group, dropped = _plan_group(get_proposal(pid), pid, canonical, claimed)
+        except ValueError as e:
+            skipped.append({"id": pid, "reason": str(e)})
+            continue
+        claimed.update(group)
+        groups.append(group)
+        planned.append({
+            "id": pid, "status": "partial" if dropped else "approved",
+            "canonical": canonical_str, "group": [key_string(k) for k in group],
+            "dropped_members": dropped, "_group": group,
+        })
+
+    summary = None
+    if planned:
+        same_as.save_groups(groups)
+        with neo4j_session() as session:
+            session.run(
+                """
+                UNWIND $items AS item
+                MATCH (p:SameAsProposal {id: item.id})
+                SET p.status = 'approved', p.resolved_at = $now, p.approved_canonical = item.canonical
+                """,
+                items=[{"id": x["id"], "canonical": x["canonical"]} for x in planned],
+                now=datetime.now(timezone.utc).isoformat(),
             )
-        )
-    logger.info("sameas: approved {} -> group of {} member(s)", proposal_id_, len(group))
+            # The FULL domain string per touched key, not its top-level family.
+            # `projection.full_rebuild`'s domain scoping already rolls a domain
+            # UP to its descendants via `STARTS WITH (d + '.')` (see
+            # `all_keys`/`domain_predicate`) -- passing the truncated family name
+            # (e.g. "banking") is therefore indistinguishable from a corpus-wide
+            # rebuild whenever every real domain nests one level under it, which
+            # is true of every domain in this schema set today. See
+            # neurongraph/artmind9#12.
+            touched_domains = sorted({k[2] for x in planned for k in x["_group"] if k[2]})
+            summary = session.execute_write(
+                lambda tx: projection.full_rebuild(
+                    tx, touched_domains or None,
+                    synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks),
+                )
+            )
+        for x in planned:
+            logger.info("sameas: approved {} -> group of {} member(s)", x["id"], len(x["group"]))
+    for x in planned:
+        del x["_group"]
+    return {"approved": planned, "skipped": skipped, "projection": summary}
+
+
+def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
+    """Approve one proposal: append its group to `same_as.yaml`, mark it
+    approved, and run a projection rebuild scoped to the touched domains.
+
+    A full (not incremental) rebuild, scoped by domain -- `sameas approve` is
+    rare and human-triggered, not per-document, so correctness over
+    incrementality: an incremental rebuild seeded from a hand-picked key set
+    risks missing a member whose own document commit predates the group (see
+    `projection._plan_groups`'s docstring on what a caller must guarantee).
+
+    `canonical` overrides which member becomes canonical (must be one of the
+    proposal's members); omitted, the proposer's own suggestion is used.
+    Raises `ValueError` when the proposal can't be approved (see
+    `approve_many` for several at once, which skips instead).
+
+    This does NOT clear `:ProjectionState`'s drift flag -- that only happens
+    on a truly full (`--domain` omitted) `projection rebuild`, since this
+    rebuild is scoped to the domains this one group touches, not everything
+    `same_as.yaml` as a whole could affect.
+    """
+    result = approve_many([proposal_id_], canonical=canonical)
+    if result["skipped"]:
+        raise ValueError(result["skipped"][0]["reason"])
+    done = result["approved"][0]
     return {
-        "id": proposal_id_, "status": "approved",
-        "canonical": canonical_str, "group": [key_string(k) for k in group],
-        "projection": summary,
+        "id": done["id"], "status": "approved", "canonical": done["canonical"],
+        "group": done["group"], "projection": result["projection"],
+        **({"dropped_members": done["dropped_members"]} if done["dropped_members"] else {}),
     }
 
 

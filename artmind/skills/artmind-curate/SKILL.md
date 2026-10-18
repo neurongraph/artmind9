@@ -118,10 +118,23 @@ artmind sameas reject <proposal_id> --reason "<why>"
 
 ```bash
 artmind sameas approve <proposal_id> [--canonical <key>]
+artmind sameas approve <id1> <id2> <id3> ... --compact      # a whole batch
 ```
 
 Appends the group to `same_as.yaml` and runs a full rebuild scoped to the
-domain families the group touches. `--canonical` overrides which member wins
+domains the group touches. **Approve a batch in one call, never in a shell
+loop:** every call rebuilds, so N calls pay N rebuilds (about 5 s each on an
+8.6k-entity domain), while one call with N ids writes the file once and
+rebuilds once over the union of the domains. `--canonical` applies to a single
+id only.
+
+A proposal that can't be approved does not stop the batch. It is listed under
+`skipped` with the reason and stays as it was: unknown or already resolved, or
+its canonical is **already claimed by an earlier group** (the file's, or an
+earlier id in the same call). Read `skipped`, and a group with `status:
+partial` (some members were already in another group and dropped out of this
+one -- see `dropped_members`). Re-propose or fold a skipped one into the group
+that holds it. With a single id a refusal is an error instead. `--canonical` overrides which member wins
 (default: the proposer's own suggestion) — override it when the "obviously
 right" display name isn't the one the proposer picked.
 
