@@ -103,6 +103,7 @@ export interface BridgeLike {
 
 export interface WatchersLike {
   trackJob(): void;
+  trackSynthesis(): void;
   pullIsOld(maxAgeMs?: number): boolean;
   waitForPull(timeoutMs?: number): Promise<string | null>;
 }
@@ -195,6 +196,12 @@ export class Controller {
   private applyQueued: (() => void) | null = null;
   private pullWait: Promise<unknown> | null = null;
   private heavyErrors: string[] = [];
+  /** Synthesis files uncommitted before the running synthesize started, and
+   * the new ones seen since (kept once seen, so an auto-commit mid-run does
+   * not move the count back). */
+  private synthBaseline = new Set<string>();
+  private synthSeen = new Set<string>();
+  private synthDone = 0;
   inputs: StateInputs = { ...EMPTY_INPUTS };
   activity: ActivityEntry[] = [];
   doctor: DoctorReport | null = null;
@@ -780,14 +787,26 @@ export class Controller {
     this.setBusy("synthesize", true);
     let written = 0;
     const failures: string[] = [];
+    const counted = new Map((this.inputs.synthesis ?? []).map((d) => [d.domain, d.count]));
+    const total = domains.every((d) => counted.has(d))
+      ? domains.reduce((sum, d) => sum + Math.min(counted.get(d) ?? 0, limit ?? Number.POSITIVE_INFINITY), 0)
+      : 0;
+    this.synthBaseline = new Set(synthesisPaths(this.inputs.git.artmindChanges));
+    this.synthSeen = new Set();
+    this.synthDone = 0;
+    this.update({ synthRun: { total, written: 0 } });
+    this.watchers?.trackSynthesis();
     try {
       for (const domain of domains) {
         const result = await this.deps.cli.synthesize(domain, limit);
         this.record(result);
         if (result.ok) written += (result.json as SynthesizeResult).synthesized ?? 0;
         else failures.push(`${domain}: ${result.error}`);
+        this.synthDone = written;
+        this.countSynthesis();
       }
     } finally {
+      this.update({ synthRun: null });
       this.setBusy("synthesize", false);
     }
     this.setActionError("descriptions", failures.length ? failures.join("; ") : null);
@@ -795,6 +814,25 @@ export class Controller {
     await this.refresh({ heavy: true });
     if (failures.length) this.notify("error", failedText(`synthesize ${plural(failures.length, "domain")}`, failures[0]), "descriptions");
     if (written || !failures.length) this.notify("synthesizeDone", withNext(synthesizedText(written), this.checklist), "descriptions");
+  }
+
+  /** Re-read the uncommitted files while a synthesize runs and count the
+   * syntheses it has written; false once no run is going. */
+  async pollSynthesis(): Promise<boolean> {
+    if (!this.inputs.synthRun) return false;
+    const changes = await this.deps.git.artmindChanges();
+    if (!this.inputs.synthRun) return false;
+    for (const path of synthesisPaths(changes)) if (!this.synthBaseline.has(path)) this.synthSeen.add(path);
+    this.update({ git: { ...this.inputs.git, artmindChanges: changes } });
+    this.countSynthesis();
+    return true;
+  }
+
+  private countSynthesis(): void {
+    const run = this.inputs.synthRun;
+    if (!run) return;
+    const written = Math.max(this.synthSeen.size, this.synthDone);
+    if (written !== run.written) this.update({ synthRun: { ...run, written } });
   }
 
   /** Commit & push: Obsidian Git's commit, pull, push (D5, D6). */
@@ -947,4 +985,10 @@ export class Controller {
     this.render();
     this.deps.views.openPanel("doctor");
   }
+}
+
+const SYNTHESES_DIR = ".artmind/data/curation/syntheses/";
+
+function synthesisPaths(paths: string[]): string[] {
+  return paths.filter((path) => path.startsWith(SYNTHESES_DIR));
 }

@@ -29,6 +29,8 @@ export interface WatcherDeps {
   refresh(reason: string): void;
   /** Read the tracked job once; resolves false when it is no longer running. */
   pollJob(): Promise<boolean>;
+  /** Count a synthesize run's progress once; resolves false once it has ended. */
+  pollSynthesis(): Promise<boolean>;
 }
 
 export interface Intervals {
@@ -45,6 +47,7 @@ export class Watchers {
   private intervals: Intervals;
   private headTimer: unknown = null;
   private jobTimer: unknown = null;
+  private synthTimer: unknown = null;
   private groupTimer: unknown = null;
   private arrivals: string[] = [];
   private stable: string | null = null;
@@ -72,8 +75,9 @@ export class Watchers {
     this.started = false;
     if (this.headTimer !== null) this.clock.clearInterval(this.headTimer);
     if (this.jobTimer !== null) this.clock.clearInterval(this.jobTimer);
+    if (this.synthTimer !== null) this.clock.clearInterval(this.synthTimer);
     if (this.groupTimer !== null) this.clock.clearTimeout(this.groupTimer);
-    this.headTimer = this.jobTimer = this.groupTimer = null;
+    this.headTimer = this.jobTimer = this.synthTimer = this.groupTimer = null;
     this.arrivals = [];
   }
 
@@ -149,6 +153,24 @@ export class Watchers {
         }
       });
     }, this.intervals.jobPollMs);
+  }
+
+  /** Count a synthesize run's progress every few seconds until it ends:
+   * one `projection synthesize` call prints nothing until its domain is done. */
+  trackSynthesis(): void {
+    if (this.synthTimer !== null || !this.started) return;
+    this.synthTimer = this.clock.setInterval(() => {
+      void this.deps.pollSynthesis().then((running) => {
+        if (!running && this.synthTimer !== null) {
+          this.clock.clearInterval(this.synthTimer);
+          this.synthTimer = null;
+        }
+      });
+    }, this.intervals.jobPollMs);
+  }
+
+  get trackingSynthesis(): boolean {
+    return this.synthTimer !== null;
   }
 
   get trackingJob(): boolean {

@@ -217,6 +217,7 @@ function setup(options: {
   });
   controller.attachWatchers({
     trackJob: () => tracked.push(clock),
+    trackSynthesis: () => undefined,
     pullIsOld: () => options.pullIsOld ?? false,
     waitForPull: async () => "head",
   });
@@ -805,6 +806,45 @@ describe("Synthesize… (checklist spec §3.4)", () => {
 
     expect(t.cli.calls.filter((c) => c.startsWith("synthesize "))).toEqual(["synthesize general --limit 20", "synthesize habits --limit 20"]);
     expect(t.shown).toEqual([{ kind: "synthesizeDone", text: "Synthesized 2 descriptions. Next: commit & push.", target: "descriptions" }]);
+  });
+
+  it("counts only this run's syntheses, of the chosen domains' candidates capped by the limit", async () => {
+    const older = ".artmind/data/curation/syntheses/old.json";
+    const changes = [older];
+    let finish: (r: CliResult) => void = () => undefined;
+    const t = setup({
+      domains: ["general", "habits"],
+      changes,
+      script: {
+        synthesizeDryRun: (domain) => {
+          const r = dryRun(domain);
+          return { ...r, json: { ...(r.json as object), counts: { synthesize: domain === "general" ? 30 : 4 } } };
+        },
+        synthesize: ((detail: string) =>
+          new Promise<CliResult>((resolve) => {
+            finish = resolve;
+          })) as unknown as (detail: string) => CliResult,
+      },
+    });
+    await t.controller.refresh();
+
+    const run = t.controller.synthesize(["general"], 20);
+    expect(t.controller.inputs.synthRun).toEqual({ total: 20, written: 0 });
+    expect(t.controller.checklist.rows.find((r) => r.id === "descriptions")?.summary).toBe("synthesizing… 0/20");
+
+    changes.push(".artmind/data/curation/syntheses/a.json", ".artmind/data/curation/syntheses/b.json");
+    expect(await t.controller.pollSynthesis()).toBe(true);
+    expect(t.controller.checklist.rows.find((r) => r.id === "descriptions")?.summary).toBe("synthesizing… 2/20");
+
+    // An auto-commit mid-run empties the changes: the count does not fall back.
+    changes.length = 0;
+    await t.controller.pollSynthesis();
+    expect(t.controller.inputs.synthRun?.written).toBe(2);
+
+    finish(result(["projection", "synthesize", "--domain", "general", "--compact"], 0, { domain: "general", model: MODEL, dry_run: false, examined: 30, synthesized: 3, counts: {}, results: [] }));
+    await run;
+    expect(t.controller.inputs.synthRun).toBeNull();
+    expect(await t.controller.pollSynthesis()).toBe(false);
   });
 
   it("a failed domain is one friendly line; the others still count", async () => {

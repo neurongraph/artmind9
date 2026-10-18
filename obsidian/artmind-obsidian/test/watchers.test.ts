@@ -12,6 +12,7 @@ function deps(heads: Array<string | null>, overrides: Partial<WatcherDeps> = {})
     promptsOnArrival: (path) => path.endsWith(".pdf"),
     refresh: (reason) => calls.refresh.push(reason),
     pollJob: async () => false,
+    pollSynthesis: async () => false,
     ...overrides,
   };
   return { d, calls };
@@ -155,6 +156,24 @@ describe("focus and the job poll", () => {
     expect(w.trackingJob).toBe(false);
     await vi.advanceTimersByTimeAsync(9_000);
     expect(pollJob).toHaveBeenCalledTimes(3);
+    w.stop();
+  });
+
+  it("counts a synthesize run every 3 s until it ends", async () => {
+    const answers = [true, false];
+    const pollSynthesis = vi.fn(async () => answers.shift() ?? false);
+    const { d } = deps(["a"], { pollSynthesis });
+    const w = new Watchers(d, INTERVALS);
+    await w.start();
+
+    w.trackSynthesis();
+    w.trackSynthesis();
+    expect(w.trackingSynthesis).toBe(true);
+    await vi.advanceTimersByTimeAsync(6_000);
+    expect(pollSynthesis).toHaveBeenCalledTimes(2);
+    expect(w.trackingSynthesis).toBe(false);
+    await vi.advanceTimersByTimeAsync(6_000);
+    expect(pollSynthesis).toHaveBeenCalledTimes(2);
     w.stop();
   });
 

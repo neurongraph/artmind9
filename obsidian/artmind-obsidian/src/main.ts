@@ -95,6 +95,7 @@ export default class ArtmindPlugin extends Plugin {
           controller.scheduleRefresh(reason);
         },
         pollJob: () => controller.pollJob(),
+        pollSynthesis: () => controller.pollSynthesis(),
       },
       {
         headPollMs: this.artmindSettings.headPollSeconds * 1000,

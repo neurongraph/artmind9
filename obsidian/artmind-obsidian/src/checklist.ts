@@ -516,8 +516,14 @@ export function checklist(inputs: StateInputs): Checklist {
   // ── 6 Descriptions (optional: never amber, never current) ──
   let descriptions: Row;
   if (inputs.busy.synthesize) {
-    const written = changeSources(changes).syntheses;
-    const progress = written > 0 && toSynthesize > 0 ? ` ${count(written)}/${count(toSynthesize)}` : "";
+    // This run's own count, of what it set out to write. The run classifies
+    // afresh, so it can write a few more than the dry runs counted.
+    const run = inputs.synthRun;
+    let progress = "";
+    if (run && !waitingOn.synthesize) {
+      if (run.total > 0 && run.written <= run.total) progress = ` ${count(run.written)}/${count(run.total)}`;
+      else if (run.written > 0) progress = ` ${count(run.written)}`;
+    }
     descriptions = makeRow("descriptions", {
       state: "running",
       glyph: "◌",
