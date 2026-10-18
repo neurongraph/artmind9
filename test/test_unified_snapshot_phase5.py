@@ -8,6 +8,7 @@ import tarfile
 import zipfile
 
 import pytest
+from _fake_credentials import FAKE_CREDENTIAL
 
 import artmind.unified_snapshot as unified_snapshot
 
@@ -123,7 +124,7 @@ def test_archive_curation_never_touches_env(env, tmp_path):
     """Explicit files only, never a glob of the run folder -- .env sits right
     next to same_as.yaml in ARTMIND_HOME and must never be swept in."""
     home, schemas_dir, _ = env
-    (home / ".env").write_text("ARTMIND_KG_NEO4J_PASSWORD=secret\n")
+    (home / ".env").write_text(f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}\n")
     (home / "same_as.yaml").write_text("groups: []\n")
 
     archive_path, _ = unified_snapshot._archive_curation(tmp_path)
@@ -186,7 +187,7 @@ def test_manifest_vault_fields_none_without_a_configured_vault(monkeypatch):
 
 def test_create_snapshot_never_contains_env(env, tmp_path, monkeypatch):
     home, schemas_dir, originals_dir = env
-    (home / ".env").write_text("ARTMIND_KG_NEO4J_PASSWORD=secret\nARTMIND_OPENROUTER_API_KEY=xyz\n")
+    (home / ".env").write_text(f"ARTMIND_KG_NEO4J_PASSWORD={FAKE_CREDENTIAL}\nARTMIND_OPENROUTER_API_KEY={FAKE_CREDENTIAL}\n")
     (home / "same_as.yaml").write_text("groups: []\n")
     (schemas_dir / "general_schema.yaml").write_text("classes: []\n")
     originals_dir.mkdir(parents=True)

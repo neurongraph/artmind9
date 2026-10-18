@@ -8,6 +8,7 @@ equivalent dispatch tests on the text-LLM side (call_llm).
 
 from pathlib import Path
 from unittest.mock import patch
+from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind.ingest import _describe_image
 
@@ -41,7 +42,7 @@ def test_describe_image_dispatches_to_openrouter_when_configured():
 def test_describe_image_dispatches_to_ibm_ica_via_openrouter_client():
     env = {
         "ARTMIND_KG_LLM_PROVIDER": "ibm_ica",
-        "ANTHROPIC_AUTH_TOKEN": "enterprise-token",
+        "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL,
         "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
     }
     with patch("artmind.ingest.load_env", return_value=env), patch(
@@ -53,7 +54,7 @@ def test_describe_image_dispatches_to_ibm_ica_via_openrouter_client():
     mock_openrouter.assert_called_once()
     args, _ = mock_openrouter.call_args
     sent_env = args[4]
-    assert sent_env["ARTMIND_OPENROUTER_API_KEY"] == "enterprise-token"
+    assert sent_env["ARTMIND_OPENROUTER_API_KEY"] == FAKE_CREDENTIAL
     assert sent_env["ARTMIND_KG_LLM_URL"] == "https://gateway.example.com/ica/v1"
 
 

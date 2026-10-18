@@ -5,6 +5,7 @@ import subprocess
 from pathlib import Path
 
 import pytest
+from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind import vault
 from artmind import vault_doctor as doc
@@ -306,7 +307,7 @@ def test_review_privacy_token_in_https_url_warns_without_leaking_token(repo, mon
     assert "x-token-123" not in (check.get("fix") or "")
 
 
-def _run_recorder(monkeypatch, token_rc=0, token="tok-for-login\n"):
+def _run_recorder(monkeypatch, token_rc=0, token=f"{FAKE_CREDENTIAL}\n"):
     """Patch doc.run_command; return the list of (argv, extra_env) it saw."""
     calls = []
 
@@ -326,7 +327,7 @@ def test_gh_visibility_uses_account_named_in_remote(monkeypatch):
     assert calls[0][0] == ["gh", "auth", "token", "--user", "me"]
     view_argv, view_env = calls[1]
     assert view_argv[:3] == ["gh", "repo", "view"]
-    assert view_env == {"GH_TOKEN": "tok-for-login"}
+    assert view_env == {"GH_TOKEN": FAKE_CREDENTIAL}
 
 
 def test_gh_visibility_without_account_uses_active_gh_account(monkeypatch):
