@@ -1806,9 +1806,13 @@ _PROPERTY_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 def entity_history(
     domains: "str | Sequence[str]",
-    entity_id: str,
+    entity_id: str | None = None,
     as_of: str | None = None,
     property: str | None = None,
+    *,
+    key: str | None = None,
+    name: str | None = None,
+    entity_class: str | None = None,
 ) -> dict:
     """Every observation behind one entity, ordered by the **fact-level**
     valid-time axis (`_valid_from`/`_valid_to`) — "what was this worth at
@@ -1818,28 +1822,44 @@ def entity_history(
     cannot: that command only ever sees `:Observation` (current), by design.
 
     Spans **both** `:Observation` and `:ObservationHistory` — a document
-    being retired doesn't make what it once asserted stop having happened.
+    being retired or re-ingested doesn't make what it once asserted stop
+    having happened. Each row carries `status`: `current` or `history`.
+
+    Exactly one lookup:
+
+    - `entity_id` resolves through the live `:Entity` node's `key`. An entity
+      whose observations were all demoted (a re-ingest that dropped a
+      misspelled name, a retired document) has no `:Entity` left — the
+      projection's zero-latest-observations GC removed it — so this path
+      finds nothing for it.
+    - `key` (`name|CLASS|domain`, as `entity-resolve` and `ObservationHistory`
+      rows show it) matches observations directly, live entity or not.
+    - `name` matches observations whose key's name part is `name` normalized
+      the way aggregate keys are (`observations.normalize_name`), or whose
+      extracted `name` / `canonical_name` equals it ignoring case;
+      `entity_class` narrows it. Several keys can match — `keys` lists them.
 
     `--property` narrows to one property's value at each point rather than
     the full observation. `--asOf` here means "every fact in force by this
     date" (`_valid_from <= asOf`), the same floor-not-snapshot meaning as
     everywhere else `--asOf` survives (see the option's own help text).
-
-    Resolves `--entityId` through the live `:Entity` node's `key` property —
-    an entity with zero remaining observations anywhere (fully retired) has
-    no `:Entity` node left to resolve through, and this command has nothing
-    to look the id up against in that case. It is for a still-projecting
-    entity's full fact history, not a fully-retired one.
     """
+    from artmind.observations import normalize_name
+
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
-    entity_id = (entity_id or "").strip()
-    if not entity_id:
-        raise ValueError("--entityId is required")
+    entity_id = (entity_id or "").strip() or None
+    key = (key or "").strip() or None
+    name = (name or "").strip() or None
+    entity_class = (entity_class or "").strip() or None
+    if sum(x is not None for x in (entity_id, key, name)) != 1:
+        raise ValueError("pass exactly one of --entityId, --key or --name")
+    if entity_class and not name:
+        raise ValueError("--entityClass only applies with --name")
     if property is not None and not _PROPERTY_NAME_RE.match(property):
         raise ValueError(f"--property must be a plain identifier; got {property!r}")
 
-    params: dict = {"domains": domains, "entityId": entity_id}
+    params: dict = {"domains": domains}
     filters = []
     if as_of:
         params["asOf"] = as_of
@@ -1849,17 +1869,44 @@ def entity_history(
         filters.append("o[$property] IS NOT NULL")
     filter_clause = "".join(f"\n      AND {f}" for f in filters)
 
-    cypher = f"""
+    if entity_id:
+        params["entityId"] = entity_id
+        match = f"""
     MATCH (ent:Entity {{_id: $entityId}})
     WHERE {domain_predicate("ent")}
     WITH ent.key AS key
     MATCH (o)
     WHERE (o:Observation OR o:ObservationHistory)
-      AND o.key = key{filter_clause}
-    RETURN o {{.*}} AS observation
+      AND o.key = key"""
+    elif key:
+        params["key"] = key
+        match = f"""
+    MATCH (o)
+    WHERE (o:Observation OR o:ObservationHistory)
+      AND o.key = $key
+      AND {domain_predicate("o")}"""
+    else:
+        params["nameKey"] = normalize_name(name)
+        params["nameLower"] = name.casefold()
+        class_clause = ""
+        if entity_class:
+            params["entityClass"] = entity_class
+            class_clause = "\n      AND o.entity_class = $entityClass"
+        match = f"""
+    MATCH (o)
+    WHERE (o:Observation OR o:ObservationHistory)
+      AND {domain_predicate("o")}
+      AND (split(o.key, '|')[0] = $nameKey
+           OR toLower(o.name) = $nameLower
+           OR toLower(o.canonical_name) = $nameLower){class_clause}"""
+
+    cypher = f"""{match}{filter_clause}
+    RETURN o {{.*}} AS observation,
+           CASE WHEN o:Observation THEN 'current' ELSE 'history' END AS status
     ORDER BY o._valid_from, o.doc_id
     """
     rows = strip_internal_props(_run_read_query(cypher, params))
+    keys = sorted({row["observation"].get("key") for row in rows if row["observation"].get("key")})
     if property:
         rows = [
             {
@@ -1868,18 +1915,114 @@ def entity_history(
                 "valid_to": row["observation"].get("_valid_to"),
                 "doc_id": row["observation"].get("doc_id"),
                 "observation_id": row["observation"].get("id"),
+                "status": row.get("status"),
             }
             for row in rows
         ]
+    lookup = (
+        {"entity_id": entity_id} if entity_id
+        else {"key": key} if key
+        else {"name": name, **({"entity_class": entity_class} if entity_class else {})}
+    )
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_history",
-        "entity_id": entity_id,
+        **lookup,
+        "keys": keys,
         "parameters": {
             **({"asOf": as_of} if as_of else {}),
             **({"property": property} if property else {}),
         },
+        "rows": rows,
+    }
+
+
+#: Most documents a `document-history` name can match before it stops.
+DOCUMENT_HISTORY_MAX_DOCUMENTS = 10
+
+
+def document_history(domains: "str | Sequence[str]", document_name: str) -> dict:
+    """What each ingested version of one document asserted: its current
+    `:Observation`s next to the `:ObservationHistory` its earlier versions
+    left behind.
+
+    A re-ingest (`ingest._retract_prior_version`) demotes the prior
+    version's observations, then writes the new version; an observation id
+    is deterministic per chunk + canonical name + class + domain, so a fact
+    the new version still states is revived in place (`current`, its
+    `doc_version` bumped) and only a fact it no longer states stays
+    `history` — with the `doc_version` that last asserted it. A renamed or
+    corrected entity therefore shows up in `dropped_keys`: keys an earlier
+    version asserted that the current one no longer does. (Which current
+    keys are *new* is not recoverable: a kept fact's revived observation
+    looks the same as a new one.)
+
+    Chunk text is not versioned: a chunk id is `{doc_id}_{seq}`, so the new
+    version's chunk replaces the old one's text under the same id, and a
+    history observation's `chunk_id` names a chunk that now holds the
+    current text. The earlier text survives only in the vault's git history
+    (the note, and its `kg/<domain>/<folder>/` staging files).
+
+    Matches `:Document` and retired `:DocumentHistory` nodes whose `name`
+    equals `document_name` ignoring case, or whose `path` or `id` equals it.
+    """
+    domains = normalize_domains(domains)
+    document_name = (document_name or "").strip()
+    if not document_name:
+        raise ValueError("--documentName is required")
+    params = {
+        "domains": domains,
+        "documentName": document_name,
+        "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
+    }
+    cypher = f"""
+    MATCH (d)
+    WHERE (d:Document OR d:DocumentHistory)
+      AND {domain_predicate("d")}
+      AND (toLower(d.name) = toLower($documentName)
+           OR d.path = $documentName
+           OR d.id = $documentName)
+    WITH d ORDER BY d.path LIMIT $limit
+    OPTIONAL MATCH (o)
+    WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
+    WITH d, o ORDER BY o.doc_version, o.key
+    RETURN d {{.id, .name, .path, .version}} AS document,
+           d:DocumentHistory AS retired,
+           collect(CASE WHEN o IS NULL THEN null ELSE o {{
+               .id, .name, .entity_class, .key, .chunk_id, .doc_version,
+               .description, ._valid_from,
+               status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
+           }} END) AS observations
+    """
+    found = _run_read_query(cypher, params)
+    rows = []
+    for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
+        observations = row.get("observations") or []
+        current = {o.get("key") for o in observations if o.get("status") == "current"}
+        history = {o.get("key") for o in observations if o.get("status") == "history"}
+        current.discard(None)
+        history.discard(None)
+        rows.append({
+            "document": row.get("document"),
+            "retired": bool(row.get("retired")),
+            "summary": {
+                "current": sum(o.get("status") == "current" for o in observations),
+                "history": sum(o.get("status") == "history" for o in observations),
+                "history_versions": sorted(
+                    {o["doc_version"] for o in observations
+                     if o.get("status") == "history" and o.get("doc_version") is not None}
+                ),
+            },
+            "dropped_keys": sorted(history - current),
+            "observations": observations,
+        })
+    return {
+        **_domain_output(domains),
+        "query_type": "graph",
+        "command": "document_history",
+        "document_name": document_name,
+        "truncated": len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS,
         "rows": rows,
     }
 
