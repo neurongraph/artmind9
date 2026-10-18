@@ -254,7 +254,7 @@ def _stub_llm(prompt):
         items = _json.loads(prompt.split("Findings:\n", 1)[1])
         return _json.dumps({i["key"]: i["title"].split(": ")[-1] + "." for i in items})
     items = _json.loads(prompt.split("Circles:\n", 1)[1])
-    return _json.dumps({i["id"]: "Old friends" for i in items})
+    return _json.dumps({i["id"]: "Old friends " + ["alpha", "beta", "gamma", "delta"][n % 4] for n, i in enumerate(items)})
 
 
 def test_narration_runs_after_diff_and_is_cached(env):
@@ -266,7 +266,7 @@ def test_narration_runs_after_diff_and_is_cached(env):
     result = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=llm)
     run = store.load_latest("demo")
     assert result["llm"]["calls"] >= 1 and run.llm["narrated"] >= 1
-    assert any(c["name_source"] == "llm" and c["name"] == "Old friends" for c in run.circles)
+    assert any(c["name_source"] == "llm" and c["name"].startswith("Old friends") for c in run.circles)
     assert sum(1 for f in run.findings if f.narration) >= 1
     n = len(calls)
     runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T10:00:00Z", llm=llm, force=True)
@@ -292,3 +292,45 @@ def test_llm_failure_never_fails_the_run(env):
     result = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=down)
     assert result["status"] == "written" and result["llm"]["errors"] >= 1
     assert all(f.narration is None for f in store.load_latest("demo").findings)
+
+
+def test_failed_narration_is_retried_by_next_plain_refresh(env):
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\n")
+    def down(p):
+        raise RuntimeError("provider down")
+    t = lambda: FakeProjector(_tables())
+    assert runner.refresh("demo", projector=t(), now="2026-10-17T09:00:00Z", llm=down)["status"] == "written"
+    assert runner.refresh("demo", projector=t(), now="2026-10-17T10:00:00Z", llm=_stub_llm)["status"] == "written"
+    assert runner.refresh("demo", projector=t(), now="2026-10-17T11:00:00Z", llm=_stub_llm)["status"] == "up_to_date"
+
+
+def test_no_narrate_run_keeps_earlier_captions_and_names(env):
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\nnarrate_top: 3\n")
+    runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=_stub_llm)
+    before = store.load_latest("demo")
+    def boom(p):
+        raise AssertionError("LLM must not be called")
+    runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T10:00:00Z", llm=boom,
+                   narrate=False, force=True)
+    after = store.load_latest("demo")
+    assert sum(1 for f in after.findings if f.narration) == sum(1 for f in before.findings if f.narration) >= 1
+    assert any(c["name_source"] == "llm" for c in after.circles)
+
+
+def test_default_llm_failure_records_only_the_exception_type(env, monkeypatch):
+    from artmind.insights import narrate
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\n")
+    def broken():
+        raise RuntimeError("secret-key-123 rejected")
+    monkeypatch.setattr(narrate, "default_llm", broken)
+    result = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z")
+    assert result["llm"] == {"errors": 1, "error": "RuntimeError"}
+    assert "secret-key" not in str(store.load_latest("demo").llm)
+
+
+def test_llm_stats_report_skipped_batches(env):
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\n")
+    def down(p):
+        raise RuntimeError("x")
+    result = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=down)
+    assert "skipped_batches" in result["llm"]

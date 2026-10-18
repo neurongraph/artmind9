@@ -44,7 +44,7 @@ def test_narrates_batches_checks_and_caches():
     fs = [f(f"k{i}", 0.9 - i / 100) for i in range(25)]
     stats = narrate.narrate_findings(fs, previous=None, ctx=ctx, llm=llm, top=25)
     assert len(llm.prompts) == 2                     # 20 + 5
-    assert stats == {"narrated": 25, "cached": 0, "rejected": 0, "calls": 2, "errors": 0}
+    assert stats == {"narrated": 25, "cached": 0, "rejected": 0, "calls": 2, "errors": 0, "skipped_batches": 0}
     assert all(x.narration and x.narration_key for x in fs)
 
     again = [f(f"k{i}", 0.9 - i / 100) for i in range(25)]
@@ -119,3 +119,38 @@ def test_circle_findings_get_the_circle_name():
                   title="Circle around A: share of mentions", stats={"members": list("abc")})]
     narrate.label_circle_findings(fs, cs)
     assert all(x.stats["circle_name"] == "Work team" for x in fs)
+
+
+def test_first_batch_error_skips_remaining_batches():
+    llm = StubLLM(raises=RuntimeError("down"))
+    fs = [f(f"k{i}", 0.9 - i / 100) for i in range(45)]
+    stats = narrate.narrate_findings(fs, previous=None, ctx=ctx_for(), llm=llm, top=45)
+    assert len(llm.prompts) == 1 and stats["errors"] == 1 and stats["skipped_batches"] == 2
+
+
+def test_duplicate_circle_names_fall_back_to_template():
+    ents = [ent(i, "PERSON", ["2024-01-01"], name=i.upper()) for i in "abcdefghij"]
+    ctx = make_ctx(ents)
+    llm = StubLLM(reply=lambda p: json.dumps({"PERSON:a": "Work team", "PERSON:f": "work team"}))
+    cs = [circle("PERSON:a", list("abcde")), circle("PERSON:f", list("fghij"))]
+    narrate.name_circles(cs, previous=None, ctx=ctx, llm=llm)
+    assert cs[0]["name"] == "Work team" and cs[0]["name_source"] == "llm"
+    assert cs[1]["name"] == "Circle around f" and cs[1]["name_source"] == "template"
+
+
+def test_circle_name_with_member_name_is_rejected():
+    ctx = make_ctx([ent("a", "PERSON", ["2024-01-01"], name="Asha Bose")])
+    cs = [circle("PERSON:a", ["a"])]
+    stats = narrate.name_circles(cs, previous=None, ctx=ctx, llm=StubLLM(reply=json.dumps({"PERSON:a": "Asha's crew"})))
+    assert cs[0]["name_source"] == "template" and stats["rejected"] == 1
+
+
+def test_carry_cached_applies_cache_without_llm():
+    ctx = ctx_for()
+    first = [f("k0", 0.9)]
+    narrate.narrate_findings(first, previous=None, ctx=ctx, llm=StubLLM(), top=5)
+    old = [circle("PERSON:a", list("abc"), name="Work team", source="llm")]
+    new_f, new_c = [f("k0", 0.9), f("k1", 0.8)], [circle("PERSON:b", list("abcd"))]
+    narrate.carry_cached(new_f, first, new_c, old)
+    assert new_f[0].narration == first[0].narration and new_f[1].narration is None
+    assert new_c[0]["name"] == "Work team" and new_c[0]["name_source"] == "llm"

@@ -9,13 +9,21 @@ from __future__ import annotations
 import json
 import re
 
-PROMPT_VERSION = 2
+PROMPT_VERSION = 3
 MAX_WORDS = 40
 CIRCLE_MAX_WORDS = 3
 _NUMBER = re.compile(r"(?<![\w.])\d+(?:\.\d+)?")
+_THOUSANDS = re.compile(r"(?<![\w.,])\d{1,3}(?:,\d{3})+(?![\d])")
+_CAUSAL_LIGHT = re.compile(r"\b(cause[sd]?|because|leads? to|led to|due to)\b", re.I)
 _CAUSAL = re.compile(
-    r"\b(cause[sd]?|causing|because|leads? to|led to|results? in|makes?|made|due to|drives?|so that)\b", re.I)
-_CAPITALISED = re.compile(r"\b[A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*){0,3}")
+    r"\b(cause[sd]?|causing|because|leads? to|led to|leading to|results? in|resulting in|makes?|made|due to|"
+    r"drives?|driven by|driving|so that|therefore|thanks to|as a result|boosts?|increases?|improves?|reduces?|"
+    r"triggers?|contributes?|explains?|affects?|responsible for)\b", re.I)
+_NUMBER_WORDS = re.compile(
+    r"\b(twice|half|dozen|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|"
+    r"sixteen|seventeen|eighteen|nineteen|twenty|hundred|thousand)\b", re.I)
+_UNSAFE_CHARS = re.compile(r"[<>\[\]`{}]|http", re.I)
+MAX_NAME_TOKENS = 6
 
 FINDING_TEMPLATE = """You write one-sentence captions for findings computed from a personal knowledge graph.
 
@@ -93,10 +101,6 @@ def allowed_numbers(stats: dict) -> set[str]:
     return out
 
 
-def _tokens(text: str) -> list[str]:
-    return re.findall(r"[\w']+", text.casefold())
-
-
 def _walk_lists(value):
     if isinstance(value, dict):
         for v in value.values():
@@ -107,6 +111,59 @@ def _walk_lists(value):
             yield from _walk_lists(v)
 
 
+def _split_tokens(text: str) -> list[tuple[str, str, bool]]:
+    """(casefolded, original, starts_sentence) per token: split on whitespace and hyphens,
+    surrounding punctuation and a trailing possessive stripped."""
+    out = []
+    start = True
+    for m in re.finditer(r"[^\s\-\u2010-\u2015]+", text):
+        raw = m.group(0)
+        tok = re.sub(r"^\W+|\W+$", "", raw)
+        tok = re.sub(r"['\u2019]s$", "", tok, flags=re.I)
+        if tok:
+            out.append((tok.casefold(), tok, start))
+            start = False
+        if raw[-1] in ".!?":
+            start = True
+    return out
+
+
+def _foreign_name(text: str, known_names, subject_names) -> str | None:
+    """The first phrase in text that names a known entity other than the finding's own subjects."""
+    known = set()
+    longest = 1
+    for n in known_names:
+        toks = tuple(t[0] for t in _split_tokens(n))
+        if toks:
+            known.add(toks)
+            longest = max(longest, len(toks))
+    longest = min(longest, MAX_NAME_TOKENS)
+    subjects = [tuple(t[0] for t in _split_tokens(n)) for n in subject_names]
+    subjects = [s for s in subjects if s]
+    toks = _split_tokens(text)
+    for i in range(len(toks)):
+        for n in range(min(longest, len(toks) - i), 0, -1):
+            window = toks[i:i + n]
+            key = tuple(t[0] for t in window)
+            if key not in known:
+                continue
+            if n == 1:
+                _cf, orig, at_start = window[0]
+                if not ((orig[:1].isupper() and not at_start) or (orig.isupper() and len(orig) >= 2)):
+                    continue
+            if any(key == s or set(key) <= set(s) for s in subjects):
+                continue
+            return " ".join(t[1] for t in window)
+    return None
+
+
+def _to_float(n: str) -> float | None:
+    try:
+        return float(n)
+    except ValueError:
+        return None
+
+
 def check_narration(text: str, finding, known_names: set[str]) -> tuple[bool, str]:
     """(ok, reason). known_names are lowercased names of every entity in the domain."""
     text = (text or "").strip()
@@ -114,29 +171,24 @@ def check_narration(text: str, finding, known_names: set[str]) -> tuple[bool, st
         return False, "empty"
     if len(text.split()) > MAX_WORDS:
         return False, "too long"
-    if finding.detector == "outcome_lift" and _CAUSAL.search(text):
+    if _CAUSAL_LIGHT.search(text) or (finding.detector == "outcome_lift" and _CAUSAL.search(text)):
         return False, "causal wording"
-    allowed = {str(s.get("name", "")).casefold() for s in finding.subjects}
-    # A phrase made only of words from one of the finding's own subject names
-    # ("Vacation" inside "Summer Vacation Trip") is that subject, not another entity.
-    subject_tokens = [set(_tokens(n)) for n in allowed if n]
-    for m in _CAPITALISED.finditer(text):
-        words = m.group(0).split()
-        for i in range(len(words)):
-            for j in range(len(words), i, -1):
-                cand = " ".join(words[i:j]).strip(".,;:'’").casefold()
-                if cand in known_names and cand not in allowed and \
-                        not any(set(_tokens(cand)) <= toks for toks in subject_tokens):
-                    return False, f"names {' '.join(words[i:j]).strip('.,;:')}"
+    phrase = _foreign_name(text, known_names, [str(s.get("name", "")) for s in finding.subjects])
+    if phrase:
+        return False, f"names {phrase}"
+    if _NUMBER_WORDS.search(text):
+        return False, "number word"
     numbers = allowed_numbers(finding.stats) | set(_NUMBER.findall(finding.title or ""))
     numbers |= {str(len(v)) for v in _walk_lists(finding.stats)}
-    for n in _NUMBER.findall(text):
-        if n not in numbers:
+    allowed_floats = [x for x in (_to_float(n) for n in numbers) if x is not None]
+    for n in _NUMBER.findall(_THOUSANDS.sub(lambda m: m.group(0).replace(",", ""), text)):
+        v = _to_float(n)
+        if v is None or not any(abs(v - a) <= 1e-9 for a in allowed_floats):
             return False, f"number {n} not in stats"
     return True, ""
 
 
-def check_circle_name(name: str) -> tuple[bool, str]:
+def check_circle_name(name: str, member_names=()) -> tuple[bool, str]:
     name = (name or "").strip().strip('"')
     if not name:
         return False, "empty"
@@ -144,4 +196,11 @@ def check_circle_name(name: str) -> tuple[bool, str]:
         return False, "too long"
     if any(ch.isdigit() for ch in name):
         return False, "has digits"
+    if _UNSAFE_CHARS.search(name):
+        return False, "unsafe characters"
+    for member in member_names:
+        parts = str(member or "").split()
+        forms = [" ".join(parts)] + ([parts[0]] if parts and len(parts[0]) >= 3 else [])
+        if any(f and re.search(rf"(?<!\w){re.escape(f)}(?!\w)", name, re.I) for f in forms):
+            return False, "names a member"
     return True, ""

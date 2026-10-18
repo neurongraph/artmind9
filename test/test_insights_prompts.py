@@ -78,3 +78,65 @@ def test_title_numbers_and_list_lengths_are_allowed():
     assert check_narration("Asha Bose connects 4 circles.", broker, KNOWN)[0]
     assert check_narration("Asha Bose links 3 circles.", broker, KNOWN)[0]
     assert check_narration("Asha Bose links 9 circles.", broker, KNOWN)[1] == "number 9 not in stats"
+
+
+def _ok(text, known=KNOWN, **kw):
+    return check_narration(text, finding(**kw), known)
+
+
+def test_name_matcher_windows_and_possessives():
+    assert _ok("Asha Bose's visits rose with Ben Okoro.") == (False, "names Ben Okoro")
+    assert _ok("ben okoro met Asha Bose.") == (False, "names ben okoro")
+    assert _ok("Asha-Bose has not appeared for 578 days.")[0] is True
+
+
+def test_name_matcher_single_token_rules():
+    known = KNOWN | {"bank of america"}
+    assert _ok("Asha Bose works at home.", known)[0] is True
+    assert _ok("Asha Bose visited Acme twice.", known) == (False, "names Acme")
+    assert _ok("Asha Bose visited Acme often.", known) == (False, "names Acme")
+    assert _ok("Asha Bose visited ACME often.", known) == (False, "names ACME")
+    assert _ok("Asha Bose banked with Bank of America.", known)[0] is False
+    assert _ok("Acme is where Asha Bose went.", known)[0] is True   # sentence start, single token
+    assert _ok("Asha Bose went quiet. Acme did not.", known)[0] is True
+
+
+def test_subject_word_subset_is_exempt():
+    f = finding(subjects=[{"_id": "t", "name": "Summer Vacation Trip", "class": "EVENT"}])
+    assert check_narration("The summer vacation trip appears often; Vacation is common.", f,
+                           {"summer vacation trip", "vacation"})[0] is True
+
+
+def test_causal_wording_variants():
+    lift = finding("outcome_lift", stats={"negative_share": 0.7})
+    for t in ("Asha Bose is linked to worse moods, driven by visits.", "Visits boost moods with Asha Bose.",
+              "Asha Bose, therefore worse moods.", "Asha Bose is responsible for it.",
+              "Asha Bose, thanks to visits.", "Asha Bose explains moods.", "Asha Bose, resulting in worse moods."):
+        assert check_narration(t, lift, KNOWN) == (False, "causal wording"), t
+    for det in ("dormancy", "outcome_lift"):
+        for t in ("Asha Bose left because of it.", "Asha Bose led to it.", "Asha Bose is due to arrive.",
+                  "Asha Bose causes it.", "Asha Bose leads to it."):
+            assert check_narration(t, finding(det, stats={"x": 1}), KNOWN) == (False, "causal wording"), (det, t)
+    assert check_narration("Asha Bose increases?", finding(), KNOWN)[0] is True  # light set only on dormancy
+
+
+def test_number_parsing():
+    f = finding(stats={"n": 1200, "w": 5})
+    assert check_narration("Asha Bose appeared 1,200 times.", f, KNOWN)[0] is True
+    assert check_narration("Asha Bose appeared 5.0 times.", f, KNOWN)[0] is True
+    assert check_narration("Asha Bose appeared 1,300 times.", f, KNOWN) == (False, "number 1300 not in stats")
+
+
+def test_number_words_rejected():
+    for w in ("twice", "half", "a dozen", "three", "Twenty", "hundred", "thousand"):
+        assert check_narration(f"Asha Bose appeared {w} times.", finding(), KNOWN) == (False, "number word"), w
+    assert check_narration("No one but Asha Bose appeared.", finding(), KNOWN)[0] is True
+
+
+def test_circle_name_safety():
+    assert check_circle_name("Asha's crew", ["Asha Bose"])[0] is False
+    assert check_circle_name("Ben Okoro group", ["Ben Okoro"])[0] is False
+    for bad in ("<b>Team</b>", "Team [x]", "a`b", "{x}", "see HTTP link"):
+        assert check_circle_name(bad)[0] is False, bad
+    assert check_circle_name("Acme team", ["Asha Bose", "Ben Okoro"]) == (True, "")
+    assert check_circle_name("Al crew", ["Al Smith"]) == (True, "")   # first token under 3 chars

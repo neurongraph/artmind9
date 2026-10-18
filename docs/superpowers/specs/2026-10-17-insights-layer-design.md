@@ -674,6 +674,17 @@ never writes view files.
   - **Logging:** LLM calls are logged with type `insights`. `Run.llm` holds
     the model, the prompt version and counts (calls, narrated, cached,
     rejected, errors, circles named or kept).
+  - **Privacy:** prompts carry entity names, relationship values and stats to
+    the user's configured provider, the same boundary as extraction. They are
+    also written to the local `llm_calls.log`. `narrate: false` /
+    `--no-narrate` keeps names out of prompts.
+  - **Rendering:** any UI must render `narration` and `circle_name` as plain
+    text, escaped.
+  - **Retry:** a failed narration (any batch error, or no provider) records
+    `narrated: false` in the fingerprint, so the next refresh retries it.
+    After a first batch error the remaining batches are skipped
+    (`skipped_batches`). A `--no-narrate` run keeps earlier captions and
+    circle names that still match.
 
 ## 12. Module layout
 

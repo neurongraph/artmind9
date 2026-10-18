@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 
 import networkx as nx
 import yaml
+from loguru import logger
 from neo4j.exceptions import DriverError, Neo4jError
 
 from artmind.graph_query import expand_domain_family
@@ -229,27 +230,32 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
         circles = previous.circles
 
     llm_stats: dict = {}
-    if do_narrate:
-        from artmind.insights import narrate as narrate_mod
+    from artmind.insights import narrate as narrate_mod
+    if do_narrate and llm is None:
+        try:
+            llm, model = narrate_mod.default_llm()
+        except Exception as exc:  # no provider configured: run without narration
+            logger.warning("insights narration unavailable: {}", exc)
+            llm_stats = {"errors": 1, "error": type(exc).__name__}
+    else:
         model = None
-        if llm is None:
-            try:
-                llm, model = narrate_mod.default_llm()
-            except Exception as exc:  # no provider configured: run without narration
-                llm_stats = {"errors": 1, "error": str(exc)}
-        if llm is not None:
-            prev_circles = previous.circles if previous is not None else None
-            c_stats = narrate_mod.name_circles(circles, previous=prev_circles, ctx=ctx, llm=llm)
-            live = [f for f in findings + carried if f.diff != "gone"]
-            narrate_mod.label_circle_findings(live, circles)
-            f_stats = narrate_mod.narrate_findings(live, previous=previous.findings if previous else None,
-                                                   ctx=ctx, llm=llm, top=config.narrate_top)
-            llm_stats = {"model": model, "prompt_version": narrate_mod.PROMPT_VERSION,
-                         "calls": c_stats["calls"] + f_stats["calls"],
-                         "narrated": f_stats["narrated"], "cached": f_stats["cached"],
-                         "rejected": f_stats["rejected"] + c_stats["rejected"],
-                         "errors": f_stats["errors"] + c_stats["errors"],
-                         "circles_named": c_stats["named"], "circles_kept": c_stats["kept"]}
+    prev_circles = previous.circles if previous is not None else None
+    live = [f for f in findings + carried if f.diff != "gone"]
+    if do_narrate and llm is not None:
+        c_stats = narrate_mod.name_circles(circles, previous=prev_circles, ctx=ctx, llm=llm)
+        narrate_mod.label_circle_findings(live, circles)
+        f_stats = narrate_mod.narrate_findings(live, previous=previous.findings if previous else None,
+                                               ctx=ctx, llm=llm, top=config.narrate_top)
+        llm_stats = {"model": model, "prompt_version": narrate_mod.PROMPT_VERSION,
+                     "calls": c_stats["calls"] + f_stats["calls"],
+                     "narrated": f_stats["narrated"], "cached": f_stats["cached"],
+                     "rejected": f_stats["rejected"] + c_stats["rejected"],
+                     "errors": f_stats["errors"] + c_stats["errors"],
+                     "skipped_batches": f_stats["skipped_batches"],
+                     "circles_named": c_stats["named"], "circles_kept": c_stats["kept"]}
+    else:  # narration off or unavailable: keep earlier captions and circle names
+        narrate_mod.carry_cached(live, previous.findings if previous else None, circles, prev_circles, ctx=ctx)
+    fingerprint["narrated"] = bool(do_narrate) and llm is not None and llm_stats.get("errors", 0) == 0
 
     run = Run(domain=domain, created_at=now or _now(), as_of=profile.latest_doc, fingerprint=fingerprint,
               anchors=anchors, profile=profile.to_dict(), plan=plan, findings=findings + carried,
