@@ -315,7 +315,9 @@ function renderSection(parent, heading, findings, ctx, hint) {
     return;
   }
   const grid = el("div", "ins-grid");
-  const sorted = findings.slice().sort((a, b) => (b.score || 0) - (a.score || 0));
+  // Network cards (circles) lead their section: they are the overview the other cards refer to.
+  const isNet = (f) => (f.card && f.card.type === "network") ? 1 : 0;
+  const sorted = findings.slice().sort((a, b) => (isNet(b) - isNet(a)) || ((b.score || 0) - (a.score || 0)));
   const draw = (items) => { for (const f of items) grid.appendChild(renderCard(f, ctx)); };
   draw(sorted.slice(0, INS_SECTION_CAP));
   section.appendChild(grid);
@@ -350,7 +352,11 @@ function renderSnapshot(snap) {
 
   const diff = snap.diff || {};
   const llm = snap.llm || {};
-  insStatusEl.textContent = `as of ${snap.as_of || "?"} · created ${snap.created_at || "?"} · diff ${fmtVal(diff)} · llm ${fmtVal(llm)}`;
+  const diffText = ["new", "changed", "gone"].map((k) => `${diff[k] || 0} ${k}`).join(", ");
+  const llmText = llm.calls === undefined && !llm.errors ? "captions off"
+    : `captions: ${llm.narrated || 0} new, ${llm.cached || 0} cached, ${llm.rejected || 0} rejected` +
+      (llm.errors ? `, ${llm.errors} errors` : "") + (llm.model ? ` (${llm.model})` : "");
+  insStatusEl.textContent = `as of ${snap.as_of || "?"} · computed ${(snap.created_at || "?").replace("T", " ").replace("Z", " UTC")} · since last run: ${diffText} · ${llmText}`;
 
   insAnchorsEl.innerHTML = "";
   const anchors = snap.anchors || [];
