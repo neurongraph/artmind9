@@ -232,3 +232,14 @@ Then run `projection status`, expecting 0 unembedded, 0 unprojected and no drift
 - Auto-apply (Plan E, issue #26).
 - An admin-console UI for confirming classifications; the agent does that.
 - Mobile.
+
+## 9. Addendum (2026-10-17): the stepper revision
+
+Changes made after the first round of use; where they conflict with §3, this section wins.
+
+- **Row 1 is "Commits to apply", not "From the other laptop".** Pending work can come from local files as well as from a pull, so the title and summaries no longer say where it came from.
+- **Instant feedback.** Every action sets a synchronous per-action busy flag (`BUSY_KEYS` in `state.ts`) before its first `await`; the button renders disabled with a spinner and a pending label (`PENDING_LABELS`) and the flag clears in a `finally`. `guard()` also refuses a second click on the same action.
+- **Real buttons.** The first button of every step is a raised button (`mod-cta` on the current step, `artmind-raised` elsewhere); extra actions are bordered `artmind-outline`.
+- **Numbered stepper.** Steps are numbered circles on a vertical line (✓ when done, highlighted when current, dashed when optional), with a header progress bar "N of M steps done". Share (Commit & push, D5) stays a footer.
+- **Curate (optional) step**, reflecting the `artmind-curate` skill: open same-as proposals (`sameas list`) and open conflicts (`query graph conflicts`) are counted with the heavy reads and open the admin console with a prepared prompt (`adminPrompt`); **Find duplicates…** (`sameas propose`, one run per chosen domain) and **Detect conflicts…** (`ingest detect-conflicts`, needs 2+ domains) each open a confirm modal with a `--maxPairs` cap (default 200, worst case shown as an LLM-call total). Both are explicit clicks (D1), serialized writes, and have palette commands. Curate is not in `STEP_IDS`, so it never gates "ready" or the status-bar dots. Approving a proposal leaves `same_as_drift`, which the Graph step already reports.
+- New notice kind `curateDone` (D7: text only).

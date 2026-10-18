@@ -9,7 +9,8 @@ export type NoticeKind =
   | "table2graphDone"
   | "resolveDone"
   | "rebuildDone"
-  | "synthesizeDone";
+  | "synthesizeDone"
+  | "curateDone";
 
 export interface ArtmindSettings {
   /** Path to the `artmind` executable; empty means auto-detect. */
@@ -42,6 +43,7 @@ export const DEFAULT_SETTINGS: ArtmindSettings = {
     resolveDone: true,
     rebuildDone: true,
     synthesizeDone: true,
+    curateDone: true,
   },
   adminUiUrl: "http://127.0.0.1:8379",
   adminUiPid: 0,
@@ -57,6 +59,7 @@ export const NOTICE_LABELS: Record<NoticeKind, string> = {
   resolveDone: "Resolving artmind conflicts finishes",
   rebuildDone: "Rebuild graph finishes",
   synthesizeDone: "Synthesize finishes",
+  curateDone: "Find duplicates or Detect conflicts finishes",
 };
 
 /** Saved data over the defaults; a missing or malformed field keeps its default. */

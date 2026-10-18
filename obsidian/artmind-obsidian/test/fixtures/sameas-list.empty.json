@@ -1,0 +1,13 @@
+{
+  "args": [
+    "sameas",
+    "list",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "status": "open",
+    "proposals": []
+  },
+  "stderr": null
+}

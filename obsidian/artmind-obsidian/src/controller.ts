@@ -6,7 +6,8 @@ import type { Persisted } from "./persist";
 import type { ArtmindSettings, NoticeKind } from "./settings";
 import {
   type ArtmindProblem,
-  type Busy,
+  type BusyKey,
+  type CurateReading,
   type DomainSynthesis,
   EMPTY_INPUTS,
   type PanelTarget,
@@ -20,10 +21,12 @@ import {
   LABELS,
   NOTICE,
   applyDoneText,
+  detectedText,
   failedText,
   ingestDoneText,
   newFilesText,
   projectedText,
+  proposedText,
   pulledText,
   rebuiltText,
   resolvedText,
@@ -33,7 +36,9 @@ import {
   withNext,
 } from "./texts";
 import type {
+  ConflictsList,
   DbReview,
+  DetectReport,
   DoctorReport,
   IngestPending,
   JobResults,
@@ -42,6 +47,7 @@ import type {
   RebuildResult,
   ResolveReport,
   RetryResult,
+  SameAsList,
   Submitted,
   SyncResult,
   SynthesizeDryRun,
@@ -77,6 +83,10 @@ export interface CliLike {
   synthesizeDryRun(domain: string): Promise<CliResult>;
   synthesize(domain: string, limit: number | null): Promise<CliResult>;
   dbReview(): Promise<CliResult>;
+  sameasList(): Promise<CliResult>;
+  openConflicts(domains: string[]): Promise<CliResult>;
+  sameasPropose(domain: string, maxPairs: number): Promise<CliResult>;
+  detectConflicts(domains: string[], maxPairs: number): Promise<CliResult>;
 }
 
 export interface GitLike {
@@ -113,9 +123,16 @@ export interface ViewsLike {
   /** The confirm modal for an out-of-order click (checklist spec §3.3). */
   confirm(request: ConfirmRequest): void;
   openSynthesize(): void;
+  /** The Curate row's two modals: both write nothing until their run button. */
+  openCurate(kind: CurateKind): void;
   /** A page of this vault's admin console, starting it if need be. */
   openAdmin(path: string): void;
 }
+
+export type CurateKind = "duplicates" | "conflicts";
+
+/** `--maxPairs` default of `sameas propose` and `ingest detect-conflicts`. */
+export const DEFAULT_MAX_PAIRS = 200;
 
 export interface ActivityEntry {
   command: string;
@@ -161,6 +178,8 @@ export interface ControllerDeps {
 }
 
 export const ACTIVITY_LIMIT = 20;
+/** The longest an Obsidian Git command is shown as running (it signals no end). */
+export const GIT_BUSY_MAX_MS = 8_000;
 /** Focus re-runs the heavy reads (Neo4j, DuckDB) at most this often (spec §5.1). */
 export const HEAVY_READ_EVERY_MS = 60_000;
 
@@ -174,6 +193,7 @@ export class Controller {
   private heavyPending = false;
   private lastHeavyAt = Number.NEGATIVE_INFINITY;
   private applyQueued: (() => void) | null = null;
+  private pullWait: Promise<unknown> | null = null;
   private heavyErrors: string[] = [];
   inputs: StateInputs = { ...EMPTY_INPUTS };
   activity: ActivityEntry[] = [];
@@ -236,8 +256,28 @@ export class Controller {
     this.render();
   }
 
-  private setBusy(key: keyof Busy, on: boolean): void {
+  /** Raised synchronously at the click, before any await, so the button
+   * answers at once; every flow lowers it in a `finally`. */
+  private setBusy(key: BusyKey, on: boolean): void {
     this.update({ busy: { ...this.inputs.busy, [key]: on } });
+  }
+
+  /** An Obsidian Git command has no completion signal, but it moves HEAD:
+   * keep `key` busy until HEAD settles (or `timeoutMs`), then refresh. With
+   * no watchers (nothing to wait on) it is not shown busy at all. */
+  private async awaitGit(key: BusyKey, started: Promise<unknown> | null): Promise<void> {
+    if (!started) return;
+    this.setBusy(key, true);
+    try {
+      // Obsidian Git reports nothing when a pull finds nothing new; the
+      // watcher's own wait is a minute. Show busy for a few seconds at most.
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      await Promise.race([started, new Promise((resolve) => (timer = setTimeout(resolve, GIT_BUSY_MAX_MS)))]);
+      clearTimeout(timer);
+      await this.refresh();
+    } finally {
+      this.setBusy(key, false);
+    }
   }
 
   private withError(row: RowId, error: string | null): Partial<Record<RowId, string>> {
@@ -371,17 +411,20 @@ export class Controller {
   }
 
   /** The reads that touch Neo4j and DuckDB (checklist spec §5.1). */
-  private async readHeavy(): Promise<Pick<StateInputs, "projection" | "tablesReview" | "synthesis">> {
+  private async readHeavy(): Promise<Pick<StateInputs, "projection" | "tablesReview" | "synthesis" | "curate">> {
     this.lastHeavyAt = this.now();
     const { cli } = this.deps;
     const domains = [...new Set(this.deps.domains())].sort();
-    const [projection, review, ...dryRuns] = await Promise.all([
+    const [projection, review, sameAs, conflicts, ...dryRuns] = await Promise.all([
       cli.projectionStatus(),
       cli.dbReview(),
+      cli.sameasList(),
+      domains.length ? cli.openConflicts(domains) : Promise.resolve(null),
       ...domains.map((domain) => cli.synthesizeDryRun(domain)),
     ]);
     const errors: string[] = [];
-    for (const result of [projection, review, ...dryRuns]) {
+    for (const result of [projection, review, sameAs, conflicts, ...dryRuns]) {
+      if (!result) continue;
       if (result.ok) continue;
       errors.push(`artmind ${result.args.join(" ")}: ${result.error}`);
       this.record(result);
@@ -393,7 +436,16 @@ export class Controller {
         const run = r.json as SynthesizeDryRun;
         return { domain: run.domain, count: run.counts.synthesize ?? 0, model: run.model };
       });
+    const curate: CurateReading | null =
+      sameAs.ok && (!conflicts || conflicts.ok)
+        ? {
+            domains,
+            sameAsOpen: (sameAs.json as SameAsList).proposals?.length ?? 0,
+            conflictsOpen: conflicts ? ((conflicts.json as ConflictsList).rows?.length ?? 0) : 0,
+          }
+        : null;
     return {
+      curate,
       projection: projection.ok ? (projection.json as ProjectionStatus) : null,
       tablesReview: review.ok ? (review.json as DbReview) : null,
       synthesis: domains.length && !counted.length ? null : counted,
@@ -455,7 +507,13 @@ export class Controller {
   async retryJob(jobId: string): Promise<void> {
     const before = this.inputs.activeJob?.job_id === jobId ? this.inputs.activeJob : null;
     const finished = this.inputs.lastJob?.status.job_id === jobId ? this.inputs.lastJob : null;
-    const result = await this.deps.cli.retryJob(jobId);
+    this.setBusy("retry", true);
+    let result: CliResult;
+    try {
+      result = await this.deps.cli.retryJob(jobId);
+    } finally {
+      this.setBusy("retry", false);
+    }
     this.record(result);
     if (!result.ok) {
       this.setActionError("documents", result.error);
@@ -499,7 +557,7 @@ export class Controller {
         this.openResolve();
         return;
       case "completeMerge":
-        this.gitAction("commit", "remote");
+        void this.completeMerge();
         return;
       case "ingest":
         void this.ingestWhatChanged();
@@ -519,6 +577,12 @@ export class Controller {
       case "synthesize":
         this.openSynthesize();
         return;
+      case "findDuplicates":
+        this.openCurate("duplicates");
+        return;
+      case "detectConflicts":
+        this.openCurate("conflicts");
+        return;
       case "commitPush":
         this.commitPush();
         return;
@@ -532,8 +596,17 @@ export class Controller {
     return false;
   }
 
+  /** Obsidian Git's Pull. Shown busy until HEAD settles (or its wait times out). */
   pull(): boolean {
-    return this.guard("pull", "remote") && this.gitAction("pull", "remote");
+    if (!this.guard("pull", "remote") || !this.gitAction("pull", "remote")) return false;
+    this.pullWait = this.watchers?.waitForPull() ?? null;
+    void this.awaitGit("pull", this.pullWait);
+    return true;
+  }
+
+  async completeMerge(): Promise<void> {
+    const started = this.gitAction("commit", "remote") ? (this.watchers?.waitForPull(30_000) ?? null) : null;
+    await this.awaitGit("completeMerge", started);
   }
 
   /** The status bar and ribbon: the panel, at the current step (spec §4). */
@@ -544,7 +617,7 @@ export class Controller {
   /** Obsidian Git's Pull, then `next` once HEAD settles. */
   async pullThen(next: () => void): Promise<void> {
     if (!this.pull()) return;
-    await this.watchers?.waitForPull();
+    await this.pullWait;
     await this.refresh();
     next();
   }
@@ -572,9 +645,13 @@ export class Controller {
       return;
     }
     this.setBusy("apply", true);
-    const result = await this.deps.cli.sync();
+    let result: CliResult;
+    try {
+      result = await this.deps.cli.sync();
+    } finally {
+      this.setBusy("apply", false);
+    }
     this.record(result);
-    this.setBusy("apply", false);
     if (result.ok) {
       const summary = applyDoneText(result.json as SyncResult);
       this.update({ lastApply: { at: this.now(), ok: true, summary }, actionErrors: this.withError("remote", null) });
@@ -629,34 +706,45 @@ export class Controller {
       return;
     }
     if (cl.neo4jUnreachable) this.notify("prompt", NOTICE.neo4jIngest, "documents");
-    const result = await this.deps.cli.ingestAsyncPending();
-    this.record(result);
-    if (!result.ok) {
-      this.setActionError("documents", result.error);
-      this.notify("error", failedText("start the ingest", result.error), "documents");
-      return;
+    this.setBusy("ingest", true);
+    try {
+      const result = await this.deps.cli.ingestAsyncPending();
+      this.record(result);
+      if (!result.ok) {
+        this.setActionError("documents", result.error);
+        this.notify("error", failedText("start the ingest", result.error), "documents");
+        return;
+      }
+      const submitted = result.json as Submitted;
+      if (!submitted.job_id) {
+        this.notify("prompt", NOTICE.nothingToIngest, "documents");
+        await this.refresh();
+        return;
+      }
+      // The job and the end of "busy" land in one render: no flash between them.
+      this.update({
+        lastJob: null,
+        actionErrors: this.withError("documents", null),
+        activeJob: { job_id: submitted.job_id, status: "queued", file_count: submitted.file_count, processed_count: 0, files: [] },
+        busy: { ...this.inputs.busy, ingest: false },
+      });
+      this.watchers?.trackJob();
+    } finally {
+      if (this.inputs.busy.ingest) this.setBusy("ingest", false);
     }
-    const submitted = result.json as Submitted;
-    if (!submitted.job_id) {
-      this.notify("prompt", NOTICE.nothingToIngest, "documents");
-      await this.refresh();
-      return;
-    }
-    this.update({
-      lastJob: null,
-      actionErrors: this.withError("documents", null),
-      activeJob: { job_id: submitted.job_id, status: "queued", file_count: submitted.file_count, processed_count: 0, files: [] },
-    });
-    this.watchers?.trackJob();
   }
 
   /** Rebuild graph: `projection rebuild --sweep` (B4), then every heavy read again. */
   async rebuild(): Promise<void> {
     if (!this.guard("rebuild", "graph")) return;
     this.setBusy("rebuild", true);
-    const result = await this.deps.cli.projectionRebuildSweep();
+    let result: CliResult;
+    try {
+      result = await this.deps.cli.projectionRebuildSweep();
+    } finally {
+      this.setBusy("rebuild", false);
+    }
     this.record(result);
-    this.setBusy("rebuild", false);
     if (!result.ok) {
       this.update({ lastRebuild: { at: this.now(), ok: false, summary: result.error ?? "failed", errors: [] } });
       this.notify("error", failedText("rebuild the graph", result.error), "graph");
@@ -687,13 +775,16 @@ export class Controller {
     this.setBusy("synthesize", true);
     let written = 0;
     const failures: string[] = [];
-    for (const domain of domains) {
-      const result = await this.deps.cli.synthesize(domain, limit);
-      this.record(result);
-      if (result.ok) written += (result.json as SynthesizeResult).synthesized ?? 0;
-      else failures.push(`${domain}: ${result.error}`);
+    try {
+      for (const domain of domains) {
+        const result = await this.deps.cli.synthesize(domain, limit);
+        this.record(result);
+        if (result.ok) written += (result.json as SynthesizeResult).synthesized ?? 0;
+        else failures.push(`${domain}: ${result.error}`);
+      }
+    } finally {
+      this.setBusy("synthesize", false);
     }
-    this.setBusy("synthesize", false);
     this.setActionError("descriptions", failures.length ? failures.join("; ") : null);
     // Syntheses are vault files: the footer changes too.
     await this.refresh({ heavy: true });
@@ -703,7 +794,78 @@ export class Controller {
 
   /** Commit & push: Obsidian Git's commit, pull, push (D5, D6). */
   commitPush(): void {
-    if (this.guard("commitPush", "vault")) this.gitAction("commitAndSync", "vault");
+    if (!this.guard("commitPush", "vault")) return;
+    const started = this.gitAction("commitAndSync", "vault") ? (this.watchers?.waitForPull(30_000) ?? null) : null;
+    void this.awaitGit("commitPush", started);
+  }
+
+  // ── curate (the artmind-curate skill's commands) ───────────────────────────
+
+  /** What the Curate modals offer: the mapped domains. */
+  curatePlan(): CurateReading | null {
+    return this.inputs.curate;
+  }
+
+  openCurate(kind: CurateKind): void {
+    if (this.guard(kind === "duplicates" ? "findDuplicates" : "detectConflicts", "curate")) this.deps.views.openCurate(kind);
+  }
+
+  /** `sameas propose --domain D --maxPairs N` for each chosen domain, one
+   * after another: naming variants inside a domain, as proposals to review. */
+  async findDuplicates(domains: string[], maxPairs: number): Promise<void> {
+    if (!this.guard("findDuplicates", "curate")) return;
+    this.setBusy("findDuplicates", true);
+    let candidates = 0;
+    const proposals = new Set<string>();
+    const failures: string[] = [];
+    try {
+      for (const domain of domains) {
+        const result = await this.deps.cli.sameasPropose(domain, maxPairs);
+        this.record(result);
+        if (!result.ok) {
+          failures.push(`${domain}: ${result.error}`);
+          continue;
+        }
+        const report = result.json as DetectReport;
+        candidates += report.candidates ?? 0;
+        for (const id of report.same_as_proposals ?? []) proposals.add(id);
+      }
+    } finally {
+      this.setBusy("findDuplicates", false);
+    }
+    this.finishCurate(failures, "find duplicates", proposedText({ candidates, same_as_proposals: [...proposals] }));
+    await this.refresh({ heavy: true });
+  }
+
+  /** `ingest detect-conflicts --domain A --domain B --maxPairs N`: one run
+   * across the chosen domains (two or more). */
+  async detectConflicts(domains: string[], maxPairs: number): Promise<void> {
+    if (!this.guard("detectConflicts", "curate")) return;
+    this.setBusy("detectConflicts", true);
+    const failures: string[] = [];
+    let text = "";
+    try {
+      const result = await this.deps.cli.detectConflicts(domains, maxPairs);
+      this.record(result);
+      if (result.ok) {
+        const report = result.json as DetectReport;
+        text = detectedText({
+          candidates: report.candidates ?? 0,
+          conflicts: report.conflicts ?? [],
+          same_as_proposals: report.same_as_proposals ?? [],
+        });
+      } else failures.push(result.error ?? "failed");
+    } finally {
+      this.setBusy("detectConflicts", false);
+    }
+    this.finishCurate(failures, "detect conflicts", text);
+    await this.refresh({ heavy: true });
+  }
+
+  private finishCurate(failures: string[], what: string, doneText: string): void {
+    this.setActionError("curate", failures.length ? failures.join("; ") : null);
+    if (failures.length) this.notify("error", failedText(what, failures[0]), "curate");
+    else this.notify("curateDone", doneText, "curate");
   }
 
   // ── review screens ─────────────────────────────────────────────────────────
@@ -752,7 +914,13 @@ export class Controller {
 
   /** `vault resolve`; row 1 then offers [Complete the merge]. */
   async resolveApply(): Promise<boolean> {
-    const result = await this.deps.cli.resolve(false);
+    this.setBusy("resolve", true);
+    let result: CliResult;
+    try {
+      result = await this.deps.cli.resolve(false);
+    } finally {
+      this.setBusy("resolve", false);
+    }
     this.record(result);
     if (!result.ok) {
       this.setActionError("remote", result.error);

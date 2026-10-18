@@ -193,6 +193,12 @@ describe("which commands write", () => {
     [["projection", "synthesize", "--domain", "general", "--dry-run", "--compact"], false],
     [["projection", "status", "--compact"], false],
     [["db", "review", "--compact"], false],
+    [["sameas", "propose", "--domain", "general", "--maxPairs", "50", "--compact"], true],
+    [["sameas", "propose", "--domain", "general", "--dry-run", "--compact"], false],
+    [["sameas", "list", "--compact"], false],
+    [["ingest", "detect-conflicts", "--domain", "a", "--domain", "b", "--maxPairs", "50", "--compact"], true],
+    [["ingest", "detect-conflicts", "--domain", "a", "--domain", "b", "--dry-run", "--compact"], false],
+    [["query", "graph", "conflicts", "--domain", "a", "--compact"], false],
   ])("%j -> %s", (args, write) => {
     expect(isWrite(args as string[])).toBe(write);
   });

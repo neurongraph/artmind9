@@ -670,6 +670,83 @@ def s_db_review(vault):
     return vault.run("db", "review", "--compact")
 
 
+class _Records(list):
+    """What `session.run(...)` iterates in the query layer: dict records."""
+
+
+class CurateGraph:
+    """Canned `:SameAsProposal` rows for `sameas list` and `Conflict` rows
+    for `query graph conflicts`; any other query raises."""
+
+    def __init__(self, *, proposals=(), conflicts=()):
+        self.proposals = list(proposals)
+        self.conflicts = list(conflicts)
+
+    def run(self, cypher, **params):
+        if "MATCH (p:SameAsProposal)" in cypher:
+            wanted = params.get("status")
+            rows = [p for p in self.proposals if not wanted or wanted == "all" or p["status"] == wanted]
+            return _Rows([{"p": p} for p in rows])
+        if "CONFLICTS_WITH" in cypher:
+            return _Records(self.conflicts)
+        raise AssertionError(f"unexpected query in a plugin fixture: {cypher!r}")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+@contextmanager
+def _curate_graph(graph: CurateGraph):
+    import artmind.graph_query as graph_query
+    import artmind.sameas as sameas_module
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(sameas_module, "neo4j_session", lambda *a, **k: graph)
+        mp.setattr(graph_query, "neo4j_session", lambda *a, **k: graph)
+        yield mp
+
+
+_PROPOSAL = {
+    "id": "sp-ann-lee", "status": "open", "canonical": "ann lee|PERSON|general",
+    "members": ["ann lee|PERSON|general", "annie lee|PERSON|general"], "source": "detect_conflicts",
+    "reason": "Same person: the notes use both names", "detected_at": "2026-09-30T12:00:00",
+    "detected_by_model": "ministral-3:14b",
+}
+
+_CONFLICT = {
+    "conflict": {"id": "c-1", "aspect": "employer", "status": "open", "severity": 0.8,
+                 "claim_a": "Ann works at Acme", "claim_b": "Ann works at Initech",
+                 "domains": ["general", "habits"], "detected_at": "2026-09-30T12:00:00",
+                 "detected_by_model": "ministral-3:14b", "materialized": True},
+    "entities": [{"_id": "e1", "name": "Ann Lee", "entity_class": "PERSON", "_domain": "general"},
+                 {"_id": "e2", "name": "Ann Lee", "entity_class": "PERSON", "_domain": "habits"}],
+    "evidence": [],
+}
+
+
+def s_sameas_list_open(vault):
+    with _curate_graph(CurateGraph(proposals=[_PROPOSAL])):
+        return vault.run("sameas", "list", "--compact")
+
+
+def s_sameas_list_empty(vault):
+    with _curate_graph(CurateGraph()):
+        return vault.run("sameas", "list", "--compact")
+
+
+def s_query_graph_conflicts_open(vault):
+    with _curate_graph(CurateGraph(conflicts=[_CONFLICT])):
+        return vault.run("query", "graph", "conflicts", "--domain", "general", "--domain", "habits", "--compact")
+
+
+def s_query_graph_conflicts_none(vault):
+    with _curate_graph(CurateGraph()):
+        return vault.run("query", "graph", "conflicts", "--domain", "general", "--compact")
+
+
 def s_ingest_job_status_finishing(vault):
     """Every file done; the deferred rebuild is running (`finalize.state == pending`)."""
     from artmind.jobs import _add_finalize_domain
@@ -702,7 +779,8 @@ def fixture_name(scenario: str) -> str:
     then the state."""
     for command in ("vault-status", "vault-sync", "vault-resolve", "vault-doctor", "ingest-pending",
                     "ingest-async", "ingest-job-status", "ingest-job-results", "ingest-jobs-active", "ingest-retry-job",
-                    "table2graph", "projection-status", "projection-rebuild", "projection-synthesize", "db-review"):
+                    "table2graph", "projection-status", "projection-rebuild", "projection-synthesize", "db-review",
+                    "sameas-list", "query-graph-conflicts"):
         if scenario == command:
             return command
         if scenario.startswith(command + "-"):

@@ -71,6 +71,13 @@ Pass one `--domain` for naming-variant merge candidates within it, 2+ for
 cross-domain identity candidates. `--maxPairs` bounds LLM cost (~20s per
 candidate on a local model; `--maxPairs 20` for a first pass).
 
+In the Obsidian plugin, the Curate row runs the first command as **Find
+duplicates…** (one run per domain you pick) and `ingest detect-conflicts` as
+**Detect conflicts…**. Both ask for a `--maxPairs` cap first, and the row's
+counts are the same queues `sameas list --status open` and `query graph
+conflicts` show here. Running them from the plugin or from this skill gives the
+same result.
+
 `ingest refine-graph` is the other proposer — intra-class name-similarity
 clustering rather than semantic neighbours, cheaper and complementary. Its
 `--from-file` step writes proposals into the same queue; it does not touch
@@ -111,12 +118,44 @@ artmind sameas reject <proposal_id> --reason "<why>"
 
 ```bash
 artmind sameas approve <proposal_id> [--canonical <key>]
+artmind sameas approve <id1> <id2> <id3> ... --compact      # a whole batch
 ```
 
 Appends the group to `same_as.yaml` and runs a full rebuild scoped to the
-domain families the group touches. `--canonical` overrides which member wins
-(default: the proposer's own suggestion) — override it when the "obviously
-right" display name isn't the one the proposer picked.
+domains the group touches. **Approve a batch in one call, never in a shell
+loop:** every call rebuilds, so N calls pay N rebuilds (about 5 s each on an
+8.6k-entity domain), while one call with N ids writes the file once and
+rebuilds once over the union of the domains. `--canonical` applies to a single
+id only.
+
+A proposal that can't be approved does not stop the batch. It is listed under
+`skipped` with the reason and stays as it was: unknown or already resolved, or
+its canonical (or every other member) is **already claimed by an earlier
+group** (the file's, or an earlier id in the same call). Always read `skipped`, and any
+group with `status: partial` (some members were already in another group and
+dropped out of this one -- see `dropped_members`). With a single id a refusal
+is an error instead.
+
+`--canonical` overrides which member wins (default: the proposer's own
+suggestion) -- override it when the "obviously right" display name isn't the
+one the proposer picked.
+
+**A skipped proposal is usually a new name for a group that already exists**
+-- the proposer found one more variant of an approved cluster. There is no
+`sameas` command to extend a group, so decide per proposal:
+
+- *The existing group is right as it is* -- reject the proposal:
+  `artmind sameas reject <proposal_id> --reason "already grouped under <canonical>"`.
+- *The new name belongs in the group* -- add it to that group's `members` in
+  `same_as.yaml` (same file and rebuild as Workflow B; keep `canonical` listed
+  among the members), run `artmind projection rebuild --sweep --compact`, then
+  reject the proposal with the reason "folded into <canonical>" so it leaves
+  the queue.
+- *It is a different thing that only looks similar* (a bare "artmind" next to
+  "artmind development") -- reject it with that reason.
+
+Editing `same_as.yaml` is the user's decision, not the agent's: say which
+group and which name, and wait for a yes.
 
 **This is a two-step workflow, not one command.** `sameas approve` does NOT
 clear `projection status`'s drift flag — its rebuild is scoped to the

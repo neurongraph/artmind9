@@ -1,0 +1,22 @@
+{
+  "args": [
+    "query",
+    "graph",
+    "conflicts",
+    "--domain",
+    "general",
+    "--compact"
+  ],
+  "exit_code": 0,
+  "json": {
+    "domains": [
+      "general"
+    ],
+    "domain": "general",
+    "query_type": "graph",
+    "command": "conflicts",
+    "status": "open",
+    "rows": []
+  },
+  "stderr": null
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { type Row, type RowId, changeSources, checklist, jobRunning } from "../src/checklist";
-import { EMPTY_INPUTS, type StateInputs } from "../src/state";
+import { type Busy, type BusyKey, EMPTY_INPUTS, NOT_BUSY, type StateInputs } from "../src/state";
 import type { DbReview, ProjectionStatus } from "../src/types";
 import { fixture } from "./fixtures";
 
@@ -17,6 +17,7 @@ function inputs(overrides: Partial<StateInputs> = {}): StateInputs {
     tablesReview: NO_REVIEW,
     projection: READY,
     synthesis: [],
+    curate: { domains: ["general"], sameAsOpen: 0, conflictsOpen: 0 },
     git: { ahead: 0, artmindChanges: [] },
     obsidianGit: { autoPullMinutes: 10 },
     ...overrides,
@@ -38,6 +39,8 @@ function withStatus(edit: (status: any) => void): Partial<StateInputs> {
   return { status };
 }
 
+const busyOf = (...keys: BusyKey[]): Busy => ({ ...NOT_BUSY, ...Object.fromEntries(keys.map((k) => [k, true])) });
+
 const lastJobOf = (name: string, at = 1_000) => ({ status: fixture(name).json, results: null, at });
 
 describe("checklist: each row state (checklist spec §3.2)", () => {
@@ -50,11 +53,11 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
       s.sync.operation_in_progress = null;
       s.sync.unresolved_conflicts = [];
       s.sync.stores.graph.state = "not_ancestor";
-    }), ["todo", "●", "the other laptop's commits aren't pulled", ["Pull"]]],
+    }), ["todo", "●", "some commits aren't pulled yet", ["Pull"]]],
     ["remote first time", "remote", { status: fixture("vault-status.no-bookmark").json }, ["todo", "●", "first sync on this laptop", ["Pull"]]],
     ["remote Neo4j down", "remote", { status: fixture("vault-status.neo4j-unreachable").json }, ["attention", "!", "Neo4j unreachable", ["Pull"]]],
     ["remote artmind missing", "remote", { problem: { kind: "missing", looked: [] } }, ["attention", "✗", "artmind can't run", []]],
-    ["remote applying", "remote", { busy: { apply: true, rebuild: false, synthesize: false } }, ["running", "◌", "applying to graph…", []]],
+    ["remote applying", "remote", { busy: busyOf("apply") }, ["running", "◌", "applying to graph…", ["Apply to graph"]]],
     ["remote not read yet", "remote", { status: null }, ["waiting", "○", "checking…", []]],
 
     ["documents all ingested", "documents", {}, ["done", "✓", "all ingested", []]],
@@ -74,13 +77,13 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
     ["graph waits for the ingest", "graph", { activeJob: fixture("ingest-job-status.running").json }, ["waiting", "○", "after ingest finishes", []]],
     ["graph waits for the finishing job too", "graph", { activeJob: fixture("ingest-job-status.finishing").json }, ["waiting", "○", "after ingest finishes", []]],
     ["graph not checked", "graph", { projection: null }, ["waiting", "○", "not checked yet", ["Rebuild graph"]]],
-    ["graph rebuilding", "graph", { busy: { apply: false, rebuild: true, synthesize: false } }, ["running", "◌", "rebuilding…", []]],
+    ["graph rebuilding", "graph", { busy: busyOf("rebuild") }, ["running", "◌", "rebuilding…", ["Rebuild graph"]]],
 
     ["descriptions up to date", "descriptions", {}, ["done", "✓", "up to date", []]],
     ["descriptions to synthesize", "descriptions", { synthesis: [{ domain: "general", count: 41, model: "ministral-3:14b" }] }, ["optional", "◇", "41 could be synthesized · ~41 LLM calls (ministral-3:14b)", ["Synthesize…"]]],
     ["descriptions not counted", "descriptions", { synthesis: null }, ["optional", "◇", "not counted yet", []]],
-    ["descriptions synthesizing", "descriptions", { busy: { apply: false, rebuild: false, synthesize: true } }, ["running", "◌", "synthesizing…", []]],
-    ["descriptions synthesizing with progress", "descriptions", { busy: { apply: false, rebuild: false, synthesize: true }, synthesis: [{ domain: "general", count: 41, model: "m" }], git: { ahead: 0, artmindChanges: [".artmind/data/curation/syntheses/e1.json", ".artmind/data/curation/syntheses/e2.json"] } }, ["running", "◌", "synthesizing… 2/41", []]],
+    ["descriptions synthesizing", "descriptions", { busy: busyOf("synthesize") }, ["running", "◌", "synthesizing…", ["Synthesize…"]]],
+    ["descriptions synthesizing with progress", "descriptions", { busy: busyOf("synthesize"), synthesis: [{ domain: "general", count: 41, model: "m" }], git: { ahead: 0, artmindChanges: [".artmind/data/curation/syntheses/e1.json", ".artmind/data/curation/syntheses/e2.json"] } }, ["running", "◌", "synthesizing… 2/41", ["Synthesize…"]]],
 
     ["vault shared", "vault", {}, ["done", "✓", "shared", []]],
     ["vault to push", "vault", { git: { ahead: 2, artmindChanges: [] } }, ["todo", "●", "↑ 2 to push", ["Commit & push"]]],
@@ -95,7 +98,7 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
   });
 
   it("row 1 asks for Obsidian Git's auto pull when it is off, and only then (D10)", () => {
-    const hint = "Turn on Obsidian Git's auto pull to see the other laptop's changes";
+    const hint = "Turn on Obsidian Git's auto pull to see commits pushed from another laptop";
     expect(row({ obsidianGit: { autoPullMinutes: 0 } }, "remote").detail).toEqual([hint]);
     expect(row({ obsidianGit: { autoPullMinutes: 0 }, status: fixture("vault-status.behind").json }, "remote").detail).toEqual([hint]);
     expect(row({ obsidianGit: { autoPullMinutes: 10 } }, "remote").detail).toEqual([]);

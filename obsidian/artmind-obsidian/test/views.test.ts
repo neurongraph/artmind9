@@ -5,7 +5,7 @@ import { Notice } from "./mocks/obsidian";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { checklist } from "../src/checklist";
 import type { Snapshot } from "../src/controller";
-import { EMPTY_INPUTS, type StateInputs } from "../src/state";
+import { EMPTY_INPUTS, NOT_BUSY, type StateInputs } from "../src/state";
 import { ObsidianNotifier } from "../src/views/notices";
 import { ArtmindView, type PanelHandlers, newPanelUi, renderPanel } from "../src/views/panel";
 import { ResolveModal, renderResolve, resolveBlockedReason } from "../src/views/resolveModal";
@@ -23,6 +23,7 @@ function readyInputs(overrides: Partial<StateInputs> = {}): StateInputs {
     tablesReview: { query_type: "structured", command: "db review", pending_count: 0, tables: [] },
     projection: fixture("projection-status.ready").json,
     synthesis: [],
+    curate: { domains: ["general"], sameAsOpen: 0, conflictsOpen: 0 },
     git: { ahead: 0, artmindChanges: [] },
     ...overrides,
   };
@@ -91,7 +92,7 @@ describe("StatusBarItem (checklist spec §4)", () => {
     expect(el.textContent).toBe("artmind ○○●●● 2 docs · 1 table to apply");
     expect(el.classList.contains("artmind-tone-amber")).toBe(true);
     expect(el.classList.contains("status-bar-item")).toBe(true);
-    expect(el.getAttribute("aria-label")).toBe("From the other laptop — 2 docs · 1 table to apply");
+    expect(el.getAttribute("aria-label")).toBe("Commits to apply — 2 docs · 1 table to apply");
     el.click();
     expect(opened).toBe(1);
 
@@ -155,7 +156,7 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(root.querySelector(".artmind-readiness")!.textContent).toBe("Graph ready ✓");
   });
 
-  it("lists the five rows, then the footer, each with its glyph, title and summary", () => {
+  it("lists the six steps, then the footer, each with its glyph, title and summary", () => {
     const root = document.createElement("div");
 
     renderPanel(root, snapshot({ projection: fixture("projection-status.needs-rebuild").json }), handlers());
@@ -165,11 +166,12 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
       "documents",
       "tables",
       "graph",
+      "curate",
       "descriptions",
       "vault",
     ]);
     const graph = rowEl(root, "graph");
-    expect(graph.querySelector(".artmind-step-line")!.textContent).toBe("!Graphneeds rebuild");
+    expect(graph.querySelector(".artmind-step-line")!.textContent).toBe("4Graphneeds rebuild");
     expect([...graph.querySelectorAll(".artmind-step-detail")].map((d) => d.textContent)).toEqual([
       "same_as edited",
       "2,813 entities not embedded",
@@ -179,7 +181,7 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(rowEl(root, "vault").parentElement!.classList.contains("artmind-footer")).toBe(true);
   });
 
-  it("only the current step's button is filled; the others are outline and still work", () => {
+  it("only the current step's main button is accent-coloured; the others are still real buttons and work", () => {
     const root = document.createElement("div");
     const h = handlers();
 
@@ -189,7 +191,8 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(filled.map((b) => b.textContent)).toEqual(["Apply to graph"]);
     expect(rowEl(root, "remote").contains(filled[0])).toBe(true);
     const ingest = button(rowEl(root, "documents"), "Ingest 4 files");
-    expect(ingest.classList.contains("artmind-outline")).toBe(true);
+    expect(ingest.classList.contains("artmind-raised")).toBe(true);
+    expect(ingest.classList.contains("mod-cta")).toBe(false);
     expect(ingest.disabled).toBe(false);
     ingest.click();
     expect(h.calls).toEqual(['run:{"type":"ingest"}']);
@@ -239,7 +242,7 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(h.calls).toEqual([`run:${JSON.stringify({ type: "adminPrompt", prompt })}`]);
   });
 
-  it("the footer is hidden during a job, and filled only once rows 1-4 are done", () => {
+  it("the footer is hidden during a job, and accent-coloured only once steps 1-4 are done", () => {
     const root = document.createElement("div");
 
     renderPanel(root, snapshot({ ...RUNNING_JOB, git: { ahead: 2, artmindChanges: [] } }), handlers());
@@ -249,7 +252,7 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(button(rowEl(root, "vault"), "Commit & push").classList.contains("mod-cta")).toBe(true);
 
     renderPanel(root, snapshot({ pending: fixture("ingest-pending").json, git: { ahead: 2, artmindChanges: [] } }), handlers());
-    expect(button(rowEl(root, "vault"), "Commit & push").classList.contains("artmind-outline")).toBe(true);
+    expect(button(rowEl(root, "vault"), "Commit & push").classList.contains("artmind-raised")).toBe(true);
   });
 
   it("row 2 holds a running job's card: file states, per-file counts scaled to the largest, chunk progress", () => {
@@ -500,5 +503,63 @@ describe("the resolve preview (spec §5.2)", () => {
     expect(apply).not.toHaveBeenCalled();
     button(modal.contentEl, "Resolve").click();
     expect(apply).toHaveBeenCalledOnce();
+  });
+});
+
+describe("the numbered stepper, progress and pending buttons", () => {
+  it("numbers the steps, ticks the done ones and marks the current one", () => {
+    const root = document.createElement("div");
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, pending: fixture("ingest-pending").json }), handlers());
+
+    const marks = [...root.querySelectorAll(".artmind-stepper .artmind-step-marker")].map((m) => m.textContent);
+    expect(marks).toEqual(["1", "2", "✓", "✓", "✓", "✓"]);
+    expect(rowEl(root, "remote").classList.contains("artmind-step-current")).toBe(true);
+    expect(root.querySelectorAll(".artmind-stepper-done")).toHaveLength(4);
+    expect(root.querySelector(".artmind-footer .artmind-step-marker")!.textContent).toBe("✓");
+  });
+
+  it("shows how many steps are done, as text and as blocks", () => {
+    const root = document.createElement("div");
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, pending: fixture("ingest-pending").json }), handlers());
+
+    expect(root.querySelector(".artmind-progress-line")!.textContent).toBe("4 of 6 steps done");
+    expect(root.querySelectorAll(".artmind-progress-block")).toHaveLength(6);
+    expect(root.querySelectorAll(".artmind-progress-done")).toHaveLength(4);
+  });
+
+  it("the optional steps are numbered too, dashed", () => {
+    const root = document.createElement("div");
+    renderPanel(root, snapshot({ synthesis: [{ domain: "general", count: 3, model: "m" }] }), handlers());
+    expect(rowEl(root, "descriptions").classList.contains("artmind-step-optional")).toBe(true);
+    expect(rowEl(root, "descriptions").querySelector(".artmind-step-marker")!.textContent).toBe("6");
+  });
+
+  it("every available action is a styled button, not just the current step's", () => {
+    const root = document.createElement("div");
+    renderPanel(root, snapshot({ synthesis: [{ domain: "general", count: 3, model: "m" }] }), handlers());
+    const synth = button(rowEl(root, "descriptions"), "Synthesize…");
+    expect(synth.classList.contains("artmind-raised")).toBe(true);
+    expect(synth.classList.contains("artmind-outline")).toBe(false);
+  });
+
+  it("a running action's button shows a spinner and its pending label, and is disabled", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+    renderPanel(root, snapshot({ status: fixture("vault-status.behind").json, busy: { ...NOT_BUSY, apply: true } }), h);
+
+    const apply = [...rowEl(root, "remote").querySelectorAll("button")].find((b) => b.textContent === "Applying…")!;
+    expect(apply.disabled).toBe(true);
+    expect(apply.getAttribute("aria-busy")).toBe("true");
+    expect(apply.querySelector(".artmind-spinner")).not.toBeNull();
+    apply.click();
+    expect(h.calls).toEqual([]);
+  });
+
+  it("a click on Ingest turns the button busy straight away", () => {
+    const root = document.createElement("div");
+    renderPanel(root, snapshot({ pending: fixture("ingest-pending").json, busy: { ...NOT_BUSY, ingest: true } }), handlers());
+    const pending = rowEl(root, "documents").querySelector<HTMLButtonElement>("button.artmind-pending")!;
+    expect(pending.textContent).toBe("Starting ingest…");
+    expect(pending.disabled).toBe(true);
   });
 });

@@ -98,14 +98,29 @@
 .artmind-checklist { display: flex; flex-direction: column; gap: 0.15em; }
 .artmind-step { padding: 0.35em 0.5em; border-radius: var(--radius-s); border-left: 3px solid transparent; }
 .artmind-step-current { background: var(--background-secondary); border-left-color: var(--interactive-accent); }
-.artmind-step-line { display: grid; grid-template-columns: 1.2em auto minmax(0, 1fr); align-items: baseline; gap: 0.4em; }
+.artmind-step-line { display: grid; grid-template-columns: 1.6em auto minmax(0, 1fr); align-items: center; gap: 0.5em; }
 .artmind-step-glyph { text-align: center; }
 .artmind-step-title { font-weight: var(--font-semibold); white-space: nowrap; }
 .artmind-step-summary { color: var(--text-muted); font-size: var(--font-smaller); text-align: right; overflow: hidden; text-overflow: ellipsis; }
 .artmind-step-done .artmind-step-title { color: var(--text-muted); font-weight: normal; }
 .artmind-step-buttons { display: flex; flex-wrap: wrap; gap: 0.3em; justify-content: flex-end; margin-top: 0.3em; }
 .artmind-step-buttons .artmind-action { margin: 0; }
-.artmind-outline { background: transparent; box-shadow: inset 0 0 0 1px var(--background-modifier-border); }
+/* Every available action is a real button: the current step's main one is
+   accent-coloured, the other steps' main ones are Obsidian's raised buttons,
+   and the extras (Pull, a second action) are outlined in a visible line. */
+.artmind-raised { background: var(--interactive-normal); box-shadow: var(--input-shadow); font-weight: var(--font-semibold); }
+.artmind-raised:hover:not(:disabled) { background: var(--interactive-hover); }
+.artmind-outline { background: transparent; box-shadow: inset 0 0 0 1px var(--text-faint); }
+.artmind-outline:hover:not(:disabled) { background: var(--background-modifier-hover); }
+.artmind-action:disabled { opacity: 0.6; cursor: not-allowed; }
+.artmind-pending { display: inline-flex; align-items: center; gap: 0.4em; opacity: 1 !important; cursor: progress !important; }
+.artmind-spinner {
+  flex: none; width: 0.85em; height: 0.85em; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent;
+  animation: artmind-spin 0.8s linear infinite;
+}
+@keyframes artmind-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .artmind-spinner { animation-duration: 3s; } }
 .artmind-step-detail { font-size: var(--font-smaller); color: var(--text-muted); padding-left: 1.6em; }
 .artmind-step-items { font-size: var(--font-smaller); padding-left: 1.6em; margin-top: 0.15em; }
 .artmind-step-items > summary { color: var(--text-muted); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -122,3 +137,41 @@
 .artmind-synth-cap { display: flex; align-items: center; gap: 0.4em; }
 .artmind-synth-cap input { width: 6em; }
 .artmind-synth-total { font-weight: var(--font-semibold); }
+
+/* ── the stepper: numbered circles on a line that fills as steps finish ── */
+.artmind-progress-line { display: flex; align-items: center; gap: 0.6em; margin-top: 0.3em; }
+.artmind-progress { display: flex; gap: 2px; }
+.artmind-progress-block { width: 1.1em; height: 6px; border-radius: 2px; background: var(--background-modifier-border); }
+.artmind-progress-done { background: var(--interactive-accent); }
+
+.artmind-stepper { gap: 0; margin-top: 0.4em; }
+.artmind-stepper-item { position: relative; padding-bottom: 0.4em; }
+.artmind-stepper-item .artmind-step { border-left: none; padding-left: 0.2em; }
+/* The line from this step's circle to the next one's. */
+.artmind-stepper-item::before {
+  content: ""; position: absolute; left: calc(0.2em + 0.8em - 1px); top: 1.9em; bottom: -0.1em; width: 2px;
+  background: var(--background-modifier-border);
+}
+.artmind-stepper-last::before { display: none; }
+.artmind-stepper-done::before { background: var(--interactive-accent); }
+.artmind-step-marker {
+  width: 1.6em; height: 1.6em; line-height: 1.6em; border-radius: 50%; box-sizing: border-box; text-align: center;
+  font-size: var(--font-smaller); font-weight: var(--font-semibold);
+  border: 2px solid var(--background-modifier-border); background: var(--background-primary); color: var(--text-muted);
+}
+.artmind-step-done .artmind-step-marker { background: var(--interactive-accent); border-color: var(--interactive-accent); color: var(--text-on-accent); }
+.artmind-step-current .artmind-step-marker { border-color: var(--interactive-accent); color: var(--text-accent); box-shadow: 0 0 0 3px var(--background-modifier-active-hover); }
+.artmind-step-attention .artmind-step-marker { border-color: var(--color-orange); color: var(--color-orange); }
+.artmind-step-todo .artmind-step-marker { border-color: var(--color-blue); color: var(--color-blue); }
+.artmind-step-current.artmind-step-todo .artmind-step-marker, .artmind-step-current.artmind-step-attention .artmind-step-marker { box-shadow: 0 0 0 3px var(--background-modifier-active-hover); }
+.artmind-step-optional:not(.artmind-step-done) .artmind-step-marker { border-style: dashed; }
+.artmind-step-marker { position: relative; }
+.artmind-step-marker-running { border-color: var(--text-accent); }
+.artmind-step-marker-running::after {
+  content: ""; position: absolute; inset: -2px; border-radius: 50%;
+  border: 2px solid var(--text-accent); border-top-color: transparent; animation: artmind-spin 1s linear infinite;
+}
+.artmind-stepper-item .artmind-step-buttons, .artmind-stepper-item .artmind-step-detail, .artmind-stepper-item .artmind-step-items { margin-left: 2.1em; padding-left: 0; }
+.artmind-stepper-item .artmind-step-buttons { justify-content: flex-start; }
+.artmind-stepper-item .artmind-step-current { background: transparent; }
+.artmind-stepper-item .artmind-step-title { white-space: normal; }

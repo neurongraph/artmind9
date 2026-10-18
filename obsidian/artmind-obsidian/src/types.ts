@@ -266,3 +266,44 @@ export interface DbReview {
   pending_count: number;
   tables: TableToReview[];
 }
+
+/** One `:SameAsProposal` of `artmind sameas list --compact`. Keys are
+ * `name|CLASS|domain`. Proposals live in Neo4j only: they never travel
+ * between laptops. */
+export interface SameAsProposal {
+  id: string;
+  canonical: string;
+  members: string[];
+  source: string;
+  reason?: string;
+  status: string;
+  detected_at?: string;
+}
+
+export interface SameAsList {
+  status: string;
+  proposals: SameAsProposal[];
+}
+
+/** One row of `artmind query graph conflicts --compact`. */
+export interface ConflictRow {
+  conflict: { id: string; aspect: string | null; status: string; severity?: string | number | null };
+  entities: Array<{ name: string; entity_class?: string; _domain?: string }>;
+}
+
+export interface ConflictsList {
+  domains: string[];
+  status: string;
+  rows: ConflictRow[];
+}
+
+/** `artmind sameas propose` and `ingest detect-conflicts`: how many pairs
+ * were compared and what was written (ids of the Conflict nodes and the
+ * SameAsProposals). */
+export interface DetectReport {
+  domains: string[];
+  candidates: number;
+  llm_calls: number;
+  conflicts: string[];
+  same_as_proposals: string[];
+}

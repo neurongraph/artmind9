@@ -10,6 +10,7 @@ describe("settings (spec §7)", () => {
     expect(DEFAULT_SETTINGS.newFileGroupSeconds).toBe(10);
     expect(Object.keys(DEFAULT_SETTINGS.notices).sort()).toEqual([
       "applyDone",
+      "curateDone",
       "ingestDone",
       "newFiles",
       "pulled",

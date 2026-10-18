@@ -344,7 +344,7 @@ artmind ingest refine-graph --from-file merges.json
 
 # Step 4 — review and approve in the queue (artmind-curate's job)
 artmind sameas list --status open --compact
-artmind sameas approve <proposal_id>
+artmind sameas approve <proposal_id> [<proposal_id> ...]   # several ids = one rebuild
 ```
 
 **Focused proposing** (only specific entities):
@@ -588,7 +588,7 @@ pattern matches the chosen name.
 4. artmind ingest refine-graph --domain DOMAIN \
      --dry-run --output merges.json                  # optional: propose duplicate merges
 5. artmind ingest refine-graph --from-file merges.json  # writes proposals, doesn't merge
-6. artmind sameas approve <proposal_id>              # artmind-curate reviews, then approves
+6. artmind sameas approve <id> [<id> ...]           # artmind-curate reviews, then approves (one call, one rebuild)
 ```
 
 **Team / import workflow:**

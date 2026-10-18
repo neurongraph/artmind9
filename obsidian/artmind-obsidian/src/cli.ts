@@ -88,6 +88,11 @@ export const TIMEOUTS_MS: Record<string, number> = {
   "projection rebuild": 2 * 60 * 60_000,
   "projection synthesize": 60 * 60_000,
   "db review": 60_000,
+  "sameas list": 60_000,
+  "query graph": 2 * 60_000,
+  // One LLM call per candidate pair, up to the pair cap.
+  "sameas propose": 60 * 60_000,
+  "ingest detect-conflicts": 60 * 60_000,
 };
 export const DEFAULT_TIMEOUT_MS = 5 * 60_000;
 /** `projection synthesize --dry-run` shares its key with the real run, but
@@ -104,6 +109,8 @@ const WRITE_COMMANDS = new Set([
   "ingest table2graph",
   "projection rebuild",
   "projection synthesize",
+  "sameas propose",
+  "ingest detect-conflicts",
 ]);
 
 export function commandKey(args: string[]): string {
@@ -354,4 +361,14 @@ export class ArtmindCli {
     return this.run(["projection", "synthesize", "--domain", domain, ...(limit === null ? [] : ["--limit", String(limit)])]);
   }
   dbReview() { return this.run(["db", "review"]); }
+  sameasList() { return this.run(["sameas", "list"]); }
+  openConflicts(domains: string[]) {
+    return this.run(["query", "graph", "conflicts", ...domains.flatMap((d) => ["--domain", d])]);
+  }
+  sameasPropose(domain: string, maxPairs: number) {
+    return this.run(["sameas", "propose", "--domain", domain, "--maxPairs", String(maxPairs)]);
+  }
+  detectConflicts(domains: string[], maxPairs: number) {
+    return this.run(["ingest", "detect-conflicts", ...domains.flatMap((d) => ["--domain", d]), "--maxPairs", String(maxPairs)]);
+  }
 }

@@ -120,9 +120,9 @@ describe("the checklist's notice texts (checklist spec §5)", () => {
 
   it("refusals and prompts", () => {
     expect(NOTICE.applyQueued).toBe("Ingest in progress — will apply to graph when it finishes.");
-    expect(CONFIRM.applyFirst).toBe("The other laptop has changes not applied to your graph.");
+    expect(CONFIRM.applyFirst).toBe("Some committed changes are not applied to your graph yet.");
     expect(CONFIRM.pullFirst).toBe("Pull from GitHub first?");
-    expect(AUTO_PULL_HINT).toBe("Turn on Obsidian Git's auto pull to see the other laptop's changes");
+    expect(AUTO_PULL_HINT).toBe("Turn on Obsidian Git's auto pull to see commits pushed from another laptop");
   });
 });
 
