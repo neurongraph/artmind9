@@ -8,7 +8,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 
 from artmind.traces import store
-from artmind.traces.path import GRAPH_LAYERS, is_graph_miss, layer_of
+from artmind.traces.path import GRAPH_LAYERS, is_graph_miss, layer_of, views_check
 
 _NOT_FOUND = re.compile(
     r"\b(couldn'?t find|could not find|unable to find|no information|not in the (graph|knowledge graph|data)"
@@ -41,14 +41,41 @@ def _ambiguous(span: dict) -> bool:
             and scores[0] > 0 and scores[1] >= 0.9 * scores[0])
 
 
-def signals(turn: dict, spans: list[dict], turns_p90: float | None) -> dict[str, int]:
+def views_checks(turns: list[dict], spans_by_trace: dict[str, list[dict]]) -> dict[str, dict]:
+    """`path.views_check` per turn, with listings from earlier turns of the same
+    conversation carried forward: the skill lists views once per conversation.
+    Earlier turns outside `turns` (before a `--since` window) are fetched too."""
+    sessions = {t["session_id"] for t in turns if t.get("session_id")}
+    history = [t for t in store.list_turns() if t.get("session_id") in sessions] if sessions else []
+    known = {t["trace_id"] for t in turns}
+    extra = [t["trace_id"] for t in history if t["trace_id"] not in known]
+    spans = {**spans_by_trace, **store.list_spans_for(extra)} if extra else spans_by_trace
+    carried: dict[str, tuple[set[str], bool]] = {}
+    out: dict[str, dict] = {}
+    by_id = {t["trace_id"]: t for t in [*history, *turns]}
+    for turn in sorted(by_id.values(), key=lambda t: t["started_at"]):
+        sid = turn.get("session_id")
+        listed, listed_all = carried.get(sid, (set(), False)) if sid else (set(), False)
+        check = views_check(spans.get(turn["trace_id"], []), listed, listed_all_before=listed_all)
+        if sid:
+            carried[sid] = (set(check["listed"]), check["listed_all"])
+        out[turn["trace_id"]] = check
+    return out
+
+
+def signals(turn: dict, spans: list[dict], turns_p90: float | None,
+            views: dict | None = None) -> dict[str, int]:
+    """`views` is the turn's `views_checks` entry; computed from `spans`
+    alone (no earlier turns) when not given."""
     out: dict[str, int] = {}
     if is_graph_miss(turn):
         unproductive = (turn.get("graph_attempts") or 0) - (turn.get("graph_productive") or 0)
         out["graph_miss"] = 3 + min(3, max(0, unproductive))
     elif turn.get("fell_through"):
         out["fell_through"] = 1
-    if any(s.get("exit_code") == 0 and (s.get("rows") or 0) == 0 for s in spans):
+    # An empty `views list` is a domain with no views, not a failed retrieval.
+    if any(s.get("exit_code") == 0 and (s.get("rows") or 0) == 0 and s.get("command") != "query views list"
+           for s in spans):
         out["empty_rows"] = 1
     if any(s.get("truncated") for s in spans):
         out["truncated"] = 1
@@ -64,6 +91,11 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None) -> dict[str,
         out["ambiguous_entity"] = 1
     if any(s.get("exit_code") not in (0, None) for s in spans):
         out["command_error"] = 1
+    status = (views or views_check(spans))["status"]
+    if status == "skipped":
+        out["views_skipped"] = 1
+    elif status == "late":
+        out["views_late"] = 1
     return out
 
 
@@ -79,10 +111,11 @@ def triage(*, since: float | None = None, limit: int = 20) -> list[dict]:
     turns = [t for t in store.list_turns(since=since) if t["status"] in ("done", "error") and not t["reviewed"]]
     p90 = _p90([t["turns"] or 0 for t in turns])
     spans_by_trace = store.list_spans_for([t["trace_id"] for t in turns])
+    checks = views_checks(turns, spans_by_trace)
     items = []
     for turn in turns:
         rating = turn.get("rating")
-        sig = signals(turn, spans_by_trace.get(turn["trace_id"], []), p90)
+        sig = signals(turn, spans_by_trace.get(turn["trace_id"], []), p90, checks[turn["trace_id"]])
         score = sum(sig.values())
         if rating == "good" and "graph_miss" not in sig:
             continue
@@ -109,11 +142,31 @@ def _period(started_at: float, by: str) -> str:
     return "all"
 
 
+def _views_rates(turns: list[dict], checks: dict[str, dict]) -> dict:
+    """Views-first compliance over the turns that ran any query besides Route.
+    `views_listed_unused` counts turns that listed views, found some, and ran
+    none: a possible miss, or a correct "no view fits"."""
+    cs = [checks[t["trace_id"]] for t in turns]
+    applicable = [c for c in cs if c["status"] != "n/a"]
+    n = len(applicable)
+
+    def rate(status: str) -> float | None:
+        return sum(1 for c in applicable if c["status"] == status) / n if n else None
+
+    return {
+        "views_first_rate": rate("first"),
+        "views_late_rate": rate("late"),
+        "views_skipped_rate": rate("skipped"),
+        "view_run_rate": sum(1 for c in cs if c["view_ran"]) / len(cs) if cs else None,
+        "views_listed_unused": sum(1 for c in cs if (c["views_available"] or 0) > 0 and not c["view_ran"]),
+    }
+
+
 def stats(*, domain: list[str] | None = None, since: float | None = None, by: str = "week") -> list[dict]:
     buckets: dict[tuple[str, str], list[dict]] = {}
-    for turn in store.list_turns(since=since):
-        if turn["status"] != "done":
-            continue
+    done = [t for t in store.list_turns(since=since) if t["status"] == "done"]
+    checks = views_checks(done, store.list_spans_for([t["trace_id"] for t in done]))
+    for turn in done:
         for d in turn.get("domains") or ["(none)"]:
             if domain and d not in domain:
                 continue
@@ -131,6 +184,7 @@ def stats(*, domain: list[str] | None = None, since: float | None = None, by: st
             "answer_basis": dict(Counter(t["answer_basis"] or "none" for t in turns)),
             "mean_graph_attempts_before_fall_through":
                 statistics.mean(t["graph_attempts"] or 0 for t in fell) if fell else None,
+            **_views_rates(turns, checks),
         })
     return rows
 

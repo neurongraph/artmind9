@@ -192,6 +192,12 @@ and period:
 - graph productivity (`graph_productive / graph_attempts`)
 - answer basis split
 - mean graph attempts before a fall-through
+- views-first compliance (`path.views_check`, added 2026-10-18): over turns
+  that ran any query besides `domains-overview`, the share that checked saved
+  views first, late, or not at all (`views_first_rate`, `views_late_rate`,
+  `views_skipped_rate`); `view_run_rate`; and `views_listed_unused`, turns
+  that found views and ran none. A listing from an earlier turn of the same
+  conversation counts, since the query skill lists views once per conversation.
 
 The trend of these numbers is the measure of whether the loop is improving
 the graph.
@@ -346,6 +352,10 @@ per signal:
   phrase list
 - an entity resolved ambiguously (the second candidate's score is at least 90% of the first's; RRF scores are small, so the comparison is relative)
 - a span ended with `exit_code != 0`
+- `views_skipped`: a query ran on a domain whose saved views the turn (or an
+  earlier turn of its conversation) never listed; `views_late`: listed, but
+  only after another query on that domain. An empty `views list` is not a
+  `rows == 0` span.
 
 Turns rated `good` are excluded, **except graph misses**. A correct answer
 from chunk text after the graph failed is still a graph failure. Those turns
