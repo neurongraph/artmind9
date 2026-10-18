@@ -102,7 +102,7 @@ def _warn_ibm_ica_shadow(env: dict, exc: Exception) -> None:
         logger.warning(hint)
 
 
-def call_llm(model: str, prompt: str) -> str:
+def call_llm(model: str, prompt: str, call_type: str = "chat") -> str:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
     provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
@@ -117,7 +117,7 @@ def call_llm(model: str, prompt: str) -> str:
     else:
         host = env.get("ARTMIND_KG_LLM_URL") or None
         result = call_llm_ollama(model, prompt, timeout, host=host)
-    log_llm_call("chat", model, prompt, result)
+    log_llm_call(call_type, model, prompt, result)
     return result
 
 

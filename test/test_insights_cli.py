@@ -65,7 +65,17 @@ def test_refresh_passes_options_through(monkeypatch):
     monkeypatch.setattr(runner, "refresh", lambda domain, **kw: seen.update(domain=domain, **kw) or {"status": "written"})
     result = invoke("refresh", "--domain", "demo", "--force", "--only", "dormancy, brokers")
     assert result.exit_code == 0, result.output
-    assert seen == {"domain": "demo", "force": True, "only": ["dormancy", "brokers"]}
+    assert seen == {"domain": "demo", "force": True, "only": ["dormancy", "brokers"], "narrate": True}
+
+
+def test_refresh_no_narrate_flag(monkeypatch):
+    from artmind.insights import runner
+
+    seen = {}
+    monkeypatch.setattr(runner, "refresh", lambda domain, **kw: seen.update(kw) or {"status": "written"})
+    result = invoke("refresh", "--domain", "demo", "--no-narrate")
+    assert result.exit_code == 0, result.output
+    assert seen["narrate"] is False
 
 
 def test_refresh_needs_exactly_one_domain():

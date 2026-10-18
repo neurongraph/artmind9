@@ -29,7 +29,7 @@ def env(tmp_path, monkeypatch):
     monkeypatch.setattr(runner, "load_schema", lambda domain: SCHEMA)
     monkeypatch.setattr(runner, "_hashes", lambda domain: {"schema": "s", "same_as": "a", "config": "c"})
     (tmp_path / "cfg").mkdir()
-    (tmp_path / "cfg" / "demo.yaml").write_text("min_period_docs: 5\n")
+    (tmp_path / "cfg" / "demo.yaml").write_text("min_period_docs: 5\nnarrate: false\n")
     return tmp_path
 
 
@@ -87,7 +87,7 @@ def test_same_rows_give_identical_findings(env):
 
 
 def test_retention_follows_config(env):
-    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\nkeep_runs: 1\n")
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\nnarrate: false\nkeep_runs: 1\n")
     refresh(force=True)
     result = refresh(now="2026-10-17T12:00:00Z", force=True)
     assert result["pruned"] == ["2026-10-17T09-00-00Z.json"]
@@ -179,7 +179,7 @@ def test_disabled_detector_drops_its_findings(env):
     from dataclasses import replace
     run.findings.append(replace(run.findings[0], key="dormancy:PERSON:a1", detector="dormancy", diff="new"))
     store.write_run(run)
-    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\ndetectors:\n  dormancy: {enabled: false}\n")
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\nnarrate: false\ndetectors:\n  dormancy: {enabled: false}\n")
     refresh(now="2026-10-17T10:00:00Z", force=True)
     dorm = [f for f in store.load_latest("demo").findings if f.detector == "dormancy"]
     assert {f.diff for f in dorm} == {"gone"}
@@ -246,3 +246,49 @@ def test_hashes_include_aliases_file(monkeypatch):
     monkeypatch.setattr(runner, "config_hash", lambda d: "c")
     h = runner._hashes("demo")
     assert len(h["aliases"]) == 64
+
+
+def _stub_llm(prompt):
+    import json as _json
+    if "Findings:\n" in prompt:
+        items = _json.loads(prompt.split("Findings:\n", 1)[1])
+        return _json.dumps({i["key"]: i["title"].split(": ")[-1] + "." for i in items})
+    items = _json.loads(prompt.split("Circles:\n", 1)[1])
+    return _json.dumps({i["id"]: "Old friends" for i in items})
+
+
+def test_narration_runs_after_diff_and_is_cached(env):
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\nnarrate_top: 3\n")
+    calls = []
+    def llm(p):
+        calls.append(p)
+        return _stub_llm(p)
+    result = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=llm)
+    run = store.load_latest("demo")
+    assert result["llm"]["calls"] >= 1 and run.llm["narrated"] >= 1
+    assert any(c["name_source"] == "llm" and c["name"] == "Old friends" for c in run.circles)
+    assert sum(1 for f in run.findings if f.narration) >= 1
+    n = len(calls)
+    runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T10:00:00Z", llm=llm, force=True)
+    assert len(calls) == n                       # everything cached: no new LLM calls
+    assert store.load_latest("demo").llm["cached"] >= 1
+
+
+def test_no_narrate_skips_llm_and_changes_fingerprint(env):
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\n")
+    def boom(p):
+        raise AssertionError("LLM must not be called")
+    runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=boom, narrate=False)
+    assert store.load_latest("demo").fingerprint["narrated"] is False
+    second = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T10:00:00Z",
+                            llm=lambda p: _stub_llm(p))
+    assert second["status"] == "written"         # narration turned on: not up to date
+
+
+def test_llm_failure_never_fails_the_run(env):
+    (env / "cfg" / "demo.yaml").write_text("min_period_docs: 5\n")
+    def down(p):
+        raise RuntimeError("provider down")
+    result = runner.refresh("demo", projector=FakeProjector(_tables()), now="2026-10-17T09:00:00Z", llm=down)
+    assert result["status"] == "written" and result["llm"]["errors"] >= 1
+    assert all(f.narration is None for f in store.load_latest("demo").findings)

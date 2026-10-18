@@ -149,17 +149,19 @@ def _keeps_previous(plan: list[PlanEntry]) -> set[str]:
 
 
 def refresh(domain: str, *, force: bool = False, only: list[str] | None = None,
-            projector=None, now: str | None = None) -> dict:
+            projector=None, now: str | None = None, narrate: bool | None = None, llm=None) -> dict:
     try:
-        return _refresh(domain, force=force, only=only, projector=projector, now=now)
+        return _refresh(domain, force=force, only=only, projector=projector, now=now, narrate=narrate, llm=llm)
     except InsightsError:
         raise
     except (OSError, yaml.YAMLError, ValueError) as exc:
         raise InsightsError(f"insights refresh for {domain!r} failed: {exc}") from exc
 
 
-def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now: str | None) -> dict:
+def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now: str | None,
+             narrate: bool | None = None, llm=None) -> dict:
     config = load_config(domain)
+    do_narrate = config.narrate if narrate is None else narrate
     selected = set(only) if only else None
     if selected:
         unknown = selected - {d.name for d in registry()}
@@ -187,6 +189,7 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
         "evidence": _evidence_hash(entities),
         "relations": sum(r["n"] for r in profile.relations),
         "detectors_version": DETECTORS_VERSION,
+        "narrated": bool(do_narrate),
     }
 
     try:
@@ -225,13 +228,36 @@ def _refresh(domain: str, *, force: bool, only: list[str] | None, projector, now
     if previous is not None and ((selected is not None and "communities" not in selected) or "communities" in keep):
         circles = previous.circles
 
+    llm_stats: dict = {}
+    if do_narrate:
+        from artmind.insights import narrate as narrate_mod
+        model = None
+        if llm is None:
+            try:
+                llm, model = narrate_mod.default_llm()
+            except Exception as exc:  # no provider configured: run without narration
+                llm_stats = {"errors": 1, "error": str(exc)}
+        if llm is not None:
+            prev_circles = previous.circles if previous is not None else None
+            c_stats = narrate_mod.name_circles(circles, previous=prev_circles, ctx=ctx, llm=llm)
+            live = [f for f in findings + carried if f.diff != "gone"]
+            narrate_mod.label_circle_findings(live, circles)
+            f_stats = narrate_mod.narrate_findings(live, previous=previous.findings if previous else None,
+                                                   ctx=ctx, llm=llm, top=config.narrate_top)
+            llm_stats = {"model": model, "prompt_version": narrate_mod.PROMPT_VERSION,
+                         "calls": c_stats["calls"] + f_stats["calls"],
+                         "narrated": f_stats["narrated"], "cached": f_stats["cached"],
+                         "rejected": f_stats["rejected"] + c_stats["rejected"],
+                         "errors": f_stats["errors"] + c_stats["errors"],
+                         "circles_named": c_stats["named"], "circles_kept": c_stats["kept"]}
+
     run = Run(domain=domain, created_at=now or _now(), as_of=profile.latest_doc, fingerprint=fingerprint,
               anchors=anchors, profile=profile.to_dict(), plan=plan, findings=findings + carried,
-              circles=circles, diff=diff)
+              circles=circles, diff=diff, llm=llm_stats)
     path = store.write_run(run)
     pruned = store.prune(domain, config.keep_runs)
     return {
         "status": "written", "domain": domain, "path": str(path), "as_of": run.as_of, "anchors": anchors,
         "findings": dict(sorted(Counter(f.detector for f in run.findings if f.diff != "gone").items())),
-        "diff": diff, "skipped": [p.to_dict() for p in plan if p.status != "ran"], "pruned": pruned,
+        "diff": diff, "llm": llm_stats, "skipped": [p.to_dict() for p in plan if p.status != "ran"], "pruned": pruned,
     }
