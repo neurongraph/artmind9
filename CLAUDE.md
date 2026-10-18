@@ -205,6 +205,30 @@ docstring, the relevant skill in `artmind/skills/`, and the `justfile` recipe to
 
 `just dev-cli-help` dumps the real command hierarchy — trust it over any prose.
 
+### 5. Claude Code's `ANTHROPIC_BASE_URL` hijacks LLM calls run from its shell
+
+artmind loads `config.env` **without** overriding real environment variables. Depending
+on how Claude Code is signed in (e.g. through a custom endpoint or gateway), it exports
+its own `ANTHROPIC_BASE_URL` into every shell it runs. Any `artmind` command run from a
+Claude Code shell (an agent's Bash, `just`, `uv run`) then sends `ibm_ica` extraction
+requests to **Claude Code's** endpoint instead of the configured one, and every LLM step
+fails with **`Error code: 404`** within seconds. The log says so once per process
+(`extraction.ibm_ica_shadow_hint`): "ANTHROPIC_BASE_URL from the process environment
+overrides the one in …/config.env".
+
+Before the extraction loss guard
+(`docs/superpowers/specs/2026-10-18-extraction-loss-guard-design.md`), that failure was
+staged as an **empty extraction** and committed: a note silently lost its facts. Now the
+file is marked failed and the previous staging is kept, but the run still does nothing.
+
+- **One command:** `env -u ANTHROPIC_BASE_URL artmind ingest sync "<path>" --reextract`.
+- **Permanently:** set `ARTMIND_KG_ANTHROPIC_BASE_URL` in `~/.artmind/config.env` to the
+  ibm_ica endpoint. `ibm_ica_client_env` checks it before `ANTHROPIC_BASE_URL`, so an
+  exported value no longer matters.
+- **Check:** `env | grep ^ANTHROPIC_` in the shell you're about to ingest from.
+
+Hermetic tests mock the LLM, so they never see this; only a real ingest does.
+
 ## Command routing quick reference
 
 Two levels under `query`, and mixing them up is a common error:
