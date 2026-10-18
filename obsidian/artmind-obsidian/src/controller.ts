@@ -269,6 +269,19 @@ export class Controller {
     this.update({ busy: { ...this.inputs.busy, [key]: on } });
   }
 
+  /** Raise `key`, run `work`, and lower it only after `work` -- which ends
+   * with the refresh that re-reads what the action changed. Lowered before
+   * that refresh, one render shows the panel as it was before the click
+   * (its buttons, its summaries) until the reads land seconds later. */
+  private async whileBusy<T>(key: BusyKey, work: () => Promise<T>): Promise<T> {
+    this.setBusy(key, true);
+    try {
+      return await work();
+    } finally {
+      this.setBusy(key, false);
+    }
+  }
+
   /** An Obsidian Git command has no completion signal, but it moves HEAD:
    * keep `key` busy until HEAD settles (or `timeoutMs`), then refresh. With
    * no watchers (nothing to wait on) it is not shown busy at all. */
@@ -518,24 +531,29 @@ export class Controller {
     let result: CliResult;
     try {
       result = await this.deps.cli.retryJob(jobId);
-    } finally {
+    } catch (error) {
       this.setBusy("retry", false);
+      throw error;
     }
     this.record(result);
     if (!result.ok) {
-      this.setActionError("documents", result.error);
+      this.update({ busy: { ...this.inputs.busy, retry: false }, actionErrors: this.withError("documents", result.error) });
       this.notify("error", failedText("retry the job", result.error), "documents");
       return;
     }
     const retry = result.json as RetryResult;
     if (!retry.requeued) {
+      this.setBusy("retry", false);
       this.notify("prompt", NOTICE.nothingToRetry, "documents");
       return;
     }
     const fileCount = before?.file_count ?? finished?.results?.file_count ?? finished?.status.file_count ?? retry.retried;
+    // The requeued job and the end of "busy" land in one render: no flash of
+    // the finished job between them.
     this.update({
       lastJob: null,
       actionErrors: this.withError("documents", null),
+      busy: { ...this.inputs.busy, retry: false },
       activeJob: {
         job_id: jobId,
         status: "queued",
@@ -651,23 +669,23 @@ export class Controller {
       });
       return;
     }
-    this.setBusy("apply", true);
-    let result: CliResult;
-    try {
-      result = await this.deps.cli.sync();
-    } finally {
-      this.setBusy("apply", false);
-    }
-    this.record(result);
+    const result = await this.whileBusy("apply", async () => {
+      const result = await this.deps.cli.sync();
+      this.record(result);
+      if (result.ok) {
+        const summary = applyDoneText(result.json as SyncResult);
+        this.update({ lastApply: { at: this.now(), ok: true, summary }, actionErrors: this.withError("remote", null) });
+        await this.refresh({ heavy: true });
+      } else {
+        this.update({ lastApply: { at: this.now(), ok: false, summary: result.error ?? "failed" } });
+      }
+      return result;
+    });
     if (result.ok) {
-      const summary = applyDoneText(result.json as SyncResult);
-      this.update({ lastApply: { at: this.now(), ok: true, summary }, actionErrors: this.withError("remote", null) });
-      await this.refresh({ heavy: true });
-      this.notify("applyDone", withNext(summary, this.checklist), "remote");
+      this.notify("applyDone", withNext(applyDoneText(result.json as SyncResult), this.checklist), "remote");
       opts.then?.();
       return;
     }
-    this.update({ lastApply: { at: this.now(), ok: false, summary: result.error ?? "failed" } });
     const refusal = classifyRefusal(result.error ?? "");
     switch (refusal.kind) {
       case "worker_running":
@@ -744,24 +762,26 @@ export class Controller {
   /** Rebuild graph: `projection rebuild --sweep` (B4), then every heavy read again. */
   async rebuild(): Promise<void> {
     if (!this.guard("rebuild", "graph")) return;
-    this.setBusy("rebuild", true);
-    let result: CliResult;
-    try {
-      result = await this.deps.cli.projectionRebuildSweep();
-    } finally {
-      this.setBusy("rebuild", false);
-    }
-    this.record(result);
-    if (!result.ok) {
-      this.update({ lastRebuild: { at: this.now(), ok: false, summary: result.error ?? "failed", errors: [] } });
-      this.notify("error", failedText("rebuild the graph", result.error), "graph");
+    const result = await this.whileBusy("rebuild", async () => {
+      const result = await this.deps.cli.projectionRebuildSweep();
+      this.record(result);
+      if (!result.ok) {
+        this.update({ lastRebuild: { at: this.now(), ok: false, summary: result.error ?? "failed", errors: [] } });
+        await this.refresh({ heavy: true });
+        return result;
+      }
+      const rebuilt = result.json as RebuildResult;
       await this.refresh({ heavy: true });
+      const text = rebuiltText(rebuilt, this.inputs.projection);
+      this.update({ lastRebuild: { at: this.now(), ok: true, summary: text, errors: rebuilt.sweep_errors } });
+      return result;
+    });
+    if (!result.ok) {
+      this.notify("error", failedText("rebuild the graph", result.error), "graph");
       return;
     }
     const rebuilt = result.json as RebuildResult;
-    await this.refresh({ heavy: true });
-    const text = rebuiltText(rebuilt, this.inputs.projection);
-    this.update({ lastRebuild: { at: this.now(), ok: true, summary: text, errors: rebuilt.sweep_errors } });
+    const text = this.inputs.lastRebuild?.summary ?? "";
     if (rebuilt.sweep_errors.length) this.notify("error", text, "graph");
     else this.notify("rebuildDone", withNext(text, this.checklist), "graph");
   }
@@ -805,13 +825,13 @@ export class Controller {
         this.synthDone = written;
         this.countSynthesis();
       }
+      this.update({ synthRun: null, actionErrors: this.withError("descriptions", failures.length ? failures.join("; ") : null) });
+      // Syntheses are vault files: the footer changes too.
+      await this.refresh({ heavy: true });
     } finally {
-      this.update({ synthRun: null });
+      if (this.inputs.synthRun) this.update({ synthRun: null });
       this.setBusy("synthesize", false);
     }
-    this.setActionError("descriptions", failures.length ? failures.join("; ") : null);
-    // Syntheses are vault files: the footer changes too.
-    await this.refresh({ heavy: true });
     if (failures.length) this.notify("error", failedText(`synthesize ${plural(failures.length, "domain")}`, failures[0]), "descriptions");
     if (written || !failures.length) this.notify("synthesizeDone", withNext(synthesizedText(written), this.checklist), "descriptions");
   }
@@ -873,11 +893,12 @@ export class Controller {
         candidates += report.candidates ?? 0;
         for (const id of report.same_as_proposals ?? []) proposals.add(id);
       }
+      this.setActionError("curate", failures.length ? failures.join("; ") : null);
+      await this.refresh({ heavy: true });
     } finally {
       this.setBusy("findDuplicates", false);
     }
     this.finishCurate(failures, "find duplicates", proposedText({ candidates, same_as_proposals: [...proposals] }));
-    await this.refresh({ heavy: true });
   }
 
   /** `ingest detect-conflicts --domain A --domain B --maxPairs N`: one run
@@ -898,15 +919,15 @@ export class Controller {
           same_as_proposals: report.same_as_proposals ?? [],
         });
       } else failures.push(result.error ?? "failed");
+      this.setActionError("curate", failures.length ? failures.join("; ") : null);
+      await this.refresh({ heavy: true });
     } finally {
       this.setBusy("detectConflicts", false);
     }
     this.finishCurate(failures, "detect conflicts", text);
-    await this.refresh({ heavy: true });
   }
 
   private finishCurate(failures: string[], what: string, doneText: string): void {
-    this.setActionError("curate", failures.length ? failures.join("; ") : null);
     if (failures.length) this.notify("error", failedText(what, failures[0]), "curate");
     else this.notify("curateDone", doneText, "curate");
   }
@@ -957,14 +978,12 @@ export class Controller {
 
   /** `vault resolve`; row 1 then offers [Complete the merge]. */
   async resolveApply(): Promise<boolean> {
-    this.setBusy("resolve", true);
-    let result: CliResult;
-    try {
-      result = await this.deps.cli.resolve(false);
-    } finally {
-      this.setBusy("resolve", false);
-    }
-    this.record(result);
+    const result = await this.whileBusy("resolve", async () => {
+      const result = await this.deps.cli.resolve(false);
+      this.record(result);
+      if (result.ok) await this.refresh();
+      return result;
+    });
     if (!result.ok) {
       this.setActionError("remote", result.error);
       this.notify("error", failedText("resolve the artmind files", result.error), "remote");
@@ -972,7 +991,6 @@ export class Controller {
     }
     const report = result.json as ResolveReport;
     const left = report.reported.length + report.pending.length;
-    await this.refresh();
     this.notify("resolveDone", left ? resolvedText(left) : withNext(resolvedText(0), this.checklist), "remote");
     return true;
   }
