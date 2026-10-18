@@ -81,6 +81,7 @@ export default class ArtmindPlugin extends Plugin {
       },
     });
     this.controller = controller;
+    cli.onWriteQueue((queue) => controller.onWriteQueue(queue));
     const watchers = new Watchers(
       {
         readHead: () => new GitReader(root).head(),
@@ -94,6 +95,7 @@ export default class ArtmindPlugin extends Plugin {
           controller.scheduleRefresh(reason);
         },
         pollJob: () => controller.pollJob(),
+        pollSynthesis: () => controller.pollSynthesis(),
       },
       {
         headPollMs: this.artmindSettings.headPollSeconds * 1000,

@@ -1,3 +1,4 @@
+import type { WriteQueue } from "./cli";
 import type {
   DbReview,
   IngestPending,
@@ -106,6 +107,12 @@ export interface StateInputs {
   lastApply: Outcome | null;
   lastRebuild: RebuildOutcome | null;
   busy: Busy;
+  /** The CLI's write queue: a busy action may still be waiting its turn in it. */
+  writeQueue: WriteQueue;
+  /** The synthesize run in progress: how many descriptions it set out to
+   * write (the last dry runs' counts for its domains, capped by its limit)
+   * and how many it has written so far. */
+  synthRun: { total: number; written: number } | null;
   /** The raw error of each row's last failed action: its row's detail, never a notice. */
   actionErrors: Partial<Record<RowId, string>>;
   /** Obsidian Git's `autoPullInterval` (0: off), or null before the first read (D10). */
@@ -129,6 +136,8 @@ export const EMPTY_INPUTS: StateInputs = {
   lastApply: null,
   lastRebuild: null,
   busy: NOT_BUSY,
+  writeQueue: { running: null, waiting: [] },
+  synthRun: null,
   actionErrors: {},
   obsidianGit: null,
 };

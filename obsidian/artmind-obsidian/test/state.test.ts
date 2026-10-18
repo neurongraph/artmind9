@@ -39,6 +39,8 @@ describe("StateInputs", () => {
       lastApply: null,
       lastRebuild: null,
       busy: Object.fromEntries(BUSY_KEYS.map((key) => [key, false])),
+      writeQueue: { running: null, waiting: [] },
+      synthRun: null,
       actionErrors: {},
       obsidianGit: null,
     });

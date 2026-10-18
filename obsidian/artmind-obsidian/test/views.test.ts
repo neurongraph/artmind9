@@ -542,6 +542,23 @@ describe("the numbered stepper, progress and pending buttons", () => {
     expect(synth.classList.contains("artmind-outline")).toBe(false);
   });
 
+  it("a write still waiting in the queue says Queued…, not its running label", () => {
+    const root = document.createElement("div");
+    renderPanel(
+      root,
+      snapshot({
+        status: fixture("vault-status.behind").json,
+        busy: { ...NOT_BUSY, apply: true, synthesize: true },
+        writeQueue: { running: "projection synthesize", waiting: ["vault sync"] },
+      }),
+      handlers(),
+    );
+
+    const labels = [...rowEl(root, "remote").querySelectorAll("button")].map((b) => b.textContent);
+    expect(labels).toContain("Queued…");
+    expect(rowEl(root, "remote").textContent).toContain("waiting for synthesize to finish");
+  });
+
   it("a running action's button shows a spinner and its pending label, and is disabled", () => {
     const root = document.createElement("div");
     const h = handlers();

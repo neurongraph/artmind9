@@ -267,9 +267,21 @@ export interface ArtmindCliOptions {
   onResult?: (result: CliResult) => void;
 }
 
+/** The write queue as a panel needs it: the write running now and those
+ * waiting behind it, as command keys (`commandKey`), oldest first. */
+export interface WriteQueue {
+  running: string | null;
+  waiting: string[];
+}
+
+export const EMPTY_QUEUE: WriteQueue = { running: null, waiting: [] };
+
 /** Runs `artmind <args> --compact` in the vault and parses its JSON. */
 export class ArtmindCli {
   private writeTail: Promise<unknown> = Promise.resolve();
+  private running: string | null = null;
+  private waiting: string[] = [];
+  private queueListener: ((queue: WriteQueue) => void) | null = null;
   private options: ArtmindCliOptions;
 
   constructor(options: ArtmindCliOptions) {
@@ -284,14 +296,37 @@ export class ArtmindCli {
     this.options.path = path;
   }
 
+  /** Called whenever a write joins the queue, starts, or finishes. */
+  onWriteQueue(listener: (queue: WriteQueue) => void): void {
+    this.queueListener = listener;
+  }
+
+  private announce(): void {
+    this.queueListener?.({ running: this.running, waiting: [...this.waiting] });
+  }
+
   /** `--compact` is added unless the args carry it, or it is `--version`.
    * Reads start at once; writes wait for every earlier write to finish. */
   run(args: string[], opts: { timeoutMs?: number } = {}): Promise<CliResult> {
     const full = args[0] === "--version" || args.includes("--compact") ? args : [...args, "--compact"];
     const timeoutMs =
       opts.timeoutMs ?? this.options.timeouts?.[commandKey(full)] ?? TIMEOUTS_MS[commandKey(full)] ?? DEFAULT_TIMEOUT_MS;
-    const task = () => this.exec(full, timeoutMs);
-    if (!isWrite(full)) return task();
+    const exec = () => this.exec(full, timeoutMs);
+    if (!isWrite(full)) return exec();
+    const key = commandKey(full);
+    this.waiting.push(key);
+    this.announce();
+    const task = async () => {
+      this.waiting.splice(this.waiting.indexOf(key), 1);
+      this.running = key;
+      this.announce();
+      try {
+        return await exec();
+      } finally {
+        this.running = null;
+        this.announce();
+      }
+    };
     const result = this.writeTail.then(task, task);
     this.writeTail = result.catch(() => undefined);
     return result;

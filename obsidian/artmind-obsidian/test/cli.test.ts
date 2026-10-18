@@ -141,6 +141,27 @@ describe("ArtmindCli.run", () => {
     ]);
   });
 
+  it("reports the write queue: what runs, and what waits behind it", async () => {
+    const { cli } = fakeCli([
+      { match: "projection synthesize", stdout: "{}", delayMs: 200 },
+      { match: "vault sync", stdout: "{}" },
+      { match: "vault status", stdout: "{}" },
+    ]);
+    const seen: Array<{ running: string | null; waiting: string[] }> = [];
+    cli.onWriteQueue((queue) => seen.push(queue));
+
+    await Promise.all([cli.synthesize("general", null), cli.sync(), cli.status()]);
+
+    expect(seen).toEqual([
+      { running: null, waiting: ["projection synthesize"] },
+      { running: null, waiting: ["projection synthesize", "vault sync"] },
+      { running: "projection synthesize", waiting: ["vault sync"] },
+      { running: null, waiting: ["vault sync"] },
+      { running: "vault sync", waiting: [] },
+      { running: null, waiting: [] },
+    ]);
+  });
+
   it("keeps the queue moving after a failed write", async () => {
     const { cli, lines } = fakeCli([
       { match: "vault sync", stderr: "╭─ Error ─╮\n│ boom │\n╰─╯", exit: 1, delayMs: 100 },

@@ -83,7 +83,15 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
     ["descriptions to synthesize", "descriptions", { synthesis: [{ domain: "general", count: 41, model: "ministral-3:14b" }] }, ["optional", "◇", "41 could be synthesized · ~41 LLM calls (ministral-3:14b)", ["Synthesize…"]]],
     ["descriptions not counted", "descriptions", { synthesis: null }, ["optional", "◇", "not counted yet", []]],
     ["descriptions synthesizing", "descriptions", { busy: busyOf("synthesize") }, ["running", "◌", "synthesizing…", ["Synthesize…"]]],
-    ["descriptions synthesizing with progress", "descriptions", { busy: busyOf("synthesize"), synthesis: [{ domain: "general", count: 41, model: "m" }], git: { ahead: 0, artmindChanges: [".artmind/data/curation/syntheses/e1.json", ".artmind/data/curation/syntheses/e2.json"] } }, ["running", "◌", "synthesizing… 2/41", ["Synthesize…"]]],
+    ["descriptions synthesizing with progress", "descriptions", { busy: busyOf("synthesize"), synthRun: { total: 41, written: 2 } }, ["running", "◌", "synthesizing… 2/41", ["Synthesize…"]]],
+    ["descriptions synthesizing, none written yet", "descriptions", { busy: busyOf("synthesize"), synthRun: { total: 41, written: 0 } }, ["running", "◌", "synthesizing… 0/41", ["Synthesize…"]]],
+    ["descriptions synthesizing past the dry-run count", "descriptions", { busy: busyOf("synthesize"), synthRun: { total: 3, written: 5 } }, ["running", "◌", "synthesizing… 5", ["Synthesize…"]]],
+    // Uncommitted syntheses from an earlier run are not this run's progress.
+    ["descriptions synthesizing ignores older syntheses", "descriptions", { busy: busyOf("synthesize"), synthRun: { total: 41, written: 0 }, git: { ahead: 0, artmindChanges: [".artmind/data/curation/syntheses/e1.json"] } }, ["running", "◌", "synthesizing… 0/41", ["Synthesize…"]]],
+    ["remote apply queued behind synthesize", "remote", { busy: busyOf("apply", "synthesize"), writeQueue: { running: "projection synthesize", waiting: ["vault sync"] } }, ["running", "◌", "waiting for synthesize to finish", ["Apply to graph"]]],
+    ["remote apply running after the queue", "remote", { busy: busyOf("apply"), writeQueue: { running: "vault sync", waiting: [] } }, ["running", "◌", "applying to graph…", ["Apply to graph"]]],
+    ["descriptions queued behind apply", "descriptions", { busy: busyOf("apply", "synthesize"), writeQueue: { running: "vault sync", waiting: ["projection synthesize"] } }, ["running", "◌", "waiting for apply to graph to finish", ["Synthesize…"]]],
+    ["graph rebuild queued behind find duplicates", "graph", { busy: busyOf("rebuild", "findDuplicates"), writeQueue: { running: "sameas propose", waiting: ["projection rebuild"] } }, ["running", "◌", "waiting for find duplicates to finish", ["Rebuild graph"]]],
 
     ["vault shared", "vault", {}, ["done", "✓", "shared", []]],
     ["vault to push", "vault", { git: { ahead: 2, artmindChanges: [] } }, ["todo", "●", "↑ 2 to push", ["Commit & push"]]],
