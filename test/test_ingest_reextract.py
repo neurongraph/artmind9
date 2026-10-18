@@ -117,8 +117,9 @@ def test_ingest_file_reextract_ignores_files_that_are_not_vault_notes(ingest_env
 # ── the extraction cache ─────────────────────────────────────────────────────
 
 
-def test_reset_extraction_cache_forgets_the_chunk_status_and_cached_chunks(ingest_env):
+def test_reset_extraction_cache_forgets_the_chunk_status_and_cached_chunks(ingest_env, tmp_path, monkeypatch):
     vault, _ = ingest_env
+    monkeypatch.setattr(ing, "LOGS_DIR", tmp_path / "logs")  # the reset moves the cache aside there
     chunk_dir = vault / "cache" / "sha-1"
     chunk_dir.mkdir(parents=True)
     (chunk_dir / "chunk_001.json").write_text("{}")

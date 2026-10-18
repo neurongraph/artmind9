@@ -113,6 +113,26 @@ def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
     return out
 
 
+def _registry_miss_message(document_name: str, domain: str) -> str:
+    """`not found in registry`, plus the way out when the note is staged here
+    but was ingested on another machine: the registry is per machine, staging
+    travels with the vault (spec 2026-10-18-extraction-loss-guard-design.md §3.4)."""
+    import paths
+
+    message = f"Document '{document_name}' not found in registry for domain '{domain}'"
+    folder = paths.KG_DIR / domain / Path(document_name).stem
+    try:
+        staged = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return message
+    path = staged.get("path") or document_name if isinstance(staged, dict) else document_name
+    return (
+        f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
+        f"probably ingested on another machine. Re-extract it here with:\n"
+        f'  artmind ingest sync "{path}" --reextract'
+    )
+
+
 def _parse_tables(values: "tuple[str, ...]") -> list[str]:
     """Flatten repeatable/comma-split --table values into a deduped list,
     mirroring `_parse_domains`'s own convention for --domain."""
@@ -241,7 +261,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
         },
         {
             "name": "Refinement",
@@ -1067,6 +1087,27 @@ def ingest_pending_cmd(compact: bool):
     _echo_json(_pending_report(_vault_or_raise()), compact)
 
 
+@ingest.command("empty-extractions")
+@click.option("--domain", "domain", multiple=True,
+              help="Only these domains or domain families (repeatable; comma-splittable). Default: all")
+@click.option("--minChars", "min_chars", type=int, default=200, show_default=True,
+              help="Ignore notes whose staged chunk text is shorter than this")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_empty_extractions(domain: tuple, min_chars: int, compact: bool) -> None:
+    """List staged notes whose extraction is empty although their text is not. Read-only: no Neo4j, no LLM.
+
+    A re-extraction that came back empty used to replace a note's facts
+    silently. Prints `{notes, scanned}`: each note's vault-relative `path`,
+    `domain`, staged `chars` and `chunks`. Re-extract one with
+    `artmind ingest sync "<path>" --reextract`.
+    """
+    import paths
+    from artmind.staging_audit import empty_extractions
+
+    _echo_json(empty_extractions(paths.KG_DIR, domains=_parse_repeatable(domain) or None,
+                                 min_chars=min_chars), compact)
+
+
 @ingest.command("jobs")
 @click.option("--status", default=None, help="Filter by status (queued/processing/completed/failed)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
@@ -1216,7 +1257,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
 
     file_result = _build_file_result_from_db(document_name, domain)
     if file_result is None:
-        raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+        raise click.ClickException(_registry_miss_message(document_name, domain))
     if file_result["chunk_count"] == 0:
         raise click.ClickException(
             f"No chunks found at {file_result['chunks_dir']} — "
@@ -1395,7 +1436,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             raise click.ClickException("--domain is required when specifying a single document")
         file_result = _build_file_result_from_db(document_name, domain)
         if file_result is None:
-            raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+            raise click.ClickException(_registry_miss_message(document_name, domain))
 
         registered_path = Path(file_result["registered_path"])
         doc_kg_dir = KG_DIR / domain / registered_path.stem
@@ -3611,8 +3652,8 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
             continue
         if domains and not domains & set(t.get("domains") or []):
             continue
-        turns.append({k: t[k] for k in ("trace_id", "source", "started_at", "rating", "question", "turns",
-                                        "cost_usd", "fell_through", "answer_basis", "status")})
+        turns.append({k: t[k] for k in ("trace_id", "source", "session_id", "started_at", "rating", "question",
+                                        "turns", "cost_usd", "fell_through", "answer_basis", "status")})
         if len(turns) >= limit:
             break
     _echo_json({"command": "traces_list", "turns": turns}, compact)

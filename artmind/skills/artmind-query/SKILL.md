@@ -423,6 +423,11 @@ The ladder starts after the Views check: a view that fits is tried before any ru
 
 Answer directly and naturally. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
 
+If an answer came from reading a note directly (possible on the admin console)
+rather than from `artmind query` output, say plainly that the graph does not hold
+it, and suggest the operator check `artmind ingest empty-extractions` and
+re-extract the note — a fact only the note holds is missed by every later query.
+
 ### Sources
 
 End every answer that used artmind data with a `### Sources` section: one bullet per

@@ -51,6 +51,7 @@ from paths import (
     ARTMIND_VAULT_DIR,
     DOMAIN_SCHEMAS_DIR,
     KG_DIR,
+    LOGS_DIR,
     MARKDOWNS_DIR,
     ORIGINALS_DIR,
     PROJECT_ROOT,
@@ -158,19 +159,69 @@ def _init_chunk_rows(doc_sha256: str, doc_id: str, chunk_count: int) -> None:
         conn.close()
 
 
-def _reset_extraction_cache(chunk_data_dir: Path, doc_sha256: str) -> None:
-    """Forget a note's resumable extraction so `extract_kg` runs every LLM step
-    again. Both caches are keyed by the hash of the (unchanged) file, so without
+_CHUNK_STATUS_COLUMNS = (
+    "doc_sha256, doc_id, chunk_seq, entities_status, properties_status,"
+    " relationships_status, updated_at"
+)
+
+
+def _reset_extraction_cache(chunk_data_dir: Path, doc_sha256: str) -> dict:
+    """Set a note's resumable extraction aside so `extract_kg` runs every LLM
+    step again. Both caches are keyed by the hash of the (unchanged) file, so without
     this a requested re-extraction would resume as "all steps already ok" and
     re-read the old answers. The embedding sidecar is kept: a vector depends on
-    the chunk text, not the schema."""
+    the chunk text, not the schema.
+
+    Moved, not deleted: returns the stash `_restore_extraction_cache` puts back
+    when the re-extraction fails, so a failed `--reextract` never costs the
+    previous answers (spec 2026-10-18-extraction-loss-guard-design.md §3.1).
+    The stash lives under LOGS_DIR -- the staging folder is committed by
+    Obsidian Git's timer and must never hold it."""
     conn = _get_db()
     try:
+        rows = [tuple(r) for r in conn.execute(
+            f"SELECT {_CHUNK_STATUS_COLUMNS} FROM kg_chunk_status WHERE doc_sha256 = ?"
+            " ORDER BY chunk_seq",
+            (doc_sha256,),
+        )]
         conn.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
         conn.commit()
     finally:
         conn.close()
+    stashed: Path | None = None
+    if chunk_data_dir.exists():
+        stashed = LOGS_DIR / "reextract-stash" / f"{doc_sha256}-{uuid.uuid4().hex}"
+        stashed.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(chunk_data_dir), str(stashed))
+    return {"dir": stashed, "rows": rows}
+
+
+def _restore_extraction_cache(stash: dict | None, chunk_data_dir: Path, doc_sha256: str) -> None:
+    """Undo `_reset_extraction_cache` after a re-extraction that must not be
+    staged: whatever the failed run wrote is replaced by the stashed cache and
+    rows. No-op without a stash (no `--reextract`)."""
+    if stash is None:
+        return
     shutil.rmtree(chunk_data_dir, ignore_errors=True)
+    if stash["dir"] is not None and Path(stash["dir"]).exists():
+        chunk_data_dir.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(stash["dir"]), str(chunk_data_dir))
+    conn = _get_db()
+    try:
+        conn.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
+        conn.executemany(
+            f"INSERT INTO kg_chunk_status ({_CHUNK_STATUS_COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            stash["rows"],
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _drop_extraction_stash(stash: dict | None) -> None:
+    """Delete the set-aside cache once the re-extraction is staged."""
+    if stash is not None and stash["dir"] is not None:
+        shutil.rmtree(stash["dir"], ignore_errors=True)
 
 
 def _get_chunk_statuses(doc_sha256: str) -> dict[int, dict]:
@@ -2327,6 +2378,16 @@ def staged_counts(doc_kg_dir: Path) -> dict | None:
     }
 
 
+def _staged_observation_count(doc_kg_dir: Path) -> int:
+    """How many observations a staging folder holds now; 0 when it holds none
+    or cannot be read."""
+    try:
+        data = json.loads((doc_kg_dir / "observations.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return 0
+    return len(data) if isinstance(data, list) else 0
+
+
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
     """Chunk-level fan-out width, clamped to [1, chunk_count].
 
@@ -2592,7 +2653,11 @@ def extract_kg(
     the markdown's current body and re-split (at `chunk_size`, default
     `ARTMIND_KG_CHUNK_SIZE`) when it does not correspond -- a merge can leave
     the cache from one version of a note beside the note of another.
-    Returns doc_kg_dir on success, None if prerequisites are missing.
+    Returns doc_kg_dir on success, None if prerequisites are missing or the
+    extraction may not be staged (a step still failed after the retry, or a
+    re-extraction of an unchanged note came back empty over a non-empty one --
+    spec 2026-10-18-extraction-loss-guard-design.md); then staging, the chunk
+    cache and its rows are left as they were.
     """
     doc_sha256 = file_result.get("sha256", "")
     chunks_dir = Path(file_result["chunks_dir"])
@@ -2654,10 +2719,10 @@ def extract_kg(
     # a fresh, empty directory instead of silently inheriting a prior version's
     # cached chunk text/embedding via the setdefault() calls below.
     chunk_data_dir = doc_kg_dir / "chunks" / doc_sha256
-    if file_result.get("reextract"):
-        # `ingest --reextract`: the body is unchanged, so the cache above would
-        # hit on every step.
-        _reset_extraction_cache(chunk_data_dir, doc_sha256)
+    # `ingest --reextract`: the body is unchanged, so the cache above would
+    # hit on every step. Set aside, not deleted: every refusal below puts it
+    # back (spec 2026-10-18-extraction-loss-guard-design.md §3.1).
+    stash = _reset_extraction_cache(chunk_data_dir, doc_sha256) if file_result.get("reextract") else None
     chunk_data_dir.mkdir(parents=True, exist_ok=True)
 
     # Identity: a vault-native document's `_ingest_vault_native` already
@@ -2927,55 +2992,76 @@ def extract_kg(
             encoding="utf-8",
         )
 
-    # ── first pass ────────────────────────────────────────────────────────────
-    statuses = _get_chunk_statuses(doc_sha256)
-    workers = _resolve_ingest_workers(chunk_count, max_workers)
-    if workers <= 1:
-        for seq, chunk_file in enumerate(chunk_files, start=1):
-            logger.info("Chunk {}/{} ({} bytes)", seq, chunk_count, chunk_file.stat().st_size)
-            _process_chunk(seq, chunk_file, statuses)
-    else:
-        # NOTE(429-backoff): this fan-out is exactly what can trip a provider's
-        # rate limit — `workers` concurrent LLM requests per document. If you raise
-        # ARTMIND_INGEST_MAX_WORKERS / --maxWorkers and start seeing HTTP 429s,
-        # the fix lives in extract_with_retry (extraction.py), not here.
-        logger.info("Extracting {} chunk(s) with {} workers", chunk_count, workers)
-        # Fan out per-chunk. Each _process_chunk is self-contained: it reads its
-        # own chunk file, writes chunk_{seq}.json to a unique path, and records
-        # status in its own SQLite row (WAL + busy-timeout make concurrent writes
-        # safe). Completion order is irrelevant — the merge pass below reads back
-        # by seq. A worker that raises is logged; the first exception is re-raised
-        # after the pool drains so an unexpected failure still surfaces (matching
-        # the sequential path), while chunks that did finish stay on disk for
-        # resume.
-        first_exc: Exception | None = None
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            futures = {
-                pool.submit(_process_chunk, seq, chunk_file, statuses): seq
-                for seq, chunk_file in enumerate(chunk_files, start=1)
-            }
-            for future in as_completed(futures):
-                seq = futures[future]
-                try:
-                    future.result()
-                except Exception as e:
-                    logger.error("Chunk {} raised during extraction: {}", seq, e)
-                    if first_exc is None:
-                        first_exc = e
-        if first_exc is not None:
-            raise first_exc
+    try:
+        # ── first pass ────────────────────────────────────────────────────────────
+        statuses = _get_chunk_statuses(doc_sha256)
+        workers = _resolve_ingest_workers(chunk_count, max_workers)
+        if workers <= 1:
+            for seq, chunk_file in enumerate(chunk_files, start=1):
+                logger.info("Chunk {}/{} ({} bytes)", seq, chunk_count, chunk_file.stat().st_size)
+                _process_chunk(seq, chunk_file, statuses)
+        else:
+            # NOTE(429-backoff): this fan-out is exactly what can trip a provider's
+            # rate limit — `workers` concurrent LLM requests per document. If you raise
+            # ARTMIND_INGEST_MAX_WORKERS / --maxWorkers and start seeing HTTP 429s,
+            # the fix lives in extract_with_retry (extraction.py), not here.
+            logger.info("Extracting {} chunk(s) with {} workers", chunk_count, workers)
+            # Fan out per-chunk. Each _process_chunk is self-contained: it reads its
+            # own chunk file, writes chunk_{seq}.json to a unique path, and records
+            # status in its own SQLite row (WAL + busy-timeout make concurrent writes
+            # safe). Completion order is irrelevant — the merge pass below reads back
+            # by seq. A worker that raises is logged; the first exception is re-raised
+            # after the pool drains so an unexpected failure still surfaces (matching
+            # the sequential path), while chunks that did finish stay on disk for
+            # resume.
+            first_exc: Exception | None = None
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futures = {
+                    pool.submit(_process_chunk, seq, chunk_file, statuses): seq
+                    for seq, chunk_file in enumerate(chunk_files, start=1)
+                }
+                for future in as_completed(futures):
+                    seq = futures[future]
+                    try:
+                        future.result()
+                    except Exception as e:
+                        logger.error("Chunk {} raised during extraction: {}", seq, e)
+                        if first_exc is None:
+                            first_exc = e
+            if first_exc is not None:
+                raise first_exc
 
-    # ── pre-merge retry pass ───────────────────────────────────────────────────
-    statuses = _get_chunk_statuses(doc_sha256)
-    failed_seqs = [
-        seq for seq, s in statuses.items()
+        # ── pre-merge retry pass ───────────────────────────────────────────────────
+        statuses = _get_chunk_statuses(doc_sha256)
+        failed_seqs = [
+            seq for seq, s in statuses.items()
+            if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
+        ]
+        if failed_seqs:
+            logger.info("Pre-merge retry: {} chunk(s) with failed steps — retrying", len(failed_seqs))
+            for seq in failed_seqs:
+                chunk_file = chunks_dir / f"chunk_{seq:03d}.md"
+                _process_chunk(seq, chunk_file, statuses)
+    except BaseException:
+        _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
+        raise
+
+    # ── refuse an incomplete extraction (spec 2026-10-18 §3.1) ────────────────
+    # Staging is what Obsidian Git commits and every other machine rebuilds its
+    # graph from: an extraction with a step still failed after the retry must
+    # never replace it. Without --reextract the failed rows stay for resume.
+    still_failed = sorted(
+        seq for seq, s in _get_chunk_statuses(doc_sha256).items()
         if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
-    ]
-    if failed_seqs:
-        logger.info("Pre-merge retry: {} chunk(s) with failed steps — retrying", len(failed_seqs))
-        for seq in failed_seqs:
-            chunk_file = chunks_dir / f"chunk_{seq:03d}.md"
-            _process_chunk(seq, chunk_file, statuses)
+    )
+    if still_failed:
+        logger.error(
+            "KG extraction of {} incomplete: chunk(s) {} still failed after the retry -- "
+            "staging left unchanged and the file marked failed; re-run the same command",
+            registered_path.name, still_failed,
+        )
+        _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
+        return None
 
     # ── merge chunk JSONs into document-level files ────────────────────────────
     all_chunks: list[dict] = []
@@ -3114,6 +3200,21 @@ def extract_kg(
         only_mapped=names_supplied,
     )
 
+    # ── an unchanged note may not shrink to nothing (spec 2026-10-18 §3.2) ────
+    # A model answering `[]` reports success, so the failed-step guard above
+    # cannot see it. Only for --reextract: the body is unchanged, so an empty
+    # answer over a non-empty one is a bad run, not a change to the note.
+    if stash is not None and not all_observations:
+        prior = _staged_observation_count(doc_kg_dir)
+        if prior:
+            logger.error(
+                "Re-extraction of unchanged {} produced no observations -- keeping the "
+                "previous {} and marking the file failed",
+                registered_path.name, prior,
+            )
+            _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
+            return None
+
     # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must
     # never see a half-written folder. The chunk cache under chunks/<sha>/
     # and any debug output already in doc_kg_dir are carried over.
@@ -3123,6 +3224,7 @@ def extract_kg(
         "relationships.json": all_relationships,
         "observations.json": all_observations,
     })
+    _drop_extraction_stash(stash)
     # The document now has its staging folder under this name and domain; the
     # one its baseline came from (a note moved or re-domained since) is stale.
     _remove_superseded_staging(file_result.get("baseline_folder"), doc_kg_dir, doc_id)
