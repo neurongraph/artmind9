@@ -628,6 +628,25 @@ small because `kg_views` already does the work:
 Authoring stays with the `artmind-create-view` skill and `views save`. The tab
 never writes view files.
 
+### 10.6 As built (phase 4)
+
+- **Shared listing code.** `query insights list|show` sits under the traced `query` group, so `serve` proxies it and
+  traces record it. It shares its listing code with `insights list` (`artmind/insights/listing.py`), and its output
+  carries captions and subject `_id`s for grounding.
+- **Shared merge code.** "Send to curation" and `insights same-as --export` use one merge builder
+  (`artmind/insights/sameas_merges.py`), with the same chain and ambiguous-name guards. The console path calls
+  `refine_graph.propose_merges`, which writes review-queue proposals and never merges.
+- **No staleness badge.** The "graph has newer documents" badge was not built. The tab shows `as_of` and the
+  computed time, and `query` commands already print the "graph is behind" line.
+- **Section layout.** Circle network cards lead the "People & circles" section; each section shows 12 cards with
+  "Show more". Nodes are coloured by broker status, because each circle is its own card.
+- **Broker circle names.** Broker findings show circle names: the narration step maps the template names recorded at
+  detection (`circles[].template_name`) to the final names.
+- **Ask in console.** It opens `/?ask=<question>`. The console pre-fills and focuses its input, never sends it,
+  and strips `ask` from the URL.
+- **Rendering.** Snapshot text is rendered with `textContent` only. View results use the vendored `marked` +
+  `DOMPurify`. API routes return snake_case JSON, unlike the camelized dashboard routes.
+
 ## 11. LLM narration and circle naming
 
 - **When:** at the end of `refresh`, unless `--no-narrate` or `narrate:
