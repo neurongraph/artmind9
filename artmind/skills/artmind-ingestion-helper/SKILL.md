@@ -384,7 +384,8 @@ artmind ingest embed-chunks
 
 **Retire** — moves the document and everything it asserted from `latest` to `history`: an
 assertion-time act with no date semantics. Its observations stay in storage and stay reachable
-by asking for them (`query entity-history`), but leave every index (vector/full-text search,
+by asking for them (`query document-history`, or `query entity-history --name/--key` once the
+entity itself is gone), but leave every index (vector/full-text search,
 `chunks`, doc listings). Entities left with no `latest` observation anywhere are then removed by
 the projection rebuild — not a guess, an arithmetic fact about what nothing asserts any more.
 Reversible with `docs restore`:
@@ -419,6 +420,11 @@ always a replace now, there is no `--replace` flag to pass):
 ```bash
 artmind ingest sync EDITED_FILE --domain YOUR_DOMAIN
 ```
+A changed note is fully re-extracted on its own (content tier, version bumped) — the Obsidian
+plugin's Ingest button (`ingest async --pending`) does exactly this. `--reextract` is only for
+an **unchanged** note (e.g. after a schema edit); on an edited one it just re-runs the LLM.
+Facts the new version no longer states stay as `:ObservationHistory`; check what changed with
+`artmind query document-history --domain YOUR_DOMAIN --documentName NAME`.
 
 **Registry gone stale or wiped** (e.g. after restoring a graph-only snapshot,
 or a doubt about whether path↔id lookups are current)? Rebuild it from vault

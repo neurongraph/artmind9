@@ -28,6 +28,33 @@ before it changed", "what happened in order" — or when an entity carries
   omit it otherwise. `entity-history` is the one command with a genuine
   point-in-time `--asOf`, because it's reading the fact-level valid-time axis directly.
 
+## Edited documents: what a re-ingest keeps
+
+When a note changes and is ingested again (the Obsidian plugin's Ingest, `ingest
+sync`/`async`), its version goes up and its facts are re-extracted. Nothing is deleted:
+
+- Every observation of the previous version is relabelled `:ObservationHistory`, then
+  the new version is written. An observation id is deterministic per chunk + canonical
+  name + class + domain, so a fact the new version **still states is revived in place**
+  (back to `:Observation`, `doc_version` bumped). Only a fact the new version **no
+  longer states** stays history, carrying the `doc_version` that last asserted it.
+- An entity left with no current observation anywhere (e.g. a misspelled person a
+  corrected note no longer mentions) is removed by the projection rebuild — so
+  `entity-resolve` and `entity-history --entityId` cannot find it any more. Reach its
+  history with `entity-history --name "<name>"` or `--key "<name>|<CLASS>|<domain>"`.
+- **Chunk text is not versioned.** Chunk ids are `{doc_id}_{seq}`, so the new
+  version's chunk takes over the old id and its text. `:DocChunkHistory` exists only
+  when a version has fewer chunks than the one before, and a history observation's
+  `chunk_id` points at a chunk that now holds the **current** text. Don't quote that
+  text as what the old version said. The earlier wording lives only in the vault's git
+  history (the note itself and its `kg/<domain>/<folder>/` staging files) — say so.
+
+`document-history --documentName "<name or path>"` shows it per document: `summary`
+(current / history counts, `history_versions`), `dropped_keys` (entities an earlier
+version stated that the current one no longer does — a corrected typo shows up here) and
+every observation with its `status` and `doc_version`. Which current keys are *new* is
+not recoverable: a kept fact's revived observation looks the same as a new one.
+
 See `references/structured-store.md` for how `--asOf` threads through the hybrid
 chain (`vector-text`/`text2sql`/`db timeline`) when a question is both temporal and
 structured-store-involving.

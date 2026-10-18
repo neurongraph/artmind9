@@ -296,6 +296,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "chunks",
                 "entity-context",
                 "entity-history",
+                "document-history",
                 "text2sql",
                 "resolve-key",
             ],
@@ -3132,20 +3133,59 @@ def query_entity_context(
 
 @query.command("entity-history")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--entityId", "entity_id", required=True, help="Exact entity id (from entity-resolve / entity-context)")
+@click.option("--entityId", "entity_id", default=None, help="Exact entity id (from entity-resolve / entity-context); finds nothing once the entity has no current observations left")
+@click.option("--key", "key", default=None, help="Aggregate key name|CLASS|domain (as entity-resolve and history rows show it); works whether or not the entity still exists")
+@click.option("--name", "name", default=None, help="Entity name, matched against the key's normalized name part and the extracted name; works whether or not the entity still exists")
+@click.option("--entityClass", "entity_class", default=None, help="With --name: only observations of this entity class")
 @click.option("--asOf", "as_of", default=None, help="Only facts in force by this date (_valid_from <= asOf; _valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'")
 @click.option("--property", "property_", default=None, help="Narrow to one property's value at each point instead of the full observation")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def query_entity_history(domain: tuple, entity_id: str, as_of: str | None, property_: str | None, compact: bool) -> None:
+def query_entity_history(
+    domain: tuple,
+    entity_id: str | None,
+    key: str | None,
+    name: str | None,
+    entity_class: str | None,
+    as_of: str | None,
+    property_: str | None,
+    compact: bool,
+) -> None:
     """Every observation behind one entity, ordered by fact-level valid time.
 
-    Spans both current and retired (`docs retire`/superseded) observations —
+    Spans both current and history observations (a retired document's, or
+    what a re-ingest no longer states); each row's `status` says which —
     "what was this worth at time T", not "what does the entity say now"
     (that's `entity-context`, which only ever sees current observations).
+    Pass exactly one of --entityId, --key or --name. An entity whose every
+    observation was demoted (e.g. a misspelled name a corrected note no
+    longer states) is gone from the projection: reach it with --key or --name.
     """
     domains = _parse_domains(domain)
     try:
-        result = graph_query.entity_history(domains, entity_id, as_of=as_of, property=property_)
+        result = graph_query.entity_history(
+            domains, entity_id, as_of=as_of, property=property_,
+            key=key, name=name, entity_class=entity_class,
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("document-history")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--documentName", "document_name", required=True, help="Document name (case-insensitive), vault path, or document id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_document_history(domain: tuple, document_name: str, compact: bool) -> None:
+    """What a document's ingested versions asserted: current vs history observations.
+
+    A re-ingest demotes facts the new version no longer states to history
+    (with the doc_version that last asserted them); `dropped_keys` lists
+    those entities. Chunk text is not versioned — earlier text lives only in
+    the vault's git history.
+    """
+    domains = _parse_domains(domain)
+    try:
+        result = graph_query.document_history(domains, document_name)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

@@ -22,6 +22,7 @@ _EXACT = {
     "query resolve-key": "sql",
     "query entity-context": "graph",
     "query entity-history": "graph",
+    "query document-history": "graph",
     "query graph entity-listing": "graph",
     "query graph filing-listing": "graph",
     "query graph timeline": "graph",

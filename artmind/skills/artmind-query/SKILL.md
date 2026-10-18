@@ -264,7 +264,7 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 Every command below is written in full. The `pattern*` commands, `text2cypher`,
 `timeline`, `conflicts`, `metadata`, `structural-metadata` and
 `entity-listing` all live under the `graph` sub-group (`artmind query graph <cmd>`);
-`views`, `entity-context`, `entity-history`, `chunks`, `vector-text`, `entity-resolve` and
+`views`, `entity-context`, `entity-history`, `document-history`, `chunks`, `vector-text`, `entity-resolve` and
 `domains-overview` sit directly under `query` (`artmind query <cmd>`). Copy the prefix
 as written — do not infer it.
 
@@ -276,7 +276,9 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see Views |
 | "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
 | Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
-| "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and retired sources |
+| "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
+| An entity entity-resolve no longer finds (a misspelling a corrected note dropped, a retired document's entity) | `artmind query entity-history --name "<name>" [--entityClass <LABEL>]` or `--key "<name>\|<CLASS>\|<domain>"` — matches observations directly, so it works after the entity is gone; `keys` lists every key the name matched |
+| "What changed when document D was edited / re-ingested" / earlier version of a note | `artmind query document-history --documentName "<name or path>"` — current vs history observations with the `doc_version` that last asserted each; `dropped_keys` = entities an earlier version stated and the current one no longer does. See `references/temporal.md` |
 | List entities of a class | `artmind query graph pattern1 --entityClass <LABEL> [--limit N]` |
 | "Main / key / most important / top" entities | `artmind query graph pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
 | Facts/properties of named entities (no text needed, e.g. comparing many) | `artmind query graph pattern2 --entityIdList <id>` (or `--entityNameList`) |
@@ -339,7 +341,13 @@ Routing notes:
   `entity-resolve`, `entity-context`, or `graph metadata` accept it. For a temporal
   question ("as of <date>", "history of…", "what changed"), or an entity carrying
   `_temporal_props`, read `references/temporal.md` — it covers `--asOf`'s narrower
-  per-command meaning, `timeline` vs `entity-history`, and `_temporal_props`.
+  per-command meaning, `timeline` vs `entity-history`, `_temporal_props`, and what a
+  re-ingested document keeps of its earlier versions (`document-history`).
+- **History questions go to `entity-history` / `document-history`, not text2cypher.**
+  History observations hang off *current* chunks (chunk ids are reused across
+  versions), so a generated query that looks for `:ObservationHistory` under
+  `:DocChunkHistory` — or chains a second `MATCH` after a `count()` — returns nothing
+  and reads as "no history" when there is plenty.
 
 #### Hub entities
 

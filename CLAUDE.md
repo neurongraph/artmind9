@@ -236,7 +236,9 @@ Two levels under `query`, and mixing them up is a common error:
 - `artmind query graph <cmd>` — `metadata`, `structural-metadata`, `entity-listing`,
   `pattern1`–`pattern10`, `text2cypher`, `conflicts`, `timeline`, `hierarchy`
 - `artmind query <cmd>` — `domains-overview`, `vector-text`, `entity-resolve`,
-  `chunks`, `entity-context`, `text2sql`, `resolve-key`, `views list|show|run`, `insights list|show`
+  `chunks`, `entity-context`, `entity-history` (`--entityId`, or `--key`/`--name` for an
+  entity the projection already removed), `document-history` (current vs history
+  observations of one document's versions), `text2sql`, `resolve-key`, `views list|show|run`, `insights list|show`
   (reads the latest insights snapshot only; guided by artmind-query's Insights section; operators use the `artmind-insights` skill)
 - `artmind views <cmd>` — authoring: `validate`, `test`, `save`, `delete` (not proxied)
 - `artmind insights <cmd>` — `refresh` (needs Neo4j), `list`, `show`, `profile`, `runs`, `same-as [--export]`, `config check` (not proxied)
