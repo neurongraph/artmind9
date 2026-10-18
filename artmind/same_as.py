@@ -23,12 +23,13 @@ itself, nothing about how a group is proposed or applied.
 """
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import yaml
 from loguru import logger
 
-from artmind.observations import key_string
+from artmind.observations import key_string, normalize_identity
 from paths import ARTMIND_HOME
 
 # Run folder, not data dir: a same-as group is curation a human authored, and
@@ -37,12 +38,30 @@ from paths import ARTMIND_HOME
 SAME_AS_PATH = Path(ARTMIND_HOME) / "same_as.yaml"
 
 
+_ENTITY_ID_RE = re.compile(r"[0-9a-f]{64}")
+
+
 def _parse_key(value: str) -> tuple[str, str, str] | None:
-    parts = str(value).split("|")
+    """A `name|CLASS|domain` string as an aggregate key.
+
+    The name part is folded with `normalize_identity` (NFKC, casefold,
+    whitespace) -- the folding every stored key already carries, and a no-op
+    on one. Without it a hand-written `Embassy Tech Zone|LOCATION|d` names a
+    key no Entity has, and the group silently merges nothing.
+    """
+    text = str(value).strip()
+    if _ENTITY_ID_RE.fullmatch(text):
+        logger.warning(
+            "same_as: ignoring {!r} -- an entity id, not an aggregate key; "
+            "list the entity's key ('name|CLASS|domain') instead", value,
+        )
+        return None
+    parts = text.split("|")
     if len(parts) != 3:
         logger.warning("same_as: ignoring malformed key {!r} (expected 'name|CLASS|domain')", value)
         return None
-    return tuple(parts)  # type: ignore[return-value]
+    name, entity_class, domain = parts
+    return (normalize_identity(name), entity_class.strip(), domain.strip())
 
 
 def validate_groups(

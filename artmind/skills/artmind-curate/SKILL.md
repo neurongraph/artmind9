@@ -148,7 +148,10 @@ one the proposer picked.
   `artmind sameas reject <proposal_id> --reason "already grouped under <canonical>"`.
 - *The new name belongs in the group* -- add it to that group's `members` in
   `same_as.yaml` (same file and rebuild as Workflow B; keep `canonical` listed
-  among the members), run `artmind projection rebuild --sweep --compact`, then
+  among the members). A member is an **aggregate key**, `name|CLASS|domain`
+  (`etz|LOCATION|personal_journal`) -- never an entity id: an id is ignored.
+  The name part is folded to lower case on load, so display case still
+  matches. Run `artmind projection rebuild --sweep --compact`, then
   reject the proposal with the reason "folded into <canonical>" so it leaves
   the queue.
 - *It is a different thing that only looks similar* (a bare "artmind" next to
