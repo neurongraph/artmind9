@@ -370,7 +370,7 @@ function renderSnapshot(snap) {
 
   insBodyEl.innerHTML = "";
   const of = (...names) => findings.filter((f) => names.includes(f.detector) && f.kind !== "health");
-  renderSection(insBodyEl, "What changed", findings.filter((f) => f.diff === "new" || f.diff === "changed" || f.diff === "up" || f.diff === "down"), ctx);
+  renderSection(insBodyEl, "What changed", findings.filter((f) => f.diff === "new" || f.diff === "changed"), ctx);
   renderSection(insBodyEl, "People & circles", of("communities", "brokers", "dormancy"), ctx);
   renderSection(insBodyEl, "Trends", of("salience_trend", "type_trend"), ctx);
   renderSection(insBodyEl, "Associations", of("outcome_lift"), ctx);

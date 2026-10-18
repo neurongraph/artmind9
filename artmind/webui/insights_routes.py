@@ -99,6 +99,13 @@ def register_insights_routes(app: FastAPI) -> FastAPI:
 
     @app.post("/api/insights/refresh", status_code=202)
     async def api_insights_refresh(payload: RefreshRequest):
+        from artmind.insights import store
+        from artmind.insights.model import InsightsError
+
+        try:
+            store.domain_dir(payload.domain)
+        except InsightsError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
         current = _progress.get(payload.domain, {})
         if current.get("state") == "running":
             raise HTTPException(status_code=409, detail="a refresh is already running for this domain")
@@ -110,6 +117,9 @@ def register_insights_routes(app: FastAPI) -> FastAPI:
                 _progress[payload.domain] = {"state": "done", "result": result}
             except Exception as exc:  # surfaced to the operator via the progress readout
                 _progress[payload.domain] = {"state": "error", "detail": str(exc)}
+            finally:  # never leave the domain locked on "running"
+                if _progress.get(payload.domain, {}).get("state") == "running":
+                    _progress[payload.domain] = {"state": "error", "detail": "refresh stopped unexpectedly"}
 
         t = threading.Thread(target=work, name=f"insights-refresh-{payload.domain}", daemon=True)
         _threads[payload.domain] = t
@@ -125,11 +135,13 @@ def register_insights_routes(app: FastAPI) -> FastAPI:
         from artmind.insights.sameas_merges import build_merges
 
         run = _latest(payload.domain)
-        chosen = [f for f in run.findings if f.key in set(payload.keys)]
-        merges, candidates, skipped = build_merges(chosen)
+        merges, candidates, skipped = build_merges(run.findings, only_keys=set(payload.keys))
         if not merges:
             return {"stats": {"proposed": 0}, "skipped": skipped, "candidates": []}
-        result = _propose(merges, payload.domain)
+        import asyncio
+
+        # Neo4j work: off the event loop, so the console and its streams stay responsive.
+        result = await asyncio.to_thread(_propose, merges, payload.domain)
         return {**result, "skipped": skipped, "candidates": candidates}
 
     @app.get("/api/views")

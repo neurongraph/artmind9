@@ -6,8 +6,11 @@ NOTE = ("refine-graph resolves names to entities; its stats (skipped_ambiguous, 
         "the final word. This file holds names from your vault: keep it out of the code checkout.")
 
 
-def build_merges(findings, min_score: float = 0.0) -> tuple[dict[str, str], list[dict], dict[str, int]]:
-    """{alias: canonical} by score; skips chains and names shared by two entities."""
+def build_merges(findings, min_score: float = 0.0, only_keys=None) -> tuple[dict[str, str], list[dict], dict[str, int]]:
+    """{alias: canonical} by score; skips chains and names shared by two entities.
+
+    `only_keys` limits which candidates become merges, while the shared-name check still
+    sees every candidate, so picking one card cannot hide that its name is ambiguous."""
     items = sorted((f for f in findings if f.detector == "same_as_candidates" and f.diff != "gone"
                     and f.score >= min_score), key=lambda f: (-f.score, f.key))
     ids_by_name: dict[str, set] = {}
@@ -18,6 +21,8 @@ def build_merges(findings, min_score: float = 0.0) -> tuple[dict[str, str], list
     candidates: list[dict] = []
     skipped = {"chain": 0, "ambiguous_name": 0}
     for f in items:
+        if only_keys is not None and f.key not in only_keys:
+            continue
         alias, canonical = f.stats["alias"]["name"], f.stats["canonical"]["name"]
         if alias == canonical or alias in merges:
             continue

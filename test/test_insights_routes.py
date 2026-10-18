@@ -86,3 +86,38 @@ def test_views_catalogue_detail_and_run(client, tmp_path, monkeypatch):
     out = client.post("/api/views/people/run", json={"domain": "demo", "params": {}}).json()
     assert out == {"status": "ok", "rendered": "- A"}
     assert client.get("/api/views/nope").status_code == 404
+
+
+def test_refresh_errors_are_reported_and_running_blocks_a_second(client, monkeypatch):
+    import threading
+
+    gate = threading.Event()
+    def slow(domain, force):
+        gate.wait(5)
+        raise RuntimeError("graph unavailable")
+    monkeypatch.setattr(insights_routes, "_refresh", slow)
+    assert client.post("/api/insights/refresh", json={"domain": "demo2"}).status_code == 202
+    assert client.post("/api/insights/refresh", json={"domain": "demo2"}).status_code == 409
+    gate.set()
+    insights_routes._join_refresh("demo2")
+    state = client.get("/api/insights/refresh/progress", params={"domain": "demo2"}).json()
+    assert state == {"state": "error", "detail": "graph unavailable"}
+
+
+def test_refresh_rejects_bad_domain_names(client):
+    assert client.post("/api/insights/refresh", json={"domain": "../etc"}).status_code == 400
+
+
+def test_propose_checks_ambiguous_names_across_the_whole_snapshot(client, monkeypatch):
+    def cand(key, canonical, alias, alias_id):
+        return Finding(key=key, detector="same_as_candidates", kind="health", score=0.9, title="t", action="curate",
+                       stats={"canonical": {"_id": canonical.lower(), "name": canonical, "class": "PERSON"},
+                              "alias": {"_id": alias_id, "name": alias, "class": "PERSON"}, "rule": "token_subset"})
+    run = Run(domain="demo", created_at="2026-10-17T09:00:00Z", as_of="2026-10-01", fingerprint={}, anchors=[],
+              profile={}, plan=[], circles=[], diff={},
+              findings=[cand("k1", "Mark Lee", "Mark", "m1"), cand("k2", "Mark Ode", "Mark", "m2")])
+    store.write_run(run)
+    called = []
+    monkeypatch.setattr(insights_routes, "_propose", lambda merges, domain: called.append(merges) or {"stats": {}})
+    out = client.post("/api/insights/same-as/propose", json={"domain": "demo", "keys": ["k1"]}).json()
+    assert called == [] and out["skipped"]["ambiguous_name"] == 1

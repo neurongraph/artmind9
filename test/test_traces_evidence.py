@@ -143,3 +143,13 @@ def test_entity_context_chunks_documents_entity():
     assert ev["chunks"] == [{"chunk_id": "c1", "doc_id": "d1"}, {"chunk_id": "c2", "doc_id": "d1"}]
     assert ev["documents"] == [{"doc_id": "d1", "path": "b/P.md"}]
     assert ev["entities"] == ["e1"]
+
+
+def test_insights_payloads_count_as_answers():
+    from artmind.traces.evidence import summarize
+
+    listing = {"domain": "d", "as_of": "2026-10-01", "findings": [{"key": "a", "subjects": [{"_id": "p1"}]},
+                                                                  {"key": "b", "subjects": []}]}
+    assert summarize(listing)["rows"] == 2
+    assert summarize({"domain": "d", "finding": {"key": "a"}})["rows"] == 1
+    assert summarize({"domain": "d", "findings": []})["rows"] == 0

@@ -13,7 +13,7 @@ entity is any `_id` string.
 from typing import Any
 
 CAP = 200
-_ROW_KEYS = ("rows", "candidates", "edge_candidates", "views")
+_ROW_KEYS = ("rows", "candidates", "edge_candidates", "views", "findings")
 _NOT_AN_ANSWER = ("needs_disambiguation", "no_match")
 
 
@@ -38,6 +38,8 @@ def _count(payload: dict) -> int:
         value = payload.get(key)
         if isinstance(value, list):
             return len(value)
+    if isinstance(payload.get("finding"), dict):  # `query insights show`: one finding is an answer
+        return 1
     return 0
 
 
