@@ -27,6 +27,7 @@ from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND
 from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
 from artmind.webui.hosts import guard_app
+from artmind.webui.insights_routes import register_insights_routes
 from artmind.webui.sessions import SessionRegistry
 from artmind.webui.source_links import SourceLinkError, obsidian_uri, open_uri, vault_relative
 
@@ -459,6 +460,7 @@ def create_app(
     if admin_routes:
         register_dashboard_routes(app, templates)
         register_benchmark_routes(app, templates)
+        register_insights_routes(app)
 
     return app
 
