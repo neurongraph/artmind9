@@ -266,7 +266,7 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind query": [
         {"name": "Graph patterns", "commands": ["graph"]},
-        {"name": "Saved views", "commands": ["views"]},
+        {"name": "Saved views & insights", "commands": ["views", "insights"]},
         {
             "name": "Lookups",
             "commands": [
@@ -2521,8 +2521,9 @@ def query():
     vault's HEAD (never in stdout, so --compact JSON stays clean). Set
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
 
-    Groups: `graph` (patterns, metadata, text2cypher, ...) and `views` (saved,
-    parameterised queries: list / show / run). The rest are lookup commands.
+    Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
+    parameterised queries: list / show / run) and `insights` (the latest
+    unprompted findings: list / show). The rest are lookup commands.
 
     Inside the admin console or a benchmark run, every query call is recorded
     as a span of the turn's trace (command, args, rows, evidence ids, LLM
@@ -3216,6 +3217,51 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
     _echo_json(result, compact)
 
 
+@query.group("insights")
+def query_insights() -> None:
+    """Unprompted findings from the latest insights snapshot: what changed, trends, circles, associations.
+
+    Read-only and fast (no graph query): `list` the top findings for a domain, `show` one with its
+    evidence. Ground every named subject with `query entity-context` using its _id. Snapshots are
+    written by `artmind insights refresh`; `as_of` says how fresh they are.
+    """
+    pass
+
+
+@query_insights.command("list")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--detector", default=None, help="Only this detector (e.g. outcome_lift, transitions)")
+@click.option("--kind", type=click.Choice(["corpus", "health"]), default=None)
+@click.option("--new", "only_new", is_flag=True, help="Only what changed since the previous run")
+@click.option("--limit", default=25, show_default=True, type=click.IntRange(1))
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_insights_list(domain: tuple, detector: str | None, kind: str | None, only_new: bool, limit: int,
+                        compact: bool) -> None:
+    """Top findings by score, with captions and the subjects' _ids for grounding."""
+    from artmind.insights.listing import circle_summary, finding_summary, list_findings
+
+    name = _one_domain(domain)
+    run = _latest_insights(name)
+    _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at,
+                "circles": [circle_summary(c) for c in run.circles],
+                "findings": [finding_summary(f) for f in list_findings(run, detector=detector, kind=kind,
+                                                                     only_new=only_new, limit=limit)]}, compact)
+
+
+@query_insights.command("show")
+@click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("key")
+def query_insights_show(domain: tuple, compact: bool, key: str) -> None:
+    """One finding with its full stats and card (the evidence behind a caption)."""
+    name = _one_domain(domain)
+    run = _latest_insights(name)
+    match = next((f for f in run.findings if f.key == key), None)
+    if match is None:
+        raise click.ClickException(f"no finding {key!r} in the latest {name} snapshot")
+    _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at, "finding": match.to_dict()}, compact)
+
+
 @cli.group("views")
 def views_group() -> None:
     """Author saved graph views: validate, test against the live graph, save, delete.
@@ -3390,12 +3436,9 @@ def insights_list(domain: tuple, detector: str | None, kind: str | None, only_ne
     """Findings from the latest snapshot, highest score first. No Neo4j."""
     name = _one_domain(domain)
     run = _latest_insights(name)
-    wanted = {"new", "changed", "gone"} if only_new else {"new", "changed", "same"}
-    items = [
-        f for f in run.findings
-        if f.diff in wanted and (detector is None or f.detector == detector) and (kind is None or f.kind == kind)
-    ]
-    items.sort(key=lambda f: (-f.score, f.key))
+    from artmind.insights.listing import list_findings
+
+    items = list_findings(run, detector=detector, kind=kind, only_new=only_new)
     _echo_json({
         "domain": name, "created_at": run.created_at, "as_of": run.as_of, "anchors": run.anchors, "diff": run.diff,
         "findings": [
@@ -3478,30 +3521,9 @@ def insights_same_as(domain: tuple, export: Path | None, min_score: float, compa
     """
     name = _one_domain(domain)
     run = _latest_insights(name)
-    items = sorted((f for f in run.findings if f.detector == "same_as_candidates" and f.diff != "gone"
-                    and f.score >= min_score), key=lambda f: (-f.score, f.key))
-    ids_by_name: dict[str, set] = {}
-    for f in items:
-        for side in ("alias", "canonical"):
-            ids_by_name.setdefault(f.stats[side]["name"], set()).add(f.stats[side].get("_id"))
-    merges: dict[str, str] = {}
-    candidates = []
-    skipped = {"chain": 0, "ambiguous_name": 0}
-    for f in items:
-        alias, canonical = f.stats["alias"]["name"], f.stats["canonical"]["name"]
-        if alias == canonical or alias in merges:
-            continue
-        if len(ids_by_name[alias]) > 1 or len(ids_by_name[canonical]) > 1:
-            skipped["ambiguous_name"] += 1
-            continue
-        if alias in merges.values() or canonical in merges:
-            skipped["chain"] += 1
-            continue
-        merges[alias] = canonical
-        candidates.append({"alias": alias, "canonical": canonical, "class": f.stats["canonical"]["class"],
-                           "score": f.score, "rule": f.stats.get("rule")})
-    note = ("refine-graph resolves names to entities; its stats (skipped_ambiguous, skipped_cross_class) are "
-            "the final word. This file holds names from your vault: keep it out of the code checkout.")
+    from artmind.insights.sameas_merges import NOTE as note, build_merges
+
+    merges, candidates, skipped = build_merges(run.findings, min_score)
     payload = {"source": "artmind insights", "domain": name, "created_at": run.created_at, "note": note,
                "proposed_merges": merges, "candidates": candidates}
     result = {"domain": name, "candidates": len(candidates), "skipped": skipped, "note": note}

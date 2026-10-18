@@ -55,7 +55,7 @@ def _run(ctx: RunContext, cls: str) -> list[Finding]:
         ordered = sorted(c, key=lambda n: (-wdeg[n], n))
         name = f"Circle around {g.nodes[ld]['name']}"
         circles.append({"id": f"{cls}:{ld}", "class": cls, "lead": ld, "name": name,
-                        "name_source": "template", "members": ordered})
+                        "name_source": "template", "template_name": name, "members": ordered})
         top = ordered[:NETWORK_CARD_NODES]
         sub = g.subgraph(top)
         out.append(Finding(

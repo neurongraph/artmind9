@@ -156,3 +156,19 @@ def test_config_check_exit_code(monkeypatch):
     monkeypatch.setattr(config_check, "check_config", lambda d, projector=None: {"domain": d, "ok": False, "errors": ["x"], "warnings": []})
     result = CliRunner().invoke(cli, ["insights", "config", "check", "--domain", "demo", "--compact"])
     assert result.exit_code == 1 and json.loads(result.output)["errors"] == ["x"]
+
+
+def test_query_insights_list_and_show(snap):
+    out = json.loads(CliRunner().invoke(cli, ["query", "insights", "list", "--domain", "demo", "--compact"]).output)
+    assert out["as_of"] == "2026-10-01" and out["created_at"] == "2026-10-17T09:00:00Z"
+    assert [f["key"] for f in out["findings"]] == ["dormancy:PERSON:p1", "kind_mismatch:ACTIVITY"]
+    assert "circles" in out
+    shown = json.loads(CliRunner().invoke(cli, ["query", "insights", "show", "dormancy:PERSON:p1",
+                                                "--domain", "demo", "--compact"]).output)
+    assert shown["finding"]["title"] == "Quiet: Asha"
+
+
+def test_query_insights_without_snapshot_is_friendly(tmp_path, monkeypatch):
+    monkeypatch.setattr(paths, "INSIGHTS_DIR", tmp_path / "none")
+    r = CliRunner().invoke(cli, ["query", "insights", "list", "--domain", "demo", "--compact"])
+    assert r.exit_code != 0 and "no insights snapshot" in r.output

@@ -154,3 +154,12 @@ def test_carry_cached_applies_cache_without_llm():
     narrate.carry_cached(new_f, first, new_c, old)
     assert new_f[0].narration == first[0].narration and new_f[1].narration is None
     assert new_c[0]["name"] == "Work team" and new_c[0]["name_source"] == "llm"
+
+
+def test_broker_circle_names_follow_circle_naming():
+    cs = [{"id": "PERSON:a", "class": "PERSON", "lead": "a", "name": "Work team", "name_source": "llm",
+           "template_name": "Circle around A", "members": list("abc")}]
+    b = Finding(key="brokers:PERSON:x", detector="brokers", kind="corpus", score=0.5, title="Connects 2 circles: X",
+                stats={"circles": ["Circle around A", "Circle around Z"]})
+    narrate.label_circle_findings([b], cs)
+    assert b.stats["circles"] == ["Work team", "Circle around Z"]

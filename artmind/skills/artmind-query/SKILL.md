@@ -81,6 +81,31 @@ shrink what a command returns; bounding that is each command's own options (see
 A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
 in a separate SQL store, independent of the graph above — see "Store routing" below.
 
+## Insights — for broad or retrospective questions
+
+Some questions are about patterns rather than facts. Examples:
+- "what's changed this year";
+- "who matters most at work now";
+- "what tends to go with bad days";
+- "who have I lost touch with".
+
+The domain owner's insights snapshot already answers those. Check it before walking the protocol below:
+
+```bash
+artmind query insights list --domain <domain> --compact
+```
+
+Each finding has a `title`, a `narration` (a checked one-line caption, or null) and its `subjects` with their `_id`s.
+- Use `--detector` to focus: for example `outcome_lift` for associations, `transitions` for life changes, `dormancy` for people gone quiet, or `communities` for circles.
+- Use `--new` for "what changed".
+- Use `artmind query insights show <key> --domain <domain> --compact` for the numbers behind a finding.
+
+When you answer from insights:
+- **Ground each subject** you name with `artmind query entity-context --domain <domain> --entityId <_id> --compact`, and cite as usual.
+- **outcome_lift findings** always carry the caption "Co-occurrence on the same day, not cause." Pass it on. Never describe a lift as a cause.
+- **Freshness:** state the snapshot's `as_of`. If an `artmind:` stderr line says the graph is behind the vault, say that the insights may be older than the latest notes.
+- **Refresh:** never run `artmind insights refresh` yourself. If there is no snapshot, say so; the domain owner runs it.
+
 ## The Query Protocol: Route → Views → Discover → Resolve → Retrieve → Ground → Adjudicate
 
 ### 0. Route — pick the domain set

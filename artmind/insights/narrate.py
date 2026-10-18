@@ -214,3 +214,8 @@ def label_circle_findings(findings, circles: list[dict]) -> None:
         best = max(circles, key=lambda c: jaccard(set(c["members"]), set(f.stats["members"])), default=None)
         if best is not None and jaccard(set(best["members"]), set(f.stats["members"])) >= 0.5:
             f.stats["circle_name"] = best["name"]
+    # Brokers recorded circle names at detection time, before naming: map template -> final name.
+    renamed = {c["template_name"]: c["name"] for c in circles if c.get("template_name")}
+    for f in findings:
+        if f.detector == "brokers" and isinstance(f.stats.get("circles"), list):
+            f.stats["circles"] = [renamed.get(n, n) for n in f.stats["circles"]]
