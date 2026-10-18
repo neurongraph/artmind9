@@ -51,6 +51,7 @@ from paths import (
     ARTMIND_VAULT_DIR,
     DOMAIN_SCHEMAS_DIR,
     KG_DIR,
+    LOGS_DIR,
     MARKDOWNS_DIR,
     ORIGINALS_DIR,
     PROJECT_ROOT,
@@ -158,19 +159,69 @@ def _init_chunk_rows(doc_sha256: str, doc_id: str, chunk_count: int) -> None:
         conn.close()
 
 
-def _reset_extraction_cache(chunk_data_dir: Path, doc_sha256: str) -> None:
-    """Forget a note's resumable extraction so `extract_kg` runs every LLM step
-    again. Both caches are keyed by the hash of the (unchanged) file, so without
+_CHUNK_STATUS_COLUMNS = (
+    "doc_sha256, doc_id, chunk_seq, entities_status, properties_status,"
+    " relationships_status, updated_at"
+)
+
+
+def _reset_extraction_cache(chunk_data_dir: Path, doc_sha256: str) -> dict:
+    """Set a note's resumable extraction aside so `extract_kg` runs every LLM
+    step again. Both caches are keyed by the hash of the (unchanged) file, so without
     this a requested re-extraction would resume as "all steps already ok" and
     re-read the old answers. The embedding sidecar is kept: a vector depends on
-    the chunk text, not the schema."""
+    the chunk text, not the schema.
+
+    Moved, not deleted: returns the stash `_restore_extraction_cache` puts back
+    when the re-extraction fails, so a failed `--reextract` never costs the
+    previous answers (spec 2026-10-18-extraction-loss-guard-design.md §3.1).
+    The stash lives under LOGS_DIR -- the staging folder is committed by
+    Obsidian Git's timer and must never hold it."""
     conn = _get_db()
     try:
+        rows = [tuple(r) for r in conn.execute(
+            f"SELECT {_CHUNK_STATUS_COLUMNS} FROM kg_chunk_status WHERE doc_sha256 = ?"
+            " ORDER BY chunk_seq",
+            (doc_sha256,),
+        )]
         conn.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
         conn.commit()
     finally:
         conn.close()
+    stashed: Path | None = None
+    if chunk_data_dir.exists():
+        stashed = LOGS_DIR / "reextract-stash" / f"{doc_sha256}-{uuid.uuid4().hex}"
+        stashed.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(chunk_data_dir), str(stashed))
+    return {"dir": stashed, "rows": rows}
+
+
+def _restore_extraction_cache(stash: dict | None, chunk_data_dir: Path, doc_sha256: str) -> None:
+    """Undo `_reset_extraction_cache` after a re-extraction that must not be
+    staged: whatever the failed run wrote is replaced by the stashed cache and
+    rows. No-op without a stash (no `--reextract`)."""
+    if stash is None:
+        return
     shutil.rmtree(chunk_data_dir, ignore_errors=True)
+    if stash["dir"] is not None and Path(stash["dir"]).exists():
+        chunk_data_dir.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(stash["dir"]), str(chunk_data_dir))
+    conn = _get_db()
+    try:
+        conn.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
+        conn.executemany(
+            f"INSERT INTO kg_chunk_status ({_CHUNK_STATUS_COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            stash["rows"],
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _drop_extraction_stash(stash: dict | None) -> None:
+    """Delete the set-aside cache once the re-extraction is staged."""
+    if stash is not None and stash["dir"] is not None:
+        shutil.rmtree(stash["dir"], ignore_errors=True)
 
 
 def _get_chunk_statuses(doc_sha256: str) -> dict[int, dict]:
