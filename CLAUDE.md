@@ -36,7 +36,7 @@ ingest dashboard).
 | `artmind/server.py` | The warm `serve` daemon. |
 | `artmind/opencode/` | opencode/ACP persona, seeded into the run folder. |
 | `obsidian/artmind-obsidian/` | The Obsidian plugin (TypeScript, esbuild, vitest). It only runs the `artmind` CLI with `--compact`; `test/fixtures/*.json` are that JSON, regenerated from the real CLI by `test/test_plugin_fixtures.py` (`ARTMIND_REGEN_PLUGIN_FIXTURES=1`). A CLI output change fails that test first: regenerate, then run `just obsidian-plugin-test`. `artmind init` installs it into a vault (copies the build staged in `artmind/obsidian_plugin/` -- a gitignored build output written by `just obsidian-plugin-build`, which `just dev-install` runs -- and enables it); `just obsidian-plugin-install <vault>` is the quick loop while iterating on the plugin. Spec: `docs/superpowers/specs/2026-09-30-obsidian-plugin-design.md`. |
-| `artmind/setup.py` | `scaffold_run_folder()` (the `init` command) and Neo4j constraint/index setup. |
+| `artmind/setup.py` | `scaffold_run_folder()` (called by `setup`, via `setup_all()`), `scaffold_vault()` / `_symlink_skills()` (the `init` command; refuses the source checkout, `is_artmind_source()`), and Neo4j constraint/index setup. |
 | `paths.py` | **Root-level module** (not inside the package). Resolves `ARTMIND_HOME` / `ARTMIND_DATA_DIR` and loads `.env`. Packaged via `py-modules`. |
 | `utils/` | Shared helpers; packaged alongside `artmind`. |
 | `test/` | The test suite — **singular**. |
@@ -61,14 +61,17 @@ expands to: stop daemons → `uv tool install --force --editable '.[ingest]'`. I
 **not** run `artmind init` and does **not** restart the daemons it stopped: run `init`
 yourself where it's needed (see §2 below), and start `serve` again from inside the vault.
 
-Two roots, both **decoupled from this checkout** (see `paths.py`, `docs/INSTALL.md`):
+Two roots, both **decoupled from this checkout** (see `paths.py`, `docs/INSTALL.md`),
+and both chosen by **the directory a command runs in**: `paths.py` walks up from the
+cwd for `.artmind/vault.yaml` (or takes `ARTMIND_VAULT`).
 
-- **Run folder** — `$ARTMIND_HOME`, default `~/.artmind`. Holds `.env`,
-  `.claude/skills/`, `.opencode/`, `domains/schemas/`, `logs/`. Every command reads it.
-  Resolved *before* `.env` is loaded, so it can only be overridden by a real env var.
-- **Data dir** — `$ARTMIND_DATA_DIR`, default `~/artmind_data`. Ingestion artifacts
-  only (originals, markdowns, registry DB, jobs, KG staging, snapshots). Query-only
-  hosts never touch it.
+- **Run folder** (`ARTMIND_HOME`) — inside a vault, the vault's own `<vault>/.artmind/`;
+  outside any vault, `~/.artmind`. Holds `config.env`, `domains/schemas/`, `logs/`, and
+  (outside a vault only) `.claude/skills/` and `.opencode/`. Machine-wide secrets always
+  come from `~/.artmind/config.env`. A real `ARTMIND_HOME` env var overrides discovery.
+- **Data dir** (`ARTMIND_DATA_DIR`) — inside a vault, `<vault>/.artmind/data/`; outside,
+  default `~/artmind_data`. Ingestion artifacts only (originals, markdowns, registry DB,
+  jobs, KG staging, snapshots). Query-only hosts never touch it.
 
 The install is **editable**, so Python code edits are live everywhere immediately.
 The mental model that matters: *editable covers the code, but not the two caches
@@ -123,34 +126,47 @@ warns when a turn ran `artmind query` but has no spans.
 
 ### 2. Skills reach the chat UI through the vault or the run folder
 
-`artmind/skills/` is the **single source of truth**. It reaches consumers three ways:
+`artmind/skills/` is the **single source of truth**. It reaches consumers three ways,
+and an **edit** to an existing skill and a **new** skill travel differently:
 
-- **Checkout** — `.claude/skills/<name>` and `.pi/skills/<name>` are **symlinks** into
-  `artmind/skills/` (`just dev-refresh-skills` regenerates them; both dirs are gitignored, so
-  a fresh clone lacks them). Editing through a symlink edits the source. Always live.
-- **Vault** — `<vault>/.claude/skills/<name>` are **symlinks** into the installed package
-  (`_symlink_skills()`, written by `artmind init`). Inside a vault the agent's `cwd` is the
-  vault root, so with the editable install a skill edit is live there at once.
-- **Run folder** (outside a vault) — `~/.artmind/.claude/skills/<name>` is a **copy**,
-  written by `artmind setup` (`scaffold_run_folder()`). The chat UI agent's `cwd` is then
-  the run folder (`artmind/webui/agent.py`), so this copy is what it actually reads.
+| Where | What is there | Edit to an existing skill | New (or removed) skill |
+|---|---|---|---|
+| Checkout `.claude/skills/`, `.pi/skills/` | symlinks into `artmind/skills/` (gitignored; a fresh clone lacks them) | live | `just dev-refresh-skills` |
+| Vault `<vault>/.claude/skills/` | symlinks written by `artmind init` (`_symlink_skills()`); with the editable install they point straight at this checkout's `artmind/skills/<name>` | live | `artmind init`, run **inside the vault** |
+| Run folder `~/.artmind/.claude/skills/` | **copies** written by `artmind setup` (`scaffold_run_folder()`) | `artmind setup`, run **from `~`** | `artmind setup` adds it; a removed skill's copy is never pruned (delete it by hand) |
 
-`setup` (`_seed_tree()` in `artmind/setup.py`) **overwrites** skills, `.opencode/` **and
-`domains/schemas/`** on every run — all three are package assets — while seeding `.env`
-only when absent, so user credentials survive. Schemas are overwritten deliberately:
-they carry the extraction prompts, and a prompt fix that never reached the run folder
-would look like a model failure. Keep local schema edits in
-`artmind/domains/schemas/`, not in the run folder. So a skill or schema edit reaches
-the run folder's chat UI and extractor via:
+Inside a vault the chat agent reads the vault's symlinks. The two backends start it in
+different places: ACP at `ARTMIND_AGENT_CWD` (the vault root), the Claude SDK at
+`RUN_FOLDER` = `ARTMIND_HOME` (`<vault>/.artmind`, `artmind/webui/agent.py`), and the
+SDK agent still loads the vault-root skills from there (traces show `Skill:artmind-query`).
+Only a chat UI started **outside** any vault reads the `~/.artmind` copies. A vault has
+no `.artmind/.claude/skills/`, and `setup` deliberately writes none there.
+
+**Never run `artmind setup` or `artmind init` from this checkout.** `init` refuses it
+(`is_artmind_source()`); for `setup`, run it from `~` when you mean to refresh
+`~/.artmind`. Inside a vault `setup` targets that vault's `.artmind/` instead and does
+**not** refresh any skills. `just cli-setup` (runs from `~`) and `just cli-init <vault>`
+(runs inside the vault) wrap the first two commands below.
 
 ```bash
-artmind setup     # just dev-install does NOT run it
+cd ~ && artmind setup                    # refresh ~/.artmind copies (skills, .opencode/, schemas)
+cd <vault> && artmind init               # link skills added since the vault was made
+just dev-refresh-skills                  # link new skills into the checkout's .claude/ and .pi/
 ```
 
-Editing a skill and testing only in the checkout does **not** exercise what a run-folder
-chat UI runs. If they disagree, the run folder wasn't re-seeded. Do not edit
-`~/.artmind/.claude/skills/` — `setup` will overwrite it. (A vault's schemas are the
-user's committed files: `init` and `setup` seed them only when absent.)
+`just dev-install` runs none of these.
+
+**Schemas follow the same split.** Outside a vault, `setup` **overwrites**
+`~/.artmind/domains/schemas/` (and `.opencode/`) from the package on every run —
+deliberately, since schemas carry the extraction prompts — while `config.env` is
+seeded only when absent. A vault's schemas are the user's committed files: `init` and
+`setup` seed them only when absent, so a packaged schema fix reaches a vault only via
+`artmind init --force [--schema NAME]` inside it (refused unless git can restore every
+file it would change). Keep schema edits in `artmind/domains/schemas/`.
+
+Do not edit `~/.artmind/.claude/skills/` — `setup` overwrites it. Editing a skill and
+testing only in the checkout exercises the vault path too (both are symlinks), but not a
+run-folder chat UI: if they disagree, the run folder wasn't re-seeded.
 
 ### 3. Green tests do not mean the CLI works
 
@@ -216,4 +232,5 @@ Two levels under `query`, and mixing them up is a common error:
 - Commands take repeatable, comma-splittable `--domain` and support `--compact` JSON.
 - Skills live in `artmind/skills/` and the opencode persona in `artmind/opencode/` —
   edit there, never in `.claude/skills/` (a symlink), `~/.artmind/` (overwritten by
-  `init`), or `build/` (an artifact). Run `artmind init` to push edits to the run folder.
+  `setup`), or `build/` (an artifact). How an edit or a new skill reaches the checkout,
+  vaults and `~/.artmind` is in Testing implications §2.
