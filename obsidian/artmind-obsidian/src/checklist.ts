@@ -1,5 +1,5 @@
 import { BOOTSTRAP_STEP, type Busy, type BusyKey, type RowId, type StateInputs, type Tone, behindParts, plural, problemText } from "./state";
-import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, conflictsPrompt, count, countOf, curateSummary, ingestLabel, sameAsPrompt } from "./texts";
+import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, conflictsPrompt, count, countOf, curateSummary, ingestLabel, sameAsPrompt, waitingText } from "./texts";
 import type { JobStatus, TablePending, TableToReview } from "./types";
 
 export type { RowId } from "./state";
@@ -98,6 +98,9 @@ export interface Checklist {
   ready: boolean;
   stepsLeft: number;
   blocked: Record<CommandId, string | null>;
+  /** A busy action still waiting its turn in the write queue: the text of
+   * what it waits for ("waiting for synthesize to finish"). */
+  waitingOn: Partial<Record<BusyKey, string>>;
   neo4jUnreachable: boolean;
   jobRunning: boolean;
 }
@@ -192,6 +195,29 @@ function first(...reasons: Array<string | null>): string | null {
   return reasons.find((reason) => reason !== null) ?? null;
 }
 
+/** The write each busy action sends through the CLI's queue. */
+const WRITE_OF: Partial<Record<BusyKey, string>> = {
+  apply: "vault sync",
+  resolve: "vault resolve",
+  ingest: "ingest async",
+  retry: "ingest retry-job",
+  rebuild: "projection rebuild",
+  synthesize: "projection synthesize",
+  findDuplicates: "sameas propose",
+  detectConflicts: "ingest detect-conflicts",
+};
+
+/** Busy actions whose write is queued behind another one that is running. */
+function waitingBehind(inputs: StateInputs): Partial<Record<BusyKey, string>> {
+  const { running, waiting } = inputs.writeQueue;
+  const out: Partial<Record<BusyKey, string>> = {};
+  if (!running) return out;
+  for (const [key, write] of Object.entries(WRITE_OF) as Array<[BusyKey, string]>) {
+    if (inputs.busy[key] && write !== running && waiting.includes(write)) out[key] = waitingText(running);
+  }
+  return out;
+}
+
 /** The readiness checklist (checklist spec §3, §5.1), as a pure function of
  * what was read. The views render it; the controller gates on `blocked`. */
 export function checklist(inputs: StateInputs): Checklist {
@@ -231,6 +257,7 @@ export function checklist(inputs: StateInputs): Checklist {
   const ahead = inputs.git.ahead;
 
   const cannotRun = inputs.problem ? problemText(inputs.problem) : null;
+  const waitingOn = waitingBehind(inputs);
   const mergeText = merge ? `${merge[0].toUpperCase()}${merge.slice(1)} is in progress — finish it first` : null;
   const blocked: Record<CommandId, string | null> = {
     pull: first(inputs.busy.pull ? "Already pulling" : null, mergeText),
@@ -306,7 +333,7 @@ export function checklist(inputs: StateInputs): Checklist {
       state: "running",
       glyph: "◌",
       tone: "spinner",
-      summary: "applying to graph…",
+      summary: waitingOn.apply ?? "applying to graph…",
       buttons: [button({ type: "apply" }, LABELS.apply, blocked.apply)],
     });
   }
@@ -445,7 +472,7 @@ export function checklist(inputs: StateInputs): Checklist {
   const rebuildButton = button({ type: "rebuild" }, LABELS.rebuild, blocked.rebuild);
   let graph: Row;
   if (running) graph = makeRow("graph", { state: "waiting", glyph: "○", tone: "grey", summary: "after ingest finishes" });
-  else if (inputs.busy.rebuild) graph = makeRow("graph", { state: "running", glyph: "◌", tone: "spinner", summary: "rebuilding…", buttons: [rebuildButton] });
+  else if (inputs.busy.rebuild) graph = makeRow("graph", { state: "running", glyph: "◌", tone: "spinner", summary: waitingOn.rebuild ?? "rebuilding…", buttons: [rebuildButton] });
   else if (reasons.length) graph = makeRow("graph", { state: "attention", glyph: "!", tone: "amber", summary: "needs rebuild", detail: reasons, buttons: [rebuildButton] });
   else if (!inputs.projection) graph = makeRow("graph", { state: "waiting", glyph: "○", tone: "grey", summary: "not checked yet", buttons: [rebuildButton] });
   else {
@@ -468,7 +495,9 @@ export function checklist(inputs: StateInputs): Checklist {
       state: "running",
       glyph: "◌",
       tone: "spinner",
-      summary: inputs.busy.findDuplicates ? "finding duplicates…" : "detecting conflicts…",
+      summary:
+        (inputs.busy.findDuplicates ? waitingOn.findDuplicates : waitingOn.detectConflicts) ??
+        (inputs.busy.findDuplicates ? "finding duplicates…" : "detecting conflicts…"),
       buttons: curateButtons,
     });
   } else if (curate === null) {
@@ -493,7 +522,7 @@ export function checklist(inputs: StateInputs): Checklist {
       state: "running",
       glyph: "◌",
       tone: "spinner",
-      summary: `synthesizing…${progress}`,
+      summary: waitingOn.synthesize ?? `synthesizing…${progress}`,
       buttons: [button({ type: "synthesize" }, LABELS.synthesize, blocked.synthesize)],
     });
   }
@@ -543,5 +572,5 @@ export function checklist(inputs: StateInputs): Checklist {
   const left = rows.filter((r) => STEP_IDS.includes(r.id) && r.state !== "done");
   const ready = left.length === 0;
   const current = left[0]?.id ?? (vault.state === "todo" ? "vault" : null);
-  return { rows, busy: inputs.busy, current, ready, stepsLeft: left.length, blocked, neo4jUnreachable, jobRunning: running };
+  return { rows, busy: inputs.busy, current, ready, stepsLeft: left.length, blocked, waitingOn, neo4jUnreachable, jobRunning: running };
 }

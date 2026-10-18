@@ -95,6 +95,26 @@ export const PENDING_LABELS = {
   commitPush: "Committing…",
 } as const;
 
+/** The button label of an action waiting in the write queue (not yet running). */
+export const QUEUED_LABEL = "Queued…";
+
+/** What a queued write is waiting behind, by the `commandKey` that runs. */
+const WRITE_NAMES: Record<string, string> = {
+  "vault sync": "apply to graph",
+  "vault resolve": "resolve",
+  "ingest async": "ingest",
+  "ingest retry-job": "ingest retry",
+  "ingest table2graph": "table import",
+  "projection rebuild": "rebuild",
+  "projection synthesize": "synthesize",
+  "sameas propose": "find duplicates",
+  "ingest detect-conflicts": "detect conflicts",
+};
+
+export function waitingText(runningKey: string): string {
+  return `waiting for ${WRITE_NAMES[runningKey] ?? runningKey} to finish`;
+}
+
 export function ingestLabel(files: number): string {
   return `Ingest ${plural(files, "file")}`;
 }

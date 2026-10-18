@@ -81,6 +81,7 @@ export default class ArtmindPlugin extends Plugin {
       },
     });
     this.controller = controller;
+    cli.onWriteQueue((queue) => controller.onWriteQueue(queue));
     const watchers = new Watchers(
       {
         readHead: () => new GitReader(root).head(),

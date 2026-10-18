@@ -1,6 +1,6 @@
 import type { Row, RowAction, RowItem } from "../checklist";
 import type { Snapshot } from "../controller";
-import { LABELS, PENDING_LABELS, progressText, readinessText } from "../texts";
+import { LABELS, PENDING_LABELS, QUEUED_LABEL, progressText, readinessText } from "../texts";
 import { actionButton, el } from "./dom";
 import { jobCard } from "./jobCard";
 import { type PanelUi, basename } from "./sections";
@@ -74,7 +74,8 @@ function renderRow(
   if (row.buttons.length) {
     const bar = el(box, "div", { cls: "artmind-step-buttons" });
     row.buttons.forEach((b, index) => {
-      const pending = b.busyKey && snapshot.checklist.busy[b.busyKey] ? PENDING_LABELS[b.busyKey] : null;
+      const busy = b.busyKey && snapshot.checklist.busy[b.busyKey] ? b.busyKey : null;
+      const pending = busy ? (snapshot.checklist.waitingOn[busy] ? QUEUED_LABEL : PENDING_LABELS[busy]) : null;
       const button = actionButton(bar, b.label, b.blockedReason, () => handlers.run(b.action), pending);
       if (index === 0) button.classList.add(current ? "mod-cta" : "artmind-raised");
       else button.classList.add("artmind-outline");

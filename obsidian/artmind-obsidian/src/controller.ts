@@ -1,7 +1,7 @@
 import { promptPath } from "./admin";
 import type { GitAction } from "./bridge";
 import { type Checklist, type CommandId, type RowAction, checklist, jobRunning } from "./checklist";
-import type { CliResult } from "./cli";
+import type { CliResult, WriteQueue } from "./cli";
 import type { Persisted } from "./persist";
 import type { ArtmindSettings, NoticeKind } from "./settings";
 import {
@@ -766,6 +766,11 @@ export class Controller {
 
   openSynthesize(): void {
     if (this.guard("synthesize", "descriptions")) this.deps.views.openSynthesize();
+  }
+
+  /** The CLI's write queue moved: a busy row may be waiting, or running now. */
+  onWriteQueue(queue: WriteQueue): void {
+    this.update({ writeQueue: queue });
   }
 
   /** `projection synthesize --domain D [--limit N]` for each domain, one
