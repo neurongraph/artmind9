@@ -3361,16 +3361,19 @@ def _latest_insights(domain: str):
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain to analyse (one)")
 @click.option("--force", is_flag=True, help="Run even if graph, schemas, curation and config are unchanged")
 @click.option("--only", "only", default=None, help="Comma-separated detectors; other findings are carried over")
+@click.option("--no-narrate", "no_narrate", is_flag=True, help="Skip the LLM captions and circle names this run")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def insights_refresh(domain: tuple, force: bool, only: str | None, compact: bool) -> None:
-    """Profile the graph, run the detectors and write a snapshot. Needs Neo4j."""
+def insights_refresh(domain: tuple, force: bool, only: str | None, no_narrate: bool, compact: bool) -> None:
+    """Profile the graph, run the detectors, narrate findings and circles, and write a snapshot. Needs Neo4j.
+
+    Narration (LLM captions and circle names) is cached by finding content; `--no-narrate` skips it."""
     from artmind.insights import runner as insights_runner
     from artmind.insights.model import InsightsError
 
     selected = [s.strip() for s in only.split(",") if s.strip()] if only else None
     name = _one_domain(domain)
     try:
-        result = insights_runner.refresh(name, force=force, only=selected)
+        result = insights_runner.refresh(name, force=force, only=selected, narrate=not no_narrate)
     except InsightsError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

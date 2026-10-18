@@ -38,3 +38,14 @@ def test_run_round_trip_and_format_guard():
     assert Run.from_dict(d) == run
     with pytest.raises(InsightsError):
         Run.from_dict({**d, "format": FORMAT + 1})
+
+
+def test_narration_key_and_run_llm_round_trip():
+    f = _finding(narration="Asha has gone quiet.", narration_key="abc")
+    assert Finding.from_dict(f.to_dict()).narration_key == "abc"
+    run = Run(domain="demo", created_at="t", as_of=None, fingerprint={}, anchors=[], profile={}, plan=[],
+              findings=[f], circles=[], diff={}, llm={"calls": 1})
+    assert Run.from_dict(run.to_dict()).llm == {"calls": 1}
+    legacy = run.to_dict()
+    del legacy["llm"]
+    assert Run.from_dict(legacy).llm == {}

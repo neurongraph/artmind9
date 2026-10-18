@@ -205,6 +205,25 @@ def _no_live_llm(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _no_live_insights_llm(monkeypatch):
+    """Same hazard as ``_no_live_llm``, for insights narration.
+
+    ``artmind.insights.narrate.default_llm`` builds a provider-backed callable;
+    ``runner.refresh`` falls back to it when no ``llm`` is injected, and a test
+    that forgot to inject one would send its (synthetic, but still) prompts to
+    whatever provider the developer has configured. Raising makes the runner's
+    "no provider: run without narration" path the default for every test.
+    """
+    import artmind.insights.narrate as narrate
+
+    def _refuse():
+        raise RuntimeError("LLM disabled in tests")
+
+    monkeypatch.setattr(narrate, "default_llm", _refuse)
+    yield
+
+
+@pytest.fixture(autouse=True)
 def _no_live_registry_db(tmp_path, monkeypatch):
     """Same hazard as ``_no_live_neo4j`` below, for the SQLite registry.
 

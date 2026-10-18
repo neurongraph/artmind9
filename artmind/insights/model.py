@@ -29,6 +29,7 @@ class Finding:
     card: dict = field(default_factory=dict)
     action: str | None = None
     narration: str | None = None
+    narration_key: str | None = None
     diff: str = "new"
 
     def __post_init__(self) -> None:
@@ -74,6 +75,7 @@ class Run:
     findings: list[Finding]
     circles: list[dict]
     diff: dict
+    llm: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return {
@@ -88,6 +90,7 @@ class Run:
             "findings": [f.to_dict() for f in self.findings],
             "circles": self.circles,
             "diff": self.diff,
+            "llm": self.llm,
         }
 
     @classmethod
@@ -105,4 +108,5 @@ class Run:
             findings=[Finding.from_dict(f) for f in data.get("findings") or []],
             circles=data.get("circles") or [],
             diff=data.get("diff") or {},
+            llm=data.get("llm") or {},
         )

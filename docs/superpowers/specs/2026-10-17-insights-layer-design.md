@@ -658,6 +658,33 @@ never writes view files.
 - **Failure:** any LLM error leaves `narration: null` and
   `name_source: "template"` (`Circle around <lead>`). The run still
   succeeds.
+- **As built (phase 3):**
+  - **Budget:** the top `narrate_top` findings by score, plus up to
+    `narrate_top` more new ones. Only uncached findings are sent, in JSON
+    batches of 20 per LLM call. A first run therefore costs 1–2 calls, not one
+    per finding.
+  - **Allowed names and numbers:** the name check allows any phrase made only
+    of words from the finding's own subject names. Numbers may come from the
+    stats (including their rounded and percentage forms, date parts and list
+    lengths) or from the title.
+  - **Circle names:** written to `stats.circle_name` on circle and share
+    findings.
+  - **Fingerprint:** it records `narrated`, so a `--no-narrate` run is
+    re-narrated by the next plain refresh.
+  - **Logging:** LLM calls are logged with type `insights`. `Run.llm` holds
+    the model, the prompt version and counts (calls, narrated, cached,
+    rejected, errors, circles named or kept).
+  - **Privacy:** prompts carry entity names, relationship values and stats to
+    the user's configured provider, the same boundary as extraction. They are
+    also written to the local `llm_calls.log`. `narrate: false` /
+    `--no-narrate` keeps names out of prompts.
+  - **Rendering:** any UI must render `narration` and `circle_name` as plain
+    text, escaped.
+  - **Retry:** a failed narration (any batch error, or no provider) records
+    `narrated: false` in the fingerprint, so the next refresh retries it.
+    After a first batch error the remaining batches are skipped
+    (`skipped_batches`). A `--no-narrate` run keeps earlier captions and
+    circle names that still match.
 
 ## 12. Module layout
 
