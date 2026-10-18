@@ -199,3 +199,55 @@ def test_a_first_ingest_with_failed_steps_stages_nothing_and_keeps_rows_for_resu
     folder = ing.KG_DIR / "general" / "a"
     assert not (folder / "observations.json").exists()
     assert ing._get_chunk_statuses(result["sha256"])[1]["entities_status"] == "failed"
+
+
+# ── an unchanged note may not re-extract to nothing ──────────────────────────
+
+
+def test_an_unchanged_note_that_reextracts_to_nothing_keeps_its_previous_extraction(
+    ingest_env, monkeypatch, stash_root,
+):
+    vault, _ = ingest_env
+    result, folder = _previously_extracted(vault, monkeypatch)
+    before_files = _snapshot(folder)
+    _seams(monkeypatch, lambda step: ([], True))  # every step "succeeds" with nothing
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+
+    assert _snapshot(folder) == before_files
+    cache = folder / "chunks" / result["sha256"]
+    assert json.loads((cache / "chunk_001.json").read_text()) == {"raw_entities": ["prior"]}
+
+
+def test_a_reextraction_over_an_empty_previous_result_is_staged_and_drops_the_stash(
+    ingest_env, monkeypatch, stash_root,
+):
+    vault, _ = ingest_env
+    result, folder = _previously_extracted(vault, monkeypatch, observations=[])
+    _seams(monkeypatch, lambda step: ([], True))
+
+    assert ing.extract_kg(result, "general", max_workers=1) == folder
+
+    assert json.loads((folder / "observations.json").read_text()) == []
+    cache = folder / "chunks" / result["sha256"]
+    assert json.loads((cache / "chunk_001.json").read_text())["raw_entities"] == []
+    assert list((stash_root / "reextract-stash").iterdir()) == []
+
+
+def test_without_reextract_an_emptied_result_is_staged(ingest_env, monkeypatch, stash_root):
+    """The guard is for an unchanged body only: a note whose text was cut down
+    may legitimately extract to nothing."""
+    vault, _ = ingest_env
+    result, folder = _previously_extracted(vault, monkeypatch)
+    result["reextract"] = False
+    conn = ing._get_db()
+    try:
+        conn.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (result["sha256"],))
+        conn.commit()
+    finally:
+        conn.close()
+    _seams(monkeypatch, lambda step: ([], True))
+
+    assert ing.extract_kg(result, "general", max_workers=1) == folder
+
+    assert json.loads((folder / "observations.json").read_text()) == []

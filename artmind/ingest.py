@@ -2378,6 +2378,16 @@ def staged_counts(doc_kg_dir: Path) -> dict | None:
     }
 
 
+def _staged_observation_count(doc_kg_dir: Path) -> int:
+    """How many observations a staging folder holds now; 0 when it holds none
+    or cannot be read."""
+    try:
+        data = json.loads((doc_kg_dir / "observations.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return 0
+    return len(data) if isinstance(data, list) else 0
+
+
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
     """Chunk-level fan-out width, clamped to [1, chunk_count].
 
@@ -3053,7 +3063,6 @@ def extract_kg(
         _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
         return None
 
-
     # ── merge chunk JSONs into document-level files ────────────────────────────
     all_chunks: list[dict] = []
     all_entities: list[dict] = []
@@ -3190,6 +3199,21 @@ def extract_kg(
         all_entities, all_properties, canonical_names, schema, document,
         only_mapped=names_supplied,
     )
+
+    # ── an unchanged note may not shrink to nothing (spec 2026-10-18 §3.2) ────
+    # A model answering `[]` reports success, so the failed-step guard above
+    # cannot see it. Only for --reextract: the body is unchanged, so an empty
+    # answer over a non-empty one is a bad run, not a change to the note.
+    if stash is not None and not all_observations:
+        prior = _staged_observation_count(doc_kg_dir)
+        if prior:
+            logger.error(
+                "Re-extraction of unchanged {} produced no observations -- keeping the "
+                "previous {} and marking the file failed",
+                registered_path.name, prior,
+            )
+            _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
+            return None
 
     # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must
     # never see a half-written folder. The chunk cache under chunks/<sha>/
