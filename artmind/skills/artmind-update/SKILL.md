@@ -217,7 +217,7 @@ Approving is a separate, explicit step — hand off to artmind-curate:
 
 ```bash
 artmind sameas list --status open --compact
-artmind sameas approve <proposal_id>
+artmind sameas approve <proposal_id> [<proposal_id> ...]   # several ids = one rebuild
 ```
 
 **Workflow**: During candidate resolution in an update, if you spot similar

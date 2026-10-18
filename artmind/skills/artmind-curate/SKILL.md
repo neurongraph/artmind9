@@ -130,13 +130,32 @@ id only.
 
 A proposal that can't be approved does not stop the batch. It is listed under
 `skipped` with the reason and stays as it was: unknown or already resolved, or
-its canonical is **already claimed by an earlier group** (the file's, or an
-earlier id in the same call). Read `skipped`, and a group with `status:
-partial` (some members were already in another group and dropped out of this
-one -- see `dropped_members`). Re-propose or fold a skipped one into the group
-that holds it. With a single id a refusal is an error instead. `--canonical` overrides which member wins
-(default: the proposer's own suggestion) — override it when the "obviously
-right" display name isn't the one the proposer picked.
+its canonical (or every other member) is **already claimed by an earlier
+group** (the file's, or an earlier id in the same call). Always read `skipped`, and any
+group with `status: partial` (some members were already in another group and
+dropped out of this one -- see `dropped_members`). With a single id a refusal
+is an error instead.
+
+`--canonical` overrides which member wins (default: the proposer's own
+suggestion) -- override it when the "obviously right" display name isn't the
+one the proposer picked.
+
+**A skipped proposal is usually a new name for a group that already exists**
+-- the proposer found one more variant of an approved cluster. There is no
+`sameas` command to extend a group, so decide per proposal:
+
+- *The existing group is right as it is* -- reject the proposal:
+  `artmind sameas reject <proposal_id> --reason "already grouped under <canonical>"`.
+- *The new name belongs in the group* -- add it to that group's `members` in
+  `same_as.yaml` (same file and rebuild as Workflow B; keep `canonical` listed
+  among the members), run `artmind projection rebuild --sweep --compact`, then
+  reject the proposal with the reason "folded into <canonical>" so it leaves
+  the queue.
+- *It is a different thing that only looks similar* (a bare "artmind" next to
+  "artmind development") -- reject it with that reason.
+
+Editing `same_as.yaml` is the user's decision, not the agent's: say which
+group and which name, and wait for a yes.
 
 **This is a two-step workflow, not one command.** `sameas approve` does NOT
 clear `projection status`'s drift flag — its rebuild is scoped to the
