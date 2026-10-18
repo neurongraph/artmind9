@@ -5,7 +5,7 @@ import { errorText } from "../src/cli";
 import { type CliLike, Controller, type Snapshot, type ViewsLike } from "../src/controller";
 import type { Persisted } from "../src/persist";
 import { DEFAULT_SETTINGS, type ArtmindSettings } from "../src/settings";
-import type { PanelTarget, RowId } from "../src/state";
+import type { BusyKey, PanelTarget, RowId } from "../src/state";
 import { CONFIRM, NOTICE, countOf } from "../src/texts";
 import type { ConfirmRequest } from "../src/views/confirmModal";
 import { fixture } from "./fixtures";
@@ -1241,6 +1241,55 @@ describe("a click is answered at once (the button shows busy before the CLI answ
     g.release(replay("ingest-retry-job.failed"));
     await pending;
     expect(t.controller.inputs.busy.retry).toBe(false);
+  });
+
+  it("Apply, Rebuild and Resolve stay busy until the refresh after them lands: no render of the panel as it was", async () => {
+    const flows: [BusyKey, (t: ReturnType<typeof setup>) => Promise<unknown>][] = [
+      ["apply", (t) => t.controller.apply({ skipPull: true })],
+      ["rebuild", (t) => t.controller.rebuild()],
+      ["resolve", (t) => t.controller.resolveApply()],
+    ];
+    for (const [key, click] of flows) {
+      const g = gate();
+      const t = setup({ script: { status: replay("vault-status.behind"), projectionStatus: replay("projection-status.needs-rebuild") } });
+      await t.controller.refresh();
+      const status = t.cli.status.bind(t.cli);
+      t.cli.status = () => g.promise;
+      t.cli.calls.length = 0;
+
+      const pending = click(t);
+      await t.flush();
+      // The action is done; the refresh after it is still reading.
+      expect(t.cli.calls.some((c) => WRITES.includes(c.split(" ")[0])), key).toBe(true);
+      expect(t.controller.inputs.busy[key], key).toBe(true);
+      expect(t.views.renders.at(-1)!.inputs.busy[key], key).toBe(true);
+      g.release(await status());
+      await pending;
+      expect(t.controller.inputs.busy[key], key).toBe(false);
+    }
+  });
+
+  it("Find duplicates stays busy until the refresh after it lands", async () => {
+    const g = gate();
+    const t = setup({ domains: ["general"] });
+    await t.controller.refresh();
+    const status = t.cli.status.bind(t.cli);
+    t.cli.status = () => g.promise;
+
+    const pending = t.controller.findDuplicates(["general"], 40);
+    await t.flush();
+    expect(t.controller.inputs.busy.findDuplicates).toBe(true);
+    g.release(await status());
+    await pending;
+    expect(t.controller.inputs.busy.findDuplicates).toBe(false);
+  });
+
+  it("Retry: the requeued job and the end of busy land in one render", async () => {
+    const t = setup();
+    await t.controller.retryJob("job-1");
+    const ended = t.views.renders.findIndex((s) => !s.inputs.busy.retry && s.inputs.activeJob?.job_id === "job-1");
+    const firstIdle = t.views.renders.findIndex((s, i) => i > 0 && !s.inputs.busy.retry && t.views.renders[i - 1].inputs.busy.retry);
+    expect(ended).toBe(firstIdle);
   });
 
   it("Apply and Rebuild end their busy flag even when the CLI throws", async () => {
