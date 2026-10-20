@@ -244,3 +244,31 @@ def test_resolve_llm_model_respects_explicit_env_value():
 
 def test_resolve_llm_model_override_wins():
     assert resolve_llm_model({}, override="custom-model") == "custom-model"
+
+
+def test_call_llm_timeout_and_max_retries_override_the_defaults():
+    env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter", "ARTMIND_OLLAMA_TIMEOUT": "600"}
+    with patch("artmind.extraction.load_env", return_value=env), patch(
+        "artmind.extraction.call_llm_openrouter", return_value="hi"
+    ) as mock_openrouter:
+        call_llm("m", "p")
+        call_llm("m", "p", timeout=30, max_retries=0)
+    default_call, override_call = mock_openrouter.call_args_list
+    assert default_call.args[2] == 600 and default_call.kwargs["max_retries"] is None
+    assert override_call.args[2] == 30 and override_call.kwargs["max_retries"] == 0
+
+
+def test_call_llm_openrouter_max_retries_is_applied_only_when_given():
+    from artmind.llm_providers import call_llm_openrouter
+
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
+    with patch("artmind.llm_providers.openai.OpenAI") as mock_openai:
+        client = mock_openai.return_value
+        client.with_options.return_value = client
+        client.chat.completions.create.return_value = MagicMock(
+            choices=[MagicMock(message=MagicMock(content=" ok "))]
+        )
+        assert call_llm_openrouter("m", "p", 30, env) == "ok"
+        client.with_options.assert_not_called()
+        assert call_llm_openrouter("m", "p", 30, env, max_retries=0) == "ok"
+        client.with_options.assert_called_once_with(max_retries=0)

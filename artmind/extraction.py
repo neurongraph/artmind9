@@ -102,15 +102,23 @@ def _warn_ibm_ica_shadow(env: dict, exc: Exception) -> None:
         logger.warning(hint)
 
 
-def call_llm(model: str, prompt: str, call_type: str = "chat") -> str:
+def call_llm(
+    model: str, prompt: str, call_type: str = "chat",
+    timeout: int | None = None, max_retries: int | None = None,
+) -> str:
+    """`timeout` (seconds) overrides ARTMIND_OLLAMA_TIMEOUT for this call;
+    `max_retries` overrides the openrouter/ibm_ica SDK's own retry count."""
     env = load_env()
-    timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    if timeout is None:
+        timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
     provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     if provider == "openrouter":
-        result = call_llm_openrouter(model, prompt, timeout, env)
+        result = call_llm_openrouter(model, prompt, timeout, env, max_retries=max_retries)
     elif provider == "ibm_ica":
         try:
-            result = call_llm_openrouter(model, prompt, timeout, ibm_ica_client_env(env))
+            result = call_llm_openrouter(
+                model, prompt, timeout, ibm_ica_client_env(env), max_retries=max_retries,
+            )
         except Exception as exc:
             _warn_ibm_ica_shadow(env, exc)
             raise

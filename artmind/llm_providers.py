@@ -79,8 +79,14 @@ def call_llm_ollama(model: str, prompt: str, timeout: int, host: str | None = No
     return (response.message.content or "").strip()
 
 
-def call_llm_openrouter(model: str, prompt: str, timeout: int, env: dict) -> str:
+def call_llm_openrouter(
+    model: str, prompt: str, timeout: int, env: dict, max_retries: int | None = None,
+) -> str:
+    """`max_retries` overrides the SDK's own (default 2, which also retries a
+    timeout -- so one hung request can cost 3x `timeout` before it raises)."""
     client = _openrouter_client(env, timeout)
+    if max_retries is not None:
+        client = client.with_options(max_retries=max_retries)
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],

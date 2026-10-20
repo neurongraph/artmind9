@@ -103,7 +103,7 @@ def _patch_common(monkeypatch, embed_fn):
         "artmind.synthesize.projection.read_latest_observations",
         lambda tx, key: [{"id": "o1", "description": "A widget.", "rate_value": 4.5}],
     )
-    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt: "{}")
+    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt, **kw: "{}")
     monkeypatch.setattr(
         "artmind.synthesize.parse_json_response",
         lambda raw: {"description": "A clean description."},
@@ -196,7 +196,7 @@ def test_synthesize_key_skips_on_llm_failure(monkeypatch):
         lambda tx, key: [{"id": "o1", "description": "A widget."}],
     )
 
-    def failing_llm(model, prompt):
+    def failing_llm(model, prompt, **kw):
         raise RuntimeError("llm down")
 
     monkeypatch.setattr("artmind.synthesize.call_llm", failing_llm)
@@ -252,7 +252,7 @@ def test_synthesize_key_reads_every_same_as_member_and_hashes_the_whole_unit(mon
 
     monkeypatch.setattr("artmind.synthesize.projection.read_latest_observations", fake_read)
     prompts: list[str] = []
-    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt: prompts.append(prompt) or "{}")
+    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt, **kw: prompts.append(prompt) or "{}")
     monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "Pays bills."})
     monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
     rebuild_calls: list[dict] = []
@@ -286,7 +286,7 @@ def test_synthesize_key_without_a_group_reads_only_its_own_key(monkeypatch):
         "artmind.synthesize.projection.read_latest_observations",
         lambda tx, key: read_keys.append(key) or [{"id": "o1", "description": "A widget."}],
     )
-    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt: "{}")
+    monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt, **kw: "{}")
     monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "W."})
     monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
     monkeypatch.setattr("artmind.synthesize.projection.rebuild_key", lambda tx, key, **kw: "rebuilt")
@@ -300,3 +300,74 @@ def test_synthesize_key_without_a_group_reads_only_its_own_key(monkeypatch):
         )
 
     assert read_keys == ["widget rate|RATE_ENTRY|banking.reference"]
+
+
+# ── LLM timeout + one retry ────────────────────────────────────────────────
+
+def _llm_key(monkeypatch, llm):
+    """Run synthesize_key for one entity whose LLM is `llm`; embed/rebuild succeed."""
+    monkeypatch.setattr(
+        "artmind.synthesize.projection.read_latest_observations",
+        lambda tx, key: [{"id": "o1", "description": "A widget."}],
+    )
+    monkeypatch.setattr("artmind.synthesize.call_llm", llm)
+    monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "Done."})
+    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr("artmind.synthesize.projection.rebuild_key", lambda tx, key, **kw: "rebuilt")
+    monkeypatch.setattr("artmind.synthesize.load_env", lambda: {})
+    with patch("artmind.synthesize.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value = _mock_session()
+        return synthesize_key(
+            ("widget rate", "RATE_ENTRY", "banking.reference"), "Widget Rate", "RATE_ENTRY",
+            model="test-model", embed_model="test-embed",
+        )
+
+
+def test_synthesize_key_calls_the_llm_with_the_short_timeout_and_no_sdk_retries(monkeypatch):
+    calls: list[dict] = []
+
+    def llm(model, prompt, **kw):
+        calls.append(kw)
+        return "{}"
+
+    assert _llm_key(monkeypatch, llm)["status"] == "synthesized"
+    # The SDK's own retries are off: the one retry is synthesize_key's, so a hung
+    # request is bounded by 2 x timeout rather than 3 x timeout per attempt.
+    assert calls == [{"timeout": 120, "max_retries": 0}]
+
+
+def test_synthesize_key_retries_once_after_a_failed_call(monkeypatch):
+    attempts = []
+
+    def flaky(model, prompt, **kw):
+        attempts.append(1)
+        if len(attempts) == 1:
+            raise TimeoutError("Request timed out.")
+        return "{}"
+
+    assert _llm_key(monkeypatch, flaky)["status"] == "synthesized"
+    assert len(attempts) == 2
+
+
+def test_synthesize_key_gives_up_after_one_retry(monkeypatch):
+    attempts = []
+
+    def hung(model, prompt, **kw):
+        attempts.append(1)
+        raise TimeoutError("Request timed out.")
+
+    assert _llm_key(monkeypatch, hung)["status"] == "failed_llm"
+    assert len(attempts) == 2, "one try and one retry, not a loop"
+
+
+def test_synthesize_timeout_reads_the_config_and_falls_back_to_120():
+    from artmind.synthesize import synthesize_timeout
+
+    assert synthesize_timeout({}) == 120
+    assert synthesize_timeout({"ARTMIND_SYNTHESIZE_TIMEOUT": "45"}) == 45
+    assert synthesize_timeout({"ARTMIND_SYNTHESIZE_TIMEOUT": " 45 "}) == 45
+    assert synthesize_timeout({"ARTMIND_SYNTHESIZE_TIMEOUT": ""}) == 120
+    assert synthesize_timeout({"ARTMIND_SYNTHESIZE_TIMEOUT": "soon"}) == 120
+    assert synthesize_timeout({"ARTMIND_SYNTHESIZE_TIMEOUT": "0"}) == 120
+    # independent of the extraction timeout
+    assert synthesize_timeout({"ARTMIND_OLLAMA_TIMEOUT": "600"}) == 120

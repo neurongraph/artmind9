@@ -52,6 +52,27 @@ RETURN e._id AS id, e.key AS key, e.name AS name, e.entity_class AS entity_class
 ORDER BY e.name
 """
 
+# One synthesis prompt is small and its reply short, so a call that has not
+# answered in this long is hung, not slow. The global ARTMIND_OLLAMA_TIMEOUT
+# (600 in the shipped config.env) is sized for whole-chunk extraction; one hung
+# gateway request would stall a 772-entity run for ten minutes.
+SYNTHESIZE_TIMEOUT_DEFAULT = 120
+# One try plus one retry: enough to ride out a single hung or dropped request.
+_LLM_ATTEMPTS = 2
+
+
+def synthesize_timeout(env: dict) -> int:
+    """ARTMIND_SYNTHESIZE_TIMEOUT (seconds) -- how long one synthesis LLM call
+    may take before it counts as failed. Default 120."""
+    raw = (env.get("ARTMIND_SYNTHESIZE_TIMEOUT") or "").strip()
+    try:
+        value = int(raw) if raw else SYNTHESIZE_TIMEOUT_DEFAULT
+    except ValueError:
+        logger.warning("synthesize: ARTMIND_SYNTHESIZE_TIMEOUT={!r} is not an integer; using {}", raw, SYNTHESIZE_TIMEOUT_DEFAULT)
+        return SYNTHESIZE_TIMEOUT_DEFAULT
+    return value if value > 0 else SYNTHESIZE_TIMEOUT_DEFAULT
+
+
 # Structural/system observation keys — never rendered as a "fact" in the
 # prompt. Mirrors projection.py's `_OBSERVATION_SYSTEM_KEYS` categorization,
 # duplicated (not imported) to keep this module decoupled from the rebuild's
@@ -119,6 +140,7 @@ Respond with ONLY a JSON object (no markdown fencing, no explanation):
 def synthesize_key(
     key: tuple[str, str, str], name: str, entity_class: str, *, model: str, embed_model: str,
     same_as_groups: list[list[tuple[str, str, str]]] | None = None,
+    timeout: int | None = None,
 ) -> dict:
     """One entity's full synthesize cycle. See module docstring for the
     embedding-safety and apply-in-same-pass invariants.
@@ -145,14 +167,23 @@ def synthesize_key(
         return {"key": key_str, "name": name, "status": "skipped_no_observations"}
 
     prompt = build_synthesis_prompt(name, entity_class, observations)
-    try:
-        parsed = parse_json_response(call_llm(model, prompt))
-        if isinstance(parsed, list):
-            parsed = parsed[0] if parsed else {}
-        text = (parsed or {}).get("description", "").strip()
-    except Exception as exc:
-        logger.warning("synthesize: LLM failed for {} ({}): {}", name, key_str, exc)
-        return {"key": key_str, "name": name, "status": "failed_llm"}
+    if timeout is None:
+        timeout = synthesize_timeout(load_env())
+    text = ""
+    for attempt in range(1, _LLM_ATTEMPTS + 1):
+        try:
+            # max_retries=0: the retry is ours, so a hung request costs at most
+            # _LLM_ATTEMPTS x timeout, not the SDK's hidden 3 x timeout per attempt.
+            parsed = parse_json_response(call_llm(model, prompt, timeout=timeout, max_retries=0))
+            if isinstance(parsed, list):
+                parsed = parsed[0] if parsed else {}
+            text = (parsed or {}).get("description", "").strip()
+            break
+        except Exception as exc:
+            logger.warning(
+                "synthesize: LLM failed for {} ({}), attempt {}/{}: {}",
+                name, key_str, attempt, _LLM_ATTEMPTS, exc,
+            )
     if not text:
         return {"key": key_str, "name": name, "status": "failed_llm"}
 
@@ -219,6 +250,7 @@ def synthesize(
     env = load_env()
     resolved_model = resolve_llm_model(env, model)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
+    timeout = synthesize_timeout(env)
 
     with neo4j_session() as session:
         rows = session.run(_SELECT_CYPHER, domain=domain, nameFilter=name_filter).data()
@@ -254,7 +286,7 @@ def synthesize(
             continue
         outcome = synthesize_key(
             key, row["name"], row["entity_class"], model=resolved_model, embed_model=embed_model,
-            same_as_groups=groups,
+            same_as_groups=groups, timeout=timeout,
         )
         results.append(outcome)
         if outcome["status"] == "synthesized":
