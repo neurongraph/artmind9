@@ -4,6 +4,7 @@ from pathlib import Path
 
 import ollama
 import openai
+from loguru import logger
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
@@ -15,10 +16,17 @@ _openrouter_clients: dict[tuple[str, str, int], openai.OpenAI] = {}
 _ollama_clients: dict[tuple[str | None, int], ollama.Client] = {}
 _ollama_embed_clients: dict[str | None, ollama.Client] = {}
 
+# (base_url, model) pairs whose endpoint rejected `temperature`. Newer Claude
+# models (Haiku 5.5 and the other 5.x) accept only the default sampling values
+# and answer a `temperature=0` request with a 400, so after the first rejection
+# calls to that pair simply leave it out.
+_no_temperature: set[tuple[str, str]] = set()
+
 
 def _reset_clients() -> None:
-    """Drop cached SDK clients. Intended for test isolation only."""
+    """Drop cached SDK clients and learned model limits. Intended for test isolation only."""
     _openrouter_clients.clear()
+    _no_temperature.clear()
     _ollama_clients.clear()
     _ollama_embed_clients.clear()
 
@@ -87,12 +95,37 @@ def call_llm_openrouter(
     client = _openrouter_client(env, timeout)
     if max_retries is not None:
         client = client.with_options(max_retries=max_retries)
-    response = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0,
-    )
+    kind = (env.get("ARTMIND_KG_LLM_URL") or OPENROUTER_BASE_URL, model)
+    request = {"model": model, "messages": [{"role": "user", "content": prompt}]}
+    if kind not in _no_temperature:
+        request["temperature"] = 0  # reproducible extraction where the model allows it
+    try:
+        response = client.chat.completions.create(**request)
+    except openai.BadRequestError as exc:
+        if "temperature" not in request or not _rejects_temperature(exc):
+            raise
+        _no_temperature.add(kind)
+        logger.warning(
+            "{} does not accept temperature=0 ({}); calling it without a temperature "
+            "from now on, so its output is no longer pinned to be reproducible",
+            model, exc.message,
+        )
+        del request["temperature"]
+        response = client.chat.completions.create(**request)
     return _first_choice_content(response)
+
+
+def _rejects_temperature(exc: Exception) -> bool:
+    """Is this 400 the endpoint saying the model won't take our `temperature`?
+
+    Matched on the message, because gateways word it differently (litellm:
+    "does not support temperature=0. Only temperature=1 is supported"; the
+    Anthropic API: "`temperature` may not be set ...") and a 400 about anything
+    else must still raise."""
+    text = str(exc).lower()
+    return "temperature" in text and any(
+        marker in text for marker in ("not support", "unsupported", "only temperature", "may not be set", "not allowed")
+    )
 
 
 def embed_text_ollama(model: str, text: str, host: str | None = None) -> list[float]:

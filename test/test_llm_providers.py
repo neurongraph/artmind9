@@ -272,3 +272,68 @@ def test_call_llm_openrouter_max_retries_is_applied_only_when_given():
         client.with_options.assert_not_called()
         assert call_llm_openrouter("m", "p", 30, env, max_retries=0) == "ok"
         client.with_options.assert_called_once_with(max_retries=0)
+
+
+# ── models that reject temperature=0 (Haiku 5.5 and the other 5.x) ───────────
+
+LITELLM_TEMPERATURE_400 = (
+    "Error code: 400 - litellm.UnsupportedParamsError: global.anthropic.claude-haiku-5-5 "
+    "does not support temperature=0. Only temperature=1 is supported."
+)
+
+
+def _bad_request(message: str):
+    import openai
+
+    response = MagicMock(status_code=400, headers={}, request=MagicMock())
+    return openai.BadRequestError(message, response=response, body=None)
+
+
+def _ok(text="ok"):
+    return MagicMock(choices=[MagicMock(message=MagicMock(content=text))])
+
+
+def _calls_with_a_client(side_effect, *models):
+    """Run call_llm_openrouter once per model against one fake client; return
+    the kwargs each `create` call received, in order."""
+    from artmind.llm_providers import call_llm_openrouter
+
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
+    with patch("artmind.llm_providers.openai.OpenAI") as mock_openai:
+        client = mock_openai.return_value
+        client.chat.completions.create.side_effect = side_effect
+        for model in models:
+            call_llm_openrouter(model, "p", 30, env)
+        return [c.kwargs for c in client.chat.completions.create.call_args_list]
+
+
+def test_a_temperature_rejection_is_retried_without_temperature():
+    sent = _calls_with_a_client([_bad_request(LITELLM_TEMPERATURE_400), _ok()], "claude-haiku-5-5")
+    assert [("temperature" in kw) for kw in sent] == [True, False]
+
+
+def test_the_rejection_is_remembered_so_later_calls_skip_the_failing_attempt():
+    sent = _calls_with_a_client(
+        [_bad_request(LITELLM_TEMPERATURE_400), _ok(), _ok(), _ok()],
+        "claude-haiku-5-5", "claude-haiku-5-5",
+    )
+    assert [("temperature" in kw) for kw in sent] == [True, False, False]
+
+
+def test_the_rejection_is_per_model_not_global():
+    sent = _calls_with_a_client(
+        [_bad_request(LITELLM_TEMPERATURE_400), _ok(), _ok()],
+        "claude-haiku-5-5", "claude-haiku-4-5",
+    )
+    assert sent[2]["model"] == "claude-haiku-4-5" and sent[2]["temperature"] == 0
+
+
+def test_an_unrelated_bad_request_still_raises_and_is_not_retried():
+    import openai
+
+    with pytest.raises(openai.BadRequestError):
+        _calls_with_a_client([_bad_request("Error code: 400 - prompt is too long")], "claude-haiku-5-5")
+    # exactly one attempt: nothing was retried, nothing was learned
+    from artmind.llm_providers import _no_temperature
+
+    assert not _no_temperature
