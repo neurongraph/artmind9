@@ -272,3 +272,19 @@ def test_job_chunks_finds_a_binary_the_registry_knows_only_by_its_markdown(monke
     )
     assert response.status_code == 200
     assert asked == ["sha-pdf", "sha-pdf"]
+
+
+def test_every_job_read_path_carries_the_per_file_domain():
+    """A manifest-driven job is created under the fallback domain; each file is
+    ingested under the domain its folder maps to, and the dashboard must be able
+    to show that (and act on it) from every read path, not just the job row."""
+    job_id = _job()
+    _update_job_file_status(job_id, PDF, status="completed", domain="banking.policy")
+
+    active = _files_by_name(_fetch_active_jobs()[0])
+    assert active["Blue Carbuncle.pdf"]["domain"] == "banking.policy"
+    for report in (_get_job_status(job_id), _get_job_results(job_id)):
+        files = _files_by_name(report)
+        assert files["Blue Carbuncle.pdf"]["domain"] == "banking.policy"
+        assert "domain" not in files["plain.md"], "a file not yet routed has none"
+    assert _get_job_status(job_id)["domain"] == "fiction"

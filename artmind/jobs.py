@@ -514,7 +514,7 @@ def _get_job_results(job_id: str) -> dict | None:
         finalize = _finalize(*row[3:])
         cursor.execute(
             "SELECT filename, status, error_message, started_at, completed_at,"
-            " entity_count, relationship_count"
+            " entity_count, relationship_count, domain"
             " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
@@ -527,6 +527,7 @@ def _get_job_results(job_id: str) -> dict | None:
                 "completed_at": r[4],
                 "entities": r[5],
                 "relationships": r[6],
+                **({"domain": r[7]} if r[7] else {}),
             }
             for r in cursor.fetchall()
         ]
