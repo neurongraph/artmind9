@@ -4,7 +4,8 @@ Settle these with evidence before writing specs. Mark each with the round that a
 
 1. **Backend vs skill.** How much of P1/P2/P4 is the `acp` backend's model rather than the
    skill's length? Needs the same questions on the Claude SDK backend (or the benchmark on
-   both).
+   both). *Round 2, partial:* one turn on `claude-sdk` / `claude-haiku-4-5` skipped Route
+   (P8), so a weaker model fails here too; one turn settles nothing about rates.
 2. **Structured store routing (S7–S9).** How do agents actually classify questions in
    `my_work`? Do they read `structured-store.md`? Do unconfirmed bridge mappings mislead
    them?
@@ -26,3 +27,9 @@ Settle these with evidence before writing specs. Mark each with the round that a
    traces (pattern2/3/4 vs entity-context; 6 vs 5; resolvers)? Consolidate only those.
 10. **Is the routing sub-agent ever used?** No round-1 turn launched it. If it never
     appears, drop it in A rather than replacing it.
+11. **Unknown domain: warn or fail?** (R2 P9.) A warning keeps scripts working and lets the
+    agent self-correct; an error is louder but breaks callers that probe domains. Does the
+    plugin or any skill rely on an empty result for a domain with no data yet?
+12. **How often is a corpus or vault name used as a domain?** (R2 P8, S15/S18.) One turn so
+    far. Count across vaults before deciding whether the guard (D) alone suffices or Route
+    must become deterministic (C1).

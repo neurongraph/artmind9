@@ -46,3 +46,4 @@ in the traces.
 |---|---|---|---|
 | `brain01` | `personal_journal` | none | ~60 admin turns, 2026-10-12 → 2026-10-19 (round 1) |
 | `my_work` | `performance_management` (+ others) | 1 table, mappings mostly unconfirmed | none recorded at round 1; Neo4j was down |
+| `banking_corpus` | 8 sibling document domains `FAMILY.*` + literal `FAMILY` (tables) | 5 tables | 1 Q&A turn, 2026-10-20 (round 2, Claude SDK) |

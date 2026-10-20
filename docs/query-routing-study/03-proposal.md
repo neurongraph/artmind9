@@ -86,6 +86,10 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
 
 ## D. Other ideas
 
+- **Unknown-domain guard.** A `--domain` that matches no known domain returns today an empty
+  success (P9). Return a `warnings` entry naming the unknown value and the known domains
+  (or fail), so an invented domain cannot read as "no data". Deterministic, model-independent;
+  the cheapest fix for P8/P9 and a natural first `next` hint.
 - **Commands return their own next step.** On empty or truncated output, the JSON carries
   `next` with an exact command: `pattern6` empty → `pattern5 --mode shortest`;
   `hierarchy` empty → `pattern1` property fallback; `text2cypher` 0 rows → dry-run hint;
@@ -111,3 +115,8 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
 ## Revision log
 
 - 2026-10-19 — first draft from round 1 (brain01 traces, my_work bridge only).
+- 2026-10-20 — round 2 (one `banking_corpus` turn, Claude SDK / Haiku 4.5): C1 supported, since
+  "domains from `domains-overview` when `--domain` is absent" would have prevented P8; added
+  the unknown-domain guard to D (P9). A also gains one rule for the routing table: a name not
+  in `domains-overview` is not a domain, and all-zero results mean run Route before saying
+  the data is absent.
