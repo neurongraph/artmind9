@@ -73,6 +73,13 @@ def synthesize_timeout(env: dict) -> int:
     return value if value > 0 else SYNTHESIZE_TIMEOUT_DEFAULT
 
 
+def _is_client_error(exc: Exception) -> bool:
+    """A 4xx the endpoint will repeat (bad request, auth, unknown model), as
+    opposed to a timeout, a 429 or a 5xx that a retry can ride out."""
+    status = getattr(exc, "status_code", None)
+    return isinstance(status, int) and 400 <= status < 500 and status not in (408, 409, 429)
+
+
 # Structural/system observation keys — never rendered as a "fact" in the
 # prompt. Mirrors projection.py's `_OBSERVATION_SYSTEM_KEYS` categorization,
 # duplicated (not imported) to keep this module decoupled from the rebuild's
@@ -184,6 +191,8 @@ def synthesize_key(
                 "synthesize: LLM failed for {} ({}), attempt {}/{}: {}",
                 name, key_str, attempt, _LLM_ATTEMPTS, exc,
             )
+            if _is_client_error(exc):
+                break  # the same request would be refused again
     if not text:
         return {"key": key_str, "name": name, "status": "failed_llm"}
 

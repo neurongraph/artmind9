@@ -371,3 +371,34 @@ def test_synthesize_timeout_reads_the_config_and_falls_back_to_120():
     assert synthesize_timeout({"ARTMIND_SYNTHESIZE_TIMEOUT": "0"}) == 120
     # independent of the extraction timeout
     assert synthesize_timeout({"ARTMIND_OLLAMA_TIMEOUT": "600"}) == 120
+
+
+def test_synthesize_key_does_not_retry_a_client_error(monkeypatch):
+    class BadRequest(Exception):
+        status_code = 400
+
+    attempts = []
+
+    def refused(model, prompt, **kw):
+        attempts.append(1)
+        raise BadRequest("does not support temperature=0")
+
+    assert _llm_key(monkeypatch, refused)["status"] == "failed_llm"
+    assert len(attempts) == 1, "a 400 would be refused again; only timeouts/429/5xx are retried"
+
+
+def test_synthesize_key_does_retry_rate_limits_and_server_errors(monkeypatch):
+    for code in (408, 429, 500, 503):
+        attempts = []
+
+        class Transient(Exception):
+            status_code = code
+
+        def flaky(model, prompt, **kw):
+            attempts.append(1)
+            if len(attempts) == 1:
+                raise Transient("try again")
+            return "{}"
+
+        assert _llm_key(monkeypatch, flaky)["status"] == "synthesized", code
+        assert len(attempts) == 2, code
