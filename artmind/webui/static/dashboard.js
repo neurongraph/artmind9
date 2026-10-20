@@ -48,6 +48,27 @@ function initTabs() {
   }
 }
 
+// A job's own `domain` is only the fallback a vault-manifest ingest never uses:
+// each file is ingested under the domain its folder maps to, and that is what
+// the job's file rows carry. Show those; fall back to the job's domain only for
+// a job whose files have none.
+function jobDomains(job) {
+  const seen = new Set();
+  for (const f of job.files || []) if (f.domain) seen.add(f.domain);
+  return [...seen];
+}
+
+function jobDomainLabel(job) {
+  const domains = jobDomains(job);
+  if (domains.length === 1) return domains[0];
+  if (domains.length > 1) return `${domains.length} domains`;
+  return job.domain;
+}
+
+function fileDomain(f, job) {
+  return f.domain || job.domain;
+}
+
 // ── domain picker ────────────────────────────────────────────────────
 const ingestDomainEl = document.getElementById("ingest-domain");
 const embedDomainEl = document.getElementById("embed-domain");
@@ -191,7 +212,7 @@ async function refreshActiveJobs() {
     const card = el("div", "job-card");
     const pct = job.fileCount ? Math.round((100 * job.processedCount) / job.fileCount) : 0;
     card.appendChild(el("div", "job-card-head",
-      `${job.jobId.slice(0, 10)}… · ${job.domain} · ${job.status.toUpperCase()}`));
+      `${job.jobId.slice(0, 10)}… · ${jobDomainLabel(job)} · ${job.status.toUpperCase()}`));
     const bar = el("div", "progress-bar");
     const fill = el("div", "progress-fill");
     fill.style.width = `${pct}%`;
@@ -232,7 +253,7 @@ async function refreshActiveJobs() {
           expandedFiles.add(key);
           // quiet only when this row was already expanded going into this poll —
           // a genuine first click has nothing on screen yet, so it should show "Loading chunks…"
-          showChunkGrid(drill, job.jobId, job.domain, docName, wasExpanded);
+          showChunkGrid(drill, job.jobId, fileDomain(f, job), docName, wasExpanded);
         } else {
           expandedFiles.delete(key);
         }
@@ -334,7 +355,7 @@ async function showChunkGrid(container, jobId, domain, docName, quiet = false) {
   }
 }
 
-async function showJobDetail(jobId, domain) {
+async function showJobDetail(jobId, job) {
   const body = document.getElementById("job-drawer-body");
   body.innerHTML = "Loading…";
   openJobDrawer();
@@ -346,13 +367,14 @@ async function showJobDetail(jobId, domain) {
       const docName = f.filename.split("/").pop();
       const row = el("div", "tool-card");
       row.appendChild(el("div", "tool-head", `${f.status}: ${docName}`));
+      row.appendChild(el("div", "dash-note", `Domain: ${fileDomain(f, job)}`));
       if (f.errorMessage) row.appendChild(el("div", "dash-note", f.errorMessage));
       const countsNote = fileCountsNote(f);
       if (countsNote) row.appendChild(el("div", "dash-note", countsNote));
 
       const chunksBtn = el("button", "btn-link", "Show chunks");
       const chunksContainer = el("div", "chunk-container");
-      chunksBtn.addEventListener("click", () => showChunkGrid(chunksContainer, jobId, domain, docName));
+      chunksBtn.addEventListener("click", () => showChunkGrid(chunksContainer, jobId, fileDomain(f, job), docName));
       row.appendChild(chunksBtn);
       row.appendChild(chunksContainer);
       body.appendChild(row);
@@ -383,14 +405,16 @@ async function refreshCompletedJobs() {
   for (const job of jobs) {
     const tr = document.createElement("tr");
     tr.appendChild(el("td", null, `${job.jobId.slice(0, 10)}…`));
-    tr.appendChild(el("td", null, job.domain));
+    const domainCell = el("td", null, jobDomainLabel(job));
+    if (jobDomains(job).length > 1) domainCell.title = jobDomains(job).join("\n");
+    tr.appendChild(domainCell);
     tr.appendChild(el("td", null, `${job.processedCount}/${job.fileCount}`));
     tr.appendChild(el("td", `status-${job.status}`, job.status));
     tr.appendChild(el("td", null, fmtTime(job.completedAt)));
 
     const actions = el("td");
     const viewBtn = el("button", "btn-link", "View");
-    viewBtn.addEventListener("click", () => showJobDetail(job.jobId, job.domain));
+    viewBtn.addEventListener("click", () => showJobDetail(job.jobId, job));
     actions.appendChild(viewBtn);
     if (job.status === "failed") {
       const retryBtn = el("button", "btn-link", "Retry");
