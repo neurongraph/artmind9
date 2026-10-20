@@ -22,8 +22,9 @@ Coverage status: ✅ evidence seen · ◐ seen once / partial · ☐ not yet see
 | S12 | How are X and Y related | graph | `pattern6` → `pattern5 --mode shortest` | — | D (fused `relate`) | — | ☐ |
 | S13 | Conflicting claims across documents/domains | graph | conflicts + compare grounded claims | — | A (`conflicts.md`) | — | ☐ |
 | S14 | Point-in-time / "as of DATE" | either | one `asOf` threaded through every step | — | C4 | — | ☐ |
-| S15 | Area-level question across sibling domains ("our policies on X") | graph | multi-domain resolve + vector-text across all | — | C1 | — | ☐ |
+| S15 | Area-level question across sibling domains ("our policies on X"), or a corpus/vault name used as if it were a domain | graph | `domains-overview` → pick the sibling set → multi-domain resolve + vector-text across all | R2: corpus name taken as the domain, Route skipped, empty results read as "no data" | C1, D (unknown-domain guard) | R2 P8, P9 | ◐ |
 | S16 | Summarise / list a document's content | graph | `pattern10 --documentName` | — | C4 | — | ☐ |
+| S18 | Inventory: "what documents of kind K exist" (K = a document type) | graph | `domains-overview` (its per-domain document lists answer it), then `entity-listing --entityClass` if classes are asked for | R2: wrong domain, zero rows, "nothing ingested" | C1, D (unknown-domain guard) | R2 P8, P9 | ◐ |
 | S17 | Filing / tags / project questions ("notes tagged X") | graph | `filing-listing` (not in the skill today) | — | A | — | ☐ |
 
 ## "Enough to write specs" — proposed bar
@@ -31,5 +32,6 @@ Coverage status: ✅ evidence seen · ◐ seen once / partial · ☐ not yet see
 - Every ☐ row seen at least once, in at least two vaults/domains where it applies.
 - S7–S9 seen in `my_work` (structured store).
 - At least one round on a non-`acp` backend (Claude SDK), to separate skill design from
-  backend weakness.
+  backend weakness. (Round 2 is one turn on `claude-sdk` / `claude-haiku-4-5`: a start, not
+  enough.)
 - Every proposal element in `03-proposal.md` backed by at least one ✅ scenario, or dropped.

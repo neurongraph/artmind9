@@ -80,3 +80,38 @@ noted so later rounds don't count them as misroutes.
 - Implication: every structured question depends on the agent reading `db bridge` and
   then the 1,500-word `structured-store.md` to classify it. No evidence yet of how agents
   actually route there. **Needs a round of Q&A in my_work** — see `06-open-questions.md`.
+
+---
+
+## Round 2 — 2026-10-20 (short note)
+
+**Vault:** `banking_corpus` (new): eight sibling document domains `FAMILY.*` plus one literal
+`FAMILY` domain holding five structured tables. No saved views in any domain.
+**Window:** one Q&A turn (the vault's latest admin turn; the other recorded turn is an
+operator prompt, out of scope per P7). **Backend/model:** `claude-sdk`, `claude-haiku-4-5`,
+the first non-`acp` evidence (see `06-open-questions.md` Q1). **Skill baseline:** commit
+`9304704`, `artmind_version` 0.10.0.
+
+### Patterns observed
+
+**P8. The Route step is skipped when the question contains a noun phrase that sounds like a
+domain.** Question shape: "list the main DOC_KIND present in the CORPUS_NAME corpus". The
+agent took CORPUS_NAME (the vault's folder name) as the domain, reasoned "I have a specific
+domain, so I can use it directly", and loaded the skill with that domain. `domains-overview`
+was never run, although the skill requires it unless the user named an exact domain. The
+route taken was `views list → entity-listing → structural-metadata → db bridge`, every call
+against the invented domain.
+
+**P9. The CLI answers an unknown domain with an empty success.** All four calls in P8
+exited 0 with `rows: []`, `total_entities: 0`, `tables: []`. Nothing said the domain does
+not exist, so the agent read "no rows" as "no data" and told the user the corpus had no
+ingested data and to ingest documents. The data was there: the real DOC_KIND domain held 9
+documents and about 1.5k entities, and `domains-overview` lists them in one call. The
+answer was confidently wrong, `answer_basis: none`, and cost 7 turns, 28 s, about $0.08
+(221k input tokens). The skill's "thin results → re-run with sibling domains from Route"
+rule could not fire, since Route never ran.
+
+### Scenario ids
+
+S15 (a name that is an area, not a domain; ◐), new S18 (inventory: what documents of kind
+K exist).
