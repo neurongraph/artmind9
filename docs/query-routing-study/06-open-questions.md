@@ -27,7 +27,7 @@ Settle these with evidence before writing specs. Mark each with the round that a
    traces (pattern2/3/4 vs entity-context; 6 vs 5; resolvers)? Consolidate only those.
 10. **Is the routing sub-agent ever used?** No round-1 turn launched it. If it never
     appears, drop it in A rather than replacing it.
-11. **Unknown domain: warn or fail?** (R2 P9.) A warning keeps scripts working and lets the
+11. **Unknown domain: warn or fail?** (R2 P9; *warns, implemented 2026-10-20 — revisit if callers need a hard failure.*) A warning keeps scripts working and lets the
     agent self-correct; an error is louder but breaks callers that probe domains. Does the
     plugin or any skill rely on an empty result for a domain with no data yet?
 12. **How often is a corpus or vault name used as a domain?** (R2 P8, S15/S18.) One turn so

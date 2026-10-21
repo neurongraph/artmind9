@@ -120,3 +120,5 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
   the unknown-domain guard to D (P9). A also gains one rule for the routing table: a name not
   in `domains-overview` is not a domain, and all-zero results mean run Route before saying
   the data is absent.
+- 2026-10-20 — D's unknown-domain guard implemented in the CLI (`artmind/domain_guard.py`): a warning, not
+  an error, which settles open question 11 for now. The skill-side rules stay with this dossier.

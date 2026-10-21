@@ -89,11 +89,28 @@ def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
     )
 
 
+_UNKNOWN_DOMAIN_META = "artmind.unknown_domain_warnings"
+
+
 def _parse_domains(values: "tuple[str, ...]") -> list[str]:
-    """Flatten repeatable/comma-split --domain values into a deduped list."""
+    """Flatten repeatable/comma-split --domain values into a deduped list.
+
+    A name no schema, table or graph data sits under is flagged, not rejected:
+    the warning rides out on the command's JSON (`_echo_json`) and on stderr, so
+    an empty result for an invented domain does not pass for "no data"."""
+    from artmind.domain_guard import unknown_domain_warnings
     from artmind.graph_query import normalize_domains
 
-    return normalize_domains(list(values))
+    domains = normalize_domains(list(values))
+    ctx = click.get_current_context(silent=True)
+    if ctx is not None:
+        warnings = unknown_domain_warnings(domains)
+        # On the root context's meta, so a fresh invocation (the serve daemon runs
+        # many in one process) never inherits an earlier command's warning.
+        ctx.find_root().meta[_UNKNOWN_DOMAIN_META] = warnings
+        for warning in warnings:
+            click.echo(f"artmind: {warning}", err=True)
+    return domains
 
 
 def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
@@ -316,6 +333,11 @@ def cli():
 
 
 def _echo_json(payload: dict, compact: bool = False) -> None:
+    ctx = click.get_current_context(silent=True)
+    flagged = ctx.find_root().meta.pop(_UNKNOWN_DOMAIN_META, None) if ctx is not None else None
+    if flagged and isinstance(payload, dict):
+        existing = payload.get("warnings")
+        payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
     observe_output(payload)  # query-trace span evidence; a no-op outside a traced query
     # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set
     # (`db sql`, `query text2sql`) and aren't JSON-serializable. `default=str`
