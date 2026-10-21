@@ -53,7 +53,9 @@ Pre-work done in code, returning a ready-to-run plan:
 
 1. **Domains**: given `--domain`, else matched against `domains-overview` (document and
    class names, sibling-domain rule). Replaces the routing sub-agent.
-2. **Views, always**: embed each view's `summary` + `examples`, score the question; fill
+2. **Views, when any exist**: `domains-overview` carries a view count per domain (R3 P10: a vault
+   with none cost one empty `views list` per domain per turn); where the count is zero the
+   step is skipped. Where views exist, embed each view's `summary` + `examples`, score the question; fill
    params: entity params by resolving noun phrases filtered on the param's
    `entity_class`, int/date params by regex ("in 2025", "last year"). A strong match
    returns the full `views run … --param p=@<id>` line, or runs it with `--execute`.
@@ -65,7 +67,8 @@ Pre-work done in code, returning a ready-to-run plan:
    | Question looks like | Route |
    |---|---|
    | count / total / average | aggregate (view, `text2sql`, or `text2cypher`) |
-   | as of / before / changed / history | temporal, with one `asOf` threaded through every step |
+   | as of / before / changed / history / "which version applied" | temporal, with one `asOf` threaded through every step, including `pattern10 --asOf` and `document-history` with the `.md` name (R3 P12) |
+   | conflict / differ / inconsistent / which applies | conflicts: `query graph conflicts`, then `references/conflicts.md`; fetch the supersession-notice chunk (R3 P13) |
    | history of entity / document versions | `entity-history` / `document-history` (P5) |
    | under / reports to / chain | hierarchy |
    | two entities + related / connected | path |
@@ -85,6 +88,24 @@ Open: whether an LLM classifier is ever needed when lexical rules are ambiguous,
 whether "low confidence → routing table" is enough (`06-open-questions.md`).
 
 ## D. Other ideas
+
+- **Time route made visible (R3 P12).** The search commands read current labels only, so a
+  retired document cannot be found by them. Two additions, both deterministic: (1)
+  `vector-text`/`entity-context` output carries a `retired_predecessors` hint when a
+  returned document supersedes one whose observations are in history, with the exact
+  `document-history --documentName <file>.md` line; (2) a `--documentName` that matches no
+  document returns `next` with the closest names (a missing `.md` suffix is the commonest
+  cause) instead of zero rows. Skill side: the routing table's time row names
+  `document-history` next to `pattern10 --asOf`.
+- **Parent domain means all siblings (R3 P14).** `domains-overview` shows the parent name
+  (`FAMILY`) as scoping all `FAMILY.*` siblings, and the skill's default for area questions
+  is the parent, not a hand-picked subset. Optional: `vector-text` output lists the
+  domains with zero hits, so a narrowed scope is visible.
+- **Command aliases and `next` for invalid forms (R3 P15).** `query db sql`, `query graph
+  entity-resolve` and `db sql --help` were tried by the agent; each returns a hint naming
+  the real command rather than a bare usage error.
+- **Wikilink hint.** When a retrieved chunk contains `[[links]]` to documents not yet read,
+  the output lists them (R3 P14 early stopping).
 
 - **Unknown-domain guard.** A `--domain` that matches no known domain returns today an empty
   success (P9). Return a `warnings` entry naming the unknown value and the known domains
@@ -107,8 +128,8 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
 
 ## Phasing (tentative)
 
-1. A + B-as-a-table (text only, low risk).
-2. B as data + D's `next` hints.
+1. A + B-as-a-table (text only, low risk), plus the time and conflicts rows (R3 P12, P13).
+2. B as data + D's `next` hints, the retired-predecessor hint, conditional views-first (R3 P10).
 3. C, `query plan`.
 4. D's command consolidation.
 
@@ -122,3 +143,10 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
   the data is absent.
 - 2026-10-20 — D's unknown-domain guard implemented in the CLI (`artmind/domain_guard.py`): a warning, not
   an error, which settles open question 11 for now. The skill-side rules stay with this dossier.
+- 2026-10-21 — round 3 (36 benchmark turns, `banking_corpus`, Claude SDK / Haiku 4.5): graded
+  9 correct, 24 partial, 3 wrong; routing is the primary cause for 14 of 27 non-correct
+  answers. Changes: C2 made conditional (views-first costs one empty call per domain in a
+  vault with no views, P10); the temporal row of C4 names `document-history` and `.md` names
+  and gains a conflicts row (P12, P13); D gains the time-route hint, parent-domain fan-out,
+  command aliases and the wikilink hint (P12, P14, P15). Supported: C1, C4, the unknown-domain
+  guard (worked, P11). Untested still: C3 (hubs), hierarchy and path routes.

@@ -65,3 +65,22 @@ Then `artmind traces show <id>` on the interesting turns for the full answer and
 6. Answer/add items in `06-open-questions.md`.
 7. Privacy pass: grep the diff of this folder for every person/place/table/column name
    seen in the round; there must be none.
+
+## 5. Benchmark rounds (added in round 3)
+
+A benchmark run gives 36 labelled turns, so grade them rather than eyeballing:
+
+1. List the turns: `artmind traces list` inside the vault (benchmark turns carry
+   `benchmark_run_id` and `benchmark_seq`). Dump each with `artmind traces show <id>` to
+   scratch files outside the checkout (e.g. `/tmp/…`), never into the repo.
+2. Build one bundle per question: benchmark answer block, evaluation comment, the command
+   sequence (the snippet in §2), expected documents.
+3. Grade with parallel graders, one rubric: grade (correct/partial/wrong), expected vs cited
+   documents, version correct, conflict disclosed, SQL and policy separated, primary and
+   secondary cause (routing / retrieval / synthesis / data), the ideal route.
+4. Re-check graders' document-state claims read-only: `ARTMIND_VAULT=<vault>
+   ARTMIND_NO_PROXY=1 artmind query document-history --documentName <file>.md`.
+5. Record the per-question table in `07-benchmark-round<n>.md` (ids, grades, causes, no answer
+   text) and the patterns in `02-trace-evidence.md`.
+6. Light comparison with earlier runs (`benchmarking/*.md`): speed, turns, cost only; grades
+   are not comparable unless the old run was graded with the same rubric.

@@ -115,3 +115,129 @@ rule could not fire, since Route never ran.
 
 S15 (a name that is an area, not a domain; ◐), new S18 (inventory: what documents of kind
 K exist).
+
+---
+
+## Round 3 — 2026-10-21 (banking benchmark, 36 questions)
+
+**Vault:** `banking_corpus`, the benchmark run recorded in the vault's
+`benchmark_20261021.md`. **Window:** 36 benchmark turns, one per question in
+`benchmarking/questions.md` (sections A baseline, B time/authority, C conflicts,
+D cross-cutting, E structured+graph). **Backend/model:** `claude-sdk`; 35 turns on
+`claude-haiku-4-5`, Q10 on `claude-sonnet-5`. **Skill baseline:** commit `9304704`,
+`artmind_version` 0.10.0, with the unknown-domain guard of 2026-10-20 active. Per-question
+grades, routes and causes: [07-benchmark-round3.md](07-benchmark-round3.md).
+
+**Method.** Each answer was graded against its evaluation comment, the vault's own
+documents and the trace (six parallel graders, one rubric; the graders' document claims
+were re-checked read-only with `ARTMIND_VAULT=… ARTMIND_NO_PROXY=1 artmind query
+document-history`). Grades do not use the benchmark file's own verdicts.
+
+### Headline numbers
+
+| | |
+|---|---|
+| Grades | 9 correct, 24 partial, 3 wrong (Q07, Q10, Q13) |
+| By section | A 2/4/0 · B 3/4/2 · C 2/3/1 · D 1/9/0 · E 1/4/0 (correct/partial/wrong) |
+| Primary cause of the 27 non-correct | routing 14, synthesis 6, retrieval 5, data 2 |
+| Expected documents cited | 52 of 107 (49%) |
+| Artmind calls | `vector-text` 55, `views list` 50, `pattern10` 46, `domains-overview` 33, `chunks` 20, `db sql` 15, `entity-resolve` 12, `entity-context` 11, `text2sql` 7, `text2cypher` 4, `db bridge` 4, `document-history` 2, `entity-history` 1; `query graph conflicts` 0, any `--asOf` 0 |
+| Time | mean 156 s, median 108 s per turn; 10.9 turns; total cost $3.67 |
+
+### Patterns observed
+
+**P10. Views-first is wasted work in a vault that has no views.** All 36 turns ran
+`views list` (50 calls; 14 turns ran it twice or more, 5 ran it before
+`domains-overview`). The vault has no saved views in any domain, so every call returned
+nothing. The skill's rule ("run `views list` once per domain; stop if you have not seen it")
+is obeyed to the letter, at a cost of about one call per sibling domain per turn.
+`traces stats` reports a `views_skipped_rate` of 23–62% for these turns, which is
+meaningless here. `domains-overview` does not say how many views a domain holds, so the
+agent cannot know it can skip the step.
+
+**P11. An invented domain is still tried first (guard works, call wasted).** Six turns
+passed the vault name or an invented `banking-…` name as `--domain` once. The 2026-10-20
+guard fired every time, and the next call was `domains-overview`: no "no data" answer this
+time (contrast P9). Cost: about one call per affected turn. P8 (Route skipped) remains
+the root cause; the guard turns it from a wrong answer into a detour.
+
+**P12. Point-in-time and retired documents are invisible to the search commands.** When a
+document is superseded its observations move to history. `vector-text`, `entity-resolve`
+and `entity-context` read current labels only, so a retired document never surfaces.
+Nothing in their output says a retired predecessor exists. No turn used `--asOf`.
+`pattern10 --documentName <file>.md --asOf <date>` and `document-history --documentName
+<file>.md` do reach history, and the skill mentions only the first (SKILL.md line 87).
+Consequences, all with the same shape:
+- Q07 ("which limit applied on date D") answered from the current version for a date when
+  the previous version was in force (wrong). The previous version also disagrees with
+  itself between two tables, which the question was designed to expose.
+- Q09, Q11, Q13, Q25 hit the same wall (partial or wrong); Q21 used the superseded
+  predecessor of a current policy without noticing.
+- Q10 (Sonnet 5): 22 turns, 953 s, $0.65. `pattern10`/`document-history` were called three
+  times with `--documentName` lacking the `.md` suffix, which returns zero rows without
+  saying why; the agent concluded no rate history existed. With the suffix the history
+  holds the answer.
+
+**P13. Conflict questions never touch the conflicts route.** C-section questions (Q13–Q16,
+Q28–Q29) made zero `query graph conflicts` calls and none read `references/conflicts.md`.
+Q13 (wrong): never fetched the supersession-notice chunk that states the fix, then called
+the current tiers the old policy. Q14/Q15/Q16 (partial): the decisive chunks were retrieved
+but the answer quoted one bullet of two (Q15), over-generalised an exception (Q14) or
+stopped after the first document when the search had shown more (Q16). Only Q08 and Q28 (both correct) disclosed a
+conflict, and neither used the conflicts route either.
+
+**P14. Domain narrowing hides sibling domains.** `vector-text --domain A --domain B …` was
+scoped to a hand-picked subset of the eight siblings in Q04, Q05, Q06, Q18, Q19, Q22,
+Q24, Q32, Q33, leaving out `banking.reference` and `banking.policy` where the answer
+lived. The parent name `banking` already scopes to all siblings (checked: one call with
+`--domain banking` returns the top hit the narrowed calls never saw), but nothing tells the
+agent so. Related early stopping: Q06, Q17, Q20 did not follow `[[wikilinks]]` or
+the further `pattern10` documents that their first retrieval named.
+
+**P15. Structured store: routing mostly right, command surface wrong.** First evidence for
+S7–S9. `db bridge` was read in Q32–Q34 and Q36; the agents separated SQL facts from
+policy text in all five E answers. But: invalid commands were tried (`query db sql`,
+`query graph entity-resolve`, `db sql --help`); `text2sql` ran six times in Q32, once for
+72 s; Q33 and Q32 never fetched the complaints policy even though the question named
+payout authority; Q36 ignored a group of n=1 when claiming an effect; Q35 never mapped a
+driver per customer to the guidance bullets. The weak point is completeness of the policy
+side, not the store choice.
+
+**P16. Synthesis embellishment.** Q01, Q14, Q31 add details no source holds (deadlines,
+exceptions), Q29 states "indefinitely" without support. These are model behaviour with
+evidence in hand; routing cannot fix them, but a ready `sources` block and a "state only
+what a retrieved chunk says" rule might (S19 below).
+
+**P17. Retrieval is document-centric; `entity-context` is rare.** `pattern10` (46),
+`vector-text` (55) and `chunks` (20) carry the run; `entity-context` ran 11 times,
+`entity-history` once, hierarchy/relate never. This corpus is documents, so this is
+expected, but it means S10–S12 are still unseen.
+
+### Light comparison with earlier benchmark runs (same 36 questions)
+
+| Run | Mean s | Median s | Mean turns | Total cost | Note |
+|---|---|---|---|---|---|
+| Aug 2026 (`baseline-2026-08-23.md`) | 65 | – | 9.9 | $11.70 | different, pricier setup; Q33–Q36 were one-turn failures before the structured store |
+| Sep 2026 (`after-cutover.md`) | 48 | 45 | 10.2 | $3.53 | |
+| Oct 2026 (this run) | 156 | 108 | 10.9 | $3.67 | Claude SDK / Haiku 4.5 |
+
+Turn counts and cost are flat; wall time is three times the September run. The CLI is not
+the cause: summed command time was 269 s of 5,606 s total (about 5%). Slowest commands:
+`text2sql` (median 3.7 s, max 72 s) and `text2cypher` (median 6.5 s). The regression is on
+the model/API side. Grade quality is not comparable across runs (earlier runs were not
+graded with this rubric), so only speed and cost are compared.
+
+### Data anomalies surfaced (not routing; do not fix in this study)
+
+- One policy pair has the older version current and the newer version retired in the graph,
+  although the newer file states it supersedes the older and is superseded by none. Either
+  the supersession direction was decided from the wrong signal at ingest, or a later
+  ingest re-activated the older file. Q25 and Q21 depend on it. Open question 15.
+- Two grading notes are themselves stale: Q04's note cites a schedule that later
+  schedules supersede, and Q03's note says both cancellations are immediate while the SOP
+  table says notice is typical. Re-check before using them as pass/fail.
+
+### Scenario ids
+
+S7–S9, S13, S14 now seen (see `04-scenarios.md`). New: S19 (multi-document procedures and
+"how do I" answers), S20 (which version applied on date D), S21 (vault with no views).
