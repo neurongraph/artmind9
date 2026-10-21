@@ -161,22 +161,41 @@ guard fired every time, and the next call was `domains-overview`: no "no data" a
 time (contrast P9). Cost: about one call per affected turn. P8 (Route skipped) remains
 the root cause; the guard turns it from a wrong answer into a detour.
 
-**P12. Point-in-time and retired documents are invisible to the search commands.** When a
-document is superseded its observations move to history. `vector-text`, `entity-resolve`
-and `entity-context` read current labels only, so a retired document never surfaces.
-Nothing in their output says a retired predecessor exists. No turn used `--asOf`.
-`pattern10 --documentName <file>.md --asOf <date>` and `document-history --documentName
-<file>.md` do reach history, and the skill mentions only the first (SKILL.md line 87).
-Consequences, all with the same shape:
+**P12. Point-in-time and retired documents are not found by the search commands.**
+*Corrected 2026-10-21: the first write-up said the search commands "read current labels
+only", which blamed a currency predicate. There is none.* Retirement is a label swap
+(`artmind/lifecycle.py` `_transition`): `:Document`, `:DocChunk` and `:Observation` become
+`:DocumentHistory`, `:DocChunkHistory` and `:ObservationHistory`. The `chunk_embedding`
+(vector) and `chunk_text_ft` (fulltext) indexes are defined only `FOR (c:DocChunk)`, so
+retired chunks are structurally absent from both. Nothing filters them out; they are simply
+not in the index. Consequences:
+- `vector-text` and `chunks` can never return retired text, with or without `--asOf`.
+  `asof_predicate` filters `valid_from`/`valid_to` only on chunks already in the index, and
+  acts as a floor filter, not a snapshot.
+- `entity-resolve` and `entity-context` read the current projection by design.
+- Nothing in search output says a retired predecessor exists. No turn used `--asOf`.
+- The graph does reach history: `pattern10 --documentName <file>.md --asOf <any value>`
+  matches `:DocumentHistory`/`:DocChunkHistory` (the value is a presence flag, not a date
+  filter) and its document row carries `valid_from`, `valid_to` and `superseded_by`;
+  `document-history --domain D --documentName <file>.md` returns the current and history
+  observations per version. The skill mentions only the first (SKILL.md line 87) and frames
+  `--asOf` as a date. The current (newer) document row has no backward `supersedes` pointer,
+  so an agent holding the current version cannot learn its predecessor's name.
+
+Which questions actually need retired text (checked against the benchmark's hints): Q07,
+Q09, Q10, Q11, Q13. Q21 and Q25 do not; they are a data error (anomaly below).
 - Q07 ("which limit applied on date D") answered from the current version for a date when
   the previous version was in force (wrong). The previous version also disagrees with
   itself between two tables, which the question was designed to expose.
-- Q09, Q11, Q13, Q25 hit the same wall (partial or wrong); Q21 used the superseded
-  predecessor of a current policy without noticing.
+- Q09, Q11, Q13 hit the same wall (partial or wrong).
 - Q10 (Sonnet 5): 22 turns, 953 s, $0.65. `pattern10`/`document-history` were called three
   times with `--documentName` lacking the `.md` suffix, which returns zero rows without
   saying why; the agent concluded no rate history existed. With the suffix the history
   holds the answer.
+
+Design reading: the questions are answerable through the graph (supersession edge,
+`superseded_by`, `pattern10`, `document-history`), so history needs to be discoverable from
+the graph side, not added to the vector index. See `03-proposal.md` D and open question 13.
 
 **P13. Conflict questions never touch the conflicts route.** C-section questions (Q13–Q16,
 Q28–Q29) made zero `query graph conflicts` calls and none read `references/conflicts.md`.
@@ -229,10 +248,18 @@ graded with this rubric), so only speed and cost are compared.
 
 ### Data anomalies surfaced (not routing; do not fix in this study)
 
-- One policy pair has the older version current and the newer version retired in the graph,
-  although the newer file states it supersedes the older and is superseded by none. Either
-  the supersession direction was decided from the wrong signal at ingest, or a later
-  ingest re-activated the older file. Q25 and Q21 depend on it. Open question 15.
+- **Supersession recorded in the wrong direction.** `policy_customer_identification.md` (v1)
+  is current with its observations and `policy_customer_identification_v2.md` is retired,
+  although the v2 file says it is effective 2026-03-01, "Supersedes Version 1.0" and
+  "Superseded By None". Root cause found in the curation record: the adjudicator wrote
+  v1 -> v2 (newer = v1). Q21 and Q25 follow from it. All four supersession records in this
+  vault are `detected_by: adjudicator`, scope `document`, no `effective` date. Open question 15.
+- **Second suspicious record (unverified).** The February rate schedule supersedes
+  `welcome_pack.md`, which retires that document and its 92 observations. Check the file
+  before treating it as a defect.
+- **Possible gap (unverified).** The February rate-schedule file says it is superseded by
+  the March schedule from 2026-03-01, yet both are current and no March -> February record
+  exists.
 - Two grading notes are themselves stale: Q04's note cites a schedule that later
   schedules supersede, and Q03's note says both cancellations are immediate while the SOP
   table says notice is typical. Re-check before using them as pass/fail.

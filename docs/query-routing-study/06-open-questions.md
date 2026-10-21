@@ -40,20 +40,33 @@ Settle these with evidence before writing specs. Mark each with the round that a
     must become deterministic (C1). *Round 3:* 6 of 36 turns tried an invented domain first;
     the guard fired every time and the next call was `domains-overview` (P11). The guard
     suffices for correctness here; C1 would save the wasted call.
-13. **Is the retired-document blind spot a CLI gap or a skill gap?** (R3 P12.) The data is
-    reachable (`document-history`, `pattern10 --asOf`) but nothing leads the agent there.
-    Decide between a `retired_predecessors` hint on search output, a `next` hint on empty
-    `--documentName`, a skill rule, or all three. Check first whether `vector-text --asOf` as a
-    floor-only filter (`valid_from <= asOf`) misleads: it is not a snapshot.
+13. **Is the retired-document blind spot a CLI gap or a skill gap?** (R3 P12.) *Decided
+    2026-10-21 (design, not yet specified):* both, graph-side. Retired chunks stay out of the
+    vector/fulltext index (they are absent by label swap; there is no currency predicate);
+    `--includeHistory` is dropped. The graph already reaches history, so add `supersedes` to
+    document rows, make `--asOf` honest, hint on empty `--documentName`, and add a skill
+    rule. Remaining check: confirm `vector-text --asOf` as a floor-only filter
+    (`valid_from <= asOf`, not a snapshot) is documented as such or removed.
 14. **`.md` suffix on `--documentName`.** Zero rows without a hint cost Q10 about 20 turns.
     Normalise (accept both) or hint? Check whether any caller relies on exact matching.
-15. **Supersession direction at ingest.** In one policy pair the newer file is retired and the
-    older current (R3 data anomalies). Read-only check of how the retirement was decided
-    (document dates vs "Supersedes" text vs ingest order) and whether other pairs are affected.
-    Belongs to ingest, not to this study, but Q21/Q25 grades depend on it.
+15. **Supersession direction at ingest.** Root cause found (R3, 2026-10-21): in the
+    `banking_corpus` policy pair the adjudicator record names the older file as the newer
+    document, so the newer file is retired. Open: how often the adjudicator inverts the
+    direction (check the other three records; the February schedule -> `welcome_pack.md`
+    record looks suspicious, and the February -> March schedule supersession is missing
+    entirely), and whether a document-date or "Supersedes <version>" text check should
+    override the verdict. Belongs to ingest, but Q21/Q25 grades depend on it.
 16. **Do views-first checks belong in `traces stats` for view-less vaults?** (R3 P10.) The
-    `views_skipped_rate` is noise there; either exclude domains with zero views or report
-    it only when views exist.
 17. **Is the grading rubric stable?** (R3.) Six graders, one rubric, no second pass. Spot-
     check three grades by hand before using the 9/24/3 split as a baseline for a later run;
     two benchmark notes are themselves stale.
+18. **Adjudicator supersession scope.** (R3, Q11.) All four records use `scope: document`,
+    which retires the whole older document. Q11's "how rates change" section exists only in
+    the retired January schedule, so a document-wide retirement removes content that the
+    newer schedule does not restate. Should the adjudicator default to a narrower scope when
+    the newer document covers only part of the older one? Decide with the owner before any
+    spec; it changes what is current, not just how it is found.
+19. **Per-change test strategy.** The full benchmark runs once, as the final gate, after the
+    changes pass unit tests, deterministic probes and targeted agent runs (see
+    `03-proposal.md`, Testing strategy). Open: which three or four questions are the
+    smallest set that still shows each change working.

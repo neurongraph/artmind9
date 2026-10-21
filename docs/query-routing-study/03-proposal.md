@@ -89,14 +89,25 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
 
 ## D. Other ideas
 
-- **Time route made visible (R3 P12).** The search commands read current labels only, so a
-  retired document cannot be found by them. Two additions, both deterministic: (1)
-  `vector-text`/`entity-context` output carries a `retired_predecessors` hint when a
-  returned document supersedes one whose observations are in history, with the exact
-  `document-history --documentName <file>.md` line; (2) a `--documentName` that matches no
-  document returns `next` with the closest names (a missing `.md` suffix is the commonest
-  cause) instead of zero rows. Skill side: the routing table's time row names
-  `document-history` next to `pattern10 --asOf`.
+- **Time route made discoverable from the graph (R3 P12, corrected 2026-10-21).** Retired
+  chunks are not in the vector or fulltext index (label swap), and the design decision is
+  that they stay out: history is reached through the graph first, so a vector fallback for
+  history is never needed. Deterministic changes, all graph-side:
+  1. Document rows from `pattern10`, `chunks` and the `vector-text` document block carry
+     `supersedes` (predecessor name and id) next to the existing `superseded_by`, so an
+     agent holding the current version can name the retired one.
+  2. `--asOf` becomes honest: either documented as a history flag (what it does today for
+     `pattern10 --documentName`) or made to filter by `valid_from`/`valid_to`; the skill
+     stops framing it as a date it does not apply.
+  3. A `--documentName` that matches no document returns `next` with the closest names (a
+     missing `.md` suffix is the commonest cause), and `document-history` accepts the name
+     without the suffix when unambiguous.
+  4. Skill rule: a date or "earlier version" question goes `pattern10`/`document-history`
+     on the document found, then reads the predecessor via `supersedes`.
+  `--includeHistory` on the search commands was considered and dropped: it would require
+  indexing history chunks and a currency predicate, which today does not exist and cannot
+  be forgotten. Skill side: the routing table's time row names `document-history` next to
+  `pattern10 --asOf`.
 - **Parent domain means all siblings (R3 P14).** `domains-overview` shows the parent name
   (`FAMILY`) as scoping all `FAMILY.*` siblings, and the skill's default for area questions
   is the parent, not a hand-picked subset. Optional: `vector-text` output lists the
@@ -129,9 +140,23 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
 ## Phasing (tentative)
 
 1. A + B-as-a-table (text only, low risk), plus the time and conflicts rows (R3 P12, P13).
-2. B as data + D's `next` hints, the retired-predecessor hint, conditional views-first (R3 P10).
+2. B as data + D's `next` hints, the `supersedes` pointer and `--asOf` fix, conditional views-first (R3 P10).
 3. C, `query plan`.
 4. D's command consolidation.
+
+## Testing strategy
+
+The full 36-question benchmark is slow and expensive (about 94 minutes, $3.67). Run it once,
+as the final gate, after every change has passed the cheaper levels below.
+
+1. Unit tests (about 9 s, no network). Assert the Cypher and parameters actually sent, not
+   summary counts (CLAUDE.md, "a mocked graph session answers every query").
+2. Deterministic CLI probes on `banking_corpus` with `ARTMIND_NO_PROXY=1`:
+   `document-history` without `.md`; `supersedes` present on the current version's row;
+   `domains-overview` view counts; domain-guard warnings.
+3. Targeted agent runs on the affected questions only: Q07, Q09, Q10, Q11 (time route),
+   Q13 (conflicts), Q18/Q19 (domain scope).
+4. One full re-run as the final gate, compared with `07-benchmark-round3.md`.
 
 ## Revision log
 
@@ -150,3 +175,9 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
   and gains a conflicts row (P12, P13); D gains the time-route hint, parent-domain fan-out,
   command aliases and the wikilink hint (P12, P14, P15). Supported: C1, C4, the unknown-domain
   guard (worked, P11). Untested still: C3 (hubs), hierarchy and path routes.
+- 2026-10-21 (correction) — P12 mechanism corrected: retired chunks are absent from the
+  vector/fulltext indexes by label, there is no currency predicate. Decision: retired
+  chunks stay out of the vector index and `--includeHistory` is dropped; history becomes
+  discoverable from the graph (`supersedes`, honest `--asOf`, `.md` hint, skill rule). Five
+  questions need it (Q07, Q09, Q10, Q11, Q13); Q21/Q25 are a data error. Testing strategy
+  section added.
