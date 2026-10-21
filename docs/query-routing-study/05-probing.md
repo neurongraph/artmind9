@@ -79,8 +79,12 @@ A benchmark run gives 36 labelled turns, so grade them rather than eyeballing:
    documents, version correct, conflict disclosed, SQL and policy separated, primary and
    secondary cause (routing / retrieval / synthesis / data), the ideal route.
 4. Re-check graders' document-state claims read-only: `ARTMIND_VAULT=<vault>
-   ARTMIND_NO_PROXY=1 artmind query document-history --documentName <file>.md`.
+   ARTMIND_NO_PROXY=1 artmind query document-history --domain <domain> --documentName <file>.md`
+   (`--domain` is required; the payload is under `rows[0]`). Retired text is never in
+   `vector-text`; read it via `pattern10 --asOf` or `document-history`. Supersession records
+   are under `<vault>/.artmind/data/curation/supersessions/`.
 5. Record the per-question table in `07-benchmark-round<n>.md` (ids, grades, causes, no answer
    text) and the patterns in `02-trace-evidence.md`.
 6. Light comparison with earlier runs (`benchmarking/*.md`): speed, turns, cost only; grades
    are not comparable unless the old run was graded with the same rubric.
+7. Do not re-run the full benchmark per change: see `03-proposal.md`, Testing strategy.
