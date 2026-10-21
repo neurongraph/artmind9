@@ -205,6 +205,27 @@ def _no_live_llm(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _quiet_domain_guard(request, monkeypatch):
+    """Keep the unknown-``--domain`` warning out of tests that did not ask for it.
+
+    ``artmind.domain_guard`` flags a domain no schema, table or graph data sits
+    under, on stderr and in the command's JSON. Tests routinely invent a domain
+    (``journal``, ``fiction``-style fixtures) and then parse ``result.output``,
+    which CliRunner interleaves with stderr; whether such a name is "known" would
+    depend on which schemas the developer's packaged copy happens to ship. So the
+    guard says nothing here, except in a module marked ``real_domain_guard``
+    (test_domain_guard.py), which exercises it against stubbed sources.
+    """
+    if request.node.get_closest_marker("real_domain_guard"):
+        yield
+        return
+    import artmind.domain_guard as domain_guard
+
+    monkeypatch.setattr(domain_guard, "unknown_domain_warnings", lambda domains: [])
+    yield
+
+
+@pytest.fixture(autouse=True)
 def _no_live_insights_llm(monkeypatch):
     """Same hazard as ``_no_live_llm``, for insights narration.
 
