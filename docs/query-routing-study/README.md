@@ -17,6 +17,7 @@ Opened 2026-10-19.
 | [04-scenarios.md](04-scenarios.md) | Scenario catalogue: each question shape seen, the ideal route, what actually happened, which proposal element fixes it. The coverage checklist for "enough to write specs". |
 | [05-probing.md](05-probing.md) | How to probe a new vault's traces: commands, the extraction snippet, the checklist for each round. |
 | [06-open-questions.md](06-open-questions.md) | Questions the evidence must settle before specs. |
+| [07-benchmark-round3.md](07-benchmark-round3.md) | Per-question grades, routes and causes for the round-3 banking benchmark (36 questions). |
 
 ## How a later session uses this
 
@@ -33,7 +34,7 @@ The user runs Q&A in some vault(s), then asks a new session to probe them. That 
 ## Privacy rule — this checkout is public
 
 Traces, vault notes and structured tables hold private corpus data. **Nothing from them
-goes into this folder verbatim**: no person, place, company, table-column or note names,
+goes into this folder verbatim** (the sample banking corpus's public file names and the benchmark question ids `Qnn` are allowed; answer text and customer data are not): no person, place, company, table-column or note names,
 no quoted questions or answers. Record question *shapes* ("count of trips by PERSON to
 LOCATION in YEAR"), placeholder names (`PERSON_A`, `LOCATION_B`, `TABLE_1`), command
 sequences, counts and rates. View names and schema class names that are generic
@@ -46,4 +47,4 @@ in the traces.
 |---|---|---|---|
 | `brain01` | `personal_journal` | none | ~60 admin turns, 2026-10-12 → 2026-10-19 (round 1) |
 | `my_work` | `performance_management` (+ others) | 1 table, mappings mostly unconfirmed | none recorded at round 1; Neo4j was down |
-| `banking_corpus` | 8 sibling document domains `FAMILY.*` + literal `FAMILY` (tables) | 5 tables | 1 Q&A turn, 2026-10-20 (round 2, Claude SDK) |
+| `banking_corpus` | 8 sibling document domains `FAMILY.*` + literal `FAMILY` (tables) | 5 tables | 1 Q&A turn, 2026-10-20 (round 2, Claude SDK); 36 benchmark turns, 2026-10-21 (round 3, Claude SDK, Haiku 4.5 + one Sonnet 5) |
