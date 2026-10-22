@@ -217,3 +217,25 @@ def test_chunks_provenance_included_in_retrieval_path():
     layers = [p["layer"] for p in d["retrieval_path"]]
     assert layers == ["graph", "provenance"]
     assert d["fell_through"] is False  # no vector-text at all
+
+
+def _dry_span(started_at=1.0):
+    return {"span_id": "d1", "command": "query graph text2cypher", "args": {"domain": ["b"], "dry_run": True},
+            "exit_code": 0, "rows": 0, "started_at": started_at, "evidence": {}}
+
+
+def test_a_dry_run_is_discovery_not_a_graph_attempt():
+    from artmind.traces import path
+
+    derived = path.derive([_dry_span()], answer=None)
+    assert derived["graph_attempts"] == 0
+    assert derived["retrieval_path"] == []
+    assert path.span_layer(_dry_span()) == "discovery"
+
+
+def test_an_executed_text2cypher_still_counts():
+    from artmind.traces import path
+
+    span = {**_dry_span(), "args": {"domain": ["b"], "dry_run": False}}
+    assert path.span_layer(span) == "text2cypher"
+    assert path.derive([span], answer=None)["graph_attempts"] == 1

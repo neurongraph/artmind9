@@ -8,7 +8,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 
 from artmind.traces import store
-from artmind.traces.path import GRAPH_LAYERS, is_graph_miss, layer_of, views_check
+from artmind.traces.path import GRAPH_LAYERS, is_dry_run, is_graph_miss, layer_of, views_check
 
 _NOT_FOUND = re.compile(
     r"\b(couldn'?t find|could not find|unable to find|no information|not in the (graph|knowledge graph|data)"
@@ -75,7 +75,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["fell_through"] = 1
     # An empty `views list` is a domain with no views, not a failed retrieval.
     if any(s.get("exit_code") == 0 and (s.get("rows") or 0) == 0 and s.get("command") != "query views list"
-           for s in spans):
+           and not is_dry_run(s) for s in spans):
         out["empty_rows"] = 1
     if any(s.get("truncated") for s in spans):
         out["truncated"] = 1

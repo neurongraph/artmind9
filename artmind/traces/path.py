@@ -48,6 +48,20 @@ def layer_of(command: str | None) -> str:
     return "discovery"
 
 
+def is_dry_run(span: dict) -> bool:
+    """A `--dry-run` text2cypher/text2sql span: it generated a query and ran nothing."""
+    args = span.get("args")
+    return isinstance(args, dict) and args.get("dry_run") is True
+
+
+def span_layer(span: dict) -> str:
+    """`layer_of` the span's command, except that a dry run is discovery:
+    it executed nothing, so it is neither a graph attempt nor evidence."""
+    if is_dry_run(span):
+        return "discovery"
+    return layer_of(span.get("command"))
+
+
 def parse_sources(answer: str | None) -> list[str]:
     """Link targets listed under the answer's `### Sources` heading."""
     if not answer:
@@ -107,7 +121,7 @@ def _cited_groups(answer: str | None, productive_spans: list[dict]) -> set[str]:
         for span in productive_spans:
             docs = (span.get("evidence") or {}).get("documents") or []
             if any(_same_document(path_str, d.get("path") or "") for d in docs):
-                groups.add(_group(layer_of(span.get("command") or "")))
+                groups.add(_group(span_layer(span)))
         if "graph" in groups:
             groups = {"graph"}
         found |= groups
@@ -115,20 +129,20 @@ def _cited_groups(answer: str | None, productive_spans: list[dict]) -> set[str]:
 
 
 def answer_basis(answer: str | None, spans: list[dict]) -> str:
-    productive = [s for s in spans if _productive(s) and layer_of(s.get("command")) != "discovery"]
+    productive = [s for s in spans if _productive(s) and span_layer(s) != "discovery"]
     if not productive:
         return "none"
     cg = _cited_groups(answer, productive)
     if cg:
         return _basis_from(cg)
-    return _basis_from({_group(layer_of(s["command"])) for s in productive})
+    return _basis_from({_group(span_layer(s)) for s in productive})
 
 
 def derive(spans: list[dict], answer: str | None) -> dict:
     ordered = sorted(spans, key=lambda s: s.get("started_at") or 0.0)
     path = []
     for span in ordered:
-        layer = layer_of(span.get("command"))
+        layer = span_layer(span)
         if layer == "discovery":
             continue
         path.append({"span_id": span.get("span_id"), "layer": layer, "command": span.get("command"),
@@ -149,7 +163,7 @@ def derive(spans: list[dict], answer: str | None) -> dict:
                         if step["layer"] == "vector" and i > first_graph_pos]
         if vector_after:
             productive_spans = [s for s in ordered
-                                if _productive(s) and layer_of(s.get("command")) != "discovery"]
+                                if _productive(s) and span_layer(s) != "discovery"]
             cg = _cited_groups(answer, productive_spans)
             if cg:
                 # Rule (a): cited sources include the vector layer

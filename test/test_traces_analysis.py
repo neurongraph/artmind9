@@ -149,3 +149,11 @@ def test_signals_not_found_requires_graph_subject():
     turn_existing = {"fell_through": 0, "answer_basis": "graph", "graph_attempts": 1, "graph_productive": 1,
                      "turns": 1, "answer": "I couldn't find that in the graph."}
     assert analysis.signals(turn_existing, [], turns_p90=None).get("not_found_answer") == 1
+
+
+def test_a_dry_run_is_not_an_empty_result():
+    from artmind.traces import analysis
+
+    span = {"command": "query graph text2cypher", "args": {"dry_run": True}, "exit_code": 0, "rows": 0}
+    sig = analysis.signals({"turns": 1}, [span], None, {"status": "n/a"})
+    assert "empty_rows" not in sig
