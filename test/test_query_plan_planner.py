@@ -253,12 +253,45 @@ def test_an_unfillable_route_still_gets_search_suggestions(world):
     assert result["read"][-1] == "SKILL.md"
 
 
-def test_the_narrator_counts_as_a_mention_only_when_configured(world, tmp_path):
+def test_the_narrator_is_never_a_search_term(world, tmp_path):
     (tmp_path / "journal.yaml").write_text("narrator: {entity_class: PERSON, name: Diarist}\n")
     result = _plan("Did I go to the gym again?")
     assert result["route"]["id"] == "existence"
+    assert result["confidence"]["level"] == "low" and result["confidence"]["weakest"] == "unfilled"
+    assert result["steps"] == []
+    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --domain journal")
+    assert any("route existence needs entity_name" in w for w in result["warnings"])
+    assert "--searchTerm" not in str(result["suggested_steps"]) and "Diarist" not in str(result["suggested_steps"])
+
+
+def test_the_narrator_is_the_second_entity_beside_one_named_mention(world, tmp_path):
+    (tmp_path / "journal.yaml").write_text("narrator: {entity_class: PERSON, name: Diarist}\n")
+    result = _plan("How am I related to Ada?")
+    assert result["route"]["id"] == "path"
     assert result["confidence"]["level"] == "high"
-    assert result["steps"][0]["cmd"].startswith("artmind query graph pattern7 --domain journal --searchTerm Diarist")
+    assert [s["cmd"] for s in result["steps"]] == [
+        "artmind query graph pattern6 --domain journal --entityId1 p1 --entityId2 n1 --compact"
+    ]
+
+
+def test_the_narrator_stands_in_for_the_id_when_nobody_is_named(world, tmp_path):
+    (tmp_path / "journal.yaml").write_text("narrator: {entity_class: PERSON, name: Diarist}\n")
+    result = _plan("What do we know about me?")
+    assert result["route"]["id"] == "entity_profile"
+    assert result["steps"][0]["cmd"] == "artmind query entity-context --domain journal --entityId n1 --compact"
+
+
+def test_the_weakest_stage_is_a_blocker_only_when_every_stage_clears_the_threshold(world, monkeypatch):
+    # every stage clears the threshold: the blocker is named
+    world["entities"].pop("Lakeport")
+    assert _plan("How many visits did Ada make to Lakeport in 2025?")["confidence"]["weakest"] == "view_status"
+    # a stage below the threshold keeps its own name, blocker or not
+    weak = {"view": _answer("visits_by_year", 0.8, ("none",))}
+    _use(monkeypatch, FakeClassifier(override={"param_person": _answer("c1", 0.5, ("none",)), **weak}))
+    world["entities"]["Lakeport"] = ENTITIES["Lakeport"]
+    result = _plan("How many visits did Ada make to Lakeport in 2025?")
+    assert result["view_match"]["status"] == "needs_disambiguation"
+    assert result["confidence"]["weakest"] == "param:person" and result["confidence"]["score"] == 0.5
 
 
 def test_an_unresolved_named_entity_keeps_its_text_but_has_no_id(world, tmp_path):

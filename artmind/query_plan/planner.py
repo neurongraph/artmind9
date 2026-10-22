@@ -121,15 +121,16 @@ def _candidate_text(ref: dict, narrator) -> str:
 
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
              mentions: list) -> dict:
-    """Placeholder values. The primary entity is the first named mention, resolved or not; the
-    narrator stands in only when the question names nobody."""
+    """Placeholder values. The primary entity is the first named mention, resolved or not. The
+    narrator is the second entity beside exactly one named mention, and the id fallback when
+    nobody is named; it never supplies a name, since its name is no search term."""
     named = [e for e in entities if e["via"] != "first_person"]
-    primary = named[0] if named else next((e for e in entities if e["candidates"]), None)
+    narrator = next((e for e in entities if e["via"] == "first_person" and e["candidates"]), None)
+    primary = named[0] if named else narrator
+    second = named[1] if len(named) > 1 else (narrator if len(named) == 1 else None)
     entity_name = None
-    if primary is not None:
-        entity_name = primary["candidates"][0]["name"] if primary["candidates"] else (
-            primary["mention"] if primary["via"] != "first_person" else None)
-    second = named[1] if len(named) > 1 else None
+    if named:
+        entity_name = named[0]["candidates"][0]["name"] if named[0]["candidates"] else named[0]["mention"]
     return {
         "domains": ",".join(selected),
         "question": question,
@@ -490,7 +491,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     # ── confidence ─────────────────────────────────────────────────────────
     weakest, score = min(stages, key=lambda s: s[1])
     blocker = built.blocker
-    if blocker:
+    if blocker and score >= threshold:  # a stage below the threshold stays the weakest link
         weakest = blocker
     high = score >= threshold and not blocker and bool(rendered) and bool(selected)
     if built.reason:
