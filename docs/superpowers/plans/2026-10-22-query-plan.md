@@ -4666,8 +4666,7 @@ def test_twins_must_all_be_acceptable_names():
     assert replay.score(label, plan)["outcome"] == "correct"
 
 
-def test_replay_summarises_and_finds_unstable_plans():
-    labels = [_labdef test_replay_finds_unstable_plans():
+def test_replay_finds_unstable_plans():
     plans = iter([_plan(), _plan(year=2024)])
     report = replay.replay([_label()], "lexical", repeat=2, plan_fn=lambda q, d, classifier: next(plans))
     assert report["unstable"] == ["L001"] and report["outcomes"]["correct"] == 1
@@ -4678,7 +4677,8 @@ def test_stable_plans_are_not_flagged():
     assert report["unstable"] == [] and report["gate"]["repeat"] == 3
 
 
-lassifier="lexical"):
+def test_an_error_is_its_own_outcome():
+    def boom(question, domains, classifier="lexical"):
         raise RuntimeError("neo4j down")
 
     report = replay.replay([_label()], "lexical", plan_fn=boom)
