@@ -30,6 +30,7 @@ import threading
 import time
 import urllib.error
 import urllib.request
+from urllib.parse import urlsplit
 
 from loguru import logger
 
@@ -66,6 +67,19 @@ _OPENER = urllib.request.build_opener(_NoRedirect)
 
 def _open(request, timeout):
     return _OPENER.open(request, timeout=timeout)
+
+
+def _safe_url(url: str) -> str:
+    """scheme://host[:port]/path for log lines: no userinfo, query string or fragment."""
+    try:
+        parts = urlsplit(url)
+        host = parts.hostname or ""
+        if ":" in host:
+            host = f"[{host}]"
+        port = f":{parts.port}" if parts.port else ""
+        return f"{parts.scheme}://{host}{port}{parts.path}"
+    except ValueError:
+        return "<invalid url>"
 
 
 def _number(value) -> bool:
@@ -131,7 +145,7 @@ class JevClassifier:
     def _failure(self, reason: str, body: bytes | str | None = None) -> ClassifierUnavailable:
         if reason == "bad_answer" and body is not None:
             text = body.decode("utf-8", "replace") if isinstance(body, bytes) else body
-            logger.debug("decision classifier: unusable answer from {} ({}): {}", self.url, self.model,
+            logger.debug("decision classifier: unusable answer from {} ({}): {}", _safe_url(self.url), self.model,
                          text[:_LOG_BODY_CHARS])
         with _breakers_lock:
             breaker = _breakers.setdefault(self._key, {"failures": 0, "open_until": None})

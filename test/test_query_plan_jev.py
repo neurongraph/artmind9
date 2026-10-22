@@ -366,3 +366,25 @@ def test_a_token_over_clear_http_to_a_remote_host_warns(url, warns):
     assert clf.api_key == FAKE_CREDENTIAL
     assert bool(lines) is warns
     assert FAKE_CREDENTIAL not in "".join(lines)
+
+
+def test_a_url_with_userinfo_is_rejected_without_echoing_it():
+    url = f"http://user:{FAKE_CREDENTIAL}@localhost:11434/v1"
+    with pytest.raises(ValueError, match="credentials") as caught:
+        select_classifier("auto", "auto", None, env={"ARTMIND_DECISION_URL": url, "ARTMIND_DECISION_MODEL": "m"})
+    assert FAKE_CREDENTIAL not in str(caught.value)
+
+
+def test_logs_name_the_endpoint_without_its_query_string(monkeypatch):
+    lines: list[str] = []
+    sink = logger.add(lambda m: lines.append(str(m)), level="DEBUG", format="{message}")
+    try:
+        monkeypatch.setattr(jev, "_open", lambda request, timeout: _Response(b"not json"))
+        clf = jev.JevClassifier("http://localhost:11434/v1/systemone?token=x#frag", "nimble")
+        with pytest.raises(ClassifierUnavailable):
+            clf.decide("q", DECISIONS)
+    finally:
+        logger.remove(sink)
+    logged = "".join(lines)
+    assert "http://localhost:11434/v1/systemone" in logged
+    assert "token=x" not in logged and "#frag" not in logged

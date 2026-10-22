@@ -40,6 +40,8 @@ def _check_url(url: str, api_key: str | None) -> None:
     parsed = urlparse(url)
     if parsed.scheme not in ("http", "https") or not parsed.hostname:
         raise ValueError("ARTMIND_DECISION_URL must be an http:// or https:// URL")
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError("ARTMIND_DECISION_URL must not carry credentials; use ARTMIND_DECISION_API_KEY")
     if api_key and parsed.scheme == "http" and not _is_loopback(parsed.hostname):
         logger.warning("ARTMIND_DECISION_API_KEY is sent in clear text to {}: use https:// for a non-local endpoint",
                        parsed.hostname)
