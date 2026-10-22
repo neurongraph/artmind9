@@ -157,3 +157,16 @@ def test_a_dry_run_is_not_an_empty_result():
     span = {"command": "query graph text2cypher", "args": {"dry_run": True}, "exit_code": 0, "rows": 0}
     sig = analysis.signals({"turns": 1}, [span], None, {"status": "n/a"})
     assert "empty_rows" not in sig
+
+
+def test_deep_fallback_ignores_a_dry_run():
+    from artmind.traces import analysis
+
+    spans = [
+        {"command": "query graph pattern1", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+        {"command": "query entity-context", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+        {"command": "query graph text2cypher", "args": {"domain": ["b"], "dry_run": True}, "exit_code": 0, "rows": 0},
+    ]
+    sig = analysis.signals({"turns": 1}, spans, None, {"status": "n/a"})
+    assert "deep_fallback" not in sig
+    assert sig.get("text2cypher") == 1

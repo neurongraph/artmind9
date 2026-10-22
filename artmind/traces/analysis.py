@@ -8,7 +8,7 @@ from collections import Counter
 from datetime import datetime, timedelta
 
 from artmind.traces import store
-from artmind.traces.path import GRAPH_LAYERS, is_dry_run, is_graph_miss, layer_of, views_check
+from artmind.traces.path import GRAPH_LAYERS, is_dry_run, is_graph_miss, span_layer, views_check
 
 _NOT_FOUND = re.compile(
     r"\b(couldn'?t find|could not find|unable to find|no information|not in the (graph|knowledge graph|data)"
@@ -81,7 +81,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["truncated"] = 1
     if any(s.get("command") == "query graph text2cypher" for s in spans):
         out["text2cypher"] = 1
-    if len({s.get("command") for s in spans if layer_of(s.get("command")) != "discovery"}) >= 3:
+    if len({s.get("command") for s in spans if span_layer(s) != "discovery"}) >= 3:
         out["deep_fallback"] = 1
     if turns_p90 is not None and (turn.get("turns") or 0) > turns_p90:
         out["many_turns"] = 1
