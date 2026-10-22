@@ -1094,8 +1094,33 @@ def test_pattern7_rejects_out_of_range_limit(bad_limit):
 def test_document_rows_carry_supersedes():
     field = "supersedes: [(d)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]"
     for params in ({"domains": ["f"], "documentName": "a.md"},
-                   {"domains": ["f"], "documentName": "a.md", "includeHistory": True}):
+                   {"domains": ["f"], "documentName": "a.md", "includeHistory": True},
+                   {"domains": ["f"], "documentName": "a.md", "asOf": "2026-01-01"}):
         cypher, _ = graph_query._pattern_query("pattern10", params)
         assert field in cypher
     assert field in graph_query._chunks_query(0, None)
     assert ".path, .source_path" in graph_query._chunks_query(0, None)
+
+
+# ── H4b: --includeHistory (spec 2026-10-22 §5.4.2) ───────────────────────────
+
+def test_pattern10_include_history_reaches_history_labels():
+    cypher, _ = graph_query._pattern_query(
+        "pattern10", {"domains": ["f"], "documentName": "a", "includeHistory": True}
+    )
+    assert "DocumentHistory" in cypher and "DocChunkHistory" in cypher
+    cypher, _ = graph_query._pattern_query("pattern10", {"domains": ["f"], "documentName": "a"})
+    assert "DocumentHistory" not in cypher
+
+
+def test_pattern10_history_matches_queries_retired_documents(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent["cypher"], sent["params"] = cypher, params
+        return [{"name": "policy_alpha.md"}]
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    assert graph_query.pattern10_history_matches(["f"], "alpha") == ["policy_alpha.md"]
+    assert "MATCH (d:DocumentHistory)" in sent["cypher"]
+    assert sent["params"] == {"domains": ["f"], "documentName": "alpha", "limit": 5}

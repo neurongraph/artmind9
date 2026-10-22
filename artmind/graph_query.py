@@ -127,7 +127,7 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
 def supersedes_field(var: str) -> str:
     """Map-projection entry naming the documents `var` replaced (its outgoing
     SUPERSEDES edges, to live or retired documents). Derived at query time, like
-    `superseded_by` is derived by supersession_records (spec 2026-10-22 §5.4.1)."""
+    `superseded_by` is derived by supersession_records (spec 2026-10-22 §5.4 item 1)."""
     return f"supersedes: [({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path }}]"
 
 
@@ -1020,18 +1020,18 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             {"domains": parameters["domains"], "topN": parameters.get("topN", 5)},
         )
     if pattern == "pattern10":
-        # `--asOf` (kept, Phase 4) no longer means "ignored". Chunks carry no
-        # valid-time of their own (never stamped at ingest — a chunk's
-        # currency is entirely a function of its document's), so there is no
-        # date to compare against; what the label swap DOES give this pattern
-        # for the first time is a real history pool to reach into. Without
-        # --asOf: only the document's CURRENT self (:Document) and CURRENT
-        # chunks (:DocChunk), as always. With --asOf (any value — a presence
-        # flag here, not a point in time): also reach :DocumentHistory /
-        # :DocChunkHistory, so a retired document and its retired/superseded
-        # chunks become visible too. Coarser than "in force by T" elsewhere,
-        # and said so in the CLI help rather than implied.
-        as_of = parameters.get("asOf")
+        # `--includeHistory` (with `--asOf` as its alias, Phase 4) is a presence
+        # flag, not a point in time. Chunks carry no valid-time of their own
+        # (never stamped at ingest -- a chunk's currency is entirely a function
+        # of its document's), so there is no date to compare against; what the
+        # label swap DOES give this pattern is a real history pool to reach
+        # into. Without the flag: only the document's CURRENT self (:Document)
+        # and CURRENT chunks (:DocChunk), as always. With it (or --asOf, any
+        # value): also reach :DocumentHistory / :DocChunkHistory, so a retired
+        # document and its retired/superseded chunks become visible too.
+        # Coarser than "in force by T" elsewhere, and said so in the CLI help
+        # rather than implied.
+        include_history = bool(parameters.get("includeHistory") or parameters.get("asOf"))
         doc_return = (
             "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, "
             + supersedes_field("d") + " } AS document"
@@ -1044,7 +1044,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # `_rowsTotal` riding along on every surviving row (execute_pattern
         # lifts it out to a top-level `rows_total`) -- one pass, no second
         # full-document fetch to get the exact count.
-        if as_of:
+        if include_history:
             cypher = f"""
             CALL () {{
               MATCH (d:Document)
@@ -1146,6 +1146,24 @@ def execute_pattern(
         if result["truncated"]:
             result["next"] = f"raise --limit (rows_total={rows_total})"
     return result
+
+
+def pattern10_history_matches(domains: "str | Sequence[str]", document_name: str, limit: int = 5) -> list[str]:
+    """Names of RETIRED documents matching a pattern10 --documentName (spec
+    2026-10-22 §5.4.3). Asked only after the current-only query found nothing,
+    so a caller holding a retired name learns to add --includeHistory (Q10)."""
+    domains = normalize_domains(domains)
+    rows = _run_read_query(
+        f"""
+        MATCH (d:DocumentHistory)
+        WHERE {domain_predicate("d")} AND toLower(d.name) CONTAINS toLower($documentName)
+        RETURN DISTINCT d.name AS name
+        ORDER BY name
+        LIMIT $limit
+        """,
+        {"domains": domains, "documentName": document_name, "limit": limit},
+    )
+    return [r["name"] for r in rows if r.get("name")]
 
 
 def _chunks_query(expand: int, as_of: str | None) -> str:

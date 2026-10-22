@@ -484,6 +484,6 @@ def test_vector_text_document_block_carries_supersedes(monkeypatch):
     vector_query.vector_search("fiction", "q", 2)
     vector_query.full_text_search("fiction", "harbour", 2)
     chunk_queries = [c for c in seen if "DocChunk" in c or "chunk_text_ft" in c]
-    assert chunk_queries
+    assert len(chunk_queries) == 2
     for cypher in chunk_queries:
         assert "supersedes: [(document)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]" in cypher

@@ -2940,19 +2940,36 @@ def graph_pattern9(
 @graph.command("pattern10")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
-@click.option("--asOf", "as_of", default=None, help="Present (any value) to also reach retired/superseded chunks and documents (:DocumentHistory / :DocChunkHistory). Chunks carry no date of their own, so this is a presence flag, not a point-in-time filter — omit for current content only")
+@click.option("--includeHistory", "include_history", is_flag=True, help="Also reach retired/superseded documents and chunks (:DocumentHistory / :DocChunkHistory). Omit for current content only")
+@click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is NOT a date filter here (chunks carry no date of their own)")
 @click.option("--limit", type=int, default=graph_query.PATTERN10_DEFAULT_LIMIT, show_default=True, help="Max chunks; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many chunks (ordered by chunk id) before --limit; page past a truncated result with offset += limit")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern10(
-    domain: tuple, document_name: str, as_of: str | None, limit: int, offset: int, compact: bool, question: str | None
+    domain: tuple, document_name: str, include_history: bool, as_of: str | None, limit: int, offset: int,
+    compact: bool, question: str | None,
 ) -> None:
-    """Retrieve all text chunks for a named document."""
+    """Retrieve all text chunks for a named document (current only, or with history)."""
     domains = _parse_domains(domain)
-    _run_graph_pattern(
-        "pattern10", domains, compact, question, as_of=as_of, documentName=document_name, limit=limit, offset=offset
-    )
+    history = include_history or as_of is not None
+    try:
+        result = graph_query.execute_pattern(
+            domains=domains, pattern="pattern10", question=question, as_of=None,
+            documentName=document_name, includeHistory=history, limit=limit, offset=offset,
+        )
+        if not history and not result.get("rows"):
+            matches = graph_query.pattern10_history_matches(domains, document_name)
+            if matches:
+                result["history_matches"] = matches
+                result["next"] = f"add --includeHistory: {len(matches)} retired document(s) match"
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if as_of is not None:
+        result.setdefault("warnings", []).append(
+            "--asOf on pattern10 only switches history on (use --includeHistory); it does not filter by date"
+        )
+    _echo_json(result, compact)
 
 
 @graph.command("text2cypher")
