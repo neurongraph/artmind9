@@ -995,3 +995,47 @@ def test_hierarchy_rel_types_are_normalized_like_ingest(monkeypatch):
     graph_query.hierarchy("fiction", entity_id="root1", child_of="reports to")
 
     assert calls[1]["params"]["childOf"] == ["REPORTS_TO"]
+
+
+# ── H3: pattern7 truncation and provenance (spec 2026-10-22 §5.3) ────────────
+
+def test_pattern7_counts_hits_and_collects_documents():
+    cypher, params = graph_query._pattern_query(
+        "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": 10}
+    )
+    assert "entity_name_ft" in cypher
+    assert "_rowsTotal" in cypher and "_rawHits" in cypher
+    assert "[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(d:Document)" in cypher
+    assert params["limit"] == 10
+    assert params["countCap"] == graph_query.PATTERN7_COUNT_CAP
+
+
+def test_execute_pattern7_lifts_totals_and_says_next(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent.update(params)
+        return [
+            {"entityData": {"name": f"E{i}"}, "documents": [{"id": "d", "name": "n.md", "path": "n.md"}],
+             "document_count": 1, "_rowsTotal": 44, "_rawHits": 44}
+            for i in range(10)
+        ]
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert sent["searchTerm"] == "harbour"
+    assert result["rows_total"] == 44
+    assert result["truncated"] is True
+    assert result["rows_total_capped"] is False
+    assert result["next"] == "raise --limit (rows_total=44)"
+    assert result["rows"][0]["documents"][0]["path"] == "n.md"
+    assert "_rawHits" not in result["rows"][0]
+
+
+def test_execute_pattern7_with_no_hits_reports_zero(monkeypatch):
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: [])
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert result["rows"] == []
+    assert result["rows_total"] == 0
+    assert result["truncated"] is False
+    assert "next" not in result

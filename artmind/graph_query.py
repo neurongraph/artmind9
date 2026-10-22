@@ -196,6 +196,9 @@ PATTERN4_MAX_LIST_ITEMS = 10
 # `rows_total` (see the `_rowsTotal` sentinel execute_pattern lifts out).
 PATTERN8_DEFAULT_LIMIT = 50
 PATTERN10_DEFAULT_LIMIT = 300
+# pattern7 counts fulltext hits up to this many (spec 2026-10-22 §5.3); beyond
+# it `rows_total_capped` says the true total is larger.
+PATTERN7_COUNT_CAP = 1000
 
 
 def normalize_entity_class(value: str) -> str:
@@ -907,19 +910,39 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         search_term = sanitize_lucene_query(parameters["searchTerm"])
         if not search_term:
             raise ValueError("--searchTerm contains no searchable text")
+        # Count before slicing (the default --limit 10 silently turned an
+        # enumeration into a top-10, study P21), and name the documents each
+        # entity was observed in so a caller can cite them (P24).
         return (
             f"""
-            CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
+            CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm, {{limit: $countCap}})
             YIELD node AS e, score AS ftScore
+            WITH collect({{e: e, s: ftScore}}) AS raw
+            WITH raw, size(raw) AS _rawHits
+            UNWIND raw AS hit
+            WITH _rawHits, hit.e AS e, hit.s AS ftScore
             WHERE {domain_predicate("e")}
-            RETURN e {{.*, label: labels(e)}} AS entityData
+            WITH _rawHits, e, ftScore
             ORDER BY ftScore DESC, e.name
-            LIMIT $limit
+            WITH _rawHits, collect(e) AS hits
+            WITH _rawHits, size(hits) AS _rowsTotal, hits[0..$limit] AS page
+            UNWIND range(0, size(page) - 1) AS i
+            WITH _rawHits, _rowsTotal, i, page[i] AS e
+            CALL (e) {{
+              OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(d:Document)
+              WHERE {domain_predicate("d")}
+              WITH DISTINCT d
+              ORDER BY d.name
+              RETURN collect(d {{ .id, .name, .path }})[0..3] AS documents, count(d) AS document_count
+            }}
+            RETURN e {{.*, label: labels(e)}} AS entityData, documents, document_count, _rowsTotal, _rawHits
+            ORDER BY i
             """,
             {
                 "domains": parameters["domains"],
                 "searchTerm": search_term,
                 "limit": parameters.get("limit", 10),
+                "countCap": PATTERN7_COUNT_CAP,
             },
         )
     if pattern == "pattern8":
@@ -1075,9 +1098,14 @@ def execute_pattern(
     # getting it costs no second full fetch) -- lifted here to a top-level
     # `rows_total` rather than left duplicated on each row.
     rows_total = None
+    raw_hits = None
     for row in rows:
         if isinstance(row, dict) and "_rowsTotal" in row:
             rows_total = row.pop("_rowsTotal")
+        if isinstance(row, dict) and "_rawHits" in row:
+            raw_hits = row.pop("_rawHits")
+    if pattern == "pattern7" and rows_total is None:
+        rows_total = 0  # no hits at all: the count query returned no row to ride on
     rows = _bound_pattern_rows(pattern, rows, params)
     result = {
         **_domain_output(domains),
@@ -1091,6 +1119,10 @@ def execute_pattern(
     if rows_total is not None:
         result["rows_total"] = rows_total
         result["truncated"] = rows_total > len(rows)
+    if pattern == "pattern7":
+        result["rows_total_capped"] = bool(raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP)
+        if result["truncated"]:
+            result["next"] = f"raise --limit (rows_total={rows_total})"
     return result
 
 
