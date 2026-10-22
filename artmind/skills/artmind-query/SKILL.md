@@ -84,8 +84,8 @@ verbatim — there is no re-aliasing back to `id`/`domain`.
 `:DocumentHistory` / `:DocChunkHistory` / `:ObservationHistory` are the retired
 counterpart of the base labels (same properties, mutually exclusive with it) — what a
 retired document's contributions move to. Every command below reads the base label only
-and is therefore current by construction; only `pattern10 --asOf` (see Retrieve) reaches
-into history at all.
+and is therefore current by construction; only `pattern10 --includeHistory` (see Retrieve)
+reaches into history at all, and a document row's `supersedes` names the version it replaced.
 
 For document/chunk questions use `PART_OF` (not `EXTRACTED_FROM`); `pattern10` does this
 deterministically.
@@ -278,7 +278,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
 | "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
 | An entity entity-resolve no longer finds (a misspelling a corrected note dropped, a retired document's entity) | `artmind query entity-history --name "<name>" [--entityClass <LABEL>]` or `--key "<name>\|<CLASS>\|<domain>"` — matches observations directly, so it works after the entity is gone; `keys` lists every key the name matched |
-| "What changed when document D was edited / re-ingested" / earlier version of a note | `artmind query document-history --documentName "<name or path>"` — current vs history observations with the `doc_version` that last asserted each; `dropped_keys` = entities an earlier version stated and the current one no longer does. See `references/temporal.md` |
+| "What changed when document D was edited / re-ingested" / earlier version of a note | `artmind query document-history --documentName "<name or path>"` — current vs history observations with the `doc_version` that last asserted each; `dropped_keys` = entities an earlier version stated and the current one no longer does. A name missing its extension is matched when exactly one document fits (`matched_name` + a warning); a miss returns `closest` names and a `next` command. See `references/temporal.md` |
 | List entities of a class | `artmind query graph pattern1 --entityClass <LABEL> [--limit N]` |
 | "Main / key / most important / top" entities | `artmind query graph pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
 | Facts/properties of named entities (no text needed, e.g. comparing many) | `artmind query graph pattern2 --entityIdList <id>` (or `--entityNameList`) |
@@ -288,10 +288,10 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --idList <id>[,<id>…] [--expand 1]` (repeat the flag or comma-join ids) |
 | Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
-| Search entities by name/description fragment | `artmind query graph pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically) |
+| Search entities by name/description fragment | `artmind query graph pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). It returns `rows_total`/`truncated`: raise `--limit` (max 500) until `truncated` is false for a complete list; when `rows_total_capped` is true the total is a lower bound. Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
 | Entities of class X connected to entity Y | `artmind query graph pattern8 --entityClass <LABEL> --entityId <id> [--limit N] [--offset N]` |
-| All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>" [--limit N] [--offset N]` |
-| Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher; rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
+| All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>" [--limit N] [--offset N]` — add `--includeHistory` for retired/superseded versions; zero rows with `history_matches` means only a retired version matches |
+| Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher, then run it without `--dry-run` (a dry run executes nothing and returns no rows); rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
 
 Every command also needs `--domain <domain>` (repeatable) and `--compact`, omitted above for brevity.
 

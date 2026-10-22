@@ -17,13 +17,13 @@ before it changed", "what happened in order" — or when an entity carries
   to filter out. None of the ten `pattern*` commands, `entity-listing`, `entity-resolve`,
   `entity-context`, or `graph metadata` accept it — don't pass it.
 - **`--asOf` still exists, with a narrower meaning, on the commands that keep it**:
-  `vector-text`, `chunks`, `docs list`, `pattern10`, `db timeline`, `db sql`. On all of
+  `vector-text`, `chunks`, `docs list`, `db timeline`, `db sql`. On all of
   these it is a **floor** ("in force by this date"), not a point-in-time snapshot —
   `valid_to` is rarely set, so a still-open row satisfies any `--asOf` at or after its
-  `valid_from`. On `pattern10` specifically it is a **presence flag**, not a date value:
-  passing it (any value) additionally matches `:DocumentHistory`/`:DocChunkHistory` for
-  that document, surfacing retired chunks alongside current ones; omitting it matches
-  only the current document. Use it when the question is explicitly historical ("what
+  `valid_from`. On `pattern10` use **`--includeHistory`** instead: it additionally
+  matches `:DocumentHistory`/`:DocChunkHistory` for that document, surfacing retired
+  chunks alongside current ones; omitting it matches only the current document.
+  (`--asOf` still works there as an alias, but it is a switch, not a date filter.) Use it when the question is explicitly historical ("what
   did the policy say in January", "history of…", "previous version", "what changed");
   omit it otherwise. `entity-history` is the one command with a genuine
   point-in-time `--asOf`, because it's reading the fact-level valid-time axis directly.
@@ -53,7 +53,7 @@ sync`/`async`), its version goes up and its facts are re-extracted. Nothing is d
 (current / history counts, `history_versions`), `dropped_keys` (entities an earlier
 version stated that the current one no longer does — a corrected typo shows up here) and
 every observation with its `status` and `doc_version`. Which current keys are *new* is
-not recoverable: a kept fact's revived observation looks the same as a new one.
+not recoverable: a kept fact's revived observation looks the same as a new one. A name missing its extension (`.md`, `.pdf`, …) is matched when exactly one document fits (`matched_name` plus a warning); a miss returns `closest` names and a runnable `next`.
 
 See `references/structured-store.md` for how `--asOf` threads through the hybrid
 chain (`vector-text`/`text2sql`/`db timeline`) when a question is both temporal and
