@@ -2882,7 +2882,7 @@ def graph_pattern6(
 @graph.command("pattern7")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
-@click.option("--limit", type=int, default=10, show_default=True, help="Max results")
+@click.option("--limit", type=click.IntRange(1, graph_query.PATTERN7_MAX_LIMIT), default=10, show_default=True, help="Max results")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern7(domain: tuple, search_term: str, limit: int, compact: bool, question: str | None) -> None:

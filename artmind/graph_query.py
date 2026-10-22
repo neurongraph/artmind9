@@ -199,6 +199,9 @@ PATTERN10_DEFAULT_LIMIT = 300
 # pattern7 counts fulltext hits up to this many (spec 2026-10-22 §5.3); beyond
 # it `rows_total_capped` says the true total is larger.
 PATTERN7_COUNT_CAP = 1000
+# pattern7 looks up source documents per returned entity, so its cost scales
+# with limit x observations per entity; --limit is bounded accordingly.
+PATTERN7_MAX_LIMIT = 500
 
 
 def normalize_entity_class(value: str) -> str:
@@ -910,6 +913,9 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         search_term = sanitize_lucene_query(parameters["searchTerm"])
         if not search_term:
             raise ValueError("--searchTerm contains no searchable text")
+        limit = parameters.get("limit", 10)
+        if not 1 <= limit <= PATTERN7_MAX_LIMIT:
+            raise ValueError(f"--limit must be between 1 and {PATTERN7_MAX_LIMIT}")
         # Count before slicing (the default --limit 10 silently turned an
         # enumeration into a top-10, study P21), and name the documents each
         # entity was observed in so a caller can cite them (P24).
@@ -919,6 +925,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             YIELD node AS e, score AS ftScore
             WITH collect({{e: e, s: ftScore}}) AS raw
             WITH size(raw) AS _rawHits, [h IN raw WHERE {domain_predicate("h.e")}] AS kept
+            // An empty UNWIND drops the row, so an empty result carries one null-entity row to keep _rowsTotal/_rawHits.
             UNWIND CASE WHEN size(kept) = 0 THEN [null] ELSE kept END AS hit
             WITH _rawHits, hit.e AS e, hit.s AS ftScore
             ORDER BY ftScore DESC, e.name
@@ -927,6 +934,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             UNWIND CASE WHEN size(page) = 0 THEN [-1] ELSE range(0, size(page) - 1) END AS i
             WITH _rawHits, _rowsTotal, i, CASE WHEN i < 0 THEN null ELSE page[i] END AS e
             CALL (e) {{
+              // table2graph entities have no EXTRACTED_FROM chunk, so their documents is [].
               OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(d:Document)
               WHERE {domain_predicate("d")}
               WITH DISTINCT d
@@ -939,7 +947,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             {
                 "domains": parameters["domains"],
                 "searchTerm": search_term,
-                "limit": parameters.get("limit", 10),
+                "limit": limit,
                 "countCap": PATTERN7_COUNT_CAP,
             },
         )
@@ -1122,7 +1130,9 @@ def execute_pattern(
         result["rows_total"] = rows_total
         result["truncated"] = rows_total > len(rows)
     if pattern == "pattern7":
-        result["rows_total_capped"] = bool(raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP)
+        # When rows_total_capped is true, rows_total is a lower bound, so
+        # truncated/next can be silent even though more matches exist.
+        result["rows_total_capped"] = raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP
         if result["truncated"]:
             result["next"] = f"raise --limit (rows_total={rows_total})"
     return result

@@ -1054,3 +1054,36 @@ def test_execute_pattern7_reports_the_cap_when_no_hit_is_in_domain(monkeypatch):
     assert result["rows_total"] == 0
     assert result["rows_total_capped"] is True
     assert result["truncated"] is False
+
+
+def test_pattern7_cypher_caps_the_fulltext_count_and_scopes_documents():
+    cypher, _ = graph_query._pattern_query(
+        "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": 10}
+    )
+    assert "{limit: $countCap}" in cypher
+    assert "d._domain" in cypher
+
+
+def test_execute_pattern7_not_truncated_has_no_next(monkeypatch):
+    monkeypatch.setattr(
+        graph_query,
+        "_run_read_query",
+        lambda cypher, params: [
+            {"entityData": {"name": f"E{i}"}, "documents": [], "document_count": 0,
+             "_rowsTotal": 3, "_rawHits": 3}
+            for i in range(3)
+        ],
+    )
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert result["rows_total"] == 3
+    assert result["truncated"] is False
+    assert result["rows_total_capped"] is False
+    assert "next" not in result
+
+
+@pytest.mark.parametrize("bad_limit", [0, graph_query.PATTERN7_MAX_LIMIT + 1])
+def test_pattern7_rejects_out_of_range_limit(bad_limit):
+    with pytest.raises(ValueError, match="between 1 and 500"):
+        graph_query._pattern_query(
+            "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": bad_limit}
+        )
