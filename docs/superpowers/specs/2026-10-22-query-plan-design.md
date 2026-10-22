@@ -621,7 +621,8 @@ small, independent and lands before the plan (§9).
 - Each row gains `documents`: up to 3 `{id, name, path}` and `document_count`, found via
   `(e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(:Document)`
   within the requested domains.
-- The default `--limit` stays 10, so existing callers see the same rows plus new fields.
+- The default `--limit` stays 10, so existing callers see the same rows plus new fields;
+  `--limit` is bounded to 1–500 (per-row document lookups scale with it).
 
 ### 5.4 H4 — history reachable from the graph (P12)
 
@@ -654,26 +655,32 @@ small, independent and lands before the plan (§9).
 
 1. `shadow.start(question, recorder)` launches `planner.plan(question)` in a worker thread.
    `question` is the user's own text (`payload.prompt`), never the replayed conversation.
-2. `TraceRecorder.finish` waits for it at most 10 s, then adds one trace event,
-   `type: "plan_shadow"`, payload `{status: ok|timeout|error, followup: bool, plan: {…},
-   error: str|null}`, capped by `store.cap`.
+2. `TraceRecorder.finish` waits for it until 10 s after the plan started, then adds one
+   trace event, `type: "plan_shadow"`, payload `{status: ok|timeout|error|skipped, followup:
+   bool, plan: {…}, error: str|null}`. A plan over 60 KB is trimmed (`"trimmed": true`) so the
+   stored JSON stays valid; a payload still cut by `store.cap` reads back as `truncated`.
+   `skipped` means 8 shadow plans were already running.
 3. It is an event, not a span, so `traces/path.py` never counts it as agent work.
    `public_event` never forwards it to the browser; the agent never sees it.
-4. `followup` is true when the conversation has earlier turns.
+4. `followup` is true when the session has an earlier traced turn.
 
 **Guarantees:** it never delays the agent (it runs alongside) and never fails a turn (every
-exception becomes `status: error` and a log line). Kill switch: `ARTMIND_PLAN_SHADOW=0` in
-`config.env`; default on.
+exception becomes `status: error` and a warning log line; recording it can never cost the
+turn's other events). Kill switch: `ARTMIND_PLAN_SHADOW=0` in `config.env`; default on; the
+test suite pins it off. With a hosted `ARTMIND_DECISION_URL`, every traced question is sent
+there for classification.
 
 **Reading it back:**
 
 - `traces show` prints the shadow plan beside the agent's route.
-- `traces stats` gains a `plan_shadow` block per bucket: turns with a plan, share at high
-  confidence, and **agreement** (the plan's first step, normalised to command plus view name,
-  appears among the turn's non-discovery spans), reported separately for first and follow-up
-  turns and split by the turn's rating when one exists.
+- `traces stats` gains a `plan_shadow` block per bucket: a tally of every shadow status, turns
+  with a plan, share at high confidence, and **agreement** (the plan's first traced `query` step,
+  normalised to command plus view name, appears among the turn's spans other than `query plan`;
+  an executed plan counts as running its view), split by confidence level, with the first/
+  follow-up and rating splits computed on high-confidence plans.
 - `traces triage` gains the signal `plan_disagreed_high`: a high-confidence plan the agent did not
-  follow. These are the turns to review first.
+  follow, on a turn that ran at least one other `query` command. These are the turns to review
+  first.
 
 ## 7. Error handling
 
