@@ -1,4 +1,5 @@
 import re
+import shlex
 from contextlib import contextmanager
 from datetime import date
 from typing import Any, Sequence
@@ -2063,6 +2064,10 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
 
     Matches `:Document` and retired `:DocumentHistory` nodes whose `name`
     equals `document_name` ignoring case, or whose `path` or `id` equals it.
+    When none does, a name missing its extension (`.md`, `.pdf`, `.docx`,
+    `.txt`, `.html`) is matched if exactly one document fits: the result
+    carries `matched_name` and a warning. Otherwise the rows are empty and
+    `closest` lists up to 5 similar document names, with a runnable `next`.
     """
     domains = normalize_domains(domains)
     document_name = (document_name or "").strip()
@@ -2147,8 +2152,12 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
         if low.endswith(suffix):
             stem = document_name[: -len(suffix)]
             break
-    out["closest"] = _document_names_like(domains, fragment=stem)
-    out["next"] = "artmind query document-history --documentName <one of closest> (names match exactly, ignoring case)"
+    out["closest"] = _document_names_like(domains, fragment=stem) if stem.strip() else []
+    if out["closest"]:
+        out["next"] = (
+            f"artmind query document-history --domain {shlex.quote(','.join(domains))} "
+            "--documentName <one of closest> --compact"
+        )
     return out
 
 

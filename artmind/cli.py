@@ -3228,7 +3228,7 @@ def query_entity_history(
 
 @query.command("document-history")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--documentName", "document_name", required=True, help="Document name (case-insensitive), vault path, or document id")
+@click.option("--documentName", "document_name", required=True, help="Document name (case-insensitive; a missing extension is matched when exactly one document fits), vault path, or document id")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def query_document_history(domain: tuple, document_name: str, compact: bool) -> None:
     """What a document's ingested versions asserted: current vs history observations.
@@ -3237,6 +3237,10 @@ def query_document_history(domain: tuple, document_name: str, compact: bool) -> 
     (with the doc_version that last asserted them); `dropped_keys` lists
     those entities. Chunk text is not versioned — earlier text lives only in
     the vault's git history.
+
+    A name missing its extension is matched when exactly one document fits
+    (`matched_name` plus a warning); a miss returns `closest` names and a
+    `next` command to run with one of them.
     """
     domains = _parse_domains(domain)
     try:

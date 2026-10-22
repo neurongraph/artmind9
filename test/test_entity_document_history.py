@@ -209,13 +209,13 @@ def _dispatch(monkeypatch, *, exact_rows, suffix_names, closest_names):
 
     def fake_run(cypher, params):
         calls.append((cypher, params))
-        if "IN $names" in cypher:
+        if "names" in params:
             return [{"name": n} for n in suffix_names]
-        if "CONTAINS toLower($fragment)" in cypher:
+        if "fragment" in params:
             return [{"name": n} for n in closest_names]
-        if params.get("documentName") in exact_rows:
-            return exact_rows[params["documentName"]]
-        return []
+        if "documentName" in params:
+            return exact_rows.get(params["documentName"], [])
+        raise AssertionError(f"unrecognised query: {params}")
 
     monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
     return calls
@@ -234,7 +234,7 @@ def test_a_unique_suffixed_name_is_used_with_a_warning(monkeypatch):
     assert result["rows"][0]["document"]["name"] == "policy_alpha.md"
     assert result["matched_name"] == "policy_alpha.md"
     assert result["warnings"] == ["no document named 'policy_alpha'; matched 'policy_alpha.md'"]
-    suffix_call = next(p for c, p in calls if "IN $names" in c)
+    suffix_call = next(p for c, p in calls if "names" in p)
     assert suffix_call["names"] == ["policy_alpha.md", "policy_alpha.pdf", "policy_alpha.docx",
                                     "policy_alpha.txt", "policy_alpha.html"]
 
@@ -246,7 +246,9 @@ def test_no_match_returns_closest_names_and_next(monkeypatch):
     result = graph_query.document_history(["f"], "alpha")
     assert result["rows"] == []
     assert result["closest"] == ["policy_alpha.md", "policy_alpha_v2.md"]
-    assert result["next"].startswith("artmind query document-history --documentName")
+    assert result["next"] == (
+        "artmind query document-history --domain f --documentName <one of closest> --compact"
+    )
 
 
 def test_two_suffixed_candidates_are_not_guessed(monkeypatch):
@@ -264,3 +266,39 @@ def test_an_exact_name_needs_no_second_query(monkeypatch):
     calls = _dispatch(monkeypatch, exact_rows={"policy_alpha.md": [_ROW]}, suffix_names=[], closest_names=[])
     result = graph_query.document_history(["f"], "policy_alpha.md")
     assert len(calls) == 1 and "warnings" not in result
+
+
+def test_mixed_case_input_sends_casefolded_names(monkeypatch):
+    from artmind import graph_query
+
+    calls = _dispatch(monkeypatch, exact_rows={}, suffix_names=[], closest_names=[])
+    graph_query.document_history(["f"], "Policy_Alpha")
+    suffix_call = next(p for c, p in calls if "names" in p)
+    assert suffix_call["names"][0] == "policy_alpha.md"
+    assert all(n == n.casefold() for n in suffix_call["names"])
+
+
+def test_no_closest_names_means_no_next(monkeypatch):
+    from artmind import graph_query
+
+    _dispatch(monkeypatch, exact_rows={}, suffix_names=[], closest_names=[])
+    result = graph_query.document_history(["f"], "zzz")
+    assert result["rows"] == [] and result["closest"] == []
+    assert "next" not in result
+
+
+def test_a_bare_suffix_skips_the_fragment_query(monkeypatch):
+    from artmind import graph_query
+
+    calls = _dispatch(monkeypatch, exact_rows={}, suffix_names=[], closest_names=["x.md"])
+    result = graph_query.document_history(["f"], ".md")
+    assert result["closest"] == [] and "next" not in result
+    assert not any("fragment" in p for c, p in calls)
+
+
+def test_next_quotes_and_joins_domains(monkeypatch):
+    from artmind import graph_query
+
+    _dispatch(monkeypatch, exact_rows={}, suffix_names=[], closest_names=["a.md"])
+    result = graph_query.document_history(["f", "g h"], "a")
+    assert "--domain 'f,g h' --documentName" in result["next"]
