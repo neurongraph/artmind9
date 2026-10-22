@@ -170,3 +170,12 @@ def test_deep_fallback_ignores_a_dry_run():
     sig = analysis.signals({"turns": 1}, spans, None, {"status": "n/a"})
     assert "deep_fallback" not in sig
     assert sig.get("text2cypher") == 1
+
+
+def test_empty_rows_ignores_a_plan_that_ran_nothing_but_not_an_executed_empty_view():
+    from artmind.traces import analysis
+
+    plan = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "evidence": {}}
+    assert "empty_rows" not in analysis.signals({"turns": 1}, [plan], None, {"status": "n/a"})
+    executed = {**plan, "evidence": {"view": {"name": "org_tree", "version": 2, "status": "ok", "params": {}}}}
+    assert analysis.signals({"turns": 1}, [executed], None, {"status": "n/a"}).get("empty_rows") == 1

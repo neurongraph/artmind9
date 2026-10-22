@@ -175,3 +175,16 @@ def test_a_plan_counts_as_the_views_check():
     assert views_check(spans)["status"] == "first"
     no_domain = [{**spans[0], "args": {"domain": []}}, spans[1]]
     assert views_check(no_domain)["listed_all"] is True
+
+
+def test_an_executed_plan_is_a_view_run():
+    from artmind.traces.path import views_check
+
+    view = {"name": "org_tree", "version": 2, "status": "ok", "params": {}}
+    plan = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "started_at": 1.0,
+            "evidence": {"view": view}}
+    check = views_check([plan])
+    assert check["view_ran"] is True and check["status"] == "first"
+    plain = {**plan, "evidence": {}}
+    check = views_check([plain])
+    assert check["view_ran"] is False and check["status"] == "n/a"

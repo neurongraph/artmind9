@@ -266,6 +266,12 @@ def test_a_plan_span_is_its_own_layer_and_an_executed_one_is_a_view():
                  "started_at": 1.0, "evidence": {}}
     assert path.span_layer(plan_span) == "plan"
     assert path.derive([plan_span], answer=None)["graph_attempts"] == 0
-    executed = {**plan_span, "rows": 2}
+    view = {"name": "org_tree", "version": 2, "status": "ok", "params": {}}
+    executed = {**plan_span, "rows": 2, "evidence": {"view": view}}
     assert path.span_layer(executed) == "view"
     assert path.derive([executed], answer=None)["graph_attempts"] == 1
+    empty = {**plan_span, "rows": 0, "evidence": {"view": view}}
+    assert path.span_layer(empty) == "view"
+    assert path.derive([empty], answer=None)["graph_attempts"] == 1
+    # rows without a view run (candidates only) do not make a plan a view run
+    assert path.span_layer({**plan_span, "rows": 2}) == "plan"

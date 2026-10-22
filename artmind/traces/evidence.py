@@ -92,7 +92,18 @@ def _resolved(payload: dict) -> list[dict]:
     return out[:CAP]
 
 
+def _plan_evidence(payload: dict) -> dict:
+    """A `query plan` payload: only `rows` and `executed.result` are evidence; the
+    entity, domain, view-match and store candidates are what the plan considered."""
+    executed = payload.get("executed") if isinstance(payload.get("executed"), dict) else {}
+    result = executed.get("result") if isinstance(executed.get("result"), dict) else {}
+    view_run = isinstance(result.get("view"), str) and "version" in result
+    return _evidence({**(result if view_run else {}), "rows": payload.get("rows") or []})
+
+
 def _evidence(payload: dict) -> dict:
+    if "plan_version" in payload:
+        return _plan_evidence(payload)
     acc = _Acc()
     _walk(payload, acc)
     for table in payload.get("source_tables") or []:

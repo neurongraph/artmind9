@@ -63,6 +63,12 @@ def views_checks(turns: list[dict], spans_by_trace: dict[str, list[dict]]) -> di
     return out
 
 
+def _is_unexecuted_plan(span: dict) -> bool:
+    """A `query plan` that did not run a view: its zero rows are not a failed retrieval."""
+    evidence = span.get("evidence")
+    return span.get("command") == "query plan" and not (isinstance(evidence, dict) and evidence.get("view"))
+
+
 def signals(turn: dict, spans: list[dict], turns_p90: float | None,
             views: dict | None = None) -> dict[str, int]:
     """`views` is the turn's `views_checks` entry; computed from `spans`
@@ -75,7 +81,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["fell_through"] = 1
     # An empty `views list` is a domain with no views, not a failed retrieval.
     if any(s.get("exit_code") == 0 and (s.get("rows") or 0) == 0 and s.get("command") != "query views list"
-           and not is_dry_run(s) and s.get("command") != "query plan" for s in spans):
+           and not is_dry_run(s) and not _is_unexecuted_plan(s) for s in spans):
         out["empty_rows"] = 1
     if any(s.get("truncated") for s in spans):
         out["truncated"] = 1

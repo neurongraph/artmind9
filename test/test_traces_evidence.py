@@ -153,3 +153,31 @@ def test_insights_payloads_count_as_answers():
     assert summarize(listing)["rows"] == 2
     assert summarize({"domain": "d", "finding": {"key": "a"}})["rows"] == 1
     assert summarize({"domain": "d", "findings": []})["rows"] == 0
+
+
+def _plan_payload(**over):
+    base = {"plan_version": 1, "question": "q",
+            "domains": {"selected": ["b"], "candidates": [{"name": "b", "_id": "dom1"}]},
+            "view_match": {"candidates": [{"name": "org_tree", "_id": "v1"}]},
+            "entities": [{"mention": "Alice", "candidates": [{"_id": "e1", "name": "Alice"}]}],
+            "store": {"tables": [{"source_file": "t.csv", "_id": "s1"}]},
+            "executed": None, "rows": [], "rows_total": 0, "truncated": False}
+    return {**base, **over}
+
+
+def test_a_plan_that_ran_nothing_has_no_evidence_from_its_candidates():
+    out = summarize(_plan_payload())
+    assert out["rows"] == 0
+    assert out["evidence"] == {}
+
+
+def test_an_executed_plan_records_the_view_and_the_row_ids():
+    result = {"view": "org_tree", "version": 2, "status": "ok", "domains": ["b"],
+              "params": {"root": {"input": "Alice", "_id": "e1"}}}
+    out = summarize(_plan_payload(executed={"cmd": "x", "status": "ok", "error": None, "result": result},
+                                  rows=[{"person": {"_id": "e7", "name": "Bo"}}], rows_total=1))
+    assert out["rows"] == 1
+    assert out["evidence"]["view"] == {"name": "org_tree", "version": 2, "status": "ok",
+                                       "params": {"root": {"input": "Alice", "_id": "e1"}}}
+    assert set(out["evidence"]["entities"]) == {"e1", "e7"}  # the resolved param, as in a plain views run
+    assert "dom1" not in out["evidence"]["entities"] and "v1" not in out["evidence"]["entities"]

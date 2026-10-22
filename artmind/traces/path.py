@@ -57,12 +57,14 @@ def is_dry_run(span: dict) -> bool:
 
 def span_layer(span: dict) -> str:
     """`layer_of` the span's command, except: a dry run is discovery (it executed
-    nothing), and a `query plan --execute` that returned rows is a view run."""
+    nothing), and a `query plan --execute` that ran its view (evidence.view) is a
+    view run, whatever it returned."""
     if is_dry_run(span):
         return "discovery"
     command = span.get("command")
     if command == "query plan":
-        return "view" if (span.get("rows") or 0) > 0 else "plan"
+        evidence = span.get("evidence")
+        return "view" if isinstance(evidence, dict) and evidence.get("view") else "plan"
     return layer_of(command)
 
 
@@ -252,9 +254,10 @@ def views_check(spans: list[dict], listed_before: set[str] | None = None, *,
                 listed_all = True
             else:
                 listed |= domains
-            if (span.get("rows") or 0) > 0:
-                applicable = True
-                ran = True
+            evidence = span.get("evidence")
+            if isinstance(evidence, dict) and evidence.get("view"):
+                applicable = True  # --execute ran the view
+                ran = ran or span.get("exit_code") == 0
             continue
         if command.startswith("query views"):
             if domains is None:
