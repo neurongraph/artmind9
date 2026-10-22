@@ -220,3 +220,8 @@ as the final gate, after every change has passed the cheaper levels below.
   New in D: truncation and provenance on `pattern7`, an honest `--dry-run`, an output-size
   guard, chat-surface memory framing. Unchanged: A, B, the time route. Untested still:
   hierarchy, path and filing routes; a model larger than Haiku on a first-person question.
+- 2026-10-22 (round 5, coverage audit) — every recorded Q&A turn now analysed. P26: one
+  question, four benchmark runs, the view in context for three, used once. Supports C2's
+  deterministic view match over listing views. **Phasing superseded** by
+  `08-fix-and-redesign-plan.md`: C (`query plan`) and B-as-data first, with the honest-command
+  fixes from D it depends on; A after it; the ingest-side supersession fix in parallel.
