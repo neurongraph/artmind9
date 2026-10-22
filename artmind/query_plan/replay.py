@@ -4,17 +4,25 @@ No agent: each label's question is planned (against the live graph) and the plan
 is scored against the label. `wrong` (a confident plan that is wrong) is the
 number to drive to zero; `abstained` (a low-confidence plan) is reported
 separately, since the agent then falls back to the routing table.
+
+Domain rule: the plan's domains match the label's when the sets are equal, or when
+the plan selected a single parent domain covering every label domain (intentional).
+
+The detail file (see `write_detail`) may contain exception text, which can quote
+questions or entity names: it lives in the private, gitignored logs directory and
+is never printed.
 """
 
 from __future__ import annotations
 
 import json
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 OUTCOMES = ("correct", "abstained", "correct_abstain", "wrong", "error")
 WRONG_RATE_GATE = 0.10
 REPEAT_GATE = 4
+ABORT_AFTER = 3  # consecutive identical errors: the backend is down, stop planning
 
 
 def _names(value) -> set[str]:
@@ -58,7 +66,8 @@ def score(label, plan: dict) -> dict:
         outcome = "wrong" if mismatches else "correct"
     return {"id": label.id, "outcome": outcome, "mismatches": mismatches, "route": plan["route"]["id"],
             "expected_route": label.route, "view": got_view, "level": level,
-            "latency_ms": plan["classifier"]["latency_ms"], "fell_back": plan["classifier"]["fell_back"]}
+            "latency_ms": plan["classifier"]["latency_ms"], "fell_back": plan["classifier"]["fell_back"],
+            "fallback_reason": plan["classifier"].get("reason") if plan["classifier"]["fell_back"] else None}
 
 
 def _stable(plan: dict) -> str:
@@ -80,8 +89,10 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
     latencies = [r["latency_ms"] for r in results if r.get("latency_ms") is not None]
     view_wrong = sum(1 for r in results if r["expected_route"] == "view" and r["outcome"] == "wrong")
     wrong_rate = counts["wrong"] / len(results) if results else None
+    fell_back = [r for r in results if r.get("fell_back")]
     passed = (view_wrong == 0 and wrong_rate is not None and wrong_rate < WRONG_RATE_GATE
-              and not unstable and repeat >= REPEAT_GATE)
+              and counts["error"] == 0 and not unstable and repeat >= REPEAT_GATE
+              and not (classifier == "decision" and fell_back))
     return {
         "classifier": classifier,
         "labels": len(results),
@@ -91,29 +102,53 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         "errors": [{"id": r["id"], "error_type": r.get("error_type"), "error": r.get("error")}
                    for r in results if r["outcome"] == "error"],
         "unstable": unstable,
+        "fell_back": len(fell_back),
+        "fallback_reasons": sorted({r["fallback_reason"] for r in fell_back if r.get("fallback_reason")}),
         "latency_ms": {"p50": _percentile(latencies, 0.5), "p95": _percentile(latencies, 0.95)},
-        "gate": {"view_wrong": view_wrong, "wrong_rate": wrong_rate, "repeat": repeat, "passed": passed},
+        "gate": {"view_wrong": view_wrong, "wrong_rate": wrong_rate, "repeat": repeat, "errors": counts["error"],
+                 "passed": passed},
         "results": results,
     }
 
 
-def replay(labels, classifier: str, repeat: int = 1, *, given_domains: bool = False, plan_fn=None) -> dict:
+def _error_result(label, error_type: str, message: str) -> dict:
+    return {"id": label.id, "outcome": "error", "mismatches": [], "error": message, "error_type": error_type,
+            "route": None, "expected_route": label.route, "view": None, "level": None,
+            "latency_ms": None, "fell_back": None}
+
+
+def replay(labels, classifier: str, repeat: int = 1, *, given_domains: bool = False, model: str | None = None,
+           plan_fn=None) -> dict:
+    """Plan every label `repeat` times and score the first plan.
+
+    `today` is fixed once so a run across midnight stays deterministic. After
+    ABORT_AFTER consecutive errors of one type the remaining labels are marked
+    `aborted` without planning."""
     if plan_fn is None:
         from artmind.query_plan import planner
 
         plan_fn = planner.plan
+    today = date.today()
+    extra = {"model": model} if model else {}
     results: list[dict] = []
     unstable: list[str] = []
+    streak_type, streak = None, 0
     for label in labels:
+        if streak >= ABORT_AFTER:
+            results.append(_error_result(label, "aborted",
+                                         f"replay aborted after {ABORT_AFTER} consecutive {streak_type} errors"))
+            continue
         domains = list(label.domains) if given_domains else None
         try:
-            runs = [plan_fn(label.question, domains, classifier=classifier) for _ in range(max(1, repeat))]
+            runs = [plan_fn(label.question, domains, classifier=classifier, today=today, **extra)
+                    for _ in range(max(1, repeat))]
         except Exception as exc:  # one label failing must not stop the replay (spec §7)
-            results.append({"id": label.id, "outcome": "error", "mismatches": [], "error": str(exc),
-                            "error_type": type(exc).__name__,
-                            "route": None, "expected_route": label.route, "view": None, "level": None,
-                            "latency_ms": None, "fell_back": None})
+            kind = type(exc).__name__
+            streak = streak + 1 if kind == streak_type else 1
+            streak_type = kind
+            results.append(_error_result(label, kind, str(exc)))
             continue
+        streak_type, streak = None, 0
         if len({_stable(r) for r in runs}) > 1:
             unstable.append(label.id)
         results.append(score(label, runs[0]))

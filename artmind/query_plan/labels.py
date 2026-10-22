@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
 import yaml
@@ -71,6 +72,17 @@ def _benchmark_questions(base_dir: Path, name: str, errors: list[str]) -> dict[s
     except (OSError, UnicodeDecodeError) as exc:
         errors.append(f"benchmark_file: {exc} (read relative to {base_dir.resolve()})")
         return {}
+
+
+def _iso(value):
+    """YAML turns an unquoted 2025-03-04 into a date; plans carry ISO strings."""
+    if isinstance(value, date):  # datetime is a date
+        return value.isoformat()
+    if isinstance(value, list):
+        return [_iso(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _iso(v) for k, v in value.items()}
+    return value
 
 
 def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | None = None) -> list[Label]:
@@ -159,7 +171,7 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
             documents = []
         out.append(Label(lid if isinstance(lid, str) else "", question or "",
                          source if isinstance(source, str) else "", tuple(domains),
-                         route if route_ok else "", view, dict(params), expect, tuple(documents), str(raw.get("notes") or ""),
+                         route if route_ok else "", view, _iso(dict(params)), expect, tuple(documents), str(raw.get("notes") or ""),
                          raw.get("benchmark")))
     if errors:
         raise LabelError(errors)

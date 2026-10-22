@@ -541,7 +541,7 @@ insights-config-check domain:
 
 # score `query plan` against a vault's labelled set, offline, 4 repeats for the determinism gate  (usage: just plan-replay ~/artmind_vaults/<name> [lexical|decision|both])
 plan-replay vault classifier="lexical":
-    cd {{quote(vault)}} && ARTMIND_NO_PROXY=1 artmind plan replay --classifier {{ classifier }} --repeat 4
+    cd {{quote(vault)}} && artmind plan replay --classifier {{ classifier }} --repeat 4
 
 # ── artmind traces ───────────────────────────────────────────────────────────
 

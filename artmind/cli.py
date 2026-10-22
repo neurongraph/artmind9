@@ -4284,15 +4284,21 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
               help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml")
 @click.option("--classifier", type=click.Choice(["lexical", "decision", "both"]), default="lexical", show_default=True)
 @click.option("--repeat", type=click.IntRange(1, 10), default=1, show_default=True,
-              help="Plan each label N times; labels whose plans differ are listed as unstable (the gate needs 4)")
+              help="Plan each label N times; labels whose plans differ are listed as unstable. The gate needs --repeat 4")
 @click.option("--givenDomains", "given_domains", is_flag=True, help="Pass each label's domains instead of letting the plan choose")
+@click.option("--model", "model", default=None, help="Decision model override (default: ARTMIND_DECISION_MODEL)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, compact: bool) -> None:
+def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, model: str | None,
+                compact: bool) -> None:
     """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
 
     Prints the summary (label ids, outcomes, mismatches; no question text); per-label
-    detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json.
+    detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json. Exits 1 when a reported gate
+    has not passed (the gate needs --repeat 4, no errors, and for `decision` no fallback).
     """
+    from neo4j.exceptions import DriverError, Neo4jError
+
+    from artmind import graph_query
     from artmind.query_plan import labels as plan_labels
     from artmind.query_plan import replay as plan_replay_mod
     from artmind.query_plan.classify import select_classifier
@@ -4305,18 +4311,24 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
     backends = ["lexical", "decision"] if classifier == "both" else [classifier]
     if "decision" in backends:
         try:
-            select_classifier("decision", "auto", None)
+            select_classifier("decision", "auto", model)
         except ValueError as exc:
             raise click.ClickException(str(exc)) from exc
+    try:  # fail fast: a down graph would otherwise turn every label into an error
+        graph_query.domains_overview()
+    except (DriverError, Neo4jError) as exc:
+        raise click.ClickException(f"Neo4j is unreachable: {exc}") from exc
     reports = {}
     for backend in backends:
-        report = plan_replay_mod.replay(loaded, backend, repeat, given_domains=given_domains)
+        report = plan_replay_mod.replay(loaded, backend, repeat, given_domains=given_domains, model=model)
         detail = plan_replay_mod.write_detail(report)
         summary = {k: v for k, v in report.items() if k != "results"}
         # exception text can quote the question or entity names: the summary keeps the type only
         summary["errors"] = [{"id": e["id"], "error_type": e.get("error_type")} for e in report["errors"]]
         reports[backend] = {**summary, "detail_file": str(detail)}
     _echo_json({"command": "plan replay", "file": str(path), "repeat": repeat, "reports": reports}, compact)
+    if not all(r["gate"]["passed"] for r in reports.values()):
+        raise SystemExit(1)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────

@@ -391,7 +391,8 @@ def _configs(domains: list[str]):
 
 
 def plan(question: str, domains: list[str] | None = None, *, execute: bool = False,
-         classifier: str = "auto", today: date | None = None) -> dict:
+         classifier: str = "auto", today: date | None = None, model: str | None = None) -> dict:
+    """`model` overrides the decision model (else the domain config's, else ARTMIND_DECISION_MODEL)."""
     question = (question or "").strip()
     if not question:
         raise PlanError("the question is empty")
@@ -405,7 +406,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     given_cfg = _configs(domains) if domains else None
     try:
         clf, auto_reason = select_classifier(
-            classifier, given_cfg.classifier if given_cfg else "auto", given_cfg.decision_model if given_cfg else None,
+            classifier, given_cfg.classifier if given_cfg else "auto",
+            model or (given_cfg.decision_model if given_cfg else None),
         )
     except ValueError as exc:
         raise PlanError(str(exc)) from exc
