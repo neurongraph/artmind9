@@ -43,3 +43,30 @@ def test_text2sql_dry_run_names_the_command_to_run(monkeypatch):
     assert result.exit_code == 0, result.output
     payload = json.loads(result.output)
     assert payload["next"] == "artmind query text2sql --domain bank --asOf 2026-01-01 'total fees' --compact"
+
+
+def test_text2cypher_dry_run_next_keeps_a_non_default_max_rows(monkeypatch):
+    monkeypatch.setattr(
+        cli_mod.text2cypher, "execute_text2cypher",
+        lambda **kw: {"command": "text2cypher", "dry_run": True},
+    )
+    result = CliRunner().invoke(
+        cli,
+        ["query", "graph", "text2cypher", "--domain", "a", "--domain", "b", "--dry-run", "--maxRows", "50",
+         "--compact", "what's up?"],
+    )
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    assert payload["next"] == "artmind query graph text2cypher --domain a,b 'what'\"'\"'s up?' --maxRows 50 --compact"
+
+
+def test_text2sql_dry_run_without_as_of_has_no_as_of_in_next(monkeypatch):
+    monkeypatch.setattr(
+        cli_mod.text2sql, "execute_text2sql",
+        lambda question, domains, dry_run=False, as_of=None: {"command": "text2sql", "dry_run": True},
+    )
+    result = CliRunner().invoke(cli, ["query", "text2sql", "--domain", "bank", "--dry-run", "--compact", "total fees"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    assert "--asOf" not in payload["next"]
+    assert payload["next"] == "artmind query text2sql --domain bank 'total fees' --compact"

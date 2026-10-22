@@ -2971,9 +2971,12 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     if dry_run:
+        max_rows_arg = (
+            "" if max_rows == text2cypher.TEXT2CYPHER_MAX_ROWS else f" --maxRows {int(max_rows)}"
+        )
         result["next"] = (
             f"artmind query graph text2cypher --domain {shlex.quote(','.join(domains))} "
-            f"{shlex.quote(question)} --compact"
+            f"{shlex.quote(question)}{max_rows_arg} --compact"
         )
     _echo_json(result, compact)
 
