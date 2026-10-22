@@ -1087,3 +1087,15 @@ def test_pattern7_rejects_out_of_range_limit(bad_limit):
         graph_query._pattern_query(
             "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": bad_limit}
         )
+
+
+# ── H4a: supersedes on document rows (spec 2026-10-22 §5.4.1) ────────────────
+
+def test_document_rows_carry_supersedes():
+    field = "supersedes: [(d)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]"
+    for params in ({"domains": ["f"], "documentName": "a.md"},
+                   {"domains": ["f"], "documentName": "a.md", "includeHistory": True}):
+        cypher, _ = graph_query._pattern_query("pattern10", params)
+        assert field in cypher
+    assert field in graph_query._chunks_query(0, None)
+    assert ".path, .source_path" in graph_query._chunks_query(0, None)

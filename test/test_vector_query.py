@@ -462,3 +462,28 @@ def test_full_text_search_handles_missing_chat_index(monkeypatch):
 
     assert len(result["rows"]) == 1
     assert result["rows"][0]["chunk"]["id"] == "chunk-1"
+
+
+def test_vector_text_document_block_carries_supersedes(monkeypatch):
+    seen = []
+
+    class FakeSession:
+        def run(self, cypher, **params):
+            seen.append(cypher)
+            return []
+
+    class Ctx:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1])
+    monkeypatch.setattr(vector_query, "read_session", lambda: Ctx())
+    vector_query.vector_search("fiction", "q", 2)
+    vector_query.full_text_search("fiction", "harbour", 2)
+    chunk_queries = [c for c in seen if "DocChunk" in c or "chunk_text_ft" in c]
+    assert chunk_queries
+    for cypher in chunk_queries:
+        assert "supersedes: [(document)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]" in cypher

@@ -124,6 +124,13 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
     )
 
 
+def supersedes_field(var: str) -> str:
+    """Map-projection entry naming the documents `var` replaced (its outgoing
+    SUPERSEDES edges, to live or retired documents). Derived at query time, like
+    `superseded_by` is derived by supersession_records (spec 2026-10-22 §5.4.1)."""
+    return f"supersedes: [({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path }}]"
+
+
 # ISO date at year, month, or day precision (optionally with a time suffix).
 # valid_from/valid_to are ISO strings compared lexically, so prefixes work.
 _ASOF_RE = re.compile(r"^\d{4}(-\d{2}){0,2}(T[0-9:.+-]+)?$")
@@ -1025,7 +1032,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # chunks become visible too. Coarser than "in force by T" elsewhere,
         # and said so in the CLI help rather than implied.
         as_of = parameters.get("asOf")
-        doc_return = "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by } AS document"
+        doc_return = (
+            "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, "
+            + supersedes_field("d") + " } AS document"
+        )
         chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
         # A long document can hold hundreds of chunks, each carrying its own
         # `.text` -- unlike structural_metadata/entity_listing's short names,
@@ -1166,7 +1176,7 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
       AND {domain_predicate("c")}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, ._domain, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
+           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")} }} AS document{neighbor_return}
     ORDER BY c.id
     """
 

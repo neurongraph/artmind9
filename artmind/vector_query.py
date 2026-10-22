@@ -8,6 +8,7 @@ from artmind.graph_query import (
     sanitize_lucene_query,
     serialize_record,
     strip_internal_props,
+    supersedes_field,
 )
 from utils.functions import load_env
 
@@ -152,7 +153,7 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .source_path, ._domain }} AS document,
+           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")} }} AS document,
            'document' AS source_type
     ORDER BY score DESC
     LIMIT $topK
@@ -245,7 +246,7 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .source_path, ._domain }} AS document,
+           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")} }} AS document,
            'document' AS source_type
     ORDER BY score DESC
     LIMIT $topK
