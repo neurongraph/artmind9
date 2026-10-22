@@ -4190,16 +4190,32 @@ def plan_config_group() -> None:
 @click.option("--domain", "domain", multiple=True, help="Only these domains (repeatable; comma-splittable). Default: every file")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def plan_config_check(domain: tuple, compact: bool) -> None:
-    """Validate plan config files and, with Neo4j up, that each configured narrator exists."""
+    """Validate plan config files and, with Neo4j up, that each configured narrator exists.
+
+    A file that is invalid, whose name is not a domain name, or whose configured narrator
+    is not found in the graph fails the check (ok false, exit 1). With Neo4j unreachable
+    the narrator is not checked: that is a warning, not an error.
+    """
     import paths
+    from neo4j.exceptions import DriverError, Neo4jError
+
     from artmind.query_plan import candidates as plan_candidates
     from artmind.query_plan import config as plan_config
 
-    names = _parse_repeatable(domain) if domain else sorted(p.stem for p in Path(paths.DOMAIN_PLAN_DIR).glob("*.yaml"))
+    if domain:
+        names = _parse_repeatable(domain)
+    else:
+        names = sorted(p.stem for p in Path(paths.DOMAIN_PLAN_DIR).glob("*.yaml")
+                       if p.is_file() and not p.name.startswith("."))
     results = []
     for name in names:
+        if not plan_config._DOMAIN_RE.fullmatch(name):
+            results.append({"domain": name, "file": None, "ok": False, "errors": ["file name is not a valid domain name"],
+                            "warnings": [], "narrator_found": None})
+            continue
         path = plan_config.config_file(name)
-        entry = {"domain": name, "file": str(path) if path else None, "ok": True, "errors": [], "narrator_found": None}
+        entry = {"domain": name, "file": str(path) if path else None, "ok": True, "errors": [], "warnings": [],
+                 "narrator_found": None}
         try:
             cfg = plan_config.load_config(name)
         except plan_config.PlanConfigError as exc:
@@ -4209,8 +4225,8 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
         if cfg.narrator:
             try:
                 entry["narrator_found"] = bool(plan_candidates.narrator_candidates(cfg.narrator, [name]))
-            except Exception as exc:  # Neo4j down: report, do not fail the file
-                entry["errors"].append(f"narrator not checked: {exc}")
+            except (DriverError, Neo4jError) as exc:  # Neo4j down: warn, do not fail the file
+                entry["warnings"].append(f"narrator not checked: {exc}")
             if entry["narrator_found"] is False:
                 entry["ok"] = False
                 entry["errors"].append(f"narrator {cfg.narrator.name!r} ({cfg.narrator.entity_class}) is not in {name}")
@@ -4236,12 +4252,15 @@ def _labels_path(file_path: Path | None) -> Path:
 
 @plan_labels_group.command("validate")
 @click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
-              help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml")
+              help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml. A `benchmark_file` in it is "
+                   "read relative to the vault root (the current vault, else the labels file's grandparent)")
 @click.option("--checkEntities", "check_entities", is_flag=True, help="Also check (needs Neo4j) that every entity param name resolves")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: bool) -> None:
     """Check every rule of the labels file and report all problems at once."""
     from artmind.query_plan import labels as plan_labels
+
+    from neo4j.exceptions import DriverError, Neo4jError
 
     path = _labels_path(file_path)
     try:
@@ -4250,7 +4269,10 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
         _echo_json({"command": "plan labels validate", "file": str(path), "ok": False, "labels": 0,
                     "errors": exc.errors}, compact)
         raise SystemExit(1)
-    errors = plan_labels.check_entities(loaded) if check_entities else []
+    try:
+        errors = plan_labels.check_entities(loaded) if check_entities else []
+    except (DriverError, Neo4jError) as exc:
+        raise click.ClickException(f"entities not checked: {exc}") from exc
     _echo_json({"command": "plan labels validate", "file": str(path), "ok": not errors, "labels": len(loaded),
                 "errors": errors}, compact)
     if errors:
