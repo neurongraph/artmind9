@@ -97,19 +97,29 @@ def _command_key(cmd: str) -> str | None:
 def _span_key(span: dict) -> str:
     command = span.get("command") or ""
     args = span.get("args")
+    evidence = span.get("evidence")
+    if command == "query plan" and isinstance(evidence, dict) and evidence.get("view"):
+        return f"query views run {evidence['view']}"  # --execute ran the view
     if command == "query views run" and isinstance(args, dict) and args.get("name"):
         return f"{command} {args['name']}"
     return command
 
 
+def _is_traced_step(key: str | None) -> bool:
+    return key is not None and (key == "query" or key.startswith("query "))
+
+
 def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
-    """Did the agent run the shadow plan's first step? None when the plan has no step."""
+    """Did the agent run the shadow plan's first traced step? Only `query ...`
+    steps leave spans (an `artmind db ...` step is skipped); None when the plan
+    has none. A bare `query plan` span is the plan itself, never an answer."""
     plan = (shadow or {}).get("plan") or {}
     steps = plan.get("steps") or plan.get("suggested_steps") or []
-    key = _command_key(steps[0].get("cmd") or "") if steps else None
+    keys = (_command_key(step.get("cmd") or "") for step in steps)
+    key = next((k for k in keys if _is_traced_step(k)), None)
     if key is None:
         return None
-    return key in {_span_key(s) for s in spans if s.get("command") != "query plan"}
+    return key in {_span_key(s) for s in spans if _span_key(s) != "query plan"}
 
 
 def _rate(values: list) -> float | None:
@@ -118,22 +128,31 @@ def _rate(values: list) -> float | None:
 
 
 def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_trace: dict[str, list[dict]]) -> dict:
+    """Shadow-plan block of a stats row; always the same keys. `statuses` counts
+    every recorded payload (a failing shadow must be visible); the rates use
+    status `ok` only, and the first/followup/by-rating splits use high plans."""
+    statuses: Counter = Counter()
     rows = []
     for turn in turns:
         payload = shadow_plan(shadows.get(turn["trace_id"], []))
-        if payload and payload.get("status") == "ok":
-            rows.append((turn, payload, agreement(payload, spans_by_trace.get(turn["trace_id"], []))))
-    if not rows:
-        return {"plans": 0}
+        if not payload:
+            continue
+        statuses[payload.get("status") or "unknown"] += 1
+        if payload.get("status") == "ok":
+            level = ((payload.get("plan") or {}).get("confidence") or {}).get("level")
+            rows.append((turn, payload, level, agreement(payload, spans_by_trace.get(turn["trace_id"], []))))
+    high = [r for r in rows if r[2] == "high"]
     by_rating: dict[str, list] = {}
-    for turn, _, agreed in rows:
+    for turn, _, _, agreed in high:
         by_rating.setdefault(turn.get("rating") or "unrated", []).append(agreed)
-    high = sum(1 for _, p, _ in rows if ((p.get("plan") or {}).get("confidence") or {}).get("level") == "high")
     return {
         "plans": len(rows),
-        "high_share": high / len(rows),
-        "agreement_first": _rate([a for _, p, a in rows if not p.get("followup")]),
-        "agreement_followup": _rate([a for _, p, a in rows if p.get("followup")]),
+        "statuses": dict(statuses),
+        "high_share": len(high) / len(rows) if rows else None,
+        "agreement_high": _rate([a for *_, lvl, a in rows if lvl == "high"]),
+        "agreement_low": _rate([a for *_, lvl, a in rows if lvl != "high"]),
+        "agreement_first": _rate([a for _, p, _, a in high if not p.get("followup")]),
+        "agreement_followup": _rate([a for _, p, _, a in high if p.get("followup")]),
         "agreement_by_rating": {k: _rate(v) for k, v in sorted(by_rating.items())},
     }
 
@@ -178,7 +197,8 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
     elif status == "late":
         out["views_late"] = 1
     level = (((shadow or {}).get("plan") or {}).get("confidence") or {}).get("level")
-    if (shadow or {}).get("status") == "ok" and level == "high" and agreement(shadow, spans) is False:
+    ran_query = any((s.get("command") or "").startswith("query") and s.get("command") != "query plan" for s in spans)
+    if (shadow or {}).get("status") == "ok" and level == "high" and ran_query and agreement(shadow, spans) is False:
         out["plan_disagreed_high"] = 2
     return out
 

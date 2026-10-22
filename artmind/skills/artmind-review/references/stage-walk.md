@@ -34,7 +34,10 @@ the command you ran that does answer it. Proposal: a change to the query skill
 (which step, which rule) or to a view's `SKILL.md` description. A
 `views_skipped` or `views_late` triage signal means the agent did not check the
 saved views first; if `artmind query views list` shows a view that answers the
-question, this is the verdict.
+question, this is the verdict. A `plan_disagreed_high` signal means the shadow
+plan was high-confidence and the agent ran something else: compare the plan's
+first step (`traces show`, `plan_shadow`) with the agent's spans, and check
+`traces stats` `plan_shadow` for the share of failed shadows (`statuses`).
 
 ### `missing-view`
 The question needs specific Cypher and it recurs (`artmind traces list` shows

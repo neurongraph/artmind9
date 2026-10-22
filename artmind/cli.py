@@ -3817,7 +3817,9 @@ def traces_show(trace_id, compact) -> None:
 def traces_triage(since, limit, compact) -> None:
     """Rank unreviewed turns worth reviewing: rated wrong, then partial, then
     unrated turns by signal score; graph misses rated good come last. Signals
-    include views_skipped / views_late (saved views not checked before other queries)."""
+    include views_skipped / views_late (saved views not checked before other queries)
+    and plan_disagreed_high (a high-confidence shadow plan whose first traced step
+    the agent did not run)."""
     from artmind.traces import analysis
 
     try:
@@ -3851,7 +3853,9 @@ def traces_stats(domain, since, by, compact) -> None:
     """Per domain and period: turns, fall-through rate, graph-miss rate, graph
     productivity, answer basis split, graph attempts before a fall-through, and
     views-first compliance (views checked first / late / skipped, views run,
-    views listed but unused)."""
+    views listed but unused), and a plan_shadow block (shadow statuses, share of
+    high-confidence plans, how often the agent ran the plan's first step: all,
+    high, low, first turn, follow-up, by rating)."""
     from artmind.traces import analysis
 
     try:
