@@ -2954,15 +2954,22 @@ def graph_pattern10(
     domains = _parse_domains(domain)
     history = include_history or as_of is not None
     try:
+        # as_of=None on purpose: resolve_as_of would reject the non-ISO values the old presence flag accepted.
         result = graph_query.execute_pattern(
             domains=domains, pattern="pattern10", question=question, as_of=None,
-            documentName=document_name, includeHistory=history, limit=limit, offset=offset,
+            documentName=document_name, includeHistory=True if history else None, limit=limit, offset=offset,
         )
-        if not history and not result.get("rows"):
+        # First page only: an empty page past the end of a current document is not a retired-only match.
+        if not history and offset == 0 and not result.get("rows"):
             matches = graph_query.pattern10_history_matches(domains, document_name)
             if matches:
-                result["history_matches"] = matches
-                result["next"] = f"add --includeHistory: {len(matches)} retired document(s) match"
+                shown = 5
+                result["history_matches"] = matches[:shown]
+                result["next"] = (
+                    f"add --includeHistory: more than {shown} retired documents match"
+                    if len(matches) > shown
+                    else f"add --includeHistory: {len(matches)} retired document(s) match"
+                )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     if as_of is not None:

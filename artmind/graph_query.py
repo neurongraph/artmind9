@@ -1151,7 +1151,9 @@ def execute_pattern(
 def pattern10_history_matches(domains: "str | Sequence[str]", document_name: str, limit: int = 5) -> list[str]:
     """Names of RETIRED documents matching a pattern10 --documentName (spec
     2026-10-22 §5.4.3). Asked only after the current-only query found nothing,
-    so a caller holding a retired name learns to add --includeHistory (Q10)."""
+    so a caller holding a retired name learns to add --includeHistory
+    (query-routing study Q10). Fetches limit + 1 names so the caller can tell
+    "exactly limit" from "more than limit"; it shows at most `limit`."""
     domains = normalize_domains(domains)
     rows = _run_read_query(
         f"""
@@ -1161,7 +1163,7 @@ def pattern10_history_matches(domains: "str | Sequence[str]", document_name: str
         ORDER BY name
         LIMIT $limit
         """,
-        {"domains": domains, "documentName": document_name, "limit": limit},
+        {"domains": domains, "documentName": document_name, "limit": limit + 1},
     )
     return [r["name"] for r in rows if r.get("name")]
 

@@ -1123,4 +1123,21 @@ def test_pattern10_history_matches_queries_retired_documents(monkeypatch):
     monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
     assert graph_query.pattern10_history_matches(["f"], "alpha") == ["policy_alpha.md"]
     assert "MATCH (d:DocumentHistory)" in sent["cypher"]
-    assert sent["params"] == {"domains": ["f"], "documentName": "alpha", "limit": 5}
+    assert sent["params"] == {"domains": ["f"], "documentName": "alpha", "limit": 6}
+
+
+def test_execute_pattern_pattern10_include_history_plumbing(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent["cypher"], sent["params"] = cypher, params
+        return []
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    result = graph_query.execute_pattern(["f"], "pattern10", documentName="a", includeHistory=True)
+    assert "DocumentHistory" in sent["cypher"]
+    assert result["parameters"]["includeHistory"] is True
+
+    result = graph_query.execute_pattern(["f"], "pattern10", documentName="a")
+    assert "DocumentHistory" not in sent["cypher"]
+    assert "includeHistory" not in result["parameters"]
