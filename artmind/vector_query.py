@@ -292,6 +292,82 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     return result
 
 
+def _entity_ft_cypher() -> str:
+    from artmind.graph_query import domain_predicate
+
+    return f"""
+    CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query)
+    YIELD node AS e, score
+    WHERE {domain_predicate("e")}
+    RETURN score,
+           e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
+                observation_count: e._observation_count,
+                connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
+    ORDER BY score DESC
+    LIMIT $topK
+    """
+
+
+def _entity_exact_cypher() -> str:
+    from artmind.graph_query import domain_predicate
+
+    return f"""
+    MATCH (e:Entity)
+    WHERE {domain_predicate("e")} AND toLower(e.name) = toLower($reference)
+    RETURN e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
+                observation_count: e._observation_count,
+                connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
+    ORDER BY e._observation_count DESC
+    LIMIT $topK
+    """
+
+
+def entity_name_candidates(domains, reference: str, topK: int = 10) -> dict:
+    """Entities a reference names, from the exact and fulltext legs only.
+
+    No embedding call and no RRF: an exact-name hit comes first, then the
+    fulltext hits by score, de-duplicated by `_id`. Rows are shaped like
+    `entity_resolve`'s (`entity`, `matched_by`, `score`), so a caller can read
+    both; use this where a vector neighbour must not pass for evidence.
+    """
+    from artmind.graph_query import normalize_domains, _domain_output
+
+    domains = normalize_domains(domains)
+    ft_query = sanitize_lucene_query(reference)
+    top_k = int(topK)
+    by_id: dict = {}
+
+    def add(rows: list, leg: str) -> None:
+        for row in rows:
+            entity = row.get("entity")
+            if not entity:
+                continue
+            found = by_id.get(entity.get("_id"))
+            if found is None:
+                by_id[entity.get("_id")] = {
+                    **row, "score": row.get("score", 1.0), "matched_by": [leg],
+                }
+            elif leg not in found["matched_by"]:
+                found["matched_by"].append(leg)
+
+    with read_session() as session:
+        if reference.strip():
+            add([strip_internal_props(serialize_record(r)) for r in session.run(
+                _entity_exact_cypher(), domains=domains, reference=reference.strip(), topK=top_k)], "exact")
+        if ft_query:
+            add([strip_internal_props(serialize_record(r)) for r in session.run(
+                _entity_ft_cypher(), domains=domains, ft_query=ft_query, topK=top_k)], "fulltext")
+    rows = list(by_id.values())
+    n_exact = sum(1 for r in rows if "exact" in r["matched_by"])
+    return {
+        **_domain_output(domains),
+        "query_type": "entity_name_candidates",
+        "question": reference,
+        "parameters": {"topK": top_k},
+        "rows": rows[: max(top_k, n_exact)],
+    }
+
+
 def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     """Resolve a free-text entity reference to canonical graph entities.
 
@@ -319,17 +395,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     n = len(domains)
     ft_query = sanitize_lucene_query(reference)
 
-    cypher_ft = f"""
-    CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query)
-    YIELD node AS e, score
-    WHERE {domain_predicate("e")}
-    RETURN score,
-           e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
-                observation_count: e._observation_count,
-                connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
-    ORDER BY score DESC
-    LIMIT $topK
-    """
+    cypher_ft = _entity_ft_cypher()
 
     cypher_vec = f"""
     CYPHER 25
@@ -349,15 +415,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     LIMIT $topK
     """
 
-    cypher_exact = f"""
-    MATCH (e:Entity)
-    WHERE {domain_predicate("e")} AND toLower(e.name) = toLower($reference)
-    RETURN e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
-                observation_count: e._observation_count,
-                connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
-    ORDER BY e._observation_count DESC
-    LIMIT $topK
-    """
+    cypher_exact = _entity_exact_cypher()
 
     with read_session() as session:
         exact_rows: list = []

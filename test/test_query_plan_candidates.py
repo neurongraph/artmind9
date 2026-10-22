@@ -40,20 +40,44 @@ def test_domain_options_add_parents_with_two_children():
     assert "All bank.* domains" in options[0].text()
 
 
+def _hit(entity_id, name, legs, cls="PERSON"):
+    return {"entity": {"_id": entity_id, "name": name, "entity_class": cls, "_domain": "journal"},
+            "matched_by": legs, "score": 1.0}
+
+
 def test_resolution_keeps_only_name_evidence(monkeypatch):
-    def fake_resolve(domains, reference, top_k):
+    def fake_names(domains, reference, top_k):
         assert (domains, reference, top_k) == (["journal"], "Ada", candidates.RESOLVE_TOP_K)
         return {"rows": [
-            {"entity": {"_id": "p1", "name": "Ada", "entity_class": "PERSON", "_domain": "journal"},
-             "matched_by": ["exact", "vector"]},
-            {"entity": {"_id": "p2", "name": "Adam", "entity_class": "PERSON"}, "matched_by": ["vector"]},
+            _hit("p1", "Ada", ["exact", "fulltext"]),
+            _hit("p2", "Ada Lovelace", ["fulltext"]),
+            _hit("p3", "Adam Bede", ["fulltext"]),
+            _hit("p4", "Ada", ["vector"]),
         ]}
 
-    monkeypatch.setattr(vector_query, "entity_resolve", fake_resolve)
+    def no_resolve(*args, **kwargs):
+        raise AssertionError("resolve_mention must not call the embedding-backed entity_resolve")
+
+    monkeypatch.setattr(vector_query, "entity_name_candidates", fake_names)
+    monkeypatch.setattr(vector_query, "entity_resolve", no_resolve)
     mention = candidates.Mention("Ada", 0, 3, "capitalised")
     found = candidates.resolve_mention(mention, ["journal"], None)
-    assert [c["_id"] for c in found] == ["p1"]
-    assert found[0]["matched_by"] == ["exact", "vector"]
+    assert [c["_id"] for c in found] == ["p1", "p2"]
+    assert found[0]["matched_by"] == ["exact", "fulltext"]
+
+
+def test_fulltext_needs_every_token_of_one_side_in_the_other(monkeypatch):
+    rows = [
+        _hit("a", "Lakeport Harbour Office", ["fulltext"]),   # mention tokens all in the name
+        _hit("b", "Office", ["fulltext"]),                    # name tokens all in the mention
+        _hit("c", "Port Office", ["fulltext"]),               # neither
+        _hit("d", "Harbour Office Lakeport", ["fulltext"]),   # order does not matter
+        _hit("e", "lakeport office", ["exact"]),              # exact is always kept
+    ]
+    monkeypatch.setattr(vector_query, "entity_name_candidates", lambda d, r, k: {"rows": rows})
+    mention = candidates.Mention("Lakeport  Office", 0, 16, "capitalised")
+    found = candidates.resolve_mention(mention, ["journal"], None)
+    assert [c["_id"] for c in found] == ["a", "b", "d", "e"]
 
 
 def test_first_person_resolves_to_the_narrator(monkeypatch):
@@ -96,3 +120,234 @@ def test_store_facts_pick_a_kind(monkeypatch):
     assert candidates.store_facts(["bank"], "average balance", set())["kind"] == "analytical"
     monkeypatch.setattr(registry, "routing_surface", lambda domains: [])
     assert candidates.store_facts(["bank"], "anything", set()) is None
+
+
+# --- mentions ---------------------------------------------------------------
+
+
+def test_contractions_with_i_are_first_person():
+    for apostrophe in ("'", "\u2019"):
+        question = f"Where I{apostrophe}m going and what I{apostrophe}ve seen near Lakeport"
+        assert _texts(question) == [("I", "first_person"), ("Lakeport", "capitalised")]
+    mention = candidates.find_mentions("Why I'd go there")[0]
+    assert (mention.text, mention.end - mention.start) == ("I", 1)
+
+
+def test_a_possessive_ends_a_run():
+    assert _texts("Ada's Lakeport trip") == [("Ada", "capitalised"), ("Lakeport", "capitalised")]
+    assert _texts("Ada\u2019s notes") == [("Ada", "capitalised")]
+    mention = candidates.find_mentions("Port Ellen's harbour")[0]
+    assert mention.text == "Port Ellen"
+
+
+def test_trailing_punctuation_is_stripped_from_tokens():
+    question = "Did Ada- or Bo& visit Lakeport'?"
+    assert _texts(question) == [("Ada", "capitalised"), ("Bo", "capitalised"), ("Lakeport", "capitalised")]
+    ada = candidates.find_mentions(question)[0]
+    assert question[ada.start:ada.end] == "Ada"
+
+
+def test_an_all_upper_case_question_skips_capitalisation():
+    assert _texts("HOW MANY VISITS DID ADA MAKE TO LAKEPORT?") == []
+    assert _texts('HOW MANY VISITS DID I MAKE TO "LAKEPORT"?') == [("I", "first_person"), ("LAKEPORT", "quoted")]
+
+
+def test_weekdays_are_not_names():
+    assert _texts("What happened on Monday near Lakeport?") == [("Lakeport", "capitalised")]
+
+
+def test_a_run_continues_across_lowercase_joiners_before_a_capital():
+    assert _texts("Please visit Bank of England today") == [("Bank of England", "capitalised")]
+    assert _texts("Any letters from Ludwig van Beethoven") == [("Ludwig van Beethoven", "capitalised")]
+    assert _texts("Ada and Bo met") == [("Ada", "capitalised"), ("Bo", "capitalised")]
+    assert _texts("Ada of the north") == [("Ada", "capitalised")]
+
+
+def test_imperative_verbs_at_a_sentence_start_are_not_names():
+    for verb in ("Compare", "Calculate", "Identify", "Name", "Count", "Check", "Look", "Get", "Make",
+                 "Remind", "Summarise", "Summarize"):
+        assert _texts(f"{verb} Ada and Bo") == [("Ada", "capitalised"), ("Bo", "capitalised")], verb
+
+
+def test_sentences_also_start_after_a_newline_or_colon():
+    assert _texts("Ada left.\nCompare Lakeport") == [("Ada", "capitalised"), ("Lakeport", "capitalised")]
+    assert _texts("Task:\nIdentify Bo") == [("Task", "capitalised"), ("Bo", "capitalised")]
+    assert _texts("Question: Show Bo") == [("Question", "capitalised"), ("Bo", "capitalised")]
+    # a newline does not glue two capitalised lines into one run
+    assert _texts("Ada\nLakeport") == [("Ada", "capitalised"), ("Lakeport", "capitalised")]
+
+
+def test_honorifics_join_the_following_name():
+    assert _texts("Did Dr. Smith call?") == [("Dr. Smith", "capitalised")]
+    assert _texts("Did Mrs Jones call?") == [("Mrs Jones", "capitalised")]
+    assert _texts("ask prof. Hale") == [("prof. Hale", "capitalised")]
+    assert _texts("Does Ms. Ng know Mr. Quill") == [("Ms. Ng", "capitalised"), ("Mr. Quill", "capitalised")]
+
+
+def test_me_after_a_giving_verb_is_not_first_person():
+    for lead in ("tell", "show", "give", "list", "send", "remind", "let", "help"):
+        assert _texts(f"Please {lead} me about Lakeport") == [("Lakeport", "capitalised")], lead
+    assert _texts("Did Bo visit me in Lakeport?") == [("Bo", "capitalised"), ("me", "first_person"),
+                                                      ("Lakeport", "capitalised")]
+
+
+def test_planner_contract_examples_hold():
+    assert _texts("How many visits did Ada make to Lakeport in 2025?") == [
+        ("Ada", "capitalised"), ("Lakeport", "capitalised")]
+    assert _texts("How many visits did I make to Lakeport in 2025?") == [
+        ("I", "first_person"), ("Lakeport", "capitalised")]
+    assert _texts("Something about the weather?") == [("Something", "capitalised")]
+    assert _texts("How often did the team meet?") == []
+
+
+def test_too_many_mentions_keep_the_most_specific_by_priority():
+    names = ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India"]
+    question = 'I met "Quoted Thing" with Port Ellen and ' + " ".join(f"{n} saw x" for n in names)
+    found = candidates.find_mentions(question)
+    assert len(found) == candidates.MAX_MENTIONS
+    texts = [(m.text, m.via) for m in found]
+    assert ("Quoted Thing", "quoted") in texts and ("Port Ellen", "capitalised") in texts
+    assert [m.start for m in found] == sorted(m.start for m in found)
+    # quoted and multi-token names outrank single names, which outrank first person
+    assert ("I", "first_person") not in texts
+    assert ("Foxtrot", "capitalised") in texts and ("Golf", "capitalised") not in texts
+
+
+def test_priority_drops_first_person_before_capitalised_singles():
+    names = ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"]
+    question = "I met " + " ".join(f"{n} saw x" for n in names)
+    texts = [(m.text, m.via) for m in candidates.find_mentions(question)]
+    assert len(texts) == 8 and ("I", "first_person") not in texts
+
+
+# --- keywords ---------------------------------------------------------------
+
+
+def test_keywords_keep_alphanumerics_and_drop_dates_and_filler():
+    question = "How much did we get in q4 2025 and in March on v2 of the budget on Friday?"
+    assert candidates.keywords(question, []) == ["q4", "v2", "budget"]
+
+
+def test_keywords_tokenise_apostrophes_and_hyphens():
+    question = "list the well-known company's cross-team rules"
+    assert candidates.keywords(question, []) == ["well-known", "company", "cross-team", "rules"]
+
+
+# --- documents --------------------------------------------------------------
+
+
+def test_a_bare_short_stem_is_not_a_document_but_the_spelled_suffix_is():
+    names = ["notes.md", "summary.md"]
+    assert candidates.match_document("Any notes on the summary?", names) is None
+    assert candidates.match_document("Open notes.md please", names) == "notes.md"
+
+
+def test_long_multi_token_or_marked_stems_are_accepted_without_suffix():
+    assert candidates.match_document("what is in quarterly handbook", ["quarterly_handbook.md"]) == "quarterly_handbook.md"
+    assert candidates.match_document("what about the 2025 plan", ["plan2025.md"]) is None  # different token
+    assert candidates.match_document("see report2025 now", ["report2025.md"]) == "report2025.md"  # has a digit
+    assert candidates.match_document("see handbooks overview", ["handbooks.md"]) == "handbooks.md"  # >= 8 chars
+
+
+def test_document_ties_are_broken_by_sorted_name():
+    names = ["b_report.md", "a_report.md"]
+    assert candidates.match_document("the a report or b report?", names) == "a_report.md"
+    assert candidates.match_document("the a report or b report?", list(reversed(names))) == "a_report.md"
+
+
+def test_document_matching_keeps_unicode_letters():
+    assert candidates.match_document("Was steht in caf\u00e9 \u00fcbersicht heute?", ["caf\u00e9_\u00fcbersicht.md"]) \
+        == "caf\u00e9_\u00fcbersicht.md"
+
+
+def test_document_names_use_a_label_expression(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent["cypher"], sent["params"] = cypher, params
+        return [{"name": "b.md"}, {"name": "a.md"}, {"name": "a.md"}, {"name": None}]
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    assert candidates.document_names(["journal"]) == ["a.md", "b.md"]
+    assert "MATCH (d:Document|DocumentHistory)" in sent["cypher"]
+    assert sent["params"] == {"domains": ["journal"]}
+
+
+# --- store facts ------------------------------------------------------------
+
+
+def _surface(monkeypatch):
+    from artmind.structured import registry
+
+    monkeypatch.setattr(registry, "routing_surface", lambda domains: [
+        {"table": "accounts", "entity_classes": [{"entity_class": "CUSTOMER"}]},
+    ])
+
+
+def test_store_fact_words_match_on_word_boundaries(monkeypatch):
+    _surface(monkeypatch)
+    # "per " inside "super idea", "rule" inside "ruler": substrings are not words
+    assert candidates.store_facts(["bank"], "a super idea", set())["kind"] == "graph"
+    assert candidates.store_facts(["bank"], "check the ruler", {"CUSTOMER"})["kind"] == "graph"
+    assert candidates.store_facts(["bank"], "a perfect staff", {"CUSTOMER"})["kind"] == "graph"
+    assert candidates.store_facts(["bank"], "visits per month", set())["kind"] == "analytical"
+    assert candidates.store_facts(["bank"], "the total", set())["kind"] == "analytical"
+    assert candidates.store_facts(["bank"], "what policies apply", {"CUSTOMER"})["kind"] == "records_plus_guidance"
+    assert candidates.store_facts(["bank"], "which procedures apply", {"CUSTOMER"})["kind"] == "records_plus_guidance"
+    assert candidates.store_facts(["bank"], "the proceduralist", {"CUSTOMER"})["kind"] == "graph"
+
+
+def test_store_facts_log_the_swallowed_registry_error(monkeypatch):
+    from loguru import logger
+    from artmind.structured import registry
+
+    def boom(domains):
+        raise RuntimeError("no registry here")
+
+    monkeypatch.setattr(registry, "routing_surface", boom)
+    messages = []
+    sink = logger.add(lambda m: messages.append(m.record["message"]), level="DEBUG")
+    try:
+        assert candidates.store_facts(["bank"], "average", set()) is None
+    finally:
+        logger.remove(sink)
+    assert any("no registry here" in m for m in messages)
+
+
+# --- domain options ---------------------------------------------------------
+
+
+def test_nested_parents_with_the_same_descendants_keep_the_deepest():
+    rows = [
+        {"domain": "org.team.alpha", "document_count": 1, "documents": ["a.md"], "top_classes": ["X"]},
+        {"domain": "org.team.beta", "document_count": 1, "documents": ["b.md"], "top_classes": ["Y"]},
+    ]
+    assert [(o.key, o.is_parent) for o in candidates.domain_options(rows)] == [
+        ("org.team", True), ("org.team.alpha", False), ("org.team.beta", False),
+    ]
+    rows.append({"domain": "org.other", "document_count": 1, "documents": ["c.md"], "top_classes": ["Z"]})
+    keys = [o.key for o in candidates.domain_options(rows)]
+    assert "org" in keys and "org.team" in keys  # now their descendant sets differ
+
+
+def test_a_parent_that_is_itself_a_domain_is_kept():
+    rows = [
+        {"domain": "org", "document_count": 1, "documents": ["root.md"], "top_classes": ["R"]},
+        {"domain": "org.team.alpha", "document_count": 1, "documents": ["a.md"], "top_classes": []},
+        {"domain": "org.team.beta", "document_count": 1, "documents": ["b.md"], "top_classes": []},
+    ]
+    keys = [o.key for o in candidates.domain_options(rows)]
+    assert "org" in keys and "org.team" in keys
+
+
+def test_parent_examples_interleave_across_children():
+    rows = [
+        {"domain": "bank.a", "document_count": 5, "documents": [f"a{i}.md" for i in range(6)],
+         "top_classes": [f"A{i}" for i in range(6)]},
+        {"domain": "bank.b", "document_count": 5, "documents": ["b0.md", "b1.md"], "top_classes": ["B0", "B1"]},
+    ]
+    parent = candidates.domain_options(rows)[0]
+    assert parent.key == "bank"
+    assert parent.documents[:4] == ("a0.md", "b0.md", "a1.md", "b1.md")
+    assert parent.top_classes[:4] == ("A0", "B0", "A1", "B1")
+    assert len(parent.documents) == 8 and len(parent.top_classes) == 8

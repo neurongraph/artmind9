@@ -319,7 +319,8 @@ def test_entity_resolve_reports_aggregation_size():
     caller can spot a hub before asking for its (large) context."""
     import inspect
 
-    source = inspect.getsource(vector_query.entity_resolve)
+    source = "".join(inspect.getsource(f) for f in (
+        vector_query.entity_resolve, vector_query._entity_ft_cypher, vector_query._entity_exact_cypher))
     assert source.count("observation_count: ") == 3  # exact, fulltext and vector legs
     assert source.count("connection_count: COUNT {{ (") == 3
 
@@ -487,3 +488,40 @@ def test_vector_text_document_block_carries_supersedes(monkeypatch):
     assert len(chunk_queries) == 2
     for cypher in chunk_queries:
         assert "supersedes: [(document)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]" in cypher
+
+
+def test_entity_name_candidates_runs_only_exact_and_fulltext_without_embedding(monkeypatch):
+    calls = []
+    exact = [{"entity": {"_id": "a", "name": "Ada", "entity_class": "PERSON"}}]
+    ft = [_hit("b", "Ada Lovelace", 3.0), _hit("a", "Ada", 2.0)]
+
+    class FakeSession:
+        def run(self, cypher, **params):
+            calls.append((cypher, params))
+            return exact if "toLower(e.name)" in cypher else ft
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    def no_embedding(*args, **kwargs):
+        raise AssertionError("name-only resolution must not embed")
+
+    monkeypatch.setattr(vector_query, "embed_question", no_embedding)
+    monkeypatch.setattr(vector_query, "_embed_text", no_embedding)
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
+
+    result = vector_query.entity_name_candidates("journal", "Ada", 10)
+
+    assert len(calls) == 2
+    assert "toLower(e.name) = toLower($reference)" in calls[0][0]
+    assert "entity_name_ft" in calls[1][0]
+    assert not any("entity_embedding" in cypher for cypher, _ in calls)
+    assert calls[0][1]["reference"] == "Ada" and calls[1][1]["ft_query"]
+    assert [r["entity"]["_id"] for r in result["rows"]] == ["a", "b"]
+    assert [r["matched_by"] for r in result["rows"]] == [["exact", "fulltext"], ["fulltext"]]
+    assert all("score" in r for r in result["rows"])
+    assert result["query_type"] == "entity_name_candidates"

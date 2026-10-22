@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from itertools import zip_longest
+
+from loguru import logger
 
 from artmind import graph_query, vector_query
 from artmind.graph_query import domain_predicate
@@ -21,17 +24,28 @@ QUESTION_WORDS = frozenset("""
 how what when where which who whom whose why did does do is are was were can could should would will
 has have had list show tell give find summarise summarize describe explain any all in on for from of the
 a an between since during please
+compare calculate identify name count check look get make remind
 """.split())
-MONTHS = frozenset("""
+TEMPORAL_WORDS = frozenset("""
 january february march april may june july august september october november december
 jan feb mar apr jun jul aug sep sept oct nov dec
+monday tuesday wednesday thursday friday saturday sunday
+mon tue tues wed thu thur thurs fri sat sun
 """.split())
-AGGREGATE_WORDS = ("how many", "average", "total", "sum of", "count of", "per ", "number of")
-GUIDANCE_WORDS = ("policy", "guidance", "should", "what to do", "rule", "procedure")
+JOINERS = frozenset("of de van von der da du la le".split())
+HONORIFICS = frozenset("dr mr mrs ms prof".split())
+ME_BLOCKERS = frozenset("tell show give list send remind let help".split())
+# Words that carry no search value in a keyword list, beyond STOPWORDS and QUESTION_WORDS.
+_KEYWORD_STOP = frozenset("many much get make say do does to a".split())
+_CONTRACTIONS_WITH_I = frozenset({"i'm", "i've", "i'd", "i'll"})
+_AGGREGATE_RE = re.compile(r"\b(per|total|average|how many|number of|count of|sum of)\b")
+_GUIDANCE_RE = re.compile(r"\b(policy|policies|guidance|should|what to do|rules?|procedures?)\b")
 
-_TOKEN_RE = re.compile(r"[A-Za-z0-9][\w'’&-]*")
+_TOKEN_RE = re.compile(r"[^\W_][\w'’&-]*")
 _QUOTED_RE = re.compile(r'"([^"]{2,})"|“([^”]{2,})”')
-_WORD_RE = re.compile(r"[A-Za-z][A-Za-z'’-]*")
+_KEYWORD_RE = re.compile(r"\w[\w'’-]*")
+_NAME_PART_RE = re.compile(r"[^\W_]+")
+_SENTENCE_BREAK_RE = re.compile(r"(?:[.?!:]|\n)\s*$")
 
 
 @dataclass(frozen=True)
@@ -40,6 +54,32 @@ class Mention:
     start: int
     end: int
     via: str  # capitalised | quoted | first_person
+
+
+@dataclass(frozen=True)
+class _Token:
+    start: int
+    end: int  # after trailing punctuation and a possessive suffix are stripped
+    word: str
+    low: str
+    possessive: bool
+    in_quote: bool
+
+
+def _tokens(question: str, quoted: list[tuple[int, int]]) -> list[_Token]:
+    out: list[_Token] = []
+    for match in _TOKEN_RE.finditer(question):
+        word = match.group(0).rstrip("'’-&")
+        possessive = False
+        if len(word) > 2 and word[-2] in "'’" and word[-1] in "sS" and word.casefold().replace("’", "'") \
+                not in _CONTRACTIONS_WITH_I:
+            word, possessive = word[:-2], True
+        if not word:
+            continue
+        start = match.start()
+        out.append(_Token(start, start + len(word), word, word.casefold(), possessive,
+                          any(a <= start < b for a, b in quoted)))
+    return out
 
 
 def find_mentions(question: str, first_person: tuple[str, ...] = ("i", "me", "my", "mine", "myself")) -> list[Mention]:
@@ -52,53 +92,98 @@ def find_mentions(question: str, first_person: tuple[str, ...] = ("i", "me", "my
         mentions.append(Mention(text, start, start + len(text), "quoted"))
         taken.append((match.start(), match.end()))
     first = {w.casefold() for w in first_person}
+    shouting = question.isupper()  # an all-caps question carries no capitalisation signal
+    tokens = _tokens(question, taken)
     seen_first_person = False
-    run: list[re.Match] = []
+    run: list[_Token] = []
 
     def flush() -> None:
         if run:
-            text = re.sub(r"['’]s$", "", question[run[0].start():run[-1].end()])
-            mentions.append(Mention(text, run[0].start(), run[0].start() + len(text), "capitalised"))
+            mentions.append(Mention(question[run[0].start:run[-1].end], run[0].start, run[-1].end, "capitalised"))
             run.clear()
 
-    for index, match in enumerate(_TOKEN_RE.finditer(question)):
-        if any(a <= match.start() < b for a, b in taken):
+    def gap_between(a: _Token, b: _Token) -> str:
+        return question[a.end:b.start]
+
+    def capitalised(token: _Token | None) -> bool:
+        return (token is not None and not token.in_quote and not shouting
+                and token.word[:1].isupper() and token.low not in TEMPORAL_WORDS)
+
+    def joins(prev: _Token, token: _Token) -> bool:
+        """Can `token` continue a run that ends at `prev`?"""
+        gap = gap_between(prev, token)
+        if not gap.strip() and "\n" not in gap:
+            return True
+        return prev.low in HONORIFICS and gap.strip() == "."
+
+    prev_low = ""
+    for index, token in enumerate(tokens):
+        previous, prev_low = prev_low, token.low
+        if token.in_quote:
             flush()
             continue
-        word = match.group(0)
-        low = re.sub(r"['’]s$", "", word).casefold()
-        if low in first:
+        pronoun = token.low.replace("’", "'")
+        if pronoun in _CONTRACTIONS_WITH_I and "i" in first:
             flush()
             if not seen_first_person:
-                mentions.append(Mention(word, match.start(), match.end(), "first_person"))
+                mentions.append(Mention(token.word[:1], token.start, token.start + 1, "first_person"))
                 seen_first_person = True
             continue
-        sentence_start = index == 0 or re.search(r"[.?!]\s*$", question[:match.start()]) is not None
+        if token.low in first and not (token.low == "me" and previous in ME_BLOCKERS):
+            flush()
+            if not seen_first_person:
+                mentions.append(Mention(token.word, token.start, token.end, "first_person"))
+                seen_first_person = True
+            continue
+        following = tokens[index + 1] if index + 1 < len(tokens) else None
+        sentence_start = not re.sub(r"[\W_]+", "", question[:token.start]) \
+            or _SENTENCE_BREAK_RE.search(question[:token.start]) is not None
         is_name = (
-            word[:1].isupper()
-            and not (sentence_start and (low in QUESTION_WORDS or low in STOPWORDS))
-            and low not in MONTHS
+            not shouting
+            and token.word[:1].isupper()
+            and not (sentence_start and (token.low in QUESTION_WORDS or token.low in STOPWORDS))
+            and token.low not in TEMPORAL_WORDS
         )
+        if not is_name and token.low in HONORIFICS and capitalised(following) \
+                and question[token.end:following.start].strip() in ("", "."):
+            is_name = True  # "dr smith"
         if is_name:
-            if run and question[run[-1].end():match.start()].strip():
+            if run and not joins(run[-1], token):
                 flush()
-            run.append(match)
+            run.append(token)
+            if token.possessive:
+                flush()
+        elif (run and token.low in JOINERS and capitalised(following) and not token.possessive
+              and joins(run[-1], token) and joins(token, following)):
+            run.append(token)  # "Bank of England"
         else:
             flush()
     flush()
+    if len(mentions) > MAX_MENTIONS:
+        def priority(m: Mention) -> int:
+            if m.via == "quoted":
+                return 0
+            if m.via == "capitalised":
+                return 1 if len(m.text.split()) > 1 else 2
+            return 3
+
+        mentions = sorted(sorted(mentions, key=lambda m: (priority(m), m.start))[:MAX_MENTIONS],
+                          key=lambda m: m.start)
     mentions.sort(key=lambda m: m.start)
-    return mentions[:MAX_MENTIONS]
+    return mentions
 
 
 def keywords(question: str, mentions: list[Mention]) -> list[str]:
     """Content words outside the mentions, in question order (the `{keywords}` placeholder)."""
     spans = [(m.start, m.end) for m in mentions]
     out: list[str] = []
-    for match in _WORD_RE.finditer(question):
+    for match in _KEYWORD_RE.finditer(question):
         if any(a <= match.start() < b for a, b in spans):
             continue
-        word = match.group(0).casefold().strip("'’-")
-        if len(word) >= 3 and word not in STOPWORDS and word not in QUESTION_WORDS and word not in out:
+        word = re.sub(r"['’]s$", "", match.group(0).casefold().strip("'’-"))
+        if (len(word) >= 2 and not word.isdigit() and word not in out
+                and word not in STOPWORDS and word not in QUESTION_WORDS
+                and word not in TEMPORAL_WORDS and word not in _KEYWORD_STOP):
             out.append(word)
     return out
 
@@ -125,13 +210,19 @@ class DomainOption:
         return "; ".join(parts)
 
 
+def _interleave(lists: list[list[str]]) -> list[str]:
+    """Round-robin across the lists, first occurrence wins."""
+    out: list[str] = []
+    for tier in zip_longest(*lists):
+        out += [x for x in tier if x is not None and x not in out]
+    return out
+
+
 def _option(key: str, rows: list[dict], is_parent: bool) -> DomainOption:
-    documents: list[str] = []
-    classes: list[str] = []
+    documents = _interleave([list(r.get("documents") or []) for r in rows])
+    classes = _interleave([list(r.get("top_classes") or []) for r in rows])
     tables: list[str] = []
     for row in rows:
-        documents += [d for d in row.get("documents") or [] if d not in documents]
-        classes += [c for c in row.get("top_classes") or [] if c not in classes]
         tables += [t for t in row.get("tables") or [] if t not in tables]
     return DomainOption(key, is_parent, sum(r.get("document_count") or 0 for r in rows),
                         tuple(documents[:10]), tuple(classes[:8]), tuple(tables))
@@ -139,20 +230,30 @@ def _option(key: str, rows: list[dict], is_parent: bool) -> DomainOption:
 
 def domain_options(rows: list[dict]) -> list[DomainOption]:
     """Every leaf domain from `domains-overview`, plus each family parent with two
-    or more children (a parent scopes all of them; study P14)."""
+    or more children (a parent scopes all of them; study P14). Of nested parents
+    that scope the same set, only the deepest is offered."""
     by_name = {r["domain"]: r for r in rows if isinstance(r.get("domain"), str)}
     children: dict[str, set[str]] = {}
     for name in by_name:
         parts = name.split(".")
         for i in range(1, len(parts)):
             children.setdefault(".".join(parts[:i]), set()).add(name)
+    scope = {parent: frozenset(kids | ({parent} if parent in by_name else set()))
+             for parent, kids in children.items() if len(kids) >= 2}
+    deepest = {}
+    for parent, members in scope.items():
+        if members not in deepest or parent.count(".") > deepest[members].count("."):
+            deepest[members] = parent
     options = []
-    for parent, kids in children.items():
-        if len(kids) >= 2:
-            members = [by_name[k] for k in sorted(kids)] + ([by_name[parent]] if parent in by_name else [])
-            options.append(_option(parent, members, True))
-    parents = {o.key for o in options}
-    options += [_option(name, [row], False) for name, row in by_name.items() if name not in parents]
+    for parent, members in scope.items():
+        if deepest[members] != parent:
+            continue
+        kids = children[parent]
+        rows_for = [by_name[k] for k in sorted(kids)] + ([by_name[parent]] if parent in by_name else [])
+        options.append(_option(parent, rows_for, True))
+    covered = {parent for parent in scope if parent in by_name}  # a domain folded into its parent
+    options += [_option(name, [row], False) for name, row in by_name.items()
+                if name not in {o.key for o in options} and name not in covered]
     return sorted(options, key=lambda o: o.key)
 
 
@@ -185,16 +286,29 @@ def narrator_candidates(narrator, domains: list[str]) -> list[dict]:
     return [entity_ref(r["entity"], {"narrator"}) for r in rows if r.get("entity")]
 
 
+def _name_tokens(text: str) -> set[str]:
+    return set(_NAME_PART_RE.findall(text.casefold()))
+
+
+def _names_overlap(mention: str, name: str) -> bool:
+    """Every token of one side appears in the other (fulltext's evidence bar)."""
+    a, b = _name_tokens(mention), _name_tokens(name)
+    return bool(a) and bool(b) and (a <= b or b <= a)
+
+
 def resolve_mention(mention: Mention, domains: list[str], narrator) -> list[dict]:
-    """Candidates for one mention. Only exact or fulltext evidence counts: the
-    vector leg always returns neighbours, so it is not evidence (the kg_views rule)."""
+    """Candidates for one mention. Only name evidence counts, and no embedding is
+    computed: an `exact` hit is kept; a `fulltext` hit only when one side's tokens all
+    appear in the other, since Lucene returns near-misses (the kg_views rule)."""
     if mention.via == "first_person":
         return narrator_candidates(narrator, domains) if narrator else []
-    result = vector_query.entity_resolve(domains, mention.text, RESOLVE_TOP_K)
+    result = vector_query.entity_name_candidates(domains, mention.text, RESOLVE_TOP_K)
     out = []
     for row in result.get("rows", []):
         entity, legs = row.get("entity"), set(row.get("matched_by") or [])
-        if entity and legs & {"exact", "fulltext"}:
+        if not entity:
+            continue
+        if "exact" in legs or ("fulltext" in legs and _names_overlap(mention.text, str(entity.get("name") or ""))):
             out.append(entity_ref(entity, legs))
     return out[:MAX_CANDIDATES]
 
@@ -211,8 +325,8 @@ def twin_groups(refs: list[dict]) -> list[list[dict]]:
 def document_names(domains: list[str]) -> list[str]:
     rows = graph_query._run_read_query(
         f"""
-        MATCH (d)
-        WHERE (d:Document OR d:DocumentHistory) AND {domain_predicate("d")}
+        MATCH (d:Document|DocumentHistory)
+        WHERE {domain_predicate("d")}
         RETURN DISTINCT d.name AS name
         """,
         {"domains": domains},
@@ -221,22 +335,33 @@ def document_names(domains: list[str]) -> list[str]:
 
 
 def _norm(text: str) -> str:
-    text = re.sub(r"[^0-9a-z.]+", " ", text.casefold())
-    return " ".join(re.sub(r"\.(?![0-9a-z])", " ", text).split())
+    text = re.sub(r"(?:[^\w.]|_)+", " ", text.casefold())
+    return " ".join(re.sub(r"\.(?![^\W_])", " ", text).split())
 
 
 def match_document(question: str, names: list[str]) -> str | None:
-    """The longest document name (with or without its suffix) the question spells out."""
+    """The longest document name (with or without its suffix) the question spells out.
+
+    A bare stem is weak evidence: it counts only with two or more tokens, a digit or
+    underscore in the name, or eight characters. Spelling the suffix always counts."""
     q = f" {_norm(question)} "
     best: tuple[str, int] | None = None
-    for name in names:
+    for name in sorted(names):
         stem = name
         for suffix in DOCUMENT_SUFFIXES:
             if stem.casefold().endswith(suffix):
                 stem = stem[: -len(suffix)]
                 break
-        for form in {_norm(name), _norm(stem)}:
-            if len(form) >= 4 and f" {form} " in q and (best is None or len(form) > best[1]):
+        strong_name = bool(re.search(r"[\d_]", name))
+        forms = {_norm(stem): False}
+        if stem != name:
+            forms[_norm(name)] = True
+        for form, spells_suffix in forms.items():
+            if len(form) < 4 or f" {form} " not in q:
+                continue
+            if not (spells_suffix or len(form.split()) >= 2 or strong_name or len(form) >= 8):
+                continue
+            if best is None or len(form) > best[1]:
                 best = (name, len(form))
     return best[0] if best else None
 
@@ -247,21 +372,23 @@ def store_facts(domains: list[str], question: str, resolved_classes: set) -> dic
         from artmind.structured import registry
 
         surface = registry.routing_surface(domains)
-    except Exception:  # a query-only host has no registry DB
+    except Exception as exc:  # a query-only host has no registry DB
+        logger.debug("store facts unavailable: {}", exc)
         return None
     if not surface:
         return None
     low = question.casefold()
     bridged = sorted({c["entity_class"] for t in surface for c in t.get("entity_classes") or []})
     hit = set(bridged) & {c for c in resolved_classes if c}
-    aggregate = any(w in low for w in AGGREGATE_WORDS)
+    aggregate = _AGGREGATE_RE.search(low) is not None
     if hit and (aggregate or re.search(r"\d", low)):
         kind = "hybrid"
     elif aggregate:
         kind = "analytical"
-    elif hit and any(w in low for w in GUIDANCE_WORDS):
+    elif hit and _GUIDANCE_RE.search(low):
         kind = "records_plus_guidance"
     else:
         kind = "graph"
+    # matched_values is not populated in v1: routing_surface() carries no cell values.
     return {"kind": kind, "tables": sorted({t["table"] for t in surface}), "bridge_classes": bridged,
             "matched_values": []}
