@@ -239,3 +239,21 @@ def test_an_executed_text2cypher_still_counts():
     span = {**_dry_span(), "args": {"domain": ["b"], "dry_run": False}}
     assert path.span_layer(span) == "text2cypher"
     assert path.derive([span], answer=None)["graph_attempts"] == 1
+
+
+def test_a_dry_run_then_vector_text_is_not_a_fall_through():
+    from artmind.traces import path
+
+    dry = _dry_span(started_at=1.0)
+    vector = _span("query vector-text", rows=3, started_at=2.0)
+    derived = path.derive([dry, vector], answer=None)
+    assert derived["graph_attempts"] == 0
+    assert derived["fell_through"] is False
+
+
+def test_a_text2sql_dry_run_is_discovery():
+    from artmind.traces import path
+
+    span = {"span_id": "s1", "command": "query text2sql", "args": {"dry_run": True},
+            "exit_code": 0, "rows": 0, "started_at": 1.0, "evidence": {}}
+    assert path.span_layer(span) == "discovery"
