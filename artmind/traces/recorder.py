@@ -17,6 +17,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from artmind.query_plan import shadow
 from artmind.traces import path as trace_path
 from artmind.traces import store
 
@@ -41,21 +42,31 @@ class TraceRecorder:
         self._buffers = {"text": [], "thinking": []}
         self._answer: list[str] = []
         self._done: dict = {}
+        self._shadow = None
 
     @classmethod
     def start(cls, *, source: str, question: str, session_id: str | None = None, profile: str | None = None,
               backend: str | None = None, benchmark_run_id: str | None = None, benchmark_seq: int | None = None,
-              context_path: Path | None = None) -> "TraceRecorder":
+              context_path: Path | None = None, shadow_question: str | None = None,
+              shadow_domains: list[str] | None = None) -> "TraceRecorder":
+        """`shadow_question` (the user's own text) starts a shadow plan for the turn (spec 2026-10-22 §6)."""
         try:
             trace_id = store.new_trace_id()
             store.insert_turn(trace_id, source=source, question=question, session_id=session_id, profile=profile,
                               backend=backend, benchmark_run_id=benchmark_run_id, benchmark_seq=benchmark_seq)
             if context_path:
                 Path(context_path).write_text(trace_id)
-            return cls(trace_id, context_path)
+            recorder = cls(trace_id, context_path)
         except Exception:
             logger.exception("trace capture disabled for this turn")
             return cls(None, None)
+        if shadow_question:
+            try:
+                followup = bool(session_id) and store.count_session_turns(session_id) > 1
+            except Exception:
+                followup = False
+            recorder._shadow = shadow.start(shadow_question, shadow_domains, followup)
+        return recorder
 
     # ── per event ────────────────────────────────────────────────────────
     def observe(self, event: dict) -> dict:
@@ -118,6 +129,8 @@ class TraceRecorder:
         try:
             self._flush("thinking")
             self._flush("text")
+            if self._shadow is not None:
+                self._add("plan_shadow", self._shadow.result(), name="query plan")
             store.insert_events(self.trace_id, self._events)
             spans = store.list_spans(self.trace_id)
             pairs = match_tool_ids(spans, self._tools)

@@ -222,6 +222,35 @@ def list_events(trace_id: str) -> list[dict]:
         conn.close()
 
 
+def count_session_turns(session_id: str) -> int:
+    conn = _connect()
+    try:
+        return conn.execute("SELECT COUNT(*) FROM trace_turns WHERE session_id = ?", (session_id,)).fetchone()[0]
+    finally:
+        conn.close()
+
+
+def list_events_of_type(trace_ids: list[str], type_: str) -> dict[str, list[dict]]:
+    """`{trace_id: [events of type_]}` in one pass, chunked like list_spans_for."""
+    if not trace_ids:
+        return {}
+    chunk_size = 500
+    out: dict[str, list[dict]] = {}
+    conn = _connect()
+    try:
+        for i in range(0, len(trace_ids), chunk_size):
+            chunk = trace_ids[i : i + chunk_size]
+            marks = ",".join("?" for _ in chunk)
+            for row in conn.execute(
+                f"SELECT * FROM trace_events WHERE type = ? AND trace_id IN ({marks}) ORDER BY trace_id, seq",
+                (type_, *chunk),
+            ):
+                out.setdefault(row["trace_id"], []).append(dict(row))
+    finally:
+        conn.close()
+    return out
+
+
 def list_spans(trace_id: str) -> list[dict]:
     conn = _connect()
     try:
