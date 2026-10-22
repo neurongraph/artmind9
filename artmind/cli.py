@@ -261,7 +261,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "views", "insights", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "plan", "views", "insights", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -297,6 +297,9 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain", "review"]},
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
+    ],
+    "artmind plan": [
+        {"name": "Plan", "commands": ["config", "labels"]},
     ],
     "artmind insights": [
         {"name": "Snapshots", "commands": ["refresh", "list", "show", "runs", "profile"]},
@@ -4164,6 +4167,94 @@ def review_verify(review_id, run_id, backend, compact) -> None:
     except dz.DossierError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+# ── artmind plan (spec 2026-10-22: config checks, labelled set, replay) ─────────
+
+
+@cli.group("plan")
+def plan_group() -> None:
+    """Operate `query plan`: per-domain config checks, the labelled set, offline replay.
+
+    Not proxied. The labels file and replay output hold real questions: they stay in the
+    vault (`<vault>/benchmarking/`, `<vault>/.artmind/logs/`), never in a checkout.
+    """
+
+
+@plan_group.group("config")
+def plan_config_group() -> None:
+    """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier."""
+
+
+@plan_config_group.command("check")
+@click.option("--domain", "domain", multiple=True, help="Only these domains (repeatable; comma-splittable). Default: every file")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def plan_config_check(domain: tuple, compact: bool) -> None:
+    """Validate plan config files and, with Neo4j up, that each configured narrator exists."""
+    import paths
+    from artmind.query_plan import candidates as plan_candidates
+    from artmind.query_plan import config as plan_config
+
+    names = _parse_repeatable(domain) if domain else sorted(p.stem for p in Path(paths.DOMAIN_PLAN_DIR).glob("*.yaml"))
+    results = []
+    for name in names:
+        path = plan_config.config_file(name)
+        entry = {"domain": name, "file": str(path) if path else None, "ok": True, "errors": [], "narrator_found": None}
+        try:
+            cfg = plan_config.load_config(name)
+        except plan_config.PlanConfigError as exc:
+            entry.update(ok=False, errors=[str(exc)])
+            results.append(entry)
+            continue
+        if cfg.narrator:
+            try:
+                entry["narrator_found"] = bool(plan_candidates.narrator_candidates(cfg.narrator, [name]))
+            except Exception as exc:  # Neo4j down: report, do not fail the file
+                entry["errors"].append(f"narrator not checked: {exc}")
+            if entry["narrator_found"] is False:
+                entry["ok"] = False
+                entry["errors"].append(f"narrator {cfg.narrator.name!r} ({cfg.narrator.entity_class}) is not in {name}")
+        results.append(entry)
+    _echo_json({"command": "plan config check", "results": results}, compact)
+    if not all(r["ok"] for r in results):
+        raise SystemExit(1)
+
+
+@plan_group.group("labels")
+def plan_labels_group() -> None:
+    """The labelled set (`<vault>/benchmarking/plan_labels.yaml`)."""
+
+
+def _labels_path(file_path: Path | None) -> Path:
+    from artmind.query_plan import labels as plan_labels
+
+    path = file_path or plan_labels.default_path()
+    if path is None:
+        raise click.ClickException("not inside a vault: pass --file")
+    return path
+
+
+@plan_labels_group.command("validate")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml")
+@click.option("--checkEntities", "check_entities", is_flag=True, help="Also check (needs Neo4j) that every entity param name resolves")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: bool) -> None:
+    """Check every rule of the labels file and report all problems at once."""
+    from artmind.query_plan import labels as plan_labels
+
+    path = _labels_path(file_path)
+    try:
+        loaded = plan_labels.load_labels(path)
+    except plan_labels.LabelError as exc:
+        _echo_json({"command": "plan labels validate", "file": str(path), "ok": False, "labels": 0,
+                    "errors": exc.errors}, compact)
+        raise SystemExit(1)
+    errors = plan_labels.check_entities(loaded) if check_entities else []
+    _echo_json({"command": "plan labels validate", "file": str(path), "ok": not errors, "labels": len(loaded),
+                "errors": errors}, compact)
+    if errors:
+        raise SystemExit(1)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
