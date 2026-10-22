@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import shlex
 import time
+from dataclasses import dataclass, field
 from datetime import date
 
 from artmind import graph_query
@@ -33,11 +34,14 @@ VIEW_FALLBACK = "artmind query vector-text --domain {domains} {question} --compa
 
 
 class PlanError(ValueError):
-    """The question cannot be planned: empty, or a forced classifier that is not configured."""
+    """The question cannot be planned: empty, a bad plan config, or a forced classifier that is not configured."""
 
 
 class _Calls:
-    """Classifier calls with lexical fallback, counted and timed for the payload."""
+    """Classifier calls with a sticky lexical fallback, counted and timed for the payload.
+
+    One `decide` is one call, even when the backend fails and the lexical classifier redoes it.
+    Once the backend has been unavailable, later calls go straight to the lexical classifier."""
 
     def __init__(self, classifier, warnings: list[str]):
         self.classifier = classifier
@@ -51,16 +55,51 @@ class _Calls:
         if not decisions:
             return {}
         started = time.perf_counter()
+        self.calls += 1
         try:
-            return self.classifier.decide(question, decisions)
-        except ClassifierUnavailable as exc:
-            self.fell_back = True
-            self.reason = exc.reason
-            self.warnings.append(f"decision classifier unavailable ({exc.reason}); used the lexical classifier")
+            if not self.fell_back:
+                try:
+                    answers = dict(self.classifier.decide(question, decisions))
+                except ClassifierUnavailable as exc:
+                    self.fell_back = True
+                    self.reason = exc.reason
+                    self.warnings.append(f"decision classifier unavailable ({exc.reason}); used the lexical classifier")
+                else:
+                    missing = [d for d in decisions if d.name not in answers]
+                    if missing:
+                        names = ", ".join(d.name for d in missing)
+                        self.warnings.append(f"decision classifier left out {names}; used the lexical classifier for it")
+                        answers.update(LexicalClassifier().decide(question, missing))
+                    return answers
             return LexicalClassifier().decide(question, decisions)
         finally:
-            self.calls += 1
             self.latency_ms += (time.perf_counter() - started) * 1000
+
+
+@dataclass
+class _Steps:
+    """What a view or a route produced: ready commands, or the reason there are none."""
+
+    steps: list[dict] = field(default_factory=list)
+    fallbacks: list[dict] = field(default_factory=list)
+    read: list[str] = field(default_factory=list)
+    raws: list[dict] = field(default_factory=list)
+    stages: list[tuple[str, float]] = field(default_factory=list)
+    view_match: dict | None = None
+    status: str | None = None
+    unfilled: bool = False
+    too_many: bool = False
+    reason: str | None = None
+
+    @property
+    def blocker(self) -> str | None:
+        if self.status not in (None, "ok"):
+            return "view_status"
+        if self.too_many:
+            return "too_many"
+        if self.unfilled:
+            return "unfilled"
+        return None
 
 
 def _top(probabilities: dict, n: int, *, exclude: tuple = ()) -> list[tuple[str, float]]:
@@ -82,24 +121,36 @@ def _candidate_text(ref: dict, narrator) -> str:
 
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
              mentions: list) -> dict:
+    """Placeholder values. The primary entity is the first named mention, resolved or not; the
+    narrator stands in only when the question names nobody."""
     named = [e for e in entities if e["via"] != "first_person"]
-    resolved = [e for e in named if e["candidates"]] + [
-        e for e in entities if e["via"] == "first_person" and e["candidates"]
-    ]
+    primary = named[0] if named else next((e for e in entities if e["candidates"]), None)
     entity_name = None
-    if resolved and resolved[0]["via"] != "first_person":
-        entity_name = resolved[0]["candidates"][0]["name"]
-    elif named:
-        entity_name = named[0]["mention"]
+    if primary is not None:
+        entity_name = primary["candidates"][0]["name"] if primary["candidates"] else (
+            primary["mention"] if primary["via"] != "first_person" else None)
+    second = named[1] if len(named) > 1 else None
     return {
         "domains": ",".join(selected),
         "question": question,
         "keywords": " ".join(candidates.keywords(question, mentions)),
         "document": document,
-        "entity_id": resolved[0]["candidates"][0]["_id"] if resolved else None,
-        "other_entity_id": resolved[1]["candidates"][0]["_id"] if len(resolved) > 1 else None,
+        "entity_id": primary["candidates"][0]["_id"] if primary and primary["candidates"] else None,
+        "other_entity_id": second["candidates"][0]["_id"] if second and second["candidates"] else None,
         "entity_name": entity_name,
     }
+
+
+def _pick_group(answer, groups: dict[str, list[dict]]) -> tuple[str | None, float]:
+    """The group an answer chose; if an earlier param already took it, the best group left (or none)."""
+    if answer is None or not groups or answer.choice == "none":
+        return None, 0.0
+    if answer.choice in groups:
+        return answer.choice, answer.confidence
+    best = max(groups, key=lambda k: (answer.probabilities.get(k, 0.0), -list(groups).index(k)))
+    if answer.probabilities.get("none", 0.0) > answer.probabilities.get(best, 0.0):
+        return None, 0.0
+    return best, answer.probabilities.get(best, 0.0)
 
 
 def _match_view(spec, question: str, entities: list[dict], cfg, threshold: float, today: date, calls: _Calls):
@@ -149,21 +200,24 @@ def _match_view(spec, question: str, entities: list[dict], cfg, threshold: float
     statuses: list[str] = []
     stages: list[tuple[str, float]] = []
     picks: dict[str, list[dict]] = {}
+    taken: set[str] = set()  # one entity fills at most one param of a view
     for name, pspec in spec.params.items():
         answer = answers.get(f"param_{name}")
         if pspec.type == "entity":
-            groups = groups_by_param[name]
+            groups = {k: g for k, g in groups_by_param[name].items() if not {r["_id"] for r in g} & taken}
             entry = {"type": "entity", "via": None, "input": None, "chosen": None,
                      "candidates": [g[0] for g in groups.values()], "twins": False, "confidence": 0.0}
-            if not groups or answer is None or answer.choice == "none":
+            choice, confidence = _pick_group(answer, groups)
+            if choice is None:
                 statuses.append("no_match")
             else:
-                group = groups[answer.choice]
+                group = groups[choice]
+                taken.update(r["_id"] for r in group)
                 text, via = mention_of.get(group[0]["_id"], (None, "mention"))
                 entry.update(input=text, via="narrator" if via == "first_person" else "mention",
-                             confidence=answer.confidence)
-                stages.append((f"param:{name}", answer.confidence))
-                if answer.confidence < threshold:
+                             confidence=confidence)
+                stages.append((f"param:{name}", confidence))
+                if confidence < threshold:
                     statuses.append("needs_disambiguation")
                 elif len(group) > 1:
                     entry.update(twins=True, candidates=group)
@@ -173,7 +227,8 @@ def _match_view(spec, question: str, entities: list[dict], cfg, threshold: float
                     picks[name] = [group[0]]
             params[name] = entry
         elif pspec.type == "enum":
-            if answer is not None and answer.choice != "none":
+            if answer is not None and answer.choice != "none" and answer.confidence >= threshold:
+                stages.append((f"param:{name}", answer.confidence))
                 params[name] = {"type": "enum", "via": "classifier", "value": answer.choice,
                                 "confidence": answer.confidence}
             elif not pspec.required:
@@ -207,6 +262,133 @@ def _view_cmd(name: str, selected: list[str], raw: dict[str, str]) -> str:
     return " ".join(parts) + " --compact"
 
 
+def _choose_domains(domains, options, overview, answers):
+    """(selected, source, confidence, candidates) from the given domains or the domain decision."""
+    if domains:
+        return list(domains), "given", None, []
+    if len(options) == 1:
+        return [options[0].key], ("parent" if options[0].is_parent else "matched"), 1.0, []
+    if not options:
+        return [], "all", 0.0, []
+    answer = answers["domain"]
+    shown = [{"domain": k, "p": p} for k, p in _top(answer.probabilities, 3, exclude=(ALL_DOMAINS,))]
+    if answer.choice == ALL_DOMAINS:
+        return [r["domain"] for r in overview if r.get("domain")], "all", 0.0, shown
+    chosen = next(o for o in options if o.key == answer.choice)
+    return [chosen.key], ("parent" if chosen.is_parent else "matched"), answer.confidence, shown
+
+
+def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str]) -> list[dict]:
+    entities = []
+    for mention in mentions:
+        try:
+            found = candidates.resolve_mention(mention, selected, cfg.narrator) if selected else []
+        except Exception as exc:  # one mention failing must not sink the plan (spec §7)
+            warnings.append(f"could not resolve {mention.text!r}: {exc}")
+            found = []
+        if mention.via == "first_person" and cfg.narrator and selected and not found:
+            warnings.append(f"narrator {cfg.narrator.name!r} ({cfg.narrator.entity_class}) is not in the graph; "
+                            "first-person words were not mapped")
+        entities.append({"mention": mention.text, "span": [mention.start, mention.end], "via": mention.via,
+                         "candidates": found})
+    for entity in entities:
+        for group in candidates.twin_groups(entity["candidates"]):
+            if len(group) > 1:
+                warnings.append(f"{len(group)} nodes share the name {group[0].get('name')!r} "
+                                f"({group[0].get('entity_class')})")
+    return entities
+
+
+def _view_steps(loaded, view_answer, entities, question, cfg, threshold, today, calls, selected, context) -> _Steps:
+    """A chosen view: its parameter fill (classifier call 2), one run per twin combination."""
+    spec = loaded.spec
+    view_match, picks, status, stages = _match_view(spec, question, entities, cfg, threshold, today, calls)
+    view_match["confidence"] = view_answer.confidence
+    out = _Steps(view_match=view_match, status=status, stages=stages)
+    if status != "ok":
+        out.reason = f"view {spec.name}: status {status}"
+    else:
+        combos = fill.combinations(picks, MAX_COMBINATIONS)
+        if combos is None:
+            out.too_many = True
+            count = 1
+            for group in picks.values():
+                count *= len(group)
+            out.reason = f"{count} twin combinations exceed {MAX_COMBINATIONS}"
+        for combo in (combos or []):
+            raw = _view_args(view_match["params"], combo)
+            out.raws.append(raw)
+            why = f"saved view {spec.name} answers this shape (p={view_answer.confidence:.2f})"
+            out.steps.append({"cmd": _view_cmd(spec.name, selected, raw),
+                              "why": why + (" - one run per twin node" if len(combos) > 1 else "")})
+    if out.steps:  # the fallback only goes with view steps that were emitted
+        fallback_cmd = routes_mod.render(VIEW_FALLBACK, context)
+        if fallback_cmd:
+            out.fallbacks.append({"when": "zero_rows", "cmd": fallback_cmd,
+                                  "why": "the view found nothing; search the notes for the same question"})
+    return out
+
+
+def _route_steps(route, confidence: float, context: dict) -> _Steps:
+    out = _Steps(stages=[("route", confidence)])
+    missing: set[str] = set()
+    for template in route.steps:
+        cmd = routes_mod.render(template, context)
+        if cmd is None:
+            out.unfilled = True
+            missing |= {p for p in routes_mod.placeholders(template) if not str(context.get(p) or "").strip()
+                        or str(context.get(p)).startswith("-")}
+        else:
+            out.steps.append({"cmd": cmd, "why": f"route {route.id} (p={confidence:.2f})"})
+    if out.unfilled:
+        out.reason = f"route {route.id} needs {', '.join(sorted(missing)) or 'a value it could not fill'}"
+    for fallback in route.fallbacks:
+        cmd = routes_mod.render(fallback.cmd, context)
+        if cmd:
+            out.fallbacks.append({"when": fallback.when, "cmd": cmd, "why": f"if the first step returns {fallback.when}"})
+    out.read = list(route.read)
+    return out
+
+
+def _search_steps(all_routes, context: dict) -> list[dict]:
+    """The search route's commands, the guidance for a plan that has none of its own."""
+    search = next(r for r in all_routes if r.id == "search")
+    steps = []
+    for template in search.steps:
+        cmd = routes_mod.render(template, context)
+        if cmd:
+            steps.append({"cmd": cmd, "why": "route search (no step of the chosen route could be built)"})
+    return steps
+
+
+def _execute(chosen_view, selected, high: bool, steps: list[dict], raws: list[dict], warnings: list[str]):
+    """(executed, rows, rows_total, truncated); only a high-confidence single-combination view runs."""
+    if not high:
+        warnings.append("--execute ignored: the plan is not high-confidence")
+    elif chosen_view is None:
+        warnings.append("--execute ignored: the route is not a saved view")
+    elif len(raws) != 1:
+        warnings.append(f"--execute ignored: the view has {len(raws)} parameter combinations (twin nodes)")
+    else:
+        try:
+            envelope = views_runner.run_view(chosen_view.spec, selected, raws[0])
+        except ViewError as exc:
+            return {"cmd": steps[0]["cmd"], "status": "error", "error": str(exc), "result": None}, [], 0, False
+        rows = envelope.pop("rows", []) or []
+        rows_total = envelope.pop("rows_total", len(rows))
+        truncated = bool(envelope.pop("truncated", False))
+        return ({"cmd": steps[0]["cmd"], "status": envelope.get("status", "ok"), "error": None,
+                 "result": envelope}, rows, rows_total, truncated)
+    return None, [], 0, False
+
+
+def _configs(domains: list[str]):
+    try:
+        return plan_config.merge([plan_config.load_config(d) for d in domains])
+    except plan_config.PlanConfigError as exc:
+        raise PlanError(str(exc)) from exc
+
+
 def plan(question: str, domains: list[str] | None = None, *, execute: bool = False,
          classifier: str = "auto", today: date | None = None) -> dict:
     question = (question or "").strip()
@@ -219,7 +401,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     # ── candidates that need no domain decision ──────────────────────────────
     overview = graph_query.domains_overview().get("rows") or []
     options = candidates.domain_options(overview)
-    given_cfg = plan_config.merge([plan_config.load_config(d) for d in domains]) if domains else None
+    given_cfg = _configs(domains) if domains else None
     try:
         clf, auto_reason = select_classifier(
             classifier, given_cfg.classifier if given_cfg else "auto", given_cfg.decision_model if given_cfg else None,
@@ -235,7 +417,10 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         r.get("table_count") for r in overview
         if any(r.get("domain") == d or str(r.get("domain")).startswith(d + ".") for d in scope)
     )
-    facts = lexical.Facts(question=question.casefold(), mentions=len(mentions), document=document,
+    # The first-person mention counts as an entity only where a narrator is configured to resolve it.
+    named_mentions = sum(1 for m in mentions if m.via != "first_person")
+    narrated = bool(any(m.via == "first_person" for m in mentions) and given_cfg and given_cfg.narrator)
+    facts = lexical.Facts(question=question.casefold(), mentions=named_mentions + int(narrated), document=document,
                           has_store=has_store, has_date=lexical.has_date(question))
     views, invalid = views_store.list_views(list(domains) if domains else None)
     for bad in invalid:
@@ -268,44 +453,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     ))
     answers = calls.decide(question, decisions)
 
-    # ── domains ─────────────────────────────────────────────────────────────
-    domain_candidates: list[dict] = []
-    if domains:
-        selected, source, domain_conf = list(domains), "given", None
-    elif len(options) == 1:
-        selected, source, domain_conf = [options[0].key], ("parent" if options[0].is_parent else "matched"), 1.0
-    elif not options:
-        selected, source, domain_conf = [], "all", 0.0
-    else:
-        answer = answers["domain"]
-        domain_candidates = [{"domain": k, "p": p} for k, p in _top(answer.probabilities, 3, exclude=(ALL_DOMAINS,))]
-        if answer.choice == ALL_DOMAINS:
-            selected, source, domain_conf = [r["domain"] for r in overview if r.get("domain")], "all", 0.0
-        else:
-            chosen = next(o for o in options if o.key == answer.choice)
-            selected, source = [chosen.key], ("parent" if chosen.is_parent else "matched")
-            domain_conf = answer.confidence
-    cfg = given_cfg or plan_config.merge([plan_config.load_config(d) for d in selected])
+    selected, source, domain_conf, domain_candidates = _choose_domains(domains, options, overview, answers)
+    cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
 
-    # ── entities ────────────────────────────────────────────────────────────
-    entities = []
-    for mention in mentions:
-        try:
-            found = candidates.resolve_mention(mention, selected, cfg.narrator) if selected else []
-        except Exception as exc:  # one mention failing must not sink the plan (spec §7)
-            warnings.append(f"could not resolve {mention.text!r}: {exc}")
-            found = []
-        if mention.via == "first_person" and cfg.narrator and selected and not found:
-            warnings.append(f"narrator {cfg.narrator.name!r} ({cfg.narrator.entity_class}) is not in the graph; "
-                            "first-person words were not mapped")
-        entities.append({"mention": mention.text, "span": [mention.start, mention.end], "via": mention.via,
-                         "candidates": found})
-    for entity in entities:
-        for group in candidates.twin_groups(entity["candidates"]):
-            if len(group) > 1:
-                warnings.append(f"{len(group)} nodes share the name {group[0].get('name')!r} "
-                                f"({group[0].get('entity_class')})")
+    entities = _resolve_entities(mentions, selected, cfg, warnings)
 
     # ── view match (classifier call 2) or route ─────────────────────────────
     view_answer = answers.get("view")
@@ -323,80 +475,48 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         stages.append(("domain", domain_conf if source != "all" else 0.0))
     if view_answer is not None:
         stages.append(("view", view_answer.confidence))
-    view_match, status, unfilled, too_many = None, None, False, False
-    rendered: list[dict] = []
-    raws: list[dict] = []
     route_obj = None
     if chosen_view is not None:
-        spec = chosen_view.spec
-        view_match, picks, status, param_stages = _match_view(spec, question, entities, cfg, threshold, today, calls)
-        view_match["confidence"] = view_answer.confidence
-        stages += param_stages
+        built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
+                            context)
         route_id, route_conf = "view", view_answer.confidence
-        if status == "ok":
-            combos = fill.combinations(picks, MAX_COMBINATIONS)
-            too_many = combos is None
-            for combo in (combos or []):
-                raw = _view_args(view_match["params"], combo)
-                raws.append(raw)
-                why = f"saved view {spec.name} answers this shape (p={view_answer.confidence:.2f})"
-                rendered.append({"cmd": _view_cmd(spec.name, selected, raw),
-                                 "why": why + (" - one run per twin node" if combos and len(combos) > 1 else "")})
-        fallback_cmd = routes_mod.render(VIEW_FALLBACK, context)
-        fallbacks = ([{"when": "zero_rows", "cmd": fallback_cmd,
-                       "why": "the view found nothing; search the notes for the same question"}]
-                     if fallback_cmd else [])
-        read: list[str] = []
     else:
         route_obj = next(r for r in all_routes if r.id == route_answer.choice)
         route_id, route_conf = route_obj.id, route_answer.confidence
-        stages.append(("route", route_conf))
-        for template in route_obj.steps:
-            cmd = routes_mod.render(template, context)
-            if cmd is None:
-                unfilled = True
-            else:
-                rendered.append({"cmd": cmd, "why": f"route {route_obj.id} (p={route_conf:.2f})"})
-        fallbacks = []
-        for fallback in route_obj.fallbacks:
-            cmd = routes_mod.render(fallback.cmd, context)
-            if cmd:
-                fallbacks.append({"when": fallback.when, "cmd": cmd, "why": f"if the first step returns {fallback.when}"})
-        read = list(route_obj.read)
-    rendered = [{"n": i, **step} for i, step in enumerate(rendered, 1)]
+        built = _route_steps(route_obj, route_conf, context)
+    stages += built.stages
+    rendered, fallbacks, read = built.steps, built.fallbacks, built.read
 
     # ── confidence ─────────────────────────────────────────────────────────
     weakest, score = min(stages, key=lambda s: s[1])
-    high = (score >= threshold and status in (None, "ok") and not unfilled and not too_many
-            and bool(rendered) and bool(selected))
+    blocker = built.blocker
+    if blocker:
+        weakest = blocker
+    high = score >= threshold and not blocker and bool(rendered) and bool(selected)
+    if built.reason:
+        warnings.append(built.reason + ("" if rendered else "; suggested search instead"))
+    if not high and not rendered:  # a low plan never goes out without guidance
+        rendered = _search_steps(all_routes, context)
+        fallbacks = []
+        if not rendered:
+            warnings.append("no command could be built from this question")
+    rendered = [{"n": i, **step} for i, step in enumerate(rendered, 1)]
     level = "high" if high else "low"
     steps, suggested = (rendered, []) if high else ([], rendered)
     if not high:
         read = [*read, ROUTING_TABLE]
 
-    # ── --execute ───────────────────────────────────────────────────────────
-    executed = None
-    rows: list = []
-    rows_total, truncated = 0, False
+    executed, rows, rows_total, truncated = None, [], 0, False
     if execute:
-        if not high:
-            warnings.append("--execute ignored: the plan is not high-confidence")
-        elif chosen_view is None:
-            warnings.append("--execute ignored: the route is not a saved view")
-        elif len(raws) != 1:
-            warnings.append(f"--execute ignored: the view has {len(raws)} parameter combinations (twin nodes)")
-        else:
-            try:
-                envelope = views_runner.run_view(chosen_view.spec, selected, raws[0])
-                rows = envelope.pop("rows", []) or []
-                rows_total = envelope.pop("rows_total", len(rows))
-                truncated = bool(envelope.pop("truncated", False))
-                executed = {"cmd": steps[0]["cmd"], "status": envelope.get("status", "ok"), "error": None,
-                            "result": envelope}
-            except ViewError as exc:
-                executed = {"cmd": steps[0]["cmd"], "status": "error", "error": str(exc), "result": None}
+        executed, rows, rows_total, truncated = _execute(chosen_view, selected, high, steps, built.raws, warnings)
 
     resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
+    store = None
+    if selected:
+        try:
+            store = candidates.store_facts(selected, question, resolved_classes)
+        except Exception as exc:  # the structured store is optional context (spec §7)
+            warnings.append(f"store facts unavailable: {exc}")
     lexical_used = clf.backend == "lexical" or calls.fell_back
     return {
         "plan_version": PLAN_VERSION,
@@ -408,9 +528,9 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],
             "triggered_by": lexical.triggered(route_obj, facts) if (route_obj and lexical_used) else [],
         },
-        "view_match": view_match,
+        "view_match": built.view_match,
         "entities": entities,
-        "store": candidates.store_facts(selected, question, resolved_classes) if selected else None,
+        "store": store,
         "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "weakest": weakest},
         "steps": steps,
         "suggested_steps": suggested,
