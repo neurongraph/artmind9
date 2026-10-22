@@ -3,6 +3,7 @@
 import shlex
 from pathlib import Path
 
+import click
 import pytest
 
 from artmind.query_plan import routes
@@ -21,27 +22,59 @@ def test_the_packaged_routes_load():
     assert all(r.evidence for r in loaded)
 
 
-def _command_and_options(template: str):
+_SENTINEL = "@@placeholder@@"
+
+
+def _resolve(template: str):
+    """Resolve a template against the Click tree; placeholder values become a sentinel."""
     from artmind.cli import cli
 
-    filled = routes.render(template, {name: "x" for name in routes.PLACEHOLDERS})
+    filled = routes.render(template, {name: _SENTINEL for name in routes.PLACEHOLDERS})
     tokens = shlex.split(filled)
     assert tokens[0] == "artmind", template
     command, i = cli, 1
     while i < len(tokens) and hasattr(command, "commands") and tokens[i] in command.commands:
         command = command.commands[tokens[i]]
         i += 1
-    known = {opt for param in command.params for opt in getattr(param, "opts", [])}
-    used = [t for t in tokens[i:] if t.startswith("--")]
-    return command, used, known
+    return command, tokens[i:]
+
+
+def _parse_args(command, rest):
+    """Split the tokens after the command into {option: value or None} and positionals."""
+    by_name = {opt: param for param in command.params for opt in getattr(param, "opts", [])}
+    options, positionals, i = {}, [], 0
+    while i < len(rest):
+        token = rest[i]
+        if token.startswith("--"):
+            param = by_name.get(token)
+            takes_value = param is not None and not getattr(param, "is_flag", False)
+            options[token] = rest[i + 1] if takes_value and i + 1 < len(rest) else None
+            i += 2 if takes_value else 1
+        else:
+            positionals.append(token)
+            i += 1
+    return by_name, options, positionals
 
 
 @pytest.mark.parametrize("route", routes.load_routes(), ids=lambda r: r.id)
 def test_every_template_names_a_real_command_and_real_options(route):
     for template in [*route.steps, *(f.cmd for f in route.fallbacks)]:
-        command, used, known = _command_and_options(template)
+        command, rest = _resolve(template)
         assert not hasattr(command, "commands") or getattr(command, "invoke_without_command", False), template
-        assert set(used) <= known, f"{template}: unknown {sorted(set(used) - known)}"
+        by_name, options, positionals = _parse_args(command, rest)
+        assert set(options) <= set(by_name), f"{template}: unknown {sorted(set(options) - set(by_name))}"
+        for param in command.params:
+            if isinstance(param, click.Argument):
+                if param.required:
+                    assert positionals, f"{template}: missing required argument {param.name}"
+            elif param.required:
+                assert set(param.opts) & set(options), f"{template}: missing required {param.opts}"
+        for opt, value in options.items():
+            param = by_name[opt]
+            if value is None or value == _SENTINEL:
+                continue
+            if isinstance(param.type, (click.Choice, click.IntRange)):
+                param.type.convert(value, param, None)  # raises BadParameter when invalid
 
 
 @pytest.mark.parametrize("route", routes.load_routes(), ids=lambda r: r.id)
@@ -68,6 +101,11 @@ def _one(**over):
     (_one(needs=["magic"]), "unknown needs"),
     (_one(triggers=["on {when}"]), "unknown slot"),
     (_one(description="x" * 301), "description"),
+    (_one(steps=["artmind query vector-text --domain {entity1 --compact"]), "stray brace"),
+    (_one(steps=["artmind query vector-text --domain {domains} {Question} --compact"]), "stray brace"),
+    (_one(triggers=["on {entity1"]), "stray brace"),
+    (_one(fallbacks=[{"when": ["a"], "cmd": "artmind query chunks --compact"}]), "fallbacks"),
+    ({**_one(), "version": True}, "version"),
 ])
 def test_rule_violations_are_named(data, message):
     with pytest.raises(routes.RouteError, match=message):
@@ -87,3 +125,17 @@ def test_render_quotes_values_and_refuses_missing_ones():
         "artmind query vector-text --domain a,b 'what'\"'\"'s new?' --compact"
     )
     assert routes.render(template, {"domains": "a", "question": ""}) is None
+
+
+def test_render_does_not_re_expand_or_execute_values():
+    template = "artmind query vector-text --domain {domains} {question} --compact"
+    nested = routes.render(template, {"domains": "a", "question": "{question}"})
+    assert nested == "artmind query vector-text --domain a '{question}' --compact"
+    hostile = routes.render(template, {"domains": "a", "question": "$(rm -rf /)"})
+    assert hostile == "artmind query vector-text --domain a '$(rm -rf /)' --compact"
+
+
+@pytest.mark.parametrize("value", ["--help", "   ", "-x"])
+def test_render_refuses_blank_or_option_like_values(value):
+    template = "artmind query vector-text --domain {domains} {question} --compact"
+    assert routes.render(template, {"domains": "a", "question": value}) is None

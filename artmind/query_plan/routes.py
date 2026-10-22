@@ -59,6 +59,10 @@ def placeholders(template: str) -> set[str]:
     return set(_PLACEHOLDER_RE.findall(template))
 
 
+def _has_stray_brace(text: str) -> bool:
+    return "{" in text or "}" in text
+
+
 def _strings(value, where: str, *, allow_empty: bool = True) -> tuple[str, ...]:
     value = [] if value is None else value
     if not isinstance(value, list) or not all(isinstance(v, str) and v.strip() for v in value):
@@ -74,13 +78,15 @@ def _template(cmd, where: str) -> str:
     unknown = placeholders(cmd) - PLACEHOLDERS
     if unknown:
         raise RouteError(f"{where} uses unknown placeholder(s) {sorted(unknown)}")
+    if _has_stray_brace(_PLACEHOLDER_RE.sub("", cmd)):
+        raise RouteError(f"{where} has a stray brace in {cmd!r}")
     if "--compact" not in cmd.split():
         raise RouteError(f"{where} must pass --compact")
     return cmd
 
 
 def parse_routes(data) -> tuple[Route, ...]:
-    if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("routes"), list):
+    if not isinstance(data, dict) or type(data.get("version")) is not int or data["version"] != 1 or not isinstance(data.get("routes"), list):
         raise RouteError("routes.yaml must be a mapping with `version: 1` and a `routes` list")
     out: list[Route] = []
     seen: set[str] = set()
@@ -108,6 +114,8 @@ def parse_routes(data) -> tuple[Route, ...]:
             bad = placeholders(trigger) - TRIGGER_SLOTS
             if bad:
                 raise RouteError(f"{where}: trigger {trigger!r} uses unknown slot(s) {sorted(bad)}")
+            if _has_stray_brace(_PLACEHOLDER_RE.sub("", trigger)):
+                raise RouteError(f"{where}: trigger {trigger!r} has a stray brace")
         needs = _strings(raw.get("needs"), f"{where}.needs")
         if set(needs) - NEEDS:
             raise RouteError(f"{where}: unknown needs {sorted(set(needs) - NEEDS)}")
@@ -117,7 +125,7 @@ def parse_routes(data) -> tuple[Route, ...]:
         )
         fallbacks = []
         for j, fb in enumerate(raw.get("fallbacks") or []):
-            if not isinstance(fb, dict) or set(fb) != {"when", "cmd"} or fb["when"] not in FALLBACK_WHEN:
+            if not isinstance(fb, dict) or set(fb) != {"when", "cmd"} or not isinstance(fb["when"], str) or fb["when"] not in FALLBACK_WHEN:
                 raise RouteError(f"{where}.fallbacks[{j}] must be {{when, cmd}} with when in {sorted(FALLBACK_WHEN)}")
             fallbacks.append(Fallback(fb["when"], _template(fb["cmd"], f"{where}.fallbacks[{j}]")))
         read = _strings(raw.get("read"), f"{where}.read")
@@ -133,7 +141,11 @@ def parse_routes(data) -> tuple[Route, ...]:
 
 @lru_cache(maxsize=1)
 def load_routes() -> tuple[Route, ...]:
-    return parse_routes(yaml.safe_load(ROUTES_FILE.read_text(encoding="utf-8")))
+    try:
+        data = yaml.safe_load(ROUTES_FILE.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        raise RouteError(f"routes.yaml is not valid YAML: {exc}") from exc
+    return parse_routes(data)
 
 
 def render(template: str, context: dict) -> str | None:
@@ -143,7 +155,8 @@ def render(template: str, context: dict) -> str | None:
     def substitute(match: re.Match) -> str:
         nonlocal missing
         value = context.get(match.group(1))
-        if value is None or value == "":
+        # Blank values are missing; a leading "-" would be parsed by Click as an option.
+        if value is None or not str(value).strip() or str(value).startswith("-"):
             missing = True
             return ""
         return shlex.quote(str(value))
