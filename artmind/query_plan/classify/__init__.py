@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
+import ipaddress
+import math
 import os
+from urllib.parse import urlparse
+
+from loguru import logger
 
 from artmind.query_plan.classify.base import Answer, Classifier, ClassifierUnavailable, Decision
 from artmind.query_plan.classify.lexical import LexicalClassifier
@@ -17,7 +22,27 @@ def _timeout(env) -> float:
         value = float(env.get("ARTMIND_DECISION_TIMEOUT") or DEFAULT_TIMEOUT_S)
     except ValueError:
         return DEFAULT_TIMEOUT_S
-    return value if value > 0 else DEFAULT_TIMEOUT_S
+    return value if math.isfinite(value) and value > 0 else DEFAULT_TIMEOUT_S
+
+
+def _is_loopback(host: str | None) -> bool:
+    if not host:
+        return False
+    if host.lower() == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(host).is_loopback
+    except ValueError:
+        return False
+
+
+def _check_url(url: str, api_key: str | None) -> None:
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.hostname:
+        raise ValueError("ARTMIND_DECISION_URL must be an http:// or https:// URL")
+    if api_key and parsed.scheme == "http" and not _is_loopback(parsed.hostname):
+        logger.warning("ARTMIND_DECISION_API_KEY is sent in clear text to {}: use https:// for a non-local endpoint",
+                       parsed.hostname)
 
 
 def select_classifier(option: str, domain_choice: str, model_override: str | None,
@@ -44,5 +69,6 @@ def select_classifier(option: str, domain_choice: str, model_override: str | Non
         raise ValueError("ARTMIND_DECISION_URL is set but ARTMIND_DECISION_MODEL is not")
     from artmind.query_plan.classify.jev import JevClassifier
 
-    return JevClassifier(url, model, api_key=(env.get("ARTMIND_DECISION_API_KEY") or None),
-                         timeout=_timeout(env)), None
+    api_key = env.get("ARTMIND_DECISION_API_KEY") or None
+    _check_url(url, api_key)
+    return JevClassifier(url, model, api_key=api_key, timeout=_timeout(env)), None
