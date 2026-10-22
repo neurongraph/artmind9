@@ -15,6 +15,7 @@ GRAPH_SIDE = GRAPH_LAYERS | frozenset({"provenance"})
 
 _EXACT = {
     "query views run": "view",
+    "query plan": "plan",
     "query graph text2cypher": "text2cypher",
     "query vector-text": "vector",
     "query chunks": "provenance",   # source text fetched by id for graph results
@@ -55,11 +56,14 @@ def is_dry_run(span: dict) -> bool:
 
 
 def span_layer(span: dict) -> str:
-    """`layer_of` the span's command, except that a dry run is discovery:
-    it executed nothing, so it is neither a graph attempt nor evidence."""
+    """`layer_of` the span's command, except: a dry run is discovery (it executed
+    nothing), and a `query plan --execute` that returned rows is a view run."""
     if is_dry_run(span):
         return "discovery"
-    return layer_of(span.get("command"))
+    command = span.get("command")
+    if command == "query plan":
+        return "view" if (span.get("rows") or 0) > 0 else "plan"
+    return layer_of(command)
 
 
 def parse_sources(answer: str | None) -> list[str]:
@@ -241,6 +245,17 @@ def views_check(spans: list[dict], listed_before: set[str] | None = None, *,
     for span in sorted(spans, key=lambda s: s.get("started_at") or 0.0):
         command = span.get("command") or ""
         domains = span_domains(span)
+        if command == "query plan":
+            # The plan matches the question against the view catalogue of its
+            # domains (all of them when it chose the domain itself).
+            if domains is None:
+                listed_all = True
+            else:
+                listed |= domains
+            if (span.get("rows") or 0) > 0:
+                applicable = True
+                ran = True
+            continue
         if command.startswith("query views"):
             if domains is None:
                 listed_all = True

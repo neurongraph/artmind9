@@ -303,6 +303,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation & config", "commands": ["same-as", "config"]},
     ],
     "artmind query": [
+        {"name": "Planning", "commands": ["plan"]},
         {"name": "Graph patterns", "commands": ["graph"]},
         {"name": "Saved views & insights", "commands": ["views", "insights"]},
         {
@@ -2586,6 +2587,7 @@ def query():
     vault's HEAD (never in stdout, so --compact JSON stays clean). Set
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
 
+    Start with `plan` (deterministic route, view match and ready steps for a question).
     Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
     parameterised queries: list / show / run) and `insights` (the latest
     unprompted findings: list / show). The rest are lookup commands.
@@ -3360,6 +3362,33 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
         )
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("plan")
+@click.option("--domain", "domain", multiple=True, help="Scope to these domains (repeatable; comma-splittable). Omit and the plan chooses")
+@click.option("--execute", is_flag=True, help="Also run the step when the plan is one high-confidence saved view")
+@click.option("--classifier", type=click.Choice(["auto", "lexical", "decision"]), default="auto", show_default=True,
+              help="auto: the decision model when ARTMIND_DECISION_URL is set, else lexical rules")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question")
+def query_plan_command(domain: tuple, execute: bool, classifier: str, compact: bool, question: str) -> None:
+    """Plan the retrieval for a question: domains, saved view, route and ready-to-run steps.
+
+    Read-only and deterministic. Run `steps` when `confidence.level` is high; when it
+    is low, `steps` is empty: judge `suggested_steps` and read the routing table.
+    """
+    from neo4j.exceptions import DriverError, Neo4jError
+
+    from artmind.query_plan import planner
+
+    domains = _parse_domains(domain) if domain else None
+    try:
+        result = planner.plan(question, domains, execute=execute, classifier=classifier)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    except (DriverError, Neo4jError) as exc:
+        raise click.ClickException(f"Neo4j is unreachable or failed: {exc}") from exc
     _echo_json(result, compact)
 
 

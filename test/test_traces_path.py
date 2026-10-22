@@ -257,3 +257,15 @@ def test_a_text2sql_dry_run_is_discovery():
     span = {"span_id": "s1", "command": "query text2sql", "args": {"dry_run": True},
             "exit_code": 0, "rows": 0, "started_at": 1.0, "evidence": {}}
     assert path.span_layer(span) == "discovery"
+
+
+def test_a_plan_span_is_its_own_layer_and_an_executed_one_is_a_view():
+    from artmind.traces import path
+
+    plan_span = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0,
+                 "started_at": 1.0, "evidence": {}}
+    assert path.span_layer(plan_span) == "plan"
+    assert path.derive([plan_span], answer=None)["graph_attempts"] == 0
+    executed = {**plan_span, "rows": 2}
+    assert path.span_layer(executed) == "view"
+    assert path.derive([executed], answer=None)["graph_attempts"] == 1

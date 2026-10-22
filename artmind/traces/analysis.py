@@ -75,7 +75,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["fell_through"] = 1
     # An empty `views list` is a domain with no views, not a failed retrieval.
     if any(s.get("exit_code") == 0 and (s.get("rows") or 0) == 0 and s.get("command") != "query views list"
-           and not is_dry_run(s) for s in spans):
+           and not is_dry_run(s) and s.get("command") != "query plan" for s in spans):
         out["empty_rows"] = 1
     if any(s.get("truncated") for s in spans):
         out["truncated"] = 1
