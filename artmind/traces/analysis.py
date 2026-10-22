@@ -181,7 +181,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["truncated"] = 1
     if any(s.get("command") == "query graph text2cypher" for s in spans):
         out["text2cypher"] = 1
-    if len({s.get("command") for s in spans if span_layer(s) != "discovery"}) >= 3:
+    if len({s.get("command") for s in spans if span_layer(s) not in ("discovery", "plan")}) >= 3:
         out["deep_fallback"] = 1
     if turns_p90 is not None and (turn.get("turns") or 0) > turns_p90:
         out["many_turns"] = 1
@@ -328,7 +328,7 @@ def show(trace_id: str) -> dict | None:
         "turn": turn,
         "feedback": store.latest_feedback(trace_id),
         "plan_shadow": shadow_plan(events),
-        "events": events,
+        "events": [e for e in events if e["type"] != "plan_shadow"],
         "unattributed_spans": [s for s in spans if not s["tool_id"] or s["tool_id"] not in tool_call_ids],
         "graph_layers": sorted(GRAPH_LAYERS),
         "warnings": warnings,

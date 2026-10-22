@@ -179,3 +179,24 @@ def test_empty_rows_ignores_a_plan_that_ran_nothing_but_not_an_executed_empty_vi
     assert "empty_rows" not in analysis.signals({"turns": 1}, [plan], None, {"status": "n/a"})
     executed = {**plan, "evidence": {"view": {"name": "org_tree", "version": 2, "status": "ok", "params": {}}}}
     assert analysis.signals({"turns": 1}, [executed], None, {"status": "n/a"}).get("empty_rows") == 1
+
+
+def test_deep_fallback_ignores_a_plan_span():
+    plan = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "evidence": {}}
+    spans = [
+        plan,
+        {"command": "query graph pattern1", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+        {"command": "query entity-context", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+    ]
+    assert "deep_fallback" not in analysis.signals({"turns": 1}, spans, None, {"status": "n/a"})
+
+
+def test_show_keeps_plan_shadow_out_of_events():
+    _turn("t", started_at=time.time())
+    store.insert_events("t", [
+        {"seq": 0, "ts": 1.0, "type": "plan_shadow", "payload": json.dumps({"status": "ok", "plan": {}})},
+        {"seq": 1, "ts": 2.0, "type": "text", "payload": "hi"},
+    ])
+    shown = analysis.show("t")
+    assert shown["plan_shadow"]["status"] == "ok"
+    assert [e["type"] for e in shown["events"]] == ["text"]

@@ -2590,7 +2590,7 @@ def query():
     vault's HEAD (never in stdout, so --compact JSON stays clean). Set
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
 
-    Start with `plan` (deterministic route, view match and ready steps for a question).
+    `plan` returns a deterministic route, saved-view match and ready-to-run steps for a question.
     Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
     parameterised queries: list / show / run) and `insights` (the latest
     unprompted findings: list / show). The rest are lookup commands.
@@ -3851,9 +3851,9 @@ def traces_feedback(trace_id, rating, expected) -> None:
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def traces_stats(domain, since, by, compact) -> None:
     """Per domain and period: turns, fall-through rate, graph-miss rate, graph
-    productivity, answer basis split, graph attempts before a fall-through, and
+    productivity, answer basis split, graph attempts before a fall-through,
     views-first compliance (views checked first / late / skipped, views run,
-    views listed but unused), and a plan_shadow block (shadow statuses, share of
+    views listed but unused) and a plan_shadow block (shadow statuses, share of
     high-confidence plans, how often the agent ran the plan's first step: all,
     high, low, first turn, follow-up, by rating)."""
     from artmind.traces import analysis

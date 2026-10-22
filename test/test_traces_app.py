@@ -189,6 +189,14 @@ def test_admin_chat_passes_the_users_own_text_as_the_shadow_question(tmp_path, m
 
 
 def test_benchmark_passes_the_raw_question_and_domain_hint_as_shadow(tmp_path, monkeypatch):
+    _benchmark_shadow_domains(tmp_path, monkeypatch, "dom", ["dom"])
+
+
+def test_benchmark_splits_a_free_text_domain_hint_for_the_shadow(tmp_path, monkeypatch):
+    _benchmark_shadow_domains(tmp_path, monkeypatch, "a, b", ["a", "b"])
+
+
+def _benchmark_shadow_domains(tmp_path, monkeypatch, hint, expected):
     from artmind import benchmark
     from artmind.webui import backends as backends_mod
 
@@ -200,8 +208,8 @@ def test_benchmark_passes_the_raw_question_and_domain_hint_as_shadow(tmp_path, m
     calls = _spy_recorder_start(monkeypatch)
     run_id = benchmark._create_benchmark_run(
         "q.md", [{"seq": 1, "qid": "Q1", "title": "t", "question": "Who?", "eval_comment": None}],
-        domain_hint="dom")
+        domain_hint=hint)
     asyncio.run(benchmark._run_benchmark(run_id))
-    assert calls[0]["shadow_question"] == "Who?"  # not the "Domain: dom" prefixed prompt
-    assert calls[0]["shadow_domains"] == ["dom"]
-    assert calls[0]["question"] == "Domain: dom\n\nWho?"
+    assert calls[0]["shadow_question"] == "Who?"  # not the "Domain: ..." prefixed prompt
+    assert calls[0]["shadow_domains"] == expected
+    assert calls[0]["question"] == f"Domain: {hint}\n\nWho?"
