@@ -181,3 +181,9 @@ as the final gate, after every change has passed the cheaper levels below.
   discoverable from the graph (`supersedes`, honest `--asOf`, `.md` hint, skill rule). Five
   questions need it (Q07, Q09, Q10, Q11, Q13); Q21/Q25 are a data error. Testing strategy
   section added.
+- 2026-10-22 — supersession root cause: the adjudicator's newer-side choice compares empty
+  `valid_from` values and always picks B on a tie; its scope is hardcoded to `document` and
+  sub-document scopes do not exist. The P12 graph-side design is unchanged and is also the
+  answer for Q11; the ingest-side fix (no supersession on empty dates, text-signal
+  tie-breakers, why `valid_from` is empty) is recorded in open questions 15, 18 and 20 and
+  stays out of this study's scope until "move to specs".

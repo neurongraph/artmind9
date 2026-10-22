@@ -251,9 +251,11 @@ graded with this rubric), so only speed and cost are compared.
 - **Supersession recorded in the wrong direction.** `policy_customer_identification.md` (v1)
   is current with its observations and `policy_customer_identification_v2.md` is retired,
   although the v2 file says it is effective 2026-03-01, "Supersedes Version 1.0" and
-  "Superseded By None". Root cause found in the curation record: the adjudicator wrote
-  v1 -> v2 (newer = v1). Q21 and Q25 follow from it. All four supersession records in this
-  vault are `detected_by: adjudicator`, scope `document`, no `effective` date. Open question 15.
+  "Superseded By None". Root cause (2026-10-22): the adjudicator
+  picks the newer side by comparing `valid_from`, which is empty on these documents, so a tie
+  goes to side B regardless of content. Q21 and Q25 follow from it. All four supersession
+  records in this vault are `detected_by: adjudicator`, scope `document` (the code hardcodes
+  it), no `effective` date. Open question 15.
 - **Second suspicious record (unverified).** The February rate schedule supersedes
   `welcome_pack.md`, which retires that document and its 92 observations. Check the file
   before treating it as a defect.
