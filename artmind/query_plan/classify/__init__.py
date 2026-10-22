@@ -11,6 +11,8 @@ __all__ = ["Answer", "Classifier", "ClassifierUnavailable", "Decision", "Lexical
 def select_classifier(option: str, domain_choice: str, model_override: str | None) -> tuple[Classifier, str | None]:
     """(classifier, reason it is lexical) for `--classifier` and the domain config.
     The decision backend arrives in Task 16; until then only lexical exists."""
+    if option not in ("auto", "lexical", "decision"):
+        raise ValueError(f"unknown classifier option {option!r}; expected auto, lexical or decision")
     if option == "decision":
         raise ValueError("--classifier decision needs ARTMIND_DECISION_URL and ARTMIND_DECISION_MODEL")
     if option == "lexical":

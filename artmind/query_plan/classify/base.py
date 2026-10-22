@@ -22,6 +22,10 @@ class Decision:
     none_mass: float = 1.0
     type: str = "choice"
 
+    def __post_init__(self):
+        if self.default not in self.options:
+            raise ValueError(f"decision {self.name!r}: default {self.default!r} is not one of its options")
+
 
 @dataclass(frozen=True)
 class Answer:
