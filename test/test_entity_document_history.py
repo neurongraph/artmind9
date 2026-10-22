@@ -198,3 +198,69 @@ def test_cli_document_history_outputs_json():
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["journal"], "2030-01-02.md")
     assert json.loads(result.output) == payload
+
+
+# ── H4d: document-history name matching (spec 2026-10-22 §5.4.4) ─────────────
+
+def _dispatch(monkeypatch, *, exact_rows, suffix_names, closest_names):
+    from artmind import graph_query
+
+    calls = []
+
+    def fake_run(cypher, params):
+        calls.append((cypher, params))
+        if "IN $names" in cypher:
+            return [{"name": n} for n in suffix_names]
+        if "CONTAINS toLower($fragment)" in cypher:
+            return [{"name": n} for n in closest_names]
+        if params.get("documentName") in exact_rows:
+            return exact_rows[params["documentName"]]
+        return []
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    return calls
+
+
+_ROW = {"document": {"id": "d1", "name": "policy_alpha.md", "path": "p/policy_alpha.md", "version": 2},
+        "retired": False, "observations": []}
+
+
+def test_a_unique_suffixed_name_is_used_with_a_warning(monkeypatch):
+    from artmind import graph_query
+
+    calls = _dispatch(monkeypatch, exact_rows={"policy_alpha.md": [_ROW]},
+                      suffix_names=["policy_alpha.md"], closest_names=[])
+    result = graph_query.document_history(["f"], "policy_alpha")
+    assert result["rows"][0]["document"]["name"] == "policy_alpha.md"
+    assert result["matched_name"] == "policy_alpha.md"
+    assert result["warnings"] == ["no document named 'policy_alpha'; matched 'policy_alpha.md'"]
+    suffix_call = next(p for c, p in calls if "IN $names" in c)
+    assert suffix_call["names"] == ["policy_alpha.md", "policy_alpha.pdf", "policy_alpha.docx",
+                                    "policy_alpha.txt", "policy_alpha.html"]
+
+
+def test_no_match_returns_closest_names_and_next(monkeypatch):
+    from artmind import graph_query
+
+    _dispatch(monkeypatch, exact_rows={}, suffix_names=[], closest_names=["policy_alpha.md", "policy_alpha_v2.md"])
+    result = graph_query.document_history(["f"], "alpha")
+    assert result["rows"] == []
+    assert result["closest"] == ["policy_alpha.md", "policy_alpha_v2.md"]
+    assert result["next"].startswith("artmind query document-history --documentName")
+
+
+def test_two_suffixed_candidates_are_not_guessed(monkeypatch):
+    from artmind import graph_query
+
+    _dispatch(monkeypatch, exact_rows={}, suffix_names=["a.md", "a.pdf"], closest_names=["a.md", "a.pdf"])
+    result = graph_query.document_history(["f"], "a")
+    assert result["rows"] == [] and result["closest"] == ["a.md", "a.pdf"]
+    assert "matched_name" not in result
+
+
+def test_an_exact_name_needs_no_second_query(monkeypatch):
+    from artmind import graph_query
+
+    calls = _dispatch(monkeypatch, exact_rows={"policy_alpha.md": [_ROW]}, suffix_names=[], closest_names=[])
+    result = graph_query.document_history(["f"], "policy_alpha.md")
+    assert len(calls) == 1 and "warnings" not in result

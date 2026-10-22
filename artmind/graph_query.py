@@ -2016,6 +2016,29 @@ def entity_history(
 DOCUMENT_HISTORY_MAX_DOCUMENTS = 10
 
 
+DOCUMENT_NAME_SUFFIXES = (".md", ".pdf", ".docx", ".txt", ".html")
+DOCUMENT_CLOSEST_LIMIT = 5
+
+
+def _document_names_like(domains: list[str], *, names: list[str] | None = None, fragment: str | None = None) -> list[str]:
+    """Live or retired document names: exact (casefolded) members of `names`, or containing `fragment`."""
+    if names is not None:
+        where, params = "toLower(d.name) IN $names", {"names": names}
+    else:
+        where, params = "toLower(d.name) CONTAINS toLower($fragment)", {"fragment": fragment}
+    rows = _run_read_query(
+        f"""
+        MATCH (d)
+        WHERE (d:Document OR d:DocumentHistory) AND {domain_predicate("d")} AND {where}
+        RETURN DISTINCT d.name AS name
+        ORDER BY name
+        LIMIT $limit
+        """,
+        {"domains": domains, "limit": DOCUMENT_CLOSEST_LIMIT, **params},
+    )
+    return [r["name"] for r in rows if r.get("name")]
+
+
 def document_history(domains: "str | Sequence[str]", document_name: str) -> dict:
     """What each ingested version of one document asserted: its current
     `:Observation`s next to the `:ObservationHistory` its earlier versions
@@ -2045,60 +2068,88 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
     document_name = (document_name or "").strip()
     if not document_name:
         raise ValueError("--documentName is required")
-    params = {
-        "domains": domains,
-        "documentName": document_name,
-        "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
-    }
-    cypher = f"""
-    MATCH (d)
-    WHERE (d:Document OR d:DocumentHistory)
-      AND {domain_predicate("d")}
-      AND (toLower(d.name) = toLower($documentName)
-           OR d.path = $documentName
-           OR d.id = $documentName)
-    WITH d ORDER BY d.path LIMIT $limit
-    OPTIONAL MATCH (o)
-    WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
-    WITH d, o ORDER BY o.doc_version, o.key
-    RETURN d {{.id, .name, .path, .version}} AS document,
-           d:DocumentHistory AS retired,
-           collect(CASE WHEN o IS NULL THEN null ELSE o {{
-               .id, .name, .entity_class, .key, .chunk_id, .doc_version,
-               .description, ._valid_from,
-               status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
-           }} END) AS observations
-    """
-    found = _run_read_query(cypher, params)
-    rows = []
-    for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
-        observations = row.get("observations") or []
-        current = {o.get("key") for o in observations if o.get("status") == "current"}
-        history = {o.get("key") for o in observations if o.get("status") == "history"}
-        current.discard(None)
-        history.discard(None)
-        rows.append({
-            "document": row.get("document"),
-            "retired": bool(row.get("retired")),
-            "summary": {
-                "current": sum(o.get("status") == "current" for o in observations),
-                "history": sum(o.get("status") == "history" for o in observations),
-                "history_versions": sorted(
-                    {o["doc_version"] for o in observations
-                     if o.get("status") == "history" and o.get("doc_version") is not None}
-                ),
-            },
-            "dropped_keys": sorted(history - current),
-            "observations": observations,
-        })
-    return {
+
+    def _rows_for(name: str) -> tuple[list[dict], bool]:
+        params = {
+            "domains": domains,
+            "documentName": name,
+            "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
+        }
+        cypher = f"""
+        MATCH (d)
+        WHERE (d:Document OR d:DocumentHistory)
+          AND {domain_predicate("d")}
+          AND (toLower(d.name) = toLower($documentName)
+               OR d.path = $documentName
+               OR d.id = $documentName)
+        WITH d ORDER BY d.path LIMIT $limit
+        OPTIONAL MATCH (o)
+        WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
+        WITH d, o ORDER BY o.doc_version, o.key
+        RETURN d {{.id, .name, .path, .version}} AS document,
+               d:DocumentHistory AS retired,
+               collect(CASE WHEN o IS NULL THEN null ELSE o {{
+                   .id, .name, .entity_class, .key, .chunk_id, .doc_version,
+                   .description, ._valid_from,
+                   status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
+               }} END) AS observations
+        """
+        found = _run_read_query(cypher, params)
+        rows = []
+        for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
+            observations = row.get("observations") or []
+            current = {o.get("key") for o in observations if o.get("status") == "current"}
+            history = {o.get("key") for o in observations if o.get("status") == "history"}
+            current.discard(None)
+            history.discard(None)
+            rows.append({
+                "document": row.get("document"),
+                "retired": bool(row.get("retired")),
+                "summary": {
+                    "current": sum(o.get("status") == "current" for o in observations),
+                    "history": sum(o.get("status") == "history" for o in observations),
+                    "history_versions": sorted(
+                        {o["doc_version"] for o in observations
+                         if o.get("status") == "history" and o.get("doc_version") is not None}
+                    ),
+                },
+                "dropped_keys": sorted(history - current),
+                "observations": observations,
+            })
+        return rows, len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS
+
+    rows, truncated = _rows_for(document_name)
+    out: dict = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "document_history",
         "document_name": document_name,
-        "truncated": len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS,
+        "truncated": truncated,
         "rows": rows,
     }
+    if rows:
+        return out
+    # Nothing by exact name, path or id (spec 2026-10-22 §5.4.4): a unique
+    # suffixed name is used, with a warning; otherwise name the closest ones.
+    low = document_name.casefold()
+    suffixed = (
+        []
+        if low.endswith(DOCUMENT_NAME_SUFFIXES)
+        else _document_names_like(domains, names=[low + s for s in DOCUMENT_NAME_SUFFIXES])
+    )
+    if len(suffixed) == 1:
+        rows, truncated = _rows_for(suffixed[0])
+        out.update(rows=rows, truncated=truncated, matched_name=suffixed[0],
+                   warnings=[f"no document named {document_name!r}; matched {suffixed[0]!r}"])
+        return out
+    stem = document_name
+    for suffix in DOCUMENT_NAME_SUFFIXES:
+        if low.endswith(suffix):
+            stem = document_name[: -len(suffix)]
+            break
+    out["closest"] = _document_names_like(domains, fragment=stem)
+    out["next"] = "artmind query document-history --documentName <one of closest> (names match exactly, ignoring case)"
+    return out
 
 
 # ── hierarchy ────────────────────────────────────────────────────────────────
