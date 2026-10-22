@@ -918,16 +918,14 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm, {{limit: $countCap}})
             YIELD node AS e, score AS ftScore
             WITH collect({{e: e, s: ftScore}}) AS raw
-            WITH raw, size(raw) AS _rawHits
-            UNWIND raw AS hit
+            WITH size(raw) AS _rawHits, [h IN raw WHERE {domain_predicate("h.e")}] AS kept
+            UNWIND CASE WHEN size(kept) = 0 THEN [null] ELSE kept END AS hit
             WITH _rawHits, hit.e AS e, hit.s AS ftScore
-            WHERE {domain_predicate("e")}
-            WITH _rawHits, e, ftScore
             ORDER BY ftScore DESC, e.name
             WITH _rawHits, collect(e) AS hits
             WITH _rawHits, size(hits) AS _rowsTotal, hits[0..$limit] AS page
-            UNWIND range(0, size(page) - 1) AS i
-            WITH _rawHits, _rowsTotal, i, page[i] AS e
+            UNWIND CASE WHEN size(page) = 0 THEN [-1] ELSE range(0, size(page) - 1) END AS i
+            WITH _rawHits, _rowsTotal, i, CASE WHEN i < 0 THEN null ELSE page[i] END AS e
             CALL (e) {{
               OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(d:Document)
               WHERE {domain_predicate("d")}
@@ -1104,8 +1102,12 @@ def execute_pattern(
             rows_total = row.pop("_rowsTotal")
         if isinstance(row, dict) and "_rawHits" in row:
             raw_hits = row.pop("_rawHits")
-    if pattern == "pattern7" and rows_total is None:
-        rows_total = 0  # no hits at all: the count query returned no row to ride on
+    if pattern == "pattern7":
+        if rows_total is None:
+            rows_total = 0
+        # An empty page still returns one row (entityData null) so the counts
+        # survive; it is not a result.
+        rows = [r for r in rows if not (isinstance(r, dict) and r.get("entityData") is None)]
     rows = _bound_pattern_rows(pattern, rows, params)
     result = {
         **_domain_output(domains),

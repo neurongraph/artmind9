@@ -1039,3 +1039,18 @@ def test_execute_pattern7_with_no_hits_reports_zero(monkeypatch):
     assert result["rows_total"] == 0
     assert result["truncated"] is False
     assert "next" not in result
+
+
+def test_execute_pattern7_reports_the_cap_when_no_hit_is_in_domain(monkeypatch):
+    monkeypatch.setattr(
+        graph_query,
+        "_run_read_query",
+        lambda cypher, params: [
+            {"entityData": None, "documents": [], "document_count": 0, "_rowsTotal": 0, "_rawHits": 1000}
+        ],
+    )
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert result["rows"] == []
+    assert result["rows_total"] == 0
+    assert result["rows_total_capped"] is True
+    assert result["truncated"] is False
