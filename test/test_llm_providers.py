@@ -1,4 +1,5 @@
 import base64
+import json
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -337,3 +338,56 @@ def test_an_unrelated_bad_request_still_raises_and_is_not_retried():
     from artmind.llm_providers import _no_temperature
 
     assert not _no_temperature
+
+# ── the learned refusal survives the process (spec 2026-10-22 §5.2) ──────────
+
+def _forget_in_memory_only():
+    """What a new process looks like: the in-memory set is empty, the file stays."""
+    from artmind import llm_providers
+
+    llm_providers._no_temperature.clear()
+    llm_providers._openrouter_clients.clear()  # a new process has no client cache either
+    llm_providers._capabilities_loaded = False
+
+
+def test_a_learned_refusal_is_written_to_the_capability_file():
+    from artmind import llm_providers
+
+    _calls_with_a_client([_bad_request(LITELLM_TEMPERATURE_400), _ok()], "claude-haiku-5-5")
+    data = json.loads(llm_providers._capabilities_path().read_text())
+    (key, entry), = data.items()
+    assert key.endswith("|claude-haiku-5-5")
+    assert entry["no_temperature"] is True
+    assert "learned_at" in entry
+
+
+def test_a_new_process_skips_the_failing_attempt():
+    _calls_with_a_client([_bad_request(LITELLM_TEMPERATURE_400), _ok()], "claude-haiku-5-5")
+    _forget_in_memory_only()
+    sent = _calls_with_a_client([_ok()], "claude-haiku-5-5")
+    assert [("temperature" in kw) for kw in sent] == [False]
+
+
+def test_an_expired_entry_is_ignored():
+    from artmind import llm_providers
+
+    _calls_with_a_client([_bad_request(LITELLM_TEMPERATURE_400), _ok()], "claude-haiku-5-5")
+    path = llm_providers._capabilities_path()
+    data = json.loads(path.read_text())
+    for entry in data.values():
+        entry["learned_at"] = "2000-01-01T00:00:00+00:00"
+    path.write_text(json.dumps(data))
+    _forget_in_memory_only()
+    sent = _calls_with_a_client([_ok()], "claude-haiku-5-5")
+    assert sent[0]["temperature"] == 0
+
+
+def test_a_corrupt_capability_file_is_treated_as_empty():
+    from artmind import llm_providers
+
+    path = llm_providers._capabilities_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("{not json")
+    _forget_in_memory_only()
+    sent = _calls_with_a_client([_ok()], "claude-haiku-5-5")
+    assert sent[0]["temperature"] == 0

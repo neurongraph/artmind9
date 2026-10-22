@@ -1,5 +1,8 @@
 import base64
+import json
 import mimetypes
+import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 import ollama
@@ -22,11 +25,67 @@ _ollama_embed_clients: dict[str | None, ollama.Client] = {}
 # calls to that pair simply leave it out.
 _no_temperature: set[tuple[str, str]] = set()
 
+# The learned refusals, persisted so each new `artmind` process (every CLI call
+# is one) does not pay a failed request and print the warning again (spec
+# 2026-10-22 §5.2). Entries expire, so a provider that changes is re-probed.
+_CAPABILITY_TTL_S = 30 * 86400
+_capabilities_loaded = False
+
+
+def _capabilities_path() -> Path:
+    import paths
+
+    return Path(paths.LOGS_DIR) / "llm_capabilities.json"
+
+
+def _read_capabilities() -> dict:
+    try:
+        data = json.loads(_capabilities_path().read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _load_capabilities() -> None:
+    """Fold unexpired persisted refusals into `_no_temperature`, once per process."""
+    global _capabilities_loaded
+    if _capabilities_loaded:
+        return
+    _capabilities_loaded = True
+    now = datetime.now(timezone.utc).timestamp()
+    for key, entry in _read_capabilities().items():
+        if not isinstance(key, str) or not isinstance(entry, dict) or not entry.get("no_temperature"):
+            continue
+        url, sep, model = key.rpartition("|")
+        try:
+            learned = datetime.fromisoformat(str(entry.get("learned_at"))).timestamp()
+        except ValueError:
+            continue
+        if sep and now - learned <= _CAPABILITY_TTL_S:
+            _no_temperature.add((url, model))
+
+
+def _remember_no_temperature(kind: tuple[str, str]) -> None:
+    """Persist one refusal; never raises (a read-only run folder just re-learns)."""
+    path = _capabilities_path()
+    data = _read_capabilities()
+    data[f"{kind[0]}|{kind[1]}"] = {"no_temperature": True, "learned_at": datetime.now(timezone.utc).isoformat()}
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+        tmp.write_text(json.dumps(data, indent=1), encoding="utf-8")
+        os.replace(tmp, path)
+    except OSError as exc:
+        logger.debug("could not persist the temperature capability of {}: {}", kind, exc)
+
 
 def _reset_clients() -> None:
     """Drop cached SDK clients and learned model limits. Intended for test isolation only."""
+    global _capabilities_loaded
     _openrouter_clients.clear()
     _no_temperature.clear()
+    _capabilities_loaded = False
+    _capabilities_path().unlink(missing_ok=True)
     _ollama_clients.clear()
     _ollama_embed_clients.clear()
 
@@ -95,6 +154,7 @@ def call_llm_openrouter(
     client = _openrouter_client(env, timeout)
     if max_retries is not None:
         client = client.with_options(max_retries=max_retries)
+    _load_capabilities()
     kind = (env.get("ARTMIND_KG_LLM_URL") or OPENROUTER_BASE_URL, model)
     request = {"model": model, "messages": [{"role": "user", "content": prompt}]}
     if kind not in _no_temperature:
@@ -105,6 +165,7 @@ def call_llm_openrouter(
         if "temperature" not in request or not _rejects_temperature(exc):
             raise
         _no_temperature.add(kind)
+        _remember_no_temperature(kind)
         logger.warning(
             "{} does not accept temperature=0 ({}); calling it without a temperature "
             "from now on, so its output is no longer pinned to be reproducible",
