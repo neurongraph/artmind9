@@ -22,7 +22,16 @@ MONTHS = {
     ])
     for name in names
 }
-_NUMBER_RE = re.compile(r"(?<![\w.-])(\d+(?:\.\d+)?)(?![\w.-])")
+# A number is a whole token: not glued to word characters or a hyphen (so not inside "2025-05-01" or
+# "-5"), not part of a dotted version ("1.2.3") or a comma list ("1,2,3"), but a sentence-final "."
+# or "," after it is fine. Thousands groups ("2,500") are one number; digit runs are capped.
+_NUMBER_RE = re.compile(
+    r"(?<![\w-])(?<!\d\.)(?<!\d,)"
+    r"(\d{1,3}(?:,\d{3}){1,5}(?:\.\d{1,15})?|\d{1,15}(?:\.\d{1,15})?)"
+    r"(?![\w-])(?!\.\d)(?!,\d)"
+)
+_RELATIVE_YEAR_RE = re.compile(r"\b(last|this)\s+year\b", re.I)
+_TODAY_RE = re.compile(r"\btoday\b", re.I)
 _ISO_RE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
 _DMY_RE = re.compile(r"\b(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})\b")
 _MY_RE = re.compile(r"\b([A-Za-z]{3,9})\s+(\d{4})\b")
@@ -38,40 +47,51 @@ def _in_range(spec: ParamSpec, value: float) -> bool:
 
 
 def _number(spec: ParamSpec, question: str, today: date, used: set):
-    low = question.casefold()
-    for phrase, year in (("last year", today.year - 1), ("this year", today.year)):
-        index = low.find(phrase)
-        span = (index, index + len(phrase))
-        if index >= 0 and _free(span, used) and _in_range(spec, year):
-            return year, phrase, span
+    """The first free in-range number in the question, else (for a param whose range admits a
+    year) "last year" / "this year". Negative numbers are not filled."""
     for match in _NUMBER_RE.finditer(question):
         span = match.span(1)
         text = match.group(1)
-        value = float(text) if spec.type == "float" or "." in text else int(text)
-        if spec.type == "int" and isinstance(value, float):
-            continue
+        if spec.type == "int":
+            if "." in text:
+                continue
+            value = int(text.replace(",", ""))
+        else:
+            value = float(text.replace(",", ""))
         if _free(span, used) and _in_range(spec, value):
             return value, text, span
+    if (spec.min is not None or spec.max is not None) and _in_range(spec, today.year):
+        for match in _RELATIVE_YEAR_RE.finditer(question):
+            year = today.year - 1 if match.group(1).casefold() == "last" else today.year
+            if _free(match.span(), used) and _in_range(spec, year):
+                return year, match.group(0), match.span()
     return None
 
 
 def _date(question: str, today: date, used: set):
-    low = question.casefold()
-    if "today" in low:
-        index = low.index("today")
-        return today.isoformat(), "today", (index, index + 5)
+    """Explicit dates first (ISO, "15 January 2026", "January 2026"), then the word "today".
+    A day that does not exist ("30 February 2026") consumes its span for this call, so the
+    month-year pattern cannot pick up the tail of it."""
+    consumed: set = set()
     for regex, build in (
         (_ISO_RE, lambda m: date(int(m[1]), int(m[2]), int(m[3]))),
         (_DMY_RE, lambda m: date(int(m[3]), MONTHS[m[2].casefold()], int(m[1]))),
         (_MY_RE, lambda m: date(int(m[2]), MONTHS[m[1].casefold()], 1)),
     ):
         for match in regex.finditer(question):
+            if not _free(match.span(), used) or not _free(match.span(), consumed):
+                continue
             try:
                 value = build(match)
-            except (KeyError, ValueError):
+            except KeyError:
                 continue
-            if _free(match.span(), used):
-                return value.isoformat(), match.group(0), match.span()
+            except ValueError:
+                consumed.add(match.span())
+                continue
+            return value.isoformat(), match.group(0), match.span()
+    for match in _TODAY_RE.finditer(question):
+        if _free(match.span(), used) and _free(match.span(), consumed):
+            return today.isoformat(), match.group(0), match.span()
     return None
 
 
