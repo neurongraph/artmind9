@@ -235,7 +235,8 @@ def test_execute_text2sql_dry_run_skips_execution(monkeypatch):
     result = text2sql.execute_text2sql("How many products?", "banking", model="test-model", dry_run=True)
 
     assert result["dry_run"] is True
-    assert result["rows"] == []
+    # A dry run executed nothing: an empty `rows` list would read as "no results".
+    assert "rows" not in result
     assert result["command"] == "text2sql"
     assert result["query_type"] == "sql"
     assert "SELECT" in result["generated_sql"]

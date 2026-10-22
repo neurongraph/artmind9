@@ -186,7 +186,8 @@ def test_execute_text2cypher_dry_run_skips_execution(monkeypatch):
     )
 
     assert result["dry_run"] is True
-    assert result["rows"] == []
+    # A dry run executed nothing: an empty `rows` list would read as "no results".
+    assert "rows" not in result
     assert result["command"] == "text2cypher"
     assert "MATCH" in result["generated_cypher"]
 

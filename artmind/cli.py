@@ -1,4 +1,5 @@
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -2969,6 +2970,11 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    if dry_run:
+        result["next"] = (
+            f"artmind query graph text2cypher --domain {shlex.quote(','.join(domains))} "
+            f"{shlex.quote(question)} --compact"
+        )
     _echo_json(result, compact)
 
 
@@ -3226,6 +3232,12 @@ def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: boo
         result = text2sql.execute_text2sql(question, domains, dry_run=dry_run, as_of=as_of)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    if dry_run:
+        as_of_arg = f" --asOf {shlex.quote(as_of)}" if as_of else ""
+        result["next"] = (
+            f"artmind query text2sql --domain {shlex.quote(','.join(domains))}{as_of_arg} "
+            f"{shlex.quote(question)} --compact"
+        )
     _echo_json(result, compact)
 
 
