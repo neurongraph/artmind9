@@ -45,6 +45,6 @@ in the traces.
 
 | Vault | Domains | Structured store | Traces |
 |---|---|---|---|
-| `brain01` | `personal_journal` | none | ~60 admin turns, 2026-10-12 → 2026-10-19 (round 1) |
+| `brain01` | `personal_journal` | none | ~60 admin turns, 2026-10-12 → 2026-10-19 (round 1); 11 admin turns on `claude-sdk` / Haiku 4.5, 2026-10-22 (round 4) |
 | `my_work` | `performance_management` (+ others) | 1 table, mappings mostly unconfirmed | none recorded at round 1; Neo4j was down |
 | `banking_corpus` | 8 sibling document domains `FAMILY.*` + literal `FAMILY` (tables) | 5 tables | 1 Q&A turn, 2026-10-20 (round 2, Claude SDK); 36 benchmark turns, 2026-10-21 (round 3, Claude SDK, Haiku 4.5 + one Sonnet 5) |

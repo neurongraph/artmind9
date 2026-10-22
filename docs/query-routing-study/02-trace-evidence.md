@@ -270,3 +270,170 @@ graded with this rubric), so only speed and cost are compared.
 
 S7–S9, S13, S14 now seen (see `04-scenarios.md`). New: S19 (multi-document procedures and
 "how do I" answers), S20 (which version applied on date D), S21 (vault with no views).
+
+---
+
+## Round 4 — 2026-10-22 (brain01, 11 admin turns)
+
+**Vault:** `brain01` (`personal_journal`, 1,687 documents, two saved views: `trips_by_year`,
+`meetings_in_range`). **Window:** the 11 admin turns recorded on 2026-10-22, four
+conversations. **Backend/model:** `claude-sdk`, `claude-haiku-4-5` on all 11. **Skill baseline:**
+commit `9304704` (`artmind_version` 0.10.0). Turns are labelled T1–T11 in time order; the
+8-character prefix is the trace id for `artmind traces show`. Questions are shapes only.
+
+| T | Trace | Conversation | Shape | Skill loaded | Commands | Turns / s / $ |
+|---|---|---|---|---|---|---|
+| T1 | `ed40da48` | A, first | highlights of my trip to CITY_A in MONTH YEAR_A | no | none | 1 / – / 0.05 |
+| T2 | `ce2f1ecb` | A, 2nd ("query artmind") | same question, re-sent | yes | `domains-overview`, `views list`, `entity-resolve` ×2, `views run` (0 rows), `vector-text`, `pattern10` ×4 | 12 / 72 / 0.13 |
+| T3 | `8757a789` | A, 3rd | did I visit SHOP_A again? | follow-up | `pattern7` | 2 / 11 / 0.17 |
+| T4 | `a25a6226` | B, first | recorded deaths in my family | yes | `domains-overview`, `views list`, `pattern7` | 6 / 30 / 0.05 |
+| T5 | `a74bce51` | B, 2nd | any reference to PERSON_B, another of my uncles | follow-up | `entity-resolve` | 2 / 16 / 0.07 |
+| T6 | `e9ab150d` | C, first | who is my favourite ROLE? | no | none | 1 / – / 0.01 |
+| T7 | `751511e1` | C, 2nd | "query artmind DOMAIN" (no question) | no | none | 1 / – / 0.01 |
+| T8 | `e6b42ab3` | C, 3rd | T6 re-asked | yes | `views list`, `structural-metadata`, `entity-resolve`, `vector-text`, `text2cypher --dry-run`, `pattern7` | 9 / 55 / 0.07 |
+| T9 | `c1a07629` | C, 4th | "use frequency methods, not just the word favourite" | follow-up | `text2cypher --dry-run`, `vector-text` ×2 | 4 / 37 / 0.12 |
+| T10 | `820dff75` | D, first | my hobbies and how I spend time outside work | no | `Read` of the agent's memory index (file absent) | 2 / – / 0.01 |
+| T11 | `eb3143d0` | D, 2nd | "you need to query artmind DOMAIN for the above" | yes | `domains-overview`, `views list`, `metadata`, `pattern1`, `pattern7` ×2, `vector-text` ×2 | 11 / 59 / 0.10 |
+
+Total about $0.81 for 11 turns. Mean skill-turn cost is about $0.09; the four no-skill
+turns cost about a cent each and answered nothing.
+
+### `traces stats` for the day
+
+| Bucket | Turns | fall_through | graph_miss | graph_productivity | views_first / skipped | view_run | views_listed_unused | answer_basis |
+|---|---|---|---|---|---|---|---|---|
+| `personal_journal` | 7 | 0.29 | 0.29 | 0.77 | 1.0 / 0.0 | 0.14 | 3 | graph 3, vector 2, mixed 1, none 1 |
+| `(none)` | 4 | 0 | 0 | – | – | 0 | 0 | none 4 |
+
+The `(none)` bucket is the four turns that ran no `artmind` command (T1, T6, T7, T10): no
+domain is ever attributed, so the stats cannot show that they were Q&A turns the skill
+should have handled. See P20 for why 2 of the 3 unproductive graph spans behind the
+`personal_journal` miss rate are not misses.
+
+Backend mix of the whole brain01 registry (72 turns since 2026-10-16): `claude-sdk` 61
+(57 on `claude-haiku-4-5`, 4 with no model recorded), `acp` 11. Round 1 describes this
+vault's turns as "mostly `acp`"; the registry metadata says otherwise. See open question 1.
+
+### Patterns observed
+
+**P18. Personal-memory framing skips the skill on the first turn.** Three of the four
+first turns of the day (T1, T6, T10) loaded no skill and ran no `artmind` command. All three
+are first-person questions about the user's own life or work ("my trip", "my favourite",
+"my hobbies"). The visible reasoning of T6 and T10 treats them as recall questions for the
+agent's own auto-memory: T10 reads the memory index (absent) and replies that it knows
+nothing yet and offers to save the answer; T6 says the same; T1 says it cannot see personal
+history and offers to query artmind "if documents were ingested". The system prompt
+(`ADMIN_SYSTEM_APPEND`) describes artmind-query as the tool "for inspecting the graph", an
+operator framing, while the Claude Code preset carries its own memory instructions and the
+agent's memory directory exists under the run folder. Recovery cost the user one or two
+extra turns each time (T2; T7→T8; T11): T7 was the user typing only the domain name, and
+the agent asked what to query instead of asking the earlier question again, so the next
+turn restated the question. Every recovery turn then loaded the skill and answered.
+Base rate: across all `claude-sdk` first turns in this vault, 21 of 26 loaded the skill. Before
+today 20 of 22 did (the two misses were operator-style prompts); today 1 of 4. First-person
+phrasing among earlier first turns: 5 of 6 loaded the skill, so phrasing alone is not
+decisive, and n is small. The QA profile (`chat-ui`) uses different wording ("questions")
+and was not exercised. → S23.
+
+**P19. An empty view result is an entity-resolution miss, twice over (T2).** The agent
+resolved "my"/"me" to a person node carrying the user's real name (observation_count 1,
+connection_count 12, description about an unrelated everyday event) instead of the journal's
+author entity `Diarist` (public schema guidance names the narrator that way; 1,991
+observations, 8,149 connections). It then picked the `LOCATION` node whose description
+mentioned the study tour over a same-city twin (3 vs 3 observations, 9 vs 3 connections).
+`views run trips_by_year` returned zero rows. Read-only re-check, all four combinations
+against the live graph:
+
+| person \ place | place node 1 | place node 2 |
+|---|---|---|
+| real-name PERSON | 0 | 0 |
+| `Diarist` | 0 | **1** (one trip, 2 notes) |
+
+Only one of four combinations returns the trip. The view and its Cypher are correct. The
+agent then recovered (one `vector-text`, four `pattern10` on date-named notes) and answered
+the question, but its date range stops one day before the view row's last note. This answers
+open question 6 for this case: an empty view is a resolution miss plus a data gap (two
+`LOCATION` nodes for one city; neither the two city nodes nor the organisation twins of P22
+appear in the 22-candidate `insights same-as` queue). `entity-resolve` already prints
+`observation_count`/`connection_count`, and nothing in the skill says that "I/my" resolves to
+the narrator entity: a hub rule fixes the person. It would not fix the place, because there
+the node with the trip is the *lower*-degree twin (3 connections against 9), so the right
+behaviour for twin nodes of the right class is to run the view for each candidate (or fix
+the duplicate at the same-as level), not to prefer one. → S4; C3.
+
+**P20. `--dry-run` is read as a zero-row result (T8, T9).** Both `text2cypher` calls of the
+conversation used `--dry-run`, which by design prints the Cypher and `"rows": [], "dry_run":
+true` and executes nothing. T8 then wrote that the generated Cypher "found no results" and
+moved on; T9 did the same. In neither turn was the Cypher run. The skill says "run
+`--dry-run` first to inspect the Cypher" (line 294) and never says to run it afterwards. Side
+effects: (a) `traces` counts the dry-run as an unproductive graph attempt, so 2 of the 3
+zero-row graph spans in the day's `personal_journal` bucket, and T9's `fell_through` flag, are
+artefacts (the third, the empty view in T2, is real); (b) with stderr merged, each
+`text2cypher` call prints a WARNING that the configured model rejects `temperature=0` and
+retries, so the agent's tool result starts with two log lines before the JSON. Executed
+for real, a one-call text2cypher ("organisations by observation_count") returned a ranking
+immediately (see P22). → S3, S22; D (`next`).
+
+**P21. Entity search returns at most 10 rows with no truncation signal (T4, T5).** "Recorded
+deaths in my family" ran one `pattern7 --searchTerm "death died deceased"` at the default
+`--limit 10` and listed ten people as the family's recorded deaths. With `--limit 50` the same
+search returns 44 rows of which 12 are death events; two family deaths absent from T4's answer
+are among them. The user then asked about one of them by name (T5); the agent found it with
+`entity-resolve`, said it "was missing from my initial search results", and re-presented
+a "complete" list of five that still lacks the other missing family death. `pattern7`'s JSON has
+no `rows_total` or `truncated` field (unlike `pattern8`, `pattern10`, `text2cypher`), and its
+top-10 mixes `EVENT`, `PERSON`, `EMOTION` and `LOCATION` nodes by relevance, so the cap
+silently drops events. Completeness language ("recorded deaths", "complete") was supplied by
+the agent, not asked for by the user. → S24; D (`next`, truncation).
+
+**P22. A preference question is answered by sampling, then by inference (T8, T9).** "Who is
+my favourite ROLE?" has no stored fact. T8 searched for the word (entity-resolve,
+`vector-text`, a never-executed text2cypher, `pattern7 "favourite"`) and honestly answered
+"the graph has no explicit favourite", offering a frequency analysis. The user asked for it
+in T9; the agent ran a dry-run (P20), then two `vector-text` queries ("positive", "good")
+and answered "your favourite is ORG_A, appearing far more often than any other". No count was
+computed. A real count (executed text2cypher, one call) gives `ORG_A` 67 observations,
+`ORG_B` 67, a twin node of ORG_A 64, then 54; so the top is a tie, ORG_A is split across two
+nodes (neither in the same-as queue), and the role of `ORG_B` (client vs other) was not
+checked. The sentiment evidence is positive words in chunks that the retrieval query itself
+asked for. The `insights` route (salience, "who matters most") was not tried; the
+snapshot is nine days old. → S22; C4 (a lexical row for "favourite / most / top").
+
+**P23. Discovery commands chosen by name, not by size (T11).** For "hobbies and how I spend
+time" the agent ran `graph metadata` (88 KB) and `pattern1 --entityClass ACTIVITY --limit 100 |
+head -100` (110 KB; `head` does nothing to one-line compact JSON). Both were persisted to disk and
+the model saw a 2 KB preview of each and never read the files. The answer came from two
+`pattern7` calls and two `vector-text` calls. `structural-metadata` returns the same
+orientation in under 2 KB, and the skill documents it. 502k input tokens for the turn. The
+final answer is a broad, well-sourced synthesis with two filler bullets ("various
+activities"). → S2-like exploration; D (output-size guard with `next`).
+
+**P24. Entity-search rows carry no provenance, so Sources go vague (T4, T5).** `pattern7`
+rows hold `entityData` only: no document name or path. T3 could cite two documents because
+the shop entity's `_valid_from` equals the date-named note; T4 and T5 could only cite the
+journal as a whole, with no document, for a list of ten events. Of the 6 turns that found
+data, 2 had no document-level source (T8's empty Sources block is the honest "no data"
+case). The proposal's ready `sources` block (D) needs entity rows to name their source
+documents. → S24; D.
+
+**P25. Existence and follow-up questions are well routed (T3, T5).** "Did I visit SHOP_A again?"
+(`pattern7`, one call, two real notes, both cited, 11 s) and "any reference to PERSON_B?"
+(`entity-resolve`, one call) skipped the skill and the views check legitimately: the catalogue
+was already in the conversation and no view fits. Both answers were correct. A skipped
+skill reload is therefore not itself a failure (contrast P4); the question is whether the
+cached catalogue was consulted, which `views_first` does count. → S2, S25.
+
+### Verification notes (read-only)
+
+- The trips view, its parameters and its Cypher are correct; the 2×2 above used
+  `ARTMIND_NO_PROXY=1 artmind query views run trips_by_year`.
+- Executed text2cypher from this checkout needs `env -u ANTHROPIC_BASE_URL` (CLAUDE.md §5);
+  without it the call fails with a 404, which is not what the agent's shell sees.
+- Skill, views and entities were checked against the live graph; no note text, answer text or
+  names are recorded here.
+
+### Scenario ids
+
+New: S22 (superlative / preference over a class), S23 (first-person question with no domain),
+S24 (enumeration with a completeness expectation), S25 (existence / recurrence of a named
+thing). S2, S4 gain evidence.

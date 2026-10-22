@@ -61,7 +61,11 @@ Pre-work done in code, returning a ready-to-run plan:
    returns the full `views run … --param p=@<id>` line, or runs it with `--execute`.
    Views-first stops being a rule the agent can skip (P1, P4).
 3. **Entities**: resolve mentions; add `observation_count`/`connection_count`; flag hubs
-   so the plan routes to `entity-context --query`.
+   so the plan routes to `entity-context --query`. A first-person reference ("I", "my") resolves
+   to the domain's narrator entity (R4 P19: the agent took a named person node instead and
+   the view returned nothing). Where several nodes of the right class share a name, the plan
+   lists all of them and the view runs once per candidate; degree is not a safe tie-break
+   (the node holding the trip was the lower-degree twin).
 4. **Intent, lexical rules first**:
 
    | Question looks like | Route |
@@ -74,6 +78,8 @@ Pre-work done in code, returning a ready-to-run plan:
    | two entities + related / connected | path |
    | a document name matches | `pattern10` or `document-history` |
    | what changed / who matters / lost touch | insights |
+   | favourite / most / top / least (superlative over a class; R4 P22) | `insights` salience first, else an executed `text2cypher` count; report ties and split nodes, and say the ranking is inferred |
+   | all / every / complete / recorded (enumeration; R4 P21) | `pattern7`/`entity-listing` with `--limit` raised until `truncated` is false; cite documents |
 
 5. **Store**: resolved classes ∩ `db bridge` classes, question terms ∩ bridge-column
    values → graph / analytical / hybrid / records-plus-guidance.
@@ -118,6 +124,26 @@ whether "low confidence → routing table" is enough (`06-open-questions.md`).
 - **Wikilink hint.** When a retrieved chunk contains `[[links]]` to documents not yet read,
   the output lists them (R3 P14 early stopping).
 
+- **Truncation and provenance on entity search (R4 P21, P24).** `pattern7` returns at most
+  `--limit` rows (default 10) with no `rows_total` or `truncated`, and its rows carry no source
+  document. Add both, as the other pattern commands do: `rows_total`, `truncated`, `next`
+  ("raise `--limit`"), and the documents an entity was observed in (as `documents`, bounded).
+  Deterministic and model-independent; it also feeds the ready `sources` block below.
+- **`--dry-run` says it ran nothing (R4 P20).** The `text2cypher` / `text2sql` dry-run payload
+  carries `next: "re-run without --dry-run to execute"` and no `rows` key at all (an empty list
+  reads as a result). `traces` stops counting a dry-run as an unproductive graph attempt.
+  The skill line ("run `--dry-run` first") gains "then run it". Separately, the `temperature=0`
+  rejection is logged on every call; cache the learned setting per model for the process.
+- **Output-size guard on discovery commands (R4 P23).** `graph metadata` (88 KB) and `pattern1
+  --limit 100` (110 KB) were persisted to disk and previewed at 2 KB, so the turn paid for
+  them and used none of it. Return a `next` pointing at `structural-metadata` or a smaller
+  `--limit` when the payload exceeds a threshold.
+- **First-person and memory framing on chat surfaces (R4 P18).** `ADMIN_SYSTEM_APPEND`
+  describes artmind-query as the tool "for inspecting the graph"; the QA profile already says
+  "for questions". Candidates, cheapest first: state that questions about the user's own life,
+  work or notes are answered from artmind, never from the agent's memory; rewrite the skill
+  `description` around such questions (A); a deterministic first-turn check (C). Test on the
+  admin profile first, since the QA profile was not exercised.
 - **Unknown-domain guard.** A `--domain` that matches no known domain returns today an empty
   success (P9). Return a `warnings` entry naming the unknown value and the known domains
   (or fail), so an invented domain cannot read as "no data". Deterministic, model-independent;
@@ -187,3 +213,10 @@ as the final gate, after every change has passed the cheaper levels below.
   answer for Q11; the ingest-side fix (no supersession on empty dates, text-signal
   tie-breakers, why `valid_from` is empty) is recorded in open questions 15, 18 and 20 and
   stays out of this study's scope until "move to specs".
+- 2026-10-22 (round 4) — 11 brain01 turns, Claude SDK / Haiku 4.5. Supported: C1/C2 (the
+  first-turn skill skip, P18), C3 (first-person to the narrator, P19; **degree is not a safe
+  tie-break**, so the hub rule is narrowed), C4 (superlative and enumeration rows, P21/P22),
+  the `next` hints in D (dry-run, truncation, size guard) and the ready `sources` block (P24).
+  New in D: truncation and provenance on `pattern7`, an honest `--dry-run`, an output-size
+  guard, chat-surface memory framing. Unchanged: A, B, the time route. Untested still:
+  hierarchy, path and filing routes; a model larger than Haiku on a first-person question.

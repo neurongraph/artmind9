@@ -91,3 +91,27 @@ Settle these with evidence before writing specs. Mark each with the round that a
     Find out whether extraction does not read the labels from these files, a
     `temporal.document_patterns` rule is missing, or `ingest retime` was never run. It decides
     whether Q15 is a data-preparation gap or an adjudicator-logic gap.
+21. **Why do first-person first turns skip the skill?** (R4 P18.) Three of four on 2026-10-22,
+    against 20 of 22 before; every recovery turn loaded the skill. Candidates: the admin
+    system prompt's operator framing, the Claude Code preset's memory instructions (the
+    agent's memory directory exists under the run folder), the skill `description` not
+    matching "my"/"I" questions, or chance at n = 4. Decide with 10–20 first-person first
+    turns on both profiles, with and without the memory directory.
+22. **Is `--dry-run` the main reason text2cypher "fails"?** (R4 P20.) Both observed text2cypher
+    calls today were dry-runs read as zero rows. Count, across rounds 1–3 and today, how
+    many "text2cypher returned nothing" turns executed the query.
+23. **Twin nodes for one real thing.** (R4 P19, P22.) A city and an organisation each exist as
+    two nodes of the same class, neither in the same-as queue (22 candidates). How often does
+    this decide an answer? Candidate remedies: same-as curation, the plan listing all twins
+    (C3), or a graph-health detector on near-duplicate names (insights `same_as_candidates`
+    already exists; check why these were not proposed).
+24. **Should `pattern7` stay a 10-row fulltext search?** (R4 P21.) Its default cap and missing
+    `truncated` flag turned an enumeration into a top-10. Options: add the flag (D), raise the
+    default, or route enumerations to `entity-listing --nameFilter` with a count. Check what
+    else relies on the default of 10.
+25. **Does a recorded wrong-direction answer reach the user?** (R4 P22.) The "favourite"
+    answer was fluent, sourced and unverifiable. Should superlatives always carry a statement
+    that the ranking is inferred, and where does that live (skill, CLI `warnings`)?
+26. **Answers corrected in the next turn.** (R4 T4 → T5.) The user's follow-up exposed an
+    omission from the previous answer. Is there a cheap signal (a follow-up naming something
+    the previous list lacked) that `traces triage` could use to find turns that need review?
