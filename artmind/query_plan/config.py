@@ -18,7 +18,8 @@ DEFAULT_FIRST_PERSON = ("i", "me", "my", "mine", "myself")
 DEFAULT_THRESHOLD = 0.7
 CLASSIFIERS = ("auto", "lexical", "decision")
 _KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "classifier", "decision_model"})
-_DOMAIN_RE = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_-]*(\.[A-Za-z0-9_][A-Za-z0-9_-]*)*$")
+_DOMAIN_RE = re.compile(r"[A-Za-z0-9_][A-Za-z0-9_-]*(\.[A-Za-z0-9_][A-Za-z0-9_-]*)*")
+_CLASS_RE = re.compile(r"[A-Z_][A-Z0-9_]*")
 
 
 class PlanConfigError(ValueError):
@@ -49,7 +50,7 @@ def config_dir() -> Path:
 
 def config_file(domain: str) -> Path | None:
     """The most specific file for `domain`: its own, else its nearest parent's."""
-    if not isinstance(domain, str) or not _DOMAIN_RE.match(domain):
+    if not isinstance(domain, str) or not _DOMAIN_RE.fullmatch(domain):
         return None
     parts = domain.split(".")
     for i in range(len(parts), 0, -1):
@@ -57,6 +58,14 @@ def config_file(domain: str) -> Path | None:
         if path.is_file():
             return path
     return None
+
+
+def _entity_class(raw: str, source: str) -> str:
+    # Same normalisation ingestion applies to entity classes (kept local: no graph_query import).
+    name = re.sub(r"[^A-Za-z0-9_]", "_", raw.strip()).upper()
+    if not _CLASS_RE.fullmatch(name) or not re.search(r"[A-Z]", name):
+        raise PlanConfigError(f"{source}: narrator entity_class {raw!r} is not a usable class name")
+    return name
 
 
 def parse_config(data, source: str) -> PlanConfig:
@@ -72,7 +81,7 @@ def parse_config(data, source: str) -> PlanConfig:
         if (not isinstance(raw, dict) or set(raw) != {"entity_class", "name"}
                 or not all(isinstance(raw[k], str) and raw[k].strip() for k in raw)):
             raise PlanConfigError(f"{source}: narrator must be {{entity_class, name}} (two strings)")
-        narrator = Narrator(raw["entity_class"].strip().upper(), raw["name"].strip())
+        narrator = Narrator(_entity_class(raw["entity_class"], source), raw["name"].strip())
     first_person = DEFAULT_FIRST_PERSON
     if "first_person" in data:
         raw = data["first_person"]
@@ -96,7 +105,11 @@ def load_config(domain: str) -> PlanConfig:
     if path is None:
         return PlanConfig()
     try:
-        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise PlanConfigError(f"{path} cannot be read: {exc}") from exc
+    try:
+        data = yaml.safe_load(text)
     except yaml.YAMLError as exc:
         raise PlanConfigError(f"{path} is not valid YAML: {exc}") from exc
     return parse_config(data, str(path))
