@@ -23,9 +23,10 @@ before it changed", "what happened in order" — or when an entity carries
   `valid_from`. On `pattern10` use **`--includeHistory`** instead: it additionally
   matches `:DocumentHistory`/`:DocChunkHistory` for that document, surfacing retired
   chunks alongside current ones; omitting it matches only the current document.
-  (`--asOf` still works there as an alias, but it is a switch, not a date filter.) Use it when the question is explicitly historical ("what
-  did the policy say in January", "history of…", "previous version", "what changed");
-  omit it otherwise. `entity-history` is the one command with a genuine
+  Use `--includeHistory` when the question is explicitly historical ("what did the
+  policy say in January", "history of…", "previous version", "what changed"); omit it
+  otherwise. (`--asOf` still works on `pattern10` as an alias, but it is a switch, not a
+  date filter.) `entity-history` is the one command with a genuine
   point-in-time `--asOf`, because it's reading the fact-level valid-time axis directly.
 
 ## Edited documents: what a re-ingest keeps
