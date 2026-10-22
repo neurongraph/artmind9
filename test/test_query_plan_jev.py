@@ -1,0 +1,154 @@
+"""The Jev-API decision classifier (spec 2026-10-22 §4.4, §7). No network: urlopen is faked."""
+
+import io
+import json
+import socket
+import urllib.error
+
+import pytest
+from _fake_credentials import FAKE_CREDENTIAL
+
+from artmind.query_plan import planner
+from artmind.query_plan.classify import ClassifierUnavailable, Decision, select_classifier
+from artmind.query_plan.classify import jev
+
+DECISIONS = [
+    Decision("view", "Which saved query?", {"visits_by_year": "Visits ...", "none": "No saved query"},
+             {"visits_by_year": 5.0}, default="none", default_confidence=1.0, none_mass=1.0),
+    Decision("route", "What kind of question?", {"aggregate": "A count", "search": "Anything else"},
+             {"aggregate": 1.5}, default="search", default_confidence=0.5, none_mass=0.5),
+]
+
+
+@pytest.fixture(autouse=True)
+def _fresh_breakers():
+    jev._reset_breakers()
+    yield
+    jev._reset_breakers()
+
+
+class _Response(io.BytesIO):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def _serve(monkeypatch, *, answers=None, error=None):
+    sent = {}
+
+    def fake_urlopen(request, timeout):
+        sent.update(url=request.full_url, body=json.loads(request.data), headers=dict(request.headers),
+                    timeout=timeout)
+        if error is not None:
+            raise error
+        return _Response(json.dumps({"model": "nimble", "answers": answers}).encode())
+
+    monkeypatch.setattr(jev.urllib.request, "urlopen", fake_urlopen)
+    return sent
+
+
+def _clf(**kw):
+    return jev.JevClassifier("http://localhost:11434/v1/systemone", "nimble", **kw)
+
+
+def test_the_request_has_the_jev_shape(monkeypatch):
+    sent = _serve(monkeypatch, answers={
+        "view": {"choice": "visits_by_year", "probabilities": {"visits_by_year": 0.9, "none": 0.1}, "confidence": 0.9},
+        "route": {"choice": "aggregate", "probabilities": {"aggregate": 0.7, "search": 0.3}, "confidence": 0.7},
+    })
+    answers = _clf(api_key=FAKE_CREDENTIAL, timeout=2.5).decide("How many visits?", DECISIONS)
+    assert sent["body"] == {
+        "model": "nimble",
+        "state": {"question": "How many visits?"},
+        "questions": {
+            "view": {"type": "choice", "instructions": "Which saved query?",
+                     "criteria": {"visits_by_year": "Visits ...", "none": "No saved query"}},
+            "route": {"type": "choice", "instructions": "What kind of question?",
+                      "criteria": {"aggregate": "A count", "search": "Anything else"}},
+        },
+    }
+    assert sent["headers"]["Authorization"] == f"Bearer {FAKE_CREDENTIAL}"
+    assert sent["timeout"] == 2.5
+    assert answers["view"].choice == "visits_by_year" and answers["view"].confidence == 0.9
+
+
+def test_a_missing_choice_is_the_most_probable_option(monkeypatch):
+    _serve(monkeypatch, answers={
+        "view": {"probabilities": {"visits_by_year": 0.2, "none": 0.8}},
+        "route": {"probabilities": {"aggregate": 0.6, "search": 0.4}},
+    })
+    answers = _clf().decide("q", DECISIONS)
+    assert answers["view"].choice == "none" and answers["view"].confidence == 0.8
+
+
+@pytest.mark.parametrize("answers", [
+    {"view": {"choice": "elsewhere", "probabilities": {"none": 1.0}}, "route": {"probabilities": {"search": 1.0}}},
+    {"view": {"probabilities": {"none": "high"}}, "route": {"probabilities": {"search": 1.0}}},
+    {"route": {"probabilities": {"search": 1.0}}},
+])
+def test_an_unusable_answer_is_bad_answer(monkeypatch, answers):
+    _serve(monkeypatch, answers=answers)
+    with pytest.raises(ClassifierUnavailable) as caught:
+        _clf().decide("q", DECISIONS)
+    assert caught.value.reason == "bad_answer"
+
+
+@pytest.mark.parametrize("error, reason", [
+    (socket.timeout("timed out"), "timeout"),
+    (urllib.error.URLError(socket.timeout("timed out")), "timeout"),
+    (urllib.error.URLError(ConnectionRefusedError()), "unreachable"),
+    (urllib.error.HTTPError("http://x", 500, "boom", {}, None), "http_500"),
+])
+def test_transport_failures_have_a_reason(monkeypatch, error, reason):
+    _serve(monkeypatch, error=error)
+    with pytest.raises(ClassifierUnavailable) as caught:
+        _clf().decide("q", DECISIONS)
+    assert caught.value.reason == reason
+
+
+def test_the_breaker_opens_after_three_failures_and_closes_after_the_cooldown(monkeypatch):
+    now = [100.0]
+    _serve(monkeypatch, error=socket.timeout("timed out"))
+    clf = _clf(clock=lambda: now[0])
+    for _ in range(3):
+        with pytest.raises(ClassifierUnavailable):
+            clf.decide("q", DECISIONS)
+    with pytest.raises(ClassifierUnavailable) as caught:
+        clf.decide("q", DECISIONS)
+    assert caught.value.reason == "circuit_open"
+    now[0] += jev.BREAKER_COOLDOWN_S + 1
+    with pytest.raises(ClassifierUnavailable) as caught:
+        clf.decide("q", DECISIONS)
+    assert caught.value.reason == "timeout"
+
+
+def test_the_planner_falls_back_to_lexical(monkeypatch):
+    class Down:
+        backend, model = "decision", "nimble"
+
+        def decide(self, question, decisions):
+            raise ClassifierUnavailable("timeout")
+
+    warnings: list[str] = []
+    calls = planner._Calls(Down(), warnings)
+    answers = calls.decide("How often?", DECISIONS)
+    assert answers["view"].choice == "visits_by_year"
+    assert calls.fell_back and calls.reason == "timeout" and calls.calls == 1
+    assert warnings == ["decision classifier unavailable (timeout); used the lexical classifier"]
+
+
+def test_select_classifier_reads_the_endpoint_settings():
+    env = {"ARTMIND_DECISION_URL": "http://localhost:11434/v1/systemone", "ARTMIND_DECISION_MODEL": "nimble",
+           "ARTMIND_DECISION_TIMEOUT": "3"}
+    clf, reason = select_classifier("auto", "auto", None, env=env)
+    assert (clf.backend, clf.model, clf.timeout, reason) == ("decision", "nimble", 3.0, None)
+    clf, _ = select_classifier("auto", "auto", "tev1", env=env)
+    assert clf.model == "tev1"
+    clf, reason = select_classifier("auto", "lexical", None, env=env)
+    assert (clf.backend, reason) == ("lexical", "domain_config")
+    with pytest.raises(ValueError, match="ARTMIND_DECISION_URL"):
+        select_classifier("decision", "auto", None, env={})
+    with pytest.raises(ValueError, match="ARTMIND_DECISION_MODEL"):
+        select_classifier("auto", "auto", None, env={"ARTMIND_DECISION_URL": "http://x"})
