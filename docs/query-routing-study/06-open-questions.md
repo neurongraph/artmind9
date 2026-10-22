@@ -49,24 +49,45 @@ Settle these with evidence before writing specs. Mark each with the round that a
     (`valid_from <= asOf`, not a snapshot) is documented as such or removed.
 14. **`.md` suffix on `--documentName`.** Zero rows without a hint cost Q10 about 20 turns.
     Normalise (accept both) or hint? Check whether any caller relies on exact matching.
-15. **Supersession direction at ingest.** Root cause found (R3, 2026-10-21): in the
-    `banking_corpus` policy pair the adjudicator record names the older file as the newer
-    document, so the newer file is retired. Open: how often the adjudicator inverts the
-    direction (check the other three records; the February schedule -> `welcome_pack.md`
-    record looks suspicious, and the February -> March schedule supersession is missing
-    entirely), and whether a document-date or "Supersedes <version>" text check should
-    override the verdict. Belongs to ingest, but Q21/Q25 grades depend on it.
+15. **Supersession direction at ingest.** Root cause found (R3, 2026-10-22), in code, not
+    in the prompt. `conflicts.py` `materialize` (the `superseded` branch) picks the newer
+    side by `bf >= af` on the two documents' `valid_from`, ties going to B, and always
+    passes `scope="document"`. In `banking_corpus` `valid_from` is empty on all documents in
+    the four supersession pairs, so both sides compare as `""`, B always wins, and the
+    prompt's `valid_from=`/`version=` fields are empty too, so the LLM has nothing to tell
+    the sides apart (document `version` reads 1 for all). The inverted policy pair is
+    therefore a tie-break artifact; the other three records may be right only by A/B
+    order. Candidate fixes (for a later spec, not now): (a) apply no supersession when both
+    dates are empty, and queue it for review; (b) use signals the files carry
+    ("Supersedes Version 1.0", filename version) as tie-breakers; (c) find out why
+    `valid_from` is empty (see 20). Still unverified: whether the February schedule ->
+    `welcome_pack.md` record is the same artifact, and why February -> March has no record.
+    Q21/Q25 grades depend on it.
 16. **Do views-first checks belong in `traces stats` for view-less vaults?** (R3 P10.) The
+    `views_skipped_rate` is noise there; either exclude domains with zero views or report
+    it only when views exist.
 17. **Is the grading rubric stable?** (R3.) Six graders, one rubric, no second pass. Spot-
     check three grades by hand before using the 9/24/3 split as a baseline for a later run;
     two benchmark notes are themselves stale.
-18. **Adjudicator supersession scope.** (R3, Q11.) All four records use `scope: document`,
-    which retires the whole older document. Q11's "how rates change" section exists only in
-    the retired January schedule, so a document-wide retirement removes content that the
-    newer schedule does not restate. Should the adjudicator default to a narrower scope when
-    the newer document covers only part of the older one? Decide with the owner before any
-    spec; it changes what is current, not just how it is found.
+18. **Document-wide retirement hides partly-valid content.** (R3, Q11; reframed
+    2026-10-22.) The first draft asked whether the adjudicator should default to a narrower
+    scope. It cannot: `conflicts.py` hardcodes `scope="document"`, the LLM never chooses
+    one, and `ingest supersede` rejects `section`/`clause` because the graph has no such
+    units (applying them would retire the whole document while leaving its chunks live).
+    The real issue is that retirement is all-or-nothing: Q11's "how rates change" section
+    exists only in the retired January schedule and the newer one does not restate it.
+    Options that need no new model: (a) keep retirement document-wide and make retired text
+    reachable through the graph (the P12 design; Q11 is one of its five questions);
+    (b) a manual `docs restore` of the older document while keeping the `SUPERSEDES` edge,
+    as a per-case workaround, not a default. Sub-document supersession is a feature (section
+    units in the graph) and out of scope for this study.
 19. **Per-change test strategy.** The full benchmark runs once, as the final gate, after the
     changes pass unit tests, deterministic probes and targeted agent runs (see
     `03-proposal.md`, Testing strategy). Open: which three or four questions are the
     smallest set that still shows each change working.
+20. **Why is `valid_from` empty on the banking documents?** (R3, 2026-10-22.) Schemas under
+    `banking.*` list `Effective Date`, `Issued Date` etc. under `temporal.document.valid_from`,
+    yet `document-history` shows `valid_from` null for the four pairs (checked read-only).
+    Find out whether extraction does not read the labels from these files, a
+    `temporal.document_patterns` rule is missing, or `ingest retime` was never run. It decides
+    whether Q15 is a data-preparation gap or an adjudicator-logic gap.
