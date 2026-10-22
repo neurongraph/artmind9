@@ -82,7 +82,7 @@ os.environ["ARTMIND_DATA_DIR"] = os.path.join(_TEST_RUN_ROOT, "data")
 # `paths.resolve_vault()` point every test at the real vault. Drop it.
 os.environ.pop("ARTMIND_VAULT", None)
 # Shadow plans (a thread per traced turn) stay off unless a test enables them.
-os.environ.setdefault("ARTMIND_PLAN_SHADOW", "0")
+os.environ["ARTMIND_PLAN_SHADOW"] = "0"
 
 # ``paths.MACHINE_CONFIG_DIR``/``MACHINE_CONFIG_ENV`` are computed from
 # ``Path.home()`` directly, not ``ARTMIND_HOME`` (see module docstring) —

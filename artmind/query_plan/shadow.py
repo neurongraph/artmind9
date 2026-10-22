@@ -46,7 +46,16 @@ def _trim(plan):
         if isinstance(plan.get("warnings"), list):
             trimmed["warnings"] = plan["warnings"][:10]
         trimmed["trimmed"] = True
-        return trimmed
+        if len(json.dumps(trimmed, default=str)) <= MAX_PAYLOAD_BYTES:
+            return trimmed
+        # Last resort: keep only what the reader needs to classify the plan.
+        minimal = {"confidence": plan.get("confidence"), "route": plan.get("route"),
+                   "warnings": list(plan.get("warnings") or [])[:3], "trimmed": True}
+        for key in ("steps", "suggested_steps"):
+            if plan.get(key):
+                minimal[key] = list(plan[key])[:1]
+                break
+        return minimal
     except Exception:
         return {"trimmed": True}
 
@@ -93,7 +102,7 @@ def start(question: str | None, domains: list[str] | None = None, followup: bool
     if not enabled() or not (question or "").strip():
         return None
     try:
-        if sum(1 for t in threading.enumerate() if t.name == _THREAD_NAME and t.is_alive()) > MAX_RUNNING:
+        if sum(1 for t in threading.enumerate() if t.name == _THREAD_NAME and t.is_alive()) >= MAX_RUNNING:
             return _Skipped(followup)
         return ShadowPlan(question, domains, followup)
     except Exception as exc:  # a thread that cannot start must not break the turn

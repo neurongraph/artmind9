@@ -1,7 +1,8 @@
 """Shadow mode (spec 2026-10-22 §6): a plan beside each traced turn, never seen by the agent."""
 
 import json
-import time
+import threading
+from types import SimpleNamespace
 
 import pytest
 
@@ -61,10 +62,15 @@ def test_a_failing_plan_is_recorded_as_an_error(monkeypatch):
 
 
 def test_a_slow_plan_times_out(monkeypatch):
-    monkeypatch.setattr(planner, "plan", lambda question, domains=None: time.sleep(1.0) or {})
+    release = threading.Event()
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: release.wait(5) and {})
     monkeypatch.setattr(shadow, "WAIT_S", 0.05)
     rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
-    rec.finish()
+    try:
+        rec.finish()
+    finally:
+        release.set()
+        rec._shadow._thread.join(2)
     assert json.loads(_shadow_events(rec.trace_id)[0]["payload"])["status"] == "timeout"
 
 
@@ -111,21 +117,28 @@ def test_a_shadow_that_raises_never_costs_the_trace(monkeypatch):
 
 
 def test_the_wait_is_counted_from_the_plan_start(monkeypatch):
-    monkeypatch.setattr(planner, "plan", lambda question, domains=None: time.sleep(2.0) or {})
-    monkeypatch.setattr(shadow, "WAIT_S", 0.3)
+    release = threading.Event()
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: release.wait(5) and {})
+    monkeypatch.setattr(shadow, "WAIT_S", 10.0)
     rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
-    time.sleep(0.35)  # the turn itself took longer than the budget
-    began = time.monotonic()
-    rec.finish()
-    assert time.monotonic() - began < 0.25
+    plan = rec._shadow
+    joins = []
+    real_join = plan._thread.join
+    plan._thread.join = lambda timeout=None: (joins.append(timeout), real_join(0))[1]
+    # the turn itself took longer than the whole budget
+    monkeypatch.setattr(shadow, "time", SimpleNamespace(monotonic=lambda: plan._started + shadow.WAIT_S + 1))
+    try:
+        rec.finish()
+    finally:
+        release.set()
+        real_join(2)
+    assert joins == [0.0]
     assert json.loads(_shadow_events(rec.trace_id)[0]["payload"])["status"] == "timeout"
 
 
 def test_too_many_running_plans_are_skipped(monkeypatch):
-    import threading
-
     release = threading.Event()
-    blockers = [threading.Thread(target=release.wait, name="plan-shadow", daemon=True) for _ in range(9)]
+    blockers = [threading.Thread(target=release.wait, name="plan-shadow", daemon=True) for _ in range(shadow.MAX_RUNNING)]
     for t in blockers:
         t.start()
     try:
@@ -167,9 +180,6 @@ def test_a_small_plan_is_not_trimmed(monkeypatch):
 
 
 def test_a_thread_that_cannot_start_means_no_shadow(monkeypatch):
-    import threading
-    from types import SimpleNamespace
-
     class NoThread:
         def __init__(self, *a, **kw):
             pass
@@ -219,3 +229,18 @@ def test_the_shadow_event_never_reaches_the_ui(monkeypatch):
     rec.finish()
     assert all("plan" not in json.dumps(e) for e in seen)
     assert [e["type"] for e in seen] == ["text_delta", "turn_done"]
+
+
+def test_a_plan_still_oversized_after_trimming_falls_back_to_a_minimum(monkeypatch):
+    big = {
+        "confidence": {"level": "high"},
+        "route": {"id": "view"},
+        "steps": [{"n": i, "cmd": "artmind query views run v " + "z" * 500} for i in range(400)],
+        "warnings": [f"w{i}" for i in range(20)],
+    }
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: big)
+    rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+    rec.finish()
+    plan = json.loads(_shadow_events(rec.trace_id)[0]["payload"])["plan"]
+    assert plan == {"confidence": {"level": "high"}, "route": {"id": "view"}, "steps": [big["steps"][0]],
+                    "warnings": ["w0", "w1", "w2"], "trimmed": True}
