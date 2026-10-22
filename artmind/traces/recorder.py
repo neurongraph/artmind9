@@ -130,7 +130,10 @@ class TraceRecorder:
             self._flush("thinking")
             self._flush("text")
             if self._shadow is not None:
-                self._add("plan_shadow", self._shadow.result(), name="query plan")
+                try:
+                    self._add("plan_shadow", self._shadow.result(), name="query plan")
+                except Exception:
+                    logger.exception("shadow plan not recorded")
             store.insert_events(self.trace_id, self._events)
             spans = store.list_spans(self.trace_id)
             pairs = match_tool_ids(spans, self._tools)

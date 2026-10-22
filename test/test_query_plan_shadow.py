@@ -90,3 +90,132 @@ def test_list_events_of_type_batches_by_trace():
     store.insert_events(b.trace_id, [{"seq": 0, "ts": 1.0, "type": "text", "payload": "x"}])
     found = store.list_events_of_type([a.trace_id, b.trace_id], "plan_shadow")
     assert list(found) == [a.trace_id] and found[a.trace_id][0]["payload"] == "{}"
+
+
+class _Exploding:
+    followup = False
+
+    def result(self, timeout=None):
+        raise RuntimeError("boom")
+
+
+def test_a_shadow_that_raises_never_costs_the_trace(monkeypatch):
+    rec = TraceRecorder.start(source="admin", question="q")
+    rec.observe({"type": "text_delta", "text": "answer"})
+    rec.observe({"type": "block_done", "block": "text"})
+    rec._shadow = _Exploding()
+    rec.finish()
+    assert _shadow_events(rec.trace_id) == []
+    assert [e["type"] for e in store.list_events(rec.trace_id)] == ["text"]
+    assert store.get_turn(rec.trace_id)["status"] == "done"
+
+
+def test_the_wait_is_counted_from_the_plan_start(monkeypatch):
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: time.sleep(2.0) or {})
+    monkeypatch.setattr(shadow, "WAIT_S", 0.3)
+    rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+    time.sleep(0.35)  # the turn itself took longer than the budget
+    began = time.monotonic()
+    rec.finish()
+    assert time.monotonic() - began < 0.25
+    assert json.loads(_shadow_events(rec.trace_id)[0]["payload"])["status"] == "timeout"
+
+
+def test_too_many_running_plans_are_skipped(monkeypatch):
+    import threading
+
+    release = threading.Event()
+    blockers = [threading.Thread(target=release.wait, name="plan-shadow", daemon=True) for _ in range(9)]
+    for t in blockers:
+        t.start()
+    try:
+        monkeypatch.setattr(planner, "plan", lambda question, domains=None: {})
+        rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+        rec.finish()
+        payload = json.loads(_shadow_events(rec.trace_id)[0]["payload"])
+        assert payload["status"] == "skipped" and payload["plan"] is None
+        assert payload["error"] == "too many shadow plans running"
+    finally:
+        release.set()
+        for t in blockers:
+            t.join(1)
+
+
+def test_an_oversized_plan_is_trimmed_to_valid_json(monkeypatch):
+    big = {
+        "confidence": {"level": "low"},
+        "entities": [{"mention": f"m{i}", "candidates": [{"name": f"n{j}", "pad": "x" * 2000} for j in range(10)]}
+                     for i in range(6)],
+        "warnings": [f"warning {i} " + "y" * 500 for i in range(40)],
+    }
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: big)
+    rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+    rec.finish()
+    payload = json.loads(_shadow_events(rec.trace_id)[0]["payload"])  # valid JSON, not truncated
+    plan = payload["plan"]
+    assert plan["trimmed"] is True and len(plan["warnings"]) == 10
+    assert all(len(e["candidates"]) == 2 for e in plan["entities"])
+    assert plan["confidence"] == {"level": "low"}
+
+
+def test_a_small_plan_is_not_trimmed(monkeypatch):
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: {"warnings": ["a"] * 20})
+    rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+    rec.finish()
+    plan = json.loads(_shadow_events(rec.trace_id)[0]["payload"])["plan"]
+    assert len(plan["warnings"]) == 20 and "trimmed" not in plan
+
+
+def test_a_thread_that_cannot_start_means_no_shadow(monkeypatch):
+    import threading
+    from types import SimpleNamespace
+
+    class NoThread:
+        def __init__(self, *a, **kw):
+            pass
+
+        def start(self):
+            raise RuntimeError("can't start new thread")
+
+    monkeypatch.setattr(shadow, "threading", SimpleNamespace(Thread=NoThread, enumerate=threading.enumerate))
+    assert shadow.start("q") is None
+
+
+def test_a_session_count_failure_means_not_a_followup(monkeypatch):
+    def boom(session_id):
+        raise RuntimeError("db locked")
+
+    monkeypatch.setattr(store, "count_session_turns", boom)
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: {})
+    rec = TraceRecorder.start(source="admin", question="q", session_id="s1", shadow_question="q")
+    rec.finish()
+    assert json.loads(_shadow_events(rec.trace_id)[0]["payload"])["followup"] is False
+
+
+def test_a_disabled_recorder_starts_no_shadow(monkeypatch):
+    started = []
+
+    def boom(*a, **kw):
+        raise RuntimeError("db down")
+
+    monkeypatch.setattr(store, "insert_turn", boom)
+    monkeypatch.setattr(shadow, "start", lambda *a, **kw: started.append(a))
+    rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+    assert rec.enabled is False and rec._shadow is None and started == []
+
+
+@pytest.mark.parametrize("value", ["false", "off", "no", "0", "FALSE"])
+def test_kill_switch_values(monkeypatch, value):
+    monkeypatch.setenv("ARTMIND_PLAN_SHADOW", value)
+    assert shadow.enabled() is False
+    assert shadow.start("q") is None
+
+
+def test_the_shadow_event_never_reaches_the_ui(monkeypatch):
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None: {})
+    rec = TraceRecorder.start(source="admin", question="q", shadow_question="q")
+    seen = [rec.observe({"type": "text_delta", "text": "hi"}),
+            rec.observe({"type": "turn_done", "turns": 1, "_trace": {"usage": {}}})]
+    rec.finish()
+    assert all("plan" not in json.dumps(e) for e in seen)
+    assert [e["type"] for e in seen] == ["text_delta", "turn_done"]
