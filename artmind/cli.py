@@ -299,7 +299,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
     ],
     "artmind plan": [
-        {"name": "Plan", "commands": ["config", "labels"]},
+        {"name": "Plan", "commands": ["config", "labels", "replay"]},
     ],
     "artmind insights": [
         {"name": "Snapshots", "commands": ["refresh", "list", "show", "runs", "profile"]},
@@ -4277,6 +4277,46 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
                 "errors": errors}, compact)
     if errors:
         raise SystemExit(1)
+
+
+@plan_group.command("replay")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml")
+@click.option("--classifier", type=click.Choice(["lexical", "decision", "both"]), default="lexical", show_default=True)
+@click.option("--repeat", type=click.IntRange(1, 10), default=1, show_default=True,
+              help="Plan each label N times; labels whose plans differ are listed as unstable (the gate needs 4)")
+@click.option("--givenDomains", "given_domains", is_flag=True, help="Pass each label's domains instead of letting the plan choose")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, compact: bool) -> None:
+    """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
+
+    Prints the summary (label ids, outcomes, mismatches; no question text); per-label
+    detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json.
+    """
+    from artmind.query_plan import labels as plan_labels
+    from artmind.query_plan import replay as plan_replay_mod
+    from artmind.query_plan.classify import select_classifier
+
+    path = _labels_path(file_path)
+    try:
+        loaded = plan_labels.load_labels(path)
+    except plan_labels.LabelError as exc:
+        raise click.ClickException("invalid labels file; run `artmind plan labels validate`: " + str(exc)) from exc
+    backends = ["lexical", "decision"] if classifier == "both" else [classifier]
+    if "decision" in backends:
+        try:
+            select_classifier("decision", "auto", None)
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
+    reports = {}
+    for backend in backends:
+        report = plan_replay_mod.replay(loaded, backend, repeat, given_domains=given_domains)
+        detail = plan_replay_mod.write_detail(report)
+        summary = {k: v for k, v in report.items() if k != "results"}
+        # exception text can quote the question or entity names: the summary keeps the type only
+        summary["errors"] = [{"id": e["id"], "error_type": e.get("error_type")} for e in report["errors"]]
+        reports[backend] = {**summary, "detail_file": str(detail)}
+    _echo_json({"command": "plan replay", "file": str(path), "repeat": repeat, "reports": reports}, compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
