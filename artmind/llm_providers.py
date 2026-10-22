@@ -59,7 +59,7 @@ def _load_capabilities() -> None:
         url, sep, model = key.rpartition("|")
         try:
             learned = datetime.fromisoformat(str(entry.get("learned_at"))).timestamp()
-        except ValueError:
+        except (ValueError, OverflowError):
             continue
         if sep and now - learned <= _CAPABILITY_TTL_S:
             _no_temperature.add((url, model))
@@ -70,12 +70,16 @@ def _remember_no_temperature(kind: tuple[str, str]) -> None:
     path = _capabilities_path()
     data = _read_capabilities()
     data[f"{kind[0]}|{kind[1]}"] = {"no_temperature": True, "learned_at": datetime.now(timezone.utc).isoformat()}
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
         tmp.write_text(json.dumps(data, indent=1), encoding="utf-8")
         os.replace(tmp, path)
     except OSError as exc:
+        try:
+            tmp.unlink(missing_ok=True)
+        except OSError:
+            pass
         logger.debug("could not persist the temperature capability of {}: {}", kind, exc)
 
 

@@ -339,7 +339,9 @@ def test_an_unrelated_bad_request_still_raises_and_is_not_retried():
 
     assert not _no_temperature
 
+
 # ── the learned refusal survives the process (spec 2026-10-22 §5.2) ──────────
+
 
 def _forget_in_memory_only():
     """What a new process looks like: the in-memory set is empty, the file stays."""
@@ -391,3 +393,23 @@ def test_a_corrupt_capability_file_is_treated_as_empty():
     _forget_in_memory_only()
     sent = _calls_with_a_client([_ok()], "claude-haiku-5-5")
     assert sent[0]["temperature"] == 0
+
+
+def test_an_unwritable_capability_file_does_not_break_the_call(monkeypatch):
+    from artmind import llm_providers
+
+    def failing_replace(src, dst):
+        raise OSError("read-only logs directory")
+
+    monkeypatch.setattr(llm_providers.os, "replace", failing_replace)
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
+    with patch("artmind.llm_providers.openai.OpenAI") as mock_openai:
+        mock_openai.return_value.chat.completions.create.side_effect = [
+            _bad_request(LITELLM_TEMPERATURE_400),
+            _ok("done"),
+        ]
+        assert llm_providers.call_llm_openrouter("claude-haiku-5-5", "p", 30, env) == "done"
+    assert ("https://openrouter.ai/api/v1", "claude-haiku-5-5") in llm_providers._no_temperature
+    logs = llm_providers._capabilities_path().parent
+    assert not llm_providers._capabilities_path().exists()
+    assert not list(logs.glob(".llm_capabilities.json.*.tmp"))
