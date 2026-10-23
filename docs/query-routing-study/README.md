@@ -18,6 +18,7 @@ Opened 2026-10-19.
 | [05-probing.md](05-probing.md) | How to probe a new vault's traces: commands, the extraction snippet, the checklist for each round. |
 | [06-open-questions.md](06-open-questions.md) | Questions the evidence must settle before specs. |
 | [07-benchmark-round3.md](07-benchmark-round3.md) | Per-question grades, routes and causes for the round-3 banking benchmark (36 questions). |
+| [08-fix-and-redesign-plan.md](08-fix-and-redesign-plan.md) | Fix + redesign plan (2026-10-22): review of the dossier, `query plan` first, workstreams W0–W5, phasing and gates. Input to specs. |
 
 ## How a later session uses this
 

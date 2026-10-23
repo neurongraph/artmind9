@@ -995,3 +995,149 @@ def test_hierarchy_rel_types_are_normalized_like_ingest(monkeypatch):
     graph_query.hierarchy("fiction", entity_id="root1", child_of="reports to")
 
     assert calls[1]["params"]["childOf"] == ["REPORTS_TO"]
+
+
+# ── H3: pattern7 truncation and provenance (spec 2026-10-22 §5.3) ────────────
+
+def test_pattern7_counts_hits_and_collects_documents():
+    cypher, params = graph_query._pattern_query(
+        "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": 10}
+    )
+    assert "entity_name_ft" in cypher
+    assert "_rowsTotal" in cypher and "_rawHits" in cypher
+    assert "[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(d:Document)" in cypher
+    assert params["limit"] == 10
+    assert params["countCap"] == graph_query.PATTERN7_COUNT_CAP
+
+
+def test_execute_pattern7_lifts_totals_and_says_next(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent.update(params)
+        return [
+            {"entityData": {"name": f"E{i}"}, "documents": [{"id": "d", "name": "n.md", "path": "n.md"}],
+             "document_count": 1, "_rowsTotal": 44, "_rawHits": 44}
+            for i in range(10)
+        ]
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert sent["searchTerm"] == "harbour"
+    assert result["rows_total"] == 44
+    assert result["truncated"] is True
+    assert result["rows_total_capped"] is False
+    assert result["next"] == "raise --limit (rows_total=44)"
+    assert result["rows"][0]["documents"][0]["path"] == "n.md"
+    assert "_rawHits" not in result["rows"][0]
+
+
+def test_execute_pattern7_with_no_hits_reports_zero(monkeypatch):
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: [])
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert result["rows"] == []
+    assert result["rows_total"] == 0
+    assert result["truncated"] is False
+    assert "next" not in result
+
+
+def test_execute_pattern7_reports_the_cap_when_no_hit_is_in_domain(monkeypatch):
+    monkeypatch.setattr(
+        graph_query,
+        "_run_read_query",
+        lambda cypher, params: [
+            {"entityData": None, "documents": [], "document_count": 0, "_rowsTotal": 0, "_rawHits": 1000}
+        ],
+    )
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert result["rows"] == []
+    assert result["rows_total"] == 0
+    assert result["rows_total_capped"] is True
+    assert result["truncated"] is False
+
+
+def test_pattern7_cypher_caps_the_fulltext_count_and_scopes_documents():
+    cypher, _ = graph_query._pattern_query(
+        "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": 10}
+    )
+    assert "{limit: $countCap}" in cypher
+    assert "d._domain" in cypher
+
+
+def test_execute_pattern7_not_truncated_has_no_next(monkeypatch):
+    monkeypatch.setattr(
+        graph_query,
+        "_run_read_query",
+        lambda cypher, params: [
+            {"entityData": {"name": f"E{i}"}, "documents": [], "document_count": 0,
+             "_rowsTotal": 3, "_rawHits": 3}
+            for i in range(3)
+        ],
+    )
+    result = graph_query.execute_pattern("fiction", "pattern7", searchTerm="harbour", limit=10)
+    assert result["rows_total"] == 3
+    assert result["truncated"] is False
+    assert result["rows_total_capped"] is False
+    assert "next" not in result
+
+
+@pytest.mark.parametrize("bad_limit", [0, graph_query.PATTERN7_MAX_LIMIT + 1])
+def test_pattern7_rejects_out_of_range_limit(bad_limit):
+    with pytest.raises(ValueError, match="between 1 and 500"):
+        graph_query._pattern_query(
+            "pattern7", {"domains": ["fiction"], "searchTerm": "harbour", "limit": bad_limit}
+        )
+
+
+# ── H4a: supersedes on document rows (spec 2026-10-22 §5.4.1) ────────────────
+
+def test_document_rows_carry_supersedes():
+    field = "supersedes: [(d)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]"
+    for params in ({"domains": ["f"], "documentName": "a.md"},
+                   {"domains": ["f"], "documentName": "a.md", "includeHistory": True},
+                   {"domains": ["f"], "documentName": "a.md", "asOf": "2026-01-01"}):
+        cypher, _ = graph_query._pattern_query("pattern10", params)
+        assert field in cypher
+    assert field in graph_query._chunks_query(0, None)
+    assert ".path, .source_path" in graph_query._chunks_query(0, None)
+
+
+# ── H4b: --includeHistory (spec 2026-10-22 §5.4.2) ───────────────────────────
+
+def test_pattern10_include_history_reaches_history_labels():
+    cypher, _ = graph_query._pattern_query(
+        "pattern10", {"domains": ["f"], "documentName": "a", "includeHistory": True}
+    )
+    assert "DocumentHistory" in cypher and "DocChunkHistory" in cypher
+    cypher, _ = graph_query._pattern_query("pattern10", {"domains": ["f"], "documentName": "a"})
+    assert "DocumentHistory" not in cypher
+
+
+def test_pattern10_history_matches_queries_retired_documents(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent["cypher"], sent["params"] = cypher, params
+        return [{"name": "policy_alpha.md"}]
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    assert graph_query.pattern10_history_matches(["f"], "alpha") == ["policy_alpha.md"]
+    assert "MATCH (d:DocumentHistory)" in sent["cypher"]
+    assert sent["params"] == {"domains": ["f"], "documentName": "alpha", "limit": 6}
+
+
+def test_execute_pattern_pattern10_include_history_plumbing(monkeypatch):
+    sent = {}
+
+    def fake_run(cypher, params):
+        sent["cypher"], sent["params"] = cypher, params
+        return []
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    result = graph_query.execute_pattern(["f"], "pattern10", documentName="a", includeHistory=True)
+    assert "DocumentHistory" in sent["cypher"]
+    assert result["parameters"]["includeHistory"] is True
+
+    result = graph_query.execute_pattern(["f"], "pattern10", documentName="a")
+    assert "DocumentHistory" not in sent["cypher"]
+    assert "includeHistory" not in result["parameters"]

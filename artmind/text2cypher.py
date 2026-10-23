@@ -263,7 +263,8 @@ def execute_text2cypher(
     }
 
     if dry_run:
-        output["rows"] = []
+        # No `rows` key: an empty list reads as "the query found nothing", and
+        # agents took it that way (query-routing study P20). The CLI adds `next`.
         output["dry_run"] = True
         return output
 

@@ -149,3 +149,54 @@ def test_signals_not_found_requires_graph_subject():
     turn_existing = {"fell_through": 0, "answer_basis": "graph", "graph_attempts": 1, "graph_productive": 1,
                      "turns": 1, "answer": "I couldn't find that in the graph."}
     assert analysis.signals(turn_existing, [], turns_p90=None).get("not_found_answer") == 1
+
+
+def test_a_dry_run_is_not_an_empty_result():
+    from artmind.traces import analysis
+
+    span = {"command": "query graph text2cypher", "args": {"dry_run": True}, "exit_code": 0, "rows": 0}
+    sig = analysis.signals({"turns": 1}, [span], None, {"status": "n/a"})
+    assert "empty_rows" not in sig
+
+
+def test_deep_fallback_ignores_a_dry_run():
+    from artmind.traces import analysis
+
+    spans = [
+        {"command": "query graph pattern1", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+        {"command": "query entity-context", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+        {"command": "query graph text2cypher", "args": {"domain": ["b"], "dry_run": True}, "exit_code": 0, "rows": 0},
+    ]
+    sig = analysis.signals({"turns": 1}, spans, None, {"status": "n/a"})
+    assert "deep_fallback" not in sig
+    assert sig.get("text2cypher") == 1
+
+
+def test_empty_rows_ignores_a_plan_that_ran_nothing_but_not_an_executed_empty_view():
+    from artmind.traces import analysis
+
+    plan = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "evidence": {}}
+    assert "empty_rows" not in analysis.signals({"turns": 1}, [plan], None, {"status": "n/a"})
+    executed = {**plan, "evidence": {"view": {"name": "org_tree", "version": 2, "status": "ok", "params": {}}}}
+    assert analysis.signals({"turns": 1}, [executed], None, {"status": "n/a"}).get("empty_rows") == 1
+
+
+def test_deep_fallback_ignores_a_plan_span():
+    plan = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "evidence": {}}
+    spans = [
+        plan,
+        {"command": "query graph pattern1", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+        {"command": "query entity-context", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 1},
+    ]
+    assert "deep_fallback" not in analysis.signals({"turns": 1}, spans, None, {"status": "n/a"})
+
+
+def test_show_keeps_plan_shadow_out_of_events():
+    _turn("t", started_at=time.time())
+    store.insert_events("t", [
+        {"seq": 0, "ts": 1.0, "type": "plan_shadow", "payload": json.dumps({"status": "ok", "plan": {}})},
+        {"seq": 1, "ts": 2.0, "type": "text", "payload": "hi"},
+    ])
+    shown = analysis.show("t")
+    assert shown["plan_shadow"]["status"] == "ok"
+    assert [e["type"] for e in shown["events"]] == ["text"]

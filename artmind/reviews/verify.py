@@ -44,7 +44,7 @@ def regressions_markdown(*, statuses=None) -> str:
 
 
 def summarize(shown: dict) -> dict:
-    from artmind.traces.path import layer_of, parse_sources
+    from artmind.traces.path import parse_sources, span_layer
 
     turn = shown["turn"]
     spans = [s for e in shown["events"] for s in e.get("spans", [])] + list(shown.get("unattributed_spans") or [])
@@ -53,7 +53,7 @@ def summarize(shown: dict) -> dict:
         "answer": (turn.get("answer") or "")[:ANSWER_EXCERPT],
         "fell_through": bool(turn.get("fell_through")),
         "answer_basis": turn.get("answer_basis"),
-        "commands": sorted({s["command"] for s in spans if layer_of(s.get("command")) != "discovery"}),
+        "commands": sorted({s["command"] for s in spans if span_layer(s) != "discovery"}),
         "views": sorted({name for s in spans
                          if (name := ((s.get("evidence") or {}).get("view") or {}).get("name"))}),
         "sources": parse_sources(turn.get("answer")),

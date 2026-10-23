@@ -487,6 +487,9 @@ async def _run_benchmark(run_id: str) -> None:
             TraceRecorder.start,
             source="benchmark", question=prompt, profile="benchmark", backend=run["backend"],
             benchmark_run_id=run_id, benchmark_seq=seq, context_path=context_path,
+            shadow_question=question["question"],
+            shadow_domains=[d.strip() for d in run["domain_hint"].split(",") if d.strip()] or None
+            if run["domain_hint"] else None,
         )
         answer_parts: list[str] = []
         trace: list[dict] = []

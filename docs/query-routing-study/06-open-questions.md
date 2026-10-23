@@ -115,3 +115,11 @@ Settle these with evidence before writing specs. Mark each with the round that a
 26. **Answers corrected in the next turn.** (R4 T4 → T5.) The user's follow-up exposed an
     omission from the previous answer. Is there a cheap signal (a follow-up naming something
     the previous list lacked) that `traces triage` could use to find turns that need review?
+27. **Open conflicts at benchmark time.** (R5.) The 10-21 adjudication resolved most
+    conflicts before the benchmark started. Would `query graph conflicts` have returned
+    anything for the C-section questions, and does it list resolved records? Decides whether
+    the conflicts row routes to `conflicts` or to the supersession-notice chunk first.
+28. **Offline replay of `query plan`.** (R5.) Can a plan be graded against recorded turns
+    without an agent run: question → plan → compare with the ideal route in `04-scenarios.md`
+    and with the route the turn took? Needs the labelled set (question shape, ideal route,
+    right view or none) held in the vault, never in this folder.

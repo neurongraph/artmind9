@@ -1,14 +1,16 @@
 """The read side behind `artmind traces` (spec 2026-10-11 §4.1, §6):
 triage ranking, fall-through stats, and one turn's evidence chain."""
 
+import json
 import re
+import shlex
 import statistics
 import time
 from collections import Counter
 from datetime import datetime, timedelta
 
 from artmind.traces import store
-from artmind.traces.path import GRAPH_LAYERS, is_graph_miss, layer_of, views_check
+from artmind.traces.path import GRAPH_LAYERS, is_dry_run, is_graph_miss, span_layer, views_check
 
 _NOT_FOUND = re.compile(
     r"\b(couldn'?t find|could not find|unable to find|no information|not in the (graph|knowledge graph|data)"
@@ -63,8 +65,106 @@ def views_checks(turns: list[dict], spans_by_trace: dict[str, list[dict]]) -> di
     return out
 
 
+def shadow_plan(events: list[dict]) -> dict | None:
+    """The turn's `plan_shadow` payload (spec 2026-10-22 §6), or None. A payload
+    cut by store.cap is no longer JSON: reported as `truncated`."""
+    for event in events:
+        if event.get("type") == "plan_shadow":
+            try:
+                value = json.loads(event.get("payload") or "null")
+            except ValueError:
+                return {"status": "truncated", "followup": None, "plan": None, "error": None}
+            return value if isinstance(value, dict) else None
+    return None
+
+
+def _command_key(cmd: str) -> str | None:
+    """`artmind query views run v --domain b` -> `query views run v` (words before the first option)."""
+    try:
+        tokens = shlex.split(cmd)
+    except ValueError:
+        return None
+    if not tokens or tokens[0] != "artmind":
+        return None
+    words = []
+    for token in tokens[1:]:
+        if token.startswith("-"):
+            break
+        words.append(token)
+    return " ".join(words) or None
+
+
+def _span_key(span: dict) -> str:
+    command = span.get("command") or ""
+    args = span.get("args")
+    evidence = span.get("evidence")
+    if command == "query plan" and isinstance(evidence, dict) and evidence.get("view"):
+        return f"query views run {evidence['view']}"  # --execute ran the view
+    if command == "query views run" and isinstance(args, dict) and args.get("name"):
+        return f"{command} {args['name']}"
+    return command
+
+
+def _is_traced_step(key: str | None) -> bool:
+    return key is not None and (key == "query" or key.startswith("query "))
+
+
+def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
+    """Did the agent run the shadow plan's first traced step? Only `query ...`
+    steps leave spans (an `artmind db ...` step is skipped); None when the plan
+    has none. A bare `query plan` span is the plan itself, never an answer."""
+    plan = (shadow or {}).get("plan") or {}
+    steps = plan.get("steps") or plan.get("suggested_steps") or []
+    keys = (_command_key(step.get("cmd") or "") for step in steps)
+    key = next((k for k in keys if _is_traced_step(k)), None)
+    if key is None:
+        return None
+    return key in {_span_key(s) for s in spans if _span_key(s) != "query plan"}
+
+
+def _rate(values: list) -> float | None:
+    known = [v for v in values if v is not None]
+    return sum(1 for v in known if v) / len(known) if known else None
+
+
+def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_trace: dict[str, list[dict]]) -> dict:
+    """Shadow-plan block of a stats row; always the same keys. `statuses` counts
+    every recorded payload (a failing shadow must be visible); the rates use
+    status `ok` only, and the first/followup/by-rating splits use high plans."""
+    statuses: Counter = Counter()
+    rows = []
+    for turn in turns:
+        payload = shadow_plan(shadows.get(turn["trace_id"], []))
+        if not payload:
+            continue
+        statuses[payload.get("status") or "unknown"] += 1
+        if payload.get("status") == "ok":
+            level = ((payload.get("plan") or {}).get("confidence") or {}).get("level")
+            rows.append((turn, payload, level, agreement(payload, spans_by_trace.get(turn["trace_id"], []))))
+    high = [r for r in rows if r[2] == "high"]
+    by_rating: dict[str, list] = {}
+    for turn, _, _, agreed in high:
+        by_rating.setdefault(turn.get("rating") or "unrated", []).append(agreed)
+    return {
+        "plans": len(rows),
+        "statuses": dict(statuses),
+        "high_share": len(high) / len(rows) if rows else None,
+        "agreement_high": _rate([a for *_, lvl, a in rows if lvl == "high"]),
+        "agreement_low": _rate([a for *_, lvl, a in rows if lvl != "high"]),
+        "agreement_first": _rate([a for _, p, _, a in high if not p.get("followup")]),
+        "agreement_followup": _rate([a for _, p, _, a in high if p.get("followup")]),
+        "agreement_by_rating": {k: _rate(v) for k, v in sorted(by_rating.items())},
+    }
+
+
+def _is_unexecuted_plan(span: dict) -> bool:
+    """A `query plan` that did not run a view: its zero rows are not a failed retrieval."""
+    evidence = span.get("evidence")
+    return span.get("command") == "query plan" and not (isinstance(evidence, dict) and evidence.get("view"))
+
+
 def signals(turn: dict, spans: list[dict], turns_p90: float | None,
-            views: dict | None = None) -> dict[str, int]:
+            views: dict | None = None, shadow: dict | None = None) -> dict[str, int]:
     """`views` is the turn's `views_checks` entry; computed from `spans`
     alone (no earlier turns) when not given."""
     out: dict[str, int] = {}
@@ -75,13 +175,13 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["fell_through"] = 1
     # An empty `views list` is a domain with no views, not a failed retrieval.
     if any(s.get("exit_code") == 0 and (s.get("rows") or 0) == 0 and s.get("command") != "query views list"
-           for s in spans):
+           and not is_dry_run(s) and not _is_unexecuted_plan(s) for s in spans):
         out["empty_rows"] = 1
     if any(s.get("truncated") for s in spans):
         out["truncated"] = 1
     if any(s.get("command") == "query graph text2cypher" for s in spans):
         out["text2cypher"] = 1
-    if len({s.get("command") for s in spans if layer_of(s.get("command")) != "discovery"}) >= 3:
+    if len({s.get("command") for s in spans if span_layer(s) not in ("discovery", "plan")}) >= 3:
         out["deep_fallback"] = 1
     if turns_p90 is not None and (turn.get("turns") or 0) > turns_p90:
         out["many_turns"] = 1
@@ -96,6 +196,10 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
         out["views_skipped"] = 1
     elif status == "late":
         out["views_late"] = 1
+    level = (((shadow or {}).get("plan") or {}).get("confidence") or {}).get("level")
+    ran_query = any((s.get("command") or "").startswith("query") and s.get("command") != "query plan" for s in spans)
+    if (shadow or {}).get("status") == "ok" and level == "high" and ran_query and agreement(shadow, spans) is False:
+        out["plan_disagreed_high"] = 2
     return out
 
 
@@ -112,10 +216,12 @@ def triage(*, since: float | None = None, limit: int = 20) -> list[dict]:
     p90 = _p90([t["turns"] or 0 for t in turns])
     spans_by_trace = store.list_spans_for([t["trace_id"] for t in turns])
     checks = views_checks(turns, spans_by_trace)
+    shadows = store.list_events_of_type([t["trace_id"] for t in turns], "plan_shadow")
     items = []
     for turn in turns:
         rating = turn.get("rating")
-        sig = signals(turn, spans_by_trace.get(turn["trace_id"], []), p90, checks[turn["trace_id"]])
+        sig = signals(turn, spans_by_trace.get(turn["trace_id"], []), p90, checks[turn["trace_id"]],
+                      shadow=shadow_plan(shadows.get(turn["trace_id"], [])))
         score = sum(sig.values())
         if rating == "good" and "graph_miss" not in sig:
             continue
@@ -165,7 +271,10 @@ def _views_rates(turns: list[dict], checks: dict[str, dict]) -> dict:
 def stats(*, domain: list[str] | None = None, since: float | None = None, by: str = "week") -> list[dict]:
     buckets: dict[tuple[str, str], list[dict]] = {}
     done = [t for t in store.list_turns(since=since) if t["status"] == "done"]
-    checks = views_checks(done, store.list_spans_for([t["trace_id"] for t in done]))
+    ids = [t["trace_id"] for t in done]
+    spans_by_trace = store.list_spans_for(ids)
+    checks = views_checks(done, spans_by_trace)
+    shadows = store.list_events_of_type(ids, "plan_shadow")
     for turn in done:
         for d in turn.get("domains") or ["(none)"]:
             if domain and d not in domain:
@@ -185,6 +294,7 @@ def stats(*, domain: list[str] | None = None, since: float | None = None, by: st
             "mean_graph_attempts_before_fall_through":
                 statistics.mean(t["graph_attempts"] or 0 for t in fell) if fell else None,
             **_views_rates(turns, checks),
+            "plan_shadow": _shadow_rates(turns, shadows, spans_by_trace),
         })
     return rows
 
@@ -217,7 +327,8 @@ def show(trace_id: str) -> dict | None:
     return {
         "turn": turn,
         "feedback": store.latest_feedback(trace_id),
-        "events": events,
+        "plan_shadow": shadow_plan(events),
+        "events": [e for e in events if e["type"] != "plan_shadow"],
         "unattributed_spans": [s for s in spans if not s["tool_id"] or s["tool_id"] not in tool_call_ids],
         "graph_layers": sorted(GRAPH_LAYERS),
         "warnings": warnings,

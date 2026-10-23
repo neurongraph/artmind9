@@ -437,3 +437,60 @@ cached catalogue was consulted, which `views_first` does count. → S2, S25.
 New: S22 (superlative / preference over a class), S23 (first-person question with no domain),
 S24 (enumeration with a completeness expectation), S25 (existence / recurrence of a named
 thing). S2, S4 gain evidence.
+
+---
+
+## Round 5 — 2026-10-22 (coverage audit of every recorded turn)
+
+**Vaults:** `brain01` (72 turns), `banking_corpus` (54 turns), `my_work` (0 turns).
+**Method:** every turn's command sequence dumped with the §2 snippet of `05-probing.md` (to the
+scratchpad, not this folder), then compared with what rounds 1–4 analysed.
+
+### Coverage
+
+| Vault | Batch | Turns | Analysed before | Finding |
+|---|---|---|---|---|
+| brain01 | admin 10-16 → 10-19 | 57 | Round 1 | Re-aggregated: 60 query-side admin turns overall, 26 conversations, `views list` in 22, `views run` in 10, calls per turn median 5, tail of 20, 21, 27, 40. Consistent with round 1. 8 turns loaded operator skills (curate, update, ingestion-helper): P7. |
+| brain01 | **benchmark 10-17** | 4 | **no** | P26 below. |
+| brain01 | admin 10-22 | 11 | Round 4 | — |
+| banking_corpus | admin 10-20 | 6 | Round 2 (one turn) | The other 5 are operator turns (table-classification review, same-as review): P7. |
+| banking_corpus | admin 10-21 | 12 | **no** | All operator turns: conflict adjudication (two conversations, 54 then 3 conflicts), a projection synthesize/rebuild, ingestion-job help. One adjudication turn loaded `artmind-query` as well, only to read conflicts. P7; caveat below. |
+| banking_corpus | benchmark 10-21 | 36 | Round 3 | — |
+
+The study's Q&A coverage is therefore complete. Unseen still: `my_work` (no traces at all),
+hierarchy, path and filing questions.
+
+### Patterns observed
+
+**P26. One question, one profile, one model: four routes and three different answers.**
+On 2026-10-17 the same count question (PERSON to LOCATION in YEAR, the `trips_by_year`
+shape) ran four times as a one-question benchmark (benchmark profile, Claude SDK / Haiku 4.5).
+The view was saved at 10:55, between the first and second runs.
+
+| Run | View saved | Route | Calls | Outcome |
+|---|---|---|---|---|
+| 1 | no | metadata → resolve ×2 → text2cypher → vector-text → pattern10 ×2 → text2cypher (dry-run) → vector-text ×2 | 16 | count 2 (an undercount) |
+| 2 | yes | `views list` → resolve ×2 → pattern1 → pattern7 → … text2cypher ×3 … vector-text ×5, chunks ×3 | 23 | count 2 (an undercount) |
+| 3 | yes | `views list` → skill reloaded → stopped while narrating the protocol | 7 | no answer |
+| 4 | yes | `views list` → `views run` | 5 | count 3, the view's answer |
+
+Three readings. (a) In runs 2–3 the catalogue was already in the agent's context, on a
+profile whose system prompt says "follow the protocol exactly", and the agent still did
+not match the question to the view. Knowing that views exist (P10's view count) is not
+enough; the missing step is matching the question to a view and filling its params.
+(b) The route the agent writes for itself undercounts the same fact the view counts. (c)
+Run 3 spent its budget restating the skill's steps. Supports C2 (deterministic view
+match and param fill) over an entry call that only lists facts. → S1.
+
+### Caveat on round 3 (banking)
+
+The benchmark ran 14:34 → 16:05 on 10-21, after that morning's conflict adjudication
+(07:30 → 13:11) and projection rebuild. So the graph the benchmark saw is the
+post-adjudication graph, which is also what the graders re-checked against. P13's "the conflicts
+route was never used" stands, but how many conflicts were still *open* at benchmark time is
+not recorded, so whether `query graph conflicts` would have returned the C-section's pairs is
+unverified. See open question 27.
+
+### Scenario ids
+
+S1 gains P26.

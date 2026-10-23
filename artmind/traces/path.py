@@ -15,6 +15,7 @@ GRAPH_SIDE = GRAPH_LAYERS | frozenset({"provenance"})
 
 _EXACT = {
     "query views run": "view",
+    "query plan": "plan",
     "query graph text2cypher": "text2cypher",
     "query vector-text": "vector",
     "query chunks": "provenance",   # source text fetched by id for graph results
@@ -46,6 +47,25 @@ def layer_of(command: str | None) -> str:
     if command.startswith("query graph pattern"):
         return "graph"
     return "discovery"
+
+
+def is_dry_run(span: dict) -> bool:
+    """A `--dry-run` text2cypher/text2sql span: it generated a query and ran nothing."""
+    args = span.get("args")
+    return isinstance(args, dict) and args.get("dry_run") is True
+
+
+def span_layer(span: dict) -> str:
+    """`layer_of` the span's command, except: a dry run is discovery (it executed
+    nothing), and a `query plan --execute` that ran its view (evidence.view) is a
+    view run, whatever it returned."""
+    if is_dry_run(span):
+        return "discovery"
+    command = span.get("command")
+    if command == "query plan":
+        evidence = span.get("evidence")
+        return "view" if isinstance(evidence, dict) and evidence.get("view") else "plan"
+    return layer_of(command)
 
 
 def parse_sources(answer: str | None) -> list[str]:
@@ -107,7 +127,7 @@ def _cited_groups(answer: str | None, productive_spans: list[dict]) -> set[str]:
         for span in productive_spans:
             docs = (span.get("evidence") or {}).get("documents") or []
             if any(_same_document(path_str, d.get("path") or "") for d in docs):
-                groups.add(_group(layer_of(span.get("command") or "")))
+                groups.add(_group(span_layer(span)))
         if "graph" in groups:
             groups = {"graph"}
         found |= groups
@@ -115,20 +135,20 @@ def _cited_groups(answer: str | None, productive_spans: list[dict]) -> set[str]:
 
 
 def answer_basis(answer: str | None, spans: list[dict]) -> str:
-    productive = [s for s in spans if _productive(s) and layer_of(s.get("command")) != "discovery"]
+    productive = [s for s in spans if _productive(s) and span_layer(s) != "discovery"]
     if not productive:
         return "none"
     cg = _cited_groups(answer, productive)
     if cg:
         return _basis_from(cg)
-    return _basis_from({_group(layer_of(s["command"])) for s in productive})
+    return _basis_from({_group(span_layer(s)) for s in productive})
 
 
 def derive(spans: list[dict], answer: str | None) -> dict:
     ordered = sorted(spans, key=lambda s: s.get("started_at") or 0.0)
     path = []
     for span in ordered:
-        layer = layer_of(span.get("command"))
+        layer = span_layer(span)
         if layer == "discovery":
             continue
         path.append({"span_id": span.get("span_id"), "layer": layer, "command": span.get("command"),
@@ -149,7 +169,7 @@ def derive(spans: list[dict], answer: str | None) -> dict:
                         if step["layer"] == "vector" and i > first_graph_pos]
         if vector_after:
             productive_spans = [s for s in ordered
-                                if _productive(s) and layer_of(s.get("command")) != "discovery"]
+                                if _productive(s) and span_layer(s) != "discovery"]
             cg = _cited_groups(answer, productive_spans)
             if cg:
                 # Rule (a): cited sources include the vector layer
@@ -227,6 +247,18 @@ def views_check(spans: list[dict], listed_before: set[str] | None = None, *,
     for span in sorted(spans, key=lambda s: s.get("started_at") or 0.0):
         command = span.get("command") or ""
         domains = span_domains(span)
+        if command == "query plan":
+            # The plan matches the question against the view catalogue of its
+            # domains (all of them when it chose the domain itself).
+            if domains is None:
+                listed_all = True
+            else:
+                listed |= domains
+            evidence = span.get("evidence")
+            if isinstance(evidence, dict) and evidence.get("view"):
+                applicable = True  # --execute ran the view
+                ran = ran or span.get("exit_code") == 0
+            continue
         if command.startswith("query views"):
             if domains is None:
                 listed_all = True

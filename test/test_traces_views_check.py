@@ -163,3 +163,28 @@ def test_an_empty_views_list_is_not_an_empty_rows_signal():
     turn = {"fell_through": 0, "answer_basis": "graph", "turns": 1, "answer": "ok"}
     spans = [s("query views list", ["b"], rows=0, at=0), s("query entity-context", ["b"], at=1)]
     assert analysis.signals(turn, spans, turns_p90=None) == {}
+
+
+def test_a_plan_counts_as_the_views_check():
+    from artmind.traces.path import views_check
+
+    spans = [
+        {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "started_at": 1.0},
+        {"command": "query vector-text", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 3, "started_at": 2.0},
+    ]
+    assert views_check(spans)["status"] == "first"
+    no_domain = [{**spans[0], "args": {"domain": []}}, spans[1]]
+    assert views_check(no_domain)["listed_all"] is True
+
+
+def test_an_executed_plan_is_a_view_run():
+    from artmind.traces.path import views_check
+
+    view = {"name": "org_tree", "version": 2, "status": "ok", "params": {}}
+    plan = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0, "started_at": 1.0,
+            "evidence": {"view": view}}
+    check = views_check([plan])
+    assert check["view_ran"] is True and check["status"] == "first"
+    plain = {**plan, "evidence": {}}
+    check = views_check([plain])
+    assert check["view_ran"] is False and check["status"] == "n/a"

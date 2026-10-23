@@ -287,6 +287,7 @@ def create_app(
                             TraceRecorder.start,
                             source="admin", question=payload.prompt, session_id=cid,
                             profile="admin", backend=payload.backend, context_path=context_path,
+                            shadow_question=payload.prompt,
                         ))
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"

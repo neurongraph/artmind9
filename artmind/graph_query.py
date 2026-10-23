@@ -1,4 +1,5 @@
 import re
+import shlex
 from contextlib import contextmanager
 from datetime import date
 from typing import Any, Sequence
@@ -124,6 +125,13 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
     )
 
 
+def supersedes_field(var: str) -> str:
+    """Map-projection entry naming the documents `var` replaced (its outgoing
+    SUPERSEDES edges, to live or retired documents). Derived at query time, like
+    `superseded_by` is derived by supersession_records (spec 2026-10-22 §5.4 item 1)."""
+    return f"supersedes: [({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path }}]"
+
+
 # ISO date at year, month, or day precision (optionally with a time suffix).
 # valid_from/valid_to are ISO strings compared lexically, so prefixes work.
 _ASOF_RE = re.compile(r"^\d{4}(-\d{2}){0,2}(T[0-9:.+-]+)?$")
@@ -196,6 +204,12 @@ PATTERN4_MAX_LIST_ITEMS = 10
 # `rows_total` (see the `_rowsTotal` sentinel execute_pattern lifts out).
 PATTERN8_DEFAULT_LIMIT = 50
 PATTERN10_DEFAULT_LIMIT = 300
+# pattern7 counts fulltext hits up to this many (spec 2026-10-22 §5.3); beyond
+# it `rows_total_capped` says the true total is larger.
+PATTERN7_COUNT_CAP = 1000
+# pattern7 looks up source documents per returned entity, so its cost scales
+# with limit x observations per entity; --limit is bounded accordingly.
+PATTERN7_MAX_LIMIT = 500
 
 
 def normalize_entity_class(value: str) -> str:
@@ -907,19 +921,42 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         search_term = sanitize_lucene_query(parameters["searchTerm"])
         if not search_term:
             raise ValueError("--searchTerm contains no searchable text")
+        limit = parameters.get("limit", 10)
+        if not 1 <= limit <= PATTERN7_MAX_LIMIT:
+            raise ValueError(f"--limit must be between 1 and {PATTERN7_MAX_LIMIT}")
+        # Count before slicing (the default --limit 10 silently turned an
+        # enumeration into a top-10, study P21), and name the documents each
+        # entity was observed in so a caller can cite them (P24).
         return (
             f"""
-            CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
+            CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm, {{limit: $countCap}})
             YIELD node AS e, score AS ftScore
-            WHERE {domain_predicate("e")}
-            RETURN e {{.*, label: labels(e)}} AS entityData
+            WITH collect({{e: e, s: ftScore}}) AS raw
+            WITH size(raw) AS _rawHits, [h IN raw WHERE {domain_predicate("h.e")}] AS kept
+            // An empty UNWIND drops the row, so an empty result carries one null-entity row to keep _rowsTotal/_rawHits.
+            UNWIND CASE WHEN size(kept) = 0 THEN [null] ELSE kept END AS hit
+            WITH _rawHits, hit.e AS e, hit.s AS ftScore
             ORDER BY ftScore DESC, e.name
-            LIMIT $limit
+            WITH _rawHits, collect(e) AS hits
+            WITH _rawHits, size(hits) AS _rowsTotal, hits[0..$limit] AS page
+            UNWIND CASE WHEN size(page) = 0 THEN [-1] ELSE range(0, size(page) - 1) END AS i
+            WITH _rawHits, _rowsTotal, i, CASE WHEN i < 0 THEN null ELSE page[i] END AS e
+            CALL (e) {{
+              // table2graph entities have no EXTRACTED_FROM chunk, so their documents is [].
+              OPTIONAL MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(d:Document)
+              WHERE {domain_predicate("d")}
+              WITH DISTINCT d
+              ORDER BY d.name
+              RETURN collect(d {{ .id, .name, .path }})[0..3] AS documents, count(d) AS document_count
+            }}
+            RETURN e {{.*, label: labels(e)}} AS entityData, documents, document_count, _rowsTotal, _rawHits
+            ORDER BY i
             """,
             {
                 "domains": parameters["domains"],
                 "searchTerm": search_term,
-                "limit": parameters.get("limit", 10),
+                "limit": limit,
+                "countCap": PATTERN7_COUNT_CAP,
             },
         )
     if pattern == "pattern8":
@@ -984,19 +1021,22 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             {"domains": parameters["domains"], "topN": parameters.get("topN", 5)},
         )
     if pattern == "pattern10":
-        # `--asOf` (kept, Phase 4) no longer means "ignored". Chunks carry no
-        # valid-time of their own (never stamped at ingest — a chunk's
-        # currency is entirely a function of its document's), so there is no
-        # date to compare against; what the label swap DOES give this pattern
-        # for the first time is a real history pool to reach into. Without
-        # --asOf: only the document's CURRENT self (:Document) and CURRENT
-        # chunks (:DocChunk), as always. With --asOf (any value — a presence
-        # flag here, not a point in time): also reach :DocumentHistory /
-        # :DocChunkHistory, so a retired document and its retired/superseded
-        # chunks become visible too. Coarser than "in force by T" elsewhere,
-        # and said so in the CLI help rather than implied.
-        as_of = parameters.get("asOf")
-        doc_return = "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by } AS document"
+        # `--includeHistory` (with `--asOf` as its alias, Phase 4) is a presence
+        # flag, not a point in time. Chunks carry no valid-time of their own
+        # (never stamped at ingest -- a chunk's currency is entirely a function
+        # of its document's), so there is no date to compare against; what the
+        # label swap DOES give this pattern is a real history pool to reach
+        # into. Without the flag: only the document's CURRENT self (:Document)
+        # and CURRENT chunks (:DocChunk), as always. With it (or --asOf, any
+        # value): also reach :DocumentHistory / :DocChunkHistory, so a retired
+        # document and its retired/superseded chunks become visible too.
+        # Coarser than "in force by T" elsewhere, and said so in the CLI help
+        # rather than implied.
+        include_history = bool(parameters.get("includeHistory") or parameters.get("asOf"))
+        doc_return = (
+            "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, "
+            + supersedes_field("d") + " } AS document"
+        )
         chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
         # A long document can hold hundreds of chunks, each carrying its own
         # `.text` -- unlike structural_metadata/entity_listing's short names,
@@ -1005,7 +1045,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # `_rowsTotal` riding along on every surviving row (execute_pattern
         # lifts it out to a top-level `rows_total`) -- one pass, no second
         # full-document fetch to get the exact count.
-        if as_of:
+        if include_history:
             cypher = f"""
             CALL () {{
               MATCH (d:Document)
@@ -1075,9 +1115,18 @@ def execute_pattern(
     # getting it costs no second full fetch) -- lifted here to a top-level
     # `rows_total` rather than left duplicated on each row.
     rows_total = None
+    raw_hits = None
     for row in rows:
         if isinstance(row, dict) and "_rowsTotal" in row:
             rows_total = row.pop("_rowsTotal")
+        if isinstance(row, dict) and "_rawHits" in row:
+            raw_hits = row.pop("_rawHits")
+    if pattern == "pattern7":
+        if rows_total is None:
+            rows_total = 0
+        # An empty page still returns one row (entityData null) so the counts
+        # survive; it is not a result.
+        rows = [r for r in rows if not (isinstance(r, dict) and r.get("entityData") is None)]
     rows = _bound_pattern_rows(pattern, rows, params)
     result = {
         **_domain_output(domains),
@@ -1091,7 +1140,33 @@ def execute_pattern(
     if rows_total is not None:
         result["rows_total"] = rows_total
         result["truncated"] = rows_total > len(rows)
+    if pattern == "pattern7":
+        # When rows_total_capped is true, rows_total is a lower bound, so
+        # truncated/next can be silent even though more matches exist.
+        result["rows_total_capped"] = raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP
+        if result["truncated"]:
+            result["next"] = f"raise --limit (rows_total={rows_total})"
     return result
+
+
+def pattern10_history_matches(domains: "str | Sequence[str]", document_name: str, limit: int = 5) -> list[str]:
+    """Names of RETIRED documents matching a pattern10 --documentName (spec
+    2026-10-22 §5.4.3). Asked only after the current-only query found nothing,
+    so a caller holding a retired name learns to add --includeHistory
+    (query-routing study Q10). Fetches limit + 1 names so the caller can tell
+    "exactly limit" from "more than limit"; it shows at most `limit`."""
+    domains = normalize_domains(domains)
+    rows = _run_read_query(
+        f"""
+        MATCH (d:DocumentHistory)
+        WHERE {domain_predicate("d")} AND toLower(d.name) CONTAINS toLower($documentName)
+        RETURN DISTINCT d.name AS name
+        ORDER BY name
+        LIMIT $limit
+        """,
+        {"domains": domains, "documentName": document_name, "limit": limit + 1},
+    )
+    return [r["name"] for r in rows if r.get("name")]
 
 
 def _chunks_query(expand: int, as_of: str | None) -> str:
@@ -1122,7 +1197,7 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
       AND {domain_predicate("c")}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, ._domain, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
+           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")} }} AS document{neighbor_return}
     ORDER BY c.id
     """
 
@@ -1942,6 +2017,29 @@ def entity_history(
 DOCUMENT_HISTORY_MAX_DOCUMENTS = 10
 
 
+DOCUMENT_NAME_SUFFIXES = (".md", ".pdf", ".docx", ".txt", ".html")
+DOCUMENT_CLOSEST_LIMIT = 5
+
+
+def _document_names_like(domains: list[str], *, names: list[str] | None = None, fragment: str | None = None) -> list[str]:
+    """Live or retired document names: exact (casefolded) members of `names`, or containing `fragment`."""
+    if names is not None:
+        where, params = "toLower(d.name) IN $names", {"names": names}
+    else:
+        where, params = "toLower(d.name) CONTAINS toLower($fragment)", {"fragment": fragment}
+    rows = _run_read_query(
+        f"""
+        MATCH (d)
+        WHERE (d:Document OR d:DocumentHistory) AND {domain_predicate("d")} AND {where}
+        RETURN DISTINCT d.name AS name
+        ORDER BY name
+        LIMIT $limit
+        """,
+        {"domains": domains, "limit": DOCUMENT_CLOSEST_LIMIT, **params},
+    )
+    return [r["name"] for r in rows if r.get("name")]
+
+
 def document_history(domains: "str | Sequence[str]", document_name: str) -> dict:
     """What each ingested version of one document asserted: its current
     `:Observation`s next to the `:ObservationHistory` its earlier versions
@@ -1966,65 +2064,101 @@ def document_history(domains: "str | Sequence[str]", document_name: str) -> dict
 
     Matches `:Document` and retired `:DocumentHistory` nodes whose `name`
     equals `document_name` ignoring case, or whose `path` or `id` equals it.
+    When none does, a name missing its extension (`.md`, `.pdf`, `.docx`,
+    `.txt`, `.html`) is matched if exactly one document fits: the result
+    carries `matched_name` and a warning. Otherwise the rows are empty and
+    `closest` lists up to 5 similar document names, with a runnable `next`.
     """
     domains = normalize_domains(domains)
     document_name = (document_name or "").strip()
     if not document_name:
         raise ValueError("--documentName is required")
-    params = {
-        "domains": domains,
-        "documentName": document_name,
-        "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
-    }
-    cypher = f"""
-    MATCH (d)
-    WHERE (d:Document OR d:DocumentHistory)
-      AND {domain_predicate("d")}
-      AND (toLower(d.name) = toLower($documentName)
-           OR d.path = $documentName
-           OR d.id = $documentName)
-    WITH d ORDER BY d.path LIMIT $limit
-    OPTIONAL MATCH (o)
-    WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
-    WITH d, o ORDER BY o.doc_version, o.key
-    RETURN d {{.id, .name, .path, .version}} AS document,
-           d:DocumentHistory AS retired,
-           collect(CASE WHEN o IS NULL THEN null ELSE o {{
-               .id, .name, .entity_class, .key, .chunk_id, .doc_version,
-               .description, ._valid_from,
-               status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
-           }} END) AS observations
-    """
-    found = _run_read_query(cypher, params)
-    rows = []
-    for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
-        observations = row.get("observations") or []
-        current = {o.get("key") for o in observations if o.get("status") == "current"}
-        history = {o.get("key") for o in observations if o.get("status") == "history"}
-        current.discard(None)
-        history.discard(None)
-        rows.append({
-            "document": row.get("document"),
-            "retired": bool(row.get("retired")),
-            "summary": {
-                "current": sum(o.get("status") == "current" for o in observations),
-                "history": sum(o.get("status") == "history" for o in observations),
-                "history_versions": sorted(
-                    {o["doc_version"] for o in observations
-                     if o.get("status") == "history" and o.get("doc_version") is not None}
-                ),
-            },
-            "dropped_keys": sorted(history - current),
-            "observations": observations,
-        })
-    return {
+
+    def _rows_for(name: str) -> tuple[list[dict], bool]:
+        params = {
+            "domains": domains,
+            "documentName": name,
+            "limit": DOCUMENT_HISTORY_MAX_DOCUMENTS + 1,
+        }
+        cypher = f"""
+        MATCH (d)
+        WHERE (d:Document OR d:DocumentHistory)
+          AND {domain_predicate("d")}
+          AND (toLower(d.name) = toLower($documentName)
+               OR d.path = $documentName
+               OR d.id = $documentName)
+        WITH d ORDER BY d.path LIMIT $limit
+        OPTIONAL MATCH (o)
+        WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = d.id
+        WITH d, o ORDER BY o.doc_version, o.key
+        RETURN d {{.id, .name, .path, .version}} AS document,
+               d:DocumentHistory AS retired,
+               collect(CASE WHEN o IS NULL THEN null ELSE o {{
+                   .id, .name, .entity_class, .key, .chunk_id, .doc_version,
+                   .description, ._valid_from,
+                   status: CASE WHEN o:Observation THEN 'current' ELSE 'history' END
+               }} END) AS observations
+        """
+        found = _run_read_query(cypher, params)
+        rows = []
+        for row in found[:DOCUMENT_HISTORY_MAX_DOCUMENTS]:
+            observations = row.get("observations") or []
+            current = {o.get("key") for o in observations if o.get("status") == "current"}
+            history = {o.get("key") for o in observations if o.get("status") == "history"}
+            current.discard(None)
+            history.discard(None)
+            rows.append({
+                "document": row.get("document"),
+                "retired": bool(row.get("retired")),
+                "summary": {
+                    "current": sum(o.get("status") == "current" for o in observations),
+                    "history": sum(o.get("status") == "history" for o in observations),
+                    "history_versions": sorted(
+                        {o["doc_version"] for o in observations
+                         if o.get("status") == "history" and o.get("doc_version") is not None}
+                    ),
+                },
+                "dropped_keys": sorted(history - current),
+                "observations": observations,
+            })
+        return rows, len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS
+
+    rows, truncated = _rows_for(document_name)
+    out: dict = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "document_history",
         "document_name": document_name,
-        "truncated": len(found) > DOCUMENT_HISTORY_MAX_DOCUMENTS,
+        "truncated": truncated,
         "rows": rows,
     }
+    if rows:
+        return out
+    # Nothing by exact name, path or id (spec 2026-10-22 §5.4.4): a unique
+    # suffixed name is used, with a warning; otherwise name the closest ones.
+    low = document_name.casefold()
+    suffixed = (
+        []
+        if low.endswith(DOCUMENT_NAME_SUFFIXES)
+        else _document_names_like(domains, names=[low + s for s in DOCUMENT_NAME_SUFFIXES])
+    )
+    if len(suffixed) == 1:
+        rows, truncated = _rows_for(suffixed[0])
+        out.update(rows=rows, truncated=truncated, matched_name=suffixed[0],
+                   warnings=[f"no document named {document_name!r}; matched {suffixed[0]!r}"])
+        return out
+    stem = document_name
+    for suffix in DOCUMENT_NAME_SUFFIXES:
+        if low.endswith(suffix):
+            stem = document_name[: -len(suffix)]
+            break
+    out["closest"] = _document_names_like(domains, fragment=stem) if stem.strip() else []
+    if out["closest"]:
+        out["next"] = (
+            f"artmind query document-history --domain {shlex.quote(','.join(domains))} "
+            "--documentName <one of closest> --compact"
+        )
+    return out
 
 
 # ── hierarchy ────────────────────────────────────────────────────────────────

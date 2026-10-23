@@ -165,3 +165,51 @@ def test_cancelled_turn_recorded_as_error(tmp_path):
     turn = store.get_turn(trace_id)
     assert turn["status"] == "error"
     assert (turn.get("error_message") or "").startswith("interrupted")
+
+
+def _spy_recorder_start(monkeypatch):
+    from artmind.traces.recorder import TraceRecorder
+
+    calls = []
+    original = TraceRecorder.start
+
+    def spy(**kwargs):
+        calls.append(kwargs)
+        return original(**kwargs)
+
+    monkeypatch.setattr(TraceRecorder, "start", staticmethod(spy))
+    return calls
+
+
+def test_admin_chat_passes_the_users_own_text_as_the_shadow_question(tmp_path, monkeypatch):
+    calls = _spy_recorder_start(monkeypatch)
+    client, _ = _admin_client(tmp_path)
+    client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"})
+    assert calls[0]["shadow_question"] == "Who?"
+
+
+def test_benchmark_passes_the_raw_question_and_domain_hint_as_shadow(tmp_path, monkeypatch):
+    _benchmark_shadow_domains(tmp_path, monkeypatch, "dom", ["dom"])
+
+
+def test_benchmark_splits_a_free_text_domain_hint_for_the_shadow(tmp_path, monkeypatch):
+    _benchmark_shadow_domains(tmp_path, monkeypatch, "a, b", ["a", "b"])
+
+
+def _benchmark_shadow_domains(tmp_path, monkeypatch, hint, expected):
+    from artmind import benchmark
+    from artmind.webui import backends as backends_mod
+
+    import paths
+
+    monkeypatch.setattr(paths, "LOGS_DIR", tmp_path / "logs")
+    monkeypatch.setattr(backends_mod, "create_backend",
+                        lambda name, profile, *, trace_context=None, **kw: TracedFakeBackend(name, trace_context))
+    calls = _spy_recorder_start(monkeypatch)
+    run_id = benchmark._create_benchmark_run(
+        "q.md", [{"seq": 1, "qid": "Q1", "title": "t", "question": "Who?", "eval_comment": None}],
+        domain_hint=hint)
+    asyncio.run(benchmark._run_benchmark(run_id))
+    assert calls[0]["shadow_question"] == "Who?"  # not the "Domain: ..." prefixed prompt
+    assert calls[0]["shadow_domains"] == expected
+    assert calls[0]["question"] == f"Domain: {hint}\n\nWho?"

@@ -200,6 +200,10 @@ DOMAIN_VIEWS_DIR = ARTMIND_HOME / "domains" / "views"
 # data like views -- never seeded -- and outside schemas/ so tuning a detector
 # never changes projection.schema_set_hash().
 DOMAIN_INSIGHTS_DIR = ARTMIND_HOME / "domains" / "insights"
+# `query plan` per-domain config (spec 2026-10-22 §4.5): one <domain>.yaml each.
+# User data like views and insights tuning -- never seeded -- and outside
+# schemas/ so it never changes projection.schema_set_hash().
+DOMAIN_PLAN_DIR = ARTMIND_HOME / "domains" / "plan"
 LOGS_DIR = ARTMIND_HOME / "logs"
 # Review dossiers (docs/superpowers/specs/2026-10-11-query-review-loop-design.md
 # §8.1): <vault>/.artmind/reviews/ in a vault -- committed with the vault's

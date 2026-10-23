@@ -81,6 +81,13 @@ os.environ["ARTMIND_DATA_DIR"] = os.path.join(_TEST_RUN_ROOT, "data")
 # artmind-review skill has the operator run in this very checkout) would make
 # `paths.resolve_vault()` point every test at the real vault. Drop it.
 os.environ.pop("ARTMIND_VAULT", None)
+# Shadow plans (a thread per traced turn) stay off unless a test enables them.
+os.environ["ARTMIND_PLAN_SHADOW"] = "0"
+# The plan catalogue cache (memory + logs/plan-catalog) is off unless a test opts in.
+os.environ["ARTMIND_PLAN_CATALOG"] = "0"
+# A developer's exported decision endpoint must never be called by tests.
+for _name in ("ARTMIND_DECISION_URL", "ARTMIND_DECISION_MODEL", "ARTMIND_DECISION_API_KEY", "ARTMIND_DECISION_TIMEOUT"):
+    os.environ.pop(_name, None)
 
 # ``paths.MACHINE_CONFIG_DIR``/``MACHINE_CONFIG_ENV`` are computed from
 # ``Path.home()`` directly, not ``ARTMIND_HOME`` (see module docstring) —
@@ -381,3 +388,14 @@ def _fake_docling(body_by_call):
         return next(calls), {}
 
     return _convert
+
+
+@pytest.fixture(autouse=True)
+def _no_plan_catalogue(monkeypatch):
+    """`query plan` reads no domain catalogue unless a test supplies one (patch
+    ``planner._get_catalogue``); the catalogue module's own tests call ``catalogue.get`` directly."""
+    try:
+        from artmind.query_plan import planner
+    except ImportError:
+        return
+    monkeypatch.setattr(planner, "_get_catalogue", lambda cover: ({}, {}))

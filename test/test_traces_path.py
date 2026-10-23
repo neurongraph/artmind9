@@ -217,3 +217,61 @@ def test_chunks_provenance_included_in_retrieval_path():
     layers = [p["layer"] for p in d["retrieval_path"]]
     assert layers == ["graph", "provenance"]
     assert d["fell_through"] is False  # no vector-text at all
+
+
+def _dry_span(started_at=1.0):
+    return {"span_id": "d1", "command": "query graph text2cypher", "args": {"domain": ["b"], "dry_run": True},
+            "exit_code": 0, "rows": 0, "started_at": started_at, "evidence": {}}
+
+
+def test_a_dry_run_is_discovery_not_a_graph_attempt():
+    from artmind.traces import path
+
+    derived = path.derive([_dry_span()], answer=None)
+    assert derived["graph_attempts"] == 0
+    assert derived["retrieval_path"] == []
+    assert path.span_layer(_dry_span()) == "discovery"
+
+
+def test_an_executed_text2cypher_still_counts():
+    from artmind.traces import path
+
+    span = {**_dry_span(), "args": {"domain": ["b"], "dry_run": False}}
+    assert path.span_layer(span) == "text2cypher"
+    assert path.derive([span], answer=None)["graph_attempts"] == 1
+
+
+def test_a_dry_run_then_vector_text_is_not_a_fall_through():
+    from artmind.traces import path
+
+    dry = _dry_span(started_at=1.0)
+    vector = _span("query vector-text", rows=3, started_at=2.0)
+    derived = path.derive([dry, vector], answer=None)
+    assert derived["graph_attempts"] == 0
+    assert derived["fell_through"] is False
+
+
+def test_a_text2sql_dry_run_is_discovery():
+    from artmind.traces import path
+
+    span = {"span_id": "s1", "command": "query text2sql", "args": {"dry_run": True},
+            "exit_code": 0, "rows": 0, "started_at": 1.0, "evidence": {}}
+    assert path.span_layer(span) == "discovery"
+
+
+def test_a_plan_span_is_its_own_layer_and_an_executed_one_is_a_view():
+    from artmind.traces import path
+
+    plan_span = {"command": "query plan", "args": {"domain": ["b"]}, "exit_code": 0, "rows": 0,
+                 "started_at": 1.0, "evidence": {}}
+    assert path.span_layer(plan_span) == "plan"
+    assert path.derive([plan_span], answer=None)["graph_attempts"] == 0
+    view = {"name": "org_tree", "version": 2, "status": "ok", "params": {}}
+    executed = {**plan_span, "rows": 2, "evidence": {"view": view}}
+    assert path.span_layer(executed) == "view"
+    assert path.derive([executed], answer=None)["graph_attempts"] == 1
+    empty = {**plan_span, "rows": 0, "evidence": {"view": view}}
+    assert path.span_layer(empty) == "view"
+    assert path.derive([empty], answer=None)["graph_attempts"] == 1
+    # rows without a view run (candidates only) do not make a plan a view run
+    assert path.span_layer({**plan_span, "rows": 2}) == "plan"

@@ -247,6 +247,32 @@ artmind admin-ui       # operator console: agent chat, ingest dashboard, CLI gui
 The chat agent's working directory is the vault, so it can read your documents
 and find artmind's skills at `.claude/skills/`.
 
+### `query plan` settings
+
+`artmind query plan` routes a question in code. With no settings it uses lexical
+rules. To use a local decision model (Jev API), install Ollama ≥ 0.35, pull a model
+yourself (`ollama pull nimble`; artmind never downloads models), and set in
+`~/.artmind/config.env`:
+
+```bash
+ARTMIND_DECISION_URL=http://localhost:11434/v1/systemone
+ARTMIND_DECISION_MODEL=nimble
+# ARTMIND_DECISION_TIMEOUT=5        # seconds per call (default 5; no retries)
+# ARTMIND_DECISION_API_KEY=...      # hosted endpoints only; never put credentials in the URL
+```
+
+The URL must be http or https with no credentials in it, and redirects are not
+followed. A hosted endpoint (for example Clef on Workers AI) receives the question
+and the candidate entity names, and with a hosted `ARTMIND_DECISION_URL` every
+traced question is sent there; a local one keeps them on the machine. Shadow mode (a plan
+recorded beside every admin-console and benchmark trace) is on by default;
+`ARTMIND_PLAN_SHADOW=0` turns it off. The planner reads a per-domain catalogue
+(classes, relation types, document and entity names), cached in memory and under
+`<ARTMIND_HOME>/logs/plan-catalog/` (private files) and rebuilt when the graph
+changes or after 15 minutes; `ARTMIND_PLAN_CATALOG=0` disables the cache. `artmind plan config check` validates
+`domains/plan/<domain>.yaml`, and `artmind plan replay` scores the labelled set
+(needs Neo4j; see the `plan` group in `artmind --help`).
+
 ### Exposure of the web UIs
 
 `chat-ui` and `admin-ui` have **no authentication** and can read stored
