@@ -53,7 +53,7 @@ cli-version:
 # `artmind vault new <name>` -- or `--join` on a second machine. See
 # docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
 dev-install: dev-stop-daemons obsidian-plugin-build
-    uv tool install --force --editable '.[ingest]'
+    uv tool install --force --editable '.[ingest]' --python 3.14  # torch (via docling) has no 3.15 wheels yet
     @echo "Installed. Next: edit ~/.artmind/config.env, then  artmind vault new <name>  (add --join on a second laptop). See docs/INSTALL.md."
 
 # uninstall the global artmind command (leaves ~/.artmind and data intact)
