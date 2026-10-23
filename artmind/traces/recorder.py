@@ -13,6 +13,7 @@ import json
 import logging
 import re
 import subprocess
+import threading
 import time
 from pathlib import Path
 from typing import Any
@@ -43,6 +44,7 @@ class TraceRecorder:
         self._answer: list[str] = []
         self._done: dict = {}
         self._shadow = None
+        self._late_shadow: threading.Thread | None = None
 
     @classmethod
     def start(cls, *, source: str, question: str, session_id: str | None = None, profile: str | None = None,
@@ -122,6 +124,23 @@ class TraceRecorder:
         elif kind == "error":
             self._add("error", event.get("message"))
 
+    def _record_shadow_late(self, seq: int) -> None:
+        """A shadow plan still running at the end of the turn is written when it finishes (or
+        times out), so the turn does not wait for it. `seq` is reserved now: no event follows."""
+        shadow_plan, trace_id = self._shadow, self.trace_id
+
+        def run() -> None:
+            try:
+                result = shadow_plan.result(timeout=shadow.LATE_WAIT_S)
+                store.insert_events(trace_id, [{"seq": seq, "ts": time.time(), "type": "plan_shadow",
+                                                "tool_id": None, "parent_tool_id": None, "name": "query plan",
+                                                "payload": store.cap(result)}])
+            except Exception:
+                logger.exception("late shadow plan not recorded")
+
+        self._late_shadow = threading.Thread(target=run, name="plan-shadow-late", daemon=True)
+        self._late_shadow.start()
+
     # ── end of turn ──────────────────────────────────────────────────────
     def finish(self, error: str | None = None) -> None:
         if not self.enabled:
@@ -131,7 +150,11 @@ class TraceRecorder:
             self._flush("text")
             if self._shadow is not None:
                 try:
-                    self._add("plan_shadow", self._shadow.result(), name="query plan")
+                    result = self._shadow.result()
+                    if result.get("status") == "timeout" and getattr(self._shadow, "running", False):
+                        self._record_shadow_late(seq=len(self._events))
+                    else:
+                        self._add("plan_shadow", result, name="query plan")
                 except Exception:
                     logger.exception("shadow plan not recorded")
             store.insert_events(self.trace_id, self._events)

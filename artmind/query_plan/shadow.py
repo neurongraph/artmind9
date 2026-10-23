@@ -3,8 +3,13 @@
 The plan runs in a worker thread alongside the agent, from the user's own text,
 and is recorded as a `plan_shadow` trace event when the turn finishes. The agent
 never sees it. It never delays the agent; it may hold the end of a turn up to
-WAIT_S after the plan started. It never fails a turn: every failure becomes
-`status: error`. `followup` means "the session has an earlier traced turn".
+WAIT_S after the plan started. A plan still running then is recorded later, by a
+background thread, up to LATE_WAIT_S after the turn (else `status: timeout`), so a
+slow decision model never holds up the next turn; a process that exits first (a
+benchmark run's last question) records none. Nobody waits on a shadow plan, so its
+decision-model calls get DECISION_TIMEOUT_S (ARTMIND_PLAN_SHADOW_DECISION_TIMEOUT)
+instead of the interactive ARTMIND_DECISION_TIMEOUT. It never fails a turn: every
+failure becomes `status: error`. `followup` means "the session has an earlier traced turn".
 
 Privacy: with a hosted ARTMIND_DECISION_URL, every traced question is sent
 there for classification. ARTMIND_PLAN_SHADOW=0 stops it. At most MAX_RUNNING
@@ -14,6 +19,7 @@ plans run at once; further turns record `status: skipped`.
 from __future__ import annotations
 
 import json
+import math
 import os
 import threading
 import time
@@ -21,6 +27,8 @@ import time
 from loguru import logger
 
 WAIT_S = 10.0
+LATE_WAIT_S = 90.0
+DECISION_TIMEOUT_S = 60.0
 MAX_RUNNING = 8
 MAX_PAYLOAD_BYTES = 60_000
 _THREAD_NAME = "plan-shadow"
@@ -28,6 +36,14 @@ _THREAD_NAME = "plan-shadow"
 
 def enabled() -> bool:
     return (os.environ.get("ARTMIND_PLAN_SHADOW") or "1").strip().casefold() not in ("0", "false", "no", "off")
+
+
+def decision_timeout() -> float:
+    try:
+        value = float(os.environ.get("ARTMIND_PLAN_SHADOW_DECISION_TIMEOUT") or DECISION_TIMEOUT_S)
+    except ValueError:
+        return DECISION_TIMEOUT_S
+    return value if math.isfinite(value) and value > 0 else DECISION_TIMEOUT_S
 
 
 def _trim(plan):
@@ -61,6 +77,8 @@ def _trim(plan):
 
 
 class _Skipped:
+    running = False
+
     def __init__(self, followup: bool):
         self.followup = followup
 
@@ -82,10 +100,14 @@ class ShadowPlan:
         try:
             from artmind.query_plan import planner
 
-            self._plan = planner.plan(question, domains)
+            self._plan = planner.plan(question, domains, decision_timeout=decision_timeout())
         except Exception as exc:
             logger.warning("shadow plan failed: {}", exc)
             self._error = f"{type(exc).__name__}: {exc}"
+
+    @property
+    def running(self) -> bool:
+        return self._thread.is_alive()
 
     def result(self, timeout: float | None = None) -> dict:
         if timeout is None:

@@ -5,6 +5,8 @@ from __future__ import annotations
 import ipaddress
 import math
 import os
+import threading
+import time
 from urllib.parse import urlparse
 
 from loguru import logger
@@ -12,9 +14,12 @@ from loguru import logger
 from artmind.query_plan.classify.base import Answer, Classifier, ClassifierUnavailable, Decision
 from artmind.query_plan.classify.lexical import LexicalClassifier
 
-__all__ = ["Answer", "Classifier", "ClassifierUnavailable", "Decision", "LexicalClassifier", "select_classifier"]
+__all__ = ["Answer", "Classifier", "ClassifierUnavailable", "Decision", "LexicalClassifier", "select_classifier",
+           "warm_up"]
 
 DEFAULT_TIMEOUT_S = 5.0
+# A cold load of a local model takes 40-100 s; the warm-up waits that long in its own thread.
+WARMUP_TIMEOUT_S = 300.0
 
 
 def _timeout(env) -> float:
@@ -48,8 +53,10 @@ def _check_url(url: str, api_key: str | None) -> None:
 
 
 def select_classifier(option: str, domain_choice: str, model_override: str | None,
-                      env=None) -> tuple[Classifier, str | None]:
+                      env=None, timeout: float | None = None) -> tuple[Classifier, str | None]:
     """(classifier, why it is lexical) for `--classifier` and the domain config.
+
+    `timeout` overrides ARTMIND_DECISION_TIMEOUT (shadow plans, which nobody waits on, allow longer).
 
     Settings are artmind-specific names (ARTMIND_DECISION_URL / _MODEL / _API_KEY /
     _TIMEOUT), so no variable another tool exports can redirect them (CLAUDE.md §5).
@@ -73,4 +80,44 @@ def select_classifier(option: str, domain_choice: str, model_override: str | Non
 
     api_key = env.get("ARTMIND_DECISION_API_KEY") or None
     _check_url(url, api_key)
-    return JevClassifier(url, model, api_key=api_key, timeout=_timeout(env)), None
+    return JevClassifier(url, model, api_key=api_key, timeout=timeout or _timeout(env)), None
+
+
+def warm_up(env=None) -> threading.Thread | None:
+    """Load the decision model in the background, so the first plan after start-up does not
+    pay its cold load. Called by `serve`, `chat-ui` and `admin-ui` at start. One tiny request
+    outside the breaker, in a daemon thread; never raises, never delays start-up.
+
+    It only loads the model: a decision model reuses work only for a prompt it has seen
+    exactly, so it cannot speed up a new question. ARTMIND_DECISION_WARMUP=0 turns it off.
+    The model is ARTMIND_DECISION_MODEL (a domain config's `decision_model` is not warmed).
+    """
+    env = os.environ if env is None else env
+    url = (env.get("ARTMIND_DECISION_URL") or "").strip()
+    model = (env.get("ARTMIND_DECISION_MODEL") or "").strip()
+    if not url or not model:
+        return None
+    if (env.get("ARTMIND_DECISION_WARMUP") or "1").strip().casefold() in ("0", "false", "no", "off"):
+        return None
+    api_key = env.get("ARTMIND_DECISION_API_KEY") or None
+    try:
+        _check_url(url, api_key)
+    except ValueError as exc:
+        logger.warning("decision model warm-up skipped: {}", exc)
+        return None
+    from artmind.query_plan.classify.jev import JevClassifier, _safe_url
+
+    clf = JevClassifier(url, model, api_key=api_key, timeout=WARMUP_TIMEOUT_S)
+
+    def run() -> None:
+        started = time.monotonic()
+        try:
+            clf.warm_up()
+        except Exception as exc:
+            logger.warning("decision model warm-up failed for {} ({}): {}", _safe_url(url), model, exc)
+        else:
+            logger.info("decision model {} ready in {:.1f} s", model, time.monotonic() - started)
+
+    thread = threading.Thread(target=run, name="decision-warm-up", daemon=True)
+    thread.start()
+    return thread

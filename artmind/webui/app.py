@@ -170,6 +170,13 @@ def create_app(
         except Exception:
             logger.exception("conversation sweep failed")
 
+        try:  # load the decision model in the background, for shadow plans (query plan)
+            from artmind.query_plan import classify
+
+            classify.warm_up()
+        except Exception:
+            logger.exception("decision model warm-up not started")
+
         async def sweep_loop():
             while True:
                 await asyncio.sleep(SWEEP_INTERVAL_S)
