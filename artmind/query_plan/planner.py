@@ -9,6 +9,7 @@ high-confidence view match with one parameter combination.
 
 from __future__ import annotations
 
+import re
 import shlex
 import time
 from dataclasses import dataclass, field
@@ -119,8 +120,26 @@ def _candidate_text(ref: dict, narrator) -> str:
     return f"{label}: {description}" if description else label
 
 
+def _norm_word(word: str) -> str:
+    for suffix in ("ies", "es", "s"):
+        if len(word) > len(suffix) + 2 and word.endswith(suffix):
+            return word[: -len(suffix)] + ("y" if suffix == "ies" else "")
+    return word
+
+
+def _class_word(question: str, selected: list[str], overview: list[dict]) -> str | None:
+    """A top class of the selected domains that the question names ("which PERSON entities", "list the persons")."""
+    top: list[str] = []
+    for row in overview:
+        name = str(row.get("domain") or "")
+        if any(name == d or name.startswith(d + ".") for d in selected):
+            top += [c for c in row.get("top_classes") or [] if isinstance(c, str) and c.strip()]
+    words = {_norm_word(w) for w in re.findall(r"[a-z0-9_]+", question.casefold())}
+    return next((c for c in top if _norm_word(c.casefold()) in words), None)
+
+
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
-             mentions: list) -> dict:
+             mentions: list, overview: list[dict] | None = None) -> dict:
     """Placeholder values. The primary entity is the first named mention, resolved or not. The
     narrator is the second entity beside exactly one named mention, and the id fallback when
     nobody is named; it never supplies a name, since its name is no search term."""
@@ -139,6 +158,10 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
         "entity_id": primary["candidates"][0]["_id"] if primary and primary["candidates"] else None,
         "other_entity_id": second["candidates"][0]["_id"] if second and second["candidates"] else None,
         "entity_name": entity_name,
+        "entity_class": primary["candidates"][0].get("entity_class") if primary and primary["candidates"] else None,
+        "other_entity_class": (second["candidates"][0].get("entity_class")
+                               if second and second["candidates"] else None),
+        "class": _class_word(question, selected, overview or []),
     }
 
 
@@ -479,7 +502,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             store = candidates.store_facts(selected, question, resolved_classes)
         except Exception as exc:  # the structured store is optional context (spec §7)
             warnings.append(f"store facts unavailable: {exc}")
-    context = _context(selected, question, entities, document, mentions)
+    context = _context(selected, question, entities, document, mentions, overview)
     stages: list[tuple[str, float]] = []
     if source != "given":
         stages.append(("domain", domain_conf if source != "all" else 0.0))

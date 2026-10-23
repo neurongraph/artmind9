@@ -164,4 +164,4 @@ def test_every_placeholder_in_a_route_is_one_the_planner_supplies():
         for template in templates:
             used |= routes.placeholders(template)
     assert used <= supplied, sorted(used - supplied)
-    assert routes.PLACEHOLDERS - {"class", "entity_class", "other_entity_class"} <= supplied
+    assert routes.PLACEHOLDERS <= supplied, sorted(routes.PLACEHOLDERS - supplied)

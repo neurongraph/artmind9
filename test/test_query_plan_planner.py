@@ -504,3 +504,51 @@ def test_the_structured_route_keeps_its_default_steps_without_store_facts(world,
     cmds = [s["cmd"] for s in result["steps"] or result["suggested_steps"]]
     assert result["route"]["id"] == "structured"
     assert "db bridge" in cmds[0] and "text2sql" in cmds[1]
+
+
+def _fallback_cmds(result):
+    return [f["cmd"] for f in result["fallbacks"]]
+
+
+def test_path_falls_back_to_shortest_path_when_both_classes_are_known(world, monkeypatch):
+    world["views"] = []
+    _use(monkeypatch, FakeClassifier(override={"route": _answer("path", 0.9)}))
+    result = _plan("How are Ada and Lakeport related?")
+    assert result["route"]["id"] == "path"
+    pattern5 = [c for c in _fallback_cmds(result) if "pattern5" in c]
+    assert pattern5 == [
+        "artmind query graph pattern5 --domain journal --entityClass1 PERSON --entityClass2 LOCATION "
+        "--entityId1 p1 --entityId2 l1 --mode shortest --compact"
+    ]
+    assert "vector-text" in _fallback_cmds(result)[-1]
+
+
+def test_path_shortest_fallback_is_left_out_when_a_class_is_unknown(world, monkeypatch):
+    world["views"] = []
+    world["entities"].pop("Lakeport")
+    _use(monkeypatch, FakeClassifier(override={"route": _answer("path", 0.9)}))
+    result = _plan("How are Ada and Lakeport related?")
+    assert not any("pattern5" in c for c in _fallback_cmds(result))
+
+
+def test_inventory_lists_a_class_named_in_the_question(world, monkeypatch):
+    world["views"] = []
+    _use(monkeypatch, FakeClassifier(override={"route": _answer("inventory", 0.9)}))
+    for question in ("Which person entities exist?", "List the persons we know"):
+        result = _plan(question)
+        assert result["route"]["id"] == "inventory"
+        assert _fallback_cmds(result) == ["artmind query graph pattern1 --domain journal --entityClass PERSON --compact"]
+
+
+def test_inventory_has_no_class_fallback_without_a_class_word(world, monkeypatch):
+    world["views"] = []
+    _use(monkeypatch, FakeClassifier(override={"route": _answer("inventory", 0.9)}))
+    assert _fallback_cmds(_plan("What documents exist?")) == []
+
+
+def test_class_word_matches_singular_plural_and_domain_scope():
+    overview = [{"domain": "a.x", "top_classes": ["PERSON", "CITY"]}, {"domain": "b", "top_classes": ["TOOL"]}]
+    assert planner._class_word("which cities", ["a"], overview) == "CITY"
+    assert planner._class_word("the person list", ["a.x"], overview) == "PERSON"
+    assert planner._class_word("which tools", ["a"], overview) is None
+    assert planner._class_word("which tools", ["b"], overview) == "TOOL"

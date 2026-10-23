@@ -85,6 +85,8 @@ routes:
     read: [references/temporal.md]
     evidence: [S14, S20, P12]
 
+  # No command fetches a supersession notice by itself: the notice chunk is reached
+  # through `vector-text` / `pattern10 --includeHistory` on the documents the conflicts list names.
   - id: conflicts
     description: Whether documents or sources disagree or contradict each other, or which of two versions applies.
     triggers: ["conflict", "conflicting", "contradict", "disagree", "inconsistent", "differ", "which applies", "which one applies", "discrepancy"]
@@ -114,6 +116,7 @@ routes:
     steps:
       - "artmind query graph pattern6 --domain {domains} --entityId1 {entity_id} --entityId2 {other_entity_id} --compact"
     fallbacks:
+      - {when: zero_rows, cmd: "artmind query graph pattern5 --domain {domains} --entityClass1 {entity_class} --entityClass2 {other_entity_class} --entityId1 {entity_id} --entityId2 {other_entity_id} --mode shortest --compact"}
       - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --compact"}
     read: []
     evidence: [S12]
@@ -135,7 +138,8 @@ routes:
     needs: []
     steps:
       - "artmind query domains-overview --compact"
-    fallbacks: []
+    fallbacks:
+      - {when: zero_rows, cmd: "artmind query graph pattern1 --domain {domains} --entityClass {class} --compact"}
     read: []
     evidence: [S18, P8]
 
