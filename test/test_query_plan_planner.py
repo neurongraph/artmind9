@@ -472,3 +472,35 @@ def test_execute_is_ignored_for_twin_combinations(world, monkeypatch):
     result = _plan("How many visits did Ada make to Lakeport in 2025?", execute=True)
     assert len(result["steps"]) == 2 and result["executed"] is None
     assert any(w.startswith("--execute ignored") and "2 parameter combinations" in w for w in result["warnings"])
+
+
+@pytest.mark.parametrize("kind, expected", [
+    ("analytical", ["text2sql"]),
+    ("hybrid", ["db bridge", "text2sql"]),
+    ("records_plus_guidance", ["db bridge", "text2sql", "vector-text"]),
+    ("graph", ["vector-text"]),
+])
+def test_the_structured_route_follows_the_store_kind(world, monkeypatch, kind, expected):
+    world["views"] = []
+    calls = []
+
+    def facts(domains, question, classes):
+        calls.append(1)
+        return {"kind": kind, "tables": ["t"], "bridge_classes": [], "matched_values": []}
+
+    monkeypatch.setattr(candidates, "store_facts", facts)
+    _use(monkeypatch, FakeClassifier(override={"route": _answer("structured", 0.9)}))
+    result = _plan("Show the table records")
+    assert result["route"]["id"] == "structured"
+    cmds = [s["cmd"] for s in result["steps"]]
+    assert [next(e for e in ("db bridge", "text2sql", "vector-text") if e in c) for c in cmds] == expected
+    assert len(calls) == 1
+
+
+def test_the_structured_route_keeps_its_default_steps_without_store_facts(world, monkeypatch):
+    world["views"] = []
+    _use(monkeypatch, FakeClassifier(override={"route": _answer("structured", 0.9)}))
+    result = _plan("Show the table records")
+    cmds = [s["cmd"] for s in result["steps"] or result["suggested_steps"]]
+    assert result["route"]["id"] == "structured"
+    assert "db bridge" in cmds[0] and "text2sql" in cmds[1]

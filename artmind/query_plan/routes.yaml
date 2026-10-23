@@ -156,6 +156,19 @@ routes:
     steps:
       - "artmind db bridge --domain {domains} --compact"
       - "artmind query text2sql --domain {domains} {question} --compact"
+    # The planner picks the variant for the store kind it computed (candidates.store_facts).
+    variants:
+      graph:
+        - "artmind query vector-text --domain {domains} {question} --compact"
+      analytical:
+        - "artmind query text2sql --domain {domains} {question} --compact"
+      hybrid:
+        - "artmind db bridge --domain {domains} --compact"
+        - "artmind query text2sql --domain {domains} {question} --compact"
+      records_plus_guidance:
+        - "artmind db bridge --domain {domains} --compact"
+        - "artmind query text2sql --domain {domains} {question} --compact"
+        - "artmind query vector-text --domain {domains} {question} --compact"
     fallbacks: []
     read: [references/structured-store.md]
     evidence: [S7, S8, S9, P15]

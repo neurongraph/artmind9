@@ -116,6 +116,16 @@ def test_a_trailing_newline_is_not_part_of_the_name(tmp_path):
     assert config.config_file("a\n") is None
 
 
+@pytest.mark.parametrize("name", ["a", "bank.cases", "my-domain", "x_1.y-2"])
+def test_is_domain_name_accepts_dotted_and_hyphenated_names(name):
+    assert config.is_domain_name(name) is True
+
+
+@pytest.mark.parametrize("name", ["a\n", "../x", "", "a/b", ".hidden", None])
+def test_is_domain_name_rejects_newlines_paths_and_empty(name):
+    assert config.is_domain_name(name) is False
+
+
 def test_real_domain_names_find_their_files(tmp_path):
     _write(tmp_path, "bank.cases", "confidence_threshold: 0.6\n")
     _write(tmp_path, "my-domain", "confidence_threshold: 0.8\n")

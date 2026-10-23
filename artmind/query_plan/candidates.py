@@ -13,13 +13,12 @@ from itertools import zip_longest
 from loguru import logger
 
 from artmind import graph_query, vector_query
-from artmind.graph_query import domain_predicate
+from artmind.graph_query import DOCUMENT_NAME_SUFFIXES, domain_predicate
 from artmind.query_plan.classify.lexical import STOPWORDS
 
 MAX_MENTIONS = 8
 MAX_CANDIDATES = 5
 RESOLVE_TOP_K = 10
-DOCUMENT_SUFFIXES = (".md", ".pdf", ".docx", ".txt", ".html")
 QUESTION_WORDS = frozenset("""
 how what when where which who whom whose why did does do is are was were can could should would will
 has have had list show tell give find summarise summarize describe explain any all in on for from of the
@@ -42,6 +41,7 @@ _AGGREGATE_RE = re.compile(r"\b(per|total|average|how many|number of|count of|su
 _GUIDANCE_RE = re.compile(r"\b(policy|policies|guidance|should|what to do|rules?|procedures?)\b")
 
 _TOKEN_RE = re.compile(r"[^\W_][\w'’&-]*")
+# Two-character minimum: a one-character quote is not a name. fill.py's _QUOTED_RE takes any length.
 _QUOTED_RE = re.compile(r'"([^"]{2,})"|“([^”]{2,})”')
 _KEYWORD_RE = re.compile(r"\w[\w'’-]*")
 _NAME_PART_RE = re.compile(r"[^\W_]+")
@@ -348,7 +348,7 @@ def match_document(question: str, names: list[str]) -> str | None:
     best: tuple[str, int] | None = None
     for name in sorted(names):
         stem = name
-        for suffix in DOCUMENT_SUFFIXES:
+        for suffix in DOCUMENT_NAME_SUFFIXES:
             if stem.casefold().endswith(suffix):
                 stem = stem[: -len(suffix)]
                 break

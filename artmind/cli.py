@@ -4213,7 +4213,7 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
                        if p.is_file() and not p.name.startswith("."))
     results = []
     for name in names:
-        if not plan_config._DOMAIN_RE.fullmatch(name):
+        if not plan_config.is_domain_name(name):
             results.append({"domain": name, "file": None, "ok": False, "errors": ["file name is not a valid domain name"],
                             "warnings": [], "narrator_found": None})
             continue

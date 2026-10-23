@@ -42,6 +42,11 @@ class PlanConfig:
     source: str | None = None
 
 
+def is_domain_name(name) -> bool:
+    """True for a dotted domain name whose whole string matches (no trailing newline, no path parts)."""
+    return isinstance(name, str) and _DOMAIN_RE.fullmatch(name) is not None
+
+
 def config_dir() -> Path:
     import paths
 
@@ -50,7 +55,7 @@ def config_dir() -> Path:
 
 def config_file(domain: str) -> Path | None:
     """The most specific file for `domain`: its own, else its nearest parent's."""
-    if not isinstance(domain, str) or not _DOMAIN_RE.fullmatch(domain):
+    if not is_domain_name(domain):
         return None
     parts = domain.split(".")
     for i in range(len(parts), 0, -1):

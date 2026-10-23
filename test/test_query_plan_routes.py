@@ -58,7 +58,7 @@ def _parse_args(command, rest):
 
 @pytest.mark.parametrize("route", routes.load_routes(), ids=lambda r: r.id)
 def test_every_template_names_a_real_command_and_real_options(route):
-    for template in [*route.steps, *(f.cmd for f in route.fallbacks)]:
+    for template in [*route.steps, *(t for v in route.variants.values() for t in v), *(f.cmd for f in route.fallbacks)]:
         command, rest = _resolve(template)
         assert not hasattr(command, "commands") or getattr(command, "invoke_without_command", False), template
         by_name, options, positionals = _parse_args(command, rest)
@@ -95,6 +95,11 @@ def _one(**over):
     (_one(id="Bad-Id"), "snake_case"),
     (_one(steps=["artmind query vector-text --domain {nope} --compact"]), "unknown placeholder"),
     (_one(steps=["artmind query vector-text --domain {domains}"]), "--compact"),
+    (_one(variants={"mystery": ["artmind query vector-text --domain {domains} --compact"]}), "unknown store kind"),
+    (_one(variants={"graph": ["artmind query vector-text --domain {domains}"]}), "--compact"),
+    (_one(variants={"graph": ["artmind query vector-text --domain {nope} --compact"]}), "unknown placeholder"),
+    (_one(variants={"graph": []}), "must not be empty"),
+    (_one(variants=["x"]), "variants"),
     (_one(evidence=[]), "must not be empty"),
     (_one(evidence=["Q7"]), "evidence"),
     (_one(fallbacks=[{"when": "later", "cmd": "artmind query chunks --compact"}]), "fallbacks"),
@@ -139,3 +144,24 @@ def test_render_does_not_re_expand_or_execute_values():
 def test_render_refuses_blank_or_option_like_values(value):
     template = "artmind query vector-text --domain {domains} {question} --compact"
     assert routes.render(template, {"domains": "a", "question": value}) is None
+
+
+def test_valid_variants_parse_and_steps_for_picks_them():
+    cmd = "artmind query text2sql --domain {domains} {question} --compact"
+    (route,) = routes.parse_routes(_one(variants={"analytical": [cmd]}))
+    assert route.variants == {"analytical": (cmd,)}
+    assert route.steps_for("analytical") == (cmd,)
+    assert route.steps_for("hybrid") == route.steps and route.steps_for(None) == route.steps
+
+
+def test_every_placeholder_in_a_route_is_one_the_planner_supplies():
+    from artmind.query_plan import planner
+
+    supplied = set(planner._context(["d"], "q", [], None, []))
+    used = set()
+    for route in routes.load_routes():
+        templates = [*route.steps, *(t for v in route.variants.values() for t in v), *(f.cmd for f in route.fallbacks)]
+        for template in templates:
+            used |= routes.placeholders(template)
+    assert used <= supplied, sorted(used - supplied)
+    assert routes.PLACEHOLDERS - {"class", "entity_class", "other_entity_class"} <= supplied

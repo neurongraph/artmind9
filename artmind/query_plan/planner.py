@@ -330,10 +330,10 @@ def _view_steps(loaded, view_answer, entities, question, cfg, threshold, today, 
     return out
 
 
-def _route_steps(route, confidence: float, context: dict) -> _Steps:
+def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None) -> _Steps:
     out = _Steps(stages=[("route", confidence)])
     missing: set[str] = set()
-    for template in route.steps:
+    for template in route.steps_for(store_kind):
         cmd = routes_mod.render(template, context)
         if cmd is None:
             out.unfilled = True
@@ -472,6 +472,13 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             chosen_view = loaded
         else:
             warnings.append(f"view {loaded.spec.name} matched but does not cover {selected}; not used")
+    resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
+    store = None
+    if selected:
+        try:
+            store = candidates.store_facts(selected, question, resolved_classes)
+        except Exception as exc:  # the structured store is optional context (spec §7)
+            warnings.append(f"store facts unavailable: {exc}")
     context = _context(selected, question, entities, document, mentions)
     stages: list[tuple[str, float]] = []
     if source != "given":
@@ -486,7 +493,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     else:
         route_obj = next(r for r in all_routes if r.id == route_answer.choice)
         route_id, route_conf = route_obj.id, route_answer.confidence
-        built = _route_steps(route_obj, route_conf, context)
+        built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
     stages += built.stages
     rendered, fallbacks, read = built.steps, built.fallbacks, built.read
 
@@ -513,13 +520,6 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     if execute:
         executed, rows, rows_total, truncated = _execute(chosen_view, selected, high, steps, built.raws, warnings)
 
-    resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
-    store = None
-    if selected:
-        try:
-            store = candidates.store_facts(selected, question, resolved_classes)
-        except Exception as exc:  # the structured store is optional context (spec §7)
-            warnings.append(f"store facts unavailable: {exc}")
     lexical_used = clf.backend == "lexical" or calls.fell_back
     return {
         "plan_version": PLAN_VERSION,

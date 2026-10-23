@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 import shlex
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
@@ -20,14 +20,15 @@ ROUTES_FILE = Path(__file__).with_name("routes.yaml")
 RESERVED_IDS = frozenset({"view"})
 NEEDS = frozenset({"entity", "two_entities", "document", "date", "class", "store", "insights_snapshot"})
 PLACEHOLDERS = frozenset({
-    "domains", "entity_id", "entity_ids", "entity_name", "other_entity_id", "document",
-    "date", "year", "class", "question", "keywords", "view", "view_params",
+    "domains", "entity_id", "entity_name", "other_entity_id", "entity_class", "other_entity_class",
+    "document", "class", "question", "keywords",
 })
+STORE_KINDS = frozenset({"graph", "analytical", "hybrid", "records_plus_guidance"})
 TRIGGER_SLOTS = frozenset({"date", "year", "entity", "document"})
 FALLBACK_WHEN = frozenset({"zero_rows", "truncated", "no_document", "needs_disambiguation", "error"})
 MAX_DESCRIPTION = 300
 
-_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "fallbacks", "read", "evidence"})
+_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "variants", "fallbacks", "read", "evidence"})
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _EVIDENCE_RE = re.compile(r"^[SP]\d+$")
 _PLACEHOLDER_RE = re.compile(r"\{([a-z_]+)\}")
@@ -53,6 +54,10 @@ class Route:
     fallbacks: tuple[Fallback, ...]
     read: tuple[str, ...]
     evidence: tuple[str, ...]
+    variants: dict = field(default_factory=dict)  # store kind -> step templates, replacing `steps`
+
+    def steps_for(self, store_kind: str | None) -> tuple[str, ...]:
+        return self.variants.get(store_kind, self.steps) if store_kind else self.steps
 
 
 def placeholders(template: str) -> set[str]:
@@ -123,6 +128,18 @@ def parse_routes(data) -> tuple[Route, ...]:
             _template(cmd, f"{where}.steps[{j}]")
             for j, cmd in enumerate(_strings(raw.get("steps"), f"{where}.steps", allow_empty=False))
         )
+        variants = {}
+        raw_variants = raw.get("variants")
+        if raw_variants is not None:
+            if not isinstance(raw_variants, dict):
+                raise RouteError(f"{where}.variants must be a mapping of store kind to steps")
+            for kind, templates in raw_variants.items():
+                if kind not in STORE_KINDS:
+                    raise RouteError(f"{where}.variants has unknown store kind {kind!r}; use {sorted(STORE_KINDS)}")
+                variants[kind] = tuple(
+                    _template(cmd, f"{where}.variants.{kind}[{j}]")
+                    for j, cmd in enumerate(_strings(templates, f"{where}.variants.{kind}", allow_empty=False))
+                )
         fallbacks = []
         for j, fb in enumerate(raw.get("fallbacks") or []):
             if not isinstance(fb, dict) or set(fb) != {"when", "cmd"} or not isinstance(fb["when"], str) or fb["when"] not in FALLBACK_WHEN:
@@ -133,7 +150,7 @@ def parse_routes(data) -> tuple[Route, ...]:
         bad_evidence = [e for e in evidence if not _EVIDENCE_RE.match(e)]
         if bad_evidence:
             raise RouteError(f"{where}: evidence ids must look like S<n> or P<n>, got {bad_evidence}")
-        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence))
+        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants))
     if not out:
         raise RouteError("routes.yaml defines no routes")
     return tuple(out)

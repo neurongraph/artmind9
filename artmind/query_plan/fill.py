@@ -35,6 +35,7 @@ _TODAY_RE = re.compile(r"\btoday\b", re.I)
 _ISO_RE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
 _DMY_RE = re.compile(r"\b(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})\b")
 _MY_RE = re.compile(r"\b([A-Za-z]{3,9})\s+(\d{4})\b")
+# Any non-empty quote: a one-character string value is still a value. candidates.py's _QUOTED_RE needs 2+ characters (a name).
 _QUOTED_RE = re.compile(r'"([^"]+)"|“([^”]+)”')
 
 
