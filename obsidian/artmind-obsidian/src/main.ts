@@ -7,6 +7,8 @@ import { Controller, type CurateKind, type Snapshot } from "./controller";
 import { GitReader } from "./git";
 import { type Mapping, VAULT_YAML, promptsOnArrival, readMappings } from "./manifest";
 import { NOTHING_PERSISTED, type Persisted, readPersisted, withPersisted } from "./persist";
+import { ServeManager, type ServeState, type ServeStop, serveStatusText, serveText } from "./serve";
+import { realServeDeps } from "./serveDeps";
 import { type ArtmindSettings, mergeSettings } from "./settings";
 import type { PanelTarget } from "./state";
 import { COMMANDS } from "./texts";
@@ -37,6 +39,8 @@ export default class ArtmindPlugin extends Plugin {
   private statusBar: StatusBarItem | null = null;
   private ribbon: RibbonIcon | null = null;
   private admin: AdminConsole | null = null;
+  private serve: ServeManager | null = null;
+  private serveStatus: HTMLElement | null = null;
   private notifier = new ObsidianNotifier((target) => void this.openPanel(target));
   private mappings: Mapping[] = [];
   private last: Snapshot | null = null;
@@ -53,7 +57,14 @@ export default class ArtmindPlugin extends Plugin {
     await this.loadMappings();
 
     const internals = this.app as unknown as AppInternals;
-    const cli = new ArtmindCli({ path: this.artmindSettings.artmindPath || "artmind", cwd: root });
+    const cli = new ArtmindCli({ path: this.artmindSettings.artmindPath || "artmind", cwd: root, extraEnv: () => this.serve?.env() ?? {} });
+    this.serve = new ServeManager(realServeDeps(root, () => cli.path), {
+      enabled: () => this.artmindSettings.serveEnabled,
+      port: () => this.artmindSettings.servePort,
+      vaultRoot: root,
+      startedPid: () => this.artmindSettings.servePid,
+      saveStartedPid: (pid) => this.saveServePid(pid),
+    });
     const bridge = new ObsidianGitBridge(() => internals.commands);
     const controller = new Controller({
       cli,
@@ -106,7 +117,7 @@ export default class ArtmindPlugin extends Plugin {
     this.watchers = watchers;
     controller.attachWatchers(watchers);
 
-    this.admin = new AdminConsole(realAdminDeps(root, () => cli.path, (url) => void this.openAdminPage(url)), {
+    this.admin = new AdminConsole(realAdminDeps(root, () => cli.path, (url) => void this.openAdminPage(url), () => this.serve?.env() ?? {}), {
       url: () => this.artmindSettings.adminUiUrl,
       vaultRoot: root,
       startedPid: () => this.artmindSettings.adminUiPid,
@@ -119,6 +130,12 @@ export default class ArtmindPlugin extends Plugin {
     });
     // Opens the panel at the current row; never runs an action (spec D8).
     this.statusBar = new StatusBarItem(this.addStatusBarItem(), () => controller.openPanelAtCurrent());
+    const serveStatus = this.addStatusBarItem();
+    serveStatus.classList.add("artmind-serve-status");
+    serveStatus.addEventListener("click", () => void this.restartServe());
+    this.serveStatus = serveStatus;
+    this.serve.onChange((state) => this.renderServe(state));
+    this.renderServe(this.serve.state);
     this.registerView(VIEW_TYPE, (leaf) => new ArtmindView(leaf, this.panelHandlers()));
     this.addSettingTab(new ArtmindSettingTab(this.app, this));
     this.addCommands();
@@ -130,6 +147,8 @@ export default class ArtmindPlugin extends Plugin {
       this.registerDomEvent(window, "focus", () => watchers.focusRegained());
       const problem = await controller.checkArtmind();
       if (!problem) {
+        // Not awaited: a serve that is slow to start never holds Obsidian up.
+        void this.ensureServe();
         await watchers.start();
         await controller.refresh();
       }
@@ -138,6 +157,8 @@ export default class ArtmindPlugin extends Plugin {
 
   override onunload(): void {
     this.watchers?.stop();
+    // Only the serve this plugin started; one started elsewhere stays up.
+    void this.serve?.stop();
   }
 
   async saveSettings(): Promise<void> {
@@ -173,6 +194,51 @@ export default class ArtmindPlugin extends Plugin {
   private async saveStartedPid(pid: number): Promise<void> {
     this.artmindSettings.adminUiPid = pid;
     await this.saveAll();
+  }
+
+  private async saveServePid(pid: number): Promise<void> {
+    this.artmindSettings.servePid = pid;
+    await this.saveAll();
+  }
+
+  private async ensureServe(): Promise<void> {
+    const state = await this.serve?.ensure();
+    // Starting quietly is the point; only a problem is worth a notice.
+    if (state && state.kind !== "running") this.showServe(state);
+  }
+
+  /** The settings toggle: start (or reuse) when turned on, stop ours when off. */
+  async serveToggled(): Promise<void> {
+    if (this.artmindSettings.serveEnabled) await this.ensureServe();
+    else await this.serve?.stop();
+  }
+
+  private async restartServe(): Promise<void> {
+    const serve = this.serve;
+    if (!serve) return;
+    if (!this.artmindSettings.serveEnabled) {
+      this.notifier.show("prompt", 'Turn on "Start artmind serve with this vault" in settings first.');
+      return;
+    }
+    this.notifier.show("prompt", "Restarting artmind serve…");
+    const outcome = await serve.restart();
+    if (outcome.kind === "running") this.notifier.show("prompt", outcome.started ? `Restarted artmind serve on port ${outcome.port}.` : `artmind serve is running on port ${outcome.port}.`);
+    else this.showServe(outcome);
+  }
+
+  private showServe(outcome: ServeState | ServeStop): void {
+    const text = serveText(outcome);
+    if (!text) return;
+    const fine = outcome.kind === "running" || outcome.kind === "starting" || outcome.kind === "stopped" || outcome.kind === "not_running";
+    this.notifier.show(fine ? "prompt" : "error", text);
+  }
+
+  private renderServe(state: ServeState): void {
+    const el = this.serveStatus;
+    if (!el) return;
+    el.textContent = serveStatusText(state);
+    el.toggleAttribute("hidden", state.kind === "off");
+    el.setAttribute("aria-label", `${serveText(state) ?? "artmind serve"} — click to restart`);
   }
 
   /** Saves settings and the persisted controller state together. */
@@ -319,6 +385,7 @@ export default class ArtmindPlugin extends Plugin {
       ["open-panel", COMMANDS.openPanel, () => void this.openPanel()],
       ["open-admin-console", COMMANDS.openAdmin, () => void this.openAdmin()],
       ["stop-admin-console", COMMANDS.stopAdmin, () => void this.stopAdmin()],
+      ["restart-serve", COMMANDS.restartServe, () => void this.restartServe()],
     ];
     for (const [id, name, callback] of commands) this.addCommand({ id, name, callback });
   }

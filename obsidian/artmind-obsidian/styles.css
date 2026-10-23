@@ -1,5 +1,8 @@
 /* artmind for Obsidian. Colours come from Obsidian's theme variables. */
 .artmind-status { cursor: pointer; }
+.artmind-serve-status { cursor: pointer; }
+/* Obsidian gives status bar items a display, which beats [hidden]. */
+.artmind-serve-status[hidden] { display: none; }
 .artmind-tone-red { color: var(--text-error); }
 .artmind-tone-amber { color: var(--color-orange); }
 .artmind-tone-blue { color: var(--color-blue); }

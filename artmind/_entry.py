@@ -5,14 +5,22 @@ to it over localhost HTTP, skipping the ~2s of heavy imports every CLI process
 otherwise pays. All other commands — and query calls when no daemon is up —
 fall through to the full CLI unchanged.
 
-This module must import stdlib only; the fast path's entire point is avoiding
-artmind.cli's import tree. Set ARTMIND_NO_PROXY=1 to always run in-process.
+A daemon is used only when its `/health` names the vault this process would
+resolve (or none, for both): two vaults can be open at once, and a query
+answered from another vault's graph is worse than a slow one.
+
+This module must import stdlib only (artmind.vault is stdlib-only too); the fast
+path's entire point is avoiding artmind.cli's import tree. Set
+ARTMIND_NO_PROXY=1 to always run in-process.
 """
 
 import json
 import os
 import sys
 import urllib.request
+from pathlib import Path
+
+from artmind.vault import VaultError, resolve_vault
 
 DEFAULT_PORT = 8377
 HEALTH_TIMEOUT = 0.25
@@ -46,12 +54,40 @@ def _base_url() -> str:
     return f"http://127.0.0.1:{port}"
 
 
+def _same_vault(served: str | None, ours: Path | None) -> bool:
+    if served is None or ours is None:
+        return served is None and ours is None
+    try:
+        return Path(served).resolve() == ours
+    except OSError:
+        return False
+
+
 def _daemon_alive(base_url: str) -> bool:
+    """An artmind serve for this process's vault answers on `base_url`.
+
+    One that does not name its vault (it predates the field) is not used. An
+    unresolvable vault (a bad ARTMIND_VAULT) runs in-process, where the CLI
+    reports it."""
     try:
         with urllib.request.urlopen(f"{base_url}/health", timeout=HEALTH_TIMEOUT) as resp:
-            return json.loads(resp.read()).get("service") == "artmind"
+            health = json.loads(resp.read())
     except Exception:
         return False
+    if health.get("service") != "artmind" or "vault" not in health:
+        return False
+    try:
+        ours = resolve_vault()
+    except VaultError:
+        return False
+    if _same_vault(health["vault"], ours):
+        return True
+    sys.stderr.write(
+        f"artmind: the serve on {base_url} serves {health['vault'] or 'no vault'}, "
+        f"not {ours or 'this directory'}; running in-process. "
+        "Give each vault its own ARTMIND_SERVE_PORT.\n"
+    )
+    return False
 
 
 def _proxy(base_url: str, args: list[str]) -> int:

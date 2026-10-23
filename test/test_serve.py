@@ -1,4 +1,5 @@
 import json
+import os
 from unittest.mock import patch
 
 import pytest
@@ -19,6 +20,19 @@ def test_health_reports_service(client):
     body = resp.json()
     assert body["service"] == "artmind"
     assert body["status"] == "ok"
+
+
+def test_health_names_its_vault_and_pid(client, tmp_path):
+    with patch("paths.ARTMIND_VAULT_DIR", tmp_path):
+        body = client.get("/health").json()
+
+    assert body["vault"] == str(tmp_path)
+    assert body["pid"] == os.getpid()
+
+
+def test_health_vault_is_null_outside_a_vault(client):
+    with patch("paths.ARTMIND_VAULT_DIR", None):
+        assert client.get("/health").json()["vault"] is None
 
 
 def test_query_dispatches_through_cli(client):

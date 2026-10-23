@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_SETTINGS, NOTICE_LABELS, mergeSettings } from "../src/settings";
+import { DEFAULT_SETTINGS, NOTICE_LABELS, mergeSettings, validPort } from "../src/settings";
 
 describe("settings (spec §7)", () => {
   it("has no commit offer any more: the footer replaces it (checklist spec §4)", () => {
@@ -36,6 +36,21 @@ describe("settings (spec §7)", () => {
     expect(mergeSettings({ adminInObsidianTab: false }).adminInObsidianTab).toBe(false);
     expect(mergeSettings({ adminInObsidianTab: "yes" }).adminInObsidianTab).toBe(true);
     expect(merged.headPollSeconds).toBe(15);
+  });
+
+  it("leaves serve off by default, on its default port, with no pid claimed", () => {
+    expect(DEFAULT_SETTINGS.serveEnabled).toBe(false);
+    expect(DEFAULT_SETTINGS.servePort).toBe(8377);
+    expect(DEFAULT_SETTINGS.servePid).toBe(0);
+    const merged = mergeSettings({ serveEnabled: true, servePort: 8390, servePid: 77 });
+    expect([merged.serveEnabled, merged.servePort, merged.servePid]).toEqual([true, 8390, 77]);
+  });
+
+  it("refuses a serve port that is not a usable TCP port", () => {
+    for (const port of [0, 80, 8377.5, 70000, "8390", -1]) expect(mergeSettings({ servePort: port }).servePort).toBe(8377);
+    expect(validPort(1024)).toBe(true);
+    expect(validPort(65535)).toBe(true);
+    expect(mergeSettings({ servePid: -3 }).servePid).toBe(0);
   });
 
   it("ignores malformed data", () => {

@@ -38,7 +38,8 @@ describe("ArtmindPlugin", () => {
 
     await plugin.onload();
 
-    expect(plugin.statusBarItems).toHaveLength(1);
+    // The checklist, and serve's (hidden while serve is off).
+    expect(plugin.statusBarItems).toHaveLength(2);
     expect(plugin.ribbonIcons.map((r: { icon: string; title: string }) => [r.icon, r.title])).toEqual([["brain-circuit", "artmind"]]);
     expect(plugin.views).toEqual(["artmind-view"]);
     expect(plugin.commands.map((c: { name: string }) => c.name)).toEqual([
@@ -56,6 +57,7 @@ describe("ArtmindPlugin", () => {
       "Open side panel",
       "Open admin console",
       "Stop admin console",
+      "Restart serve",
     ]);
     expect(a.layoutReady).toHaveLength(1);
     expect(plugin.events).toEqual([]);
