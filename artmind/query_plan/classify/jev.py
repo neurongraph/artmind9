@@ -170,15 +170,25 @@ class JevClassifier:
             },
         }
 
-    def decide(self, question: str, decisions: list[Decision]) -> dict[str, Answer]:
-        self._admit()
+    def _request(self, question: str, decisions: list[Decision]) -> urllib.request.Request:
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
-        request = urllib.request.Request(
+        return urllib.request.Request(
             self.url, data=json.dumps(self.request_body(question, decisions)).encode("utf-8"),
             headers=headers, method="POST",
         )
+
+    def warm_up(self) -> None:
+        """One tiny request that loads the model; outside the breaker, so a failure here never
+        skips the endpoint for real plans. Raises on any failure (the caller logs it)."""
+        decision = Decision("warmup", "Pick one.", {"a": "A", "b": "B"}, default="a")
+        with _open(self._request("warm up", [decision]), self.timeout) as response:
+            response.read(MAX_BODY_BYTES + 1)
+
+    def decide(self, question: str, decisions: list[Decision]) -> dict[str, Answer]:
+        self._admit()
+        request = self._request(question, decisions)
         raw_body = b""
         try:
             with _open(request, self.timeout) as response:

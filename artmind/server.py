@@ -7,10 +7,12 @@ reimplementation. Non-query commands are rejected; the daemon never writes.
 """
 
 import threading
+from contextlib import asynccontextmanager
 from importlib.metadata import PackageNotFoundError, version
 
 from click.testing import CliRunner
 from fastapi import FastAPI, HTTPException
+from loguru import logger
 from pydantic import BaseModel
 
 from artmind._entry import DEFAULT_PORT  # noqa: F401  (re-exported for callers)
@@ -47,8 +49,24 @@ def run_cli_args(args: list[str], trace_id: str | None = None) -> dict:
     return {"exit_code": result.exit_code, "output": result.stdout, "stderr": stderr}
 
 
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    _warm_up_decision_model()
+    yield
+
+
+def _warm_up_decision_model() -> None:
+    """Load the decision model in the background (query plan); never fails start-up."""
+    try:
+        from artmind.query_plan import classify
+
+        classify.warm_up()
+    except Exception:
+        logger.exception("decision model warm-up not started")
+
+
 def create_app() -> FastAPI:
-    app = FastAPI(title="artmind serve", version=_service_version())
+    app = FastAPI(title="artmind serve", version=_service_version(), lifespan=_lifespan)
 
     @app.get("/health")
     def health() -> dict:

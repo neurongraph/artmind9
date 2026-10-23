@@ -660,14 +660,20 @@ small, independent and lands before the plan (§9).
    trace event, `type: "plan_shadow"`, payload `{status: ok|timeout|error|skipped, followup:
    bool, plan: {…}, error: str|null}`. A plan over 60 KB is trimmed (`"trimmed": true`) so the
    stored JSON stays valid; a payload still cut by `store.cap` reads back as `truncated`.
-   `skipped` means 8 shadow plans were already running.
+   `skipped` means 8 shadow plans were already running. A plan still running at that point is
+   written by a background thread when it finishes, up to 90 s after the turn (`LATE_WAIT_S`),
+   else as `timeout`; the turn and the next one never wait for it. A process that exits first
+   (a benchmark run's last question) records no event.
 3. It is an event, not a span, so `traces/path.py` never counts it as agent work.
    `public_event` never forwards it to the browser; the agent never sees it.
 4. `followup` is true when the session has an earlier traced turn.
 
 **Guarantees:** it never delays the agent (it runs alongside) and never fails a turn (every
 exception becomes `status: error` and a warning log line; recording it can never cost the
-turn's other events). Kill switch: `ARTMIND_PLAN_SHADOW=0` in `config.env`; default on; the
+turn's other events). Nobody waits on a shadow plan, so its decision-model calls use
+`ARTMIND_PLAN_SHADOW_DECISION_TIMEOUT` (default 60 s) instead of `ARTMIND_DECISION_TIMEOUT`:
+measured on a local 9B decision model, a question it has not seen costs 6-15 s of prompt
+processing, which the interactive timeout would turn into a lexical fallback. Kill switch: `ARTMIND_PLAN_SHADOW=0` in `config.env`; default on; the
 test suite pins it off. With a hosted `ARTMIND_DECISION_URL`, every traced question is sent
 there for classification.
 
@@ -690,6 +696,7 @@ there for classification.
 | Neo4j unreachable | exit 1, as every `query` command | `status: error` |
 | Decision endpoint times out, HTTP error, unusable answer | that call redone lexically; `classifier.fell_back`, warning | same |
 | Decision endpoint down repeatedly | per-process circuit breaker: after 3 consecutive failures, skip it for 60 s | same |
+| Decision model not loaded (cold start) | `serve`, `chat-ui` and `admin-ui` send one tiny warm-up request at start (background thread, 300 s, outside the breaker; `ARTMIND_DECISION_WARMUP=0` turns it off); it only loads the model, since a new question is never cached | same |
 | One mention's resolution fails | mention dropped, warning, confidence lowered | same |
 | A view in the catalogue is invalid | skipped, warning (as `views list` reports it) | same |
 | Plan config invalid | `ClickException` naming file and key (§4.5) | `status: error` |

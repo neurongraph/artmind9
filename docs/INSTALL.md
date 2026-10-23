@@ -266,7 +266,10 @@ followed. A hosted endpoint (for example Clef on Workers AI) receives the questi
 and the candidate entity names, and with a hosted `ARTMIND_DECISION_URL` every
 traced question is sent there; a local one keeps them on the machine. Shadow mode (a plan
 recorded beside every admin-console and benchmark trace) is on by default;
-`ARTMIND_PLAN_SHADOW=0` turns it off. The planner reads a per-domain catalogue
+`ARTMIND_PLAN_SHADOW=0` turns it off; shadow plans allow the decision model 60 s
+(`ARTMIND_PLAN_SHADOW_DECISION_TIMEOUT`), since nobody waits on them. `serve`, `chat-ui` and
+`admin-ui` send the model one tiny request at start so it is loaded (`ARTMIND_DECISION_WARMUP=0`
+turns that off); for Ollama, also set `OLLAMA_KEEP_ALIVE` so it stays loaded. The planner reads a per-domain catalogue
 (classes, relation types, document and entity names), cached in memory and under
 `<ARTMIND_HOME>/logs/plan-catalog/` (private files) and rebuilt when the graph
 changes or after 15 minutes; `ARTMIND_PLAN_CATALOG=0` disables the cache. `artmind plan config check` validates

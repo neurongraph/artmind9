@@ -13,6 +13,7 @@ from _fake_credentials import FAKE_CREDENTIAL
 
 from artmind.query_plan import planner
 from artmind.query_plan.classify import ClassifierUnavailable, Decision, select_classifier
+from artmind.query_plan import classify
 from artmind.query_plan.classify import jev
 
 DECISIONS = [
@@ -388,3 +389,62 @@ def test_logs_name_the_endpoint_without_its_query_string(monkeypatch):
     logged = "".join(lines)
     assert "http://localhost:11434/v1/systemone" in logged
     assert "token=x" not in logged and "#frag" not in logged
+
+
+def test_a_timeout_override_beats_the_environment():
+    env = {"ARTMIND_DECISION_URL": "http://localhost:11434/v1/systemone", "ARTMIND_DECISION_MODEL": "nimble",
+           "ARTMIND_DECISION_TIMEOUT": "3"}
+    clf, _ = select_classifier("auto", "auto", None, env=env, timeout=60.0)
+    assert clf.timeout == 60.0
+
+
+def test_the_planner_passes_its_decision_timeout(monkeypatch):
+    seen = {}
+
+    def fake_select(option, domain_choice, model, env=None, timeout=None):
+        seen["timeout"] = timeout
+        raise ValueError("stop here")
+
+    monkeypatch.setattr(planner, "select_classifier", fake_select)
+    monkeypatch.setattr(planner.graph_query, "domains_overview", lambda: {"rows": []})
+    with pytest.raises(planner.PlanError):
+        planner.plan("How many visits?", ["journal"], decision_timeout=42.0)
+    assert seen == {"timeout": 42.0}
+
+
+WARM_ENV = {"ARTMIND_DECISION_URL": "http://localhost:11434/v1/systemone", "ARTMIND_DECISION_MODEL": "nimble"}
+
+
+def test_warm_up_sends_one_tiny_request_with_a_long_timeout(monkeypatch):
+    sent = _serve(monkeypatch, answers={"warmup": {"choice": "a", "probabilities": {"a": 1.0, "b": 0.0}}})
+    thread = classify.warm_up(env=WARM_ENV)
+    thread.join(2)
+    assert sent["url"] == WARM_ENV["ARTMIND_DECISION_URL"]
+    assert sent["body"]["model"] == "nimble" and list(sent["body"]["questions"]) == ["warmup"]
+    assert sent["timeout"] == classify.WARMUP_TIMEOUT_S
+    assert "Authorization" not in sent["headers"]
+
+
+def test_a_failed_warm_up_is_logged_and_leaves_the_breaker_closed(monkeypatch):
+    _serve(monkeypatch, error=urllib.error.URLError(ConnectionRefusedError()))
+    lines = []
+    sink = logger.add(lambda m: lines.append(m), level="WARNING")
+    try:
+        for _ in range(jev.BREAKER_FAILURES):
+            classify.warm_up(env=WARM_ENV).join(2)
+    finally:
+        logger.remove(sink)
+    assert any("warm-up failed" in line for line in lines)
+    assert jev._breakers == {}
+
+
+@pytest.mark.parametrize("env", [
+    {},
+    {"ARTMIND_DECISION_URL": "http://localhost:11434/v1/systemone"},
+    {**WARM_ENV, "ARTMIND_DECISION_WARMUP": "0"},
+    {**WARM_ENV, "ARTMIND_DECISION_URL": "ftp://localhost/x"},
+])
+def test_no_warm_up_without_a_usable_endpoint_or_when_turned_off(monkeypatch, env):
+    sent = _serve(monkeypatch, answers={})
+    assert classify.warm_up(env=env) is None
+    assert sent == {}
