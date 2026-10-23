@@ -448,3 +448,115 @@ def test_no_warm_up_without_a_usable_endpoint_or_when_turned_off(monkeypatch, en
     sent = _serve(monkeypatch, answers={})
     assert classify.warm_up(env=env) is None
     assert sent == {}
+
+
+# -- OpenRouter provider (ARTMIND_DECISION_PROVIDER=openrouter) -------------------------------
+
+OR_ENV = {"ARTMIND_DECISION_PROVIDER": "openrouter", "ARTMIND_DECISION_MODEL": "typesafe/jev-1.14",
+          "ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL,
+          # the ollama provider's settings, which openrouter must ignore
+          "ARTMIND_DECISION_URL": "http://localhost:11434/v1/systemone",
+          "ARTMIND_DECISION_API_KEY": f"{FAKE_CREDENTIAL}-ollama"}
+
+
+def test_openrouter_sends_the_jev_body_to_its_decisions_api(monkeypatch):
+    sent = _serve(monkeypatch, answers={
+        "view": {"type": "choice", "choice": "none", "probabilities": {"visits_by_year": 0, "none": 1},
+                 "confidence": 1},
+        "route": {"type": "choice", "choice": "aggregate", "probabilities": {"aggregate": 0.8, "search": 0.2},
+                  "confidence": 0.8},
+    })
+    clf, reason = select_classifier("decision", "auto", None, env=OR_ENV)
+    answers = clf.decide("How many visits?", DECISIONS)
+    assert reason is None and clf.model == "typesafe/jev-1.14"
+    assert sent["url"] == "https://openrouter.ai/api/alpha/decisions"
+    assert sent["headers"]["Authorization"] == f"Bearer {FAKE_CREDENTIAL}"
+    assert sent["headers"]["Content-type"] == "application/json"
+    assert sent["body"] == {
+        "provider": {"data_collection": "deny", "zdr": True},
+        "model": "typesafe/jev-1.14",
+        "state": {"question": "How many visits?"},
+        "questions": {
+            "view": {"type": "choice", "instructions": "Which saved query?",
+                     "criteria": {"visits_by_year": "Visits ...", "none": "No saved query"}},
+            "route": {"type": "choice", "instructions": "What kind of question?",
+                      "criteria": {"aggregate": "A count", "search": "Anything else"}},
+        },
+    }
+    # integer probabilities (OpenRouter sends 0 and 1) parse like floats
+    assert answers["view"].probabilities == {"visits_by_year": 0.0, "none": 1.0}
+    assert answers["route"].choice == "aggregate" and answers["route"].confidence == 0.8
+
+
+def test_openrouter_extra_fields_cannot_override_the_request():
+    clf = jev.JevClassifier("https://openrouter.ai/api/alpha/decisions", "typesafe/jev-1.14",
+                            extra_body={"model": "other", "state": "x", "provider": {"zdr": True}})
+    body = clf.request_body("q", DECISIONS)
+    assert body["model"] == "typesafe/jev-1.14" and body["state"] == {"question": "q"}
+
+
+def test_openrouter_needs_its_key_and_a_model():
+    with pytest.raises(ValueError, match="ARTMIND_OPENROUTER_API_KEY"):
+        select_classifier("auto", "auto", None, env={**OR_ENV, "ARTMIND_OPENROUTER_API_KEY": ""})
+    with pytest.raises(ValueError, match="ARTMIND_DECISION_MODEL"):
+        select_classifier("decision", "auto", None, env={**OR_ENV, "ARTMIND_DECISION_MODEL": ""})
+    # a domain config's decision_model is the OpenRouter model
+    clf, _ = select_classifier("auto", "auto", "typesafe/jev-1.13", env=OR_ENV)
+    assert clf.model == "typesafe/jev-1.13"
+    # lexical choices never need an endpoint
+    assert select_classifier("lexical", "auto", None, env={"ARTMIND_DECISION_PROVIDER": "openrouter"})[1] is None
+
+
+def test_an_unknown_provider_is_an_error():
+    with pytest.raises(ValueError, match="ARTMIND_DECISION_PROVIDER"):
+        select_classifier("auto", "auto", None, env={"ARTMIND_DECISION_PROVIDER": "clef"})
+
+
+def test_the_default_provider_is_the_url():
+    clf, _ = select_classifier("auto", "auto", None, env={**WARM_ENV, "ARTMIND_DECISION_PROVIDER": "Ollama"})
+    assert clf.url == WARM_ENV["ARTMIND_DECISION_URL"] and clf.extra_body == {}
+    assert "provider" not in clf.request_body("q", DECISIONS)
+
+
+@pytest.mark.parametrize("error, reason", [
+    (urllib.error.HTTPError("https://openrouter.ai/api/alpha/decisions", 402, "Payment Required", {}, None),
+     "http_402"),
+    (urllib.error.HTTPError("https://openrouter.ai/api/alpha/decisions", 404, "No allowed providers", {}, None),
+     "http_404"),
+    (urllib.error.HTTPError("https://openrouter.ai/api/alpha/decisions", 302, "Found",
+                            {"Location": "https://elsewhere.example/"}, None), "http_302"),
+    (socket.timeout("timed out"), "timeout"),
+])
+def test_openrouter_failures_fall_back_with_a_reason(monkeypatch, error, reason):
+    _serve(monkeypatch, error=error)
+    clf, _ = select_classifier("decision", "auto", None, env=OR_ENV)
+    with pytest.raises(ClassifierUnavailable) as caught:
+        clf.decide("q", DECISIONS)
+    assert caught.value.reason == reason
+
+
+def test_openrouter_trips_the_breaker_like_any_endpoint(monkeypatch):
+    clf, _ = select_classifier("decision", "auto", None, env=OR_ENV)
+    _fail_n(monkeypatch, jev.BREAKER_FAILURES, clf)
+    sent = _serve(monkeypatch, answers=_ok())
+    with pytest.raises(ClassifierUnavailable, match="circuit_open"):
+        clf.decide("q", DECISIONS)
+    assert sent == {}
+
+
+def test_openrouter_is_not_warmed_up(monkeypatch):
+    sent = _serve(monkeypatch, answers={})
+    assert classify.warm_up(env=OR_ENV) is None
+    assert sent == {}
+
+
+def test_a_half_configured_openrouter_warm_up_is_skipped_with_a_warning(monkeypatch):
+    sent = _serve(monkeypatch, answers={})
+    lines = []
+    sink = logger.add(lambda m: lines.append(m), level="WARNING")
+    try:
+        assert classify.warm_up(env={**OR_ENV, "ARTMIND_OPENROUTER_API_KEY": ""}) is None
+    finally:
+        logger.remove(sink)
+    assert sent == {} and any("ARTMIND_OPENROUTER_API_KEY" in line for line in lines)
+    assert not any(FAKE_CREDENTIAL in line for line in lines)

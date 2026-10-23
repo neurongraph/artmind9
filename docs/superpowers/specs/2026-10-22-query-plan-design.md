@@ -418,6 +418,20 @@ variable overrides, as for every artmind setting):
 | `ARTMIND_DECISION_MODEL` | Model name, e.g. `nimble`, `tev1` | required when the URL is set |
 | `ARTMIND_DECISION_API_KEY` | Bearer token, for hosted endpoints only | unset |
 | `ARTMIND_DECISION_TIMEOUT` | Seconds per call | `5` |
+| `ARTMIND_DECISION_PROVIDER` | `ollama` (the endpoint at `ARTMIND_DECISION_URL`) or `openrouter` (addendum below) | `ollama` |
+
+**Addendum (2026-10-23): OpenRouter.** OpenRouter passes the Jev decisions API through at
+`POST https://openrouter.ai/api/alpha/decisions`: the body below plus OpenRouter fields, and
+the same `answers.<name>.{choice, probabilities, confidence}` (probabilities per option, not a
+chat completion with logprobs). `ARTMIND_DECISION_PROVIDER=openrouter` uses that fixed URL with
+`ARTMIND_OPENROUTER_API_KEY` as the bearer token and `ARTMIND_DECISION_MODEL`
+(e.g. `typesafe/jev-1.14`); `ARTMIND_DECISION_URL` and `_API_KEY` are ignored. Every call adds
+`"provider": {"data_collection": "deny", "zdr": true}`, so OpenRouter routes only to providers
+that neither collect nor retain prompts; with none it answers 4xx and the call falls back. All
+other guarantees are the same client's: https, no redirects followed, no retries, the breaker,
+the parsing contract and failure reasons. There is no start-up warm-up for it (a hosted model
+is loaded; a warm-up call would be billed and sent on every start for nothing). A domain
+config's `decision_model` names an OpenRouter model under this provider.
 
 Names are artmind-specific, so Claude Code's exported variables cannot redirect them (the
 `ANTHROPIC_BASE_URL` problem, CLAUDE.md §5).
@@ -469,8 +483,9 @@ the whole call is redone with the lexical classifier (`fell_back: true`, `reason
 
 **Privacy (Review):** the payload holds the question, domain and class names, view summaries and
 candidate names and descriptions. With a local Ollama endpoint nothing leaves the machine. With a
-hosted endpoint (Clef on Workers AI, hosted Jev) all of it does, as it already does today for
-text2cypher with a remote LLM. The spec states this; artmind does not try to block it.
+hosted endpoint (Clef on Workers AI, hosted Jev, OpenRouter) all of it does, as it already does today for
+text2cypher with a remote LLM; with shadow mode (§6) on, that is every admin-console and
+benchmark question, not only the ones an operator plans by hand. The spec states this; artmind does not try to block it.
 
 **Lexical classifier** (same `Decision → Answer` interface, no network): a route scores one
 point per matched trigger, plus a bonus when its `needs` are met; a view scores by token overlap
@@ -696,7 +711,9 @@ there for classification.
 | Neo4j unreachable | exit 1, as every `query` command | `status: error` |
 | Decision endpoint times out, HTTP error, unusable answer | that call redone lexically; `classifier.fell_back`, warning | same |
 | Decision endpoint down repeatedly | per-process circuit breaker: after 3 consecutive failures, skip it for 60 s | same |
-| Decision model not loaded (cold start) | `serve`, `chat-ui` and `admin-ui` send one tiny warm-up request at start (background thread, 300 s, outside the breaker; `ARTMIND_DECISION_WARMUP=0` turns it off); it only loads the model, since a new question is never cached | same |
+| Decision model not loaded (cold start) | `serve`, `chat-ui` and `admin-ui` send one tiny warm-up request at start (background thread, 300 s, outside the breaker; `ARTMIND_DECISION_WARMUP=0` turns it off); it only loads the model, since a new question is never cached. None for `ARTMIND_DECISION_PROVIDER=openrouter` | same |
+| Hosted endpoint (`openrouter`): no key, no model | `select_classifier` raises; `query plan` exits with the message | `status: error` |
+| OpenRouter has no provider meeting the privacy preferences, out of credits (402), rate limited (429) | that call redone lexically, `reason: http_<code>`; the breaker counts it | same |
 | One mention's resolution fails | mention dropped, warning, confidence lowered | same |
 | A view in the catalogue is invalid | skipped, warning (as `views list` reports it) | same |
 | Plan config invalid | `ClickException` naming file and key (§4.5) | `status: error` |
