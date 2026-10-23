@@ -1,13 +1,15 @@
 import { type App, type Plugin, PluginSettingTab, Setting } from "obsidian";
-import { type ArtmindSettings, NOTICE_LABELS, type NoticeKind } from "../settings";
+import { type ArtmindSettings, NOTICE_LABELS, type NoticeKind, validPort } from "../settings";
 import { el } from "./dom";
 
 export interface SettingsHost extends Plugin {
   artmindSettings: ArtmindSettings;
   saveSettings(): Promise<void>;
+  /** Start (or reuse) serve when its toggle goes on; stop ours when it goes off. */
+  serveToggled(): Promise<void>;
 }
 
-/** Settings → artmind (spec §7): the artmind path, poll intervals, the admin console, and a toggle per notice kind. */
+/** Settings → artmind (spec §7): the artmind path, poll intervals, the admin console, serve, and a toggle per notice kind. */
 export class ArtmindSettingTab extends PluginSettingTab {
   private host: SettingsHost;
 
@@ -69,6 +71,33 @@ export class ArtmindSettingTab extends PluginSettingTab {
         toggle.setValue(settings.adminInObsidianTab).onChange((value) => {
           settings.adminInObsidianTab = value;
           save();
+        }),
+      );
+
+    new Setting(containerEl)
+      .setName("Start artmind serve with this vault")
+      .setDesc(
+        "Keeps a warm artmind serve running while Obsidian has this vault open, so queries (the plugin's and the chat agent's) " +
+          "skip a cold start. One already serving this vault is reused; only one started here is stopped when Obsidian closes.",
+      )
+      .addToggle((toggle) =>
+        toggle.setValue(settings.serveEnabled).onChange(async (value) => {
+          settings.serveEnabled = value;
+          await this.host.saveSettings();
+          await this.host.serveToggled();
+        }),
+      );
+
+    new Setting(containerEl)
+      .setName("Serve port")
+      .setDesc("ARTMIND_SERVE_PORT for this vault. Each vault open at once needs its own. Takes effect on \"Restart serve\" or a reload.")
+      .addText((text) =>
+        text.setValue(String(settings.servePort)).onChange((value) => {
+          const n = Number(value.trim());
+          if (validPort(n)) {
+            settings.servePort = n;
+            save();
+          }
         }),
       );
 

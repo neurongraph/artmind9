@@ -348,6 +348,10 @@ time. One left running after a reinstall keeps serving the *old* build. A
 lingering `serve` also holds its port, so the next `artmind serve` fails to
 bind with `[Errno 48] address already in use`.
 
+The Obsidian plugin can keep a `serve` running for the vault it has open
+(setting "Start artmind serve with this vault", off by default; one port per
+open vault). Its command **Restart serve** restarts the one it started.
+
 That's why `just dev-install` stops them first. To do it on its own:
 
 ```bash

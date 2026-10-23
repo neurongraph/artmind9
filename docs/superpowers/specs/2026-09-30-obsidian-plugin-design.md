@@ -145,6 +145,29 @@ when the section is open.
   console** stops it only when `/api/health` still reports that pid, never one started
   elsewhere.
 
+### 3.3b Warm query server (`artmind serve`)
+
+`artmind query` proxies to a `serve` that answers `/health` on `ARTMIND_SERVE_PORT`
+(default 8377), and otherwise pays a cold start (~1–2 s) per call. Settings "Start artmind
+serve with this vault" (**off** by default) and "Serve port" (8377) keep one warm:
+
+- **On load** (after the artmind check passes, never awaited, so Obsidian is never held up)
+  and when the toggle goes on: probe `GET http://127.0.0.1:{port}/health` (X10). This
+  vault's serve is reused. Nothing there: start `artmind serve --port P` detached from the
+  vault root, logging to `.artmind/logs/serve.log`, and wait up to 30 s; its pid is saved
+  in the plugin's settings. A start that fails shows the log's tail.
+- **Never reused:** another vault's serve ("port held by another vault": give each open
+  vault its own port), a serve too old to name its vault, or something else on the port.
+  For the first two, the plugin's own runs also get `ARTMIND_NO_PROXY=1`, so they never
+  answer from the wrong vault.
+- **The port travels as `ARTMIND_SERVE_PORT`** to every `artmind` the plugin runs and to
+  the admin console it starts, so the chat agent's queries reach the same serve.
+- **Stop:** on unload and when the toggle goes off, only the serve whose `/health` pid is
+  the saved one. **Restart serve** (command palette; also a click on its status bar item
+  `serve :8377` / `serve ✕`, hidden while off) stops that one, waits for the port to free
+  and starts a fresh one — needed after code or config changes, since a running serve
+  answers with the code it loaded at start. A serve started elsewhere is never stopped.
+
 ### 3.4 Command palette
 
 Every action is also a command: *artmind: Sync*, *Ingest what changed*, *Show status*,
@@ -277,6 +300,7 @@ Everything else the plugin calls already exists and returns JSON:
 | X7 | Stalled jobs and `retry-job --compact` | `job-status` and `jobs-active` report `stalled`: `processing`, but no worker holds the lock (the same check `vault sync` refuses on). `retry-job` on a stalled job also re-queues the file left at `processing`, and re-queues the job even when nothing failed. It refuses a job a live worker still runs. `--compact` prints `{job_id, domain, retried, deregistered, files, stalled, requeued}`. |
 | X8 | `GET /api/health` (admin-ui and chat-ui) | `{app, vault, version, pid}`: which app is on the port, for which vault (null outside one), at which version, in which process. The plugin probes it before opening, and matches `pid` before stopping. |
 | X9 | `artmind init` installs the plugin | With `.obsidian/` present: copies the packaged build into `.obsidian/plugins/artmind/` (only files whose bytes differ; `data.json` untouched) and adds `artmind` to `community-plugins.json` (an unreadable one is left alone). Without `.obsidian/`: skipped, with the reason. `init` prints `installed` / `a -> b` / `current`. |
+| X10 | `GET /health` (serve) names its vault and pid | `{service, status, version, vault, pid}`; `vault` is null outside one. The plugin reuses a serve only when `vault` is its own, and stops only the pid it started (§3.3b). |
 
 Each gets pytest coverage in `test/`, on real throwaway vaults, in the existing style.
 Documentation goes in `docs/vault.md` and the ingestion-helper skill, and each new command
@@ -294,7 +318,8 @@ API typings.
 | `Watchers` | The HEAD poll (15 s), the file-created listener (mapped folders, 10 s grouping), focus regained, and the job poll (3 s while a job runs). Each schedules a debounced status refresh. | `ArtmindCli`, Obsidian events |
 | `ObsidianGitBridge` | Looks up and runs the Pull, Commit-and-sync and Commit commands, and reports which are missing. | `app.commands` |
 | Views | `StatusBarItem`, `ArtmindView`, `TableReviewModal`, `ResolveModal`, and the notices. They render `VaultState` and call actions; they hold no logic. | the above |
-| `Settings` | The artmind path; poll intervals; notice toggles per kind; "offer to commit-and-sync after artmind writes" (**on**). | — |
+| `Settings` | The artmind path; poll intervals; notice toggles per kind; "offer to commit-and-sync after artmind writes" (**on**); serve on/off (**off**) and its port (§3.3b). | — |
+| `ServeManager` | Reuse, start, stop and restart this vault's `artmind serve` (§3.3b); the decisions in `serve.ts`, the real `requestUrl` and spawn in `serveDeps.ts`. | `requestUrl`, `child_process` |
 
 **Install:** `artmind init` (X9). `just obsidian-plugin-build` stages `main.js`,
 `manifest.json` and `styles.css` in the package (`artmind/obsidian_plugin/`, gitignored;
@@ -317,6 +342,7 @@ polls.
 | A command fails or times out | A notice with the short reason; the full output goes to Activity. Nothing is retried automatically. |
 | A refusal | Mapped to its fixing action (§4.2); never shown as a raw error. |
 | Obsidian Git missing, or its commands renamed | The buttons become instructions, plus one warning line (§4.5). |
+| `artmind serve` fails to start, or its port is held | A notice with the reason (and the log's tail); the serve status bar item shows `serve ✕`. Queries still work, cold. Startup is never blocked. |
 | Obsidian quits during a sync | The child process is left to finish. `vault sync` only moves its bookmarks once everything succeeds, so an interrupted run is simply redone. Ingest jobs run in artmind's worker, independent of Obsidian. |
 
 ## 9. Testing

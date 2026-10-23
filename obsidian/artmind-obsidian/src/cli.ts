@@ -262,6 +262,8 @@ export interface ArtmindCliOptions {
   cwd: string;
   runner?: Runner;
   env?: NodeJS.ProcessEnv;
+  /** Added to `env` on every run, read at each run (serve's port can change). */
+  extraEnv?: () => Record<string, string>;
   timeouts?: Record<string, number>;
   /** Called with every result, for the Activity list. */
   onResult?: (result: CliResult) => void;
@@ -338,7 +340,7 @@ export class ArtmindCli {
     const outcome = await runner(this.options.path, args, {
       cwd: this.options.cwd,
       timeoutMs,
-      env: this.options.env ?? childEnv(process.env, homedir()),
+      env: { ...(this.options.env ?? childEnv(process.env, homedir())), ...this.options.extraEnv?.() },
       detached: isWrite(args),
     });
     const stdout = outcome.stdout.trim();

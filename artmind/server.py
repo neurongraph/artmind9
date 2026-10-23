@@ -6,6 +6,7 @@ are byte-identical to a direct CLI run — this is a transport layer, not a
 reimplementation. Non-query commands are rejected; the daemon never writes.
 """
 
+import os
 import threading
 from importlib.metadata import PackageNotFoundError, version
 
@@ -52,7 +53,19 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     def health() -> dict:
-        return {"service": "artmind", "status": "ok", "version": _service_version()}
+        """`vault` and `pid` say whose daemon this is: the Obsidian plugin
+        reuses a serve only when it serves the plugin's vault, and stops only
+        the pid it started."""
+        import paths
+
+        vault = paths.ARTMIND_VAULT_DIR
+        return {
+            "service": "artmind",
+            "status": "ok",
+            "version": _service_version(),
+            "vault": str(vault) if vault else None,
+            "pid": os.getpid(),
+        }
 
     @app.post("/query")
     def query(request: QueryRequest) -> dict:

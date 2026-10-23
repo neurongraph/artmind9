@@ -135,6 +135,7 @@ export const COMMANDS = {
   openPanel: "Open side panel",
   openAdmin: "Open admin console",
   stopAdmin: "Stop admin console",
+  restartServe: "Restart serve",
 } as const;
 
 export const ROW_TITLES: Record<RowId, string> = {

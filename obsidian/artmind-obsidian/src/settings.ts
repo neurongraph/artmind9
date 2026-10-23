@@ -27,6 +27,13 @@ export interface ArtmindSettings {
   /** Open the admin console in an Obsidian tab (the Web viewer core
    * plugin) rather than the browser; the browser whenever it's off. */
   adminInObsidianTab: boolean;
+  /** Keep a warm `artmind serve` for this vault while the plugin runs, so
+   * `artmind query` calls (the plugin's and the chat agent's) skip a cold start. */
+  serveEnabled: boolean;
+  /** Its port, passed as `ARTMIND_SERVE_PORT`; each open vault needs its own. */
+  servePort: number;
+  /** The serve this plugin started (0: none); unload stops only that one. */
+  servePid: number;
 }
 
 export const DEFAULT_SETTINGS: ArtmindSettings = {
@@ -48,6 +55,9 @@ export const DEFAULT_SETTINGS: ArtmindSettings = {
   adminUiUrl: "http://127.0.0.1:8379",
   adminUiPid: 0,
   adminInObsidianTab: true,
+  serveEnabled: false,
+  servePort: 8377,
+  servePid: 0,
 };
 
 export const NOTICE_LABELS: Record<NoticeKind, string> = {
@@ -81,5 +91,12 @@ export function mergeSettings(saved: unknown): ArtmindSettings {
     adminUiUrl: pick("adminUiUrl"),
     adminUiPid: Math.max(0, Math.trunc(pick("adminUiPid"))),
     adminInObsidianTab: pick("adminInObsidianTab"),
+    serveEnabled: pick("serveEnabled"),
+    servePort: validPort(pick("servePort")) ? pick("servePort") : DEFAULT_SETTINGS.servePort,
+    servePid: Math.max(0, Math.trunc(pick("servePid"))),
   };
+}
+
+export function validPort(port: number): boolean {
+  return Number.isInteger(port) && port >= 1024 && port <= 65535;
 }

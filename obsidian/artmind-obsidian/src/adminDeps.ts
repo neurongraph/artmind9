@@ -21,7 +21,12 @@ export function openInBrowser(url: string): void {
 
 /** `open` decides where a page goes (an Obsidian tab or the browser);
  * the browser when none is given. */
-export function realAdminDeps(vaultRoot: string, artmindPath: () => string, open: (url: string) => void = openInBrowser): AdminDeps {
+export function realAdminDeps(
+  vaultRoot: string,
+  artmindPath: () => string,
+  open: (url: string) => void = openInBrowser,
+  extraEnv: () => Record<string, string> = () => ({}),
+): AdminDeps {
   const log = adminLogPath(vaultRoot);
   return {
     async probe(base: string): Promise<Probe> {
@@ -50,7 +55,8 @@ export function realAdminDeps(vaultRoot: string, artmindPath: () => string, open
         cwd: vaultRoot,
         detached: true,
         stdio: ["ignore", fd, fd],
-        env: childEnv(process.env, homedir()),
+        // serve's port reaches the chat agent's `artmind query` this way.
+        env: { ...childEnv(process.env, homedir()), ...extraEnv() },
       });
       closeSync(fd);
       const exited = new Promise<number | null>((resolve) => {
