@@ -138,8 +138,10 @@ routes:
     needs: []
     steps:
       - "artmind query domains-overview --compact"
-    fallbacks:
-      - {when: zero_rows, cmd: "artmind query graph pattern1 --domain {domains} --entityClass {class} --compact"}
+    # Added only when the question names a class of the domain (placeholder {class}).
+    optional_steps:
+      - "artmind query graph pattern1 --domain {domains} --entityClass {class} --compact"
+    fallbacks: []
     read: []
     evidence: [S18, P8]
 
@@ -160,10 +162,9 @@ routes:
     steps:
       - "artmind db bridge --domain {domains} --compact"
       - "artmind query text2sql --domain {domains} {question} --compact"
+    # A `graph` kind (no aggregate or guidance wording) keeps the default steps.
     # The planner picks the variant for the store kind it computed (candidates.store_facts).
     variants:
-      graph:
-        - "artmind query vector-text --domain {domains} {question} --compact"
       analytical:
         - "artmind query text2sql --domain {domains} {question} --compact"
       hybrid:

@@ -478,7 +478,7 @@ def test_execute_is_ignored_for_twin_combinations(world, monkeypatch):
     ("analytical", ["text2sql"]),
     ("hybrid", ["db bridge", "text2sql"]),
     ("records_plus_guidance", ["db bridge", "text2sql", "vector-text"]),
-    ("graph", ["vector-text"]),
+    ("graph", ["db bridge", "text2sql"]),
 ])
 def test_the_structured_route_follows_the_store_kind(world, monkeypatch, kind, expected):
     world["views"] = []
@@ -531,19 +531,24 @@ def test_path_shortest_fallback_is_left_out_when_a_class_is_unknown(world, monke
     assert not any("pattern5" in c for c in _fallback_cmds(result))
 
 
-def test_inventory_lists_a_class_named_in_the_question(world, monkeypatch):
+def test_inventory_adds_a_class_listing_when_the_question_names_a_class(world, monkeypatch):
     world["views"] = []
     _use(monkeypatch, FakeClassifier(override={"route": _answer("inventory", 0.9)}))
     for question in ("Which person entities exist?", "List the persons we know"):
         result = _plan(question)
-        assert result["route"]["id"] == "inventory"
-        assert _fallback_cmds(result) == ["artmind query graph pattern1 --domain journal --entityClass PERSON --compact"]
+        assert result["route"]["id"] == "inventory" and result["confidence"]["level"] == "high"
+        assert [s["cmd"] for s in result["steps"]] == [
+            "artmind query domains-overview --compact",
+            "artmind query graph pattern1 --domain journal --entityClass PERSON --compact",
+        ]
 
 
-def test_inventory_has_no_class_fallback_without_a_class_word(world, monkeypatch):
+def test_inventory_without_a_class_word_has_one_step_and_stays_high(world, monkeypatch):
     world["views"] = []
     _use(monkeypatch, FakeClassifier(override={"route": _answer("inventory", 0.9)}))
-    assert _fallback_cmds(_plan("What documents exist?")) == []
+    result = _plan("What documents exist?")
+    assert [s["cmd"] for s in result["steps"]] == ["artmind query domains-overview --compact"]
+    assert result["confidence"]["level"] == "high" and result["fallbacks"] == []
 
 
 def test_class_word_matches_singular_plural_and_domain_scope():
@@ -552,3 +557,13 @@ def test_class_word_matches_singular_plural_and_domain_scope():
     assert planner._class_word("the person list", ["a.x"], overview) == "PERSON"
     assert planner._class_word("which tools", ["a"], overview) is None
     assert planner._class_word("which tools", ["b"], overview) == "TOOL"
+
+
+def test_class_word_stems_irregulars_and_underscore_classes():
+    overview = [{"domain": "d", "top_classes": ["PLACE", "CASE", "PERSON", "CHILD", "BANK_ACCOUNT"]}]
+    assert planner._class_word("which places", ["d"], overview) == "PLACE"
+    assert planner._class_word("list the cases", ["d"], overview) == "CASE"
+    assert planner._class_word("who are the people", ["d"], overview) == "PERSON"
+    assert planner._class_word("the children", ["d"], overview) == "CHILD"
+    assert planner._class_word("which bank accounts", ["d"], overview) == "BANK_ACCOUNT"
+    assert planner._class_word("which bank holidays", ["d"], overview) is None

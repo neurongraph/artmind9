@@ -120,22 +120,36 @@ def _candidate_text(ref: dict, narrator) -> str:
     return f"{label}: {description}" if description else label
 
 
-def _norm_word(word: str) -> str:
+_IRREGULAR = {"people": "person", "children": "child", "men": "man", "women": "woman"}
+
+
+def _stems(word: str) -> set[str]:
+    """The word and its plausible singulars (places -> place, cities -> city, cases -> case)."""
+    if word in _IRREGULAR:
+        return {word, _IRREGULAR[word]}
+    out = {word}
     for suffix in ("ies", "es", "s"):
         if len(word) > len(suffix) + 2 and word.endswith(suffix):
-            return word[: -len(suffix)] + ("y" if suffix == "ies" else "")
-    return word
+            stem = word[: -len(suffix)]
+            out |= {stem + "y", stem + "e", stem} if suffix == "ies" else {stem, stem + "e"}
+    return out
 
 
 def _class_word(question: str, selected: list[str], overview: list[dict]) -> str | None:
-    """A top class of the selected domains that the question names ("which PERSON entities", "list the persons")."""
+    """A top class of the selected domains that the question names ("which PERSON entities", "list the
+    persons", "bank accounts" for BANK_ACCOUNT)."""
     top: list[str] = []
     for row in overview:
         name = str(row.get("domain") or "")
         if any(name == d or name.startswith(d + ".") for d in selected):
             top += [c for c in row.get("top_classes") or [] if isinstance(c, str) and c.strip()]
-    words = {_norm_word(w) for w in re.findall(r"[a-z0-9_]+", question.casefold())}
-    return next((c for c in top if _norm_word(c.casefold()) in words), None)
+    words = re.findall(r"[a-z0-9]+", question.casefold())
+    for cls in top:
+        parts = [p for p in re.split(r"[_\s]+", cls.casefold()) if p]
+        for i in range(len(words) - len(parts) + 1):
+            if all(_stems(parts[j]) & _stems(words[i + j]) for j in range(len(parts))):
+                return cls
+    return None
 
 
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
@@ -364,6 +378,10 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
                         or str(context.get(p)).startswith("-")}
         else:
             out.steps.append({"cmd": cmd, "why": f"route {route.id} (p={confidence:.2f})"})
+    for template in route.optional_steps:  # skipped silently: never unfilled, never a confidence factor
+        cmd = routes_mod.render(template, context)
+        if cmd:
+            out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
     if out.unfilled:
         out.reason = f"route {route.id} needs {', '.join(sorted(missing)) or 'a value it could not fill'}"
     for fallback in route.fallbacks:

@@ -58,7 +58,7 @@ def _parse_args(command, rest):
 
 @pytest.mark.parametrize("route", routes.load_routes(), ids=lambda r: r.id)
 def test_every_template_names_a_real_command_and_real_options(route):
-    for template in [*route.steps, *(t for v in route.variants.values() for t in v), *(f.cmd for f in route.fallbacks)]:
+    for template in [*route.steps, *(t for v in route.variants.values() for t in v), *route.optional_steps, *(f.cmd for f in route.fallbacks)]:
         command, rest = _resolve(template)
         assert not hasattr(command, "commands") or getattr(command, "invoke_without_command", False), template
         by_name, options, positionals = _parse_args(command, rest)
@@ -100,6 +100,8 @@ def _one(**over):
     (_one(variants={"graph": ["artmind query vector-text --domain {nope} --compact"]}), "unknown placeholder"),
     (_one(variants={"graph": []}), "must not be empty"),
     (_one(variants=["x"]), "variants"),
+    (_one(optional_steps=["artmind query vector-text --domain {domains}"]), "--compact"),
+    (_one(optional_steps=["artmind query vector-text --domain {nope} --compact"]), "unknown placeholder"),
     (_one(evidence=[]), "must not be empty"),
     (_one(evidence=["Q7"]), "evidence"),
     (_one(fallbacks=[{"when": "later", "cmd": "artmind query chunks --compact"}]), "fallbacks"),
@@ -160,8 +162,15 @@ def test_every_placeholder_in_a_route_is_one_the_planner_supplies():
     supplied = set(planner._context(["d"], "q", [], None, []))
     used = set()
     for route in routes.load_routes():
-        templates = [*route.steps, *(t for v in route.variants.values() for t in v), *(f.cmd for f in route.fallbacks)]
+        templates = [*route.steps, *(t for v in route.variants.values() for t in v), *route.optional_steps, *(f.cmd for f in route.fallbacks)]
         for template in templates:
             used |= routes.placeholders(template)
     assert used <= supplied, sorted(used - supplied)
     assert routes.PLACEHOLDERS <= supplied, sorted(routes.PLACEHOLDERS - supplied)
+
+
+def test_optional_steps_parse():
+    cmd = "artmind query vector-text --domain {domains} --compact"
+    (route,) = routes.parse_routes(_one(optional_steps=[cmd]))
+    assert route.optional_steps == (cmd,)
+    assert routes.parse_routes(_one())[0].optional_steps == ()

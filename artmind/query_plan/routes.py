@@ -28,7 +28,7 @@ TRIGGER_SLOTS = frozenset({"date", "year", "entity", "document"})
 FALLBACK_WHEN = frozenset({"zero_rows", "truncated", "no_document", "needs_disambiguation", "error"})
 MAX_DESCRIPTION = 300
 
-_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "variants", "fallbacks", "read", "evidence"})
+_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "optional_steps", "variants", "fallbacks", "read", "evidence"})
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _EVIDENCE_RE = re.compile(r"^[SP]\d+$")
 _PLACEHOLDER_RE = re.compile(r"\{([a-z_]+)\}")
@@ -55,6 +55,7 @@ class Route:
     read: tuple[str, ...]
     evidence: tuple[str, ...]
     variants: dict = field(default_factory=dict)  # store kind -> step templates, replacing `steps`
+    optional_steps: tuple[str, ...] = ()  # rendered after the steps when every placeholder fills
 
     def steps_for(self, store_kind: str | None) -> tuple[str, ...]:
         return self.variants.get(store_kind, self.steps) if store_kind else self.steps
@@ -128,6 +129,10 @@ def parse_routes(data) -> tuple[Route, ...]:
             _template(cmd, f"{where}.steps[{j}]")
             for j, cmd in enumerate(_strings(raw.get("steps"), f"{where}.steps", allow_empty=False))
         )
+        optional_steps = tuple(
+            _template(cmd, f"{where}.optional_steps[{j}]")
+            for j, cmd in enumerate(_strings(raw.get("optional_steps"), f"{where}.optional_steps"))
+        )
         variants = {}
         raw_variants = raw.get("variants")
         if raw_variants is not None:
@@ -150,7 +155,7 @@ def parse_routes(data) -> tuple[Route, ...]:
         bad_evidence = [e for e in evidence if not _EVIDENCE_RE.match(e)]
         if bad_evidence:
             raise RouteError(f"{where}: evidence ids must look like S<n> or P<n>, got {bad_evidence}")
-        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants))
+        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants, optional_steps))
     if not out:
         raise RouteError("routes.yaml defines no routes")
     return tuple(out)
