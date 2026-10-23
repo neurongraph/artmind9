@@ -338,6 +338,31 @@ def test_two_distinct_candidates_need_disambiguation(world):
     assert result["suggested_steps"]
 
 
+def _place(i, name, matched_by):
+    return {"_id": i, "name": name, "entity_class": "LOCATION", "matched_by": matched_by}
+
+
+@pytest.mark.parametrize("strong", [["exact"], ["catalogue"], ["exact", "fulltext"]])
+def test_an_exact_candidate_outweighs_fulltext_neighbours(world, strong):
+    world["entities"]["Lakeport"] = [_place("l1", "Lakeport", strong), _place("l2", "Lakeport Pier", ["fulltext"]),
+                                     _place("l3", "Old Lakeport", ["fulltext"])]
+    result = _plan("How many visits did Ada make to Lakeport in 2025?")
+    place = result["view_match"]["params"]["place"]
+    assert result["view_match"]["status"] == "ok"
+    assert place["chosen"]["_id"] == "l1" and place["confidence"] >= 0.7
+    assert result["confidence"]["level"] == "high"
+    assert "--param place=@l1" in result["steps"][0]["cmd"]
+
+
+def test_fulltext_only_candidates_still_need_disambiguation(world):
+    world["entities"]["Lakeport"] = [_place("l1", "Lakeport Pier", ["fulltext"]),
+                                     _place("l2", "Old Lakeport", ["fulltext"])]
+    result = _plan("How many visits did Ada make to Lakeport in 2025?")
+    assert result["view_match"]["status"] == "needs_disambiguation"
+    assert result["view_match"]["params"]["place"]["chosen"] is None
+    assert result["confidence"]["level"] == "low" and result["steps"] == []
+
+
 def test_a_required_scalar_with_no_value_is_missing(world):
     q = "Which trips had a note?"
     world["views"] = [_spec("noted", {"note": {"type": "string", "description": "A quoted note"}}, q)]
