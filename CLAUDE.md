@@ -16,7 +16,7 @@ ingest dashboard).
 | Path | Holds |
 |---|---|
 | `artmind/cli.py` | The whole Click CLI. Command groups: `query` (+ nested `query graph`), `ingest`, `domains`, `docs`, `update`, `session`, plus top-level `init`/`setup`/`serve`/`chat-ui`/`admin-ui`. |
-| `artmind/_entry.py` | Console-script entry point. **Proxies `query` calls to the `serve` daemon** — stdlib-only by design. See "Testing implications". |
+| `artmind/_entry.py` | Console-script entry point. **Proxies `query` calls to the `serve` daemon** — only one whose `/health` `vault` is the caller's vault (or none for both); another vault's serve, or one too old to name its vault, means in-process (with an `artmind:` note on stderr for the former). Stdlib-only by design (`artmind.vault` is too). See "Testing implications". |
 | `artmind/graph_query.py`, `vector_query.py`, `text2cypher.py` | Query layer: templated Cypher patterns, RRF vector+fulltext search, LLM-generated Cypher. |
 | `artmind/domain_guard.py` | Unknown-`--domain` warning (query-routing study P9). `_parse_domains` flags a name no schema, structured table or graph data sits under (graph asked only if the local sources leave it unexplained; no warning when it can't be asked); `_echo_json` adds it to the payload's `warnings` and `artmind:` goes to stderr. Never fails a command. Tests silence it by default (`conftest._quiet_domain_guard`); `test_domain_guard.py` opts in with `real_domain_guard`. |
 | `artmind/ingest.py`, `extraction.py`, `jobs.py`, `worker.py` | Ingestion pipeline and its background worker. |

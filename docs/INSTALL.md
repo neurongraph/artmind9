@@ -351,6 +351,9 @@ bind with `[Errno 48] address already in use`.
 The Obsidian plugin can keep a `serve` running for the vault it has open
 (setting "Start artmind serve with this vault", off by default; one port per
 open vault). Its command **Restart serve** restarts the one it started.
+`artmind query` uses a serve only when its `/health` names the vault the
+command runs in; another vault's serve on the port means a cold, in-process
+run and a one-line `artmind:` note on stderr.
 
 That's why `just dev-install` stops them first. To do it on its own:
 
