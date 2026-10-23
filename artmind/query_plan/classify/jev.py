@@ -1,7 +1,9 @@
 """Decision-model classifier over the Jev API (spec 2026-10-22 §4.4, §7).
 
 One POST per batch of decisions to ARTMIND_DECISION_URL: Ollama's
-`/v1/systemone` locally, or a Clef/Jev endpoint. A decision model returns a
+`/v1/systemone` locally, or a Clef/Jev endpoint; or, with
+ARTMIND_DECISION_PROVIDER=openrouter, OpenRouter's `/api/alpha/decisions`, which
+takes the same body (plus `provider` preferences) and returns the same answers. A decision model returns a
 probability for every option in one prefill pass, so the same input under a
 pinned model gives the same answer. Any failure raises ClassifierUnavailable
 and the planner redoes the call lexically. After BREAKER_FAILURES consecutive
@@ -9,7 +11,8 @@ failures the endpoint is skipped for BREAKER_COOLDOWN_S, per process, so a
 down endpoint does not cost every plan a timeout.
 
 Privacy: the request carries the question, option texts and candidate names.
-With a local endpoint nothing leaves the machine; a hosted one receives them.
+With a local endpoint nothing leaves the machine; a hosted one (OpenRouter
+included) receives them.
 
 Daemon notes: `artmind serve` holds a process-wide lock for each proxied CLI
 call, so a slow endpoint stalls every other caller; the per-call timeout stays
@@ -119,12 +122,14 @@ class JevClassifier:
     backend = "decision"
 
     def __init__(self, url: str, model: str, *, api_key: str | None = None, timeout: float = 5.0,
-                 clock=time.monotonic):
+                 clock=time.monotonic, extra_body: dict | None = None):
         self.url = url
         self.model = model
         self.api_key = api_key
         self.timeout = float(timeout)
         self.clock = clock
+        # Top-level fields beside model/state/questions (OpenRouter's `provider` preferences).
+        self.extra_body = dict(extra_body or {})
 
     @property
     def _key(self) -> tuple[str, str]:
@@ -162,6 +167,7 @@ class JevClassifier:
 
     def request_body(self, question: str, decisions: list[Decision]) -> dict:
         return {
+            **self.extra_body,
             "model": self.model,
             "state": {"question": question},
             "questions": {

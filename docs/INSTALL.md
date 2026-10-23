@@ -261,6 +261,26 @@ ARTMIND_DECISION_MODEL=nimble
 # ARTMIND_DECISION_API_KEY=...      # hosted endpoints only; never put credentials in the URL
 ```
 
+To use the hosted decision model on OpenRouter instead (no local memory; about 1 s a
+call; billed per input token), set:
+
+```bash
+ARTMIND_DECISION_PROVIDER=openrouter
+ARTMIND_DECISION_MODEL=typesafe/jev-1.14
+ARTMIND_OPENROUTER_API_KEY=...      # the same key as ARTMIND_KG_LLM_PROVIDER=openrouter
+```
+
+artmind then calls `https://openrouter.ai/api/alpha/decisions` (OpenRouter's pass-through of
+the Jev decisions API, with the same per-option probabilities) and ignores
+`ARTMIND_DECISION_URL` / `ARTMIND_DECISION_API_KEY`; there is no start-up warm-up. **Privacy:**
+OpenRouter and the model's provider receive every planned question together with the
+candidate domain, class and view descriptions and entity names and descriptions, and with
+shadow mode on (the default) that is every admin-console and benchmark question. artmind
+asks OpenRouter to route only to providers that neither collect nor retain prompts
+(`provider: {data_collection: deny, zdr: true}`); if none qualifies the call fails and the
+plan falls back to lexical rules. Set `ARTMIND_PLAN_SHADOW=0` to keep shadow plans from
+sending questions.
+
 The URL must be http or https with no credentials in it, and redirects are not
 followed. A hosted endpoint (for example Clef on Workers AI) receives the question
 and the candidate entity names, and with a hosted `ARTMIND_DECISION_URL` every
