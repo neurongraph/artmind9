@@ -388,3 +388,14 @@ def _fake_docling(body_by_call):
         return next(calls), {}
 
     return _convert
+
+
+@pytest.fixture(autouse=True)
+def _no_plan_catalogue(monkeypatch):
+    """`query plan` reads no domain catalogue unless a test supplies one (patch
+    ``planner._get_catalogue``); the catalogue module's own tests call ``catalogue.get`` directly."""
+    try:
+        from artmind.query_plan import planner
+    except ImportError:
+        return
+    monkeypatch.setattr(planner, "_get_catalogue", lambda cover: ({}, {}))

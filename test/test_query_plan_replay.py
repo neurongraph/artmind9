@@ -288,3 +288,12 @@ def test_the_cli_refuses_a_decision_classifier_without_an_endpoint(tmp_path, mon
     monkeypatch.delenv("ARTMIND_DECISION_URL", raising=False)
     result = CliRunner().invoke(cli, ["plan", "replay", "--file", str(_labels_file(tmp_path)), "--classifier", "decision"])
     assert result.exit_code != 0 and "ARTMIND_DECISION_URL" in result.output
+
+
+def test_stable_ignores_catalogue_source_and_build_time():
+    base = _plan()
+    a = {**base, "catalogue": {"journal": {"source": "live", "built_at": "t1", "names": 3, "truncated": False}}}
+    b = {**base, "catalogue": {"journal": {"source": "memory", "built_at": "t2", "names": 3, "truncated": False}}}
+    c = {**base, "catalogue": {"journal": {"source": "live", "built_at": "t1", "names": 4, "truncated": False}}}
+    assert replay._stable(a) == replay._stable(b)
+    assert replay._stable(a) != replay._stable(c)

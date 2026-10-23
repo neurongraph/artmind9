@@ -28,7 +28,7 @@ VIEW = {
     "presentation": {"format": "table", "table": {"columns": ["who"]}},
     "provenance": {"created": "2026-10-09", "origin": "authored"},
 }
-PAYLOAD_KEYS = {"plan_version", "question", "domains", "route", "view_match", "entities", "store", "confidence",
+PAYLOAD_KEYS = {"plan_version", "question", "domains", "route", "view_match", "entities", "catalogue", "store", "confidence",
                 "steps", "suggested_steps", "fallbacks", "read", "classifier", "warnings", "executed",
                 "rows", "rows_total", "truncated"}
 ENTITIES = {
@@ -567,3 +567,114 @@ def test_class_word_stems_irregulars_and_underscore_classes():
     assert planner._class_word("the children", ["d"], overview) == "CHILD"
     assert planner._class_word("which bank accounts", ["d"], overview) == "BANK_ACCOUNT"
     assert planner._class_word("which bank holidays", ["d"], overview) is None
+
+
+
+# ── the domain catalogue (spec §11) ─────────────────────────────────────────
+
+def _cat(domain="journal", names=(), classes=(), relations=(), documents=(), truncated=False):
+    from artmind.query_plan.catalogue import DomainCatalogue, NameEntry
+
+    entries = tuple(NameEntry(i, n, tuple(a), c, o) for i, n, a, c, o in names)
+    return DomainCatalogue(domain, (1, 1, 0, ""), "2026-10-23T00:00:00+00:00", tuple(classes), tuple(relations),
+                           tuple(documents), entries, truncated)
+
+
+@pytest.fixture
+def catalogue_world(world, monkeypatch):
+    cat = _cat(names=[("p1", "Ada", ["Countess"], "PERSON", 5), ("g1", "Greenhouse", [], "LOCATION", 3),
+                      ("g2", "Pier", [], "LOCATION", 1)],
+               classes=[("PERSON", 3, ""), ("LOCATION", 2, ""), ("HOBBY", 1, "")],
+               relations=[("VISITED", 4)], documents=["policy_alpha.md"])
+    state = {"cats": {"journal": cat}, "sources": {"journal": "live"}, "asked": []}
+
+    def get(cover):
+        state["asked"].append(list(cover))
+        return state["cats"], state["sources"]
+
+    monkeypatch.setattr(planner, "_get_catalogue", get)
+    state["resolved"] = []
+    original = candidates.resolve_mention
+
+    def tracking(mention, domains, narrator):
+        state["resolved"].append(mention.text)
+        return original(mention, domains, narrator)
+
+    monkeypatch.setattr(candidates, "resolve_mention", tracking)
+    world.update(state)
+    return world
+
+
+def test_a_lowercase_catalogue_name_becomes_a_mention_without_a_name_query(catalogue_world):
+    result = _plan("what did I do at the greenhouse last month")
+    found = [e for e in result["entities"] if e["via"] == "catalogue"]
+    assert [e["mention"] for e in found] == ["greenhouse"]
+    assert [(c["_id"], c["matched_by"]) for c in found[0]["candidates"]] == [("g1", ["catalogue"])]
+    assert "greenhouse" not in catalogue_world["resolved"]
+
+
+def test_a_capitalised_mention_equal_to_a_catalogue_name_runs_no_name_query(catalogue_world):
+    result = _plan("When did Ada visit")
+    assert [c["_id"] for c in result["entities"][0]["candidates"]] == ["p1"]
+    assert catalogue_world["resolved"] == []
+
+
+def test_a_capitalised_mention_the_catalogue_lacks_is_resolved_as_before(catalogue_world):
+    result = _plan("When did Lakeport open")
+    assert catalogue_world["resolved"] == ["Lakeport"]
+    assert result["entities"][0]["candidates"][0]["_id"] == "l1"
+
+
+def test_catalogue_twins_still_warn(catalogue_world):
+    catalogue_world["cats"]["journal"] = _cat(names=[("p1", "Ada", [], "PERSON", 5), ("p2", "Ada", [], "PERSON", 3)])
+    result = _plan("When did Ada visit")
+    assert any("2 nodes share the name" in w for w in result["warnings"])
+
+
+def test_the_cover_drops_a_domain_whose_parent_is_in_scope(catalogue_world):
+    _plan("anything", domains=("fam", "fam.a", "other"))
+    assert catalogue_world["asked"] == [["fam", "other"]]
+
+
+def test_a_failing_catalogue_plans_as_before_with_a_warning(world, monkeypatch):
+    def boom(cover):
+        raise RuntimeError("neo4j down")
+
+    monkeypatch.setattr(planner, "_get_catalogue", boom)
+    result = _plan("How many visits did Ada make to Lakeport in 2025?")
+    assert "domain catalogue unavailable: neo4j down" in result["warnings"]
+    assert result["catalogue"] == {}
+    assert result["route"]["id"] == "view"
+
+
+def test_the_class_word_comes_from_every_catalogue_class(catalogue_world):
+    cats = list(catalogue_world["cats"].values())
+    assert planner._class_word("list my hobbies", ["journal"], [], cats) == "HOBBY"  # beyond the overview's top
+    catalogue_world["cats"]["journal"] = _cat(classes=[("PERSON", 3, ""), ("HOBBY", 1, "")])
+    cats = list(catalogue_world["cats"].values())
+    assert planner._class_word("list every hobby", ["journal"], [], cats) == "HOBBY"
+    # without a catalogue the overview's top classes decide
+    overview = [{"domain": "journal", "top_classes": ["PERSON"]}]
+    assert planner._class_word("list every hobby", ["journal"], overview, None) is None
+    assert planner._class_word("list every person", ["journal"], overview, None) == "PERSON"
+
+
+def test_the_catalogue_documents_replace_the_document_query(catalogue_world, monkeypatch):
+    def forbidden(domains):
+        raise AssertionError("document_names must not run")
+
+    monkeypatch.setattr(candidates, "document_names", forbidden)
+    result = _plan("what does policy_alpha.md say")
+    assert "policy_alpha.md" in " ".join(s["cmd"] for s in result["steps"] + result["suggested_steps"])
+
+
+def test_the_payload_reports_the_catalogue(catalogue_world):
+    result = _plan("anything")
+    assert result["catalogue"] == {"journal": {"source": "live", "built_at": "2026-10-23T00:00:00+00:00",
+                                               "names": 3, "truncated": False}}
+
+
+def test_a_selected_domain_below_the_cover_does_not_use_the_catalogue(catalogue_world):
+    cats = catalogue_world["cats"]
+    assert planner._selected_cats(cats, ["journal.sub"]) is None
+    assert planner._selected_cats(cats, ["journal"]) == [cats["journal"]]

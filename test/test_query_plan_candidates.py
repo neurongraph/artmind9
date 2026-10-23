@@ -351,3 +351,72 @@ def test_parent_examples_interleave_across_children():
     assert parent.documents[:4] == ("a0.md", "b0.md", "a1.md", "b1.md")
     assert parent.top_classes[:4] == ("A0", "B0", "A1", "B1")
     assert len(parent.documents) == 8 and len(parent.top_classes) == 8
+
+
+# ── gazetteer and catalogue-aware options (spec §11) ────────────────────────
+
+def _entry(i, name, obs=3, aliases=()):
+    from artmind.query_plan.catalogue import NameEntry
+
+    return NameEntry(i, name, tuple(aliases), "THING", obs)
+
+
+def _gaz(question, entries):
+    index = candidates.name_index(entries)
+    return [(m.text, m.via, [e._id for e in m.entries])
+            for m in candidates.gazetteer_mentions(question, candidates.find_mentions(question), index)]
+
+
+def test_gazetteer_longest_match_wins():
+    entries = [_entry("a", "harbour"), _entry("b", "harbour cafe"), _entry("c", "cafe")]
+    assert _gaz("we went to the harbour cafe again", entries) == [("harbour cafe", "catalogue", ["b"])]
+
+
+def test_gazetteer_matches_aliases_and_orders_entries_by_observations():
+    entries = [_entry("a", "Greenhouse", 2), _entry("b", "Glasshouse", 9, aliases=["greenhouse"])]
+    assert _gaz("time in the greenhouse", entries) == [("greenhouse", "catalogue", ["b", "a"])]
+
+
+def test_gazetteer_skips_spans_overlapping_an_existing_mention():
+    assert _gaz("Did Ada Lovelace visit", [_entry("a", "ada lovelace"), _entry("b", "lovelace")]) == []
+
+
+def test_gazetteer_single_token_rules():
+    entries = [_entry("a", "gym", 9), _entry("b", "dinner", 1), _entry("c", "what", 9), _entry("d", "march", 9),
+               _entry("e", "tennis", 2), _entry("f", "today", 9)]
+    assert _gaz("what gym dinner march tennis today", entries) == [("tennis", "catalogue", ["e"])]
+    # a multi-word name needs no observation minimum and no length floor per token
+    assert _gaz("saw the old gym", [_entry("g", "old gym", 1)]) == [("old gym", "catalogue", ["g"])]
+
+
+def test_gazetteer_needs_adjacent_tokens():
+    assert _gaz("old, gym", [_entry("g", "old gym", 1)]) == []
+
+
+def test_gazetteer_respects_the_mention_cap():
+    entries = [_entry(str(i), f"place{i}x") for i in range(12)]
+    question = " ".join(f"place{i}x" for i in range(12))
+    assert len(_gaz(question, entries)) == candidates.MAX_MENTIONS
+
+
+def test_option_text_carries_catalogue_classes_and_relations():
+    from artmind.query_plan.catalogue import DomainCatalogue
+
+    classes = tuple((f"C{i:02d}", 100 - i, "") for i in range(20))
+    relations = tuple((f"R{i}", 50 - i) for i in range(8))
+    cat = DomainCatalogue("journal", (), "t", classes, relations, (), (), False)
+    rows = [{"domain": "journal", "document_count": 3, "documents": ["a.md"], "top_classes": ["OLD"]}]
+    text = candidates.domain_options(rows, {"journal": cat})[0].text()
+    assert "classes " + ", ".join(f"C{i:02d}" for i in range(15)) in text
+    assert "C15" not in text and "OLD" not in text
+    assert text.endswith("relations R0, R1, R2, R3, R4")
+    plain = candidates.domain_options(rows)[0].text()
+    assert "classes OLD" in plain and "relations" not in plain
+
+
+def test_a_broader_catalogue_is_not_used_for_an_option():
+    from artmind.query_plan.catalogue import DomainCatalogue
+
+    cat = DomainCatalogue("fam", (), "t", (("C", 1, ""),), (("R", 1),), (), (), False)
+    rows = [{"domain": "fam.a", "document_count": 1, "top_classes": ["OLD"]}]
+    assert "classes OLD" in candidates.domain_options(rows, {"fam": cat})[0].text()

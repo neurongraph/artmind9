@@ -20,7 +20,7 @@ from artmind.kg_views import runner as views_runner
 from artmind.kg_views import store as views_store
 from artmind.kg_views.model import ViewError, jsonable
 from artmind.kg_views.store import domain_covered
-from artmind.query_plan import candidates, fill
+from artmind.query_plan import candidates, catalogue, fill
 from artmind.query_plan import config as plan_config
 from artmind.query_plan import routes as routes_mod
 from artmind.query_plan.classify import ClassifierUnavailable, Decision, LexicalClassifier, select_classifier
@@ -135,14 +135,50 @@ def _stems(word: str) -> set[str]:
     return out
 
 
-def _class_word(question: str, selected: list[str], overview: list[dict]) -> str | None:
-    """A top class of the selected domains that the question names ("which PERSON entities", "list the
-    persons", "bank accounts" for BANK_ACCOUNT)."""
+def _get_catalogue(cover: list[str]):
+    return catalogue.get(cover)
+
+
+def _minimal_cover(scope: list[str]) -> list[str]:
+    """The scope without a domain whose parent is also in it: a parent catalogue unions its leaves."""
+    unique = sorted(set(scope))
+    return [d for d in unique if not any(d != e and candidates.covered_by(d, e) for e in unique)]
+
+
+def _selected_cats(cats: dict, selected: list[str]) -> list | None:
+    """The catalogues that answer for `selected`, or None when some selected domain is covered only by
+    a broader catalogue (its names would leak across domains) or by none."""
+    if not selected or not cats:
+        return None
+    found: dict = {}
+    for d in selected:
+        mine = candidates.catalogue_cats_for(d, cats)
+        if not mine:
+            return None
+        found.update({c.domain: c for c in mine})
+    return [found[k] for k in sorted(found)]
+
+
+def _merged_names(cats) -> list:
+    return list({n._id: n for c in cats for n in c.names}.values())
+
+
+def _class_word(question: str, selected: list[str], overview: list[dict], cats: list | None = None) -> str | None:
+    """A class of the selected domains that the question names ("which PERSON entities", "list the
+    persons", "bank accounts" for BANK_ACCOUNT). All catalogue classes when there are any, else the
+    top classes of `domains-overview`."""
     top: list[str] = []
-    for row in overview:
-        name = str(row.get("domain") or "")
-        if any(name == d or name.startswith(d + ".") for d in selected):
-            top += [c for c in row.get("top_classes") or [] if isinstance(c, str) and c.strip()]
+    if cats:
+        counts: dict[str, int] = {}
+        for cat in cats:
+            for name, count, *_ in cat.classes:
+                counts[name] = counts.get(name, 0) + count
+        top = [k for k, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
+    else:
+        for row in overview:
+            name = str(row.get("domain") or "")
+            if any(name == d or name.startswith(d + ".") for d in selected):
+                top += [c for c in row.get("top_classes") or [] if isinstance(c, str) and c.strip()]
     words = re.findall(r"[a-z0-9]+", question.casefold())
     for cls in top:
         parts = [p for p in re.split(r"[_\s]+", cls.casefold()) if p]
@@ -153,7 +189,7 @@ def _class_word(question: str, selected: list[str], overview: list[dict]) -> str
 
 
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
-             mentions: list, overview: list[dict] | None = None) -> dict:
+             mentions: list, overview: list[dict] | None = None, cats: list | None = None) -> dict:
     """Placeholder values. The primary entity is the first named mention, resolved or not. The
     narrator is the second entity beside exactly one named mention, and the id fallback when
     nobody is named; it never supplies a name, since its name is no search term."""
@@ -175,7 +211,7 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
         "entity_class": primary["candidates"][0].get("entity_class") if primary and primary["candidates"] else None,
         "other_entity_class": (second["candidates"][0].get("entity_class")
                                if second and second["candidates"] else None),
-        "class": _class_word(question, selected, overview or []),
+        "class": _class_word(question, selected, overview or [], cats),
     }
 
 
@@ -316,11 +352,23 @@ def _choose_domains(domains, options, overview, answers):
     return [chosen.key], ("parent" if chosen.is_parent else "matched"), answer.confidence, shown
 
 
-def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str]) -> list[dict]:
+def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
+                      index: dict | None = None) -> list[dict]:
+    """`index` is the selected domains' catalogue name index (None without one). A catalogue mention, or
+    a capitalised or quoted one spelled exactly like a catalogue name or alias, takes its candidates
+    from it and runs no name query."""
     entities = []
     for mention in mentions:
         try:
-            found = candidates.resolve_mention(mention, selected, cfg.narrator) if selected else []
+            from_catalogue = None
+            if index is not None and selected and mention.via in ("catalogue", "capitalised", "quoted"):
+                hit = index.get(candidates._norm(mention.text))
+                if hit or mention.via == "catalogue":
+                    from_catalogue = [candidates.catalogue_ref(e) for e in (hit or ())[:candidates.MAX_CANDIDATES]]
+            if from_catalogue is not None:
+                found = from_catalogue
+            else:
+                found = candidates.resolve_mention(mention, selected, cfg.narrator) if selected else []
         except Exception as exc:  # one mention failing must not sink the plan (spec §7)
             warnings.append(f"could not resolve {mention.text!r}: {exc}")
             found = []
@@ -443,7 +491,17 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
 
     # ── candidates that need no domain decision ──────────────────────────────
     overview = graph_query.domains_overview().get("rows") or []
-    options = candidates.domain_options(overview)
+    scope = list(domains) if domains else [r["domain"] for r in overview if r.get("domain")]
+    cover = _minimal_cover(scope)
+    cats: dict = {}
+    sources: dict = {}
+    if cover:
+        try:
+            cats, sources = _get_catalogue(cover)
+        except Exception as exc:  # the catalogue is an accelerator: plan as before without it (spec §11)
+            cats, sources = {}, {}
+            warnings.append(f"domain catalogue unavailable: {exc}")
+    options = candidates.domain_options(overview, cats)
     given_cfg = _configs(domains) if domains else None
     try:
         clf, auto_reason = select_classifier(
@@ -455,8 +513,15 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     calls = _Calls(clf, warnings)
     first_person = given_cfg.first_person if given_cfg else plan_config.DEFAULT_FIRST_PERSON
     mentions = candidates.find_mentions(question, first_person)
-    scope = list(domains) if domains else [r["domain"] for r in overview if r.get("domain")]
-    document = candidates.match_document(question, candidates.document_names(scope)) if scope else None
+    cover_cats = [cats[d] for d in cover if d in cats]
+    all_index = candidates.name_index(_merged_names(cover_cats)) if cover_cats else {}
+    mentions = sorted([*mentions, *candidates.gazetteer_mentions(question, mentions, all_index)],
+                      key=lambda m: m.start)
+    if scope and len(cover_cats) == len(cover) and cover:
+        document_pool = sorted({d for c in cover_cats for d in c.documents})
+    else:
+        document_pool = candidates.document_names(scope) if scope else []
+    document = candidates.match_document(question, document_pool) if scope else None
     has_store = any(
         r.get("table_count") for r in overview
         if any(r.get("domain") == d or str(r.get("domain")).startswith(d + ".") for d in scope)
@@ -501,7 +566,14 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
 
-    entities = _resolve_entities(mentions, selected, cfg, warnings)
+    selected_cats = _selected_cats(cats, selected)
+    if selected_cats is None:
+        selected_index = None
+    elif {c.domain for c in selected_cats} == {c.domain for c in cover_cats}:
+        selected_index = all_index
+    else:
+        selected_index = candidates.name_index(_merged_names(selected_cats))
+    entities = _resolve_entities(mentions, selected, cfg, warnings, selected_index)
 
     # ── view match (classifier call 2) or route ─────────────────────────────
     view_answer = answers.get("view")
@@ -520,7 +592,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             store = candidates.store_facts(selected, question, resolved_classes)
         except Exception as exc:  # the structured store is optional context (spec §7)
             warnings.append(f"store facts unavailable: {exc}")
-    context = _context(selected, question, entities, document, mentions, overview)
+    context = _context(selected, question, entities, document, mentions, overview, selected_cats)
     stages: list[tuple[str, float]] = []
     if source != "given":
         stages.append(("domain", domain_conf if source != "all" else 0.0))
@@ -574,6 +646,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         },
         "view_match": built.view_match,
         "entities": entities,
+        "catalogue": {d: {"source": sources.get(d), "built_at": cats[d].built_at, "names": len(cats[d].names),
+                          "truncated": cats[d].truncated} for d in sorted(cats)},
         "store": store,
         "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "weakest": weakest},
         "steps": steps,

@@ -139,6 +139,7 @@ one has to).
   "route":      { … },
   "view_match": { … } | null,
   "entities":   [ … ],
+  "catalogue":  { … },
   "store":      { … } | null,
   "confidence": { … },
   "steps":           [ … ],

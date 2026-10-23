@@ -73,6 +73,9 @@ def score(label, plan: dict) -> dict:
 def _stable(plan: dict) -> str:
     copy = json.loads(json.dumps(plan, default=str))
     copy.get("classifier", {}).pop("latency_ms", None)
+    for entry in (copy.get("catalogue") or {}).values():
+        entry.pop("source", None)
+        entry.pop("built_at", None)
     return json.dumps(copy, sort_keys=True)
 
 

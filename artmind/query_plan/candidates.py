@@ -53,7 +53,8 @@ class Mention:
     text: str
     start: int
     end: int
-    via: str  # capitalised | quoted | first_person
+    via: str  # capitalised | quoted | first_person | catalogue
+    entries: tuple = ()  # the catalogue name entries a `catalogue` mention matched
 
 
 @dataclass(frozen=True)
@@ -196,6 +197,7 @@ class DomainOption:
     documents: tuple[str, ...]
     top_classes: tuple[str, ...]
     tables: tuple[str, ...]
+    relations: tuple[str, ...] = ()
 
     def text(self) -> str:
         """The option text a decision model reads (spec §4.4 call 1)."""
@@ -205,6 +207,8 @@ class DomainOption:
             parts.append("e.g. " + ", ".join(self.documents[:5]))
         if self.top_classes:
             parts.append("classes " + ", ".join(self.top_classes))
+        if self.relations:
+            parts.append("relations " + ", ".join(self.relations))
         if self.tables:
             parts.append("tables " + ", ".join(self.tables))
         return "; ".join(parts)
@@ -218,17 +222,51 @@ def _interleave(lists: list[list[str]]) -> list[str]:
     return out
 
 
-def _option(key: str, rows: list[dict], is_parent: bool) -> DomainOption:
+OPTION_CLASSES_MAX = 15
+OPTION_RELATIONS_MAX = 5
+
+
+def covered_by(domain: str, parent: str) -> bool:
+    return domain == parent or domain.startswith(parent + ".")
+
+
+def catalogue_cats_for(key: str, cats: dict | None) -> list:
+    """The catalogues of `key` and of its sub-domains. A catalogue of a broader domain is not used:
+    it holds names and classes `key` does not."""
+    return [cats[d] for d in sorted(cats or {}) if covered_by(d, key)]
+
+
+def _catalogue_top(key: str, cats: dict | None) -> tuple[list[str], list[str]]:
+    """(classes by count, relation types by count) of a domain option, from its catalogues."""
+    found = catalogue_cats_for(key, cats)
+    classes: dict[str, int] = {}
+    relations: dict[str, int] = {}
+    for cat in found:
+        for name, count, *_ in cat.classes:
+            classes[name] = classes.get(name, 0) + count
+        for rel, count in cat.relations:
+            relations[rel] = relations.get(rel, 0) + count
+
+    def top(counts: dict[str, int], n: int) -> list[str]:
+        return [k for k, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:n]]
+
+    return top(classes, OPTION_CLASSES_MAX), top(relations, OPTION_RELATIONS_MAX)
+
+
+def _option(key: str, rows: list[dict], is_parent: bool, cats: dict | None = None) -> DomainOption:
     documents = _interleave([list(r.get("documents") or []) for r in rows])
-    classes = _interleave([list(r.get("top_classes") or []) for r in rows])
+    classes = _interleave([list(r.get("top_classes") or []) for r in rows])[:8]
     tables: list[str] = []
     for row in rows:
         tables += [t for t in row.get("tables") or [] if t not in tables]
+    cat_classes, relations = _catalogue_top(key, cats)
+    if cat_classes:
+        classes = cat_classes
     return DomainOption(key, is_parent, sum(r.get("document_count") or 0 for r in rows),
-                        tuple(documents[:10]), tuple(classes[:8]), tuple(tables))
+                        tuple(documents[:10]), tuple(classes), tuple(tables), tuple(relations))
 
 
-def domain_options(rows: list[dict]) -> list[DomainOption]:
+def domain_options(rows: list[dict], cats: dict | None = None) -> list[DomainOption]:
     """Every leaf domain from `domains-overview`, plus each family parent with two
     or more children (a parent scopes all of them; study P14). Of nested parents
     that scope the same set, only the deepest is offered."""
@@ -250,9 +288,9 @@ def domain_options(rows: list[dict]) -> list[DomainOption]:
             continue
         kids = children[parent]
         rows_for = [by_name[k] for k in sorted(kids)] + ([by_name[parent]] if parent in by_name else [])
-        options.append(_option(parent, rows_for, True))
+        options.append(_option(parent, rows_for, True, cats))
     covered = {parent for parent in scope if parent in by_name}  # a domain folded into its parent
-    options += [_option(name, [row], False) for name, row in by_name.items()
+    options += [_option(name, [row], False, cats) for name, row in by_name.items()
                 if name not in {o.key for o in options} and name not in covered]
     return sorted(options, key=lambda o: o.key)
 
@@ -311,6 +349,75 @@ def resolve_mention(mention: Mention, domains: list[str], narrator) -> list[dict
         if "exact" in legs or ("fulltext" in legs and _names_overlap(mention.text, str(entity.get("name") or ""))):
             out.append(entity_ref(entity, legs))
     return out[:MAX_CANDIDATES]
+
+
+def catalogue_ref(entry) -> dict:
+    """A candidate from a catalogue name entry: `entity_ref`'s shape, without the fields the index lacks."""
+    return entity_ref({"_id": entry._id, "name": entry.name, "entity_class": entry.entity_class,
+                       "observation_count": entry.observation_count}, ["catalogue"])
+
+
+def name_index(entries) -> dict[str, tuple]:
+    """Normalised name or alias -> entries, most observed first, each entry once per key."""
+    index: dict[str, dict] = {}
+    for entry in entries:
+        for form in (entry.name, *entry.aliases):
+            key = _norm(str(form))
+            if key:
+                index.setdefault(key, {})[entry._id] = entry
+    return {k: tuple(sorted(v.values(), key=lambda e: (-e.observation_count, e.name, str(e._id))))
+            for k, v in index.items()}
+
+
+MAX_NGRAM = 6
+GAZETTEER_MIN_CHARS = 4
+GAZETTEER_MIN_OBSERVATIONS = 2
+_GAZETTEER_STOP = frozenset("""
+thing things time times day days one ones way ways lot lots some today tomorrow yesterday week weeks month
+months year years morning evening night afternoon
+""".split())
+_GAZETTEER_TOKEN_RE = re.compile(r"[^\W_]+(?:\.[^\W_]+)*")
+_GAZETTEER_GAP_RE = re.compile(r"[\s'’\-–_&/]+")
+
+
+def gazetteer_mentions(question: str, mentions: list[Mention], index: dict[str, tuple]) -> list[Mention]:
+    """Catalogue names and aliases the question spells out, as `catalogue` mentions (spec §11).
+
+    1-6-token spans, normalised as `match_document` does. The longest span wins; a span that
+    overlaps an existing mention or a longer hit is skipped. A single-token hit needs 4+
+    characters, no stopword or question word, and an entity observed at least twice."""
+    room = MAX_MENTIONS - len(mentions)
+    if room <= 0 or not index:
+        return []
+    tokens = [(m.start(), m.end(), m.group(0).casefold()) for m in _GAZETTEER_TOKEN_RE.finditer(question)]
+    found: list[tuple[int, int, int, tuple]] = []  # (n_tokens, start, end, entries)
+    for i in range(len(tokens)):
+        for n in range(min(MAX_NGRAM, len(tokens) - i), 0, -1):
+            span = tokens[i:i + n]
+            if any(not _GAZETTEER_GAP_RE.fullmatch(question[a[1]:b[0]]) for a, b in zip(span, span[1:])):
+                continue
+            entries = index.get(" ".join(t[2] for t in span))
+            if not entries:
+                continue
+            if n == 1:
+                word = span[0][2]
+                if (len(word) < GAZETTEER_MIN_CHARS or word in QUESTION_WORDS or word in TEMPORAL_WORDS
+                        or word in STOPWORDS or word in _GAZETTEER_STOP):
+                    continue
+                entries = tuple(e for e in entries if e.observation_count >= GAZETTEER_MIN_OBSERVATIONS)
+                if not entries:
+                    continue
+            found.append((n, span[0][0], span[-1][1], entries))
+    taken = [(m.start, m.end) for m in mentions]
+    out: list[Mention] = []
+    for n, start, end, entries in sorted(found, key=lambda f: (-f[0], f[1])):
+        if len(out) >= room:
+            break
+        if any(start < b and a < end for a, b in taken):
+            continue
+        taken.append((start, end))
+        out.append(Mention(question[start:end], start, end, "catalogue", entries[:MAX_CANDIDATES]))
+    return sorted(out, key=lambda m: m.start)
 
 
 def twin_groups(refs: list[dict]) -> list[list[dict]]:
