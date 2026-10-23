@@ -235,6 +235,16 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
     }
 
 
+# Lexical weight of a candidate group: a name match (exact, catalogue, narrator) outweighs fulltext
+# neighbours, so one exact match among up to four fulltext ones still clears the 0.7 threshold.
+NAME_EVIDENCE = frozenset({"exact", "catalogue", "narrator"})
+FULLTEXT_WEIGHT = 0.1
+
+
+def _group_weight(group: list[dict]) -> float:
+    return 1.0 if any(NAME_EVIDENCE & set(r.get("matched_by") or ()) for r in group) else FULLTEXT_WEIGHT
+
+
 def _pick_group(answer, groups: dict[str, list[dict]]) -> tuple[str | None, float]:
     """The group an answer chose; if an earlier param already took it, the best group left (or none)."""
     if answer is None or not groups or answer.choice == "none":
@@ -274,7 +284,7 @@ def _match_view(spec, question: str, entities: list[dict], cfg, threshold: float
                     instructions=f"Which candidate is {pspec.description or name} in the question?",
                     options={**{k: _candidate_text(g[0], cfg.narrator) for k, g in groups.items()},
                              "none": "None of these"},
-                    lexical_scores={k: 1.0 for k in groups},
+                    lexical_scores={k: _group_weight(g) for k, g in groups.items()},
                     default="none", default_confidence=0.0, none_mass=0.0,
                 ))
         elif pspec.type == "enum":
