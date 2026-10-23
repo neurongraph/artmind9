@@ -767,3 +767,74 @@ settings; a `justfile` recipe `plan-replay VAULT`.
   exist.
 - Agreement in shadow mode compares first steps only. Whether the answer was right needs a
   rating or a graded benchmark; the stats split by rating where one exists.
+
+## 11. Addendum (2026-10-23): the domain catalogue
+
+**Problem.** The planner reads graph metadata fresh on every plan and uses little of it: the top
+8 classes and the first 25 document names per domain (from `domains-overview`), all document
+names (one more query), and one name query per mention. Mentions come only from capitalised or
+quoted text, so an entity written in lower case ("the gym", "dinner") is never resolved; classes
+beyond the top 8, entity aliases, the schema's class descriptions and relationship types are not
+used at all.
+
+**Design.** A per-domain catalogue, `artmind/query_plan/catalogue.py`, built by a few
+deterministic Neo4j reads plus the domain schema on disk, and cached.
+
+| Part | Source | Bound |
+|---|---|---|
+| `classes` | `MATCH (e:Entity)` per domain: `entity_class`, count; plus the schema's `entity_types.<CLASS>.description` | all classes |
+| `relations` | `RELATES_TO` `rel_type`, count, within the domain | top 50 by count |
+| `documents` | live and retired document names (moves here from `candidates.document_names`) | all |
+| `names` | entities' `_id`, `name`, `aliases`, `entity_class`, `observation_count`, ordered by `observation_count` desc then name | `NAME_INDEX_MAX` = 20,000 per domain |
+
+A parent domain's catalogue is the union of its children's; each leaf is cached on its own.
+
+**Freshness.**
+- One cheap fingerprint query per plan covers all selected domains: per domain, entity count,
+  document count and history-document count, plus `:ProjectionState.last_rebuilt_at`.
+- A cached catalogue is reused while its fingerprint matches. Within `FINGERPRINT_TTL_S` (10 s)
+  of the last check the check itself is skipped, so a burst of plans costs one query.
+- `MAX_AGE_S` (15 min) forces a rebuild even when the fingerprint matches. An incremental ingest
+  can keep the counts equal (an edit that renames an entity), and the age bound is the safety net.
+
+**Cache layers.**
+1. In memory, per process: `serve` and `admin-ui` are long-lived.
+2. On disk at `<ARTMIND_HOME>/logs/plan-catalog/<domain>.json`, written atomically with its
+   fingerprint, so one-shot CLI calls and `plan replay` reuse it. It holds entity names, so it
+   lives only in the gitignored, private `logs/`.
+
+`ARTMIND_PLAN_CATALOG=0` disables both layers: every plan builds the catalogue live and caches
+nothing. Tests pin it off unless a test opts in.
+
+**What the planner uses it for.**
+1. **Name mentions (gazetteer).** After `find_mentions`, word sequences of 1–6 tokens in the
+   casefolded question are matched against catalogue names and aliases, normalised as
+   `match_document` does.
+   - The longest match wins, and matches overlapping an existing mention are skipped.
+   - A single-token match must be at least 4 characters, not a stopword or question word, and
+     belong to an entity with `observation_count` ≥ 2.
+   - A hit becomes a mention with `via: "catalogue"` and candidates already filled, with
+     `matched_by: ["catalogue"]`; no name query runs for it.
+2. **Resolution.** A capitalised or quoted mention whose text equals a catalogue name or alias
+   (casefolded) takes its candidates from the catalogue. Otherwise `entity_name_candidates` runs
+   as today.
+3. **Class words.** `_class_word` matches against every catalogue class, not just the top 8.
+4. **Domain option text.** Up to 15 classes by count and the top 5 relationship types join the
+   text the classifier reads for each domain option.
+5. **Documents.** `match_document` reads the catalogue's document names.
+
+**Payload.** A new top-level key, additive:
+
+```json
+"catalogue": {"<domain>": {"source": "memory|disk|live", "built_at": "<iso>", "names": 12345, "truncated": false}}
+```
+
+`truncated` is true when the name index hit `NAME_INDEX_MAX`; then names past the cap fall back
+to the per-mention name query.
+
+**Failure.** If the catalogue cannot be built (Neo4j down), the planner behaves as before this
+addendum, with a warning. Disk-cache read and write errors are never fatal.
+
+**Determinism.** The catalogue's contents are sorted. A plan built from a cached catalogue equals
+one built live, apart from `catalogue.source`/`built_at` and the classifier latency, which replay
+strips from its fingerprint.
