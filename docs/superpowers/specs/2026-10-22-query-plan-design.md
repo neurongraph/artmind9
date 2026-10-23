@@ -816,9 +816,9 @@ nothing. Tests pin it off unless a test opts in.
      belong to an entity with `observation_count` ≥ 2.
    - A hit becomes a mention with `via: "catalogue"` and candidates already filled, with
      `matched_by: ["catalogue"]`; no name query runs for it.
-2. **Resolution.** A capitalised or quoted mention whose text equals a catalogue name or alias
-   (casefolded) takes its candidates from the catalogue. Otherwise `entity_name_candidates` runs
-   as today.
+2. **Resolution.** Only a `catalogue` mention takes its candidates from the catalogue (entries of the
+   selected domains; one with none there is dropped). A capitalised or quoted mention resolves through
+   `entity_name_candidates` as before, so it keeps fulltext neighbours, the evidence rule and the description.
 3. **Class words.** `_class_word` matches against every catalogue class, not just the top 8.
 4. **Domain option text.** Up to 15 classes by count and the top 5 relationship types join the
    text the classifier reads for each domain option.

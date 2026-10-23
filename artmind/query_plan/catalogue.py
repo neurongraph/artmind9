@@ -202,12 +202,19 @@ def build(domain: str, fingerprint: tuple | None = None) -> DomainCatalogue:
 _lock = threading.Lock()
 _memory: dict = {}  # domain -> [catalogue, built_mono, checked_mono]
 _clock: Callable[[], float] = time.monotonic
+_domain_locks: dict = {}  # domain -> Lock, so one domain's build never blocks another's
+
+
+def _domain_lock(domain: str) -> threading.Lock:
+    with _lock:
+        return _domain_locks.setdefault(domain, threading.Lock())
 
 
 def reset() -> None:
     global _clock
     with _lock:
         _memory.clear()
+        _domain_locks.clear()
     _clock = time.monotonic
 
 
@@ -275,30 +282,31 @@ def get(domains) -> tuple:
     now = _clock()
     cats: dict = {}
     sources: dict = {}
-    with _lock:
-        # Domains whose last fingerprint check is recent are served without asking.
-        pending = []
+    pending = []
+    with _lock:  # memory reads only: a domain checked recently is served without asking
         for d in domains:
             entry = _memory.get(d)
             if entry and now - entry[2] < FINGERPRINT_TTL_S and now - entry[1] < MAX_AGE_S:
                 cats[d], sources[d] = entry[0], "memory"
             else:
                 pending.append(d)
-        if pending:
-            fps = fingerprints(pending)
-            for d in pending:
-                entry = _memory.get(d)
-                if entry and entry[0].fingerprint == fps[d] and now - entry[1] < MAX_AGE_S:
-                    entry[2] = now
-                    cats[d], sources[d] = entry[0], "memory"
-                    continue
+    if pending:
+        fps = fingerprints(pending)  # a query: never under a lock
+        for d in pending:
+            with _domain_lock(d):  # single flight: a second caller waits, then finds the first one's build
+                with _lock:
+                    entry = _memory.get(d)
+                    if entry and entry[0].fingerprint == fps[d] and now - entry[1] < MAX_AGE_S:
+                        entry[2] = now
+                        cats[d], sources[d] = entry[0], "memory"
+                        continue
                 disk = _read_disk(d) if entry is None else None
                 if disk and disk.fingerprint == fps[d] and _age_s(disk) < MAX_AGE_S:
-                    _memory[d] = [disk, now - _age_s(disk), now]
-                    cats[d], sources[d] = disk, "disk"
-                    continue
-                cat = build(d, fps[d])
-                _memory[d] = [cat, now, now]
-                _write_disk(cat)
-                cats[d], sources[d] = cat, "live"
+                    cat, source, built = disk, "disk", now - _age_s(disk)
+                else:
+                    cat, source, built = build(d, fps[d]), "live", now
+                    _write_disk(cat)
+                with _lock:
+                    _memory[d] = [cat, built, now]
+                cats[d], sources[d] = cat, source
     return cats, sources

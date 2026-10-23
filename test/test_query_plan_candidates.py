@@ -420,3 +420,19 @@ def test_a_broader_catalogue_is_not_used_for_an_option():
     cat = DomainCatalogue("fam", (), "t", (("C", 1, ""),), (("R", 1),), (), (), False)
     rows = [{"domain": "fam.a", "document_count": 1, "top_classes": ["OLD"]}]
     assert "classes OLD" in candidates.domain_options(rows, {"fam": cat})[0].text()
+
+
+def test_gazetteer_rejects_numbers_and_generic_phrases():
+    entries = [_entry("a", "2025", 9), _entry("b", "last week", 9), _entry("c", "this year", 9),
+               _entry("d", "2025 2026", 9), _entry("e", "old gym", 9)]
+    assert _gaz("in 2025 2026 last week this year at the old gym", entries) == [("old gym", "catalogue", ["e"])]
+
+
+def test_gazetteer_matches_composed_and_decomposed_accents_alike():
+    composed, decomposed = "caf\u00e9 noir", "cafe\u0301 noir"
+    assert _gaz(f"we went to the {decomposed} again", [_entry("a", composed)])[0][2] == ["a"]
+    assert _gaz(f"we went to the {composed} again", [_entry("a", decomposed)])[0][2] == ["a"]
+
+
+def test_name_index_skips_entries_without_an_id():
+    assert candidates.name_index([_entry(None, "old gym"), _entry("a", "old gym")])["old gym"][0]._id == "a"

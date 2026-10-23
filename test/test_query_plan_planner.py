@@ -613,10 +613,11 @@ def test_a_lowercase_catalogue_name_becomes_a_mention_without_a_name_query(catal
     assert "greenhouse" not in catalogue_world["resolved"]
 
 
-def test_a_capitalised_mention_equal_to_a_catalogue_name_runs_no_name_query(catalogue_world):
+def test_a_capitalised_mention_equal_to_a_catalogue_name_still_runs_the_name_query(catalogue_world):
     result = _plan("When did Ada visit")
+    assert catalogue_world["resolved"] == ["Ada"]
     assert [c["_id"] for c in result["entities"][0]["candidates"]] == ["p1"]
-    assert catalogue_world["resolved"] == []
+    assert result["entities"][0]["candidates"][0]["matched_by"] == ["exact"]
 
 
 def test_a_capitalised_mention_the_catalogue_lacks_is_resolved_as_before(catalogue_world):
@@ -626,8 +627,9 @@ def test_a_capitalised_mention_the_catalogue_lacks_is_resolved_as_before(catalog
 
 
 def test_catalogue_twins_still_warn(catalogue_world):
-    catalogue_world["cats"]["journal"] = _cat(names=[("p1", "Ada", [], "PERSON", 5), ("p2", "Ada", [], "PERSON", 3)])
-    result = _plan("When did Ada visit")
+    catalogue_world["cats"]["journal"] = _cat(names=[("p1", "Marlowe", [], "PERSON", 5),
+                                                     ("p2", "Marlowe", [], "PERSON", 3)])
+    result = _plan("when did marlowe visit")
     assert any("2 nodes share the name" in w for w in result["warnings"])
 
 
@@ -701,6 +703,31 @@ def test_catalogue_refs_carry_domain_and_connection_count(catalogue_world):
 
     cat = catalogue_world["cats"]["journal"]
     catalogue_world["cats"]["journal"] = type(cat)(**{**cat.__dict__, "names": (
-        NameEntry("p1", "Ada", (), "PERSON", 5, "journal", 9),)})
-    ref = _plan("When did Ada visit")["entities"][0]["candidates"][0]
+        NameEntry("p1", "Marlowe", (), "PERSON", 5, "journal", 9),)})
+    ref = _plan("when did marlowe visit")["entities"][0]["candidates"][0]
     assert (ref["domain"], ref["connection_count"], ref["description"]) == ("journal", 9, "")
+
+
+def test_a_catalogue_name_of_a_non_selected_domain_is_no_mention():
+    from artmind.query_plan.catalogue import NameEntry
+    from artmind.query_plan.config import PlanConfig  # noqa: F401
+
+    parent = _cat("fam", names=[])
+    parent = type(parent)(**{**parent.__dict__, "names": (
+        NameEntry("o1", "Marlowe", (), "PERSON", 5, "fam.other", 2),
+        NameEntry("g1", "Greenhouse", (), "PLACE", 5, "fam.one", 2))})
+    all_index = candidates.name_index(planner._merged_names([parent]))
+    question = "did marlowe go to the greenhouse"
+    mentions = candidates.gazetteer_mentions(question, [], all_index)
+    assert [m.text for m in mentions] == ["marlowe", "greenhouse"]  # the gazetteer ran over the whole cover
+    index = candidates.name_index(planner._selected_names({"fam": parent}, ["fam.one"]))
+    cfg = type("Cfg", (), {"narrator": None})()
+    entities = planner._resolve_entities(mentions, ["fam.one"], cfg, [], index)
+    assert [(e["mention"], e["via"], e["candidates"][0]["domain"]) for e in entities] == [
+        ("greenhouse", "catalogue", "fam.one")]
+
+
+def test_a_spelled_out_name_outranks_a_catalogue_name_as_the_primary_entity(catalogue_world):
+    result = _plan("did the greenhouse see Lakeport")
+    context = planner._context(["journal"], "q", result["entities"], None, [])
+    assert context["entity_name"] == "Lakeport"

@@ -179,7 +179,7 @@ def _selected_names(cats: dict, selected: list[str]) -> list | None:
 
 
 def _merged_names(cats) -> list:
-    return list({n._id: n for c in cats for n in c.names}.values())
+    return list({n._id: n for c in cats for n in c.names if n._id is not None}.values())
 
 
 def _class_word(question: str, selected: list[str], overview: list[dict], cats: list | None = None) -> str | None:
@@ -212,7 +212,8 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
     """Placeholder values. The primary entity is the first named mention, resolved or not. The
     narrator is the second entity beside exactly one named mention, and the id fallback when
     nobody is named; it never supplies a name, since its name is no search term."""
-    named = [e for e in entities if e["via"] != "first_person"]
+    # A name the question spells out (capitalised, quoted) outranks one the gazetteer found.
+    named = sorted((e for e in entities if e["via"] != "first_person"), key=lambda e: e["via"] == "catalogue")
     narrator = next((e for e in entities if e["via"] == "first_person" and e["candidates"]), None)
     primary = named[0] if named else narrator
     second = named[1] if len(named) > 1 else (narrator if len(named) == 1 else None)
@@ -373,19 +374,15 @@ def _choose_domains(domains, options, overview, answers):
 
 def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
                       index: dict | None = None) -> list[dict]:
-    """`index` is the selected domains' catalogue name index (None without one). A catalogue mention, or
-    a capitalised or quoted one spelled exactly like a catalogue name or alias, takes its candidates
-    from it and runs no name query."""
+    """`index` is the selected domains' catalogue name index (None without one). A catalogue mention takes
+    its candidates from it and runs no name query; without an index it is resolved like any other. A
+    catalogue mention with no candidate in the selected domains is dropped."""
     entities = []
     for mention in mentions:
         try:
-            from_catalogue = None
-            if index is not None and selected and mention.via in ("catalogue", "capitalised", "quoted"):
-                hit = index.get(candidates._norm(mention.text))
-                if hit or mention.via == "catalogue":
-                    from_catalogue = [candidates.catalogue_ref(e) for e in (hit or ())[:candidates.MAX_CANDIDATES]]
-            if from_catalogue is not None:
-                found = from_catalogue
+            if index is not None and selected and mention.via == "catalogue":
+                hit = index.get(candidates._norm(mention.text)) or ()
+                found = [candidates.catalogue_ref(e) for e in hit[:candidates.MAX_CANDIDATES]]
             else:
                 found = candidates.resolve_mention(mention, selected, cfg.narrator) if selected else []
         except Exception as exc:  # one mention failing must not sink the plan (spec §7)
@@ -394,6 +391,8 @@ def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
         if mention.via == "first_person" and cfg.narrator and selected and not found:
             warnings.append(f"narrator {cfg.narrator.name!r} ({cfg.narrator.entity_class}) is not in the graph; "
                             "first-person words were not mapped")
+        if mention.via == "catalogue" and not found:
+            continue  # the name belongs to a domain that is not selected: it is no mention here
         entities.append({"mention": mention.text, "span": [mention.start, mention.end], "via": mention.via,
                          "candidates": found})
     for entity in entities:
@@ -610,7 +609,9 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             store = candidates.store_facts(selected, question, resolved_classes)
         except Exception as exc:  # the structured store is optional context (spec §7)
             warnings.append(f"store facts unavailable: {exc}")
-    context = _context(selected, question, entities, document, mentions, overview, selected_cats)
+    kept = {e["span"][0] for e in entities}
+    context = _context(selected, question, entities, document, [m for m in mentions if m.start in kept], overview,
+                       selected_cats)
     stages: list[tuple[str, float]] = []
     if source != "given":
         stages.append(("domain", domain_conf if source != "all" else 0.0))

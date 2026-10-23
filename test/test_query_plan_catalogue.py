@@ -210,3 +210,41 @@ def test_the_names_query_asks_for_domain_and_connections(graph):
     catalogue.build("journal")
     cypher = next(c for c, _ in graph.calls if "e.aliases" in c)
     assert "e._domain AS domain" in cypher and "RELATES_TO" in cypher and "AS connection_count" in cypher
+
+
+def test_concurrent_gets_build_a_domain_once_and_other_domains_are_not_blocked(graph, monkeypatch):
+    import threading
+
+    graph, clock = graph
+    started, release = threading.Event(), threading.Event()
+    builds = []
+    real_build = catalogue.build
+
+    def slow_build(domain, fingerprint=None):
+        builds.append(domain)
+        if domain == "slow":
+            started.set()
+            assert release.wait(5)
+        return real_build(domain, fingerprint)
+
+    monkeypatch.setattr(catalogue, "build", slow_build)
+    catalogue.get(["fresh"])  # cached now
+    results = {}
+
+    def call(name):
+        results[name] = catalogue.get(["slow"])
+
+    t1 = threading.Thread(target=call, args=("one",))
+    t1.start()
+    assert started.wait(5)
+    t2 = threading.Thread(target=call, args=("two",))
+    t2.start()
+    # a fresh domain is served while "slow" is still building
+    cats, sources = catalogue.get(["fresh"])
+    assert sources == {"fresh": "memory"}
+    release.set()
+    t1.join(5)
+    t2.join(5)
+    assert builds.count("slow") == 1
+    assert {s["slow"] for _, s in results.values()} <= {"live", "memory"}
+    assert results["one"][1] == {"slow": "live"}

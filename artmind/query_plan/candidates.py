@@ -7,6 +7,7 @@ here: everything is code, so the same question and graph give the same candidate
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass
 from itertools import zip_longest
 
@@ -362,6 +363,8 @@ def name_index(entries) -> dict[str, tuple]:
     """Normalised name or alias -> entries, most observed first, each entry once per key."""
     index: dict[str, dict] = {}
     for entry in entries:
+        if entry._id is None:
+            continue
         for form in (entry.name, *entry.aliases):
             key = _norm(str(form))
             if key:
@@ -374,10 +377,12 @@ MAX_NGRAM = 6
 GAZETTEER_MIN_CHARS = 4
 GAZETTEER_MIN_OBSERVATIONS = 2
 _GAZETTEER_STOP = frozenset("""
-thing things time times day days one ones way ways lot lots some today tomorrow yesterday week weeks month
+thing things time times day days one ones way ways lot lots some last next previous past coming current today tomorrow yesterday week weeks month
 months year years morning evening night afternoon
 """.split())
-_GAZETTEER_TOKEN_RE = re.compile(r"[^\W_]+(?:\.[^\W_]+)*")
+_GAZETTEER_WORD = r"(?:[^\W_]|[\u0300-\u036f])+"  # combining marks stay inside a word
+_GAZETTEER_TOKEN_RE = re.compile(_GAZETTEER_WORD + r"(?:\." + _GAZETTEER_WORD + ")*")
+_NUMBERISH_RE = re.compile(r"[\d.,]+")
 _GAZETTEER_GAP_RE = re.compile(r"[\s'’\-–_&/]+")
 
 
@@ -390,7 +395,8 @@ def gazetteer_mentions(question: str, mentions: list[Mention], index: dict[str, 
     room = MAX_MENTIONS - len(mentions)
     if room <= 0 or not index:
         return []
-    tokens = [(m.start(), m.end(), m.group(0).casefold()) for m in _GAZETTEER_TOKEN_RE.finditer(question)]
+    generic = QUESTION_WORDS | TEMPORAL_WORDS | STOPWORDS | _GAZETTEER_STOP
+    tokens = [(m.start(), m.end(), unicodedata.normalize("NFC", m.group(0)).casefold()) for m in _GAZETTEER_TOKEN_RE.finditer(question)]
     found: list[tuple[int, int, int, tuple]] = []  # (n_tokens, start, end, entries)
     for i in range(len(tokens)):
         for n in range(min(MAX_NGRAM, len(tokens) - i), 0, -1):
@@ -400,6 +406,8 @@ def gazetteer_mentions(question: str, mentions: list[Mention], index: dict[str, 
             entries = index.get(" ".join(t[2] for t in span))
             if not entries:
                 continue
+            if all(_NUMBERISH_RE.fullmatch(t[2]) or t[2] in generic for t in span):
+                continue  # numbers and generic phrases ("last week", "2025") name nothing
             if n == 1:
                 word = span[0][2]
                 if (len(word) < GAZETTEER_MIN_CHARS or word in QUESTION_WORDS or word in TEMPORAL_WORDS
@@ -443,7 +451,7 @@ def document_names(domains: list[str]) -> list[str]:
 
 
 def _norm(text: str) -> str:
-    text = re.sub(r"(?:[^\w.]|_)+", " ", text.casefold())
+    text = re.sub(r"(?:[^\w.]|_)+", " ", unicodedata.normalize("NFC", text).casefold())
     return " ".join(re.sub(r"\.(?![^\W_])", " ", text).split())
 
 
