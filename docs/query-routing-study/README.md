@@ -19,6 +19,7 @@ Opened 2026-10-19.
 | [06-open-questions.md](06-open-questions.md) | Questions the evidence must settle before specs. |
 | [07-benchmark-round3.md](07-benchmark-round3.md) | Per-question grades, routes and causes for the round-3 banking benchmark (36 questions). |
 | [08-fix-and-redesign-plan.md](08-fix-and-redesign-plan.md) | Fix + redesign plan (2026-10-22): review of the dossier, `query plan` first, workstreams W0–W5, phasing and gates. Input to specs. |
+| [09-next-steps-shadow-collection.md](09-next-steps-shadow-collection.md) | **Pick-up point (2026-10-23).** Decision model on OpenRouter (jev-1.14), Q26 model comparison, the ~50-turn shadow collection the user runs, and what the next session analyses and decides. |
 
 ## How a later session uses this
 
