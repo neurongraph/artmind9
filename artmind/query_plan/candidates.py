@@ -354,7 +354,8 @@ def resolve_mention(mention: Mention, domains: list[str], narrator) -> list[dict
 def catalogue_ref(entry) -> dict:
     """A candidate from a catalogue name entry: `entity_ref`'s shape, without the fields the index lacks."""
     return entity_ref({"_id": entry._id, "name": entry.name, "entity_class": entry.entity_class,
-                       "observation_count": entry.observation_count}, ["catalogue"])
+                       "observation_count": entry.observation_count, "_domain": entry.domain or None,
+                       "connection_count": entry.connection_count}, ["catalogue"])
 
 
 def name_index(entries) -> dict[str, tuple]:

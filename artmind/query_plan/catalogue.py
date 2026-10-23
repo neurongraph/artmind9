@@ -24,6 +24,7 @@ from artmind import graph_query
 from artmind.graph_query import domain_predicate, normalize_domains
 from artmind.query_plan.config import is_domain_name
 
+CATALOGUE_FORMAT = 2  # bump when the cached JSON gains or changes fields
 NAME_INDEX_MAX = 20_000
 RELATIONS_MAX = 50
 FINGERPRINT_TTL_S = 10.0
@@ -65,7 +66,8 @@ _NAMES_CYPHER = f"""
 MATCH (e:Entity)
 WHERE {domain_predicate("e")} AND e.name IS NOT NULL
 RETURN e._id AS _id, e.name AS name, e.aliases AS aliases,
-       e.entity_class AS entity_class, coalesce(e._observation_count, 0) AS observation_count
+       e.entity_class AS entity_class, coalesce(e._observation_count, 0) AS observation_count,
+       e._domain AS domain, COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} AS connection_count
 ORDER BY observation_count DESC, name, _id
 LIMIT $limit
 """
@@ -78,6 +80,8 @@ class NameEntry:
     aliases: tuple
     entity_class: str
     observation_count: int
+    domain: str = ""
+    connection_count: int = 0
 
 
 @dataclass(frozen=True)
@@ -93,6 +97,7 @@ class DomainCatalogue:
 
     def to_json(self) -> dict:
         return {
+            "format": CATALOGUE_FORMAT,
             "domain": self.domain,
             "fingerprint": list(self.fingerprint),
             "built_at": self.built_at,
@@ -101,7 +106,8 @@ class DomainCatalogue:
             "documents": list(self.documents),
             "names": [
                 {"_id": n._id, "name": n.name, "aliases": list(n.aliases),
-                 "entity_class": n.entity_class, "observation_count": n.observation_count}
+                 "entity_class": n.entity_class, "observation_count": n.observation_count,
+                 "domain": n.domain, "connection_count": n.connection_count}
                 for n in self.names
             ],
             "truncated": self.truncated,
@@ -109,6 +115,8 @@ class DomainCatalogue:
 
     @classmethod
     def from_json(cls, data: dict) -> "DomainCatalogue":
+        if data.get("format") != CATALOGUE_FORMAT:
+            raise ValueError(f"cache format {data.get('format')!r}, expected {CATALOGUE_FORMAT}")
         return cls(
             domain=str(data["domain"]),
             fingerprint=tuple(data["fingerprint"]),
@@ -121,6 +129,7 @@ class DomainCatalogue:
                     _id=n["_id"], name=n["name"], aliases=tuple(n.get("aliases") or ()),
                     entity_class=n.get("entity_class") or "",
                     observation_count=int(n.get("observation_count") or 0),
+                    domain=n.get("domain") or "", connection_count=int(n.get("connection_count") or 0),
                 )
                 for n in data["names"]
             ),
@@ -177,6 +186,7 @@ def build(domain: str, fingerprint: tuple | None = None) -> DomainCatalogue:
             aliases=tuple(a for a in (r.get("aliases") or ()) if a),
             entity_class=r.get("entity_class") or "",
             observation_count=int(r.get("observation_count") or 0),
+            domain=r.get("domain") or "", connection_count=int(r.get("connection_count") or 0),
         )
         for r in name_rows[:NAME_INDEX_MAX]
     )

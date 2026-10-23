@@ -23,14 +23,14 @@ class FakeGraph:
         if "ProjectionState" in cypher:
             return [{"domain": d, "entities": self.entities, "documents": 2, "history": 1, "rebuilt": "t1"}
                     for d in params["domains"]]
+        if "e.aliases" in cypher:
+            return self.names[: params["limit"]]
         if "count(e) AS n" in cypher:
             return [{"name": "PLACE", "n": 4}, {"name": "PERSON", "n": 4}, {"name": "ITEM", "n": 1}]
         if "RELATES_TO" in cypher:
             return [{"rel_type": "VISITED", "n": 7}]
         if "DISTINCT d.name" in cypher:
             return [{"name": "b.md"}, {"name": "a.md"}, {"name": "a.md"}]
-        if "e.aliases" in cypher:
-            return self.names[: params["limit"]]
         raise AssertionError(cypher)
 
     def count(self, marker):
@@ -186,3 +186,27 @@ def test_invalid_domain_name_not_written(graph):
     assert not (Path(paths.LOGS_DIR) / "plan-catalog").exists() or not list(
         (Path(paths.LOGS_DIR) / "plan-catalog").glob("*evil*"))
     assert not (Path(paths.LOGS_DIR) / "evil.json").exists()
+
+
+def test_a_cache_file_of_another_format_is_ignored(graph):
+    graph, _ = graph
+    cat = catalogue.build("journal")
+    path = catalogue._disk_path("journal")
+    data = cat.to_json()
+    assert data["format"] == catalogue.CATALOGUE_FORMAT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data))
+    assert catalogue._read_disk("journal") is not None
+    data.pop("format")
+    path.write_text(json.dumps(data))
+    assert catalogue._read_disk("journal") is None
+    data["format"] = catalogue.CATALOGUE_FORMAT - 1
+    path.write_text(json.dumps(data))
+    assert catalogue._read_disk("journal") is None
+
+
+def test_the_names_query_asks_for_domain_and_connections(graph):
+    graph, _ = graph
+    catalogue.build("journal")
+    cypher = next(c for c, _ in graph.calls if "e.aliases" in c)
+    assert "e._domain AS domain" in cypher and "RELATES_TO" in cypher and "AS connection_count" in cypher

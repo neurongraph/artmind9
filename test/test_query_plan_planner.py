@@ -678,3 +678,29 @@ def test_a_selected_domain_below_the_cover_does_not_use_the_catalogue(catalogue_
     cats = catalogue_world["cats"]
     assert planner._selected_cats(cats, ["journal.sub"]) is None
     assert planner._selected_cats(cats, ["journal"]) == [cats["journal"]]
+
+
+def test_a_parent_cover_is_filtered_to_the_selected_leaf(catalogue_world):
+    from artmind.query_plan.catalogue import NameEntry
+
+    parent = _cat("fam", names=[])
+    parent = type(parent)(**{**parent.__dict__, "names": (
+        NameEntry("a1", "Ada", (), "PERSON", 4, "fam.one", 7), NameEntry("a2", "Ada", (), "PERSON", 3, "fam.two", 1),
+        NameEntry("a3", "Ada", (), "PERSON", 2, "fam", 0))})
+    names = planner._selected_names({"fam": parent}, ["fam.one"])
+    assert [n._id for n in names] == ["a1"]
+    assert sorted(n._id for n in planner._selected_names({"fam": parent}, ["fam"])) == ["a1", "a2", "a3"]
+    assert planner._selected_names({"fam": parent}, ["other"]) is None
+    # a selected domain with its own catalogue uses all of it
+    own = type(parent)(**{**parent.__dict__, "domain": "fam.one"})
+    assert [n._id for n in planner._selected_names({"fam": parent, "fam.one": own}, ["fam.one"])] == ["a1", "a2", "a3"]
+
+
+def test_catalogue_refs_carry_domain_and_connection_count(catalogue_world):
+    from artmind.query_plan.catalogue import NameEntry
+
+    cat = catalogue_world["cats"]["journal"]
+    catalogue_world["cats"]["journal"] = type(cat)(**{**cat.__dict__, "names": (
+        NameEntry("p1", "Ada", (), "PERSON", 5, "journal", 9),)})
+    ref = _plan("When did Ada visit")["entities"][0]["candidates"][0]
+    assert (ref["domain"], ref["connection_count"], ref["description"]) == ("journal", 9, "")

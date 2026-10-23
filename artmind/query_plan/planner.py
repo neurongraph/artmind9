@@ -159,6 +159,25 @@ def _selected_cats(cats: dict, selected: list[str]) -> list | None:
     return [found[k] for k in sorted(found)]
 
 
+def _selected_names(cats: dict, selected: list[str]) -> list | None:
+    """Name entries of the selected domains: the domains' own catalogues, or, where only a broader
+    catalogue exists, its entries filtered by their own domain. None when some domain has neither."""
+    if not selected or not cats:
+        return None
+    found: dict = {}
+    for d in selected:
+        own = candidates.catalogue_cats_for(d, cats)
+        if own:
+            entries = [n for c in own for n in c.names]
+        else:
+            broader = [c for k, c in sorted(cats.items()) if candidates.covered_by(d, k)]
+            if not broader:
+                return None
+            entries = [n for c in broader for n in c.names if n.domain and candidates.covered_by(n.domain, d)]
+        found.update({n._id: n for n in entries})
+    return list(found.values())
+
+
 def _merged_names(cats) -> list:
     return list({n._id: n for c in cats for n in c.names}.values())
 
@@ -567,12 +586,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     threshold = cfg.confidence_threshold
 
     selected_cats = _selected_cats(cats, selected)
-    if selected_cats is None:
-        selected_index = None
-    elif {c.domain for c in selected_cats} == {c.domain for c in cover_cats}:
+    if selected_cats is not None and {c.domain for c in selected_cats} == {c.domain for c in cover_cats}:
         selected_index = all_index
     else:
-        selected_index = candidates.name_index(_merged_names(selected_cats))
+        names = _selected_names(cats, selected)
+        selected_index = candidates.name_index(names) if names is not None else None
     entities = _resolve_entities(mentions, selected, cfg, warnings, selected_index)
 
     # ── view match (classifier call 2) or route ─────────────────────────────
