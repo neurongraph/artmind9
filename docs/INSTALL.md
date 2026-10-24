@@ -101,7 +101,7 @@ It never changes the name, so the three always match. In order, it:
 3. runs the same scaffold as `artmind init`, which installs and enables the
    artmind Obsidian plugin;
 4. installs and enables the community plugins (Obsidian Git, Unhide, VSCode
-   Editor, Ghostty Terminal) and switches on Obsidian's core Web Viewer;
+   Editor, Termy) and switches on Obsidian's core Web Viewer;
 5. runs `artmind setup` (graph constraints and indexes);
 6. makes the first commit, creates the private GitHub repo, and pushes;
 7. records the first sync bookmark (`vault sync --bootstrapSynced`).

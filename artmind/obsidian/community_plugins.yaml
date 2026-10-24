@@ -37,4 +37,4 @@
     fontSize: 14
     fontFamily: "'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace"
     fontLigatures: true
-- id: ghostty-terminal
+- id: termy

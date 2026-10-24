@@ -178,7 +178,7 @@ Package data file `artmind/obsidian/community_plugins.yaml` — taken from the
 | `obsidian-git` | vinzent03/obsidian-git | none (plugin defaults) |
 | `unhide` | polyipseity/obsidian-unhide | `my_work`'s: `showHiddenFiles`, `showConfigurationFolder`, `showingRules` (`+/`, hide `.git`, hide `.venv`), notice settings |
 | `vscode-editor` | sunxvming/obsidian-vscode-editor | `my_work`'s: the 15-extension list incl. `json`, `yaml`, `env`, plus editor options |
-| `ghostty-terminal` | lavs9/obsidian-ghostty-terminal | none |
+| `termy` | zyphrzero/Termy | none (it fetches its own PTY binary on first run) |
 
 The YAML holds only `id` and optional `data`; the repo is resolved at run
 time from `obsidianmd/obsidian-releases/community-plugins.json`. For each

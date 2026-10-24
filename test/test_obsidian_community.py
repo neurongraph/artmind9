@@ -145,7 +145,7 @@ def test_a_network_failure_is_reported_not_raised(tmp_path):
 def test_the_packaged_list_matches_the_my_work_vault():
     plugins = {p["id"]: p for p in oc.load_plugin_list()}
 
-    assert list(plugins) == ["obsidian-git", "unhide", "vscode-editor", "ghostty-terminal"]
+    assert list(plugins) == ["obsidian-git", "unhide", "vscode-editor", "termy"]
     assert plugins["unhide"]["data"]["showingRules"] == ["+/", r"-/\.git(?:\/|$)/u", r"-/\.venv(?:\/|$)/u"]
     assert {"json", "yaml", "env"} <= set(plugins["vscode-editor"]["data"]["extensions"])
     assert plugins["obsidian-git"]["data"]["syncMethod"] == "merge"
