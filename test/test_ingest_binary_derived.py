@@ -160,3 +160,115 @@ def test_a_legacy_conversion_no_ops_from_its_own_frontmatter(ingest_env, monkeyp
     result = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
     assert (result["tier"], result["version"], result["artmind_id"]) == ("no_op", 3, "0192legacy")
+
+
+# ── --reextract on an unchanged binary (study item 2) ──────────────────────────
+#
+# A binary whose source bytes did not change used to return `no_op`, so the
+# schema-changed re-extraction `--reextract` promises never happened for PDFs or
+# decks. It now re-runs the LLM steps over the markdown already stored: no
+# docling, no conversion, no write to the converted body, the source untouched.
+
+
+def _no_docling(monkeypatch):
+    monkeypatch.setattr(
+        ing, "_convert_binary_via_docling",
+        lambda *a, **k: (_ for _ in ()).throw(AssertionError("docling must not run on a re-extraction")),
+    )
+
+
+def _converted_once(ingest_env, monkeypatch, body="# Deck\n\nBody v1.\n"):
+    vault, source = ingest_env
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling([body]))
+    r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
+    return r1
+
+
+def test_reextract_of_an_unchanged_binary_reuses_the_markdown_and_runs_the_extraction(ingest_env, monkeypatch):
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    derived = ing.MARKDOWNS_DIR / "deck.md"
+    body_before = derived.read_bytes()
+    source_before = source.read_bytes()
+    _no_docling(monkeypatch)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert r2["status"] == "ok"
+    assert r2["tier"] == "content", "an unchanged binary is re-extracted, not a no_op"
+    assert r2["reextract"] is True
+    assert r2["artmind_id"] == r1["artmind_id"]
+    assert r2["version"] == r1["version"], "an unchanged body does not bump the version"
+    assert derived.read_bytes() == body_before, "the converted markdown is not rewritten"
+    assert source.read_bytes() == source_before, "the source is never edited or moved"
+    assert int(r2["chunk_count"]) >= 1
+    assert r2["chunks_dir"] == str(ing.MARKDOWNS_DIR / "deck_chunks")
+
+
+def test_reextract_reaches_extract_kg_with_the_flag_and_the_same_document(ingest_env, monkeypatch):
+    """extract_kg does the replacement (cache set aside, rows reset, graph
+    contribution replaced on commit) -- the binary path must reach it with the
+    same `reextract` flag a note does, the same identity, and the hash of the
+    markdown it will read."""
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    _no_docling(monkeypatch)
+    seen = {}
+
+    def spy(result, domain, *a, **k):
+        seen.update(result)
+        return None  # stop before the graph; the wiring is what is under test
+
+    monkeypatch.setattr(ing, "extract_kg", spy)
+    result = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+    assert ing.ingest_to_kg(result, "general", "m", "e", 6000) is False
+
+    assert seen["reextract"] is True and seen["artmind_id"] == r1["artmind_id"]
+    assert seen["sha256"] == ing._compute_sha256(ing.MARKDOWNS_DIR / "deck.md")
+    assert seen["provenance"]["source_sha256"] == ing._compute_sha256(source)
+    assert seen["provenance"]["source_type"] == "pptx"
+
+
+def test_reextract_of_a_binary_whose_markdown_is_missing_converts_it_as_usual(ingest_env, monkeypatch):
+    """Nothing to re-extract from: the stored markdown is gone, so the binary
+    converts (docling runs) and the ordinary path takes over."""
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    (ing.MARKDOWNS_DIR / "deck.md").unlink()
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert r2["status"] == "ok" and r2.get("tier") != "no_op"
+    assert "chunks_dir" in r2
+    assert (ing.MARKDOWNS_DIR / "deck.md").exists()
+
+
+def test_reextract_of_a_binary_never_extracted_is_an_ordinary_first_ingest(ingest_env, monkeypatch):
+    """A binary converted but never extracted has no extraction to replace (the
+    same case as `test_an_unextracted_conversion_is_not_a_no_op`): it converts
+    again as usual, with or without --reextract."""
+    vault, source = ingest_env
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"] * 2))
+    ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)  # no stage_as_extracted
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert r2.get("tier") != "no_op"
+    assert "chunks_dir" in r2 and r2["version"] == 1
+
+
+def test_reextract_is_not_reported_as_ignored_for_a_binary(ingest_env, monkeypatch):
+    vault, source = ingest_env
+    _converted_once(ingest_env, monkeypatch)
+    _no_docling(monkeypatch)
+    import loguru
+
+    messages = []
+    handle = loguru.logger.add(lambda m: messages.append(str(m)), level="WARNING")
+    try:
+        ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+    finally:
+        loguru.logger.remove(handle)
+    assert not any("applies to vault notes only" in m for m in messages)

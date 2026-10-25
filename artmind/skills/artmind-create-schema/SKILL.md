@@ -40,6 +40,15 @@ should run it yourself before considering a schema done):
   `_`** — that prefix is reserved for artmind's own computed fields
   (`_id`, `_domain`, `_valid_from`, ...). A schema that declares one is
   rejected.
+- **Do not name a `relates_to` relationship after one of artmind's own edges:
+  `supersedes`, `relates_to`, `extracted_from`, `prior_state`,
+  `asserts_relation`, `aggregates`.** Extraction drops every relationship of
+  those types at write time (`supersedes` is created only by the audited
+  temporal helpers, which stamp provenance), so the edge is asked for and
+  never created. `artmind domains validate` prints a `WARN` for each, and the
+  extraction logs it once at start. Say what the relationship is instead:
+  `replaces_agreement` (for a contract that supersedes another), `amends`,
+  `associated_with`. `part_of` is fine.
 
 ## Reference Assets
 
@@ -137,6 +146,18 @@ never be recognised as the same thing again in the next document. An
 belongs IN the name, because that's what tells one occurrence apart from
 another (`meta.yaml`'s `kind_naming_rules` renders both instructions into
 the actual extraction prompt, so this reaches the model, not just you).
+The rule carries no example of its own. Give a recurrent class one from your
+own domain when the model needs to see it:
+
+```yaml
+  AGREEMENT:
+    kind: recurrent
+    naming_example:
+      right: Master Services Agreement
+      wrong: Master Services Agreement, amended 2026-03-01
+```
+
+Both halves are required; a class without `naming_example` gets the rule alone.
 
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns

@@ -60,7 +60,8 @@ def _render_class_block(cls: str, decl: dict, meta: dict | None = None) -> str:
     aggregate key then had to strip back off.
 
     The rule is emitted BEFORE the class's own `guidance`, so a schema whose
-    guidance says something more specific still wins the last word.
+    guidance says something more specific still wins the last word. A recurrent
+    class may follow it with its own worked example (`naming_example`).
     """
     lines = [cls]
     desc = (decl.get("description") or "").strip()
@@ -69,6 +70,13 @@ def _render_class_block(cls: str, decl: dict, meta: dict | None = None) -> str:
     kind_rule = ((meta or {}).get("kind_naming_rules") or {}).get(decl.get("kind"))
     if kind_rule:
         lines.append(f"  {kind_rule.strip()}")
+        # A worked example is the class's own, never the meta-schema's: a rule
+        # that carried one showed every domain (contracts, journals, ...) a
+        # banking rate. `naming_example: {right: ..., wrong: ...}` opts in, and
+        # only when both halves are given.
+        example = decl.get("naming_example")
+        if decl.get("kind") == "recurrent" and isinstance(example, dict) and example.get("right") and example.get("wrong"):
+            lines.append(f'  RIGHT: "{example["right"]}". WRONG: "{example["wrong"]}".')
     guidance = (decl.get("guidance") or "").strip()
     if guidance:
         lines.append(f"  {guidance}")

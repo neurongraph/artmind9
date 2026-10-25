@@ -562,16 +562,38 @@ def domains_validate(domain: str | None):
 
     Fails loudly: a class missing `kind`, an entity_types list (pre-redesign
     format), or a reserved `_`-prefixed name are all reported here rather than
-    surfacing later as a confusing extraction failure.
+    surfacing later as a confusing extraction failure. A file that is not valid
+    YAML is reported with its file name, line and column. A relationship named like
+    one of artmind's own edges (`supersedes`, `relates_to`, ...) is a WARN: it
+    is never written, so the schema should use another name.
     """
-    from artmind.schema_validate import load_meta, validate_all, validate_schema
+    from artmind.schema_validate import (
+        load_meta, reserved_relationship_warnings, validate_all, validate_schema, warn_all,
+    )
 
     if domain:
-        data = _load_domain_schema(domain)
-        errors = validate_schema(data, load_meta(), schema_name=domain)
-        violations = {domain: errors} if errors else {}
+        from artmind.schema_validate import schema_parse_error
+
+        domain_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
+        if not domain_file.exists():
+            raise click.ClickException(f"Domain schema not found: {domain_file}")
+        parse_error = schema_parse_error(domain_file)
+        if parse_error:
+            violations, warnings = {domain: [parse_error]}, {}
+        else:
+            data = _load_domain_schema(domain)
+            errors = validate_schema(data, load_meta(), schema_name=domain)
+            violations = {domain: errors} if errors else {}
+            warnings = {domain: reserved_relationship_warnings(data, domain)}
     else:
         violations = validate_all()
+        warnings = warn_all()
+
+    # Warnings are not failures (shipped schemas declare a few), but each is an
+    # edge the write path will drop.
+    for found in warnings.values():
+        for w in found:
+            click.echo(f"WARN   {w}")
 
     if not violations:
         click.echo("All schemas valid.")
@@ -679,12 +701,13 @@ def _check_named_file_supported(path: Path) -> None:
 
 
 _REEXTRACT_HELP = (
-    "Vault notes only: re-run the LLM extraction of notes whose body has not changed, under"
-    " the schema as it stands now -- for after a schema/prompt change (`init --force`), which"
-    " an unchanged note otherwise ignores (it takes the metadata-only fast path). The note is"
-    " not edited and keeps its version; its graph contribution is replaced as for a content"
-    " change. Narrow what it re-extracts with --match or a folder FILE_PATH: it is an LLM"
-    " call per chunk."
+    "Re-run the LLM extraction of notes and converted documents (pdf, docx, pptx, ...) that have"
+    " not changed, under the schema as it stands now -- for after a schema/prompt change"
+    " (`init --force`), which an unchanged file otherwise ignores (a note takes the metadata-only"
+    " fast path, a binary is a no-op). Nothing is edited or converted again (a document is"
+    " re-extracted from the markdown already stored) and the version stays; the graph"
+    " contribution is replaced as for a content change. Narrow what it re-extracts with --match"
+    " or a folder FILE_PATH: it is an LLM call per chunk. Tables and ad-hoc files ignore it."
 )
 _MATCH_HELP = (
     "Only ingest files whose path relative to FILE_PATH (or whose name) matches this glob,"
@@ -929,7 +952,7 @@ def ingest_sync(
 
 
 @ingest.command("async")
-@click.argument("file_path", type=click.Path(exists=True), required=False)
+@click.argument("file_paths", type=click.Path(), nargs=-1)
 @click.option(
     "--domain", default=None,
     help="Domain to assign. Vault-native markdown: a fallback only — a file's own"
@@ -949,10 +972,15 @@ def ingest_sync(
 )
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_async(
-    file_path: str | None, domain: str | None, force: bool, reextract: bool, match: tuple[str, ...],
+    file_paths: tuple[str, ...], domain: str | None, force: bool, reextract: bool, match: tuple[str, ...],
     stage_only: bool, pending: bool, compact: bool,
 ):
-    """Submit a file or directory for background ingestion; returns job_id immediately.
+    """Submit files and/or directories for background ingestion; returns job_id immediately.
+
+    Several FILE_PATHs go in as ONE job (a file named twice, or inside a named
+    directory, is queued once). The worker processes a job's files one at a
+    time, in order; extraction fans out across a file's chunks
+    (ARTMIND_INGEST_MAX_WORKERS), not across files.
 
     With --pending (and no FILE_PATH), submits the vault's pending files
     instead: exactly what `artmind ingest pending` lists.
@@ -960,7 +988,7 @@ def ingest_async(
     _require_ingest_extra()
     _setup_logger()
     if pending:
-        if file_path is not None:
+        if file_paths:
             raise click.ClickException("--pending takes no FILE_PATH: it submits the vault's pending files")
         if match:
             raise click.ClickException("--match filters FILE_PATH's files; --pending takes none")
@@ -968,14 +996,25 @@ def ingest_async(
             domain=domain, force=force, stage_only=stage_only, reextract=reextract, compact=compact,
         )
         return
-    if file_path is None:
+    if not file_paths:
         raise click.ClickException("Give a FILE_PATH to ingest, or --pending for the vault's pending files")
-    path = Path(file_path)
-    _check_named_file_supported(path)
+    missing = [p for p in file_paths if not Path(p).exists()]
+    if missing:
+        raise click.ClickException(f"Path does not exist: {', '.join(missing)}. Nothing was queued.")
 
-    files = collect_ingest_files(path)
-    vault_manifest, files = _manifest_for_ingest(path, files)
-    files = _filter_match(files, path, match)
+    files: list[Path] = []
+    vault_manifest = None
+    seen: set[Path] = set()
+    for named in file_paths:
+        path = Path(named)
+        _check_named_file_supported(path)
+        found = collect_ingest_files(path)
+        vault_manifest, found = _manifest_for_ingest(path, found)
+        for f in _filter_match(found, path, match):
+            if f.resolve() not in seen:
+                seen.add(f.resolve())
+                files.append(f)
+    path = Path(file_paths[0])  # the "no files found" message below names the first
 
     from paths import ARTMIND_VAULT_DIR
 
@@ -1017,7 +1056,7 @@ def ingest_async(
 
     _validate_manifest_domains(vault_manifest)
     if not files:
-        raise click.ClickException(f"No files found in {path}")
+        raise click.ClickException(f"No files found in {', '.join(file_paths)}")
 
     batch_files = [str(f.resolve()) for f in files]
     _submit_job(
@@ -1297,7 +1336,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     if doc_kg_dir:
         logger.info("extract_kg complete — merged JSON in {}", doc_kg_dir)
     else:
-        raise click.ClickException("extract_kg failed — check logs for details")
+        raise click.ClickException(file_result.get("kg_error") or "extract_kg failed — check logs for details")
 
 
 @ingest.command("classify-reingest")
@@ -1722,6 +1761,15 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
         "which applies proposals already vetted at dry-run time."
     ),
 )
+@click.option(
+    "--documentName", "document_name", default=None,
+    help=(
+        "Cluster only the names ONE document's chunks gave things (matched by name, path or id,"
+        " as `query document-history` does) -- for a single amendment that extraction split into"
+        " one entity per chunk. Works with --dry-run; the report counts the merges that join names"
+        " one document asserted both of."
+    ),
+)
 def ingest_refine_graph(
     domain: str | None,
     name_filter: str | None,
@@ -1731,6 +1779,7 @@ def ingest_refine_graph(
     output_file: str | None,
     from_file: str | None,
     allow_cross_domain_merge: bool,
+    document_name: str | None,
 ) -> None:
     """Find similar entity names, propose same-as groups for a human to approve.
 
@@ -1770,6 +1819,7 @@ def ingest_refine_graph(
         output_file=out_path,
         from_file=from_path,
         allow_cross_domain_merge=allow_cross_domain_merge,
+        document_name=document_name,
     )
 
     proposed = report.get("proposed_merges", {})
@@ -1784,7 +1834,11 @@ def ingest_refine_graph(
             "Review with `artmind sameas list`, then `artmind sameas approve <id>`."
         )
     else:
-        click.echo(f"Dry-run complete — {len(proposed)} merge(s) proposed")
+        within = report.get("within_document_merges")
+        click.echo(
+            f"Dry-run complete — {len(proposed)} merge(s) proposed"
+            + (f", {within} within one document" if within is not None else "")
+        )
         if out_path:
             click.echo(f"Proposals written to: {out_path}")
             click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")

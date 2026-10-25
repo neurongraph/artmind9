@@ -287,7 +287,7 @@ def _fetch_active_jobs() -> list[dict]:
                 # still NULL (they're only written once the whole document
                 # finishes) -- chunk_progress is the only live signal, same as
                 # _get_job_status.
-                if f[3] and f[2] == "extract_kg":
+                if f[3] and (f[2] == "extract_kg" or f[1] == "failed"):
                     entry["chunk_progress"] = _get_chunk_progress(f[3])
                 if f[6]:  # domain
                     entry["domain"] = f[6]
@@ -435,12 +435,15 @@ def _get_chunk_progress(doc_sha256: str) -> dict:
     conn = _get_db()
     try:
         rows = conn.execute(
-            "SELECT entities_status, properties_status, relationships_status"
+            "SELECT entities_status, properties_status, relationships_status, chunk_seq"
             " FROM kg_chunk_status WHERE doc_sha256 = ? ORDER BY chunk_seq",
             (doc_sha256,),
         ).fetchall()
         return {
             "total_chunks": len(rows),
+            # The chunks to look at: a step failed, so the file is not staged
+            # and a retry redoes only these.
+            "failed_chunks": [r[3] for r in rows if "failed" in r[:3]],
             "entities_done": sum(1 for r in rows if r[0] in ("ok", "skipped")),
             "properties_done": sum(1 for r in rows if r[1] in ("ok", "skipped")),
             "relationships_done": sum(1 for r in rows if r[2] in ("ok", "skipped")),
@@ -474,7 +477,7 @@ def _get_job_status(job_id: str) -> dict | None:
                 "filename": r[0], "status": r[1], "current_step": r[2],
                 "entities": r[4], "relationships": r[5],
             }
-            if r[3] and r[2] == "extract_kg":
+            if r[3] and (r[2] == "extract_kg" or r[1] == "failed"):
                 entry["chunk_progress"] = _get_chunk_progress(r[3])
             if r[6]:  # domain
                 entry["domain"] = r[6]

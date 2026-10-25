@@ -114,7 +114,8 @@ def test_active_jobs_carry_chunk_progress_for_a_file_mid_extraction():
 
     files = _files_by_name(_fetch_active_jobs()[0])
     assert files["Blue Carbuncle.pdf"]["chunk_progress"] == {
-        "total_chunks": 1, "entities_done": 1, "properties_done": 1, "relationships_done": 0,
+        "total_chunks": 1, "failed_chunks": [],
+        "entities_done": 1, "properties_done": 1, "relationships_done": 0,
     }
     assert files["plain.md"].get("chunk_progress") is None, "only the file actually mid-extraction gets it"
 
@@ -288,3 +289,25 @@ def test_every_job_read_path_carries_the_per_file_domain():
         assert files["Blue Carbuncle.pdf"]["domain"] == "banking.policy"
         assert "domain" not in files["plain.md"], "a file not yet routed has none"
     assert _get_job_status(job_id)["domain"] == "fiction"
+
+
+def test_a_failed_file_keeps_reporting_which_chunks_failed():
+    """After the worker stops (current_step cleared) the operator still needs
+    the chunk numbers a retry will redo -- and sees steps that never finished
+    as not done rather than reading as a clean 20/20/20."""
+    job_id = _job()
+    _update_job_file_status(job_id, PDF, status="failed", current_step=None, doc_sha256="sha-pdf",
+                            error_message="KG extraction incomplete: chunk(s) [2] of 2 still failed")
+    conn = db._get_db()
+    conn.executemany(
+        "INSERT INTO kg_chunk_status (doc_sha256, doc_id, chunk_seq, entities_status,"
+        " properties_status, relationships_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [("sha-pdf", "doc-1", 1, "ok", "ok", "ok", "2026-10-01T00:00:00"),
+         ("sha-pdf", "doc-1", 2, "failed", "pending", "pending", "2026-10-01T00:00:00")],
+    )
+    conn.commit()
+    conn.close()
+
+    progress = _files_by_name(_fetch_active_jobs()[0])["Blue Carbuncle.pdf"]["chunk_progress"]
+    assert progress == {"total_chunks": 2, "failed_chunks": [2],
+                        "entities_done": 1, "properties_done": 1, "relationships_done": 1}

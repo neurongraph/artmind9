@@ -53,7 +53,7 @@ def _seams(monkeypatch, seen):
     monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
 
     def entities_prompt(text, schema, vocabulary=None):
-        seen.append(text)
+        seen.append(ing.strip_document_header(text))  # the passage, not the header around it
         return "p"
 
     monkeypatch.setattr(ing, "build_entities_prompt", entities_prompt)

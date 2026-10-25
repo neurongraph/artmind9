@@ -283,7 +283,10 @@ change), pass `--reextract` to `ingest sync` / `ingest async`, optionally with
 They take the `content` tier instead of the metadata-only fast path: the LLM
 runs again under the schema as it stands, the note's graph contribution is
 replaced as for any content change, and the note is neither edited nor given a
-new version. It costs an LLM call per chunk, so narrow it first.
+new version. It costs an LLM call per chunk, so narrow it first. A converted
+document (pdf, docx, pptx) takes the same flag instead of its `no_op`: it is
+re-extracted from the markdown already stored under `.artmind/`, without
+converting the source again, and the source is never edited or moved.
 
 Domain precedence, highest first: `--setDomain` (force + re-extract) → the file's
 own `_domain` frontmatter → the folder mapping → `--domain` as the fallback for
@@ -816,6 +819,26 @@ both.
 | **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_INGEST_MAX_WORKERS` |
 | **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
 | **Runtime** | `ARTMIND_NO_PROXY`, `ARTMIND_NO_STALENESS_CHECK` (silence the `query` staleness line), `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (cap on `POST /api/artifacts/import`'s uploaded zip size, admin-ui only — not `vault sync` or snapshot import/restore; default 512 MiB) |
+
+`ARTMIND_INGEST_MAX_WORKERS` is how many **chunks of one file** are extracted at
+once. The background worker (`ingest async`) processes a job's **files one at a
+time**, and one job at a time; concurrency across files is not offered, so a slow
+provider is relieved by lowering the chunk fan-out, not by submitting more jobs.
+`ARTMIND_KG_TRUNCATION_MAX_TOKENS` (default 32000) is the output-token cap of the
+one retry an answer cut off at the provider's limit gets, before the chunk is
+split; lower it when an endpoint refuses that much.
+
+### When a chunk fails to extract
+
+A chunk step that raises, or whose answer is cut off, costs only that chunk:
+an answer cut off at the output limit is retried once with more room, then the
+chunk is split (at paragraph or table-row boundaries, the table header repeated)
+and the pieces merged; an entity missing `id`, `name` or `entity_class` is dropped
+and logged. If a step is still failed after the retry the file is **not staged**
+(the loss guard, `docs/superpowers/specs/2026-10-18-extraction-loss-guard-design.md`),
+the job records it failed with the chunk numbers (`chunk(s) [3, 7] of 12 ...`, also
+`chunk_progress.failed_chunks` in `ingest job-status`), and every other chunk stays
+cached: `ingest retry-job` / re-running `ingest sync` redoes only those chunks.
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a

@@ -153,6 +153,17 @@ def test_call_llm_passes_kg_llm_url_as_ollama_host():
     mock_ollama.assert_called_once_with("some-model", "prompt", 120, host="http://llm-host:11434")
 
 
+def test_call_llm_passes_max_tokens_down_only_when_given():
+    env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter"}
+    with patch("artmind.extraction.load_env", return_value=env), patch(
+        "artmind.extraction.call_llm_openrouter", return_value="hi"
+    ) as mock_openrouter:
+        call_llm("some-model", "prompt")
+        call_llm("some-model", "prompt", max_tokens=32000)
+    assert "max_tokens" not in mock_openrouter.call_args_list[0].kwargs
+    assert mock_openrouter.call_args_list[1].kwargs["max_tokens"] == 32000
+
+
 def test_ollama_client_passes_host_through():
     from artmind.llm_providers import _ollama_client
 
@@ -413,3 +424,35 @@ def test_an_unwritable_capability_file_does_not_break_the_call(monkeypatch):
     logs = llm_providers._capabilities_path().parent
     assert not llm_providers._capabilities_path().exists()
     assert not list(logs.glob(".llm_capabilities.json.*.tmp"))
+
+
+# ── a model that cannot be pinned says so on every run (study item 6) ────────
+
+
+def test_unpinned_models_lists_a_learned_refusal_in_a_new_process():
+    from artmind import llm_providers
+
+    _calls_with_a_client([_bad_request(LITELLM_TEMPERATURE_400), _ok()], "claude-haiku-5-5")
+    _forget_in_memory_only()
+
+    assert llm_providers.temperature_not_pinned("claude-haiku-5-5", {}) is True
+    assert llm_providers.temperature_not_pinned("claude-haiku-4-5", {}) is False
+
+
+def test_extract_kg_warns_when_its_model_runs_without_a_pinned_temperature(monkeypatch, tmp_path):
+    from loguru import logger
+    from test_ingest_concurrency import _setup_extract_env
+
+    import artmind.ingest as ing
+    from artmind import llm_providers
+
+    file_result = _setup_extract_env(monkeypatch, tmp_path, 1)
+    monkeypatch.setattr(llm_providers, "temperature_not_pinned", lambda model, env: True)
+    messages = []
+    handle = logger.add(lambda m: messages.append(str(m)), level="WARNING")
+    try:
+        ing.extract_kg(file_result, "testdom", text_model="claude-haiku-5-5", max_workers=1)
+    finally:
+        logger.remove(handle)
+
+    assert any("claude-haiku-5-5" in m and "temperature" in m and "reproducible" in m for m in messages)

@@ -267,7 +267,9 @@ def _process_job(
                         status="completed" if kg_ok else "failed",
                         current_step=None,
                         completed_at=datetime.now().isoformat(),
-                        error_message=None if kg_ok else "KG ingestion failed",
+                        # extract_kg leaves the failed chunk numbers in `kg_error`
+                        # (its other chunks are done and cached for the retry).
+                        error_message=None if kg_ok else result.get("kg_error") or "KG ingestion failed",
                         kg_counts=result.get("kg_counts"),
                         domain=effective_domain,
                     )

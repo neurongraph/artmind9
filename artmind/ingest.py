@@ -39,6 +39,7 @@ from artmind.extraction import (
     embed_text as _embed_text,
     call_llm as _call_llm_text,
     extract_with_retry as _llm_extract_shared,
+    TruncatedAnswer,
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
     ibm_ica_client_env as _ibm_ica_client_env,
@@ -244,6 +245,16 @@ def _get_chunk_statuses(doc_sha256: str) -> dict[int, dict]:
         }
     finally:
         conn.close()
+
+
+def _incomplete_chunks(statuses: dict[int, dict]) -> list[int]:
+    """Chunk numbers with a step still `failed` -- or still `pending` once a
+    pass has run over them, which only a crash between the LLM call and the
+    chunk JSON can leave (and which used to be merged as if done)."""
+    return sorted(
+        seq for seq, s in statuses.items()
+        if {"failed", "pending"} & {s["entities_status"], s["properties_status"], s["relationships_status"]}
+    )
 
 
 def _update_chunk_step(doc_sha256: str, chunk_seq: int, step: str, status: str) -> None:
@@ -861,24 +872,28 @@ def ingest_file(
       a copied template with an unedited body is a legitimate new document
       rather than something to guard against.
 
-    `reextract` (vault-native markdown only) re-runs the LLM extraction of a
-    note whose body is unchanged, under the schema as it stands now: the note
-    takes the `content` tier instead of the `metadata_only` fast path (see
-    `NotePlan.tier`). Binaries and ad-hoc files ignore it.
+    `reextract` re-runs the LLM extraction of a note whose body is unchanged,
+    under the schema as it stands now: the note takes the `content` tier
+    instead of the `metadata_only` fast path (see `NotePlan.tier`). A
+    converted binary (pdf, docx, pptx, ...) does the same instead of the
+    `no_op` of an unchanged source: it reads the markdown already stored,
+    without converting the source again (`_ingest_binary_derived`). Ad-hoc
+    files ignore it.
     """
     if _is_vault_native_markdown(source):
         return _ingest_vault_native(
             source, domain=domain, job_id=job_id, chunk_size=chunk_size,
             set_domain=set_domain, fork=fork, adopt=adopt, reextract=reextract,
         )
-    if reextract:
-        logger.warning(
-            "--reextract applies to vault notes only; {} is ingested as usual", source.name
-        )
     if _is_binary_source(source):
         return _ingest_binary_derived(
             source, image_model, domain or "general", job_id, chunk_size,
-            set_domain=set_domain,
+            set_domain=set_domain, reextract=reextract,
+        )
+    if reextract:
+        logger.warning(
+            "--reextract applies to vault notes and converted documents (pdf, docx, pptx, ...) only;"
+            " {} is ingested as usual", source.name,
         )
     return _ingest_binary_or_adhoc(source, image_model, domain or "general", job_id, chunk_size)
 
@@ -1407,6 +1422,7 @@ def _ingest_binary_derived(
     chunk_size: int,
     *,
     set_domain: str | None = None,
+    reextract: bool = False,
 ) -> dict:
     """Ingest a true binary source (pdf/pptx/docx): convert it via docling and
     store the result permanently at `.artmind`'s own markdown store (docs/
@@ -1438,6 +1454,13 @@ def _ingest_binary_derived(
     as a fresh document, the same limitation `_ingest_vault_native` accepts
     for `--domain` before a file's own frontmatter can be consulted — except
     a binary has no frontmatter to consult until AFTER conversion.
+
+    `reextract` turns the `no_op` of an unchanged, already-extracted binary into
+    a re-extraction under the schema as it stands now: the stored markdown is
+    chunked again and handed to `extract_kg` (tier `content`, `reextract`), with
+    no conversion, no write to the markdown, no version bump and the source
+    untouched. Without a stored markdown or a previous extraction there is
+    nothing to re-run, and the ingest is the ordinary one.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -1478,6 +1501,11 @@ def _ingest_binary_derived(
     registered_path = plan.registered_path
     existing_meta = plan.existing_meta
     baseline = plan.baseline
+
+    if plan.unchanged and reextract and registered_path.exists():
+        return _reextract_converted_binary(
+            source, plan, file_result, effective_domain, chunk_size, orig_registry_path, t_file_start,
+        )
 
     if plan.unchanged:
         file_result["status"] = "ok"
@@ -1551,6 +1579,59 @@ def _ingest_binary_derived(
     logger.info(
         "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
         elapsed_total, source.name, version_decision.version, len(chunks),
+    )
+    return file_result
+
+
+def _reextract_converted_binary(
+    source: Path,
+    plan: BinaryPlan,
+    file_result: dict,
+    effective_domain: str,
+    chunk_size: int,
+    orig_registry_path: str,
+    t_file_start: float,
+) -> dict:
+    """`--reextract` of an unchanged binary: chunk the markdown the last
+    conversion stored and return the file result `extract_kg` needs, as a
+    conversion would -- but never call docling and never write the markdown,
+    the registry or the source. The version stays (`decide_version` only counts
+    a changed body) and so does the identity, so the commit replaces this
+    document's graph contribution exactly as for a changed one."""
+    registered_path = plan.registered_path
+    _, body = _parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))
+    version_decision = decide_version(body, plan.baseline)
+    chunks = _split_markdown(body, chunk_size)
+    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    _persist_chunks(chunks, chunks_dir, body=body)
+    provenance = {
+        "content_sha256": version_decision.content_sha256,
+        "source_sha256": plan.source_sha256,
+        "source_commit": _vault_current_commit(),
+        "ingested_at": datetime.now(_datetime.timezone.utc).isoformat(),
+        "source_path": orig_registry_path,
+        "source_type": source.suffix.lstrip(".").lower(),
+    }
+    (chunks_dir / CONVERSION_SIDECAR).write_text(
+        json.dumps({k: provenance[k] for k in _CONVERSION_KEYS}, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    file_result.update({
+        "status": "ok",
+        "domain": effective_domain,
+        "artmind_id": plan.existing_meta.get("_artmind_id"),
+        "version": version_decision.version,
+        "sha256": _compute_sha256(registered_path),
+        "registered_path": str(registered_path),
+        "chunks_dir": str(chunks_dir),
+        "chunk_count": len(chunks),
+        "tier": "content",
+        "reextract": True,
+        "provenance": provenance,
+    })
+    logger.info(
+        "── Ingest done in {:.1f}s: {} (re-extract from the stored markdown, v{}) — {} chunk(s)",
+        time.monotonic() - t_file_start, source.name, version_decision.version, len(chunks),
     )
     return file_result
 
@@ -1769,8 +1850,68 @@ def _chunk_cache_matches(chunks_dir: Path, body: str, chunk_size: int) -> bool:
         return False
 
 
+#: How much of the document's opening every chunk prompt quotes.
+DOCUMENT_HEADER_CHARS = 800
+#: The last line of a document header: what follows it is the passage itself.
+DOCUMENT_HEADER_END = "PASSAGE TO EXTRACT FROM:"
+
+
+def build_document_header(name: str, *, opening: str = "", section: str = "", limit: int = DOCUMENT_HEADER_CHARS) -> str:
+    """A short block telling a chunk's extraction which document the passage
+    belongs to: its file name, the section it sits under, and the document's
+    opening text cut to `limit` characters on a word boundary. Chunks extract
+    in isolation, so without it a clause of an amendment is named after
+    whatever label that chunk happens to use and each chunk mints its own
+    entity for the one thing (study item 3). '' when there is nothing to say."""
+    opening = " ".join((opening or "").split())
+    if limit and len(opening) > limit:
+        opening = opening[:limit].rsplit(" ", 1)[0].rstrip() + "…"
+    elif not limit:
+        opening = ""
+    if not (name or section or opening):
+        return ""
+    lines = ["DOCUMENT CONTEXT (only for naming and identifying things consistently -- do not extract from this block):"]
+    if name:
+        lines.append(f"Source: {name}")
+    if section:
+        lines.append(f"Section: {section}")
+    if opening:
+        lines.append("The document opens with:")
+        lines.append(opening)
+    lines.append(DOCUMENT_HEADER_END)
+    return "\n".join(lines)
+
+
+def strip_document_header(text: str) -> str:
+    """`text` without a leading document header -- the passage a chunk step was given."""
+    head, sep, passage = text.partition(DOCUMENT_HEADER_END + "\n\n")
+    return passage if sep and head.startswith("DOCUMENT CONTEXT") else text
+
+
+def with_document_header(header: str, text: str) -> str:
+    """`text` as the prompt builders take it: headed by `header` when there is one."""
+    return f"{header}\n\n{text}" if header else text
+
+
+def _document_header_settings(schema: dict) -> int:
+    """The opening's length for this schema: `document_header: false` turns the
+    header off (0), `document_header: {chars: N}` resizes it."""
+    setting = schema.get("document_header", True)
+    if setting is False:
+        return 0
+    if isinstance(setting, dict):
+        try:
+            return max(int(setting.get("chars", DOCUMENT_HEADER_CHARS)), 0)
+        except (TypeError, ValueError):
+            return DOCUMENT_HEADER_CHARS
+    return DOCUMENT_HEADER_CHARS
+
+
 def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tuple[list, bool]:
-    return _llm_extract_shared(step_name, model, prompt, debug_dir=debug_dir)
+    """One LLM step. An answer still cut off after the retry with more output
+    room raises `TruncatedAnswer`, which `_process_chunk` answers by splitting
+    the chunk (`_extract_splitting`)."""
+    return _llm_extract_shared(step_name, model, prompt, debug_dir=debug_dir, raise_on_truncation=True)
 
 
 def _save_debug(path: Path, content: str) -> None:
@@ -1778,23 +1919,127 @@ def _save_debug(path: Path, content: str) -> None:
     logger.debug("Raw LLM response saved for debugging: {}", path.name)
 
 
+#: What an extracted entity must carry for the later steps and the graph to use
+#: it. An item missing one is dropped (and logged), never allowed to fail the
+#: chunk. `type` is not here: the graph stores it only when present
+#: (`observations.build_observation`), so an entity without one is still a fact.
+REQUIRED_ENTITY_FIELDS = ("id", "name", "entity_class")
+
+
 def _filter_valid_items(
-    items: list, seq: int, step_name: str, required_key: str | None = None
+    items: list, seq: int, step_name: str, required_key: str | tuple[str, ...] | None = None
 ) -> list:
-    """Drop non-dict items an LLM occasionally mixes into otherwise-valid JSON output."""
+    """Drop what an LLM occasionally mixes into otherwise-valid JSON output:
+    non-dict items, and items lacking `required_key` (one name or several; a
+    missing, null or blank value counts as lacking)."""
+    required = (required_key,) if isinstance(required_key, str) else tuple(required_key or ())
 
-    def is_valid(item) -> bool:
+    def missing(item) -> list[str]:
+        return [
+            k for k in required
+            if item.get(k) is None or (isinstance(item.get(k), str) and not item[k].strip())
+        ]
+
+    valid, lacking = [], {}
+    for item in items:
         if not isinstance(item, dict):
-            return False
-        return required_key is None or required_key in item
-
-    valid = [item for item in items if is_valid(item)]
+            lacking.setdefault("(not an object)", 0)
+            lacking["(not an object)"] += 1
+            continue
+        absent = missing(item)
+        if absent:
+            for key in absent:
+                lacking[key] = lacking.get(key, 0) + 1
+            continue
+        valid.append(item)
     dropped = len(items) - len(valid)
     if dropped:
         logger.warning(
-            "  Chunk {} — dropped {} malformed {} item(s) from LLM output", seq, dropped, step_name
+            "  Chunk {} — dropped {} malformed {} item(s) from LLM output (missing: {})",
+            seq, dropped, step_name, ", ".join(f"{k} x{n}" for k, n in sorted(lacking.items())),
         )
     return valid
+
+
+#: A chunk under this many characters is not split further after a cut-off answer.
+_MIN_SPLIT_CHARS = 400
+#: How many times a chunk may be halved (up to 2**depth pieces).
+_MAX_SPLIT_DEPTH = 3
+
+
+def _split_chunk_text(text: str) -> list[str]:
+    """Halve `text` for a step whose answer was cut off: `[first, second]`, or
+    `[]` when it is too small to split. Prefers a paragraph boundary near the
+    middle, else a line boundary (a table splits between rows, and the second
+    half gets the table's header and separator rows repeated), else a space."""
+    if len(text) < _MIN_SPLIT_CHARS:
+        return []
+    middle = len(text) / 2
+
+    def nearest(sep: str, lo: float, hi: float) -> int | None:
+        hits = [
+            m.start() for m in re.finditer(re.escape(sep), text)
+            if lo * len(text) <= m.start() <= hi * len(text)
+        ]
+        return min(hits, key=lambda h: abs(h - middle)) if hits else None
+
+    for sep, lo, hi in (("\n\n", 0.25, 0.75), ("\n", 0.0, 1.0), (" ", 0.0, 1.0)):
+        at = nearest(sep, lo, hi)
+        if at is not None:
+            first, second = text[:at], text[at + len(sep):]
+            if first.strip() and second.strip():
+                return _reattach_table_headers([first, second])
+    return []
+
+
+def _extract_splitting(label: str, text: str, run, merge, depth: int = 0) -> tuple[list, bool]:
+    """`run(text, label)` for one LLM step; if its answer is cut off even after
+    the retry with more output room, halve `text` and run each half (recursively,
+    up to `_MAX_SPLIT_DEPTH`), then `merge([(piece_no, items), ...])`. A half
+    that still fails fails the step."""
+    try:
+        return run(text, label)
+    except TruncatedAnswer:
+        pieces = _split_chunk_text(text) if depth < _MAX_SPLIT_DEPTH else []
+        if not pieces:
+            logger.error("  {} answer cut off and the text cannot be split further", label)
+            return [], False
+        logger.warning("  {} answer cut off -- splitting the text into {} pieces", label, len(pieces))
+        parts = []
+        for number, piece in enumerate(pieces, start=1):
+            items, ok = _extract_splitting(f"{label}_p{number}", piece, run, merge, depth + 1)
+            if not ok:
+                return [], False
+            parts.append((number, items))
+        return merge(parts), True
+
+
+def _merge_entity_pieces(parts: list[tuple[int, list]]) -> list:
+    """Entity ids are local to one answer ("prd_001" in each piece): prefix each
+    piece's so the merged list has no collisions."""
+    return [
+        {**e, "id": f"p{number}_{e['id']}"} if isinstance(e, dict) and "id" in e else e
+        for number, items in parts for e in items
+    ]
+
+
+def _merge_property_pieces(parts: list[tuple[int, list]]) -> list:
+    """One entry per entity id, its `properties` objects combined across pieces."""
+    merged: dict = {}
+    loose: list = []
+    for _, items in parts:
+        for item in items:
+            if not isinstance(item, dict) or "id" not in item:
+                loose.append(item)
+                continue
+            into = merged.setdefault(item["id"], {**item, "properties": {}})
+            if isinstance(item.get("properties"), dict):
+                into["properties"].update(item["properties"])
+    return [*merged.values(), *loose]
+
+
+def _merge_relationship_pieces(parts: list[tuple[int, list]]) -> list:
+    return [r for _, items in parts for r in items]
 
 
 def _rewrite_entity_ids(
@@ -1832,37 +2077,12 @@ def _sanitize_label(s: str) -> str:
     return re.sub(r"[^A-Za-z0-9_]", "_", s.strip()).upper() or "UNKNOWN"
 
 
-# SUPERSEDES is created ONLY by the audited temporal helpers (apply_supersession /
-# apply_node_supersession), which stamp provenance (scope/detected_by/effective) and
-# retire the older side. An LLM-extracted Entity->Entity relationship must never mint
-# a bare SUPERSEDES edge with no provenance — that corrupts lineage silently.
-#
-# EXTRACTED_FROM is reserved too: no shipped domain schema lists it as a legitimate
-# Entity<->Entity rel_type (it's structural, written only between an :Observation and
-# its source :DocChunk — see observations.py — never between two Entities), so
-# blocking it as an Entity->Entity type is defense-in-depth with no known cost.
-#
-# PRIOR_STATE, entity_history.py and the :EntityVersion zone it backed are gone
-# (Phase 4) — nothing left links a live Entity to a history snapshot node, since
-# observations now carry that role directly (see `query entity-history`). Not
-# un-reserved: an LLM-minted PRIOR_STATE edge would still be confusing machinery-
-# shaped noise even with nothing left to check it against.
-#
-# PART_OF is deliberately NOT reserved: multiple shipped schemas (general_schema,
-# banking.organization_schema, sales_collateral_schema, project_governance_schema)
-# list part_of as a legitimate LLM-extractable Entity->Entity relationship (e.g.
-# "Branch X part_of Region Y"). The only structural PART_OF edge is the hardcoded
-# DocChunk->Document edge written elsewhere in this module's own upsert code — a
-# different code path from this Entity->Entity loop — so reserving PART_OF here
-# would silently drop legitimate, schema-sanctioned extractions.
-RESERVED_REL_TYPES = frozenset({
-    "SUPERSEDES", "EXTRACTED_FROM", "PRIOR_STATE",
-    # Phase 4: the collapsed relationship shape and the observation/entity
-    # aggregation machinery that produces it. An extractor claiming one of
-    # these as its own rel_type would be indistinguishable from the system's
-    # own edges.
-    "RELATES_TO", "ASSERTS_RELATION", "AGGREGATES",
-})
+# The rel_types an extractor may never mint (SUPERSEDES, EXTRACTED_FROM, PRIOR_STATE,
+# RELATES_TO, ASSERTS_RELATION, AGGREGATES) and why PART_OF is not among them are
+# documented where the list lives, `schema_validate.RESERVED_REL_TYPES`: a schema
+# that asks the model for one is warned about at `domains validate` and at the start
+# of an extraction, and the write loop below drops the edge.
+from artmind.schema_validate import RESERVED_REL_TYPES, reserved_relationship_warnings  # noqa: E402
 
 
 def _neo4j_value(key, value):
@@ -2704,12 +2924,20 @@ def extract_kg(
     if not domain_schema_file.exists():
         logger.error("Domain schema not found: {}", domain_schema_file)
         return None
+    from artmind.schema_validate import schema_parse_error
+
+    parse_error = schema_parse_error(domain_schema_file)
+    if parse_error:
+        logger.error("{} -- fix it (`artmind domains validate --domain {}` checks it) and re-run", parse_error, domain)
+        return None
     # `load_schema`, not a bare YAML read: a dotted child domain inherits its
     # parent's `temporal:` block (labels, patterns, defaults, anchor) here --
     # the only place a document's date is resolved.
     from artmind.temporal import load_schema
 
     schema = load_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
+    for warning in reserved_relationship_warnings(schema, domain):
+        logger.warning("Schema {}", warning)
 
     doc_kg_dir = KG_DIR / domain / registered_path.stem
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
@@ -2813,6 +3041,45 @@ def extract_kg(
 
     chunk_files = sorted(chunks_dir.glob("chunk_*.md"))
     chunk_count = len(chunk_files)
+
+    # A model that rejected temperature=0 is called without one from then on
+    # (llm_providers); say so on every run, not only the one that learned it.
+    try:
+        from artmind import llm_providers
+
+        run_env = load_env()
+        provider_env = (
+            _ibm_ica_client_env(run_env) if run_env.get("ARTMIND_KG_LLM_PROVIDER") == "ibm_ica" else run_env
+        )
+        if llm_providers.temperature_not_pinned(text_model, provider_env):
+            logger.warning(
+                "{} does not accept temperature=0, so its extraction is not reproducible: "
+                "re-extracting the same text can yield different entities", text_model,
+            )
+    except Exception as e:  # a notice, never a reason to stop
+        logger.debug("temperature notice skipped: {}", e)
+
+    # The document header every chunk's prompts carry (study item 3): built once
+    # here -- file name, the document's opening, and each chunk's section.
+    header_chars = _document_header_settings(schema)
+    header_name = Path(
+        (file_result.get("provenance") or {}).get("source_path") or registered_path
+    ).name
+    header_opening = chunk_files[0].read_text(encoding="utf-8") if chunk_files and header_chars else ""
+    try:
+        header_sections = json.loads((chunks_dir / "chunks_meta.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        header_sections = {}
+
+    def _document_header(seq: int) -> str:
+        if not header_chars:
+            return ""
+        section = (header_sections.get(f"{seq:03d}") or {}).get("header_path") or ""
+        # The first chunk IS the opening: quoting it back would only double its text.
+        return build_document_header(
+            header_name, opening="" if seq == 1 else header_opening, section=section, limit=header_chars,
+        )
+
     logger.info(
         "KG extraction: {} | {} chunk(s) | model={} | embed={}",
         registered_path.name,
@@ -2879,19 +3146,41 @@ def extract_kg(
             data.setdefault("next_chunk_id", f"{doc_id}_{seq + 1:03d}")
 
         entities_status = status.get("entities_status", "pending")
+        # Step statuses are recorded only after chunk_NNN.json is on disk (end
+        # of this function): an `ok` row must never point at a JSON a crash
+        # kept from being written -- the resume would skip the chunk and the
+        # merge would silently drop it.
+        marks: dict[str, str] = {}
+
+        def _step(step: str, prompt_for, merge) -> tuple[list, bool]:
+            """One LLM step over this chunk, split on a cut-off answer. Any
+            exception fails the step, never the chunk's siblings or the file."""
+            try:
+                header = _document_header(seq)
+                return _extract_splitting(
+                    f"chunk_{seq:03d}_{step}", chunk_text,
+                    lambda text, label: _llm_extract(
+                        label, text_model, prompt_for(with_document_header(header, text)), doc_kg_dir,
+                    ),
+                    merge,
+                )
+            except Exception as e:
+                logger.error("  Chunk {} — {} step raised: {}", seq, step, e)
+                return [], False
 
         # ── entities ──────────────────────────────────────────────────────────
         if entities_status != "ok":
             logger.info("  Chunk {} — entities", seq)
-            raw_entities, ok = _llm_extract(
-                f"chunk_{seq:03d}_entities",
-                text_model,
-                build_entities_prompt(chunk_text, schema, vocabulary=vocabulary),
-                doc_kg_dir,
+            raw_entities, ok = _step(
+                "entities",
+                lambda text: build_entities_prompt(text, schema, vocabulary=vocabulary),
+                _merge_entity_pieces,
             )
-            _update_chunk_step(doc_sha256, seq, "entities", "ok" if ok else "failed")
+            marks["entities"] = "ok" if ok else "failed"
             if ok:
-                raw_entities = _filter_valid_items(raw_entities, seq, "entity", required_key="id")
+                raw_entities = _filter_valid_items(
+                    raw_entities, seq, "entity", required_key=REQUIRED_ENTITY_FIELDS,
+                )
                 entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
                 data["raw_entities"] = raw_entities
                 data["id_map"] = id_map
@@ -2921,20 +3210,19 @@ def extract_kg(
             if not prompt_entities:
                 # A scoped redo with nothing in scope in this chunk: the
                 # cached properties already are the answer.
-                _update_chunk_step(doc_sha256, seq, "properties", "ok")
+                marks["properties"] = "ok"
                 data.setdefault("properties", [])
             else:
                 logger.info("  Chunk {} — properties", seq)
-                raw_props, ok = _llm_extract(
-                    f"chunk_{seq:03d}_properties",
-                    text_model,
-                    build_properties_prompt(
-                        chunk_text, prompt_entities, schema,
+                raw_props, ok = _step(
+                    "properties",
+                    lambda text: build_properties_prompt(
+                        text, prompt_entities, schema,
                         vocabulary=property_vocabulary, anchor_date=anchor_date,
                     ),
-                    doc_kg_dir,
+                    _merge_property_pieces,
                 )
-                _update_chunk_step(doc_sha256, seq, "properties", "ok" if ok else "failed")
+                marks["properties"] = "ok" if ok else "failed"
                 if ok:
                     raw_props = _filter_valid_items(raw_props, seq, "property")
                     props = [
@@ -2951,19 +3239,18 @@ def extract_kg(
                     data.setdefault("properties", [])
         elif not has_entities or entities_status != "ok":
             data.setdefault("properties", [])
-            _update_chunk_step(doc_sha256, seq, "properties", "skipped")
+            marks["properties"] = "skipped"
 
         # ── relationships ─────────────────────────────────────────────────────
         relationships_status = status.get("relationships_status", "pending")
         if has_entities and entities_status == "ok" and relationships_status != "ok":
             logger.info("  Chunk {} — relationships", seq)
-            raw_rels, ok = _llm_extract(
-                f"chunk_{seq:03d}_relationships",
-                text_model,
-                build_relationships_prompt(chunk_text, data.get("raw_entities", []), schema),
-                doc_kg_dir,
+            raw_rels, ok = _step(
+                "relationships",
+                lambda text: build_relationships_prompt(text, data.get("raw_entities", []), schema),
+                _merge_relationship_pieces,
             )
-            _update_chunk_step(doc_sha256, seq, "relationships", "ok" if ok else "failed")
+            marks["relationships"] = "ok" if ok else "failed"
             if ok:
                 raw_rels = _filter_valid_items(raw_rels, seq, "relationship")
                 rels = _rewrite_ref_ids(raw_rels, id_map, "source_id", "target_id")
@@ -2985,12 +3272,27 @@ def extract_kg(
                 data.setdefault("relationships", [])
         elif not has_entities or entities_status != "ok":
             data.setdefault("relationships", [])
-            _update_chunk_step(doc_sha256, seq, "relationships", "skipped")
+            marks["relationships"] = "skipped"
 
         chunk_json.write_text(
             json.dumps(strip_embeddings(data), indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
+        for step, mark in marks.items():
+            _update_chunk_step(doc_sha256, seq, step, mark)
+
+    def _process_chunk_isolated(seq: int, chunk_file: Path, statuses: dict) -> None:
+        """`_process_chunk`, with anything it raises recorded as this chunk's
+        failure (its entities step `failed`, so a resume redoes it and the
+        steps after it) instead of aborting the other chunks and the file."""
+        try:
+            _process_chunk(seq, chunk_file, statuses)
+        except Exception as e:
+            logger.error("Chunk {} raised during extraction: {}", seq, e)
+            try:
+                _update_chunk_step(doc_sha256, seq, "entities", "failed")
+            except Exception as mark_error:
+                logger.error("  Could not mark chunk {} failed: {}", seq, mark_error)
 
     try:
         # ── first pass ────────────────────────────────────────────────────────────
@@ -2999,7 +3301,7 @@ def extract_kg(
         if workers <= 1:
             for seq, chunk_file in enumerate(chunk_files, start=1):
                 logger.info("Chunk {}/{} ({} bytes)", seq, chunk_count, chunk_file.stat().st_size)
-                _process_chunk(seq, chunk_file, statuses)
+                _process_chunk_isolated(seq, chunk_file, statuses)
         else:
             # NOTE(429-backoff): this fan-out is exactly what can trip a provider's
             # rate limit — `workers` concurrent LLM requests per document. If you raise
@@ -3010,38 +3312,24 @@ def extract_kg(
             # own chunk file, writes chunk_{seq}.json to a unique path, and records
             # status in its own SQLite row (WAL + busy-timeout make concurrent writes
             # safe). Completion order is irrelevant — the merge pass below reads back
-            # by seq. A worker that raises is logged; the first exception is re-raised
-            # after the pool drains so an unexpected failure still surfaces (matching
-            # the sequential path), while chunks that did finish stay on disk for
-            # resume.
-            first_exc: Exception | None = None
+            # by seq. A chunk that raises is recorded as failed
+            # (`_process_chunk_isolated`), exactly as on the sequential path; the
+            # retry pass and the refusal below deal with it.
             with ThreadPoolExecutor(max_workers=workers) as pool:
-                futures = {
-                    pool.submit(_process_chunk, seq, chunk_file, statuses): seq
+                for future in [
+                    pool.submit(_process_chunk_isolated, seq, chunk_file, statuses)
                     for seq, chunk_file in enumerate(chunk_files, start=1)
-                }
-                for future in as_completed(futures):
-                    seq = futures[future]
-                    try:
-                        future.result()
-                    except Exception as e:
-                        logger.error("Chunk {} raised during extraction: {}", seq, e)
-                        if first_exc is None:
-                            first_exc = e
-            if first_exc is not None:
-                raise first_exc
+                ]:
+                    future.result()
 
         # ── pre-merge retry pass ───────────────────────────────────────────────────
         statuses = _get_chunk_statuses(doc_sha256)
-        failed_seqs = [
-            seq for seq, s in statuses.items()
-            if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
-        ]
+        failed_seqs = _incomplete_chunks(statuses)
         if failed_seqs:
             logger.info("Pre-merge retry: {} chunk(s) with failed steps — retrying", len(failed_seqs))
             for seq in failed_seqs:
                 chunk_file = chunks_dir / f"chunk_{seq:03d}.md"
-                _process_chunk(seq, chunk_file, statuses)
+                _process_chunk_isolated(seq, chunk_file, statuses)
     except BaseException:
         _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
         raise
@@ -3049,19 +3337,21 @@ def extract_kg(
     # ── refuse an incomplete extraction (spec 2026-10-18 §3.1) ────────────────
     # Staging is what Obsidian Git commits and every other machine rebuilds its
     # graph from: an extraction with a step still failed after the retry must
-    # never replace it. Without --reextract the failed rows stay for resume.
-    still_failed = sorted(
-        seq for seq, s in _get_chunk_statuses(doc_sha256).items()
-        if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
-    )
+    # never replace it. Without --reextract the failed rows (and every other
+    # chunk's finished work) stay for resume, which redoes only those chunks.
+    still_failed = _incomplete_chunks(_get_chunk_statuses(doc_sha256))
     if still_failed:
-        logger.error(
-            "KG extraction of {} incomplete: chunk(s) {} still failed after the retry -- "
-            "staging left unchanged and the file marked failed; re-run the same command",
-            registered_path.name, still_failed,
+        file_result["failed_chunks"] = still_failed
+        file_result["kg_error"] = (
+            f"KG extraction incomplete: chunk(s) {still_failed} of {chunk_count} still failed "
+            "after the retry; the other chunks are done and cached, staging is unchanged. "
+            "Re-run the same command (or `artmind ingest retry-job`) to redo only those chunks."
         )
+        logger.error("{}: {}", registered_path.name, file_result["kg_error"])
         _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
         return None
+    file_result.pop("failed_chunks", None)
+    file_result.pop("kg_error", None)
 
     # ── merge chunk JSONs into document-level files ────────────────────────────
     all_chunks: list[dict] = []

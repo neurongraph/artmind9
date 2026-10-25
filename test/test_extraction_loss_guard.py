@@ -169,6 +169,8 @@ def test_a_failed_reextraction_leaves_staging_cache_and_rows_as_they_were(ingest
 
 
 def test_an_exception_during_reextraction_restores_the_cache(ingest_env, monkeypatch, stash_root):
+    """A step that raises is that chunk's failure, not the file's abort: the
+    extraction is refused (None) and the stash put back, as for any failed step."""
     vault, _ = ingest_env
     result, folder = _previously_extracted(vault, monkeypatch)
     before_files = _snapshot(folder)
@@ -178,12 +180,32 @@ def test_an_exception_during_reextraction_restores_the_cache(ingest_env, monkeyp
 
     _seams(monkeypatch, boom)
 
-    with pytest.raises(RuntimeError, match="provider down"):
-        ing.extract_kg(result, "general", max_workers=1)
+    assert ing.extract_kg(result, "general", max_workers=1) is None
 
+    assert result["failed_chunks"] == [1]
     assert _snapshot(folder) == before_files
     cache = folder / "chunks" / result["sha256"]
     assert json.loads((cache / "chunk_001.json").read_text()) == {"raw_entities": ["prior"]}
+    assert list((stash_root / "reextract-stash").iterdir()) == []
+
+
+def test_a_crash_outside_the_chunk_steps_still_restores_the_cache(ingest_env, monkeypatch, stash_root):
+    """What the stash `except BaseException` guards now: a failure that is not a
+    chunk step's (here the merge's canonicalization)."""
+    vault, _ = ingest_env
+    result, folder = _previously_extracted(vault, monkeypatch)
+    before_files = _snapshot(folder)
+    _seams(monkeypatch, lambda step: ([{"id": "e1", "entity_class": "Thing", "name": "A"}], True)
+           if step.endswith("_entities") else ([], True))
+
+    def crash(*a, **k):
+        raise RuntimeError("merge down")
+
+    monkeypatch.setattr(ing, "canonicalize_document", crash)
+    with pytest.raises(RuntimeError, match="merge down"):
+        ing.extract_kg(result, "general", max_workers=1)
+
+    assert _snapshot(folder) == before_files
 
 
 def test_a_first_ingest_with_failed_steps_stages_nothing_and_keeps_rows_for_resume(

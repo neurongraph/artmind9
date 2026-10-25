@@ -168,3 +168,230 @@ def test_validate_all_or_raise_is_silent_when_everything_passes(tmp_path):
     )
 
     validate_all_or_raise(schemas_dir, meta_path)  # must not raise
+
+
+# ── reserved relationship names (study item 4) ───────────────────────────────
+#
+# `supersedes`, `relates_to`, ... are artmind's own edge types. The write path
+# drops an extracted relationship of that name ("reserved rel_type skipped"), so
+# a schema that asks the model for one silently loses every such edge. The
+# schema author hears about it at validation and at extraction start instead.
+
+from artmind.schema_validate import (  # noqa: E402
+    RESERVED_REL_TYPES,
+    reserved_relationship_warnings,
+    warn_all,
+)
+
+
+def _contracts(rel_types, target="AGREEMENT"):
+    return {
+        "name": "contracts",
+        "entity_types": {
+            "AGREEMENT": {"kind": "recurrent", "relates_to": {target: rel_types}},
+            "PARTY": {"kind": "recurrent"},
+        },
+    }
+
+
+def test_a_reserved_relationship_is_warned_about_naming_class_relationship_and_a_replacement():
+    warnings = reserved_relationship_warnings(_contracts(["amends", "supersedes"]), "contracts")
+
+    assert len(warnings) == 1
+    text = warnings[0]
+    assert "contracts.entity_types.AGREEMENT.relates_to.AGREEMENT" in text
+    assert "'supersedes'" in text
+    assert "replaces_agreement" in text  # a suggestion built from the target class
+    for reserved in sorted(RESERVED_REL_TYPES):
+        assert reserved.lower() in text, "the message carries the full reserved list, as an author writes them"
+
+
+def test_the_match_is_case_insensitive_and_ignores_an_inline_properties_hint():
+    warnings = reserved_relationship_warnings(
+        _contracts(["Supersedes (properties: {effective: date})", "RELATES_TO"]), "contracts"
+    )
+    assert len(warnings) == 2
+    assert any("Supersedes" in w for w in warnings) and any("RELATES_TO" in w for w in warnings)
+
+
+def test_a_schema_without_reserved_relationships_has_no_warnings():
+    assert reserved_relationship_warnings(_contracts(["amends", "replaces_contract"]), "contracts") == []
+
+
+def test_part_of_is_not_reserved():
+    assert reserved_relationship_warnings(_contracts(["part_of"]), "contracts") == []
+
+
+def test_a_reserved_name_is_a_warning_not_a_validation_error():
+    """Shipped schemas declare some (banking's `supersedes`); `init` validates
+    with `validate_all_or_raise`, which must keep passing."""
+    assert validate_schema(_contracts(["supersedes"]), META) == []
+
+
+def test_warn_all_walks_a_schemas_directory(tmp_path):
+    import yaml
+
+    (tmp_path / "contracts_schema.yaml").write_text(yaml.safe_dump(_contracts(["supersedes"])))
+    (tmp_path / "clean_schema.yaml").write_text(yaml.safe_dump({**_contracts(["amends"]), "name": "clean"}))
+
+    found = warn_all(tmp_path)
+
+    assert list(found) == ["contracts"]
+    assert "'supersedes'" in found["contracts"][0]
+
+
+def test_domains_validate_prints_the_warning_and_still_passes(tmp_path, monkeypatch):
+    import yaml
+    from click.testing import CliRunner
+
+    import artmind.cli as cli_module
+    import artmind.schema_validate as sv
+
+    (tmp_path / "contracts_schema.yaml").write_text(yaml.safe_dump(_contracts(["supersedes"])))
+    monkeypatch.setattr(cli_module, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    monkeypatch.setattr(sv, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    monkeypatch.setattr(sv, "load_meta", lambda *a, **k: META)
+
+    result = CliRunner().invoke(cli_module.cli, ["domains", "validate", "--domain", "contracts"])
+
+    assert result.exit_code == 0, result.output
+    assert "WARN" in result.output and "'supersedes'" in result.output and "AGREEMENT" in result.output
+    assert "All schemas valid" in result.output
+
+
+def test_extraction_warns_once_when_the_schema_it_loads_has_a_reserved_relationship(monkeypatch, tmp_path):
+    """The author running `ingest` without `domains validate` still hears it."""
+    from loguru import logger
+
+    from test_ingest_concurrency import _setup_extract_env
+    import artmind.ingest as ing
+    import yaml
+
+    file_result = _setup_extract_env(monkeypatch, tmp_path, 1)
+    (ing.DOMAIN_SCHEMAS_DIR / "testdom_schema.yaml").write_text(
+        yaml.safe_dump({**_contracts(["supersedes"]), "name": "testdom"})
+    )
+    messages = []
+    handle = logger.add(lambda m: messages.append(str(m)), level="WARNING")
+    try:
+        ing.extract_kg(file_result, "testdom", max_workers=1)
+    finally:
+        logger.remove(handle)
+
+    hits = [m for m in messages if "reserved" in m and "'supersedes'" in m]
+    assert len(hits) == 1
+
+
+# ── a schema that does not parse is reported with file and line (study item 6) ──
+
+BROKEN = "name: broken\nentity_types:\n  A:\n    kind: recurrent\n    description: one: two\n"
+
+
+def _write_broken(tmp_path, name="broken", text=BROKEN):
+    (tmp_path / f"{name}_schema.yaml").write_text(text)
+
+
+def test_load_error_names_the_file_line_and_column(tmp_path):
+    from artmind.schema_validate import schema_parse_error
+
+    _write_broken(tmp_path)
+
+    message = schema_parse_error(tmp_path / "broken_schema.yaml")
+
+    assert "broken_schema.yaml" in message
+    assert "line 5" in message and "column" in message
+    assert "mapping values are not allowed" in message
+    assert "description: one: two" in message  # the offending line, quoted
+
+
+def test_a_valid_file_has_no_parse_error(tmp_path):
+    from artmind.schema_validate import schema_parse_error
+
+    (tmp_path / "ok_schema.yaml").write_text("name: ok\nentity_types: {}\n")
+    assert schema_parse_error(tmp_path / "ok_schema.yaml") is None
+
+
+def test_validate_all_reports_a_broken_schema_instead_of_raising(tmp_path):
+    _write_broken(tmp_path)
+    (tmp_path / "fine_schema.yaml").write_text("name: fine\nentity_types:\n  A: {kind: recurrent}\n")
+
+    found = validate_all(tmp_path, meta_path=_meta_file(tmp_path))
+
+    assert list(found) == ["broken"]
+    assert "line 5" in found["broken"][0]
+
+
+def _meta_file(tmp_path):
+    import yaml
+
+    path = tmp_path / "meta.yaml"
+    path.write_text(yaml.safe_dump(META))
+    return path
+
+
+def test_domains_validate_prints_the_line_for_one_domain(tmp_path, monkeypatch):
+    from click.testing import CliRunner
+
+    import artmind.cli as cli_module
+    import artmind.schema_validate as sv
+
+    _write_broken(tmp_path)
+    monkeypatch.setattr(cli_module, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    monkeypatch.setattr(sv, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    monkeypatch.setattr(sv, "load_meta", lambda *a, **k: META)
+
+    result = CliRunner().invoke(cli_module.cli, ["domains", "validate", "--domain", "broken"])
+
+    assert result.exit_code != 0
+    assert "ERROR" in result.output and "broken_schema.yaml" in result.output and "line 5" in result.output
+    assert "Traceback" not in result.output
+
+
+def test_domains_validate_names_every_broken_file_in_a_full_run(tmp_path, monkeypatch):
+    from click.testing import CliRunner
+
+    import artmind.cli as cli_module
+    import artmind.schema_validate as sv
+
+    _write_broken(tmp_path, "one")
+    _write_broken(tmp_path, "two")
+    real_validate_all, real_warn_all = sv.validate_all, sv.warn_all
+    # validate_all()/warn_all() bind their directory default at import time
+    monkeypatch.setattr(sv, "validate_all", lambda *a, **k: real_validate_all(tmp_path, meta_path=_meta_file(tmp_path)))
+    monkeypatch.setattr(sv, "warn_all", lambda *a, **k: real_warn_all(tmp_path))
+    monkeypatch.setattr(sv, "load_meta", lambda *a, **k: META)
+
+    result = CliRunner().invoke(cli_module.cli, ["domains", "validate"])
+
+    assert result.exit_code != 0
+    assert "one_schema.yaml" in result.output and "two_schema.yaml" in result.output
+
+
+def test_a_missing_domain_still_says_so(tmp_path, monkeypatch):
+    from click.testing import CliRunner
+
+    import artmind.cli as cli_module
+
+    monkeypatch.setattr(cli_module, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    result = CliRunner().invoke(cli_module.cli, ["domains", "validate", "--domain", "nope"])
+    assert result.exit_code != 0 and "not found" in result.output.lower()
+
+
+def test_ingest_stops_with_the_line_when_the_schema_does_not_parse(monkeypatch, tmp_path):
+    """Before ingesting a note, not as a traceback in the middle of it."""
+    from test_ingest_concurrency import _setup_extract_env
+
+    import artmind.ingest as ing
+
+    file_result = _setup_extract_env(monkeypatch, tmp_path, 1)
+    (ing.DOMAIN_SCHEMAS_DIR / "testdom_schema.yaml").write_text(BROKEN)
+    messages = []
+    from loguru import logger
+
+    handle = logger.add(lambda m: messages.append(str(m)), level="ERROR")
+    try:
+        assert ing.extract_kg(file_result, "testdom", max_workers=1) is None
+    finally:
+        logger.remove(handle)
+
+    assert any("testdom_schema.yaml" in m and "line 5" in m for m in messages)
