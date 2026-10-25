@@ -101,3 +101,43 @@ def test_the_outline_lists_the_document_headings_in_order_when_given_them():
         "  - Schedule 2 > Rates",
         "  - Schedule 2 > Fees",
     ]
+
+
+from artmind.document_context import build_metadata
+
+
+def test_metadata_renders_the_fields_that_have_values_in_a_fixed_order():
+    document = {
+        "name": "CCN001.pdf",
+        "path": "contracts/CCN001.pdf",
+        "title": "Change Control Notice 001",
+        "project": "Alpha",
+        "area": "Legal",
+        "tags": ["amendment", "rates"],
+        "author": "J. Smith",
+        "_valid_from": "2026-03-01",
+        "_valid_time_source": "property",
+        "provenance": {"source_type": "pdf"},
+    }
+    assert build_metadata(document).splitlines() == [
+        "Title: Change Control Notice 001",
+        "Source: contracts/CCN001.pdf (pdf)",
+        "Date: 2026-03-01",
+        "Author: J. Smith",
+        "Project: Alpha",
+        "Area: Legal",
+        "Tags: amendment, rates",
+    ]
+
+
+def test_metadata_skips_what_is_missing_and_never_renders_empty_lines():
+    text = build_metadata({"name": "a.md", "path": "notes/a.md"})
+    assert text == "Source: notes/a.md"
+
+
+def test_metadata_falls_back_to_the_file_name_when_there_is_no_path():
+    assert build_metadata({"name": "a.md"}) == "Source: a.md"
+
+
+def test_metadata_is_empty_for_an_empty_document():
+    assert build_metadata({}) == ""

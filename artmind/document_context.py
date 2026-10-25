@@ -88,3 +88,29 @@ def build_outline(
             lines.append("Document outline:")
             lines.extend(f"  - {heading}" for heading in seen)
     return "\n".join(lines)
+
+
+def _text(value) -> str:
+    if isinstance(value, (list, tuple)):
+        return ", ".join(str(v) for v in value if str(v).strip())
+    return str(value).strip() if value is not None else ""
+
+
+def build_metadata(document: dict) -> str:
+    """The document's filing metadata as labelled lines, fields with a value only.
+
+    `document` is the dict `extract_kg` builds for `document.json`. The date is
+    `_valid_from` (the resolved document date), not the file's own mtime."""
+    provenance = document.get("provenance") or {}
+    source_type = _text(provenance.get("source_type") or document.get("source_type"))
+    path = _text(document.get("path")) or _text(document.get("name"))
+    rows = [
+        ("Title", _text(document.get("title"))),
+        ("Source", f"{path} ({source_type})" if path and source_type else path),
+        ("Date", _text(document.get("_valid_from"))),
+        ("Author", _text(document.get("author"))),
+        ("Project", _text(document.get("project"))),
+        ("Area", _text(document.get("area"))),
+        ("Tags", _text(document.get("tags"))),
+    ]
+    return "\n".join(f"{label}: {value}" for label, value in rows if value)
