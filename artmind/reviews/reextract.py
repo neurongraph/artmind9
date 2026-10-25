@@ -4,10 +4,14 @@ proposed schema and/or meta.yaml, and diff the result against the chunks'
 current staging. Writes nothing (no staging, graph, registry); every LLM call
 is appended to the LLM audit log as usual.
 
-Like-for-like: the proposed side skips the graph-derived name/property
-vocabularies and the per-document canonicalization pass, so it is compared
-with staging's pre-canonical `name`s. Run once with neither --schema nor
---meta to see how much the diff moves from LLM variance alone.
+Like-for-like as far as the vocabularies go: the proposed side skips the
+graph-derived name/property vocabularies and the per-document canonicalization
+pass, so it is compared with staging's pre-canonical `name`s. It is not
+like-for-like on document context: staging was extracted with the document
+context block (metadata, outline, summary) in each chunk prompt and these chunk
+prompts carry none. Run once with neither --schema nor --meta to see how much
+the diff moves from that difference and LLM variance alone; the diff of the
+proposed run against that baseline is the signal.
 """
 
 import json

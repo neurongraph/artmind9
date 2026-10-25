@@ -161,8 +161,30 @@ def test_the_context_shows_a_date_line_only_for_a_date_the_note_carries(tmp_path
     undated.write_text("No date anywhere.\n", encoding="utf-8")
     prompts.clear()
     _extract(undated)
-    assert prompts
+    assert prompts and all("Title:" in p for p in prompts), "the context block is there, just undated"
     assert not any(line.startswith("Date:") for p in prompts for line in p.splitlines())
+
+
+def test_a_failed_summary_call_is_logged_as_a_warning_and_does_not_raise(tmp_path, monkeypatch):
+    from loguru import logger
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("provider down")
+
+    monkeypatch.setattr(ing, "_llm_extract", boom)
+    seen = []
+    handle = logger.add(lambda m: seen.append((m.record["level"].name, m.record["message"])), level="DEBUG")
+    try:
+        result = ing._summarise_document(
+            doc_kg_dir=tmp_path, key="k1", schema={"subject": "a journal", "entity_types": {}},
+            sample=lambda: "SAMPLE", focus="", model="m", debug_dir=tmp_path,
+        )
+    finally:
+        logger.remove(handle)
+
+    assert result is None
+    assert [level for level, message in seen if "Document summary unavailable" in message] == ["WARNING"]
+    assert not (tmp_path / "document_context.json").exists()
 
 
 # ── `ingest retime`: the backfill ───────────────────────────────────────────

@@ -4,8 +4,9 @@ Chunks extract in isolation; an entity whose meaning depends on the whole
 document is named differently in each chunk unless each chunk can see what the
 document is. This module decides WHAT that context says: the document's
 metadata, its heading outline with the chunk's position, and a summary. It does
-no I/O and calls no LLM -- `ingest.extract_kg` does both and passes the results
-in. Schema-agnostic: nothing here names a domain.
+no file I/O and calls no LLM -- `ingest.extract_kg` does both and passes the
+results in; the only environment read is `sample_chars()`. Schema-agnostic: nothing
+here names a domain.
 """
 from __future__ import annotations
 
@@ -15,7 +16,7 @@ from dataclasses import dataclass
 
 from utils.functions import load_env
 
-#: The block's length cap in characters. Only the legacy `document_header: {chars: N}` setting changes it; `document_context` has no cap key.
+#: The block's length cap in characters; only legacy `document_header: {chars}` changes it.
 DEFAULT_CAP = 2000
 
 
@@ -182,6 +183,7 @@ def sample_chars() -> int:
     except (TypeError, ValueError):
         return SAMPLE_CHARS
     return value if value > 0 else SAMPLE_CHARS
+
 
 _EVEN_SAMPLES = 10
 

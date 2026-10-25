@@ -171,8 +171,10 @@ document_context:
 
 `focus` adds your emphasis to the summary prompt. `document_context: false` removes
 the block and its one summary call; `document_context: {summary: false}` keeps the
-metadata and outline with no call. (The older `document_header:` key still works:
-`false` turns the block off.)
+metadata and outline with no call. (The older `document_header:` key still works,
+but is deprecated in favour of `document_context:`: `false` turns the block off, and
+`document_header: {chars: N}` now caps the WHOLE context block -- metadata, outline,
+summary and identifiers -- not an opening excerpt of the document.)
 
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns
