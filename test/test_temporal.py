@@ -346,3 +346,13 @@ def test_relative_anchor_date_from_document_valid_from():
     # No anchor declared, or no date at all.
     assert relative_anchor_date({}, {"_valid_from": "2026-01-07", "_valid_time_source": "filename"}) is None
     assert relative_anchor_date(schema, {}) is None
+
+
+def test_date_is_only_the_default():
+    from artmind.temporal import date_is_only_the_default
+
+    assert date_is_only_the_default({}, {"_valid_time_source": "default_ingestion"})
+    custom = {"temporal": {"defaults": {"time_source": "my_default"}}}
+    assert date_is_only_the_default(custom, {"_valid_time_source": "my_default"})
+    assert not date_is_only_the_default(custom, {"_valid_time_source": "default_ingestion"})
+    assert not date_is_only_the_default({}, {"_valid_time_source": "filename"})

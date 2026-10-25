@@ -27,7 +27,7 @@ def calls(monkeypatch):
 
 def summarise(folder, key="k1", sample="SAMPLE TEXT", focus=""):
     return ing._summarise_document(
-        doc_kg_dir=folder, key=key, schema=SCHEMA, sample=sample, focus=focus, model="m", debug_dir=folder,
+        doc_kg_dir=folder, key=key, schema=SCHEMA, sample=lambda: sample, focus=focus, model="m", debug_dir=folder,
     )
 
 
@@ -161,3 +161,15 @@ def test_the_summary_text_is_logged_at_debug_level_only(tmp_path, calls):
 
     with_text = [level for level, message in seen if "A rate notice for Alpha" in message]
     assert with_text == ["DEBUG"]
+
+
+def test_the_sample_is_not_built_on_a_cache_hit(tmp_path, calls):
+    first = summarise(tmp_path)
+
+    def boom():
+        raise AssertionError("sample built despite a valid sidecar")
+
+    again = ing._summarise_document(
+        doc_kg_dir=tmp_path, key="k1", schema=SCHEMA, sample=boom, focus="", model="m", debug_dir=tmp_path,
+    )
+    assert again == first

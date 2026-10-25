@@ -4,6 +4,7 @@ import shutil
 import time
 import uuid
 import datetime as _datetime
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
@@ -1958,7 +1959,7 @@ def _summarise_document(
     doc_kg_dir: Path,
     key: str,
     schema: dict,
-    sample: str,
+    sample: Callable[[], str],
     focus: str,
     model: str,
     debug_dir: Path,
@@ -1970,7 +1971,7 @@ def _summarise_document(
     cached = _read_document_context(doc_kg_dir)
     if _valid_context(cached, key):
         return cached
-    prompt = dc.summary_prompt(schema, sample, focus=focus)
+    prompt = dc.summary_prompt(schema, sample(), focus=focus)
     try:
         answer, ok = _llm_extract("document_summary", model, prompt, debug_dir)
     except Exception as e:  # a TruncatedAnswer or a provider error
@@ -3073,7 +3074,7 @@ def extract_kg(
     document_dates = _document_valid_time(
         md_file, meta, schema, filename=registered_path.name, prior=prior_staged,
     )
-    from artmind.temporal import relative_anchor_date
+    from artmind.temporal import date_is_only_the_default, relative_anchor_date
 
     anchor_date = relative_anchor_date(schema, document_dates)
 
@@ -3147,9 +3148,9 @@ def extract_kg(
     # folder swap that carries that cache over) and before the chunk fan-out.
     context_settings = dc.context_settings(schema)
     try:
-        chunks_meta = json.loads((chunks_dir / "chunks_meta.json").read_text(encoding="utf-8"))
+        chunks_meta_for_context = json.loads((chunks_dir / "chunks_meta.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
-        chunks_meta = {}
+        chunks_meta_for_context = {}
     context_metadata = ""
     context_summary = None
     if context_settings.enabled:
@@ -3162,11 +3163,10 @@ def extract_kg(
             "project": meta.get("project"),
             "area": meta.get("area"),
             "tags": meta.get("tags"),
-            "_valid_from": document_dates.get("_valid_from"),
+            "_valid_from": None if date_is_only_the_default(schema, document_dates) else document_dates.get("_valid_from"),
             "provenance": provenance,
         })
         if context_settings.summary and chunk_files:
-            chunk_texts = [f.read_text(encoding="utf-8") for f in chunk_files]
             context_summary = _summarise_document(
                 doc_kg_dir=doc_kg_dir,
                 key=dc.context_key(
@@ -3175,7 +3175,7 @@ def extract_kg(
                     model=text_model,
                 ),
                 schema=schema,
-                sample=dc.sample_for_summary(chunk_texts, chunks_meta),
+                sample=lambda: dc.sample_for_summary([f.read_text(encoding="utf-8") for f in chunk_files], chunks_meta_for_context),
                 focus=context_settings.focus,
                 model=text_model,
                 debug_dir=doc_kg_dir,
@@ -3186,7 +3186,7 @@ def extract_kg(
             return ""
         return dc.render_context(
             metadata=context_metadata,
-            outline=dc.build_outline(chunks_meta, seq, chunk_count, document_outline=True),
+            outline=dc.build_outline(chunks_meta_for_context, seq, chunk_count, document_outline=True),
             summary=context_summary["summary"] if context_summary else "",
             identifiers=context_summary["identifiers"] if context_summary else [],
             cap=context_settings.cap,

@@ -135,6 +135,36 @@ def test_an_undated_note_keeps_its_first_ingestion_date_and_gets_no_anchor(tmp_p
     assert obs["_valid_from"] == "2026-10-02"
 
 
+def _context_prompts(monkeypatch):
+    """Entities prompts as the model sees them (the passage carries the context block)."""
+    prompts: list = []
+    inner = ing._llm_extract
+
+    def llm(step_name, model, prompt, debug_dir):
+        if step_name.endswith("_entities"):
+            prompts.append(prompt)
+        return inner(step_name, model, prompt, debug_dir)
+
+    monkeypatch.setattr(ing, "build_entities_prompt", lambda text, schema, vocabulary=None: text)
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+    return prompts
+
+
+def test_the_context_shows_a_date_line_only_for_a_date_the_note_carries(tmp_path, monkeypatch):
+    dated = _vault(tmp_path, monkeypatch, "2026-01-07.md", "2026-01-07\n\nGovernance call today.\n")
+    _stub_llm(monkeypatch)
+    prompts = _context_prompts(monkeypatch)
+    _extract(dated)
+    assert prompts and "Date: 2026-01-07" in prompts[0]
+
+    undated = dated.parent / "musings.md"
+    undated.write_text("No date anywhere.\n", encoding="utf-8")
+    prompts.clear()
+    _extract(undated)
+    assert prompts
+    assert not any(line.startswith("Date:") for p in prompts for line in p.splitlines())
+
+
 # ── `ingest retime`: the backfill ───────────────────────────────────────────
 
 OLD_JOURNAL_SCHEMA = JOURNAL_SCHEMA.replace(

@@ -309,6 +309,13 @@ def _entity_temporal_mapping(schema: dict) -> dict:
     return mapping
 
 
+def date_is_only_the_default(schema: dict, document_dates: dict) -> bool:
+    """Whether the document's date is just the schema's default (the ingestion date), not a date
+    the document itself carries: it anchors nothing and must not be presented as the document's."""
+    default_source = ((schema.get("temporal") or {}).get("defaults") or {}).get("time_source", "default_ingestion")
+    return document_dates.get("_valid_time_source") == default_source
+
+
 def relative_anchor_date(schema: dict, document_dates: dict) -> str | None:
     """The date this document's relative phrases resolve against, or None.
 
@@ -323,8 +330,7 @@ def relative_anchor_date(schema: dict, document_dates: dict) -> str | None:
     anchor = t.get("relative_anchor")
     if not isinstance(anchor, str) or not anchor.startswith("document."):
         return None
-    default_source = (t.get("defaults") or {}).get("time_source", "default_ingestion")
-    if document_dates.get("_valid_time_source") == default_source:
+    if date_is_only_the_default(schema, document_dates):
         return None
     value = document_dates.get("_" + anchor.split(".", 1)[1])
     return parse_iso(str(value)) if value else None
