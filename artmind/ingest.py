@@ -1852,63 +1852,6 @@ def _chunk_cache_matches(chunks_dir: Path, body: str, chunk_size: int) -> bool:
         return False
 
 
-#: How much of the document's opening every chunk prompt quotes.
-DOCUMENT_HEADER_CHARS = 800
-#: The last line of a document header: what follows it is the passage itself.
-DOCUMENT_HEADER_END = "PASSAGE TO EXTRACT FROM:"
-
-
-def build_document_header(name: str, *, opening: str = "", section: str = "", limit: int = DOCUMENT_HEADER_CHARS) -> str:
-    """A short block telling a chunk's extraction which document the passage
-    belongs to: its file name, the section it sits under, and the document's
-    opening text cut to `limit` characters on a word boundary. Chunks extract
-    in isolation, so without it a clause of an amendment is named after
-    whatever label that chunk happens to use and each chunk mints its own
-    entity for the one thing (study item 3). '' when there is nothing to say."""
-    opening = " ".join((opening or "").split())
-    if limit and len(opening) > limit:
-        opening = opening[:limit].rsplit(" ", 1)[0].rstrip() + "…"
-    elif not limit:
-        opening = ""
-    if not (name or section or opening):
-        return ""
-    lines = ["DOCUMENT CONTEXT (only for naming and identifying things consistently -- do not extract from this block):"]
-    if name:
-        lines.append(f"Source: {name}")
-    if section:
-        lines.append(f"Section: {section}")
-    if opening:
-        lines.append("The document opens with:")
-        lines.append(opening)
-    lines.append(DOCUMENT_HEADER_END)
-    return "\n".join(lines)
-
-
-def strip_document_header(text: str) -> str:
-    """`text` without a leading document header -- the passage a chunk step was given."""
-    head, sep, passage = text.partition(DOCUMENT_HEADER_END + "\n\n")
-    return passage if sep and head.startswith("DOCUMENT CONTEXT") else text
-
-
-def with_document_header(header: str, text: str) -> str:
-    """`text` as the prompt builders take it: headed by `header` when there is one."""
-    return f"{header}\n\n{text}" if header else text
-
-
-def _document_header_settings(schema: dict) -> int:
-    """The opening's length for this schema: `document_header: false` turns the
-    header off (0), `document_header: {chars: N}` resizes it."""
-    setting = schema.get("document_header", True)
-    if setting is False:
-        return 0
-    if isinstance(setting, dict):
-        try:
-            return max(int(setting.get("chars", DOCUMENT_HEADER_CHARS)), 0)
-        except (TypeError, ValueError):
-            return DOCUMENT_HEADER_CHARS
-    return DOCUMENT_HEADER_CHARS
-
-
 def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tuple[list, bool]:
     """One LLM step. An answer still cut off after the retry with more output
     room raises `TruncatedAnswer`, which `_process_chunk` answers by splitting

@@ -183,3 +183,9 @@ def test_a_split_piece_keeps_the_context(monkeypatch, tmp_path):
 
     assert len(pieces) == 2
     assert all("Summary: A change notice for Alpha." in p and "You are in:" in p for p in pieces)
+
+
+def test_the_cf787bd_header_helpers_are_gone():
+    for name in ("build_document_header", "strip_document_header", "with_document_header",
+                 "_document_header_settings", "DOCUMENT_HEADER_CHARS", "DOCUMENT_HEADER_END"):
+        assert not hasattr(ing, name), f"{name} should be retired (spec 2026-10-25)"
