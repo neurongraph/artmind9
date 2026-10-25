@@ -272,3 +272,46 @@ def test_reextract_is_not_reported_as_ignored_for_a_binary(ingest_env, monkeypat
     finally:
         loguru.logger.remove(handle)
     assert not any("applies to vault notes only" in m for m in messages)
+
+
+def test_reextract_of_a_binary_whose_markdown_was_edited_converts_it_again(ingest_env, monkeypatch):
+    """The stored markdown is not the body the last extraction recorded: re-extracting
+    it as-is would bump the version without registering the body. The unchanged source
+    is converted again instead; its body matches the baseline, so the version stays."""
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    derived = ing.MARKDOWNS_DIR / "deck.md"
+    derived.write_text(derived.read_text().replace("Body v1.", "Body v1, edited."))
+    conversions = []
+
+    def convert(dest_path, image_model):
+        conversions.append(dest_path)
+        return "# Deck\n\nBody v1.\n", {}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", convert)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert len(conversions) == 1, "the source is converted again"
+    assert r2["status"] == "ok" and r2.get("tier") != "no_op"
+    assert r2["reextract"] is True, "still a re-extraction, so extract_kg resets its cache"
+    assert r2["version"] == r1["version"]
+    assert "edited" not in derived.read_text()
+    assert r2["provenance"]["content_sha256"] == r1["provenance"]["content_sha256"]
+
+
+def test_reextract_of_an_edited_markdown_never_bumps_the_version_without_registering(ingest_env, monkeypatch):
+    """A conversion that does change the body bumps the version AND registers it."""
+    from artmind.db import _registry_row_by_artmind_id
+
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    derived = ing.MARKDOWNS_DIR / "deck.md"
+    derived.write_text(derived.read_text().replace("Body v1.", "Body v1, edited."))
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v2.\n"]))
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert r2["version"] == r1["version"] + 1
+    row = _registry_row_by_artmind_id(r2["artmind_id"])
+    assert row["content_sha256"] == r2["provenance"]["content_sha256"]

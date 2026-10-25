@@ -216,7 +216,9 @@ artmind ingest sync "<vault-relative path>" --reextract
 ```
 
 A re-extraction that fails, or comes back empty for an unchanged note, keeps the
-note's previous extraction and marks the file failed — re-run the same command.
+note's previous extraction and marks the file failed — re-run the same command. That
+re-run redoes every chunk (the failed re-extraction is discarded whole), unlike a
+plain `ingest sync` / `retry-job`, which redoes only the failed chunks.
 
 This skips chunks that already succeeded and only re-runs failed/missing ones. After it completes, write to Neo4j:
 
@@ -238,7 +240,8 @@ call each, so start with one file or a narrow `--match`), and its graph contribu
 is replaced as for a content change. No separate `extract-kg` / `write-to-graph`
 afterwards. A pdf/docx/pptx is re-extracted from the markdown its first conversion
 stored: the source is never converted again, moved or edited (to re-convert it, change
-the source). Tables and ad-hoc files ignore `--reextract`.
+the source) -- unless that markdown was edited since its last extraction, in which case
+the source is converted again first. Tables and ad-hoc files ignore `--reextract`.
 
 ---
 

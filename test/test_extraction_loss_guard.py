@@ -223,6 +223,33 @@ def test_a_first_ingest_with_failed_steps_stages_nothing_and_keeps_rows_for_resu
     assert ing._get_chunk_statuses(result["sha256"])[1]["entities_status"] == "failed"
 
 
+def test_a_refused_reextraction_says_a_rerun_redoes_every_chunk(ingest_env, monkeypatch, stash_root):
+    """The restore discards this run's finished chunks, so the message must not
+    promise that a re-run redoes only the failed ones."""
+    vault, _ = ingest_env
+    result, _folder = _previously_extracted(vault, monkeypatch)
+    _seams(monkeypatch, lambda step: ([], False))
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+
+    assert "redoes every chunk" in result["kg_error"]
+    assert "redo only those chunks" not in result["kg_error"]
+
+
+def test_a_refused_first_extraction_says_a_rerun_redoes_only_the_failed_chunks(
+    ingest_env, monkeypatch, stash_root,
+):
+    vault, _ = ingest_env
+    _schemas(vault, monkeypatch)
+    result = ing.ingest_file(_note(vault), "m", "general")
+    _seams(monkeypatch, lambda step: ([], False))
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+
+    assert "redo only those chunks" in result["kg_error"]
+    assert "redoes every chunk" not in result["kg_error"]
+
+
 # ── an unchanged note may not re-extract to nothing ──────────────────────────
 
 

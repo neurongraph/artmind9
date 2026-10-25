@@ -1505,11 +1505,20 @@ def _ingest_binary_derived(
     baseline = plan.baseline
 
     if plan.unchanged and reextract and registered_path.exists():
-        return _reextract_converted_binary(
+        reextracted = _reextract_converted_binary(
             source, plan, file_result, effective_domain, chunk_size, orig_registry_path, t_file_start,
         )
+        if reextracted is not None:
+            return reextracted
+        logger.warning(
+            "{}: the stored markdown is not the body last extracted; converting the source again",
+            source.name,
+        )
+        # Still a re-extraction: the conversion may give back the body the last
+        # extraction recorded, whose chunk cache would otherwise resume as done.
+        file_result["reextract"] = True
 
-    if plan.unchanged:
+    if plan.unchanged and not file_result.get("reextract"):
         file_result["status"] = "ok"
         file_result["domain"] = effective_domain
         file_result["artmind_id"] = existing_meta.get("_artmind_id")
@@ -1593,16 +1602,23 @@ def _reextract_converted_binary(
     chunk_size: int,
     orig_registry_path: str,
     t_file_start: float,
-) -> dict:
+) -> dict | None:
     """`--reextract` of an unchanged binary: chunk the markdown the last
     conversion stored and return the file result `extract_kg` needs, as a
     conversion would -- but never call docling and never write the markdown,
     the registry or the source. The version stays (`decide_version` only counts
     a changed body) and so does the identity, so the commit replaces this
-    document's graph contribution exactly as for a changed one."""
+    document's graph contribution exactly as for a changed one.
+
+    None when the stored body is not the one the last extraction recorded
+    (edited by hand, or a baseline with no hash): re-extracting it would bump
+    the version without registering the new body, so the caller converts the
+    unchanged source again instead, as for a missing markdown."""
     registered_path = plan.registered_path
     _, body = _parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))
     version_decision = decide_version(body, plan.baseline)
+    if version_decision.tier != "metadata_only":
+        return None
     chunks = _split_markdown(body, chunk_size)
     chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
     _persist_chunks(chunks, chunks_dir, body=body)
@@ -3412,13 +3428,20 @@ def extract_kg(
     # graph from: an extraction with a step still failed after the retry must
     # never replace it. Without --reextract the failed rows (and every other
     # chunk's finished work) stay for resume, which redoes only those chunks.
+    # With it, the restore below discards this run's work for the previous
+    # extraction's cache, so a re-run redoes every chunk.
     still_failed = _incomplete_chunks(_get_chunk_statuses(doc_sha256))
     if still_failed:
         file_result["failed_chunks"] = still_failed
         file_result["kg_error"] = (
             f"KG extraction incomplete: chunk(s) {still_failed} of {chunk_count} still failed "
-            "after the retry; the other chunks are done and cached, the staged extraction is unchanged. "
-            "Re-run the same command (or `artmind ingest retry-job`) to redo only those chunks."
+            "after the retry; the staged extraction is unchanged. "
+        ) + (
+            "The re-extraction was discarded and the previous one kept: re-running it "
+            "(or `artmind ingest retry-job`) redoes every chunk."
+            if stash is not None else
+            "The other chunks are done and cached: re-run the same command "
+            "(or `artmind ingest retry-job`) to redo only those chunks."
         )
         logger.error("{}: {}", registered_path.name, file_result["kg_error"])
         _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)

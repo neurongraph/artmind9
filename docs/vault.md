@@ -286,7 +286,9 @@ replaced as for any content change, and the note is neither edited nor given a
 new version. It costs an LLM call per chunk, so narrow it first. A converted
 document (pdf, docx, pptx) takes the same flag instead of its `no_op`: it is
 re-extracted from the markdown already stored under `.artmind/`, without
-converting the source again, and the source is never edited or moved.
+converting the source again, and the source is never edited or moved. If that
+markdown is no longer the body its last extraction recorded (edited by hand), the
+source is converted again instead and re-extracted from the fresh conversion.
 
 Domain precedence, highest first: `--setDomain` (force + re-extract) → the file's
 own `_domain` frontmatter → the folder mapping → `--domain` as the fallback for
@@ -838,7 +840,9 @@ and logged. If a step is still failed after the retry the file is **not staged**
 (the loss guard, `docs/superpowers/specs/2026-10-18-extraction-loss-guard-design.md`),
 the job records it failed with the chunk numbers (`chunk(s) [3, 7] of 12 ...`, also
 `chunk_progress.failed_chunks` in `ingest job-status`), and every other chunk stays
-cached: `ingest retry-job` / re-running `ingest sync` redoes only those chunks.
+cached: `ingest retry-job` / re-running `ingest sync` redoes only those chunks. A
+`--reextract` is the exception: a refused re-extraction is discarded whole and the
+previous extraction kept, so re-running it redoes every chunk.
 
 ### What a chunk's prompt is given
 
