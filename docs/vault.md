@@ -816,7 +816,7 @@ both.
 
 | Scope | Variables |
 |---|---|
-| **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_INGEST_MAX_WORKERS` |
+| **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, `ARTMIND_INGEST_MAX_WORKERS` |
 | **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
 | **Runtime** | `ARTMIND_NO_PROXY`, `ARTMIND_NO_STALENESS_CHECK` (silence the `query` staleness line), `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (cap on `POST /api/artifacts/import`'s uploaded zip size, admin-ui only — not `vault sync` or snapshot import/restore; default 512 MiB) |
 
@@ -839,6 +839,27 @@ and logged. If a step is still failed after the retry the file is **not staged**
 the job records it failed with the chunk numbers (`chunk(s) [3, 7] of 12 ...`, also
 `chunk_progress.failed_chunks` in `ingest job-status`), and every other chunk stays
 cached: `ingest retry-job` / re-running `ingest sync` redoes only those chunks.
+
+### What a chunk's prompt is given
+
+Every chunk's extraction prompts open with a short **document context**: the
+document's metadata (title, source, date when the document carries one, author,
+project, tags), the heading outline with the chunk's own position, and a summary of
+the whole document with the names, numbers and dates that recur in it. Chunks extract
+in isolation, so this is what lets a clause deep in an amendment be named the way
+the first page names it.
+
+The summary is **one LLM call per document**, made before the chunks extract, from
+a bounded sample of the text (the opening, the closing, and the first paragraph under
+each top-level heading; at most `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, default 12000).
+Its prompt is built from the schema alone (its `subject` and class descriptions), so
+no schema needs changes. The result is cached in the staging folder as
+`document_context.json` and reused until the document's text, its domain's schema
+file or the model changes; a `--reextract` of unchanged text under an unchanged schema
+makes no summary call. A failed summary is logged and the chunks extract with the
+metadata and outline only. The sampled text is sent to the configured provider, the
+same exposure as chunk extraction, in one extra call per document. A schema
+turns this off or tunes it with `document_context:` (see the create-schema skill).
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a

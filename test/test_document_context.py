@@ -418,3 +418,22 @@ def test_blank_metadata_or_outline_lines_are_not_content():
     assert render_context(metadata=" \n\t", outline="\n", summary="", cap=2000) == ""
     block = render_context(metadata="a: 1\n\n  \nb: 2", outline="", summary="", cap=2000)
     assert block.splitlines()[1:3] == ["a: 1", "b: 2"]
+
+
+def test_the_sample_size_can_be_tuned_from_the_environment(monkeypatch):
+    from artmind import document_context as dc
+
+    monkeypatch.setattr(dc, "load_env", lambda: {"ARTMIND_KG_SUMMARY_SAMPLE_CHARS": "300"})
+    chunks = ["p" * 200, "q" * 200, "r" * 200]
+    sample = dc.sample_for_summary(chunks, {})
+    assert 0 < len(sample) <= 300
+
+
+def test_a_bad_or_missing_sample_size_setting_falls_back_to_the_default(monkeypatch):
+    from artmind import document_context as dc
+
+    for value in ("lots", "", "0", "-5", None):
+        monkeypatch.setattr(dc, "load_env", lambda v=value: {"ARTMIND_KG_SUMMARY_SAMPLE_CHARS": v})
+        assert dc.sample_chars() == dc.SAMPLE_CHARS
+    monkeypatch.setattr(dc, "load_env", lambda: {})
+    assert dc.sample_chars() == dc.SAMPLE_CHARS

@@ -13,6 +13,8 @@ import hashlib
 import re
 from dataclasses import dataclass
 
+from utils.functions import load_env
+
 #: The block's length cap in characters. Only the legacy `document_header: {chars: N}` setting changes it; `document_context` has no cap key.
 DEFAULT_CAP = 2000
 
@@ -122,6 +124,17 @@ def build_metadata(document: dict) -> str:
 
 #: The most text the summary call is given, in characters.
 SAMPLE_CHARS = 12000
+
+
+def sample_chars() -> int:
+    """The summary's input cap: ARTMIND_KG_SUMMARY_SAMPLE_CHARS when it is a positive
+    integer, else `SAMPLE_CHARS`. Read per call, like the other extraction settings."""
+    try:
+        value = int(load_env().get("ARTMIND_KG_SUMMARY_SAMPLE_CHARS") or SAMPLE_CHARS)
+    except (TypeError, ValueError):
+        return SAMPLE_CHARS
+    return value if value > 0 else SAMPLE_CHARS
+
 _EVEN_SAMPLES = 10
 
 
@@ -142,11 +155,12 @@ def sample_for_summary(chunk_texts: list[str], chunks_meta: dict) -> str:
     The opening and the closing always; then the first paragraph under each
     distinct top-level heading (`header_path`'s first segment). A document with
     no headings contributes ten evenly spaced chunks instead. Filled in document
-    order and cut at `SAMPLE_CHARS`, so the call is one call however long the
+    order and cut at `sample_chars()`, so the call is one call however long the
     document is. The opening and closing are the first paragraph of the first and
     last chunk, and each keeps a guaranteed share of the cap."""
     if not chunk_texts:
         return ""
+    cap = sample_chars()
     last = len(chunk_texts) - 1
     headings = _chunk_headings(chunks_meta)
     picked: set[int] = {0, last}
@@ -163,9 +177,9 @@ def sample_for_summary(chunk_texts: list[str], chunks_meta: dict) -> str:
 
     paragraphs = {index: _first_paragraph(chunk_texts[index]) for index in picked}
     must = sorted({0, last})
-    share = SAMPLE_CHARS if len(must) == 1 else SAMPLE_CHARS // 4
+    share = cap if len(must) == 1 else cap // 4
     chosen = {index: _fit(paragraphs[index], share) for index in must}
-    room = SAMPLE_CHARS - sum(len(text) + 2 for text in chosen.values())
+    room = cap - sum(len(text) + 2 for text in chosen.values())
     for index in sorted(picked):
         if index in chosen:
             continue

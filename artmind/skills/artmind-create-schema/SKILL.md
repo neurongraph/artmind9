@@ -159,6 +159,21 @@ own domain when the model needs to see it:
 
 Both halves are required; a class without `naming_example` gets the rule alone.
 
+**Document context (on by default; nothing to write).** Every chunk's extraction
+sees the document's metadata, its heading outline and a summary made from this
+schema's own `subject` and class descriptions, so a good `subject` and sharp class
+`description`s are what make the summary useful. To change it:
+
+```yaml
+document_context:
+  focus: "Emphasise effective dates and the parties to each amendment."
+```
+
+`focus` adds your emphasis to the summary prompt. `document_context: false` removes
+the block and its one summary call; `document_context: {summary: false}` keeps the
+metadata and outline with no call. (The older `document_header:` key still works:
+`false` turns the block off.)
+
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns
 - Classes that are really subtypes of another class (`VILLAIN` when `PERSON` with type `antagonist` would do)
