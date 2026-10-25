@@ -1942,6 +1942,17 @@ def _valid_context(data: object, key: str) -> bool:
     )
 
 
+def with_document_context(block: str, text: str) -> str:
+    """`text` as the prompt builders take it: the context block in front, if any."""
+    return f"{block}\n\n{text}" if block else text
+
+
+def strip_document_context(text: str) -> str:
+    """`text` without a leading context block: the passage a chunk step was given."""
+    head, sep, passage = text.partition(dc.PASSAGE_LINE + "\n\n")
+    return passage if sep and head.startswith(dc.CONTEXT_HEADING) else text
+
+
 def _summarise_document(
     *,
     doc_kg_dir: Path,
@@ -3129,25 +3140,56 @@ def extract_kg(
     except Exception as e:  # a notice, never a reason to stop
         logger.debug("temperature notice skipped: {}", e)
 
-    # The document header every chunk's prompts carry (study item 3): built once
-    # here -- file name, the document's opening, and each chunk's section.
-    header_chars = _document_header_settings(schema)
-    header_name = Path(
-        (file_result.get("provenance") or {}).get("source_path") or registered_path
-    ).name
-    header_opening = chunk_files[0].read_text(encoding="utf-8") if chunk_files and header_chars else ""
+    # The document context every chunk's prompts carry (spec 2026-10-25): the
+    # document's metadata, its heading outline with this chunk's position, and
+    # a summary made once for the whole document. Built here, after the chunk
+    # cache directory exists (the summary sidecar is written with an atomic
+    # folder swap that carries that cache over) and before the chunk fan-out.
+    context_settings = dc.context_settings(schema)
     try:
-        header_sections = json.loads((chunks_dir / "chunks_meta.json").read_text(encoding="utf-8"))
+        chunks_meta = json.loads((chunks_dir / "chunks_meta.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
-        header_sections = {}
+        chunks_meta = {}
+    context_metadata = ""
+    context_summary = None
+    if context_settings.enabled:
+        provenance = file_result.get("provenance") or {}
+        context_metadata = dc.build_metadata({
+            "name": registered_path.name,
+            "path": provenance.get("source_path") or canonical_path(registered_path),
+            "title": meta.get("title") or registered_path.stem,
+            "author": meta.get("author"),
+            "project": meta.get("project"),
+            "area": meta.get("area"),
+            "tags": meta.get("tags"),
+            "_valid_from": document_dates.get("_valid_from"),
+            "provenance": provenance,
+        })
+        if context_settings.summary and chunk_files:
+            chunk_texts = [f.read_text(encoding="utf-8") for f in chunk_files]
+            context_summary = _summarise_document(
+                doc_kg_dir=doc_kg_dir,
+                key=dc.context_key(
+                    content_sha=provenance.get("content_sha256") or doc_sha256,
+                    schema_sha=sha256(domain_schema_file.read_bytes()).hexdigest(),
+                    model=text_model,
+                ),
+                schema=schema,
+                sample=dc.sample_for_summary(chunk_texts, chunks_meta),
+                focus=context_settings.focus,
+                model=text_model,
+                debug_dir=doc_kg_dir,
+            )
 
-    def _document_header(seq: int) -> str:
-        if not header_chars:
+    def _document_context(seq: int) -> str:
+        if not context_settings.enabled:
             return ""
-        section = (header_sections.get(f"{seq:03d}") or {}).get("header_path") or ""
-        # The first chunk IS the opening: quoting it back would only double its text.
-        return build_document_header(
-            header_name, opening="" if seq == 1 else header_opening, section=section, limit=header_chars,
+        return dc.render_context(
+            metadata=context_metadata,
+            outline=dc.build_outline(chunks_meta, seq, chunk_count, document_outline=True),
+            summary=context_summary["summary"] if context_summary else "",
+            identifiers=context_summary["identifiers"] if context_summary else [],
+            cap=context_settings.cap,
         )
 
     logger.info(
@@ -3226,11 +3268,11 @@ def extract_kg(
             """One LLM step over this chunk, split on a cut-off answer. Any
             exception fails the step, never the chunk's siblings or the file."""
             try:
-                header = _document_header(seq)
+                context = _document_context(seq)
                 return _extract_splitting(
                     f"chunk_{seq:03d}_{step}", chunk_text,
                     lambda text, label: _llm_extract(
-                        label, text_model, prompt_for(with_document_header(header, text)), doc_kg_dir,
+                        label, text_model, prompt_for(with_document_context(context, text)), doc_kg_dir,
                     ),
                     merge,
                 )

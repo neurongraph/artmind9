@@ -224,7 +224,7 @@ def test_a_cut_off_entities_answer_is_split_and_the_pieces_merged(monkeypatch, t
         answered.append(prompt)
         if len(prompt) > 800:  # the whole chunk is too long to answer, each half is not
             raise TruncatedAnswer("cut off")
-        clause = ing.strip_document_header(prompt).split()[0]  # the piece's own first clause
+        clause = ing.strip_document_context(prompt).split()[0]  # the piece's own first clause
         return ([_entity(1, name=f"Entity of {clause}")], True)  # local id "t1" in every piece
 
     monkeypatch.setattr(ing, "_llm_extract", llm)
