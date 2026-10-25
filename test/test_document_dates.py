@@ -231,7 +231,11 @@ def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, mo
     assert anchors == [None]
     steps = []
     real_llm = ing._llm_extract
-    monkeypatch.setattr(ing, "_llm_extract", lambda step, *a: steps.append(step) or real_llm(step, *a))
+    # the document summary (one call per document) is not a chunk step
+    monkeypatch.setattr(
+        ing, "_llm_extract",
+        lambda step, *a: (steps.append(step) if step != "document_summary" else None) or real_llm(step, *a),
+    )
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 

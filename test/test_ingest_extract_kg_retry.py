@@ -294,7 +294,11 @@ def test_extract_kg_retry_resumes_from_the_cache_instead_of_re_extracting(tmp_pa
     monkeypatch.setattr(ing, "build_entities_prompt", lambda *a, **k: "p")
     monkeypatch.setattr(ing, "build_properties_prompt", lambda *a, **k: "p")
     monkeypatch.setattr(ing, "build_relationships_prompt", lambda *a, **k: "p")
-    monkeypatch.setattr(ing, "_llm_extract", lambda step, *a: calls.append(step) or ([], True))
+    # the document summary (one call per document) is not a chunk step
+    monkeypatch.setattr(
+        ing, "_llm_extract",
+        lambda step, *a: (calls.append(step) if step != "document_summary" else None) or ([], True),
+    )
     assert ing.extract_kg(first, "general", max_workers=1) is not None
     assert calls == ["chunk_001_entities"]
 
