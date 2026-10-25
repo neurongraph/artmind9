@@ -141,7 +141,8 @@ def sample_for_summary(chunk_texts: list[str], chunks_meta: dict) -> str:
     distinct top-level heading (`header_path`'s first segment). A document with
     no headings contributes ten evenly spaced chunks instead. Filled in document
     order and cut at `SAMPLE_CHARS`, so the call is one call however long the
-    document is."""
+    document is. The opening and closing are the first paragraph of the first and
+    last chunk, and each keeps a guaranteed share of the cap."""
     if not chunk_texts:
         return ""
     last = len(chunk_texts) - 1
@@ -158,12 +159,25 @@ def sample_for_summary(chunk_texts: list[str], chunks_meta: dict) -> str:
         count = min(_EVEN_SAMPLES, len(chunk_texts))
         picked = {round(i * last / max(count - 1, 1)) for i in range(count)}
 
-    parts: list[str] = []
-    total = 0
+    paragraphs = {index: _first_paragraph(chunk_texts[index]) for index in picked}
+    must = sorted({0, last})
+    share = SAMPLE_CHARS if len(must) == 1 else SAMPLE_CHARS // 4
+    chosen = {index: _fit(paragraphs[index], share) for index in must}
+    room = SAMPLE_CHARS - sum(len(text) + 2 for text in chosen.values())
     for index in sorted(picked):
-        paragraph = _first_paragraph(chunk_texts[index])
-        if total + len(paragraph) + 2 > SAMPLE_CHARS:
-            break
-        parts.append(paragraph)
-        total += len(paragraph) + 2
-    return "\n\n".join(parts)
+        if index in chosen:
+            continue
+        if len(paragraphs[index]) + 2 > room:
+            continue
+        chosen[index] = paragraphs[index]
+        room -= len(paragraphs[index]) + 2
+    return "\n\n".join(chosen[index] for index in sorted(chosen) if chosen[index])
+
+
+def _fit(paragraph: str, room: int) -> str:
+    """`paragraph` cut to at most `room` characters, on a word boundary when it has one."""
+    if len(paragraph) <= room:
+        return paragraph
+    cut = paragraph[: max(room, 0)]
+    head = cut.rsplit(None, 1)[0] if len(cut.split()) > 1 else cut
+    return head.rstrip()

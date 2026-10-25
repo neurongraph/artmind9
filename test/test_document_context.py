@@ -4,7 +4,7 @@ No LLM, no Neo4j, no files: every function here takes plain values and returns
 plain values, so the tests assert on the returned values directly."""
 import pytest
 
-from artmind.document_context import context_settings
+from artmind.document_context import SAMPLE_CHARS, context_settings, sample_for_summary
 
 
 def test_no_setting_means_everything_on_with_the_default_cap():
@@ -152,9 +152,6 @@ def test_blank_and_none_list_items_are_dropped_from_tags():
     assert build_metadata({"tags": ["a", None, "", "  ", "b"]}) == "Tags: a, b"
 
 
-from artmind.document_context import SAMPLE_CHARS, sample_for_summary
-
-
 def test_a_short_document_is_sampled_whole():
     chunks = ["Opening para.", "Middle para.", "Closing para."]
     sample = sample_for_summary(chunks, {})
@@ -178,8 +175,33 @@ def test_without_headings_ten_evenly_spaced_chunks_are_sampled():
 
 def test_the_sample_never_exceeds_the_cap():
     chunks = [("word " * 2000) for _ in range(20)]
-    assert len(sample_for_summary(chunks, {})) <= SAMPLE_CHARS
+    sample = sample_for_summary(chunks, {})
+    assert 0 < len(sample) <= SAMPLE_CHARS
 
 
 def test_an_empty_document_gives_an_empty_sample():
     assert sample_for_summary([], {}) == ""
+
+
+def test_an_opening_paragraph_longer_than_the_cap_is_truncated_not_dropped():
+    sample = sample_for_summary(["x " * 8000, "b"], {})
+    assert sample.startswith("x x x")
+    assert 0 < len(sample) <= SAMPLE_CHARS
+
+
+def test_the_closing_survives_when_the_cap_is_reached():
+    sample = sample_for_summary(["a" * 7000, "b" * 7000, "closing"], {})
+    assert "closing" in sample
+    assert len(sample) <= SAMPLE_CHARS
+
+
+def test_a_paragraph_that_does_not_fit_is_skipped_but_a_later_short_one_is_kept():
+    chunks = ["open"] + ["m" * 20000] + ["short middle"] + ["close"]
+    sample = sample_for_summary(chunks, {})
+    assert "short middle" in sample and "open" in sample and "close" in sample
+    assert "m" * 100 not in sample
+
+
+def test_a_heading_only_first_block_is_skipped_for_the_paragraph_under_it():
+    sample = sample_for_summary(["# Intro\n\nThe real opening."], {})
+    assert sample == "The real opening."
