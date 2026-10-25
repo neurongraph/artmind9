@@ -259,6 +259,7 @@ describe("childEnv", () => {
       "/usr/bin",
       "/bin",
       "/Users/me/.local/bin",
+      "/Users/me/.opencode/bin",
       "/opt/homebrew/bin",
       "/usr/local/bin",
     ]);
@@ -281,7 +282,7 @@ describe("childEnv", () => {
 
   it("skips nvm entirely when it isn't installed", () => {
     const env = childEnv({ PATH: "/usr/bin:/bin" }, join(tmpdir(), "artmind-no-nvm-here"));
-    expect(env.PATH).toBe(["/usr/bin", "/bin", join(tmpdir(), "artmind-no-nvm-here", ".local", "bin"), "/opt/homebrew/bin", "/usr/local/bin"].join(":"));
+    expect(env.PATH).toBe(["/usr/bin", "/bin", join(tmpdir(), "artmind-no-nvm-here", ".local", "bin"), join(tmpdir(), "artmind-no-nvm-here", ".opencode", "bin"), "/opt/homebrew/bin", "/usr/local/bin"].join(":"));
   });
 });
 

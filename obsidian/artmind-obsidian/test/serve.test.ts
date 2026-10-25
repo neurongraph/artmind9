@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { ArtmindCli, type Runner } from "../src/cli";
 import {
+  AUTO_PORT_MIN,
+  AUTO_PORT_SPAN,
+  AUTO_PORT_TRIES,
   SERVE_POLL_MS,
   SERVE_START_TIMEOUT_MS,
   type ServeDeps,
   type ServeHealth,
   ServeManager,
   type ServeProbe,
+  autoPorts,
   serveStatusText,
   serveText,
 } from "../src/serve";
@@ -19,7 +23,7 @@ const serve = (over: Partial<ServeHealth> = {}): ServeProbe => ({
 });
 
 /** Probes answer from a script, one per call (the last repeats). */
-function setup(probes: ServeProbe[], opts: { enabled?: boolean; port?: number; startedPid?: number; exitCode?: number | null; log?: string } = {}) {
+function setup(probes: ServeProbe[], opts: { enabled?: boolean; port?: number; busyPorts?: number[]; afterSpawn?: ServeProbe; startedPid?: number; exitCode?: number | null; log?: string } = {}) {
   const calls: string[] = [];
   const killed: number[] = [];
   let pid = opts.startedPid ?? 0;
@@ -29,8 +33,10 @@ function setup(probes: ServeProbe[], opts: { enabled?: boolean; port?: number; s
   const deps: ServeDeps = {
     probe: async (base) => {
       calls.push(`probe ${base}`);
+      if (opts.afterSpawn && calls.some((c) => c.startsWith("spawn"))) return opts.afterSpawn;
       return probes[Math.min(i++, probes.length - 1)];
     },
+    isFree: async (p) => !(opts.busyPorts ?? []).includes(p),
     spawn: (p) => {
       calls.push(`spawn ${p}`);
       return { pid: 4242, exited: opts.exitCode === undefined ? new Promise(() => {}) : Promise.resolve(opts.exitCode) };
@@ -155,6 +161,93 @@ describe("serve: reuse or start", () => {
     expect(t.calls.filter((c) => c.startsWith("spawn"))).toHaveLength(1);
     expect(a.kind).toBe("running");
     expect(b.kind).toBe("off");
+  });
+});
+
+describe("serve: automatic port", () => {
+  const ports = autoPorts(VAULT);
+
+  it("picks the same ports for a vault every time, outside 83xx", () => {
+    expect(autoPorts(`${VAULT}/`)).toEqual(ports);
+    expect(ports).toHaveLength(AUTO_PORT_TRIES);
+    expect(new Set(ports).size).toBe(AUTO_PORT_TRIES);
+    for (const p of ports) {
+      expect(p).toBeGreaterThanOrEqual(AUTO_PORT_MIN);
+      expect(p).toBeLessThan(AUTO_PORT_MIN + AUTO_PORT_SPAN);
+    }
+    expect(autoPorts("/Users/me/other")).not.toEqual(ports);
+  });
+
+  it("starts on the vault's first port when it is free, and runs artmind with it", async () => {
+    const t = setup([{ kind: "down" }], { port: 0, afterSpawn: serve({ pid: 777 }) });
+    expect(t.manager.env()).toEqual({ ARTMIND_SERVE_PORT: String(ports[0]) });
+
+    const state = await t.manager.ensure();
+
+    expect(state).toEqual({ kind: "running", port: ports[0], pid: 777, started: true });
+    expect(t.calls.filter((c) => c.startsWith("spawn"))).toEqual([`spawn ${ports[0]}`]);
+    expect(t.manager.env()).toEqual({ ARTMIND_SERVE_PORT: String(ports[0]) });
+  });
+
+  it("reuses this vault's serve found on its first port", async () => {
+    const t = setup([serve({ pid: 900 })], { port: 0 });
+
+    expect(await t.manager.ensure()).toEqual({ kind: "running", port: ports[0], pid: 900, started: false });
+    expect(t.calls.some((c) => c.startsWith("spawn"))).toBe(false);
+  });
+
+  it("skips another vault's serve, anything foreign, and a port something else listens on", async () => {
+    const t = setup([serve({ vault: "/Users/me/other" }), { kind: "foreign" }, { kind: "down" }], {
+      port: 0,
+      busyPorts: [ports[2]],
+      afterSpawn: serve({ pid: 777 }),
+    });
+
+    const state = await t.manager.ensure();
+
+    expect(state).toEqual({ kind: "running", port: ports[3], pid: 777, started: true });
+    expect(t.calls.filter((c) => c.startsWith("spawn"))).toEqual([`spawn ${ports[3]}`]);
+    expect(t.manager.env()).toEqual({ ARTMIND_SERVE_PORT: String(ports[3]) });
+  });
+
+  it("finds this vault's serve on a later port after a reload, though an earlier port has since freed up", async () => {
+    const t = setup([{ kind: "down" }, serve({ pid: 777 })], { port: 0 });
+
+    expect(await t.manager.ensure()).toEqual({ kind: "running", port: ports[1], pid: 777, started: false });
+    expect(t.calls.some((c) => c.startsWith("spawn"))).toBe(false);
+  });
+
+  it("fails, saying so, when every port it tries is taken", async () => {
+    const t = setup([{ kind: "foreign" }], { port: 0 });
+
+    const state = await t.manager.ensure();
+
+    expect(state.kind).toBe("failed");
+    expect(serveText(state)).toContain(`tried ${AUTO_PORT_TRIES} from ${ports[0]}`);
+    expect(t.calls.some((c) => c.startsWith("spawn"))).toBe(false);
+  });
+
+  it("stops ours on the port it fell back to", async () => {
+    const t = setup([{ kind: "down" }], { port: 0, busyPorts: [ports[0]], afterSpawn: serve({ pid: 777 }) });
+    await t.manager.ensure();
+    expect(t.manager.state).toMatchObject({ kind: "running", port: ports[1], started: true });
+
+    expect(await t.manager.stop()).toEqual({ kind: "stopped" });
+    expect(t.killed).toEqual([777]);
+  });
+
+  it("stops the serve it started after a reload, found on its automatic port", async () => {
+    const t = setup([serve({ pid: 777 })], { port: 0, startedPid: 777 });
+
+    expect(await t.manager.stop()).toEqual({ kind: "stopped" });
+    expect(t.killed).toEqual([777]);
+  });
+
+  it("keeps an explicit port in settings exactly as before", async () => {
+    const t = setup([{ kind: "down" }, { kind: "down" }, serve({ pid: 777 })], { port: 8390 });
+
+    expect((await t.manager.ensure()).kind).toBe("running");
+    expect(t.calls.filter((c) => c.startsWith("spawn"))).toEqual(["spawn 8390"]);
   });
 });
 

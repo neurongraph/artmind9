@@ -179,10 +179,12 @@ function nvmBinDirs(home: string): string[] {
  * and `uv` (the worker converts documents with `uv run docling`), so the
  * usual install locations are appended -- plus any nvm-managed node `bin`
  * (see `nvmBinDirs`), since the admin-ui's ACP backend spawns `opencode`,
- * itself commonly installed that way. */
+ * itself commonly installed that way, or by its own installer into
+ * `~/.opencode/bin` (opencode 2.x). */
 export function childEnv(base: NodeJS.ProcessEnv, home: string): NodeJS.ProcessEnv {
   const extra = [
     join(home, ".local", "bin"),
+    join(home, ".opencode", "bin"),
     "/opt/homebrew/bin",
     "/usr/local/bin",
     "/usr/bin",

@@ -90,15 +90,18 @@ export class ArtmindSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Serve port")
-      .setDesc("ARTMIND_SERVE_PORT for this vault. Each vault open at once needs its own. Takes effect on \"Restart serve\" or a reload.")
+      .setDesc("ARTMIND_SERVE_PORT for this vault. Leave empty to pick a free port automatically (recommended): each vault open at once needs its own. Takes effect on \"Restart serve\" or a reload.")
       .addText((text) =>
-        text.setValue(String(settings.servePort)).onChange((value) => {
-          const n = Number(value.trim());
-          if (validPort(n)) {
-            settings.servePort = n;
-            save();
-          }
-        }),
+        text
+          .setPlaceholder("automatic")
+          .setValue(settings.servePort ? String(settings.servePort) : "")
+          .onChange((value) => {
+            const n = value.trim() === "" ? 0 : Number(value.trim());
+            if (n === 0 || validPort(n)) {
+              settings.servePort = n;
+              save();
+            }
+          }),
       );
 
     el(containerEl, "h3", { text: "Notices" });

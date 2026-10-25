@@ -149,7 +149,12 @@ when the section is open.
 
 `artmind query` proxies to a `serve` that answers `/health` on `ARTMIND_SERVE_PORT`
 (default 8377), and otherwise pays a cold start (~1–2 s) per call. Settings "Start artmind
-serve with this vault" (**off** by default) and "Serve port" (8377) keep one warm:
+serve with this vault" (**off** by default) and "Serve port" (empty: automatic) keep one warm.
+An automatic port is the first free one of 20 consecutive ports in 18400–18899, starting
+from a hash of the vault's path (so a vault returns to the same port and two vaults rarely
+collide), away from the 83xx defaults of serve, chat-ui and admin-ui. This vault's own serve
+on any of those ports is reused; another vault's serve or anything else listening is skipped.
+A port typed in settings is used as is. The old saved default, 8377, counts as automatic:
 
 - **On load** (after the artmind check passes, never awaited, so Obsidian is never held up)
   and when the toggle goes on: probe `GET http://127.0.0.1:{port}/health` (X10). This

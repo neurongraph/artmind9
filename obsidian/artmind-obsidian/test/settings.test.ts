@@ -38,19 +38,24 @@ describe("settings (spec §7)", () => {
     expect(merged.headPollSeconds).toBe(15);
   });
 
-  it("leaves serve off by default, on its default port, with no pid claimed", () => {
+  it("leaves serve off by default, on an automatic port, with no pid claimed", () => {
     expect(DEFAULT_SETTINGS.serveEnabled).toBe(false);
-    expect(DEFAULT_SETTINGS.servePort).toBe(8377);
+    expect(DEFAULT_SETTINGS.servePort).toBe(0);
     expect(DEFAULT_SETTINGS.servePid).toBe(0);
     const merged = mergeSettings({ serveEnabled: true, servePort: 8390, servePid: 77 });
     expect([merged.serveEnabled, merged.servePort, merged.servePid]).toEqual([true, 8390, 77]);
   });
 
   it("refuses a serve port that is not a usable TCP port", () => {
-    for (const port of [0, 80, 8377.5, 70000, "8390", -1]) expect(mergeSettings({ servePort: port }).servePort).toBe(8377);
+    for (const port of [0, 80, 8377.5, 70000, "8390", -1]) expect(mergeSettings({ servePort: port }).servePort).toBe(0);
     expect(validPort(1024)).toBe(true);
     expect(validPort(65535)).toBe(true);
     expect(mergeSettings({ servePid: -3 }).servePid).toBe(0);
+  });
+
+  it("treats the old 8377 default, saved into every vault, as automatic", () => {
+    expect(mergeSettings({ servePort: 8377 }).servePort).toBe(0);
+    expect(mergeSettings({ servePort: 8390 }).servePort).toBe(8390);
   });
 
   it("ignores malformed data", () => {

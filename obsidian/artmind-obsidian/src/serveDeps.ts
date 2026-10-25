@@ -3,6 +3,7 @@
  * serve.ts, where they are tested. */
 import { spawn } from "node:child_process";
 import { closeSync, mkdirSync, openSync, promises as fs } from "node:fs";
+import { createServer } from "node:net";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { requestUrl } from "obsidian";
@@ -38,6 +39,13 @@ export function realServeDeps(vaultRoot: string, artmindPath: () => string): Ser
       } catch {
         return { kind: "down" };
       }
+    },
+    isFree(port: number): Promise<boolean> {
+      return new Promise((resolve) => {
+        const server = createServer();
+        server.once("error", () => resolve(false));
+        server.listen(port, "127.0.0.1", () => server.close(() => resolve(true)));
+      });
     },
     spawn(port: number) {
       mkdirSync(dirname(log), { recursive: true });

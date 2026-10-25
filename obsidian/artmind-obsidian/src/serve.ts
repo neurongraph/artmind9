@@ -24,6 +24,8 @@ export type ServeProbe =
 
 export interface ServeDeps {
   probe(baseUrl: string): Promise<ServeProbe>;
+  /** Nothing listens on 127.0.0.1:P (a probe can't tell a non-HTTP listener from none). */
+  isFree(port: number): Promise<boolean>;
   /** `artmind serve --port P`, detached, from the vault root. */
   spawn(port: number): Spawned;
   /** SIGTERM; false when there was no such process. */
@@ -35,6 +37,7 @@ export interface ServeDeps {
 
 export interface ServeContext {
   enabled: () => boolean;
+  /** The port set in settings; 0 picks one per vault (`autoPorts`). */
   port: () => number;
   vaultRoot: string;
   /** The pid of the serve this plugin started, or 0. */
@@ -61,9 +64,30 @@ export const SERVE_START_TIMEOUT_MS = 30_000;
 export const SERVE_STOP_TIMEOUT_MS = 10_000;
 export const SERVE_POLL_MS = 500;
 
+/** Automatic serve ports: away from 8377-8379 (serve, chat-ui and admin-ui's
+ * defaults) and the rest of 83xx, where a second admin-ui tends to land. */
+export const AUTO_PORT_MIN = 18400;
+export const AUTO_PORT_SPAN = 500;
+/** How many ports of the range one start tries before giving up. */
+export const AUTO_PORT_TRIES = 20;
+
+const normPath = (p: string) => p.replace(/[\\/]+$/, "");
+
 function samePath(a: string | null, b: string): boolean {
-  const norm = (p: string) => p.replace(/[\\/]+$/, "");
-  return a !== null && norm(a) === norm(b);
+  return a !== null && normPath(a) === normPath(b);
+}
+
+/** The ports an automatic serve tries, in order: from a hash of the vault's
+ * path, so a vault comes back to the same port after a reload and two vaults
+ * rarely start on the same one. */
+export function autoPorts(vaultRoot: string): number[] {
+  let hash = 0x811c9dc5;
+  for (const ch of normPath(vaultRoot)) {
+    hash ^= ch.codePointAt(0) ?? 0;
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  const first = hash % AUTO_PORT_SPAN;
+  return Array.from({ length: AUTO_PORT_TRIES }, (_, i) => AUTO_PORT_MIN + ((first + i) % AUTO_PORT_SPAN));
 }
 
 const base = (port: number) => `http://127.0.0.1:${port}`;
@@ -91,6 +115,12 @@ export class ServeManager {
     this.listener = listener;
   }
 
+  /** The ports serve may be on: the one set in settings, or (0) this vault's automatic ones. */
+  private candidates(): number[] {
+    const port = this.ctx.port();
+    return port ? [port] : autoPorts(this.ctx.vaultRoot);
+  }
+
   private set(state: ServeState): ServeState {
     this.current = state;
     this.listener?.(state);
@@ -102,7 +132,7 @@ export class ServeManager {
    * artmind on that port is not this vault's serve. Nothing when off. */
   env(): Record<string, string> {
     if (!this.ctx.enabled()) return {};
-    const env: Record<string, string> = { ARTMIND_SERVE_PORT: String(this.ctx.port()) };
+    const env: Record<string, string> = { ARTMIND_SERVE_PORT: String(this.activePort ?? this.candidates()[0]) };
     if (this.current.kind === "other_vault" || this.current.kind === "old") env.ARTMIND_NO_PROXY = "1";
     return env;
   }
@@ -132,7 +162,7 @@ export class ServeManager {
       // Another vault's serve is not this restart's to refuse: start says so.
       if (stopped.kind === "not_ours" && samePath(stopped.vault, this.ctx.vaultRoot)) return stopped;
       if (stopped.kind === "stopped") {
-        const port = this.activePort ?? this.ctx.port();
+        const port = this.activePort ?? this.candidates()[0];
         for (let waited = 0; waited < SERVE_STOP_TIMEOUT_MS; waited += SERVE_POLL_MS) {
           if ((await this.deps.probe(base(port))).kind === "down") break;
           await this.deps.sleep(SERVE_POLL_MS);
@@ -153,8 +183,7 @@ export class ServeManager {
 
   private async stopOurs(): Promise<ServeStop> {
     const ours = this.ctx.startedPid();
-    const port = this.activePort ?? this.ctx.port();
-    const found = await this.deps.probe(base(port));
+    const { found } = await this.locate();
     if (found.kind !== "serve") {
       if (ours) await this.ctx.saveStartedPid(0);
       return { kind: "not_running" };
@@ -166,9 +195,42 @@ export class ServeManager {
     return { kind: "stopped" };
   }
 
+  /** What is on the port this vault's serve is on: where it was found or
+   * started, else the first of this vault's ports with a serve of this vault
+   * on it (a reload forgets the port an automatic start fell back to). */
+  private async locate(): Promise<{ port: number; found: ServeProbe }> {
+    if (this.activePort !== null) return { port: this.activePort, found: await this.deps.probe(base(this.activePort)) };
+    const ports = this.candidates();
+    let first: ServeProbe | null = null;
+    for (const port of ports) {
+      const found = await this.deps.probe(base(port));
+      if (found.kind === "serve" && samePath(found.health.vault, this.ctx.vaultRoot)) return { port, found };
+      first ??= found;
+    }
+    return { port: ports[0], found: first ?? { kind: "down" } };
+  }
+
   private async start(): Promise<ServeState> {
     const port = this.ctx.port();
-    const found = await this.deps.probe(base(port));
+    if (port) return this.startOn(port);
+    // Automatic: this vault's own serve on any of its ports (one that took a
+    // later port while an earlier one was busy is still found), else the first
+    // port that is free. Another vault's serve, or anything else listening, is skipped.
+    const ports = autoPorts(this.ctx.vaultRoot);
+    const probes: ServeProbe[] = [];
+    for (const candidate of ports) {
+      const found = await this.deps.probe(base(candidate));
+      if (found.kind === "serve" && samePath(found.health.vault, this.ctx.vaultRoot)) return this.startOn(candidate, found);
+      probes.push(found);
+    }
+    for (const [i, candidate] of ports.entries()) {
+      if (probes[i].kind === "down" && (await this.deps.isFree(candidate))) return this.startOn(candidate, probes[i]);
+    }
+    return this.set({ kind: "failed", message: `No free port for artmind serve (tried ${AUTO_PORT_TRIES} from ${ports[0]}). Set a serve port in settings.` });
+  }
+
+  private async startOn(port: number, probed?: ServeProbe): Promise<ServeState> {
+    const found = probed ?? (await this.deps.probe(base(port)));
     if (found.kind === "serve") {
       if (!samePath(found.health.vault, this.ctx.vaultRoot)) return this.set({ kind: "other_vault", port, vault: found.health.vault });
       const ours = this.ctx.startedPid();

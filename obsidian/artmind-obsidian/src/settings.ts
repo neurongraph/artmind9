@@ -30,7 +30,8 @@ export interface ArtmindSettings {
   /** Keep a warm `artmind serve` for this vault while the plugin runs, so
    * `artmind query` calls (the plugin's and the chat agent's) skip a cold start. */
   serveEnabled: boolean;
-  /** Its port, passed as `ARTMIND_SERVE_PORT`; each open vault needs its own. */
+  /** Its port, passed as `ARTMIND_SERVE_PORT`; each open vault needs its own.
+   * 0 (the default): the plugin picks a free one per vault, outside 83xx. */
   servePort: number;
   /** The serve this plugin started (0: none); unload stops only that one. */
   servePid: number;
@@ -56,7 +57,7 @@ export const DEFAULT_SETTINGS: ArtmindSettings = {
   adminUiPid: 0,
   adminInObsidianTab: true,
   serveEnabled: false,
-  servePort: 8377,
+  servePort: 0,
   servePid: 0,
 };
 
@@ -92,10 +93,18 @@ export function mergeSettings(saved: unknown): ArtmindSettings {
     adminUiPid: Math.max(0, Math.trunc(pick("adminUiPid"))),
     adminInObsidianTab: pick("adminInObsidianTab"),
     serveEnabled: pick("serveEnabled"),
-    servePort: validPort(pick("servePort")) ? pick("servePort") : DEFAULT_SETTINGS.servePort,
+    servePort: serveSetting(pick("servePort")),
     servePid: Math.max(0, Math.trunc(pick("servePid"))),
   };
 }
+
+/** A saved serve port: 0 is automatic. 8377 was the old default, saved into every
+ * vault's data.json whether anyone chose it or not, so it counts as automatic. */
+function serveSetting(port: number): number {
+  return validPort(port) && port !== LEGACY_SERVE_PORT ? port : 0;
+}
+
+const LEGACY_SERVE_PORT = 8377;
 
 export function validPort(port: number): boolean {
   return Number.isInteger(port) && port >= 1024 && port <= 65535;
