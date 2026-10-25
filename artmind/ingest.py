@@ -2059,6 +2059,38 @@ def _filter_valid_items(
     return valid
 
 
+def _normalised(text: str) -> str:
+    return " ".join(text.split()).casefold()
+
+
+def _drop_context_echo(items: list, block: str, passage: str, seq: int, step_name: str) -> int:
+    """Remove a `context` quote (an item's own, or one inside its `properties`)
+    that the model copied from the document-context block: found in `block` but
+    not in `passage`. The block is there for naming only; a quote is evidence,
+    and evidence must come from the chunk's own text. Mutates `items`; returns
+    how many quotes it removed."""
+    if not block:
+        return 0
+    in_block, in_passage = _normalised(block), _normalised(passage)
+    removed = 0
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        for holder in (item, item.get("properties")):
+            if not isinstance(holder, dict) or not isinstance(holder.get("context"), str):
+                continue
+            quote = _normalised(holder["context"])[:120]
+            if quote and quote in in_block and quote not in in_passage:
+                del holder["context"]
+                removed += 1
+    if removed:
+        logger.warning(
+            "  Chunk {} — dropped {} {} context quote(s) copied from the document context, not the passage",
+            seq, removed, step_name,
+        )
+    return removed
+
+
 #: A chunk under this many characters is not split further after a cut-off answer.
 _MIN_SPLIT_CHARS = 400
 #: How many times a chunk may be halved (up to 2**depth pieces).
@@ -3326,6 +3358,7 @@ def extract_kg(
                 raw_entities = _filter_valid_items(
                     raw_entities, seq, "entity", required_key=REQUIRED_ENTITY_FIELDS,
                 )
+                _drop_context_echo(raw_entities, _document_context(seq), chunk_text, seq, "entity")
                 entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
                 data["raw_entities"] = raw_entities
                 data["id_map"] = id_map
@@ -3370,6 +3403,7 @@ def extract_kg(
                 marks["properties"] = "ok" if ok else "failed"
                 if ok:
                     raw_props = _filter_valid_items(raw_props, seq, "property")
+                    _drop_context_echo(raw_props, _document_context(seq), chunk_text, seq, "property")
                     props = [
                         {**p, "chunk_id": chunk_id, "doc_id": doc_id}
                         for p in _rewrite_ref_ids(raw_props, id_map, "id")
@@ -3398,6 +3432,7 @@ def extract_kg(
             marks["relationships"] = "ok" if ok else "failed"
             if ok:
                 raw_rels = _filter_valid_items(raw_rels, seq, "relationship")
+                _drop_context_echo(raw_rels, _document_context(seq), chunk_text, seq, "relationship")
                 rels = _rewrite_ref_ids(raw_rels, id_map, "source_id", "target_id")
                 rels = [{**r, "chunk_id": chunk_id, "doc_id": doc_id} for r in rels]
                 for e in data.get("entities", []):

@@ -315,7 +315,7 @@ def test_parse_summary_reads_the_json_answer():
 def test_parse_summary_caps_the_lengths():
     summary, identifiers = parse_summary({"summary": "x" * 5000, "identifiers": [f"id{i}" for i in range(40)]})
     assert len(summary) == 1200
-    assert len(identifiers) == 25
+    assert len(identifiers) == 15
 
 
 def test_parse_summary_rejects_a_list_answer_and_keeps_only_strings():
@@ -515,3 +515,13 @@ def test_the_cache_key_changes_with_the_sample_size():
     base = dict(content_sha="c", schema_sha="s", model="m")
     assert dc.context_key(**base, sample_chars=12000) != dc.context_key(**base, sample_chars=6000)
     assert dc.context_key(**base) == dc.context_key(**base, sample_chars=dc.SAMPLE_CHARS)
+
+
+def test_parse_summary_keeps_bare_names_only():
+    """The model labels identifiers with their class, repeats them and slips
+    descriptions in; each costs room every chunk's prompt needs for the outline."""
+    _, identifiers = parse_summary({"summary": "ok", "identifiers": [
+        "ORGANIZATION: Alpha Ltd", "alpha ltd", "CCN001", "Clause 9: term", "Alpha Ltd",
+        "CHARGE: the estimated charge for the first data architect session, payable on delivery, excluding VAT",
+    ]})
+    assert identifiers == ["Alpha Ltd", "CCN001", "Clause 9: term"]

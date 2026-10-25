@@ -346,3 +346,28 @@ def test_a_split_prefers_a_line_near_the_middle_over_a_far_paragraph_break():
     first, second = ing._split_chunk_text(text)
     assert 0.35 < len(first) / len(text) < 0.65
     assert not second.startswith("\n") and not first.endswith("\n")
+
+
+# ── evidence comes from the passage, not the context block ───────────────────
+
+
+def test_a_context_quote_copied_from_the_document_context_is_dropped():
+    block = "DOCUMENT CONTEXT ...\nSummary: This document is a First Amendment Agreement between A and B.\nPASSAGE TO EXTRACT FROM:"
+    passage = "## 9 Term\nThe term runs until 28 February 2026."
+    items = [
+        {"source_id": "a", "target_id": "b", "context": "This document is a First Amendment Agreement between A and B."},
+        {"source_id": "a", "target_id": "c", "context": "The term runs until 28 February 2026."},
+        {"id": "e1", "properties": {"end_date": "2026-02-28", "context": "This  document is a first amendment agreement"}},
+    ]
+
+    assert ing._drop_context_echo(items, block, passage, 1, "relationship") == 2
+
+    assert "context" not in items[0]
+    assert items[1]["context"] == "The term runs until 28 February 2026."
+    assert items[2]["properties"] == {"end_date": "2026-02-28"}
+
+
+def test_without_a_context_block_nothing_is_dropped():
+    items = [{"context": "anything"}]
+    assert ing._drop_context_echo(items, "", "passage", 1, "entity") == 0
+    assert items == [{"context": "anything"}]

@@ -263,9 +263,15 @@ def _fit(paragraph: str, room: int) -> str:
 
 #: Bumped when the summary prompt changes, so a cached summary made by the old
 #: wording is regenerated (it is part of the cache key).
-PROMPT_VERSION = 1
+PROMPT_VERSION = 2
 SUMMARY_CHARS = 1200
-IDENTIFIER_LIMIT = 25
+#: The most identifiers kept, and the longest one: an identifier is a name, number
+#: or date as the document writes it; a longer item is a description, not a name.
+IDENTIFIER_LIMIT = 15
+IDENTIFIER_CHARS = 80
+#: A class label the model sometimes puts in front of an identifier
+#: ("ORGANIZATION: Alpha Ltd"); the name alone is what keeps chunks consistent.
+_CLASS_LABEL = re.compile(r"^[A-Z][A-Z0-9_]{2,}\s*:\s+")
 
 
 def _one_sentence(text: str) -> str:
@@ -297,8 +303,9 @@ def summary_prompt(schema: dict, sample: str, *, focus: str) -> str:
     lines = [
         f"You are reading a document about {subject}.",
         "Say what this document is in two or three sentences.",
-        "Then list, as identifiers, the names, numbers, dates and parties that recur in it",
-        "and identify instances of these classes:",
+        f"Then list at most {IDENTIFIER_LIMIT} identifiers: the names, reference numbers, dates and parties",
+        "that recur in it, each exactly as the document writes it -- a bare name or number,",
+        "no label, class or explanation. The useful ones are instances of these classes:",
         *classes,
     ]
     if focus:
@@ -320,14 +327,25 @@ def parse_summary(answer) -> tuple[str, list[str]] | None:
     JSON object. Both end up inside every chunk's prompt, so each is one line
     (whitespace collapsed): model output must not add a line that reads like
     another field. The summary is capped at SUMMARY_CHARS; identifiers keep only
-    non-empty strings and are capped at IDENTIFIER_LIMIT."""
+    non-empty strings, lose a leading class label ("ORGANIZATION: "), drop an item
+    longer than IDENTIFIER_CHARS (a description, not a name) and a repeat (ignoring
+    case), and are capped at IDENTIFIER_LIMIT."""
     if not isinstance(answer, dict):
         return None
     summary = " ".join(str(answer.get("summary") or "").split())[:SUMMARY_CHARS]
     raw = answer.get("identifiers")
     raw = raw if isinstance(raw, list) else []
-    identifiers = [" ".join(v.split()) for v in raw if isinstance(v, str)]
-    return summary, [i for i in identifiers if i][:IDENTIFIER_LIMIT]
+    identifiers: list[str] = []
+    seen: set[str] = set()
+    for value in raw:
+        if not isinstance(value, str):
+            continue
+        item = _CLASS_LABEL.sub("", " ".join(value.split()))
+        if not item or len(item) > IDENTIFIER_CHARS or item.casefold() in seen:
+            continue
+        seen.add(item.casefold())
+        identifiers.append(item)
+    return summary, identifiers[:IDENTIFIER_LIMIT]
 
 
 #: The block's closing line: what follows it is the passage to extract from.
