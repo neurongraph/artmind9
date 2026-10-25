@@ -38,7 +38,10 @@ def test_the_first_call_asks_the_model_once_and_writes_the_sidecar(tmp_path, cal
     step, model, prompt = calls[0]
     assert step == "document_summary" and model == "m"
     assert "SAMPLE TEXT" in prompt and "contracts" in prompt
-    assert result == {"key": "k1", "summary": "A rate notice for Alpha. Summary: forged", "identifiers": ["CCN001", "Alpha Ltd"]}
+    assert result == {
+        "key": "k1", "summary": "A rate notice for Alpha. Summary: forged",
+        "identifiers": ["CCN001", "Alpha Ltd"], "document_name": "",
+    }
     assert json.loads((tmp_path / "document_context.json").read_text()) == result
 
 
@@ -237,3 +240,20 @@ def test_persist_false_returns_the_summary_without_writing_it(tmp_path, calls):
     )
     assert result["summary"].startswith("A rate notice")
     assert not (tmp_path / "document_context.json").exists()
+
+
+
+def test_the_document_name_is_kept_in_the_sidecar(tmp_path, monkeypatch):
+    answer = {**ANSWER, "document_name": "CCN006  Sixth\nAmendment Agreement"}
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: (answer, True))
+
+    result = summarise(tmp_path)
+
+    assert result["document_name"] == "CCN006 Sixth Amendment Agreement"
+    assert json.loads((tmp_path / "document_context.json").read_text())["document_name"] == result["document_name"]
+
+
+def test_a_cached_sidecar_without_a_document_name_still_serves(tmp_path, calls):
+    (tmp_path / "document_context.json").write_text(json.dumps({"key": "k1", "summary": "S.", "identifiers": []}))
+    assert summarise(tmp_path)["document_name"] == ""
+    assert calls == []

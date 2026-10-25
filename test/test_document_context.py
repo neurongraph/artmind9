@@ -525,3 +525,36 @@ def test_parse_summary_keeps_bare_names_only():
         "CHARGE: the estimated charge for the first data architect session, payable on delivery, excluding VAT",
     ]})
     assert identifiers == ["Alpha Ltd", "CCN001", "Clause 9: term"]
+
+
+
+# ── the document's own name (end to end: six names for one amendment) ───────
+
+
+def test_the_summary_prompt_asks_for_the_documents_own_name():
+    prompt = summary_prompt({"subject": "contracts", "entity_types": {}}, "S", focus="")
+    assert '"document_name"' in prompt
+
+
+def test_parse_document_name_is_one_capped_line():
+    from artmind.document_context import DOCUMENT_NAME_CHARS, parse_document_name
+
+    assert parse_document_name({"document_name": " CCN006 \n Sixth  Amendment "}) == "CCN006 Sixth Amendment"
+    assert parse_document_name({"document_name": 3}) == ""
+    assert parse_document_name("not a dict") == ""
+    long = parse_document_name({"document_name": "word " * 60})
+    assert len(long) <= DOCUMENT_NAME_CHARS and not long.endswith(" ")
+
+
+def test_the_document_name_opens_the_block_and_outlasts_the_identifiers():
+    from artmind.document_context import CONTEXT_HEADING
+
+    args = dict(metadata="Title: T", outline="You are in: chunk 1 of 2", summary="S one.",
+                identifiers=["ID" + "x" * 40 for _ in range(10)], document_name="CCN006 Sixth Amendment")
+    block = render_context(**args, cap=2000)
+    assert block.splitlines()[:2] == [CONTEXT_HEADING, block.splitlines()[1]]
+    assert block.splitlines()[1].startswith("This document: CCN006 Sixth Amendment")
+
+    tight = render_context(**args, cap=len(CONTEXT_HEADING) + 160)
+    assert "This document: CCN006 Sixth Amendment" in tight
+    assert "Identifiers:" not in tight
