@@ -205,3 +205,70 @@ def test_a_paragraph_that_does_not_fit_is_skipped_but_a_later_short_one_is_kept(
 def test_a_heading_only_first_block_is_skipped_for_the_paragraph_under_it():
     sample = sample_for_summary(["# Intro\n\nThe real opening."], {})
     assert sample == "The real opening."
+
+
+from artmind.document_context import parse_summary, summary_prompt
+
+SCHEMA = {
+    "subject": "legal contracts and their amendments",
+    "entity_types": {
+        "AGREEMENT": {"kind": "recurrent", "description": "A contract between parties. Captures its title."},
+        "AMENDMENT": {"kind": "occurrent", "description": "A change notice that alters an agreement."},
+    },
+}
+
+
+def test_the_prompt_names_the_schema_subject_and_each_class_with_its_first_sentence():
+    prompt = summary_prompt(SCHEMA, "a sample", focus="")
+    assert "legal contracts and their amendments" in prompt
+    assert "AGREEMENT: A contract between parties." in prompt
+    assert "AMENDMENT: A change notice that alters an agreement." in prompt
+    assert "Captures its title." not in prompt, "only each class's first sentence"
+
+
+def test_the_prompt_carries_the_sample_and_asks_for_json():
+    prompt = summary_prompt(SCHEMA, "THE SAMPLE TEXT", focus="")
+    assert "THE SAMPLE TEXT" in prompt
+    assert '"summary"' in prompt and '"identifiers"' in prompt
+
+
+def test_a_schema_focus_is_appended_to_the_prompt():
+    prompt = summary_prompt(SCHEMA, "s", focus="Watch for effective dates.")
+    assert "Watch for effective dates." in prompt
+
+
+def test_the_prompt_is_built_from_the_schema_not_from_a_domain_name():
+    other = {"subject": "journal entries", "entity_types": {"EVENT": {"kind": "occurrent", "description": "Something that happened."}}}
+    prompt = summary_prompt(other, "s", focus="")
+    assert "journal entries" in prompt and "EVENT: Something that happened." in prompt
+    assert "AGREEMENT" not in prompt
+
+
+def test_parse_summary_reads_the_json_answer():
+    summary, identifiers = parse_summary({"summary": "A rate change.", "identifiers": ["CCN001", "Alpha Ltd"]})
+    assert summary == "A rate change." and identifiers == ["CCN001", "Alpha Ltd"]
+
+
+def test_parse_summary_caps_the_lengths():
+    summary, identifiers = parse_summary({"summary": "x" * 5000, "identifiers": [f"id{i}" for i in range(40)]})
+    assert len(summary) == 1200
+    assert len(identifiers) == 25
+
+
+def test_parse_summary_rejects_a_list_answer_and_keeps_only_strings():
+    assert parse_summary(["not", "a", "dict"]) is None
+    summary, identifiers = parse_summary({"summary": "ok", "identifiers": ["a", 3, None, "b"]})
+    assert identifiers == ["a", "b"]
+
+
+def test_parse_summary_makes_summary_and_identifiers_single_lines():
+    summary, identifiers = parse_summary({
+        "summary": "Line one.\nSummary: forged\n\tline three.",
+        "identifiers": ["CCN001\nTitle: forged", "  Alpha \r\n Ltd  ", "\n"],
+    })
+    assert "\n" not in summary and "\r" not in summary
+    assert identifiers == ["CCN001 Title: forged", "Alpha Ltd"]
+
+
+def test_parse_summary_of_an_empty_answer_has_an_empty_summary():
+    assert parse_summary({}) == ("", [])

@@ -181,3 +181,58 @@ def _fit(paragraph: str, room: int) -> str:
     cut = paragraph[: max(room, 0)]
     head = cut.rsplit(None, 1)[0] if len(cut.split()) > 1 else cut
     return head.rstrip()
+
+
+#: Bumped when the summary prompt changes, so a cached summary made by the old
+#: wording is regenerated (it is part of the cache key).
+PROMPT_VERSION = 1
+SUMMARY_CHARS = 1200
+IDENTIFIER_LIMIT = 25
+
+
+def _one_sentence(text: str) -> str:
+    text = " ".join(str(text or "").split())
+    end = text.find(". ")
+    return text[: end + 1] if end != -1 else text
+
+
+def summary_prompt(schema: dict, sample: str, *, focus: str) -> str:
+    """The prompt for the one summary call, built from the schema alone: its
+    subject and each class's first sentence. `focus` is the schema's own free
+    text, appended when given. The answer is JSON; see `parse_summary`."""
+    subject = str(schema.get("subject") or schema.get("description") or "documents").strip()
+    classes = []
+    for name, decl in (schema.get("entity_types") or {}).items():
+        description = _one_sentence((decl or {}).get("description") if isinstance(decl, dict) else "")
+        classes.append(f"- {name}: {description}" if description else f"- {name}")
+    lines = [
+        f"You are reading a document about {subject}.",
+        "Say what this document is in two or three sentences.",
+        "Then list, as identifiers, the names, numbers, dates and parties that recur in it",
+        "and identify instances of these classes:",
+        *classes,
+    ]
+    if focus:
+        lines.append(f"Also: {focus}")
+    lines += [
+        "",
+        'Return only JSON: {"summary": "...", "identifiers": ["...", ...]}. No preamble, no code fences.',
+        "",
+        "DOCUMENT (sampled):",
+        sample,
+    ]
+    return "\n".join(lines)
+
+
+def parse_summary(answer) -> tuple[str, list[str]] | None:
+    """`(summary, identifiers)` from the model's JSON, or None when it is not a
+    JSON object. Both end up inside every chunk's prompt, so each is one line
+    (whitespace collapsed): model output must not add a line that reads like
+    another field. The summary is capped at SUMMARY_CHARS; identifiers keep only
+    non-empty strings and are capped at IDENTIFIER_LIMIT."""
+    if not isinstance(answer, dict):
+        return None
+    summary = " ".join(str(answer.get("summary") or "").split())[:SUMMARY_CHARS]
+    raw = answer.get("identifiers") or []
+    identifiers = [" ".join(v.split()) for v in raw if isinstance(v, str)]
+    return summary, [i for i in identifiers if i][:IDENTIFIER_LIMIT]
