@@ -176,6 +176,25 @@ but is deprecated in favour of `document_context:`: `false` turns the block off,
 `document_header: {chars: N}` now caps the WHOLE context block -- metadata, outline,
 summary and identifiers -- not an opening excerpt of the document.)
 
+**The document's own entity.** When a document of the domain is itself an instance of
+one of its classes -- a change note is an amendment, a statement of work is an
+agreement -- every chunk names it its own way. Opt those classes in and artmind folds
+those names into one, in code, after extraction:
+
+```yaml
+document_entity:
+  classes: [AGREEMENT]
+```
+
+A name is folded when it carries the document's own reference, taken from its
+filename or title (letters then digits: `CN12`, `SR4410`; `CN12`, `CN012` and `CN 12`
+are one reference), and every other word in it is a word of the title, a
+document-type word (agreement, amendment, change note, ...), an ordinal or a date.
+So "CN012 Appendix 2 Deliverables Change" (a part) and "CN005 Amendment" (another
+document) stay separate. The folded name is the variant most chunks used. A document
+whose filename and title carry no reference is left alone, and so is every domain
+without the key. `domains validate` reports a class the schema does not declare.
+
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns
 - Classes that are really subtypes of another class (`VILLAIN` when `PERSON` with type `antagonist` would do)

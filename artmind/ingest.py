@@ -3688,6 +3688,20 @@ def extract_kg(
             all_entities, schema=schema, vocabulary=vocabulary,
             model=text_model, debug_dir=llm_debug_dir,
         )
+        # The document's own entity, folded in code where the schema opts in
+        # (`document_entity:`): every chunk names the document it sits in its
+        # own way, and the LLM pass above does not reliably fold them.
+        from artmind import document_entity
+
+        canonical_names, folds = document_entity.fold(
+            all_entities, canonical_names, schema,
+            title=str(meta.get("title") or registered_path.stem), filename=registered_path.name,
+        )
+        for done in folds:
+            logger.info(
+                "Document entity: {} {} name(s) folded into {!r}: {}",
+                done.entity_class, len(done.folded), done.name, "; ".join(done.folded),
+            )
 
     all_observations = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,

@@ -22,6 +22,11 @@ guidance:
     AMENDMENT CHAINS: amendments and CCNs form a chronological chain (CCN005 → CCN006 → CCN017 → CCN018, etc). Always capture which prior agreement is being amended, referencing it by its defined name/date even if that prior agreement is not itself in the current text.
     RESPONSIBILITY MATRIX ENTRIES: for PARTY ↔ MILESTONE and PARTY ↔ DELIVERABLE "responsible_for" relationships arising from a Responsibility/RACI matrix, always include properties.task indicating manage, execute, or support.
     SYSTEM VS DELIVERABLE: keep the pre-existing/ongoing SYSTEM distinct from the DELIVERABLE that documents or implements a change to it. Link them with "documented_by" or "implemented_by" rather than treating the system itself as a deliverable.
+# A contract document is itself an AGREEMENT (a transaction contract, a change
+# note): its own entity is named once, deterministically, instead of once per
+# chunk (artmind.document_entity; the reference comes from the filename/title).
+document_entity:
+  classes: [AGREEMENT]
 entity_types:
   AGREEMENT:
     kind: recurrent

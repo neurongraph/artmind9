@@ -146,7 +146,24 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
             _check_reserved(target, prefix, f"{where}.relates_to", errors)
 
     errors.extend(_property_alias_errors(schema, entity_types, prefix, label))
+    errors.extend(_document_entity_errors(schema, entity_types, label))
     return errors
+
+
+def _document_entity_errors(schema: dict, entity_types: dict, label: str) -> list[str]:
+    """`document_entity: {classes: [CLASS, ...]}` names the classes a document of
+    this domain can itself be an instance of (`artmind.document_entity`). A class
+    the schema does not declare would silently turn the step off for it."""
+    if "document_entity" not in schema:
+        return []
+    setting = schema["document_entity"]
+    where = f"{label}.document_entity"
+    if not isinstance(setting, dict) or not isinstance(setting.get("classes"), list) or not setting["classes"]:
+        return [f"{where}: must be a map with a non-empty 'classes' list, e.g. {{classes: [AGREEMENT]}}"]
+    return [
+        f"{where}.classes: {cls!r} is not a class of this schema's entity_types"
+        for cls in setting["classes"] if cls not in entity_types
+    ]
 
 
 def _property_alias_errors(schema: dict, entity_types: dict, prefix: str, label: str) -> list[str]:
