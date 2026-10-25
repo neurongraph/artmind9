@@ -346,3 +346,58 @@ def test_relative_anchor_date_from_document_valid_from():
     # No anchor declared, or no date at all.
     assert relative_anchor_date({}, {"_valid_from": "2026-01-07", "_valid_time_source": "filename"}) is None
     assert relative_anchor_date(schema, {}) is None
+
+
+def test_date_is_only_the_default():
+    from artmind.temporal import date_is_only_the_default
+
+    assert date_is_only_the_default({}, {"_valid_time_source": "default_ingestion"})
+    custom = {"temporal": {"defaults": {"time_source": "my_default"}}}
+    assert date_is_only_the_default(custom, {"_valid_time_source": "my_default"})
+    assert not date_is_only_the_default(custom, {"_valid_time_source": "default_ingestion"})
+    assert not date_is_only_the_default({}, {"_valid_time_source": "filename"})
+
+
+# ── document dates as contracts write them (end to end: all four fell back) ──
+
+import pytest as _pytest
+
+from artmind.temporal import find_date, lift_document_dates, parse_iso
+
+_LABELS = {"valid_from": ["Dated", "Amendment Date", "Effective Date", "Date"]}
+_DEFAULTS = {"valid_from": "ingestion_date", "time_source": "default_ingestion"}
+
+
+@_pytest.mark.parametrize("value, iso", [
+    ("01/01/2026", "2026-01-01"), ("12/12/2025", "2025-12-12"), ("1.4.2025", "2025-04-01"),
+    ("12/31/2025", "2025-12-31"),  # only month-first is valid
+    ("31/02/2025", None), ("1st April 2025", "2025-04-01"),
+])
+def test_parse_iso_reads_numeric_dates_day_first(value, iso):
+    assert parse_iso(value) == iso
+
+
+def test_find_date_takes_the_first_readable_date_inside_a_longer_value():
+    assert find_date("September 2025 29 September 2025 | 01:15:03 PDT") == "2025-09-29"
+    assert find_date("no date here") is None
+
+
+@_pytest.mark.parametrize("body, iso", [
+    ("Dated 01/01/2026\nPARTY A\nPARTY B\n", "2026-01-01"),  # label, space, value
+    ("Dated               September 2025 29 September 2025 | 01:15:03 PDT\n", "2025-09-29"),
+    ("| Dated | 12/12/2025 |\n", "2025-12-12"),
+    ("**Effective Date:** 1 August 2025\n", "2025-08-01"),
+])
+def test_a_header_date_is_read_in_the_layouts_contracts_use(body, iso):
+    assert lift_document_dates(body, {}, _LABELS, _DEFAULTS)["valid_from"] == iso
+
+
+def test_an_empty_signature_block_date_is_not_the_documents_date():
+    """`Date:` then a blank line used to capture the next line's "Date:" and
+    store it raw as the document date."""
+    body = "Dated 1 July 2017\n\nSigned\nDate:\n\nDate:\n"
+    assert lift_document_dates(body, {}, _LABELS, _DEFAULTS)["valid_from"] == "2017-07-01"
+
+    undated = "Signed\nDate:\n\nDate:\n"
+    out = lift_document_dates(undated, {}, _LABELS, _DEFAULTS)
+    assert out["time_source"] == "default_ingestion", "no readable date: the default, never a raw label value"

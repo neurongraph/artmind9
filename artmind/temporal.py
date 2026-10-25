@@ -19,19 +19,40 @@ _MONTHS = {
 }
 _ISO_FULL_RE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})")
 _ISO_PARTIAL_RE = re.compile(r"^(\d{4})(?:-(\d{2}))?$")
-_DMY_RE = re.compile(r"^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$")
+_DMY_RE = re.compile(r"^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\s+(\d{4})$")
 _MDY_RE = re.compile(r"^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$")
+#: A numeric date, 01/01/2026 or 1.4.2025: read day first, as the documents that
+#: write it this way do (UK contracts), unless only month-first can be valid.
+_NUMERIC_RE = re.compile(r"^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$")
+#: Where a date may sit inside a longer value ("September 2025 29 September 2025
+#: | 01:15:03 PDT"): each is tried with `parse_iso`, the earliest that reads wins.
+_DATE_IN_TEXT = re.compile(
+    r"\b\d{4}-\d{2}-\d{2}\b"
+    r"|\b\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4}\b"
+    r"|\b[A-Za-z]+\s+\d{1,2},?\s+\d{4}\b"
+    r"|\b\d{1,2}[/.]\d{1,2}[/.]\d{4}\b"
+)
 
 
 def parse_iso(value: str | None) -> str | None:
     """Deterministically parse a date-ish string to ISO-8601 (date), else None.
 
     Accepts full ISO, partial ISO (year / year-month), '15 March 2026',
-    'March 15, 2026'. Returns the input unchanged for partial ISO.
+    '15th March 2026', 'March 15, 2026' and numeric '15/03/2026' or '15.03.2026'
+    (day first; '03/15/2026', which can only be month first, is read so).
+    Returns the input unchanged for partial ISO.
     """
     if not value:
         return None
     v = value.strip()
+    m = _NUMERIC_RE.match(v)
+    if m:
+        first, second, year = (int(g) for g in m.groups())
+        day, month = (second, first) if first <= 12 < second else (first, second)
+        try:
+            return datetime(year, month, day).date().isoformat()
+        except ValueError:
+            return None
     if _ISO_FULL_RE.match(v):
         return _ISO_FULL_RE.match(v).group(0)
     if _ISO_PARTIAL_RE.match(v):
@@ -42,6 +63,36 @@ def parse_iso(value: str | None) -> str | None:
     m = _MDY_RE.match(v)
     if m and m.group(1).lower() in _MONTHS:
         return f"{int(m.group(3)):04d}-{_MONTHS[m.group(1).lower()]:02d}-{int(m.group(2)):02d}"
+    return None
+
+
+def find_date(text: str | None) -> str | None:
+    """The earliest date `parse_iso` can read anywhere in `text`, as ISO-8601."""
+    for match in _DATE_IN_TEXT.finditer(text or ""):
+        iso = parse_iso(match.group(0))
+        if iso:
+            return iso
+    return None
+
+
+def _find_header_date(md_text: str, labels: list[str]) -> str | None:
+    """A document date from its header: for each label in order, every line that
+    gives it -- a table row "| Label | value |", "Label: value", or the label
+    and its value on one line ("Dated 01/01/2026") -- and the first value that
+    holds a readable date (`find_date`). A label whose values hold none (a
+    signature block's empty "Date:") does not answer; the next label, then the
+    schema's patterns and default, are tried instead."""
+    for label in labels:
+        escaped = re.escape(label)
+        for pattern in (
+            r"^\|[ \t]*" + escaped + r"[ \t]*\|[ \t]*([^|\n]+?)[ \t]*\|",
+            r"^[ \t]*\**[ \t]*" + escaped + r"[ \t]*:\**[ \t]*(.+?)[ \t]*$",
+            r"^[ \t]*\**[ \t]*" + escaped + r"\**[ \t]+(.+?)[ \t]*$",
+        ):
+            for m in re.finditer(pattern, md_text, re.IGNORECASE | re.MULTILINE):
+                iso = find_date(m.group(1).strip().strip("*"))
+                if iso:
+                    return iso
     return None
 
 
@@ -64,7 +115,7 @@ def _find_header_value(md_text: str, labels: list[str]) -> str | None:
         if m:
             return m.group(1).strip().strip("*").strip()
         prose_pat = re.compile(
-            r"^\**\s*" + re.escape(label) + r"\s*:\**\s*(.+?)\s*$",
+            r"^\**[ \t]*" + re.escape(label) + r"[ \t]*:\**[ \t]*(.+?)[ \t]*$",
             re.IGNORECASE | re.MULTILINE,
         )
         m = prose_pat.search(md_text)
@@ -134,7 +185,8 @@ def lift_document_dates(
     patterns = patterns or {}
     for canon in [*mapping, *(k for k in patterns if k not in mapping)]:
         labels = mapping.get(canon) or []
-        raw = _find_header_value(md_text, labels)
+        # A date is taken only where the header holds one; a version is any value.
+        raw = _find_header_value(md_text, labels) if canon == "version" else _find_header_date(md_text, labels)
         if raw is not None:
             source = source or "header"
         else:
@@ -309,6 +361,13 @@ def _entity_temporal_mapping(schema: dict) -> dict:
     return mapping
 
 
+def date_is_only_the_default(schema: dict, document_dates: dict) -> bool:
+    """Whether the document's date is just the schema's default (the ingestion date), not a date
+    the document itself carries: it anchors nothing and must not be presented as the document's."""
+    default_source = ((schema.get("temporal") or {}).get("defaults") or {}).get("time_source", "default_ingestion")
+    return document_dates.get("_valid_time_source") == default_source
+
+
 def relative_anchor_date(schema: dict, document_dates: dict) -> str | None:
     """The date this document's relative phrases resolve against, or None.
 
@@ -323,8 +382,7 @@ def relative_anchor_date(schema: dict, document_dates: dict) -> str | None:
     anchor = t.get("relative_anchor")
     if not isinstance(anchor, str) or not anchor.startswith("document."):
         return None
-    default_source = (t.get("defaults") or {}).get("time_source", "default_ingestion")
-    if document_dates.get("_valid_time_source") == default_source:
+    if date_is_only_the_default(schema, document_dates):
         return None
     value = document_dates.get("_" + anchor.split(".", 1)[1])
     return parse_iso(str(value)) if value else None

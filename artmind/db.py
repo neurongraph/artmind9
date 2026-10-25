@@ -256,6 +256,11 @@ def _init_db() -> None:
     for col in ("entity_count", "relationship_count"):
         if col not in existing:
             cursor.execute(f"ALTER TABLE ingestion_job_files ADD COLUMN {col} INTEGER")
+    # The chunk numbers a failed extraction reported (a JSON list). Kept on the
+    # file row because kg_chunk_status cannot say it: a refused --reextract puts
+    # the previous run's (all-ok) rows back.
+    if "failed_chunks" not in existing:
+        cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN failed_chunks TEXT")
 
     # Phase 2 dropped path/filename-derived identity (logical_id) for
     # frontmatter-carried `artmind_id`, and Phase 5 shrank the row further

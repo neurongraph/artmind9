@@ -101,16 +101,33 @@ def test_ingest_file_without_the_flag_applies_metadata_only(ingest_env, monkeypa
     assert len(applied) == 1 and not ing.kg_work_was_done(result)
 
 
-def test_ingest_file_reextract_ignores_files_that_are_not_vault_notes(ingest_env, monkeypatch):
+def test_ingest_file_hands_reextract_to_a_converted_binary(ingest_env, monkeypatch):
+    """A pdf/docx/pptx takes the flag (it used to be ignored with a warning)."""
     vault, _ = ingest_env
     seen = {}
 
-    def fake_binary(source, image_model, domain, job_id, chunk_size, *, set_domain=None):
-        seen["called"] = True
+    def fake_binary(source, image_model, domain, job_id, chunk_size, *, set_domain=None, reextract=False):
+        seen["reextract"] = reextract
         return {"status": "ok"}
 
     monkeypatch.setattr(ing, "_ingest_binary_derived", fake_binary)
     assert ing.ingest_file(vault / "x.pdf", "m", "general", reextract=True) == {"status": "ok"}
+    assert seen == {"reextract": True}
+
+
+def test_ingest_file_reextract_still_ignores_ad_hoc_files(ingest_env, tmp_path, monkeypatch):
+    """An ad-hoc `.md` outside the vault has no stored conversion to re-run."""
+    outside = tmp_path / "outside" / "x.md"
+    outside.parent.mkdir()
+    outside.write_text("Hello.\n", encoding="utf-8")
+    seen = {}
+
+    def fake_adhoc(source, image_model, domain, job_id, chunk_size):
+        seen["called"] = True
+        return {"status": "ok"}
+
+    monkeypatch.setattr(ing, "_ingest_binary_or_adhoc", fake_adhoc)
+    assert ing.ingest_file(outside, "m", "general", reextract=True) == {"status": "ok"}
     assert seen == {"called": True}
 
 
@@ -354,3 +371,41 @@ def test_classify_reingest_reextract_reports_content_for_an_unchanged_body(tmp_p
     assert forced.tier == "content"
     assert (forced.doc_id, forced.version) == ("d1", 2)
     assert "reextract" in forced.reason
+
+
+# ── ingest async takes several paths (study item 6) ──────────────────────────
+
+
+def test_async_accepts_several_files_as_one_job(vault, queued):
+    result = CliRunner().invoke(
+        cli, ["ingest", "async", "notes/2026-10-01.md", "notes/2026-10-02.md", "--domain", "general"]
+    )
+
+    assert result.exit_code == 0, result.output
+    assert len(queued) == 1, "one job, not one per path"
+    assert queued[0][0] == ["2026-10-01.md", "2026-10-02.md"]
+
+
+def test_async_accepts_a_file_and_a_folder_without_duplicating_files(vault, queued):
+    result = CliRunner().invoke(
+        cli, ["ingest", "async", "notes", "notes/2026-10-01.md", "--domain", "general"]
+    )
+
+    assert result.exit_code == 0, result.output
+    names = queued[0][0]
+    assert sorted(names) == sorted(set(names)) and "2026-10-01.md" in names
+
+
+def test_async_names_the_path_that_does_not_exist(vault, queued):
+    result = CliRunner().invoke(
+        cli, ["ingest", "async", "notes/2026-10-01.md", "nowhere.md", "--domain", "general"]
+    )
+
+    assert result.exit_code != 0
+    assert "nowhere.md" in result.output
+    assert queued == [], "nothing is queued when one path is wrong"
+
+
+def test_async_pending_still_takes_no_path(vault, queued):
+    result = CliRunner().invoke(cli, ["ingest", "async", "--pending", "notes/2026-10-01.md"])
+    assert result.exit_code != 0 and "--pending takes no FILE_PATH" in result.output

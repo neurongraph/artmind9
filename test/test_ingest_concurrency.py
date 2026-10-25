@@ -206,11 +206,11 @@ def test_extract_kg_resume_reuses_the_sidecar_embedding_without_recomputing(monk
     assert "embedding" not in chunks[0], "chunks.json must still carry no vector"
 
 
-def test_extract_kg_worker_exception_surfaces(monkeypatch, tmp_path):
-    # An UNEXPECTED error inside a worker (one _process_chunk doesn't already
-    # catch — embedding/step failures are caught and recorded as status) must not
-    # be swallowed by the pool: extract_kg re-raises the first one after draining,
-    # matching the sequential path's fail-loud behaviour.
+def test_extract_kg_worker_exception_is_recorded_per_chunk_not_raised(monkeypatch, tmp_path):
+    # An UNEXPECTED error inside a worker used to be re-raised after the pool
+    # drained, aborting the file and skipping the retry pass. It is now that
+    # chunk's failure: recorded `failed` (so a resume redoes it), the file is
+    # not staged, and the failed chunk numbers are reported on the file result.
     file_result = _setup_extract_env(monkeypatch, tmp_path, 4)
 
     def boom(step_name, model, prompt, debug_dir):
@@ -218,6 +218,7 @@ def test_extract_kg_worker_exception_surfaces(monkeypatch, tmp_path):
 
     monkeypatch.setattr(ing, "_llm_extract", boom)
 
-    import pytest
-    with pytest.raises(RuntimeError, match="extract exploded"):
-        ing.extract_kg(file_result, "testdom", max_workers=3)
+    assert ing.extract_kg(file_result, "testdom", max_workers=3) is None
+    assert file_result["failed_chunks"] == [1, 2, 3, 4]
+    rows = ing._get_chunk_statuses(file_result["sha256"])
+    assert {r["entities_status"] for r in rows.values()} == {"failed"}

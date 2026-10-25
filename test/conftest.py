@@ -399,3 +399,12 @@ def _no_plan_catalogue(monkeypatch):
     except ImportError:
         return
     monkeypatch.setattr(planner, "_get_catalogue", lambda cover: ({}, {}))
+
+
+def strip_document_context(text: str) -> str:
+    """`text` without a leading document-context block (`ingest.with_document_context`):
+    the passage a chunk step was given."""
+    from artmind import document_context as dc
+
+    head, sep, passage = text.partition(dc.PASSAGE_LINE + "\n\n")
+    return passage if sep and head.startswith(dc.CONTEXT_HEADING) else text

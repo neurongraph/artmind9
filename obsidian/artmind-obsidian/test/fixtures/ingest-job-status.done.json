@@ -56,7 +56,8 @@
         "status": "failed",
         "current_step": null,
         "entities": null,
-        "relationships": null
+        "relationships": null,
+        "error_message": "KG ingestion failed"
       }
     ]
   },

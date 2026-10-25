@@ -148,6 +148,21 @@ export function plural(n: number, one: string, many = `${one}s`): string {
   return `${n} ${n === 1 ? one : many}`;
 }
 
+/** The longest failure tag shown inline; the full message goes in its tooltip. */
+const FAILURE_TAG_CHARS = 60;
+
+/** A short tag for a failed file: the chunks that failed when the job names them,
+ * else the error message's first sentence, cut to fit. The whole message is for
+ * a tooltip (`title`). */
+export function failureTag(file: { error_message?: string | null; chunk_progress?: { failed_chunks?: number[] } }): string {
+  const chunks = file.chunk_progress?.failed_chunks ?? [];
+  if (chunks.length) return `${chunks.length === 1 ? "chunk" : "chunks"} ${chunks.join(", ")} failed`;
+  const message = (file.error_message ?? "").trim();
+  if (!message) return "failed";
+  const first = message.split(/(?<=[.;])\s/)[0] ?? message;
+  return first.length <= FAILURE_TAG_CHARS ? first : `${first.slice(0, FAILURE_TAG_CHARS - 1)}…`;
+}
+
 /** `3 docs · 1 table · 2 curation records`: what the stores still have to
  * apply. Tables either store still has to apply count once. */
 export function behindParts(stores: Partial<Record<"graph" | "structured", StoreReport>>): string[] {

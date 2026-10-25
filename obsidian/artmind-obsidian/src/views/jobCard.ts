@@ -1,4 +1,4 @@
-import { plural } from "../state";
+import { failureTag, plural } from "../state";
 import type { ChunkProgress, KgCounts } from "../types";
 import { el } from "./dom";
 import { type PanelUi, basename, section } from "./sections";
@@ -97,7 +97,7 @@ export function jobCard(root: HTMLElement, ui: PanelUi, job: JobCardJob, live: b
     el(line, "span", { cls: "artmind-file-name", text: basename(f.filename), attr: { title: f.filename } });
     const detail = el(line, "span", { cls: "artmind-file-detail" });
     if (key === "failed") {
-      el(detail, "span", { cls: "artmind-error", text: f.error_message ?? "failed" });
+      el(detail, "span", { cls: "artmind-error", text: failureTag(f), attr: { title: f.error_message ?? "failed" } });
     } else if (typeof f.entities === "number") {
       const e = f.entities;
       const r = f.relationships ?? 0;

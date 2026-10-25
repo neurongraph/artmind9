@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { errorText } from "../src/cli";
-import { BUSY_KEYS, EMPTY_INPUTS, classifyRefusal } from "../src/state";
+import { BUSY_KEYS, EMPTY_INPUTS, classifyRefusal, failureTag } from "../src/state";
 import { fixture } from "./fixtures";
 
 describe("classifyRefusal: every vault sync refusal becomes an action (spec §4.2)", () => {
@@ -44,5 +44,21 @@ describe("StateInputs", () => {
       actionErrors: {},
       obsidianGit: null,
     });
+  });
+});
+
+describe("failureTag", () => {
+  it("names the failed chunks when the job reports them", () => {
+    expect(failureTag({ error_message: "KG extraction incomplete: ...", chunk_progress: { failed_chunks: [3, 7] } })).toBe("chunks 3, 7 failed");
+    expect(failureTag({ chunk_progress: { failed_chunks: [2] } })).toBe("chunk 2 failed");
+  });
+
+  it("falls back to the message's first sentence, cut to fit", () => {
+    expect(failureTag({ error_message: "Domain schema not found: x_schema.yaml" })).toBe("Domain schema not found: x_schema.yaml");
+    const long = `KG extraction incomplete ${"x".repeat(100)}`;
+    const tag = failureTag({ error_message: long });
+    expect(tag.length).toBe(60);
+    expect(tag.endsWith("…")).toBe(true);
+    expect(failureTag({ error_message: null })).toBe("failed");
   });
 });

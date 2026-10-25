@@ -4,7 +4,7 @@ from pathlib import Path
 import json_repair
 from loguru import logger
 
-from artmind.llm_providers import call_llm_ollama, call_llm_openrouter, embed_text_ollama
+from artmind.llm_providers import TruncatedText, call_llm_ollama, call_llm_openrouter, embed_text_ollama
 from utils.functions import load_env, log_llm_call
 
 
@@ -105,36 +105,132 @@ def _warn_ibm_ica_shadow(env: dict, exc: Exception) -> None:
 def call_llm(
     model: str, prompt: str, call_type: str = "chat",
     timeout: int | None = None, max_retries: int | None = None,
+    max_tokens: int | None = None,
 ) -> str:
     """`timeout` (seconds) overrides ARTMIND_OLLAMA_TIMEOUT for this call;
-    `max_retries` overrides the openrouter/ibm_ica SDK's own retry count."""
+    `max_retries` overrides the openrouter/ibm_ica SDK's own retry count;
+    `max_tokens` caps the answer (None = `ARTMIND_KG_MAX_TOKENS`, see
+    `output_token_budget`). An answer the provider cut off at its limit comes
+    back as a `TruncatedText`."""
     env = load_env()
     if timeout is None:
         timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    if max_tokens is None:
+        max_tokens = output_token_budget(env)
     provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
+    cap = {"max_tokens": max_tokens} if max_tokens else {}
     if provider == "openrouter":
-        result = call_llm_openrouter(model, prompt, timeout, env, max_retries=max_retries)
+        result = call_llm_openrouter(model, prompt, timeout, env, max_retries=max_retries, **cap)
     elif provider == "ibm_ica":
         try:
             result = call_llm_openrouter(
-                model, prompt, timeout, ibm_ica_client_env(env), max_retries=max_retries,
+                model, prompt, timeout, ibm_ica_client_env(env), max_retries=max_retries, **cap,
             )
         except Exception as exc:
             _warn_ibm_ica_shadow(env, exc)
             raise
     else:
         host = env.get("ARTMIND_KG_LLM_URL") or None
-        result = call_llm_ollama(model, prompt, timeout, host=host)
+        result = call_llm_ollama(model, prompt, timeout, host=host, **cap)
     log_llm_call(call_type, model, prompt, result)
     return result
 
 
-def parse_json_response(text: str):
+def _strip_wrapping(text: str) -> str:
     text = text.strip()
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
     text = re.sub(r"^```(?:json)?\s*\n?", "", text)
     text = re.sub(r"\n?```\s*$", "", text)
-    return json_repair.loads(text.strip())
+    return text.strip()
+
+
+def parse_json_response(text: str):
+    return json_repair.loads(_strip_wrapping(text))
+
+
+#: The output-token budget every call asks for. Sent explicitly because an
+#: endpoint's own default can be far smaller than an extraction answer: an
+#: Anthropic-compatible gateway answering without `max_tokens` stopped at 4096
+#: completion tokens, and a model that thinks spends those tokens too, so a long
+#: answer came back cut off or empty. Tokens are paid as generated, so a large
+#: budget costs nothing on an answer that finishes early.
+DEFAULT_MAX_TOKENS = 32000
+
+
+def output_token_budget(env: dict | None = None) -> int | None:
+    """`ARTMIND_KG_MAX_TOKENS` (default `DEFAULT_MAX_TOKENS`); `0` sends none and
+    leaves the answer to the endpoint's own default. An endpoint that refuses
+    the value is remembered and asked for what it allows (llm_providers)."""
+    env = load_env() if env is None else env
+    try:
+        value = int(env.get("ARTMIND_KG_MAX_TOKENS") or DEFAULT_MAX_TOKENS)
+    except (TypeError, ValueError):
+        value = DEFAULT_MAX_TOKENS
+    return value if value > 0 else None
+
+
+class TruncatedAnswer(RuntimeError):
+    """An LLM answer was cut off at the output-token budget.
+    `extract_with_retry(raise_on_truncation=True)` raises it so the caller can
+    split its input and ask again in smaller pieces."""
+
+
+def _json_start(body: str) -> int | None:
+    """Where the answer's JSON begins: the body itself when it opens with `[`
+    or `{`, else the first line that does (prose before the JSON may hold a
+    bracket of its own -- "see [below]:"), else the first bracket anywhere."""
+    if body[:1] in ("[", "{"):
+        return 0
+    line = re.search(r"(?m)^[ \t]*[\[{]", body)
+    if line:
+        return line.end() - 1
+    return next((i for i, ch in enumerate(body) if ch in "[{"), None)
+
+
+def _closes(body: str, single_quotes: bool) -> bool:
+    """Does the bracket opened at body[0] close? Strings are skipped: `"..."`,
+    and with `single_quotes` also a `'...'` that opens where a JSON value or
+    key could (after `[`, `{`, `,` or `:`), the Python-literal style
+    json_repair also accepts."""
+    depth, quote, escaped, last = 0, "", False, ""
+    for ch in body:
+        if quote:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = ""
+                last = ch
+            continue
+        if ch == '"' or (single_quotes and ch == "'" and last in "[{,:"):
+            quote = ch
+        elif ch in "[{":
+            depth += 1
+        elif ch in "]}":
+            depth -= 1
+            if depth <= 0:
+                return True
+        if not ch.isspace():
+            last = ch
+    return False
+
+
+def is_cut_off(text: str) -> bool:
+    """Was this answer cut off? Either the provider said so (`TruncatedText`,
+    a "length" stop) or its JSON opens and never closes. `json_repair` would
+    otherwise close it silently and hand back a half-written last item (an
+    entity with no `entity_class`). Sloppy JSON that does close (a trailing
+    comma, prose after the closing bracket, single-quoted strings) and prose
+    without JSON are not truncation."""
+    if isinstance(text, TruncatedText):
+        return True
+    body = _strip_wrapping(str(text))
+    start = _json_start(body)
+    if start is None:
+        return False
+    body = body[start:]
+    return not (_closes(body, single_quotes=False) or _closes(body, single_quotes=True))
 
 
 def extract_with_retry(
@@ -142,7 +238,16 @@ def extract_with_retry(
     model: str,
     prompt: str,
     debug_dir: Path | None = None,
+    *,
+    raise_on_truncation: bool = False,
 ) -> tuple[list, bool]:
+    """`(items, ok)`. Two attempts for an error. An answer that was cut off
+    (`is_cut_off`) is never repaired into a result. One the provider stopped at
+    the output-token budget (`TruncatedText`; every call asks for the full
+    `output_token_budget`) is not asked again -- the same request would stop at
+    the same place: the step fails, or, with `raise_on_truncation`, raises
+    `TruncatedAnswer` so the caller can split its input. JSON that never closes
+    without such a stop is a glitch and gets the second attempt."""
     # TODO(429-backoff): this retries once, immediately, on ANY exception. That was
     # fine while ingestion issued LLM calls one-at-a-time. Now that extract_kg fans
     # chunks out concurrently (ARTMIND_INGEST_MAX_WORKERS / --maxWorkers), several
@@ -155,23 +260,41 @@ def extract_with_retry(
     # Retry-After header if the provider sends one. Keep the current fast single
     # retry for non-rate-limit errors so real failures still fail fast.
     raw_llm = ""
+    cut_off = False  # sticky: any attempt that was cut off makes the failure a truncation
     for attempt in range(2):
         try:
             raw_llm = call_llm(model, prompt)
+            if is_cut_off(raw_llm):
+                cut_off = True
+                if isinstance(raw_llm, TruncatedText):
+                    logger.warning("  {} answer was cut off at the output-token budget", step_name)
+                    break
+                logger.warning("  {} answer is unclosed JSON (attempt {}/2)", step_name, attempt + 1)
+                continue
             return parse_json_response(raw_llm), True
         except Exception as e:
             if attempt == 0:
                 logger.warning("  {} failed (attempt 1/2), retrying: {}", step_name, e)
             else:
                 logger.error("  {} failed after 2 attempts: {}", step_name, e)
-                if raw_llm and debug_dir:
-                    safe = re.sub(r"[^A-Za-z0-9_]", "_", step_name)
-                    (debug_dir / f"debug_{safe}.txt").write_text(raw_llm, encoding="utf-8")
+    if raw_llm and debug_dir:
+        safe = re.sub(r"[^A-Za-z0-9_]", "_", step_name)
+        try:
+            (debug_dir / f"debug_{safe}.txt").write_text(raw_llm, encoding="utf-8")
+        except OSError as e:  # a debug copy is never a reason to fail the step differently
+            logger.debug("  could not save the raw {} answer: {}", step_name, e)
+    if cut_off and raise_on_truncation:
+        raise TruncatedAnswer(f"{step_name}: the answer was cut off at the output-token limit")
     return [], False
 
 
 def entities_list_text(entities: list[dict]) -> str:
-    return "\n".join(f"{e['id']} ({e['entity_class']}): {e['name']}" for e in entities)
+    """One line per entity for the properties/relationships prompts. Tolerates
+    an incomplete entity (the extraction drops those first, but a caller that
+    did not must not crash on one -- a `KeyError` here once aborted files)."""
+    return "\n".join(
+        f"{e.get('id', '?')} ({e.get('entity_class') or '?'}): {e.get('name', '')}" for e in entities
+    )
 
 
 def build_entities_prompt(text: str, schema: dict, vocabulary: list | None = None, *, meta: dict | None = None) -> str:

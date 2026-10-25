@@ -283,7 +283,12 @@ change), pass `--reextract` to `ingest sync` / `ingest async`, optionally with
 They take the `content` tier instead of the metadata-only fast path: the LLM
 runs again under the schema as it stands, the note's graph contribution is
 replaced as for any content change, and the note is neither edited nor given a
-new version. It costs an LLM call per chunk, so narrow it first.
+new version. It costs an LLM call per chunk, so narrow it first. A converted
+document (pdf, docx, pptx) takes the same flag instead of its `no_op`: it is
+re-extracted from the markdown already stored under `.artmind/`, without
+converting the source again, and the source is never edited or moved. If that
+markdown is no longer the body its last extraction recorded (edited by hand), the
+source is converted again instead and re-extracted from the fresh conversion.
 
 Domain precedence, highest first: `--setDomain` (force + re-extract) → the file's
 own `_domain` frontmatter → the folder mapping → `--domain` as the fallback for
@@ -813,9 +818,73 @@ both.
 
 | Scope | Variables |
 |---|---|
-| **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_INGEST_MAX_WORKERS` |
+| **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, `ARTMIND_KG_MAX_TOKENS`, `ARTMIND_INGEST_MAX_WORKERS` |
 | **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
 | **Runtime** | `ARTMIND_NO_PROXY`, `ARTMIND_NO_STALENESS_CHECK` (silence the `query` staleness line), `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (cap on `POST /api/artifacts/import`'s uploaded zip size, admin-ui only — not `vault sync` or snapshot import/restore; default 512 MiB) |
+
+`ARTMIND_INGEST_MAX_WORKERS` is how many **chunks of one file** are extracted at
+once. The background worker (`ingest async`) processes a job's **files one at a
+time**, and one job at a time; concurrency across files is not offered, so a slow
+provider is relieved by lowering the chunk fan-out, not by submitting more jobs.
+`ARTMIND_KG_MAX_TOKENS` (default 32000) is the output-token budget every extraction
+call asks for. It is sent explicitly because an endpoint's own default can be far too
+small: an Anthropic-compatible gateway answering without one stopped at 4096
+completion tokens, and a model that thinks spends its thinking from the same budget,
+so a long answer came back cut off or empty. Tokens are paid as generated, so the
+budget costs nothing on an answer that finishes early. An endpoint that refuses the
+value is asked again with the limit it names (or without one) and that is remembered
+in `logs/llm_capabilities.json`; `0` sends no budget at all.
+
+### When a chunk fails to extract
+
+A chunk step that raises, or whose answer is cut off, costs only that chunk:
+an answer cut off at the output-token budget is not asked again (the same request
+would stop at the same place): the chunk is split (at paragraph or table-row boundaries, the table header repeated)
+and the pieces merged; an entity missing `id`, `name` or `entity_class` is dropped
+and logged. If a step is still failed after the retry the file is **not staged**
+(the loss guard, `docs/superpowers/specs/2026-10-18-extraction-loss-guard-design.md`),
+the job records it failed with the chunk numbers (`chunk(s) [3, 7] of 12 ...`, also
+`chunk_progress.failed_chunks` in `ingest job-status`), and every other chunk stays
+cached: `ingest retry-job` / re-running `ingest sync` redoes only those chunks. A
+`--reextract` is the exception: a refused re-extraction is discarded whole and the
+previous extraction kept, so re-running it redoes every chunk. A step's raw answer,
+when it failed or was cut off, is saved for inspection as
+`.artmind/logs/extraction-debug/<domain>/<folder>/debug_<step>.txt` -- never in the
+committed staging folder.
+
+### What a chunk's prompt is given
+
+Every chunk's extraction prompts open with a short **document context**: the
+document's metadata (title, source, date when the document carries one, author,
+project, tags), the heading outline with the chunk's own position, and a summary of
+the whole document with the names, numbers and dates that recur in it. Chunks extract
+in isolation, so this is what lets a clause deep in an amendment be named the way
+the first page names it.
+
+The summary is **one LLM call per document** of more than one chunk (a one-chunk
+document is its own summary), made before the chunks extract, from
+a bounded sample of the text (the opening, the closing, and the first paragraph under
+each top-level heading; at most `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, default 12000).
+Its prompt is built from the schema alone (its `subject` and class descriptions), so
+no schema needs changes. The result is cached in the staging folder as
+`document_context.json` and reused until the document's text, its domain's schema
+file, the model or the sample size changes; a `--reextract` of unchanged text under an
+unchanged schema makes no summary call. The sidecar is written with the rest of the
+staging folder, so a refused extraction leaves it as it was (and its retry asks for
+the summary again). A failed summary is logged and the chunks extract with the
+metadata and outline only. The sampled text is sent to the configured provider, the
+same exposure as chunk extraction, in one extra call per document. A schema
+turns this off or tunes it with `document_context:` (see the create-schema skill).
+
+A document that is itself an instance of one of its domain's classes (a change note
+is an amendment) is still named by each chunk its own way. A schema that lists those
+classes under `document_entity: {classes: [...]}` has them folded into one name in
+code, after the per-document canonicalization: every name of such a class that
+carries the document's own reference (from its filename or title) and otherwise only
+the title's words, document-type words, ordinals and dates becomes the variant most
+chunks used, and so does a deictic name of the class ("This Amendment"), which left
+alone would be one entity across every document. The ingest log says what it folded
+(`Document entity: ...`).
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a

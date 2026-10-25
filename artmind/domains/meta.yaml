@@ -46,8 +46,7 @@ kind_naming_rules:
   recurrent: >-
     naming: name the thing, not its current value. NEVER embed a measurement,
     an amount, a percentage or a date in the name -- those belong in
-    properties. RIGHT: "SmartSaver Account Tier 2 Rate". WRONG: "SmartSaver
-    Account Tier 2 Rate - 4.60% AER, effective 2026-02-01".
+    properties.
   occurrent: >-
     naming: this is a completed event, so a date or identifier that
     distinguishes one occurrence from another belongs IN the name.
@@ -313,14 +312,16 @@ prompt_templates:
        A canonical name must be a name that appears in this document or in the
        existing-names list. Do not coin new terminology.
 
-    5. EVERY EXTRACTED NAME GETS AN ENTRY
-       Including the ones you leave unchanged -- map them to themselves.
+    5. LIST ONLY THE NAMES YOU CHANGE
+       A name you leave as it is needs no entry: it keeps its name. (A long
+       document has hundreds of names; echoing them all does not fit an answer.)
 
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     OUTPUT:
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    Return a JSON array, one object per extracted name:
+    Return a JSON array, one object per extracted name you rename ([] when you
+    rename none):
 
     {
       "name":           string,   // the extracted name, verbatim

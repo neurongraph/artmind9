@@ -58,8 +58,28 @@ def test_offsets_track_source_when_char_splitter_forces_sub_chunks():
     assert starts == sorted(starts)
 
 
-def test_header_path_breadcrumb_tracks_nesting():
+def test_small_sections_are_packed_into_one_chunk_that_fits():
+    """A heading every few lines must not give a chunk per heading (each one
+    three LLM calls with almost nothing to extract): sections that fit together
+    share a chunk, which carries the breadcrumb of the section it starts in."""
     chunks = ing._split_markdown(BODY, chunk_size=6000)
+    assert len(chunks) == 1
+    assert chunks[0]["header_path"] == "Fees Overview"
+    for heading in ("# Fees Overview", "## Monthly Maintenance", "## Overdraft"):
+        assert heading in chunks[0]["text"]
+
+
+def test_packing_starts_a_new_chunk_when_the_next_section_does_not_fit():
+    sections = BODY.split("\n\n## ")
+    size = max(len(part) for part in sections) + 20  # one section fits, two do not
+    chunks = ing._split_markdown(BODY, chunk_size=size)
+    assert len(chunks) == 3
+    assert all(len(c["text"]) <= size for c in chunks)
+
+
+def test_header_path_breadcrumb_tracks_nesting():
+    # Small enough that every section is its own chunk.
+    chunks = ing._split_markdown(BODY, chunk_size=90)
     by_text = {c["text"].split("\n", 1)[0]: c["header_path"] for c in chunks}
     # The "## Monthly Maintenance" chunk sits under the h1 title.
     monthly = next(c for c in chunks if "Monthly Maintenance" in c["text"])

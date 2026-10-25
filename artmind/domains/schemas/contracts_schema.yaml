@@ -1,15 +1,17 @@
 name: contracts
-description: Commercial and legal contract documents for IT services outsourcing engagements — Master
-  Services Agreements/Framework Agreements, Transaction Contracts/Statements of Work, Contract Change
-  Notes/Amendments, rate cards, deliverables, milestones, governance structures and charges.
-subject: commercial contract analysis
-persona: a commercial contracts lawyer reviewing the document
+description: Commercial and legal contract documents for IT services outsourcing engagements — framework
+  agreements/MSAs, transaction contracts and statements of work, the contract change notes and amendment
+  agreements that vary them, and the parties, terms, charges (incl. rate cards), deliverables, milestones
+  and technology systems they cover.
+subject: supplier contract analysis
+persona: a commercial contracts analyst
 temporal:
   document:
     valid_from:
     - Dated
-    - Effective Date
     - Amendment Date
+    - Effective Date
+    - Date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -17,111 +19,87 @@ temporal:
     superseded_by: null
     time_source: default_ingestion
     valid_from_inferred: true
+# What the summary call that every chunk's context block carries should pin down.
+document_context:
+  focus: Which contract this document is, or which contract it varies (title and reference), whether it is a
+    framework agreement, transaction contract, statement of work or change note, its effective date, and the
+    legal names of the customer and supplier.
+# A contract document is itself a CONTRACT or an AMENDMENT: its own entity is named once,
+# deterministically, instead of once per chunk (artmind.document_entity; the reference comes from the
+# filename/title).
+document_entity:
+  classes: [AMENDMENT, CONTRACT]
+property_aliases:
+  ccn_number: amendment_number
+  ccn_reference: amendment_number
+  change_note_number: amendment_number
+  amendment_date: effective_date
 guidance:
+  entities: >-
+    Be selective: emit only terms, charges and deliverables that carry real content, keep descriptions to one or
+    two sentences and context to at most two short quotes, so a chunk's output stays small. Never emit an entity
+    for something the text marks "not applicable". Treat each whole amendment document or contract change note as
+    ONE AMENDMENT and the contract it varies as a CONTRACT; create an AMENDMENT only when the document itself
+    changes an earlier contract (an original SoW or transaction contract has none), and never create a new
+    CONTRACT for an amendment's own title. Name the document's own amendment or contract with the reference and
+    title the document carries (the document context block and headings give them), not "this Amendment"; only
+    when the document gives no reference at all, name them exactly "This Amendment" or "This Transaction Contract"
+    so that the same thing named in different passages is recognised as one entity. Put every other reference,
+    date or label into the properties and aliases. In tables such as rate cards or payment profiles, give each
+    row a one-sentence description and at most one context quote, and put the row's figures in properties.
+    A change note's own figures and provisions ("the additional Charges under this change") belong to this
+    document: name the charges, terms and milestones it introduces with the document's own reference (the
+    document context gives it). Where the text attributes them to a different change-note number -- a number
+    left over from the change note it was copied from -- keep the document's reference in the name and record
+    the number as written in properties.reference_as_written. A charge or term the text says an EARLIER change
+    note introduced keeps that note's reference.
+  properties: >-
+    Dates are ISO (YYYY-MM-DD). Amounts are plain numbers with no symbol or separators, in the document's
+    currency (properties.currency, an ISO code); VAT treatment is stated where the text says it, otherwise
+    amounts are excluding VAT.
   relationships: |-
-    AMENDMENT CHAINS: amendments and CCNs form a chronological chain (CCN005 → CCN006 → CCN017 → CCN018, etc). Always capture which prior agreement is being amended, referencing it by its defined name/date even if that prior agreement is not itself in the current text.
-    RESPONSIBILITY MATRIX ENTRIES: for PARTY ↔ MILESTONE and PARTY ↔ DELIVERABLE "responsible_for" relationships arising from a Responsibility/RACI matrix, always include properties.task indicating manage, execute, or support.
+    AMENDMENT CHAINS: amendments and change notes form a chronological chain (CCN010 → CCN011 → CCN012). Link each AMENDMENT to the CONTRACT it varies with amends, referencing that contract by its defined name or reference even when it is not itself in the current text, and to the previous amendment in the chain with follows_amendment when the text names it.
+    CHANGES, NOT OVERWRITES: an amendment that replaces or deletes a provision is linked to that TERM or CHARGE with replaces_term, deletes_term, changes_charge or removes_charge, rather than overwriting the provision's properties.
+    RESPONSIBILITY MATRIX ENTRIES: for ORGANIZATION ↔ MILESTONE and ORGANIZATION ↔ DELIVERABLE "responsible_for" relationships arising from a Responsibility/RACI matrix, always include properties.task indicating manage, execute, or support.
     SYSTEM VS DELIVERABLE: keep the pre-existing/ongoing SYSTEM distinct from the DELIVERABLE that documents or implements a change to it. Link them with "documented_by" or "implemented_by" rather than treating the system itself as a deliverable.
 entity_types:
-  AGREEMENT:
+  ORGANIZATION:
     kind: recurrent
-    description: Any contractual instrument — the overarching Framework Agreement/MSA, a Transaction Contract
-      or Statement of Work made under it, a Contract Change Note or Amendment that varies it, or a named
-      Schedule, Appendix, or Rate Card attachment. Include both the agreement currently being read and
-      any prior or related agreement it references, amends, or supersedes.
-    type_examples:
-    - framework_agreement
-    - msa
-    - transaction_contract
-    - statement_of_work
-    - contract_change_note
-    - amendment
-    - schedule
-    - appendix
-    - rate_card_attachment
-    properties:
-      document_reference:
-        hint: e.g. CCN number, supplier ref, NBS ref
-      amends:
-        hint: name of the agreement this varies, if any
-      status:
-        hint: draft | executed | superseded | expired
-      governing_law: {}
-      effective_date:
-        temporal: valid_from
-        hint: also signature_date
-      term_end_date:
-        temporal: valid_to
-        hint: or termination_conditions
-      total_value:
-        hint: if stated
-      docusign_envelope_id:
-        hint: if given
-    relates_to:
-      AGREEMENT:
-      - amends
-      - supersedes
-      - replaces
-      - incorporates
-      - made_under
-      - references
-      - novates
-      PARTY:
-      - party_to
-      - executed_by
-      - governed_by
-      - benefits
-      - indemnifies
-      - terminated_by
-      PERSON:
-      - signed_by
-      - witnessed_by
-      CLAUSE:
-      - contains
-      - amends_clause
-      - replaces_clause
-      DELIVERABLE:
-      - specifies
-      - defines_acceptance_criteria_for
-      - updates_status_of
-      MILESTONE:
-      - schedules
-      - sets_timeline_for
-      - updates_status_of
-      FINANCIAL_TERM:
-      - sets_out
-      - caps
-      - replaces_rate_of
-  PARTY:
-    kind: recurrent
-    description: Any organisation that contracts, subcontracts, or is otherwise a legal entity referenced
-      in the agreement — the principal contracting parties, approved subcontractors, parent/group companies,
-      or regulatory bodies whose powers are referenced (e.g. under the Banking Act). Include registration
-      numbers and registered addresses where given.
+    description: Any company or body named in the contract — the customer, the supplier, approved subcontractors,
+      third-party technology providers the supplier procures from, parent/group companies, and regulatory bodies
+      whose powers are referenced. Always use the full legal name (e.g., "Orchard Services Limited"), never the
+      defined role words "Supplier", "Customer", "the Company" or a short brand name (put those in aliases of the
+      legal entity). Only companies and public bodies belong here, so committees, teams, venues and cloud
+      platforms mentioned in passing are not organisations. Include registration numbers and registered
+      addresses where given.
     type_examples:
     - customer
     - supplier
     - subcontractor
+    - third_party_provider
     - parent_company
     - group_member
     - regulatory_body
     - third_party_beneficiary
     properties:
-      registration_number: {}
-      registered_address: {}
       role_in_contract:
-        hint: customer | supplier | subcontractor | parent | regulator
+        hint: customer | supplier | subcontractor | third_party_provider | parent | regulator
+      registration_number:
+        hint: company registration number exactly as written
+      registered_address:
+        hint: full address as written
       services_provided:
-        hint: for subcontractors
+        hint: for subcontractors and third-party providers
       group_relationship:
-        hint: e.g. member of FirstBank Group
+        hint: e.g. member of a named group
     relates_to:
-      PARTY:
-      - contracts_with
-      - subcontracts_to
+      ORGANIZATION:
+      - subcontractor_of
+      - subsidiary_of
       - parent_of
       - member_of
-      - competitor_of
+      - procures_from
+      - provides_service_to
       - assigns_rights_to
       PERSON:
       - employs
@@ -137,37 +115,39 @@ entity_types:
       - 'responsible_for (properties: {task: manage|execute|support})'
       - achieves
       - delays
-      CLAUSE:
+      TERM:
       - bound_by
       - benefits_from
       - obligated_under
       - waives
-      FINANCIAL_TERM:
+      CHARGE:
       - pays
       - receives
       - invoices
       - discounts
-      - caps
-    guidance: Include registration numbers and registered addresses where given.
   PERSON:
     kind: recurrent
-    description: Any named individual referenced in the document — signatories, authorised representatives,
-      key/named personnel, or witnesses. Include their title and the party they act for.
+    description: Any individual named in the contract — signatories, authorised representatives, key personnel,
+      escalation contacts and witnesses. Only a real, named person qualifies. Role placeholders such as
+      "Signatory", "Project Manager" or "Authorised Representative" are not people, so record them as the
+      contract_role of a named person or skip them. Include their title and the organisation they act for.
     type_examples:
     - signatory
     - authorised_representative
     - key_personnel
     - programme_director
     - programme_manager
-    - procurement_manager
+    - procurement_contact
     - witness
     properties:
-      title_or_role:
-        hint: specific to this agreement, e.g. "Senior Buyer", "Programme Director"
-      represents:
-        hint: which party
-      signed_agreement:
-        hint: which agreement, and date/time if given
+      job_title:
+        hint: title as written, e.g., "Procurement Manager"
+      employer:
+        hint: organisation the person acts for
+      contract_role:
+        hint: signatory | authorised_representative | key_personnel | witness
+      signed_date:
+        hint: ISO date (YYYY-MM-DD) the person signed
       notice_period:
         hint: for key personnel
       contact_responsibility:
@@ -184,60 +164,307 @@ entity_types:
       - authors
       - approves
       - accepts
-    guidance: Include the signatory's or key person's title alongside their name.
-  CLAUSE:
+  CONTRACT:
     kind: recurrent
-    description: A specific numbered clause, sub-clause, or defined contractual provision that establishes
-      a right, obligation, condition, or mechanism — termination grounds, assignment, indexation, intellectual
-      property, liability, confidentiality, governing law, change control, data protection, force majeure.
-      Extract the provision itself, not the surrounding boilerplate housekeeping clauses (counterparts,
-      headings) unless they are being specifically amended.
+    description: A framework agreement/MSA, transaction contract, statement of work or side letter. It persists
+      and is varied over time by amendments, so its terms are recorded as properties and linked entities. Name
+      it by its title plus the customer's reference (e.g., "Testing Services Transaction Contract B01234"). Phrases
+      such as "the Agreement", "this Transaction Contract" or "the SoW" are aliases of the one contract being
+      described, never new contracts. A document describes one contract (plus the framework it is made under);
+      the framework's terms and conditions, and any order form, subscription agreement, service-specific terms,
+      end customer agreement or third-party terms the document incorporates, are one TERM each (category other)
+      or aliases of the framework, never separate CONTRACTs. Schedules, appendices and rate cards are part of the
+      contract that holds them, so extract their content as TERMs and CHARGEs. Include the contract being read and
+      any prior or related contract it references, amends or replaces. Use side_letter only when the document
+      itself is a side letter. Skip placeholder references such as "B0XXX".
+    type_examples:
+    - framework_agreement
+    - transaction_contract
+    - statement_of_work
+    - side_letter
+    properties:
+      contract_type:
+        hint: framework_agreement | transaction_contract | statement_of_work | side_letter
+      customer_reference:
+        hint: the contract's own customer reference exactly as written, e.g., "B01234". Never the reference
+          of a change note or amendment to it -- that belongs to the AMENDMENT
+      supplier_reference:
+        hint: the contract's own supplier reference exactly as written, e.g., "S04321". Never a change note's
+      contract_date:
+        hint: ISO date (YYYY-MM-DD) the contract was made or took effect (also signature date)
+        temporal: valid_from
+        exclusive: true
+      term_start_date:
+        hint: ISO date (YYYY-MM-DD)
+      term_end_date:
+        hint: ISO date (YYYY-MM-DD) of the current end of term
+      term_length:
+        hint: duration as written, e.g., "17 years"
+      pricing_model:
+        hint: time_and_materials | fixed_price | pass_through | mixed
+      total_value:
+        hint: total contract value as a plain number, if stated (currency goes in properties.currency)
+      currency:
+        hint: ISO code, e.g., "GBP"
+      governing_law:
+        hint: e.g., "English law"
+      status:
+        hint: draft | signed | amended | expired | terminated
+      esignature_envelope_id:
+        hint: e-signature envelope id, if given
+    relates_to:
+      CONTRACT:
+      - made_under_framework
+      - related_to
+      - replaces_contract
+      - extends
+      - incorporates
+      - novates
+      ORGANIZATION:
+      - has_customer
+      - has_supplier
+      - has_subcontractor
+      - procures_via
+      - terminated_by
+      - indemnifies
+      PERSON:
+      - has_authorised_representative
+      - has_key_personnel
+      - signed_by
+      - witnessed_by
+      TERM:
+      - contains_term
+      CHARGE:
+      - has_charge
+      DELIVERABLE:
+      - requires_deliverable
+      MILESTONE:
+      - schedules
+      - sets_timeline_for
+  AMENDMENT:
+    kind: occurrent
+    description: A contract change note (CCN), amendment agreement or variation that changes an existing
+      contract from a stated date. One whole document is ONE amendment, so name it with its CCN reference or
+      ordinal and its effective date (e.g., "CCN12 Testing Services Indexation Uplift 2026-04-01") and put every
+      other label the document uses for itself ("Twelfth Amendment Agreement", "this Amendment",
+      "Attachment 1") in aliases. The individual clauses, appendices, annexes, rate tables and milestones it
+      changes are NOT amendments, so link them with replaces_term, changes_charge, changes_deliverable and so on.
+      Never name an amendment after the part it changes ("... Milestones Amendment", "... Charges Amendment")
+      -- the document is the one amendment, and its changed milestones and charges are linked from it.
+    type_examples:
+    - contract_change_note
+    - amendment_agreement
+    - indexation_uplift
+    - extension
+    - scope_change
+    properties:
+      amendment_number:
+        hint: CCN reference as written, e.g., "CCN012" or "CCN12"
+      amendment_ordinal:
+        hint: ordinal as written, e.g., "Twelfth"
+      effective_date:
+        hint: ISO date (YYYY-MM-DD) the change takes effect (the "Amendment Date")
+        temporal: valid_from
+        exclusive: true
+      signed_date:
+        hint: ISO date (YYYY-MM-DD) of the last signature
+      status:
+        hint: draft | signed | superseded
+      reason:
+        hint: why the change was made, in one sentence
+      change_summary:
+        hint: one or two sentences of what the amendment changes overall
+      sections_changed:
+        hint: list of clauses or appendices changed, e.g., "Clause 10", "Appendix 5"
+      amends_reference:
+        hint: name or reference of the contract it varies, as the document gives it
+      customer_reference:
+        hint: the customer's own reference for THIS change note exactly as written (a reference that differs
+          from one change note to the next), not the contract's number
+      supplier_reference:
+        hint: the supplier's own reference for this change note, if it has one distinct from the contract's
+    relates_to:
+      AMENDMENT:
+      - follows_amendment
+      - replaces_amendment
+      CONTRACT:
+      - amends
+      - extends_term_of
+      - terminates
+      - novates
+      ORGANIZATION:
+      - agreed_between
+      PERSON:
+      - signed_by
+      TERM:
+      - adds_term
+      - replaces_term
+      - deletes_term
+      CHARGE:
+      - adds_charge
+      - changes_charge
+      - removes_charge
+      DELIVERABLE:
+      - adds_deliverable
+      - changes_deliverable
+      MILESTONE:
+      - adds_milestone
+      - changes_milestone
+  TERM:
+    kind: recurrent
+    description: A legal or commercial provision of a contract — termination rights, indexation, volume discount
+      mechanism, liability, service levels, payment terms, intellectual property, confidentiality, change
+      control, governing law. Name it by what it is plus the contract, never by its current values. In a
+      framework agreement/MSA extract the substantive provisions. In a transaction contract, SoW or change note
+      made under a framework, create a TERM only when the document fixes something specific (a date, period,
+      amount, cap, percentage, named choice or deviation from the framework). Do not create one for boilerplate
+      (definitions, counterparts, headings, entire agreement, third-party rights, continuation, amendments
+      provisions), for template clauses that merely incorporate the framework (indemnities, step-in,
+      benchmarking, BCDR, penetration testing, dispute resolution, assignment and novation, intellectual
+      property, order of precedence, change control procedure, governance principles, data protection and
+      customer policies and the like) unless the document changes them, or for a provision the text says is
+      "not applicable". What the customer must provide (access, facilities, equipment, attendance,
+      prerequisites) and routine governance meetings are covered by a single TERM such as "Customer
+      Responsibilities".
     type_examples:
     - termination
-    - assignment
     - indexation
-    - intellectual_property
+    - volume_discount
     - liability
-    - confidentiality
-    - governing_law
-    - change_control
+    - service_level
+    - exit
+    - governance
     - data_protection
-    - force_majeure
+    - insurance
     - payment_terms
     - warranty
-    - dispute_resolution
+    - confidentiality
+    - change_control
+    - force_majeure
     properties:
-      clause_number: {}
-      obligation_summary:
-        hint: what it requires
+      clause_reference:
+        hint: clause or paragraph number as written, e.g., "5.8" or "Appendix 5, 9.14"
+      category:
+        hint: termination | indexation | discount | liability | service_level | exit | governance | payment | liquidated_damages | warranty | confidentiality | other
+      summary:
+        hint: one or two sentences of what the provision requires
       trigger_condition:
         hint: what activates it
-      amended_by:
-        hint: which CCN/amendment changed it, if any
-      superseded_text:
-        hint: what it replaced, if known
-      effective_date:
-        hint: when this clause or its amended version takes effect, if stated
-        temporal: valid_from
       notice_period:
-        hint: if applicable
-      cap_or_limit:
-        hint: if a financial or liability cap
+        hint: duration as written, e.g., "3 months"
+      cap_amount:
+        hint: plain number in the document's currency, excluding VAT, e.g., 200000
+      cap_percentage:
+        hint: number without the percent sign, e.g., 2
+      currency:
+        hint: ISO code for cap_amount, e.g., "GBP"
+      applies_from:
+        hint: ISO date (YYYY-MM-DD)
+        temporal: valid_from
+        exclusive: true
+      applies_until:
+        hint: ISO date (YYYY-MM-DD)
+        temporal: valid_to
+        exclusive: true
     relates_to:
-      CLAUSE:
-      - cross_references
+      TERM:
       - overrides
+      - depends_on
+      - cross_references
       - defined_in
-      FINANCIAL_TERM:
+      CHARGE:
+      - triggers_charge
+      - caps_charge
+      - governs_charge
+  CHARGE:
+    kind: recurrent
+    description: A price, estimate, rate, discount, cap, expense allowance, liquidated damages amount or supplier
+      investment in the contract. Name it by what it is plus the contract (e.g., "Estimated Time and Material
+      Charges"), never by its amount. A rate card is one CHARGE per role and location (e.g., "UK Test Engineer
+      Day Rate"); a payment milestone is one CHARGE linked to its DELIVERABLE or MILESTONE with charges_for.
+      Mechanisms (payment terms, indexation, discount rules) are TERMs; the figures they produce are CHARGEs.
+    guidance: >-
+      RATE/CHARGES TABLES: if the text contains a markdown table listing individual roles or line items with a
+      rate, charge or price column, extract EVERY data row as its own CHARGE of type rate_card — none collapsed
+      into one summary entity and none skipped because the table is long. Name each entity after the role (and
+      location) the row describes, never after the numeric value. Put the row's figures in properties, and
+      capture its other columns using the table's own column names in snake_case (e.g. workstream,
+      estimated_days) — column names vary by document, but role and rate are present in nearly every table.
+    type_examples:
+    - estimated_charges
+    - fixed_price
+    - rate_card
+    - day_rate
+    - discount
+    - expenses_allowance
+    - supplier_investment
+    - termination_charge
+    - liquidated_damages
+    properties:
+      charge_type:
+        hint: estimated | fixed | day_rate | discount | expenses | investment | termination | liquidated_damages | other
+      amount:
+        hint: plain number in the document's currency, e.g., 22144060.25
+      currency:
+        hint: ISO code, e.g., "GBP"
+      unit:
+        hint: day | hour | month | year | one_off
+      vat_basis:
+        hint: excluding_vat | including_vat
+      percentage:
+        hint: number without the percent sign, e.g., 3.8
+      cap_amount:
+        hint: plain number, excluding VAT, e.g., 350000
+      billing_basis:
+        hint: time_and_materials | fixed_price | monthly_in_arrears | pass_through | other
+      role:
+        hint: job role or grade a rate is for, as written, e.g., "Test Engineer"
+      location:
+        hint: uk | offshore | onshore | other
+      applies_to:
+        hint: what charge, party or period this covers
+      calculation_method:
+        hint: if a formula is given
+      schedule_reference:
+        hint: schedule or appendix the figure sits in, e.g., "Appendix 5"
+      forecast_volume_days:
+        hint: total forecast days as a single number, not a per-year list
+      forecast_spend:
+        hint: total forecast spend as a single number, not a per-year list
+      indexation:
+        hint: 'applies | does_not_apply, plus the index and cap if stated, e.g., "applies, CPI capped at 2%"'
+      applies_from:
+        hint: ISO date (YYYY-MM-DD)
+        temporal: valid_from
+        exclusive: true
+      applies_until:
+        hint: ISO date (YYYY-MM-DD)
+        temporal: valid_to
+        exclusive: true
+    relates_to:
+      CHARGE:
+      - discounts
+      - includes
+      - offsets
       - caps
-      - defines
-      - triggers
+      - replaces_rate_of
+      DELIVERABLE:
+      - charges_for
+      MILESTONE:
+      - charges_for
+      - applies_from
+      - triggered_at
   DELIVERABLE:
     kind: recurrent
-    description: A specific document or non-document work product that the Supplier must produce and the
-      Customer must accept — design documents, plans, reports, test artefacts, converted source code,
-      runbooks. Include its reference code where one is given (e.g. D001, ND04).
+    description: A service, document or non-document work product the supplier is to provide and the customer to
+      accept under a contract — design documents, plans, reports, test artefacts, converted source code,
+      runbooks, services, workstreams. Name each one specifically ("Prefix Migration to Magic Transit"), never
+      with a generic word such as "Service" or "Deliverable". Include its reference code where one is given
+      (e.g. D001, ND04). Record one DELIVERABLE per scope item, not one per task or bullet, and skip sections the
+      text says are "not applicable" (e.g., Timetable). Dated programme checkpoints are MILESTONEs.
+    guidance: Preserve reference codes exactly as given (e.g. D001, ND04).
     type_examples:
+    - service
     - document_deliverable
     - non_document_deliverable
     - design_document
@@ -246,28 +473,39 @@ entity_types:
     - runbook
     - source_code
     - release_note
+    - training
+    - workstream
     properties:
       reference_code:
-        hint: e.g. D001, ND04
+        hint: deliverable id as written, e.g. D001, ND04
+      status:
+        hint: planned | in_progress | delivered | accepted | delivered_by_customer | descoped
+      responsible_party:
+        hint: customer | supplier | shared
+      description_summary:
+        hint: one sentence of what is provided
+      due_date:
+        hint: ISO date (YYYY-MM-DD)
       ip_ownership:
         hint: e.g. "Type III Materials"
-      status:
-        hint: delivered | future | delivered_by_customer | in_progress
-      responsible_party: {}
       associated_workstream: {}
       acceptance_period:
         hint: or rectification_period
     relates_to:
+      DELIVERABLE:
+      - part_of
+      - precedes
       MILESTONE:
       - due_at
       - delivered_at
       - associated_with
-    guidance: Preserve reference codes exactly as given (e.g. D001, ND04).
   MILESTONE:
     kind: recurrent
     description: A significant temporal checkpoint or phase in the programme timeline — a numbered programme
       milestone, a workstream phase, or a named programme event such as Cutover, Dress Rehearsal, Go-Live,
-      or Hypercare. Include both delivered/achieved and future/planned milestones.
+      or Hypercare. Include both delivered/achieved and future/planned milestones. A payment milestone is a
+      MILESTONE (the checkpoint) with a CHARGE (the amount) linked by charges_for.
+    guidance: Preserve reference codes exactly as given (e.g. M01, M13).
     type_examples:
     - programme_milestone
     - workstream_phase
@@ -276,52 +514,22 @@ entity_types:
     - go_live
     - hypercare_period
     - acceptance_event
+    - payment_milestone
     properties:
       reference_code:
         hint: e.g. M01, M13
       status:
-        hint: delivered | future | at_risk | achieved
+        hint: planned | achieved | delivered | at_risk | descoped
       workstream:
         hint: which programme workstream it belongs to
       dependencies: {}
       target_date:
+        hint: ISO date (YYYY-MM-DD), or timeframe as written
         temporal: valid_from
-        hint: or timeframe
-    guidance: Preserve reference codes exactly as given (e.g. M01, M13).
-  FINANCIAL_TERM:
-    kind: recurrent
-    description: Any commercial or financial term — a charge, rate, discount, indexation provision, cap,
-      recoverable expense, liquidated damages provision, or payment term. Extract the figure or mechanism
-      together with what it applies to.
-    type_examples:
-    - charge
-    - rate_card_entry
-    - discount
-    - indexation_cap
-    - recoverable_expense
-    - liquidated_damages
-    - payment_term
-    - volume_discount
-    - invoice_term
-    guidance: |-
-      RATE/CHARGES TABLES: if the text contains a markdown table listing individual roles or line items with a rate, charge, or price column, extract EVERY data row as its own FINANCIAL_TERM entity of type rate_card_entry -- do not collapse the table into one summary entity, and do not skip rows because the table is long. Name each entity after the role/item the row describes, never after the numeric value alone. When enriching properties for such a row, also capture its other columns using the table's own column names (e.g. "workstream", "role", "estimated_days", "estimated_charges") -- column names vary by document, but role and rate are present in nearly every rate table.
-      Every row of every rate/charges table extracted as its own FINANCIAL_TERM entity — none collapsed or skipped.
-    properties:
-      amount_or_rate: {}
-      currency: {}
-      applies_to:
-        hint: what charge/party/period this covers
-      cap_or_limit: {}
-      effective_date:
-        temporal: valid_from
-      vat_treatment:
-        hint: excl./incl. VAT
-      calculation_method:
-        hint: if a formula is given
     relates_to:
       MILESTONE:
-      - applies_from
-      - triggered_at
+      - precedes
+      - depends_on
   SYSTEM:
     kind: recurrent
     description: 'A named technology system, application, interface, tool, or platform referenced in the
@@ -343,7 +551,7 @@ entity_types:
       system_type:
         hint: legacy | target | integration | tooling
       owner_or_operator:
-        hint: which party owns or operates it
+        hint: which organisation owns or operates it
       role_in_programme:
         hint: source | target | integration_point | tooling
       replaces_or_replaced_by:
@@ -351,9 +559,9 @@ entity_types:
       current_status:
         hint: in_use | being_converted | being_replaced | decommissioned
       hosting_environment:
-        hint: which party's environment it runs in
+        hint: which organisation's environment it runs in
       conversion_date:
-        hint: when it was or will be converted/cut over, if stated
+        hint: ISO date (YYYY-MM-DD) it was or will be converted/cut over, if stated
         temporal: valid_from
     relates_to:
       SYSTEM:
@@ -362,7 +570,7 @@ entity_types:
       - converted_to
       - feeds_into
       - depends_on
-      PARTY:
+      ORGANIZATION:
       - owned_by
       - operated_by
       - supported_by
@@ -374,5 +582,7 @@ entity_types:
       - converted_at
       - deployed_at
       - decommissioned_at
-      AGREEMENT:
+      CONTRACT:
+      - in_scope_of
+      AMENDMENT:
       - in_scope_of

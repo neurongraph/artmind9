@@ -17,6 +17,7 @@ import paths
 from artmind.jobs import (
     _add_finalize_domain,
     _create_job,
+    _fetch_completed_jobs,
     _get_finalize,
     _get_job_status,
     _retry_job,
@@ -140,3 +141,23 @@ def test_a_single_file_job_defers_nothing_and_owes_nothing(events, monkeypatch):
 
     assert events == [("commit", "general", False)]
     assert _get_job_status(job_id)["finalize"] == {"state": "none", "domains": [], "error": None}
+
+
+def test_a_file_whose_chunks_failed_records_which_ones_and_the_job_is_retryable(events, monkeypatch):
+    """The failure names the chunk numbers (extract_kg leaves them in
+    `kg_error`), not just "KG ingestion failed", and `retry-job` requeues the
+    file for a resume that redoes only those chunks."""
+    job_id = _create_job(FILES[:1], domain="general")
+
+    def incomplete(result, domain, *a, **k):
+        result["kg_error"] = "KG extraction incomplete: chunk(s) [3, 7] of 12 still failed after the retry"
+        return False
+
+    monkeypatch.setattr(worker_module, "ingest_to_kg", incomplete)
+
+    worker_module._process_job(job_id, "general", env={})
+
+    assert _get_job_status(job_id)["status"] == "failed"
+    (job,) = [j for j in _fetch_completed_jobs() if j["job_id"] == job_id]
+    assert "chunk(s) [3, 7] of 12" in job["files"][0]["error_message"]
+    assert _retry_job(job_id)["files"] == FILES[:1]

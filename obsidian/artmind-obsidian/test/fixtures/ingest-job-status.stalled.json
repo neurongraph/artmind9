@@ -45,6 +45,7 @@
         "relationships": null,
         "chunk_progress": {
           "total_chunks": 7,
+          "failed_chunks": [],
           "entities_done": 4,
           "properties_done": 0,
           "relationships_done": 3

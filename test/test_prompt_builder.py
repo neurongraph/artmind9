@@ -167,3 +167,52 @@ def test_assemble_properties_prompt_anchors_relative_dates_to_the_document_date(
 def test_assemble_properties_prompt_anchor_ignored_when_no_property_is_temporal():
     # Nothing to resolve: SCHEMA declares no `temporal:` property.
     assert "DATES" not in assemble_properties_prompt(SCHEMA, anchor_date="2026-01-07")
+
+
+# ── the naming rule no longer teaches every domain banking (study item 6) ────
+
+
+def _recurrent_schema(**decl):
+    return {
+        "name": "contracts", "subject": "contracts",
+        "entity_types": {"AGREEMENT": {"kind": "recurrent", "description": "A contract.", **decl}},
+    }
+
+
+def test_the_recurrent_naming_rule_carries_no_banking_example():
+    prompt = assemble_entities_prompt(_recurrent_schema())
+
+    assert "naming:" in prompt and "NEVER embed" in prompt
+    assert "SmartSaver" not in prompt and "AER" not in prompt
+
+
+def test_a_class_can_opt_in_to_its_own_naming_example():
+    prompt = assemble_entities_prompt(_recurrent_schema(
+        naming_example={
+            "right": "Master Services Agreement",
+            "wrong": "Master Services Agreement, amended 2026-03-01",
+        },
+    ))
+
+    assert 'RIGHT: "Master Services Agreement"' in prompt
+    assert 'WRONG: "Master Services Agreement, amended 2026-03-01"' in prompt
+    assert prompt.index("NEVER embed") < prompt.index("RIGHT:")  # after the rule it illustrates
+
+
+def test_an_occurrent_class_gets_no_recurrent_example():
+    schema = _recurrent_schema(naming_example={"right": "X", "wrong": "Y"})
+    schema["entity_types"]["AGREEMENT"]["kind"] = "occurrent"
+    assert 'RIGHT: "X"' not in assemble_entities_prompt(schema)
+
+
+def test_the_example_is_shown_under_the_class_that_declares_it_only():
+    schema = _recurrent_schema(naming_example={"right": "Master Services Agreement", "wrong": "MSA v2"})
+    schema["entity_types"]["PARTY"] = {"kind": "recurrent", "description": "A party."}
+    prompt = assemble_entities_prompt(schema)
+
+    assert prompt.count('RIGHT: "Master Services Agreement"') == 1
+
+
+def test_a_half_declared_example_is_ignored_rather_than_rendered_broken():
+    prompt = assemble_entities_prompt(_recurrent_schema(naming_example={"right": "Only the right half"}))
+    assert "Only the right half" not in prompt

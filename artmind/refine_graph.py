@@ -236,6 +236,50 @@ def _parse_key(value: str) -> tuple[str, str, str]:
     return tuple(parts) if len(parts) == 3 else (value, "", "")  # type: ignore[return-value]
 
 
+def _document_entity_names(session, document_name: str, domain: str | None, name_filters: list[str]):
+    """Distinct `(name, entity_class)` of the observations ONE document asserted.
+
+    A document is matched as `query document-history` does: by name (ignoring
+    case), path or id. These are the names its chunks gave things -- the place a
+    thing extracted once per chunk under different labels shows up, before the
+    aggregate key has folded any of them together."""
+    res = session.run(
+        """
+        MATCH (d:Document)
+        WHERE ($domain IS NULL OR d._domain = $domain OR d._domain STARTS WITH $domain + '.')
+          AND (toLower(d.name) = toLower($documentName) OR d.path = $documentName OR d.id = $documentName)
+        MATCH (o:Observation) WHERE o.doc_id = d.id
+          AND (size($nameFilters) = 0
+               OR any(f IN $nameFilters WHERE toLower(o.name) CONTAINS toLower(f)))
+        RETURN DISTINCT o.name AS name, o.entity_class AS entity_class
+        """,
+        domain=domain, documentName=document_name, nameFilters=name_filters,
+    )
+    return [(r["name"], r["entity_class"]) for r in res if r["name"]]
+
+
+def count_within_document_merges(session, proposed_merges: dict[str, str], domain: str | None) -> int:
+    """How many proposed `alias -> canonical` merges name two things that some
+    one document asserted both of -- the signature of one thing split by
+    per-chunk extraction, as opposed to two documents agreeing."""
+    if not proposed_merges:
+        return 0
+    names = list({*proposed_merges.keys(), *proposed_merges.values()})
+    rows = session.run(
+        """
+        MATCH (o:Observation)
+        WHERE o.name IN $names AND ($domain IS NULL OR o._domain = $domain OR o._domain STARTS WITH $domain + '.')
+        RETURN o.name AS name, collect(DISTINCT o.doc_id) AS docs
+        """,
+        names=names, domain=domain,
+    ).data()
+    docs = {r["name"]: set(r["docs"] or []) for r in rows}
+    return sum(
+        1 for alias, canonical in proposed_merges.items()
+        if docs.get(alias, set()) & docs.get(canonical, set())
+    )
+
+
 def refine_graph(
     domain: str | None,
     name_filter: str | None,
@@ -245,6 +289,7 @@ def refine_graph(
     output_file: Path | None,
     from_file: Path | None,
     allow_cross_domain_merge: bool = False,
+    document_name: str | None = None,
 ) -> dict:
     """Cluster similar entity names, ask LLM which to merge, optionally apply to Neo4j.
 
@@ -254,6 +299,10 @@ def refine_graph(
     allow_cross_domain_merge → when domain is None (all-domains run), allow merges whose
         alias/canonical span more than one domain. Default False: such merges are dropped
         and recorded in report["skipped_cross_domain"] instead of being applied.
+    document_name → cluster only the names ONE document's chunks gave things (matched by
+        name, path or id), to find one thing extracted once per chunk under different
+        labels. `report["within_document_merges"]` counts the proposals whose two names
+        some single document asserted both of (always reported, scoped or not).
     """
     from utils.functions import load_env
 
@@ -278,7 +327,10 @@ def refine_graph(
     # cross-class name lookalikes can never end up in the same merge cluster.
     with neo4j_session() as session:
         name_filters = [n.strip() for n in name_filter.split(",")] if name_filter else []
-        if name_filters:
+        if document_name:
+            all_entities = _document_entity_names(session, document_name, domain, name_filters)
+            res = ()
+        elif name_filters:
             # Use exact match for each filtered name (case-insensitive via CONTAINS)
             if domain:
                 res = session.run(
@@ -306,9 +358,13 @@ def refine_graph(
                 f"MATCH (e:{ENTITY_NODE_LABEL}) "
                 "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class"
             )
-        all_entities = [(r["name"], r["entity_class"]) for r in res if r["name"]]
+        if not document_name:
+            all_entities = [(r["name"], r["entity_class"]) for r in res if r["name"]]
 
-    logger.info("Fetched {} unique (name, class) pair(s) from graph", len(all_entities))
+    logger.info(
+        "Fetched {} unique (name, class) pair(s) from {}", len(all_entities),
+        f"document {document_name!r}" if document_name else "graph",
+    )
 
     clusters = cluster_entities_by_class(all_entities, similarity_threshold)
     multi_clusters = [c for c in clusters if len(c) > 1]
@@ -351,6 +407,18 @@ def refine_graph(
         report["skipped_cross_domain"] = skipped
         if skipped:
             logger.info("Skipped {} cross-domain merge cluster(s): {}", len(skipped), skipped)
+
+    report["within_document_merges"] = 0
+    if report["proposed_merges"]:
+        with neo4j_session() as session:
+            report["within_document_merges"] = count_within_document_merges(
+                session, report["proposed_merges"], domain,
+            )
+    if report["within_document_merges"]:
+        logger.info(
+            "{} of the {} proposed merge(s) join names one document asserted both of",
+            report["within_document_merges"], len(report["proposed_merges"]),
+        )
 
     if output_file:
         output_file.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")

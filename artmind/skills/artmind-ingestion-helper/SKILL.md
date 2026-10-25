@@ -216,7 +216,9 @@ artmind ingest sync "<vault-relative path>" --reextract
 ```
 
 A re-extraction that fails, or comes back empty for an unchanged note, keeps the
-note's previous extraction and marks the file failed — re-run the same command.
+note's previous extraction and marks the file failed — re-run the same command. That
+re-run redoes every chunk (the failed re-extraction is discarded whole), unlike a
+plain `ingest sync` / `retry-job`, which redoes only the failed chunks.
 
 This skips chunks that already succeeded and only re-runs failed/missing ones. After it completes, write to Neo4j:
 
@@ -226,17 +228,20 @@ artmind ingest write-to-graph DOCUMENT_NAME --domain YOUR_DOMAIN
 
 **If the document isn't registered at all** (no chunks exist), you need `sync` first (Situation A).
 
-**After a schema/prompt change (e.g. `artmind init --force`), re-extract unchanged vault notes with `--reextract`.**
-An unchanged note otherwise takes the metadata-only fast path (nothing re-extracted), and `ingest pending` does not list it:
+**After a schema/prompt change (e.g. `artmind init --force`), re-extract unchanged vault notes and converted documents (pdf, docx, pptx) with `--reextract`.**
+An unchanged note otherwise takes the metadata-only fast path and an unchanged binary is a `no_op` (nothing re-extracted either way), and `ingest pending` does not list them:
 
 ```bash
 artmind ingest async "$VAULT/Journal" --reextract --match '2026-10-*.md'   # queued job; `ingest sync` works too
 ```
 
-The note is not edited and keeps its version; every chunk is re-extracted (an LLM
-call each, so start with one note or a narrow `--match`), and its graph contribution
+The file is not edited and keeps its version; every chunk is re-extracted (an LLM
+call each, so start with one file or a narrow `--match`), and its graph contribution
 is replaced as for a content change. No separate `extract-kg` / `write-to-graph`
-afterwards. Vault notes only: binaries and tables ignore it.
+afterwards. A pdf/docx/pptx is re-extracted from the markdown its first conversion
+stored: the source is never converted again, moved or edited (to re-convert it, change
+the source) -- unless that markdown was edited since its last extraction, in which case
+the source is converted again first. Tables and ad-hoc files ignore `--reextract`.
 
 ---
 

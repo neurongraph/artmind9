@@ -52,9 +52,11 @@ export interface KgCounts {
   relationships?: number | null;
 }
 
-/** Per-chunk extraction progress, present while a file is in `extract_kg`. */
+/** Per-chunk extraction progress, present while a file is in `extract_kg` and on a failed file. */
 export interface ChunkProgress {
   total_chunks: number;
+  /** Chunk numbers with a failed step: the file is not staged, a retry redoes only these. Absent from an artmind older than this field. */
+  failed_chunks?: number[];
   entities_done: number;
   properties_done: number;
   relationships_done: number;
@@ -64,6 +66,7 @@ export interface JobFile extends KgCounts {
   filename: string;
   status: string;
   current_step: string | null;
+  /** Why the file failed; on a failed file only (absent from an artmind older than this field). */
   error_message?: string | null;
   chunk_progress?: ChunkProgress;
 }

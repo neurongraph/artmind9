@@ -21,6 +21,7 @@ import artmind.ingest as ing
 import artmind.vault_git as vg
 from artmind import vault, vault_resolve as vr
 from artmind.document_identity import compute_content_sha256
+from conftest import strip_document_context
 
 NOTE = "notes/policy.md"
 CHUNKS = ".artmind/data/documents/markdowns/policy_chunks"
@@ -53,7 +54,7 @@ def _seams(monkeypatch, seen):
     monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
 
     def entities_prompt(text, schema, vocabulary=None):
-        seen.append(text)
+        seen.append(strip_document_context(text))  # the passage, not the context around it
         return "p"
 
     monkeypatch.setattr(ing, "build_entities_prompt", entities_prompt)

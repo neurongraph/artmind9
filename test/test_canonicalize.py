@@ -420,3 +420,20 @@ def test_the_vocabulary_never_puts_a_separator_between_two_names():
     # every line carries exactly one name
     assert "Bank of England Base Rate" in name_lines[0]
     assert "Next Rate Review" in name_lines[1]
+
+
+def test_the_model_lists_only_renamed_names_and_the_rest_keep_theirs():
+    """The prompt asks for renamed names only: a long document has hundreds of
+    names, and echoing every one ran past the output budget (the whole pass then
+    failed). An omitted name, or an empty answer, keeps its name."""
+    from artmind.canonicalize import _apply_mapping, build_canonicalization_prompt
+    from artmind.prompt_builder import load_meta
+
+    names = {"PARTY": ["Alpha Ltd", "Alpha Limited", "Beta plc"]}
+    assert _apply_mapping(names, [{"name": "Alpha Limited", "canonical_name": "Alpha Ltd"}]) == {
+        "Alpha Ltd": "Alpha Ltd", "Alpha Limited": "Alpha Ltd", "Beta plc": "Beta plc",
+    }
+    assert _apply_mapping(names, []) == {n: n for n in names["PARTY"]}
+
+    prompt = build_canonicalization_prompt(names, [], {"entity_types": {"PARTY": {"kind": "recurrent"}}}, load_meta())
+    assert "LIST ONLY THE NAMES YOU CHANGE" in prompt and "map them to themselves" not in prompt

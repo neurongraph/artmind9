@@ -40,6 +40,15 @@ should run it yourself before considering a schema done):
   `_`** — that prefix is reserved for artmind's own computed fields
   (`_id`, `_domain`, `_valid_from`, ...). A schema that declares one is
   rejected.
+- **Do not name a `relates_to` relationship after one of artmind's own edges:
+  `supersedes`, `relates_to`, `extracted_from`, `prior_state`,
+  `asserts_relation`, `aggregates`.** Extraction drops every relationship of
+  those types at write time (`supersedes` is created only by the audited
+  temporal helpers, which stamp provenance), so the edge is asked for and
+  never created. `artmind domains validate` prints a `WARN` for each, and the
+  extraction logs it once at start. Say what the relationship is instead:
+  `replaces_agreement` (for a contract that supersedes another), `amends`,
+  `associated_with`. `part_of` is fine.
 
 ## Reference Assets
 
@@ -137,6 +146,57 @@ never be recognised as the same thing again in the next document. An
 belongs IN the name, because that's what tells one occurrence apart from
 another (`meta.yaml`'s `kind_naming_rules` renders both instructions into
 the actual extraction prompt, so this reaches the model, not just you).
+The rule carries no example of its own. Give a recurrent class one from your
+own domain when the model needs to see it:
+
+```yaml
+  AGREEMENT:
+    kind: recurrent
+    naming_example:
+      right: Master Services Agreement
+      wrong: Master Services Agreement, amended 2026-03-01
+```
+
+Both halves are required; a class without `naming_example` gets the rule alone.
+
+**Document context (on by default; nothing to write).** Every chunk's extraction
+sees the document's metadata, its heading outline and a summary made from this
+schema's own `subject` and class descriptions, so a good `subject` and sharp class
+`description`s are what make the summary useful. To change it:
+
+```yaml
+document_context:
+  focus: "Emphasise effective dates and the parties to each amendment."
+```
+
+`focus` adds your emphasis to the summary prompt. `document_context: false` removes
+the block and its one summary call; `document_context: {summary: false}` keeps the
+metadata and outline with no call. (The older `document_header:` key still works,
+but is deprecated in favour of `document_context:`: `false` turns the block off, and
+`document_header: {chars: N}` now caps the WHOLE context block -- metadata, outline,
+summary and identifiers -- not an opening excerpt of the document.)
+
+**The document's own entity.** When a document of the domain is itself an instance of
+one of its classes -- a change note is an amendment, a statement of work is an
+agreement -- every chunk names it its own way. Opt those classes in and artmind folds
+those names into one, in code, after extraction:
+
+```yaml
+document_entity:
+  classes: [AGREEMENT]
+```
+
+A name is folded when it carries the document's own reference, taken from its
+filename or title (letters then digits: `CN12`, `SR4410`; `CN12`, `CN012` and `CN 12`
+are one reference), and every other word in it is a word of the title, a
+document-type word (agreement, amendment, change note, ...), an ordinal or a date.
+So "CN012 Appendix 2 Deliverables Change" (a part) and "CN005 Amendment" (another
+document) stay separate. A deictic name ("This Amendment": "this" plus document-type
+words) is folded in as well, so guidance that tells the model to use one where a passage
+omits the reference is safe -- left alone, every document's "This Amendment" would be
+one entity. The folded name is the variant most chunks used. A document
+whose filename and title carry no reference is left alone, and so is every domain
+without the key. `domains validate` reports a class the schema does not declare.
 
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns

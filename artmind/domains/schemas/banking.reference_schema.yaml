@@ -21,6 +21,9 @@ temporal:
 entity_types:
   RATE_ENTRY:
     kind: recurrent
+    naming_example:
+      right: SmartSaver Account Tier 2 Rate
+      wrong: SmartSaver Account Tier 2 Rate - 4.60% AER, effective 2026-02-01
     description: A specific published interest rate, overdraft rate, or fee as recorded in the live rate
       schedule — the authoritative, date-stamped version. Include the product, balance tier (if applicable),
       rate value, effective date, and rate basis as a single entity. Also capture calculation examples

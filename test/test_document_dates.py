@@ -135,6 +135,58 @@ def test_an_undated_note_keeps_its_first_ingestion_date_and_gets_no_anchor(tmp_p
     assert obs["_valid_from"] == "2026-10-02"
 
 
+def _context_prompts(monkeypatch):
+    """Entities prompts as the model sees them (the passage carries the context block)."""
+    prompts: list = []
+    inner = ing._llm_extract
+
+    def llm(step_name, model, prompt, debug_dir):
+        if step_name.endswith("_entities"):
+            prompts.append(prompt)
+        return inner(step_name, model, prompt, debug_dir)
+
+    monkeypatch.setattr(ing, "build_entities_prompt", lambda text, schema, vocabulary=None: text)
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+    return prompts
+
+
+def test_the_context_shows_a_date_line_only_for_a_date_the_note_carries(tmp_path, monkeypatch):
+    dated = _vault(tmp_path, monkeypatch, "2026-01-07.md", "2026-01-07\n\nGovernance call today.\n")
+    _stub_llm(monkeypatch)
+    prompts = _context_prompts(monkeypatch)
+    _extract(dated)
+    assert prompts and "Date: 2026-01-07" in prompts[0]
+
+    undated = dated.parent / "musings.md"
+    undated.write_text("No date anywhere.\n", encoding="utf-8")
+    prompts.clear()
+    _extract(undated)
+    assert prompts and all("Title:" in p for p in prompts), "the context block is there, just undated"
+    assert not any(line.startswith("Date:") for p in prompts for line in p.splitlines())
+
+
+def test_a_failed_summary_call_is_logged_as_a_warning_and_does_not_raise(tmp_path, monkeypatch):
+    from loguru import logger
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("provider down")
+
+    monkeypatch.setattr(ing, "_llm_extract", boom)
+    seen = []
+    handle = logger.add(lambda m: seen.append((m.record["level"].name, m.record["message"])), level="DEBUG")
+    try:
+        result = ing._summarise_document(
+            doc_kg_dir=tmp_path, key="k1", schema={"subject": "a journal", "entity_types": {}},
+            sample=lambda: "SAMPLE", focus="", model="m", debug_dir=tmp_path,
+        )
+    finally:
+        logger.remove(handle)
+
+    assert result is None
+    assert [level for level, message in seen if "Document summary unavailable" in message] == ["WARNING"]
+    assert not (tmp_path / "document_context.json").exists()
+
+
 # ── `ingest retime`: the backfill ───────────────────────────────────────────
 
 OLD_JOURNAL_SCHEMA = JOURNAL_SCHEMA.replace(
@@ -231,7 +283,11 @@ def test_redo_properties_reextracts_only_properties_with_the_anchor(tmp_path, mo
     assert anchors == [None]
     steps = []
     real_llm = ing._llm_extract
-    monkeypatch.setattr(ing, "_llm_extract", lambda step, *a: steps.append(step) or real_llm(step, *a))
+    # the document summary (one call per document) is not a chunk step
+    monkeypatch.setattr(
+        ing, "_llm_extract",
+        lambda step, *a: (steps.append(step) if step != "document_summary" else None) or real_llm(step, *a),
+    )
     monkeypatch.setattr(ing, "commit_to_graph", lambda *a, **k: True)
     monkeypatch.setattr(ing, "rebuild_projection", lambda domain: {})
 
