@@ -120,3 +120,44 @@ def test_the_sidecar_survives_an_atomic_staging_rewrite(tmp_path, calls):
     summarise(tmp_path)
     ing.write_staging(tmp_path, {"document.json": {"id": "d1"}})
     assert json.loads((tmp_path / "document_context.json").read_text())["key"] == "k1"
+
+
+@pytest.mark.parametrize("sidecar", [
+    {"key": "k1"},
+    {"key": "k1", "summary": 5, "identifiers": []},
+    {"key": "k1", "summary": "   ", "identifiers": []},
+    {"key": "k1", "summary": "ok", "identifiers": "abc"},
+    {"key": "k1", "summary": "ok", "identifiers": ["a", 3]},
+])
+def test_a_sidecar_with_the_right_key_but_a_bad_shape_is_regenerated(tmp_path, calls, sidecar):
+    (tmp_path / "document_context.json").write_text(json.dumps(sidecar))
+
+    result = summarise(tmp_path)
+
+    assert len(calls) == 1
+    assert result["summary"].startswith("A rate notice")
+
+
+def test_the_chunk_cache_subtree_survives_the_sidecar_write(tmp_path, calls):
+    cache = tmp_path / "chunks" / "abc"
+    cache.mkdir(parents=True)
+    (cache / "chunk_001.json").write_text('{"raw_entities": []}')
+
+    summarise(tmp_path)
+
+    assert (cache / "chunk_001.json").read_text() == '{"raw_entities": []}'
+    assert (tmp_path / "document_context.json").exists()
+
+
+def test_the_summary_text_is_logged_at_debug_level_only(tmp_path, calls):
+    from loguru import logger
+
+    seen = []
+    handle = logger.add(lambda m: seen.append((m.record["level"].name, m.record["message"])), level="DEBUG")
+    try:
+        summarise(tmp_path)
+    finally:
+        logger.remove(handle)
+
+    with_text = [level for level, message in seen if "A rate notice for Alpha" in message]
+    assert with_text == ["DEBUG"]

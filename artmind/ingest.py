@@ -1930,6 +1930,18 @@ def _read_document_context(doc_kg_dir: Path) -> dict | None:
     return data if isinstance(data, dict) else None
 
 
+def _valid_context(data: object, key: str) -> bool:
+    """Whether `data` is a usable sidecar for `key`: right key, a non-empty string
+    summary, a list of string identifiers. Anything else is regenerated."""
+    return (
+        isinstance(data, dict)
+        and data.get("key") == key
+        and isinstance(data.get("summary"), str) and bool(data["summary"].strip())
+        and isinstance(data.get("identifiers"), list)
+        and all(isinstance(i, str) for i in data["identifiers"])
+    )
+
+
 def _summarise_document(
     *,
     doc_kg_dir: Path,
@@ -1945,7 +1957,7 @@ def _summarise_document(
     or answers something unusable; a failure is logged and never fails the file
     (spec §4): the chunks then extract with metadata and outline only."""
     cached = _read_document_context(doc_kg_dir)
-    if cached and cached.get("key") == key:
+    if _valid_context(cached, key):
         return cached
     prompt = dc.summary_prompt(schema, sample, focus=focus)
     try:
