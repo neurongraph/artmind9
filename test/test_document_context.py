@@ -403,3 +403,18 @@ def test_context_key_changes_with_each_input_and_is_stable_otherwise():
     assert base != context_key(content_sha="c2", schema_sha="s1", model="m1")
     assert base != context_key(content_sha="c1", schema_sha="s2", model="m1")
     assert base != context_key(content_sha="c1", schema_sha="s1", model="m2")
+
+
+def test_the_block_ends_with_the_passage_line_and_no_newline():
+    block = render_context(metadata="Title: T", outline="You are in: chunk 1 of 1", summary="S.", identifiers=["a"], cap=2000)
+    assert block.endswith(PASSAGE_LINE) and not block.endswith("\n")
+
+
+def test_content_that_cannot_fit_gives_no_block_even_above_the_minimum_cap():
+    assert render_context(metadata="", outline="", summary="", identifiers=["x" * 200], cap=200) == ""
+
+
+def test_blank_metadata_or_outline_lines_are_not_content():
+    assert render_context(metadata=" \n\t", outline="\n", summary="", cap=2000) == ""
+    block = render_context(metadata="a: 1\n\n  \nb: 2", outline="", summary="", cap=2000)
+    assert block.splitlines()[1:3] == ["a: 1", "b: 2"]

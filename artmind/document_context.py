@@ -250,7 +250,7 @@ def parse_summary(answer) -> tuple[str, list[str]] | None:
 
 #: The block's closing line: what follows it is the passage to extract from.
 PASSAGE_LINE = "PASSAGE TO EXTRACT FROM:"
-_HEADING = (
+CONTEXT_HEADING = (
     "DOCUMENT CONTEXT (only for naming and identifying things consistently -- "
     "do not extract from this block):"
 )
@@ -274,16 +274,18 @@ def render_context(
     name the same across chunks. The summary is dropped by whole sentences,
     never cut mid-sentence. No room (a cap too small for the heading and the
     closing line) or nothing to say gives '': a cap of 0 means no block, not an
-    unlimited one."""
-    meta_lines = metadata.splitlines()
-    outline_lines = outline.splitlines()
+    unlimited one. `outline` is expected to start with the chunk's own position
+    line (see `build_outline`), which is the one outline line that is never
+    trimmed."""
+    meta_lines = [line for line in metadata.splitlines() if line.strip()]
+    outline_lines = [line for line in outline.splitlines() if line.strip()]
     sentences = [s for s in _SENTENCE_END.split(summary.strip()) if s]
     ids = list(identifiers)
     if not (meta_lines or outline_lines or sentences or ids):
         return ""
 
     def build() -> str:
-        lines = [_HEADING, *meta_lines, *outline_lines]
+        lines = [CONTEXT_HEADING, *meta_lines, *outline_lines]
         if sentences:
             lines.append("Summary: " + " ".join(sentences))
         if ids:
@@ -302,7 +304,8 @@ def render_context(
     while len(build()) > cap and ids:
         ids.pop()
     block = build()
-    return block if len(block) <= cap and block.count("\n") > 1 else ""
+    has_content = bool(meta_lines or outline_lines or sentences or ids)
+    return block if has_content and len(block) <= cap else ""
 
 
 def context_key(*, content_sha: str, schema_sha: str, model: str) -> str:
