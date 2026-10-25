@@ -71,26 +71,74 @@ def _chunk_headings(chunks_meta: dict) -> dict[int, str]:
     return out
 
 
+#: The most outline entries a chunk's prompt lists, and the longest one.
+_OUTLINE_ENTRIES = 12
+_ENTRY_CHARS = 80
+
+
+def _section_depth(headings: dict[int, str]) -> int:
+    """The breadcrumb depth the document's sections are told apart at: the
+    shallowest depth with more than one distinct prefix. A document with one H1
+    over many H2s branches at 2, not 1. One section only, or no headings, is 1."""
+    paths = [path.split(" > ") for path in headings.values() if path]
+    for depth in range(1, max((len(p) for p in paths), default=0) + 1):
+        if len({" > ".join(p[:depth]) for p in paths if len(p) >= depth}) > 1:
+            return depth
+    return 1
+
+
+def _section_of(path: str, depth: int) -> str:
+    """`path` cut to its first `depth` breadcrumb segments; '' for no path."""
+    return " > ".join(path.split(" > ")[:depth]) if path else ""
+
+
+def _distinct(items: list[str]) -> list[str]:
+    """`items` without blanks or repeats, in order of first appearance."""
+    seen: dict[str, None] = {}
+    for item in items:
+        if item:
+            seen.setdefault(item)
+    return list(seen)
+
+
+def _entry(text: str) -> str:
+    return text if len(text) <= _ENTRY_CHARS else text[:_ENTRY_CHARS] + "\u2026"
+
+
 def build_outline(
     chunks_meta: dict, seq: int, chunk_count: int, *, document_outline: bool = False,
 ) -> str:
     """'You are in: <heading> (chunk N of M)', from the chunk's own breadcrumb.
 
-    With `document_outline`, the distinct headings of the whole document follow,
-    in order of first appearance, so a chunk can place itself in the document."""
+    With `document_outline`, the document's headings follow, in order of first
+    appearance, so a chunk can place itself in the document. Up to
+    `_OUTLINE_ENTRIES` of them are listed in full; a longer document lists its
+    sections instead (see `_section_depth`), as a window of that many around the
+    chunk's own section, so the list stays small enough to survive the cap."""
     headings = _chunk_headings(chunks_meta)
     here = headings.get(seq, "")
     position = f"(chunk {seq} of {chunk_count})"
     lines = [f"You are in: {here} {position}" if here else f"You are in: chunk {seq} of {chunk_count}"]
     if document_outline:
-        seen: list[str] = []
-        for seq_no in sorted(headings):
-            heading = headings[seq_no]
-            if heading and heading not in seen:
-                seen.append(heading)
-        if seen:
+        entries = _distinct([headings[n] for n in sorted(headings)])
+        current = here
+        if len(entries) > _OUTLINE_ENTRIES:
+            depth = _section_depth(headings)
+            entries = _distinct([_section_of(headings[n], depth) for n in sorted(headings)])
+            current = _section_of(here, depth)
+        before = after = False
+        if len(entries) > _OUTLINE_ENTRIES:
+            at = entries.index(current) if current in entries else 0
+            start = min(max(at - _OUTLINE_ENTRIES // 2, 0), len(entries) - _OUTLINE_ENTRIES)
+            before, after = start > 0, start + _OUTLINE_ENTRIES < len(entries)
+            entries = entries[start : start + _OUTLINE_ENTRIES]
+        if entries:
             lines.append("Document outline:")
-            lines.extend(f"  - {heading}" for heading in seen)
+            if before:
+                lines.append("  \u2026")
+            lines.extend(f"  - {_entry(entry)}" for entry in entries)
+            if after:
+                lines.append("  \u2026")
     return "\n".join(lines)
 
 
@@ -152,42 +200,54 @@ def _first_paragraph(text: str) -> str:
 def sample_for_summary(chunk_texts: list[str], chunks_meta: dict) -> str:
     """A bounded sample of the document for the summary call.
 
-    The opening and the closing always; then the first paragraph under each
-    distinct top-level heading (`header_path`'s first segment). A document with
-    no headings contributes ten evenly spaced chunks instead. Filled in document
-    order and cut at `sample_chars()`, so the call is one call however long the
-    document is. The opening and closing are the first paragraph of the first and
-    last chunk, and each keeps a guaranteed share of the cap."""
+    A document that fits `sample_chars()` is sent whole. A longer one gets, in
+    order: a one-line list of its sections, its opening (title heading included),
+    the first paragraph of each section's first chunk (a document with no
+    headings: of ten evenly spaced chunks), and its closing. The outline line,
+    the opening and the closing are reserved first, so a long middle never
+    squeezes them out; middle paragraphs that do not fit the rest are skipped."""
     if not chunk_texts:
         return ""
     cap = sample_chars()
+    if len("\n\n".join(chunk_texts)) <= cap:
+        return "\n\n".join(chunk_texts)
     last = len(chunk_texts) - 1
     headings = _chunk_headings(chunks_meta)
-    picked: set[int] = {0, last}
-    if any(headings.values()):
-        first_seen: dict[str, int] = {}
-        for seq in sorted(headings):
-            top = headings[seq].split(" > ", 1)[0]
-            if top and top not in first_seen:
-                first_seen[top] = seq
-        picked |= {seq - 1 for seq in first_seen.values() if 0 <= seq - 1 <= last}
+    depth = _section_depth(headings)
+    first_chunk: dict[str, int] = {}
+    for seq in sorted(headings):
+        section = _section_of(headings[seq], depth)
+        if section and 0 <= seq - 1 <= last:
+            first_chunk.setdefault(section, seq - 1)
+
+    outline = ""
+    for entry in (_entry(section) for section in first_chunk):
+        candidate = f"{outline}; {entry}" if outline else f"Sections: {entry}"
+        if len(candidate) > cap // 8:
+            break
+        outline = candidate
+    parts = [outline] if outline else []
+    if last == 0:
+        parts.append(_fit(chunk_texts[0], cap - sum(len(p) + 2 for p in parts)))
+        return "\n\n".join(parts)
+
+    opening = _fit(chunk_texts[0], cap // 4)
+    closing = _fit(chunk_texts[last], cap // 4)
+    room = cap - sum(len(p) + 2 for p in (*parts, opening, closing))
+    if first_chunk:
+        candidates = sorted(set(first_chunk.values()))
     else:
         count = min(_EVEN_SAMPLES, len(chunk_texts))
-        picked = {round(i * last / max(count - 1, 1)) for i in range(count)}
-
-    paragraphs = {index: _first_paragraph(chunk_texts[index]) for index in picked}
-    must = sorted({0, last})
-    share = cap if len(must) == 1 else cap // 4
-    chosen = {index: _fit(paragraphs[index], share) for index in must}
-    room = cap - sum(len(text) + 2 for text in chosen.values())
-    for index in sorted(picked):
-        if index in chosen:
+        candidates = sorted({round(i * last / max(count - 1, 1)) for i in range(count)})
+    middle = []
+    for index in candidates:
+        if index in (0, last):
             continue
-        if len(paragraphs[index]) + 2 > room:
-            continue
-        chosen[index] = paragraphs[index]
-        room -= len(paragraphs[index]) + 2
-    return "\n\n".join(chosen[index] for index in sorted(chosen) if chosen[index])
+        paragraph = _first_paragraph(chunk_texts[index])
+        if paragraph and len(paragraph) + 2 <= room:
+            middle.append(paragraph)
+            room -= len(paragraph) + 2
+    return "\n\n".join([*parts, opening, *middle, closing])
 
 
 def _fit(paragraph: str, room: int) -> str:

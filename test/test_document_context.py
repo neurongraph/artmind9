@@ -176,7 +176,7 @@ def test_the_sample_takes_the_first_paragraph_under_each_top_level_heading():
 
 
 def test_without_headings_ten_evenly_spaced_chunks_are_sampled():
-    chunks = [f"chunk {i} text." for i in range(1, 41)]
+    chunks = [f"chunk {i} text.\n\n" + "filler " * 150 for i in range(1, 41)]
     sample = sample_for_summary(chunks, {})
     assert "chunk 1 text." in sample and "chunk 40 text." in sample
     assert sample.count("text.") == 10
@@ -211,9 +211,63 @@ def test_a_paragraph_that_does_not_fit_is_skipped_but_a_later_short_one_is_kept(
     assert "m" * 100 not in sample
 
 
-def test_a_heading_only_first_block_is_skipped_for_the_paragraph_under_it():
+def test_a_short_document_is_sent_whole_including_its_title_heading():
     sample = sample_for_summary(["# Intro\n\nThe real opening."], {})
-    assert sample == "The real opening."
+    assert sample == "# Intro\n\nThe real opening."
+
+
+def test_a_one_h1_document_samples_every_section_not_just_the_ends():
+    chunks = [f"## S{i}\n\nFirst paragraph of section {i}.\n\n" + "filler " * 400 for i in range(8)]
+    meta = {f"{i + 1:03d}": {"header_path": f"Doc > S{i}"} for i in range(8)}
+    sample = sample_for_summary(chunks, meta)
+    for i in range(8):
+        assert f"First paragraph of section {i}." in sample
+    assert len(sample) <= SAMPLE_CHARS
+
+
+def test_the_title_heading_reaches_a_long_documents_sample():
+    chunks = ["# Master Services Agreement\n\nOpening words.\n\n" + "filler " * 3000, "x " * 6000]
+    assert "# Master Services Agreement" in sample_for_summary(chunks, {})
+
+
+def test_a_single_chunk_document_over_the_cap_is_fitted_not_dropped():
+    sample = sample_for_summary(["Title line.\n\n" + "word " * 6000], {})
+    assert sample.startswith("Title line.") and 0 < len(sample) <= SAMPLE_CHARS
+
+
+def test_the_sample_leads_with_the_section_outline():
+    chunks = [f"## S{i}\n\nBody {i}.\n\n" + "filler " * 400 for i in range(6)]
+    meta = {f"{i + 1:03d}": {"header_path": f"Doc > S{i}"} for i in range(6)}
+    assert sample_for_summary(chunks, meta).startswith("Sections: Doc > S0; Doc > S1;")
+
+
+def test_the_outline_lists_sections_at_the_first_depth_that_branches():
+    meta = {f"{i + 1:03d}": {"header_path": f"Doc > S{i}"} for i in range(3)}
+    text = build_outline(meta, 2, 3, document_outline=True)
+    assert text.splitlines()[1:] == ["Document outline:", "  - Doc > S0", "  - Doc > S1", "  - Doc > S2"]
+
+
+def test_a_long_documents_outline_is_a_bounded_window_around_the_current_chunk():
+    meta = {f"{i + 1:03d}": {"header_path": f"Part {i:02d}"} for i in range(57)}
+    text = build_outline(meta, 30, 57, document_outline=True)
+    lines = text.splitlines()
+    entries = [l for l in lines if l.startswith("  - ")]
+    assert len(entries) == 12
+    assert "  - Part 29" in entries
+    assert lines[2] == "  \u2026" and lines[-1] == "  \u2026"
+    assert len(text) < 600
+
+
+def test_a_long_one_h1_documents_outline_lists_its_sections_not_the_whole_breadcrumbs():
+    meta = {f"{i + 1:03d}": {"header_path": f"Doc > S{i // 2:02d} > Part {i}"} for i in range(40)}
+    text = build_outline(meta, 1, 40, document_outline=True)
+    assert "  - Doc > S00" in text and "Part" not in text.split("Document outline:")[1]
+
+
+def test_a_very_long_heading_is_cut_in_the_outline():
+    meta = {"001": {"header_path": "A"}, "002": {"header_path": "B" * 200}}
+    text = build_outline(meta, 1, 2, document_outline=True)
+    assert max(len(l) for l in text.splitlines()) <= len("  - ") + 81
 
 
 from artmind.document_context import parse_summary, summary_prompt
