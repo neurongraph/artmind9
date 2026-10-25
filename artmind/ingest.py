@@ -1788,16 +1788,38 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
 
     header_docs = header_splitter.split_text(text)
     cursor = 0
+    # Consecutive sections are packed into one chunk while they fit `chunk_size`:
+    # a contract or deck has a heading every few lines, and one chunk per heading
+    # gave chunks of a lone heading -- three LLM calls each, with nothing to
+    # extract and no neighbouring text to name things by. A packed chunk carries
+    # the breadcrumb of the section it starts in. A section larger than
+    # `chunk_size` is split on its own, as before.
+    packed: list[str] = []
+    packed_path = ""
+
+    def _flush(cursor: int) -> int:
+        nonlocal packed
+        if packed:
+            cursor = _emit(["\n\n".join(packed)], packed_path, cursor)
+            packed = []
+        return cursor
+
     for doc in header_docs:
         content = doc.page_content.strip()
         if not content:
             continue
         header_path = _header_path(doc.metadata)
-        if len(content) <= chunk_size:
-            pieces = [content]
-        else:
+        if len(content) > chunk_size:
+            cursor = _flush(cursor)
             pieces = [c.strip() for c in char_splitter.split_text(content) if c.strip()]
-        cursor = _emit(pieces, header_path, cursor)
+            cursor = _emit(pieces, header_path, cursor)
+            continue
+        if packed and len("\n\n".join([*packed, content])) > chunk_size:
+            cursor = _flush(cursor)
+        if not packed:
+            packed_path = header_path
+        packed.append(content)
+    cursor = _flush(cursor)
     if not chunks:
         pieces = [c.strip() for c in char_splitter.split_text(text) if c.strip()]
         _emit(pieces, "", 0)
