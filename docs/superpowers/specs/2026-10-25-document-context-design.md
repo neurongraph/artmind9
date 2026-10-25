@@ -77,12 +77,16 @@ first if the cap is reached; the summary is never cut mid-sentence.
 - **Output:** JSON `{"summary": str, "identifiers": [str]}`. Capped at 1,200
   characters for the summary and 25 identifiers. Parsed with the existing
   `_llm_extract` path; a malformed answer is retried once, like any step.
-- **Cache:** written into `document.json` as `context` with a `key` field, the
-  hash of (content hash, hash of this domain's own schema file, model name,
-  prompt version). The per-domain file, not `schema_set_hash`: an edit to one
-  schema must not regenerate every other domain's summaries. A resumed run, or a `--reextract` of unchanged text under an
-  unchanged schema, reuses it and makes no call. Any change to the key
-  regenerates it.
+- **Cache:** written to its own staging file, `document_context.json`, beside
+  the chunks, with a `key` field: the hash of (content hash, hash of this
+  domain's own schema file, model name, prompt version). Not in `document.json`,
+  because the graph write flattens that file and would drop a nested object.
+  The per-domain file, not `schema_set_hash`: an edit to one schema must not
+  regenerate every other domain's summaries. A resumed run, or a `--reextract`
+  of unchanged text under an unchanged schema, reuses the file and makes no
+  call. Any change to the key regenerates it. `FINGERPRINTED_FILES` does not
+  list the file, so regenerating a summary alone does not replay the graph
+  write.
 - **Failure:** a summary call that fails (after its retry) leaves the context
   with metadata and outline only, logs a warning naming the document, and
   does not fail the file. The extraction is not refused for want of context.
