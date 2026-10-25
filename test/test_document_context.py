@@ -150,3 +150,36 @@ def test_a_multi_line_value_cannot_forge_another_field():
 
 def test_blank_and_none_list_items_are_dropped_from_tags():
     assert build_metadata({"tags": ["a", None, "", "  ", "b"]}) == "Tags: a, b"
+
+
+from artmind.document_context import SAMPLE_CHARS, sample_for_summary
+
+
+def test_a_short_document_is_sampled_whole():
+    chunks = ["Opening para.", "Middle para.", "Closing para."]
+    sample = sample_for_summary(chunks, {})
+    assert "Opening para." in sample and "Middle para." in sample and "Closing para." in sample
+
+
+def test_the_sample_takes_the_first_paragraph_under_each_top_level_heading():
+    chunks = ["# Intro\n\nIntro text.", "## Rates\n\nRates detail.\n\nMore rates."]
+    meta = {"001": {"header_path": "Intro"}, "002": {"header_path": "Intro > Rates"}}
+    sample = sample_for_summary(chunks, meta)
+    assert "Intro text." in sample
+    assert "Rates detail." in sample
+
+
+def test_without_headings_ten_evenly_spaced_chunks_are_sampled():
+    chunks = [f"chunk {i} text." for i in range(1, 41)]
+    sample = sample_for_summary(chunks, {})
+    assert "chunk 1 text." in sample and "chunk 40 text." in sample
+    assert sample.count("text.") == 10
+
+
+def test_the_sample_never_exceeds_the_cap():
+    chunks = [("word " * 2000) for _ in range(20)]
+    assert len(sample_for_summary(chunks, {})) <= SAMPLE_CHARS
+
+
+def test_an_empty_document_gives_an_empty_sample():
+    assert sample_for_summary([], {}) == ""

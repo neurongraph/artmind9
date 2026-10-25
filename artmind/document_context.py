@@ -116,3 +116,54 @@ def build_metadata(document: dict) -> str:
         ("Tags", _text(document.get("tags"))),
     ]
     return "\n".join(f"{label}: {value}" for label, value in rows if value)
+
+
+#: The most text the summary call is given, in characters.
+SAMPLE_CHARS = 12000
+_EVEN_SAMPLES = 10
+
+
+def _first_paragraph(text: str) -> str:
+    """The first paragraph of a chunk: the text up to the first blank line, skipping a
+    block that is only Markdown heading lines (a heading says where we are, not what is
+    said). A chunk of nothing but headings returns its first heading block."""
+    blocks = [b.strip() for b in text.split("\n\n") if b.strip()]
+    for block in blocks:
+        if not all(line.lstrip().startswith("#") for line in block.splitlines() if line.strip()):
+            return block
+    return blocks[0] if blocks else ""
+
+
+def sample_for_summary(chunk_texts: list[str], chunks_meta: dict) -> str:
+    """A bounded sample of the document for the summary call.
+
+    The opening and the closing always; then the first paragraph under each
+    distinct top-level heading (`header_path`'s first segment). A document with
+    no headings contributes ten evenly spaced chunks instead. Filled in document
+    order and cut at `SAMPLE_CHARS`, so the call is one call however long the
+    document is."""
+    if not chunk_texts:
+        return ""
+    last = len(chunk_texts) - 1
+    headings = _chunk_headings(chunks_meta)
+    picked: set[int] = {0, last}
+    if any(headings.values()):
+        first_seen: dict[str, int] = {}
+        for seq in sorted(headings):
+            top = headings[seq].split(" > ", 1)[0]
+            if top and top not in first_seen:
+                first_seen[top] = seq
+        picked |= {seq - 1 for seq in first_seen.values() if 0 <= seq - 1 <= last}
+    else:
+        count = min(_EVEN_SAMPLES, len(chunk_texts))
+        picked = {round(i * last / max(count - 1, 1)) for i in range(count)}
+
+    parts: list[str] = []
+    total = 0
+    for index in sorted(picked):
+        paragraph = _first_paragraph(chunk_texts[index])
+        if total + len(paragraph) + 2 > SAMPLE_CHARS:
+            break
+        parts.append(paragraph)
+        total += len(paragraph) + 2
+    return "\n\n".join(parts)
