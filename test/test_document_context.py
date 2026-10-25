@@ -65,3 +65,39 @@ def test_a_bare_document_context_key_means_on_with_defaults():
 def test_a_non_string_focus_is_ignored():
     assert context_settings({"document_context": {"focus": 5}}).focus == ""
     assert context_settings({"document_context": {"focus": ["a", "b"]}}).focus == ""
+
+
+from artmind.document_context import build_outline
+
+
+def test_outline_names_the_chunks_heading_and_its_position():
+    meta = {
+        "001": {"header_path": ""},
+        "002": {"header_path": "Schedule 2 > Rates"},
+        "003": {"header_path": "Schedule 2 > Rates"},
+    }
+    assert build_outline(meta, 2, 3) == "You are in: Schedule 2 > Rates (chunk 2 of 3)"
+
+
+def test_a_chunk_under_no_heading_gets_only_its_position():
+    assert build_outline({"001": {"header_path": ""}}, 1, 4) == "You are in: chunk 1 of 4"
+
+
+def test_missing_chunks_meta_still_gives_the_position():
+    assert build_outline({}, 5, 9) == "You are in: chunk 5 of 9"
+
+
+def test_the_outline_lists_the_document_headings_in_order_when_given_them():
+    meta = {
+        "001": {"header_path": "Intro"},
+        "002": {"header_path": "Schedule 2 > Rates"},
+        "003": {"header_path": "Schedule 2 > Fees"},
+    }
+    text = build_outline(meta, 2, 3, document_outline=True)
+    assert text.splitlines() == [
+        "You are in: Schedule 2 > Rates (chunk 2 of 3)",
+        "Document outline:",
+        "  - Intro",
+        "  - Schedule 2 > Rates",
+        "  - Schedule 2 > Fees",
+    ]

@@ -55,3 +55,36 @@ def context_settings(schema: dict) -> ContextSettings:
         except (TypeError, ValueError):
             cap = DEFAULT_CAP
     return ContextSettings(enabled=True, summary=True, focus="", cap=cap)
+
+
+def _chunk_headings(chunks_meta: dict) -> dict[int, str]:
+    """{chunk seq: header_path} for the numbered entries of `chunks_meta.json`
+    (the `_body_sha256` stamp and anything else non-numeric are ignored)."""
+    out: dict[int, str] = {}
+    for key, value in chunks_meta.items():
+        if isinstance(value, dict) and str(key).isdigit():
+            out[int(key)] = str(value.get("header_path") or "")
+    return out
+
+
+def build_outline(
+    chunks_meta: dict, seq: int, chunk_count: int, *, document_outline: bool = False,
+) -> str:
+    """'You are in: <heading> (chunk N of M)', from the chunk's own breadcrumb.
+
+    With `document_outline`, the distinct headings of the whole document follow,
+    in order of first appearance, so a chunk can place itself in the document."""
+    headings = _chunk_headings(chunks_meta)
+    here = headings.get(seq, "")
+    position = f"(chunk {seq} of {chunk_count})"
+    lines = [f"You are in: {here} {position}" if here else f"You are in: chunk {seq} of {chunk_count}"]
+    if document_outline:
+        seen: list[str] = []
+        for seq_no in sorted(headings):
+            heading = headings[seq_no]
+            if heading and heading not in seen:
+                seen.append(heading)
+        if seen:
+            lines.append("Document outline:")
+            lines.extend(f"  - {heading}" for heading in seen)
+    return "\n".join(lines)
