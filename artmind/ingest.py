@@ -1874,16 +1874,21 @@ def _read_document_context(doc_kg_dir: Path) -> dict | None:
     return data if isinstance(data, dict) else None
 
 
-def _valid_context(data: object, key: str) -> bool:
-    """Whether `data` is a usable sidecar for `key`: right key, a non-empty string
-    summary, a list of string identifiers. Anything else is regenerated."""
+def _has_context_shape(data: object) -> bool:
+    """Whether `data` has a usable sidecar's shape, whatever its key: a non-empty
+    string summary and a list of string identifiers."""
     return (
         isinstance(data, dict)
-        and data.get("key") == key
         and isinstance(data.get("summary"), str) and bool(data["summary"].strip())
         and isinstance(data.get("identifiers"), list)
         and all(isinstance(i, str) for i in data["identifiers"])
     )
+
+
+def _valid_context(data: object, key: str) -> bool:
+    """Whether `data` is a usable sidecar for `key`: right key and the right shape.
+    Anything else is regenerated."""
+    return isinstance(data, dict) and data.get("key") == key and _has_context_shape(data)
 
 
 def with_document_context(block: str, text: str) -> str:
@@ -1906,24 +1911,33 @@ def _summarise_document(
     focus: str,
     model: str,
     debug_dir: Path,
+    reuse_any: bool = False,
 ) -> dict | None:
     """The document's summary, from the sidecar when its key matches, else one
-    call. Returns {"key", "summary", "identifiers"} or None when the call fails
+    call. With `reuse_any` (a properties-only redo) a well-shaped sidecar is used
+    whatever its key and no call is ever made. Returns {"key", "summary", "identifiers"} or None when the call fails
     or answers something unusable; a failure is logged and never fails the file
     (spec §4): the chunks then extract with metadata and outline only."""
     cached = _read_document_context(doc_kg_dir)
     if _valid_context(cached, key):
         return cached
+    if reuse_any:
+        return cached if _has_context_shape(cached) else None
     prompt = dc.summary_prompt(schema, sample(), focus=focus)
-    try:
-        answer, ok = _llm_extract("document_summary", model, prompt, debug_dir)
-    except Exception as e:  # a TruncatedAnswer or a provider error
-        logger.warning(
-            "Document summary unavailable for {} ({}); chunks extract with metadata and outline only",
-            doc_kg_dir.name, e,
-        )
-        return None
-    parsed = dc.parse_summary(answer) if ok else None
+    parsed = None
+    for _attempt in range(2):
+        try:
+            answer, ok = _llm_extract("document_summary", model, prompt, debug_dir)
+        except Exception as e:  # a TruncatedAnswer or a provider error
+            logger.warning(
+                "Document summary unavailable for {} ({}); chunks extract with metadata and outline only",
+                doc_kg_dir.name, e,
+            )
+            return None
+        parsed = dc.parse_summary(answer) if ok else None
+        if parsed is not None and parsed[0]:
+            break
+        parsed = None
     if parsed is None:
         logger.warning(
             "Document summary unusable for {}; chunks extract with metadata and outline only", doc_kg_dir.name,
@@ -3098,9 +3112,12 @@ def extract_kg(
     context_summary = None
     if context_settings.enabled:
         provenance = file_result.get("provenance") or {}
+        source_line = provenance.get("source_path") or canonical_path(registered_path)
+        if Path(source_line).is_absolute():  # never send a filesystem path to the provider
+            source_line = registered_path.name
         context_metadata = dc.build_metadata({
             "name": registered_path.name,
-            "path": provenance.get("source_path") or canonical_path(registered_path),
+            "path": source_line,
             "title": meta.get("title") or registered_path.stem,
             "author": meta.get("author"),
             "project": meta.get("project"),
@@ -3109,7 +3126,7 @@ def extract_kg(
             "_valid_from": None if date_is_only_the_default(schema, document_dates) else document_dates.get("_valid_from"),
             "provenance": provenance,
         })
-        if context_settings.summary and chunk_files:
+        if context_settings.summary and chunk_count > 1:
             context_summary = _summarise_document(
                 doc_kg_dir=doc_kg_dir,
                 key=dc.context_key(
@@ -3122,6 +3139,7 @@ def extract_kg(
                 focus=context_settings.focus,
                 model=text_model,
                 debug_dir=doc_kg_dir,
+                reuse_any=redo_property_classes is not None,
             )
 
     def _document_context(seq: int) -> str:
@@ -3399,7 +3417,7 @@ def extract_kg(
         file_result["failed_chunks"] = still_failed
         file_result["kg_error"] = (
             f"KG extraction incomplete: chunk(s) {still_failed} of {chunk_count} still failed "
-            "after the retry; the other chunks are done and cached, staging is unchanged. "
+            "after the retry; the other chunks are done and cached, the staged extraction is unchanged. "
             "Re-run the same command (or `artmind ingest retry-job`) to redo only those chunks."
         )
         logger.error("{}: {}", registered_path.name, file_result["kg_error"])

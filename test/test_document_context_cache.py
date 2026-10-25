@@ -173,3 +173,42 @@ def test_the_sample_is_not_built_on_a_cache_hit(tmp_path, calls):
         doc_kg_dir=tmp_path, key="k1", schema=SCHEMA, sample=boom, focus="", model="m", debug_dir=tmp_path,
     )
     assert again == first
+
+
+def test_an_empty_summary_answer_is_unusable_and_not_written(tmp_path, monkeypatch):
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: ({"summary": "", "identifiers": ["x"]}, True))
+    assert summarise(tmp_path) is None
+    assert not (tmp_path / "document_context.json").exists()
+
+
+def test_an_unusable_answer_is_retried_once(tmp_path, monkeypatch):
+    answers = iter([([], True), (ANSWER, True)])
+    attempts = []
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: attempts.append(1) or next(answers))
+    assert summarise(tmp_path)["summary"].startswith("A rate notice")
+    assert len(attempts) == 2
+
+
+def test_two_unusable_answers_give_none(tmp_path, monkeypatch):
+    attempts = []
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: attempts.append(1) or ([], True))
+    assert summarise(tmp_path) is None
+    assert len(attempts) == 2
+
+
+def test_reuse_any_returns_a_valid_sidecar_whatever_its_key_and_never_calls(tmp_path, calls):
+    summarise(tmp_path, key="old")
+    calls.clear()
+    result = ing._summarise_document(
+        doc_kg_dir=tmp_path, key="new", schema=SCHEMA, sample=lambda: "S", focus="", model="m",
+        debug_dir=tmp_path, reuse_any=True,
+    )
+    assert result["key"] == "old" and calls == []
+
+
+def test_reuse_any_with_no_sidecar_returns_none_without_a_call(tmp_path, calls):
+    result = ing._summarise_document(
+        doc_kg_dir=tmp_path, key="new", schema=SCHEMA, sample=lambda: "S", focus="", model="m",
+        debug_dir=tmp_path, reuse_any=True,
+    )
+    assert result is None and calls == []
