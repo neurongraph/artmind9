@@ -91,9 +91,11 @@ def build_outline(
 
 
 def _text(value) -> str:
+    """One line of text: whitespace (newlines, tabs, runs of spaces) collapsed, so a
+    multi-line frontmatter value cannot add a line that looks like another field."""
     if isinstance(value, (list, tuple)):
-        return ", ".join(str(v) for v in value if str(v).strip())
-    return str(value).strip() if value is not None else ""
+        return ", ".join(t for t in (_text(v) for v in value) if t)
+    return " ".join(str(value).split()) if value is not None else ""
 
 
 def build_metadata(document: dict) -> str:

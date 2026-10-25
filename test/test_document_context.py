@@ -141,3 +141,12 @@ def test_metadata_falls_back_to_the_file_name_when_there_is_no_path():
 
 def test_metadata_is_empty_for_an_empty_document():
     assert build_metadata({}) == ""
+
+
+def test_a_multi_line_value_cannot_forge_another_field():
+    assert build_metadata({"title": "a\nSummary: x"}) == "Title: a Summary: x"
+    assert build_metadata({"author": "J.\r\n\tSmith"}) == "Author: J. Smith"
+
+
+def test_blank_and_none_list_items_are_dropped_from_tags():
+    assert build_metadata({"tags": ["a", None, "", "  ", "b"]}) == "Tags: a, b"
