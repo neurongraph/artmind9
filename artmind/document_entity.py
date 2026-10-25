@@ -31,9 +31,12 @@ This step folds them deterministically, after the LLM canonicalization:
 5. A deictic name of the same class -- "This Amendment", "This Transaction
    Contract": "this" and document-type words only, which a schema may tell the
    model to use where a passage omits the reference -- is folded in too, but
-   only into a reference-bearing name. Left alone it carries no document at all,
-   and since entities key on name, class and domain, every document's
-   "This Amendment" would be one entity.
+   into a reference-bearing name when the class has one. Left alone it carries
+   no document at all, and since entities key on name, class and domain, every
+   document's "This Amendment" would be one entity -- so where there is nothing
+   to fold it into (a framework agreement's "This Transaction Contract", a
+   document whose filename carries no reference) it is scoped to its document
+   instead: "This Transaction Contract (<document title>)".
 
 Schema-agnostic: nothing here names a domain or a class.
 """
@@ -133,19 +136,22 @@ class Fold:
     entity_class: str
     name: str
     folded: tuple[str, ...]
+    #: True when `name` is a deictic name scoped to its document, not a fold
+    #: into the document's own reference-bearing name.
+    scoped: bool = False
 
 
 def fold(
     entities: list[dict], canonical_names: dict[str, str], schema: dict, *, title: str, filename: str,
 ) -> tuple[dict[str, str], list[Fold]]:
     """`canonical_names` with every name of the document's own entity folded
-    into one, per opted-in class, and what was folded. Pure: returns a new
-    mapping; the input is not changed. Nothing to fold (no opt-in, no
-    reference, fewer than two names) returns the mapping as it was."""
+    into one, per opted-in class, any deictic name left over scoped to the
+    document, and what was done. Pure: returns a new mapping; the input is not
+    changed. A schema without the opt-in returns the mapping as it was."""
     classes = document_classes(schema)
-    refs = references(title, filename)
-    if not classes or not refs:
+    if not classes:
         return canonical_names, []
+    refs = references(title, filename)
     own = _own_words(title, filename)
     mapping = dict(canonical_names)
     folds: list[Fold] = []
@@ -161,19 +167,25 @@ def fold(
             canonical = mapping.get(raw) or raw
             if not raw:
                 continue
-            if names_document(raw, refs, own) or names_document(canonical, refs, own):
+            if refs and (names_document(raw, refs, own) or names_document(canonical, refs, own)):
                 raw_names.add(raw)
                 chunks_by_canonical.setdefault(canonical, set()).add(entity.get("chunk_id") or "")
             elif is_deictic(raw) or is_deictic(canonical):
                 deictic.add(raw)
-        if not chunks_by_canonical or len(chunks_by_canonical) + len(deictic) < 2:
-            continue
-        chosen = min(
-            chunks_by_canonical,
-            key=lambda n: (-len(chunks_by_canonical[n]), min(chunks_by_canonical[n]), len(n), n),
-        )
-        for raw in raw_names | deictic:
-            mapping[raw] = chosen
-        folded = {n for n in chunks_by_canonical if n != chosen} | deictic
-        folds.append(Fold(entity_class, chosen, tuple(sorted(folded))))
+        if chunks_by_canonical and len(chunks_by_canonical) + len(deictic) >= 2:
+            chosen = min(
+                chunks_by_canonical,
+                key=lambda n: (-len(chunks_by_canonical[n]), min(chunks_by_canonical[n]), len(n), n),
+            )
+            for raw in raw_names | deictic:
+                mapping[raw] = chosen
+            folded = {n for n in chunks_by_canonical if n != chosen} | deictic
+            folds.append(Fold(entity_class, chosen, tuple(sorted(folded))))
+        elif deictic and not chunks_by_canonical:
+            # Nothing to fold into: one name per document, never one per vault.
+            first = min(deictic, key=lambda n: (not n[:1].isupper(), " ".join(n.split()).casefold(), n))
+            scoped = f"{' '.join(first.split())} ({title})"
+            for raw in deictic:
+                mapping[raw] = scoped
+            folds.append(Fold(entity_class, scoped, tuple(sorted(deictic)), scoped=True))
     return mapping, folds

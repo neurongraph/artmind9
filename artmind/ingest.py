@@ -3699,8 +3699,9 @@ def extract_kg(
         )
         for done in folds:
             logger.info(
-                "Document entity: {} {} name(s) folded into {!r}: {}",
-                done.entity_class, len(done.folded), done.name, "; ".join(done.folded),
+                "Document entity: {} {} name(s) {} {!r}: {}",
+                done.entity_class, len(done.folded), "scoped to the document as" if done.scoped else "folded into",
+                done.name, "; ".join(done.folded),
             )
 
     all_observations = _build_observations(

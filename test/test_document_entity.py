@@ -101,7 +101,7 @@ def test_ties_go_to_the_earliest_chunk_then_the_shorter_name():
     ({"document_entity": {"classes": ["NOT_A_CLASS"]}, "entity_types": SCHEMA["entity_types"]}, TITLE),
     (SCHEMA, "Notes from the harbour programme"),  # no reference in the title
 ])
-def test_nothing_is_folded_without_an_opt_in_class_and_a_reference(schema, title):
+def test_reference_bearing_names_fold_only_with_an_opt_in_class_and_a_reference(schema, title):
     entities = [_entity("CN012 Harbour Amendment", 1), _entity("CN12 Harbour Programme Amendment", 2)]
     mapping, folds = de.fold(entities, {}, schema, title=title, filename=title + ".md")
     assert mapping == {} and folds == []
@@ -123,7 +123,7 @@ def test_the_shipped_contracts_schema_opts_in_a_declared_class():
     import yaml
 
     schema = yaml.safe_load((Path(de.__file__).parent / "domains" / "schemas" / "contracts_schema.yaml").read_text())
-    assert de.document_classes(schema) == ["AGREEMENT"]
+    assert de.document_classes(schema) == ["AMENDMENT", "CONTRACT"]
 
 
 # ── wired into extract_kg ────────────────────────────────────────────────────
@@ -196,8 +196,13 @@ def test_a_deictic_name_folds_into_the_reference_bearing_name():
     assert folds[0].folded == ("This Amendment",)
 
 
-def test_a_deictic_name_alone_is_left_alone():
-    """No reference-bearing name in the class: nothing to fold it into."""
-    entities = [_entity("This Amendment", 1), _entity("This Amendment", 2)]
-    mapping, folds = de.fold(entities, {}, SCHEMA, title=TITLE, filename=TITLE + ".md")
-    assert mapping == {} and folds == []
+def test_a_deictic_name_with_nothing_to_fold_into_is_scoped_to_its_document():
+    """No reference-bearing name in the class (or none in the filename at all, as
+    for a framework agreement): the name is made the document's own, so two
+    documents' "This Amendment" never merge into one entity."""
+    entities = [_entity("This Amendment", 1), _entity("this  amendment", 2), _entity("Clause 5", 3, cls="CONTRACT")]
+    for title in (TITLE, "Outsourcing Framework Agreement final signed"):
+        mapping, folds = de.fold(entities, {}, SCHEMA, title=title, filename=title + ".md")
+        assert mapping["This Amendment"] == mapping["this  amendment"] == f"This Amendment ({title})"
+        assert "Clause 5" not in mapping
+        assert [(f.entity_class, f.scoped) for f in folds] == [("AMENDMENT", True)]
