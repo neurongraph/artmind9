@@ -401,3 +401,12 @@ def test_an_empty_signature_block_date_is_not_the_documents_date():
     undated = "Signed\nDate:\n\nDate:\n"
     out = lift_document_dates(undated, {}, _LABELS, _DEFAULTS)
     assert out["time_source"] == "default_ingestion", "no readable date: the default, never a raw label value"
+
+
+def test_a_defined_term_gives_a_header_date_and_a_dateless_definition_does_not():
+    from artmind.temporal import _find_header_date
+
+    labels = ["Amendment Date", "Effective Date"]
+    assert _find_header_date("- 'Amendment Date' means 1 August 2025.\n", labels) == "2025-08-01"
+    assert _find_header_date("“Effective Date” means 01/04/2026;\n", labels) == "2026-04-01"
+    assert _find_header_date("'Amendment Date' means the date of this Amendment\n", labels) is None

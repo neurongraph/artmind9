@@ -160,10 +160,14 @@ def _document_entity_errors(schema: dict, entity_types: dict, label: str) -> lis
     where = f"{label}.document_entity"
     if not isinstance(setting, dict) or not isinstance(setting.get("classes"), list) or not setting["classes"]:
         return [f"{where}: must be a map with a non-empty 'classes' list, e.g. {{classes: [AGREEMENT]}}"]
-    return [
+    errors = [
         f"{where}.classes: {cls!r} is not a class of this schema's entity_types"
         for cls in setting["classes"] if cls not in entity_types
     ]
+    labels = setting.get("date_labels")
+    if labels is not None and (not isinstance(labels, list) or not all(isinstance(x, str) and x.strip() for x in labels)):
+        errors.append(f"{where}.date_labels: must be a list of defined-term names, e.g. [Amendment Date, Effective Date]")
+    return errors
 
 
 def _property_alias_errors(schema: dict, entity_types: dict, prefix: str, label: str) -> list[str]:

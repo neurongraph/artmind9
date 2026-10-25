@@ -884,7 +884,10 @@ carries the document's own reference (from its filename or title) and otherwise 
 the title's words, document-type words, ordinals and dates becomes the variant most
 chunks used, and so does a deictic name of the class ("This Amendment"), which left
 alone would be one entity across every document. The ingest log says what it folded
-(`Document entity: ...`).
+(`Document entity: ...`). With `document_entity.date_labels`, that entity's
+date property is also set once from the document -- the defined term ("'Amendment
+Date' means ...") or else the document's header date -- because a chunk far from the
+definition otherwise fills it with whatever date its own passage mentions.
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a

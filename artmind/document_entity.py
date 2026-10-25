@@ -189,3 +189,84 @@ def fold(
                 mapping[raw] = scoped
             folds.append(Fold(entity_class, scoped, tuple(sorted(deictic)), scoped=True))
     return mapping, folds
+
+
+# ── the document's own entity's date ─────────────────────────────────────────
+#
+# Each chunk fills the document entity's date property from its own passage, so
+# a chunk far from the definition guesses: end to end, a change note whose
+# "'Amendment Date' means the date of this Amendment" gave the effective date of
+# the contract term a later clause mentions (17/06/2024 instead of the note's own
+# 12/12/2025). The date is set once, from the document, instead.
+
+
+def date_labels(schema: dict) -> list[str]:
+    """`document_entity.date_labels`: the defined terms that give the document's
+    own date ("Amendment Date", "Effective Date"), in order."""
+    setting = schema.get("document_entity")
+    labels = setting.get("date_labels") if isinstance(setting, dict) else None
+    return [label for label in labels or [] if isinstance(label, str) and label.strip()]
+
+
+def date_property(schema: dict, entity_class: str) -> str | None:
+    """The property of `entity_class` tagged `temporal: valid_from`, if any."""
+    decl = (schema.get("entity_types") or {}).get(entity_class) or {}
+    for name, prop in (decl.get("properties") or {}).items():
+        if isinstance(prop, dict) and prop.get("temporal") == "valid_from":
+            return name
+    return None
+
+
+def own_entities(
+    entities: list[dict], canonical_names: dict[str, str], schema: dict, *, title: str, filename: str,
+) -> dict[str, str]:
+    """{class: canonical name} of the document's own entity, per opted-in class
+    that has one: the reference-bearing name (after `fold`, all of them map to
+    one) used by the most chunks. A document whose filename and title carry no
+    reference has none."""
+    refs = references(title, filename)
+    if not refs:
+        return {}
+    own = _own_words(title, filename)
+    found: dict[str, str] = {}
+    for entity_class in document_classes(schema):
+        chunks: dict[str, set[str]] = {}
+        for entity in entities:
+            if entity.get("entity_class") != entity_class:
+                continue
+            raw = entity.get("name") or ""
+            canonical = canonical_names.get(raw) or raw
+            if raw and names_document(canonical, refs, own):
+                chunks.setdefault(canonical, set()).add(entity.get("chunk_id") or "")
+        if chunks:
+            found[entity_class] = min(chunks, key=lambda n: (-len(chunks[n]), min(chunks[n]), len(n), n))
+    return found
+
+
+def stamp_own_dates(
+    entities: list[dict], properties: list[dict], canonical_names: dict[str, str], owners: dict[str, str],
+    schema: dict, date: str,
+) -> tuple[list[dict], list[tuple[str, str, str]]]:
+    """`properties` with the date property of every observation of the
+    document's own entity (`owners`) set to `date`, and what was set as
+    (class, name, property). Other entities keep their values. Pure: returns
+    new property records; the inputs are not changed."""
+    out = [dict(p, properties=dict(p.get("properties") or {})) if isinstance(p, dict) else p for p in properties]
+    out_by_id = {p.get("id"): p for p in out if isinstance(p, dict)}
+    stamped: list[tuple[str, str, str]] = []
+    for entity in entities:
+        cls = entity.get("entity_class") or ""
+        raw = entity.get("name") or ""
+        owner = owners.get(cls)
+        prop = date_property(schema, cls)
+        if not owner or not prop or (canonical_names.get(raw) or raw) != owner:
+            continue
+        record = out_by_id.get(entity.get("id"))
+        if record is None:
+            record = {"id": entity.get("id"), "properties": {}}
+            out.append(record)
+            out_by_id[entity.get("id")] = record
+        record["properties"][prop] = date
+        if (cls, owner, prop) not in stamped:
+            stamped.append((cls, owner, prop))
+    return out, stamped
