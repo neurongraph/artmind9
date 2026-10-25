@@ -1175,7 +1175,7 @@ Then replace the header block in `extract_kg` (the code starting `# The document
     context_summary = None
     if context_settings.enabled and context_settings.summary:
         content_sha = (file_result.get("provenance") or {}).get("content_sha256") or doc_sha256
-        schema_file_sha = hashlib.sha256(domain_schema_file.read_bytes()).hexdigest()
+        schema_file_sha = sha256(domain_schema_file.read_bytes()).hexdigest()
         context_summary = _summarise_document(
             doc_kg_dir=doc_kg_dir,
             key=dc.context_key(content_sha=content_sha, schema_sha=schema_file_sha, model=text_model),
@@ -1213,7 +1213,7 @@ Finally, in the `_step` helper inside `_process_chunk`, replace the `_document_h
                 )
 ```
 
-Add `import hashlib` to the top of `ingest.py` if it is not already there (check with `grep -n "^import hashlib" artmind/ingest.py` first; `hashlib` is already used in `sync_state.py`, not here).
+`sha256` is already imported at the top of `ingest.py` (`from hashlib import sha1, sha256`); no new import is needed.
 
 Note on the summary step name: `_summarise_document` calls `_llm_extract("document_summary", ...)`, so the step name is `document_summary`. The test in Step 1 that checks "one call" accepts either name; after this change it should assert `document_summary` exactly. Tighten it now:
 
