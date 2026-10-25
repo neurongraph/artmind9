@@ -1934,7 +1934,7 @@ def _read_document_context(doc_kg_dir: Path) -> dict | None:
     if not _has_context_shape(data):
         return data if isinstance(data, dict) else None
     summary, identifiers = dc.parse_summary(data)
-    return {**data, "summary": summary, "identifiers": identifiers, "document_name": dc.parse_document_name(data)}
+    return {**data, "summary": summary, "identifiers": identifiers}
 
 
 def _has_context_shape(data: object) -> bool:
@@ -1976,8 +1976,7 @@ def _summarise_document(
     whatever its key and no call is ever made. Returns {"key", "summary",
     "identifiers"} or None when the call fails or answers something unusable; a
     failure is logged and never fails the file (spec §4): the chunks then extract
-    with metadata and outline only. A `document_name` the answer gives is kept
-    beside them ('' when it gave none). With `persist=False` a new summary is not
+    with metadata and outline only. With `persist=False` a new summary is not
     written: `extract_kg` writes it with the staging swap, so a refused
     extraction leaves the folder as it was."""
     cached = _read_document_context(doc_kg_dir)
@@ -1998,7 +1997,6 @@ def _summarise_document(
             return None
         parsed = dc.parse_summary(answer) if ok else None
         if parsed is not None and parsed[0]:
-            document_name = dc.parse_document_name(answer)
             break
         parsed = None
     if parsed is None:
@@ -2007,7 +2005,7 @@ def _summarise_document(
         )
         return None
     summary, identifiers = parsed
-    data = {"key": key, "summary": summary, "identifiers": identifiers, "document_name": document_name}
+    data = {"key": key, "summary": summary, "identifiers": identifiers}
     logger.debug("Document summary for {}: {}", doc_kg_dir.name, summary)
     if not persist:
         return data
@@ -3273,7 +3271,6 @@ def extract_kg(
             outline=dc.build_outline(chunks_meta_for_context, seq, chunk_count, document_outline=True),
             summary=context_summary["summary"] if context_summary else "",
             identifiers=context_summary["identifiers"] if context_summary else [],
-            document_name=(context_summary or {}).get("document_name") or "",
             cap=context_settings.cap,
         )
 
