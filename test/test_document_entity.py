@@ -206,3 +206,112 @@ def test_a_deictic_name_with_nothing_to_fold_into_is_scoped_to_its_document():
         assert mapping["This Amendment"] == mapping["this  amendment"] == f"This Amendment ({title})"
         assert "Clause 5" not in mapping
         assert [(f.entity_class, f.scoped) for f in folds] == [("AMENDMENT", True)]
+
+
+# ── the document's own entity's date ─────────────────────────────────────────
+
+DATED_SCHEMA = {
+    "document_entity": {"classes": ["AMENDMENT"], "date_labels": ["Amendment Date", "Effective Date"]},
+    "entity_types": {
+        "AMENDMENT": {"kind": "occurrent", "properties": {"effective_date": {"temporal": "valid_from"}}},
+        "CONTRACT": {"kind": "recurrent", "properties": {"contract_date": {"temporal": "valid_from"}}},
+    },
+}
+
+
+def test_the_date_property_and_labels_come_from_the_schema():
+    assert de.date_property(DATED_SCHEMA, "AMENDMENT") == "effective_date"
+    assert de.date_property(DATED_SCHEMA, "PARTY") is None
+    assert de.date_labels(DATED_SCHEMA) == ["Amendment Date", "Effective Date"]
+    assert de.date_labels(SCHEMA) == []
+
+
+def test_own_entities_is_the_reference_bearing_name_most_chunks_used():
+    entities = [
+        _entity("CN012 Harbour Amendment", 1), _entity("CN012 Harbour Amendment", 2),
+        _entity("CN005 Harbour Amendment", 3), _entity("Alpha Ltd", 1, cls="PARTY"),
+    ]
+    assert de.own_entities(entities, {}, DATED_SCHEMA, title=TITLE, filename=TITLE + ".md") == {
+        "AMENDMENT": "CN012 Harbour Amendment",
+    }
+    assert de.own_entities(entities, {}, DATED_SCHEMA, title="Framework agreement", filename="fa.md") == {}
+
+
+def test_every_observation_of_the_document_entity_gets_the_document_date_and_nothing_else_does():
+    entities = [
+        {**_entity("CN012 Harbour Amendment", 1), "id": "a1"},
+        {**_entity("CN012 Harbour Amendment", 4), "id": "a4"},
+        {**_entity("CN005 Harbour Amendment", 4), "id": "b4"},
+    ]
+    properties = [
+        {"id": "a4", "properties": {"effective_date": "2024-06-17", "reason": "kept"}},
+        {"id": "b4", "properties": {"effective_date": "2025-08-01"}},
+    ]
+    owners = {"AMENDMENT": "CN012 Harbour Amendment"}
+
+    out, stamped = de.stamp_own_dates(entities, properties, {}, owners, DATED_SCHEMA, "2025-12-12")
+
+    by_id = {p["id"]: p["properties"] for p in out}
+    assert by_id["a1"] == {"effective_date": "2025-12-12"}, "an entity no chunk dated gets the date too"
+    assert by_id["a4"] == {"effective_date": "2025-12-12", "reason": "kept"}
+    assert by_id["b4"] == {"effective_date": "2025-08-01"}, "another document's entity keeps its own"
+    assert stamped == [("AMENDMENT", "CN012 Harbour Amendment", "effective_date")]
+    assert properties[0]["properties"]["effective_date"] == "2024-06-17", "the input is not changed"
+
+
+@pytest.mark.parametrize("definition, expected", [
+    ("'Amendment Date' means the date of this Amendment.", "2025-12-12"),  # no date: the document's own
+    ("'Amendment Date' means 1 August 2025.", "2025-08-01"),  # the defined term wins
+])
+def test_extract_kg_dates_the_documents_own_entity_from_the_document(ingest_env, monkeypatch, definition, expected):
+    import json
+
+    import artmind.ingest as ing
+
+    vault, _ = ingest_env
+    schemas = vault / "schemas"
+    schemas.mkdir(exist_ok=True)
+    (schemas / "contracts_schema.yaml").write_text(
+        "name: contracts\nsubject: contracts\n"
+        "temporal:\n  document:\n    valid_from: [Dated]\n"
+        "document_entity:\n  classes: [AMENDMENT]\n  date_labels: [Amendment Date]\n"
+        "entity_types:\n  AMENDMENT:\n    kind: occurrent\n    description: A change to a contract.\n"
+        "    properties:\n      effective_date:\n        temporal: valid_from\n"
+    )
+    monkeypatch.setattr(ing, "DOMAIN_SCHEMAS_DIR", schemas)
+    note = vault / "contracts" / "CN12 Harbour Programme Amendment.md"
+    note.parent.mkdir(parents=True, exist_ok=True)
+    note.write_text(
+        "Dated 12/12/2025\n\n# Definitions\n\n" + definition + " " + "The parties agree. " * 30
+        + "\n\n# Term\n\n" + "The contract term commences on 17/06/2024. " * 14 + "\n"
+    )
+
+    def llm(step_name, model, prompt, debug_dir):
+        if step_name == "document_summary":
+            return {"summary": "A change.", "identifiers": []}, True
+        seq = int(step_name.split("_")[1])
+        if step_name.endswith("_entities"):
+            return [{"id": "a1", "entity_class": "AMENDMENT", "name": "CN012 Harbour Programme Amendment"}], True
+        if step_name.endswith("_properties"):
+            return ([{"id": "a1", "properties": {"effective_date": "2024-06-17"}}] if seq == 2 else []), True
+        return [], True
+
+    monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
+    monkeypatch.setattr(ing, "_llm_extract", llm)
+    monkeypatch.setattr(ing, "canonicalize_document", lambda entities, **k: {e["name"]: e["name"] for e in entities})
+
+    result = ing.ingest_file(note, "m", "contracts", chunk_size=700)
+    assert result["chunk_count"] == 2
+    folder = ing.extract_kg(result, "contracts", max_workers=1)
+
+    amendments = [o for o in json.loads((folder / "observations.json").read_text()) if o["entity_class"] == "AMENDMENT"]
+    assert amendments and {(o.get("effective_date"), o["_valid_from"]) for o in amendments} == {(expected, expected)}
+
+
+def test_domains_validate_reports_malformed_date_labels():
+    from artmind.schema_validate import validate_schema
+
+    meta = {"kinds": {"occurrent": {}, "recurrent": {}}, "reserved_prefix": "_"}
+    bad = {**DATED_SCHEMA, "document_entity": {"classes": ["AMENDMENT"], "date_labels": "Amendment Date"}}
+    assert any("date_labels" in e for e in validate_schema(bad, meta, "c"))
+    assert not [e for e in validate_schema(DATED_SCHEMA, meta, "c") if "date_labels" in e]

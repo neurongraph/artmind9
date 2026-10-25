@@ -3704,6 +3704,32 @@ def extract_kg(
                 done.name, "; ".join(done.folded),
             )
 
+    # The document's own entity's date, from the document: each chunk fills it
+    # from its own passage, and one far from the definition guesses (a contract
+    # term's start date for a change note's own date). A defined term
+    # (`document_entity.date_labels`, "'Amendment Date' means ...") wins, else the
+    # document's own date -- never the ingestion-date default.
+    from artmind import document_entity as _document_entity
+
+    owners = _document_entity.own_entities(
+        all_entities, canonical_names, schema,
+        title=str(meta.get("title") or registered_path.stem), filename=registered_path.name,
+    )
+    if owners:
+        from artmind.temporal import _find_header_date
+
+        labels = _document_entity.date_labels(schema)
+        body_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))[1] if md_file.exists() else ""
+        own_date = _find_header_date(body_text, labels) if labels else None
+        if not own_date and not date_is_only_the_default(schema, document_dates):
+            own_date = document_dates.get("_valid_from")
+        if own_date:
+            all_properties, stamped = _document_entity.stamp_own_dates(
+                all_entities, all_properties, canonical_names, owners, schema, own_date,
+            )
+            for cls, name, prop in stamped:
+                logger.info("Document entity: {} {!r} {} = {} (from the document)", cls, name, prop, own_date)
+
     all_observations = _build_observations(
         all_entities, all_properties, canonical_names, schema, document,
         only_mapped=names_supplied,

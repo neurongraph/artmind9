@@ -29,6 +29,9 @@ document_context:
 # filename/title).
 document_entity:
   classes: [AMENDMENT, CONTRACT]
+  # The defined terms that give the document's own date, in order; without one, the
+  # document's own (header) date. Each chunk would otherwise guess it from its passage.
+  date_labels: [Amendment Date, Effective Date, Commencement Date]
 property_aliases:
   ccn_number: amendment_number
   ccn_reference: amendment_number

@@ -196,7 +196,19 @@ words) is folded in as well, so guidance that tells the model to use one where a
 omits the reference is safe -- left alone, every document's "This Amendment" would be
 one entity. The folded name is the variant most chunks used. A document
 whose filename and title carry no reference is left alone, and so is every domain
-without the key. `domains validate` reports a class the schema does not declare.
+without the key. `domains validate` reports a class the schema does not declare. Add `date_labels` to have that entity dated once, from the document, instead of
+each chunk guessing its date from its own passage:
+
+```yaml
+document_entity:
+  classes: [AMENDMENT, CONTRACT]
+  date_labels: [Amendment Date, Effective Date]
+```
+
+The class's `temporal: valid_from` property (an AMENDMENT's `effective_date`) is then set,
+on every chunk's observation of the document's own entity, to the first label's defined
+date ("'Amendment Date' means 1 August 2025") or, when the definition holds none ("means
+the date of this Amendment"), to the document's own header date.
 
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns

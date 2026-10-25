@@ -77,8 +77,9 @@ def find_date(text: str | None) -> str | None:
 
 def _find_header_date(md_text: str, labels: list[str]) -> str | None:
     """A document date from its header: for each label in order, every line that
-    gives it -- a table row "| Label | value |", "Label: value", or the label
-    and its value on one line ("Dated 01/01/2026") -- and the first value that
+    gives it -- a table row "| Label | value |", "Label: value", the label
+    and its value on one line ("Dated 01/01/2026"), or a defined term
+    ("'Amendment Date' means 1 August 2025") -- and the first value that
     holds a readable date (`find_date`). A label whose values hold none (a
     signature block's empty "Date:") does not answer; the next label, then the
     schema's patterns and default, are tried instead."""
@@ -88,6 +89,8 @@ def _find_header_date(md_text: str, labels: list[str]) -> str | None:
             r"^\|[ \t]*" + escaped + r"[ \t]*\|[ \t]*([^|\n]+?)[ \t]*\|",
             r"^[ \t]*\**[ \t]*" + escaped + r"[ \t]*:\**[ \t]*(.+?)[ \t]*$",
             r"^[ \t]*\**[ \t]*" + escaped + r"\**[ \t]+(.+?)[ \t]*$",
+            # a defined term: "- 'Amendment Date' means 1 August 2025."
+            r"^[^\n]*?['\"\u2018\u201c]" + escaped + r"['\"\u2019\u201d][ \t]+means[ \t]+(.+?)[ \t]*$",
         ):
             for m in re.finditer(pattern, md_text, re.IGNORECASE | re.MULTILINE):
                 iso = find_date(m.group(1).strip().strip("*"))
