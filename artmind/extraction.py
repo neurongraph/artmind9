@@ -109,11 +109,14 @@ def call_llm(
 ) -> str:
     """`timeout` (seconds) overrides ARTMIND_OLLAMA_TIMEOUT for this call;
     `max_retries` overrides the openrouter/ibm_ica SDK's own retry count;
-    `max_tokens` caps the answer (None = the provider's default). An answer
-    the provider cut off at its limit comes back as a `TruncatedText`."""
+    `max_tokens` caps the answer (None = `ARTMIND_KG_MAX_TOKENS`, see
+    `output_token_budget`). An answer the provider cut off at its limit comes
+    back as a `TruncatedText`."""
     env = load_env()
     if timeout is None:
         timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    if max_tokens is None:
+        max_tokens = output_token_budget(env)
     provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     cap = {"max_tokens": max_tokens} if max_tokens else {}
     if provider == "openrouter":
@@ -145,13 +148,29 @@ def parse_json_response(text: str):
     return json_repair.loads(_strip_wrapping(text))
 
 
-#: The output-token cap of the one retry a cut-off answer gets. Override with
-#: ARTMIND_KG_TRUNCATION_MAX_TOKENS when an endpoint refuses this much.
-TRUNCATION_RETRY_MAX_TOKENS = 32000
+#: The output-token budget every call asks for. Sent explicitly because an
+#: endpoint's own default can be far smaller than an extraction answer: an
+#: Anthropic-compatible gateway answering without `max_tokens` stopped at 4096
+#: completion tokens, and a model that thinks spends those tokens too, so a long
+#: answer came back cut off or empty. Tokens are paid as generated, so a large
+#: budget costs nothing on an answer that finishes early.
+DEFAULT_MAX_TOKENS = 32000
+
+
+def output_token_budget(env: dict | None = None) -> int | None:
+    """`ARTMIND_KG_MAX_TOKENS` (default `DEFAULT_MAX_TOKENS`); `0` sends none and
+    leaves the answer to the endpoint's own default. An endpoint that refuses
+    the value is remembered and asked for what it allows (llm_providers)."""
+    env = load_env() if env is None else env
+    try:
+        value = int(env.get("ARTMIND_KG_MAX_TOKENS") or DEFAULT_MAX_TOKENS)
+    except (TypeError, ValueError):
+        value = DEFAULT_MAX_TOKENS
+    return value if value > 0 else None
 
 
 class TruncatedAnswer(RuntimeError):
-    """An LLM answer was still cut off after the retry with more output room.
+    """An LLM answer was cut off at the output-token budget.
     `extract_with_retry(raise_on_truncation=True)` raises it so the caller can
     split its input and ask again in smaller pieces."""
 
@@ -214,13 +233,6 @@ def is_cut_off(text: str) -> bool:
     return not (_closes(body, single_quotes=False) or _closes(body, single_quotes=True))
 
 
-def _truncation_retry_max_tokens() -> int:
-    try:
-        return int(load_env().get("ARTMIND_KG_TRUNCATION_MAX_TOKENS") or TRUNCATION_RETRY_MAX_TOKENS)
-    except ValueError:
-        return TRUNCATION_RETRY_MAX_TOKENS
-
-
 def extract_with_retry(
     step_name: str,
     model: str,
@@ -229,11 +241,13 @@ def extract_with_retry(
     *,
     raise_on_truncation: bool = False,
 ) -> tuple[list, bool]:
-    """`(items, ok)`. Two attempts. An answer that was cut off (`is_cut_off`)
-    is never repaired into a result: the second attempt asks again with
-    `TRUNCATION_RETRY_MAX_TOKENS` of output room, and if that is cut off too
-    the step fails -- or, with `raise_on_truncation`, raises `TruncatedAnswer`
-    so the caller can split its input."""
+    """`(items, ok)`. Two attempts for an error. An answer that was cut off
+    (`is_cut_off`) is never repaired into a result. One the provider stopped at
+    the output-token budget (`TruncatedText`; every call asks for the full
+    `output_token_budget`) is not asked again -- the same request would stop at
+    the same place: the step fails, or, with `raise_on_truncation`, raises
+    `TruncatedAnswer` so the caller can split its input. JSON that never closes
+    without such a stop is a glitch and gets the second attempt."""
     # TODO(429-backoff): this retries once, immediately, on ANY exception. That was
     # fine while ingestion issued LLM calls one-at-a-time. Now that extract_kg fans
     # chunks out concurrently (ARTMIND_INGEST_MAX_WORKERS / --maxWorkers), several
@@ -249,21 +263,13 @@ def extract_with_retry(
     cut_off = False  # sticky: any attempt that was cut off makes the failure a truncation
     for attempt in range(2):
         try:
-            # Only pass max_tokens when raising it: callers (and test doubles)
-            # that predate it keep the two-argument call.
-            raw_llm = (
-                call_llm(model, prompt, max_tokens=_truncation_retry_max_tokens())
-                if cut_off else call_llm(model, prompt)
-            )
+            raw_llm = call_llm(model, prompt)
             if is_cut_off(raw_llm):
                 cut_off = True
-                if attempt == 0:
-                    logger.warning(
-                        "  {} answer was cut off (attempt 1/2), retrying with max_tokens={}",
-                        step_name, _truncation_retry_max_tokens(),
-                    )
-                else:
-                    logger.error("  {} answer was still cut off after the retry", step_name)
+                if isinstance(raw_llm, TruncatedText):
+                    logger.warning("  {} answer was cut off at the output-token budget", step_name)
+                    break
+                logger.warning("  {} answer is unclosed JSON (attempt {}/2)", step_name, attempt + 1)
                 continue
             return parse_json_response(raw_llm), True
         except Exception as e:

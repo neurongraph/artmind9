@@ -1,5 +1,6 @@
 import base64
 import json
+import re
 import mimetypes
 import os
 from datetime import datetime, timezone
@@ -25,6 +26,11 @@ _ollama_embed_clients: dict[str | None, ollama.Client] = {}
 # calls to that pair simply leave it out.
 _no_temperature: set[tuple[str, str]] = set()
 
+# (base_url, model) -> the largest `max_tokens` that endpoint accepts, learned
+# from a 400 that refused a larger one (0: it refuses the parameter outright, so
+# none is sent). Persisted and expired with the temperature refusals.
+_max_tokens_limit: dict[tuple[str, str], int] = {}
+
 # The learned refusals, persisted so each new `artmind` process (every CLI call
 # is one) does not pay a failed request and print the warning again (spec
 # 2026-10-22 §5.2). Entries expire, so a provider that changes is re-probed.
@@ -47,22 +53,28 @@ def _read_capabilities() -> dict:
 
 
 def _load_capabilities() -> None:
-    """Fold unexpired persisted refusals into `_no_temperature`, once per process."""
+    """Fold unexpired persisted refusals into `_no_temperature` and
+    `_max_tokens_limit`, once per process."""
     global _capabilities_loaded
     if _capabilities_loaded:
         return
     _capabilities_loaded = True
     now = datetime.now(timezone.utc).timestamp()
     for key, entry in _read_capabilities().items():
-        if not isinstance(key, str) or not isinstance(entry, dict) or not entry.get("no_temperature"):
+        if not isinstance(key, str) or not isinstance(entry, dict):
             continue
         url, sep, model = key.rpartition("|")
         try:
             learned = datetime.fromisoformat(str(entry.get("learned_at"))).timestamp()
         except (ValueError, OverflowError):
             continue
-        if sep and now - learned <= _CAPABILITY_TTL_S:
+        if not sep or now - learned > _CAPABILITY_TTL_S:
+            continue
+        if entry.get("no_temperature"):
             _no_temperature.add((url, model))
+        limit = entry.get("max_tokens_limit")
+        if isinstance(limit, int) and not isinstance(limit, bool) and limit >= 0:
+            _max_tokens_limit[(url, model)] = limit
 
 
 def temperature_not_pinned(model: str, env: dict) -> bool:
@@ -76,10 +88,18 @@ def temperature_not_pinned(model: str, env: dict) -> bool:
 
 
 def _remember_no_temperature(kind: tuple[str, str]) -> None:
-    """Persist one refusal; never raises (a read-only run folder just re-learns)."""
+    _remember_capability(kind, no_temperature=True)
+
+
+def _remember_capability(kind: tuple[str, str], **learned) -> None:
+    """Persist one learned refusal, merged into what is already known of this
+    endpoint and model; never raises (a read-only run folder just re-learns)."""
     path = _capabilities_path()
     data = _read_capabilities()
-    data[f"{kind[0]}|{kind[1]}"] = {"no_temperature": True, "learned_at": datetime.now(timezone.utc).isoformat()}
+    entry = data.get(f"{kind[0]}|{kind[1]}")
+    entry = dict(entry) if isinstance(entry, dict) else {}
+    entry.update(learned, learned_at=datetime.now(timezone.utc).isoformat())
+    data[f"{kind[0]}|{kind[1]}"] = entry
     tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -90,7 +110,7 @@ def _remember_no_temperature(kind: tuple[str, str]) -> None:
             tmp.unlink(missing_ok=True)
         except OSError:
             pass
-        logger.debug("could not persist the temperature capability of {}: {}", kind, exc)
+        logger.debug("could not persist the capabilities of {}: {}", kind, exc)
 
 
 def _reset_clients() -> None:
@@ -98,6 +118,7 @@ def _reset_clients() -> None:
     global _capabilities_loaded
     _openrouter_clients.clear()
     _no_temperature.clear()
+    _max_tokens_limit.clear()
     _capabilities_loaded = False
     _capabilities_path().unlink(missing_ok=True)
     _ollama_clients.clear()
@@ -194,24 +215,58 @@ def call_llm_openrouter(
     kind = (env.get("ARTMIND_KG_LLM_URL") or OPENROUTER_BASE_URL, model)
     request = {"model": model, "messages": [{"role": "user", "content": prompt}]}
     if max_tokens:
-        request["max_tokens"] = max_tokens
+        limit = _max_tokens_limit.get(kind)
+        capped = max_tokens if limit is None else min(max_tokens, limit)
+        if capped:
+            request["max_tokens"] = capped
     if kind not in _no_temperature:
         request["temperature"] = 0  # reproducible extraction where the model allows it
-    try:
-        response = client.chat.completions.create(**request)
-    except openai.BadRequestError as exc:
-        if "temperature" not in request or not _rejects_temperature(exc):
-            raise
-        _no_temperature.add(kind)
-        _remember_no_temperature(kind)
-        logger.warning(
-            "{} does not accept temperature=0 ({}); calling it without a temperature "
-            "from now on, so its output is no longer pinned to be reproducible",
-            model, exc.message,
-        )
-        del request["temperature"]
-        response = client.chat.completions.create(**request)
-    return _first_choice_content(response)
+    # At most one adjustment per parameter: a refused temperature, then a
+    # refused max_tokens (each learned once and remembered), then the call.
+    for _ in range(3):
+        try:
+            return _first_choice_content(client.chat.completions.create(**request))
+        except openai.BadRequestError as exc:
+            if "temperature" in request and _rejects_temperature(exc):
+                _no_temperature.add(kind)
+                _remember_no_temperature(kind)
+                logger.warning(
+                    "{} does not accept temperature=0 ({}); calling it without a temperature "
+                    "from now on, so its output is no longer pinned to be reproducible",
+                    model, exc.message,
+                )
+                del request["temperature"]
+                continue
+            limit = _max_tokens_refusal(exc, request.get("max_tokens")) if "max_tokens" in request else None
+            if limit is None:
+                raise
+            _max_tokens_limit[kind] = limit
+            _remember_capability(kind, max_tokens_limit=limit)
+            logger.warning(
+                "{} does not accept max_tokens={} ({}); using {} from now on",
+                model, request["max_tokens"], exc.message, limit or "the endpoint's default",
+            )
+            if limit:
+                request["max_tokens"] = limit
+            else:
+                del request["max_tokens"]
+    return _first_choice_content(client.chat.completions.create(**request))
+
+
+def _max_tokens_refusal(exc: Exception, asked: int | None) -> int | None:
+    """Is this 400 the endpoint refusing our `max_tokens`? Then the largest value
+    it names below what was asked (Anthropic: "max_tokens: 64001 > 64000, which is
+    the maximum allowed"; OpenAI: "supports at most 16384 completion tokens"), or
+    0 when it names none (send no max_tokens at all). None: a 400 about anything
+    else, which must still raise."""
+    text = str(exc).lower()
+    if not any(name in text for name in ("max_tokens", "max_completion_tokens", "maximum output", "output tokens")):
+        return None
+    if "temperature" in text:
+        return None
+    text = re.sub(r"(error code|status(?: code)?)\W*\d+", " ", text)  # the HTTP status is not a limit
+    below = [int(n) for n in re.findall(r"\d{3,7}", text) if asked and 256 <= int(n) < asked]
+    return max(below) if below else 0
 
 
 def _rejects_temperature(exc: Exception) -> bool:

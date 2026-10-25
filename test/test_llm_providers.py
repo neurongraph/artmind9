@@ -150,18 +150,34 @@ def test_call_llm_passes_kg_llm_url_as_ollama_host():
         "artmind.extraction.call_llm_ollama", return_value="hi"
     ) as mock_ollama:
         call_llm("some-model", "prompt")
-    mock_ollama.assert_called_once_with("some-model", "prompt", 120, host="http://llm-host:11434")
+    mock_ollama.assert_called_once_with(
+        "some-model", "prompt", 120, host="http://llm-host:11434", max_tokens=32000,
+    )
 
 
-def test_call_llm_passes_max_tokens_down_only_when_given():
+def test_call_llm_asks_for_the_output_budget_on_every_call():
+    """An endpoint's own default (4096 completion tokens on one gateway, thinking
+    included) is too small for an extraction answer, so the budget is explicit."""
+    from artmind.extraction import DEFAULT_MAX_TOKENS
+
     env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter"}
     with patch("artmind.extraction.load_env", return_value=env), patch(
         "artmind.extraction.call_llm_openrouter", return_value="hi"
     ) as mock_openrouter:
         call_llm("some-model", "prompt")
-        call_llm("some-model", "prompt", max_tokens=32000)
-    assert "max_tokens" not in mock_openrouter.call_args_list[0].kwargs
-    assert mock_openrouter.call_args_list[1].kwargs["max_tokens"] == 32000
+        call_llm("some-model", "prompt", max_tokens=9000)
+    assert mock_openrouter.call_args_list[0].kwargs["max_tokens"] == DEFAULT_MAX_TOKENS
+    assert mock_openrouter.call_args_list[1].kwargs["max_tokens"] == 9000
+
+
+def test_the_output_budget_is_configurable_and_zero_sends_none():
+    for value, sent in (("12000", 12000), ("0", None)):
+        env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter", "ARTMIND_KG_MAX_TOKENS": value}
+        with patch("artmind.extraction.load_env", return_value=env), patch(
+            "artmind.extraction.call_llm_openrouter", return_value="hi"
+        ) as mock_openrouter:
+            call_llm("some-model", "prompt")
+        assert mock_openrouter.call_args.kwargs.get("max_tokens") == sent
 
 
 def test_ollama_client_passes_host_through():
@@ -456,3 +472,59 @@ def test_extract_kg_warns_when_its_model_runs_without_a_pinned_temperature(monke
         logger.remove(handle)
 
     assert any("claude-haiku-5-5" in m and "temperature" in m and "reproducible" in m for m in messages)
+
+
+
+# ── an endpoint that refuses the output budget ───────────────────────────────
+
+ANTHROPIC_MAX_TOKENS_400 = (
+    "Error code: 400 - max_tokens: 32000 > 8192, which is the maximum allowed number of "
+    "output tokens for claude-haiku-4-5"
+)
+
+
+def _budget_calls(side_effect, *budgets, model="m"):
+    from artmind.llm_providers import call_llm_openrouter
+
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
+    with patch("artmind.llm_providers.openai.OpenAI") as mock_openai:
+        client = mock_openai.return_value
+        client.chat.completions.create.side_effect = side_effect
+        for budget in budgets:
+            call_llm_openrouter(model, "p", 30, env, max_tokens=budget)
+        return [c.kwargs for c in client.chat.completions.create.call_args_list]
+
+
+def test_a_refused_budget_is_retried_with_the_limit_the_endpoint_names_and_remembered():
+    sent = _budget_calls([_bad_request(ANTHROPIC_MAX_TOKENS_400), _ok(), _ok()], 32000, 32000)
+    assert [kw.get("max_tokens") for kw in sent] == [32000, 8192, 8192]
+
+    from artmind.llm_providers import _capabilities_path
+
+    entry = next(iter(json.loads(_capabilities_path().read_text()).values()))
+    assert entry["max_tokens_limit"] == 8192
+
+
+def test_a_refusal_naming_no_limit_drops_the_parameter():
+    sent = _budget_calls([_bad_request("Error code: 400 - Unsupported parameter: 'max_tokens'"), _ok()], 32000)
+    assert [("max_tokens" in kw) for kw in sent] == [True, False]
+
+
+def test_temperature_and_budget_refusals_are_both_learned_and_kept():
+    sent = _budget_calls(
+        [_bad_request(LITELLM_TEMPERATURE_400), _bad_request(ANTHROPIC_MAX_TOKENS_400), _ok()], 32000,
+        model="claude-haiku-5-5",
+    )
+    assert [("temperature" in kw, kw.get("max_tokens")) for kw in sent] == [(True, 32000), (False, 32000), (False, 8192)]
+
+    from artmind.llm_providers import _capabilities_path
+
+    entry = next(iter(json.loads(_capabilities_path().read_text()).values()))
+    assert entry["no_temperature"] is True and entry["max_tokens_limit"] == 8192
+
+
+def test_an_unrelated_bad_request_with_a_budget_still_raises():
+    import openai
+
+    with pytest.raises(openai.BadRequestError):
+        _budget_calls([_bad_request("Error code: 400 - messages: field required")], 32000)

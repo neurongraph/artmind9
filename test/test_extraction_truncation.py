@@ -86,7 +86,7 @@ def test_ollama_marks_a_length_stop_as_truncated_and_caps_with_num_predict():
     assert client.return_value.chat.call_args.kwargs["options"]["num_predict"] == 9000
 
 
-# ── extract_with_retry: a cut-off answer gets one retry with more room ───────
+# ── extract_with_retry: a cut-off answer is never repaired ───────────────────
 
 
 def _scripted_llm(monkeypatch, answers):
@@ -104,21 +104,25 @@ def _scripted_llm(monkeypatch, answers):
 COMPLETE = '[{"id": "a", "name": "A", "entity_class": "X", "type": "t"}]'
 
 
-def test_a_truncated_answer_is_retried_once_with_more_output_room(monkeypatch):
+def test_an_answer_stopped_at_the_budget_is_not_asked_again(monkeypatch):
+    """Every call already asks for the full output budget, so the same request
+    would stop at the same place: no second call."""
     seen = _scripted_llm(monkeypatch, [TruncatedText('[{"id": "a", "name": "A"'), COMPLETE])
-    items, ok = extraction.extract_with_retry("s", "m", "p")
-    assert ok and len(items) == 1
-    assert seen == [None, extraction.TRUNCATION_RETRY_MAX_TOKENS]
-
-
-def test_a_still_truncated_answer_fails_the_step_when_not_asked_to_raise(monkeypatch):
-    seen = _scripted_llm(monkeypatch, [TruncatedText('[{"id": "a"')] * 2)
     assert extraction.extract_with_retry("s", "m", "p") == ([], False)
-    assert len(seen) == 2
+    assert len(seen) == 1
 
 
-def test_a_still_truncated_answer_raises_for_the_chunk_to_split(monkeypatch):
-    _scripted_llm(monkeypatch, [TruncatedText('[{"id": "a"')] * 2)
+def test_an_answer_stopped_at_the_budget_raises_for_the_chunk_to_split(monkeypatch):
+    seen = _scripted_llm(monkeypatch, [TruncatedText('[{"id": "a"')])
+    with pytest.raises(TruncatedAnswer):
+        extraction.extract_with_retry("s", "m", "p", raise_on_truncation=True)
+    assert len(seen) == 1
+
+
+def test_an_empty_answer_stopped_at_the_budget_is_a_truncation(monkeypatch):
+    """A model that thinks can spend the whole budget before answering: the
+    provider says "length" and the content is empty."""
+    _scripted_llm(monkeypatch, [TruncatedText("")])
     with pytest.raises(TruncatedAnswer):
         extraction.extract_with_retry("s", "m", "p", raise_on_truncation=True)
 

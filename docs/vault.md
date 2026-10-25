@@ -818,7 +818,7 @@ both.
 
 | Scope | Variables |
 |---|---|
-| **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, `ARTMIND_INGEST_MAX_WORKERS` |
+| **Machine** — `~/.artmind/config.env` | `ARTMIND_USER`, `ARTMIND_KG_LLM_*`, `ARTMIND_IMAGE_MODEL`, `ARTMIND_OLLAMA_TIMEOUT`, `ARTMIND_OPENROUTER_API_KEY`, `ANTHROPIC_*`, `ARTMIND_KG_EMBEDDINGS_*`, `ARTMIND_KG_EMBEDDING_DIMENSIONS`, `ARTMIND_SDK_*`, `ARTMIND_ACP_MODEL`, `ARTMIND_KG_CHUNK_SIZE`, `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, `ARTMIND_KG_MAX_TOKENS`, `ARTMIND_INGEST_MAX_WORKERS` |
 | **Vault** — `<vault>/.artmind/config.env` | `ARTMIND_KG_NEO4J_*` |
 | **Runtime** | `ARTMIND_NO_PROXY`, `ARTMIND_NO_STALENESS_CHECK` (silence the `query` staleness line), `--vault`, `ARTMIND_IMPORT_MAX_BYTES` (cap on `POST /api/artifacts/import`'s uploaded zip size, admin-ui only — not `vault sync` or snapshot import/restore; default 512 MiB) |
 
@@ -826,15 +826,20 @@ both.
 once. The background worker (`ingest async`) processes a job's **files one at a
 time**, and one job at a time; concurrency across files is not offered, so a slow
 provider is relieved by lowering the chunk fan-out, not by submitting more jobs.
-`ARTMIND_KG_TRUNCATION_MAX_TOKENS` (default 32000) is the output-token cap of the
-one retry an answer cut off at the provider's limit gets, before the chunk is
-split; lower it when an endpoint refuses that much.
+`ARTMIND_KG_MAX_TOKENS` (default 32000) is the output-token budget every extraction
+call asks for. It is sent explicitly because an endpoint's own default can be far too
+small: an Anthropic-compatible gateway answering without one stopped at 4096
+completion tokens, and a model that thinks spends its thinking from the same budget,
+so a long answer came back cut off or empty. Tokens are paid as generated, so the
+budget costs nothing on an answer that finishes early. An endpoint that refuses the
+value is asked again with the limit it names (or without one) and that is remembered
+in `logs/llm_capabilities.json`; `0` sends no budget at all.
 
 ### When a chunk fails to extract
 
 A chunk step that raises, or whose answer is cut off, costs only that chunk:
-an answer cut off at the output limit is retried once with more room, then the
-chunk is split (at paragraph or table-row boundaries, the table header repeated)
+an answer cut off at the output-token budget is not asked again (the same request
+would stop at the same place): the chunk is split (at paragraph or table-row boundaries, the table header repeated)
 and the pieces merged; an entity missing `id`, `name` or `entity_class` is dropped
 and logged. If a step is still failed after the retry the file is **not staged**
 (the loss guard, `docs/superpowers/specs/2026-10-18-extraction-loss-guard-design.md`),
