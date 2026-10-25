@@ -1186,6 +1186,19 @@ def _ingest_vault_native(
     return file_result
 
 
+def _relativise_image_links(markdown: str, base_dir: Path) -> str:
+    """`markdown` with links into `base_dir` made relative to it. docling writes
+    an image reference as the absolute path of its exported file
+    (`![Image](/Users/<name>/<vault>/.artmind/data/documents/markdowns/<stem>_artifacts/...)`):
+    the converted markdown is committed with the vault and its chunks go to the
+    LLM, so that path would publish a home directory and break on every other
+    machine. The markdown sits in `base_dir`, so the relative link resolves the same."""
+    prefixes = {str(base_dir), str(Path(base_dir).resolve())}
+    for prefix in sorted(prefixes, key=len, reverse=True):
+        markdown = re.sub(r"(\]\(<?)" + re.escape(prefix.rstrip("/") + "/"), r"\1", markdown)
+    return markdown
+
+
 def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str | None, dict]:
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
@@ -1234,6 +1247,10 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
     )
 
     md_content = md_file.read_text(encoding="utf-8")
+    relative = _relativise_image_links(md_content, MARKDOWNS_DIR)
+    if relative != md_content:
+        md_content = relative
+        md_file.write_text(md_content, encoding="utf-8")
     artifacts_dir = MARKDOWNS_DIR / f"{dest_path.stem}_artifacts"
     if artifacts_dir.exists():
         images = sorted(

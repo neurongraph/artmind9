@@ -315,3 +315,21 @@ def test_reextract_of_an_edited_markdown_never_bumps_the_version_without_registe
     assert r2["version"] == r1["version"] + 1
     row = _registry_row_by_artmind_id(r2["artmind_id"])
     assert row["content_sha256"] == r2["provenance"]["content_sha256"]
+
+
+def test_docling_image_links_are_made_relative_to_the_markdown(tmp_path):
+    """An absolute link would commit the home directory with the vault and send
+    it to the LLM in every chunk that holds the image."""
+    base = tmp_path / "markdowns"
+    md = (
+        f"Intro.\n\n![Image]({base}/Deck_artifacts/image_000000_ab.png)\n\n"
+        f"![Image](<{base.resolve()}/Deck (1)_artifacts/image_000001_cd.png>)\n\n"
+        "![Logo](https://example.com/logo.png)\n"
+    )
+
+    out = ing._relativise_image_links(md, base)
+
+    assert str(tmp_path) not in out
+    assert "![Image](Deck_artifacts/image_000000_ab.png)" in out
+    assert "![Image](<Deck (1)_artifacts/image_000001_cd.png>)" in out
+    assert "![Logo](https://example.com/logo.png)" in out
