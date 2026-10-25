@@ -2,9 +2,18 @@
 
 No LLM, no Neo4j, no files: every function here takes plain values and returns
 plain values, so the tests assert on the returned values directly."""
+import re
+
 import pytest
 
-from artmind.document_context import SAMPLE_CHARS, context_settings, sample_for_summary
+from artmind.document_context import (
+    PASSAGE_LINE,
+    SAMPLE_CHARS,
+    context_key,
+    context_settings,
+    render_context,
+    sample_for_summary,
+)
 
 
 def test_no_setting_means_everything_on_with_the_default_cap():
@@ -310,3 +319,87 @@ def test_a_class_description_is_capped():
     schema = {"subject": "x", "entity_types": {"ITEM": {"kind": "recurrent", "description": "w" * 1000}}}
     line = [l for l in summary_prompt(schema, "s", focus="").splitlines() if l.startswith("- ITEM")][0]
     assert len(line) <= len("- ITEM: ") + 200
+
+
+def test_render_joins_all_parts_in_order_and_closes_with_the_passage_line():
+    block = render_context(
+        metadata="Title: Notice",
+        outline="You are in: Rates (chunk 2 of 3)",
+        summary="A rate notice.",
+        identifiers=["CCN001", "Alpha Ltd"],
+        cap=2000,
+    )
+    lines = block.splitlines()
+    assert lines[0].startswith("DOCUMENT CONTEXT")
+    assert lines[1:] == [
+        "Title: Notice",
+        "You are in: Rates (chunk 2 of 3)",
+        "Summary: A rate notice.",
+        "Identifiers: CCN001; Alpha Ltd",
+        PASSAGE_LINE,
+    ]
+
+
+def test_render_is_empty_when_there_is_nothing_to_say():
+    assert render_context(metadata="", outline="", summary="", identifiers=[], cap=2000) == ""
+    assert render_context(metadata="", outline="", summary="", cap=2000) == ""
+
+
+def test_over_the_cap_the_outline_list_goes_first_and_the_position_stays():
+    outline = "You are in: A (chunk 1 of 2)\nDocument outline:\n" + "\n".join(
+        f"  - heading {i} " + "x" * 80 for i in range(30)
+    )
+    block = render_context(
+        metadata="Title: T", outline=outline, summary="The summary stays.", identifiers=["CCN001"], cap=600,
+    )
+    assert len(block) <= 600
+    assert "Document outline:" not in block
+    for kept in ("You are in: A (chunk 1 of 2)", "Title: T", "The summary stays.", "CCN001"):
+        assert kept in block
+
+
+def test_metadata_lines_are_dropped_from_the_bottom_next():
+    metadata = "\n".join(f"Tag{i}: " + "value " * 20 for i in range(40))
+    block = render_context(
+        metadata=metadata, outline="You are in: x (chunk 1 of 1)", summary="S.", identifiers=[], cap=500,
+    )
+    assert len(block) <= 500
+    assert "Tag0:" in block and "Tag1:" in block
+    assert "Tag2:" not in block
+    assert "You are in: x" in block and "Summary: S." in block
+
+
+def test_the_summary_is_cut_to_whole_sentences_never_mid_sentence():
+    summary = "First sentence here. Second sentence that is long " + "word " * 100 + "end."
+    block = render_context(
+        metadata="", outline="You are in: chunk 1 of 1", summary=summary, identifiers=[], cap=250,
+    )
+    assert len(block) <= 250
+    assert "Summary: First sentence here." in block
+    assert "Second sentence" not in block
+
+
+def test_identifiers_outlast_the_summary_and_are_cut_whole_from_the_end():
+    identifiers = [f"ID{i:02d}" + "x" * 30 for i in range(25)]
+    block = render_context(
+        metadata="", outline="You are in: chunk 1 of 1", summary="S one.", identifiers=identifiers, cap=400,
+    )
+    assert len(block) <= 400
+    assert "Summary:" not in block, "the summary goes before any identifier does"
+    assert "ID00" in block and "ID24" not in block
+    kept = re.findall(r"ID\d\d(x*)", block)
+    assert kept and all(len(tail) == 30 for tail in kept), "only whole items are kept"
+
+
+def test_a_cap_too_small_for_even_the_minimal_block_gives_no_block():
+    args = dict(metadata="Title: T", outline="You are in: chunk 1 of 1", summary="S.", identifiers=["a"])
+    assert render_context(cap=50, **args) == ""
+    assert render_context(cap=0, **args) == ""
+
+
+def test_context_key_changes_with_each_input_and_is_stable_otherwise():
+    base = context_key(content_sha="c1", schema_sha="s1", model="m1")
+    assert base == context_key(content_sha="c1", schema_sha="s1", model="m1")
+    assert base != context_key(content_sha="c2", schema_sha="s1", model="m1")
+    assert base != context_key(content_sha="c1", schema_sha="s2", model="m1")
+    assert base != context_key(content_sha="c1", schema_sha="s1", model="m2")

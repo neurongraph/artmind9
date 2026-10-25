@@ -9,6 +9,7 @@ in. Schema-agnostic: nothing here names a domain.
 """
 from __future__ import annotations
 
+import hashlib
 import re
 from dataclasses import dataclass
 
@@ -245,3 +246,70 @@ def parse_summary(answer) -> tuple[str, list[str]] | None:
     raw = raw if isinstance(raw, list) else []
     identifiers = [" ".join(v.split()) for v in raw if isinstance(v, str)]
     return summary, [i for i in identifiers if i][:IDENTIFIER_LIMIT]
+
+
+#: The block's closing line: what follows it is the passage to extract from.
+PASSAGE_LINE = "PASSAGE TO EXTRACT FROM:"
+_HEADING = (
+    "DOCUMENT CONTEXT (only for naming and identifying things consistently -- "
+    "do not extract from this block):"
+)
+_SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
+
+
+def render_context(
+    *,
+    metadata: str,
+    outline: str,
+    summary: str,
+    identifiers: list[str] | tuple[str, ...] = (),
+    cap: int,
+) -> str:
+    """The one block every chunk prompt carries, at most `cap` characters.
+
+    Over the cap, parts go in this order until it fits: the document's outline
+    list (the chunk's own 'You are in' line stays), metadata lines from the
+    bottom, the summary's later sentences, the summary, then identifiers from
+    the end. Structured context outlasts prose: identifiers are what keeps a
+    name the same across chunks. The summary is dropped by whole sentences,
+    never cut mid-sentence. No room (a cap too small for the heading and the
+    closing line) or nothing to say gives '': a cap of 0 means no block, not an
+    unlimited one."""
+    meta_lines = metadata.splitlines()
+    outline_lines = outline.splitlines()
+    sentences = [s for s in _SENTENCE_END.split(summary.strip()) if s]
+    ids = list(identifiers)
+    if not (meta_lines or outline_lines or sentences or ids):
+        return ""
+
+    def build() -> str:
+        lines = [_HEADING, *meta_lines, *outline_lines]
+        if sentences:
+            lines.append("Summary: " + " ".join(sentences))
+        if ids:
+            lines.append("Identifiers: " + "; ".join(ids))
+        lines.append(PASSAGE_LINE)
+        return "\n".join(lines)
+
+    if len(build()) > cap:
+        del outline_lines[1:]
+    while len(build()) > cap and meta_lines:
+        meta_lines.pop()
+    while len(build()) > cap and len(sentences) > 1:
+        sentences.pop()
+    if len(build()) > cap:
+        sentences.clear()
+    while len(build()) > cap and ids:
+        ids.pop()
+    block = build()
+    return block if len(block) <= cap and block.count("\n") > 1 else ""
+
+
+def context_key(*, content_sha: str, schema_sha: str, model: str) -> str:
+    """Identifies one summary: the document's content, its own domain schema
+    file, the model that wrote it and the prompt's version. Any of them changing
+    means the summary is regenerated."""
+    digest = hashlib.sha256()
+    for part in (content_sha, schema_sha, model, str(PROMPT_VERSION)):
+        digest.update(part.encode("utf-8") + b"\0")
+    return digest.hexdigest()
