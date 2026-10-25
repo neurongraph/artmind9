@@ -14,6 +14,7 @@ import yaml
 from loguru import logger
 from neo4j import GraphDatabase
 
+from artmind import document_context as dc
 from artmind.db import _get_db, _registry_row_by_artmind_id
 from artmind.document_identity import (
     canonical_path,
@@ -1912,6 +1913,63 @@ def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tu
     room raises `TruncatedAnswer`, which `_process_chunk` answers by splitting
     the chunk (`_extract_splitting`)."""
     return _llm_extract_shared(step_name, model, prompt, debug_dir=debug_dir, raise_on_truncation=True)
+
+
+# ── document context: one summary per document (spec 2026-10-25) ───────────
+
+#: The staging sidecar that holds the document's summary and its cache key.
+DOCUMENT_CONTEXT_FILE = "document_context.json"
+
+
+def _read_document_context(doc_kg_dir: Path) -> dict | None:
+    """The staged summary sidecar, or None when absent or unreadable."""
+    try:
+        data = json.loads((doc_kg_dir / DOCUMENT_CONTEXT_FILE).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _summarise_document(
+    *,
+    doc_kg_dir: Path,
+    key: str,
+    schema: dict,
+    sample: str,
+    focus: str,
+    model: str,
+    debug_dir: Path,
+) -> dict | None:
+    """The document's summary, from the sidecar when its key matches, else one
+    call. Returns {"key", "summary", "identifiers"} or None when the call fails
+    or answers something unusable; a failure is logged and never fails the file
+    (spec §4): the chunks then extract with metadata and outline only."""
+    cached = _read_document_context(doc_kg_dir)
+    if cached and cached.get("key") == key:
+        return cached
+    prompt = dc.summary_prompt(schema, sample, focus=focus)
+    try:
+        answer, ok = _llm_extract("document_summary", model, prompt, debug_dir)
+    except Exception as e:  # a TruncatedAnswer or a provider error
+        logger.warning(
+            "Document summary unavailable for {} ({}); chunks extract with metadata and outline only",
+            doc_kg_dir.name, e,
+        )
+        return None
+    parsed = dc.parse_summary(answer) if ok else None
+    if parsed is None:
+        logger.warning(
+            "Document summary unusable for {}; chunks extract with metadata and outline only", doc_kg_dir.name,
+        )
+        return None
+    summary, identifiers = parsed
+    data = {"key": key, "summary": summary, "identifiers": identifiers}
+    try:
+        write_staging(doc_kg_dir, {DOCUMENT_CONTEXT_FILE: data}, default=None)
+    except OSError as e:  # the chunks still get the summary; only the cache is lost
+        logger.warning("Could not cache the document summary for {} ({})", doc_kg_dir.name, e)
+    logger.debug("Document summary for {}: {}", doc_kg_dir.name, summary)
+    return data
 
 
 def _save_debug(path: Path, content: str) -> None:
