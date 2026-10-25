@@ -45,8 +45,23 @@ def test_legacy_document_header_chars_sets_the_cap():
 
 def test_document_context_wins_over_the_legacy_key_when_both_are_given():
     s = context_settings({"document_header": False, "document_context": {"focus": "x"}})
-    assert s.enabled is True and s.focus == "x"
+    assert s.enabled is True
+    assert s.focus == "x"
 
 
 def test_a_bad_chars_value_falls_back_to_the_default_cap():
     assert context_settings({"document_header": {"chars": "lots"}}).cap == 2000
+
+
+def test_a_negative_legacy_cap_clamps_to_zero():
+    assert context_settings({"document_header": {"chars": -5}}).cap == 0
+
+
+def test_a_bare_document_context_key_means_on_with_defaults():
+    s = context_settings({"document_context": None})
+    assert s.enabled is True and s.summary is True and s.focus == ""
+
+
+def test_a_non_string_focus_is_ignored():
+    assert context_settings({"document_context": {"focus": 5}}).focus == ""
+    assert context_settings({"document_context": {"focus": ["a", "b"]}}).focus == ""
