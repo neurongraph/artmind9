@@ -66,6 +66,7 @@ export interface JobFile extends KgCounts {
   filename: string;
   status: string;
   current_step: string | null;
+  /** Why the file failed; on a failed file only (absent from an artmind older than this field). */
   error_message?: string | null;
   chunk_progress?: ChunkProgress;
 }

@@ -1,4 +1,4 @@
-import { BOOTSTRAP_STEP, type Busy, type BusyKey, type RowId, type StateInputs, type Tone, behindParts, plural, problemText } from "./state";
+import { BOOTSTRAP_STEP, type Busy, type BusyKey, type RowId, type StateInputs, type Tone, behindParts, failureTag, plural, problemText } from "./state";
 import { AUTO_PULL_HINT, LABELS, NOTICE, ROW_TITLES, conflictsPrompt, count, countOf, curateSummary, ingestLabel, sameAsPrompt, waitingText } from "./texts";
 import type { JobStatus, TablePending, TableToReview } from "./types";
 
@@ -427,7 +427,7 @@ export function checklist(inputs: StateInputs): Checklist {
       tone: "red",
       summary: `${failed.length} failed`,
       detail: pendingErrors,
-      items: failed.map((f) => ({ text: f.filename, tag: f.error_message ?? "failed", title: f.filename })),
+      items: failed.map((f) => ({ text: f.filename, tag: failureTag(f), title: f.error_message ?? f.filename })),
       buttons: retryFailed,
     });
   } else if (pendingErrors.length) {

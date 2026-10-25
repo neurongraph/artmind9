@@ -8,6 +8,7 @@ import yaml
 from test_ingest_concurrency import _setup_extract_env
 
 import artmind.ingest as ing
+from conftest import strip_document_context
 
 OPENING = "CHANGE CONTROL NOTE CCN001. Effective 2026-03-01. Parties: Alpha Ltd and Beta plc."
 
@@ -62,7 +63,7 @@ def test_every_chunk_step_sees_the_summary_identifiers_outline_and_metadata(monk
 def test_the_passage_is_still_the_chunk_text_and_nothing_else(monkeypatch, tmp_path):
     file_result, seen, _ = _harness(monkeypatch, tmp_path)
     ing.extract_kg(file_result, "testdom", max_workers=1)
-    assert ing.strip_document_context(seen["chunk_002_entities"]) == "Clause 7. This Notice supersedes the earlier schedule."
+    assert strip_document_context(seen["chunk_002_entities"]) == "Clause 7. This Notice supersedes the earlier schedule."
 
 
 def test_the_summary_is_one_call_for_the_whole_document(monkeypatch, tmp_path):
@@ -175,7 +176,7 @@ def test_a_split_piece_keeps_the_context(monkeypatch, tmp_path):
 
     def llm(step_name, model, prompt, debug_dir):
         if step_name.startswith("chunk_002_entities"):
-            if len(ing.strip_document_context(prompt)) > 800:
+            if len(strip_document_context(prompt)) > 800:
                 raise TruncatedAnswer("cut off")
             pieces.append(prompt)
         return real(step_name, model, prompt, debug_dir)

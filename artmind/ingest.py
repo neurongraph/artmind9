@@ -1882,12 +1882,20 @@ DOCUMENT_CONTEXT_FILE = "document_context.json"
 
 
 def _read_document_context(doc_kg_dir: Path) -> dict | None:
-    """The staged summary sidecar, or None when absent or unreadable."""
+    """The staged summary sidecar, or None when absent or unreadable.
+
+    The sidecar is committed, so it may have been written by hand or by another
+    machine: its summary and identifiers go through the same normalisation as a
+    fresh answer (`dc.parse_summary`: one line each, capped) before any prompt
+    sees them, so a newline in it cannot add a line to the context block."""
     try:
         data = json.loads((doc_kg_dir / DOCUMENT_CONTEXT_FILE).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-    return data if isinstance(data, dict) else None
+    if not _has_context_shape(data):
+        return data if isinstance(data, dict) else None
+    summary, identifiers = dc.parse_summary(data)
+    return {**data, "summary": summary, "identifiers": identifiers}
 
 
 def _has_context_shape(data: object) -> bool:
@@ -1912,12 +1920,6 @@ def with_document_context(block: str, text: str) -> str:
     return f"{block}\n\n{text}" if block else text
 
 
-def strip_document_context(text: str) -> str:
-    """`text` without a leading context block: the passage a chunk step was given."""
-    head, sep, passage = text.partition(dc.PASSAGE_LINE + "\n\n")
-    return passage if sep and head.startswith(dc.CONTEXT_HEADING) else text
-
-
 def _summarise_document(
     *,
     doc_kg_dir: Path,
@@ -1928,12 +1930,16 @@ def _summarise_document(
     model: str,
     debug_dir: Path,
     reuse_any: bool = False,
+    persist: bool = True,
 ) -> dict | None:
     """The document's summary, from the sidecar when its key matches, else one
     call. With `reuse_any` (a properties-only redo) a well-shaped sidecar is used
-    whatever its key and no call is ever made. Returns {"key", "summary", "identifiers"} or None when the call fails
-    or answers something unusable; a failure is logged and never fails the file
-    (spec §4): the chunks then extract with metadata and outline only."""
+    whatever its key and no call is ever made. Returns {"key", "summary",
+    "identifiers"} or None when the call fails or answers something unusable; a
+    failure is logged and never fails the file (spec §4): the chunks then extract
+    with metadata and outline only. With `persist=False` a new summary is not
+    written: `extract_kg` writes it with the staging swap, so a refused
+    extraction leaves the folder as it was."""
     cached = _read_document_context(doc_kg_dir)
     if _valid_context(cached, key):
         return cached
@@ -1961,12 +1967,27 @@ def _summarise_document(
         return None
     summary, identifiers = parsed
     data = {"key": key, "summary": summary, "identifiers": identifiers}
+    logger.debug("Document summary for {}: {}", doc_kg_dir.name, summary)
+    if not persist:
+        return data
     try:
         write_staging(doc_kg_dir, {DOCUMENT_CONTEXT_FILE: data}, default=None)
     except OSError as e:  # the chunks still get the summary; only the cache is lost
         logger.warning("Could not cache the document summary for {} ({})", doc_kg_dir.name, e)
-    logger.debug("Document summary for {}: {}", doc_kg_dir.name, summary)
     return data
+
+
+def _llm_debug_dir(doc_kg_dir: Path) -> Path:
+    """Where a failed or cut-off step's raw answer (`debug_<step>.txt`) goes for
+    the document staged at `doc_kg_dir`: under LOGS_DIR, mirroring its
+    `<domain>/<folder>`. Never the staging folder itself -- Obsidian Git commits
+    that, and a raw answer is neither staging nor something to version."""
+    path = LOGS_DIR / "extraction-debug" / doc_kg_dir.parent.name / doc_kg_dir.name
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+    except OSError as e:  # a debug copy is never a reason to stop
+        logger.debug("No debug folder for {}: {}", doc_kg_dir.name, e)
+    return path
 
 
 def _save_debug(path: Path, content: str) -> None:
@@ -2026,7 +2047,9 @@ def _split_chunk_text(text: str) -> list[str]:
     """Halve `text` for a step whose answer was cut off: `[first, second]`, or
     `[]` when it is too small to split. Prefers a paragraph boundary near the
     middle, else a line boundary (a table splits between rows, and the second
-    half gets the table's header and separator rows repeated), else a space."""
+    half gets the table's header and separator rows repeated), else a space --
+    each first within the middle half, so a halving does halve; only text with
+    no boundary there at all is cut at the nearest boundary further out."""
     if len(text) < _MIN_SPLIT_CHARS:
         return []
     middle = len(text) / 2
@@ -2038,10 +2061,13 @@ def _split_chunk_text(text: str) -> list[str]:
         ]
         return min(hits, key=lambda h: abs(h - middle)) if hits else None
 
-    for sep, lo, hi in (("\n\n", 0.25, 0.75), ("\n", 0.0, 1.0), (" ", 0.0, 1.0)):
+    for sep, lo, hi in (
+        ("\n\n", 0.25, 0.75), ("\n", 0.25, 0.75), (" ", 0.25, 0.75),
+        ("\n", 0.0, 1.0), (" ", 0.0, 1.0),
+    ):
         at = nearest(sep, lo, hi)
         if at is not None:
-            first, second = text[:at], text[at + len(sep):]
+            first, second = text[:at].rstrip("\n"), text[at + len(sep):].lstrip("\n")
             if first.strip() and second.strip():
                 return _reattach_table_headers([first, second])
     return []
@@ -2960,6 +2986,7 @@ def extract_kg(
             logger.warning("Failed to read filing metadata from {}: {}", md_file, e)
 
     if not chunks_dir.exists():
+        file_result["kg_error"] = f"Chunks directory not found: {chunks_dir.name}"
         logger.error("Chunks directory not found: {}", chunks_dir)
         return None
 
@@ -2977,13 +3004,17 @@ def extract_kg(
 
     domain_schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     if not domain_schema_file.exists():
+        file_result["kg_error"] = f"Domain schema not found: {domain_schema_file.name}"
         logger.error("Domain schema not found: {}", domain_schema_file)
         return None
     from artmind.schema_validate import schema_parse_error
 
     parse_error = schema_parse_error(domain_schema_file)
     if parse_error:
-        logger.error("{} -- fix it (`artmind domains validate --domain {}` checks it) and re-run", parse_error, domain)
+        file_result["kg_error"] = (
+            f"{parse_error} -- fix it (`artmind domains validate --domain {domain}` checks it) and re-run"
+        )
+        logger.error("{}", file_result["kg_error"])
         return None
     # `load_schema`, not a bare YAML read: a dotted child domain inherits its
     # parent's `temporal:` block (labels, patterns, defaults, anchor) here --
@@ -2996,6 +3027,7 @@ def extract_kg(
 
     doc_kg_dir = KG_DIR / domain / registered_path.stem
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
+    llm_debug_dir = _llm_debug_dir(doc_kg_dir)
     # Scoped by doc_sha256 (not just the file stem) so a genuine resume of an
     # interrupted run — same content, same sha256 — still hits this cache and
     # skips already-ok steps, while a re-ingest with *changed* content lands in
@@ -3149,13 +3181,15 @@ def extract_kg(
                     content_sha=provenance.get("content_sha256") or doc_sha256,
                     schema_sha=sha256(domain_schema_file.read_bytes()).hexdigest(),
                     model=text_model,
+                    sample_chars=dc.sample_chars(),
                 ),
                 schema=schema,
                 sample=lambda: dc.sample_for_summary([f.read_text(encoding="utf-8") for f in chunk_files], chunks_meta_for_context),
                 focus=context_settings.focus,
                 model=text_model,
-                debug_dir=doc_kg_dir,
+                debug_dir=llm_debug_dir,
                 reuse_any=redo_property_classes is not None,
+                persist=False,
             )
 
     def _document_context(seq: int) -> str:
@@ -3249,7 +3283,7 @@ def extract_kg(
                 return _extract_splitting(
                     f"chunk_{seq:03d}_{step}", chunk_text,
                     lambda text, label: _llm_extract(
-                        label, text_model, prompt_for(with_document_context(context, text)), doc_kg_dir,
+                        label, text_model, prompt_for(with_document_context(context, text)), llm_debug_dir,
                     ),
                     merge,
                 )
@@ -3578,7 +3612,7 @@ def extract_kg(
     if not names_supplied:
         canonical_names = canonicalize_document(
             all_entities, schema=schema, vocabulary=vocabulary,
-            model=text_model, debug_dir=doc_kg_dir,
+            model=text_model, debug_dir=llm_debug_dir,
         )
 
     all_observations = _build_observations(
@@ -3593,23 +3627,28 @@ def extract_kg(
     if stash is not None and not all_observations:
         prior = _staged_observation_count(doc_kg_dir)
         if prior:
-            logger.error(
-                "Re-extraction of unchanged {} produced no observations -- keeping the "
-                "previous {} and marking the file failed",
-                registered_path.name, prior,
+            file_result["kg_error"] = (
+                f"Re-extraction of the unchanged document produced no observations; the previous "
+                f"{prior} are kept. Check the provider (llm_calls.log) and re-run."
             )
+            logger.error("{}: {}", registered_path.name, file_result["kg_error"])
             _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
             return None
 
     # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must
     # never see a half-written folder. The chunk cache under chunks/<sha>/
-    # and any debug output already in doc_kg_dir are carried over.
-    write_staging(doc_kg_dir, {
+    # and anything else already in doc_kg_dir are carried over.
+    staged_files = {
         "document.json": document,
         "chunks.json": [strip_embeddings(c) for c in all_chunks],
         "relationships.json": all_relationships,
         "observations.json": all_observations,
-    })
+    }
+    if context_summary is not None:
+        # Written here, with the extraction it served, not when it was made: a
+        # refused extraction leaves the staging folder as it was.
+        staged_files[DOCUMENT_CONTEXT_FILE] = context_summary
+    write_staging(doc_kg_dir, staged_files)
     _drop_extraction_stash(stash)
     # The document now has its staging folder under this name and domain; the
     # one its baseline came from (a note moved or re-domained since) is stale.

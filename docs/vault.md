@@ -842,7 +842,10 @@ the job records it failed with the chunk numbers (`chunk(s) [3, 7] of 12 ...`, a
 `chunk_progress.failed_chunks` in `ingest job-status`), and every other chunk stays
 cached: `ingest retry-job` / re-running `ingest sync` redoes only those chunks. A
 `--reextract` is the exception: a refused re-extraction is discarded whole and the
-previous extraction kept, so re-running it redoes every chunk.
+previous extraction kept, so re-running it redoes every chunk. A step's raw answer,
+when it failed or was cut off, is saved for inspection as
+`.artmind/logs/extraction-debug/<domain>/<folder>/debug_<step>.txt` -- never in the
+committed staging folder.
 
 ### What a chunk's prompt is given
 
@@ -853,14 +856,17 @@ the whole document with the names, numbers and dates that recur in it. Chunks ex
 in isolation, so this is what lets a clause deep in an amendment be named the way
 the first page names it.
 
-The summary is **one LLM call per document**, made before the chunks extract, from
+The summary is **one LLM call per document** of more than one chunk (a one-chunk
+document is its own summary), made before the chunks extract, from
 a bounded sample of the text (the opening, the closing, and the first paragraph under
 each top-level heading; at most `ARTMIND_KG_SUMMARY_SAMPLE_CHARS`, default 12000).
 Its prompt is built from the schema alone (its `subject` and class descriptions), so
 no schema needs changes. The result is cached in the staging folder as
 `document_context.json` and reused until the document's text, its domain's schema
-file or the model changes; a `--reextract` of unchanged text under an unchanged schema
-makes no summary call. A failed summary is logged and the chunks extract with the
+file, the model or the sample size changes; a `--reextract` of unchanged text under an
+unchanged schema makes no summary call. The sidecar is written with the rest of the
+staging folder, so a refused extraction leaves it as it was (and its retry asks for
+the summary again). A failed summary is logged and the chunks extract with the
 metadata and outline only. The sampled text is sent to the configured provider, the
 same exposure as chunk extraction, in one extra call per document. A schema
 turns this off or tunes it with `document_context:` (see the create-schema skill).

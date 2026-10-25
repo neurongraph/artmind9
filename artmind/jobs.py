@@ -121,8 +121,10 @@ def _update_job_file_status(
     error_message: str | None = None,
     kg_counts: dict | None = None,
     domain: str | None = None,
+    failed_chunks: list[int] | None = None,
 ) -> None:
-    """Update per-file status in ingestion_job_files."""
+    """Update per-file status in ingestion_job_files. `failed_chunks` is what a
+    finished extraction reported ([] for none); None leaves the column as is."""
     conn = _get_db()
     cursor = conn.cursor()
     try:
@@ -151,6 +153,9 @@ def _update_job_file_status(
         if domain is not None:
             updates.append("domain = ?")
             params.append(domain)
+        if failed_chunks is not None:
+            updates.append("failed_chunks = ?")
+            params.append(json.dumps(sorted(failed_chunks)))
         if not updates:
             return
         params.extend([job_id, filename])
@@ -273,8 +278,8 @@ def _fetch_active_jobs() -> list[dict]:
         for row in rows:
             job_id = row[0]
             files = conn.execute(
-                "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain"
-                " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+                "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain,"
+                " failed_chunks, error_message FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
             file_entries = []
@@ -283,12 +288,14 @@ def _fetch_active_jobs() -> list[dict]:
                     "filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3],
                     "entities": f[4], "relationships": f[5],
                 }
+                if f[1] == "failed":
+                    entry["error_message"] = f[8]
                 # While a file is mid-extraction, entity/relationship counts are
                 # still NULL (they're only written once the whole document
                 # finishes) -- chunk_progress is the only live signal, same as
                 # _get_job_status.
                 if f[3] and (f[2] == "extract_kg" or f[1] == "failed"):
-                    entry["chunk_progress"] = _get_chunk_progress(f[3])
+                    entry["chunk_progress"] = _get_chunk_progress(f[3], reported=_json_list(f[7]))
                 if f[6]:  # domain
                     entry["domain"] = f[6]
                 file_entries.append(entry)
@@ -430,8 +437,19 @@ def _job_file_sha256(job_id: str, document: str) -> str | None:
     return None
 
 
-def _get_chunk_progress(doc_sha256: str) -> dict:
-    """Summarise kg_chunk_status for a document; shown in job-status during extract_kg."""
+def _json_list(value) -> list | None:
+    try:
+        parsed = json.loads(value) if value else None
+    except ValueError:
+        return None
+    return parsed if isinstance(parsed, list) else None
+
+
+def _get_chunk_progress(doc_sha256: str, reported: list | None = None) -> dict:
+    """Summarise kg_chunk_status for a document; shown in job-status during
+    extract_kg and on a failed file. `failed_chunks` is `reported` -- what the
+    finished extraction said, stored on the file row -- when there is one, else
+    the chunks with a failed step now."""
     conn = _get_db()
     try:
         rows = conn.execute(
@@ -441,9 +459,8 @@ def _get_chunk_progress(doc_sha256: str) -> dict:
         ).fetchall()
         return {
             "total_chunks": len(rows),
-            # The chunks to look at: a step failed, so the file is not staged
-            # and a retry redoes only these.
-            "failed_chunks": [r[3] for r in rows if "failed" in r[:3]],
+            # The chunks to look at: a step failed, so the file is not staged.
+            "failed_chunks": reported if reported is not None else [r[3] for r in rows if "failed" in r[:3]],
             "entities_done": sum(1 for r in rows if r[0] in ("ok", "skipped")),
             "properties_done": sum(1 for r in rows if r[1] in ("ok", "skipped")),
             "relationships_done": sum(1 for r in rows if r[2] in ("ok", "skipped")),
@@ -467,8 +484,8 @@ def _get_job_status(job_id: str) -> dict | None:
         if not row:
             return None
         cursor.execute(
-            "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain"
-            " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+            "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain,"
+            " failed_chunks, error_message FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
         files = []
@@ -477,8 +494,10 @@ def _get_job_status(job_id: str) -> dict | None:
                 "filename": r[0], "status": r[1], "current_step": r[2],
                 "entities": r[4], "relationships": r[5],
             }
+            if r[1] == "failed":
+                entry["error_message"] = r[8]
             if r[3] and (r[2] == "extract_kg" or r[1] == "failed"):
-                entry["chunk_progress"] = _get_chunk_progress(r[3])
+                entry["chunk_progress"] = _get_chunk_progress(r[3], reported=_json_list(r[7]))
             if r[6]:  # domain
                 entry["domain"] = r[6]
             files.append(entry)
@@ -611,7 +630,7 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
                 f"UPDATE ingestion_job_files"
                 f" SET status='queued', current_step=NULL, doc_sha256=NULL,"
                 f"     started_at=NULL, completed_at=NULL, error_message=NULL,"
-                f"     entity_count=NULL, relationship_count=NULL"
+                f"     entity_count=NULL, relationship_count=NULL, failed_chunks=NULL"
                 f" WHERE job_id = ? AND filename IN ({fn_placeholders})",
                 (job_id, *filenames),
             )

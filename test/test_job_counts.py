@@ -311,3 +311,63 @@ def test_a_failed_file_keeps_reporting_which_chunks_failed():
     progress = _files_by_name(_fetch_active_jobs()[0])["Blue Carbuncle.pdf"]["chunk_progress"]
     assert progress == {"total_chunks": 2, "failed_chunks": [2],
                         "entities_done": 1, "properties_done": 1, "relationships_done": 1}
+
+
+def test_a_failed_file_reports_the_chunks_its_extraction_named_over_restored_rows():
+    """A refused --reextract puts the previous run's rows back (all ok), so the
+    rows cannot say which chunks failed; the number the extraction reported,
+    stored on the file row, is what job-status shows. The message comes too."""
+    job_id = _job()
+    message = "KG extraction incomplete: chunk(s) [2, 3] of 3 still failed after the retry; ..."
+    _update_job_file_status(job_id, PDF, status="failed", current_step=None, doc_sha256="sha-pdf",
+                            error_message=message, failed_chunks=[3, 2])
+    conn = db._get_db()
+    conn.executemany(
+        "INSERT INTO kg_chunk_status (doc_sha256, doc_id, chunk_seq, entities_status,"
+        " properties_status, relationships_status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [("sha-pdf", "doc-1", n, "ok", "ok", "ok", "2026-10-01T00:00:00") for n in (1, 2, 3)],
+    )
+    conn.commit()
+    conn.close()
+
+    for report in (_fetch_active_jobs()[0], _get_job_status(job_id)):
+        pdf = _files_by_name(report)["Blue Carbuncle.pdf"]
+        assert pdf["chunk_progress"]["failed_chunks"] == [2, 3]
+        assert pdf["error_message"] == message
+        assert "error_message" not in _files_by_name(report)["plain.md"], "only a failed file carries one"
+
+
+def test_retrying_a_job_clears_the_reported_failed_chunks():
+    job_id = _job()
+    _update_job_file_status(job_id, PDF, status="failed", current_step=None, doc_sha256="sha-pdf",
+                            error_message="boom", failed_chunks=[2])
+    jobs_module._retry_job(job_id)
+
+    conn = db._get_db()
+    row = conn.execute(
+        "SELECT status, failed_chunks, error_message FROM ingestion_job_files WHERE job_id = ? AND filename = ?",
+        (job_id, PDF),
+    ).fetchone()
+    conn.close()
+    assert tuple(row) == ("queued", None, None)
+
+
+def test_the_worker_records_the_failed_chunks_extract_kg_reported(monkeypatch, tmp_path):
+    job_id = _create_job([NOTE], domain="fiction")
+
+    def fake_ingest_to_kg(result, *a, **k):
+        result["failed_chunks"] = [4]
+        result["kg_error"] = "KG extraction incomplete: chunk(s) [4] of 5 still failed after the retry"
+        return False
+
+    monkeypatch.setattr(worker_module, "ARTMIND_VAULT_DIR", tmp_path, raising=False)
+    monkeypatch.setattr(worker_module, "ingest_file", lambda *a, **k: {"status": "ok", "sha256": "s1"})
+    monkeypatch.setattr(worker_module, "ingest_to_kg", fake_ingest_to_kg)
+    monkeypatch.setattr(ing, "rebuild_projection", lambda d: {}, raising=False)
+
+    worker_module._process_job(job_id=job_id, domain="fiction", env={})
+
+    f = _get_job_status(job_id)["files"][0]
+    assert f["status"] == "failed"
+    assert f["chunk_progress"]["failed_chunks"] == [4]
+    assert f["error_message"].startswith("KG extraction incomplete: chunk(s) [4]")

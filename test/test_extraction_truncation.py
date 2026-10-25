@@ -18,6 +18,7 @@ import artmind.extraction as extraction
 import artmind.ingest as ing
 from artmind.extraction import TruncatedAnswer, entities_list_text
 from artmind.llm_providers import TruncatedText, _reset_clients, call_llm_ollama, call_llm_openrouter
+from conftest import strip_document_context
 
 
 @pytest.fixture(autouse=True)
@@ -224,7 +225,7 @@ def test_a_cut_off_entities_answer_is_split_and_the_pieces_merged(monkeypatch, t
         answered.append(prompt)
         if len(prompt) > 800:  # the whole chunk is too long to answer, each half is not
             raise TruncatedAnswer("cut off")
-        clause = ing.strip_document_context(prompt).split()[0]  # the piece's own first clause
+        clause = strip_document_context(prompt).split()[0]  # the piece's own first clause
         return ([_entity(1, name=f"Entity of {clause}")], True)  # local id "t1" in every piece
 
     monkeypatch.setattr(ing, "_llm_extract", llm)
@@ -319,3 +320,29 @@ def test_a_step_is_marked_ok_only_once_the_chunk_json_is_on_disk(monkeypatch, tm
 
     ok_marks = [on_disk for _, status, on_disk in marks if status == "ok"]
     assert ok_marks and all(ok_marks)
+
+
+# ── cut-off detection: brackets in prose, single quotes (review A3) ─────────
+
+
+@pytest.mark.parametrize("answer, cut", [
+    ('Here are the entities [see below]:\n[{"id": "a", "name": "x"}, {"id": "b", "na', True),
+    ('Here are the entities [see below]:\n[{"id": "a", "name": "x"}]', False),
+    ("[{'id': 'a', 'name': 'say \"hi'}]", False),
+    ("[{'id': 'a', 'name': 'it", True),
+    ('[{"id": "a", "name": "it\'s fine"}]', False),
+    ('- item [x]\n[{"id": "a"}', True),
+])
+def test_cut_off_detection_reads_the_json_not_the_prose_around_it(answer, cut):
+    assert extraction.is_cut_off(answer) is cut
+
+
+# ── splitting halves near the middle (review A5) ─────────────────────────────
+
+
+def test_a_split_prefers_a_line_near_the_middle_over_a_far_paragraph_break():
+    lines = "\n".join(f"line {i} " + "word " * 8 for i in range(30))
+    text = lines + "\n\nTail paragraph."
+    first, second = ing._split_chunk_text(text)
+    assert 0.35 < len(first) / len(text) < 0.65
+    assert not second.startswith("\n") and not first.endswith("\n")

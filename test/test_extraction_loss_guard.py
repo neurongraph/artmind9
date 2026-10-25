@@ -300,3 +300,86 @@ def test_without_reextract_an_emptied_result_is_staged(ingest_env, monkeypatch, 
     assert ing.extract_kg(result, "general", max_workers=1) == folder
 
     assert json.loads((folder / "observations.json").read_text()) == []
+
+
+# ── raw answers stay out of the staging folder (review A4) ───────────────────
+
+
+def test_a_failed_steps_raw_answer_is_saved_under_logs_not_in_staging(ingest_env, monkeypatch, stash_root):
+    vault, _ = ingest_env
+    _schemas(vault, monkeypatch)
+    result = ing.ingest_file(_note(vault), "m", "general")
+    monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
+    monkeypatch.setattr("artmind.extraction.call_llm", lambda model, prompt, **k: "not json and not usable")
+    monkeypatch.setattr("artmind.extraction.parse_json_response",
+                        lambda text: (_ for _ in ()).throw(ValueError("unparseable")))
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+
+    folder = ing.KG_DIR / "general" / "a"
+    assert not list(folder.glob("debug_*.txt")), "the staging folder is committed"
+    saved = list((stash_root / "extraction-debug" / "general" / "a").glob("debug_*.txt"))
+    assert saved and saved[0].read_text() == "not json and not usable"
+
+
+# ── every refusal says why (review A6) ───────────────────────────────────────
+
+
+def test_a_schema_that_is_not_yaml_is_the_files_kg_error(ingest_env, monkeypatch, stash_root):
+    vault, _ = ingest_env
+    _schemas(vault, monkeypatch)
+    result = ing.ingest_file(_note(vault), "m", "general")
+    (ing.DOMAIN_SCHEMAS_DIR / "general_schema.yaml").write_text("name: general\nentity_types: [\n")
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+    assert "not valid YAML" in result["kg_error"]
+
+
+def test_an_empty_reextraction_is_the_files_kg_error(ingest_env, monkeypatch, stash_root):
+    vault, _ = ingest_env
+    result, _folder = _previously_extracted(vault, monkeypatch)
+    _seams(monkeypatch, lambda step: ([], True))
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+    assert "produced no observations" in result["kg_error"]
+
+
+# ── the summary sidecar is staged with the extraction (review B11) ──────────
+
+
+def _two_chunk_note(vault):
+    return _note(vault, "# One\n\n" + "Alpha met Beta. " * 40 + "\n\n# Two\n\n" + "Gamma met Delta. " * 40 + "\n")
+
+
+def _summary_seams(monkeypatch, chunk_answer):
+    def llm(step):
+        if step == "document_summary":
+            return {"summary": "A note about four people.", "identifiers": ["Alpha"]}, True
+        return chunk_answer(step)
+
+    _seams(monkeypatch, llm)
+
+
+def test_a_refused_extraction_does_not_write_the_summary_sidecar(ingest_env, monkeypatch, stash_root):
+    vault, _ = ingest_env
+    _schemas(vault, monkeypatch)
+    result = ing.ingest_file(_two_chunk_note(vault), "m", "general", chunk_size=400)
+    assert result["chunk_count"] > 1
+    _summary_seams(monkeypatch, lambda step: ([], False))
+
+    assert ing.extract_kg(result, "general", max_workers=1) is None
+    assert not (ing.KG_DIR / "general" / "a" / ing.DOCUMENT_CONTEXT_FILE).exists()
+
+
+def test_a_staged_extraction_writes_the_summary_sidecar_with_it(ingest_env, monkeypatch, stash_root):
+    vault, _ = ingest_env
+    _schemas(vault, monkeypatch)
+    result = ing.ingest_file(_two_chunk_note(vault), "m", "general", chunk_size=400)
+    _summary_seams(monkeypatch, lambda step: (
+        [{"id": "e1", "entity_class": "Thing", "name": "Alpha"}], True) if step.endswith("_entities") else ([], True))
+    monkeypatch.setattr(ing, "canonicalize_document", lambda entities, **k: {})
+
+    folder = ing.extract_kg(result, "general", max_workers=1)
+
+    sidecar = json.loads((folder / ing.DOCUMENT_CONTEXT_FILE).read_text())
+    assert sidecar["summary"] == "A note about four people." and sidecar["identifiers"] == ["Alpha"]

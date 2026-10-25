@@ -156,37 +156,62 @@ class TruncatedAnswer(RuntimeError):
     split its input and ask again in smaller pieces."""
 
 
-def is_cut_off(text: str) -> bool:
-    """Was this answer cut off? Either the provider said so (`TruncatedText`,
-    a "length" stop) or its JSON opens and never closes. `json_repair` would
-    otherwise close it silently and hand back a half-written last item (an
-    entity with no `entity_class`). Sloppy JSON that does close (a trailing
-    comma, prose after the closing bracket) and prose without JSON are not
-    truncation."""
-    if isinstance(text, TruncatedText):
-        return True
-    body = _strip_wrapping(str(text))
-    start = next((i for i, ch in enumerate(body) if ch in "[{"), None)
-    if start is None:
-        return False
-    depth, in_string, escaped = 0, False, False
-    for ch in body[start:]:
-        if in_string:
+def _json_start(body: str) -> int | None:
+    """Where the answer's JSON begins: the body itself when it opens with `[`
+    or `{`, else the first line that does (prose before the JSON may hold a
+    bracket of its own -- "see [below]:"), else the first bracket anywhere."""
+    if body[:1] in ("[", "{"):
+        return 0
+    line = re.search(r"(?m)^[ \t]*[\[{]", body)
+    if line:
+        return line.end() - 1
+    return next((i for i, ch in enumerate(body) if ch in "[{"), None)
+
+
+def _closes(body: str, single_quotes: bool) -> bool:
+    """Does the bracket opened at body[0] close? Strings are skipped: `"..."`,
+    and with `single_quotes` also a `'...'` that opens where a JSON value or
+    key could (after `[`, `{`, `,` or `:`), the Python-literal style
+    json_repair also accepts."""
+    depth, quote, escaped, last = 0, "", False, ""
+    for ch in body:
+        if quote:
             if escaped:
                 escaped = False
             elif ch == "\\":
                 escaped = True
-            elif ch == '"':
-                in_string = False
-        elif ch == '"':
-            in_string = True
+            elif ch == quote:
+                quote = ""
+                last = ch
+            continue
+        if ch == '"' or (single_quotes and ch == "'" and last in "[{,:"):
+            quote = ch
         elif ch in "[{":
             depth += 1
         elif ch in "]}":
             depth -= 1
             if depth <= 0:
-                return False
-    return True
+                return True
+        if not ch.isspace():
+            last = ch
+    return False
+
+
+def is_cut_off(text: str) -> bool:
+    """Was this answer cut off? Either the provider said so (`TruncatedText`,
+    a "length" stop) or its JSON opens and never closes. `json_repair` would
+    otherwise close it silently and hand back a half-written last item (an
+    entity with no `entity_class`). Sloppy JSON that does close (a trailing
+    comma, prose after the closing bracket, single-quoted strings) and prose
+    without JSON are not truncation."""
+    if isinstance(text, TruncatedText):
+        return True
+    body = _strip_wrapping(str(text))
+    start = _json_start(body)
+    if start is None:
+        return False
+    body = body[start:]
+    return not (_closes(body, single_quotes=False) or _closes(body, single_quotes=True))
 
 
 def _truncation_retry_max_tokens() -> int:
@@ -248,7 +273,10 @@ def extract_with_retry(
                 logger.error("  {} failed after 2 attempts: {}", step_name, e)
     if raw_llm and debug_dir:
         safe = re.sub(r"[^A-Za-z0-9_]", "_", step_name)
-        (debug_dir / f"debug_{safe}.txt").write_text(raw_llm, encoding="utf-8")
+        try:
+            (debug_dir / f"debug_{safe}.txt").write_text(raw_llm, encoding="utf-8")
+        except OSError as e:  # a debug copy is never a reason to fail the step differently
+            logger.debug("  could not save the raw {} answer: {}", step_name, e)
     if cut_off and raise_on_truncation:
         raise TruncatedAnswer(f"{step_name}: the answer was cut off at the output-token limit")
     return [], False

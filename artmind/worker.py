@@ -272,6 +272,7 @@ def _process_job(
                         error_message=None if kg_ok else result.get("kg_error") or "KG ingestion failed",
                         kg_counts=result.get("kg_counts"),
                         domain=effective_domain,
+                        failed_chunks=result.get("failed_chunks") or [],
                     )
                 elif result.get("status") == "skipped":
                     # ingest_file already updated status to "skipped"
