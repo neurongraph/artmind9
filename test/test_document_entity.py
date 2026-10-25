@@ -171,3 +171,33 @@ def test_extract_kg_stages_one_name_for_the_documents_own_entity(ingest_env, mon
     assert {o["name"] for o in observations if o["entity_class"] == "AMENDMENT"} == set(names.values()), (
         "each observation keeps what its chunk said"
     )
+
+
+# ── deictic names ("This Amendment") ─────────────────────────────────────────
+
+
+@pytest.mark.parametrize("name, deictic", [
+    ("This Amendment", True), ("this transaction contract", True), ("This Contract Change Note", True),
+    ("The Amendment", False), ("This Harbour Amendment", False), ("Amendment", False), ("This", False),
+])
+def test_a_deictic_name_is_this_plus_document_type_words(name, deictic):
+    assert de.is_deictic(name) is deictic
+
+
+def test_a_deictic_name_folds_into_the_reference_bearing_name():
+    """Left alone, every document's "This Amendment" would be one entity."""
+    entities = [
+        _entity("CN012 Harbour Programme Amendment", 1),
+        _entity("CN012 Harbour Programme Amendment", 2),
+        _entity("This Amendment", 3),
+    ]
+    mapping, folds = de.fold(entities, {}, SCHEMA, title=TITLE, filename=TITLE + ".md")
+    assert mapping["This Amendment"] == "CN012 Harbour Programme Amendment"
+    assert folds[0].folded == ("This Amendment",)
+
+
+def test_a_deictic_name_alone_is_left_alone():
+    """No reference-bearing name in the class: nothing to fold it into."""
+    entities = [_entity("This Amendment", 1), _entity("This Amendment", 2)]
+    mapping, folds = de.fold(entities, {}, SCHEMA, title=TITLE, filename=TITLE + ".md")
+    assert mapping == {} and folds == []

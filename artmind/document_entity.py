@@ -28,6 +28,12 @@ This step folds them deterministically, after the LLM canonicalization:
    the document and is left alone.
 4. Per class, every such name is folded into the variant the most chunks
    used (ties: the earliest chunk, then the shorter name).
+5. A deictic name of the same class -- "This Amendment", "This Transaction
+   Contract": "this" and document-type words only, which a schema may tell the
+   model to use where a passage omits the reference -- is folded in too, but
+   only into a reference-bearing name. Left alone it carries no document at all,
+   and since entities key on name, class and domain, every document's
+   "This Amendment" would be one entity.
 
 Schema-agnostic: nothing here names a domain or a class.
 """
@@ -115,6 +121,13 @@ def names_document(name: str, refs: set[str], own_words: set[str]) -> bool:
     return True
 
 
+def is_deictic(name: str) -> bool:
+    """`This Amendment`, `this transaction contract`: "this" followed only by
+    document-type words. Names the document it sits in, whichever that is."""
+    words = [w.lower() for w in _WORD.findall(name)]
+    return len(words) >= 2 and words[0] == "this" and all(w in DOCUMENT_TYPE_WORDS for w in words[1:])
+
+
 @dataclass(frozen=True)
 class Fold:
     entity_class: str
@@ -137,25 +150,30 @@ def fold(
     mapping = dict(canonical_names)
     folds: list[Fold] = []
     for entity_class in classes:
-        # raw name -> the chunks it came from, for this class's matching names
+        # canonical name -> the chunks it came from, for this class's matching names
         chunks_by_canonical: dict[str, set[str]] = {}
         raw_names: set[str] = set()
+        deictic: set[str] = set()
         for entity in entities:
             if entity.get("entity_class") != entity_class:
                 continue
             raw = entity.get("name") or ""
             canonical = mapping.get(raw) or raw
-            if not raw or not (names_document(raw, refs, own) or names_document(canonical, refs, own)):
+            if not raw:
                 continue
-            raw_names.add(raw)
-            chunks_by_canonical.setdefault(canonical, set()).add(entity.get("chunk_id") or "")
-        if len(chunks_by_canonical) < 2:
+            if names_document(raw, refs, own) or names_document(canonical, refs, own):
+                raw_names.add(raw)
+                chunks_by_canonical.setdefault(canonical, set()).add(entity.get("chunk_id") or "")
+            elif is_deictic(raw) or is_deictic(canonical):
+                deictic.add(raw)
+        if not chunks_by_canonical or len(chunks_by_canonical) + len(deictic) < 2:
             continue
         chosen = min(
             chunks_by_canonical,
             key=lambda n: (-len(chunks_by_canonical[n]), min(chunks_by_canonical[n]), len(n), n),
         )
-        for raw in raw_names:
+        for raw in raw_names | deictic:
             mapping[raw] = chosen
-        folds.append(Fold(entity_class, chosen, tuple(sorted(n for n in chunks_by_canonical if n != chosen))))
+        folded = {n for n in chunks_by_canonical if n != chosen} | deictic
+        folds.append(Fold(entity_class, chosen, tuple(sorted(folded))))
     return mapping, folds

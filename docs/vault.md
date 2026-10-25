@@ -882,7 +882,9 @@ classes under `document_entity: {classes: [...]}` has them folded into one name 
 code, after the per-document canonicalization: every name of such a class that
 carries the document's own reference (from its filename or title) and otherwise only
 the title's words, document-type words, ordinals and dates becomes the variant most
-chunks used. The ingest log says what it folded (`Document entity: ...`).
+chunks used, and so does a deictic name of the class ("This Amendment"), which left
+alone would be one entity across every document. The ingest log says what it folded
+(`Document entity: ...`).
 
 `ARTMIND_HOME`, `ARTMIND_DATA_DIR`, `ARTMIND_VAULT_DIR` and
 `ARTMIND_ARCHIVE_DIR` all disappear as concepts: every one of them is now a

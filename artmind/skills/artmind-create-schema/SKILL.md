@@ -191,7 +191,10 @@ filename or title (letters then digits: `CN12`, `SR4410`; `CN12`, `CN012` and `C
 are one reference), and every other word in it is a word of the title, a
 document-type word (agreement, amendment, change note, ...), an ordinal or a date.
 So "CN012 Appendix 2 Deliverables Change" (a part) and "CN005 Amendment" (another
-document) stay separate. The folded name is the variant most chunks used. A document
+document) stay separate. A deictic name ("This Amendment": "this" plus document-type
+words) is folded in as well, so guidance that tells the model to use one where a passage
+omits the reference is safe -- left alone, every document's "This Amendment" would be
+one entity. The folded name is the variant most chunks used. A document
 whose filename and title carry no reference is left alone, and so is every domain
 without the key. `domains validate` reports a class the schema does not declare.
 
