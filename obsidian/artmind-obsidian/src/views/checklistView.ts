@@ -10,6 +10,7 @@ export interface ChecklistHandlers {
   refresh(): void;
   run(action: RowAction): void;
   openAdmin(path?: string): void;
+  restartAdmin(): void;
 }
 
 /** Items shown in a collapsed row's preview line. */

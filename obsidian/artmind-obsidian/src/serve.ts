@@ -151,13 +151,14 @@ export class ServeManager {
 
   /** Stop the one this plugin started (waiting until its port is free),
    * then reuse or start on the configured port. A serve started elsewhere
-   * is never stopped. */
-  async restart(): Promise<ServeState | ServeStop> {
+   * is never stopped, unless `force`: then any serve that reports this
+   * vault is, whoever started it. */
+  async restart(force = false): Promise<ServeState | ServeStop> {
     if (!this.ctx.enabled()) return this.set({ kind: "off" });
     if (this.busy) return this.current;
     this.busy = true;
     try {
-      const stopped = await this.stopOurs();
+      const stopped = await this.stopOurs(force);
       if (stopped.kind === "failed") return stopped;
       // Another vault's serve is not this restart's to refuse: start says so.
       if (stopped.kind === "not_ours" && samePath(stopped.vault, this.ctx.vaultRoot)) return stopped;
@@ -181,15 +182,17 @@ export class ServeManager {
     return outcome;
   }
 
-  private async stopOurs(): Promise<ServeStop> {
+  private async stopOurs(force = false): Promise<ServeStop> {
     const ours = this.ctx.startedPid();
     const { found } = await this.locate();
     if (found.kind !== "serve") {
       if (ours) await this.ctx.saveStartedPid(0);
       return { kind: "not_running" };
     }
-    if (!ours || found.health.pid !== ours) return { kind: "not_ours", pid: found.health.pid, vault: found.health.vault };
-    if (!this.deps.kill(ours)) return { kind: "failed", message: `Could not stop artmind serve (process ${ours}).` };
+    const mine = force && samePath(found.health.vault, this.ctx.vaultRoot);
+    if (!mine && (!ours || found.health.pid !== ours)) return { kind: "not_ours", pid: found.health.pid, vault: found.health.vault };
+    const pid = found.health.pid;
+    if (!this.deps.kill(pid)) return { kind: "failed", message: `Could not stop artmind serve (process ${pid}).` };
     await this.ctx.saveStartedPid(0);
     this.activePort = null;
     return { kind: "stopped" };

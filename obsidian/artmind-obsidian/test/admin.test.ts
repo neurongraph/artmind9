@@ -110,6 +110,33 @@ describe("opening the admin console", () => {
   });
 });
 
+describe("restarting the admin console", () => {
+  it("kills this vault's console even if Obsidian did not start it, then starts a new one", async () => {
+    const t = setup([{ kind: "admin", health: health({ pid: 999 }) }, { kind: "down" }, { kind: "down" }, { kind: "admin", health: health({ pid: 5000 }) }]);
+
+    const outcome = await t.admin.restart();
+
+    expect(t.killed).toEqual([999]);
+    expect(t.calls).toContain("spawn 127.0.0.1:8379");
+    expect(outcome).toEqual({ kind: "opened", url: "http://127.0.0.1:8379/", started: true });
+    expect(t.pid()).toBe(5000);
+  });
+
+  it("starts one when none is running", async () => {
+    const t = setup([{ kind: "down" }, { kind: "admin", health: health() }]);
+
+    expect((await t.admin.restart()).kind).toBe("opened");
+    expect(t.killed).toEqual([]);
+  });
+
+  it("never kills another vault's console", async () => {
+    const t = setup([{ kind: "admin", health: health({ pid: 999, vault: "/other" }) }]);
+
+    expect((await t.admin.restart()).kind).toBe("failed");
+    expect(t.killed).toEqual([]);
+  });
+});
+
 describe("stopping the admin console", () => {
   it("stops the one this plugin started, and forgets it", async () => {
     const t = setup([{ kind: "admin", health: health({ pid: 777 }) }], { startedPid: 777 });

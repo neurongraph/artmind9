@@ -56,6 +56,7 @@ describe("ArtmindPlugin", () => {
       "Run doctor",
       "Open side panel",
       "Open admin console",
+      "Restart admin console",
       "Stop admin console",
       "Restart serve",
     ]);

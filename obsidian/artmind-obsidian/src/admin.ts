@@ -59,6 +59,7 @@ export type StopOutcome =
 
 export const START_TIMEOUT_MS = 20_000;
 export const START_POLL_MS = 500;
+export const STOP_TIMEOUT_MS = 10_000;
 
 function samePath(a: string | null, b: string): boolean {
   const norm = (p: string) => p.replace(/[\\/]+$/, "");
@@ -127,8 +128,9 @@ export class AdminConsole {
     }
   }
 
-  /** Stop the admin console this plugin started; never another one. */
-  async stop(): Promise<StopOutcome> {
+  /** Stop the admin console this plugin started; never another one,
+   * unless `force`: then any admin console that reports this vault. */
+  async stop(force = false): Promise<StopOutcome> {
     const ours = this.ctx.startedPid();
     let target: ReturnType<typeof hostPort>;
     try {
@@ -141,10 +143,33 @@ export class AdminConsole {
       if (ours) await this.ctx.saveStartedPid(0);
       return { kind: "not_running" };
     }
-    if (!ours || found.health.pid !== ours) return { kind: "not_ours", pid: found.health.pid };
-    if (!this.deps.kill(ours)) return { kind: "failed", message: `Could not stop process ${ours}.` };
+    const mine = force && samePath(found.health.vault, this.ctx.vaultRoot);
+    if (!mine && (!ours || found.health.pid !== ours)) return { kind: "not_ours", pid: found.health.pid };
+    const pid = found.health.pid;
+    if (!this.deps.kill(pid)) return { kind: "failed", message: `Could not stop process ${pid}.` };
     await this.ctx.saveStartedPid(0);
     return { kind: "stopped" };
+  }
+
+  /** Stop this vault's admin console (whoever started it), wait for its
+   * port to free up, then start it again and open it. */
+  async restart(path = "/"): Promise<AdminOutcome> {
+    if (this.starting) return { kind: "busy" };
+    const stopped = await this.stop(true);
+    if (stopped.kind === "failed") return stopped;
+    if (stopped.kind === "not_ours") return { kind: "failed", message: stopOutcomeText(stopped) };
+    if (stopped.kind === "stopped") {
+      try {
+        const { base } = hostPort(this.ctx.url());
+        for (let waited = 0; waited < STOP_TIMEOUT_MS; waited += START_POLL_MS) {
+          if ((await this.deps.probe(base)).kind === "down") break;
+          await this.deps.sleep(START_POLL_MS);
+        }
+      } catch {
+        // stop() already accepted the URL.
+      }
+    }
+    return this.open(path);
   }
 }
 
