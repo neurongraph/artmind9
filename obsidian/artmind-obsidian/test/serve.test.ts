@@ -317,6 +317,22 @@ describe("serve: restart", () => {
     expect(t.calls.some((c) => c.startsWith("spawn"))).toBe(false);
   });
 
+  it("forced, kills this vault's serve started elsewhere and starts a fresh one", async () => {
+    const t = setup([serve({ pid: 900 }), { kind: "down" }, { kind: "down" }, serve({ pid: 901 })]);
+
+    const outcome = await t.manager.restart(true);
+
+    expect(t.killed).toEqual([900]);
+    expect(outcome).toEqual({ kind: "running", port: 8377, pid: 901, started: true });
+  });
+
+  it("forced, still leaves another vault's serve alone", async () => {
+    const t = setup([serve({ vault: "/Users/me/other", pid: 900 })]);
+
+    expect((await t.manager.restart(true)).kind).toBe("other_vault");
+    expect(t.killed).toEqual([]);
+  });
+
   it("says another vault holds the port rather than refusing", async () => {
     const t = setup([serve({ vault: "/Users/me/other", pid: 900 })]);
 

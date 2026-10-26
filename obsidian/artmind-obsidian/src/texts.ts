@@ -65,6 +65,7 @@ export const LABELS = {
   refresh: "↻",
   doctor: "Doctor",
   admin: "Admin ↗",
+  restartAdmin: "Restart Admin",
   applyFirst: "Apply first",
   ingestAnyway: "Ingest anyway",
   pullThenApply: "Pull, then apply",
@@ -135,6 +136,7 @@ export const COMMANDS = {
   openPanel: "Open side panel",
   openAdmin: "Open admin console",
   stopAdmin: "Stop admin console",
+  restartAdmin: "Restart admin console",
   restartServe: "Restart serve",
 } as const;
 

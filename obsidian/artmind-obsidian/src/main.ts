@@ -347,6 +347,21 @@ export default class ArtmindPlugin extends Plugin {
     openInBrowser(url);
   }
 
+  /** Kill this vault's serve and admin console (whoever started them),
+   * then start both again: serve first, so the console picks up its port. */
+  private async restartAdmin(): Promise<void> {
+    const admin = this.admin;
+    if (!admin || admin.isStarting) return;
+    this.notifier.show("prompt", "Restarting artmind serve and the admin console…");
+    if (this.artmindSettings.serveEnabled) {
+      const served = await this.serve?.restart(true);
+      if (served && served.kind !== "running") this.showServe(served);
+    }
+    const outcome = await admin.restart();
+    const text = adminOutcomeText(outcome);
+    if (text) this.notifier.show(outcome.kind === "opened" || outcome.kind === "busy" ? "prompt" : "error", text);
+  }
+
   private async stopAdmin(): Promise<void> {
     const outcome = await this.admin?.stop();
     if (outcome) this.notifier.show(outcome.kind === "stopped" || outcome.kind === "not_running" ? "prompt" : "error", stopOutcomeText(outcome));
@@ -357,6 +372,7 @@ export default class ArtmindPlugin extends Plugin {
       refresh: () => void this.controller?.refresh({ heavy: true }),
       run: (action) => this.controller?.run(action),
       openAdmin: (path?: string) => void this.openAdmin(path),
+      restartAdmin: () => void this.restartAdmin(),
       doctor: () => void this.controller?.runDoctor(),
       setPath: () => {
         const setting = (this.app as unknown as AppInternals).setting;
@@ -384,6 +400,7 @@ export default class ArtmindPlugin extends Plugin {
       ["doctor", COMMANDS.doctor, () => void c()?.runDoctor()],
       ["open-panel", COMMANDS.openPanel, () => void this.openPanel()],
       ["open-admin-console", COMMANDS.openAdmin, () => void this.openAdmin()],
+      ["restart-admin-console", COMMANDS.restartAdmin, () => void this.restartAdmin()],
       ["stop-admin-console", COMMANDS.stopAdmin, () => void this.stopAdmin()],
       ["restart-serve", COMMANDS.restartServe, () => void this.restartServe()],
     ];

@@ -51,6 +51,7 @@ function handlers(): PanelHandlers & { calls: string[] } {
     refresh: () => void calls.push("refresh"),
     run: (action) => void calls.push(`run:${JSON.stringify(action)}`),
     openAdmin: (path) => void calls.push(path === undefined ? "openAdmin" : `openAdmin:${path}`),
+    restartAdmin: () => void calls.push("restartAdmin"),
     doctor: () => void calls.push("doctor"),
     setPath: () => void calls.push("setPath"),
     copy: (text) => void calls.push(`copy:${text}`),
@@ -320,6 +321,16 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     (root.querySelector(".artmind-admin-link") as HTMLAnchorElement).click();
 
     expect(h.calls).toEqual(["openAdmin:/", "openAdmin:/dashboard"]);
+  });
+
+  it("Restart Admin restarts the admin console", () => {
+    const root = document.createElement("div");
+    const h = handlers();
+
+    renderPanel(root, snapshot(RUNNING_JOB), h);
+    button(root, "Restart Admin").click();
+
+    expect(h.calls).toEqual(["restartAdmin"]);
   });
 
   it("collapses Stores and Activity by default, and remembers a toggle across renders", () => {

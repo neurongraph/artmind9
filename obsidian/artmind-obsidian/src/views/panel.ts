@@ -38,6 +38,9 @@ function tools(root: HTMLElement, snapshot: Snapshot, handlers: PanelHandlers): 
   const admin = actionButton(bar, LABELS.admin, snapshot.checklist.blocked.admin, () => handlers.openAdmin("/"));
   admin.classList.add("artmind-tool");
   admin.title ||= "Open the admin console (starts it if need be)";
+  const restart = actionButton(bar, LABELS.restartAdmin, snapshot.checklist.blocked.admin, () => handlers.restartAdmin());
+  restart.classList.add("artmind-tool");
+  restart.title ||= "Stop this vault's artmind serve and admin console, then start them again";
 }
 
 function problems(root: HTMLElement, snapshot: Snapshot, handlers: PanelHandlers): void {
