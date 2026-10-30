@@ -2234,7 +2234,9 @@ def _sanitize_label(s: str) -> str:
 # documented where the list lives, `schema_validate.RESERVED_REL_TYPES`: a schema
 # that asks the model for one is warned about at `domains validate` and at the start
 # of an extraction, and the write loop below drops the edge.
-from artmind.schema_validate import RESERVED_REL_TYPES, reserved_relationship_warnings  # noqa: E402
+from artmind.schema_validate import (  # noqa: E402
+    RESERVED_REL_TYPES, graph_extraction_enabled, reserved_relationship_warnings,
+)
 
 
 def _neo4j_value(key, value):
@@ -2992,6 +2994,10 @@ def _build_observations(
     return observations
 
 
+class _ChunksOnly(Exception):
+    """Internal: leaves a fail-open `try` block that a chunks-only domain skips."""
+
+
 def extract_kg(
     file_result: dict,
     domain: str,
@@ -3095,6 +3101,9 @@ def extract_kg(
     schema = load_schema(domain, schemas_dir=DOMAIN_SCHEMAS_DIR)
     for warning in reserved_relationship_warnings(schema, domain):
         logger.warning("Schema {}", warning)
+    # `graph_extraction: false` (spec 2026-10-30-chunks-only-domains-design.md):
+    # chunks + embeddings only, no LLM step of any kind.
+    chunks_only = not graph_extraction_enabled(schema)
 
     doc_kg_dir = KG_DIR / domain / registered_path.stem
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
@@ -3163,6 +3172,8 @@ def extract_kg(
     # behaviour, so a down embed service costs quality, not the ingest.
     vocabulary: list = []
     try:
+        if chunks_only:
+            raise _ChunksOnly
         from artmind.canonicalize import retrieve_vocabulary
         from artmind.graph_query import read_session
 
@@ -3174,6 +3185,8 @@ def extract_kg(
                 vocab_session, domain=domain, schema=schema,
                 seed_text=seed_text, embed_model=embed_model,
             )
+    except _ChunksOnly:
+        pass
     except Exception as e:
         logger.warning("Name vocabulary unavailable, extracting without it ({})", e)
 
@@ -3187,6 +3200,8 @@ def extract_kg(
     # contract as the name vocabulary above.
     property_vocabulary: dict = {}
     try:
+        if chunks_only:
+            raise _ChunksOnly
         from artmind.canonicalize import retrieve_property_vocabulary
         from artmind.graph_query import read_session
 
@@ -3194,6 +3209,8 @@ def extract_kg(
             property_vocabulary = retrieve_property_vocabulary(
                 prop_vocab_session, domain=domain, schema=schema,
             )
+    except _ChunksOnly:
+        pass
     except Exception as e:
         logger.warning("Property vocabulary unavailable, extracting without it ({})", e)
 
@@ -3229,7 +3246,7 @@ def extract_kg(
         chunks_meta_for_context = {}
     context_metadata = ""
     context_summary = None
-    if context_settings.enabled:
+    if context_settings.enabled and not chunks_only:
         provenance = file_result.get("provenance") or {}
         source_line = provenance.get("source_path") or canonical_path(registered_path)
         if Path(source_line).is_absolute():  # never send a filesystem path to the provider
@@ -3338,6 +3355,19 @@ def extract_kg(
             data.setdefault("prev_chunk_id", f"{doc_id}_{seq - 1:03d}")
         if seq < chunk_count:
             data.setdefault("next_chunk_id", f"{doc_id}_{seq + 1:03d}")
+
+        if chunks_only:
+            # No graph in this domain: chunk text and vector only. The three
+            # steps are recorded `skipped`, which resume and the failed-step
+            # guard already treat as done.
+            data["entities"], data["properties"], data["relationships"] = [], [], []
+            chunk_json.write_text(
+                json.dumps(strip_embeddings(data), indent=2, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            for step in ("entities", "properties", "relationships"):
+                _update_chunk_step(doc_sha256, seq, step, "skipped")
+            return
 
         entities_status = status.get("entities_status", "pending")
         # Step statuses are recorded only after chunk_NNN.json is on disk (end
@@ -3683,7 +3713,9 @@ def extract_kg(
     # see each other, so the same thing may carry several names; this is the
     # first point at which anything can see the whole document's output.
     names_supplied = canonical_names is not None
-    if not names_supplied:
+    if chunks_only:
+        canonical_names = {}
+    elif not names_supplied:
         canonical_names = canonicalize_document(
             all_entities, schema=schema, vocabulary=vocabulary,
             model=text_model, debug_dir=llm_debug_dir,
@@ -3711,7 +3743,7 @@ def extract_kg(
     # document's own date -- never the ingestion-date default.
     from artmind import document_entity as _document_entity
 
-    owners = _document_entity.own_entities(
+    owners = [] if chunks_only else _document_entity.own_entities(
         all_entities, canonical_names, schema,
         title=str(meta.get("title") or registered_path.stem), filename=registered_path.name,
     )
@@ -3739,7 +3771,7 @@ def extract_kg(
     # A model answering `[]` reports success, so the failed-step guard above
     # cannot see it. Only for --reextract: the body is unchanged, so an empty
     # answer over a non-empty one is a bad run, not a change to the note.
-    if stash is not None and not all_observations:
+    if stash is not None and not all_observations and not chunks_only:
         prior = _staged_observation_count(doc_kg_dir)
         if prior:
             file_result["kg_error"] = (
