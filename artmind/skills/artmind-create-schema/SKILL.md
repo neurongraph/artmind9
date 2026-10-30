@@ -443,6 +443,23 @@ rendered into its matching prompt, after the universal rules and after every
 class's own guidance — reach for it only when the instruction doesn't
 belong to a single class.
 
+### Step 8b — A search-only domain (`graph_extraction: false`)
+
+When the user wants a domain's documents searchable but no graph built from
+them (no entities, properties or relationships), the schema needs only:
+
+```yaml
+name: research_papers
+description: Papers kept for semantic search only.
+graph_extraction: false
+```
+
+Ingestion then stops at DocChunks + embeddings and makes no LLM call;
+`artmind query vector-text` answers questions over it. Skip Steps 3-8 for such
+a schema; `domains validate` warns about `entity_types`, `document_entity` or
+`property_aliases` declared beside it (they are ignored). The flag is not
+inherited: a dotted child (`papers.archive`) must set it in its own file.
+
 ### Step 9 — Save and verify
 
 Write the completed schema to:

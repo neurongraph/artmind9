@@ -1737,8 +1737,10 @@ def domains_overview() -> dict:
         # graph half of this overview must still work there.
         pass
 
+    from artmind.schema_validate import domain_graph_extraction
+
     for entry in overview.values():
-        entry["stores"] = [
+        stores = [
             name
             for name, present in (
                 ("graph", bool(entry.get("document_count") or entry.get("entity_count"))),
@@ -1746,6 +1748,12 @@ def domains_overview() -> dict:
             )
             if present
         ]
+        # A chunks-only domain (`graph_extraction: false`, read from this
+        # machine's schema) holds documents for vector-text search, no graph.
+        if isinstance(entry.get("domain"), str) and not domain_graph_extraction(entry["domain"]):
+            entry["graph_extraction"] = False
+            stores = ["chunks" if s == "graph" else s for s in stores]
+        entry["stores"] = stores
 
     return {
         "query_type": "graph",

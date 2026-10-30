@@ -23,6 +23,10 @@ or insights — you cannot know a view does not cover it until you have read the
 you are about to run any other query and have not seen this conversation's `views list`
 output for every domain in the set, stop and run it first.
 
+Exception: a domain that `domains-overview` shows with `"graph_extraction": false` (store
+`chunks`) builds no graph. Skip `views list` and every graph, text2cypher and insights
+command for it, and answer from `artmind query vector-text` only.
+
 ## Running commands
 
 On the grounded Q&A surfaces a shell command is allowed only as a single `artmind ...` invocation with nothing before or after it: no `cd`, `&&`, `;`, pipes, redirects or `$(...)`. The working directory is already the vault, so never `cd` into it. A refused command is not a reason to stop: re-run it bare.

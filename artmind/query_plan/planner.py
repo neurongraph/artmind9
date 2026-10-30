@@ -479,6 +479,14 @@ def _search_steps(all_routes, context: dict) -> list[dict]:
     return steps
 
 
+def _chunks_only(selected: list[str], overview: list[dict]) -> bool:
+    """Every overview row the selection covers is a chunks-only domain
+    (`graph_extraction: false`): it has documents to search and no graph."""
+    rows = [r for r in overview
+            if any(r.get("domain") == d or str(r.get("domain")).startswith(d + ".") for d in selected)]
+    return bool(selected) and bool(rows) and all(r.get("graph_extraction") is False for r in rows)
+
+
 def _execute(chosen_view, selected, high: bool, steps: list[dict], raws: list[dict], warnings: list[str]):
     """(executed, rows, rows_total, truncated); only a high-confidence single-combination view runs."""
     if not high:
@@ -595,6 +603,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     selected, source, domain_conf, domain_candidates = _choose_domains(domains, options, overview, answers)
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
+    chunks_only = _chunks_only(selected, overview)
+    if chunks_only:
+        warnings.append(
+            f"{', '.join(selected)} builds no graph (graph_extraction: false): planned as a search of the notes"
+        )
 
     selected_cats = _selected_cats(cats, selected)
     if selected_cats is not None and {c.domain for c in selected_cats} == {c.domain for c in cover_cats}:
@@ -608,7 +621,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     view_answer = answers.get("view")
     route_answer = answers["route"]
     chosen_view = None
-    if view_answer is not None and view_answer.choice != NO_VIEW and view_answer.confidence >= threshold:
+    if (not chunks_only and view_answer is not None and view_answer.choice != NO_VIEW
+            and view_answer.confidence >= threshold):
         loaded = views_by_name[view_answer.choice]
         if selected and all(domain_covered(d, loaded.spec.domains) for d in selected):
             chosen_view = loaded
@@ -627,7 +641,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     stages: list[tuple[str, float]] = []
     if source != "given":
         stages.append(("domain", domain_conf if source != "all" else 0.0))
-    if view_answer is not None:
+    if view_answer is not None and not chunks_only:
         stages.append(("view", view_answer.confidence))
     route_obj = None
     if chosen_view is not None:
@@ -635,8 +649,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                             context)
         route_id, route_conf = "view", view_answer.confidence
     else:
-        route_obj = next(r for r in all_routes if r.id == route_answer.choice)
-        route_id, route_conf = route_obj.id, route_answer.confidence
+        route_obj = next(r for r in all_routes if r.id == ("search" if chunks_only else route_answer.choice))
+        route_id, route_conf = route_obj.id, (1.0 if chunks_only else route_answer.confidence)
         built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
     stages += built.stages
     rendered, fallbacks, read = built.steps, built.fallbacks, built.read

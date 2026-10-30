@@ -2,11 +2,15 @@
 
 `empty_extractions` lists notes whose staged extraction is empty although
 their chunk text is not -- what a re-extraction that silently came back empty
-leaves behind (spec 2026-10-18-extraction-loss-guard-design.md §3.3). Reads
+leaves behind (spec 2026-10-18-extraction-loss-guard-design.md §3.3). A
+chunks-only domain (`graph_extraction: false`) is skipped: empty is its
+intended result. Reads
 staging only: no registry, no Neo4j, no LLM.
 """
 import json
 from pathlib import Path
+
+from artmind.schema_validate import domain_graph_extraction
 
 
 def _in_family(domain: str, wanted: list[str] | None) -> bool:
@@ -30,6 +34,8 @@ def empty_extractions(kg_dir: Path, *, domains: list[str] | None = None, min_cha
     for domain_dir in sorted(p for p in kg_dir.iterdir() if p.is_dir()):
         if not _in_family(domain_dir.name, domains):
             continue
+        if not domain_graph_extraction(domain_dir.name):
+            continue  # empty is correct in a chunks-only domain
         for folder in sorted(p for p in domain_dir.iterdir() if p.is_dir()):
             if not (folder / "observations.json").is_file():
                 continue
