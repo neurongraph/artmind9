@@ -1,6 +1,6 @@
 ---
 name: artmind-query
-description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Always checks the domain's saved views (`artmind query views list`) before any other retrieval.
+description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Always checks the domain's saved views (`artmind query views list`) before any other retrieval, except for chunks-only domains (`graph_extraction: false`), which go straight to `vector-text`.
 ---
 
 # artmind Query
@@ -12,8 +12,9 @@ Use this skill to answer user questions over an artmind domain through the deter
 For each new domain set in a conversation, before any other `artmind query`, `artmind db`
 or insights command:
 
-1. `artmind query domains-overview --compact` (Route), unless the user named the exact
-   domain(s).
+1. `artmind query domains-overview --compact` (Route) — once per conversation, even when
+   the user named the exact domain(s): it is the only place that says whether a domain is
+   chunks-only (below).
 2. `artmind query views list --domain <domain> --compact` (Views), once per domain.
 
 A saved view is the domain owner's reviewed answer to a recurring question; skipping it
@@ -23,9 +24,26 @@ or insights — you cannot know a view does not cover it until you have read the
 you are about to run any other query and have not seen this conversation's `views list`
 output for every domain in the set, stop and run it first.
 
-Exception: a domain that `domains-overview` shows with `"graph_extraction": false` (store
-`chunks`) builds no graph. Skip `views list` and every graph, text2cypher and insights
-command for it, and answer from `artmind query vector-text` only.
+### Exception: chunks-only domains
+
+A domain that `domains-overview` shows with `"graph_extraction": false` (its `stores`
+list has `chunks` in place of `graph`) holds documents and their chunks but no entities
+or relationships. For such a domain:
+
+- Skip `views list`, insights, `graph metadata`, `entity-listing`, `entity-resolve`,
+  `entity-context`, `pattern1`–`pattern9` and `text2cypher`: they return nothing there.
+- Answer from `artmind query vector-text --domain <domain> --compact "<question>"`.
+- For a whole document ("summarise X") use `artmind query graph pattern10 --documentName
+  "<name>"`; for more context around a hit, `artmind query chunks --idList <id> --expand 1`;
+  for which documents exist or how many, `artmind query graph structural-metadata`. These
+  read documents and chunks, which a chunks-only domain has.
+- If its `stores` also lists `structured`, Store routing still applies: tables are not
+  affected by the flag.
+- In a domain set that mixes chunks-only and graph domains, leave the chunks-only ones out
+  of the graph steps but keep them in the shared `vector-text` call.
+
+The flag comes from this machine's schema files; a domain without its schema here shows
+no flag and goes through the normal steps, ending at `vector-text` when the graph is empty.
 
 ## Running commands
 
@@ -137,17 +155,22 @@ domains by design (e.g. `banking_policy` vs `banking_sop_guides`). Before answer
 artmind query domains-overview --compact
 ```
 
-- If the user names an exact single small domain, use it and go on to Views.
+- If the user names an exact single small domain, use it and go on to Views — or, if
+  the overview shows it with `"graph_extraction": false`, follow "Exception: chunks-only
+  domains" above instead.
 - If the user names two or more SPECIFIC domains directly (e.g. "compare banking_policy
   and banking_sop_guides"), use exactly those domains and go on to Views — no
-  sub-agent needed, since routing is already resolved.
+  sub-agent needed, since routing is already resolved. Chunks-only domains among them
+  follow the exception.
 - If the user names an AREA ("banking", "our policies"), or it's unclear which
   domain(s) hold the answer, or listings look large, launch ONE sub-agent that runs
   `domains-overview` + per-domain `views list --compact` + `structural-metadata --compact`
-  + `entity-resolve`, and returns ONLY a compact routing report:
-  `{domains, views:[{domain,name,summary,params}], resolved_entities:[{_id,name,class,domain,observation_count}], relevant_classes, relevant_rel_types}`.
+  + `entity-resolve` (skipping `views list` and `entity-resolve` for any domain the
+  overview shows with `"graph_extraction": false`), and returns ONLY a compact routing report:
+  `{domains, chunks_only:[domain], views:[{domain,name,summary,params}], resolved_entities:[{_id,name,class,domain,observation_count}], relevant_classes, relevant_rel_types}`.
   Main context never sees the raw listings. Its `views` list is the Views step's
-  catalogue: you still go on to Views and match the question against it.
+  catalogue: you still go on to Views and match the question against it. Domains in
+  `chunks_only` follow the exception.
 - Pass `--domain` once per selected domain on every subsequent command; a single
   command call now spans all of them.
 
