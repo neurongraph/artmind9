@@ -6,14 +6,16 @@ Status: design, 2026-10-30.
 
 Let an operator ingest a domain's documents and stop at `:DocChunk` nodes with
 embeddings: no entity, property or relationship extraction. The domain is then
-a vector + full-text search index (`artmind query vector-text`). Tables in such
-a domain are indexed the same way: one embedded chunk per row, no entities.
+a vector + full-text search index (`artmind query vector-text`).
 
 ## Non-goals
 
 - A per-run CLI flag. The mode is a property of the domain, not of a run.
 - Inheritance of the flag by dotted child domains.
 - Changing how graph domains behave (`graph_extraction` defaults to `true`).
+- Any change to `ingest table2graph` or structured tables. The flag governs
+  document ingestion only; `table2graph` neither reads it nor changes. A
+  chunks-only domain is not meant to receive table projections.
 
 ## The flag
 
@@ -67,34 +69,6 @@ observations to `:ObservationHistory`; the projection's zero-latest-observation
 rule then removes the entities. Nothing new is needed. Switching back to
 `true` and re-ingesting with `--reextract` re-extracts; embeddings are reused.
 
-## Tables: `table2graph`
-
-`table_to_graph` branches on the same helper for `row["domain"]`. Under
-`false` the table is projected to chunks only:
-
-- Entities, lookups, the versions policy, observations and relationships are
-  skipped. Report counts for them are zero.
-- Every row becomes a `:DocChunk` (not only rows that contribute an
-  observation), embedded and committed through `_commit_document_tx`. A
-  temporal (SCD-2) table gets one chunk per row version, as today.
-- Chunk text is `row_text`: `Table T, row K` plus `Column: value` lines.
-- A re-run replaces the previous run's chunks, as for any document.
-- The mapping file is **optional**. Without one: row key = the registry's
-  business key (else `rowN`), and the text lists the business key plus
-  text-typed columns only. A supplied mapping still sets `row_key`,
-  `row_text_include`, `row_text_exclude`; its `entities` and `relationships`
-  are ignored, and `skip_chunks: true` is an error in this mode.
-- `--pending` includes a chunks-only table with no mapping when its projection
-  is missing or older than the table's last refresh (reasons `missing`,
-  `table_refreshed`); `mapping_changed` applies only if a mapping exists.
-- **Cost guard.** One embedding call per row. `--dryRun` reports the row count
-  to be embedded. A run over `ARTMIND_TABLE_CHUNKS_MAX_ROWS` (default 5000)
-  is refused unless `--force` is given. `--noEmbed` still defers embeddings to
-  `ingest embed-chunks`.
-
-`text2sql` is unaffected and remains the route for numeric/analytical
-questions; chunks add semantic and keyword search over free-text columns.
-
 ## Audit
 
 `ingest empty-extractions` skips staging folders whose domain is chunks-only
@@ -117,13 +91,11 @@ schema via `load_schema` (no Neo4j).
 
 ## Docs
 
-- CLAUDE.md: a repo-layout row for the mode, and a mention in the
-  `table2graph` row.
-- `artmind-create-schema` skill: the flag, with the example above; table
-  section: "in a chunks-only domain no mapping is needed".
+- CLAUDE.md: a repo-layout row for the mode.
+- `artmind-create-schema` skill: the flag, with the example above.
 - `artmind-ingestion-helper` skill: how to tell a chunks-only domain and how to
   switch it.
-- Command help for `ingest table2graph` and `domains validate`.
+- Command help for `domains validate`.
 
 ## Tests (hermetic, in `test/`, synthetic text)
 
@@ -136,13 +108,8 @@ schema via `load_schema` (no Neo4j).
    chunks-only domain is accepted (guard bypassed) and stages empty
    observations; `_commit_document_tx` is asserted to receive the empty list
    and to demote prior observations (assert the Cypher/params sent, not counts).
-4. `build_staged`/`table_to_graph` under `false`: every row has a chunk;
-   zero observations; temporal table keeps one chunk per version; no mapping
-   works; mapping with `skip_chunks: true` errors; text-typed columns default.
-5. Cost guard: over the limit refuses, `--force` passes, `--dryRun` reports
-   the row count.
-6. `empty_extractions` omits chunks-only folders.
-7. `domains_overview` entry and `stores`; `plan` forces `search` for a
+4. `empty_extractions` omits chunks-only folders.
+5. `domains_overview` entry and `stores`; `plan` forces `search` for a
    chunks-only selection and keeps routing for a mixed one.
 
 ## Verification beyond unit tests
