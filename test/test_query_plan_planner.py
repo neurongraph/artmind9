@@ -756,3 +756,19 @@ def test_a_spelled_out_name_outranks_a_catalogue_name_as_the_primary_entity(cata
     result = _plan("did the greenhouse see Lakeport")
     context = planner._context(["journal"], "q", result["entities"], None, [])
     assert context["entity_name"] == "Lakeport"
+
+
+def test_a_chunks_only_domain_is_planned_as_search_with_a_warning(world):
+    world["overview"][0]["graph_extraction"] = False
+    plan = _plan("How many visits did Ada make to Lakeport in 2025?")
+    assert plan["route"]["id"] == "search"
+    assert plan["view_match"] is None
+    assert any("vector-text" in s["cmd"] for s in plan["steps"] + plan["suggested_steps"])
+    assert any("graph_extraction" in w for w in plan["warnings"])
+
+
+def test_a_mixed_scope_keeps_normal_routing(world):
+    world["overview"][0]["graph_extraction"] = False
+    world["overview"].append({"domain": "work", "document_count": 1, "documents": ["w.md"], "top_classes": ["PERSON"]})
+    plan = _plan("How many visits did Ada make to Lakeport in 2025?", domains=("journal", "work"))
+    assert not any("graph_extraction" in w for w in plan["warnings"])
