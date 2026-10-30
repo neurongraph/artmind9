@@ -600,6 +600,25 @@ latest version by default — so last year's segments survive this year's refres
 DATE` projects only the versions in force on that date. Make sure the mapping's `table:`
 pattern matches the chosen name.
 
+### K. A search-only (chunks-only) domain
+
+A schema with `graph_extraction: false` makes its domain chunks-only: `ingest sync|async`
+stops at DocChunks + embeddings, with no LLM call (no entities, properties, relationships,
+document summary or canonicalization). `artmind query domains-overview --compact` shows such
+a domain with `"graph_extraction": false` and store `chunks`; `ingest empty-extractions`
+ignores it, since empty observations are its intended result.
+
+Switching an existing domain:
+
+```bash
+# graph -> chunks-only: set graph_extraction: false in the schema, then
+artmind ingest sync "<folder>" --domain DOMAIN --reextract   # retires its entities to history
+# chunks-only -> graph: remove the flag (add entity_types), then the same command re-extracts;
+# embeddings are reused
+```
+
+`table2graph` does not read the flag.
+
 ---
 
 ## Full Pipeline Reference (happy path)
