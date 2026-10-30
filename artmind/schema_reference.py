@@ -29,6 +29,20 @@ from artmind.prompt_builder import (
     assemble_relationships_prompt,
     relationship_pairs,
 )
+from artmind.schema_validate import graph_extraction_enabled
+
+
+def _render_chunks_only(s: dict[str, Any]) -> tuple[str, str]:
+    """(header chip, body note) for a `graph_extraction: false` schema; empty otherwise."""
+    if s.get("graph_extraction", True):
+        return "", ""
+    chip = _chip("Chunks only", "sr-chip sr-chip-rel")
+    note = (
+        '<p class="sr-schema-desc"><strong>graph_extraction: false</strong> &mdash; documents in this '
+        "domain are stored as text chunks with embeddings only: no entities, properties or relationships "
+        "are extracted, and questions are answered by vector search.</p>"
+    )
+    return chip, note
 
 
 def build_schema_dict(schema_path: Path) -> dict[str, Any]:
@@ -69,6 +83,7 @@ def build_schema_dict(schema_path: Path) -> dict[str, Any]:
         "name": data.get("name", schema_path.stem),
         "description": data.get("description", ""),
         "temporal": data.get("temporal"),
+        "graph_extraction": graph_extraction_enabled(data),
         "entities": entities,
         "relationships": relationships,
         "assembled_prompts": assembled_prompts,
@@ -227,16 +242,19 @@ def render_fragment(schemas: list[dict[str, Any]], prefix: str = "") -> str:
         short_title = _short_title(s["name"], prefix)
         entity_cards = "\n".join(_render_entity_card(schema_id, e) for e in s["entities"])
         rel_rows = "\n".join(_render_relationship_row(schema_id, r) for r in s["relationships"])
+        chunks_chip, chunks_note = _render_chunks_only(s)
         sections.append(f"""
     <section class="sr-schema" id="{schema_id}">
       <button type="button" class="sr-schema-head">
         <span class="sr-schema-toggle" aria-hidden="true">&#9660;</span>
         <h3>{_esc(short_title)}</h3>
         <code class="sr-file-badge">{_esc(s["file"])}</code>
+        {chunks_chip}
         <span class="sr-schema-counts">{len(s["entities"])} entities &middot; {len(s["relationships"])} relationships</span>
       </button>
       <div class="sr-schema-body">
         <p class="sr-schema-desc">{_esc(s["description"])}</p>
+        {chunks_note}
         {_render_temporal(s.get("temporal"))}
         <div class="sr-subhead">Entity classes <span class="sr-count-badge">{len(s["entities"])}</span></div>
         <div class="sr-grid">

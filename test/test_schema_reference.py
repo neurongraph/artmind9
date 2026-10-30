@@ -140,3 +140,14 @@ def test_schema_reference_routes_are_admin_only(tmp_path, monkeypatch):
     client = _client(monkeypatch, tmp_path, admin_routes=False)
     assert client.get("/api/schema-reference/families").status_code == 404
     assert client.get("/api/schema-reference", params={"prefix": "test_prompt"}).status_code == 404
+
+
+def test_chunks_only_schema_is_flagged_and_a_graph_schema_is_not(tmp_path):
+    flagged = tmp_path / "notes_schema.yaml"
+    flagged.write_text("name: notes\ndescription: Search only.\ngraph_extraction: false\n")
+
+    chunks_only = render_fragment([build_schema_dict(flagged)], prefix="notes")
+    graph = render_fragment([build_schema_dict(FIXTURE)], prefix="test_prompt")
+
+    assert "Chunks only" in chunks_only and "graph_extraction: false" in chunks_only
+    assert "Chunks only" not in graph and "graph_extraction" not in graph
