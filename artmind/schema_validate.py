@@ -95,6 +95,36 @@ def _sanitizes_to_reserved_label(cls: str) -> bool:
     return sanitized == _RESERVED_STRUCTURAL_LABEL
 
 
+def graph_extraction_enabled(schema: dict | None) -> bool:
+    """False only for a schema that says `graph_extraction: false`: its domain is
+    chunks-only (DocChunks + embeddings, no entity extraction). The one reader
+    of the key (spec 2026-10-30-chunks-only-domains-design.md)."""
+    return (schema or {}).get("graph_extraction", True) is not False
+
+
+def domain_graph_extraction(domain: str) -> bool:
+    """`graph_extraction_enabled` for `domain`'s own schema file. A dotted child
+    does not inherit its parent's flag; a missing or unreadable schema is a
+    normal (graph) domain."""
+    path = Path(DOMAIN_SCHEMAS_DIR) / f"{domain}_schema.yaml"
+    try:
+        schema = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return True
+    return graph_extraction_enabled(schema if isinstance(schema, dict) else {})
+
+
+def graph_extraction_warnings(schema: dict, schema_name: str = "") -> list[str]:
+    """Keys a chunks-only schema declares that nothing will read."""
+    if graph_extraction_enabled(schema):
+        return []
+    label = schema_name or schema.get("name", "<unnamed>")
+    return [
+        f"{label}: graph_extraction is false, so '{key}' is ignored (no entities are extracted)"
+        for key in ("entity_types", "document_entity", "property_aliases") if schema.get(key)
+    ]
+
+
 def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str]:
     """Return a list of violation messages; empty means the schema is valid.
 
@@ -108,6 +138,9 @@ def validate_schema(schema: dict, meta: dict, schema_name: str = "") -> list[str
     prefix = meta.get("reserved_prefix", "_")
     valid_kinds = set(meta.get("kinds", {}).keys())
     label = schema_name or schema.get("name", "<unnamed>")
+
+    if "graph_extraction" in schema and not isinstance(schema["graph_extraction"], bool):
+        errors.append(f"{label}.graph_extraction: must be true or false, not {schema['graph_extraction']!r}")
 
     entity_types = schema.get("entity_types")
     if entity_types is None:
@@ -249,7 +282,7 @@ def warn_all(schemas_dir: Path = DOMAIN_SCHEMAS_DIR) -> dict[str, list[str]]:
             continue  # reported as an error by validate_all
         schema = yaml.safe_load(schema_file.read_text(encoding="utf-8")) or {}
         name = schema.get("name", schema_file.stem)
-        warnings = reserved_relationship_warnings(schema, name)
+        warnings = reserved_relationship_warnings(schema, name) + graph_extraction_warnings(schema, name)
         if warnings:
             found[name] = warnings
     return found

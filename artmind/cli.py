@@ -568,7 +568,8 @@ def domains_validate(domain: str | None):
     is never written, so the schema should use another name.
     """
     from artmind.schema_validate import (
-        load_meta, reserved_relationship_warnings, validate_all, validate_schema, warn_all,
+        graph_extraction_warnings, load_meta, reserved_relationship_warnings, validate_all,
+        validate_schema, warn_all,
     )
 
     if domain:
@@ -584,7 +585,7 @@ def domains_validate(domain: str | None):
             data = _load_domain_schema(domain)
             errors = validate_schema(data, load_meta(), schema_name=domain)
             violations = {domain: errors} if errors else {}
-            warnings = {domain: reserved_relationship_warnings(data, domain)}
+            warnings = {domain: reserved_relationship_warnings(data, domain) + graph_extraction_warnings(data, domain)}
     else:
         violations = validate_all()
         warnings = warn_all()
