@@ -156,9 +156,13 @@ def _registry_miss_message(document_name: str, domain: str) -> str:
     # `<stem>~<hex>` folder whose document.json names this file.
     wanted = Path(document_name).name.lower()
     domain_dir = paths.KG_DIR / domain
-    staged = folder = None
+    from artmind.atomic_dir import is_scratch
+
+    found: list[tuple[dict, Path]] = []
     for candidate in [domain_dir / stem, *sorted(glob.glob(f"{glob.escape(str(domain_dir / stem))}~*"))]:
         candidate = Path(candidate)
+        if is_scratch(candidate):
+            continue
         try:
             record = json.loads((candidate / "document.json").read_text(encoding="utf-8"))
         except (OSError, ValueError):
@@ -167,15 +171,26 @@ def _registry_miss_message(document_name: str, domain: str) -> str:
             continue
         names = {Path(str(record[k])).name.lower() for k in ("name", "source_path", "path") if record.get(k)}
         if candidate.name == stem or wanted in names or Path(wanted).stem in {Path(n).stem for n in names}:
-            staged, folder = record, candidate
-            break
-    if staged is None:
+            found.append((record, candidate))
+    if not found:
         return message
-    path = staged.get("path") or document_name
+    if len(found) == 1:
+        staged, folder = found[0]
+        path = staged.get("path") or document_name
+        return (
+            f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
+            f"probably ingested on another machine. Re-extract it here with:\n"
+            f'  artmind ingest sync "{path}" --reextract'
+        )
+    # Several sources share the name: naming one would be a guess.
+    lines = "\n".join(
+        f'  {folder}: artmind ingest sync "{staged.get("path") or document_name}" --reextract'
+        for staged, folder in found
+    )
     return (
-        f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
-        f"probably ingested on another machine. Re-extract it here with:\n"
-        f'  artmind ingest sync "{path}" --reextract'
+        f"{message}.\n{len(found)} documents of that name are staged but not in this machine's "
+        f"registry -- they were probably ingested on another machine. Re-extract the one you mean "
+        f"with:\n{lines}"
     )
 
 

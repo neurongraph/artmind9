@@ -1,3 +1,4 @@
+import glob
 import json
 import uuid
 from datetime import datetime
@@ -389,11 +390,18 @@ def _chunk_counts(domain: str, doc_stem: str, doc_sha256: str, seq: int) -> dict
     if not chunk_json.exists():
         # A document ingested since document keys is staged under
         # `<stem>~<hex>`, which a caller holding only the filename cannot
-        # name; the content hash is unique to the document, so find by it.
-        chunk_json = next(
-            iter(sorted((KG_DIR / domain).glob(f"*/chunks/{doc_sha256}/chunk_{seq:03d}.json"))),
-            chunk_json,
+        # name; the content hash is unique to the document, so find by it
+        # among the folders of that stem -- never another document's, and
+        # never a `.artmind-tmp`/`.artmind-old` scratch copy of one.
+        from artmind.atomic_dir import is_scratch
+
+        found = sorted(
+            p for p in (KG_DIR / domain).glob(
+                f"{glob.escape(doc_stem)}~*/chunks/{doc_sha256}/chunk_{seq:03d}.json"
+            )
+            if not is_scratch(p.parents[2])
         )
+        chunk_json = found[0] if found else chunk_json
     try:
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):

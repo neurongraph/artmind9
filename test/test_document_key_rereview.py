@@ -115,3 +115,47 @@ def test_retime_looks_the_document_up_by_its_id(ingest_env, monkeypatch):
     out = retime._redo_properties(doc_dir, "general", {}, "m", "e")
 
     assert seen == ["B/README.md"] and "skipped" in out
+
+
+# ── 4: globs skip scratch folders and namesakes ─────────────────────────────
+
+
+def test_chunk_counts_ignore_scratch_and_other_documents(ingest_env, monkeypatch):
+    from artmind import jobs
+
+    monkeypatch.setattr(jobs, "KG_DIR", ing.KG_DIR)
+    body = json.dumps({"entities": [{}], "relationships": []})
+    for folder in ("Other~abc123def456", "Summary~abc123def456.artmind-tmp", "Summary~abc123def456.artmind-old"):
+        cache = ing.KG_DIR / "general" / folder / "chunks" / "sha1"
+        cache.mkdir(parents=True)
+        (cache / "chunk_001.json").write_text(body)
+
+    assert jobs._chunk_counts("general", "Summary", "sha1", 1) is None
+
+    real = ing._staging_dir("general", document_key("A/Summary.pdf")) / "chunks" / "sha1"
+    real.mkdir(parents=True)
+    (real / "chunk_001.json").write_text(json.dumps({"entities": [{}, {}], "relationships": []}))
+    assert jobs._chunk_counts("general", "Summary", "sha1", 1) == {"entities": 2, "relationships": 0}
+
+
+def test_registry_miss_message_skips_scratch_and_lists_every_keyed_folder(ingest_env, monkeypatch):
+    import paths
+    from artmind.cli import _registry_miss_message
+
+    monkeypatch.setattr(paths, "KG_DIR", ing.KG_DIR)
+    scratch = ing.KG_DIR / "general" / "Summary~aaaaaaaaaaaa.artmind-tmp"
+    scratch.mkdir(parents=True)
+    (scratch / "document.json").write_text(json.dumps({"id": "t", "source_path": "A/Summary.pdf", "path": "scratch.md"}))
+    assert "staged" not in _registry_miss_message("Summary.pdf", "general")
+
+    keyed = []
+    for rel in ("A/Summary.pdf", "B/Summary.pdf"):
+        folder = ing._staging_dir("general", document_key(rel))
+        folder.mkdir(parents=True)
+        (folder / "document.json").write_text(json.dumps({"id": rel, "source_path": rel, "path": rel}))
+        keyed.append(folder)
+
+    message = _registry_miss_message("Summary.pdf", "general")
+
+    assert all(str(folder) in message for folder in keyed)
+    assert "scratch.md" not in message and ".artmind-tmp" not in message
