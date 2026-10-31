@@ -53,23 +53,29 @@ get distinct keys. A source outside the vault is hashed by its
 hex characters (48 bits) match `external_copy_path`; only same-stem files can collide,
 so the odds are negligible, and §3's guard makes even that case visible.
 
-`artmind/document_identity.py` owns the key and every path derived from it, replacing
-the hand-built sites:
+`artmind/document_identity.py` owns only `document_key`. The path helpers live in
+`artmind/ingest.py`, because the `ingest_env` fixture monkeypatches
+`ingest.MARKDOWNS_DIR` / `ingest.KG_DIR` and a helper in another module would not see
+the patch:
 
-| Function | Returns |
+| Function (in `ingest.py`) | Returns |
 |---|---|
-| `document_key(source, vault_dir)` | the key for a source never ingested before |
-| `markdown_path(key)` | `MARKDOWNS_DIR / f"{key}.md"` |
-| `artifacts_dir(key)` | `MARKDOWNS_DIR / f"{key}_artifacts"` |
-| `chunks_dir(key)` | `MARKDOWNS_DIR / f"{key}_chunks"` |
-| `staging_dir(domain, key)` | `KG_DIR / domain / key` |
+| `_markdown_path(key)` | `MARKDOWNS_DIR / f"{key}.md"` |
+| `_artifacts_dir(key)` | `MARKDOWNS_DIR / f"{key}_artifacts"` |
+| `_chunks_dir(key)` | `MARKDOWNS_DIR / f"{key}_chunks"` |
+| `_staging_dir(domain, key)` | `KG_DIR / domain / key` |
+| `_derived_key(registered_path)` | a binary: its markdown's stem; a vault note: `document_key(canonical_path(note))` |
+| `_note_staging_dir(domain, note, artmind_id)` | a note's staging folder: bare stem if it holds this id, else its key (collision guard) |
+| `_document_staging_dir(domain, registered_path, artmind_id)` | `extract_kg`'s folder for either kind |
 
 `markdown_path_for(...)` keeps its signature, taking the key as `stem`. Call sites to
 switch: `ingest.py` (`plan_binary`, `_ingest_binary_derived`, the docling conversion,
 chunk writing, `extract_kg`'s `doc_kg_dir`, the binary re-extract and resume paths),
-`cli.py` (`doc_kg_dir`), `archive.py` (`doc_kg_dir`), `reindex.py`, `docx_convert.py`
-(`artifacts_dir`). A test fails if a `MARKDOWNS_DIR / f"{…}.md"`, `_artifacts`,
-`_chunks` or `KG_DIR / … / ….stem` expression appears outside `document_identity`.
+`cli.py` (`doc_kg_dir`), `archive.py` (`doc_kg_dir`; a restore lands in a keyed
+staging folder, which is new staging), `reindex.py`, `docx_convert.py`
+(`artifacts_dir`), `temporal._read_doc_body` (reads a `:Document`'s recorded `path`,
+bare-stem lookup as the fallback) and `retime.staged_markdown_path` (same). A test fails if a `MARKDOWNS_DIR / f"{…}.md"`, `_artifacts`,
+`_chunks` or `KG_DIR / … / ….stem` expression appears outside the `ingest.py` helpers.
 
 A key is a folder name only. The `:Document` node's `title` and `name` still come from
 the source filename (`Summary`, `Summary.pdf`); its `path` is the key's markdown.
@@ -138,7 +144,7 @@ Hermetic, in `test/`, written first:
 - `X.pdf` and `X.docx` in one folder get distinct keys.
 - Collision guard: a key whose folder holds another source → full-digest key + warning,
   occupant untouched.
-- No hand-built derived path outside `document_identity` (source scan).
+- No hand-built derived path outside the `ingest.py` helpers (source scan).
 
 Then end to end in a scratch vault against a real Neo4j with `ARTMIND_NO_PROXY=1`
 (two same-named PDFs, ingest, check registry, staging and graph) before step 4.
@@ -147,3 +153,5 @@ Then end to end in a scratch vault against a real Neo4j with `ARTMIND_NO_PROXY=1
 
 - Renaming existing documents' folders to keys.
 - Tables (`xlsx`/`csv` → structured store), which have their own naming.
+- The vault-less ad-hoc flow (`_ingest_binary_or_adhoc`, `ORIGINALS_DIR`).
+- Name-based supersession matching in `temporal.py` (`by_stem_name`).
