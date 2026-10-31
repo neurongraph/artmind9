@@ -38,7 +38,7 @@ def calls(monkeypatch):
         lambda domain, keys, strict=False: seen["entities"].append((domain, sorted(keys), strict)) or len(keys),
     )
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings",
+        ing, "_sweep_passages",
         lambda chunk_ids=None, domain=None, strict=False: seen["chunks"].append((domain, strict)) or 1,
     )
     return seen
@@ -66,7 +66,7 @@ def test_sweep_rebuilds_every_domain_then_sweeps_each_domain_it_rebuilt(calls):
         ("habits", [("morning run", "HABIT", "habits")], True),
     ]
     assert calls["chunks"] == [("general", True), ("habits", True)]
-    assert (out["domains_swept"], out["embedded"], out["chunks_embedded"], out["sweep_errors"]) == (
+    assert (out["domains_swept"], out["embedded"], out["passages_embedded"], out["sweep_errors"]) == (
         ["general", "habits"], 3, 2, [],
     )
     assert out["recorded"] is True
@@ -87,7 +87,7 @@ def test_a_skipped_sweep_is_reported_and_resolves_no_job(calls, monkeypatch):
     def refuse(chunk_ids=None, domain=None, strict=False):
         raise ing.SweepSkipped(f"chunk embed sweep skipped for domain {domain!r} (Connection refused)")
 
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", refuse)
+    monkeypatch.setattr(ing, "_sweep_passages", refuse)
 
     out = json.loads(_run("--sweep").stdout)
 

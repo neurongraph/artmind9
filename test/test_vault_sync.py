@@ -374,7 +374,7 @@ def test_two_clones_a_domain_change_leaves_the_document_live_in_the_new_domain(t
     monkeypatch.setattr(ing, "retract_document", fake_retract)
     monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {})
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: 0)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda **kw: 0)
     _patch_structured_text_dir(monkeypatch, b)
     _patch_kg_dir(monkeypatch, b)
     vs.sync(b, bootstrap_empty=True)
@@ -824,7 +824,7 @@ def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract
     monkeypatch.setattr(ing, "retract_document", _fake_retract)
     monkeypatch.setattr(t2g, "_rebuild_in_batches", _fake_rebuild_in_batches)
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: calls["sweeps"].append(("entities", domain)) or 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: calls["sweeps"].append(("chunks", kw.get("domain"))) or 0)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda **kw: calls["sweeps"].append(("chunks", kw.get("domain"))) or 0)
     return calls
 
 

@@ -187,7 +187,7 @@ export interface DoctorReport {
 export interface ProjectionDomainGaps {
   unembedded_entities: number;
   unprojected_keys: number;
-  unembedded_chunks: number;
+  unembedded_passages: number;
 }
 
 /** `artmind projection status --compact` (Plan 1, B3). `known` is false
@@ -204,7 +204,7 @@ export interface ProjectionStatus {
   current_schema_hash: string;
   unembedded_entities: number;
   unprojected_keys: number;
-  unembedded_chunks: number;
+  unembedded_passages: number;
   domains: Record<string, ProjectionDomainGaps>;
 }
 
@@ -220,7 +220,7 @@ export interface RebuildResult {
   recorded?: boolean;
   domains_swept: string[];
   embedded: number;
-  chunks_embedded: number;
+  passages_embedded: number;
   sweep_errors: string[];
   finalize_resolved: string[];
 }

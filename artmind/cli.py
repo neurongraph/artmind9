@@ -28,7 +28,7 @@ from artmind.unified_snapshot import (
 )
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
-from artmind.embed_sweep import count_unembedded_chunks, embed_missing_chunk_embeddings
+from artmind.embed_sweep import count_passage_gaps, reconcile_passages
 from artmind.ingest import (
     SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
@@ -279,7 +279,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-passages"],
         },
         {
             "name": "Refinement",
@@ -1292,19 +1292,20 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
     _echo_json(embed_entities_backfill(domain), compact)
 
 
-@ingest.command("embed-chunks")
+@ingest.command("embed-passages")
+@click.option("--domain", default=None, help="Only this domain (exact name)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_embed_chunks(compact: bool) -> None:
-    """Backfill vector embeddings for chunks missing one (powers vector/text search).
+def ingest_embed_passages(domain: str | None, compact: bool) -> None:
+    """Build missing or outdated passages and embed every passage and chat whose vector is missing or stale.
 
-    Restoring from committed KG staging writes chunks with no vector by
-    design (docs/vault.md, "Embeddings") -- this sweep fills them back in and
-    is resumable: interrupt it and re-run, it picks up where it left off.
+    Committed KG staging carries no vectors (docs/vault.md, "Embeddings"); a fresh
+    clone, a passage-size change or an embedding-model/prefix change all roll out
+    through this sweep. Resumable: interrupt it and re-run.
     """
     _setup_logger()
     from artmind.graph_query import neo4j_session
     with neo4j_session() as session:
-        result = embed_missing_chunk_embeddings(session)
+        result = reconcile_passages(session, domain=domain)
     _echo_json(result, compact)
 
 
@@ -1393,8 +1394,8 @@ def ingest_classify_reingest(
     )
 
 
-def _run_chunk_embed_sweep() -> None:
-    """Run the post-write chunk-embed sweep, unless there's nothing to embed.
+def _run_passage_sweep() -> None:
+    """Run the post-write passage sweep (build missing passages, embed stale vectors).
 
     Committed KG staging carries no vectors by design (docs/vault.md,
     "Embeddings"), so a fresh restore always needs this once. Prints a
@@ -1404,14 +1405,13 @@ def _run_chunk_embed_sweep() -> None:
     from artmind.graph_query import neo4j_session
 
     with neo4j_session() as session:
-        remaining = count_unembedded_chunks(session)
-        if not remaining:
-            return
-        click.echo(
-            f"\nRe-embedding {remaining:,} chunk(s) — committed KG staging carries no vectors "
-            "by design (docs/vault.md). Local model, no API cost. This runs once per clone.\n"
-        )
-        result = embed_missing_chunk_embeddings(session)
+        remaining = count_passage_gaps(session)
+        if remaining:
+            click.echo(
+                f"\nEmbedding {remaining:,} passage(s) — committed KG staging carries no vectors "
+                "by design (docs/vault.md). Local model, no API cost.\n"
+            )
+        result = reconcile_passages(session)
     logger.info(
         "Embed sweep after write-to-graph: {} embedded, {} still missing a vector",
         result["embedded"], result["remaining"],
@@ -1475,7 +1475,7 @@ def ingest_retime(
 @click.option("--folder", type=click.Path(exists=True), default=None, help="Path to folder whose sub-folders are document KG directories")
 @click.option("--noEmbed", "no_embed", is_flag=True,
               help="Skip the chunk-embedding sweep. Chunks written without a vector are "
-                   "invisible to semantic search until `ingest embed-chunks` runs.")
+                   "invisible to semantic search until `ingest embed-passages` runs.")
 def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
@@ -1490,7 +1490,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     from the parent directory name (i.e. PATH is expected to be data/kg/<domain>).
 
     Runs the chunk-embedding sweep afterwards by default; pass --noEmbed to skip it
-    and run `ingest embed-chunks` separately later.
+    and run `ingest embed-passages` separately later.
     """
     _setup_logger()
     from artmind.atomic_dir import is_scratch
@@ -1523,7 +1523,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         else:
             raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
         if not no_embed:
-            _run_chunk_embed_sweep()
+            _run_passage_sweep()
         return
 
     # ── folder (batch) mode ───────────────────────────────────────────────
@@ -1577,7 +1577,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         ok_count, len(doc_dirs), fail_count,
     )
     if not no_embed and ok_count:
-        _run_chunk_embed_sweep()
+        _run_passage_sweep()
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
@@ -1592,7 +1592,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
 )
 @click.option("--asOf", "as_of", default=None, help="Temporal (SCD-2) tables only: project just the row versions in force on this ISO date. Default: every version.")
 @click.option("--dryRun", "dry_run", is_flag=True, help="Validate the mapping and report what would be built; write nothing.")
-@click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-chunks` later).")
+@click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-passages` later).")
 @click.option(
     "--pending", "pending", is_flag=True,
     help="Instead of projecting: list every registered table a mapping matches whose projection is"
@@ -4740,7 +4740,7 @@ def projection_status(compact: bool) -> None:
     domain schemas' current hash right now; `drift` is either. Gaps:
     `unembedded_entities` (what the entity embed sweep would pick up),
     `unprojected_keys` (observation keys no Entity aggregates yet),
-    `unembedded_chunks`, with a per-domain breakdown under `domains`.
+    `unembedded_passages`, with a per-domain breakdown under `domains`.
     Read-only: queries cannot self-heal (`read_session()` stays
     READ_ACCESS). `projection rebuild --sweep` clears all of it.
     """

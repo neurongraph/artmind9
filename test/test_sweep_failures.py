@@ -34,25 +34,25 @@ def test_the_default_entity_sweep_still_never_raises(monkeypatch):
 
 
 def test_a_strict_chunk_sweep_raises_and_the_default_does_not(monkeypatch):
-    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", _refuse)
+    monkeypatch.setattr(embed_sweep, "reconcile_passages", _refuse)
 
-    with pytest.raises(ing.SweepSkipped, match=r"chunk embed sweep skipped for domain 'general'"):
-        ing._sweep_chunk_embeddings(domain="general", strict=True)
-    assert ing._sweep_chunk_embeddings(domain="general") == 0
+    with pytest.raises(ing.SweepSkipped, match=r"passage sweep skipped for domain 'general'"):
+        ing._sweep_passages(domain="general", strict=True)
+    assert ing._sweep_passages(domain="general") == 0
 
 
 def test_rebuild_projection_reports_both_skipped_sweeps(monkeypatch):
     monkeypatch.setattr(projection, "full_rebuild_batched", lambda domains=None: {"rebuilt": 1, "keys": 1})
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: {("a", "C", "general")})
     monkeypatch.setattr(ing, "embed_missing_entity_embeddings", _refuse)
-    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", _refuse)
+    monkeypatch.setattr(embed_sweep, "reconcile_passages", _refuse)
 
     summary = ing.rebuild_projection("general")
 
-    assert (summary["embedded"], summary["chunks_embedded"]) == (0, 0)
+    assert (summary["embedded"], summary["passages_embedded"]) == (0, 0)
     assert len(summary["sweep_errors"]) == 2
     assert summary["sweep_errors"][0].startswith("entity embed sweep skipped for general")
-    assert summary["sweep_errors"][1].startswith("chunk embed sweep skipped for domain 'general'")
+    assert summary["sweep_errors"][1].startswith("passage sweep skipped for domain 'general'")
     assert all("Connection refused" in e for e in summary["sweep_errors"])
 
 
@@ -61,9 +61,9 @@ def test_rebuild_projection_reports_no_sweep_errors_when_both_sweeps_ran(monkeyp
     monkeypatch.setattr(projection, "full_rebuild_batched", lambda domains=None: {"rebuilt": 1, "keys": 1})
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: {("a", "C", "general")})
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: seen.append(("e", domain, strict)) or 5)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: seen.append(("c", domain, strict)) or 2)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda chunk_ids=None, domain=None, strict=False: seen.append(("c", domain, strict)) or 2)
 
     summary = ing.rebuild_projection("general")
 
     assert seen == [("e", "general", True), ("c", "general", True)]
-    assert (summary["embedded"], summary["chunks_embedded"], summary["sweep_errors"]) == (5, 2, [])
+    assert (summary["embedded"], summary["passages_embedded"], summary["sweep_errors"]) == (5, 2, [])

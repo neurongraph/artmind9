@@ -168,7 +168,7 @@ export function rebuildReasons(inputs: StateInputs): string[] {
       if (p.same_as_drift) reasons.push("same_as edited");
     }
     if (p.unembedded_entities) reasons.push(`${countOf(p.unembedded_entities, "entity", "entities")} not embedded`);
-    if (p.unembedded_chunks) reasons.push(`${countOf(p.unembedded_chunks, "chunk", "chunks")} not embedded`);
+    if (p.unembedded_passages) reasons.push(`${countOf(p.unembedded_passages, "passage", "passages")} not embedded`);
     if (p.unprojected_keys) reasons.push(`${countOf(p.unprojected_keys, "observation key", "observation keys")} not projected`);
   }
   const last = inputs.lastRebuild;

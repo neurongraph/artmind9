@@ -1,171 +1,185 @@
-"""Resumable chunk-embed sweep — the `:DocChunk` counterpart to
-`embed_missing_entity_embeddings` (artmind/ingest.py).
+"""The passage sweep (spec 2026-10-31 §3.2): the permanent reconciliation of
+`:DocPassage` with the graph's chunks, and of every stored text vector with the
+current embedding key.
 
-Restoring from committed staging (docs/vault.md, "Embeddings") writes chunks
-with no vector: embeddings are stripped from `data/kg/**/chunks.json` before
-it is committed, because they are a pure function of `(text, embedding model)`
-and carry no useful git delta. `write-to-graph` writes the chunk with
-`embedding: []`/absent, and this sweep fills it back in afterwards, on demand.
+1. Build passages for every `:DocChunk` with none, or cut under another
+   `split_key()` (a passage-size or rules change rolls out through here).
+2. Embed passages with no vector or a stale `_embed_key` (model / prefix change),
+   from the machine-local cache first (`embedding_cache`), else the model.
+3. Unscoped or domain-scoped runs: re-embed `:UserChat` nodes with a stale key.
+
+Resumable by construction, like the chunk sweep it replaces: every vector is
+written as soon as it exists, and a run's own failures are excluded from its
+later pages (`skip_ids`) so a dead embedding service cannot loop it.
 """
 from __future__ import annotations
 
 from loguru import logger
 
-from artmind.extraction import embed_text as _embed_text
+from artmind import passage_store, passages
+from artmind.embedding_cache import EmbeddingCache, cached_embed
+from artmind.extraction import embed_document, embed_key as _embed_key
 from utils.functions import load_env
 
 
-def count_unembedded_chunks(tx) -> int:
-    """Count `:DocChunk` nodes still missing a vector.
+def _model() -> str:
+    return load_env().get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
 
-    Takes anything exposing Neo4j's `.run()` — a `Session` or a `Transaction` both work — so
-    this one query serves both the CLI's pre-sweep heads-up (`_run_chunk_embed_sweep`, a
-    `Session`) and `projection.status`'s standing gap report (a `Transaction`), rather than
-    the same Cypher living in three places.
-    """
+
+_CHUNKS_NEEDING_PASSAGES = """
+MATCH (c:DocChunk)
+WHERE trim(coalesce(c.text, '')) <> ''
+  AND (NOT EXISTS {{ MATCH (:DocPassage)-[:PART_OF]->(c) }}
+       OR EXISTS {{ MATCH (p:DocPassage)-[:PART_OF]->(c) WHERE p._split_key <> $split_key }})
+  AND NOT c.id IN $skip_ids{scope}
+OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+RETURN c.id AS id, c.doc_id AS doc_id, c._domain AS _domain, c.text AS chunk_text,
+       c.header_path AS header_path, c.valid_from AS valid_from, c.valid_to AS valid_to,
+       coalesce(d.title, d.name) AS title
+LIMIT $batch_size
+"""
+
+_PASSAGES_NEEDING_VECTORS = """
+MATCH (p:DocPassage)
+WHERE (p.embedding IS NULL OR p._embed_key IS NULL OR p._embed_key <> $embed_key)
+  AND NOT p.id IN $skip_ids{scope}
+RETURN p.id AS id, p.text AS text, p.context AS context
+LIMIT $batch_size
+"""
+
+_CHATS_NEEDING_VECTORS = """
+MATCH (c:UserChat)
+WHERE (c.embedding IS NULL OR c._embed_key IS NULL OR c._embed_key <> $embed_key)
+  AND NOT c.id IN $skip_ids{scope}
+RETURN c.id AS id, c.raw_text AS raw_text
+LIMIT $batch_size
+"""
+
+
+def count_passage_gaps(tx) -> int:
+    """Passages still missing a current vector (the CLI's heads-up, projection status)."""
     return tx.run(
-        "MATCH (c:DocChunk) WHERE c.embedding IS NULL RETURN count(c) AS n"
+        "MATCH (p:DocPassage) WHERE p.embedding IS NULL OR p._embed_key IS NULL "
+        "OR p._embed_key <> $embed_key RETURN count(p) AS n",
+        embed_key=_embed_key(_model()),
     ).single()["n"]
 
 
-def embed_missing_chunk_embeddings(
+def _scope(var: str, id_field: str, chunk_ids, domain, doc_ids) -> tuple[str, dict]:
+    clauses, params = [], {}
+    if chunk_ids is not None:
+        clauses.append(f"{var}.{id_field} IN $chunk_ids")
+        params["chunk_ids"] = list(chunk_ids)
+    if domain is not None:
+        clauses.append(f"{var}._domain = $domain")
+        params["domain"] = domain
+    if doc_ids is not None:
+        clauses.append(f"{var}.doc_id IN $doc_ids")
+        params["doc_ids"] = list(doc_ids)
+    return "".join(f"\n  AND {c}" for c in clauses), params
+
+
+def reconcile_passages(
     session,
     *,
     chunk_ids: list | None = None,
     domain: str | None = None,
+    doc_ids: list | None = None,
     embed=None,
+    embed_key: str | None = None,
+    cache: EmbeddingCache | None | bool = True,
     batch_size: int = 100,
     progress_every: int = 50,
     on_progress=None,
 ) -> dict:
-    """Embed every `:DocChunk` whose `.embedding` is still `NULL`.
+    """See the module docstring. `chunk_ids=[]` / `doc_ids=[]` are scoped to
+    nothing and return at once. `cache=True` opens the default cache; `None`
+    disables it (tests). Returns {chunks_split, embedded, remaining, chats_embedded}."""
+    result = {"chunks_split": 0, "embedded": 0, "remaining": 0, "chats_embedded": 0}
+    if (chunk_ids is not None and not chunk_ids) or (doc_ids is not None and not doc_ids):
+        return result
+    model = _model()
+    embed_key = embed_key or _embed_key(model)
+    embed = embed or (lambda text: embed_document(model, text))
+    if cache is True:
+        cache = EmbeddingCache()
 
-    Scoped to `chunk_ids` when given — a post-commit sweep embeds only the
-    chunks that commit just wrote, not the whole graph. `chunk_ids=None`
-    (the default) is unscoped and behaves exactly as before: every
-    unembedded `:DocChunk` in the graph is a candidate. `chunk_ids=[]` is
-    scoped to nothing and always returns `{"embedded": 0, "remaining": 0}`
-    without running a query — distinct from `None`'s unscoped sweep.
-
-    Also scoped to `domain` when given — a batch ingest's deferred rebuild
-    sweeps only the domain it just rebuilt, not the whole graph, mirroring
-    `embed_missing_entity_embeddings`'s own `keys`-scoping note ("Scoped to
-    `keys` when given — an incremental ingest sweeps only what it dirtied,
-    not the whole domain."). `domain=None` (the default) omits the clause
-    entirely. `chunk_ids` and `domain` may be given together — both scope
-    clauses apply, AND'd — though in practice each real caller uses one or
-    the other, not both.
-
-    Mirrors `embed_missing_entity_embeddings`'s shape: fetch the chunks that
-    still need a vector, embed each one's `.text`, write the vector back
-    matched on chunk identity (`c.id` — the same identifier `_load_staged`
-    and `_commit_document_tx` key chunks by), and never write a null or
-    partial vector — a chunk whose `embed()` call fails is left alone,
-    still `NULL`, for the next sweep to pick up.
-
-    **Resumable by construction.** Chunks are fetched and written back
-    `batch_size` at a time, and each batch's vectors are committed to Neo4j
-    before the next batch is even fetched. So interrupting a run — Ctrl-C, a
-    crashed process, a dead embedding service — leaves every chunk the sweep
-    finished with a vector, and every chunk it hadn't reached yet still
-    matching `embedding IS NULL`, which is exactly what the next run selects.
-    There is no partial-batch state to clean up and nothing to roll back.
-    That is the whole reason this is a sweep rather than inline work in
-    `write-to-graph` (docs/vault.md, "Embeddings").
-
-    `embed` defaults to the real embedding call ingest itself uses for chunk
-    text (`artmind.extraction.embed_text`, resolved against the same
-    `ARTMIND_KG_EMBEDDINGS_MODEL` env var `embed_entities_backfill` reads) —
-    tests inject a stub instead. `on_progress(done, total)` fires every
-    `progress_every` chunks so a long run is observable programmatically; the
-    same progress is logged through loguru so a real run is visible without
-    one.
-
-    Returns ``{"embedded": N, "remaining": M}`` — ``remaining`` counts chunks
-    that were fetched but could not be embedded (and so are still `NULL`),
-    not a separate query, since a mocked graph session that answers every
-    query the same way makes a second read here untrustworthy in tests.
-
-    **Terminates even when the embedding service is completely down.** A
-    chunk whose `embed()` call fails is left `NULL` in the graph, which would
-    make it eligible for the very next page's `WHERE embedding IS NULL` —
-    re-fetching the same stuck chunks forever the moment failures reach
-    `batch_size`. So this run's own failures are tracked and excluded from
-    every subsequent page (`AND NOT c.id IN $skip_ids`); each page then
-    either makes forward progress on chunks it hasn't tried yet or comes back
-    short, and the loop provably ends either way. That exclusion is scoped to
-    this call only — nothing is written for a failed chunk, so a *later* run
-    (a fresh call, e.g. after fixing a dead embedding service) sees it as
-    `NULL` again and retries it, same as any other resumed chunk.
-    """
-    if chunk_ids is not None and len(chunk_ids) == 0:
-        # Scoped to nothing — distinct from `None`'s unscoped sweep. Return
-        # immediately rather than round-tripping a query that would always
-        # come back empty.
-        return {"embedded": 0, "remaining": 0}
-
-    if embed is None:
-        embed_model = load_env().get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
-        embed = lambda text: _embed_text(embed_model, text)
-
-    embedded, failed, total = 0, 0, 0
-    failed_ids: set[str] = set()
-
-    id_scope = ""
-    scope_params: dict = {}
-    if chunk_ids is not None:
-        id_scope = " AND c.id IN $chunk_ids"
-        scope_params["chunk_ids"] = list(chunk_ids)
-
-    domain_scope = ""
-    if domain is not None:
-        domain_scope = " AND c._domain = $domain"
-        scope_params["domain"] = domain
-
+    # 1. passages for chunks that have none, or were cut under another split key
+    scope, params = _scope("c", "id", chunk_ids, domain, doc_ids)
+    split_key = passages.split_key()
+    skipped: set[str] = set()
     while True:
-        rows = session.run(
-            f"""
-            MATCH (c:DocChunk)
-            WHERE c.embedding IS NULL AND NOT c.id IN $skip_ids{id_scope}{domain_scope}
-            RETURN c.id AS id, c.text AS text
-            LIMIT $batch_size
-            """,
-            batch_size=batch_size,
-            skip_ids=list(failed_ids),
-            **scope_params,
-        ).data()
+        rows = session.run(_CHUNKS_NEEDING_PASSAGES.format(scope=scope), split_key=split_key,
+                           skip_ids=list(skipped), batch_size=batch_size, **params).data()
         if not rows:
             break
-        total += len(rows)
-
         for row in rows:
-            try:
-                embedding = embed(row["text"])
-            except Exception as e:
-                failed += 1
-                failed_ids.add(row["id"])
-                logger.warning("Chunk embedding failed for {!r}: {}", row["id"], e)
+            chunk = {"id": row["id"], "doc_id": row.get("doc_id"), "_domain": row.get("_domain"),
+                     "text": row.get("chunk_text") or "", "header_path": row.get("header_path"),
+                     "valid_from": row.get("valid_from"), "valid_to": row.get("valid_to")}
+            built = passages.passage_rows(chunk, row.get("title"))
+            if not built:          # nothing to split (cannot happen past the trim filter)
+                skipped.add(row["id"])
                 continue
-            # Written immediately, one chunk at a time — this is what makes
-            # the sweep resumable: nothing is buffered past the point where
-            # it's already safely in the graph.
-            session.run(
-                "MATCH (c:DocChunk {id: $id}) SET c.embedding = $embedding",
-                id=row["id"],
-                embedding=embedding,
-            )
-            embedded += 1
-            if embedded % progress_every == 0:
-                logger.info("Embed sweep: {} chunk(s) embedded so far…", embedded)
-                if on_progress:
-                    on_progress(embedded, total)
-
+            passage_store.write_chunk_passages(session, row["id"], built)
+            result["chunks_split"] += 1
         if len(rows) < batch_size:
             break
 
-    if embedded or failed:
-        logger.info(
-            "Embed sweep: {} chunk(s) embedded, {} skipped (still missing a vector)",
-            embedded, failed,
-        )
-    return {"embedded": embedded, "remaining": failed}
+    # 2. vectors for passages with none or a stale key
+    scope, params = _scope("p", "chunk_id", chunk_ids, domain, doc_ids)
+    failed: set[str] = set()
+    while True:
+        rows = session.run(_PASSAGES_NEEDING_VECTORS.format(scope=scope), embed_key=embed_key,
+                           skip_ids=list(failed), batch_size=batch_size, **params).data()
+        if not rows:
+            break
+        for row in rows:
+            text = passages.embedding_text(row.get("text") or "", row.get("context"))
+            try:
+                vector = cached_embed(cache, embed_key, text, embed)
+            except Exception as exc:
+                failed.add(row["id"])
+                logger.warning("Passage embedding failed for {!r}: {}", row["id"], exc)
+                continue
+            if not vector:
+                failed.add(row["id"])
+                continue
+            session.run("MATCH (p:DocPassage {id: $id}) SET p.embedding = $embedding, p._embed_key = $embed_key",
+                        id=row["id"], embedding=vector, embed_key=embed_key)
+            result["embedded"] += 1
+            if result["embedded"] % progress_every == 0:
+                logger.info("Passage sweep: {} passage(s) embedded so far…", result["embedded"])
+                if on_progress:
+                    on_progress(result["embedded"], None)
+        if len(rows) < batch_size:
+            break
+    result["remaining"] = len(failed)
+
+    # 3. chats (their own vectors; no passages) on unscoped or domain-scoped runs only
+    if chunk_ids is None and doc_ids is None:
+        scope = "\n  AND c._domain = $domain" if domain is not None else ""
+        extra = {"domain": domain} if domain is not None else {}
+        chat_failed: set[str] = set()
+        while True:
+            rows = session.run(_CHATS_NEEDING_VECTORS.format(scope=scope), embed_key=embed_key,
+                               skip_ids=list(chat_failed), batch_size=batch_size, **extra).data()
+            if not rows:
+                break
+            for row in rows:
+                try:
+                    vector = cached_embed(cache, embed_key, row.get("raw_text") or "", embed)
+                except Exception as exc:
+                    chat_failed.add(row["id"])
+                    logger.warning("Chat embedding failed for {!r}: {}", row["id"], exc)
+                    continue
+                session.run("MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding, c._embed_key = $embed_key",
+                            id=row["id"], embedding=vector, embed_key=embed_key)
+                result["chats_embedded"] += 1
+            if len(rows) < batch_size:
+                break
+
+    if any(result.values()):
+        logger.info("Passage sweep: {} chunk(s) split, {} passage(s) embedded, {} skipped, {} chat(s) embedded",
+                    result["chunks_split"], result["embedded"], result["remaining"], result["chats_embedded"])
+    return result

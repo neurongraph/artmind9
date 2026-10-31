@@ -374,7 +374,7 @@ projection (a document commit, `docs retire`, `sameas approve`). Reach for
 them directly only for the cases with no natural host:
 
 ```bash
-artmind projection status --compact             # drift + unembedded_entities / unprojected_keys / unembedded_chunks, per domain
+artmind projection status --compact             # drift + unembedded_entities / unprojected_keys / unembedded_passages, per domain
 artmind projection rebuild [--domain <d>] --compact   # recompute Entities from observations, in batches; no LLM
 artmind projection rebuild --sweep --compact    # the repair: every domain, then both embed sweeps per domain
 artmind projection synthesize --domain <d> [--nameFilter <f>] [--force] --compact

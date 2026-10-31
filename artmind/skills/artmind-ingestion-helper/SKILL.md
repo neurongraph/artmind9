@@ -178,7 +178,7 @@ default — committed KG staging carries no vectors on purpose (see `docs/vault.
 "Embeddings"), so restoring from it (a fresh clone, a `pull-kg`, a wiped graph) always needs
 this once. Pass `--noEmbed` to skip it and run it separately later:
 ```bash
-artmind ingest embed-chunks
+artmind ingest embed-passages
 ```
 
 ---
@@ -380,7 +380,7 @@ artmind ingest embed-entities --domain YOUR_DOMAIN
 **Backfill missing chunk embeddings** (needed for vector/text search over chunks —
 `write-to-graph` runs this automatically unless `--noEmbed` was passed):
 ```bash
-artmind ingest embed-chunks
+artmind ingest embed-passages
 ```
 
 ---
@@ -535,7 +535,7 @@ job (its "Table mappings" section); running it is this skill's.
 artmind ingest table2graph TABLE --dryRun   # validate + counts, writes nothing
 artmind ingest table2graph TABLE            # stage + commit + embed sweeps
 artmind ingest table2graph TABLE --noEmbed  # big table: embed later
-artmind ingest embed-entities --domain DOMAIN && artmind ingest embed-chunks
+artmind ingest embed-entities --domain DOMAIN && artmind ingest embed-passages
 ```
 
 **Which tables are waiting?** `artmind ingest table2graph --pending --compact` lists every

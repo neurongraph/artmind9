@@ -141,292 +141,94 @@ def test_load_staged_does_not_override_an_embedding_already_present(tmp_path):
     assert staged["chunks"][0]["embedding"] == [0.1]
 
 
-class _RecordingSession:
-    """Records the Cypher run and the parameters sent.
 
-    CLAUDE.md: a mocked session returns truthy for ANY query, so asserting on
-    counts proves nothing. Assert on what was actually sent.
-    """
-
-    def __init__(self, rows):
-        self._rows = rows
-        self.queries: list[tuple[str, dict]] = []
-
-    def run(self, cypher, **params):
-        self.queries.append((cypher, params))
-        rows, self._rows = self._rows, []
-        return _Result(rows)
-
-
-class _Result:
-    def __init__(self, rows):
-        self._rows = rows
-
-    def data(self):
-        return self._rows
-
-    def single(self):
-        return self._rows[0] if self._rows else None
-
-
-def test_only_chunks_without_a_vector_are_embedded():
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([
-        {"id": "c1", "text": "alpha"},
-        {"id": "c2", "text": "beta"},
-    ])
-    embedded = []
-
-    result = embed_missing_chunk_embeddings(
-        session, embed=lambda t: embedded.append(t) or [0.1, 0.2],
-    )
-
-    assert embedded == ["alpha", "beta"]
-    assert result["embedded"] == 2
-    fetch = session.queries[0][0]
-    assert "embedding IS NULL" in fetch, "the sweep must select only unembedded chunks"
-
-
-def test_the_vector_is_written_back_keyed_by_chunk_id():
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    embed_missing_chunk_embeddings(session, embed=lambda t: [0.5])
-
-    writes = [(q, p) for q, p in session.queries if "SET" in q]
-    assert writes, "nothing was written back"
-    assert writes[0][1].get("id") == "c1" or "c1" in str(writes[0][1])
-
-
-def test_chunk_ids_scopes_the_fetch_to_only_those_ids():
-    """The post-commit sweep's whole point: only the chunks this commit just
-    wrote get fetched/embedded, not every unembedded :DocChunk in the graph."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    result = embed_missing_chunk_embeddings(
-        session, chunk_ids=["c1", "c2"], embed=lambda t: [0.1],
-    )
-
-    assert result["embedded"] == 1
-    fetch_cypher, fetch_params = session.queries[0]
-    assert "c.id IN $chunk_ids" in fetch_cypher
-    assert fetch_params["chunk_ids"] == ["c1", "c2"]
-
-
-def test_chunk_ids_none_is_unscoped_and_omits_the_scope_clause():
-    """The default -- confirms `chunk_ids=None` doesn't add `c.id IN
-    $chunk_ids` to the query at all, matching pre-existing full-graph
-    behavior exactly."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
-
-    fetch_cypher, fetch_params = session.queries[0]
-    assert "chunk_ids" not in fetch_cypher
-    assert "chunk_ids" not in fetch_params
-
-
-def test_chunk_ids_empty_list_scopes_to_nothing_without_a_query():
-    """Distinct from `None`: an explicit empty list means "scope to no
-    chunks", not "unscoped" -- and must not raise or hit the session at all."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    result = embed_missing_chunk_embeddings(session, chunk_ids=[], embed=lambda t: [0.1])
-
-    assert result == {"embedded": 0, "remaining": 0}
-    assert session.queries == [], "an empty scope must not round-trip a query"
-
-
-def test_domain_scopes_the_fetch_to_that_domain():
-    """The batch-ingest gap this coverage closes: `rebuild_projection`'s
-    deferred path sweeps chunk embeddings for the whole domain it just
-    rebuilt, not by chunk id."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    result = embed_missing_chunk_embeddings(
-        session, domain="general", embed=lambda t: [0.1],
-    )
-
-    assert result["embedded"] == 1
-    fetch_cypher, fetch_params = session.queries[0]
-    assert "c._domain = $domain" in fetch_cypher
-    assert fetch_params["domain"] == "general"
-
-
-def test_domain_none_is_unscoped_and_omits_the_domain_clause():
-    """The default -- confirms `domain=None` doesn't add `c.domain = $domain`
-    to the query at all, matching pre-existing unscoped behavior exactly."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
-
-    fetch_cypher, fetch_params = session.queries[0]
-    assert "c._domain" not in fetch_cypher
-    assert "domain" not in fetch_params
-
-
-def test_chunk_ids_and_domain_compose_without_breaking():
-    """Both scopes can be given together -- they AND together like `id_scope`
-    already does with the pre-existing `skip_ids` exclusion. Real callers
-    only ever use one or the other, but nothing should forbid combining
-    them."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "alpha"}])
-
-    result = embed_missing_chunk_embeddings(
-        session, chunk_ids=["c1", "c2"], domain="general", embed=lambda t: [0.1],
-    )
-
-    assert result["embedded"] == 1
-    fetch_cypher, fetch_params = session.queries[0]
-    assert "c.id IN $chunk_ids" in fetch_cypher
-    assert "c._domain = $domain" in fetch_cypher
-    assert fetch_params["chunk_ids"] == ["c1", "c2"]
-    assert fetch_params["domain"] == "general"
-
-
-def test_an_already_embedded_graph_is_a_no_op():
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([])
-
-    result = embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
-
-    assert result["embedded"] == 0
-
-
-def test_progress_is_reported_for_a_long_run():
-    """A fresh clone is minutes of local work; silence looks like a hang.
-
-    Progress goes through an injected callback rather than loguru, so it can be
-    asserted directly. `test_ingest_entity_filtering.py` takes `caplog` and
-    never asserts on it — loguru does not feed pytest's caplog without a
-    bridge, so a caplog assertion here would pass for the wrong reason.
-    """
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": f"c{i}", "text": "x"} for i in range(120)])
-    seen: list[tuple[int, int]] = []
-
-    embed_missing_chunk_embeddings(
-        session, embed=lambda t: [0.1],
-        progress_every=50, on_progress=lambda done, total: seen.append((done, total)),
-    )
-
-    assert seen, "expected at least one progress callback"
-    assert seen[-1][0] <= 120
-
-
-def test_progress_defaults_to_no_callback():
-    """The default path must not require a caller to supply one."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _RecordingSession([{"id": "c1", "text": "x"}])
-
-    result = embed_missing_chunk_embeddings(session, embed=lambda t: [0.1])
-
-    assert result["embedded"] == 1
-
-
-# ── multi-page re-fetch: _RecordingSession can't exercise this ──────────────
-#
-# _RecordingSession.run empties its whole row buffer the first time it's
-# called, no matter what query asked for it -- so every test above is
-# effectively single-page: the sweep's `WHERE embedding IS NULL LIMIT
-# $batch_size` loop only ever gets one real answer, and a second page always
-# comes back empty. That hid a real bug: a chunk whose embed() call keeps
-# raising stays NULL, so a naive re-fetch of the same page re-selects it
-# forever once failures reach batch_size. _PagedFailingSession below tracks
-# real per-chunk state so the loop's re-fetch path is actually exercised.
-
-class _PagedFailingSession:
-    """A tiny in-memory :DocChunk graph, so the fetch query can be answered
-    correctly on every call instead of only the first.
-
-    Honors `$skip_ids` and `$batch_size` the way a real Neo4j session would,
-    which is exactly the behaviour the sweep's termination depends on. Also
-    guards against a real infinite loop: if the sweep regresses to endlessly
-    re-fetching, this raises instead of hanging the test suite.
-    """
-
-    MAX_FETCH_CALLS = 10  # pages, not writes -- an infinite loop re-issues fetches, not SETs
-
-    def __init__(self, chunk_ids):
-        self.chunks = {cid: None for cid in chunk_ids}  # id -> embedding (None = unset)
-        self.calls = 0
-        self.fetch_calls = 0
-
-    def run(self, cypher, **params):
-        self.calls += 1
-        if "SET c.embedding" in cypher:
-            self.chunks[params["id"]] = params["embedding"]
-            return _Result([])
-        # the page/fetch query
-        self.fetch_calls += 1
-        if self.fetch_calls > self.MAX_FETCH_CALLS:
-            raise RuntimeError(
-                f"the fetch query ran {self.fetch_calls} times without the sweep finishing -- "
-                "looks like the re-fetch loop is not terminating"
-            )
-        skip_ids = set(params.get("skip_ids") or ())
-        batch_size = params["batch_size"]
-        matching = [cid for cid, emb in self.chunks.items() if emb is None and cid not in skip_ids]
-        page = matching[:batch_size]
-        return _Result([{"id": cid, "text": cid} for cid in page])
-
-
-def test_persistent_per_chunk_failures_do_not_stall_the_sweep():
-    """Regression for the infinite-loop hazard: 150 chunks, all permanently
-    unembeddable (e.g. the embedding service is down), batch_size=100. A
-    naive `WHERE embedding IS NULL LIMIT batch_size` re-fetch -- with no
-    exclusion of chunks this run already failed on -- re-selects the same
-    100 stuck rows forever and never returns. The sweep must terminate with
-    a partial, honest result instead.
-    """
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    session = _PagedFailingSession([f"c{i}" for i in range(150)])
-
-    def _always_fails(text):
-        raise RuntimeError("embedding service down")
-
-    result = embed_missing_chunk_embeddings(session, embed=_always_fails, batch_size=100)
-
-    assert result == {"embedded": 0, "remaining": 150}
-    assert session.fetch_calls <= 3, "far more re-fetches than the data warrants -- loop isn't converging"
-
-
-def test_a_mix_of_failing_and_succeeding_chunks_still_terminates():
-    """Failures alone (more than one batch_size worth) must not keep getting
-    re-fetched forever while the chunks around them succeed and drain."""
-    from artmind.embed_sweep import embed_missing_chunk_embeddings
-
-    ids = [f"c{i}" for i in range(150)]
-    failing = set(ids[:120])
-    session = _PagedFailingSession(ids)
-
-    def _embed(text):
-        if text in failing:
-            raise RuntimeError("nope")
-        return [0.1]
-
-    result = embed_missing_chunk_embeddings(session, embed=_embed, batch_size=100)
-
-    assert result == {"embedded": 30, "remaining": 120}
-    assert session.fetch_calls <= 3, "far more re-fetches than the data warrants -- loop isn't converging"
+from _neo4j_recorder import Recorder
+
+from artmind import embed_sweep, passages
+
+KEY = "ek"
+
+
+def _respond(build_rows=(), embed_rows=(), chat_rows=()):
+    state = {"build": list(build_rows), "embed": list(embed_rows), "chat": list(chat_rows)}
+
+    def respond(cypher, params):
+        if "AS chunk_text" in cypher:               # chunks needing passages
+            rows, state["build"] = state["build"], []
+            return rows
+        if "MATCH (p:DocPassage)" in cypher and "RETURN p.id AS id" in cypher:
+            rows, state["embed"] = state["embed"], []
+            return rows
+        if "MATCH (c:UserChat)" in cypher and "RETURN c.id AS id" in cypher:
+            rows, state["chat"] = state["chat"], []
+            return rows
+        return []
+    return respond
+
+
+def test_builds_passages_for_chunks_without_them(monkeypatch):
+    calls = []
+    monkeypatch.setattr(embed_sweep.passage_store, "write_chunk_passages",
+                        lambda tx, cid, rows: calls.append((cid, rows)) or len(rows))
+    s = Recorder(_respond(build_rows=[{"id": "d1_001", "doc_id": "d1", "_domain": "p",
+                                       "chunk_text": "Some text.", "header_path": "Intro", "title": "Doc"}]))
+    out = embed_sweep.reconcile_passages(s, embed=lambda t: [1.0], embed_key=KEY, cache=None)
+    (cypher, params), = s.queries_containing("AS chunk_text")
+    assert "NOT EXISTS { MATCH (:DocPassage)-[:PART_OF]->(c) }" in cypher
+    assert "p._split_key <> $split_key" in cypher and "trim(coalesce(c.text, '')) <> ''" in cypher
+    assert params["split_key"] == passages.split_key()
+    assert calls[0][0] == "d1_001" and calls[0][1][0]["props"]["context"] == "Doc > Intro"
+    assert out["chunks_split"] == 1
+
+
+def test_embeds_stale_passages_with_context_and_key():
+    s = Recorder(_respond(embed_rows=[{"id": "d1_001_p01", "text": "Body.", "context": "Doc > Intro"}]))
+    seen = []
+    out = embed_sweep.reconcile_passages(s, embed=lambda t: seen.append(t) or [0.5], embed_key=KEY, cache=None)
+    (select, sp), = s.queries_containing("RETURN p.id AS id")
+    assert "p.embedding IS NULL OR p._embed_key IS NULL OR p._embed_key <> $embed_key" in select
+    assert sp["embed_key"] == KEY
+    assert seen == ["Doc > Intro\nBody."]
+    (write, wp), = s.queries_containing("SET p.embedding = $embedding, p._embed_key = $embed_key")
+    assert wp == {"id": "d1_001_p01", "embedding": [0.5], "embed_key": KEY}
+    assert out["embedded"] == 1 and out["remaining"] == 0
+
+
+def test_a_failed_embedding_is_skipped_and_the_loop_ends():
+    rows = [{"id": f"p{i}", "text": "t", "context": ""} for i in range(3)]
+    s = Recorder(_respond(embed_rows=rows))
+
+    def boom(t):
+        raise RuntimeError("down")
+    out = embed_sweep.reconcile_passages(s, embed=boom, embed_key=KEY, cache=None, batch_size=3)
+    assert out == {"chunks_split": 0, "embedded": 0, "remaining": 3, "chats_embedded": 0}
+    assert not s.queries_containing("SET p.embedding")
+
+
+def test_scopes_reach_both_steps():
+    s = Recorder()
+    embed_sweep.reconcile_passages(s, chunk_ids=["d1_001"], embed=lambda t: [1.0], embed_key=KEY, cache=None)
+    for cypher, params in s.calls:
+        if "AS chunk_text" in cypher:
+            assert "c.id IN $chunk_ids" in cypher
+        if "RETURN p.id AS id" in cypher:
+            assert "p.chunk_id IN $chunk_ids" in cypher
+    assert not s.queries_containing("MATCH (c:UserChat)")   # chats only on unscoped/domain runs
+
+
+def test_empty_scope_is_a_no_op():
+    s = Recorder()
+    assert embed_sweep.reconcile_passages(s, chunk_ids=[], embed_key=KEY) == \
+        {"chunks_split": 0, "embedded": 0, "remaining": 0, "chats_embedded": 0}
+    assert s.calls == []
+
+
+def test_unscoped_run_reembeds_stale_chats():
+    s = Recorder(_respond(chat_rows=[{"id": "u1", "raw_text": "hi"}]))
+    out = embed_sweep.reconcile_passages(s, embed=lambda t: [1.0], embed_key=KEY, cache=None)
+    (select, _), = s.queries_containing("MATCH (c:UserChat)")
+    assert "c._embed_key <> $embed_key" in select
+    assert out["chats_embedded"] == 1
 
 
 # ── write-to-graph: --noEmbed actually gates the sweep ──────────────────────
@@ -434,7 +236,7 @@ def test_a_mix_of_failing_and_succeeding_chunks_still_terminates():
 # No CLI test file for write-to-graph existed before this -- covered here
 # since this file is already the home for everything about the chunk-embed
 # sweep. Single-document mode is enough (per review): the folder/batch path
-# calls the same `_run_chunk_embed_sweep` helper, gated the same way.
+# calls the same `_run_passage_sweep` helper, gated the same way.
 
 def _stage_document_json(tmp_path, monkeypatch, domain="general", name="sample.pdf"):
     """Fake just enough of a KG staging tree for write-to-graph's single-document
@@ -457,7 +259,7 @@ def test_no_embed_skips_the_sweep(tmp_path, monkeypatch):
 
     with patch("artmind.cli._build_file_result_from_db", return_value=file_result), \
          patch("artmind.cli.commit_to_graph", return_value=True), \
-         patch("artmind.cli._run_chunk_embed_sweep") as mock_sweep:
+         patch("artmind.cli._run_passage_sweep") as mock_sweep:
         result = runner.invoke(
             cli, ["ingest", "write-to-graph", "sample.pdf", "--domain", "general", "--noEmbed"]
         )
@@ -476,7 +278,7 @@ def test_without_no_embed_the_sweep_runs(tmp_path, monkeypatch):
 
     with patch("artmind.cli._build_file_result_from_db", return_value=file_result), \
          patch("artmind.cli.commit_to_graph", return_value=True), \
-         patch("artmind.cli._run_chunk_embed_sweep") as mock_sweep:
+         patch("artmind.cli._run_passage_sweep") as mock_sweep:
         result = runner.invoke(
             cli, ["ingest", "write-to-graph", "sample.pdf", "--domain", "general"]
         )
@@ -507,7 +309,7 @@ def test_folder_mode_skips_atomic_write_scratch_siblings(tmp_path, monkeypatch):
     with patch(
         "artmind.cli.commit_to_graph",
         side_effect=lambda doc_kg_dir, domain: written.append(doc_kg_dir.name) or True,
-    ), patch("artmind.cli._run_chunk_embed_sweep"):
+    ), patch("artmind.cli._run_passage_sweep"):
         result = runner.invoke(
             cli, ["ingest", "write-to-graph", "--folder", str(folder), "--domain", "general"]
         )

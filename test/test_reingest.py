@@ -212,7 +212,7 @@ def test_commit_to_graph_sweeps_exactly_the_chunks_the_tx_surfaced(tmp_path, mon
     ])
     swept_chunks: list = []
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
+        ing, "_sweep_passages", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
     )
 
     assert ing.commit_to_graph(doc_kg_dir, "banking") is True
@@ -291,7 +291,7 @@ def test_the_embed_sweep_runs_after_the_commit_not_inside_it(tmp_path, monkeypat
         ing, "_sweep_embeddings", lambda domain, keys: order.append("sweep") or 0
     )
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda chunk_ids: order.append("chunk_sweep") or 0
+        ing, "_sweep_passages", lambda chunk_ids: order.append("chunk_sweep") or 0
     )
 
     assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
@@ -315,7 +315,7 @@ def test_the_chunk_sweep_is_scoped_to_this_commits_unembedded_chunk_ids(tmp_path
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
     swept_chunks: list = []
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
+        ing, "_sweep_passages", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
     )
 
     assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
@@ -325,7 +325,7 @@ def test_the_chunk_sweep_is_scoped_to_this_commits_unembedded_chunk_ids(tmp_path
 def test_a_failing_chunk_sweep_does_not_fail_an_already_committed_write(tmp_path, monkeypatch):
     """Same contract as the entity sweep: the commit already succeeded and the
     graph is correct. A chunk that could not be embedded stays NULL and is
-    picked up by the next sweep. Exercises the real `_sweep_chunk_embeddings`
+    picked up by the next sweep. Exercises the real `_sweep_passages`
     (not a mock of it) so its own internal try/except is what's under test —
     mirrors `test_a_failing_embed_sweep_does_not_fail_an_already_committed_write`,
     which patches the underlying `embed_missing_entity_embeddings`, not the
@@ -346,7 +346,7 @@ def test_a_failing_chunk_sweep_does_not_fail_an_already_committed_write(tmp_path
     def boom(session, **kw):
         raise RuntimeError("ollama is down")
 
-    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", boom)
+    monkeypatch.setattr(embed_sweep, "reconcile_passages", boom)
 
     assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
 
@@ -380,7 +380,7 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: swept.append(keys) or 0)
     swept_chunks: list = []
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
+        ing, "_sweep_passages", lambda chunk_ids: swept_chunks.append(chunk_ids) or 0
     )
 
     import artmind.projection as projection
@@ -393,7 +393,7 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
     assert swept_chunks == [], "the chunk sweep is gated the same way as the entity sweep"
 
 
-# ── _sweep_chunk_embeddings: two scoping modes ───────────────────────────────
+# ── _sweep_passages: two scoping modes ───────────────────────────────
 #
 # Closes the batch-ingest gap: `commit_to_graph`'s chunk sweep only fires on
 # the non-deferred path (scoped to `chunk_ids`); a multi-file batch defers
@@ -401,7 +401,7 @@ def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkey
 # domain-scoped sweep instead (below).
 
 
-def test_sweep_chunk_embeddings_short_circuits_with_neither_scope(monkeypatch):
+def test_sweep_passages_short_circuits_with_neither_scope(monkeypatch):
     """Nothing to scope to — a real no-op, must not even open a session."""
     import artmind.graph_query as gq
 
@@ -410,13 +410,13 @@ def test_sweep_chunk_embeddings_short_circuits_with_neither_scope(monkeypatch):
 
     monkeypatch.setattr(gq, "neo4j_session", boom)
 
-    assert ing._sweep_chunk_embeddings() == 0
-    assert ing._sweep_chunk_embeddings(chunk_ids=[]) == 0
-    assert ing._sweep_chunk_embeddings(chunk_ids=None, domain=None) == 0
+    assert ing._sweep_passages() == 0
+    assert ing._sweep_passages(chunk_ids=[]) == 0
+    assert ing._sweep_passages(chunk_ids=None, domain=None) == 0
 
 
-def test_sweep_chunk_embeddings_domain_scope_passes_through(monkeypatch):
-    """`domain="general"` reaches `embed_missing_chunk_embeddings` as the
+def test_sweep_passages_domain_scope_passes_through(monkeypatch):
+    """`domain="general"` reaches `reconcile_passages` as the
     `domain` kwarg, with `chunk_ids` left `None` -- not silently dropped or
     conflated with the id-scoping path."""
     session = _RetractSession()
@@ -430,12 +430,12 @@ def test_sweep_chunk_embeddings_domain_scope_passes_through(monkeypatch):
         calls.append(kw)
         return {"embedded": 3}
 
-    monkeypatch.setattr(embed_sweep, "embed_missing_chunk_embeddings", fake)
+    monkeypatch.setattr(embed_sweep, "reconcile_passages", fake)
 
-    result = ing._sweep_chunk_embeddings(domain="general")
+    result = ing._sweep_passages(domain="general")
 
     assert result == 3
-    assert calls == [{"chunk_ids": None, "domain": "general"}]
+    assert calls == [{"chunk_ids": None, "domain": "general", "doc_ids": None}]
 
 
 # ── rebuild_projection: the domain-scoped chunk sweep ────────────────────────
@@ -452,14 +452,14 @@ def test_rebuild_projection_sweeps_chunks_by_domain_when_domain_given(monkeypatc
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, **kw: 0)
     swept_chunks: list = []
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 7
+        ing, "_sweep_passages", lambda **kw: swept_chunks.append(kw) or 7
     )
 
     summary = ing.rebuild_projection("general")
 
     assert swept_chunks == [{"domain": "general", "strict": True}]
-    assert summary["chunks_embedded"] == 7, (
-        "a dropped or mis-assigned summary['chunks_embedded'] = ... line must fail this test"
+    assert summary["passages_embedded"] == 7, (
+        "a dropped or mis-assigned summary['passages_embedded'] = ... line must fail this test"
     )
 
 
@@ -476,7 +476,7 @@ def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatc
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
     swept_chunks: list = []
     monkeypatch.setattr(
-        ing, "_sweep_chunk_embeddings", lambda **kw: swept_chunks.append(kw) or 0
+        ing, "_sweep_passages", lambda **kw: swept_chunks.append(kw) or 0
     )
 
     ing.rebuild_projection()
@@ -490,7 +490,7 @@ def test_rebuild_projection_skips_the_chunk_sweep_on_a_global_rebuild(monkeypatc
 # `_commit_document_tx` special-cased "embedding" out of `_flatten_props`'s
 # input and always re-added it, defaulting to []. That meant a chunk with no
 # vector got `embedding: []` written -- a present, non-null value. In real
-# Neo4j, `[] IS NULL` is false, so `embed_missing_chunk_embeddings`'s
+# Neo4j, `[] IS NULL` is false, so `reconcile_passages`'s
 # `WHERE c.embedding IS NULL` sweep query would never find it (a mocked
 # session can't catch this -- see CLAUDE.md's `update confirm` postmortem).
 # Worse: `_merge_relabeled` writes DocChunk with `SET n += $props`

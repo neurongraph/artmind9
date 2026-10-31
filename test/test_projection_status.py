@@ -1,6 +1,6 @@
-"""`projection.status`'s `unembedded_chunks` key (docs/vault.md, "Embeddings").
+"""`projection.status`'s `unembedded_passages` key (docs/vault.md, "Embeddings").
 
-`unembedded_chunks` is hand-copied into both of `status`'s return sites (the
+`unembedded_passages` is hand-copied into both of `status`'s return sites (the
 early `known: False` dict and the main `known: True` dict) -- exactly the
 kind of place a copy-paste slip (wrong key, stale query, forgotten branch)
 hides silently, since both branches otherwise look plausible on their own.
@@ -35,9 +35,11 @@ class _FakeProjectionTx:
             chunk_rows = [{"domain": "general", "n": unembedded_count}] if unembedded_count else []
         self.chunk_rows = list(chunk_rows)
         self.queries: list[str] = []
+        self.params: list[dict] = []
 
     def run(self, cypher, **params):
         self.queries.append(cypher)
+        self.params.append(params)
         if "ProjectionState" in cypher:
             rows = [{"p": self._state}] if self._state is not None else []
             return _Result(rows)
@@ -45,12 +47,12 @@ class _FakeProjectionTx:
             return _Result(self.entity_rows)
         if "MATCH (o:Observation)" in cypher and "AGGREGATES" in cypher:
             return _Result(self.unprojected_rows)
-        if "MATCH (c:DocChunk)" in cypher and "count(c)" in cypher:
+        if "MATCH (p:DocPassage)" in cypher and "count(p)" in cypher:
             return _Result(self.chunk_rows)
         raise AssertionError(f"projection.status issued an unexpected query: {cypher!r}")
 
 
-def test_unembedded_chunks_reported_when_projection_state_is_unknown():
+def test_unembedded_passages_reported_when_projection_state_is_unknown():
     """The `known: False` branch -- no `:ProjectionState` node yet (a fresh
     graph, or one that predates the drift check)."""
     from artmind.projection import status
@@ -60,10 +62,10 @@ def test_unembedded_chunks_reported_when_projection_state_is_unknown():
     result = status(tx)
 
     assert result["known"] is False
-    assert result["unembedded_chunks"] == 7
+    assert result["unembedded_passages"] == 7
 
 
-def test_unembedded_chunks_reported_when_projection_state_is_known():
+def test_unembedded_passages_reported_when_projection_state_is_known():
     """The `known: True` branch -- a recorded `:ProjectionState`."""
     from artmind.projection import status
 
@@ -79,10 +81,10 @@ def test_unembedded_chunks_reported_when_projection_state_is_known():
     result = status(tx)
 
     assert result["known"] is True
-    assert result["unembedded_chunks"] == 0
+    assert result["unembedded_passages"] == 0
 
 
-def test_unembedded_chunks_value_differs_between_the_two_branches():
+def test_unembedded_passages_value_differs_between_the_two_branches():
     """A cheap guard against the copy-paste slip: same fake, only `known`
     and the count differ, so a stale literal in one branch shows up as a
     wrong number rather than an omitted key."""
@@ -91,8 +93,8 @@ def test_unembedded_chunks_value_differs_between_the_two_branches():
     unknown = status(_FakeProjectionTx(state=None, unembedded_count=3))
     known = status(_FakeProjectionTx(state={"same_as_hash": "a", "schema_hash": "b"}, unembedded_count=9))
 
-    assert unknown["unembedded_chunks"] == 3
-    assert known["unembedded_chunks"] == 9
+    assert unknown["unembedded_passages"] == 3
+    assert known["unembedded_passages"] == 9
 
 
 # ── B3: what is missing, per domain ─────────────────────────────────────────
@@ -110,11 +112,11 @@ def test_status_counts_unembedded_entities_and_unprojected_keys_per_domain():
 
     result = status(tx)
 
-    assert (result["unembedded_entities"], result["unprojected_keys"], result["unembedded_chunks"]) == (2802, 40, 6)
+    assert (result["unembedded_entities"], result["unprojected_keys"], result["unembedded_passages"]) == (2802, 40, 6)
     assert result["domains"] == {
-        "(none)": {"unembedded_entities": 0, "unprojected_keys": 0, "unembedded_chunks": 2},
-        "general": {"unembedded_entities": 2801, "unprojected_keys": 40, "unembedded_chunks": 0},
-        "habits": {"unembedded_entities": 1, "unprojected_keys": 0, "unembedded_chunks": 4},
+        "(none)": {"unembedded_entities": 0, "unprojected_keys": 0, "unembedded_passages": 2},
+        "general": {"unembedded_entities": 2801, "unprojected_keys": 40, "unembedded_passages": 0},
+        "habits": {"unembedded_entities": 1, "unprojected_keys": 0, "unembedded_passages": 4},
     }
 
 
@@ -134,6 +136,9 @@ def test_status_counts_with_the_embed_sweeps_own_predicates():
     (obs_q,) = [q for q in tx.queries if "MATCH (o:Observation)" in q]
     assert "NOT EXISTS { MATCH (:Entity)-[:AGGREGATES]->(o) }" in obs_q
     assert "count(DISTINCT o.key)" in obs_q
+    (passage_q,) = [q for q in tx.queries if "MATCH (p:DocPassage)" in q]
+    assert "p.embedding IS NULL OR p._embed_key IS NULL OR p._embed_key <> $embed_key" in passage_q
+    assert all(p.get("embed_key") for q, p in zip(tx.queries, tx.params) if "DocPassage" in q)
     assert len(tx.queries) == 4, "one state read and three grouped counts, never a query per domain"
 
 

@@ -4353,7 +4353,7 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
 
     if not defer_rebuild:
         _sweep_embeddings(domain, summary.get("affected_keys") or [])
-        _sweep_chunk_embeddings(summary.get("passage_chunk_ids") or [])
+        _sweep_passages(summary.get("passage_chunk_ids") or [])
     return True
 
 
@@ -4391,8 +4391,8 @@ def _sweep_embeddings(domain: str, keys: list, *, strict: bool = False) -> int:
         return 0
 
 
-def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = None, *, strict: bool = False) -> int:
-    """Post-commit / post-rebuild chunk-embed sweep.
+def _sweep_passages(chunk_ids: list | None = None, domain: str | None = None, doc_ids: list | None = None, *, strict: bool = False) -> int:
+    """Post-commit / post-rebuild passage sweep (build missing passages, embed stale vectors).
 
     Two scoping modes, mirroring `_sweep_embeddings`'s own two callers:
 
@@ -4410,7 +4410,7 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
     this is a restore with no sidecar at all. Never fatal: the commit or
     rebuild already succeeded and the graph is correct either way. A chunk
     this sweep can't embed stays NULL and is picked up by the next
-    `ingest embed-chunks` / write-to-graph sweep, or the next commit or
+    `ingest embed-passages` / write-to-graph sweep, or the next commit or
     rebuild that happens to touch it.
 
     Neither scope given (`chunk_ids` falsy and `domain` `None`) is a real
@@ -4419,37 +4419,37 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
     `strict=True` raises `SweepSkipped` instead of returning 0 when the sweep
     could not run (see `_sweep_embeddings`).
     """
-    if not chunk_ids and not domain:
+    if not chunk_ids and not domain and not doc_ids:
         return 0
     try:
         from artmind.graph_query import neo4j_session
-        from artmind.embed_sweep import embed_missing_chunk_embeddings
+        from artmind.embed_sweep import reconcile_passages
 
         with neo4j_session() as session:
-            return embed_missing_chunk_embeddings(
-                session, chunk_ids=chunk_ids, domain=domain
+            return reconcile_passages(
+                session, chunk_ids=chunk_ids, domain=domain, doc_ids=doc_ids
             )["embedded"]
     except Exception as e:
         scope_desc = f"{len(chunk_ids)} chunk(s)" if chunk_ids else f"domain {domain!r}"
         logger.warning(
-            "Chunk embed sweep skipped for {} ({}); they stay unembedded "
+            "Passage sweep skipped for {} ({}); they stay unembedded "
             "and will be picked up by the next sweep", scope_desc, e,
         )
         if strict:
-            raise SweepSkipped(f"chunk embed sweep skipped for {scope_desc} ({e})") from e
+            raise SweepSkipped(f"passage sweep skipped for {scope_desc} ({e})") from e
         return 0
 
 
 def _sweep_domain(domain: str, keys: list) -> dict:
     """Both strict sweeps for one domain. Never raises: a skipped sweep
     becomes an entry in `sweep_errors`, and the other sweep still runs."""
-    out: dict = {"embedded": 0, "chunks_embedded": 0, "sweep_errors": []}
+    out: dict = {"embedded": 0, "passages_embedded": 0, "sweep_errors": []}
     try:
         out["embedded"] = _sweep_embeddings(domain, keys, strict=True)
     except SweepSkipped as e:
         out["sweep_errors"].append(str(e))
     try:
-        out["chunks_embedded"] = _sweep_chunk_embeddings(domain=domain, strict=True)
+        out["passages_embedded"] = _sweep_passages(domain=domain, strict=True)
     except SweepSkipped as e:
         out["sweep_errors"].append(str(e))
     return out
@@ -4497,7 +4497,7 @@ def rebuild_and_sweep_all() -> dict:
     A full, unscoped, batched rebuild (`projection.full_rebuild_batched`,
     which clears drift once the last batch commits), then both strict embed
     sweeps for every domain a key belongs to. Returns the rebuild totals plus
-    `domains_swept`, `embedded`, `chunks_embedded`, `sweep_errors` (each
+    `domains_swept`, `embedded`, `passages_embedded`, `sweep_errors` (each
     prefixed with its domain; empty when every sweep ran) and
     `finalize_resolved` (the ingest jobs whose failed deferred rebuild this
     run superseded -- only when no sweep was skipped).
@@ -4518,10 +4518,10 @@ def rebuild_and_sweep_all() -> dict:
     for domain in sorted(by_domain):
         swept = _sweep_domain(domain, by_domain[domain])
         embedded += swept["embedded"]
-        chunks += swept["chunks_embedded"]
+        chunks += swept["passages_embedded"]
         errors.extend(f"{domain}: {err}" for err in swept["sweep_errors"])
     summary.update(
-        domains_swept=sorted(by_domain), embedded=embedded, chunks_embedded=chunks, sweep_errors=errors,
+        domains_swept=sorted(by_domain), embedded=embedded, passages_embedded=chunks, sweep_errors=errors,
     )
     summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
     return summary

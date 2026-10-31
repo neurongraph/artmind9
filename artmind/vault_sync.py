@@ -1643,7 +1643,7 @@ def sync(
     for d in touched_domains:
         domain_keys = [k for k in all_keys if k[2] == d]
         ingest._sweep_embeddings(d, domain_keys)
-        ingest._sweep_chunk_embeddings(domain=d)
+        ingest._sweep_passages(domain=d)
     # A replayed `artmind update` is a UserChat, whose vector is never staged.
     for d in sorted(chat_domains):
         from artmind.update import embed_user_chats
