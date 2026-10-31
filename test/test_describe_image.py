@@ -82,3 +82,46 @@ def test_describe_image_passes_kg_llm_url_as_ollama_host():
     mock_ollama.assert_called_once()
     _, kwargs = mock_ollama.call_args
     assert kwargs["host"] == "http://llm-host:11434"
+
+
+def _timeout_passed(env):
+    with patch("artmind.ingest.load_env", return_value=env), patch(
+        "artmind.extraction.describe_image_openrouter", return_value="a description"
+    ) as mock_openrouter:
+        _describe_image(IMAGE, "m")
+    return mock_openrouter.call_args
+
+
+def test_image_timeout_prefers_its_own_setting():
+    env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter", "ARTMIND_IMAGE_TIMEOUT": "90", "ARTMIND_OLLAMA_TIMEOUT": "600"}
+    args, _ = _timeout_passed(env)
+    assert args[3] == 90
+
+
+def test_image_timeout_falls_back_to_the_llm_timeout_then_120():
+    args, _ = _timeout_passed({"ARTMIND_KG_LLM_PROVIDER": "openrouter", "ARTMIND_OLLAMA_TIMEOUT": "600"})
+    assert args[3] == 600
+    args, _ = _timeout_passed({"ARTMIND_KG_LLM_PROVIDER": "openrouter"})
+    assert args[3] == 120
+
+
+def test_image_timeout_ignores_an_empty_setting():
+    args, _ = _timeout_passed({"ARTMIND_KG_LLM_PROVIDER": "openrouter", "ARTMIND_IMAGE_TIMEOUT": "", "ARTMIND_OLLAMA_TIMEOUT": "300"})
+    assert args[3] == 300
+
+
+def test_image_max_retries_reaches_the_client_for_openrouter_and_ibm_ica():
+    env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter", "ARTMIND_IMAGE_MAX_RETRIES": "1"}
+    _, kwargs = _timeout_passed(env)
+    assert kwargs["max_retries"] == 1
+    env = {
+        "ARTMIND_KG_LLM_PROVIDER": "ibm_ica", "ARTMIND_IMAGE_MAX_RETRIES": "0",
+        "ANTHROPIC_AUTH_TOKEN": FAKE_CREDENTIAL, "ANTHROPIC_BASE_URL": "https://gateway.example.com/v1",
+    }
+    _, kwargs = _timeout_passed(env)
+    assert kwargs["max_retries"] == 0
+
+
+def test_image_max_retries_unset_leaves_the_sdk_default():
+    _, kwargs = _timeout_passed({"ARTMIND_KG_LLM_PROVIDER": "openrouter"})
+    assert kwargs["max_retries"] is None

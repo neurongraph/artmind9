@@ -528,3 +528,20 @@ def test_an_unrelated_bad_request_with_a_budget_still_raises():
 
     with pytest.raises(openai.BadRequestError):
         _budget_calls([_bad_request("Error code: 400 - messages: field required")], 32000)
+
+
+def test_describe_image_openrouter_applies_max_retries_only_when_given(tmp_path):
+    image = tmp_path / "test.png"
+    image.write_bytes(b"x")
+    env = {"ARTMIND_OPENROUTER_API_KEY": FAKE_CREDENTIAL}
+    fake_response = MagicMock()
+    fake_response.choices[0].message.content = "ok"
+    with patch("artmind.llm_providers.openai.OpenAI") as mock_openai_cls:
+        client = mock_openai_cls.return_value
+        client.with_options.return_value.chat.completions.create.return_value = fake_response
+        client.chat.completions.create.return_value = fake_response
+        describe_image_openrouter(image, "m", "p", 30, env, max_retries=1)
+        client.with_options.assert_called_once_with(max_retries=1)
+        client.with_options.reset_mock()
+        describe_image_openrouter(image, "m", "p", 30, env)
+        client.with_options.assert_not_called()
