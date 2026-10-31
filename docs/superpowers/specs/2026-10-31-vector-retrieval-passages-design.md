@@ -20,7 +20,7 @@ defects are their answer quality.
 | 1 | RRF fuses only `topK` (default 5) rows per leg | `vector_query.vector_text_search` passes `topK` to both legs | Each leg fetches a deep pool; fuse, then cut (§4.2) |
 | 2 | Domain filter runs after ANN over the whole graph (`candidateK = topK*5*n`), so a small domain returns 0-2 rows | `chunk_embedding` has no filter properties; `WHERE` is outside `SEARCH` | `passage_embedding` declares `WITH [p._domain]`; the domain filter goes inside `SEARCH` (§3.4, §4.2) |
 | 3 | Returned `score` mixes cosine (0-1) and BM25 (unbounded) | `_rrf_combine(..., annotate=False)` | Fused `score`, absolute `relevance`, `matched_by` (§4.3) |
-| 4 | Embeddings ignore the model's task prefixes, carry no title/heading context, and are one vector per 6000-char chunk | `ingest.py` embeds raw chunk text; `embed_question` raw question; `header_path` never reaches the graph | Passages (~1200 chars) embedded as `search_document: <title> > <headings>\n<text>`; questions as `search_query: ...` (§3) |
+| 4 | Embeddings ignore the model's task prefixes, carry no title/heading context, and are one vector per 6000-char chunk | `ingest.py` embeds raw chunk text; `embed_question` raw question; `header_path` (already on `DocChunk`) is never embedded | Passages (~1200 chars) embedded as `search_document: <title> > <headings>\n<text>`; questions as `search_query: ...` (§3) |
 | 5 | Top-K can be K chunks of one document | no diversity step | MMR over chunks with a same-document redundancy floor (§4.2 step 5) |
 
 ## Non-goals
@@ -49,10 +49,11 @@ defects are their answer quality.
 - `:DocPassage` carries every text-retrieval vector. `:DocChunk` keeps its id, text
   and provenance role (observations' `EXTRACTED_FROM`, `chunks --idList`) and **loses
   its `embedding`**.
-- `DocChunk.header_path` is written from `chunks_meta.json` at commit (today it stays in
-  staging only).
-- History: `:DocPassageHistory`, holding no `embedding` (retired text never sits in the
-  vector index).
+- `DocChunk.header_path` already reaches the graph (staged from `chunks_meta.json`); the
+  passage's embedded context reads it from there.
+- History: `:DocPassageHistory`. A history passage keeps whatever vector it had: the
+  label swap alone takes it out of every index, exactly as for chunks, so a restore
+  needs no re-embedding.
 - A Neo4j vector index covers one vector per node, so passages must be nodes; a list of
   vectors on `DocChunk` cannot be indexed.
 
@@ -63,11 +64,12 @@ defects are their answer quality.
 `split(chunk_text: str) -> list[Passage]` with `Passage(seq, char_start, char_end, text)`:
 
 - Target `ARTMIND_KG_PASSAGE_CHARS` (default 1200), overlap 150 chars.
-- Splits on paragraph boundaries, then sentence boundaries, then whitespace; never
-  mid-word.
+- Splits on paragraph boundaries, then line breaks, then sentence boundaries, then
+  whitespace; never mid-word. The next passage starts at a line start inside the
+  overlap when there is one.
 - A table cut across passages gets its header row reattached to each later passage,
-  reusing `ingest._reattach_table_headers` (moved to `passages.py` if the import would
-  pull ingest-only dependencies into the query layer).
+  reusing `ingest._reattach_table_headers` (moved, with its two row helpers, to a new
+  `artmind/md_tables.py` that both modules import).
 - `char_start`/`char_end` slice the parent chunk's text exactly
   (`chunk_text[start:end]` is the passage text before header reattachment).
 - A chunk shorter than the target yields one passage spanning it.
@@ -96,15 +98,22 @@ The title is the Document's `title` (else `name`); the heading path is the paren
 chunk's `header_path`. The prefix line is embedded only; `DocPassage.text` stores the
 passage text alone (what the fulltext index and the agent see).
 
-`UserChat` vectors are embedded with the document prefix too (no title line).
-`embed_question` prepends the query prefix.
+Every stored vector uses the document prefix: passages, `UserChat` (no title line) and
+`Entity` (name + description, as today). Every search uses the query prefix:
+`embed_question` (vector-text, entity-resolve, entity-context) and the name-vocabulary
+lookup in `canonicalize.py`. Helpers in `extraction.py`: `embed_document`,
+`embed_query`, `embed_prefixes`, `embed_key`.
 
-### 2.4 `_embed_key`
+### 2.4 `_embed_key` and `_split_key`
 
-`_embed_key = sha1(model, PREFIX_VERSION, SPLIT_VERSION)`, stored on every passage and
-`UserChat` vector. A passage whose key differs from the current one is stale.
-Passages also carry `_split_version` (the `SPLIT_VERSION` they were cut with), so the
-sweep can tell "re-split" from "re-embed only" without decoding the hash.
+`_embed_key = sha1(model, PREFIX_VERSION)`, stored on every passage, `UserChat` and
+`Entity` vector. A vector whose key differs from the current one is stale and is
+re-embedded by its sweep (passages and chats: §3.2; entities: the existing entity
+sweep, which also selects on the key).
+
+Passages also carry `_split_key = "<SPLIT_VERSION>:<passage chars>"`, what they were cut
+under, so a change of the rules or of `ARTMIND_KG_PASSAGE_CHARS` re-splits them; an
+`_embed_key` change only re-embeds.
 
 ## 3. Ingest, sweep and lifecycle
 
@@ -119,20 +128,32 @@ gitignored and machine-local, as chunk vectors are today (`docs/vault.md`,
 
 During `extract_kg`, the chunk embedding step (`_embed_text(embed_model, chunk_text)`)
 is removed; passages are embedded by the sweep that already runs after every commit
-(§3.2). The per-document `embeddings.json` sidecar (gitignored) becomes a
-content-addressed cache, `{sha1(_embed_key + embedded text): vector}`: the sweep reads
-it before calling the model and writes to it after, so a re-commit, a new version with
-unchanged passages, or a rebuilt graph never re-embeds identical text on that machine.
+(§3.2). Vectors are cached in one machine-local, content-addressed SQLite file,
+`<data dir>/embedding_cache.sqlite`, keyed `sha1(_embed_key, embedded text)`: the sweep
+reads it before calling the model and writes to it after, so a re-commit, a new version
+with unchanged passages, or a rebuilt graph never re-embeds identical text on that
+machine. The per-document chunk-vector sidecar (`embeddings.json`) and its read, write
+and carry helpers are removed; the gitignore line stays so old files are never
+committed.
+
+A commit writes each passage holding exactly its new properties (no vector); the
+post-commit sweep then fills vectors from the cache.
 
 ### 3.2 The passage sweep (permanent)
 
-`embed_sweep.embed_missing_chunk_embeddings` becomes `reconcile_passages(session,
-domain=None, ids=None)`:
+`embed_sweep.embed_missing_chunk_embeddings` becomes `reconcile_passages(session, *,
+chunk_ids=None, domain=None, doc_ids=None)`:
 
-1. Build passages for every `DocChunk` with none, or whose passages'
-   `_split_version` is old; replaces that chunk's passages in one write.
+1. Build passages for every non-blank `DocChunk` with none, or whose passages carry an
+   old `_split_key`; replaces that chunk's passages in one write. A chunk with blank
+   text has no passages and is never selected.
 2. Embed passages where `embedding IS NULL OR _embed_key <> $key`.
-3. Re-embed `UserChat` nodes with a stale or missing `_embed_key`.
+3. On unscoped or domain-scoped runs: re-embed `UserChat` nodes with a stale or missing
+   `_embed_key`.
+
+Status fields follow the rename: `unembedded_chunks` → `unembedded_passages`
+(`projection` status, the Obsidian plugin's checklist), `chunks_embedded` →
+`passages_embedded`.
 
 Same resumable loop, progress logging and `strict` behaviour as today. Every caller of
 the chunk sweep (`_sweep_chunk_embeddings`, `write-to-graph`, `vault sync`,
@@ -147,13 +168,14 @@ sweep.
 
 Passages follow their chunk through every label swap:
 
-- **Version supersede** (`ingest.py`, `DocChunk` → `DocChunkHistory`): the chunk's
-  passages swap to `DocPassageHistory` and their `embedding` is removed, same
-  transaction.
-- **Retire / restore** (`lifecycle.retire_document`, `restore_document`): the same swap
-  in both directions. A restored passage has no embedding and is picked up by the next
-  sweep (restore already runs one for chunks today).
-- **Delete** of a document removes its passages with its chunks.
+- **Version supersede** (`ingest._retract_prior_version`, `DocChunk` →
+  `DocChunkHistory`): the document's passages swap to `DocPassageHistory` in the same
+  transaction. The new version's passages reuse a node when their deterministic id
+  matches (`<chunk_id>_pNN`), like chunks.
+- **Retire / restore** (`lifecycle._transition`): the same swap in both directions; a
+  restored passage still has its vector.
+- There is no hard delete of document chunks in the codebase (retraction is a label
+  swap); nothing to add there.
 
 ### 3.4 Indexes (`setup._setup_neo4j`)
 
@@ -161,7 +183,7 @@ Created:
 
 ```
 CREATE VECTOR INDEX passage_embedding IF NOT EXISTS
-  FOR (p:DocPassage) ON (p.embedding) WITH [p._domain]
+  FOR (p:DocPassage) ON p.embedding WITH [p._domain]   -- exact syntax confirmed in the live run (§7)
   OPTIONS {indexConfig: {`vector.dimensions`: $dim, `vector.similarity_function`: 'cosine'}}
 CREATE FULLTEXT INDEX passage_text_ft IF NOT EXISTS FOR (p:DocPassage) ON EACH [p.text]
 CREATE INDEX passage_chunk_id IF NOT EXISTS FOR (p:DocPassage) ON (p.chunk_id)
@@ -190,7 +212,7 @@ nothing else imports it. Its tests are `test/test_migration_chunk_vectors.py`.
   `artmind ingest embed-passages`).
 - Otherwise: drops `chunk_embedding` and `chunk_text_ft`, removes `DocChunk.embedding`
   and `DocChunkHistory.embedding` in batches, and reports `legacy chunk vectors: none`.
-- `setup`'s output (text and JSON) always carries the report line.
+- `setup`'s output always carries the report line (`Legacy chunk vectors: ...`).
 
 The module docstring states the removal condition: every graph in use reports `none`.
 A GitHub issue is filed at merge with that condition; removal deletes the module, its
@@ -263,8 +285,8 @@ Existing keys keep their place (traces read `chunk.id`; the plugin and skill rea
 ```
 
 - `score`: fused rank score; comparable within one result only.
-- `relevance`: cosine of the best passage against the question, 0-1, comparable across
-  queries; `null` when only the fulltext leg found the unit.
+- `relevance`: the highest cosine of any of the unit's passages against the question,
+  0-1, comparable across queries; `null` when only the fulltext leg found the unit.
 - `--context passage`: `chunk.text` is replaced by the passage text; `passage` offsets
   still refer to the parent chunk.
 - Chat rows keep their `chat` key and gain `score`, `relevance`, `matched_by`.
@@ -272,8 +294,8 @@ Existing keys keep their place (traces read `chunk.id`; the plugin and skill rea
 CLI: `query vector-text` gains `--diversity FLOAT` (0-1) and `--context chunk|passage`;
 `--topK` is capped at 50.
 
-`vector_search` and `full_text_search` keep their names as the two legs, now over
-passages, and are still callable on their own.
+`vector_search` and `full_text_search` are replaced by private leg queries inside
+`vector_text_search`; nothing outside `vector_query.py` calls them.
 
 ### 4.4 `entity-context` chunk ranking
 
@@ -312,7 +334,9 @@ Neo4j: `passages.split`, `embed_prefix` (in `extraction.py` beside `embed_text`)
 1. `just dev-install`; restart `serve`, `chat-ui`, `admin-ui` (stale daemons serve old
    code).
 2. Inside the vault: `artmind vault sync` (or `artmind ingest embed-passages`) builds
-   passages and vectors. Indexes need not exist for the writes.
+   passages and vectors. Indexes need not exist for the writes. Then
+   `artmind ingest embed-entities --domain <d>` for each graph domain, so entity vectors
+   carry the document prefix (§2.3).
 3. `artmind setup`: creates the passage indexes (Neo4j populates them from the
    passages already written); the migration drops the legacy indexes and vectors and
    prints `legacy chunk vectors: none`.
@@ -384,8 +408,9 @@ Hermetic (`test/`):
 - Graph writes, asserting the parameters sent and which query ran
   (`test/test_update.py`'s `run_side_effect` recorder pattern), never counts alone:
   commit writes passages with the right `chunk_id`/`_domain`; supersede and
-  retire/restore swap passages and drop embeddings; delete removes them; the sweep
-  selects stale `_embed_key` rows and rebuilds passages on an old `SPLIT_VERSION`.
+  retire/restore swap passages (vectors kept); the sweep selects stale `_embed_key`
+  rows, rebuilds passages on an old `_split_key` and skips blank chunks; entity and
+  chat vectors carry the document prefix and `_embed_key`.
 - Query Cypher: `SEARCH ... WHERE p._domain IN $domains` with the expanded list,
   `pool` sent, keyword-only fallback with its warning, the missing-index error.
 - `entity-context`: MaxP and passage keyword leg feed `_rank_chunk_refs` unchanged.
