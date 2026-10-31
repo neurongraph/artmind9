@@ -5099,6 +5099,8 @@ def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bo
     force_rebuild = {"auto": None, "always": True, "skip": False}[rebuild_projection]
     try:
         summary = import_graph(snapshot_path, force_rebuild=force_rebuild)
+        # Snapshots carry no passages or vectors; rebuild them from chunk text.
+        _run_passage_sweep()
         click.echo(f"Restored from: {summary['snapshot']}")
         node_counts = summary.get("node_counts", {})
         parts = [f"{label}: {count}" for label, count in node_counts.items()]
@@ -5254,6 +5256,10 @@ def snapshot_restore(
         # Perform the actual restore
         click.echo("\nRestoring...")
         result = restore_snapshot_impl(zip_path, include=components, rebuild_projection=force_rebuild)
+        # Snapshots carry no passages or vectors (DocPassage is not exported);
+        # the passage sweep rebuilds them from the restored chunk text.
+        if "graph" in (result.get("components_restored") or []):
+            _run_passage_sweep()
 
         # Display results
         click.echo(f"\n✓ Restore complete ({result['elapsed_seconds']}s)")

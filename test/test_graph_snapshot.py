@@ -276,9 +276,11 @@ class TestSessionInitiateCli:
             "relationship_count": 100,
             "elapsed_seconds": 3.5,
         }
-        with patch("artmind.cli.import_graph", return_value=summary):
+        with patch("artmind.cli.import_graph", return_value=summary), \
+                patch("artmind.cli._run_passage_sweep") as sweep:
             result = runner.invoke(cli, ["session", "initiate", "--yes"])
         assert result.exit_code == 0, result.output
+        sweep.assert_called_once()
         assert "Document" in result.output
         assert "100" in result.output
 
@@ -297,7 +299,8 @@ class TestSessionInitiateCli:
             "relationship_count": 5,
             "elapsed_seconds": 1.0,
         }
-        with patch("artmind.cli.import_graph", return_value=summary) as mock_import:
+        with patch("artmind.cli.import_graph", return_value=summary) as mock_import, \
+                patch("artmind.cli._run_passage_sweep"):
             result = runner.invoke(
                 cli, ["session", "initiate", "--yes", "--snapshot", str(fake_snapshot)]
             )
@@ -780,9 +783,11 @@ def test_session_initiate_says_whether_the_bookmark_came_back(tmp_path, monkeypa
     monkeypatch.setattr(paths, "ARTMIND_VAULT_DIR", tmp_path)
     base = {"snapshot": "s.tar.gz", "relationship_count": 0, "elapsed_seconds": 0.1}
 
-    with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"Document": 1}}):
+    with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"Document": 1}}), \
+            patch("artmind.cli._run_passage_sweep"):
         without = CliRunner().invoke(cli, ["session", "initiate", "--yes"])
-    with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"ArtmindSyncState": 1}}):
+    with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"ArtmindSyncState": 1}}), \
+            patch("artmind.cli._run_passage_sweep"):
         with_bookmark = CliRunner().invoke(cli, ["session", "initiate", "--yes"])
 
     assert "Sync bookmark: none in this snapshot" in without.output

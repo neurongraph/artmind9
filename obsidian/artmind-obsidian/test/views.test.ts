@@ -176,7 +176,7 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect([...graph.querySelectorAll(".artmind-step-detail")].map((d) => d.textContent)).toEqual([
       "same_as edited",
       "2,813 entities not embedded",
-      "310 chunks not embedded",
+      "310 passages not embedded",
       "40 observation keys not projected",
     ]);
     expect(rowEl(root, "vault").parentElement!.classList.contains("artmind-footer")).toBe(true);

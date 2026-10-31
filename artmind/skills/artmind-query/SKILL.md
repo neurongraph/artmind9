@@ -427,7 +427,7 @@ Grounding has a deterministic path and a search path — prefer the deterministi
 artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<question>"
 ```
 
-vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
+vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and spreads the top results across documents. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). `--diversity 0` gives pure relevance order (use it when you want several chunks of one document); `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
 
 ### 6. Adjudicate — surface disagreements, never blend
 
@@ -449,7 +449,7 @@ The ladder starts after the Views check: a view that fits is tried before any ru
 4. Pattern output empty or too thin → vector-text.
 5. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
 6. text2cypher generates invalid Cypher → vector-text.
-7. vector-text sparse or weak → state that the available artmind data does not answer the question.
+7. vector-text sparse or weak (few rows, every `relevance` low, or rows matched by `fulltext` alone on a conceptual question) → state that the available artmind data does not answer the question.
 8. `text2sql` returns no rows but data should exist → re-run with `--dry-run` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
 9. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
 10. `hierarchy` returns empty rows/edge_candidates → re-run discovery mode to confirm no edges exist at all → if still empty, the relationship may only be stored as a property (e.g. `reports_to` on the class) — fall back to `pattern1` on that class; see `references/hierarchy.md`.

@@ -25,6 +25,8 @@ from utils.functions import load_env
 # silently drop every retired document from a snapshot. `Synthesis` (Phase 6)
 # is listed pre-emptively: an empty MATCH costs nothing, and adding it later
 # would be one more thing to remember.
+# `DocPassage`/`DocPassageHistory` are not exported: passages are derived from
+# chunk text, and the restore's passage sweep rebuilds them.
 BASE_LABELS = (
     "Document", "DocumentHistory",
     "DocChunk", "DocChunkHistory",
@@ -191,8 +193,8 @@ def export_graph() -> Path:
         "schema": {
             "constraints": ["document_id", "chunk_id", "user_chat_id"],
             "indexes": ["entity_lookup"],
-            "vector_indexes": ["chunk_embedding", "user_chat_embedding"],
-            "fulltext_indexes": ["chunk_text_ft", "user_chat_text_ft"],
+            "vector_indexes": ["passage_embedding", "user_chat_embedding"],
+            "fulltext_indexes": ["passage_text_ft", "user_chat_text_ft"],
         },
         "nodes": nodes,
         "relationships": relationships,
