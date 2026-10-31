@@ -281,3 +281,48 @@ def test_conversion_failure_after_claim_reconverts_under_the_same_key(ingest_env
     assert r2.get("tier") != "no_op"
     assert ing.Path(r2["registered_path"]).name == key + ".md"
     assert len(list(ing.MARKDOWNS_DIR.glob("Summary~*.md"))) == 1
+
+
+# ── fix 2: a note's chunks follow its staging (legacy bare vs keyed) ────────
+
+
+def test_legacy_note_keeps_bare_chunks_and_staging(ingest_env):
+    vault, _ = ingest_env
+    a = _note(vault, "A/README.md", "# A\n\nAlpha.")
+    r1 = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    # Make it a note ingested before keys: bare staging holding its id, bare chunks.
+    bare = ing._staging_dir("general", "README")
+    bare.mkdir(parents=True)
+    (bare / "document.json").write_text(json.dumps({"id": r1["artmind_id"]}))
+    ing._chunks_dir("README").mkdir(parents=True)
+
+    a.write_text(a.read_text().replace("Alpha.", "Alpha changed."))
+    r2 = ing.ingest_file(a, "m", "general", chunk_size=6000)
+
+    assert ing.Path(r2["chunks_dir"]) == ing._chunks_dir("README")
+    assert list(ing._chunks_dir("README").glob("chunk_*.md"))
+    assert ing._note_staging_dir("general", a, r2["artmind_id"]) == bare
+
+    rebuilt = ing._build_file_result_from_db("README.md", "general")
+    assert ing.Path(rebuilt["chunks_dir"]) == ing._chunks_dir("README")
+
+
+def test_new_note_chunks_and_staging_are_keyed(ingest_env):
+    vault, _ = ingest_env
+    a = _note(vault, "A/README.md", "# A\n\nAlpha.")
+    r = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    key = document_key("A/README.md")
+
+    assert ing.Path(r["chunks_dir"]) == ing._chunks_dir(key)
+    assert ing._note_staging_dir("general", a, r["artmind_id"]) == ing._staging_dir("general", key)
+    rebuilt = ing._build_file_result_from_db("README.md", "general")
+    assert ing.Path(rebuilt["chunks_dir"]) == ing._chunks_dir(key)
+
+
+def test_empty_id_note_staging_is_the_key_folder(ingest_env):
+    vault, _ = ingest_env
+    a = _note(vault, "A/README.md", "# A\n\nAlpha.")
+    bare = ing._staging_dir("general", "README")
+    bare.mkdir(parents=True)
+    (bare / "document.json").write_text(json.dumps({"id": "some-id"}))
+    assert ing._note_staging_dir("general", a, "") == ing._staging_dir("general", document_key("A/README.md"))

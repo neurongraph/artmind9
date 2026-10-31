@@ -320,11 +320,11 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     try:
         if domain is None:
             rows = conn.execute(
-                "SELECT path, content_sha256, artmind_id FROM documents"
+                "SELECT path, content_sha256, artmind_id, domain FROM documents"
             ).fetchall()
         else:
             rows = conn.execute(
-                "SELECT path, content_sha256, artmind_id FROM documents WHERE domain = ?",
+                "SELECT path, content_sha256, artmind_id, domain FROM documents WHERE domain = ?",
                 (domain,),
             ).fetchall()
     finally:
@@ -336,7 +336,7 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
         matches = [r for r in rows if Path(r[0]).name.upper().startswith(target)]
     if not matches:
         return None
-    registered_path_str, doc_sha256, artmind_id = matches[0]
+    registered_path_str, doc_sha256, artmind_id, row_domain = matches[0]
     # `canonical_path()` (document_identity.py) stores a *vault-relative*
     # string for anything inside the configured vault -- true of every
     # vault-native document, by definition of `_is_vault_native_markdown`.
@@ -348,8 +348,8 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
         registered_path = resolve_canonical_path(registered_path_str)
     except ValueError:
         registered_path = Path(registered_path_str)
-    chunks_dir = _chunks_dir(_derived_key(registered_path))
-    chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
+    chunks_dir = _chunks_dir(_chunks_key(row_domain, registered_path, artmind_id or ""))
+    chunk_count =len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
     result = {
         "status": "ok",
         "filename": registered_path.name,
@@ -1237,7 +1237,7 @@ def _ingest_vault_native(
         return file_result
 
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = _chunks_dir(_derived_key(source))
+    chunks_dir = _chunks_dir(_chunks_key(effective_domain, source, resolution.artmind_id))
     _persist_chunks(chunks, chunks_dir, body=body)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
@@ -1630,45 +1630,49 @@ def _staging_dir(domain: str, key: str) -> Path:
     return KG_DIR / domain / key
 
 
-def _derived_key(registered_path: Path) -> str:
-    """The key a registered document's chunks are named by: a converted
-    binary's markdown already carries it in its name; a vault note's is
-    computed from the note's vault path."""
-    path = Path(registered_path)
-    try:
-        if path.resolve().is_relative_to(Path(MARKDOWNS_DIR).resolve()):
-            return path.stem
-    except OSError:
-        pass
-    return document_key(canonical_path(path))
+def _note_key(domain: str, note: Path, artmind_id: str) -> str:
+    """The name a vault note's staging folder AND chunks are filed under -- one
+    rule for both: its bare stem when that staging folder already holds this
+    note (a note ingested before keys, no migration), else its document key --
+    or the full-digest key when another document holds that (the collision
+    guard).
+
+    An empty `artmind_id` (a caller that has not minted one) never matches a
+    bare folder and never trips the guard: ownership cannot be judged, so the
+    result is the plain key."""
+    if artmind_id and _read_staged_document(_staging_dir(domain, note.stem), artmind_id) is not None:
+        return note.stem
+    rel = canonical_path(note)
+    key = document_key(rel)
+    folder = _staging_dir(domain, key)
+    if artmind_id and (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
+        full = document_key(rel, full=True)
+        logger.warning("{}: staging folder {} belongs to another document; using {}", rel, key, full)
+        return full
+    return key
 
 
 def _note_staging_dir(domain: str, note: Path, artmind_id: str) -> Path:
-    """Where a vault note's extraction is staged: its bare-stem folder when that
-    already holds this note (a note staged before keys, no migration), else its
-    key's folder -- or the full-digest key's when another document holds that
-    (the collision guard)."""
-    bare = _staging_dir(domain, note.stem)
-    if _read_staged_document(bare, artmind_id) is not None:
-        return bare
-    rel = canonical_path(note)
-    folder = _staging_dir(domain, document_key(rel))
-    # No id (a caller that has not minted one): ownership cannot be judged, so
-    # the key's folder is used as is, never moved aside to the full digest.
-    if artmind_id and (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
-        full = _staging_dir(domain, document_key(rel, full=True))
-        logger.warning("{}: staging folder {} belongs to another document; using {}", rel, folder.name, full.name)
-        return full
-    return folder
+    """Where a vault note's extraction is staged (`_note_key`)."""
+    return _staging_dir(domain, _note_key(domain, note, artmind_id))
+
+
+def _chunks_key(domain: str, registered_path: Path, artmind_id: str) -> str:
+    """The name a registered document's chunks are filed under: a converted
+    binary's markdown already carries its key in its name; a note's is
+    `_note_key`, the same as its staging folder's."""
+    path = Path(registered_path)
+    if _is_derived_markdown(path):
+        return path.stem
+    return _note_key(domain, path, artmind_id)
 
 
 def _document_staging_dir(domain: str, registered_path: Path, artmind_id: str) -> Path:
     """`extract_kg`'s staging folder for a registered document: a converted
     binary's is named by its key (its markdown's stem); a note's by
     `_note_staging_dir`."""
-    key = _derived_key(registered_path)
-    if key == Path(registered_path).stem:
-        return _staging_dir(domain, key)
+    if _is_derived_markdown(registered_path):
+        return _staging_dir(domain, Path(registered_path).stem)
     return _note_staging_dir(domain, Path(registered_path), artmind_id)
 
 
@@ -3169,7 +3173,7 @@ def ingest_to_kg(
             return False
         _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         chunks = _split_markdown(body, chunk_size)
-        chunks_dir = _chunks_dir(_derived_key(registered_path))
+        chunks_dir = _chunks_dir(_chunks_key(domain, registered_path, file_result.get("artmind_id") or ""))
         _persist_chunks(chunks, chunks_dir, body=body)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
