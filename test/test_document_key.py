@@ -4,6 +4,7 @@ import json
 from hashlib import sha256
 
 import artmind.ingest as ing
+from conftest import _fake_docling, stage_as_extracted
 from artmind.document_identity import KEY_HASH_CHARS, document_key
 
 
@@ -56,3 +57,88 @@ def test_converted_owner_falls_back_to_staging(ingest_env):
 
 def test_converted_owner_is_none_for_a_free_name(ingest_env):
     assert ing._converted_owner("Nothing", "general") is None
+
+
+def _vault_pdf(vault, rel, data):
+    path = vault / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
+    return path
+
+
+def test_two_same_named_pdfs_become_two_documents(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    b = _vault_pdf(vault, "B/Summary.pdf", b"certificate B")
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# A\n", "# B\n"]))
+
+    ra = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    rb = ing.ingest_file(b, "m", "general", chunk_size=6000)
+
+    assert ra["artmind_id"] != rb["artmind_id"]
+    assert ra["version"] == rb["version"] == 1
+    assert ra["registered_path"] != rb["registered_path"]
+    assert ing.Path(ra["registered_path"]).name == document_key("A/Summary.pdf") + ".md"
+    assert ing.Path(rb["chunks_dir"]).name == document_key("B/Summary.pdf") + "_chunks"
+
+
+def test_existing_bare_stem_document_keeps_its_name(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    ing.write_document(ing._markdown_path("Summary"), {"_artmind_id": "old-id", "_domain": "general"}, "# A\n")
+    chunks = ing._chunks_dir("Summary")
+    chunks.mkdir(parents=True)
+    (chunks / ing.CONVERSION_SIDECAR).write_text(json.dumps(
+        {"source_path": "A/Summary.pdf", "source_sha256": ing._compute_sha256(a), "source_type": "pdf"}))
+
+    plan = ing.plan_binary(a, "general")
+
+    assert plan.registered_path == ing._markdown_path("Summary")
+    assert plan.existing_meta["_artmind_id"] == "old-id"
+
+
+def test_namesake_of_a_bare_stem_document_gets_its_own_key(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    b = _vault_pdf(vault, "B/Summary.pdf", b"certificate B")
+    ing.write_document(ing._markdown_path("Summary"), {"_artmind_id": "old-id", "_domain": "general"}, "# A\n")
+    chunks = ing._chunks_dir("Summary")
+    chunks.mkdir(parents=True)
+    (chunks / ing.CONVERSION_SIDECAR).write_text(json.dumps(
+        {"source_path": "A/Summary.pdf", "source_sha256": ing._compute_sha256(a), "source_type": "pdf"}))
+
+    plan = ing.plan_binary(b, "general")
+
+    assert plan.registered_path == ing._markdown_path(document_key("B/Summary.pdf"))
+    assert plan.is_new
+
+
+def test_moved_binary_keeps_its_key(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# A\n"]))
+    r1 = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
+
+    moved = vault / "C" / "Summary.pdf"
+    moved.parent.mkdir()
+    a.rename(moved)
+    plan = ing.plan_binary(moved, "general")
+
+    assert plan.registered_path == ing.Path(r1["registered_path"])
+    assert plan.unchanged
+
+
+def test_collision_guard_never_takes_another_sources_key(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    b = _vault_pdf(vault, "B/Summary.pdf", b"certificate B")
+    _vault_pdf(vault, "Z/Other.pdf", b"other")
+    taken = document_key("B/Summary.pdf")
+    chunks = ing._chunks_dir(taken)
+    chunks.mkdir(parents=True)
+    (chunks / ing.CONVERSION_SIDECAR).write_text(json.dumps(
+        {"source_path": "Z/Other.pdf", "source_sha256": "zzz", "source_type": "pdf"}))
+
+    plan = ing.plan_binary(b, "general")
+
+    assert plan.registered_path == ing._markdown_path(document_key("B/Summary.pdf", full=True))

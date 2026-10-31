@@ -1,3 +1,4 @@
+import glob
 import json
 import re
 import shutil
@@ -25,6 +26,7 @@ from artmind.document_identity import (
     decide_version,
     document_key,
     is_plain_folder_name,
+    KEY_SEPARATOR,
     ingest_baseline,
     markdown_path_for,
     Resolution,
@@ -1654,25 +1656,75 @@ class BinaryPlan:
         return not self.existing_meta
 
 
+def _resolve_binary_key(dest_path: Path, source_sha256: str, domain: str) -> str:
+    """The name `dest_path`'s derived files take, chosen once and then found
+    again (spec 2026-10-31 document-key-collisions §2):
+
+    1. its own bare-stem conversion (a document from before keys), or a
+       bare-stem conversion that records no source (pre-R6, kept as it was);
+    2. its own key;
+    3. a same-stem conversion of these exact bytes whose recorded source is
+       gone from the vault: a moved binary keeps its name;
+    4. a new key -- or, when that key is held by another source, the
+       full-digest key (the collision guard; never overwrite an occupant)."""
+    rel = canonical_path(dest_path)
+    stem = dest_path.stem
+    key = document_key(rel)
+    bare_owner = _converted_owner(stem, domain)
+    if _markdown_path(stem).exists() and (bare_owner is None or bare_owner[0] == rel):
+        return stem
+    key_owner = _converted_owner(key, domain)
+    if key_owner is not None and key_owner[0] == rel:
+        return key
+    for md in sorted(MARKDOWNS_DIR.glob(f"{glob.escape(stem)}*.md")):
+        name = md.stem
+        if name != stem and not name.startswith(stem + KEY_SEPARATOR):
+            continue
+        owner = _converted_owner(name, domain)
+        if (
+            owner is not None and owner[0] != rel and owner[1] == source_sha256
+            and ARTMIND_VAULT_DIR is not None and not (Path(ARTMIND_VAULT_DIR) / owner[0]).exists()
+        ):
+            logger.info("{}: moved from {}; keeps the name {}", rel, owner[0], name)
+            return name
+    if key_owner is not None or _markdown_path(key).exists():
+        full = document_key(rel, full=True)
+        logger.warning(
+            "{}: the name {} belongs to {}; using {}",
+            rel, key, key_owner[0] if key_owner else "another conversion", full,
+        )
+        return full
+    return key
+
+
 def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
     """Read, never write: the converted markdown this binary maps to and the
     baseline its last extraction left (spec 2026-09-26 R6: the staging
     folder's document.json, with a pre-R6 conversion's own frontmatter as
     the fallback -- a binary whose extraction failed is never mistaken for
-    converted and extracted)."""
-    stem = source.stem
-    registered_path = MARKDOWNS_DIR / f"{stem}.md"
+    converted and extracted). The markdown is named by the binary's document
+    key (`_resolve_binary_key`), never by its bare stem alone: two binaries
+    sharing a filename are two documents."""
+    if ARTMIND_VAULT_DIR is None:
+        dest_path = source.resolve()
+    elif _is_inside_vault(source, ARTMIND_VAULT_DIR):
+        dest_path = source.resolve()
+    else:
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+    source_sha256 = _compute_sha256(source)
+    key = _resolve_binary_key(dest_path, source_sha256, effective_domain)
+    registered_path = _markdown_path(key)
     existing_meta: dict = {}
     if registered_path.exists():
         existing_meta, _ = _parse_md_frontmatter(
             registered_path.read_text(encoding="utf-8")
         )
-    staged = staged_document(effective_domain, [stem], existing_meta.get("_artmind_id"), search=True)
+    staged = staged_document(effective_domain, [key], existing_meta.get("_artmind_id"), search=True)
     return BinaryPlan(
         registered_path=registered_path,
         existing_meta=existing_meta,
         baseline=ingest_baseline(staged, existing_meta),
-        source_sha256=_compute_sha256(source),
+        source_sha256=source_sha256,
     )
 
 
