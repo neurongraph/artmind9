@@ -125,11 +125,21 @@ def canonical_path(source: Path) -> str:
     except Exception:
         resolved = source
     if ARTMIND_VAULT_DIR is not None:
-        try:
-            return resolved.relative_to(ARTMIND_VAULT_DIR).as_posix()
-        except ValueError:
-            pass
+        # `resolved` has no symlinks, so the vault dir must not either (a vault
+        # under /tmp on macOS), or every key would hash an absolute path.
+        for vault_dir in (Path(ARTMIND_VAULT_DIR), *_resolved_once(ARTMIND_VAULT_DIR)):
+            try:
+                return resolved.relative_to(vault_dir).as_posix()
+            except ValueError:
+                pass
     return str(resolved)
+
+
+def _resolved_once(path) -> list[Path]:
+    try:
+        return [Path(path).resolve()]
+    except OSError:
+        return []
 
 
 # ── document keys ───────────────────────────────────────────────────────────

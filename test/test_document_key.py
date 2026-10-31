@@ -21,6 +21,20 @@ def test_same_name_in_two_folders_gets_two_keys():
     assert document_key("A/Summary.pdf") != document_key("B/Summary.pdf")
 
 
+def test_canonical_path_is_vault_relative_through_a_symlinked_vault_dir(tmp_path, monkeypatch):
+    import artmind.document_identity as di
+
+    real = tmp_path / "real_vault"
+    (real / "A").mkdir(parents=True)
+    (real / "A" / "x.pdf").write_bytes(b"x")
+    link = tmp_path / "link_vault"
+    link.symlink_to(real, target_is_directory=True)
+    monkeypatch.setattr(di, "ARTMIND_VAULT_DIR", link)
+
+    assert di.canonical_path(link / "A" / "x.pdf") == "A/x.pdf"
+    assert di.canonical_path(real / "A" / "x.pdf") == "A/x.pdf"
+
+
 def test_extension_is_part_of_the_key():
     assert document_key("A/X.pdf") != document_key("A/X.docx")
 
