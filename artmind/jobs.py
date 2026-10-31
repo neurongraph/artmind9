@@ -598,6 +598,26 @@ def _get_job_results(job_id: str) -> dict | None:
         conn.close()
 
 
+def _registered_paths(source: Path) -> set[str]:
+    """The registry paths `source` may have been registered under: its own
+    canonical path (a vault note or a tabular source), and the copy an
+    ingest made of a source from outside the vault (`external_copy_path`,
+    or the data-dir original when no vault is configured).
+
+    A vault binary's row names its converted markdown (`markdowns/<key>.md`),
+    which is not looked for: its re-ingest is decided by the staged baseline,
+    not by this row, and the row is its path <-> id cache."""
+    import artmind.ingest as ing
+    from artmind.document_identity import canonical_path
+
+    paths = {canonical_path(source)}
+    if ing.ARTMIND_VAULT_DIR is None:
+        paths.add(canonical_path(ing.ORIGINALS_DIR / source.name))
+    elif not ing._is_inside_vault(source, ing.ARTMIND_VAULT_DIR):
+        paths.add(canonical_path(ing.external_copy_path(source, ing.ARTMIND_VAULT_DIR)))
+    return paths
+
+
 def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
     """Reset failed (and optionally skipped) files for re-processing.
 
@@ -639,19 +659,11 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
         # A stalled job with nothing failed (its worker died between files)
         # still needs re-queueing: its remaining `queued` files are the retry.
 
-        # Remove from document registry, matched by bare filename against
-        # `path`'s own basename -- Phase 5 dropped the registry's `filename`
-        # column (it was never anything but `Path(path).name`); no portable
-        # basename function in plain sqlite3, so matched in Python instead.
-        domain_rows = conn.execute(
-            "SELECT path FROM documents WHERE domain = ?", (domain,)
-        ).fetchall()
-        bare_targets = {Path(f).name.upper() for f in filenames}
-        matching_paths = [
-            row[0] for row in domain_rows if Path(row[0]).name.upper() in bare_targets
-        ]
+        # Remove each file's own registry row, found by the path it was
+        # registered under -- never by bare filename, which would also drop
+        # every same-named document in the domain.
         deregistered = 0
-        for path in matching_paths:
+        for path in sorted({p for f in filenames for p in _registered_paths(Path(f))}):
             cursor = conn.execute(
                 "DELETE FROM documents WHERE domain = ? AND path = ?", (domain, path)
             )
