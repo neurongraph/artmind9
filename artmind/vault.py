@@ -302,6 +302,12 @@ GITIGNORE_BLOCK = """\
 
 # Pre-2026-11 chunk-vector sidecars: no longer written, still never committed.
 .artmind/data/kg/**/embeddings.json
+# The machine-local vector cache (artmind/embedding_cache.py): derived from
+# (text, model, prefix), rebuildable by `ingest embed-passages`, and a SQLite
+# binary that would only churn history.
+.artmind/data/embedding_cache.sqlite
+.artmind/data/embedding_cache.sqlite-shm
+.artmind/data/embedding_cache.sqlite-wal
 
 # Snapshots: large, opaque, and already a complete copy of what git versions.
 # By extension rather than path, so one dropped anywhere stays out of both git
