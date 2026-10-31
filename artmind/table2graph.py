@@ -1385,7 +1385,7 @@ def table_to_graph(
         if embed:
             report["commit"]["entities_embedded"] = ingest._sweep_embeddings(table["domain"], keys)
             report["commit"]["chunks_embedded"] = ingest._sweep_chunk_embeddings(
-                summary.get("unembedded_chunk_ids") or []
+                summary.get("passage_chunk_ids") or []
             )
     logger.info(
         "table2graph: {} -> {} observation(s), {} relationship(s), {} chunk(s)",

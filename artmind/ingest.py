@@ -32,6 +32,7 @@ from artmind.document_identity import (
     resolve_identity,
     write_document,
 )
+from artmind import passage_store, passages
 from artmind.setup import _setup_neo4j
 from artmind.vault_git import current_commit as _vault_current_commit
 from artmind.extraction import (
@@ -2477,8 +2478,8 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     (`:Observation` -> `:ObservationHistory`, `:DocChunk` -> `:DocChunkHistory`)
     rather than a status property: a demoted node keeps the valid-time window
     it always had, stays queryable by asking for it (see `entity_history`), and
-    the label swap is what structurally drops it out of `chunk_text_ft` /
-    `chunk_embedding` / every projection query — no predicate to forget, no
+    the label swap is what structurally drops it out of `passage_text_ft` /
+    `passage_embedding` / every projection query — no predicate to forget, no
     index to filter. Nothing is deleted, so provenance survives a re-ingest.
     Chunks used to be `DETACH DELETE`d here; they are relabelled instead.
 
@@ -2498,7 +2499,7 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
 
     Runs inside the caller's transaction.
     """
-    result = {"observations_demoted": 0, "chunks": 0}
+    result = {"observations_demoted": 0, "chunks": 0, "passages": 0}
 
     rec = tx.run(
         """
@@ -2519,6 +2520,16 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
         doc_id=doc_id,
     ).single()
     result["chunks"] = int(rec["n"]) if rec else 0
+
+    rec = tx.run(
+        """
+        MATCH (p:DocPassage {doc_id: $doc_id})
+        REMOVE p:DocPassage SET p:DocPassageHistory
+        RETURN count(p) AS n
+        """,
+        doc_id=doc_id,
+    ).single()
+    result["passages"] = int(rec["n"]) if rec else 0
     return result
 
 
@@ -3583,7 +3594,7 @@ def extract_kg(
             logger.warning("Missing chunk JSON for seq {}, skipping in merge", seq)
             continue
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
-        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "embedding", "_domain") if k in data}
+        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "_domain") if k in data}
         chunk_node["id"] = data["chunk_id"]
         # Include denormalized filing metadata (ADR 0010)
         for key in ("project", "area", "tags"):
@@ -4120,21 +4131,12 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     write-to-graph, pull-kg, archive restore, dashboard import, vault
     #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
     sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"), label=source_label)
+    title = document.get("title") or document.get("name")
     for chunk in staged["chunks"]:
-        # `embedding` flows through `_flatten_props` like every other chunk
-        # property (no more special-casing it out and re-adding it after).
-        # A chunk with no vector must end up with NO "embedding" key at all —
-        # not "embedding": [] — because Cypher's `[] IS NULL` is false, which
-        # is exactly what `embed_missing_chunk_embeddings`'s
-        # `WHERE c.embedding IS NULL` sweep query relies on to find it, and
-        # because `_merge_relabeled`'s `SET n += $props` is additive: an
-        # "embedding" key present with value [] would silently overwrite a
-        # real vector a prior commit already swept in. `_flatten_props`
-        # already drops `v == []` for every property, so simply not excluding
-        # "embedding" from its input is the whole fix. `_neo4j_value` passes a
-        # plain list of floats through unchanged, so a genuine vector is still
-        # written exactly as before.
-        chunk_props = _flatten_props(chunk)
+        # Chunks carry no vector any more (spec 2026-10-31 §1): every text-retrieval
+        # vector lives on the chunk's passages, written right below without one and
+        # filled by the post-commit passage sweep.
+        chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses
@@ -4151,10 +4153,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             id=chunk["id"],
             doc_id=chunk["doc_id"],
         )
+        passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title))
     summary["chunks"] = len(staged["chunks"])
-    summary["unembedded_chunk_ids"] = [
-        chunk["id"] for chunk in staged["chunks"] if not chunk.get("embedding")
-    ]
+    summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
     # 4. Observations.
     observations = staged["observations"]
@@ -4352,7 +4353,7 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
 
     if not defer_rebuild:
         _sweep_embeddings(domain, summary.get("affected_keys") or [])
-        _sweep_chunk_embeddings(summary.get("unembedded_chunk_ids") or [])
+        _sweep_chunk_embeddings(summary.get("passage_chunk_ids") or [])
     return True
 
 

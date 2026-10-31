@@ -170,10 +170,10 @@ def _stage_with_chunks(tmp_path, chunks):
     return doc_kg_dir
 
 
-def test_only_the_still_unembedded_chunks_are_surfaced(tmp_path, monkeypatch):
+def test_every_staged_chunk_is_surfaced_for_the_passage_sweep(tmp_path, monkeypatch):
     """One chunk already has a vector (e.g. merged in from the sidecar by
     `_load_staged`), one doesn't -- only the second's id should end up in
-    `summary["unembedded_chunk_ids"]`."""
+    `summary["passage_chunk_ids"]` -- chunks carry no vector now, so every staged chunk is listed."""
     session = _RetractSession()
     _patch_session(monkeypatch, session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
@@ -184,20 +184,19 @@ def test_only_the_still_unembedded_chunks_are_surfaced(tmp_path, monkeypatch):
 
     summary = ing._write_to_neo4j(doc_kg_dir, "banking")
 
-    assert summary["unembedded_chunk_ids"] == ["d1_002"]
+    assert summary["passage_chunk_ids"] == ["d1_001", "d1_002"]
 
 
-def test_no_unembedded_chunks_is_an_empty_list_not_missing(tmp_path, monkeypatch):
+def test_no_chunks_is_an_empty_list_not_missing(tmp_path, monkeypatch):
     session = _RetractSession()
     _patch_session(monkeypatch, session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     doc_kg_dir = _stage_with_chunks(tmp_path, [
-        {"id": "d1_001", "doc_id": "phys-1", "text": "has a vector", "embedding": [0.1]},
     ])
 
     summary = ing._write_to_neo4j(doc_kg_dir, "banking")
 
-    assert summary["unembedded_chunk_ids"] == []
+    assert summary["passage_chunk_ids"] == []
 
 
 def test_commit_to_graph_sweeps_exactly_the_chunks_the_tx_surfaced(tmp_path, monkeypatch):
@@ -217,7 +216,7 @@ def test_commit_to_graph_sweeps_exactly_the_chunks_the_tx_surfaced(tmp_path, mon
     )
 
     assert ing.commit_to_graph(doc_kg_dir, "banking") is True
-    assert swept_chunks == [["d1_002"]]
+    assert swept_chunks == [["d1_001", "d1_002"]]
 
 
 def test_the_prior_version_is_demoted_before_the_new_observations_land(tmp_path, monkeypatch):
@@ -301,7 +300,7 @@ def test_the_embed_sweep_runs_after_the_commit_not_inside_it(tmp_path, monkeypat
 
 def test_the_chunk_sweep_is_scoped_to_this_commits_unembedded_chunk_ids(tmp_path, monkeypatch):
     """Mirrors the entity sweep's `affected_keys` scoping — the chunk sweep
-    must receive exactly `summary["unembedded_chunk_ids"]`, not a full-graph
+    must receive exactly `summary["passage_chunk_ids"]`, not a full-graph
     scan and not the entity keys."""
     session = _RetractSession()
     _patch_session(monkeypatch, session)
@@ -310,7 +309,7 @@ def test_the_chunk_sweep_is_scoped_to_this_commits_unembedded_chunk_ids(tmp_path
         ing, "_write_to_neo4j",
         lambda d, domain=None, defer_rebuild=False: {
             "affected_keys": [("n", "C", "d")],
-            "unembedded_chunk_ids": ["d1_002"],
+            "passage_chunk_ids": ["d1_002"],
         },
     )
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
@@ -529,7 +528,7 @@ def test_a_chunk_with_no_embedding_sends_no_embedding_key(tmp_path, monkeypatch)
     )
 
 
-def test_a_chunk_with_a_real_embedding_still_writes_it_unchanged(tmp_path, monkeypatch):
+def test_a_chunk_with_an_embedding_is_written_without_it(tmp_path, monkeypatch):
     """The other half of the fix: a genuine vector must still flow through
     byte-for-byte -- `_neo4j_value` passes a list of plain floats through
     unchanged, so folding "embedding" into `_flatten_props` must not touch it."""
@@ -546,7 +545,7 @@ def test_a_chunk_with_a_real_embedding_still_writes_it_unchanged(tmp_path, monke
     calls = _docchunk_merge_calls(session)
     assert calls, "expected a DocChunk MERGE"
     _, kwargs = calls[0]
-    assert kwargs["props"]["embedding"] == vector
+    assert "embedding" not in kwargs["props"]
 
 
 def test_a_re_commit_with_no_incoming_vector_cannot_clobber_a_prior_one(tmp_path, monkeypatch):
@@ -568,7 +567,7 @@ def test_a_re_commit_with_no_incoming_vector_cannot_clobber_a_prior_one(tmp_path
     ])
     ing._write_to_neo4j(doc_kg_dir, "banking")
     first_calls = _docchunk_merge_calls(session)
-    assert first_calls[-1][1]["props"]["embedding"] == vector
+    assert "embedding" not in first_calls[-1][1]["props"]
 
     # Re-stage the identical chunk id, this time with no embedding at all
     # (e.g. the sidecar was absent for this reingest run).
