@@ -337,20 +337,17 @@ def test_docling_image_links_are_made_relative_to_the_markdown(tmp_path):
     assert "![Logo](https://example.com/logo.png)" in out
 
 
-# ── Word comments and re-conversion of a .docx ─────────────────────────────────
+# ── .docx conversion and re-conversion ─────────────────────────────────────────
 
 
-def _fake_docling_run(markdowns, *, md, doc=None, image=None, calls=None):
-    """A `run_command` stand-in for the docling CLI: writes `md` (and, when the
-    command asks for JSON, `doc` saved as docling JSON) into `markdowns`, plus
-    `image` as an exported picture."""
+def _fake_docling_run(markdowns, *, md, image=None, calls=None):
+    """A `run_command` stand-in for the docling CLI: writes `md` into
+    `markdowns`, plus `image` as an exported picture."""
     def run(cmd, cwd=None):
         if calls is not None:
             calls.append(cmd)
         stem = cmd.rsplit("/", 1)[-1].rstrip('"').rsplit(".", 1)[0]
         (markdowns / f"{stem}.md").write_text(md, encoding="utf-8")
-        if "--to json" in cmd and doc is not None:
-            doc.save_as_json(markdowns / f"{stem}.json")
         if image is not None:
             artifacts = markdowns / f"{stem}_artifacts"
             artifacts.mkdir(exist_ok=True)
@@ -359,57 +356,55 @@ def _fake_docling_run(markdowns, *, md, doc=None, image=None, calls=None):
     return run
 
 
-def _commented_doc():
-    from docling_core.types.doc.document import ContentLayer, DoclingDocument, FineRef
-    from docling_core.types.doc.labels import DocItemLabel, GroupLabel
-
-    doc = DoclingDocument(name="report")
-    para = doc.add_text(label=DocItemLabel.TEXT, text="The budget is 10k.")
-    doc.add_text(label=DocItemLabel.TEXT, text="Next.")
-    group = doc.add_group(label=GroupLabel.COMMENT_SECTION, name="c", content_layer=ContentLayer.NOTES)
-    doc.add_comment(text="[author: B]: Should be 12k.", parent=group)
-    para.comments.append(FineRef(cref=group.self_ref))
-    return doc
+def _no_cli(cmd, cwd=None):
+    raise AssertionError("a .docx is not converted by the docling CLI")
 
 
-def test_a_docx_conversion_writes_its_comments_inline_and_removes_the_json(ingest_env, monkeypatch):
-    pytest.importorskip("docling_core")
-    calls = []
-    monkeypatch.setattr(ing, "run_command", _fake_docling_run(
-        ing.MARKDOWNS_DIR, md="The budget is 10k.\n\nNext.", doc=_commented_doc(), calls=calls,
-    ))
+def test_a_docx_is_converted_in_process_with_its_prepared_copy_under_logs(ingest_env, monkeypatch):
+    import artmind.docx_convert as dc
 
-    body, err = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "report.docx", "m")
+    seen = {}
+
+    def convert(source, md_file, *, work_dir=None):
+        seen.update(source=source, md_file=md_file, work_dir=work_dir)
+        md_file.write_text("Body.\n\n> [!comment] Comment\n> A: Note.", encoding="utf-8")
+
+    monkeypatch.setattr(ing, "run_command", _no_cli)
+    monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
+    monkeypatch.setattr(dc, "convert_docx", convert)
+    source = ing.MARKDOWNS_DIR.parent / "report.docx"
+
+    body, err = ing._convert_binary_via_docling(source, "m")
 
     assert err == {}
-    assert "--to md --to json" in calls[0]
-    assert body == "The budget is 10k.\n\n> [!comment]\n> [author: B]: Should be 12k.\n\nNext."
-    assert (ing.MARKDOWNS_DIR / "report.md").read_text() == body
-    assert not (ing.MARKDOWNS_DIR / "report.json").exists()
+    assert body == "Body.\n\n> [!comment] Comment\n> A: Note."
+    assert seen == {"source": source, "md_file": ing.MARKDOWNS_DIR / "report.md", "work_dir": ing.LOGS_DIR}
 
 
-def test_a_docx_whose_json_cannot_be_read_keeps_doclings_markdown(ingest_env, monkeypatch):
-    def run(cmd, cwd=None):
-        (ing.MARKDOWNS_DIR / "report.md").write_text("Plain.", encoding="utf-8")
-        (ing.MARKDOWNS_DIR / "report.json").write_text("{not json", encoding="utf-8")
-        return 0, "", ""
+def test_a_failed_docx_conversion_is_a_failed_file(ingest_env, monkeypatch):
+    import artmind.docx_convert as dc
 
-    monkeypatch.setattr(ing, "run_command", run)
+    def convert(source, md_file, *, work_dir=None):
+        raise ValueError("not a zip file")
+
+    monkeypatch.setattr(ing, "run_command", _no_cli)
+    monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
+    monkeypatch.setattr(dc, "convert_docx", convert)
 
     body, err = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "report.docx", "m")
 
-    assert (body, err) == ("Plain.", {})
-    assert not (ing.MARKDOWNS_DIR / "report.json").exists()
+    assert body is None
+    assert err == {"status": "failed", "error": "Docling conversion failed"}
 
 
-def test_a_pdf_conversion_asks_docling_for_markdown_only(ingest_env, monkeypatch):
+def test_a_pdf_conversion_runs_the_docling_cli(ingest_env, monkeypatch):
     calls = []
     monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md="Text.", calls=calls))
 
     body, _ = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "paper.pdf", "m")
 
     assert body == "Text."
-    assert "--to json" not in calls[0]
+    assert calls[0].startswith("uv run docling --to md --image-export-mode referenced")
 
 
 def test_image_descriptions_are_reused_only_when_asked(ingest_env, monkeypatch):

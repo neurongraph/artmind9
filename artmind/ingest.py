@@ -1199,28 +1199,18 @@ def _relativise_image_links(markdown: str, base_dir: Path) -> str:
     return markdown
 
 
-def _write_docx_comments(md_file: Path, json_file: Path) -> None:
-    """Rewrite docling's markdown of a .docx at `md_file` with its Word comments
-    inline (`docx_comments`), from the JSON the same run wrote at `json_file`,
-    then remove the JSON. A document without comments keeps docling's markdown
-    as it is. A JSON that cannot be read or rendered is logged and leaves the
-    markdown without comments: the conversion itself succeeded."""
-    from artmind.docx_comments import markdown_with_comments
+def _convert_docx_in_process(dest_path: Path, md_file: Path) -> tuple[int, str, str]:
+    """`docx_convert.convert_docx` with `run_command`'s return shape, so a
+    failure is reported as a failed docling run. The prepared copy of the
+    .docx is written under `LOGS_DIR`, never beside the vault's files."""
+    from artmind.docx_convert import convert_docx
 
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
     try:
-        if not json_file.exists():
-            logger.warning("docling wrote no JSON for {}; its comments are not in the markdown", md_file.name)
-            return
-        try:
-            markdown = markdown_with_comments(json_file)
-        except Exception as exc:
-            logger.warning("Could not write the comments of {} inline: {}", md_file.name, exc)
-            return
-        if markdown is not None:
-            md_file.write_text(markdown, encoding="utf-8")
-            logger.info("Wrote the Word comments of {} inline", md_file.name)
-    finally:
-        json_file.unlink(missing_ok=True)
+        convert_docx(dest_path, md_file, work_dir=LOGS_DIR)
+    except Exception as exc:
+        return 1, "", f"{type(exc).__name__}: {exc}"
+    return 0, "", ""
 
 
 def _convert_binary_via_docling(
@@ -1229,9 +1219,9 @@ def _convert_binary_via_docling(
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
 
-    A .docx's Word comments are written inline (`docx_comments`): docling also
-    writes its JSON, the markdown is rendered again from it when the document
-    has comments, and the JSON is removed.
+    A .docx is converted in-process by `docx_convert` (tracked changes
+    accepted, Word comments inline, tables tidied); every other format runs
+    the docling CLI.
 
     `reuse_image_descriptions` takes an image's description from the
     `<image>_desc.md` a previous conversion wrote beside it instead of asking
@@ -1256,11 +1246,11 @@ def _convert_binary_via_docling(
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
     t0 = time.monotonic()
-    is_docx = dest_path.suffix.lower() == ".docx"
-    json_file = MARKDOWNS_DIR / f"{dest_path.stem}.json"
-    to_json = " --to json" if is_docx else ""
-    cmd_str = f'uv run docling --to md{to_json} --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
-    returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
+    if dest_path.suffix.lower() == ".docx":
+        returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file)
+    else:
+        cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
+        returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
         combined = (stderr or "") + (stdout or "")
@@ -1284,9 +1274,6 @@ def _convert_binary_via_docling(
     logger.info(
         "Docling conversion done in {:.1f}s — markdown: {:.1f} KB", elapsed, md_size_kb,
     )
-
-    if is_docx:
-        _write_docx_comments(md_file, json_file)
 
     md_content = md_file.read_text(encoding="utf-8")
     relative = _relativise_image_links(md_content, MARKDOWNS_DIR)
@@ -1530,8 +1517,9 @@ def _ingest_binary_derived(
     untouched. Without a stored markdown or a previous extraction there is
     nothing to re-run, and the ingest is the ordinary one. A .docx is the
     exception: it is converted again (no model call; image descriptions are
-    reused), so a conversion made before its Word comments were written
-    inline gains them, and the version bumps only if the body changed.
+    reused), so a conversion made before the current .docx conversion
+    (`docx_convert`) gains its comments and tidy tables, and the version
+    bumps only if the body changed.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -1575,7 +1563,8 @@ def _ingest_binary_derived(
 
     # A .docx is converted again on --reextract: its conversion runs no model
     # (image descriptions are reused below), and a markdown converted before
-    # Word comments were written inline (`docx_comments`) gains them.
+    # the current .docx conversion (`docx_convert`) gains its comments,
+    # accepted tracked changes and tidy tables.
     reconvert_docx = plan.unchanged and reextract and source.suffix.lower() == ".docx"
     if reconvert_docx:
         logger.info("{}: re-extraction of a .docx converts it again", source.name)
@@ -1780,6 +1769,26 @@ def _reattach_table_headers(sub_chunks: list[str]) -> list[str]:
     return result
 
 
+def _carry_trailing_table_headers(pieces: list[str]) -> list[str]:
+    """`pieces` with a table header (header row + separator) that ends a piece,
+    with none of its rows after it, moved to the start of the next piece: a
+    chunk ending on a bare header extracts nothing from it, and the next one
+    needs it anyway. The pieces stay verbatim slices of the text (the splitter
+    cut them at the newline that is put back here)."""
+    result = list(pieces)
+    for i in range(len(result) - 1):
+        lines = result[i].rstrip("\n").split("\n")
+        if (
+            len(lines) > 2
+            and _is_table_row(lines[-2])
+            and _is_table_separator_row(lines[-1])
+            and _is_table_row(result[i + 1].lstrip("\n").split("\n", 1)[0])
+        ):
+            result[i] = "\n".join(lines[:-2]).rstrip("\n")
+            result[i + 1] = "\n".join(lines[-2:]) + "\n" + result[i + 1].lstrip("\n")
+    return result
+
+
 def _header_path(metadata: dict) -> str:
     """Breadcrumb of the h1–h4 headers the splitter attached to a chunk, e.g.
     'Overview > Fees > Monthly'. Empty when the chunk sits under no heading."""
@@ -1848,6 +1857,7 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     def _emit(pieces: list[str], header_path: str, cursor: int) -> int:
         # Offsets are located against the pre-reattachment pieces (each a
         # verbatim substring of `text`); reattachment only prepends to `text`.
+        pieces = _carry_trailing_table_headers(pieces)
         located = [(0, 0)] * len(pieces)
         for i, piece in enumerate(pieces):
             start, end, cursor = _locate_chunk(text, piece, cursor)
