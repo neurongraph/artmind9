@@ -80,8 +80,15 @@ The key is **chosen once, at first ingest**, and then kept:
 - **Binaries** (pdf/pptx/docx): their own bare-stem conversion (or a bare-stem one
   that records no source) if one exists, else their own key; a *moved* binary (same
   bytes, the recorded source path gone) keeps the name it already has; else a new key.
-- **Notes**: their bare-stem staging folder if it holds their `_artmind_id`, else
-  their key.
+  The name is **claimed before the conversion starts** (`conversion.json` in
+  `<name>_chunks/` records the source), so an interrupted conversion is found again by
+  the retry instead of forking a second document. A keyed name is taken only when a
+  recorded owner names a different source. When a moved binary is re-ingested, its
+  recorded `source_path` (sidecar and staged `document.json`) is rewritten to the new
+  path, freeing the old one.
+- **Notes**: their bare-stem staging folder if it holds their `_artmind_id` (a
+  *legacy* note), else their key. The same name is used for the note's `_chunks/`
+  folder, so a legacy note keeps its bare chunk cache.
 - **Collision guard**: a name already held by another source or document gets the
   full 64-hex key instead, with a warning. A derived file is never overwritten.
 

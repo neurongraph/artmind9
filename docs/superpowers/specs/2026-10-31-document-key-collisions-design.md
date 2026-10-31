@@ -99,6 +99,30 @@ A key is chosen once, at first ingest, and found again afterwards:
 Vault notes keep their id-based resolution (`_locate_staged`); only the name of a
 note's **first** staging folder changes, from `<stem>` to `document_key(note)`.
 
+**One rule names a note's staging AND chunks** (`ingest._note_key`): a note is
+*legacy* when its bare-stem staging folder holds its `_artmind_id`; then both its
+staging folder and its `<stem>_chunks/` use the bare stem, so a note ingested before
+keys keeps its chunk cache (`extract-kg`, resume-extract) and a changed one does not
+orphan `<stem>_chunks`. Otherwise both use its key (the full-digest key under the
+collision guard). An empty id never matches a bare folder, so it yields the key. A
+converted binary's chunks are named by its markdown's stem.
+
+**An early claim.** docling writes `<key>.md` long before `conversion.json`, so a
+conversion interrupted in between left an ownerless keyed markdown. `_ingest_binary_derived`
+therefore writes the `{source_sha256, source_type, source_path}` record to
+`<key>_chunks/conversion.json` *before* converting (overwritten by the conversion
+record), and a keyed name counts as taken only when a *recorded owner* names another
+source: an ownerless file at a source's own path-hash name is that source's, so a retry
+reconverts under the same key. The claim does not make a failed conversion look
+`unchanged`: that compares the staged baseline's `source_sha256`, which a failed run
+never wrote.
+
+**Recording a move.** When a binary is found by its bytes under a name whose recorded
+`source_path` differs from its own, `_ingest_binary_derived` rewrites `source_path` in
+the sidecar and in the staged `document.json` (only that field: `path`/`name` are the
+converted markdown's), so the old path no longer holds the claim and a different file
+added there gets its own key (the full-digest key, the original being taken).
+
 `plan_binary` reads the existing document from the key's markdown, never from a bare
 `f"{stem}.md"`.
 
