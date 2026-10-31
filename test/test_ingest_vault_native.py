@@ -17,6 +17,7 @@ import pytest
 
 import artmind.delta
 import artmind.ingest as ing
+from artmind.document_identity import document_key
 from conftest import stage_as_extracted
 
 _REAL_APPLY_MOVE = getattr(artmind.delta, "apply_move", None)
@@ -390,7 +391,7 @@ def test_a_git_mv_repoints_the_staged_document_at_the_new_path(vault):
     the next replay would keep the :Document on the old path and name."""
     v, doc = vault
     _ingest_to_version_2(doc)
-    folder = ing.KG_DIR / "general" / "doc"
+    folder = ing._staging_dir("general", document_key("notes/doc.md"))
     before = json.loads((folder / "document.json").read_text())
     new = _git_mv(v, "notes/doc.md", "notes/renamed.md")
 
@@ -400,7 +401,7 @@ def test_a_git_mv_repoints_the_staged_document_at_the_new_path(vault):
     expected = {**before, "source_path": "notes/renamed.md", "path": "notes/renamed.md", "name": "renamed.md"}
     raw = (folder / "document.json").read_text(encoding="utf-8")
     assert raw == json.dumps(expected, indent=2, ensure_ascii=False), "only those three keys change"
-    assert sorted(p.name for p in folder.parent.iterdir()) == ["doc"], "no scratch left beside the folder"
+    assert sorted(p.name for p in folder.parent.iterdir()) == [folder.name], "no scratch left beside the folder"
     assert json.loads(raw)["version"] == 2 and json.loads(raw)["content_sha256"] == before["content_sha256"]
 
 
@@ -411,7 +412,7 @@ def test_a_git_mv_updates_the_graph_document_path_too(vault, graph_runs, monkeyp
     same three properties the staging folder's document.json got."""
     v, doc = vault
     _ingest_to_version_2(doc)
-    doc_id = json.loads((ing.KG_DIR / "general" / "doc" / "document.json").read_text())["id"]
+    doc_id = json.loads((ing._staging_dir("general", document_key("notes/doc.md")) / "document.json").read_text())["id"]
     monkeypatch.setattr("artmind.delta.apply_move", _REAL_APPLY_MOVE, raising=False)
     new = _git_mv(v, "notes/doc.md", "notes/renamed.md")
 
@@ -458,7 +459,7 @@ def test_content_change_after_a_git_mv_extracts_under_the_new_name_and_drops_the
     v, doc = vault
     _stub_llm(monkeypatch)
     r1, folder1 = _ingest_and_extract(doc)
-    assert folder1 == ing.KG_DIR / "general" / "doc"
+    assert folder1 == ing._staging_dir("general", document_key("notes/doc.md"))
     new = _git_mv(v, "notes/doc.md", "notes/renamed.md")
     ing.ingest_file(new, "gemma4:e4b", "general", chunk_size=6000)  # the silent move
     new.write_text(new.read_text() + "\nMore.\n")
@@ -466,10 +467,10 @@ def test_content_change_after_a_git_mv_extracts_under_the_new_name_and_drops_the
     r2, folder2 = _ingest_and_extract(new)
 
     assert (r2["tier"], r2["version"]) == ("content", 2), "the version carries on from the old folder"
-    assert folder2 == ing.KG_DIR / "general" / "renamed"
+    assert folder2 == ing._staging_dir("general", document_key("notes/renamed.md"))
     document = json.loads((folder2 / "document.json").read_text())
     assert (document["id"], document["version"], document["source_path"]) == (r1["artmind_id"], 2, "notes/renamed.md")
-    assert sorted(p.name for p in (ing.KG_DIR / "general").iterdir()) == ["renamed"], "the old folder is gone"
+    assert sorted(p.name for p in (ing.KG_DIR / "general").iterdir()) == [folder2.name], "the old folder is gone"
 
 
 def test_a_domain_change_extracts_into_the_new_domain_and_drops_the_old_folder(vault, monkeypatch):
@@ -480,9 +481,9 @@ def test_a_domain_change_extracts_into_the_new_domain_and_drops_the_old_folder(v
     r2 = ing.ingest_file(doc, "gemma4:e4b", "general", chunk_size=6000, set_domain="technical_paper")
     folder = ing.extract_kg(r2, "technical_paper", max_workers=1)
 
-    assert folder == ing.KG_DIR / "technical_paper" / "doc"
+    assert folder == ing._staging_dir("technical_paper", document_key("notes/doc.md"))
     assert json.loads((folder / "document.json").read_text())["id"] == r1["artmind_id"]
-    assert not (ing.KG_DIR / "general" / "doc").exists(), "one id, one staging folder"
+    assert not ing._staging_dir("general", document_key("notes/doc.md")).exists(), "one id, one staging folder"
 
 
 def test_reextracting_keeps_the_created_on_first_recorded(vault, monkeypatch):

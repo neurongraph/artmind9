@@ -441,11 +441,15 @@ def _stage_document_json(tmp_path, monkeypatch, domain="general", name="sample.p
     mode to get past its file checks without touching commit_to_graph for real."""
     import paths
 
+    import artmind.ingest as ing
+
     kg_dir = tmp_path / "kg"
-    doc_dir = kg_dir / domain / Path(name).stem
+    monkeypatch.setattr(paths, "KG_DIR", kg_dir)
+    monkeypatch.setattr(ing, "KG_DIR", kg_dir)
+    # Named the way the command finds it: by the document's key.
+    doc_dir = ing._document_staging_dir(domain, Path(name), "")
     doc_dir.mkdir(parents=True)
     (doc_dir / "document.json").write_text("{}")
-    monkeypatch.setattr(paths, "KG_DIR", kg_dir)
     return {"registered_path": name}
 
 

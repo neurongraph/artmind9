@@ -57,7 +57,11 @@ def staged_markdown_path(document: dict) -> Path:
     `document_identity.markdown_path_for`'s rule, from `document.json` alone."""
     if document.get("artmind_id"):
         return resolve_canonical_path(str(document.get("path") or ""))
-    return ingest.MARKDOWNS_DIR / f"{Path(str(document.get('name') or '')).stem}.md"
+    if document.get("path"):
+        recorded = resolve_canonical_path(str(document["path"]))
+        if recorded.exists():
+            return recorded
+    return ingest._markdown_path(Path(str(document.get("name") or "")).stem)
 
 
 def retime_observations(observations: list[dict], document: dict, schema: dict) -> list[dict]:
@@ -168,7 +172,13 @@ def _redo_properties(
     """Re-extract one document's properties with its date in the prompt."""
     document = _load_json(doc_kg_dir / "document.json") or {}
     name = document.get("name") or doc_kg_dir.name
-    file_result = ingest._build_file_result_from_db(name, domain)
+    # By the document's identity, not its file name: `README.md` in two
+    # folders is two documents, and the registry's path for this id is exact.
+    row = ingest._registry_row_by_artmind_id(document["id"]) if document.get("id") else None
+    try:
+        file_result = ingest._build_file_result_from_db(row["path"] if row else name, domain)
+    except ingest.AmbiguousDocumentName as e:
+        return {"document": name, "skipped": str(e)}
     if file_result is None:
         return {"document": name, "skipped": "not in this machine's registry"}
     # A miss would not "redo properties": it would re-run every step,
@@ -239,9 +249,11 @@ def retime_domain(
 
     folders = staging_folders(domain)
     if documents:
-        # A folder is named by its document's stem: match "2026-01-07" or "2026-01-07.md".
+        # A folder is named by its document's stem (a document staged before
+        # keys) or its key `<stem>~<hash>`: match "2026-01-07", "2026-01-07.md"
+        # or the whole key.
         wanted = {Path(d).stem for d in documents}
-        folders = [f for f in folders if f.name in wanted]
+        folders = [f for f in folders if f.name in wanted or f.name.rsplit("~", 1)[0] in wanted]
     if limit is not None:
         folders = folders[:limit]
     results, committed, failed = [], 0, []

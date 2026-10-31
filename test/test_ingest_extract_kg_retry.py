@@ -15,6 +15,7 @@ document.
 """
 import json
 import subprocess
+from pathlib import Path
 
 import artmind.db as db
 import artmind.ingest as ing
@@ -193,7 +194,7 @@ def test_a_binarys_extract_kg_retry_keeps_its_source_provenance(ingest_env, monk
     first = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
     original = first["provenance"]  # what the extraction that failed would have recorded
 
-    rebuilt = ing._build_file_result_from_db("deck.md", "general")
+    rebuilt = ing._build_file_result_from_db(Path(first["registered_path"]).name, "general")
     folder = ing.extract_kg(rebuilt, "general", max_workers=1)
 
     document = json.loads((folder / "document.json").read_text())
@@ -220,7 +221,7 @@ def test_a_retry_records_the_conversion_that_failed_not_the_previous_binarys(ing
     source.write_bytes(b"fake binary v2")
     ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)  # extraction then fails
 
-    folder = ing.extract_kg(ing._build_file_result_from_db("deck.md", "general"), "general", max_workers=1)
+    folder = ing.extract_kg(ing._build_file_result_from_db(Path(first["registered_path"]).name, "general"), "general", max_workers=1)
 
     document = json.loads((folder / "document.json").read_text())
     assert document["version"] == 2
@@ -234,10 +235,10 @@ def test_a_retry_that_cannot_find_the_binary_does_not_claim_md(ingest_env, monke
 
     vault, source = ingest_env
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
-    ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
-    (ing.MARKDOWNS_DIR / "deck_chunks" / "conversion.json").unlink()
+    first = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    (Path(first["chunks_dir"]) / "conversion.json").unlink()
 
-    rebuilt = ing._build_file_result_from_db("deck.md", "general")
+    rebuilt = ing._build_file_result_from_db(Path(first["registered_path"]).name, "general")
 
     assert not {"source_sha256", "source_type", "source_path"} & set(rebuilt["provenance"])
     assert rebuilt["provenance"]["content_sha256"]

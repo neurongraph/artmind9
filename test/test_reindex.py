@@ -184,7 +184,7 @@ def test_reindex_hashes_the_body_of_a_moved_note_and_never_scans_the_domain(vaul
     import json
 
     import artmind.ingest as ing
-    from artmind.document_identity import compute_content_sha256
+    from artmind.document_identity import compute_content_sha256, document_key
 
     monkeypatch.setattr(ing, "KG_DIR", tmp_path / "kg")
     (vault / "n").mkdir()
@@ -204,7 +204,8 @@ def test_reindex_hashes_the_body_of_a_moved_note_and_never_scans_the_domain(vaul
     reindex_mod.reindex()
 
     assert _registry(vault) == {"id-1": ("general", compute_content_sha256("Body\n"))}
-    assert seen == [("general", ["moved"], "id-1", False)]
+    # the bare stem (a note staged before keys) and the note's key
+    assert seen == [("general", ["moved", document_key("n/moved.md")], "id-1", False)]
 
 
 @pytest.mark.parametrize("domain", ["5", "[a]", "null"])

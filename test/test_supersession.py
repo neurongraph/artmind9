@@ -640,3 +640,17 @@ def test_family_inference_defers_to_explicit_notice(monkeypatch):
 
     assert applied == [("irs-02", "irs-01", "notice")]
     assert len(report["applied"]) == 1
+
+
+def test_a_keyed_binarys_body_is_read_from_its_recorded_path(tmp_path, monkeypatch):
+    import artmind.ingest as ing
+
+    monkeypatch.setattr(ing, "MARKDOWNS_DIR", tmp_path)
+    keyed = tmp_path / "Summary~ab12cd34ef56.md"
+    keyed.write_text("---\n_domain: general\n---\nkeyed body\n", encoding="utf-8")
+    (tmp_path / "Summary.md").write_text("---\n_domain: general\n---\nbare body\n", encoding="utf-8")
+
+    assert t._read_doc_body_for({"name": "Summary.pdf", "path": str(keyed)}).strip() == "keyed body"
+    # No recorded path (or a missing file): the bare-stem lookup, as before.
+    assert t._read_doc_body_for({"name": "Summary.pdf"}).strip() == "bare body"
+    assert t._read_doc_body_for({"name": "Summary.pdf", "path": str(tmp_path / "gone.md")}).strip() == "bare body"

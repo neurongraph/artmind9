@@ -1,4 +1,6 @@
+import glob
 import json
+import os
 import re
 import shutil
 import tempfile
@@ -7,6 +9,7 @@ import uuid
 import warnings
 import datetime as _datetime
 from collections.abc import Callable
+from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
@@ -23,7 +26,9 @@ from artmind.document_identity import (
     canonical_path,
     compute_content_sha256,
     decide_version,
+    document_key,
     is_plain_folder_name,
+    KEY_SEPARATOR,
     ingest_baseline,
     markdown_path_for,
     Resolution,
@@ -283,6 +288,23 @@ _CONVERSION_KEYS = ("source_sha256", "source_type", "source_path")
 _MOVED_SOURCE_FIELDS = {"_source_sha256": "source_sha256", "_source_type": "source_type", "_source_path": "source_path"}
 
 
+def _write_sidecar(chunks_dir: Path, record: dict) -> None:
+    """Write `chunks_dir/conversion.json` atomically: a temp file beside it,
+    then one rename. The file is the only record of which source a keyed name
+    belongs to (`_converted_owner`), so a run killed mid-write must leave the
+    previous file whole, not a truncated one. The temp file is gone after
+    success and after failure."""
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".conversion-", suffix=".tmp", dir=chunks_dir)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(json.dumps(record, indent=2, ensure_ascii=False))
+        os.replace(tmp, chunks_dir / CONVERSION_SIDECAR)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
+
+
 def _is_derived_markdown(path: Path) -> bool:
     """A conversion artmind owns (`MARKDOWNS_DIR`), not a note a human wrote:
     its source is the binary it was converted from, never itself."""
@@ -290,6 +312,19 @@ def _is_derived_markdown(path: Path) -> bool:
         return Path(path).resolve().is_relative_to(Path(MARKDOWNS_DIR).resolve())
     except OSError:
         return False
+
+
+class AmbiguousDocumentName(ValueError):
+    """A document name that fits several registered documents: a prefix of
+    several keyed names, or the exact file name of notes in different
+    folders. `candidates` are the registered file names (prefix) or the
+    canonical vault-relative paths (exact name); a path given as the name
+    selects one of them."""
+
+    def __init__(self, name: str, candidates: list[str]):
+        self.name, self.candidates = name, candidates
+        shown = ", ".join(candidates[:10]) + (f", ... ({len(candidates) - 10} more)" if len(candidates) > 10 else "")
+        super().__init__(f"'{name}' matches {len(candidates)} documents; give the full name or path: {shown}")
 
 
 def _build_file_result_from_db(document_name: str, domain: str | None) -> dict | None:
@@ -316,23 +351,36 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     try:
         if domain is None:
             rows = conn.execute(
-                "SELECT path, content_sha256, artmind_id FROM documents"
+                "SELECT path, content_sha256, artmind_id, domain FROM documents"
             ).fetchall()
         else:
             rows = conn.execute(
-                "SELECT path, content_sha256, artmind_id FROM documents WHERE domain = ?",
+                "SELECT path, content_sha256, artmind_id, domain FROM documents WHERE domain = ?",
                 (domain,),
             ).fetchall()
     finally:
         conn.close()
     target = document_name.upper()
-    matches = [r for r in rows if Path(r[0]).name.upper() == target]
+    # The registry's own path (vault-relative for a note): what an
+    # ambiguity message lists, so it is also what settles one.
+    matches = [r for r in rows if r[0] == document_name]
+    if not matches:
+        matches = [r for r in rows if Path(r[0]).name.upper() == target]
+        # Two notes with one file name in different folders: a question too.
+        paths_named = sorted({r[0] for r in matches})
+        if len(paths_named) > 1:
+            raise AmbiguousDocumentName(document_name, paths_named)
     if not matches:
         # Prefix match (user may omit extension)
         matches = [r for r in rows if Path(r[0]).name.upper().startswith(target)]
+        # Keyed documents share a stem (`Summary~<hex>.md`): a prefix that
+        # fits several is a question, not a coin toss.
+        names = sorted({Path(r[0]).name for r in matches})
+        if len(names) > 1:
+            raise AmbiguousDocumentName(document_name, names)
     if not matches:
         return None
-    registered_path_str, doc_sha256, artmind_id = matches[0]
+    registered_path_str, doc_sha256, artmind_id, row_domain = matches[0]
     # `canonical_path()` (document_identity.py) stores a *vault-relative*
     # string for anything inside the configured vault -- true of every
     # vault-native document, by definition of `_is_vault_native_markdown`.
@@ -344,7 +392,7 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
         registered_path = resolve_canonical_path(registered_path_str)
     except ValueError:
         registered_path = Path(registered_path_str)
-    chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+    chunks_dir = _chunks_dir(_chunks_key(row_domain, registered_path, artmind_id or ""))
     chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
     result = {
         "status": "ok",
@@ -1066,7 +1114,9 @@ def plan_vault_native(
     staged = None
     staged_folder = None
     if resolution.verdict != "new":
-        stems = [source.stem] + ([Path(resolution.prior_path).stem] if resolution.prior_path else [])
+        stems = [source.stem, document_key(canonical_path(source))] + (
+            [Path(resolution.prior_path).stem, document_key(resolution.prior_path)] if resolution.prior_path else []
+        )
         found = _locate_staged(
             resolution.artmind_id, stems, [effective_domain, prior_domain],
             search=resolution.verdict in ("adopt", "heal"),
@@ -1231,7 +1281,7 @@ def _ingest_vault_native(
         return file_result
 
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    chunks_dir = _chunks_dir(_chunks_key(effective_domain, source, resolution.artmind_id))
     _persist_chunks(chunks, chunks_dir, body=body)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
@@ -1365,8 +1415,26 @@ def _render_from_docling_json(dest_path: Path, md_file: Path, json_file: Path, r
     md_file.write_text(body, encoding="utf-8")
 
 
+@contextmanager
+def _docling_input_named(dest_path: Path, key: str):
+    """`dest_path` under the name `<key><ext>`, for the docling CLI, which
+    names its outputs after its input: a hard link in a scratch folder under
+    `LOGS_DIR` (a copy where linking fails), removed afterwards."""
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    scratch = Path(tempfile.mkdtemp(prefix="docling-input-", dir=LOGS_DIR))
+    named = scratch / f"{key}{dest_path.suffix}"
+    try:
+        try:
+            named.hardlink_to(dest_path)
+        except OSError:
+            shutil.copy2(dest_path, named)
+        yield named
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
 def _convert_binary_via_docling(
-    dest_path: Path, image_model: str, *, reuse_image_descriptions: bool = False,
+    dest_path: Path, image_model: str, *, key: str, reuse_image_descriptions: bool = False,
 ) -> tuple[str | None, dict]:
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
@@ -1381,7 +1449,7 @@ def _convert_binary_via_docling(
     re-conversion of an unchanged source costs no image calls and gives back
     the same descriptions.
 
-    Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
+    Writes the final body to `_markdown_path(key)` as a
     side effect of the docling invocation itself, and also returns it
     directly — the one caller that matters, `_ingest_binary_derived`, wants
     that same body in hand so it can immediately overwrite that exact path
@@ -1398,8 +1466,8 @@ def _convert_binary_via_docling(
     from artmind.docling_render import RENDER_VERSION
 
     dest_filename = dest_path.name
-    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
-    json_file = MARKDOWNS_DIR / f"{dest_path.stem}.json"
+    md_file = _markdown_path(key)
+    json_file = MARKDOWNS_DIR / f"{key}.json"
     record: dict = {"render_version": RENDER_VERSION}
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
@@ -1408,7 +1476,8 @@ def _convert_binary_via_docling(
         returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file, record)
     else:
         json_file.unlink(missing_ok=True)  # a stale one is not this conversion's
-        returncode, stdout, stderr = run_command(_docling_command(dest_path), cwd=PROJECT_ROOT)
+        with _docling_input_named(dest_path, key) as docling_input:
+            returncode, stdout, stderr = run_command(_docling_command(docling_input), cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
         combined = (stderr or "") + (stdout or "")
@@ -1440,7 +1509,7 @@ def _convert_binary_via_docling(
     if relative != md_content:
         md_content = relative
         md_file.write_text(md_content, encoding="utf-8")
-    artifacts_dir = MARKDOWNS_DIR / f"{dest_path.stem}_artifacts"
+    artifacts_dir = _artifacts_dir(key)
     if artifacts_dir.exists():
         images = sorted(
             f for f in artifacts_dir.iterdir() if f.suffix.lower() in IMAGE_EXTENSIONS
@@ -1545,13 +1614,13 @@ def _ingest_binary_or_adhoc(
             started_at=datetime.now().isoformat(),
         )
 
-    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
+    md_file = _markdown_path(dest_path.stem)
 
     if dest_path.suffix.lower() == ".md":
         shutil.copy2(dest_path, md_file)
         logger.info("Source is markdown — skipping docling conversion")
     else:
-        body, err = _convert_binary_via_docling(dest_path, image_model)
+        body, err = _convert_binary_via_docling(dest_path, image_model, key=dest_path.stem)
         if body is None:
             file_result.update(err)
             return file_result
@@ -1569,7 +1638,7 @@ def _ingest_binary_or_adhoc(
     raw_text = md_file.read_text(encoding="utf-8")
     _, body = _parse_md_frontmatter(raw_text)
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
+    chunks_dir = _chunks_dir(dest_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
     logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
 
@@ -1583,6 +1652,99 @@ def _ingest_binary_or_adhoc(
     return file_result
 
 
+# ── derived-file names (spec 2026-10-31 document-key-collisions) ───────────
+# Every converted markdown, its artifacts and chunks, and every staging folder
+# is named by a document key (`document_identity.document_key`), or, for a
+# document ingested before keys, by its bare stem. Build them here only.
+
+
+def _markdown_path(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}.md"
+
+
+def _artifacts_dir(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}_artifacts"
+
+
+def _chunks_dir(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}_chunks"
+
+
+def _staging_dir(domain: str, key: str) -> Path:
+    return KG_DIR / domain / key
+
+
+def _note_key(domain: str, note: Path, artmind_id: str) -> str:
+    """The name a vault note's staging folder AND chunks are filed under -- one
+    rule for both: its bare stem when that staging folder already holds this
+    note (a note ingested before keys, no migration), else its document key --
+    or the full-digest key when another document holds that (the collision
+    guard).
+
+    An empty `artmind_id` (a caller that has not minted one) never matches a
+    bare folder and never trips the guard: ownership cannot be judged, so the
+    result is the plain key."""
+    if artmind_id and _read_staged_document(_staging_dir(domain, note.stem), artmind_id) is not None:
+        return note.stem
+    rel = canonical_path(note)
+    key = document_key(rel)
+    folder = _staging_dir(domain, key)
+    if artmind_id and (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
+        full = document_key(rel, full=True)
+        logger.warning("{}: staging folder {} belongs to another document; using {}", rel, key, full)
+        return full
+    return key
+
+
+def _note_staging_dir(domain: str, note: Path, artmind_id: str) -> Path:
+    """Where a vault note's extraction is staged (`_note_key`)."""
+    return _staging_dir(domain, _note_key(domain, note, artmind_id))
+
+
+def _chunks_key(domain: str, registered_path: Path, artmind_id: str) -> str:
+    """The name a registered document's chunks are filed under: a converted
+    binary's markdown already carries its key in its name; a note's is
+    `_note_key`, the same as its staging folder's."""
+    path = Path(registered_path)
+    if _is_derived_markdown(path):
+        return path.stem
+    return _note_key(domain, path, artmind_id)
+
+
+def _document_staging_dir(domain: str, registered_path: Path, artmind_id: str) -> Path:
+    """`extract_kg`'s staging folder for a registered document: a converted
+    binary's is named by its key (its markdown's stem); a note's by
+    `_note_staging_dir`."""
+    if _is_derived_markdown(registered_path):
+        return _staging_dir(domain, Path(registered_path).stem)
+    return _note_staging_dir(domain, Path(registered_path), artmind_id)
+
+
+def _converted_owner(key: str, domain: str) -> tuple[str, str | None] | None:
+    """`(source_path, source_sha256)` of the source whose conversion holds the
+    name `key`, or None when no conversion of that name records one. Read
+    from the conversion sidecar (written by every conversion, committed,
+    domain-free), else the staging `document.json` in `domain`, else the
+    converted markdown's pre-R6 frontmatter."""
+    candidates = [
+        _chunks_dir(key) / CONVERSION_SIDECAR,
+        _staging_dir(domain, key) / "document.json",
+    ]
+    for path in candidates:
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if isinstance(record, dict) and record.get("source_path"):
+            return str(record["source_path"]), record.get("source_sha256")
+    md = _markdown_path(key)
+    if md.exists():
+        meta, _ = _parse_md_frontmatter(md.read_text(encoding="utf-8"))
+        if meta.get("_source_path"):
+            return str(meta["_source_path"]), meta.get("_source_sha256")
+    return None
+
+
 @dataclass(frozen=True)
 class BinaryPlan:
     """Whether ingesting a binary source (pdf/pptx/docx, an image) would
@@ -1593,6 +1755,9 @@ class BinaryPlan:
     existing_meta: dict
     baseline: dict
     source_sha256: str
+    #: The source path the name's last conversion recorded; differs from this
+    #: source's own path exactly when the binary moved (`_record_binary_move`).
+    recorded_source_path: str | None = None
 
     @property
     def unchanged(self) -> bool:
@@ -1606,26 +1771,135 @@ class BinaryPlan:
         return not self.existing_meta
 
 
+def _resolve_binary_key(dest_path: Path, source_sha256: str, domain: str) -> str:
+    """The name `dest_path`'s derived files take, chosen once and then found
+    again (spec 2026-10-31 document-key-collisions §2):
+
+    1. its own bare-stem conversion (a document from before keys), or a
+       bare-stem conversion that records no source (pre-R6, kept as it was);
+    2. its own key;
+    3. a same-stem conversion of these exact bytes whose recorded source is
+       gone from the vault: a moved binary keeps its name;
+    4. a new key -- or, when that key is held by another source, the
+       full-digest key (the collision guard; never overwrite an occupant)."""
+    rel = canonical_path(dest_path)
+    stem = dest_path.stem
+    key = document_key(rel)
+    bare_owner = _converted_owner(stem, domain)
+    if _markdown_path(stem).exists() and (bare_owner is None or bare_owner[0] == rel):
+        if bare_owner is None:
+            logger.warning("{}: taking the bare-stem conversion {}, which records no source", rel, stem)
+        return stem
+    key_owner = _converted_owner(key, domain)
+    if key_owner is not None and key_owner[0] == rel:
+        return key
+    for md in sorted(MARKDOWNS_DIR.glob(f"{glob.escape(stem)}*.md")):
+        name = md.stem
+        if name != stem and not name.startswith(stem + KEY_SEPARATOR):
+            continue
+        owner = _converted_owner(name, domain)
+        if (
+            owner is not None and owner[0] != rel and owner[1] == source_sha256
+            and ARTMIND_VAULT_DIR is not None and not (Path(ARTMIND_VAULT_DIR) / owner[0]).exists()
+        ):
+            logger.info("{}: moved from {}; keeps the name {}", rel, owner[0], name)
+            return name
+    # Taken only when a recorded owner names another source: a markdown at this
+    # source's own path-hash name with no owner is its interrupted conversion
+    # (docling writes the markdown long before the sidecar), found again.
+    if key_owner is not None:
+        full = document_key(rel, full=True)
+        logger.warning("{}: the name {} belongs to {}; using {}", rel, key, key_owner[0], full)
+        return full
+    return key
+
+
 def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
     """Read, never write: the converted markdown this binary maps to and the
     baseline its last extraction left (spec 2026-09-26 R6: the staging
     folder's document.json, with a pre-R6 conversion's own frontmatter as
     the fallback -- a binary whose extraction failed is never mistaken for
-    converted and extracted)."""
-    stem = source.stem
-    registered_path = MARKDOWNS_DIR / f"{stem}.md"
+    converted and extracted). The markdown is named by the binary's document
+    key (`_resolve_binary_key`), never by its bare stem alone: two binaries
+    sharing a filename are two documents."""
+    if ARTMIND_VAULT_DIR is None:
+        dest_path = source.resolve()
+    elif _is_inside_vault(source, ARTMIND_VAULT_DIR):
+        dest_path = source.resolve()
+    else:
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+    source_sha256 = _compute_sha256(source)
+    key = _resolve_binary_key(dest_path, source_sha256, effective_domain)
+    registered_path = _markdown_path(key)
     existing_meta: dict = {}
     if registered_path.exists():
         existing_meta, _ = _parse_md_frontmatter(
             registered_path.read_text(encoding="utf-8")
         )
-    staged = staged_document(effective_domain, [stem], existing_meta.get("_artmind_id"), search=True)
+    staged = staged_document(effective_domain, [key], existing_meta.get("_artmind_id"), search=True)
+    owner = _converted_owner(key, effective_domain)
     return BinaryPlan(
         registered_path=registered_path,
         existing_meta=existing_meta,
         baseline=ingest_baseline(staged, existing_meta),
-        source_sha256=_compute_sha256(source),
+        source_sha256=source_sha256,
+        recorded_source_path=owner[0] if owner else None,
     )
+
+
+def _record_binary_move(plan: BinaryPlan, domain: str, new_path: str) -> None:
+    """A moved binary keeps its name (`_resolve_binary_key`), so the old path
+    would keep the claim and a different file later added there would
+    overwrite this document. Rewrite the recorded `source_path` in the
+    conversion sidecar and the staged `document.json`; nothing else -- the
+    staged `path`/`name` are the converted markdown's and do not move. Never
+    fatal."""
+    key = plan.registered_path.stem
+    logger.info("{}: recording the move from {}", new_path, plan.recorded_source_path)
+    try:
+        sidecar_path = _chunks_dir(key) / CONVERSION_SIDECAR
+        try:
+            sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            sidecar = {"source_sha256": plan.source_sha256, "source_type": Path(new_path).suffix.lstrip(".").lower()}
+        sidecar["source_path"] = new_path
+        _write_sidecar(sidecar_path.parent, sidecar)
+        found = _locate_staged(plan.existing_meta.get("_artmind_id") or "", [key], [domain], search=True)
+        folder = found[0] if found else None
+        if folder is None and (_staging_dir(domain, key) / "document.json").exists():
+            folder = _staging_dir(domain, key)
+        if folder is not None:
+            document = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+            if isinstance(document, dict) and document.get("source_path") != new_path:
+                write_staging(folder, {"document.json": {**document, "source_path": new_path}})
+    except (OSError, ValueError) as e:
+        logger.warning("Could not record the move of {}: {}", new_path, e)
+
+
+def _claim_binary_key(key: str, source_sha256: str, source: Path, source_path: str) -> None:
+    """Record, before conversion starts, which source holds the name `key`.
+
+    Only a name nobody records yet, or one recorded for a different source
+    (a move or a namesake taking over), needs the claim. A sidecar that
+    already names this `source_path` is the record of the markdown and
+    chunks on disk -- the previous conversion's hash and `conversion` entry --
+    and stays as it is: a conversion that then fails must not leave the old
+    body filed under the new source's hash, for an `extract-kg` retry to
+    stage and the next ingest to call unchanged."""
+    chunks_dir = _chunks_dir(key)
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        existing = json.loads((chunks_dir / CONVERSION_SIDECAR).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        existing = None
+    if isinstance(existing, dict) and existing.get("source_path") == source_path:
+        return
+    claim = {
+        "source_sha256": source_sha256,
+        "source_type": source.suffix.lstrip(".").lower(),
+        "source_path": source_path,
+    }
+    _write_sidecar(chunks_dir, claim)
 
 
 def _ingest_binary_derived(
@@ -1687,7 +1961,6 @@ def _ingest_binary_derived(
     file_result = {"filename": source.name, "status": "failed"}
     t_file_start = time.monotonic()
 
-    stem = source.stem
     effective_domain = set_domain or domain
     source_is_vault_resident = _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
@@ -1719,6 +1992,8 @@ def _ingest_binary_derived(
     registered_path = plan.registered_path
     existing_meta = plan.existing_meta
     baseline = plan.baseline
+    if plan.recorded_source_path and plan.recorded_source_path != orig_registry_path:
+        _record_binary_move(plan, effective_domain, orig_registry_path)
 
     # A .docx is converted again on --reextract: its conversion runs no model
     # (image descriptions are reused below), and a markdown converted before
@@ -1756,8 +2031,14 @@ def _ingest_binary_derived(
         )
         return file_result
 
+    # Claim the name before the slow conversion: an interrupted run then finds
+    # its own files again (`_converted_owner` reads this sidecar) instead of
+    # forking a second document. Overwritten by the conversion record below.
+    key = registered_path.stem
+    _claim_binary_key(key, source_sha256, source, orig_registry_path)
     body, err = _convert_binary_via_docling(
-        dest_path, image_model, reuse_image_descriptions=bool(file_result.get("reextract")),
+        dest_path, image_model, key=key,
+        reuse_image_descriptions=bool(file_result.get("reextract")),
     )
     if body is None:
         file_result.update(err)
@@ -1778,11 +2059,11 @@ def _ingest_binary_derived(
 
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{stem}_chunks"
+    chunks_dir = _chunks_dir(key)
     # Stamp the body as the file now holds it (what `extract_kg` re-reads to
     # check the cache), not the string handed to `write_document`.
     _persist_chunks(chunks, chunks_dir, body=_parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))[1])
-    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), stem)
+    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), key)
 
     file_result["status"] = "ok"
     file_result["domain"] = effective_domain
@@ -1816,9 +2097,7 @@ def _ingest_binary_derived(
                 "repaired": len(record.get("repaired") or []),
                 "unrepaired": len(record.get("unrepaired") or []),
             }
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8",
-    )
+    _write_sidecar(chunks_dir, sidecar)
 
     logger.info(
         "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
@@ -1853,7 +2132,7 @@ def _reextract_converted_binary(
     if version_decision.tier != "metadata_only":
         return None
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    chunks_dir = _chunks_dir(registered_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
     provenance = {
         "content_sha256": version_decision.content_sha256,
@@ -1871,9 +2150,7 @@ def _reextract_converted_binary(
     sidecar = {k: provenance[k] for k in _CONVERSION_KEYS}
     if isinstance(previous, dict):
         sidecar["conversion"] = previous
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8",
-    )
+    _write_sidecar(chunks_dir, sidecar)
     file_result.update({
         "status": "ok",
         "domain": effective_domain,
@@ -2934,7 +3211,7 @@ def ingest_to_kg(
             from artmind.delta import classify_reingest, apply_metadata_only
 
             registered_path = Path(file_result["registered_path"])
-            md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+            md_file = _markdown_path(registered_path.stem)
             if md_file.exists():
                 classification = classify_reingest(
                     md_file,
@@ -2986,7 +3263,7 @@ def ingest_to_kg(
             return False
         _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         chunks = _split_markdown(body, chunk_size)
-        chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+        chunks_dir = _chunks_dir(_chunks_key(domain, registered_path, file_result.get("artmind_id") or ""))
         _persist_chunks(chunks, chunks_dir, body=body)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
@@ -3373,7 +3650,9 @@ def extract_kg(
     # chunks + embeddings only, no LLM step of any kind.
     chunks_only = not graph_extraction_enabled(schema)
 
-    doc_kg_dir = KG_DIR / domain / registered_path.stem
+    # A note's id is in `file_result` already; a binary's folder is named by
+    # its key and needs no id, so this stays above the identity block below.
+    doc_kg_dir = _document_staging_dir(domain, registered_path, file_result.get("artmind_id") or "")
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
     llm_debug_dir = _llm_debug_dir(doc_kg_dir)
     # Scoped by doc_sha256 (not just the file stem) so a genuine resume of an

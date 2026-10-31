@@ -316,9 +316,10 @@ def test_a_failed_steps_raw_answer_is_saved_under_logs_not_in_staging(ingest_env
 
     assert ing.extract_kg(result, "general", max_workers=1) is None
 
-    folder = ing.KG_DIR / "general" / "a"
+    name = ing._document_staging_dir("general", Path(result["registered_path"]), result["artmind_id"]).name
+    folder = ing.KG_DIR / "general" / name
     assert not list(folder.glob("debug_*.txt")), "the staging folder is committed"
-    saved = list((stash_root / "extraction-debug" / "general" / "a").glob("debug_*.txt"))
+    saved = list((stash_root / "extraction-debug" / "general" / name).glob("debug_*.txt"))
     assert saved and saved[0].read_text() == "not json and not usable"
 
 

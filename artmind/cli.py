@@ -1,3 +1,4 @@
+import glob
 import os
 import shlex
 import shutil
@@ -32,6 +33,7 @@ from artmind.embed_sweep import count_unembedded_chunks, embed_missing_chunk_emb
 from artmind.ingest import (
     SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
+    _document_staging_dir,
     collect_ingest_files,
     commit_to_graph,
     embed_entities_backfill,
@@ -131,6 +133,17 @@ def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
     return out
 
 
+def _registry_file_result(document_name: str, domain: str | None) -> dict | None:
+    """`_build_file_result_from_db` for a command: a name that fits several
+    registered documents becomes a CLI error listing them."""
+    from artmind.ingest import AmbiguousDocumentName
+
+    try:
+        return _build_file_result_from_db(document_name, domain)
+    except AmbiguousDocumentName as e:
+        raise click.ClickException(str(e)) from e
+
+
 def _registry_miss_message(document_name: str, domain: str) -> str:
     """`not found in registry`, plus the way out when the note is staged here
     but was ingested on another machine: the registry is per machine, staging
@@ -138,16 +151,46 @@ def _registry_miss_message(document_name: str, domain: str) -> str:
     import paths
 
     message = f"Document '{document_name}' not found in registry for domain '{domain}'"
-    folder = paths.KG_DIR / domain / Path(document_name).stem
-    try:
-        staged = json.loads((folder / "document.json").read_text(encoding="utf-8"))
-    except (OSError, ValueError):
+    stem = Path(document_name).stem
+    # The bare-stem folder (a document from before keys), else a keyed
+    # `<stem>~<hex>` folder whose document.json names this file.
+    wanted = Path(document_name).name.lower()
+    domain_dir = paths.KG_DIR / domain
+    from artmind.atomic_dir import is_scratch
+
+    found: list[tuple[dict, Path]] = []
+    for candidate in [domain_dir / stem, *sorted(glob.glob(f"{glob.escape(str(domain_dir / stem))}~*"))]:
+        candidate = Path(candidate)
+        if is_scratch(candidate):
+            continue
+        try:
+            record = json.loads((candidate / "document.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if not isinstance(record, dict):
+            continue
+        names = {Path(str(record[k])).name.lower() for k in ("name", "source_path", "path") if record.get(k)}
+        if candidate.name == stem or wanted in names or Path(wanted).stem in {Path(n).stem for n in names}:
+            found.append((record, candidate))
+    if not found:
         return message
-    path = staged.get("path") or document_name if isinstance(staged, dict) else document_name
+    if len(found) == 1:
+        staged, folder = found[0]
+        path = staged.get("path") or document_name
+        return (
+            f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
+            f"probably ingested on another machine. Re-extract it here with:\n"
+            f'  artmind ingest sync "{path}" --reextract'
+        )
+    # Several sources share the name: naming one would be a guess.
+    lines = "\n".join(
+        f'  {folder}: artmind ingest sync "{staged.get("path") or document_name}" --reextract'
+        for staged, folder in found
+    )
     return (
-        f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
-        f"probably ingested on another machine. Re-extract it here with:\n"
-        f'  artmind ingest sync "{path}" --reextract'
+        f"{message}.\n{len(found)} documents of that name are staged but not in this machine's "
+        f"registry -- they were probably ingested on another machine. Re-extract the one you mean "
+        f"with:\n{lines}"
     )
 
 
@@ -1272,7 +1315,7 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
     # ever a fallback and rarely names the domain THIS document landed under.
     sha = _job_file_sha256(job_id, document)
     if sha is None:
-        file_result = _build_file_result_from_db(document, None)
+        file_result = _registry_file_result(document, None)
         if file_result is None:
             raise click.ClickException(f"Document '{document}' not found in registry")
         sha = file_result["sha256"]
@@ -1324,7 +1367,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
 
-    file_result = _build_file_result_from_db(document_name, domain)
+    file_result = _registry_file_result(document_name, domain)
     if file_result is None:
         raise click.ClickException(_registry_miss_message(document_name, domain))
     if file_result["chunk_count"] == 0:
@@ -1503,12 +1546,12 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     if document_name:
         if not domain:
             raise click.ClickException("--domain is required when specifying a single document")
-        file_result = _build_file_result_from_db(document_name, domain)
+        file_result = _registry_file_result(document_name, domain)
         if file_result is None:
             raise click.ClickException(_registry_miss_message(document_name, domain))
 
         registered_path = Path(file_result["registered_path"])
-        doc_kg_dir = KG_DIR / domain / registered_path.stem
+        doc_kg_dir = _document_staging_dir(domain, registered_path, file_result.get("artmind_id") or "")
         if not (doc_kg_dir / "document.json").exists():
             raise click.ClickException(
                 f"Merged KG JSON not found in {doc_kg_dir} — run 'ingest extract_kg' first"
