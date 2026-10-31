@@ -142,3 +142,26 @@ def test_collision_guard_never_takes_another_sources_key(ingest_env, monkeypatch
     plan = ing.plan_binary(b, "general")
 
     assert plan.registered_path == ing._markdown_path(document_key("B/Summary.pdf", full=True))
+
+
+def test_docling_writes_the_keyed_markdown_and_artifacts(ingest_env, monkeypatch, tmp_path):
+    vault, _ = ingest_env
+    monkeypatch.setattr(ing, "LOGS_DIR", tmp_path / "logs")  # the scratch link goes here
+    (tmp_path / "logs").mkdir()
+    a = _vault_pdf(vault, "A/Summary.pdf", b"%PDF certificate A")
+    key = document_key("A/Summary.pdf")
+    seen = {}
+
+    def fake_run(command, cwd=None):
+        seen["command"] = command
+        (ing.MARKDOWNS_DIR / f"{key}.md").write_text("# A\n")
+        return 0, "", ""
+
+    monkeypatch.setattr(ing, "run_command", fake_run)
+    monkeypatch.setattr(ing, "_render_from_docling_json", lambda *a, **k: None)
+
+    body, _ = ing._convert_binary_via_docling(a.resolve(), "m", key=key)
+
+    assert body.strip() == "# A"
+    assert f'{key}.pdf"' in seen["command"]
+    assert not list(ing.MARKDOWNS_DIR.glob("Summary.md"))

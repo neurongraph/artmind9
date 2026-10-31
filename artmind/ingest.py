@@ -8,6 +8,7 @@ import uuid
 import warnings
 import datetime as _datetime
 from collections.abc import Callable
+from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
@@ -1368,8 +1369,26 @@ def _render_from_docling_json(dest_path: Path, md_file: Path, json_file: Path, r
     md_file.write_text(body, encoding="utf-8")
 
 
+@contextmanager
+def _docling_input_named(dest_path: Path, key: str):
+    """`dest_path` under the name `<key><ext>`, for the docling CLI, which
+    names its outputs after its input: a hard link in a scratch folder under
+    `LOGS_DIR` (a copy where linking fails), removed afterwards."""
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    scratch = Path(tempfile.mkdtemp(prefix="docling-input-", dir=LOGS_DIR))
+    named = scratch / f"{key}{dest_path.suffix}"
+    try:
+        try:
+            named.hardlink_to(dest_path)
+        except OSError:
+            shutil.copy2(dest_path, named)
+        yield named
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
 def _convert_binary_via_docling(
-    dest_path: Path, image_model: str, *, reuse_image_descriptions: bool = False,
+    dest_path: Path, image_model: str, *, key: str, reuse_image_descriptions: bool = False,
 ) -> tuple[str | None, dict]:
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
@@ -1384,7 +1403,7 @@ def _convert_binary_via_docling(
     re-conversion of an unchanged source costs no image calls and gives back
     the same descriptions.
 
-    Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
+    Writes the final body to `_markdown_path(key)` as a
     side effect of the docling invocation itself, and also returns it
     directly — the one caller that matters, `_ingest_binary_derived`, wants
     that same body in hand so it can immediately overwrite that exact path
@@ -1401,8 +1420,8 @@ def _convert_binary_via_docling(
     from artmind.docling_render import RENDER_VERSION
 
     dest_filename = dest_path.name
-    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
-    json_file = MARKDOWNS_DIR / f"{dest_path.stem}.json"
+    md_file = _markdown_path(key)
+    json_file = MARKDOWNS_DIR / f"{key}.json"
     record: dict = {"render_version": RENDER_VERSION}
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
@@ -1411,7 +1430,8 @@ def _convert_binary_via_docling(
         returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file, record)
     else:
         json_file.unlink(missing_ok=True)  # a stale one is not this conversion's
-        returncode, stdout, stderr = run_command(_docling_command(dest_path), cwd=PROJECT_ROOT)
+        with _docling_input_named(dest_path, key) as docling_input:
+            returncode, stdout, stderr = run_command(_docling_command(docling_input), cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
         combined = (stderr or "") + (stdout or "")
@@ -1443,7 +1463,7 @@ def _convert_binary_via_docling(
     if relative != md_content:
         md_content = relative
         md_file.write_text(md_content, encoding="utf-8")
-    artifacts_dir = MARKDOWNS_DIR / f"{dest_path.stem}_artifacts"
+    artifacts_dir = _artifacts_dir(key)
     if artifacts_dir.exists():
         images = sorted(
             f for f in artifacts_dir.iterdir() if f.suffix.lower() in IMAGE_EXTENSIONS
@@ -1548,13 +1568,13 @@ def _ingest_binary_or_adhoc(
             started_at=datetime.now().isoformat(),
         )
 
-    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
+    md_file = _markdown_path(dest_path.stem)
 
     if dest_path.suffix.lower() == ".md":
         shutil.copy2(dest_path, md_file)
         logger.info("Source is markdown — skipping docling conversion")
     else:
-        body, err = _convert_binary_via_docling(dest_path, image_model)
+        body, err = _convert_binary_via_docling(dest_path, image_model, key=dest_path.stem)
         if body is None:
             file_result.update(err)
             return file_result
@@ -1572,7 +1592,7 @@ def _ingest_binary_or_adhoc(
     raw_text = md_file.read_text(encoding="utf-8")
     _, body = _parse_md_frontmatter(raw_text)
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
+    chunks_dir = _chunks_dir(dest_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
     logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
 
@@ -1787,7 +1807,6 @@ def _ingest_binary_derived(
     file_result = {"filename": source.name, "status": "failed"}
     t_file_start = time.monotonic()
 
-    stem = source.stem
     effective_domain = set_domain or domain
     source_is_vault_resident = _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
@@ -1857,7 +1876,8 @@ def _ingest_binary_derived(
         return file_result
 
     body, err = _convert_binary_via_docling(
-        dest_path, image_model, reuse_image_descriptions=bool(file_result.get("reextract")),
+        dest_path, image_model, key=registered_path.stem,
+        reuse_image_descriptions=bool(file_result.get("reextract")),
     )
     if body is None:
         file_result.update(err)
@@ -1878,11 +1898,12 @@ def _ingest_binary_derived(
 
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{stem}_chunks"
+    key = registered_path.stem
+    chunks_dir = _chunks_dir(key)
     # Stamp the body as the file now holds it (what `extract_kg` re-reads to
     # check the cache), not the string handed to `write_document`.
     _persist_chunks(chunks, chunks_dir, body=_parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))[1])
-    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), stem)
+    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), key)
 
     file_result["status"] = "ok"
     file_result["domain"] = effective_domain
@@ -1953,7 +1974,7 @@ def _reextract_converted_binary(
     if version_decision.tier != "metadata_only":
         return None
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    chunks_dir = _chunks_dir(registered_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
     provenance = {
         "content_sha256": version_decision.content_sha256,
