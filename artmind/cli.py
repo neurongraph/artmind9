@@ -261,7 +261,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "plan", "views", "insights", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "plan", "retrieval", "views", "insights", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -300,6 +300,9 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind plan": [
         {"name": "Plan", "commands": ["config", "labels", "replay"]},
+    ],
+    "artmind retrieval": [
+        {"name": "Retrieval eval", "commands": ["labels", "eval"]},
     ],
     "artmind insights": [
         {"name": "Snapshots", "commands": ["refresh", "list", "show", "runs", "profile"]},
@@ -4388,6 +4391,119 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
     _echo_json({"command": "plan replay", "file": str(path), "repeat": repeat, "reports": reports}, compact)
     if not all(r["gate"]["passed"] for r in reports.values()):
         raise SystemExit(1)
+
+
+@cli.group("retrieval")
+def retrieval_group() -> None:
+    """Measure vector-text: a private labelled set and eval runs (spec 2026-10-31 §6).
+
+    Not proxied. Labels and runs hold real questions and corpus ids: they stay in the
+    vault (`<vault>/benchmarking/retrieval_labels.yaml`,
+    `<vault>/.artmind/logs/retrieval-eval/`), never in a checkout.
+    """
+
+
+@retrieval_group.group("labels")
+def retrieval_labels_group() -> None:
+    """The labelled set (`<vault>/benchmarking/retrieval_labels.yaml`)."""
+
+
+def _retrieval_labels_path(file_path: Path | None) -> Path:
+    from artmind.retrieval_eval import labels as rl
+
+    path = file_path or rl.default_path()
+    if path is None:
+        raise click.ClickException("not inside a vault: pass --file")
+    return path
+
+
+@retrieval_labels_group.command("generate")
+@click.option("--domain", required=True, help="Domain whose chunks to sample")
+@click.option("--count", type=int, default=50, show_default=True, help="Chunks to sample (one question each)")
+@click.option("--seed", type=int, default=0, show_default=True, help="Sampling seed (same seed, same chunks)")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def retrieval_labels_generate(domain: str, count: int, seed: int, file_path: Path | None, compact: bool) -> None:
+    """Sample chunks and have the configured LLM write one question each (appended as synthetic).
+
+    Sends the sampled text to the configured provider. From a Claude Code shell run it
+    with `env -u ANTHROPIC_BASE_URL` (CLAUDE.md §5).
+    """
+    from artmind import graph_query
+    from artmind.retrieval_eval import generate
+    from artmind.retrieval_eval import labels as rl
+
+    path = _retrieval_labels_path(file_path)
+    with graph_query.read_session() as session:
+        new, warnings = generate.generate_labels(session, domain, count, seed)
+    added = rl.append_labels(path, new)
+    _echo_json({"command": "retrieval labels generate", "file": str(path),
+                "added": [l.id for l in added], "warnings": warnings}, compact)
+
+
+@retrieval_labels_group.command("validate")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
+@click.option("--checkIds", "check_ids", is_flag=True, help="Also check (needs Neo4j) that every chunk and document id exists")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: bool) -> None:
+    """Check every rule of the labels file and report all problems at once (exit 1 on any)."""
+    from artmind import graph_query
+    from artmind.retrieval_eval import labels as rl
+
+    path = _retrieval_labels_path(file_path)
+    try:
+        loaded = rl.load_labels(path)
+    except rl.LabelError as exc:
+        _echo_json({"command": "retrieval labels validate", "file": str(path), "ok": False, "errors": exc.errors}, compact)
+        raise SystemExit(1)
+    errors: list[str] = []
+    if check_ids:
+        chunk_ids = sorted({c for l in loaded for c in l.relevant})
+        doc_ids = sorted({d for l in loaded for d in l.relevant_docs})
+        with graph_query.read_session() as session:
+            found_chunks = {r["id"] for r in session.run(
+                "UNWIND $ids AS id MATCH (c:DocChunk {id: id}) RETURN id", ids=chunk_ids).data()}
+            found_docs = {r["id"] for r in session.run(
+                "UNWIND $ids AS id MATCH (d:Document {id: id}) RETURN id", ids=doc_ids).data()}
+        errors += [f"chunk {c} not in the graph" for c in chunk_ids if c not in found_chunks]
+        errors += [f"document {d} not in the graph" for d in doc_ids if d not in found_docs]
+    _echo_json({"command": "retrieval labels validate", "file": str(path), "ok": not errors,
+                "labels": len(loaded), "errors": errors}, compact)
+    if errors:
+        raise SystemExit(1)
+
+
+@retrieval_group.command("eval")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
+@click.option("--topK", "top_k", default="5,20", show_default=True, help="Cut-offs to score (comma-separated)")
+@click.option("--diversity", type=float, default=None, help="Passed to vector-text (omit for its default)")
+@click.option("--compare", "compare_path", type=click.Path(exists=True, path_type=Path), default=None,
+              help="An earlier run file to diff against")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def retrieval_eval_cmd(file_path: Path | None, top_k: str, diversity: float | None,
+                       compare_path: Path | None, compact: bool) -> None:
+    """Run every label through vector-text in-process; report recall@K, MRR, documents covered."""
+    from artmind.retrieval_eval import labels as rl
+    from artmind.retrieval_eval import runner
+
+    path = _retrieval_labels_path(file_path)
+    try:
+        loaded = rl.load_labels(path)
+    except rl.LabelError as exc:
+        raise click.ClickException("; ".join(exc.errors)) from exc
+    try:
+        ks = [int(k) for k in top_k.split(",") if k.strip()]
+    except ValueError as exc:
+        raise click.ClickException("--topK must be comma-separated integers") from exc
+    run = runner.run_eval(loaded, ks=ks, diversity=diversity)
+    run_path = runner.write_run(run)
+    out = {"command": "retrieval eval", "run": str(run_path), "summary": run["summary"]}
+    if compare_path:
+        out["compare"] = runner.compare_runs(json.loads(compare_path.read_text(encoding="utf-8")), run)
+    _echo_json(out, compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────

@@ -543,6 +543,10 @@ insights-config-check domain:
 plan-replay vault classifier="lexical":
     cd {{quote(vault)}} && artmind plan replay --classifier {{ classifier }} --repeat 4
 
+# Retrieval eval against the current vault (labels in <vault>/benchmarking/)
+retrieval-eval *args:
+    uv run artmind retrieval eval {{args}}
+
 # ── artmind traces ───────────────────────────────────────────────────────────
 
 # recorded admin-console/benchmark turns, newest first  (usage: just traces-list [rating])
