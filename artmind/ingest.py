@@ -1820,16 +1820,30 @@ def _locate_chunk(text: str, piece: str, cursor: int) -> tuple[int, int, int]:
     return start, end, end
 
 
+def _verbatim_span(text: str, piece: str, cursor: int) -> tuple[str, int]:
+    """`piece` as it stands in `text` -- the source span `_locate_chunk` finds,
+    when it holds the same characters once whitespace is ignored; `piece`
+    itself otherwise (an anchor not found, or found in the wrong place) --
+    and the cursor to search on from."""
+    start, end, next_cursor = _locate_chunk(text, piece, cursor)
+    if start == -1:
+        return piece, next_cursor
+    span = text[start:end]
+    squash = lambda s: re.sub(r"\s+", "", s)
+    return (span if squash(span) == squash(piece) else piece), next_cursor
+
+
 def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     """Split markdown into chunks carrying block-level provenance.
 
     Returns dicts ``{text, char_start, char_end, header_path, block_hash}``.
     ``char_start``/``char_end`` mark the chunk's span in the source body,
-    anchored on its first and last non-blank lines (the header splitter reformats
-    whitespace, so the slice is line-accurate rather than byte-identical to
-    ``text``; see ``_locate_chunk``). ``block_hash`` is a content hash over the
-    final chunk text, stable across re-ingest — the key A4's delta classifier
-    keys on.
+    anchored on its first and last non-blank lines (see ``_locate_chunk``). A
+    chunk's text is that span verbatim -- blank lines and indentation kept --
+    plus a reattached table header (``_verbatim_span``; the header splitter's
+    own whitespace-rewritten text only where the span cannot be matched).
+    ``block_hash`` is a content hash over the final chunk text, stable across
+    re-ingest — the key A4's delta classifier keys on.
     """
     # Imported lazily: langchain-text-splitters ships only in the optional
     # `[ingest]` extra, so a core-only install can still import artmind.ingest.
@@ -1855,9 +1869,19 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     chunks: list[dict] = []
 
     def _emit(pieces: list[str], header_path: str, cursor: int) -> int:
-        # Offsets are located against the pre-reattachment pieces (each a
-        # verbatim substring of `text`); reattachment only prepends to `text`.
-        pieces = _carry_trailing_table_headers(pieces)
+        # The splitters rewrite whitespace (blank lines become "  \n", lines
+        # lose their indentation), which glues a table to the line before it
+        # and unnests a list item's callout. Each piece is replaced by its
+        # span in `text`, verbatim, then table headers are carried and
+        # reattached on those, and the final pieces located again for their
+        # offsets (reattachment only prepends to `text`).
+        start_cursor = cursor
+        verbatim = []
+        for piece in pieces:
+            span, cursor = _verbatim_span(text, piece, cursor)
+            verbatim.append(span)
+        pieces = _carry_trailing_table_headers(verbatim)
+        cursor = start_cursor
         located = [(0, 0)] * len(pieces)
         for i, piece in enumerate(pieces):
             start, end, cursor = _locate_chunk(text, piece, cursor)

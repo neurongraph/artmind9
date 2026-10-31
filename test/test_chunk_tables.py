@@ -42,3 +42,22 @@ def test_a_header_that_would_end_a_chunk_moves_to_the_next():
         lines = ["", *c["text"].rstrip().split("\n")]
         assert not (ing._is_table_row(lines[-2]) and ing._is_table_separator_row(lines[-1])), c["text"]
         assert c["char_start"] != -1 and c["char_end"] > c["char_start"]
+
+
+def test_a_chunk_keeps_the_blank_line_before_a_table_and_list_indentation():
+    """The header splitter joins lines with "  \\n" and drops blank lines and
+    indentation; a chunk is the source span instead, so a table stays a table
+    (a markdown reader needs the blank line) and a callout stays in its item."""
+    body = (
+        "# Costs\n\nThe summary is here:\n\n" + HEADER + "\n| Rent | 10 |\n\n"
+        "1. Terms\n    - (a) pay on time\n      > [!comment] Comment\n      > A: Agreed.\n\n## Next\n\nMore."
+    )
+
+    chunks = ing._split_markdown(body, chunk_size=6000)
+
+    text = "\n\n".join(c["text"] for c in chunks)
+    assert "The summary is here:\n\n" + HEADER in text
+    assert "    - (a) pay on time\n      > [!comment] Comment" in text
+    assert "  \n" not in text
+    for c in chunks:
+        assert body[c["char_start"]:c["char_end"]] == c["text"]
