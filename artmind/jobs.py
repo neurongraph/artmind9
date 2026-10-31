@@ -386,6 +386,14 @@ def _chunk_counts(domain: str, doc_stem: str, doc_sha256: str, seq: int) -> dict
     gone) -- a best-effort number, never required for the status dots.
     """
     chunk_json = KG_DIR / domain / doc_stem / "chunks" / doc_sha256 / f"chunk_{seq:03d}.json"
+    if not chunk_json.exists():
+        # A document ingested since document keys is staged under
+        # `<stem>~<hex>`, which a caller holding only the filename cannot
+        # name; the content hash is unique to the document, so find by it.
+        chunk_json = next(
+            iter(sorted((KG_DIR / domain).glob(f"*/chunks/{doc_sha256}/chunk_{seq:03d}.json"))),
+            chunk_json,
+        )
     try:
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):

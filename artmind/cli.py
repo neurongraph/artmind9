@@ -1,3 +1,4 @@
+import glob
 import os
 import shlex
 import shutil
@@ -132,6 +133,17 @@ def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
     return out
 
 
+def _registry_file_result(document_name: str, domain: str | None) -> dict | None:
+    """`_build_file_result_from_db` for a command: a name that fits several
+    registered documents becomes a CLI error listing them."""
+    from artmind.ingest import AmbiguousDocumentName
+
+    try:
+        return _build_file_result_from_db(document_name, domain)
+    except AmbiguousDocumentName as e:
+        raise click.ClickException(str(e)) from e
+
+
 def _registry_miss_message(document_name: str, domain: str) -> str:
     """`not found in registry`, plus the way out when the note is staged here
     but was ingested on another machine: the registry is per machine, staging
@@ -139,12 +151,27 @@ def _registry_miss_message(document_name: str, domain: str) -> str:
     import paths
 
     message = f"Document '{document_name}' not found in registry for domain '{domain}'"
-    folder = paths.KG_DIR / domain / Path(document_name).stem
-    try:
-        staged = json.loads((folder / "document.json").read_text(encoding="utf-8"))
-    except (OSError, ValueError):
+    stem = Path(document_name).stem
+    # The bare-stem folder (a document from before keys), else a keyed
+    # `<stem>~<hex>` folder whose document.json names this file.
+    wanted = Path(document_name).name.lower()
+    domain_dir = paths.KG_DIR / domain
+    staged = folder = None
+    for candidate in [domain_dir / stem, *sorted(glob.glob(f"{glob.escape(str(domain_dir / stem))}~*"))]:
+        candidate = Path(candidate)
+        try:
+            record = json.loads((candidate / "document.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if not isinstance(record, dict):
+            continue
+        names = {Path(str(record[k])).name.lower() for k in ("name", "source_path", "path") if record.get(k)}
+        if candidate.name == stem or wanted in names or Path(wanted).stem in {Path(n).stem for n in names}:
+            staged, folder = record, candidate
+            break
+    if staged is None:
         return message
-    path = staged.get("path") or document_name if isinstance(staged, dict) else document_name
+    path = staged.get("path") or document_name
     return (
         f"{message}.\nIt is staged ({folder}) but not in this machine's registry -- it was "
         f"probably ingested on another machine. Re-extract it here with:\n"
@@ -1273,7 +1300,7 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
     # ever a fallback and rarely names the domain THIS document landed under.
     sha = _job_file_sha256(job_id, document)
     if sha is None:
-        file_result = _build_file_result_from_db(document, None)
+        file_result = _registry_file_result(document, None)
         if file_result is None:
             raise click.ClickException(f"Document '{document}' not found in registry")
         sha = file_result["sha256"]
@@ -1325,7 +1352,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
 
-    file_result = _build_file_result_from_db(document_name, domain)
+    file_result = _registry_file_result(document_name, domain)
     if file_result is None:
         raise click.ClickException(_registry_miss_message(document_name, domain))
     if file_result["chunk_count"] == 0:
@@ -1504,7 +1531,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     if document_name:
         if not domain:
             raise click.ClickException("--domain is required when specifying a single document")
-        file_result = _build_file_result_from_db(document_name, domain)
+        file_result = _registry_file_result(document_name, domain)
         if file_result is None:
             raise click.ClickException(_registry_miss_message(document_name, domain))
 

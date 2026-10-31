@@ -296,6 +296,16 @@ def _is_derived_markdown(path: Path) -> bool:
         return False
 
 
+class AmbiguousDocumentName(ValueError):
+    """A document name that is a prefix of several registered documents and
+    the exact name of none. `candidates` are the registered file names."""
+
+    def __init__(self, name: str, candidates: list[str]):
+        self.name, self.candidates = name, candidates
+        shown = ", ".join(candidates[:10]) + (f", ... ({len(candidates) - 10} more)" if len(candidates) > 10 else "")
+        super().__init__(f"'{name}' matches {len(candidates)} documents; give the full name: {shown}")
+
+
 def _build_file_result_from_db(document_name: str, domain: str | None) -> dict | None:
     """Reconstruct file_result from the registry for CLI retry commands.
 
@@ -334,6 +344,11 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     if not matches:
         # Prefix match (user may omit extension)
         matches = [r for r in rows if Path(r[0]).name.upper().startswith(target)]
+        # Keyed documents share a stem (`Summary~<hex>.md`): a prefix that
+        # fits several is a question, not a coin toss.
+        names = sorted({Path(r[0]).name for r in matches})
+        if len(names) > 1:
+            raise AmbiguousDocumentName(document_name, names)
     if not matches:
         return None
     registered_path_str, doc_sha256, artmind_id, row_domain = matches[0]

@@ -3,6 +3,9 @@
 import json
 from hashlib import sha256
 
+import click
+import pytest
+
 import artmind.ingest as ing
 from conftest import _fake_docling, stage_as_extracted
 from artmind.document_identity import KEY_HASH_CHARS, document_key
@@ -341,6 +344,72 @@ def test_moved_binary_is_recorded_and_its_old_path_is_free(ingest_env, monkeypat
     assert r3["artmind_id"] != r1["artmind_id"]
     assert ing.Path(r3["registered_path"]).stem != key
     assert json.loads((folder / "document.json").read_text())["source_path"] == "C/Summary.pdf"
+
+
+# ── fix 5: name lookups reach keyed documents ───────────────────────────────
+
+
+def test_registry_miss_message_finds_a_keyed_staging_folder(ingest_env, monkeypatch):
+    import paths
+    from artmind.cli import _registry_miss_message
+
+    monkeypatch.setattr(paths, "KG_DIR", ing.KG_DIR)
+
+    keyed = ing._staging_dir("general", document_key("A/Summary.pdf"))
+    keyed.mkdir(parents=True)
+    (keyed / "document.json").write_text(json.dumps(
+        {"id": "x", "name": "Summary~abc.md", "source_path": "A/Summary.pdf", "path": "A/Summary.pdf"}))
+    other = ing._staging_dir("general", document_key("B/Summary.pdf"))
+    other.mkdir(parents=True)
+    (other / "document.json").write_text(json.dumps({"id": "y", "source_path": "B/Summary.pdf"}))
+
+    message = _registry_miss_message("A/Summary.pdf", "general")
+    assert "staged" in message and str(keyed) in message
+    # a bare filename matches both: the first (sorted) is offered, not none
+    assert "staged" in _registry_miss_message("Summary.pdf", "general")
+    assert "staged" not in _registry_miss_message("Nothing.pdf", "general")
+
+
+def _register_keyed(domain, *paths):
+    for n, rel in enumerate(paths):
+        md = ing._markdown_path(document_key(rel))
+        ing.write_document(md, {"_artmind_id": f"id-{n}", "_domain": domain}, "# body\n")
+        ing._register_document(domain, md, f"id-{n}", content_sha256=f"sha{n}")
+    return [ing._markdown_path(document_key(rel)).name for rel in paths]
+
+
+def test_prefix_matching_several_keyed_documents_is_ambiguous(ingest_env):
+    names = _register_keyed("general", "A/Summary.pdf", "B/Summary.pdf")
+
+    with pytest.raises(ing.AmbiguousDocumentName) as err:
+        ing._build_file_result_from_db("Summary", "general")
+
+    assert all(name in str(err.value) for name in names)
+    # an exact name, and a unique prefix, behave as before
+    assert ing._build_file_result_from_db(names[0], "general")["filename"] == names[0]
+    assert ing._build_file_result_from_db("Summary~" + names[1].split("~")[1][:3], "general")["filename"] == names[1]
+
+
+def test_ambiguous_name_is_a_click_error_in_the_cli(ingest_env):
+    from artmind.cli import _registry_file_result
+
+    _register_keyed("general", "A/Summary.pdf", "B/Summary.pdf")
+    with pytest.raises(click.ClickException, match="matches 2 documents"):
+        _registry_file_result("Summary", "general")
+
+
+def test_chunk_counts_find_a_keyed_staging_folder(ingest_env, monkeypatch):
+    from artmind import jobs
+
+    monkeypatch.setattr(jobs, "KG_DIR", ing.KG_DIR)
+    cache = ing._staging_dir("general", document_key("A/Summary.pdf")) / "chunks" / "sha1"
+    cache.mkdir(parents=True)
+    (cache / "chunk_001.json").write_text(json.dumps(
+        {"entities": [{}, {}], "relationships": [{"rel_type": "X"}, {"rel_type": "EXTRACTED_FROM"}]}))
+
+    # The caller only knows the filename's stem; the sha names the folder.
+    assert jobs._chunk_counts("general", "Summary", "sha1", 1) == {"entities": 2, "relationships": 1}
+    assert jobs._chunk_counts("general", "Summary", "other-sha", 1) is None
 
 
 def test_new_note_chunks_and_staging_are_keyed(ingest_env):
