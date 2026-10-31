@@ -48,6 +48,7 @@ from artmind.extraction import (
     entities_list_text as _entities_list_text,
     ibm_ica_client_env as _ibm_ica_client_env,
     describe_image,
+    image_timeout,
 )
 from artmind.canonicalize import canonicalize_document
 from artmind.jobs import _update_job_file_status, _update_job_status
@@ -731,7 +732,7 @@ _DESCRIBE_PROMPTS = [
 
 def _describe_image(image: Path, model: str) -> str | None:
     env = load_env()
-    timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    timeout = image_timeout(env)
     logger.debug(
         "Describing image: {} (model={}, timeout={}s)", image.name, model, timeout
     )

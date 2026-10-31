@@ -30,6 +30,20 @@ def embed_text(model: str, text: str) -> list[float]:
     return embedding
 
 
+def image_timeout(env: dict) -> int:
+    """Seconds one image-model call may take: ARTMIND_IMAGE_TIMEOUT, else
+    ARTMIND_OLLAMA_TIMEOUT (which times every LLM call), else 120."""
+    value = env.get("ARTMIND_IMAGE_TIMEOUT") or env.get("ARTMIND_OLLAMA_TIMEOUT") or "120"
+    return int(value)
+
+
+def image_max_retries(env: dict) -> int | None:
+    """ARTMIND_IMAGE_MAX_RETRIES: the SDK's own retries per image call for
+    openrouter/ibm_ica (which also retry a timeout). None leaves the SDK default (2)."""
+    value = env.get("ARTMIND_IMAGE_MAX_RETRIES")
+    return int(value) if value not in (None, "") else None
+
+
 def describe_image(image: Path, model: str, prompt: str, timeout: int, env: dict) -> str:
     """One image-model call through the provider `ARTMIND_KG_LLM_PROVIDER`
     selects (ollama by default; ibm_ica through the OpenRouter-shaped client,
@@ -37,9 +51,11 @@ def describe_image(image: Path, model: str, prompt: str, timeout: int, env: dict
     description (`ingest._describe_image`) and page repair (`page_repair`)."""
     provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     if provider == "openrouter":
-        return describe_image_openrouter(image, model, prompt, timeout, env)
+        return describe_image_openrouter(image, model, prompt, timeout, env, max_retries=image_max_retries(env))
     if provider == "ibm_ica":
-        return describe_image_openrouter(image, model, prompt, timeout, ibm_ica_client_env(env))
+        return describe_image_openrouter(
+            image, model, prompt, timeout, ibm_ica_client_env(env), max_retries=image_max_retries(env)
+        )
     host = env.get("ARTMIND_KG_LLM_URL") or None
     return describe_image_ollama(image, model, prompt, timeout, host=host)
 
