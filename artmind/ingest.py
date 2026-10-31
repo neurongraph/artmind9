@@ -23,6 +23,7 @@ from artmind.document_identity import (
     canonical_path,
     compute_content_sha256,
     decide_version,
+    document_key,
     is_plain_folder_name,
     ingest_baseline,
     markdown_path_for,
@@ -1581,6 +1582,53 @@ def _ingest_binary_or_adhoc(
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
     return file_result
+
+
+# ── derived-file names (spec 2026-10-31 document-key-collisions) ───────────
+# Every converted markdown, its artifacts and chunks, and every staging folder
+# is named by a document key (`document_identity.document_key`), or, for a
+# document ingested before keys, by its bare stem. Build them here only.
+
+
+def _markdown_path(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}.md"
+
+
+def _artifacts_dir(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}_artifacts"
+
+
+def _chunks_dir(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}_chunks"
+
+
+def _staging_dir(domain: str, key: str) -> Path:
+    return KG_DIR / domain / key
+
+
+def _converted_owner(key: str, domain: str) -> tuple[str, str | None] | None:
+    """`(source_path, source_sha256)` of the source whose conversion holds the
+    name `key`, or None when no conversion of that name records one. Read
+    from the conversion sidecar (written by every conversion, committed,
+    domain-free), else the staging `document.json` in `domain`, else the
+    converted markdown's pre-R6 frontmatter."""
+    candidates = [
+        _chunks_dir(key) / CONVERSION_SIDECAR,
+        _staging_dir(domain, key) / "document.json",
+    ]
+    for path in candidates:
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if isinstance(record, dict) and record.get("source_path"):
+            return str(record["source_path"]), record.get("source_sha256")
+    md = _markdown_path(key)
+    if md.exists():
+        meta, _ = _parse_md_frontmatter(md.read_text(encoding="utf-8"))
+        if meta.get("_source_path"):
+            return str(meta["_source_path"]), meta.get("_source_sha256")
+    return None
 
 
 @dataclass(frozen=True)
