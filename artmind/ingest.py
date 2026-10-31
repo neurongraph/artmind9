@@ -2272,55 +2272,6 @@ def strip_embeddings(chunk: dict) -> dict:
     return {k: v for k, v in chunk.items() if k != "embedding"}
 
 
-EMBEDDING_SIDECAR = "embeddings.json"
-
-
-def write_embedding_sidecar(doc_kg_dir: Path, chunks: list[dict]) -> int:
-    """Persist chunk vectors beside the staging, gitignored.
-
-    Staging is committed and vectors cannot be delta-compressed, so they are
-    stripped from it (see `strip_embeddings`) -- but discarding them outright
-    would make every ingest embed twice, since the graph write re-reads the
-    chunk JSON from disk. The sidecar keeps the local copy without putting it
-    in git.
-
-    `chunks` here is keyed `"chunk_id"` (matching what `read_embedding_sidecar`
-    hands back and what lands in `embeddings.json`) -- not `"id"`, which is
-    what a staged `chunks.json` entry uses for the same identifier. See the
-    note in `_load_staged` for why that distinction matters.
-    """
-    vectors = {c["chunk_id"]: c["embedding"] for c in chunks if c.get("embedding")}
-    if not vectors:
-        return 0
-    (doc_kg_dir / EMBEDDING_SIDECAR).write_text(json.dumps(vectors), encoding="utf-8")
-    return len(vectors)
-
-
-def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
-    """Locally-cached vectors, or `{}`. Absent is the normal state after a
-    fresh clone, never an error."""
-    try:
-        return json.loads((doc_kg_dir / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return {}
-
-
-def carry_embedding_sidecar(live_dir: Path, snap_dir: Path) -> None:
-    """Copy the gitignored embedding sidecar from a live staging folder into
-    a snapshot of it (`vault sync` replays from a copy of HEAD) -- only when
-    the live `chunks.json` is byte-identical to the snapshot's. The sidecar's
-    vectors belong to the on-disk chunks; attaching them to different chunks
-    would pair a chunk id with the wrong vector. Without it, the chunk embed
-    sweep recomputes locally."""
-    sidecar = live_dir / EMBEDDING_SIDECAR
-    live_chunks = live_dir / "chunks.json"
-    snap_chunks = snap_dir / "chunks.json"
-    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
-        return
-    if live_chunks.read_bytes() == snap_chunks.read_bytes():
-        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
-
-
 def write_staging(doc_kg_dir: Path, documents: dict[str, object], *, default=None) -> None:
     """Write a staging folder's JSON files as one atomic swap (spec
     2026-09-26 §5 R2), so an Obsidian Git auto-commit can never capture a
@@ -3287,14 +3238,6 @@ def extract_kg(
 
     _init_chunk_rows(doc_sha256, doc_id, chunk_count)
 
-    # Embeddings never land in the per-chunk JSON on disk (see strip_embeddings
-    # below) -- a sidecar, gitignored, is the only place a vector persists.
-    # Read it once so a resumed run doesn't pay for a re-embed of a chunk it
-    # already has a vector for, and accumulate this run's vectors here so
-    # they can be written back out once, alongside chunks.json.
-    embedding_sidecar = read_embedding_sidecar(doc_kg_dir)
-    computed_embeddings: dict[str, list] = {}
-
     def _process_chunk(seq: int, chunk_file: Path, statuses: dict) -> None:
         chunk_text = chunk_file.read_text(encoding="utf-8")
         chunk_id = f"{doc_id}_{seq:03d}"
@@ -3308,24 +3251,6 @@ def extract_kg(
                 data = json.loads(chunk_json.read_text(encoding="utf-8"))
             except Exception:
                 pass
-
-        # Embedding — compute once and persist (to the sidecar, not the chunk
-        # JSON: see strip_embeddings). A vector already in the sidecar from a
-        # prior run of this same document is reused rather than recomputed.
-        if "embedding" not in data and chunk_id in embedding_sidecar:
-            data["embedding"] = embedding_sidecar[chunk_id]
-        if "embedding" not in data:
-            try:
-                data["embedding"] = _embed_text(embed_model, chunk_text)
-            except Exception as e:
-                logger.error("  Embedding failed for chunk {}: {}", seq, e)
-                data["embedding"] = []
-        if data["embedding"]:
-            # Keyed by chunk_id (e.g. "d1_001") -- the same identifier a
-            # staged chunks.json entry carries under the key "id" (see
-            # _load_staged's merge). Two literal key names, one identifier;
-            # write_embedding_sidecar and _load_staged must agree on this.
-            computed_embeddings[chunk_id] = data["embedding"]
 
         data.setdefault("chunk_seq", seq)
         data.setdefault("chunk_id", chunk_id)
@@ -3786,15 +3711,6 @@ def extract_kg(
     # one its baseline came from (a note moved or re-domained since) is stale.
     _remove_superseded_staging(file_result.get("baseline_folder"), doc_kg_dir, doc_id)
 
-    # Vectors move to a gitignored sidecar rather than vanishing: chunks.json
-    # above is what git tracks (and cannot delta a changed vector against),
-    # while the sidecar keeps this run's embeddings available locally so the
-    # graph write below doesn't have to recompute them.
-    sidecar_written = write_embedding_sidecar(
-        doc_kg_dir,
-        [{"chunk_id": cid, "embedding": emb} for cid, emb in computed_embeddings.items()],
-    )
-
     elapsed = time.monotonic() - t0
     final_statuses = _get_chunk_statuses(doc_sha256)
     failed_count = sum(
@@ -3803,7 +3719,7 @@ def extract_kg(
     )
     logger.info(
         "KG extraction done in {:.1f}s | chunks={} entities={} observations={} "
-        "properties={} relationships={} | chunks_with_failures={} | embeddings_cached={}",
+        "properties={} relationships={} | chunks_with_failures={}",
         elapsed,
         chunk_count,
         len(all_entities),
@@ -3811,7 +3727,6 @@ def extract_kg(
         len(all_properties),
         len(all_relationships),
         failed_count,
-        sidecar_written,
     )
     return doc_kg_dir
 
@@ -4226,10 +4141,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
 def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
     """Read the staged JSON one document's commit needs.
 
-    `chunks.json` carries no vectors (see `strip_embeddings`) -- the sidecar
-    beside it, if present, supplies them here so the graph write below still
-    gets a vector without recomputing it. A fresh clone has no sidecar, so
-    its chunks come back with none; a later sweep (Task 2) fills those in.
+    `chunks.json` carries no vectors (see `strip_embeddings`); passages are
+    embedded by the passage sweep, not here.
 
     `fingerprint` is taken from the files' bytes as they are on disk, before
     any parsing (`sync_state.staging_fingerprint`), so it equals what `vault
@@ -4249,18 +4162,6 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
 
     try:
         chunks = _load("chunks.json", [])
-        sidecar = read_embedding_sidecar(doc_kg_dir)
-        if sidecar:
-            # NOTE: a staged chunks.json entry keys its identifier "id", but
-            # the sidecar (see write_embedding_sidecar) keys it "chunk_id".
-            # Same value (e.g. "d1_001"), different literal key name per
-            # side -- tied together only by convention. A future rename on
-            # either side that misses the other fails silently here: the
-            # `in sidecar` check just never matches and no vector merges in,
-            # with no error raised.
-            for chunk in chunks:
-                if "embedding" not in chunk and chunk.get("id") in sidecar:
-                    chunk["embedding"] = sidecar[chunk["id"]]
         document = _load("document.json")
         return {
             "domain": domain,

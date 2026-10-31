@@ -1603,7 +1603,6 @@ def sync(
             )
             for domain, docdir in plan.replay_docs:
                 snap_dir = scratch / kg_rel / domain / docdir
-                ingest.carry_embedding_sidecar(KG_DIR / domain / docdir, snap_dir)
                 summary = ingest._write_to_neo4j(snap_dir, domain, defer_rebuild=True)
                 if summary is None:
                     raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")

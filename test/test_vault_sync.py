@@ -1320,54 +1320,6 @@ def test_sync_replays_the_committed_observations_not_the_working_tree(repo, monk
     assert seen == [("doc1", "banking", [{"v": "committed"}])]
 
 
-def test_sync_carries_the_embedding_sidecar_when_chunks_match_head(repo, monkeypatch):
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _patch_structured_text_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
-    _commit_all(repo, "add doc1")
-    # The sidecar is gitignored in real vaults; here it's simply never committed.
-    (kg_dir / "banking" / "doc1" / "embeddings.json").write_text('{"d1_001": [0.1]}')
-
-    import artmind.ingest as ing
-
-    seen = []
-    _patch_ingest_and_projection(monkeypatch)
-    monkeypatch.setattr(
-        ing, "_write_to_neo4j",
-        lambda d, domain, defer_rebuild=False: seen.append((d / "embeddings.json").is_file())
-        or {"deferred_keys": [], "unembedded_chunk_ids": []},
-    )
-
-    vs.sync(repo, bootstrap_empty=True)
-
-    assert seen == [True]
-
-
-def test_sync_drops_the_sidecar_when_chunks_differ_from_head(repo, monkeypatch):
-    """Vectors on disk belong to the on-disk chunks; if those differ from the
-    committed chunks, reusing them would attach the wrong vector to a chunk id."""
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _patch_structured_text_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
-    _commit_all(repo, "add doc1")
-    (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "d1_001", "text": "edited"}]')
-    (kg_dir / "banking" / "doc1" / "embeddings.json").write_text('{"d1_001": [0.1]}')
-
-    import artmind.ingest as ing
-
-    seen = []
-    _patch_ingest_and_projection(monkeypatch)
-    monkeypatch.setattr(
-        ing, "_write_to_neo4j",
-        lambda d, domain, defer_rebuild=False: seen.append((d / "embeddings.json").is_file())
-        or {"deferred_keys": [], "unembedded_chunk_ids": []},
-    )
-
-    vs.sync(repo, bootstrap_empty=True)
-
-    assert seen == [False]
-
-
 def test_sync_imports_structured_text_from_the_committed_version(repo, monkeypatch):
     st_dir = _patch_structured_text_dir(monkeypatch, repo)
     _patch_kg_dir(monkeypatch, repo)
