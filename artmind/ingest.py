@@ -1849,9 +1849,23 @@ def _record_binary_move(plan: BinaryPlan, domain: str, new_path: str) -> None:
 
 
 def _claim_binary_key(key: str, source_sha256: str, source: Path, source_path: str) -> None:
-    """Record, before conversion starts, which source holds the name `key`."""
+    """Record, before conversion starts, which source holds the name `key`.
+
+    Only a name nobody records yet, or one recorded for a different source
+    (a move or a namesake taking over), needs the claim. A sidecar that
+    already names this `source_path` is the record of the markdown and
+    chunks on disk -- the previous conversion's hash and `conversion` entry --
+    and stays as it is: a conversion that then fails must not leave the old
+    body filed under the new source's hash, for an `extract-kg` retry to
+    stage and the next ingest to call unchanged."""
     chunks_dir = _chunks_dir(key)
     chunks_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        existing = json.loads((chunks_dir / CONVERSION_SIDECAR).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        existing = None
+    if isinstance(existing, dict) and existing.get("source_path") == source_path:
+        return
     claim = {
         "source_sha256": source_sha256,
         "source_type": source.suffix.lstrip(".").lower(),
