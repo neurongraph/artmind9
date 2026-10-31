@@ -1400,6 +1400,13 @@ def _convert_binary_via_docling(
                     md_content = _replace_image_ref(md_content, image.name, description)
                 else:
                     logger.error("No description produced for image: {}", image.name)
+            # A description of a pictured table is itself a markdown table, put
+            # where the image link was, after the body's tables were laid out:
+            # without this it is glued to the line before it and no markdown
+            # reader takes it as a table.
+            from artmind.docling_render import normalise_tables, strip_table_padding
+
+            md_content = normalise_tables(strip_table_padding(md_content))
             md_file.write_text(md_content, encoding="utf-8")
             logger.debug("Markdown updated with {} image description(s)", len(images))
         else:
