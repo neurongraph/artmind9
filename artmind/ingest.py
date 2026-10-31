@@ -1758,6 +1758,8 @@ def _resolve_binary_key(dest_path: Path, source_sha256: str, domain: str) -> str
     key = document_key(rel)
     bare_owner = _converted_owner(stem, domain)
     if _markdown_path(stem).exists() and (bare_owner is None or bare_owner[0] == rel):
+        if bare_owner is None:
+            logger.warning("{}: taking the bare-stem conversion {}, which records no source", rel, stem)
         return stem
     key_owner = _converted_owner(key, domain)
     if key_owner is not None and key_owner[0] == rel:
@@ -1992,9 +1994,10 @@ def _ingest_binary_derived(
     # Claim the name before the slow conversion: an interrupted run then finds
     # its own files again (`_converted_owner` reads this sidecar) instead of
     # forking a second document. Overwritten by the conversion record below.
-    _claim_binary_key(registered_path.stem, source_sha256, source, orig_registry_path)
+    key = registered_path.stem
+    _claim_binary_key(key, source_sha256, source, orig_registry_path)
     body, err = _convert_binary_via_docling(
-        dest_path, image_model, key=registered_path.stem,
+        dest_path, image_model, key=key,
         reuse_image_descriptions=bool(file_result.get("reextract")),
     )
     if body is None:
@@ -2016,7 +2019,6 @@ def _ingest_binary_derived(
 
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
-    key = registered_path.stem
     chunks_dir = _chunks_dir(key)
     # Stamp the body as the file now holds it (what `extract_kg` re-reads to
     # check the cache), not the string handed to `write_document`.
