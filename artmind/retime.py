@@ -172,7 +172,13 @@ def _redo_properties(
     """Re-extract one document's properties with its date in the prompt."""
     document = _load_json(doc_kg_dir / "document.json") or {}
     name = document.get("name") or doc_kg_dir.name
-    file_result = ingest._build_file_result_from_db(name, domain)
+    # By the document's identity, not its file name: `README.md` in two
+    # folders is two documents, and the registry's path for this id is exact.
+    row = ingest._registry_row_by_artmind_id(document["id"]) if document.get("id") else None
+    try:
+        file_result = ingest._build_file_result_from_db(row["path"] if row else name, domain)
+    except ingest.AmbiguousDocumentName as e:
+        return {"document": name, "skipped": str(e)}
     if file_result is None:
         return {"document": name, "skipped": "not in this machine's registry"}
     # A miss would not "redo properties": it would re-run every step,

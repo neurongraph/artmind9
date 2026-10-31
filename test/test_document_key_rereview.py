@@ -65,3 +65,53 @@ def test_sidecar_write_is_atomic_and_leaves_no_temp_file(ingest_env, monkeypatch
         ing._write_sidecar(folder, {"source_path": "elsewhere"})
     assert json.loads((folder / ing.CONVERSION_SIDECAR).read_text())["source_path"] == "A/Summary.pdf"
     assert [p.name for p in folder.iterdir()] == [ing.CONVERSION_SIDECAR]
+
+
+# ── 3: exact-name ambiguity ─────────────────────────────────────────────────
+
+
+def _register_notes(vault, *rels):
+    for n, rel in enumerate(rels):
+        note = vault / rel
+        note.parent.mkdir(parents=True, exist_ok=True)
+        note.write_text("# body\n", encoding="utf-8")
+        ing._register_document("general", note, f"note-{n}", content_sha256=f"sha{n}")
+
+
+def test_exact_name_in_two_folders_is_ambiguous_and_lists_paths(ingest_env):
+    vault, _ = ingest_env
+    _register_notes(vault, "A/README.md", "B/README.md")
+
+    with pytest.raises(ing.AmbiguousDocumentName) as err:
+        ing._build_file_result_from_db("README.md", "general")
+
+    assert "A/README.md" in str(err.value) and "B/README.md" in str(err.value)
+    # also with no domain filter
+    with pytest.raises(ing.AmbiguousDocumentName):
+        ing._build_file_result_from_db("readme.md", None)
+
+
+def test_a_vault_relative_path_picks_one_of_two_namesakes(ingest_env):
+    vault, _ = ingest_env
+    _register_notes(vault, "A/README.md", "B/README.md")
+
+    a = ing._build_file_result_from_db("A/README.md", "general")
+    b = ing._build_file_result_from_db("B/README.md", "general")
+
+    assert a["artmind_id"] == "note-0" and b["artmind_id"] == "note-1"
+
+
+def test_retime_looks_the_document_up_by_its_id(ingest_env, monkeypatch):
+    from artmind import retime
+
+    vault, _ = ingest_env
+    _register_notes(vault, "A/README.md", "B/README.md")
+    seen = []
+    monkeypatch.setattr(ing, "_build_file_result_from_db", lambda name, domain: seen.append(name))
+    doc_dir = ing.KG_DIR / "general" / "README~x"
+    doc_dir.mkdir(parents=True)
+    (doc_dir / "document.json").write_text(json.dumps({"id": "note-1", "name": "README.md"}))
+
+    out = retime._redo_properties(doc_dir, "general", {}, "m", "e")
+
+    assert seen == ["B/README.md"] and "skipped" in out

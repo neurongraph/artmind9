@@ -315,13 +315,16 @@ def _is_derived_markdown(path: Path) -> bool:
 
 
 class AmbiguousDocumentName(ValueError):
-    """A document name that is a prefix of several registered documents and
-    the exact name of none. `candidates` are the registered file names."""
+    """A document name that fits several registered documents: a prefix of
+    several keyed names, or the exact file name of notes in different
+    folders. `candidates` are the registered file names (prefix) or the
+    canonical vault-relative paths (exact name); a path given as the name
+    selects one of them."""
 
     def __init__(self, name: str, candidates: list[str]):
         self.name, self.candidates = name, candidates
         shown = ", ".join(candidates[:10]) + (f", ... ({len(candidates) - 10} more)" if len(candidates) > 10 else "")
-        super().__init__(f"'{name}' matches {len(candidates)} documents; give the full name: {shown}")
+        super().__init__(f"'{name}' matches {len(candidates)} documents; give the full name or path: {shown}")
 
 
 def _build_file_result_from_db(document_name: str, domain: str | None) -> dict | None:
@@ -358,7 +361,15 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     finally:
         conn.close()
     target = document_name.upper()
-    matches = [r for r in rows if Path(r[0]).name.upper() == target]
+    # The registry's own path (vault-relative for a note): what an
+    # ambiguity message lists, so it is also what settles one.
+    matches = [r for r in rows if r[0] == document_name]
+    if not matches:
+        matches = [r for r in rows if Path(r[0]).name.upper() == target]
+        # Two notes with one file name in different folders: a question too.
+        paths_named = sorted({r[0] for r in matches})
+        if len(paths_named) > 1:
+            raise AmbiguousDocumentName(document_name, paths_named)
     if not matches:
         # Prefix match (user may omit extension)
         matches = [r for r in rows if Path(r[0]).name.upper().startswith(target)]
