@@ -354,7 +354,9 @@ def restore_from_archive(
 
     orig_stem = Path(str(manifest.get("original_vault_path") or archive_id)).stem
     bundle_kg_dir = bundle_dir / "kg" / domain / orig_stem
-    doc_kg_dir = KG_DIR / domain / target_path.stem
+    from artmind.ingest import _document_staging_dir
+
+    doc_kg_dir = _document_staging_dir(domain, target_path, restore_id)
     files: dict[str, bytes] | None = None
     if bundle_kg_dir.exists():
         files = {

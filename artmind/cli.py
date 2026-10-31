@@ -32,6 +32,7 @@ from artmind.embed_sweep import count_unembedded_chunks, embed_missing_chunk_emb
 from artmind.ingest import (
     SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
+    _document_staging_dir,
     collect_ingest_files,
     commit_to_graph,
     embed_entities_backfill,
@@ -1508,7 +1509,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             raise click.ClickException(_registry_miss_message(document_name, domain))
 
         registered_path = Path(file_result["registered_path"])
-        doc_kg_dir = KG_DIR / domain / registered_path.stem
+        doc_kg_dir = _document_staging_dir(domain, registered_path, file_result.get("artmind_id") or "")
         if not (doc_kg_dir / "document.json").exists():
             raise click.ClickException(
                 f"Merged KG JSON not found in {doc_kg_dir} — run 'ingest extract_kg' first"

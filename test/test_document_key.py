@@ -167,6 +167,37 @@ def test_docling_writes_the_keyed_markdown_and_artifacts(ingest_env, monkeypatch
     assert not list(ing.MARKDOWNS_DIR.glob("Summary.md"))
 
 
+import re
+from pathlib import Path as _P
+
+_HAND_BUILT = re.compile(
+    r'MARKDOWNS_DIR\s*/\s*f"\{[^}]*\}(\.md|_artifacts|_chunks)"'
+    r'|KG_DIR\s*/\s*\w+\s*/\s*[\w.]+\.stem\b'
+)
+
+
+def test_no_hand_built_derived_paths_outside_the_helpers():
+    root = _P(ing.__file__).parent
+    offenders = []
+    for path in sorted(root.rglob("*.py")):
+        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            code = line.strip()
+            if code.startswith("#") or "`" in code:  # comments and docstring prose
+                continue
+            if _HAND_BUILT.search(line):
+                offenders.append(f"{path.relative_to(root)}:{n}: {line.strip()}")
+    # The helpers' own one-line bodies, and `markdown_path_for`'s (whose
+    # `stem` argument is now a document key).
+    allowed = {"ingest.py": "return ", "document_identity.py": 'return MARKDOWNS_DIR / f"{stem}.md"'}
+    offenders = [o for o in offenders if not (o.split(":")[0] in allowed and allowed[o.split(":")[0]] in o)]
+    # KNOWN GAP: these two rebuild a converted markdown from the source's bare
+    # name (`document["name"]`), which is wrong for a keyed binary. Not in the
+    # plan; needs a decision (see the task report).
+    gap = ("retime.py", "temporal.py")
+    offenders = [o for o in offenders if o.split(":")[0] not in gap]
+    assert not offenders, "\n".join(offenders)
+
+
 def _note(vault, rel, body):
     path = vault / rel
     path.parent.mkdir(parents=True, exist_ok=True)
