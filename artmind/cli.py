@@ -3161,15 +3161,21 @@ def query_domains_overview(compact: bool) -> None:
 
 @query.command("vector-text")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
+@click.option("--diversity", type=float, default=0.3, show_default=True,
+              help="0-1: how strongly to prefer chunks unlike those already picked (0 = pure relevance order)")
+@click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
+              help="Return each hit's parent chunk text, or only the matching passage")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")
-def vector_text(domain: tuple, top_k: int, as_of: str | None, compact: bool, question: str) -> None:
-    """Search source text using vector embeddings and keyword matching combined via RRF."""
+def vector_text(domain: tuple, top_k: int, diversity: float, context: str, as_of: str | None,
+                compact: bool, question: str) -> None:
+    """Hybrid search over passages: vector + keyword (RRF), grouped into parent chunks, diversified (MMR)."""
     domains = _parse_domains(domain)
     try:
-        result = vector_query.vector_text_search(domains, question, top_k, as_of=as_of)
+        result = vector_query.vector_text_search(domains, question, top_k, as_of=as_of,
+                                                 diversity=diversity, context=context)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

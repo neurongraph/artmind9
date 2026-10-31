@@ -126,171 +126,6 @@ def embed_question(question: str, model: str | None = None) -> list[float]:
     return extraction.embed_query(model or _embedding_model(), question)
 
 
-def vector_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:
-    from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
-
-    domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
-    embedding = embed_question(question)
-    n = len(domains)
-
-    # UserChat has no valid_from/valid_to per the schema design (chats aren't
-    # versioned documents), so the asOf filter is only applied to the chunk
-    # (document content) leg, the primary content search.
-    asof_chunk = f"\n      AND {asof_predicate('node')}" if as_of else ""
-
-    cypher_chunks = f"""
-    CYPHER 25
-    MATCH (node:DocChunk)
-      SEARCH node IN (
-        VECTOR INDEX chunk_embedding
-        FOR $embedding
-        LIMIT $candidateK
-      )
-    WHERE {domain_predicate("node")}{asof_chunk}
-    WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
-    OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
-    RETURN score,
-           node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")} }} AS document,
-           'document' AS source_type
-    ORDER BY score DESC
-    LIMIT $topK
-    """
-
-    cypher_chats = f"""
-    CYPHER 25
-    MATCH (node:UserChat)
-      SEARCH node IN (
-        VECTOR INDEX user_chat_embedding
-        FOR $embedding
-        LIMIT $candidateK
-      )
-    WHERE {domain_predicate("node")}
-    WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
-    RETURN score,
-           node {{ .id, .raw_text, ._domain, .created_by, .created_at }} AS chat,
-           'user_chat' AS source_type
-    ORDER BY score DESC
-    LIMIT $topK
-    """
-
-    params = {
-        "domains": domains,
-        "embedding": embedding,
-        "topK": int(topK),
-        "candidateK": max(int(topK) * 5 * n, int(topK)),
-        **({"asOf": as_of} if as_of else {}),
-    }
-
-    with read_session() as session:
-        chunk_rows = [
-            strip_internal_props(serialize_record(record))
-            for record in session.run(cypher_chunks, **params)
-        ]
-        try:
-            chat_rows = [
-                strip_internal_props(serialize_record(record))
-                for record in session.run(cypher_chats, **params)
-            ]
-        except ClientError as e:
-            if "IndexNotFound" in str(e) or "index" in str(e).lower():
-                chat_rows = []
-            else:
-                raise
-
-    all_rows = sorted(chunk_rows + chat_rows, key=lambda r: r.get("score", 0), reverse=True)[:int(topK)]
-
-    return {
-        **_domain_output(domains),
-        "query_type": "vector",
-        "question": question,
-        "parameters": {"topK": int(topK), **({"asOf": as_of} if as_of else {})},
-        "rows": all_rows,
-    }
-
-
-def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:
-    """Full-text (Lucene) search on DocChunk and UserChat text content.
-
-    Uses the chunk_text_ft and user_chat_text_ft indexes created by
-    `artmind setup`. Lucene handles tokenization, case folding, and BM25
-    relevance ranking; terms are OR-combined so natural-language questions
-    still match chunks containing only the salient words.
-    """
-    from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
-
-    domains = normalize_domains(domains)
-    as_of = resolve_as_of(as_of)
-    query = sanitize_lucene_query(question)
-
-    result: dict = {
-        **_domain_output(domains),
-        "query_type": "full_text",
-        "question": question,
-        "parameters": {"topK": int(topK), **({"asOf": as_of} if as_of else {})},
-        "rows": [],
-    }
-    if not query:
-        return result
-
-    # UserChat has no valid_from/valid_to (see vector_search) — asOf only
-    # applies to the chunk (document content) leg.
-    asof_chunk = f"\n      AND {asof_predicate('node')}" if as_of else ""
-
-    cypher_chunks = f"""
-    CALL db.index.fulltext.queryNodes('chunk_text_ft', $ft_query)
-    YIELD node, score
-    WHERE {domain_predicate("node")}{asof_chunk}
-    OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
-    RETURN score,
-           node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")} }} AS document,
-           'document' AS source_type
-    ORDER BY score DESC
-    LIMIT $topK
-    """
-
-    cypher_chats = f"""
-    CALL db.index.fulltext.queryNodes('user_chat_text_ft', $ft_query)
-    YIELD node, score
-    WHERE {domain_predicate("node")}
-    RETURN score,
-           node {{ .id, .raw_text, ._domain, .created_by, .created_at }} AS chat,
-           'user_chat' AS source_type
-    ORDER BY score DESC
-    LIMIT $topK
-    """
-
-    params = {
-        "domains": domains,
-        "ft_query": query,
-        "topK": int(topK),
-        **({"asOf": as_of} if as_of else {}),
-    }
-
-    with read_session() as session:
-        chunk_rows = [
-            strip_internal_props(serialize_record(record))
-            for record in session.run(cypher_chunks, **params)
-        ]
-        try:
-            chat_rows = [
-                strip_internal_props(serialize_record(record))
-                for record in session.run(cypher_chats, **params)
-            ]
-        except ClientError as e:
-            if "IndexNotFound" in str(e) or "index" in str(e).lower():
-                chat_rows = []
-            else:
-                raise
-
-    result["rows"] = sorted(
-        chunk_rows + chat_rows, key=lambda r: r.get("score", 0), reverse=True
-    )[: int(topK)]
-    return result
-
-
 def _entity_ft_cypher() -> str:
     from artmind.graph_query import domain_predicate
 
@@ -471,32 +306,212 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     }
 
 
-def vector_text_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:
-    """Combined vector and full-text search using Reciprocal Rank Fusion.
 
-    Searches both semantic embeddings (vector) and keyword matches (full-text),
-    then combines results using RRF to balance both relevance signals.
-    Returns results ranked by combined RRF score.
+from artmind import retrieval_rank
+
+POOL_MIN = 50
+MAX_TOP_K = 50
+DEFAULT_DIVERSITY = 0.3
+CONTEXTS = ("chunk", "passage")
+MISSING_INDEX = (
+    "the passage index is missing: this graph has not been migrated to passages. Run "
+    "`artmind ingest embed-passages` (or `artmind vault sync`) inside the vault, then `artmind setup`."
+)
+
+_PASSAGE_ROW = ("kind: 'passage', id: p.id, chunk_id: p.chunk_id, doc_id: p.doc_id, "
+                "char_start: p.char_start, char_end: p.char_end, text: p.text")
+_CHAT_ROW = "kind: 'chat', id: c.id, chat: c { .id, .raw_text, ._domain, .created_by, .created_at }"
+
+
+def _pool(top_k: int) -> int:
+    return max(POOL_MIN, 10 * top_k)
+
+
+def _expand(domains: list[str]) -> list[str]:
+    from artmind.graph_query import expand_domain_family
+
+    out: list[str] = []
+    for d in domains:
+        for member in expand_domain_family(d):
+            if member not in out:
+                out.append(member)
+    return out
+
+
+def _passage_vector_cypher(as_of) -> str:
+    from artmind.graph_query import asof_predicate
+
+    asof = f"\n    WHERE {asof_predicate('p')}" if as_of else ""
+    return f"""
+    CYPHER 25
+    MATCH (p:DocPassage)
+      SEARCH p IN (
+        VECTOR INDEX passage_embedding
+        FOR $embedding
+        WHERE p._domain IN $domains
+        LIMIT $pool
+      )
+    WITH p, vector.similarity.cosine(p.embedding, $embedding) AS score{asof}
+    RETURN p {{ {_PASSAGE_ROW}, cosine: score, embedding: p.embedding }} AS row
+    ORDER BY score DESC
     """
-    from artmind.graph_query import normalize_domains, _domain_output
 
+
+def _passage_text_cypher(as_of) -> str:
+    from artmind.graph_query import asof_predicate
+
+    asof = f" AND {asof_predicate('p')}" if as_of else ""
+    return f"""
+    CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query)
+    YIELD node AS p, score
+    WHERE p._domain IN $domains{asof}
+    RETURN p {{ {_PASSAGE_ROW} }} AS row
+    ORDER BY score DESC
+    LIMIT $pool
+    """
+
+
+def _chat_vector_cypher() -> str:
+    from artmind.graph_query import domain_predicate
+
+    return f"""
+    CYPHER 25
+    MATCH (c:UserChat)
+      SEARCH c IN (VECTOR INDEX user_chat_embedding FOR $embedding LIMIT $pool)
+    WITH c, vector.similarity.cosine(c.embedding, $embedding) AS score
+    WHERE {domain_predicate("c")}
+    RETURN c {{ {_CHAT_ROW}, cosine: score, embedding: c.embedding }} AS row
+    ORDER BY score DESC
+    """
+
+
+def _chat_text_cypher() -> str:
+    from artmind.graph_query import domain_predicate
+
+    return f"""
+    CALL db.index.fulltext.queryNodes('user_chat_text_ft', $ft_query)
+    YIELD node AS c, score
+    WHERE {domain_predicate("c")}
+    RETURN c {{ {_CHAT_ROW} }} AS row
+    ORDER BY score DESC
+    LIMIT $pool
+    """
+
+
+def _chunk_fetch_cypher() -> str:
+    return f"""
+    UNWIND $chunkIds AS cid
+    MATCH (c:DocChunk {{id: cid}})
+    OPTIONAL MATCH (c)-[:PART_OF]->(document:Document)
+    RETURN c {{ .id, .name, .doc_id, .header_path, .text }} AS chunk,
+           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")} }} AS document
+    """
+
+
+def _rows(session, cypher: str, params: dict) -> list[dict]:
+    return [serialize_record(r)["row"] for r in session.run(cypher, **params)]
+
+
+def _optional_rows(session, cypher: str, params: dict) -> list[dict]:
+    """A chat leg: its index may be absent on an old graph (no chats ever)."""
+    try:
+        return _rows(session, cypher, params)
+    except ClientError as e:
+        if "index" in str(e).lower():
+            return []
+        raise
+
+
+def _is_missing_index(e: ClientError) -> bool:
+    text = str(e).lower()
+    return "passage_embedding" in text or "passage_text_ft" in text or ("no such" in text and "index" in text)
+
+
+def vector_text_search(
+    domains,
+    question: str,
+    topK: int = 5,
+    as_of: str | None = None,
+    *,
+    diversity: float = DEFAULT_DIVERSITY,
+    context: str = "chunk",
+) -> dict:
+    """Hybrid search over passages (spec 2026-10-31 §4.2): vector (domain-filtered
+    inside SEARCH) + BM25, each over a deep pool; RRF per passage; MaxP into parent
+    chunks; MMR diversity; the top K parent chunks (or passages) with the matching span."""
+    from artmind.graph_query import _domain_output, normalize_domains
+
+    top_k = int(topK)
+    if not 1 <= top_k <= MAX_TOP_K:
+        raise ValueError(f"--topK must be between 1 and {MAX_TOP_K}")
+    if not 0.0 <= float(diversity) <= 1.0:
+        raise ValueError("--diversity must be between 0 and 1")
+    if context not in CONTEXTS:
+        raise ValueError(f"--context must be one of {', '.join(CONTEXTS)}")
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
+    pool = _pool(top_k)
+    warnings: list[str] = []
+    ft_query = sanitize_lucene_query(question)
 
-    # Run both searches in parallel (conceptually - sequentially in practice).
-    # as_of is passed only when set so callers/mocks with the pre-existing
-    # (domain, question, topK) signature keep working unchanged.
-    asof_kwargs = {"as_of": as_of} if as_of else {}
-    vector_results = vector_search(domains, question, topK, **asof_kwargs)
-    text_results = full_text_search(domains, question, topK, **asof_kwargs)
+    embedding = None
+    try:
+        embedding = embed_question(question)
+    except Exception as e:
+        warnings.append(f"vector leg unavailable: {e}")
 
-    # Combine using RRF
-    combined_rows = _rrf_combine(vector_results["rows"], text_results["rows"], topK)
+    params = {"domains": _expand(domains), "pool": pool, **({"asOf": as_of} if as_of else {})}
+    chat_params = {"domains": domains, "pool": pool}
+    vector_rows: list[dict] = []
+    text_rows: list[dict] = []
+    with read_session() as session:
+        try:
+            if embedding is not None:
+                vector_rows = _rows(session, _passage_vector_cypher(as_of), {**params, "embedding": embedding})
+                vector_rows += _optional_rows(session, _chat_vector_cypher(), {**chat_params, "embedding": embedding})
+            if ft_query:
+                text_rows = _rows(session, _passage_text_cypher(as_of), {**params, "ft_query": ft_query})
+                text_rows += _optional_rows(session, _chat_text_cypher(), {**chat_params, "ft_query": ft_query})
+        except ClientError as e:
+            if _is_missing_index(e):
+                raise ValueError(MISSING_INDEX) from e
+            raise
+        # A chat's rows were appended after the passage rows; rank each leg by its own score.
+        vector_rows.sort(key=lambda r: -(r.get("cosine") or 0.0))
+        units = retrieval_rank.passage_fuse(vector_rows, text_rows)
+        picked = retrieval_rank.mmr_select(units, top_k, float(diversity))
+        chunk_ids = [u.best["chunk_id"] for u in picked if u.kind == "chunk"]
+        fetched = {}
+        if chunk_ids:
+            for r in session.run(_chunk_fetch_cypher(), chunkIds=chunk_ids):
+                rec = serialize_record(r)
+                fetched[rec["chunk"]["id"]] = rec
+
+    rows = []
+    for u in picked:
+        common = {"score": round(u.score, 6), "relevance": None if u.relevance is None else round(u.relevance, 4),
+                  "matched_by": u.matched_by}
+        if u.kind == "chat":
+            rows.append({"chat": u.best["chat"], "source_type": "user_chat", **common})
+            continue
+        rec = fetched.get(u.best["chunk_id"])
+        if rec is None:            # chunk vanished between the two reads
+            continue
+        chunk = dict(rec["chunk"])
+        if context == "passage":
+            chunk["text"] = u.best.get("text")
+        rows.append({
+            "chunk": chunk, "document": rec.get("document"), "source_type": "document", **common,
+            "passage": {"id": u.best["id"], "char_start": u.best.get("char_start"), "char_end": u.best.get("char_end")},
+            "passages_matched": u.passages_matched,
+        })
 
     return {
         **_domain_output(domains),
         "query_type": "vector_text",
         "question": question,
-        "parameters": {"topK": int(topK), **({"asOf": as_of} if as_of else {})},
-        "rows": combined_rows,
+        "parameters": {"topK": top_k, "pool": pool, "diversity": float(diversity), "context": context,
+                       **({"asOf": as_of} if as_of else {})},
+        "warnings": warnings,
+        "rows": rows,
     }

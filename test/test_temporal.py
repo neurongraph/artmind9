@@ -219,30 +219,6 @@ def test_pattern8_cypher_never_references_asof():
     assert "MATCH (e:LOCATION)-[r:RELATES_TO]-(t:Entity)" in cypher
 
 
-def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):
-    import artmind.vector_query as vq
-
-    monkeypatch.setattr(vq, "embed_question", lambda question, model=None: [0.1, 0.2])
-
-    captured_cyphers = []
-
-    class FakeSession:
-        def run(self, cypher, **kwargs):
-            captured_cyphers.append(cypher)
-            return []
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(vq, "read_session", lambda: FakeSessionContext())
-
-    vq.vector_search(["fiction"], "who is Holmes", topK=3, as_of="2026-07-04")
-
-    assert any("node.valid_from" in c and "node.valid_to" in c for c in captured_cyphers)
 
 
 
