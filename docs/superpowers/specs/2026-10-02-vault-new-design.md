@@ -16,7 +16,7 @@ the code showed several are redundant or broken in the documented order:
 | `neo4j-manager tui`, copy port + password | `neo4j-manager create <name> --json --wait` returns both and waits until bolt accepts connections |
 | `artmind init --interactive` | Prompts for a full Neo4j URI, not a port; also prompts for a remote, making the later `git remote add` redundant |
 | `just obsidian-plugin-install <vault>` before opening Obsidian | Fails: the recipe requires `.obsidian/`. `artmind init` also installs + enables the plugin, but only when `.obsidian/` exists |
-| Install Git / Unhide / VSCode Editor by hand | All are in Obsidian's official registry; their release assets can be downloaded and enabled by a script |
+| Install Git / Unhide / Code Editor by hand | All are in Obsidian's official registry; their release assets can be downloaded and enabled by a script |
 | Set the LLM key | Missing from the list entirely; `~/.artmind/config.env` is seeded with defaults and extraction fails without a working provider |
 
 ## Goal
@@ -177,7 +177,7 @@ Package data file `artmind/obsidian/community_plugins.yaml` — taken from the
 |---|---|---|
 | `obsidian-git` | vinzent03/obsidian-git | none (plugin defaults) |
 | `unhide` | polyipseity/obsidian-unhide | `my_work`'s: `showHiddenFiles`, `showConfigurationFolder`, `showingRules` (`+/`, hide `.git`, hide `.venv`), notice settings |
-| `vscode-editor` | sunxvming/obsidian-vscode-editor | `my_work`'s: the 15-extension list incl. `json`, `yaml`, `env`, plus editor options |
+| `code-editor` | saltyfireball/obsidian-code-editor | none (defaults already handle json, yaml, env; replaced `vscode-editor`, 2026-10-31) |
 | `termy` | zyphrzero/Termy | none (it fetches its own PTY binary on first run) |
 
 The YAML holds only `id` and optional `data`; the repo is resolved at run

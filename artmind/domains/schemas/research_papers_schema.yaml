@@ -1,0 +1,10 @@
+name: research_papers
+description: Reports, papers and reference documents kept for semantic and full-text search only. Ingestion
+  stops at chunks and embeddings; no entities, properties or relationships are extracted, so questions are
+  answered by `artmind query vector-text` over the document text.
+subject: reference documents kept for search
+# Chunks-only domain: `ingest` splits and embeds the documents and makes no LLM call. A dotted child
+# (research_papers.archive) does not inherit this flag; it must set it in its own file.
+# Declaring entity_types, document_entity or property_aliases here would be ignored
+# (`artmind domains validate` warns).
+graph_extraction: false

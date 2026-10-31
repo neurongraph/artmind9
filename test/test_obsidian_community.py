@@ -145,9 +145,9 @@ def test_a_network_failure_is_reported_not_raised(tmp_path):
 def test_the_packaged_list_matches_the_my_work_vault():
     plugins = {p["id"]: p for p in oc.load_plugin_list()}
 
-    assert list(plugins) == ["obsidian-git", "unhide", "vscode-editor", "termy"]
+    assert list(plugins) == ["obsidian-git", "unhide", "code-editor", "termy"]
     assert plugins["unhide"]["data"]["showingRules"] == ["+/", r"-/\.git(?:\/|$)/u", r"-/\.venv(?:\/|$)/u"]
-    assert {"json", "yaml", "env"} <= set(plugins["vscode-editor"]["data"]["extensions"])
+    assert "data" not in plugins["code-editor"]
     assert plugins["obsidian-git"]["data"]["syncMethod"] == "merge"
 
 
@@ -158,9 +158,9 @@ import threading
 REGISTRY3 = json.dumps([
     {"id": "obsidian-git", "repo": "vinzent03/obsidian-git"},
     {"id": "unhide", "repo": "polyipseity/obsidian-unhide"},
-    {"id": "vscode-editor", "repo": "sunxvming/obsidian-vscode-editor"},
+    {"id": "code-editor", "repo": "saltyfireball/obsidian-code-editor"},
 ]).encode()
-THREE = [{"id": "obsidian-git"}, {"id": "unhide"}, {"id": "vscode-editor"}]
+THREE = [{"id": "obsidian-git"}, {"id": "unhide"}, {"id": "code-editor"}]
 
 
 def _three_releases():
@@ -168,7 +168,7 @@ def _three_releases():
         oc.REGISTRY_URL: REGISTRY3,
         **_release("vinzent03/obsidian-git"),
         **_release("polyipseity/obsidian-unhide"),
-        **_release("sunxvming/obsidian-vscode-editor"),
+        **_release("saltyfireball/obsidian-code-editor"),
     }
 
 
@@ -199,15 +199,15 @@ class GatedFetch(FakeFetch):
 def test_downloads_run_in_parallel_and_results_keep_list_order(tmp_path):
     fetch = GatedFetch(
         _three_releases(), "vinzent03/obsidian-git",
-        ["polyipseity/obsidian-unhide", "sunxvming/obsidian-vscode-editor"],
+        ["polyipseity/obsidian-unhide", "saltyfireball/obsidian-code-editor"],
     )
 
     results = oc.install_community_plugins(tmp_path, fetch=fetch, plugins=THREE)
 
-    assert [r["id"] for r in results] == ["obsidian-git", "unhide", "vscode-editor"]
+    assert [r["id"] for r in results] == ["obsidian-git", "unhide", "code-editor"]
     assert all(r["status"] == "installed" for r in results)
     assert json.loads((tmp_path / "community-plugins.json").read_text()) == [
-        "obsidian-git", "unhide", "vscode-editor",
+        "obsidian-git", "unhide", "code-editor",
     ]
     assert fetch.urls.count(oc.REGISTRY_URL) == 1
 
@@ -221,7 +221,7 @@ def test_progress_is_reported_before_each_download(tmp_path):
     assert messages == [
         "  plugin obsidian-git: downloading...",
         "  plugin unhide: downloading...",
-        "  plugin vscode-editor: downloading...",
+        "  plugin code-editor: downloading...",
     ]
 
 
@@ -248,7 +248,7 @@ def test_one_failed_download_does_not_stop_the_others(tmp_path):
     assert [r["status"] for r in results] == ["installed", "failed", "installed"]
     assert "connection reset" in results[1]["error"]
     assert not (tmp_path / "plugins" / "unhide").exists()
-    assert json.loads((tmp_path / "community-plugins.json").read_text()) == ["obsidian-git", "vscode-editor"]
+    assert json.loads((tmp_path / "community-plugins.json").read_text()) == ["obsidian-git", "code-editor"]
 
 
 # ── core plugins ──────────────────────────────────────────────────────────────
