@@ -24,6 +24,7 @@ from artmind.atomic_dir import is_scratch, write_dir_atomic
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
 from artmind.ingest import (
+    AmbiguousDocumentName,
     _build_file_result_from_db,
     collect_ingest_files,
     commit_to_graph,
@@ -164,6 +165,16 @@ def _validate_artifact_segment(value: str) -> None:
         raise HTTPException(status_code=400, detail="invalid domain/doc value")
     if is_scratch(Path(value)):
         raise HTTPException(status_code=400, detail="invalid domain/doc value")
+
+
+def _registry_file_result(doc: str, domain: str | None) -> dict | None:
+    """`_build_file_result_from_db`, with a name that matches several
+    documents (same-named sources under document keys, e.g. `Summary` for
+    `Summary~<hash>.md`) reported as a 409 naming the candidates, not a 500."""
+    try:
+        return _build_file_result_from_db(doc, domain)
+    except AmbiguousDocumentName as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
 
 
 def _safe_snapshot_path(name: str, snapshot_dir: Path | None = None) -> Path:
@@ -313,7 +324,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
                 break
         sha = _job_file_sha256(job_id, doc)
         if sha is None:
-            file_result = _build_file_result_from_db(doc, None)
+            file_result = _registry_file_result(doc, None)
             if file_result is None:
                 raise HTTPException(
                     status_code=404,
@@ -328,7 +339,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     async def api_resume_extract(doc: str, payload: ResumeExtractRequest):
         _validate_artifact_segment(doc)
         _validate_artifact_segment(payload.domain)
-        file_result = _build_file_result_from_db(doc, payload.domain)
+        file_result = _registry_file_result(doc, payload.domain)
         if file_result is None:
             raise HTTPException(
                 status_code=404,

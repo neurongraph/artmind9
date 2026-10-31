@@ -319,6 +319,18 @@ def test_resume_extract_doc_not_found(monkeypatch):
     assert response.status_code == 404
 
 
+def test_resume_extract_ambiguous_name_is_a_409(monkeypatch):
+    from artmind.ingest import AmbiguousDocumentName
+
+    def _ambiguous(doc, domain):
+        raise AmbiguousDocumentName("Summary", ["Summary~a.md", "Summary~b.md"])
+
+    monkeypatch.setattr(dashboard_routes, "_build_file_result_from_db", _ambiguous)
+    response = _client().post("/api/documents/Summary/resume-extract", json={"domain": "general"})
+    assert response.status_code == 409
+    assert "Summary~a.md" in response.json()["detail"]
+
+
 def test_resume_extract_rejects_traversal_domain(monkeypatch, tmp_path):
     called = {}
     monkeypatch.setattr(
