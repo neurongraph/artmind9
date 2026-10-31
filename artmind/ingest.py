@@ -785,6 +785,69 @@ def _describe_image(image: Path, model: str) -> str | None:
     return None
 
 
+def _image_workers(env: dict, image_count: int) -> int:
+    """Image-model calls in flight at once: ARTMIND_IMAGE_WORKERS (default 1,
+    the sequential behaviour), never more than there are images."""
+    raw = env.get("ARTMIND_IMAGE_WORKERS")
+    workers = 1
+    if raw is not None and str(raw).strip():
+        try:
+            workers = int(raw)
+        except ValueError:
+            logger.warning("Invalid ARTMIND_IMAGE_WORKERS={!r}; using 1", raw)
+    return max(1, min(workers, image_count)) if image_count > 0 else 1
+
+
+def _describe_images(
+    images: list[Path], image_model: str, *, reuse_stored: bool = False,
+) -> dict[Path, str | None]:
+    """The description of each image, `None` where none could be produced.
+
+    A stored `<image>_desc.md` is used instead of a model call when
+    `reuse_stored` is set. The calls that remain run up to
+    ARTMIND_IMAGE_WORKERS at a time. Each one only reads its own image and
+    writes its own `_desc.md`; the caller puts the descriptions into the
+    markdown afterwards, in image order, so the result does not depend on
+    which call finishes first.
+    """
+    total = len(images)
+    results: dict[Path, str | None] = {}
+    pending: list[tuple[int, Path]] = []
+    for idx, image in enumerate(images, start=1):
+        desc_file = image.with_name(image.name + "_desc.md")
+        if reuse_stored and desc_file.exists():
+            stored = desc_file.read_text(encoding="utf-8")
+            if stored.strip():
+                logger.info("Image [{}/{}]: {}", idx, total, image.name)
+                logger.debug("Reusing the stored description of {}", image.name)
+                results[image] = stored
+                continue
+        pending.append((idx, image))
+
+    def describe_one(idx: int, image: Path) -> str | None:
+        logger.info("Image [{}/{}]: {}", idx, total, image.name)
+        try:
+            description = _describe_image(image, image_model)
+            if description:
+                image.with_name(image.name + "_desc.md").write_text(description, encoding="utf-8")
+            return description
+        except Exception as exc:
+            logger.error("Image description failed for {}: {}", image.name, exc)
+            return None
+
+    workers = _image_workers(load_env(), len(pending))
+    if workers > 1:
+        logger.info("Describing {} image(s) with {} workers", len(pending), workers)
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {image: pool.submit(describe_one, idx, image) for idx, image in pending}
+        for image, future in futures.items():
+            results[image] = future.result()
+    else:
+        for idx, image in pending:
+            results[image] = describe_one(idx, image)
+    return results
+
+
 def _replace_image_ref(md_content: str, image_name: str, description: str) -> str:
     pattern = re.compile(r"!\[[^\]]*\]\([^)]*" + re.escape(image_name) + r"[^)]*\)")
     return pattern.sub(lambda _: description, md_content)
@@ -1384,19 +1447,11 @@ def _convert_binary_via_docling(
         )
         if images:
             logger.info("Found {} image(s) to describe in artifacts", len(images))
-            for idx, image in enumerate(images, start=1):
-                logger.info("Image [{}/{}]: {}", idx, len(images), image.name)
-                desc_file = image.with_name(image.name + "_desc.md")
-                description = None
-                if reuse_image_descriptions and desc_file.exists():
-                    stored = desc_file.read_text(encoding="utf-8")
-                    description = stored if stored.strip() else None
-                    if description:
-                        logger.debug("Reusing the stored description of {}", image.name)
-                if not description:
-                    description = _describe_image(image, image_model)
-                    if description:
-                        desc_file.write_text(description, encoding="utf-8")
+            descriptions = _describe_images(
+                images, image_model, reuse_stored=reuse_image_descriptions,
+            )
+            for image in images:
+                description = descriptions.get(image)
                 if description:
                     md_content = _replace_image_ref(md_content, image.name, description)
                 else:
