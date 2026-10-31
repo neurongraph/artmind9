@@ -1751,12 +1751,12 @@ def _resolve_binary_key(dest_path: Path, source_sha256: str, domain: str) -> str
         ):
             logger.info("{}: moved from {}; keeps the name {}", rel, owner[0], name)
             return name
-    if key_owner is not None or _markdown_path(key).exists():
+    # Taken only when a recorded owner names another source: a markdown at this
+    # source's own path-hash name with no owner is its interrupted conversion
+    # (docling writes the markdown long before the sidecar), found again.
+    if key_owner is not None:
         full = document_key(rel, full=True)
-        logger.warning(
-            "{}: the name {} belongs to {}; using {}",
-            rel, key, key_owner[0] if key_owner else "another conversion", full,
-        )
+        logger.warning("{}: the name {} belongs to {}; using {}", rel, key, key_owner[0], full)
         return full
     return key
 
@@ -1789,6 +1789,20 @@ def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
         existing_meta=existing_meta,
         baseline=ingest_baseline(staged, existing_meta),
         source_sha256=source_sha256,
+    )
+
+
+def _claim_binary_key(key: str, source_sha256: str, source: Path, source_path: str) -> None:
+    """Record, before conversion starts, which source holds the name `key`."""
+    chunks_dir = _chunks_dir(key)
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    claim = {
+        "source_sha256": source_sha256,
+        "source_type": source.suffix.lstrip(".").lower(),
+        "source_path": source_path,
+    }
+    (chunks_dir / CONVERSION_SIDECAR).write_text(
+        json.dumps(claim, indent=2, ensure_ascii=False), encoding="utf-8",
     )
 
 
@@ -1919,6 +1933,10 @@ def _ingest_binary_derived(
         )
         return file_result
 
+    # Claim the name before the slow conversion: an interrupted run then finds
+    # its own files again (`_converted_owner` reads this sidecar) instead of
+    # forking a second document. Overwritten by the conversion record below.
+    _claim_binary_key(registered_path.stem, source_sha256, source, orig_registry_path)
     body, err = _convert_binary_via_docling(
         dest_path, image_model, key=registered_path.stem,
         reuse_image_descriptions=bool(file_result.get("reextract")),

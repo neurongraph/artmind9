@@ -240,3 +240,44 @@ def test_retime_reads_a_keyed_binarys_markdown_from_its_recorded_path(ingest_env
     doc = {"name": "Summary.pdf", "path": str(keyed)}
     assert staged_markdown_path(doc) == keyed
     assert staged_markdown_path({"name": "Summary.pdf"}) == ing._markdown_path("Summary")
+
+
+# ── fix 1: an interrupted conversion is retried under its own name ───────────
+
+
+def test_ownerless_keyed_markdown_is_this_sources_own(ingest_env):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    key = document_key("A/Summary.pdf")
+    # What docling leaves when interrupted: the markdown, no sidecar.
+    ing._markdown_path(key).write_text("# partial\n", encoding="utf-8")
+
+    plan = ing.plan_binary(a, "general")
+
+    assert plan.registered_path == ing._markdown_path(key)
+
+
+def test_conversion_failure_after_claim_reconverts_under_the_same_key(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    key = document_key("A/Summary.pdf")
+
+    def failing(dest_path, image_model, **kwargs):
+        # docling got as far as writing the markdown, then died
+        ing._markdown_path(key).write_text("# partial\n", encoding="utf-8")
+        return None, {"error": "interrupted"}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", failing)
+    r1 = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    assert r1["status"] == "failed"
+    claim = json.loads((ing._chunks_dir(key) / ing.CONVERSION_SIDECAR).read_text())
+    assert claim["source_path"] == "A/Summary.pdf"
+    assert claim["source_sha256"] == ing._compute_sha256(a)
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# A\n"]))
+    r2 = ing.ingest_file(a, "m", "general", chunk_size=6000)
+
+    assert r2["status"] == "ok"
+    assert r2.get("tier") != "no_op"
+    assert ing.Path(r2["registered_path"]).name == key + ".md"
+    assert len(list(ing.MARKDOWNS_DIR.glob("Summary~*.md"))) == 1
