@@ -1711,6 +1711,9 @@ class BinaryPlan:
     existing_meta: dict
     baseline: dict
     source_sha256: str
+    #: The source path the name's last conversion recorded; differs from this
+    #: source's own path exactly when the binary moved (`_record_binary_move`).
+    recorded_source_path: str | None = None
 
     @property
     def unchanged(self) -> bool:
@@ -1788,12 +1791,44 @@ def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
             registered_path.read_text(encoding="utf-8")
         )
     staged = staged_document(effective_domain, [key], existing_meta.get("_artmind_id"), search=True)
+    owner = _converted_owner(key, effective_domain)
     return BinaryPlan(
         registered_path=registered_path,
         existing_meta=existing_meta,
         baseline=ingest_baseline(staged, existing_meta),
         source_sha256=source_sha256,
+        recorded_source_path=owner[0] if owner else None,
     )
+
+
+def _record_binary_move(plan: BinaryPlan, domain: str, new_path: str) -> None:
+    """A moved binary keeps its name (`_resolve_binary_key`), so the old path
+    would keep the claim and a different file later added there would
+    overwrite this document. Rewrite the recorded `source_path` in the
+    conversion sidecar and the staged `document.json`; nothing else -- the
+    staged `path`/`name` are the converted markdown's and do not move. Never
+    fatal."""
+    key = plan.registered_path.stem
+    logger.info("{}: recording the move from {}", new_path, plan.recorded_source_path)
+    try:
+        sidecar_path = _chunks_dir(key) / CONVERSION_SIDECAR
+        try:
+            sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            sidecar = {"source_sha256": plan.source_sha256, "source_type": Path(new_path).suffix.lstrip(".").lower()}
+        sidecar["source_path"] = new_path
+        sidecar_path.parent.mkdir(parents=True, exist_ok=True)
+        sidecar_path.write_text(json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8")
+        found = _locate_staged(plan.existing_meta.get("_artmind_id") or "", [key], [domain], search=True)
+        folder = found[0] if found else None
+        if folder is None and (_staging_dir(domain, key) / "document.json").exists():
+            folder = _staging_dir(domain, key)
+        if folder is not None:
+            document = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+            if isinstance(document, dict) and document.get("source_path") != new_path:
+                write_staging(folder, {"document.json": {**document, "source_path": new_path}})
+    except (OSError, ValueError) as e:
+        logger.warning("Could not record the move of {}: {}", new_path, e)
 
 
 def _claim_binary_key(key: str, source_sha256: str, source: Path, source_path: str) -> None:
@@ -1900,6 +1935,8 @@ def _ingest_binary_derived(
     registered_path = plan.registered_path
     existing_meta = plan.existing_meta
     baseline = plan.baseline
+    if plan.recorded_source_path and plan.recorded_source_path != orig_registry_path:
+        _record_binary_move(plan, effective_domain, orig_registry_path)
 
     # A .docx is converted again on --reextract: its conversion runs no model
     # (image descriptions are reused below), and a markdown converted before

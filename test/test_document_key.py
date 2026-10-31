@@ -307,6 +307,42 @@ def test_legacy_note_keeps_bare_chunks_and_staging(ingest_env):
     assert ing.Path(rebuilt["chunks_dir"]) == ing._chunks_dir("README")
 
 
+# ── fix 3: a binary move is recorded ────────────────────────────────────────
+
+
+def test_moved_binary_is_recorded_and_its_old_path_is_free(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# A\n", "# Other\n"]))
+    r1 = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    folder = stage_as_extracted(ing.KG_DIR, r1)
+    key = ing.Path(r1["registered_path"]).stem
+    doc = json.loads((folder / "document.json").read_text())
+    doc.update(path=r1["registered_path"], name=ing.Path(r1["registered_path"]).name)
+    (folder / "document.json").write_text(json.dumps(doc))
+
+    moved = vault / "C" / "Summary.pdf"
+    moved.parent.mkdir()
+    a.rename(moved)
+    r2 = ing.ingest_file(moved, "m", "general", chunk_size=6000)
+
+    assert r2["tier"] == "no_op"
+    sidecar = json.loads((ing._chunks_dir(key) / ing.CONVERSION_SIDECAR).read_text())
+    staged = json.loads((folder / "document.json").read_text())
+    assert sidecar["source_path"] == staged["source_path"] == "C/Summary.pdf"
+    assert sidecar["source_sha256"] == ing._compute_sha256(moved)
+    assert (staged["path"], staged["name"]) == (doc["path"], doc["name"])  # the converted markdown's, untouched
+    assert staged["id"] == r1["artmind_id"]
+
+    # A different file now appears at the old path: its own document.
+    other = _vault_pdf(vault, "A/Summary.pdf", b"a different certificate")
+    r3 = ing.ingest_file(other, "m", "general", chunk_size=6000)
+
+    assert r3["artmind_id"] != r1["artmind_id"]
+    assert ing.Path(r3["registered_path"]).stem != key
+    assert json.loads((folder / "document.json").read_text())["source_path"] == "C/Summary.pdf"
+
+
 def test_new_note_chunks_and_staging_are_keyed(ingest_env):
     vault, _ = ingest_env
     a = _note(vault, "A/README.md", "# A\n\nAlpha.")
