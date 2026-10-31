@@ -491,3 +491,20 @@ def test_an_ordinary_conversion_does_not_reuse_image_descriptions(ingest_env, mo
     ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
     assert seen == [{"reuse_image_descriptions": False}]
+
+
+def test_a_table_inside_an_image_description_is_laid_out_as_a_table(ingest_env, monkeypatch):
+    """The image model transcribes a pictured table as markdown, glued to the
+    line before it; it is put in after the body's tables were laid out."""
+    image = "image_000000_ab.png"
+    md = f"Intro.\n\n![Image]({ing.MARKDOWNS_DIR}/paper_artifacts/{image})\n\nAfter."
+    monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md=md, image=image))
+    monkeypatch.setattr(
+        ing, "_describe_image",
+        lambda path, model: "Clause 1.1 example:\n| Month   | Charge |\n|---------|--------|\n| Apr     | 10     |",
+    )
+
+    body, _ = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "paper.pdf", "m")
+
+    assert body == "Intro.\n\nClause 1.1 example:\n\n| Month | Charge |\n| - | - |\n| Apr | 10 |\n\nAfter."
+    assert (ing.MARKDOWNS_DIR / "paper.md").read_text() == body
