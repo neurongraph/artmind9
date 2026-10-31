@@ -33,7 +33,7 @@ def test_embed_missing_entity_embeddings_writes_vectors(monkeypatch):
             {"id": "ent-2", "name": "Watson", "description": None},
         ]
     )
-    monkeypatch.setattr(ingest, "_embed_text", lambda model, text: [0.1, 0.2])
+    monkeypatch.setattr(ingest._extraction, "embed_text", lambda model, text: [0.1, 0.2])
 
     count = ingest.embed_missing_entity_embeddings(session, "fiction", "test-model")
 
@@ -55,7 +55,7 @@ def test_embed_missing_entity_embeddings_skips_failures(monkeypatch):
             raise RuntimeError("ollama down")
         return [0.3]
 
-    monkeypatch.setattr(ingest, "_embed_text", flaky_embed)
+    monkeypatch.setattr(ingest._extraction, "embed_text", flaky_embed)
 
     count = ingest.embed_missing_entity_embeddings(session, "fiction", "test-model")
 
@@ -74,7 +74,7 @@ def test_embed_missing_entity_embeddings_logs_progress_past_fifty(monkeypatch):
     session = FakeSession(
         [{"id": f"ent-{i}", "name": f"Entity {i}", "description": None} for i in range(60)]
     )
-    monkeypatch.setattr(ingest, "_embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr(ingest._extraction, "embed_text", lambda model, text: [0.1])
 
     logged = []
     monkeypatch.setattr(ingest.logger, "info", lambda *a, **k: logged.append(a))
@@ -91,7 +91,7 @@ def test_embed_missing_entity_embeddings_stays_quiet_under_the_threshold(monkeyp
     session = FakeSession(
         [{"id": "ent-1", "name": "Holmes", "description": None}]
     )
-    monkeypatch.setattr(ingest, "_embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr(ingest._extraction, "embed_text", lambda model, text: [0.1])
 
     logged = []
     monkeypatch.setattr(ingest.logger, "info", lambda *a, **k: logged.append(a))

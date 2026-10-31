@@ -465,7 +465,7 @@ import re  # noqa: E402  (kept beside the I/O half it serves)
 # `:Entity` is projection-owned and is recomputed from observations on every
 # rebuild, so a property no longer asserted by any observation disappears
 # rather than lingering.
-_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale")
+_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key")
 
 
 def _sanitize_label(value: str) -> str:
@@ -1636,7 +1636,8 @@ def read_state(tx) -> dict | None:
 
 _UNEMBEDDED_ENTITIES_BY_DOMAIN = """
 MATCH (e:Entity)
-WHERE e.name IS NOT NULL AND (e.embedding IS NULL OR e.embedding_stale)
+WHERE e.name IS NOT NULL
+  AND (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL OR e._embed_key <> $embed_key)
 RETURN e._domain AS domain, count(e) AS n
 """
 

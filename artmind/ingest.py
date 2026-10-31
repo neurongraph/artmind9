@@ -35,6 +35,7 @@ from artmind.document_identity import (
 from artmind import passage_store, passages
 from artmind.setup import _setup_neo4j
 from artmind.vault_git import current_commit as _vault_current_commit
+from artmind import extraction as _extraction
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -2330,8 +2331,9 @@ def embed_missing_entity_embeddings(
 ) -> int:
     """The post-commit embed sweep.
 
-    Matches on ``embedding IS NULL OR embedding_stale`` and clears the flag as
-    it writes. Runs **after** the commit, outside any transaction, because it
+    Matches on ``embedding IS NULL OR embedding_stale`` or an ``_embed_key``
+    that is missing or differs from the current model/prefix key, and clears
+    the flag and records the key as it writes. Runs **after** the commit, outside any transaction, because it
     calls the embedding service — which is exactly why the rebuild cannot do
     this itself and marks `embedding_stale` instead.
 
@@ -2346,7 +2348,7 @@ def embed_missing_entity_embeddings(
     dirtied, not the whole domain.
     """
     scope = ""
-    params: dict = {"domain": domain}
+    params: dict = {"domain": domain, "embed_key": _extraction.embed_key(embed_model)}
     if keys:
         scope = " AND e.key IN $keys"
         params["keys"] = [k if isinstance(k, str) else "|".join(k) for k in keys]
@@ -2356,7 +2358,7 @@ def embed_missing_entity_embeddings(
         MATCH (e:Entity)
         WHERE (e._domain = $domain OR e._domain STARTS WITH ($domain + '.'))
           AND e.name IS NOT NULL
-          AND (e.embedding IS NULL OR e.embedding_stale){scope}
+          AND (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL OR e._embed_key <> $embed_key){scope}
         RETURN e._id AS id, e.name AS name, e.description AS description
         """,
         **params,
@@ -2376,7 +2378,7 @@ def embed_missing_entity_embeddings(
     count, failed = 0, 0
     for i, row in enumerate(rows, start=1):
         try:
-            embedding = _embed_text(
+            embedding = _extraction.embed_document(
                 embed_model, entity_embedding_text(row["name"], row.get("description"))
             )
         except Exception as e:
@@ -2386,9 +2388,11 @@ def embed_missing_entity_embeddings(
         # Written together with clearing the flag, so an entity is never left
         # claiming to be fresh while holding an old vector.
         session.run(
-            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, e.embedding_stale = false",
+            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, "
+            "e.embedding_stale = false, e._embed_key = $embed_key",
             id=row["id"],
             embedding=embedding,
+            embed_key=params["embed_key"],
         )
         count += 1
 

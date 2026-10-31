@@ -185,7 +185,7 @@ def test_write_user_chat_creates_node_and_returns_summary():
     resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
     extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}]
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_session = mock_ctx.return_value.__enter__.return_value
@@ -216,7 +216,7 @@ def test_write_user_chat_skipped_entity_not_written():
     resolutions = [{"entity_temp_id": "e0", "action": "skip", "node_id": None}]
     extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}]
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_session = mock_ctx.return_value.__enter__.return_value
         mock_session.run.return_value = MagicMock()
@@ -310,7 +310,7 @@ def test_write_user_chat_skips_reserved_rel_type_and_writes_normal_one():
         {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "higher_than"},
     ]
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.logger") as mock_logger:
@@ -454,7 +454,7 @@ def test_write_user_chat_unresolved_link_is_not_counted():
             result.single.return_value = None
         return result
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.logger") as mock_logger:
         mock_session = mock_ctx.return_value.__enter__.return_value
@@ -508,7 +508,7 @@ def test_write_user_chat_create_on_existing_triple_updates_instead_of_duplicatin
     # silently not happen and the test would pass on an empty assertion.
     session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity",
                return_value={"id": "alice-uuid", "name": "Alice"}), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
@@ -555,7 +555,7 @@ def test_write_user_chat_relationship_not_counted_when_an_endpoint_is_unresolved
         calls.append((cypher, kwargs))
         return MagicMock()
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_session = mock_ctx.return_value.__enter__.return_value
@@ -753,7 +753,7 @@ def test_a_linked_observation_is_keyed_to_the_chosen_node_not_the_extracted_name
     session.run.side_effect = run_side_effect
     session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_ctx.return_value.__enter__.return_value = session
 
@@ -804,7 +804,7 @@ def test_a_linked_observation_uses_the_chosen_nodes_STORED_key():
     session.run.side_effect = run_side_effect
     session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_ctx.return_value.__enter__.return_value = session
         write_user_chat(
@@ -867,7 +867,7 @@ def test_retraction_writes_a_thin_observation_carrying__retracts():
     session.run.side_effect = run_side_effect
     session.execute_write.side_effect = lambda fn, *a, **k: fn(session, *a, **k)
 
-    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+    with patch("artmind.update.embed_document", return_value=[0.1] * 768), \
          patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_ctx.return_value.__enter__.return_value = session

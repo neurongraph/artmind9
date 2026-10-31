@@ -20,7 +20,8 @@ from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
     build_relationships_prompt,
-    embed_text,
+    embed_document,
+    embed_key,
     extract_with_retry,
 )
 from artmind.graph_query import neo4j_session
@@ -334,7 +335,7 @@ def write_user_chat(
     today = date.today().isoformat()
     draft_part = draft_id if draft_id is not None else uuid.uuid4().hex[:12]
     chat_id = user_chat_id(session_id, draft_part)
-    embedding = embed_text(embed_model, raw_text)
+    embedding = embed_document(embed_model, raw_text)
     input_hint = _classify_input(raw_text)
     schema = load_schema(domain)
 
@@ -482,8 +483,8 @@ def write_user_chat(
         # the chat on the others (`embed_user_chats`).
         if embedding:
             session.run(
-                "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding",
-                id=chat_id, embedding=embedding,
+                "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding, c._embed_key = $embed_key",
+                id=chat_id, embedding=embedding, embed_key=embed_key(embed_model),
             )
         embed_missing_entity_embeddings(session, domain, embed_model)
 
@@ -509,19 +510,19 @@ def embed_user_chats(*, domain: str | None = None, chat_ids: list[str] | None = 
         rows = session.run(
             """
             MATCH (c:UserChat)
-            WHERE c.embedding IS NULL
+            WHERE (c.embedding IS NULL OR c._embed_key IS NULL OR c._embed_key <> $embed_key)
               AND ($domain IS NULL OR c._domain = $domain)
               AND ($ids IS NULL OR c.id IN $ids)
             RETURN c.id AS id, c.raw_text AS raw_text
             """,
-            domain=domain, ids=chat_ids,
+            domain=domain, ids=chat_ids, embed_key=embed_key(embed_model),
         ).data()
         for row in rows:
-            vector = embed_text(embed_model, row.get("raw_text") or "")
+            vector = embed_document(embed_model, row.get("raw_text") or "")
             if vector:
                 session.run(
-                    "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding",
-                    id=row["id"], embedding=vector,
+                    "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding, c._embed_key = $embed_key",
+                    id=row["id"], embedding=vector, embed_key=embed_key(embed_model),
                 )
                 embedded += 1
     return embedded
