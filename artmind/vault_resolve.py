@@ -376,6 +376,10 @@ def _decide_chunks(vault_dir, unit, paths, sides, ids, unmerged=frozenset()) -> 
 
         named = ids.paths_named(keyed[1])
         notes = [n for n in named if document_key(n, full=len(keyed[2]) == 64) == name] or named
+        if not notes:
+            # No note is named `<stem>`: this may be a note whose real name
+            # merely looks like a key.
+            notes = ids.paths_named(name)
     else:
         notes = ids.paths_named(name)
     if len(notes) == 1 and (vault_dir / notes[0]).is_file():
