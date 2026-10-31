@@ -1,8 +1,10 @@
 import json
 import re
 import shutil
+import tempfile
 import time
 import uuid
+import warnings
 import datetime as _datetime
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -45,9 +47,9 @@ from artmind.extraction import (
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
     ibm_ica_client_env as _ibm_ica_client_env,
+    describe_image,
 )
 from artmind.canonicalize import canonicalize_document
-from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
 from artmind.structured import STRUCTURED_EXTENSIONS
 from paths import (
@@ -730,7 +732,6 @@ _DESCRIBE_PROMPTS = [
 def _describe_image(image: Path, model: str) -> str | None:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
-    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     logger.debug(
         "Describing image: {} (model={}, timeout={}s)", image.name, model, timeout
     )
@@ -743,15 +744,7 @@ def _describe_image(image: Path, model: str) -> str | None:
             image.name,
         )
         try:
-            if provider == "openrouter":
-                description = describe_image_openrouter(image, model, prompt, timeout, env)
-            elif provider == "ibm_ica":
-                description = describe_image_openrouter(
-                    image, model, prompt, timeout, _ibm_ica_client_env(env)
-                )
-            else:
-                host = env.get("ARTMIND_KG_LLM_URL") or None
-                description = describe_image_ollama(image, model, prompt, timeout, host=host)
+            description = describe_image(image, model, prompt, timeout, env)
             log_llm_call("chat", model, f"[IMAGE: {image.name}]\n{prompt}", description)
             logger.debug(
                 "LLM RESPONSE (image description, attempt {}):\n{}",
@@ -1199,18 +1192,113 @@ def _relativise_image_links(markdown: str, base_dir: Path) -> str:
     return markdown
 
 
-def _convert_docx_in_process(dest_path: Path, md_file: Path) -> tuple[int, str, str]:
+def _convert_docx_in_process(dest_path: Path, md_file: Path, record: dict) -> tuple[int, str, str]:
     """`docx_convert.convert_docx` with `run_command`'s return shape, so a
-    failure is reported as a failed docling run. The prepared copy of the
-    .docx is written under `LOGS_DIR`, never beside the vault's files."""
+    failure is reported as a failed docling run; what it did goes into
+    `record`. The prepared copy of the .docx is written under `LOGS_DIR`,
+    never beside the vault's files."""
     from artmind.docx_convert import convert_docx
 
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     try:
-        convert_docx(dest_path, md_file, work_dir=LOGS_DIR)
+        record.update(convert_docx(dest_path, md_file, work_dir=LOGS_DIR) or {})
     except Exception as exc:
         return 1, "", f"{type(exc).__name__}: {exc}"
+    record["page_check"] = "skipped"
+    record["why"] = "a .docx has no pages"
     return 0, "", ""
+
+
+def _docling_command(dest_path: Path) -> str:
+    """The docling CLI for a pdf, pptx or other non-.docx source: markdown (the
+    fallback body) and JSON (what the body is rendered from), from one
+    conversion, written into MARKDOWNS_DIR. A subprocess keeps docling's
+    layout models out of this process."""
+    return (
+        f'uv run docling --to md --to json --image-export-mode referenced '
+        f'--output "{MARKDOWNS_DIR}" "{dest_path}"'
+    )
+
+
+def _check_and_repair_pages(dest_path: Path, doc, mode: str, record: dict) -> dict[int, str]:
+    """The page check (`page_check`) of `doc` against `dest_path`'s own text,
+    recorded in `record` with one warning line when pages are flagged; in
+    `repair` mode the flagged pdf pages' verified transcriptions
+    (`page_repair`), by page."""
+    from artmind import page_check, page_repair
+
+    check = page_check.check_document(dest_path, doc)
+    if check.status == "skipped":
+        record.update(page_check="skipped", why=check.why)
+        logger.info("Page check skipped for {}: {}", dest_path.name, check.why)
+        return {}
+    flagged = [f.page for f in check.findings]
+    record.update(pages=check.pages, flagged=[f.record() for f in check.findings], repaired=[], unrepaired=flagged)
+    if not flagged:
+        return {}
+    logger.warning(
+        "{}: {} of {} page(s) lack source text docling should have kept: {}",
+        dest_path.name, len(flagged), check.pages,
+        ", ".join(f"{f.page} ({f.coverage:.2f})" for f in check.findings),
+    )
+    if mode != "repair" or dest_path.suffix.lower() != ".pdf":
+        return {}
+    env = load_env()
+    model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
+    with tempfile.TemporaryDirectory(dir=_work_dir()) as work:
+        result = page_repair.repair_pages(dest_path, flagged, check.source, model, env, Path(work))
+    record.update(
+        repaired=sorted(result.repaired), unrepaired=result.unrepaired,
+        model=model, prompt_version=page_repair.PROMPT_VERSION,
+    )
+    return result.repaired
+
+
+def _work_dir() -> Path:
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    return LOGS_DIR
+
+
+def _render_from_docling_json(dest_path: Path, md_file: Path, json_file: Path, record: dict) -> None:
+    """Rewrite `md_file` from the docling JSON beside it (`docling_render`:
+    tables tidied, a pptx slide's speaker notes, repaired pages), after the
+    page check `ARTMIND_PAGE_REPAIR` asks for, and remove the JSON. The JSON
+    is an enhancement, never a way to fail a conversion: when it cannot be
+    used, docling's markdown stays, its tables unpadded and laid out."""
+    from artmind import docling_render, page_check
+
+    suffix = dest_path.suffix.lower()
+    mode = page_check.page_repair_mode(load_env())
+    record["page_check"] = mode
+    try:
+        from docling_core.types.doc import DoclingDocument
+
+        with warnings.catch_warnings():
+            # docling clamps a slide shape's box to the page itself; one warning per shape is noise.
+            warnings.filterwarnings("ignore", message="Provenance bbox coordinate", category=UserWarning)
+            doc = DoclingDocument.load_from_json(json_file)
+        docling_render.tidy_tables(doc)
+        replacements = {}
+        if mode == "off":
+            pass
+        elif suffix in page_check.SUPPORTED_SUFFIXES:
+            replacements = _check_and_repair_pages(dest_path, doc, mode, record)
+        else:
+            record.update(page_check="skipped", why="no page text for this type")
+        body = docling_render.render_body(doc, notes=suffix == ".pptx", replacements=replacements)
+        if replacements:
+            # Repaired only if its transcription made it into the body (the
+            # whole export is used when docling's pages do not join).
+            placed = sorted(p for p, text in replacements.items() if text.strip("\n") in body)
+            record["repaired"] = placed
+            record["unrepaired"] = [f["page"] for f in record["flagged"] if f["page"] not in placed]
+    except Exception as exc:
+        logger.warning("Could not render {} from docling's JSON ({}); using its markdown", dest_path.name, exc)
+        record.update(page_check="skipped", why="docling JSON unusable")
+        body = docling_render.normalise_tables(docling_render.strip_table_padding(md_file.read_text(encoding="utf-8")))
+    finally:
+        json_file.unlink(missing_ok=True)
+    md_file.write_text(body, encoding="utf-8")
 
 
 def _convert_binary_via_docling(
@@ -1238,19 +1326,25 @@ def _convert_binary_via_docling(
     sync: `registered_path` in `_ingest_binary_derived` IS this function's
     `md_file`.
 
-    Returns `(body, {})` on success, or `(None, {"status": ..., "error": ...})`
-    on failure — the caller merges the error dict into its own `file_result`.
+    Returns `(body, {"conversion": record})` on success -- the record
+    (rendering version, page check, comments) goes into conversion.json -- or
+    `(None, {"status": ..., "error": ...})` on failure, which the caller
+    merges into its own `file_result`.
     """
+    from artmind.docling_render import RENDER_VERSION
+
     dest_filename = dest_path.name
     md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
+    json_file = MARKDOWNS_DIR / f"{dest_path.stem}.json"
+    record: dict = {"render_version": RENDER_VERSION}
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
     t0 = time.monotonic()
     if dest_path.suffix.lower() == ".docx":
-        returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file)
+        returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file, record)
     else:
-        cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
-        returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
+        json_file.unlink(missing_ok=True)  # a stale one is not this conversion's
+        returncode, stdout, stderr = run_command(_docling_command(dest_path), cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
         combined = (stderr or "") + (stdout or "")
@@ -1270,6 +1364,8 @@ def _convert_binary_via_docling(
         logger.error("Expected markdown not created: {}", md_file)
         return None, {"status": "failed", "error": "Markdown file not created"}
 
+    if dest_path.suffix.lower() != ".docx":
+        _render_from_docling_json(dest_path, md_file, json_file, record)
     md_size_kb = md_file.stat().st_size / 1024
     logger.info(
         "Docling conversion done in {:.1f}s — markdown: {:.1f} KB", elapsed, md_size_kb,
@@ -1311,7 +1407,7 @@ def _convert_binary_via_docling(
     else:
         logger.debug("No artifacts directory for {}", dest_filename)
 
-    return md_content, {}
+    return md_content, {"conversion": record}
 
 
 def _ingest_binary_or_adhoc(
@@ -1646,12 +1742,19 @@ def _ingest_binary_derived(
     # binary this came from. Kept beside the chunks -- the retry's input --
     # and rewritten by every conversion, so it is always the one whose
     # extraction is pending. Machine-independent: hash, extension, vault path.
+    # `conversion` is what the conversion did (rendering version, page check,
+    # comments): read by people and `job-status`, never by the retry.
+    sidecar = {k: file_result["provenance"][k] for k in _CONVERSION_KEYS}
+    if record := err.get("conversion"):
+        sidecar["conversion"] = record
+        if record.get("flagged"):
+            file_result["page_check"] = {
+                "flagged": len(record["flagged"]),
+                "repaired": len(record.get("repaired") or []),
+                "unrepaired": len(record.get("unrepaired") or []),
+            }
     (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(
-            {k: file_result["provenance"][k] for k in _CONVERSION_KEYS},
-            indent=2, ensure_ascii=False,
-        ),
-        encoding="utf-8",
+        json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8",
     )
 
     logger.info(
@@ -1697,9 +1800,16 @@ def _reextract_converted_binary(
         "source_path": orig_registry_path,
         "source_type": source.suffix.lstrip(".").lower(),
     }
+    # No conversion ran, so the record of the one that made this body stays.
+    try:
+        previous = json.loads((chunks_dir / CONVERSION_SIDECAR).read_text(encoding="utf-8")).get("conversion")
+    except (OSError, ValueError, AttributeError):
+        previous = None
+    sidecar = {k: provenance[k] for k in _CONVERSION_KEYS}
+    if isinstance(previous, dict):
+        sidecar["conversion"] = previous
     (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps({k: provenance[k] for k in _CONVERSION_KEYS}, indent=2, ensure_ascii=False),
-        encoding="utf-8",
+        json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8",
     )
     file_result.update({
         "status": "ok",

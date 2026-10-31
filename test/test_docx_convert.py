@@ -1,81 +1,17 @@
-"""artmind.docx_convert: tables tidied, every table a top-level block, and each
-comment marker replaced by a callout beside its text. All text is synthetic."""
+"""artmind.docx_convert: each comment marker replaced by a callout beside its
+text, and a .docx converted end to end. All text is synthetic."""
 import zipfile
 
 import pytest
 
 pytest.importorskip("docling_core")
 
-from artmind.docx_convert import (  # noqa: E402
-    UNPLACED_HEADING,
-    callout,
-    normalise_tables,
-    place_comments,
-    tidy_table,
-)
+from artmind.docx_convert import UNPLACED_HEADING, callout, place_comments  # noqa: E402
 from artmind.docx_prepare import Comment, Reply, marker  # noqa: E402
 
 
 def _comment(n, text="Note.", anchor="", **kw):
     return Comment(number=n, author="Ann Lee", initials="AL", date="2026-02-16", text=text, anchor=anchor, **kw)
-
-
-# ── tables ─────────────────────────────────────────────────────────────────────
-
-
-def _table(rows, *, header=True, spans=()):
-    """A docling document with one table of `rows` (lists of cell texts);
-    `spans` lists (row, col, col_span) merges."""
-    from docling_core.types.doc.document import DoclingDocument, TableCell, TableData
-
-    span_of = {(r, c): n for r, c, n in spans}
-    covered = {(r, c + k) for r, c, n in spans for k in range(1, n)}
-    cells = [
-        TableCell(
-            text=text, start_row_offset_idx=r, end_row_offset_idx=r + 1,
-            start_col_offset_idx=c, end_col_offset_idx=c + span_of.get((r, c), 1),
-            col_span=span_of.get((r, c), 1), column_header=header and r == 0,
-        )
-        for r, row in enumerate(rows) for c, text in enumerate(row) if (r, c) not in covered
-    ]
-    doc = DoclingDocument(name="t")
-    table = doc.add_table(data=TableData(num_rows=len(rows), num_cols=len(rows[0]), table_cells=cells))
-    return doc, table
-
-
-def _texts(table):
-    return [[c.text for c in row] for row in table.data.grid]
-
-
-def test_empty_rows_and_columns_are_dropped():
-    doc, table = _table([["", "Check", "Rule"], ["", "Licence", "Valid"], ["", "", ""], ["", "Permit", ""]])
-
-    tidy_table(table.data, doc)
-
-    assert _texts(table) == [["Check", "Rule"], ["Licence", "Valid"], ["Permit", ""]]
-
-
-def test_a_body_cell_merged_across_columns_is_written_once():
-    doc, table = _table([["Party", "Role", "Note"], ["Acme and Beta", "", ""]], spans=[(1, 0, 3)])
-
-    tidy_table(table.data, doc)
-
-    assert _texts(table) == [["Party", "Role", "Note"], ["Acme and Beta", "", ""]]
-    assert "Acme and Beta |  |  |" in doc.export_to_markdown(compact_tables=True)
-
-
-def test_a_header_cell_merged_across_columns_still_labels_each_column():
-    doc, table = _table([["Costs", "", "Item"], ["10", "20", "x"]], spans=[(0, 0, 2)])
-
-    tidy_table(table.data, doc)
-
-    assert _texts(table)[0] == ["Costs", "Costs", "Item"]
-
-
-def test_tables_become_top_level_blocks_with_blank_lines_around():
-    markdown = "1. Terms:\n    | A | B |\n| - | - |\n| x | y |\n2. Next."
-
-    assert normalise_tables(markdown) == "1. Terms:\n\n| A | B |\n| - | - |\n| x | y |\n\n2. Next."
 
 
 # ── comments ───────────────────────────────────────────────────────────────────

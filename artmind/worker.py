@@ -273,6 +273,7 @@ def _process_job(
                         kg_counts=result.get("kg_counts"),
                         domain=effective_domain,
                         failed_chunks=result.get("failed_chunks") or [],
+                        page_check=result.get("page_check"),
                     )
                 elif result.get("status") == "skipped":
                     # ingest_file already updated status to "skipped"

@@ -368,6 +368,7 @@ def test_a_docx_is_converted_in_process_with_its_prepared_copy_under_logs(ingest
     def convert(source, md_file, *, work_dir=None):
         seen.update(source=source, md_file=md_file, work_dir=work_dir)
         md_file.write_text("Body.\n\n> [!comment] Comment\n> A: Note.", encoding="utf-8")
+        return {"comments": 1}
 
     monkeypatch.setattr(ing, "run_command", _no_cli)
     monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
@@ -376,7 +377,9 @@ def test_a_docx_is_converted_in_process_with_its_prepared_copy_under_logs(ingest
 
     body, err = ing._convert_binary_via_docling(source, "m")
 
-    assert err == {}
+    assert err == {"conversion": {
+        "render_version": 1, "comments": 1, "page_check": "skipped", "why": "a .docx has no pages",
+    }}
     assert body == "Body.\n\n> [!comment] Comment\n> A: Note."
     assert seen == {"source": source, "md_file": ing.MARKDOWNS_DIR / "report.md", "work_dir": ing.LOGS_DIR}
 
@@ -404,7 +407,7 @@ def test_a_pdf_conversion_runs_the_docling_cli(ingest_env, monkeypatch):
     body, _ = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "paper.pdf", "m")
 
     assert body == "Text."
-    assert calls[0].startswith("uv run docling --to md --image-export-mode referenced")
+    assert calls[0].startswith("uv run docling --to md --to json --image-export-mode referenced")
 
 
 def test_image_descriptions_are_reused_only_when_asked(ingest_env, monkeypatch):

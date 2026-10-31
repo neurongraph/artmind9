@@ -18,8 +18,8 @@ IMAGE = Path("/fake/image.png")
 
 def test_describe_image_dispatches_to_ollama_by_default():
     with patch("artmind.ingest.load_env", return_value={}), patch(
-        "artmind.ingest.describe_image_ollama", return_value="a description"
-    ) as mock_ollama, patch("artmind.ingest.describe_image_openrouter") as mock_openrouter:
+        "artmind.extraction.describe_image_ollama", return_value="a description"
+    ) as mock_ollama, patch("artmind.extraction.describe_image_openrouter") as mock_openrouter:
         result = _describe_image(IMAGE, "gemma4:e4b")
     assert result == "a description"
     mock_openrouter.assert_not_called()
@@ -29,8 +29,8 @@ def test_describe_image_dispatches_to_ollama_by_default():
 def test_describe_image_dispatches_to_openrouter_when_configured():
     env = {"ARTMIND_KG_LLM_PROVIDER": "openrouter"}
     with patch("artmind.ingest.load_env", return_value=env), patch(
-        "artmind.ingest.describe_image_openrouter", return_value="a description"
-    ) as mock_openrouter, patch("artmind.ingest.describe_image_ollama") as mock_ollama:
+        "artmind.extraction.describe_image_openrouter", return_value="a description"
+    ) as mock_openrouter, patch("artmind.extraction.describe_image_ollama") as mock_ollama:
         result = _describe_image(IMAGE, "openai/gpt-4o-mini")
     assert result == "a description"
     mock_ollama.assert_not_called()
@@ -46,8 +46,8 @@ def test_describe_image_dispatches_to_ibm_ica_via_openrouter_client():
         "ANTHROPIC_BASE_URL": "https://gateway.example.com/ica/v1",
     }
     with patch("artmind.ingest.load_env", return_value=env), patch(
-        "artmind.ingest.describe_image_openrouter", return_value="a description"
-    ) as mock_openrouter, patch("artmind.ingest.describe_image_ollama") as mock_ollama:
+        "artmind.extraction.describe_image_openrouter", return_value="a description"
+    ) as mock_openrouter, patch("artmind.extraction.describe_image_ollama") as mock_ollama:
         result = _describe_image(IMAGE, "gpt-4o")
     assert result == "a description"
     mock_ollama.assert_not_called()
@@ -66,7 +66,7 @@ def test_describe_image_returns_none_when_ibm_ica_missing_auth_token():
     # here as a clean None + an ERROR log, not a raised exception.
     env = {"ARTMIND_KG_LLM_PROVIDER": "ibm_ica"}
     with patch("artmind.ingest.load_env", return_value=env), patch(
-        "artmind.ingest.describe_image_openrouter"
+        "artmind.extraction.describe_image_openrouter"
     ) as mock_openrouter:
         result = _describe_image(IMAGE, "gpt-4o")
     assert result is None
@@ -76,7 +76,7 @@ def test_describe_image_returns_none_when_ibm_ica_missing_auth_token():
 def test_describe_image_passes_kg_llm_url_as_ollama_host():
     env = {"ARTMIND_KG_LLM_URL": "http://llm-host:11434"}
     with patch("artmind.ingest.load_env", return_value=env), patch(
-        "artmind.ingest.describe_image_ollama", return_value="a description"
+        "artmind.extraction.describe_image_ollama", return_value="a description"
     ) as mock_ollama:
         _describe_image(IMAGE, "gemma4:e4b")
     mock_ollama.assert_called_once()
