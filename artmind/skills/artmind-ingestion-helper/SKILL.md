@@ -238,10 +238,17 @@ artmind ingest async "$VAULT/Journal" --reextract --match '2026-10-*.md'   # que
 The file is not edited and keeps its version; every chunk is re-extracted (an LLM
 call each, so start with one file or a narrow `--match`), and its graph contribution
 is replaced as for a content change. No separate `extract-kg` / `write-to-graph`
-afterwards. A pdf/docx/pptx is re-extracted from the markdown its first conversion
+afterwards. A pdf/pptx is re-extracted from the markdown its first conversion
 stored: the source is never converted again, moved or edited (to re-convert it, change
 the source) -- unless that markdown was edited since its last extraction, in which case
-the source is converted again first. Tables and ad-hoc files ignore `--reextract`.
+the source is converted again first. A .docx is always converted again (no model call:
+image descriptions are reused), so one converted before Word comments were kept gains
+them, and its version bumps only if the body changed. Tables and ad-hoc files ignore
+`--reextract`.
+
+A .docx's Word comments appear in its converted markdown as `> [!comment]` callouts
+right after the paragraph (or list/table) they annotate; a comment docling could not
+link to a paragraph goes under `## Document comments` at the end.
 
 ---
 

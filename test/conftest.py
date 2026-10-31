@@ -384,7 +384,7 @@ def _fake_docling(body_by_call):
     bodies from `body_by_call` (a list), one per call."""
     calls = iter(body_by_call)
 
-    def _convert(dest_path, image_model):
+    def _convert(dest_path, image_model, **kwargs):
         return next(calls), {}
 
     return _convert

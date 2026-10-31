@@ -1199,9 +1199,45 @@ def _relativise_image_links(markdown: str, base_dir: Path) -> str:
     return markdown
 
 
-def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str | None, dict]:
+def _write_docx_comments(md_file: Path, json_file: Path) -> None:
+    """Rewrite docling's markdown of a .docx at `md_file` with its Word comments
+    inline (`docx_comments`), from the JSON the same run wrote at `json_file`,
+    then remove the JSON. A document without comments keeps docling's markdown
+    as it is. A JSON that cannot be read or rendered is logged and leaves the
+    markdown without comments: the conversion itself succeeded."""
+    from artmind.docx_comments import markdown_with_comments
+
+    try:
+        if not json_file.exists():
+            logger.warning("docling wrote no JSON for {}; its comments are not in the markdown", md_file.name)
+            return
+        try:
+            markdown = markdown_with_comments(json_file)
+        except Exception as exc:
+            logger.warning("Could not write the comments of {} inline: {}", md_file.name, exc)
+            return
+        if markdown is not None:
+            md_file.write_text(markdown, encoding="utf-8")
+            logger.info("Wrote the Word comments of {} inline", md_file.name)
+    finally:
+        json_file.unlink(missing_ok=True)
+
+
+def _convert_binary_via_docling(
+    dest_path: Path, image_model: str, *, reuse_image_descriptions: bool = False,
+) -> tuple[str | None, dict]:
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
+
+    A .docx's Word comments are written inline (`docx_comments`): docling also
+    writes its JSON, the markdown is rendered again from it when the document
+    has comments, and the JSON is removed.
+
+    `reuse_image_descriptions` takes an image's description from the
+    `<image>_desc.md` a previous conversion wrote beside it instead of asking
+    the model again (the image file name carries its content hash), so a
+    re-conversion of an unchanged source costs no image calls and gives back
+    the same descriptions.
 
     Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
     side effect of the docling invocation itself, and also returns it
@@ -1220,7 +1256,10 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
     t0 = time.monotonic()
-    cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
+    is_docx = dest_path.suffix.lower() == ".docx"
+    json_file = MARKDOWNS_DIR / f"{dest_path.stem}.json"
+    to_json = " --to json" if is_docx else ""
+    cmd_str = f'uv run docling --to md{to_json} --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
     returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
@@ -1246,6 +1285,9 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
         "Docling conversion done in {:.1f}s — markdown: {:.1f} KB", elapsed, md_size_kb,
     )
 
+    if is_docx:
+        _write_docx_comments(md_file, json_file)
+
     md_content = md_file.read_text(encoding="utf-8")
     relative = _relativise_image_links(md_content, MARKDOWNS_DIR)
     if relative != md_content:
@@ -1260,11 +1302,18 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
             logger.info("Found {} image(s) to describe in artifacts", len(images))
             for idx, image in enumerate(images, start=1):
                 logger.info("Image [{}/{}]: {}", idx, len(images), image.name)
-                description = _describe_image(image, image_model)
+                desc_file = image.with_name(image.name + "_desc.md")
+                description = None
+                if reuse_image_descriptions and desc_file.exists():
+                    stored = desc_file.read_text(encoding="utf-8")
+                    description = stored if stored.strip() else None
+                    if description:
+                        logger.debug("Reusing the stored description of {}", image.name)
+                if not description:
+                    description = _describe_image(image, image_model)
+                    if description:
+                        desc_file.write_text(description, encoding="utf-8")
                 if description:
-                    image.with_name(image.name + "_desc.md").write_text(
-                        description, encoding="utf-8"
-                    )
                     md_content = _replace_image_ref(md_content, image.name, description)
                 else:
                     logger.error("No description produced for image: {}", image.name)
@@ -1479,7 +1528,10 @@ def _ingest_binary_derived(
     chunked again and handed to `extract_kg` (tier `content`, `reextract`), with
     no conversion, no write to the markdown, no version bump and the source
     untouched. Without a stored markdown or a previous extraction there is
-    nothing to re-run, and the ingest is the ordinary one.
+    nothing to re-run, and the ingest is the ordinary one. A .docx is the
+    exception: it is converted again (no model call; image descriptions are
+    reused), so a conversion made before its Word comments were written
+    inline gains them, and the version bumps only if the body changed.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -1521,7 +1573,14 @@ def _ingest_binary_derived(
     existing_meta = plan.existing_meta
     baseline = plan.baseline
 
-    if plan.unchanged and reextract and registered_path.exists():
+    # A .docx is converted again on --reextract: its conversion runs no model
+    # (image descriptions are reused below), and a markdown converted before
+    # Word comments were written inline (`docx_comments`) gains them.
+    reconvert_docx = plan.unchanged and reextract and source.suffix.lower() == ".docx"
+    if reconvert_docx:
+        logger.info("{}: re-extraction of a .docx converts it again", source.name)
+        file_result["reextract"] = True
+    elif plan.unchanged and reextract and registered_path.exists():
         reextracted = _reextract_converted_binary(
             source, plan, file_result, effective_domain, chunk_size, orig_registry_path, t_file_start,
         )
@@ -1549,7 +1608,9 @@ def _ingest_binary_derived(
         )
         return file_result
 
-    body, err = _convert_binary_via_docling(dest_path, image_model)
+    body, err = _convert_binary_via_docling(
+        dest_path, image_model, reuse_image_descriptions=bool(file_result.get("reextract")),
+    )
     if body is None:
         file_result.update(err)
         return file_result

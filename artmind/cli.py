@@ -706,8 +706,9 @@ _REEXTRACT_HELP = (
     " not changed, under the schema as it stands now -- for after a schema/prompt change"
     " (`init --force`), which an unchanged file otherwise ignores (a note takes the metadata-only"
     " fast path, a binary is a no-op). Nothing is edited or converted again (a document is"
-    " re-extracted from the markdown already stored) and the version stays; the graph"
-    " contribution is replaced as for a content change. Narrow what it re-extracts with --match"
+    " re-extracted from the markdown already stored; a .docx is converted again, which adds"
+    " Word comments missing from an older conversion) and the version stays unless that"
+    " conversion changed the body; the graph contribution is replaced as for a content change. Narrow what it re-extracts with --match"
     " or a folder FILE_PATH: it is an LLM call per chunk. Tables and ad-hoc files ignore it."
 )
 _MATCH_HELP = (
