@@ -1653,7 +1653,9 @@ def _note_staging_dir(domain: str, note: Path, artmind_id: str) -> Path:
         return bare
     rel = canonical_path(note)
     folder = _staging_dir(domain, document_key(rel))
-    if (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
+    # No id (a caller that has not minted one): ownership cannot be judged, so
+    # the key's folder is used as is, never moved aside to the full digest.
+    if artmind_id and (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
         full = _staging_dir(domain, document_key(rel, full=True))
         logger.warning("{}: staging folder {} belongs to another document; using {}", rel, folder.name, full.name)
         return full

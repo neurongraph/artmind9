@@ -243,9 +243,11 @@ def retime_domain(
 
     folders = staging_folders(domain)
     if documents:
-        # A folder is named by its document's stem: match "2026-01-07" or "2026-01-07.md".
+        # A folder is named by its document's stem (a document staged before
+        # keys) or its key `<stem>~<hash>`: match "2026-01-07", "2026-01-07.md"
+        # or the whole key.
         wanted = {Path(d).stem for d in documents}
-        folders = [f for f in folders if f.name in wanted]
+        folders = [f for f in folders if f.name in wanted or f.name.rsplit("~", 1)[0] in wanted]
     if limit is not None:
         folders = folders[:limit]
     results, committed, failed = [], 0, []
