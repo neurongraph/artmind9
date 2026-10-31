@@ -110,8 +110,9 @@ converted binary's chunks are named by its markdown's stem.
 **An early claim.** docling writes `<key>.md` long before `conversion.json`, so a
 conversion interrupted in between left an ownerless keyed markdown. `_ingest_binary_derived`
 therefore writes the `{source_sha256, source_type, source_path}` record to
-`<key>_chunks/conversion.json` *before* converting (overwritten by the conversion
-record), and a keyed name counts as taken only when a *recorded owner* names another
+`<key>_chunks/conversion.json` *before* converting (atomically; replaced by the conversion
+record; skipped when the existing sidecar already names the same `source_path`, so a failed
+re-conversion cannot clobber the previous record), and a keyed name counts as taken only when a *recorded owner* names another
 source: an ownerless file at a source's own path-hash name is that source's, so a retry
 reconverts under the same key. The claim does not make a failed conversion look
 `unchanged`: that compares the staged baseline's `source_sha256`, which a failed run
@@ -121,7 +122,11 @@ never wrote.
 `source_path` differs from its own, `_ingest_binary_derived` rewrites `source_path` in
 the sidecar and in the staged `document.json` (only that field: `path`/`name` are the
 converted markdown's), so the old path no longer holds the claim and a different file
-added there gets its own key (the full-digest key, the original being taken).
+added there gets its own key (the full-digest key, the original being taken). The
+graph's `:Document` `source_path` follows at the next `vault sync` (the staged
+`document.json` fingerprint changes), not immediately on the ingesting machine. A legacy
+note whose domain changes becomes keyed and leaves its old `<stem>_chunks` behind
+(a harmless cache).
 
 `plan_binary` reads the existing document from the key's markdown, never from a bare
 `f"{stem}.md"`.

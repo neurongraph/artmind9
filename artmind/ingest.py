@@ -393,7 +393,7 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     except ValueError:
         registered_path = Path(registered_path_str)
     chunks_dir = _chunks_dir(_chunks_key(row_domain, registered_path, artmind_id or ""))
-    chunk_count =len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
+    chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
     result = {
         "status": "ok",
         "filename": registered_path.name,

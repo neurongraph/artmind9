@@ -85,10 +85,16 @@ The key is **chosen once, at first ingest**, and then kept:
   the retry instead of forking a second document. A keyed name is taken only when a
   recorded owner names a different source. When a moved binary is re-ingested, its
   recorded `source_path` (sidecar and staged `document.json`) is rewritten to the new
-  path, freeing the old one.
+  path, freeing the old one. The sidecar is written atomically, and the early claim
+  leaves a sidecar that already names the same source untouched, so a failed
+  re-conversion keeps the previous conversion's record. The moved binary's `:Document`
+  `source_path` in the graph is updated by the next `vault sync` (the staged
+  `document.json` fingerprint changes), not immediately on the ingesting machine.
 - **Notes**: their bare-stem staging folder if it holds their `_artmind_id` (a
   *legacy* note), else their key. The same name is used for the note's `_chunks/`
-  folder, so a legacy note keeps its bare chunk cache.
+  folder, so a legacy note keeps its bare chunk cache. A legacy note whose domain
+  changes becomes keyed (its bare staging folder is in the old domain) and leaves its old
+  `<stem>_chunks` behind -- a harmless cache.
 - **Collision guard**: a name already held by another source or document gets the
   full 64-hex key instead, with a warning. A derived file is never overwritten.
 
