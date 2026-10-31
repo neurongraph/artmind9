@@ -14,7 +14,7 @@ from __future__ import annotations
 import hashlib
 import uuid
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import yaml
 
@@ -130,6 +130,25 @@ def canonical_path(source: Path) -> str:
         except ValueError:
             pass
     return str(resolved)
+
+
+# ── document keys ───────────────────────────────────────────────────────────
+
+KEY_SEPARATOR = "~"
+KEY_HASH_CHARS = 12
+
+
+def document_key(vault_relative_path: str, *, full: bool = False) -> str:
+    """The name a document's derived files and staging folder take when it is
+    first ingested: `<stem>~<12 hex of sha256(path)>` (spec 2026-10-31
+    document-key-collisions). Computed from the vault-relative POSIX path
+    alone, so every laptop names one source alike, and two sources sharing a
+    filename never share a name. Chosen once and then found again
+    (`ingest._resolve_binary_key`, `ingest._note_staging_dir`); a move keeps
+    it. `full` is the collision guard's fallback: the whole digest."""
+    digest = hashlib.sha256(vault_relative_path.encode("utf-8")).hexdigest()
+    stem = PurePosixPath(vault_relative_path).stem
+    return f"{stem}{KEY_SEPARATOR}{digest if full else digest[:KEY_HASH_CHARS]}"
 
 
 def resolve_canonical_path(path_str: str) -> Path:
