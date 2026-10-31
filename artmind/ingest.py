@@ -1,5 +1,6 @@
 import glob
 import json
+import os
 import re
 import shutil
 import tempfile
@@ -285,6 +286,23 @@ def _update_chunk_step(doc_sha256: str, chunk_seq: int, step: str, status: str) 
 CONVERSION_SIDECAR = "conversion.json"
 _CONVERSION_KEYS = ("source_sha256", "source_type", "source_path")
 _MOVED_SOURCE_FIELDS = {"_source_sha256": "source_sha256", "_source_type": "source_type", "_source_path": "source_path"}
+
+
+def _write_sidecar(chunks_dir: Path, record: dict) -> None:
+    """Write `chunks_dir/conversion.json` atomically: a temp file beside it,
+    then one rename. The file is the only record of which source a keyed name
+    belongs to (`_converted_owner`), so a run killed mid-write must leave the
+    previous file whole, not a truncated one. The temp file is gone after
+    success and after failure."""
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".conversion-", suffix=".tmp", dir=chunks_dir)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(json.dumps(record, indent=2, ensure_ascii=False))
+        os.replace(tmp, chunks_dir / CONVERSION_SIDECAR)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
 
 
 def _is_derived_markdown(path: Path) -> bool:
@@ -1834,8 +1852,7 @@ def _record_binary_move(plan: BinaryPlan, domain: str, new_path: str) -> None:
         except (OSError, ValueError):
             sidecar = {"source_sha256": plan.source_sha256, "source_type": Path(new_path).suffix.lstrip(".").lower()}
         sidecar["source_path"] = new_path
-        sidecar_path.parent.mkdir(parents=True, exist_ok=True)
-        sidecar_path.write_text(json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8")
+        _write_sidecar(sidecar_path.parent, sidecar)
         found = _locate_staged(plan.existing_meta.get("_artmind_id") or "", [key], [domain], search=True)
         folder = found[0] if found else None
         if folder is None and (_staging_dir(domain, key) / "document.json").exists():
@@ -1871,9 +1888,7 @@ def _claim_binary_key(key: str, source_sha256: str, source: Path, source_path: s
         "source_type": source.suffix.lstrip(".").lower(),
         "source_path": source_path,
     }
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(claim, indent=2, ensure_ascii=False), encoding="utf-8",
-    )
+    _write_sidecar(chunks_dir, claim)
 
 
 def _ingest_binary_derived(
@@ -2071,9 +2086,7 @@ def _ingest_binary_derived(
                 "repaired": len(record.get("repaired") or []),
                 "unrepaired": len(record.get("unrepaired") or []),
             }
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8",
-    )
+    _write_sidecar(chunks_dir, sidecar)
 
     logger.info(
         "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
@@ -2126,9 +2139,7 @@ def _reextract_converted_binary(
     sidecar = {k: provenance[k] for k in _CONVERSION_KEYS}
     if isinstance(previous, dict):
         sidecar["conversion"] = previous
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(sidecar, indent=2, ensure_ascii=False), encoding="utf-8",
-    )
+    _write_sidecar(chunks_dir, sidecar)
     file_result.update({
         "status": "ok",
         "domain": effective_domain,

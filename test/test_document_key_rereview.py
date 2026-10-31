@@ -45,3 +45,23 @@ def test_failed_reconversion_leaves_the_previous_sidecar_alone(ingest_env, monke
     monkeypatch.setattr(ing, "_convert_binary_via_docling", converted)
     r3 = ing.ingest_file(a, "m", "general", chunk_size=6000)
     assert r3["status"] == "ok" and r3.get("tier") != "no_op"
+
+
+# ── 2: sidecar writes are atomic ────────────────────────────────────────────
+
+
+def test_sidecar_write_is_atomic_and_leaves_no_temp_file(ingest_env, monkeypatch):
+    vault, _ = ingest_env
+    a = _vault_pdf(vault, "A/Summary.pdf", b"certificate A")
+    key = document_key("A/Summary.pdf")
+    ing._claim_binary_key(key, ing._compute_sha256(a), a, "A/Summary.pdf")
+    folder = ing._chunks_dir(key)
+    assert json.loads((folder / ing.CONVERSION_SIDECAR).read_text())["source_path"] == "A/Summary.pdf"
+    assert [p.name for p in folder.iterdir()] == [ing.CONVERSION_SIDECAR]
+
+    # a write that dies before the swap keeps the old file whole, and cleans up
+    monkeypatch.setattr(ing.os, "replace", lambda *a, **k: (_ for _ in ()).throw(OSError("disk full")))
+    with pytest.raises(OSError):
+        ing._write_sidecar(folder, {"source_path": "elsewhere"})
+    assert json.loads((folder / ing.CONVERSION_SIDECAR).read_text())["source_path"] == "A/Summary.pdf"
+    assert [p.name for p in folder.iterdir()] == [ing.CONVERSION_SIDECAR]
