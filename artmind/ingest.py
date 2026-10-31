@@ -348,7 +348,7 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
         registered_path = resolve_canonical_path(registered_path_str)
     except ValueError:
         registered_path = Path(registered_path_str)
-    chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+    chunks_dir = _chunks_dir(_derived_key(registered_path))
     chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
     result = {
         "status": "ok",
@@ -1070,7 +1070,9 @@ def plan_vault_native(
     staged = None
     staged_folder = None
     if resolution.verdict != "new":
-        stems = [source.stem] + ([Path(resolution.prior_path).stem] if resolution.prior_path else [])
+        stems = [source.stem, document_key(canonical_path(source))] + (
+            [Path(resolution.prior_path).stem, document_key(resolution.prior_path)] if resolution.prior_path else []
+        )
         found = _locate_staged(
             resolution.artmind_id, stems, [effective_domain, prior_domain],
             search=resolution.verdict in ("adopt", "heal"),
@@ -1235,7 +1237,7 @@ def _ingest_vault_native(
         return file_result
 
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    chunks_dir = _chunks_dir(_derived_key(source))
     _persist_chunks(chunks, chunks_dir, body=body)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
@@ -1626,6 +1628,46 @@ def _chunks_dir(key: str) -> Path:
 
 def _staging_dir(domain: str, key: str) -> Path:
     return KG_DIR / domain / key
+
+
+def _derived_key(registered_path: Path) -> str:
+    """The key a registered document's chunks are named by: a converted
+    binary's markdown already carries it in its name; a vault note's is
+    computed from the note's vault path."""
+    path = Path(registered_path)
+    try:
+        if path.resolve().is_relative_to(Path(MARKDOWNS_DIR).resolve()):
+            return path.stem
+    except OSError:
+        pass
+    return document_key(canonical_path(path))
+
+
+def _note_staging_dir(domain: str, note: Path, artmind_id: str) -> Path:
+    """Where a vault note's extraction is staged: its bare-stem folder when that
+    already holds this note (a note staged before keys, no migration), else its
+    key's folder -- or the full-digest key's when another document holds that
+    (the collision guard)."""
+    bare = _staging_dir(domain, note.stem)
+    if _read_staged_document(bare, artmind_id) is not None:
+        return bare
+    rel = canonical_path(note)
+    folder = _staging_dir(domain, document_key(rel))
+    if (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
+        full = _staging_dir(domain, document_key(rel, full=True))
+        logger.warning("{}: staging folder {} belongs to another document; using {}", rel, folder.name, full.name)
+        return full
+    return folder
+
+
+def _document_staging_dir(domain: str, registered_path: Path, artmind_id: str) -> Path:
+    """`extract_kg`'s staging folder for a registered document: a converted
+    binary's is named by its key (its markdown's stem); a note's by
+    `_note_staging_dir`."""
+    key = _derived_key(registered_path)
+    if key == Path(registered_path).stem:
+        return _staging_dir(domain, key)
+    return _note_staging_dir(domain, Path(registered_path), artmind_id)
 
 
 def _converted_owner(key: str, domain: str) -> tuple[str, str | None] | None:
@@ -3055,7 +3097,7 @@ def ingest_to_kg(
             from artmind.delta import classify_reingest, apply_metadata_only
 
             registered_path = Path(file_result["registered_path"])
-            md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+            md_file = _markdown_path(registered_path.stem)
             if md_file.exists():
                 classification = classify_reingest(
                     md_file,
@@ -3107,7 +3149,7 @@ def ingest_to_kg(
             return False
         _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         chunks = _split_markdown(body, chunk_size)
-        chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+        chunks_dir = _chunks_dir(_derived_key(registered_path))
         _persist_chunks(chunks, chunks_dir, body=body)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
@@ -3494,7 +3536,9 @@ def extract_kg(
     # chunks + embeddings only, no LLM step of any kind.
     chunks_only = not graph_extraction_enabled(schema)
 
-    doc_kg_dir = KG_DIR / domain / registered_path.stem
+    # A note's id is in `file_result` already; a binary's folder is named by
+    # its key and needs no id, so this stays above the identity block below.
+    doc_kg_dir = _document_staging_dir(domain, registered_path, file_result.get("artmind_id") or "")
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
     llm_debug_dir = _llm_debug_dir(doc_kg_dir)
     # Scoped by doc_sha256 (not just the file stem) so a genuine resume of an

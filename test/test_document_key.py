@@ -165,3 +165,42 @@ def test_docling_writes_the_keyed_markdown_and_artifacts(ingest_env, monkeypatch
     assert body.strip() == "# A"
     assert f'{key}.pdf"' in seen["command"]
     assert not list(ing.MARKDOWNS_DIR.glob("Summary.md"))
+
+
+def _note(vault, rel, body):
+    path = vault / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(f"---\n_domain: general\n---\n{body}\n")
+    return path
+
+
+def test_two_same_named_notes_get_distinct_staging(ingest_env):
+    vault, _ = ingest_env
+    a = _note(vault, "A/README.md", "# A\n\nAlpha.")
+    b = _note(vault, "B/README.md", "# B\n\nBeta.")
+    ra = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    rb = ing.ingest_file(b, "m", "general", chunk_size=6000)
+
+    assert ra["chunks_dir"] != rb["chunks_dir"]
+    da = ing._note_staging_dir("general", ing.Path(ra["registered_path"]), ra["artmind_id"])
+    db_ = ing._note_staging_dir("general", ing.Path(rb["registered_path"]), rb["artmind_id"])
+    assert da != db_
+
+
+def test_existing_note_keeps_its_bare_staging_folder(ingest_env):
+    vault, _ = ingest_env
+    a = _note(vault, "A/README.md", "# A\n\nAlpha.")
+    ra = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    bare = ing._staging_dir("general", "README")
+    bare.mkdir(parents=True)
+    (bare / "document.json").write_text(json.dumps({"id": ra["artmind_id"]}))
+
+    assert ing._note_staging_dir("general", a, ra["artmind_id"]) == bare
+
+
+def test_new_note_staging_is_keyed(ingest_env):
+    vault, _ = ingest_env
+    a = _note(vault, "A/README.md", "# A\n\nAlpha.")
+    ra = ing.ingest_file(a, "m", "general", chunk_size=6000)
+    assert ing._note_staging_dir("general", a, ra["artmind_id"]) == ing._staging_dir(
+        "general", document_key("A/README.md"))
