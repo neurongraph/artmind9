@@ -57,7 +57,11 @@ def staged_markdown_path(document: dict) -> Path:
     `document_identity.markdown_path_for`'s rule, from `document.json` alone."""
     if document.get("artmind_id"):
         return resolve_canonical_path(str(document.get("path") or ""))
-    return ingest.MARKDOWNS_DIR / f"{Path(str(document.get('name') or '')).stem}.md"
+    if document.get("path"):
+        recorded = resolve_canonical_path(str(document["path"]))
+        if recorded.exists():
+            return recorded
+    return ingest._markdown_path(Path(str(document.get("name") or "")).stem)
 
 
 def retime_observations(observations: list[dict], document: dict, schema: dict) -> list[dict]:

@@ -190,11 +190,6 @@ def test_no_hand_built_derived_paths_outside_the_helpers():
     # `stem` argument is now a document key).
     allowed = {"ingest.py": "return ", "document_identity.py": 'return MARKDOWNS_DIR / f"{stem}.md"'}
     offenders = [o for o in offenders if not (o.split(":")[0] in allowed and allowed[o.split(":")[0]] in o)]
-    # KNOWN GAP: these two rebuild a converted markdown from the source's bare
-    # name (`document["name"]`), which is wrong for a keyed binary. Not in the
-    # plan; needs a decision (see the task report).
-    gap = ("retime.py", "temporal.py")
-    offenders = [o for o in offenders if o.split(":")[0] not in gap]
     assert not offenders, "\n".join(offenders)
 
 
@@ -235,3 +230,13 @@ def test_new_note_staging_is_keyed(ingest_env):
     ra = ing.ingest_file(a, "m", "general", chunk_size=6000)
     assert ing._note_staging_dir("general", a, ra["artmind_id"]) == ing._staging_dir(
         "general", document_key("A/README.md"))
+
+
+def test_retime_reads_a_keyed_binarys_markdown_from_its_recorded_path(ingest_env):
+    from artmind.retime import staged_markdown_path
+
+    keyed = ing._markdown_path("Summary~ab12cd34ef56")
+    keyed.write_text("body", encoding="utf-8")
+    doc = {"name": "Summary.pdf", "path": str(keyed)}
+    assert staged_markdown_path(doc) == keyed
+    assert staged_markdown_path({"name": "Summary.pdf"}) == ing._markdown_path("Summary")
