@@ -53,6 +53,8 @@ def convert_real(monkeypatch, tmp_path: Path, rel: str) -> tuple[str, dict]:
     monkeypatch.setattr(ing, "MARKDOWNS_DIR", markdowns)
     monkeypatch.setattr(ing, "LOGS_DIR", tmp_path / "logs")
     monkeypatch.setattr(ing, "_describe_image", lambda image, model: DESCRIBED)
-    body, info = ing._convert_binary_via_docling((DOCS / rel).resolve(), "unused-model")
+    body, info = ing._convert_binary_via_docling(
+        (DOCS / rel).resolve(), "unused-model", key=(DOCS / rel).stem
+    )
     assert body is not None, info
     return body, info["conversion"]

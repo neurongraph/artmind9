@@ -6,7 +6,7 @@ import pytest
 
 import artmind.ingest as ing
 from artmind import page_check, page_repair
-from test_page_check import _docling_doc, _pdf_bytes, _pdf_source, _sidecar, _stub_docling_json
+from test_page_check import _converted_markdown, _docling_doc, _pdf_bytes, _pdf_source, _sidecar, _stub_docling_json
 
 SOURCE_PAGE_2 = "zeta eta theta iota kappa and the sum is 42 exactly"
 GOOD = "zeta eta theta iota kappa and the sum is 42 exactly"
@@ -162,7 +162,7 @@ def test_repair_puts_the_verified_page_in_the_body_and_records_it(ingest_env, mo
     conversion = _sidecar()["conversion"]
     assert conversion["repaired"] == [2] and conversion["unrepaired"] == []
     assert conversion["model"] == "vlm-test" and conversion["prompt_version"] == page_repair.PROMPT_VERSION
-    body = (ing.MARKDOWNS_DIR / "deck.md").read_text(encoding="utf-8")
+    body = _converted_markdown().read_text(encoding="utf-8")
     assert GOOD in body
     assert result["page_check"] == {"flagged": 1, "repaired": 1, "unrepaired": 0}
 
@@ -179,7 +179,7 @@ def test_a_rejected_page_stays_docling_and_is_listed_unrepaired(ingest_env, monk
 
     conversion = _sidecar()["conversion"]
     assert conversion["repaired"] == [] and conversion["unrepaired"] == [2]
-    body = (ing.MARKDOWNS_DIR / "deck.md").read_text(encoding="utf-8")
+    body = _converted_markdown().read_text(encoding="utf-8")
     assert "zeta eta" in body and GOOD not in body
 
 

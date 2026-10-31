@@ -489,7 +489,10 @@ def test_restore_from_archive_swaps_the_kg_folder_in_atomically(env, monkeypatch
     (doc_kg / "document.json").write_text(json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8")
     (doc_kg / "observations.json").write_text("[]", encoding="utf-8")
     (doc_kg / "chunks" / "sha" / "0.json").write_text("cached", encoding="utf-8")
-    stale = kg_dir / "general" / "policy-restored"
+    from artmind.document_identity import document_key
+
+    # A restore lands in the note's keyed staging folder (new staging, not the bundle's name).
+    stale = kg_dir / "general" / document_key("notes/policy-restored.md")
     stale.mkdir(parents=True)
     (stale / "stale.json").write_text("from an earlier life", encoding="utf-8")
 
@@ -513,7 +516,7 @@ def test_restore_from_archive_swaps_the_kg_folder_in_atomically(env, monkeypatch
     files = sorted(p.relative_to(stale).as_posix() for p in stale.rglob("*") if p.is_file())
     assert files == ["chunks/sha/0.json", "document.json", "observations.json"]
     assert json.loads((stale / "document.json").read_text(encoding="utf-8"))["id"] == "doc-2"
-    assert sorted(p.name for p in (kg_dir / "general").iterdir()) == ["policy-restored"]
+    assert sorted(p.name for p in (kg_dir / "general").iterdir()) == [stale.name]
 
 
 # ── review fixes: restore safety, atomicity, moved notes ─────────────────────
@@ -538,7 +541,7 @@ def _stub_commit(monkeypatch):
 
 
 def test_restore_under_a_new_path_repoints_the_staged_source_path_too(env, monkeypatch):
-    from artmind.document_identity import canonical_path
+    from artmind.document_identity import canonical_path, document_key
 
     vault, archive_root, kg_dir, originals = env
     bundle_dir = _seed_bundle(archive_root, "doc-1")
@@ -547,7 +550,7 @@ def test_restore_under_a_new_path_repoints_the_staged_source_path_too(env, monke
 
     archive.restore_from_archive("doc-1", to_path="n/q.md", new_id="doc-2")
 
-    document = json.loads((kg_dir / "general" / "q" / "document.json").read_text(encoding="utf-8"))
+    document = json.loads((kg_dir / "general" / document_key("n/q.md") / "document.json").read_text(encoding="utf-8"))
     assert document["source_path"] == canonical_path(vault / "n" / "q.md") == "n/q.md"
     assert (document["id"], document["artmind_id"], document["name"]) == ("doc-2", "doc-2", "q.md")
     assert document["path"] == "n/q.md", "vault-relative: the staging folder is committed"

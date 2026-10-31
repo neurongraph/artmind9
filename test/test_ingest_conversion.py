@@ -29,11 +29,13 @@ def _stub_docling(monkeypatch, md: str, doc=None, json_text=None):
 
     def run(cmd, *args, **kwargs):
         calls.append(cmd)
-        (ing.MARKDOWNS_DIR / "deck.md").write_text(md, encoding="utf-8")
+        # docling names its outputs after its input: `<document key>.pdf` -> `<key>.md`
+        stem = cmd.rsplit("/", 1)[-1].rstrip('"').rsplit(".", 1)[0]
+        (ing.MARKDOWNS_DIR / f"{stem}.md").write_text(md, encoding="utf-8")
         if json_text is not None:
-            (ing.MARKDOWNS_DIR / "deck.json").write_text(json_text, encoding="utf-8")
+            (ing.MARKDOWNS_DIR / f"{stem}.json").write_text(json_text, encoding="utf-8")
         elif doc is not None:
-            doc.save_as_json(ing.MARKDOWNS_DIR / "deck.json")
+            doc.save_as_json(ing.MARKDOWNS_DIR / f"{stem}.json")
         return 0, "", ""
 
     monkeypatch.setattr(ing, "run_command", run)
@@ -70,7 +72,9 @@ def _deck(notes: dict[int, str], table=False):
 
 def _pdf(ingest_env):
     vault, source = ingest_env
-    return source.with_name("deck.pdf")
+    pdf = source.with_name("deck.pdf")
+    pdf.write_bytes(b"%PDF fake")  # the docling CLI is handed a link to its input
+    return pdf
 
 
 def test_docling_is_asked_for_markdown_and_json_in_one_run(ingest_env):
@@ -83,7 +87,7 @@ def test_the_body_is_rendered_from_the_json_with_tidy_tables(ingest_env, monkeyp
     monkeypatch.setenv("ARTMIND_PAGE_REPAIR", "off")
     _stub_docling(monkeypatch, "docling's own markdown", doc=_deck({}, table=True))
 
-    body, err = ing._convert_binary_via_docling(pdf, "model")
+    body, err = ing._convert_binary_via_docling(pdf, "model", key="deck")
 
     assert "| Name | Value |\n| - | - |\n| alpha | one |" in body
     assert "docling's own markdown" not in body
@@ -96,7 +100,7 @@ def test_a_pptx_body_gets_its_speaker_notes(ingest_env, monkeypatch):
     monkeypatch.setenv("ARTMIND_PAGE_REPAIR", "off")
     _stub_docling(monkeypatch, "", doc=_deck({2: "Say this aloud."}))
 
-    body, _ = ing._convert_binary_via_docling(source, "model")
+    body, _ = ing._convert_binary_via_docling(source, "model", key="deck")
 
     assert body.index("Slide 2 text.") < body.index("**Speaker notes:**") < body.index("> Say this aloud.")
 
@@ -106,7 +110,7 @@ def test_a_pdf_never_gets_notes(ingest_env, monkeypatch):
     monkeypatch.setenv("ARTMIND_PAGE_REPAIR", "off")
     _stub_docling(monkeypatch, "", doc=_deck({2: "Not a slide note."}))
 
-    body, _ = ing._convert_binary_via_docling(pdf, "model")
+    body, _ = ing._convert_binary_via_docling(pdf, "model", key="deck")
 
     assert "Speaker notes" not in body and "Not a slide note." not in body
 
@@ -116,7 +120,7 @@ def test_a_missing_or_unreadable_json_falls_back_to_doclings_markdown(ingest_env
     pdf = _pdf(ingest_env)
     _stub_docling(monkeypatch, PADDED_MD, json_text=json_text)
 
-    body, err = ing._convert_binary_via_docling(pdf, "model")
+    body, err = ing._convert_binary_via_docling(pdf, "model", key="deck")
 
     assert "| Name | Value |\n| - | - |\n| alpha | one |" in body and "Body text." in body
     assert err["conversion"]["page_check"] == "skipped"
@@ -132,7 +136,7 @@ def test_a_json_that_fails_to_render_does_not_fail_the_conversion(ingest_env, mo
 
     monkeypatch.setattr(docling_render, "render_body", boom)
 
-    body, err = ing._convert_binary_via_docling(source, "model")
+    body, err = ing._convert_binary_via_docling(source, "model", key="deck")
 
     assert body == "Slide 1 text.\n\nSlide 2 text." and "conversion" in err
 
@@ -141,7 +145,7 @@ def test_docling_failure_keeps_the_error_path(ingest_env, monkeypatch):
     vault, source = ingest_env
     monkeypatch.setattr(ing, "run_command", lambda *a, **k: (1, "", "boom"))
 
-    body, err = ing._convert_binary_via_docling(source, "model")
+    body, err = ing._convert_binary_via_docling(source, "model", key="deck")
 
     assert body is None and err == {"status": "failed", "error": "Docling conversion failed"}
 
@@ -153,7 +157,7 @@ def test_conversion_json_records_the_conversion_beside_the_provenance(ingest_env
 
     result = ing.ingest_file(source, "model", "general", chunk_size=6000)
 
-    sidecar = json.loads((ing.MARKDOWNS_DIR / "deck_chunks" / ing.CONVERSION_SIDECAR).read_text())
+    sidecar = json.loads((ing._chunks_dir(ing.plan_binary(source, "general").registered_path.stem) / ing.CONVERSION_SIDECAR).read_text())
     assert sidecar["conversion"]["render_version"] == docling_render.RENDER_VERSION
     assert {"source_sha256", "source_type", "source_path"} <= set(sidecar)
     assert set(result["provenance"]) >= set(ing._CONVERSION_KEYS)
@@ -167,7 +171,7 @@ def test_a_stubbed_conversion_leaves_no_conversion_record(ingest_env, monkeypatc
 
     ing.ingest_file(source, "model", "general", chunk_size=6000)
 
-    sidecar = json.loads((ing.MARKDOWNS_DIR / "deck_chunks" / ing.CONVERSION_SIDECAR).read_text())
+    sidecar = json.loads((ing._chunks_dir(ing.plan_binary(source, "general").registered_path.stem) / ing.CONVERSION_SIDECAR).read_text())
     assert "conversion" not in sidecar
 
 
@@ -183,5 +187,5 @@ def test_a_reextract_from_the_stored_markdown_keeps_the_conversion_record(ingest
 
     ing.ingest_file(source, "model", "general", chunk_size=6000, reextract=True)
 
-    sidecar = json.loads((ing.MARKDOWNS_DIR / "deck_chunks" / ing.CONVERSION_SIDECAR).read_text())
+    sidecar = json.loads((ing._chunks_dir(ing.plan_binary(source, "general").registered_path.stem) / ing.CONVERSION_SIDECAR).read_text())
     assert sidecar["conversion"]["page_check"] == "off"

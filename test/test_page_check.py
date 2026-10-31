@@ -373,8 +373,10 @@ def test_summary_counts():
 
 def _stub_docling_json(monkeypatch, doc, md):
     def run(cmd, *args, **kwargs):
-        (ing.MARKDOWNS_DIR / "deck.md").write_text(md, encoding="utf-8")
-        doc.save_as_json(ing.MARKDOWNS_DIR / "deck.json")
+        # docling names its outputs after its input: `<document key>.pdf` -> `<key>.md`
+        stem = cmd.rsplit("/", 1)[-1].rstrip('"').rsplit(".", 1)[0]
+        (ing.MARKDOWNS_DIR / f"{stem}.md").write_text(md, encoding="utf-8")
+        doc.save_as_json(ing.MARKDOWNS_DIR / f"{stem}.json")
         return 0, "", ""
 
     monkeypatch.setattr(ing, "run_command", run)
@@ -388,8 +390,14 @@ def _pdf_source(ingest_env):
     return pdf
 
 
+def _converted_markdown():
+    """The one markdown the conversion wrote -- named by the document's key."""
+    (path,) = ing.MARKDOWNS_DIR.glob("deck~*.md")
+    return path
+
+
 def _sidecar():
-    return json.loads((ing.MARKDOWNS_DIR / "deck_chunks" / ing.CONVERSION_SIDECAR).read_text())
+    return json.loads((ing._chunks_dir(_converted_markdown().stem) / ing.CONVERSION_SIDECAR).read_text())
 
 
 def test_detect_records_findings_logs_one_warning_and_counts(ingest_env, monkeypatch):
@@ -446,7 +454,8 @@ def test_a_missing_json_marks_the_check_skipped(ingest_env, monkeypatch):
     pdf = _pdf_source(ingest_env)
 
     def run(cmd, *args, **kwargs):
-        (ing.MARKDOWNS_DIR / "deck.md").write_text("alpha beta\n", encoding="utf-8")
+        stem = cmd.rsplit("/", 1)[-1].rstrip('"').rsplit(".", 1)[0]
+        (ing.MARKDOWNS_DIR / f"{stem}.md").write_text("alpha beta\n", encoding="utf-8")
         return 0, "", ""
 
     monkeypatch.setattr(ing, "run_command", run)
