@@ -1199,9 +1199,35 @@ def _relativise_image_links(markdown: str, base_dir: Path) -> str:
     return markdown
 
 
-def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str | None, dict]:
+def _convert_docx_in_process(dest_path: Path, md_file: Path) -> tuple[int, str, str]:
+    """`docx_convert.convert_docx` with `run_command`'s return shape, so a
+    failure is reported as a failed docling run. The prepared copy of the
+    .docx is written under `LOGS_DIR`, never beside the vault's files."""
+    from artmind.docx_convert import convert_docx
+
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        convert_docx(dest_path, md_file, work_dir=LOGS_DIR)
+    except Exception as exc:
+        return 1, "", f"{type(exc).__name__}: {exc}"
+    return 0, "", ""
+
+
+def _convert_binary_via_docling(
+    dest_path: Path, image_model: str, *, reuse_image_descriptions: bool = False,
+) -> tuple[str | None, dict]:
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
+
+    A .docx is converted in-process by `docx_convert` (tracked changes
+    accepted, Word comments inline, tables tidied); every other format runs
+    the docling CLI.
+
+    `reuse_image_descriptions` takes an image's description from the
+    `<image>_desc.md` a previous conversion wrote beside it instead of asking
+    the model again (the image file name carries its content hash), so a
+    re-conversion of an unchanged source costs no image calls and gives back
+    the same descriptions.
 
     Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
     side effect of the docling invocation itself, and also returns it
@@ -1220,8 +1246,11 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
     t0 = time.monotonic()
-    cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
-    returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
+    if dest_path.suffix.lower() == ".docx":
+        returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file)
+    else:
+        cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
+        returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
         combined = (stderr or "") + (stdout or "")
@@ -1260,11 +1289,18 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
             logger.info("Found {} image(s) to describe in artifacts", len(images))
             for idx, image in enumerate(images, start=1):
                 logger.info("Image [{}/{}]: {}", idx, len(images), image.name)
-                description = _describe_image(image, image_model)
+                desc_file = image.with_name(image.name + "_desc.md")
+                description = None
+                if reuse_image_descriptions and desc_file.exists():
+                    stored = desc_file.read_text(encoding="utf-8")
+                    description = stored if stored.strip() else None
+                    if description:
+                        logger.debug("Reusing the stored description of {}", image.name)
+                if not description:
+                    description = _describe_image(image, image_model)
+                    if description:
+                        desc_file.write_text(description, encoding="utf-8")
                 if description:
-                    image.with_name(image.name + "_desc.md").write_text(
-                        description, encoding="utf-8"
-                    )
                     md_content = _replace_image_ref(md_content, image.name, description)
                 else:
                     logger.error("No description produced for image: {}", image.name)
@@ -1479,7 +1515,11 @@ def _ingest_binary_derived(
     chunked again and handed to `extract_kg` (tier `content`, `reextract`), with
     no conversion, no write to the markdown, no version bump and the source
     untouched. Without a stored markdown or a previous extraction there is
-    nothing to re-run, and the ingest is the ordinary one.
+    nothing to re-run, and the ingest is the ordinary one. A .docx is the
+    exception: it is converted again (no model call; image descriptions are
+    reused), so a conversion made before the current .docx conversion
+    (`docx_convert`) gains its comments and tidy tables, and the version
+    bumps only if the body changed.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -1521,7 +1561,15 @@ def _ingest_binary_derived(
     existing_meta = plan.existing_meta
     baseline = plan.baseline
 
-    if plan.unchanged and reextract and registered_path.exists():
+    # A .docx is converted again on --reextract: its conversion runs no model
+    # (image descriptions are reused below), and a markdown converted before
+    # the current .docx conversion (`docx_convert`) gains its comments,
+    # accepted tracked changes and tidy tables.
+    reconvert_docx = plan.unchanged and reextract and source.suffix.lower() == ".docx"
+    if reconvert_docx:
+        logger.info("{}: re-extraction of a .docx converts it again", source.name)
+        file_result["reextract"] = True
+    elif plan.unchanged and reextract and registered_path.exists():
         reextracted = _reextract_converted_binary(
             source, plan, file_result, effective_domain, chunk_size, orig_registry_path, t_file_start,
         )
@@ -1549,7 +1597,9 @@ def _ingest_binary_derived(
         )
         return file_result
 
-    body, err = _convert_binary_via_docling(dest_path, image_model)
+    body, err = _convert_binary_via_docling(
+        dest_path, image_model, reuse_image_descriptions=bool(file_result.get("reextract")),
+    )
     if body is None:
         file_result.update(err)
         return file_result
@@ -1719,6 +1769,26 @@ def _reattach_table_headers(sub_chunks: list[str]) -> list[str]:
     return result
 
 
+def _carry_trailing_table_headers(pieces: list[str]) -> list[str]:
+    """`pieces` with a table header (header row + separator) that ends a piece,
+    with none of its rows after it, moved to the start of the next piece: a
+    chunk ending on a bare header extracts nothing from it, and the next one
+    needs it anyway. The pieces stay verbatim slices of the text (the splitter
+    cut them at the newline that is put back here)."""
+    result = list(pieces)
+    for i in range(len(result) - 1):
+        lines = result[i].rstrip("\n").split("\n")
+        if (
+            len(lines) > 2
+            and _is_table_row(lines[-2])
+            and _is_table_separator_row(lines[-1])
+            and _is_table_row(result[i + 1].lstrip("\n").split("\n", 1)[0])
+        ):
+            result[i] = "\n".join(lines[:-2]).rstrip("\n")
+            result[i + 1] = "\n".join(lines[-2:]) + "\n" + result[i + 1].lstrip("\n")
+    return result
+
+
 def _header_path(metadata: dict) -> str:
     """Breadcrumb of the h1–h4 headers the splitter attached to a chunk, e.g.
     'Overview > Fees > Monthly'. Empty when the chunk sits under no heading."""
@@ -1787,6 +1857,7 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     def _emit(pieces: list[str], header_path: str, cursor: int) -> int:
         # Offsets are located against the pre-reattachment pieces (each a
         # verbatim substring of `text`); reattachment only prepends to `text`.
+        pieces = _carry_trailing_table_headers(pieces)
         located = [(0, 0)] * len(pieces)
         for i, piece in enumerate(pieces):
             start, end, cursor = _locate_chunk(text, piece, cursor)

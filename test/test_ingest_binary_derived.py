@@ -15,6 +15,8 @@ vault-resident source.
 import json
 import subprocess
 
+import pytest
+
 import artmind.ingest as ing
 from conftest import _fake_docling, stage_as_extracted
 
@@ -284,7 +286,7 @@ def test_reextract_of_a_binary_whose_markdown_was_edited_converts_it_again(inges
     derived.write_text(derived.read_text().replace("Body v1.", "Body v1, edited."))
     conversions = []
 
-    def convert(dest_path, image_model):
+    def convert(dest_path, image_model, **kwargs):
         conversions.append(dest_path)
         return "# Deck\n\nBody v1.\n", {}
 
@@ -333,3 +335,156 @@ def test_docling_image_links_are_made_relative_to_the_markdown(tmp_path):
     assert "![Image](Deck_artifacts/image_000000_ab.png)" in out
     assert "![Image](<Deck (1)_artifacts/image_000001_cd.png>)" in out
     assert "![Logo](https://example.com/logo.png)" in out
+
+
+# ── .docx conversion and re-conversion ─────────────────────────────────────────
+
+
+def _fake_docling_run(markdowns, *, md, image=None, calls=None):
+    """A `run_command` stand-in for the docling CLI: writes `md` into
+    `markdowns`, plus `image` as an exported picture."""
+    def run(cmd, cwd=None):
+        if calls is not None:
+            calls.append(cmd)
+        stem = cmd.rsplit("/", 1)[-1].rstrip('"').rsplit(".", 1)[0]
+        (markdowns / f"{stem}.md").write_text(md, encoding="utf-8")
+        if image is not None:
+            artifacts = markdowns / f"{stem}_artifacts"
+            artifacts.mkdir(exist_ok=True)
+            (artifacts / image).write_bytes(b"png")
+        return 0, "", ""
+    return run
+
+
+def _no_cli(cmd, cwd=None):
+    raise AssertionError("a .docx is not converted by the docling CLI")
+
+
+def test_a_docx_is_converted_in_process_with_its_prepared_copy_under_logs(ingest_env, monkeypatch):
+    import artmind.docx_convert as dc
+
+    seen = {}
+
+    def convert(source, md_file, *, work_dir=None):
+        seen.update(source=source, md_file=md_file, work_dir=work_dir)
+        md_file.write_text("Body.\n\n> [!comment] Comment\n> A: Note.", encoding="utf-8")
+
+    monkeypatch.setattr(ing, "run_command", _no_cli)
+    monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
+    monkeypatch.setattr(dc, "convert_docx", convert)
+    source = ing.MARKDOWNS_DIR.parent / "report.docx"
+
+    body, err = ing._convert_binary_via_docling(source, "m")
+
+    assert err == {}
+    assert body == "Body.\n\n> [!comment] Comment\n> A: Note."
+    assert seen == {"source": source, "md_file": ing.MARKDOWNS_DIR / "report.md", "work_dir": ing.LOGS_DIR}
+
+
+def test_a_failed_docx_conversion_is_a_failed_file(ingest_env, monkeypatch):
+    import artmind.docx_convert as dc
+
+    def convert(source, md_file, *, work_dir=None):
+        raise ValueError("not a zip file")
+
+    monkeypatch.setattr(ing, "run_command", _no_cli)
+    monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
+    monkeypatch.setattr(dc, "convert_docx", convert)
+
+    body, err = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "report.docx", "m")
+
+    assert body is None
+    assert err == {"status": "failed", "error": "Docling conversion failed"}
+
+
+def test_a_pdf_conversion_runs_the_docling_cli(ingest_env, monkeypatch):
+    calls = []
+    monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md="Text.", calls=calls))
+
+    body, _ = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "paper.pdf", "m")
+
+    assert body == "Text."
+    assert calls[0].startswith("uv run docling --to md --image-export-mode referenced")
+
+
+def test_image_descriptions_are_reused_only_when_asked(ingest_env, monkeypatch):
+    image = "image_000000_ab.png"
+    md = f"Intro.\n\n![Image]({ing.MARKDOWNS_DIR}/paper_artifacts/{image})"
+    monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md=md, image=image))
+    described = []
+
+    def describe(path, model):
+        described.append(path.name)
+        return "A red square."
+
+    monkeypatch.setattr(ing, "_describe_image", describe)
+
+    first, _ = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "paper.pdf", "m")
+    (ing.MARKDOWNS_DIR / "paper_artifacts" / f"{image}_desc.md").write_text("A stored description.")
+    reused, _ = ing._convert_binary_via_docling(
+        ing.MARKDOWNS_DIR.parent / "paper.pdf", "m", reuse_image_descriptions=True,
+    )
+    fresh, _ = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "paper.pdf", "m")
+
+    assert described == [image, image], "no model call when the stored description is reused"
+    assert first == fresh == "Intro.\n\nA red square."
+    assert reused == "Intro.\n\nA stored description."
+
+
+def _docx_source(ingest_env):
+    vault, deck = ingest_env
+    source = deck.with_name("report.docx")
+    source.write_bytes(b"fake docx v1")
+    return source
+
+
+def test_reextract_of_an_unchanged_docx_converts_it_again_reusing_image_descriptions(ingest_env, monkeypatch):
+    """A .docx converted before its comments were written inline gains them on
+    --reextract: it is converted again (no model call for its images), and the
+    version bumps only because the body changed."""
+    source = _docx_source(ingest_env)
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["Body.\n"]))
+    r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
+    seen = []
+
+    def convert(dest_path, image_model, **kwargs):
+        seen.append(kwargs)
+        return "Body.\n\n> [!comment]\n> Noted.\n", {}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", convert)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert seen == [{"reuse_image_descriptions": True}]
+    assert r2["status"] == "ok" and r2["reextract"] is True
+    assert r2["artmind_id"] == r1["artmind_id"]
+    assert r2["version"] == r1["version"] + 1
+    assert "> [!comment]" in (ing.MARKDOWNS_DIR / "report.md").read_text()
+
+
+def test_reextract_of_an_unchanged_docx_with_the_same_body_keeps_its_version(ingest_env, monkeypatch):
+    source = _docx_source(ingest_env)
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["Body.\n", "Body.\n"]))
+    r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert r2["reextract"] is True and "chunks_dir" in r2
+    assert r2["version"] == r1["version"]
+
+
+def test_an_ordinary_conversion_does_not_reuse_image_descriptions(ingest_env, monkeypatch):
+    source = _docx_source(ingest_env)
+    seen = []
+
+    def convert(dest_path, image_model, **kwargs):
+        seen.append(kwargs)
+        return "Body.\n", {}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", convert)
+
+    ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert seen == [{"reuse_image_descriptions": False}]

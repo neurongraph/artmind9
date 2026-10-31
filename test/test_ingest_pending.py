@@ -28,7 +28,7 @@ ingest:
 """
 
 
-def _fake_docling(dest_path, image_model):
+def _fake_docling(dest_path, image_model, **kwargs):
     """A conversion whose body follows the binary's bytes, like docling's."""
     return f"# {dest_path.stem}\n\n{dest_path.read_bytes().decode()}\n", {}
 

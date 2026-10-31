@@ -32,7 +32,7 @@ dependencies = [
 # makes `artmind9[ingest]` resolve as a real installable extra; only the key
 # (`ingest`) is ours to name.
 ingest = [
-    "docling>=2.92.0",
+    "docling>=2.145.0",
     "langchain-text-splitters>=1.1.2",
     "openpyxl>=3.1.0",
 ]
@@ -51,7 +51,7 @@ dev = [
     "pytest-asyncio>=0.23.0",
     # Mirror the [ingest] extra so the hermetic suite still exercises the
     # chunking/xlsx paths (test_chunk_offsets.py etc.) without a workflow change.
-    "docling>=2.92.0",
+    "docling>=2.145.0",
     "langchain-text-splitters>=1.1.2",
     "openpyxl>=3.1.0",
 ]
