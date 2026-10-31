@@ -1,7 +1,7 @@
 from loguru import logger
 from neo4j.exceptions import ClientError
 
-from artmind.extraction import embed_text as _embed_text
+from artmind import extraction
 from artmind.graph_query import (
     read_session,
     resolve_as_of,
@@ -123,8 +123,7 @@ def _embedding_model() -> str:
 
 
 def embed_question(question: str, model: str | None = None) -> list[float]:
-    resolved_model = model or _embedding_model()
-    return _embed_text(resolved_model, question)
+    return extraction.embed_query(model or _embedding_model(), question)
 
 
 def vector_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:

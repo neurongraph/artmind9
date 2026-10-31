@@ -511,7 +511,7 @@ def test_entity_name_candidates_runs_only_exact_and_fulltext_without_embedding(m
         raise AssertionError("name-only resolution must not embed")
 
     monkeypatch.setattr(vector_query, "embed_question", no_embedding)
-    monkeypatch.setattr(vector_query, "_embed_text", no_embedding)
+    monkeypatch.setattr(vector_query.extraction, "embed_text", no_embedding)
     monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.entity_name_candidates("journal", "Ada", 10)
