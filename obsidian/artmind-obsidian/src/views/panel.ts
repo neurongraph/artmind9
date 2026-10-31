@@ -118,6 +118,10 @@ function activity(root: HTMLElement, ui: PanelUi, snapshot: Snapshot): void {
 /** The side panel (checklist spec §3): the readiness checklist, then the
  * tools, the callouts (problems, doctor), the Stores detail and Activity. */
 export function renderPanel(root: HTMLElement, snapshot: Snapshot, handlers: PanelHandlers, ui: PanelUi = newPanelUi()): void {
+  const scrollTop = root.scrollTop;
+  const previousJob = root.querySelector<HTMLElement>("[data-job-id]")?.dataset.jobId;
+  const scrolls = new Map([...root.querySelectorAll<HTMLElement>("[data-job-scroll]")].map((list) => [list.dataset.jobScroll, list.scrollTop]));
+  const focused = root.contains(document.activeElement) ? (document.activeElement as HTMLElement)?.dataset.jobControl : undefined;
   root.replaceChildren();
   root.classList.add("artmind-panel");
   renderChecklist(root, snapshot, handlers, ui);
@@ -126,6 +130,12 @@ export function renderPanel(root: HTMLElement, snapshot: Snapshot, handlers: Pan
   doctor(root, ui, snapshot, handlers);
   stores(root, ui, snapshot);
   activity(root, ui, snapshot);
+  const sameJob = previousJob !== undefined && previousJob === root.querySelector<HTMLElement>("[data-job-id]")?.dataset.jobId;
+  if (sameJob) {
+    for (const list of root.querySelectorAll<HTMLElement>("[data-job-scroll]")) list.scrollTop = scrolls.get(list.dataset.jobScroll) ?? 0;
+    if (focused) [...root.querySelectorAll<HTMLElement>("[data-job-control]")].find((control) => control.dataset.jobControl === focused)?.focus({ preventScroll: true });
+  }
+  root.scrollTop = scrollTop;
 }
 
 /** The right-sidebar view. It renders snapshots; it decides nothing. */

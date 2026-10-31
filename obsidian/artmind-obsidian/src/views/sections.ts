@@ -6,6 +6,7 @@ import { el } from "./dom";
 export interface PanelUi {
   collapsed: Set<string>;
   expanded: Set<string>;
+  job?: { id: string; expanded: Set<string>; render: number };
 }
 
 /** Collapsed until opened: the detail most visits don't need. */
