@@ -37,10 +37,12 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
 
     A **label swap**, not a status property — there is no `_status` left on
     these nodes. `retire`/`restore` also mean "leave"/"return to"
-    `chunk_text_ft` and `chunk_embedding`, both of which are defined only
-    `FOR (c:DocChunk)`: swapping the label is what structurally moves a
-    document's chunks in and out of those indexes, with no predicate anywhere
-    that could be forgotten.
+    `passage_text_ft` and `passage_embedding`, both defined only
+    `FOR (p:DocPassage)`: swapping the label is what structurally moves a
+    document's chunks and passages in and out of those indexes, with no
+    predicate anywhere that could be forgotten. A passage keeps its vector
+    under the History label (outside every index), so a restore needs no
+    sweep.
     """
     from artmind import projection
 
@@ -52,10 +54,12 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
         from_obs, to_obs = "Observation", "ObservationHistory"
         from_doc, to_doc = "Document", "DocumentHistory"
         from_chunk, to_chunk = "DocChunk", "DocChunkHistory"
+        from_passage, to_passage = "DocPassage", "DocPassageHistory"
     else:
         from_obs, to_obs = "ObservationHistory", "Observation"
         from_doc, to_doc = "DocumentHistory", "Document"
         from_chunk, to_chunk = "DocChunkHistory", "DocChunk"
+        from_passage, to_passage = "DocPassageHistory", "DocPassage"
 
     observations = tx.run(
         f"""
@@ -72,6 +76,10 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
     )
     tx.run(
         f"MATCH (c:{from_chunk} {{doc_id: $doc_id}}) REMOVE c:{from_chunk} SET c:{to_chunk}",
+        doc_id=doc_id,
+    )
+    tx.run(
+        f"MATCH (p:{from_passage} {{doc_id: $doc_id}}) REMOVE p:{from_passage} SET p:{to_passage}",
         doc_id=doc_id,
     )
 
