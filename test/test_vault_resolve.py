@@ -953,6 +953,27 @@ def test_a_chunk_folder_follows_the_merged_note_not_the_greater_content_hash(not
         assert "merged note" in why
 
 
+def test_a_keyed_chunk_folder_still_finds_its_note(note_dir):
+    """`<stem>~<12 hex>_chunks` (a note's document key): the key suffix is not
+    part of the note's name; a same-stem note elsewhere is told apart by it."""
+    from artmind.document_identity import document_key
+
+    right, wrong = _adversarial_chunks("# Doc\n\nBody v1.\n", "# Doc\n\nOther body.\n")
+    (note_dir / "other").mkdir()
+    (note_dir / "other/policy.md").write_text(_note("# Doc\n\nOther body.\n"))
+    (note_dir / NOTE).write_text(_note("# Doc\n\nBody v1.\n"))
+    unit = f".artmind/data/documents/markdowns/{document_key(NOTE)}_chunks"
+    rename = lambda files: {p.replace(CH, unit): b for p, b in files.items()}  # noqa: E731
+    r, w = rename(right), rename(wrong)
+
+    for ours, theirs in ((r, w), (w, r)):
+        paths = sorted(set(ours) | set(theirs))
+        side, why = vr._decide_chunks(
+            note_dir, unit, paths, {"ours": ours, "theirs": theirs}, vr._NoteIndex(note_dir), frozenset())
+        assert {"ours": ours, "theirs": theirs}[side] is r
+        assert "merged note" in why
+
+
 def test_a_chunk_folder_waits_while_its_note_is_conflicted(note_dir):
     (note_dir / NOTE).write_text("<<<<<<< HEAD\nA\n=======\nB\n>>>>>>> theirs\n")
     side, why = _decide_chunks(

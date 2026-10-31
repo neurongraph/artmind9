@@ -57,6 +57,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 
@@ -366,8 +367,17 @@ def _decide_chunks(vault_dir, unit, paths, sides, ids, unmerged=frozenset()) -> 
     from artmind.document_identity import compute_content_sha256
     from artmind.ingest import CHUNK_CACHE_BODY_KEY, _parse_md_frontmatter
 
-    stem = PurePosixPath(unit).name.removesuffix("_chunks")
-    notes = ids.paths_named(stem)
+    name = PurePosixPath(unit).name.removesuffix("_chunks")
+    # A note ingested since document keys is filed as `<stem>~<hex>`: strip the
+    # key to find the note, and let the key tell same-stem notes apart.
+    keyed = re.fullmatch(r"(.+)~([0-9a-f]{12}|[0-9a-f]{64})", name)
+    if keyed:
+        from artmind.document_identity import document_key
+
+        named = ids.paths_named(keyed[1])
+        notes = [n for n in named if document_key(n, full=len(keyed[2]) == 64) == name] or named
+    else:
+        notes = ids.paths_named(name)
     if len(notes) == 1 and (vault_dir / notes[0]).is_file():
         text = _note_text(vault_dir / notes[0])
         if notes[0] in unmerged and _has_conflict_block(text):
