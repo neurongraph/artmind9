@@ -1039,10 +1039,15 @@ def setup_all() -> dict:
 
     with neo4j_session() as session:
         neo4j_notes = _setup_neo4j(session, embedding_dim)
+        # Temporary (spec 2026-10-31 §3.6): delete with artmind/migrations/chunk_vectors_to_passages.py.
+        from artmind.migrations import chunk_vectors_to_passages
+
+        legacy = chunk_vectors_to_passages.run(session)
 
     return {
         "scaffold": scaffold,
         "sqlite": "ok",
+        "legacy_chunk_vectors": legacy,
         "neo4j_constraints": [
             "document_id",
             "chunk_id",

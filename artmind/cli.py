@@ -5818,6 +5818,8 @@ def setup():
         click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]))
         click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]))
         click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])))
+        if result.get("legacy_chunk_vectors"):
+            click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "))
         click.echo("\nSetup complete.")
     except Exception as e:
         raise click.ClickException(str(e))
