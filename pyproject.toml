@@ -60,6 +60,7 @@ dev = [
 asyncio_mode = "auto"
 markers = [
     "real_domain_guard: run with the unknown-domain warning enabled (see test/conftest.py)",
+    "slow_docling: runs the real docling on test/data/docs; excluded from `just dev-test`, run by `just dev-test-docling`",
 ]
 
 [build-system]

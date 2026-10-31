@@ -142,6 +142,30 @@ With `--compact`, each file in `job-status`/`job-results` carries `entities` and
 read `null` as "not extracted", never as "extracted nothing". While a file is in `extract_kg`,
 `job-status` also gives its `chunk_progress` (chunks done per step).
 
+**How a converted body looks.** Every converted document (pdf, pptx, docx) has its tables
+unpadded, a cell merged across columns written once, empty rows and columns dropped, and each
+table as its own block; a pptx slide's speaker notes follow it under `**Speaker notes:**`.
+This only reaches a document when it is converted again.
+
+**A converted pdf or pptx whose pages lost text.** docling can drop text without any
+error (a table cell's last line, say). After converting a pdf or pptx, artmind compares each
+page with the file's own text and flags a page that lacks it. `job-status` then shows
+`page_check: {flagged, repaired, unrepaired}` for that file, the ingestion log has one
+`lack source text docling should have kept` warning naming the pages, and the document's
+`conversion.json` (beside its chunks) lists them under `conversion.flagged`
+(`page`, `coverage`, `reason`). A pdf with no text layer (a scan) is `skipped`, never flagged.
+`ARTMIND_PAGE_REPAIR` in `config.env` sets what happens next:
+
+| Value | Effect |
+|---|---|
+| `detect` (default) | Flags only. No model call; nothing leaves the machine. |
+| `repair` | Also sends each flagged **pdf** page, as an image, to `ARTMIND_IMAGE_MODEL` and uses its transcription if it covers the page's text and keeps every number; otherwise the page stays as docling made it (`unrepaired`). Answers are cached under `<data dir>/page_repair_cache/`. pptx pages are flagged, never repaired. |
+| `off` | No check. |
+
+`repair` sends page images to the configured provider, so it is opt-in. To repair a document
+already converted: set `ARTMIND_PAGE_REPAIR=repair` and re-convert it (change the source file;
+`--reextract` re-extracts from the stored markdown and does not convert again).
+
 Job history is per data dir: inside a vault, it's the vault's `.artmind/data`. Jobs run before
 the vault existed live in the old `~/artmind_data` registry, and don't show from inside the
 vault.

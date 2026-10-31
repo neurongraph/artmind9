@@ -4,7 +4,14 @@ from pathlib import Path
 import json_repair
 from loguru import logger
 
-from artmind.llm_providers import TruncatedText, call_llm_ollama, call_llm_openrouter, embed_text_ollama
+from artmind.llm_providers import (
+    TruncatedText,
+    call_llm_ollama,
+    call_llm_openrouter,
+    describe_image_ollama,
+    describe_image_openrouter,
+    embed_text_ollama,
+)
 from utils.functions import load_env, log_llm_call
 
 
@@ -21,6 +28,20 @@ def embed_text(model: str, text: str) -> list[float]:
     embedding = embed_text_ollama(model, text, host=host)
     log_llm_call("embed", model, text, f"[embedding vector, dim={len(embedding)}]")
     return embedding
+
+
+def describe_image(image: Path, model: str, prompt: str, timeout: int, env: dict) -> str:
+    """One image-model call through the provider `ARTMIND_KG_LLM_PROVIDER`
+    selects (ollama by default; ibm_ica through the OpenRouter-shaped client,
+    `ibm_ica_client_env`). Raises what the provider raises. Shared by image
+    description (`ingest._describe_image`) and page repair (`page_repair`)."""
+    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
+    if provider == "openrouter":
+        return describe_image_openrouter(image, model, prompt, timeout, env)
+    if provider == "ibm_ica":
+        return describe_image_openrouter(image, model, prompt, timeout, ibm_ica_client_env(env))
+    host = env.get("ARTMIND_KG_LLM_URL") or None
+    return describe_image_ollama(image, model, prompt, timeout, host=host)
 
 
 def ibm_ica_client_env(env: dict) -> dict:
