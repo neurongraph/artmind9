@@ -197,7 +197,7 @@ def test_rebuild_projection_goes_through_the_batched_full_rebuild(monkeypatch):
     monkeypatch.setattr(projection, "full_rebuild_batched", lambda domains=None: seen.append(domains) or {"rebuilt": 0})
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set())
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: 0)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda chunk_ids=None, domain=None, strict=False: 0)
 
     ing.rebuild_projection("general")
     ing.rebuild_projection()

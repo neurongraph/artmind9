@@ -170,7 +170,7 @@ describe("checklist: each row state (checklist spec §3.2)", () => {
     expect(row({ projection: fixture("projection-status.needs-rebuild").json }, "graph").detail).toEqual([
       "same_as edited",
       "2,813 entities not embedded",
-      "310 chunks not embedded",
+      "310 passages not embedded",
       "40 observation keys not projected",
     ]);
     const never = { ...READY, known: false, drift: true, same_as_drift: true, schema_drift: true };

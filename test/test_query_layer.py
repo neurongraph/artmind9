@@ -168,9 +168,9 @@ def test_entity_context_query_shape():
     assert "startNode(r) = e" in conns
     assert "properties(r)" not in conns and "r.chunk_ids" not in conns
     assert "vector.similarity.cosine(t.embedding, $queryVector)" in conns
-    assert "vector.similarity.cosine(c.embedding, $queryVector)" in refs
+    assert "vector.similarity.cosine(p.embedding, $queryVector)" in refs
     # the keyword leg is restricted to the entity's own chunks
-    assert "WHERE node.id IN $chunkIds" in queries["chunk_keyword"]
+    assert "WHERE node.chunk_id IN $chunkIds" in queries["chunk_keyword"]
 
 
 class _RecordingSession:

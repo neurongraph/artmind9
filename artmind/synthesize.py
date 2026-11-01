@@ -33,7 +33,7 @@ from datetime import datetime, timezone
 from loguru import logger
 
 from artmind import projection
-from artmind.extraction import call_llm, embed_text, parse_json_response
+from artmind.extraction import call_llm, embed_document, embed_key, parse_json_response
 from artmind.graph_query import neo4j_session
 from artmind.observations import entity_id, key_string
 from utils.functions import load_env, resolve_llm_model
@@ -201,7 +201,7 @@ def synthesize_key(
 
     # Compute the embedding FIRST, before any write — see module docstring.
     try:
-        embedding = embed_text(embed_model, text)
+        embedding = embed_document(embed_model, text)
     except Exception as exc:
         logger.warning(
             "synthesize: embedding failed for {} ({}); entity skipped whole "
@@ -235,8 +235,9 @@ def synthesize_key(
         # both here, in the SAME transaction — the embedding is never null
         # and never even transiently stale outside this transaction.
         tx.run(
-            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, e.embedding_stale = false",
-            id=eid, embedding=embedding,
+            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, "
+            "e.embedding_stale = false, e._embed_key = $embed_key",
+            id=eid, embedding=embedding, embed_key=embed_key(embed_model),
         )
         return outcome
 

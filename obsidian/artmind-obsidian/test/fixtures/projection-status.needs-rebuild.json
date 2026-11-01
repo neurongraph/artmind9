@@ -17,17 +17,17 @@
     "current_schema_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "unembedded_entities": 2813,
     "unprojected_keys": 40,
-    "unembedded_chunks": 310,
+    "unembedded_passages": 310,
     "domains": {
       "general": {
         "unembedded_entities": 2801,
         "unprojected_keys": 40,
-        "unembedded_chunks": 310
+        "unembedded_passages": 310
       },
       "habits": {
         "unembedded_entities": 12,
         "unprojected_keys": 0,
-        "unembedded_chunks": 0
+        "unembedded_passages": 0
       }
     }
   },

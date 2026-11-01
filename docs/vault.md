@@ -182,11 +182,19 @@ the one thing inside committed KG staging that git should not carry.
 That split gives each layer the property it should have: the git-committed layer
 stays small and diffable, the snapshot layer stays fat and instant.
 
+Vectors live on `:DocPassage` (and `:UserChat`, `:Entity`), never in committed
+staging. A passage is a ~1200-char span of a chunk's text; the passage sweep
+(`artmind ingest embed-passages`, run by `write-to-graph` and `vault sync`)
+builds passages from chunk text and embeds them, reading
+`<data>/embedding_cache.sqlite` first. A stale `_embed_key` (model or prefix
+change) or `_split_key` (passage size change) is re-done by the same sweep.
+
 **Restoring, therefore, has an embedding step.** `write-to-graph` writes chunks
 with no vectors, and a resumable sweep fills them in — mirroring how entity
 embeddings already work (`artmind ingest embed-entities`, plus the
 `embedding_stale` flag). `write-to-graph` runs the sweep by default; `--noEmbed`
-skips it.
+skips it. A graph restore (`snapshot restore`, `session initiate`) runs the same
+passage sweep, since snapshots carry no passages.
 
 **Why the sweep is separate rather than inline:** a graph write should be fast
 and predictable. Re-embedding a large vault is minutes of local work, and

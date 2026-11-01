@@ -1270,8 +1270,9 @@ def _entity_context_queries() -> dict[str, str]:
     ranked and capped: `connections` and `chunk_refs` return one small row per
     edge / chunk (no text, no chunk_ids/doc_ids lists) and are ranked in Python;
     only the chunks that make the cut have their text fetched (`chunk_text`).
-    `chunk_keyword` is the BM25 leg of `--query` ranking, restricted to the
-    entity's own chunks.
+    `chunk_keyword` is the BM25 leg of `--query` ranking over the entity's
+    chunks' passages (best passage per chunk); `chunk_refs` scores a chunk by
+    its best passage's similarity (MaxP).
 
     Source chunks are reached via `(e)-[:AGGREGATES]->(:Observation)
     -[:EXTRACTED_FROM]->(c:DocChunk)` — an Entity has never had a direct
@@ -1305,15 +1306,18 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
     WITH DISTINCT c
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+    OPTIONAL MATCH (p:DocPassage)-[:PART_OF]->(c)
+    WITH c, d, max({_query_score("p")}) AS score
     RETURN c.id AS id, c.name AS name, c.doc_id AS doc_id,
            c.valid_to IS NULL AS current, d.valid_from AS doc_valid_from,
-           {_query_score("c")} AS score
+           score
     """,
         "chunk_keyword": """
-    CALL db.index.fulltext.queryNodes('chunk_text_ft', $ftQuery)
+    CALL db.index.fulltext.queryNodes('passage_text_ft', $ftQuery)
     YIELD node, score
-    WHERE node.id IN $chunkIds
-    RETURN node.id AS id, score
+    WHERE node.chunk_id IN $chunkIds
+    WITH node.chunk_id AS id, max(score) AS score
+    RETURN id, score
     ORDER BY score DESC
     """,
         "chunk_text": """
@@ -1475,7 +1479,7 @@ def _rank_connections(
 def _rank_chunk_refs(
     rows: list[dict], *, ranked: bool, keyword_ids: Sequence[str] = ()
 ) -> list[dict]:
-    """Current chunks first; then, when `ranked`, the RRF of embedding
+    """Current chunks first; then, when `ranked`, the RRF of best-passage
     similarity and the BM25 order `keyword_ids`; else newest document first
     (valid_from, then doc id -- time-ordered on ingest). Chunk id keeps a
     document's chunks in reading order."""

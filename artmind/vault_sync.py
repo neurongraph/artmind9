@@ -1603,7 +1603,6 @@ def sync(
             )
             for domain, docdir in plan.replay_docs:
                 snap_dir = scratch / kg_rel / domain / docdir
-                ingest.carry_embedding_sidecar(KG_DIR / domain / docdir, snap_dir)
                 summary = ingest._write_to_neo4j(snap_dir, domain, defer_rebuild=True)
                 if summary is None:
                     raise VaultSyncError(f"{kg_rel / domain / docdir}: staged KG JSON at {head} could not be read")
@@ -1643,7 +1642,7 @@ def sync(
     for d in touched_domains:
         domain_keys = [k for k in all_keys if k[2] == d]
         ingest._sweep_embeddings(d, domain_keys)
-        ingest._sweep_chunk_embeddings(domain=d)
+        ingest._sweep_passages(domain=d)
     # A replayed `artmind update` is a UserChat, whose vector is never staged.
     for d in sorted(chat_domains):
         from artmind.update import embed_user_chats

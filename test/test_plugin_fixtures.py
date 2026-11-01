@@ -219,7 +219,7 @@ def vault(tmp_path, monkeypatch):
     monkeypatch.setattr(ing, "retract_document", lambda doc_id, domain: {"doc_id": doc_id, "affected_keys": []})
     monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {"rebuilt": len(keys), "keys": len(keys)})
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: 0)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda chunk_ids=None, domain=None, strict=False: 0)
 
     import artmind.cli as cli_module
 
@@ -583,7 +583,7 @@ class ProjectionGraph:
             return _Rows(self.entity_gaps)
         if "MATCH (o:Observation)" in cypher and "AGGREGATES" in cypher:
             return _Rows(self.unprojected)
-        if "MATCH (c:DocChunk)" in cypher:
+        if "MATCH (p:DocPassage)" in cypher:
             return _Rows(self.chunk_gaps)
         if "MATCH (s:Synthesis" in cypher:
             return _Rows(self.entities)
@@ -646,7 +646,7 @@ def s_projection_rebuild_sweep(vault):
         mp.setattr(projection, "rebuild",
                    lambda tx, keys, **kw: {"rebuilt": len(keys), "deleted": 0, "absent": 0, "keys": len(keys)})
         mp.setattr(ing, "_sweep_embeddings", lambda domain, keys, strict=False: len(keys))
-        mp.setattr(ing, "_sweep_chunk_embeddings", lambda chunk_ids=None, domain=None, strict=False: 3)
+        mp.setattr(ing, "_sweep_passages", lambda chunk_ids=None, domain=None, strict=False: 3)
         return vault.run("projection", "rebuild", "--sweep", "--compact")
 
 

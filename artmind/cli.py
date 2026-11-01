@@ -29,7 +29,7 @@ from artmind.unified_snapshot import (
 )
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
-from artmind.embed_sweep import count_unembedded_chunks, embed_missing_chunk_embeddings
+from artmind.embed_sweep import count_passage_gaps, reconcile_passages
 from artmind.ingest import (
     SUPPORTED_SUFFIXES,
     _build_file_result_from_db,
@@ -304,7 +304,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "plan", "views", "insights", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "plan", "retrieval", "views", "insights", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -322,7 +322,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-chunks"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-passages"],
         },
         {
             "name": "Refinement",
@@ -343,6 +343,9 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind plan": [
         {"name": "Plan", "commands": ["config", "labels", "replay"]},
+    ],
+    "artmind retrieval": [
+        {"name": "Retrieval eval", "commands": ["labels", "eval"]},
     ],
     "artmind insights": [
         {"name": "Snapshots", "commands": ["refresh", "list", "show", "runs", "profile"]},
@@ -1333,19 +1336,20 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
     _echo_json(embed_entities_backfill(domain), compact)
 
 
-@ingest.command("embed-chunks")
+@ingest.command("embed-passages")
+@click.option("--domain", default=None, help="Only this domain (exact name)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_embed_chunks(compact: bool) -> None:
-    """Backfill vector embeddings for chunks missing one (powers vector/text search).
+def ingest_embed_passages(domain: str | None, compact: bool) -> None:
+    """Build missing or outdated passages and embed every passage and chat whose vector is missing or stale.
 
-    Restoring from committed KG staging writes chunks with no vector by
-    design (docs/vault.md, "Embeddings") -- this sweep fills them back in and
-    is resumable: interrupt it and re-run, it picks up where it left off.
+    Committed KG staging carries no vectors (docs/vault.md, "Embeddings"); a fresh
+    clone, a passage-size change or an embedding-model/prefix change all roll out
+    through this sweep. Resumable: interrupt it and re-run.
     """
     _setup_logger()
     from artmind.graph_query import neo4j_session
     with neo4j_session() as session:
-        result = embed_missing_chunk_embeddings(session)
+        result = reconcile_passages(session, domain=domain)
     _echo_json(result, compact)
 
 
@@ -1434,8 +1438,8 @@ def ingest_classify_reingest(
     )
 
 
-def _run_chunk_embed_sweep() -> None:
-    """Run the post-write chunk-embed sweep, unless there's nothing to embed.
+def _run_passage_sweep() -> None:
+    """Run the post-write passage sweep (build missing passages, embed stale vectors).
 
     Committed KG staging carries no vectors by design (docs/vault.md,
     "Embeddings"), so a fresh restore always needs this once. Prints a
@@ -1445,14 +1449,13 @@ def _run_chunk_embed_sweep() -> None:
     from artmind.graph_query import neo4j_session
 
     with neo4j_session() as session:
-        remaining = count_unembedded_chunks(session)
-        if not remaining:
-            return
-        click.echo(
-            f"\nRe-embedding {remaining:,} chunk(s) — committed KG staging carries no vectors "
-            "by design (docs/vault.md). Local model, no API cost. This runs once per clone.\n"
-        )
-        result = embed_missing_chunk_embeddings(session)
+        remaining = count_passage_gaps(session)
+        if remaining:
+            click.echo(
+                f"\nEmbedding {remaining:,} passage(s) — committed KG staging carries no vectors "
+                "by design (docs/vault.md). Local model, no API cost.\n"
+            )
+        result = reconcile_passages(session)
     logger.info(
         "Embed sweep after write-to-graph: {} embedded, {} still missing a vector",
         result["embedded"], result["remaining"],
@@ -1516,7 +1519,7 @@ def ingest_retime(
 @click.option("--folder", type=click.Path(exists=True), default=None, help="Path to folder whose sub-folders are document KG directories")
 @click.option("--noEmbed", "no_embed", is_flag=True,
               help="Skip the chunk-embedding sweep. Chunks written without a vector are "
-                   "invisible to semantic search until `ingest embed-chunks` runs.")
+                   "invisible to semantic search until `ingest embed-passages` runs.")
 def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
@@ -1531,7 +1534,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     from the parent directory name (i.e. PATH is expected to be data/kg/<domain>).
 
     Runs the chunk-embedding sweep afterwards by default; pass --noEmbed to skip it
-    and run `ingest embed-chunks` separately later.
+    and run `ingest embed-passages` separately later.
     """
     _setup_logger()
     from artmind.atomic_dir import is_scratch
@@ -1564,7 +1567,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         else:
             raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
         if not no_embed:
-            _run_chunk_embed_sweep()
+            _run_passage_sweep()
         return
 
     # ── folder (batch) mode ───────────────────────────────────────────────
@@ -1618,7 +1621,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         ok_count, len(doc_dirs), fail_count,
     )
     if not no_embed and ok_count:
-        _run_chunk_embed_sweep()
+        _run_passage_sweep()
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
@@ -1633,7 +1636,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
 )
 @click.option("--asOf", "as_of", default=None, help="Temporal (SCD-2) tables only: project just the row versions in force on this ISO date. Default: every version.")
 @click.option("--dryRun", "dry_run", is_flag=True, help="Validate the mapping and report what would be built; write nothing.")
-@click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-chunks` later).")
+@click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-passages` later).")
 @click.option(
     "--pending", "pending", is_flag=True,
     help="Instead of projecting: list every registered table a mapping matches whose projection is"
@@ -3202,15 +3205,19 @@ def query_domains_overview(compact: bool) -> None:
 
 @query.command("vector-text")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
+@click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
+              help="Return each hit's parent chunk text, or only the matching passage")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")
-def vector_text(domain: tuple, top_k: int, as_of: str | None, compact: bool, question: str) -> None:
-    """Search source text using vector embeddings and keyword matching combined via RRF."""
+def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
+                compact: bool, question: str) -> None:
+    """Hybrid search over passages: vector + keyword (RRF), grouped into parent chunks."""
     domains = _parse_domains(domain)
     try:
-        result = vector_query.vector_text_search(domains, question, top_k, as_of=as_of)
+        result = vector_query.vector_text_search(domains, question, top_k, as_of=as_of,
+                                                 context=context)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -4434,6 +4441,118 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
         raise SystemExit(1)
 
 
+@cli.group("retrieval")
+def retrieval_group() -> None:
+    """Measure vector-text: a private labelled set and eval runs (spec 2026-10-31 §6).
+
+    Not proxied. Labels and runs hold real questions and corpus ids: they stay in the
+    vault (`<vault>/benchmarking/retrieval_labels.yaml`,
+    `<vault>/.artmind/logs/retrieval-eval/`), never in a checkout.
+    """
+
+
+@retrieval_group.group("labels")
+def retrieval_labels_group() -> None:
+    """The labelled set (`<vault>/benchmarking/retrieval_labels.yaml`)."""
+
+
+def _retrieval_labels_path(file_path: Path | None) -> Path:
+    from artmind.retrieval_eval import labels as rl
+
+    path = file_path or rl.default_path()
+    if path is None:
+        raise click.ClickException("not inside a vault: pass --file")
+    return path
+
+
+@retrieval_labels_group.command("generate")
+@click.option("--domain", required=True, help="Domain whose chunks to sample")
+@click.option("--count", type=int, default=50, show_default=True, help="Chunks to sample (one question each)")
+@click.option("--seed", type=int, default=0, show_default=True, help="Sampling seed (same seed, same chunks)")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def retrieval_labels_generate(domain: str, count: int, seed: int, file_path: Path | None, compact: bool) -> None:
+    """Sample chunks and have the configured LLM write one question each (appended as synthetic).
+
+    Sends the sampled text to the configured provider. From a Claude Code shell run it
+    with `env -u ANTHROPIC_BASE_URL` (CLAUDE.md §5).
+    """
+    from artmind import graph_query
+    from artmind.retrieval_eval import generate
+    from artmind.retrieval_eval import labels as rl
+
+    path = _retrieval_labels_path(file_path)
+    with graph_query.read_session() as session:
+        new, warnings = generate.generate_labels(session, domain, count, seed)
+    added = rl.append_labels(path, new)
+    _echo_json({"command": "retrieval labels generate", "file": str(path),
+                "added": [l.id for l in added], "warnings": warnings}, compact)
+
+
+@retrieval_labels_group.command("validate")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
+@click.option("--checkIds", "check_ids", is_flag=True, help="Also check (needs Neo4j) that every chunk and document id exists")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: bool) -> None:
+    """Check every rule of the labels file and report all problems at once (exit 1 on any)."""
+    from artmind import graph_query
+    from artmind.retrieval_eval import labels as rl
+
+    path = _retrieval_labels_path(file_path)
+    try:
+        loaded = rl.load_labels(path)
+    except rl.LabelError as exc:
+        _echo_json({"command": "retrieval labels validate", "file": str(path), "ok": False, "errors": exc.errors}, compact)
+        raise SystemExit(1)
+    errors: list[str] = []
+    if check_ids:
+        chunk_ids = sorted({c for l in loaded for c in l.relevant})
+        doc_ids = sorted({d for l in loaded for d in l.relevant_docs})
+        with graph_query.read_session() as session:
+            found_chunks = {r["id"] for r in session.run(
+                "UNWIND $ids AS id MATCH (c:DocChunk {id: id}) RETURN id", ids=chunk_ids).data()}
+            found_docs = {r["id"] for r in session.run(
+                "UNWIND $ids AS id MATCH (d:Document {id: id}) RETURN id", ids=doc_ids).data()}
+        errors += [f"chunk {c} not in the graph" for c in chunk_ids if c not in found_chunks]
+        errors += [f"document {d} not in the graph" for d in doc_ids if d not in found_docs]
+    _echo_json({"command": "retrieval labels validate", "file": str(path), "ok": not errors,
+                "labels": len(loaded), "errors": errors}, compact)
+    if errors:
+        raise SystemExit(1)
+
+
+@retrieval_group.command("eval")
+@click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
+              help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
+@click.option("--topK", "top_k", default="5,20", show_default=True, help="Cut-offs to score (comma-separated)")
+@click.option("--compare", "compare_path", type=click.Path(exists=True, path_type=Path), default=None,
+              help="An earlier run file to diff against")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def retrieval_eval_cmd(file_path: Path | None, top_k: str,
+                       compare_path: Path | None, compact: bool) -> None:
+    """Run every label through vector-text in-process; report recall@K, MRR, documents covered."""
+    from artmind.retrieval_eval import labels as rl
+    from artmind.retrieval_eval import runner
+
+    path = _retrieval_labels_path(file_path)
+    try:
+        loaded = rl.load_labels(path)
+    except rl.LabelError as exc:
+        raise click.ClickException("; ".join(exc.errors)) from exc
+    try:
+        ks = [int(k) for k in top_k.split(",") if k.strip()]
+    except ValueError as exc:
+        raise click.ClickException("--topK must be comma-separated integers") from exc
+    run = runner.run_eval(loaded, ks=ks)
+    run_path = runner.write_run(run)
+    out = {"command": "retrieval eval", "run": str(run_path), "summary": run["summary"]}
+    if compare_path:
+        out["compare"] = runner.compare_runs(json.loads(compare_path.read_text(encoding="utf-8")), run)
+    _echo_json(out, compact)
+
+
 # ── artmind docs ───────────────────────────────────────────────────────────────
 
 
@@ -4668,7 +4787,7 @@ def projection_status(compact: bool) -> None:
     domain schemas' current hash right now; `drift` is either. Gaps:
     `unembedded_entities` (what the entity embed sweep would pick up),
     `unprojected_keys` (observation keys no Entity aggregates yet),
-    `unembedded_chunks`, with a per-domain breakdown under `domains`.
+    `unembedded_passages`, with a per-domain breakdown under `domains`.
     Read-only: queries cannot self-heal (`read_session()` stays
     READ_ACCESS). `projection rebuild --sweep` clears all of it.
     """
@@ -5021,6 +5140,8 @@ def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bo
     force_rebuild = {"auto": None, "always": True, "skip": False}[rebuild_projection]
     try:
         summary = import_graph(snapshot_path, force_rebuild=force_rebuild)
+        # Snapshots carry no passages or vectors; rebuild them from chunk text.
+        _run_passage_sweep()
         click.echo(f"Restored from: {summary['snapshot']}")
         node_counts = summary.get("node_counts", {})
         parts = [f"{label}: {count}" for label, count in node_counts.items()]
@@ -5176,6 +5297,10 @@ def snapshot_restore(
         # Perform the actual restore
         click.echo("\nRestoring...")
         result = restore_snapshot_impl(zip_path, include=components, rebuild_projection=force_rebuild)
+        # Snapshots carry no passages or vectors (DocPassage is not exported);
+        # the passage sweep rebuilds them from the restored chunk text.
+        if "graph" in (result.get("components_restored") or []):
+            _run_passage_sweep()
 
         # Display results
         click.echo(f"\n✓ Restore complete ({result['elapsed_seconds']}s)")
@@ -5740,6 +5865,8 @@ def setup():
         click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]))
         click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]))
         click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])))
+        if result.get("legacy_chunk_vectors"):
+            click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "))
         click.echo("\nSetup complete.")
     except Exception as e:
         raise click.ClickException(str(e))

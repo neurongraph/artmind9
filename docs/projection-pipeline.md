@@ -262,7 +262,7 @@ makes it `failed`. The worker keeps running.
 
 `projection status` also counts what is missing: `unembedded_entities` (what
 the entity sweep would pick up), `unprojected_keys` (observation keys no
-Entity aggregates yet), `unembedded_chunks`, each broken down under
+Entity aggregates yet), `unembedded_passages`, each broken down under
 `domains`, plus one `drift` flag. **`projection rebuild --sweep`** is the
 repair for all of them, and what the Obsidian plugin's "Rebuild graph" runs.
 A clean run also marks every `failed` job finalize `done` (`finalize_resolved`).

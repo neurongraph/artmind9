@@ -162,7 +162,7 @@ def test_synthesize_key_writes_the_record_and_applies_it(monkeypatch, curation_d
                         lambda tx, key: [{"id": "o1", "description": "x"}, {"id": "o2"}])
     monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt, **kw: "{}")
     monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "A clean description."})
-    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr("artmind.synthesize.embed_document", lambda model, text: [0.1])
     seen = {}
     monkeypatch.setattr("artmind.synthesize.projection.rebuild_key",
                         lambda tx, key, *, synthesis=None, **kw: seen.setdefault("synthesis", synthesis) and "rebuilt")

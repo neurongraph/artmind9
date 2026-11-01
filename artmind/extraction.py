@@ -1,4 +1,5 @@
 import re
+from hashlib import sha1
 from pathlib import Path
 
 import json_repair
@@ -28,6 +29,41 @@ def embed_text(model: str, text: str) -> list[float]:
     embedding = embed_text_ollama(model, text, host=host)
     log_llm_call("embed", model, text, f"[embedding vector, dim={len(embedding)}]")
     return embedding
+
+
+#: Bump when `_PREFIXES`, or the text a stored vector is made from, changes: every
+#: stored vector's `_embed_key` then goes stale and the sweeps re-embed it (spec
+#: 2026-10-31 §2.2, §2.4). 2: passages embed their text alone, without `context`.
+PREFIX_VERSION = 2
+
+# Task prefixes an embedding model was trained with, keyed by its base name.
+# (document prefix, query prefix). A model not listed gets none.
+_PREFIXES = {
+    "nomic-embed-text": ("search_document: ", "search_query: "),
+}
+
+
+def _model_base(model: str) -> str:
+    return model.split(":", 1)[0].rsplit("/", 1)[-1]
+
+
+def embed_prefixes(model: str) -> tuple[str, str]:
+    return _PREFIXES.get(_model_base(model), ("", ""))
+
+
+def embed_key(model: str) -> str:
+    """Identity of how a stored vector was made: model + prefix table version."""
+    return sha1(f"{model}|{PREFIX_VERSION}".encode("utf-8")).hexdigest()[:16]
+
+
+def embed_document(model: str, text: str) -> list[float]:
+    """Embed stored text (passages, chats, entities) with the model's document prefix."""
+    return embed_text(model, embed_prefixes(model)[0] + text)
+
+
+def embed_query(model: str, text: str) -> list[float]:
+    """Embed a search query with the model's query prefix."""
+    return embed_text(model, embed_prefixes(model)[1] + text)
 
 
 def image_timeout(env: dict) -> int:

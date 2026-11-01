@@ -108,7 +108,7 @@ def _patch_common(monkeypatch, embed_fn):
         "artmind.synthesize.parse_json_response",
         lambda raw: {"description": "A clean description."},
     )
-    monkeypatch.setattr("artmind.synthesize.embed_text", embed_fn)
+    monkeypatch.setattr("artmind.synthesize.embed_document", embed_fn)
 
 
 def _mock_session(run_recorder=None):
@@ -254,7 +254,7 @@ def test_synthesize_key_reads_every_same_as_member_and_hashes_the_whole_unit(mon
     prompts: list[str] = []
     monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt, **kw: prompts.append(prompt) or "{}")
     monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "Pays bills."})
-    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr("artmind.synthesize.embed_document", lambda model, text: [0.1])
     rebuild_calls: list[dict] = []
 
     def fake_rebuild_key(tx, key, *, member_keys=None, unit_of=None, synthesis=None):
@@ -288,7 +288,7 @@ def test_synthesize_key_without_a_group_reads_only_its_own_key(monkeypatch):
     )
     monkeypatch.setattr("artmind.synthesize.call_llm", lambda model, prompt, **kw: "{}")
     monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "W."})
-    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr("artmind.synthesize.embed_document", lambda model, text: [0.1])
     monkeypatch.setattr("artmind.synthesize.projection.rebuild_key", lambda tx, key, **kw: "rebuilt")
     session = _mock_session([])
 
@@ -312,7 +312,7 @@ def _llm_key(monkeypatch, llm):
     )
     monkeypatch.setattr("artmind.synthesize.call_llm", llm)
     monkeypatch.setattr("artmind.synthesize.parse_json_response", lambda raw: {"description": "Done."})
-    monkeypatch.setattr("artmind.synthesize.embed_text", lambda model, text: [0.1])
+    monkeypatch.setattr("artmind.synthesize.embed_document", lambda model, text: [0.1])
     monkeypatch.setattr("artmind.synthesize.projection.rebuild_key", lambda tx, key, **kw: "rebuilt")
     monkeypatch.setattr("artmind.synthesize.load_env", lambda: {})
     with patch("artmind.synthesize.neo4j_session") as mock_ctx:

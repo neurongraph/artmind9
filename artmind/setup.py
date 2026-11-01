@@ -709,6 +709,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT chunk_history_id IF NOT EXISTS FOR (n:DocChunkHistory) REQUIRE n.id IS UNIQUE"
     )
     session.run(
+        "CREATE CONSTRAINT passage_id IF NOT EXISTS FOR (n:DocPassage) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT passage_history_id IF NOT EXISTS FOR (n:DocPassageHistory) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
         "CREATE CONSTRAINT observation_history_id IF NOT EXISTS FOR (n:ObservationHistory) REQUIRE n.id IS UNIQUE"
     )
     # A retracted `artmind update` (its `update__*` staging folder deleted):
@@ -809,6 +815,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE INDEX chunk_domain IF NOT EXISTS FOR (n:DocChunk) ON (n._domain)"
     )
+    # DocPassage (spec 2026-10-31 §3.4): chunk_id for MaxP / re-split, doc_id for the
+    # lifecycle label swaps, _domain for the sweep and the fulltext leg's filter.
+    session.run("CREATE INDEX passage_chunk_id IF NOT EXISTS FOR (n:DocPassage) ON (n.chunk_id)")
+    session.run("CREATE INDEX passage_doc_id IF NOT EXISTS FOR (n:DocPassage) ON (n.doc_id)")
+    session.run("CREATE INDEX passage_domain IF NOT EXISTS FOR (n:DocPassage) ON (n._domain)")
+    session.run("CREATE INDEX passage_history_doc_id IF NOT EXISTS FOR (n:DocPassageHistory) ON (n.doc_id)")
     # Content-addressed block hash (A1a); the signal a later delta classifier (A4)
     # keys on to tell changed blocks from unchanged ones across re-ingest.
     session.run(
@@ -903,9 +915,10 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     )
 
     # ── Vector indexes ────────────────────────────────────────────────────────
+    # Filter property `_domain` lets vector-text filter inside SEARCH (Neo4j >= 2026.02).
     session.run(
-        f"CREATE VECTOR INDEX chunk_embedding IF NOT EXISTS "
-        f"FOR (c:DocChunk) ON (c.embedding) "
+        f"CREATE VECTOR INDEX passage_embedding IF NOT EXISTS "
+        f"FOR (p:DocPassage) ON p.embedding WITH [p._domain] "
         f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
         f"`vector.similarity_function`: 'cosine'}}}}"
     )
@@ -925,7 +938,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     # ── Fulltext indexes ──────────────────────────────────────────────────────
     try:
         session.run(
-            "CREATE FULLTEXT INDEX chunk_text_ft IF NOT EXISTS FOR (c:DocChunk) ON EACH [c.text]"
+            "CREATE FULLTEXT INDEX passage_text_ft IF NOT EXISTS FOR (p:DocPassage) ON EACH [p.text]"
         )
         session.run(
             "CREATE FULLTEXT INDEX user_chat_text_ft IF NOT EXISTS FOR (c:UserChat) ON EACH [c.raw_text]"
@@ -1026,13 +1039,20 @@ def setup_all() -> dict:
 
     with neo4j_session() as session:
         neo4j_notes = _setup_neo4j(session, embedding_dim)
+        # Temporary (spec 2026-10-31 §3.6): delete with artmind/migrations/chunk_vectors_to_passages.py.
+        from artmind.migrations import chunk_vectors_to_passages
+
+        legacy = chunk_vectors_to_passages.run(session)
 
     return {
         "scaffold": scaffold,
         "sqlite": "ok",
+        "legacy_chunk_vectors": legacy,
         "neo4j_constraints": [
             "document_id",
             "chunk_id",
+            "passage_id",
+            "passage_history_id",
             "user_chat_id",
             "conflict_id",
             "document_history_id",
@@ -1074,6 +1094,10 @@ def setup_all() -> dict:
             "chunk_area_domain",
             "chunk_history_doc_id",
             "chunk_history_domain",
+            "passage_chunk_id",
+            "passage_doc_id",
+            "passage_domain",
+            "passage_history_doc_id",
             "user_chat_domain",
             "observation_key",
             "observation_doc_id",
@@ -1094,9 +1118,9 @@ def setup_all() -> dict:
             "projection_state_id",
         ],
         "neo4j_vector_indexes": [
-            f"chunk_embedding (dim={embedding_dim})",
+            f"passage_embedding (dim={embedding_dim}, filter: _domain)",
             f"user_chat_embedding (dim={embedding_dim})",
             f"entity_embedding (dim={embedding_dim})",
         ],
-        "neo4j_fulltext_indexes": ["chunk_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
+        "neo4j_fulltext_indexes": ["passage_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
     }

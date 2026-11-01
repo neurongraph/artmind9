@@ -3,130 +3,10 @@ import pytest
 from artmind import vector_query
 
 
-def test_vector_search_shapes_results_and_excludes_embedding(monkeypatch):
-    call_count = {"n": 0}
-
-    class FakeSession:
-        def run(self, cypher, **params):
-            assert params["domains"] == ["fiction"]
-            assert params["topK"] == 2
-            call_count["n"] += 1
-            if call_count["n"] == 1:  # DocChunk query
-                return [
-                    {
-                        "score": 0.91,
-                        "chunk": {
-                            "id": "chunk-1",
-                            "name": "Chunk 1",
-                            "doc_id": "doc-1",
-                            "text": "Holmes text",
-                            "embedding": [0.1],
-                        },
-                        "document": {"id": "doc-1", "name": "Story"},
-                        "source_type": "document",
-                    }
-                ]
-            else:  # UserChat query
-                return []
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, exc_type, exc, tb):
-            return False
-
-    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1, 0.2])
-    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
-
-    result = vector_query.vector_search("fiction", "Where?", 2)
-
-    assert result == {
-        "domains": ["fiction"],
-        "domain": "fiction",
-        "query_type": "vector",
-        "question": "Where?",
-        "parameters": {"topK": 2},
-        "rows": [
-            {
-                "score": 0.91,
-                "chunk": {
-                    "id": "chunk-1",
-                    "name": "Chunk 1",
-                    "doc_id": "doc-1",
-                    "text": "Holmes text",
-                },
-                "document": {"id": "doc-1", "name": "Story"},
-                "source_type": "document",
-            }
-        ],
-    }
 
 
-def test_vector_search_result_has_source_type_field(monkeypatch):
-    class FakeSession:
-        def run(self, cypher, **params):
-            return []
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, exc_type, exc, tb):
-            return False
-
-    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1, 0.2])
-    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
-
-    result = vector_query.vector_search("general", "Alice", 5)
-
-    assert result["domain"] == "general"
-    assert result["query_type"] == "vector"
-    assert "rows" in result
-    assert result["rows"] == []
 
 
-def test_full_text_search_shapes_results(monkeypatch):
-    call_count = {"n": 0}
-
-    class FakeSession:
-        def run(self, cypher, **params):
-            assert params["domains"] == ["fiction"]
-            assert params["topK"] == 2
-            call_count["n"] += 1
-            if call_count["n"] == 1:  # DocChunk query
-                return [
-                    {
-                        "score": 0.8,
-                        "chunk": {
-                            "id": "chunk-2",
-                            "name": "Chunk 2",
-                            "doc_id": "doc-1",
-                            "text": "Watson and Holmes",
-                        },
-                        "document": {"id": "doc-1", "name": "Story"},
-                        "source_type": "document",
-                    }
-                ]
-            else:  # UserChat query
-                return []
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, exc_type, exc, tb):
-            return False
-
-    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
-
-    result = vector_query.full_text_search("fiction", "Watson Holmes", 2)
-
-    assert result["domain"] == "fiction"
-    assert result["query_type"] == "full_text"
-    assert result["question"] == "Watson Holmes"
-    assert result["parameters"]["topK"] == 2
-    assert len(result["rows"]) == 1
 
 
 def test_rrf_combine_balances_vector_and_text(monkeypatch):
@@ -173,97 +53,10 @@ def test_rrf_combine_balances_vector_and_text(monkeypatch):
     assert combined[1]["chunk"]["id"] == "chunk-1"
 
 
-def test_vector_text_search_combines_methods(monkeypatch):
-    """Test that vector_text_search calls both methods and combines results."""
-    call_count = {"vector": 0, "text": 0}
-
-    def mock_vector_search(domain, question, topK):
-        call_count["vector"] += 1
-        return {
-            "domain": domain,
-            "query_type": "vector",
-            "question": question,
-            "parameters": {"topK": topK},
-            "rows": [
-                {
-                    "score": 0.91,
-                    "chunk": {"id": "chunk-1", "text": "semantic"},
-                    "document": {"id": "doc-1"},
-                    "source_type": "document",
-                }
-            ],
-        }
-
-    def mock_text_search(domain, question, topK):
-        call_count["text"] += 1
-        return {
-            "domain": domain,
-            "query_type": "full_text",
-            "question": question,
-            "parameters": {"topK": topK},
-            "rows": [
-                {
-                    "score": 0.80,
-                    "chunk": {"id": "chunk-2", "text": "keyword"},
-                    "document": {"id": "doc-1"},
-                    "source_type": "document",
-                }
-            ],
-        }
-
-    monkeypatch.setattr(vector_query, "vector_search", mock_vector_search)
-    monkeypatch.setattr(vector_query, "full_text_search", mock_text_search)
-
-    result = vector_query.vector_text_search("fiction", "test question", 5)
-
-    assert result["query_type"] == "vector_text"
-    assert result["question"] == "test question"
-    assert call_count["vector"] == 1
-    assert call_count["text"] == 1
-    assert len(result["rows"]) == 2  # Combined results
 
 
-def test_full_text_search_uses_fulltext_indexes_and_sanitizes(monkeypatch):
-    """The fulltext leg must query the Lucene indexes with sanitized input."""
-    captured = {"cyphers": [], "queries": []}
-
-    class FakeSession:
-        def run(self, cypher, **params):
-            captured["cyphers"].append(cypher)
-            captured["queries"].append(params["ft_query"])
-            return []
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, exc_type, exc, tb):
-            return False
-
-    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
-
-    result = vector_query.full_text_search(
-        "fiction", "Where did Holmes meet Irene Adler? (St Bartholomew's)", 5
-    )
-
-    assert result["rows"] == []
-    assert "chunk_text_ft" in captured["cyphers"][0]
-    assert "user_chat_text_ft" in captured["cyphers"][1]
-    # Lucene specials stripped, words preserved
-    for query in captured["queries"]:
-        assert "?" not in query and "(" not in query
-        assert "Holmes" in query and "Adler" in query
 
 
-def test_full_text_search_skips_query_when_nothing_searchable(monkeypatch):
-    def fail_session():
-        raise AssertionError("should not open a session for an empty query")
-
-    monkeypatch.setattr(vector_query, "read_session", fail_session)
-
-    result = vector_query.full_text_search("fiction", "?? !! ()", 5)
-
-    assert result["rows"] == []
 
 
 def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
@@ -434,60 +227,8 @@ def test_entity_resolve_survives_missing_vector_index(monkeypatch):
     assert result["rows"][0]["entity"]["_id"] == "ent-1"
 
 
-def test_full_text_search_handles_missing_chat_index(monkeypatch):
-    from neo4j.exceptions import ClientError
-
-    class FakeSession:
-        def run(self, cypher, **params):
-            if "user_chat_text_ft" in cypher:
-                raise ClientError("IndexNotFound: user_chat_text_ft")
-            return [
-                {
-                    "score": 1.5,
-                    "chunk": {"id": "chunk-1", "text": "Watson and Holmes meet"},
-                    "document": {"id": "doc-1"},
-                    "source_type": "document",
-                }
-            ]
-
-    class FakeSessionContext:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, exc_type, exc, tb):
-            return False
-
-    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
-
-    result = vector_query.full_text_search("fiction", "Watson Holmes", 5)
-
-    assert len(result["rows"]) == 1
-    assert result["rows"][0]["chunk"]["id"] == "chunk-1"
 
 
-def test_vector_text_document_block_carries_supersedes(monkeypatch):
-    seen = []
-
-    class FakeSession:
-        def run(self, cypher, **params):
-            seen.append(cypher)
-            return []
-
-    class Ctx:
-        def __enter__(self):
-            return FakeSession()
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1])
-    monkeypatch.setattr(vector_query, "read_session", lambda: Ctx())
-    vector_query.vector_search("fiction", "q", 2)
-    vector_query.full_text_search("fiction", "harbour", 2)
-    chunk_queries = [c for c in seen if "DocChunk" in c or "chunk_text_ft" in c]
-    assert len(chunk_queries) == 2
-    for cypher in chunk_queries:
-        assert "supersedes: [(document)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]" in cypher
 
 
 def test_entity_name_candidates_runs_only_exact_and_fulltext_without_embedding(monkeypatch):
@@ -511,7 +252,7 @@ def test_entity_name_candidates_runs_only_exact_and_fulltext_without_embedding(m
         raise AssertionError("name-only resolution must not embed")
 
     monkeypatch.setattr(vector_query, "embed_question", no_embedding)
-    monkeypatch.setattr(vector_query, "_embed_text", no_embedding)
+    monkeypatch.setattr(vector_query.extraction, "embed_text", no_embedding)
     monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.entity_name_candidates("journal", "Ada", 10)
@@ -525,3 +266,130 @@ def test_entity_name_candidates_runs_only_exact_and_fulltext_without_embedding(m
     assert [r["matched_by"] for r in result["rows"]] == [["exact", "fulltext"], ["fulltext"]]
     assert all("score" in r for r in result["rows"])
     assert result["query_type"] == "entity_name_candidates"
+
+
+from _neo4j_recorder import Recorder
+
+from artmind import graph_query
+
+PASSAGES_VEC = [
+    {"row": {"kind": "passage", "id": "c1_p01", "chunk_id": "c1", "doc_id": "d1", "char_start": 0,
+             "char_end": 9, "text": "first one", "cosine": 0.82}},
+    {"row": {"kind": "passage", "id": "c2_p01", "chunk_id": "c2", "doc_id": "d2", "char_start": 5,
+             "char_end": 20, "text": "second", "cosine": 0.75}},
+]
+PASSAGES_FT = [{"row": {"kind": "passage", "id": "c2_p01", "chunk_id": "c2", "doc_id": "d2",
+                        "char_start": 5, "char_end": 20, "text": "second"}}]
+CHUNKS = [
+    {"chunk": {"id": "c1", "name": "C1", "doc_id": "d1", "header_path": "A", "text": "first one ..."},
+     "document": {"id": "d1", "name": "Doc 1"}},
+    {"chunk": {"id": "c2", "name": "C2", "doc_id": "d2", "header_path": "B", "text": "xxxxx second ..."},
+     "document": {"id": "d2", "name": "Doc 2"}},
+]
+
+
+def respond(cypher, params):
+    if "VECTOR INDEX passage_embedding" in cypher:
+        return PASSAGES_VEC
+    if "'passage_text_ft'" in cypher:
+        return PASSAGES_FT
+    if "UNWIND $chunkIds AS cid" in cypher:
+        return [c for c in CHUNKS if c["chunk"]["id"] in params["chunkIds"]]
+    return []
+
+
+def _patch(monkeypatch, session, embed=lambda q: [1.0, 0.0]):
+    monkeypatch.setattr(vector_query, "embed_question", embed)
+    monkeypatch.setattr(vector_query, "read_session", lambda: session)
+    monkeypatch.setattr(graph_query, "expand_domain_family", lambda d: [d, f"{d}.child"])
+
+
+def test_vector_text_filters_inside_search_with_a_deep_pool(monkeypatch):
+    s = Recorder(respond)
+    _patch(monkeypatch, s)
+    vector_query.vector_text_search(["papers"], "Which method?", 5)
+    (vec, vp), = s.queries_containing("VECTOR INDEX passage_embedding")
+    assert "WHERE p._domain IN $domains" in vec.split("LIMIT $pool")[0]   # inside SEARCH
+    assert vp["domains"] == ["papers", "papers.child"] and vp["pool"] == 50
+    (ft, fp), = s.queries_containing("'passage_text_ft'")
+    assert "p._domain IN $domains" in ft and fp["pool"] == 50
+
+
+def test_vector_text_returns_parent_chunks_with_spans_and_fused_scores(monkeypatch):
+    s = Recorder(respond)
+    _patch(monkeypatch, s)
+    out = vector_query.vector_text_search(["papers"], "q", 2)
+    assert out["parameters"] == {"topK": 2, "pool": 50, "context": "chunk"}
+    assert out["warnings"] == []
+    first, second = out["rows"]
+    assert first["chunk"]["id"] == "c2"                     # found by both legs
+    assert first["matched_by"] == ["vector", "fulltext"] and first["relevance"] == 0.75
+    assert first["passage"] == {"id": "c2_p01", "char_start": 5, "char_end": 20}
+    assert first["chunk"]["text"] == "xxxxx second ..." and first["document"]["id"] == "d2"
+    assert first["source_type"] == "document" and first["passages_matched"] == 1
+    assert second["chunk"]["id"] == "c1" and second["matched_by"] == ["vector"]
+    assert 0 < second["score"] < first["score"]
+
+
+def test_context_passage_returns_the_passage_text(monkeypatch):
+    s = Recorder(respond)
+    _patch(monkeypatch, s)
+    out = vector_query.vector_text_search(["papers"], "q", 1, context="passage")
+    assert out["rows"][0]["chunk"]["text"] == "second"
+
+
+def test_embedding_down_falls_back_to_keywords_with_a_warning(monkeypatch):
+    s = Recorder(respond)
+
+    def down(q):
+        raise RuntimeError("ollama unreachable")
+    _patch(monkeypatch, s, embed=down)
+    out = vector_query.vector_text_search(["papers"], "q", 2)
+    assert out["warnings"] and out["warnings"][0].startswith("vector leg unavailable")
+    assert [r["chunk"]["id"] for r in out["rows"]] == ["c2"] and out["rows"][0]["relevance"] is None
+    assert not s.queries_containing("VECTOR INDEX passage_embedding")
+
+
+def test_missing_passage_index_names_the_fix(monkeypatch):
+    from neo4j.exceptions import ClientError
+
+    def respond_missing(cypher, params):
+        if "passage_embedding" in cypher:
+            raise ClientError("There is no such vector schema index: passage_embedding")
+        return []
+    _patch(monkeypatch, Recorder(respond_missing))
+    with pytest.raises(ValueError, match="embed-passages"):
+        vector_query.vector_text_search(["papers"], "q", 2)
+
+
+@pytest.mark.parametrize("kwargs", [{"topK": 0}, {"topK": 51}, {"context": "page"}])
+def test_bad_arguments_raise(monkeypatch, kwargs):
+    _patch(monkeypatch, Recorder(respond))
+    args = {"topK": 5, **kwargs}
+    top_k = args.pop("topK")
+    with pytest.raises(ValueError):
+        vector_query.vector_text_search(["papers"], "q", top_k, **args)
+
+
+def test_vector_text_keeps_relevance_order_within_one_document(monkeypatch):
+    """No diversity step: two chunks of one document both stay ahead of a weaker hit."""
+    vec = [
+        {"row": {"kind": "passage", "id": f"{c}_p01", "chunk_id": c, "doc_id": d, "char_start": 0,
+                 "char_end": 3, "text": c, "cosine": cos}}
+        for c, d, cos in (("c1", "d1", 0.9), ("c2", "d1", 0.89), ("c3", "d3", 0.5))
+    ]
+    chunks = [{"chunk": {"id": c, "doc_id": d, "text": c}, "document": {"id": d}} for c, d in (("c1", "d1"), ("c2", "d1"), ("c3", "d3"))]
+
+    def resp(cypher, params):
+        if "VECTOR INDEX passage_embedding" in cypher:
+            return vec
+        if "UNWIND $chunkIds AS cid" in cypher:
+            return [c for c in chunks if c["chunk"]["id"] in params["chunkIds"]]
+        return []
+
+    s = Recorder(resp)
+    _patch(monkeypatch, s)
+    out = vector_query.vector_text_search(["papers"], "q", 2)
+    assert [r["chunk"]["id"] for r in out["rows"]] == ["c1", "c2"]
+    (cypher, _), = s.queries_containing("VECTOR INDEX passage_embedding")
+    assert "p.embedding }}" not in cypher and "vector:" not in cypher     # vectors stay in Neo4j

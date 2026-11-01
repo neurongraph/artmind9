@@ -319,9 +319,9 @@ ingest-refine-graph-propose file domain="":
 ingest-embed-entities domain:
     uv run artmind ingest embed-entities --domain {{ domain }}
 
-# backfill vector embeddings for chunks missing one, resumable  (usage: just ingest-embed-chunks)
-ingest-embed-chunks:
-    uv run artmind ingest embed-chunks
+# build and embed passages missing or stale, resumable  (usage: just ingest-embed-passages)
+ingest-embed-passages:
+    uv run artmind ingest embed-passages
 
 # detect non-destructive conflicts between entities, intra- or cross-domain  (usage: just ingest-detect-conflicts <domain> [flags])
 ingest-detect-conflicts domain flags="":
@@ -546,6 +546,10 @@ insights-config-check domain:
 # score `query plan` against a vault's labelled set, offline, 4 repeats for the determinism gate  (usage: just plan-replay ~/artmind_vaults/<name> [lexical|decision|both])
 plan-replay vault classifier="lexical":
     cd {{quote(vault)}} && artmind plan replay --classifier {{ classifier }} --repeat 4
+
+# Retrieval eval against the current vault (labels in <vault>/benchmarking/)
+retrieval-eval *args:
+    uv run artmind retrieval eval {{args}}
 
 # ── artmind traces ───────────────────────────────────────────────────────────
 

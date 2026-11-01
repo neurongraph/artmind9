@@ -43,3 +43,20 @@ def test_resolve_document_id_returns_none_when_nothing_matches():
     with patch("artmind.graph_query.read_session") as mock_ctx:
         mock_ctx.return_value.__enter__.return_value = session
         assert resolve_document_id("nope") is None
+
+
+def test_transition_swaps_passages_both_ways():
+    from _neo4j_recorder import Recorder
+    from artmind import lifecycle, projection
+
+    for to_history, frm, to in ((True, "DocPassage", "DocPassageHistory"), (False, "DocPassageHistory", "DocPassage")):
+        tx = Recorder(lambda c, p: [{"n": 0}])
+        orig = projection.keys_for_document
+        projection.keys_for_document = lambda tx, doc_id: set()
+        try:
+            lifecycle._transition(tx, "d1", to_history=to_history, rebuild=False)
+        finally:
+            projection.keys_for_document = orig
+        swaps = tx.queries_containing(f"MATCH (p:{frm} {{doc_id: $doc_id}})")
+        assert swaps and f"REMOVE p:{frm} SET p:{to}" in swaps[0][0]
+        assert swaps[0][1] == {"doc_id": "d1"}

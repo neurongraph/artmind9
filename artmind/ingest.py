@@ -39,8 +39,10 @@ from artmind.document_identity import (
     resolve_identity,
     write_document,
 )
+from artmind import passage_store, passages
 from artmind.setup import _setup_neo4j
 from artmind.vault_git import current_commit as _vault_current_commit
+from artmind import extraction as _extraction
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -57,6 +59,12 @@ from artmind.extraction import (
 )
 from artmind.canonicalize import canonicalize_document
 from artmind.jobs import _update_job_file_status, _update_job_status
+from artmind.md_tables import (
+    is_table_row as _is_table_row,
+    is_table_separator_row as _is_table_separator_row,
+    carry_trailing_table_headers as _carry_trailing_table_headers,
+    reattach_table_headers as _reattach_table_headers,
+)
 from artmind.structured import STRUCTURED_EXTENSIONS
 from paths import (
     ARTMIND_VAULT_DIR,
@@ -2188,57 +2196,6 @@ def _parse_md_frontmatter(text: str) -> tuple[dict, str]:
     return meta, text[end + 4 :].lstrip("\n")
 
 
-def _is_table_row(line: str) -> bool:
-    stripped = line.strip()
-    return stripped.startswith("|") and stripped.endswith("|") and len(stripped) > 1
-
-
-def _is_table_separator_row(line: str) -> bool:
-    stripped = line.strip()
-    return bool(stripped) and "-" in stripped and set(stripped) <= set("|:- ")
-
-
-def _reattach_table_headers(sub_chunks: list[str]) -> list[str]:
-    """Re-prepend the most recent markdown table header+separator row to any
-    chunk that starts mid-table, so a table split across chunks doesn't hand
-    the extraction LLM unlabeled rows with no column context."""
-    result = []
-    last_header: tuple[str, str] | None = None
-    for chunk in sub_chunks:
-        lines = chunk.split("\n")
-        starts_mid_table = _is_table_row(lines[0]) and not (
-            len(lines) > 1 and _is_table_separator_row(lines[1])
-        )
-        if starts_mid_table and last_header:
-            chunk = "\n".join([*last_header, chunk])
-            lines = chunk.split("\n")
-        for i in range(len(lines) - 1):
-            if _is_table_row(lines[i]) and _is_table_separator_row(lines[i + 1]):
-                last_header = (lines[i], lines[i + 1])
-        result.append(chunk)
-    return result
-
-
-def _carry_trailing_table_headers(pieces: list[str]) -> list[str]:
-    """`pieces` with a table header (header row + separator) that ends a piece,
-    with none of its rows after it, moved to the start of the next piece: a
-    chunk ending on a bare header extracts nothing from it, and the next one
-    needs it anyway. The pieces stay verbatim slices of the text (the splitter
-    cut them at the newline that is put back here)."""
-    result = list(pieces)
-    for i in range(len(result) - 1):
-        lines = result[i].rstrip("\n").split("\n")
-        if (
-            len(lines) > 2
-            and _is_table_row(lines[-2])
-            and _is_table_separator_row(lines[-1])
-            and _is_table_row(result[i + 1].lstrip("\n").split("\n", 1)[0])
-        ):
-            result[i] = "\n".join(lines[:-2]).rstrip("\n")
-            result[i + 1] = "\n".join(lines[-2:]) + "\n" + result[i + 1].lstrip("\n")
-    return result
-
-
 def _header_path(metadata: dict) -> str:
     """Breadcrumb of the h1–h4 headers the splitter attached to a chunk, e.g.
     'Overview > Fees > Monthly'. Empty when the chunk sits under no heading."""
@@ -2842,55 +2799,6 @@ def strip_embeddings(chunk: dict) -> dict:
     return {k: v for k, v in chunk.items() if k != "embedding"}
 
 
-EMBEDDING_SIDECAR = "embeddings.json"
-
-
-def write_embedding_sidecar(doc_kg_dir: Path, chunks: list[dict]) -> int:
-    """Persist chunk vectors beside the staging, gitignored.
-
-    Staging is committed and vectors cannot be delta-compressed, so they are
-    stripped from it (see `strip_embeddings`) -- but discarding them outright
-    would make every ingest embed twice, since the graph write re-reads the
-    chunk JSON from disk. The sidecar keeps the local copy without putting it
-    in git.
-
-    `chunks` here is keyed `"chunk_id"` (matching what `read_embedding_sidecar`
-    hands back and what lands in `embeddings.json`) -- not `"id"`, which is
-    what a staged `chunks.json` entry uses for the same identifier. See the
-    note in `_load_staged` for why that distinction matters.
-    """
-    vectors = {c["chunk_id"]: c["embedding"] for c in chunks if c.get("embedding")}
-    if not vectors:
-        return 0
-    (doc_kg_dir / EMBEDDING_SIDECAR).write_text(json.dumps(vectors), encoding="utf-8")
-    return len(vectors)
-
-
-def read_embedding_sidecar(doc_kg_dir: Path) -> dict:
-    """Locally-cached vectors, or `{}`. Absent is the normal state after a
-    fresh clone, never an error."""
-    try:
-        return json.loads((doc_kg_dir / EMBEDDING_SIDECAR).read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return {}
-
-
-def carry_embedding_sidecar(live_dir: Path, snap_dir: Path) -> None:
-    """Copy the gitignored embedding sidecar from a live staging folder into
-    a snapshot of it (`vault sync` replays from a copy of HEAD) -- only when
-    the live `chunks.json` is byte-identical to the snapshot's. The sidecar's
-    vectors belong to the on-disk chunks; attaching them to different chunks
-    would pair a chunk id with the wrong vector. Without it, the chunk embed
-    sweep recomputes locally."""
-    sidecar = live_dir / EMBEDDING_SIDECAR
-    live_chunks = live_dir / "chunks.json"
-    snap_chunks = snap_dir / "chunks.json"
-    if not (sidecar.is_file() and live_chunks.is_file() and snap_chunks.is_file()):
-        return
-    if live_chunks.read_bytes() == snap_chunks.read_bytes():
-        shutil.copy2(sidecar, snap_dir / EMBEDDING_SIDECAR)
-
-
 def write_staging(doc_kg_dir: Path, documents: dict[str, object], *, default=None) -> None:
     """Write a staging folder's JSON files as one atomic swap (spec
     2026-09-26 §5 R2), so an Obsidian Git auto-commit can never capture a
@@ -2949,8 +2857,9 @@ def embed_missing_entity_embeddings(
 ) -> int:
     """The post-commit embed sweep.
 
-    Matches on ``embedding IS NULL OR embedding_stale`` and clears the flag as
-    it writes. Runs **after** the commit, outside any transaction, because it
+    Matches on ``embedding IS NULL OR embedding_stale`` or an ``_embed_key``
+    that is missing or differs from the current model/prefix key, and clears
+    the flag and records the key as it writes. Runs **after** the commit, outside any transaction, because it
     calls the embedding service — which is exactly why the rebuild cannot do
     this itself and marks `embedding_stale` instead.
 
@@ -2965,7 +2874,7 @@ def embed_missing_entity_embeddings(
     dirtied, not the whole domain.
     """
     scope = ""
-    params: dict = {"domain": domain}
+    params: dict = {"domain": domain, "embed_key": _extraction.embed_key(embed_model)}
     if keys:
         scope = " AND e.key IN $keys"
         params["keys"] = [k if isinstance(k, str) else "|".join(k) for k in keys]
@@ -2975,7 +2884,7 @@ def embed_missing_entity_embeddings(
         MATCH (e:Entity)
         WHERE (e._domain = $domain OR e._domain STARTS WITH ($domain + '.'))
           AND e.name IS NOT NULL
-          AND (e.embedding IS NULL OR e.embedding_stale){scope}
+          AND (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL OR e._embed_key <> $embed_key){scope}
         RETURN e._id AS id, e.name AS name, e.description AS description
         """,
         **params,
@@ -2995,7 +2904,7 @@ def embed_missing_entity_embeddings(
     count, failed = 0, 0
     for i, row in enumerate(rows, start=1):
         try:
-            embedding = _embed_text(
+            embedding = _extraction.embed_document(
                 embed_model, entity_embedding_text(row["name"], row.get("description"))
             )
         except Exception as e:
@@ -3005,9 +2914,11 @@ def embed_missing_entity_embeddings(
         # Written together with clearing the flag, so an entity is never left
         # claiming to be fresh while holding an old vector.
         session.run(
-            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, e.embedding_stale = false",
+            "MATCH (e:Entity {_id: $id}) SET e.embedding = $embedding, "
+            "e.embedding_stale = false, e._embed_key = $embed_key",
             id=row["id"],
             embedding=embedding,
+            embed_key=params["embed_key"],
         )
         count += 1
 
@@ -3048,8 +2959,8 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     (`:Observation` -> `:ObservationHistory`, `:DocChunk` -> `:DocChunkHistory`)
     rather than a status property: a demoted node keeps the valid-time window
     it always had, stays queryable by asking for it (see `entity_history`), and
-    the label swap is what structurally drops it out of `chunk_text_ft` /
-    `chunk_embedding` / every projection query — no predicate to forget, no
+    the label swap is what structurally drops it out of `passage_text_ft` /
+    `passage_embedding` / every projection query — no predicate to forget, no
     index to filter. Nothing is deleted, so provenance survives a re-ingest.
     Chunks used to be `DETACH DELETE`d here; they are relabelled instead.
 
@@ -3069,7 +2980,7 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
 
     Runs inside the caller's transaction.
     """
-    result = {"observations_demoted": 0, "chunks": 0}
+    result = {"observations_demoted": 0, "chunks": 0, "passages": 0}
 
     rec = tx.run(
         """
@@ -3090,6 +3001,16 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
         doc_id=doc_id,
     ).single()
     result["chunks"] = int(rec["n"]) if rec else 0
+
+    rec = tx.run(
+        """
+        MATCH (p:DocPassage {doc_id: $doc_id})
+        REMOVE p:DocPassage SET p:DocPassageHistory
+        RETURN count(p) AS n
+        """,
+        doc_id=doc_id,
+    ).single()
+    result["passages"] = int(rec["n"]) if rec else 0
     return result
 
 
@@ -3849,14 +3770,6 @@ def extract_kg(
 
     _init_chunk_rows(doc_sha256, doc_id, chunk_count)
 
-    # Embeddings never land in the per-chunk JSON on disk (see strip_embeddings
-    # below) -- a sidecar, gitignored, is the only place a vector persists.
-    # Read it once so a resumed run doesn't pay for a re-embed of a chunk it
-    # already has a vector for, and accumulate this run's vectors here so
-    # they can be written back out once, alongside chunks.json.
-    embedding_sidecar = read_embedding_sidecar(doc_kg_dir)
-    computed_embeddings: dict[str, list] = {}
-
     def _process_chunk(seq: int, chunk_file: Path, statuses: dict) -> None:
         chunk_text = chunk_file.read_text(encoding="utf-8")
         chunk_id = f"{doc_id}_{seq:03d}"
@@ -3870,24 +3783,6 @@ def extract_kg(
                 data = json.loads(chunk_json.read_text(encoding="utf-8"))
             except Exception:
                 pass
-
-        # Embedding — compute once and persist (to the sidecar, not the chunk
-        # JSON: see strip_embeddings). A vector already in the sidecar from a
-        # prior run of this same document is reused rather than recomputed.
-        if "embedding" not in data and chunk_id in embedding_sidecar:
-            data["embedding"] = embedding_sidecar[chunk_id]
-        if "embedding" not in data:
-            try:
-                data["embedding"] = _embed_text(embed_model, chunk_text)
-            except Exception as e:
-                logger.error("  Embedding failed for chunk {}: {}", seq, e)
-                data["embedding"] = []
-        if data["embedding"]:
-            # Keyed by chunk_id (e.g. "d1_001") -- the same identifier a
-            # staged chunks.json entry carries under the key "id" (see
-            # _load_staged's merge). Two literal key names, one identifier;
-            # write_embedding_sidecar and _load_staged must agree on this.
-            computed_embeddings[chunk_id] = data["embedding"]
 
         data.setdefault("chunk_seq", seq)
         data.setdefault("chunk_id", chunk_id)
@@ -4156,7 +4051,7 @@ def extract_kg(
             logger.warning("Missing chunk JSON for seq {}, skipping in merge", seq)
             continue
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
-        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "embedding", "_domain") if k in data}
+        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "_domain") if k in data}
         chunk_node["id"] = data["chunk_id"]
         # Include denormalized filing metadata (ADR 0010)
         for key in ("project", "area", "tags"):
@@ -4348,15 +4243,6 @@ def extract_kg(
     # one its baseline came from (a note moved or re-domained since) is stale.
     _remove_superseded_staging(file_result.get("baseline_folder"), doc_kg_dir, doc_id)
 
-    # Vectors move to a gitignored sidecar rather than vanishing: chunks.json
-    # above is what git tracks (and cannot delta a changed vector against),
-    # while the sidecar keeps this run's embeddings available locally so the
-    # graph write below doesn't have to recompute them.
-    sidecar_written = write_embedding_sidecar(
-        doc_kg_dir,
-        [{"chunk_id": cid, "embedding": emb} for cid, emb in computed_embeddings.items()],
-    )
-
     elapsed = time.monotonic() - t0
     final_statuses = _get_chunk_statuses(doc_sha256)
     failed_count = sum(
@@ -4365,7 +4251,7 @@ def extract_kg(
     )
     logger.info(
         "KG extraction done in {:.1f}s | chunks={} entities={} observations={} "
-        "properties={} relationships={} | chunks_with_failures={} | embeddings_cached={}",
+        "properties={} relationships={} | chunks_with_failures={}",
         elapsed,
         chunk_count,
         len(all_entities),
@@ -4373,7 +4259,6 @@ def extract_kg(
         len(all_properties),
         len(all_relationships),
         failed_count,
-        sidecar_written,
     )
     return doc_kg_dir
 
@@ -4693,21 +4578,12 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     #     write-to-graph, pull-kg, archive restore, dashboard import, vault
     #     sync) reaches this line through `_write_to_neo4j`/`_load_staged`.
     sync_state.set_document_fingerprint(tx, doc_id, staged.get("fingerprint"), label=source_label)
+    title = document.get("title") or document.get("name")
     for chunk in staged["chunks"]:
-        # `embedding` flows through `_flatten_props` like every other chunk
-        # property (no more special-casing it out and re-adding it after).
-        # A chunk with no vector must end up with NO "embedding" key at all —
-        # not "embedding": [] — because Cypher's `[] IS NULL` is false, which
-        # is exactly what `embed_missing_chunk_embeddings`'s
-        # `WHERE c.embedding IS NULL` sweep query relies on to find it, and
-        # because `_merge_relabeled`'s `SET n += $props` is additive: an
-        # "embedding" key present with value [] would silently overwrite a
-        # real vector a prior commit already swept in. `_flatten_props`
-        # already drops `v == []` for every property, so simply not excluding
-        # "embedding" from its input is the whole fix. `_neo4j_value` passes a
-        # plain list of floats through unchanged, so a genuine vector is still
-        # written exactly as before.
-        chunk_props = _flatten_props(chunk)
+        # Chunks carry no vector any more (spec 2026-10-31 §1): every text-retrieval
+        # vector lives on the chunk's passages, written right below without one and
+        # filled by the post-commit passage sweep.
+        chunk_props = _flatten_props({k: v for k, v in chunk.items() if k != "embedding"})
         # additive (replace=False): a chunk's filing metadata / char offsets
         # accrete the way they always have — see _merge_relabeled for why the
         # label-pair match is needed at all (a same-doc_id re-ingest reuses
@@ -4724,10 +4600,9 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
             id=chunk["id"],
             doc_id=chunk["doc_id"],
         )
+        passage_store.write_chunk_passages(tx, chunk["id"], passages.passage_rows(chunk, title))
     summary["chunks"] = len(staged["chunks"])
-    summary["unembedded_chunk_ids"] = [
-        chunk["id"] for chunk in staged["chunks"] if not chunk.get("embedding")
-    ]
+    summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
     # 4. Observations.
     observations = staged["observations"]
@@ -4798,10 +4673,8 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
 def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
     """Read the staged JSON one document's commit needs.
 
-    `chunks.json` carries no vectors (see `strip_embeddings`) -- the sidecar
-    beside it, if present, supplies them here so the graph write below still
-    gets a vector without recomputing it. A fresh clone has no sidecar, so
-    its chunks come back with none; a later sweep (Task 2) fills those in.
+    `chunks.json` carries no vectors (see `strip_embeddings`); passages are
+    embedded by the passage sweep, not here.
 
     `fingerprint` is taken from the files' bytes as they are on disk, before
     any parsing (`sync_state.staging_fingerprint`), so it equals what `vault
@@ -4821,18 +4694,6 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
 
     try:
         chunks = _load("chunks.json", [])
-        sidecar = read_embedding_sidecar(doc_kg_dir)
-        if sidecar:
-            # NOTE: a staged chunks.json entry keys its identifier "id", but
-            # the sidecar (see write_embedding_sidecar) keys it "chunk_id".
-            # Same value (e.g. "d1_001"), different literal key name per
-            # side -- tied together only by convention. A future rename on
-            # either side that misses the other fails silently here: the
-            # `in sidecar` check just never matches and no vector merges in,
-            # with no error raised.
-            for chunk in chunks:
-                if "embedding" not in chunk and chunk.get("id") in sidecar:
-                    chunk["embedding"] = sidecar[chunk["id"]]
         document = _load("document.json")
         return {
             "domain": domain,
@@ -4925,7 +4786,7 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, defer_rebuild: bool = False) 
 
     if not defer_rebuild:
         _sweep_embeddings(domain, summary.get("affected_keys") or [])
-        _sweep_chunk_embeddings(summary.get("unembedded_chunk_ids") or [])
+        _sweep_passages(summary.get("passage_chunk_ids") or [])
     return True
 
 
@@ -4963,8 +4824,8 @@ def _sweep_embeddings(domain: str, keys: list, *, strict: bool = False) -> int:
         return 0
 
 
-def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = None, *, strict: bool = False) -> int:
-    """Post-commit / post-rebuild chunk-embed sweep.
+def _sweep_passages(chunk_ids: list | None = None, domain: str | None = None, doc_ids: list | None = None, *, strict: bool = False) -> int:
+    """Post-commit / post-rebuild passage sweep (build missing passages, embed stale vectors).
 
     Two scoping modes, mirroring `_sweep_embeddings`'s own two callers:
 
@@ -4982,7 +4843,7 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
     this is a restore with no sidecar at all. Never fatal: the commit or
     rebuild already succeeded and the graph is correct either way. A chunk
     this sweep can't embed stays NULL and is picked up by the next
-    `ingest embed-chunks` / write-to-graph sweep, or the next commit or
+    `ingest embed-passages` / write-to-graph sweep, or the next commit or
     rebuild that happens to touch it.
 
     Neither scope given (`chunk_ids` falsy and `domain` `None`) is a real
@@ -4991,37 +4852,37 @@ def _sweep_chunk_embeddings(chunk_ids: list | None = None, domain: str | None = 
     `strict=True` raises `SweepSkipped` instead of returning 0 when the sweep
     could not run (see `_sweep_embeddings`).
     """
-    if not chunk_ids and not domain:
+    if not chunk_ids and not domain and not doc_ids:
         return 0
     try:
         from artmind.graph_query import neo4j_session
-        from artmind.embed_sweep import embed_missing_chunk_embeddings
+        from artmind.embed_sweep import reconcile_passages
 
         with neo4j_session() as session:
-            return embed_missing_chunk_embeddings(
-                session, chunk_ids=chunk_ids, domain=domain
+            return reconcile_passages(
+                session, chunk_ids=chunk_ids, domain=domain, doc_ids=doc_ids
             )["embedded"]
     except Exception as e:
         scope_desc = f"{len(chunk_ids)} chunk(s)" if chunk_ids else f"domain {domain!r}"
         logger.warning(
-            "Chunk embed sweep skipped for {} ({}); they stay unembedded "
+            "Passage sweep skipped for {} ({}); they stay unembedded "
             "and will be picked up by the next sweep", scope_desc, e,
         )
         if strict:
-            raise SweepSkipped(f"chunk embed sweep skipped for {scope_desc} ({e})") from e
+            raise SweepSkipped(f"passage sweep skipped for {scope_desc} ({e})") from e
         return 0
 
 
 def _sweep_domain(domain: str, keys: list) -> dict:
     """Both strict sweeps for one domain. Never raises: a skipped sweep
     becomes an entry in `sweep_errors`, and the other sweep still runs."""
-    out: dict = {"embedded": 0, "chunks_embedded": 0, "sweep_errors": []}
+    out: dict = {"embedded": 0, "passages_embedded": 0, "sweep_errors": []}
     try:
         out["embedded"] = _sweep_embeddings(domain, keys, strict=True)
     except SweepSkipped as e:
         out["sweep_errors"].append(str(e))
     try:
-        out["chunks_embedded"] = _sweep_chunk_embeddings(domain=domain, strict=True)
+        out["passages_embedded"] = _sweep_passages(domain=domain, strict=True)
     except SweepSkipped as e:
         out["sweep_errors"].append(str(e))
     return out
@@ -5069,7 +4930,7 @@ def rebuild_and_sweep_all() -> dict:
     A full, unscoped, batched rebuild (`projection.full_rebuild_batched`,
     which clears drift once the last batch commits), then both strict embed
     sweeps for every domain a key belongs to. Returns the rebuild totals plus
-    `domains_swept`, `embedded`, `chunks_embedded`, `sweep_errors` (each
+    `domains_swept`, `embedded`, `passages_embedded`, `sweep_errors` (each
     prefixed with its domain; empty when every sweep ran) and
     `finalize_resolved` (the ingest jobs whose failed deferred rebuild this
     run superseded -- only when no sweep was skipped).
@@ -5090,10 +4951,10 @@ def rebuild_and_sweep_all() -> dict:
     for domain in sorted(by_domain):
         swept = _sweep_domain(domain, by_domain[domain])
         embedded += swept["embedded"]
-        chunks += swept["chunks_embedded"]
+        chunks += swept["passages_embedded"]
         errors.extend(f"{domain}: {err}" for err in swept["sweep_errors"])
     summary.update(
-        domains_swept=sorted(by_domain), embedded=embedded, chunks_embedded=chunks, sweep_errors=errors,
+        domains_swept=sorted(by_domain), embedded=embedded, passages_embedded=chunks, sweep_errors=errors,
     )
     summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
     return summary

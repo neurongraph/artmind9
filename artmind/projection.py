@@ -465,7 +465,7 @@ import re  # noqa: E402  (kept beside the I/O half it serves)
 # `:Entity` is projection-owned and is recomputed from observations on every
 # rebuild, so a property no longer asserted by any observation disappears
 # rather than lingering.
-_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale")
+_PRESERVED_ENTITY_KEYS = ("embedding", "embedding_stale", "_embed_key")
 
 
 def _sanitize_label(value: str) -> str:
@@ -1636,7 +1636,8 @@ def read_state(tx) -> dict | None:
 
 _UNEMBEDDED_ENTITIES_BY_DOMAIN = """
 MATCH (e:Entity)
-WHERE e.name IS NOT NULL AND (e.embedding IS NULL OR e.embedding_stale)
+WHERE e.name IS NOT NULL
+  AND (e.embedding IS NULL OR e.embedding_stale OR e._embed_key IS NULL OR e._embed_key <> $embed_key)
 RETURN e._domain AS domain, count(e) AS n
 """
 
@@ -1646,27 +1647,31 @@ WHERE o.key IS NOT NULL AND NOT EXISTS { MATCH (:Entity)-[:AGGREGATES]->(o) }
 RETURN o._domain AS domain, count(DISTINCT o.key) AS n
 """
 
-_UNEMBEDDED_CHUNKS_BY_DOMAIN = """
-MATCH (c:DocChunk) WHERE c.embedding IS NULL
-RETURN c._domain AS domain, count(c) AS n
+_UNEMBEDDED_PASSAGES_BY_DOMAIN = """
+MATCH (p:DocPassage) WHERE p.embedding IS NULL OR p._embed_key IS NULL OR p._embed_key <> $embed_key
+RETURN p._domain AS domain, count(p) AS n
 """
 
-_GAP_FIELDS = ("unembedded_entities", "unprojected_keys", "unembedded_chunks")
+_GAP_FIELDS = ("unembedded_entities", "unprojected_keys", "unembedded_passages")
 
 
 def _gaps_by_domain(tx) -> dict[str, dict[str, int]]:
-    """`{domain: {unembedded_entities, unprojected_keys, unembedded_chunks}}`
+    """`{domain: {unembedded_entities, unprojected_keys, unembedded_passages}}`
     in three grouped reads -- never one query per domain. An entity counts
     exactly when the entity embed sweep would pick it up; an observation key
     counts when no Entity AGGREGATES its observation yet (so a same-as
     member, which hangs off its canonical's Entity, does not). A node with no
     domain is grouped under "(none)"."""
+    from artmind.extraction import embed_key
+    from utils.functions import load_env
+
+    current_embed_key = embed_key(load_env().get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"))
     domains: dict[str, dict[str, int]] = {}
     for field_name, cypher in zip(
         _GAP_FIELDS,
-        (_UNEMBEDDED_ENTITIES_BY_DOMAIN, _UNPROJECTED_KEYS_BY_DOMAIN, _UNEMBEDDED_CHUNKS_BY_DOMAIN),
+        (_UNEMBEDDED_ENTITIES_BY_DOMAIN, _UNPROJECTED_KEYS_BY_DOMAIN, _UNEMBEDDED_PASSAGES_BY_DOMAIN),
     ):
-        for row in tx.run(cypher).data():
+        for row in tx.run(cypher, embed_key=current_embed_key).data():
             entry = domains.setdefault(row["domain"] or "(none)", dict.fromkeys(_GAP_FIELDS, 0))
             entry[field_name] = row["n"]
     return {d: domains[d] for d in sorted(domains)}
@@ -1679,7 +1684,7 @@ def status(tx) -> dict:
     (`READ_ACCESS`), so drift is reported, never auto-fixed.
 
     `drift` is true when there is no recorded state or either hash differs.
-    `unembedded_entities`, `unprojected_keys` and `unembedded_chunks` are
+    `unembedded_entities`, `unprojected_keys` and `unembedded_passages` are
     totals of `domains`' per-domain counts; any of them non-zero, or `drift`,
     means `projection rebuild --sweep` has work to do."""
     from artmind import same_as

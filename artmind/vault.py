@@ -300,12 +300,14 @@ GITIGNORE_BLOCK = """\
 # committable.
 .opencode/agent/artmind*.md
 
-# Locally-cached chunk vectors, split out of committed chunks.json into this
-# sidecar precisely so it can be excluded. Derived from (text, model), and
-# undeltable -- ten versions of one chunks.json cost 60 KB of git objects with
-# embeddings inline and 20 KB with them split into embeddings.json instead. A
-# clone has no embeddings.json and rebuilds it once.
+# Pre-2026-11 chunk-vector sidecars: no longer written, still never committed.
 .artmind/data/kg/**/embeddings.json
+# The machine-local vector cache (artmind/embedding_cache.py): derived from
+# (text, model, prefix), rebuildable by `ingest embed-passages`, and a SQLite
+# binary that would only churn history.
+.artmind/data/embedding_cache.sqlite
+.artmind/data/embedding_cache.sqlite-shm
+.artmind/data/embedding_cache.sqlite-wal
 
 # Snapshots: large, opaque, and already a complete copy of what git versions.
 # By extension rather than path, so one dropped anywhere stays out of both git

@@ -17,7 +17,7 @@
     "current_schema_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "unembedded_entities": 0,
     "unprojected_keys": 0,
-    "unembedded_chunks": 0,
+    "unembedded_passages": 0,
     "domains": {}
   },
   "stderr": null

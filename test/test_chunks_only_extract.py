@@ -47,7 +47,8 @@ def test_chunks_and_embeddings_are_staged_with_no_extraction(chunks_only):
     assert json.loads((folder / "relationships.json").read_text()) == []
     chunks = json.loads((folder / "chunks.json").read_text())
     assert len(chunks) == 1 and "Alpha" in chunks[0]["text"]
-    assert list(ing.read_embedding_sidecar(folder).values()) == [[0.0, 0.1]]
+    assert not (folder / "embeddings.json").exists()
+    assert all("embedding" not in c for c in chunks)
     status = ing._get_chunk_statuses(result["sha256"])[1]
     assert (status["entities_status"], status["properties_status"], status["relationships_status"]) == ("skipped",) * 3
     assert not (folder / ing.DOCUMENT_CONTEXT_FILE).exists()

@@ -374,7 +374,7 @@ def test_two_clones_a_domain_change_leaves_the_document_live_in_the_new_domain(t
     monkeypatch.setattr(ing, "retract_document", fake_retract)
     monkeypatch.setattr(t2g, "_rebuild_in_batches", lambda keys, groups=None: {})
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: 0)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda **kw: 0)
     _patch_structured_text_dir(monkeypatch, b)
     _patch_kg_dir(monkeypatch, b)
     vs.sync(b, bootstrap_empty=True)
@@ -824,7 +824,7 @@ def _patch_ingest_and_projection(monkeypatch, deferred_keys_by_doc=None, retract
     monkeypatch.setattr(ing, "retract_document", _fake_retract)
     monkeypatch.setattr(t2g, "_rebuild_in_batches", _fake_rebuild_in_batches)
     monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: calls["sweeps"].append(("entities", domain)) or 0)
-    monkeypatch.setattr(ing, "_sweep_chunk_embeddings", lambda **kw: calls["sweeps"].append(("chunks", kw.get("domain"))) or 0)
+    monkeypatch.setattr(ing, "_sweep_passages", lambda **kw: calls["sweeps"].append(("chunks", kw.get("domain"))) or 0)
     return calls
 
 
@@ -1318,54 +1318,6 @@ def test_sync_replays_the_committed_observations_not_the_working_tree(repo, monk
     vs.sync(repo, bootstrap_empty=True)
 
     assert seen == [("doc1", "banking", [{"v": "committed"}])]
-
-
-def test_sync_carries_the_embedding_sidecar_when_chunks_match_head(repo, monkeypatch):
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _patch_structured_text_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
-    _commit_all(repo, "add doc1")
-    # The sidecar is gitignored in real vaults; here it's simply never committed.
-    (kg_dir / "banking" / "doc1" / "embeddings.json").write_text('{"d1_001": [0.1]}')
-
-    import artmind.ingest as ing
-
-    seen = []
-    _patch_ingest_and_projection(monkeypatch)
-    monkeypatch.setattr(
-        ing, "_write_to_neo4j",
-        lambda d, domain, defer_rebuild=False: seen.append((d / "embeddings.json").is_file())
-        or {"deferred_keys": [], "unembedded_chunk_ids": []},
-    )
-
-    vs.sync(repo, bootstrap_empty=True)
-
-    assert seen == [True]
-
-
-def test_sync_drops_the_sidecar_when_chunks_differ_from_head(repo, monkeypatch):
-    """Vectors on disk belong to the on-disk chunks; if those differ from the
-    committed chunks, reusing them would attach the wrong vector to a chunk id."""
-    kg_dir = _patch_kg_dir(monkeypatch, repo)
-    _patch_structured_text_dir(monkeypatch, repo)
-    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
-    _commit_all(repo, "add doc1")
-    (kg_dir / "banking" / "doc1" / "chunks.json").write_text('[{"id": "d1_001", "text": "edited"}]')
-    (kg_dir / "banking" / "doc1" / "embeddings.json").write_text('{"d1_001": [0.1]}')
-
-    import artmind.ingest as ing
-
-    seen = []
-    _patch_ingest_and_projection(monkeypatch)
-    monkeypatch.setattr(
-        ing, "_write_to_neo4j",
-        lambda d, domain, defer_rebuild=False: seen.append((d / "embeddings.json").is_file())
-        or {"deferred_keys": [], "unembedded_chunk_ids": []},
-    )
-
-    vs.sync(repo, bootstrap_empty=True)
-
-    assert seen == [False]
 
 
 def test_sync_imports_structured_text_from_the_committed_version(repo, monkeypatch):

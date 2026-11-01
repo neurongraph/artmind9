@@ -79,9 +79,9 @@ def retrieve_vocabulary(
         return []
 
     try:
-        from artmind.extraction import embed_text
+        from artmind.extraction import embed_query
 
-        query_vector = embed_text(embed_model, seed_text[:4000])
+        query_vector = embed_query(embed_model, seed_text[:4000])
     except Exception as e:
         logger.warning("Name vocabulary: embedding failed, extracting without it ({})", e)
         return []

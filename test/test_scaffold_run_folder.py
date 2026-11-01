@@ -610,6 +610,9 @@ def test_setup_all_inside_a_vault_leaves_its_schemas_and_meta_alone(tmp_path, mo
     monkeypatch.setattr(setup, "_init_db", lambda: None)
     monkeypatch.setattr(setup, "validate_all_or_raise", lambda *a, **k: None)
 
+    monkeypatch.setattr("artmind.migrations.chunk_vectors_to_passages.run",
+                        lambda s: {"status": "none", "report": "legacy chunk vectors: none"})
+
     setup.setup_all()
 
     assert (home / "domains" / "schemas" / "general_schema.yaml").read_text() == "my edited general"

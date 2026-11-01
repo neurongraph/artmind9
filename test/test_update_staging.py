@@ -78,7 +78,7 @@ def _confirm(monkeypatch, *, draft_id=7, relationships=True):
         yield session
 
     monkeypatch.setattr(upd, "neo4j_session", _fake)
-    monkeypatch.setattr(upd, "embed_text", lambda model, text: [0.25, 0.5])
+    monkeypatch.setattr(upd, "embed_document", lambda model, text: [0.25, 0.5])
     result = upd.write_user_chat(
         session_id="s1", raw_text="Alice works at Acme.", domain="general", user_id="u@example.com",
         resolutions=[
@@ -125,9 +125,10 @@ def test_confirm_commits_from_the_folder_and_records_its_fingerprint(kg_dir, mon
         {"doc_id": "update:s1:7", "fingerprint": sync_state.folder_fingerprint(folder)}
     ]
     assert result["relationships_written"] == 1
-    assert [p for c, p in session.calls if c == "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding"] == [
-        {"id": "update:s1:7", "embedding": [0.25, 0.5]}
-    ]
+    chat_writes = [p for c, p in session.calls if "SET c.embedding = $embedding, c._embed_key = $embed_key" in c]
+    assert len(chat_writes) == 1
+    assert chat_writes[0]["id"] == "update:s1:7" and chat_writes[0]["embedding"] == [0.25, 0.5]
+    assert chat_writes[0]["embed_key"]
 
 
 def test_replaying_the_folder_writes_exactly_what_confirm_wrote(kg_dir, monkeypatch, rebuilds):
@@ -202,9 +203,13 @@ def test_embed_user_chats_embeds_only_chats_without_a_vector(monkeypatch):
         yield session
 
     monkeypatch.setattr(upd, "neo4j_session", _fake)
-    monkeypatch.setattr(upd, "embed_text", lambda model, text: [0.1] if text == "Alice works at Acme." else None)
+    monkeypatch.setattr(upd, "embed_document", lambda model, text: [0.1] if text == "Alice works at Acme." else None)
 
     assert upd.embed_user_chats(domain="general") == 1
     read, write = session.calls
-    assert read[1] == {"domain": "general", "ids": None}
-    assert write == ("MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding", {"id": "update:s1:7", "embedding": [0.1]})
+    assert "c._embed_key <> $embed_key" in read[0]
+    assert read[1]["domain"] == "general" and read[1]["ids"] is None and read[1]["embed_key"]
+    assert write == (
+        "MATCH (c:UserChat {id: $id}) SET c.embedding = $embedding, c._embed_key = $embed_key",
+        {"id": "update:s1:7", "embedding": [0.1], "embed_key": read[1]["embed_key"]},
+    )
