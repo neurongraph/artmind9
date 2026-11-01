@@ -53,6 +53,11 @@ def test_vector_text_rows_chunks_and_documents():
     assert s["truncated"] is False
     assert s["evidence"]["chunks"] == [{"chunk_id": "c1", "doc_id": "d1"}]
     assert s["evidence"]["documents"] == [{"doc_id": "d1", "path": "banking/Policy.md"}]
+    provenance = s["evidence"]["provenance"]
+    assert provenance["documents"] == [{
+        "doc_id": "d1", "path": "banking/Policy.md", "source_path": "banking/Policy.md", "domain": "banking",
+        "chunks": [{"chunk_id": "c1", "sequence": None, "name": "c1", "header_path": None, "passages": []}],
+    }]
 
 
 def test_pattern2_entities_chunks_documents():
@@ -60,6 +65,7 @@ def test_pattern2_entities_chunks_documents():
     assert ev["entities"] == ["e1"]
     assert ev["chunks"] == [{"chunk_id": "c9", "doc_id": "d9"}]
     assert ev["documents"] == [{"doc_id": "d9", "path": "b/Org.md"}]
+    assert ev["provenance"]["documents"][0]["chunks"][0]["chunk_id"] == "c9"
 
 
 def test_text2cypher_cypher_and_truncation():

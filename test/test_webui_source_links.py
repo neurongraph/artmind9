@@ -72,6 +72,30 @@ def test_open_source_hands_obsidian_uri_to_os(client_and_opened):
     assert response.json()["path"] == "performance_management/Delivery Leads.md"
 
 
+def test_vault_relative_allows_only_generated_chunk_cache(vault):
+    cache = vault / ".artmind" / "data" / "documents" / "markdowns" / "Policy~abc_chunks"
+    cache.mkdir(parents=True)
+    chunk = cache / "chunk_014.md"
+    chunk.write_text("source")
+
+    assert vault_relative(".artmind/data/documents/markdowns/Policy~abc_chunks/chunk_014.md", vault) == (
+        ".artmind/data/documents/markdowns/Policy~abc_chunks/chunk_014.md"
+    )
+
+
+@pytest.mark.parametrize("path", [
+    ".artmind/data/converted.md",
+    ".artmind/data/documents/markdowns/Policy~abc_chunks/chunk_notes.md",
+    ".artmind/data/documents/markdowns/Policy~abc.md",
+])
+def test_vault_relative_still_rejects_other_hidden_files(vault, path):
+    unsafe = vault / path
+    unsafe.parent.mkdir(parents=True, exist_ok=True)
+    unsafe.write_text("private")
+    with pytest.raises(SourceLinkError, match="hidden folder"):
+        vault_relative(path, vault)
+
+
 def test_open_source_refuses_path_outside_vault_without_opening(client_and_opened):
     client, opened = client_and_opened
     response = client.post("/api/open-source", json={"path": "../outside.md"})

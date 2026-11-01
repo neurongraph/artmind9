@@ -189,11 +189,11 @@ function finalizeText() {
 }
 
 // ── vault source links ───────────────────────────────────────────────
-// Answers end with a Sources list linking each document's vault path
-// (artmind-query skill). Each such link gets its obsidian:// URI as href, so
-// a plain browser click and Web Viewer's right-click "Open link in default
-// browser" both work; a click is sent to the server instead, because Web
-// Viewer drops a page's obsidian:// navigation (see webui/source_links.py).
+// System-owned provenance links a source document or generated passage cache.
+// Each eligible link gets its obsidian:// URI as href, so a plain browser click
+// and Web Viewer's right-click "Open link in default browser" both work; a
+// click is sent to the server instead, because Web Viewer drops a page's
+// obsidian:// navigation (see webui/source_links.py).
 let vaultDir = null;
 fetch("/api/health")
   .then((r) => r.json())
@@ -217,6 +217,7 @@ function vaultRelative(href) {
   }
   path = path.replace(/^\.\//, "");
   if (!path || path.split("/").includes("..")) return null;
+  if (path.startsWith(".artmind/") && !/^\.artmind\/data\/documents\/markdowns\/[^/]+_chunks\/chunk_\d+\.md$/.test(path)) return null;
   return path;
 }
 
@@ -393,6 +394,14 @@ function handleEvent(ev) {
     case "turn_done":
       addTraceSummary(ev);
       break;
+    case "provenance": {
+      const node = el("div", "md provenance");
+      node.innerHTML = DOMPurify.sanitize(marked.parse(ev.markdown));
+      addCopyButtons(node);
+      linkVaultSources(node);
+      ensureTurn().appendChild(node);
+      break;
+    }
     case "error":
       showNotice(`Agent error: ${ev.message}`);
       const card = el("div", "tool-card");

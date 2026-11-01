@@ -8,12 +8,14 @@ disabled and every later call is a no-op, and `observe` swallows its own errors.
 """
 
 import logging
+import re
 from typing import Any
 
 from artmind.conversations import store
 from artmind.traces.store import cap
 
 logger = logging.getLogger(__name__)
+_TRAILING_SOURCES = re.compile(r"(?:\n{0,2}### Sources\s*\n).*\Z", re.DOTALL)
 
 
 class ConversationRecorder:
@@ -90,6 +92,19 @@ class ConversationRecorder:
             self._error = event.get("message") or "error"
 
     # ── end of turn ──────────────────────────────────────────────────────
+    def append_sources(self, markdown: str) -> None:
+        """Replace an agent source tail with system-generated provenance."""
+        if not self.enabled or not markdown:
+            return
+        self._flush("text")
+        for block in reversed(self._blocks):
+            if block.get("type") == "text":
+                block["md"] = _TRAILING_SOURCES.sub("", block["md"]).rstrip()
+                break
+        self._blocks.append({"type": "text", "md": markdown})
+        answer = _TRAILING_SOURCES.sub("", "".join(self._answer)).rstrip()
+        self._answer = [answer + ("\n\n" if answer else "") + markdown]
+
     def finish(self, error: str | None = None, trace_id: str | None = None) -> None:
         if not self.enabled:
             return
