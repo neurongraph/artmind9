@@ -364,3 +364,30 @@ def test_review_privacy_passes_remote_login_to_gh(repo, monkeypatch):
     monkeypatch.setattr(doc, "_gh_visibility", fake)
     assert _by_name(doc.run(repo))[NAME]["status"] == "ok"
     assert seen == {"slug": "me/vault", "account": "me"}
+
+
+def test_libreoffice_missing_is_a_warning_with_the_install_fix(monkeypatch):
+    monkeypatch.delenv("DOCLING_LIBREOFFICE_CMD", raising=False)
+    monkeypatch.setattr(doc.shutil, "which", lambda _name: None)
+    monkeypatch.setattr(doc.os.path, "isfile", lambda _p: False)
+    check = doc.check_libreoffice()
+    assert check.status == "warn"
+    assert "brew install --cask libreoffice" in check.fix
+
+
+def test_libreoffice_found_on_path_the_macos_app_or_the_override(monkeypatch):
+    monkeypatch.delenv("DOCLING_LIBREOFFICE_CMD", raising=False)
+    monkeypatch.setattr(doc.shutil, "which", lambda name: "/bin/soffice" if name == "soffice" else None)
+    assert doc.check_libreoffice().status == "ok"
+    monkeypatch.setattr(doc.shutil, "which", lambda _name: None)
+    monkeypatch.setattr(doc.os.path, "isfile", lambda p: p == doc._MACOS_SOFFICE)
+    assert doc._MACOS_SOFFICE in doc.check_libreoffice().detail
+    monkeypatch.setattr(doc.os.path, "isfile", lambda _p: False)
+    monkeypatch.setenv("DOCLING_LIBREOFFICE_CMD", "/opt/lo/soffice")
+    assert "/opt/lo/soffice" in doc.check_libreoffice().detail
+
+
+def test_libreoffice_never_fails_the_doctor(repo, monkeypatch):
+    monkeypatch.delenv("DOCLING_LIBREOFFICE_CMD", raising=False)
+    monkeypatch.setattr(doc, "check_libreoffice", lambda: doc.Check("LibreOffice (optional)", "warn", "x"))
+    assert doc.run(repo)["ok"] is True
