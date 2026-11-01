@@ -352,7 +352,7 @@ def _passage_vector_cypher(as_of) -> str:
         LIMIT $pool
       )
     WITH p, vector.similarity.cosine(p.embedding, $embedding) AS score{asof}
-    RETURN p {{ {_PASSAGE_ROW}, cosine: score, embedding: p.embedding }} AS row
+    RETURN p {{ {_PASSAGE_ROW}, cosine: score, vector: p.embedding }} AS row
     ORDER BY score DESC
     """
 
@@ -380,7 +380,7 @@ def _chat_vector_cypher() -> str:
       SEARCH c IN (VECTOR INDEX user_chat_embedding FOR $embedding LIMIT $pool)
     WITH c, vector.similarity.cosine(c.embedding, $embedding) AS score
     WHERE {domain_predicate("c")}
-    RETURN c {{ {_CHAT_ROW}, cosine: score, embedding: c.embedding }} AS row
+    RETURN c {{ {_CHAT_ROW}, cosine: score, vector: c.embedding }} AS row
     ORDER BY score DESC
     """
 

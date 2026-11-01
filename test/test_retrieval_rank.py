@@ -6,7 +6,7 @@ from artmind import retrieval_rank as R
 def p(pid, chunk, doc, cosine=None, vec=None):
     return {"kind": "passage", "id": pid, "chunk_id": chunk, "doc_id": doc,
             **({"cosine": cosine} if cosine is not None else {}),
-            **({"embedding": vec} if vec is not None else {})}
+            **({"vector": vec} if vec is not None else {})}
 
 
 def test_rrf_then_maxp_groups_passages_into_chunks():
@@ -35,7 +35,7 @@ def test_fulltext_only_unit_has_no_relevance():
 
 
 def test_chats_are_their_own_units():
-    chat = {"kind": "chat", "id": "u1", "cosine": 0.8, "embedding": [1, 0], "chat": {"id": "u1"}}
+    chat = {"kind": "chat", "id": "u1", "cosine": 0.8, "vector": [1, 0], "chat": {"id": "u1"}}
     units = R.passage_fuse([chat], [])
     assert units[0].key == "chat:u1" and units[0].kind == "chat"
 

@@ -274,9 +274,9 @@ from artmind import graph_query
 
 PASSAGES_VEC = [
     {"row": {"kind": "passage", "id": "c1_p01", "chunk_id": "c1", "doc_id": "d1", "char_start": 0,
-             "char_end": 9, "text": "first one", "cosine": 0.82, "embedding": [1.0, 0.0]}},
+             "char_end": 9, "text": "first one", "cosine": 0.82, "vector": [1.0, 0.0]}},
     {"row": {"kind": "passage", "id": "c2_p01", "chunk_id": "c2", "doc_id": "d2", "char_start": 5,
-             "char_end": 20, "text": "second", "cosine": 0.75, "embedding": [0.0, 1.0]}},
+             "char_end": 20, "text": "second", "cosine": 0.75, "vector": [0.0, 1.0]}},
 ]
 PASSAGES_FT = [{"row": {"kind": "passage", "id": "c2_p01", "chunk_id": "c2", "doc_id": "d2",
                         "char_start": 5, "char_end": 20, "text": "second"}}]
@@ -369,3 +369,26 @@ def test_bad_arguments_raise(monkeypatch, kwargs):
     top_k = args.pop("topK")
     with pytest.raises(ValueError):
         vector_query.vector_text_search(["papers"], "q", top_k, **args)
+
+
+def test_vector_text_diversity_sees_passage_vectors_through_serialization(monkeypatch):
+    """Rows pass through serialize_record, which strips `embedding` keys; the vector
+    must survive it or MMR only ever sees the same-document floor."""
+    vec = [
+        {"row": {"kind": "passage", "id": f"{c}_p01", "chunk_id": c, "doc_id": d, "char_start": 0,
+                 "char_end": 3, "text": c, "cosine": cos, "vector": v}}
+        for c, d, cos, v in (("c1", "d1", 0.9, [1.0, 0.0]), ("c2", "d2", 0.89, [1.0, 0.0]), ("c3", "d3", 0.5, [0.0, 1.0]))
+    ]
+    chunks = [{"chunk": {"id": c, "doc_id": d, "text": c}, "document": {"id": d}} for c, d in (("c1", "d1"), ("c2", "d2"), ("c3", "d3"))]
+
+    def resp(cypher, params):
+        if "VECTOR INDEX passage_embedding" in cypher:
+            return vec
+        if "UNWIND $chunkIds AS cid" in cypher:
+            return [c for c in chunks if c["chunk"]["id"] in params["chunkIds"]]
+        return []
+
+    _patch(monkeypatch, Recorder(resp))
+    out = vector_query.vector_text_search(["papers"], "q", 2, diversity=0.5)
+    assert [r["chunk"]["id"] for r in out["rows"]] == ["c1", "c3"]     # c2 duplicates c1's vector
+    assert all("vector" not in r and "embedding" not in r for r in out["rows"])

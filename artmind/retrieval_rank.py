@@ -46,8 +46,9 @@ def passage_fuse(vector_rows: list[dict], text_rows: list[dict], k: int = RRF_K)
             e["legs"].add(leg)
             if row.get("cosine") is not None:
                 e["cosine"] = row["cosine"]
-            if row.get("embedding"):
-                e["vector"] = row["embedding"]
+            # `vector`, not `embedding`: serialize_record strips `embedding` keys.
+            if row.get("vector"):
+                e["vector"] = row["vector"]
     units: dict[str, Unit] = {}
     for (kind, rid), e in per.items():
         if kind == "chat":
