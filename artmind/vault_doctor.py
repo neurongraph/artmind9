@@ -171,6 +171,25 @@ def check_review_privacy(vault_dir: Path) -> Check:
     return Check(name, OK, f"tracked review dossiers live in a {visibility.lower()} repo ({slug})")
 
 
+#: docling's own fallback for a standard macOS install (`which soffice` finds nothing there).
+_MACOS_SOFFICE = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+
+
+def check_libreoffice() -> Check:
+    """docling shells out to LibreOffice for DrawingML/SmartArt and EMF/WMF pictures
+    in .docx/.pptx/.xlsx. Optional: without it those images are skipped. Same lookup
+    order as docling (`DOCLING_LIBREOFFICE_CMD`, PATH, the macOS app); never runs it."""
+    name = "LibreOffice (optional)"
+    override = os.environ.get("DOCLING_LIBREOFFICE_CMD")
+    found = override or shutil.which("libreoffice") or shutil.which("soffice") \
+        or (_MACOS_SOFFICE if os.path.isfile(_MACOS_SOFFICE) else None)
+    if found:
+        return Check(name, OK, f"found: {found}")
+    return Check(name, WARN, "not found: diagrams, SmartArt and EMF/WMF images in .docx/.pptx/.xlsx "
+                 "are skipped during ingestion (docling logs one warning)",
+                 fix="brew install --cask libreoffice  (or set DOCLING_LIBREOFFICE_CMD)")
+
+
 def check_pull_rebase(vault_dir: Path) -> Check:
     name = "pull.rebase"
     rc, out, _ = _git(vault_dir, ["config", "--get", "pull.rebase"], expected_codes=(1,))
@@ -286,6 +305,7 @@ def run(vault_dir: Path) -> dict:
         *check_obsidian_git(vault_dir),
         check_deprecated_push(vault_dir),
         check_other_sync(vault_dir),
+        check_libreoffice(),
     ]
     return {
         "vault": str(vault_dir),

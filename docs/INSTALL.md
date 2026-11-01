@@ -356,6 +356,27 @@ hosts want core; the machine that ingests wants the
 extra. Neither git install includes the Obsidian plugin, which is a build
 output (see the prerequisites).
 
+**Optional: LibreOffice.** docling (not artmind) shells out to a headless
+`soffice` while converting Office files, to rasterize what it cannot read
+natively: DrawingML shapes and SmartArt, and EMF/WMF/VML pictures, in `.docx`;
+EMF/WMF pictures in `.pptx` and `.xlsx`; and legacy `.doc`/`.ppt`/`.xls`. You will
+see `soffice` processes start during `ingest`. pdf conversion never uses it.
+
+Without it ingestion still works, but those images are skipped: docling logs one
+"Found DrawingML elements… no DOCX to PDF converters" warning, and a diagram or
+SmartArt in a document is neither extracted nor described. Install it on the
+machine that ingests:
+
+```bash
+brew install --cask libreoffice
+```
+
+docling looks for `DOCLING_LIBREOFFICE_CMD`, then `libreoffice`/`soffice` on
+`PATH`, then `/Applications/LibreOffice.app/Contents/MacOS/soffice`, so a
+standard macOS install is found even though `which soffice` prints nothing. Set
+`DOCLING_LIBREOFFICE_CMD` for any other location. `artmind vault doctor` reports
+whether it is found (a warning, never a failure).
+
 **Page check after conversion.** docling can lose text from a pdf or pptx page
 without failing. Every conversion therefore compares each page with the file's own
 text (`pypdfium2` and `python-pptx`; artmind does not declare them, docling brings
