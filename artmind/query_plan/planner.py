@@ -606,7 +606,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     chunks_only = _chunks_only(selected, overview)
     if chunks_only:
         warnings.append(
-            f"{', '.join(selected)} builds no graph (graph_extraction: false): planned as a search of the notes"
+            f"{', '.join(selected)} builds no graph (graph_extraction: false): planned as a search of the notes or a survey of its documents"
         )
 
     selected_cats = _selected_cats(cats, selected)
@@ -649,7 +649,9 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                             context)
         route_id, route_conf = "view", view_answer.confidence
     else:
-        route_obj = next(r for r in all_routes if r.id == ("search" if chunks_only else route_answer.choice))
+        # A chunks-only scope has no graph routes; it still tells a survey from a search.
+        picked = route_answer.choice if not chunks_only else ("survey" if route_answer.choice == "survey" else "search")
+        route_obj = next(r for r in all_routes if r.id == picked)
         route_id, route_conf = route_obj.id, (1.0 if chunks_only else route_answer.confidence)
         built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
     stages += built.stages

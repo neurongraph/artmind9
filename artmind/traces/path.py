@@ -18,6 +18,7 @@ _EXACT = {
     "query plan": "plan",
     "query graph text2cypher": "text2cypher",
     "query vector-text": "vector",
+    "query survey": "survey",
     "query chunks": "provenance",   # source text fetched by id for graph results
     "query text2sql": "sql",
     "query resolve-key": "sql",
@@ -37,7 +38,7 @@ _LINK = re.compile(r"\]\(\s*(?:<([^>]+)>|([^)\s]+))\s*\)")
 
 
 def layer_of(command: str | None) -> str:
-    """`view` | `graph` | `text2cypher` | `provenance` | `vector` | `sql` | `discovery`.
+    """`view` | `graph` | `text2cypher` | `provenance` | `vector` | `survey` | `sql` | `discovery`.
     Unknown commands count as discovery: they locate things, they are not
     evidence for an answer."""
     if not command:

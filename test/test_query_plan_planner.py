@@ -772,3 +772,16 @@ def test_a_mixed_scope_keeps_normal_routing(world):
     world["overview"].append({"domain": "work", "document_count": 1, "documents": ["w.md"], "top_classes": ["PERSON"]})
     plan = _plan("How many visits did Ada make to Lakeport in 2025?", domains=("journal", "work"))
     assert not any("graph_extraction" in w for w in plan["warnings"])
+
+
+def test_a_cross_document_question_is_planned_as_a_survey(world):
+    plan = _plan("Compare what the notes say across the trips")
+    assert plan["route"]["id"] == "survey"
+    assert any(s["cmd"].startswith("artmind query survey") for s in plan["steps"] + plan["suggested_steps"])
+
+
+def test_a_chunks_only_survey_question_keeps_the_survey_route(world):
+    world["overview"][0]["graph_extraction"] = False
+    plan = _plan("Compare what the notes say across the trips")
+    assert plan["route"]["id"] == "survey"
+    assert any("graph_extraction" in w for w in plan["warnings"])

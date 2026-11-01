@@ -37,6 +37,12 @@ CONSTRAINT_NAME = "artmind_sync_state_vault_id"
 #: since none of it reaches the graph.
 FINGERPRINTED_FILES = ("document.json", "chunks.json", "observations.json", "relationships.json")
 
+#: Folded into the digest only when present (spec 2026-11-01 §1.2), so a folder
+#: written before summaries existed keeps the fingerprint it had.
+OPTIONAL_FINGERPRINTED_FILES = ("summaries.json",)
+#: Every staging file the fingerprint can read (vault sync fetches these blobs).
+FINGERPRINT_SOURCES = FINGERPRINTED_FILES + OPTIONAL_FINGERPRINTED_FILES
+
 _READ_BOOKMARK = (
     "MATCH (s:ArtmindSyncState {vault_id: $vault_id}) "
     "RETURN s.last_applied_commit AS commit"
@@ -72,7 +78,8 @@ def staging_fingerprint(read: Callable[[str], bytes | None]) -> str | None:
     same bytes -- artmind's `.gitattributes` sets no text/eol/filter rule for
     `.artmind/data/**`. When a user's own rule does change them, the two
     digests differ and the folder is replayed: a mismatch can only cost a
-    replay, never skip one."""
+    replay, never skip one. Then, for each name in `OPTIONAL_FINGERPRINTED_FILES`
+    that is present, the same three parts; an absent optional file adds nothing."""
     if read("observations.json") is None:
         return None
     digest = hashlib.sha256()
@@ -82,6 +89,12 @@ def staging_fingerprint(read: Callable[[str], bytes | None]) -> str | None:
         if data is None:
             digest.update(b"absent\0")
         else:
+            digest.update(str(len(data)).encode("ascii") + b"\0")
+            digest.update(data)
+    for name in OPTIONAL_FINGERPRINTED_FILES:
+        data = read(name)
+        if data is not None:
+            digest.update(name.encode("ascii") + b"\0")
             digest.update(str(len(data)).encode("ascii") + b"\0")
             digest.update(data)
     return digest.hexdigest()

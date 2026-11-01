@@ -1,5 +1,5 @@
 # artmind/retrieval_eval/runner.py
-"""Run the labelled set through vector-text and score it (spec 2026-10-31 §6.2).
+"""Run the labelled set through vector-text or query survey and score it (spec 2026-10-31 §6.2).
 
 Runs in-process (no `serve` proxy). Runs are written to
 <vault>/.artmind/logs/retrieval-eval/<timestamp>.json: private, vault only.
@@ -24,13 +24,24 @@ def _default_search(domains: list[str], question: str, top_k: int) -> dict:
     return vector_query.vector_text_search(domains, question, top_k)
 
 
+def survey_search_fn(legs: Sequence[str]) -> Search:
+    """`query survey` as an eval search function (spec 2026-11-01 §4.2)."""
+    def search(domains: list[str], question: str, top_k: int) -> dict:
+        from artmind import survey
+
+        return survey.survey_search(domains, question, top_docs=top_k, legs=tuple(legs))
+    return search
+
+
 def run_eval(
     labels: Sequence[RetrievalLabel],
     *,
     ks: Sequence[int] = (5, 20),
     search: Search | None = None,
     clock: Callable[[], float] = time.perf_counter,
+    only_kinds: Sequence[str] | None = None,
 ) -> dict:
+    labels = [l for l in labels if not only_kinds or l.kind in only_kinds]
     search = search or _default_search
     ks = sorted(set(int(k) for k in ks))
     top = max(ks)
@@ -39,9 +50,13 @@ def run_eval(
         t0 = clock()
         result = search(list(label.domains), label.question, top)
         latency = clock() - t0
-        chunks = [r["chunk"] for r in (result.get("rows") or []) if r.get("chunk")]
-        chunk_ids = [c.get("id") for c in chunks][:top]
-        doc_ids = [c.get("doc_id") for c in chunks][:top]
+        if result.get("documents") is not None:            # a survey payload ranks documents
+            chunk_ids = []
+            doc_ids = [d.get("doc_id") for d in result["documents"]][:top]
+        else:
+            chunks = [r["chunk"] for r in (result.get("rows") or []) if r.get("chunk")]
+            chunk_ids = [c.get("id") for c in chunks][:top]
+            doc_ids = [c.get("doc_id") for c in chunks][:top]
         entry: dict = {"id": label.id, "kind": label.kind, "latency_s": round(latency, 3), "chunk_ids": chunk_ids}
         if label.kind == "needle":
             relevant = set(label.relevant)

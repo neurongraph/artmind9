@@ -32,7 +32,10 @@ or relationships. For such a domain:
 
 - Skip `views list`, insights, `graph metadata`, `entity-listing`, `entity-resolve`,
   `entity-context`, `pattern1`–`pattern9` and `text2cypher`: they return nothing there.
-- Answer from `artmind query vector-text --domain <domain> --topK 10 --compact "<question>"`.
+- Answer a fact from `artmind query vector-text --domain <domain> --topK 10 --compact "<question>"`.
+  A question that spans documents ("what do the papers say about X", "compare", "overview")
+  goes to `artmind query survey --domain <domain> --compact "<question>"` instead (see
+  "Survey — questions that span documents").
 - For a whole document ("summarise X") use `artmind query graph pattern10 --documentName
   "<name>"`; for more context around a hit, `artmind query chunks --idList <id> --expand 1`;
   for which documents exist or how many, `artmind query graph structural-metadata`. These
@@ -143,6 +146,54 @@ When you answer from insights:
 - **outcome_lift findings** always carry the caption "Co-occurrence on the same day, not cause." Pass it on. Never describe a lift as a cause.
 - **Freshness:** state the snapshot's `as_of`. If an `artmind:` stderr line says the graph is behind the vault, say that the insights may be older than the latest notes.
 - **Refresh:** never run `artmind insights refresh` yourself. If there is no snapshot, say so; the domain owner runs it.
+
+## Survey — questions that span documents
+
+Some questions need coverage, not one passage: "what do the contracts say about
+termination", "compare the approaches to X", "overview of Y", "which reports mention Z".
+`vector-text` returns its top passages, which cluster in one or two documents. Use:
+
+```bash
+artmind query survey --domain <d1> --domain <d2> --compact "<question>"
+```
+
+It ranks documents by their summaries and passages and returns, per document, its
+`summary`, its best `passages` (with `id` and `chunk_id`) and its best `chunk_summary`;
+`warnings` says when documents in scope have no summaries yet. `topics` lists topic
+pages that cite the returned documents.
+
+| The question asks for | Command |
+|---|---|
+| A fact (who, when, a figure, a quote) | the graph steps below, or `vector-text --topK 10` in a chunks-only domain |
+| One document ("summarise X", "what does X say about Y") | `query graph pattern10 --documentName X`: its `summaries` holds the stored summary; read chunks only for detail |
+| One entity broadly ("tell me about Acme") | `entity-context` (graph domains); if `query topics list` has a page for it, use it to organise the answer |
+| A topic across documents | `query survey`, then `query chunks --idList <chunk_id>` for the passages you cite |
+| Patterns over time | insights |
+
+Rules:
+- A summary is LLM text, not evidence. Use summaries to choose documents and sketch an
+  overview; quote facts from passages and cite their documents. For "summarise X" the
+  stored summary may be the answer, labelled as artmind's summary of X, with X cited.
+- One `query survey` call covers every domain in the set, as with `vector-text`.
+
+### Topic pages
+
+`query survey`'s `topics` lists pages that cite its documents. A page is a cited
+write-up of one topic, built by the domain owner with `artmind topic build`.
+
+```bash
+artmind query topics show <slug> --compact
+artmind query topics list --domain <d> --compact     # when the user asks what pages exist
+```
+
+- Read a page when `query survey` lists it or the user asks for "the page on X". It is
+  a guide, not evidence: use it to find the right documents and to organise the
+  answer, then fetch the passages it cites (`query chunks --idList <chunk_id>`; a
+  passage id `<chunk_id>_pNN` names its chunk) and cite those.
+- If `stale` is true, say so and name `stale_reasons`; check what changed with
+  `query survey`.
+- Never run `artmind topic build` or `refresh` yourself: they cost LLM calls. If no page
+  exists, answer from `query survey`; the owner can build one.
 
 ## The Query Protocol: Route → Views → Discover → Resolve → Retrieve → Ground → Adjudicate
 
@@ -447,12 +498,13 @@ The ladder starts after the Views check: a view that fits is tried before any ru
 2. pattern6 empty → pattern5 `--mode shortest`.
 3. entity-context/pattern chunks too thin → re-run entity-context with `--query` (if you didn't) or a narrower `--relType`, or pull `chunks --idList <more_chunk ids> --expand 1`, before falling back to search.
 4. Pattern output empty or too thin → vector-text.
-5. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
-6. text2cypher generates invalid Cypher → vector-text.
-7. vector-text sparse or weak (few rows, every `relevance` low, or rows matched by `fulltext` alone on a conceptual question) → state that the available artmind data does not answer the question.
-8. `text2sql` returns no rows but data should exist → re-run with `--dry-run` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
-9. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
-10. `hierarchy` returns empty rows/edge_candidates → re-run discovery mode to confirm no edges exist at all → if still empty, the relationship may only be stored as a property (e.g. `reports_to` on the class) — fall back to `pattern1` on that class; see `references/hierarchy.md`.
+5. A question that spans documents, whose `vector-text` rows come from one or two documents → re-run it as `query survey`.
+6. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
+7. text2cypher generates invalid Cypher → vector-text.
+8. vector-text sparse or weak (few rows, every `relevance` low, or rows matched by `fulltext` alone on a conceptual question) → state that the available artmind data does not answer the question.
+9. `text2sql` returns no rows but data should exist → re-run with `--dry-run` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
+10. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
+11. `hierarchy` returns empty rows/edge_candidates → re-run discovery mode to confirm no edges exist at all → if still empty, the relationship may only be stored as a property (e.g. `reports_to` on the class) — fall back to `pattern1` on that class; see `references/hierarchy.md`.
 
 ## Answer Style
 

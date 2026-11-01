@@ -76,6 +76,7 @@ Two corollaries:
 ├── .claude/skills/                     ← artmind's (symlinked, ignored) + yours
 ├── .opencode/agent/                    ← ACP persona modes (symlinked, ignored)
 ├── _Inbox/                             ← drafts; never ingested
+├── _Topics/                            ← generated topic pages; COMMITTED; never ingested; edit only under ## My notes
 ├── _external_docs/                     ← copies of sources from outside the vault
 ├── area1/  notes/  …                   ← your documents, your binaries
 └── .artmind/                           ← ARTMIND-OWNED. Do not edit.
@@ -89,7 +90,7 @@ Two corollaries:
         │   ├── a_deck.md               ← converted; COMMITTED
         │   ├── a_deck_artifacts/       ← extracted images + their descriptions
         │   └── a_deck_chunks/          ← chunk_001.md, chunks_meta.json
-        ├── kg/<domain>/<doc>/          ← extraction output; COMMITTED
+        ├── kg/<domain>/<doc>/          ← extraction output; COMMITTED (includes summaries.json when built)
         ├── kg/<domain>/update__<session>__<draft>/  ← an `artmind update` fact; COMMITTED
         ├── curation/<kind>/<id>.json   ← curation records (conflicts, supersessions,
         │                                  lifecycle, syntheses); COMMITTED

@@ -375,6 +375,8 @@ _STARTER_VAULT_YAML = """\
 #
 # _Inbox/ (created alongside this file) is never ingested regardless of any
 # mapping below -- drop drafts there and move them out when ready.
+# _Topics/ holds generated topic pages (`artmind topic build`); it is never
+# ingested either, whatever the mappings say.
 ingest:
   # manual | commit | schedule. Only `manual` acts today. Default manual:
   # nobody should discover automatic LLM spend by surprise.
@@ -419,6 +421,21 @@ ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
 # sync service that would choke on KG staging and snapshots; the default is
 # <vault>/.artmind/data.
 # ARTMIND_DATA_DIR=/somewhere/else
+
+# ── query survey ──────────────────────────────────────────────────────────────
+# Default number of documents returned by `artmind query survey` (1-50).
+# An explicit --topDocs flag wins over this value.
+# ARTMIND_SURVEY_TOP_DOCS=10
+
+# Per-leg RRF weights for `artmind query survey` (D=document summaries,
+# C=chunk summaries, P=passages).  Specify any subset; missing legs keep
+# the default weight of 1.  At least one weight must be > 0.
+# ARTMIND_SURVEY_LEG_WEIGHTS=D=1,C=1,P=1
+
+# ── topic build ───────────────────────────────────────────────────────────────
+# Default number of documents gathered by `artmind topic build` (1-50).
+# An explicit --maxDocs flag wins over this value.
+# ARTMIND_TOPIC_MAX_DOCS=12
 """
 
 
@@ -715,6 +732,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT passage_history_id IF NOT EXISTS FOR (n:DocPassageHistory) REQUIRE n.id IS UNIQUE"
     )
     session.run(
+        "CREATE CONSTRAINT summary_id IF NOT EXISTS FOR (n:DocSummary) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT summary_history_id IF NOT EXISTS FOR (n:DocSummaryHistory) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
         "CREATE CONSTRAINT observation_history_id IF NOT EXISTS FOR (n:ObservationHistory) REQUIRE n.id IS UNIQUE"
     )
     # A retracted `artmind update` (its `update__*` staging folder deleted):
@@ -821,6 +844,9 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run("CREATE INDEX passage_doc_id IF NOT EXISTS FOR (n:DocPassage) ON (n.doc_id)")
     session.run("CREATE INDEX passage_domain IF NOT EXISTS FOR (n:DocPassage) ON (n._domain)")
     session.run("CREATE INDEX passage_history_doc_id IF NOT EXISTS FOR (n:DocPassageHistory) ON (n.doc_id)")
+    # DocSummary (spec 2026-11-01 §1.4): doc_id for the commit's retire and the lifecycle swap.
+    session.run("CREATE INDEX summary_doc_id IF NOT EXISTS FOR (n:DocSummary) ON (n.doc_id)")
+    session.run("CREATE INDEX summary_history_doc_id IF NOT EXISTS FOR (n:DocSummaryHistory) ON (n.doc_id)")
     # Content-addressed block hash (A1a); the signal a later delta classifier (A4)
     # keys on to tell changed blocks from unchanged ones across re-ingest.
     session.run(
@@ -923,6 +949,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         f"`vector.similarity_function`: 'cosine'}}}}"
     )
     session.run(
+        f"CREATE VECTOR INDEX summary_embedding IF NOT EXISTS "
+        f"FOR (s:DocSummary) ON s.embedding WITH [s._domain, s.level] "
+        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
+        f"`vector.similarity_function`: 'cosine'}}}}"
+    )
+    session.run(
         f"CREATE VECTOR INDEX user_chat_embedding IF NOT EXISTS "
         f"FOR (c:UserChat) ON (c.embedding) "
         f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
@@ -939,6 +971,9 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     try:
         session.run(
             "CREATE FULLTEXT INDEX passage_text_ft IF NOT EXISTS FOR (p:DocPassage) ON EACH [p.text]"
+        )
+        session.run(
+            "CREATE FULLTEXT INDEX summary_text_ft IF NOT EXISTS FOR (s:DocSummary) ON EACH [s.text]"
         )
         session.run(
             "CREATE FULLTEXT INDEX user_chat_text_ft IF NOT EXISTS FOR (c:UserChat) ON EACH [c.raw_text]"
@@ -1053,6 +1088,8 @@ def setup_all() -> dict:
             "chunk_id",
             "passage_id",
             "passage_history_id",
+            "summary_id",
+            "summary_history_id",
             "user_chat_id",
             "conflict_id",
             "document_history_id",
@@ -1098,6 +1135,8 @@ def setup_all() -> dict:
             "passage_doc_id",
             "passage_domain",
             "passage_history_doc_id",
+            "summary_doc_id",
+            "summary_history_doc_id",
             "user_chat_domain",
             "observation_key",
             "observation_doc_id",
@@ -1119,8 +1158,9 @@ def setup_all() -> dict:
         ],
         "neo4j_vector_indexes": [
             f"passage_embedding (dim={embedding_dim}, filter: _domain)",
+            f"summary_embedding (dim={embedding_dim}, filter: _domain, level)",
             f"user_chat_embedding (dim={embedding_dim})",
             f"entity_embedding (dim={embedding_dim})",
         ],
-        "neo4j_fulltext_indexes": ["passage_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
+        "neo4j_fulltext_indexes": ["passage_text_ft", "summary_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
     }

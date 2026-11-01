@@ -214,6 +214,11 @@ REVIEWS_DIR = ARTMIND_HOME / "reviews"
 # Insights snapshots (spec 2026-10-17 §9.1): <vault>/.artmind/insights/<domain>/
 # in a vault, committed with its private repo; private corpus content.
 INSIGHTS_DIR = ARTMIND_HOME / "insights"
+
+# Topic pages (spec 2026-11-01 §3.5): <vault>/_Topics/<slug>.md, visible in
+# Obsidian, committed with the vault, never ingested (ingest.NEVER_INGESTED).
+# None outside a vault: `artmind topic build` then needs --out.
+TOPICS_DIR = (Path(ARTMIND_VAULT_DIR) / "_Topics") if ARTMIND_VAULT_DIR else None
 INGEST_LOG_FILE = LOGS_DIR / "artmind_ingestion.log"
 QUERY_LOG_FILE = LOGS_DIR / "artmind_query.log"
 LLM_CALLS_LOG_FILE = LOGS_DIR / "llm_calls.log"

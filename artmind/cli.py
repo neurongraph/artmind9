@@ -116,6 +116,65 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     return domains
 
 
+_SURVEY_TOP_DOCS_DEFAULT = 10
+_SURVEY_TOP_DOCS_MIN = 1
+_SURVEY_TOP_DOCS_MAX = 50
+
+_TOPIC_MAX_DOCS_DEFAULT = 12
+_TOPIC_MAX_DOCS_MIN = 1
+_TOPIC_MAX_DOCS_MAX = 50
+
+
+def _resolve_survey_top_docs() -> int:
+    """Return the effective ``--topDocs`` default.
+
+    ``ARTMIND_SURVEY_TOP_DOCS`` overrides the built-in default of 10.  A
+    non-integer or out-of-range value raises ``click.ClickException`` naming
+    the variable and the allowed range (1–50).
+    """
+    raw = os.environ.get("ARTMIND_SURVEY_TOP_DOCS")
+    if raw is None:
+        return _SURVEY_TOP_DOCS_DEFAULT
+    try:
+        value = int(raw)
+    except ValueError:
+        raise click.ClickException(
+            f"ARTMIND_SURVEY_TOP_DOCS must be an integer between "
+            f"{_SURVEY_TOP_DOCS_MIN} and {_SURVEY_TOP_DOCS_MAX}, got {raw!r}"
+        )
+    if not _SURVEY_TOP_DOCS_MIN <= value <= _SURVEY_TOP_DOCS_MAX:
+        raise click.ClickException(
+            f"ARTMIND_SURVEY_TOP_DOCS must be between "
+            f"{_SURVEY_TOP_DOCS_MIN} and {_SURVEY_TOP_DOCS_MAX}, got {value}"
+        )
+    return value
+
+
+def _resolve_topic_max_docs() -> int:
+    """Return the effective ``--maxDocs`` default for ``topic build``.
+
+    ``ARTMIND_TOPIC_MAX_DOCS`` overrides the built-in default of 12.  A
+    non-integer or out-of-range value raises ``click.ClickException`` naming
+    the variable and the allowed range (1–50).
+    """
+    raw = os.environ.get("ARTMIND_TOPIC_MAX_DOCS")
+    if raw is None:
+        return _TOPIC_MAX_DOCS_DEFAULT
+    try:
+        value = int(raw)
+    except ValueError:
+        raise click.ClickException(
+            f"ARTMIND_TOPIC_MAX_DOCS must be an integer between "
+            f"{_TOPIC_MAX_DOCS_MIN} and {_TOPIC_MAX_DOCS_MAX}, got {raw!r}"
+        )
+    if not _TOPIC_MAX_DOCS_MIN <= value <= _TOPIC_MAX_DOCS_MAX:
+        raise click.ClickException(
+            f"ARTMIND_TOPIC_MAX_DOCS must be between "
+            f"{_TOPIC_MAX_DOCS_MIN} and {_TOPIC_MAX_DOCS_MAX}, got {value}"
+        )
+    return value
+
+
 def _parse_repeatable(values: "tuple[str, ...]") -> list[str]:
     """Flatten repeatable/comma-split option values into a deduped list,
     mirroring `_parse_domains`'s own convention for --domain, but without its
@@ -304,7 +363,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "plan", "retrieval", "views", "insights", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -322,7 +381,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-passages"],
+            "commands": ["extract-kg", "classify-reingest", "empty-extractions", "write-to-graph", "retime", "table2graph", "pull-kg", "embed-entities", "embed-passages", "summarise"],
         },
         {
             "name": "Refinement",
@@ -351,15 +410,22 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Snapshots", "commands": ["refresh", "list", "show", "runs", "profile"]},
         {"name": "Curation & config", "commands": ["same-as", "config"]},
     ],
+    "artmind topic": [
+        {"name": "Topic pages", "commands": ["build", "refresh", "delete"]},
+    ],
+    "artmind query topics": [
+        {"name": "Topic pages", "commands": ["list", "show"]},
+    ],
     "artmind query": [
         {"name": "Planning", "commands": ["plan"]},
         {"name": "Graph patterns", "commands": ["graph"]},
-        {"name": "Saved views & insights", "commands": ["views", "insights"]},
+        {"name": "Saved views & insights", "commands": ["views", "insights", "topics"]},
         {
             "name": "Lookups",
             "commands": [
                 "domains-overview",
                 "vector-text",
+                "survey",
                 "entity-resolve",
                 "chunks",
                 "entity-context",
@@ -687,7 +753,7 @@ def domains_harmonize(domain: str | None, dry_run: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...) and table -> graph projection (table2graph; table2graph --pending lists the tables waiting)."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dry-run])."""
     pass
 
 
@@ -1340,7 +1406,7 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
 @click.option("--domain", default=None, help="Only this domain (exact name)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_embed_passages(domain: str | None, compact: bool) -> None:
-    """Build missing or outdated passages and embed every passage and chat whose vector is missing or stale.
+    """Build missing or outdated passages and embed every passage, summary and chat whose vector is missing or stale.
 
     Committed KG staging carries no vectors (docs/vault.md, "Embeddings"); a fresh
     clone, a passage-size change or an embedding-model/prefix change all roll out
@@ -1351,6 +1417,25 @@ def ingest_embed_passages(domain: str | None, compact: bool) -> None:
     with neo4j_session() as session:
         result = reconcile_passages(session, domain=domain)
     _echo_json(result, compact)
+
+
+@ingest.command("summarise")
+@click.option("--domain", default=None, help="Only this domain (exact name); default every staged domain")
+@click.option("--match", default=None, help="Only staging folders whose name matches this glob")
+@click.option("--dry-run", "dry_run", is_flag=True, help="Report documents and LLM calls; write nothing")
+@click.option("--maxWorkers", "max_workers", type=int, default=None, help="Concurrent summary calls per document")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_summarise(domain: str | None, match: str | None, dry_run: bool, max_workers: int | None,
+                     compact: bool) -> None:
+    """Build missing or outdated chunk and document summaries for staged documents, then commit them.
+
+    Every chunk's text goes to the configured LLM provider once (cached by text, prompt
+    version and model). `--dry-run` first: it prints the call count. Resumable.
+    """
+    _setup_logger()
+    from artmind.ingest import summarise_staged
+
+    _echo_json(summarise_staged(domain=domain, match=match, dry_run=dry_run, max_workers=max_workers), compact)
 
 
 @ingest.command("extract-kg")
@@ -2694,8 +2779,10 @@ def query():
 
     `plan` returns a deterministic route, saved-view match and ready-to-run steps for a question.
     Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
-    parameterised queries: list / show / run) and `insights` (the latest
-    unprompted findings: list / show). The rest are lookup commands.
+    parameterised queries: list / show / run), `insights` (the latest
+    unprompted findings: list / show), and `topics` (read-only topic pages:
+    list / show). `survey` ranks documents for cross-document questions
+    (summaries + passages). The rest are lookup commands.
 
     Inside the admin console or a benchmark run, every query call is recorded
     as a span of the turn's trace (command, args, rows, evidence ids, LLM
@@ -3223,6 +3310,40 @@ def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
     _echo_json(result, compact)
 
 
+@query.command("survey")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--topDocs", "top_docs", type=click.IntRange(1, 50), default=None, show_default=False,
+              help="Documents to return (default 10; overridden by ARTMIND_SURVEY_TOP_DOCS)")
+@click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
+              help="Best passages shown per document")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question")
+def query_survey(domain: tuple, top_docs: int | None, passages: int, compact: bool, question: str) -> None:
+    """Documents for a question that spans documents: document summaries, chunk summaries and passages, fused.
+
+    Each document comes with its summary, its best passages and its best chunk summary;
+    `topics` lists topic pages that cite the returned documents. Use vector-text when one
+    passage could answer the question.
+
+    Default number of documents returned is 10; set ARTMIND_SURVEY_TOP_DOCS (1-50) to
+    change the default per vault.  Set ARTMIND_SURVEY_LEG_WEIGHTS (e.g. D=1,C=1,P=1)
+    to adjust how the D (document summaries), C (chunk summaries) and P (passages) legs
+    are weighted when fusing.
+    """
+    from artmind import survey
+    from artmind.topics import stale
+
+    if top_docs is None:
+        top_docs = _resolve_survey_top_docs()
+    domains = _parse_domains(domain)
+    try:
+        result = survey.survey_search(domains, question, top_docs=top_docs, passages=passages,
+                                      topics=stale.survey_topics)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
 @query.command("entity-resolve")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
@@ -3546,6 +3667,84 @@ def query_insights_show(domain: tuple, compact: bool, key: str) -> None:
     _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at, "finding": match.to_dict()}, compact)
 
 
+def read_session_for_topics():
+    """The read session `query topics` checks staleness with (patched in tests)."""
+    from artmind.graph_query import read_session
+
+    return read_session()
+
+
+def _topic_pages(out: "Path | None"):
+    from artmind.topics import store
+
+    try:
+        directory = store.topics_dir(out)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    return directory, store.list_pages(directory)
+
+
+def _page_reasons(pages) -> dict:
+    from artmind.topics import stale
+
+    if not pages:
+        return {}
+    with read_session_for_topics() as session:
+        return stale.staleness(pages, session)
+
+
+@query.group("topics")
+def query_topics() -> None:
+    """Topic pages built by `artmind topic build` (read-only): `list` them, `show` one.
+
+    A page summarises what several documents say about a topic, with citations to
+    passages. Use it to find and organise sources; cite the passages, not the page.
+    `stale` says a cited document or the anchored entity changed since the build.
+    """
+    pass
+
+
+@query_topics.command("list")
+@click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
+@click.option("--stale", "only_stale", is_flag=True, help="Only stale pages")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_topics_list(domain: tuple, only_stale: bool, compact: bool) -> None:
+    """Every topic page with its domains, build date, anchor, source count and staleness."""
+    from artmind.topics import store
+
+    _, pages = _topic_pages(None)
+    if domain:
+        wanted = _parse_domains(domain)
+        pages = [p for p in pages if any(store._related(str(d), w) for d in p.meta.get("domains") or [] for w in wanted)]
+    reasons = _page_reasons(pages)
+    rows = [_stale_page_summary(p, reasons.get(p.slug, [])) for p in pages]
+    if only_stale:
+        rows = [r for r in rows if r["stale"]]
+    _echo_json({"pages": rows}, compact)
+
+
+@query_topics.command("show")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("slug")
+def query_topics_show(compact: bool, slug: str) -> None:
+    """One topic page: its body (with footnotes), sources, checks and staleness."""
+    from artmind.topics import store
+
+    directory, _ = _topic_pages(None)
+    page = store.read_page(directory, slug)
+    if page is None:
+        raise click.ClickException(f"no topic page {slug!r} in {directory}")
+    reasons = _page_reasons([page]).get(slug, [])
+    _echo_json({"page": {**_stale_page_summary(page, reasons), "body": page.body,
+                         "sources": page.meta.get("sources") or []}}, compact)
+
+
+def _stale_page_summary(page, reasons: list) -> dict:
+    from artmind.topics import stale
+
+    return stale.page_summary(page, reasons)
+
+
 @cli.group("views")
 def views_group() -> None:
     """Author saved graph views: validate, test against the live graph, save, delete.
@@ -3845,6 +4044,90 @@ def insights_config_check(domain: tuple, compact: bool) -> None:
     _echo_json(result, compact)
     if not result["ok"]:
         raise click.exceptions.Exit(1)
+
+
+# ── artmind topic ──────────────────────────────────────────────────────────────
+
+
+@cli.group("topic")
+def topic_group() -> None:
+    """Build, refresh and delete cited topic pages in <vault>/_Topics/ (never ingested).
+
+    `build` sends the matched passages to the configured LLM provider (one call per
+    document plus one or two to write the page) and logs them in llm_calls.log.
+    Read pages with `artmind query topics list|show`. Pages hold private corpus
+    content and are committed with the vault.
+    """
+    pass
+
+
+@topic_group.command("build")
+@click.argument("topic")
+@click.option("--domain", "domain", required=True, multiple=True,
+              help="Domain to build over (repeatable; comma-splittable)")
+@click.option("--maxDocs", "max_docs", type=click.IntRange(1, 50), default=None, show_default=False,
+              help="Documents to gather (default 12; overridden by ARTMIND_TOPIC_MAX_DOCS)")
+@click.option("--slug", default=None, help="File name (default: from the topic)")
+@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+@click.option("--model", default=None, help="LLM model (default: env)")
+@click.option("--dry-run", "dry_run", is_flag=True, help="Show the anchor, documents and call count; write nothing")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | None", out: "Path | None",
+                model: "str | None", dry_run: bool, compact: bool) -> None:
+    """Build (or rebuild) one topic page."""
+    _setup_logger()
+    from artmind.topics import build
+
+    if max_docs is None:
+        max_docs = _resolve_topic_max_docs()
+    try:
+        result = build.build_page(topic, _parse_domains(domain), max_docs=max_docs, slug=slug, out=out,
+                                  model=model, dry_run=dry_run)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@topic_group.command("refresh")
+@click.argument("slug", required=False)
+@click.option("--stale", "only_stale", is_flag=True, help="Rebuild every stale page")
+@click.option("--all", "every", is_flag=True, help="Rebuild every page")
+@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+@click.option("--dry-run", "dry_run", is_flag=True, help="Show what would be rebuilt; write nothing")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path | None", dry_run: bool,
+                  compact: bool) -> None:
+    """Rebuild pages from their recorded topic and domains (the survey runs again)."""
+    if sum(bool(x) for x in (slug, only_stale, every)) != 1:
+        raise click.UsageError("give one of SLUG, --stale or --all")
+    _setup_logger()
+    from artmind.topics import build
+
+    directory, pages = _topic_pages(out)
+    if slug:
+        pages = [p for p in pages if p.slug == slug]
+        if not pages:
+            raise click.ClickException(f"no topic page {slug!r} in {directory}")
+    elif only_stale:
+        reasons = _page_reasons(pages)
+        pages = [p for p in pages if reasons.get(p.slug)]
+    results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
+                                max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
+                                dry_run=dry_run) for p in pages]
+    _echo_json({"refreshed": results}, compact)
+
+
+@topic_group.command("delete")
+@click.argument("slug")
+@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+def topic_delete(slug: str, out: "Path | None") -> None:
+    """Delete one topic page (its `## My notes` go with it)."""
+    from artmind.topics import store
+
+    directory, _ = _topic_pages(out)
+    if not store.delete_page(directory, slug):
+        raise click.ClickException(f"no topic page {slug!r} in {directory}")
+    click.echo(f"deleted {directory / (slug + '.md')}")
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────
@@ -4529,10 +4812,13 @@ def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: 
 @click.option("--topK", "top_k", default="5,20", show_default=True, help="Cut-offs to score (comma-separated)")
 @click.option("--compare", "compare_path", type=click.Path(exists=True, path_type=Path), default=None,
               help="An earlier run file to diff against")
+@click.option("--retriever", type=click.Choice(["vector-text", "survey"]), default="vector-text", show_default=True,
+              help="survey scores survey labels only, by documents covered")
+@click.option("--legs", default="D,C,P", show_default=True, help="Survey legs to fuse (D, C, P), for ablations")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def retrieval_eval_cmd(file_path: Path | None, top_k: str,
-                       compare_path: Path | None, compact: bool) -> None:
-    """Run every label through vector-text in-process; report recall@K, MRR, documents covered."""
+                       compare_path: Path | None, retriever: str, legs: str, compact: bool) -> None:
+    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered."""
     from artmind.retrieval_eval import labels as rl
     from artmind.retrieval_eval import runner
 
@@ -4545,7 +4831,22 @@ def retrieval_eval_cmd(file_path: Path | None, top_k: str,
         ks = [int(k) for k in top_k.split(",") if k.strip()]
     except ValueError as exc:
         raise click.ClickException("--topK must be comma-separated integers") from exc
-    run = runner.run_eval(loaded, ks=ks)
+    if retriever == "survey":
+        legs_t = tuple(x.strip().upper() for x in legs.split(",") if x.strip())
+        if not legs_t or set(legs_t) - {"D", "C", "P"}:
+            raise click.ClickException("--legs takes a comma-separated subset of D, C, P")
+        from artmind import retrieval_rank
+        try:
+            resolved_weights = retrieval_rank.survey_leg_weights()
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
+        run = runner.run_eval(loaded, ks=ks, search=runner.survey_search_fn(legs_t), only_kinds=("survey",))
+        run["retriever"], run["legs"] = "survey", list(legs_t)
+        run["leg_weights"] = resolved_weights
+        run["top_docs_default"] = _resolve_survey_top_docs()
+    else:
+        run = runner.run_eval(loaded, ks=ks)
+        run["retriever"] = "vector-text"
     run_path = runner.write_run(run)
     out = {"command": "retrieval eval", "run": str(run_path), "summary": run["summary"]}
     if compare_path:

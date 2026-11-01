@@ -74,6 +74,34 @@ def test_pattern7_sanitizes_search_term():
     assert params["searchTerm"] == '"copper beeches" estate'
 
 
+def test_sanitize_lucene_query_drop_stopwords_removes_function_words():
+    """drop_stopwords=True removes common English function words from the query."""
+    result = graph_query.sanitize_lucene_query(
+        "Which amendments applied an annual widget fee or increase", drop_stopwords=True
+    )
+    for stopword in ("which", "or", "an"):
+        assert stopword not in result.split(), f"stopword {stopword!r} still in {result!r}"
+    for content in ("amendments", "applied", "annual", "widget", "fee", "increase"):
+        assert content in result, f"content word {content!r} missing from {result!r}"
+
+
+def test_sanitize_lucene_query_drop_stopwords_false_keeps_all_terms():
+    """Without drop_stopwords the existing behaviour is unchanged (stopwords kept)."""
+    result = graph_query.sanitize_lucene_query(
+        "Which amendments applied an annual widget fee or increase"
+    )
+    assert "which" in result.lower() or "Which" in result
+    assert "or" in result.split()
+    assert "an" in result.split()
+
+
+def test_sanitize_lucene_query_drop_stopwords_never_empties():
+    """If all terms are stopwords the original sanitized string is kept."""
+    only_stops = graph_query.sanitize_lucene_query("the a")
+    stripped = graph_query.sanitize_lucene_query("the a", drop_stopwords=True)
+    assert stripped == only_stops and stripped != ""
+
+
 def test_pattern7_rejects_unsearchable_term():
     with pytest.raises(ValueError, match="searchable"):
         graph_query._pattern_query(

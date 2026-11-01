@@ -19,11 +19,26 @@ LABEL_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
 _LUCENE_SPECIALS_RE = re.compile(r'[+\-&|!(){}\[\]^"~*?:\\/]')
 
 
-def sanitize_lucene_query(text: str) -> str:
+_STOPWORDS = frozenset({
+    "the", "a", "an", "of", "or", "and", "to", "in", "on", "for", "which", "what",
+    "who", "how", "is", "are", "was", "were", "be", "by", "with", "from", "that",
+    "this", "these", "those", "do", "does", "did", "it", "its", "as", "at", "any",
+    "all", "between",
+})
+
+
+def sanitize_lucene_query(text: str, *, drop_stopwords: bool = False) -> str:
     """Reduce free text to plain Lucene terms safe for db.index.fulltext.queryNodes.
 
     Returns an empty string when nothing searchable remains; callers should
     skip the fulltext query in that case.
+
+    With `drop_stopwords=True` common English function words (``the``, ``a``,
+    ``an``, ``or``, etc.) are removed **after** sanitisation.  If all terms
+    are stopwords the original sanitised string is returned unchanged so the
+    query is never reduced to nothing.  Pass ``True`` only for survey legs;
+    keep the default ``False`` for vector-text so its eval baseline is
+    unchanged.
     """
     terms = []
     for token in text.split():
@@ -32,7 +47,11 @@ def sanitize_lucene_query(text: str) -> str:
         # stays one phrase: split into separate OR'd terms, a date matches
         # every other date sharing a day or month number.
         terms.append(f'"{" ".join(parts)}"' if len(parts) > 1 else "".join(parts))
-    return " ".join(t for t in terms if t)
+    sanitized = " ".join(t for t in terms if t)
+    if not drop_stopwords or not sanitized:
+        return sanitized
+    kept = [t for t in terms if t and t.lower() not in _STOPWORDS]
+    return " ".join(kept) if kept else sanitized
 
 
 def normalize_domains(value: "str | Sequence[str]") -> list[str]:
@@ -737,6 +756,15 @@ def _bound_pattern_connections(
     row["connections"], row["connections_total"] = capped, total
 
 
+# The document summary (spec 2026-11-01 §1.5), one per matched document:
+# --documentName is a substring match and can match several.
+_PATTERN10_SUMMARIES = """
+UNWIND $docIds AS did
+OPTIONAL MATCH (s:DocSummary {id: did + ':summary'})
+RETURN did AS doc_id, s.text AS summary
+"""
+
+
 def _bound_pattern_rows(pattern: str, rows: list[dict], params: dict) -> list[dict]:
     """Apply the per-pattern output caps described atop PATTERN_MAX_DOC_SOURCES."""
     if pattern in ("pattern2", "pattern3", "pattern4"):
@@ -1127,6 +1155,19 @@ def execute_pattern(
         # An empty page still returns one row (entityData null) so the counts
         # survive; it is not a result.
         rows = [r for r in rows if not (isinstance(r, dict) and r.get("entityData") is None)]
+    if pattern == "pattern10":
+        docs: dict[str, dict] = {}
+        for row in rows:
+            doc = row.get("document") if isinstance(row, dict) else None
+            if isinstance(doc, dict) and doc.get("id") and doc["id"] not in docs:
+                docs[doc["id"]] = {"doc_id": doc["id"], "name": doc.get("name"), "summary": None}
+        if docs:
+            for rec in _run_read_query(_PATTERN10_SUMMARIES, {"docIds": list(docs)}):
+                if rec.get("doc_id") in docs:
+                    docs[rec["doc_id"]]["summary"] = rec.get("summary")
+        summaries = list(docs.values())
+    else:
+        summaries = None
     rows = _bound_pattern_rows(pattern, rows, params)
     result = {
         **_domain_output(domains),
@@ -1137,6 +1178,8 @@ def execute_pattern(
         "parameters": output_parameters,
         "rows": rows,
     }
+    if summaries is not None:
+        result["summaries"] = summaries
     if rows_total is not None:
         result["rows_total"] = rows_total
         result["truncated"] = rows_total > len(rows)

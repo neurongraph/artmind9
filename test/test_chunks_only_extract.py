@@ -1,5 +1,4 @@
-"""extract_kg in a `graph_extraction: false` domain (spec 2026-10-30). Hermetic:
-every LLM seam raises, so any call fails the test. Synthetic text only."""
+"""extract_kg in a `graph_extraction: false` domain (spec 2026-10-30): no extraction seam is called; only the summary tree (spec 2026-11-01, stubbed in conftest) asks the LLM. Synthetic text only."""
 import json
 
 import pytest

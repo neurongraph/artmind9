@@ -11,7 +11,7 @@ from artmind.query_plan import routes
 EXPECTED_IDS = {
     "existence", "enumeration", "aggregate", "superlative", "entity_profile", "entity_history",
     "time_history", "conflicts", "hierarchy", "path", "document", "inventory", "procedure",
-    "structured", "insights", "filing", "search",
+    "structured", "insights", "filing", "survey", "search",
 }
 SKILL_DIR = Path(routes.__file__).resolve().parents[1] / "skills" / "artmind-query"
 

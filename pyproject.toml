@@ -58,6 +58,8 @@ dev = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+# Bare `pytest` skips the slow real-docling tests; a later `-m` (the justfile's) wins.
+addopts = "-m 'not slow_docling'"
 markers = [
     "real_domain_guard: run with the unknown-domain warning enabled (see test/conftest.py)",
     "slow_docling: runs the real docling on test/data/docs; excluded from `just dev-test`, run by `just dev-test-docling`",

@@ -410,3 +410,20 @@ def strip_document_context(text: str) -> str:
 
     head, sep, passage = text.partition(dc.PASSAGE_LINE + "\n\n")
     return passage if sep and head.startswith(dc.CONTEXT_HEADING) else text
+
+
+@pytest.fixture(autouse=True)
+def _stub_summary_llm(request, monkeypatch):
+    """Spec 2026-11-01 §1.2: every extract_kg now asks the LLM for summaries. Tests
+    never reach a provider: the seam answers 'summary of <step>'. A test that needs
+    the real seam takes `real_summary_llm`."""
+    if "real_summary_llm" in request.fixturenames:
+        return
+    import artmind.ingest as ing
+
+    monkeypatch.setattr(ing, "_summary_llm", lambda step, model, prompt, debug_dir: {"summary": f"summary of {step}"})
+
+
+@pytest.fixture()
+def real_summary_llm():
+    return None

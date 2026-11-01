@@ -21,6 +21,7 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind import document_context as dc
+from artmind import summary_build, summary_tree
 from artmind.db import _get_db, _registry_row_by_artmind_id
 from artmind.document_identity import (
     canonical_path,
@@ -39,7 +40,7 @@ from artmind.document_identity import (
     resolve_identity,
     write_document,
 )
-from artmind import passage_store, passages
+from artmind import passage_store, passages, summary_store
 from artmind.setup import _setup_neo4j
 from artmind.vault_git import current_commit as _vault_current_commit
 from artmind import extraction as _extraction
@@ -75,7 +76,7 @@ from paths import (
     ORIGINALS_DIR,
     PROJECT_ROOT,
 )
-from utils.functions import load_env, log_llm_call, run_command
+from utils.functions import load_env, log_llm_call, resolve_llm_model, run_command
 
 IMAGE_EXTENSIONS = {
     ".png",
@@ -106,8 +107,11 @@ SUPPORTED_SUFFIXES = (
 
 # Directory names never walked, at any depth. `_Inbox` is a drafting area:
 # moving a note OUT of it is what marks the note ready, which needs no
-# configuration and no status field (docs/vault.md).
-NEVER_WALKED = frozenset({"_Inbox"})
+# configuration and no status field (docs/vault.md). `_Topics` holds generated
+# topic pages (spec 2026-11-01 §3.5): ingesting them would turn LLM summaries
+# into evidence, so a file under it is refused even when named.
+NEVER_WALKED = frozenset({"_Inbox", "_Topics"})
+NEVER_INGESTED = frozenset({"_Topics"})
 
 # Archives are never ingested. A snapshot is a copy of the graph, so ingesting
 # one would be circular; they are also excluded from git for the same reason.
@@ -132,7 +136,7 @@ def collect_ingest_files(path: Path) -> list[Path]:
     The ``_Inbox`` exclusion also applies when the walk root itself is
     ``_Inbox`` or sits somewhere inside it -- ``f.relative_to(path).parts``
     alone can never see that, since it strips the root out of the parts it
-    yields.
+    yields. ``_Topics/`` is refused even for a named file (``NEVER_INGESTED``).
     """
     if path.is_dir():
         if any(p in NEVER_WALKED for p in path.resolve().parts):
@@ -147,6 +151,8 @@ def collect_ingest_files(path: Path) -> list[Path]:
         )
     # A named file is an explicit request: return it and let the caller report
     # why it cannot be ingested, rather than silently pretending it was absent.
+    if any(p in NEVER_INGESTED for p in path.resolve().parts):
+        return []
     return [path]
 
 
@@ -2416,6 +2422,40 @@ def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tu
     return _llm_extract_shared(step_name, model, prompt, debug_dir=debug_dir, raise_on_truncation=True)
 
 
+def _summary_llm(step: str, model: str, prompt: str, debug_dir: Path):
+    """One summary-tree call (spec 2026-11-01 §1.2): the parsed JSON answer, or None.
+    Never raises for a provider error -- a summary is a retrieval aid, not a fact,
+    and never fails the file. The seam tests stub (conftest `_stub_summary_llm`)."""
+    try:
+        answer, ok = _llm_extract_shared(step, model, prompt, debug_dir=debug_dir)
+    except Exception as e:
+        logger.warning("Summary call {} failed: {}", step, e)
+        return None
+    return answer if ok else None
+
+
+def _read_summaries(doc_kg_dir: Path) -> dict | None:
+    path = Path(doc_kg_dir) / summary_tree.SUMMARIES_FILE
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _summarise_chunks(chunks: list[dict], *, schema: dict, title: str | None, model: str,
+                      prior: dict | None, debug_dir: Path, max_workers: int | None,
+                      location: str | None = None) -> tuple[dict, list[str]]:
+    """The summary tree for one document's staged chunks (`chunks.json` rows)."""
+    return summary_build.build(
+        [{"id": c["id"], "text": c.get("text") or "", "header_path": c.get("header_path")} for c in chunks],
+        schema=schema, title=title, model=model, prior=prior,
+        ask=lambda step, prompt: _summary_llm(step, model, prompt, debug_dir),
+        workers=_resolve_ingest_workers(max(len(chunks), 1), max_workers),
+        location=location,
+    )
+
+
 # ── document context: one summary per document (spec 2026-10-25) ───────────
 
 #: The staging sidecar that holds the document's summary and its cache key.
@@ -2950,6 +2990,74 @@ def embed_entities_backfill(domain: str) -> dict:
     return {"domain": domain, "entities_embedded": embedded}
 
 
+def _summary_calls_needed(chunks: list[dict], prior: dict | None, model: str) -> int:
+    """How many calls `_summarise_chunks` would make (a reduce counts as one)."""
+    prior_keys = {c.get("chunk_id"): c.get("key") for c in (prior or {}).get("chunks") or [] if isinstance(c, dict)}
+    work = [c for c in chunks if str(c.get("text") or "").strip()]
+    keys = [summary_tree.chunk_key(model, c["text"]) for c in work]
+    calls = sum(1 for c, k in zip(work, keys) if prior_keys.get(c["id"]) != k)
+    doc = (prior or {}).get("document") or {}
+    if len(work) > 1 and doc.get("key") != summary_tree.document_key(model, keys):
+        calls += 1
+    return calls
+
+
+def summarise_staged(domain: str | None = None, match: str | None = None, dry_run: bool = False,
+                     max_workers: int | None = None) -> dict:
+    """`ingest summarise` (spec 2026-11-01 §1.3): build missing or outdated
+    summaries for already-staged documents, write `summaries.json`, commit each
+    changed folder and let the commit's sweep embed them. Resumable."""
+    import fnmatch
+
+    from artmind.temporal import load_schema
+
+    model = resolve_llm_model(load_env())
+    out = {"documents": 0, "calls": 0, "summarised": 0, "up_to_date": 0, "failed_chunks": 0,
+           "dry_run": dry_run, "domains": {}}
+    domains = [domain] if domain else sorted(p.name for p in Path(KG_DIR).iterdir() if p.is_dir()) \
+        if Path(KG_DIR).exists() else []
+    for name in domains:
+        root = Path(KG_DIR) / name
+        if not root.is_dir():
+            continue
+        schema = load_schema(name, schemas_dir=DOMAIN_SCHEMAS_DIR)
+        per = {"documents": 0, "calls": 0}
+        for folder in sorted(p for p in root.iterdir() if p.is_dir()):
+            if folder.name.startswith("table__") or (match and not fnmatch.fnmatch(folder.name, match)):
+                continue
+            try:
+                chunks = json.loads((folder / "chunks.json").read_text(encoding="utf-8"))
+                document = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if not chunks or not isinstance(document, dict):
+                continue
+            prior = _read_summaries(folder)
+            calls = _summary_calls_needed(chunks, prior, model)
+            out["documents"] += 1
+            per["documents"] += 1
+            if calls == 0:
+                out["up_to_date"] += 1
+                continue
+            out["calls"] += calls
+            per["calls"] += calls
+            if dry_run:
+                continue
+            source_path = document.get("source_path")
+            doc_location = str(Path(source_path).parent) if source_path else None
+            data, failed = _summarise_chunks(
+                chunks, schema=schema, title=document.get("title") or document.get("name"), model=model,
+                prior=prior, debug_dir=_llm_debug_dir(folder), max_workers=max_workers,
+                location=doc_location,
+            )
+            write_staging(folder, {summary_tree.SUMMARIES_FILE: data})
+            out["failed_chunks"] += len(failed)
+            if commit_to_graph(folder, name):
+                out["summarised"] += 1
+        out["domains"][name] = per
+    return out
+
+
 def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
     """Move everything the previous version of ``doc_id`` asserted out of
     ``latest`` — the version/status transition that replaces the old
@@ -3011,6 +3119,16 @@ def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:
         doc_id=doc_id,
     ).single()
     result["passages"] = int(rec["n"]) if rec else 0
+
+    rec = tx.run(
+        """
+        MATCH (s:DocSummary {doc_id: $doc_id})
+        REMOVE s:DocSummary SET s:DocSummaryHistory
+        RETURN count(s) AS n
+        """,
+        doc_id=doc_id,
+    ).single()
+    result["summaries"] = int(rec["n"]) if rec else 0
     return result
 
 
@@ -4224,6 +4342,21 @@ def extract_kg(
             _restore_extraction_cache(stash, chunk_data_dir, doc_sha256)
             return None
 
+    # ── the summary tree (spec 2026-11-01 §1.2): every domain, after extraction ──
+    # A chunk with no entry is retried by the next run (or `ingest summarise`); a
+    # failure never fails the file.
+    _sp = document.get("source_path") or document.get("path")
+    _doc_location = str(Path(_sp).parent) if _sp else None
+    summaries, summary_failures = _summarise_chunks(
+        all_chunks, schema=schema, title=document.get("title") or document.get("name"),
+        model=text_model, prior=_read_summaries(doc_kg_dir), debug_dir=llm_debug_dir,
+        max_workers=max_workers, location=_doc_location,
+    )
+    if summary_failures:
+        file_result["summary_failed_chunks"] = summary_failures
+        logger.warning("{}: {} chunk summary(ies) failed; the next run retries them",
+                       registered_path.name, len(summary_failures))
+
     # One atomic swap (spec 2026-09-26 R2): Obsidian Git's timer commit must
     # never see a half-written folder. The chunk cache under chunks/<sha>/
     # and anything else already in doc_kg_dir are carried over.
@@ -4233,6 +4366,7 @@ def extract_kg(
         "relationships.json": all_relationships,
         "observations.json": all_observations,
     }
+    staged_files[summary_tree.SUMMARIES_FILE] = summaries
     if context_summary is not None:
         # Written here, with the extraction it served, not when it was made: a
         # refused extraction leaves the staging folder as it was.
@@ -4604,6 +4738,13 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     summary["chunks"] = len(staged["chunks"])
     summary["passage_chunk_ids"] = [chunk["id"] for chunk in staged["chunks"]]
 
+    # 3c. The summary tree (spec 2026-11-01 §1.4). A Document only: an update
+    #     folder (UserChat) has no chunks and no summaries.
+    if source_label == "Document":
+        summary["summaries"] = summary_store.write_document_summaries(
+            tx, doc_id, summary_store.summary_rows(staged.get("summaries"), {**document, "_domain": domain}),
+        )
+
     # 4. Observations.
     observations = staged["observations"]
     if source_label == "UserChat":
@@ -4701,6 +4842,7 @@ def _load_staged(doc_kg_dir: Path, domain: str) -> dict | None:
             "chunks": chunks,
             "observations": _load("observations.json", []),
             "relationships": _load("relationships.json", []),
+            "summaries": _load(summary_tree.SUMMARIES_FILE),
             "fingerprint": sync_state.folder_fingerprint(doc_kg_dir),
             "retired": lifecycle_records.retired_in_working_tree(
                 document.get("id") if isinstance(document, dict) else None

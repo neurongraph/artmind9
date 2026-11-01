@@ -405,7 +405,7 @@ def committed_fingerprints(
     blobs, the same bytes ingest hashed when it wrote them. One `git ls-tree`
     and one `git cat-file --batch` for every folder together."""
     import paths
-    from artmind.sync_state import FINGERPRINTED_FILES, staging_fingerprint
+    from artmind.sync_state import FINGERPRINT_SOURCES, staging_fingerprint
 
     if not folders:
         return {}
@@ -419,7 +419,7 @@ def committed_fingerprints(
         meta, _, path = entry.partition("\t")
         parts = Path(path).relative_to(kg_rel).parts
         fields = meta.split(" ")
-        if len(parts) == 3 and parts[2] in FINGERPRINTED_FILES and len(fields) == 3 and fields[1] == "blob":
+        if len(parts) == 3 and parts[2] in FINGERPRINT_SOURCES and len(fields) == 3 and fields[1] == "blob":
             oid_of[parts] = fields[2]
     blobs = _cat_blobs(vault_dir, list(oid_of.values()))
 

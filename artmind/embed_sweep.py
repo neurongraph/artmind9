@@ -7,6 +7,8 @@ current embedding key.
 2. Embed passages with no vector or a stale `_embed_key` (model / prefix change),
    from the machine-local cache first (`embedding_cache`), else the model.
 3. Unscoped or domain-scoped runs: re-embed `:UserChat` nodes with a stale key.
+4. Embed `:DocSummary` nodes (spec 2026-11-01 §1.4) with no vector or a stale
+   `_embed_key`, the same way.
 
 Resumable by construction, like the chunk sweep it replaces: every vector is
 written as soon as it exists, and a run's own failures are excluded from its
@@ -47,6 +49,14 @@ RETURN p.id AS id, p.text AS text, p.context AS context
 LIMIT $batch_size
 """
 
+_SUMMARIES_NEEDING_VECTORS = """
+MATCH (s:DocSummary)
+WHERE (s.embedding IS NULL OR s._embed_key IS NULL OR s._embed_key <> $embed_key)
+  AND NOT s.id IN $skip_ids{scope}
+RETURN s.id AS id, s.text AS text
+LIMIT $batch_size
+"""
+
 _CHATS_NEEDING_VECTORS = """
 MATCH (c:UserChat)
 WHERE (c.embedding IS NULL OR c._embed_key IS NULL OR c._embed_key <> $embed_key)
@@ -63,6 +73,24 @@ def count_passage_gaps(tx) -> int:
         "OR p._embed_key <> $embed_key RETURN count(p) AS n",
         embed_key=_embed_key(_model()),
     ).single()["n"]
+
+
+def _summary_scope(chunk_ids, domain, doc_ids) -> tuple[str, dict]:
+    clauses, params = [], {}
+    if chunk_ids is not None:
+        # a chunk scope (a commit) also reaches its document's summary
+        clauses.append(
+            "(s.chunk_id IN $chunk_ids OR EXISTS { MATCH (c:DocChunk) "
+            "WHERE c.id IN $chunk_ids AND c.doc_id = s.doc_id })"
+        )
+        params["chunk_ids"] = list(chunk_ids)
+    if domain is not None:
+        clauses.append("s._domain = $domain")
+        params["domain"] = domain
+    if doc_ids is not None:
+        clauses.append("s.doc_id IN $doc_ids")
+        params["doc_ids"] = list(doc_ids)
+    return "".join(f"\n  AND {c}" for c in clauses), params
 
 
 def _scope(var: str, id_field: str, chunk_ids, domain, doc_ids) -> tuple[str, dict]:
@@ -94,8 +122,10 @@ def reconcile_passages(
 ) -> dict:
     """See the module docstring. `chunk_ids=[]` / `doc_ids=[]` are scoped to
     nothing and return at once. `cache=True` opens the default cache; `None`
-    disables it (tests). Returns {chunks_split, embedded, remaining, chats_embedded}."""
-    result = {"chunks_split": 0, "embedded": 0, "remaining": 0, "chats_embedded": 0}
+    disables it (tests). Returns {chunks_split, embedded, remaining, chats_embedded,
+    summaries_embedded, summaries_remaining}."""
+    result = {"chunks_split": 0, "embedded": 0, "remaining": 0, "chats_embedded": 0,
+              "summaries_embedded": 0, "summaries_remaining": 0}
     if (chunk_ids is not None and not chunk_ids) or (doc_ids is not None and not doc_ids):
         return result
     model = _model()
@@ -156,6 +186,31 @@ def reconcile_passages(
             break
     result["remaining"] = len(failed)
 
+    # 2b. vectors for summaries with none or a stale key (spec 2026-11-01 §1.4)
+    scope, params = _summary_scope(chunk_ids, domain, doc_ids)
+    summary_failed: set[str] = set()
+    while True:
+        rows = session.run(_SUMMARIES_NEEDING_VECTORS.format(scope=scope), embed_key=embed_key,
+                           skip_ids=list(summary_failed), batch_size=batch_size, **params).data()
+        if not rows:
+            break
+        for row in rows:
+            try:
+                vector = cached_embed(cache, embed_key, row.get("text") or "", embed)
+            except Exception as exc:
+                summary_failed.add(row["id"])
+                logger.warning("Summary embedding failed for {!r}: {}", row["id"], exc)
+                continue
+            if not vector:
+                summary_failed.add(row["id"])
+                continue
+            session.run("MATCH (s:DocSummary {id: $id}) SET s.embedding = $embedding, s._embed_key = $embed_key",
+                        id=row["id"], embedding=vector, embed_key=embed_key)
+            result["summaries_embedded"] += 1
+        if len(rows) < batch_size:
+            break
+    result["summaries_remaining"] = len(summary_failed)
+
     # 3. chats (their own vectors; no passages) on unscoped or domain-scoped runs only
     if chunk_ids is None and doc_ids is None:
         scope = "\n  AND c._domain = $domain" if domain is not None else ""
@@ -180,6 +235,7 @@ def reconcile_passages(
                 break
 
     if any(result.values()):
-        logger.info("Passage sweep: {} chunk(s) split, {} passage(s) embedded, {} skipped, {} chat(s) embedded",
-                    result["chunks_split"], result["embedded"], result["remaining"], result["chats_embedded"])
+        logger.info("Passage sweep: {} chunk(s) split, {} passage(s) embedded, {} skipped, {} chat(s) embedded, {} summary(ies) embedded",
+                    result["chunks_split"], result["embedded"], result["remaining"], result["chats_embedded"],
+                    result["summaries_embedded"])
     return result

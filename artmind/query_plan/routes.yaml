@@ -199,6 +199,17 @@ routes:
     read: []
     evidence: [S17]
 
+  - id: survey
+    description: What several documents say about one topic, compared or summarised across them; an overview that no single passage holds.
+    triggers: ["across", "compare", "comparison of", "what do the", "what does each", "overview of", "different approaches", "how do the", "themes in"]
+    needs: []
+    steps:
+      - "artmind query survey --domain {domains} {question} --compact"
+    fallbacks:
+      - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --topK 10 --compact"}
+    read: []
+    evidence: [S2]
+
   - id: search
     description: Any other factual question, answered from the text of the documents.
     triggers: []

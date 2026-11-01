@@ -335,6 +335,14 @@ ingest-supersede domain newer older flags="":
 ingest-detect-supersession domain dry_run="":
     uv run artmind ingest detect-supersession --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
 
+# Backfill chunk and document summaries for staged documents (LLM calls; --dry-run first)  (usage: just ingest-summarise [--domain D] [--match GLOB] [--dry-run])
+ingest-summarise *ARGS:
+    uv run artmind ingest summarise {{ARGS}}
+
+# Build a cited topic page into <vault>/_Topics (LLM calls)  (usage: just topic-build "<topic>" <domain> [--dry-run|--maxDocs N])
+topic-build TOPIC DOMAIN *ARGS:
+    uv run artmind topic build "{{TOPIC}}" --domain {{DOMAIN}} {{ARGS}}
+
 # ── artmind db (structured store) ───────────────────────────────────────────
 
 # read the structured-to-graph bridge: class scope, bridge columns, grain  (usage: just db-bridge [domain] [entityClass])
