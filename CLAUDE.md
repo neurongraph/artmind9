@@ -38,7 +38,7 @@ ingest dashboard).
 | `artmind/refine_pipeline.py`, `refine_graph.py`, `conflicts.py`, `consolidate.py`, `temporal.py`, `harmonizer.py` | Graph maintenance: merging, conflict detection, temporal normalization. |
 | `artmind/passages.py`, `artmind/passage_store.py` | Passages: ~1200-char retrieval units under each DocChunk; derived at commit, reconciled by `embed_sweep.reconcile_passages` (`ingest embed-passages`); carry every text vector; `_split_key`, `_embed_key`. |
 | `artmind/embedding_cache.py` | Embedding cache at `<data>/embedding_cache.sqlite`, read by the passage sweep before it calls the embedder. Never committed. |
-| `artmind/retrieval_rank.py` | RRF + MaxP passage fusion and MMR diversity selection for `vector-text` and `entity-context`. |
+| `artmind/retrieval_rank.py` | Weighted RRF (vector 2:1 keyword) + MaxP passage fusion for `vector-text` and `entity-context`. |
 | `artmind/migrations/` | Temporary one-off migrations (e.g. legacy chunk vectors to passages). Delete when every graph's `setup` reports `legacy chunk vectors: none`. |
 | `artmind/skills/` | **Source of truth for agent skills.** Shipped in the wheel and seeded into the run folder. |
 | `artmind/domains/schemas/` | Default domain schemas (YAML), also seeded. |
@@ -246,7 +246,7 @@ Two levels under `query`, and mixing them up is a common error:
 
 - `artmind query graph <cmd>` — `metadata`, `structural-metadata`, `entity-listing`,
   `pattern1`–`pattern10`, `text2cypher`, `conflicts`, `timeline`, `hierarchy`
-- `artmind query <cmd>` — `plan` (`--domain`, `--execute`, `--classifier auto|lexical|decision`; proxied and traced), `domains-overview`, `vector-text` (`--diversity`, `--context`), `entity-resolve`,
+- `artmind query <cmd>` — `plan` (`--domain`, `--execute`, `--classifier auto|lexical|decision`; proxied and traced), `domains-overview`, `vector-text` (`--context`), `entity-resolve`,
   `chunks`, `entity-context`, `entity-history` (`--entityId`, or `--key`/`--name` for an
   entity the projection already removed), `document-history` (current vs history
   observations of one document's versions), `text2sql`, `resolve-key`, `views list|show|run`, `insights list|show`

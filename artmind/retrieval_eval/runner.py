@@ -15,21 +15,19 @@ from pathlib import Path
 from artmind.retrieval_eval import metrics
 from artmind.retrieval_eval.labels import RetrievalLabel
 
-Search = Callable[[list[str], str, int, float | None], dict]
+Search = Callable[[list[str], str, int], dict]
 
 
-def _default_search(domains: list[str], question: str, top_k: int, diversity: float | None) -> dict:
+def _default_search(domains: list[str], question: str, top_k: int) -> dict:
     from artmind import vector_query
 
-    kwargs = {} if diversity is None else {"diversity": diversity}
-    return vector_query.vector_text_search(domains, question, top_k, **kwargs)
+    return vector_query.vector_text_search(domains, question, top_k)
 
 
 def run_eval(
     labels: Sequence[RetrievalLabel],
     *,
     ks: Sequence[int] = (5, 20),
-    diversity: float | None = None,
     search: Search | None = None,
     clock: Callable[[], float] = time.perf_counter,
 ) -> dict:
@@ -39,7 +37,7 @@ def run_eval(
     per: list[dict] = []
     for label in labels:
         t0 = clock()
-        result = search(list(label.domains), label.question, top, diversity)
+        result = search(list(label.domains), label.question, top)
         latency = clock() - t0
         chunks = [r["chunk"] for r in (result.get("rows") or []) if r.get("chunk")]
         chunk_ids = [c.get("id") for c in chunks][:top]
@@ -56,7 +54,6 @@ def run_eval(
     return {
         "created_at": datetime.now().isoformat(timespec="seconds"),
         "ks": ks,
-        "diversity": diversity,
         "labels": len(labels),
         "summary": metrics.summarise(per, ks),
         "questions": per,

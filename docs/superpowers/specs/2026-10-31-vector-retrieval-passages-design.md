@@ -21,7 +21,7 @@ defects are their answer quality.
 | 2 | Domain filter runs after ANN over the whole graph (`candidateK = topK*5*n`), so a small domain returns 0-2 rows | `chunk_embedding` has no filter properties; `WHERE` is outside `SEARCH` | `passage_embedding` declares `WITH [p._domain]`; the domain filter goes inside `SEARCH` (§3.4, §4.2) |
 | 3 | Returned `score` mixes cosine (0-1) and BM25 (unbounded) | `_rrf_combine(..., annotate=False)` | Fused `score`, absolute `relevance`, `matched_by` (§4.3) |
 | 4 | Embeddings ignore the model's task prefixes, carry no title/heading context, and are one vector per 6000-char chunk | `ingest.py` embeds raw chunk text; `embed_question` raw question; `header_path` (already on `DocChunk`) is never embedded | Passages (~1200 chars) embedded as `search_document: <title> > <headings>\n<text>`; questions as `search_query: ...` (§3) |
-| 5 | Top-K can be K chunks of one document | no diversity step | MMR over chunks with a same-document redundancy floor (§4.2 step 5) |
+| 5 | Top-K can be K chunks of one document | no diversity step | Left open: MMR was built and removed, no measured harm (§9.1) |
 
 ## Non-goals
 
@@ -256,18 +256,8 @@ Each `--domain` is expanded to an explicit list with `graph_query.expand_domain_
    outrank vector hits).
 4. **MaxP** (`passage_fuse`): passages grouped by `chunk_id`; a chunk's score is its
    best passage's fused score; the chunk records that passage and `passages_matched`.
-5. **Diversity** (`mmr_select`) over the top `3 * topK` units:
-   - pick, at each step, the unit maximising `(1 - d) * rel - d * redundancy`;
-   - `rel` = fused score divided by the pool's maximum (0-1);
-   - `redundancy` = max over already-picked units of `sim(a, b)`, where `sim` is the
-     cosine of their best passages' vectors, raised to at least 0.85 when both are
-     from the same document;
-   - `d` = `--diversity` (default 0.15, amended 2026-11-01 from 0.3, which cost
-     needle recall@20 0.88 -> 0.76); `0` is pure relevance order;
-   - ties break on fused score, then id (deterministic).
-   Vectors come from the pool rows already fetched (the vector leg returns
-   `p.embedding` for pool rows; a fulltext-only unit with no vector in the pool gets
-   redundancy from the same-document rule only).
+5. **Diversity**: removed 2026-11-01 (§9.1). MMR with a same-document floor moved
+   no metric on either eval vault; units stay in fused-score order.
 6. **Return** the top `topK` units: the parent chunk (small-to-big) or the passage
    (`--context passage`).
 
@@ -279,7 +269,7 @@ Existing keys keep their place (traces read `chunk.id`; the plugin and skill rea
 ```json
 {
   "domains": ["..."], "query_type": "vector_text", "question": "...",
-  "parameters": {"topK": 5, "pool": 50, "diversity": 0.15, "context": "chunk"},
+  "parameters": {"topK": 5, "pool": 50, "context": "chunk"},
   "warnings": [],
   "rows": [{
     "chunk": {"id", "name", "doc_id", "header_path", "text"},
@@ -301,7 +291,7 @@ Existing keys keep their place (traces read `chunk.id`; the plugin and skill rea
   still refer to the parent chunk.
 - Chat rows keep their `chat` key and gain `score`, `relevance`, `matched_by`.
 
-CLI: `query vector-text` gains `--diversity FLOAT` (0-1) and `--context chunk|passage`;
+CLI: `query vector-text` gains `--context chunk|passage` (`--diversity` removed, §9.1);
 `--topK` is capped at 50.
 
 `vector_search` and `full_text_search` are replaced by private leg queries inside
@@ -327,14 +317,13 @@ In `_entity_context_queries`:
   `warnings: ["vector leg unavailable: <reason>"]`, `relevance: null`; never a silent
   empty result.
 - Question empty after Lucene sanitising: vector leg alone.
-- `--diversity` outside 0-1, `--topK` outside 1-50: `ClickException`.
+- `--topK` outside 1-50: `ClickException`.
 
 ### 4.6 Code layout
 
 `vector_query.py` keeps its public functions. New pure helpers, unit-testable with no
 Neo4j: `passages.split`, `embed_prefix` (in `extraction.py` beside `embed_text`),
-`passage_fuse`, `mmr_select` (in `vector_query.py` or a `retrieval_rank.py` if
-`vector_query.py` would pass ~700 lines).
+`passage_fuse` (in `retrieval_rank.py`).
 
 ## 5. Rollout per graph
 
@@ -387,7 +376,7 @@ and after are comparable.
   `llm_calls.log`. Run with `env -u ANTHROPIC_BASE_URL` from a Claude Code shell
   (CLAUDE.md §5).
 - `retrieval labels validate [--labels F]`: shape, ids exist in the graph, domains known.
-- `retrieval eval [--labels F] [--topK 5,20] [--diversity d] [--compare RUN]`: runs
+- `retrieval eval [--labels F] [--topK 5,20] [--compare RUN]`: runs
   `vector_text_search` in-process per question; reports, per `kind`, recall@K
   (needle: any relevant chunk in the top K), MRR, documents covered@K (survey:
   fraction of `relevant_docs` with a chunk in the top K) and latency. Writes the run to
@@ -404,6 +393,9 @@ tests or commits. Tests use synthetic text.
 Revisit a reranker if, after this change, needle recall@5 < 0.8 or needle MRR < 0.6.
 The thresholds are the operator's to change; the eval only reports.
 
+Revisited 2026-11-01 (§9): paraphrased needles sit below both thresholds, and neither
+reranker tried closes the gap at top 5. No reranker.
+
 ## 7. Testing
 
 Hermetic (`test/`):
@@ -413,8 +405,6 @@ Hermetic (`test/`):
 - `embed_prefix`: nomic and unknown model; `_embed_key` changes with model,
   `PREFIX_VERSION`, `SPLIT_VERSION`.
 - `passage_fuse`: RRF per passage, MaxP grouping, `passages_matched`, chat units.
-- `mmr_select`: `d=0` equals relevance order; same-document floor demotes a second
-  chunk of one document; deterministic ties; fulltext-only unit handled.
 - Graph writes, asserting the parameters sent and which query ran
   (`test/test_update.py`'s `run_side_effect` recorder pattern), never counts alone:
   commit writes passages with the right `chunk_id`/`_domain`; supersede and
@@ -438,9 +428,67 @@ syntax, index options, the migration and the eval end to end.
 ## 8. Docs and skills, same change
 
 - `artmind/skills/artmind-query/SKILL.md`: new output fields; judge "sparse or weak" by
-  `relevance` and `matched_by`; `--diversity`, `--context`.
+  `relevance` and `matched_by`; `--context`.
 - `CLAUDE.md`: repo layout (`passages.py`, `migrations/`, `artmind retrieval`), command
   routing quick reference, `ingest embed-passages`.
 - `docs/vault.md` "Embeddings": passage vectors, the sweep, `_embed_key`.
 - `cli.py`: group docstrings; `COMMAND_GROUPS` (the CLI guide test fails otherwise).
 - `justfile`: `retrieval-eval` recipe; `embed-chunks` recipe renamed.
+
+## 9. Evaluation and decisions (2026-11-01)
+
+Two vaults. A synthetic banking vault: short chunks (median 337 chars, 98% a single
+passage), 50 needles and 10 surveys. A private contracts vault: long chunks (median
+6634 chars, ~1400 tokens; 73 of 1401 over the embedding model's 2048-token context),
+63 needles (54 in multi-passage chunks), the same 63 reworded to avoid the source's
+words (rare-word overlap with the target chunk 0.17, against 0.55), and 10 surveys.
+Contracts-vault numbers are offline: the same `retrieval_rank` code over locally
+computed vectors and a Python BM25 standing in for the fulltext index. Labels and runs
+stay in each vault (§6.3).
+
+Paraphrased needles, contracts vault (recall@5 / recall@20 / MRR):
+
+| Retrieval | All 63 | Long-chunk 54 |
+|---|---|---|
+| Whole chunk, vector only | 0.41 / 0.57 / 0.28 | 0.35 / 0.52 / 0.20 |
+| Whole chunk, fused 2:1 | 0.40 / 0.62 / 0.32 | 0.37 / 0.57 / 0.29 |
+| Passage, vector only | 0.43 / 0.65 / 0.30 | 0.41 / 0.63 / 0.28 |
+| Passage, fused 2:1 | 0.43 / 0.68 / 0.34 | 0.39 / 0.65 / 0.31 |
+| Passage, prefixes, fused 2:1 | 0.51 / 0.60 / 0.38 | 0.50 / 0.59 / 0.37 |
+| Keyword only | 0.21 / 0.43 / 0.15 | 0.20 / 0.41 / 0.15 |
+
+Findings:
+
+- **Passages** are the one change that wins on both question sets of the contracts
+  vault (long-chunk vector-only recall@20 0.52 -> 0.63 paraphrased, 0.70 -> 0.87
+  original) and they remove the silent truncation of over-long chunks. On the banking
+  vault a passage is the chunk, so they can only show no harm, which they do.
+- **Fusion** already existed (whole chunks, equal votes). Weighting the vector leg 2:1
+  fixed the banking regression (keyword matches on generic question words) and never
+  cost more than 0.02 on paraphrased questions (it added 0.03-0.04 recall@20 and MRR
+  without prefixes). Keyword search alone is strong only when the question reuses the
+  document's words.
+- **Task prefixes** trade top ranks for depth: with fusion, recall@5 0.43 -> 0.51 but
+  recall@20 0.68 -> 0.60 (paraphrased); on the banking vault they cost ~0.07 MRR.
+  Within noise at this sample size; kept, since changing them re-embeds everything.
+- **Diversity (MMR)**, at 0.15 or 0.3, moved no needle metric by more than ~0.03 and
+  passage survey docs@20 by -0.02 to +0.03 on either vault. Its first live runs were
+  broken by a serializer bug (no vectors, so only the same-document floor applied):
+  banking survey docs@20 reached 0.77 that way, but needle recall@5 fell to 0.62.
+  Removed (§9.1).
+- **Reranker.** Re-ranking the top 100 fused passages with `ms-marco-MiniLM-L-6-v2`
+  (0.15 s/query) or `bge-reranker-v2-m3` (2.5-5 s/query, Apple GPU) lifted
+  paraphrased recall@5 by at most 0.03 and MRR by 0.02-0.08; neither beat the prefixed
+  fused ranking at top 5 (0.51). The answer is in the top 100 for 83% of paraphrased
+  needles, but the missed ones rank low for every scorer. Not worth a torch dependency
+  in the query install.
+- **Top 10 instead of 5** adds 0.08-0.13 recall on paraphrased needles at no code cost.
+
+### 9.1 Changes that follow
+
+- Remove the diversity step: `mmr_select`, `SAME_DOC_SIMILARITY`, the passage `vector`
+  the vector Cypher returns only for it, `DEFAULT_DIVERSITY`, `--diversity` on
+  `query vector-text` and `retrieval eval`, and `diversity` in the payload's
+  `parameters`. Defect 5 (top K from one document) is left open: no measured harm.
+- `artmind-query` calls `vector-text` with `--topK 10`. The CLI default stays 5.
+- No reranker; prefixes, passages and 2:1 fusion stay as built.

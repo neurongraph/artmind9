@@ -311,7 +311,6 @@ from artmind import retrieval_rank
 
 POOL_MIN = 50
 MAX_TOP_K = 50
-DEFAULT_DIVERSITY = 0.15
 CONTEXTS = ("chunk", "passage")
 MISSING_INDEX = (
     "the passage index is missing: this graph has not been migrated to passages. Run "
@@ -352,7 +351,7 @@ def _passage_vector_cypher(as_of) -> str:
         LIMIT $pool
       )
     WITH p, vector.similarity.cosine(p.embedding, $embedding) AS score{asof}
-    RETURN p {{ {_PASSAGE_ROW}, cosine: score, vector: p.embedding }} AS row
+    RETURN p {{ {_PASSAGE_ROW}, cosine: score }} AS row
     ORDER BY score DESC
     """
 
@@ -380,7 +379,7 @@ def _chat_vector_cypher() -> str:
       SEARCH c IN (VECTOR INDEX user_chat_embedding FOR $embedding LIMIT $pool)
     WITH c, vector.similarity.cosine(c.embedding, $embedding) AS score
     WHERE {domain_predicate("c")}
-    RETURN c {{ {_CHAT_ROW}, cosine: score, vector: c.embedding }} AS row
+    RETURN c {{ {_CHAT_ROW}, cosine: score }} AS row
     ORDER BY score DESC
     """
 
@@ -433,19 +432,16 @@ def vector_text_search(
     topK: int = 5,
     as_of: str | None = None,
     *,
-    diversity: float = DEFAULT_DIVERSITY,
     context: str = "chunk",
 ) -> dict:
     """Hybrid search over passages (spec 2026-10-31 §4.2): vector (domain-filtered
     inside SEARCH) + BM25, each over a deep pool; RRF per passage; MaxP into parent
-    chunks; MMR diversity; the top K parent chunks (or passages) with the matching span."""
+    chunks; the top K parent chunks (or passages) with the matching span."""
     from artmind.graph_query import _domain_output, normalize_domains
 
     top_k = int(topK)
     if not 1 <= top_k <= MAX_TOP_K:
         raise ValueError(f"--topK must be between 1 and {MAX_TOP_K}")
-    if not 0.0 <= float(diversity) <= 1.0:
-        raise ValueError("--diversity must be between 0 and 1")
     if context not in CONTEXTS:
         raise ValueError(f"--context must be one of {', '.join(CONTEXTS)}")
     domains = normalize_domains(domains)
@@ -479,7 +475,7 @@ def vector_text_search(
         # A chat's rows were appended after the passage rows; rank each leg by its own score.
         vector_rows.sort(key=lambda r: -(r.get("cosine") or 0.0))
         units = retrieval_rank.passage_fuse(vector_rows, text_rows)
-        picked = retrieval_rank.mmr_select(units, top_k, float(diversity))
+        picked = units[:top_k]
         chunk_ids = [u.best["chunk_id"] for u in picked if u.kind == "chunk"]
         fetched = {}
         if chunk_ids:
@@ -510,7 +506,7 @@ def vector_text_search(
         **_domain_output(domains),
         "query_type": "vector_text",
         "question": question,
-        "parameters": {"topK": top_k, "pool": pool, "diversity": float(diversity), "context": context,
+        "parameters": {"topK": top_k, "pool": pool, "context": context,
                        **({"asOf": as_of} if as_of else {})},
         "warnings": warnings,
         "rows": rows,

@@ -274,9 +274,9 @@ from artmind import graph_query
 
 PASSAGES_VEC = [
     {"row": {"kind": "passage", "id": "c1_p01", "chunk_id": "c1", "doc_id": "d1", "char_start": 0,
-             "char_end": 9, "text": "first one", "cosine": 0.82, "vector": [1.0, 0.0]}},
+             "char_end": 9, "text": "first one", "cosine": 0.82}},
     {"row": {"kind": "passage", "id": "c2_p01", "chunk_id": "c2", "doc_id": "d2", "char_start": 5,
-             "char_end": 20, "text": "second", "cosine": 0.75, "vector": [0.0, 1.0]}},
+             "char_end": 20, "text": "second", "cosine": 0.75}},
 ]
 PASSAGES_FT = [{"row": {"kind": "passage", "id": "c2_p01", "chunk_id": "c2", "doc_id": "d2",
                         "char_start": 5, "char_end": 20, "text": "second"}}]
@@ -318,8 +318,8 @@ def test_vector_text_filters_inside_search_with_a_deep_pool(monkeypatch):
 def test_vector_text_returns_parent_chunks_with_spans_and_fused_scores(monkeypatch):
     s = Recorder(respond)
     _patch(monkeypatch, s)
-    out = vector_query.vector_text_search(["papers"], "q", 2, diversity=0.0)
-    assert out["parameters"] == {"topK": 2, "pool": 50, "diversity": 0.0, "context": "chunk"}
+    out = vector_query.vector_text_search(["papers"], "q", 2)
+    assert out["parameters"] == {"topK": 2, "pool": 50, "context": "chunk"}
     assert out["warnings"] == []
     first, second = out["rows"]
     assert first["chunk"]["id"] == "c2"                     # found by both legs
@@ -334,7 +334,7 @@ def test_vector_text_returns_parent_chunks_with_spans_and_fused_scores(monkeypat
 def test_context_passage_returns_the_passage_text(monkeypatch):
     s = Recorder(respond)
     _patch(monkeypatch, s)
-    out = vector_query.vector_text_search(["papers"], "q", 1, diversity=0.0, context="passage")
+    out = vector_query.vector_text_search(["papers"], "q", 1, context="passage")
     assert out["rows"][0]["chunk"]["text"] == "second"
 
 
@@ -362,7 +362,7 @@ def test_missing_passage_index_names_the_fix(monkeypatch):
         vector_query.vector_text_search(["papers"], "q", 2)
 
 
-@pytest.mark.parametrize("kwargs", [{"topK": 0}, {"topK": 51}, {"diversity": 1.5}, {"context": "page"}])
+@pytest.mark.parametrize("kwargs", [{"topK": 0}, {"topK": 51}, {"context": "page"}])
 def test_bad_arguments_raise(monkeypatch, kwargs):
     _patch(monkeypatch, Recorder(respond))
     args = {"topK": 5, **kwargs}
@@ -371,15 +371,14 @@ def test_bad_arguments_raise(monkeypatch, kwargs):
         vector_query.vector_text_search(["papers"], "q", top_k, **args)
 
 
-def test_vector_text_diversity_sees_passage_vectors_through_serialization(monkeypatch):
-    """Rows pass through serialize_record, which strips `embedding` keys; the vector
-    must survive it or MMR only ever sees the same-document floor."""
+def test_vector_text_keeps_relevance_order_within_one_document(monkeypatch):
+    """No diversity step: two chunks of one document both stay ahead of a weaker hit."""
     vec = [
         {"row": {"kind": "passage", "id": f"{c}_p01", "chunk_id": c, "doc_id": d, "char_start": 0,
-                 "char_end": 3, "text": c, "cosine": cos, "vector": v}}
-        for c, d, cos, v in (("c1", "d1", 0.9, [1.0, 0.0]), ("c2", "d2", 0.89, [1.0, 0.0]), ("c3", "d3", 0.5, [0.0, 1.0]))
+                 "char_end": 3, "text": c, "cosine": cos}}
+        for c, d, cos in (("c1", "d1", 0.9), ("c2", "d1", 0.89), ("c3", "d3", 0.5))
     ]
-    chunks = [{"chunk": {"id": c, "doc_id": d, "text": c}, "document": {"id": d}} for c, d in (("c1", "d1"), ("c2", "d2"), ("c3", "d3"))]
+    chunks = [{"chunk": {"id": c, "doc_id": d, "text": c}, "document": {"id": d}} for c, d in (("c1", "d1"), ("c2", "d1"), ("c3", "d3"))]
 
     def resp(cypher, params):
         if "VECTOR INDEX passage_embedding" in cypher:
@@ -388,7 +387,9 @@ def test_vector_text_diversity_sees_passage_vectors_through_serialization(monkey
             return [c for c in chunks if c["chunk"]["id"] in params["chunkIds"]]
         return []
 
-    _patch(monkeypatch, Recorder(resp))
-    out = vector_query.vector_text_search(["papers"], "q", 2, diversity=0.5)
-    assert [r["chunk"]["id"] for r in out["rows"]] == ["c1", "c3"]     # c2 duplicates c1's vector
-    assert all("vector" not in r and "embedding" not in r for r in out["rows"])
+    s = Recorder(resp)
+    _patch(monkeypatch, s)
+    out = vector_query.vector_text_search(["papers"], "q", 2)
+    assert [r["chunk"]["id"] for r in out["rows"]] == ["c1", "c2"]
+    (cypher, _), = s.queries_containing("VECTOR INDEX passage_embedding")
+    assert "p.embedding }}" not in cypher and "vector:" not in cypher     # vectors stay in Neo4j

@@ -32,7 +32,7 @@ def test_validate_reports_errors_and_exits_1(tmp_path):
 
 def test_eval_writes_a_run_and_compares(tmp_path, monkeypatch):
     monkeypatch.setattr(runner, "_default_search",
-                        lambda d, q, k, div: {"rows": [{"chunk": {"id": "c1", "doc_id": "d1"}}]})
+                        lambda d, q, k: {"rows": [{"chunk": {"id": "c1", "doc_id": "d1"}}]})
     monkeypatch.setattr(runner, "runs_dir", lambda: tmp_path / "runs")
     before = tmp_path / "before.json"
     before.write_text(json.dumps({"summary": {"needle": {"questions": 1, "recall@5": 0.0, "mrr": 0.0}}}))

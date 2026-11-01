@@ -32,7 +32,7 @@ or relationships. For such a domain:
 
 - Skip `views list`, insights, `graph metadata`, `entity-listing`, `entity-resolve`,
   `entity-context`, `pattern1`–`pattern9` and `text2cypher`: they return nothing there.
-- Answer from `artmind query vector-text --domain <domain> --compact "<question>"`.
+- Answer from `artmind query vector-text --domain <domain> --topK 10 --compact "<question>"`.
 - For a whole document ("summarise X") use `artmind query graph pattern10 --documentName
   "<name>"`; for more context around a hit, `artmind query chunks --idList <id> --expand 1`;
   for which documents exist or how many, `artmind query graph structural-metadata`. These
@@ -424,10 +424,10 @@ Grounding has a deterministic path and a search path — prefer the deterministi
 3. **Otherwise** (no entity anchor, or the ids you pulled don't answer it):
 
 ```bash
-artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<question>"
+artmind query vector-text --domain <d1> --domain <d2> --topK 10 --compact "<question>"
 ```
 
-vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and spreads the top results across documents. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). `--diversity 0` gives pure relevance order (use it when you want several chunks of one document); `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
+vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and returns them in relevance order. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). Ask for 10 rows: the right chunk is often just below the top 5. `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
 
 ### 6. Adjudicate — surface disagreements, never blend
 
