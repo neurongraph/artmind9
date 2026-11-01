@@ -3162,7 +3162,7 @@ def query_domains_overview(compact: bool) -> None:
 @query.command("vector-text")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True, help="Results to return (1-50)")
-@click.option("--diversity", type=float, default=0.3, show_default=True,
+@click.option("--diversity", type=float, default=0.15, show_default=True,
               help="0-1: how strongly to prefer chunks unlike those already picked (0 = pure relevance order)")
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")

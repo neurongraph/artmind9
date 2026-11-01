@@ -18,9 +18,15 @@ def test_rrf_then_maxp_groups_passages_into_chunks():
     assert c1.passages_matched == 2 and c1.matched_by == ["vector", "fulltext"]
     assert c1.relevance == 0.9                      # best cosine among its passages
     assert c1.best["id"] == "c1_p02"                # best fused passage: vector rank 2 + text rank 1
-    assert c1.score == pytest.approx(1 / 62 + 1 / 61)
-    assert c2.score == pytest.approx(1 / 63 + 1 / 62)
+    assert c1.score == pytest.approx(2 / 62 + 1 / 61)
+    assert c2.score == pytest.approx(2 / 63 + 1 / 62)
     assert c2.matched_by == ["vector", "fulltext"] and c2.relevance == 0.6
+
+
+def test_vector_rank_outweighs_fulltext_rank():
+    units = R.passage_fuse([p("v_p01", "v", "d1", 0.8)], [p("f_p01", "f", "d2")])
+    assert [u.key for u in units] == ["chunk:v", "chunk:f"]
+    assert units[0].score == pytest.approx(2 * units[1].score)
 
 
 def test_fulltext_only_unit_has_no_relevance():

@@ -24,9 +24,10 @@ def embed_text(model: str, text: str) -> list[float]:
     return embedding
 
 
-#: Bump when `_PREFIXES` changes: every stored vector's `_embed_key` then goes stale
-#: and the sweeps re-embed it (spec 2026-10-31 §2.2, §2.4).
-PREFIX_VERSION = 1
+#: Bump when `_PREFIXES`, or the text a stored vector is made from, changes: every
+#: stored vector's `_embed_key` then goes stale and the sweeps re-embed it (spec
+#: 2026-10-31 §2.2, §2.4). 2: passages embed their text alone, without `context`.
+PREFIX_VERSION = 2
 
 # Task prefixes an embedding model was trained with, keyed by its base name.
 # (document prefix, query prefix). A model not listed gets none.

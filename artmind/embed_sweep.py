@@ -135,7 +135,7 @@ def reconcile_passages(
         if not rows:
             break
         for row in rows:
-            text = passages.embedding_text(row.get("text") or "", row.get("context"))
+            text = passages.embedding_text(row.get("text") or "")
             try:
                 vector = cached_embed(cache, embed_key, text, embed)
             except Exception as exc:

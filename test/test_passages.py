@@ -66,9 +66,8 @@ def test_split_key_and_ids(monkeypatch):
     assert P.passage_id("doc_003", 2) == "doc_003_p02"
 
 
-def test_embedding_text_puts_context_first():
-    assert P.embedding_text("Body.", "Paper > Methods") == "Paper > Methods\nBody."
-    assert P.embedding_text("Body.", "") == "Body."
+def test_embedding_text_is_the_text_alone():
+    assert P.embedding_text("Body.") == "Body."
 
 
 def test_passage_rows_carry_chunk_fields(monkeypatch):

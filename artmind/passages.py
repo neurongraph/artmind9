@@ -109,9 +109,13 @@ def split(chunk_text: str, chars: int | None = None) -> list[Passage]:
     return [Passage(i, s, e, t) for i, ((s, e), t) in enumerate(zip(spans, texts), start=1)]
 
 
-def embedding_text(text: str, context: str | None) -> str:
-    """The text a passage is embedded as (before the model's task prefix)."""
-    return f"{context}\n{text}" if context else text
+def embedding_text(text: str) -> str:
+    """The text a passage is embedded as (before the model's task prefix): the text
+    alone. `context` (title > header path) is kept for display only -- prepended, it
+    is shared by every passage of a document and repeats the heading the text
+    already opens with, so siblings embed alike and the one holding the answer
+    loses rank (banking_corpus retrieval eval, 2026-11-01)."""
+    return text
 
 
 def passage_rows(chunk: dict, title: str | None) -> list[dict]:

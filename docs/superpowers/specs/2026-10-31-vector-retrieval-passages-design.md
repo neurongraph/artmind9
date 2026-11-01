@@ -98,6 +98,13 @@ The title is the Document's `title` (else `name`); the heading path is the paren
 chunk's `header_path`. The prefix line is embedded only; `DocPassage.text` stores the
 passage text alone (what the fulltext index and the agent see).
 
+**Amended 2026-11-01:** passages are embedded as `search_document: <passage text>`;
+the `<title> > <headings>` line is stored as `DocPassage.context` for display but not
+embedded (`PREFIX_VERSION` 2). On banking_corpus it was a median 23% of the embedded
+text, shared by every passage of a document and repeating the heading the text opens
+with, so siblings embedded alike: vector-only needle recall@5 0.82 without it, 0.72
+with it.
+
 Every stored vector uses the document prefix: passages, `UserChat` (no title line) and
 `Entity` (name + description, as today). Every search uses the query prefix:
 `embed_question` (vector-text, entity-resolve, entity-context) and the name-vocabulary
@@ -244,7 +251,9 @@ Each `--domain` is expanded to an explicit list with `graph_query.expand_domain_
    (`user_chat_embedding`, `user_chat_text_ft`) at the same pool size; a chat is one
    unit, with no passages.
 3. **Fuse** (`passage_fuse`): RRF, k=60, per passage (and per chat) over the two
-   rankings.
+   rankings, the vector leg weighted 2 and the fulltext leg 1 (`LEG_WEIGHTS`,
+   amended 2026-11-01: an equal vote let BM25 matches on generic question words
+   outrank vector hits).
 4. **MaxP** (`passage_fuse`): passages grouped by `chunk_id`; a chunk's score is its
    best passage's fused score; the chunk records that passage and `passages_matched`.
 5. **Diversity** (`mmr_select`) over the top `3 * topK` units:
@@ -253,7 +262,8 @@ Each `--domain` is expanded to an explicit list with `graph_query.expand_domain_
    - `redundancy` = max over already-picked units of `sim(a, b)`, where `sim` is the
      cosine of their best passages' vectors, raised to at least 0.85 when both are
      from the same document;
-   - `d` = `--diversity` (default 0.3); `0` is pure relevance order;
+   - `d` = `--diversity` (default 0.15, amended 2026-11-01 from 0.3, which cost
+     needle recall@20 0.88 -> 0.76); `0` is pure relevance order;
    - ties break on fused score, then id (deterministic).
    Vectors come from the pool rows already fetched (the vector leg returns
    `p.embedding` for pool rows; a fulltext-only unit with no vector in the pool gets
@@ -269,7 +279,7 @@ Existing keys keep their place (traces read `chunk.id`; the plugin and skill rea
 ```json
 {
   "domains": ["..."], "query_type": "vector_text", "question": "...",
-  "parameters": {"topK": 5, "pool": 50, "diversity": 0.3, "context": "chunk"},
+  "parameters": {"topK": 5, "pool": 50, "diversity": 0.15, "context": "chunk"},
   "warnings": [],
   "rows": [{
     "chunk": {"id", "name", "doc_id", "header_path", "text"},

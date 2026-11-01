@@ -311,7 +311,7 @@ from artmind import retrieval_rank
 
 POOL_MIN = 50
 MAX_TOP_K = 50
-DEFAULT_DIVERSITY = 0.3
+DEFAULT_DIVERSITY = 0.15
 CONTEXTS = ("chunk", "passage")
 MISSING_INDEX = (
     "the passage index is missing: this graph has not been migrated to passages. Run "
