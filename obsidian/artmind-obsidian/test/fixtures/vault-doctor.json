@@ -56,6 +56,12 @@
         "status": "ok",
         "detail": "none detected",
         "fix": null
+      },
+      {
+        "name": "LibreOffice (optional)",
+        "status": "ok",
+        "detail": "found: soffice",
+        "fix": null
       }
     ]
   },

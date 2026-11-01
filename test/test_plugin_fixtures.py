@@ -183,6 +183,8 @@ def vault(tmp_path, monkeypatch):
     root.mkdir()
     monkeypatch.chdir(root)
     monkeypatch.setenv("COLUMNS", "80")
+    # `vault doctor`'s LibreOffice check reads the machine; pin it so the fixture is the same everywhere.
+    monkeypatch.setenv("DOCLING_LIBREOFFICE_CMD", "soffice")
     monkeypatch.setenv("ARTMIND_KG_NEO4J_URI", "neo4j://127.0.0.1:7687")
     monkeypatch.setenv("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
     for key, value in {
