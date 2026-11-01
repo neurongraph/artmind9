@@ -463,28 +463,12 @@ rather than from `artmind query` output, say plainly that the graph does not hol
 it, and suggest the operator check `artmind ingest empty-extractions` and
 re-extract the note — a fact only the note holds is missed by every later query.
 
-### Sources
+### Provenance in web UIs
 
-End every answer that used artmind data with a `### Sources` section: one bullet per
-document or table the answer actually relies on — not everything retrieval returned —
-as a markdown link to its file, followed by its domain:
+Ground every claim in the query output and name the relevant document naturally in
+the answer (for example, "per Delivery Leads.md"). Do **not** create a `### Sources`
+section or calculate a link target: chat-ui and admin-ui append a deterministic,
+passage-level source block from the final query trace after the turn completes.
 
-```markdown
-### Sources
-- [Delivery Leads.md](<performance_management/Delivery Leads.md>) — performance_management
-- [hercules_output_20261002](<performance_management/hercules_output_20261002.xlsx>) — performance_management (table)
-```
-
-- **Link target:** the document's `source_path` when present, else its `path`, copied
-  exactly as returned. `source_path` is the original file (a PDF stays a PDF); a
-  binary's `path` points at an internal converted copy that won't open. Table-backed
-  facts: link the `source_file` from `text2sql`'s `source_tables` (or `db list`).
-- **Always wrap the target in `<…>`** — paths contain spaces, which break a bare
-  markdown link.
-- **Links go only in Sources.** In the body, name a document in plain text
-  ("per Delivery Leads.md") — never as a link.
-- The chat UI turns these links into "open in Obsidian" links. Never write an
-  `obsidian://` URI yourself, and never invent a path: if no returned row carried one
-  for a document, list its name and domain without a link.
-- Omit the section only when no artmind data was used (e.g. the data doesn't answer
-  the question).
+Never write an `obsidian://` URI or invent a file path. If an interface that does not
+have automatic provenance needs citations, its host owns that presentation policy.

@@ -6,6 +6,7 @@ import json
 import pytest
 from fastapi.testclient import TestClient
 
+from artmind.conversations import store as conversation_store
 from artmind.traces import store
 from artmind.webui.app import ChatRequest, create_app
 from artmind.webui.sessions import SessionRegistry
@@ -82,6 +83,72 @@ def test_chat_ui_is_not_traced(tmp_path):
     assert [e["type"] for e in events] == ["tool_call", "tool_result", "text_delta", "turn_done"]
     assert all("_trace" not in e for e in events)
     assert store.list_turns() == []
+
+
+def test_completed_turn_emits_and_persists_trace_provenance(tmp_path, monkeypatch):
+    """The UI, not the agent, turns a source-bearing final query span into links."""
+    import paths
+    vault = tmp_path / "vault"
+    cache = vault / ".artmind" / "data" / "documents" / "markdowns"
+    chunk_dir = cache / "policy-cache_chunks"
+    chunk_dir.mkdir(parents=True)
+    (chunk_dir / "chunk_014.md").write_text("# generated chunk", encoding="utf-8")
+    monkeypatch.setattr(paths, "ARTMIND_VAULT_DIR", vault)
+    monkeypatch.setattr("artmind.provenance.paths.DB_PATH", vault / ".artmind" / "data" / "document_registry.db")
+    monkeypatch.setattr("artmind.provenance._registry_row_by_artmind_id", lambda doc_id: {
+        "artmind_id": doc_id, "domain": "policy", "path": "policies/Policy.md",
+    })
+    monkeypatch.setattr("artmind.ingest._chunks_key", lambda domain, registered, artmind_id: "policy-cache")
+
+    class SourceBackend(TracedFakeBackend):
+        async def query(self, prompt):
+            await super().query(prompt)
+            trace_id = self.seen_trace_id
+            store.insert_span({
+                "span_id": "source-span",
+                "trace_id": trace_id,
+                "command": "query vector-text",
+                "args": "{}",
+                "exit_code": 0,
+                "duration_ms": 2,
+                "rows": 1,
+                "rows_total": 1,
+                "truncated": 0,
+                "evidence": json.dumps({"provenance": {"documents": [{
+                    "doc_id": "doc-1",
+                    "path": "policies/Policy.md",
+                    "source_path": "policies/Policy.md",
+                    "domain": "policy",
+                    "chunks": [{
+                        "chunk_id": "doc-1_014",
+                        "sequence": 14,
+                        "name": "Chunk 14/20",
+                        "header_path": "Defaults",
+                        "passages": [{"char_start": 32, "char_end": 148}],
+                    }],
+                }], "tables": []}}),
+                "started_at": 1.0,
+            }, [])
+
+    SourceBackend.instances = []
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+    registry = SessionRegistry(client_factory=lambda name: SourceBackend(name, ctx))
+    client = TestClient(create_app(registry=registry, admin_routes=True, trace_turns=True))
+
+    events = _sse(client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"}).text)
+
+    provenance = [event for event in events if event["type"] == "provenance"]
+    assert len(provenance) == 1
+    markdown = provenance[0]["markdown"]
+    assert "[Policy.md](<policies/Policy.md>) — policy" in markdown
+    assert "[Passage: Chunk 14 — Defaults (characters 32–148)]" in markdown
+    assert ".artmind/data/documents/markdowns/policy-cache_chunks/chunk_014.md" in markdown
+    assert [event["type"] for event in events][-2:] == ["turn_done", "provenance"]
+
+    turn = conversation_store.list_turns("s1")[0]
+    assert turn["blocks"][-1] == {"type": "text", "md": markdown}
+    assert turn["answer_text"].endswith(markdown)
 
 
 def test_feedback_endpoint(tmp_path):

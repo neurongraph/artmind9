@@ -1196,7 +1196,7 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
     WHERE c.id IN $chunkIds
       AND {domain_predicate("c")}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
-    RETURN c {{ .id, .name, .doc_id, ._domain, .valid_from, .valid_to, .text }} AS chunk,
+    RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, .valid_from, .valid_to, .text }} AS chunk,
            d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")} }} AS document{neighbor_return}
     ORDER BY c.id
     """
@@ -1325,7 +1325,7 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (c:DocChunk {id: cid})
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
     RETURN c {
-      .id, .name, .doc_id, ._domain, .valid_to, .text,
+      .id, .name, .doc_id, ._domain, .header_path, .valid_to, .text,
       document: d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }
     } AS chunk
     """,

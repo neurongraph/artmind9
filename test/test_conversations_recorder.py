@@ -188,6 +188,17 @@ def test_a_stream_with_turn_done_is_done():
     assert (turn["status"], turn["error_message"]) == ("done", None)
 
 
+def test_append_sources_replaces_an_agent_sources_tail():
+    rec = _start()
+    _feed(rec, [{"type": "text_delta", "text": "Answer\n\n### Sources\n- [old](<old.md>)"}])
+    rec.append_sources("### Sources\n- [new](<new.md>)")
+    rec.finish()
+
+    turn = _only_turn()
+    assert turn["answer_text"] == "Answer\n\n### Sources\n- [new](<new.md>)"
+    assert turn["blocks"][-1] == {"type": "text", "md": "### Sources\n- [new](<new.md>)"}
+
+
 def test_an_explicit_error_wins_over_the_missing_turn_done():
     rec = _start()
     _feed(rec, [{"type": "error", "message": "boom"}])

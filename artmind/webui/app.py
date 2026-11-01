@@ -260,6 +260,7 @@ def create_app(
             delivered = False
             completed = False
             replay_failed = False
+            extra_events: list[dict] = []
             try:
                 # Recorded first so a turn whose agent fails to start is still
                 # kept (as an error) rather than silently lost.
@@ -292,8 +293,8 @@ def create_app(
                     with anyio.CancelScope(shield=True):  # as for the conversation recorder
                         recorder = await anyio.to_thread.run_sync(functools.partial(
                             TraceRecorder.start,
-                            source="admin", question=payload.prompt, session_id=cid,
-                            profile="admin", backend=payload.backend, context_path=context_path,
+                            source=profile_name, question=payload.prompt, session_id=cid,
+                            profile=profile_name, backend=payload.backend, context_path=context_path,
                             shadow_question=payload.prompt,
                         ))
                     if recorder.enabled:
@@ -318,6 +319,19 @@ def create_app(
                 def _finish() -> None:
                     if recorder is not None:
                         recorder.finish(error=error)
+                    if not error and completed and trace_id:
+                        try:
+                            from artmind.provenance import render_for_trace
+                            from artmind.traces import store as trace_store
+
+                            sources = render_for_trace(trace_store.list_spans(trace_id))
+                            if sources.markdown and conv is not None:
+                                conv.append_sources(sources.markdown)
+                                # The browser gets a discrete final block; the
+                                # recorder persists exactly the same Markdown.
+                                extra_events.append({"type": "provenance", "markdown": sources.markdown})
+                        except Exception:
+                            logger.exception("provenance rendering failed")
                     if conv is not None:
                         conv.finish(error=error, trace_id=trace_id)
 
@@ -342,6 +356,8 @@ def create_app(
                             except Exception:
                                 logger.exception("could not drop the agent for conversation %s", cid)
                         await anyio.to_thread.run_sync(_finish)
+                        for event in extra_events:
+                            yield f"data: {json.dumps(event)}\n\n"
                 finally:
                     release()
 
@@ -476,7 +492,9 @@ def create_app(
 def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
     import uvicorn
 
-    app = create_app()
+    from artmind.webui.backends import QA_PROFILE
+
+    app = create_app(SessionRegistry(client_factory=backend_factory(QA_PROFILE, trace=True)), trace_turns=True)
     guard_app(app, host, port)
     uvicorn.run(app, host=host, port=port, log_level="warning")
 

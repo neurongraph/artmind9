@@ -54,6 +54,121 @@ class _Acc:
             bucket.setdefault(key, None)
 
 
+class _ProvenanceAcc:
+    """Location-only provenance, grouped in payload encounter order.
+
+    Trace evidence deliberately records identifiers and locations, never the
+    source text a query returned.  ``documents`` is keyed by a stable document
+    id when there is one, otherwise by its source path; this keeps table-backed
+    sources representable too.
+    """
+
+    def __init__(self) -> None:
+        self.documents: dict[tuple, dict] = {}
+        self.tables: dict[tuple, dict] = {}
+        self.orphan_chunks: dict[tuple, dict] = {}
+
+    @staticmethod
+    def _document(node: Any) -> dict | None:
+        if not isinstance(node, dict):
+            return None
+        path = node.get("path") or node.get("source_path")
+        if not isinstance(path, str):
+            return None
+        return {
+            "doc_id": node.get("id") if isinstance(node.get("id"), str) else None,
+            "path": node.get("path") if isinstance(node.get("path"), str) else None,
+            "source_path": node.get("source_path") if isinstance(node.get("source_path"), str) else None,
+            "domain": node.get("_domain") if isinstance(node.get("_domain"), str) else None,
+            "chunks": [],
+        }
+
+    def add_document(self, node: Any) -> dict | None:
+        document = self._document(node)
+        if document is None:
+            return None
+        key = (document["doc_id"], document["source_path"] or document["path"])
+        existing = self.documents.get(key)
+        if existing is None:
+            if len(self.documents) >= CAP:
+                return None
+            self.documents[key] = document
+            existing = document
+        else:
+            for field in ("path", "source_path", "domain"):
+                if existing.get(field) is None and document.get(field) is not None:
+                    existing[field] = document[field]
+        return existing
+
+    def add_chunk(self, node: Any, document: dict | None, passage: Any = None) -> None:
+        if not isinstance(node, dict):
+            return
+        chunk_id = node.get("chunk_id")
+        if not isinstance(chunk_id, str):
+            chunk_id = node.get("id")
+        doc_id = node.get("doc_id") or (document or {}).get("doc_id")
+        if not isinstance(chunk_id, str) or not isinstance(doc_id, str) or chunk_id == doc_id:
+            return
+        try:
+            sequence = int(chunk_id.rsplit("_", 1)[1])
+        except (IndexError, ValueError):
+            sequence = None
+        item = {
+            "chunk_id": chunk_id,
+            "sequence": sequence,
+            "name": node.get("name") if isinstance(node.get("name"), str) else None,
+            "header_path": node.get("header_path") if isinstance(node.get("header_path"), str) else None,
+            "passages": [],
+        }
+        if isinstance(passage, dict) and isinstance(passage.get("char_start"), int) and isinstance(passage.get("char_end"), int):
+            item["passages"].append({"char_start": passage["char_start"], "char_end": passage["char_end"]})
+        target = document
+        if target is None:
+            key = (chunk_id, doc_id)
+            existing = self.orphan_chunks.get(key)
+            if existing is None and len(self.orphan_chunks) < CAP:
+                self.orphan_chunks[key] = {"doc_id": doc_id, "chunks": [item]}
+            elif existing is not None:
+                _merge_chunk(existing["chunks"], item)
+            return
+        _merge_chunk(target["chunks"], item)
+
+    def add_table(self, table: Any) -> None:
+        if not isinstance(table, dict) or not isinstance(table.get("source_file"), str):
+            return
+        key = (table["source_file"], table.get("domain"))
+        if key not in self.tables and len(self.tables) < CAP:
+            self.tables[key] = {"source_file": table["source_file"], "domain": table.get("domain")}
+
+    def value(self) -> dict | None:
+        documents = list(self.documents.values())
+        # A few legacy shapes return chunk refs and document refs in sibling
+        # lists. Join those once all documents have been encountered.
+        by_id = {d.get("doc_id"): d for d in documents if d.get("doc_id")}
+        for orphan in self.orphan_chunks.values():
+            target = by_id.get(orphan["doc_id"])
+            if target is not None:
+                for chunk in orphan["chunks"]:
+                    _merge_chunk(target["chunks"], chunk)
+        out = {"documents": documents, "tables": list(self.tables.values())}
+        return out if documents or out["tables"] else None
+
+
+def _merge_chunk(chunks: list[dict], item: dict) -> None:
+    """Deduplicate a chunk while preserving the first retrieval order."""
+    existing = next((chunk for chunk in chunks if chunk["chunk_id"] == item["chunk_id"]), None)
+    if existing is None:
+        if len(chunks) < CAP:
+            chunks.append(item)
+        return
+    for field in ("sequence", "name", "header_path"):
+        if existing.get(field) is None and item.get(field) is not None:
+            existing[field] = item[field]
+    for passage in item.get("passages") or []:
+        if passage not in existing["passages"]:
+            existing["passages"].append(passage)
+
+
 def _walk(node: Any, acc: _Acc) -> None:
     if isinstance(node, dict):
         if isinstance(node.get("_id"), str):
@@ -127,4 +242,41 @@ def _evidence(payload: dict) -> dict:
         ev["documents"] = [{"doc_id": d, "path": p} for d, p in acc.documents]
     if acc.entities:
         ev["entities"] = list(acc.entities)
+    provenance = _provenance(payload)
+    if provenance is not None:
+        ev["provenance"] = provenance
     return ev
+
+
+def _provenance(payload: dict) -> dict | None:
+    """Extract location-only citation material from known query result shapes.
+
+    The generic evidence walker is intentionally broad for review diagnostics;
+    provenance is narrower so entity ids and arbitrary nested dicts cannot turn
+    into user-facing citations.
+    """
+    acc = _ProvenanceAcc()
+    for row in payload.get("rows") or []:
+        if not isinstance(row, dict):
+            continue
+        document = acc.add_document(row.get("document"))
+        chunk = row.get("chunk")
+        acc.add_chunk(chunk, document, row.get("passage"))
+        for item in row.get("chunks") or []:
+            if isinstance(item, dict):
+                embedded = acc.add_document(item.get("document"))
+                acc.add_chunk(item, embedded or document)
+        for item in row.get("doc_sources") or []:
+            acc.add_chunk(item, None)
+        for item in row.get("source_documents") or []:
+            acc.add_document(item)
+        for item in row.get("evidence") or []:
+            if not isinstance(item, dict):
+                continue
+            evidence_document = acc.add_document(item.get("document"))
+            acc.add_chunk({"chunk_id": item.get("chunk_id"), "doc_id": item.get("doc_id")}, evidence_document)
+    # Pattern rows have source_documents/doc_sources inside each row; once the
+    # complete payload has been read, orphan chunks are joined by doc id.
+    for table in payload.get("source_tables") or []:
+        acc.add_table(table)
+    return acc.value()
