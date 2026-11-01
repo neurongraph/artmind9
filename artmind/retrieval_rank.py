@@ -71,17 +71,14 @@ def passage_fuse(vector_rows: list[dict], text_rows: list[dict], k: int = RRF_K)
     return sorted(units.values(), key=lambda u: (-u.score, u.key))
 
 
-def _cosine(a, b) -> float:
-    if not a or not b:
-        return 0.0
-    dot = sum(x * y for x, y in zip(a, b))
-    na = math.sqrt(sum(x * x for x in a))
-    nb = math.sqrt(sum(y * y for y in b))
-    return dot / (na * nb) if na and nb else 0.0
+def _unit_vector(v) -> list[float] | None:
+    norm = math.sqrt(sum(x * x for x in v)) if v else 0.0
+    return [x / norm for x in v] if norm else None
 
 
-def _similarity(a: Unit, b: Unit) -> float:
-    sim = _cosine(a.vector, b.vector)
+def _similarity(a: Unit, na, b: Unit, nb) -> float:
+    """Cosine of the pre-normalised vectors `na`/`nb`, floored for one document."""
+    sim = sum(x * y for x, y in zip(na, nb)) if na and nb else 0.0
     if a.doc_id and a.doc_id == b.doc_id:
         sim = max(sim, SAME_DOC_SIMILARITY)
     return sim
@@ -89,19 +86,27 @@ def _similarity(a: Unit, b: Unit) -> float:
 
 def mmr_select(units: list[Unit], top_k: int, diversity: float) -> list[Unit]:
     """Pick `top_k` from the best `3 * top_k`: at each step the unit maximising
-    (1 - d) * rel - d * redundancy. d = 0 is plain relevance order."""
+    (1 - d) * rel - d * redundancy. d = 0 is plain relevance order.
+
+    Redundancy (max similarity to anything picked) is kept per candidate and
+    updated against each new pick only, so a pick costs one pass over the pool."""
     ordered = sorted(units, key=lambda u: (-u.score, u.key))
     if diversity <= 0 or len(ordered) <= 1:
         return ordered[:top_k]
     pool = ordered[: 3 * top_k]
     top = pool[0].score or 1.0
+    normed = {u.key: _unit_vector(u.vector) for u in pool}
+    redundancy: dict[str, float] = {}       # absent until something is picked
     picked: list[Unit] = []
     rest = list(pool)
     while rest and len(picked) < top_k:
         def value(u: Unit) -> float:
-            redundancy = max((_similarity(u, p) for p in picked), default=0.0)
-            return (1 - diversity) * (u.score / top) - diversity * redundancy
+            return (1 - diversity) * (u.score / top) - diversity * redundancy.get(u.key, 0.0)
         best = min(rest, key=lambda u: (-value(u), -u.score, u.key))
         picked.append(best)
         rest.remove(best)
+        for u in rest:
+            sim = _similarity(u, normed[u.key], best, normed[best.key])
+            if u.key not in redundancy or sim > redundancy[u.key]:
+                redundancy[u.key] = sim
     return picked

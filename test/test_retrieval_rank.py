@@ -1,3 +1,6 @@
+import math
+import random
+
 import pytest
 
 from artmind import retrieval_rank as R
@@ -63,3 +66,38 @@ def test_mmr_same_document_floor_applies_without_vectors():
 def test_mmr_ties_break_on_score_then_key():
     units = [_unit("b", 0.2, "d1", None), _unit("a", 0.2, "d2", None)]
     assert [u.key for u in R.mmr_select(units, 2, 0.3)] == ["a", "b"]
+
+
+def _naive_mmr(units, top_k, diversity):
+    """MMR as defined: recompute every candidate's max similarity to all picks."""
+    def cos(a, b):
+        if not a or not b:
+            return 0.0
+        na, nb = math.sqrt(sum(x * x for x in a)), math.sqrt(sum(y * y for y in b))
+        return sum(x * y for x, y in zip(a, b)) / (na * nb) if na and nb else 0.0
+
+    def sim(a, b):
+        s = cos(a.vector, b.vector)
+        return max(s, R.SAME_DOC_SIMILARITY) if a.doc_id and a.doc_id == b.doc_id else s
+
+    pool = sorted(units, key=lambda u: (-u.score, u.key))[: 3 * top_k]
+    top, picked, rest = pool[0].score, [], list(pool)
+    while rest and len(picked) < top_k:
+        def value(u):
+            red = max((sim(u, q) for q in picked), default=0.0)
+            return (1 - diversity) * (u.score / top) - diversity * red
+        best = min(rest, key=lambda u: (-value(u), -u.score, u.key))
+        picked.append(best)
+        rest.remove(best)
+    return picked
+
+
+@pytest.mark.parametrize("seed", range(5))
+@pytest.mark.parametrize("diversity", [0.15, 0.5, 0.9])
+def test_mmr_matches_the_naive_definition(seed, diversity):
+    rng = random.Random(seed)
+    units = [_unit(f"u{i:02d}", rng.random(), f"d{rng.randrange(6)}",
+                   None if rng.random() < 0.2 else [rng.gauss(0, 1) for _ in range(8)])
+             for i in range(40)]
+    want = [u.key for u in _naive_mmr(units, 10, diversity)]
+    assert [u.key for u in R.mmr_select(units, 10, diversity)] == want
