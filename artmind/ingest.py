@@ -1,10 +1,15 @@
+import glob
 import json
+import os
 import re
 import shutil
+import tempfile
 import time
 import uuid
+import warnings
 import datetime as _datetime
 from collections.abc import Callable
+from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
@@ -21,7 +26,9 @@ from artmind.document_identity import (
     canonical_path,
     compute_content_sha256,
     decide_version,
+    document_key,
     is_plain_folder_name,
+    KEY_SEPARATOR,
     ingest_baseline,
     markdown_path_for,
     Resolution,
@@ -47,13 +54,15 @@ from artmind.extraction import (
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
     ibm_ica_client_env as _ibm_ica_client_env,
+    describe_image,
+    image_timeout,
 )
 from artmind.canonicalize import canonicalize_document
-from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
 from artmind.md_tables import (
     is_table_row as _is_table_row,
     is_table_separator_row as _is_table_separator_row,
+    carry_trailing_table_headers as _carry_trailing_table_headers,
     reattach_table_headers as _reattach_table_headers,
 )
 from artmind.structured import STRUCTURED_EXTENSIONS
@@ -287,6 +296,23 @@ _CONVERSION_KEYS = ("source_sha256", "source_type", "source_path")
 _MOVED_SOURCE_FIELDS = {"_source_sha256": "source_sha256", "_source_type": "source_type", "_source_path": "source_path"}
 
 
+def _write_sidecar(chunks_dir: Path, record: dict) -> None:
+    """Write `chunks_dir/conversion.json` atomically: a temp file beside it,
+    then one rename. The file is the only record of which source a keyed name
+    belongs to (`_converted_owner`), so a run killed mid-write must leave the
+    previous file whole, not a truncated one. The temp file is gone after
+    success and after failure."""
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".conversion-", suffix=".tmp", dir=chunks_dir)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(json.dumps(record, indent=2, ensure_ascii=False))
+        os.replace(tmp, chunks_dir / CONVERSION_SIDECAR)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
+
+
 def _is_derived_markdown(path: Path) -> bool:
     """A conversion artmind owns (`MARKDOWNS_DIR`), not a note a human wrote:
     its source is the binary it was converted from, never itself."""
@@ -294,6 +320,19 @@ def _is_derived_markdown(path: Path) -> bool:
         return Path(path).resolve().is_relative_to(Path(MARKDOWNS_DIR).resolve())
     except OSError:
         return False
+
+
+class AmbiguousDocumentName(ValueError):
+    """A document name that fits several registered documents: a prefix of
+    several keyed names, or the exact file name of notes in different
+    folders. `candidates` are the registered file names (prefix) or the
+    canonical vault-relative paths (exact name); a path given as the name
+    selects one of them."""
+
+    def __init__(self, name: str, candidates: list[str]):
+        self.name, self.candidates = name, candidates
+        shown = ", ".join(candidates[:10]) + (f", ... ({len(candidates) - 10} more)" if len(candidates) > 10 else "")
+        super().__init__(f"'{name}' matches {len(candidates)} documents; give the full name or path: {shown}")
 
 
 def _build_file_result_from_db(document_name: str, domain: str | None) -> dict | None:
@@ -320,23 +359,36 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
     try:
         if domain is None:
             rows = conn.execute(
-                "SELECT path, content_sha256, artmind_id FROM documents"
+                "SELECT path, content_sha256, artmind_id, domain FROM documents"
             ).fetchall()
         else:
             rows = conn.execute(
-                "SELECT path, content_sha256, artmind_id FROM documents WHERE domain = ?",
+                "SELECT path, content_sha256, artmind_id, domain FROM documents WHERE domain = ?",
                 (domain,),
             ).fetchall()
     finally:
         conn.close()
     target = document_name.upper()
-    matches = [r for r in rows if Path(r[0]).name.upper() == target]
+    # The registry's own path (vault-relative for a note): what an
+    # ambiguity message lists, so it is also what settles one.
+    matches = [r for r in rows if r[0] == document_name]
+    if not matches:
+        matches = [r for r in rows if Path(r[0]).name.upper() == target]
+        # Two notes with one file name in different folders: a question too.
+        paths_named = sorted({r[0] for r in matches})
+        if len(paths_named) > 1:
+            raise AmbiguousDocumentName(document_name, paths_named)
     if not matches:
         # Prefix match (user may omit extension)
         matches = [r for r in rows if Path(r[0]).name.upper().startswith(target)]
+        # Keyed documents share a stem (`Summary~<hex>.md`): a prefix that
+        # fits several is a question, not a coin toss.
+        names = sorted({Path(r[0]).name for r in matches})
+        if len(names) > 1:
+            raise AmbiguousDocumentName(document_name, names)
     if not matches:
         return None
-    registered_path_str, doc_sha256, artmind_id = matches[0]
+    registered_path_str, doc_sha256, artmind_id, row_domain = matches[0]
     # `canonical_path()` (document_identity.py) stores a *vault-relative*
     # string for anything inside the configured vault -- true of every
     # vault-native document, by definition of `_is_vault_native_markdown`.
@@ -348,7 +400,7 @@ def _build_file_result_from_db(document_name: str, domain: str | None) -> dict |
         registered_path = resolve_canonical_path(registered_path_str)
     except ValueError:
         registered_path = Path(registered_path_str)
-    chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+    chunks_dir = _chunks_dir(_chunks_key(row_domain, registered_path, artmind_id or ""))
     chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
     result = {
         "status": "ok",
@@ -736,8 +788,7 @@ _DESCRIBE_PROMPTS = [
 
 def _describe_image(image: Path, model: str) -> str | None:
     env = load_env()
-    timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
-    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
+    timeout = image_timeout(env)
     logger.debug(
         "Describing image: {} (model={}, timeout={}s)", image.name, model, timeout
     )
@@ -750,15 +801,7 @@ def _describe_image(image: Path, model: str) -> str | None:
             image.name,
         )
         try:
-            if provider == "openrouter":
-                description = describe_image_openrouter(image, model, prompt, timeout, env)
-            elif provider == "ibm_ica":
-                description = describe_image_openrouter(
-                    image, model, prompt, timeout, _ibm_ica_client_env(env)
-                )
-            else:
-                host = env.get("ARTMIND_KG_LLM_URL") or None
-                description = describe_image_ollama(image, model, prompt, timeout, host=host)
+            description = describe_image(image, model, prompt, timeout, env)
             log_llm_call("chat", model, f"[IMAGE: {image.name}]\n{prompt}", description)
             logger.debug(
                 "LLM RESPONSE (image description, attempt {}):\n{}",
@@ -796,6 +839,69 @@ def _describe_image(image: Path, model: str) -> str | None:
         image.name,
     )
     return None
+
+
+def _image_workers(env: dict, image_count: int) -> int:
+    """Image-model calls in flight at once: ARTMIND_IMAGE_WORKERS (default 1,
+    the sequential behaviour), never more than there are images."""
+    raw = env.get("ARTMIND_IMAGE_WORKERS")
+    workers = 1
+    if raw is not None and str(raw).strip():
+        try:
+            workers = int(raw)
+        except ValueError:
+            logger.warning("Invalid ARTMIND_IMAGE_WORKERS={!r}; using 1", raw)
+    return max(1, min(workers, image_count)) if image_count > 0 else 1
+
+
+def _describe_images(
+    images: list[Path], image_model: str, *, reuse_stored: bool = False,
+) -> dict[Path, str | None]:
+    """The description of each image, `None` where none could be produced.
+
+    A stored `<image>_desc.md` is used instead of a model call when
+    `reuse_stored` is set. The calls that remain run up to
+    ARTMIND_IMAGE_WORKERS at a time. Each one only reads its own image and
+    writes its own `_desc.md`; the caller puts the descriptions into the
+    markdown afterwards, in image order, so the result does not depend on
+    which call finishes first.
+    """
+    total = len(images)
+    results: dict[Path, str | None] = {}
+    pending: list[tuple[int, Path]] = []
+    for idx, image in enumerate(images, start=1):
+        desc_file = image.with_name(image.name + "_desc.md")
+        if reuse_stored and desc_file.exists():
+            stored = desc_file.read_text(encoding="utf-8")
+            if stored.strip():
+                logger.info("Image [{}/{}]: {}", idx, total, image.name)
+                logger.debug("Reusing the stored description of {}", image.name)
+                results[image] = stored
+                continue
+        pending.append((idx, image))
+
+    def describe_one(idx: int, image: Path) -> str | None:
+        logger.info("Image [{}/{}]: {}", idx, total, image.name)
+        try:
+            description = _describe_image(image, image_model)
+            if description:
+                image.with_name(image.name + "_desc.md").write_text(description, encoding="utf-8")
+            return description
+        except Exception as exc:
+            logger.error("Image description failed for {}: {}", image.name, exc)
+            return None
+
+    workers = _image_workers(load_env(), len(pending))
+    if workers > 1:
+        logger.info("Describing {} image(s) with {} workers", len(pending), workers)
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {image: pool.submit(describe_one, idx, image) for idx, image in pending}
+        for image, future in futures.items():
+            results[image] = future.result()
+    else:
+        for idx, image in pending:
+            results[image] = describe_one(idx, image)
+    return results
 
 
 def _replace_image_ref(md_content: str, image_name: str, description: str) -> str:
@@ -1016,7 +1122,9 @@ def plan_vault_native(
     staged = None
     staged_folder = None
     if resolution.verdict != "new":
-        stems = [source.stem] + ([Path(resolution.prior_path).stem] if resolution.prior_path else [])
+        stems = [source.stem, document_key(canonical_path(source))] + (
+            [Path(resolution.prior_path).stem, document_key(resolution.prior_path)] if resolution.prior_path else []
+        )
         found = _locate_staged(
             resolution.artmind_id, stems, [effective_domain, prior_domain],
             search=resolution.verdict in ("adopt", "heal"),
@@ -1181,7 +1289,7 @@ def _ingest_vault_native(
         return file_result
 
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    chunks_dir = _chunks_dir(_chunks_key(effective_domain, source, resolution.artmind_id))
     _persist_chunks(chunks, chunks_dir, body=body)
     file_result["chunks_dir"] = str(chunks_dir)
     file_result["chunk_count"] = len(chunks)
@@ -1206,11 +1314,150 @@ def _relativise_image_links(markdown: str, base_dir: Path) -> str:
     return markdown
 
 
-def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str | None, dict]:
+def _convert_docx_in_process(dest_path: Path, md_file: Path, record: dict) -> tuple[int, str, str]:
+    """`docx_convert.convert_docx` with `run_command`'s return shape, so a
+    failure is reported as a failed docling run; what it did goes into
+    `record`. The prepared copy of the .docx is written under `LOGS_DIR`,
+    never beside the vault's files."""
+    from artmind.docx_convert import convert_docx
+
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        record.update(convert_docx(dest_path, md_file, work_dir=LOGS_DIR) or {})
+    except Exception as exc:
+        return 1, "", f"{type(exc).__name__}: {exc}"
+    record["page_check"] = "skipped"
+    record["why"] = "a .docx has no pages"
+    return 0, "", ""
+
+
+def _docling_command(dest_path: Path) -> str:
+    """The docling CLI for a pdf, pptx or other non-.docx source: markdown (the
+    fallback body) and JSON (what the body is rendered from), from one
+    conversion, written into MARKDOWNS_DIR. A subprocess keeps docling's
+    layout models out of this process."""
+    return (
+        f'uv run docling --to md --to json --image-export-mode referenced '
+        f'--output "{MARKDOWNS_DIR}" "{dest_path}"'
+    )
+
+
+def _check_and_repair_pages(dest_path: Path, doc, mode: str, record: dict) -> dict[int, str]:
+    """The page check (`page_check`) of `doc` against `dest_path`'s own text,
+    recorded in `record` with one warning line when pages are flagged; in
+    `repair` mode the flagged pdf pages' verified transcriptions
+    (`page_repair`), by page."""
+    from artmind import page_check, page_repair
+
+    check = page_check.check_document(dest_path, doc)
+    if check.status == "skipped":
+        record.update(page_check="skipped", why=check.why)
+        logger.info("Page check skipped for {}: {}", dest_path.name, check.why)
+        return {}
+    flagged = [f.page for f in check.findings]
+    record.update(pages=check.pages, flagged=[f.record() for f in check.findings], repaired=[], unrepaired=flagged)
+    if not flagged:
+        return {}
+    logger.warning(
+        "{}: {} of {} page(s) lack source text docling should have kept: {}",
+        dest_path.name, len(flagged), check.pages,
+        ", ".join(f"{f.page} ({f.coverage:.2f})" for f in check.findings),
+    )
+    if mode != "repair" or dest_path.suffix.lower() != ".pdf":
+        return {}
+    env = load_env()
+    model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
+    with tempfile.TemporaryDirectory(dir=_work_dir()) as work:
+        result = page_repair.repair_pages(dest_path, flagged, check.source, model, env, Path(work))
+    record.update(
+        repaired=sorted(result.repaired), unrepaired=result.unrepaired,
+        model=model, prompt_version=page_repair.PROMPT_VERSION,
+    )
+    return result.repaired
+
+
+def _work_dir() -> Path:
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    return LOGS_DIR
+
+
+def _render_from_docling_json(dest_path: Path, md_file: Path, json_file: Path, record: dict) -> None:
+    """Rewrite `md_file` from the docling JSON beside it (`docling_render`:
+    tables tidied, a pptx slide's speaker notes, repaired pages), after the
+    page check `ARTMIND_PAGE_REPAIR` asks for, and remove the JSON. The JSON
+    is an enhancement, never a way to fail a conversion: when it cannot be
+    used, docling's markdown stays, its tables unpadded and laid out."""
+    from artmind import docling_render, page_check
+
+    suffix = dest_path.suffix.lower()
+    mode = page_check.page_repair_mode(load_env())
+    record["page_check"] = mode
+    try:
+        from docling_core.types.doc import DoclingDocument
+
+        with warnings.catch_warnings():
+            # docling clamps a slide shape's box to the page itself; one warning per shape is noise.
+            warnings.filterwarnings("ignore", message="Provenance bbox coordinate", category=UserWarning)
+            doc = DoclingDocument.load_from_json(json_file)
+        docling_render.tidy_tables(doc)
+        replacements = {}
+        if mode == "off":
+            pass
+        elif suffix in page_check.SUPPORTED_SUFFIXES:
+            replacements = _check_and_repair_pages(dest_path, doc, mode, record)
+        else:
+            record.update(page_check="skipped", why="no page text for this type")
+        body = docling_render.render_body(doc, notes=suffix == ".pptx", replacements=replacements)
+        if replacements:
+            # Repaired only if its transcription made it into the body (the
+            # whole export is used when docling's pages do not join).
+            placed = sorted(p for p, text in replacements.items() if text.strip("\n") in body)
+            record["repaired"] = placed
+            record["unrepaired"] = [f["page"] for f in record["flagged"] if f["page"] not in placed]
+    except Exception as exc:
+        logger.warning("Could not render {} from docling's JSON ({}); using its markdown", dest_path.name, exc)
+        record.update(page_check="skipped", why="docling JSON unusable")
+        body = docling_render.normalise_tables(docling_render.strip_table_padding(md_file.read_text(encoding="utf-8")))
+    finally:
+        json_file.unlink(missing_ok=True)
+    md_file.write_text(body, encoding="utf-8")
+
+
+@contextmanager
+def _docling_input_named(dest_path: Path, key: str):
+    """`dest_path` under the name `<key><ext>`, for the docling CLI, which
+    names its outputs after its input: a hard link in a scratch folder under
+    `LOGS_DIR` (a copy where linking fails), removed afterwards."""
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    scratch = Path(tempfile.mkdtemp(prefix="docling-input-", dir=LOGS_DIR))
+    named = scratch / f"{key}{dest_path.suffix}"
+    try:
+        try:
+            named.hardlink_to(dest_path)
+        except OSError:
+            shutil.copy2(dest_path, named)
+        yield named
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
+def _convert_binary_via_docling(
+    dest_path: Path, image_model: str, *, key: str, reuse_image_descriptions: bool = False,
+) -> tuple[str | None, dict]:
     """Run docling on `dest_path` (already copied into `documents/originals/`),
     describe any extracted images, and return the resulting markdown body.
 
-    Writes the final body to `MARKDOWNS_DIR / f"{dest_path.stem}.md"` as a
+    A .docx is converted in-process by `docx_convert` (tracked changes
+    accepted, Word comments inline, tables tidied); every other format runs
+    the docling CLI.
+
+    `reuse_image_descriptions` takes an image's description from the
+    `<image>_desc.md` a previous conversion wrote beside it instead of asking
+    the model again (the image file name carries its content hash), so a
+    re-conversion of an unchanged source costs no image calls and gives back
+    the same descriptions.
+
+    Writes the final body to `_markdown_path(key)` as a
     side effect of the docling invocation itself, and also returns it
     directly — the one caller that matters, `_ingest_binary_derived`, wants
     that same body in hand so it can immediately overwrite that exact path
@@ -1219,16 +1466,26 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
     sync: `registered_path` in `_ingest_binary_derived` IS this function's
     `md_file`.
 
-    Returns `(body, {})` on success, or `(None, {"status": ..., "error": ...})`
-    on failure — the caller merges the error dict into its own `file_result`.
+    Returns `(body, {"conversion": record})` on success -- the record
+    (rendering version, page check, comments) goes into conversion.json -- or
+    `(None, {"status": ..., "error": ...})` on failure, which the caller
+    merges into its own `file_result`.
     """
+    from artmind.docling_render import RENDER_VERSION
+
     dest_filename = dest_path.name
-    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
+    md_file = _markdown_path(key)
+    json_file = MARKDOWNS_DIR / f"{key}.json"
+    record: dict = {"render_version": RENDER_VERSION}
 
     logger.info("Converting to markdown via docling: {}", dest_filename)
     t0 = time.monotonic()
-    cmd_str = f'uv run docling --to md --image-export-mode referenced --output "{MARKDOWNS_DIR}" "{dest_path}"'
-    returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
+    if dest_path.suffix.lower() == ".docx":
+        returncode, stdout, stderr = _convert_docx_in_process(dest_path, md_file, record)
+    else:
+        json_file.unlink(missing_ok=True)  # a stale one is not this conversion's
+        with _docling_input_named(dest_path, key) as docling_input:
+            returncode, stdout, stderr = run_command(_docling_command(docling_input), cwd=PROJECT_ROOT)
     elapsed = time.monotonic() - t0
     if returncode != 0:
         combined = (stderr or "") + (stdout or "")
@@ -1248,6 +1505,8 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
         logger.error("Expected markdown not created: {}", md_file)
         return None, {"status": "failed", "error": "Markdown file not created"}
 
+    if dest_path.suffix.lower() != ".docx":
+        _render_from_docling_json(dest_path, md_file, json_file, record)
     md_size_kb = md_file.stat().st_size / 1024
     logger.info(
         "Docling conversion done in {:.1f}s — markdown: {:.1f} KB", elapsed, md_size_kb,
@@ -1258,23 +1517,29 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
     if relative != md_content:
         md_content = relative
         md_file.write_text(md_content, encoding="utf-8")
-    artifacts_dir = MARKDOWNS_DIR / f"{dest_path.stem}_artifacts"
+    artifacts_dir = _artifacts_dir(key)
     if artifacts_dir.exists():
         images = sorted(
             f for f in artifacts_dir.iterdir() if f.suffix.lower() in IMAGE_EXTENSIONS
         )
         if images:
             logger.info("Found {} image(s) to describe in artifacts", len(images))
-            for idx, image in enumerate(images, start=1):
-                logger.info("Image [{}/{}]: {}", idx, len(images), image.name)
-                description = _describe_image(image, image_model)
+            descriptions = _describe_images(
+                images, image_model, reuse_stored=reuse_image_descriptions,
+            )
+            for image in images:
+                description = descriptions.get(image)
                 if description:
-                    image.with_name(image.name + "_desc.md").write_text(
-                        description, encoding="utf-8"
-                    )
                     md_content = _replace_image_ref(md_content, image.name, description)
                 else:
                     logger.error("No description produced for image: {}", image.name)
+            # A description of a pictured table is itself a markdown table, put
+            # where the image link was, after the body's tables were laid out:
+            # without this it is glued to the line before it and no markdown
+            # reader takes it as a table.
+            from artmind.docling_render import normalise_tables, strip_table_padding
+
+            md_content = normalise_tables(strip_table_padding(md_content))
             md_file.write_text(md_content, encoding="utf-8")
             logger.debug("Markdown updated with {} image description(s)", len(images))
         else:
@@ -1282,7 +1547,7 @@ def _convert_binary_via_docling(dest_path: Path, image_model: str) -> tuple[str 
     else:
         logger.debug("No artifacts directory for {}", dest_filename)
 
-    return md_content, {}
+    return md_content, {"conversion": record}
 
 
 def _ingest_binary_or_adhoc(
@@ -1357,13 +1622,13 @@ def _ingest_binary_or_adhoc(
             started_at=datetime.now().isoformat(),
         )
 
-    md_file = MARKDOWNS_DIR / f"{dest_path.stem}.md"
+    md_file = _markdown_path(dest_path.stem)
 
     if dest_path.suffix.lower() == ".md":
         shutil.copy2(dest_path, md_file)
         logger.info("Source is markdown — skipping docling conversion")
     else:
-        body, err = _convert_binary_via_docling(dest_path, image_model)
+        body, err = _convert_binary_via_docling(dest_path, image_model, key=dest_path.stem)
         if body is None:
             file_result.update(err)
             return file_result
@@ -1381,7 +1646,7 @@ def _ingest_binary_or_adhoc(
     raw_text = md_file.read_text(encoding="utf-8")
     _, body = _parse_md_frontmatter(raw_text)
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
+    chunks_dir = _chunks_dir(dest_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
     logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
 
@@ -1395,6 +1660,99 @@ def _ingest_binary_or_adhoc(
     return file_result
 
 
+# ── derived-file names (spec 2026-10-31 document-key-collisions) ───────────
+# Every converted markdown, its artifacts and chunks, and every staging folder
+# is named by a document key (`document_identity.document_key`), or, for a
+# document ingested before keys, by its bare stem. Build them here only.
+
+
+def _markdown_path(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}.md"
+
+
+def _artifacts_dir(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}_artifacts"
+
+
+def _chunks_dir(key: str) -> Path:
+    return MARKDOWNS_DIR / f"{key}_chunks"
+
+
+def _staging_dir(domain: str, key: str) -> Path:
+    return KG_DIR / domain / key
+
+
+def _note_key(domain: str, note: Path, artmind_id: str) -> str:
+    """The name a vault note's staging folder AND chunks are filed under -- one
+    rule for both: its bare stem when that staging folder already holds this
+    note (a note ingested before keys, no migration), else its document key --
+    or the full-digest key when another document holds that (the collision
+    guard).
+
+    An empty `artmind_id` (a caller that has not minted one) never matches a
+    bare folder and never trips the guard: ownership cannot be judged, so the
+    result is the plain key."""
+    if artmind_id and _read_staged_document(_staging_dir(domain, note.stem), artmind_id) is not None:
+        return note.stem
+    rel = canonical_path(note)
+    key = document_key(rel)
+    folder = _staging_dir(domain, key)
+    if artmind_id and (folder / "document.json").exists() and _read_staged_document(folder, artmind_id) is None:
+        full = document_key(rel, full=True)
+        logger.warning("{}: staging folder {} belongs to another document; using {}", rel, key, full)
+        return full
+    return key
+
+
+def _note_staging_dir(domain: str, note: Path, artmind_id: str) -> Path:
+    """Where a vault note's extraction is staged (`_note_key`)."""
+    return _staging_dir(domain, _note_key(domain, note, artmind_id))
+
+
+def _chunks_key(domain: str, registered_path: Path, artmind_id: str) -> str:
+    """The name a registered document's chunks are filed under: a converted
+    binary's markdown already carries its key in its name; a note's is
+    `_note_key`, the same as its staging folder's."""
+    path = Path(registered_path)
+    if _is_derived_markdown(path):
+        return path.stem
+    return _note_key(domain, path, artmind_id)
+
+
+def _document_staging_dir(domain: str, registered_path: Path, artmind_id: str) -> Path:
+    """`extract_kg`'s staging folder for a registered document: a converted
+    binary's is named by its key (its markdown's stem); a note's by
+    `_note_staging_dir`."""
+    if _is_derived_markdown(registered_path):
+        return _staging_dir(domain, Path(registered_path).stem)
+    return _note_staging_dir(domain, Path(registered_path), artmind_id)
+
+
+def _converted_owner(key: str, domain: str) -> tuple[str, str | None] | None:
+    """`(source_path, source_sha256)` of the source whose conversion holds the
+    name `key`, or None when no conversion of that name records one. Read
+    from the conversion sidecar (written by every conversion, committed,
+    domain-free), else the staging `document.json` in `domain`, else the
+    converted markdown's pre-R6 frontmatter."""
+    candidates = [
+        _chunks_dir(key) / CONVERSION_SIDECAR,
+        _staging_dir(domain, key) / "document.json",
+    ]
+    for path in candidates:
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if isinstance(record, dict) and record.get("source_path"):
+            return str(record["source_path"]), record.get("source_sha256")
+    md = _markdown_path(key)
+    if md.exists():
+        meta, _ = _parse_md_frontmatter(md.read_text(encoding="utf-8"))
+        if meta.get("_source_path"):
+            return str(meta["_source_path"]), meta.get("_source_sha256")
+    return None
+
+
 @dataclass(frozen=True)
 class BinaryPlan:
     """Whether ingesting a binary source (pdf/pptx/docx, an image) would
@@ -1405,6 +1763,9 @@ class BinaryPlan:
     existing_meta: dict
     baseline: dict
     source_sha256: str
+    #: The source path the name's last conversion recorded; differs from this
+    #: source's own path exactly when the binary moved (`_record_binary_move`).
+    recorded_source_path: str | None = None
 
     @property
     def unchanged(self) -> bool:
@@ -1418,26 +1779,135 @@ class BinaryPlan:
         return not self.existing_meta
 
 
+def _resolve_binary_key(dest_path: Path, source_sha256: str, domain: str) -> str:
+    """The name `dest_path`'s derived files take, chosen once and then found
+    again (spec 2026-10-31 document-key-collisions §2):
+
+    1. its own bare-stem conversion (a document from before keys), or a
+       bare-stem conversion that records no source (pre-R6, kept as it was);
+    2. its own key;
+    3. a same-stem conversion of these exact bytes whose recorded source is
+       gone from the vault: a moved binary keeps its name;
+    4. a new key -- or, when that key is held by another source, the
+       full-digest key (the collision guard; never overwrite an occupant)."""
+    rel = canonical_path(dest_path)
+    stem = dest_path.stem
+    key = document_key(rel)
+    bare_owner = _converted_owner(stem, domain)
+    if _markdown_path(stem).exists() and (bare_owner is None or bare_owner[0] == rel):
+        if bare_owner is None:
+            logger.warning("{}: taking the bare-stem conversion {}, which records no source", rel, stem)
+        return stem
+    key_owner = _converted_owner(key, domain)
+    if key_owner is not None and key_owner[0] == rel:
+        return key
+    for md in sorted(MARKDOWNS_DIR.glob(f"{glob.escape(stem)}*.md")):
+        name = md.stem
+        if name != stem and not name.startswith(stem + KEY_SEPARATOR):
+            continue
+        owner = _converted_owner(name, domain)
+        if (
+            owner is not None and owner[0] != rel and owner[1] == source_sha256
+            and ARTMIND_VAULT_DIR is not None and not (Path(ARTMIND_VAULT_DIR) / owner[0]).exists()
+        ):
+            logger.info("{}: moved from {}; keeps the name {}", rel, owner[0], name)
+            return name
+    # Taken only when a recorded owner names another source: a markdown at this
+    # source's own path-hash name with no owner is its interrupted conversion
+    # (docling writes the markdown long before the sidecar), found again.
+    if key_owner is not None:
+        full = document_key(rel, full=True)
+        logger.warning("{}: the name {} belongs to {}; using {}", rel, key, key_owner[0], full)
+        return full
+    return key
+
+
 def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
     """Read, never write: the converted markdown this binary maps to and the
     baseline its last extraction left (spec 2026-09-26 R6: the staging
     folder's document.json, with a pre-R6 conversion's own frontmatter as
     the fallback -- a binary whose extraction failed is never mistaken for
-    converted and extracted)."""
-    stem = source.stem
-    registered_path = MARKDOWNS_DIR / f"{stem}.md"
+    converted and extracted). The markdown is named by the binary's document
+    key (`_resolve_binary_key`), never by its bare stem alone: two binaries
+    sharing a filename are two documents."""
+    if ARTMIND_VAULT_DIR is None:
+        dest_path = source.resolve()
+    elif _is_inside_vault(source, ARTMIND_VAULT_DIR):
+        dest_path = source.resolve()
+    else:
+        dest_path = external_copy_path(source, ARTMIND_VAULT_DIR)
+    source_sha256 = _compute_sha256(source)
+    key = _resolve_binary_key(dest_path, source_sha256, effective_domain)
+    registered_path = _markdown_path(key)
     existing_meta: dict = {}
     if registered_path.exists():
         existing_meta, _ = _parse_md_frontmatter(
             registered_path.read_text(encoding="utf-8")
         )
-    staged = staged_document(effective_domain, [stem], existing_meta.get("_artmind_id"), search=True)
+    staged = staged_document(effective_domain, [key], existing_meta.get("_artmind_id"), search=True)
+    owner = _converted_owner(key, effective_domain)
     return BinaryPlan(
         registered_path=registered_path,
         existing_meta=existing_meta,
         baseline=ingest_baseline(staged, existing_meta),
-        source_sha256=_compute_sha256(source),
+        source_sha256=source_sha256,
+        recorded_source_path=owner[0] if owner else None,
     )
+
+
+def _record_binary_move(plan: BinaryPlan, domain: str, new_path: str) -> None:
+    """A moved binary keeps its name (`_resolve_binary_key`), so the old path
+    would keep the claim and a different file later added there would
+    overwrite this document. Rewrite the recorded `source_path` in the
+    conversion sidecar and the staged `document.json`; nothing else -- the
+    staged `path`/`name` are the converted markdown's and do not move. Never
+    fatal."""
+    key = plan.registered_path.stem
+    logger.info("{}: recording the move from {}", new_path, plan.recorded_source_path)
+    try:
+        sidecar_path = _chunks_dir(key) / CONVERSION_SIDECAR
+        try:
+            sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            sidecar = {"source_sha256": plan.source_sha256, "source_type": Path(new_path).suffix.lstrip(".").lower()}
+        sidecar["source_path"] = new_path
+        _write_sidecar(sidecar_path.parent, sidecar)
+        found = _locate_staged(plan.existing_meta.get("_artmind_id") or "", [key], [domain], search=True)
+        folder = found[0] if found else None
+        if folder is None and (_staging_dir(domain, key) / "document.json").exists():
+            folder = _staging_dir(domain, key)
+        if folder is not None:
+            document = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+            if isinstance(document, dict) and document.get("source_path") != new_path:
+                write_staging(folder, {"document.json": {**document, "source_path": new_path}})
+    except (OSError, ValueError) as e:
+        logger.warning("Could not record the move of {}: {}", new_path, e)
+
+
+def _claim_binary_key(key: str, source_sha256: str, source: Path, source_path: str) -> None:
+    """Record, before conversion starts, which source holds the name `key`.
+
+    Only a name nobody records yet, or one recorded for a different source
+    (a move or a namesake taking over), needs the claim. A sidecar that
+    already names this `source_path` is the record of the markdown and
+    chunks on disk -- the previous conversion's hash and `conversion` entry --
+    and stays as it is: a conversion that then fails must not leave the old
+    body filed under the new source's hash, for an `extract-kg` retry to
+    stage and the next ingest to call unchanged."""
+    chunks_dir = _chunks_dir(key)
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        existing = json.loads((chunks_dir / CONVERSION_SIDECAR).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        existing = None
+    if isinstance(existing, dict) and existing.get("source_path") == source_path:
+        return
+    claim = {
+        "source_sha256": source_sha256,
+        "source_type": source.suffix.lstrip(".").lower(),
+        "source_path": source_path,
+    }
+    _write_sidecar(chunks_dir, claim)
 
 
 def _ingest_binary_derived(
@@ -1486,7 +1956,11 @@ def _ingest_binary_derived(
     chunked again and handed to `extract_kg` (tier `content`, `reextract`), with
     no conversion, no write to the markdown, no version bump and the source
     untouched. Without a stored markdown or a previous extraction there is
-    nothing to re-run, and the ingest is the ordinary one.
+    nothing to re-run, and the ingest is the ordinary one. A .docx is the
+    exception: it is converted again (no model call; image descriptions are
+    reused), so a conversion made before the current .docx conversion
+    (`docx_convert`) gains its comments and tidy tables, and the version
+    bumps only if the body changed.
     """
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -1495,7 +1969,6 @@ def _ingest_binary_derived(
     file_result = {"filename": source.name, "status": "failed"}
     t_file_start = time.monotonic()
 
-    stem = source.stem
     effective_domain = set_domain or domain
     source_is_vault_resident = _is_inside_vault(source, ARTMIND_VAULT_DIR)
 
@@ -1527,8 +2000,18 @@ def _ingest_binary_derived(
     registered_path = plan.registered_path
     existing_meta = plan.existing_meta
     baseline = plan.baseline
+    if plan.recorded_source_path and plan.recorded_source_path != orig_registry_path:
+        _record_binary_move(plan, effective_domain, orig_registry_path)
 
-    if plan.unchanged and reextract and registered_path.exists():
+    # A .docx is converted again on --reextract: its conversion runs no model
+    # (image descriptions are reused below), and a markdown converted before
+    # the current .docx conversion (`docx_convert`) gains its comments,
+    # accepted tracked changes and tidy tables.
+    reconvert_docx = plan.unchanged and reextract and source.suffix.lower() == ".docx"
+    if reconvert_docx:
+        logger.info("{}: re-extraction of a .docx converts it again", source.name)
+        file_result["reextract"] = True
+    elif plan.unchanged and reextract and registered_path.exists():
         reextracted = _reextract_converted_binary(
             source, plan, file_result, effective_domain, chunk_size, orig_registry_path, t_file_start,
         )
@@ -1556,7 +2039,15 @@ def _ingest_binary_derived(
         )
         return file_result
 
-    body, err = _convert_binary_via_docling(dest_path, image_model)
+    # Claim the name before the slow conversion: an interrupted run then finds
+    # its own files again (`_converted_owner` reads this sidecar) instead of
+    # forking a second document. Overwritten by the conversion record below.
+    key = registered_path.stem
+    _claim_binary_key(key, source_sha256, source, orig_registry_path)
+    body, err = _convert_binary_via_docling(
+        dest_path, image_model, key=key,
+        reuse_image_descriptions=bool(file_result.get("reextract")),
+    )
     if body is None:
         file_result.update(err)
         return file_result
@@ -1576,11 +2067,11 @@ def _ingest_binary_derived(
 
     elapsed_total = time.monotonic() - t_file_start
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{stem}_chunks"
+    chunks_dir = _chunks_dir(key)
     # Stamp the body as the file now holds it (what `extract_kg` re-reads to
     # check the cache), not the string handed to `write_document`.
     _persist_chunks(chunks, chunks_dir, body=_parse_md_frontmatter(registered_path.read_text(encoding="utf-8"))[1])
-    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), stem)
+    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), key)
 
     file_result["status"] = "ok"
     file_result["domain"] = effective_domain
@@ -1603,13 +2094,18 @@ def _ingest_binary_derived(
     # binary this came from. Kept beside the chunks -- the retry's input --
     # and rewritten by every conversion, so it is always the one whose
     # extraction is pending. Machine-independent: hash, extension, vault path.
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps(
-            {k: file_result["provenance"][k] for k in _CONVERSION_KEYS},
-            indent=2, ensure_ascii=False,
-        ),
-        encoding="utf-8",
-    )
+    # `conversion` is what the conversion did (rendering version, page check,
+    # comments): read by people and `job-status`, never by the retry.
+    sidecar = {k: file_result["provenance"][k] for k in _CONVERSION_KEYS}
+    if record := err.get("conversion"):
+        sidecar["conversion"] = record
+        if record.get("flagged"):
+            file_result["page_check"] = {
+                "flagged": len(record["flagged"]),
+                "repaired": len(record.get("repaired") or []),
+                "unrepaired": len(record.get("unrepaired") or []),
+            }
+    _write_sidecar(chunks_dir, sidecar)
 
     logger.info(
         "── Ingest done in {:.1f}s: {} (convert, v{}) — {} chunk(s)",
@@ -1644,7 +2140,7 @@ def _reextract_converted_binary(
     if version_decision.tier != "metadata_only":
         return None
     chunks = _split_markdown(body, chunk_size)
-    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    chunks_dir = _chunks_dir(registered_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
     provenance = {
         "content_sha256": version_decision.content_sha256,
@@ -1654,10 +2150,15 @@ def _reextract_converted_binary(
         "source_path": orig_registry_path,
         "source_type": source.suffix.lstrip(".").lower(),
     }
-    (chunks_dir / CONVERSION_SIDECAR).write_text(
-        json.dumps({k: provenance[k] for k in _CONVERSION_KEYS}, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
+    # No conversion ran, so the record of the one that made this body stays.
+    try:
+        previous = json.loads((chunks_dir / CONVERSION_SIDECAR).read_text(encoding="utf-8")).get("conversion")
+    except (OSError, ValueError, AttributeError):
+        previous = None
+    sidecar = {k: provenance[k] for k in _CONVERSION_KEYS}
+    if isinstance(previous, dict):
+        sidecar["conversion"] = previous
+    _write_sidecar(chunks_dir, sidecar)
     file_result.update({
         "status": "ok",
         "domain": effective_domain,
@@ -1726,16 +2227,30 @@ def _locate_chunk(text: str, piece: str, cursor: int) -> tuple[int, int, int]:
     return start, end, end
 
 
+def _verbatim_span(text: str, piece: str, cursor: int) -> tuple[str, int]:
+    """`piece` as it stands in `text` -- the source span `_locate_chunk` finds,
+    when it holds the same characters once whitespace is ignored; `piece`
+    itself otherwise (an anchor not found, or found in the wrong place) --
+    and the cursor to search on from."""
+    start, end, next_cursor = _locate_chunk(text, piece, cursor)
+    if start == -1:
+        return piece, next_cursor
+    span = text[start:end]
+    squash = lambda s: re.sub(r"\s+", "", s)
+    return (span if squash(span) == squash(piece) else piece), next_cursor
+
+
 def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     """Split markdown into chunks carrying block-level provenance.
 
     Returns dicts ``{text, char_start, char_end, header_path, block_hash}``.
     ``char_start``/``char_end`` mark the chunk's span in the source body,
-    anchored on its first and last non-blank lines (the header splitter reformats
-    whitespace, so the slice is line-accurate rather than byte-identical to
-    ``text``; see ``_locate_chunk``). ``block_hash`` is a content hash over the
-    final chunk text, stable across re-ingest — the key A4's delta classifier
-    keys on.
+    anchored on its first and last non-blank lines (see ``_locate_chunk``). A
+    chunk's text is that span verbatim -- blank lines and indentation kept --
+    plus a reattached table header (``_verbatim_span``; the header splitter's
+    own whitespace-rewritten text only where the span cannot be matched).
+    ``block_hash`` is a content hash over the final chunk text, stable across
+    re-ingest — the key A4's delta classifier keys on.
     """
     # Imported lazily: langchain-text-splitters ships only in the optional
     # `[ingest]` extra, so a core-only install can still import artmind.ingest.
@@ -1761,8 +2276,19 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     chunks: list[dict] = []
 
     def _emit(pieces: list[str], header_path: str, cursor: int) -> int:
-        # Offsets are located against the pre-reattachment pieces (each a
-        # verbatim substring of `text`); reattachment only prepends to `text`.
+        # The splitters rewrite whitespace (blank lines become "  \n", lines
+        # lose their indentation), which glues a table to the line before it
+        # and unnests a list item's callout. Each piece is replaced by its
+        # span in `text`, verbatim, then table headers are carried and
+        # reattached on those, and the final pieces located again for their
+        # offsets (reattachment only prepends to `text`).
+        start_cursor = cursor
+        verbatim = []
+        for piece in pieces:
+            span, cursor = _verbatim_span(text, piece, cursor)
+            verbatim.append(span)
+        pieces = _carry_trailing_table_headers(verbatim)
+        cursor = start_cursor
         located = [(0, 0)] * len(pieces)
         for i, piece in enumerate(pieces):
             start, end, cursor = _locate_chunk(text, piece, cursor)
@@ -2606,7 +3132,7 @@ def ingest_to_kg(
             from artmind.delta import classify_reingest, apply_metadata_only
 
             registered_path = Path(file_result["registered_path"])
-            md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+            md_file = _markdown_path(registered_path.stem)
             if md_file.exists():
                 classification = classify_reingest(
                     md_file,
@@ -2658,7 +3184,7 @@ def ingest_to_kg(
             return False
         _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         chunks = _split_markdown(body, chunk_size)
-        chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+        chunks_dir = _chunks_dir(_chunks_key(domain, registered_path, file_result.get("artmind_id") or ""))
         _persist_chunks(chunks, chunks_dir, body=body)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
@@ -3045,7 +3571,9 @@ def extract_kg(
     # chunks + embeddings only, no LLM step of any kind.
     chunks_only = not graph_extraction_enabled(schema)
 
-    doc_kg_dir = KG_DIR / domain / registered_path.stem
+    # A note's id is in `file_result` already; a binary's folder is named by
+    # its key and needs no id, so this stays above the identity block below.
+    doc_kg_dir = _document_staging_dir(domain, registered_path, file_result.get("artmind_id") or "")
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
     llm_debug_dir = _llm_debug_dir(doc_kg_dir)
     # Scoped by doc_sha256 (not just the file stem) so a genuine resume of an

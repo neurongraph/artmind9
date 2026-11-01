@@ -1,3 +1,4 @@
+import glob
 import json
 import uuid
 from datetime import datetime
@@ -122,9 +123,12 @@ def _update_job_file_status(
     kg_counts: dict | None = None,
     domain: str | None = None,
     failed_chunks: list[int] | None = None,
+    page_check: dict | None = None,
 ) -> None:
     """Update per-file status in ingestion_job_files. `failed_chunks` is what a
-    finished extraction reported ([] for none); None leaves the column as is."""
+    finished extraction reported ([] for none); `page_check` the counts the
+    conversion's page check found (flagged / repaired / unrepaired); None leaves
+    either column as is."""
     conn = _get_db()
     cursor = conn.cursor()
     try:
@@ -156,6 +160,9 @@ def _update_job_file_status(
         if failed_chunks is not None:
             updates.append("failed_chunks = ?")
             params.append(json.dumps(sorted(failed_chunks)))
+        if page_check is not None:
+            updates.append("page_check = ?")
+            params.append(json.dumps(page_check))
         if not updates:
             return
         params.extend([job_id, filename])
@@ -279,7 +286,7 @@ def _fetch_active_jobs() -> list[dict]:
             job_id = row[0]
             files = conn.execute(
                 "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain,"
-                " failed_chunks, error_message FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+                " failed_chunks, error_message, page_check FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
                 (job_id,),
             ).fetchall()
             file_entries = []
@@ -298,6 +305,8 @@ def _fetch_active_jobs() -> list[dict]:
                     entry["chunk_progress"] = _get_chunk_progress(f[3], reported=_json_list(f[7]))
                 if f[6]:  # domain
                     entry["domain"] = f[6]
+                if counts := _json_object(f[9]):
+                    entry["page_check"] = counts
                 file_entries.append(entry)
             result.append({
                 "job_id": job_id,
@@ -378,6 +387,21 @@ def _chunk_counts(domain: str, doc_stem: str, doc_sha256: str, seq: int) -> dict
     gone) -- a best-effort number, never required for the status dots.
     """
     chunk_json = KG_DIR / domain / doc_stem / "chunks" / doc_sha256 / f"chunk_{seq:03d}.json"
+    if not chunk_json.exists():
+        # A document ingested since document keys is staged under
+        # `<stem>~<hex>`, which a caller holding only the filename cannot
+        # name; the content hash is unique to the document, so find by it
+        # among the folders of that stem -- never another document's, and
+        # never a `.artmind-tmp`/`.artmind-old` scratch copy of one.
+        from artmind.atomic_dir import is_scratch
+
+        found = sorted(
+            p for p in (KG_DIR / domain).glob(
+                f"{glob.escape(doc_stem)}~*/chunks/{doc_sha256}/chunk_{seq:03d}.json"
+            )
+            if not is_scratch(p.parents[2])
+        )
+        chunk_json = found[0] if found else chunk_json
     try:
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
@@ -437,6 +461,14 @@ def _job_file_sha256(job_id: str, document: str) -> str | None:
     return None
 
 
+def _json_object(value) -> dict | None:
+    try:
+        parsed = json.loads(value) if value else None
+    except ValueError:
+        return None
+    return parsed if isinstance(parsed, dict) else None
+
+
 def _json_list(value) -> list | None:
     try:
         parsed = json.loads(value) if value else None
@@ -485,7 +517,7 @@ def _get_job_status(job_id: str) -> dict | None:
             return None
         cursor.execute(
             "SELECT filename, status, current_step, doc_sha256, entity_count, relationship_count, domain,"
-            " failed_chunks, error_message FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+            " failed_chunks, error_message, page_check FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
             (job_id,),
         )
         files = []
@@ -500,6 +532,8 @@ def _get_job_status(job_id: str) -> dict | None:
                 entry["chunk_progress"] = _get_chunk_progress(r[3], reported=_json_list(r[7]))
             if r[6]:  # domain
                 entry["domain"] = r[6]
+            if counts := _json_object(r[9]):
+                entry["page_check"] = counts
             files.append(entry)
         return {
             "job_id": row[0],
@@ -564,6 +598,26 @@ def _get_job_results(job_id: str) -> dict | None:
         conn.close()
 
 
+def _registered_paths(source: Path) -> set[str]:
+    """The registry paths `source` may have been registered under: its own
+    canonical path (a vault note or a tabular source), and the copy an
+    ingest made of a source from outside the vault (`external_copy_path`,
+    or the data-dir original when no vault is configured).
+
+    A vault binary's row names its converted markdown (`markdowns/<key>.md`),
+    which is not looked for: its re-ingest is decided by the staged baseline,
+    not by this row, and the row is its path <-> id cache."""
+    import artmind.ingest as ing
+    from artmind.document_identity import canonical_path
+
+    paths = {canonical_path(source)}
+    if ing.ARTMIND_VAULT_DIR is None:
+        paths.add(canonical_path(ing.ORIGINALS_DIR / source.name))
+    elif not ing._is_inside_vault(source, ing.ARTMIND_VAULT_DIR):
+        paths.add(canonical_path(ing.external_copy_path(source, ing.ARTMIND_VAULT_DIR)))
+    return paths
+
+
 def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
     """Reset failed (and optionally skipped) files for re-processing.
 
@@ -605,19 +659,11 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
         # A stalled job with nothing failed (its worker died between files)
         # still needs re-queueing: its remaining `queued` files are the retry.
 
-        # Remove from document registry, matched by bare filename against
-        # `path`'s own basename -- Phase 5 dropped the registry's `filename`
-        # column (it was never anything but `Path(path).name`); no portable
-        # basename function in plain sqlite3, so matched in Python instead.
-        domain_rows = conn.execute(
-            "SELECT path FROM documents WHERE domain = ?", (domain,)
-        ).fetchall()
-        bare_targets = {Path(f).name.upper() for f in filenames}
-        matching_paths = [
-            row[0] for row in domain_rows if Path(row[0]).name.upper() in bare_targets
-        ]
+        # Remove each file's own registry row, found by the path it was
+        # registered under -- never by bare filename, which would also drop
+        # every same-named document in the domain.
         deregistered = 0
-        for path in matching_paths:
+        for path in sorted({p for f in filenames for p in _registered_paths(Path(f))}):
             cursor = conn.execute(
                 "DELETE FROM documents WHERE domain = ? AND path = ?", (domain, path)
             )
@@ -630,7 +676,7 @@ def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
                 f"UPDATE ingestion_job_files"
                 f" SET status='queued', current_step=NULL, doc_sha256=NULL,"
                 f"     started_at=NULL, completed_at=NULL, error_message=NULL,"
-                f"     entity_count=NULL, relationship_count=NULL, failed_chunks=NULL"
+                f"     entity_count=NULL, relationship_count=NULL, failed_chunks=NULL, page_check=NULL"
                 f" WHERE job_id = ? AND filename IN ({fn_placeholders})",
                 (job_id, *filenames),
             )

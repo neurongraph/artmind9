@@ -15,8 +15,23 @@ vault-resident source.
 import json
 import subprocess
 
+import pytest
+
 import artmind.ingest as ing
 from conftest import _fake_docling, stage_as_extracted
+
+
+def _paper():
+    """A pdf for the docling CLI to be handed: it reads its input (a link to it)."""
+    source = ing.MARKDOWNS_DIR.parent / "paper.pdf"
+    source.write_bytes(b"%PDF fake")
+    return source
+
+
+def _derived(source):
+    """The converted markdown of `source`: named by its document key (not its
+    bare stem), as `plan_binary` decides it."""
+    return ing.plan_binary(source, "general").registered_path
 
 
 def test_first_ingest_converts_and_mints_an_artmind_id(ingest_env, monkeypatch):
@@ -28,7 +43,7 @@ def test_first_ingest_converts_and_mints_an_artmind_id(ingest_env, monkeypatch):
     assert result["status"] == "ok"
     assert result["version"] == 1
     assert "artmind_id" in result
-    derived_path = ing.MARKDOWNS_DIR / "deck.md"
+    derived_path = _derived(source)
     assert derived_path.exists()
     meta, body = ing._parse_md_frontmatter(derived_path.read_text())
     assert meta == {"_artmind_id": result["artmind_id"], "_domain": "general"}
@@ -77,7 +92,7 @@ def test_binary_changed_reconverts_and_bumps_version(ingest_env, monkeypatch):
     assert r2["status"] == "ok"
     assert r2["artmind_id"] == r1["artmind_id"]
     assert r2["version"] == r1["version"] + 1
-    derived_path = ing.MARKDOWNS_DIR / "deck.md"
+    derived_path = _derived(source)
     _, body = ing._parse_md_frontmatter(derived_path.read_text())
     assert body == "# Deck\n\nBody v2.\n"
 
@@ -91,7 +106,7 @@ def test_the_converted_markdown_stays_in_artmind(ingest_env, monkeypatch):
     ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
 
     assert not (vault / "_derived").exists()
-    assert (ing.MARKDOWNS_DIR / "deck.md").is_file()
+    assert (_derived(source)).is_file()
 
 
 def test_a_vault_resident_binary_no_ops_on_an_unchanged_reingest(ingest_env, monkeypatch):
@@ -188,7 +203,7 @@ def _converted_once(ingest_env, monkeypatch, body="# Deck\n\nBody v1.\n"):
 def test_reextract_of_an_unchanged_binary_reuses_the_markdown_and_runs_the_extraction(ingest_env, monkeypatch):
     vault, source = ingest_env
     r1 = _converted_once(ingest_env, monkeypatch)
-    derived = ing.MARKDOWNS_DIR / "deck.md"
+    derived = _derived(source)
     body_before = derived.read_bytes()
     source_before = source.read_bytes()
     _no_docling(monkeypatch)
@@ -203,7 +218,7 @@ def test_reextract_of_an_unchanged_binary_reuses_the_markdown_and_runs_the_extra
     assert derived.read_bytes() == body_before, "the converted markdown is not rewritten"
     assert source.read_bytes() == source_before, "the source is never edited or moved"
     assert int(r2["chunk_count"]) >= 1
-    assert r2["chunks_dir"] == str(ing.MARKDOWNS_DIR / "deck_chunks")
+    assert r2["chunks_dir"] == str(ing._chunks_dir(_derived(source).stem))
 
 
 def test_reextract_reaches_extract_kg_with_the_flag_and_the_same_document(ingest_env, monkeypatch):
@@ -225,7 +240,7 @@ def test_reextract_reaches_extract_kg_with_the_flag_and_the_same_document(ingest
     assert ing.ingest_to_kg(result, "general", "m", "e", 6000) is False
 
     assert seen["reextract"] is True and seen["artmind_id"] == r1["artmind_id"]
-    assert seen["sha256"] == ing._compute_sha256(ing.MARKDOWNS_DIR / "deck.md")
+    assert seen["sha256"] == ing._compute_sha256(_derived(source))
     assert seen["provenance"]["source_sha256"] == ing._compute_sha256(source)
     assert seen["provenance"]["source_type"] == "pptx"
 
@@ -235,14 +250,14 @@ def test_reextract_of_a_binary_whose_markdown_is_missing_converts_it_as_usual(in
     converts (docling runs) and the ordinary path takes over."""
     vault, source = ingest_env
     r1 = _converted_once(ingest_env, monkeypatch)
-    (ing.MARKDOWNS_DIR / "deck.md").unlink()
+    (_derived(source)).unlink()
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v1.\n"]))
 
     r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
 
     assert r2["status"] == "ok" and r2.get("tier") != "no_op"
     assert "chunks_dir" in r2
-    assert (ing.MARKDOWNS_DIR / "deck.md").exists()
+    assert (_derived(source)).exists()
 
 
 def test_reextract_of_a_binary_never_extracted_is_an_ordinary_first_ingest(ingest_env, monkeypatch):
@@ -280,11 +295,11 @@ def test_reextract_of_a_binary_whose_markdown_was_edited_converts_it_again(inges
     is converted again instead; its body matches the baseline, so the version stays."""
     vault, source = ingest_env
     r1 = _converted_once(ingest_env, monkeypatch)
-    derived = ing.MARKDOWNS_DIR / "deck.md"
+    derived = _derived(source)
     derived.write_text(derived.read_text().replace("Body v1.", "Body v1, edited."))
     conversions = []
 
-    def convert(dest_path, image_model):
+    def convert(dest_path, image_model, **kwargs):
         conversions.append(dest_path)
         return "# Deck\n\nBody v1.\n", {}
 
@@ -306,7 +321,7 @@ def test_reextract_of_an_edited_markdown_never_bumps_the_version_without_registe
 
     vault, source = ingest_env
     r1 = _converted_once(ingest_env, monkeypatch)
-    derived = ing.MARKDOWNS_DIR / "deck.md"
+    derived = _derived(source)
     derived.write_text(derived.read_text().replace("Body v1.", "Body v1, edited."))
     monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["# Deck\n\nBody v2.\n"]))
 
@@ -333,3 +348,176 @@ def test_docling_image_links_are_made_relative_to_the_markdown(tmp_path):
     assert "![Image](Deck_artifacts/image_000000_ab.png)" in out
     assert "![Image](<Deck (1)_artifacts/image_000001_cd.png>)" in out
     assert "![Logo](https://example.com/logo.png)" in out
+
+
+# ── .docx conversion and re-conversion ─────────────────────────────────────────
+
+
+def _fake_docling_run(markdowns, *, md, image=None, calls=None):
+    """A `run_command` stand-in for the docling CLI: writes `md` into
+    `markdowns`, plus `image` as an exported picture."""
+    def run(cmd, cwd=None):
+        if calls is not None:
+            calls.append(cmd)
+        stem = cmd.rsplit("/", 1)[-1].rstrip('"').rsplit(".", 1)[0]
+        (markdowns / f"{stem}.md").write_text(md, encoding="utf-8")
+        if image is not None:
+            artifacts = markdowns / f"{stem}_artifacts"
+            artifacts.mkdir(exist_ok=True)
+            (artifacts / image).write_bytes(b"png")
+        return 0, "", ""
+    return run
+
+
+def _no_cli(cmd, cwd=None):
+    raise AssertionError("a .docx is not converted by the docling CLI")
+
+
+def test_a_docx_is_converted_in_process_with_its_prepared_copy_under_logs(ingest_env, monkeypatch):
+    import artmind.docx_convert as dc
+
+    seen = {}
+
+    def convert(source, md_file, *, work_dir=None):
+        seen.update(source=source, md_file=md_file, work_dir=work_dir)
+        md_file.write_text("Body.\n\n> [!comment] Comment\n> A: Note.", encoding="utf-8")
+        return {"comments": 1}
+
+    monkeypatch.setattr(ing, "run_command", _no_cli)
+    monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
+    monkeypatch.setattr(dc, "convert_docx", convert)
+    source = ing.MARKDOWNS_DIR.parent / "report.docx"
+
+    body, err = ing._convert_binary_via_docling(source, "m", key="report")
+
+    assert err == {"conversion": {
+        "render_version": 1, "comments": 1, "page_check": "skipped", "why": "a .docx has no pages",
+    }}
+    assert body == "Body.\n\n> [!comment] Comment\n> A: Note."
+    assert seen == {"source": source, "md_file": ing.MARKDOWNS_DIR / "report.md", "work_dir": ing.LOGS_DIR}
+
+
+def test_a_failed_docx_conversion_is_a_failed_file(ingest_env, monkeypatch):
+    import artmind.docx_convert as dc
+
+    def convert(source, md_file, *, work_dir=None):
+        raise ValueError("not a zip file")
+
+    monkeypatch.setattr(ing, "run_command", _no_cli)
+    monkeypatch.setattr(ing, "LOGS_DIR", ing.MARKDOWNS_DIR.parent / "logs")
+    monkeypatch.setattr(dc, "convert_docx", convert)
+
+    body, err = ing._convert_binary_via_docling(ing.MARKDOWNS_DIR.parent / "report.docx", "m", key="report")
+
+    assert body is None
+    assert err == {"status": "failed", "error": "Docling conversion failed"}
+
+
+def test_a_pdf_conversion_runs_the_docling_cli(ingest_env, monkeypatch):
+    calls = []
+    monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md="Text.", calls=calls))
+
+    body, _ = ing._convert_binary_via_docling(_paper(), "m", key="paper")
+
+    assert body == "Text."
+    assert calls[0].startswith("uv run docling --to md --to json --image-export-mode referenced")
+
+
+def test_image_descriptions_are_reused_only_when_asked(ingest_env, monkeypatch):
+    image = "image_000000_ab.png"
+    md = f"Intro.\n\n![Image]({ing.MARKDOWNS_DIR}/paper_artifacts/{image})"
+    monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md=md, image=image))
+    described = []
+
+    def describe(path, model):
+        described.append(path.name)
+        return "A red square."
+
+    monkeypatch.setattr(ing, "_describe_image", describe)
+
+    first, _ = ing._convert_binary_via_docling(_paper(), "m", key="paper")
+    (ing.MARKDOWNS_DIR / "paper_artifacts" / f"{image}_desc.md").write_text("A stored description.")
+    reused, _ = ing._convert_binary_via_docling(
+        _paper(), "m", key="paper", reuse_image_descriptions=True,
+    )
+    fresh, _ = ing._convert_binary_via_docling(_paper(), "m", key="paper")
+
+    assert described == [image, image], "no model call when the stored description is reused"
+    assert first == fresh == "Intro.\n\nA red square."
+    assert reused == "Intro.\n\nA stored description."
+
+
+def _docx_source(ingest_env):
+    vault, deck = ingest_env
+    source = deck.with_name("report.docx")
+    source.write_bytes(b"fake docx v1")
+    return source
+
+
+def test_reextract_of_an_unchanged_docx_converts_it_again_reusing_image_descriptions(ingest_env, monkeypatch):
+    """A .docx converted before its comments were written inline gains them on
+    --reextract: it is converted again (no model call for its images), and the
+    version bumps only because the body changed."""
+    source = _docx_source(ingest_env)
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["Body.\n"]))
+    r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
+    seen = []
+
+    def convert(dest_path, image_model, **kwargs):
+        seen.append(kwargs)
+        return "Body.\n\n> [!comment]\n> Noted.\n", {}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", convert)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert seen == [{"key": _derived(source).stem, "reuse_image_descriptions": True}]
+    assert r2["status"] == "ok" and r2["reextract"] is True
+    assert r2["artmind_id"] == r1["artmind_id"]
+    assert r2["version"] == r1["version"] + 1
+    assert "> [!comment]" in _derived(source).read_text()
+
+
+def test_reextract_of_an_unchanged_docx_with_the_same_body_keeps_its_version(ingest_env, monkeypatch):
+    source = _docx_source(ingest_env)
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", _fake_docling(["Body.\n", "Body.\n"]))
+    r1 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+    stage_as_extracted(ing.KG_DIR, r1)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000, reextract=True)
+
+    assert r2["reextract"] is True and "chunks_dir" in r2
+    assert r2["version"] == r1["version"]
+
+
+def test_an_ordinary_conversion_does_not_reuse_image_descriptions(ingest_env, monkeypatch):
+    source = _docx_source(ingest_env)
+    seen = []
+
+    def convert(dest_path, image_model, **kwargs):
+        seen.append(kwargs)
+        return "Body.\n", {}
+
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", convert)
+
+    ing.ingest_file(source, "gemma4:e4b", "general", chunk_size=6000)
+
+    assert seen == [{"key": _derived(source).stem, "reuse_image_descriptions": False}]
+
+
+def test_a_table_inside_an_image_description_is_laid_out_as_a_table(ingest_env, monkeypatch):
+    """The image model transcribes a pictured table as markdown, glued to the
+    line before it; it is put in after the body's tables were laid out."""
+    image = "image_000000_ab.png"
+    md = f"Intro.\n\n![Image]({ing.MARKDOWNS_DIR}/paper_artifacts/{image})\n\nAfter."
+    monkeypatch.setattr(ing, "run_command", _fake_docling_run(ing.MARKDOWNS_DIR, md=md, image=image))
+    monkeypatch.setattr(
+        ing, "_describe_image",
+        lambda path, model: "Clause 1.1 example:\n| Month   | Charge |\n|---------|--------|\n| Apr     | 10     |",
+    )
+
+    body, _ = ing._convert_binary_via_docling(_paper(), "m", key="paper")
+
+    assert body == "Intro.\n\nClause 1.1 example:\n\n| Month | Charge |\n| - | - |\n| Apr | 10 |\n\nAfter."
+    assert (ing.MARKDOWNS_DIR / "paper.md").read_text() == body

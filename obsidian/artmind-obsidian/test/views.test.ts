@@ -12,6 +12,7 @@ import { ResolveModal, renderResolve, resolveBlockedReason } from "../src/views/
 import { StatusBarItem } from "../src/views/statusBar";
 import { LOOKUP_PREVIEW, TableReviewModal, renderTableProblem, renderTableReview } from "../src/views/tableReview";
 import { fixture } from "./fixtures";
+import type { JobStatus } from "../src/types";
 
 /** Every row of the checklist done: each view test changes one thing. */
 function readyInputs(overrides: Partial<StateInputs> = {}): StateInputs {
@@ -268,7 +269,7 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
       .toEqual([["done", "2"], ["running", "1"], ["queued", "2"]]);
     expect(card.querySelector(".artmind-totals")!.textContent).toBe("34 entities · 20 relationships");
 
-    const rows = [...card.querySelectorAll(".artmind-file")];
+    const rows = [...card.querySelectorAll('[data-job-group="done"] .artmind-file')].reverse();
     const meters = (row: Element) =>
       [...row.querySelectorAll(".artmind-meter")].map((m) => [
         m.querySelector(".artmind-meter-label")!.textContent,
@@ -276,10 +277,10 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
       ]);
     expect(meters(rows[0])).toEqual([["12 E", "55%"], ["7 R", "54%"]]);
     expect(meters(rows[1])).toEqual([["22 E", "100%"], ["13 R", "100%"]]);
-    const chunks = rows[2].querySelector(".artmind-meter-chunks")!;
+    const chunks = card.querySelector('[data-job-group="running"] .artmind-meter-chunks')!;
     expect(chunks.getAttribute("title")).toBe("entities 4/7 · properties 0/7 · relationships 3/7");
     expect(chunks.textContent).toBe("7 chunks");
-    expect(rows[3].textContent).toBe("…file4.mdqueued");
+    expect(card.querySelector('[data-job-group="queued"] .artmind-file')!.textContent).toBe("…file4.mdqueued");
   });
 
   it("keeps the last job up as Last ingest job, each failure with its reason, and Retry failed on row 2", () => {
@@ -292,8 +293,8 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(card.querySelector("summary")!.textContent).toBe("Last ingest job2/2 files");
     expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-red")).toBe(true);
     const rows = [...card.querySelectorAll(".artmind-file")];
-    expect(rows[0].textContent).toBe("✓file1.md12 E7 R");
-    expect(rows[1].textContent).toBe("✗file2.mdKG ingestion failed");
+    expect(rows[0].textContent).toBe("✗file2.mdKG ingestion failed");
+    expect(rows[1].textContent).toBe("✓file1.md12 E7 R");
     expect(card.querySelector(".artmind-retry")).toBeNull();
     button(rowEl(root, "documents"), "Retry failed").click();
     expect(h.calls).toEqual(['run:{"type":"retryJob","jobId":"00000000-0000-4000-8000-000000000001"}']);
@@ -310,6 +311,48 @@ describe("the side panel: the readiness checklist (checklist spec §3)", () => {
     expect(card.querySelector(".artmind-badge")!.classList.contains("artmind-tone-amber")).toBe(true);
     button(rowEl(root, "documents"), "Retry job").click();
     expect(h.calls).toEqual(['run:{"type":"retryJob","jobId":"00000000-0000-4000-8000-000000000001"}']);
+  });
+
+  it("preserves panel/list scroll and group-control focus on poll, resetting lists for another job", () => {
+    const root = document.createElement("div");
+    document.body.appendChild(root);
+    const ui = newPanelUi();
+    const activeJob: JobStatus = {
+      job_id: "synthetic-scroll-job", status: "processing", file_count: 10, processed_count: 0,
+      files: Array.from({ length: 10 }, (_, i) => ({ filename: `queued-${i}.md`, status: "queued", current_step: null })),
+    };
+    const render = () => renderPanel(root, snapshot({ activeJob }), handlers(), ui);
+    const list = () => root.querySelector<HTMLElement>('[data-job-scroll="queued"]')!;
+    const toggle = () => root.querySelector<HTMLButtonElement>('[data-job-control="queued"]')!;
+    try {
+      render();
+      toggle().click();
+      toggle().focus();
+      list().scrollTop = 123;
+      root.scrollTop = 45;
+      render();
+      expect(list().scrollTop).toBe(123);
+      expect(root.scrollTop).toBe(45);
+      expect(document.activeElement).toBe(toggle());
+      expect(toggle().textContent).toBe("Show fewer");
+      // Queue changes retain the user's expanded view and position.
+      activeJob.files[0].status = "processing";
+      render();
+      expect(list().scrollTop).toBe(123);
+      expect(list().querySelectorAll(".artmind-file")).toHaveLength(9);
+      expect(document.activeElement).toBe(toggle());
+      // The final card is still the same job, not a new navigation context.
+      renderPanel(root, snapshot({ lastJob: { status: activeJob, results: null, at: 1 } }), handlers(), ui);
+      expect(list().scrollTop).toBe(123);
+      expect(toggle().textContent).toBe("Show fewer");
+      activeJob.job_id = "different-job";
+      render();
+      expect(list().scrollTop).toBe(0);
+      expect(toggle().textContent).toBe("Show all 9");
+      expect(document.activeElement).not.toBe(toggle());
+    } finally {
+      root.remove();
+    }
   });
 
   it("opens the admin console from the tools, and its dashboard from the job card", () => {

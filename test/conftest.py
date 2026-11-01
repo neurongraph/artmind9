@@ -372,7 +372,9 @@ def stage_as_extracted(kg_dir, file_result, domain="general"):
     import json
     from pathlib import Path
 
-    folder = Path(kg_dir) / domain / Path(file_result["registered_path"]).stem
+    import artmind.ingest as ing
+
+    folder = ing._document_staging_dir(domain, Path(file_result["registered_path"]), file_result.get("artmind_id") or "")
     folder.mkdir(parents=True, exist_ok=True)
     document = {"id": file_result["artmind_id"], "version": file_result["version"], **file_result["provenance"]}
     (folder / "document.json").write_text(json.dumps(document, indent=2), encoding="utf-8")
@@ -384,7 +386,7 @@ def _fake_docling(body_by_call):
     bodies from `body_by_call` (a list), one per call."""
     calls = iter(body_by_call)
 
-    def _convert(dest_path, image_model):
+    def _convert(dest_path, image_model, **kwargs):
         return next(calls), {}
 
     return _convert

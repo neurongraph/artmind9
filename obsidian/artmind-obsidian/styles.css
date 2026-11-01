@@ -64,6 +64,10 @@
 .artmind-legend, .artmind-totals { font-size: var(--font-smaller); color: var(--text-muted); margin-top: 0.3em; }
 .artmind-totals { color: var(--text-normal); }
 .artmind-files { margin-top: 0.4em; max-height: 18em; overflow-y: auto; }
+.artmind-job-group { margin-top: 0.6em; }
+.artmind-job-group-heading { font-size: var(--font-smaller); font-weight: var(--font-semibold); }
+details.artmind-job-group > summary { cursor: pointer; color: var(--text-muted); }
+.artmind-job-toggle { margin-top: 0.3em; font-size: var(--font-smaller); height: 1.8em; padding: 0 0.5em; }
 .artmind-file { display: grid; grid-template-columns: 1.2em minmax(0, 1fr) auto; align-items: center; gap: 0.4em; font-size: var(--font-smaller); padding: 0.1em 0; }
 .artmind-file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .artmind-file-detail { display: flex; gap: 0.5em; justify-content: flex-end; min-width: 0; }

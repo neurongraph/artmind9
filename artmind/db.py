@@ -261,6 +261,10 @@ def _init_db() -> None:
     # the previous run's (all-ok) rows back.
     if "failed_chunks" not in existing:
         cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN failed_chunks TEXT")
+    # The page check's counts for a converted file (a JSON object: flagged,
+    # repaired, unrepaired), so a silent loss in a conversion shows in job-status.
+    if "page_check" not in existing:
+        cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN page_check TEXT")
 
     # Phase 2 dropped path/filename-derived identity (logical_id) for
     # frontmatter-carried `artmind_id`, and Phase 5 shrank the row further

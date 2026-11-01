@@ -207,7 +207,7 @@ def vault(tmp_path, monkeypatch):
         monkeypatch.setattr(module, "ARTMIND_VAULT_DIR", root)
     monkeypatch.setattr(ing, "KG_DIR", data / "kg")
     monkeypatch.setattr(ing, "MARKDOWNS_DIR", data / "documents" / "markdowns")
-    monkeypatch.setattr(ing, "_convert_binary_via_docling", lambda dest, model: (f"# {dest.stem}\n", {}))
+    monkeypatch.setattr(ing, "_convert_binary_via_docling", lambda dest, model, **kw: (f"# {dest.stem}\n", {}))
 
     graph = FakeGraph()
     for name in ("read_graph_bookmark", "write_graph_bookmark", "read_document_fingerprints"):

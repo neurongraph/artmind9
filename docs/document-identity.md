@@ -59,6 +59,53 @@ human intents — "I copied it to make the next version" and "I used it as a
 template" — so artmind must not guess. Same principle that removed the supersession
 heuristics.
 
+## Derived-file names (document keys)
+
+Identity is the `_artmind_id`; the *names* of a document's derived files are a
+separate question. A converted markdown (`markdowns/<name>.md`), its
+`<name>_artifacts/` and `<name>_chunks/`, and its staging folder
+(`kg/<domain>/<name>/`) used to be named by the source's bare filename stem, so two
+`Summary.pdf` in different folders shared one set of files and one document. They
+are now named by a **document key**:
+
+```
+<stem>~<12 hex of sha256(vault-relative POSIX path)>      e.g. Summary~3f9a12c0b7d4
+```
+
+The path includes the extension, so `X.pdf` and `X.docx` get distinct keys. A source
+outside the vault is hashed by its `_external_docs/<hash>/<name>` copy path.
+
+The key is **chosen once, at first ingest**, and then kept:
+
+- **Binaries** (pdf/pptx/docx): their own bare-stem conversion (or a bare-stem one
+  that records no source) if one exists, else their own key; a *moved* binary (same
+  bytes, the recorded source path gone) keeps the name it already has; else a new key.
+  The name is **claimed before the conversion starts** (`conversion.json` in
+  `<name>_chunks/` records the source), so an interrupted conversion is found again by
+  the retry instead of forking a second document. A keyed name is taken only when a
+  recorded owner names a different source. When a moved binary is re-ingested, its
+  recorded `source_path` (sidecar and staged `document.json`) is rewritten to the new
+  path, freeing the old one. The sidecar is written atomically, and the early claim
+  leaves a sidecar that already names the same source untouched, so a failed
+  re-conversion keeps the previous conversion's record. The moved binary's `:Document`
+  `source_path` in the graph is updated by the next `vault sync` (the staged
+  `document.json` fingerprint changes), not immediately on the ingesting machine.
+- **Notes**: their bare-stem staging folder if it holds their `_artmind_id` (a
+  *legacy* note), else their key. The same name is used for the note's `_chunks/`
+  folder, so a legacy note keeps its bare chunk cache. A legacy note whose domain
+  changes becomes keyed (its bare staging folder is in the old domain) and leaves its old
+  `<stem>_chunks` behind -- a harmless cache.
+- **Collision guard**: a name already held by another source or document gets the
+  full 64-hex key instead, with a warning. A derived file is never overwritten.
+
+Documents ingested before keys keep their bare-stem names; nothing is migrated.
+
+The key is computed from the path, not minted like an id, because `markdowns/` and
+`kg/` are committed and shared between laptops while the registry is machine-local:
+a name has to come out identical on every laptop without coordination. A uuid
+stored in the registry would give the same source a different folder on each
+machine, and the folders would be silently merged on the next sync.
+
 ## Versioning
 
 **The content hash covers the body only, with frontmatter excluded**, so stamping

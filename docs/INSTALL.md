@@ -356,6 +356,18 @@ hosts want core; the machine that ingests wants the
 extra. Neither git install includes the Obsidian plugin, which is a build
 output (see the prerequisites).
 
+**Page check after conversion.** docling can lose text from a pdf or pptx page
+without failing. Every conversion therefore compares each page with the file's own
+text (`pypdfium2` and `python-pptx`; artmind does not declare them, docling brings
+them in, and if either is missing the check is skipped rather than failing the
+conversion) and flags a page that lacks it; `ARTMIND_PAGE_REPAIR` in `config.env`
+chooses `detect` (default: flag only, no model call), `repair` (also sends the flagged
+pdf pages as images to `ARTMIND_IMAGE_MODEL`, so page images reach the configured
+provider) or `off`. docling is run once per file for both the markdown and a JSON
+file; the JSON is read and deleted, never kept in the vault. Findings are in the
+document's `conversion.json` and in `ingest job-status`; repair answers are cached in
+`<data dir>/page_repair_cache/`.
+
 Both installs ship every `artmind` subpackage plus the web UI assets
 (`webui/static/`, `webui/templates/`), skills, schemas and the opencode persona.
 `pyproject.toml` discovers subpackages (`[tool.setuptools.packages.find]`) rather

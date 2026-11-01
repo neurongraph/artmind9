@@ -183,7 +183,8 @@ def test_extract_kg_resets_its_cache_only_when_asked(ingest_env, monkeypatch, re
     assert bool(calls) is expect_reset
     if expect_reset:
         assert calls[0][1] == result["sha256"]
-        assert calls[0][0] == ing.KG_DIR / "general" / "a" / "chunks" / result["sha256"]
+        folder = ing._document_staging_dir("general", Path(result["registered_path"]), result["artmind_id"])
+        assert calls[0][0] == folder / "chunks" / result["sha256"]
 
 
 # ── the flag's journey through a queued job ──────────────────────────────────

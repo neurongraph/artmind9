@@ -86,9 +86,13 @@ dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_U
     echo "artmind daemons stopped"
     exit 0
 
-# run all tests
+# run all tests except the slow ones that run the real docling
 dev-test:
-    uv run --group dev pytest test/ -v
+    uv run --group dev pytest test/ -v -m "not slow_docling"
+
+# real-docling regression tests (slow): converts the pptx/pdf fixtures in test/data/docs
+dev-test-docling:
+    env -u ANTHROPIC_BASE_URL uv run --group dev pytest test/ -v -m slow_docling
 
 # dump the real command hierarchy (trust this over any prose docs)
 dev-cli-help:

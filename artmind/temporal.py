@@ -545,14 +545,35 @@ def apply_supersession(
 
 
 
-def _read_doc_body(name: str) -> str | None:
-    """Return the markdown body for a registered document, or None if absent."""
-    md_file = MARKDOWNS_DIR / f"{Path(name).stem}.md"
+def _read_md_body(md_file: Path) -> str | None:
     if not md_file.exists():
         return None
     from artmind.ingest import _parse_md_frontmatter
     _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
     return body
+
+
+def _read_doc_body(name: str) -> str | None:
+    """Return the markdown body for a registered document, or None if absent.
+    Looks the markdown up by the bare name stem (documents staged before
+    document keys); `_read_doc_body_for` prefers the recorded path."""
+    from artmind.ingest import _markdown_path
+    return _read_md_body(_markdown_path(Path(name).stem))
+
+
+def _read_doc_body_for(doc: dict) -> str | None:
+    """The body of a `:Document` row: the file its recorded `path` names (the
+    keyed markdown of a binary, the note itself), else the name-stem lookup."""
+    recorded = doc.get("path")
+    if recorded:
+        from artmind.document_identity import resolve_canonical_path
+        try:
+            body = _read_md_body(resolve_canonical_path(str(recorded)))
+        except (ValueError, OSError):
+            body = None
+        if body is not None:
+            return body
+    return _read_doc_body(doc["name"])
 
 
 def _resolve_version_candidate(citing_doc: dict, version: str, by_version_group: dict) -> dict | None:
@@ -643,7 +664,7 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
     with neo4j_session() as session:
         docs = session.run(
             "MATCH (d:Document) WHERE d._domain=$domain "
-            "RETURN d.id AS id, d.name AS name, d.version AS version, d.valid_from AS valid_from",
+            "RETURN d.id AS id, d.name AS name, d.version AS version, d.valid_from AS valid_from, d.path AS path",
             domain=domain,
         ).data()
     by_version_group: dict = {}
@@ -674,7 +695,7 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
     for d in docs:
         if only_doc_name is not None and d["name"] != only_doc_name:
             continue
-        body = _read_doc_body(d["name"])
+        body = _read_doc_body_for(d)
         if body is None:
             continue
         older = None

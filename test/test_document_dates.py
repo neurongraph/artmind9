@@ -57,6 +57,13 @@ def _vault(tmp_path, monkeypatch, filename, body):
     return doc
 
 
+def _folder(stem):
+    """The staging folder of `journal/<stem>.md`: named by its document key."""
+    from artmind.document_identity import document_key
+
+    return ing._staging_dir("journal", document_key(f"journal/{stem}.md"))
+
+
 def _stub_llm(monkeypatch, date_or_time="today"):
     """One EVENT per chunk; records every properties prompt's anchor."""
     anchors: list = []
@@ -119,7 +126,7 @@ def test_a_resolved_date_property_dates_the_fact(tmp_path, monkeypatch):
 def test_an_undated_note_keeps_its_first_ingestion_date_and_gets_no_anchor(tmp_path, monkeypatch):
     doc = _vault(tmp_path, monkeypatch, "musings.md", "No date anywhere.\n")
     anchors = _stub_llm(monkeypatch)
-    folder = ing.KG_DIR / "journal" / "musings"
+    folder = _folder("musings")
 
     document, _ = _extract(doc)
     assert document["_valid_time_source"] == "default_ingestion"
@@ -202,7 +209,7 @@ def _ingested_under_the_old_schema(tmp_path, monkeypatch, date_or_time="today"):
     document, _ = _extract(doc)
     assert document["_valid_time_source"] == "default_ingestion"
     schema_file.write_text(JOURNAL_SCHEMA, encoding="utf-8")  # the fix lands
-    return ing.KG_DIR / "journal" / "2026-01-07", anchors
+    return _folder("2026-01-07"), anchors
 
 
 def _schema():
@@ -382,7 +389,7 @@ def test_redo_properties_drops_a_mention_that_was_folded_away(tmp_path, monkeypa
                         lambda *a, **k: (_ for _ in ()).throw(AssertionError("identity must not be re-decided")))
     retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
-    redone = json.loads((ing.KG_DIR / "journal" / "2026-01-21" / "observations.json").read_text())
+    redone = json.loads((_folder("2026-01-21") / "observations.json").read_text())
     assert [o["id"] for o in redone] == [o["id"] for o in first]
 
 
@@ -451,9 +458,9 @@ def test_retime_strips_an_exclusive_property_from_staged_observations(tmp_path, 
     _extract(doc)
     schema_file.write_text(EXCLUSIVE_SCHEMA, encoding="utf-8")  # the flag lands later
 
-    assert retime_folder(ing.KG_DIR / "journal" / "2026-01-07", yaml.safe_load(EXCLUSIVE_SCHEMA))["changed"]
+    assert retime_folder(_folder("2026-01-07"), yaml.safe_load(EXCLUSIVE_SCHEMA))["changed"]
 
-    observations = json.loads((ing.KG_DIR / "journal" / "2026-01-07" / "observations.json").read_text())
+    observations = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     by_class = {o["entity_class"]: o for o in observations}
     assert "date_or_time" not in by_class["PERSON"]
     assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (evening)"
@@ -494,7 +501,7 @@ def test_redo_properties_reextracts_only_date_tagged_classes(tmp_path, monkeypat
     retime_domain("journal", redo_properties=True, text_model="m", embed_model="e")
 
     assert shown == [["EVENT"]], "PERSON is never sent back to the model"
-    redone = json.loads((ing.KG_DIR / "journal" / "2026-01-07" / "observations.json").read_text())
+    redone = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     by_class = {o["entity_class"]: o for o in redone}
     assert by_class["EVENT"]["date_or_time"] == "2026-01-07 (afternoon)"
     assert by_class["PERSON"] == person_before, "an undated class's observation is untouched"
@@ -523,6 +530,6 @@ def test_extraction_and_retime_normalize_property_keys(tmp_path, monkeypatch):
 
     with_alias = EXCLUSIVE_SCHEMA + "property_aliases:\n  narrative_function: narrative_role\n"
     schema_file.write_text(with_alias, encoding="utf-8")
-    assert retime_folder(ing.KG_DIR / "journal" / "2026-01-07", yaml.safe_load(with_alias))["changed"]
-    (obs,) = json.loads((ing.KG_DIR / "journal" / "2026-01-07" / "observations.json").read_text())
+    assert retime_folder(_folder("2026-01-07"), yaml.safe_load(with_alias))["changed"]
+    (obs,) = json.loads((_folder("2026-01-07") / "observations.json").read_text())
     assert obs["narrative_role"] == "host" and "narrative_function" not in obs, "retime applies a new alias"

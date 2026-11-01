@@ -298,9 +298,11 @@ def describe_image_ollama(
 
 
 def describe_image_openrouter(
-    image: Path, model: str, prompt: str, timeout: int, env: dict
+    image: Path, model: str, prompt: str, timeout: int, env: dict, max_retries: int | None = None
 ) -> str:
     client = _openrouter_client(env, timeout)
+    if max_retries is not None:
+        client = client.with_options(max_retries=max_retries)
     response = client.chat.completions.create(
         model=model,
         messages=[
