@@ -77,7 +77,7 @@ vault's reviews folder. Query commands (`artmind query …`) hit the live graph.
    proposal in one sentence, and the dossier path. Do not paste dossier
    content beyond that. If the fix is code or a packaged schema, add the
    handoff: `artmind review prompt <review_id>` prints the prompt to paste
-   into a coding session.
+   into a coding session (the text on stderr, also the `prompt` key of the JSON on stdout).
 
 ## Verify a fix
 
@@ -122,7 +122,7 @@ finding a real question would hit; otherwise note it in the report to the user.
 | `artmind review reextract <trace_id> --schema <proposed.yaml> [--pattern …]` | dry-run re-extraction under a proposed schema (or `--meta`): shape diff + answerability; writes nothing |
 | `artmind review shape-report [--domain D] [--sample N --seed S]` | findings by schema element across open dossiers; random chunks to audit proactively |
 | `artmind review attach <review_id> <trace_id>` | add another symptom trace to an open dossier |
-| `artmind review regressions [--status fixed]` | every regression question as one benchmark file |
+| `artmind review regressions [--status fixed]` | every regression question as one benchmark file (stderr; `markdown` key on stdout) |
 | `artmind review verify <review_id> [--runId …]` | re-run the regression question; the new trace beside the original |
 | `artmind review prompt <review_id> [--base master]` | the ready-to-paste coding-session handoff (needs a dossier that passes `validate`) |
 | `artmind query chunks --domain D --idList <id> --expand 1` | source text of a chunk and its neighbours |

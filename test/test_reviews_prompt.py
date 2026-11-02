@@ -59,10 +59,14 @@ def _run(*args):
 
 def test_cli_prints_the_prompt():
     _complete()
-    result = _run(RID)
+    import json
+
+    result = _run(RID, "--compact")
     assert result.exit_code == 0, result.output
-    assert result.stdout.startswith("export ARTMIND_VAULT=")
-    assert f"artmind review show {RID} --markdown" in result.stdout
+    payload = json.loads(result.stdout)
+    assert payload["prompt"].startswith("export ARTMIND_VAULT=")
+    assert f"artmind review show {RID} --markdown" in payload["prompt"]
+    assert result.stderr == payload["prompt"], "the former text stays on stderr unchanged"
 
 
 def test_cli_refuses_an_incomplete_dossier_unless_forced():

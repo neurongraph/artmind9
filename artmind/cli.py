@@ -4446,7 +4446,8 @@ def review_show(review_id, markdown, compact) -> None:
 @click.argument("review_id")
 @click.argument("status", type=click.Choice(STATUSES))
 @click.option("--note", default=None, help="Why, for the dossier's Log")
-def review_status(review_id, status, note) -> None:
+@compact_option
+def review_status(review_id, status, note, compact) -> None:
     """Move a dossier to a new status; the change is logged in the dossier."""
     from artmind.reviews import dossier as dz
     from artmind.reviews import index
@@ -4457,7 +4458,8 @@ def review_status(review_id, status, note) -> None:
     dz.append_log(d, f"status {old} → {status}" + (f": {note}" if note else ""))
     path = dz.save(d)
     index.index_dossier(d, path)
-    click.echo(f"{review_id}: {old} → {status}")
+    click.echo(f"{review_id}: {old} → {status}", err=True)
+    _echo_json({"review_id": review_id, "from": old, "to": status, "note": note, "path": str(path)}, compact)
 
 
 @review_group.command("validate")
@@ -4577,7 +4579,8 @@ def review_shape_report(domain, all_statuses, sample_n, seed, compact) -> None:
 @review_group.command("attach")
 @click.argument("review_id")
 @click.argument("trace_id")
-def review_attach(review_id, trace_id) -> None:
+@compact_option
+def review_attach(review_id, trace_id, compact) -> None:
     """Add another symptom trace to an open dossier (one problem, one dossier)."""
     from artmind.reviews import dossier as dz
     from artmind.reviews import index, scaffold
@@ -4589,24 +4592,31 @@ def review_attach(review_id, trace_id) -> None:
         raise click.ClickException(str(exc)) from exc
     path = dz.save(d)
     index.index_dossier(d, path)
-    click.echo(f"{review_id}: attached trace {trace_id} ({len(d.meta['trace_ids'])} traces)")
+    click.echo(f"{review_id}: attached trace {trace_id} ({len(d.meta['trace_ids'])} traces)", err=True)
+    _echo_json({"review_id": review_id, "trace_id": trace_id, "trace_ids": list(d.meta["trace_ids"]),
+                "path": str(path)}, compact)
 
 
 @review_group.command("regressions")
 @click.option("--status", "statuses", multiple=True, type=click.Choice(STATUSES),
               help="Only dossiers with this status (repeatable); default: all")
-def review_regressions(statuses) -> None:
-    """Every dossier's regression question as one benchmark-format markdown file (stdout)."""
+@compact_option
+def review_regressions(statuses, compact) -> None:
+    """Every dossier's regression question as one benchmark-format markdown file
+    (stderr; the same text is the `markdown` key of the JSON on stdout)."""
     from artmind.reviews.verify import regressions_markdown
 
-    click.echo(regressions_markdown(statuses=statuses or None), nl=False)
+    markdown = regressions_markdown(statuses=statuses or None)
+    click.echo(markdown, nl=False, err=True)
+    _echo_json({"markdown": markdown}, compact)
 
 
 @review_group.command("prompt")
 @click.argument("review_id")
 @click.option("--base", default="master", show_default=True, help="Branch the coding session starts from and leakchecks against")
 @click.option("--force", is_flag=True, help="Print it even if the dossier does not pass `review validate`")
-def review_prompt(review_id, base, force) -> None:
+@compact_option
+def review_prompt(review_id, base, force, compact) -> None:
     """The ready-to-paste prompt that hands a dossier's fix to a coding session:
     read the dossier, do its Agent prompt task on a new branch, keep the privacy
     rules, leakcheck before committing, do not merge. Holds no dossier content."""
@@ -4619,7 +4629,9 @@ def review_prompt(review_id, base, force) -> None:
         raise click.ClickException(
             f"{review_id} does not pass `artmind review validate`: " + "; ".join(result["errors"])
             + " -- finish the dossier first (or pass --force)")
-    click.echo(coding_prompt(d, base=base), nl=False)
+    prompt = coding_prompt(d, base=base)
+    click.echo(prompt, nl=False, err=True)
+    _echo_json({"review_id": review_id, "base": base, "prompt": prompt}, compact)
 
 
 @review_group.command("verify")

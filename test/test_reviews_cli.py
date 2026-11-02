@@ -71,7 +71,8 @@ def test_list_filters():
 
 def test_status_updates_frontmatter_log_and_index():
     rid = _json("new", "t1")["review_id"]
-    _run("status", rid, "fixed", "--note", "patched the skill")
+    out = _json("status", rid, "fixed", "--note", "patched the skill")
+    assert (out["review_id"], out["from"], out["to"]) == (rid, "open", "fixed")
     d = dz.load(rid)
     assert d.meta["status"] == "fixed"
     assert d.sections["Log"].splitlines()[-1].endswith("status open → fixed: patched the skill")
@@ -176,7 +177,8 @@ def test_attach_cli():
     rid = json.loads(_run("new", "t1", "--compact").stdout)["review_id"]
     store.insert_turn("t2", source="admin", question="Again?", started_at=time.time())
     store.update_turn("t2", answer="x", status="done", retrieval_path="[]", domains='["d"]')
-    _run("attach", rid, "t2")
+    out = _json("attach", rid, "t2")
+    assert out["trace_ids"] == ["t1", "t2"] and out["command"] == "review attach"
     assert dz.load(rid).meta["trace_ids"] == ["t1", "t2"]
     result = _run("attach", rid, "t2", ok=False)
     assert result.exit_code != 0 and "already" in result.output
@@ -184,8 +186,22 @@ def test_attach_cli():
 
 def test_regressions_cli():
     rid = json.loads(_run("new", "t1", "--compact").stdout)["review_id"]
-    text = _run("regressions").stdout
+    result = _run("regressions", "--compact")
+    text = json.loads(result.stdout)["markdown"]
     assert text.startswith("# artmind review regressions") and f"R-{rid}" in text
+    assert result.stderr == text, "the former text stays on stderr unchanged"
+
+
+def test_prompt_cli_puts_the_prompt_in_a_key_and_on_stderr(monkeypatch):
+    from artmind.reviews import handoff, validate
+
+    rid = _json("new", "t1")["review_id"]
+    monkeypatch.setattr(validate, "validate", lambda d: {"ok": True, "errors": []})
+    monkeypatch.setattr(handoff, "coding_prompt", lambda d, base: f"PROMPT {d.meta['review_id']} {base}")
+    result = _run("prompt", rid, "--base", "main", "--compact")
+    payload = json.loads(result.stdout)
+    assert payload["prompt"] == f"PROMPT {rid} main" and payload["base"] == "main"
+    assert result.stderr == payload["prompt"]
 
 
 def test_verify_cli(monkeypatch):
