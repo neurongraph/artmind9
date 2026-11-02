@@ -73,7 +73,9 @@ from paths import (
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
-from artmind.cli_conventions import aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure
+from artmind.cli_conventions import (
+    Change, Effect, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure, with_effect,
+)
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -4213,16 +4215,31 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
 @topic_group.command("delete")
 @click.argument("slug")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+@dry_run_option("Report the page that would be deleted; delete nothing")
 @compact_option
-def topic_delete(slug: str, out: "Path | None", compact: bool) -> None:
+def topic_delete(slug: str, out: "Path | None", compact: bool, dry_run: bool) -> None:
     """Delete one topic page (its `## My notes` go with it)."""
     from artmind.topics import store
 
     directory, _ = _topic_pages(out)
-    if not store.delete_page(directory, slug):
+    page = store.read_page(directory, slug)
+    if page is None:
         raise click.ClickException(f"no topic page {slug!r} in {directory}")
-    click.echo(f"deleted {directory / (slug + '.md')}", err=True)
-    _echo_json({"slug": slug, "deleted": str(directory / (slug + ".md"))}, compact)
+    path = directory / (slug + ".md")
+    has_notes = bool(page.notes.strip())
+    effect = Effect(
+        summary=f"delete topic page {slug!r}" + (" and its `## My notes`" if has_notes else ""),
+        changes=[Change("topic_delete", 1, [slug])],
+        travels=out is None,  # the default folder is the vault's `_Topics/`, committed with it
+        records=[str(path)],
+    )
+    payload = {"slug": slug, "deleted": str(path)}
+    if dry_run:
+        _echo_json(with_effect(payload, effect, dry_run=True), compact)
+        return
+    store.delete_page(directory, slug)
+    click.echo(f"deleted {path}", err=True)
+    _echo_json(with_effect(payload, effect), compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────
@@ -4356,13 +4373,19 @@ def traces_stats(domain, since, by, compact) -> None:
 
 @traces_group.command("prune")
 @click.option("--days", type=int, default=None, help="Retention in days (default: ARTMIND_TRACE_RETENTION_DAYS or 90)")
+@dry_run_option("Count the turns that would be deleted; delete none")
 @compact_option
-def traces_prune(days, compact) -> None:
+def traces_prune(days, compact, dry_run) -> None:
     """Delete turns older than the retention window that have no feedback and no review."""
     from artmind.traces import store
 
     retention = days if days is not None else int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90"))
-    _echo_json({"pruned": store.prune(retention)}, compact)
+    count = store.prune(retention, dry_run=dry_run)
+    effect = Effect(
+        summary=f"delete {count} trace turn(s) older than {retention} days (no feedback, no review)",
+        changes=[Change("trace_delete", count, [])],
+    )
+    _echo_json(with_effect({"pruned": count}, effect, dry_run=dry_run), compact)
 
 
 # ── artmind review ────────────────────────────────────────────────────────────

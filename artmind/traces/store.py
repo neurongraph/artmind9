@@ -353,9 +353,10 @@ def count_turns(*, source: str | None = None, since: float | None = None) -> int
         conn.close()
 
 
-def prune(retention_days: int) -> int:
+def prune(retention_days: int, dry_run: bool = False) -> int:
     """Delete turns older than `retention_days` that have no feedback and no
-    review, with their events, spans and LLM calls. Returns turns deleted."""
+    review, with their events, spans and LLM calls. Returns turns deleted
+    (with `dry_run`, the turns that would be, and nothing is deleted)."""
     cutoff = time.time() - retention_days * 86400
     conn = _connect()
     try:
@@ -365,6 +366,8 @@ def prune(retention_days: int) -> int:
             " AND NOT EXISTS (SELECT 1 FROM trace_reviews r WHERE r.trace_id = t.trace_id)",
             (cutoff,),
         )]
+        if dry_run:
+            return len(ids)
         for trace_id in ids:
             conn.execute(
                 "DELETE FROM trace_llm_calls WHERE span_id IN (SELECT span_id FROM trace_spans WHERE trace_id = ?)",

@@ -49,8 +49,6 @@ _PENDING_DRYRUN: set[str] = {
     "review attach",
     "review new",
     "snapshot restore",
-    "topic delete",
-    "traces prune",
     "update confirm",
     "update retract",
 }
@@ -63,9 +61,7 @@ _PENDING_EFFECT_TEST: set[str] = {
     "projection rebuild",
     "projection synthesize",
     "topic build",
-    "topic delete",
     "topic refresh",
-    "traces prune",
     "update confirm",
     "update retract",
     "vault sync",

@@ -59,7 +59,8 @@ def test_triage_and_stats():
 
 
 def test_prune_reports_count():
-    assert plain(_json(["prune", "--days", "90"])) == plain({"pruned": 0})
+    pruned = _json(["prune", "--days", "90"])
+    assert pruned["pruned"] == 0 and pruned["effect"]["changes"][0]["count"] == 0
 
 
 def test_list_passes_limit_to_db_when_no_filters():
