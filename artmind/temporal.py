@@ -492,6 +492,68 @@ def parse_supersession_notice(md_text: str) -> dict | None:
 
 
 
+def supersession_effect(newer_doc_id: str, older_doc_id: str, scope: str = "document",
+                        effective: str | None = None) -> dict:
+    """The `effect` block of `apply_supersession`, from reads alone.
+
+    Whether the edge exists already (the apply is idempotent), and, for
+    `scope == "document"`, what retiring the older document moves
+    (`lifecycle.plan_transition`). Call it before the apply: afterwards the
+    older document's observations are already in history.
+    """
+    from artmind import supersession_records
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+    from artmind.graph_query import read_session
+    from artmind.lifecycle import plan_transition
+    from artmind.observations import key_string
+
+    rid = supersession_records.record_id(newer_doc_id, older_doc_id, scope)
+    with read_session() as session:
+        existing = session.run(
+            "MATCH ()-[s:SUPERSEDES {record_id: $id}]->() RETURN count(s) AS n", id=rid,
+        ).single()
+        names = {
+            r["id"]: r["name"] for r in session.run(
+                "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id IN $ids "
+                "RETURN d.id AS id, d.name AS name", ids=[newer_doc_id, older_doc_id],
+            ).data()
+        }
+    already = bool(existing and existing.get("n"))
+    changes = [Change("document_supersede", 0 if already else 1, [{
+        "newer": names.get(newer_doc_id, newer_doc_id), "older": names.get(older_doc_id, older_doc_id),
+        "scope": scope, "effective": effective,
+    }])]
+    records = [f".artmind/data/curation/supersessions/{rid}.json"]
+    keys: list = []
+    observations = 0
+    if scope == "document":
+        plan = plan_transition(older_doc_id, to_history=True)
+        keys, observations = plan["keys"], plan["observations"]
+        changes += [
+            Change("observation_move", observations, []),
+            Change("entity_change", len(keys), [{"key": key_string(tuple(k))} for k in keys]),
+        ]
+        if observations or keys:
+            from artmind import lifecycle_records
+
+            records.append(f".artmind/data/curation/lifecycle/{lifecycle_records.record_id(older_doc_id)}.json")
+    older = names.get(older_doc_id, older_doc_id)
+    return Effect(
+        summary=(
+            f"{'Re-assert' if already else 'Assert'} that {names.get(newer_doc_id, newer_doc_id)!r} supersedes "
+            f"{older!r}" + (f": {observations} observation(s) move to history; {len(keys)} aggregate key(s) are rebuilt."
+                            if scope == "document" else ".")
+        ),
+        changes=changes,
+        stale_topics=topics_touching(
+            entity_keys=[key_string(tuple(k)) for k in keys], doc_ids=[newer_doc_id, older_doc_id],
+            doc_names=[n for n in names.values() if n]),
+        # `docs restore` brings the older document back; the SUPERSEDES edge is not un-asserted by any command.
+        reversible=False, travels=True, records=records,
+    ).to_json()
+
+
 def apply_supersession(
     newer_doc_id: str,
     older_doc_id: str,

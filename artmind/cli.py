@@ -2150,8 +2150,11 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, d
 @click.option("--older", "older_name", required=True, help="Superseded document name")
 @click.option("--scope", type=click.Choice(["document", "section", "clause"]), default="document", show_default=True)
 @click.option("--effective", default=None, help="ISO date the supersession takes effect")
+@dry_run_option("Resolve both documents and report the effect; write no record, edge or retirement")
 @compact_option
-def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
+def ingest_supersede(
+    domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, dry_run: bool, compact: bool,
+) -> None:
     """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to).
 
     The assertion is also a vault file (.artmind/data/curation/supersessions/),
@@ -2188,10 +2191,16 @@ def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, 
             f"the same name (e.g. from re-ingesting an edited file): {ambiguous}. "
             "Resolve manually before superseding."
         )
-    _echo_json(
-        apply_supersession(by_name[newer_name][0], by_name[older_name][0], scope, effective),
-        compact,
-    )
+    from artmind.temporal import supersession_effect
+
+    newer_id, older_id = by_name[newer_name][0], by_name[older_name][0]
+    effect = supersession_effect(newer_id, older_id, scope, effective)
+    if dry_run:
+        result = {"newer": newer_id, "older": older_id, "scope": scope, "effective": effective,
+                  "effect": effect, "dry_run": True}
+    else:
+        result = {**apply_supersession(newer_id, older_id, scope, effective), "effect": effect}
+    _echo_json(result, compact)
 
 
 @ingest.command("detect-supersession")
