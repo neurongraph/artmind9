@@ -16,6 +16,7 @@ ingest dashboard).
 | Path | Holds |
 |---|---|
 | `artmind/cli.py` | The whole Click CLI. Command groups: `query` (+ nested `query graph`), `ingest`, `domains`, `docs`, `update`, `session`, plus top-level `init`/`setup`/`serve`/`chat-ui`/`admin-ui`. |
+| `artmind/cli_conventions.py` | The CLI's conventions in one stdlib+Click module (spec `docs/superpowers/specs/2026-11-02-cli-uniformity-design.md`): `envelope`, `compact_option`, `dry_run_option` / `unbuilt_dry_run_option`, `aliased_option`, `Effect` / `Change` / `with_effect`, `WRITE_COMMANDS` (path → tier), `SERVER_COMMANDS`, `INTERACTIVE_COMMANDS`, `DEPRECATED_ALIASES`, `EXIT_*`. `test/test_cli_conventions.py` walks the Click tree and fails a command that breaks them. `artmind/effects.py` (`topics_touching`) and `artmind/ingest_plan.py` (the `ingest sync --dryRun` plan) feed the `effect` blocks. |
 | `artmind/_entry.py` | Console-script entry point. **Proxies `query` calls to the `serve` daemon** — only one whose `/health` `vault` is the caller's vault (or none for both); another vault's serve, or one too old to name its vault, means in-process (with an `artmind:` note on stderr for the former). Stdlib-only by design (`artmind.vault` is too). See "Testing implications". |
 | `artmind/graph_query.py`, `vector_query.py`, `text2cypher.py` | Query layer: templated Cypher patterns, RRF vector+fulltext search, LLM-generated Cypher. |
 | `artmind/domain_guard.py` | Unknown-`--domain` warning (query-routing study P9). `_parse_domains` flags a name no schema, structured table or graph data sits under (graph asked only if the local sources leave it unexplained; no warning when it can't be asked); `_echo_json` adds it to the payload's `warnings` and `artmind:` goes to stderr. Never fails a command. Tests silence it by default (`conftest._quiet_domain_guard`); `test_domain_guard.py` opts in with `real_domain_guard`. |
@@ -280,6 +281,34 @@ Command notes: `query graph pattern10 --includeHistory` (`--asOf` is kept as an 
 - CLI options are `camelCase` on the command line (`--entityClass`, `--documentName`)
   mapped to `snake_case` Python params. Match the existing style.
 - Commands take repeatable, comma-splittable `--domain` and support `--compact` JSON.
+- **CLI uniformity** (`artmind/cli_conventions.py`, enforced by `test/test_cli_conventions.py`):
+  - *Envelope.* Every JSON result printed through `_echo_json` carries `command` (the
+    canonical Click path), `warnings` (a list, `[]` when none) and `next` (string or `null`)
+    first; every other key is untouched. Never rename or remove a payload key. Commands whose
+    text is the point (`init`, `setup`, `domains *-prompt`, `review prompt`, ...) keep that text
+    on **stderr** and print the JSON summary on stdout. Capped listings carry `rows_total` and
+    `truncated`; bare-list job commands and ranked top-K retrievals do not (their shape is
+    read by the plugin / has no meaningful total).
+  - *Spelling.* Options are camelCase. A renamed option keeps its old spelling as a hidden
+    alias (`aliased_option`, listed in `DEPRECATED_ALIASES`) that prints one `artmind:` line on
+    stderr. In-repo callers (skills, justfile, `routes.yaml`, plugin, web UI, living docs) must
+    use the new spelling; the contract test scans them. Remove an alias only in its own commit
+    after every caller moved and 30 days passed.
+  - *Writes.* Every command in `WRITE_COMMANDS` has `--dryRun`. **Tier 1** has a real one:
+    it reads, plans, sends no write Cypher, writes no file and makes no LLM call, and returns
+    `dry_run: true` plus an `effect` block (`summary`, `changes[{kind,count,sample}]`,
+    `stale{topics,views}`, `llm{calls,model,est_cost_usd}`, `reversible`, `undo`, `travels`,
+    `records`). The real run carries the same `effect`, computed from the plan before the work
+    starts, so it describes the plan, not outcomes. **Tier 2** commands take `--dryRun` too,
+    but it fails with "not available ... yet; nothing was changed" (`unbuilt_dry_run_option`)
+    until someone builds it; a tier-1 command needs `test/test_dry_run_<command>.py` asserting
+    on the Cypher and params sent (`test/_dry_run.py`, `test/_neo4j_recorder.py`). A new
+    command that writes the graph, staging or vault files goes in `WRITE_COMMANDS` (or, if the
+    check misfires, in `_READ_ONLY` in the contract test with the reason).
+  - *Exit codes.* 0 ok, 1 bad input (`ClickException`), 2 usage error, 3 a store (Neo4j /
+    registry) failure, mapped in `_RootGroup` (`exit_on_store_failure`).
+  - Changing a command's JSON also changes `obsidian/artmind-obsidian/test/fixtures/`:
+    regenerate with `ARTMIND_REGEN_PLUGIN_FIXTURES=1`, then `just obsidian-plugin-test`.
 - Skills live in `artmind/skills/` and the opencode persona in `artmind/opencode/` —
   edit there, never in `.claude/skills/` (a symlink), `~/.artmind/` (overwritten by
   `setup`), or `build/` (an artifact). How an edit or a new skill reaches the checkout,

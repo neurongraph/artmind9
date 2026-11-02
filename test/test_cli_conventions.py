@@ -1,11 +1,7 @@
 """Contract tests over the Click tree (spec 2026-11-02-cli-uniformity-design.md §4).
 
 They walk the tree the way test_cli_guide.py does, so a new command cannot
-regress the conventions in artmind/cli_conventions.py. Each `_PENDING_*` set
-names the commands the rollout (docs/superpowers/plans/2026-11-02-cli-uniformity.md)
-has not reached yet; every task deletes the entries it fixes, and the last one
-deletes the sets. A command in a set that now complies fails too, so the sets
-cannot go stale.
+regress the conventions in artmind/cli_conventions.py.
 """
 
 from pathlib import Path
@@ -17,13 +13,6 @@ from artmind import cli_conventions as cc
 from artmind.cli import cli
 
 ROOT = Path(__file__).resolve().parent.parent
-
-# Commands that do not satisfy a check yet (removed as the rollout reaches them).
-_PENDING_COMPACT: set[str] = set()
-_PENDING_KEBAB: set[str] = set()
-_PENDING_DRYRUN: set[str] = set()
-_PENDING_EFFECT_TEST: set[str] = set()
-_PENDING_CALLERS: bool = False
 
 
 def _leaves(cmd: click.Command = cli, path: tuple[str, ...] = ()):
@@ -45,17 +34,18 @@ def _hidden_opts(cmd: click.Command) -> set[str]:
     return {o for p in cmd.params if isinstance(p, click.Option) and p.hidden for o in p.opts}
 
 
-def _check(pending: set[str], failing: set[str], what: str) -> None:
-    unexpected = sorted(failing - pending)
+def _check(allowed: set[str], found: set[str], what: str) -> None:
+    """`found` must equal `allowed`; an allow-list entry that no longer applies fails too."""
+    unexpected = sorted(found - allowed)
     assert not unexpected, f"{what}:\n  " + "\n  ".join(unexpected)
-    stale = sorted(pending - failing)
-    assert not stale, f"now compliant -- remove from the _PENDING set:\n  " + "\n  ".join(stale)
+    stale = sorted(allowed - found)
+    assert not stale, "no longer applies -- remove from the allow-list:\n  " + "\n  ".join(stale)
 
 
 def test_every_command_takes_compact() -> None:
     exempt = cc.SERVER_COMMANDS | cc.INTERACTIVE_COMMANDS
     failing = {p for p, c in _leaves() if p not in exempt and "--compact" not in _long_opts(c)}
-    _check(_PENDING_COMPACT, failing, "commands without --compact")
+    _check(set(), failing, "commands without --compact")
 
 
 def test_no_visible_option_is_kebab_case() -> None:
@@ -63,7 +53,7 @@ def test_no_visible_option_is_kebab_case() -> None:
         p for p, c in _leaves()
         if any("-" in o[2:] for o in _long_opts(c) if o not in _hidden_opts(c))
     }
-    _check(_PENDING_KEBAB, failing, "commands with a kebab-case option")
+    _check(set(), failing, "commands with a kebab-case option")
 
 
 def test_write_commands_exist_and_take_dry_run() -> None:
@@ -71,7 +61,7 @@ def test_write_commands_exist_and_take_dry_run() -> None:
     missing = sorted(set(cc.WRITE_COMMANDS) - set(paths))
     assert not missing, f"WRITE_COMMANDS names commands not in the tree: {missing}"
     failing = {p for p in cc.WRITE_COMMANDS if "--dryRun" not in _long_opts(paths[p])}
-    _check(_PENDING_DRYRUN, failing, "write commands without --dryRun")
+    _check(set(), failing, "write commands without --dryRun")
 
 
 def _effect_test_exists(path: str) -> bool:
@@ -81,7 +71,7 @@ def _effect_test_exists(path: str) -> bool:
 
 def test_tier_one_commands_have_an_effect_test() -> None:
     failing = {p for p, tier in cc.WRITE_COMMANDS.items() if tier == 1 and not _effect_test_exists(p)}
-    _check(_PENDING_EFFECT_TEST, failing, "tier-1 commands without test/test_dry_run_<command>.py")
+    _check(set(), failing, "tier-1 commands without test/test_dry_run_<command>.py")
 
 
 # ── a write command is declared (spec §4 item 5) ──────────────────────────
@@ -144,7 +134,6 @@ def _deprecated_uses() -> list[str]:
     return found
 
 
-@pytest.mark.skipif(_PENDING_CALLERS, reason="callers not moved yet (plan Task 13)")
 def test_no_caller_uses_a_deprecated_spelling() -> None:
     assert not _deprecated_uses()
 

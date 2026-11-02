@@ -26,6 +26,15 @@ Use this skill to let a user add or update facts in the artmind knowledge graph 
   instead of the output. If the user's own phrasing is genuinely ambiguous or
   underspecified, ask them to clarify rather than filling the gap yourself.
 
+## Preview a write with `--dryRun`
+
+Every command that changes the graph, staging or vault files takes `--dryRun`: it plans from reads,
+writes nothing, calls no LLM, and returns `dry_run: true` plus an `effect` block (what would change
+with counts and samples, which topics and views go stale, how many LLM calls, whether it can be
+undone and with what, whether the change travels to other machines). Read `effect` before the real
+run, which prints the same block. On a command that does not support it yet, `--dryRun` fails with
+"not available ... yet; nothing was changed" and does nothing.
+
 ## Required Inputs
 
 - `domain`: Auto-detect from input; ask if unclear.

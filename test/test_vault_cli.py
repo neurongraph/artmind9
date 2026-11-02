@@ -600,7 +600,7 @@ def test_init_prints_one_json_envelope_and_the_text_goes_to_stderr(tmp_path, mon
     assert result.exit_code == 0, result.output
     payload = json.loads(result.stdout)
     assert payload["command"] == "init" and payload["warnings"] == []
-    assert payload["vault"] == str(tmp_path.resolve()) or payload["vault"].endswith(tmp_path.name)
+    assert Path(payload["vault"]).resolve() == tmp_path.resolve()
     assert payload["git_initialised"] is True
     assert isinstance(payload["skills"], int) and payload["schemas"]
     assert payload["manifest"].endswith(".artmind/vault.yaml")
