@@ -20,6 +20,7 @@ Opened 2026-10-19.
 | [07-benchmark-round3.md](07-benchmark-round3.md) | Per-question grades, routes and causes for the round-3 banking benchmark (36 questions). |
 | [08-fix-and-redesign-plan.md](08-fix-and-redesign-plan.md) | Fix + redesign plan (2026-10-22): review of the dossier, `query plan` first, workstreams W0–W5, phasing and gates. Input to specs. |
 | [09-next-steps-shadow-collection.md](09-next-steps-shadow-collection.md) | **Pick-up point (2026-10-23).** Decision model on OpenRouter (jev-1.14), Q26 model comparison, the ~50-turn shadow collection the user runs, and what the next session analyses and decides. |
+| [10-collection-sop.md](10-collection-sop.md) | **SOP (2026-11-02)** for collecting traces, ratings and labels on every machine (laptops A, B, desktop), and exporting machine-local traces into each vault's private repo for analysis. Round 6 (`02`) found the collection incomplete. |
 
 ## How a later session uses this
 

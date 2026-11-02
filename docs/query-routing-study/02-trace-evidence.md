@@ -494,3 +494,77 @@ unverified. See open question 27.
 ### Scenario ids
 
 S1 gains P26.
+
+## Round 6 — 2026-11-02 (this desktop: brain01, nbs_audit_2026, my_work)
+
+Probed from the Mac Studio, read-only, for the retrieval and curation architecture design
+(`docs/superpowers/specs/2026-11-02-retrieval-curation-architecture-design.md`). Shapes,
+counts and command sequences only.
+
+### Coverage
+
+| Vault | Turns on this machine | Rated | Shadow plans | Notes |
+|---|---|---|---|---|
+| `brain01` | 36 (35 admin, 1 benchmark), 10-13 → 10-24 | 2 (1 good, 1 partial) | 13 (`ok`) | 10-18: two long operator conversations (same-as review, conflict adjudication) |
+| `nbs_audit_2026` | 12 admin, 10-31 → 11-01 | 0 | 12 (`ok`) | one chunks-only domain; every turn before `query survey` merged (11-01 23:11) |
+| `my_work` | 1 admin, 10-25 | 0 | 1 | a table-classification review |
+| `banking_corpus`, `shadow_audit_2026` | 0 | — | — | the round-3 and later banking traces are not on this machine |
+
+`traces stats --by all`: brain01's busiest week had 9 shadow plans, 56 % high confidence,
+agreement 0.6 on high-confidence plans (0.33 on first turns, 1.0 on follow-ups);
+nbs_audit_2026 had 12 plans, all high confidence, all route `search`, and agreement 1.0
+(the agent ran `vector-text` too). The shadow collection asked for in `09` §3 (about 50
+rated turns across `banking_corpus` and `brain01`) is therefore **not complete** on this
+machine: 26 shadow plans, 2 ratings, no banking turns.
+
+### Patterns observed
+
+**P27. Non-questions are planned as questions.** Every shadow plan picks a retrieval route,
+even for turns that are not retrieval: a formatting follow-up on the previous answer's table,
+a request to write the previous answer to a file, a question about the agent's own model, and
+curation instructions (two names are one person; fix a set of name variants). In the chunks-only vault three such turns were planned `search` at
+**high** confidence; in brain01 they came out `conflicts`, `path` or `search` at low
+confidence. The planner has no notion of intent above the route. → design §5.3 (intent
+layer).
+
+**P28. Curation through chat is slow and expensive.** One same-as review (about 140
+proposals) and one conflict adjudication (about 40 conflicts) took about 25 agent turns over
+two conversations; single turns ran up to about 10 minutes, and a conversation's running
+cost reached about USD 3 (Sonnet). Most turns were the operator approving or rejecting
+items one batch at a time, plus requests to see the source text around a pair. Each item's decision
+needed the same three things: both names, the evidence chunks, approve/reject. → design
+§5.7 (Inbox cards with a deterministic review flow; the agent only for hard cases).
+
+**P29. Identity defects surface in Q&A and are fixed by instruction.** A count over a
+class anchored on a family member undercounted because the anchor existed under two kinship
+variants and a person under two name variants; the user found the gap in the next turn (asking why one
+person was missed), then told the agent to curate it in the same chat (one turn about 18
+minutes). The plan routed the count to `aggregate` at high confidence; the agent did not
+follow it (entity-context, pattern6, pattern8 instead). → design §5.3 (variants and twins
+in the plan, a completeness branch), §5.6 (identity gap → same-as proposal), §5.7 (inline
+"same thing?" action).
+
+**P30. Survey-shaped questions in a chunks-only domain go to one `vector-text` call.**
+Questions asking for one obligation or term across every contract were planned
+`search` at high confidence and answered from one or two `vector-text` calls. One repeat of
+the same question took about 8 minutes. These predate `query survey`, so they are evidence of
+need, not of a survey failure; the survey route's cues must catch "across every document of a
+kind" phrasings, not only "compare" and "overview".
+→ design §5.3 (document-coverage guard).
+
+**P31. A high-confidence plan is no guarantee the agent follows it.** brain01's
+high-confidence plans were followed 3 times in 5; first turns 1 in 3. Numbers are tiny, but
+they agree with P26: telling the agent the route is weaker than running it. → design §5.4
+(executor).
+
+**P32. Correctness is unmeasured.** 2 of 49 turns on this machine carry a rating. Shadow
+agreement says whether the agent ran the plan's first step, not whether either was right.
+
+**P33. Some turns record no cost or model.** brain01's 10-24 turns on the ACP backend
+record `turns = 1`, cost 0 and no model, so cost and call-count comparisons across backends
+are not possible from traces yet.
+
+### Scenario ids
+
+S3 gains P29 (aggregate with identity variants); S19 gains P30; S24 gains P29; new
+operator-intent turns (P27, P28) have no scenario row yet, because they are not retrieval.
