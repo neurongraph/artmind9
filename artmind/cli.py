@@ -593,7 +593,8 @@ def domains():
 
 
 @domains.command("list")
-def list_domains():
+@compact_option
+def list_domains(compact: bool):
     """List all available domain schemas, showing hierarchy."""
     all_domains = sorted(_get_available_domains())
     parents = [d for d in all_domains if '.' not in d]
@@ -601,21 +602,23 @@ def list_domains():
 
     shown = set()
     for parent in parents:
-        click.echo(parent)
+        click.echo(parent, err=True)
         shown.add(parent)
         for child in children:
             if child.startswith(parent + '.'):
-                click.echo(f"  {child}")
+                click.echo(f"  {child}", err=True)
                 shown.add(child)
 
     for child in children:
         if child not in shown:
-            click.echo(child)
+            click.echo(child, err=True)
+    _echo_json({"domains": all_domains, "rows_total": len(all_domains), "truncated": False}, compact)
 
 
 @domains.command("add")
+@compact_option
 @click.argument("domain_file", type=click.Path(exists=True))
-def add_domain(domain_file: str):
+def add_domain(compact: bool, domain_file: str):
     """Add a domain schema from a YAML file."""
     source = Path(domain_file)
     with open(source) as f:
@@ -625,53 +628,66 @@ def add_domain(domain_file: str):
         raise click.ClickException("Domain YAML must contain a 'name' field")
     dest = DOMAIN_SCHEMAS_DIR / f"{domain_name}_schema.yaml"
     shutil.copy(source, dest)
-    click.echo(f"Domain '{domain_name}' added to {dest}")
+    click.echo(f"Domain '{domain_name}' added to {dest}", err=True)
+    _echo_json({"domain": domain_name, "path": str(dest)}, compact)
 
 
 @domains.command("delete")
+@compact_option
 @click.argument("domain_name")
-def delete_domain(domain_name: str):
+def delete_domain(compact: bool, domain_name: str):
     """Delete a domain schema."""
     domain_file = DOMAIN_SCHEMAS_DIR / f"{domain_name}_schema.yaml"
     if not domain_file.exists():
         raise click.ClickException(f"Domain schema not found: {domain_file}")
     domain_file.unlink()
-    click.echo(f"Domain '{domain_name}' deleted")
+    click.echo(f"Domain '{domain_name}' deleted", err=True)
+    _echo_json({"domain": domain_name, "path": str(domain_file), "deleted": True}, compact)
+
+
+def _echo_domain_prompt(domain_name: str, prompt: str, compact: bool) -> None:
+    """A prompt command: the text on stderr as before, the same text in `prompt` on stdout."""
+    click.echo(prompt, err=True)
+    _echo_json({"domain": domain_name, "prompt": prompt}, compact)
 
 
 @domains.command("entities-prompt")
+@compact_option
 @click.argument("domain_name")
-def get_entities(domain_name: str):
+def get_entities(compact: bool, domain_name: str):
     """The prompt used to extract entities from a document chunk (assembled at runtime)"""
     from artmind.prompt_builder import assemble_entities_prompt
 
     data = _load_domain_schema(domain_name)
-    click.echo(assemble_entities_prompt(data))
+    _echo_domain_prompt(domain_name, assemble_entities_prompt(data), compact)
 
 
 @domains.command("properties-prompt")
+@compact_option
 @click.argument("domain_name")
-def get_properties(domain_name: str):
+def get_properties(compact: bool, domain_name: str):
     """The prompt used to extract properties for the set of entities from a document chunk (assembled at runtime)"""
     from artmind.prompt_builder import assemble_properties_prompt
 
     data = _load_domain_schema(domain_name)
-    click.echo(assemble_properties_prompt(data))
+    _echo_domain_prompt(domain_name, assemble_properties_prompt(data), compact)
 
 
 @domains.command("relationships-prompt")
+@compact_option
 @click.argument("domain_name")
-def get_relationships(domain_name: str):
+def get_relationships(compact: bool, domain_name: str):
     """The prompt used to extract relationships from a document chunk (assembled at runtime)"""
     from artmind.prompt_builder import assemble_relationships_prompt
 
     data = _load_domain_schema(domain_name)
-    click.echo(assemble_relationships_prompt(data))
+    _echo_domain_prompt(domain_name, assemble_relationships_prompt(data), compact)
 
 
 @domains.command("validate")
 @click.option("--domain", default=None, help="Validate one schema by name. Default: all schemas.")
-def domains_validate(domain: str | None):
+@compact_option
+def domains_validate(domain: str | None, compact: bool):
     """Check schemas against the meta-schema contract in domains/meta.yaml.
 
     Fails loudly: a class missing `kind`, an entity_types list (pre-redesign
@@ -708,21 +724,31 @@ def domains_validate(domain: str | None):
     # edge the write path will drop.
     for found in warnings.values():
         for w in found:
-            click.echo(f"WARN   {w}")
+            click.echo(f"WARN   {w}", err=True)
 
+    # `warnings` is the envelope's own key, so the schema warnings keep their
+    # per-domain shape under `schema_warnings`.
+    result = {
+        "ok": not violations,
+        "violations": {name: list(errors) for name, errors in violations.items()},
+        "schema_warnings": {name: list(found) for name, found in warnings.items() if found},
+    }
     if not violations:
-        click.echo("All schemas valid.")
+        click.echo("All schemas valid.", err=True)
+        _echo_json(result, compact)
         return
     for name, errors in violations.items():
         for e in errors:
-            click.echo(f"ERROR  {e}")
+            click.echo(f"ERROR  {e}", err=True)
+    _echo_json(result, compact)
     raise click.ClickException(f"{len(violations)} schema(s) failed validation")
 
 
 @domains.command("harmonize")
 @click.option("--domain", default=None, help="Child domain to harmonize (e.g. fiction.thriller). Default: all children.")
 @click.option("--dry-run", is_flag=True, help="Show what would change without writing.")
-def domains_harmonize(domain: str | None, dry_run: bool):
+@compact_option
+def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
     """Sync child domain schemas against their parent's entity types.
 
     Copies any entity, property, and relationship blocks that exist in the
@@ -736,18 +762,22 @@ def domains_harmonize(domain: str | None, dry_run: bool):
         results = harmonize_all(dry_run=dry_run)
 
     if not results:
-        click.echo("No child schemas found.")
-        return
+        click.echo("No child schemas found.", err=True)
 
     for r in results:
         if r.status == 'error':
-            click.echo(f"{r.domain}  ERROR: {r.error}")
+            click.echo(f"{r.domain}  ERROR: {r.error}", err=True)
         elif r.status == 'in_sync':
-            click.echo(f"{r.domain}  already in sync")
+            click.echo(f"{r.domain}  already in sync", err=True)
         elif r.status == 'dry_run':
-            click.echo(f"{r.domain}  would add entity types: {r.added}")
+            click.echo(f"{r.domain}  would add entity types: {r.added}", err=True)
         else:
-            click.echo(f"{r.domain}  added entity types: {r.added}")
+            click.echo(f"{r.domain}  added entity types: {r.added}", err=True)
+    _echo_json({
+        "dry_run": dry_run,
+        "results": [{"domain": r.domain, "status": r.status, "added": list(r.added), "error": r.error or None}
+                    for r in results],
+    }, compact)
 
 
 # ── artmind ingest ─────────────────────────────────────────────────────────────

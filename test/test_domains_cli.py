@@ -91,3 +91,81 @@ class TestDelete:
         runner.invoke(cli, ["domains", "delete", DOMAIN_NAME])
         result = runner.invoke(cli, ["domains", "list"])
         assert DOMAIN_NAME not in result.output
+
+
+# ── JSON on stdout, the former text on stderr (cli-uniformity spec 3.2) ──────
+
+import json
+
+
+def _envelope_of(result):
+    payload = json.loads(result.stdout)
+    assert {"command", "warnings", "next"} <= set(payload)
+    return payload
+
+
+class TestJsonOutput:
+    def test_list(self, runner, domain_added):
+        result = runner.invoke(cli, ["domains", "list", "--compact"])
+        payload = _envelope_of(result)
+        assert payload["command"] == "domains list" and DOMAIN_NAME in payload["domains"]
+        assert payload["rows_total"] == len(payload["domains"]) and payload["truncated"] is False
+        assert DOMAIN_NAME in result.stderr and "\n" not in result.stdout.strip()
+
+    def test_add_and_delete(self, runner, clean_domain):
+        added = runner.invoke(cli, ["domains", "add", str(TEST_SCHEMA), "--compact"])
+        payload = _envelope_of(added)
+        assert payload["domain"] == DOMAIN_NAME and payload["path"].endswith(f"{DOMAIN_NAME}_schema.yaml")
+        assert f"Domain '{DOMAIN_NAME}' added" in added.stderr
+        deleted = runner.invoke(cli, ["domains", "delete", DOMAIN_NAME, "--compact"])
+        assert _envelope_of(deleted)["deleted"] is True
+        assert f"Domain '{DOMAIN_NAME}' deleted" in deleted.stderr
+
+    @pytest.mark.parametrize("kind", ["entities", "properties", "relationships"])
+    def test_prompts_carry_the_text_in_prompt(self, runner, domain_added, kind):
+        result = runner.invoke(cli, ["domains", f"{kind}-prompt", DOMAIN_NAME, "--compact"])
+        assert result.exit_code == 0, result.output
+        payload = _envelope_of(result)
+        assert payload["domain"] == DOMAIN_NAME and payload["prompt"].strip()
+        assert payload["prompt"] in result.stderr
+
+    def test_validate_ok(self, runner, domain_added):
+        result = runner.invoke(cli, ["domains", "validate", "--domain", DOMAIN_NAME, "--compact"])
+        payload = _envelope_of(result)
+        assert result.exit_code == 0 and payload["ok"] is True and payload["violations"] == {}
+        assert "All schemas valid." in result.stderr
+
+    def test_validate_failure_keeps_exit_code_and_prints_json(self, runner, clean_domain):
+        (clean_domain / "bad_schema.yaml").write_text("name: bad\nentity_types: []\n")
+        result = runner.invoke(cli, ["domains", "validate", "--domain", "bad", "--compact"])
+        payload = _envelope_of(result)
+        assert result.exit_code == 1 and payload["ok"] is False and payload["violations"]["bad"]
+        assert "ERROR" in result.stderr
+
+    def test_harmonize_reports_each_child(self, runner, monkeypatch):
+        import artmind.cli as cli_module
+        from artmind.harmonizer import HarmonizeResult
+
+        seen = {}
+
+        def fake_all(dry_run=False):
+            seen["dry_run"] = dry_run
+            return [HarmonizeResult("fiction.thriller", "dry_run", added=["PERSON"]),
+                    HarmonizeResult("fiction.noir", "in_sync")]
+
+        monkeypatch.setattr(cli_module, "harmonize_all", fake_all)
+        result = runner.invoke(cli, ["domains", "harmonize", "--dry-run", "--compact"])
+        payload = _envelope_of(result)
+        assert seen == {"dry_run": True} and payload["dry_run"] is True
+        assert payload["results"] == [
+            {"domain": "fiction.thriller", "status": "dry_run", "added": ["PERSON"], "error": None},
+            {"domain": "fiction.noir", "status": "in_sync", "added": [], "error": None},
+        ]
+        assert "would add entity types" in result.stderr
+
+    def test_harmonize_with_no_children(self, runner, monkeypatch):
+        import artmind.cli as cli_module
+
+        monkeypatch.setattr(cli_module, "harmonize_all", lambda dry_run=False: [])
+        result = runner.invoke(cli, ["domains", "harmonize", "--compact"])
+        assert _envelope_of(result)["results"] == [] and "No child schemas found." in result.stderr
