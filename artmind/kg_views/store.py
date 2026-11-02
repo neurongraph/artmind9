@@ -14,6 +14,7 @@ from pathlib import Path
 import yaml
 
 from artmind.atomic_dir import is_scratch, recover, write_dir_atomic
+from artmind.cli_conventions import Change, Effect, with_effect
 from artmind.kg_views.model import NAME_RE, ViewError, ViewSpec, parse_view
 
 VIEW_FILE = "view.yaml"
@@ -127,12 +128,20 @@ def list_views(domains: list[str] | None = None) -> tuple[list[LoadedView], list
     return good, invalid
 
 
-def save_view(draft_dir: Path) -> dict:
+def _travels(root: Path) -> bool:
+    import paths
+
+    vault = getattr(paths, "ARTMIND_VAULT_DIR", None)
+    return bool(vault) and Path(vault).resolve() in root.resolve().parents
+
+
+def save_view(draft_dir: Path, dry_run: bool = False) -> dict:
     """Validate a draft folder, apply the version guard, copy it into views_dir().
 
     Version guard: if a view of that name exists and the fingerprint (cypher +
     params + presentation) differs, the draft's `version` must be greater.
-    There is deliberately no force flag -- bump the version.
+    There is deliberately no force flag -- bump the version. A dry run runs every
+    check and reports the `effect`, but writes nothing.
     """
     try:
         draft = load_view_dir(Path(draft_dir))
@@ -164,6 +173,18 @@ def save_view(draft_dir: Path) -> dict:
                 f"{draft.spec.version} is not greater than the saved version "
                 f"{existing.spec.version}; bump `version` in {VIEW_FILE}"
             )
+    effect = Effect(
+        summary=f"{'replace' if replaced else 'save'} view {name!r} at version {draft.spec.version}",
+        changes=[Change("view_save", 1, [name])],
+        stale_views=[name] if replaced else [],
+        reversible=not replaced,
+        undo=None if replaced else f"artmind views delete {name}",
+        travels=_travels(root),
+        records=[str(target)],
+    )
+    result = {"saved": name, "version": draft.spec.version, "path": str(target), "replaced": replaced}
+    if dry_run:
+        return with_effect(result, effect, dry_run=True)
     try:
         write_dir_atomic(
             target,
@@ -175,16 +196,26 @@ def save_view(draft_dir: Path) -> dict:
         )
     except OSError as exc:
         raise ViewError(f"could not save view {name!r}: {exc}") from exc
-    return {"saved": name, "version": draft.spec.version, "path": str(target), "replaced": replaced}
+    return with_effect(result, effect)
 
 
-def delete_view(name: str) -> dict:
+def delete_view(name: str, dry_run: bool = False) -> dict:
     check_name(name)
     target = views_dir() / name
     if not target.is_dir():
         raise ViewError(f"no saved view named {name!r}")
+    effect = Effect(
+        summary=f"delete view {name!r}",
+        changes=[Change("view_delete", 1, [name])],
+        stale_views=[name],
+        travels=_travels(target.parent),
+        records=[str(target)],
+    )
+    result = {"deleted": name, "path": str(target)}
+    if dry_run:
+        return with_effect(result, effect, dry_run=True)
     try:
         shutil.rmtree(target)
     except OSError as exc:
         raise ViewError(f"could not delete view {name!r}: {exc}") from exc
-    return {"deleted": name, "path": str(target)}
+    return with_effect(result, effect)

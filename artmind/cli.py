@@ -3916,23 +3916,25 @@ def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
 
 @views_group.command("save")
 @click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
+@dry_run_option("Run every check and report the effect; save nothing")
 @compact_option
-def views_save(path: Path, compact: bool) -> None:
+def views_save(path: Path, compact: bool, dry_run: bool) -> None:
     """Validate a draft and copy it into the views directory. A changed query needs a higher `version` (no --force)."""
     try:
-        result = views_store.save_view(path)
+        result = views_store.save_view(path, dry_run=dry_run)
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
 
 
 @views_group.command("delete")
+@dry_run_option("Report which view would be deleted; delete nothing")
 @compact_option
 @click.argument("name")
-def views_delete(compact: bool, name: str) -> None:
+def views_delete(compact: bool, name: str, dry_run: bool) -> None:
     """Delete a saved view folder."""
     try:
-        result = views_store.delete_view(name)
+        result = views_store.delete_view(name, dry_run=dry_run)
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

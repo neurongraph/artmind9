@@ -53,8 +53,6 @@ _PENDING_DRYRUN: set[str] = {
     "traces prune",
     "update confirm",
     "update retract",
-    "views delete",
-    "views save",
 }
 _PENDING_EFFECT_TEST: set[str] = {
     "ingest retime",
@@ -71,8 +69,6 @@ _PENDING_EFFECT_TEST: set[str] = {
     "update confirm",
     "update retract",
     "vault sync",
-    "views delete",
-    "views save",
 }
 _PENDING_CALLERS: bool = False
 
