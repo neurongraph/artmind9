@@ -111,7 +111,7 @@ def test_the_cli_retracts_and_prints_json(monkeypatch):
     from artmind.cli import cli
 
     seen = []
-    monkeypatch.setattr(upd, "retract_update", lambda session, draft_id: seen.append((session, draft_id)) or {"retracted": ["update:s1:7"]})
+    monkeypatch.setattr(upd, "retract_update", lambda session, draft_id, dry_run=False: seen.append((session, draft_id)) or {"retracted": ["update:s1:7"]})
 
     result = CliRunner().invoke(cli, ["update", "retract", "--session", "s1", "--draft", "7", "--compact"])
 
@@ -124,7 +124,7 @@ def test_the_cli_retracts_the_whole_session_without_draft(monkeypatch):
     from artmind.cli import cli
 
     seen = []
-    monkeypatch.setattr(upd, "retract_update", lambda session, draft_id: seen.append((session, draft_id)) or {"retracted": ["update:s1:7", "update:s1:8"]})
+    monkeypatch.setattr(upd, "retract_update", lambda session, draft_id, dry_run=False: seen.append((session, draft_id)) or {"retracted": ["update:s1:7", "update:s1:8"]})
 
     result = CliRunner().invoke(cli, ["update", "retract", "--session", "s1", "--compact"])
 
@@ -136,7 +136,7 @@ def test_the_cli_retracts_the_whole_session_without_draft(monkeypatch):
 def test_the_cli_reports_a_missing_update(monkeypatch):
     from artmind.cli import cli
 
-    def _missing(session, draft_id):
+    def _missing(session, draft_id, dry_run=False):
         raise ValueError("No confirmed update to retract for session 's9'")
 
     monkeypatch.setattr(upd, "retract_update", _missing)

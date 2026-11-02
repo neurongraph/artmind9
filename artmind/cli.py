@@ -5469,8 +5469,9 @@ def update_draft(domain: str, text: str, session: str | None, compact: bool):
 @update.command("confirm")
 @click.option("--session", required=True, help="Session UUID from draft step.")
 @click.option("--resolutions", required=True, help="JSON array of resolution objects.")
+@dry_run_option("Resolve every link and count the facts, entities and relationships the update would write; write nothing.")
 @compact_option
-def update_confirm(session: str, resolutions: str, compact: bool):
+def update_confirm(session: str, resolutions: str, dry_run: bool, compact: bool):
     """Write confirmed facts to the vault and Neo4j. Returns JSON.
 
     Writes a staging folder, .artmind/data/kg/<domain>/update__<session>__<draft>/,
@@ -5483,7 +5484,7 @@ def update_confirm(session: str, resolutions: str, compact: bool):
     try:
         parsed = json.loads(resolutions)
         result = update_backend.confirm_update(
-            session_id=session, resolutions=parsed, user_id=user_id
+            session_id=session, resolutions=parsed, user_id=user_id, dry_run=dry_run
         )
         _echo_json(result, compact)
     except ValueError as e:
@@ -5501,8 +5502,9 @@ def update_confirm(session: str, resolutions: str, compact: bool):
     help="Retract only this confirmed draft: the last part of its folder name, "
     "update__<session>__<draft>. Default: every confirmed update in the session.",
 )
+@dry_run_option("Count the observations and entities the retraction would touch and list the folders it would delete; write nothing.")
 @compact_option
-def update_retract(session: str, draft_id: int | None, compact: bool):
+def update_retract(session: str, draft_id: int | None, dry_run: bool, compact: bool):
     """Withdraw a confirmed update: its facts leave the graph and its staging folder is deleted.
 
     The UserChat and its observations move to history and the entities they
@@ -5512,7 +5514,7 @@ def update_retract(session: str, draft_id: int | None, compact: bool):
     """
     _setup_logger()
     try:
-        result = update_backend.retract_update(session, draft_id)
+        result = update_backend.retract_update(session, draft_id, dry_run=dry_run)
     except ValueError as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)

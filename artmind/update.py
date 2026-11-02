@@ -24,7 +24,7 @@ from artmind.extraction import (
     embed_key,
     extract_with_retry,
 )
-from artmind.graph_query import neo4j_session
+from artmind.graph_query import neo4j_session, read_session
 from artmind.ingest import (
     RESERVED_REL_TYPES,
     UPDATE_FOLDER_PREFIX,
@@ -286,6 +286,36 @@ def update_folder(domain: str, session_id: str, draft_id: int | str) -> Path:
     return Path(paths.KG_DIR) / domain / f"{UPDATE_FOLDER_PREFIX}{session_id}__{draft_id}"
 
 
+def _update_effect(summary: dict, observations: list[dict], session_id: str, draft_part, domain: str) -> dict:
+    """The `effect` block of a confirmed update, from the observations it will write."""
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+
+    facts = [o for o in observations if not o.get("_retracts")]
+    keys = sorted({o["key"] for o in observations if o.get("key")})
+    retracted = [o["_retracts"] for o in observations if o.get("_retracts")]
+    changes = [Change("fact_write", len(facts), [{"key": o["key"]} for o in facts])]
+    if retracted:
+        changes.append(Change("fact_retract", len(retracted), retracted))
+    if summary["nodes_created"]:
+        changes.append(Change("entity_create", summary["nodes_created"], []))
+    if summary["nodes_updated"]:
+        changes.append(Change("entity_change", summary["nodes_updated"], []))
+    return Effect(
+        summary=(
+            f"Record {len(facts)} fact(s) and {len(retracted)} retraction(s) from update session "
+            f"{session_id[:8]}: {summary['nodes_created']} entit(ies) created, {summary['nodes_updated']} updated, "
+            f"{summary['relationships_written']} relationship(s)."
+        ),
+        changes=changes,
+        stale_topics=topics_touching(entity_keys=keys, doc_ids=[summary["user_chat_id"]]),
+        reversible=True,
+        undo=f"artmind update retract --session {session_id} --draft {draft_part}",
+        travels=True,
+        records=[f".artmind/data/kg/{domain}/{UPDATE_FOLDER_PREFIX}{session_id}__{draft_part}"],
+    ).to_json()
+
+
 def write_user_chat(
     session_id: str,
     raw_text: str,
@@ -296,6 +326,7 @@ def write_user_chat(
     extracted_relationships: list[dict],
     *,
     draft_id: int | str | None = None,
+    dry_run: bool = False,
 ) -> dict:
     """Record a UserChat and the Observations it asserts, then rebuild.
 
@@ -324,6 +355,10 @@ def write_user_chat(
     relationship fact) it declares no longer true. Declarative, survives
     rebuilds, never mutates the retracted observation — see
     `projection.apply_retractions`.
+
+    `dry_run` resolves every link and builds every observation (reads only),
+    then returns the same summary and `effect` without the embedding call, the
+    schema setup, the staging folder or the commit.
     """
     from artmind.observations import aggregate_key, build_observation, key_string
     from artmind.temporal import load_schema
@@ -335,7 +370,7 @@ def write_user_chat(
     today = date.today().isoformat()
     draft_part = draft_id if draft_id is not None else uuid.uuid4().hex[:12]
     chat_id = user_chat_id(session_id, draft_part)
-    embedding = embed_document(embed_model, raw_text)
+    embedding = None if dry_run else embed_document(embed_model, raw_text)
     input_hint = _classify_input(raw_text)
     schema = load_schema(domain)
 
@@ -345,8 +380,9 @@ def write_user_chat(
     nodes_updated = 0
     nodes_retracted = 0
 
-    with neo4j_session() as session:
-        _ensure_user_chat_schema(session, embedding_dim)
+    with (read_session() if dry_run else neo4j_session()) as session:
+        if not dry_run:
+            _ensure_user_chat_schema(session, embedding_dim)
 
         for res in resolutions:
             temp_id = res["entity_temp_id"]
@@ -454,6 +490,19 @@ def write_user_chat(
         # retractions, relationship observations and the rebuild they dirty,
         # same as a document commit (`ingest._commit_document_tx`).
         folder = update_folder(domain, session_id, draft_part)
+        relationships = _chat_relationships(extracted_relationships, resolved, chat_id)
+        summary = {
+            "user_chat_id": chat_id,
+            "nodes_created": nodes_created,
+            "nodes_updated": nodes_updated,
+            "nodes_retracted": nodes_retracted,
+            "observations_written": len(observations),
+            "relationships_written": len(relationships),
+            "staging_dir": str(folder),
+        }
+        effect = _update_effect(summary, observations, session_id, draft_part, domain)
+        if dry_run:
+            return {**summary, "effect": effect, "dry_run": True}
         document = {
             "id": chat_id,
             "source_kind": USER_CHAT_SOURCE_KIND,
@@ -471,12 +520,12 @@ def write_user_chat(
             "document.json": document,
             "chunks.json": [],
             "observations.json": observations,
-            "relationships.json": _chat_relationships(extracted_relationships, resolved, chat_id),
+            "relationships.json": relationships,
         })
         staged = _load_staged(folder, domain)
         if not staged or not staged.get("document"):
             raise RuntimeError(f"could not read the update's staging folder back from {folder}")
-        summary = session.execute_write(_commit_document_tx, staged, False)
+        committed = session.execute_write(_commit_document_tx, staged, False)
 
         # The vector is derived (text + local model), so it is never staged --
         # like a chunk's. This machine has it already; `vault sync` embeds
@@ -488,15 +537,7 @@ def write_user_chat(
             )
         embed_missing_entity_embeddings(session, domain, embed_model)
 
-    return {
-        "user_chat_id": chat_id,
-        "nodes_created": nodes_created,
-        "nodes_updated": nodes_updated,
-        "nodes_retracted": nodes_retracted,
-        "observations_written": len(observations),
-        "relationships_written": summary["relationships"],
-        "staging_dir": str(folder),
-    }
+    return {**summary, "relationships_written": committed["relationships"], "effect": effect}
 
 
 def embed_user_chats(*, domain: str | None = None, chat_ids: list[str] | None = None) -> int:
@@ -704,7 +745,7 @@ def draft_update(
     }
 
 
-def confirm_update(session_id: str, resolutions: list[dict], user_id: str) -> dict:
+def confirm_update(session_id: str, resolutions: list[dict], user_id: str, dry_run: bool = False) -> dict:
     draft = _get_latest_pending_draft(session_id)
     if not draft:
         raise ValueError(f"No pending draft for session {session_id!r}")
@@ -720,7 +761,10 @@ def confirm_update(session_id: str, resolutions: list[dict], user_id: str) -> di
         extracted_entities=facts["entities"],
         extracted_relationships=facts["relationships"],
         draft_id=draft["id"],
+        dry_run=dry_run,
     )
+    if dry_run:
+        return result
 
     _update_draft_status(draft["id"], "confirmed")
     _update_session_status(session_id, "confirmed")
@@ -728,7 +772,35 @@ def confirm_update(session_id: str, resolutions: list[dict], user_id: str) -> di
     return result
 
 
-def retract_update(session_id: str, draft_id: int | None = None) -> dict:
+def _retract_effect(
+    session_id: str, retracted: list[str], observations: int, keys: set, summary: dict, folders: list[Path]
+) -> dict:
+    """The `effect` block of retracting an update; real and dry runs both build it here."""
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+    from artmind.observations import key_string
+
+    changes = [Change("fact_retract", observations, sorted(retracted))]
+    if summary.get("rebuilt"):
+        changes.append(Change("entity_change", summary["rebuilt"], []))
+    if summary.get("deleted"):
+        changes.append(Change("entity_delete", summary["deleted"], []))
+    return Effect(
+        summary=(
+            f"Withdraw {len(retracted)} confirmed update(s) of session {session_id[:8]}: "
+            f"{observations} observation(s) move to history, {summary.get('rebuilt', 0)} entit(ies) rebuilt, "
+            f"{summary.get('deleted', 0)} removed; {len(folders)} staging folder(s) deleted."
+        ),
+        changes=changes,
+        stale_topics=topics_touching(entity_keys=[key_string(k) for k in keys], doc_ids=retracted),
+        reversible=False,
+        undo=None,
+        travels=True,
+        records=[str(f) for f in folders],
+    ).to_json()
+
+
+def retract_update(session_id: str, draft_id: int | None = None, dry_run: bool = False) -> dict:
     """Retract a confirmed update -- every confirmed draft of `session_id`,
     or only `draft_id`.
 
@@ -739,6 +811,10 @@ def retract_update(session_id: str, draft_id: int | None = None) -> dict:
     deleted. The deletion is what travels: Obsidian Git commits it, and
     every other machine's `vault sync` retracts the same UserChat. The graph
     goes first, so a failed graph write leaves the folder for a retry.
+
+    `dry_run` reads the same counts (observations, affected keys, the rebuild
+    plan) and returns the same `effect`, writing nothing: no demotion, rebuild,
+    sweep, folder deletion or status change.
     """
     import shutil
 
@@ -762,11 +838,38 @@ def retract_update(session_id: str, draft_id: int | None = None) -> dict:
 
     retracted: list[str] = []
     keys: set = set()
+    observations = 0
+    if dry_run:
+        groups = same_as.load_groups()
+        with read_session() as rsession:
+            for folder in folders:
+                doc_id = json.loads((folder / "document.json").read_text(encoding="utf-8"))["id"]
+                keys |= rsession.execute_read(lambda tx, d=doc_id: projection.keys_for_document(tx, d))
+                rec = rsession.run(
+                    "MATCH (o:Observation {doc_id: $doc_id}) RETURN count(o) AS n", doc_id=doc_id
+                ).single()
+                observations += int(rec["n"]) if rec else 0
+                retracted.append(doc_id)
+            keys = projection.affected_keys(incoming=sorted(keys), same_as_groups=groups)
+            summary = (
+                rsession.execute_read(lambda tx: projection.plan_rebuild(tx, sorted(keys), same_as_groups=groups))
+                if keys
+                else {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0}
+            )
+        return {
+            "session_id": session_id,
+            "retracted": retracted,
+            "folders_removed": [str(f) for f in folders],
+            "projection": summary,
+            "effect": _retract_effect(session_id, retracted, observations, keys, summary, folders),
+            "dry_run": True,
+        }
     # ── phase 1: the graph, every folder -- must all succeed before phase 2 ──
     for folder in folders:
         doc_id = json.loads((folder / "document.json").read_text(encoding="utf-8"))["id"]
         result = ingest.retract_document(doc_id, domain)
         keys |= {tuple(k) for k in result.get("affected_keys") or []}
+        observations += int(result.get("observations_demoted") or 0)
         retracted.append(doc_id)
     groups = same_as.load_groups()
     keys = projection.affected_keys(incoming=sorted(keys), same_as_groups=groups)
@@ -792,6 +895,7 @@ def retract_update(session_id: str, draft_id: int | None = None) -> dict:
         "retracted": retracted,
         "folders_removed": [str(f) for f in folders],
         "projection": summary,
+        "effect": _retract_effect(session_id, retracted, observations, keys, summary, folders),
     }
 
 

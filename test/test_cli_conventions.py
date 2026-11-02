@@ -47,8 +47,6 @@ _PENDING_DRYRUN: set[str] = {
     "review attach",
     "review new",
     "snapshot restore",
-    "update confirm",
-    "update retract",
 }
 _PENDING_EFFECT_TEST: set[str] = {
     "ingest retime",
@@ -58,8 +56,6 @@ _PENDING_EFFECT_TEST: set[str] = {
     "projection synthesize",
     "topic build",
     "topic refresh",
-    "update confirm",
-    "update retract",
     "vault sync",
 }
 _PENDING_CALLERS: bool = False
