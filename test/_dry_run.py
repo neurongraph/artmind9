@@ -24,10 +24,10 @@ def assert_no_write_cypher(recorder: Recorder) -> None:
     assert not write_calls(recorder), f"a dry run sent write Cypher: {write_calls(recorder)}"
 
 
-def assert_effect_shape(effect: dict) -> None:
+def assert_effect_shape(effect: dict, llm_calls: int = 0) -> None:
     assert set(effect) == {"summary", "changes", "stale", "llm", "reversible", "undo", "travels", "records"}
     assert isinstance(effect["summary"], str) and effect["summary"]
     assert set(effect["stale"]) == {"topics", "views"}
-    assert effect["llm"]["calls"] == 0
+    assert effect["llm"]["calls"] == llm_calls
     for change in effect["changes"]:
         assert set(change) == {"kind", "count", "sample"} and len(change["sample"]) <= 10

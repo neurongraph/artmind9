@@ -1647,7 +1647,7 @@ def _run_passage_sweep() -> None:
 
 @ingest.command("retime")
 @click.option("--domain", required=True, help="Domain whose staged documents to re-date")
-@click.option("--dryRun", "dry_run", is_flag=True, help="Report what would change; write nothing")
+@dry_run_option("Report what would change; write nothing")
 @click.option("--redoProperties", "redo_properties", is_flag=True,
               help="Also re-extract each chunk's properties with the document's date in the prompt "
                    "(LLM: one call per chunk; entity names are kept). Needs this machine's chunk cache.")
@@ -1828,7 +1828,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     " domains/table_mappings/ whose `table:` pattern matches each table.",
 )
 @click.option("--asOf", "as_of", default=None, help="Temporal (SCD-2) tables only: project just the row versions in force on this ISO date. Default: every version.")
-@click.option("--dryRun", "dry_run", is_flag=True, help="Validate the mapping and report what would be built; write nothing.")
+@dry_run_option("Validate the mapping and report what would be built; write nothing.")
 @click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-passages` later).")
 @click.option(
     "--pending", "pending", is_flag=True,
@@ -1892,6 +1892,7 @@ def ingest_table2graph(
             raise click.ClickException("--asOf needs a full ISO date (YYYY-MM-DD) or 'today'")
 
     reports = []
+    rows = []
     for table_name in tables:
         row = _resolve_table_row(table_name, domain, allow_mapping_stem=True)
         try:
@@ -1919,7 +1920,12 @@ def ingest_table2graph(
         except table2graph.MappingError as e:
             raise click.ClickException(str(e))
         reports.append(report)
-    _echo_json({"command": "ingest table2graph", "tables": reports}, compact)
+        rows.append(row)
+    _echo_json(
+        with_effect({"command": "ingest table2graph", "tables": reports},
+                    table2graph.effect_for(rows, reports), dry_run=dry_run),
+        compact,
+    )
 
 
 @ingest.command("pull-kg")
@@ -4246,7 +4252,22 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
     results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
                                 max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
                                 dry_run=dry_run) for p in pages]
-    _echo_json({"refreshed": results}, compact)
+    payload = {"refreshed": results}
+    effects = [r["effect"] for r in results if r.get("effect")]
+    if effects:
+        written = [r["slug"] for r in results if r.get("effect", {}).get("changes")]
+        calls = sum(e["llm"]["calls"] for e in effects)
+        effect = Effect(
+            summary=f"Rebuild {len(written)} topic page(s) ({calls} LLM call(s)).",
+            changes=[Change("topic_write", len(written), written)] if written else [],
+            llm_calls=calls,
+            llm_model=next((e["llm"]["model"] for e in effects if e["llm"]["model"]), None),
+            reversible=False,
+            travels=True,
+            records=[rec for e in effects for rec in e["records"]],
+        )
+        payload = with_effect(payload, effect, dry_run=dry_run)
+    _echo_json(payload, compact)
 
 
 @topic_group.command("delete")
@@ -6059,7 +6080,7 @@ def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, ne
     "-- other domains changed in the same range stay pending, so a later unscoped sync still "
     "sees (and idempotently re-applies) this one too.",
 )
-@click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
+@dry_run_option("Report the classified diff (documents to replay/retract, tables to regenerate) and the `effect` without writing anything.")
 @compact_option
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
     """Replay committed KG-staging, structured-text, table-mapping, schema and curation changes into Neo4j/DuckDB since each store's bookmark.

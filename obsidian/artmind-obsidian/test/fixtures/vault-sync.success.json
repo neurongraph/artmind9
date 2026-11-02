@@ -40,7 +40,42 @@
       "keys": 0,
       "batches": 0
     },
-    "domains_swept": []
+    "domains_swept": [],
+    "effect": {
+      "summary": "Apply the committed changes to graph and structured: 2 document(s) to replay, 0 to retract, 1 table(s), 0 curation record(s), 0 same-as group(s); no LLM call; the bookmark advances.",
+      "changes": [
+        {
+          "kind": "document_ingest",
+          "count": 2,
+          "sample": [
+            "general/hiring_plan",
+            "general/quarterly_review"
+          ]
+        },
+        {
+          "kind": "table_change",
+          "count": 1,
+          "sample": [
+            "general/team"
+          ]
+        }
+      ],
+      "stale": {
+        "topics": [],
+        "views": []
+      },
+      "llm": {
+        "calls": 0,
+        "model": null,
+        "est_cost_usd": null
+      },
+      "reversible": false,
+      "undo": null,
+      "travels": false,
+      "records": [
+        ".artmind/state.json"
+      ]
+    }
   },
   "stderr": null
 }

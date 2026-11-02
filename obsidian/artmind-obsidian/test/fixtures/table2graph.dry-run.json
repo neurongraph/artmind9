@@ -81,7 +81,40 @@
         "as_of": null,
         "dry_run": true
       }
-    ]
+    ],
+    "effect": {
+      "summary": "Project 1 table(s) into 7 entities, 12 fact(s) and 4 row chunk(s); no LLM call. A re-run replaces what the previous projection wrote.",
+      "changes": [
+        {
+          "kind": "table_change",
+          "count": 1,
+          "sample": [
+            "team"
+          ]
+        },
+        {
+          "kind": "fact_write",
+          "count": 12,
+          "sample": []
+        }
+      ],
+      "stale": {
+        "topics": [],
+        "views": []
+      },
+      "llm": {
+        "calls": 0,
+        "model": null,
+        "est_cost_usd": null
+      },
+      "reversible": false,
+      "undo": null,
+      "travels": true,
+      "records": [
+        "/vault/.artmind/data/kg/general/table__team"
+      ]
+    },
+    "dry_run": true
   },
   "stderr": null
 }

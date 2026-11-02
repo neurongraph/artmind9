@@ -3014,6 +3014,7 @@ def summarise_staged(domain: str | None = None, match: str | None = None, dry_ru
     model = resolve_llm_model(load_env())
     out = {"documents": 0, "calls": 0, "summarised": 0, "up_to_date": 0, "failed_chunks": 0,
            "dry_run": dry_run, "domains": {}}
+    pending: list[dict] = []  # documents with summary work: {"id", "name", "domain"}
     domains = [domain] if domain else sorted(p.name for p in Path(KG_DIR).iterdir() if p.is_dir()) \
         if Path(KG_DIR).exists() else []
     for name in domains:
@@ -3041,6 +3042,8 @@ def summarise_staged(domain: str | None = None, match: str | None = None, dry_ru
                 continue
             out["calls"] += calls
             per["calls"] += calls
+            pending.append({"id": document.get("id"), "name": document.get("name") or folder.name,
+                            "domain": name, "calls": calls})
             if dry_run:
                 continue
             source_path = document.get("source_path")
@@ -3055,7 +3058,33 @@ def summarise_staged(domain: str | None = None, match: str | None = None, dry_ru
             if commit_to_graph(folder, name):
                 out["summarised"] += 1
         out["domains"][name] = per
+    out["effect"] = _summarise_effect(pending, model)
     return out
+
+
+def _summarise_effect(pending: list[dict], model: str) -> dict:
+    """The `effect` of summarising the `pending` documents (those with work to do).
+
+    It comes from the call count taken before any call, so a dry run and the real
+    run report the same plan; a chunk that later fails is in `failed_chunks`.
+    """
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+
+    calls = sum(p["calls"] for p in pending)
+    domains = sorted({p["domain"] for p in pending})
+    return Effect(
+        summary=(f"Summarise {len(pending)} staged document(s) ({calls} LLM call(s)); "
+                 "every chunk's text goes to the configured provider once."),
+        changes=[Change("summary_write", len(pending), [p["name"] for p in pending])] if pending else [],
+        stale_topics=topics_touching(doc_ids=[p["id"] for p in pending if p["id"]],
+                                     doc_names=[p["name"] for p in pending]),
+        llm_calls=calls,
+        llm_model=model if calls else None,
+        reversible=False,
+        travels=True,
+        records=[f".artmind/data/kg/{d}" for d in domains],
+    ).to_json()
 
 
 def _retract_prior_version(tx, domain: str, doc_id: str) -> dict:

@@ -46,6 +46,33 @@ def _groups(lines: list[str], limit: int) -> list[list[str]]:
     return groups
 
 
+def page_effect(slug: str, path: Path, calls: int, model: str, documents: int) -> "Effect":
+    """The `effect` of building one page: one file written, `calls` LLM calls.
+
+    Computed from the gathered documents before any call, so a dry run and the
+    real run report the same plan (`calls` is the one-reduce minimum; a long
+    reduce adds partial-merge calls, which the payload's own `calls` counts).
+    """
+    from artmind.cli_conventions import Change, Effect
+
+    return Effect(
+        summary=(f"Write the topic page {slug!r} from {documents} document(s) "
+                 f"({calls} LLM call(s)); a hand-written `## My notes` section is kept."),
+        changes=[Change("topic_write", 1, [slug])],
+        llm_calls=calls,
+        llm_model=model,
+        reversible=False,
+        travels=True,
+        records=[str(path)],
+    )
+
+
+def _no_page_effect(effect: dict) -> dict:
+    """The effect of a build that found nothing to say: the calls were made, no page was written."""
+    return {**effect, "summary": "No page written: no document said anything about the topic.",
+            "changes": [], "travels": False, "records": []}
+
+
 def build_page(topic: str, domains: list[str], *, max_docs: int = 12, slug: str | None = None,
                out: Path | None = None, model: str | None = None, dry_run: bool = False,
                anchor: dict | None = None, gathered=None, map_llm=None, reduce_llm=None,
@@ -61,6 +88,8 @@ def build_page(topic: str, domains: list[str], *, max_docs: int = 12, slug: str 
     result = {"slug": slug, "path": None, "dry_run": dry_run,
               "anchor": {k: anchor.get(k) for k in ("kind", "name") if anchor.get(k)},
               "documents": [m.name or m.doc_id for m in materials], "calls": len(materials) + 1}
+    result["effect"] = page_effect(slug, directory / f"{slug}.md", len(materials) + 1, model,
+                                   len(materials)).to_json()
     if dry_run:
         return result
     if map_llm is None or reduce_llm is None:
@@ -77,6 +106,7 @@ def build_page(topic: str, domains: list[str], *, max_docs: int = 12, slug: str 
     if not noted:
         result["error"] = "no document said anything about the topic; no page written"
         result["documents"] = []
+        result["effect"] = _no_page_effect(result["effect"])
         return result
 
     lines = prompts.notes_text(noted).splitlines()

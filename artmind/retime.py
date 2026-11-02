@@ -166,10 +166,13 @@ def _has_complete_cache(doc_kg_dir: Path, sha: str) -> bool:
     )
 
 
-def _redo_properties(
-    doc_kg_dir: Path, domain: str, schema: dict, text_model: str, embed_model: str,
-) -> dict:
-    """Re-extract one document's properties with its date in the prompt."""
+def _redo_precheck(doc_kg_dir: Path, domain: str) -> tuple[dict, str, dict | None, dict | None]:
+    """Everything `_redo_properties` needs before it writes, from reads alone.
+
+    Returns `(document, name, file_result, skipped)`: `skipped` is the result row
+    for a document that cannot be redone on this machine, else None. The dry run
+    uses it too, so it names the same documents the real run would skip.
+    """
     document = _load_json(doc_kg_dir / "document.json") or {}
     name = document.get("name") or doc_kg_dir.name
     # By the document's identity, not its file name: `README.md` in two
@@ -178,14 +181,26 @@ def _redo_properties(
     try:
         file_result = ingest._build_file_result_from_db(row["path"] if row else name, domain)
     except ingest.AmbiguousDocumentName as e:
-        return {"document": name, "skipped": str(e)}
+        return document, name, None, {"document": name, "skipped": str(e)}
     if file_result is None:
-        return {"document": name, "skipped": "not in this machine's registry"}
+        return document, name, None, {"document": name, "skipped": "not in this machine's registry"}
     # A miss would not "redo properties": it would re-run every step,
     # entities included, against an empty cache.
     sha = file_result.get("sha256") or ""
     if not _has_complete_cache(doc_kg_dir, sha):
-        return {"document": name, "skipped": "no complete per-chunk extraction cache on this machine"}
+        return document, name, file_result, {
+            "document": name, "skipped": "no complete per-chunk extraction cache on this machine"}
+    return document, name, file_result, None
+
+
+def _redo_properties(
+    doc_kg_dir: Path, domain: str, schema: dict, text_model: str, embed_model: str,
+) -> dict:
+    """Re-extract one document's properties with its date in the prompt."""
+    document, name, file_result, skipped = _redo_precheck(doc_kg_dir, domain)
+    if skipped:
+        return skipped
+    sha = file_result.get("sha256") or ""
     # Identity is not what is being redone: canonicalization is an LLM call
     # that answers differently run to run ("Drive to Pune" became "Travel to
     # Pune" on a live redo), so re-running it would merge and split entities
@@ -229,6 +244,32 @@ def staging_folders(domain: str) -> list[Path]:
     )
 
 
+def _effect(domain: str, folders: list[Path], redo_properties: bool, chunks: int, model: str | None) -> dict:
+    """The `effect` of retiming `folders` (the documents whose staging changes).
+
+    Without `--redoProperties` there is no LLM call. With it, `chunks` is an
+    upper bound: only a chunk with an entity of a `temporal:`-tagged class is asked.
+    """
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+
+    documents = [_load_json(f / "document.json", {}) or {} for f in folders]
+    names = [d.get("name") or f.name for d, f in zip(documents, folders)]
+    calls = chunks if redo_properties else 0
+    return Effect(
+        summary=(f"Re-date {len(folders)} staged document(s) of {domain}"
+                 + (f"; re-extract properties, at most {calls} LLM call(s)" if redo_properties else "; no LLM call")
+                 + ", then rebuild the projection once."),
+        changes=[Change("document_reextract", len(folders), names)] if folders else [],
+        stale_topics=topics_touching(doc_ids=[d["id"] for d in documents if d.get("id")], doc_names=names),
+        llm_calls=calls,
+        llm_model=model if calls else None,
+        reversible=False,
+        travels=True,
+        records=[f".artmind/data/kg/{domain}"] if folders else [],
+    ).to_json()
+
+
 def retime_domain(
     domain: str,
     *,
@@ -257,9 +298,19 @@ def retime_domain(
     if limit is not None:
         folders = folders[:limit]
     results, committed, failed = [], 0, []
+    changed_folders: list[Path] = []
+    redo_chunks = 0
     for folder in folders:
         try:
-            if redo_properties and not dry_run:
+            if redo_properties and dry_run:
+                # No LLM and no write: name the documents the real run would redo.
+                document, name, _, skipped = _redo_precheck(folder, domain)
+                result = skipped or {
+                    "document": name, "before": document.get("_valid_from"),
+                    "after": document.get("_valid_from"), "source": document.get("_valid_time_source"),
+                    "changed": True,
+                }
+            elif redo_properties:
                 result = _redo_properties(folder, domain, schema, text_model, embed_model)
             else:
                 result = retime_folder(folder, schema, write=not dry_run)
@@ -267,6 +318,10 @@ def retime_domain(
             logger.error("retime: {} failed: {}", folder.name, e)
             result = {"document": folder.name, "skipped": f"error: {e}"}
         results.append(result)
+        if result.get("changed"):
+            changed_folders.append(folder)
+            if redo_properties:
+                redo_chunks += len(_load_json(folder / "chunks.json", []) or [])
         if result.get("changed") and not dry_run:
             if ingest.commit_to_graph(folder, domain, defer_rebuild=True):
                 committed += 1
@@ -287,4 +342,5 @@ def retime_domain(
         "skipped": [r for r in results if "skipped" in r],
         "sample": changed[:10],
         "rebuild": rebuild,
+        "effect": _effect(domain, changed_folders, redo_properties, redo_chunks, text_model),
     }

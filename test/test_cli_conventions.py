@@ -47,15 +47,7 @@ _PENDING_DRYRUN: set[str] = {
     "review new",
     "snapshot restore",
 }
-_PENDING_EFFECT_TEST: set[str] = {
-    "ingest retime",
-    "ingest summarise",
-    "ingest table2graph",
-    "projection synthesize",
-    "topic build",
-    "topic refresh",
-    "vault sync",
-}
+_PENDING_EFFECT_TEST: set[str] = set()
 _PENDING_CALLERS: bool = False
 
 
