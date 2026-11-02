@@ -4979,8 +4979,9 @@ def docs():
 @docs.command("retire")
 @click.option("--domain", required=True, help="Domain the document belongs to")
 @click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
+@dry_run_option("Report what would move and the `effect`; write nothing")
 @compact_option
-def docs_retire(domain: str, document_name: str, compact: bool) -> None:
+def docs_retire(domain: str, document_name: str, dry_run: bool, compact: bool) -> None:
     """Move a document and everything it asserted from `latest` to `history`.
 
     An assertion-time act with no date semantics: a retired document's facts
@@ -5003,14 +5004,16 @@ def docs_retire(domain: str, document_name: str, compact: bool) -> None:
         raise click.ClickException(
             f"No document matching {document_name!r} in domain {domain!r}"
         )
-    _echo_json(retire_document(doc_id, domain), compact)
+    result = retire_document(doc_id, domain, dry_run=dry_run)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @docs.command("restore")
 @click.option("--domain", required=True, help="Domain the document belongs to")
 @click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
+@dry_run_option("Report what would move and the `effect`; write nothing")
 @compact_option
-def docs_restore(domain: str, document_name: str, compact: bool) -> None:
+def docs_restore(domain: str, document_name: str, dry_run: bool, compact: bool) -> None:
     """Move a retired document's assertions back from `history` to `latest`.
 
     The exact inverse of `docs retire`. Because entity ids are deterministic
@@ -5026,7 +5029,8 @@ def docs_restore(domain: str, document_name: str, compact: bool) -> None:
         raise click.ClickException(
             f"No document matching {document_name!r} in domain {domain!r}"
         )
-    _echo_json(restore_document(doc_id, domain), compact)
+    result = restore_document(doc_id, domain, dry_run=dry_run)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @docs.command("reindex")
@@ -5054,8 +5058,9 @@ def docs_reindex(compact: bool) -> None:
 @click.option("--domain", required=True, help="Domain the document belongs to")
 @click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
 @click.option("--yes", is_flag=True, help="Skip the confirmation prompt")
+@dry_run_option("Report the `effect` (bundle, graph rows, vault file); change nothing and do not ask to confirm")
 @compact_option
-def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> None:
+def docs_archive(domain: str, document_name: str, yes: bool, dry_run: bool, compact: bool) -> None:
     """Archive a document: the only removal artmind has. There is
     deliberately no `purge`.
 
@@ -5073,14 +5078,15 @@ def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> N
     _setup_logger()
     from artmind.archive import archive_document
 
-    if not yes and not click.confirm(
+    if not yes and not dry_run and not click.confirm(
         f"This will remove {document_name!r} ({domain}) from the graph and "
         "delete its file from the vault. Continue?"
     ):
         raise click.Abort()
 
     try:
-        _echo_json(archive_document(domain, document_name), compact)
+        result = archive_document(domain, document_name, dry_run=dry_run)
+        _echo_json({**result, "dry_run": True} if dry_run else result, compact)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
 

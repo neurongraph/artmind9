@@ -9,11 +9,11 @@ WRITE_CYPHER = re.compile(r"\b(MERGE|CREATE|SET|DELETE|REMOVE|DETACH)\b", re.IGN
 class WritableRecorder(Recorder):
     """The recorder, plus `execute_write(fn)` running `fn` against itself."""
 
-    def execute_write(self, fn):
-        return fn(self)
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
 
-    def execute_read(self, fn):
-        return fn(self)
+    def execute_read(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
 
 
 def write_calls(recorder: Recorder) -> list[tuple[str, dict]]:

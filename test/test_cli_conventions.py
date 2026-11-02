@@ -32,11 +32,8 @@ _PENDING_DRYRUN: set[str] = {
     "db refresh",
     "db restore",
     "db restore-text",
-    "docs archive",
     "docs reindex",
-    "docs restore",
     "docs restore-from-archive",
-    "docs retire",
     "domains add",
     "domains delete",
     "ingest async",
@@ -60,9 +57,6 @@ _PENDING_DRYRUN: set[str] = {
     "views save",
 }
 _PENDING_EFFECT_TEST: set[str] = {
-    "docs archive",
-    "docs restore",
-    "docs retire",
     "ingest retime",
     "ingest summarise",
     "ingest supersede",

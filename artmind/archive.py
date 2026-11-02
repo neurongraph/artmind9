@@ -161,11 +161,48 @@ def _portable_vault_path(path_str: str) -> str:
     return path_str
 
 
-def archive_document(domain: str, document_name: str) -> dict:
+def plan_archive_effect(
+    doc_id: str, domain: str, info: dict, vault_rel_path, vault_path: Path | None,
+    original_path: Path | None, bundle_dir: Path,
+) -> dict:
+    """The `effect` block of archiving `doc_id` -- read-only (counts observations, collects keys)."""
+    from artmind import projection
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+    from artmind.observations import key_string
+
+    with read_session() as session:
+        keys = sorted(projection.keys_for_document(session, doc_id))
+        n = session.run(
+            "MATCH (o) WHERE (o:Observation OR o:ObservationHistory) AND o.doc_id = $doc_id RETURN count(o) AS n",
+            doc_id=doc_id,
+        ).single()
+    observations = int(n["n"]) if n and n.get("n") is not None else 0
+    name = info.get("name") or info.get("title") or doc_id
+    deleted_files = [str(vault_rel_path)] if vault_path is not None and vault_path.exists() and vault_rel_path else []
+    return Effect(
+        summary=(f"Archive {name!r}: bundle it under {bundle_dir.name}/, delete {observations} observation(s) "
+                 f"from the graph and {'its vault file' if deleted_files else 'no vault file (none on disk)'}."),
+        changes=[
+            Change("document_archive", 1, [{"doc_id": doc_id, "name": name}]),
+            Change("observation_move", observations, []),
+            Change("entity_change", len(keys), [{"key": key_string(tuple(k))} for k in keys]),
+        ],
+        stale_topics=topics_touching(
+            entity_keys=[key_string(tuple(k)) for k in keys], doc_ids=[doc_id], doc_names=[str(name)]),
+        reversible=True,
+        undo=f"artmind docs restore-from-archive --id {doc_id}",
+        travels=False, records=deleted_files + ([f"original.{original_path.suffix.lstrip('.')}"] if original_path else []),
+    ).to_json()
+
+
+def archive_document(domain: str, document_name: str, *, dry_run: bool = False) -> dict:
     """Archive one document: bundle it, remove it from the graph, delete its
     file from the vault (Obsidian Git commits the removal, artmind does not),
     remove its data-dir original if any, and record it in the index. Raises
-    `ValueError` if it can't be found."""
+    `ValueError` if it can't be found. `dry_run` does the lookups and the
+    refusals (unknown document, an existing bundle), then reports the `effect`
+    without creating the bundle, touching the graph or deleting anything."""
     doc_id = resolve_document_id(document_name, domain)
     if not doc_id:
         raise ValueError(f"No document matching {document_name!r} in domain {domain!r}")
@@ -222,6 +259,10 @@ def archive_document(domain: str, document_name: str) -> dict:
             f"a bundle already exists at {bundle_dir} -- remove it by hand first "
             "if you mean to re-archive this id"
         )
+    plan = plan_archive_effect(doc_id, domain, info, vault_rel_path, vault_path, original_path, bundle_dir)
+    if dry_run:
+        return {"artmind_id": doc_id, "bundle_dir": str(bundle_dir), "manifest": None, "graph": None,
+                "effect": plan}
     bundle_dir.mkdir(parents=True)
 
     if vault_path is not None and vault_path.exists():
@@ -277,6 +318,7 @@ def archive_document(domain: str, document_name: str) -> dict:
         "bundle_dir": str(bundle_dir),
         "manifest": manifest,
         "graph": graph_result,
+        "effect": plan,
     }
 
 

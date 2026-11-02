@@ -101,7 +101,61 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
     }
 
 
-def retire_document(doc_id: str, domain: str | None = None) -> dict:
+def plan_transition(doc_id: str, *, to_history: bool) -> dict:
+    """Read-only: what retiring (`to_history`) or restoring `doc_id` would touch.
+
+    `observations` is the count `_transition` will move; `keys` the aggregate keys it
+    rebuilds (both labels, as `_transition` reads them). Runs on a read-only session.
+    """
+    from artmind import projection
+    from artmind.graph_query import read_session
+
+    label = "Observation" if to_history else "ObservationHistory"
+    with read_session() as session:
+        keys = projection.keys_for_document(session, doc_id)
+        n = session.run(f"MATCH (o:{label} {{doc_id: $doc_id}}) RETURN count(o) AS n", doc_id=doc_id).single()
+        doc = session.run(
+            "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id = $doc_id RETURN d.name AS name LIMIT 1",
+            doc_id=doc_id,
+        ).single()
+    return {
+        "doc_id": doc_id,
+        "name": doc.get("name") if doc else None,
+        "observations": int(n["n"]) if n and n.get("n") is not None else 0,
+        "keys": sorted(keys),
+    }
+
+
+def transition_effect(plan: dict, *, to_history: bool, domain: str | None) -> dict:
+    """The `effect` block for a retire (`to_history`) or restore, from `plan_transition`."""
+    from artmind import lifecycle_records
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+    from artmind.observations import key_string
+
+    doc_id, name = plan["doc_id"], plan["name"]
+    label = name or doc_id
+    record = f".artmind/data/curation/lifecycle/{lifecycle_records.record_id(doc_id)}.json"
+    scope = f" --domain {domain}" if domain else ""
+    verb, inverse = ("Retire", "restore") if to_history else ("Restore", "retire")
+    where = "history" if to_history else "latest"
+    return Effect(
+        summary=(f"{verb} {label!r}: {plan['observations']} observation(s) move to {where}; "
+                 f"{len(plan['keys'])} aggregate key(s) are rebuilt."),
+        changes=[
+            Change("document_retire" if to_history else "document_restore", 1, [{"doc_id": doc_id, "name": name}]),
+            Change("observation_move", plan["observations"], []),
+            Change("entity_change", len(plan["keys"]), [{"key": key_string(tuple(k))} for k in plan["keys"]]),
+        ],
+        stale_topics=topics_touching(
+            entity_keys=[key_string(tuple(k)) for k in plan["keys"]], doc_ids=[doc_id], doc_names=[name] if name else []),
+        reversible=True,
+        undo=f"artmind docs {inverse}{scope} --documentName {doc_id}",
+        travels=True, records=[record],
+    ).to_json()
+
+
+def retire_document(doc_id: str, domain: str | None = None, *, dry_run: bool = False) -> dict:
     """Move a document and everything it asserted from `latest` to `history`.
 
     The document and its observations stay in storage and stay reachable by
@@ -114,7 +168,13 @@ def retire_document(doc_id: str, domain: str | None = None) -> dict:
     and the document is marked with it -- `vault sync` retires it on every
     other machine, and a later re-ingest or replay keeps it retired
     (`artmind.lifecycle_records`).
+
+    `dry_run` reads what would move and writes nothing (no record, no label swap).
     """
+    plan = plan_transition(doc_id, to_history=True)
+    effect = transition_effect(plan, to_history=True, domain=domain)
+    if dry_run:
+        return {**plan, "projection": None, "effect": effect}
     with neo4j_session() as session:
         result = session.execute_write(_retire_tx, doc_id, domain)
     logger.info(
@@ -123,19 +183,24 @@ def retire_document(doc_id: str, domain: str | None = None) -> dict:
     )
     if domain:
         _sweep(domain, result["keys"])
-    return result
+    return {**result, "effect": effect}
 
 
-def restore_document(doc_id: str, domain: str | None = None) -> dict:
+def restore_document(doc_id: str, domain: str | None = None, *, dry_run: bool = False) -> dict:
     """Move a document's assertions back from `history` to `latest`.
 
     The exact inverse. Because ids are deterministic and the projection is
     derived, restoring recreates the same entities with the same ids rather
     than a parallel set. Deletes the document's lifecycle record, so `vault
-    sync` restores it on every other machine too.
+    sync` restores it on every other machine too. `dry_run` reads what would
+    move and writes nothing (the record stays).
     """
     from artmind import curation_records, lifecycle_records
 
+    plan = plan_transition(doc_id, to_history=False)
+    effect = transition_effect(plan, to_history=False, domain=domain)
+    if dry_run:
+        return {**plan, "projection": None, "effect": effect}
     curation_records.delete_record(lifecycle_records.NAME, lifecycle_records.record_id(doc_id))
     with neo4j_session() as session:
         result = session.execute_write(_restore_tx, doc_id)
@@ -145,7 +210,7 @@ def restore_document(doc_id: str, domain: str | None = None) -> dict:
     )
     if domain:
         _sweep(domain, result["keys"])
-    return result
+    return {**result, "effect": effect}
 
 
 def _retire_tx(tx, doc_id: str, domain: str | None) -> dict:
