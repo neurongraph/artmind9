@@ -20,21 +20,18 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Commands that do not satisfy a check yet (removed as the rollout reaches them).
 _PENDING_COMPACT: set[str] = {
-    "init",
     "review attach",
     "review prompt",
     "review regressions",
     "review status",
     "session close",
     "session initiate",
-    "setup",
     "topic delete",
     "traces feedback",
     "update confirm",
     "update draft",
     "update export",
     "update history",
-    "vault new",
 }
 _PENDING_KEBAB: set[str] = {
     "admin-ui",

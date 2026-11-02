@@ -701,3 +701,24 @@ def test_scaffold_run_folder_never_touches_insights(tmp_path, monkeypatch):
 
     assert cfg.read_text() == "period: quarter\n"
     assert snap.read_text() == "{}\n"
+
+
+def test_setup_cli_prints_one_json_envelope_and_the_text_goes_to_stderr(monkeypatch):
+    import json
+
+    from click.testing import CliRunner
+
+    import artmind.cli as cli_mod
+
+    summary = {"sqlite": "ok", "neo4j_constraints": ["c1"], "neo4j_indexes": ["i1"],
+               "neo4j_vector_indexes": ["v1"], "neo4j_fulltext_indexes": ["f1"],
+               "legacy_chunk_vectors": {"report": "legacy chunk vectors: none"}}
+    monkeypatch.setattr(cli_mod, "setup_all", lambda: summary)
+
+    result = CliRunner().invoke(cli_mod.cli, ["setup", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.stdout)
+    assert payload["command"] == "setup" and payload["warnings"] == []
+    assert payload["neo4j_constraints"] == ["c1"] and payload["legacy_chunk_vectors"] == "none"
+    assert "Setup complete." in result.stderr and "Setup complete." not in result.stdout

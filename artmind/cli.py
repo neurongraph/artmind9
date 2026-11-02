@@ -5838,8 +5838,9 @@ def vault_status(compact: bool):
 @click.option("--noPlugins", "no_plugins", is_flag=True, help="Skip the Obsidian plugins: no community plugins, and Web Viewer is not switched on.")
 @click.option("--noOpen", "no_open", is_flag=True, help="Don't open Obsidian at the end.")
 @click.option("--yes", "yes", is_flag=True, help="Don't ask for confirmation.")
+@compact_option
 def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, neo4j_user,
-                  neo4j_password, neo4j_database, no_plugins, no_open, yes):
+                  neo4j_password, neo4j_database, no_plugins, no_open, yes, compact):
     """Create a ready-to-open vault NAME, or join an existing one with --join.
 
     NAME is also the GitHub repo (private, owned by the active `gh` account)
@@ -5865,13 +5866,19 @@ def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, ne
         resuming = vn.preflight(plan)
     except vn.VaultNewError as e:
         raise click.ClickException(str(e))
-    click.echo(vn.describe(plan, resuming))
+    click.echo(vn.describe(plan, resuming), err=True)
     if not yes:
-        click.confirm("Proceed?", default=True, abort=True)
+        click.confirm("Proceed?", default=True, abort=True, err=True)
     try:
-        vn.run_plan(plan, echo=click.echo)
+        vn.run_plan(plan, echo=lambda line: click.echo(line, err=True))
     except vn.VaultNewError as e:
         raise click.ClickException(str(e))
+    _echo_json({
+        "name": plan.name, "dir": str(plan.dir), "join": plan.join, "github_repo": plan.repo,
+        "neo4j": "neo4j-manager" if plan.uses_neo4j_manager else "external",
+        "plugins": plan.plugins, "resumed": bool(resuming),
+        "next": f"cd {plan.dir} && artmind setup",
+    }, compact)
 
 
 @vault.command("sync")
@@ -6108,7 +6115,8 @@ def vault_migrate_frontmatter_cmd(dry_run, compact):
               "(refused if any has uncommitted changes).")
 @click.option("--schema", "schema_names", multiple=True,
               help="With --force: refresh only this packaged schema (repeatable, comma-splittable; adds it if absent), e.g. personal_journal.")
-def init(directory: str, force: bool, schema_names: tuple[str, ...]):
+@compact_option
+def init(directory: str, force: bool, schema_names: tuple[str, ...], compact: bool):
     """Make DIRECTORY (default: the current one) an artmind vault, or bring an existing one up to date.
 
     The vault is your Obsidian vault, your git repo and your artmind knowledge
@@ -6166,55 +6174,55 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
         except ValueError as e:
             raise click.ClickException(str(e))
 
-    click.echo(f"Vault:    {summary['vault']}")
+    click.echo(f"Vault:    {summary['vault']}", err=True)
     if git_initialised:
-        click.echo("Git:      initialised")
-    click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
+        click.echo("Git:      initialised", err=True)
+    click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}", err=True)
     if refreshed is not None:
         click.echo(
             f"Refreshed: {', '.join(refreshed['updated']) or '(nothing changed)'}"
             + (f"; added {', '.join(refreshed['added'])}" if refreshed["added"] else "")
-            + (f"; {len(refreshed['unchanged'])} already current" if refreshed["unchanged"] else "")
+            + (f"; {len(refreshed['unchanged'])} already current" if refreshed["unchanged"] else ""), err=True
         )
         if refreshed["updated"]:
             click.echo("          review with `git diff .artmind/domains`, then commit; then re-extract affected notes "
-                "with `artmind ingest async <folder> --reextract`.")
-    click.echo(f"Skills:   {len(summary['skills'])} linked")
+                "with `artmind ingest async <folder> --reextract`.", err=True)
+    click.echo(f"Skills:   {len(summary['skills'])} linked", err=True)
     plugin = summary.get("obsidian_plugin") or {}
     plugin_status = plugin.get("status")
     reload_hint = " -- reload it in Obsidian (or restart Obsidian)"
     if plugin_status == "installed":
         enabled = " and enabled" if plugin.get("enabled") == "added" else ""
-        click.echo(f"Plugin:   artmind {plugin['version']} installed{enabled} in .obsidian/plugins/artmind/{reload_hint}")
+        click.echo(f"Plugin:   artmind {plugin['version']} installed{enabled} in .obsidian/plugins/artmind/{reload_hint}", err=True)
     elif plugin_status == "updated":
-        click.echo(f"Plugin:   artmind {plugin['previous']} -> {plugin['version']}{reload_hint}")
+        click.echo(f"Plugin:   artmind {plugin['previous']} -> {plugin['version']}{reload_hint}", err=True)
     elif plugin_status == "current":
-        click.echo(f"Plugin:   artmind {plugin['version']} (current)")
+        click.echo(f"Plugin:   artmind {plugin['version']} (current)", err=True)
     elif plugin_status == "no_obsidian":
-        click.echo("Plugin:   skipped -- no .obsidian/ yet; open this folder as a vault in Obsidian once, then re-run `artmind init`")
+        click.echo("Plugin:   skipped -- no .obsidian/ yet; open this folder as a vault in Obsidian once, then re-run `artmind init`", err=True)
     elif plugin_status == "not_packaged":
-        click.echo("Plugin:   skipped -- this artmind build has no Obsidian plugin (`just obsidian-plugin-build` in the checkout)")
+        click.echo("Plugin:   skipped -- this artmind build has no Obsidian plugin (`just obsidian-plugin-build` in the checkout)", err=True)
     if plugin.get("enabled") == "failed":
-        click.echo("          could not read .obsidian/community-plugins.json -- enable artmind in Obsidian's settings")
-    click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+        click.echo("          could not read .obsidian/community-plugins.json -- enable artmind in Obsidian's settings", err=True)
+    click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}", err=True)
     vault_id = summary.get("vault_id")
     if vault_id and summary.get("vault_id_minted"):
         click.echo(
             f"Vault id: {vault_id} (new -- let Obsidian Git commit "
-            ".artmind/vault.yaml before running `artmind init` in another clone)"
+            ".artmind/vault.yaml before running `artmind init` in another clone)", err=True
         )
     elif vault_id:
-        click.echo(f"Vault id: {vault_id}")
+        click.echo(f"Vault id: {vault_id}", err=True)
 
     machine_config = summary.get("machine_config", {})
     action = machine_config.get("action")
     machine_path = machine_config.get("path")
     if action == "migrated":
-        click.echo(f"Machine:  migrated {machine_config['source']} -> {machine_path}")
+        click.echo(f"Machine:  migrated {machine_config['source']} -> {machine_path}", err=True)
     elif action == "seeded":
         click.echo(
             f"Machine:  seeded {machine_path} from env.example defaults —"
-            f" review it (LLM provider, API key, embedding model)"
+            f" review it (LLM provider, API key, embedding model)", err=True
         )
     elif action == "missing":
         click.echo(
@@ -6223,7 +6231,7 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
             f" docs/vault.md, \"Machine-level config\"); without it, this vault has no"
             f" configured LLM at all and extraction will fail with no explanation."
             f" Create it from artmind/env.example's machine-level keys"
-            f" (ARTMIND_KG_LLM_*, ARTMIND_OPENROUTER_API_KEY, ARTMIND_KG_EMBEDDINGS_*, ...)."
+            f" (ARTMIND_KG_LLM_*, ARTMIND_OPENROUTER_API_KEY, ARTMIND_KG_EMBEDDINGS_*, ...).", err=True
         )
 
     click.echo(
@@ -6233,22 +6241,44 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
         f"  $EDITOR {root / '.artmind' / 'vault.yaml'}   # map folders to domains\n"
         f"  artmind ingest async .                         # ingest this vault's documents\n"
         f"\nCreating a new vault from scratch? `artmind vault new NAME` does all of this,\n"
-        f"plus the Neo4j instance, a private GitHub repo and the Obsidian plugins."
+        f"plus the Neo4j instance, a private GitHub repo and the Obsidian plugins.", err=True
     )
+    _echo_json({
+        "vault": str(summary["vault"]),
+        "git_initialised": git_initialised,
+        "schemas": list(summary["schemas"]),
+        "refreshed": refreshed,
+        "skills": len(summary["skills"]),
+        "obsidian_plugin": plugin_status,
+        "vault_id": vault_id,
+        "machine_config": action,
+        "manifest": str(root / ".artmind" / "vault.yaml"),
+        "next": "artmind setup",
+    }, compact)
 
 
 @cli.command("setup")
-def setup():
+@compact_option
+def setup(compact: bool):
     """Initialize SQLite tables and Neo4j constraints/indexes (idempotent)."""
     try:
         result = setup_all()
-        click.echo("SQLite:               " + result["sqlite"])
-        click.echo("Neo4j constraints:    " + ", ".join(result["neo4j_constraints"]))
-        click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]))
-        click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]))
-        click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])))
+        click.echo("SQLite:               " + result["sqlite"], err=True)
+        click.echo("Neo4j constraints:    " + ", ".join(result["neo4j_constraints"]), err=True)
+        click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]), err=True)
+        click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]), err=True)
+        click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])), err=True)
         if result.get("legacy_chunk_vectors"):
-            click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "))
-        click.echo("\nSetup complete.")
+            click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "), err=True)
+        click.echo("\nSetup complete.", err=True)
     except Exception as e:
         raise click.ClickException(str(e))
+    legacy = result.get("legacy_chunk_vectors")
+    _echo_json({
+        "sqlite": result["sqlite"],
+        "neo4j_constraints": list(result["neo4j_constraints"]),
+        "neo4j_indexes": list(result["neo4j_indexes"]),
+        "neo4j_vector_indexes": list(result["neo4j_vector_indexes"]),
+        "neo4j_fulltext_indexes": list(result.get("neo4j_fulltext_indexes", [])),
+        "legacy_chunk_vectors": legacy["report"].removeprefix("legacy chunk vectors: ") if legacy else None,
+    }, compact)

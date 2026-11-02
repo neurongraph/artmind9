@@ -65,3 +65,16 @@ def test_vault_new_passes_neo4j_flags(world):
     assert world.sent("neo4j-manager") == []
     config = (world.tmp / "vaults" / "demo" / ".artmind" / "config.env").read_text()
     assert "ARTMIND_KG_NEO4J_URI=neo4j+s://x.databases.neo4j.io" in config
+
+
+def test_vault_new_prints_one_json_envelope_and_the_text_goes_to_stderr(world):
+    import json
+
+    result = CliRunner().invoke(cli, _args(world, "--yes", "--compact"))
+
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.stdout)
+    assert payload["command"] == "vault new" and payload["warnings"] == []
+    assert payload["name"] == "demo" and payload["github_repo"] == "neurongraph/demo"
+    assert payload["resumed"] is False and payload["join"] is False
+    assert "Create vault demo:" in result.stderr and "Create vault" not in result.stdout
