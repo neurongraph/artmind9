@@ -21,32 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 # Commands that do not satisfy a check yet (removed as the rollout reaches them).
 _PENDING_COMPACT: set[str] = set()
 _PENDING_KEBAB: set[str] = set()
-_PENDING_DRYRUN: set[str] = {
-    "db bridge clear",
-    "db bridge confirm",
-    "db grain",
-    "db mappings clear",
-    "db mappings confirm",
-    "db mappings set",
-    "db propose",
-    "db refresh",
-    "db restore",
-    "db restore-text",
-    "docs reindex",
-    "docs restore-from-archive",
-    "domains add",
-    "domains delete",
-    "ingest async",
-    "ingest embed-entities",
-    "ingest embed-passages",
-    "ingest pull-kg",
-    "ingest retry-job",
-    "ingest write-to-graph",
-    "insights refresh",
-    "review attach",
-    "review new",
-    "snapshot restore",
-}
+_PENDING_DRYRUN: set[str] = set()
 _PENDING_EFFECT_TEST: set[str] = set()
 _PENDING_CALLERS: bool = False
 
@@ -109,6 +84,38 @@ def test_tier_one_commands_have_an_effect_test() -> None:
     _check(_PENDING_EFFECT_TEST, failing, "tier-1 commands without test/test_dry_run_<command>.py")
 
 
+# ── a write command is declared (spec §4 item 5) ──────────────────────────
+
+# Names that mean "this callback writes the graph, staging or vault files". The check is
+# approximate: it reads each command's own source, so a write hidden in a helper is not seen
+# here (the tier lists and review catch those); a false positive goes in _READ_ONLY with the reason.
+_WRITE_HELPERS = (
+    "_commit_document_tx", "lifecycle.", "sameas.", "topics.store", "neo4j_session(",
+    "write_text(", "write_bytes(", "shutil.", ".unlink(", "rmtree(", "_atomic_write",
+)
+_READ_ONLY: dict[str, str] = {
+    "insights same-as": "--export writes one review file the operator names; the graph is only read",
+    "sameas list": "reads the review queue",
+    "sameas propose": "writes the proposal queue file only; no graph, staging or vault note",
+}
+
+
+def test_a_command_that_writes_is_declared() -> None:
+    import inspect
+
+    found = set()
+    for path, command in _leaves():
+        if path in cc.WRITE_COMMANDS or command.callback is None:
+            continue
+        try:
+            source = inspect.getsource(command.callback)
+        except (OSError, TypeError):
+            continue
+        if any(helper in source for helper in _WRITE_HELPERS):
+            found.add(path)
+    _check(set(_READ_ONLY), found, "commands that write but are in neither WRITE_COMMANDS nor _READ_ONLY")
+
+
 # ── callers use the new spellings (spec §3.3) ──────────────────────────────
 
 _CALLER_GLOBS = (
@@ -140,3 +147,23 @@ def _deprecated_uses() -> list[str]:
 @pytest.mark.skipif(_PENDING_CALLERS, reason="callers not moved yet (plan Task 13)")
 def test_no_caller_uses_a_deprecated_spelling() -> None:
     assert not _deprecated_uses()
+
+
+# ── tier-2 --dryRun refuses until it is built ──────────────────────────────
+
+
+@pytest.mark.parametrize("path", sorted(p for p, tier in cc.WRITE_COMMANDS.items() if tier == 2 and p != "domains harmonize"
+                                         and p != "vault migrate-frontmatter"))
+def test_an_unbuilt_dry_run_refuses_before_acting(path: str) -> None:
+    from click.testing import CliRunner
+
+    command = dict(_leaves())[path]
+    flag = next(p for p in command.params if isinstance(p, click.Option) and "--dryRun" in p.opts)
+    if flag.callback is None or flag.expose_value:
+        pytest.skip("this command has a real --dryRun")
+    words = path.split()
+    if words[:2] == ["db", "mappings"]:
+        words.insert(2, "synthetic_table")  # the table comes before the subcommand
+    result = CliRunner().invoke(cli, [*words, "--dryRun"], standalone_mode=False)
+    assert isinstance(result.exception, click.ClickException), result.output
+    assert result.exception.message == f"--dryRun is not available for `{path}` yet; nothing was changed"

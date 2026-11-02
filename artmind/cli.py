@@ -74,7 +74,8 @@ from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
 from artmind.cli_conventions import (
-    Change, Effect, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure, with_effect,
+    Change, Effect, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
+    unbuilt_dry_run_option, with_effect,
 )
 
 
@@ -640,6 +641,7 @@ def list_domains(compact: bool):
 @domains.command("add")
 @compact_option
 @click.argument("domain_file", type=click.Path(exists=True))
+@unbuilt_dry_run_option
 def add_domain(compact: bool, domain_file: str):
     """Add a domain schema from a YAML file."""
     source = Path(domain_file)
@@ -657,6 +659,7 @@ def add_domain(compact: bool, domain_file: str):
 @domains.command("delete")
 @compact_option
 @click.argument("domain_name")
+@unbuilt_dry_run_option
 def delete_domain(compact: bool, domain_name: str):
     """Delete a domain schema."""
     domain_file = DOMAIN_SCHEMAS_DIR / f"{domain_name}_schema.yaml"
@@ -1179,6 +1182,7 @@ def ingest_sync(
     " \"file_count\": 0} when nothing is pending.",
 )
 @compact_option
+@unbuilt_dry_run_option
 def ingest_async(
     file_paths: tuple[str, ...], domain: str | None, force: bool, reextract: bool, match: tuple[str, ...],
     stage_only: bool, pending: bool, compact: bool,
@@ -1418,6 +1422,7 @@ def ingest_job_results(job_id: str, compact: bool):
 @click.argument("job_id")
 @aliased_option("--includeSkipped", "--include-skipped", param="include_skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
 @compact_option
+@unbuilt_dry_run_option
 def ingest_retry_job(job_id: str, include_skipped: bool, compact: bool):
     """Re-queue failed files in a job for reprocessing.
 
@@ -1491,6 +1496,7 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
 @ingest.command("embed-entities")
 @click.option("--domain", required=True, help="Domain to backfill")
 @compact_option
+@unbuilt_dry_run_option
 def ingest_embed_entities(domain: str, compact: bool) -> None:
     """Backfill vector embeddings for entities missing one (powers query entity-resolve)."""
     _echo_json(embed_entities_backfill(domain), compact)
@@ -1499,6 +1505,7 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
 @ingest.command("embed-passages")
 @click.option("--domain", default=None, help="Only this domain (exact name)")
 @compact_option
+@unbuilt_dry_run_option
 def ingest_embed_passages(domain: str | None, compact: bool) -> None:
     """Build missing or outdated passages and embed every passage, summary and chat whose vector is missing or stale.
 
@@ -1704,6 +1711,7 @@ def ingest_retime(
               help="Skip the chunk-embedding sweep. Chunks written without a vector are "
                    "invisible to semantic search until `ingest embed-passages` runs.")
 @compact_option
+@unbuilt_dry_run_option
 def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool,
                           compact: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
@@ -1933,6 +1941,7 @@ def ingest_table2graph(
 @aliased_option("--repoPath", "--repo-path", param="repo_path", required=True, help="Path within the repo to the folder containing document sub-folders")
 @click.option("--domain", required=True, help="Target domain name")
 @compact_option
+@unbuilt_dry_run_option
 def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> None:
     """Pull KG JSON from an external GitHub repo into the local KG directory.
 
@@ -2515,6 +2524,7 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
 @click.option("--confidence", type=float, default=1.0)
 @compact_option
 @click.pass_context
+@unbuilt_dry_run_option
 def db_mappings_set(ctx, column, entity_class, confidence, compact):
     """Upsert a confirmed column-to-entityClass mapping."""
     table_id = _ctx_table_id(ctx)
@@ -2530,6 +2540,7 @@ def db_mappings_set(ctx, column, entity_class, confidence, compact):
 @click.option("--entityClass", "entity_class", required=True)
 @compact_option
 @click.pass_context
+@unbuilt_dry_run_option
 def db_mappings_confirm(ctx, column, entity_class, compact):
     """Flip an existing proposed mapping to confirmed.
 
@@ -2555,6 +2566,7 @@ def db_mappings_confirm(ctx, column, entity_class, compact):
 @click.option("--column", default=None, help="Clear only this column's mappings (omit to clear all of the table's mappings)")
 @compact_option
 @click.pass_context
+@unbuilt_dry_run_option
 def db_mappings_clear(ctx, column, compact):
     """Remove mapping(s) for TABLE — one column, or all if --column omitted.
 
@@ -2609,6 +2621,7 @@ def db_bridge(ctx, domain, entity_class, compact):
 @click.option("--column", required=True, help="Column whose bridge role is being confirmed.")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @compact_option
+@unbuilt_dry_run_option
 def db_bridge_confirm(table, column, domain, compact):
     """Mark a proposed bridge column as operator-confirmed.
 
@@ -2639,6 +2652,7 @@ def db_bridge_confirm(table, column, domain, compact):
 @click.option("--column", default=None, help="Clear only this column's bridge role (omit to clear all of the table's).")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @compact_option
+@unbuilt_dry_run_option
 def db_bridge_clear(table, column, domain, compact):
     """Remove bridge role(s) — one column, or all of TABLE's if --column omitted.
 
@@ -2719,6 +2733,7 @@ def db_review(domain, compact):
 @click.option("--redo", is_flag=True, help="Re-run a step even though its status is already 'ok'.")
 @click.option("--model", default=None, help="Override the LLM model used for grain/bridge/mapping proposal.")
 @compact_option
+@unbuilt_dry_run_option
 def db_propose(table, domain, steps, redo, model, compact):
     """Re-run classification for TABLE: grain, bridge columns, and column-to-entityClass mappings.
 
@@ -2745,6 +2760,7 @@ def db_propose(table, domain, steps, redo, model, compact):
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option("--set", "grain", default=None, type=click.Choice(structured_registry.GRAINS), help="Confirm TABLE's grain. Omit to just show it.")
 @compact_option
+@unbuilt_dry_run_option
 def db_grain(table, domain, grain, compact):
     """Show or confirm what TABLE's rows denote — instance, lookup, or normative.
 
@@ -2799,6 +2815,7 @@ def db_catalogue(domain, compact):
 @click.argument("table")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable) — needed only if TABLE is ambiguous across domains.")
 @compact_option
+@unbuilt_dry_run_option
 def db_refresh(table, domain, compact):
     """Re-ingest TABLE from its recorded source_file.
 
@@ -2841,6 +2858,7 @@ def db_backup(compact):
 @click.argument("path", required=False, type=click.Path(exists=True))
 @click.option("--confirm", is_flag=True, help="Required — restoring wipes the current structured store")
 @compact_option
+@unbuilt_dry_run_option
 def db_restore(path, confirm, compact):
     """Wipe and restore the structured store from a snapshot (latest if PATH omitted)."""
     if not confirm:
@@ -2876,6 +2894,7 @@ def db_export_text(dest_dir, compact):
 )
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope --table resolution (repeatable; comma-splittable).")
 @compact_option
+@unbuilt_dry_run_option
 def db_restore_text(path, confirm, table, domain, compact):
     """Wipe and rebuild the structured store from a `db export-text` directory (default: the vault's structured_text dir).
 
@@ -4029,6 +4048,7 @@ def _latest_insights(domain: str):
 @click.option("--only", "only", default=None, help="Comma-separated detectors; other findings are carried over")
 @aliased_option("--noNarrate", "--no-narrate", param="no_narrate", is_flag=True, help="Skip the LLM captions and circle names this run")
 @compact_option
+@unbuilt_dry_run_option
 def insights_refresh(domain: tuple, force: bool, only: str | None, no_narrate: bool, compact: bool) -> None:
     """Profile the graph, run the detectors, narrate findings and circles, and write a snapshot. Needs Neo4j.
 
@@ -4481,6 +4501,7 @@ def _load_dossier(review_id):
               help="Schema element domain/Class[.prop|-REL->] (repeatable; comma-splittable)")
 @click.option("--force", is_flag=True, help="Open another dossier even if the trace already has an open one")
 @compact_option
+@unbuilt_dry_run_option
 def review_new(trace_id, stage, elements, force, compact) -> None:
     """Scaffold a dossier from a recorded trace (symptom, retrieval path, private terms)."""
     from artmind.reviews import dossier as dz
@@ -4682,6 +4703,7 @@ def review_shape_report(domain, all_statuses, sample_n, seed, compact) -> None:
 @click.argument("review_id")
 @click.argument("trace_id")
 @compact_option
+@unbuilt_dry_run_option
 def review_attach(review_id, trace_id, compact) -> None:
     """Add another symptom trace to an open dossier (one problem, one dossier)."""
     from artmind.reviews import dossier as dz
@@ -5118,6 +5140,7 @@ def docs_restore(domain: str, document_name: str, dry_run: bool, compact: bool) 
 
 @docs.command("reindex")
 @compact_option
+@unbuilt_dry_run_option
 def docs_reindex(compact: bool) -> None:
     """Rebuild the registry's path <-> id cache from vault frontmatter.
 
@@ -5197,6 +5220,7 @@ def docs_archived(domain: str | None, compact: bool) -> None:
 @click.option("--toPath", "to_path", default=None, help="Restore to a different vault path (collision escape hatch)")
 @click.option("--newId", "new_id", default=None, help="Restore under a fresh _artmind_id (collision escape hatch)")
 @compact_option
+@unbuilt_dry_run_option
 def docs_restore_from_archive(
     archive_id: str, to_path: str | None, new_id: str | None, compact: bool
 ) -> None:
@@ -5792,6 +5816,7 @@ def snapshot_create(only: str | None, compact: bool):
 )
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
 @compact_option
+@unbuilt_dry_run_option
 def snapshot_restore(
     snapshot_path: str, only: str | None, rebuild_projection: str, yes: bool, compact: bool
 ):
