@@ -20,11 +20,6 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Commands that do not satisfy a check yet (removed as the rollout reaches them).
 _PENDING_COMPACT: set[str] = {
-    "ingest extract-kg",
-    "ingest pull-kg",
-    "ingest refine-graph",
-    "ingest sync",
-    "ingest write-to-graph",
     "init",
     "review attach",
     "review prompt",

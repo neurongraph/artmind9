@@ -340,14 +340,15 @@ def _get_available_domains() -> list[str]:
 def _prompt_for_domain() -> str:
     """Show available domains and prompt user to select one."""
     domains = _get_available_domains()
-    click.echo("Available domains:")
+    click.echo("Available domains:", err=True)
     for d in domains:
-        click.echo(f"  - {d}")
+        click.echo(f"  - {d}", err=True)
     return click.prompt(
         "Domain",
         default="general",
         type=click.Choice(domains, case_sensitive=False),
         show_choices=False,
+        err=True,
     )
 
 
@@ -926,6 +927,7 @@ def _filter_match(files: "list[Path]", base: Path, patterns: "tuple[str, ...]") 
     help="Structured files only: column supplying each row's effective date for temporal refresh"
     " (falls back to the ingest date when omitted or null on a row).",
 )
+@compact_option
 def ingest_sync(
     file_path: str,
     domain: str | None,
@@ -940,6 +942,7 @@ def ingest_sync(
     table_name: str | None,
     business_key: str | None,
     effective_date_column: str | None,
+    compact: bool,
 ):
     """Ingest a file or directory synchronously (blocking)."""
     _require_ingest_extra()
@@ -1011,6 +1014,7 @@ def ingest_sync(
         logger.debug("  File: {}", name)
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
+    failed_files: list[str] = []
     # One file rebuilds incrementally; a directory defers to one full rebuild.
     defer_rebuild = len(files) > 1 and not stage_only
     deferred_domains: set[str] = set()
@@ -1023,6 +1027,7 @@ def ingest_sync(
                 structured_domain = set_domain or _mapped_domain(f) or domain
                 if structured_domain is None:
                     fail_count += 1
+                    failed_files.append(f.name)
                     logger.error(
                         "{}: no domain for this structured file -- map its folder in "
                         ".artmind/vault.yaml (ingest.mappings) or pass --domain",
@@ -1070,12 +1075,15 @@ def ingest_sync(
                     ok_count += 1
                 else:
                     fail_count += 1
+                    failed_files.append(f.name)
                     logger.error("KG ingestion failed for {}", f.name)
             else:
                 fail_count += 1
+                failed_files.append(f.name)
                 logger.error("Ingestion failed for {}: {}", f.name, result.get("error"))
         except Exception as e:
             fail_count += 1
+            failed_files.append(f.name)
             logger.error("Unexpected error processing {}: {}", f, e)
 
     if deferred_domains:
@@ -1095,6 +1103,11 @@ def ingest_sync(
         ok_count,
         fail_count,
         )
+    _echo_json({
+        "files": len(files), "ok": ok_count, "failed": fail_count, "failed_files": failed_files,
+        "elapsed_seconds": round(elapsed, 1), "stage_only": stage_only,
+        "projection_rebuilt": sorted(deferred_domains),
+    }, compact)
 
 
 @ingest.command("async")
@@ -1476,7 +1489,8 @@ def ingest_summarise(domain: str | None, match: str | None, dry_run: bool, max_w
 @click.option("--maxWorkers", "max_workers", type=int, default=None,
               help="Chunk-level concurrency (default: 4 for openrouter, 1 for ollama; "
                    "or ARTMIND_INGEST_MAX_WORKERS)")
-def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) -> None:
+@compact_option
+def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None, compact: bool) -> None:
     """Re-run or resume KG extraction for a document (skips already-ok chunks).
 
     DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
@@ -1501,6 +1515,9 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model, max_workers=max_workers)
     if doc_kg_dir:
         logger.info("extract_kg complete — merged JSON in {}", doc_kg_dir)
+        _echo_json({"document": document_name, "domain": domain, "chunks": file_result["chunk_count"],
+                    "staging_dir": str(doc_kg_dir),
+                    "next": f"artmind ingest write-to-graph {document_name} --domain {domain}"}, compact)
     else:
         raise click.ClickException(file_result.get("kg_error") or "extract_kg failed — check logs for details")
 
@@ -1637,7 +1654,9 @@ def ingest_retime(
 @click.option("--noEmbed", "no_embed", is_flag=True,
               help="Skip the chunk-embedding sweep. Chunks written without a vector are "
                    "invisible to semantic search until `ingest embed-passages` runs.")
-def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool) -> None:
+@compact_option
+def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool,
+                          compact: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
     \b
@@ -1685,6 +1704,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
         if not no_embed:
             _run_passage_sweep()
+        _echo_json({"mode": "document", "domain": domain, "document": document_name, "written": 1, "failed": 0,
+                    "embedded": not no_embed}, compact)
         return
 
     # ── folder (batch) mode ───────────────────────────────────────────────
@@ -1708,11 +1729,11 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         if not doc_dirs:
             raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
 
-        click.echo(f"\nNo document.json found in immediate sub-folders. Found {len(doc_dirs)} document(s) recursively:\n")
+        click.echo(f"\nNo document.json found in immediate sub-folders. Found {len(doc_dirs)} document(s) recursively:\n", err=True)
         for d in doc_dirs:
-            click.echo(f"  {d.relative_to(folder_path)}")
-        click.echo()
-        if not click.confirm(f"Write all {len(doc_dirs)} document(s) to graph (domain={resolved_domain})?"):
+            click.echo(f"  {d.relative_to(folder_path)}", err=True)
+        click.echo(err=True)
+        if not click.confirm(f"Write all {len(doc_dirs)} document(s) to graph (domain={resolved_domain})?", err=True):
             raise click.Abort()
 
     logger.info(
@@ -1721,6 +1742,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     )
 
     ok_count, fail_count = 0, 0
+    failed_names: list[str] = []
     for doc_kg_dir in doc_dirs:
         logger.info("  writing {} …", doc_kg_dir.name)
         try:
@@ -1728,9 +1750,11 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
                 ok_count += 1
             else:
                 fail_count += 1
+                failed_names.append(doc_kg_dir.name)
                 logger.error("  FAILED: {}", doc_kg_dir.name)
         except Exception as e:
             fail_count += 1
+            failed_names.append(doc_kg_dir.name)
             logger.error("  FAILED: {} — {}", doc_kg_dir.name, e)
 
     logger.info(
@@ -1739,6 +1763,9 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     )
     if not no_embed and ok_count:
         _run_passage_sweep()
+    _echo_json({"mode": "folder", "domain": resolved_domain, "documents": len(doc_dirs), "written": ok_count,
+                "failed": fail_count, "failed_documents": failed_names, "embedded": bool(not no_embed and ok_count)},
+               compact)
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
@@ -1850,7 +1877,8 @@ def ingest_table2graph(
 @click.option("--repo", required=True, help="Git-cloneable URL (SSH or HTTPS) of the external repository")
 @click.option("--repo-path", required=True, help="Path within the repo to the folder containing document sub-folders")
 @click.option("--domain", required=True, help="Target domain name")
-def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
+@compact_option
+def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> None:
     """Pull KG JSON from an external GitHub repo into the local KG directory.
 
     \b
@@ -1873,6 +1901,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
         "pull-kg complete: {} document(s) pulled into domain '{}'",
         result["pulled_count"], result["domain"],
     )
+    _echo_json(result if isinstance(result, dict) else {"result": result}, compact)
 
 
 @ingest.command("refine-graph")
@@ -1935,6 +1964,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
         " one document asserted both of."
     ),
 )
+@compact_option
 def ingest_refine_graph(
     domain: str | None,
     name_filter: str | None,
@@ -1945,6 +1975,7 @@ def ingest_refine_graph(
     from_file: str | None,
     allow_cross_domain_merge: bool,
     document_name: str | None,
+    compact: bool,
 ) -> None:
     """Find similar entity names, propose same-as groups for a human to approve.
 
@@ -1996,25 +2027,36 @@ def ingest_refine_graph(
             f"skipped={stats.get('skipped',0)} "
             f"skipped_cross_class={stats.get('skipped_cross_class',0)} "
             f"skipped_ambiguous={stats.get('skipped_ambiguous',0)}. "
-            "Review with `artmind sameas list`, then `artmind sameas approve <id>`."
+            "Review with `artmind sameas list`, then `artmind sameas approve <id>`.",
+            err=True,
         )
     else:
         within = report.get("within_document_merges")
         click.echo(
             f"Dry-run complete — {len(proposed)} merge(s) proposed"
-            + (f", {within} within one document" if within is not None else "")
+            + (f", {within} within one document" if within is not None else ""),
+            err=True,
         )
         if out_path:
-            click.echo(f"Proposals written to: {out_path}")
-            click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")
+            click.echo(f"Proposals written to: {out_path}", err=True)
+            click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}", err=True)
 
     skipped = report.get("skipped_cross_domain", {})
     if skipped:
-        click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
-
-
-
-
+        click.echo(
+            f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}",
+            err=True,
+        )
+    _echo_json({
+        "dry_run": bool(dry_run and not from_path),
+        "proposed": len(proposed),
+        "within_document_merges": report.get("within_document_merges"),
+        "stats": stats,
+        "skipped_cross_domain": skipped,
+        "output_file": str(out_path) if out_path else None,
+        "next": (f"artmind ingest refine-graph --from-file {out_path}" if (dry_run and not from_path and out_path)
+                 else "artmind sameas list" if (from_path or not dry_run) else None),
+    }, compact)
 
 
 @ingest.command("detect-conflicts")
