@@ -7,6 +7,7 @@ from unittest.mock import patch
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind import graph_query
 from artmind.cli import cli
 
@@ -197,7 +198,7 @@ def test_cli_document_history_outputs_json():
                                           "--documentName", "2030-01-02.md", "--compact"])
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["journal"], "2030-01-02.md")
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 # ── H4d: document-history name matching (spec 2026-10-22 §5.4.4) ─────────────

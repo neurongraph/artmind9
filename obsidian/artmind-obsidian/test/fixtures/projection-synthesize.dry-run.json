@@ -9,8 +9,10 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "projection synthesize",
+    "warnings": [],
+    "next": null,
     "domain": "general",
-    "command": "projection_synthesize",
     "model": "ministral-3:14b",
     "dry_run": true,
     "examined": 3,

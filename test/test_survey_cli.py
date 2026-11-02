@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 from artmind.traces import evidence, path
 
@@ -13,7 +14,7 @@ def test_query_survey_passes_options_through():
         result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--topDocs", "5",
                                           "--passages", "2", "--compact", "what do the notes say"])
     assert result.exit_code == 0, result.output
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
     args, kwargs = search.call_args
     assert args == (["notes"], "what do the notes say")
     assert kwargs["top_docs"] == 5 and kwargs["passages"] == 2

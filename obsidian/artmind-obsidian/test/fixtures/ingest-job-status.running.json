@@ -7,6 +7,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "ingest job-status",
+    "warnings": [],
+    "next": null,
     "job_id": "00000000-0000-4000-8000-000000000001",
     "status": "processing",
     "file_count": 5,

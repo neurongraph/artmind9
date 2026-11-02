@@ -6,6 +6,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "sameas list",
+    "warnings": [],
+    "next": null,
     "status": "open",
     "proposals": [
       {

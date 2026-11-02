@@ -7,6 +7,7 @@ import pytest
 import yaml
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 from artmind.query_plan import labels
 
@@ -71,8 +72,7 @@ def test_the_cli_validates_a_file(tmp_path):
     ]}))
     result = CliRunner().invoke(cli, ["plan", "labels", "validate", "--file", str(path), "--compact"])
     assert result.exit_code == 0, result.output
-    assert json.loads(result.output) == {"command": "plan labels validate", "file": str(path), "ok": True,
-                                         "labels": 1, "errors": []}
+    assert plain(json.loads(result.output)) == {"file": str(path), "ok": True, "labels": 1, "errors": []}
 
 
 def test_the_cli_fails_on_an_invalid_file(tmp_path):

@@ -7,6 +7,7 @@ import time
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 from artmind.reviews import dossier as dz
 from artmind.traces import store
@@ -133,7 +134,7 @@ def test_shape_cli(monkeypatch):
     monkeypatch.setattr(shape, "bundle", fake_bundle)
     out = json.loads(_run("shape", "--domain", "d", "--chunk", "c-1,c-2", "--pattern", '[{"class": "PERSON"}]',
                           "--compact").stdout)
-    assert out == {"domain": "d", "chunk_ids": ["c-1", "c-2"]}
+    assert plain(out) == plain({"domain": "d", "chunk_ids": ["c-1", "c-2"]})
     assert seen["pattern"] == [{"class": "PERSON"}] and seen["trace_id"] is None
 
 
@@ -193,4 +194,4 @@ def test_verify_cli(monkeypatch):
     seen = {}
     monkeypatch.setattr(verify, "verify", lambda rid, **kw: seen.update(rid=rid, **kw) or {"mechanical_ok": True})
     out = json.loads(_run("verify", "rv-2031-01-01-aaaaaa", "--runId", "r1", "--compact").stdout)
-    assert out == {"mechanical_ok": True} and seen == {"rid": "rv-2031-01-01-aaaaaa", "run_id": "r1", "backend": "claude-sdk"}
+    assert plain(out) == {"mechanical_ok": True} and seen == {"rid": "rv-2031-01-01-aaaaaa", "run_id": "r1", "backend": "claude-sdk"}

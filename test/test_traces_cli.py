@@ -6,6 +6,7 @@ import time
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 from artmind.traces import store
 
@@ -55,7 +56,7 @@ def test_triage_and_stats():
 
 
 def test_prune_reports_count():
-    assert _json(["prune", "--days", "90"]) == {"pruned": 0}
+    assert plain(_json(["prune", "--days", "90"])) == plain({"pruned": 0})
 
 
 def test_list_passes_limit_to_db_when_no_filters():

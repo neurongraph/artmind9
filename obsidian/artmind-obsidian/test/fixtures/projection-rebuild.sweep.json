@@ -7,6 +7,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "projection rebuild",
+    "warnings": [],
+    "next": null,
     "rebuilt": 3,
     "deleted": 0,
     "absent": 0,

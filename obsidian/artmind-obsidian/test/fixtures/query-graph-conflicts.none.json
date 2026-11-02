@@ -9,12 +9,14 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "query graph conflicts",
+    "warnings": [],
+    "next": null,
     "domains": [
       "general"
     ],
     "domain": "general",
     "query_type": "graph",
-    "command": "conflicts",
     "status": "open",
     "rows": []
   },

@@ -6,6 +6,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "vault sync",
+    "warnings": [],
+    "next": null,
     "stores": [
       "graph",
       "structured"

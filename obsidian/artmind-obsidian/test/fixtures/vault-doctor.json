@@ -6,6 +6,9 @@
   ],
   "exit_code": 1,
   "json": {
+    "command": "vault doctor",
+    "warnings": [],
+    "next": null,
     "vault": "/vault",
     "ok": false,
     "checks": [

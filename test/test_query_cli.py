@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind import graph_query
 from artmind.cli import cli
 
@@ -27,7 +28,7 @@ def test_graph_metadata_cli_outputs_json(runner):
 
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["fiction"])
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_graph_entity_listing_cli_outputs_json(runner):
@@ -44,7 +45,7 @@ def test_graph_entity_listing_cli_outputs_json(runner):
 
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["fiction"], name_filter=None, count_all=False, max_names=50)
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_graph_entity_listing_cli_passes_name_filter(runner):
@@ -63,7 +64,7 @@ def test_graph_entity_listing_cli_passes_name_filter(runner):
 
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["fiction"], name_filter="holmes", count_all=False, max_names=50)
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_graph_entity_listing_cli_passes_count_all(runner):
@@ -152,7 +153,7 @@ def test_graph_pattern_cli_dispatches_every_pattern(runner, pattern, args, expec
     assert call_kwargs["question"] == "Question?"
     for key, value in expected.items():
         assert call_kwargs[key] == value
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_graph_pattern8_cli_passes_offset_and_limit(runner):
@@ -325,7 +326,7 @@ def test_graph_hierarchy_cli_discovery_mode(runner):
         node_class=[],
         question=None,
     )
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_graph_hierarchy_cli_passes_traversal_options(runner):
@@ -364,7 +365,7 @@ def test_graph_hierarchy_cli_passes_traversal_options(runner):
         node_class=["ROLE_PERSON", "ORGANIZATIONAL_UNIT"],
         question="who does Alex report to?",
     )
-    assert result.output.strip() == json.dumps(payload, separators=(",", ":"))
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_graph_hierarchy_cli_rejects_bad_direction(runner):
@@ -405,7 +406,7 @@ def test_compact_json_output(runner):
         )
 
     assert result.exit_code == 0, result.output
-    assert result.output.strip() == json.dumps(payload, separators=(",", ":"))
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_vector_text_cli_dispatches_and_outputs_json(runner):
@@ -432,4 +433,4 @@ def test_vector_text_cli_dispatches_and_outputs_json(runner):
 
     assert result.exit_code == 0, result.output
     query.assert_called_once_with(["fiction"], "Where did Holmes go?", 3, as_of=None, context="chunk")
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)

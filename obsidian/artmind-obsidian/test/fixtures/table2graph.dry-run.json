@@ -9,6 +9,8 @@
   "exit_code": 0,
   "json": {
     "command": "ingest table2graph",
+    "warnings": [],
+    "next": null,
     "tables": [
       {
         "table": "team",

@@ -29,7 +29,7 @@ def test_text2cypher_without_dry_run_has_no_next(monkeypatch):
     )
     result = CliRunner().invoke(cli, ["query", "graph", "text2cypher", "--domain", "fiction", "--compact", "q"])
     assert result.exit_code == 0, result.output
-    assert "next" not in json.loads(result.output)
+    assert json.loads(result.output)["next"] is None
 
 
 def test_text2sql_dry_run_names_the_command_to_run(monkeypatch):

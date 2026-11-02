@@ -7,6 +7,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "vault resolve",
+    "warnings": [],
+    "next": null,
     "head": "1111111111111111111111111111111111111111",
     "merge_head": "2222222222222222222222222222222222222222",
     "resolved": [

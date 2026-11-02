@@ -6,6 +6,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "ingest pending",
+    "warnings": [],
+    "next": null,
     "notes": [
       {
         "path": "Notes/new_idea.md",

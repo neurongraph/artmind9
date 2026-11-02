@@ -5,6 +5,7 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
+from _envelope import plain
 from artmind.server import create_app, run_cli_args
 
 
@@ -52,7 +53,7 @@ def test_query_dispatches_through_cli(client):
     body = resp.json()
     assert body["exit_code"] == 0, body
     query.assert_called_once_with(["fiction"])
-    assert json.loads(body["output"]) == payload
+    assert plain(json.loads(body["output"])) == plain(payload)
 
 
 def test_non_query_args_rejected(client):

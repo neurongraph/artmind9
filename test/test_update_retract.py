@@ -6,6 +6,7 @@ import json
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 import artmind.update as upd
 
 
@@ -115,7 +116,7 @@ def test_the_cli_retracts_and_prints_json(monkeypatch):
     result = CliRunner().invoke(cli, ["update", "retract", "--session", "s1", "--draft", "7", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.output) == {"retracted": ["update:s1:7"]}
+    assert plain(json.loads(result.output)) == plain({"retracted": ["update:s1:7"]})
     assert seen == [("s1", 7)]
 
 
@@ -128,7 +129,7 @@ def test_the_cli_retracts_the_whole_session_without_draft(monkeypatch):
     result = CliRunner().invoke(cli, ["update", "retract", "--session", "s1", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.output) == {"retracted": ["update:s1:7", "update:s1:8"]}
+    assert plain(json.loads(result.output)) == plain({"retracted": ["update:s1:7", "update:s1:8"]})
     assert seen == [("s1", None)]
 
 

@@ -105,7 +105,7 @@ def test_a_known_domain_adds_nothing():
     result = _listing("fiction")
 
     assert result.exit_code == 0, result.output
-    assert "warnings" not in json.loads(result.stdout)
+    assert json.loads(result.stdout)["warnings"] == []
     assert "unknown domain" not in result.stderr
 
 
@@ -122,7 +122,7 @@ def test_a_warning_does_not_leak_into_the_next_invocation():
     """`serve` runs many commands in one process; each is a fresh click context."""
     _listing("banking_corpus")
     again = _listing("fiction")
-    assert "warnings" not in json.loads(again.stdout)
+    assert json.loads(again.stdout)["warnings"] == []
 
 
 def test_a_failing_guard_never_breaks_the_command(monkeypatch):
@@ -132,4 +132,4 @@ def test_a_failing_guard_never_breaks_the_command(monkeypatch):
     monkeypatch.setattr(domain_guard, "_schema_domains", boom)
     result = _listing("banking_corpus")
     assert result.exit_code == 0, result.output
-    assert "warnings" not in json.loads(result.stdout)
+    assert json.loads(result.stdout)["warnings"] == []
