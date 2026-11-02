@@ -113,7 +113,7 @@ def _chunk_target(document: dict, chunk: Any, vault: Path | None) -> str | None:
     if match is None or match.group("doc_id") != doc_id:
         return None
     sequence = int(match.group("sequence"))
-    key = _chunk_key(doc_id, vault)
+    key = _chunk_key(doc_id, vault) or _recorded_chunk_key(document, doc_id, vault)
     if key is None:
         return None
     cache_root = (vault / ".artmind" / "data" / "documents" / "markdowns").resolve()
@@ -126,6 +126,27 @@ def _chunk_target(document: dict, chunk: Any, vault: Path | None) -> str | None:
     if resolved.is_file() and resolved.is_relative_to(cache_root):
         return rel.as_posix()
     return None
+
+
+def _recorded_chunk_key(document: dict, doc_id: str, vault: Path) -> str | None:
+    """The chunk key from the path the document itself recorded, for when the
+    registry has no row for it (a rebuilt or partial registry, a vault whose
+    graph outlived its registry).  Not a guess from the citation text: the
+    path is the Document node's own, and ``_chunks_key`` applies the same rule
+    the registry route does -- a converted binary's markdown is named by its
+    key, a note's key comes from its vault path."""
+    path, domain = document.get("path"), document.get("domain")
+    if not isinstance(path, str) or not isinstance(domain, str) or not domain:
+        return None
+    try:
+        registered = Path(path)
+        if not registered.is_absolute():
+            registered = vault / registered
+        from artmind.ingest import _chunks_key
+
+        return _chunks_key(domain, registered, doc_id)
+    except Exception:
+        return None
 
 
 def _chunk_key(doc_id: str, vault: Path) -> str | None:

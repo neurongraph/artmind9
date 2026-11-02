@@ -95,3 +95,18 @@ def test_render_never_guesses_a_chunk_folder_without_a_registry_row(tmp_path, mo
 
     assert result.cited_chunks == 0
     assert result.markdown == "### Sources\n- [Policy.md](<policies/Policy.md>) — banking"
+
+
+def test_render_resolves_chunk_from_recorded_path_without_a_registry_row(tmp_path, monkeypatch):
+    vault = tmp_path / "vault"
+    monkeypatch.setattr("artmind.provenance._registry_row_by_artmind_id", lambda doc_id: None)
+    monkeypatch.setattr("artmind.provenance.paths.DB_PATH", vault / ".artmind" / "data" / "document_registry.db")
+    monkeypatch.setattr("artmind.ingest.MARKDOWNS_DIR", vault / ".artmind" / "data" / "documents" / "markdowns")
+    _cache(vault, key="Policy~0123456789ab")
+    provenance = _provenance()
+    provenance["documents"][0]["path"] = ".artmind/data/documents/markdowns/Policy~0123456789ab.md"
+
+    result = render(provenance, vault=vault)
+
+    assert result.cited_chunks == 1
+    assert ".artmind/data/documents/markdowns/Policy~0123456789ab_chunks/chunk_014.md" in result.markdown
