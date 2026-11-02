@@ -298,6 +298,7 @@ EFFECT_KINDS = frozenset({
     "document_restore", "document_supersede", "conflict_resolve", "conflict_dismiss",
     "summary_write", "description_write", "view_save", "view_delete", "topic_write",
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
+    "proposal_reject", "projection_rebuild", "document_archive",
 })
 
 SAMPLE_CAP = 10
@@ -344,3 +345,11 @@ class Effect:
             "travels": self.travels,
             "records": list(self.records),
         }
+
+
+def with_effect(payload: dict, effect: Effect, dry_run: bool = False) -> dict:
+    """`payload` plus its `effect`; with a dry run also `"dry_run": true`."""
+    out = {**payload, "effect": effect.to_json()}
+    if dry_run:
+        out["dry_run"] = True
+    return out

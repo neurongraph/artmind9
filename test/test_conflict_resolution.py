@@ -173,7 +173,8 @@ def test_resolving_a_recorded_conflict_updates_its_file_and_applies_it(monkeypat
         "fingerprint": curation_records.fingerprint((curation_dir / "conflicts" / "abc123.json").read_bytes()),
     }]
     assert not [cy for cy, _ in session.runs if "properties(co) AS co" in cy], "the file is read, not the graph"
-    assert out == {"id": "abc123", "status": "dismissed", "reason": "not a real clash"}
+    assert {k: v for k, v in out.items() if k != "effect"} == {
+        "id": "abc123", "status": "dismissed", "reason": "not a real clash"}
 
 
 def test_resolving_a_recorded_conflict_this_graph_has_not_seen_yet_still_applies(monkeypatch, curation_dir):

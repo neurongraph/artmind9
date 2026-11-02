@@ -2124,8 +2124,9 @@ def ingest_detect_conflicts(
 @click.argument("conflict_id")
 @click.option("--status", type=click.Choice(["resolved", "dismissed"]), required=True, help="How this conflict was closed")
 @click.option("--reason", default=None, help="Why — recorded on the Conflict node for audit")
+@dry_run_option("Look the conflict up and report the `effect`; write no record and no status")
 @compact_option
-def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, compact: bool) -> None:
+def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, dry_run: bool, compact: bool) -> None:
     """Close a materialized conflict as resolved or dismissed.
 
     Detection never closes conflicts on its own — two authorities disagreeing is
@@ -2135,10 +2136,10 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, c
     _setup_logger()
     from artmind.conflicts import resolve_conflict
     try:
-        result = resolve_conflict(conflict_id, status, reason=reason)
+        result = resolve_conflict(conflict_id, status, reason=reason, dry_run=dry_run)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
-    _echo_json(result, compact)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @ingest.command("supersede")
@@ -5326,8 +5327,9 @@ def sameas_list(status: str, compact: bool) -> None:
 @sameas.command("approve")
 @click.argument("proposal_ids", nargs=-1, required=True)
 @click.option("--canonical", default=None, help="Override which member becomes canonical (must be one of the proposal's members). One proposal only. Default: the proposer's own suggestion.")
+@dry_run_option("Plan the approval and report its `effect`; write nothing, rebuild nothing")
 @compact_option
-def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, compact: bool) -> None:
+def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, dry_run: bool, compact: bool) -> None:
     """Approve proposals: append their groups to same_as.yaml and rebuild.
 
     Several ids are approved together with ONE same_as.yaml write and ONE
@@ -5347,30 +5349,31 @@ def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, compact
 
     try:
         if len(proposal_ids) == 1:
-            result = approve(proposal_ids[0], canonical=canonical)
+            result = approve(proposal_ids[0], canonical=canonical, dry_run=dry_run)
         elif canonical:
             raise click.UsageError("--canonical applies to one proposal; approve it on its own")
         else:
-            result = approve_many(list(proposal_ids))
+            result = approve_many(list(proposal_ids), dry_run=dry_run)
     except ValueError as e:
         raise click.ClickException(str(e))
-    _echo_json(result, compact)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @sameas.command("reject")
 @click.argument("proposal_id")
 @click.option("--reason", default=None, help="Why — recorded on the proposal for audit")
+@dry_run_option("Report the `effect` of the rejection; write nothing")
 @compact_option
-def sameas_reject(proposal_id: str, reason: str | None, compact: bool) -> None:
+def sameas_reject(proposal_id: str, reason: str | None, dry_run: bool, compact: bool) -> None:
     """Reject a proposal. No graph write beyond the proposal's own status."""
     _setup_logger()
     from artmind.sameas import reject
 
     try:
-        result = reject(proposal_id, reason)
+        result = reject(proposal_id, reason, dry_run=dry_run)
     except ValueError as e:
         raise click.ClickException(str(e))
-    _echo_json(result, compact)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @cli.group()
