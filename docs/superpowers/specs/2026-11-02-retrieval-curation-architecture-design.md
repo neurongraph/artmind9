@@ -507,7 +507,7 @@ turns).
 | `proposals list\|show\|accept\|reject\|defer` | no | proposal files (accept runs the drafted command after preview) | §5.6 |
 | `gaps scan [--since]` | no | proposal files | §5.6, batch run of the classifier over traces |
 | `pipeline status` | no | no | §5.8 |
-| `traces export [--since]` | no | `.artmind/trace-exports/` | SOP §4, cross-machine analysis |
+| `traces export [--since]` | no | a JSONL file | Optional: a shareable subset of traces. The SOP (§4) copies the whole registry DB instead, which needs no new code |
 | `bank import\|validate` | no | `questions.yaml` | §5.9 |
 
 `query plan` gains fields (intent, asset, program) under `plan_version: 2`. Existing fields

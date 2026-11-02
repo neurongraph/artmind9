@@ -19,8 +19,8 @@ privacy rule as the rest of this folder: what comes back here is shapes and coun
 
 | Who | Does |
 |---|---|
-| The user, on each machine | §1 pre-flight, §2 collection sessions, §3 rating, §4 export |
-| An analysis session (Claude Code, checkout, any machine) | §5: pulls the exports, probes per `05-probing.md`, appends a round |
+| The user, on each machine | §1 pre-flight, §2 collection sessions, §3 rating and notes in the UI, §4 hand over the registry DB |
+| An analysis session (Claude Code, checkout, any machine) | §5: reads the copied DBs, probes per `05-probing.md`, drafts labels, appends a round |
 
 ## 1. Pre-flight (each machine, each vault, once per round)
 
@@ -35,8 +35,7 @@ privacy rule as the rest of this folder: what comes back here is shapes and coun
    code and records stale plans (CLAUDE.md §1).
 4. Check: `curl -s http://127.0.0.1:8377/health` names this vault, and
    `artmind traces stats --since 1d --compact` runs.
-5. Note the machine (`A`, `B`, `desktop`) and its role (which vaults ingest there) in the
-   vault's `benchmarking/collection-log.md` (private, committed with the vault).
+5. Note which machine this is (`A`, `B`, `desktop`); the handover file's name carries it (§4).
 
 ## 2. Collection sessions
 
@@ -63,55 +62,62 @@ waits on it.
 Rules:
 
 - Ask naturally; do not phrase for the planner.
+- Prefer the Claude SDK backend in the console: turns on the ACP backend record no model,
+  cost or call count (P33), so they cannot be compared on cost or effort.
 - When you know the right answer, note it at once (§3), since it is cheap now and costly later.
 - When an answer is wrong because of the data (a duplicate person, a missing fact), say so in
-  `collection-log.md` beside the trace id; it is the evidence for the identity and extraction gaps (P29).
+  the turn's note (§3); it is the evidence for the identity and extraction gaps (P29).
 
-## 3. Rate and label
+## 3. Rate and comment in the UI
 
-1. **Rate every turn**: the console's thumbs, or
-   `artmind traces feedback <trace_id> --rating good|partial|wrong`. It takes no note: put the reason (one line per trace id) in `benchmarking/collection-log.md`.
-   `partial` means usable but incomplete (missed a document, a person, a version).
-2. **Label the turns where you know the answer.** Add an entry to
-   `<vault>/benchmarking/plan_labels.yaml` (format: query-plan spec §4.6): domains, route
-   or view, view params, `expect: low` when no plan should be confident. For survey shapes,
-   add the expected documents to `<vault>/benchmarking/retrieval_labels.yaml`.
-3. `artmind plan labels validate` and `artmind retrieval labels validate` must pass.
+Every traced turn in the admin console (and the chat UI) ends with **Good / Partial / Wrong**
+buttons. Partial and Wrong open a note box ("What was expected?") with **Save note**. The
+rating and the note go into the vault's registry DB (`trace_feedback`) beside the trace, so
+nothing else needs writing during the session.
 
-Labels and notes hold real questions: they stay in the vault's private repository.
+1. **Rate every turn.** `partial` means usable but incomplete (missed a document, a person, a
+   version).
+2. **Write the note for every Partial or Wrong**, and for a Good where you know the expected
+   answer: what the right answer or documents were, and whether the cause is the data
+   (duplicate, missing fact) or the answer. The note is the label: the analysis session
+   drafts `plan_labels.yaml` / `retrieval_labels.yaml` entries from it and you confirm them
+   (no hand-written YAML during collection).
+3. Changing your mind is fine: rate again. The latest rating counts.
 
-## 4. Export the traces into the vault (each machine, end of each round)
+Known UI limits (design note, not blockers): the note box is hidden for Good, and a turn
+reopened from the conversation sidebar shows the buttons unselected, so an earlier rating is
+not visible there (it is still stored).
 
-Until a `traces export` command exists (design §6, new commands), run this from inside the
-vault. It is read-only on the registry and writes one JSON line per turn to
-`<vault>/.artmind/trace-exports/<machine>-<date>.jsonl`. `.artmind/` is never walked by
-ingest, and Obsidian Git commits the file to the vault's **private** repository like the
-reviews folder.
+## 4. Hand over the registry DB (each machine, end of each round)
 
-```bash
-MACHINE=A   # or B, desktop
-python3 - "$MACHINE" <<'EOF'
-import datetime, json, os, pathlib, subprocess, sys
-env = dict(os.environ, ARTMIND_NO_PROXY="1")
-run = lambda *a: json.loads(subprocess.run(["artmind", *a, "--compact"], capture_output=True, text=True, env=env, check=True).stdout)
-out = pathlib.Path(".artmind/trace-exports"); out.mkdir(parents=True, exist_ok=True)
-path = out / f"{sys.argv[1]}-{datetime.date.today().isoformat()}.jsonl"
-with path.open("w") as fh:
-    for t in run("traces", "list", "--limit", "1000")["turns"]:
-        fh.write(json.dumps(run("traces", "show", t["trace_id"])) + "\n")
-print(path)
-EOF
-```
+Traces, shadow plans, ratings and notes all live in one SQLite file per vault:
+`<vault>/.artmind/data/document_registry.db`. It is gitignored, so it is copied by hand.
 
-Then let Obsidian Git commit and push. On re-export the same day the file is rewritten whole.
+1. Take a consistent copy (the UI may be writing to it; a plain `cp` can miss the `-wal`
+   file). From inside the vault:
 
-## 5. Analysis (analysis session, after pulling every vault)
+   ```bash
+   mkdir -p ~/artmind-trace-handover && sqlite3 .artmind/data/document_registry.db ".backup '$HOME/artmind-trace-handover/<machine>-<vault>-<date>.db'"
+   ```
 
-1. Read the exports from `<vault>/.artmind/trace-exports/*.jsonl` in place; any per-turn
-   listing goes to the scratchpad, never into this folder.
+   Or stop `admin-ui`/`serve` first, then copy `document_registry.db` together with any
+   `document_registry.db-wal` and `-shm` beside it.
+2. Move the file to the analysis machine (AirDrop, USB, a private share). **Not** into the
+   artmind checkout, and not into any git repository: it also holds conversations, job
+   history and document records.
+3. Tell the analysis session where the files are.
+
+## 5. Analysis (analysis session)
+
+1. Put each copy in its own folder, renamed to `document_registry.db`, and read it with
+   `ARTMIND_DATA_DIR=<that folder> ARTMIND_NO_PROXY=1 artmind traces list|show|stats`, run
+   from outside any vault (checked 2026-11-02 on a copy of brain01's DB: 36 of 36 turns
+   read). Any per-turn listing goes to the scratchpad, never into this folder.
 2. Probe per `05-probing.md`, one round for all machines, with a coverage table per machine
    and vault (turns, rated, shadow plans, shapes covered).
-3. `artmind plan replay --classifier both --repeat 4` in each vault with labels.
+3. Draft labels from the notes into each vault's `benchmarking/`, for the user to confirm;
+   then `artmind plan replay --classifier both --repeat 4` inside that vault (replay needs its
+   live graph, so it runs on a machine that has one).
 4. Append the round to `02-trace-evidence.md`; update `04-scenarios.md`, `06-open-questions.md`.
 5. Report against the gates in the design §9: shapes covered, ratings, plan `wrong` rate.
 
