@@ -14,8 +14,12 @@ Stdlib + Click only, so `cli.py` and the contract tests can both import it.
 
 from __future__ import annotations
 
+import importlib
+import os
+import re
 from dataclasses import dataclass, field
 from typing import Any
+from urllib.parse import urlsplit
 
 import click
 
@@ -63,6 +67,81 @@ WRITE_COMMANDS: dict[str, int] = {
         "vault migrate-frontmatter",
     )},
 }
+
+# ── C6: exit code 3, a store is unreachable ──────────────────────────────────
+
+_URL_CREDENTIALS = re.compile(r"(?P<scheme>[A-Za-z][A-Za-z0-9+.-]*://)[^/@\s]+@")
+
+
+def _redact(text: str) -> str:
+    """Drop `user:password@` from any URL in `text`."""
+    return _URL_CREDENTIALS.sub(r"\g<scheme>", text)
+
+
+def _host_port(uri: str) -> str:
+    """`neo4j+s://user:pw@host:7687/db` -> `host:7687`; anything unparseable -> ''."""
+    netloc = urlsplit(uri if "://" in uri else f"//{uri}").netloc
+    return netloc.rsplit("@", 1)[-1]
+
+
+def _first_line(exc: BaseException) -> str:
+    text = _redact(str(exc)).strip().splitlines()
+    return text[0] if text else type(exc).__name__
+
+
+def store_failure(exc: BaseException) -> tuple[str, str, str] | None:
+    """`(store, address, reason)` if `exc` is a connection failure to a store, else None.
+
+    Only connection-level errors count: Neo4j `ServiceUnavailable`, `AuthError` and
+    `SessionExpired`; DuckDB connection/IO errors; the embedding and LLM clients'
+    connection errors. A query error, a bad answer or a bug is not a store failure.
+    The address is host and port only, never credentials.
+    """
+    try:
+        from neo4j.exceptions import AuthError, ServiceUnavailable, SessionExpired
+    except ImportError:  # pragma: no cover - neo4j is a core dependency
+        AuthError = ServiceUnavailable = SessionExpired = ()  # type: ignore[assignment]
+    if isinstance(exc, (ServiceUnavailable, AuthError, SessionExpired)):
+        uri = os.environ.get("ARTMIND_KG_NEO4J_URI") or ""
+        if not uri:
+            try:
+                from utils.functions import load_env
+
+                uri = load_env().get("ARTMIND_KG_NEO4J_URI") or ""
+            except Exception:
+                uri = ""
+        return "neo4j", _host_port(uri) or "the configured address", _first_line(exc)
+    try:
+        import duckdb
+
+        if isinstance(exc, (duckdb.IOException, duckdb.ConnectionException)):
+            import paths
+
+            return "structured store", str(paths.STRUCTURED_DIR), _first_line(exc)
+    except ImportError:  # pragma: no cover - duckdb is a core dependency
+        pass
+    connection_errors: list[type[BaseException]] = []
+    for module in ("openai", "anthropic"):
+        try:
+            connection_errors.append(importlib.import_module(module).APIConnectionError)
+        except (ImportError, AttributeError):
+            continue
+    if connection_errors and isinstance(exc, tuple(connection_errors)):
+        request = getattr(exc, "request", None)
+        url = str(getattr(request, "url", "") or "")
+        return "LLM or embedding service", _host_port(url) or "the configured endpoint", _first_line(exc)
+    return None
+
+
+def exit_on_store_failure(exc: Exception, ctx: click.Context) -> None:
+    """Print the one-line note and exit 3 when `exc` is a store failure; return otherwise."""
+    failure = store_failure(exc)
+    if failure is None:
+        return
+    store, address, reason = failure
+    click.echo(f"artmind: {store} unreachable at {address}: {reason}", err=True)
+    ctx.exit(EXIT_STORE)
+
 
 # ── C2: renamed options ──────────────────────────────────────────────────────
 

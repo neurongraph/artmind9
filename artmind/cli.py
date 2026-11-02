@@ -73,7 +73,7 @@ from paths import (
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
-from artmind.cli_conventions import aliased_option, compact_option, dry_run_option, envelope
+from artmind.cli_conventions import aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -441,7 +441,22 @@ click.rich_click.COMMAND_GROUPS = {
 }
 
 
-@click.group()
+class _RootGroup(click.RichGroup):
+    """The root group: an uncaught connection failure to a store exits 3 (spec C6).
+
+    Anything else keeps today's behaviour: ClickException exits 1, a usage error 2, an
+    unexpected exception its traceback and 1.
+    """
+
+    def invoke(self, ctx):
+        try:
+            return super().invoke(ctx)
+        except Exception as exc:
+            exit_on_store_failure(exc, ctx)
+            raise
+
+
+@click.group(cls=_RootGroup)
 @click.version_option(
     package_name="artmind9", prog_name="artmind", message="%(prog)s %(version)s",
     help="Print the installed artmind version (`artmind X.Y.Z`) and exit.",
