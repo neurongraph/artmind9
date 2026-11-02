@@ -117,7 +117,7 @@ class PullKgRequest(BaseModel):
 class RestoreRequest(BaseModel):
     confirm: bool = False
     components: list[str] = Field(default_factory=lambda: sorted(DEFAULT_COMPONENTS))
-    # Mirrors `snapshot restore --rebuild-projection` (CLI): "auto" trusts a
+    # Mirrors `snapshot restore --rebuildProjection` (CLI): "auto" trusts a
     # restored :Entity layer that's provably in sync with same_as.yaml/the
     # domain schemas and skips the full rebuild; "always"/"skip" force it on
     # or off regardless. Only meaningful when "graph" is among components.

@@ -20,29 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Commands that do not satisfy a check yet (removed as the rollout reaches them).
 _PENDING_COMPACT: set[str] = set()
-_PENDING_KEBAB: set[str] = {
-    "admin-ui",
-    "chat-ui",
-    "domains harmonize",
-    "ingest async",
-    "ingest detect-conflicts",
-    "ingest detect-supersession",
-    "ingest pull-kg",
-    "ingest refine-graph",
-    "ingest retry-job",
-    "ingest summarise",
-    "ingest sync",
-    "insights refresh",
-    "insights same-as",
-    "projection synthesize",
-    "query graph text2cypher",
-    "query text2sql",
-    "sameas propose",
-    "session initiate",
-    "snapshot restore",
-    "topic build",
-    "topic refresh",
-}
+_PENDING_KEBAB: set[str] = set()
 _PENDING_DRYRUN: set[str] = {
     "db bridge clear",
     "db bridge confirm",
@@ -61,28 +39,23 @@ _PENDING_DRYRUN: set[str] = {
     "docs retire",
     "domains add",
     "domains delete",
-    "domains harmonize",
     "ingest async",
     "ingest embed-entities",
     "ingest embed-passages",
     "ingest pull-kg",
     "ingest resolve-conflict",
     "ingest retry-job",
-    "ingest summarise",
     "ingest supersede",
     "ingest sync",
     "ingest write-to-graph",
     "insights refresh",
     "projection rebuild",
-    "projection synthesize",
     "review attach",
     "review new",
     "sameas approve",
     "sameas reject",
     "snapshot restore",
-    "topic build",
     "topic delete",
-    "topic refresh",
     "traces prune",
     "update confirm",
     "update retract",
@@ -113,7 +86,7 @@ _PENDING_EFFECT_TEST: set[str] = {
     "views delete",
     "views save",
 }
-_PENDING_CALLERS: bool = True
+_PENDING_CALLERS: bool = False
 
 
 def _leaves(cmd: click.Command = cli, path: tuple[str, ...] = ()):
@@ -193,6 +166,9 @@ def _deprecated_uses() -> list[str]:
             if not f.is_file():
                 continue
             text = f.read_text(encoding="utf-8", errors="replace")
+            # `git push --dry-run` and the like are git's own flags, not artmind's.
+            lines = [ln for ln in text.splitlines() if not re.search(r"\bgit\b", ln)]
+            text = "\n".join(lines)
             for old in cc.DEPRECATED_ALIASES:
                 if re.search(re.escape(old) + r"(?![A-Za-z0-9-])", text):
                     found.append(f"{f.relative_to(ROOT)}: {old}")

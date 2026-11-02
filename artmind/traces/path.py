@@ -51,7 +51,7 @@ def layer_of(command: str | None) -> str:
 
 
 def is_dry_run(span: dict) -> bool:
-    """A `--dry-run` text2cypher/text2sql span: it generated a query and ran nothing."""
+    """A `--dryRun` text2cypher/text2sql span: it generated a query and ran nothing."""
     args = span.get("args")
     return isinstance(args, dict) and args.get("dry_run") is True
 

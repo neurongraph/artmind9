@@ -128,7 +128,7 @@ def test_the_cli_takes_document_name_and_prints_the_within_document_count(monkey
 
     result = CliRunner().invoke(
         cli_module.cli,
-        ["ingest", "refine-graph", "--dry-run", "--domain", "contracts", "--documentName", "CCN001.pdf"],
+        ["ingest", "refine-graph", "--dryRun", "--domain", "contracts", "--documentName", "CCN001.pdf"],
     )
 
     assert result.exit_code == 0, result.output

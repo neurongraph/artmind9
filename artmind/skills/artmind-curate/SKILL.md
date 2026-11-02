@@ -59,8 +59,8 @@ Two independent proposers feed the same queue — run either or both:
 artmind sameas propose --domain <d1> [--domain <d2>] --compact
 
 # intra-domain naming-variant candidates via name-similarity clustering
-artmind ingest refine-graph --domain <d> --dry-run --output merges.json
-artmind ingest refine-graph --domain <d> --from-file merges.json
+artmind ingest refine-graph --domain <d> --dryRun --output merges.json
+artmind ingest refine-graph --domain <d> --fromFile merges.json
 ```
 
 `sameas propose` reuses the cross-domain adjudicator's candidate pairing and
@@ -80,7 +80,7 @@ same result.
 
 `ingest refine-graph` is the other proposer — intra-class name-similarity
 clustering rather than semantic neighbours, cheaper and complementary. Its
-`--from-file` step writes proposals into the same queue; it does not touch
+`--fromFile` step writes proposals into the same queue; it does not touch
 the graph.
 
 ### 2. Review the queue

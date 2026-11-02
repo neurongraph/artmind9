@@ -154,7 +154,7 @@ class TestJsonOutput:
                     HarmonizeResult("fiction.noir", "in_sync")]
 
         monkeypatch.setattr(cli_module, "harmonize_all", fake_all)
-        result = runner.invoke(cli, ["domains", "harmonize", "--dry-run", "--compact"])
+        result = runner.invoke(cli, ["domains", "harmonize", "--dryRun", "--compact"])
         payload = _envelope_of(result)
         assert seen == {"dry_run": True} and payload["dry_run"] is True
         assert payload["results"] == [

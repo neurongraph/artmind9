@@ -14,7 +14,7 @@ META = {"artmind_topic": 1, "topic": "Notice", "slug": "notice", "domains": ["j"
 def test_topic_build_passes_options(tmp_path):
     with patch("artmind.topics.build.build_page", return_value={"slug": "notice", "path": "x"}) as b:
         r = CliRunner().invoke(cli, ["topic", "build", "Notice periods", "--domain", "j", "--maxDocs", "5",
-                                     "--out", str(tmp_path), "--dry-run", "--compact"])
+                                     "--out", str(tmp_path), "--dryRun", "--compact"])
     assert r.exit_code == 0, r.output
     args, kwargs = b.call_args
     assert args == ("Notice periods", ["j"])

@@ -208,9 +208,9 @@ use `refine-graph --filter` to scope name-similarity clustering to just those
 names, which writes a same-as **proposal** — it does not merge directly:
 
 ```bash
-artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dry-run --output merges.json
+artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dryRun --output merges.json
 # review merges.json, then:
-artmind ingest refine-graph --domain <domain> --from-file merges.json
+artmind ingest refine-graph --domain <domain> --fromFile merges.json
 ```
 
 Approving is a separate, explicit step — hand off to artmind-curate:

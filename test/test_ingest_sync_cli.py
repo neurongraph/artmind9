@@ -101,7 +101,7 @@ class TestIngestSyncDomainPrompt:
         assert result.exit_code == 0
 
 
-# ── --stage-only ──────────────────────────────────────────────────────────────
+# ── --stageOnly ──────────────────────────────────────────────────────────────
 
 def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
     from click.testing import CliRunner
@@ -121,7 +121,7 @@ def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
 
     f = tmp_path / "a.md"
     f.write_text("x")
-    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "general", "--stage-only"])
+    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "general", "--stageOnly"])
     assert result.exit_code == 0
     assert seen["stage_only"] is True
 
@@ -164,7 +164,7 @@ def test_ingest_async_stage_only_passes_flag(monkeypatch, tmp_path):
 
     f = tmp_path / "a.md"
     f.write_text("x")
-    result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general", "--stage-only"])
+    result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general", "--stageOnly"])
     assert result.exit_code == 0
     assert seen["stage_only"] is True
 

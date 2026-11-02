@@ -49,7 +49,7 @@ def test_pull_kg_prints_the_summary_as_json():
     summary = {"pulled_count": 3, "domain": "sales", "repo_url": "https://example.test/r.git", "conflicts": []}
     with patch("artmind.cli.pull_kg_fn", return_value=summary):
         result = CliRunner().invoke(cli, ["ingest", "pull-kg", "--repo", "https://example.test/r.git",
-                                          "--repo-path", "data/kg/sales", "--domain", "sales", "--compact"])
+                                          "--repoPath", "data/kg/sales", "--domain", "sales", "--compact"])
     assert result.exit_code == 0, result.output
     payload = _payload(result)
     assert payload["command"] == "ingest pull-kg" and payload["pulled_count"] == 3 and payload["conflicts"] == []
@@ -65,12 +65,12 @@ def _refine(monkeypatch, tmp_path, report, *args):
 
 def test_refine_graph_dry_run_json_and_text(monkeypatch, tmp_path):
     report = {"proposed_merges": {"a": "b", "c": "b"}, "stats": {"proposed": 2}, "within_document_merges": 1}
-    result = _refine(monkeypatch, tmp_path, report, "--dry-run")
+    result = _refine(monkeypatch, tmp_path, report, "--dryRun")
     assert result.exit_code == 0, result.output
     payload = _payload(result)
     assert payload["dry_run"] is True and payload["proposed"] == 2 and payload["within_document_merges"] == 1
     assert payload["output_file"] == str(tmp_path / "proposed_merges.json")
-    assert payload["next"] == f"artmind ingest refine-graph --from-file {tmp_path / 'proposed_merges.json'}"
+    assert payload["next"] == f"artmind ingest refine-graph --fromFile {tmp_path / 'proposed_merges.json'}"
     assert "Dry-run complete — 2 merge(s) proposed" in result.stderr
 
 

@@ -73,7 +73,7 @@ def test_refresh_no_narrate_flag(monkeypatch):
 
     seen = {}
     monkeypatch.setattr(runner, "refresh", lambda domain, **kw: seen.update(kw) or {"status": "written"})
-    result = invoke("refresh", "--domain", "demo", "--no-narrate")
+    result = invoke("refresh", "--domain", "demo", "--noNarrate")
     assert result.exit_code == 0, result.output
     assert seen["narrate"] is False
 
@@ -117,7 +117,7 @@ def test_same_as_export_writes_refine_graph_input(tmp_path, monkeypatch):
     assert result.exit_code == 0, result.output
     data = json.loads(out.read_text())
     assert data["proposed_merges"] == {"Daddy": "Dad"} and data["source"] == "artmind insights"
-    assert "refine-graph --domain demo --from-file" in json.loads(result.output)["next"]
+    assert "refine-graph --domain demo --fromFile" in json.loads(result.output)["next"]
 
 
 def _cand(a, b, score, aid=None, bid=None):

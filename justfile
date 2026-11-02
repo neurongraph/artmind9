@@ -241,9 +241,9 @@ domains-properties-prompt domain:
 domains-relationships-prompt domain:
     uv run artmind domains relationships-prompt {{ domain }}
 
-# sync child domain schemas against their parent  (usage: just domains-harmonize [domain] [--dry-run])
+# sync child domain schemas against their parent  (usage: just domains-harmonize [domain] [--dryRun])
 domains-harmonize domain="" dry_run="":
-    uv run artmind domains harmonize {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
+    uv run artmind domains harmonize {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if dry_run == "true" { "--dryRun" } else { "" } }}
 
 # ── artmind ingest ───────────────────────────────────────────────────────────
 
@@ -275,7 +275,7 @@ ingest-job-status job_id:
 ingest-job-results job_id:
     uv run artmind ingest job-results {{ job_id }}
 
-# re-queue failed files in a job for reprocessing  (usage: just ingest-retry-job <job_id> [--include-skipped])
+# re-queue failed files in a job for reprocessing  (usage: just ingest-retry-job <job_id> [--includeSkipped])
 ingest-retry-job job_id flags="":
     uv run artmind ingest retry-job {{ job_id }} {{ flags }}
 
@@ -305,15 +305,15 @@ ingest-table2graph-pending:
 
 # pull KG JSON from an external GitHub repo  (usage: just ingest-pull-kg <repo_url> <repo_path> <domain>)
 ingest-pull-kg repo repo_path domain:
-    uv run artmind ingest pull-kg --repo '{{ repo }}' --repo-path '{{ repo_path }}' --domain {{ domain }}
+    uv run artmind ingest pull-kg --repo '{{ repo }}' --repoPath '{{ repo_path }}' --domain {{ domain }}
 
 # dry-run intra-class name clustering: compute same-as proposals and write to file  (usage: just ingest-refine-graph-dry [domain])
 ingest-refine-graph-dry domain="":
-    uv run artmind ingest refine-graph --dry-run {{ if domain != "" { "--domain " + domain } else { "" } }}
+    uv run artmind ingest refine-graph --dryRun {{ if domain != "" { "--domain " + domain } else { "" } }}
 
 # write same-as proposals (the review queue -- see sameas-list/approve) from a dry-run file  (usage: just ingest-refine-graph-propose <file> [domain])
 ingest-refine-graph-propose file domain="":
-    uv run artmind ingest refine-graph --from-file '{{ file }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
+    uv run artmind ingest refine-graph --fromFile '{{ file }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
 
 # backfill vector embeddings for entities missing one  (usage: just ingest-embed-entities <domain>)
 ingest-embed-entities domain:
@@ -331,15 +331,15 @@ ingest-detect-conflicts domain flags="":
 ingest-supersede domain newer older flags="":
     uv run artmind ingest supersede --domain {{ domain }} --newer "{{ newer }}" --older "{{ older }}" {{ flags }}
 
-# scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges  (usage: just ingest-detect-supersession <domain> [--dry-run])
+# scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges  (usage: just ingest-detect-supersession <domain> [--dryRun])
 ingest-detect-supersession domain dry_run="":
-    uv run artmind ingest detect-supersession --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
+    uv run artmind ingest detect-supersession --domain {{ domain }} {{ if dry_run == "true" { "--dryRun" } else { "" } }}
 
-# Backfill chunk and document summaries for staged documents (LLM calls; --dry-run first)  (usage: just ingest-summarise [--domain D] [--match GLOB] [--dry-run])
+# Backfill chunk and document summaries for staged documents (LLM calls; --dryRun first)  (usage: just ingest-summarise [--domain D] [--match GLOB] [--dryRun])
 ingest-summarise *ARGS:
     uv run artmind ingest summarise {{ARGS}}
 
-# Build a cited topic page into <vault>/_Topics (LLM calls)  (usage: just topic-build "<topic>" <domain> [--dry-run|--maxDocs N])
+# Build a cited topic page into <vault>/_Topics (LLM calls)  (usage: just topic-build "<topic>" <domain> [--dryRun|--maxDocs N])
 topic-build TOPIC DOMAIN *ARGS:
     uv run artmind topic build "{{TOPIC}}" --domain {{DOMAIN}} {{ARGS}}
 
@@ -467,9 +467,9 @@ query-graph-doc-chunks domain document_name:
 query-graph-structural domain:
     uv run artmind query graph structural-metadata --domain {{ domain }}
 
-# LLM-generated Cypher from natural language  (usage: just query-graph-text2cypher <domain> "question" [--dry-run])
+# LLM-generated Cypher from natural language  (usage: just query-graph-text2cypher <domain> "question" [--dryRun])
 query-graph-text2cypher domain question dry_run="":
-    uv run artmind query graph text2cypher --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }} "{{ question }}"
+    uv run artmind query graph text2cypher --domain {{ domain }} {{ if dry_run == "true" { "--dryRun" } else { "" } }} "{{ question }}"
 
 # list materialized Conflict nodes for a domain  (usage: just query-graph-conflicts <domain> [flags])
 query-graph-conflicts domain flags="":
@@ -509,7 +509,7 @@ query-entity-context domain entity_id:
 
 # natural language to read-only DuckDB SQL against the structured store  (usage: just query-text2sql <domain> "question" [dry_run])
 query-text2sql domain question dry_run="":
-    uv run artmind query text2sql --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }} "{{ question }}"
+    uv run artmind query text2sql --domain {{ domain }} {{ if dry_run == "true" { "--dryRun" } else { "" } }} "{{ question }}"
 
 # resolve a free-text value to a canonical column value and/or graph entity  (usage: just query-resolve-key <domain> "phrase" [column] [table])
 query-resolve-key domain phrase column="" table="":
@@ -541,7 +541,7 @@ insights-refresh domain *flags:
 insights-list domain:
     uv run artmind insights list --domain {{ domain }}
 
-# probable duplicates as same-as review-queue input  (usage: just insights-same-as <domain> <path>; then: artmind ingest refine-graph --domain <domain> --from-file <path>)
+# probable duplicates as same-as review-queue input  (usage: just insights-same-as <domain> <path>; then: artmind ingest refine-graph --domain <domain> --fromFile <path>)
 insights-same-as domain path:
     uv run artmind insights same-as --domain {{ domain }} --export {{ path }}
 

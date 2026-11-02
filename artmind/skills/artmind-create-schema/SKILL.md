@@ -489,7 +489,7 @@ extractor too.
 If this is a child schema in an existing family and you want it to inherit
 classes it didn't declare:
 ```bash
-artmind domains harmonize --domain {domain_name} --dry-run   # preview what would be added
+artmind domains harmonize --domain {domain_name} --dryRun   # preview what would be added
 artmind domains harmonize --domain {domain_name}
 ```
 

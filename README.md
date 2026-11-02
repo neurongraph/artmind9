@@ -168,7 +168,7 @@ artmind query graph pattern1 --domain fiction --entityClass PERSON
 artmind domains harmonize
 
 # sync one child schema (dry-run to preview changes)
-artmind domains harmonize --domain fiction.thriller --dry-run
+artmind domains harmonize --domain fiction.thriller --dryRun
 ```
 
 **POOLE+ entity standard**: All built-in schemas follow the POOLE+ convention — `PERSON`, `OBJECT`, `ORGANIZATION`, `LOCATION`, `EVENT` are universal base types present in every domain. Domain-specific types (e.g. `METHOD`, `FINDING` in `technical_paper`) extend these. When creating a custom schema with `artmind-create-schema`, follow the same convention: map characters to `PERSON`, places to `LOCATION`, companies to `ORGANIZATION`, and so on before adding domain-specific extras.
@@ -301,14 +301,14 @@ The `pull-kg` command fetches a domain folder from an external repository using 
 # 1. Pull the KG JSON from the APAC team's repo
 artmind ingest pull-kg \
   --repo git@github.com:acme/apac-kg-store.git \
-  --repo-path data/kg/sales_collateral \
+  --repoPath data/kg/sales_collateral \
   --domain sales_collateral
 
 # 2. Write all pulled documents to Neo4j
 artmind ingest write-to-graph --folder .artmind/data/kg/sales_collateral
 
 # 3. Optionally resolve duplicate entities across the merged data
-artmind ingest refine-graph --domain sales_collateral --dry-run
+artmind ingest refine-graph --domain sales_collateral --dryRun
 ```
 
 **Conflict handling:** If any document sub-folder already exists locally, the pull aborts and lists the conflicting names so you can resolve them manually (e.g. rename or delete the local copy) before re-running.
@@ -324,8 +324,8 @@ Extraction runs per-chunk, so a freshly ingested domain accumulates near-duplica
 artmind sameas propose --domain fiction --compact
 
 # propose: intra-domain naming-variant merge candidates via name-similarity clustering
-artmind ingest refine-graph --domain fiction --dry-run --output merges.json
-artmind ingest refine-graph --domain fiction --from-file merges.json
+artmind ingest refine-graph --domain fiction --dryRun --output merges.json
+artmind ingest refine-graph --domain fiction --fromFile merges.json
 
 # review the queue, then approve or reject each proposal
 artmind sameas list --status open --compact
@@ -336,8 +336,8 @@ artmind sameas reject <proposal_id>
 Pass `--domain` more than once (to `sameas propose` or `ingest detect-conflicts`) to compare sibling domains — a "same thing" verdict proposes a same-as group; a "conflicting claims" verdict proposes a `Conflict` node instead:
 
 ```bash
-artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --dry-run --output conflicts.json
-artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --from-file conflicts.json
+artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --dryRun --output conflicts.json
+artmind ingest detect-conflicts --domain banking.policy --domain banking.sop_guides --fromFile conflicts.json
 artmind ingest resolve-conflict <conflict_id> --status resolved --reason "..."
 ```
 
@@ -351,8 +351,8 @@ The `artmind-curate` Claude Code skill (below) drives this workflow conversation
 **Focused merging with `--filter`**: to merge specific entities you've spotted without analyzing the whole domain:
 
 ```bash
-artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Moriarty" --dry-run --output merges.json
-artmind ingest refine-graph --from-file merges.json
+artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Moriarty" --dryRun --output merges.json
+artmind ingest refine-graph --fromFile merges.json
 ```
 
 ### Remove a document
@@ -517,7 +517,7 @@ artmind query graph entity-listing --domain fiction --nameFilter "Holmes"
 | `pattern8` | Entities of class X connected to entity Y | `--entityClass`, `--entityName` / `--entityId` |
 | `pattern9` | Top-N entities by connection degree | `--entityClass`, `--topN`, `--degreeMode` |
 | `pattern10` | Retrieve all text chunks for a named document | `--documentName` |
-| `text2cypher` | LLM-generated Cypher from natural language | `"<question>"`, `--dry-run` |
+| `text2cypher` | LLM-generated Cypher from natural language | `"<question>"`, `--dryRun` |
 
 Patterns 2, 3, and 4 include source attribution — each row returns `doc_sources` (document chunks that mention the entity) and `chat_sources` (user chat entries that mention it). Their relationship/neighborhood output traverses entity-to-entity edges only, so source text never leaks into connection lists.
 
@@ -585,7 +585,7 @@ artmind query graph structural-metadata --domain fiction
 artmind query graph text2cypher --domain fiction "How many DocChunks are there for each Document?"
 
 # dry-run: inspect the generated Cypher without executing
-artmind query graph text2cypher --domain fiction --dry-run "Which persons are connected to more than 3 locations?"
+artmind query graph text2cypher --domain fiction --dryRun "Which persons are connected to more than 3 locations?"
 ```
 
 All graph commands emit JSON. Pass `--compact` for single-line output.

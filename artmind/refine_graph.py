@@ -171,7 +171,7 @@ def propose_merges(
     merge PROMPT survive as a proposer, the apply does not (a human approves
     via `sameas approve`, same review queue conflicts.py's adjudicator feeds).
     Cross-class pairs are skipped here regardless of how the proposals were
-    produced — clustering is class-constrained, but --from-file proposals may
+    produced — clustering is class-constrained, but --fromFile proposals may
     be hand-edited or predate that constraint, and a same-as group spanning
     two classes is exactly what groups (vs. pairs) exist to prevent.
     """

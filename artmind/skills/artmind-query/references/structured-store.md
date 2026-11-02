@@ -34,7 +34,7 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
   later, to reflect that confirmation in the graph without re-ingesting.
 - `artmind query text2sql "<question>" --domain <d> --compact` — natural language
   to read-only DuckDB SQL against the structured store, then executes it (add
-  `--dry-run` to see the generated SQL without running it). The SQL/graph analogue
+  `--dryRun` to see the generated SQL without running it). The SQL/graph analogue
   of `query graph text2cypher`.
 - `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact` —
   resolve a free-text value (e.g. from a user question or a structured row) to a
@@ -87,7 +87,7 @@ schema call it doesn't use:
   <table>` for one table) — the column/type context an LLM needs to write SQL —
   then SQL only: `artmind query text2sql "<question>" --domain <d> --compact`
   (or `db sql "<SQL>"` if you already know the exact query — e.g. from a prior
-  `--dry-run`). No graph retrieval needed.
+  `--dryRun`). No graph retrieval needed.
 - **Hybrid** (the question names something that lives as a graph entity but
   needs a number that lives in a table) → pull `db schema` as above, then
   canonicalize, then query SQL, then optionally add graph context, then
@@ -136,7 +136,7 @@ Worked examples:
 - **Usage B — "Average X by month."** Analytical-only: no entity to resolve, no
   graph involvement — go straight to `text2sql "average X by month" --domain
   <d> --compact`, or `db sql` if you already have the exact SQL from a prior
-  `--dry-run`.
+  `--dryRun`.
 - **Usage C — "Which vulnerable customer has an open complaint, and what extra
   care does our training and complaints guidance require?"** Records-plus-
   guidance. `db bridge --domain banking --compact` shows

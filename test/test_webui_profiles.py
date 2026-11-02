@@ -181,7 +181,7 @@ def test_sdk_base_url_cli_flag_overrides_env(monkeypatch):
 
 
 def test_sdk_base_url_cli_flag_empty_string_forces_default(monkeypatch):
-    # --base-url "" must beat a set env var and force the normal (OAuth/login)
+    # --baseUrl "" must beat a set env var and force the normal (OAuth/login)
     # routing — the documented "flip back without editing .env" escape hatch.
     monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
     set_sdk_base_url("")

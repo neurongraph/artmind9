@@ -369,7 +369,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Search entities by name/description fragment | `artmind query graph pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). It returns `rows_total`/`truncated`: raise `--limit` (max 500) until `truncated` is false for a complete list; when `rows_total_capped` is true the total is a lower bound. Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
 | Entities of class X connected to entity Y | `artmind query graph pattern8 --entityClass <LABEL> --entityId <id> [--limit N] [--offset N]` |
 | All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>" [--limit N] [--offset N]` — add `--includeHistory` for retired/superseded versions; zero rows with `history_matches` means only a retired version matches |
-| Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher, then run it without `--dry-run` (a dry run executes nothing and returns no rows); rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
+| Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dryRun` first to inspect the Cypher, then run it without `--dryRun` (a dry run executes nothing and returns no rows); rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
 
 Every command also needs `--domain <domain>` (repeatable) and `--compact`, omitted above for brevity.
 
@@ -499,10 +499,10 @@ The ladder starts after the Views check: a view that fits is tried before any ru
 3. entity-context/pattern chunks too thin → re-run entity-context with `--query` (if you didn't) or a narrower `--relType`, or pull `chunks --idList <more_chunk ids> --expand 1`, before falling back to search.
 4. Pattern output empty or too thin → vector-text.
 5. A question that spans documents, whose `vector-text` rows come from one or two documents → re-run it as `query survey`.
-6. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
+6. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dryRun` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
 7. text2cypher generates invalid Cypher → vector-text.
 8. vector-text sparse or weak (few rows, every `relevance` low, or rows matched by `fulltext` alone on a conceptual question) → state that the available artmind data does not answer the question.
-9. `text2sql` returns no rows but data should exist → re-run with `--dry-run` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
+9. `text2sql` returns no rows but data should exist → re-run with `--dryRun` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
 10. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
 11. `hierarchy` returns empty rows/edge_candidates → re-run discovery mode to confirm no edges exist at all → if still empty, the relationship may only be stored as a property (e.g. `reports_to` on the class) — fall back to `pattern1` on that class; see `references/hierarchy.md`.
 

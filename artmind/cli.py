@@ -73,7 +73,7 @@ from paths import (
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
-from artmind.cli_conventions import compact_option, envelope
+from artmind.cli_conventions import aliased_option, compact_option, dry_run_option, envelope
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -513,8 +513,9 @@ def serve(host: str, port: int | None) -> None:
 @cli.command("chat-ui")
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option("--port", default=8378, show_default=True, type=int, help="Port to bind.")
-@click.option(
-    "--acp-cmd",
+@aliased_option(
+    "--acpCmd", "--acp-cmd",
+    param="acp_cmd",
     default=None,
     help="ACP agent command for the 'opencode (ACP)' backend "
     "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
@@ -525,12 +526,13 @@ def serve(host: str, port: int | None) -> None:
     help="Model for the 'claude-sdk' backend, e.g. claude-sonnet-5 "
     "[default: $ARTMIND_SDK_MODEL, or the claude CLI's own default].",
 )
-@click.option(
-    "--base-url",
+@aliased_option(
+    "--baseUrl", "--base-url",
+    param="base_url",
     default=None,
     help="Custom endpoint for the 'claude-sdk' backend's claude CLI "
     "[default: $ARTMIND_SDK_BASE_URL, or the CLI's normal login]. Pass "
-    "--base-url \"\" to force the CLI's normal login for this run even if "
+    "--baseUrl \"\" to force the CLI's normal login for this run even if "
     "$ARTMIND_SDK_BASE_URL is set.",
 )
 def chat_ui(
@@ -550,8 +552,9 @@ def chat_ui(
 @cli.command("admin-ui")
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option("--port", default=8379, show_default=True, type=int, help="Port to bind.")
-@click.option(
-    "--acp-cmd",
+@aliased_option(
+    "--acpCmd", "--acp-cmd",
+    param="acp_cmd",
     default=None,
     help="ACP agent command for the 'opencode (ACP)' backend "
     "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
@@ -562,12 +565,13 @@ def chat_ui(
     help="Model for the 'claude-sdk' backend, e.g. claude-sonnet-5 "
     "[default: $ARTMIND_SDK_MODEL, or the claude CLI's own default].",
 )
-@click.option(
-    "--base-url",
+@aliased_option(
+    "--baseUrl", "--base-url",
+    param="base_url",
     default=None,
     help="Custom endpoint for the 'claude-sdk' backend's claude CLI "
     "[default: $ARTMIND_SDK_BASE_URL, or the CLI's normal login]. Pass "
-    "--base-url \"\" to force the CLI's normal login for this run even if "
+    "--baseUrl \"\" to force the CLI's normal login for this run even if "
     "$ARTMIND_SDK_BASE_URL is set.",
 )
 def admin_ui(
@@ -747,7 +751,7 @@ def domains_validate(domain: str | None, compact: bool):
 
 @domains.command("harmonize")
 @click.option("--domain", default=None, help="Child domain to harmonize (e.g. fiction.thriller). Default: all children.")
-@click.option("--dry-run", is_flag=True, help="Show what would change without writing.")
+@dry_run_option("Show what would change without writing.")
 @compact_option
 def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
     """Sync child domain schemas against their parent's entity types.
@@ -786,7 +790,7 @@ def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dry-run])."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dryRun])."""
     pass
 
 
@@ -903,7 +907,7 @@ def _filter_match(files: "list[Path]", base: Path, patterns: "tuple[str, ...]") 
 @click.option("--fork", is_flag=True, help="On an _artmind_id collision (two live files, one id), mint a fresh id for the newcomer instead of refusing.")
 @click.option("--adopt", is_flag=True, help="On an _artmind_id collision, transfer identity to the newcomer instead of refusing (the old claimant is left as-is).")
 @click.option("--force", is_flag=True, help="Structured (csv/xlsx) files only: ingest even if identical content is already registered.")
-@click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
+@aliased_option("--stageOnly", "--stage-only", param="stage_only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--refreshMode", "refresh_mode",
     type=click.Choice(["replace", "temporal"]), default=None,
@@ -1122,7 +1126,7 @@ def ingest_sync(
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
 @click.option("--reextract", is_flag=True, help=_REEXTRACT_HELP)
 @click.option("--match", "match", multiple=True, help=_MATCH_HELP)
-@click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
+@aliased_option("--stageOnly", "--stage-only", param="stage_only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--pending", "pending", is_flag=True,
     help="Instead of FILE_PATH: enqueue exactly the files `ingest pending` lists (new or"
@@ -1367,13 +1371,13 @@ def ingest_job_results(job_id: str, compact: bool):
 
 @ingest.command("retry-job")
 @click.argument("job_id")
-@click.option("--include-skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
+@aliased_option("--includeSkipped", "--include-skipped", param="include_skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
 @compact_option
 def ingest_retry_job(job_id: str, include_skipped: bool, compact: bool):
     """Re-queue failed files in a job for reprocessing.
 
     Removes failed files from the document registry and resets the job to queued
-    so the worker picks it up again. Use --include-skipped to also force
+    so the worker picks it up again. Use --includeSkipped to also force
     re-processing of files that were skipped as duplicates.
 
     A stalled job (`processing`, but its worker is gone) is re-queued as well,
@@ -1467,7 +1471,7 @@ def ingest_embed_passages(domain: str | None, compact: bool) -> None:
 @ingest.command("summarise")
 @click.option("--domain", default=None, help="Only this domain (exact name); default every staged domain")
 @click.option("--match", default=None, help="Only staging folders whose name matches this glob")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Report documents and LLM calls; write nothing")
+@dry_run_option("Report documents and LLM calls; write nothing")
 @click.option("--maxWorkers", "max_workers", type=int, default=None, help="Concurrent summary calls per document")
 @compact_option
 def ingest_summarise(domain: str | None, match: str | None, dry_run: bool, max_workers: int | None,
@@ -1475,7 +1479,7 @@ def ingest_summarise(domain: str | None, match: str | None, dry_run: bool, max_w
     """Build missing or outdated chunk and document summaries for staged documents, then commit them.
 
     Every chunk's text goes to the configured LLM provider once (cached by text, prompt
-    version and model). `--dry-run` first: it prints the call count. Resumable.
+    version and model). `--dryRun` first: it prints the call count. Resumable.
     """
     _setup_logger()
     from artmind.ingest import summarise_staged
@@ -1875,7 +1879,7 @@ def ingest_table2graph(
 
 @ingest.command("pull-kg")
 @click.option("--repo", required=True, help="Git-cloneable URL (SSH or HTTPS) of the external repository")
-@click.option("--repo-path", required=True, help="Path within the repo to the folder containing document sub-folders")
+@aliased_option("--repoPath", "--repo-path", param="repo_path", required=True, help="Path within the repo to the folder containing document sub-folders")
 @click.option("--domain", required=True, help="Target domain name")
 @compact_option
 def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> None:
@@ -1889,7 +1893,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> Non
     Example:
       artmind ingest pull-kg \\
         --repo git@github.com:acme/kg-store.git \\
-        --repo-path data/kg/sales_collateral \\
+        --repoPath data/kg/sales_collateral \\
         --domain sales_collateral
     """
     _setup_logger()
@@ -1924,12 +1928,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> Non
     show_default=True,
     help="String similarity threshold for clustering (0–1)",
 )
-@click.option(
-    "--dry-run",
-    is_flag=True,
-    default=False,
-    help="Compute and write proposals only; do NOT apply merges to Neo4j",
-)
+@dry_run_option("Compute and write proposals only; do NOT apply merges to Neo4j")
 @click.option(
     "--output",
     "output_file",
@@ -1937,21 +1936,21 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> Non
     type=click.Path(),
     help="Write proposals JSON to this file (default: data/refine/proposed_merges.json)",
 )
-@click.option(
-    "--from-file",
-    "from_file",
+@aliased_option(
+    "--fromFile", "--from-file",
+    param="from_file",
     default=None,
     type=click.Path(exists=True),
     help="Skip computation — load proposals from a previous dry-run JSON file and apply them",
 )
-@click.option(
-    "--allow-cross-domain-merge",
-    "allow_cross_domain_merge",
+@aliased_option(
+    "--allowCrossDomainMerge", "--allow-cross-domain-merge",
+    param="allow_cross_domain_merge",
     is_flag=True,
     default=False,
     help=(
         "Allow merging same-named entities across domains (default: skip and report them). "
-        "Only applies when computing proposals via clustering; has no effect with --from-file, "
+        "Only applies when computing proposals via clustering; has no effect with --fromFile, "
         "which applies proposals already vetted at dry-run time."
     ),
 )
@@ -1960,7 +1959,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> Non
     help=(
         "Cluster only the names ONE document's chunks gave things (matched by name, path or id,"
         " as `query document-history` does) -- for a single amendment that extraction split into"
-        " one entity per chunk. Works with --dry-run; the report counts the merges that join names"
+        " one entity per chunk. Works with --dryRun; the report counts the merges that join names"
         " one document asserted both of."
     ),
 )
@@ -1985,9 +1984,9 @@ def ingest_refine_graph(
 
     \b
     Workflow:
-      1. Dry-run:  artmind ingest refine-graph --dry-run --output merges.json
+      1. Dry-run:  artmind ingest refine-graph --dryRun --output merges.json
       2. Review merges.json and edit if needed
-      3. Propose:  artmind ingest refine-graph --from-file merges.json
+      3. Propose:  artmind ingest refine-graph --fromFile merges.json
       4. Approve:  artmind sameas list / artmind sameas approve <id>
     """
     _setup_logger()
@@ -2039,12 +2038,12 @@ def ingest_refine_graph(
         )
         if out_path:
             click.echo(f"Proposals written to: {out_path}", err=True)
-            click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}", err=True)
+            click.echo(f"To apply: artmind ingest refine-graph --fromFile {out_path}", err=True)
 
     skipped = report.get("skipped_cross_domain", {})
     if skipped:
         click.echo(
-            f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}",
+            f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allowCrossDomainMerge to merge): {skipped}",
             err=True,
         )
     _echo_json({
@@ -2054,7 +2053,7 @@ def ingest_refine_graph(
         "stats": stats,
         "skipped_cross_domain": skipped,
         "output_file": str(out_path) if out_path else None,
-        "next": (f"artmind ingest refine-graph --from-file {out_path}" if (dry_run and not from_path and out_path)
+        "next": (f"artmind ingest refine-graph --fromFile {out_path}" if (dry_run and not from_path and out_path)
                  else "artmind sameas list" if (from_path or not dry_run) else None),
     }, compact)
 
@@ -2066,9 +2065,9 @@ def ingest_refine_graph(
 @click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
 @click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
 @click.option("--model", default=None, help="Adjudication LLM model (default: env)")
-@click.option("--dry-run", is_flag=True, help="Compute proposals + write --output; do NOT materialize")
+@dry_run_option("Compute proposals + write --output; do NOT materialize")
 @click.option("--output", "output_file", default=None, type=click.Path(), help="Write proposals JSON here")
-@click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
+@aliased_option("--fromFile", "--from-file", param="from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
 @compact_option
 def ingest_detect_conflicts(
     domain: tuple,
@@ -2085,12 +2084,12 @@ def ingest_detect_conflicts(
     """Detect non-destructive conflicts between entities across domains.
 
     \b
-    Precondition: run intra-domain `refine-graph` (no --allow-cross-domain-merge)
+    Precondition: run intra-domain `refine-graph` (no --allowCrossDomainMerge)
     on each target domain first, so pairing operates on deduplicated entities.
     Workflow:
-      1. artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json
+      1. artmind ingest detect-conflicts --domain A --domain B --dryRun --output conflicts.json
       2. Review conflicts.json
-      3. artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json
+      3. artmind ingest detect-conflicts --domain A --domain B --fromFile conflicts.json
     """
     _setup_logger()
     from artmind.conflicts import detect_conflicts
@@ -2179,7 +2178,7 @@ def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, 
 
 @ingest.command("detect-supersession")
 @click.option("--domain", required=True, help="Domain to scan for supersession declarations (notices, metadata rows, and — when the schema enables supersede_on_title_family — title-family version chains)")
-@click.option("--dry-run", is_flag=True, help="Report matches without writing")
+@dry_run_option("Report matches without writing")
 @compact_option
 def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> None:
     """Scan documents for supersession declarations and apply SUPERSEDES edges.
@@ -3250,7 +3249,7 @@ def graph_pattern10(
 @graph.command("text2cypher")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @compact_option
-@click.option("--dry-run", "dry_run", is_flag=True, help="Show generated Cypher without executing it")
+@dry_run_option("Show generated Cypher without executing it")
 @click.option("--maxRows", "max_rows", type=int, default=text2cypher.TEXT2CYPHER_MAX_ROWS, show_default=True, help="Max rows returned; rows_total carries the full count")
 @click.argument("question")
 def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int, question: str) -> None:
@@ -3559,7 +3558,7 @@ def query_document_history(domain: tuple, document_name: str, compact: bool) -> 
 @query.command("text2sql")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; comma-splittable)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; rows without temporal history always shown")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Generate SQL without executing it")
+@dry_run_option("Generate SQL without executing it")
 @compact_option
 @click.argument("question")
 def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: bool, question: str) -> None:
@@ -3965,12 +3964,12 @@ def _latest_insights(domain: str):
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain to analyse (one)")
 @click.option("--force", is_flag=True, help="Run even if graph, schemas, curation and config are unchanged")
 @click.option("--only", "only", default=None, help="Comma-separated detectors; other findings are carried over")
-@click.option("--no-narrate", "no_narrate", is_flag=True, help="Skip the LLM captions and circle names this run")
+@aliased_option("--noNarrate", "--no-narrate", param="no_narrate", is_flag=True, help="Skip the LLM captions and circle names this run")
 @compact_option
 def insights_refresh(domain: tuple, force: bool, only: str | None, no_narrate: bool, compact: bool) -> None:
     """Profile the graph, run the detectors, narrate findings and circles, and write a snapshot. Needs Neo4j.
 
-    Narration (LLM captions and circle names) is cached by finding content; `--no-narrate` skips it."""
+    Narration (LLM captions and circle names) is cached by finding content; `--noNarrate` skips it."""
     from artmind.insights import runner as insights_runner
     from artmind.insights.model import InsightsError
 
@@ -4069,8 +4068,8 @@ def insights_runs(domain: tuple, compact: bool) -> None:
 @insights_group.command("same-as")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
 @click.option("--export", "export", type=click.Path(dir_okay=False, path_type=Path), default=None,
-              help="Write the candidates as `ingest refine-graph --from-file` input")
-@click.option("--min-score", "min_score", type=click.FloatRange(0, 1), default=0.5, show_default=True)
+              help="Write the candidates as `ingest refine-graph --fromFile` input")
+@aliased_option("--minScore", "--min-score", param="min_score", type=click.FloatRange(0, 1), default=0.5, show_default=True)
 @compact_option
 def insights_same_as(domain: tuple, export: Path | None, min_score: float, compact: bool) -> None:
     """Probable duplicates from the latest snapshot; --export feeds the same-as review queue. No Neo4j.
@@ -4089,7 +4088,7 @@ def insights_same_as(domain: tuple, export: Path | None, min_score: float, compa
     if export is not None:
         export.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         result.update(export=str(export),
-                      next=f"artmind ingest refine-graph --domain {name} --from-file {export}")
+                      next=f"artmind ingest refine-graph --domain {name} --fromFile {export}")
     else:
         result["proposed_merges"] = merges
     _echo_json(result, compact)
@@ -4146,7 +4145,7 @@ def topic_group() -> None:
 @click.option("--slug", default=None, help="File name (default: from the topic)")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
 @click.option("--model", default=None, help="LLM model (default: env)")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Show the anchor, documents and call count; write nothing")
+@dry_run_option("Show the anchor, documents and call count; write nothing")
 @compact_option
 def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | None", out: "Path | None",
                 model: "str | None", dry_run: bool, compact: bool) -> None:
@@ -4169,7 +4168,7 @@ def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | 
 @click.option("--stale", "only_stale", is_flag=True, help="Rebuild every stale page")
 @click.option("--all", "every", is_flag=True, help="Rebuild every page")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Show what would be rebuilt; write nothing")
+@dry_run_option("Show what would be rebuilt; write nothing")
 @compact_option
 def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path | None", dry_run: bool,
                   compact: bool) -> None:
@@ -5205,7 +5204,7 @@ def projection_status(compact: bool) -> None:
 @click.option("--limit", type=int, default=None, help="Cap entities synthesized this run (bounds LLM cost)")
 @click.option("--model", default=None, help="Synthesis LLM model (default: env)")
 @click.option("--force", is_flag=True, help="Re-synthesize even if the observation set is unchanged")
-@click.option("--dry-run", is_flag=True, help="Show which entities would be synthesized without writing")
+@dry_run_option("Show which entities would be synthesized without writing")
 @compact_option
 def projection_synthesize(
     domain: str,
@@ -5267,7 +5266,7 @@ def sameas():
 @click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
 @click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
 @click.option("--model", default=None, help="Adjudication LLM model (default: env)")
-@click.option("--dry-run", is_flag=True, help="Compute candidates without writing proposals to the graph")
+@dry_run_option("Compute candidates without writing proposals to the graph")
 @compact_option
 def sameas_propose(
     domain: tuple, name_filter: str | None, sim_threshold: float, max_pairs: int,
@@ -5526,8 +5525,9 @@ def session_close(compact: bool):
 @session.command("initiate")
 @click.option("--snapshot", "snapshot_file", default=None, type=click.Path(exists=True),
               help="Path to a specific snapshot .tar.gz (default: latest in data/graph_snapshot/)")
-@click.option(
-    "--rebuild-projection",
+@aliased_option(
+    "--rebuildProjection", "--rebuild-projection",
+    param="rebuild_projection",
     type=click.Choice(["auto", "always", "skip"]),
     default="auto",
     help="Whether to fully rebuild the :Entity/:Conflict projection after restoring "
@@ -5653,8 +5653,9 @@ def snapshot_create(only: str | None, compact: bool):
     help="Comma-separated components to restore (graph,structured,kg_staging,curation,originals). "
          "Default: all available",
 )
-@click.option(
-    "--rebuild-projection",
+@aliased_option(
+    "--rebuildProjection", "--rebuild-projection",
+    param="rebuild_projection",
     type=click.Choice(["auto", "always", "skip"]),
     default="auto",
     help="Whether to fully rebuild the graph's :Entity/:Conflict projection after "

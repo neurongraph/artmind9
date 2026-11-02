@@ -27,7 +27,7 @@ def test_max_docs_env_default_used_when_flag_absent(monkeypatch, tmp_path):
     monkeypatch.setenv("ARTMIND_TOPIC_MAX_DOCS", "7")
     with patch("artmind.topics.build.build_page", return_value=_build_result(7)) as build:
         result = CliRunner().invoke(
-            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dry-run", "--compact"]
+            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dryRun", "--compact"]
         )
     assert result.exit_code == 0, result.output
     _, kwargs = build.call_args
@@ -40,7 +40,7 @@ def test_max_docs_flag_overrides_env(monkeypatch, tmp_path):
     with patch("artmind.topics.build.build_page", return_value=_build_result(3)) as build:
         result = CliRunner().invoke(
             cli, ["topic", "build", "Notice", "--domain", "j", "--maxDocs", "3",
-                  "--out", str(tmp_path), "--dry-run", "--compact"]
+                  "--out", str(tmp_path), "--dryRun", "--compact"]
         )
     assert result.exit_code == 0, result.output
     _, kwargs = build.call_args
@@ -52,7 +52,7 @@ def test_max_docs_fallback_default_without_env(monkeypatch, tmp_path):
     monkeypatch.delenv("ARTMIND_TOPIC_MAX_DOCS", raising=False)
     with patch("artmind.topics.build.build_page", return_value=_build_result(12)) as build:
         result = CliRunner().invoke(
-            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dry-run", "--compact"]
+            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dryRun", "--compact"]
         )
     assert result.exit_code == 0, result.output
     _, kwargs = build.call_args
@@ -64,7 +64,7 @@ def test_max_docs_env_non_int_raises_click_error_naming_variable(monkeypatch, tm
     monkeypatch.setenv("ARTMIND_TOPIC_MAX_DOCS", "banana")
     with patch("artmind.topics.build.build_page", return_value=_build_result(12)):
         result = CliRunner().invoke(
-            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dry-run"]
+            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dryRun"]
         )
     assert result.exit_code == 1
     assert "ARTMIND_TOPIC_MAX_DOCS" in result.output
@@ -75,7 +75,7 @@ def test_max_docs_env_zero_raises_click_error_naming_range(monkeypatch, tmp_path
     monkeypatch.setenv("ARTMIND_TOPIC_MAX_DOCS", "0")
     with patch("artmind.topics.build.build_page", return_value=_build_result(12)):
         result = CliRunner().invoke(
-            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dry-run"]
+            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dryRun"]
         )
     assert result.exit_code == 1
     assert "ARTMIND_TOPIC_MAX_DOCS" in result.output
@@ -87,7 +87,7 @@ def test_max_docs_env_above_max_raises_click_error(monkeypatch, tmp_path):
     monkeypatch.setenv("ARTMIND_TOPIC_MAX_DOCS", "51")
     with patch("artmind.topics.build.build_page", return_value=_build_result(12)):
         result = CliRunner().invoke(
-            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dry-run"]
+            cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dryRun"]
         )
     assert result.exit_code == 1
     assert "ARTMIND_TOPIC_MAX_DOCS" in result.output
@@ -99,7 +99,7 @@ def test_max_docs_env_boundary_values_accepted(monkeypatch, tmp_path):
         monkeypatch.setenv("ARTMIND_TOPIC_MAX_DOCS", val)
         with patch("artmind.topics.build.build_page", return_value=_build_result(int(val))) as build:
             result = CliRunner().invoke(
-                cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dry-run", "--compact"]
+                cli, ["topic", "build", "Notice", "--domain", "j", "--out", str(tmp_path), "--dryRun", "--compact"]
             )
         assert result.exit_code == 0, f"val={val}: {result.output}"
         _, kwargs = build.call_args

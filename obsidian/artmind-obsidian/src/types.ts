@@ -225,7 +225,7 @@ export interface RebuildResult {
   finalize_resolved: string[];
 }
 
-/** `artmind projection synthesize --domain D --dry-run --compact`.
+/** `artmind projection synthesize --domain D --dryRun --compact`.
  * `counts.synthesize` is how many descriptions a real run would write. */
 export interface SynthesizeDryRun {
   domain: string;

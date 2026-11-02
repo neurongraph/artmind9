@@ -78,7 +78,7 @@ def test_match_filters_folders_and_table_folders_are_skipped(monkeypatch, tmp_pa
 def test_cli_prints_the_result(monkeypatch, tmp_path):
     kg, _ = _env(monkeypatch, tmp_path)
     _stage(kg, "notes", "a", CHUNKS)
-    result = CliRunner().invoke(cli, ["ingest", "summarise", "--domain", "notes", "--dry-run", "--compact"])
+    result = CliRunner().invoke(cli, ["ingest", "summarise", "--domain", "notes", "--dryRun", "--compact"])
     assert result.exit_code == 0, result.output
     assert json.loads(result.output)["calls"] == 3
 
