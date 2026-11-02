@@ -577,9 +577,9 @@ traces.
 | Phase | Sub-spec | Contents | Gate to the next |
 |---|---|---|---|
 | P0 | (SOP, no code) | Run `10-collection-sop.md` on laptops A, B and the desktop; import labels | Every SOP shape ≥ 3 rated turns in two vaults; ≥ 40 labels |
-| P1a | CLI uniformity | §6.2 C1–C4: JSON + `--compact` everywhere, camelCase with aliases, `--dryRun` + `effect` on every write, the result envelope; contract tests over the Click tree; plugin fixtures regenerated | Contract tests green; plugin tests green; no skill or route template names a removed spelling |
-| P1 | Catalogue + assets | §5.1 parts, generation counter, `query catalogue`, `query assets`, `:TopicPage` index, `topic index` | Plan replay unchanged or better with assets in the catalogue |
-| P2 | Planner v2 | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, intent right on all non-retrieval labels |
+| P1a | CLI uniformity (`2026-11-02-cli-uniformity-design.md`) | §6.2 C1–C4: JSON + `--compact` everywhere, camelCase with aliases, `--dryRun` + `effect` on every write, the result envelope; contract tests over the Click tree; plugin fixtures regenerated | Contract tests green; plugin tests green; no skill or route template names a removed spelling |
+| P1 | Catalogue + assets (`2026-11-02-catalogue-and-answer-assets-design.md`) | §5.1 parts, generation counter, `query catalogue`, `query assets`, `:TopicPage` index, `topic index` | Plan replay unchanged or better with assets in the catalogue |
+| P2 | Planner v2 (waits for P0; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, intent right on all non-retrieval labels |
 | P3 | Executor + skill diet | `query run`, bundle, skill to ~150 lines, profiles; shadow bundles first, then on in the admin console | Targeted agent runs (study 08 §4) no worse, fewer calls; fast-path share ≥ 50 % of rated-good turns |
 | P4 | Admin UI: Ask + Quality | Plan card, evidence panel, rating reasons; traces, replay, bank views | Ratings on ≥ 70 % of admin turns for two weeks |
 | P5 | Learning loop + Inbox | `gaps`, `proposals`, `preview`, Inbox cards for same-as and conflicts first, then topics/views/labels; plugin Inbox subset | A same-as batch of 100 reviewed in under 15 minutes without the agent; < 20 % of proposals rejected as noise |
