@@ -241,3 +241,31 @@ def test_reindex_does_not_follow_a_traversing_domain_out_of_the_staging_dir(vaul
     reindex_mod.reindex()
 
     assert _registry(vault)["i"][1] == compute_content_sha256("B\n")
+
+
+def test_reindex_registers_converted_binaries_under_the_hidden_data_dir(vault, monkeypatch):
+    markdowns = vault / ".artmind" / "data" / "documents" / "markdowns"
+    monkeypatch.setattr(reindex_mod, "MARKDOWNS_DIR", markdowns)
+    _write(markdowns / "Contract~0f2bd852040d.md", "id-pdf", "contracts", "Converted body\n")
+    # derived pieces beside it are not documents
+    _write(markdowns / "Contract~0f2bd852040d_chunks" / "chunk_001.md", "id-chunk", "contracts", "Chunk\n")
+    _write(vault / "notes" / "a.md", "id-1", "general", "Body A\n")
+
+    result = reindex_mod.reindex()
+
+    assert result["registered"] == 2
+    conn = sqlite3.connect(vault.parent / "registry.db")
+    try:
+        rows = {r[0]: (r[1], r[2]) for r in conn.execute("SELECT artmind_id, domain, path FROM documents")}
+    finally:
+        conn.close()
+    assert rows["id-pdf"] == ("contracts", ".artmind/data/documents/markdowns/Contract~0f2bd852040d.md")
+    assert "id-chunk" not in rows
+
+
+def test_reindex_ignores_a_markdowns_dir_outside_the_vault(vault, tmp_path, monkeypatch):
+    outside = tmp_path / "elsewhere" / "markdowns"
+    monkeypatch.setattr(reindex_mod, "MARKDOWNS_DIR", outside)
+    _write(outside / "Contract~0f2bd852040d.md", "id-pdf", "contracts", "Body\n")
+
+    assert reindex_mod.reindex()["registered"] == 0

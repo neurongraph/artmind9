@@ -4927,7 +4927,9 @@ def docs_reindex(compact: bool) -> None:
     The registry is never authoritative (docs/document-identity.md) — every
     `_artmind_id`-bearing row is wiped and rewritten from what's actually in
     the vault right now, so this is always safe to run: after a registry
-    wipe, a restored snapshot, or a doubt about whether it's gone stale.
+    wipe, a restored snapshot, a vault cloned onto a second machine, or a
+    doubt about whether it's gone stale. Converted pdf/pptx/docx documents
+    are read from their markdown under `.artmind/data/documents/markdowns/`.
 
     csv/xlsx are path-only and cannot be rebuilt this way (accepted
     limitation) — re-ingest them directly to re-register.

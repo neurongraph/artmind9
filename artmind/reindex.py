@@ -30,7 +30,7 @@ from loguru import logger
 
 from artmind.db import _get_db
 from artmind.document_identity import canonical_path, compute_content_sha256, document_key, is_plain_folder_name
-from paths import ARTMIND_VAULT_DIR
+from paths import ARTMIND_VAULT_DIR, MARKDOWNS_DIR
 
 _ACCEPTED_LIMITATION_NOTE = (
     "csv/xlsx sources are path-only and cannot be rebuilt from anything "
@@ -48,9 +48,26 @@ def _iter_vault_markdown(vault_dir: Path):
         yield path
 
 
+def _iter_converted_markdown(vault_dir: Path):
+    """The converted markdown of each pdf/pptx/docx (`MARKDOWNS_DIR/<key>.md`,
+    registered by `_ingest_binary_derived`). It sits under the vault's hidden
+    `.artmind/`, which the vault scan skips, so a registry rebuilt on a second
+    machine would otherwise lack every converted binary. Top level only: the
+    `_chunks` and `_artifacts` folders beside each hold derived pieces, not
+    documents. Nothing here when `MARKDOWNS_DIR` is outside the vault."""
+    try:
+        root = Path(MARKDOWNS_DIR).resolve()
+        if not root.is_dir() or not root.is_relative_to(Path(vault_dir).resolve()):
+            return
+        yield from sorted(root.glob("*.md"))
+    except OSError:
+        return
+
+
 def reindex() -> dict:
-    """Scan every markdown file in the vault for `_artmind_id` frontmatter
-    and rewrite the registry's id-bearing rows from what's found. Path-only
+    """Scan every markdown file in the vault, and the converted markdown of
+    each binary under `.artmind/data/documents/markdowns/`, for `_artmind_id`
+    frontmatter and rewrite the registry's id-bearing rows from what's found. Path-only
     rows (binaries still on the pre-Phase-5 `logical_id` path, or csv/xlsx)
     are left untouched — reindex has nothing to rebuild them from either way.
     """
@@ -67,7 +84,7 @@ def reindex() -> dict:
     conn = _get_db()
     try:
         conn.execute("DELETE FROM documents WHERE artmind_id IS NOT NULL")
-        for path in _iter_vault_markdown(ARTMIND_VAULT_DIR):
+        for path in (*_iter_vault_markdown(ARTMIND_VAULT_DIR), *_iter_converted_markdown(ARTMIND_VAULT_DIR)):
             try:
                 text = path.read_text(encoding="utf-8")
             except Exception as e:
