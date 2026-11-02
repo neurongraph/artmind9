@@ -172,3 +172,16 @@ def test_query_insights_without_snapshot_is_friendly(tmp_path, monkeypatch):
     monkeypatch.setattr(paths, "INSIGHTS_DIR", tmp_path / "none")
     r = CliRunner().invoke(cli, ["query", "insights", "list", "--domain", "demo", "--compact"])
     assert r.exit_code != 0 and "no insights snapshot" in r.output
+
+
+def test_list_reports_rows_total_and_truncated(snap):
+    out = json.loads(invoke("list", "--domain", "demo", "--limit", "1").output)
+    assert len(out["findings"]) == 1 and out["rows_total"] == 2 and out["truncated"] is True
+    full = json.loads(invoke("list", "--domain", "demo").output)
+    assert full["rows_total"] == 2 and full["truncated"] is False
+
+
+def test_query_insights_list_reports_rows_total_and_truncated(snap):
+    out = json.loads(CliRunner().invoke(
+        cli, ["query", "insights", "list", "--domain", "demo", "--limit", "1", "--compact"]).output)
+    assert len(out["findings"]) == 1 and out["rows_total"] == 2 and out["truncated"] is True

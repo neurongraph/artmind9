@@ -79,4 +79,14 @@ Each task: test first with the recorder (no write Cypher, no file, no LLM call; 
 
 ## Audit results
 
-(filled in by Task 3)
+Audit of every capped listing (`--limit`, `--topK`, `--maxRows`, `--maxNames`, `--maxConnections`):
+
+| Command | Result |
+|---|---|
+| `query graph pattern7/8/10`, `text2cypher` | already carry `rows_total` + `truncated` |
+| `query graph structural-metadata` / `entity-listing` (`--maxNames`), `pattern2/3/4`, `entity-context` (`--maxConnections`) | already carry `names_total` / `connections_total` (named for what they count); left as is, renaming would break the payload contract |
+| `query graph pattern1` | **added** `rows_total` + `truncated` (Cypher collects, counts, then slices) |
+| `insights list`, `query insights list` | **added** |
+| `traces list` | **added** (`store.count_turns`; with a Python-side filter the total counts matches) |
+| `query vector-text`, `entity-resolve`, `resolve-key`, `survey` (`--topK` / `--topDocs`) | ranked top-K retrievals, not listings: no meaningful total, unchanged |
+| `ingest jobs`, `jobs-active`, `jobs-completed`, `table2graph --pending` | bare JSON lists read as lists by the plugin; shape must not change, so no totals (decision recorded in the final report) |

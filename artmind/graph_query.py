@@ -791,9 +791,11 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             f"""
             MATCH (e:{label})
             WHERE {domain_predicate("e")}
-            RETURN e {{.*, label: labels(e)}} AS entityData
-            ORDER BY e.name
-            LIMIT $limit
+            WITH e ORDER BY e.name
+            WITH collect(e) AS hits
+            WITH size(hits) AS _rowsTotal, hits[0..$limit] AS page
+            UNWIND page AS e
+            RETURN e {{.*, label: labels(e)}} AS entityData, _rowsTotal
             """,
             {"domains": parameters["domains"], "limit": parameters.get("limit", 200)},
         )
@@ -1149,6 +1151,8 @@ def execute_pattern(
             rows_total = row.pop("_rowsTotal")
         if isinstance(row, dict) and "_rawHits" in row:
             raw_hits = row.pop("_rawHits")
+    if pattern == "pattern1" and rows_total is None:
+        rows_total = 0  # an empty UNWIND returns no row, so no total rides along
     if pattern == "pattern7":
         if rows_total is None:
             rows_total = 0

@@ -340,6 +340,19 @@ def list_turns(*, source: str | None = None, since: float | None = None, limit: 
         conn.close()
 
 
+def count_turns(*, source: str | None = None, since: float | None = None) -> int:
+    """How many turns `list_turns` would return with no limit."""
+    conn = _connect()
+    try:
+        return conn.execute(
+            "SELECT COUNT(*) FROM trace_turns t"
+            " WHERE (? IS NULL OR t.source = ?) AND (? IS NULL OR t.started_at >= ?)",
+            (source, source, since, since),
+        ).fetchone()[0]
+    finally:
+        conn.close()
+
+
 def prune(retention_days: int) -> int:
     """Delete turns older than `retention_days` that have no feedback and no
     review, with their events, spans and LLM calls. Returns turns deleted."""

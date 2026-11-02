@@ -3649,10 +3649,11 @@ def query_insights_list(domain: tuple, detector: str | None, kind: str | None, o
 
     name = _one_domain(domain)
     run = _latest_insights(name)
+    items = list_findings(run, detector=detector, kind=kind, only_new=only_new)
     _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at,
                 "circles": [circle_summary(c) for c in run.circles],
-                "findings": [finding_summary(f) for f in list_findings(run, detector=detector, kind=kind,
-                                                                     only_new=only_new, limit=limit)]}, compact)
+                "findings": [finding_summary(f) for f in items[:limit]],
+                "rows_total": len(items), "truncated": len(items) > limit}, compact)
 
 
 @query_insights.command("show")
@@ -3931,6 +3932,7 @@ def insights_list(domain: tuple, detector: str | None, kind: str | None, only_ne
              "diff": f.diff, "action": f.action}
             for f in items[:limit]
         ],
+        "rows_total": len(items), "truncated": len(items) > limit,
     }, compact)
 
 
@@ -4171,20 +4173,23 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
     domains = set(_parse_repeatable(domain))
     # Push the limit down to the DB when there are no Python-side filters so
     # the store does not fetch an unbounded result set.
-    db_limit = limit if (rating is None and not domains) else None
+    filtered = rating is not None or bool(domains)
     turns = []
-    for t in store.list_turns(source=source, since=since_ts, limit=db_limit):
+    rows_total = 0 if filtered else store.count_turns(source=source, since=since_ts)
+    for t in store.list_turns(source=source, since=since_ts, limit=None if filtered else limit):
         if rating == "unrated" and t["rating"] is not None:
             continue
         if rating not in (None, "unrated") and t["rating"] != rating:
             continue
         if domains and not domains & set(t.get("domains") or []):
             continue
-        turns.append({k: t[k] for k in ("trace_id", "source", "session_id", "started_at", "rating", "question",
-                                        "turns", "cost_usd", "fell_through", "answer_basis", "status")})
-        if len(turns) >= limit:
-            break
-    _echo_json({"command": "traces_list", "turns": turns}, compact)
+        if filtered:
+            rows_total += 1
+        if len(turns) < limit:
+            turns.append({k: t[k] for k in ("trace_id", "source", "session_id", "started_at", "rating", "question",
+                                            "turns", "cost_usd", "fell_through", "answer_basis", "status")})
+    _echo_json({"command": "traces_list", "turns": turns, "rows_total": rows_total,
+                "truncated": rows_total > len(turns)}, compact)
 
 
 @traces_group.command("show")

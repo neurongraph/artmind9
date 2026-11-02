@@ -354,8 +354,28 @@ def test_pattern1_applies_result_limit():
     cypher, params = graph_query._pattern_query(
         "pattern1", {"domains": ["fiction"], "entityClass": "PERSON"}
     )
-    assert "LIMIT $limit" in cypher
+    assert "[0..$limit]" in cypher and "_rowsTotal" in cypher
     assert params["limit"] == 200
+
+
+def test_pattern1_reports_rows_total_and_truncated(monkeypatch):
+    sent = []
+
+    def fake_run(cypher, params):
+        sent.append((cypher, params))
+        return [{"entityData": {"name": "A"}, "_rowsTotal": 7}, {"entityData": {"name": "B"}, "_rowsTotal": 7}]
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    result = graph_query.execute_pattern("fiction", "pattern1", "q", entityClass="Character", limit=2)
+    assert (result["rows_total"], result["truncated"]) == (7, True)
+    assert all("_rowsTotal" not in r for r in result["rows"])
+    assert sent[0][1]["limit"] == 2
+
+
+def test_pattern1_empty_result_has_zero_total(monkeypatch):
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: [])
+    result = graph_query.execute_pattern("fiction", "pattern1", "q", entityClass="Character")
+    assert (result["rows"], result["rows_total"], result["truncated"]) == ([], 0, False)
 
 
 @pytest.mark.parametrize("pattern", ["pattern2", "pattern3", "pattern6"])
