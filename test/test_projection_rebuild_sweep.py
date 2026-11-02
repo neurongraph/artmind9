@@ -33,6 +33,7 @@ def calls(monkeypatch):
         },
     )
     monkeypatch.setattr(projection, "all_keys", lambda tx, domains=None: set(KEYS))
+    monkeypatch.setattr(projection, "passage_domains", lambda tx: {"general"})
     monkeypatch.setattr(
         ing, "_sweep_embeddings",
         lambda domain, keys, strict=False: seen["entities"].append((domain, sorted(keys), strict)) or len(keys),
@@ -70,6 +71,16 @@ def test_sweep_rebuilds_every_domain_then_sweeps_each_domain_it_rebuilt(calls):
         ["general", "habits"], 3, 2, [],
     )
     assert out["recorded"] is True
+
+
+def test_sweep_covers_a_chunks_only_domain_that_has_passages_but_no_keys(calls, monkeypatch):
+    monkeypatch.setattr(projection, "passage_domains", lambda tx: {"general", "contracts_vector"})
+
+    out = json.loads(_run("--sweep").stdout)
+
+    assert ("contracts_vector", True) in calls["chunks"]
+    assert ("contracts_vector", [], True) in calls["entities"]
+    assert out["domains_swept"] == ["contracts_vector", "general", "habits"]
 
 
 def test_a_clean_sweep_clears_a_jobs_failed_finalize(calls):
