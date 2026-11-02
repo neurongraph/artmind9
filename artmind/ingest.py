@@ -5071,7 +5071,8 @@ def rebuild_and_sweep_all() -> dict:
 
     A full, unscoped, batched rebuild (`projection.full_rebuild_batched`,
     which clears drift once the last batch commits), then both strict embed
-    sweeps for every domain a key belongs to. Returns the rebuild totals plus
+    sweeps for every domain a key or a passage belongs to (a chunks-only
+    domain has passages and no keys). Returns the rebuild totals plus
     `domains_swept`, `embedded`, `passages_embedded`, `sweep_errors` (each
     prefixed with its domain; empty when every sweep ran) and
     `finalize_resolved` (the ingest jobs whose failed deferred rebuild this
@@ -5088,6 +5089,11 @@ def rebuild_and_sweep_all() -> dict:
     for key in keys:
         if key[2]:
             by_domain.setdefault(key[2], []).append(key)
+    # A chunks-only domain (`graph_extraction: false`) has passages but no
+    # entity keys; it must still get its passage sweep.
+    with neo4j_session() as session:
+        for passage_domain in session.execute_read(projection.passage_domains):
+            by_domain.setdefault(passage_domain, [])
     embedded = chunks = 0
     errors: list[str] = []
     for domain in sorted(by_domain):

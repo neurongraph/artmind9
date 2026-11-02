@@ -1523,6 +1523,13 @@ def full_rebuild_batched(domains: list[str] | None = None) -> dict:
     return summary
 
 
+def passage_domains(tx) -> set[str]:
+    """Every domain a `:DocPassage` belongs to, so a chunks-only domain
+    (`graph_extraction: false`, no entity keys) still gets its passage sweep."""
+    rows = tx.run("MATCH (p:DocPassage) WHERE p._domain IS NOT NULL RETURN DISTINCT p._domain AS domain").data()
+    return {row["domain"] for row in rows}
+
+
 def keys_for_document(tx, doc_id: str, *, status: str | None = None) -> set[tuple[str, str, str]]:
     """The aggregate keys a document's observations contribute to.
 
