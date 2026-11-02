@@ -948,6 +948,10 @@ def _filter_match(files: "list[Path]", base: Path, patterns: "tuple[str, ...]") 
     help="Structured files only: column supplying each row's effective date for temporal refresh"
     " (falls back to the ingest date when omitted or null on a row).",
 )
+@dry_run_option(
+    "List the files this sync would ingest by tier (content / metadata / unchanged) with an upper-bound"
+    " LLM call estimate; converts, stamps, registers and extracts nothing."
+)
 @compact_option
 def ingest_sync(
     file_path: str,
@@ -963,6 +967,7 @@ def ingest_sync(
     table_name: str | None,
     business_key: str | None,
     effective_date_column: str | None,
+    dry_run: bool,
     compact: bool,
 ):
     """Ingest a file or directory synchronously (blocking)."""
@@ -1021,6 +1026,29 @@ def ingest_sync(
         )
 
     _validate_manifest_domains(vault_manifest)
+
+    from artmind import ingest_plan
+
+    def _planned_domain(f: Path) -> str | None:
+        if is_structured_source(f):
+            return set_domain or _mapped_domain(f) or domain
+        return _mapped_domain(f) or domain
+
+    plan = ingest_plan.plan_sync(
+        files, domain_for=_planned_domain, set_domain=set_domain, fork=fork, adopt=adopt,
+        reextract=reextract, chunk_size=chunk_size, root=ARTMIND_VAULT_DIR,
+    )
+    effect = ingest_plan.effect_for(plan, model=text_model, stage_only=stage_only, reextract=reextract)
+    if dry_run:
+        by_tier = {t: [p for p in plan["files"] if p["tier"] == t] for t in ingest_plan.TIERS}
+        _echo_json(with_effect({
+            "files": len(files),
+            "tiers": {t: len(v) for t, v in by_tier.items()},
+            "plan": plan["files"],
+            "errors": plan["errors"],
+            "stage_only": stage_only,
+        }, effect, dry_run=True), compact)
+        return
 
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
@@ -1127,7 +1155,7 @@ def ingest_sync(
     _echo_json({
         "files": len(files), "ok": ok_count, "failed": fail_count, "failed_files": failed_files,
         "elapsed_seconds": round(elapsed, 1), "stage_only": stage_only,
-        "projection_rebuilt": sorted(deferred_domains),
+        "projection_rebuilt": sorted(deferred_domains), "effect": effect.to_json(),
     }, compact)
 
 

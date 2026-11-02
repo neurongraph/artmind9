@@ -41,7 +41,6 @@ _PENDING_DRYRUN: set[str] = {
     "ingest embed-passages",
     "ingest pull-kg",
     "ingest retry-job",
-    "ingest sync",
     "ingest write-to-graph",
     "insights refresh",
     "review attach",
@@ -51,7 +50,6 @@ _PENDING_DRYRUN: set[str] = {
 _PENDING_EFFECT_TEST: set[str] = {
     "ingest retime",
     "ingest summarise",
-    "ingest sync",
     "ingest table2graph",
     "projection synthesize",
     "topic build",
