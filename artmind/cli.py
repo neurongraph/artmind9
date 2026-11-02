@@ -4196,14 +4196,16 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
 @topic_group.command("delete")
 @click.argument("slug")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
-def topic_delete(slug: str, out: "Path | None") -> None:
+@compact_option
+def topic_delete(slug: str, out: "Path | None", compact: bool) -> None:
     """Delete one topic page (its `## My notes` go with it)."""
     from artmind.topics import store
 
     directory, _ = _topic_pages(out)
     if not store.delete_page(directory, slug):
         raise click.ClickException(f"no topic page {slug!r} in {directory}")
-    click.echo(f"deleted {directory / (slug + '.md')}")
+    click.echo(f"deleted {directory / (slug + '.md')}", err=True)
+    _echo_json({"slug": slug, "deleted": str(directory / (slug + ".md"))}, compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────
@@ -4301,7 +4303,8 @@ def traces_triage(since, limit, compact) -> None:
 @click.argument("trace_id")
 @click.option("--rating", type=click.Choice(["good", "partial", "wrong"]), required=True)
 @click.option("--expected", default=None, help="What the answer should have said")
-def traces_feedback(trace_id, rating, expected) -> None:
+@compact_option
+def traces_feedback(trace_id, rating, expected, compact) -> None:
     """Rate a turn (the latest rating wins)."""
     from artmind.traces import store
 
@@ -4309,7 +4312,8 @@ def traces_feedback(trace_id, rating, expected) -> None:
         store.add_feedback(trace_id, rating, expected)
     except KeyError:
         raise click.ClickException(f"no trace {trace_id}") from None
-    click.echo(f"{trace_id}: {rating}")
+    click.echo(f"{trace_id}: {rating}", err=True)
+    _echo_json({"trace_id": trace_id, "rating": rating, "expected": expected}, compact)
 
 
 @traces_group.command("stats")
@@ -5373,7 +5377,8 @@ def update():
 @click.option("--domain", required=True, help="Domain name.")
 @click.option("--text", required=True, help="Raw user input text.")
 @click.option("--session", default=None, help="Resume an existing session UUID.")
-def update_draft(domain: str, text: str, session: str | None):
+@compact_option
+def update_draft(domain: str, text: str, session: str | None, compact: bool):
     """Extract facts and find graph candidates. Returns JSON."""
     _setup_logger()
     env = load_env()
@@ -5382,7 +5387,7 @@ def update_draft(domain: str, text: str, session: str | None):
         result = update_backend.draft_update(
             domain=domain, text=text, session_id=session, user_id=user_id
         )
-        _echo_json(result)
+        _echo_json(result, compact)
     except Exception as e:
         raise click.ClickException(str(e))
 
@@ -5390,7 +5395,8 @@ def update_draft(domain: str, text: str, session: str | None):
 @update.command("confirm")
 @click.option("--session", required=True, help="Session UUID from draft step.")
 @click.option("--resolutions", required=True, help="JSON array of resolution objects.")
-def update_confirm(session: str, resolutions: str):
+@compact_option
+def update_confirm(session: str, resolutions: str, compact: bool):
     """Write confirmed facts to the vault and Neo4j. Returns JSON.
 
     Writes a staging folder, .artmind/data/kg/<domain>/update__<session>__<draft>/,
@@ -5405,7 +5411,7 @@ def update_confirm(session: str, resolutions: str):
         result = update_backend.confirm_update(
             session_id=session, resolutions=parsed, user_id=user_id
         )
-        _echo_json(result)
+        _echo_json(result, compact)
     except ValueError as e:
         raise click.ClickException(str(e))
     except Exception as e:
@@ -5442,19 +5448,25 @@ def update_retract(session: str, draft_id: int | None, compact: bool):
 @click.option("--domain", default=None, help="Filter by domain.")
 @click.option("--user", default=None, help="Filter by created_by.")
 @click.option("--limit", default=20, show_default=True, help="Maximum rows to return.")
-def update_history(domain: str | None, user: str | None, limit: int):
-    """List recent update sessions."""
+@compact_option
+def update_history(domain: str | None, user: str | None, limit: int, compact: bool):
+    """List recent update sessions (a table on stderr; the rows are `sessions` in the JSON)."""
     sessions = update_backend._list_update_sessions(domain=domain, user=user, limit=limit)
+    _echo_update_history_table(sessions)
+    _echo_json({"sessions": sessions, "rows_total": len(sessions), "truncated": len(sessions) >= limit}, compact)
+
+
+def _echo_update_history_table(sessions: list[dict]) -> None:
     if not sessions:
-        click.echo("No update sessions found.")
+        click.echo("No update sessions found.", err=True)
         return
     header = f"{'SESSION':<12} {'DOMAIN':<12} {'BY':<24} {'AT':<22} {'INPUTS':>6}  EXCERPT"
-    click.echo(header)
-    click.echo("-" * len(header))
+    click.echo(header, err=True)
+    click.echo("-" * len(header), err=True)
     for s in sessions:
         click.echo(
             f"{s['session_id'][:12]:<12} {s['domain']:<12} {s['created_by']:<24}"
-            f" {s['created_at'][:19]:<22} {s['input_count']:>6}  {s['excerpt']}"
+            f" {s['created_at'][:19]:<22} {s['input_count']:>6}  {s['excerpt']}", err=True
         )
 
 
@@ -5472,16 +5484,19 @@ def update_history(domain: str | None, user: str | None, limit: int):
     default="data/chats",
     show_default=True,
 )
-def update_export(domain: str | None, fmt: str, output: str):
+@compact_option
+def update_export(domain: str | None, fmt: str, output: str, compact: bool):
     """Export UserChat nodes to markdown files."""
     output_dir = Path(output)
     written = update_backend.export_chats(domain=domain, format=fmt, output_dir=output_dir)
     if not written:
-        click.echo("No chats to export.")
-        return
-    for path in written:
-        click.echo(str(path.name))
-    click.echo(f"\nExported {len(written)} file(s) to {output_dir}")
+        click.echo("No chats to export.", err=True)
+    else:
+        for path in written:
+            click.echo(str(path.name), err=True)
+        click.echo(f"\nExported {len(written)} file(s) to {output_dir}", err=True)
+    _echo_json({"output_dir": str(output_dir), "format": fmt, "domain": domain,
+                "files": [str(p.name) for p in written], "file_count": len(written)}, compact)
 
 
 # ── artmind session ────────────────────────────────────────────────────────────
@@ -5494,16 +5509,18 @@ def session():
 
 
 @session.command("close")
-def session_close():
+@compact_option
+def session_close(compact: bool):
     """Export the full Neo4j graph to a compressed snapshot (end of session)."""
     _setup_logger()
     try:
         snapshot_path = export_graph()
         size_mb = snapshot_path.stat().st_size / (1024 * 1024)
-        click.echo(f"Snapshot saved: {snapshot_path}")
-        click.echo(f"  Size: {size_mb:.2f} MB")
+        click.echo(f"Snapshot saved: {snapshot_path}", err=True)
+        click.echo(f"  Size: {size_mb:.2f} MB", err=True)
     except Exception as e:
         raise click.ClickException(str(e))
+    _echo_json({"snapshot": str(snapshot_path), "size_mb": round(size_mb, 2)}, compact)
 
 
 @session.command("initiate")
@@ -5519,14 +5536,15 @@ def session_close():
          "or off regardless.",
 )
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
-def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bool):
+@compact_option
+def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bool, compact: bool):
     """Wipe Neo4j and restore from a snapshot (start of session)."""
     _setup_logger()
     if not yes:
         env = load_env()
         db_name = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
         if not click.confirm(
-            f"This will delete all data in Neo4j database '{db_name}'. Continue?"
+            f"This will delete all data in Neo4j database '{db_name}'. Continue?", err=True
         ):
             raise click.Abort()
 
@@ -5536,26 +5554,40 @@ def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bo
         summary = import_graph(snapshot_path, force_rebuild=force_rebuild)
         # Snapshots carry no passages or vectors; rebuild them from chunk text.
         _run_passage_sweep()
-        click.echo(f"Restored from: {summary['snapshot']}")
+        click.echo(f"Restored from: {summary['snapshot']}", err=True)
         node_counts = summary.get("node_counts", {})
         parts = [f"{label}: {count}" for label, count in node_counts.items()]
-        click.echo(f"  Nodes: {' | '.join(parts)}")
-        click.echo(f"  Relationships: {summary['relationship_count']}")
-        click.echo(f"  Elapsed: {summary['elapsed_seconds']}s")
+        click.echo(f"  Nodes: {' | '.join(parts)}", err=True)
+        click.echo(f"  Relationships: {summary['relationship_count']}", err=True)
+        click.echo(f"  Elapsed: {summary['elapsed_seconds']}s", err=True)
     except FileNotFoundError as e:
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
     import paths
 
+    bookmark = None
+    next_step = None
     if paths.ARTMIND_VAULT_DIR is not None:
         if node_counts.get("ArtmindSyncState"):
-            click.echo("  Sync bookmark: restored with the graph (`artmind vault status` shows it)")
+            bookmark = "restored"
+            click.echo("  Sync bookmark: restored with the graph (`artmind vault status` shows it)", err=True)
         else:
+            bookmark = "none"
+            next_step = ("artmind vault sync --bootstrapSynced (graph known-current) "
+                         "or --bootstrapEmpty (replay everything)")
             click.echo(
                 "  Sync bookmark: none in this snapshot -- the next `artmind vault sync` needs "
-                "--bootstrapSynced (graph known-current) or --bootstrapEmpty (replay everything)"
+                "--bootstrapSynced (graph known-current) or --bootstrapEmpty (replay everything)", err=True
             )
+    _echo_json({
+        "snapshot": summary["snapshot"],
+        "node_counts": node_counts,
+        "relationship_count": summary["relationship_count"],
+        "elapsed_seconds": summary["elapsed_seconds"],
+        "sync_bookmark": bookmark,
+        "next": next_step,
+    }, compact)
 
 
 # ── artmind snapshot ───────────────────────────────────────────────────────────

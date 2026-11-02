@@ -56,8 +56,10 @@ def test_query_topics_list_filters_by_domain_and_staleness(tmp_path, monkeypatch
 
 def test_topic_delete(tmp_path):
     store.write_page(tmp_path, "notice", META, "x")
-    r = CliRunner().invoke(cli, ["topic", "delete", "notice", "--out", str(tmp_path)])
+    r = CliRunner().invoke(cli, ["topic", "delete", "notice", "--out", str(tmp_path), "--compact"])
     assert r.exit_code == 0 and not (tmp_path / "notice.md").exists()
+    assert json.loads(r.stdout)["deleted"] == str(tmp_path / "notice.md")
+    assert "deleted" in r.stderr
 
 
 def test_topic_refresh_stale_rebuilds_only_stale_pages(tmp_path):

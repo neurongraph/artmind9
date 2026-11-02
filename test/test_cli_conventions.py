@@ -19,16 +19,7 @@ from artmind.cli import cli
 ROOT = Path(__file__).resolve().parent.parent
 
 # Commands that do not satisfy a check yet (removed as the rollout reaches them).
-_PENDING_COMPACT: set[str] = {
-    "session close",
-    "session initiate",
-    "topic delete",
-    "traces feedback",
-    "update confirm",
-    "update draft",
-    "update export",
-    "update history",
-}
+_PENDING_COMPACT: set[str] = set()
 _PENDING_KEBAB: set[str] = {
     "admin-ui",
     "chat-ui",

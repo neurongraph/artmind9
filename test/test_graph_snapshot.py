@@ -261,10 +261,12 @@ class TestSessionCloseCli:
         fake_file = tmp_path / "snapshot_2026-05-09_140000.tar.gz"
         fake_file.write_bytes(b"x" * 1_500_000)
         with patch("artmind.cli.export_graph", return_value=fake_file) as mock_export:
-            result = runner.invoke(cli, ["session", "close"])
+            result = runner.invoke(cli, ["session", "close", "--compact"])
         assert result.exit_code == 0, result.output
         mock_export.assert_called_once()
-        assert "snapshot_2026-05-09_140000.tar.gz" in result.output
+        payload = json.loads(result.stdout)
+        assert payload["snapshot"] == str(fake_file) and payload["size_mb"] == 1.43
+        assert "snapshot_2026-05-09_140000.tar.gz" in result.stderr
 
 
 class TestSessionInitiateCli:
@@ -278,11 +280,12 @@ class TestSessionInitiateCli:
         }
         with patch("artmind.cli.import_graph", return_value=summary), \
                 patch("artmind.cli._run_passage_sweep") as sweep:
-            result = runner.invoke(cli, ["session", "initiate", "--yes"])
+            result = runner.invoke(cli, ["session", "initiate", "--yes", "--compact"])
         assert result.exit_code == 0, result.output
         sweep.assert_called_once()
-        assert "Document" in result.output
-        assert "100" in result.output
+        payload = json.loads(result.stdout)
+        assert payload["node_counts"]["Document"] == 2 and payload["relationship_count"] == 100
+        assert "Document" in result.stderr and "100" in result.stderr
 
     def test_aborts_without_confirmation(self):
         runner = CliRunner()
@@ -785,11 +788,14 @@ def test_session_initiate_says_whether_the_bookmark_came_back(tmp_path, monkeypa
 
     with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"Document": 1}}), \
             patch("artmind.cli._run_passage_sweep"):
-        without = CliRunner().invoke(cli, ["session", "initiate", "--yes"])
+        without = CliRunner().invoke(cli, ["session", "initiate", "--yes", "--compact"])
     with patch("artmind.cli.import_graph", return_value={**base, "node_counts": {"ArtmindSyncState": 1}}), \
             patch("artmind.cli._run_passage_sweep"):
-        with_bookmark = CliRunner().invoke(cli, ["session", "initiate", "--yes"])
+        with_bookmark = CliRunner().invoke(cli, ["session", "initiate", "--yes", "--compact"])
 
-    assert "Sync bookmark: none in this snapshot" in without.output
-    assert "--bootstrapSynced" in without.output
-    assert "Sync bookmark: restored with the graph" in with_bookmark.output
+    assert "Sync bookmark: none in this snapshot" in without.stderr
+    assert "--bootstrapSynced" in without.stderr
+    assert "Sync bookmark: restored with the graph" in with_bookmark.stderr
+    assert json.loads(without.stdout)["sync_bookmark"] == "none"
+    assert "--bootstrapSynced" in json.loads(without.stdout)["next"]
+    assert json.loads(with_bookmark.stdout)["sync_bookmark"] == "restored"

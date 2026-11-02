@@ -117,10 +117,13 @@ def test_update_history_outputs_table(runner):
         }
     ]
     with patch("artmind.cli.update_backend._list_update_sessions", return_value=sessions):
-        result = runner.invoke(cli, ["update", "history"])
+        result = runner.invoke(cli, ["update", "history", "--compact"])
     assert result.exit_code == 0, result.output
-    assert "abc123" in result.output
-    assert "general" in result.output
+    payload = json.loads(result.stdout)
+    assert payload["command"] == "update history" and payload["rows_total"] == 1
+    assert payload["sessions"][0]["session_id"] == "abc123"
+    assert "abc123" in result.stderr and "general" in result.stderr
+    assert "abc123" not in result.stderr.splitlines()[0], "header line comes first"
 
 
 def test_update_export_sequential_calls_backend(runner, tmp_path):
@@ -131,12 +134,15 @@ def test_update_export_sequential_calls_backend(runner, tmp_path):
             "update", "export",
             "--format", "sequential",
             "--output", str(tmp_path),
+            "--compact",
         ])
     assert result.exit_code == 0, result.output
     mock.assert_called_once_with(
         domain=None, format="sequential", output_dir=Path(str(tmp_path))
     )
-    assert "session_abc12345.md" in result.output
+    payload = json.loads(result.stdout)
+    assert payload["files"] == ["session_abc12345.md"] and payload["file_count"] == 1
+    assert "session_abc12345.md" in result.stderr and "Exported 1 file(s)" in result.stderr
 
 
 def test_update_export_by_entity_with_domain_filter(runner, tmp_path):
