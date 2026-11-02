@@ -27,7 +27,33 @@
     "embedded": 3,
     "passages_embedded": 6,
     "sweep_errors": [],
-    "finalize_resolved": []
+    "finalize_resolved": [],
+    "effect": {
+      "summary": "rebuild 3 entity key(s): 3 rewritten, 0 deleted, 0 absent; then the entity and passage embed sweeps",
+      "changes": [
+        {
+          "kind": "projection_rebuild",
+          "count": 3,
+          "sample": [
+            "general",
+            "habits"
+          ]
+        }
+      ],
+      "stale": {
+        "topics": [],
+        "views": []
+      },
+      "llm": {
+        "calls": 0,
+        "model": null,
+        "est_cost_usd": null
+      },
+      "reversible": false,
+      "undo": null,
+      "travels": false,
+      "records": []
+    }
   },
   "stderr": null
 }

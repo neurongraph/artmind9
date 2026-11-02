@@ -5184,8 +5184,9 @@ def projection():
     "--sweep", is_flag=True,
     help="Repair: rebuild every domain, then run both embed sweeps for each domain rebuilt",
 )
+@dry_run_option("Plan the rebuild from reads alone: report the counts, write and embed nothing")
 @compact_option
-def projection_rebuild(domain: str | None, sweep: bool, compact: bool) -> None:
+def projection_rebuild(domain: str | None, sweep: bool, compact: bool, dry_run: bool) -> None:
     """Recompute Entities from observations.
 
     Deterministic and needs no language model. Entity ids are
@@ -5211,14 +5212,30 @@ def projection_rebuild(domain: str | None, sweep: bool, compact: bool) -> None:
     _setup_logger()
     if sweep and domain:
         raise click.UsageError("--sweep rebuilds every domain; drop --domain")
-    if sweep:
+    if dry_run:
+        from artmind import projection as projection_module
+
+        result = projection_module.plan_full_rebuild(None if sweep else ([domain] if domain else None))
+    elif sweep:
         from artmind.ingest import rebuild_and_sweep_all
 
-        _echo_json(rebuild_and_sweep_all(), compact)
-        return
-    from artmind.ingest import rebuild_projection
+        result = rebuild_and_sweep_all()
+    else:
+        from artmind.ingest import rebuild_projection
 
-    _echo_json(rebuild_projection(domain), compact)
+        result = rebuild_projection(domain)
+    sweeps = bool(sweep or domain)
+    effect = Effect(
+        summary=(
+            f"rebuild {result['keys']} entity key(s): {result['rebuilt']} rewritten, "
+            f"{result['deleted']} deleted, {result['absent']} absent"
+            + ("; then the entity and passage embed sweeps" if sweeps else "")
+        ),
+        changes=[Change("projection_rebuild", result["keys"], result.get("domains", [])[:10])]
+        + ([Change("entity_delete", result["deleted"], [])] if result["deleted"] else []),
+        reversible=False,  # deterministic from observations: running it again restores the same projection
+    )
+    _echo_json(with_effect(result, effect, dry_run=dry_run), compact)
 
 
 @projection.command("status")
