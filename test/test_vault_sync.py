@@ -849,6 +849,37 @@ def test_sync_replays_an_added_document_folder_and_advances_the_cursor(repo, mon
     assert _bookmarks(repo) == (head, head)
 
 
+def test_sync_runs_the_topic_index_sweep_for_the_scoped_domains(repo, monkeypatch):
+    """Pulled page files reach the graph's topic index (spec 2026-11-02 §6): the sweep runs after
+    the replay, scoped to `--domain`, and its counts are reported; it never holds the cursor back."""
+    from artmind.topics import index as topic_index
+
+    kg_dir = _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _write_doc_folder(kg_dir, "banking", "doc1", "docid-1")
+    _commit_all(repo, "add doc1")
+    _patch_ingest_and_projection(monkeypatch)
+    seen = []
+    monkeypatch.setattr(topic_index, "best_effort_sweep",
+                        lambda domains=None: seen.append(domains) or {"indexed": 2, "updated": 1, "deleted": 0, "embedded": 1})
+
+    result = vs.sync(repo, bootstrap_empty=True, domains=["banking"])
+
+    assert seen == [["banking"]]
+    assert result["topic_index"] == {"indexed": 2, "updated": 1, "deleted": 0, "embedded": 1}
+
+
+def test_a_structured_only_sync_leaves_the_topic_index_alone(repo, monkeypatch):
+    from artmind.topics import index as topic_index
+
+    _patch_kg_dir(monkeypatch, repo)
+    _patch_structured_text_dir(monkeypatch, repo)
+    _commit_all(repo, "empty")
+    _patch_ingest_and_projection(monkeypatch)
+    monkeypatch.setattr(topic_index, "best_effort_sweep", lambda domains=None: (_ for _ in ()).throw(AssertionError("swept")))
+    assert "topic_index" not in vs.sync(repo, bootstrap_empty=True, store="structured")
+
+
 def test_domain_scoped_sync_does_not_advance_the_cursor(repo, monkeypatch):
     """A `--domain`-scoped sync must not write `last_synced_commit`: doing so
     would leave changes to OTHER domains in base..head permanently

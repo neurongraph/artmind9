@@ -419,7 +419,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation & config", "commands": ["same-as", "config"]},
     ],
     "artmind topic": [
-        {"name": "Topic pages", "commands": ["build", "refresh", "delete"]},
+        {"name": "Topic pages", "commands": ["build", "refresh", "delete", "index"]},
     ],
     "artmind query topics": [
         {"name": "Topic pages", "commands": ["list", "show"]},
@@ -4327,6 +4327,7 @@ def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | 
                                   model=model, dry_run=dry_run)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    _index_written_pages(result, out, dry_run)
     _echo_json(result, compact)
 
 
@@ -4356,6 +4357,8 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
     results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
                                 max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
                                 dry_run=dry_run) for p in pages]
+    for r in results:
+        _index_written_pages(r, out, dry_run)
     payload = {"refreshed": results}
     effects = [r["effect"] for r in results if r.get("effect")]
     if effects:
@@ -4401,7 +4404,58 @@ def topic_delete(slug: str, out: "Path | None", compact: bool, dry_run: bool) ->
         return
     store.delete_page(directory, slug)
     click.echo(f"deleted {path}", err=True)
+    if out is None:
+        from artmind.topics import index as topic_index
+
+        indexed = topic_index.unindex_page(slug)
+        if indexed["status"] == "not removed":
+            click.echo(f"artmind: topic index not updated ({indexed['error']}); run `{indexed['next']}`", err=True)
     _echo_json(with_effect(payload, effect), compact)
+
+
+def _index_written_pages(result: dict, out: "Path | None", dry_run: bool) -> None:
+    """After `topic build` / `refresh` wrote a page, put it in the topic index. The file is the
+    source of truth: a graph that is down leaves a note on stderr, and `topic index` repairs it."""
+    if dry_run or out is not None or not result.get("path"):
+        return  # a page written to an `--out` folder elsewhere is not the vault's
+    from artmind.topics import index as topic_index
+
+    outcome = topic_index.index_page(result["slug"])
+    result["indexed"] = outcome
+    if outcome["status"] == "not indexed":
+        click.echo(f"artmind: topic index not updated ({outcome['error']}); run `{outcome['next']}`", err=True)
+
+
+@topic_group.command("index")
+@click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
+@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+@dry_run_option("Report what the sweep would index, delete and embed; write nothing")
+@compact_option
+def topic_index_command(domain: tuple, out: "Path | None", dry_run: bool, compact: bool) -> None:
+    """Rebuild the topic index in the graph from the page files (repair; idempotent).
+
+    Upserts a node for every page in `_Topics/`, deletes nodes whose file is gone and
+    embeds what has no vector. The files stay the source of truth; the index is read
+    by `query assets` and `query survey` and is never retrieval evidence.
+    """
+    _setup_logger()
+    from artmind.topics import index as topic_index
+
+    directory, _ = _topic_pages(out)
+    domains = _parse_domains(domain) if domain else []
+    try:
+        counts = topic_index.sweep(domains, dry_run, directory=directory)
+    except Exception as exc:
+        raise click.ClickException(f"topic index: {exc}") from exc
+    touched = counts["updated"] + counts["deleted"]
+    effect = Effect(
+        summary=(f"Index {counts['indexed']} topic page(s): {counts['updated']} to write, "
+                 f"{counts['deleted']} to delete, {counts['embedded']} to embed."),
+        changes=[Change("topic_index", touched, [])] if touched else [],
+        reversible=True,
+        records=["graph :TopicPage nodes"] if touched or counts["embedded"] else [],
+    )
+    _echo_json(with_effect(counts, effect, dry_run=dry_run), compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────

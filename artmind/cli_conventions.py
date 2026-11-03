@@ -52,7 +52,7 @@ WRITE_COMMANDS: dict[str, int] = {
         "projection rebuild", "projection synthesize",
         "update confirm", "update retract",
         "views save", "views delete",
-        "topic build", "topic refresh", "topic delete",
+        "topic build", "topic refresh", "topic delete", "topic index",
         "vault sync", "traces prune", "catalogue refresh",
     )},
     **{p: 2 for p in (
@@ -298,7 +298,7 @@ EFFECT_KINDS = frozenset({
     "document_restore", "document_supersede", "conflict_resolve", "conflict_dismiss",
     "summary_write", "description_write", "view_save", "view_delete", "topic_write",
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
-    "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
+    "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh", "topic_index",
 })
 
 SAMPLE_CAP = 10
