@@ -492,6 +492,10 @@ def create_app(
 def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
     import uvicorn
 
+    from artmind.catalogue import refresh
+
+    refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
+
     from artmind.webui.backends import QA_PROFILE
 
     app = create_app(SessionRegistry(client_factory=backend_factory(QA_PROFILE, trace=True)), trace_turns=True)
@@ -501,6 +505,10 @@ def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
 
 def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> None:
     import uvicorn
+
+    from artmind.catalogue import refresh
+
+    refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
 
     app = create_app(
         SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE, trace=True)),

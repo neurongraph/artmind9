@@ -166,6 +166,15 @@ BUILDERS: dict[str, Callable[[str], dict]] = {
 }
 
 
+def _register_health() -> None:
+    from artmind.catalogue import health
+
+    BUILDERS["health"] = health.build_health
+
+
+_register_health()
+
+
 def _registry_stamp() -> int:
     try:
         from artmind import db
@@ -193,5 +202,5 @@ def part_key(part: str, fingerprint: tuple) -> list:
     if part == "assets":
         return [*graph, *(stamps.part(disk, p) for p in ("views", "topics", "insights"))]
     if part == "health":
-        return ["ttl"]
+        return ["ttl"]  # follows its TTL only; a changed generation schedules a background refresh
     raise KeyError(part)

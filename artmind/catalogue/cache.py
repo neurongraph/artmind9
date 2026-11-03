@@ -194,14 +194,41 @@ def _summary_source(sources: dict) -> str:
     return "live" if "live" in values else "disk" if "disk" in values else "memory"
 
 
+def health_state(cat: DomainCatalogue | None, now_age: Callable[[str], float] = _age_s) -> str:
+    """`absent`, `stale` (older than `ARTMIND_CATALOGUE_HEALTH_TTL_S`) or `fresh`."""
+    if cat is None or not cat.has("health"):
+        return "absent"
+    from artmind.catalogue import health
+
+    built = cat.part_built.get("health", cat.built_at)
+    return "stale" if now_age(built) >= health.health_ttl_s() else "fresh"
+
+
+def _merge_built(d: str, fps: dict, built: dict, now: float, origin_cat: DomainCatalogue | None,
+                 built_at: dict) -> DomainCatalogue:
+    cat = origin_cat or _empty(d, fps[d])
+    for p in built:
+        built_at[p] = now
+    cat = _with_parts(cat, fps[d], built)
+    _write_disk(cat)
+    return cat
+
+
 def get_detailed(domains, parts=DEFAULT_PARTS) -> tuple:
-    """(catalogues by domain, source by domain and part: memory|disk|live)."""
+    """(catalogues by domain, source by domain and part: memory|disk|live|absent).
+
+    `health` is never built here: it is served as cached (memory or disk) and reported
+    `absent` when there is none. A changed generation, an absent or an expired `health`
+    schedules a background rebuild, which does nothing outside the long-lived servers."""
     domains = normalize_domains(domains)
     parts = _check_parts(parts)
+    build_parts = tuple(p for p in parts if p != "health")
+    want_health = "health" in parts
     if not _enabled():
         fps = fingerprints(domains)
-        return ({d: build(d, fps[d], parts) for d in domains},
-                {d: {p: "live" for p in parts} for d in domains})
+        cats = {d: build(d, fps[d], build_parts) for d in domains}
+        return cats, {d: {**{p: "live" for p in build_parts}, **({"health": "absent"} if want_health else {})}
+                      for d in domains}
     now = _clock()
     cats: dict = {}
     sources: dict = {}
@@ -210,8 +237,11 @@ def get_detailed(domains, parts=DEFAULT_PARTS) -> tuple:
         for d in domains:
             entry = _memory.get(d)
             if (entry and now - entry[2] < FINGERPRINT_TTL_S
-                    and all(entry[0].has(p) and now - entry[1].get(p, -MAX_AGE_S) < MAX_AGE_S for p in parts)):
-                cats[d], sources[d] = entry[0], {p: "memory" for p in parts}
+                    and all(entry[0].has(p) and now - entry[1].get(p, -MAX_AGE_S) < MAX_AGE_S for p in build_parts)):
+                cats[d] = entry[0]
+                sources[d] = {p: "memory" for p in build_parts}
+                if want_health:
+                    sources[d]["health"] = "memory" if entry[0].has("health") else "absent"
             else:
                 pending.append(d)
     if pending:
@@ -225,27 +255,62 @@ def get_detailed(domains, parts=DEFAULT_PARTS) -> tuple:
                 else:
                     cat, origin = _read_disk(d), "disk"
                     built_at = {p: now - _age_s(cat.part_built.get(p, cat.built_at)) for p in cat.part_keys} if cat else {}
-                cat = cat or _empty(d, fps[d])
+                before_generation = cat.fingerprint[0] if cat else None
+                had_health = health_state(cat)
                 got: dict = {}
                 built: dict = {}
-                for p in parts:
-                    fresh = (cat.part_keys.get(p) == parts_mod.part_key(p, fps[d])
+                for p in build_parts:
+                    fresh = (cat is not None and cat.part_keys.get(p) == parts_mod.part_key(p, fps[d])
                              and now - built_at.get(p, -MAX_AGE_S) < MAX_AGE_S)
                     if fresh:
                         got[p] = origin
                     else:
                         built[p] = build_part(d, p, fps[d])
                         got[p] = "live"
-                        built_at[p] = now
                 if built:
-                    cat = _with_parts(cat, fps[d], built)
-                    _write_disk(cat)
+                    cat = _merge_built(d, fps, built, now, cat, built_at)
                 else:
-                    cat = replace(cat, fingerprint=tuple(fps[d]))
+                    cat = replace(cat or _empty(d, fps[d]), fingerprint=tuple(fps[d]))
+                if want_health:
+                    got["health"] = origin if cat.has("health") else "absent"
                 with _lock:
                     _memory[d] = [cat, built_at, now]
                 cats[d], sources[d] = cat, got
+                if (before_generation is not None and before_generation != fps[d][0]) or had_health != "fresh":
+                    _schedule_health(d)
     return cats, sources
+
+
+def _schedule_health(domain: str) -> None:
+    from artmind.catalogue import refresh
+
+    refresh.schedule_health([domain])
+
+
+def rebuild(domains, parts, *, force: bool = True) -> tuple:
+    """Build `parts` now (the one place `health` is built) and store them in memory and on disk.
+    Returns (catalogues by domain, parts built by domain)."""
+    domains = normalize_domains(domains)
+    parts = _check_parts(parts)
+    fps = fingerprints(domains)
+    cats: dict = {}
+    done: dict = {}
+    now = _clock()
+    for d in domains:
+        with _domain_lock(d):
+            with _lock:
+                entry = _memory.get(d)
+            cat = entry[0] if entry else _read_disk(d)
+            built_at = dict(entry[1]) if entry else (
+                {p: now - _age_s(cat.part_built.get(p, cat.built_at)) for p in cat.part_keys} if cat else {})
+            todo = [p for p in parts if force or cat is None or cat.part_keys.get(p) != parts_mod.part_key(p, fps[d])]
+            built = {p: build_part(d, p, fps[d]) for p in todo}
+            if built:
+                cat = _merge_built(d, fps, built, now, cat, built_at)
+                with _lock:
+                    _memory[d] = [cat, built_at, now]
+            cats[d], done[d] = cat or _empty(d, fps[d]), todo
+    return cats, done
 
 
 def get(domains, parts=DEFAULT_PARTS) -> tuple:

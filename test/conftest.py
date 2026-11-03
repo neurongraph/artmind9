@@ -403,6 +403,17 @@ def _no_plan_catalogue(monkeypatch):
     monkeypatch.setattr(planner, "_get_catalogue", lambda cover: ({}, {}))
 
 
+@pytest.fixture(autouse=True)
+def _no_background_catalogue_health():
+    """A test that starts a server lifespan enables the catalogue's background health
+    refresh; it must not stay on for the next test (a stray thread would read its fakes)."""
+    from artmind.catalogue import refresh
+
+    refresh.reset()
+    yield
+    refresh.reset()
+
+
 def strip_document_context(text: str) -> str:
     """`text` without a leading document-context block (`ingest.with_document_context`):
     the passage a chunk step was given."""
