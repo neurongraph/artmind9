@@ -172,7 +172,14 @@ def _register_health() -> None:
     BUILDERS["health"] = health.build_health
 
 
+def _register_assets() -> None:
+    from artmind import assets
+
+    BUILDERS["assets"] = assets.build_assets
+
+
 _register_health()
+_register_assets()
 
 
 def _registry_stamp() -> int:

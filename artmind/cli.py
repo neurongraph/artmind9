@@ -433,6 +433,7 @@ click.rich_click.COMMAND_GROUPS = {
             "commands": [
                 "domains-overview",
                 "catalogue",
+                "assets",
                 "vector-text",
                 "survey",
                 "entity-resolve",
@@ -3460,6 +3461,38 @@ def query_catalogue(domain: tuple, part: tuple, names: bool, compact: bool) -> N
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+@query.command("assets")
+@click.option("--domain", "domain", multiple=True, help="Domain (repeatable; comma-splittable). Omit for every domain with a schema")
+@click.option("--kind", "kind", multiple=True, help="Only this kind (repeatable): view, topic, insight, summary_set")
+@click.option("--like", "like_text", default=None, help="Rank by meaning against this text; each asset carries a `score`")
+@click.option("--stale", "only_stale", is_flag=True, help="Only stale assets")
+@click.option("--limit", default=50, show_default=True, type=click.IntRange(1))
+@compact_option
+def query_assets(domain: tuple, kind: tuple, like_text: str | None, only_stale: bool, limit: int,
+                 compact: bool) -> None:
+    """What a domain already answers: saved views, topic pages, insight findings and summary coverage.
+
+    One record per asset: `title`, `answers` (what it is about), `stale` and why, and `open`,
+    the command that reads it. Check here before building an answer from the raw graph.
+    Read-only; `--like` embeds the text with the configured embedder.
+    """
+    from artmind import assets
+
+    domains = _parse_domains(domain) if domain else _get_available_domains()
+    kinds = _parse_repeatable(kind)
+    try:
+        if like_text:
+            ranked = [a for a in assets.like(like_text, domains, kinds, k=10_000) if not only_stale or a[0]["stale"]]
+            rows = [{**a, "score": round(score, 4)} for a, score in ranked]
+            total = len(rows)
+            rows = rows[:limit]
+        else:
+            rows, total = assets.list_assets(domains, kinds, only_stale, limit)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"assets": rows, "rows_total": total, "truncated": total > len(rows)}, compact)
 
 
 @query.command("domains-overview")
