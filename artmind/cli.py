@@ -120,7 +120,7 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     return domains
 
 
-_SURVEY_TOP_DOCS_DEFAULT = 10
+_SURVEY_TOP_DOCS_DEFAULT = 50
 _SURVEY_TOP_DOCS_MIN = 1
 _SURVEY_TOP_DOCS_MAX = 50
 
@@ -132,7 +132,7 @@ _TOPIC_MAX_DOCS_MAX = 50
 def _resolve_survey_top_docs() -> int:
     """Return the effective ``--topDocs`` default.
 
-    ``ARTMIND_SURVEY_TOP_DOCS`` overrides the built-in default of 10.  A
+    ``ARTMIND_SURVEY_TOP_DOCS`` overrides the built-in default of 50.  A
     non-integer or out-of-range value raises ``click.ClickException`` naming
     the variable and the allowed range (1–50).
     """
@@ -3527,7 +3527,7 @@ def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
 @query.command("survey")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topDocs", "top_docs", type=click.IntRange(1, 50), default=None, show_default=False,
-              help="Documents to return (default 10; overridden by ARTMIND_SURVEY_TOP_DOCS)")
+              help="Documents to return (default 50; overridden by ARTMIND_SURVEY_TOP_DOCS)")
 @click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
               help="Best passages shown per document")
 @compact_option
@@ -3539,7 +3539,7 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, compact: bo
     `topics` lists topic pages that cite the returned documents. Use vector-text when one
     passage could answer the question.
 
-    Default number of documents returned is 10; set ARTMIND_SURVEY_TOP_DOCS (1-50) to
+    Default number of documents returned is 50; set ARTMIND_SURVEY_TOP_DOCS (1-50) to
     change the default per vault.  Set ARTMIND_SURVEY_LEG_WEIGHTS (e.g. D=1,C=1,P=1)
     to adjust how the D (document summaries), C (chunk summaries) and P (passages) legs
     are weighted when fusing.

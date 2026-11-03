@@ -48,13 +48,13 @@ def test_top_docs_flag_overrides_env(monkeypatch):
 
 
 def test_top_docs_fallback_default_without_env(monkeypatch):
-    """When ARTMIND_SURVEY_TOP_DOCS is absent the default remains 10."""
+    """When ARTMIND_SURVEY_TOP_DOCS is absent the default is 50."""
     monkeypatch.delenv("ARTMIND_SURVEY_TOP_DOCS", raising=False)
     with patch("artmind.survey.survey_search", return_value=_SURVEY_PAYLOAD) as search:
         result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--compact", "q"])
     assert result.exit_code == 0, result.output
     _, kwargs = search.call_args
-    assert kwargs["top_docs"] == 10
+    assert kwargs["top_docs"] == 50
 
 
 def test_top_docs_env_non_int_raises_click_error_naming_variable(monkeypatch):

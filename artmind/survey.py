@@ -88,7 +88,7 @@ def _summary_leg(session, level: str, embedding, ft_query: str, params: dict) ->
 def survey_search(
     domains,
     question: str,
-    top_docs: int = 10,
+    top_docs: int = 50,
     passages: int = 1,
     *,
     legs: Sequence[str] = LEGS,
