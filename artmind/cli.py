@@ -368,7 +368,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "catalogue", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -408,6 +408,9 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind plan": [
         {"name": "Plan", "commands": ["config", "labels", "replay"]},
     ],
+    "artmind catalogue": [
+        {"name": "Cache", "commands": ["refresh"]},
+    ],
     "artmind retrieval": [
         {"name": "Retrieval eval", "commands": ["labels", "eval"]},
     ],
@@ -429,6 +432,7 @@ click.rich_click.COMMAND_GROUPS = {
             "name": "Lookups",
             "commands": [
                 "domains-overview",
+                "catalogue",
                 "vector-text",
                 "survey",
                 "entity-resolve",
@@ -3436,6 +3440,28 @@ def graph_hierarchy_cmd(
     _echo_json(result, compact)
 
 
+@query.command("catalogue")
+@click.option("--domain", "domain", multiple=True, required=True, help="Domain (repeatable; comma-splittable; rolls up sub-domains)")
+@click.option("--part", "part", multiple=True, help="Only this part (repeatable): classes, relations, documents, names, stores, time, health")
+@click.option("--names", "names", is_flag=True, help="List the name index (otherwise only its size)")
+@compact_option
+def query_catalogue(domain: tuple, part: tuple, names: bool, compact: bool) -> None:
+    """What the system knows about a domain: classes, relations, documents, names, stores, time, health.
+
+    Each part carries its `source` (memory, disk, live, absent), the graph `generation` it
+    was built at and when. `health` is never built here: `absent` until a server or
+    `catalogue refresh` has computed it. Read-only.
+    """
+    from artmind.catalogue import report
+
+    domains = _parse_domains(domain)
+    try:
+        result = report.catalogue_payload(domains, _parse_repeatable(part), names)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
 @query.command("domains-overview")
 @compact_option
 def query_domains_overview(compact: bool) -> None:
@@ -4205,6 +4231,31 @@ def insights_config_check(domain: tuple, compact: bool) -> None:
 
 
 # ── artmind topic ──────────────────────────────────────────────────────────────
+
+
+@cli.group("catalogue")
+def catalogue_group() -> None:
+    """The knowledge catalogue's cache: refresh it (`artmind query catalogue` reads it)."""
+
+
+@catalogue_group.command("refresh")
+@click.option("--domain", "domain", multiple=True, required=True, help="Domain (repeatable; comma-splittable)")
+@click.option("--part", "part", multiple=True, help="Only this part (repeatable)")
+@dry_run_option("Report which parts are stale and why; rebuild nothing")
+@compact_option
+def catalogue_refresh(domain: tuple, part: tuple, dry_run: bool, compact: bool) -> None:
+    """Rebuild the stale parts of a domain's catalogue (health included, which a query never builds).
+
+    Writes the catalogue cache under logs/ only; the graph and the vault are not touched.
+    """
+    from artmind.catalogue import report
+
+    domains = _parse_domains(domain)
+    try:
+        result = report.refresh(domains, _parse_repeatable(part), dry_run)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @cli.group("topic")

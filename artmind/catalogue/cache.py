@@ -313,6 +313,25 @@ def rebuild(domains, parts, *, force: bool = True) -> tuple:
     return cats, done
 
 
+def cached(domain: str) -> DomainCatalogue | None:
+    """The memory or disk copy of `domain`'s catalogue, or None. Reads, never builds."""
+    with _lock:
+        entry = _memory.get(domain)
+    return entry[0] if entry else _read_disk(domain)
+
+
+def stale_reason(cat: DomainCatalogue | None, part: str, fingerprint: tuple) -> str | None:
+    """Why `part` of `cat` would be rebuilt now, or None when it is current."""
+    if cat is None or not cat.has(part):
+        return "not built"
+    built = cat.part_built.get(part, cat.built_at)
+    if part == "health":
+        return {"absent": "not built", "stale": "older than the health TTL"}.get(health_state(cat))
+    if cat.part_keys.get(part) != parts_mod.part_key(part, fingerprint):
+        return "inputs changed"
+    return "older than the maximum age" if _age_s(built) >= MAX_AGE_S else None
+
+
 def get(domains, parts=DEFAULT_PARTS) -> tuple:
     """(catalogues by domain, source by domain: memory|disk|live)."""
     cats, detail = get_detailed(domains, parts)
