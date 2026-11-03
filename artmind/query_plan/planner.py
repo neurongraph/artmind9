@@ -15,6 +15,8 @@ import time
 from dataclasses import dataclass, field
 from datetime import date
 
+from loguru import logger
+
 from artmind import graph_query
 from artmind.kg_views import runner as views_runner
 from artmind.kg_views import store as views_store
@@ -135,8 +137,17 @@ def _stems(word: str) -> set[str]:
     return out
 
 
+#: The parts a plan reads: the four it always has, plus `stores` and `assets` for the option line.
+#: Never `health`: a plan does not wait for it, nor ask for it (spec 2026-11-02 §4).
+PLAN_PARTS = (*catalogue.DEFAULT_PARTS, "stores", "assets")
+
+
 def _get_catalogue(cover: list[str]):
-    return catalogue.get(cover)
+    try:
+        return catalogue.get(cover, PLAN_PARTS)
+    except Exception as exc:  # the option line is optional: plan from the four parts it always had
+        logger.warning("plan: catalogue stores/assets unavailable: {}", exc)
+        return catalogue.get(cover)
 
 
 def _minimal_cover(scope: list[str]) -> list[str]:

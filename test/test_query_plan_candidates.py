@@ -436,3 +436,50 @@ def test_gazetteer_matches_composed_and_decomposed_accents_alike():
 
 def test_name_index_skips_entries_without_an_id():
     assert candidates.name_index([_entry(None, "old gym"), _entry("a", "old gym")])["old gym"][0]._id == "a"
+
+
+# ── the assets line of a domain option (catalogue spec 2026-11-02 §8) ───────
+
+def _asset(kind, id, **kw):
+    return {"kind": kind, "id": id, "status": kw.pop("status", "ok"), "built_at": kw.pop("built_at", None),
+            "detail": kw.pop("detail", {})}
+
+
+def _asset_cat(domain, stores=None, assets=None):
+    from artmind.query_plan.catalogue import DomainCatalogue
+
+    return DomainCatalogue(domain, (), "t", (("OLD", 1, ""),), (), (), (), False, stores=stores,
+                           assets=None if assets is None else tuple(assets))
+
+
+_ROWS = [{"domain": "journal", "document_count": 3, "documents": ["a.md"], "top_classes": ["OLD"]}]
+
+
+def test_option_text_gains_one_assets_line():
+    cat = _asset_cat(
+        "journal", stores={"kind": "chunks", "graph_extraction": False, "structured_tables": 0},
+        assets=[_asset("view", "v1"), _asset("view", "v2"), _asset("view", "bad", status="invalid"),
+                *[_asset("topic", f"t{i}") for i in range(14)],
+                _asset("insight", "trend", detail={"as_of": "2026-11-01"}),
+                _asset("insight", "dormancy", detail={"as_of": "2026-10-20"}),
+                _asset("summary_set", "journal")])
+    plain = candidates.domain_options(_ROWS, {"journal": _asset_cat("journal")})[0].text()
+    text = candidates.domain_options(_ROWS, {"journal": cat})[0].text()
+    assert text == plain + "; chunks-only; 2 views; 14 topic pages; insights as of 2026-11-01"
+
+
+def test_option_text_is_unchanged_without_stores_or_assets():
+    cat = _asset_cat("journal")
+    assert candidates.domain_options(_ROWS, {"journal": cat})[0].text() == candidates.domain_options(_ROWS)[0].text()
+    graph = _asset_cat("journal", stores={"kind": "graph", "graph_extraction": True, "structured_tables": 0},
+                       assets=[_asset("summary_set", "journal")])
+    assert candidates.domain_options(_ROWS, {"journal": graph})[0].text() == candidates.domain_options(_ROWS)[0].text()
+
+
+def test_a_parent_option_counts_each_asset_once():
+    rows = [{"domain": "fam.a", "document_count": 1}, {"domain": "fam.b", "document_count": 1}]
+    shared = _asset("view", "both")
+    cats = {"fam.a": _asset_cat("fam.a", assets=[shared, _asset("topic", "x")]),
+            "fam.b": _asset_cat("fam.b", assets=[shared])}
+    text = candidates.domain_options(rows, cats)[0].text()
+    assert text.endswith("; 1 view; 1 topic page")

@@ -785,3 +785,75 @@ def test_a_chunks_only_survey_question_keeps_the_survey_route(world):
     plan = _plan("Compare what the notes say across the trips")
     assert plan["route"]["id"] == "survey"
     assert any("graph_extraction" in w for w in plan["warnings"])
+
+
+# ── stores and assets (catalogue spec 2026-11-02 §8) ────────────────────────
+
+def test_the_plan_asks_for_stores_and_assets_but_never_health(world, monkeypatch):
+    from artmind.query_plan import catalogue as cat_mod
+
+    asked = []
+
+    def fake_get(cover, parts=cat_mod.DEFAULT_PARTS):
+        asked.append(tuple(parts))
+        return {}, {}
+
+    monkeypatch.undo()  # the autouse stub replaces planner._get_catalogue; use the real one
+    monkeypatch.setattr(graph_query, "domains_overview", lambda: {"rows": world["overview"]})
+    monkeypatch.setattr(candidates, "document_names", lambda domains: [])
+    monkeypatch.setattr(candidates, "store_facts", lambda domains, question, classes: None)
+    monkeypatch.setattr(views_store, "list_views", lambda domains=None: (world["views"], []))
+    monkeypatch.setattr(cat_mod, "get", fake_get)
+    _use(monkeypatch, FakeClassifier())
+    _plan("What documents exist?")
+    assert asked == [("classes", "relations", "documents", "names", "stores", "assets")]
+    assert "health" not in asked[0]
+
+
+def test_a_catalogue_without_the_new_parts_falls_back_to_the_four(world, monkeypatch):
+    from artmind.query_plan import catalogue as cat_mod
+
+    asked = []
+
+    def fake_get(cover, parts=cat_mod.DEFAULT_PARTS):
+        asked.append(tuple(parts))
+        if "assets" in parts:
+            raise RuntimeError("assets part broke")
+        return {}, {}
+
+    monkeypatch.undo()
+    monkeypatch.setattr(graph_query, "domains_overview", lambda: {"rows": world["overview"]})
+    monkeypatch.setattr(candidates, "document_names", lambda domains: [])
+    monkeypatch.setattr(candidates, "store_facts", lambda domains, question, classes: None)
+    monkeypatch.setattr(views_store, "list_views", lambda domains=None: (world["views"], []))
+    monkeypatch.setattr(cat_mod, "get", fake_get)
+    _use(monkeypatch, FakeClassifier())
+    result = _plan("What documents exist?")
+    assert asked[-1] == cat_mod.DEFAULT_PARTS and result["route"]["id"]
+
+
+def test_the_classifier_reads_the_assets_line_and_nothing_else_changes(catalogue_world, monkeypatch):
+    seen = {}
+
+    class Spy(FakeClassifier):
+        def decide(self, question, decisions):
+            seen.update({d.name: dict(d.options) for d in decisions})
+            return super().decide(question, decisions)
+
+    catalogue_world["overview"].append({"domain": "other", "document_count": 1, "top_classes": []})
+    before = _plan("when did ada visit the greenhouse", domains=None, classifier="lexical")
+    _use(monkeypatch, Spy())
+    plain = _plan("when did ada visit the greenhouse", domains=None)
+    assert "views" not in seen["domain"]["journal"]
+
+    cat = catalogue_world["cats"]["journal"]
+    from dataclasses import replace
+    catalogue_world["cats"]["journal"] = replace(
+        cat, stores={"kind": "graph", "graph_extraction": True, "structured_tables": 0},
+        assets=({"kind": "view", "id": "v", "status": "ok", "built_at": None, "detail": {}},))
+    with_assets = _plan("when did ada visit the greenhouse", domains=None)
+    assert seen["domain"]["journal"].endswith("; 1 view")
+    assert seen["domain"]["other"] and "view" not in seen["domain"]["other"]
+    ignore = {"classifier", "catalogue"}
+    assert {k: v for k, v in with_assets.items() if k not in ignore} == {k: v for k, v in plain.items() if k not in ignore}
+    assert before["route"]["id"] == plain["route"]["id"]
