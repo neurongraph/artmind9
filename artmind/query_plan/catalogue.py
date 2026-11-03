@@ -28,7 +28,7 @@ CATALOGUE_FORMAT = 2  # bump when the cached JSON gains or changes fields
 NAME_INDEX_MAX = 20_000
 RELATIONS_MAX = 50
 FINGERPRINT_TTL_S = 10.0
-MAX_AGE_S = 900.0
+MAX_AGE_S = 3600.0  # the safety net: the generation and disk stamp are the freshness check
 
 _FINGERPRINT_CYPHER = """
 UNWIND $domains AS dom
@@ -37,8 +37,11 @@ CALL (dom) {
          COUNT { (d:Document) WHERE (d._domain = dom OR d._domain STARTS WITH (dom + '.')) } AS documents,
          COUNT { (h:DocumentHistory) WHERE (h._domain = dom OR h._domain STARTS WITH (dom + '.')) } AS history
 }
-OPTIONAL MATCH (s:ProjectionState {id: 'singleton'})
-RETURN dom AS domain, entities, documents, history, s.last_rebuilt_at AS rebuilt
+CALL (dom) {
+  OPTIONAL MATCH (s:DomainState) WHERE s._domain = dom OR s._domain STARTS WITH (dom + '.')
+  RETURN coalesce(sum(s.generation), 0) AS generation
+}
+RETURN dom AS domain, generation, entities, documents, history
 """
 
 _CLASSES_CYPHER = f"""
@@ -138,16 +141,23 @@ class DomainCatalogue:
 
 
 def fingerprints(domains) -> dict:
+    """(generation, entities, documents, history, disk stamp) per domain (spec
+    2026-11-02 §3). The generation is exact for every change artmind makes; the
+    counts catch a writer outside the choke points; the disk stamp covers views,
+    topic pages, insight snapshots and schemas."""
+    from artmind.catalogue import stamp
+
     domains = normalize_domains(domains)
     rows = graph_query._run_read_query(_FINGERPRINT_CYPHER, {"domains": domains})
     out = {}
     for row in rows:
         out[row["domain"]] = (
-            int(row.get("entities") or 0), int(row.get("documents") or 0),
-            int(row.get("history") or 0), str(row.get("rebuilt") or ""),
+            int(row.get("generation") or 0), int(row.get("entities") or 0),
+            int(row.get("documents") or 0), int(row.get("history") or 0),
+            stamp.disk_stamp(row["domain"]),
         )
     for d in domains:
-        out.setdefault(d, (0, 0, 0, ""))
+        out.setdefault(d, (0, 0, 0, 0, stamp.disk_stamp(d)))
     return out
 
 

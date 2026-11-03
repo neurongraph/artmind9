@@ -13,6 +13,7 @@ class FakeGraph:
     def __init__(self):
         self.calls = []
         self.entities = 3
+        self.generation = 5
         self.names = [
             {"_id": "e1", "name": "Ada", "aliases": ["A."], "entity_class": "PERSON", "observation_count": 5},
             {"_id": "e2", "name": "Lakeport", "aliases": None, "entity_class": "PLACE", "observation_count": 2},
@@ -20,9 +21,9 @@ class FakeGraph:
 
     def __call__(self, cypher, params):
         self.calls.append((cypher, params))
-        if "ProjectionState" in cypher:
-            return [{"domain": d, "entities": self.entities, "documents": 2, "history": 1, "rebuilt": "t1"}
-                    for d in params["domains"]]
+        if "DomainState" in cypher:
+            return [{"domain": d, "generation": self.generation, "entities": self.entities, "documents": 2,
+                     "history": 1} for d in params["domains"]]
         if "e.aliases" in cypher:
             return self.names[: params["limit"]]
         if "count(e) AS n" in cypher:
@@ -69,14 +70,16 @@ def test_fingerprints_one_query_for_all_domains(graph):
     assert len(g.calls) == 1
     cypher, params = g.calls[0]
     assert params == {"domains": ["a", "b.c"]}
-    assert "UNWIND $domains" in cypher and "DocumentHistory" in cypher and "last_rebuilt_at" in cypher
+    assert "UNWIND $domains" in cypher and "DocumentHistory" in cypher and "DomainState" in cypher
+    assert "ProjectionState" not in cypher and "last_rebuilt_at" not in cypher
     assert "STARTS WITH (dom + '.')" in cypher
-    assert fps == {"a": (3, 2, 1, "t1"), "b.c": (3, 2, 1, "t1")}
+    stamp = fps["a"][4]
+    assert fps == {"a": (5, 3, 2, 1, stamp), "b.c": (5, 3, 2, 1, fps["b.c"][4])}
 
 
 def test_build_reads_and_sorts(graph):
     g, _ = graph
-    cat = catalogue.build("journal", (3, 2, 1, "t1"))
+    cat = catalogue.build("journal", (5, 3, 2, 1, "x"))
     assert [p for _, p in g.calls] == [
         {"domains": ["journal"]}, {"domains": ["journal"], "limit": 50},
         {"domains": ["journal"]}, {"domains": ["journal"], "limit": catalogue.NAME_INDEX_MAX + 1},
@@ -97,7 +100,7 @@ def test_truncated_when_cap_exceeded(graph, monkeypatch):
 
 
 def test_json_round_trip(graph):
-    cat = catalogue.build("journal", (3, 2, 1, "t1"))
+    cat = catalogue.build("journal", (5, 3, 2, 1, "x"))
     again = catalogue.DomainCatalogue.from_json(json.loads(json.dumps(cat.to_json())))
     assert again == cat
 
@@ -118,12 +121,16 @@ def test_memory_reuse_and_fingerprint_change(graph):
     assert src == {"journal": "live"}
     clock.t += 11  # past the fingerprint TTL: one check, no rebuild
     _, src = catalogue.get(["journal"])
-    assert src == {"journal": "memory"} and g.count("ProjectionState") == 2 and g.count("e.aliases") == 1
-    g.entities = 4
+    assert src == {"journal": "memory"} and g.count("DomainState") == 2 and g.count("e.aliases") == 1
+    g.generation = 6  # a partial rebuild or alias change moves the generation, not the counts
     clock.t += 11
     cats2, src = catalogue.get(["journal"])
     assert src == {"journal": "live"} and g.count("e.aliases") == 2
-    assert cats2["journal"].fingerprint[0] == 4
+    assert cats2["journal"].fingerprint[0] == 6
+    g.entities = 4  # a writer outside the choke points still shows in the counts
+    clock.t += 11
+    cats3, src = catalogue.get(["journal"])
+    assert src == {"journal": "live"} and cats3["journal"].fingerprint[1] == 4
 
 
 def test_fingerprint_ttl_skips_check(graph):
@@ -131,7 +138,7 @@ def test_fingerprint_ttl_skips_check(graph):
     catalogue.get(["journal"])
     clock.t += 5
     _, src = catalogue.get(["journal"])
-    assert src == {"journal": "memory"} and g.count("ProjectionState") == 1
+    assert src == {"journal": "memory"} and g.count("DomainState") == 1
 
 
 def test_max_age_forces_rebuild(graph):
@@ -248,3 +255,25 @@ def test_concurrent_gets_build_a_domain_once_and_other_domains_are_not_blocked(g
     assert builds.count("slow") == 1
     assert {s["slow"] for _, s in results.values()} <= {"live", "memory"}
     assert results["one"][1] == {"slow": "live"}
+
+
+def test_a_disk_stamp_change_alone_invalidates(graph, tmp_path, monkeypatch):
+    import paths
+
+    g, clock = graph
+    views = tmp_path / "views"
+    views.mkdir()
+    monkeypatch.setattr(paths, "DOMAIN_VIEWS_DIR", views)
+    catalogue.get(["journal"])
+    clock.t += 11
+    _, src = catalogue.get(["journal"])
+    assert src == {"journal": "memory"}
+    (views / "trips").mkdir()
+    (views / "trips" / "view.yaml").write_text("name: trips\n")  # a saved view; the graph is untouched
+    clock.t += 11
+    _, src = catalogue.get(["journal"])
+    assert src == {"journal": "live"}
+
+
+def test_the_age_limit_is_an_hour():
+    assert catalogue.MAX_AGE_S == 3600.0
