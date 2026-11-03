@@ -33,6 +33,7 @@ from datetime import datetime, timezone
 from loguru import logger
 
 from artmind import projection
+from artmind.catalogue import state as catalogue_state
 from artmind.extraction import call_llm, embed_document, embed_key, parse_json_response
 from artmind.graph_query import neo4j_session, read_session
 from artmind.observations import entity_id, key_string
@@ -239,6 +240,7 @@ def synthesize_key(
             "e.embedding_stale = false, e._embed_key = $embed_key",
             id=eid, embedding=embedding, embed_key=embed_key(embed_model),
         )
+        catalogue_state.bump(tx, [key[2]])  # the catalogue's change counter, same transaction
         return outcome
 
     with neo4j_session() as session:

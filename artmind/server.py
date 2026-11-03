@@ -53,6 +53,9 @@ def run_cli_args(args: list[str], trace_id: str | None = None) -> dict:
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     _warm_up_decision_model()
+    from artmind.catalogue import refresh
+
+    refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
     yield
 
 

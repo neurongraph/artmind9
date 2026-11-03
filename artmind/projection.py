@@ -1340,6 +1340,12 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
 
     _sync_same_as_links_batch(tx, links)
 
+    # The catalogue's change counter: once per domain this pass touched
+    # (key = name|class|domain), in the same transaction (spec 2026-11-02 §3).
+    from artmind.catalogue import state as catalogue_state
+
+    catalogue_state.bump(tx, {k[2] for k in sorted_keys})
+
     logger.info(
         "Projection rebuild: {} key(s) — rebuilt={} deleted={} absent={}",
         summary["keys"], summary["rebuilt"], summary["deleted"], summary["absent"],

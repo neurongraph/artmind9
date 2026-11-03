@@ -184,6 +184,8 @@ def survey_search(
             ],
             "chunk_summary": {"chunk_id": best.get("chunk_id"), "text": best.get("text")} if best else None,
         })
+    found = topics(ids, domains) if topics else []
+    warnings.extend(getattr(found, "warnings", ()))
     return {
         **_domain_output(domains),
         "query_type": "survey",
@@ -191,5 +193,5 @@ def survey_search(
         "parameters": {"topDocs": top_docs, "passages": passages, "pool": POOL, "legs": list(legs)},
         "warnings": warnings,
         "documents": documents,
-        "topics": topics(ids, domains) if topics else [],
+        "topics": list(found),
     }

@@ -4703,6 +4703,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     the same folder, so the two write the same graph (spec 2026-09-26 §7).
     """
     from artmind import projection, same_as, sync_state
+    from artmind.catalogue import state as catalogue_state
     from artmind.observations import key_string
 
     document = staged["document"]
@@ -4836,6 +4837,10 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         )
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)
+
+    # 7. The catalogue's change counter, in this same transaction (spec
+    #    2026-11-02 §3). A deferred rebuild bumps again when it runs.
+    catalogue_state.bump(tx, [domain])
 
     return summary
 
@@ -5134,4 +5139,10 @@ def rebuild_and_sweep_all() -> dict:
         domains_swept=sorted(by_domain), embedded=embedded, passages_embedded=chunks, sweep_errors=errors,
     )
     summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
+    # "Repair everything" includes the topic index (spec 2026-11-02 §6); best effort.
+    from artmind.topics import index as topic_index
+
+    topic_swept = topic_index.best_effort_sweep()
+    if topic_swept is not None:
+        summary["topic_index"] = topic_swept
     return summary

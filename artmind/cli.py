@@ -368,7 +368,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
         {"name": "Structured store", "commands": ["db"]},
-        {"name": "Query", "commands": ["query", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
+        {"name": "Query", "commands": ["query", "catalogue", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
         {"name": "Curation", "commands": ["sameas"]},
@@ -408,6 +408,9 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind plan": [
         {"name": "Plan", "commands": ["config", "labels", "replay"]},
     ],
+    "artmind catalogue": [
+        {"name": "Cache", "commands": ["refresh"]},
+    ],
     "artmind retrieval": [
         {"name": "Retrieval eval", "commands": ["labels", "eval"]},
     ],
@@ -416,7 +419,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation & config", "commands": ["same-as", "config"]},
     ],
     "artmind topic": [
-        {"name": "Topic pages", "commands": ["build", "refresh", "delete"]},
+        {"name": "Topic pages", "commands": ["build", "refresh", "delete", "index"]},
     ],
     "artmind query topics": [
         {"name": "Topic pages", "commands": ["list", "show"]},
@@ -429,6 +432,8 @@ click.rich_click.COMMAND_GROUPS = {
             "name": "Lookups",
             "commands": [
                 "domains-overview",
+                "catalogue",
+                "assets",
                 "vector-text",
                 "survey",
                 "entity-resolve",
@@ -2935,7 +2940,9 @@ def query():
     parameterised queries: list / show / run), `insights` (the latest
     unprompted findings: list / show), and `topics` (read-only topic pages:
     list / show). `survey` ranks documents for cross-document questions
-    (summaries + passages). The rest are lookup commands.
+    (summaries + passages). `catalogue` says what the system knows about a domain
+    (classes, relations, documents, stores, time, health) and `assets` what it
+    already answers (views, topic pages, insights, summaries). The rest are lookup commands.
 
     Inside the admin console or a benchmark run, every query call is recorded
     as a span of the turn's trace (command, args, rows, evidence ids, LLM
@@ -3434,6 +3441,60 @@ def graph_hierarchy_cmd(
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+@query.command("catalogue")
+@click.option("--domain", "domain", multiple=True, required=True, help="Domain (repeatable; comma-splittable; rolls up sub-domains)")
+@click.option("--part", "part", multiple=True, help="Only this part (repeatable): classes, relations, documents, names, stores, time, health")
+@click.option("--names", "names", is_flag=True, help="List the name index (otherwise only its size)")
+@compact_option
+def query_catalogue(domain: tuple, part: tuple, names: bool, compact: bool) -> None:
+    """What the system knows about a domain: classes, relations, documents, names, stores, time, health.
+
+    Each part carries its `source` (memory, disk, live, absent), the graph `generation` it
+    was built at and when. `health` is never built here: `absent` until a server or
+    `catalogue refresh` has computed it. Read-only.
+    """
+    from artmind.catalogue import report
+
+    domains = _parse_domains(domain)
+    try:
+        result = report.catalogue_payload(domains, _parse_repeatable(part), names)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("assets")
+@click.option("--domain", "domain", multiple=True, help="Domain (repeatable; comma-splittable). Omit for every domain with a schema")
+@click.option("--kind", "kind", multiple=True, help="Only this kind (repeatable): view, topic, insight, summary_set")
+@click.option("--like", "like_text", default=None, help="Rank by meaning against this text; each asset carries a `score`")
+@click.option("--stale", "only_stale", is_flag=True, help="Only stale assets")
+@click.option("--limit", default=50, show_default=True, type=click.IntRange(1))
+@compact_option
+def query_assets(domain: tuple, kind: tuple, like_text: str | None, only_stale: bool, limit: int,
+                 compact: bool) -> None:
+    """What a domain already answers: saved views, topic pages, insight findings and summary coverage.
+
+    One record per asset: `title`, `answers` (what it is about), `stale` and why, and `open`,
+    the command that reads it. Check here before building an answer from the raw graph.
+    Read-only; `--like` embeds the text with the configured embedder.
+    """
+    from artmind import assets
+
+    domains = _parse_domains(domain) if domain else _get_available_domains()
+    kinds = _parse_repeatable(kind)
+    try:
+        if like_text:
+            ranked = [a for a in assets.like(like_text, domains, kinds, k=10_000) if not only_stale or a[0]["stale"]]
+            rows = [{**a, "score": round(score, 4)} for a, score in ranked]
+            total = len(rows)
+            rows = rows[:limit]
+        else:
+            rows, total = assets.list_assets(domains, kinds, only_stale, limit)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"assets": rows, "rows_total": total, "truncated": total > len(rows)}, compact)
 
 
 @query.command("domains-overview")
@@ -4207,14 +4268,41 @@ def insights_config_check(domain: tuple, compact: bool) -> None:
 # ── artmind topic ──────────────────────────────────────────────────────────────
 
 
+@cli.group("catalogue")
+def catalogue_group() -> None:
+    """The knowledge catalogue's cache: refresh it (`artmind query catalogue` reads it)."""
+
+
+@catalogue_group.command("refresh")
+@click.option("--domain", "domain", multiple=True, required=True, help="Domain (repeatable; comma-splittable)")
+@click.option("--part", "part", multiple=True, help="Only this part (repeatable)")
+@dry_run_option("Report which parts are stale and why; rebuild nothing")
+@compact_option
+def catalogue_refresh(domain: tuple, part: tuple, dry_run: bool, compact: bool) -> None:
+    """Rebuild the stale parts of a domain's catalogue (health included, which a query never builds).
+
+    Writes the catalogue cache under logs/ only; the graph and the vault are not touched.
+    """
+    from artmind.catalogue import report
+
+    domains = _parse_domains(domain)
+    try:
+        result = report.refresh(domains, _parse_repeatable(part), dry_run)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
 @cli.group("topic")
 def topic_group() -> None:
-    """Build, refresh and delete cited topic pages in <vault>/_Topics/ (never ingested).
+    """Build, refresh, delete and index cited topic pages in <vault>/_Topics/ (never ingested).
 
     `build` sends the matched passages to the configured LLM provider (one call per
     document plus one or two to write the page) and logs them in llm_calls.log.
-    Read pages with `artmind query topics list|show`. Pages hold private corpus
-    content and are committed with the vault.
+    Read pages with `artmind query topics list|show`. `index` mirrors the pages into
+    the graph as `:TopicPage` nodes (never evidence; `build`, `refresh`, `delete` and
+    `vault sync` keep it current). Pages hold private corpus content and are
+    committed with the vault.
     """
     pass
 
@@ -4243,6 +4331,7 @@ def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | 
                                   model=model, dry_run=dry_run)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    _index_written_pages(result, out, dry_run)
     _echo_json(result, compact)
 
 
@@ -4272,6 +4361,8 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
     results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
                                 max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
                                 dry_run=dry_run) for p in pages]
+    for r in results:
+        _index_written_pages(r, out, dry_run)
     payload = {"refreshed": results}
     effects = [r["effect"] for r in results if r.get("effect")]
     if effects:
@@ -4317,7 +4408,58 @@ def topic_delete(slug: str, out: "Path | None", compact: bool, dry_run: bool) ->
         return
     store.delete_page(directory, slug)
     click.echo(f"deleted {path}", err=True)
+    if out is None:
+        from artmind.topics import index as topic_index
+
+        indexed = topic_index.unindex_page(slug)
+        if indexed["status"] == "not removed":
+            click.echo(f"artmind: topic index not updated ({indexed['error']}); run `{indexed['next']}`", err=True)
     _echo_json(with_effect(payload, effect), compact)
+
+
+def _index_written_pages(result: dict, out: "Path | None", dry_run: bool) -> None:
+    """After `topic build` / `refresh` wrote a page, put it in the topic index. The file is the
+    source of truth: a graph that is down leaves a note on stderr, and `topic index` repairs it."""
+    if dry_run or out is not None or not result.get("path"):
+        return  # a page written to an `--out` folder elsewhere is not the vault's
+    from artmind.topics import index as topic_index
+
+    outcome = topic_index.index_page(result["slug"])
+    result["indexed"] = outcome
+    if outcome["status"] == "not indexed":
+        click.echo(f"artmind: topic index not updated ({outcome['error']}); run `{outcome['next']}`", err=True)
+
+
+@topic_group.command("index")
+@click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
+@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+@dry_run_option("Report what the sweep would index, delete and embed; write nothing")
+@compact_option
+def topic_index_command(domain: tuple, out: "Path | None", dry_run: bool, compact: bool) -> None:
+    """Rebuild the topic index in the graph from the page files (repair; idempotent).
+
+    Upserts a node for every page in `_Topics/`, deletes nodes whose file is gone and
+    embeds what has no vector. The files stay the source of truth; the index is read
+    by `query assets` and `query survey` and is never retrieval evidence.
+    """
+    _setup_logger()
+    from artmind.topics import index as topic_index
+
+    directory, _ = _topic_pages(out)
+    domains = _parse_domains(domain) if domain else []
+    try:
+        counts = topic_index.sweep(domains, dry_run, directory=directory)
+    except Exception as exc:
+        raise click.ClickException(f"topic index: {exc}") from exc
+    touched = counts["updated"] + counts["deleted"]
+    effect = Effect(
+        summary=(f"Index {counts['indexed']} topic page(s): {counts['updated']} to write, "
+                 f"{counts['deleted']} to delete, {counts['embedded']} to embed."),
+        changes=[Change("topic_index", touched, [])] if touched else [],
+        reversible=True,
+        records=["graph :TopicPage nodes"] if touched or counts["embedded"] else [],
+    )
+    _echo_json(with_effect(counts, effect, dry_run=dry_run), compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────

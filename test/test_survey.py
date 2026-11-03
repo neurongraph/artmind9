@@ -85,6 +85,17 @@ def test_top_docs_cuts_and_topics_are_asked_for_the_returned_ids(monkeypatch):
     assert seen["args"] == (["B", "C"], ["notes"]) and out["topics"] == [{"slug": "beta", "overlap": 2}]
 
 
+def test_topic_warnings_join_the_survey_warnings(monkeypatch):
+    _patch(monkeypatch, Recorder(respond))
+
+    class Found(list):
+        warnings = ["topic index is empty; run `artmind topic index`"]
+
+    out = survey.survey_search(["notes"], "q", topics=lambda ids, domains: Found([{"slug": "beta"}]))
+    assert out["topics"] == [{"slug": "beta"}]
+    assert out["warnings"][-1] == "topic index is empty; run `artmind topic index`"
+
+
 def test_embedding_down_keeps_the_keyword_legs(monkeypatch):
     def down(q):
         raise RuntimeError("ollama unreachable")

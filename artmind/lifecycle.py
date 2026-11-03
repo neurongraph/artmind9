@@ -45,6 +45,7 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
     no sweep.
     """
     from artmind import projection
+    from artmind.catalogue import state as catalogue_state
 
     # Captured BEFORE the transition, spanning both labels: these are the
     # keys whose aggregates change, whichever direction we are moving.
@@ -88,6 +89,9 @@ def _transition(tx, doc_id: str, *, to_history: bool, rebuild: bool = True) -> d
         f"MATCH (s:{from_summary} {{doc_id: $doc_id}}) REMOVE s:{from_summary} SET s:{to_summary}",
         doc_id=doc_id,
     )
+
+    # The catalogue's change counter, same transaction (spec 2026-11-02 §3).
+    catalogue_state.bump_for_document(tx, doc_id)
 
     summary = (
         projection.rebuild(tx, keys, synthesis_loader=lambda ks: projection.load_synthesis_batch(tx, ks))

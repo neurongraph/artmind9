@@ -199,6 +199,7 @@ class DomainOption:
     top_classes: tuple[str, ...]
     tables: tuple[str, ...]
     relations: tuple[str, ...] = ()
+    assets: str = ""  # "chunks-only; 2 views; 14 topic pages; insights as of 2026-11-01", from the catalogue
 
     def text(self) -> str:
         """The option text a decision model reads (spec §4.4 call 1)."""
@@ -212,6 +213,8 @@ class DomainOption:
             parts.append("relations " + ", ".join(self.relations))
         if self.tables:
             parts.append("tables " + ", ".join(self.tables))
+        if self.assets:
+            parts.append(self.assets)
         return "; ".join(parts)
 
 
@@ -254,6 +257,32 @@ def _catalogue_top(key: str, cats: dict | None) -> tuple[list[str], list[str]]:
     return top(classes, OPTION_CLASSES_MAX), top(relations, OPTION_RELATIONS_MAX)
 
 
+def assets_line(key: str, cats: dict | None) -> str:
+    """The one line the catalogue's `stores` and `assets` parts add to a domain option (spec
+    2026-11-02 §8): "chunks-only; 2 views; 14 topic pages; insights as of <date>". Empty when
+    the catalogue carries neither part, so a plan without them reads the option as before."""
+    found = catalogue_cats_for(key, cats)
+    stores = [c.stores for c in found if getattr(c, "stores", None)]
+    records: dict = {}
+    for cat in found:
+        for rec in getattr(cat, "assets", None) or ():
+            records.setdefault((rec["kind"], rec["id"]), rec)
+    parts: list[str] = []
+    if stores and all(s.get("kind") == "chunks" for s in stores):
+        parts.append("chunks-only")
+    views = sum(1 for k, r in records.items() if k[0] == "view" and r.get("status", "ok") == "ok")
+    topics = sum(1 for k in records if k[0] == "topic")
+    if views:
+        parts.append(f"{views} view{'s' if views != 1 else ''}")
+    if topics:
+        parts.append(f"{topics} topic page{'s' if topics != 1 else ''}")
+    dates = [str((r.get("detail") or {}).get("as_of") or r.get("built_at") or "")[:10]
+             for k, r in records.items() if k[0] == "insight"]
+    if any(dates):
+        parts.append("insights as of " + max(d for d in dates if d))
+    return "; ".join(parts)
+
+
 def _option(key: str, rows: list[dict], is_parent: bool, cats: dict | None = None) -> DomainOption:
     documents = _interleave([list(r.get("documents") or []) for r in rows])
     classes = _interleave([list(r.get("top_classes") or []) for r in rows])[:8]
@@ -264,7 +293,8 @@ def _option(key: str, rows: list[dict], is_parent: bool, cats: dict | None = Non
     if cat_classes:
         classes = cat_classes
     return DomainOption(key, is_parent, sum(r.get("document_count") or 0 for r in rows),
-                        tuple(documents[:10]), tuple(classes), tuple(tables), tuple(relations))
+                        tuple(documents[:10]), tuple(classes), tuple(tables), tuple(relations),
+                        assets_line(key, cats))
 
 
 def domain_options(rows: list[dict], cats: dict | None = None) -> list[DomainOption]:
