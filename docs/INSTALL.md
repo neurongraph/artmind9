@@ -292,7 +292,12 @@ recorded beside every admin-console and benchmark trace) is on by default;
 turns that off); for Ollama, also set `OLLAMA_KEEP_ALIVE` so it stays loaded. The planner reads a per-domain catalogue
 (classes, relation types, document and entity names), cached in memory and under
 `<ARTMIND_HOME>/logs/plan-catalog/` (private files) and rebuilt when the graph
-changes or after 15 minutes; `ARTMIND_PLAN_CATALOG=0` disables the cache. `artmind plan config check` validates
+changes or after an hour (each part is checked on its own; the graph carries a per-domain
+generation, `:DomainState`, that `artmind setup` makes room for); `ARTMIND_PLAN_CATALOG=0` disables the cache.
+The catalogue's `health` part (twins, same-as, isolated entities, missing summaries) is never built during a plan:
+`serve`, `chat-ui` and `admin-ui` refresh it in the background, `artmind catalogue refresh --domain D` builds it
+on demand, and `ARTMIND_CATALOGUE_HEALTH_TTL_S` (default 3600) sets how long a built one stays fresh. `artmind setup`
+also creates the `:TopicPage` constraint and indexes; run `artmind topic index` once per vault with topic pages. `artmind plan config check` validates
 `domains/plan/<domain>.yaml`, and `artmind plan replay` scores the labelled set
 (needs Neo4j; see the `plan` group in `artmind --help`).
 

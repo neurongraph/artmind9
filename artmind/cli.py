@@ -2940,7 +2940,9 @@ def query():
     parameterised queries: list / show / run), `insights` (the latest
     unprompted findings: list / show), and `topics` (read-only topic pages:
     list / show). `survey` ranks documents for cross-document questions
-    (summaries + passages). The rest are lookup commands.
+    (summaries + passages). `catalogue` says what the system knows about a domain
+    (classes, relations, documents, stores, time, health) and `assets` what it
+    already answers (views, topic pages, insights, summaries). The rest are lookup commands.
 
     Inside the admin console or a benchmark run, every query call is recorded
     as a span of the turn's trace (command, args, rows, evidence ids, LLM
@@ -4293,12 +4295,14 @@ def catalogue_refresh(domain: tuple, part: tuple, dry_run: bool, compact: bool) 
 
 @cli.group("topic")
 def topic_group() -> None:
-    """Build, refresh and delete cited topic pages in <vault>/_Topics/ (never ingested).
+    """Build, refresh, delete and index cited topic pages in <vault>/_Topics/ (never ingested).
 
     `build` sends the matched passages to the configured LLM provider (one call per
     document plus one or two to write the page) and logs them in llm_calls.log.
-    Read pages with `artmind query topics list|show`. Pages hold private corpus
-    content and are committed with the vault.
+    Read pages with `artmind query topics list|show`. `index` mirrors the pages into
+    the graph as `:TopicPage` nodes (never evidence; `build`, `refresh`, `delete` and
+    `vault sync` keep it current). Pages hold private corpus content and are
+    committed with the vault.
     """
     pass
 

@@ -94,6 +94,11 @@ dev-test:
 dev-test-docling:
     env -u ANTHROPIC_BASE_URL uv run --group dev pytest test/ -v -m slow_docling
 
+# the knowledge catalogue and answer assets for a domain, in-process (needs Neo4j; inside a vault)
+dev-catalogue domain:
+    ARTMIND_NO_PROXY=1 uv run artmind query catalogue --domain {{domain}}
+    ARTMIND_NO_PROXY=1 uv run artmind query assets --domain {{domain}}
+
 # dump the real command hierarchy (trust this over any prose docs)
 dev-cli-help:
     uv run python scripts/click_cli_hierarchy.py artmind.cli:cli

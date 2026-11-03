@@ -147,6 +147,17 @@ When you answer from insights:
 - **Freshness:** state the snapshot's `as_of`. If an `artmind:` stderr line says the graph is behind the vault, say that the insights may be older than the latest notes.
 - **Refresh:** never run `artmind insights refresh` yourself. If there is no snapshot, say so; the domain owner runs it.
 
+## Catalogue and assets — what is already known
+
+Before building an answer from the raw graph, check what the system already holds for the domain:
+
+```bash
+artmind query assets --domain <domain> --like "<the question>" --compact
+artmind query catalogue --domain <domain> --compact
+```
+
+`assets` lists saved views, topic pages, insight findings and summary coverage, each with an `open` command and a `stale` flag. A topic page or insight is a lead to the cited sources, never evidence itself: ground what you take from it as usual. `catalogue` reports the domain's classes, stores, time coverage and `health`; `health` may be `absent`, and you must not run `artmind catalogue refresh` yourself.
+
 ## Survey — questions that span documents
 
 Some questions need coverage, not one passage: "what do the contracts say about
