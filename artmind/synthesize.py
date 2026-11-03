@@ -34,7 +34,7 @@ from loguru import logger
 
 from artmind import projection
 from artmind.extraction import call_llm, embed_document, embed_key, parse_json_response
-from artmind.graph_query import neo4j_session
+from artmind.graph_query import neo4j_session, read_session
 from artmind.observations import entity_id, key_string
 from utils.functions import load_env, resolve_llm_model
 
@@ -247,6 +247,30 @@ def synthesize_key(
     return {"key": key_str, "name": name, "status": "synthesized", "entity_outcome": outcome}
 
 
+def _synthesis_effect(candidates: list[dict], model: str) -> dict:
+    """The `effect` of synthesizing `candidates`, computed before any call.
+
+    One LLM call and one description write per candidate; the run reports the
+    same plan, so a call that later fails is in `results`, not here.
+    """
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+
+    keys = [r["key"] for r in candidates]
+    calls = len(candidates)
+    return Effect(
+        summary=(f"Rewrite the description of {calls} entit{'y' if calls == 1 else 'ies'} "
+                 f"from all their observations ({calls} LLM call(s))."),
+        changes=[Change("description_write", calls, [r["name"] for r in candidates][:10])] if calls else [],
+        stale_topics=topics_touching(entity_keys=keys),
+        llm_calls=calls,
+        llm_model=model if calls else None,
+        reversible=False,
+        travels=True,
+        records=[".artmind/data/curation/syntheses/"] if calls else [],
+    ).to_json()
+
+
 def synthesize(
     domain: str,
     name_filter: str | None = None,
@@ -262,7 +286,7 @@ def synthesize(
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     timeout = synthesize_timeout(env)
 
-    with neo4j_session() as session:
+    with (read_session() if dry_run else neo4j_session()) as session:
         rows = session.run(_SELECT_CYPHER, domain=domain, nameFilter=name_filter).data()
 
     counts: dict[str, int] = {}
@@ -278,11 +302,13 @@ def synthesize(
             continue
         candidates.append(row)
 
+    effect = _synthesis_effect(candidates, resolved_model)
     if dry_run:
         return {
             "domain": domain, "command": "projection_synthesize", "model": resolved_model,
             "dry_run": True, "examined": len(rows), "counts": counts,
             "candidates": [{"key": r["key"], "name": r["name"]} for r in candidates],
+            "effect": effect,
         }
 
     from artmind import same_as
@@ -307,5 +333,5 @@ def synthesize(
     return {
         "domain": domain, "command": "projection_synthesize", "model": resolved_model,
         "dry_run": False, "examined": len(rows), "synthesized": synthesized,
-        "counts": counts, "results": results,
+        "counts": counts, "results": results, "effect": effect,
     }

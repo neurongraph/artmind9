@@ -561,7 +561,7 @@ class _Rows:
 
 class ProjectionGraph:
     """Canned rows per query shape for `projection status`, `projection
-    rebuild --sweep` and `projection synthesize --dry-run`. An unexpected
+    rebuild --sweep` and `projection synthesize --dryRun`. An unexpected
     query raises, so a new read cannot slip into a fixture unnoticed."""
 
     def __init__(self, *, state=None, entity_gaps=(), unprojected=(), chunk_gaps=(), keys=(), entities=()):
@@ -664,7 +664,7 @@ def s_projection_synthesize_dry_run(vault):
     with _graph(ProjectionGraph(entities=rows)) as mp:
         mp.setenv("ARTMIND_KG_LLM_PROVIDER", "ollama")
         mp.setenv("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
-        return vault.run("projection", "synthesize", "--domain", "general", "--dry-run", "--compact")
+        return vault.run("projection", "synthesize", "--domain", "general", "--dryRun", "--compact")
 
 
 def s_db_review(vault):

@@ -45,7 +45,7 @@ export interface RebuildOutcome extends Outcome {
   errors: string[];
 }
 
-/** One mapped domain's `projection synthesize --dry-run`. */
+/** One mapped domain's `projection synthesize --dryRun`. */
 export interface DomainSynthesis {
   domain: string;
   count: number;

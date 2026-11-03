@@ -101,7 +101,7 @@ class TestIngestSyncDomainPrompt:
         assert result.exit_code == 0
 
 
-# ── --stage-only ──────────────────────────────────────────────────────────────
+# ── --stageOnly ──────────────────────────────────────────────────────────────
 
 def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
     from click.testing import CliRunner
@@ -121,7 +121,7 @@ def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
 
     f = tmp_path / "a.md"
     f.write_text("x")
-    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "general", "--stage-only"])
+    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "general", "--stageOnly"])
     assert result.exit_code == 0
     assert seen["stage_only"] is True
 
@@ -164,7 +164,7 @@ def test_ingest_async_stage_only_passes_flag(monkeypatch, tmp_path):
 
     f = tmp_path / "a.md"
     f.write_text("x")
-    result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general", "--stage-only"])
+    result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "general", "--stageOnly"])
     assert result.exit_code == 0
     assert seen["stage_only"] is True
 
@@ -381,3 +381,49 @@ def test_ingest_sync_leaves_git_history_and_index_untouched(monkeypatch, tmp_pat
         ["git", "diff", "--name-only"], cwd=vault, capture_output=True, text=True, check=True
     ).stdout.split()
     assert sorted(modified) == ["a.md", "b.md", "c.md"], "the frontmatter writes are on disk"
+
+
+# ── JSON on stdout (cli-uniformity spec 3.2) ──────────────────────────────────
+
+import json
+
+
+class TestIngestSyncJson:
+    def test_single_file_summary(self, runner, sample_file):
+        with patch("artmind.cli.ingest_file", return_value=_OK_RESULT), \
+             patch("artmind.cli.ingest_to_kg", return_value=True):
+            result = runner.invoke(cli, ["ingest", "sync", str(sample_file), "--domain", "general", "--compact"])
+        assert result.exit_code == 0, result.output
+        payload = json.loads(result.stdout)
+        assert payload["command"] == "ingest sync" and {"warnings", "next"} <= set(payload)
+        assert (payload["files"], payload["ok"], payload["failed"], payload["failed_files"]) == (1, 1, 0, [])
+        assert payload["stage_only"] is False
+
+    def test_failed_files_are_named(self, runner, sample_dir):
+        def fake_ingest(path, *a, **kw):
+            return _OK_RESULT if path.name == "a.md" else _FAIL_RESULT
+
+        with patch("artmind.cli.ingest_file", side_effect=fake_ingest), \
+             patch("artmind.cli.ingest_to_kg", return_value=True), \
+             patch("artmind.ingest.rebuild_projection", return_value={}):
+            result = runner.invoke(cli, ["ingest", "sync", str(sample_dir), "--domain", "general", "--compact"])
+        payload = json.loads(result.stdout)
+        assert (payload["files"], payload["ok"], payload["failed"]) == (2, 1, 1)
+        assert payload["failed_files"] == ["b.md"]
+
+    def test_stdout_is_one_json_document(self, runner, sample_file):
+        with patch("artmind.cli.ingest_file", return_value=_OK_RESULT), \
+             patch("artmind.cli.ingest_to_kg", return_value=True):
+            result = runner.invoke(cli, ["ingest", "sync", str(sample_file), "--domain", "general", "--compact"])
+        assert len(result.stdout.strip().splitlines()) == 1
+
+
+def test_domain_prompt_goes_to_stderr(runner, sample_file):
+    """The interactive domain list must not pollute the JSON on stdout."""
+    with patch("artmind.cli._get_available_domains", return_value=["general", "journal"]), \
+         patch("artmind.cli.ingest_file", return_value=_OK_RESULT), \
+         patch("artmind.cli.ingest_to_kg", return_value=True):
+        result = runner.invoke(cli, ["ingest", "sync", str(sample_file), "--compact"], input="journal\n")
+    assert result.exit_code == 0, result.output
+    assert "Available domains:" in result.stderr and "Available domains:" not in result.stdout
+    json.loads(result.stdout)

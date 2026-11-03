@@ -24,5 +24,5 @@ def test_insights_operator_skill():
     for needle in ("artmind insights refresh", "artmind insights profile", "artmind insights config check",
                    "domains/insights/<domain>.yaml", "artmind insights same-as --export",
                    "artmind-create-schema", "artmind-curate", "artmind-create-view", "source_question",
-                   "--no-narrate"):
+                   "--noNarrate"):
         assert needle in body, needle

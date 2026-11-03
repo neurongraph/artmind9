@@ -283,7 +283,7 @@ the *restored* copy instead of the live one:
   snapshot, or a `--only` that excluded them) → falls back to an
   unconditional full rebuild, exactly as if the projection had never been
   exported.
-- `--rebuild-projection auto|always|skip` (`snapshot restore`, `session
+- `--rebuildProjection auto|always|skip` (`snapshot restore`, `session
   initiate`) overrides the auto-detected choice either direction. `skip`
   logs loudly if it's actually discarding detected drift — trusting it is
   now an explicit, visible choice, never a silent one.

@@ -95,7 +95,7 @@ export const TIMEOUTS_MS: Record<string, number> = {
   "ingest detect-conflicts": 60 * 60_000,
 };
 export const DEFAULT_TIMEOUT_MS = 5 * 60_000;
-/** `projection synthesize --dry-run` shares its key with the real run, but
+/** `projection synthesize --dryRun` shares its key with the real run, but
  * makes one read and no LLM call. */
 export const SYNTHESIZE_DRY_RUN_TIMEOUT_MS = 5 * 60_000;
 
@@ -119,11 +119,11 @@ export function commandKey(args: string[]): string {
 
 /** Writes go through one queue, one at a time (spec §7): sync, ingest
  * submission, table2graph, resolve, rebuild and synthesize. Their dry runs
- * (`--dryRun`, or synthesize's `--dry-run`), and `table2graph --pending`,
+ * (`--dryRun`), and `table2graph --pending`,
  * only read. */
 export function isWrite(args: string[]): boolean {
   const key = commandKey(args);
-  if (!WRITE_COMMANDS.has(key) || args.includes("--dryRun") || args.includes("--dry-run")) return false;
+  if (!WRITE_COMMANDS.has(key) || args.includes("--dryRun")) return false;
   return !(key === "ingest table2graph" && args.includes("--pending"));
 }
 
@@ -394,7 +394,7 @@ export class ArtmindCli {
   projectionStatus() { return this.run(["projection", "status"]); }
   projectionRebuildSweep() { return this.run(["projection", "rebuild", "--sweep"]); }
   synthesizeDryRun(domain: string) {
-    return this.run(["projection", "synthesize", "--domain", domain, "--dry-run"], { timeoutMs: SYNTHESIZE_DRY_RUN_TIMEOUT_MS });
+    return this.run(["projection", "synthesize", "--domain", domain, "--dryRun"], { timeoutMs: SYNTHESIZE_DRY_RUN_TIMEOUT_MS });
   }
   synthesize(domain: string, limit: number | null) {
     return this.run(["projection", "synthesize", "--domain", domain, ...(limit === null ? [] : ["--limit", String(limit)])]);

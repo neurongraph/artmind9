@@ -87,6 +87,7 @@ def test_save_copies_only_the_two_files(views_root, tmp_path):
     draft = write_view(tmp_path / "drafts", "v1")
     (draft / "scratch.txt").write_text("junk")
     out = store.save_view(draft)
+    out.pop("effect")
     assert out == {"saved": "v1", "version": 1, "path": str(views_root / "v1"), "replaced": False}
     assert sorted(p.name for p in (views_root / "v1").iterdir()) == ["SKILL.md", "view.yaml"]
     assert store.load_view("v1").spec.version == 1

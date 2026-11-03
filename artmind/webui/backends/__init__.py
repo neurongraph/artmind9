@@ -56,8 +56,8 @@ configured via:
 
   Leave unset to use the CLI's normal login (subscription or its own env-var
   auth) against ``api.anthropic.com``, untouched. Also settable per-run via
-  ``artmind chat-ui``/``admin-ui --base-url``, which beats this var — pass
-  ``--base-url ""`` to force the CLI's normal routing for one run even when
+  ``artmind chat-ui``/``admin-ui --baseUrl``, which beats this var — pass
+  ``--baseUrl ""`` to force the CLI's normal routing for one run even when
   the env var is set (the quick way to flip back to a subscription login
   without editing ``.env``).
 
@@ -133,7 +133,7 @@ def set_sdk_base_url(url: str | None) -> None:
 
 def _sdk_env_overrides() -> dict[str, str]:
     """Env vars to merge onto the spawned ``claude`` CLI when a custom
-    endpoint is in play — the ``--base-url`` flag if passed (including an
+    endpoint is in play — the ``--baseUrl`` flag if passed (including an
     explicit empty string, which forces the default off), else
     ``ARTMIND_SDK_BASE_URL`` (see module docstring). Isolating
     ``CLAUDE_CONFIG_DIR`` only happens when a URL actually applies, so a

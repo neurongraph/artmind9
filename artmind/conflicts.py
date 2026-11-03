@@ -393,7 +393,31 @@ def detect_conflicts(
 RESOLUTION_STATUSES = ("resolved", "dismissed")
 
 
-def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -> dict:
+_NO_CONFLICT = (
+    "No Conflict node with id {id!r}. If `query graph conflicts` "
+    "listed it, the row may come from an orphaned CONFLICTS_WITH edge whose "
+    "Conflict node no longer exists — such rows report as 'open' but carry no status."
+)
+
+
+def _resolve_effect(conflict_id: str, status: str, before: str | None, recorded: bool) -> dict:
+    """The `effect` of closing a conflict. A recorded (adjudicator) conflict travels as a
+    vault file; a projection conflict is derived and rebuilt with the projection."""
+    from artmind.cli_conventions import Change, Effect
+
+    kind = "conflict_resolve" if status == "resolved" else "conflict_dismiss"
+    return Effect(
+        summary=f"Mark conflict {conflict_id} {status}.",
+        changes=[Change(kind, 1, [{"id": conflict_id, "status_before": before, "status_after": status}])],
+        reversible=recorded,
+        undo=(f"edit .artmind/data/curation/conflicts/{conflict_id}.json back to status 'open', then artmind vault sync"
+              if recorded else None),
+        travels=recorded,
+        records=[f".artmind/data/curation/conflicts/{conflict_id}.json"] if recorded else [],
+    ).to_json()
+
+
+def resolve_conflict(conflict_id: str, status: str, reason: str | None = None, *, dry_run: bool = False) -> dict:
     """Close a materialized conflict as resolved or dismissed.
 
     Detection is deliberately one-way: materialize() only ever creates
@@ -415,6 +439,9 @@ def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -
     node. That includes the orphaned-edge case: a CONFLICTS_WITH edge whose
     Conflict node was deleted still surfaces in list_conflicts (reported as
     'open' via coalesce) but has nowhere to record a status.
+
+    `dry_run` looks the conflict up (the record file, the graph) and reports its
+    `effect`; it writes no record and no status.
     """
     if status not in RESOLUTION_STATUSES:
         raise ValueError(
@@ -427,12 +454,23 @@ def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -
         record = curation_records.read_record(conflict_records.NAME, conflict_id)
         if record is None:
             record = conflict_records.record_from_graph(session, conflict_id)
+        if dry_run:
+            before = (record or {}).get("status")
+            if record is None:
+                found = session.run("MATCH (co:Conflict {id: $id}) RETURN co.status AS status", id=conflict_id).single()
+                if not found:
+                    raise ValueError(_NO_CONFLICT.format(id=conflict_id))
+                before = found.get("status")
+            return {"id": conflict_id, "status": status, "reason": reason,
+                    "effect": _resolve_effect(conflict_id, status, before, record is not None)}
         if record is not None:
+            before = record.get("status")
             record.update(status=status, resolution_reason=reason, resolved_at=now)
             fingerprint = curation_records.write_record(conflict_records.NAME, record)
             conflict_records.apply(session, record, fingerprint)
             logger.info("conflict {} → {} ({}), recorded in the vault", conflict_id, status, reason or "no reason given")
-            return {"id": conflict_id, "status": status, "reason": reason}
+            return {"id": conflict_id, "status": status, "reason": reason,
+                    "effect": _resolve_effect(conflict_id, status, before, True)}
         rec = session.run(
             """
             MATCH (co:Conflict {id: $id})
@@ -447,10 +485,7 @@ def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -
             reason=reason,
         ).single()
     if not rec:
-        raise ValueError(
-            f"No Conflict node with id {conflict_id!r}. If `query graph conflicts` "
-            "listed it, the row may come from an orphaned CONFLICTS_WITH edge whose "
-            "Conflict node no longer exists — such rows report as 'open' but carry no status."
-        )
+        raise ValueError(_NO_CONFLICT.format(id=conflict_id))
     logger.info("conflict {} → {} ({})", conflict_id, status, reason or "no reason given")
-    return {"id": rec["id"], "status": rec["status"], "reason": reason}
+    return {"id": rec["id"], "status": rec["status"], "reason": reason,
+            "effect": _resolve_effect(conflict_id, status, None, False)}

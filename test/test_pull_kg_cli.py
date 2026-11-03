@@ -20,7 +20,7 @@ class TestPullKgCli:
             result = runner.invoke(cli, [
                 "ingest", "pull-kg",
                 "--repo", "https://github.com/acme/repo.git",
-                "--repo-path", "data/kg/sales",
+                "--repoPath", "data/kg/sales",
                 "--domain", "sales",
             ])
         assert result.exit_code == 0
@@ -29,7 +29,7 @@ class TestPullKgCli:
     def test_missing_repo_fails(self, runner):
         result = runner.invoke(cli, [
             "ingest", "pull-kg",
-            "--repo-path", "data/kg/sales",
+            "--repoPath", "data/kg/sales",
             "--domain", "sales",
         ])
         assert result.exit_code != 0
@@ -39,7 +39,7 @@ class TestPullKgCli:
             result = runner.invoke(cli, [
                 "ingest", "pull-kg",
                 "--repo", "https://github.com/acme/repo.git",
-                "--repo-path", "data/kg/sales",
+                "--repoPath", "data/kg/sales",
                 "--domain", "sales",
             ])
         assert result.exit_code != 0
@@ -50,7 +50,7 @@ class TestPullKgCli:
             result = runner.invoke(cli, [
                 "ingest", "pull-kg",
                 "--repo", "https://github.com/acme/repo.git",
-                "--repo-path", "data/kg/sales",
+                "--repoPath", "data/kg/sales",
                 "--domain", "sales",
             ])
         assert result.exit_code != 0

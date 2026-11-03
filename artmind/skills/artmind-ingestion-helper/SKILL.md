@@ -17,6 +17,15 @@ Once you know the goal, go to the matching section below.
 
 ---
 
+## Preview a write with `--dryRun`
+
+Every command that changes the graph, staging or vault files takes `--dryRun`: it plans from reads,
+writes nothing, calls no LLM, and returns `dry_run: true` plus an `effect` block (what would change
+with counts and samples, which topics and views go stale, how many LLM calls, whether it can be
+undone and with what, whether the change travels to other machines). Read `effect` before the real
+run, which prints the same block. On a command that does not support it yet, `--dryRun` fails with
+"not available ... yet; nothing was changed" and does nothing.
+
 ## Situation Map
 
 ### A. Ingest new documents for the first time
@@ -343,7 +352,7 @@ Once extraction finishes, write it to Neo4j as usual (Situation C).
 artmind ingest retry-job JOB_ID
 ```
 
-This re-queues files with job-file status `failed` (and `skipped` if `--include-skipped` is passed), and starts the worker.
+This re-queues files with job-file status `failed` (and `skipped` if `--includeSkipped` is passed), and starts the worker.
 
 **A stalled job** — `job-status` shows `"stalled": true`: the job is `processing` but no worker holds the lock, because the worker died mid-job — is retried the same way. `retry-job` then also re-queues the file left at `processing`, and re-queues the job even if nothing failed (its remaining `queued` files are the retry). Chunk statuses are keyed by content hash, so a re-queued file whose content is unchanged keeps its finished chunks. While a live worker still runs the job, `retry-job` refuses: wait for it, or stop the worker first.
 
@@ -351,7 +360,7 @@ This re-queues files with job-file status `failed` (and `skipped` if `--include-
 
 To also force re-processing of files that were skipped as duplicates:
 ```bash
-artmind ingest retry-job JOB_ID --include-skipped
+artmind ingest retry-job JOB_ID --includeSkipped
 ```
 
 ---
@@ -364,14 +373,14 @@ Useful when another team has already run extraction and shared the JSON in a Git
 # 1. Pull the KG JSON (sparse git checkout — only fetches the target path)
 artmind ingest pull-kg \
   --repo git@github.com:ORG/REPO.git \
-  --repo-path data/kg/DOMAIN_FOLDER \
+  --repoPath data/kg/DOMAIN_FOLDER \
   --domain YOUR_DOMAIN
 
 # 2. Write the pulled documents to Neo4j
 artmind ingest write-to-graph --folder data/kg/YOUR_DOMAIN
 
 # 3. Optionally propose duplicate-entity merges (Situation G) for artmind-curate to review
-artmind ingest refine-graph --domain YOUR_DOMAIN --dry-run
+artmind ingest refine-graph --domain YOUR_DOMAIN --dryRun
 ```
 
 **Conflict:** If a document sub-folder already exists locally, `pull-kg` aborts and lists conflicts. Resolve by renaming or deleting the local copy, then re-run.
@@ -386,12 +395,12 @@ After ingesting several documents, entity names may duplicate (e.g. "Holmes", "S
 
 ```bash
 # Step 1 — dry-run: compute proposals, save for review
-artmind ingest refine-graph --domain YOUR_DOMAIN --dry-run --output merges.json
+artmind ingest refine-graph --domain YOUR_DOMAIN --dryRun --output merges.json
 
 # Step 2 — review merges.json; edit if needed
 
 # Step 3 — write the reviewed candidates as same-as proposals
-artmind ingest refine-graph --from-file merges.json
+artmind ingest refine-graph --fromFile merges.json
 
 # Step 4 — review and approve in the queue (artmind-curate's job)
 artmind sameas list --status open --compact
@@ -402,7 +411,7 @@ artmind sameas approve <proposal_id> [<proposal_id> ...]   # several ids = one r
 ```bash
 artmind ingest refine-graph --domain YOUR_DOMAIN \
   --filter "Holmes,Watson,Moriarty" \
-  --dry-run --output merges.json
+  --dryRun --output merges.json
 ```
 
 **Backfill missing embeddings** (needed for entity-resolve queries and for
@@ -662,16 +671,16 @@ artmind ingest sync "<folder>" --domain DOMAIN --reextract   # retires its entit
 2. artmind ingest sync FOLDER --domain DOMAIN        # ingest (or async + dashboard)
 3. artmind projection synthesize --domain DOMAIN     # deliberate second step of a bulk load
 4. artmind ingest refine-graph --domain DOMAIN \
-     --dry-run --output merges.json                  # optional: propose duplicate merges
-5. artmind ingest refine-graph --from-file merges.json  # writes proposals, doesn't merge
+     --dryRun --output merges.json                  # optional: propose duplicate merges
+5. artmind ingest refine-graph --fromFile merges.json  # writes proposals, doesn't merge
 6. artmind sameas approve <id> [<id> ...]           # artmind-curate reviews, then approves (one call, one rebuild)
 ```
 
 **Team / import workflow:**
 ```
-1. artmind ingest pull-kg --repo ... --repo-path ... --domain DOMAIN
+1. artmind ingest pull-kg --repo ... --repoPath ... --domain DOMAIN
 2. artmind ingest write-to-graph --folder data/kg/DOMAIN
-3. artmind ingest refine-graph --domain DOMAIN --dry-run   # propose duplicate merges
+3. artmind ingest refine-graph --domain DOMAIN --dryRun   # propose duplicate merges
 ```
 
 **Vault workflow (what the Obsidian plugin runs):**
@@ -705,7 +714,7 @@ artmind ingest sync "<folder>" --domain DOMAIN --reextract   # retires its entit
 | `vault sync`: "unresolved conflicts in N file(s) under .artmind/" | Obsidian Git's merge stopped on a conflict in artmind's generated files — two machines regenerated the same document folder, table or curation record | `artmind vault resolve --dryRun` to see the side each takes, then `artmind vault resolve` (one whole side per unit, staged, never committed; it refuses while the worker runs or when no merge is in progress); resolve any `reported` or `pending` notes in Obsidian, let Obsidian Git commit the merge, then `vault sync` |
 | `vault sync`: "no graph/structured bookmark recorded yet" | This store has never been synced on this graph/machine (or the snapshot predates bookmarks) | `vault sync --bootstrapSynced` if the store is known-current, else `--bootstrapEmpty`; add `--store graph`/`--store structured` to do one store only |
 | `vault sync`: "the graph bookmark ... is not a commit in this clone" / "not an ancestor of HEAD" | Another machine sharing the graph synced commits this clone has not pulled — or, if pulling doesn't clear it, history was rewritten | Let Obsidian Git pull (merge), then re-run `vault sync`. Still refused after pulling? Follow the message: `vault sync --store <name> --bootstrapSynced` if that store is known-current, else `--store <name> --bootstrapEmpty` |
-| Duplicate entities after merging domains | Same-as review not run | Run `refine-graph --dry-run` to propose, then `sameas approve` (see Situation G) |
+| Duplicate entities after merging domains | Same-as review not run | Run `refine-graph --dryRun` to propose, then `sameas approve` (see Situation G) |
 | A structured table shows `mapping_status`/`bridge_status`/`grain_status` = `failed`, or a long-registered table is still all `pending` | Best-effort LLM call failed at ingest time (unreachable model), or the table predates the classification pipeline | `artmind db propose TABLE --domain DOMAIN` — retries only the steps not already `ok`. See Situation I. |
 | `db propose` fails on the mapping step with "no schema file" | Domain has no schema YAML, or a dotted sub-domain was never harmonized | `artmind domains harmonize`, or create one via `/artmind-create-schema`. Grain and bridge still succeed independently. |
 | `table2graph`: "no table mapping matches" | No `domains/table_mappings/*.yaml` has a `table:` pattern for this table (or its `domain:` differs) | Author one with `/artmind-create-schema` (Table mappings), or pass `--mapping FILE`. See Situation J. |

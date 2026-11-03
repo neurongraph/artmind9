@@ -37,7 +37,7 @@ function failure(args: string[], message: string): CliResult {
 
 function dryRun(domain: string): CliResult {
   const f = fixture("projection-synthesize.dry-run");
-  return result(["projection", "synthesize", "--domain", domain, "--dry-run", "--compact"], 0, { ...f.json, domain });
+  return result(["projection", "synthesize", "--domain", domain, "--dryRun", "--compact"], 0, { ...f.json, domain });
 }
 
 const NO_REVIEW = { query_type: "structured", command: "db review", pending_count: 0, tables: [] };
@@ -298,14 +298,14 @@ describe("reading state (checklist spec §5.1)", () => {
       domains: ["general", "habits"],
       script: {
         synthesizeDryRun: (domain) =>
-          domain === "habits" ? failure(["projection", "synthesize", "--domain", "habits", "--dry-run", "--compact"], "graph unreachable") : dryRun(domain),
+          domain === "habits" ? failure(["projection", "synthesize", "--domain", "habits", "--dryRun", "--compact"], "graph unreachable") : dryRun(domain),
       },
     });
 
     await t.controller.refresh();
 
     expect(t.controller.inputs.synthesis).toEqual([{ domain: "general", count: 1, model: MODEL }]);
-    expect(t.controller.snapshot().readErrors).toEqual(["artmind projection synthesize --domain habits --dry-run --compact: graph unreachable"]);
+    expect(t.controller.snapshot().readErrors).toEqual(["artmind projection synthesize --domain habits --dryRun --compact: graph unreachable"]);
   });
 
   it("keeps a failed background read visible, not silent", async () => {

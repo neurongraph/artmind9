@@ -397,6 +397,16 @@ install reads the checkout, so it cannot reveal a package missing from the wheel
 to check one, `git archive HEAD | tar -x -C <scratch>`, run `uv build --wheel` there,
 and list the wheel.
 
+## Output, dry runs and exit codes
+
+Every `artmind` command except the servers (`serve`, `chat-ui`, `admin-ui`) and `db connect`
+prints one JSON result on stdout with `command`, `warnings` and `next` first; human text goes
+to stderr. Commands that write take `--dryRun`, which changes nothing and reports an `effect`
+block (what would change, stale topics and views, LLM calls, reversibility); the real run
+prints the same block. Exit codes: 0 ok, 1 bad input, 2 usage error, 3 the store (Neo4j or
+the registry) is unreachable or failed. Options are camelCase; an old kebab-case spelling
+still works, prints one `artmind:` line on stderr, and is removed in a later release.
+
 ## Daemons
 
 `artmind serve` and the background ingestion worker load code at **start**

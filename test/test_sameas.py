@@ -244,7 +244,8 @@ def test_approve_many_with_nothing_approvable_writes_and_rebuilds_nothing():
 
     result = b.run(["p1"])
 
-    assert result == {"approved": [], "skipped": result["skipped"], "projection": None}
+    assert {k: v for k, v in result.items() if k != "effect"} == {
+        "approved": [], "skipped": result["skipped"], "projection": None}
     assert b.saved == [] and b.rebuilds == [] and b.session.run.call_args_list == []
 
 
@@ -284,7 +285,8 @@ def test_reject_sets_status_and_reason():
         mock_ctx.return_value.__enter__.return_value = session
         result = reject("pid1", "not the same thing")
 
-    assert result == {"id": "pid1", "status": "rejected", "reason": "not the same thing"}
+    assert {k: v for k, v in result.items() if k != "effect"} == {
+        "id": "pid1", "status": "rejected", "reason": "not the same thing"}
     _, kwargs = session.run.call_args
     assert kwargs["reason"] == "not the same thing"
 
@@ -316,7 +318,7 @@ def test_cli_approve_with_one_id_keeps_the_single_approval_shape():
         result = _cli(["p1", "--canonical", "a|C|d"])
 
     assert result.exit_code == 0
-    single.assert_called_once_with("p1", canonical="a|C|d")
+    single.assert_called_once_with("p1", canonical="a|C|d", dry_run=False)
     many.assert_not_called()
     assert '"status":"approved"' in result.output.replace(" ", "")
 
@@ -328,7 +330,7 @@ def test_cli_approve_with_several_ids_makes_one_batch_call():
         result = _cli(["p1", "p2", "p3"])
 
     assert result.exit_code == 0
-    many.assert_called_once_with(["p1", "p2", "p3"])
+    many.assert_called_once_with(["p1", "p2", "p3"], dry_run=False)
     single.assert_not_called()
     assert '"skipped"' in result.output
 

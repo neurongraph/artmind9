@@ -27,6 +27,8 @@ from datetime import datetime, timezone
 
 from loguru import logger
 
+from artmind.cli_conventions import Change, Effect
+from artmind.effects import topics_touching
 from artmind.graph_query import neo4j_session
 from artmind.observations import key_string
 
@@ -137,24 +139,9 @@ def _plan_group(
     return canonical_str, [canonical_key] + kept, dropped
 
 
-def approve_many(proposal_ids: list[str], *, canonical: str | None = None) -> dict:
-    """Approve several proposals with ONE `same_as.yaml` write and ONE rebuild.
-
-    Each approval used to rebuild every touched domain, so a batch of N paid
-    N full rebuilds when only the last one's result survives. Here the groups
-    are planned in order against the keys already claimed (by the file and by
-    earlier proposals in this batch), written together, and the projection is
-    rebuilt once over the union of the touched domains.
-
-    A proposal that can't be approved -- unknown, already resolved, a bad
-    canonical, or a canonical already claimed -- is reported in `skipped` with
-    its reason and stays as it was (open ones stay open); it does not stop the
-    others. A claimed non-canonical member only drops out of that group
-    (`dropped_members`).
-
-    Rebuild scope, and what this does NOT clear, are as for `approve`.
-    """
-    from artmind import projection, same_as
+def _plan_batch(proposal_ids: list[str], canonical: str | None):
+    """Read-only: the groups `proposal_ids` would add, in order, against the keys already claimed."""
+    from artmind import same_as
 
     groups = same_as.load_groups()
     claimed = {key for group in groups for key in group}
@@ -173,9 +160,56 @@ def approve_many(proposal_ids: list[str], *, canonical: str | None = None) -> di
             "canonical": canonical_str, "group": [key_string(k) for k in group],
             "dropped_members": dropped, "_group": group,
         })
+    return groups, planned, skipped
+
+
+def approval_effect(planned: list[dict]) -> Effect:
+    """What approving `planned` does: groups appended to `same_as.yaml`, then a scoped rebuild."""
+    domains = sorted({k[2] for x in planned for k in x["_group"] if k[2]})
+    keys = [m for x in planned for m in x["group"]]
+    merged = sum(len(x["group"]) - 1 for x in planned)
+    if not planned:
+        return Effect(summary="No proposal can be approved; nothing changes.")
+    return Effect(
+        summary=(f"Merge {merged} entit{'y' if merged == 1 else 'ies'} into {len(planned)} canonical "
+                 f"entit{'y' if len(planned) == 1 else 'ies'}; the projection is rebuilt over "
+                 f"{len(domains)} domain(s)."),
+        changes=[Change("entity_merge", len(planned),
+                        [{"canonical": x["canonical"], "group": x["group"]} for x in planned])],
+        stale_topics=topics_touching(entity_keys=keys),
+        reversible=True,
+        undo="remove the group from same_as.yaml, then artmind projection rebuild"
+             + (f" --domain {domains[0]}" if len(domains) == 1 else ""),
+        travels=True, records=[".artmind/same_as.yaml"],
+    )
+
+
+def approve_many(proposal_ids: list[str], *, canonical: str | None = None, dry_run: bool = False) -> dict:
+    """Approve several proposals with ONE `same_as.yaml` write and ONE rebuild.
+
+    Each approval used to rebuild every touched domain, so a batch of N paid
+    N full rebuilds when only the last one's result survives. Here the groups
+    are planned in order against the keys already claimed (by the file and by
+    earlier proposals in this batch), written together, and the projection is
+    rebuilt once over the union of the touched domains.
+
+    A proposal that can't be approved -- unknown, already resolved, a bad
+    canonical, or a canonical already claimed -- is reported in `skipped` with
+    its reason and stays as it was (open ones stay open); it does not stop the
+    others. A claimed non-canonical member only drops out of that group
+    (`dropped_members`).
+
+    `dry_run` stops after the plan: nothing is written, rebuilt or marked.
+
+    Rebuild scope, and what this does NOT clear, are as for `approve`.
+    """
+    from artmind import projection, same_as
+
+    groups, planned, skipped = _plan_batch(proposal_ids, canonical)
+    effect = approval_effect(planned)
 
     summary = None
-    if planned:
+    if planned and not dry_run:
         same_as.save_groups(groups)
         with neo4j_session() as session:
             session.run(
@@ -206,10 +240,10 @@ def approve_many(proposal_ids: list[str], *, canonical: str | None = None) -> di
             logger.info("sameas: approved {} -> group of {} member(s)", x["id"], len(x["group"]))
     for x in planned:
         del x["_group"]
-    return {"approved": planned, "skipped": skipped, "projection": summary}
+    return {"approved": planned, "skipped": skipped, "projection": summary, "effect": effect.to_json()}
 
 
-def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
+def approve(proposal_id_: str, *, canonical: str | None = None, dry_run: bool = False) -> dict:
     """Approve one proposal: append its group to `same_as.yaml`, mark it
     approved, and run a projection rebuild scoped to the touched domains.
 
@@ -222,14 +256,15 @@ def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
     `canonical` overrides which member becomes canonical (must be one of the
     proposal's members); omitted, the proposer's own suggestion is used.
     Raises `ValueError` when the proposal can't be approved (see
-    `approve_many` for several at once, which skips instead).
+    `approve_many` for several at once, which skips instead). `dry_run`
+    plans and reports without writing.
 
     This does NOT clear `:ProjectionState`'s drift flag -- that only happens
     on a truly full (`--domain` omitted) `projection rebuild`, since this
     rebuild is scoped to the domains this one group touches, not everything
     `same_as.yaml` as a whole could affect.
     """
-    result = approve_many([proposal_id_], canonical=canonical)
+    result = approve_many([proposal_id_], canonical=canonical, dry_run=dry_run)
     if result["skipped"]:
         raise ValueError(result["skipped"][0]["reason"])
     done = result["approved"][0]
@@ -237,20 +272,35 @@ def approve(proposal_id_: str, *, canonical: str | None = None) -> dict:
         "id": done["id"], "status": "approved", "canonical": done["canonical"],
         "group": done["group"], "projection": result["projection"],
         **({"dropped_members": done["dropped_members"]} if done["dropped_members"] else {}),
+        "effect": result["effect"],
     }
 
 
-def reject(proposal_id_: str, reason: str | None = None) -> dict:
+def _reject_effect(proposal_id_: str, canonical: str | None) -> dict:
+    return Effect(
+        summary=f"Reject the same-as proposal for {canonical}; no entity changes.",
+        changes=[Change("proposal_reject", 1, [{"id": proposal_id_, "canonical": canonical}])],
+    ).to_json()
+
+
+def reject(proposal_id_: str, reason: str | None = None, *, dry_run: bool = False) -> dict:
+    if dry_run:
+        proposal = get_proposal(proposal_id_)
+        if not proposal:
+            raise ValueError(f"No SameAsProposal with id {proposal_id_!r}")
+        return {"id": proposal_id_, "status": "rejected", "reason": reason,
+                "effect": _reject_effect(proposal_id_, proposal.get("canonical"))}
     with neo4j_session() as session:
         rec = session.run(
             """
             MATCH (p:SameAsProposal {id: $id})
             SET p.status = 'rejected', p.resolved_at = $now, p.resolution_reason = $reason
-            RETURN p.id AS id, p.status AS status
+            RETURN p.id AS id, p.status AS status, p.canonical AS canonical
             """,
             id=proposal_id_, now=datetime.now(timezone.utc).isoformat(), reason=reason,
         ).single()
     if not rec:
         raise ValueError(f"No SameAsProposal with id {proposal_id_!r}")
     logger.info("sameas: rejected {} ({})", proposal_id_, reason or "no reason given")
-    return {"id": rec["id"], "status": rec["status"], "reason": reason}
+    return {"id": rec["id"], "status": rec["status"], "reason": reason,
+            "effect": _reject_effect(proposal_id_, rec.get("canonical"))}

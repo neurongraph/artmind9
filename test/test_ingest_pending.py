@@ -12,6 +12,7 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 import artmind.ingest as ing
 from artmind.ingest_pending import pending, pending_files
 from conftest import stage_as_extracted
@@ -205,7 +206,7 @@ def test_cli_prints_the_report_as_json(pvault):
     result = CliRunner().invoke(cli, ["ingest", "pending", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.stdout) == pending(pvault)
+    assert plain(json.loads(result.stdout)) == plain(pending(pvault))
     assert "\n" not in result.stdout.strip(), "--compact is one line"
 
 
@@ -268,7 +269,7 @@ def test_async_pending_enqueues_exactly_the_pending_list_as_one_job(pvault, work
 
     assert result.exit_code == 0, result.output
     payload = json.loads(result.stdout)
-    assert set(payload) == {"job_id", "domain", "file_count", "submitted_at", "message"}
+    assert set(plain(payload)) == {"job_id", "domain", "file_count", "submitted_at", "message"}
     assert payload["file_count"] == len(expected) == 6
     assert payload["domain"] is None, "each file's mapping decides its domain"
     assert _job_files(payload["job_id"]) == expected
@@ -282,7 +283,7 @@ def test_async_pending_with_nothing_pending_submits_no_job(pvault, workers):
     result = CliRunner().invoke(cli, ["ingest", "async", "--pending", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.stdout) == {"job_id": None, "file_count": 0}
+    assert plain(json.loads(result.stdout)) == plain({"job_id": None, "file_count": 0})
     assert _list_jobs() == []
     assert workers == []
 

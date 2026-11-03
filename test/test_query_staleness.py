@@ -7,6 +7,7 @@ from unittest.mock import patch
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 
 MESSAGE = "artmind: graph is 2 docs / 1 tables behind the vault — run `artmind vault sync`"
@@ -42,7 +43,7 @@ def test_the_warning_goes_to_stderr_and_compact_json_stays_clean(in_vault, monke
         result = CliRunner().invoke(cli, ["query", "domains-overview", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.stdout) == OVERVIEW
+    assert plain(json.loads(result.stdout)) == plain(OVERVIEW)
     assert result.stderr.strip() == MESSAGE
     assert seen == [in_vault]
 
@@ -54,7 +55,7 @@ def test_nested_graph_commands_warn_too(in_vault, monkeypatch):
         result = CliRunner().invoke(cli, ["query", "graph", "metadata", "--domain", "banking", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.stdout) == {"labels": []}
+    assert plain(json.loads(result.stdout)) == plain({"labels": []})
     assert MESSAGE in result.stderr
 
 
@@ -68,7 +69,7 @@ def test_a_failing_check_is_swallowed(in_vault, monkeypatch):
         result = CliRunner().invoke(cli, ["query", "domains-overview", "--compact"])
 
     assert result.exit_code == 0, result.output
-    assert json.loads(result.stdout) == OVERVIEW
+    assert plain(json.loads(result.stdout)) == plain(OVERVIEW)
     assert result.stderr == ""
 
 
@@ -182,7 +183,7 @@ def test_the_serve_daemon_returns_the_warning_in_its_stderr_field(in_vault, monk
         body = run_cli_args(["query", "domains-overview", "--compact"])
 
     assert body["exit_code"] == 0
-    assert json.loads(body["output"]) == OVERVIEW
+    assert plain(json.loads(body["output"])) == plain(OVERVIEW)
     assert body["stderr"].strip() == MESSAGE
 
 

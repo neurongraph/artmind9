@@ -1382,6 +1382,44 @@ def _bookmark_fields(marks: Bookmarks, stores: tuple[str, ...]) -> dict:
     return {f"{store}_bookmark": marks.effective(store) for store in stores}
 
 
+def _sync_effect(*, stores: tuple[str, ...], domains: list[str] | None, replay: list[tuple[str, str]],
+                 retract: list[tuple[str, str]], tables: list[tuple[str, str]], curation: int,
+                 same_as_groups: int) -> dict:
+    """The `effect` of a sync over this plan (the run's classified diff).
+
+    Built from the plan alone, which a dry run and the real run share, so the two
+    report the same effect. Nothing here calls an LLM; `travels` is False because
+    sync applies what already travelled in git. Topic pages are matched through the
+    tables only: a replayed document folder does not name its document without
+    reading it from git.
+    """
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+
+    names = [f"{d}/{t}" for d, t in tables]
+    changes = [
+        Change(kind, len(items), sample)
+        for kind, items, sample in (
+            ("document_ingest", replay, [f"{d}/{doc}" for d, doc in replay]),
+            ("document_retire", retract, [f"{d}/{doc_id}" for d, doc_id in retract]),
+            ("table_change", tables, names),
+        )
+        if items
+    ]
+    advances = not domains
+    parts = [f"{len(replay)} document(s) to replay", f"{len(retract)} to retract", f"{len(tables)} table(s)",
+             f"{curation} curation record(s)", f"{same_as_groups} same-as group(s)"]
+    return Effect(
+        summary=(f"Apply the committed changes to {' and '.join(stores)}: {', '.join(parts)}; no LLM call"
+                 + ("; the bookmark advances." if advances else "; a domain-scoped run leaves the bookmark.")),
+        changes=changes,
+        stale_topics=topics_touching(doc_ids=[f"table:{d}:{t}" for d, t in tables]),
+        reversible=False,
+        travels=False,
+        records=[".artmind/state.json"] if advances and "structured" in stores else [],
+    ).to_json()
+
+
 def sync(
     vault_dir: Path,
     *,
@@ -1417,10 +1455,16 @@ def sync(
     marks = read_bookmarks(vault_dir, vault_id=vault_id, stores=stores)
 
     if bootstrap_synced:
+        stamp = {"summary": f"Stamp the {' and '.join(stores)} bookmark at {head[:12]} with no replay; no LLM call.",
+                 "changes": [], "stale": {"topics": [], "views": []},
+                 "llm": {"calls": 0, "model": None, "est_cost_usd": None}, "reversible": False, "undo": None,
+                 "travels": False, "records": [".artmind/state.json"] if "structured" in stores else []}
         if dry_run:
-            return {"bootstrap": "synced", "dry_run": True, "would_stamp": head, "stores": list(stores)}
+            return {"bootstrap": "synced", "dry_run": True, "would_stamp": head, "stores": list(stores),
+                    "effect": stamp}
         new = _advance_bookmarks(vault_dir, vault_id, stores, head, marks)
-        return {"bootstrap": "synced", "stores": list(stores), **_bookmark_fields(new, stores)}
+        return {"bootstrap": "synced", "stores": list(stores), **_bookmark_fields(new, stores),
+                "effect": stamp}
 
     bases: dict[str, str] = {}
     missing: list[str] = []
@@ -1475,6 +1519,12 @@ def sync(
         else:
             restore_tables.append(key)
 
+    curation_total = len(plan.curation)
+    effect = _sync_effect(
+        stores=stores, domains=domains, replay=plan.replay_docs, retract=plan.retract,
+        tables=restore_tables, curation=curation_total, same_as_groups=plan.same_as_groups,
+    )
+
     if dry_run:
         structured_only_dry: list[str] = []
         if project_tables:
@@ -1518,6 +1568,7 @@ def sync(
             "curation": _curation_counts(plan.curation),
             "curation_unchanged": curation_unchanged,
             "cursor_would_advance": not domains,
+            "effect": effect,
         }
 
     from artmind import ingest
@@ -1681,6 +1732,7 @@ def sync(
         "curation_unchanged": curation_unchanged,
         "projection": projection_summary,
         "domains_swept": touched_domains,
+        "effect": effect,
     }
     if not cursor_advanced:
         # A store with no bookmark at the START of this run only got past the

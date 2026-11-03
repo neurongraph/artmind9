@@ -20,7 +20,7 @@ artmind insights runs --domain <d>
 
 - **`up_to_date`** means the graph, schemas, curation, config and detector version are unchanged. Use `--force` to recompute anyway.
 - **Skipped detectors list a reason.** "not configured" means a config block is missing (see Tune). Data reasons, such as "no document dates", are expected on some corpora.
-- **Captions and circle names** come from the configured LLM. `--no-narrate` skips them. They are checked: a caption names only the finding's own subjects and uses only numbers in its stats. Prompts send entity names to the configured provider.
+- **Captions and circle names** come from the configured LLM. `--noNarrate` skips them. They are checked: a caption names only the finding's own subjects and uses only numbers in its stats. Prompts send entity names to the configured provider.
 
 ## Tune
 
@@ -50,7 +50,7 @@ Draft `outcome` and `open_loops` values from `insights profile`, which lists eac
 - **Identity (same_as_candidates, split_signal).** Run:
   ```bash
   artmind insights same-as --export <path outside the checkout> --domain <d>
-  artmind ingest refine-graph --domain <d> --from-file <path>
+  artmind ingest refine-graph --domain <d> --fromFile <path>
   ```
   This writes *proposals* to the same-as review queue. Review them with **artmind-curate**; nothing merges automatically. A split_signal pair is the highest priority, because the duplicate is distorting trends.
 - **Curation (open_conflicts, fragments, attribution_suspects).** Hand off to **artmind-curate**. For attribution suspects, re-extracting the affected notes may be better: `artmind ingest sync --reextract --match <glob>`.

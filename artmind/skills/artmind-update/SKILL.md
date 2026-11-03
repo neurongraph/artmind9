@@ -26,6 +26,15 @@ Use this skill to let a user add or update facts in the artmind knowledge graph 
   instead of the output. If the user's own phrasing is genuinely ambiguous or
   underspecified, ask them to clarify rather than filling the gap yourself.
 
+## Preview a write with `--dryRun`
+
+Every command that changes the graph, staging or vault files takes `--dryRun`: it plans from reads,
+writes nothing, calls no LLM, and returns `dry_run: true` plus an `effect` block (what would change
+with counts and samples, which topics and views go stale, how many LLM calls, whether it can be
+undone and with what, whether the change travels to other machines). Read `effect` before the real
+run, which prints the same block. On a command that does not support it yet, `--dryRun` fails with
+"not available ... yet; nothing was changed" and does nothing.
+
 ## Required Inputs
 
 - `domain`: Auto-detect from input; ask if unclear.
@@ -208,9 +217,9 @@ use `refine-graph --filter` to scope name-similarity clustering to just those
 names, which writes a same-as **proposal** — it does not merge directly:
 
 ```bash
-artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dry-run --output merges.json
+artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dryRun --output merges.json
 # review merges.json, then:
-artmind ingest refine-graph --domain <domain> --from-file merges.json
+artmind ingest refine-graph --domain <domain> --fromFile merges.json
 ```
 
 Approving is a separate, explicit step — hand off to artmind-curate:

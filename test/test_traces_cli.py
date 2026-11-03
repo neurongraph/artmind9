@@ -6,6 +6,7 @@ import time
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 from artmind.traces import store
 
@@ -42,8 +43,11 @@ def test_show_missing_is_an_error():
 
 
 def test_feedback_then_list_filters_by_rating():
-    result = CliRunner().invoke(cli, ["traces", "feedback", "t1", "--rating", "wrong", "--expected", "Bob"])
+    result = CliRunner().invoke(cli, ["traces", "feedback", "t1", "--rating", "wrong", "--expected", "Bob",
+                                      "--compact"])
     assert result.exit_code == 0, result.output
+    assert plain(json.loads(result.stdout)) == plain({"trace_id": "t1", "rating": "wrong", "expected": "Bob"})
+    assert "t1: wrong" in result.stderr
     assert [t["trace_id"] for t in _json(["list", "--rating", "wrong"])["turns"]] == ["t1"]
     assert _json(["list", "--rating", "good"])["turns"] == []
 
@@ -55,7 +59,8 @@ def test_triage_and_stats():
 
 
 def test_prune_reports_count():
-    assert _json(["prune", "--days", "90"]) == {"pruned": 0}
+    pruned = _json(["prune", "--days", "90"])
+    assert pruned["pruned"] == 0 and pruned["effect"]["changes"][0]["count"] == 0
 
 
 def test_list_passes_limit_to_db_when_no_filters():
@@ -88,3 +93,15 @@ def test_list_rows_carry_the_conversation_id():
     assert result.exit_code == 0, result.output
     row = next(t for t in json.loads(result.stdout)["turns"] if t["trace_id"] == "t-conv")
     assert row["session_id"] == "conv-1"
+
+
+def test_list_reports_rows_total_and_truncated():
+    store.insert_turn("t2", source="admin", question="Second?", started_at=time.time())
+    store.update_turn("t2", status="done", domains='["b"]')
+    capped = _json(["list", "--limit", "1"])
+    assert len(capped["turns"]) == 1 and capped["rows_total"] == 2 and capped["truncated"] is True
+    assert _json(["list"])["truncated"] is False
+    # with a Python-side filter the total counts matches, not all turns
+    filtered = _json(["list", "--domain", "b", "--limit", "1"])
+    assert len(filtered["turns"]) == 1 and filtered["rows_total"] == 2 and filtered["truncated"] is True
+    assert _json(["list", "--rating", "good"])["rows_total"] == 0

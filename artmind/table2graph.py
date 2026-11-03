@@ -1316,6 +1316,34 @@ def _rebuild_in_batches(keys: list, groups: list | None = None) -> dict:
     return projection.rebuild_in_batches(keys, groups, size=REBUILD_BATCH)
 
 
+def effect_for(tables: list[dict], reports: list[dict]):
+    """The `effect` of projecting `tables` (registry rows) with `reports` (`table_to_graph`'s results).
+
+    Built from the build counts alone, which a dry run and the real run share,
+    so the two report the same effect. No LLM is involved.
+    """
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+
+    names = [t["table_name"] for t in tables]
+    facts = sum(r["observations"] + r["relationship_observations"] for r in reports)
+    entities = sum(e["kept"] for r in reports for e in r["entities"].values())
+    chunks = sum(r["chunks"] for r in reports)
+    changes = [Change("table_change", len(names), names)]
+    if facts:
+        changes.append(Change("fact_write", facts, []))
+    return Effect(
+        summary=(f"Project {len(names)} table(s) into {entities} entit{'y' if entities == 1 else 'ies'}, "
+                 f"{facts} fact(s) and {chunks} row chunk(s); no LLM call. "
+                 "A re-run replaces what the previous projection wrote."),
+        changes=changes,
+        stale_topics=topics_touching(doc_ids=[f"table:{t['domain']}:{t['table_name']}" for t in tables]),
+        reversible=False,
+        travels=True,
+        records=[str(stage_dir(t["domain"], t["table_name"])) for t in tables],
+    )
+
+
 def table_to_graph(
     table: dict,
     mapping: TableMapping,

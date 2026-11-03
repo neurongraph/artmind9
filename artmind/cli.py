@@ -73,6 +73,10 @@ from paths import (
 from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
+from artmind.cli_conventions import (
+    Change, Effect, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
+    unbuilt_dry_run_option, with_effect,
+)
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -339,14 +343,15 @@ def _get_available_domains() -> list[str]:
 def _prompt_for_domain() -> str:
     """Show available domains and prompt user to select one."""
     domains = _get_available_domains()
-    click.echo("Available domains:")
+    click.echo("Available domains:", err=True)
     for d in domains:
-        click.echo(f"  - {d}")
+        click.echo(f"  - {d}", err=True)
     return click.prompt(
         "Domain",
         default="general",
         type=click.Choice(domains, case_sensitive=False),
         show_choices=False,
+        err=True,
     )
 
 
@@ -439,7 +444,22 @@ click.rich_click.COMMAND_GROUPS = {
 }
 
 
-@click.group()
+class _RootGroup(click.RichGroup):
+    """The root group: an uncaught connection failure to a store exits 3 (spec C6).
+
+    Anything else keeps today's behaviour: ClickException exits 1, a usage error 2, an
+    unexpected exception its traceback and 1.
+    """
+
+    def invoke(self, ctx):
+        try:
+            return super().invoke(ctx)
+        except Exception as exc:
+            exit_on_store_failure(exc, ctx)
+            raise
+
+
+@click.group(cls=_RootGroup)
 @click.version_option(
     package_name="artmind9", prog_name="artmind", message="%(prog)s %(version)s",
     help="Print the installed artmind version (`artmind X.Y.Z`) and exit.",
@@ -455,6 +475,7 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
     if flagged and isinstance(payload, dict):
         existing = payload.get("warnings")
         payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
+    payload = envelope(payload, ctx)  # command / warnings / next (cli_conventions, spec C1+C4)
     observe_output(payload)  # query-trace span evidence; a no-op outside a traced query
     # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set
     # (`db sql`, `query text2sql`) and aren't JSON-serializable. `default=str`
@@ -510,8 +531,9 @@ def serve(host: str, port: int | None) -> None:
 @cli.command("chat-ui")
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option("--port", default=8378, show_default=True, type=int, help="Port to bind.")
-@click.option(
-    "--acp-cmd",
+@aliased_option(
+    "--acpCmd", "--acp-cmd",
+    param="acp_cmd",
     default=None,
     help="ACP agent command for the 'opencode (ACP)' backend "
     "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
@@ -522,12 +544,13 @@ def serve(host: str, port: int | None) -> None:
     help="Model for the 'claude-sdk' backend, e.g. claude-sonnet-5 "
     "[default: $ARTMIND_SDK_MODEL, or the claude CLI's own default].",
 )
-@click.option(
-    "--base-url",
+@aliased_option(
+    "--baseUrl", "--base-url",
+    param="base_url",
     default=None,
     help="Custom endpoint for the 'claude-sdk' backend's claude CLI "
     "[default: $ARTMIND_SDK_BASE_URL, or the CLI's normal login]. Pass "
-    "--base-url \"\" to force the CLI's normal login for this run even if "
+    "--baseUrl \"\" to force the CLI's normal login for this run even if "
     "$ARTMIND_SDK_BASE_URL is set.",
 )
 def chat_ui(
@@ -547,8 +570,9 @@ def chat_ui(
 @cli.command("admin-ui")
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option("--port", default=8379, show_default=True, type=int, help="Port to bind.")
-@click.option(
-    "--acp-cmd",
+@aliased_option(
+    "--acpCmd", "--acp-cmd",
+    param="acp_cmd",
     default=None,
     help="ACP agent command for the 'opencode (ACP)' backend "
     "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
@@ -559,12 +583,13 @@ def chat_ui(
     help="Model for the 'claude-sdk' backend, e.g. claude-sonnet-5 "
     "[default: $ARTMIND_SDK_MODEL, or the claude CLI's own default].",
 )
-@click.option(
-    "--base-url",
+@aliased_option(
+    "--baseUrl", "--base-url",
+    param="base_url",
     default=None,
     help="Custom endpoint for the 'claude-sdk' backend's claude CLI "
     "[default: $ARTMIND_SDK_BASE_URL, or the CLI's normal login]. Pass "
-    "--base-url \"\" to force the CLI's normal login for this run even if "
+    "--baseUrl \"\" to force the CLI's normal login for this run even if "
     "$ARTMIND_SDK_BASE_URL is set.",
 )
 def admin_ui(
@@ -591,7 +616,8 @@ def domains():
 
 
 @domains.command("list")
-def list_domains():
+@compact_option
+def list_domains(compact: bool):
     """List all available domain schemas, showing hierarchy."""
     all_domains = sorted(_get_available_domains())
     parents = [d for d in all_domains if '.' not in d]
@@ -599,21 +625,24 @@ def list_domains():
 
     shown = set()
     for parent in parents:
-        click.echo(parent)
+        click.echo(parent, err=True)
         shown.add(parent)
         for child in children:
             if child.startswith(parent + '.'):
-                click.echo(f"  {child}")
+                click.echo(f"  {child}", err=True)
                 shown.add(child)
 
     for child in children:
         if child not in shown:
-            click.echo(child)
+            click.echo(child, err=True)
+    _echo_json({"domains": all_domains, "rows_total": len(all_domains), "truncated": False}, compact)
 
 
 @domains.command("add")
+@compact_option
 @click.argument("domain_file", type=click.Path(exists=True))
-def add_domain(domain_file: str):
+@unbuilt_dry_run_option
+def add_domain(compact: bool, domain_file: str):
     """Add a domain schema from a YAML file."""
     source = Path(domain_file)
     with open(source) as f:
@@ -623,53 +652,67 @@ def add_domain(domain_file: str):
         raise click.ClickException("Domain YAML must contain a 'name' field")
     dest = DOMAIN_SCHEMAS_DIR / f"{domain_name}_schema.yaml"
     shutil.copy(source, dest)
-    click.echo(f"Domain '{domain_name}' added to {dest}")
+    click.echo(f"Domain '{domain_name}' added to {dest}", err=True)
+    _echo_json({"domain": domain_name, "path": str(dest)}, compact)
 
 
 @domains.command("delete")
+@compact_option
 @click.argument("domain_name")
-def delete_domain(domain_name: str):
+@unbuilt_dry_run_option
+def delete_domain(compact: bool, domain_name: str):
     """Delete a domain schema."""
     domain_file = DOMAIN_SCHEMAS_DIR / f"{domain_name}_schema.yaml"
     if not domain_file.exists():
         raise click.ClickException(f"Domain schema not found: {domain_file}")
     domain_file.unlink()
-    click.echo(f"Domain '{domain_name}' deleted")
+    click.echo(f"Domain '{domain_name}' deleted", err=True)
+    _echo_json({"domain": domain_name, "path": str(domain_file), "deleted": True}, compact)
+
+
+def _echo_domain_prompt(domain_name: str, prompt: str, compact: bool) -> None:
+    """A prompt command: the text on stderr as before, the same text in `prompt` on stdout."""
+    click.echo(prompt, err=True)
+    _echo_json({"domain": domain_name, "prompt": prompt}, compact)
 
 
 @domains.command("entities-prompt")
+@compact_option
 @click.argument("domain_name")
-def get_entities(domain_name: str):
+def get_entities(compact: bool, domain_name: str):
     """The prompt used to extract entities from a document chunk (assembled at runtime)"""
     from artmind.prompt_builder import assemble_entities_prompt
 
     data = _load_domain_schema(domain_name)
-    click.echo(assemble_entities_prompt(data))
+    _echo_domain_prompt(domain_name, assemble_entities_prompt(data), compact)
 
 
 @domains.command("properties-prompt")
+@compact_option
 @click.argument("domain_name")
-def get_properties(domain_name: str):
+def get_properties(compact: bool, domain_name: str):
     """The prompt used to extract properties for the set of entities from a document chunk (assembled at runtime)"""
     from artmind.prompt_builder import assemble_properties_prompt
 
     data = _load_domain_schema(domain_name)
-    click.echo(assemble_properties_prompt(data))
+    _echo_domain_prompt(domain_name, assemble_properties_prompt(data), compact)
 
 
 @domains.command("relationships-prompt")
+@compact_option
 @click.argument("domain_name")
-def get_relationships(domain_name: str):
+def get_relationships(compact: bool, domain_name: str):
     """The prompt used to extract relationships from a document chunk (assembled at runtime)"""
     from artmind.prompt_builder import assemble_relationships_prompt
 
     data = _load_domain_schema(domain_name)
-    click.echo(assemble_relationships_prompt(data))
+    _echo_domain_prompt(domain_name, assemble_relationships_prompt(data), compact)
 
 
 @domains.command("validate")
 @click.option("--domain", default=None, help="Validate one schema by name. Default: all schemas.")
-def domains_validate(domain: str | None):
+@compact_option
+def domains_validate(domain: str | None, compact: bool):
     """Check schemas against the meta-schema contract in domains/meta.yaml.
 
     Fails loudly: a class missing `kind`, an entity_types list (pre-redesign
@@ -706,21 +749,31 @@ def domains_validate(domain: str | None):
     # edge the write path will drop.
     for found in warnings.values():
         for w in found:
-            click.echo(f"WARN   {w}")
+            click.echo(f"WARN   {w}", err=True)
 
+    # `warnings` is the envelope's own key, so the schema warnings keep their
+    # per-domain shape under `schema_warnings`.
+    result = {
+        "ok": not violations,
+        "violations": {name: list(errors) for name, errors in violations.items()},
+        "schema_warnings": {name: list(found) for name, found in warnings.items() if found},
+    }
     if not violations:
-        click.echo("All schemas valid.")
+        click.echo("All schemas valid.", err=True)
+        _echo_json(result, compact)
         return
     for name, errors in violations.items():
         for e in errors:
-            click.echo(f"ERROR  {e}")
+            click.echo(f"ERROR  {e}", err=True)
+    _echo_json(result, compact)
     raise click.ClickException(f"{len(violations)} schema(s) failed validation")
 
 
 @domains.command("harmonize")
 @click.option("--domain", default=None, help="Child domain to harmonize (e.g. fiction.thriller). Default: all children.")
-@click.option("--dry-run", is_flag=True, help="Show what would change without writing.")
-def domains_harmonize(domain: str | None, dry_run: bool):
+@dry_run_option("Show what would change without writing.")
+@compact_option
+def domains_harmonize(domain: str | None, dry_run: bool, compact: bool):
     """Sync child domain schemas against their parent's entity types.
 
     Copies any entity, property, and relationship blocks that exist in the
@@ -734,18 +787,22 @@ def domains_harmonize(domain: str | None, dry_run: bool):
         results = harmonize_all(dry_run=dry_run)
 
     if not results:
-        click.echo("No child schemas found.")
-        return
+        click.echo("No child schemas found.", err=True)
 
     for r in results:
         if r.status == 'error':
-            click.echo(f"{r.domain}  ERROR: {r.error}")
+            click.echo(f"{r.domain}  ERROR: {r.error}", err=True)
         elif r.status == 'in_sync':
-            click.echo(f"{r.domain}  already in sync")
+            click.echo(f"{r.domain}  already in sync", err=True)
         elif r.status == 'dry_run':
-            click.echo(f"{r.domain}  would add entity types: {r.added}")
+            click.echo(f"{r.domain}  would add entity types: {r.added}", err=True)
         else:
-            click.echo(f"{r.domain}  added entity types: {r.added}")
+            click.echo(f"{r.domain}  added entity types: {r.added}", err=True)
+    _echo_json({
+        "dry_run": dry_run,
+        "results": [{"domain": r.domain, "status": r.status, "added": list(r.added), "error": r.error or None}
+                    for r in results],
+    }, compact)
 
 
 # ── artmind ingest ─────────────────────────────────────────────────────────────
@@ -753,7 +810,7 @@ def domains_harmonize(domain: str | None, dry_run: bool):
 
 @cli.group()
 def ingest():
-    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dry-run])."""
+    """Manage document ingestion (sync, async, pending, status, results,...), table -> graph projection (table2graph; table2graph --pending lists the tables waiting), and summary backfill (summarise [--domain] [--match] [--dryRun]). Writes take --dryRun: `sync --dryRun` lists files by tier with an LLM-call estimate; every dry run returns an `effect` block."""
     pass
 
 
@@ -870,7 +927,7 @@ def _filter_match(files: "list[Path]", base: Path, patterns: "tuple[str, ...]") 
 @click.option("--fork", is_flag=True, help="On an _artmind_id collision (two live files, one id), mint a fresh id for the newcomer instead of refusing.")
 @click.option("--adopt", is_flag=True, help="On an _artmind_id collision, transfer identity to the newcomer instead of refusing (the old claimant is left as-is).")
 @click.option("--force", is_flag=True, help="Structured (csv/xlsx) files only: ingest even if identical content is already registered.")
-@click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
+@aliased_option("--stageOnly", "--stage-only", param="stage_only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--refreshMode", "refresh_mode",
     type=click.Choice(["replace", "temporal"]), default=None,
@@ -894,6 +951,11 @@ def _filter_match(files: "list[Path]", base: Path, patterns: "tuple[str, ...]") 
     help="Structured files only: column supplying each row's effective date for temporal refresh"
     " (falls back to the ingest date when omitted or null on a row).",
 )
+@dry_run_option(
+    "List the files this sync would ingest by tier (content / metadata / unchanged) with an upper-bound"
+    " LLM call estimate; converts, stamps, registers and extracts nothing."
+)
+@compact_option
 def ingest_sync(
     file_path: str,
     domain: str | None,
@@ -908,6 +970,8 @@ def ingest_sync(
     table_name: str | None,
     business_key: str | None,
     effective_date_column: str | None,
+    dry_run: bool,
+    compact: bool,
 ):
     """Ingest a file or directory synchronously (blocking)."""
     _require_ingest_extra()
@@ -966,6 +1030,29 @@ def ingest_sync(
 
     _validate_manifest_domains(vault_manifest)
 
+    from artmind import ingest_plan
+
+    def _planned_domain(f: Path) -> str | None:
+        if is_structured_source(f):
+            return set_domain or _mapped_domain(f) or domain
+        return _mapped_domain(f) or domain
+
+    plan = ingest_plan.plan_sync(
+        files, domain_for=_planned_domain, set_domain=set_domain, fork=fork, adopt=adopt,
+        reextract=reextract, chunk_size=chunk_size, root=ARTMIND_VAULT_DIR,
+    )
+    effect = ingest_plan.effect_for(plan, model=text_model, stage_only=stage_only, reextract=reextract)
+    if dry_run:
+        by_tier = {t: [p for p in plan["files"] if p["tier"] == t] for t in ingest_plan.TIERS}
+        _echo_json(with_effect({
+            "files": len(files),
+            "tiers": {t: len(v) for t, v in by_tier.items()},
+            "plan": plan["files"],
+            "errors": plan["errors"],
+            "stage_only": stage_only,
+        }, effect, dry_run=True), compact)
+        return
+
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
         len(files),
@@ -979,6 +1066,7 @@ def ingest_sync(
         logger.debug("  File: {}", name)
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
+    failed_files: list[str] = []
     # One file rebuilds incrementally; a directory defers to one full rebuild.
     defer_rebuild = len(files) > 1 and not stage_only
     deferred_domains: set[str] = set()
@@ -991,6 +1079,7 @@ def ingest_sync(
                 structured_domain = set_domain or _mapped_domain(f) or domain
                 if structured_domain is None:
                     fail_count += 1
+                    failed_files.append(f.name)
                     logger.error(
                         "{}: no domain for this structured file -- map its folder in "
                         ".artmind/vault.yaml (ingest.mappings) or pass --domain",
@@ -1038,12 +1127,15 @@ def ingest_sync(
                     ok_count += 1
                 else:
                     fail_count += 1
+                    failed_files.append(f.name)
                     logger.error("KG ingestion failed for {}", f.name)
             else:
                 fail_count += 1
+                failed_files.append(f.name)
                 logger.error("Ingestion failed for {}: {}", f.name, result.get("error"))
         except Exception as e:
             fail_count += 1
+            failed_files.append(f.name)
             logger.error("Unexpected error processing {}: {}", f, e)
 
     if deferred_domains:
@@ -1063,6 +1155,11 @@ def ingest_sync(
         ok_count,
         fail_count,
         )
+    _echo_json({
+        "files": len(files), "ok": ok_count, "failed": fail_count, "failed_files": failed_files,
+        "elapsed_seconds": round(elapsed, 1), "stage_only": stage_only,
+        "projection_rebuilt": sorted(deferred_domains), "effect": effect.to_json(),
+    }, compact)
 
 
 @ingest.command("async")
@@ -1077,14 +1174,15 @@ def ingest_sync(
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
 @click.option("--reextract", is_flag=True, help=_REEXTRACT_HELP)
 @click.option("--match", "match", multiple=True, help=_MATCH_HELP)
-@click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
+@aliased_option("--stageOnly", "--stage-only", param="stage_only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--pending", "pending", is_flag=True,
     help="Instead of FILE_PATH: enqueue exactly the files `ingest pending` lists (new or"
     " changed mapped files in this vault), as one job. Prints {\"job_id\": null,"
     " \"file_count\": 0} when nothing is pending.",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def ingest_async(
     file_paths: tuple[str, ...], domain: str | None, force: bool, reextract: bool, match: tuple[str, ...],
     stage_only: bool, pending: bool, compact: bool,
@@ -1249,7 +1347,7 @@ def _pending_report(vault_dir: Path) -> dict:
 
 
 @ingest.command("pending")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_pending_cmd(compact: bool):
     """List the mapped files an ingest would do work on: new, or changed since their last ingest. Read-only, no LLM.
 
@@ -1273,7 +1371,7 @@ def ingest_pending_cmd(compact: bool):
               help="Only these domains or domain families (repeatable; comma-splittable). Default: all")
 @click.option("--minChars", "min_chars", type=int, default=200, show_default=True,
               help="Ignore notes whose staged chunk text is shorter than this")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_empty_extractions(domain: tuple, min_chars: int, compact: bool) -> None:
     """List staged notes whose extraction is empty although their text is not. Read-only: no Neo4j, no LLM.
 
@@ -1291,7 +1389,7 @@ def ingest_empty_extractions(domain: tuple, min_chars: int, compact: bool) -> No
 
 @ingest.command("jobs")
 @click.option("--status", default=None, help="Filter by status (queued/processing/completed/failed)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_jobs(status: str | None, compact: bool):
     """List recent ingestion jobs."""
     jobs = _list_jobs(status_filter=status)
@@ -1300,7 +1398,7 @@ def ingest_jobs(status: str | None, compact: bool):
 
 @ingest.command("job-status")
 @click.argument("job_id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_job_status(job_id: str, compact: bool):
     """Show status and per-file progress for a job."""
     result = _get_job_status(job_id)
@@ -1311,7 +1409,7 @@ def ingest_job_status(job_id: str, compact: bool):
 
 @ingest.command("job-results")
 @click.argument("job_id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_job_results(job_id: str, compact: bool):
     """Show detailed per-file results for a completed job."""
     result = _get_job_results(job_id)
@@ -1322,13 +1420,14 @@ def ingest_job_results(job_id: str, compact: bool):
 
 @ingest.command("retry-job")
 @click.argument("job_id")
-@click.option("--include-skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@aliased_option("--includeSkipped", "--include-skipped", param="include_skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
+@compact_option
+@unbuilt_dry_run_option
 def ingest_retry_job(job_id: str, include_skipped: bool, compact: bool):
     """Re-queue failed files in a job for reprocessing.
 
     Removes failed files from the document registry and resets the job to queued
-    so the worker picks it up again. Use --include-skipped to also force
+    so the worker picks it up again. Use --includeSkipped to also force
     re-processing of files that were skipped as duplicates.
 
     A stalled job (`processing`, but its worker is gone) is re-queued as well,
@@ -1356,7 +1455,7 @@ def ingest_retry_job(job_id: str, include_skipped: bool, compact: bool):
 
 
 @ingest.command("jobs-active")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_jobs_active(compact: bool):
     """List queued/processing jobs with full per-file rows."""
     _echo_json(_fetch_active_jobs(), compact)
@@ -1364,7 +1463,7 @@ def ingest_jobs_active(compact: bool):
 
 @ingest.command("jobs-completed")
 @click.option("--limit", default=100, help="Max jobs to return")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_jobs_completed(limit: int, compact: bool):
     """List completed/failed jobs with a per-file summary."""
     _echo_json(_fetch_completed_jobs(limit=limit), compact)
@@ -1373,7 +1472,7 @@ def ingest_jobs_completed(limit: int, compact: bool):
 @ingest.command("job-chunks")
 @click.argument("job_id")
 @click.argument("document")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_job_chunks(job_id: str, document: str, compact: bool):
     """Show per-chunk extraction status (entities/properties/relationships) for one document in a job."""
     job = _get_job_status(job_id)
@@ -1396,7 +1495,8 @@ def ingest_job_chunks(job_id: str, document: str, compact: bool):
 
 @ingest.command("embed-entities")
 @click.option("--domain", required=True, help="Domain to backfill")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def ingest_embed_entities(domain: str, compact: bool) -> None:
     """Backfill vector embeddings for entities missing one (powers query entity-resolve)."""
     _echo_json(embed_entities_backfill(domain), compact)
@@ -1404,7 +1504,8 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
 
 @ingest.command("embed-passages")
 @click.option("--domain", default=None, help="Only this domain (exact name)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def ingest_embed_passages(domain: str | None, compact: bool) -> None:
     """Build missing or outdated passages and embed every passage, summary and chat whose vector is missing or stale.
 
@@ -1422,15 +1523,15 @@ def ingest_embed_passages(domain: str | None, compact: bool) -> None:
 @ingest.command("summarise")
 @click.option("--domain", default=None, help="Only this domain (exact name); default every staged domain")
 @click.option("--match", default=None, help="Only staging folders whose name matches this glob")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Report documents and LLM calls; write nothing")
+@dry_run_option("Report documents and LLM calls; write nothing")
 @click.option("--maxWorkers", "max_workers", type=int, default=None, help="Concurrent summary calls per document")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_summarise(domain: str | None, match: str | None, dry_run: bool, max_workers: int | None,
                      compact: bool) -> None:
     """Build missing or outdated chunk and document summaries for staged documents, then commit them.
 
     Every chunk's text goes to the configured LLM provider once (cached by text, prompt
-    version and model). `--dry-run` first: it prints the call count. Resumable.
+    version and model). `--dryRun` first: it prints the call count. Resumable.
     """
     _setup_logger()
     from artmind.ingest import summarise_staged
@@ -1444,7 +1545,8 @@ def ingest_summarise(domain: str | None, match: str | None, dry_run: bool, max_w
 @click.option("--maxWorkers", "max_workers", type=int, default=None,
               help="Chunk-level concurrency (default: 4 for openrouter, 1 for ollama; "
                    "or ARTMIND_INGEST_MAX_WORKERS)")
-def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) -> None:
+@compact_option
+def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None, compact: bool) -> None:
     """Re-run or resume KG extraction for a document (skips already-ok chunks).
 
     DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
@@ -1469,6 +1571,9 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model, max_workers=max_workers)
     if doc_kg_dir:
         logger.info("extract_kg complete — merged JSON in {}", doc_kg_dir)
+        _echo_json({"document": document_name, "domain": domain, "chunks": file_result["chunk_count"],
+                    "staging_dir": str(doc_kg_dir),
+                    "next": f"artmind ingest write-to-graph {document_name} --domain {domain}"}, compact)
     else:
         raise click.ClickException(file_result.get("kg_error") or "extract_kg failed — check logs for details")
 
@@ -1482,7 +1587,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     "--reextract", is_flag=True,
     help="Classify as `ingest sync|async --reextract` would: an unchanged body is `content`, not `metadata_only`.",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_classify_reingest(
     markdown_path: str,
     domain: str,
@@ -1549,14 +1654,14 @@ def _run_passage_sweep() -> None:
 
 @ingest.command("retime")
 @click.option("--domain", required=True, help="Domain whose staged documents to re-date")
-@click.option("--dryRun", "dry_run", is_flag=True, help="Report what would change; write nothing")
+@dry_run_option("Report what would change; write nothing")
 @click.option("--redoProperties", "redo_properties", is_flag=True,
               help="Also re-extract each chunk's properties with the document's date in the prompt "
                    "(LLM: one call per chunk; entity names are kept). Needs this machine's chunk cache.")
 @click.option("--limit", type=int, default=None, help="Only the first N documents (try a few first)")
 @click.option("--document", "documents", multiple=True,
               help="Only this document (e.g. 2026-01-07.md); repeatable, comma-separated")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_retime(
     domain: str, dry_run: bool, redo_properties: bool, limit: int | None, documents: tuple, compact: bool,
 ) -> None:
@@ -1605,7 +1710,10 @@ def ingest_retime(
 @click.option("--noEmbed", "no_embed", is_flag=True,
               help="Skip the chunk-embedding sweep. Chunks written without a vector are "
                    "invisible to semantic search until `ingest embed-passages` runs.")
-def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool) -> None:
+@compact_option
+@unbuilt_dry_run_option
+def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None, no_embed: bool,
+                          compact: bool) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
     \b
@@ -1653,6 +1761,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
         if not no_embed:
             _run_passage_sweep()
+        _echo_json({"mode": "document", "domain": domain, "document": document_name, "written": 1, "failed": 0,
+                    "embedded": not no_embed}, compact)
         return
 
     # ── folder (batch) mode ───────────────────────────────────────────────
@@ -1676,11 +1786,11 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         if not doc_dirs:
             raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
 
-        click.echo(f"\nNo document.json found in immediate sub-folders. Found {len(doc_dirs)} document(s) recursively:\n")
+        click.echo(f"\nNo document.json found in immediate sub-folders. Found {len(doc_dirs)} document(s) recursively:\n", err=True)
         for d in doc_dirs:
-            click.echo(f"  {d.relative_to(folder_path)}")
-        click.echo()
-        if not click.confirm(f"Write all {len(doc_dirs)} document(s) to graph (domain={resolved_domain})?"):
+            click.echo(f"  {d.relative_to(folder_path)}", err=True)
+        click.echo(err=True)
+        if not click.confirm(f"Write all {len(doc_dirs)} document(s) to graph (domain={resolved_domain})?", err=True):
             raise click.Abort()
 
     logger.info(
@@ -1689,6 +1799,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     )
 
     ok_count, fail_count = 0, 0
+    failed_names: list[str] = []
     for doc_kg_dir in doc_dirs:
         logger.info("  writing {} …", doc_kg_dir.name)
         try:
@@ -1696,9 +1807,11 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
                 ok_count += 1
             else:
                 fail_count += 1
+                failed_names.append(doc_kg_dir.name)
                 logger.error("  FAILED: {}", doc_kg_dir.name)
         except Exception as e:
             fail_count += 1
+            failed_names.append(doc_kg_dir.name)
             logger.error("  FAILED: {} — {}", doc_kg_dir.name, e)
 
     logger.info(
@@ -1707,6 +1820,9 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     )
     if not no_embed and ok_count:
         _run_passage_sweep()
+    _echo_json({"mode": "folder", "domain": resolved_domain, "documents": len(doc_dirs), "written": ok_count,
+                "failed": fail_count, "failed_documents": failed_names, "embedded": bool(not no_embed and ok_count)},
+               compact)
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
@@ -1720,7 +1836,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     " domains/table_mappings/ whose `table:` pattern matches each table.",
 )
 @click.option("--asOf", "as_of", default=None, help="Temporal (SCD-2) tables only: project just the row versions in force on this ISO date. Default: every version.")
-@click.option("--dryRun", "dry_run", is_flag=True, help="Validate the mapping and report what would be built; write nothing.")
+@dry_run_option("Validate the mapping and report what would be built; write nothing.")
 @click.option("--noEmbed", "no_embed", is_flag=True, help="Skip the post-commit entity/chunk embedding sweeps (run `ingest embed-entities` / `embed-passages` later).")
 @click.option(
     "--pending", "pending", is_flag=True,
@@ -1728,7 +1844,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     " missing, older than the table's last refresh, or older than the mapping's last change, as"
     " [{table, domain, mapping, reason}]. Read-only. Takes no TABLE; --domain scopes it.",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def ingest_table2graph(
     tables: tuple[str, ...],
     domain: tuple[str, ...],
@@ -1784,6 +1900,7 @@ def ingest_table2graph(
             raise click.ClickException("--asOf needs a full ISO date (YYYY-MM-DD) or 'today'")
 
     reports = []
+    rows = []
     for table_name in tables:
         row = _resolve_table_row(table_name, domain, allow_mapping_stem=True)
         try:
@@ -1811,14 +1928,21 @@ def ingest_table2graph(
         except table2graph.MappingError as e:
             raise click.ClickException(str(e))
         reports.append(report)
-    _echo_json({"command": "ingest table2graph", "tables": reports}, compact)
+        rows.append(row)
+    _echo_json(
+        with_effect({"command": "ingest table2graph", "tables": reports},
+                    table2graph.effect_for(rows, reports), dry_run=dry_run),
+        compact,
+    )
 
 
 @ingest.command("pull-kg")
 @click.option("--repo", required=True, help="Git-cloneable URL (SSH or HTTPS) of the external repository")
-@click.option("--repo-path", required=True, help="Path within the repo to the folder containing document sub-folders")
+@aliased_option("--repoPath", "--repo-path", param="repo_path", required=True, help="Path within the repo to the folder containing document sub-folders")
 @click.option("--domain", required=True, help="Target domain name")
-def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
+@compact_option
+@unbuilt_dry_run_option
+def ingest_pull_kg(repo: str, repo_path: str, domain: str, compact: bool) -> None:
     """Pull KG JSON from an external GitHub repo into the local KG directory.
 
     \b
@@ -1829,7 +1953,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     Example:
       artmind ingest pull-kg \\
         --repo git@github.com:acme/kg-store.git \\
-        --repo-path data/kg/sales_collateral \\
+        --repoPath data/kg/sales_collateral \\
         --domain sales_collateral
     """
     _setup_logger()
@@ -1841,6 +1965,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
         "pull-kg complete: {} document(s) pulled into domain '{}'",
         result["pulled_count"], result["domain"],
     )
+    _echo_json(result if isinstance(result, dict) else {"result": result}, compact)
 
 
 @ingest.command("refine-graph")
@@ -1863,12 +1988,7 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     show_default=True,
     help="String similarity threshold for clustering (0–1)",
 )
-@click.option(
-    "--dry-run",
-    is_flag=True,
-    default=False,
-    help="Compute and write proposals only; do NOT apply merges to Neo4j",
-)
+@dry_run_option("Compute and write proposals only; do NOT apply merges to Neo4j")
 @click.option(
     "--output",
     "output_file",
@@ -1876,21 +1996,21 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     type=click.Path(),
     help="Write proposals JSON to this file (default: data/refine/proposed_merges.json)",
 )
-@click.option(
-    "--from-file",
-    "from_file",
+@aliased_option(
+    "--fromFile", "--from-file",
+    param="from_file",
     default=None,
     type=click.Path(exists=True),
     help="Skip computation — load proposals from a previous dry-run JSON file and apply them",
 )
-@click.option(
-    "--allow-cross-domain-merge",
-    "allow_cross_domain_merge",
+@aliased_option(
+    "--allowCrossDomainMerge", "--allow-cross-domain-merge",
+    param="allow_cross_domain_merge",
     is_flag=True,
     default=False,
     help=(
         "Allow merging same-named entities across domains (default: skip and report them). "
-        "Only applies when computing proposals via clustering; has no effect with --from-file, "
+        "Only applies when computing proposals via clustering; has no effect with --fromFile, "
         "which applies proposals already vetted at dry-run time."
     ),
 )
@@ -1899,10 +2019,11 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     help=(
         "Cluster only the names ONE document's chunks gave things (matched by name, path or id,"
         " as `query document-history` does) -- for a single amendment that extraction split into"
-        " one entity per chunk. Works with --dry-run; the report counts the merges that join names"
+        " one entity per chunk. Works with --dryRun; the report counts the merges that join names"
         " one document asserted both of."
     ),
 )
+@compact_option
 def ingest_refine_graph(
     domain: str | None,
     name_filter: str | None,
@@ -1913,6 +2034,7 @@ def ingest_refine_graph(
     from_file: str | None,
     allow_cross_domain_merge: bool,
     document_name: str | None,
+    compact: bool,
 ) -> None:
     """Find similar entity names, propose same-as groups for a human to approve.
 
@@ -1922,9 +2044,9 @@ def ingest_refine_graph(
 
     \b
     Workflow:
-      1. Dry-run:  artmind ingest refine-graph --dry-run --output merges.json
+      1. Dry-run:  artmind ingest refine-graph --dryRun --output merges.json
       2. Review merges.json and edit if needed
-      3. Propose:  artmind ingest refine-graph --from-file merges.json
+      3. Propose:  artmind ingest refine-graph --fromFile merges.json
       4. Approve:  artmind sameas list / artmind sameas approve <id>
     """
     _setup_logger()
@@ -1964,25 +2086,36 @@ def ingest_refine_graph(
             f"skipped={stats.get('skipped',0)} "
             f"skipped_cross_class={stats.get('skipped_cross_class',0)} "
             f"skipped_ambiguous={stats.get('skipped_ambiguous',0)}. "
-            "Review with `artmind sameas list`, then `artmind sameas approve <id>`."
+            "Review with `artmind sameas list`, then `artmind sameas approve <id>`.",
+            err=True,
         )
     else:
         within = report.get("within_document_merges")
         click.echo(
             f"Dry-run complete — {len(proposed)} merge(s) proposed"
-            + (f", {within} within one document" if within is not None else "")
+            + (f", {within} within one document" if within is not None else ""),
+            err=True,
         )
         if out_path:
-            click.echo(f"Proposals written to: {out_path}")
-            click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")
+            click.echo(f"Proposals written to: {out_path}", err=True)
+            click.echo(f"To apply: artmind ingest refine-graph --fromFile {out_path}", err=True)
 
     skipped = report.get("skipped_cross_domain", {})
     if skipped:
-        click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
-
-
-
-
+        click.echo(
+            f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allowCrossDomainMerge to merge): {skipped}",
+            err=True,
+        )
+    _echo_json({
+        "dry_run": bool(dry_run and not from_path),
+        "proposed": len(proposed),
+        "within_document_merges": report.get("within_document_merges"),
+        "stats": stats,
+        "skipped_cross_domain": skipped,
+        "output_file": str(out_path) if out_path else None,
+        "next": (f"artmind ingest refine-graph --fromFile {out_path}" if (dry_run and not from_path and out_path)
+                 else "artmind sameas list" if (from_path or not dry_run) else None),
+    }, compact)
 
 
 @ingest.command("detect-conflicts")
@@ -1992,10 +2125,10 @@ def ingest_refine_graph(
 @click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
 @click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
 @click.option("--model", default=None, help="Adjudication LLM model (default: env)")
-@click.option("--dry-run", is_flag=True, help="Compute proposals + write --output; do NOT materialize")
+@dry_run_option("Compute proposals + write --output; do NOT materialize")
 @click.option("--output", "output_file", default=None, type=click.Path(), help="Write proposals JSON here")
-@click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@aliased_option("--fromFile", "--from-file", param="from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
+@compact_option
 def ingest_detect_conflicts(
     domain: tuple,
     name_filter: str | None,
@@ -2011,12 +2144,12 @@ def ingest_detect_conflicts(
     """Detect non-destructive conflicts between entities across domains.
 
     \b
-    Precondition: run intra-domain `refine-graph` (no --allow-cross-domain-merge)
+    Precondition: run intra-domain `refine-graph` (no --allowCrossDomainMerge)
     on each target domain first, so pairing operates on deduplicated entities.
     Workflow:
-      1. artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json
+      1. artmind ingest detect-conflicts --domain A --domain B --dryRun --output conflicts.json
       2. Review conflicts.json
-      3. artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json
+      3. artmind ingest detect-conflicts --domain A --domain B --fromFile conflicts.json
     """
     _setup_logger()
     from artmind.conflicts import detect_conflicts
@@ -2036,8 +2169,9 @@ def ingest_detect_conflicts(
 @click.argument("conflict_id")
 @click.option("--status", type=click.Choice(["resolved", "dismissed"]), required=True, help="How this conflict was closed")
 @click.option("--reason", default=None, help="Why — recorded on the Conflict node for audit")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, compact: bool) -> None:
+@dry_run_option("Look the conflict up and report the `effect`; write no record and no status")
+@compact_option
+def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, dry_run: bool, compact: bool) -> None:
     """Close a materialized conflict as resolved or dismissed.
 
     Detection never closes conflicts on its own — two authorities disagreeing is
@@ -2047,10 +2181,10 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, c
     _setup_logger()
     from artmind.conflicts import resolve_conflict
     try:
-        result = resolve_conflict(conflict_id, status, reason=reason)
+        result = resolve_conflict(conflict_id, status, reason=reason, dry_run=dry_run)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
-    _echo_json(result, compact)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @ingest.command("supersede")
@@ -2059,8 +2193,11 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, c
 @click.option("--older", "older_name", required=True, help="Superseded document name")
 @click.option("--scope", type=click.Choice(["document", "section", "clause"]), default="document", show_default=True)
 @click.option("--effective", default=None, help="ISO date the supersession takes effect")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
+@dry_run_option("Resolve both documents and report the effect; write no record, edge or retirement")
+@compact_option
+def ingest_supersede(
+    domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, dry_run: bool, compact: bool,
+) -> None:
     """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to).
 
     The assertion is also a vault file (.artmind/data/curation/supersessions/),
@@ -2097,16 +2234,22 @@ def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, 
             f"the same name (e.g. from re-ingesting an edited file): {ambiguous}. "
             "Resolve manually before superseding."
         )
-    _echo_json(
-        apply_supersession(by_name[newer_name][0], by_name[older_name][0], scope, effective),
-        compact,
-    )
+    from artmind.temporal import supersession_effect
+
+    newer_id, older_id = by_name[newer_name][0], by_name[older_name][0]
+    effect = supersession_effect(newer_id, older_id, scope, effective)
+    if dry_run:
+        result = {"newer": newer_id, "older": older_id, "scope": scope, "effective": effective,
+                  "effect": effect, "dry_run": True}
+    else:
+        result = {**apply_supersession(newer_id, older_id, scope, effective), "effect": effect}
+    _echo_json(result, compact)
 
 
 @ingest.command("detect-supersession")
 @click.option("--domain", required=True, help="Domain to scan for supersession declarations (notices, metadata rows, and — when the schema enables supersede_on_title_family — title-family version chains)")
-@click.option("--dry-run", is_flag=True, help="Report matches without writing")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Report matches without writing")
+@compact_option
 def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> None:
     """Scan documents for supersession declarations and apply SUPERSEDES edges.
 
@@ -2141,7 +2284,7 @@ def db():
 
 @db.command("list")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_list(domain, compact):
     """List registered structured tables, optionally domain-scoped."""
     domains = _parse_domains(domain) if domain else None
@@ -2151,7 +2294,7 @@ def db_list(domain, compact):
 @db.command("schema")
 @click.argument("table", required=False)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_schema(table, domain, compact):
     """Show columns/types (+ profiles/mappings once populated) — the context an LLM needs to write SQL."""
     domains = _parse_domains(domain) if domain else None
@@ -2170,7 +2313,7 @@ def db_schema(table, domain, compact):
 
 @db.command("sql")
 @click.argument("sql")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_sql(sql, compact):
     """Run raw read-only SQL against the structured store — no LLM (the independent-query guarantee)."""
     try:
@@ -2190,7 +2333,7 @@ def db_sql(sql, compact):
 @click.argument("table")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (_valid_from <= asOf; _valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date; omit for the currently-open rows.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_timeline(table, domain, as_of, compact):
     """Point-in-time query over a temporal (SCD-2) table's captured history.
 
@@ -2356,7 +2499,7 @@ def _ctx_table_id(ctx: click.Context) -> int:
 @click.argument("table", cls=_PeeledArgument, required=True, expose_value=False)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option("--acceptProposed", "accept_proposed", is_flag=True, help="Confirm all proposed mappings (bulk/non-interactive)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.pass_context
 def db_mappings(ctx, table, domain, accept_proposed, compact):
     """List proposed vs confirmed mappings for TABLE (default action)."""
@@ -2379,8 +2522,9 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
 @click.option("--column", required=True)
 @click.option("--entityClass", "entity_class", required=True)
 @click.option("--confidence", type=float, default=1.0)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.pass_context
+@unbuilt_dry_run_option
 def db_mappings_set(ctx, column, entity_class, confidence, compact):
     """Upsert a confirmed column-to-entityClass mapping."""
     table_id = _ctx_table_id(ctx)
@@ -2394,8 +2538,9 @@ def db_mappings_set(ctx, column, entity_class, confidence, compact):
 @db_mappings.command("confirm")
 @click.option("--column", required=True)
 @click.option("--entityClass", "entity_class", required=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.pass_context
+@unbuilt_dry_run_option
 def db_mappings_confirm(ctx, column, entity_class, compact):
     """Flip an existing proposed mapping to confirmed.
 
@@ -2419,8 +2564,9 @@ def db_mappings_confirm(ctx, column, entity_class, compact):
 
 @db_mappings.command("clear")
 @click.option("--column", default=None, help="Clear only this column's mappings (omit to clear all of the table's mappings)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.pass_context
+@unbuilt_dry_run_option
 def db_mappings_clear(ctx, column, compact):
     """Remove mapping(s) for TABLE — one column, or all if --column omitted.
 
@@ -2441,7 +2587,7 @@ def db_mappings_clear(ctx, column, compact):
 @db.group("bridge", invoke_without_command=True)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
 @click.option("--entityClass", "entity_class", default=None, help="Only tables whose class scope contains this class.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.pass_context
 def db_bridge(ctx, domain, entity_class, compact):
     """Read the structured↔graph bridge: class scope, bridge columns, grain.
@@ -2474,7 +2620,8 @@ def db_bridge(ctx, domain, entity_class, compact):
 @click.option("--table", "table", required=True, help="Table the column belongs to.")
 @click.option("--column", required=True, help="Column whose bridge role is being confirmed.")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_bridge_confirm(table, column, domain, compact):
     """Mark a proposed bridge column as operator-confirmed.
 
@@ -2504,7 +2651,8 @@ def db_bridge_confirm(table, column, domain, compact):
 @click.option("--table", "table", required=True, help="Table the column belongs to.")
 @click.option("--column", default=None, help="Clear only this column's bridge role (omit to clear all of the table's).")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_bridge_clear(table, column, domain, compact):
     """Remove bridge role(s) — one column, or all of TABLE's if --column omitted.
 
@@ -2527,7 +2675,7 @@ def db_bridge_clear(table, column, domain, compact):
 
 @db.command("review")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_review(domain, compact):
     """List every table classification still awaiting human adjudication.
 
@@ -2584,7 +2732,8 @@ def db_review(domain, compact):
 @click.option("--step", "steps", multiple=True, type=click.Choice(["grain", "bridge", "mapping"]), help="Restrict to specific step(s) (repeatable). Default: all three, each skipped if already 'ok' unless --redo.")
 @click.option("--redo", is_flag=True, help="Re-run a step even though its status is already 'ok'.")
 @click.option("--model", default=None, help="Override the LLM model used for grain/bridge/mapping proposal.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_propose(table, domain, steps, redo, model, compact):
     """Re-run classification for TABLE: grain, bridge columns, and column-to-entityClass mappings.
 
@@ -2610,7 +2759,8 @@ def db_propose(table, domain, steps, redo, model, compact):
 @click.argument("table")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option("--set", "grain", default=None, type=click.Choice(structured_registry.GRAINS), help="Confirm TABLE's grain. Omit to just show it.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_grain(table, domain, grain, compact):
     """Show or confirm what TABLE's rows denote — instance, lookup, or normative.
 
@@ -2641,7 +2791,7 @@ def db_grain(table, domain, grain, compact):
 
 @db.command("catalogue")
 @click.option("--domain", "domain", required=True, help="Domain to rebuild the catalogue subgraph for (rolls up sub-domains)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_catalogue(domain, compact):
     """Rebuild the Neo4j catalogue subgraph (Table/TableColumn/EntityClass) for a domain from the registry.
 
@@ -2664,7 +2814,8 @@ def db_catalogue(domain, compact):
 @db.command("refresh")
 @click.argument("table")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable) — needed only if TABLE is ambiguous across domains.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_refresh(table, domain, compact):
     """Re-ingest TABLE from its recorded source_file.
 
@@ -2696,7 +2847,7 @@ def db_connect(dsn):
 
 
 @db.command("backup")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_backup(compact):
     """Snapshot the structured store (parquet files + registry rows) to a tar.gz."""
     path = export_structured()
@@ -2706,7 +2857,8 @@ def db_backup(compact):
 @db.command("restore")
 @click.argument("path", required=False, type=click.Path(exists=True))
 @click.option("--confirm", is_flag=True, help="Required — restoring wipes the current structured store")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_restore(path, confirm, compact):
     """Wipe and restore the structured store from a snapshot (latest if PATH omitted)."""
     if not confirm:
@@ -2720,7 +2872,7 @@ def db_restore(path, confirm, compact):
 
 @db.command("export-text")
 @click.option("--dir", "dest_dir", type=click.Path(), help="Destination directory (default: the vault's structured_text dir)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def db_export_text(dest_dir, compact):
     """Export the structured store as CSV + per-table .meta.json — git-commitable, diffable text `db restore-text` rebuilds parquet + registry rows from.
 
@@ -2741,7 +2893,8 @@ def db_export_text(dest_dir, compact):
     "(today's wholesale behavior, unchanged). Pairable with --domain for disambiguation, like `db refresh`.",
 )
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope --table resolution (repeatable; comma-splittable).")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def db_restore_text(path, confirm, table, domain, compact):
     """Wipe and rebuild the structured store from a `db export-text` directory (default: the vault's structured_text dir).
 
@@ -2852,7 +3005,7 @@ def _run_graph_pattern(
 
 @graph.command("metadata")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def graph_metadata_cmd(domain: tuple, compact: bool) -> None:
     """Return graph schema metadata (labels, properties, relationship types)."""
     domains = _parse_domains(domain)
@@ -2866,7 +3019,7 @@ def graph_metadata_cmd(domain: tuple, compact: bool) -> None:
 @graph.command("structural-metadata")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--maxNames", "max_names", type=int, default=graph_query.STRUCTURAL_METADATA_MAX_NAMES, show_default=True, help="Max Document names returned (sorted first); names_total carries the full count")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def graph_structural_metadata_cmd(domain: tuple, max_names: int, compact: bool) -> None:
     """Return focused structural metadata (Document, DocChunk, UserChat, Entity counts and relationships)."""
     domains = _parse_domains(domain)
@@ -2882,7 +3035,7 @@ def graph_structural_metadata_cmd(domain: tuple, max_names: int, compact: bool) 
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
 @click.option("--maxNames", "max_names", type=int, default=graph_query.ENTITY_LISTING_MAX_NAMES, show_default=True, help="Max names returned per type group (sorted first); names_total carries the full count")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def graph_entity_listing_cmd(
     domain: tuple, name_filter: str | None, count_all: bool, max_names: int, compact: bool
 ) -> None:
@@ -2903,7 +3056,7 @@ def graph_entity_listing_cmd(
 @click.option("--area", "area", default=None, help="Filter by area (ADR 0010 filing metadata)")
 @click.option("--tag", "tag", multiple=True, help="Filter by tag (repeatable; matches ANY listed tag)")
 @click.option("--asOf", "as_of", default=None, help="Only docs in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; docs without valid-time always shown")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | None, tag: tuple, as_of: str | None, compact: bool) -> None:
     """List Documents filtered by filing taxonomy (project, area, tags, domain)."""
     domains = _parse_domains(domain) if domain else None
@@ -2925,7 +3078,7 @@ def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | Non
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
 @click.option("--limit", type=int, default=200, show_default=True, help="Max results")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern1(domain: tuple, entity_class: str, limit: int, compact: bool, question: str | None) -> None:
     """List entities of a class."""
@@ -2939,7 +3092,7 @@ def graph_pattern1(domain: tuple, entity_class: str, limit: int, compact: bool, 
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable; comma-splittable; overrides name list)")
 @click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
 @click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern2(
     domain: tuple, entity_name_list: tuple, entity_id_list: tuple,
@@ -2961,7 +3114,7 @@ def graph_pattern2(
 @click.option("--maxConnections", "max_connections", type=int, default=graph_query.PATTERN_MAX_CONNECTIONS, show_default=True, help="Max connections returned per entity; connections_total carries the full count")
 @click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
 @click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern3(
     domain: tuple, entity_name_list: tuple, entity_id_list: tuple,
@@ -2987,7 +3140,7 @@ def graph_pattern3(
 @click.option("--maxListItems", "max_list_items", type=int, default=graph_query.PATTERN4_MAX_LIST_ITEMS, show_default=True, help="Max items kept (newest first) of each list property on a connected entity")
 @click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned; doc_sources_total carries the full count")
 @click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned; source_documents_total carries the full count")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern4(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
@@ -3019,7 +3172,7 @@ def graph_pattern4(
     show_default=True,
     help="Path mode",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern5(
     domain: tuple,
@@ -3053,7 +3206,7 @@ def graph_pattern5(
 @click.option("--entityName2", "entity_name2", default=None, help="Name of second entity")
 @click.option("--entityId1", "entity_id1", default=None, help="Exact id of first entity (overrides --entityName1)")
 @click.option("--entityId2", "entity_id2", default=None, help="Exact id of second entity (overrides --entityName2)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern6(
     domain: tuple,
@@ -3077,7 +3230,7 @@ def graph_pattern6(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
 @click.option("--limit", type=click.IntRange(1, graph_query.PATTERN7_MAX_LIMIT), default=10, show_default=True, help="Max results")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern7(domain: tuple, search_term: str, limit: int, compact: bool, question: str | None) -> None:
     """Search entities by name or description fragment."""
@@ -3092,7 +3245,7 @@ def graph_pattern7(domain: tuple, search_term: str, limit: int, compact: bool, q
 @click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
 @click.option("--limit", type=int, default=graph_query.PATTERN8_DEFAULT_LIMIT, show_default=True, help="Max rows; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many rows before --limit; page past a truncated result with offset += limit")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern8(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
@@ -3118,7 +3271,7 @@ def graph_pattern8(
     show_default=True,
     help="Degree to rank by: entity-entity relationships, source mentions, or all edges",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern9(
     domain: tuple, entity_class: str, top_n: int, degree_mode: str, compact: bool, question: str | None
@@ -3138,7 +3291,7 @@ def graph_pattern9(
 @click.option("--asOf", "as_of", default=None, help="Alias of --includeHistory kept for old callers: any value turns history on. It is NOT a date filter here (chunks carry no date of their own)")
 @click.option("--limit", type=int, default=graph_query.PATTERN10_DEFAULT_LIMIT, show_default=True, help="Max chunks; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many chunks (ordered by chunk id) before --limit; page past a truncated result with offset += limit")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_pattern10(
     domain: tuple, document_name: str, include_history: bool, as_of: str | None, limit: int, offset: int,
@@ -3175,8 +3328,8 @@ def graph_pattern10(
 
 @graph.command("text2cypher")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Show generated Cypher without executing it")
+@compact_option
+@dry_run_option("Show generated Cypher without executing it")
 @click.option("--maxRows", "max_rows", type=int, default=text2cypher.TEXT2CYPHER_MAX_ROWS, show_default=True, help="Max rows returned; rows_total carries the full count")
 @click.argument("question")
 def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int, question: str) -> None:
@@ -3204,7 +3357,7 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int
 @click.option("--entityId", "entity_id", multiple=True, help="Filter to conflicts touching this entity id (repeatable; comma-splittable)")
 @click.option("--entityName", "entity_name", default=None, help="Filter to conflicts touching an entity whose name contains this")
 @click.option("--status", type=click.Choice(["open", "resolved", "dismissed", "all"]), default="open", show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, status: str, compact: bool) -> None:
     """List materialized Conflict nodes scoped to the given domains."""
     domains = _parse_domains(domain)
@@ -3218,7 +3371,7 @@ def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, st
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain(s)")
 @click.option("--from", "from_", default=None, help="ISO date: only entities with valid_from on or after this")
 @click.option("--to", "to", default=None, help="ISO date: only entities with valid_from on or before this")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def graph_timeline(domain: tuple, from_: str | None, to: str | None, compact: bool) -> None:
     """Every entity of a `kind: occurrent` class in these domains, ordered by valid_from.
 
@@ -3240,7 +3393,7 @@ def graph_timeline(domain: tuple, from_: str | None, to: str | None, compact: bo
 @click.option("--maxDepth", "max_depth", type=int, default=graph_query.HIERARCHY_DEFAULT_DEPTH, show_default=True, help=f"1-{graph_query.HIERARCHY_MAX_DEPTH}")
 @click.option("--limit", type=int, default=graph_query.HIERARCHY_DEFAULT_LIMIT, show_default=True, help=f"Total node budget, max {graph_query.HIERARCHY_MAX_LIMIT}")
 @click.option("--nodeClass", "node_class", multiple=True, help="Classes the walk may enter (repeatable; comma-splittable). Default: any :Entity in the selected domains")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question", required=False)
 def graph_hierarchy_cmd(
     domain: tuple,
@@ -3284,7 +3437,7 @@ def graph_hierarchy_cmd(
 
 
 @query.command("domains-overview")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_domains_overview(compact: bool) -> None:
     """Per-domain routing summary: doc names/counts, entity counts, top classes."""
     _echo_json(graph_query.domains_overview(), compact)
@@ -3296,7 +3449,7 @@ def query_domains_overview(compact: bool) -> None:
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question")
 def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
                 compact: bool, question: str) -> None:
@@ -3316,7 +3469,7 @@ def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
               help="Documents to return (default 10; overridden by ARTMIND_SURVEY_TOP_DOCS)")
 @click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
               help="Best passages shown per document")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question")
 def query_survey(domain: tuple, top_docs: int | None, passages: int, compact: bool, question: str) -> None:
     """Documents for a question that spans documents: document summaries, chunk summaries and passages, fused.
@@ -3347,7 +3500,7 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, compact: bo
 @query.command("entity-resolve")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("reference")
 def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: str) -> None:
     """Resolve a name fragment or description to canonical graph entities (exact name first, then fulltext + vector via RRF)."""
@@ -3364,7 +3517,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, compact: bool) -> None:
     """Fetch chunk text by exact id (the doc_sources / evidence ids other commands return)."""
     domains = _parse_domains(domain)
@@ -3383,7 +3536,7 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
 @click.option("--relType", "rel_types", multiple=True, help="Only return connections of this rel_type (repeatable; comma-splittable). connection_summary still covers all")
 @click.option("--maxConnections", "max_connections", type=int, default=graph_query.ENTITY_CONTEXT_MAX_CONNECTIONS, show_default=True, help="Connections returned (connection_summary counts every edge)")
 @click.option("--maxListItems", "max_list_items", type=int, default=graph_query.ENTITY_CONTEXT_MAX_LIST_ITEMS, show_default=True, help="Newest items kept per list property (full lengths in truncated_properties)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_entity_context(
     domain: tuple,
     entity_id: str,
@@ -3426,7 +3579,7 @@ def query_entity_context(
 @click.option("--entityClass", "entity_class", default=None, help="With --name: only observations of this entity class")
 @click.option("--asOf", "as_of", default=None, help="Only facts in force by this date (_valid_from <= asOf; _valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'")
 @click.option("--property", "property_", default=None, help="Narrow to one property's value at each point instead of the full observation")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_entity_history(
     domain: tuple,
     entity_id: str | None,
@@ -3461,7 +3614,7 @@ def query_entity_history(
 @query.command("document-history")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (case-insensitive; a missing extension is matched when exactly one document fits), vault path, or document id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_document_history(domain: tuple, document_name: str, compact: bool) -> None:
     """What a document's ingested versions asserted: current vs history observations.
 
@@ -3485,8 +3638,8 @@ def query_document_history(domain: tuple, document_name: str, compact: bool) -> 
 @query.command("text2sql")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; comma-splittable)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; rows without temporal history always shown")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Generate SQL without executing it")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Generate SQL without executing it")
+@compact_option
 @click.argument("question")
 def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: bool, question: str) -> None:
     """Natural language to read-only DuckDB SQL against the structured store, then execute it."""
@@ -3509,7 +3662,7 @@ def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: boo
 @click.option("--column", "column", default=None, help="Scope matching to this column's profiled values (omit to resolve against the graph only)")
 @click.option("--table", "table", default=None, help="Table containing --column, if ambiguous across tables (optional)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("phrase")
 def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_k: int, compact: bool, phrase: str) -> None:
     """Resolve a free-text value to a canonical column value and/or graph entity."""
@@ -3556,7 +3709,7 @@ def query_views() -> None:
 
 @query_views.command("list")
 @click.option("--domain", "domain", multiple=True, help="Only views for this domain family (repeatable; comma-splittable). Default: all views")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_views_list(domain: tuple, compact: bool) -> None:
     """The view catalogue: name, summary, example questions, parameters. Invalid views are reported, not hidden."""
     domains = _parse_domains(domain) if domain else None
@@ -3565,7 +3718,7 @@ def query_views_list(domain: tuple, compact: bool) -> None:
 
 
 @query_views.command("show")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("name")
 def query_views_show(compact: bool, name: str) -> None:
     """The full view.yaml plus the view's SKILL.md guidance (read it before running the view)."""
@@ -3580,7 +3733,7 @@ def query_views_show(compact: bool, name: str) -> None:
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--param", "params", multiple=True, help="name=value (repeatable). Entity params take a name, or @<_id> to skip resolution; list params are comma-separated")
 @click.option("--render", "render", type=click.Choice(["markdown"]), default=None, help="Also return `rendered`: deterministic markdown per the view's presentation")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("name")
 def query_views_run(domain: tuple, params: tuple, render: str | None, compact: bool, name: str) -> None:
     """Run a saved view. status is ok | needs_disambiguation (ask the user, rerun with @<_id>) | no_match."""
@@ -3600,7 +3753,7 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
 @click.option("--execute", is_flag=True, help="Also run the step when the plan is one high-confidence saved view")
 @click.option("--classifier", type=click.Choice(["auto", "lexical", "decision"]), default="auto", show_default=True,
               help="auto: the decision model when ARTMIND_DECISION_URL is set, else lexical rules")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("question")
 def query_plan_command(domain: tuple, execute: bool, classifier: str, compact: bool, question: str) -> None:
     """Plan the retrieval for a question: domains, saved view, route and ready-to-run steps.
@@ -3639,7 +3792,7 @@ def query_insights() -> None:
 @click.option("--kind", type=click.Choice(["corpus", "health"]), default=None)
 @click.option("--new", "only_new", is_flag=True, help="Only what changed since the previous run")
 @click.option("--limit", default=25, show_default=True, type=click.IntRange(1))
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_insights_list(domain: tuple, detector: str | None, kind: str | None, only_new: bool, limit: int,
                         compact: bool) -> None:
     """Top findings by score, with captions and the subjects' _ids for grounding."""
@@ -3647,15 +3800,16 @@ def query_insights_list(domain: tuple, detector: str | None, kind: str | None, o
 
     name = _one_domain(domain)
     run = _latest_insights(name)
+    items = list_findings(run, detector=detector, kind=kind, only_new=only_new)
     _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at,
                 "circles": [circle_summary(c) for c in run.circles],
-                "findings": [finding_summary(f) for f in list_findings(run, detector=detector, kind=kind,
-                                                                     only_new=only_new, limit=limit)]}, compact)
+                "findings": [finding_summary(f) for f in items[:limit]],
+                "rows_total": len(items), "truncated": len(items) > limit}, compact)
 
 
 @query_insights.command("show")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("key")
 def query_insights_show(domain: tuple, compact: bool, key: str) -> None:
     """One finding with its full stats and card (the evidence behind a caption)."""
@@ -3707,7 +3861,7 @@ def query_topics() -> None:
 @query_topics.command("list")
 @click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
 @click.option("--stale", "only_stale", is_flag=True, help="Only stale pages")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def query_topics_list(domain: tuple, only_stale: bool, compact: bool) -> None:
     """Every topic page with its domains, build date, anchor, source count and staleness."""
     from artmind.topics import store
@@ -3724,7 +3878,7 @@ def query_topics_list(domain: tuple, only_stale: bool, compact: bool) -> None:
 
 
 @query_topics.command("show")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("slug")
 def query_topics_show(compact: bool, slug: str) -> None:
     """One topic page: its body (with footnotes), sources, checks and staleness."""
@@ -3766,7 +3920,7 @@ def _validate_folder(folder: Path) -> dict:
 
 @views_group.command("validate")
 @click.option("--path", "path", type=click.Path(exists=True, file_okay=False, path_type=Path), default=None, help="A draft folder (view.yaml + SKILL.md) instead of a saved view")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("name", required=False)
 def views_validate(path: Path | None, compact: bool, name: str | None) -> None:
     """Static checks only (no Neo4j). With no NAME/--path, validates every saved view. Exit 1 if any fails."""
@@ -3792,7 +3946,7 @@ def views_validate(path: Path | None, compact: bool, name: str | None) -> None:
 @click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to run against (repeatable; comma-splittable)")
 @click.option("--param", "params", multiple=True, help="name=value (repeatable)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
     """Validate a draft, run it live, and show rows, rendered markdown and the EXPLAIN plan. Writes nothing."""
     domains = _parse_domains(domain)
@@ -3826,23 +3980,25 @@ def views_test(path: Path, domain: tuple, params: tuple, compact: bool) -> None:
 
 @views_group.command("save")
 @click.option("--path", "path", required=True, type=click.Path(exists=True, file_okay=False, path_type=Path), help="Draft folder")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def views_save(path: Path, compact: bool) -> None:
+@dry_run_option("Run every check and report the effect; save nothing")
+@compact_option
+def views_save(path: Path, compact: bool, dry_run: bool) -> None:
     """Validate a draft and copy it into the views directory. A changed query needs a higher `version` (no --force)."""
     try:
-        result = views_store.save_view(path)
+        result = views_store.save_view(path, dry_run=dry_run)
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
 
 
 @views_group.command("delete")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Report which view would be deleted; delete nothing")
+@compact_option
 @click.argument("name")
-def views_delete(compact: bool, name: str) -> None:
+def views_delete(compact: bool, name: str, dry_run: bool) -> None:
     """Delete a saved view folder."""
     try:
-        result = views_store.delete_view(name)
+        result = views_store.delete_view(name, dry_run=dry_run)
     except ViewError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -3890,12 +4046,13 @@ def _latest_insights(domain: str):
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain to analyse (one)")
 @click.option("--force", is_flag=True, help="Run even if graph, schemas, curation and config are unchanged")
 @click.option("--only", "only", default=None, help="Comma-separated detectors; other findings are carried over")
-@click.option("--no-narrate", "no_narrate", is_flag=True, help="Skip the LLM captions and circle names this run")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@aliased_option("--noNarrate", "--no-narrate", param="no_narrate", is_flag=True, help="Skip the LLM captions and circle names this run")
+@compact_option
+@unbuilt_dry_run_option
 def insights_refresh(domain: tuple, force: bool, only: str | None, no_narrate: bool, compact: bool) -> None:
     """Profile the graph, run the detectors, narrate findings and circles, and write a snapshot. Needs Neo4j.
 
-    Narration (LLM captions and circle names) is cached by finding content; `--no-narrate` skips it."""
+    Narration (LLM captions and circle names) is cached by finding content; `--noNarrate` skips it."""
     from artmind.insights import runner as insights_runner
     from artmind.insights.model import InsightsError
 
@@ -3914,7 +4071,7 @@ def insights_refresh(domain: tuple, force: bool, only: str | None, no_narrate: b
 @click.option("--kind", type=click.Choice(["corpus", "health"]), default=None, help="Corpus findings or graph health")
 @click.option("--new", "only_new", is_flag=True, help="Only what changed since the previous run (new, changed, gone)")
 @click.option("--limit", default=50, show_default=True, type=click.IntRange(1), help="Maximum findings")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def insights_list(domain: tuple, detector: str | None, kind: str | None, only_new: bool, limit: int, compact: bool) -> None:
     """Findings from the latest snapshot, highest score first. No Neo4j."""
     name = _one_domain(domain)
@@ -3929,12 +4086,13 @@ def insights_list(domain: tuple, detector: str | None, kind: str | None, only_ne
              "diff": f.diff, "action": f.action}
             for f in items[:limit]
         ],
+        "rows_total": len(items), "truncated": len(items) > limit,
     }, compact)
 
 
 @insights_group.command("show")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 @click.argument("key")
 def insights_show(domain: tuple, compact: bool, key: str) -> None:
     """One finding with its full evidence and card. No Neo4j."""
@@ -3948,7 +4106,7 @@ def insights_show(domain: tuple, compact: bool, key: str) -> None:
 
 @insights_group.command("profile")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def insights_profile(domain: tuple, compact: bool) -> None:
     """The graph's shape profile and inferred anchors. Needs Neo4j; writes nothing."""
     import yaml
@@ -3972,7 +4130,7 @@ def insights_profile(domain: tuple, compact: bool) -> None:
 
 @insights_group.command("runs")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def insights_runs(domain: tuple, compact: bool) -> None:
     """Snapshot history with diff counts. No Neo4j."""
     from artmind.insights import store as insights_store
@@ -3993,9 +4151,9 @@ def insights_runs(domain: tuple, compact: bool) -> None:
 @insights_group.command("same-as")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
 @click.option("--export", "export", type=click.Path(dir_okay=False, path_type=Path), default=None,
-              help="Write the candidates as `ingest refine-graph --from-file` input")
-@click.option("--min-score", "min_score", type=click.FloatRange(0, 1), default=0.5, show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+              help="Write the candidates as `ingest refine-graph --fromFile` input")
+@aliased_option("--minScore", "--min-score", param="min_score", type=click.FloatRange(0, 1), default=0.5, show_default=True)
+@compact_option
 def insights_same_as(domain: tuple, export: Path | None, min_score: float, compact: bool) -> None:
     """Probable duplicates from the latest snapshot; --export feeds the same-as review queue. No Neo4j.
 
@@ -4013,7 +4171,7 @@ def insights_same_as(domain: tuple, export: Path | None, min_score: float, compa
     if export is not None:
         export.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         result.update(export=str(export),
-                      next=f"artmind ingest refine-graph --domain {name} --from-file {export}")
+                      next=f"artmind ingest refine-graph --domain {name} --fromFile {export}")
     else:
         result["proposed_merges"] = merges
     _echo_json(result, compact)
@@ -4027,7 +4185,7 @@ def insights_config_group() -> None:
 
 @insights_config_group.command("check")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def insights_config_check(domain: tuple, compact: bool) -> None:
     """Errors (exit 1): unknown classes or properties, unresolvable anchors. Warnings: values never seen. Needs Neo4j."""
     import yaml as _yaml
@@ -4070,8 +4228,8 @@ def topic_group() -> None:
 @click.option("--slug", default=None, help="File name (default: from the topic)")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
 @click.option("--model", default=None, help="LLM model (default: env)")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Show the anchor, documents and call count; write nothing")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Show the anchor, documents and call count; write nothing")
+@compact_option
 def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | None", out: "Path | None",
                 model: "str | None", dry_run: bool, compact: bool) -> None:
     """Build (or rebuild) one topic page."""
@@ -4093,8 +4251,8 @@ def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | 
 @click.option("--stale", "only_stale", is_flag=True, help="Rebuild every stale page")
 @click.option("--all", "every", is_flag=True, help="Rebuild every page")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
-@click.option("--dry-run", "dry_run", is_flag=True, help="Show what would be rebuilt; write nothing")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Show what would be rebuilt; write nothing")
+@compact_option
 def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path | None", dry_run: bool,
                   compact: bool) -> None:
     """Rebuild pages from their recorded topic and domains (the survey runs again)."""
@@ -4114,20 +4272,52 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
     results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
                                 max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
                                 dry_run=dry_run) for p in pages]
-    _echo_json({"refreshed": results}, compact)
+    payload = {"refreshed": results}
+    effects = [r["effect"] for r in results if r.get("effect")]
+    if effects:
+        written = [r["slug"] for r in results if r.get("effect", {}).get("changes")]
+        calls = sum(e["llm"]["calls"] for e in effects)
+        effect = Effect(
+            summary=f"Rebuild {len(written)} topic page(s) ({calls} LLM call(s)).",
+            changes=[Change("topic_write", len(written), written)] if written else [],
+            llm_calls=calls,
+            llm_model=next((e["llm"]["model"] for e in effects if e["llm"]["model"]), None),
+            reversible=False,
+            travels=True,
+            records=[rec for e in effects for rec in e["records"]],
+        )
+        payload = with_effect(payload, effect, dry_run=dry_run)
+    _echo_json(payload, compact)
 
 
 @topic_group.command("delete")
 @click.argument("slug")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
-def topic_delete(slug: str, out: "Path | None") -> None:
+@dry_run_option("Report the page that would be deleted; delete nothing")
+@compact_option
+def topic_delete(slug: str, out: "Path | None", compact: bool, dry_run: bool) -> None:
     """Delete one topic page (its `## My notes` go with it)."""
     from artmind.topics import store
 
     directory, _ = _topic_pages(out)
-    if not store.delete_page(directory, slug):
+    page = store.read_page(directory, slug)
+    if page is None:
         raise click.ClickException(f"no topic page {slug!r} in {directory}")
-    click.echo(f"deleted {directory / (slug + '.md')}")
+    path = directory / (slug + ".md")
+    has_notes = bool(page.notes.strip())
+    effect = Effect(
+        summary=f"delete topic page {slug!r}" + (" and its `## My notes`" if has_notes else ""),
+        changes=[Change("topic_delete", 1, [slug])],
+        travels=out is None,  # the default folder is the vault's `_Topics/`, committed with it
+        records=[str(path)],
+    )
+    payload = {"slug": slug, "deleted": str(path)}
+    if dry_run:
+        _echo_json(with_effect(payload, effect, dry_run=True), compact)
+        return
+    store.delete_page(directory, slug)
+    click.echo(f"deleted {path}", err=True)
+    _echo_json(with_effect(payload, effect), compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────
@@ -4157,7 +4347,7 @@ def _since_option(func):
 @click.option("--domain", "domain", multiple=True, help="Only turns touching this domain (repeatable; comma-splittable)")
 @_since_option
 @click.option("--limit", type=int, default=20, show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def traces_list(source, rating, domain, since, limit, compact) -> None:
     """One line per turn, newest first: id, time, rating, question, cost."""
     from artmind.traces import analysis, store
@@ -4169,25 +4359,28 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
     domains = set(_parse_repeatable(domain))
     # Push the limit down to the DB when there are no Python-side filters so
     # the store does not fetch an unbounded result set.
-    db_limit = limit if (rating is None and not domains) else None
+    filtered = rating is not None or bool(domains)
     turns = []
-    for t in store.list_turns(source=source, since=since_ts, limit=db_limit):
+    rows_total = 0 if filtered else store.count_turns(source=source, since=since_ts)
+    for t in store.list_turns(source=source, since=since_ts, limit=None if filtered else limit):
         if rating == "unrated" and t["rating"] is not None:
             continue
         if rating not in (None, "unrated") and t["rating"] != rating:
             continue
         if domains and not domains & set(t.get("domains") or []):
             continue
-        turns.append({k: t[k] for k in ("trace_id", "source", "session_id", "started_at", "rating", "question",
-                                        "turns", "cost_usd", "fell_through", "answer_basis", "status")})
-        if len(turns) >= limit:
-            break
-    _echo_json({"command": "traces_list", "turns": turns}, compact)
+        if filtered:
+            rows_total += 1
+        if len(turns) < limit:
+            turns.append({k: t[k] for k in ("trace_id", "source", "session_id", "started_at", "rating", "question",
+                                            "turns", "cost_usd", "fell_through", "answer_basis", "status")})
+    _echo_json({"command": "traces_list", "turns": turns, "rows_total": rows_total,
+                "truncated": rows_total > len(turns)}, compact)
 
 
 @traces_group.command("show")
 @click.argument("trace_id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def traces_show(trace_id, compact) -> None:
     """One turn's full evidence chain: events in order, CLI spans under the
     Bash call that ran them (with evidence and LLM calls), feedback."""
@@ -4202,7 +4395,7 @@ def traces_show(trace_id, compact) -> None:
 @traces_group.command("triage")
 @_since_option
 @click.option("--limit", type=int, default=20, show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def traces_triage(since, limit, compact) -> None:
     """Rank unreviewed turns worth reviewing: rated wrong, then partial, then
     unrated turns by signal score; graph misses rated good come last. Signals
@@ -4222,7 +4415,8 @@ def traces_triage(since, limit, compact) -> None:
 @click.argument("trace_id")
 @click.option("--rating", type=click.Choice(["good", "partial", "wrong"]), required=True)
 @click.option("--expected", default=None, help="What the answer should have said")
-def traces_feedback(trace_id, rating, expected) -> None:
+@compact_option
+def traces_feedback(trace_id, rating, expected, compact) -> None:
     """Rate a turn (the latest rating wins)."""
     from artmind.traces import store
 
@@ -4230,14 +4424,15 @@ def traces_feedback(trace_id, rating, expected) -> None:
         store.add_feedback(trace_id, rating, expected)
     except KeyError:
         raise click.ClickException(f"no trace {trace_id}") from None
-    click.echo(f"{trace_id}: {rating}")
+    click.echo(f"{trace_id}: {rating}", err=True)
+    _echo_json({"trace_id": trace_id, "rating": rating, "expected": expected}, compact)
 
 
 @traces_group.command("stats")
 @click.option("--domain", "domain", multiple=True, help="Only these domains (repeatable; comma-splittable)")
 @_since_option
 @click.option("--by", type=click.Choice(["week", "day", "all"]), default="week", show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def traces_stats(domain, since, by, compact) -> None:
     """Per domain and period: turns, fall-through rate, graph-miss rate, graph
     productivity, answer basis split, graph attempts before a fall-through,
@@ -4256,13 +4451,19 @@ def traces_stats(domain, since, by, compact) -> None:
 
 @traces_group.command("prune")
 @click.option("--days", type=int, default=None, help="Retention in days (default: ARTMIND_TRACE_RETENTION_DAYS or 90)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def traces_prune(days, compact) -> None:
+@dry_run_option("Count the turns that would be deleted; delete none")
+@compact_option
+def traces_prune(days, compact, dry_run) -> None:
     """Delete turns older than the retention window that have no feedback and no review."""
     from artmind.traces import store
 
     retention = days if days is not None else int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90"))
-    _echo_json({"pruned": store.prune(retention)}, compact)
+    count = store.prune(retention, dry_run=dry_run)
+    effect = Effect(
+        summary=f"delete {count} trace turn(s) older than {retention} days (no feedback, no review)",
+        changes=[Change("trace_delete", count, [])],
+    )
+    _echo_json(with_effect({"pruned": count}, effect, dry_run=dry_run), compact)
 
 
 # ── artmind review ────────────────────────────────────────────────────────────
@@ -4299,7 +4500,8 @@ def _load_dossier(review_id):
 @click.option("--element", "elements", multiple=True,
               help="Schema element domain/Class[.prop|-REL->] (repeatable; comma-splittable)")
 @click.option("--force", is_flag=True, help="Open another dossier even if the trace already has an open one")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def review_new(trace_id, stage, elements, force, compact) -> None:
     """Scaffold a dossier from a recorded trace (symptom, retrieval path, private terms)."""
     from artmind.reviews import dossier as dz
@@ -4328,7 +4530,7 @@ def review_new(trace_id, stage, elements, force, compact) -> None:
 @click.option("--status", type=click.Choice(STATUSES), default=None)
 @click.option("--stage", type=click.Choice(STAGES), default=None)
 @click.option("--element", default=None, help="Substring of a schema element")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_list(status, stage, element, compact) -> None:
     """Dossiers in this vault's reviews folder, read from the files."""
     from artmind.reviews import dossier as dz
@@ -4353,7 +4555,7 @@ def review_list(status, stage, element, compact) -> None:
 @review_group.command("show")
 @click.argument("review_id")
 @click.option("--markdown", is_flag=True, help="Print the dossier file as is")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_show(review_id, markdown, compact) -> None:
     """One dossier: frontmatter and sections as JSON, or the raw file."""
     d = _load_dossier(review_id)
@@ -4367,7 +4569,8 @@ def review_show(review_id, markdown, compact) -> None:
 @click.argument("review_id")
 @click.argument("status", type=click.Choice(STATUSES))
 @click.option("--note", default=None, help="Why, for the dossier's Log")
-def review_status(review_id, status, note) -> None:
+@compact_option
+def review_status(review_id, status, note, compact) -> None:
     """Move a dossier to a new status; the change is logged in the dossier."""
     from artmind.reviews import dossier as dz
     from artmind.reviews import index
@@ -4378,12 +4581,13 @@ def review_status(review_id, status, note) -> None:
     dz.append_log(d, f"status {old} → {status}" + (f": {note}" if note else ""))
     path = dz.save(d)
     index.index_dossier(d, path)
-    click.echo(f"{review_id}: {old} → {status}")
+    click.echo(f"{review_id}: {old} → {status}", err=True)
+    _echo_json({"review_id": review_id, "from": old, "to": status, "note": note, "path": str(path)}, compact)
 
 
 @review_group.command("validate")
 @click.argument("review_id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_validate(review_id, compact) -> None:
     """Check a dossier is complete for its stage; exits 1 on errors."""
     from artmind.reviews.validate import validate
@@ -4395,7 +4599,7 @@ def review_validate(review_id, compact) -> None:
 
 
 @review_group.command("reindex")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_reindex(compact) -> None:
     """Rebuild the local review index from the dossier files."""
     from artmind.reviews.index import reindex
@@ -4408,7 +4612,7 @@ def review_reindex(compact) -> None:
 @click.option("--base", default="HEAD", show_default=True, help="Compare the working tree with this ref, e.g. master")
 @click.option("--repo", default=".", show_default=True, type=click.Path(file_okay=False, exists=True),
               help="The code checkout to scan")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_leakcheck(review_id, base, repo, compact) -> None:
     """Scan a checkout's added lines for the dossier's private terms and quoted text; exits 1 on a hit."""
     from artmind.reviews.leakcheck import LeakcheckError, leakcheck
@@ -4431,7 +4635,7 @@ def review_leakcheck(review_id, base, repo, compact) -> None:
 @click.option("--chunk", "chunks", multiple=True, help="Evidence chunk id (repeatable; comma-splittable); default: the chunks the answer cited")
 @click.option("--domain", default=None, help="Domain (default: the trace's)")
 @click.option("--pattern", default=None, help="Answerability pattern: JSON, or @path to a JSON file")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_shape(trace_id, chunks, domain, pattern, compact) -> None:
     """The shape-audit bundle for a trace's evidence chunks: numbered source sentences,
     the graph subgraph extracted from them (+1 hop), their staging entries, the schema
@@ -4457,7 +4661,7 @@ def review_shape(trace_id, chunks, domain, pattern, compact) -> None:
 @click.option("--maxChunks", "max_chunks", type=int, default=5, show_default=True, help="At most this many chunks (3 LLM calls each)")
 @click.option("--pattern", default=None, help="Answerability pattern: JSON, or @path to a JSON file")
 @click.option("--model", default=None, help="Extraction model (default: ARTMIND_KG_LLM_MODEL)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_reextract(trace_id, chunks, domain, schema_path, meta_path, max_chunks, pattern, model, compact) -> None:
     """Dry-run re-extraction of evidence chunks under a proposed schema/prompt: a shape
     diff against current staging, plus answerability before and after. Writes nothing.
@@ -4479,7 +4683,7 @@ def review_reextract(trace_id, chunks, domain, schema_path, meta_path, max_chunk
 @click.option("--all", "all_statuses", is_flag=True, help="Include fixed, verified and dismissed dossiers")
 @click.option("--sample", "sample_n", type=int, default=None, help="Also sample N random chunks of --domain")
 @click.option("--seed", type=int, default=None, help="Random seed for --sample (repeatable samples)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_shape_report(domain, all_statuses, sample_n, seed, compact) -> None:
     """Shape findings of open dossiers grouped by schema element, most-seen first --
     one systemic problem should be one dossier. With --sample, random chunks of the
@@ -4498,7 +4702,9 @@ def review_shape_report(domain, all_statuses, sample_n, seed, compact) -> None:
 @review_group.command("attach")
 @click.argument("review_id")
 @click.argument("trace_id")
-def review_attach(review_id, trace_id) -> None:
+@compact_option
+@unbuilt_dry_run_option
+def review_attach(review_id, trace_id, compact) -> None:
     """Add another symptom trace to an open dossier (one problem, one dossier)."""
     from artmind.reviews import dossier as dz
     from artmind.reviews import index, scaffold
@@ -4510,24 +4716,31 @@ def review_attach(review_id, trace_id) -> None:
         raise click.ClickException(str(exc)) from exc
     path = dz.save(d)
     index.index_dossier(d, path)
-    click.echo(f"{review_id}: attached trace {trace_id} ({len(d.meta['trace_ids'])} traces)")
+    click.echo(f"{review_id}: attached trace {trace_id} ({len(d.meta['trace_ids'])} traces)", err=True)
+    _echo_json({"review_id": review_id, "trace_id": trace_id, "trace_ids": list(d.meta["trace_ids"]),
+                "path": str(path)}, compact)
 
 
 @review_group.command("regressions")
 @click.option("--status", "statuses", multiple=True, type=click.Choice(STATUSES),
               help="Only dossiers with this status (repeatable); default: all")
-def review_regressions(statuses) -> None:
-    """Every dossier's regression question as one benchmark-format markdown file (stdout)."""
+@compact_option
+def review_regressions(statuses, compact) -> None:
+    """Every dossier's regression question as one benchmark-format markdown file
+    (stderr; the same text is the `markdown` key of the JSON on stdout)."""
     from artmind.reviews.verify import regressions_markdown
 
-    click.echo(regressions_markdown(statuses=statuses or None), nl=False)
+    markdown = regressions_markdown(statuses=statuses or None)
+    click.echo(markdown, nl=False, err=True)
+    _echo_json({"markdown": markdown}, compact)
 
 
 @review_group.command("prompt")
 @click.argument("review_id")
 @click.option("--base", default="master", show_default=True, help="Branch the coding session starts from and leakchecks against")
 @click.option("--force", is_flag=True, help="Print it even if the dossier does not pass `review validate`")
-def review_prompt(review_id, base, force) -> None:
+@compact_option
+def review_prompt(review_id, base, force, compact) -> None:
     """The ready-to-paste prompt that hands a dossier's fix to a coding session:
     read the dossier, do its Agent prompt task on a new branch, keep the privacy
     rules, leakcheck before committing, do not merge. Holds no dossier content."""
@@ -4540,14 +4753,16 @@ def review_prompt(review_id, base, force) -> None:
         raise click.ClickException(
             f"{review_id} does not pass `artmind review validate`: " + "; ".join(result["errors"])
             + " -- finish the dossier first (or pass --force)")
-    click.echo(coding_prompt(d, base=base), nl=False)
+    prompt = coding_prompt(d, base=base)
+    click.echo(prompt, nl=False, err=True)
+    _echo_json({"review_id": review_id, "base": base, "prompt": prompt}, compact)
 
 
 @review_group.command("verify")
 @click.argument("review_id")
 @click.option("--runId", "run_id", default=None, help="Compare an existing one-question benchmark run instead of running one")
 @click.option("--backend", type=click.Choice(["claude-sdk", "acp"]), default="claude-sdk", show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def review_verify(review_id, run_id, backend, compact) -> None:
     """Re-run the dossier's regression question as a one-question benchmark and set the
     new trace beside the original. Mechanical checks only; grade the answer against the
@@ -4581,7 +4796,7 @@ def plan_config_group() -> None:
 
 @plan_config_group.command("check")
 @click.option("--domain", "domain", multiple=True, help="Only these domains (repeatable; comma-splittable). Default: every file")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def plan_config_check(domain: tuple, compact: bool) -> None:
     """Validate plan config files and, with Neo4j up, that each configured narrator exists.
 
@@ -4648,7 +4863,7 @@ def _labels_path(file_path: Path | None) -> Path:
               help="Labels file. Default: <vault>/benchmarking/plan_labels.yaml. A `benchmark_file` in it is "
                    "read relative to the vault root (the current vault, else the labels file's grandparent)")
 @click.option("--checkEntities", "check_entities", is_flag=True, help="Also check (needs Neo4j) that every entity param name resolves")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: bool) -> None:
     """Check every rule of the labels file and report all problems at once."""
     from artmind.query_plan import labels as plan_labels
@@ -4680,7 +4895,7 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
               help="Plan each label N times; labels whose plans differ are listed as unstable. The gate needs --repeat 4")
 @click.option("--givenDomains", "given_domains", is_flag=True, help="Pass each label's domains instead of letting the plan choose")
 @click.option("--model", "model", default=None, help="Decision model override (default: ARTMIND_DECISION_MODEL)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, model: str | None,
                 compact: bool) -> None:
     """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
@@ -4754,7 +4969,7 @@ def _retrieval_labels_path(file_path: Path | None) -> Path:
 @click.option("--seed", type=int, default=0, show_default=True, help="Sampling seed (same seed, same chunks)")
 @click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
               help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def retrieval_labels_generate(domain: str, count: int, seed: int, file_path: Path | None, compact: bool) -> None:
     """Sample chunks and have the configured LLM write one question each (appended as synthetic).
 
@@ -4777,7 +4992,7 @@ def retrieval_labels_generate(domain: str, count: int, seed: int, file_path: Pat
 @click.option("--file", "file_path", type=click.Path(path_type=Path), default=None,
               help="Labels file. Default: <vault>/benchmarking/retrieval_labels.yaml")
 @click.option("--checkIds", "check_ids", is_flag=True, help="Also check (needs Neo4j) that every chunk and document id exists")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: bool) -> None:
     """Check every rule of the labels file and report all problems at once (exit 1 on any)."""
     from artmind import graph_query
@@ -4815,7 +5030,7 @@ def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: 
 @click.option("--retriever", type=click.Choice(["vector-text", "survey"]), default="vector-text", show_default=True,
               help="survey scores survey labels only, by documents covered")
 @click.option("--legs", default="D,C,P", show_default=True, help="Survey legs to fuse (D, C, P), for ablations")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def retrieval_eval_cmd(file_path: Path | None, top_k: str,
                        compare_path: Path | None, retriever: str, legs: str, compact: bool) -> None:
     """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered."""
@@ -4869,8 +5084,9 @@ def docs():
 @docs.command("retire")
 @click.option("--domain", required=True, help="Domain the document belongs to")
 @click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def docs_retire(domain: str, document_name: str, compact: bool) -> None:
+@dry_run_option("Report what would move and the `effect`; write nothing")
+@compact_option
+def docs_retire(domain: str, document_name: str, dry_run: bool, compact: bool) -> None:
     """Move a document and everything it asserted from `latest` to `history`.
 
     An assertion-time act with no date semantics: a retired document's facts
@@ -4893,14 +5109,16 @@ def docs_retire(domain: str, document_name: str, compact: bool) -> None:
         raise click.ClickException(
             f"No document matching {document_name!r} in domain {domain!r}"
         )
-    _echo_json(retire_document(doc_id, domain), compact)
+    result = retire_document(doc_id, domain, dry_run=dry_run)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @docs.command("restore")
 @click.option("--domain", required=True, help="Domain the document belongs to")
 @click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def docs_restore(domain: str, document_name: str, compact: bool) -> None:
+@dry_run_option("Report what would move and the `effect`; write nothing")
+@compact_option
+def docs_restore(domain: str, document_name: str, dry_run: bool, compact: bool) -> None:
     """Move a retired document's assertions back from `history` to `latest`.
 
     The exact inverse of `docs retire`. Because entity ids are deterministic
@@ -4916,11 +5134,13 @@ def docs_restore(domain: str, document_name: str, compact: bool) -> None:
         raise click.ClickException(
             f"No document matching {document_name!r} in domain {domain!r}"
         )
-    _echo_json(restore_document(doc_id, domain), compact)
+    result = restore_document(doc_id, domain, dry_run=dry_run)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @docs.command("reindex")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def docs_reindex(compact: bool) -> None:
     """Rebuild the registry's path <-> id cache from vault frontmatter.
 
@@ -4944,8 +5164,9 @@ def docs_reindex(compact: bool) -> None:
 @click.option("--domain", required=True, help="Domain the document belongs to")
 @click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
 @click.option("--yes", is_flag=True, help="Skip the confirmation prompt")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> None:
+@dry_run_option("Report the `effect` (bundle, graph rows, vault file); change nothing and do not ask to confirm")
+@compact_option
+def docs_archive(domain: str, document_name: str, yes: bool, dry_run: bool, compact: bool) -> None:
     """Archive a document: the only removal artmind has. There is
     deliberately no `purge`.
 
@@ -4963,21 +5184,22 @@ def docs_archive(domain: str, document_name: str, yes: bool, compact: bool) -> N
     _setup_logger()
     from artmind.archive import archive_document
 
-    if not yes and not click.confirm(
+    if not yes and not dry_run and not click.confirm(
         f"This will remove {document_name!r} ({domain}) from the graph and "
         "delete its file from the vault. Continue?"
     ):
         raise click.Abort()
 
     try:
-        _echo_json(archive_document(domain, document_name), compact)
+        result = archive_document(domain, document_name, dry_run=dry_run)
+        _echo_json({**result, "dry_run": True} if dry_run else result, compact)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
 
 
 @docs.command("archived")
 @click.option("--domain", default=None, help="Restrict to one domain")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def docs_archived(domain: str | None, compact: bool) -> None:
     """List archived documents, from `index.jsonl` — never the filesystem.
 
@@ -4997,7 +5219,8 @@ def docs_archived(domain: str | None, compact: bool) -> None:
 @click.option("--id", "archive_id", required=True, help="The archived document's _artmind_id")
 @click.option("--toPath", "to_path", default=None, help="Restore to a different vault path (collision escape hatch)")
 @click.option("--newId", "new_id", default=None, help="Restore under a fresh _artmind_id (collision escape hatch)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def docs_restore_from_archive(
     archive_id: str, to_path: str | None, new_id: str | None, compact: bool
 ) -> None:
@@ -5043,8 +5266,9 @@ def projection():
     "--sweep", is_flag=True,
     help="Repair: rebuild every domain, then run both embed sweeps for each domain rebuilt",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def projection_rebuild(domain: str | None, sweep: bool, compact: bool) -> None:
+@dry_run_option("Plan the rebuild from reads alone: report the counts, write and embed nothing")
+@compact_option
+def projection_rebuild(domain: str | None, sweep: bool, compact: bool, dry_run: bool) -> None:
     """Recompute Entities from observations.
 
     Deterministic and needs no language model. Entity ids are
@@ -5070,18 +5294,34 @@ def projection_rebuild(domain: str | None, sweep: bool, compact: bool) -> None:
     _setup_logger()
     if sweep and domain:
         raise click.UsageError("--sweep rebuilds every domain; drop --domain")
-    if sweep:
+    if dry_run:
+        from artmind import projection as projection_module
+
+        result = projection_module.plan_full_rebuild(None if sweep else ([domain] if domain else None))
+    elif sweep:
         from artmind.ingest import rebuild_and_sweep_all
 
-        _echo_json(rebuild_and_sweep_all(), compact)
-        return
-    from artmind.ingest import rebuild_projection
+        result = rebuild_and_sweep_all()
+    else:
+        from artmind.ingest import rebuild_projection
 
-    _echo_json(rebuild_projection(domain), compact)
+        result = rebuild_projection(domain)
+    sweeps = bool(sweep or domain)
+    effect = Effect(
+        summary=(
+            f"rebuild {result['keys']} entity key(s): {result['rebuilt']} rewritten, "
+            f"{result['deleted']} deleted, {result['absent']} absent"
+            + ("; then the entity and passage embed sweeps" if sweeps else "")
+        ),
+        changes=[Change("projection_rebuild", result["keys"], result.get("domains", [])[:10])]
+        + ([Change("entity_delete", result["deleted"], [])] if result["deleted"] else []),
+        reversible=False,  # deterministic from observations: running it again restores the same projection
+    )
+    _echo_json(with_effect(result, effect, dry_run=dry_run), compact)
 
 
 @projection.command("status")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def projection_status(compact: bool) -> None:
     """Report drift and what the projection is still missing.
 
@@ -5110,8 +5350,8 @@ def projection_status(compact: bool) -> None:
 @click.option("--limit", type=int, default=None, help="Cap entities synthesized this run (bounds LLM cost)")
 @click.option("--model", default=None, help="Synthesis LLM model (default: env)")
 @click.option("--force", is_flag=True, help="Re-synthesize even if the observation set is unchanged")
-@click.option("--dry-run", is_flag=True, help="Show which entities would be synthesized without writing")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Show which entities would be synthesized without writing")
+@compact_option
 def projection_synthesize(
     domain: str,
     name_filter: str | None,
@@ -5172,8 +5412,8 @@ def sameas():
 @click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
 @click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
 @click.option("--model", default=None, help="Adjudication LLM model (default: env)")
-@click.option("--dry-run", is_flag=True, help="Compute candidates without writing proposals to the graph")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Compute candidates without writing proposals to the graph")
+@compact_option
 def sameas_propose(
     domain: tuple, name_filter: str | None, sim_threshold: float, max_pairs: int,
     max_chunks: int, model: str | None, dry_run: bool, compact: bool,
@@ -5204,7 +5444,7 @@ def sameas_propose(
 
 @sameas.command("list")
 @click.option("--status", type=click.Choice(["open", "approved", "rejected", "all"]), default="open", show_default=True)
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def sameas_list(status: str, compact: bool) -> None:
     """List same-as proposals in the review queue. Renders the queue directly
     — no intermediate report file to drift from this command's own shape."""
@@ -5217,8 +5457,9 @@ def sameas_list(status: str, compact: bool) -> None:
 @sameas.command("approve")
 @click.argument("proposal_ids", nargs=-1, required=True)
 @click.option("--canonical", default=None, help="Override which member becomes canonical (must be one of the proposal's members). One proposal only. Default: the proposer's own suggestion.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, compact: bool) -> None:
+@dry_run_option("Plan the approval and report its `effect`; write nothing, rebuild nothing")
+@compact_option
+def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, dry_run: bool, compact: bool) -> None:
     """Approve proposals: append their groups to same_as.yaml and rebuild.
 
     Several ids are approved together with ONE same_as.yaml write and ONE
@@ -5238,30 +5479,31 @@ def sameas_approve(proposal_ids: tuple[str, ...], canonical: str | None, compact
 
     try:
         if len(proposal_ids) == 1:
-            result = approve(proposal_ids[0], canonical=canonical)
+            result = approve(proposal_ids[0], canonical=canonical, dry_run=dry_run)
         elif canonical:
             raise click.UsageError("--canonical applies to one proposal; approve it on its own")
         else:
-            result = approve_many(list(proposal_ids))
+            result = approve_many(list(proposal_ids), dry_run=dry_run)
     except ValueError as e:
         raise click.ClickException(str(e))
-    _echo_json(result, compact)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @sameas.command("reject")
 @click.argument("proposal_id")
 @click.option("--reason", default=None, help="Why — recorded on the proposal for audit")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def sameas_reject(proposal_id: str, reason: str | None, compact: bool) -> None:
+@dry_run_option("Report the `effect` of the rejection; write nothing")
+@compact_option
+def sameas_reject(proposal_id: str, reason: str | None, dry_run: bool, compact: bool) -> None:
     """Reject a proposal. No graph write beyond the proposal's own status."""
     _setup_logger()
     from artmind.sameas import reject
 
     try:
-        result = reject(proposal_id, reason)
+        result = reject(proposal_id, reason, dry_run=dry_run)
     except ValueError as e:
         raise click.ClickException(str(e))
-    _echo_json(result, compact)
+    _echo_json({**result, "dry_run": True} if dry_run else result, compact)
 
 
 @cli.group()
@@ -5282,7 +5524,8 @@ def update():
 @click.option("--domain", required=True, help="Domain name.")
 @click.option("--text", required=True, help="Raw user input text.")
 @click.option("--session", default=None, help="Resume an existing session UUID.")
-def update_draft(domain: str, text: str, session: str | None):
+@compact_option
+def update_draft(domain: str, text: str, session: str | None, compact: bool):
     """Extract facts and find graph candidates. Returns JSON."""
     _setup_logger()
     env = load_env()
@@ -5291,7 +5534,7 @@ def update_draft(domain: str, text: str, session: str | None):
         result = update_backend.draft_update(
             domain=domain, text=text, session_id=session, user_id=user_id
         )
-        _echo_json(result)
+        _echo_json(result, compact)
     except Exception as e:
         raise click.ClickException(str(e))
 
@@ -5299,7 +5542,9 @@ def update_draft(domain: str, text: str, session: str | None):
 @update.command("confirm")
 @click.option("--session", required=True, help="Session UUID from draft step.")
 @click.option("--resolutions", required=True, help="JSON array of resolution objects.")
-def update_confirm(session: str, resolutions: str):
+@dry_run_option("Resolve every link and count the facts, entities and relationships the update would write; write nothing.")
+@compact_option
+def update_confirm(session: str, resolutions: str, dry_run: bool, compact: bool):
     """Write confirmed facts to the vault and Neo4j. Returns JSON.
 
     Writes a staging folder, .artmind/data/kg/<domain>/update__<session>__<draft>/,
@@ -5312,9 +5557,9 @@ def update_confirm(session: str, resolutions: str):
     try:
         parsed = json.loads(resolutions)
         result = update_backend.confirm_update(
-            session_id=session, resolutions=parsed, user_id=user_id
+            session_id=session, resolutions=parsed, user_id=user_id, dry_run=dry_run
         )
-        _echo_json(result)
+        _echo_json(result, compact)
     except ValueError as e:
         raise click.ClickException(str(e))
     except Exception as e:
@@ -5330,8 +5575,9 @@ def update_confirm(session: str, resolutions: str):
     help="Retract only this confirmed draft: the last part of its folder name, "
     "update__<session>__<draft>. Default: every confirmed update in the session.",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def update_retract(session: str, draft_id: int | None, compact: bool):
+@dry_run_option("Count the observations and entities the retraction would touch and list the folders it would delete; write nothing.")
+@compact_option
+def update_retract(session: str, draft_id: int | None, dry_run: bool, compact: bool):
     """Withdraw a confirmed update: its facts leave the graph and its staging folder is deleted.
 
     The UserChat and its observations move to history and the entities they
@@ -5341,7 +5587,7 @@ def update_retract(session: str, draft_id: int | None, compact: bool):
     """
     _setup_logger()
     try:
-        result = update_backend.retract_update(session, draft_id)
+        result = update_backend.retract_update(session, draft_id, dry_run=dry_run)
     except ValueError as e:
         raise click.ClickException(str(e))
     _echo_json(result, compact)
@@ -5351,19 +5597,25 @@ def update_retract(session: str, draft_id: int | None, compact: bool):
 @click.option("--domain", default=None, help="Filter by domain.")
 @click.option("--user", default=None, help="Filter by created_by.")
 @click.option("--limit", default=20, show_default=True, help="Maximum rows to return.")
-def update_history(domain: str | None, user: str | None, limit: int):
-    """List recent update sessions."""
+@compact_option
+def update_history(domain: str | None, user: str | None, limit: int, compact: bool):
+    """List recent update sessions (a table on stderr; the rows are `sessions` in the JSON)."""
     sessions = update_backend._list_update_sessions(domain=domain, user=user, limit=limit)
+    _echo_update_history_table(sessions)
+    _echo_json({"sessions": sessions, "rows_total": len(sessions), "truncated": len(sessions) >= limit}, compact)
+
+
+def _echo_update_history_table(sessions: list[dict]) -> None:
     if not sessions:
-        click.echo("No update sessions found.")
+        click.echo("No update sessions found.", err=True)
         return
     header = f"{'SESSION':<12} {'DOMAIN':<12} {'BY':<24} {'AT':<22} {'INPUTS':>6}  EXCERPT"
-    click.echo(header)
-    click.echo("-" * len(header))
+    click.echo(header, err=True)
+    click.echo("-" * len(header), err=True)
     for s in sessions:
         click.echo(
             f"{s['session_id'][:12]:<12} {s['domain']:<12} {s['created_by']:<24}"
-            f" {s['created_at'][:19]:<22} {s['input_count']:>6}  {s['excerpt']}"
+            f" {s['created_at'][:19]:<22} {s['input_count']:>6}  {s['excerpt']}", err=True
         )
 
 
@@ -5381,16 +5633,19 @@ def update_history(domain: str | None, user: str | None, limit: int):
     default="data/chats",
     show_default=True,
 )
-def update_export(domain: str | None, fmt: str, output: str):
+@compact_option
+def update_export(domain: str | None, fmt: str, output: str, compact: bool):
     """Export UserChat nodes to markdown files."""
     output_dir = Path(output)
     written = update_backend.export_chats(domain=domain, format=fmt, output_dir=output_dir)
     if not written:
-        click.echo("No chats to export.")
-        return
-    for path in written:
-        click.echo(str(path.name))
-    click.echo(f"\nExported {len(written)} file(s) to {output_dir}")
+        click.echo("No chats to export.", err=True)
+    else:
+        for path in written:
+            click.echo(str(path.name), err=True)
+        click.echo(f"\nExported {len(written)} file(s) to {output_dir}", err=True)
+    _echo_json({"output_dir": str(output_dir), "format": fmt, "domain": domain,
+                "files": [str(p.name) for p in written], "file_count": len(written)}, compact)
 
 
 # ── artmind session ────────────────────────────────────────────────────────────
@@ -5403,23 +5658,26 @@ def session():
 
 
 @session.command("close")
-def session_close():
+@compact_option
+def session_close(compact: bool):
     """Export the full Neo4j graph to a compressed snapshot (end of session)."""
     _setup_logger()
     try:
         snapshot_path = export_graph()
         size_mb = snapshot_path.stat().st_size / (1024 * 1024)
-        click.echo(f"Snapshot saved: {snapshot_path}")
-        click.echo(f"  Size: {size_mb:.2f} MB")
+        click.echo(f"Snapshot saved: {snapshot_path}", err=True)
+        click.echo(f"  Size: {size_mb:.2f} MB", err=True)
     except Exception as e:
         raise click.ClickException(str(e))
+    _echo_json({"snapshot": str(snapshot_path), "size_mb": round(size_mb, 2)}, compact)
 
 
 @session.command("initiate")
 @click.option("--snapshot", "snapshot_file", default=None, type=click.Path(exists=True),
               help="Path to a specific snapshot .tar.gz (default: latest in data/graph_snapshot/)")
-@click.option(
-    "--rebuild-projection",
+@aliased_option(
+    "--rebuildProjection", "--rebuild-projection",
+    param="rebuild_projection",
     type=click.Choice(["auto", "always", "skip"]),
     default="auto",
     help="Whether to fully rebuild the :Entity/:Conflict projection after restoring "
@@ -5428,14 +5686,15 @@ def session_close():
          "or off regardless.",
 )
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
-def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bool):
+@compact_option
+def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bool, compact: bool):
     """Wipe Neo4j and restore from a snapshot (start of session)."""
     _setup_logger()
     if not yes:
         env = load_env()
         db_name = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
         if not click.confirm(
-            f"This will delete all data in Neo4j database '{db_name}'. Continue?"
+            f"This will delete all data in Neo4j database '{db_name}'. Continue?", err=True
         ):
             raise click.Abort()
 
@@ -5445,26 +5704,40 @@ def session_initiate(snapshot_file: str | None, rebuild_projection: str, yes: bo
         summary = import_graph(snapshot_path, force_rebuild=force_rebuild)
         # Snapshots carry no passages or vectors; rebuild them from chunk text.
         _run_passage_sweep()
-        click.echo(f"Restored from: {summary['snapshot']}")
+        click.echo(f"Restored from: {summary['snapshot']}", err=True)
         node_counts = summary.get("node_counts", {})
         parts = [f"{label}: {count}" for label, count in node_counts.items()]
-        click.echo(f"  Nodes: {' | '.join(parts)}")
-        click.echo(f"  Relationships: {summary['relationship_count']}")
-        click.echo(f"  Elapsed: {summary['elapsed_seconds']}s")
+        click.echo(f"  Nodes: {' | '.join(parts)}", err=True)
+        click.echo(f"  Relationships: {summary['relationship_count']}", err=True)
+        click.echo(f"  Elapsed: {summary['elapsed_seconds']}s", err=True)
     except FileNotFoundError as e:
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
     import paths
 
+    bookmark = None
+    next_step = None
     if paths.ARTMIND_VAULT_DIR is not None:
         if node_counts.get("ArtmindSyncState"):
-            click.echo("  Sync bookmark: restored with the graph (`artmind vault status` shows it)")
+            bookmark = "restored"
+            click.echo("  Sync bookmark: restored with the graph (`artmind vault status` shows it)", err=True)
         else:
+            bookmark = "none"
+            next_step = ("artmind vault sync --bootstrapSynced (graph known-current) "
+                         "or --bootstrapEmpty (replay everything)")
             click.echo(
                 "  Sync bookmark: none in this snapshot -- the next `artmind vault sync` needs "
-                "--bootstrapSynced (graph known-current) or --bootstrapEmpty (replay everything)"
+                "--bootstrapSynced (graph known-current) or --bootstrapEmpty (replay everything)", err=True
             )
+    _echo_json({
+        "snapshot": summary["snapshot"],
+        "node_counts": node_counts,
+        "relationship_count": summary["relationship_count"],
+        "elapsed_seconds": summary["elapsed_seconds"],
+        "sync_bookmark": bookmark,
+        "next": next_step,
+    }, compact)
 
 
 # ── artmind snapshot ───────────────────────────────────────────────────────────
@@ -5483,7 +5756,7 @@ def snapshot():
     help="Comma-separated components to include (graph,structured,kg_staging,curation,originals). "
          "Default: graph,structured,kg_staging,originals",
 )
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def snapshot_create(only: str | None, compact: bool):
     """Create a unified snapshot of all system state.
 
@@ -5530,8 +5803,9 @@ def snapshot_create(only: str | None, compact: bool):
     help="Comma-separated components to restore (graph,structured,kg_staging,curation,originals). "
          "Default: all available",
 )
-@click.option(
-    "--rebuild-projection",
+@aliased_option(
+    "--rebuildProjection", "--rebuild-projection",
+    param="rebuild_projection",
     type=click.Choice(["auto", "always", "skip"]),
     default="auto",
     help="Whether to fully rebuild the graph's :Entity/:Conflict projection after "
@@ -5541,7 +5815,8 @@ def snapshot_create(only: str | None, compact: bool):
          "even if the restored projection is stale -- only meaningful for 'graph'.",
 )
 @click.option("--yes", is_flag=True, help="Skip confirmation prompt")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
+@unbuilt_dry_run_option
 def snapshot_restore(
     snapshot_path: str, only: str | None, rebuild_projection: str, yes: bool, compact: bool
 ):
@@ -5759,8 +6034,9 @@ def vault_status(compact: bool):
 @click.option("--noPlugins", "no_plugins", is_flag=True, help="Skip the Obsidian plugins: no community plugins, and Web Viewer is not switched on.")
 @click.option("--noOpen", "no_open", is_flag=True, help="Don't open Obsidian at the end.")
 @click.option("--yes", "yes", is_flag=True, help="Don't ask for confirmation.")
+@compact_option
 def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, neo4j_user,
-                  neo4j_password, neo4j_database, no_plugins, no_open, yes):
+                  neo4j_password, neo4j_database, no_plugins, no_open, yes, compact):
     """Create a ready-to-open vault NAME, or join an existing one with --join.
 
     NAME is also the GitHub repo (private, owned by the active `gh` account)
@@ -5786,13 +6062,19 @@ def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, ne
         resuming = vn.preflight(plan)
     except vn.VaultNewError as e:
         raise click.ClickException(str(e))
-    click.echo(vn.describe(plan, resuming))
+    click.echo(vn.describe(plan, resuming), err=True)
     if not yes:
-        click.confirm("Proceed?", default=True, abort=True)
+        click.confirm("Proceed?", default=True, abort=True, err=True)
     try:
-        vn.run_plan(plan, echo=click.echo)
+        vn.run_plan(plan, echo=lambda line: click.echo(line, err=True))
     except vn.VaultNewError as e:
         raise click.ClickException(str(e))
+    _echo_json({
+        "name": plan.name, "dir": str(plan.dir), "join": plan.join, "github_repo": plan.repo,
+        "neo4j": "neo4j-manager" if plan.uses_neo4j_manager else "external",
+        "plugins": plan.plugins, "resumed": bool(resuming),
+        "next": f"cd {plan.dir} && artmind setup",
+    }, compact)
 
 
 @vault.command("sync")
@@ -5823,8 +6105,8 @@ def vault_new_cmd(name, join, directory, github_owner, local_only, neo4j_uri, ne
     "-- other domains changed in the same range stay pending, so a later unscoped sync still "
     "sees (and idempotently re-applies) this one too.",
 )
-@click.option("--dryRun", "dry_run", is_flag=True, help="Report the classified diff (documents to replay/retract, tables to regenerate) without writing anything.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@dry_run_option("Report the classified diff (documents to replay/retract, tables to regenerate) and the `effect` without writing anything.")
+@compact_option
 def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, compact):
     """Replay committed KG-staging, structured-text, table-mapping, schema and curation changes into Neo4j/DuckDB since each store's bookmark.
 
@@ -5905,7 +6187,7 @@ def vault_sync_cmd(bootstrap_empty, bootstrap_synced, store, domain, dry_run, co
 
 @vault.command("resolve")
 @click.option("--dryRun", "dry_run", is_flag=True, help="Show the side chosen for each folder, table and record, and why, writing nothing.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def vault_resolve_cmd(dry_run, compact):
     """Settle merge conflicts in artmind's generated files (.artmind/data/**), deterministically, and stage the result.
 
@@ -5945,7 +6227,7 @@ def vault_resolve_cmd(dry_run, compact):
 
 
 @vault.command("doctor")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def vault_doctor_cmd(compact):
     """Read-only checks that this vault is safe for Obsidian Git to auto-commit and merge.
 
@@ -5976,7 +6258,7 @@ def vault_doctor_cmd(compact):
 
 @vault.command("migrate-frontmatter")
 @click.option("--dryRun", "dry_run", is_flag=True, help="Report which notes would be rewritten and what would move into document.json, writing nothing.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@compact_option
 def vault_migrate_frontmatter_cmd(dry_run, compact):
     """Move per-ingest fields (_version, _content_sha256, ...) out of every note's frontmatter into its staging document.json -- once.
 
@@ -6029,7 +6311,8 @@ def vault_migrate_frontmatter_cmd(dry_run, compact):
               "(refused if any has uncommitted changes).")
 @click.option("--schema", "schema_names", multiple=True,
               help="With --force: refresh only this packaged schema (repeatable, comma-splittable; adds it if absent), e.g. personal_journal.")
-def init(directory: str, force: bool, schema_names: tuple[str, ...]):
+@compact_option
+def init(directory: str, force: bool, schema_names: tuple[str, ...], compact: bool):
     """Make DIRECTORY (default: the current one) an artmind vault, or bring an existing one up to date.
 
     The vault is your Obsidian vault, your git repo and your artmind knowledge
@@ -6087,55 +6370,55 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
         except ValueError as e:
             raise click.ClickException(str(e))
 
-    click.echo(f"Vault:    {summary['vault']}")
+    click.echo(f"Vault:    {summary['vault']}", err=True)
     if git_initialised:
-        click.echo("Git:      initialised")
-    click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}")
+        click.echo("Git:      initialised", err=True)
+    click.echo(f"Schemas:  {', '.join(summary['schemas']) or '(none)'}", err=True)
     if refreshed is not None:
         click.echo(
             f"Refreshed: {', '.join(refreshed['updated']) or '(nothing changed)'}"
             + (f"; added {', '.join(refreshed['added'])}" if refreshed["added"] else "")
-            + (f"; {len(refreshed['unchanged'])} already current" if refreshed["unchanged"] else "")
+            + (f"; {len(refreshed['unchanged'])} already current" if refreshed["unchanged"] else ""), err=True
         )
         if refreshed["updated"]:
             click.echo("          review with `git diff .artmind/domains`, then commit; then re-extract affected notes "
-                "with `artmind ingest async <folder> --reextract`.")
-    click.echo(f"Skills:   {len(summary['skills'])} linked")
+                "with `artmind ingest async <folder> --reextract`.", err=True)
+    click.echo(f"Skills:   {len(summary['skills'])} linked", err=True)
     plugin = summary.get("obsidian_plugin") or {}
     plugin_status = plugin.get("status")
     reload_hint = " -- reload it in Obsidian (or restart Obsidian)"
     if plugin_status == "installed":
         enabled = " and enabled" if plugin.get("enabled") == "added" else ""
-        click.echo(f"Plugin:   artmind {plugin['version']} installed{enabled} in .obsidian/plugins/artmind/{reload_hint}")
+        click.echo(f"Plugin:   artmind {plugin['version']} installed{enabled} in .obsidian/plugins/artmind/{reload_hint}", err=True)
     elif plugin_status == "updated":
-        click.echo(f"Plugin:   artmind {plugin['previous']} -> {plugin['version']}{reload_hint}")
+        click.echo(f"Plugin:   artmind {plugin['previous']} -> {plugin['version']}{reload_hint}", err=True)
     elif plugin_status == "current":
-        click.echo(f"Plugin:   artmind {plugin['version']} (current)")
+        click.echo(f"Plugin:   artmind {plugin['version']} (current)", err=True)
     elif plugin_status == "no_obsidian":
-        click.echo("Plugin:   skipped -- no .obsidian/ yet; open this folder as a vault in Obsidian once, then re-run `artmind init`")
+        click.echo("Plugin:   skipped -- no .obsidian/ yet; open this folder as a vault in Obsidian once, then re-run `artmind init`", err=True)
     elif plugin_status == "not_packaged":
-        click.echo("Plugin:   skipped -- this artmind build has no Obsidian plugin (`just obsidian-plugin-build` in the checkout)")
+        click.echo("Plugin:   skipped -- this artmind build has no Obsidian plugin (`just obsidian-plugin-build` in the checkout)", err=True)
     if plugin.get("enabled") == "failed":
-        click.echo("          could not read .obsidian/community-plugins.json -- enable artmind in Obsidian's settings")
-    click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}")
+        click.echo("          could not read .obsidian/community-plugins.json -- enable artmind in Obsidian's settings", err=True)
+    click.echo(f"Manifest: {root / '.artmind' / 'vault.yaml'}", err=True)
     vault_id = summary.get("vault_id")
     if vault_id and summary.get("vault_id_minted"):
         click.echo(
             f"Vault id: {vault_id} (new -- let Obsidian Git commit "
-            ".artmind/vault.yaml before running `artmind init` in another clone)"
+            ".artmind/vault.yaml before running `artmind init` in another clone)", err=True
         )
     elif vault_id:
-        click.echo(f"Vault id: {vault_id}")
+        click.echo(f"Vault id: {vault_id}", err=True)
 
     machine_config = summary.get("machine_config", {})
     action = machine_config.get("action")
     machine_path = machine_config.get("path")
     if action == "migrated":
-        click.echo(f"Machine:  migrated {machine_config['source']} -> {machine_path}")
+        click.echo(f"Machine:  migrated {machine_config['source']} -> {machine_path}", err=True)
     elif action == "seeded":
         click.echo(
             f"Machine:  seeded {machine_path} from env.example defaults —"
-            f" review it (LLM provider, API key, embedding model)"
+            f" review it (LLM provider, API key, embedding model)", err=True
         )
     elif action == "missing":
         click.echo(
@@ -6144,7 +6427,7 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
             f" docs/vault.md, \"Machine-level config\"); without it, this vault has no"
             f" configured LLM at all and extraction will fail with no explanation."
             f" Create it from artmind/env.example's machine-level keys"
-            f" (ARTMIND_KG_LLM_*, ARTMIND_OPENROUTER_API_KEY, ARTMIND_KG_EMBEDDINGS_*, ...)."
+            f" (ARTMIND_KG_LLM_*, ARTMIND_OPENROUTER_API_KEY, ARTMIND_KG_EMBEDDINGS_*, ...).", err=True
         )
 
     click.echo(
@@ -6154,22 +6437,44 @@ def init(directory: str, force: bool, schema_names: tuple[str, ...]):
         f"  $EDITOR {root / '.artmind' / 'vault.yaml'}   # map folders to domains\n"
         f"  artmind ingest async .                         # ingest this vault's documents\n"
         f"\nCreating a new vault from scratch? `artmind vault new NAME` does all of this,\n"
-        f"plus the Neo4j instance, a private GitHub repo and the Obsidian plugins."
+        f"plus the Neo4j instance, a private GitHub repo and the Obsidian plugins.", err=True
     )
+    _echo_json({
+        "vault": str(summary["vault"]),
+        "git_initialised": git_initialised,
+        "schemas": list(summary["schemas"]),
+        "refreshed": refreshed,
+        "skills": len(summary["skills"]),
+        "obsidian_plugin": plugin_status,
+        "vault_id": vault_id,
+        "machine_config": action,
+        "manifest": str(root / ".artmind" / "vault.yaml"),
+        "next": "artmind setup",
+    }, compact)
 
 
 @cli.command("setup")
-def setup():
+@compact_option
+def setup(compact: bool):
     """Initialize SQLite tables and Neo4j constraints/indexes (idempotent)."""
     try:
         result = setup_all()
-        click.echo("SQLite:               " + result["sqlite"])
-        click.echo("Neo4j constraints:    " + ", ".join(result["neo4j_constraints"]))
-        click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]))
-        click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]))
-        click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])))
+        click.echo("SQLite:               " + result["sqlite"], err=True)
+        click.echo("Neo4j constraints:    " + ", ".join(result["neo4j_constraints"]), err=True)
+        click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]), err=True)
+        click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]), err=True)
+        click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])), err=True)
         if result.get("legacy_chunk_vectors"):
-            click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "))
-        click.echo("\nSetup complete.")
+            click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "), err=True)
+        click.echo("\nSetup complete.", err=True)
     except Exception as e:
         raise click.ClickException(str(e))
+    legacy = result.get("legacy_chunk_vectors")
+    _echo_json({
+        "sqlite": result["sqlite"],
+        "neo4j_constraints": list(result["neo4j_constraints"]),
+        "neo4j_indexes": list(result["neo4j_indexes"]),
+        "neo4j_vector_indexes": list(result["neo4j_vector_indexes"]),
+        "neo4j_fulltext_indexes": list(result.get("neo4j_fulltext_indexes", [])),
+        "legacy_chunk_vectors": legacy["report"].removeprefix("legacy chunk vectors: ") if legacy else None,
+    }, compact)

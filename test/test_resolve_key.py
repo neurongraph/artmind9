@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 from click.testing import CliRunner
 
+from _envelope import plain
 from artmind.cli import cli
 
 
@@ -236,7 +237,7 @@ def test_query_resolve_key_cli_dispatches_and_outputs_json():
     mocked.assert_called_once_with(
         "smartsaver", ["banking"], column="product_name", table="products", top_k=5
     )
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)
 
 
 def test_resolve_key_table_disambiguates_same_named_column(tmp_path, monkeypatch):
@@ -360,4 +361,4 @@ def test_query_resolve_key_cli_graph_only_without_column():
 
     assert result.exit_code == 0, result.output
     mocked.assert_called_once_with("smartsaver", ["banking"], column=None, table=None, top_k=5)
-    assert json.loads(result.output) == payload
+    assert plain(json.loads(result.output)) == plain(payload)

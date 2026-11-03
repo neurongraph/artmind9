@@ -6,6 +6,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "vault status",
+    "warnings": [],
+    "next": null,
     "vault": "/vault",
     "artmind_dir": "/artmind-home",
     "data_dir": "/artmind-home/data",

@@ -1347,6 +1347,63 @@ def rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None
     return summary
 
 
+def plan_rebuild(tx, keys, *, same_as_groups: list[list[tuple[str, str, str]]] | None = None) -> dict:
+    """What `rebuild` would report for `keys`, from reads alone. The `--dryRun` path.
+
+    Runs `rebuild`'s own planning steps (`_plan_groups`, the batched observation
+    read, the existence check for zero-observation keys) and stops before the
+    first write, so the returned `rebuilt` / `deleted` / `absent` / `keys` are the
+    counts a real `rebuild` over the same keys returns.
+    """
+    if same_as_groups is None:
+        from artmind import same_as
+
+        same_as_groups = same_as.load_groups()
+    unit_of, members_of, _links = _plan_groups(keys, same_as_groups)
+    sorted_keys = sorted(keys)
+    effective_keys = [k for k in sorted_keys if unit_of.get(k) in (None, k)]
+    folded_keys = [k for k in sorted_keys if unit_of.get(k) not in (None, k)]
+    member_keys_all: set[tuple[str, str, str]] = set()
+    for k in effective_keys:
+        member_keys_all.update(members_of.get(k, [k]))
+    obs_by_key = _read_observations_for_keys(tx, member_keys_all)
+    empty = [
+        k for k in effective_keys
+        if not any(obs_by_key.get(key_string(mk)) for mk in members_of.get(k, [k]))
+    ]
+    existing = _entity_ids_that_exist(tx, [entity_id(k) for k in empty])
+    deleted = sum(1 for k in empty if entity_id(k) in existing)
+    return {
+        "rebuilt": len(effective_keys) - len(empty),
+        "deleted": deleted + len(folded_keys),
+        "absent": len(empty) - deleted,
+        "keys": len(effective_keys) + len(folded_keys),
+    }
+
+
+def plan_full_rebuild(domains: list[str] | None = None) -> dict:
+    """`full_rebuild_batched` without a write: the totals it would return.
+
+    Plans batch by batch, as the real rebuild commits them, so the read
+    transactions stay as small as the write ones.
+    """
+    from artmind import same_as
+    from artmind.graph_query import neo4j_session
+
+    groups = same_as.load_groups()
+    with neo4j_session() as session:
+        keys = session.execute_read(lambda tx: all_keys(tx, domains))
+        batches = batch_keys(sorted(keys), groups, REBUILD_BATCH)
+        totals = {"rebuilt": 0, "deleted": 0, "absent": 0, "keys": 0, "batches": len(batches)}
+        for batch in batches:
+            summary = session.execute_read(lambda tx: plan_rebuild(tx, batch, same_as_groups=groups))
+            for name in ("rebuilt", "deleted", "absent", "keys"):
+                totals[name] += summary[name]
+    totals["domains"] = sorted({k[2] for k in keys if k[2]})
+    totals["recorded"] = domains is None
+    return totals
+
+
 def all_keys(tx, domains: list[str] | None = None) -> set[tuple[str, str, str]]:
     """Every aggregate key with at least one `latest` observation, plus every
     key an existing `:Entity` claims — so a full rebuild also sweeps entities

@@ -3,9 +3,9 @@
     "examples": ["artmind domains add domains/schemas/banking_schema.yaml"]
   },
   "artmind domains harmonize": {
-    "extra": "Use --dry-run to preview changes; never removes child-specific extras.",
+    "extra": "Use --dryRun to preview changes; never removes child-specific extras.",
     "examples": [
-      "artmind domains harmonize --domain fiction.thriller --dry-run",
+      "artmind domains harmonize --domain fiction.thriller --dryRun",
       "artmind domains harmonize --domain fiction.thriller"
     ]
   },
@@ -17,25 +17,25 @@
   },
   "artmind ingest pull-kg": {
     "examples": [
-      "artmind ingest pull-kg \\\n  --repo git@github.com:acme/kg-store.git \\\n  --repo-path data/kg/sales_collateral \\\n  --domain sales_collateral"
+      "artmind ingest pull-kg \\\n  --repo git@github.com:acme/kg-store.git \\\n  --repoPath data/kg/sales_collateral \\\n  --domain sales_collateral"
     ]
   },
   "artmind ingest refine-graph": {
     "examples": [
-      "artmind ingest refine-graph --dry-run --output merges.json",
-      "artmind ingest refine-graph --from-file merges.json"
+      "artmind ingest refine-graph --dryRun --output merges.json",
+      "artmind ingest refine-graph --fromFile merges.json"
     ]
   },
   "artmind ingest refine-pipeline": {
     "examples": [
       "artmind ingest refine-pipeline --domain banking",
-      "artmind ingest refine-pipeline --domain banking --from-file pipeline_report.json"
+      "artmind ingest refine-pipeline --domain banking --fromFile pipeline_report.json"
     ]
   },
   "artmind ingest detect-conflicts": {
     "examples": [
-      "artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json",
-      "artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json"
+      "artmind ingest detect-conflicts --domain A --domain B --dryRun --output conflicts.json",
+      "artmind ingest detect-conflicts --domain A --domain B --fromFile conflicts.json"
     ]
   },
   "artmind query vector-text": {

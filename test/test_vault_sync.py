@@ -2453,6 +2453,7 @@ def test_store_graph_bootstrap_synced_stamps_only_the_graph(repo, monkeypatch, g
 
     result = vs.sync(repo, store="graph", bootstrap_synced=True)
 
+    assert result.pop("effect")["changes"] == []
     assert result == {"bootstrap": "synced", "stores": ["graph"], "graph_bookmark": c3}
     assert _bookmarks(repo) == (c3, None)
 

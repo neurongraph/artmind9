@@ -6,6 +6,9 @@
   ],
   "exit_code": 0,
   "json": {
+    "command": "projection status",
+    "warnings": [],
+    "next": null,
     "known": true,
     "drift": false,
     "last_rebuilt_at": "2026-09-30T12:00:00+00:00",

@@ -6,8 +6,10 @@
   ],
   "exit_code": 0,
   "json": {
-    "query_type": "structured",
     "command": "db review",
+    "warnings": [],
+    "next": null,
+    "query_type": "structured",
     "pending_count": 1,
     "tables": [
       {

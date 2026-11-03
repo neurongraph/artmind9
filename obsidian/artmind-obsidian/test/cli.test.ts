@@ -211,14 +211,14 @@ describe("which commands write", () => {
     [["projection", "rebuild", "--sweep", "--compact"], true],
     [["projection", "synthesize", "--domain", "general", "--compact"], true],
     [["projection", "synthesize", "--domain", "general", "--limit", "5", "--compact"], true],
-    [["projection", "synthesize", "--domain", "general", "--dry-run", "--compact"], false],
+    [["projection", "synthesize", "--domain", "general", "--dryRun", "--compact"], false],
     [["projection", "status", "--compact"], false],
     [["db", "review", "--compact"], false],
     [["sameas", "propose", "--domain", "general", "--maxPairs", "50", "--compact"], true],
-    [["sameas", "propose", "--domain", "general", "--dry-run", "--compact"], false],
+    [["sameas", "propose", "--domain", "general", "--dryRun", "--compact"], false],
     [["sameas", "list", "--compact"], false],
     [["ingest", "detect-conflicts", "--domain", "a", "--domain", "b", "--maxPairs", "50", "--compact"], true],
-    [["ingest", "detect-conflicts", "--domain", "a", "--domain", "b", "--dry-run", "--compact"], false],
+    [["ingest", "detect-conflicts", "--domain", "a", "--domain", "b", "--dryRun", "--compact"], false],
     [["query", "graph", "conflicts", "--domain", "a", "--compact"], false],
   ])("%j -> %s", (args, write) => {
     expect(isWrite(args as string[])).toBe(write);
@@ -337,7 +337,7 @@ describe("the readiness checklist's commands (Plan 1)", () => {
     expect(lines().filter((l) => l.startsWith("start "))).toEqual([
       "start projection status --compact",
       "start projection rebuild --sweep --compact",
-      "start projection synthesize --domain general --dry-run --compact",
+      "start projection synthesize --domain general --dryRun --compact",
       "start projection synthesize --domain general --compact",
       "start projection synthesize --domain habits --limit 20 --compact",
       "start db review --compact",

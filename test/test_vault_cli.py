@@ -589,3 +589,20 @@ def test_init_still_works_in_a_directory_that_merely_has_a_pyproject(tmp_path, m
 
     assert CliRunner().invoke(cli, ["init"]).exit_code == 0
     assert (tmp_path / ".artmind").is_dir()
+
+
+def test_init_prints_one_json_envelope_and_the_text_goes_to_stderr(tmp_path, monkeypatch):
+    import json
+
+    monkeypatch.chdir(tmp_path)
+    result = CliRunner().invoke(cli, ["init", "--compact"])
+
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.stdout)
+    assert payload["command"] == "init" and payload["warnings"] == []
+    assert Path(payload["vault"]).resolve() == tmp_path.resolve()
+    assert payload["git_initialised"] is True
+    assert isinstance(payload["skills"], int) and payload["schemas"]
+    assert payload["manifest"].endswith(".artmind/vault.yaml")
+    assert "\n" not in result.stdout.strip()
+    assert "Vault:" in result.stderr and "Vault:" not in result.stdout

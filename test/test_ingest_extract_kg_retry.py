@@ -308,3 +308,21 @@ def test_extract_kg_retry_resumes_from_the_cache_instead_of_re_extracting(tmp_pa
     calls.clear()
     assert ing.extract_kg(retry, "general", max_workers=1) is not None
     assert calls == [], "a retry after a successful extraction is all cache hits"
+
+
+def test_extract_kg_cli_prints_a_json_result(tmp_path, monkeypatch):
+    import artmind.cli as cli_module
+    from click.testing import CliRunner
+
+    staging = tmp_path / "kg" / "general" / "doc"
+    staging.mkdir(parents=True)
+    monkeypatch.setattr(cli_module, "_registry_file_result",
+                        lambda name, domain: {"chunk_count": 3, "chunks_dir": "c", "kg_error": None})
+    monkeypatch.setattr(cli_module, "extract_kg", lambda *a, **kw: staging)
+    monkeypatch.setattr(cli_module, "_require_ingest_extra", lambda: None)
+    result = CliRunner().invoke(cli_module.cli, ["ingest", "extract-kg", "doc.md", "--domain", "general", "--compact"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.stdout)
+    assert payload["command"] == "ingest extract-kg" and payload["chunks"] == 3
+    assert payload["staging_dir"] == str(staging)
+    assert payload["next"] == "artmind ingest write-to-graph doc.md --domain general"
