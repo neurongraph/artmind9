@@ -67,3 +67,12 @@ def disk_stamps(domain: str) -> dict[str, Stamp]:
 def disk_stamp(domain: str) -> str:
     """All of `disk_stamps` as one string, stable across a JSON round trip."""
     return "|".join(f"{k[0]}:{_text(v)}" for k, v in sorted(disk_stamps(domain).items()))
+
+
+def part(disk_stamp_text: str, name: str) -> str:
+    """One input's stamp out of a `disk_stamp` string (`schemas`, `views`, ...)."""
+    prefix = f"{name[0]}:"
+    for piece in disk_stamp_text.split("|"):
+        if piece.startswith(prefix):
+            return piece
+    return ""
