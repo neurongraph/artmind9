@@ -1039,6 +1039,11 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE INDEX projection_state_id IF NOT EXISTS FOR (n:ProjectionState) ON (n.id)"
     )
+    # :DomainState -- one node per domain holding the generation every graph
+    # writer bumps in its own transaction (spec 2026-11-02 §3).
+    from artmind.catalogue.state import CONSTRAINT_CYPHER as domain_state_constraint
+
+    session.run(domain_state_constraint)
     # :ArtmindSyncState -- one node per vault, the graph's `vault sync`
     # bookmark (spec 2026-09-26 §6 A2). The statement lives with the rest of
     # that node's Cypher, in artmind/sync_state.py.

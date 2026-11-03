@@ -4703,6 +4703,7 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
     the same folder, so the two write the same graph (spec 2026-09-26 §7).
     """
     from artmind import projection, same_as, sync_state
+    from artmind.catalogue import state as catalogue_state
     from artmind.observations import key_string
 
     document = staged["document"]
@@ -4836,6 +4837,10 @@ def _commit_document_tx(tx, staged: dict, defer_rebuild: bool = False) -> dict:
         )
         summary["deferred_keys"] = []
     summary["affected_keys"] = sorted(keys)
+
+    # 7. The catalogue's change counter, in this same transaction (spec
+    #    2026-11-02 §3). A deferred rebuild bumps again when it runs.
+    catalogue_state.bump(tx, [domain])
 
     return summary
 

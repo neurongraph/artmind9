@@ -22,6 +22,9 @@ class FakeSession:
         self.runs.append((cypher, kwargs))
         return _Rec({"id": "abc123", "status": kwargs.get("status")} if self._found else None)
 
+    def execute_write(self, fn):
+        return fn(self)
+
     def __enter__(self):
         return self
 
@@ -206,3 +209,75 @@ def test_resolving_a_conflict_detected_before_records_writes_its_first_record(mo
     assert record["status"] == "resolved"
     assert [e["id"] for e in record["entities"]] == ["ea", "eb"]
     assert (_edged(session)[0]["idA"], _edged(session)[0]["idB"]) == ("ea", "eb")
+
+
+class _TxSession(FakeSession):
+    """Marks which statements ran inside `execute_write` (one transaction)."""
+
+    def __init__(self):
+        super().__init__()
+        self.in_tx = []
+        self._tx = False
+
+    def run(self, cypher, **kwargs):
+        self.in_tx.append(self._tx)
+        return super().run(cypher, **kwargs)
+
+    def execute_write(self, fn):
+        self._tx = True
+        try:
+            return fn(self)
+        finally:
+            self._tx = False
+
+
+def _bump_runs(session):
+    return [(i, kw) for i, (cy, kw) in enumerate(session.runs) if "MERGE (s:DomainState" in cy]
+
+
+def test_resolving_a_recorded_conflict_bumps_its_domains_in_the_applying_transaction(monkeypatch, curation_dir):
+    _stored(curation_dir)
+    class _Applying(_TxSession, RecordingSession):
+        pass
+
+    session = _Applying()
+    monkeypatch.setattr(c, "neo4j_session", lambda: session)
+
+    c.resolve_conflict("abc123", "resolved")
+
+    (index, params), = _bump_runs(session)
+    assert params["domains"] == ["x", "y"]
+    assert session.in_tx[index] is True
+    assert session.in_tx[next(i for i, (cy, _) in enumerate(session.runs)
+                              if cy.strip().startswith("MERGE (co:Conflict {id: $id})"))] is True
+
+
+def test_closing_a_projection_conflict_bumps_its_domain_in_the_same_transaction(monkeypatch):
+    session = _TxSession()
+    orig = session.run
+
+    def run(cypher, **kwargs):
+        res = orig(cypher, **kwargs)
+        if "co.status = $status" in cypher:
+            return type("R", (), {"single": lambda self: {"id": "abc123", "status": "resolved", "domain": "bank"}})()
+        return res
+
+    session.run = run
+    monkeypatch.setattr(c, "neo4j_session", lambda: session)
+
+    c.resolve_conflict("abc123", "resolved")
+
+    (index, params), = _bump_runs(session)
+    assert params["domains"] == ["bank"]
+    assert session.in_tx[index] is True
+
+
+def test_an_unknown_conflict_bumps_nothing(monkeypatch):
+    import pytest
+
+    session = _TxSession()
+    session._found = False
+    monkeypatch.setattr(c, "neo4j_session", lambda: session)
+    with pytest.raises(ValueError):
+        c.resolve_conflict("abc123", "dismissed")
+    assert _bump_runs(session) == []

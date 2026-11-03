@@ -135,6 +135,9 @@ def test_replaying_the_folder_writes_exactly_what_confirm_wrote(kg_dir, monkeypa
     """What another machine's `vault sync` does with the committed folder:
     the same commit transaction, statement for statement, parameter for
     parameter."""
+    # The generation bump carries a wall-clock `changed_at`; pin it so the two
+    # runs can be compared parameter for parameter.
+    monkeypatch.setattr("artmind.catalogue.state._now", lambda: "2026-11-03T00:00:00+00:00")
     confirm_session, _ = _confirm(monkeypatch)
 
     import artmind.graph_query as graph_query

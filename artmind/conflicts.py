@@ -15,6 +15,7 @@ from pathlib import Path
 
 from loguru import logger
 
+from artmind.catalogue import state as catalogue_state
 from artmind.graph_query import expand_domain_family, neo4j_session
 from artmind.ingest import _call_llm_text, _parse_json_response
 from artmind.temporal import apply_supersession
@@ -467,23 +468,34 @@ def resolve_conflict(conflict_id: str, status: str, reason: str | None = None, *
             before = record.get("status")
             record.update(status=status, resolution_reason=reason, resolved_at=now)
             fingerprint = curation_records.write_record(conflict_records.NAME, record)
-            conflict_records.apply(session, record, fingerprint)
+
+            def _apply(tx):
+                conflict_records.apply(tx, record, fingerprint)
+                catalogue_state.bump(tx, record.get("domains") or [])  # same transaction (spec 2026-11-02 §3)
+
+            session.execute_write(_apply)
             logger.info("conflict {} → {} ({}), recorded in the vault", conflict_id, status, reason or "no reason given")
             return {"id": conflict_id, "status": status, "reason": reason,
                     "effect": _resolve_effect(conflict_id, status, before, True)}
-        rec = session.run(
-            """
-            MATCH (co:Conflict {id: $id})
-            SET co.status = $status,
-                co.resolved_at = $now,
-                co.resolution_reason = $reason
-            RETURN co.id AS id, co.status AS status
-            """,
-            id=conflict_id,
-            status=status,
-            now=now,
-            reason=reason,
-        ).single()
+        def _close(tx):
+            row = tx.run(
+                """
+                MATCH (co:Conflict {id: $id})
+                SET co.status = $status,
+                    co.resolved_at = $now,
+                    co.resolution_reason = $reason
+                RETURN co.id AS id, co.status AS status, co._domain AS domain
+                """,
+                id=conflict_id,
+                status=status,
+                now=now,
+                reason=reason,
+            ).single()
+            if row:
+                catalogue_state.bump(tx, [row.get("domain")])  # same transaction (spec 2026-11-02 §3)
+            return row
+
+        rec = session.execute_write(_close)
     if not rec:
         raise ValueError(_NO_CONFLICT.format(id=conflict_id))
     logger.info("conflict {} → {} ({})", conflict_id, status, reason or "no reason given")
