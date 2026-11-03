@@ -18,6 +18,11 @@ after it. Same privacy rule as this folder.
 | N8 | `route_stats` fields for the catalogue (P1 §9) | What N5/N6 actually needed to read | — |
 | N9 | Whether `follow_up_why` should re-run guards with the missed item as a must-find (open question 26) | Follow-ups that corrected the previous answer | Follow-ups |
 
+**Temporary setting for the round:** `query survey` returns 50 documents by default
+(commit `1294fbd`, 2026-11-03; it was 10), so traces show how far down the ranking the useful
+documents sit. It is an observation setting, not a chosen default. P2 sets the real default
+(or replaces it with the evidence-shape coverage guard) from N3's answer, and reverts this.
+
 **Ready to write P2 when:** the SOP's "done when" holds, the round is appended to
 `02-trace-evidence.md`, and N1–N7 each have a recorded answer in `06-open-questions.md`
 (an answer may be "not enough data; default X").
