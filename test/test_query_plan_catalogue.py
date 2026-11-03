@@ -340,3 +340,16 @@ def test_an_empty_domain_has_a_zero_share(graph, monkeypatch):
 
 def test_the_format_changed_from_two_to_three(graph):
     assert catalogue.CATALOGUE_FORMAT == 3
+
+
+def test_document_dates_are_read_from_the_stored_property(graph):
+    """A Document node stores its valid time as `_valid_from` (ingest writes the underscore
+    name). A query on `valid_from` finds no date on any document, and a fake that matches
+    on a substring never notices."""
+    g, _ = graph
+    catalogue.build("journal", (5, 3, 2, 1, "x"), parts=("documents", "time"))
+    sent = [c for c, _ in g.calls if "AS has_summary" in c or "with_valid_from" in c]
+    assert len(sent) == 2
+    for cypher in sent:
+        assert "d._valid_from" in cypher
+        assert "d.valid_from" not in cypher.replace("d._valid_from", "")

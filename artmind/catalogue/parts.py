@@ -38,7 +38,7 @@ LIMIT $limit
 _DOCUMENTS_CYPHER = f"""
 MATCH (d:Document|DocumentHistory)
 WHERE {domain_predicate("d")}
-RETURN d.id AS id, d.name AS name, d._domain AS domain, d.valid_from AS valid_from,
+RETURN d.id AS id, d.name AS name, d._domain AS domain, d._valid_from AS valid_from,
        d:Document AS live,
        EXISTS {{ MATCH (:DocSummary {{level: 'document'}})-[:SUMMARIZES]->(d) }} AS has_summary
 """
@@ -56,8 +56,8 @@ LIMIT $limit
 _TIME_CYPHER = f"""
 MATCH (d:Document)
 WHERE {domain_predicate("d")}
-RETURN count(d) AS documents, count(d.valid_from) AS with_valid_from,
-       min(d.valid_from) AS earliest, max(d.valid_from) AS latest
+RETURN count(d) AS documents, count(d._valid_from) AS with_valid_from,
+       min(d._valid_from) AS earliest, max(d._valid_from) AS latest
 """
 
 
