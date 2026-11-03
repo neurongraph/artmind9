@@ -289,6 +289,24 @@ fewer than k documents escalates to `survey`), and *identity* (any resolved enti
 twins, or with an open same-as proposal touching it, adds every twin to the step and a
 `warnings` line that also files an identity gap, §5.6).
 
+**Coverage from evidence shape, not wording (added 2026-11-03).** The findings report
+`docs/superpowers/reports/2026-11-03-summaries-and-retrieval-findings.md` (§4.6, idea C)
+shows that trigger words miss cross-document questions, and proposes choosing the depth from
+the retrieval result itself. That makes the coverage guard a predicate over evidence shape,
+which code computes from what `vector-text`/`survey` already return:
+- concentration (share of top passages from one document);
+- agreement between levels (strong passages inside the top document-summary hits mean a needle);
+- score shape (a sharp drop versus a flat tail);
+- how many documents clear a relevance floor.
+
+The guard vocabulary in (c) gains these as `concentration`, `level_agreement`, `score_drop`
+and `docs_over_floor`. Wording remains one input among several. The report's idea E,
+answering from the needle result and offering the deeper pass, is the bundle's `escalate`
+(§5.4) shown to the user as a one-click "run a full survey" (§5.7 Ask). Its idea B (a
+chunk-summary vote in `vector-text`) and the leg-C question are retrieval experiments that
+run before P2 and inform these thresholds. Its idea A (merge the context and summary passes)
+is ingest-side and outside this design.
+
 The decision model stays optional (D3). Replay decides lexical vs model per vault, as today.
 
 ### 5.4 Executor and evidence bundle (the fast path)
