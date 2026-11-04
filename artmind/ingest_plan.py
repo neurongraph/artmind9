@@ -93,11 +93,13 @@ def plan_file(
         schema = load_schema(eff)
         if plan.unchanged and not reextract:
             return _entry(f, root, kind, "unchanged", eff)
-        if plan.unchanged:  # re-extracted from the markdown already stored: its chunks are known
+        if plan.source_unchanged and plan.registered_path.exists():
+            # Re-extracted from the markdown already stored (`--reextract`, or a
+            # domain change): its chunks are known.
             _, body = ingest._parse_md_frontmatter(plan.registered_path.read_text(encoding="utf-8"))
             chunks = len(ingest._split_markdown(body, chunk_size))
-            return _entry(f, root, kind, "content", eff, reason="reextract", chunks=chunks,
-                          llm_calls=llm_calls(chunks, schema=schema))
+            return _entry(f, root, kind, "content", eff, reason="domain_change" if plan.domain_changed else "reextract",
+                          chunks=chunks, llm_calls=llm_calls(chunks, schema=schema))
         chunks = 1 if kind == "image" else _estimated_chunks(f, chunk_size)
         calls = llm_calls(chunks, schema=schema) + (1 if kind == "image" else 0)  # + the image description
         return _entry(f, root, kind, "content", eff, reason="new" if plan.is_new else "changed",

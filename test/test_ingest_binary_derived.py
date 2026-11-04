@@ -521,3 +521,74 @@ def test_a_table_inside_an_image_description_is_laid_out_as_a_table(ingest_env, 
 
     assert body == "Intro.\n\nClause 1.1 example:\n\n| Month | Charge |\n| - | - |\n| Apr | 10 |\n\nAfter."
     assert (ing.MARKDOWNS_DIR / "paper.md").read_text() == body
+
+
+# ── a binary whose folder mapping now names another domain ────────────────────
+
+
+def test_a_binary_mapped_to_another_domain_finds_its_old_extraction(ingest_env, monkeypatch):
+    vault, source = ingest_env
+    _converted_once(ingest_env, monkeypatch)
+
+    plan = ing.plan_binary(source, "technical_paper")
+
+    assert plan.staged_folder is not None and plan.staged_folder.parent.name == "general"
+    assert plan.domain_changed is True
+    assert plan.source_unchanged is True and plan.unchanged is False, "a domain change is not a no_op"
+    assert ing.plan_binary(source, "general").unchanged is True, "the same domain still is"
+
+
+def test_a_domain_change_reextracts_the_stored_markdown_under_the_new_domain(ingest_env, monkeypatch):
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    derived = _derived(source)
+    _no_docling(monkeypatch)
+
+    r2 = ing.ingest_file(source, "gemma4:e4b", "technical_paper", chunk_size=6000)
+
+    assert r2["status"] == "ok" and r2["tier"] == "content" and r2["reextract"] is True
+    assert r2["domain"] == "technical_paper"
+    assert r2["artmind_id"] == r1["artmind_id"] and r2["version"] == r1["version"]
+    assert r2["baseline_folder"] == str(ing._staging_dir("general", derived.stem))
+    meta, _ = ing._parse_md_frontmatter(derived.read_text(encoding="utf-8"))
+    assert meta == {"_artmind_id": r1["artmind_id"], "_domain": "technical_paper"}
+
+
+def test_a_domain_change_extracts_into_the_new_domain_and_drops_the_old_folder(ingest_env, monkeypatch):
+    vault, source = ingest_env
+    r1 = _converted_once(ingest_env, monkeypatch)
+    key = _derived(source).stem
+    old = ing._staging_dir("general", key)
+    (old / "summaries.json").write_text(json.dumps({"chunks": {}, "document": None}))
+    _no_docling(monkeypatch)
+    monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
+    monkeypatch.setattr(ing, "_llm_extract", lambda *a, **k: ([], True))
+    seen = {}
+
+    def summarise(chunks, *, prior, **k):
+        seen["prior"] = prior
+        return {"chunks": {}, "document": None}, []
+
+    monkeypatch.setattr(ing, "_summarise_chunks", summarise)
+    r2 = ing.ingest_file(source, "gemma4:e4b", "technical_paper", chunk_size=6000)
+    folder = ing.extract_kg(r2, "technical_paper", max_workers=1)
+
+    assert folder == ing._staging_dir("technical_paper", key)
+    assert json.loads((folder / "document.json").read_text())["id"] == r1["artmind_id"]
+    assert not old.exists(), "one id, one staging folder"
+    assert seen["prior"] == {"chunks": {}, "document": None}, "the old folder's summaries are reused"
+
+
+def test_the_sync_plan_reports_a_binary_domain_change(ingest_env, monkeypatch):
+    from artmind import ingest_plan
+
+    vault, source = ingest_env
+    _converted_once(ingest_env, monkeypatch)
+
+    entry = ingest_plan.plan_file(
+        source, domain="technical_paper", set_domain=None, fork=False, adopt=False, reextract=False,
+        chunk_size=6000, root=None,
+    )
+
+    assert entry["tier"] == "content" and entry["reason"] == "domain_change"
+    assert not entry.get("estimated"), "chunks come from the stored markdown"

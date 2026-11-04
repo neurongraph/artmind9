@@ -1772,12 +1772,29 @@ class BinaryPlan:
     #: The source path the name's last conversion recorded; differs from this
     #: source's own path exactly when the binary moved (`_record_binary_move`).
     recorded_source_path: str | None = None
+    #: The staging folder the baseline came from, in whatever domain it is.
+    staged_folder: Path | None = None
+    effective_domain: str | None = None
+
+    @property
+    def domain_changed(self) -> bool:
+        """The last extraction staged this document under another domain: the
+        folder mapping (or `--setDomain`) now gives it a different one."""
+        return (
+            self.staged_folder is not None and self.effective_domain is not None
+            and self.staged_folder.parent.name != self.effective_domain
+        )
+
+    @property
+    def source_unchanged(self) -> bool:
+        """Converted before, and the source's bytes are the ones the last
+        extraction recorded, in whichever domain."""
+        return bool(self.existing_meta) and self.baseline.get("_source_sha256") == self.source_sha256
 
     @property
     def unchanged(self) -> bool:
-        """Converted before, and the source's bytes are the ones the last
-        extraction recorded: the ingest is a `no_op`."""
-        return bool(self.existing_meta) and self.baseline.get("_source_sha256") == self.source_sha256
+        """`source_unchanged` in the same domain: the ingest is a `no_op`."""
+        return self.source_unchanged and not self.domain_changed
 
     @property
     def is_new(self) -> bool:
@@ -1850,7 +1867,16 @@ def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
         existing_meta, _ = _parse_md_frontmatter(
             registered_path.read_text(encoding="utf-8")
         )
-    staged = staged_document(effective_domain, [key], existing_meta.get("_artmind_id"), search=True)
+    # The domain the converted markdown records is searched too: a binary
+    # whose folder mapping now names another domain carries on from the
+    # extraction it had there (its version, and `domain_changed`), rather
+    # than reading as never extracted.
+    found = None
+    if existing_meta.get("_artmind_id"):
+        found = _locate_staged(
+            existing_meta["_artmind_id"], [key], [effective_domain, existing_meta.get("_domain")], search=True,
+        )
+    staged_folder, staged = found if found else (None, None)
     owner = _converted_owner(key, effective_domain)
     return BinaryPlan(
         registered_path=registered_path,
@@ -1858,6 +1884,8 @@ def plan_binary(source: Path, effective_domain: str) -> BinaryPlan:
         baseline=ingest_baseline(staged, existing_meta),
         source_sha256=source_sha256,
         recorded_source_path=owner[0] if owner else None,
+        staged_folder=staged_folder,
+        effective_domain=effective_domain,
     )
 
 
@@ -1951,11 +1979,12 @@ def _ingest_binary_derived(
 
     Matched by domain+filename, unchanged in spirit from Phase 2's
     `_canonical_key` — a binary source stays path-keyed, per docs/document-
-    identity.md's "sources that cannot carry frontmatter" table. Re-ingesting
-    under a genuinely different domain without `--setDomain` therefore reads
-    as a fresh document, the same limitation `_ingest_vault_native` accepts
-    for `--domain` before a file's own frontmatter can be consulted — except
-    a binary has no frontmatter to consult until AFTER conversion.
+    identity.md's "sources that cannot carry frontmatter" table. A binary
+    whose folder mapping (or `--setDomain`) now names another domain finds
+    its last extraction in the domain its converted markdown records
+    (`plan_binary`): the stored markdown is re-extracted under the new domain,
+    with the same id and version and no conversion, and `extract_kg` removes
+    the old domain's staging folder.
 
     `reextract` turns the `no_op` of an unchanged, already-extracted binary into
     a re-extraction under the schema as it stands now: the stored markdown is
@@ -2008,16 +2037,26 @@ def _ingest_binary_derived(
     baseline = plan.baseline
     if plan.recorded_source_path and plan.recorded_source_path != orig_registry_path:
         _record_binary_move(plan, effective_domain, orig_registry_path)
+    if plan.staged_folder is not None:
+        # Where the baseline was found: `extract_kg` removes it if the
+        # extraction writes the document under another domain.
+        file_result["baseline_folder"] = str(plan.staged_folder)
+    if plan.domain_changed:
+        logger.info(
+            "{}: domain {} -> {}; re-extracting under the new domain",
+            source.name, plan.staged_folder.parent.name, effective_domain,
+        )
 
     # A .docx is converted again on --reextract: its conversion runs no model
     # (image descriptions are reused below), and a markdown converted before
     # the current .docx conversion (`docx_convert`) gains its comments,
-    # accepted tracked changes and tidy tables.
-    reconvert_docx = plan.unchanged and reextract and source.suffix.lower() == ".docx"
+    # accepted tracked changes and tidy tables. A domain change alone re-uses
+    # the stored markdown, whatever the source type.
+    reconvert_docx = plan.source_unchanged and reextract and source.suffix.lower() == ".docx"
     if reconvert_docx:
         logger.info("{}: re-extraction of a .docx converts it again", source.name)
         file_result["reextract"] = True
-    elif plan.unchanged and reextract and registered_path.exists():
+    elif plan.source_unchanged and (reextract or plan.domain_changed) and registered_path.exists():
         reextracted = _reextract_converted_binary(
             source, plan, file_result, effective_domain, chunk_size, orig_registry_path, t_file_start,
         )
@@ -2145,6 +2184,14 @@ def _reextract_converted_binary(
     version_decision = decide_version(body, plan.baseline)
     if version_decision.tier != "metadata_only":
         return None
+    if plan.domain_changed:
+        # The identity stamp follows the domain, as a note's does; the body
+        # (and so the version) stays.
+        write_document(registered_path, {**plan.existing_meta, "_domain": effective_domain}, body)
+        _register_document(
+            effective_domain, registered_path, plan.existing_meta.get("_artmind_id"),
+            content_sha256=version_decision.content_sha256,
+        )
     chunks = _split_markdown(body, chunk_size)
     chunks_dir = _chunks_dir(registered_path.stem)
     _persist_chunks(chunks, chunks_dir, body=body)
@@ -4378,7 +4425,12 @@ def extract_kg(
     _doc_location = str(Path(_sp).parent) if _sp else None
     summaries, summary_failures = _summarise_chunks(
         all_chunks, schema=schema, title=document.get("title") or document.get("name"),
-        model=text_model, prior=_read_summaries(doc_kg_dir), debug_dir=llm_debug_dir,
+        model=text_model, debug_dir=llm_debug_dir,
+        # A document moved from another domain or name carries its summaries
+        # with it: they are keyed by chunk text, prompt version and model.
+        prior=_read_summaries(doc_kg_dir) or (
+            _read_summaries(Path(file_result["baseline_folder"])) if file_result.get("baseline_folder") else None
+        ),
         max_workers=max_workers, location=_doc_location,
     )
     if summary_failures:
