@@ -19,7 +19,7 @@ DEFAULT_FIRST_PERSON = ("i", "me", "my", "mine", "myself")
 DEFAULT_THRESHOLD = 0.7
 CLASSIFIERS = ("auto", "lexical", "decision")
 _KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "classifier", "decision_model",
-                   "categories", "kinship", "scope_rules", "calendar"})
+                   "categories", "kinship", "scope_rules", "calendar", "synonyms"})
 _RULE_ID_RE = re.compile(r"[a-z][a-z0-9_]*")
 _MONTH_DAY_RE = re.compile(r"(\d{2})-(\d{2})")
 _WHEN_KEYS = ("mention", "not_cue", "route")
@@ -97,6 +97,11 @@ class PlanConfig:
     kinship: tuple[tuple[str, tuple[str, ...]], ...] = ()      # (casefolded kin word, variants casefolded)
     scope_rules: tuple[ScopeRule, ...] = ()
     calendar: tuple[CalendarEvent, ...] = ()
+    synonyms: tuple[tuple[str, tuple[str, ...]], ...] = ()     # (casefolded word, synonyms casefolded)
+
+    def synonym(self, word: str) -> tuple[str, ...] | None:
+        """Configured synonyms of a search-term word (casefold; singular/plural), else None."""
+        return _lookup(self.synonyms, word)
 
     def category(self, word: str) -> tuple[str, ...] | None:
         """Members of the class word (casefold; singular/plural by a trailing s/es), else None."""
@@ -302,7 +307,8 @@ def parse_config(data, source: str) -> PlanConfig:
                       _parse_word_map(data.get("categories"), source, "categories", fold_members=False),
                       _parse_word_map(data.get("kinship"), source, "kinship", fold_members=True),
                       _parse_scope_rules(data.get("scope_rules"), source),
-                      _parse_calendar(data.get("calendar"), source))
+                      _parse_calendar(data.get("calendar"), source),
+                      _parse_word_map(data.get("synonyms"), source, "synonyms", fold_members=True))
 
 
 def load_config(domain: str) -> PlanConfig:
@@ -337,6 +343,7 @@ def merge(configs: list[PlanConfig]) -> PlanConfig:
         kinship=_merge_maps(c.kinship for c in configs),
         scope_rules=tuple(rules.values()),
         calendar=tuple(e for c in configs for e in c.calendar),
+        synonyms=_merge_maps(c.synonyms for c in configs),
         narrator=next((c.narrator for c in configs if c.narrator), None),
         first_person=next((c.first_person for c in configs if c.first_person != DEFAULT_FIRST_PERSON),
                           DEFAULT_FIRST_PERSON),
