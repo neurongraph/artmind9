@@ -167,3 +167,19 @@ def test_span_fields_recorded(tmp_path, monkeypatch):
     span = dict(conn.execute("SELECT * FROM trace_spans WHERE span_id='s1'").fetchone())
     conn.close()
     assert (span["payload_chars"], span["shown_chars"], span["handle"]) == (20000, 15000, "0123456789ab")
+
+
+def test_a_single_row_larger_than_the_budget_is_shortened_not_dropped(tmp_path):
+    """Round 8: a hub entity's entity-context (one huge row) came back with zero rows."""
+    import json
+
+    from artmind import result_store
+
+    row = {"entity": {"name": "E", "description": "d" * 9000}, "chunks": [{"text": "t" * 9000}] * 3}
+    payload = {"command": "query entity-context", "warnings": [], "next": None, "rows": [row, row]}
+    dumps = lambda p: json.dumps(p, separators=(",", ":"))  # noqa: E731
+    out, full, shown, handle = result_store.fit(payload, 12000, dumps, "rows", tmp_path)
+    assert handle and full > 12000
+    assert len(out["rows"]) >= 1, "never answer with zero rows when the payload had some"
+    assert out["truncated"] is True and out["rows_total"] == 2
+    assert any("shortened" in w for w in out["warnings"])

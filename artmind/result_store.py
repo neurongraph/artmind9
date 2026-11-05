@@ -124,11 +124,24 @@ def cut(payload: dict, budget: int, dumps: Callable[[Any], str], declared: str |
                 hi = mid - 1
         shown = rows_all[:lo]
         candidate = build(payload, shown)
-        if len(dumps(candidate)) <= budget:
+        if shown and len(dumps(candidate)) <= budget:
             return candidate
+        # No whole row fits (one row larger than the budget, e.g. a hub entity's
+        # entity-context): never answer with zero rows. Shorten long strings and keep
+        # as many shortened rows as fit, at least the first one.
 
     hits: list[str] = []
     shortened = _shorten(payload, "", hits)
+    if key is not None and rows_all:
+        short_rows = shortened[key]
+        lo, hi = 1, len(short_rows)
+        while lo < hi:
+            mid = (lo + hi + 1) // 2
+            if len(dumps(build(shortened, short_rows[:mid]))) <= budget:
+                lo = mid
+            else:
+                hi = mid - 1
+        shown = short_rows[:lo]
     out = build(shortened, shown)
     if hits:
         names = ", ".join(hits[:5]) + (f" and {len(hits) - 5} more" if len(hits) > 5 else "")
