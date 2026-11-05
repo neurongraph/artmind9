@@ -140,3 +140,5 @@ Recorded as shapes; the private specifics are in the round-7 analysis scratchpad
 | R7-8 | Expected answers for the benchmark run whose question file was lost? | Draft them from the verified data for the user to confirm. |
 | R7-9 | Build the summary tree for the personal-journal domain? | Yes (run 2026-11-04). |
 | R7-10 | Revert the survey default or fix how results reach the agent? | Fix how results reach the agent: compact rows, or any change to the components, the harness or the SDK settings that lets the agent read results. |
+
+**R7-10, design (2026-11-05):** `docs/superpowers/specs/2026-11-05-bounded-output-design.md`: a brief row shape with title and date on every row, an output budget applied in `_echo_json` with a result handle paged by `query page`, two tool-gate repairs, and harness settings as margin only (`bashOutputMaxChars` is absent from the SDK's bundled CLI 2.1.218; `BASH_MAX_OUTPUT_LENGTH` works there). Survey keeps 50 in the brief shape; the full shape reverts to 10.

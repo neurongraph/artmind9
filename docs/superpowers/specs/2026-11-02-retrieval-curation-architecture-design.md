@@ -1,6 +1,8 @@
 # Retrieval and curation architecture: the layer above the CLI
 
-Date: 2026-11-02. Status: **architecture draft for review**. Not an implementation spec: it
+Date: 2026-11-02, revised 2026-11-05 from round 7 (`docs/query-routing-study/12-round7-lessons.md`;
+revisions are marked "R7" with the lesson number, and the bounded-output mechanism is its own
+design, `2026-11-05-bounded-output-design.md`). Status: **architecture draft for review**. Not an implementation spec: it
 sets the target shape, splits the work into sub-specs (§9), and lists the decisions that need
 the user (§11). Inputs: the query-routing study (`docs/query-routing-study/`, rounds 1–6),
 the specs from 2026-10-09 to 2026-11-01 (views, review loop, insights, query plan, document
@@ -89,6 +91,8 @@ Pattern numbers are from `docs/query-routing-study/02-trace-evidence.md`.
 | E6 | Curation by chat is slow and costly | P28 | Inbox cards, agent for hard cases only (§5.7) |
 | E7 | Commands that report misleadingly mislead plans too | P20, P21, P24 | Done in query-plan H1–H4; keep as a rule for new commands |
 | E8 | Correctness is unmeasured | P32, open question 17 | Question bank, ratings in the flow (§5.9) |
+| E9 (R7) | The agent cannot see large results: 158/158 default `vector-text` and 34/35 survey(50) outputs were persisted by the harness and mostly unread | P34, P35 | Bounded output (§3.8, §5.4; `2026-11-05-bounded-output-design.md`) |
+| E10 (R7) | Most struggle is mechanical: loops over lists (87 % of struggle turns), wrong search slots, silent wrong-node resolution | P35–P39 | `map` programs, slot logic in code, identity expansion (§5.3) |
 
 ## 3. Principles
 
@@ -107,6 +111,16 @@ Pattern numbers are from `docs/query-routing-study/02-trace-evidence.md`.
 7. **Private by default.** Questions, traces, labels, topic pages and proposals stay in the
    vault or the machine; nothing from them enters this checkout. A hosted model sees what the
    operator chose to send (§11, D3).
+8. **Bounded output (R7, lessons 2, 37).** No planned step hands the agent more than its
+   budget (16,000 characters a step, 24,000 a bundle), and no cut is silent: what did not fit
+   is named, counted and reachable through a result handle. Evidence rows always carry
+   document id, title, domain and date. Mechanism: `2026-11-05-bounded-output-design.md`.
+9. **Exhaustive before counting (R7, lessons 26, 19).** A count, an enumeration or "the
+   latest" is emitted only from evidence paged to `rows_total`; otherwise the answer says "N
+   found in M of K documents read".
+10. **Scope is an explicit input (R7, lessons 35, 39).** Domains, excluded documents and the
+    domain's default scope rules are plan inputs the bundle shows, never something the agent
+    infers.
 
 ## 4. Target architecture
 
@@ -164,7 +178,9 @@ disk, checked at most every 10 s, and rebuilt after at most 15 minutes.
 | `assets` | per domain: views (name, summary, examples, params), topic pages (slug, topic, anchor, stale), insight snapshot (`as_of`, detectors present), summary coverage (documents with a document summary / all) | `kg_views.store`, `topics.store`, `insights.store`, a count query |
 | `health` | open same-as proposals, twin groups (same class and casefolded name), open conflicts, empty-extraction rate, unembedded passages/summaries, staleness against the vault | existing audits (`projection status`, `staging_audit`, insights health detectors) |
 | `time` | per domain, the date range of documents with content dates, and whether `valid_from` is populated (open question 20) | one aggregate query |
-| `route_stats` | per route and domain, from traces: turns, agreement, ratings | `traces.analysis` |
+| `route_stats` | per route and domain, from traces: turns, S2+ (struggle) share, escalations, ratings, payload characters, agreement (R7, N8) | `traces.analysis` |
+| `terms` (R7, lessons 16, 29) | a gazetteer the planner's mention matching reads with the name index: document title words, initialisms (a two-letter "X&Y" ↔ the two title words), folder path segments, code→name index tables, and document-target alias records | titles, vault paths, index tables, `.artmind/data/curation/aliases/` (§5.6) |
+| `calendar` (R7, lesson 41) | per domain, recurring events with their date windows, so an event question gets a date range, not only a keyword | `domains/plan/<domain>.yaml` (operator-written) plus the `time` part |
 
 **Freshness: event-driven, not hourly.** The brief proposes hourly monitoring of Neo4j. The
 fingerprint already makes staleness detection cheap and immediate, so an hourly job would be
@@ -241,14 +257,42 @@ decision model as today:
 | `curate` | X and Y are the same; this is wrong; dismiss these | an Inbox action proposal (§5.6), not retrieval |
 | `update` | remember that…, add this fact | route to artmind-update |
 | `meta` | which model, what can you do | no retrieval |
+| `status` (R7, lesson 6) | is it done yet, how far is the job (a background job is open) | the job/status read, no retrieval |
+| `ops` (R7, lesson 6) | ingest this, re-extract that | an `ops` proposal with its `--dryRun` effect, no retrieval |
 
-Today all of these get a retrieval route, three of them at high confidence (P27).
+Today all of these get a retrieval route, three of them at high confidence (P27). In round 7,
+17 of 17 non-retrieval turns in the chunks-only vault were planned `search` at confidence 1.0
+(P41).
+
+**The previous turn is an input (R7, lesson 6).** 89 of 181 round-7 turns were follow-ups. The
+planner receives the previous turn's intent, plan and any offer it made ("want me to run a
+full survey?"); a context-only reply ("yes", "go on") inherits that offer rather than being
+classified alone.
+
+**Slots are filled in code (R7, lessons 7, 9, 28).** First person maps to the narrator from
+`domains/plan/<domain>.yaml`, and the owner's own name resolves to the narrator too; the agent
+never resolves "I". The search-term slot strips question filler, uses the user's mention
+rather than the top entity's name, and expands a category to its members from the catalogue
+(class members, sub-types: "doctors" takes in every practitioner type, R7-2/R7-3). Plan
+confidence is the minimum of route, domain and **slot quality** (mention used, twins handled,
+search term non-empty after filler removal), since route confidence alone did not predict a
+good first step (8/8 routes right, 4/8 first steps adequate; lesson 11).
+
+**Domain scope rules (R7, lesson 39).** `domains/plan/<domain>.yaml` holds, beside the narrator,
+default scope rules the plan applies as filters and the bundle states: who "we" means; which
+event kinds are out unless asked (work events in a family question); that a relationship
+question does not take in friction between two other people. Granularity defaults to the
+widest the question allows, grouped by level, narrowed only when the question names a level
+(lesson 42).
 
 **(b) Asset match before route.** The view question generalises to "which asset answers
 this, or none". It offers views, fresh topic pages, and the insight detectors present, from
 the catalogue's `assets`. A matched topic page yields `topics show <slug>` followed by
 `chunks --idList` for the passages it cites. A matched insight yields `insights show`
 followed by `entity-context` per subject. Views keep their own parameter filling.
+Thresholds from round 7 (R7, lesson 17, N2): `assets --like` ≥ 0.80 is a match (the page goes
+into the bundle's `guides`); 0.70–0.80 is "offer the page" beside retrieval; below 0.70, none.
+Survey's `topics` overlap is normalised by page size, since hub pages dominate it today.
 
 **(c) Plan programs.** Today a plan is a list of steps plus fallbacks. v2 emits a small
 program. The brief's example, "do A, try B and C, take the best, then D", is directly
@@ -272,11 +316,29 @@ guards:
   - {on: c,  if: "distinct_documents < 3 and route == 'survey'", then: {replace: survey}}
 ```
 
-- Operators: `run`, `par`, `pick` (`best_of`, `union` with discrepancy notes, `first_ok`), `when`,
-  `guards` (`escalate`, `replace`, `retry_with`, `widen_domains`).
+- Operators: `run`, `par`, `map` (R7), `pick` (`best_of`, `union` with discrepancy notes,
+  `first_ok`), `when`, `guards` (`escalate`, `replace`, `retry_with`, `widen_domains`, `page`).
+- **`map` is the main program shape (R7, lesson 4).** 87 % of round-7 struggle turns looped one
+  command over a list: `pattern10` per document (up to 40 times), `vector-text` per phrasing,
+  `entity-resolve` per name. `map` runs a step over a list (documents, years, twins,
+  phrasings, claims) under a call and character budget, and is usually followed by `union`.
+  `best_of` is secondary.
 - Guard predicates come from a fixed vocabulary computed by code from command output:
   `rows`, `rows_total`, `truncated`, `distinct_documents`, `max_relevance`, `twins`,
-  `stale`, `history_matches`, `view_status`. No free expressions.
+  `stale`, `history_matches`, `view_status`, and from round 7 `payload_chars`, `persisted`,
+  `entity_docs`, `docs_cited`, `rows_below_k`, `score_drop` (lessons 2, 9, 13, 15). No free
+  expressions.
+- **Program kinds round 7 needs (R7, N5; lessons 20, 26, 30, 33, 36).** View counts (union over
+  years plus a text check); kinship aggregates (union over twins); enumerations and counts
+  (page to `rows_total` plus a text union; refuse a count from truncated evidence); entity
+  visits (document coverage: `entity_docs` vs `docs_cited`); chunks-only cross-document
+  (`par(passage search, survey)` + union); `latest` (collect every amendment of the target,
+  order by document date and the supersedes chain, newest first, with executed/draft status
+  per document family); `entity_history`/`time_history` (the history commands, never
+  text2cypher); absence (one exhaustive exact-term sweep, not repeated searches); batch claims
+  (`map` with a rewrite step from source wording to corpus wording, excluding the claim's own
+  source, §5.4). One step suffices for an entity profile, an existence check and a named
+  document.
 - Programs are templates in `routes.yaml`, one per route (and per asset kind), validated by
   the existing tests (every command and option exists in the Click tree), each with its
   evidence ids.
@@ -289,7 +351,15 @@ fewer than k documents escalates to `survey`), and *identity* (any resolved enti
 twins, or with an open same-as proposal touching it, adds every twin to the step and a
 `warnings` line that also files an identity gap, §5.6).
 
-**Coverage from evidence shape, not wording (added 2026-11-03).** The findings report
+**Identity expands, it does not ask (R7, lessons 8, 28; N4).** Twins decided about 15 % of
+brain01 answers, often silently. The guard expands same-class twins (casefolded name, name
+with and without surname, kinship variants from `insights/aliases.yaml` and the domain's
+extension) into a `union`, reports the split in `warnings`, fills the plan's `twins` field
+(empty today) and files a same-as proposal. It never asks the user about the narrator.
+Identity is seeded before retrieval from the vault's self-description note and the kinship
+table.
+
+**Coverage from evidence shape, not wording (added 2026-11-03; superseded by round 7 below).** The findings report
 `docs/superpowers/reports/2026-11-03-summaries-and-retrieval-findings.md` (§4.6, idea C)
 shows that trigger words miss cross-document questions, and proposes choosing the depth from
 the retrieval result itself. That makes the coverage guard a predicate over evidence shape,
@@ -307,7 +377,28 @@ chunk-summary vote in `vector-text`) and the leg-C question are retrieval experi
 run before P2 and inform these thresholds. Its idea A (merge the context and summary passes)
 is ingest-side and outside this design.
 
+**Coverage rule replaced (R7, lessons 13–15; N3).** On round-7 labels the evidence-shape
+signals did not separate needle from survey: concentration and level agreement were flat
+across classes, and only a sharp score drop was informative, and only as "this is a needle".
+So the rule becomes:
+- **chunks-only scopes:** run `par(vector-text passage, survey)` and `union` by default. It
+  costs needles little (the needle document sat in survey's top 10 in 8 of 10) and lifted
+  coverage at depth 10 from 27 % to 43 %. Stay needle-only when relevance(1) − relevance(2)
+  ≥ 0.03 (`score_drop`). Survey depth comes from the brief row shape (50 documents as line rows,
+  bounded-output design §4), not from a deeper full result.
+- **graph domains:** coverage is entity-anchored. The guard compares the entity's own
+  document count (`entity_docs`) with the documents the evidence cites (`docs_cited`) and pages
+  to `rows_total`.
+- Survey cues for the lexical classifier cover user wording (lesson 10): "survey", "various",
+  "all the …", "which documents", plural document-type subjects, "across", responsibility and
+  obligation shapes.
+
+`concentration` and `level_agreement` stay in the vocabulary for measurement only.
+
 The decision model stays optional (D3). Replay decides lexical vs model per vault, as today.
+Round 7 (lesson 12, N7): lexical is the default on both vaults (0 wrong on the benchmark labels,
+against 1 right of 4 high-confidence plans for the model, with 60 s latency spikes); the model
+stays in shadow until replay on confirmed labels shows it ahead.
 
 ### 5.4 Executor and evidence bundle (the fast path)
 
@@ -335,6 +426,29 @@ process, applies the guards, and returns one bundle:
 
 - `evidence` is the only thing an answer may cite. `guides` steer the answer. `facts` are
   graph and SQL rows, linked to evidence where the command returned ids.
+- **Bounded (R7, lessons 2, 14, 37).** The bundle stays within 24,000 characters. Every
+  evidence row carries document id, title, domain, date and status (`current` / `superseded`;
+  executed or draft where the document family has both, lesson 33), whatever command produced it.
+  Survey depth arrives as one row per document, with the text shown chosen for the question
+  (best passage or best-matching sentence, bounded-output design §4.1) and full passages for
+  the strongest matches;
+  the rest is reachable by a result handle (`query page`). The bundle records
+  `payload_chars` per step. Mechanism: `2026-11-05-bounded-output-design.md`.
+- **Scope is shown (R7, lessons 35, 39).** The bundle gains `scope: {domains, excluded_documents,
+  rules}`, the domain scope rules applied (§5.3 a) and any documents excluded (a claim's own
+  source, non-independent documents). The answer states it when it narrows the result.
+- **Counts are exhaustive or labelled (R7, lesson 26).** The executor refuses to return a count
+  or enumeration from truncated evidence; it pages to `rows_total`, or returns `coverage:
+  {found, documents_read, documents_total}` and the answer says "N found in M of K documents
+  read".
+- **Suspect values are marked (R7, lesson 31).** A value on a page the conversion check flagged
+  reaches the bundle with `suspect_conversion: true`, and the answer never presents it as "the
+  source says".
+- **Batch programs (R7, lessons 23, 32–37).** `query run --each <claims file>` runs a fixed
+  program per claim (rewrite to corpus wording from `terms`, passage search + survey, scan
+  inside the top documents, `latest` per family) under a call and character cap, one span per
+  claim. Measured offline at ~1.4 s and an estimated USD 0.10–0.15 per claim, against 0.53
+  recorded for the sub-agent sessions.
 - **Dual path, made explicit:** `escalate` null means the fast path (the agent writes the
   answer from the bundle). `escalate` set, or plan confidence low, means the reasoning path
   (the agent reads `suggested` and the routing table, and may run commands itself, as today).
@@ -362,6 +476,16 @@ The study's W3 skill diet, retargeted to the executor:
    cover its jobs (D5). `artmind-review` stays out on purpose: it runs from Claude Code in the
    checkout, never from the chat or admin UI (its own rule).
 4. Tests check the skill against data (routes, Click tree), never prose phrases.
+5. **Answer contract (R7, lessons 19, 40, 42).** When sources are dated or superseding, state the
+   latest applicable one first. Residual incompleteness is stated with numbers, never hedged
+   ("12 of 26 documents read", not "at least"). Separate stated from implied occurrences (an
+   event implied by presence counts, R7-1, and is labelled implied). For a relation counted
+   by direction ("a fight with me"), check who each episode was directed at until the schema
+   carries participant and target. Take the widest granularity the question allows, grouped
+   by level.
+6. **The tool gate stays out of planned steps (R7, lesson 3).** The executor runs commands in
+   process; on the reasoning path the gate strips a leading `cd <vault> &&` and allows reading
+   the agent's own persisted results (bounded-output design §7).
 
 ### 5.6 Learning loop: gaps and proposals
 
@@ -379,6 +503,17 @@ It files zero or more proposals.
 | Extraction | the fact came only from `evidence` text while the route expected graph rows, on a graph domain | **re-extract candidate** (document, chunk), or schema review | review dossier / `ingest sync --reextract` |
 | Routing | plan high and agent overrode it, rated good; or plan high and rated wrong | **label candidate** (question → route the trace took) | question bank (§5.9), user confirms |
 | Data health | `domains_without_hits`, missing summaries, unembedded passages | **maintenance task** | Pipeline |
+| Alias (R7, lessons 16, 22; R7-5) | a `follow_up_why` naming a missed item found under another word; a term in the question that matched no mention | graph domain: **same-as** (both names exist) or an **`update` draft** adding the alias to the entity (only one exists); any domain with document targets: an **alias record** `.artmind/data/curation/aliases/<id>.json` `{term, domain, targets: [doc ids], source: trace id, decided_by}` | Inbox; read by the catalogue's `terms` part |
+| Corrected fact (R7, lesson 43) | the user settles in a follow-up what the notes leave ambiguous (which of two places, an organisation the notes do not name, a person's role a description got wrong) | **proposed fact** (`update` draft) or alias record | Inbox |
+
+**`follow_up_why` re-runs with a must-find (R7, lesson 22; N9).** A why-turn that names the
+missed item re-runs the previous plan with that item as a must-find; in round 7 this would
+have closed 6 of 8 brain01 and 2 of 3 nbs corrections. When it still does not find it, the
+gap is identity or alias, and the row above files the proposal.
+
+**Accept means verified (R7, lesson 21).** Every Inbox accept runs the command, then re-reads the
+graph and shows the result on the card. Round 7 had two merge claims made in chat that the
+graph did not bear out.
 
 Proposals are files, like curation records:
 `<vault>/.artmind/data/proposals/<kind>/<id>.json`, with `{kind, created_at, evidence
@@ -506,6 +641,21 @@ kept readable.
 Entries come from: the domain-mode step (§5.8), ratings with reason tags (§5.7), label
 candidates (§5.6), and the SOP (`docs/query-routing-study/10-collection-sop.md`).
 
+**Expected answers have three tiers (R7, lesson 38).** Each entry's expected answer lists
+`must` (required for credit), `optional` (credit if present, no penalty if absent) and
+`must_not` (an item that makes the answer wrong). Four of sixteen decisions the user made
+writing round 7's expected answers were "optional", which a right/wrong pair cannot grade.
+The benchmark grader and the bundle's self-checks both read the tiers. A rating of "good"
+means correct only (R7-7); efficiency is measured separately (struggle score, calls,
+characters), and struggle selects turns for review but is never a grade (lesson 25).
+
+**Instrumentation first (R7, lesson 24).** The P2 gate cannot be measured without: per-turn
+cost (not the session's cumulative `cost_usd`); model and cost on ACP turns; errors as
+`status: error`; survey and topics evidence ids in spans; `payload_chars` and `persisted` per
+span; spans for sub-agent calls; intent and turn index on the turn; feedback as one upserted
+row per trace with its note; `review verify` failing a run with no answer or no spans. These
+move ahead of P2 (§9).
+
 Metrics, per vault and route, in `traces stats` and the Quality area: fast-path share,
 escalation rate, plan `wrong` rate on the bank (replay), documents covered @10 (retrieval
 eval), rated-good share, p50/p95 turn latency, cost per turn (P33 must be fixed first for ACP
@@ -520,6 +670,7 @@ turns).
 | `query catalogue [--domain] [--part]` | yes | no | §5.1 |
 | `query assets [--domain] [--kind]` | yes | no | §5.2 |
 | `query run "<q>" [--domain] [--plan]` | yes | no | §5.4 executor + bundle |
+| `query page <handle> [--from] [--rows]` (R7) | yes | no | page a result the output budget cut (bounded-output design §5) |
 | `catalogue refresh [--part health\|route_stats]` | no | cache only | §5.1 |
 | `topic index [--domain]` | no | graph index | §5.2 `:TopicPage` sweep |
 | `proposals list\|show\|accept\|reject\|defer` | no | proposal files (accept runs the drafted command after preview) | §5.6 |
@@ -597,7 +748,8 @@ traces.
 | P0 | (SOP, no code) | Run `10-collection-sop.md` on laptops A, B and the desktop; import labels | Every SOP shape ≥ 3 rated turns in two vaults; ≥ 40 labels |
 | P1a | CLI uniformity (`2026-11-02-cli-uniformity-design.md`) | §6.2 C1–C4: JSON + `--compact` everywhere, camelCase with aliases, `--dryRun` + `effect` on every write, the result envelope; contract tests over the Click tree; plugin fixtures regenerated | Contract tests green; plugin tests green; no skill or route template names a removed spelling |
 | P1 | Catalogue + assets (`2026-11-02-catalogue-and-answer-assets-design.md`) | §5.1 parts, generation counter, `query catalogue`, `query assets`, `:TopicPage` index, `topic index` | Plan replay unchanged or better with assets in the catalogue |
-| P2 | Planner v2 (waits for P0; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, intent right on all non-retrieval labels |
+| P1b (R7) | Bounded output + round-7 fixes now (`2026-11-05-bounded-output-design.md`; `12-round7-lessons.md` §5; the lesson-24 instrumentation of §5.9) | Brief row shape, output budget and `query page`, survey default by shape, tool-gate repairs, spans with `payload_chars`/`persisted`, per-turn cost, feedback upsert | Visibility gate before merge (bounded-output design §4.3: brief survey(50) shows answer-bearing text at least as often as full survey(10)); round 8: persisted share of retrieval steps < 5 % (96 % in round 7); instrumentation fields present on every span |
+| P2 | Planner v2 (waits for P0 and P1b; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`, answered in `12-round7-lessons.md` §3) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, intent right on all non-retrieval labels |
 | P3 | Executor + skill diet | `query run`, bundle, skill to ~150 lines, profiles; shadow bundles first, then on in the admin console | Targeted agent runs (study 08 §4) no worse, fewer calls; fast-path share ≥ 50 % of rated-good turns |
 | P4 | Admin UI: Ask + Quality | Plan card, evidence panel, rating reasons; traces, replay, bank views | Ratings on ≥ 70 % of admin turns for two weeks |
 | P5 | Learning loop + Inbox | `gaps`, `proposals`, `preview`, Inbox cards for same-as and conflicts first, then topics/views/labels; plugin Inbox subset | A same-as batch of 100 reviewed in under 15 minutes without the agent; < 20 % of proposals rejected as noise |
@@ -618,7 +770,8 @@ start as soon as P2 ships in shadow.
 Beyond the uniformity changes in §6.2, which keep every old form as an alias:
 
 The stores, extraction, projection and curation-record formats; `vector-text`, `survey` and
-pattern semantics; views' format; topic page format (index only added); the domain-guard
+pattern semantics (ranking unchanged; the brief row shape and the output budget, R7, change
+only what an agent-facing caller is shown); views' format; topic page format (index only added); the domain-guard
 behaviour; vault sync. The decision-model integration stays as built.
 
 ## 11. Decisions for the user
@@ -633,6 +786,7 @@ behaviour; vault sync. The decision-model integration stays as built.
 | D6 | One question bank replacing three label formats | Yes, with import of the existing files |
 | D7 | P0 collection before P2 is switched on (P1 can start now) | Yes |
 | D8 | CLI uniformity (§6.2): camelCase `--dryRun` (not `--dry-run`) as the one spelling, old spellings as hidden aliases for one release, then removed | Yes; camelCase is the repo convention and 5 commands already use `--dryRun` |
+| D9 (R7) | Survey depth: keep 50 for the agent as one-line rows (brief shape), revert the full shape's default to 10 | Yes (bounded-output design §6); the revert lands with the brief shape |
 
 ## 12. References
 
