@@ -17,7 +17,7 @@ routes:
     steps:
       - "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --compact"
     fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --compact"}
+      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
     evidence: [S25, P25]
 
@@ -39,7 +39,7 @@ routes:
     steps:
       - "artmind query graph text2cypher --domain {domains} {question} --compact"
     fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --compact"}
+      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
     evidence: [S3, P2]
 
@@ -61,7 +61,7 @@ routes:
     steps:
       - "artmind query entity-context --domain {domains} --entityId {entity_id} --compact"
     fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --compact"}
+      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
     evidence: [S10]
 
@@ -83,7 +83,7 @@ routes:
       - "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact"
       - "artmind query document-history --domain {domains} --documentName {document} --compact"
     fallbacks:
-      - {when: no_document, cmd: "artmind query vector-text --domain {domains} {question} --compact"}
+      - {when: no_document, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: [references/temporal.md]
     evidence: [S14, S20, P12]
 
@@ -95,7 +95,7 @@ routes:
     needs: []
     steps:
       - "artmind query graph conflicts --domain {domains} --status all --compact"
-      - "artmind query vector-text --domain {domains} {question} --compact"
+      - "artmind query vector-text --shape brief --domain {domains} {question} --compact"
     fallbacks: []
     read: [references/conflicts.md]
     evidence: [S13, P13]
@@ -119,7 +119,7 @@ routes:
       - "artmind query graph pattern6 --domain {domains} --entityId1 {entity_id} --entityId2 {other_entity_id} --compact"
     fallbacks:
       - {when: zero_rows, cmd: "artmind query graph pattern5 --domain {domains} --entityClass1 {entity_class} --entityClass2 {other_entity_class} --entityId1 {entity_id} --entityId2 {other_entity_id} --mode shortest --compact"}
-      - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --compact"}
+      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
     evidence: [S12]
 
@@ -152,7 +152,7 @@ routes:
     triggers: ["how do i", "how do we", "how to", "steps to", "procedure for", "process for", "what should", "what happens when", "what are the steps"]
     needs: []
     steps:
-      - "artmind query vector-text --domain {domains} {question} --topK 10 --compact"
+      - "artmind query vector-text --shape brief --domain {domains} {question} --topK 10 --compact"
     fallbacks: []
     read: []
     evidence: [S19, P14]
@@ -175,7 +175,7 @@ routes:
       records_plus_guidance:
         - "artmind db bridge --domain {domains} --compact"
         - "artmind query text2sql --domain {domains} {question} --compact"
-        - "artmind query vector-text --domain {domains} {question} --compact"
+        - "artmind query vector-text --shape brief --domain {domains} {question} --compact"
     fallbacks: []
     read: [references/structured-store.md]
     evidence: [S7, S8, S9, P15]
@@ -209,9 +209,9 @@ routes:
       "who is responsible for", "what are the obligations", "responsibilities of"]
     needs: []
     steps:
-      - "artmind query survey --domain {domains} {question} --compact"
+      - "artmind query survey --shape brief --domain {domains} {question} --compact"
     fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --domain {domains} {question} --topK 10 --compact"}
+      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --topK 10 --compact"}
     read: []
     evidence: [S2]
 
@@ -220,7 +220,7 @@ routes:
     triggers: []
     needs: []
     steps:
-      - "artmind query vector-text --domain {domains} {question} --compact"
+      - "artmind query vector-text --shape brief --domain {domains} {question} --compact"
     fallbacks: []
     read: []
     evidence: [S2]

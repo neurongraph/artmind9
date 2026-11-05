@@ -123,7 +123,7 @@ def test_nothing_matching_is_low_confidence_with_suggestions(world):
     assert result["confidence"]["level"] == "low"
     assert result["confidence"]["weakest"] == "route"
     assert result["steps"] == []
-    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --domain journal")
+    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --shape brief --domain journal")
     assert result["read"][-1] == "SKILL.md"
 
 
@@ -245,7 +245,7 @@ def test_an_unfillable_route_still_gets_search_suggestions(world):
     assert result["confidence"]["level"] == "low" and result["confidence"]["weakest"] == "unfilled"
     assert result["steps"] == []
     assert [s["cmd"] for s in result["suggested_steps"]] == [
-        "artmind query vector-text --domain journal 'Did I go to the gym again?' --compact"
+        "artmind query vector-text --shape brief --domain journal 'Did I go to the gym again?' --compact"
     ]
     assert result["fallbacks"] == []
     assert any("route existence needs entity_name" in w and "suggested search instead" in w
@@ -259,7 +259,7 @@ def test_the_narrator_is_never_a_search_term(world, tmp_path):
     assert result["route"]["id"] == "existence"
     assert result["confidence"]["level"] == "low" and result["confidence"]["weakest"] == "unfilled"
     assert result["steps"] == []
-    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --domain journal")
+    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --shape brief --domain journal")
     assert any("route existence needs entity_name" in w for w in result["warnings"])
     assert "--searchTerm" not in str(result["suggested_steps"]) and "Diarist" not in str(result["suggested_steps"])
 
@@ -310,7 +310,7 @@ def test_a_view_that_is_not_ok_still_gets_search_suggestions(world):
     assert result["route"]["id"] == "view"
     assert result["confidence"]["weakest"] == "view_status"
     assert result["steps"] == []
-    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --domain journal")
+    assert result["suggested_steps"][0]["cmd"].startswith("artmind query vector-text --shape brief --domain journal")
     assert result["fallbacks"] == []
     assert any("view visits_by_year: status no_match" in w for w in result["warnings"])
 

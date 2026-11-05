@@ -114,7 +114,7 @@ schema call it doesn't use:
   1. `db sql`/`text2sql` for the records, selecting the `bridge_columns` that
      `db bridge` listed, not just the ids.
   2. Feed those returned cell values as the query string to
-     `artmind query vector-text "<values + question terms>" --domain <corpus>
+     `artmind query vector-text --shape brief "<values + question terms>" --domain <corpus>
      --asOf today --compact`. Unscoped across the corpus is fine and fast;
      `--asOf today` matters — without it retired policy versions rank
      alongside current ones.
@@ -143,7 +143,7 @@ Worked examples:
   `vulnerable_customers` carrying `vulnerability_driver` and `support_needed`
   as `bridge_columns`. `db sql` joins it to `complaints` on the open status,
   returning those two columns alongside the customer. Their *values* then
-  become the retrieval phrase: `query vector-text "<driver> <support> handling
+  become the retrieval phrase: `query vector-text --shape brief "<driver> <support> handling
   complaints extra care" --domain banking --asOf today --compact`, which
   reaches the training and complaints-policy documents. Note the class join
   would have failed here — the graph has almost no CUSTOMER entities, because
