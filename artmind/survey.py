@@ -189,20 +189,24 @@ def survey_search(
     if expand:
         return _expanded(domains, question, picked, meta, doc_units, passages, warnings, top_docs, legs)
     if shape == "brief":
-        documents = _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_hits,
-                                     chunk_summary_hits, passage_docs, gist_docs)
         found = topics(ids, domains) if topics else []
         warnings.extend(getattr(found, "warnings", ()))
-        return {
+        out = {
             **_domain_output(domains),
             "query_type": "survey",
             "question": question,
             "parameters": {"topDocs": top_docs, "passages": passages, "pool": POOL, "legs": list(legs),
                            "shape": "brief", "passageDocs": passage_docs, "gistDocs": gist_docs},
             "warnings": warnings,
-            "documents": documents,
+            "documents": [],
             "topics": list(found),
         }
+        # The rows get what the rest of the payload leaves (measured, plus room for the
+        # envelope keys `_echo_json` adds and the indentation of a non-compact print).
+        envelope = brief.size(out) + brief.ENVELOPE_CHARS
+        out["documents"] = _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_hits,
+                                            chunk_summary_hits, passage_docs, gist_docs, envelope)
+        return out
 
     documents = []
     for doc_id, score, ranks in picked:
@@ -239,7 +243,7 @@ def _passage(unit) -> dict:
 
 
 def _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_hits, chunk_summary_hits,
-                     passage_docs, gist_docs) -> list[dict]:
+                     passage_docs, gist_docs, envelope: int = brief.ENVELOPE_CHARS) -> list[dict]:
     """Spec 2026-11-05 §4 / §4.2: every document listed; how much is shown varies."""
     inputs, facts = [], {}
     for rank, (doc_id, score, _) in enumerate(picked, 1):
@@ -272,7 +276,8 @@ def _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_h
             doc_id, d["rank"], picked[d["rank"] - 1][1], sum(d["hits"].values()), d["_relevance"],
             d["passage"] is not None, brief.size(brief.survey_row("line", d)),
             brief.size(brief.survey_row("gist", d)), brief.size(brief.survey_row("passage", d))))
-    kinds = brief.allocate(cands, passage_docs=passage_docs, gist_docs=gist_docs, budget=brief.output_budget())
+    kinds = brief.allocate(cands, passage_docs=passage_docs, gist_docs=gist_docs, budget=brief.output_budget(),
+                           envelope=envelope)
     return [brief.survey_row(kinds[doc_id], facts[doc_id]) for doc_id, _, _ in picked]
 
 

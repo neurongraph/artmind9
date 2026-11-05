@@ -200,41 +200,57 @@ class Candidate:
 
 def allocate(cands: list[Candidate], *, passage_docs: int, gist_docs: int, budget: int | None,
              envelope: int = ENVELOPE_CHARS) -> dict[str, str]:
-    """`{doc_id: 'passage'|'gist'|'line'}` (spec §4.2). Floors (needle rule, passage_docs,
-    gist_docs) are always met; beyond them gist rows fill what `budget` leaves."""
+    """`{doc_id: 'passage'|'gist'|'line'}` (spec §4.2). Every document is at least a line row.
+    Up to `passage_docs` passage rows (needles first), then `gist_docs` gist rows, then more gist
+    rows while `budget` allows; with a budget, no upgrade is made that would exceed it.
+    `envelope` is the measured size of everything but the rows."""
     kind = {c.doc_id: "line" for c in cands}
     total = envelope + sum(c.line_chars for c in cands)
 
-    def upgrade(c: Candidate, to: str) -> None:
-        nonlocal total
-        cost = {"line": c.line_chars, "gist": c.gist_chars, "passage": c.passage_chars}
-        total += cost[to] - cost[kind[c.doc_id]]
-        kind[c.doc_id] = to
+    def cost(c: Candidate, k: str) -> int:
+        return {"line": c.line_chars, "gist": c.gist_chars, "passage": c.passage_chars}[k]
 
-    rels = [c.relevance for c in cands if c.has_passage and c.relevance is not None]
+    def upgrade(c: Candidate, to: str) -> bool:
+        """Upgrade unless it would break the budget: the line floor is the only hard floor,
+        so every document stays listed and the `_echo_json` cut is a backstop, not the rule."""
+        nonlocal total
+        delta = cost(c, to) - cost(c, kind[c.doc_id])
+        if budget and total + delta > budget:
+            return False
+        total += delta
+        kind[c.doc_id] = to
+        return True
+
+    # Passage slots (at most `passage_docs`) go first to the needle set -- documents whose best
+    # passage is within NEEDLE_TOLERANCE of the top, best relevance first, so a needle ranked
+    # low by fusion still shows its text -- then by rank. When relevance is flat the needle set
+    # is large; capping it at the slot count keeps a flat result from spending the budget on
+    # passages.
+    with_passage = [c for c in cands if c.has_passage]
+    rels = [c.relevance for c in with_passage if c.relevance is not None]
+    needles: list[Candidate] = []
     if rels:
         top = max(rels)
-        for c in cands:
-            if c.has_passage and c.relevance is not None and c.relevance >= top - NEEDLE_TOLERANCE - 1e-9:
-                upgrade(c, "passage")
-    for c in cands:
-        if sum(1 for k in kind.values() if k == "passage") >= passage_docs:
+        needles = sorted((c for c in with_passage
+                          if c.relevance is not None and c.relevance >= top - NEEDLE_TOLERANCE - 1e-9),
+                         key=lambda c: (-c.relevance, c.rank))
+    slots = passage_docs
+    for c in [*needles, *with_passage]:
+        if slots <= 0:
             break
-        if kind[c.doc_id] == "line" and c.has_passage:
-            upgrade(c, "passage")
+        if kind[c.doc_id] == "line" and upgrade(c, "passage"):
+            slots -= 1
     ordered = sorted(cands, key=lambda c: (-c.score, -c.hits, c.rank))
+    gists = 0
     for c in ordered:
-        if sum(1 for k in kind.values() if k == "gist") >= gist_docs:
+        if gists >= gist_docs:
             break
-        if kind[c.doc_id] == "line":
-            upgrade(c, "gist")
+        if kind[c.doc_id] == "line" and upgrade(c, "gist"):
+            gists += 1
     if budget:
         for c in ordered:
-            if kind[c.doc_id] != "line":
-                continue
-            if total + c.gist_chars - c.line_chars > budget:
+            if kind[c.doc_id] == "line" and not upgrade(c, "gist"):
                 break
-            upgrade(c, "gist")
     return kind
 
 

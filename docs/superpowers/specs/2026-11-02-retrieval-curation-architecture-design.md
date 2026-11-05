@@ -112,7 +112,7 @@ Pattern numbers are from `docs/query-routing-study/02-trace-evidence.md`.
    vault or the machine; nothing from them enters this checkout. A hosted model sees what the
    operator chose to send (§11, D3).
 8. **Bounded output (R7, lessons 2, 37).** No planned step hands the agent more than its
-   budget (16,000 characters a step, 24,000 a bundle), and no cut is silent: what did not fit
+   budget (24,000 characters a step or a bundle, under the 30,000 inline limit), and no cut is silent: what did not fit
    is named, counted and reachable through a result handle. Evidence rows always carry
    document id, title, domain and date. Mechanism: `2026-11-05-bounded-output-design.md`.
 9. **Exhaustive before counting (R7, lessons 26, 19).** A count, an enumeration or "the

@@ -230,7 +230,7 @@ class ACPBackend:
         env = dict(os.environ)
         changed = False
         if "ARTMIND_OUTPUT_BUDGET" not in env:
-            env["ARTMIND_OUTPUT_BUDGET"] = "16000"
+            env["ARTMIND_OUTPUT_BUDGET"] = "24000"
             changed = True
         if self._extra_env:
             env.update(self._extra_env)

@@ -77,14 +77,14 @@ limit is a cost control as much as a visibility one.
 
 | Budget | Value | Why |
 |---|---|---|
-| **Step budget** (one command, agent-facing) | 16,000 characters | about half the inline limit (30,000); fits 10 brief passage rows (~14,000) or a brief survey of 50 (~16,000 with the allocation of §4.2) |
-| **Bundle budget** (`query run`, P3) | 24,000 characters | one result per question; 6,000 below the inline limit |
+| **Step budget** (one command, agent-facing) | 24,000 characters | 6,000 under the inline limit (30,000). Measured 2026-11-05 on the contracts domain: brief survey(50) is ~23,000 (3 passage, ~10 gist, ~37 line rows; passage rows ~1,900, gist ~650, line ~250, `topics` ~1,200) and brief `vector-text`(10) ~16,500. A 16,000 budget left survey with 1 gist and 49 line rows |
+| **Bundle budget** (`query run`, P3) | 24,000 characters | one result per question, same ceiling as a step |
 | **Error budget** | 2,000 characters | a failed command gets only head+tail; the message must name the fix in its first line |
 
 Budgets are in **characters**, the unit the harness counts. They are set by one env var,
 `ARTMIND_OUTPUT_BUDGET` (characters; `0` = off), which the web UI backends set for their
-agent processes (step budget) and which `query run` reads for the bundle (twice the step
-value, capped at 24,000, unless set as `ARTMIND_BUNDLE_BUDGET`). Unset means no budget: a human at a terminal and the plugin
+agent processes (step budget) and which `query run` reads for the bundle (the same value
+unless set as `ARTMIND_BUNDLE_BUDGET`). Unset means no budget: a human at a terminal and the plugin
 see today's output (R7). Bad values are a `ClickException` naming the variable, as for the
 other `ARTMIND_*` integers.
 
@@ -132,15 +132,15 @@ much is shown for each document varies, in three row kinds, sized from §1's mea
 
 | Row kind | Shows | Characters each |
 |---|---|---|
-| **passage row** | the document's best passage in full (≤ 1,200) plus the document row's fields | ~1,500 |
-| **gist row** | the brief document row above | ~380 |
-| **line row** | `rank, doc_id, title, date, status, score, matched, hits` | ~180 |
+| **passage row** | the document's best passage in full (≤ 1,200) plus the document row's fields | ~1,900 (measured) |
+| **gist row** | the brief document row above | ~650 (measured) |
+| **line row** | `rank, doc_id, title, date, status, score, matched, hits` | ~250 (measured) |
 
 Rows are given out within the budget (§4.2), not by fixed rank bands. A typical result for 50
-documents is 3 passage rows, 12 gist rows and 35 line rows: 4,500 + 4,560 + 6,300 + ~1,000
-envelope ≈ 16,000. `--passageDocs` (0–10) and `--gistDocs` (0–50) set floors the allocation
-must meet before it fills the rest. The spec measures both vaults (contract titles are long,
-journal titles short) before fixing the defaults.
+documents is 3 passage rows, 10 gist rows and 37 line rows: 5,700 + 6,500 + 9,250 + ~1,500
+envelope (mostly `topics`) ≈ 23,000, measured on the contracts domain. `--passageDocs` (0–10,
+default 3) and `--gistDocs` (0–50, default 10) are targets the allocation meets when the
+budget allows. The second vault (short journal titles) is still to be measured.
 
 ### 4.1 Making the short forms point at the answer
 
@@ -186,7 +186,8 @@ use them instead of a fixed opening sentence.
    the budget is reached.
 3. Upgrade the remaining documents to **gist rows** by rank, then by `hits` for ties, until the
    budget is reached.
-4. If even the floor exceeds the budget (very long titles, `--topDocs 50` across many
+4. No upgrade is made that would exceed the budget (passage slots go to the needle set first,
+   best relevance first, but never more than `--passageDocs`). If even the floor exceeds the budget (very long titles, `--topDocs 50` across many
    domains), §5 pages the tail and says so.
 
 The allocation is deterministic, so the same question gives the same rows, and replay and
@@ -236,7 +237,7 @@ One mechanism in `_echo_json`, so every command inherits it, rather than per-com
      fits;
    - the envelope gains `truncated: true`, `rows_total`, `rows_shown`, `handle`, and `next`
      is set to the paging command (`artmind query page <handle> --from <rows_shown>`);
-   - one `warnings` line says what was cut and why ("output budget 16,000 characters:
+   - one `warnings` line says what was cut and why ("output budget 24,000 characters:
      showing 31 of 50 documents").
    A payload with no list key that is still over budget (a huge single row) is cut field by
    field: string values over 2,000 characters are shortened with `…` and named in `warnings`.
@@ -297,8 +298,8 @@ unnecessary.
 In the claude-sdk backend's `agent_options`:
 
 - `env["BASH_MAX_OUTPUT_LENGTH"] = "40000"`: works with the bundled CLI 2.1.218; gives the
-  budgeted outputs a 2.5× margin and catches commands that have no budget yet.
-- `env["ARTMIND_OUTPUT_BUDGET"] = "16000"`: the budget of §3, read by every `artmind` the
+  budgeted outputs a margin and catches commands that have no budget yet.
+- `env["ARTMIND_OUTPUT_BUDGET"] = "24000"`: the budget of §3, read by every `artmind` the
   agent runs.
 - `bashOutputMaxChars`: not set while the bundled CLI lacks it; when the bundled CLI gains it,
   set it to the same value and drop the env var (it would be ignored then anyway).

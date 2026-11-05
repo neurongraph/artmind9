@@ -82,9 +82,31 @@ def test_every_document_is_listed_and_floors_are_met():
 
 def test_needle_within_003_of_top_relevance_gets_a_passage_row():
     rels = {1: 0.60, 2: 0.55, 3: 0.50, 4: 0.50, 7: 0.78, 9: 0.76, 10: 0.74}
-    kinds = brief.allocate(_cands(12, rels=rels), passage_docs=0, gist_docs=0, budget=None)
+    kinds = brief.allocate(_cands(12, rels=rels), passage_docs=2, gist_docs=0, budget=None)
+    # both passage slots go to the needles (ranked 7 and 9), not to ranks 1 and 2
     assert {d for d, k in kinds.items() if k == "passage"} == {"d7", "d9"}
     assert kinds["d10"] == "line"
+
+
+def test_flat_relevance_needle_set_is_capped_by_passage_slots():
+    rels = {i: 0.88 - 0.001 * i for i in range(1, 21)}  # every document within 0.03 of the top
+    kinds = brief.allocate(_cands(20, rels=rels), passage_docs=3, gist_docs=0, budget=None)
+    assert {d for d, k in kinds.items() if k == "passage"} == {"d1", "d2", "d3"}
+
+
+def test_no_passage_slots_means_no_passage_rows():
+    rels = {7: 0.9, 9: 0.89}
+    kinds = brief.allocate(_cands(12, rels=rels), passage_docs=0, gist_docs=0, budget=None)
+    assert all(k == "line" for k in kinds.values())
+
+
+def test_budget_is_never_exceeded_and_every_document_stays_listed():
+    cands = _cands(50)
+    for budget in (6000, 9000, 16000):
+        kinds = brief.allocate(cands, passage_docs=3, gist_docs=10, budget=budget)
+        assert len(kinds) == 50
+        sizes = {"line": 100, "gist": 300, "passage": 1500}
+        assert 1000 + sum(sizes[k] for k in kinds.values()) <= budget
 
 
 def test_hits_break_gist_ties():
