@@ -187,6 +187,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   overflow-x: auto;
 }
 .md pre code { background: none; padding: 0; font-size: 0.85em; }
+.mermaid-diagram { margin: 0.8em 0; overflow-x: auto; text-align: center; }
+.mermaid-diagram svg { max-width: 100%; height: auto; }
+.mermaid-diagram.mermaid-failed { text-align: left; }
+.mermaid-error { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
 .copy-btn {
   position: absolute; top: 8px; right: 8px;
   padding: 3px 9px; border-radius: 6px;
