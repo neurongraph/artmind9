@@ -1244,9 +1244,28 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
       AND {domain_predicate("c")}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")} }} AS document{neighbor_return}
+           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")},
+                title: coalesce(d.title, d.name), date: d.valid_from,
+                superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(d) }} }} AS document{neighbor_return}
     ORDER BY c.id
     """
+
+
+def _brief_chunk_rows(rows: list[dict]) -> list[dict]:
+    """`chunks --shape brief`: each row as `chunk` plus a `doc {id,title,domain,date,status}`."""
+    from artmind import brief
+
+    out = []
+    for r in rows:
+        d = r.get("document") or {}
+        chunk = r.get("chunk") or {}
+        row = {"chunk": chunk,
+               "doc": brief.doc_ref(d.get("id") or chunk.get("doc_id"), d.get("title"), d.get("name"),
+                                    d.get("_domain") or chunk.get("_domain"), d.get("date"), d.get("superseded"))}
+        if "neighbors" in r:
+            row["neighbors"] = r["neighbors"]
+        out.append(row)
+    return out
 
 
 def chunks_by_id(
@@ -1254,11 +1273,15 @@ def chunks_by_id(
     chunk_ids: Sequence[str],
     expand: int = 0,
     as_of: str | None = None,
+    *,
+    shape: str = "full",
 ) -> dict:
     """Fetch chunk text by exact id — the deterministic grounding step for the
     chunk ids that patterns 2/3/4 return as doc_sources and conflicts return
     as evidence. expand=N also returns up to N adjacent chunks per hit from
     the same document."""
+    if shape not in ("brief", "full"):
+        raise ValueError("--shape must be one of brief, full")
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
     ids = [str(c).strip() for c in chunk_ids if str(c).strip()]
@@ -1274,12 +1297,20 @@ def chunks_by_id(
         **({"expand": expand} if expand > 0 else {}),
         **({"asOf": as_of} if as_of else {}),
     }
+    rows = _run_read_query(cypher, params)
+    if shape == "brief":
+        rows = _brief_chunk_rows(rows)
+    else:
+        for r in rows:
+            if isinstance(r.get("document"), dict):
+                r["document"]["status"] = "superseded" if r["document"].pop("superseded", False) else "current"
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "chunks",
-        "parameters": {"chunkIds": ids, "expand": expand, **({"asOf": as_of} if as_of else {})},
-        "rows": _run_read_query(cypher, params),
+        "parameters": {"chunkIds": ids, "expand": expand, **({"asOf": as_of} if as_of else {}),
+                       **({"shape": "brief"} if shape == "brief" else {})},
+        "rows": rows,
     }
 
 
@@ -1373,7 +1404,9 @@ def _entity_context_queries() -> dict[str, str]:
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
     RETURN c {
       .id, .name, .doc_id, ._domain, .header_path, .valid_to, .text,
-      document: d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by }
+      document: d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by,
+                    title: coalesce(d.title, d.name), date: d.valid_from,
+                    superseded: EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } }
     } AS chunk
     """,
         "source_documents": f"""
@@ -1604,6 +1637,23 @@ def _keyword_chunk_ids(session, cypher: str, terms: Sequence[str], chunk_ids: li
     return [r["id"] for r in rows]
 
 
+def _entity_chunk(chunk: dict, shape: str, rank: int) -> dict:
+    """An entity-context source chunk: full keeps every key and gains the document's
+    status; brief is a passage-row-shaped record (the chunk text cut to 1,200 characters)."""
+    from artmind import brief
+
+    doc = dict(chunk.get("document") or {})
+    superseded = doc.pop("superseded", False)
+    if shape == "brief":
+        ref = brief.doc_ref(doc.get("id") or chunk.get("doc_id"), doc.get("title"), doc.get("name"),
+                            doc.get("_domain") or chunk.get("_domain"), doc.get("date"), superseded)
+        return brief.passage_row(rank, None, chunk.get("id"), chunk.get("text"), None, ref)
+    if doc:
+        doc["status"] = brief.doc_status(superseded)
+        return {**chunk, "document": doc}
+    return chunk
+
+
 def entity_context(
     domains: "str | Sequence[str]",
     entity_id: str,
@@ -1613,6 +1663,7 @@ def entity_context(
     rel_types: Sequence[str] = (),
     max_connections: int = ENTITY_CONTEXT_MAX_CONNECTIONS,
     max_list_items: int = ENTITY_CONTEXT_MAX_LIST_ITEMS,
+    shape: str = "full",
 ) -> dict:
     """One-call grounded picture of a resolved entity: properties, one-hop
     relationships, and the text of its most relevant source chunks. Replaces
@@ -1625,6 +1676,8 @@ def entity_context(
     (the user's question) ranks chunks and connections by relevance to it, so
     the evidence that answers it is what makes the cut.
     """
+    if shape not in ("brief", "full"):
+        raise ValueError("--shape must be one of brief, full")
     domains = normalize_domains(domains)
     if not (entity_id or "").strip():
         raise ValueError("--entityId is required")
@@ -1691,7 +1744,8 @@ def entity_context(
                 )
             )
             row["chunks_total"] = len(chunk_refs)
-            row["chunks"] = [texts[c["id"]] for c in top_refs if c["id"] in texts]
+            row["chunks"] = [_entity_chunk(texts[c["id"]], shape, i) for i, c in
+                             enumerate((c for c in top_refs if c["id"] in texts), 1)]
             row["more_chunks"] = [
                 {"id": c["id"], "name": c.get("name"), "doc_id": c.get("doc_id")}
                 for c in chunk_refs[include_chunks : include_chunks + ENTITY_CONTEXT_MAX_MORE_CHUNKS]
@@ -1713,6 +1767,7 @@ def entity_context(
             "maxListItems": max_list_items,
             **({"relType": rel_types} if rel_types else {}),
             **({"query": query} if query else {}),
+            **({"shape": "brief"} if shape == "brief" else {}),
         },
         "rows": strip_internal_props(rows),
     }
