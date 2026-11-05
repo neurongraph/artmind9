@@ -23,7 +23,7 @@ from pathlib import Path
 import yaml
 
 from artmind.query_plan import program as program_mod
-from artmind.query_plan.program import Guard, Node, ProgramError
+from artmind.query_plan.program import Guard, Node, ProgramChoice, ProgramError
 
 ROUTES_FILE = Path(__file__).with_name("routes.yaml")
 RESERVED_IDS = frozenset({"view"})
@@ -41,7 +41,8 @@ TRIGGER_SLOTS = frozenset({"date", "year", "entity", "document"})
 FALLBACK_WHEN = frozenset({"zero_rows", "truncated", "no_document", "needs_disambiguation", "error"})
 MAX_DESCRIPTION = 300
 
-_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "optional_steps", "variants", "fallbacks", "read", "evidence", "program", "guards"})
+_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "optional_steps", "variants", "fallbacks", "read", "evidence", "program", "programs", "kind", "guards"})
+_CHOICE_KEYS = frozenset({"kind", "when", "program", "guards"})
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _EVIDENCE_RE = re.compile(r"^[SP]\d+$")
 _PLACEHOLDER_RE = re.compile(r"\{([a-z_]+)\}")
@@ -71,7 +72,10 @@ class Route:
     optional_steps: tuple[str, ...] = ()  # rendered after the steps when every placeholder fills
     program: tuple[Node, ...] = ()  # every route: authored (v2) or converted from steps (v1)
     guards: tuple[Guard, ...] = ()
-    authored_program: bool = False  # True when routes.yaml wrote `program:` itself
+    authored_program: bool = False  # True when routes.yaml wrote `program:` or `programs:` itself
+    kind: str = "sequence"  # program kind of the default choice (v1 routes: sequence)
+    programs: tuple[ProgramChoice, ...] = ()  # every route: one or more choices; the last is the default
+    chooses: bool = False  # True when routes.yaml wrote `programs:` (the planner picks one at plan time)
 
     def steps_for(self, store_kind: str | None) -> tuple[str, ...]:
         return self.variants.get(store_kind, self.steps) if store_kind else self.steps
@@ -105,6 +109,35 @@ def _template(cmd, where: str, allowed: frozenset = PLACEHOLDERS) -> str:
     if "--compact" not in cmd.split():
         raise RouteError(f"{where} must pass --compact")
     return cmd
+
+
+def _kind(value, where: str) -> str:
+    if value not in program_mod.PROGRAM_KINDS or value == "sequence":
+        raise ProgramError(f"{where} must be one of {[k for k in program_mod.PROGRAM_KINDS if k != 'sequence']}")
+    return value
+
+
+def _parse_program(raw, where: str):
+    return program_mod.parse_program(raw, where, lambda cmd, w, extra: _template(cmd, w, ALL_PLACEHOLDERS | extra))
+
+
+def _parse_choices(raw, where: str) -> tuple[ProgramChoice, ...]:
+    """`programs:` = [{kind, when?, program, guards?}, ...]; only the last entry may omit `when`."""
+    if not isinstance(raw, list) or not raw:
+        raise ProgramError(f"{where}.programs must be a non-empty list")
+    out = []
+    for i, entry in enumerate(raw):
+        loc = f"{where}.programs[{i}]"
+        if not isinstance(entry, dict) or set(entry) - _CHOICE_KEYS or not {"kind", "program"} <= set(entry):
+            raise ProgramError(f"{loc} must be {{kind, program[, when][, guards]}}")
+        last = i == len(raw) - 1
+        if "when" not in entry and not last:
+            raise ProgramError(f"{loc}: only the last entry may omit `when` (it is the default)")
+        when = program_mod.parse_when(entry["when"], f"{loc}.when") if "when" in entry else None
+        program = _parse_program(entry["program"], f"{loc}.program")
+        guards = program_mod.parse_guards(entry.get("guards"), program, f"{loc}.guards")
+        out.append(ProgramChoice(_kind(entry["kind"], f"{loc}.kind"), when, program, guards))
+    return tuple(out)
 
 
 def parse_routes(data) -> tuple[Route, ...]:
@@ -142,15 +175,23 @@ def parse_routes(data) -> tuple[Route, ...]:
         needs = _strings(raw.get("needs"), f"{where}.needs")
         if set(needs) - NEEDS:
             raise RouteError(f"{where}: unknown needs {sorted(set(needs) - NEEDS)}")
-        has_program = "program" in raw
+        forms = [k for k in ("steps", "program", "programs") if k in raw]
+        if len(forms) > 1:
+            raise RouteError(f"{where}: give exactly one of `steps:`, `program:`, `programs:` (found {forms})")
+        chooses = "programs" in raw
+        has_program = "program" in raw or chooses
         if has_program:
             if version < 2:
-                raise RouteError(f"{where}: `program:` needs `version: 2`")
-            clash = [k for k in ("steps", "fallbacks", "variants", "optional_steps") if k in raw]
+                raise RouteError(f"{where}: `{forms[0]}:` needs `version: 2`")
+            clash = [k for k in ("fallbacks", "variants", "optional_steps") if k in raw]
             if clash:
-                raise RouteError(f"{where}: give `program:` or `steps:`/`fallbacks:`, not both (found {clash})")
+                raise RouteError(f"{where}: give `{forms[0]}:` or `steps:`/`fallbacks:`, not both (found {clash})")
         elif "guards" in raw:
             raise RouteError(f"{where}: `guards:` only goes with `program:`")
+        if "kind" in raw and "program" not in raw:
+            raise RouteError(f"{where}: `kind:` only goes with a single `program:` (`programs:` entries carry their own)")
+        if chooses and "guards" in raw:
+            raise RouteError(f"{where}: with `programs:`, put `guards:` inside each entry")
         steps = ()
         if not has_program:
             steps = tuple(
@@ -183,25 +224,32 @@ def parse_routes(data) -> tuple[Route, ...]:
         bad_evidence = [e for e in evidence if not _EVIDENCE_RE.match(e)]
         if bad_evidence:
             raise RouteError(f"{where}: evidence ids must look like S<n> or P<n>, got {bad_evidence}")
-        if has_program:
-            try:
-                program = program_mod.parse_program(
-                    raw["program"], f"{where}.program",
-                    lambda cmd, w, extra: _template(cmd, w, ALL_PLACEHOLDERS | extra),
-                )
+        try:
+            if chooses:
+                choices = _parse_choices(raw["programs"], where)
+            elif has_program:
+                kind = _kind(raw.get("kind", program_mod.DEFAULT_KIND), f"{where}.kind")
+                program = _parse_program(raw["program"], f"{where}.program")
                 guards = program_mod.parse_guards(raw.get("guards"), program, f"{where}.guards")
-            except ProgramError as exc:
-                raise RouteError(str(exc)) from exc
+                choices = (ProgramChoice(kind, None, program, guards),)
+            else:
+                program, guards = program_mod.program_from_v1(steps, [(f.when, f.cmd) for f in fallbacks])
+                choices = (ProgramChoice("sequence", None, program, guards),)
+        except ProgramError as exc:
+            raise RouteError(str(exc)) from exc
+        default = choices[-1]
+        program, guards = default.program, default.guards
+        if has_program:
             steps = tuple(n.run for n in program_mod.run_nodes(program))
-        else:
-            program, guards = program_mod.program_from_v1(steps, [(f.when, f.cmd) for f in fallbacks])
-        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants, optional_steps, program, guards, has_program))
+        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants,
+                         optional_steps, program, guards, has_program, default.kind, choices, chooses))
     if not out:
         raise RouteError("routes.yaml defines no routes")
     ids = frozenset(r.id for r in out)
     for route in out:
         try:
-            program_mod.validate_replacements(route.guards, route.id, ids, f"route {route.id}")
+            for choice in route.programs:
+                program_mod.validate_replacements(choice.guards, route.id, ids, f"route {route.id}")
         except ProgramError as exc:
             raise RouteError(str(exc)) from exc
     return tuple(out)

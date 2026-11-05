@@ -28,7 +28,7 @@ VIEW = {
     "presentation": {"format": "table", "table": {"columns": ["who"]}},
     "provenance": {"created": "2026-10-09", "origin": "authored"},
 }
-V2_KEYS = {"intent", "effective_question", "previous_used", "slots", "slot_quality", "scope", "program", "guards",
+V2_KEYS = {"intent", "effective_question", "previous_used", "slots", "slot_quality", "scope", "program", "program_kind", "plan_facts", "guards",
            "asset_match", "gaps", "action", "answer_from"}
 PAYLOAD_KEYS = {"plan_version", "question", "domains", "route", "view_match", "entities", "catalogue", "store", "confidence",
                 "steps", "suggested_steps", "fallbacks", "read", "classifier", "warnings", "executed",
