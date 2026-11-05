@@ -5273,10 +5273,17 @@ def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: 
 @click.option("--retriever", type=click.Choice(["vector-text", "survey"]), default="vector-text", show_default=True,
               help="survey scores survey labels only, by documents covered")
 @click.option("--legs", default="D,C,P", show_default=True, help="Survey legs to fuse (D, C, P), for ablations")
+@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
+              help="Output shape the retriever returns; evidence_visible is measured on it "
+                   "(after the ARTMIND_OUTPUT_BUDGET cut when that is set)")
+@click.option("--compareShapes", "compare_shapes", is_flag=True, default=False,
+              help="Visibility gate (bounded-output spec 4.3): full survey at topDocs 10 vs brief survey at "
+                   "topDocs 50 on the same labels; reports evidence_visible for both and gate {needle_ok, survey_ok}")
 @compact_option
 def retrieval_eval_cmd(file_path: Path | None, top_k: str,
-                       compare_path: Path | None, retriever: str, legs: str, compact: bool) -> None:
-    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered."""
+                       compare_path: Path | None, retriever: str, legs: str, shape: str,
+                       compare_shapes: bool, compact: bool) -> None:
+    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered, evidence_visible."""
     from artmind.retrieval_eval import labels as rl
     from artmind.retrieval_eval import runner
 
@@ -5289,6 +5296,22 @@ def retrieval_eval_cmd(file_path: Path | None, top_k: str,
         ks = [int(k) for k in top_k.split(",") if k.strip()]
     except ValueError as exc:
         raise click.ClickException("--topK must be comma-separated integers") from exc
+    if compare_shapes:
+        # Needle labels are scored through survey too: a survey row showing the labelled
+        # chunk's passage counts. Survey labels use document ids.
+        legs_t = ("D", "C", "P")
+        full_run = runner.run_eval(loaded, ks=ks, retriever="survey", measure_visible=True,
+                                   search=runner.survey_search_fn(legs_t, "full", 10))
+        brief_run = runner.run_eval(loaded, ks=ks, retriever="survey", measure_visible=True,
+                                    search=runner.survey_search_fn(legs_t, "brief", 50))
+        out = {"command": "retrieval eval", "retriever": "survey",
+               "full": {"topDocs": 10, "evidence_visible": runner.visible_means(full_run)},
+               "brief": {"topDocs": 50, "evidence_visible": runner.visible_means(brief_run)},
+               "gate": runner.visibility_gate(full_run, brief_run)}
+        full_run["retriever"], brief_run["retriever"] = "survey-full-10", "survey-brief-50"
+        out["run"] = str(runner.write_run({"full": full_run, "brief": brief_run, "gate": out["gate"]}))
+        _echo_json(out, compact)
+        return
     if retriever == "survey":
         legs_t = tuple(x.strip().upper() for x in legs.split(",") if x.strip())
         if not legs_t or set(legs_t) - {"D", "C", "P"}:
@@ -5298,12 +5321,13 @@ def retrieval_eval_cmd(file_path: Path | None, top_k: str,
             resolved_weights = retrieval_rank.survey_leg_weights()
         except ValueError as exc:
             raise click.ClickException(str(exc)) from exc
-        run = runner.run_eval(loaded, ks=ks, search=runner.survey_search_fn(legs_t), only_kinds=("survey",))
+        run = runner.run_eval(loaded, ks=ks, search=runner.survey_search_fn(legs_t, shape),
+                              only_kinds=("survey",), retriever="survey", measure_visible=True)
         run["retriever"], run["legs"] = "survey", list(legs_t)
         run["leg_weights"] = resolved_weights
         run["top_docs_default"] = _resolve_survey_top_docs("brief")
     else:
-        run = runner.run_eval(loaded, ks=ks)
+        run = runner.run_eval(loaded, ks=ks, search=runner.default_search_fn(shape), measure_visible=True)
         run["retriever"] = "vector-text"
     run_path = runner.write_run(run)
     out = {"command": "retrieval eval", "run": str(run_path), "summary": run["summary"]}
