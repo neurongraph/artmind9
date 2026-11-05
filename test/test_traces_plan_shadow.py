@@ -93,7 +93,63 @@ def test_stats_report_shadow_agreement_on_high_plans():
         "plans": 4, "statuses": {"ok": 4}, "high_share": 0.75,
         "agreement_high": 2 / 3, "agreement_low": 0.0,
         "agreement_first": 0.5, "agreement_followup": 1.0,
-        "agreement_by_rating": {"unrated": 1.0, "wrong": 0.0}}
+        "agreement_by_rating": {"unrated": 1.0, "wrong": 0.0},
+        "by_intent": {"unknown": 4}, "by_program_kind": {"unknown": 4},
+        "slot_quality_median_retrieve": None}
+
+
+def _v2(intent="retrieve", source="lexical", program_kind="view", score=0.8, level="high",
+        cmd="artmind query views run visits --domain b --compact"):
+    plan = {"plan_version": 2, "confidence": {"level": level},
+            "steps": [{"n": 1, "cmd": cmd}] if level == "high" else [],
+            "suggested_steps": [] if level == "high" else [{"n": 1, "cmd": cmd}],
+            "intent": {"id": intent, "confidence": 0.9, "source": source},
+            "slot_quality": {"score": score, "factors": {}, "weakest": "scope"}}
+    if program_kind is not None:
+        plan["program_kind"] = program_kind
+    return {"status": "ok", "followup": False, "plan": plan, "error": None}
+
+
+def test_show_summarises_v2_shadow_fields(tmp_path):
+    _turn("t1", "s1", _v2(), "query views run", "visits")
+    summary = analysis.show("t1")["plan_shadow_summary"]
+    assert summary == {"status": "ok", "intent": {"id": "retrieve", "source": "lexical"},
+                       "program_kind": "view", "slot_quality_score": 0.8}
+    assert analysis.show("t1")["plan_shadow"]["plan"]["plan_version"] == 2
+
+
+def test_show_omits_absent_v2_fields_for_an_old_plan():
+    _turn("t1", "s1", _shadow(), "query views run", "visits")
+    assert analysis.show("t1")["plan_shadow_summary"] == {"status": "ok"}
+
+
+def test_show_has_no_summary_without_a_shadow():
+    store.insert_turn("t9", source="admin", question="q", session_id="s9", started_at=1.0)
+    shown = analysis.show("t9")
+    assert shown["plan_shadow"] is None and shown["plan_shadow_summary"] is None
+
+
+def test_stats_count_v2_fields_and_tolerate_v1_plans():
+    _turn("t1", "s1", _v2(score=0.6), "query views run", "visits")
+    _turn("t2", "s2", _v2(score=0.9, level="low"), "query vector-text")
+    _turn("t3", "s3", _v2(intent="curate", program_kind=None, score=0.2), "query vector-text")
+    _turn("t4", "s4", _shadow(), "query views run", "visits")
+    (row,) = [r for r in analysis.stats(by="all") if r["domain"] == "b"]
+    shadow_block = row["plan_shadow"]
+    assert shadow_block["plans"] == 4
+    assert shadow_block["by_intent"] == {"curate": 1, "retrieve": 2, "unknown": 1}
+    assert shadow_block["by_program_kind"] == {"unknown": 2, "view": 2}
+    assert shadow_block["slot_quality_median_retrieve"] == pytest.approx(0.75)
+    # t3's agent ran another step than its high plan, so the existing rate is 2 of 3, unchanged by the v2 keys
+    assert shadow_block["agreement_high"] == pytest.approx(2 / 3)
+
+
+def test_stats_median_is_none_without_retrieve_plans():
+    _turn("t1", "s1", _v2(intent="ops", score=0.4), "query text2sql")
+    _turn("t2", "s2", _shadow(), "query views run", "visits")
+    (row,) = [r for r in analysis.stats(by="all") if r["domain"] == "b"]
+    assert row["plan_shadow"]["by_intent"] == {"ops": 1, "unknown": 1}
+    assert row["plan_shadow"]["slot_quality_median_retrieve"] is None
 
 
 def test_failed_shadows_are_counted_but_leave_the_rates_alone():
@@ -113,7 +169,8 @@ def test_stats_without_shadows_keep_the_same_keys():
     assert row["plan_shadow"] == {
         "plans": 0, "statuses": {"skipped": 1}, "high_share": None, "agreement_high": None,
         "agreement_low": None, "agreement_first": None, "agreement_followup": None,
-        "agreement_by_rating": {}}
+        "agreement_by_rating": {}, "by_intent": {}, "by_program_kind": {},
+        "slot_quality_median_retrieve": None}
 
 
 def test_triage_passes_the_shadow_through():

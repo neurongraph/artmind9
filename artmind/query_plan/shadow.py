@@ -71,8 +71,9 @@ def _trim(plan):
         # Last resort: keep only what the reader needs to classify the plan.
         minimal = {"confidence": plan.get("confidence"), "route": plan.get("route"),
                    "warnings": list(plan.get("warnings") or [])[:3], "trimmed": True}
-        if plan.get("intent"):
-            minimal["intent"] = plan["intent"]
+        for key in ("intent", "program_kind", "slot_quality"):  # v2 fields the traces CLI reads
+            if plan.get(key):
+                minimal[key] = plan[key]
         for key in ("steps", "suggested_steps"):
             if plan.get(key):
                 minimal[key] = list(plan[key])[:1]
