@@ -183,6 +183,7 @@ function finalizeText() {
   if (!textBlock) return;
   textBlock.el.classList.remove("streaming");
   textBlock.el.innerHTML = DOMPurify.sanitize(marked.parse(textBlock.raw));
+  renderMermaid(textBlock.el);
   addCopyButtons(textBlock.el);
   linkVaultSources(textBlock.el);
   textBlock = null;
@@ -397,6 +398,7 @@ function handleEvent(ev) {
     case "provenance": {
       const node = el("div", "md provenance");
       node.innerHTML = DOMPurify.sanitize(marked.parse(ev.markdown));
+      renderMermaid(node);
       addCopyButtons(node);
       linkVaultSources(node);
       ensureTurn().appendChild(node);
