@@ -858,3 +858,115 @@ S25 (existence/recurrence) stays ✅ for exact names, but is ◐ for conceptual 
 S24 gains P55 for completeness checks. Open for the labelled set (W0): add this shape,
 with the paraphrase and the literal-word variants as separate labels, to
 `plan_labels.yaml` / `retrieval_labels.yaml` in the vault, not here.
+
+## Round 8 (collection) — 2026-11-05 (desktop: brain01, nbs_audit_2026), first round on P1b
+
+The first round on the bounded-output build (P1b, merged `123de45`; the `--shape` convention
+fix `4a15e86` came after most turns). Same desktop, same vaults as round 7; all turns on the
+`claude-sdk` backend, brain01 on Haiku 5.5 and nbs_audit_2026 on Sonnet 5.5, each vault's
+admin UI wired to its own `serve` (checked by port and `/health`). Analysed per turn from the
+events with scripts that print counts only; the per-turn table and the notes stay in the private
+analysis folder. The P55/P56 turns above are part of this round.
+
+### Coverage
+
+| Vault | Turns | Conversations | Rated | Notes | Cost | Median turn |
+|---|---|---|---|---|---|---|
+| brain01 (graph) | 15 | 9 | 10 (5 good, 5 partial) | 5 | USD 0.25 | 42 s |
+| nbs_audit_2026 (chunks-only) | 32 | 19 | 12 (12 good) | 0 | USD 9.55 | 30 s |
+
+47 turns, 22 rated (47 %, from 7 % in round 7). Per-turn cost is now the turn's own (no turn
+shows the session total, and none is negative). The nbs cost is dominated by one batch
+conversation (8 turns, USD 4.4).
+
+### Bounded output: the P1b gate
+
+| Measure (agent's own calls) | Round 7 | Round 8 |
+|---|---|---|
+| retrieval results the harness saved to a file (`persisted`) | 158/158 `vector-text`, 34/35 survey | **0 of 449** tool results |
+| results over 30,000 characters | most | **0** (largest 28,128, an `insights show`) |
+| tool-gate refusals | 29 syntax failures, `cd` refusals | **0** (4 `cd`-wrapped calls rewritten) |
+| `--shape brief` on the four retrieval commands | — | **270 of 270** calls |
+| `query page` after a cut | — | 6 calls (brain01 4, nbs 2) |
+| `survey --expand` | — | 21 calls (nbs) |
+| median calls per retrieval turn | brain01 ~8, nbs ~6 | brain01 5, nbs 4 |
+| retrieval turns with mechanical struggle ≥ 1 | ~59 % (77 of 131) | brain01 6 of 13, nbs 4 of 21 |
+
+The gate holds: nothing the agent ran was hidden from it, and the agent used the brief shape on
+every retrieval call, paged when told to, and opened documents by `--expand`. Struggle fell most
+in the chunks-only vault, where the brief survey replaced repeated searches.
+
+### Patterns observed
+
+**P57. Brief survey cut under `serve` (defect, fixed).** 22 of 46 surveys in nbs came back
+`truncated`, showing 41–49 of 50 documents. Under `serve`, the survey's row allocation read
+the daemon's own environment (no budget) while `_echo_json` applied the caller's 24,000, so
+the allocation planned for no limit and the echo cut the tail. Fixed in `14537ea`: the
+allocation reads the per-request budget. Rechecked through a test `serve`: 50 rows, about
+23,000 characters, no cut. Each cut was announced and pageable, so no answer was silently
+short, but the deepest documents were not shown and the agent never paged a survey.
+
+**P58. Graph commands, not retrieval, now fill the budget.** In brain01 the cut results were
+`pattern1`, `pattern2`, `pattern7`, `entity-context`, `insights list/show` and `text2cypher`
+(20 cut results, 14 of them over 20,000 characters). They have no brief shape, so one row can
+be large, and a "draw all my friends" question paged through 206 rows in two calls. The two
+Partial ratings on that conversation said the graph was smaller than expected: the agent stopped
+paging and drew from what it had (P44 again, at a larger scale). Consequence: graph-row
+compaction (an entity row's id, name, class, one-line description) or a `--shape brief` for the
+graph patterns; and an enumeration program that pages to `rows_total` (P2 spec §5.5).
+
+**P59. A coverage miss on a profile question, and a budget cut to zero rows (defect, partly
+fixed).** One brain01 Partial: an entity's career progression missed one event.
+`entity-context` for that hub entity returned **zero rows**: its payload is one row of about
+25,000 characters (entity data, 78 connection summaries, 25 connections, 8 chunks plus 20 more,
+10 source documents, none over 6,000), larger than the 24,000 budget, and the cut dropped the
+whole row. The agent did not page and fell back to two `vector-text` searches that did not reach
+the event. Fixed in `7753a83`: the cut never answers with zero rows when the payload
+had some (it shortens long strings and keeps at least the first row); the hub row now comes
+back whole at about 25,700 characters, over the budget but under the 30,000 inline limit, with a
+warning. The real fix is a brief shape for `entity-context`'s connections and `more_chunks`
+(today only its chunks are shortened) and, in P2, an entity-profile program that checks
+`entity_docs` vs `docs_cited` (P50 family).
+
+**P60. Event windows (lesson 41, again).** One brain01 Partial: a "did we go to PLACE during
+FESTIVAL" question was answered yes, but without naming the festival weekend. The trip note is
+dated inside the festival window but does not name the festival; the answer could not say why
+it counted. The calendar slot (P2 spec §4.7) gives the window and the reason.
+
+**P61. CLI usage errors are now the only errors.** 7 in 449 results: `chunks --shape brief
+--idList` without `--domain` (6) and `query page … --domain` (1). Both are the agent adding
+or omitting an option the skill example did not show. `chunks` needs `--domain` while ids are
+global; `query page` takes no domain. The chunk query does not filter on domain at all (`graph_query._chunks_query` matches by id;
+`--domain` only labels the output), so the required option is pure friction. Consequence: make
+`--domain` optional on `chunks` (it is derived from the chunks), and the skill's paging line
+should say to copy `next` verbatim.
+
+**P62. Background sub-agents escape tracing.** The batch claim conversation (nbs, 8 turns) ran
+7 background sub-agents in one turn, then 105 calls in a turn that lasted 4 s: the sub-agents'
+calls, recorded under a later turn while it ran. 4 turns show calls but no spans, because the
+trace context file is cleared when a turn finishes, while background agents keep calling. 210
+sub-agent calls; spans exist only for those made while their own turn was open. This is round
+7's P46 (batch claims via sub-agents), unchanged by P1b: the batch program (`query run --each`)
+remains the fix, and until then a background agent should inherit the turn's trace id rather
+than the session's file.
+
+**P63. Status and context-only turns are frequent and still planned as search.** nbs had 9
+turns of one to five words ("done?", "status", a bare acknowledgement), 7 in the batch
+conversation; all were shadow-planned `search` (6 at low confidence). Intent `status` and
+context-only replies (P2 spec §3) cover them.
+
+### Shadow plans
+
+brain01: routes enumeration 5, procedure 4, existence 2, others 4; 5 high, 10 low. nbs: 29 search,
+3 survey; 9 high, 23 low. High-confidence agreement with the agent's first call (as `traces
+stats` computes it): nbs 0.89 (contracts) and 0.75 (team responses), brain01 0.0 (the one high
+turn that week disagreed). Too few rated turns per route to move the confidence threshold.
+
+### What this round settles and what it does not
+
+- **Settled:** the bounded-output mechanism works on both vaults and both models; brief rows,
+  paging and `--expand` are used without prompting beyond the skill.
+- **Not settled:** P2's numeric settings (spec §11). 22 ratings, 17 of them on first turns, none
+  with an expected answer in nbs; the needle margin has no new labels; the asset thresholds no
+  new topic-page turns rated. Round 8 keeps every §11 default.
+

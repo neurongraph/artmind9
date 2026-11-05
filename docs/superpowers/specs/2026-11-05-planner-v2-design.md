@@ -8,9 +8,11 @@ lessons (`docs/query-routing-study/12-round7-lessons.md`, answers N1–N9 in §3
 needs (`11-p2-evidence-needs.md`), the bounded-output design (`2026-11-05-bounded-output-design.md`,
 built as P1b), and v1 as built (`2026-10-22-query-plan-design.md`, `artmind/query_plan/`).
 
-**Written before round 8.** Every number that round 8 is to confirm is a named setting with a
-default, listed once in §11 with the measure that decides it. The design does not wait on them;
-the merge does (§12).
+**Written before round 8, checked against it the same day.** Every number that round 8 was to
+confirm is a named setting with a default, listed once in §11 with the measure that decides it.
+Round 8 (`docs/query-routing-study/02-trace-evidence.md`, P55–P63) confirmed the bounded-output
+base the bundle builds on and kept every §11 default (too few ratings per route to move them);
+its design consequences are folded in below and marked R8.
 
 Privacy rule as in the study folder: shapes, counts and invented examples only.
 
@@ -326,6 +328,8 @@ changed, once, e.g. the category expansion), `widen_domains` (re-run over all do
 | latest | "the current / latest X", amendments | collect every document of the family → order by date and `SUPERSEDES` → newest first, executed/draft status per document |
 | history | entity_history, time_history | the history commands (`entity-history`, `document-history`, `pattern10 --includeHistory`), never text2cypher |
 | absence | "is X ever mentioned" with a negative expectation | one exhaustive exact-term sweep (`pattern7 --limit 500` + `vector-text` keyword leg), not repeated searches |
+| existence of a concept (R8, P55–P56) | "was there a TERM with PERSON" where TERM is rare or informal | `map` over phrasings (the user's word, 2–3 common synonyms, a description-style paraphrase **without** the person's name) on `entity-resolve` at topK 25–30 → `union`; the person scopes the result afterwards; a negative carries the probes tried (`coverage.probes`) |
+| draw / list all connected (R8, P58) | "graph of my friends", everyone linked to X | enumeration program paging to `rows_total` over brief graph rows; the diagram is drawn only from exhaustive rows or says how many were left out |
 | batch claims | `query run --each` | §7.5 |
 
 ## 6. The executor: `artmind query run`
@@ -365,7 +369,8 @@ on latency.
                  "gist": "…", "gist_source": "passage", "evidence": ["e1"]}],
   "facts": [{"fid": "f1", "kind": "graph_row", "row": {…}, "evidence": ["e3"]}],
   "guides": [{"kind": "topic_page", "slug": "…", "stale": false, "cites": ["e1"]}],
-  "coverage": {"documents_read": 12, "documents_total": 26, "found": 7, "exhaustive": false},
+  "coverage": {"documents_read": 12, "documents_total": 26, "found": 7, "exhaustive": false,
+               "probes": ["<phrasing>", "…"], "depth": 25},
   "warnings": ["twins: two entities named …; both included"],
   "gaps": [{"kind": "identity", "entities": ["…", "…"]}],
   "escalate": null,
@@ -382,6 +387,12 @@ on latency.
   further document), then `documents` rows, then `facts`, then `guides`; what does not fit is
   stored under a `handle` (`query page` reads it). Ordering by relevance, not by step, is what
   keeps the answer-bearing text in.
+- **A negative names its probes (R8, P56).** When the evidence for a requested item is empty,
+  `coverage.probes` lists the phrasings and `depth` the topK tried, and the answer contract says
+  "not found under these probes", never "not extracted".
+- **Graph rows are budgeted too (R8, P58–P59).** The bundle assembles graph facts as brief rows
+  (id, name, class, one-line description, evidence ids); a hub entity's full `entity-context`
+  row (about 25,000 characters in round 8) is never placed whole.
 - `suspect_conversion` from the page check (P1b `reversed_numeric`, existing findings) by
   document page.
 - `executed` from document metadata when the family has executed/draft versions (lesson 33);
@@ -500,6 +511,9 @@ the write itself stays with the skill and the user's confirmation, as today.
 | `domains/plan/<domain>.yaml` | new keys `categories`, `kinship`, `scope_rules`, `calendar`, `narrator.aliases`; `artmind plan config check` validates them |
 | `plan_labels.yaml` | optional `intent`, `slots` (expected values), `program_kind`; `plan replay` grades intent, route and slots separately |
 | `trace_spans` | `parent_span_id`; `run` spans carry `path`, `escalate_reason` |
+| background agents (R8, P62) | a sub-agent the agent starts inherits the starting turn's trace id (written into its environment, not read from the session's context file, which is cleared when the turn ends), so its calls are spans of the turn that asked for them; `query run --each` makes this rare |
+| `query chunks` (R8, P61) | `--domain` optional: the lookup is by id; the domain is derived from the chunks |
+| graph commands (R8, P58) | a `--shape brief` for `pattern1/2/7`, `entity-context` connections and `more_chunks`, and `insights show`, through the shared `shape_option` |
 | shadow | plans v2 in the background as today; additionally records `query run --plan` **dry execution** (the program with step results) when `ARTMIND_PLAN_SHADOW_RUN=1`, off by default (cost: the retrieval calls) |
 | `traces stats` | fast-path share, escalation rate per route, `overridden` count, `must_find` closure rate |
 
@@ -536,6 +550,8 @@ they move.
 | classifier default per vault | lexical | `plan replay --classifier both` on confirmed round-8 labels (N7) |
 | `map.max` default | 10 | loop lengths in round-8 struggle turns, if any remain |
 | whether the executor pre-fetches `--expand` for line-row documents | no | whether the agent opens line-row documents and then cites them (P1b `expand_calls`) |
+
+**Round 8 reading (2026-11-05):** 47 turns, 22 rated, every rated nbs turn good with no expected answers, brain01 5 good and 5 partial. No setting above moves: the threshold and slot factors need wrong-at-high cases (none rated), the needle margin new labels (none), the asset thresholds rated topic-page turns (none), and the evidence cap more than 6 `query page` and 21 `--expand` calls. The agent paged and expanded when told to, so the cap's default stands. Round 9, after P2a, is the next chance.
 
 ## 12. Phasing and gates
 

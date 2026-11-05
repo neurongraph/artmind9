@@ -350,3 +350,15 @@ Each is a rule the agent had to guess and the design should make explicit:
 
 Questions the data could not settle are put to the user in the session that wrote this file.
 Answers are recorded in `06-open-questions.md`, never with private names in this folder.
+
+## 7. Round 8 check (2026-11-05)
+
+Round 8 (`02-trace-evidence.md`, P57–P63; 47 turns, 22 rated) was the first round on P1b.
+Lesson 2 (byte budget) is confirmed and met: no result was persisted (0 of 449; round 7: 158 of
+158 `vector-text`), no refusals, and `--shape brief` on every retrieval call. Lesson 3 (gate out of
+the way) holds: the four `cd`-wrapped calls were rewritten, not refused. Lesson 14 (survey depth
+as compact rows) holds once P57 is fixed. Still open and now the larger share of struggle:
+lessons 4 (fan-out, P62 batch sub-agents), 23 (batch claims), 26 (counts from exhaustive
+evidence, P58/P59) and 41 (event windows, P60). New: graph commands need a brief shape too
+(P58), and a cut must never drop to zero rows (P59, fixed). None of the P2 §11 settings moves.
+
