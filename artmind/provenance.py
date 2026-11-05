@@ -97,6 +97,7 @@ def render(provenance: dict, *, vault: Path | None = None) -> RenderedSources:
     lines: list[str] = []
     documents = provenance.get("documents") if isinstance(provenance, dict) else []
     cited_documents = cited_chunks = 0
+    staged = _StagedIndex(vault)
     for doc in documents if isinstance(documents, list) else []:
         if not isinstance(doc, dict):
             continue
@@ -104,6 +105,12 @@ def render(provenance: dict, *, vault: Path | None = None) -> RenderedSources:
         if not isinstance(path, str):
             # A `--shape brief` row names the document by id and title only.
             path = _source_path_for(doc, vault)
+            if path is None:
+                recorded = staged.get(doc)
+                if recorded is not None:
+                    path = recorded.get("source_path") or recorded.get("path")
+                    # The chunk folder is found from the path the document recorded.
+                    doc = {**doc, "path": recorded.get("path") or path}
         domain = doc.get("domain")
         suffix = f" — {domain}" if isinstance(domain, str) and domain else ""
         if isinstance(path, str):
@@ -133,6 +140,45 @@ def render(provenance: dict, *, vault: Path | None = None) -> RenderedSources:
         cited_documents += 1
     markdown = "### Sources\n" + "\n".join(lines) if lines else None
     return RenderedSources(markdown, cited_documents, cited_chunks, diagnostics)
+
+
+class _StagedIndex:
+    """`id -> document.json` of a domain's staging folders, for a document the
+    registry has no row for (a registry that was rebuilt or only partly
+    filled while the staging folders and graph are whole).  Read lazily, once
+    per render and domain; any unreadable folder is skipped."""
+
+    def __init__(self, vault: Path | None) -> None:
+        self._root = (vault / ".artmind" / "data" / "kg") if vault is not None else None
+        self._by_domain: dict[str, dict[str, dict]] = {}
+
+    def get(self, document: dict) -> dict | None:
+        doc_id, domain = document.get("doc_id"), document.get("domain")
+        if self._root is None or not isinstance(doc_id, str) or not isinstance(domain, str) or not domain:
+            return None
+        if domain not in self._by_domain:
+            self._by_domain[domain] = self._scan(domain)
+        return self._by_domain[domain].get(doc_id)
+
+    def _scan(self, domain: str) -> dict[str, dict]:
+        import json
+
+        found: dict[str, dict] = {}
+        try:
+            folders = sorted((self._root / domain).iterdir())
+        except OSError:
+            return found
+        for folder in folders:
+            try:
+                record = json.loads((folder / "document.json").read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if not isinstance(record, dict):
+                continue
+            ident = record.get("artmind_id") or record.get("id")
+            if isinstance(ident, str) and (isinstance(record.get("path"), str) or isinstance(record.get("source_path"), str)):
+                found[ident] = record
+        return found
 
 
 def _source_path_for(document: dict, vault: Path | None) -> str | None:

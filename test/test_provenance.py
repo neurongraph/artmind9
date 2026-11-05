@@ -190,3 +190,29 @@ def test_merge_provenance_fills_a_missing_path_from_a_later_sighting():
     (doc,) = merge_provenance([first, later])["documents"]
 
     assert (doc["source_path"], doc["title"]) == ("a.md", "A")
+
+
+def test_render_links_id_only_document_from_staging_when_registry_has_no_row(tmp_path, monkeypatch):
+    vault = tmp_path / "vault"
+    monkeypatch.setattr("artmind.provenance._registry_row_by_artmind_id", lambda doc_id: None)
+    monkeypatch.setattr("artmind.provenance.paths.DB_PATH", vault / ".artmind" / "data" / "document_registry.db")
+    folder = vault / ".artmind" / "data" / "kg" / "banking" / "Policy"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text(
+        '{"artmind_id": "doc-1", "path": "policies/Policy.md", "source_path": "policies/Policy.md"}', encoding="utf-8")
+    (vault / ".artmind" / "data" / "kg" / "banking" / "broken").mkdir()  # no document.json: skipped
+
+    result = render(_id_only(), vault=vault)
+
+    assert result.markdown == "### Sources\n- [Policy.md](<policies/Policy.md>) — banking"
+
+
+def test_render_staging_scan_is_per_domain(tmp_path, monkeypatch):
+    vault = tmp_path / "vault"
+    monkeypatch.setattr("artmind.provenance._registry_row_by_artmind_id", lambda doc_id: None)
+    monkeypatch.setattr("artmind.provenance.paths.DB_PATH", vault / ".artmind" / "data" / "document_registry.db")
+    folder = vault / ".artmind" / "data" / "kg" / "other" / "Policy"
+    folder.mkdir(parents=True)
+    (folder / "document.json").write_text('{"artmind_id": "doc-1", "path": "p/Policy.md"}', encoding="utf-8")
+
+    assert render(_id_only(), vault=vault).markdown == "### Sources\n- Policy — banking"
