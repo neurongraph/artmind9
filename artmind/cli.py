@@ -66,6 +66,7 @@ from artmind.refine_graph import refine_graph
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
+    LOGS_DIR,
     REFINE_DIR,
     WORKER_LOG,
     WORKER_PID_FILE,
@@ -74,7 +75,7 @@ from utils.functions import load_env, resolve_llm_model
 from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
 from artmind.cli_conventions import (
-    Change, Effect, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
+    LIST_KEY, Change, Effect, _command_path, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
     unbuilt_dry_run_option, with_effect,
 )
 
@@ -436,6 +437,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "assets",
                 "vector-text",
                 "survey",
+                "page",
                 "entity-resolve",
                 "chunks",
                 "entity-context",
@@ -481,7 +483,7 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
         existing = payload.get("warnings")
         payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
     payload = envelope(payload, ctx)  # command / warnings / next (cli_conventions, spec C1+C4)
-    observe_output(payload)  # query-trace span evidence; a no-op outside a traced query
+    observe_output_full = payload
     # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set
     # (`db sql`, `query text2sql`) and aren't JSON-serializable. `default=str`
     # renders them rather than crashing the CLI's only output path -- same call
@@ -491,7 +493,18 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
         kwargs["separators"] = (",", ":")
     else:
         kwargs["indent"] = 2
-    click.echo(json.dumps(payload, **kwargs))
+    from artmind import result_store
+
+    try:
+        budget = result_store.current_budget()
+    except result_store.BudgetError as exc:
+        raise click.ClickException(str(exc)) from exc
+    declared = LIST_KEY.get(_command_path(ctx)) if ctx is not None else None
+    out, payload_chars, shown_chars, handle = result_store.fit(
+        payload, budget, lambda p: json.dumps(p, **kwargs), declared, LOGS_DIR / "results")
+    # query-trace span evidence (from the full payload); a no-op outside a traced query
+    observe_output(observe_output_full, payload_chars=payload_chars, shown_chars=shown_chars, handle=handle)
+    click.echo(json.dumps(out, **kwargs))
 
 
 def _require_ingest_extra() -> None:
@@ -2942,7 +2955,8 @@ def query():
     list / show). `survey` ranks documents for cross-document questions
     (summaries + passages). `catalogue` says what the system knows about a domain
     (classes, relations, documents, stores, time, health) and `assets` what it
-    already answers (views, topic pages, insights, summaries). The rest are lookup commands.
+    already answers (views, topic pages, insights, summaries). `page` reads the rest of a result
+    that ARTMIND_OUTPUT_BUDGET cut (by its handle). The rest are lookup commands.
 
     Inside the admin console or a benchmark run, every query call is recorded
     as a span of the turn's trace (command, args, rows, evidence ids, LLM
@@ -3522,6 +3536,41 @@ def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+@query.command("page")
+@click.option("--from", "start", type=click.IntRange(min=0), default=0, show_default=True,
+              help="First row to show (0-based)")
+@click.option("--rows", "count", type=click.IntRange(min=1), default=None,
+              help="Rows to show (default: as many as fit ARTMIND_OUTPUT_BUDGET, else all remaining)")
+@compact_option
+@click.argument("handle")
+def query_page(start: int, count: int | None, compact: bool, handle: str) -> None:
+    """Show more rows of a result that ARTMIND_OUTPUT_BUDGET cut (its `handle` and `next` say how).
+
+    Reads only <run folder>/logs/results/, where the full result was stored for 24 hours.
+    """
+    from artmind import result_store
+
+    try:
+        stored = result_store.load(LOGS_DIR / "results", handle)
+    except result_store.BudgetError as exc:
+        raise click.ClickException(str(exc)) from exc
+    key = result_store.list_key(stored, LIST_KEY.get(str(stored.get("command") or "")))
+    if key is None:
+        raise click.ClickException(f"stored result {handle} has no list to page")
+    rows = stored[key]
+    end = len(rows) if count is None else min(len(rows), start + count)
+    page = {k: v for k, v in stored.items() if k not in ("truncated", "rows_shown", "handle")}
+    page[key] = rows[start:end]
+    page["rows_total"] = len(rows)
+    page["rows_from"] = start
+    page["rows_shown"] = len(page[key])
+    page["truncated"] = end < len(rows)
+    page["next"] = f"artmind query page {handle} --from {end}" if end < len(rows) else None
+    page["warnings"] = []
+    # A page is itself budgeted; its own cut carries a new handle.
+    _echo_json(page, compact)
 
 
 @query.command("survey")
@@ -4601,11 +4650,15 @@ def traces_prune(days, compact, dry_run) -> None:
 
     retention = days if days is not None else int(os.environ.get("ARTMIND_TRACE_RETENTION_DAYS", "90"))
     count = store.prune(retention, dry_run=dry_run)
+    from artmind import result_store
+
+    results = result_store.prune_files(LOGS_DIR / "results", max_age_s=None, dry_run=dry_run)
     effect = Effect(
-        summary=f"delete {count} trace turn(s) older than {retention} days (no feedback, no review)",
+        summary=f"delete {count} trace turn(s) older than {retention} days (no feedback, no review)"
+                f" and {results} stored query result file(s)",
         changes=[Change("trace_delete", count, [])],
     )
-    _echo_json(with_effect({"pruned": count}, effect, dry_run=dry_run), compact)
+    _echo_json(with_effect({"pruned": count, "results_pruned": results}, effect, dry_run=dry_run), compact)
 
 
 # ── artmind review ────────────────────────────────────────────────────────────

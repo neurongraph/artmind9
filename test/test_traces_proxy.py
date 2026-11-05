@@ -65,7 +65,7 @@ def test_proxy_payload_carries_trace_id(monkeypatch, tmp_path, capsys):
 
     monkeypatch.setattr(_entry.urllib.request, "urlopen", fake_urlopen)
     assert _entry._proxy("http://127.0.0.1:1", ["query", "chunks"]) == 0
-    assert sent["body"] == {"args": ["query", "chunks"], "trace_id": "t-42"}
+    assert sent["body"] == {"args": ["query", "chunks"], "trace_id": "t-42", "output_budget": None}
 
 
 def test_serve_records_span_under_forwarded_trace_id(_db, monkeypatch):

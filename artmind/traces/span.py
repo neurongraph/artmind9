@@ -102,13 +102,15 @@ class TracedGroup(RichGroup):
             _record(span, exit_code)
 
 
-def observe_output(payload) -> None:
+def observe_output(payload, *, payload_chars: int | None = None, shown_chars: int | None = None,
+                   handle: str | None = None) -> None:
     """Called by `cli._echo_json` with the payload it is about to print."""
     span = _active.get()
     if span is None:
         return
     try:
         span["summary"] = evidence.summarize(payload)
+        span["payload_chars"], span["shown_chars"], span["handle"] = payload_chars, shown_chars, handle
         ctx = click.get_current_context(silent=True)
         if ctx is not None:
             span["params"] = dict(ctx.params)
@@ -139,7 +141,8 @@ def _record(span: dict, exit_code: int | None) -> None:
                 "rows": summary["rows"], "rows_total": summary["rows_total"],
                 "truncated": int(bool(summary["truncated"])),
                 "evidence": json.dumps(summary["evidence"], default=str),
-                "started_at": span["started_at"],
+                "started_at": span["started_at"], "payload_chars": span.get("payload_chars"),
+                "shown_chars": span.get("shown_chars"), "handle": span.get("handle"),
             },
             span["llm_calls"],
         )
