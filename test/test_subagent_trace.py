@@ -121,3 +121,14 @@ def test_gated_profile_stamps_inside_the_gate(tmp_path):
     assert len([m for m in opts.hooks["PreToolUse"] if m.matcher == "Bash"]) == 1
     denied = _run(gate(_bash("cat /etc/passwd", "a1"), None, None))
     assert denied["hookSpecificOutput"]["permissionDecision"] == "deny"
+
+
+def test_leading_env_assignments_are_stamped_and_ours_wins(tmp_path):
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("turn1")
+    binder = SubagentTraceBinder(ctx)
+    _run(binder.on_subagent_start({"agent_id": "a1"}, None, None))
+    cmd = "ARTMIND_NO_PROXY=1 ARTMIND_TRACE_ID=other artmind query x"
+    assert binder.stamp(_bash(cmd, "a1"), cmd) == (
+        "ARTMIND_NO_PROXY=1 ARTMIND_TRACE_ID=other ARTMIND_TRACE_ID=turn1 artmind query x")
+    assert binder.stamp(_bash("FOO=1 artmindx", "a1"), "FOO=1 artmindx") == "FOO=1 artmindx"

@@ -33,6 +33,8 @@ from typing import Any
 NO_TRACE = "-"
 _SAFE_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 _MAX_AGENTS = 512
+# Leading `VAR=value` assignments, then the artmind command itself.
+_ARTMIND_CMD = re.compile(r"^((?:[A-Za-z_][A-Za-z0-9_]*=\S*\s+)*)artmind(?:\s|$)")
 
 
 class SubagentTraceBinder:
@@ -67,9 +69,11 @@ class SubagentTraceBinder:
         main agent or for anything that is not an `artmind` invocation."""
         agent_id = input_data.get("agent_id")
         stripped = (command or "").lstrip()
-        if not agent_id or not (stripped == "artmind" or stripped.startswith("artmind ")):
+        if not agent_id or not _ARTMIND_CMD.match(stripped):
             return command
-        return f"ARTMIND_TRACE_ID={self.trace_for(str(agent_id))} {stripped}"
+        # Ours goes last among the assignments, so it wins over one the sub-agent wrote.
+        prefix = _ARTMIND_CMD.match(stripped).group(1)
+        return f"{prefix}ARTMIND_TRACE_ID={self.trace_for(str(agent_id))} {stripped[len(prefix):]}"
 
     # ── hook callbacks ──────────────────────────────────────────────────
     async def on_subagent_start(self, input_data, tool_use_id, context):  # noqa: ANN001
