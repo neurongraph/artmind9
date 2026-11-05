@@ -236,6 +236,20 @@ def compact_option(func):
     return click.option("--compact", is_flag=True, help="Emit compact JSON")(func)
 
 
+#: Commands that must take `--shape brief|full` (contract test walks these).
+SHAPE_COMMANDS = frozenset({"query survey", "query vector-text", "query chunks", "query entity-context"})
+
+SHAPE_HELP = ("brief: short rows (id, title, domain, date, status, extractive gist) for an agent; "
+              "full: every key. Changes row content; independent of --compact, which only "
+              "changes serialisation")
+
+
+def shape_option(func):
+    """The shared `--shape brief|full` option (default full)."""
+    return click.option("--shape", type=click.Choice(["brief", "full"]), default="full",
+                        show_default=True, help=SHAPE_HELP)(func)
+
+
 def dry_run_option(help: str = "Report what would change; write nothing", *, legacy: bool = True):
     """`--dryRun`. `legacy=True` keeps the old `--dry-run` spelling as a hidden alias."""
     return aliased_option(

@@ -352,3 +352,23 @@ def test_every_command_passes_shape(args, target, ret):
 def test_bad_shape_is_a_usage_error():
     r = CliRunner().invoke(cli, ["query", "chunks", "--domain", "n", "--idList", "c", "--shape", "tiny"])
     assert r.exit_code == 2
+
+
+def _vt_cli(monkeypatch, *extra):
+    _patch(monkeypatch, Recorder(_vt_respond))
+    monkeypatch.setenv("ARTMIND_NO_PROXY", "1")
+    r = CliRunner().invoke(cli, ["query", "vector-text", "--domain", "notes", "--shape", "brief",
+                                 *extra, "--compact", "q"])
+    assert r.exit_code == 0, r.output
+    return json.loads(r.stdout)
+
+
+def test_brief_with_explicit_chunk_context_warns_and_keeps_passages(monkeypatch):
+    out = _vt_cli(monkeypatch, "--context", "chunk")
+    assert out["parameters"]["context"] == "passage"
+    assert "--shape brief uses --context passage; --context chunk was ignored" in out["warnings"]
+
+
+def test_brief_without_context_or_with_passage_does_not_warn(monkeypatch):
+    assert _vt_cli(monkeypatch)["warnings"] == []
+    assert _vt_cli(monkeypatch, "--context", "passage")["warnings"] == []

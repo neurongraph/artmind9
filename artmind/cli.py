@@ -76,7 +76,7 @@ from artmind.traces.span import TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
 from artmind.cli_conventions import (
     LIST_KEY, Change, Effect, _command_path, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
-    unbuilt_dry_run_option, with_effect,
+    shape_option, unbuilt_dry_run_option, with_effect,
 )
 
 
@@ -3530,16 +3530,17 @@ def query_domains_overview(compact: bool) -> None:
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
-@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
-              help="brief: short rows with title, date and status (the agent's shape); full: every key")
+@shape_option
 @compact_option
 @click.argument("question")
-def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None, shape: str,
-                compact: bool, question: str) -> None:
+@click.pass_context
+def vector_text(ctx: click.Context, domain: tuple, top_k: int, context: str, as_of: str | None,
+                shape: str, compact: bool, question: str) -> None:
     """Hybrid search over passages: vector + keyword (RRF), grouped into parent chunks.
 
     Every row carries its document's title, date (valid_from) and status
-    (current or superseded). `--shape brief` implies `--context passage` and returns
+    (current or superseded). `--shape brief` implies `--context passage` (an explicit `--context chunk`
+    is ignored, with a warning) and returns
     passage rows ({rank, passage_id, chunk_id, text <= 1,200 characters, relevance,
     doc {id, title, domain, date, status}}); a chunk with two or more matching passages
     adds the second-best as `second_passage` (<= 400 characters).
@@ -3550,6 +3551,10 @@ def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None, shap
                                                  context=context, shape=shape)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    if (shape == "brief" and context == "chunk"
+            and ctx.get_parameter_source("context") == click.core.ParameterSource.COMMANDLINE):
+        result["warnings"] = [*(result.get("warnings") or []),
+                              "--shape brief uses --context passage; --context chunk was ignored"]
     _echo_json(result, compact)
 
 
@@ -3594,8 +3599,7 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
               help="Documents to return (default 50 for --shape brief, 10 for full; overridden by ARTMIND_SURVEY_TOP_DOCS)")
 @click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
               help="Best passages shown per document")
-@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
-              help="brief: short rows with title, date and status (the agent's shape); full: every key")
+@shape_option
 @click.option("--passageDocs", "passage_docs", type=click.IntRange(0, 10), default=3, show_default=True,
               help="--shape brief: documents that get their best passage at least (plus any within 0.03 relevance of the top)")
 @click.option("--gistDocs", "gist_docs", type=click.IntRange(0, 50), default=10, show_default=True,
@@ -3659,8 +3663,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
-@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
-              help="brief: short rows with title, date and status (the agent's shape); full: every key")
+@shape_option
 @compact_option
 def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, shape: str, compact: bool) -> None:
     """Fetch chunk text by exact id (the doc_sources / evidence ids other commands return).
@@ -3685,8 +3688,7 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
 @click.option("--relType", "rel_types", multiple=True, help="Only return connections of this rel_type (repeatable; comma-splittable). connection_summary still covers all")
 @click.option("--maxConnections", "max_connections", type=int, default=graph_query.ENTITY_CONTEXT_MAX_CONNECTIONS, show_default=True, help="Connections returned (connection_summary counts every edge)")
 @click.option("--maxListItems", "max_list_items", type=int, default=graph_query.ENTITY_CONTEXT_MAX_LIST_ITEMS, show_default=True, help="Newest items kept per list property (full lengths in truncated_properties)")
-@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
-              help="brief: short rows with title, date and status (the agent's shape); full: every key")
+@shape_option
 @compact_option
 def query_entity_context(
     domain: tuple,
@@ -5273,6 +5275,8 @@ def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: 
 @click.option("--retriever", type=click.Choice(["vector-text", "survey"]), default="vector-text", show_default=True,
               help="survey scores survey labels only, by documents covered")
 @click.option("--legs", default="D,C,P", show_default=True, help="Survey legs to fuse (D, C, P), for ablations")
+# Not shape_option: here --shape picks the shape the retriever under test returns,
+# so the help differs from the row-content option the four retrieval commands share.
 @click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
               help="Output shape the retriever returns; evidence_visible is measured on it "
                    "(after the ARTMIND_OUTPUT_BUDGET cut when that is set)")

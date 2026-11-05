@@ -156,3 +156,70 @@ def test_an_unbuilt_dry_run_refuses_before_acting(path: str) -> None:
     result = CliRunner().invoke(cli, [*words, "--dryRun"], standalone_mode=False)
     assert isinstance(result.exception, click.ClickException), result.output
     assert result.exception.message == f"--dryRun is not available for `{path}` yet; nothing was changed"
+
+
+# --- --shape (spec 2026-11-05-bounded-output-design.md §4) ---------------------------
+
+
+def _command(path: str) -> click.Command:
+    cmd: click.Command = cli
+    for part in path.split():
+        cmd = cmd.commands[part]  # type: ignore[attr-defined]
+    return cmd
+
+
+@pytest.mark.parametrize("path", sorted(cc.SHAPE_COMMANDS))
+def test_shape_commands_take_shape_and_compact(path: str) -> None:
+    cmd = _command(path)
+    shape = next((p for p in cmd.params if isinstance(p, click.Option) and "--shape" in p.opts), None)
+    assert shape is not None, f"{path} lost --shape"
+    assert isinstance(shape.type, click.Choice) and list(shape.type.choices) == ["brief", "full"]
+    assert shape.default == "full"
+    assert "--compact" in _long_opts(cmd)
+
+
+def _brief_rows(path: str, monkeypatch) -> list[dict]:
+    """Run `query <path> --shape brief` over test_brief_shape's mocked sessions; return rows with doc keys."""
+    import json as _json
+
+    from click.testing import CliRunner
+    from _neo4j_recorder import Recorder
+    from test_brief_shape import _patch, _survey_respond, _vt_respond
+    from test_query_layer import _RecordingSession, _hub_responses, _install_session
+
+    from artmind import graph_query as gq
+
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
+    monkeypatch.setenv("ARTMIND_NO_PROXY", "1")
+    base = ["query", *path.split()[1:], "--domain", "notes", "--shape", "brief", "--compact"]
+    if path == "query survey":
+        _patch(monkeypatch, Recorder(_survey_respond()))
+        args, key = [*base, "termination notice"], "documents"
+    elif path == "query vector-text":
+        _patch(monkeypatch, Recorder(_vt_respond))
+        args, key = [*base, "q"], "rows"
+    elif path == "query chunks":
+        row = {"chunk": {"id": "c1", "doc_id": "d1", "_domain": "notes", "text": "t"},
+               "document": {"id": "d1", "name": "d1.md", "_domain": "notes", "title": "d1.md",
+                            "date": "2021-02-03", "superseded": False}}
+        monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [_json.loads(_json.dumps(row))])
+        args, key = [*base, "--idList", "c1"], "rows"
+    else:
+        _install_session(monkeypatch, _RecordingSession(_hub_responses()))
+        args, key = [*base, "--entityId", "e1", "--includeChunks", "2"], "rows"
+    r = CliRunner().invoke(cli, args)
+    assert r.exit_code == 0, r.output
+    rows = _json.loads(r.stdout)[key]
+    if path == "query entity-context":
+        rows = [c for row in rows for c in row["chunks"]]
+    return rows
+
+
+@pytest.mark.parametrize("path", sorted(cc.SHAPE_COMMANDS))
+def test_shape_brief_rows_carry_the_brief_keys(path: str, monkeypatch) -> None:
+    rows = _brief_rows(path, monkeypatch)
+    assert rows, path
+    for row in rows:
+        doc = row.get("doc") if "doc" in row else row  # survey rows are flat, the rest nest `doc`
+        assert {"title", "date", "status"} <= set(doc), (path, sorted(doc))
+        assert "doc_id" in row or "id" in row.get("doc", {}), path
