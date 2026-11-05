@@ -91,7 +91,9 @@ def _daemon_alive(base_url: str) -> bool:
 
 
 def _proxy(base_url: str, args: list[str]) -> int:
-    payload = json.dumps({"args": args, "trace_id": _trace_id()}).encode()
+    payload = json.dumps(
+        {"args": args, "trace_id": _trace_id(), "output_budget": os.environ.get("ARTMIND_OUTPUT_BUDGET")}
+    ).encode()
     request = urllib.request.Request(
         f"{base_url}/query",
         data=payload,

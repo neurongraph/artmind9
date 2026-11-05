@@ -146,8 +146,17 @@ def test_subprocess_env_without_model_is_unset(tmp_path, monkeypatch):
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     monkeypatch.delenv("ARTMIND_OPENROUTER_API_KEY", raising=False)
     monkeypatch.delenv("OPENCODE_CONFIG_CONTENT", raising=False)
+    monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "16000")
     backend = ACPBackend(agent_cmd=["opencode", "acp"], cwd=str(tmp_path))
     assert backend._subprocess_env() is None
+
+
+def test_subprocess_env_sets_output_budget_unless_operator_did(tmp_path, monkeypatch):
+    backend = ACPBackend(agent_cmd=["opencode", "acp"], cwd=str(tmp_path))
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
+    assert backend._subprocess_env()["ARTMIND_OUTPUT_BUDGET"] == "24000"
+    monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "7000")
+    assert (backend._subprocess_env() or {}).get("ARTMIND_OUTPUT_BUDGET", "7000") == "7000"
 
 
 def test_subprocess_env_with_model_sets_opencode_config_content(tmp_path, monkeypatch):

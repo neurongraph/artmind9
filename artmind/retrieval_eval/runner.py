@@ -18,19 +18,66 @@ from artmind.retrieval_eval.labels import RetrievalLabel
 Search = Callable[[list[str], str, int], dict]
 
 
+def default_search_fn(shape: str = "full") -> Search:
+    if shape == "full":
+        return lambda domains, question, top_k: _default_search(domains, question, top_k)
+
+    def search(domains: list[str], question: str, top_k: int) -> dict:
+        from artmind import vector_query
+
+        return vector_query.vector_text_search(domains, question, top_k, shape=shape)
+    return search
+
+
 def _default_search(domains: list[str], question: str, top_k: int) -> dict:
     from artmind import vector_query
 
     return vector_query.vector_text_search(domains, question, top_k)
 
 
-def survey_search_fn(legs: Sequence[str]) -> Search:
-    """`query survey` as an eval search function (spec 2026-11-01 §4.2)."""
+def survey_search_fn(legs: Sequence[str], shape: str = "full", top_docs: int | None = None) -> Search:
+    """`query survey` as an eval search function (spec 2026-11-01 §4.2).
+
+    `top_docs` pins the depth (the visibility comparison runs full at 10, brief at 50)."""
     def search(domains: list[str], question: str, top_k: int) -> dict:
         from artmind import survey
 
-        return survey.survey_search(domains, question, top_docs=top_k, legs=tuple(legs))
+        return survey.survey_search(domains, question, top_docs=top_docs or top_k, legs=tuple(legs), **({} if shape == "full" else {"shape": shape}))
     return search
+
+
+def budget_view(payload: dict, retriever: str) -> dict:
+    """The payload as the agent sees it: through `result_store.fit` with `_echo_json`'s
+    compact serialiser, when ARTMIND_OUTPUT_BUDGET is set. Handles go to a temp dir."""
+    import tempfile
+
+    from artmind import result_store
+    from artmind.cli_conventions import LIST_KEY
+
+    budget = result_store.current_budget()
+    if not budget:
+        return payload
+    dumps = lambda p: json.dumps(p, ensure_ascii=False, default=str, separators=(",", ":"))  # noqa: E731
+    declared = LIST_KEY.get("query survey" if retriever == "survey" else "query vector-text")
+    with tempfile.TemporaryDirectory() as tmp:
+        out, *_ = result_store.fit(payload, budget, dumps, declared, Path(tmp))
+    return out
+
+
+def visible_means(run: dict) -> dict:
+    return {kind: stats["evidence_visible"] for kind, stats in (run.get("summary") or {}).items()
+            if "evidence_visible" in stats}
+
+
+def visibility_gate(full: dict, brief: dict) -> dict:
+    """§4.3: brief survey(50) must show at least as much evidence as full survey(10)."""
+    def mean(run, kind):
+        return ((run.get("summary") or {}).get(kind) or {}).get("evidence_visible")
+    out = {}
+    for kind, key in (("needle", "needle_ok"), ("survey", "survey_ok")):
+        b, f = mean(brief, kind), mean(full, kind)
+        out[key] = b is None or f is None or b >= f
+    return out
 
 
 def run_eval(
@@ -40,6 +87,8 @@ def run_eval(
     search: Search | None = None,
     clock: Callable[[], float] = time.perf_counter,
     only_kinds: Sequence[str] | None = None,
+    retriever: str = "vector-text",
+    measure_visible: bool = False,
 ) -> dict:
     labels = [l for l in labels if not only_kinds or l.kind in only_kinds]
     search = search or _default_search
@@ -50,13 +99,16 @@ def run_eval(
         t0 = clock()
         result = search(list(label.domains), label.question, top)
         latency = clock() - t0
+        shown = budget_view(result, retriever) if measure_visible else None
         if result.get("documents") is not None:            # a survey payload ranks documents
             chunk_ids = []
             doc_ids = [d.get("doc_id") for d in result["documents"]][:top]
         else:
-            chunks = [r["chunk"] for r in (result.get("rows") or []) if r.get("chunk")]
-            chunk_ids = [c.get("id") for c in chunks][:top]
-            doc_ids = [c.get("doc_id") for c in chunks][:top]
+            rows = result.get("rows") or []
+            chunk_ids = [(r.get("chunk") or {}).get("id") or r.get("chunk_id") for r in rows
+                         if r.get("chunk") or r.get("chunk_id")][:top]
+            doc_ids = [(r.get("chunk") or {}).get("doc_id") or (r.get("doc") or {}).get("id") for r in rows
+                       if r.get("chunk") or r.get("chunk_id")][:top]
         entry: dict = {"id": label.id, "kind": label.kind, "latency_s": round(latency, 3), "chunk_ids": chunk_ids}
         if label.kind == "needle":
             relevant = set(label.relevant)
@@ -65,6 +117,9 @@ def run_eval(
         else:
             relevant_docs = set(label.relevant_docs)
             entry["docs_covered"] = {str(k): metrics.docs_covered_at_k(doc_ids, relevant_docs, k) for k in ks}
+        if measure_visible:
+            entry["evidence_visible"] = metrics.evidence_visible(
+                shown, label.kind, set(label.relevant if label.kind == "needle" else label.relevant_docs))
         per.append(entry)
     return {
         "created_at": datetime.now().isoformat(timespec="seconds"),

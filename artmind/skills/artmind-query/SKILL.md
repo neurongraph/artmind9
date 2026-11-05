@@ -32,12 +32,12 @@ or relationships. For such a domain:
 
 - Skip `views list`, insights, `graph metadata`, `entity-listing`, `entity-resolve`,
   `entity-context`, `pattern1`–`pattern9` and `text2cypher`: they return nothing there.
-- Answer a fact from `artmind query vector-text --domain <domain> --topK 10 --compact "<question>"`.
+- Answer a fact from `artmind query vector-text --shape brief --domain <domain> --topK 10 --compact "<question>"`.
   A question that spans documents ("what do the papers say about X", "compare", "overview")
-  goes to `artmind query survey --domain <domain> --compact "<question>"` instead (see
+  goes to `artmind query survey --shape brief --domain <domain> --compact "<question>"` instead (see
   "Survey — questions that span documents").
 - For a whole document ("summarise X") use `artmind query graph pattern10 --documentName
-  "<name>"`; for more context around a hit, `artmind query chunks --idList <id> --expand 1`;
+  "<name>"`; for more context around a hit, `artmind query chunks --shape brief --idList <id> --expand 1`;
   for which documents exist or how many, `artmind query graph structural-metadata`. These
   read documents and chunks, which a chunks-only domain has.
 - If its `stores` also lists `structured`, Store routing still applies: tables are not
@@ -142,7 +142,7 @@ Each finding has a `title`, a `narration` (a checked one-line caption, or null) 
 - Use `artmind query insights show <key> --domain <domain> --compact` for the numbers behind a finding.
 
 When you answer from insights:
-- **Ground each subject** you name with `artmind query entity-context --domain <domain> --entityId <_id> --compact`, and cite as usual.
+- **Ground each subject** you name with `artmind query entity-context --shape brief --domain <domain> --entityId <_id> --compact`, and cite as usual.
 - **outcome_lift findings** always carry the caption "Co-occurrence on the same day, not cause." Pass it on. Never describe a lift as a cause.
 - **Freshness:** state the snapshot's `as_of`. If an `artmind:` stderr line says the graph is behind the vault, say that the insights may be older than the latest notes.
 - **Refresh:** never run `artmind insights refresh` yourself. If there is no snapshot, say so; the domain owner runs it.
@@ -165,7 +165,7 @@ termination", "compare the approaches to X", "overview of Y", "which reports men
 `vector-text` returns its top passages, which cluster in one or two documents. Use:
 
 ```bash
-artmind query survey --domain <d1> --domain <d2> --compact "<question>"
+artmind query survey --shape brief --domain <d1> --domain <d2> --compact "<question>"
 ```
 
 It ranks documents by their summaries and passages and returns, per document, its
@@ -173,12 +173,20 @@ It ranks documents by their summaries and passages and returns, per document, it
 `warnings` says when documents in scope have no summaries yet. `topics` lists topic
 pages that cite the returned documents.
 
+Use `--shape brief` for these retrieval commands: rows carry title, date and status. A
+survey lists every document: full passages for the strongest matches, a question-matched
+`gist` for the next ones, and one line for the rest. `gist_source: passage` is evidence;
+a summary gist is only a guide. Open a document with `artmind query survey --domain <d>
+--shape brief --expand <doc_id> "<question>"` or `artmind query chunks --shape brief
+--idList <chunk_id>`. When a result says `truncated: true`, run the command in its `next`
+field (`artmind query page <handle> --from N`) instead of guessing.
+
 | The question asks for | Command |
 |---|---|
 | A fact (who, when, a figure, a quote) | the graph steps below, or `vector-text --topK 10` in a chunks-only domain |
 | One document ("summarise X", "what does X say about Y") | `query graph pattern10 --documentName X`: its `summaries` holds the stored summary; read chunks only for detail |
 | One entity broadly ("tell me about Acme") | `entity-context` (graph domains); if `query topics list` has a page for it, use it to organise the answer |
-| A topic across documents | `query survey`, then `query chunks --idList <chunk_id>` for the passages you cite |
+| A topic across documents | `query survey`, then `query chunks --shape brief --idList <chunk_id>` for the passages you cite |
 | Patterns over time | insights |
 
 Rules:
@@ -199,7 +207,7 @@ artmind query topics list --domain <d> --compact     # when the user asks what p
 
 - Read a page when `query survey` lists it or the user asks for "the page on X". It is
   a guide, not evidence: use it to find the right documents and to organise the
-  answer, then fetch the passages it cites (`query chunks --idList <chunk_id>`; a
+  answer, then fetch the passages it cites (`query chunks --shape brief --idList <chunk_id>`; a
   passage id `<chunk_id>_pNN` names its chunk) and cite those.
 - If `stale` is true, say so and name `stale_reasons`; check what changed with
   `query survey`.
@@ -363,7 +371,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Question shape | Command |
 |---|---|
 | Any question matching a saved view's `summary`/`examples` | `artmind query views run <name> --param <p>=<value> --render markdown` — see Views |
-| "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
+| "Tell me about X / X's role / why did X…" / any question anchored on one entity — facts + relationships + source text in ONE call | `artmind query entity-context --shape brief --entityId <id> --query "<the question>" [--includeChunks 5] [--relType <REL>]` |
 | Domain-wide history / sequence of events for a class of things, ordered by date | `artmind query graph timeline --domain <d> [--from <date>] [--to <date>]` — every entity of a `kind: occurrent` class, ordered by `valid_from`. Domain-scoped, NOT entity-scoped — there is no `--entityId` |
 | "What was property P of X before it changed" / X's value at a past date | `artmind query entity-history --entityId <id> [--property P] [--asOf <date>]` — every observation behind X, ordered by fact-level valid time (`_valid_from`), spanning both current and history sources; each row's `status` is `current` or `history` |
 | An entity entity-resolve no longer finds (a misspelling a corrected note dropped, a retired document's entity) | `artmind query entity-history --name "<name>" [--entityClass <LABEL>]` or `--key "<name>\|<CLASS>\|<domain>"` — matches observations directly, so it works after the entity is gone; `keys` lists every key the name matched |
@@ -374,7 +382,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Properties + relationship summary | `artmind query graph pattern3 --entityIdList <id>` |
 | Full one-hop neighborhood / contextual role | `artmind query graph pattern4 --entityClass <LABEL> --entityId <id>` |
 | Everyone under X / X's whole reporting line / full org subtree / chain of command | `artmind query graph hierarchy --entityId <id> --childOf <REL> [--parentOf <REL>] [--direction up] [--maxDepth N]` — omit `--childOf`/`--parentOf` for discovery mode first; see `references/hierarchy.md` |
-| Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --idList <id>[,<id>…] [--expand 1]` (repeat the flag or comma-join ids) |
+| Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --shape brief --idList <id>[,<id>…] [--expand 1]` (repeat the flag or comma-join ids) |
 | Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
 | Search entities by name/description fragment | `artmind query graph pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). It returns `rows_total`/`truncated`: raise `--limit` (max 500) until `truncated` is false for a complete list; when `rows_total_capped` is true the total is a lower bound. Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
@@ -386,7 +394,7 @@ Every command also needs `--domain <domain>` (repeatable) and `--compact`, omitt
 
 Routing notes:
 - **entity-context vs pattern4**: for a question anchored on ONE resolved entity that
-  needs evidence text, `artmind query entity-context --domain <d> --entityId <id>
+  needs evidence text, `artmind query entity-context --shape brief --domain <d> --entityId <id>
   --query "<question>"` replaces the pattern4 + Ground sequence — it returns
   properties, one-hop relationships, and the text of the entity's source chunks most
   relevant to the question (the first `--includeChunks` with full text, the next ids
@@ -397,7 +405,7 @@ Routing notes:
   patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
 - **pattern4 vs hierarchy**: pattern4 is one hop only. For a transitive walk — everyone under X, X's whole reporting line, chain of command — use `hierarchy` instead; see `references/hierarchy.md`.
-- Patterns 2/3/4 return `doc_sources` (chunk ids) and `source_documents` (the documents those chunks belong to, with `path`/`source_path` for the Sources list) — use the ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
+- Patterns 2/3/4 return `doc_sources` (chunk ids) and `source_documents` (the documents those chunks belong to, with `path`/`source_path` for the Sources list) — use the ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --shape brief --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - **Patterns 2/3/4 are bounded like entity-context, without its ranking.** `doc_sources`/
   `source_documents` are capped (`--maxDocSources` default 20, `--maxSourceDocuments`
   default 10) with `*_total` counts; patterns 3/4's `connections` are capped
@@ -480,13 +488,13 @@ How to work with it:
 Grounding has a deterministic path and a search path — prefer the deterministic one:
 
 1. **You already have chunk ids** (doc_sources from patterns 2/3/4, evidence from
-   conflicts) → `artmind query chunks --domain <d> --idList <id> [--expand 1]`.
+   conflicts) → `artmind query chunks --shape brief --domain <d> --idList <id> [--expand 1]`.
 2. **The question is anchored on one resolved entity** → you should have used
    `entity-context` in Retrieve, which grounds in the same call.
 3. **Otherwise** (no entity anchor, or the ids you pulled don't answer it):
 
 ```bash
-artmind query vector-text --domain <d1> --domain <d2> --topK 10 --compact "<question>"
+artmind query vector-text --shape brief --domain <d1> --domain <d2> --topK 10 --compact "<question>"
 ```
 
 vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and returns them in relevance order. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). Ask for 10 rows: the right chunk is often just below the top 5. `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.

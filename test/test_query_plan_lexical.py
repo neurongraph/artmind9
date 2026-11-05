@@ -194,3 +194,42 @@ def test_the_planner_pins_hold():
 
     option = SimpleNamespace(key="journal", documents=[], top_classes=[])
     assert lexical.domain_scores("How often is the journal mentioned?", [option])["journal"] >= 1
+
+
+def test_the_survey_cues_match_their_question_shapes():
+    survey = next(r for r in routes.load_routes() if r.id == "survey")
+    assert "survey" in lexical.triggered(survey, _facts("Run a survey of the notes on sleep?"))
+    assert "various" in lexical.triggered(survey, _facts("What do various teams report about storage?"))
+    assert "all the contracts" in lexical.triggered(survey, _facts("Summarise all the contracts for the vendor"))
+    assert "which documents" in lexical.triggered(survey, _facts("Which documents mention the penalty clause?"))
+    assert "the contracts say" in lexical.triggered(survey, _facts("What the contracts say about renewal"))
+    assert "the policies" in lexical.triggered(survey, _facts("How the policies treat overtime"))
+    assert "the agreements" in lexical.triggered(survey, _facts("Where the agreements differ on notice"))
+    assert "the reports" in lexical.triggered(survey, _facts("Do the reports agree on the forecast?"))
+    assert "across" in lexical.triggered(survey, _facts("Themes ACROSS the notes?"))
+    assert "who is responsible for" in lexical.triggered(survey, _facts("Who is responsible for the audit?"))
+    assert "what are the obligations" in lexical.triggered(survey, _facts("What are the obligations under the lease?"))
+    assert "responsibilities of" in lexical.triggered(survey, _facts("Responsibilities of the tenant in the lease"))
+
+
+def test_survey_cues_do_not_fire_on_unrelated_text():
+    survey = next(r for r in routes.load_routes() if r.id == "survey")
+    assert lexical.triggered(survey, _facts("How many visits did Ada make to Lakeport?")) == []
+    assert lexical.triggered(survey, _facts("Who is the landlord named in the lease?")) == []
+
+
+def test_did_we_and_did_i_are_existence_cues_only_at_the_start():
+    existence = next(r for r in routes.load_routes() if r.id == "existence")
+    assert "^did we" in lexical.triggered(existence, _facts("Did we visit Lakeport?"))
+    assert "^did i" in lexical.triggered(existence, _facts("   ...did I visit Lakeport again?"))
+    assert "^did we" in lexical.triggered(existence, _facts('"Did we ever meet?"'))
+    assert "^did we" not in lexical.triggered(existence, _facts("Tell me, did we visit Lakeport?"))
+    assert "^did i" not in lexical.triggered(existence, _facts("The notes show what did I write?"))
+
+
+def test_an_anchored_trigger_still_needs_its_words_and_is_case_insensitive():
+    assert _hits("^did we", "DID WE meet?") and _hits("^did we", "did   we meet?")
+    assert not _hits("^did we", "meet, did we?")
+    assert not _hits("^did we", "did what we meet")
+    regex, needs = lexical.compile_trigger("^did we")
+    assert needs == frozenset() and regex.pattern.startswith("^")

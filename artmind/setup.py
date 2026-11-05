@@ -423,8 +423,8 @@ ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
 # ARTMIND_DATA_DIR=/somewhere/else
 
 # ── query survey ──────────────────────────────────────────────────────────────
-# Default number of documents returned by `artmind query survey` (1-50).
-# An explicit --topDocs flag wins over this value.
+# Number of documents `artmind query survey` returns (1-50), for both shapes;
+# unset: 50 with --shape brief, 10 with the full shape. An explicit --topDocs wins.
 # ARTMIND_SURVEY_TOP_DOCS=50
 
 # Per-leg RRF weights for `artmind query survey` (D=document summaries,

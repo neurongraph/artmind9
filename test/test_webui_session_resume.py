@@ -51,13 +51,18 @@ def test_agent_options_passes_env_through():
     from artmind.webui.agent import agent_options
 
     opts = agent_options(env={"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"})
-    assert opts.env == {"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"}
+    assert opts.env["ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica"
+    assert set(opts.env) <= {"ANTHROPIC_BASE_URL", *_BUDGET_KEYS}
 
 
-def test_agent_options_env_defaults_to_empty():
+#: Bounded-output defaults agent_options adds unless the operator set them (spec 2026-11-05 §8).
+_BUDGET_KEYS = {"BASH_MAX_OUTPUT_LENGTH", "ARTMIND_OUTPUT_BUDGET"}
+
+
+def test_agent_options_env_defaults_to_only_the_budget_keys():
     from artmind.webui.agent import agent_options
 
-    assert agent_options().env == {}
+    assert set(agent_options().env) <= _BUDGET_KEYS
 
 
 # ── fake SDK client ─────────────────────────────────────────────────────────
@@ -199,7 +204,9 @@ async def test_sdk_restart_preserves_env_override(fake_sdk):
     backend = claude_sdk.ClaudeSDKBackend(env={"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"})
     await backend.connect()
     await backend.restart(preserve_context=False)
-    assert backend._client.options.env == {"ANTHROPIC_BASE_URL": "https://gateway.example.com/ica"}
+    env = backend._client.options.env
+    assert env["ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica"
+    assert set(env) <= {"ANTHROPIC_BASE_URL", *_BUDGET_KEYS}
 
 
 # ── SessionRegistry.refresh ──────────────────────────────────────────────────

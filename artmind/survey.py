@@ -15,7 +15,7 @@ from collections.abc import Callable, Sequence
 
 from neo4j.exceptions import ClientError
 
-from artmind import retrieval_rank, vector_query
+from artmind import brief, retrieval_rank, vector_query
 from artmind.graph_query import read_session, sanitize_lucene_query, serialize_record
 
 LEGS = ("D", "C", "P")
@@ -61,7 +61,8 @@ UNWIND $docIds AS did
 MATCH (d:Document {id: did})
 OPTIONAL MATCH (s:DocSummary {id: did + ':summary'})
 RETURN d.id AS doc_id, coalesce(d.title, d.name) AS title, d.name AS name, d._domain AS domain,
-       s.text AS summary
+       s.text AS summary, d.valid_from AS date,
+       EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } AS superseded
 """
 
 _COVERAGE = """
@@ -93,10 +94,22 @@ def survey_search(
     *,
     legs: Sequence[str] = LEGS,
     topics: Topics | None = None,
+    shape: str = "full",
+    passage_docs: int = 3,
+    gist_docs: int = 10,
+    expand: Sequence[str] | None = None,
 ) -> dict:
     from artmind.graph_query import _domain_output, normalize_domains
 
     top_docs, passages = int(top_docs), int(passages)
+    if shape not in brief.SHAPES:
+        raise ValueError(f"--shape must be one of {', '.join(brief.SHAPES)}")
+    passage_docs, gist_docs = int(passage_docs), int(gist_docs)
+    if not 0 <= passage_docs <= 10:
+        raise ValueError("--passageDocs must be between 0 and 10")
+    if not 0 <= gist_docs <= 50:
+        raise ValueError("--gistDocs must be between 0 and 50")
+    expand = [e for e in (expand or []) if e]
     if not 1 <= top_docs <= MAX_TOP_DOCS:
         raise ValueError(f"--topDocs must be between 1 and {MAX_TOP_DOCS}")
     if not 1 <= passages <= MAX_PASSAGES:
@@ -158,6 +171,10 @@ def survey_search(
                 raise ValueError(MISSING_SUMMARY_INDEX) from e
             raise
         picked = retrieval_rank.survey_fuse(rankings, weights=retrieval_rank.survey_leg_weights())[:top_docs]
+        if expand:
+            # Same question, no re-ranking: the named documents in the order asked.
+            fused_order = {doc_id: (score, ranks, i) for i, (doc_id, score, ranks) in enumerate(picked, 1)}
+            picked = [(d, *fused_order.get(d, (0.0, {}, 0))[:2]) for d in expand]
         ids = [doc_id for doc_id, _, _ in picked]
         meta = ({r["doc_id"]: r for r in (serialize_record(x) for x in session.run(_DOCUMENTS, docIds=ids))}
                 if ids else {})
@@ -169,12 +186,35 @@ def survey_search(
             warnings.append(f"summaries missing for {missing} of {row['total']} documents in {row['domain']}; "
                             f"run artmind ingest summarise --domain {row['domain']}")
 
+    if expand:
+        return _expanded(domains, question, picked, meta, doc_units, passages, warnings, top_docs, legs)
+    if shape == "brief":
+        found = topics(ids, domains) if topics else []
+        warnings.extend(getattr(found, "warnings", ()))
+        out = {
+            **_domain_output(domains),
+            "query_type": "survey",
+            "question": question,
+            "parameters": {"topDocs": top_docs, "passages": passages, "pool": POOL, "legs": list(legs),
+                           "shape": "brief", "passageDocs": passage_docs, "gistDocs": gist_docs},
+            "warnings": warnings,
+            "documents": [],
+            "topics": list(found),
+        }
+        # The rows get what the rest of the payload leaves (measured, plus room for the
+        # envelope keys `_echo_json` adds and the indentation of a non-compact print).
+        envelope = brief.size(out) + brief.ENVELOPE_CHARS
+        out["documents"] = _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_hits,
+                                            chunk_summary_hits, passage_docs, gist_docs, envelope)
+        return out
+
     documents = []
     for doc_id, score, ranks in picked:
         m = meta.get(doc_id) or {}
         best = chunk_summary.get(doc_id)
         documents.append({
             "doc_id": doc_id, "title": m.get("title"), "name": m.get("name"), "domain": m.get("domain"),
+            "date": m.get("date") or None, "status": brief.doc_status(m.get("superseded")),
             "summary": m.get("summary"), "score": round(score, 6), "ranks": ranks,
             "hits": {"passages": passage_hits.get(doc_id, 0), "chunk_summaries": chunk_summary_hits.get(doc_id, 0)},
             "passages": [
@@ -194,4 +234,72 @@ def survey_search(
         "warnings": warnings,
         "documents": documents,
         "topics": list(found),
+    }
+
+
+def _passage(unit) -> dict:
+    return {"passage_id": unit.best["id"], "chunk_id": unit.best["chunk_id"], "text": brief.cut_keep(unit.best.get("text"), brief.PASSAGE_CHARS),
+            "relevance": None if unit.relevance is None else round(unit.relevance, 4)}
+
+
+def _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_hits, chunk_summary_hits,
+                     passage_docs, gist_docs, envelope: int = brief.ENVELOPE_CHARS) -> list[dict]:
+    """Spec 2026-11-05 §4 / §4.2: every document listed; how much is shown varies."""
+    inputs, facts = [], {}
+    for rank, (doc_id, score, _) in enumerate(picked, 1):
+        m = meta.get(doc_id) or {}
+        units = doc_units.get(doc_id, [])
+        cs = chunk_summary.get(doc_id)
+        title = brief.doc_title(m.get("title"), m.get("name"))
+        texts = []
+        if units:
+            texts.append(("passage", units[0].best.get("text") or ""))
+        if cs:
+            texts.append(("chunk_summary", cs.get("text") or ""))
+        if m.get("summary"):
+            texts.append(("document_summary", m["summary"]))
+        inputs.append(brief.GistInput(doc_id, texts, title))
+        facts[doc_id] = {
+            "rank": rank, "doc_id": doc_id, "title": title, "domain": m.get("domain"), "date": m.get("date") or None,
+            "status": brief.doc_status(m.get("superseded")), "score": round(score, 6),
+            "hits": {"passages": passage_hits.get(doc_id, 0), "chunk_summaries": chunk_summary_hits.get(doc_id, 0)},
+            "best": {"passage_id": units[0].best["id"] if units else None,
+                     "chunk_id": units[0].best["chunk_id"] if units else (cs or {}).get("chunk_id")},
+            "passage": _passage(units[0]) if units else None,
+            "_relevance": units[0].relevance if units else None,
+        }
+    for doc_id, g in brief.build_gists(question, inputs).items():
+        facts[doc_id].update(g)
+    cands = []
+    for doc_id, d in facts.items():
+        cands.append(brief.Candidate(
+            doc_id, d["rank"], picked[d["rank"] - 1][1], sum(d["hits"].values()), d["_relevance"],
+            d["passage"] is not None, brief.size(brief.survey_row("line", d)),
+            brief.size(brief.survey_row("gist", d)), brief.size(brief.survey_row("passage", d))))
+    kinds = brief.allocate(cands, passage_docs=passage_docs, gist_docs=gist_docs, budget=brief.output_budget(),
+                           envelope=envelope)
+    return [brief.survey_row(kinds[doc_id], facts[doc_id]) for doc_id, _, _ in picked]
+
+
+def _expanded(domains, question, picked, meta, doc_units, passages, warnings, top_docs, legs) -> dict:
+    """`--expand`: passage rows for the named documents under the same question."""
+    from artmind.graph_query import _domain_output
+
+    rows = []
+    for rank, (doc_id, score, _) in enumerate(picked, 1):
+        m = meta.get(doc_id) or {}
+        units = doc_units.get(doc_id, [])[:passages]
+        if not m:
+            warnings.append(f"--expand: no document {doc_id} found")
+        elif not units:
+            warnings.append(f"--expand: no passage of {doc_id} matched this question")
+        ref = brief.doc_ref(doc_id, m.get("title"), m.get("name"), m.get("domain"), m.get("date"), m.get("superseded"))
+        for u in units:
+            rows.append(brief.passage_row(len(rows) + 1, u.best["id"], u.best["chunk_id"], u.best.get("text"),
+                                          None if u.relevance is None else round(u.relevance, 4), ref))
+    return {
+        **_domain_output(domains), "query_type": "survey", "question": question,
+        "parameters": {"topDocs": top_docs, "passages": passages, "pool": POOL, "legs": list(legs),
+                       "shape": "brief", "expand": [d for d, _, _ in picked]},
+        "warnings": warnings, "documents": [], "passages": rows, "topics": [],
     }

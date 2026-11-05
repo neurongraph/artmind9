@@ -50,6 +50,8 @@ class _Acc:
         self.entities: dict[str, None] = {}
         self.chunks: dict[tuple, None] = {}
         self.documents: dict[tuple, None] = {}
+        self.passages: dict[str, None] = {}
+        self.topics: dict[str, None] = {}
 
     def add(self, bucket: dict, key: Any) -> None:
         if len(bucket) < CAP:
@@ -171,6 +173,36 @@ def _merge_chunk(chunks: list[dict], item: dict) -> None:
             existing["passages"].append(passage)
 
 
+def _survey_ids(payload: dict, acc: _Acc) -> None:
+    """`query survey`: documents[].doc_id, passages[].id / chunk_id; topics[].slug."""
+    for doc in payload.get("documents") or []:
+        if not isinstance(doc, dict):
+            continue
+        if isinstance(doc.get("doc_id"), str):
+            acc.add(acc.documents, (doc["doc_id"], doc.get("path") if isinstance(doc.get("path"), str) else None))
+        for passage in doc.get("passages") or []:
+            if isinstance(passage, dict):
+                if isinstance(passage.get("id"), str):
+                    acc.add(acc.passages, passage["id"])
+                if isinstance(passage.get("chunk_id"), str) and isinstance(doc.get("doc_id"), str):
+                    acc.add(acc.chunks, (passage["chunk_id"], doc["doc_id"]))
+    for topic in payload.get("topics") or []:
+        slug = topic.get("slug") if isinstance(topic, dict) else None
+        if isinstance(slug, str):
+            acc.add(acc.topics, slug)
+
+
+def _topic_ids(payload: dict, acc: _Acc) -> None:
+    """`query topics list` (pages[].slug) and `topics show` (page.slug)."""
+    pages = list(payload.get("pages") or [])
+    if isinstance(payload.get("page"), dict):
+        pages.append(payload["page"])
+    for page in pages:
+        slug = page.get("slug") if isinstance(page, dict) else None
+        if isinstance(slug, str):
+            acc.add(acc.topics, slug)
+
+
 def _walk(node: Any, acc: _Acc) -> None:
     if isinstance(node, dict):
         if isinstance(node.get("_id"), str):
@@ -223,6 +255,9 @@ def _evidence(payload: dict) -> dict:
         return _plan_evidence(payload)
     acc = _Acc()
     _walk(payload, acc)
+    if payload.get("query_type") == "survey":
+        _survey_ids(payload, acc)
+    _topic_ids(payload, acc)
     for table in payload.get("source_tables") or []:
         if isinstance(table, dict) and isinstance(table.get("source_file"), str):
             acc.add(acc.documents, (None, table["source_file"]))
@@ -242,6 +277,10 @@ def _evidence(payload: dict) -> dict:
         ev["chunks"] = [{"chunk_id": c, "doc_id": d} for c, d in acc.chunks]
     if acc.documents:
         ev["documents"] = [{"doc_id": d, "path": p} for d, p in acc.documents]
+    if acc.passages:
+        ev["passages"] = list(acc.passages)
+    if acc.topics:
+        ev["topics"] = list(acc.topics)
     if acc.entities:
         ev["entities"] = list(acc.entities)
     provenance = _provenance(payload)

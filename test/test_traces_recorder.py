@@ -215,3 +215,30 @@ def test_answer_narration_excluded_before_last_tool_result():
     answer = store.get_turn(rec.trace_id)["answer"]
     assert answer == "Here is the answer.\n\n### Sources\n- [Doc](path/doc.md)\n"
     assert "Let me check" not in answer
+
+
+def _done_turn(session_id, cumulative):
+    rec = TraceRecorder.start(source="admin", question="q", session_id=session_id)
+    rec.observe({"type": "text_delta", "text": "a"})
+    rec.observe({"type": "turn_done", "cost": cumulative, "_trace": {"model": "m"}})
+    rec.finish()
+    return store.get_turn(rec.trace_id)
+
+
+def test_cost_is_per_turn_delta_with_cumulative_kept():
+    first = _done_turn("s-cost", 0.5)
+    second = _done_turn("s-cost", 0.75)
+    restarted = _done_turn("s-cost", 0.125)
+    assert (first["cost_usd"], first["cost_cumulative_usd"]) == (0.5, 0.5)
+    assert (second["cost_usd"], second["cost_cumulative_usd"]) == (0.25, 0.75)
+    assert (restarted["cost_usd"], restarted["cost_cumulative_usd"]) == (0.125, 0.125)
+    assert [t["turn_index"] for t in (first, second, restarted)] == [1, 2, 3]
+
+
+def test_error_event_without_answer_is_an_error_turn():
+    rec = TraceRecorder.start(source="admin", question="q")
+    rec.observe({"type": "error", "message": "x" * 5000})
+    rec.finish()
+    turn = store.get_turn(rec.trace_id)
+    assert turn["status"] == "error"
+    assert len(turn["error_message"]) == 2000
