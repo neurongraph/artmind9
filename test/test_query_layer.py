@@ -1,4 +1,5 @@
 """Query-layer unit tests: asOf resolution, pattern hardening, chunks/entity-context builders (no Neo4j)."""
+import json
 import re
 from datetime import date
 
@@ -133,6 +134,30 @@ def test_chunks_by_id_passes_params(monkeypatch):
     assert captured["params"]["expand"] == 2
     assert captured["params"]["asOf"] == date.today().isoformat()
     assert result["command"] == "chunks"
+
+
+def test_chunks_by_id_without_domain_looks_up_all_domains_and_derives_them(monkeypatch):
+    seen = {}
+    rows = [
+        {"chunk": {"id": "c1", "_domain": "notes", "text": "a"}, "document": {"id": "d1"}},
+        {"chunk": {"id": "c2", "_domain": "journal", "text": "b"}, "document": {"id": "d2"}},
+        {"chunk": {"id": "c3", "_domain": "notes", "text": "c"}, "document": {"id": "d1"}},
+    ]
+
+    def fake_run(cypher, params):
+        seen["cypher"], seen["params"] = cypher, params
+        return [json.loads(json.dumps(r)) for r in rows]
+
+    monkeypatch.setattr(gq, "_run_read_query", fake_run)
+    out = gq.chunks_by_id(None, ["c1", "c2", "c3"])
+    assert "$domains" not in seen["cypher"]
+    assert "domains" not in seen["params"]
+    assert seen["params"]["chunkIds"] == ["c1", "c2", "c3"]
+    assert out["domains"] == ["journal", "notes"] and "domain" not in out
+    assert [r["chunk"]["id"] for r in out["rows"]] == ["c1", "c2", "c3"]
+
+    gq.chunks_by_id(["notes"], ["c1"])
+    assert seen["params"]["domains"] == ["notes"] and "$domains" in seen["cypher"]
 
 
 # ── entity_context ─────────────────────────────────────────────────────────────
