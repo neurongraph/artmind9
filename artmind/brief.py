@@ -158,13 +158,20 @@ def build_gists(question: str, docs: list[GistInput]) -> dict[str, dict]:
     out: dict[str, dict] = {}
     for d in docs:
         matched = [t for t in terms if folded[t] in doc_tokens[d.doc_id]]
-        best_score, best = 0.0, None
+        # Sources in order of preference (passage, chunk summary, document summary): the best
+        # sentence of the first source that matches the question at all. A matching passage
+        # sentence is evidence and beats a higher-scoring summary sentence, which is only a
+        # guide (spec 2026-11-05 §4.1; the visibility gate measures exactly this).
+        best = None
         for source, text in d.texts:
+            best_score = 0.0
             for sentence in sentences(text):
                 toks = _tokens(sentence)
                 score = sum(w for f, w in idf.items() if f in toks) + sum(1 for s in special if s in toks)
-                if score > best_score:        # strict: ties go to the earlier source
+                if score > best_score:        # strict: ties go to the earlier sentence
                     best_score, best = score, (source, sentence)
+            if best is not None:
+                break
         if best is None:
             best = _fallback(d)
             matched = []
