@@ -18,6 +18,7 @@ from pydantic import BaseModel
 
 from artmind._entry import DEFAULT_PORT  # noqa: F401  (re-exported for callers)
 from artmind.cli import cli
+from artmind.result_store import budget_override
 from artmind.traces.span import trace_override
 
 # CliRunner redirects the process-wide stdout, so invocations must not overlap.
@@ -29,6 +30,9 @@ class QueryRequest(BaseModel):
     #: The caller's query-trace id (spec 2026-10-11 §5.4), forwarded by
     #: `_entry._proxy`. The daemon never reads a trace id from its own env.
     trace_id: str | None = None
+    #: The caller's ARTMIND_OUTPUT_BUDGET, applied to this request only; the
+    #: daemon never reads the budget from its own env.
+    output_budget: str | None = None
 
 
 def _service_version() -> str:
@@ -38,10 +42,10 @@ def _service_version() -> str:
         return "unknown"
 
 
-def run_cli_args(args: list[str], trace_id: str | None = None) -> dict:
+def run_cli_args(args: list[str], trace_id: str | None = None, output_budget: str | None = None) -> dict:
     if not args or args[0] != "query":
         raise ValueError("only 'artmind query ...' commands are served")
-    with _invoke_lock, trace_override(trace_id):
+    with _invoke_lock, trace_override(trace_id), budget_override(output_budget):
         result = CliRunner().invoke(cli, args)
     stderr = result.stderr
     if result.exception is not None and result.exit_code != 0 and not stderr:
@@ -91,7 +95,7 @@ def create_app() -> FastAPI:
     @app.post("/query")
     def query(request: QueryRequest) -> dict:
         try:
-            return run_cli_args(request.args, request.trace_id)
+            return run_cli_args(request.args, request.trace_id, request.output_budget)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc))
 

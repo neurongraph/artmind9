@@ -36,6 +36,16 @@ EXIT_STORE = 3
 # ── command classes ──────────────────────────────────────────────────────────
 
 #: Long-running servers: no JSON result, exempt from C1.
+#: Command path -> the payload key holding its main list, cut first when `ARTMIND_OUTPUT_BUDGET`
+#: is exceeded (artmind/result_store.py). A command not listed falls back to the first of
+#: documents / results / rows present in its payload.
+LIST_KEY: dict[str, str] = {
+    "query survey": "documents",
+    "query vector-text": "rows",
+    "query entity-resolve": "rows",
+    "query page": "rows",
+}
+
 SERVER_COMMANDS = frozenset({"serve", "chat-ui", "admin-ui"})
 #: Hands the terminal to a SQL shell: exempt from C1.
 INTERACTIVE_COMMANDS = frozenset({"db connect"})
