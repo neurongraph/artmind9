@@ -38,6 +38,7 @@ intents:
       - ^dismiss
       - ^merge
       - should be merged
+      - same-as
 
   - id: update
     description: An instruction to store a new fact or note in the knowledge base.
@@ -50,6 +51,8 @@ intents:
     description: A question about the assistant itself, its model or its abilities, not about the corpus.
     triggers:
       - which model
+      - model are you
+      - are you using
       - what can you do
       - who are you
 
@@ -58,6 +61,7 @@ intents:
     triggers:
       - ^done
       - ^status
+      - the status
       - is it done
       - how far along
       - how far is the
@@ -86,3 +90,7 @@ affirmatives:
   - "continue"
   - "yep"
   - "y"
+  - "proceed"
+  - "run it"
+  - "sounds good"
+  - "looks good"

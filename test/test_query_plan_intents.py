@@ -169,3 +169,16 @@ def test_corpus_questions_with_cue_words_stay_retrieve(question):
 
 def test_cues_ignore_case():
     assert I.decide_intent("Remember That the meeting moved", None, None).intent == "update"
+
+
+@pytest.mark.parametrize("question,intent", [
+    ("could you look at the status of that job", "status"),
+    ("which embedding model are you running on", "meta"),
+    ("propose a same-as for these two", "curate"),
+])
+def test_round8_shaped_cues(question, intent):
+    assert I.decide_intent(question, None, None).intent == intent
+
+
+def test_more_affirmatives_are_context_only():
+    assert I.is_context_only("sounds good, proceed")
