@@ -169,7 +169,7 @@ def denial_message(command: str) -> str:
         "per-chunk provenance that reading files does not.\n"
         f"Refused: {stripped[:120]}\n"
         f"{shape_hint}"
-        "Use `artmind query vector-text --domain <d> \"<question>\"` to search "
+        "Use `artmind query vector-text --shape brief --domain <d> \"<question>\"` to search "
         "document text, `artmind query chunks --idList <id>` to read a specific "
         "chunk, or `artmind query graph pattern10 --documentName <name>` for a "
         "whole document."

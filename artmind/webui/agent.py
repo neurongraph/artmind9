@@ -190,7 +190,7 @@ def agent_options(
                     "Filesystem access is disabled on this surface: only skill "
                     "reference files may be read directly.\n"
                     f"Refused: {file_path}\n"
-                    "Use `artmind query vector-text --domain <d> \"<question>\"` to "
+                    "Use `artmind query vector-text --shape brief --domain <d> \"<question>\"` to "
                     "search document text instead."
                 )
             output = {
