@@ -74,18 +74,25 @@ class _ProvenanceAcc:
 
     @staticmethod
     def _document(node: Any) -> dict | None:
+        """A document ref. Full-shape nodes carry a path; ``--shape brief``
+        rows (`doc` / survey rows) carry only id, title and domain, so a ref
+        with an id and no path is kept too: the renderer resolves its path."""
         if not isinstance(node, dict):
             return None
         path = node.get("path") or node.get("source_path")
-        if not isinstance(path, str):
+        doc_id = node.get("id") if isinstance(node.get("id"), str) else node.get("doc_id")
+        if not isinstance(path, str) and not isinstance(doc_id, str):
             return None
-        return {
-            "doc_id": node.get("id") if isinstance(node.get("id"), str) else None,
+        document = {
+            "doc_id": doc_id if isinstance(doc_id, str) else None,
             "path": node.get("path") if isinstance(node.get("path"), str) else None,
             "source_path": node.get("source_path") if isinstance(node.get("source_path"), str) else None,
-            "domain": node.get("_domain") if isinstance(node.get("_domain"), str) else None,
+            "domain": next((node[k] for k in ("_domain", "domain") if isinstance(node.get(k), str)), None),
             "chunks": [],
         }
+        if isinstance(node.get("title"), str) and node["title"]:
+            document["title"] = node["title"]
+        return document
 
     def add_document(self, node: Any) -> dict | None:
         document = self._document(node)
@@ -99,7 +106,7 @@ class _ProvenanceAcc:
             self.documents[key] = document
             existing = document
         else:
-            for field in ("path", "source_path", "domain"):
+            for field in ("path", "source_path", "domain", "title"):
                 if existing.get(field) is None and document.get(field) is not None:
                     existing[field] = document[field]
         return existing
@@ -297,6 +304,31 @@ def _provenance(payload: dict) -> dict | None:
     into user-facing citations.
     """
     acc = _ProvenanceAcc()
+    # `--shape brief` rows: `doc {id,title,domain,..}` plus a bare `chunk_id`
+    # (vector-text, survey --expand, chunks); survey's `documents[]` rows carry
+    # `doc_id` and the best chunk under `best`. None of them holds a path.
+    for row in [*(payload.get("rows") or []), *(payload.get("passages") or [])]:
+        if isinstance(row, dict) and isinstance(row.get("doc"), dict) and not isinstance(row.get("document"), dict):
+            document = acc.add_document(row["doc"])
+            chunk = row.get("chunk") if isinstance(row.get("chunk"), dict) else {"chunk_id": row.get("chunk_id")}
+            acc.add_chunk(chunk, document, row.get("passage"))
+    if payload.get("query_type") == "survey":
+        for item in payload.get("documents") or []:
+            if not isinstance(item, dict) or not isinstance(item.get("doc_id"), str):
+                continue
+            best = item.get("best") if isinstance(item.get("best"), dict) else {}
+            passage = item.get("passage") if isinstance(item.get("passage"), dict) else {}
+            chunk_id = passage.get("chunk_id") or best.get("chunk_id")
+            full_passages = [p for p in item.get("passages") or [] if isinstance(p, dict) and isinstance(p.get("chunk_id"), str)]
+            # A brief "line" row is a title only: the agent saw no evidence
+            # for it, so it is not cited.
+            if not isinstance(chunk_id, str) and not full_passages:
+                continue
+            document = acc.add_document(item)
+            if isinstance(chunk_id, str):
+                acc.add_chunk({"chunk_id": chunk_id, "doc_id": item["doc_id"]}, document, passage)
+            for p in full_passages:
+                acc.add_chunk({"chunk_id": p["chunk_id"], "doc_id": item["doc_id"]}, document)
     for row in payload.get("rows") or []:
         if not isinstance(row, dict):
             continue
