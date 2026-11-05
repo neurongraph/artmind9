@@ -3539,7 +3539,8 @@ def vector_text(ctx: click.Context, domain: tuple, top_k: int, context: str, as_
     """Hybrid search over passages: vector + keyword (RRF), grouped into parent chunks.
 
     Every row carries its document's title, date (valid_from) and status
-    (current or superseded). `--shape brief` implies `--context passage` and returns
+    (current or superseded). `--shape brief` implies `--context passage` (an explicit `--context chunk`
+    is ignored, with a warning) and returns
     passage rows ({rank, passage_id, chunk_id, text <= 1,200 characters, relevance,
     doc {id, title, domain, date, status}}); a chunk with two or more matching passages
     adds the second-best as `second_passage` (<= 400 characters).
