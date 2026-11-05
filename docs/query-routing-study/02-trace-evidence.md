@@ -568,3 +568,207 @@ are not possible from traces yet.
 
 S3 gains P29 (aggregate with identity variants); S19 gains P30; S24 gains P29; new
 operator-intent turns (P27, P28) have no scenario row yet, because they are not retrieval.
+
+## Round 7 — 2026-11-04 (laptop B + desktop: brain01, nbs_audit_2026)
+
+The first round from the collection SOP (`10-collection-sop.md`), analysed by four parallel
+agents: per vault, the benchmark runs, and a cross-vault quantitative pass. A fifth agent
+checked key answers against the vault data. Each turn was judged from its ordered event
+stream for **struggle** (score 0 = direct, 1 = detour, 2 = struggled and got there,
+3 = struggled and failed or gave a weak answer), not only from labels. Shapes and counts
+only; per-turn tables stay in the analysis scratchpad.
+
+### Coverage
+
+| Machine · vault | Turns | Rated | Shadow plans | Notes |
+|---|---|---|---|---|
+| desktop · brain01 | 36 (35 admin, 1 benchmark), 10-13 → 10-24 | 2 | 11 | same turns as round 6 |
+| laptop B · brain01 | 94 (81 admin, 13 benchmark), 10-16 → 11-04 | 2 | 16 | 6 benchmark runs of 20 questions; 7 never ran |
+| desktop · nbs_audit_2026 | 29 admin, 10-31 → 11-04 | 8 (all with notes on partial/wrong) | 29 | chunks-only domain |
+| laptop B · nbs_audit_2026 | 22 admin, 11-02 → 11-04 | 0 | 22 | two batch claim-testing sessions with sub-agents |
+| desktop · shadow_audit_2026 | 0 | — | — | no traces |
+
+181 turns: 167 admin, 14 benchmark; 92 first turns, 89 follow-ups; 12 rated (5 good,
+6 partial, 1 wrong). 53 turns ran no `artmind query`. The SOP's "done when" is **not** met:
+ratings cover 7 % of turns, and only one benchmark question has an expected answer.
+
+### Struggle
+
+Retrieval turns, mechanical score (131 turns, all vaults): 0 = 54, 1 = 34, 2 = 33, 3 = 10.
+Judged per turn from the events (the per-vault agents, 118 turns): brain01 70 turns
+(S2–S3: 35), nbs_audit_2026 34 turns (S2–S3: 18), benchmark 14 (S2–S3: 7). **Roughly
+half of retrieval turns struggle clearly.**
+
+| Where the S2–S3 turns struggled | brain01 | nbs | bench |
+|---|---|---|---|
+| choosing the command / its form | 15 | 3 | 3 |
+| resolving the entity or term | 10 | 7 | 5 |
+| getting enough coverage | 7 | 15 | 7 |
+| handling tool output | (11 unread dumps) | 6 | (6 turns) |
+| finding the domain | 3 | 0 | 0 |
+| data not there | 3 | 0 | 2 |
+
+**Avoidable by a deterministic route:** brain01 23 of 35 with today's commands plus a few
+rules, 32 of 35 with plan programs; nbs 13 of 18; benchmark 6 of 7. Across vaults, 87 % of
+the non-curation struggle turns contain a loop of three or more on one command, which a
+fan-out or guarded plan step replaces.
+
+### Patterns observed
+
+**P34. Large outputs never reach the agent intact.** The SDK harness persists any tool
+result over about 32 KB to a file and shows a 2 KB preview. `vector-text --topK 10` with
+the default chunk context is 41–110 KB: in the chunks-only vault 158 of 158 such calls were
+persisted, against 0 of 15 with `--context passage` (about 20 KB). `survey` at the
+temporary 50-document default is 188–214 KB: 34 of 35 persisted, and in 0 of 9 main-agent
+calls was the whole payload read (the agent read about 15 documents, grepped names, or never
+opened it; once the user then asked for "a survey"). `graph metadata` is about 85 KB every
+time; class listings and timelines reach 0.5–1.1 MB. Reading the persisted file is often
+refused by the tool gate. Each persisted result cost 1–5 extra calls. → the largest single
+driver of struggle in the chunks-only vault.
+
+**P35. The tool gate causes failures.** 11 refusals in 7 benchmark turns, more in admin
+turns: a leading `cd <vault> &&`, pipes, and reads of persisted results. One turn produced
+no answer. 29 calls exited non-zero, mostly the agent composing wrong CLI forms (a missing
+required option, `query pattern10` without `graph`).
+
+**P36. First person resolves to a name stub.** In 6 brain01 turns "I" or the owner's own name
+resolved to a one-observation node named after the owner, not the narrator (about 2,000
+observations); the view returned 0 rows and the user corrected it four times. The stub
+still ranks first in resolution. The shadow planner mapped I/my to the narrator correctly in
+5 of 5 plans. Extends P19.
+
+**P37. Identity misses are silent.** Twins (kinship variants, a name with and without a
+surname, a country and its abbreviation) decided 10 of 65 brain01 retrieval answers (6 wrong
+or partial) and 3 of 9 recent benchmark answers, often at struggle 0–1, so nothing in the
+trace flags them. The shadow plan's `twins` field was empty in every plan. Extends P19/P29.
+
+**P38. Term and alias resolution is the main gap in the chunks-only corpus.** A two-letter
+acronym for a document's subject never matched the expanded words in its title (5 turns,
+both machines: 2 failed, 2 answered from a proposal instead of the signed amendment, 1
+recovered after a hint). A user's nickname for a contract appears in neither title nor text
+(3 turns: one false "not in corpus", one recovery by dumping 500 document names and matching
+dates, one alias the user supplied).
+
+**P39. The planner's search-term slot is weak.** 6 of 9 planned `pattern7` steps kept filler
+words or did not expand a category (the category word found 1 row; its member names found 97). Both planners
+fill the term with the top candidate's entity name instead of the user's mention; for a
+named recurring event, keyword search on the mention covers 17 of 17 relevant notes, while
+`survey` reaches 12 of 17 in its top 50.
+
+**P40. History questions go astray without the history route.** 10 brain01 turns over two
+days ended "not found" or answered something else; one user-typed history command solved it
+(P5 recurs with the skill loaded).
+
+**P41. Half of the traffic is not a fresh question.** 89 of 181 turns are follow-ups; 12
+brain01 turns are context-only replies ("yes please", "run as is") that can only be read with
+the previous turn; status polls on background jobs (8 in nbs). 21–38 non-retrieval turns got
+a retrieval plan, 17 of 17 in the chunks-only vault at confidence 1.0. P27 at about three
+times the round-6 count.
+
+**P42. Survey is under-planned and its trigger list misses user wording.** Survey ran in
+15 turns but was planned in 4; 8 plans said `search` where survey was right, including a
+question that literally asked for "a survey" (the word is not a trigger). In chunks-only
+domains route confidence is forced to 1.0 and carries no information. P30 continues.
+
+**P43. Evidence-shape signals do not separate needle from survey on this corpus.** Probed
+on 10 survey labels, 10 needle labels and 16 user phrasings (read-only, live vault):
+concentration (top-1 document's share of the top 10) is 0.1 for 9/10 surveys and 8/10
+needles; level agreement (survey top-10 also in `vector-text` top-10) has median 5 for both;
+documents over 0.75 × top score: needle median 13.5, survey 15.5. Only a sharp score drop is
+informative, and only one way: relevance(1) − relevance(2) ≥ 0.03 for 5/10 needles and
+0/10 surveys. Coverage of expected documents by depth: `vector-text` top 10: 27 %;
+survey top 10: 43 %, top 20: 57 %, top 50: 82 %. The needle document was in survey's top 10
+for 8 of 10 needle labels. (Most documents in this corpus are one chunk, which is why
+concentration is flat.)
+
+**P44. Answers that hedge instead of fixing.** The newest model is cheap and short but states
+"not complete" or "top passages only" instead of paging to `rows_total` or cross-checking (4
+brain01 turns, 6 of 7 single-`vector-text` survey answers in nbs). Synthesis also buried the
+latest, broadest clause under older specifics (2 rated turns).
+
+**P45. Curation in chat, again.** 28 of 116 brain01 admin turns (24 %), about an hour, and
+the chat twice claimed a same-as merge that had not been applied; propose/refine timed out at
+120 s. P28 continues.
+
+**P46. Batch work through sub-agents is expensive and untraced.** Two claim-testing sessions
+(USD 9 and 14) ran about 300 `artmind query` calls in background sub-agents; 92 % of
+sub-agent calls have no span, and the status turns that collected them show 0 spans.
+
+**P47. The same question still takes different routes.** The benchmark trip-count question,
+five runs: four routes, three answers, 0–17 calls, 26–177 s. Only the run that ran the saved
+view was cheap and right (P26 continues). Another run saw the view, pre-resolved the person
+itself, failed, and never ran it.
+
+**P48. Planners.** On brain01, high-confidence decision-model plans had the right route in 8
+of 8 admin turns, but an adequate first step in only 4 (search terms, twins). On the
+benchmark questions the lexical-only replay was 2 correct, 5 correct-abstain, 3 abstained,
+**0 wrong**; the decision-model shadow plans were right on 1 of 4 high-confidence plans.
+Decision-model latency was 60–64 s on one evening (one timeout, one unreachable). Domain
+choice was never the problem: plan and agent agreed on 47 of 48.
+
+**P49. Instrumentation gaps.** Ratings on 7 % of turns; feedback rows appended (up to 6 per
+trace); `cost_usd` is **cumulative within an SDK session**, so summing it overcounts long
+conversations (round-level totals are upper bounds); ACP turns record no model or cost;
+model errors stored as `status: done`; survey and `topics show` spans store `{}` as
+evidence; no record that a result was persisted or how big it was; agreement checks only the
+first command name; no intent or turn-index field; `review verify` logged "mechanical checks
+pass" for a run that gave no answer.
+
+### Verified against the data
+
+A verification agent checked 11 items (27 agent answers) against the vault notes, source
+files and graphs on the desktop, which are synced with laptop B. All 11 were answerable from the data; three needed a definitional choice, which the user settled on 2026-11-04: an implied event counts, every practitioner type counts, and every ailment counts. Under those definitions the verdicts below stand, and the true counts are 4 trips, 9 practitioners and 13 illness episodes.
+
+| Verdict | Answers |
+|---|---|
+| correct | 8 (one with minor errors) |
+| partial | 6 |
+| wrong | 13 |
+
+One review dossier's expected answer was itself wrong (it left out an explicitly narrated
+event), so a benchmark grade built on it would mislead.
+
+**P50. Counts undercount behind a "floor" hedge.** 3 of 3 verified count questions reached only
+40–80 % of the truth (episodes, practitioners, trips) while saying the number was a floor.
+Two other answers overcounted: one counted an incoming plane's diversion as the narrator's own
+trip, one padded the list with vague entity hits.
+
+**P51. Identity fragmentation is deeper than the traces showed.** One parent is spread over
+5 nodes, the other over 5, a friend over 2; one node carries the wrong relation in its name;
+the owner-named stub outranks the narrator although a note in the vault states that the owner
+is the narrator.
+
+**P52. The right document was present every time an acronym or alias missed.** 5 of 5 acronym
+misses on two machines had the signed document in the corpus (one trace listed it four
+minutes before the miss). The answers came from a pre-contract proposal, about three months
+off. One alias exists only in index tables, the other only in folder names and body text,
+never in a title.
+
+**P53. "Latest version" questions answered from a superseded document.** 2 turns: one gave a
+superseded named-site list as current; one buried the current blanket grant and got the
+purpose limits of the other grants wrong.
+
+**P54. A conversion artifact read as a source error.** Image-table OCR turned a percentage into a
+reversed-glyph token in 5 converted documents; the agent told the user the contract "has a
+typo". The signed PDF shows the right figure. The page check does not flag it.
+
+**Benchmark run without expected answers, drafted from the notes.** All 8 recorded answers
+are partial (0 correct, 0 wrong): coverage 4 (a yearly event searched by meaning missed years;
+a synonym for the event was missed; a hub person's history answered from a slice that lacked
+the final outcome; an open topic left out sub-areas), identity 2 (a short-name twin reported
+as "no such entity"; kinship questions answered from thin role nodes instead of the
+well-populated named nodes), data 1 (no place containment, so a hand-made city list included a
+place only watched on TV and one a colleague visited), synthesis 1 (notes paired with the
+wrong year), plus one work/personal scope mix-up. Every question was answerable from the notes
+alone. The drafted expected answers carry 18 definition or scope points for the user to
+confirm before they are used as a benchmark.
+
+Needle questions in the chunks-only domain held up: the 4 unrated needle turns were all
+correct.
+
+### Scenario ids
+
+S1 gains P47; S3/S24 gain P37, P39; S5 gains P40; S19 gains P42, P43; S23 gains P36; new
+scenarios S26 (acronym or alias for a document in a chunks-only domain), S27 (batch claim
+testing over a deck), S28 (status poll on a background job), S29 (named recurring event
+across years).

@@ -123,3 +123,20 @@ Settle these with evidence before writing specs. Mark each with the round that a
     without an agent run: question → plan → compare with the ideal route in `04-scenarios.md`
     and with the route the turn took? Needs the labelled set (question shape, ideal route,
     right view or none) held in the vault, never in this folder.
+
+## Round 7 answers from the user (2026-11-04)
+
+Recorded as shapes; the private specifics are in the round-7 analysis scratchpad.
+
+| # | Question | Answer |
+|---|---|---|
+| R7-1 | Does an event implied by presence (in the city, no departure written) count as an occurrence? | Yes. A count view must count it; answers say which occurrences are stated and which implied. |
+| R7-2 | Do all practitioner types (dentist, physiotherapist, assessment) count as "doctors who treated X"? | Yes. The class word covers its sub-types; the search-term slot must expand them. |
+| R7-3 | Do minor ailments (dehydration headache, dental problems) count as "being ill"? | Yes. Same rule: expand the category. |
+| R7-4 | Is a first name alone the same person as the full name when a shared spouse links them? | Yes. A same-as case the identity guard should propose. |
+| R7-5 | Should artmind keep a per-domain list of nicknames and acronyms for documents and entities? | Yes, but reuse what exists (same-as, entity `aliases`, the kinship list); see `12-round7-lessons.md` §2.10. |
+| R7-6 | Are the batch claim-testing sessions a workload to evaluate? | Yes, a good set to evaluate. |
+| R7-7 | Does a "good" rating mean correct, or correct and efficient? | Correct only. Efficiency is measured separately (struggle score, calls, bytes). |
+| R7-8 | Expected answers for the benchmark run whose question file was lost? | Draft them from the verified data for the user to confirm. |
+| R7-9 | Build the summary tree for the personal-journal domain? | Yes (run 2026-11-04). |
+| R7-10 | Revert the survey default or fix how results reach the agent? | Fix how results reach the agent: compact rows, or any change to the components, the harness or the SDK settings that lets the agent read results. |

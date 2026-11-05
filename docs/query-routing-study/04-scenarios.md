@@ -33,6 +33,10 @@ Coverage status: ✅ evidence seen · ◐ seen once / partial · ☐ not yet see
 | S24 | Enumeration with a completeness expectation ("recorded X in my family", "all Y") | graph | `pattern7` or `entity-listing --nameFilter` with a raised `--limit`, check `rows_total`/`truncated`, cite documents | R4 T4, T5: default top-10 listed as the complete set; two items missing; no document sources | D (`next`, `rows_total`/`truncated` on `pattern7`, source documents on entity rows) | R4 P21, P24 | ◐ |
 | S25 | Existence / recurrence of a named thing ("did I visit X again", "any reference to X") | graph | `pattern7` or `entity-resolve`, one call; cite the dated notes | R4 T3, T5: one call each, correct, 11–16 s | — (works) | R4 P25 | ✅ |
 | S17 | Filing / tags / project questions ("notes tagged X") | graph | `filing-listing` (not in the skill today) | — | A | — | ☐ |
+| S26 | A document asked for by an acronym or a user nickname that appears in neither its title nor its text (chunks-only) | chunks | term/alias gazetteer → `pattern10` on the document | R7: 5 acronym turns (2 failed, 2 answered from a proposal, 1 after a hint); 3 alias turns (one false "not in corpus") | catalogue `terms`, alias proposals from follow_up_why | R7 P38 | ✅ |
+| S27 | Batch claim testing: check every claim of a deck against the corpus | chunks | budgeted batch program: per claim passage search + survey | R7: two sessions of background sub-agents, USD 9–14, ~300 untraced calls | batch program in the executor | R7 P46 | ◐ |
+| S28 | Status poll on a background job ("still running?", "all done?") | — | no retrieval; job status | R7: 8 turns, each planned as `search` | intent `status` | R7 P41 | ✅ |
+| S29 | A named recurring event across years ("what did we do for EVENT every year") | graph | keyword enumeration on the mention, grouped by year | R7: survey top 50 reached 12 of 17 notes; keyword search on the mention all 17; answers used 10–12 | search-term slot from the mention; per-year buckets | R7 P39 | ◐ |
 
 ## "Enough to write specs" — proposed bar
 

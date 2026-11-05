@@ -22,6 +22,7 @@ Opened 2026-10-19.
 | [09-next-steps-shadow-collection.md](09-next-steps-shadow-collection.md) | **Pick-up point (2026-10-23).** Decision model on OpenRouter (jev-1.14), Q26 model comparison, the ~50-turn shadow collection the user runs, and what the next session analyses and decides. |
 | [10-collection-sop.md](10-collection-sop.md) | **SOP (2026-11-02)** for collecting traces, ratings and labels on every machine (laptops A, B, desktop), and exporting machine-local traces into each vault's private repo for analysis. Round 6 (`02`) found the collection incomplete. |
 | [11-p2-evidence-needs.md](11-p2-evidence-needs.md) | The P2 (planner v2) decisions that wait on the collection round, each with the evidence and SOP shapes that settle it. |
+| [12-round7-lessons.md](12-round7-lessons.md) | **Round 7 lessons (2026-11-04).** 181 turns from laptop B and the desktop, judged per turn for struggle; lessons by design component, answers to N1–N9, changes to the architecture design, and fixes worth doing now. |
 
 ## How a later session uses this
 

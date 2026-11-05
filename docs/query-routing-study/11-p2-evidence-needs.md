@@ -23,6 +23,8 @@ after it. Same privacy rule as this folder.
 documents sit. It is an observation setting, not a chosen default. P2 sets the real default
 (or replaces it with the evidence-shape coverage guard) from N3's answer, and reverts this.
 
+**Round 7 (2026-11-04):** first answers to N1–N9 are in `12-round7-lessons.md` §3, from 181 turns but only 12 ratings; treat them as working answers until confirmed labels exist.
+
 **Ready to write P2 when:** the SOP's "done when" holds, the round is appended to
 `02-trace-evidence.md`, and N1–N7 each have a recorded answer in `06-open-questions.md`
 (an answer may be "not enough data; default X").
