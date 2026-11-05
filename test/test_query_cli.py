@@ -432,5 +432,5 @@ def test_vector_text_cli_dispatches_and_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with(["fiction"], "Where did Holmes go?", 3, as_of=None, context="chunk")
+    query.assert_called_once_with(["fiction"], "Where did Holmes go?", 3, as_of=None, context="chunk", shape="full")
     assert plain(json.loads(result.output)) == plain(payload)
