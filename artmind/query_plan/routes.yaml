@@ -6,11 +6,13 @@
 # Every route cites the evidence it came from: scenario (S<n>) and pattern (P<n>)
 # ids in docs/query-routing-study/. Every template passes --compact; tests check
 # each command and option against the Click tree.
+# A trigger may start with `^`: it then matches only at the start of the question
+# (after optional leading whitespace and punctuation), e.g. `^did we`.
 version: 1
 routes:
   - id: existence
     description: Whether something specific happened or is mentioned at all, or happened again (did I visit X again, any reference to X).
-    triggers: ["did i", "did we", "any reference to", "any mention of", "ever", "again", "is there any", "was there any"]
+    triggers: ["^did i", "^did we", "any reference to", "any mention of", "ever", "again", "is there any", "was there any"]
     needs: [entity]
     steps:
       - "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --compact"
@@ -201,7 +203,10 @@ routes:
 
   - id: survey
     description: What several documents say about one topic, compared or summarised across them; an overview that no single passage holds.
-    triggers: ["across", "compare", "comparison of", "what do the", "what does each", "overview of", "different approaches", "how do the", "themes in"]
+    triggers: ["across", "compare", "comparison of", "what do the", "what does each", "overview of", "different approaches", "how do the", "themes in",
+      "survey", "various", "all the documents", "all the contracts", "all the policies", "all the agreements", "all the reports",
+      "which documents", "the contracts say", "the policies", "the agreements", "the reports",
+      "who is responsible for", "what are the obligations", "responsibilities of"]
     needs: []
     steps:
       - "artmind query survey --domain {domains} {question} --compact"
