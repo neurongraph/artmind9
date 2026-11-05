@@ -67,6 +67,7 @@ def agent_options(
     model: str | None = None,
     fallback_model: str | None = None,
     env: dict[str, str] | None = None,
+    trace_binder: Any = None,
 ) -> ClaudeAgentOptions:
     """Build the SDK options for a chat session.
 
@@ -150,13 +151,25 @@ def agent_options(
             rewritten = rewrite_cd_command(command, [RUN_FOLDER, ARTMIND_AGENT_CWD], cwd=RUN_FOLDER)
             if is_allowed_bash(command):
                 decision, reason = "allow", None
+                stamped = trace_binder.stamp(input_data, command) if trace_binder else command
+                if stamped != command:
+                    return {
+                        "hookSpecificOutput": {
+                            "hookEventName": "PreToolUse",
+                            "permissionDecision": "allow",
+                            "updatedInput": {**(input_data.get("tool_input") or {}), "command": stamped},
+                        }
+                    }
             elif rewritten is not None:
                 # `cd <cwd|vault> && artmind ...`: run the bare command instead.
                 return {
                     "hookSpecificOutput": {
                         "hookEventName": "PreToolUse",
                         "permissionDecision": "allow",
-                        "updatedInput": {**(input_data.get("tool_input") or {}), "command": rewritten},
+                        "updatedInput": {
+                            **(input_data.get("tool_input") or {}),
+                            "command": trace_binder.stamp(input_data, rewritten) if trace_binder else rewritten,
+                        },
                     }
                 }
             else:
@@ -207,6 +220,12 @@ def agent_options(
                 HookMatcher(matcher="Read", hooks=[read_gate]),
             ]
         }
+
+    if trace_binder is not None:
+        # Sub-agents keep their starting turn's trace id (subagent_trace.py).
+        hooks.setdefault("SubagentStart", []).append(HookMatcher(hooks=[trace_binder.on_subagent_start]))
+        if profile.filesystem_access:  # no grounding gate to stamp inside
+            hooks.setdefault("PreToolUse", []).append(HookMatcher(matcher="Bash", hooks=[trace_binder.on_bash]))
 
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),

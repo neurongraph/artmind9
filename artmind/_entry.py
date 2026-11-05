@@ -38,7 +38,9 @@ def _trace_id() -> str | None:
     """The query-trace id this process should record under, or None. Never raises."""
     explicit = os.environ.get(TRACE_ID_ENV, "").strip()
     if explicit:
-        return explicit
+        # "-": a sub-agent tied to no turn (webui/subagent_trace.py); it must
+        # not fall back to the context file, which names some other turn.
+        return None if explicit == "-" else explicit
     path = os.environ.get(TRACE_CONTEXT_ENV)
     if not path:
         return None
