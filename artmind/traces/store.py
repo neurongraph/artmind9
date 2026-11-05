@@ -19,7 +19,7 @@ PAYLOAD_CAP = 64 * 1024
 RATINGS = ("good", "partial", "wrong")
 
 _TURN_UPDATABLE = frozenset({
-    "answer", "domains", "model", "turns", "duration_s", "cost_usd", "input_tokens",
+    "answer", "domains", "model", "turns", "duration_s", "cost_usd", "cost_cumulative_usd", "input_tokens",
     "output_tokens", "graph_state", "retrieval_path", "graph_attempts", "graph_productive",
     "fell_through", "answer_basis", "status", "error_message", "completed_at",
 })
@@ -61,15 +61,46 @@ def insert_turn(
 ) -> None:
     conn = _connect()
     try:
+        turn_index = 1
+        if session_id:
+            turn_index = conn.execute(
+                "SELECT COUNT(*) FROM trace_turns WHERE session_id = ?", (session_id,)).fetchone()[0] + 1
         conn.execute(
             "INSERT INTO trace_turns (trace_id, source, session_id, benchmark_run_id, benchmark_seq,"
-            " question, profile, backend, status, started_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'running', ?)",
+            " question, profile, backend, status, started_at, turn_index)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'running', ?, ?)",
             (trace_id, source, session_id, benchmark_run_id, benchmark_seq, question, profile, backend,
-             started_at if started_at is not None else time.time()),
+             started_at if started_at is not None else time.time(), turn_index),
         )
         conn.commit()
     finally:
         conn.close()
+
+
+def previous_cumulative_cost(trace_id: str) -> float | None:
+    """The latest recorded cumulative cost of an earlier turn in `trace_id`'s session, or None."""
+    conn = _connect()
+    try:
+        row = conn.execute("SELECT session_id, started_at FROM trace_turns WHERE trace_id = ?",
+                           (trace_id,)).fetchone()
+        if row is None or not row["session_id"]:
+            return None
+        prev = conn.execute(
+            "SELECT cost_cumulative_usd FROM trace_turns WHERE session_id = ? AND trace_id != ?"
+            " AND started_at <= ? AND cost_cumulative_usd IS NOT NULL ORDER BY started_at DESC LIMIT 1",
+            (row["session_id"], trace_id, row["started_at"])).fetchone()
+        return prev[0] if prev else None
+    finally:
+        conn.close()
+
+
+def turn_cost(cumulative: float | None, previous: float | None) -> float | None:
+    """This turn's cost from the session's cumulative total; a drop means a restarted session."""
+    if cumulative is None:
+        return None
+    if previous is None or cumulative < previous:
+        return cumulative
+    return round(cumulative - previous, 6)
 
 
 def update_turn(trace_id: str, **fields: Any) -> None:
@@ -139,7 +170,8 @@ def set_span_tool_ids(pairs: Iterable[tuple[str, str]]) -> None:
         conn.close()
 
 
-def add_feedback(trace_id: str, rating: str, expected: str | None = None) -> None:
+def add_feedback(trace_id: str, rating: str, expected: str | None = None, note: str | None = None) -> None:
+    """One feedback row per trace: a repeat updates rating, expected and note."""
     if rating not in RATINGS:
         raise ValueError(f"rating must be one of {RATINGS}")
     conn = _connect()
@@ -147,8 +179,10 @@ def add_feedback(trace_id: str, rating: str, expected: str | None = None) -> Non
         if conn.execute("SELECT 1 FROM trace_turns WHERE trace_id = ?", (trace_id,)).fetchone() is None:
             raise KeyError(trace_id)
         conn.execute(
-            "INSERT INTO trace_feedback (trace_id, rating, expected, created_at) VALUES (?, ?, ?, ?)",
-            (trace_id, rating, expected or None, time.time()),
+            "INSERT INTO trace_feedback (trace_id, rating, expected, note, created_at) VALUES (?, ?, ?, ?, ?)"
+            " ON CONFLICT(trace_id) DO UPDATE SET rating = excluded.rating, expected = excluded.expected,"
+            " note = excluded.note, created_at = excluded.created_at",
+            (trace_id, rating, expected or None, note or None, time.time()),
         )
         conn.commit()
     finally:

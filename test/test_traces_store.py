@@ -192,3 +192,30 @@ def test_list_spans_for_batches_multiple_traces():
     assert store.list_spans_for([]) == {}
     # unknown id → absent key
     assert "missing" not in store.list_spans_for(["missing"])
+
+
+def test_feedback_is_one_row_per_trace_with_note():
+    _turn()
+    store.add_feedback("t1", "partial", "expected X", "first")
+    store.add_feedback("t1", "good", None, "second")
+    conn = store._connect()
+    try:
+        rows = conn.execute("SELECT rating, expected, note FROM trace_feedback WHERE trace_id = 't1'").fetchall()
+    finally:
+        conn.close()
+    assert [tuple(r) for r in rows] == [("good", None, "second")]
+    assert store.latest_feedback("t1")["note"] == "second"
+
+
+def test_turn_index_counts_within_session():
+    store.insert_turn("a1", source="admin", question="q", session_id="s-idx")
+    store.insert_turn("a2", source="admin", question="q", session_id="s-idx")
+    store.insert_turn("b1", source="admin", question="q")
+    assert [store.get_turn(t)["turn_index"] for t in ("a1", "a2", "b1")] == [1, 2, 1]
+
+
+def test_turn_cost_is_delta_and_resets_on_drop():
+    assert store.turn_cost(None, 1.0) is None
+    assert store.turn_cost(0.5, None) == 0.5
+    assert store.turn_cost(0.75, 0.5) == 0.25
+    assert store.turn_cost(0.1, 0.5) == 0.1

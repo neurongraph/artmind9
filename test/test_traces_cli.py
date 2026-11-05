@@ -46,7 +46,7 @@ def test_feedback_then_list_filters_by_rating():
     result = CliRunner().invoke(cli, ["traces", "feedback", "t1", "--rating", "wrong", "--expected", "Bob",
                                       "--compact"])
     assert result.exit_code == 0, result.output
-    assert plain(json.loads(result.stdout)) == plain({"trace_id": "t1", "rating": "wrong", "expected": "Bob"})
+    assert plain(json.loads(result.stdout)) == plain({"trace_id": "t1", "rating": "wrong", "expected": "Bob", "note": None})
     assert "t1: wrong" in result.stderr
     assert [t["trace_id"] for t in _json(["list", "--rating", "wrong"])["turns"]] == ["t1"]
     assert _json(["list", "--rating", "good"])["turns"] == []

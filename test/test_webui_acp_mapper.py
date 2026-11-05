@@ -146,3 +146,11 @@ def test_finish_on_refusal_emits_error_before_turn_done():
     events = mapper.finish("refusal", 0.5)
     assert events[0]["type"] == "error"
     assert events[-1]["type"] == "turn_done"
+
+
+def test_finish_carries_model_and_usage_only_when_capturing():
+    mapper = ACPEventMapper(capture=True)
+    done = mapper.finish("end_turn", 1.0, model="m1", usage={"inputTokens": 7, "outputTokens": 3})[-1]
+    assert done["cost"] is None
+    assert done["_trace"] == {"model": "m1", "usage": {"input_tokens": 7, "output_tokens": 3}}
+    assert "_trace" not in ACPEventMapper().finish("end_turn", 1.0, model="m1")[-1]

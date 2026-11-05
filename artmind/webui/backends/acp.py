@@ -65,6 +65,7 @@ class ACPBackend:
         self._session_id: str | None = None
         self._mapper: ACPEventMapper | None = None
         self._first_prompt_sent = False
+        self._reported_model: str | None = None
 
     async def connect(self) -> None:
         self._proc = await asyncio.create_subprocess_exec(
@@ -96,6 +97,9 @@ class ACPBackend:
             timeout_s=self._connect_timeout_s,
         )
         self._session_id = result["sessionId"]
+        # `models.currentModelId` is the ACP draft's model state; absent on agents without it.
+        models = result.get("models") if isinstance(result.get("models"), dict) else {}
+        self._reported_model = models.get("currentModelId") or None
         if self._mode:
             # opencode surfaces custom agents (e.g. the artmind persona in
             # .opencode/agent/) as ACP session modes; other agents may not
@@ -126,14 +130,17 @@ class ACPBackend:
 
     async def _finish_turn(self, future: asyncio.Future, started_at: float) -> None:
         mapper = self._mapper
+        usage = None
         try:
             result = await future
             stop_reason = (result or {}).get("stopReason", "end_turn")
+            usage = (result or {}).get("usage")
         except Exception as exc:
             self._events.put_nowait({"type": "error", "message": str(exc)})
             stop_reason = "error"
         if mapper is not None:
-            for event in mapper.finish(stop_reason, time.monotonic() - started_at):
+            for event in mapper.finish(stop_reason, time.monotonic() - started_at,
+                                       model=self._reported_model or self._model, usage=usage):
                 self._events.put_nowait(event)
         self._events.put_nowait(_TURN_END)
 

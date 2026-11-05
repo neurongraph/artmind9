@@ -27,6 +27,9 @@ logger = logging.getLogger(__name__)
 #: Seconds of slack when matching a span's start to a tool call's window.
 SKEW_S = 0.5
 
+#: Cap on a stored turn error message, in characters.
+ERROR_CAP = 2000
+
 
 PERSISTED_NAME = "persisted"  # trace_events.name of a tool_result the harness wrote to a file
 
@@ -46,6 +49,7 @@ class TraceRecorder:
         self._buffers = {"text": [], "thinking": []}
         self._answer: list[str] = []
         self._done: dict = {}
+        self._first_error: str | None = None
         self._shadow = None
         self._late_shadow: threading.Thread | None = None
 
@@ -129,6 +133,8 @@ class TraceRecorder:
             self._done = {**event, **raw}
         elif kind == "error":
             self._add("error", event.get("message"))
+            if self._first_error is None and event.get("message"):
+                self._first_error = str(event["message"])
 
     def _record_shadow_late(self, seq: int) -> None:
         """A shadow plan still running at the end of the turn is written when it finishes (or
@@ -173,6 +179,15 @@ class TraceRecorder:
             usage = self._done.get("usage") or {}
             input_tokens = sum(usage.get(k) or 0 for k in
                                ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens")) or None
+            cumulative = self._done.get("cost")
+            try:
+                cost = store.turn_cost(cumulative, store.previous_cumulative_cost(self.trace_id))
+            except Exception:
+                cost = cumulative
+            if error is None and not answer:
+                error = self._first_error
+            if error:
+                error = error[:ERROR_CAP]
             store.update_turn(
                 self.trace_id,
                 answer=answer or None,
@@ -180,7 +195,8 @@ class TraceRecorder:
                 model=self._done.get("model"),
                 turns=self._done.get("turns"),
                 duration_s=self._done.get("duration_s"),
-                cost_usd=self._done.get("cost"),
+                cost_usd=cost,
+                cost_cumulative_usd=cumulative,
                 input_tokens=input_tokens,
                 output_tokens=usage.get("output_tokens"),
                 graph_state=json.dumps(graph_state(domains)),

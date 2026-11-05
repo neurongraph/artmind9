@@ -458,6 +458,19 @@ def _init_db() -> None:
             created_at  REAL NOT NULL
         )
     """)
+    # Idempotent additions for DBs created before these columns existed.
+    existing = {row[1] for row in cursor.execute("PRAGMA table_info(trace_turns)")}
+    if "cost_cumulative_usd" not in existing:
+        cursor.execute("ALTER TABLE trace_turns ADD COLUMN cost_cumulative_usd REAL")
+    if "turn_index" not in existing:
+        cursor.execute("ALTER TABLE trace_turns ADD COLUMN turn_index INTEGER")
+    existing = {row[1] for row in cursor.execute("PRAGMA table_info(trace_feedback)")}
+    if "note" not in existing:
+        cursor.execute("ALTER TABLE trace_feedback ADD COLUMN note TEXT")
+    # One feedback row per trace: keep the latest of any duplicates, then enforce it.
+    cursor.execute(
+        "DELETE FROM trace_feedback WHERE id NOT IN (SELECT MAX(id) FROM trace_feedback GROUP BY trace_id)")
+    cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_trace_feedback_trace ON trace_feedback(trace_id)")
     # A local index of review dossiers (spec 2026-10-11 §8.1): one row per
     # (dossier, trace) -- a dossier can cover several traces. The dossier
     # files are the source of truth and `artmind review reindex` rebuilds

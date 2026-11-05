@@ -149,3 +149,23 @@ def test_verify_trace_is_linked_to_the_dossier_and_kept_out_of_triage():
     assert "t-new" not in [i["trace_id"] for i in analysis.triage()]
     reindex()                                      # survives a rebuild from the files
     assert "t-new" not in [i["trace_id"] for i in analysis.triage()]
+
+
+def test_verify_fails_when_the_rerun_has_no_spans():
+    _turn("t-orig", answer="Two.", fell_through=False, basis="graph")
+    _turn("t-new", answer="Three.", fell_through=False, basis="graph", commands=())
+    _dossier()
+    result = verify.verify("rv-2031-01-01-aaaaaa", runner=_runner_recording("t-new", {}))
+    assert result["mechanical_ok"] is False
+    assert any(c["check"] == "spans" and not c["ok"] and "no query spans" in c["why"] for c in result["checks"])
+    assert "mechanical checks fail" in dz.load("rv-2031-01-01-aaaaaa").sections["Log"]
+
+
+def test_verify_fails_with_a_reason_when_the_rerun_has_no_answer():
+    _turn("t-orig", answer="Two.", fell_through=False, basis="graph")
+    _turn("t-new", answer="", fell_through=False, basis="graph")
+    _dossier()
+    result = verify.verify("rv-2031-01-01-aaaaaa", runner=_runner_recording("t-new", {}))
+    assert result["mechanical_ok"] is False
+    answered = next(c for c in result["checks"] if c["check"] == "answered")
+    assert answered["ok"] is False and "no answer" in answered["why"]
