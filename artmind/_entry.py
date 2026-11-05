@@ -109,9 +109,15 @@ def _proxy(base_url: str, args: list[str]) -> int:
     return body["exit_code"]
 
 
+def _proxiable(args: list[str]) -> bool:
+    """`query plan --previous FILE|-` reads a file (relative to this shell) or stdin, neither of which
+    the daemon can see: it runs in-process."""
+    return not (args[:2] == ["query", "plan"] and any(a == "--previous" or a.startswith("--previous=") for a in args))
+
+
 def main() -> None:
     args = sys.argv[1:]
-    if args and args[0] == "query" and not os.environ.get("ARTMIND_NO_PROXY"):
+    if args and args[0] == "query" and not os.environ.get("ARTMIND_NO_PROXY") and _proxiable(args):
         base_url = _base_url()
         if _daemon_alive(base_url):
             try:

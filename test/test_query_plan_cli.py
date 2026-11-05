@@ -12,8 +12,9 @@ from artmind.query_plan import planner
 def test_the_command_prints_the_plan(monkeypatch):
     seen = {}
 
-    def fake_plan(question, domains, execute=False, classifier="auto"):
-        seen.update(question=question, domains=domains, execute=execute, classifier=classifier)
+    def fake_plan(question, domains, execute=False, classifier="auto", previous=None, exclude=()):
+        seen.update(question=question, domains=domains, execute=execute, classifier=classifier,
+                    previous=previous, exclude=list(exclude))
         return {"plan_version": 1, "steps": []}
 
     monkeypatch.setattr(planner, "plan", fake_plan)
@@ -21,7 +22,8 @@ def test_the_command_prints_the_plan(monkeypatch):
                                       "--compact", "who leads?"])
     assert result.exit_code == 0, result.output
     assert plain(json.loads(result.output)) == plain({"plan_version": 1, "steps": []})
-    assert seen == {"question": "who leads?", "domains": ["a", "b"], "execute": True, "classifier": "lexical"}
+    assert seen == {"question": "who leads?", "domains": ["a", "b"], "execute": True, "classifier": "lexical",
+                    "previous": None, "exclude": []}
 
 
 def test_domain_is_optional(monkeypatch):

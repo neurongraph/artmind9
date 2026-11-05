@@ -9,18 +9,22 @@ of `artmind plan labels validate` shows everything to fix.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
 import yaml
 
 from artmind.query_plan import routes as routes_mod
+from artmind.query_plan.intents import INTENT_IDS
 
 _ID_RE = re.compile(r"L\d{3,}")
 _SOURCE_RE = re.compile(r"benchmark|written|trace:[0-9a-f]{8,32}")
 _KEYS = frozenset({"id", "question", "benchmark", "source", "domains", "route", "view", "params", "expect",
-                   "expected_documents", "notes"})
+                   "expected_documents", "notes", "intent", "slots", "program_kind"})
+#: Slot names a label's `slots:` may grade (the keys of the plan's `slots` block).
+SLOT_NAMES = frozenset({"narrator", "search_term", "category", "date_window", "scope", "must_find",
+                        "previous_subjects"})
 _TOP = frozenset({"version", "benchmark_file", "labels"})
 
 
@@ -43,6 +47,9 @@ class Label:
     expected_documents: tuple[str, ...] = ()
     notes: str = ""
     benchmark: str | None = None
+    intent: str | None = None  # one of the eight intents; None = not graded
+    slots: dict = field(default_factory=dict)  # slot name -> expected value (see replay.slot_ok)
+    program_kind: str | None = None  # recorded only, never graded (spec 2026-11-05 §5.5)
 
 
 def default_path() -> Path | None:
@@ -165,6 +172,18 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
         expect = raw.get("expect", "high")
         if expect not in ("high", "low"):
             errors.append(f"{where}: expect must be high or low")
+        intent = raw.get("intent")
+        if intent is not None and intent not in INTENT_IDS:
+            errors.append(f"{where}: intent must be one of {', '.join(INTENT_IDS)}")
+            intent = None
+        slots = raw.get("slots") or {}
+        if not isinstance(slots, dict) or set(slots) - SLOT_NAMES:
+            errors.append(f"{where}: slots must be a mapping with names from {sorted(SLOT_NAMES)}")
+            slots = {}
+        program_kind = raw.get("program_kind")
+        if program_kind is not None and not (isinstance(program_kind, str) and program_kind.strip()):
+            errors.append(f"{where}: program_kind must be a string")
+            program_kind = None
         documents = raw.get("expected_documents") or []
         if not isinstance(documents, list) or not all(isinstance(d, str) for d in documents):
             errors.append(f"{where}: expected_documents must be a list of paths")
@@ -172,7 +191,8 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
         out.append(Label(lid if isinstance(lid, str) else "", question or "",
                          source if isinstance(source, str) else "", tuple(domains),
                          route if route_ok else "", view, _iso(dict(params)), expect, tuple(documents), str(raw.get("notes") or ""),
-                         raw.get("benchmark")))
+                         raw.get("benchmark"), intent, _iso(dict(slots)),
+                         program_kind.strip() if program_kind else None))
     if errors:
         raise LabelError(errors)
     return out
