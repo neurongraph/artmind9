@@ -289,3 +289,119 @@ def survey_row(kind: str, d: dict) -> dict:
     if kind == "passage":
         row["passage"] = d["passage"]
     return row
+
+
+# --- graph rows (spec 2026-11-05 bounded-output §4, round 8 P58/P59) ----------------
+
+#: A brief graph row's description: the first sentence, or this many characters.
+ONE_LINE_CHARS = 160
+#: Evidence ids a brief row lists before it keeps only the total.
+EVIDENCE_IDS = 10
+#: Subjects a brief insights finding lists before it keeps only the total.
+FINDING_SUBJECTS = 10
+
+
+def one_line(text, limit: int = ONE_LINE_CHARS) -> str | None:
+    """The first sentence of `text`, or its first `limit` characters cut at a word boundary."""
+    parts = sentences(text)
+    if not parts:
+        return None
+    first = parts[0]
+    return first if len(first) <= limit else cut(first, limit)
+
+
+def entity_line(entity: dict) -> dict:
+    """id, name, class and a one-line description of an entity's data (`entityData`)."""
+    entity = entity or {}
+    return {"id": entity.get("_id") or entity.get("id"), "name": entity.get("name"),
+            "class": entity.get("entity_class"),
+            "description": one_line(entity.get("description") or entity.get("summary"))}
+
+
+def _id_list(items, key: str = "id") -> tuple[list[str], int]:
+    ids = list(dict.fromkeys(str(i[key]) for i in (items or []) if isinstance(i, dict) and i.get(key)))
+    return ids[:EVIDENCE_IDS], len(ids)
+
+
+def _doc_line(doc: dict) -> dict:
+    return {"id": doc.get("id"), "title": doc_title(doc.get("title"), doc.get("name")),
+            "date": doc.get("valid_from") or doc.get("date") or None}
+
+
+def pattern_row(pattern: str, row: dict) -> dict:
+    """One brief row of pattern1 / pattern2 / pattern7: the entity line plus evidence ids and
+    the totals the full row carried, never its property bag or nested lists."""
+    out = entity_line(row.get("entityData") or {})
+    if pattern == "pattern2":
+        chunk_ids, n_chunks = _id_list(row.get("doc_sources"))
+        docs = [_doc_line(d) for d in (row.get("source_documents") or []) if isinstance(d, dict)]
+        out["chunk_ids"] = chunk_ids
+        out["chunks_total"] = max(row.get("doc_sources_total") or 0, n_chunks)
+        out["documents"] = docs[:EVIDENCE_IDS]
+        out["documents_total"] = max(row.get("source_documents_total") or 0, len(docs))
+    elif pattern == "pattern7":
+        out["documents"] = [_doc_line(d) for d in (row.get("documents") or []) if isinstance(d, dict)]
+        out["documents_total"] = row.get("document_count") or len(out["documents"])
+    return out
+
+
+def entity_hint(domains, rows: list[dict]) -> str:
+    """How to get a brief entity row's full form (the payload's `next`)."""
+    scope = domains if isinstance(domains, str) else ",".join(domains)
+    ids = [r.get("id") for r in rows if r.get("id")]
+    one = f"artmind query entity-context --domain {scope} --entityId {ids[0] if ids else '<id>'} --shape brief"
+    return f"one entity with its connections and sources: {one}; every key of these rows: rerun with --shape full"
+
+
+def connection_line(c: dict) -> dict:
+    t = c.get("target") or {}
+    return {"rel_type": c.get("rel_type"), "direction": c.get("direction"), "id": t.get("id"),
+            "name": t.get("name"), "class": t.get("entity_class"),
+            "observations": c.get("observation_count"), "documents": c.get("doc_count")}
+
+
+def summary_line(s: dict) -> str:
+    return f"{s.get('rel_type')} {s.get('direction')}: {s.get('count')}"
+
+
+def entity_context_row(row: dict) -> dict:
+    """The brief form of an entity-context row (its `chunks` are already passage rows).
+
+    Entity: id/name/class/one-line description. Every connection the command returned is kept
+    (it is already capped by --maxConnections, 25 by default) but as an id/name/class line; the
+    connection summary is one short string per type and direction; `more_chunks` and
+    `source_documents` are id + title rows with their totals. A hub of 78 summaries, 25
+    connections and 28 chunks stays well inside the 24,000-character agent budget
+    (test_graph_brief.py measures it)."""
+    more = row.get("more_chunks") or []
+    out = {"entity": entity_line(row.get("entityData") or {})}
+    if row.get("truncated_properties"):
+        out["truncated_properties"] = row["truncated_properties"]
+    out["connection_summary"] = [summary_line(s) for s in row.get("connection_summary") or []]
+    out["connections_total"] = row.get("connections_total")
+    out["connections_matched"] = row.get("connections_matched")
+    out["connections"] = [connection_line(c) for c in row.get("connections") or []]
+    out["chunks_total"] = row.get("chunks_total")
+    out["chunks"] = row.get("chunks") or []
+    out["more_chunks_total"] = len(more)
+    out["more_chunks"] = [{"id": m.get("id"), "title": m.get("name"), "doc_id": m.get("doc_id")} for m in more]
+    out["source_documents_total"] = row.get("source_documents_total")
+    out["source_documents"] = [_doc_line(d) for d in row.get("source_documents") or [] if isinstance(d, dict)]
+    return out
+
+
+def finding_row(f: dict) -> dict:
+    """The brief form of one insights finding (`query insights show`): identity, score, title,
+    subject ids, scalar stats; lists and dicts in stats/card reduced to counts."""
+    subjects = f.get("subjects") or []
+    stats = f.get("stats") or {}
+    scalars = {k: v for k, v in stats.items() if v is None or isinstance(v, (bool, int, float))
+               or (isinstance(v, str) and len(v) <= ONE_LINE_CHARS)}
+    counts = {k: len(v) for k, v in stats.items() if isinstance(v, (list, dict))}
+    card = f.get("card") or {}
+    return {"key": f.get("key"), "detector": f.get("detector"), "kind": f.get("kind"),
+            "score": f.get("score"), "title": f.get("title"), "diff": f.get("diff"), "action": f.get("action"),
+            "subjects": [{"_id": s.get("_id"), "name": s.get("name"), "class": s.get("class")}
+                         for s in subjects[:FINDING_SUBJECTS]],
+            "subjects_total": len(subjects), "stats": scalars, "stats_counts": counts,
+            "card_counts": {k: len(v) if isinstance(v, (list, dict)) else 1 for k, v in card.items()}}

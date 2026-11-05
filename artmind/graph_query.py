@@ -1122,13 +1122,22 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
 
 
+#: Patterns that take `--shape brief` (entity rows; the others return relationship rows).
+BRIEF_PATTERNS = frozenset({"pattern1", "pattern2", "pattern7"})
+
+
 def execute_pattern(
     domains: "str | Sequence[str]",
     pattern: str,
     question: str | None = None,
     as_of: str | None = None,
+    shape: str = "full",
     **parameters,
 ) -> dict:
+    if shape not in ("brief", "full"):
+        raise ValueError("--shape must be one of brief, full")
+    if shape == "brief" and pattern not in BRIEF_PATTERNS:
+        raise ValueError(f"--shape brief is not available for {pattern}")
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
     params = normalize_pattern_parameters(pattern, {"domains": domains, "asOf": as_of, **parameters})
@@ -1173,6 +1182,11 @@ def execute_pattern(
     else:
         summaries = None
     rows = _bound_pattern_rows(pattern, rows, params)
+    if shape == "brief":
+        from artmind import brief
+
+        rows = [brief.pattern_row(pattern, r) for r in rows]
+        output_parameters["shape"] = "brief"
     result = {
         **_domain_output(domains),
         "query_type": "graph",
@@ -1193,6 +1207,11 @@ def execute_pattern(
         result["rows_total_capped"] = raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP
         if result["truncated"]:
             result["next"] = f"raise --limit (rows_total={rows_total})"
+    if shape == "brief":
+        from artmind import brief
+
+        hint = brief.entity_hint(domains, rows)
+        result["next"] = f"{result['next']}; {hint}" if result.get("next") else hint
     return result
 
 
@@ -1756,10 +1775,19 @@ def entity_context(
             )
             rows.append(row)
 
+    rows = strip_internal_props(rows)
+    extra: dict = {}
+    if shape == "brief":
+        from artmind import brief
+
+        rows = [brief.entity_context_row(r) for r in rows]
+        extra["next"] = ("every key of this row (full properties, connection properties, chunk text "
+                         "and source document paths): rerun with --shape full")
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_context",
+        **extra,
         "parameters": {
             "entityId": entity_id,
             "includeChunks": include_chunks,
@@ -1769,7 +1797,7 @@ def entity_context(
             **({"query": query} if query else {}),
             **({"shape": "brief"} if shape == "brief" else {}),
         },
-        "rows": strip_internal_props(rows),
+        "rows": rows,
     }
 
 

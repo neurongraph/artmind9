@@ -278,7 +278,7 @@ def test_the_narrator_stands_in_for_the_id_when_nobody_is_named(world, tmp_path)
     (tmp_path / "journal.yaml").write_text("narrator: {entity_class: PERSON, name: Diarist}\n")
     result = _plan("What do we know about me?")
     assert result["route"]["id"] == "entity_profile"
-    assert result["steps"][0]["cmd"] == "artmind query entity-context --domain journal --entityId n1 --compact"
+    assert result["steps"][0]["cmd"] == "artmind query entity-context --domain journal --entityId n1 --shape brief --compact"
 
 
 def test_the_weakest_stage_is_a_blocker_only_when_every_stage_clears_the_threshold(world, monkeypatch):
@@ -564,7 +564,7 @@ def test_inventory_adds_a_class_listing_when_the_question_names_a_class(world, m
         assert result["route"]["id"] == "inventory" and result["confidence"]["level"] == "high"
         assert [s["cmd"] for s in result["steps"]] == [
             "artmind query domains-overview --compact",
-            "artmind query graph pattern1 --domain journal --entityClass PERSON --compact",
+            "artmind query graph pattern1 --domain journal --entityClass PERSON --shape brief --compact",
         ]
 
 
