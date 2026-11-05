@@ -44,6 +44,10 @@ LIST_KEY: dict[str, str] = {
     "query vector-text": "rows",
     "query entity-resolve": "rows",
     "query page": "rows",
+    "query graph pattern1": "rows",
+    "query graph pattern2": "rows",
+    "query graph pattern7": "rows",
+    "query entity-context": "rows",
 }
 
 SERVER_COMMANDS = frozenset({"serve", "chat-ui", "admin-ui"})
@@ -237,7 +241,10 @@ def compact_option(func):
 
 
 #: Commands that must take `--shape brief|full` (contract test walks these).
-SHAPE_COMMANDS = frozenset({"query survey", "query vector-text", "query chunks", "query entity-context"})
+SHAPE_COMMANDS = frozenset({
+    "query survey", "query vector-text", "query chunks", "query entity-context",
+    "query graph pattern1", "query graph pattern2", "query graph pattern7", "query insights show",
+})
 
 SHAPE_HELP = ("brief: short rows (id, title, domain, date, status, extractive gist) for an agent; "
               "full: every key. Changes row content; independent of --compact, which only "

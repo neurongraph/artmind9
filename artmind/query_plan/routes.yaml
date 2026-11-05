@@ -15,7 +15,7 @@ routes:
     triggers: ["^did i", "^did we", "any reference to", "any mention of", "ever", "again", "is there any", "was there any"]
     needs: [entity]
     steps:
-      - "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --compact"
+      - "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --shape brief --compact"
     fallbacks:
       - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
@@ -26,9 +26,9 @@ routes:
     triggers: ["all the", "every", "list all", "list the", "recorded", "complete list", "each of", "which ones"]
     needs: []
     steps:
-      - "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 50 --compact"
+      - "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 50 --shape brief --compact"
     fallbacks:
-      - {when: truncated, cmd: "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 200 --compact"}
+      - {when: truncated, cmd: "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 200 --shape brief --compact"}
     read: []
     evidence: [S24, P21]
 
@@ -59,7 +59,7 @@ routes:
     triggers: ["tell me about", "who is", "what is", "describe", "what do we know about", "profile of"]
     needs: [entity]
     steps:
-      - "artmind query entity-context --shape brief --domain {domains} --entityId {entity_id} --compact"
+      - "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"
     fallbacks:
       - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
@@ -107,7 +107,7 @@ routes:
     steps:
       - "artmind query graph hierarchy --domain {domains} --entityId {entity_id} --compact"
     fallbacks:
-      - {when: zero_rows, cmd: "artmind query entity-context --shape brief --domain {domains} --entityId {entity_id} --compact"}
+      - {when: zero_rows, cmd: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
     read: [references/hierarchy.md]
     evidence: [S11]
 
@@ -142,7 +142,7 @@ routes:
       - "artmind query domains-overview --compact"
     # Added only when the question names a class of the domain (placeholder {class}).
     optional_steps:
-      - "artmind query graph pattern1 --domain {domains} --entityClass {class} --compact"
+      - "artmind query graph pattern1 --domain {domains} --entityClass {class} --shape brief --compact"
     fallbacks: []
     read: []
     evidence: [S18, P8]

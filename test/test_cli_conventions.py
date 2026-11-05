@@ -215,7 +215,12 @@ def _brief_rows(path: str, monkeypatch) -> list[dict]:
     return rows
 
 
-@pytest.mark.parametrize("path", sorted(cc.SHAPE_COMMANDS))
+#: Commands whose brief rows are document/chunk rows; the graph commands' brief rows are
+#: entity rows, checked in test_graph_brief.py.
+_DOC_ROW_COMMANDS = frozenset({"query survey", "query vector-text", "query chunks", "query entity-context"})
+
+
+@pytest.mark.parametrize("path", sorted(cc.SHAPE_COMMANDS & _DOC_ROW_COMMANDS))
 def test_shape_brief_rows_carry_the_brief_keys(path: str, monkeypatch) -> None:
     rows = _brief_rows(path, monkeypatch)
     assert rows, path

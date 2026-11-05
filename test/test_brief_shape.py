@@ -316,7 +316,7 @@ def test_chunks_brief_and_full(monkeypatch):
     assert "superseded" not in full["rows"][0]["document"] and full["rows"][0]["document"]["title"] == "d1.md"
 
 
-def test_entity_context_brief_shortens_only_chunk_rows(monkeypatch):
+def test_entity_context_brief_shortens_chunk_rows_and_keeps_totals(monkeypatch):
     session = _RecordingSession(_hub_responses())
     _install_session(monkeypatch, session)
     full = gq.entity_context(["fiction"], "e1", include_chunks=2)
@@ -324,7 +324,8 @@ def test_entity_context_brief_shortens_only_chunk_rows(monkeypatch):
     _install_session(monkeypatch, session2)
     brief_out = gq.entity_context(["fiction"], "e1", include_chunks=2, shape="brief")
     f, b = full["rows"][0], brief_out["rows"][0]
-    assert f["entityData"] == b["entityData"] and f["connections"] == b["connections"]
+    assert set(b["entity"]) == {"id", "name", "class", "description"} and b["entity"]["id"] == "e1"
+    assert len(b["connections"]) == len(f["connections"]) and b["connections_total"] == f["connections_total"]
     assert {"id", "text", "document"} <= set(f["chunks"][0])
     assert {"rank", "chunk_id", "text", "relevance", "doc"} <= set(b["chunks"][0])
     assert set(b["chunks"][0]["doc"]) == {"id", "title", "domain", "date", "status"}
