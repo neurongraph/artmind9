@@ -95,6 +95,10 @@ class FakeSDKClient:
         for message in self.messages:
             yield message
 
+    async def receive_messages(self):
+        for message in self.messages:
+            yield message
+
     async def interrupt(self):
         pass
 
@@ -304,3 +308,72 @@ async def test_acp_restart_is_a_clean_reconnect(monkeypatch):
     assert calls == {"disconnect": 1, "connect": 1}
     assert backend._first_prompt_sent is False, "fresh session re-sends the preamble"
     assert backend.session_id == "acp-new", "a new session id is established"
+
+
+# ── background sub-agents keep the turn open ────────────────────────────────
+
+
+def _result(**kw):
+    from claude_agent_sdk import ResultMessage
+
+    base = dict(subtype="success", duration_ms=1000, duration_api_ms=900, is_error=False,
+                num_turns=1, session_id="s", total_cost_usd=0.1)
+    return ResultMessage(**{**base, **kw})
+
+
+def _task_started(task_id):
+    from claude_agent_sdk import TaskStartedMessage
+
+    return TaskStartedMessage(subtype="task_started", data={}, task_id=task_id,
+                              description="d", uuid="u", session_id="s")
+
+
+def _task_done(task_id):
+    from claude_agent_sdk import TaskNotificationMessage
+
+    return TaskNotificationMessage(subtype="task_notification", data={}, task_id=task_id,
+                                   status="completed", output_file="", summary="", uuid="u",
+                                   session_id="s")
+
+
+async def _events(backend):
+    return [e async for e in backend.receive_events()]
+
+
+async def test_result_without_tasks_ends_the_turn_at_once(fake_sdk):
+    backend = claude_sdk.ClaudeSDKBackend()
+    backend._client.messages = [_result(num_turns=1), _result(num_turns=2)]
+    done = [e for e in await _events(backend) if e["type"] == "turn_done"]
+    assert [e["turns"] for e in done] == [1]  # the second result belongs to a later turn
+
+
+async def test_result_with_running_task_waits_for_the_followup(fake_sdk):
+    backend = claude_sdk.ClaudeSDKBackend()
+    backend._client.messages = [
+        _task_started("t1"), _result(num_turns=1), _task_done("t1"), _result(num_turns=3),
+    ]
+    done = [e for e in await _events(backend) if e["type"] == "turn_done"]
+    assert [e["turns"] for e in done] == [3]  # one turn_done, the final one
+
+
+async def test_stream_that_ends_with_a_task_pending_still_reports_turn_done(fake_sdk):
+    backend = claude_sdk.ClaudeSDKBackend()
+    backend._client.messages = [_task_started("t1"), _result(num_turns=1)]
+    done = [e for e in await _events(backend) if e["type"] == "turn_done"]
+    assert [e["turns"] for e in done] == [1]
+
+
+async def test_lost_task_completion_times_out_with_turn_done(fake_sdk, monkeypatch):
+    import asyncio
+
+    monkeypatch.setattr(claude_sdk, "TASK_IDLE_TIMEOUT_S", 0.05)
+
+    async def stalls():
+        yield _task_started("t1")
+        yield _result(num_turns=1)
+        await asyncio.sleep(30)  # the completion message never comes
+
+    backend = claude_sdk.ClaudeSDKBackend()
+    backend._client.receive_messages = stalls
+    done = [e for e in await _events(backend) if e["type"] == "turn_done"]
+    assert [e["turns"] for e in done] == [1]
