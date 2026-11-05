@@ -278,7 +278,7 @@ def test_the_narrator_stands_in_for_the_id_when_nobody_is_named(world, tmp_path)
     (tmp_path / "journal.yaml").write_text("narrator: {entity_class: PERSON, name: Diarist}\n")
     result = _plan("What do we know about me?")
     assert result["route"]["id"] == "entity_profile"
-    assert result["steps"][0]["cmd"] == "artmind query entity-context --domain journal --entityId n1 --compact"
+    assert result["steps"][0]["cmd"] == "artmind query entity-context --shape brief --domain journal --entityId n1 --compact"
 
 
 def test_the_weakest_stage_is_a_blocker_only_when_every_stage_clears_the_threshold(world, monkeypatch):
