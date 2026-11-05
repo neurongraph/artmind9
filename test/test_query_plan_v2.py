@@ -43,8 +43,9 @@ def test_a_retrieve_plan_carries_every_v1_key_and_the_v2_blocks(world):
 def test_a_view_plan_has_one_run_node_with_the_view_command(world):
     result = _plan(QUESTION)
     assert result["route"]["id"] == "view"
-    assert [n["kind"] for n in result["program"]] == ["run"]
-    assert result["program"][0]["run"] == result["steps"][0]["cmd"]
+    assert [n["kind"] for n in result["program"]] == ["par", "pick"]  # a count question: view + text check
+    assert result["program_kind"] == "view_count"
+    assert result["program"][0]["children"][0]["run"] == result["steps"][0]["cmd"]
     assert result["guards"] == []
 
 
@@ -177,9 +178,9 @@ def test_the_v2_placeholders_render_from_the_context(world, tmp_path):
     real = planner._route_steps
     world_context = {}
 
-    def spy(route, confidence, context, store_kind=None):
+    def spy(route, confidence, context, *args):
         world_context.update(context)
-        return real(route, confidence, context, store_kind)
+        return real(route, confidence, context, *args)
 
     planner._route_steps, saved = spy, planner._route_steps
     try:
@@ -197,9 +198,9 @@ def test_an_empty_search_term_falls_back_to_the_question_in_the_context(world):
     seen = {}
     real = planner._route_steps
 
-    def spy(route, confidence, context, store_kind=None):
+    def spy(route, confidence, context, *args):
         seen.update(context)
-        return real(route, confidence, context, store_kind)
+        return real(route, confidence, context, *args)
 
     planner._route_steps, saved = spy, planner._route_steps
     try:
