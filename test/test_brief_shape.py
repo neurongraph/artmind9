@@ -372,3 +372,19 @@ def test_brief_with_explicit_chunk_context_warns_and_keeps_passages(monkeypatch)
 def test_brief_without_context_or_with_passage_does_not_warn(monkeypatch):
     assert _vt_cli(monkeypatch)["warnings"] == []
     assert _vt_cli(monkeypatch, "--context", "passage")["warnings"] == []
+
+
+def test_budget_follows_the_per_request_override_under_serve(monkeypatch):
+    """`serve` applies the caller's budget per request; the allocation must see the same value."""
+    from artmind import result_store
+
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)  # the daemon's own env has none
+    assert brief.output_budget() is None
+    with result_store.budget_override("24000"):
+        assert brief.output_budget() == 24000
+    with result_store.budget_override("0"):
+        assert brief.output_budget() is None
+    monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "9000")
+    assert brief.output_budget() == 9000
+    with result_store.budget_override(None):  # a caller with no budget: off, whatever serve's env says
+        assert brief.output_budget() is None

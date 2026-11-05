@@ -30,8 +30,20 @@ _RAW_WORD = re.compile(r"[A-Za-z0-9]+")
 
 
 def output_budget(env: dict | None = None) -> int | None:
-    """`ARTMIND_OUTPUT_BUDGET` in characters; None when unset or 0 (off)."""
-    raw = (os.environ if env is None else env).get(BUDGET_ENV)
+    """`ARTMIND_OUTPUT_BUDGET` in characters; None when unset or 0 (off).
+
+    With no `env`, the budget `_echo_json` will apply: under `serve` that is the caller's value
+    for this request (`result_store.budget_override`), never the daemon's own environment. Reading
+    `os.environ` there made the allocation plan for no budget and the echo cut the tail (round 8).
+    """
+    if env is None:
+        from artmind import result_store
+
+        try:
+            return result_store.current_budget() or None
+        except result_store.BudgetError as exc:
+            raise ValueError(str(exc)) from None
+    raw = env.get(BUDGET_ENV)
     if raw is None or not str(raw).strip():
         return None
     try:
