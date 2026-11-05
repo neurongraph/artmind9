@@ -237,12 +237,17 @@ Design, reusing the above rather than adding a parallel store:
 
 Two sessions tested one deck's 17 claims (about 44 and 57 assertions) through background
 sub-agents. On a sample of 17 assertions checked exhaustively against the corpus: session 1
-had 9 right, 1 partial, 6 wrong; session 2 had 15 right, 2 partial, 0 wrong; a re-run of 6
-had 4 right, 1 partial, 1 wrong (an over-correction). Errors: missed document 5,
-superseded version or version chain 3, synthesis or citation 4, alias 1; draft-versus-executed
-status mattered in 5 of 11. Between the sessions, 41 non-independent documents (the deck
-itself, sibling decks, the vendor's own responses, a register) moved out of the domain; with
-them in, they became session 1's "support".
+had 9 right, 1 partial, 6 wrong; session 2 had 15 right, 2 partial, 0 wrong; a re-run of 7
+(graded 2026-11-05 from its own claim files, once they synced) had 6 right and 1 wrong, an
+over-correction: it read an older removal of a gate as final and missed a later restatement
+that brings the gate back. Errors: missed document 5, superseded version or version chain 3,
+synthesis or citation 3, alias 1; draft-versus-executed status mattered in 5 of 10. Two scope
+changes separate the sessions: 41 non-independent documents (the deck itself, sibling decks,
+the vendor's own responses, a register) moved out of the domain, and the user told session 2
+to answer from the contracts domain only. With those documents in scope they became session
+1's "support". Session 2's recorded cost resets once mid-session, which fits a restarted SDK
+session and `cost_usd` being cumulative per session (P49); the user thinks it possibly
+restarted.
 
 A fixed program run read-only (passage search top 10 + survey top 10 per assertion, no LLM,
 about 1.4 s) reached 13 of 17 with contract wording and 9 of 17 with the deck's own wording.
@@ -253,15 +258,50 @@ USD 0.10–0.15 per claim, against a recorded 0.53 (judge calls not run, so not 
 32. **The batch program needs a rewrite step** (deck wording → corpus wording, using the
     catalogue's aliases and terms): 7/15 verbatim vs 11/15 rewritten · medium.
 33. **Evidence carries executed/draft status, and the program has a "latest executed /
-    latest draft" step per document family** · 5 of 11 errors · medium-high.
+    latest draft" step per document family** · 5 of 10 errors · medium-high.
 34. **Scan inside the top documents before judging:** twice the right document ranked first,
     but the passage shown was not the clause · medium.
 35. **Exclude the claim's own source and flag non-independent documents:** 6 of 17 wrong with
-    them in the domain, 0 without · medium.
+    them in the domain, 0 without · medium. The user's own fix was a scope instruction
+    ("contracts only"), so evidence scope should be an explicit, visible program input
+    (domains plus excluded documents), not something the agent infers.
 36. **Absence claims need an exhaustive exact-term sweep**, one call over the full text, not
     10–40 searches ending at "medium confidence" · medium.
 37. **Bytes, not queries, were the waste.** 23 of 23 surveys went unread in context, plus 72
     re-parses and 8 re-reads of the deck; one capped bundle and one span per assertion · high.
+
+### 2.12 What the user's answer definitions teach (16 confirm points, 2026-11-05)
+
+Writing expected answers for the 8 benchmark questions needed 16 decisions from the user.
+Each is a rule the agent had to guess and the design should make explicit:
+
+38. **Expected answers need three tiers: must, optional, must-not.** 4 of 16 answers made an
+    item optional ("credit if present") rather than required or excluded; a right/wrong pair
+    cannot grade that. The benchmark format and the evidence bundle's checks use the tiers
+    · high.
+39. **Each domain has default scope rules, kept in plan config beside the narrator.** "We"
+    means the family, and work events of the same kind are out unless the question asks
+    (2 of 16); a relationship question does not take in friction between two other people
+    (1 of 16). These belong in `domains/plan/<domain>.yaml`, applied as filters the answer
+    states, not left to the model · medium.
+40. **Counting a relation needs its direction.** "A fight with me" excluded an episode where
+    the partner was upset at a situation, and included one the diary called a
+    misunderstanding (2 of 16). Counting needs the participant and target of each episode,
+    which today's schema does not carry. A synthesis check ("who was this directed at?") is
+    needed until it does · medium.
+41. **An event window counts without the event's word.** A trip on the festival weekend counts
+    as a festival activity, and a partial current year is included (2 of 16). Event questions
+    need a date window from the event's date, not only a keyword match: the catalogue's `time`
+    part plus a per-domain calendar of recurring events · medium.
+42. **Granularity is the widest the question allows.** "Places" took every level (towns,
+    neighbourhoods, landmarks, airports, offices), and "academic career" took internships
+    and a job offer (3 of 16). The default is broad, with grouping by level, and narrowing
+    only when the question names a level · medium.
+43. **Facts the user corrects become curation input.** A place name the notes leave ambiguous
+    (two places share it) and an organisation the notes do not name were settled only by
+    the user, as was a friend's role (wrongly a "former colleague" in a graph description).
+    Those answers belong in the learning loop as proposed facts or aliases, so the next
+    answer does not depend on the same guess · high.
 
 ## 3. Answers to the P2 evidence needs (`11-p2-evidence-needs.md`)
 
