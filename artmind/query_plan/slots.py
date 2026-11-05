@@ -178,7 +178,7 @@ class Expansion:
     classes: tuple[str, ...]
     terms: tuple[str, ...]
     source: str            # category | class_match
-    narrowed: bool = False
+    narrowed: bool = False  # true for a class match (one level), false for a category
 
 
 def _class_table(catalogue_classes) -> dict[str, str]:
@@ -201,8 +201,9 @@ def _class_key(name: str) -> str:
 def category_expansion(question: str, catalogue_classes, cfg) -> Expansion | None:
     """A class word of the question ("doctors", "illnesses") expanded to entity classes and
     plain terms. `cfg.category(word)` wins; otherwise the class whose name (case- and
-    plural-insensitive) or description matches, alone. A word that is itself one of the
-    category's member classes narrows to that class (a question naming a level)."""
+    plural-insensitive) or description matches, alone. A category key always expands to all its
+    members, even when one member class shares its name ("doctor: [Doctor, Dentist]"); a question
+    naming a member level ("which dentists") is not a key, so it narrows through the class match."""
     table = _class_table(catalogue_classes)
     keys = {_class_key(n): n for n in table}
     words = re.findall(r"[a-z0-9]+", question.casefold())
@@ -219,15 +220,12 @@ def category_expansion(question: str, catalogue_classes, cfg) -> Expansion | Non
                 classes.append(hit)
             else:
                 terms.append(str(member))
-        level = next((c for c in classes if _stems(word) & _stems(_class_key(c))), None)
-        if level:
-            return Expansion(word, (level,), (), "category", narrowed=True)
         return Expansion(word, tuple(classes), tuple(terms), "category")
     for name in table:
         parts = _class_key(name).split()
         for i in range(len(words) - len(parts) + 1):
             if parts and all(_stems(parts[j]) & _stems(words[i + j]) for j in range(len(parts))):
-                return Expansion(" ".join(words[i:i + len(parts)]), (name,), (), "class_match")
+                return Expansion(" ".join(words[i:i + len(parts)]), (name,), (), "class_match", narrowed=True)
     # Description match: only when exactly one class's description holds a content word.
     content = [w for w in words if len(w) > 3 and w not in STOPWORDS and w not in QUESTION_WORDS
                and w not in FILLER_WORDS and w not in TEMPORAL_WORDS]

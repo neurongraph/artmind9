@@ -136,9 +136,14 @@ def test_category_cfg_wins_and_splits_members():
     assert not e.narrowed
 
 
-def test_category_member_word_narrows():
+def test_category_key_sharing_a_member_class_name_expands_fully():
     e = slots.category_expansion("which doctors did I see", CLASSES, DOC_CFG)
-    assert e.classes == ("Doctor",) and e.terms == () and e.narrowed
+    assert e.classes == ("Doctor", "Dentist") and e.terms == ("assessment",) and not e.narrowed
+
+
+def test_member_level_word_narrows_through_class_match():
+    e = slots.category_expansion("which dentists did I see", CLASSES, DOC_CFG)
+    assert e.classes == ("Dentist",) and e.terms == () and e.narrowed and e.source == "class_match"
 
 
 def test_class_name_match_plural_and_underscore():
