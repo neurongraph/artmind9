@@ -4,6 +4,12 @@
 templates, and the test suite checks every command and option a template
 names against the Click tree. A route's `description` is the text a decision
 model reads for that option, so it describes the question shape.
+
+Version 2 (spec 2026-11-05 §5) adds `program:` / `guards:` (see `program.py`).
+Every route, v1 or v2, exposes `Route.program` and `Route.guards`; a v1 route is
+read as a program of sequential `run` nodes with its fallbacks as guards. The v1
+fields (`steps`, `fallbacks`, `variants`, `optional_steps`, `steps_for`) are
+unchanged, and a program route's `steps` is its run nodes flattened in order.
 """
 
 from __future__ import annotations
@@ -16,6 +22,9 @@ from pathlib import Path
 
 import yaml
 
+from artmind.query_plan import program as program_mod
+from artmind.query_plan.program import Guard, Node, ProgramError
+
 ROUTES_FILE = Path(__file__).with_name("routes.yaml")
 RESERVED_IDS = frozenset({"view"})
 NEEDS = frozenset({"entity", "two_entities", "document", "date", "class", "store", "insights_snapshot"})
@@ -23,12 +32,16 @@ PLACEHOLDERS = frozenset({
     "domains", "entity_id", "entity_name", "other_entity_id", "entity_class", "other_entity_class",
     "document", "class", "question", "keywords",
 })
+#: Placeholders only a v2 `program:` template may use; the v1 planner does not supply them.
+V2_PLACEHOLDERS = frozenset({"search_term", "date_window", "entity_class_list"})
+ALL_PLACEHOLDERS = PLACEHOLDERS | V2_PLACEHOLDERS
+SUPPORTED_VERSIONS = (1, 2)
 STORE_KINDS = frozenset({"graph", "analytical", "hybrid", "records_plus_guidance"})
 TRIGGER_SLOTS = frozenset({"date", "year", "entity", "document"})
 FALLBACK_WHEN = frozenset({"zero_rows", "truncated", "no_document", "needs_disambiguation", "error"})
 MAX_DESCRIPTION = 300
 
-_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "optional_steps", "variants", "fallbacks", "read", "evidence"})
+_KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "optional_steps", "variants", "fallbacks", "read", "evidence", "program", "guards"})
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _EVIDENCE_RE = re.compile(r"^[SP]\d+$")
 _PLACEHOLDER_RE = re.compile(r"\{([a-z_]+)\}")
@@ -56,6 +69,9 @@ class Route:
     evidence: tuple[str, ...]
     variants: dict = field(default_factory=dict)  # store kind -> step templates, replacing `steps`
     optional_steps: tuple[str, ...] = ()  # rendered after the steps when every placeholder fills
+    program: tuple[Node, ...] = ()  # every route: authored (v2) or converted from steps (v1)
+    guards: tuple[Guard, ...] = ()
+    authored_program: bool = False  # True when routes.yaml wrote `program:` itself
 
     def steps_for(self, store_kind: str | None) -> tuple[str, ...]:
         return self.variants.get(store_kind, self.steps) if store_kind else self.steps
@@ -78,10 +94,10 @@ def _strings(value, where: str, *, allow_empty: bool = True) -> tuple[str, ...]:
     return tuple(v.strip() for v in value)
 
 
-def _template(cmd, where: str) -> str:
+def _template(cmd, where: str, allowed: frozenset = PLACEHOLDERS) -> str:
     if not isinstance(cmd, str) or not cmd.startswith("artmind "):
         raise RouteError(f"{where} must be a command starting with 'artmind '")
-    unknown = placeholders(cmd) - PLACEHOLDERS
+    unknown = placeholders(cmd) - allowed
     if unknown:
         raise RouteError(f"{where} uses unknown placeholder(s) {sorted(unknown)}")
     if _has_stray_brace(_PLACEHOLDER_RE.sub("", cmd)):
@@ -92,8 +108,9 @@ def _template(cmd, where: str) -> str:
 
 
 def parse_routes(data) -> tuple[Route, ...]:
-    if not isinstance(data, dict) or type(data.get("version")) is not int or data["version"] != 1 or not isinstance(data.get("routes"), list):
-        raise RouteError("routes.yaml must be a mapping with `version: 1` and a `routes` list")
+    if not isinstance(data, dict) or type(data.get("version")) is not int or data["version"] not in SUPPORTED_VERSIONS or not isinstance(data.get("routes"), list):
+        raise RouteError("routes.yaml must be a mapping with `version: 1` or `version: 2` and a `routes` list")
+    version = data["version"]
     out: list[Route] = []
     seen: set[str] = set()
     for i, raw in enumerate(data["routes"]):
@@ -125,10 +142,21 @@ def parse_routes(data) -> tuple[Route, ...]:
         needs = _strings(raw.get("needs"), f"{where}.needs")
         if set(needs) - NEEDS:
             raise RouteError(f"{where}: unknown needs {sorted(set(needs) - NEEDS)}")
-        steps = tuple(
-            _template(cmd, f"{where}.steps[{j}]")
-            for j, cmd in enumerate(_strings(raw.get("steps"), f"{where}.steps", allow_empty=False))
-        )
+        has_program = "program" in raw
+        if has_program:
+            if version < 2:
+                raise RouteError(f"{where}: `program:` needs `version: 2`")
+            clash = [k for k in ("steps", "fallbacks", "variants", "optional_steps") if k in raw]
+            if clash:
+                raise RouteError(f"{where}: give `program:` or `steps:`/`fallbacks:`, not both (found {clash})")
+        elif "guards" in raw:
+            raise RouteError(f"{where}: `guards:` only goes with `program:`")
+        steps = ()
+        if not has_program:
+            steps = tuple(
+                _template(cmd, f"{where}.steps[{j}]")
+                for j, cmd in enumerate(_strings(raw.get("steps"), f"{where}.steps", allow_empty=False))
+            )
         optional_steps = tuple(
             _template(cmd, f"{where}.optional_steps[{j}]")
             for j, cmd in enumerate(_strings(raw.get("optional_steps"), f"{where}.optional_steps"))
@@ -155,9 +183,27 @@ def parse_routes(data) -> tuple[Route, ...]:
         bad_evidence = [e for e in evidence if not _EVIDENCE_RE.match(e)]
         if bad_evidence:
             raise RouteError(f"{where}: evidence ids must look like S<n> or P<n>, got {bad_evidence}")
-        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants, optional_steps))
+        if has_program:
+            try:
+                program = program_mod.parse_program(
+                    raw["program"], f"{where}.program",
+                    lambda cmd, w, extra: _template(cmd, w, ALL_PLACEHOLDERS | extra),
+                )
+                guards = program_mod.parse_guards(raw.get("guards"), program, f"{where}.guards")
+            except ProgramError as exc:
+                raise RouteError(str(exc)) from exc
+            steps = tuple(n.run for n in program_mod.run_nodes(program))
+        else:
+            program, guards = program_mod.program_from_v1(steps, [(f.when, f.cmd) for f in fallbacks])
+        out.append(Route(rid, description.strip(), triggers, needs, steps, tuple(fallbacks), read, evidence, variants, optional_steps, program, guards, has_program))
     if not out:
         raise RouteError("routes.yaml defines no routes")
+    ids = frozenset(r.id for r in out)
+    for route in out:
+        try:
+            program_mod.validate_replacements(route.guards, route.id, ids, f"route {route.id}")
+        except ProgramError as exc:
+            raise RouteError(str(exc)) from exc
     return tuple(out)
 
 

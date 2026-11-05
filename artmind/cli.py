@@ -3659,7 +3659,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 
 
 @query.command("chunks")
-@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--domain", "domain", multiple=True, help="Scope the lookup to this domain (repeatable; comma-splittable). Optional: without it the ids are looked up in every domain and the output's domains come from the chunks")
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
@@ -3671,7 +3671,7 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
     `--shape brief` rows are {chunk, doc {id, title, domain, date, status}}; full rows
     keep every key and their `document` gains `title`, `date` and `status`.
     """
-    domains = _parse_domains(domain)
+    domains = _parse_domains(domain) if domain else None
     try:
         result = graph_query.chunks_by_id(domains, _parse_repeatable(id_list), expand=expand, as_of=as_of,
                                           shape=shape)
@@ -5036,7 +5036,8 @@ def plan_group() -> None:
 
 @plan_group.group("config")
 def plan_config_group() -> None:
-    """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier."""
+    """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier, categories,
+    kinship, scope rules, calendar."""
 
 
 @plan_config_group.command("check")
@@ -5075,6 +5076,10 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
             entry.update(ok=False, errors=[str(exc)])
             results.append(entry)
             continue
+        # Counts only: the terms are private.
+        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship),
+                           "scope_rules": len(cfg.scope_rules), "calendar": len(cfg.calendar),
+                           "narrator_aliases": len(cfg.narrator.aliases) if cfg.narrator else 0}
         if cfg.narrator:
             try:
                 entry["narrator_found"] = bool(plan_candidates.narrator_candidates(cfg.narrator, [name]))

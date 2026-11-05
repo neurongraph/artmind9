@@ -8,7 +8,7 @@
 # each command and option against the Click tree.
 # A trigger may start with `^`: it then matches only at the start of the question
 # (after optional leading whitespace and punctuation), e.g. `^did we`.
-version: 1
+version: 2
 routes:
   - id: existence
     description: Whether something specific happened or is mentioned at all, or happened again (did I visit X again, any reference to X).
@@ -59,7 +59,7 @@ routes:
     triggers: ["tell me about", "who is", "what is", "describe", "what do we know about", "profile of"]
     needs: [entity]
     steps:
-      - "artmind query entity-context --domain {domains} --entityId {entity_id} --compact"
+      - "artmind query entity-context --shape brief --domain {domains} --entityId {entity_id} --compact"
     fallbacks:
       - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
     read: []
@@ -107,7 +107,7 @@ routes:
     steps:
       - "artmind query graph hierarchy --domain {domains} --entityId {entity_id} --compact"
     fallbacks:
-      - {when: zero_rows, cmd: "artmind query entity-context --domain {domains} --entityId {entity_id} --compact"}
+      - {when: zero_rows, cmd: "artmind query entity-context --shape brief --domain {domains} --entityId {entity_id} --compact"}
     read: [references/hierarchy.md]
     evidence: [S11]
 
