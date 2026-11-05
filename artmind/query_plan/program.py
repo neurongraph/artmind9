@@ -52,7 +52,7 @@ PREDICATE_NAMES = frozenset(PREDICATE_TYPES)
 PLAN_FACT_TYPES: dict[str, str] = {
     "twins": "num", "entities": "num", "negative": "bool", "latest": "bool", "rare_term": "bool",
     "category": "bool", "date_window": "bool", "document": "bool", "chunks_only": "bool",
-    "view_count": "bool",
+    "view_count": "bool", "occurrence": "bool",
 }
 PLAN_FACT_NAMES = frozenset(PLAN_FACT_TYPES)
 #: Program kinds (spec §5.5); `sequence` is a converted v1 route.

@@ -585,6 +585,7 @@ NEGATIVE_CUES = ("never", "ever", "at all", "any mention", "any reference", "any
                  "no record", "nothing", "none of", "not mentioned", "not recorded", "missing", "without")
 LATEST_CUES = ("latest", "current", "currently", "most recent", "newest", "up to date", "amended",
                "amendment", "last version", "final version", "updated version")
+OCCURRENCE_CUES = ("visits", "visited", "times", "occasions", "trips to", "every time", "each time")
 COUNT_CUES = ("how many", "number of", "count of", "how often", "total number")
 _CONTRACTION_RE = re.compile(r"\b\w+n['\u2019]t\b")
 
@@ -599,6 +600,10 @@ def has_negative_cue(question: str) -> bool:
 
 def has_latest_cue(question: str) -> bool:
     return has_cue(question, LATEST_CUES)
+
+
+def has_occurrence_cue(question: str) -> bool:
+    return has_cue(question, OCCURRENCE_CUES)
 
 
 def has_count_cue(question: str) -> bool:

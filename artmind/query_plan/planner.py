@@ -717,9 +717,11 @@ def _fuzzy_entity(entities: list[dict], built, route_obj, program=None) -> bool:
 
 
 def _list_slots(choice, entities: list[dict], window, question: str, mentions, search_term, cfg,
-                class_table: dict) -> dict:
+                class_table: dict, *, domains: list[str] | None = None, document: str | None = None,
+                document_pool=()) -> dict:
     """The list slots a `map.over` may name, as `Slot`s, for the maps of the chosen program.
-    `family_documents` is empty in this slice: a later slice fills it from the document family."""
+    `family_documents` is the matched document's family, newest first (`candidates.family_documents`,
+    read only when the chosen program maps over it and a document matched; else empty)."""
     wanted = {n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}
     _named, primary, _second = _used_entities(entities)
     out: dict[str, slots_mod.Slot] = {}
@@ -730,7 +732,10 @@ def _list_slots(choice, entities: list[dict], window, question: str, mentions, s
             out[name] = slots_mod.phrasings_slot(question, mentions, str(search_term.value or ""), cfg, class_table)
         elif name == "years":
             out[name] = slots_mod.years_slot(window)
-        else:  # family_documents
+        elif document and domains:  # family_documents
+            out[name] = slots_mod.Slot("family_documents", candidates.family_documents(domains, document, document_pool),
+                                       "document_family", 1.0)
+        else:
             out[name] = slots_mod.Slot("family_documents", [], "none", 1.0)
     return out
 
@@ -757,6 +762,7 @@ def _plan_facts(route, *, question: str, entities: list[dict], expansion, window
         "document": lambda: document is not None,
         "chunks_only": lambda: bool(chunks_only),
         "view_count": lambda: chosen_view is not None and slots_mod.has_count_cue(question),
+        "occurrence": lambda: slots_mod.has_occurrence_cue(question),
     }
     return {name: values[name]() for name in sorted(wanted)}
 
@@ -1029,7 +1035,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                     [w for w in re.findall(r"\w+", str(search_term.value).casefold())],
                     index=selected_index, class_names=list(class_table))
                 choice = _choose_program(route_obj, plan_facts)
-                lists = _list_slots(choice, entities, window, question, mentions, search_term, cfg, class_table)
+                lists = _list_slots(choice, entities, window, question, mentions, search_term, cfg, class_table,
+                                    domains=selected, document=document, document_pool=document_pool)
                 for name in sorted({n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}):
                     slot_map[name] = lists[name]
                 lists = {name: slot.value for name, slot in lists.items()}

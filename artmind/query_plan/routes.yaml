@@ -6,6 +6,7 @@
 # Every route cites the evidence it came from: scenario (S<n>) and pattern (P<n>)
 # ids in docs/query-routing-study/. Every template passes --compact; tests check
 # each command and option against the Click tree.
+# In a guard, quote the key: `{"on": node, ...}` (a bare `on` is a YAML boolean).
 # A trigger may start with `^`: it then matches only at the start of the question
 # (after optional leading whitespace and punctuation), e.g. `^did we`.
 version: 2
@@ -14,32 +15,95 @@ routes:
     description: Whether something specific happened or is mentioned at all, or happened again (did I visit X again, any reference to X).
     triggers: ["^did i", "^did we", "any reference to", "any mention of", "ever", "again", "is there any", "was there any"]
     needs: [entity]
-    steps:
-      - "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --shape brief --compact"
-    fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+    # Order: existence_concept first (a rare word beside a known person, P55/P56: the exact-term sweep
+    # cannot find a concept named in other words, so probe phrasings instead, without the person's name;
+    # the person scopes the rows afterwards, not the search), then absence (a negative expectation: one
+    # exhaustive exact-term sweep), then the default (today's single pattern7 step).
+    programs:
+      - kind: existence_concept
+        when: "rare_term and entities >= 1"
+        program:
+          - id: probes
+            map:
+              over: phrasings
+              as: phrase
+              max: 5
+              do: {id: probe, run: "artmind query entity-resolve --domain {domains} --topK 25 {phrase} --compact"}
+          - {id: found, pick: {from: probes, how: union}}
+      - kind: absence
+        when: "negative"
+        program:
+          - id: sweep
+            par:
+              - {id: exact, run: "artmind query graph pattern7 --domain {domains} --searchTerm {search_term} --limit 500 --shape brief --compact"}
+              - {id: keyword, run: "artmind query vector-text --shape brief --domain {domains} {search_term} --topK 25 --compact"}
+          - {id: found, pick: {from: sweep, how: union}}
+      - kind: one_step
+        program:
+          - {id: s1, run: "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --shape brief --compact"}
+        guards:
+          # v1 fallback: no rows -> search the notes for the same question
+          - {"on": s1, if: "rows == 0", then: {replace: search}}
     read: []
-    evidence: [S25, P25]
+    evidence: [S25, P25, P55, P56]
 
   - id: enumeration
     description: A complete list of every recorded item of some kind (all the X, every Y, the recorded Z).
     triggers: ["all the", "every", "list all", "list the", "recorded", "complete list", "each of", "which ones"]
     needs: []
-    steps:
-      - "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 50 --shape brief --compact"
-    fallbacks:
-      - {when: truncated, cmd: "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 200 --shape brief --compact"}
+    programs:
+      # "everyone linked to X" (R8, P58): the entity's brief context plus its mentions, paged to rows_total.
+      - kind: draw_connected
+        when: "entities >= 1"
+        program:
+          - id: gather
+            par:
+              - {id: context, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+              - {id: linked, run: "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --limit 50 --shape brief --compact"}
+          - {id: more, page: {from: linked, until: rows_total}, when: "linked.truncated"}
+          - {id: found, pick: {from: gather, how: union}}
+        guards:
+          # A diagram or count from truncated rows would mislead: stop and say how many were left out.
+          - {"on": more, if: "truncated", then: escalate}
+      - kind: enumeration
+        program:
+          - id: both
+            par:
+              - {id: s1, run: "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 50 --shape brief --compact"}
+              - {id: text, run: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+          - {id: more, page: {from: s1, until: rows_total}, when: "s1.truncated"}
+          - {id: found, pick: {from: both, how: union}}
+        guards:
+          # No count from truncated evidence (spec 6.4): the executor refuses it; still truncated after paging -> escalate.
+          - {"on": more, if: "truncated", then: escalate}
     read: []
-    evidence: [S24, P21]
+    evidence: [S24, P21, P58]
 
   - id: aggregate
     description: A count, total, average or frequency over events or entities, when no saved query fits.
     triggers: ["how many", "how often", "number of", "count of", "total", "average", "sum of", "frequency"]
     needs: []
-    steps:
-      - "artmind query graph text2cypher --domain {domains} {question} --compact"
-    fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+    programs:
+      # An entity with twins (kinship names): text2cypher takes a question, so it cannot be mapped over
+      # the twins; its sibling reads every twin's brief context and the two are unioned.
+      - kind: kinship_aggregate
+        when: "twins > 0"
+        program:
+          - id: both
+            par:
+              - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+              - id: per_twin
+                map:
+                  over: twin_ids
+                  as: twin
+                  max: 5
+                  do: {id: twin_ctx, run: "artmind query entity-context --domain {domains} --entityId {twin} --shape brief --compact"}
+          - {id: found, pick: {from: both, how: union}}
+      - kind: one_step
+        program:
+          - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+        guards:
+          - {"on": s1, if: "rows == 0", then: {replace: search}}
     read: []
     evidence: [S3, P2]
 
@@ -58,10 +122,23 @@ routes:
     description: Who or what one specific person, place, organisation or thing is, and what is known about it.
     triggers: ["tell me about", "who is", "what is", "describe", "what do we know about", "profile of"]
     needs: [entity]
-    steps:
-      - "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"
-    fallbacks:
-      - {when: zero_rows, cmd: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+    programs:
+      # Visits / occurrences of the entity: the brief context, paged when cut, and a text check. A step
+      # predicate cannot compare two measures, so the guard reads "the check cited no document although
+      # the entity has some" (entity_docs > 0 and docs_cited == 0); the executor reports both numbers.
+      - kind: entity_visits
+        when: "occurrence"
+        program:
+          - {id: ctx, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+          - {id: more, page: {from: ctx, until: rows_total}, when: "ctx.truncated"}
+          - {id: check, run: "artmind query vector-text --shape brief --domain {domains} {question} --topK 25 --compact"}
+        guards:
+          - {"on": check, if: "docs_cited == 0 and ctx.entity_docs > 0", then: escalate}
+      - kind: one_step
+        program:
+          - {id: s1, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+        guards:
+          - {"on": s1, if: "rows == 0", then: {replace: search}}
     read: []
     evidence: [S10]
 
@@ -127,10 +204,23 @@ routes:
     description: What one named document says, or a summary of that document.
     triggers: ["summarise {document}", "summarize {document}", "what does {document} say", "{document}"]
     needs: [document]
-    steps:
-      - "artmind query graph pattern10 --domain {domains} --documentName {document} --compact"
-    fallbacks:
-      - {when: zero_rows, cmd: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact"}
+    programs:
+      # "the current / latest X": every document of the family (same document-entity reference or a
+      # SUPERSEDES chain, newest first; candidates.family_documents), each read by name.
+      - kind: latest
+        when: "latest and document"
+        program:
+          - id: versions
+            map:
+              over: family_documents
+              as: doc
+              max: 10
+              do: {id: version, run: "artmind query graph pattern10 --domain {domains} --documentName {doc} --compact"}
+      - kind: one_step
+        program:
+          - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --compact"}
+          # v1 fallback: nothing found -> the same document with its history
+          - {id: history, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact", when: "s1.rows == 0"}
     read: []
     evidence: [S16]
 

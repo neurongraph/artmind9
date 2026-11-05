@@ -151,11 +151,11 @@ def test_a_view_plan_is_one_step_with_no_facts(world):
 
 def test_routes_without_programs_keep_their_steps_and_report_their_kind(world):
     world["views"] = []
-    result = _plan("How often did the team meet?")
-    assert result["route"]["id"] == "aggregate"
+    result = _plan("What is the favourite place of the team?")
+    assert result["route"]["id"] == "superlative"
     assert result["program_kind"] == "sequence" and result["plan_facts"] == {}
-    assert [s["cmd"] for s in result["steps"]] == [
-        "artmind query graph text2cypher --domain journal 'How often did the team meet?' --compact"]
+    assert [s["cmd"] for s in result["steps"] + result["suggested_steps"]][1] == (
+        "artmind query graph text2cypher --domain journal 'What is the favourite place of the team?' --compact")
 
 
 def test_a_non_retrieval_intent_has_no_program_kind(world):
