@@ -308,6 +308,7 @@
   function renderText(block) {
     const node = el("div", "md");
     node.innerHTML = DOMPurify.sanitize(marked.parse(block.md));
+    renderMermaid(node);
     addCopyButtons(node);
     linkVaultSources(node);
     return node;

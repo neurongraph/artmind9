@@ -27,8 +27,10 @@ class RenderedSources:
     diagnostics: list[str]
 
 
-def select_final_evidence_span(spans: list[dict]) -> dict | None:
-    """Newest successful, productive query span with renderable provenance."""
+def select_evidence_spans(spans: list[dict]) -> list[dict]:
+    """Every successful, productive query span with renderable provenance,
+    newest first (so the first is the final, main evidence)."""
+    out = []
     for span in sorted(spans, key=lambda s: s.get("started_at") or 0, reverse=True):
         if span.get("exit_code") != 0 or not (span.get("rows") or 0):
             continue
@@ -37,17 +39,55 @@ def select_final_evidence_span(spans: list[dict]) -> dict | None:
             continue
         provenance = (span.get("evidence") or {}).get("provenance")
         if isinstance(provenance, dict) and (provenance.get("documents") or provenance.get("tables")):
-            return span
-    return None
+            out.append(span)
+    return out
+
+
+def select_final_evidence_span(spans: list[dict]) -> dict | None:
+    """Newest successful, productive query span with renderable provenance."""
+    found = select_evidence_spans(spans)
+    return found[0] if found else None
+
+
+def merge_provenance(provenances: list[dict]) -> dict:
+    """One provenance from several spans' (main evidence first).  A document
+    seen again keeps its first position; its chunks are combined, first seen
+    first, and a missing path/title/domain is filled from the later sighting."""
+    documents: dict[Any, dict] = {}
+    tables: dict[tuple, dict] = {}
+    for provenance in provenances:
+        for doc in provenance.get("documents") or []:
+            if not isinstance(doc, dict):
+                continue
+            key = doc.get("doc_id") or doc.get("source_path") or doc.get("path")
+            if key is None:
+                continue
+            kept = documents.get(key)
+            if kept is None:
+                documents[key] = {**doc, "chunks": [dict(c) for c in doc.get("chunks") or [] if isinstance(c, dict)]}
+                continue
+            for field in ("path", "source_path", "domain", "title"):
+                if kept.get(field) is None and doc.get(field) is not None:
+                    kept[field] = doc[field]
+            seen = {c.get("chunk_id") for c in kept["chunks"]}
+            for chunk in doc.get("chunks") or []:
+                if isinstance(chunk, dict) and chunk.get("chunk_id") not in seen:
+                    kept["chunks"].append(dict(chunk))
+                    seen.add(chunk.get("chunk_id"))
+        for table in provenance.get("tables") or []:
+            if isinstance(table, dict):
+                tables.setdefault((table.get("source_file"), table.get("domain")), table)
+    return {"documents": list(documents.values()), "tables": list(tables.values())}
 
 
 def render_for_trace(spans: list[dict], vault: Path | None = None) -> RenderedSources:
-    """Select, resolve and render one final source block for a completed turn."""
-    span = select_final_evidence_span(spans)
-    if span is None:
+    """Render one source block for a completed turn: the final productive
+    query's documents first (the main evidence), then those of the turn's
+    other productive queries."""
+    selected = select_evidence_spans(spans)
+    if not selected:
         return RenderedSources(None, 0, 0, [])
-    provenance = (span.get("evidence") or {}).get("provenance") or {}
-    return render(provenance, vault=vault)
+    return render(merge_provenance([(s.get("evidence") or {}).get("provenance") or {} for s in selected]), vault=vault)
 
 
 def render(provenance: dict, *, vault: Path | None = None) -> RenderedSources:
@@ -62,11 +102,17 @@ def render(provenance: dict, *, vault: Path | None = None) -> RenderedSources:
             continue
         path = doc.get("source_path") or doc.get("path")
         if not isinstance(path, str):
-            continue
-        display = Path(path).name or path
+            # A `--shape brief` row names the document by id and title only.
+            path = _source_path_for(doc, vault)
         domain = doc.get("domain")
         suffix = f" — {domain}" if isinstance(domain, str) and domain else ""
-        lines.append(f"- [{display}](<{path}>)" + suffix)
+        if isinstance(path, str):
+            lines.append(f"- [{Path(path).name or path}](<{path}>)" + suffix)
+        elif isinstance(doc.get("title"), str) and doc["title"]:
+            # Cited, but its path is unknown here: name it without a link.
+            lines.append(f"- {doc['title']}" + suffix)
+        else:
+            continue
         cited_documents += 1
         for chunk in doc.get("chunks") or []:
             target = _chunk_target(doc, chunk, vault)
@@ -87,6 +133,34 @@ def render(provenance: dict, *, vault: Path | None = None) -> RenderedSources:
         cited_documents += 1
     markdown = "### Sources\n" + "\n".join(lines) if lines else None
     return RenderedSources(markdown, cited_documents, cited_chunks, diagnostics)
+
+
+def _source_path_for(document: dict, vault: Path | None) -> str | None:
+    """The vault-relative path a cited document is shown under, for a document
+    the trace recorded by id only.  Same answer a full-shape row gives: the
+    original a binary was converted from, else the registered note.  Optional:
+    any miss returns None and the caller cites the title."""
+    doc_id = document.get("doc_id")
+    if vault is None or not isinstance(doc_id, str):
+        return None
+    try:
+        expected_db = (vault / ".artmind" / "data" / "document_registry.db").resolve()
+        if paths.DB_PATH.resolve() != expected_db:
+            return None
+        row = _registry_row_by_artmind_id(doc_id)
+        if not row or not isinstance(row.get("path"), str) or not isinstance(row.get("domain"), str):
+            return None
+        registered = Path(row["path"])
+        if not registered.is_absolute():
+            registered = vault / registered
+        from artmind.ingest import _converted_owner, _is_derived_markdown
+
+        if _is_derived_markdown(registered):
+            owner = _converted_owner(registered.stem, row["domain"])
+            return owner[0] if owner else None
+        return row["path"]
+    except Exception:
+        return None
 
 
 def _chunk_label(chunk: dict) -> str:

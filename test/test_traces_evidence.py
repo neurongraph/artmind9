@@ -201,3 +201,43 @@ def test_survey_and_topics_payloads_have_evidence():
     assert ev["topics"] == ["alpha"]
     assert evidence.summarize({"pages": [{"slug": "a"}, {"slug": "b"}]})["evidence"]["topics"] == ["a", "b"]
     assert evidence.summarize({"page": {"slug": "a"}})["evidence"]["topics"] == ["a"]
+
+
+BRIEF_VECTOR_TEXT = {
+    "query_type": "vector_text",
+    "rows": [{
+        "rank": 1, "passage_id": "d1_027_p03", "chunk_id": "d1_027", "text": "t",
+        "doc": {"id": "d1", "title": "Contract One", "domain": "banking", "date": None, "status": "current"},
+    }],
+}
+
+BRIEF_SURVEY = {
+    "query_type": "survey",
+    "documents": [
+        {"rank": 1, "doc_id": "d1", "title": "Contract One", "domain": "banking",
+         "best": {"passage_id": "d1_002_p02", "chunk_id": "d1_002"}},
+        {"rank": 2, "doc_id": "d2", "title": "Line Only", "status": "current"},
+    ],
+}
+
+
+def test_brief_vector_text_rows_give_provenance_by_doc_id():
+    provenance = summarize(BRIEF_VECTOR_TEXT)["evidence"]["provenance"]
+    (doc,) = provenance["documents"]
+    assert (doc["doc_id"], doc["domain"], doc["title"], doc["path"], doc["source_path"]) == (
+        "d1", "banking", "Contract One", None, None)
+    assert [c["chunk_id"] for c in doc["chunks"]] == ["d1_027"]
+
+
+def test_brief_survey_cites_documents_with_a_best_chunk_not_line_rows():
+    provenance = summarize(BRIEF_SURVEY)["evidence"]["provenance"]
+    assert [d["doc_id"] for d in provenance["documents"]] == ["d1"]
+    assert [c["chunk_id"] for c in provenance["documents"][0]["chunks"]] == ["d1_002"]
+
+
+def test_brief_chunks_rows_give_provenance():
+    payload = {"query_type": "chunks", "rows": [{
+        "chunk": {"id": "d1_003", "name": "Chunk 3/9", "header_path": "H"},
+        "doc": {"id": "d1", "title": "Contract One", "domain": "banking"}}]}
+    (doc,) = summarize(payload)["evidence"]["provenance"]["documents"]
+    assert doc["doc_id"] == "d1" and doc["chunks"][0]["chunk_id"] == "d1_003"

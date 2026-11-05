@@ -60,6 +60,7 @@ function collectParams(form) {
 function renderRendered(target, markdown) {
   // Sanitized markdown is the only HTML this tab ever injects.
   target.innerHTML = DOMPurify.sanitize(marked.parse(markdown || ""));
+  renderMermaid(target);
 }
 
 async function runView(name, params, resultEl) {
