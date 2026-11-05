@@ -77,7 +77,7 @@ for a root you know has reports, the relationship likely only exists as that
 property — fall back to:
 
 ```bash
-artmind query graph pattern1 --domain <d> --entityClass ROLE_PERSON --compact
+artmind query graph pattern1 --domain <d> --entityClass ROLE_PERSON --shape brief --compact
 ```
 
 and read each entity's `reports_to` property directly. This only gives you one

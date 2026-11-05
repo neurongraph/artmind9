@@ -1122,13 +1122,22 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
 
 
+#: Patterns that take `--shape brief` (entity rows; the others return relationship rows).
+BRIEF_PATTERNS = frozenset({"pattern1", "pattern2", "pattern7"})
+
+
 def execute_pattern(
     domains: "str | Sequence[str]",
     pattern: str,
     question: str | None = None,
     as_of: str | None = None,
+    shape: str = "full",
     **parameters,
 ) -> dict:
+    if shape not in ("brief", "full"):
+        raise ValueError("--shape must be one of brief, full")
+    if shape == "brief" and pattern not in BRIEF_PATTERNS:
+        raise ValueError(f"--shape brief is not available for {pattern}")
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
     params = normalize_pattern_parameters(pattern, {"domains": domains, "asOf": as_of, **parameters})
@@ -1173,6 +1182,11 @@ def execute_pattern(
     else:
         summaries = None
     rows = _bound_pattern_rows(pattern, rows, params)
+    if shape == "brief":
+        from artmind import brief
+
+        rows = [brief.pattern_row(pattern, r) for r in rows]
+        output_parameters["shape"] = "brief"
     result = {
         **_domain_output(domains),
         "query_type": "graph",
@@ -1193,6 +1207,11 @@ def execute_pattern(
         result["rows_total_capped"] = raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP
         if result["truncated"]:
             result["next"] = f"raise --limit (rows_total={rows_total})"
+    if shape == "brief":
+        from artmind import brief
+
+        hint = brief.entity_hint(domains, rows)
+        result["next"] = f"{result['next']}; {hint}" if result.get("next") else hint
     return result
 
 
@@ -1216,9 +1235,13 @@ def pattern10_history_matches(domains: "str | Sequence[str]", document_name: str
     return [r["name"] for r in rows if r.get("name")]
 
 
-def _chunks_query(expand: int, as_of: str | None) -> str:
-    """Cypher for chunks_by_id. expand > 0 adds a same-document neighbor window."""
+def _chunks_query(expand: int, as_of: str | None, scoped: bool = True) -> str:
+    """Cypher for chunks_by_id. expand > 0 adds a same-document neighbor window.
+
+    scoped=False (no --domain) drops the domain predicate: the lookup is by chunk id.
+    """
     asof_c = f"\n      AND {asof_predicate('c')}" if as_of else ""
+    domain_c = f"\n      AND {domain_predicate('c')}" if scoped else ""
     neighbor_call = ""
     neighbor_return = ""
     if expand > 0:
@@ -1240,8 +1263,7 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
         neighbor_return = ",\n           neighbors"
     return f"""
     MATCH (c:DocChunk)
-    WHERE c.id IN $chunkIds
-      AND {domain_predicate("c")}{asof_c}
+    WHERE c.id IN $chunkIds{domain_c}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, .valid_from, .valid_to, .text }} AS chunk,
            d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")},
@@ -1269,7 +1291,7 @@ def _brief_chunk_rows(rows: list[dict]) -> list[dict]:
 
 
 def chunks_by_id(
-    domains: "str | Sequence[str]",
+    domains: "str | Sequence[str] | None",
     chunk_ids: Sequence[str],
     expand: int = 0,
     as_of: str | None = None,
@@ -1279,10 +1301,14 @@ def chunks_by_id(
     """Fetch chunk text by exact id — the deterministic grounding step for the
     chunk ids that patterns 2/3/4 return as doc_sources and conflicts return
     as evidence. expand=N also returns up to N adjacent chunks per hit from
-    the same document."""
+    the same document.
+
+    domains=None looks the ids up across every domain; the output's domains are
+    then the ones the returned chunks carry. Given domains, the lookup is scoped to them."""
     if shape not in ("brief", "full"):
         raise ValueError("--shape must be one of brief, full")
-    domains = normalize_domains(domains)
+    scoped = domains is not None
+    domains = normalize_domains(domains) if scoped else []
     as_of = resolve_as_of(as_of)
     ids = [str(c).strip() for c in chunk_ids if str(c).strip()]
     if not ids:
@@ -1290,14 +1316,17 @@ def chunks_by_id(
     expand = int(expand)
     if expand < 0:
         raise ValueError("--expand must be >= 0")
-    cypher = _chunks_query(expand, as_of)
+    cypher = _chunks_query(expand, as_of, scoped=scoped)
     params = {
-        "domains": domains,
         "chunkIds": ids,
+        **({"domains": domains} if scoped else {}),
         **({"expand": expand} if expand > 0 else {}),
         **({"asOf": as_of} if as_of else {}),
     }
     rows = _run_read_query(cypher, params)
+    if not scoped:
+        domains = sorted({str((r.get("chunk") or {}).get("_domain")) for r in rows
+                          if (r.get("chunk") or {}).get("_domain")})
     if shape == "brief":
         rows = _brief_chunk_rows(rows)
     else:
@@ -1756,10 +1785,19 @@ def entity_context(
             )
             rows.append(row)
 
+    rows = strip_internal_props(rows)
+    extra: dict = {}
+    if shape == "brief":
+        from artmind import brief
+
+        rows = [brief.entity_context_row(r) for r in rows]
+        extra["next"] = ("every key of this row (full properties, connection properties, chunk text "
+                         "and source document paths): rerun with --shape full")
     return {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_context",
+        **extra,
         "parameters": {
             "entityId": entity_id,
             "includeChunks": include_chunks,
@@ -1769,7 +1807,7 @@ def entity_context(
             **({"query": query} if query else {}),
             **({"shape": "brief"} if shape == "brief" else {}),
         },
-        "rows": strip_internal_props(rows),
+        "rows": rows,
     }
 
 

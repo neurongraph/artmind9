@@ -2,6 +2,7 @@
 (CLAUDE.md conventions): `--idList a,b` is two ids, not one id with a comma.
 Name lists are left alone -- a name may contain a comma."""
 
+import json
 from unittest.mock import patch
 
 import pytest
@@ -30,6 +31,21 @@ def test_chunks_id_list_splits_commas(runner, args, expected):
     domains, ids = call.call_args.args
     assert domains == ["d"]
     assert ids == expected
+
+
+def test_chunks_without_domain_looks_up_ids_and_derives_domain_from_rows(runner, monkeypatch):
+    seen = {}
+
+    def fake_run(cypher, params):
+        seen["params"] = params
+        return [{"chunk": {"id": "c-1", "_domain": "notes", "text": "t"}, "document": {"id": "d"}}]
+
+    monkeypatch.setattr("artmind.graph_query._run_read_query", fake_run)
+    result = runner.invoke(cli, ["query", "chunks", "--idList", "c-1", "--compact"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    assert payload["domains"] == ["notes"] and payload["domain"] == "notes"
+    assert seen["params"]["chunkIds"] == ["c-1"] and "domains" not in seen["params"]
 
 
 @pytest.mark.parametrize("pattern", ["pattern2", "pattern3"])

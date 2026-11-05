@@ -16,6 +16,7 @@ from claude_agent_sdk.types import TERMINAL_TASK_STATUSES
 from artmind.webui.agent import EventMapper, agent_options
 from artmind.webui.backends.base import UIEvent
 from artmind.webui.profiles import AgentProfile, QA_PROFILE
+from artmind.webui.subagent_trace import SubagentTraceBinder
 
 
 def _message_session_id(message: Any) -> str | None:
@@ -84,6 +85,8 @@ class ClaudeSDKBackend:
         self._fallback_model = fallback_model
         self._env = env
         self._trace_context = trace_context
+        # Created once: a restart rebuilds the client but keeps the bindings.
+        self._trace_binder = SubagentTraceBinder(trace_context) if trace_context else None
         self._session_id: str | None = resume
         self._client = ClaudeSDKClient(
             agent_options(
@@ -94,6 +97,7 @@ class ClaudeSDKBackend:
                 model=model,
                 fallback_model=fallback_model,
                 env=env,
+                trace_binder=self._trace_binder,
             )
         )
 
@@ -196,6 +200,7 @@ class ClaudeSDKBackend:
                 model=self._model,
                 fallback_model=self._fallback_model,
                 env=self._env,
+                trace_binder=self._trace_binder,
             )
         )
         await self._client.connect()

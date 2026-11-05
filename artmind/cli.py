@@ -3105,12 +3105,14 @@ def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | Non
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
 @click.option("--limit", type=int, default=200, show_default=True, help="Max results")
+@shape_option
 @compact_option
 @click.argument("question", required=False)
-def graph_pattern1(domain: tuple, entity_class: str, limit: int, compact: bool, question: str | None) -> None:
-    """List entities of a class."""
+def graph_pattern1(domain: tuple, entity_class: str, limit: int, shape: str, compact: bool,
+                   question: str | None) -> None:
+    """List entities of a class. `--shape brief`: id, name, class, one-line description per row."""
     domains = _parse_domains(domain)
-    _run_graph_pattern("pattern1", domains, compact, question, entityClass=entity_class, limit=limit)
+    _run_graph_pattern("pattern1", domains, compact, question, shape=shape, entityClass=entity_class, limit=limit)
 
 
 @graph.command("pattern2")
@@ -3119,16 +3121,17 @@ def graph_pattern1(domain: tuple, entity_class: str, limit: int, compact: bool, 
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable; comma-splittable; overrides name list)")
 @click.option("--maxDocSources", "max_doc_sources", type=int, default=graph_query.PATTERN_MAX_DOC_SOURCES, show_default=True, help="Max doc_sources returned per entity; doc_sources_total carries the full count")
 @click.option("--maxSourceDocuments", "max_source_documents", type=int, default=graph_query.PATTERN_MAX_SOURCE_DOCUMENTS, show_default=True, help="Max source_documents returned per entity; source_documents_total carries the full count")
+@shape_option
 @compact_option
 @click.argument("question", required=False)
 def graph_pattern2(
     domain: tuple, entity_name_list: tuple, entity_id_list: tuple,
-    max_doc_sources: int, max_source_documents: int, compact: bool, question: str | None
+    max_doc_sources: int, max_source_documents: int, shape: str, compact: bool, question: str | None
 ) -> None:
-    """Info on one or more named entities."""
+    """Info on one or more named entities. `--shape brief`: id, name, class, one-line description, evidence ids."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern2", domains, compact, question,
+        "pattern2", domains, compact, question, shape=shape,
         entityNameList=entity_name_list, entityIdList=_parse_repeatable(entity_id_list),
         maxDocSources=max_doc_sources, maxSourceDocuments=max_source_documents,
     )
@@ -3257,12 +3260,14 @@ def graph_pattern6(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
 @click.option("--limit", type=click.IntRange(1, graph_query.PATTERN7_MAX_LIMIT), default=10, show_default=True, help="Max results")
+@shape_option
 @compact_option
 @click.argument("question", required=False)
-def graph_pattern7(domain: tuple, search_term: str, limit: int, compact: bool, question: str | None) -> None:
-    """Search entities by name or description fragment."""
+def graph_pattern7(domain: tuple, search_term: str, limit: int, shape: str, compact: bool,
+                   question: str | None) -> None:
+    """Search entities by name or description fragment. `--shape brief`: id, name, class, one-line description, documents."""
     domains = _parse_domains(domain)
-    _run_graph_pattern("pattern7", domains, compact, question, searchTerm=search_term, limit=limit)
+    _run_graph_pattern("pattern7", domains, compact, question, shape=shape, searchTerm=search_term, limit=limit)
 
 
 @graph.command("pattern8")
@@ -3659,7 +3664,7 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 
 
 @query.command("chunks")
-@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--domain", "domain", multiple=True, help="Scope the lookup to this domain (repeatable; comma-splittable). Optional: without it the ids are looked up in every domain and the output's domains come from the chunks")
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
@@ -3671,7 +3676,7 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
     `--shape brief` rows are {chunk, doc {id, title, domain, date, status}}; full rows
     keep every key and their `document` gains `title`, `date` and `status`.
     """
-    domains = _parse_domains(domain)
+    domains = _parse_domains(domain) if domain else None
     try:
         result = graph_query.chunks_by_id(domains, _parse_repeatable(id_list), expand=expand, as_of=as_of,
                                           shape=shape)
@@ -3703,9 +3708,11 @@ def query_entity_context(
 ) -> None:
     """Entity properties + one-hop relationships + source chunk text in one call.
 
-    `--shape brief` shortens only the source chunk rows (`chunks`) to passage-row form
-    ({rank, chunk_id, text <= 1,200 characters, doc {...}}); entity data and connections
-    are unchanged. In full shape each chunk's `document` gains `title`, `date`, `status`.
+    `--shape brief` shortens the row: source chunks become passage rows ({rank, chunk_id,
+    text <= 1,200 characters, doc {...}}), the entity a one-line {id, name, class, description},
+    connections id/name/class lines, the connection summary one string per type and direction,
+    `more_chunks` and `source_documents` id + title lines; every total is kept. In full shape
+    each chunk's `document` gains `title`, `date`, `status`.
 
     Bounded for hub entities: every edge is counted in connection_summary, but
     only the top --maxConnections are listed. Pass --query with the question to
@@ -3912,21 +3919,34 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
 @click.option("--execute", is_flag=True, help="Also run the step when the plan is one high-confidence saved view")
 @click.option("--classifier", type=click.Choice(["auto", "lexical", "decision"]), default="auto", show_default=True,
               help="auto: the decision model when ARTMIND_DECISION_URL is set, else lexical rules")
+@click.option("--previous", "previous_file", default=None,
+              help="The previous turn as JSON ({intent, route, question, offer, entities, documents, open_job}): a file, or - for stdin. Not proxied to serve")
+@click.option("--exclude", "exclude", multiple=True,
+              help="Leave this document (id or name) out of the scope (repeatable; comma-splittable)")
 @compact_option
 @click.argument("question")
-def query_plan_command(domain: tuple, execute: bool, classifier: str, compact: bool, question: str) -> None:
-    """Plan the retrieval for a question: domains, saved view, route and ready-to-run steps.
+def query_plan_command(domain: tuple, execute: bool, classifier: str, previous_file: str | None, exclude: tuple,
+                       compact: bool, question: str) -> None:
+    """Plan the retrieval for a question: intent, slots, domains, saved view, route and ready-to-run steps.
 
     Read-only and deterministic. Run `steps` when `confidence.level` is high; when it
-    is low, `steps` is empty: judge `suggested_steps` and read the routing table.
+    is low, `steps` is empty: judge `suggested_steps` and read the routing table. A
+    non-retrieval intent (`intent.id`) plans no steps: see `action` and `answer_from`.
     """
     from neo4j.exceptions import DriverError, Neo4jError
 
-    from artmind.query_plan import planner
+    from artmind.query_plan import intents, planner
 
     domains = _parse_domains(domain) if domain else None
+    previous = None
+    if previous_file is not None:
+        try:
+            previous = intents.load_previous(previous_file)
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
     try:
-        result = planner.plan(question, domains, execute=execute, classifier=classifier)
+        result = planner.plan(question, domains, execute=execute, classifier=classifier, previous=previous,
+                              exclude=list(exclude))
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     except (DriverError, Neo4jError) as exc:
@@ -3968,15 +3988,28 @@ def query_insights_list(domain: tuple, detector: str | None, kind: str | None, o
 
 @query_insights.command("show")
 @click.option("--domain", "domain", required=True, multiple=True, help="The domain (one)")
+@shape_option
 @compact_option
 @click.argument("key")
-def query_insights_show(domain: tuple, compact: bool, key: str) -> None:
-    """One finding with its full stats and card (the evidence behind a caption)."""
+def query_insights_show(domain: tuple, shape: str, compact: bool, key: str) -> None:
+    """One finding with its full stats and card (the evidence behind a caption).
+
+    `--shape brief`: key, detector, kind, score, title, subject ids, scalar stats and counts of
+    the stats/card lists (no narration, samples or card body).
+    """
     name = _one_domain(domain)
     run = _latest_insights(name)
     match = next((f for f in run.findings if f.key == key), None)
     if match is None:
         raise click.ClickException(f"no finding {key!r} in the latest {name} snapshot")
+    if shape == "brief":
+        from artmind import brief
+
+        _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at,
+                    "finding": brief.finding_row(match.to_dict()),
+                    "next": f"the full stats and card: artmind query insights show --domain {name} {key} --shape full"},
+                   compact)
+        return
     _echo_json({"domain": name, "as_of": run.as_of, "created_at": run.created_at, "finding": match.to_dict()}, compact)
 
 
@@ -5036,7 +5069,8 @@ def plan_group() -> None:
 
 @plan_group.group("config")
 def plan_config_group() -> None:
-    """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier."""
+    """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier, categories,
+    kinship, scope rules, calendar."""
 
 
 @plan_config_group.command("check")
@@ -5075,6 +5109,10 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
             entry.update(ok=False, errors=[str(exc)])
             results.append(entry)
             continue
+        # Counts only: the terms are private.
+        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship),
+                           "scope_rules": len(cfg.scope_rules), "calendar": len(cfg.calendar),
+                           "narrator_aliases": len(cfg.narrator.aliases) if cfg.narrator else 0}
         if cfg.narrator:
             try:
                 entry["narrator_found"] = bool(plan_candidates.narrator_candidates(cfg.narrator, [name]))
