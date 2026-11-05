@@ -102,8 +102,9 @@ def test_chunks_only_and_view_count_facts(world, monkeypatch):
     _two(monkeypatch, "chunks_only")
     monkeypatch.setattr(planner, "_chunks_only", lambda selected, overview: True)
     result = _plan("probe sauna visits")
-    # a chunks-only scope plans survey/search, never a graph route: no program choice is made
-    assert result["route"]["id"] in ("search", "survey") and result["plan_facts"] == {}
+    # a chunks-only scope plans survey/search, never a graph route; search chooses by chunks_only
+    assert result["route"]["id"] in ("search", "survey")
+    assert result["plan_facts"] in ({}, {"chunks_only": True})
 
 
 def test_the_first_matching_entry_wins_and_the_last_is_the_default(world, monkeypatch):
@@ -144,9 +145,20 @@ def test_the_payload_carries_the_chosen_program_its_guards_and_steps(world, monk
 
 
 def test_a_view_plan_is_one_step_with_no_facts(world):
-    result = _plan("How many visits did Ada make to Lakeport in 2025?")
+    result = _plan("When did Ada travel to Lakeport in 2024?")
     assert result["route"]["id"] == "view"
     assert result["program_kind"] == "one_step" and result["plan_facts"] == {}
+
+
+def test_a_view_count_question_plans_the_view_beside_a_text_check(world):
+    result = _plan("How many visits did Ada make to Lakeport in 2025?")
+    assert result["route"]["id"] == "view"
+    assert result["program_kind"] == "view_count" and result["plan_facts"] == {"view_count": True}
+    assert [n["kind"] for n in result["program"]] == ["par", "pick"]
+    assert result["program"][1]["pick"]["how"] == "union"
+    assert [c["run"] for c in result["program"][0]["children"]] == [s["cmd"] for s in result["steps"]]
+    assert result["steps"][0]["cmd"].startswith("artmind query views run visits_by_year")
+    assert result["steps"][-1]["cmd"].startswith("artmind query vector-text --shape brief --domain journal")
 
 
 def test_routes_without_programs_keep_their_steps_and_report_their_kind(world):

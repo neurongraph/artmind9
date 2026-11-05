@@ -284,6 +284,7 @@ class Node:
     pick: PickSpec | None = None
     page: PageSpec | None = None
     when: Predicate | None = None
+    optional: bool = False  # run only: planned only when every placeholder fills; never blocks the plan
 
 
 @dataclass(frozen=True)
@@ -348,13 +349,16 @@ def _parse_node(raw, where: str, check: TemplateCheck, extra: frozenset, depth: 
     if len(kinds) != 1:
         raise ProgramError(f"{where} must have exactly one of {list(NODE_KINDS)}")
     kind = kinds[0]
-    extra_keys = set(raw) - {"id", "when", kind}
+    extra_keys = set(raw) - {"id", "when", kind, "optional"}
     if extra_keys:
         raise ProgramError(f"{where} has unknown key(s) {sorted(extra_keys)}")
     when = parse_predicate(raw["when"], f"{where}.when") if "when" in raw else None
+    optional = raw.get("optional", False)
+    if "optional" in raw and (kind != "run" or optional is not True):
+        raise ProgramError(f"{where}: `optional: true` goes only on a run node")
     body = raw[kind]
     if kind == "run":
-        return Node(nid, kind, run=check(body, f"{where}.run", extra), when=when)
+        return Node(nid, kind, run=check(body, f"{where}.run", extra), when=when, optional=optional)
     if kind == "par":
         if not isinstance(body, list) or not body:
             raise ProgramError(f"{where}.par must be a non-empty list of nodes")
@@ -480,6 +484,8 @@ def parse_guards(raw, program, where: str, *, route_ids: frozenset | None = None
     out = []
     for i, g in enumerate(raw):
         loc = f"{where}[{i}]"
+        if isinstance(g, dict) and True in g:  # YAML 1.1 reads an unquoted `on:` key as the boolean True
+            g = {("on" if k is True else k): v for k, v in g.items()}
         if not isinstance(g, dict) or set(g) != {"on", "if", "then"}:
             raise ProgramError(f"{loc} must be {{on, if, then}}")
         on = g["on"]

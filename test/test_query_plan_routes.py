@@ -165,7 +165,8 @@ def test_every_placeholder_in_a_route_is_one_the_planner_supplies():
         templates = [*route.steps, *(t for v in route.variants.values() for t in v), *route.optional_steps, *(f.cmd for f in route.fallbacks)]
         for template in templates:
             used |= routes.placeholders(template)
-    assert used <= supplied, sorted(used - supplied)
+    # the v2 placeholders (search_term, ...) come with the planner's slots, not `_context`
+    assert used - routes.V2_PLACEHOLDERS <= supplied, sorted(used - supplied)
     assert routes.PLACEHOLDERS <= supplied, sorted(routes.PLACEHOLDERS - supplied)
 
 
@@ -472,6 +473,8 @@ def test_a_v1_route_reads_as_a_program_with_guards():
 def test_every_packaged_route_has_a_program_and_guards_for_its_fallbacks():
     for route in routes.load_routes():
         assert route.program, route.id
+        if route.authored_program:  # authored routes carry their guards in `guards:`, not v1 fallbacks
+            continue
         assert [n.run for n in route.program] == list(route.steps)
         assert [(g.v1_when, g.then.run) for g in route.guards] == [(f.when, f.cmd) for f in route.fallbacks]
 
@@ -572,6 +575,9 @@ def test_single_program_kind_defaults_to_one_step_and_v1_is_sequence():
 
 def test_every_packaged_route_has_one_choice_and_does_not_choose():
     for route in routes.load_routes():
+        if route.id == "search":  # chooses chunks_cross_document for chunks-only scopes
+            assert route.chooses and [c.kind for c in route.programs] == ["chunks_cross_document", "one_step"]
+            continue
         assert len(route.programs) == 1 and not route.chooses, route.id
 
 

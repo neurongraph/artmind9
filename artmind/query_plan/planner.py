@@ -35,6 +35,7 @@ MAX_COMBINATIONS = 4
 ALL_DOMAINS = "__all__"
 NO_VIEW = "none"
 ROUTING_TABLE = "SKILL.md"
+VIEW_COUNT_CHECK = "artmind query vector-text --shape brief --domain {domains} {search_term} --topK 10 --compact"
 VIEW_FALLBACK = "artmind query vector-text --domain {domains} {question} --compact"
 
 
@@ -462,14 +463,14 @@ def _view_steps(loaded, view_answer, entities, question, cfg, threshold, today, 
     return out
 
 
-def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[str, dict]]:
-    """The commands a chosen program issues, in document order, as (template, context) pairs: a `par`
+def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[object, dict]]:
+    """The commands a chosen program issues, in document order, as (node, context) pairs: a `par`
     contributes its children, a `map` its body once per item (capped at `max`) with the `as` name bound;
     `pick` and `page` issue nothing of their own."""
-    out: list[tuple[str, dict]] = []
+    out: list[tuple[object, dict]] = []
     for node in nodes:
         if node.kind == "run":
-            out.append((node.run, context))
+            out.append((node, context))
         elif node.kind == "par":
             out += _expand_commands(node.children, context, lists)
         elif node.kind == "map":
@@ -478,22 +479,36 @@ def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[str, dict]
     return out
 
 
+_ZERO_ROWS = re.compile(r"^s\d+\.rows == 0$|^[a-z][a-z0-9_]*\.rows == 0$")
+
+
 def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None,
                  choice=None, lists: dict | None = None) -> _Steps:
     out = _Steps(stages=[("route", confidence)])
     missing: set[str] = set()
-    if choice is not None:  # a `programs:` route: the chosen program's commands, maps expanded per item
+    if choice is None and route.authored_program:
+        choice = route.programs[-1]
+    if choice is not None:  # an authored program: its commands, maps expanded per item
         pairs = _expand_commands(choice.program, context, lists or {})
     else:
-        pairs = [(template, context) for template in route.steps_for(store_kind)]
-    for template, ctx in pairs:
+        pairs = [(program_mod.Node(f"s{i}", "run", run=template), context)
+                 for i, template in enumerate(route.steps_for(store_kind), 1)]
+    for node, ctx in pairs:
+        template = node.run
         cmd = routes_mod.render(template, ctx)
-        if cmd is None:
+        if node.when is not None:  # a guarded alternative: a fallback in the payload, never a step
+            if cmd:
+                when = "zero_rows" if _ZERO_ROWS.match(node.when.text) else node.when.text
+                out.fallbacks.append({"when": when, "cmd": cmd, "why": f"if {node.when.text}"})
+        elif cmd is None:
+            if node.optional:
+                continue  # skipped silently: never unfilled, never a confidence factor
             out.unfilled = True
             missing |= {p for p in routes_mod.placeholders(template) if not str(ctx.get(p) or "").strip()
                         or str(ctx.get(p)).startswith("-")}
         else:
-            out.steps.append({"cmd": cmd, "why": f"route {route.id} (p={confidence:.2f})"})
+            out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)" if node.optional
+                              else f"route {route.id} (p={confidence:.2f})"})
     for template in route.optional_steps:  # skipped silently: never unfilled, never a confidence factor
         cmd = routes_mod.render(template, context)
         if cmd:
@@ -605,6 +620,8 @@ def _node_json(node, context: dict, lists: dict | None = None) -> dict:
         out["page"] = _page_json(node.page)
     if node.when is not None:
         out["when"] = node.when.text
+    if node.optional:
+        out["optional"] = True
     return out
 
 
@@ -907,6 +924,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     guards_json: list[dict] = []
     program_kind: str | None = None
     plan_facts: dict = {}
+    view_count = False
     chosen_choice = None
     chosen_lists: dict = {}
     route_id, route_conf = route_answer.choice, route_answer.confidence
@@ -1010,6 +1028,13 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if chosen_view is not None:
             built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
                                 context)
+            view_count = bool(built.steps) and slots_mod.has_count_cue(question)
+            if view_count:  # a count from a view is checked against the text (spec 5.5 view count)
+                check = routes_mod.render(VIEW_COUNT_CHECK, context)
+                if check:
+                    built.steps.append({"cmd": check, "why": "text check of the view's count (view count program)"})
+                else:
+                    view_count = False
             route_id, route_conf = "view", view_answer.confidence
         else:
             # A chunks-only scope has no graph routes; it still tells a survey from a search.
@@ -1070,9 +1095,16 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if not high:
             read = [*read, ROUTING_TABLE]
         if chosen_view is not None:
-            program_json = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
-                            for i, step in enumerate(built.steps, 1)]
-            program_kind = "one_step"
+            runs = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
+                    for i, step in enumerate(built.steps, 1)]
+            if view_count:
+                runs[-1]["id"] = "text"
+                program_json = [{"id": "p", "kind": "par", "children": runs},
+                                {"id": "u", "kind": "pick", "pick": {"from": "p", "how": "union", "score": []}}]
+                program_kind = "view_count"
+                plan_facts = {"view_count": True}
+            else:
+                program_json, program_kind = runs, "one_step"
         elif route_obj is not None:
             used = chosen_choice or route_obj.programs[-1]
             program_json = [_node_json(n, context, chosen_lists) for n in used.program]
