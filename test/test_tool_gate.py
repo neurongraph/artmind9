@@ -184,3 +184,79 @@ def test_the_artmind_query_skill_tells_the_agent_not_to_cd():
     skill = (Path(__file__).resolve().parents[1] / "artmind" / "skills" / "artmind-query" / "SKILL.md").read_text()
     assert "single `artmind ...` invocation" in skill
     assert "never `cd` into it" in skill
+
+
+# ---- bounded-output repairs (spec 2026-11-05 §7) -------------------------------
+
+from artmind.webui.tool_gate import (  # noqa: E402
+    claude_project_slug,
+    is_allowed_tool_result_read,
+    rewrite_cd_command,
+)
+
+
+def test_cd_into_an_allowed_dir_is_stripped(tmp_path):
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    assert rewrite_cd_command(f"cd {vault} && artmind query chunks --idList a", [vault]) == (
+        "artmind query chunks --idList a"
+    )
+    assert rewrite_cd_command(f"cd '{vault}'&&artmind query x", [vault]) == "artmind query x"
+
+
+@pytest.mark.parametrize("tail", [
+    "&& artmind x; rm -rf y",
+    "&& artmind x && artmind y",
+    "&& cat notes.md",
+    "&& artmind x | head",
+])
+def test_cd_with_a_bad_remainder_is_refused(tmp_path, tail):
+    assert rewrite_cd_command(f"cd {tmp_path} {tail}", [tmp_path]) is None
+
+
+def test_cd_elsewhere_or_chained_cd_is_refused(tmp_path):
+    other = tmp_path / "elsewhere"
+    other.mkdir()
+    assert rewrite_cd_command(f"cd {other} && artmind x", [tmp_path]) is None
+    assert rewrite_cd_command(f"cd {tmp_path} && cd {tmp_path} && artmind x", [tmp_path]) is None
+    assert rewrite_cd_command("artmind x", [tmp_path]) is None
+
+
+def test_cd_through_a_symlink_to_elsewhere_is_refused(tmp_path):
+    other = tmp_path / "elsewhere"
+    other.mkdir()
+    link = tmp_path / "vault"
+    link.symlink_to(other)
+    real = tmp_path / "real"
+    real.mkdir()
+    assert rewrite_cd_command(f"cd {link} && artmind x", [real]) is None
+
+
+def test_project_slug_replaces_slashes_and_dots():
+    assert claude_project_slug("/Users/a/.artmind") == "-Users-a--artmind"
+
+
+def test_tool_results_read_rules(tmp_path):
+    cwd = tmp_path / "vault" / ".artmind"
+    cwd.mkdir(parents=True)
+    projects = tmp_path / "projects"
+    own = projects / claude_project_slug(os.path.realpath(cwd)) / "sess1" / "tool-results"
+    own.mkdir(parents=True)
+    (own / "r.txt").write_text("x")
+    other = projects / "-some-other-project" / "sess1" / "tool-results"
+    other.mkdir(parents=True)
+    (other / "r.txt").write_text("x")
+    secret = tmp_path / "secret.md"
+    secret.write_text("s")
+    (own / "link.txt").symlink_to(secret)
+
+    assert is_allowed_tool_result_read(str(own / "r.txt"), cwd, projects) is True
+    assert is_allowed_tool_result_read(str(other / "r.txt"), cwd, projects) is False
+    assert is_allowed_tool_result_read(str(own / "link.txt"), cwd, projects) is False
+    assert is_allowed_tool_result_read(str(own.parent / "other.txt"), cwd, projects) is False
+    assert is_allowed_tool_result_read(str(own / ".." / ".." / ".." / "x"), cwd, projects) is False
+    assert is_allowed_tool_result_read("", cwd, projects) is False
+
+
+def test_project_slug_replaces_every_non_alphanumeric_character():
+    assert claude_project_slug("/Users/a/artmind_vaults/my_work/.artmind") == "-Users-a-artmind-vaults-my-work--artmind"

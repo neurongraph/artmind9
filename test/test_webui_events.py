@@ -145,3 +145,10 @@ def test_clip_truncates_long_values():
     assert "[700 chars total]" in clipped
     assert clip("short") == "short"
     assert clip({"a": 1}) == '{"a": 1}'
+
+
+def test_persisted_output_marker_flags_the_tool_result():
+    message = UserMessage(content=[ToolResultBlock(
+        tool_use_id="t1", content="<persisted-output>\nOutput too large. Saved to /x/tool-results/a.txt")])
+    (event,) = EventMapper().map(message)
+    assert event["persisted"] is True

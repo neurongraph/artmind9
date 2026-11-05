@@ -5,6 +5,7 @@ graphify rules, enforcement hooks): it serves end-user Q&A, not coding. So we
 enable only the artmind skills instead of loading all project settings.
 """
 
+import os
 from typing import Any
 
 from claude_agent_sdk import (
@@ -26,8 +27,10 @@ from artmind.webui.tool_gate import (
     denial_message,
     is_allowed_bash,
     is_allowed_skill_read,
+    is_allowed_tool_result_read,
+    rewrite_cd_command,
 )
-from paths import ARTMIND_HOME, PACKAGE_SKILLS_DIR
+from paths import ARTMIND_AGENT_CWD, ARTMIND_HOME, PACKAGE_SKILLS_DIR
 
 # The chat agent runs from the clean run folder (config + skills + schemas +
 # logs) — not the source checkout. Its `.claude/skills/` is discovered via the
@@ -41,6 +44,18 @@ RUN_FOLDER = ARTMIND_HOME
 # name after import.
 
 __all__ = ["RUN_FOLDER", "TRACE_CLIP", "clip", "agent_options", "EventMapper"]
+
+
+def _budget_env(env: dict[str, str] | None) -> dict[str, str]:
+    """Bounded-output margin (spec 2026-11-05-bounded-output-design.md §8).
+
+    Defaults only: an explicit value in ``env`` or the operator's environment wins.
+    """
+    out = dict(env or {})
+    for key, value in (("BASH_MAX_OUTPUT_LENGTH", "40000"), ("ARTMIND_OUTPUT_BUDGET", "16000")):
+        if key not in out and key not in os.environ:
+            out[key] = value
+    return out
 
 
 def agent_options(
@@ -132,8 +147,18 @@ def agent_options(
                     }
                 }
             command = (input_data.get("tool_input") or {}).get("command", "")
+            rewritten = rewrite_cd_command(command, [RUN_FOLDER, ARTMIND_AGENT_CWD], cwd=RUN_FOLDER)
             if is_allowed_bash(command):
                 decision, reason = "allow", None
+            elif rewritten is not None:
+                # `cd <cwd|vault> && artmind ...`: run the bare command instead.
+                return {
+                    "hookSpecificOutput": {
+                        "hookEventName": "PreToolUse",
+                        "permissionDecision": "allow",
+                        "updatedInput": {**(input_data.get("tool_input") or {}), "command": rewritten},
+                    }
+                }
             else:
                 decision, reason = "deny", denial_message(command)
             output: dict[str, Any] = {
@@ -155,7 +180,9 @@ def agent_options(
                 }
             file_path = (input_data.get("tool_input") or {}).get("file_path", "")
             skill_roots = [PACKAGE_SKILLS_DIR, RUN_FOLDER / ".claude" / "skills"]
-            if is_allowed_skill_read(file_path, skill_roots):
+            if is_allowed_skill_read(file_path, skill_roots) or is_allowed_tool_result_read(
+                file_path, RUN_FOLDER
+            ):
                 decision, reason = "allow", None
             else:
                 decision = "deny"
@@ -189,7 +216,7 @@ def agent_options(
             "preset": "claude_code",
             "append": profile.system_append,
         },
-        env=env or {},
+        env=_budget_env(env),
         permission_mode="bypassPermissions",
         thinking={"type": "enabled", "budget_tokens": 8000, "display": "summarized"},
         include_partial_messages=True,
@@ -201,6 +228,17 @@ def agent_options(
         model=model,
         fallback_model=fallback_model,
     )
+
+
+_PERSISTED_MARKER = "<persisted-output>"
+
+
+def _text_of(content: Any) -> str:
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        return " ".join(str(c.get("text", "")) if isinstance(c, dict) else str(c) for c in content)
+    return str(content or "")
 
 
 class EventMapper:
@@ -242,6 +280,8 @@ class EventMapper:
             for b in content:
                 if isinstance(b, ToolResultBlock):
                     event = {"type": "tool_result", "tool_id": b.tool_use_id, "content": clip(b.content)}
+                    if _PERSISTED_MARKER in _text_of(b.content):
+                        event["persisted"] = True
                     if self._capture:
                         event["_trace"] = {"content": b.content, "parent_tool_id": message.parent_tool_use_id}
                     events.append(event)

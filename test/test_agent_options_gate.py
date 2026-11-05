@@ -273,3 +273,50 @@ def test_the_gate_is_not_shadowed_by_the_permission_mode():
         "can_use_tool is inert under bypassPermissions -- use a PreToolUse hook"
     )
     assert options.hooks, "the gate must be registered as a hook"
+
+
+async def test_the_bash_hook_rewrites_cd_into_the_vault(monkeypatch, tmp_path):
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    monkeypatch.setattr(agent_module, "ARTMIND_AGENT_CWD", vault)
+    hook = _bash_hook(agent_options(QA_PROFILE))
+
+    async def call(command):
+        return (await hook(
+            {"hook_event_name": "PreToolUse", "tool_name": "Bash",
+             "tool_input": {"command": command, "description": "d"}, "tool_use_id": "t"},
+            "t", {"signal": None}))["hookSpecificOutput"]
+
+    ok = await call(f"cd {vault} && artmind query chunks --idList a")
+    assert ok["permissionDecision"] == "allow"
+    assert ok["updatedInput"] == {"command": "artmind query chunks --idList a", "description": "d"}
+    assert (await call("cd /elsewhere && artmind query x"))["permissionDecision"] == "deny"
+    assert (await call(f"cd {vault} && artmind x; rm y"))["permissionDecision"] == "deny"
+
+
+async def test_the_read_hook_allows_own_tool_results(monkeypatch, tmp_path):
+    from artmind.webui.tool_gate import claude_project_slug
+
+    run_folder = tmp_path / "run"
+    run_folder.mkdir()
+    monkeypatch.setattr(agent_module, "RUN_FOLDER", run_folder)
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    target = (home / ".claude" / "projects" / claude_project_slug(str(run_folder.resolve()))
+              / "s" / "tool-results" / "r.txt")
+    target.parent.mkdir(parents=True)
+    target.write_text("x")
+    hook = _read_hook(agent_options(QA_PROFILE))
+    out = await hook({"hook_event_name": "PreToolUse", "tool_name": "Read",
+                      "tool_input": {"file_path": str(target)}, "tool_use_id": "t"}, "t", {"signal": None})
+    assert out["hookSpecificOutput"]["permissionDecision"] == "allow"
+
+
+def test_budget_env_defaults_without_overriding(monkeypatch):
+    monkeypatch.delenv("BASH_MAX_OUTPUT_LENGTH", raising=False)
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
+    env = agent_options(QA_PROFILE).env
+    assert env["BASH_MAX_OUTPUT_LENGTH"] == "40000" and env["ARTMIND_OUTPUT_BUDGET"] == "16000"
+    assert agent_options(QA_PROFILE, env={"ARTMIND_OUTPUT_BUDGET": "9"}).env["ARTMIND_OUTPUT_BUDGET"] == "9"
+    monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "5000")
+    assert "ARTMIND_OUTPUT_BUDGET" not in agent_options(QA_PROFILE).env

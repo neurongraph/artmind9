@@ -28,6 +28,9 @@ logger = logging.getLogger(__name__)
 SKEW_S = 0.5
 
 
+PERSISTED_NAME = "persisted"  # trace_events.name of a tool_result the harness wrote to a file
+
+
 def public_event(event: dict) -> dict:
     return {k: v for k, v in event.items() if k != "_trace"} if "_trace" in event else event
 
@@ -112,8 +115,11 @@ class TraceRecorder:
                 self._tool_event[event["id"]]["payload"] = store.cap(raw_input)
                 self._tools[event["id"]]["input"] = raw_input
         elif kind == "tool_result":
-            self._add("tool_result", raw.get("content", event.get("content")), tool_id=event.get("tool_id"),
-                      parent=raw.get("parent_tool_id"))
+            row = self._add("tool_result", raw.get("content", event.get("content")), tool_id=event.get("tool_id"),
+                            parent=raw.get("parent_tool_id"))
+            if event.get("persisted"):
+                # No column for it: a tool_result row's `name` is otherwise unused.
+                row["name"] = PERSISTED_NAME
             if event.get("tool_id") in self._tools:
                 self._tools[event["tool_id"]]["result_ts"] = time.time()
             # Reset answer buffer: the stored answer is text emitted AFTER the
