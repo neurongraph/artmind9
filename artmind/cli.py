@@ -121,7 +121,8 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     return domains
 
 
-_SURVEY_TOP_DOCS_DEFAULT = 50
+_SURVEY_TOP_DOCS_DEFAULT = 50          # --shape brief
+_SURVEY_TOP_DOCS_DEFAULT_FULL = 10     # --shape full (reverts 1294fbd, spec 2026-11-05 §6)
 _SURVEY_TOP_DOCS_MIN = 1
 _SURVEY_TOP_DOCS_MAX = 50
 
@@ -130,16 +131,16 @@ _TOPIC_MAX_DOCS_MIN = 1
 _TOPIC_MAX_DOCS_MAX = 50
 
 
-def _resolve_survey_top_docs() -> int:
-    """Return the effective ``--topDocs`` default.
+def _resolve_survey_top_docs(shape: str = "full") -> int:
+    """Return the effective ``--topDocs`` default for a shape.
 
-    ``ARTMIND_SURVEY_TOP_DOCS`` overrides the built-in default of 50.  A
+    ``ARTMIND_SURVEY_TOP_DOCS`` overrides the built-in default (50 brief, 10 full).  A
     non-integer or out-of-range value raises ``click.ClickException`` naming
     the variable and the allowed range (1–50).
     """
     raw = os.environ.get("ARTMIND_SURVEY_TOP_DOCS")
     if raw is None:
-        return _SURVEY_TOP_DOCS_DEFAULT
+        return _SURVEY_TOP_DOCS_DEFAULT if shape == "brief" else _SURVEY_TOP_DOCS_DEFAULT_FULL
     try:
         value = int(raw)
     except ValueError:
@@ -2958,6 +2959,11 @@ def query():
     already answers (views, topic pages, insights, summaries). `page` reads the rest of a result
     that ARTMIND_OUTPUT_BUDGET cut (by its handle). The rest are lookup commands.
 
+    `survey`, `vector-text`, `chunks` and `entity-context` take `--shape brief|full`
+    (default full). Brief rows are short and question-aware (title, date, status, a
+    verbatim gist or a passage, sized by ARTMIND_OUTPUT_BUDGET); full rows keep every
+    key and gain `title`, `date` and `status` per document.
+
     Inside the admin console or a benchmark run, every query call is recorded
     as a span of the turn's trace (command, args, rows, evidence ids, LLM
     calls). Read them with `artmind traces`.
@@ -3524,15 +3530,24 @@ def query_domains_overview(compact: bool) -> None:
 @click.option("--context", type=click.Choice(["chunk", "passage"]), default="chunk", show_default=True,
               help="Return each hit's parent chunk text, or only the matching passage")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
+              help="brief: short rows with title, date and status (the agent's shape); full: every key")
 @compact_option
 @click.argument("question")
-def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None,
+def vector_text(domain: tuple, top_k: int, context: str, as_of: str | None, shape: str,
                 compact: bool, question: str) -> None:
-    """Hybrid search over passages: vector + keyword (RRF), grouped into parent chunks."""
+    """Hybrid search over passages: vector + keyword (RRF), grouped into parent chunks.
+
+    Every row carries its document's title, date (valid_from) and status
+    (current or superseded). `--shape brief` implies `--context passage` and returns
+    passage rows ({rank, passage_id, chunk_id, text <= 1,200 characters, relevance,
+    doc {id, title, domain, date, status}}); a chunk with two or more matching passages
+    adds the second-best as `second_passage` (<= 400 characters).
+    """
     domains = _parse_domains(domain)
     try:
         result = vector_query.vector_text_search(domains, question, top_k, as_of=as_of,
-                                                 context=context)
+                                                 context=context, shape=shape)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -3576,20 +3591,36 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
 @query.command("survey")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topDocs", "top_docs", type=click.IntRange(1, 50), default=None, show_default=False,
-              help="Documents to return (default 50; overridden by ARTMIND_SURVEY_TOP_DOCS)")
+              help="Documents to return (default 50 for --shape brief, 10 for full; overridden by ARTMIND_SURVEY_TOP_DOCS)")
 @click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
               help="Best passages shown per document")
+@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
+              help="brief: short rows with title, date and status (the agent's shape); full: every key")
+@click.option("--passageDocs", "passage_docs", type=click.IntRange(0, 10), default=3, show_default=True,
+              help="--shape brief: documents that get their best passage at least (plus any within 0.03 relevance of the top)")
+@click.option("--gistDocs", "gist_docs", type=click.IntRange(0, 50), default=10, show_default=True,
+              help="--shape brief: documents that get a gist row at least (more while ARTMIND_OUTPUT_BUDGET allows)")
+@click.option("--expand", "expand", multiple=True,
+              help="Passage rows for these document ids (repeatable; comma-splittable) under the same question, no re-ranking")
 @compact_option
 @click.argument("question")
-def query_survey(domain: tuple, top_docs: int | None, passages: int, compact: bool, question: str) -> None:
+def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str, passage_docs: int,
+                 gist_docs: int, expand: tuple, compact: bool, question: str) -> None:
     """Documents for a question that spans documents: document summaries, chunk summaries and passages, fused.
 
     Each document comes with its summary, its best passages and its best chunk summary;
     `topics` lists topic pages that cite the returned documents. Use vector-text when one
     passage could answer the question.
 
-    Default number of documents returned is 50; set ARTMIND_SURVEY_TOP_DOCS (1-50) to
-    change the default per vault.  Set ARTMIND_SURVEY_LEG_WEIGHTS (e.g. D=1,C=1,P=1)
+    Every document carries `title`, `date` (valid_from) and `status` (current or
+    superseded). `--shape brief` lists every document, showing a passage row (best
+    passage), a gist row (one verbatim sentence chosen for the question, with
+    `gist_source` and `matched` terms) or a line row, by relevance within
+    ARTMIND_OUTPUT_BUDGET; `--passageDocs` / `--gistDocs` set the floors.
+    `--expand <doc_id,...>` returns passage rows for the named documents.
+
+    Default number of documents returned is 50 for `--shape brief` and 10 for full; set
+    ARTMIND_SURVEY_TOP_DOCS (1-50) to change both per vault.  Set ARTMIND_SURVEY_LEG_WEIGHTS (e.g. D=1,C=1,P=1)
     to adjust how the D (document summaries), C (chunk summaries) and P (passages) legs
     are weighted when fusing.
     """
@@ -3597,11 +3628,12 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, compact: bo
     from artmind.topics import stale
 
     if top_docs is None:
-        top_docs = _resolve_survey_top_docs()
+        top_docs = _resolve_survey_top_docs(shape)
     domains = _parse_domains(domain)
     try:
         result = survey.survey_search(domains, question, top_docs=top_docs, passages=passages,
-                                      topics=stale.survey_topics)
+                                      topics=stale.survey_topics, shape=shape, passage_docs=passage_docs,
+                                      gist_docs=gist_docs, expand=_parse_repeatable(expand))
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -3627,12 +3659,19 @@ def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: st
 @click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable; comma-splittable)")
 @click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
 @click.option("--asOf", "as_of", default=None, help="Only rows in force by this date (valid_from <= asOf; valid_to is rarely set, so this is a floor, not a point-in-time snapshot). ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
+              help="brief: short rows with title, date and status (the agent's shape); full: every key")
 @compact_option
-def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, compact: bool) -> None:
-    """Fetch chunk text by exact id (the doc_sources / evidence ids other commands return)."""
+def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, shape: str, compact: bool) -> None:
+    """Fetch chunk text by exact id (the doc_sources / evidence ids other commands return).
+
+    `--shape brief` rows are {chunk, doc {id, title, domain, date, status}}; full rows
+    keep every key and their `document` gains `title`, `date` and `status`.
+    """
     domains = _parse_domains(domain)
     try:
-        result = graph_query.chunks_by_id(domains, _parse_repeatable(id_list), expand=expand, as_of=as_of)
+        result = graph_query.chunks_by_id(domains, _parse_repeatable(id_list), expand=expand, as_of=as_of,
+                                          shape=shape)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -3646,6 +3685,8 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
 @click.option("--relType", "rel_types", multiple=True, help="Only return connections of this rel_type (repeatable; comma-splittable). connection_summary still covers all")
 @click.option("--maxConnections", "max_connections", type=int, default=graph_query.ENTITY_CONTEXT_MAX_CONNECTIONS, show_default=True, help="Connections returned (connection_summary counts every edge)")
 @click.option("--maxListItems", "max_list_items", type=int, default=graph_query.ENTITY_CONTEXT_MAX_LIST_ITEMS, show_default=True, help="Newest items kept per list property (full lengths in truncated_properties)")
+@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
+              help="brief: short rows with title, date and status (the agent's shape); full: every key")
 @compact_option
 def query_entity_context(
     domain: tuple,
@@ -3655,9 +3696,14 @@ def query_entity_context(
     rel_types: tuple,
     max_connections: int,
     max_list_items: int,
+    shape: str,
     compact: bool,
 ) -> None:
     """Entity properties + one-hop relationships + source chunk text in one call.
+
+    `--shape brief` shortens only the source chunk rows (`chunks`) to passage-row form
+    ({rank, chunk_id, text <= 1,200 characters, doc {...}}); entity data and connections
+    are unchanged. In full shape each chunk's `document` gains `title`, `date`, `status`.
 
     Bounded for hub entities: every edge is counted in connection_summary, but
     only the top --maxConnections are listed. Pass --query with the question to
@@ -3675,6 +3721,7 @@ def query_entity_context(
             rel_types=rel_type_list,
             max_connections=max_connections,
             max_list_items=max_list_items,
+            shape=shape,
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
@@ -5254,7 +5301,7 @@ def retrieval_eval_cmd(file_path: Path | None, top_k: str,
         run = runner.run_eval(loaded, ks=ks, search=runner.survey_search_fn(legs_t), only_kinds=("survey",))
         run["retriever"], run["legs"] = "survey", list(legs_t)
         run["leg_weights"] = resolved_weights
-        run["top_docs_default"] = _resolve_survey_top_docs()
+        run["top_docs_default"] = _resolve_survey_top_docs("brief")
     else:
         run = runner.run_eval(loaded, ks=ks)
         run["retriever"] = "vector-text"

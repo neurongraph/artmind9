@@ -307,7 +307,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
 
 
 
-from artmind import retrieval_rank
+from artmind import brief, retrieval_rank
 
 POOL_MIN = 50
 MAX_TOP_K = 50
@@ -403,7 +403,9 @@ def _chunk_fetch_cypher() -> str:
     MATCH (c:DocChunk {{id: cid}})
     OPTIONAL MATCH (c)-[:PART_OF]->(document:Document)
     RETURN c {{ .id, .name, .doc_id, .header_path, .text }} AS chunk,
-           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")} }} AS document
+           document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")},
+                      title: coalesce(document.title, document.name), date: document.valid_from,
+                      superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(document) }} }} AS document
     """
 
 
@@ -426,6 +428,33 @@ def _is_missing_index(e: ClientError) -> bool:
     return "passage_embedding" in text or "passage_text_ft" in text or ("no such" in text and "index" in text)
 
 
+def _with_status(document):
+    """The fetched document with `status` (and without the raw `superseded` flag)."""
+    if not document:
+        return document
+    out = {k: v for k, v in document.items() if k != "superseded"}
+    out["status"] = brief.doc_status(document.get("superseded"))
+    return out
+
+
+def _second_passages(units, vector_rows, text_rows) -> dict[str, str]:
+    """Text of each picked chunk's second-best passage (RRF over both legs), for brief rows."""
+    best_ids = {u.best["chunk_id"]: u.best["id"] for u in units if u.kind == "chunk"}
+    scored: dict[str, list] = {}          # passage id -> [score, chunk id, text]
+    for leg_rows in (vector_rows, text_rows):
+        for rank, row in enumerate(leg_rows, 1):
+            cid = row.get("chunk_id")
+            if row.get("kind") != "passage" or cid not in best_ids or row["id"] == best_ids[cid]:
+                continue
+            entry = scored.setdefault(row["id"], [0.0, cid, row.get("text") or ""])
+            entry[0] += 1.0 / (retrieval_rank.RRF_K + rank)
+    out: dict[str, list] = {}
+    for score, cid, text in scored.values():
+        if cid not in out or score > out[cid][0]:
+            out[cid] = [score, text]
+    return {cid: text for cid, (_, text) in out.items()}
+
+
 def vector_text_search(
     domains,
     question: str,
@@ -433,6 +462,7 @@ def vector_text_search(
     as_of: str | None = None,
     *,
     context: str = "chunk",
+    shape: str = "full",
 ) -> dict:
     """Hybrid search over passages (spec 2026-10-31 §4.2): vector (domain-filtered
     inside SEARCH) + BM25, each over a deep pool; RRF per passage; MaxP into parent
@@ -444,6 +474,10 @@ def vector_text_search(
         raise ValueError(f"--topK must be between 1 and {MAX_TOP_K}")
     if context not in CONTEXTS:
         raise ValueError(f"--context must be one of {', '.join(CONTEXTS)}")
+    if shape not in brief.SHAPES:
+        raise ValueError(f"--shape must be one of {', '.join(brief.SHAPES)}")
+    if shape == "brief":
+        context = "passage"
     domains = normalize_domains(domains)
     as_of = resolve_as_of(as_of)
     pool = _pool(top_k)
@@ -484,6 +518,7 @@ def vector_text_search(
                 fetched[rec["chunk"]["id"]] = rec
 
     rows = []
+    second_text = _second_passages(picked, vector_rows, text_rows) if shape == "brief" else {}
     for u in picked:
         common = {"score": round(u.score, 6), "relevance": None if u.relevance is None else round(u.relevance, 4),
                   "matched_by": u.matched_by}
@@ -494,10 +529,23 @@ def vector_text_search(
         if rec is None:            # chunk vanished between the two reads
             continue
         chunk = dict(rec["chunk"])
+        document = _with_status(rec.get("document"))
+        if shape == "brief":
+            ref = brief.doc_ref((document or {}).get("id"), (document or {}).get("title"), (document or {}).get("name"),
+                                (document or {}).get("_domain"),
+                                (document or {}).get("date"), (document or {}).get("status") == "superseded")
+            row = brief.passage_row(len(rows) + 1, u.best["id"], chunk.get("id"), u.best.get("text"),
+                                    common["relevance"], ref,
+                                    second=second_text.get(u.best["chunk_id"]) if u.passages_matched >= 2 else None)
+            row["score"] = common["score"]
+            row["matched_by"] = common["matched_by"]
+            row["passages_matched"] = u.passages_matched
+            rows.append(row)
+            continue
         if context == "passage":
             chunk["text"] = u.best.get("text")
         rows.append({
-            "chunk": chunk, "document": rec.get("document"), "source_type": "document", **common,
+            "chunk": chunk, "document": document, "source_type": "document", **common,
             "passage": {"id": u.best["id"], "char_start": u.best.get("char_start"), "char_end": u.best.get("char_end")},
             "passages_matched": u.passages_matched,
         })
@@ -507,6 +555,7 @@ def vector_text_search(
         "query_type": "vector_text",
         "question": question,
         "parameters": {"topK": top_k, "pool": pool, "context": context,
+                       **({"shape": "brief"} if shape == "brief" else {}),
                        **({"asOf": as_of} if as_of else {})},
         "warnings": warnings,
         "rows": rows,
