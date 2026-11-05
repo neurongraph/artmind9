@@ -82,6 +82,9 @@ def content_tokens(text: str, *, drop_capitalised: bool = True) -> set[str]:
 def compile_trigger(trigger: str) -> tuple[re.Pattern | None, frozenset[str]]:
     """A trigger's regex (None when it is only a fact slot) and the facts it needs."""
     text = trigger.casefold().strip()
+    anchored = text.startswith("^")  # `^text`: only at the start of the question
+    if anchored:
+        text = text[1:].lstrip()
     needs = frozenset(slot for slot in ("entity", "document") if "{" + slot + "}" in text)
     pieces: list[tuple[str, bool, bool] | None] = []  # (regex, starts on a word char, ends on one); None = fact slot
     for token in re.split(r"(\{date\}|\{year\}|\{entity\}|\{document\})", text):
@@ -112,6 +115,8 @@ def compile_trigger(trigger: str) -> tuple[re.Pattern | None, frozenset[str]]:
     if len(pieces) == 1 and re.fullmatch(r"[a-z]+", text):
         body += _INFLECTION
     start = r"\b" if pieces[0][1] else ""
+    if anchored:
+        start = r"^[\W_]*" + start
     end = r"\b" if pieces[-1][2] else ""
     return re.compile(start + body + end), needs
 

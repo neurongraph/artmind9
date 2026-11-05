@@ -511,3 +511,44 @@ def test_text_docling_recorded_on_a_later_page_but_exports_earlier_is_not_a_loss
     check = page_check.check_document(pdf, doc)
     assert check.status == "checked" and check.findings == []
     assert page_check.check_pages(list(check.source.values()), check.markdown) != [], "page 3 reads as lost without it"
+
+
+# ── reversed numeric tokens ───────────────────────────────────────────────────
+
+
+def test_a_reversed_numeric_token_is_found_in_the_markdown():
+    assert page_check.reversed_numerics("| 0391 | value |", "year 1930 value") == ["1930"]
+    assert page_check.reversed_numerics("| %05 |", "rate 50% here") == ["50%"]
+
+
+def test_reversed_numerics_need_three_characters_and_two_digits():
+    assert page_check.reversed_numerics("| 21 |", "a 12 b") == []  # two characters
+    assert page_check.reversed_numerics("| 9%  |", "a %9 b") == []  # one digit
+    assert page_check.reversed_numerics("| %%5 |", "a 5%% b") == []  # one digit, three characters
+    assert page_check.reversed_numerics("| 1221 |", "x 1221 y") == []  # palindrome present as is
+
+
+def test_a_reversed_token_is_not_flagged_when_the_forward_form_is_present():
+    assert page_check.reversed_numerics("| 0391 |", "1930 and 0391") == []
+    assert page_check.reversed_numerics("| 0391 |", "only words here") == []
+
+
+def test_a_page_with_a_reversed_numeric_is_flagged_with_its_own_reason():
+    source = ["Revenue table 1930 was 4500 and 2010 was 7800 for the period"]
+    markdown = {1: "Revenue table 0391 was 0054 and 0102 was 0087 for the period"}
+    [finding] = check_pages(source, markdown)
+    assert finding.reason == "reversed_numeric"
+    assert finding.missing == ["1930", "4500", "2010", "7800"]
+    assert finding.record() == {"page": 1, "coverage": pytest.approx(finding.coverage, abs=1e-3),
+                                "reason": "reversed_numeric"}
+
+
+def test_a_clean_numeric_page_is_not_flagged_as_reversed():
+    source = ["Revenue table 1930 was 4500 for the period"]
+    assert check_pages(source, {1: "Revenue table 1930 was 4500 for the period"}) == []
+
+
+def test_a_reversed_numeric_takes_the_reason_over_missing_text():
+    source = ["alpha beta gamma delta 1930 epsilon zeta eta theta iota"]
+    [finding] = check_pages(source, {1: "alpha beta gamma delta 0391 epsilon zeta eta theta iota"})
+    assert finding.reason == "reversed_numeric"

@@ -227,6 +227,25 @@ def coverage(source_text: str, markdown: str, n: int = SHINGLE) -> tuple[float, 
     return 1 - len(missing) / len(wanted), [" ".join(m) for m in sorted(missing)[:6]]
 
 
+_NUMERIC = re.compile(r"(?<![A-Za-z0-9])[0-9%]+(?![A-Za-z0-9])")
+
+
+def reversed_numerics(markdown: str, source_text: str) -> list[str]:
+    """Numeric tokens of `markdown` that appear REVERSED in the source text: a
+    sign of an image table converted right-to-left (`0391` for `1930`, `%05`
+    for `50%`). Only tokens of 3+ characters with at least two digits count, and
+    only when the reversed form is in the source and the forward form is not."""
+    source_tokens = set(_NUMERIC.findall(source_text))
+    found = []
+    for token in _NUMERIC.findall(markdown):
+        if len(token) < 3 or sum(c.isdigit() for c in token) < 2:
+            continue
+        reverse = token[::-1]
+        if token not in source_tokens and reverse in source_tokens and reverse not in found:
+            found.append(reverse)
+    return found
+
+
 def structural_flags(markdown: str) -> list[str]:
     """Signs of a loss in the markdown itself: a long table cell that ends in a
     colon (what follows it was dropped), long table rows repeated."""
@@ -268,7 +287,12 @@ def check_pages(
         around += "\n" + spilled.get(page_no, "")
         cov, missing = coverage(text, around)
         structural = structural_flags(page_md[page_no])
-        if cov < threshold:
+        reversed_found = reversed_numerics(page_md[page_no], text)
+        if reversed_found:
+            # The numbers are there but read backwards: the cause of any missing
+            # text on this page, so it is the reason recorded.
+            findings.append(PageFinding(page_no, cov, "reversed_numeric", reversed_found))
+        elif cov < threshold:
             findings.append(PageFinding(page_no, cov, "missing-text", missing))
         elif structural:
             findings.append(PageFinding(page_no, cov, structural[0], []))
