@@ -4656,7 +4656,9 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
 @compact_option
 def traces_show(trace_id, compact) -> None:
     """One turn's full evidence chain: events in order, CLI spans under the
-    Bash call that ran them (with evidence and LLM calls), feedback."""
+    Bash call that ran them (with evidence and LLM calls), feedback. The
+    plan_shadow_summary key gives a shadow plan's intent (and source), program
+    kind and slot quality score, each only when the plan has it."""
     from artmind.traces import analysis
 
     shown = analysis.show(trace_id)
@@ -4713,7 +4715,8 @@ def traces_stats(domain, since, by, compact) -> None:
     views-first compliance (views checked first / late / skipped, views run,
     views listed but unused) and a plan_shadow block (shadow statuses, share of
     high-confidence plans, how often the agent ran the plan's first step: all,
-    high, low, first turn, follow-up, by rating)."""
+    high, low, first turn, follow-up, by rating; planner v2 counts by intent id
+    and program kind (missing = unknown), and the median slot quality of retrieve plans)."""
     from artmind.traces import analysis
 
     try:
