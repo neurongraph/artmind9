@@ -23,6 +23,7 @@ Opened 2026-10-19.
 | [10-collection-sop.md](10-collection-sop.md) | **SOP (2026-11-02)** for collecting traces, ratings and labels on every machine (laptops A, B, desktop), and exporting machine-local traces into each vault's private repo for analysis. Round 6 (`02`) found the collection incomplete. |
 | [11-p2-evidence-needs.md](11-p2-evidence-needs.md) | The P2 (planner v2) decisions that wait on the collection round, each with the evidence and SOP shapes that settle it. |
 | [12-round7-lessons.md](12-round7-lessons.md) | **Round 7 lessons (2026-11-04).** 181 turns from laptop B and the desktop, judged per turn for struggle; lessons by design component, answers to N1–N9, changes to the architecture design, and fixes worth doing now. |
+| [13-pickup-2026-11-05.md](13-pickup-2026-11-05.md) | **Pick-up point (2026-11-05)** for a session on another machine: redesign state, next steps (bounded-output design, fixes-now branch, P2 spec, round 8), laptop setup and the gateway trap, where the private material is. |
 
 ## How a later session uses this
 
