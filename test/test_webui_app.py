@@ -93,6 +93,19 @@ def test_pages_load_mermaid_renderer_lazily(template_name):
     assert client.get("/static/vendor/mermaid.min.js").status_code == 200
 
 
+def test_mermaid_diagram_has_expand_and_copy_source_controls():
+    """A rendered diagram carries an expand (zoom/pan viewer) and a copy-source
+    button, and the stylesheet that styles them ships with every page."""
+    from artmind.webui.app import WEBUI_DIR
+
+    script = (WEBUI_DIR / "static" / "mermaid-render.js").read_text()
+    style = (WEBUI_DIR / "static" / "style.css").read_text()
+    assert '"expand"' in script and '"copy source"' in script
+    assert "navigator.clipboard.writeText(host._mermaidSource)" in script
+    for selector in (".mermaid-toolbar", ".mermaid-overlay", ".mermaid-viewer-bar"):
+        assert selector in style
+
+
 @pytest.mark.parametrize("script", ["app.js", "conversations.js", "views.js"])
 def test_markdown_renderers_call_render_mermaid(script):
     """Each place that injects sanitized markdown must hand it to renderMermaid."""
