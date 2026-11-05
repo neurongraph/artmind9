@@ -155,3 +155,17 @@ def test_parse_errors(mutate, msg):
     mutate(d)
     with pytest.raises(I.IntentError, match=msg):
         I.parse_intents(d)
+
+
+@pytest.mark.parametrize("question", [
+    "What was the progress on the garden project last spring?",
+    "Did the two firms merge in the end?",
+    "How far did we drive on the coast trip?",
+    "Which clauses talk about rebuilding the old office?",
+])
+def test_corpus_questions_with_cue_words_stay_retrieve(question):
+    assert I.decide_intent(question, None, None).intent == "retrieve"
+
+
+def test_cues_ignore_case():
+    assert I.decide_intent("Remember That the meeting moved", None, None).intent == "update"

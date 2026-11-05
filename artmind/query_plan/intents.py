@@ -192,7 +192,7 @@ def is_context_only(question: str) -> bool:
 
 
 def _scores(question: str) -> dict[str, float]:
-    return route_scores(load_intents().intents, Facts(question, 0, None, False, False))
+    return route_scores(load_intents().intents, Facts(question.casefold(), 0, None, False, False))
 
 
 def intent_decision(question: str, previous: Previous | None = None) -> Decision:
