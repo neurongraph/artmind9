@@ -31,9 +31,8 @@ def test_history_routes_never_use_text2cypher():
         assert not any("text2cypher" in n.run for n in prog.run_nodes(_route(rid).program))
 
 
-def test_the_unconverted_routes_are_untouched():
-    for rid in ("existence", "enumeration", "aggregate", "entity_profile", "document", "structured"):
-        assert not _route(rid).authored_program
+def test_only_structured_keeps_v1_steps():
+    assert [r.id for r in routes.load_routes() if not r.authored_program] == ["structured"]
 
 
 def test_survey_is_the_cross_document_program():

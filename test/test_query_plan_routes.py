@@ -29,7 +29,7 @@ def _resolve(template: str):
     """Resolve a template against the Click tree; placeholder values become a sentinel."""
     from artmind.cli import cli
 
-    filled = routes.render(template, {name: _SENTINEL for name in routes.ALL_PLACEHOLDERS})
+    filled = routes.render(template, {name: _SENTINEL for name in (*routes.ALL_PLACEHOLDERS, "phrase", "twin", "doc")})
     tokens = shlex.split(filled)
     assert tokens[0] == "artmind", template
     command, i = cli, 1
@@ -475,13 +475,13 @@ def test_every_packaged_route_has_a_program_and_guards_for_its_fallbacks():
         assert route.program, route.id
         if route.authored_program:  # authored routes carry their guards in `guards:`, not v1 fallbacks
             continue
-        assert [n.run for n in route.program] == list(route.steps)
+        assert [n.run for n in prog.run_nodes(route.program)] == list(route.steps)
         assert [(g.v1_when, g.then.run) for g in route.guards] == [(f.when, f.cmd) for f in route.fallbacks]
 
 
 def _all_run_templates(route):
-    templates = [n.run for n in prog.run_nodes(route.program)]
-    templates += [g.then.run for g in route.guards if g.then.kind == "run"]
+    templates = [n.run for choice in route.programs for n in prog.run_nodes(choice.program)]
+    templates += [g.then.run for choice in route.programs for g in choice.guards if g.then.kind == "run"]
     templates += [t for v in route.variants.values() for t in v]
     templates += list(route.optional_steps)
     templates += [f.cmd for f in route.fallbacks]
@@ -492,7 +492,7 @@ def _click_path(template: str) -> str:
     """The Click command path a template invokes, spelled as WRITE_COMMANDS does (e.g. 'ingest sync')."""
     from artmind.cli import cli
 
-    tokens = shlex.split(routes.render(template, {name: _SENTINEL for name in routes.ALL_PLACEHOLDERS}))
+    tokens = shlex.split(routes.render(template, {name: _SENTINEL for name in (*routes.ALL_PLACEHOLDERS, "phrase", "twin", "doc")}))
     command, parts = cli, []
     for token in tokens[1:]:
         if hasattr(command, "commands") and token in command.commands:
@@ -574,11 +574,16 @@ def test_single_program_kind_defaults_to_one_step_and_v1_is_sequence():
 
 
 def test_every_packaged_route_has_one_choice_and_does_not_choose():
+    choosing = {"existence": 3, "enumeration": 2, "aggregate": 2, "entity_profile": 2, "document": 2}
     for route in routes.load_routes():
         if route.id == "search":  # chooses chunks_cross_document for chunks-only scopes
             assert route.chooses and [c.kind for c in route.programs] == ["chunks_cross_document", "one_step"]
             continue
-        assert len(route.programs) == 1 and not route.chooses, route.id
+        if route.id in choosing:
+            assert route.chooses and len(route.programs) == choosing[route.id], route.id
+            assert route.programs[-1].when is None
+        else:
+            assert len(route.programs) == 1 and not route.chooses, route.id
 
 
 def test_choice_guards_are_parsed_against_their_own_program():
@@ -633,7 +638,7 @@ def test_every_list_slot_is_a_valid_map_over():
 
 def test_the_vocabularies_are_the_documented_ones():
     assert prog.PLAN_FACT_NAMES == {"twins", "entities", "negative", "latest", "rare_term", "category",
-                                    "date_window", "document", "chunks_only", "view_count"}
+                                    "date_window", "document", "chunks_only", "view_count", "occurrence"}
     assert set(prog.PROGRAM_KINDS) == {
         "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "chunks_cross_document",
         "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence"}

@@ -480,6 +480,36 @@ def document_names(domains: list[str]) -> list[str]:
     return sorted({r["name"] for r in rows if r.get("name")})
 
 
+FAMILY_LIMIT = 20
+_FAMILY_CYPHER = f"""
+MATCH (f:Document|DocumentHistory)
+WHERE {domain_predicate("f")}
+  AND (f.name IN $names
+       OR EXISTS {{ MATCH (t:Document|DocumentHistory {{name: $name}})-[:SUPERSEDES*1..5]-(f) WHERE {domain_predicate("t")} }})
+RETURN DISTINCT f.name AS name, f._valid_from AS valid_from
+ORDER BY f._valid_from IS NULL, f._valid_from DESC, f.name
+LIMIT $limit
+"""
+
+
+def family_documents(domains: list[str], document: str, pool: list[str] | tuple[str, ...] = ()) -> list[str]:
+    """The target's family, newest first: the documents it shares a document-entity reference with
+    (`document_entity.references` of the file names in `pool`) or reaches through at most five
+    `SUPERSEDES` hops, the target included. One bounded read (LIMIT 20); a read failure leaves the target alone."""
+    from artmind.document_entity import references
+
+    mine = references(document)
+    same = [n for n in pool if n != document and mine and references(n) & mine][:FAMILY_LIMIT]
+    try:
+        rows = graph_query._run_read_query(
+            _FAMILY_CYPHER, {"domains": domains, "name": document, "names": [document, *same], "limit": FAMILY_LIMIT})
+    except Exception as exc:  # the family is optional context: the target alone still plans
+        logger.debug("family documents of {} unavailable: {}", document, exc)
+        return [document]
+    names = list(dict.fromkeys(r["name"] for r in rows if r.get("name")))
+    return names or [document]
+
+
 def _norm(text: str) -> str:
     text = re.sub(r"(?:[^\w.]|_)+", " ", unicodedata.normalize("NFC", text).casefold())
     return " ".join(re.sub(r"\.(?![^\W_])", " ", text).split())
