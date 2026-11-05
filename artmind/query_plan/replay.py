@@ -16,6 +16,7 @@ is never printed.
 from __future__ import annotations
 
 import json
+import re
 from datetime import date, datetime
 from pathlib import Path
 
@@ -45,6 +46,40 @@ def _param_wrong(expected, entry: dict | None) -> bool:
     return entry.get("value") != expected
 
 
+def _tokens(value) -> set[str]:
+    return set(re.findall(r"[^\W_]+", str(value or "").casefold()))
+
+
+def _as_list(value) -> list:
+    return list(value) if isinstance(value, (list, tuple)) else [value]
+
+
+def slot_ok(name: str, expected, slot: dict | None) -> bool:
+    """One labelled slot against the plan's `slots[name]`. Compared on the value's main field:
+    search_term by casefolded token sets, narrator by name, category by its word, scope by its domain
+    set, date_window as `FROM..TO`, must_find / previous_subjects as casefolded sets of names; any other
+    value by string equality."""
+    if slot is None:
+        return False
+    value = slot.get("value")
+    if name == "search_term":
+        return _tokens(expected) == _tokens(value)
+    if name == "narrator":
+        return str((value or {}).get("name") or "").casefold() == str(expected).casefold()
+    if name == "category":
+        return str((value or {}).get("word") or "").casefold() == str(expected).casefold()
+    if name == "scope":
+        return {str(d) for d in _as_list(expected)} == set((value or {}).get("domains") or [])
+    if name == "date_window":
+        got = f"{value.get('from')}..{value.get('to')}" if isinstance(value, dict) else None
+        want = f"{expected.get('from')}..{expected.get('to')}" if isinstance(expected, dict) else str(expected)
+        return got == want
+    if name in ("must_find", "previous_subjects"):
+        names = {str(v.get("text") if isinstance(v, dict) else v).casefold() for v in value or []}
+        return names == {str(e).casefold() for e in _as_list(expected)}
+    return str(value) == str(expected)
+
+
 def score(label, plan: dict) -> dict:
     mismatches = []
     if not _domains_match(plan["domains"]["selected"], label.domains):
@@ -64,7 +99,15 @@ def score(label, plan: dict) -> dict:
         outcome, mismatches = "wrong", [*mismatches, "confidence"]
     else:
         outcome = "wrong" if mismatches else "correct"
+    # Intent and slots are graded apart from the route outcome; None = not labelled (or a v1 plan).
+    got_intent = (plan.get("intent") or {}).get("id")
+    intent_ok = None if label.intent is None else got_intent == label.intent
+    plan_slots = plan.get("slots") or {}
+    slot_wrong = sorted(n for n, expected in label.slots.items() if not slot_ok(n, expected, plan_slots.get(n)))
+    slots_ok = None if not label.slots else not slot_wrong
     return {"id": label.id, "outcome": outcome, "mismatches": mismatches, "route": plan["route"]["id"],
+            "intent": got_intent, "intent_ok": intent_ok, "slots_ok": slots_ok, "slot_mismatches": slot_wrong,
+            "program_kind": label.program_kind,
             "expected_route": label.route, "view": got_view, "level": level,
             "latency_ms": plan["classifier"]["latency_ms"], "fell_back": plan["classifier"]["fell_back"],
             "fallback_reason": plan["classifier"].get("reason") if plan["classifier"]["fell_back"] else None}
@@ -93,6 +136,9 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
     view_wrong = sum(1 for r in results if r["expected_route"] == "view" and r["outcome"] == "wrong")
     wrong_rate = counts["wrong"] / len(results) if results else None
     fell_back = [r for r in results if r.get("fell_back")]
+    graded = {key: [r for r in results if r.get(f"{key}_ok") is not None] for key in ("intent", "slots")}
+    grades = {key: {"labelled": len(rows), "ok": sum(1 for r in rows if r[f"{key}_ok"]),
+                    "wrong": [r["id"] for r in rows if not r[f"{key}_ok"]]} for key, rows in graded.items()}
     passed = (view_wrong == 0 and wrong_rate is not None and wrong_rate < WRONG_RATE_GATE
               and counts["error"] == 0 and not unstable and repeat >= REPEAT_GATE
               and not (classifier == "decision" and fell_back))
@@ -102,6 +148,8 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         "outcomes": counts,
         "per_route": dict(sorted(per_route.items())),
         "wrong": [{"id": r["id"], "mismatches": r["mismatches"]} for r in results if r["outcome"] == "wrong"],
+        "intent": grades["intent"],
+        "slots": grades["slots"],
         "errors": [{"id": r["id"], "error_type": r.get("error_type"), "error": r.get("error")}
                    for r in results if r["outcome"] == "error"],
         "unstable": unstable,
@@ -117,6 +165,7 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
 def _error_result(label, error_type: str, message: str) -> dict:
     return {"id": label.id, "outcome": "error", "mismatches": [], "error": message, "error_type": error_type,
             "route": None, "expected_route": label.route, "view": None, "level": None,
+            "intent": None, "intent_ok": None, "slots_ok": None, "slot_mismatches": [],
             "latency_ms": None, "fell_back": None}
 
 

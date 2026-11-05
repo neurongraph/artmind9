@@ -3912,21 +3912,34 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
 @click.option("--execute", is_flag=True, help="Also run the step when the plan is one high-confidence saved view")
 @click.option("--classifier", type=click.Choice(["auto", "lexical", "decision"]), default="auto", show_default=True,
               help="auto: the decision model when ARTMIND_DECISION_URL is set, else lexical rules")
+@click.option("--previous", "previous_file", default=None,
+              help="The previous turn as JSON ({intent, route, question, offer, entities, documents, open_job}): a file, or - for stdin. Not proxied to serve")
+@click.option("--exclude", "exclude", multiple=True,
+              help="Leave this document (id or name) out of the scope (repeatable; comma-splittable)")
 @compact_option
 @click.argument("question")
-def query_plan_command(domain: tuple, execute: bool, classifier: str, compact: bool, question: str) -> None:
-    """Plan the retrieval for a question: domains, saved view, route and ready-to-run steps.
+def query_plan_command(domain: tuple, execute: bool, classifier: str, previous_file: str | None, exclude: tuple,
+                       compact: bool, question: str) -> None:
+    """Plan the retrieval for a question: intent, slots, domains, saved view, route and ready-to-run steps.
 
     Read-only and deterministic. Run `steps` when `confidence.level` is high; when it
-    is low, `steps` is empty: judge `suggested_steps` and read the routing table.
+    is low, `steps` is empty: judge `suggested_steps` and read the routing table. A
+    non-retrieval intent (`intent.id`) plans no steps: see `action` and `answer_from`.
     """
     from neo4j.exceptions import DriverError, Neo4jError
 
-    from artmind.query_plan import planner
+    from artmind.query_plan import intents, planner
 
     domains = _parse_domains(domain) if domain else None
+    previous = None
+    if previous_file is not None:
+        try:
+            previous = intents.load_previous(previous_file)
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
     try:
-        result = planner.plan(question, domains, execute=execute, classifier=classifier)
+        result = planner.plan(question, domains, execute=execute, classifier=classifier, previous=previous,
+                              exclude=list(exclude))
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     except (DriverError, Neo4jError) as exc:

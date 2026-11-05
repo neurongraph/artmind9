@@ -9,6 +9,7 @@ high-confidence view match with one parameter combination.
 
 from __future__ import annotations
 
+import dataclasses
 import re
 import shlex
 import time
@@ -22,13 +23,14 @@ from artmind.kg_views import runner as views_runner
 from artmind.kg_views import store as views_store
 from artmind.kg_views.model import ViewError, jsonable
 from artmind.kg_views.store import domain_covered
-from artmind.query_plan import candidates, catalogue, fill
+from artmind.query_plan import candidates, catalogue, fill, intents, slots as slots_mod
 from artmind.query_plan import config as plan_config
+from artmind.query_plan import program as program_mod
 from artmind.query_plan import routes as routes_mod
 from artmind.query_plan.classify import ClassifierUnavailable, Decision, LexicalClassifier, select_classifier
 from artmind.query_plan.classify import lexical
 
-PLAN_VERSION = 1
+PLAN_VERSION = 2
 MAX_COMBINATIONS = 4
 ALL_DOMAINS = "__all__"
 NO_VIEW = "none"
@@ -218,16 +220,22 @@ def _class_word(question: str, selected: list[str], overview: list[dict], cats: 
     return None
 
 
-def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
-             mentions: list, overview: list[dict] | None = None, cats: list | None = None) -> dict:
-    """Placeholder values. The primary entity is the first named mention, resolved or not. The
-    narrator is the second entity beside exactly one named mention, and the id fallback when
-    nobody is named; it never supplies a name, since its name is no search term."""
+def _used_entities(entities: list[dict]):
+    """(primary, second): the entities a template's `{entity_id}` / `{other_entity_id}` come from.
+    The primary entity is the first named mention, resolved or not. The narrator is the second entity
+    beside exactly one named mention, and the id fallback when nobody is named."""
     # A name the question spells out (capitalised, quoted) outranks one the gazetteer found.
     named = sorted((e for e in entities if e["via"] != "first_person"), key=lambda e: e["via"] == "catalogue")
     narrator = next((e for e in entities if e["via"] == "first_person" and e["candidates"]), None)
     primary = named[0] if named else narrator
     second = named[1] if len(named) > 1 else (narrator if len(named) == 1 else None)
+    return named, primary, second
+
+
+def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
+             mentions: list, overview: list[dict] | None = None, cats: list | None = None) -> dict:
+    """Placeholder values. The narrator never supplies a name, since its name is no search term."""
+    named, primary, second = _used_entities(entities)
     entity_name = None
     if named:
         entity_name = named[0]["candidates"][0]["name"] if named[0]["candidates"] else named[0]["mention"]
@@ -526,17 +534,186 @@ def _configs(domains: list[str]):
         raise PlanError(str(exc)) from exc
 
 
+# ── v2: slots, programs and the non-retrieval intents (spec 2026-11-05 §3, §4, §5) ─────────────
+
+RETRIEVING = frozenset({"retrieve", "follow_up_why"})
+ACTIONS = {
+    "curate": {"skill": "artmind-curate", "draft": None},
+    "update": {"skill": "artmind-update", "draft": None},
+    "ops": {"skill": "artmind-ingestion-helper", "draft": None},
+}  # P3 fills the drafts, with the command's --dryRun effect
+ENTITY_PLACEHOLDERS = frozenset({"entity_id", "entity_name", "other_entity_id", "entity_class", "other_entity_class"})
+
+
+def _plain(value):
+    """A slot value as JSON: dataclasses (Scope) and tuples become dicts and lists."""
+    if dataclasses.is_dataclass(value) and not isinstance(value, type):
+        return {f.name: _plain(getattr(value, f.name)) for f in dataclasses.fields(value)}
+    if isinstance(value, dict):
+        return {k: _plain(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple, set, frozenset)):
+        return [_plain(v) for v in value]
+    return value
+
+
+def _slot_json(slot) -> dict:
+    return {"value": _plain(slot.value), "source": slot.source, "quality": slot.quality, "note": slot.note}
+
+
+def _page_json(page) -> dict:
+    return {"until": page.until, "k": page.k, "from": page.from_}
+
+
+def _node_json(node, context: dict) -> dict:
+    out: dict = {"id": node.id, "kind": node.kind}
+    if node.run is not None:
+        rendered = routes_mod.render(node.run, context)
+        out.update(run=rendered or node.run, filled=rendered is not None)
+    if node.children:
+        out["children"] = [_node_json(c, context) for c in node.children]
+    if node.map is not None:
+        out["map"] = {"over": node.map.over, "as": node.map.as_, "max": node.map.max,
+                      "do": _node_json(node.map.do, context)}
+    if node.pick is not None:
+        out["pick"] = {"from": node.pick.from_, "how": node.pick.how, "score": [p.text for p in node.pick.score]}
+    if node.page is not None:
+        out["page"] = _page_json(node.page)
+    if node.when is not None:
+        out["when"] = node.when.text
+    return out
+
+
+def _guard_json(guard) -> dict:
+    then = guard.then
+    action: dict = {"kind": then.kind}
+    if then.route:
+        action["route"] = then.route
+    if then.slots:
+        action["slots"] = dict(then.slots)
+    if then.page is not None:
+        action["page"] = _page_json(then.page)
+    if then.run:
+        action["run"] = then.run
+    return {"on": guard.on, "if": guard.when.text, "then": action}
+
+
+def _status_action(previous) -> dict:
+    job = previous.open_job if previous is not None else None
+    draft = f"artmind ingest job-status {shlex.quote(job)} --compact" if job else "artmind ingest jobs --compact"
+    return {"skill": None, "draft": draft}
+
+
+def _flatten_exclude(values) -> list[str]:
+    out: list[str] = []
+    for value in values or ():
+        out += [p.strip() for p in str(value).split(",") if p.strip()]
+    return list(dict.fromkeys(out))
+
+
+def _class_table(cats: list | None, overview: list[dict], selected: list[str]) -> dict[str, str]:
+    """class name -> description of the selected domains (the overview's top classes carry no description)."""
+    table: dict[str, str] = {}
+    if cats:
+        for cat in cats:
+            for name, _count, *rest in cat.classes:
+                table.setdefault(name, (rest[0] if rest else "") or "")
+        return table
+    for row in overview:
+        if any(row.get("domain") == d or str(row.get("domain")).startswith(d + ".") for d in selected):
+            for name in row.get("top_classes") or []:
+                if isinstance(name, str) and name.strip():
+                    table.setdefault(name, "")
+    return table
+
+
+def _twins(entities: list[dict], index: dict | None, cfg, warnings: list[str]) -> list[dict]:
+    """Fill `entities[i].twins` and return the identity gaps. Reads only what the plan already holds
+    (resolved candidates and the catalogue name index): spouse links and open same-as proposals are a P2b
+    input (`spouse_of` and `open_same_as` stay None here)."""
+    try:
+        kin = slots_mod.kin_groups(cfg)
+    except Exception as exc:  # the kinship file is optional context
+        warnings.append(f"kinship groups unavailable: {exc}")
+        kin = []
+    pool = [ref for e in entities for ref in e["candidates"]]
+    by_class: dict[str, list[dict]] = {}
+    gaps: list[dict] = []
+    seen_groups: set[frozenset] = set()
+    for entity in entities:
+        entity["twins"] = []
+        if not entity["candidates"] or entity["via"] == "previous":
+            continue
+        top = entity["candidates"][0]
+        cls = str(top.get("entity_class") or "").casefold()
+        if cls not in by_class:
+            by_class[cls] = [candidates.catalogue_ref(n) for group in (index or {}).values() for n in group
+                             if str(n.entity_class or "").casefold() == cls]
+        found = slots_mod.twins_for(top, [*pool, *by_class[cls]], kin, spouse_of=None, open_same_as=None)
+        entity["twins"] = found
+        if not found:
+            continue
+        ids = frozenset([top["_id"], *(t["_id"] for t in found)])
+        if ids in seen_groups:
+            continue
+        seen_groups.add(ids)
+        warnings.append(f"twins: {top.get('name')!r} ({top.get('entity_class')}) may be the same as "
+                        f"{len(found)} other node(s) ({', '.join(sorted({t['why'] for t in found}))}); "
+                        "this plan does not union them")
+        gaps.append({"kind": "identity", "why": "twins", "entities": [top, *found]})
+    return gaps
+
+
+def _name_evidence(group: list[dict]) -> bool:
+    return any(NAME_EVIDENCE & set(r.get("matched_by") or ()) for r in group)
+
+
+def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
+    """A template's entity slot took the top candidate of a group with no exact, catalogue or narrator
+    evidence (a fulltext neighbour). Entities taken from the previous turn are never fuzzy."""
+    if built.view_match is not None:
+        for entry in built.view_match["params"].values():
+            if entry.get("type") == "entity" and entry.get("via") == "mention":
+                group = [entry["chosen"]] if entry.get("chosen") else entry.get("candidates") or []
+                if group and not _name_evidence(group):
+                    return True
+        return False
+    if route_obj is None:
+        return False
+    used: set[str] = set()
+    for node in program_mod.run_nodes(route_obj.program):
+        used |= routes_mod.placeholders(node.run or "")
+    used &= ENTITY_PLACEHOLDERS
+    if not used:
+        return False
+    _named, primary, second = _used_entities(entities)
+    picked = [primary] + ([second] if used & {"other_entity_id", "other_entity_class"} else [])
+    return any(e is not None and e["via"] not in ("first_person", "previous") and e["candidates"]
+               and not _name_evidence(e["candidates"]) for e in picked)
+
+
 def plan(question: str, domains: list[str] | None = None, *, execute: bool = False,
          classifier: str = "auto", today: date | None = None, model: str | None = None,
-         decision_timeout: float | None = None) -> dict:
+         decision_timeout: float | None = None, previous: intents.Previous | None = None,
+         exclude: list[str] | tuple[str, ...] = ()) -> dict:
     """`model` overrides the decision model (else the domain config's, else ARTMIND_DECISION_MODEL);
-    `decision_timeout` overrides ARTMIND_DECISION_TIMEOUT."""
-    question = (question or "").strip()
-    if not question:
+    `decision_timeout` overrides ARTMIND_DECISION_TIMEOUT. `previous` is the previous turn (spec §3.2);
+    `exclude` names documents (ids or names) left out of the scope."""
+    user_question = (question or "").strip()
+    if not user_question:
         raise PlanError("the question is empty")
     today = today or date.today()
     warnings: list[str] = []
     all_routes = routes_mod.load_routes()
+
+    # A context-only reply ("yes") that inherits the previous turn plans the question it answers.
+    early = intents.decide_intent(user_question, previous, None)
+    rule_based = early.source != "lexical"
+    question = user_question
+    if rule_based and early.previous_used and early.source != "status_open_job" and previous is not None \
+            and previous.question and previous.question.strip():
+        question = previous.question.strip()
+    effective_question = question if question != user_question else None
+    exclude = _flatten_exclude(exclude)
 
     # ── candidates that need no domain decision ──────────────────────────────
     overview = graph_query.domains_overview().get("rows") or []
@@ -585,7 +762,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         warnings.append(f"view {bad['name']} is invalid and was skipped: {bad['error']}")
     views_by_name = {v.spec.name: v for v in views}
 
-    # ── classifier call 1: domain?, view?, route ────────────────────────────
+    # ── classifier call 1: domain?, view?, intent?, route ───────────────────
     decisions = []
     if not domains and len(options) > 1:
         decisions.append(Decision(
@@ -603,6 +780,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             lexical_scores=lexical.view_scores(question, [v.spec for v in views]),
             default=NO_VIEW, default_confidence=1.0, none_mass=1.0,
         ))
+    if not rule_based:  # the previous turn's rules settled the intent: nothing to ask
+        decisions.append(intents.intent_decision(user_question, previous))
     decisions.append(Decision(
         name="route", instructions="What kind of question is this?",
         options={r.id: r.description for r in all_routes},
@@ -610,91 +789,206 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         default="search", default_confidence=0.5, none_mass=0.5,
     ))
     answers = calls.decide(question, decisions)
+    intent_result = early if rule_based else intents.decide_intent(user_question, previous, answers.get("intent"))
+    intent = intent_result.intent
+    retrieving = intent in RETRIEVING
 
     selected, source, domain_conf, domain_candidates = _choose_domains(domains, options, overview, answers)
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
     chunks_only = _chunks_only(selected, overview)
-    if chunks_only:
+    if chunks_only and retrieving:
         warnings.append(
             f"{', '.join(selected)} builds no graph (graph_extraction: false): planned as a search of the notes or a survey of its documents"
         )
 
-    selected_cats = _selected_cats(cats, selected)
-    if selected_cats is not None and {c.domain for c in selected_cats} == {c.domain for c in cover_cats}:
-        selected_index = all_index
-    else:
-        names = _selected_names(cats, selected)
-        selected_index = candidates.name_index(names) if names is not None else None
-    entities = _resolve_entities(mentions, selected, cfg, warnings, selected_index)
-
-    # ── view match (classifier call 2) or route ─────────────────────────────
-    view_answer = answers.get("view")
     route_answer = answers["route"]
-    chosen_view = None
-    if (not chunks_only and view_answer is not None and view_answer.choice != NO_VIEW
-            and view_answer.confidence >= threshold):
-        loaded = views_by_name[view_answer.choice]
-        if selected and all(domain_covered(d, loaded.spec.domains) for d in selected):
-            chosen_view = loaded
-        else:
-            warnings.append(f"view {loaded.spec.name} matched but does not cover {selected}; not used")
-    resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
-    store = None
-    if selected:
-        try:
-            store = candidates.store_facts(selected, question, resolved_classes)
-        except Exception as exc:  # the structured store is optional context (spec §7)
-            warnings.append(f"store facts unavailable: {exc}")
-    kept = {e["span"][0] for e in entities}
-    context = _context(selected, question, entities, document, [m for m in mentions if m.start in kept], overview,
-                       selected_cats)
+    view_answer = answers.get("view")
+    lexical_used = clf.backend == "lexical" or calls.fell_back
+    slot_map: dict[str, slots_mod.Slot] = {}
+    gaps: list[dict] = []
+    entities: list[dict] = []
     stages: list[tuple[str, float]] = []
-    if source != "given":
-        stages.append(("domain", domain_conf if source != "all" else 0.0))
-    if view_answer is not None and not chunks_only:
-        stages.append(("view", view_answer.confidence))
+    built = _Steps()
+    store = None
     route_obj = None
-    if chosen_view is not None:
-        built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
-                            context)
-        route_id, route_conf = "view", view_answer.confidence
+    chosen_view = None
+    rendered: list[dict] = []
+    fallbacks: list[dict] = []
+    read: list[str] = []
+    high = False
+    score = 0.0
+    weakest = "intent"
+    slot_quality_block: dict | None = None
+    context: dict = {}
+    steps: list[dict] = []
+    suggested: list[dict] = []
+    action: dict | None = None
+    answer_from: str | None = None
+    program_json: list[dict] = []
+    guards_json: list[dict] = []
+    route_id, route_conf = route_answer.choice, route_answer.confidence
+
+    def selected_scope(route_for_scope: str | None):
+        return slots_mod.scope_slot(list(domains or ()), selected, domain_conf or 0.0, threshold, cfg, question,
+                                    route_for_scope, exclude)
+
+    if not retrieving:
+        # No retrieval: no entity resolution, no view, no steps. The route is still recorded (spec §3.3).
+        route_obj = next((r for r in all_routes if r.id == route_id), None)
+        stages = [("intent", intent_result.confidence)]
+        weakest, score = stages[0]
+        high = score >= threshold
+        if intent in ACTIONS:
+            action = dict(ACTIONS[intent])
+        elif intent == "status":
+            action = _status_action(previous)
+        elif intent == "follow_up_format":
+            answer_from = "previous"
+        slot_map["scope"] = selected_scope(route_id)
+        read = [] if high else [ROUTING_TABLE]
+        if execute:
+            warnings.append(f"--execute ignored: intent {intent} plans no retrieval")
     else:
-        # A chunks-only scope has no graph routes; it still tells a survey from a search.
-        picked = route_answer.choice if not chunks_only else ("survey" if route_answer.choice == "survey" else "search")
-        route_obj = next(r for r in all_routes if r.id == picked)
-        route_id, route_conf = route_obj.id, (1.0 if chunks_only else route_answer.confidence)
-        built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
-    stages += built.stages
-    rendered, fallbacks, read = built.steps, built.fallbacks, built.read
+        selected_cats = _selected_cats(cats, selected)
+        if selected_cats is not None and {c.domain for c in selected_cats} == {c.domain for c in cover_cats}:
+            selected_index = all_index
+        else:
+            names = _selected_names(cats, selected)
+            selected_index = candidates.name_index(names) if names is not None else None
+        entities = _resolve_entities(mentions, selected, cfg, warnings, selected_index)
+        kept = {e["span"][0] for e in entities}
+        kept_mentions = [m for m in mentions if m.start in kept]
 
-    # ── confidence ─────────────────────────────────────────────────────────
-    weakest, score = min(stages, key=lambda s: s[1])
-    blocker = built.blocker
-    if blocker and score >= threshold:  # a stage below the threshold stays the weakest link
-        weakest = blocker
-    high = score >= threshold and not blocker and bool(rendered) and bool(selected)
-    if built.reason:
-        warnings.append(built.reason + ("" if rendered else "; suggested search instead"))
-    if not high and not rendered:  # a low plan never goes out without guidance
-        rendered = _search_steps(all_routes, context)
-        fallbacks = []
-        if not rendered:
-            warnings.append("no command could be built from this question")
-    rendered = [{"n": i, **step} for i, step in enumerate(rendered, 1)]
+        # A follow-up with a pronoun and no named mention is about the previous turn's subjects (§4.6).
+        if previous is not None and intent == "retrieve" and intents.uses_previous_subjects(question, named_mentions):
+            subjects = slots_mod.follow_up_subjects(
+                [{"id": e.id, "name": e.name} for e in previous.entities], previous.documents)
+            for subject in subjects:
+                if subject.kind == "entity":
+                    entities.append({"mention": subject.text, "span": [-1, -1], "via": "previous", "candidates": [
+                        {"_id": subject.ref["id"], "name": subject.text, "entity_class": None,
+                         "matched_by": ["previous"]}]})
+                elif document is None:
+                    document = subject.text
+            if subjects:
+                slot_map["previous_subjects"] = slots_mod.Slot(
+                    "previous_subjects", [{"text": s.text, "kind": s.kind} for s in subjects], "previous", 1.0)
+
+        # ── slots (spec §4) ─────────────────────────────────────────────────
+        narrator = slots_mod.narrator_slot(mentions, cfg)
+        if narrator is not None:
+            narrator_id = next((r["_id"] for e in entities for r in e["candidates"]
+                                if "narrator" in (r.get("matched_by") or ())), None)
+            slot_map["narrator"] = dataclasses.replace(narrator, value={**narrator.value, "id": narrator_id})
+            gaps += slots_mod.narrator_stub_gaps(entities, cfg, narrator_id)
+        expansion = slots_mod.category_expansion(question, _class_table(selected_cats, overview, selected), cfg)
+        if expansion is not None:
+            slot_map["category"] = slots_mod.Slot(
+                "category", {"word": expansion.word, "classes": list(expansion.classes),
+                             "terms": list(expansion.terms), "narrowed": expansion.narrowed},
+                expansion.source, 1.0)
+        search_term = slots_mod.search_term_slot(
+            question, kept_mentions, [*(expansion.terms if expansion else ()), *(expansion.classes if expansion else ())])
+        slot_map["search_term"] = search_term
+        window = slots_mod.date_window_slot(question, today, cfg)
+        if window is not None:
+            slot_map["date_window"] = window
+        if intent == "follow_up_why":
+            slot_map["must_find"] = slots_mod.Slot(
+                "must_find", [m.text for m in mentions if m.via != "first_person"], "mention", 1.0)
+        gaps += _twins(entities, selected_index, cfg, warnings)
+
+        # ── view match (classifier call 2) or route ─────────────────────────
+        forced = previous.route if (intent == "follow_up_why" and previous is not None) else None
+        forced_route = next((r for r in all_routes if r.id == forced), None)
+        if (not chunks_only and forced_route is None and view_answer is not None and view_answer.choice != NO_VIEW
+                and view_answer.confidence >= threshold):
+            loaded = views_by_name[view_answer.choice]
+            if selected and all(domain_covered(d, loaded.spec.domains) for d in selected):
+                chosen_view = loaded
+            else:
+                warnings.append(f"view {loaded.spec.name} matched but does not cover {selected}; not used")
+        resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
+        if selected:
+            try:
+                store = candidates.store_facts(selected, question, resolved_classes)
+            except Exception as exc:  # the structured store is optional context (spec §7)
+                warnings.append(f"store facts unavailable: {exc}")
+        context = _context(selected, question, entities, document, kept_mentions, overview, selected_cats)
+        context.update({
+            "search_term": search_term.value or question,
+            "date_window": f"{window.value['from']}..{window.value['to']}" if window else None,
+            "entity_class_list": ",".join(expansion.classes) if expansion and expansion.classes else None,
+        })
+        if source != "given":
+            stages.append(("domain", domain_conf if source != "all" else 0.0))
+        if view_answer is not None and not chunks_only:
+            stages.append(("view", view_answer.confidence))
+        if chosen_view is not None:
+            built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
+                                context)
+            route_id, route_conf = "view", view_answer.confidence
+        else:
+            # A chunks-only scope has no graph routes; it still tells a survey from a search.
+            picked = forced_route.id if forced_route else route_answer.choice
+            if chunks_only:
+                picked = "survey" if picked == "survey" else "search"
+            route_obj = next(r for r in all_routes if r.id == picked)
+            route_id = route_obj.id
+            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
+            built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
+        stages += built.stages
+        rendered, fallbacks, read = built.steps, built.fallbacks, built.read
+
+        slot_map["scope"] = selected_scope(route_id)
+        view_twins = bool(built.view_match and built.view_match.get("twins"))
+        twins_found = any(e.get("twins") for e in entities)
+        sq_score, sq_info = slots_mod.slot_quality(
+            slot_map, twins_found=twins_found, twins_unioned=view_twins,
+            entity_from_fuzzy=_fuzzy_entity(entities, built, route_obj),
+            search_term_empty=search_term.value == "", all_domains=slot_map["scope"].source == "all")
+        stages.append(("slot_quality", sq_score))
+        slot_quality_block = {"score": sq_score, **sq_info}
+
+        # ── confidence ─────────────────────────────────────────────────────
+        weakest, score = min(stages, key=lambda s: s[1])
+        blocker = built.blocker
+        if blocker and score >= threshold:  # a stage below the threshold stays the weakest link
+            weakest = blocker
+        high = score >= threshold and not blocker and bool(rendered) and bool(selected)
+        if built.reason:
+            warnings.append(built.reason + ("" if rendered else "; suggested search instead"))
+        if not high and not rendered:  # a low plan never goes out without guidance
+            rendered = _search_steps(all_routes, context)
+            fallbacks = []
+            if not rendered:
+                warnings.append("no command could be built from this question")
+        rendered = [{"n": i, **step} for i, step in enumerate(rendered, 1)]
+        steps, suggested = (rendered, []) if high else ([], rendered)
+        if not high:
+            read = [*read, ROUTING_TABLE]
+        if chosen_view is not None:
+            program_json = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
+                            for i, step in enumerate(built.steps, 1)]
+        elif route_obj is not None:
+            program_json = [_node_json(n, context) for n in route_obj.program]
+            guards_json = [_guard_json(g) for g in route_obj.guards]
+
     level = "high" if high else "low"
-    steps, suggested = (rendered, []) if high else ([], rendered)
-    if not high:
-        read = [*read, ROUTING_TABLE]
-
     executed, rows, rows_total, truncated = None, [], 0, False
-    if execute:
+    if execute and retrieving:
         executed, rows, rows_total, truncated = _execute(chosen_view, selected, high, steps, built.raws, warnings)
 
-    lexical_used = clf.backend == "lexical" or calls.fell_back
+    scope_slot = slot_map["scope"]
     return {
         "plan_version": PLAN_VERSION,
-        "question": question,
+        "question": user_question,
+        "effective_question": effective_question,
+        "previous_used": intent_result.previous_used,
+        "intent": {"id": intent, "confidence": intent_result.confidence, "source": intent_result.source,
+                   "inherited_offer": intent_result.inherited_offer,
+                   "alternatives": [{"id": k, "p": p} for k, p in intent_result.alternatives]},
         "domains": {"selected": selected, "source": source, "confidence": domain_conf,
                     "candidates": domain_candidates},
         "route": {
@@ -707,7 +1001,16 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "catalogue": {d: {"source": sources.get(d), "built_at": cats[d].built_at, "names": len(cats[d].names),
                           "truncated": cats[d].truncated} for d in sorted(cats)},
         "store": store,
+        "slots": {name: _slot_json(slot) for name, slot in slot_map.items()},
+        "slot_quality": slot_quality_block,
+        "scope": _plain(scope_slot.value),
         "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "weakest": weakest},
+        "program": program_json,
+        "guards": guards_json,
+        "asset_match": None,  # P2b/P3
+        "gaps": [_plain(g) for g in gaps],
+        "action": action,
+        "answer_from": answer_from,
         "steps": steps,
         "suggested_steps": suggested,
         "fallbacks": fallbacks,

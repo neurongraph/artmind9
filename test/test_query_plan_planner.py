@@ -28,9 +28,11 @@ VIEW = {
     "presentation": {"format": "table", "table": {"columns": ["who"]}},
     "provenance": {"created": "2026-10-09", "origin": "authored"},
 }
+V2_KEYS = {"intent", "effective_question", "previous_used", "slots", "slot_quality", "scope", "program", "guards",
+           "asset_match", "gaps", "action", "answer_from"}
 PAYLOAD_KEYS = {"plan_version", "question", "domains", "route", "view_match", "entities", "catalogue", "store", "confidence",
                 "steps", "suggested_steps", "fallbacks", "read", "classifier", "warnings", "executed",
-                "rows", "rows_total", "truncated"}
+                "rows", "rows_total", "truncated"}  # the v1 keys; v2 adds V2_KEYS and changes none of them
 ENTITIES = {
     "Ada": [{"_id": "p1", "name": "Ada", "entity_class": "PERSON", "matched_by": ["exact"]}],
     "Lakeport": [{"_id": "l1", "name": "Lakeport", "entity_class": "LOCATION", "matched_by": ["exact"]}],
@@ -66,7 +68,8 @@ def _plan(question, domains=("journal",), **kw):
 
 def test_a_view_question_gets_one_ready_view_run(world):
     result = _plan("How many visits did Ada make to Lakeport in 2025?")
-    assert set(result) == PAYLOAD_KEYS
+    assert set(result) == PAYLOAD_KEYS | V2_KEYS
+    assert result["plan_version"] == 2
     assert result["route"]["id"] == "view"
     assert result["confidence"]["level"] == "high"
     assert result["view_match"]["status"] == "ok"

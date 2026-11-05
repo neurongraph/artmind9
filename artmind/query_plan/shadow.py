@@ -62,11 +62,17 @@ def _trim(plan):
         if isinstance(plan.get("warnings"), list):
             trimmed["warnings"] = plan["warnings"][:10]
         trimmed["trimmed"] = True
+        if len(json.dumps(trimmed, default=str)) > MAX_PAYLOAD_BYTES:
+            for key in ("program", "guards", "gaps"):  # the v2 blocks the reader can do without
+                if key in trimmed:
+                    trimmed[key] = []
         if len(json.dumps(trimmed, default=str)) <= MAX_PAYLOAD_BYTES:
             return trimmed
         # Last resort: keep only what the reader needs to classify the plan.
         minimal = {"confidence": plan.get("confidence"), "route": plan.get("route"),
                    "warnings": list(plan.get("warnings") or [])[:3], "trimmed": True}
+        if plan.get("intent"):
+            minimal["intent"] = plan["intent"]
         for key in ("steps", "suggested_steps"):
             if plan.get(key):
                 minimal[key] = list(plan[key])[:1]
