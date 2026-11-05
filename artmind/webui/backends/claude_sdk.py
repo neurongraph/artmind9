@@ -1,9 +1,17 @@
 """Claude Agent SDK backend: composes the SDK client with the event mapper."""
 
+import asyncio
 from pathlib import Path
 from typing import Any, AsyncIterator
 
-from claude_agent_sdk import ClaudeSDKClient
+from claude_agent_sdk import (
+    ClaudeSDKClient,
+    ResultMessage,
+    TaskNotificationMessage,
+    TaskStartedMessage,
+    TaskUpdatedMessage,
+)
+from claude_agent_sdk.types import TERMINAL_TASK_STATUSES
 
 from artmind.webui.agent import EventMapper, agent_options
 from artmind.webui.backends.base import UIEvent
@@ -24,6 +32,26 @@ def _message_session_id(message: Any) -> str | None:
     data = getattr(message, "data", None)
     if isinstance(data, dict):
         return data.get("session_id")
+    return None
+
+
+# A background sub-agent makes the agent end its turn early ("still running")
+# and write a follow-up turn once the sub-agents finish. The stream is kept open
+# for that follow-up, bounded so a lost completion message cannot hold the
+# conversation (and its 409 claim) forever. Module attributes so tests can
+# shorten them.
+TASK_IDLE_TIMEOUT_S = 600.0  # nothing received while tasks are still running
+TASK_FOLLOWUP_GRACE_S = 60.0  # all tasks done, but no follow-up result yet
+
+
+def _task_ended(message: Any) -> str | None:
+    """The task id a terminal task message closes, else None."""
+    if isinstance(message, TaskNotificationMessage):
+        return message.task_id
+    if isinstance(message, TaskUpdatedMessage):
+        status = message.status or (message.patch or {}).get("status")
+        if status in TERMINAL_TASK_STATUSES:
+            return message.task_id
     return None
 
 
@@ -86,14 +114,53 @@ class ClaudeSDKBackend:
 
     async def receive_events(self) -> AsyncIterator[UIEvent]:
         mapper = EventMapper(capture=self._trace_context is not None)
-        async for message in self._client.receive_response():
-            # Capture the session id as it flows past so a later refresh can
-            # resume this exact conversation (A7 / ADR 0007).
-            sid = _message_session_id(message)
-            if sid:
-                self._session_id = sid
-            for event in mapper.map(message):
+        # Background tasks still running; while any are, a ResultMessage is not
+        # the end of the turn: the agent will write a follow-up when they finish.
+        pending: set[str] = set()
+        held: list[UIEvent] = []  # the turn_done of a result that was not final
+        messages = self._client.receive_messages().__aiter__()
+        try:
+            while True:
+                timeout = None
+                if pending:
+                    timeout = TASK_IDLE_TIMEOUT_S
+                elif held:
+                    timeout = TASK_FOLLOWUP_GRACE_S
+                try:
+                    async with asyncio.timeout(timeout):
+                        message = await messages.__anext__()
+                except StopAsyncIteration:
+                    break
+                except TimeoutError:
+                    # Give up waiting and end the turn as it would have ended
+                    # without this wait; late output is read by the next turn.
+                    break
+                # Capture the session id as it flows past so a later refresh can
+                # resume this exact conversation (A7 / ADR 0007).
+                sid = _message_session_id(message)
+                if sid:
+                    self._session_id = sid
+                if isinstance(message, TaskStartedMessage):
+                    pending.add(message.task_id)
+                else:
+                    ended = _task_ended(message)
+                    if ended is not None:
+                        pending.discard(ended)
+                events = mapper.map(message)
+                if isinstance(message, ResultMessage):
+                    if pending:
+                        held = events  # not final: the follow-up result replaces it
+                        continue
+                    held = []
+                    for event in events:
+                        yield event
+                    return
+                for event in events:
+                    yield event
+            for event in held:
                 yield event
+        finally:
+            await messages.aclose()
 
     async def interrupt(self) -> None:
         await self._client.interrupt()
