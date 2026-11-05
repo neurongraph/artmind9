@@ -772,3 +772,89 @@ S1 gains P47; S3/S24 gain P37, P39; S5 gains P40; S19 gains P42, P43; S23 gains 
 scenarios S26 (acronym or alias for a document in a chunks-only domain), S27 (batch claim
 testing over a deck), S28 (status poll on a background job), S29 (named recurring event
 across years).
+
+## Round 8 — 2026-11-05 (brain01, one conversation, 3 admin turns; a single user-found issue)
+
+Not a full collection round. The user spotted a miss in one conversation (graph domain,
+admin console) and asked for it to be recorded here as evidence for the planner / executor
+design. Probed read-only with `ARTMIND_NO_PROXY=1`; the trace ids are in the vault's
+registry and are deliberately not copied here.
+
+### The sequence
+
+1. **Turn 1, count question** (count of conflict episodes between the narrator and PERSON_A, plus what happened): 12 agent turns; one `entity-context` (hub entity, over the output
+   budget), three `vector-text` searches. The answer counted 3 and found a different set of
+   notes than the graph holds.
+2. **Turn 2, existence follow-up** (why were conflict episodes not EVENT entities?): `entity-resolve` on a phrase built from the user's word
+   (`--topK 10`), then two `pattern7` name searches (`TERM_E`; `TERM_A OR TERM_B OR TERM_C OR
+   TERM_D`). Reported four conflict EVENT entities and said the fifth (a TERM_X event on one date)
+   "may have been extracted as something other than an event, or not at all". **Wrong:** the
+   entity existed.
+3. **Turn 3, user correction**: user pointed at the source note; `pattern10` + `text2cypher`
+   found the EVENT. The agent then said it had missed it because its "name and description
+   searches didn't use those words". The user asked whether the entity-description
+   embedding search should have caught it. It exists and ran (see P55).
+
+### Patterns observed
+
+**P55. A rare-word query misses an existing entity whose name and description use common
+synonyms; the semantic leg does not cover the gap, and the agent cannot tell.**
+Verified against the data (entity embedding present and current: `embedding_stale` false,
+current `_embed_key`; entity is in `entity_embedding`). `entity-resolve` = fulltext + vector
+(RRF) + exact. Rank of the target entity (type `conflict`, name "Conflict with PERSON_A on
+DATE", description "a disagreement between … regarding household autonomy …") in a
+topK-100 fused list, by query:
+
+| Query shape | Rank | Legs that matched |
+|---|---|---|
+| paraphrase of the description ("a disagreement between the narrator and PERSON_A") | 1 | vector, fulltext |
+| three concept words (argument conflict disagreement) | 3 | vector, fulltext |
+| description-like phrase with a kinship noun and a topic ("quarrel with wife about household freedom") | 2 | vector, fulltext |
+| the agent's query (`TERM_E with PERSON_A`) | 7 | vector, fulltext |
+| the user's own word + PERSON_A (`TERM_X with PERSON_A`) | 39 | fulltext only (via the name) |
+| the user's own word alone | not in the top 100; vector hits are lexical look-alikes (a surname, a food-service word, a metal) | — |
+
+So: (a) the index and the embedding are fine; (b) the embedding model does not place a rare
+or informal word (TERM_X) near its common synonyms, and the person's name dominates the
+vector of a name-plus-word query, so the nearest vectors are other entities about that
+person; (c) with `--topK 10` the target sat at about rank 7–10 of the fused list, the edge of
+what the agent read; (d) the agent used the user's literal word and one near-synonym, never a
+paraphrase of the concept, and **reasoned from absence** ("not in the name or description
+searches") to "not extracted". Nothing in the output said the search was weak.
+
+**P56. Absence is asserted from a thin probe.** The turn-2 answer stated a hypothesis about
+the extraction (framed as a grievance, "may not have been extracted") for something it had not
+looked for properly. Two more calls (a paraphrase query; or `pattern10` on the dated note)
+would have settled it. Related to P36/P37 (silent wrong resolution) and P50 (floor hedges),
+but here the claim is about the graph's contents, which is checkable with one call.
+
+### Consequences for the design (proposals, not decided)
+
+1. **Existence and recurrence of a conceptual thing is a fan-out.** The executor should
+   run the concept in several phrasings (the user's word, 2–3 common synonyms, a
+   description-style paraphrase with the entity class and no person name), union the
+   results, and rank by best-of. This is lesson 2.1(4) of `12-round7-lessons.md`
+   (fan-out is the main program shape) applied to `entity-resolve`; scenario S30.
+2. **Existence checks read deeper than top 10.** Raise `topK` for an existence step (25–30
+   costs a few KB) or report the margin to the cut-off.
+3. **Strip the participant's name from the semantic probe.** Run the concept without the
+   person (the person scopes the result afterwards, via the relation), or run both and
+   union.
+4. **A negative must carry its probe.** The plan's evidence bundle should state which
+   phrasings and depth were tried, so "not found" reads as "not found under these probes"
+   and the agent cannot upgrade it to "not extracted". Fits the evidence-bundle / guard
+   vocabulary of design §5.4.
+5. **Out of scope for now, worth measuring:** a different embedding model, or adding the
+   entity's `context` (the source sentence) to the entity embedding text
+   (`ingest.entity_embedding_text` embeds `name: description` only). Here the source
+   sentence uses the user's own word, so it would likely have matched. A retrieval-eval
+   candidate (`retrieval eval`), not a quick fix: it changes every entity vector and
+   `PREFIX_VERSION`.
+
+### Scenario ids
+
+New S30 (existence of a conceptual thing named with a rare or informal word, graph domain).
+S25 (existence/recurrence) stays ✅ for exact names, but is ◐ for conceptual words: P55.
+S24 gains P55 for completeness checks. Open for the labelled set (W0): add this shape,
+with the paraphrase and the literal-word variants as separate labels, to
+`plan_labels.yaml` / `retrieval_labels.yaml` in the vault, not here.
