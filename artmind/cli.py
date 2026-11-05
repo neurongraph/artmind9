@@ -4557,17 +4557,18 @@ def traces_triage(since, limit, compact) -> None:
 @click.argument("trace_id")
 @click.option("--rating", type=click.Choice(["good", "partial", "wrong"]), required=True)
 @click.option("--expected", default=None, help="What the answer should have said")
+@click.option("--note", default=None, help="A free-text note on the turn")
 @compact_option
-def traces_feedback(trace_id, rating, expected, compact) -> None:
-    """Rate a turn (the latest rating wins)."""
+def traces_feedback(trace_id, rating, expected, note, compact) -> None:
+    """Rate a turn (one rating per trace; a repeat replaces it)."""
     from artmind.traces import store
 
     try:
-        store.add_feedback(trace_id, rating, expected)
+        store.add_feedback(trace_id, rating, expected, note)
     except KeyError:
         raise click.ClickException(f"no trace {trace_id}") from None
     click.echo(f"{trace_id}: {rating}", err=True)
-    _echo_json({"trace_id": trace_id, "rating": rating, "expected": expected}, compact)
+    _echo_json({"trace_id": trace_id, "rating": rating, "expected": expected, "note": note}, compact)
 
 
 @traces_group.command("stats")

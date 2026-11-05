@@ -43,6 +43,19 @@ def _tool_output(update: dict[str, Any], *, clipped: bool = True) -> str:
     return ""
 
 
+def _usage(raw: Any) -> dict:
+    """Token usage from a session/prompt result's `usage` (ACP draft: inputTokens/outputTokens), if any."""
+    if not isinstance(raw, dict):
+        return {}
+    out = {}
+    for src, dst in (("inputTokens", "input_tokens"), ("outputTokens", "output_tokens"),
+                     ("cachedReadTokens", "cache_read_input_tokens"),
+                     ("cachedWriteTokens", "cache_creation_input_tokens")):
+        if isinstance(raw.get(src), int):
+            out[dst] = raw[src]
+    return out
+
+
 class ACPEventMapper:
     def __init__(self, capture: bool = False) -> None:
         self._open_block: str | None = None
@@ -108,17 +121,19 @@ class ACPEventMapper:
                 events.append(event)
         return events
 
-    def finish(self, stop_reason: str, duration_s: float) -> list[UIEvent]:
+    def finish(self, stop_reason: str, duration_s: float, model: str | None = None,
+               usage: dict | None = None) -> list[UIEvent]:
         """End-of-turn events once the session/prompt response resolves."""
         events = self._flush_block()
         if stop_reason == "refusal":
             events.append({"type": "error", "message": "The agent refused the request."})
-        events.append(
-            {
-                "type": "turn_done",
-                "turns": 1,
-                "duration_s": round(duration_s, 1),
-                "cost": None,
-            }
-        )
+        done: UIEvent = {
+            "type": "turn_done",
+            "turns": 1,
+            "duration_s": round(duration_s, 1),
+            "cost": None,  # ACP carries no cost
+        }
+        if self._capture:
+            done["_trace"] = {"model": model, "usage": _usage(usage)}
+        events.append(done)
         return events

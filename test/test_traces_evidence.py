@@ -187,3 +187,17 @@ def test_an_executed_plan_records_the_view_and_the_row_ids():
                                        "params": {"root": {"input": "Alice", "_id": "e1"}}}
     assert set(out["evidence"]["entities"]) == {"e1", "e7"}  # the resolved param, as in a plain views run
     assert "dom1" not in out["evidence"]["entities"] and "v1" not in out["evidence"]["entities"]
+
+
+def test_survey_and_topics_payloads_have_evidence():
+    from artmind.traces import evidence
+
+    survey = {"query_type": "survey", "documents": [
+        {"doc_id": "d1", "passages": [{"id": "p1", "chunk_id": "d1_0"}]}], "topics": [{"slug": "alpha"}]}
+    ev = evidence.summarize(survey)["evidence"]
+    assert ev["documents"] == [{"doc_id": "d1", "path": None}]
+    assert ev["passages"] == ["p1"]
+    assert {"chunk_id": "d1_0", "doc_id": "d1"} in ev["chunks"]
+    assert ev["topics"] == ["alpha"]
+    assert evidence.summarize({"pages": [{"slug": "a"}, {"slug": "b"}]})["evidence"]["topics"] == ["a", "b"]
+    assert evidence.summarize({"page": {"slug": "a"}})["evidence"]["topics"] == ["a"]

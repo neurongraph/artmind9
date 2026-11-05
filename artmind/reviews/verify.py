@@ -119,6 +119,16 @@ def verify(review_id: str, *, run_id: str | None = None, backend: str = "claude-
                        "mechanical_ok": False})
     else:
         result.update(compare(original, new))
+        has_spans = bool(summarize(new)["commands"]) or any(
+            e.get("spans") for e in new.get("events") or []) or bool(new.get("unattributed_spans"))
+        if not has_spans:
+            result["checks"].append({"check": "spans", "ok": False,
+                                     "why": "the re-run turn recorded no query spans (stale serve daemon, or the agent never queried)"})
+            result["mechanical_ok"] = False
+        if not result["new"]["answer"]:
+            for c in result["checks"]:
+                if c["check"] == "answered":
+                    c["why"] = "the re-run turn has no answer"
     if new_id:
         # Linked to the dossier (and indexed), so the verify turn is "reviewed":
         # it never lands in `traces triage` as a fresh failure to diagnose.
