@@ -5073,7 +5073,7 @@ def plan_group() -> None:
 @plan_group.group("config")
 def plan_config_group() -> None:
     """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier, categories,
-    kinship, scope rules, calendar."""
+    kinship, synonyms, scope rules, calendar."""
 
 
 @plan_config_group.command("check")
@@ -5113,7 +5113,7 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
             results.append(entry)
             continue
         # Counts only: the terms are private.
-        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship),
+        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship), "synonyms": len(cfg.synonyms),
                            "scope_rules": len(cfg.scope_rules), "calendar": len(cfg.calendar),
                            "narrator_aliases": len(cfg.narrator.aliases) if cfg.narrator else 0}
         if cfg.narrator:
