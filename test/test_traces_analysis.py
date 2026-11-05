@@ -200,3 +200,23 @@ def test_show_keeps_plan_shadow_out_of_events():
     shown = analysis.show("t")
     assert shown["plan_shadow"]["status"] == "ok"
     assert [e["type"] for e in shown["events"]] == ["text"]
+
+
+def test_stats_counts_persisted_results_reads_and_page_calls():
+    now = time.time()
+    _turn("p", started_at=now)
+    _span("p", "query page")
+    store.insert_events("p", [
+        {"seq": 0, "ts": 1.0, "type": "tool_call", "tool_id": "a", "name": "Bash",
+         "payload": json.dumps({"command": "artmind query survey --domain b q"})},
+        {"seq": 1, "ts": 2.0, "type": "tool_result", "tool_id": "a", "name": "persisted", "payload": "x"},
+        {"seq": 2, "ts": 3.0, "type": "tool_call", "tool_id": "b", "name": "Bash",
+         "payload": json.dumps({"command": "artmind query chunks --idList z"})},
+        {"seq": 3, "ts": 4.0, "type": "tool_result", "tool_id": "b", "name": None, "payload": "y"},
+        {"seq": 4, "ts": 5.0, "type": "tool_call", "tool_id": "c", "name": "Read",
+         "payload": json.dumps({"file_path": "/h/.claude/projects/s/x/tool-results/r.txt"})},
+    ])
+    row = analysis.stats(by="all")[0]
+    assert row["persisted_share"] == 0.5
+    assert row["persisted_reads"] == 1
+    assert row["page_calls"] == 1

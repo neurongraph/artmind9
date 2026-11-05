@@ -64,6 +64,64 @@ def is_allowed_bash(command: str) -> bool:
     return bool(_ARTMIND_INVOCATION.match(stripped))
 
 
+_CD_PREFIX = re.compile(r"""^\s*cd\s+("[^"]*"|'[^']*'|[^\s"';&|<>$`]+)\s*&&\s*(.+)$""", re.DOTALL)
+
+
+def rewrite_cd_command(command: str, allowed_dirs: Iterable[os.PathLike[str] | str],
+                       cwd: os.PathLike[str] | str | None = None) -> str | None:
+    """Strip a leading ``cd <dir> &&`` from an otherwise allowed command.
+
+    Returns the command without the prefix when ``<dir>`` (expanduser,
+    realpath; a relative dir is taken against ``cwd``) is one of
+    ``allowed_dirs`` (also realpath'd) and what remains passes
+    ``is_allowed_bash`` -- which already refuses any further chaining, so only
+    one leading ``cd`` can ever be stripped. Otherwise ``None``.
+    """
+    match = _CD_PREFIX.match(command or "")
+    if not match:
+        return None
+    target, rest = match.group(1), match.group(2).strip()
+    if target[0] in "\"'":
+        target = target[1:-1]
+    if not target or not is_allowed_bash(rest):
+        return None
+    target = os.path.expanduser(target)
+    if not os.path.isabs(target) and cwd is not None:
+        target = os.path.join(os.fspath(cwd), target)
+    real = os.path.realpath(target)
+    if any(real == os.path.realpath(d) for d in allowed_dirs):
+        return rest
+    return None
+
+
+def claude_project_slug(path: os.PathLike[str] | str) -> str:
+    """Claude Code's project folder name for a directory: every non-alphanumeric character becomes ``-``."""
+    return re.sub(r"[^A-Za-z0-9]", "-", os.fspath(path))
+
+
+def is_allowed_tool_result_read(path: str, cwd: os.PathLike[str] | str,
+                                projects_dir: os.PathLike[str] | str | None = None) -> bool:
+    """May the agent ``Read`` this persisted tool result?
+
+    Allowed when the real path is inside
+    ``<projects_dir>/<slug of cwd>/<any>/tool-results/`` (default
+    ``~/.claude/projects``): the agent's own tool output, not vault content.
+    Same realpath segment check as ``is_allowed_skill_read``, so a symlink
+    pointing out of the folder, or another project's slug, does not pass.
+    """
+    if not path:
+        return False
+    base = os.fspath(projects_dir) if projects_dir is not None else os.path.expanduser("~/.claude/projects")
+    real_base = os.path.realpath(base)
+    real_path = os.path.realpath(path)
+    prefix = os.path.join(real_base, claude_project_slug(os.path.realpath(cwd)))
+    if not real_path.startswith(prefix + os.sep):
+        return False
+    parts = real_path[len(prefix) + 1:].split(os.sep)
+    # <session>/tool-results/<file>
+    return len(parts) >= 3 and parts[1] == "tool-results" and parts[0] not in ("", "..")
+
+
 def is_allowed_skill_read(path: str, roots: Iterable[os.PathLike[str] | str]) -> bool:
     """May the agent `Read` this path?
 

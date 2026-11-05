@@ -268,6 +268,34 @@ def _views_rates(turns: list[dict], checks: dict[str, dict]) -> dict:
     }
 
 
+def _output_shape(trace_ids: list[str], spans_by_trace: dict[str, list[dict]]) -> dict:
+    """Bounded-output counters (spec 2026-11-05 §9) over the given turns."""
+    from artmind.traces.recorder import PERSISTED_NAME
+
+    artmind_results = persisted = reads = pages = 0
+    for tid in trace_ids:
+        pages += sum(1 for s in spans_by_trace.get(tid, []) if s.get("command") == "query page")
+        events = store.list_events(tid)
+        artmind_calls = set()
+        for e in events:
+            if e["type"] != "tool_call":
+                continue
+            text = e.get("payload") or ""
+            if e.get("name") == "Bash" and "artmind" in text:
+                artmind_calls.add(e.get("tool_id"))
+            elif e.get("name") == "Read" and "/tool-results/" in text:
+                reads += 1
+        for e in events:
+            if e["type"] == "tool_result" and e.get("tool_id") in artmind_calls:
+                artmind_results += 1
+                persisted += e.get("name") == PERSISTED_NAME
+    return {
+        "persisted_share": persisted / artmind_results if artmind_results else None,
+        "persisted_reads": reads,
+        "page_calls": pages,
+    }
+
+
 def stats(*, domain: list[str] | None = None, since: float | None = None, by: str = "week") -> list[dict]:
     buckets: dict[tuple[str, str], list[dict]] = {}
     done = [t for t in store.list_turns(since=since) if t["status"] == "done"]
@@ -295,6 +323,7 @@ def stats(*, domain: list[str] | None = None, since: float | None = None, by: st
                 statistics.mean(t["graph_attempts"] or 0 for t in fell) if fell else None,
             **_views_rates(turns, checks),
             "plan_shadow": _shadow_rates(turns, shadows, spans_by_trace),
+            **_output_shape([t["trace_id"] for t in turns], spans_by_trace),
         })
     return rows
 
