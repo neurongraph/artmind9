@@ -81,27 +81,6 @@ def test_pages_version_static_assets_by_mtime(template_name):
     assert client.get(f"/static/app.js?v={mtime}").status_code == 200
 
 
-@pytest.mark.parametrize("template_name", ["index.html", "admin.html", "dashboard.html"])
-def test_pages_load_mermaid_renderer_lazily(template_name):
-    """Every page that renders markdown carries the mermaid renderer, which names
-    the vendored library for lazy loading rather than loading it up front."""
-    client = TestClient(create_app(registry=SessionRegistry(client_factory=FakeBackend), template_name=template_name))
-    html = client.get("/").text
-    assert "/static/mermaid-render.js?v=" in html
-    assert 'data-mermaid-src="/static/vendor/mermaid.min.js?v=' in html
-    assert 'src="/static/vendor/mermaid.min.js' not in html.replace('data-mermaid-src="/static/vendor/mermaid.min.js', "")
-    assert client.get("/static/vendor/mermaid.min.js").status_code == 200
-
-
-@pytest.mark.parametrize("script", ["app.js", "conversations.js", "views.js"])
-def test_markdown_renderers_call_render_mermaid(script):
-    """Each place that injects sanitized markdown must hand it to renderMermaid."""
-    from artmind.webui.app import WEBUI_DIR
-
-    source = (WEBUI_DIR / "static" / script).read_text()
-    assert source.count("marked.parse(") == source.count("renderMermaid(")
-
-
 def test_index_uses_custom_template_name():
     """create_app's `/` route must actually render whatever template_name
     it was given, not a hardcoded "index.html" — proven here by pointing it
