@@ -5181,15 +5181,22 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
               help="Plan each label N times; labels whose plans differ are listed as unstable. The gate needs --repeat 4")
 @click.option("--givenDomains", "given_domains", is_flag=True, help="Pass each label's domains instead of letting the plan choose")
 @click.option("--model", "model", default=None, help="Decision model override (default: ARTMIND_DECISION_MODEL)")
+@click.option("--reach", "reach", is_flag=True,
+              help="Instead of grading the plans, run each plan's read-only steps (labels with expected_documents) "
+                   "and report how many expected documents they reach. Slow; needs Neo4j; first plan only")
 @compact_option
 def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, model: str | None,
-                compact: bool) -> None:
+                reach: bool, compact: bool) -> None:
     """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
 
     A label whose intent is not retrieve/follow_up_why is graded on intent only, not route or domains.
     Prints the summary (label ids, outcomes, mismatches; no question text); per-label
     detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json. Exits 1 when a reported gate
     has not passed (the gate needs --repeat 4, no errors, and for `decision` no fallback).
+
+    With --reach (spec 2026-11-07 §8.3), each label with expected_documents is planned once and the plan's
+    `artmind query` steps run in process; the report is expected / reached / reached_all per label and in
+    total (counts and label ids only; matched and missed paths go to <ARTMIND_HOME>/logs/plan-reach-*.json).
     """
     from neo4j.exceptions import DriverError, Neo4jError
 
@@ -5213,6 +5220,16 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
         graph_query.domains_overview()
     except (DriverError, Neo4jError) as exc:
         raise click.ClickException(f"Neo4j is unreachable: {exc}") from exc
+    if reach:
+        from artmind.query_plan import reach as plan_reach_mod
+
+        out = {}
+        for backend in backends:
+            report = plan_reach_mod.reach(loaded, backend, model=model, given_domains=given_domains)
+            out[backend] = {**plan_reach_mod.public_report(report),
+                            "detail_file": str(plan_reach_mod.write_detail(report))}
+        _echo_json({"command": "plan replay", "file": str(path), "reach": True, "reports": out}, compact)
+        return
     reports = {}
     for backend in backends:
         report = plan_replay_mod.replay(loaded, backend, repeat, given_domains=given_domains, model=model)

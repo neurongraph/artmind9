@@ -23,6 +23,7 @@ only checks the planner against itself, so every draft needs a human pass.
 | `expect` | `high` when the right plan is obvious enough to run unjudged; `low` when the question is ambiguous or needs judgement | Should the planner be sure? |
 | `slots` (optional) | expected slot values, e.g. `search_term: "harbour visits"`, `narrator: "<name>"`, `date_window: "2025-01-01..2026-01-01"` | |
 | `program_kind` (optional) | recorded only, not graded | |
+| `expected_documents` (optional) | vault-relative paths (`folder/file.md`) of the documents that hold the answer; used only by `plan replay --reach`, matched to step documents by path, then file name, case-insensitive | Which documents must the plan's steps surface? |
 | `follows` (optional) | a label id: the label's question is a reply to that label's, so replay plans it with the previous turn; `none` plans it alone. Left out, a `trace:<id>` label follows the turn before it in its conversation (the label made from that turn, else the recorded turn) | Does the question only make sense after another? |
 | `notes` | delete the DRAFT line; keep a note if it helps | |
 

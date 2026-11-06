@@ -318,6 +318,7 @@ Replay grades this explicitly. Each label says whether the planner should be con
 |---|---|
 | **Shadow plans** | a v2 plan beside every admin-console and benchmark turn (`plan_shadow` events), given the session's previous turn; `traces stats` counts by intent and program kind, and agreement of high plans with the agent's first call on turns where the agent looked something up (`lookup_turns`); on the others it checks the plan planned no confident lookup (`no_lookup_plan_ok`) |
 | **Replay** | `artmind plan replay --repeat 4` over private labels: route, view, domain, intent and slots graded separately; gate: no wrong view, wrong under 10 %, no non-retrieval label planned as a confident lookup; labels carry their thread (`follows`, or derived from the trace session) |
+| **Reach** | `artmind plan replay --reach` (slow, needs Neo4j): plans each label that has `expected_documents` once, runs the plan's `steps` + `suggested_steps` in process (`artmind query` only), and counts expected documents found in any step's evidence, the needle-or-merge rule applied (`reached`) and every step counted (`reached_all`); counts and label ids only, paths in `logs/plan-reach-*.json` |
 | **Route parity** | the same recorded questions planned by the previous and the new planner; a phase may change programs, never routes, unless intended |
 | **Trace studies** | rated rounds of real use (`docs/query-routing-study/`), each finding a numbered pattern that a route, slot or program then cites |
 
