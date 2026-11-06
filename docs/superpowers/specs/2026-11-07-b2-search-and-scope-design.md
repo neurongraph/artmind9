@@ -1,6 +1,6 @@
 # B2: one text search, cross-document by default, and scope by evidence in families of domains
 
-Date: 2026-11-07. Status: **design draft for review**. Not yet planned or built.
+Date: 2026-11-07. Status: **built** on `integration/p2b` (S1–S4, 2026-11-06); results in §12.
 Parent: `2026-11-02-retrieval-curation-architecture-design.md` (§9, row B2) and planner v2
 (`2026-11-05-planner-v2-design.md`, §5.5 and §14.4). Builds on B1, the domain decision as a set
 (`artmind/query_plan/domain_set.py`, merged on `integration/p2b` at 5e40812;
@@ -513,3 +513,48 @@ Order: S1+S2, then S3, then S4. S4's runs gate the merge into `integration/p2b`.
    them when labels show the miss.
 7. **`NEEDLE_SPREAD` default before calibration.** Recommendation: 5; calibration (§4.3) replaces it
    in S4 before merge, and the measured value is recorded in planner v2 §11.
+
+## 12. Results (2026-11-06, same-day runs before and after)
+
+Before = `integration/p2b` at 5dfe904 (B1); after = the B2 build. Replay `--classifier both --repeat 4`,
+outcomes correct / abstained / correct abstain / wrong; mismatches are counted over every label.
+
+| Vault | Classifier | Before | After | Mismatches before → after |
+|---|---|---|---|---|
+| banking_corpus | decision | 0 / 7 / 17 / 10, 7 unstable | 0 / 8 / 23 / **3**, 1 unstable | domains 17 → **1**, route 23 → **6**, confidence 9 → 3 |
+| banking_corpus | lexical | 0 / 8 / 26 / 0 | 0 / 8 / 26 / 0 | route 25 → **16**, domains 5 → 3 |
+| nbs_audit_2026 | decision | 12 / 0 / 4 / 11 | 15 / 0 / 3 / 9 (`L010`, `L018` correct) | route 5 → 3 |
+| nbs_audit_2026 | lexical | 16 / 0 / 0 / 11 | unchanged | unchanged |
+| brain01 | decision | 21 / 6 / 6 / 1 | 22 / 5 / 6 / 1 | route 4 → 2 |
+| brain01 | lexical | 15 / 13 / 6 / 0 | unchanged, gate passes | unchanged |
+
+No label in any vault went from correct or abstained to wrong. The §8.1 gates hold (banking decision
+domains ≤ 6, route ≤ 8; lexical still 0 wrong). The banking decision wrongs that remain are confidence
+(B3). brain01's decision model flips on 2 labels after (1 before); the decision model is not
+deterministic and the flipping labels differ between runs.
+
+**Route parity** (§8.2): brain01 and nbs_audit_2026 identical in route and domains for every recorded
+question (35, 160). banking: 4 route moves of 90, `procedure → search` 3 and `superlative → search` 1
+(the moved `what should` trigger outscored `the most` on one question whose label is `structured`,
+`expect: low`; low before and after). Domains changed for 22 banking questions, all on the §6.2 routes.
+
+**Needle rule** (§4.3, §8.4): `NEEDLE_SPREAD` = 7. Survey labels answered by the needle alone: 0 at every
+s in both vaults. Needle-alone precision 1.0 up to s = 7 in both (nbs 0.67 at s = 8). The margin binds
+first: at s = 7 the needle answers alone for 2 of 126 nbs needles and 6 of 50 banking needles.
+
+**Document reach** (§8.3), `plan replay --reach`, banking: the labels cover 34 of the 36 questions, 101
+of the 108 expected documents, so the gate scales to 70 and the target is one family survey per question
+measured with the same matcher, 78 (one `vector-text` per question: 51).
+
+| Plans | Before | After S1+S2 | After B2 |
+|---|---|---|---|
+| decision model | 35 | 36 | **69** (72 counting every step) |
+| lexical | 31 | 49 | 52 (55) |
+
+The decision model's plans reach 69 of 101: one short of the scaled gate, 9 short of the target. What
+is left sits outside B2's routes: `superlative` (0 of 6; `insights list` fails in a vault with no
+insights snapshot, B5), entity routes (0 of 6; `entity-context` and `entity-history` cite the entity's
+own source documents, not the policy text the answer key also lists), and `structured` (9 of 16;
+`db bridge` steps are not executed by `--reach`). Lexical plans reach less because they abstain to
+`structured` and `aggregate` for text questions (route mismatches, 16), which B3's work on lexical
+cues addresses.

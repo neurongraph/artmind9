@@ -378,8 +378,6 @@ confidence, and labels that grade abstention.
 - Whether `intents:` cues should be learned from labels rather than written (lexical stays the
   default until labels say otherwise).
 - How `executed` vs draft is known per document for `latest`.
-- Whether the chunks-only cross-document program should also run for graph domains' text
-  questions (B2 plans yes, see the planned note in §4).
 - Where the domain-set constants should sit (`MARGIN` 0.15, `FAMILY_SPREAD_SHARE` 0.10,
   `FAMILY_SPREAD_CHILDREN` 3): code constants today, perhaps plan config later; and whether a
   vault that mixes chunks-only and graph domains should search every chunks-only one when the
