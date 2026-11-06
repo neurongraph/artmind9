@@ -17,7 +17,7 @@ only checks the planner against itself, so every draft needs a human pass.
 |---|---|---|
 | `id`, `question`, `source` | leave as drafted (`source: trace:<id>` names the turn it came from) | |
 | `intent` | `retrieve` for a question about the notes, else one of the seven below | Is it a question at all? |
-| `domains` | the domain that holds the answer (optional for a non-retrieval intent) | Is the answer there? |
+| `domains` | every domain that holds the answer, or the domain the question names (optional for a non-retrieval intent). No domain named → list every domain that holds the answer; in a vault of chunks-only domains, all of them. A family parent stands for all its children | Is the whole answer there? |
 | `route` | the question shape, from the route table (optional for a non-retrieval intent) | Would I answer it this way? |
 | `view`, `params` | only with `route: view`: the saved view and its parameter values | Right view, right person or value? |
 | `expect` | `high` when the right plan is obvious enough to run unjudged; `low` when the question is ambiguous or needs judgement | Should the planner be sure? |
@@ -35,6 +35,9 @@ and unknown ids are rejected by `artmind plan labels validate`.
 
 **Retrieval labels** (`retrieve`, `follow_up_why`, or no intent): domains, route, view and
 view parameters are compared; a plan that came back with a non-retrieval intent is wrong.
+Domains match when the plan searches every labelled domain and nothing beside them: a family
+parent matches a label listing its children, and a plan that searches only some of the labelled
+domains is wrong.
 
 Then the confidence rule:
 

@@ -105,6 +105,37 @@ to the start); a decision model can replace them behind the same seam. When the 
 `retrieve`, the route decision is still taken and recorded, so replay can tell an intent
 error from a route error.
 
+### 3.1 The domain decision is a set
+
+The answer to a question often sits in several domains. The classifier answers "which domain
+holds the answer?" with a probability per domain option (each leaf domain, plus each family
+parent `X` over `X.a`, `X.b`, ...), and code turns that answer into the **set** of domains the plan
+searches (`artmind/query_plan/domain_set.py`). The first rule that applies wins, and the payload
+records it in `domains.set_rule`:
+
+| `set_rule` | When | Selected |
+|---|---|---|
+| `given` | `--domain` was passed | those domains |
+| `single` | the vault has one option, or one option clears the margin alone | that option |
+| `named` | the question names a domain: its name, its name with `.`/`_`/`-` read as spaces, or a word in that domain's own plan config `domain_aliases:` | the named domains only |
+| `chunks_only_all` | no domain named and every option is chunks-only (`graph_extraction: false`) | all of them: one search with several `--domain` values |
+| `all` | the classifier chose "no single domain" | every domain, at confidence 0 |
+| `family_parent` | three or more children of one family each hold 10 % of the options' mass (`FAMILY_SPREAD_CHILDREN`, `FAMILY_SPREAD_SHARE`) | the family parent (the CLI rolls its sub-domains up), plus any other option within the margin |
+| `margin` | other options' share of the mass is within `MARGIN` = 0.15 of the top option's share | the top option and those options |
+
+Shares are taken over the domain options only (the "no single domain" mass is left out), so
+0.45 vs 0.35 selects both while 0.6 vs 0.25 keeps the first alone. The lexical classifier goes
+through the same rules over its word-overlap scores. `domains.selected` is the list used,
+`domains.confidence` stays the classifier's confidence in its own top choice, `domains.coverage`
+is the mass the set covers (below), and `domains.named` lists the domains the question named.
+
+Every route template's `{domains}` renders the set comma-joined into one `--domain` (every
+command it reaches takes a repeatable, comma-split `--domain`; a test checks this against the CLI).
+`{domain}` is for a command that takes exactly one domain (`query insights list`): the planner
+renders it once per selected domain, a `par` node marked `per_domain` in the program. A saved view
+is used only when it covers every selected domain, and the structured store's facts are read over
+the whole set.
+
 ## 4. Layer 2: routes
 
 Eighteen routes, plus `view` when a saved view answers the question exactly. A route has a
@@ -170,7 +201,7 @@ A slot is a value a command template needs. Every slot carries `value`, `source`
 | `search_term` | the user's mention spans; else the question minus filler and stopwords; category terms OR-ed in | `mention`, `filler_stripped`, `category`, `question` (empty) |
 | `category` | a class word expanded to member classes and plain terms (plan config `categories:`, else the catalogue class it names) | `category`, `class_match` |
 | `twins` (per entity) | same-class entities with the same name, kinship variants, first name vs full name only with a shared spouse, open same-as proposals | `name`, `kinship`, `shared_spouse`, `same_as` |
-| `scope` | given domains, the chosen domain, `--exclude` documents, scope rules from plan config | `given`, `chosen`, `all` |
+| `scope` | given domains, the chosen domain set (§3.1), `--exclude` documents, scope rules from plan config | `given`, `chosen` (the set covers at least the threshold), `all` |
 | `date_window` | an explicit date or year, a relative phrase, or a calendar event from plan config | `explicit_date`, `relative`, `calendar` |
 | `must_find` | the items a `follow_up_why` names | `mention` |
 | list slots | `twin_ids`, `phrasings` (term + synonyms + a paraphrase without the person), `years`, `family_documents` | per slot |
@@ -254,6 +285,12 @@ the default. Plan facts are a separate, fixed vocabulary computed at plan time:
 ## 7. Confidence, abstention and the fast path
 
 Plan confidence is the weakest of the stages: domain, view, intent or route, and slot quality.
+The **domain** stage is the set's **coverage**: the probability mass of the options the selected
+set covers (a parent covers its children), with the "no single domain" mass counted against it.
+A plan that searches one domain while 40 % of the mass sits elsewhere is at most 0.6, so it is
+low; a margin or family-parent set that covers the spread is not penalised for the spread. A
+named, single-option or chunks-only-all set covers its scope (1.0); `all` is 0. Given domains add
+no domain stage.
 At or above the domain's `confidence_threshold` (default 0.7) the plan is `high` and its
 commands are `steps`; below, they are `suggested_steps` and the agent reads the routing table
 and judges. In P3 a high plan whose bundle does not escalate is the **fast path** (the agent
@@ -314,6 +351,10 @@ confidence, and labels that grade abstention.
 - How `executed` vs draft is known per document for `latest`.
 - Whether the chunks-only cross-document program should also run for graph domains' text
   questions.
+- Where the domain-set constants should sit (`MARGIN` 0.15, `FAMILY_SPREAD_SHARE` 0.10,
+  `FAMILY_SPREAD_CHILDREN` 3): code constants today, perhaps plan config later; and whether a
+  vault that mixes chunks-only and graph domains should search every chunks-only one when the
+  top option is chunks-only (today only an all-chunks-only vault does).
 - The numeric settings round 9 decides (spec §11): threshold, slot factors, needle margin,
   asset thresholds, evidence cap, `map.max`.
 

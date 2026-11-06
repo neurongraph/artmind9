@@ -37,10 +37,21 @@ def _names(value) -> set[str]:
     return {str(v).casefold() for v in (value if isinstance(value, list) else [value])}
 
 
+def _covers(domain: str, parent: str) -> bool:
+    return domain == parent or domain.startswith(parent + ".")
+
+
 def _domains_match(selected: list[str], expected) -> bool:
+    """The selected set searches every expected domain and nothing beside them: each expected domain
+    is a selected one or under one (a family parent covers its children), and each selected domain is
+    an expected one or a parent of one. Exact sets match; a subset of the expected set does not."""
+    expected = list(expected)
     if set(selected) == set(expected):
         return True
-    return len(selected) == 1 and all(d == selected[0] or d.startswith(selected[0] + ".") for d in expected)
+    if not selected or not expected:
+        return False
+    return (all(any(_covers(e, s) for s in selected) for e in expected)
+            and all(any(_covers(e, s) for e in expected) for s in selected))
 
 
 def _param_wrong(expected, entry: dict | None) -> bool:
