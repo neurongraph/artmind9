@@ -28,8 +28,11 @@ from artmind.query_plan.program import Guard, Node, ProgramChoice, ProgramError
 ROUTES_FILE = Path(__file__).with_name("routes.yaml")
 RESERVED_IDS = frozenset({"view"})
 NEEDS = frozenset({"entity", "two_entities", "document", "date", "class", "store", "insights_snapshot"})
+#: `{domains}` is the selected set, comma-joined (every `--domain` here is repeatable and comma-split);
+#: `{domain}` is one selected domain, for a command that takes exactly one (`query insights list`):
+#: the planner renders such a template once per selected domain.
 PLACEHOLDERS = frozenset({
-    "domains", "entity_id", "entity_name", "other_entity_id", "entity_class", "other_entity_class",
+    "domains", "domain", "entity_id", "entity_name", "other_entity_id", "entity_class", "other_entity_class",
     "document", "class", "question", "keywords",
 })
 #: Placeholders only a v2 `program:` template may use; the v1 planner does not supply them.

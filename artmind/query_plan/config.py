@@ -19,7 +19,7 @@ DEFAULT_FIRST_PERSON = ("i", "me", "my", "mine", "myself")
 DEFAULT_THRESHOLD = 0.7
 CLASSIFIERS = ("auto", "lexical", "decision")
 _KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "classifier", "decision_model",
-                   "categories", "kinship", "scope_rules", "calendar", "synonyms"})
+                   "categories", "kinship", "scope_rules", "calendar", "synonyms", "domain_aliases"})
 _RULE_ID_RE = re.compile(r"[a-z][a-z0-9_]*")
 _MONTH_DAY_RE = re.compile(r"(\d{2})-(\d{2})")
 _WHEN_KEYS = ("mention", "not_cue", "route")
@@ -98,6 +98,7 @@ class PlanConfig:
     scope_rules: tuple[ScopeRule, ...] = ()
     calendar: tuple[CalendarEvent, ...] = ()
     synonyms: tuple[tuple[str, tuple[str, ...]], ...] = ()     # (casefolded word, synonyms casefolded)
+    domain_aliases: tuple[str, ...] = ()   # words that name this domain in a question (fix B1; own file only)
 
     def synonym(self, word: str) -> tuple[str, ...] | None:
         """Configured synonyms of a search-term word (casefold; singular/plural), else None."""
@@ -308,7 +309,9 @@ def parse_config(data, source: str) -> PlanConfig:
                       _parse_word_map(data.get("kinship"), source, "kinship", fold_members=True),
                       _parse_scope_rules(data.get("scope_rules"), source),
                       _parse_calendar(data.get("calendar"), source),
-                      _parse_word_map(data.get("synonyms"), source, "synonyms", fold_members=True))
+                      _parse_word_map(data.get("synonyms"), source, "synonyms", fold_members=True),
+                      _unique(_string_list(data.get("domain_aliases", []), source, "domain_aliases",
+                                           allow_empty=True)))
 
 
 def load_config(domain: str) -> PlanConfig:
@@ -324,6 +327,19 @@ def load_config(domain: str) -> PlanConfig:
     except yaml.YAMLError as exc:
         raise PlanConfigError(f"{path} is not valid YAML: {exc}") from exc
     return parse_config(data, str(path))
+
+
+def domain_aliases(domain: str) -> tuple[str, ...]:
+    """The `domain_aliases:` of the domain's own file (a parent's file names the parent, not its
+    children); () without one. A file that does not parse names nothing here: `plan config check`
+    reports it, and the plan loads it again for the selected domains."""
+    path = config_file(domain)
+    if path is None or path.stem != domain:
+        return ()
+    try:
+        return load_config(domain).domain_aliases
+    except PlanConfigError:
+        return ()
 
 
 def merge(configs: list[PlanConfig]) -> PlanConfig:

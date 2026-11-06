@@ -26,6 +26,7 @@ from artmind.kg_views.model import ViewError, jsonable
 from artmind.kg_views.store import domain_covered
 from artmind.query_plan import candidates, catalogue, fill, intents, slots as slots_mod
 from artmind.query_plan import config as plan_config
+from artmind.query_plan import domain_set
 from artmind.query_plan import program as program_mod
 from artmind.query_plan import routes as routes_mod
 from artmind.query_plan.classify import ClassifierUnavailable, Decision, LexicalClassifier, select_classifier
@@ -159,8 +160,7 @@ def _get_catalogue(cover: list[str]):
 
 def _minimal_cover(scope: list[str]) -> list[str]:
     """The scope without a domain whose parent is also in it: a parent catalogue unions its leaves."""
-    unique = sorted(set(scope))
-    return [d for d in unique if not any(d != e and candidates.covered_by(d, e) for e in unique)]
+    return domain_set.minimal_cover(scope)
 
 
 def _selected_cats(cats: dict, selected: list[str]) -> list | None:
@@ -246,6 +246,8 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
         entity_name = named[0]["candidates"][0]["name"] if named[0]["candidates"] else named[0]["mention"]
     return {
         "domains": ",".join(selected),
+        "domain": selected[0] if len(selected) == 1 else None,  # several: rendered per domain (_per_domain)
+        "domain_list": tuple(selected),
         "question": question,
         "keywords": " ".join(candidates.keywords(question, mentions)),
         "document": document,
@@ -425,20 +427,14 @@ def _view_cmd(name: str, selected: list[str], raw: dict[str, str]) -> str:
     return " ".join(parts) + " --compact"
 
 
-def _choose_domains(domains, options, overview, answers):
-    """(selected, source, confidence, candidates) from the given domains or the domain decision."""
-    if domains:
-        return list(domains), "given", None, []
-    if len(options) == 1:
-        return [options[0].key], ("parent" if options[0].is_parent else "matched"), 1.0, []
-    if not options:
-        return [], "all", 0.0, []
-    answer = answers["domain"]
-    shown = [{"domain": k, "p": p} for k, p in _top(answer.probabilities, 3, exclude=(ALL_DOMAINS,))]
-    if answer.choice == ALL_DOMAINS:
-        return [r["domain"] for r in overview if r.get("domain")], "all", 0.0, shown
-    chosen = next(o for o in options if o.key == answer.choice)
-    return [chosen.key], ("parent" if chosen.is_parent else "matched"), answer.confidence, shown
+def _choose_domains(question, domains, options, overview, answers) -> domain_set.DomainSet:
+    """The domain set from the given domains or the domain decision (fix B1, `domain_set`)."""
+    answer = answers.get("domain")
+    shown = ([{"domain": k, "p": p} for k, p in _top(answer.probabilities, 3, exclude=(ALL_DOMAINS,))]
+             if answer is not None else [])
+    aliases = {o.key: plan_config.domain_aliases(o.key) for o in options} if not domains and len(options) > 1 else {}
+    return domain_set.decide(question, options, overview, answer, ALL_DOMAINS, given=domains,
+                             aliases=aliases, shown=shown)
 
 
 def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
@@ -521,6 +517,19 @@ def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[object, di
 _ZERO_ROWS = re.compile(r"^s\d+\.rows == 0$|^[a-z][a-z0-9_]*\.rows == 0$")
 
 
+def _per_domain(template: str, context: dict) -> list[dict]:
+    """The contexts a template renders in: one per selected domain when it takes `{domain}` (a
+    command that accepts one domain) and several are selected, else the context itself."""
+    domains = context.get("domain_list") or ()
+    if "domain" in routes_mod.placeholders(template) and len(domains) > 1:
+        return [{**context, "domain": d} for d in domains]
+    return [context]
+
+
+def _render_all(template: str, context: dict) -> list[str | None]:
+    return [routes_mod.render(template, c) for c in _per_domain(template, context)]
+
+
 def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None,
                  choice=None, lists: dict | None = None) -> _Steps:
     out = _Steps(stages=[("route", confidence)])
@@ -532,6 +541,7 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
     else:
         pairs = [(program_mod.Node(f"s{i}", "run", run=template), context)
                  for i, template in enumerate(route.steps_for(store_kind), 1)]
+    pairs = [(node, c) for node, ctx in pairs for c in _per_domain(node.run, ctx)]
     for node, ctx in pairs:
         template = node.run
         cmd = routes_mod.render(template, ctx)
@@ -549,15 +559,15 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
             out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)" if node.optional
                               else f"route {route.id} (p={confidence:.2f})"})
     for template in route.optional_steps:  # skipped silently: never unfilled, never a confidence factor
-        cmd = routes_mod.render(template, context)
-        if cmd:
-            out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
+        for cmd in _render_all(template, context):
+            if cmd:
+                out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
     if out.unfilled:
         out.reason = f"route {route.id} needs {', '.join(sorted(missing)) or 'a value it could not fill'}"
     for fallback in route.fallbacks:
-        cmd = routes_mod.render(fallback.cmd, context)
-        if cmd:
-            out.fallbacks.append({"when": fallback.when, "cmd": cmd, "why": f"if the first step returns {fallback.when}"})
+        for cmd in _render_all(fallback.cmd, context):
+            if cmd:
+                out.fallbacks.append({"when": fallback.when, "cmd": cmd, "why": f"if the first step returns {fallback.when}"})
     out.read = list(route.read)
     return out
 
@@ -640,6 +650,17 @@ def _page_json(page) -> dict:
 
 
 def _node_json(node, context: dict, lists: dict | None = None) -> dict:
+    per_domain = _per_domain(node.run, context) if node.run is not None else [context]
+    if len(per_domain) > 1:  # a one-domain command over several domains: run once per domain
+        out = {"id": node.id, "kind": "par", "per_domain": True,
+               "children": [{"id": f"{node.id}.{i}", "kind": "run", "run": routes_mod.render(node.run, c) or node.run,
+                             "filled": routes_mod.render(node.run, c) is not None}
+                            for i, c in enumerate(per_domain, 1)]}
+        if node.when is not None:
+            out["when"] = node.when.text
+        if node.optional:
+            out["optional"] = True
+        return out
     out: dict = {"id": node.id, "kind": node.kind}
     if node.run is not None:
         rendered = routes_mod.render(node.run, context)
@@ -934,7 +955,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     intent = intent_result.intent
     retrieving = intent in RETRIEVING
 
-    selected, source, domain_conf, domain_candidates = _choose_domains(domains, options, overview, answers)
+    dset = _choose_domains(question, domains, options, overview, answers)
+    selected, source, domain_conf, domain_candidates = dset.selected, dset.source, dset.confidence, dset.candidates
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
     chunks_only = _chunks_only(selected, overview)
@@ -977,7 +999,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     route_adjusted: dict | None = None
 
     def selected_scope(route_for_scope: str | None):
-        return slots_mod.scope_slot(list(domains or ()), selected, domain_conf or 0.0, threshold, cfg, question,
+        return slots_mod.scope_slot(list(domains or ()), selected, dset.stage or 0.0, threshold, cfg, question,
                                     route_for_scope, exclude)
 
     if not retrieving:
@@ -1075,8 +1097,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             "date_window": f"{window.value['from']}..{window.value['to']}" if window else None,
             "entity_class_list": ",".join(expansion.classes) if expansion and expansion.classes else None,
         })
-        if source != "given":
-            stages.append(("domain", domain_conf if source != "all" else 0.0))
+        if source != "given":  # the mass the selected set covers (fix B1): part of a spread scope is low
+            stages.append(("domain", dset.stage or 0.0))
         lifted_built = None
         if lift_view is not None:
             trial = _view_steps(lift_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
@@ -1200,7 +1222,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                    "inherited_offer": intent_result.inherited_offer,
                    "alternatives": [{"id": k, "p": p} for k, p in intent_result.alternatives]},
         "domains": {"selected": selected, "source": source, "confidence": domain_conf,
-                    "candidates": domain_candidates},
+                    "candidates": domain_candidates, "coverage": dset.coverage, "set_rule": dset.set_rule,
+                    "named": dset.named, "whole_vault": dset.whole_vault},
         "route": {
             "id": route_id, "confidence": route_conf,
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],
