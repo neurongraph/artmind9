@@ -78,6 +78,41 @@ def shadow_plan(events: list[dict]) -> dict | None:
     return None
 
 
+def _plan_dict(payload: dict) -> dict:
+    plan = payload.get("plan")
+    return plan if isinstance(plan, dict) else {}
+
+
+def _intent_id(plan: dict) -> str | None:
+    intent = plan.get("intent")
+    value = intent.get("id") if isinstance(intent, dict) else None
+    return value if isinstance(value, str) and value else None
+
+
+def _slot_score(plan: dict) -> float | None:
+    block = plan.get("slot_quality")
+    value = block.get("score") if isinstance(block, dict) else None
+    return float(value) if isinstance(value, (int, float)) and not isinstance(value, bool) else None
+
+
+def shadow_summary(payload: dict | None) -> dict | None:
+    """The planner v2 fields of one shadow payload for `traces show`. A key is
+    present only when the plan has it (v1 plans have no intent, slot quality or
+    program kind), so an old plan shows just its status."""
+    if not payload:
+        return None
+    plan = _plan_dict(payload)
+    out: dict = {"status": payload.get("status")}
+    intent = plan.get("intent")
+    if _intent_id(plan):
+        out["intent"] = {"id": _intent_id(plan), "source": intent.get("source")}
+    if isinstance(plan.get("program_kind"), str) and plan["program_kind"]:
+        out["program_kind"] = plan["program_kind"]
+    if _slot_score(plan) is not None:
+        out["slot_quality_score"] = _slot_score(plan)
+    return out
+
+
 def _command_key(cmd: str) -> str | None:
     """`artmind query views run v --domain b` -> `query views run v` (words before the first option)."""
     try:
@@ -145,6 +180,11 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
     by_rating: dict[str, list] = {}
     for turn, _, _, agreed in high:
         by_rating.setdefault(turn.get("rating") or "unrated", []).append(agreed)
+    plans = [_plan_dict(p) for _, p, _, _ in rows]
+    by_intent = Counter(_intent_id(p) or "unknown" for p in plans)
+    by_program = Counter(p["program_kind"] if isinstance(p.get("program_kind"), str) and p["program_kind"]
+                         else "unknown" for p in plans)
+    retrieve_scores = [s for p in plans if _intent_id(p) == "retrieve" for s in [_slot_score(p)] if s is not None]
     return {
         "plans": len(rows),
         "statuses": dict(statuses),
@@ -154,6 +194,9 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
         "agreement_first": _rate([a for _, p, _, a in high if not p.get("followup")]),
         "agreement_followup": _rate([a for _, p, _, a in high if p.get("followup")]),
         "agreement_by_rating": {k: _rate(v) for k, v in sorted(by_rating.items())},
+        "by_intent": dict(sorted(by_intent.items())),
+        "by_program_kind": dict(sorted(by_program.items())),
+        "slot_quality_median_retrieve": statistics.median(retrieve_scores) if retrieve_scores else None,
     }
 
 
@@ -353,10 +396,12 @@ def show(trace_id: str) -> dict | None:
             "then `artmind serve` from the vault)."
         )
     tool_call_ids = {e["tool_id"] for e in events if e["type"] == "tool_call"}
+    shadow = shadow_plan(events)
     return {
         "turn": turn,
         "feedback": store.latest_feedback(trace_id),
-        "plan_shadow": shadow_plan(events),
+        "plan_shadow": shadow,
+        "plan_shadow_summary": shadow_summary(shadow),
         "events": [e for e in events if e["type"] != "plan_shadow"],
         "unattributed_spans": [s for s in spans if not s["tool_id"] or s["tool_id"] not in tool_call_ids],
         "graph_layers": sorted(GRAPH_LAYERS),

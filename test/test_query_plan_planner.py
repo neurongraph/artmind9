@@ -28,7 +28,7 @@ VIEW = {
     "presentation": {"format": "table", "table": {"columns": ["who"]}},
     "provenance": {"created": "2026-10-09", "origin": "authored"},
 }
-V2_KEYS = {"intent", "effective_question", "previous_used", "slots", "slot_quality", "scope", "program", "guards",
+V2_KEYS = {"intent", "effective_question", "previous_used", "slots", "slot_quality", "scope", "program", "program_kind", "plan_facts", "guards",
            "asset_match", "gaps", "action", "answer_from"}
 PAYLOAD_KEYS = {"plan_version", "question", "domains", "route", "view_match", "entities", "catalogue", "store", "confidence",
                 "steps", "suggested_steps", "fallbacks", "read", "classifier", "warnings", "executed",
@@ -74,9 +74,11 @@ def test_a_view_question_gets_one_ready_view_run(world):
     assert result["confidence"]["level"] == "high"
     assert result["view_match"]["status"] == "ok"
     assert result["view_match"]["params"]["year"]["value"] == 2025
+    # a count question on a view also gets the text check (spec 5.5 view count)
     assert [s["cmd"] for s in result["steps"]] == [
         "artmind query views run visits_by_year --domain journal --param person=@p1 --param place=@l1 "
-        "--param year=2025 --compact"
+        "--param year=2025 --compact",
+        "artmind query vector-text --shape brief --domain journal 'Ada Lakeport' --topK 10 --compact",
     ]
     assert result["suggested_steps"] == []
 
@@ -97,7 +99,7 @@ def test_twins_get_one_run_each(world):
     result = _plan("How many visits did Ada make to Lakeport in 2025?")
     assert result["view_match"]["params"]["place"]["twins"] is True
     assert result["view_match"]["params"]["place"]["chosen"] is None
-    assert [s["cmd"].split("--param place=")[1].split()[0] for s in result["steps"]] == ["@l1", "@l2"]
+    assert [s["cmd"].split("--param place=")[1].split()[0] for s in result["steps"][:2]] == ["@l1", "@l2"]
     assert any("share the name 'Lakeport'" in w for w in result["warnings"])
 
 
@@ -498,7 +500,7 @@ def test_execute_is_ignored_for_twin_combinations(world, monkeypatch):
     ]
     monkeypatch.setattr(views_runner, "run_view", lambda *a: pytest.fail("must not run"))
     result = _plan("How many visits did Ada make to Lakeport in 2025?", execute=True)
-    assert len(result["steps"]) == 2 and result["executed"] is None
+    assert len(result["steps"]) == 3 and result["executed"] is None  # two view runs and the text check
     assert any(w.startswith("--execute ignored") and "2 parameter combinations" in w for w in result["warnings"])
 
 

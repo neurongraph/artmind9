@@ -35,6 +35,10 @@ MAX_COMBINATIONS = 4
 ALL_DOMAINS = "__all__"
 NO_VIEW = "none"
 ROUTING_TABLE = "SKILL.md"
+VIEW_COUNT_CHECK = "artmind query vector-text --shape brief --domain {domains} {search_term} --topK 10 --compact"
+#: Routes a named class turns into `enumeration` when the question asks which items exist
+#: (`slots.named_class` + `slots.has_list_cue`); other routes keep their shape.
+CLASS_LIST_ROUTES = frozenset({"search", "existence", "enumeration"})
 VIEW_FALLBACK = "artmind query vector-text --domain {domains} {question} --compact"
 
 
@@ -462,17 +466,52 @@ def _view_steps(loaded, view_answer, entities, question, cfg, threshold, today, 
     return out
 
 
-def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None) -> _Steps:
+def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[object, dict]]:
+    """The commands a chosen program issues, in document order, as (node, context) pairs: a `par`
+    contributes its children, a `map` its body once per item (capped at `max`) with the `as` name bound;
+    `pick` and `page` issue nothing of their own."""
+    out: list[tuple[object, dict]] = []
+    for node in nodes:
+        if node.kind == "run":
+            out.append((node, context))
+        elif node.kind == "par":
+            out += _expand_commands(node.children, context, lists)
+        elif node.kind == "map":
+            for item in lists.get(node.map.over, [])[:node.map.max]:
+                out += _expand_commands((node.map.do,), {**context, node.map.as_: item}, lists)
+    return out
+
+
+_ZERO_ROWS = re.compile(r"^s\d+\.rows == 0$|^[a-z][a-z0-9_]*\.rows == 0$")
+
+
+def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None,
+                 choice=None, lists: dict | None = None) -> _Steps:
     out = _Steps(stages=[("route", confidence)])
     missing: set[str] = set()
-    for template in route.steps_for(store_kind):
-        cmd = routes_mod.render(template, context)
-        if cmd is None:
+    if choice is None and route.authored_program:
+        choice = route.programs[-1]
+    if choice is not None:  # an authored program: its commands, maps expanded per item
+        pairs = _expand_commands(choice.program, context, lists or {})
+    else:
+        pairs = [(program_mod.Node(f"s{i}", "run", run=template), context)
+                 for i, template in enumerate(route.steps_for(store_kind), 1)]
+    for node, ctx in pairs:
+        template = node.run
+        cmd = routes_mod.render(template, ctx)
+        if node.when is not None:  # a guarded alternative: a fallback in the payload, never a step
+            if cmd:
+                when = "zero_rows" if _ZERO_ROWS.match(node.when.text) else node.when.text
+                out.fallbacks.append({"when": when, "cmd": cmd, "why": f"if {node.when.text}"})
+        elif cmd is None:
+            if node.optional:
+                continue  # skipped silently: never unfilled, never a confidence factor
             out.unfilled = True
-            missing |= {p for p in routes_mod.placeholders(template) if not str(context.get(p) or "").strip()
-                        or str(context.get(p)).startswith("-")}
+            missing |= {p for p in routes_mod.placeholders(template) if not str(ctx.get(p) or "").strip()
+                        or str(ctx.get(p)).startswith("-")}
         else:
-            out.steps.append({"cmd": cmd, "why": f"route {route.id} (p={confidence:.2f})"})
+            out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)" if node.optional
+                              else f"route {route.id} (p={confidence:.2f})"})
     for template in route.optional_steps:  # skipped silently: never unfilled, never a confidence factor
         cmd = routes_mod.render(template, context)
         if cmd:
@@ -564,22 +603,28 @@ def _page_json(page) -> dict:
     return {"until": page.until, "k": page.k, "from": page.from_}
 
 
-def _node_json(node, context: dict) -> dict:
+def _node_json(node, context: dict, lists: dict | None = None) -> dict:
     out: dict = {"id": node.id, "kind": node.kind}
     if node.run is not None:
         rendered = routes_mod.render(node.run, context)
         out.update(run=rendered or node.run, filled=rendered is not None)
     if node.children:
-        out["children"] = [_node_json(c, context) for c in node.children]
+        out["children"] = [_node_json(c, context, lists) for c in node.children]
     if node.map is not None:
+        total = (lists or {}).get(node.map.over, [])
+        items = list(total)[:node.map.max]
         out["map"] = {"over": node.map.over, "as": node.map.as_, "max": node.map.max,
-                      "do": _node_json(node.map.do, context)}
+                      "items": items, "items_total": len(total),
+                      "do": _node_json(node.map.do, context, lists),
+                      "expanded": [_node_json(node.map.do, {**context, node.map.as_: item}, lists) for item in items]}
     if node.pick is not None:
         out["pick"] = {"from": node.pick.from_, "how": node.pick.how, "score": [p.text for p in node.pick.score]}
     if node.page is not None:
         out["page"] = _page_json(node.page)
     if node.when is not None:
         out["when"] = node.when.text
+    if node.optional:
+        out["optional"] = True
     return out
 
 
@@ -667,7 +712,7 @@ def _name_evidence(group: list[dict]) -> bool:
     return any(NAME_EVIDENCE & set(r.get("matched_by") or ()) for r in group)
 
 
-def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
+def _fuzzy_entity(entities: list[dict], built, route_obj, program=None) -> bool:
     """A template's entity slot took the top candidate of a group with no exact, catalogue or narrator
     evidence (a fulltext neighbour). Entities taken from the previous turn are never fuzzy."""
     if built.view_match is not None:
@@ -680,7 +725,7 @@ def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
     if route_obj is None:
         return False
     used: set[str] = set()
-    for node in program_mod.run_nodes(route_obj.program):
+    for node in program_mod.run_nodes(route_obj.program if program is None else program):
         used |= routes_mod.placeholders(node.run or "")
     used &= ENTITY_PLACEHOLDERS
     if not used:
@@ -689,6 +734,66 @@ def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
     picked = [primary] + ([second] if used & {"other_entity_id", "other_entity_class"} else [])
     return any(e is not None and e["via"] not in ("first_person", "previous") and e["candidates"]
                and not _name_evidence(e["candidates"]) for e in picked)
+
+
+def _list_slots(choice, entities: list[dict], window, question: str, mentions, search_term, cfg,
+                class_table: dict, *, domains: list[str] | None = None, document: str | None = None,
+                document_pool=()) -> dict:
+    """The list slots a `map.over` may name, as `Slot`s, for the maps of the chosen program.
+    `family_documents` is the matched document's family, newest first (`candidates.family_documents`,
+    read only when the chosen program maps over it and a document matched; else empty)."""
+    wanted = {n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}
+    _named, primary, _second = _used_entities(entities)
+    out: dict[str, slots_mod.Slot] = {}
+    for name in sorted(wanted):
+        if name == "twin_ids":
+            out[name] = slots_mod.twin_ids_slot(primary)
+        elif name == "phrasings":
+            out[name] = slots_mod.phrasings_slot(question, mentions, str(search_term.value or ""), cfg, class_table)
+        elif name == "years":
+            out[name] = slots_mod.years_slot(window)
+        elif document and domains:  # family_documents
+            out[name] = slots_mod.Slot("family_documents", candidates.family_documents(domains, document, document_pool),
+                                       "document_family", 1.0)
+        else:
+            out[name] = slots_mod.Slot("family_documents", [], "none", 1.0)
+    return out
+
+
+def _plan_facts(route, *, question: str, entities: list[dict], expansion, window, document, chunks_only: bool,
+                chosen_view, phrase_words: list[str], index, class_names) -> dict:
+    """The plan-time facts a route's `programs[].when` predicates name (and only those, so the
+    vocabulary check at load is the whole contract). `rare_term` reads the catalogue, so it is built
+    only when a predicate uses it."""
+    wanted: set[str] = set()
+    for choice in route.programs:
+        if choice.when is not None:
+            wanted |= set(program_mod.plan_fact_names(choice.when))
+    _named, primary, _second = _used_entities(entities)
+    values = {
+        "twins": lambda: len((primary or {}).get("twins") or []),
+        "entities": lambda: sum(1 for e in entities if e["via"] != "first_person" and e["candidates"]),
+        "negative": lambda: slots_mod.has_negative_cue(question),
+        "latest": lambda: slots_mod.has_latest_cue(question),
+        "rare_term": lambda: slots_mod.rare_term(
+            phrase_words, [k for k in (index or {})], class_names),
+        "category": lambda: expansion is not None,
+        "date_window": lambda: window is not None,
+        "document": lambda: document is not None,
+        "chunks_only": lambda: bool(chunks_only),
+        "view_count": lambda: chosen_view is not None and slots_mod.has_count_cue(question),
+        "occurrence": lambda: slots_mod.has_occurrence_cue(question),
+        "named_class": lambda: slots_mod.named_class(expansion, entities),
+    }
+    return {name: values[name]() for name in sorted(wanted)}
+
+
+def _choose_program(route, facts: dict):
+    """The first `programs:` entry whose `when` holds; the last entry is the default."""
+    for choice in route.programs[:-1]:
+        if choice.when is not None and program_mod.evaluate_plan_predicate(choice.when, facts):
+            return choice
+    return route.programs[-1]
 
 
 def plan(question: str, domains: list[str] | None = None, *, execute: bool = False,
@@ -827,7 +932,13 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     answer_from: str | None = None
     program_json: list[dict] = []
     guards_json: list[dict] = []
+    program_kind: str | None = None
+    plan_facts: dict = {}
+    view_count = False
+    chosen_choice = None
+    chosen_lists: dict = {}
     route_id, route_conf = route_answer.choice, route_answer.confidence
+    route_adjusted: dict | None = None
 
     def selected_scope(route_for_scope: str | None):
         return slots_mod.scope_slot(list(domains or ()), selected, domain_conf or 0.0, threshold, cfg, question,
@@ -928,16 +1039,50 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if chosen_view is not None:
             built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
                                 context)
+            view_count = bool(built.steps) and slots_mod.has_count_cue(question)
+            if view_count:  # a count from a view is checked against the text (spec 5.5 view count)
+                check = routes_mod.render(VIEW_COUNT_CHECK, context)
+                if check:
+                    built.steps.append({"cmd": check, "why": "text check of the view's count (view count program)"})
+                else:
+                    view_count = False
             route_id, route_conf = "view", view_answer.confidence
         else:
             # A chunks-only scope has no graph routes; it still tells a survey from a search.
             picked = forced_route.id if forced_route else route_answer.choice
             if chunks_only:
                 picked = "survey" if picked == "survey" else "search"
+            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
+            # A named class decides between a search and a listing: "are there any IDEAs" lists the
+            # IDEA entities when IDEA is a class of the scope; the same words over a plain noun stay a search.
+            if (not chunks_only and forced_route is None and picked in CLASS_LIST_ROUTES
+                    and slots_mod.named_class(expansion, entities) and slots_mod.has_list_cue(question)):
+                if picked != "enumeration":
+                    route_adjusted = {"from": picked, "by": "named_class", "classes": list(expansion.classes)}
+                    picked = "enumeration"
+                route_conf = max(route_conf, threshold)  # named_class holds only for an exact class name
             route_obj = next(r for r in all_routes if r.id == picked)
             route_id = route_obj.id
-            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
-            built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
+            choice, lists = None, {}
+            if route_obj.chooses:
+                class_table = _class_table(selected_cats, overview, selected)
+                plan_facts = _plan_facts(
+                    route_obj, question=question, entities=entities, expansion=expansion, window=window,
+                    document=document, chunks_only=chunks_only, chosen_view=None,
+                    phrase_words=slots_mod.mention_free_words(question, mentions) or
+                    [w for w in re.findall(r"\w+", str(search_term.value).casefold())],
+                    index=selected_index, class_names=list(class_table))
+                choice = _choose_program(route_obj, plan_facts)
+                lists = _list_slots(choice, entities, window, question, mentions, search_term, cfg, class_table,
+                                    domains=selected, document=document, document_pool=document_pool)
+                for name in sorted({n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}):
+                    slot_map[name] = lists[name]
+                lists = {name: slot.value for name, slot in lists.items()}
+            chosen_choice, chosen_lists = choice, lists
+            if choice is None:
+                built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
+            else:
+                built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"), choice, lists)
         stages += built.stages
         rendered, fallbacks, read = built.steps, built.fallbacks, built.read
 
@@ -946,7 +1091,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         twins_found = any(e.get("twins") for e in entities)
         sq_score, sq_info = slots_mod.slot_quality(
             slot_map, twins_found=twins_found, twins_unioned=view_twins,
-            entity_from_fuzzy=_fuzzy_entity(entities, built, route_obj),
+            entity_from_fuzzy=_fuzzy_entity(entities, built, route_obj,
+                                            chosen_choice.program if chosen_choice is not None else None),
             search_term_empty=search_term.value == "", all_domains=slot_map["scope"].source == "all")
         stages.append(("slot_quality", sq_score))
         slot_quality_block = {"score": sq_score, **sq_info}
@@ -969,11 +1115,21 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if not high:
             read = [*read, ROUTING_TABLE]
         if chosen_view is not None:
-            program_json = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
-                            for i, step in enumerate(built.steps, 1)]
+            runs = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
+                    for i, step in enumerate(built.steps, 1)]
+            if view_count:
+                runs[-1]["id"] = "text"
+                program_json = [{"id": "p", "kind": "par", "children": runs},
+                                {"id": "u", "kind": "pick", "pick": {"from": "p", "how": "union", "score": []}}]
+                program_kind = "view_count"
+                plan_facts = {"view_count": True}
+            else:
+                program_json, program_kind = runs, "one_step"
         elif route_obj is not None:
-            program_json = [_node_json(n, context) for n in route_obj.program]
-            guards_json = [_guard_json(g) for g in route_obj.guards]
+            used = chosen_choice or route_obj.programs[-1]
+            program_json = [_node_json(n, context, chosen_lists) for n in used.program]
+            guards_json = [_guard_json(g) for g in used.guards]
+            program_kind = used.kind
 
     level = "high" if high else "low"
     executed, rows, rows_total, truncated = None, [], 0, False
@@ -995,6 +1151,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             "id": route_id, "confidence": route_conf,
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],
             "triggered_by": lexical.triggered(route_obj, facts) if (route_obj and lexical_used) else [],
+            "adjusted": route_adjusted,
         },
         "view_match": built.view_match,
         "entities": entities,
@@ -1006,6 +1163,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "scope": _plain(scope_slot.value),
         "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "weakest": weakest},
         "program": program_json,
+        "program_kind": program_kind,
+        "plan_facts": plan_facts,
         "guards": guards_json,
         "asset_match": None,  # P2b/P3
         "gaps": [_plain(g) for g in gaps],
