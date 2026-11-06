@@ -13,6 +13,7 @@ import dataclasses
 import re
 import shlex
 import time
+import unicodedata
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -264,8 +265,42 @@ NAME_EVIDENCE = frozenset({"exact", "catalogue", "narrator"})
 FULLTEXT_WEIGHT = 0.1
 
 
-def _group_weight(group: list[dict]) -> float:
+# A candidate whose whole name is the mention's text outweighs other name matches ("Placeb" over
+# "Placeb Airport"); two such groups (not twins of each other) split the weight as before.
+EXACT_NAME_WEIGHT = 10.0
+# Lexical path only: a view scoring at least this, whose parameters all fill from name evidence and the
+# question, is trusted as if it had reached the threshold (D5b). Below it the view is not tried at all.
+LEXICAL_VIEW_FLOOR = 0.5
+
+
+def _name_key(text) -> str:
+    return " ".join(unicodedata.normalize("NFKC", str(text or "")).casefold().split())
+
+
+def _exact_name(ref: dict, mention: str | None) -> bool:
+    return bool(mention) and _name_key(ref.get("name")) == _name_key(mention)
+
+
+def _group_weight(group: list[dict], mention: str | None = None) -> float:
+    if any(_exact_name(r, mention) for r in group):
+        return EXACT_NAME_WEIGHT
     return 1.0 if any(NAME_EVIDENCE & set(r.get("matched_by") or ()) for r in group) else FULLTEXT_WEIGHT
+
+
+def _names_all_evidenced(view_match: dict, entities: list[dict]) -> bool:
+    """Every entity parameter was filled from a candidate with name evidence (exact name, catalogue,
+    narrator), never from a fulltext neighbour alone."""
+    mention_of = {ref["_id"]: e["mention"] for e in entities for ref in e["candidates"]}
+    for entry in view_match["params"].values():
+        if entry.get("type") != "entity":
+            continue
+        refs = [entry["chosen"]] if entry.get("chosen") else (entry["candidates"] if entry.get("twins") else [])
+        if not refs:
+            return False
+        if not any(NAME_EVIDENCE & set(r.get("matched_by") or ()) or _exact_name(r, mention_of.get(r["_id"]))
+                   for r in refs):
+            return False
+    return True
 
 
 def _pick_group(answer, groups: dict[str, list[dict]]) -> tuple[str | None, float]:
@@ -307,7 +342,8 @@ def _match_view(spec, question: str, entities: list[dict], cfg, threshold: float
                     instructions=f"Which candidate is {pspec.description or name} in the question?",
                     options={**{k: _candidate_text(g[0], cfg.narrator) for k, g in groups.items()},
                              "none": "None of these"},
-                    lexical_scores={k: _group_weight(g) for k, g in groups.items()},
+                    lexical_scores={k: _group_weight(g, mention_of.get(g[0]["_id"], (None,))[0])
+                                    for k, g in groups.items()},
                     default="none", default_confidence=0.0, none_mass=0.0,
                 ))
         elif pspec.type == "enum":
@@ -1020,6 +1056,13 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                 chosen_view = loaded
             else:
                 warnings.append(f"view {loaded.spec.name} matched but does not cover {selected}; not used")
+        lift_view = None
+        if (lexical_used and not chunks_only and chosen_view is None and forced_route is None
+                and view_answer is not None and view_answer.choice != NO_VIEW
+                and LEXICAL_VIEW_FLOOR <= view_answer.confidence < threshold):
+            loaded = views_by_name[view_answer.choice]
+            if selected and all(domain_covered(d, loaded.spec.domains) for d in selected):
+                lift_view = loaded
         resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
         if selected:
             try:
@@ -1034,11 +1077,22 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         })
         if source != "given":
             stages.append(("domain", domain_conf if source != "all" else 0.0))
-        if view_answer is not None and not chunks_only:
-            stages.append(("view", view_answer.confidence))
-        if chosen_view is not None:
-            built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
+        lifted_built = None
+        if lift_view is not None:
+            trial = _view_steps(lift_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
                                 context)
+            if trial.status == "ok" and trial.view_match and _names_all_evidenced(trial.view_match, entities):
+                trial.view_match["confidence_lifted"] = {
+                    "from": view_answer.confidence, "to": threshold,
+                    "reason": "lexical: every parameter filled from name evidence or the question"}
+                trial.view_match["confidence"] = threshold
+                lifted_built, chosen_view = trial, lift_view
+        view_conf = threshold if lifted_built is not None else (view_answer.confidence if view_answer else 0.0)
+        if view_answer is not None and not chunks_only:
+            stages.append(("view", view_conf))
+        if chosen_view is not None:
+            built = lifted_built or _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today,
+                                                calls, selected, context)
             view_count = bool(built.steps) and slots_mod.has_count_cue(question)
             if view_count:  # a count from a view is checked against the text (spec 5.5 view count)
                 check = routes_mod.render(VIEW_COUNT_CHECK, context)
@@ -1046,7 +1100,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                     built.steps.append({"cmd": check, "why": "text check of the view's count (view count program)"})
                 else:
                     view_count = False
-            route_id, route_conf = "view", view_answer.confidence
+            route_id, route_conf = "view", view_conf
         else:
             # A chunks-only scope has no graph routes; it still tells a survey from a search.
             picked = forced_route.id if forced_route else route_answer.choice
