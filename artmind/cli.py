@@ -5329,9 +5329,15 @@ def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: 
 def retrieval_eval_cmd(file_path: Path | None, top_k: str,
                        compare_path: Path | None, retriever: str, legs: str, shape: str,
                        compare_shapes: bool, compact: bool) -> None:
-    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered, evidence_visible."""
+    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered, evidence_visible.
+
+    A vector-text run also records each question's needle `distinct_documents` and `score_drop`
+    (top-10 rows) and prints `needle_spread`: per candidate NEEDLE_SPREAD s in 2..10, the survey
+    labels the needle-alone rule would answer (must be 0) and its precision on needle labels
+    (>= 0.95), with the recommended s. Counts and label ids only.
+    """
     from artmind.retrieval_eval import labels as rl
-    from artmind.retrieval_eval import runner
+    from artmind.retrieval_eval import metrics, runner
 
     path = _retrieval_labels_path(file_path)
     try:
@@ -5375,8 +5381,12 @@ def retrieval_eval_cmd(file_path: Path | None, top_k: str,
     else:
         run = runner.run_eval(loaded, ks=ks, search=runner.default_search_fn(shape), measure_visible=True)
         run["retriever"] = "vector-text"
+        from artmind.query_plan import program as _program
+        run["needle_spread"] = metrics.needle_spread_table(run["questions"], _program.CONSTANTS["NEEDLE_MARGIN"])
     run_path = runner.write_run(run)
     out = {"command": "retrieval eval", "run": str(run_path), "summary": run["summary"]}
+    if "needle_spread" in run:
+        out["needle_spread"] = run["needle_spread"]
     if compare_path:
         out["compare"] = runner.compare_runs(json.loads(compare_path.read_text(encoding="utf-8")), run)
     _echo_json(out, compact)

@@ -110,6 +110,10 @@ def run_eval(
             doc_ids = [(r.get("chunk") or {}).get("doc_id") or (r.get("doc") or {}).get("id") for r in rows
                        if r.get("chunk") or r.get("chunk_id")][:top]
         entry: dict = {"id": label.id, "kind": label.kind, "latency_s": round(latency, 3), "chunk_ids": chunk_ids}
+        if result.get("documents") is None:               # needle step facts, top-10 rows of vector-text
+            entry.update(metrics.needle_stats(result.get("rows") or []))
+            if label.kind == "needle":
+                entry["in_top10"] = bool(set(label.relevant) & set(chunk_ids[:metrics.STAT_ROWS]))
         if label.kind == "needle":
             relevant = set(label.relevant)
             entry["recall"] = {str(k): metrics.recall_at_k(chunk_ids, relevant, k) for k in ks}

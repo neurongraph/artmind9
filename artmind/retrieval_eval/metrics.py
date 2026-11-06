@@ -102,3 +102,62 @@ def summarise(per_question: list[dict], ks: Sequence[int]) -> dict:
         s["latency_s"] = _mean(q["latency_s"] for q in surveys)
         out["survey"] = s
     return out
+
+
+# ── needle statistics and NEEDLE_SPREAD calibration (B2 spec 2026-11-07 §4.2-§4.3) ──
+
+STAT_ROWS = 10      # the planner's needle step reads its ten rows
+SPREAD_CANDIDATES = range(2, 11)
+MIN_PRECISION = 0.95
+
+
+def _row_doc_id(row: dict) -> str | None:
+    if not isinstance(row, dict) or row.get("chat"):
+        return None
+    chunk = row.get("chunk") if isinstance(row.get("chunk"), dict) else {}
+    return ((row.get("document") or {}).get("id") or chunk.get("doc_id")
+            or (row.get("doc") or {}).get("id"))
+
+
+def needle_stats(rows: Sequence[dict]) -> dict:
+    """`distinct_documents` and `score_drop` over the first ten vector-text rows, as the
+    planner's step predicates define them: distinct document ids among the rows; relevance of
+    rank 1 minus rank 2, None when either has no relevance (found by the keyword leg only)."""
+    top = list(rows or [])[:STAT_ROWS]
+    distinct = len({d for d in map(_row_doc_id, top) if d})
+    drop = None
+    if len(top) >= 2:
+        a, b = (top[0] or {}).get("relevance"), (top[1] or {}).get("relevance")
+        if a is not None and b is not None:
+            drop = round(a - b, 4)
+    return {"distinct_documents": distinct, "score_drop": drop}
+
+
+def answers_alone(q: dict, spread: int, margin: float) -> bool:
+    drop, docs = q.get("score_drop"), q.get("distinct_documents")
+    return drop is not None and docs is not None and drop >= margin and docs < spread
+
+
+def needle_spread_table(per_question: Sequence[dict], margin: float) -> dict:
+    """For each candidate s: survey labels the shortcut would answer alone (must be none) and
+    the precision of the shortcut on needle labels (relevant chunk in the top ten; >= 0.95).
+    Counts and label ids only. Recommended s: the largest meeting both, else 2."""
+    scored = [q for q in per_question if "distinct_documents" in q]
+    surveys = [q for q in scored if q["kind"] == "survey"]
+    needles = [q for q in scored if q["kind"] == "needle"]
+    rows, recommended = [], 2
+    for s in SPREAD_CANDIDATES:
+        bad = [q["id"] for q in surveys if answers_alone(q, s, margin)]
+        alone = [q for q in needles if answers_alone(q, s, margin)]
+        hit = sum(1 for q in alone if q.get("in_top10"))
+        precision = round(hit / len(alone), 4) if alone else None
+        meets = not bad and precision is not None and precision >= MIN_PRECISION
+        if meets:
+            recommended = s
+        rows.append({"s": s, "survey_answered_alone": len(bad), "survey_ids": bad,
+                     "needle_answered_alone": len(alone), "needle_precision": precision,
+                     "needle_misses": [q["id"] for q in alone if not q.get("in_top10")],
+                     "meets": meets})
+    return {"margin": margin, "min_precision": MIN_PRECISION,
+            "labels": {"needle": len(needles), "survey": len(surveys)},
+            "candidates": rows, "recommended": recommended}
