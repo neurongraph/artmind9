@@ -74,7 +74,7 @@ class TraceRecorder:
                 followup = bool(session_id) and store.count_session_turns(session_id) > 1
             except Exception:
                 followup = False
-            recorder._shadow = shadow.start(shadow_question, shadow_domains, followup)
+            recorder._shadow = shadow.start(shadow_question, shadow_domains, followup, trace_id)
         return recorder
 
     # ── per event ────────────────────────────────────────────────────────

@@ -36,7 +36,7 @@ def is_nonretrieval(intent: str | None) -> bool:
 _ID_RE = re.compile(r"L\d{3,}")
 _SOURCE_RE = re.compile(r"benchmark|written|trace:[0-9a-f]{8,32}")
 _KEYS = frozenset({"id", "question", "benchmark", "source", "domains", "route", "view", "params", "expect",
-                   "expected_documents", "notes", "intent", "slots", "program_kind"})
+                   "expected_documents", "notes", "intent", "slots", "program_kind", "follows"})
 #: Slot names a label's `slots:` may grade (the keys of the plan's `slots` block).
 SLOT_NAMES = frozenset({"narrator", "search_term", "category", "date_window", "scope", "must_find",
                         "previous_subjects"})
@@ -65,6 +65,7 @@ class Label:
     intent: str | None = None  # one of the eight intents; None = not graded
     slots: dict = field(default_factory=dict)  # slot name -> expected value (see replay.slot_ok)
     program_kind: str | None = None  # recorded only, never graded (spec 2026-11-05 §5.5)
+    follows: str | None = None  # a label id (the previous turn), "none" (plan alone), None = derive from the trace
 
     @property
     def nonretrieval(self) -> bool:
@@ -219,6 +220,10 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
         if program_kind is not None and not (isinstance(program_kind, str) and program_kind.strip()):
             errors.append(f"{where}: program_kind must be a string")
             program_kind = None
+        follows = raw.get("follows")
+        if follows is not None and not (isinstance(follows, str) and (follows == "none" or _ID_RE.fullmatch(follows))):
+            errors.append(f"{where}: follows must be a label id or none")
+            follows = None
         documents = raw.get("expected_documents") or []
         if not isinstance(documents, list) or not all(isinstance(d, str) for d in documents):
             errors.append(f"{where}: expected_documents must be a list of paths")
@@ -227,10 +232,36 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
                          source if isinstance(source, str) else "", tuple(domains),
                          route if route_ok else "", view, _iso(dict(params)), expect, tuple(documents), str(raw.get("notes") or ""),
                          raw.get("benchmark"), intent, _iso(dict(slots)),
-                         program_kind.strip() if program_kind else None))
+                         program_kind.strip() if program_kind else None, follows))
+    errors += _check_threads(out)
     if errors:
         raise LabelError(errors)
     return out
+
+
+def _check_threads(labels: list[Label]) -> list[str]:
+    """`follows` names an existing label, never itself, and the chains have no cycle."""
+    errors: list[str] = []
+    ids = {lb.id for lb in labels}
+    edges: dict[str, str] = {}
+    for lb in labels:
+        if lb.follows in (None, "none"):
+            continue
+        if lb.follows not in ids:
+            errors.append(f"label {lb.id}: follows {lb.follows!r} is not a label id")
+        else:
+            edges[lb.id] = lb.follows
+    reported: set[str] = set()
+    for start in edges:
+        path, node = [], start
+        while node in edges and node not in path:
+            path.append(node)
+            node = edges[node]
+        if node in path and node not in reported:
+            cycle = path[path.index(node):]
+            reported.update(cycle)
+            errors.append("follows forms a cycle: " + " -> ".join([*cycle, node]))
+    return errors
 
 
 def _yaml_header(exc: yaml.YAMLError) -> str:
