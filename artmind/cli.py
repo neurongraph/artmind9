@@ -5186,6 +5186,7 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
                 compact: bool) -> None:
     """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
 
+    A label whose intent is not retrieve/follow_up_why is graded on intent only, not route or domains.
     Prints the summary (label ids, outcomes, mismatches; no question text); per-label
     detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json. Exits 1 when a reported gate
     has not passed (the gate needs --repeat 4, no errors, and for `decision` no fallback).

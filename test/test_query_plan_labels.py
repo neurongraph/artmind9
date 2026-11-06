@@ -323,3 +323,27 @@ def test_hidden_files_and_directories_are_ignored(tmp_path, monkeypatch):
     (tmp_path / "folder.yaml").mkdir()
     result, by = _check(tmp_path, monkeypatch, {".hidden.yaml": "colour: blue\n", "journal.yaml": "{}\n"})
     assert result.exit_code == 0 and set(by) == {"journal"}
+
+
+def test_a_nonretrieval_label_needs_no_route_or_domains():
+    data = _data(intent="curate")
+    for key in ("route", "view", "params", "domains"):
+        data["labels"][0].pop(key)
+    (label,) = labels.parse_labels(data, Path("."), view_params=VIEWS)
+    assert label.nonretrieval and label.route == "" and label.domains == ()
+    kept = _data(intent="meta", view=None, params={})
+    (label,) = labels.parse_labels(kept, Path("."), view_params=VIEWS)
+    assert label.route == "view" and label.domains == ("journal",)
+
+
+def test_a_nonretrieval_label_with_a_view_is_an_error():
+    with pytest.raises(labels.LabelError) as caught:
+        labels.parse_labels(_data(intent="curate"), Path("."), view_params=VIEWS)
+    assert any("takes no view or params" in e for e in caught.value.errors)
+
+
+def test_a_retrieval_intent_label_still_needs_its_route():
+    data = _data(intent="retrieve")
+    data["labels"][0].pop("route")
+    with pytest.raises(labels.LabelError):
+        labels.parse_labels(data, Path("."), view_params=VIEWS)
