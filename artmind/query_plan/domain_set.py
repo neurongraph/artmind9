@@ -15,6 +15,19 @@ searches, in code, by these rules (first that applies):
 | `family_parent` | `FAMILY_SPREAD_CHILDREN`+ children of one family each hold `FAMILY_SPREAD_SHARE` | the family parent (+ any other option in the margin) |
 | `margin` | runners-up within `MARGIN` of the top option's share | the top option and those runners-up |
 
+B2 (`rescope`, once the route is known) moves a set **the classifier decided** (`DomainSet.decided`:
+`margin`, `family_parent`, and `single` in a vault with more than one option; never `given`, `named`,
+`chunks_only_all`, `all`, or a one-option vault) to where the catalogue's evidence says the answer lives.
+A family is the domains sharing a root, the part of the name before its first `.`:
+
+| `set_rule` | Route | Selected |
+|---|---|---|
+| `family` | `search`, `survey`; or an entity/document route where nothing resolved | the family root |
+| `resolved` | `entity_profile`, `entity_history`, `hierarchy`, `path` (entity); `document`, `time_history` (document) | the minimal cover of the domains the entity (or document) and its twins live in |
+| `stores` | `structured` | the family's domains with structured tables |
+
+Every other route and a domain outside any family keep B1's set.
+
 `coverage` is the probability mass of the options the selected set covers (a parent covers its
 children), with the classifier's "no single domain" mass in the denominator. It is the `domain`
 stage of plan confidence: a plan that searches one domain while 40 % of the mass sits elsewhere
@@ -30,7 +43,8 @@ domain named, all of its domains are the scope (1.0).
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass, field, replace
 
 from artmind.query_plan import candidates
 
@@ -58,6 +72,11 @@ class DomainSet:
     named: list[str] = field(default_factory=list)
     whole_vault: bool = False   # a graph-domain set covering every option: no domain decision
     stage: float | None = None  # the `domain` stage; None when given
+    decided: bool = False       # the classifier chose the set (B2 `rescope` may move it)
+    family: str | None = None   # the family root `rescope` looked at (None when it did not apply)
+    store_domains: tuple[str, ...] | None = None  # the table-holding domains of a `stores` set
+    resolution: dict | None = None  # {entity|document: name, domains: [...]} of a `resolved` set
+    tie_break: str | None = None    # "classifier" when the classifier's share picked among entities
 
     def __post_init__(self):
         if self.stage is None and self.coverage is not None:
@@ -164,9 +183,125 @@ def decide(question: str, options, overview: list[dict], answer, all_key: str, *
         rule = "single"
     coverage = round(covered_mass(selected, options, probabilities), 4)
     return DomainSet(selected, _source(selected, options), confidence, coverage, rule, shown,
-                     whole_vault=len(selected) > 0 and _whole_vault(selected, options))
+                     whole_vault=len(selected) > 0 and _whole_vault(selected, options), decided=True)
 
 
 def _whole_vault(selected: list[str], options) -> bool:
     """The set covers every option, and there was more than one to choose from."""
     return len(options) > 1 and all(any(candidates.covered_by(o.key, s) for s in selected) for o in options)
+
+
+# ── B2: scope by evidence in families of domains ──────────────────────────────────────────
+
+FAMILY_ROUTES = frozenset({"search", "survey"})
+ENTITY_ROUTES = frozenset({"entity_profile", "entity_history", "hierarchy", "path"})
+DOCUMENT_ROUTES = frozenset({"document", "time_history"})
+STORE_ROUTES = frozenset({"structured"})
+
+
+def family_root(domain: str) -> str:
+    """The part of a domain name before its first `.` (`X` for `X.a` and `X.a.b`)."""
+    return domain.split(".", 1)[0]
+
+
+def families(all_domains) -> dict[str, list[str]]:
+    """Root -> member domains, for roots with two or more members (a root that is itself a domain
+    counts). A domain with no dot and no children is in no family."""
+    groups: dict[str, set[str]] = {}
+    for d in all_domains:
+        groups.setdefault(family_root(d), set()).add(d)
+    return {root: sorted(members) for root, members in groups.items() if len(members) > 1}
+
+
+#: One thing a name resolved to: (name, the domains it lives in; several for twins).
+Group = tuple[str, tuple[str, ...]]
+#: (kind `entity`|`document`, family root) -> one list of groups per subject the route takes
+#: (one; two for `path`). A subject with no group did not resolve.
+Resolver = Callable[[str, str], "list[list[Group]]"]
+#: family root -> the domains of the family that hold structured tables.
+StoreLookup = Callable[[str], "list[str]"]
+
+
+def _pick(groups: list[Group], probabilities: dict[str, float]) -> tuple[Group, bool]:
+    """One group of a subject whose name resolved to different entities: the one living in the child
+    with the highest classifier share. (group, True) when the share decided, else the first."""
+    if len(groups) == 1:
+        return groups[0], False
+    share = [max((max(0.0, float(probabilities.get(d, 0.0))) for d in g[1]), default=0.0) for g in groups]
+    best = max(share)
+    if share.count(best) == 1 and best > 0:
+        return groups[share.index(best)], True
+    return groups[0], False
+
+
+def rescope(dset: DomainSet, route: str | None, *, options, probabilities: dict[str, float], all_domains,
+            resolve: Resolver | None = None, stores: StoreLookup | None = None) -> DomainSet:
+    """Move a classifier-decided set to where the evidence says the answer lives (module docstring).
+    Returns `dset` unchanged when it does not apply; `family` etc. record what it looked at."""
+    if not dset.decided or not dset.selected or route is None:
+        return dset
+    kind = ("family" if route in FAMILY_ROUTES else "entity" if route in ENTITY_ROUTES
+            else "document" if route in DOCUMENT_ROUTES else "stores" if route in STORE_ROUTES else None)
+    fams = families(all_domains)
+    roots = sorted({family_root(d) for d in dset.selected if family_root(d) in fams})
+    if kind is None or not roots:
+        return dset
+    new = [d for d in dset.selected if family_root(d) not in roots]
+    stage_set = list(new)
+    hows: set[str] = set()
+    subject: tuple[str, str] | None = None
+    resolved_domains: list[str] = []
+    tie = False
+    store_domains: list[str] = []
+    for root in roots:
+        members = [d for d in dset.selected if family_root(d) == root]
+        how, domains = "family", [root]
+        if kind in ("entity", "document") and resolve is not None:
+            subjects = [s for s in resolve(kind, root) if s]
+            if subjects:
+                picked = []
+                for groups in subjects:
+                    group, by_share = _pick(groups, probabilities)
+                    tie = tie or by_share
+                    picked.append(group)
+                how, domains = "resolved", [d for g in picked for d in g[1]]
+                subject = (kind, " / ".join(g[0] for g in picked))
+                resolved_domains += domains
+        elif kind == "stores":
+            tables = list(stores(root)) if stores is not None else []
+            if not tables:  # no table in the family: nothing to scope by, B1's members stay
+                new += members
+                stage_set += members
+                continue
+            how, domains = "stores", tables
+            store_domains += tables
+        new += domains
+        stage_set.append(root)
+        hows.add(how)
+    meta = {"family": roots[0]}
+    if not hows:
+        return replace(dset, stage=None, **meta)
+    selected = minimal_cover(new)
+    shown = ({"resolution": {subject[0]: subject[1], "domains": minimal_cover(resolved_domains)},
+              "tie_break": "classifier" if tie else None} if subject is not None and "resolved" in hows else {})
+    if set(selected) == set(dset.selected):  # the evidence agrees with B1: the rule stays, the evidence is recorded
+        return replace(dset, stage=None, **shown, **meta)
+    rule = "resolved" if "resolved" in hows else "stores" if "stores" in hows else "family"
+    stage_cover = minimal_cover(stage_set)
+    return replace(
+        dset, selected=selected, source=_source(selected, options), set_rule=rule,
+        coverage=round(covered_mass(stage_cover, options, probabilities), 4),
+        whole_vault=_whole_vault(stage_cover, options), stage=None,
+        store_domains=tuple(minimal_cover(store_domains)) if store_domains else None,
+        resolution=({subject[0]: subject[1], "domains": minimal_cover(resolved_domains)}
+                    if subject is not None and "resolved" in hows else None),
+        tie_break="classifier" if tie else None, **meta)
+
+
+def with_guidance(dset: DomainSet, options) -> DomainSet:
+    """A `stores` set whose store kind is `records_plus_guidance` also searches the family root, where
+    the policy text of the records sits. `store_domains` keeps the table domains."""
+    if dset.set_rule != "stores" or not dset.family:
+        return dset
+    selected = minimal_cover([*dset.selected, dset.family])
+    return replace(dset, selected=selected, source=_source(selected, options), stage=None)

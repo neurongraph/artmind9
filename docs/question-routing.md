@@ -129,6 +129,29 @@ through the same rules over its word-overlap scores. `domains.selected` is the l
 `domains.confidence` stays the classifier's confidence in its own top choice, `domains.coverage`
 is the mass the set covers (below), and `domains.named` lists the domains the question named.
 
+**B2: scope by evidence in a family** (`domain_set.rescope`, after the route is known). A set the
+classifier **decided** (`DomainSet.decided`: `margin`, `family_parent`, and `single` in a vault with more
+than one option; never `given`, `named`, `chunks_only_all`, `all`, or a one-option vault) is moved to where
+the catalogue says the answer lives. A family is the domains sharing a root, the part before the first `.`.
+It uses only what the planner already holds (merged name index and document records over the cover, the
+catalogue's `stores` part); no graph query is added. A matched view is checked against B1's set first and
+keeps it.
+
+| `set_rule` | Route | Selected |
+|---|---|---|
+| `family` | `search`, `survey`; or an entity/document route where nothing resolved | the family root |
+| `resolved` | `entity_profile`, `entity_history`, `hierarchy`, `path` (both entities); `document`, `time_history` (the document, and its version family for `latest`) | the minimal cover of the domains the subject and its twins live in |
+| `stores` | `structured` | the family domains with `stores.structured_tables > 0`, plus the family root for a `records_plus_guidance` store kind |
+
+When a name resolves to different entities in several children and the route takes one, the child with the
+highest classifier share wins (`domains.tie_break: "classifier"`); the same id or twins select every child
+they live in. Every other route keeps B1's set. The payload's `domains` keeps all B1 keys and adds `family`,
+`classifier` (`{selected, set_rule, coverage}`, B1's set), `resolution` (`{entity|document, domains}` or
+null) and `tie_break`. The `domain` stage for `family`, `stores` and `resolved` is the coverage of the
+family root; the whole-vault rule is unchanged. The `structured` variants render `db bridge` and `text2sql`
+with `{store_domains}` and their `vector-text` step with `{domains}`. A guard's `replace: search` keeps the
+plan's rescoped set.
+
 Every route template's `{domains}` renders the set comma-joined into one `--domain` (every
 command it reaches takes a repeatable, comma-split `--domain`; a test checks this against the CLI).
 `{domain}` is for a command that takes exactly one domain (`query insights list`): the planner
@@ -162,7 +185,7 @@ store), one or more programs, and evidence ids.
 | `survey` | what several documents say on one topic | "what do the contracts say about notice?" | — | needle search beside a document survey, always merged (`cross_document`) | — |
 | `search` | any other factual question, or how to do something | everything else; "what are the steps to renew?" | — | the same two commands in every scope (`cross_document`); the survey is merged unless the needle answers alone | — |
 
-**B2** (`docs/superpowers/specs/2026-11-07-b2-search-and-scope-design.md`, S1 and S2 built). The `procedure` route is gone (it ran the same command as `search`; its triggers and evidence moved there). `search` runs the `cross_document` program in every scope: the needle (`vector-text`) and the brief survey in parallel, merged unless the needle has a clear winner (`needle.score_drop >= NEEDLE_MARGIN`) in few documents (`needle.distinct_documents < NEEDLE_SPREAD` = 7, calibrated on the retrieval eval of two vaults; the rule is `a < M or b >= S`, and step predicates now accept `or`, lowest precedence, no parentheses). `survey` keeps an always-merge program. Until the executor runs plans, the plan lists both commands, needle first, and shadow agreement counts the agent as agreeing when it ran any command of the plan's first node. Replay grades `search` and `survey` as one route (`replay.ROUTE_GROUPS`); the summary's `route_exact` counts exact matches. **Planned (S3):** in a family of domains, text routes search the family root, entity and document routes the domains where their subject resolves, and `structured` the domains holding the tables.
+**B2** (`docs/superpowers/specs/2026-11-07-b2-search-and-scope-design.md`, S1 and S2 built). The `procedure` route is gone (it ran the same command as `search`; its triggers and evidence moved there). `search` runs the `cross_document` program in every scope: the needle (`vector-text`) and the brief survey in parallel, merged unless the needle has a clear winner (`needle.score_drop >= NEEDLE_MARGIN`) in few documents (`needle.distinct_documents < NEEDLE_SPREAD` = 7, calibrated on the retrieval eval of two vaults; the rule is `a < M or b >= S`, and step predicates now accept `or`, lowest precedence, no parentheses). `survey` keeps an always-merge program. Until the executor runs plans, the plan lists both commands, needle first, and shadow agreement counts the agent as agreeing when it ran any command of the plan's first node. Replay grades `search` and `survey` as one route (`replay.ROUTE_GROUPS`); the summary's `route_exact` counts exact matches. **S3 (built):** in a family of domains, text routes search the family root, entity and document routes the domains where their subject resolves, and `structured` the domains holding the tables (§3.1).
 
 **Planned routes.** Designed, not yet in `routes.yaml`. A label may already name one
 (`labels.PLANNED_ROUTES`): replay counts it as `planned` and records what the planner chose,

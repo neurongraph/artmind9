@@ -221,7 +221,7 @@ def test_every_route_template_takes_several_domains():
     from artmind.query_plan import routes as routes_mod
 
     context = {p: "x" for p in routes_mod.ALL_PLACEHOLDERS}
-    context.update(domains="a.b,c", domain="a.b", domain_list=("a.b", "c"))
+    context.update(domains="a.b,c", store_domains="a.b,c", domain="a.b", domain_list=("a.b", "c"))
     seen = 0
     for route in routes_mod.load_routes():
         templates = [n.run for c in route.programs for n, _ in planner._expand_commands(c.program, context, {})
@@ -237,7 +237,7 @@ def test_every_route_template_takes_several_domains():
                 option = next(p for p in node.params if "--domain" in getattr(p, "opts", ()))
                 assert option.multiple, f"{template}: --domain is not repeatable"
                 value = argv[argv.index("--domain") + 1]
-                assert value == ("a.b,c" if "{domains}" in template else ctx["domain"])
+                assert value == ("a.b,c" if "{domains}" in template or "{store_domains}" in template else ctx["domain"])
                 seen += 1
     assert seen > 20
 
