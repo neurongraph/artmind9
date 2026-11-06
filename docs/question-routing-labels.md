@@ -107,14 +107,15 @@ A bare "yes please" or "go ahead" is `retrieve` in a label: replay has no previo
 | `path` | how two named things are connected | "how are Ann and Ben related?" |
 | `document` | what one named document says | "summarise the lease" |
 | `inventory` | which documents of a kind exist | "what policies do we have?" |
-| `procedure` | how to do something | "what are the steps to renew?" |
 | `structured` | numbers in tables | "the balance per account" |
 | `insights` | what changed, who matters, who drifted | "who have I lost touch with?" |
 | `filing` | notes under a tag, project or area | "my notes tagged garden" |
 | `survey` | what several documents say on one topic | "what do the contracts say about notice?" |
-| `search` | any other factual question | everything else |
+| `search` | any other factual question, or how to do something | everything else; "what are the steps to renew?" |
 | `view` | a saved view answers it exactly | with `view:` and `params:` |
 | `episode` *(planned)* | when something happened, how long it lasted, what surrounded it | "when did Ann go into hospital, and for how many days?" |
+
+`search` and `survey` run the same two commands, so replay grades them as one route: a label saying either is matched by a plan saying either (`route_exact` in the summary still counts exact matches). Label the one that reads best.
 
 Use `episode` when the answer is a span or the context of one happening (start, end, how
 long, what came before or after), not a single fact. Use `existence` for "did it happen at

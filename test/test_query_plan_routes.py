@@ -10,7 +10,7 @@ from artmind.query_plan import routes
 
 EXPECTED_IDS = {
     "existence", "enumeration", "aggregate", "superlative", "entity_profile", "entity_history",
-    "time_history", "conflicts", "hierarchy", "path", "document", "inventory", "procedure",
+    "time_history", "conflicts", "hierarchy", "path", "document", "inventory",
     "structured", "insights", "filing", "survey", "search",
 }
 SKILL_DIR = Path(routes.__file__).resolve().parents[1] / "skills" / "artmind-query"
@@ -376,7 +376,7 @@ def test_predicates_parse_into_an_ast(text):
     ("n.rowz == 0", "unknown predicate name"),
     ("rows", "needs a comparison"),
     ("rows ==", "ends after"),
-    ("rows == 0 or truncated", "unexpected"),
+    ("rows == 0 or", "expected a predicate name"),
     ("rows == true", "not comparable"),
     ("truncated == 1", "not comparable"),
     ("truncated > true", "only supports"),
@@ -566,9 +566,9 @@ def test_single_program_kind_defaults_to_one_step_and_v1_is_sequence():
     (route,) = routes.parse_routes(_program_route())
     assert route.kind == "one_step" and not route.chooses and len(route.programs) == 1
     assert route.programs[0].when is None
-    data = _v2(program=SURVEY_PROGRAM, kind="chunks_cross_document", guards=[])
+    data = _v2(program=SURVEY_PROGRAM, kind="cross_document", guards=[])
     (route,) = routes.parse_routes(data)
-    assert route.kind == "chunks_cross_document"
+    assert route.kind == "cross_document"
     (v1,) = routes.parse_routes({"version": 2, "routes": [{**_v2()["routes"][0], "steps": [BRIEF_VECTOR]}]})
     assert v1.kind == "sequence" and not v1.chooses and v1.programs[0].kind == "sequence"
 
@@ -576,9 +576,6 @@ def test_single_program_kind_defaults_to_one_step_and_v1_is_sequence():
 def test_every_packaged_route_has_one_choice_and_does_not_choose():
     choosing = {"existence": 3, "enumeration": 3, "aggregate": 2, "entity_profile": 2, "document": 2}
     for route in routes.load_routes():
-        if route.id == "search":  # chooses chunks_cross_document for chunks-only scopes
-            assert route.chooses and [c.kind for c in route.programs] == ["chunks_cross_document", "one_step"]
-            continue
         if route.id in choosing:
             assert route.chooses and len(route.programs) == choosing[route.id], route.id
             assert route.programs[-1].when is None
@@ -640,7 +637,7 @@ def test_the_vocabularies_are_the_documented_ones():
     assert prog.PLAN_FACT_NAMES == {"twins", "entities", "negative", "latest", "rare_term", "category",
                                     "date_window", "document", "chunks_only", "view_count", "occurrence", "named_class"}
     assert set(prog.PROGRAM_KINDS) == {
-        "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "chunks_cross_document",
+        "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "cross_document",
         "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence",
         "class_listing"}
     assert prog.LIST_SLOTS == ("twin_ids", "phrasings", "years", "family_documents")
@@ -653,6 +650,26 @@ def test_the_vocabularies_are_the_documented_ones():
     ("not date_window", {}, True), ("not date_window", {"date_window": True}, False),
     ("entities >= 2 and not chunks_only", {"entities": 2}, True),
     ("latest == false", {"latest": False}, True),
+    ("negative or rare_term", {"rare_term": True}, True), ("negative or rare_term", {}, False),
+    ("negative and rare_term or latest", {"latest": True}, True),  # (a and b) or c
+    ("negative and rare_term or latest", {"negative": True}, False),
+    ("latest or negative and rare_term", {"negative": True}, False),  # a or (b and c)
+    ("latest or negative and rare_term", {"negative": True, "rare_term": True}, True),
+    ("not negative or rare_term", {}, True), ("not negative or rare_term", {"negative": True}, False),
+    ("not negative or rare_term", {"negative": True, "rare_term": True}, True),
 ])
 def test_plan_predicates_evaluate_over_facts(text, facts, expected):
     assert prog.evaluate_plan_predicate(prog.parse_when(text, "t"), facts) is expected
+
+
+def test_or_is_the_lowest_precedence_in_step_predicates():
+    pred = prog.parse_predicate(
+        "needle.score_drop < NEEDLE_MARGIN or needle.distinct_documents >= NEEDLE_SPREAD and truncated", "t")
+    assert isinstance(pred.ast, prog.Or) and len(pred.ast.operands) == 2
+    assert isinstance(pred.ast.operands[1], prog.And)
+    assert [c.name for c in pred.comparisons()] == ["score_drop", "distinct_documents", "truncated"]
+    assert prog.CONSTANTS["NEEDLE_SPREAD"] == 5
+    with pytest.raises(prog.ProgramError):
+        prog.parse_predicate("truncated or", "t")
+    with pytest.raises(prog.ProgramError):
+        prog.parse_predicate("or truncated", "t")

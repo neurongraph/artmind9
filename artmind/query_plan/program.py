@@ -33,7 +33,7 @@ MAP_MAX_LIMIT = 40
 PAGE_K_LIMIT = 500
 
 #: Named constants a predicate's right-hand side may use (spec §11).
-CONSTANTS: dict[str, float] = {"NEEDLE_MARGIN": 0.03}
+CONSTANTS: dict[str, float] = {"NEEDLE_MARGIN": 0.03, "NEEDLE_SPREAD": 5}
 
 #: Predicate vocabulary (spec §5.3) and each name's type.
 PREDICATE_TYPES: dict[str, str] = {
@@ -57,7 +57,7 @@ PLAN_FACT_TYPES: dict[str, str] = {
 PLAN_FACT_NAMES = frozenset(PLAN_FACT_TYPES)
 #: Program kinds (spec §5.5); `sequence` is a converted v1 route.
 PROGRAM_KINDS = (
-    "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "chunks_cross_document",
+    "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "cross_document",
     "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence",
     "class_listing",
 )
@@ -102,6 +102,11 @@ class And:
 
 
 @dataclass(frozen=True)
+class Or:
+    operands: tuple
+
+
+@dataclass(frozen=True)
 class Predicate:
     text: str
     ast: object
@@ -114,7 +119,7 @@ class Predicate:
                 out.append(node)
             elif isinstance(node, Not):
                 walk(node.operand)
-            elif isinstance(node, And):
+            elif isinstance(node, (And, Or)):
                 for operand in node.operands:
                     walk(operand)
 
@@ -145,7 +150,7 @@ def _tokens(text: str, where: str) -> list[tuple[str, str]]:
 
 
 def parse_predicate(text, where: str, *, types: dict[str, str] | None = None, qualified: bool = True) -> Predicate:
-    """`<name> <op> <number|bool|CONSTANT>` or a bare boolean name, joined by `and` / `not`.
+    """`<name> <op> <number|bool|CONSTANT>` or a bare boolean name, joined by `or` (lowest precedence), `and` and `not` (tightest); no parentheses.
 
     `types` is the vocabulary (default: the step predicates); `qualified=False` refuses `node.name`."""
     types = PREDICATE_TYPES if types is None else types
@@ -163,6 +168,13 @@ def parse_predicate(text, where: str, *, types: dict[str, str] | None = None, qu
         pos += 1
         return tok
 
+    def parse_or():
+        operands = [parse_and()]
+        while peek() == ("word", "or"):
+            take()
+            operands.append(parse_and())
+        return operands[0] if len(operands) == 1 else Or(tuple(operands))
+
     def parse_and():
         operands = [parse_not()]
         while peek() == ("word", "and"):
@@ -178,7 +190,7 @@ def parse_predicate(text, where: str, *, types: dict[str, str] | None = None, qu
 
     def parse_atom():
         kind, word = peek()
-        if kind != "word" or word in ("and", "not", "true", "false"):
+        if kind != "word" or word in ("and", "or", "not", "true", "false"):
             raise ProgramError(f"{where}: expected a predicate name in {text!r}")
         take()
         node, _, name = word.rpartition(".")
@@ -219,7 +231,7 @@ def parse_predicate(text, where: str, *, types: dict[str, str] | None = None, qu
             raise ProgramError(f"{where}: {name!r} only supports == and !=")
         return Cmp(name, node or None, op, value, const)
 
-    ast = parse_and()
+    ast = parse_or()
     if pos != len(tokens):
         raise ProgramError(f"{where}: unexpected {tokens[pos][1]!r} in {text!r}")
     return Predicate(text.strip(), ast)
@@ -242,6 +254,8 @@ def evaluate_plan_predicate(pred: Predicate, facts: dict) -> bool:
             return bool(_OPS[node.op](have, node.value))
         if isinstance(node, Not):
             return not ev(node.operand)
+        if isinstance(node, Or):
+            return any(ev(o) for o in node.operands)
         return all(ev(o) for o in node.operands)
 
     return ev(pred.ast)

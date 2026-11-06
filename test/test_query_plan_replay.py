@@ -296,3 +296,29 @@ def test_stable_ignores_catalogue_details():
     b = {**base, "catalogue": {"journal": {"source": "memory", "built_at": "t2", "names": 3, "truncated": False}}}
     c = {**base, "catalogue": {"journal": {"source": "live", "built_at": "t1", "names": 4, "truncated": False}}}
     assert replay._stable(a) == replay._stable(b) == replay._stable(c)
+
+
+def test_search_and_survey_are_graded_as_one_route():
+    search = _label(route="search", view=None, params={})
+    assert replay.score(search, _plan(route="survey", view=None))["outcome"] == "correct"
+    survey = _label(route="survey", view=None, params={})
+    assert replay.score(survey, _plan(route="search", view=None))["outcome"] == "correct"
+    # a different group is still a route mismatch
+    assert replay.score(search, _plan(route="conflicts", view=None))["mismatches"] == ["route"]
+    assert replay.score(_label(route="conflicts", view=None, params={}), _plan(route="search", view=None))["mismatches"] == ["route"]
+
+
+def test_a_search_survey_flip_across_repeats_is_not_instability():
+    plans = iter([_plan(route="search", view=None), _plan(route="survey", view=None)])
+    label = _label(route="search", view=None, params={})
+    report = replay.replay([label], "lexical", repeat=2, plan_fn=lambda q, d, classifier, today: next(plans))
+    assert report["unstable"] == [] and report["outcomes"]["correct"] == 1
+
+
+def test_route_exact_counts_labels_matched_without_the_group():
+    results = [replay.score(_label(route="search", view=None, params={}), _plan(route="survey", view=None)),
+               replay.score(_label(route="search", view=None, params={}), _plan(route="search", view=None)),
+               replay.score(_label(route="survey", view=None, params={}), _plan(route="survey", view=None))]
+    summary = replay.summarise(results, [], "lexical")
+    assert summary["route_exact"] == 2 and summary["outcomes"]["correct"] == 3
+    assert summary["per_route"]["search"]["correct"] == 2 and summary["per_route"]["survey"]["correct"] == 1

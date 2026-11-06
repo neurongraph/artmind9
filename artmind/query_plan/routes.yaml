@@ -254,18 +254,6 @@ routes:
     read: []
     evidence: [S18, P8]
 
-  - id: procedure
-    description: How to do something, or the steps, checks and escalation drawn from several procedures, policies or guides.
-    triggers: ["how do i", "how do we", "how to", "steps to", "procedure for", "process for", "what should", "what happens when", "what are the steps"]
-    needs: []
-    kind: one_step
-    program:
-      - {id: s1, run: "artmind query vector-text --shape brief --domain {domains} {question} --topK 10 --compact"}
-    guards:
-      - {on: s1, if: "rows == 0", then: escalate}
-    read: []
-    evidence: [S19, P14]
-
   - id: structured
     description: Numbers held in structured tables (accounts, cases, customers), alone or joined with what policy says about them.
     triggers: ["how many customers", "per customer", "accounts", "balance", "in the table", "records in"]
@@ -317,13 +305,13 @@ routes:
       "which documents", "the contracts say", "the policies", "the agreements", "the reports",
       "who is responsible for", "what are the obligations", "responsibilities of"]
     needs: []
-    kind: chunks_cross_document
+    kind: cross_document
     program:
       - id: p
         par:
           - {id: needle, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
           - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
-      - {id: u, pick: {from: p, how: union}, when: "not needle.score_drop >= NEEDLE_MARGIN"}
+      - {id: u, pick: {from: p, how: union}}
     guards:
       - {on: wide, if: "truncated", then: {page: {until: k, k: 50}}}
       - {on: u, if: "distinct_documents == 0", then: escalate}
@@ -331,23 +319,18 @@ routes:
     evidence: [S2, P43]
 
   - id: search
-    description: Any other factual question, answered from the text of the documents.
-    triggers: []
+    description: "Any other factual question, or how to do something (steps, checks, escalation), answered from the text of the documents."
+    triggers: ["how do i", "how do we", "how to", "steps to", "procedure for", "process for", "what should", "what happens when", "what are the steps"]
     needs: []
-    programs:
-      - kind: chunks_cross_document
-        when: "chunks_only"
-        program:
-          - id: p
-            par:
-              - {id: needle, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
-              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
-          - {id: u, pick: {from: p, how: union}, when: "not needle.score_drop >= NEEDLE_MARGIN"}
-        guards:
-          - {on: wide, if: "truncated", then: {page: {until: k, k: 50}}}
-          - {on: u, if: "distinct_documents == 0", then: escalate}
-      - kind: one_step
-        program:
-          - {id: s1, run: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+    kind: cross_document
+    program:
+      - id: p
+        par:
+          - {id: needle, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
+          - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+      - {id: u, pick: {from: p, how: union}, when: "needle.score_drop < NEEDLE_MARGIN or needle.distinct_documents >= NEEDLE_SPREAD"}
+    guards:
+      - {on: wide, if: "truncated", then: {page: {until: k, k: 50}}}
+      - {on: u, if: "distinct_documents == 0", then: escalate}
     read: []
-    evidence: [S2, P43]
+    evidence: [S2, S19, P14, P43]

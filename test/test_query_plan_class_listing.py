@@ -45,7 +45,7 @@ def test_the_route_change_is_recorded_and_an_exact_class_name_is_confident(no_vi
 def test_a_plain_noun_stays_a_search(no_views, common_words):
     result = _plan("Are there any recipes?")
     assert result["route"]["id"] == "search" and result["route"]["adjusted"] is None
-    assert result["program_kind"] == "one_step"
+    assert result["program_kind"] == "cross_document"
 
 
 def test_a_count_or_a_needle_question_keeps_its_route(no_views, common_words):
