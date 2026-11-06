@@ -184,3 +184,11 @@ def test_cli_reach_prints_counts_and_writes_detail(tmp_path, monkeypatch):
     assert rep["totals"]["expected"] == 1 and rep["totals"]["reached"] == 1
     assert "invented question" not in result.output and "policies/fees.md" not in result.output
     assert list((tmp_path / "logs").glob("plan-reach-*.json"))
+
+
+def test_text2sql_source_tables_are_documents():
+    payload = {"generated_sql": "SELECT 1", "rows": [{"n": 1}],
+               "source_tables": [{"table": "fees", "source_file": "tables/fees.csv"}]}
+    docs = reach.step_documents(payload)
+    assert [d["path"] for d in docs] == ["tables/fees.csv"]
+    assert reach.reached_documents(["tables/fees.csv", "policies/fees.md"], docs) == (["tables/fees.csv"], ["policies/fees.md"])

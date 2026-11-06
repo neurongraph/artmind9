@@ -12,7 +12,8 @@ recorded. A step that errors is recorded and the reach goes on.
 Document fields read from step payloads (see `step_documents`): dicts under the keys `document`
 (vector-text full row), `doc` (brief row), `documents` and `source_documents` (survey rows, graph rows,
 entity-context, document-history), and any dict carrying `doc_id` (survey rows). From each such dict:
-`path`, `source_path`, `name`, `id` / `doc_id`, `title`.
+`path`, `source_path`, `name`, `id` / `doc_id`, `title`. A `text2sql` payload's `source_tables` entries
+count by their `source_file` (the table's ingested file), the evidence a SQL answer rests on.
 
 Counts and label ids only go to the printed report; matched and missed paths go to the private logs.
 """
@@ -28,6 +29,7 @@ from pathlib import Path
 from artmind.query_plan import program as program_mod
 
 DOC_KEYS = ("document", "doc", "documents", "source_documents")
+TABLE_KEY = "source_tables"   # text2sql: [{table, source_file}]
 
 
 # ── documents in a payload ──────────────────────────────────────────────────
@@ -45,6 +47,11 @@ def step_documents(payload) -> list[dict]:
 
     def walk(node, key=None) -> None:
         if isinstance(node, dict):
+            if key == TABLE_KEY:
+                if node.get("source_file"):
+                    found.append({"path": node["source_file"], "source_path": None, "name": None,
+                                  "id": None, "title": None})
+                return
             if key in DOC_KEYS or "doc_id" in node:
                 add(node)
             for k, v in node.items():
