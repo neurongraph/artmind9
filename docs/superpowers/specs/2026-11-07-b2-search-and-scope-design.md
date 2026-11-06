@@ -546,15 +546,25 @@ first: at s = 7 the needle answers alone for 2 of 126 nbs needles and 6 of 50 ba
 of the 108 expected documents, so the gate scales to 70 and the target is one family survey per question
 measured with the same matcher, 78 (one `vector-text` per question: 51).
 
-| Plans | Before | After S1+S2 | After B2 |
-|---|---|---|---|
-| decision model | 35 | 36 | **69** (72 counting every step) |
-| lexical | 31 | 49 | 52 (55) |
+| Plans | Before | After S1+S2 | After S3 | Final (+ store kind fix) |
+|---|---|---|---|---|
+| decision model | 35 | 36 | 69 (72 counting every step) | **71** (74) |
+| lexical | 31 | 49 | 52 (55) | 52 (55) |
 
-The decision model's plans reach 69 of 101: one short of the scaled gate, 9 short of the target. What
-is left sits outside B2's routes: `superlative` (0 of 6; `insights list` fails in a vault with no
-insights snapshot, B5), entity routes (0 of 6; `entity-context` and `entity-history` cite the entity's
-own source documents, not the policy text the answer key also lists), and `structured` (9 of 16;
-`db bridge` steps are not executed by `--reach`). Lexical plans reach less because they abstain to
-`structured` and `aggregate` for text questions (route mismatches, 16), which B3's work on lexical
-cues addresses.
+The decision model's plans reach 71 of 101 (the scaled gate is 70; the target, 78, is not met). The last
+two came from a fix found by the reach run: a `structured` question asking for numbers *and* what the
+policy requires planned the `hybrid` store kind, which runs bridge and SQL but drops the policy text step.
+Guidance cues now win over number cues for a bridged class (`records_plus_guidance`), and `require(s)` is a
+guidance cue (`candidates.store_facts`); the four `structured` labels reach 11 of 16 instead of 9. What is
+left (30 documents) sits outside B2:
+
+| Missed | Documents | Where it belongs |
+|---|---|---|
+| misrouted plans: `superlative` for a survey or structured question (`L022`, `L035`), `aggregate` for an entity question (`L028`) | 8 | B3 (decision-model calibration); `insights list` also exits 1 in a vault with no insights snapshot (B5) |
+| entity routes cite only the entity's own documents (`L004`, `L012`) | 4 | a text step beside `entity-context` / `entity-history`, a route design change after B2 |
+| one to three documents per `search`, `survey` and `time_history` plan | about 13 | retrieval ranking, not routing |
+| `structured`: `db bridge` is not executed by `--reach`; the rest by ranking | 5 | measurement |
+
+The lexical plans reach less because they abstain to `structured` and `aggregate` for text questions
+(16 route mismatches), which is B3's work on lexical cues. Final replay on this build: no label newly wrong
+in any vault (banking decision 0 / 8 / 23 / 3); route parity unchanged from the S3 run; suite 6,653 passed.
