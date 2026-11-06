@@ -785,6 +785,7 @@ traces.
 | P6 | Knowledge + Pipeline areas | Catalogue browser, topic reader, Pipeline from `pipeline status`, glossary data file | Plugin and UI read one glossary; checklist parity tests |
 | P7 | Ingest + schema builder | Domain-mode step, ingestion-helper and curate diets | A new vault of each mode set up by the skill with no manual YAML |
 | PA (2026-11-06) | Assembly pass (`2026-11-06-assembly-pass-episodes-design.md`) | PA1 episode records, projection and `query episodes`; PA2 `projection assemble --task episodes`; PA3 route `episode` (`episode_lookup`, then `event_window` after P3); PA4+ intervals, recurrence, coreference, fulfilment | PA2: episode membership precision ≥ 0.9 on a labelled public set; PA3: no labelled span question worse than `search` |
+| B2 (2026-11-07) | Search and scope (`2026-11-07-b2-search-and-scope-design.md`), after B1 (domain decision as a set, on `integration/p2b`) | route `procedure` removed (its triggers move to `search`); `search` runs needle + brief survey in parallel in every domain (needle alone only on a clear winner in few documents); `search` ≡ `survey` in replay; family scope by evidence (text → family root, entity/document → where it resolves, structured → the table domains) | Replay on the three vaults no worse per label; banking document reach of the plans' own steps ≥ 75 of 108 (target 84) |
 
 P0 is the critical path: its evidence gates switching the planner on (P2 onward), and only
 the user can run it, so it starts first. P1a and P1 do not wait for it, because what justifies

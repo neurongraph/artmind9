@@ -163,6 +163,8 @@ store), one or more programs, and evidence ids.
 | `survey` | what several documents say on one topic | "what do the contracts say about notice?" | — | needle search beside a document survey, merged | — |
 | `search` | any other factual question | everything else | — | text search | the cross-document program in chunks-only domains |
 
+**Planned: B2** (`docs/superpowers/specs/2026-11-07-b2-search-and-scope-design.md`, design draft). The `procedure` route is removed (it ran the same command as `search`; its triggers move there). `search` runs the cross-document program in every domain: needle and brief survey in parallel, the needle alone only when it has a clear winner (`score_drop >= NEEDLE_MARGIN`) in few documents (`distinct_documents < NEEDLE_SPREAD`); `survey` keeps an always-merge program, and replay grades the two as one route. In a family of domains, text routes search the family root, entity and document routes the domains where their subject resolves, and `structured` the domains holding the tables.
+
 **Planned routes.** Designed, not yet in `routes.yaml`. A label may already name one
 (`labels.PLANNED_ROUTES`): replay counts it as `planned` and records what the planner chose,
 so the shape is measured before it is built.
@@ -354,7 +356,7 @@ confidence, and labels that grade abstention.
   default until labels say otherwise).
 - How `executed` vs draft is known per document for `latest`.
 - Whether the chunks-only cross-document program should also run for graph domains' text
-  questions.
+  questions (B2 plans yes, see the planned note in §4).
 - Where the domain-set constants should sit (`MARGIN` 0.15, `FAMILY_SPREAD_SHARE` 0.10,
   `FAMILY_SPREAD_CHILDREN` 3): code constants today, perhaps plan config later; and whether a
   vault that mixes chunks-only and graph domains should search every chunks-only one when the
