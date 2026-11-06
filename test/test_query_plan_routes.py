@@ -668,7 +668,7 @@ def test_or_is_the_lowest_precedence_in_step_predicates():
     assert isinstance(pred.ast, prog.Or) and len(pred.ast.operands) == 2
     assert isinstance(pred.ast.operands[1], prog.And)
     assert [c.name for c in pred.comparisons()] == ["score_drop", "distinct_documents", "truncated"]
-    assert prog.CONSTANTS["NEEDLE_SPREAD"] == 5
+    assert prog.CONSTANTS["NEEDLE_SPREAD"] == 7
     with pytest.raises(prog.ProgramError):
         prog.parse_predicate("truncated or", "t")
     with pytest.raises(prog.ProgramError):

@@ -33,7 +33,7 @@ MAP_MAX_LIMIT = 40
 PAGE_K_LIMIT = 500
 
 #: Named constants a predicate's right-hand side may use (spec §11).
-CONSTANTS: dict[str, float] = {"NEEDLE_MARGIN": 0.03, "NEEDLE_SPREAD": 5}
+CONSTANTS: dict[str, float] = {"NEEDLE_MARGIN": 0.03, "NEEDLE_SPREAD": 7}  # calibrated 2026-11-06 (B2 §4.3): largest s meeting both retrieval-eval vaults
 
 #: Predicate vocabulary (spec §5.3) and each name's type.
 PREDICATE_TYPES: dict[str, str] = {

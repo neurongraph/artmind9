@@ -552,6 +552,7 @@ they move.
 | `confidence_threshold` (per domain) | 0.7 | wrong-at-high vs abstained on rated turns, with slot quality in the score (N6) |
 | slot-quality factors (§4.8) | 0.7 / 0.5 / 0.6 / 0.8 | rated turns where the first step was inadequate though the route was right (lesson 11) |
 | `NEEDLE_MARGIN` | 0.03 | needle vs survey labels, both vaults, more than 10 + 10 (lesson 13) |
+| `NEEDLE_SPREAD` | 7 (calibrated 2026-11-06, B2 §4.3) | retrieval eval, nbs_audit_2026 (126 needle / 10 survey) and banking_corpus (50 / 10): no survey label answered by the needle alone at any s; needle-alone precision 1.0 up to s = 7 in both, 0.67 at s = 8 on nbs |
 | `ASSET_MATCH` / `ASSET_OFFER` | 0.80 / 0.70 | rated turns where a page or view was or should have been used (N2) |
 | bundle evidence cap | 10 passages + 1 per further document | `page_calls` and `expand_calls` per turn after a brief survey (P1b instrumentation); many means the cap is too low |
 | classifier default per vault | lexical | `plan replay --classifier both` on confirmed round-8 labels (N7) |
