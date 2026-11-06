@@ -182,3 +182,69 @@ def test_round8_shaped_cues(question, intent):
 
 def test_more_affirmatives_are_context_only():
     assert I.is_context_only("sounds good, proceed")
+
+
+# --- D3 / D4 ------------------------------------------------------------------------------
+
+@pytest.mark.parametrize("q,want", [
+    ("Approve the merge you suggested", "curate"),
+    ("approve Alpha ↔ Beta, reject the others", "curate"),
+    ("Reject all the others, they are distinct", "curate"),
+    ("Adjudicate the 12 open conflicts", "curate"),
+    ("Review the 5 open same-as proposals", "curate"),
+    ("I am good with dismissing clusters A and B", "curate"),
+    ("these two should also be dismissed", "curate"),
+    ("they are two distinct events", "curate"),
+    ("all these are different", "curate"),
+    ("Alpha and Beta are really the same programme", "curate"),
+    ("ask artmind curate to fix the spelling variants", "curate"),
+    ("use artmind curate to fix", "curate"),
+    ("ok - run the synthesize", "ops"),
+    ("run the projection rebuild", "ops"),
+    ("run vault sync", "ops"),
+    ("can you check the status now", "status"),
+    ("is the ingest done?", "status"),
+    ("how did the conflict with the landlord end?", "retrieve"),
+    ("which proposals did the board approve in 2024?", "retrieve"),
+    ("what is different about the new contract?", "retrieve"),
+    ("are there any distinct trends?", "retrieve"),
+    ("what did the reviewer reject?", "retrieve"),
+])
+def test_lexical_cues_d4(q, want):
+    assert lexical(q) == want
+
+
+@pytest.mark.parametrize("q", [
+    "run as is", "yes do (a) and (b)", "I like your plan, proceed", "option 2", "the others",
+    "what you have suggested", "that one", "go ahead", "do it", "these", "dismiss those", "yes", "",
+])
+def test_refers_to_previous_true(q):
+    assert I.refers_to_previous(q)
+
+
+@pytest.mark.parametrize("q", [
+    "what does this policy say about notice periods?",
+    "who signed that lease in march",
+    "why was this contract terminated early by the vendor and when did that happen",
+    "which of the vendors raised option 2 in the long meeting about renewal terms",
+])
+def test_refers_to_previous_false(q):
+    assert not I.refers_to_previous(q)
+
+
+def test_cap_without_previous_classifier_and_lexical():
+    ans = Answer("ops", {"ops": 0.95, "retrieve": 0.05}, 0.95)
+    r = I.decide_intent("run as is", None, ans)
+    assert (r.intent, r.source, r.confidence, r.no_previous_capped) == ("ops", "classifier", I.NO_PREVIOUS_CAP, True)
+    r = I.decide_intent("proceed", None, Answer("status", {"status": 0.3}, 0.3))
+    assert r.confidence == 0.3 and r.no_previous_capped  # a lower confidence is kept
+    r = I.decide_intent("approve the merge you suggested", None, None)
+    assert r.intent == "curate" and r.source == "lexical" and r.confidence <= I.NO_PREVIOUS_CAP and r.no_previous_capped
+
+
+def test_cap_not_applied_with_previous_or_standalone():
+    ans = Answer("ops", {"ops": 0.95}, 0.95)
+    r = I.decide_intent("run as is", I.Previous(intent="retrieve"), ans)
+    assert r.confidence == 0.95 and not r.no_previous_capped
+    r = I.decide_intent("rebuild the index now please", None, Answer("ops", {"ops": 0.9}, 0.9))
+    assert r.confidence == 0.9 and not r.no_previous_capped

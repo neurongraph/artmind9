@@ -39,6 +39,19 @@ intents:
       - ^merge
       - should be merged
       - same-as
+      - ^approve
+      - ^reject
+      - ^adjudicate
+      - open conflicts
+      - open same-as
+      - good with dismissing
+      - be dismissed
+      - ^dismissing
+      - are two distinct
+      - are distinct
+      - all these are
+      - are really the same
+      - artmind curate
 
   - id: update
     description: An instruction to store a new fact or note in the knowledge base.
@@ -69,6 +82,9 @@ intents:
       - still running
       - ^progress
       - any progress
+      - ingest done
+      - ingest finished
+      - ingest complete
 
   - id: ops
     description: An instruction to run a pipeline operation such as ingesting, re-extracting or rebuilding.
@@ -77,6 +93,13 @@ intents:
       - re-extract
       - reingest
       - ^rebuild
+      - run the synthesize
+      - run synthesize
+      - run the projection
+      - projection rebuild
+      - vault sync
+      - run the ingest
+      - run ingest
 
 affirmatives:
   - "yes"
