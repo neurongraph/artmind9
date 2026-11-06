@@ -104,7 +104,7 @@ store), one or more programs, and evidence ids.
 | Route | Question shape | Invented example | Needs | Default program | Variants (chosen by plan facts) |
 |---|---|---|---|---|---|
 | `existence` | did something happen, or is it mentioned at all | "did I visit the lake again?" | entity | exact-term entity search | `existence_concept` when a rare term sits beside a known entity; `absence` when the question expects a negative |
-| `enumeration` | a complete list of every item of a kind | "list all the trips" | — | entity search paged to the total, with a text check, merged | `draw_connected` when an entity is named ("everyone linked to X") |
+| `enumeration` | a complete list of every item of a kind | "list all the trips" | — | entity search paged to the total, with a text check, merged | `class_listing` when the question names one class of the scope and no other entity; `draw_connected` when an entity is named ("everyone linked to X") |
 | `aggregate` | a count, total, average or frequency | "how many times did we eat out?" | — | generated graph query | `kinship_aggregate` when the person has twins |
 | `superlative` | the most, least, top or favourite, inferred | "my favourite café" | — | insights, then generated graph query | — |
 | `entity_profile` | who or what one named thing is | "tell me about Ann" | entity | entity context | `entity_visits` when the question counts occurrences |
@@ -134,6 +134,13 @@ so the shape is measured before it is built.
 derived episodes or from text, never from EVENT nodes alone, since first-pass extraction
 splits one happening into several occurrent observations. `event_window` needs a later step
 to read an earlier step's result, which waits for the P3 executor.
+
+**A named class turns a search into a listing.** The question is matched against the scope's
+classes before the route is settled. When it names a class by its name (plural or case aside)
+and no other entity, and asks which items exist ("are there any", "list", "do I have", not a
+count and not "which one"), a `search`, `existence` or `enumeration` route becomes
+`enumeration` with the `class_listing` program, and the payload's `route.adjusted` records the
+change. The same words over a noun that is not a class ("are there any recipes?") stay a search.
 
 **Chunks-only domains** (`graph_extraction: false`) have no graph, so they plan only `survey`
 or `search`, and `search` there uses the cross-document program.
@@ -212,6 +219,7 @@ the default. Plan facts are a separate, fixed vocabulary computed at plan time:
 | `latest` | latest, current, most recent, amended |
 | `occurrence` | visits, times, occasions, every time |
 | `rare_term` | a content word is in neither the catalogue's names nor its classes |
+| `named_class` | the classes the question names by class name (or a configured category) when it names no other entity; 0 otherwise |
 | `category`, `date_window`, `document`, `chunks_only`, `view_count` | the slot or scope exists |
 
 ### 6.4 Program kinds
@@ -221,6 +229,7 @@ the default. Plan facts are a separate, fixed vocabulary computed at plan time:
 | `one_step` | one command, with guards | the simple case |
 | `view_count` | view beside a text check, merged | counts from a view can miss what extraction missed |
 | `enumeration` | page to the total, text check, union | a list from a truncated result is wrong (P21, P58) |
+| `class_listing` | every entity of the named class beside a text check, merged | "are there any IDEAs" was planned as one text search although IDEA is a class |
 | `draw_connected` | entity context + paged entity search | "graph of my friends" stopped at the first page (P58) |
 | `kinship_aggregate` | map over twins, union | the same person split across nodes (P37) |
 | `entity_visits` | entity context, page, text check, docs vs cited | occurrences missed by a single hub row (P50, P59) |

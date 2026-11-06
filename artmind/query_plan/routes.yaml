@@ -52,6 +52,19 @@ routes:
     triggers: ["all the", "every", "list all", "list the", "recorded", "complete list", "each of", "which ones"]
     needs: []
     programs:
+      # "are there any IDEAs", "list my PLANs": the question names one class of the scope and no other
+      # entity, so list that class (rows_total is the count) beside a text check for items the graph missed.
+      - kind: class_listing
+        when: "named_class == 1"
+        program:
+          - id: both
+            par:
+              - {id: s1, run: "artmind query graph pattern1 --domain {domains} --entityClass {entity_class_list} --limit 200 --shape brief --compact"}
+              - {id: text, run: "artmind query vector-text --shape brief --domain {domains} {search_term} --compact"}
+          - {id: found, pick: {from: both, how: union}}
+        guards:
+          # No entity of the class in this scope: the notes may still mention it in other words.
+          - {"on": s1, if: "rows == 0", then: {replace: search}}
       # "everyone linked to X" (R8, P58): the entity's brief context plus its mentions, paged to rows_total.
       - kind: draw_connected
         when: "entities >= 1"

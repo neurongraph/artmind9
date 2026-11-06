@@ -36,6 +36,9 @@ ALL_DOMAINS = "__all__"
 NO_VIEW = "none"
 ROUTING_TABLE = "SKILL.md"
 VIEW_COUNT_CHECK = "artmind query vector-text --shape brief --domain {domains} {search_term} --topK 10 --compact"
+#: Routes a named class turns into `enumeration` when the question asks which items exist
+#: (`slots.named_class` + `slots.has_list_cue`); other routes keep their shape.
+CLASS_LIST_ROUTES = frozenset({"search", "existence", "enumeration"})
 VIEW_FALLBACK = "artmind query vector-text --domain {domains} {question} --compact"
 
 
@@ -780,6 +783,7 @@ def _plan_facts(route, *, question: str, entities: list[dict], expansion, window
         "chunks_only": lambda: bool(chunks_only),
         "view_count": lambda: chosen_view is not None and slots_mod.has_count_cue(question),
         "occurrence": lambda: slots_mod.has_occurrence_cue(question),
+        "named_class": lambda: slots_mod.named_class(expansion, entities),
     }
     return {name: values[name]() for name in sorted(wanted)}
 
@@ -934,6 +938,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     chosen_choice = None
     chosen_lists: dict = {}
     route_id, route_conf = route_answer.choice, route_answer.confidence
+    route_adjusted: dict | None = None
 
     def selected_scope(route_for_scope: str | None):
         return slots_mod.scope_slot(list(domains or ()), selected, domain_conf or 0.0, threshold, cfg, question,
@@ -1047,9 +1052,17 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             picked = forced_route.id if forced_route else route_answer.choice
             if chunks_only:
                 picked = "survey" if picked == "survey" else "search"
+            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
+            # A named class decides between a search and a listing: "are there any IDEAs" lists the
+            # IDEA entities when IDEA is a class of the scope; the same words over a plain noun stay a search.
+            if (not chunks_only and forced_route is None and picked in CLASS_LIST_ROUTES
+                    and slots_mod.named_class(expansion, entities) and slots_mod.has_list_cue(question)):
+                if picked != "enumeration":
+                    route_adjusted = {"from": picked, "by": "named_class", "classes": list(expansion.classes)}
+                    picked = "enumeration"
+                route_conf = max(route_conf, threshold)  # named_class holds only for an exact class name
             route_obj = next(r for r in all_routes if r.id == picked)
             route_id = route_obj.id
-            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
             choice, lists = None, {}
             if route_obj.chooses:
                 class_table = _class_table(selected_cats, overview, selected)
@@ -1138,6 +1151,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             "id": route_id, "confidence": route_conf,
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],
             "triggered_by": lexical.triggered(route_obj, facts) if (route_obj and lexical_used) else [],
+            "adjusted": route_adjusted,
         },
         "view_match": built.view_match,
         "entities": entities,

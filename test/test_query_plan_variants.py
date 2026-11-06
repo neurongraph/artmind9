@@ -29,7 +29,7 @@ def _route(route_id):
 
 @pytest.mark.parametrize("route_id, kinds", [
     ("existence", ["existence_concept", "absence", "one_step"]),
-    ("enumeration", ["draw_connected", "enumeration"]),
+    ("enumeration", ["class_listing", "draw_connected", "enumeration"]),
     ("aggregate", ["kinship_aggregate", "one_step"]),
     ("entity_profile", ["entity_visits", "one_step"]),
     ("document", ["latest", "one_step"]),
@@ -96,7 +96,7 @@ def test_an_enumeration_without_an_entity_keeps_the_default_and_pages_when_cut(w
     world["views"] = []
     result = _plan("List all the recorded hobbies")
     assert result["route"]["id"] == "enumeration" and result["program_kind"] == "enumeration"
-    assert result["plan_facts"] == {"entities": 0}
+    assert result["plan_facts"] == {"entities": 0, "named_class": 0}  # no catalogue here: HOBBY is no class
     cmds = _cmds(result)
     assert cmds[0].startswith("artmind query graph pattern7 --domain journal --searchTerm ")
     assert "--limit 50" in cmds[0] and "--shape brief" in cmds[0]

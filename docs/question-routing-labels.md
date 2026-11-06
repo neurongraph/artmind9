@@ -95,6 +95,10 @@ Use `episode` when the answer is a span or the context of one happening (start, 
 long, what came before or after), not a single fact. Use `existence` for "did it happen at
 all", and `search` when one passage answers it. Give it `expect: low` until the route is built.
 
+A question that names a class of the domain and asks which exist ("are there any IDEAs?",
+"list my PLANs") is `enumeration`, not `search`: the planner lists that class. The same
+question over a word that is not a class ("are there any recipes?") is `search`.
+
 Chunks-only domains have no graph: their labels can only be `survey` (one topic across
 documents) or `search` (a specific fact).
 

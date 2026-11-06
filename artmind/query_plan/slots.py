@@ -610,6 +610,42 @@ def has_count_cue(question: str) -> bool:
     return has_cue(question, COUNT_CUES)
 
 
+#: A question asking which items of a kind exist (not a count, not one fact): "are there any X",
+#: "list the X", "what X have I". With a named class it lists the class (`named_class`, below).
+#: Not "which": "which fraud alert was raised by X" asks for one item, not the list of a class.
+LIST_CUES = ("are there", "is there", "were there", "was there", "any", "list", "all the", "all my", "every",
+             "what kinds of", "what sort of", "do i have", "did i have", "have i had", "show me", "recorded")
+
+
+def has_list_cue(question: str) -> bool:
+    return has_cue(question, LIST_CUES) and not has_count_cue(question)
+
+
+def named_class(expansion: "Expansion | None", entities: Iterable[dict]) -> int:
+    """How many classes the question names when it names a class by its name (or a configured category)
+    and no other entity (0 otherwise). A description match ("closed" -> ACCOUNT) is too weak to list a
+    class. An entity resolved from the class word itself ("ideas" as a fulltext neighbour) does not
+    count; the narrator does not either."""
+    if expansion is None or not expansion.classes or not exact_class_match(expansion):
+        return 0
+    class_words = [_stems(w) for w in re.findall(r"[a-z0-9]+", expansion.word.casefold())]
+    for entity in entities:
+        if entity.get("via") in ("first_person", "previous") or not entity.get("candidates"):
+            continue
+        if any("narrator" in (ref.get("matched_by") or ()) for ref in entity["candidates"]):
+            continue
+        mention = re.findall(r"[a-z0-9]+", str(entity.get("mention") or "").casefold())
+        if mention and all(any(_stems(w) & s for s in class_words) for w in mention):
+            continue  # the class word itself, resolved as a name
+        return 0
+    return len(expansion.classes)
+
+
+def exact_class_match(expansion: "Expansion | None") -> bool:
+    """The class word is a class name (or a configured category), not a description match."""
+    return expansion is not None and (expansion.source == "category" or expansion.narrowed)
+
+
 # --------------------------------------------------------------------------- quality (§4.8)
 
 def slot_quality(slots: Mapping[str, Slot], *, twins_found: bool = False, twins_unioned: bool = True,
