@@ -364,7 +364,7 @@ def _previous_for_label(label, threads, plans, labels_by_id):
 
 
 def replay(labels, classifier: str, repeat: int = 1, *, given_domains: bool = False, model: str | None = None,
-           plan_fn=None, threads: dict | None = None) -> dict:
+           plan_fn=None, threads: dict | None = None, plans_out: dict | None = None) -> dict:
     """Plan every label `repeat` times and score the first plan.
 
     Labels are planned in thread order (see `resolve_threads`): a label that follows another is handed
@@ -380,7 +380,7 @@ def replay(labels, classifier: str, repeat: int = 1, *, given_domains: bool = Fa
     labels = list(labels)
     threads = resolve_threads(labels) if threads is None else threads
     labels_by_id = {lb.id: lb for lb in labels}
-    plans: dict[str, dict] = {}
+    plans: dict[str, dict] = {} if plans_out is None else plans_out  # label id -> first plan (reach reads it)
     by_label: dict[str, dict] = {}
     unstable: list[str] = []
     flips: list[dict] = []
