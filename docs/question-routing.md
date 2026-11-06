@@ -156,14 +156,13 @@ store), one or more programs, and evidence ids.
 | `path` | how two named things are connected | "how are Ann and Ben related?" | two entities | direct link; shortest path, then text if empty | — |
 | `document` | what one named document says | "summarise the lease" | document | the document's facts; its history if empty | `latest` when the question asks for the current version |
 | `inventory` | which documents of a kind exist | "what policies do we have?" | — | domain overview (+ class listing) | — |
-| `procedure` | how to do something, from guides | "what are the steps to renew?" | — | text search, top 10 | — |
 | `structured` | numbers held in tables | "the balance per account" | store | bridge + SQL (per store kind) | — |
 | `insights` | what changed, who matters, who drifted | "who have I lost touch with?" | — | insights list | — |
 | `filing` | notes under a tag, project or area | "my notes tagged garden" | — | filing listing | — |
-| `survey` | what several documents say on one topic | "what do the contracts say about notice?" | — | needle search beside a document survey, merged | — |
-| `search` | any other factual question | everything else | — | text search | the cross-document program in chunks-only domains |
+| `survey` | what several documents say on one topic | "what do the contracts say about notice?" | — | needle search beside a document survey, always merged (`cross_document`) | — |
+| `search` | any other factual question, or how to do something | everything else; "what are the steps to renew?" | — | the same two commands in every scope (`cross_document`); the survey is merged unless the needle answers alone | — |
 
-**Planned: B2** (`docs/superpowers/specs/2026-11-07-b2-search-and-scope-design.md`, design draft). The `procedure` route is removed (it ran the same command as `search`; its triggers move there). `search` runs the cross-document program in every domain: needle and brief survey in parallel, the needle alone only when it has a clear winner (`score_drop >= NEEDLE_MARGIN`) in few documents (`distinct_documents < NEEDLE_SPREAD`); `survey` keeps an always-merge program, and replay grades the two as one route. In a family of domains, text routes search the family root, entity and document routes the domains where their subject resolves, and `structured` the domains holding the tables.
+**B2** (`docs/superpowers/specs/2026-11-07-b2-search-and-scope-design.md`, S1 and S2 built). The `procedure` route is gone (it ran the same command as `search`; its triggers and evidence moved there). `search` runs the `cross_document` program in every scope: the needle (`vector-text`) and the brief survey in parallel, merged unless the needle has a clear winner (`needle.score_drop >= NEEDLE_MARGIN`) in few documents (`needle.distinct_documents < NEEDLE_SPREAD`, default 5; the rule is `a < M or b >= S`, and step predicates now accept `or`, lowest precedence, no parentheses). `survey` keeps an always-merge program. Until the executor runs plans, the plan lists both commands, needle first, and shadow agreement counts the agent as agreeing when it ran any command of the plan's first node. Replay grades `search` and `survey` as one route (`replay.ROUTE_GROUPS`); the summary's `route_exact` counts exact matches. **Planned (S3):** in a family of domains, text routes search the family root, entity and document routes the domains where their subject resolves, and `structured` the domains holding the tables.
 
 **Planned routes.** Designed, not yet in `routes.yaml`. A label may already name one
 (`labels.PLANNED_ROUTES`): replay counts it as `planned` and records what the planner chose,
@@ -276,7 +275,7 @@ the default. Plan facts are a separate, fixed vocabulary computed at plan time:
 | `draw_connected` | entity context + paged entity search | "graph of my friends" stopped at the first page (P58) |
 | `kinship_aggregate` | map over twins, union | the same person split across nodes (P37) |
 | `entity_visits` | entity context, page, text check, docs vs cited | occurrences missed by a single hub row (P50, P59) |
-| `chunks_cross_document` | needle search beside a survey, merged | one ranking misses either the needle or the breadth (P43) |
+| `cross_document` | needle search beside a survey, merged (always for `survey`, unless the needle answers alone for `search`); formerly `chunks_cross_document`, still read in old traces and labels | one ranking misses either the needle or the breadth (P43) |
 | `latest` | map over the document family, newest first | a later restatement reversed an earlier change (lesson 30) |
 | `history` | history commands only | generated Cypher could not read history (P12) |
 | `absence` | one exhaustive exact-term sweep | repeated searches proved nothing (P25) |

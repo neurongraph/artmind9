@@ -250,7 +250,8 @@ def test_an_unfillable_route_still_gets_search_suggestions(world):
     assert result["confidence"]["level"] == "low" and result["confidence"]["weakest"] == "unfilled"
     assert result["steps"] == []
     assert [s["cmd"] for s in result["suggested_steps"]] == [
-        "artmind query vector-text --shape brief --domain journal 'Did I go to the gym again?' --compact"
+        "artmind query vector-text --shape brief --domain journal --topK 10 'go gym' --compact",
+        "artmind query survey --shape brief --domain journal 'Did I go to the gym again?' --compact",
     ]
     assert result["fallbacks"] == []
     assert any("route existence needs entity_name" in w and "suggested search instead" in w

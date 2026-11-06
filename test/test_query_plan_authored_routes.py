@@ -8,8 +8,8 @@ from test_query_plan_planner import FakeClassifier, _answer, _plan, _use, world 
 
 OWNED = {
     "entity_history": "history", "time_history": "history", "conflicts": "one_step", "hierarchy": "one_step",
-    "path": "one_step", "procedure": "one_step", "superlative": "one_step", "inventory": "one_step",
-    "insights": "one_step", "filing": "one_step", "survey": "chunks_cross_document",
+    "path": "one_step", "superlative": "one_step", "inventory": "one_step",
+    "insights": "one_step", "filing": "one_step", "survey": "cross_document",
 }
 
 
@@ -35,46 +35,53 @@ def test_only_structured_keeps_v1_steps():
     assert [r.id for r in routes.load_routes() if not r.authored_program] == ["structured"]
 
 
-def test_survey_is_the_cross_document_program():
+def test_survey_is_the_always_merge_cross_document_program():
     route = _route("survey")
     assert [n.kind for n in route.program] == ["par", "pick"]
     assert [c.id for c in route.program[0].children] == ["needle", "wide"]
-    assert route.program[1].when.text == "not needle.score_drop >= NEEDLE_MARGIN"
-    assert route.program[1].when.comparisons()[0].const == "NEEDLE_MARGIN"
+    assert route.program[1].when is None
     assert [(g.on, g.when.text, g.then.kind) for g in route.guards] == [
         ("wide", "truncated", "page"), ("u", "distinct_documents == 0", "escalate")]
     assert route.guards[0].then.page.k == 50 and "P43" in route.evidence
 
 
-def test_search_chooses_the_cross_document_program_only_when_chunks_only():
+def test_search_is_one_cross_document_program_in_every_scope():
     route = _route("search")
-    assert route.chooses and [(c.kind, c.when.text if c.when else None) for c in route.programs] == [
-        ("chunks_cross_document", "chunks_only"), ("one_step", None)]
-    assert [n.run for n in route.program] == [
-        "artmind query vector-text --shape brief --domain {domains} {question} --compact"]
+    assert route.authored_program and not route.chooses and route.kind == "cross_document"
+    assert [c.kind for c in route.programs] == ["cross_document"]
+    assert [c.id for c in route.program[0].children] == ["needle", "wide"]
+    assert route.program[1].when.text == "needle.score_drop < NEEDLE_MARGIN or needle.distinct_documents >= NEEDLE_SPREAD"
+    assert {c.const for c in route.program[1].when.comparisons()} == {"NEEDLE_MARGIN", "NEEDLE_SPREAD"}
+    assert [(g.on, g.then.kind) for g in route.guards] == [("wide", "page"), ("u", "escalate")]
+    assert {"S2", "S19", "P14", "P43"} <= set(route.evidence)
+    assert "how do i" in route.triggers and route.description.startswith("Any other factual question, or how to do something")
 
 
-def test_a_graph_scope_search_stays_one_step(world):
+def test_procedure_is_no_longer_a_route():
+    assert "procedure" not in {r.id for r in routes.load_routes()}
+
+
+def test_a_graph_scope_search_plans_both_commands_with_the_rule(world):
     world["views"] = []
     result = _plan("What was the weather like?")
-    assert result["route"]["id"] == "search" and result["program_kind"] == "one_step"
-    assert result["plan_facts"] == {"chunks_only": False} and result["guards"] == []
-    assert [s["cmd"] for s in result["steps"] + result["suggested_steps"]] == [
-        "artmind query vector-text --shape brief --domain journal 'What was the weather like?' --compact"]
+    assert result["route"]["id"] == "search" and result["program_kind"] == "cross_document"
+    assert result["plan_facts"] == {}  # one program: nothing to choose, so no plan fact is evaluated
+    assert [n["kind"] for n in result["program"]] == ["par", "pick"]
+    assert [c["id"] for c in result["program"][0]["children"]] == ["needle", "wide"]
+    assert result["program"][1]["when"] == "needle.score_drop < NEEDLE_MARGIN or needle.distinct_documents >= NEEDLE_SPREAD"
+    assert [g["then"]["kind"] for g in result["guards"]] == ["page", "escalate"]
+    assert [s["cmd"].split()[2] for s in result["steps"] + result["suggested_steps"]] == ["vector-text", "survey"]
 
 
-def test_a_chunks_only_search_gets_the_cross_document_program(world, monkeypatch):
+def test_a_chunks_only_search_plans_the_same_program(world, monkeypatch):
     world["views"] = []
     world["overview"] = [{"domain": "journal", "document_count": 3, "documents": [], "top_classes": [],
                           "graph_extraction": False}]
     monkeypatch.setattr(planner, "_chunks_only", lambda selected, overview: True)
     result = _plan("What was the weather like?")
-    assert result["route"]["id"] == "search" and result["program_kind"] == "chunks_cross_document"
-    assert result["plan_facts"] == {"chunks_only": True}
-    assert [n["kind"] for n in result["program"]] == ["par", "pick"]
-    assert [c["id"] for c in result["program"][0]["children"]] == ["needle", "wide"]
-    assert result["program"][1]["when"] == "not needle.score_drop >= NEEDLE_MARGIN"
-    assert [g["then"]["kind"] for g in result["guards"]] == ["page", "escalate"]
+    assert result["route"]["id"] == "search" and result["program_kind"] == "cross_document"
+    assert result["plan_facts"] == {}
+    assert result["program"][1]["when"].endswith("NEEDLE_SPREAD")
     assert [s["cmd"].split()[2] for s in result["steps"]] == ["vector-text", "survey"]
 
 
@@ -86,7 +93,7 @@ def _route_plan(world, monkeypatch, rid, question):
 
 def test_survey_plans_the_needle_and_the_wide_survey(world, monkeypatch):
     result = _route_plan(world, monkeypatch, "survey", "Compare what the reports say about the weather")
-    assert result["route"]["id"] == "survey" and result["program_kind"] == "chunks_cross_document"
+    assert result["route"]["id"] == "survey" and result["program_kind"] == "cross_document"
     assert [s["cmd"].split()[2] for s in result["steps"]] == ["vector-text", "survey"]
     assert all("--shape brief" in s["cmd"] for s in result["steps"])
 

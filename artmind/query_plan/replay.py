@@ -30,7 +30,14 @@ from artmind.query_plan.labels import is_nonretrieval
 OUTCOMES = ("correct", "abstained", "correct_abstain", "wrong", "planned", "error")
 WRONG_RATE_GATE = 0.10
 REPEAT_GATE = 4
+#: Routes graded as one: once `search` and `survey` run the same two commands, telling them apart is no
+#: error anywhere (B2 spec §5). A route mismatch counts only when the groups differ.
+ROUTE_GROUPS = {"search": "text", "survey": "text"}
 ABORT_AFTER = 3  # consecutive identical errors: the backend is down, stop planning
+
+
+def route_group(route):
+    return ROUTE_GROUPS.get(route, route)
 
 
 def _names(value) -> set[str]:
@@ -118,7 +125,7 @@ def score(label, plan: dict) -> dict:
     else:
         if not _domains_match(plan["domains"]["selected"], label.domains):
             mismatches.append("domains")
-        if plan["route"]["id"] != label.route:
+        if route_group(plan["route"]["id"]) != route_group(label.route):
             mismatches.append("route")
         if got_view != label.view:
             mismatches.append("view")
@@ -188,7 +195,7 @@ def decision_signature(plan: dict) -> dict:
     return {
         "intent": intent,
         "domains": sorted((plan.get("domains") or {}).get("selected") or []),
-        "route": (plan.get("route") or {}).get("id"),
+        "route": route_group((plan.get("route") or {}).get("id")),
         "view": match.get("name"),
         "params": {n: _param_signature(e) for n, e in sorted((match.get("params") or {}).items())},
         "program_kind": plan.get("program_kind"),
@@ -243,6 +250,8 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         "labels": len(results),
         "outcomes": counts,
         "per_route": dict(sorted(per_route.items())),
+        "route_exact": sum(1 for r in results if not r.get("nonretrieval") and r.get("route") is not None
+                           and r["route"] == r["expected_route"]),
         "wrong": [{"id": r["id"], "mismatches": r["mismatches"]} for r in results if r["outcome"] == "wrong"],
         "intent": grades["intent"],
         "slots": grades["slots"],

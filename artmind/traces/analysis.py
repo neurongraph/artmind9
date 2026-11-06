@@ -113,6 +113,10 @@ def shadow_summary(payload: dict | None) -> dict | None:
     return out
 
 
+#: Program kinds renamed since plans were recorded; stats count the old name as the new one.
+_KIND_ALIASES = {"chunks_cross_document": "cross_document"}
+
+
 def _command_key(cmd: str) -> str | None:
     """`artmind query views run v --domain b` -> `query views run v` (words before the first option)."""
     try:
@@ -144,17 +148,31 @@ def _is_traced_step(key: str | None) -> bool:
     return key is not None and (key == "query" or key.startswith("query "))
 
 
-def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
-    """Did the agent run the shadow plan's first traced step? Only `query ...`
-    steps leave spans (an `artmind db ...` step is skipped); None when the plan
-    has none. A bare `query plan` span is the plan itself, never an answer."""
-    plan = (shadow or {}).get("plan") or {}
+def _first_node_keys(plan: dict) -> set[str]:
+    """Command keys of the plan's first traced node: the children of a leading `par`, else its first step."""
+    program = plan.get("program") or []
+    if program and isinstance(program[0], dict):
+        first = program[0]
+        runs = [c for c in first.get("children") or [] if isinstance(c, dict)] if first.get("kind") == "par" else [first]
+        keys = {k for k in (_command_key(r.get("run") or r.get("cmd") or "") for r in runs if r.get("kind", "run") == "run")
+                if _is_traced_step(k)}
+        if keys:
+            return keys
     steps = plan.get("steps") or plan.get("suggested_steps") or []
     keys = (_command_key(step.get("cmd") or "") for step in steps)
     key = next((k for k in keys if _is_traced_step(k)), None)
-    if key is None:
+    return {key} if key else set()
+
+
+def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
+    """Did the agent run any command of the shadow plan's first node (the children of a leading `par`,
+    else the first traced step)? Only `query ...` steps leave spans (an `artmind db ...` step is skipped);
+    None when the plan has none. A bare `query plan` span is the plan itself, never an answer."""
+    plan = (shadow or {}).get("plan") or {}
+    wanted = _first_node_keys(plan)
+    if not wanted:
         return None
-    return key in {_span_key(s) for s in spans if _span_key(s) != "query plan"}
+    return bool(wanted & {_span_key(s) for s in spans if _span_key(s) != "query plan"})
 
 
 def agent_looked_up(spans: list[dict]) -> bool:
@@ -205,8 +223,8 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
         by_rating.setdefault(turn.get("rating") or "unrated", []).append(agreed)
     plans = [_plan_dict(p) for _, p, _, _ in rows4]
     by_intent = Counter(_intent_id(p) or "unknown" for p in plans)
-    by_program = Counter(p["program_kind"] if isinstance(p.get("program_kind"), str) and p["program_kind"]
-                         else "unknown" for p in plans)
+    by_program = Counter(_KIND_ALIASES.get(p["program_kind"], p["program_kind"])
+                         if isinstance(p.get("program_kind"), str) and p["program_kind"] else "unknown" for p in plans)
     retrieve_scores = [s for p in plans if _intent_id(p) == "retrieve" for s in [_slot_score(p)] if s is not None]
     return {
         "plans": len(rows),

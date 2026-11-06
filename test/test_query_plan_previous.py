@@ -331,4 +331,7 @@ def test_a_nonretrieval_plan_flips_only_on_intent_or_level():
     # An intent change between a retrieval and a non-retrieval plan is reported, whatever else differs.
     assert "intent" in replay.flipped_fields([plan("retrieve", "search"), plan("curate", "search")])
     # A retrieval plan still flips on its route.
-    assert replay.flipped_fields([plan("retrieve", "search"), plan("retrieve", "survey")])[0] == "route"
+    assert replay.flipped_fields([plan("retrieve", "search"), plan("retrieve", "conflicts")])[0] == "route"
+    # search and survey are graded as one: a flip between them is no flip (identical steps and program kind)
+    same = {"steps": [{"cmd": "artmind query same"}]}
+    assert replay.flipped_fields([{**plan("retrieve", "search"), **same}, {**plan("retrieve", "survey"), **same}]) == []
