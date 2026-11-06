@@ -44,6 +44,10 @@ Then the confidence rule:
 | low, intent right | low | correct abstain |
 | any, intent wrong | any | wrong |
 
+**Planned routes** (`episode`): a label naming a route that is designed but not built is
+`planned`: replay records what the planner chose and grades nothing else, and the label is
+left out of the wrong rate. A plan with a non-retrieval intent is still wrong.
+
 **Gate** (`--repeat 4`): no wrong view, under 10 % wrong overall, no errors, every
 non-retrieval intent right. When unsure, `expect: low` cannot count against you.
 
@@ -85,6 +89,11 @@ A bare "yes please" or "go ahead" is `retrieve` in a label: replay has no previo
 | `survey` | what several documents say on one topic | "what do the contracts say about notice?" |
 | `search` | any other factual question | everything else |
 | `view` | a saved view answers it exactly | with `view:` and `params:` |
+| `episode` *(planned)* | when something happened, how long it lasted, what surrounded it | "when did Ann go into hospital, and for how many days?" |
+
+Use `episode` when the answer is a span or the context of one happening (start, end, how
+long, what came before or after), not a single fact. Use `existence` for "did it happen at
+all", and `search` when one passage answers it. Give it `expect: low` until the route is built.
 
 Chunks-only domains have no graph: their labels can only be `survey` (one topic across
 documents) or `search` (a specific fact).

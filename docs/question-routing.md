@@ -122,6 +122,19 @@ store), one or more programs, and evidence ids.
 | `survey` | what several documents say on one topic | "what do the contracts say about notice?" | — | needle search beside a document survey, merged | — |
 | `search` | any other factual question | everything else | — | text search | the cross-document program in chunks-only domains |
 
+**Planned routes.** Designed, not yet in `routes.yaml`. A label may already name one
+(`labels.PLANNED_ROUTES`): replay counts it as `planned` and records what the planner chose,
+so the shape is measured before it is built.
+
+| Route | Question shape | Invented example | Needs | Program (when built) | Design |
+|---|---|---|---|---|---|
+| `episode` | when something happened, how long it lasted, what surrounded it | "when did Ann go into hospital, and for how many days?" | — | `episode_lookup` over assembled `:Episode` nodes; else `event_window`: find the anchor event, then read around it (adjacent chunks, documents in a date window, connected entities) | `docs/superpowers/specs/2026-11-06-assembly-pass-episodes-design.md` |
+
+`episode` is not named `event` because `EVENT` is a schema class; the route answers from
+derived episodes or from text, never from EVENT nodes alone, since first-pass extraction
+splits one happening into several occurrent observations. `event_window` needs a later step
+to read an earlier step's result, which waits for the P3 executor.
+
 **Chunks-only domains** (`graph_extraction: false`) have no graph, so they plan only `survey`
 or `search`, and `search` there uses the cross-document program.
 
@@ -269,6 +282,8 @@ confidence, and labels that grade abstention.
 
 ## 10. Open questions
 
+- How often span questions (route `episode`) occur: labels count them as `planned` now; the
+  count decides when the assembly pass and the route are built.
 - Whether `intents:` cues should be learned from labels rather than written (lexical stays the
   default until labels say otherwise).
 - How `executed` vs draft is known per document for `latest`.

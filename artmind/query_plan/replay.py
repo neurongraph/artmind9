@@ -25,7 +25,9 @@ from pathlib import Path
 
 from artmind.query_plan.labels import is_nonretrieval
 
-OUTCOMES = ("correct", "abstained", "correct_abstain", "wrong", "error")
+#: `planned`: the label names a route that is designed but not built (labels.PLANNED_ROUTES); the plan's
+#: choice is recorded, not graded, and the label stays out of the wrong-rate denominator.
+OUTCOMES = ("correct", "abstained", "correct_abstain", "wrong", "planned", "error")
 WRONG_RATE_GATE = 0.10
 REPEAT_GATE = 4
 ABORT_AFTER = 3  # consecutive identical errors: the backend is down, stop planning
@@ -110,7 +112,12 @@ def score(label, plan: dict) -> dict:
         if got_intent is not None and is_nonretrieval(got_intent):
             mismatches.append("intent")
     level = plan["confidence"]["level"]
-    if "intent" in mismatches:
+    if label.planned and "intent" not in mismatches:
+        # No built route can be right for it: record what the planner did instead, grade nothing else.
+        # A planned-route label planned as a non-retrieval intent is still wrong (below).
+        mismatches = [m for m in mismatches if m != "route"]
+        outcome = "planned"
+    elif "intent" in mismatches:
         outcome = "wrong"
         if level != "low" and label.expect == "low":
             mismatches.append("confidence")
@@ -154,7 +161,8 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         per_route.setdefault(r["expected_route"], {o: 0 for o in OUTCOMES})[r["outcome"]] += 1
     latencies = [r["latency_ms"] for r in results if r.get("latency_ms") is not None]
     view_wrong = sum(1 for r in results if r["expected_route"] == "view" and r["outcome"] == "wrong")
-    wrong_rate = counts["wrong"] / len(results) if results else None
+    graded_count = len(results) - counts["planned"]
+    wrong_rate = counts["wrong"] / graded_count if graded_count else None
     fell_back = [r for r in results if r.get("fell_back")]
     graded = {key: [r for r in results if r.get(f"{key}_ok") is not None] for key in ("intent", "slots")}
     grades = {key: {"labelled": len(rows), "ok": sum(1 for r in rows if r[f"{key}_ok"]),
@@ -174,6 +182,8 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         "intent": grades["intent"],
         "slots": grades["slots"],
         "nonretrieval": nonretrieval,
+        "planned": [{"id": r["id"], "expected_route": r["expected_route"], "route": r["route"], "level": r["level"]}
+                    for r in results if r["outcome"] == "planned"],
         "errors": [{"id": r["id"], "error_type": r.get("error_type"), "error": r.get("error")}
                    for r in results if r["outcome"] == "error"],
         "unstable": unstable,

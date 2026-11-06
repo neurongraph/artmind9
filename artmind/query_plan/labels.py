@@ -22,6 +22,14 @@ from artmind.query_plan.intents import INTENT_IDS
 RETRIEVAL_INTENTS = ("retrieve", "follow_up_why")
 
 
+#: Routes designed but not yet in routes.yaml, each with the design that defines it. A label may name one
+#: so the question shape is counted before the route exists; replay reports it as `planned`, never as
+#: wrong. Remove an id here when its route lands in routes.yaml (a test fails while both hold it).
+PLANNED_ROUTES = {
+    "episode": "docs/superpowers/specs/2026-11-06-assembly-pass-episodes-design.md §7",
+}
+
+
 def is_nonretrieval(intent: str | None) -> bool:
     return intent is not None and intent not in RETRIEVAL_INTENTS
 
@@ -62,6 +70,11 @@ class Label:
     def nonretrieval(self) -> bool:
         """Graded on intent only: route and domains (if given) are kept, not graded."""
         return is_nonretrieval(self.intent)
+
+    @property
+    def planned(self) -> bool:
+        """Names a route that is designed but not built: counted, not graded."""
+        return not self.nonretrieval and self.route in PLANNED_ROUTES
 
 
 def default_path() -> Path | None:
@@ -119,7 +132,7 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
             questions = _benchmark_questions(base_dir, data["benchmark_file"], errors)
         else:
             errors.append("benchmark_file must be a path string")
-    route_ids = {r.id for r in routes_mod.load_routes()} | {"view"}
+    route_ids = {r.id for r in routes_mod.load_routes()} | {"view"} | set(PLANNED_ROUTES)
     view_params = _view_params() if view_params is None else view_params
     out: list[Label] = []
     seen: set[str] = set()
