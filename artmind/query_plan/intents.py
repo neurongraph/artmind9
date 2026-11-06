@@ -26,6 +26,8 @@ DEFAULT_INTENT = "retrieve"
 # threshold (`config.DEFAULT_THRESHOLD`, 0.7, overridable per domain in `domains/plan/<domain>.yaml`)
 # so the plan reads as low confidence instead of acting on a guess.
 NO_PREVIOUS_CAP = 0.5
+#: Intents a pointing-back reply continues even when the previous answer ended with an offer.
+CARRIED_INTENTS = frozenset({"curate", "update", "ops"})
 MAX_DESCRIPTION = 300
 PRONOUNS = frozenset({"he", "she", "they", "it", "that", "them", "his", "her", "their", "this"})
 
@@ -257,7 +259,13 @@ def decide_intent(question: str, previous: Previous | None, answer: Answer | Non
     scores = _scores(question)
     if previous is not None and previous.open_job and scores.get("status", 0.0) > 0:
         return IntentResult("status", 1.0, "status_open_job", None, True)
-    if previous is not None and is_context_only(question):
+    # A reply that points back ("yes please", "run as is", "do (a) and (b)") continues the previous turn,
+    # unless it carries a cue of its own ("approve the others" names curate itself).
+    own_cue = any(v > 0 for k, v in scores.items() if k != DEFAULT_INTENT)
+    if previous is not None and (is_context_only(question) or (refers_to_previous(question) and not own_cue)):
+        # An offer made inside a curation, update or ops turn offers the next step of that work, not a lookup.
+        if previous.intent in CARRIED_INTENTS:
+            return IntentResult(previous.intent, 1.0, "previous_intent", None, True)
         if previous.offer:
             return IntentResult("retrieve", 1.0, "previous_offer", previous.offer, True)
         if previous.intent:

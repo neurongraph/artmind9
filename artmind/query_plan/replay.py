@@ -152,17 +152,23 @@ def _param_signature(entry) -> object:
 def decision_signature(plan: dict) -> dict:
     """What the plan decided, without how sure it was. Probabilities, confidence scores, `why` text, latency
     and catalogue timestamps move between repeats of a decision model (0.97, then 0.96) and are left out;
-    a changed intent, domain, route, view, param value, program kind, confidence level or command is a flip."""
+    a changed intent, domain, route, view, param value, program kind, confidence level or command is a flip.
+    A plan with a non-retrieval intent plans no retrieval: its route is the classifier's recorded guess and is
+    never graded, so only its intent and level count."""
     plan = json.loads(json.dumps(plan, default=str))
+    intent = (plan.get("intent") or {}).get("id")
+    level = (plan.get("confidence") or {}).get("level")
+    if is_nonretrieval(intent):
+        return {"intent": intent, "level": level}
     match = plan.get("view_match") or {}
     return {
-        "intent": (plan.get("intent") or {}).get("id"),
+        "intent": intent,
         "domains": sorted((plan.get("domains") or {}).get("selected") or []),
         "route": (plan.get("route") or {}).get("id"),
         "view": match.get("name"),
         "params": {n: _param_signature(e) for n, e in sorted((match.get("params") or {}).items())},
         "program_kind": plan.get("program_kind"),
-        "level": (plan.get("confidence") or {}).get("level"),
+        "level": level,
         "steps": [s.get("cmd") for s in plan.get("steps") or []],
         "suggested_steps": [s.get("cmd") for s in plan.get("suggested_steps") or []],
     }
@@ -175,7 +181,8 @@ def _stable(plan: dict) -> str:
 def flipped_fields(runs: list[dict]) -> list[str]:
     """Signature fields that differ across the repeated plans of one label, in signature order."""
     sigs = [decision_signature(r) for r in runs]
-    return [k for k in sigs[0] if len({json.dumps(sg[k], sort_keys=True) for sg in sigs}) > 1]
+    keys = list(dict.fromkeys(k for sg in sigs for k in sg))
+    return [k for k in keys if len({json.dumps(sg.get(k), sort_keys=True) for sg in sigs}) > 1]
 
 
 def _percentile(values: list[float], q: float) -> float | None:

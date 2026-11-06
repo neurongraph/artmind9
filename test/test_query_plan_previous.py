@@ -315,3 +315,20 @@ def test_the_recorder_hands_the_shadow_its_trace_id(monkeypatch):
                         seen.update(trace_id=trace_id))
     rec = TraceRecorder.start(source="admin", question="q", session_id="s9", shadow_question="q")
     assert seen["trace_id"] == rec.trace_id
+
+
+def test_a_nonretrieval_plan_flips_only_on_intent_or_level():
+    from artmind.query_plan import replay
+
+    def plan(intent, route, level="high"):
+        return {"intent": {"id": intent}, "domains": {"selected": ["journal"]}, "route": {"id": route},
+                "view_match": None, "program_kind": "one_step", "confidence": {"level": level},
+                "steps": [{"cmd": f"artmind query {route}"}], "suggested_steps": []}
+
+    # A curate plan's route is the classifier's ungraded guess: a route change is no flip.
+    assert replay.flipped_fields([plan("curate", "search"), plan("curate", "conflicts")]) == []
+    assert replay.flipped_fields([plan("curate", "search"), plan("curate", "search", "low")]) == ["level"]
+    # An intent change between a retrieval and a non-retrieval plan is reported, whatever else differs.
+    assert "intent" in replay.flipped_fields([plan("retrieve", "search"), plan("curate", "search")])
+    # A retrieval plan still flips on its route.
+    assert replay.flipped_fields([plan("retrieve", "search"), plan("retrieve", "survey")])[0] == "route"

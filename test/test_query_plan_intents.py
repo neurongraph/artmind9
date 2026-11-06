@@ -245,6 +245,32 @@ def test_cap_without_previous_classifier_and_lexical():
 def test_cap_not_applied_with_previous_or_standalone():
     ans = Answer("ops", {"ops": 0.95}, 0.95)
     r = I.decide_intent("run as is", I.Previous(intent="retrieve"), ans)
-    assert r.confidence == 0.95 and not r.no_previous_capped
+    # With a previous turn the reply continues it (no cap): the previous intent, not the classifier's guess.
+    assert (r.intent, r.source, r.confidence) == ("retrieve", "previous_intent", 1.0) and not r.no_previous_capped
     r = I.decide_intent("rebuild the index now please", None, Answer("ops", {"ops": 0.9}, 0.9))
     assert r.confidence == 0.9 and not r.no_previous_capped
+
+
+# ── a reply that points back continues the previous turn ─────────────────────────────────
+
+def test_an_offer_inside_a_curate_turn_continues_curation():
+    prev = I.Previous(intent="curate", offer="approve the two merges")
+    r = I.decide_intent("yes please", prev, None)
+    assert (r.intent, r.source, r.previous_used) == ("curate", "previous_intent", True)
+
+
+@pytest.mark.parametrize("q", ["run as is", "Yes do (a) and (b)", "I like your plan, proceed accordingly"])
+def test_a_pointing_back_reply_inherits_the_previous_intent(q):
+    for answer in (None, Answer("retrieve", {"retrieve": 0.9}, 0.9)):
+        r = I.decide_intent(q, I.Previous(intent="curate", offer="shall I merge them?"), answer)
+        assert (r.intent, r.source) == ("curate", "previous_intent"), q
+
+
+def test_a_pointing_back_reply_after_a_lookup_takes_the_offer():
+    r = I.decide_intent("go ahead", I.Previous(intent="retrieve", offer="run a full survey"), None)
+    assert (r.intent, r.source, r.inherited_offer) == ("retrieve", "previous_offer", "run a full survey")
+
+
+def test_a_reply_with_its_own_cue_is_classified_on_its_own():
+    r = I.decide_intent("approve the others", I.Previous(intent="retrieve", offer="list them"), None)
+    assert r.intent == "curate" and r.source == "lexical"
