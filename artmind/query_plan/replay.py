@@ -89,15 +89,21 @@ def slot_ok(name: str, expected, slot: dict | None) -> bool:
 
 def score(label, plan: dict) -> dict:
     """Retrieval labels (no intent, `retrieve`, `follow_up_why`): domains, route, view and params, and an
-    `intent` mismatch if the plan came back with a non-retrieval intent. Any other label is graded on
-    intent alone: its route is the classifier's recorded guess, not a retrieval plan."""
+    `intent` mismatch if the plan came back with a non-retrieval intent (a lookup question planned as none).
+
+    Any other label (format, curate, update, meta, status, ops) is graded on one thing: the plan must not be
+    a confident lookup. The agent decides for itself whether a turn needs a lookup and handles these turns
+    from the conversation; the planner is consulted for lookups only, so the harm is a confident retrieval
+    plan for a turn that needs none (`lookup`). Which non-retrieval intent the plan chose, and a
+    low-confidence retrieval plan, are recorded (`intent_ok`) but never wrong."""
     mismatches = []
     got_intent = (plan.get("intent") or {}).get("id")
     nonretrieval = label.nonretrieval
     got_view = (plan.get("view_match") or {}).get("name") if plan["route"]["id"] == "view" else None
+    lookup = not is_nonretrieval(got_intent)  # the plan retrieves (retrieve, follow_up_why, or a v1 plan)
     if nonretrieval:
-        if got_intent != label.intent:
-            mismatches.append("intent")
+        if lookup:
+            mismatches.append("lookup")
     else:
         if not _domains_match(plan["domains"]["selected"], label.domains):
             mismatches.append("domains")
@@ -112,7 +118,14 @@ def score(label, plan: dict) -> dict:
         if got_intent is not None and is_nonretrieval(got_intent):
             mismatches.append("intent")
     level = plan["confidence"]["level"]
-    if label.planned and "intent" not in mismatches:
+    if nonretrieval:
+        if lookup and level != "low":
+            outcome = "wrong"
+        elif lookup:
+            outcome = "correct_abstain" if label.expect == "low" else "abstained"
+        else:  # no lookup planned: what the agent does with the turn is its own call
+            outcome = "correct" if level != "low" else ("correct_abstain" if label.expect == "low" else "abstained")
+    elif label.planned and "intent" not in mismatches:
         # No built route can be right for it: record what the planner did instead, grade nothing else.
         # A planned-route label planned as a non-retrieval intent is still wrong (below).
         mismatches = [m for m in mismatches if m != "route"]
@@ -205,8 +218,12 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
     grades = {key: {"labelled": len(rows), "ok": sum(1 for r in rows if r[f"{key}_ok"]),
                     "wrong": [r["id"] for r in rows if not r[f"{key}_ok"]]} for key, rows in graded.items()}
     nonret = [r for r in results if r.get("nonretrieval")]
+    # The gate's check is `wrong`: a confident lookup planned for a turn that needs none. Which non-retrieval
+    # intent was chosen is information (`intent_wrong`), since the agent handles those turns itself.
     nonretrieval = {"labelled": len(nonret), "intent_ok": sum(1 for r in nonret if r.get("intent_ok")),
-                    "wrong": [r["id"] for r in nonret if r["outcome"] != "error" and not r.get("intent_ok")]}
+                    "no_lookup": sum(1 for r in nonret if r["outcome"] != "error" and "lookup" not in r["mismatches"]),
+                    "wrong": [r["id"] for r in nonret if r["outcome"] == "wrong"],
+                    "intent_wrong": [r["id"] for r in nonret if r["outcome"] != "error" and not r.get("intent_ok")]}
     passed = (view_wrong == 0 and not nonretrieval["wrong"] and wrong_rate is not None and wrong_rate < WRONG_RATE_GATE
               and counts["error"] == 0 and not unstable and repeat >= REPEAT_GATE
               and not (classifier == "decision" and fell_back))

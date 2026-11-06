@@ -91,6 +91,7 @@ def test_stats_report_shadow_agreement_on_high_plans():
     (row,) = [r for r in analysis.stats(by="all") if r["domain"] == "b"]
     assert row["plan_shadow"] == {
         "plans": 4, "statuses": {"ok": 4}, "high_share": 0.75,
+        "lookup_turns": 4, "no_lookup_turns": 0, "no_lookup_plan_ok": None,
         "agreement_high": 2 / 3, "agreement_low": 0.0,
         "agreement_first": 0.5, "agreement_followup": 1.0,
         "agreement_by_rating": {"unrated": 1.0, "wrong": 0.0},
@@ -167,7 +168,8 @@ def test_stats_without_shadows_keep_the_same_keys():
     _turn("t1", "s1", {"status": "skipped"}, "query text2sql")
     (row,) = [r for r in analysis.stats(by="all") if r["domain"] == "b"]
     assert row["plan_shadow"] == {
-        "plans": 0, "statuses": {"skipped": 1}, "high_share": None, "agreement_high": None,
+        "plans": 0, "statuses": {"skipped": 1}, "high_share": None,
+        "lookup_turns": 0, "no_lookup_turns": 0, "no_lookup_plan_ok": None, "agreement_high": None,
         "agreement_low": None, "agreement_first": None, "agreement_followup": None,
         "agreement_by_rating": {}, "by_intent": {}, "by_program_kind": {},
         "slot_quality_median_retrieve": None}
@@ -184,3 +186,22 @@ def test_triage_passes_the_shadow_through():
 def test_show_includes_the_shadow_plan():
     _turn("t1", "s1", _shadow(), "query views run", "visits")
     assert analysis.show("t1")["plan_shadow"]["status"] == "ok"
+
+
+def test_a_turn_without_a_lookup_is_not_graded_on_agreement():
+    # The agent answered from the conversation (no `artmind query` command): no agreement either way.
+    curate = {**_shadow(), "plan": {**_shadow()["plan"], "intent": {"id": "curate"}}}
+    _turn("t1", "s1", curate, "db sql")
+    _turn("t2", "s2", _shadow(), "db sql")  # a confident lookup plan for a turn that needed none
+    _turn("t3", "s3", _shadow(), "query views run", "visits")
+    (row,) = [r for r in analysis.stats(by="all") if r["domain"] == "b"]
+    block = row["plan_shadow"]
+    assert (block["lookup_turns"], block["no_lookup_turns"]) == (1, 2)
+    assert block["no_lookup_plan_ok"] == 0.5
+    assert block["agreement_high"] == 1.0  # only t3 is graded
+
+
+def test_agent_looked_up():
+    assert analysis.agent_looked_up([_span("query vector-text")])
+    assert not analysis.agent_looked_up([_span("query plan")])
+    assert not analysis.agent_looked_up([_span("db sql")]) and not analysis.agent_looked_up([])

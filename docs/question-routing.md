@@ -66,6 +66,14 @@ one bounded evidence bundle.
 The intent is decided first, from the message and, when the UI supplies it, the previous
 turn (`--previous`). Only `retrieve` and `follow_up_why` lead to retrieval.
 
+**Who decides that a turn needs a lookup.** The agent harness (Claude SDK or opencode in the
+admin console and chat UI) holds the conversation. It handles a reshape ("make that a table"),
+a deliverable ("write the table into a file"), a curation hand-off, a status check or a pipeline
+run itself, guided by the skills, and calls the planner only when a turn needs a lookup: a new
+question, or a follow-up with a new subject or a request to check again. The non-retrieval
+intents below are therefore a safety net, not a router: a turn that needs no lookup and still
+reaches the planner is planned as no lookup, never as a confident search.
+
 | Intent | The message is | Invented example | Plan |
 |---|---|---|---|
 | `retrieve` | a question about the corpus | "where did we stay on the coast trip?" | routes, slots, program |
@@ -83,8 +91,10 @@ open_job}`. Three rules sit on top of the classifier (`intents.decide_intent`):
 | Rule | When | Result |
 |---|---|---|
 | open job | `open_job` is set and the message has a status cue | `status` |
-| inherited offer | the message is context-only ("yes", "go ahead", "sounds good") and the previous turn offered something | `retrieve`, planning the previous question, `inherited_offer` recorded |
-| inherited intent | context-only, no offer | the previous intent |
+| carried intent | the message points back ("yes", "run as is", "do (a) and (b)") with no cue of its own, and the previous intent is `curate`, `update` or `ops` | the previous intent, even if the previous answer ended with an offer |
+| inherited offer | the message points back and the previous turn offered something | `retrieve`, planning the previous question, `inherited_offer` recorded |
+| inherited intent | points back, no offer | the previous intent |
+| no previous turn | the message points back but no previous turn is given | the classifier's intent, confidence capped at 0.5 (below the threshold) |
 
 A pronoun follow-up with no named mention ("what did she say next?") takes the previous
 turn's entities as its subjects.
@@ -264,8 +274,8 @@ Replay grades this explicitly. Each label says whether the planner should be con
 
 | Instrument | What it shows |
 |---|---|
-| **Shadow plans** | a v2 plan beside every admin-console and benchmark turn (`plan_shadow` events); `traces stats` counts by intent and program kind, and agreement of high plans with the agent's first call |
-| **Replay** | `artmind plan replay --repeat 4` over private labels: route, view, domain, intent and slots graded separately; gate: no wrong view, route wrong under 10 %, every non-retrieval intent right |
+| **Shadow plans** | a v2 plan beside every admin-console and benchmark turn (`plan_shadow` events), given the session's previous turn; `traces stats` counts by intent and program kind, and agreement of high plans with the agent's first call on turns where the agent looked something up (`lookup_turns`); on the others it checks the plan planned no confident lookup (`no_lookup_plan_ok`) |
+| **Replay** | `artmind plan replay --repeat 4` over private labels: route, view, domain, intent and slots graded separately; gate: no wrong view, wrong under 10 %, no non-retrieval label planned as a confident lookup; labels carry their thread (`follows`, or derived from the trace session) |
 | **Route parity** | the same recorded questions planned by the previous and the new planner; a phase may change programs, never routes, unless intended |
 | **Trace studies** | rated rounds of real use (`docs/query-routing-study/`), each finding a numbered pattern that a route, slot or program then cites |
 

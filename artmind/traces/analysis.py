@@ -157,6 +157,21 @@ def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
     return key in {_span_key(s) for s in spans if _span_key(s) != "query plan"}
 
 
+def agent_looked_up(spans: list[dict]) -> bool:
+    """The agent ran an `artmind query` command other than `query plan` itself. A turn without one is a turn
+    the agent answered from the conversation (a reshape, a file, a curation hand-off): it needed no lookup,
+    so the shadow plan is not graded on agreement there."""
+    return any((s.get("command") or "").startswith("query") and s.get("command") != "query plan" for s in spans)
+
+
+def _confident_lookup(plan: dict) -> bool:
+    """The plan retrieves (no non-retrieval intent) at high confidence."""
+    from artmind.query_plan.labels import is_nonretrieval
+
+    level = (plan.get("confidence") or {}).get("level")
+    return level == "high" and not is_nonretrieval(_intent_id(plan))
+
+
 def _rate(values: list) -> float | None:
     known = [v for v in values if v is not None]
     return sum(1 for v in known if v) / len(known) if known else None
@@ -165,7 +180,11 @@ def _rate(values: list) -> float | None:
 def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_trace: dict[str, list[dict]]) -> dict:
     """Shadow-plan block of a stats row; always the same keys. `statuses` counts
     every recorded payload (a failing shadow must be visible); the rates use
-    status `ok` only, and the first/followup/by-rating splits use high plans."""
+    status `ok` only, and the first/followup/by-rating splits use high plans.
+
+    The agent decides whether a turn needs a lookup, so agreement is measured only on turns where it ran
+    an `artmind query` command (`lookup_turns`). On the others (`no_lookup_turns`) the plan is checked for
+    the one harm that matters there: `no_lookup_plan_ok` is the share planned as no confident lookup."""
     statuses: Counter = Counter()
     rows = []
     for turn in turns:
@@ -175,12 +194,16 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
         statuses[payload.get("status") or "unknown"] += 1
         if payload.get("status") == "ok":
             level = ((payload.get("plan") or {}).get("confidence") or {}).get("level")
-            rows.append((turn, payload, level, agreement(payload, spans_by_trace.get(turn["trace_id"], []))))
-    high = [r for r in rows if r[2] == "high"]
+            spans = spans_by_trace.get(turn["trace_id"], [])
+            looked = agent_looked_up(spans)
+            rows.append((turn, payload, level, agreement(payload, spans) if looked else None, looked))
+    no_lookup = [r for r in rows if not r[4]]
+    rows4 = [r[:4] for r in rows]
+    high = [r for r in rows4 if r[2] == "high"]
     by_rating: dict[str, list] = {}
     for turn, _, _, agreed in high:
         by_rating.setdefault(turn.get("rating") or "unrated", []).append(agreed)
-    plans = [_plan_dict(p) for _, p, _, _ in rows]
+    plans = [_plan_dict(p) for _, p, _, _ in rows4]
     by_intent = Counter(_intent_id(p) or "unknown" for p in plans)
     by_program = Counter(p["program_kind"] if isinstance(p.get("program_kind"), str) and p["program_kind"]
                          else "unknown" for p in plans)
@@ -189,8 +212,12 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
         "plans": len(rows),
         "statuses": dict(statuses),
         "high_share": len(high) / len(rows) if rows else None,
-        "agreement_high": _rate([a for *_, lvl, a in rows if lvl == "high"]),
-        "agreement_low": _rate([a for *_, lvl, a in rows if lvl != "high"]),
+        "lookup_turns": len(rows) - len(no_lookup),
+        "no_lookup_turns": len(no_lookup),
+        "no_lookup_plan_ok": (sum(1 for r in no_lookup if not _confident_lookup(_plan_dict(r[1]))) / len(no_lookup)
+                              if no_lookup else None),
+        "agreement_high": _rate([a for *_, lvl, a in rows4 if lvl == "high"]),
+        "agreement_low": _rate([a for *_, lvl, a in rows4 if lvl != "high"]),
         "agreement_first": _rate([a for _, p, _, a in high if not p.get("followup")]),
         "agreement_followup": _rate([a for _, p, _, a in high if p.get("followup")]),
         "agreement_by_rating": {k: _rate(v) for k, v in sorted(by_rating.items())},

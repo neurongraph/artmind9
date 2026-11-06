@@ -3,7 +3,8 @@
 Date: 2026-11-02, revised 2026-11-05 from round 7 (`docs/query-routing-study/12-round7-lessons.md`;
 revisions are marked "R7" with the lesson number, and the bounded-output mechanism is its own
 design, `2026-11-05-bounded-output-design.md`); 2026-11-06 adds the assembly pass (§5.10, phase PA,
-D10; its own design `2026-11-06-assembly-pass-episodes-design.md`). Status: **architecture draft for review**. Not an implementation spec: it
+D10; its own design `2026-11-06-assembly-pass-episodes-design.md`), and revises §5.5: the agent decides
+whether a turn needs a lookup (4a). Status: **architecture draft for review**. Not an implementation spec: it
 sets the target shape, splits the work into sub-specs (§9), and lists the decisions that need
 the user (§11). Inputs: the query-routing study (`docs/query-routing-study/`, rounds 1–6),
 the specs from 2026-10-09 to 2026-11-01 (views, review loop, insights, query plan, document
@@ -467,7 +468,12 @@ process, applies the guards, and returns one bundle:
 The study's W3 skill diet, retargeted to the executor:
 
 1. `artmind-query` SKILL.md to about 150 lines: grounding contract; **call `query run` for
-   every new question** (follow-ups included, which settles P4/P25); how to read a bundle;
+   every turn that needs a lookup**: a new question, or a follow-up that brings a new subject or
+   asks to check again ("what about X", "check if she went again in December"), which settles P4.
+   The agent decides whether a turn needs a lookup, since it holds the conversation; it handles a
+   reshape, a deliverable (a table, a file), a curation hand-off, a status check or a pipeline run
+   itself, from the conversation and the relevant skill, without `query run` (revised 2026-11-06,
+   below). How to read a bundle;
    evidence vs guides; when `escalate` is set, the generated routing table (from
    `routes.yaml`) and the references; answer style; provenance is appended by the UI.
 2. References keep the deep material (temporal, conflicts, hierarchy, structured store,
@@ -477,6 +483,13 @@ The study's W3 skill diet, retargeted to the executor:
    cover its jobs (D5). `artmind-review` stays out on purpose: it runs from Claude Code in the
    checkout, never from the chat or admin UI (its own rule).
 4. Tests check the skill against data (routes, Click tree), never prose phrases.
+4a. **Who decides that a turn needs a lookup (2026-11-06).** The agent, not the planner. The
+   planner's non-retrieval intents (format, curate, update, meta, status, ops) stay as a safety
+   net: a non-retrieval turn that reaches `query plan`/`query run` is planned as no lookup
+   (`answer_from: previous` or an `action`), never as a confident search. Replay grades those
+   labels on that alone (no confident lookup), and shadow agreement is measured only on turns
+   where the agent ran an `artmind query` command (`traces stats`: `lookup_turns`,
+   `no_lookup_turns`, `no_lookup_plan_ok`). Effort on intent accuracy goes to lookup turns.
 5. **Answer contract (R7, lessons 19, 40, 42).** When sources are dated or superseding, state the
    latest applicable one first. Residual incompleteness is stated with numbers, never hedged
    ("12 of 26 documents read", not "at least"). Separate stated from implied occurrences (an
@@ -765,7 +778,7 @@ traces.
 | P1a | CLI uniformity (`2026-11-02-cli-uniformity-design.md`) | §6.2 C1–C4: JSON + `--compact` everywhere, camelCase with aliases, `--dryRun` + `effect` on every write, the result envelope; contract tests over the Click tree; plugin fixtures regenerated | Contract tests green; plugin tests green; no skill or route template names a removed spelling |
 | P1 | Catalogue + assets (`2026-11-02-catalogue-and-answer-assets-design.md`) | §5.1 parts, generation counter, `query catalogue`, `query assets`, `:TopicPage` index, `topic index` | Plan replay unchanged or better with assets in the catalogue |
 | P1b (R7) | Bounded output + round-7 fixes now (`2026-11-05-bounded-output-design.md`; `12-round7-lessons.md` §5; the lesson-24 instrumentation of §5.9) | Brief row shape, output budget and `query page`, survey default by shape, tool-gate repairs, spans with `payload_chars`/`persisted`, per-turn cost, feedback upsert | Visibility gate before merge (bounded-output design §4.3: brief survey(50) shows answer-bearing text at least as often as full survey(10)); round 8: persisted share of retrieval steps < 5 % (96 % in round 7); instrumentation fields present on every span |
-| P2 | Planner v2 (waits for P0 and P1b; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`, answered in `12-round7-lessons.md` §3) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, intent right on all non-retrieval labels |
+| P2 | Planner v2 (waits for P0 and P1b; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`, answered in `12-round7-lessons.md` §3) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, no non-retrieval label planned as a confident lookup (§5.5 4a) |
 | P3 | Executor + skill diet | `query run`, bundle, skill to ~150 lines, profiles; shadow bundles first, then on in the admin console | Targeted agent runs (study 08 §4) no worse, fewer calls; fast-path share ≥ 50 % of rated-good turns |
 | P4 | Admin UI: Ask + Quality | Plan card, evidence panel, rating reasons; traces, replay, bank views | Ratings on ≥ 70 % of admin turns for two weeks |
 | P5 | Learning loop + Inbox | `gaps`, `proposals`, `preview`, Inbox cards for same-as and conflicts first, then topics/views/labels; plugin Inbox subset | A same-as batch of 100 reviewed in under 15 minutes without the agent; < 20 % of proposals rejected as noise |

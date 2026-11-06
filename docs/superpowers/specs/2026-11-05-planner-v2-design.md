@@ -87,6 +87,13 @@ composing commands (with `query run`).
 | `status` | "is it done", "how far is the ingest" | the job/status read (`ingest job-status`, `traces show`) | no (a read) |
 | `ops` | "ingest this folder", "re-extract that document" | an ops proposal with the command's `--dryRun` effect | no |
 
+**Revised 2026-11-06: the agent decides whether a turn needs a lookup.** The agent harness holds
+the conversation and handles reshapes, deliverables, curation hand-offs, status checks and
+pipeline runs itself; it calls `query run` only for turns that need a lookup, follow-ups
+included (architecture §5.5, 4a). So the non-retrieval rows above are a safety net: such a turn,
+if it reaches the planner, plans no lookup. Replay grades a non-retrieval label only on that
+(no confident lookup); which non-retrieval intent was chosen is recorded, not graded.
+
 ### 3.2 Inputs
 
 The intent decision reads the question **and** a `previous` block (new `--previous` option on
@@ -558,7 +565,7 @@ they move.
 | Step | Contents | Gate |
 |---|---|---|
 | P2a | intents, `previous`, slots, slot quality, plan v2 payload, routes v2 loader (v1 routes as programs), plan config keys, replay grading | hermetic suite; replay on existing labels: no route regression |
-| P2b | programs for the kinds in §5.5, converted route by route with evidence ids; shadow records v2 plans | replay on round-8 labels: zero `wrong` on view/asset labels, route `wrong` < 10 %, intent right on every non-retrieval label (architecture §9) |
+| P2b | programs for the kinds in §5.5, converted route by route with evidence ids; shadow records v2 plans | replay on round-8 labels: zero `wrong` on view/asset labels, route `wrong` < 10 %, no non-retrieval label planned as a confident lookup (architecture §9, §5.5 4a) |
 | P3a | `query run`, bundle, nested spans; shadow dry execution behind its flag | latency: plan ≤ 1.5 s (lexical), execution ≤ 3 s for one to four steps on both vaults |
 | P3b | skill diet, `previous` from the UIs, answer contract; on in the admin console | targeted agent runs no worse, fewer calls; fast-path share ≥ 50 % of rated-good turns; round-9 collection |
 

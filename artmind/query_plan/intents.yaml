@@ -52,6 +52,9 @@ intents:
       - all these are
       - are really the same
       - artmind curate
+      - dismiss that
+      - dismiss it
+      - dismiss them
 
   - id: update
     description: An instruction to store a new fact or note in the knowledge base.

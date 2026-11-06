@@ -36,9 +36,6 @@ and unknown ids are rejected by `artmind plan labels validate`.
 **Retrieval labels** (`retrieve`, `follow_up_why`, or no intent): domains, route, view and
 view parameters are compared; a plan that came back with a non-retrieval intent is wrong.
 
-**Non-retrieval labels** (`follow_up_format`, `curate`, `update`, `meta`, `status`, `ops`):
-only the intent is compared; route and domains are ignored.
-
 Then the confidence rule:
 
 | Plan | Label `expect` | Outcome |
@@ -46,16 +43,35 @@ Then the confidence rule:
 | high, everything matches | high | correct |
 | high, something differs | high | wrong |
 | high | low | wrong (overconfident) |
-| low, intent right | high | abstained (not wrong, a lost chance) |
-| low, intent right | low | correct abstain |
-| any, intent wrong | any | wrong |
+| low | high | abstained (not wrong, a lost chance) |
+| low | low | correct abstain |
+| a non-retrieval intent | any | wrong (a lookup question planned as none) |
+
+**Non-retrieval labels** (`follow_up_format`, `curate`, `update`, `meta`, `status`, `ops`)
+are graded on one thing: the plan must not be a confident lookup. The agent decides for itself
+whether a turn needs a lookup and handles these turns from the conversation, so the only harm is
+a confident search planned for a turn that needs none.
+
+| Plan | Outcome |
+|---|---|
+| any non-retrieval intent (right or not), high | correct |
+| any non-retrieval intent, low | abstained, or correct abstain with `expect: low` |
+| a lookup, low | abstained, or correct abstain with `expect: low` (harmless: the agent decides) |
+| a lookup, high | wrong |
+
+Which non-retrieval intent the plan chose is still reported (`intent_ok`, `nonretrieval.intent_wrong`).
 
 **Planned routes** (`episode`): a label naming a route that is designed but not built is
 `planned`: replay records what the planner chose and grades nothing else, and the label is
 left out of the wrong rate. A plan with a non-retrieval intent is still wrong.
 
-**Gate** (`--repeat 4`): no wrong view, under 10 % wrong overall, no errors, every
-non-retrieval intent right. When unsure, `expect: low` cannot count against you.
+**Gate** (`--repeat 4`): no wrong view, under 10 % wrong overall, no errors, no plan that
+flips between repeats, and no non-retrieval label planned as a confident lookup. When unsure,
+`expect: low` cannot count against you.
+
+**Where to spend labelling time.** On questions that need a lookup, follow-ups included ("what
+about X", "check again for December"): those are the turns the planner serves. A few
+non-retrieval labels are enough to keep the safety net honest; their exact intent matters less.
 
 ## Intents
 

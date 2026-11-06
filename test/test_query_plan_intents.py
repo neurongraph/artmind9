@@ -199,6 +199,8 @@ def test_more_affirmatives_are_context_only():
     ("Alpha and Beta are really the same programme", "curate"),
     ("ask artmind curate to fix the spelling variants", "curate"),
     ("use artmind curate to fix", "curate"),
+    ("ab12cd34 - two distinct visits to Lakeport with different people. let me dismiss that too", "curate"),
+    ("the second one is hazy, but dismiss it for now", "curate"),
     ("ok - run the synthesize", "ops"),
     ("run the projection rebuild", "ops"),
     ("run vault sync", "ops"),
@@ -209,6 +211,8 @@ def test_more_affirmatives_are_context_only():
     ("what is different about the new contract?", "retrieve"),
     ("are there any distinct trends?", "retrieve"),
     ("what did the reviewer reject?", "retrieve"),
+    ("did the board dismiss the appeal?", "retrieve"),
+    ("were there two distinct visits to Lakeport in 2024?", "retrieve"),
 ])
 def test_lexical_cues_d4(q, want):
     assert lexical(q) == want
