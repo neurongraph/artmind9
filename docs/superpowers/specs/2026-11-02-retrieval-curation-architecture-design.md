@@ -2,7 +2,8 @@
 
 Date: 2026-11-02, revised 2026-11-05 from round 7 (`docs/query-routing-study/12-round7-lessons.md`;
 revisions are marked "R7" with the lesson number, and the bounded-output mechanism is its own
-design, `2026-11-05-bounded-output-design.md`). Status: **architecture draft for review**. Not an implementation spec: it
+design, `2026-11-05-bounded-output-design.md`); 2026-11-06 adds the assembly pass (§5.10, phase PA,
+D10; its own design `2026-11-06-assembly-pass-episodes-design.md`). Status: **architecture draft for review**. Not an implementation spec: it
 sets the target shape, splits the work into sub-specs (§9), and lists the decisions that need
 the user (§11). Inputs: the query-routing study (`docs/query-routing-study/`, rounds 1–6),
 the specs from 2026-10-09 to 2026-11-01 (views, review loop, insights, query plan, document
@@ -661,6 +662,21 @@ escalation rate, plan `wrong` rate on the bank (replay), documents covered @10 (
 eval), rated-good share, p50/p95 turn latency, cost per turn (P33 must be fixed first for ACP
 turns).
 
+### 5.10 Assembly pass: structure across observations (2026-11-06)
+
+Own design: `2026-11-06-assembly-pass-episodes-design.md`. First-pass extraction reads one
+chunk at a time, so a happening told over several chunks or documents comes out as separate
+occurrent observations with no span, and `synthesize` only rewrites one entity's description.
+An explicit, LLM-bounded **assembly pass** (`projection assemble`) builds what no single chunk
+can: first **episodes** (derived `:Episode` nodes grouping one happening's observations, with
+start, end and duration computed in code from the members' dates, stored as an `episodes`
+curation kind so rebuild and `vault sync` reproduce them), later closed intervals (`valid_to`),
+recurrence, cross-document coreference proposals and plan → outcome links. An episode is an
+answer asset (§5.2: kind `episode`, plan fact `episode_count`), not evidence: answers cite its
+members' chunks. The planner gains route `episode` (span questions: when, how long, what
+surrounded it), a graph lookup when episodes exist and an anchor-then-expand text program
+(`event_window`, which needs P3's step bindings) when they do not.
+
 ## 6. CLI changes
 
 ### 6.1 New commands
@@ -755,6 +771,7 @@ traces.
 | P5 | Learning loop + Inbox | `gaps`, `proposals`, `preview`, Inbox cards for same-as and conflicts first, then topics/views/labels; plugin Inbox subset | A same-as batch of 100 reviewed in under 15 minutes without the agent; < 20 % of proposals rejected as noise |
 | P6 | Knowledge + Pipeline areas | Catalogue browser, topic reader, Pipeline from `pipeline status`, glossary data file | Plugin and UI read one glossary; checklist parity tests |
 | P7 | Ingest + schema builder | Domain-mode step, ingestion-helper and curate diets | A new vault of each mode set up by the skill with no manual YAML |
+| PA (2026-11-06) | Assembly pass (`2026-11-06-assembly-pass-episodes-design.md`) | PA1 episode records, projection and `query episodes`; PA2 `projection assemble --task episodes`; PA3 route `episode` (`episode_lookup`, then `event_window` after P3); PA4+ intervals, recurrence, coreference, fulfilment | PA2: episode membership precision ≥ 0.9 on a labelled public set; PA3: no labelled span question worse than `search` |
 
 P0 is the critical path: its evidence gates switching the planner on (P2 onward), and only
 the user can run it, so it starts first. P1a and P1 do not wait for it, because what justifies
@@ -763,7 +780,9 @@ traces would supply. One rule keeps them from spoiling the evidence: **no code t
 CLI output or routing merges during a collection round.** Each round runs on one build
 (recorded in every trace as `graph_state.artmind_version`), and P1a/P1 merge between rounds.
 C7 (merging commands) is the exception: it waits for P0's data. P4 depends only on P2's plan card fields and can
-start as soon as P2 ships in shadow.
+start as soon as P2 ships in shadow. PA is a side track: PA1 and PA2 touch projection and
+curation, not routing, so they can run beside P3; PA3 lands after P2 is in shadow, and its
+`event_window` program after P3's step bindings.
 
 ## 10. What this design does not change
 
@@ -772,7 +791,9 @@ Beyond the uniformity changes in §6.2, which keep every old form as an alias:
 The stores, extraction, projection and curation-record formats; `vector-text`, `survey` and
 pattern semantics (ranking unchanged; the brief row shape and the output budget, R7, change
 only what an agent-facing caller is shown); views' format; topic page format (index only added); the domain-guard
-behaviour; vault sync. The decision-model integration stays as built.
+behaviour; vault sync. The decision-model integration stays as built. The one exception is
+the assembly pass (§5.10, added 2026-11-06), which adds a curation kind (`episodes`) and a
+derived node; it changes no existing record format.
 
 ## 11. Decisions for the user
 
@@ -787,6 +808,7 @@ behaviour; vault sync. The decision-model integration stays as built.
 | D7 | P0 collection before P2 is switched on (P1 can start now) | Yes |
 | D8 | CLI uniformity (§6.2): camelCase `--dryRun` (not `--dry-run`) as the one spelling, old spellings as hidden aliases for one release, then removed | Yes; camelCase is the repo convention and 5 commands already use `--dryRun` |
 | D9 (R7) | Survey depth: keep 50 for the agent as one-line rows (brief shape), revert the full shape's default to 10 | Yes (bounded-output design §6); the revert lands with the brief shape |
+| D10 (2026-11-06) | Assembly pass (§5.10): derived `:Episode` nodes as a new curation kind, beside the observations rather than merged into them | Yes; merging occurrent observations would raise false `:Conflict`s and hide the members |
 
 ## 12. References
 
