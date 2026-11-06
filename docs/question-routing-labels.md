@@ -23,7 +23,13 @@ only checks the planner against itself, so every draft needs a human pass.
 | `expect` | `high` when the right plan is obvious enough to run unjudged; `low` when the question is ambiguous or needs judgement | Should the planner be sure? |
 | `slots` (optional) | expected slot values, e.g. `search_term: "harbour visits"`, `narrator: "<name>"`, `date_window: "2025-01-01..2026-01-01"` | |
 | `program_kind` (optional) | recorded only, not graded | |
+| `follows` (optional) | a label id: the label's question is a reply to that label's, so replay plans it with the previous turn; `none` plans it alone. Left out, a `trace:<id>` label follows the turn before it in its conversation (the label made from that turn, else the recorded turn) | Does the question only make sense after another? |
 | `notes` | delete the DRAFT line; keep a note if it helps | |
+
+A reply such as "yes please" or "run as is" is only a question in the context of the turn before it. Replay
+plans a followed label first and hands its own plan (and, for a trace label, that turn's recorded answer) to the
+follower as the previous turn, as the live agent does. Chains work (`L003` follows `L002` follows `L001`); cycles
+and unknown ids are rejected by `artmind plan labels validate`.
 
 ## How a label is graded
 

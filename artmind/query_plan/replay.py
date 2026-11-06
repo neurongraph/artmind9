@@ -140,13 +140,42 @@ def score(label, plan: dict) -> dict:
             "fallback_reason": plan["classifier"].get("reason") if plan["classifier"]["fell_back"] else None}
 
 
+def _param_signature(entry) -> object:
+    if not isinstance(entry, dict):
+        return None
+    if entry.get("type") == "entity":
+        refs = entry.get("candidates") if entry.get("twins") else ([entry["chosen"]] if entry.get("chosen") else [])
+        return sorted(str(r.get("_id") or r.get("name") or "") for r in refs or [])
+    return entry.get("value")
+
+
+def decision_signature(plan: dict) -> dict:
+    """What the plan decided, without how sure it was. Probabilities, confidence scores, `why` text, latency
+    and catalogue timestamps move between repeats of a decision model (0.97, then 0.96) and are left out;
+    a changed intent, domain, route, view, param value, program kind, confidence level or command is a flip."""
+    plan = json.loads(json.dumps(plan, default=str))
+    match = plan.get("view_match") or {}
+    return {
+        "intent": (plan.get("intent") or {}).get("id"),
+        "domains": sorted((plan.get("domains") or {}).get("selected") or []),
+        "route": (plan.get("route") or {}).get("id"),
+        "view": match.get("name"),
+        "params": {n: _param_signature(e) for n, e in sorted((match.get("params") or {}).items())},
+        "program_kind": plan.get("program_kind"),
+        "level": (plan.get("confidence") or {}).get("level"),
+        "steps": [s.get("cmd") for s in plan.get("steps") or []],
+        "suggested_steps": [s.get("cmd") for s in plan.get("suggested_steps") or []],
+    }
+
+
 def _stable(plan: dict) -> str:
-    copy = json.loads(json.dumps(plan, default=str))
-    copy.get("classifier", {}).pop("latency_ms", None)
-    for entry in (copy.get("catalogue") or {}).values():
-        entry.pop("source", None)
-        entry.pop("built_at", None)
-    return json.dumps(copy, sort_keys=True)
+    return json.dumps(decision_signature(plan), sort_keys=True)
+
+
+def flipped_fields(runs: list[dict]) -> list[str]:
+    """Signature fields that differ across the repeated plans of one label, in signature order."""
+    sigs = [decision_signature(r) for r in runs]
+    return [k for k in sigs[0] if len({json.dumps(sg[k], sort_keys=True) for sg in sigs}) > 1]
 
 
 def _percentile(values: list[float], q: float) -> float | None:
@@ -154,7 +183,8 @@ def _percentile(values: list[float], q: float) -> float | None:
     return values[min(len(values) - 1, int(q * len(values)))] if values else None
 
 
-def summarise(results: list[dict], unstable: list[str], classifier: str, repeat: int = 1) -> dict:
+def summarise(results: list[dict], unstable: list[str], classifier: str, repeat: int = 1,
+              flips: list[dict] | None = None, threaded: int = 0) -> dict:
     counts = {o: sum(1 for r in results if r["outcome"] == o) for o in OUTCOMES}
     per_route: dict[str, dict[str, int]] = {}
     for r in results:
@@ -187,6 +217,8 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         "errors": [{"id": r["id"], "error_type": r.get("error_type"), "error": r.get("error")}
                    for r in results if r["outcome"] == "error"],
         "unstable": unstable,
+        "flips": flips or [],
+        "threaded": threaded,
         "fell_back": len(fell_back),
         "fallback_reasons": sorted({r["fallback_reason"] for r in fell_back if r.get("fallback_reason")}),
         "latency_ms": {"p50": _percentile(latencies, 0.5), "p95": _percentile(latencies, 0.95)},
@@ -204,12 +236,96 @@ def _error_result(label, error_type: str, message: str) -> dict:
             "latency_ms": None, "fell_back": None}
 
 
+def _source_trace(label) -> str | None:
+    return label.source[len("trace:"):] if label.source.startswith("trace:") else None
+
+
+def resolve_threads(labels) -> dict[str, tuple[str, str] | None]:
+    """Per label id, what it follows: `("label", id)`, `("trace", trace_id)` (a previous turn with no label),
+    or None (planned alone). An explicit `follows` wins; `none` disables. Otherwise a `trace:<id>` label follows
+    the label sourced from its session's previous turn, else that turn read straight from the traces. The
+    registry being unreadable leaves the label alone."""
+    from artmind.query_plan import previous as previous_mod
+
+    sources = {}
+    for lb in labels:
+        if _source_trace(lb):
+            sources.setdefault(_source_trace(lb), lb.id)
+    out: dict[str, tuple[str, str] | None] = {}
+    for lb in labels:
+        if lb.follows == "none":
+            out[lb.id] = None
+        elif lb.follows:
+            out[lb.id] = ("label", lb.follows)
+        elif _source_trace(lb):
+            try:
+                full = previous_mod.resolve_trace_id(_source_trace(lb))
+                earlier = previous_mod.previous_turn(full) if full else None
+            except Exception:
+                earlier = None
+            if earlier is None:
+                out[lb.id] = None
+                continue
+            owner = next((i for src, i in sources.items()
+                          if earlier["trace_id"].startswith(src) or src.startswith(earlier["trace_id"])), None)
+            out[lb.id] = ("label", owner) if owner and owner != lb.id else ("trace", full)
+        else:
+            out[lb.id] = None
+    return out
+
+
+def planning_order(labels, threads) -> list:
+    """Labels with every followed label before its follower; otherwise the file order. A cycle is cut."""
+    by_id = {lb.id: lb for lb in labels}
+    done: list = []
+    state: dict[str, int] = {}
+
+    def visit(lb) -> None:
+        if state.get(lb.id):
+            return
+        state[lb.id] = 1
+        edge = threads.get(lb.id)
+        if edge and edge[0] == "label" and edge[1] in by_id:
+            visit(by_id[edge[1]])
+        done.append(lb)
+
+    for lb in labels:
+        visit(lb)
+    return done
+
+
+def _previous_for_label(label, threads, plans, labels_by_id):
+    """The `Previous` handed to the planner for `label`, or None. A label follows the planner's own output
+    for the followed label (as live does), with the answer read from its trace when it came from one."""
+    from artmind.query_plan import previous as previous_mod
+
+    edge = threads.get(label.id)
+    if not edge:
+        return None
+    kind, ref = edge
+    try:
+        if kind == "trace":
+            return previous_mod.previous_from_trace(_source_trace(label) and previous_mod.resolve_trace_id(
+                _source_trace(label)) or "")
+        followed = labels_by_id.get(ref)
+        if followed is None or ref not in plans:
+            return None
+        answer = None
+        if _source_trace(followed):
+            full = previous_mod.resolve_trace_id(_source_trace(followed))
+            answer = previous_mod.turn_answer(full) if full else None
+        return previous_mod.previous_from_plan(followed.question, plans[ref], answer)
+    except Exception:
+        return None
+
+
 def replay(labels, classifier: str, repeat: int = 1, *, given_domains: bool = False, model: str | None = None,
-           plan_fn=None) -> dict:
+           plan_fn=None, threads: dict | None = None) -> dict:
     """Plan every label `repeat` times and score the first plan.
 
-    `today` is fixed once so a run across midnight stays deterministic. After
-    ABORT_AFTER consecutive errors of one type the remaining labels are marked
+    Labels are planned in thread order (see `resolve_threads`): a label that follows another is handed
+    `previous=` built from that label's first plan. `today` is fixed once so a run across midnight stays
+    deterministic. After ABORT_AFTER consecutive errors of one type the remaining labels are marked
     `aborted` without planning."""
     if plan_fn is None:
         from artmind.query_plan import planner
@@ -217,29 +333,41 @@ def replay(labels, classifier: str, repeat: int = 1, *, given_domains: bool = Fa
         plan_fn = planner.plan
     today = date.today()
     extra = {"model": model} if model else {}
-    results: list[dict] = []
+    labels = list(labels)
+    threads = resolve_threads(labels) if threads is None else threads
+    labels_by_id = {lb.id: lb for lb in labels}
+    plans: dict[str, dict] = {}
+    by_label: dict[str, dict] = {}
     unstable: list[str] = []
+    flips: list[dict] = []
+    threaded = 0
     streak_type, streak = None, 0
-    for label in labels:
+    for label in planning_order(labels, threads):
         if streak >= ABORT_AFTER:
-            results.append(_error_result(label, "aborted",
-                                         f"replay aborted after {ABORT_AFTER} consecutive {streak_type} errors"))
+            by_label[label.id] = _error_result(label, "aborted",
+                                               f"replay aborted after {ABORT_AFTER} consecutive {streak_type} errors")
             continue
         domains = list(label.domains) if given_domains else None
+        previous = _previous_for_label(label, threads, plans, labels_by_id)
+        kwargs = {**extra, **({"previous": previous} if previous is not None else {})}
         try:
-            runs = [plan_fn(label.question, domains, classifier=classifier, today=today, **extra)
+            runs = [plan_fn(label.question, domains, classifier=classifier, today=today, **kwargs)
                     for _ in range(max(1, repeat))]
         except Exception as exc:  # one label failing must not stop the replay (spec §7)
             kind = type(exc).__name__
             streak = streak + 1 if kind == streak_type else 1
             streak_type = kind
-            results.append(_error_result(label, kind, str(exc)))
+            by_label[label.id] = _error_result(label, kind, str(exc))
             continue
         streak_type, streak = None, 0
+        threaded += previous is not None
+        plans[label.id] = runs[0]
         if len({_stable(r) for r in runs}) > 1:
             unstable.append(label.id)
-        results.append(score(label, runs[0]))
-    return summarise(results, unstable, classifier, repeat)
+            flips.append({"id": label.id, "fields": flipped_fields(runs)})
+        by_label[label.id] = score(label, runs[0])
+    results = [by_label[lb.id] for lb in labels]
+    return summarise(results, unstable, classifier, repeat, flips, threaded)
 
 
 def write_detail(report: dict) -> Path:

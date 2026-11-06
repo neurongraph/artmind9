@@ -269,6 +269,12 @@ Replay grades this explicitly. Each label says whether the planner should be con
 | **Route parity** | the same recorded questions planned by the previous and the new planner; a phase may change programs, never routes, unless intended |
 | **Trace studies** | rated rounds of real use (`docs/query-routing-study/`), each finding a numbered pattern that a route, slot or program then cites |
 
+Replay and shadow plans carry the previous turn: a shadow plan is given the turn before it in the same
+conversation, rebuilt from the trace store (its question, the intent, route and entities of its own shadow plan,
+and any offer its answer ended with), and replay threads labels through `follows:` the same way. Replay compares
+decisions (intent, domains, route, view and its parameter values, program kind, confidence level, step commands),
+never probabilities, and names the fields that flipped between repeats.
+
 ## 9. Related work
 
 Each layer has precedents; what we have not found is a system that combines them in this
