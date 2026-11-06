@@ -93,6 +93,19 @@ def test_a_plan_that_outlasts_the_turn_is_recorded_late(monkeypatch):
     assert [e["seq"] for e in store.list_events(rec.trace_id)] == [0, 1]
 
 
+def test_trim_keeps_intent_program_kind_and_slot_quality_at_the_last_level():
+    plan = {"plan_version": 2, "confidence": {"level": "high"}, "route": {"id": "view"},
+            "intent": {"id": "retrieve", "source": "lexical"}, "program_kind": "view",
+            "slot_quality": {"score": 0.7}, "warnings": ["w"],
+            "steps": [{"n": 1, "cmd": "artmind query views run v"}],
+            "domains": {"candidates": ["x" * 100] * 1000}}  # too big for every middle level
+    trimmed = shadow._trim(plan)
+    assert trimmed["trimmed"] is True
+    assert trimmed["intent"] == {"id": "retrieve", "source": "lexical"}
+    assert trimmed["program_kind"] == "view"
+    assert trimmed["slot_quality"] == {"score": 0.7}
+
+
 def test_the_shadow_plan_gets_the_longer_decision_timeout(monkeypatch):
     seen = {}
     monkeypatch.setattr(planner, "plan", lambda question, domains=None, **kw: seen.update(kw) or {})

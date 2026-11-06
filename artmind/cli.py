@@ -4656,7 +4656,9 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
 @compact_option
 def traces_show(trace_id, compact) -> None:
     """One turn's full evidence chain: events in order, CLI spans under the
-    Bash call that ran them (with evidence and LLM calls), feedback."""
+    Bash call that ran them (with evidence and LLM calls), feedback. The
+    plan_shadow_summary key gives a shadow plan's intent (and source), program
+    kind and slot quality score, each only when the plan has it."""
     from artmind.traces import analysis
 
     shown = analysis.show(trace_id)
@@ -4713,7 +4715,8 @@ def traces_stats(domain, since, by, compact) -> None:
     views-first compliance (views checked first / late / skipped, views run,
     views listed but unused) and a plan_shadow block (shadow statuses, share of
     high-confidence plans, how often the agent ran the plan's first step: all,
-    high, low, first turn, follow-up, by rating)."""
+    high, low, first turn, follow-up, by rating; planner v2 counts by intent id
+    and program kind (missing = unknown), and the median slot quality of retrieve plans)."""
     from artmind.traces import analysis
 
     try:
@@ -5070,7 +5073,7 @@ def plan_group() -> None:
 @plan_group.group("config")
 def plan_config_group() -> None:
     """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier, categories,
-    kinship, scope rules, calendar."""
+    kinship, synonyms, scope rules, calendar."""
 
 
 @plan_config_group.command("check")
@@ -5110,7 +5113,7 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
             results.append(entry)
             continue
         # Counts only: the terms are private.
-        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship),
+        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship), "synonyms": len(cfg.synonyms),
                            "scope_rules": len(cfg.scope_rules), "calendar": len(cfg.calendar),
                            "narrator_aliases": len(cfg.narrator.aliases) if cfg.narrator else 0}
         if cfg.narrator:
