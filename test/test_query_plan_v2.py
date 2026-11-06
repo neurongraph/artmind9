@@ -367,7 +367,8 @@ def test_replay_grades_intent_and_slots_apart_from_the_route():
                                                    "date_window": "2025-01-01..2026-01-01"}), plan)
     assert (ok["outcome"], ok["intent_ok"], ok["slots_ok"], ok["slot_mismatches"]) == ("correct", True, True, [])
     bad = replay.score(_label(intent="retrieve", slots={"search_term": "visits", "narrator": "diarist"}), plan)
-    assert bad["outcome"] == "correct"  # the route is right; intent and slots are graded on their own
+    # a retrieval label planned as `meta` planned no retrieval: wrong on intent, whatever the route
+    assert bad["outcome"] == "wrong" and "intent" in bad["mismatches"]
     assert (bad["intent_ok"], bad["slots_ok"], bad["slot_mismatches"]) == (False, False, ["search_term"])
     unlabelled = replay.score(_label(), plan)
     assert (unlabelled["intent_ok"], unlabelled["slots_ok"]) == (None, None)
