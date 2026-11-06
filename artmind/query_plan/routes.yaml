@@ -259,19 +259,19 @@ routes:
     triggers: ["how many customers", "per customer", "accounts", "balance", "in the table", "records in"]
     needs: [store]
     steps:
-      - "artmind db bridge --domain {domains} --compact"
-      - "artmind query text2sql --domain {domains} {question} --compact"
+      - "artmind db bridge --domain {store_domains} --compact"
+      - "artmind query text2sql --domain {store_domains} {question} --compact"
     # A `graph` kind (no aggregate or guidance wording) keeps the default steps.
     # The planner picks the variant for the store kind it computed (candidates.store_facts).
     variants:
       analytical:
-        - "artmind query text2sql --domain {domains} {question} --compact"
+        - "artmind query text2sql --domain {store_domains} {question} --compact"
       hybrid:
-        - "artmind db bridge --domain {domains} --compact"
-        - "artmind query text2sql --domain {domains} {question} --compact"
+        - "artmind db bridge --domain {store_domains} --compact"
+        - "artmind query text2sql --domain {store_domains} {question} --compact"
       records_plus_guidance:
-        - "artmind db bridge --domain {domains} --compact"
-        - "artmind query text2sql --domain {domains} {question} --compact"
+        - "artmind db bridge --domain {store_domains} --compact"
+        - "artmind query text2sql --domain {store_domains} {question} --compact"
         - "artmind query vector-text --shape brief --domain {domains} {question} --compact"
     fallbacks: []
     read: [references/structured-store.md]

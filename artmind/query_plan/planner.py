@@ -238,7 +238,8 @@ def _used_entities(entities: list[dict]):
 
 
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
-             mentions: list, overview: list[dict] | None = None, cats: list | None = None) -> dict:
+             mentions: list, overview: list[dict] | None = None, cats: list | None = None,
+             store_domains: tuple[str, ...] | None = None) -> dict:
     """Placeholder values. The narrator never supplies a name, since its name is no search term."""
     named, primary, second = _used_entities(entities)
     entity_name = None
@@ -248,6 +249,7 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
         "domains": ",".join(selected),
         "domain": selected[0] if len(selected) == 1 else None,  # several: rendered per domain (_per_domain)
         "domain_list": tuple(selected),
+        "store_domains": ",".join(store_domains or selected),
         "question": question,
         "keywords": " ".join(candidates.keywords(question, mentions)),
         "document": document,
@@ -435,6 +437,89 @@ def _choose_domains(question, domains, options, overview, answers) -> domain_set
     aliases = {o.key: plan_config.domain_aliases(o.key) for o in options} if not domains and len(options) > 1 else {}
     return domain_set.decide(question, options, overview, answer, ALL_DOMAINS, given=domains,
                              aliases=aliases, shown=shown)
+
+
+def _family_rescope(dset: domain_set.DomainSet, route_id: str, *, question: str, answers: dict, options,
+                    overview: list[dict], cats: dict, index: dict, mentions: list, document: str | None,
+                    document_pool) -> domain_set.DomainSet:
+    """B2 S3 (`domain_set.rescope`) from what the plan already holds: the catalogues' merged name index and
+    document records over the cover, the catalogue's `stores` part (through the catalogue cache). No graph query."""
+    answer = answers.get("domain")
+    probabilities = dict(answer.probabilities) if answer is not None else {}
+    all_domains = [r["domain"] for r in overview if r.get("domain")]
+    dom_of = {n._id: (n.domain or c.domain) for c in cats.values() for n in c.names if n._id is not None}
+    named = sorted((m for m in mentions if m.via != "first_person"), key=lambda m: m.via == "catalogue")
+    texts = list(dict.fromkeys(m.text for m in named))
+    wanted = 2 if route_id == "path" else 1
+
+    def in_family(root: str, hits) -> list:
+        return [n for n in hits if domain_set.family_root(dom_of.get(n._id) or "") == root]
+
+    def entity_groups(root: str) -> list[list[domain_set.Group]]:
+        try:
+            kin = slots_mod.kin_groups(plan_config.load_config(root))
+        except Exception as exc:  # the kinship file is optional context
+            logger.debug("plan: kinship groups of {} unavailable: {}", root, exc)
+            kin = []
+        subjects: list[list[domain_set.Group]] = []
+        for text in texts:
+            hits = in_family(root, index.get(candidates._norm(text), ()))
+            if not hits:
+                continue
+            groups: dict[tuple, dict] = {}
+            for n in hits:
+                key = (str(n.entity_class or "").casefold(), str(n.name or "").casefold())
+                groups.setdefault(key, {"name": n.name, "domains": set(), "top": n})["domains"].add(dom_of[n._id])
+            out = []
+            for g in groups.values():
+                same_class = [candidates.catalogue_ref(e) for grp in index.values() for e in in_family(root, grp)
+                              if e.entity_class == g["top"].entity_class]
+                for twin in slots_mod.twins_for(candidates.catalogue_ref(g["top"]), same_class, kin):
+                    if twin.get("domain"):
+                        g["domains"].add(twin["domain"])
+                out.append((g["name"], tuple(sorted(g["domains"]))))
+            subjects.append(out)
+            if len(subjects) == wanted:
+                break
+        return subjects if len(subjects) == wanted else []
+
+    def document_groups(root: str) -> list[list[domain_set.Group]]:
+        if not document:
+            return []
+        names = {document}
+        if route_id == "document" and slots_mod.has_latest_cue(question):
+            from artmind.document_entity import references
+
+            mine = references(document)
+            names |= {n for n in document_pool if mine and references(n) & mine}
+        found = {r.domain for c in cats.values() for r in c.doc_records
+                 if r.name in names and domain_set.family_root(r.domain or "") == root}
+        if not found:
+            found = {c.domain for c in cats.values() if names & set(c.documents)
+                     and domain_set.family_root(c.domain) == root}
+        return [[(document, tuple(sorted(found)))]] if found else []
+
+    def resolve(kind: str, root: str) -> list[list[domain_set.Group]]:
+        return entity_groups(root) if kind == "entity" else document_groups(root)
+
+    def stores(root: str) -> list[str]:
+        out = []
+        for d in all_domains:
+            if domain_set.family_root(d) != root:
+                continue
+            cat = cats.get(d)
+            if cat is None or not cat.has("stores"):
+                try:
+                    cat = _get_catalogue([d])[0].get(d)
+                except Exception as exc:  # no catalogue: no evidence of tables here
+                    logger.debug("plan: stores of {} unavailable: {}", d, exc)
+                    cat = None
+            if cat is not None and int((cat.stores or {}).get("structured_tables") or 0) > 0:
+                out.append(d)
+        return domain_set.minimal_cover(out)
+
+    return domain_set.rescope(dset, route_id, options=options, probabilities=probabilities,
+                              all_domains=all_domains, resolve=resolve, stores=stores)
 
 
 def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
@@ -956,6 +1041,18 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     retrieving = intent in RETRIEVING
 
     dset = _choose_domains(question, domains, options, overview, answers)
+    classifier_set = dset  # B1's set, kept in the payload beside B2's
+    if retrieving and dset.decided:
+        probe = previous.route if (intent == "follow_up_why" and previous is not None) else None
+        probe = probe or answers["route"].choice
+        view_ans = answers.get("view")
+        view_pending = (probe == answers["route"].choice and view_ans is not None and view_ans.choice in views_by_name
+                        and view_ans.confidence >= LEXICAL_VIEW_FLOOR and not _chunks_only(dset.selected, overview)
+                        and all(domain_covered(d, views_by_name[view_ans.choice].spec.domains) for d in dset.selected))
+        if not view_pending:  # a view that covers B1's set is used as matched and keeps that set
+            dset = _family_rescope(dset, probe, question=question, answers=answers, options=options,
+                                   overview=overview, cats=cats, index=all_index, mentions=mentions,
+                                   document=document, document_pool=document_pool)
     selected, source, domain_conf, domain_candidates = dset.selected, dset.source, dset.confidence, dset.candidates
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
@@ -1091,7 +1188,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                 store = candidates.store_facts(selected, question, resolved_classes)
             except Exception as exc:  # the structured store is optional context (spec §7)
                 warnings.append(f"store facts unavailable: {exc}")
-        context = _context(selected, question, entities, document, kept_mentions, overview, selected_cats)
+        if dset.set_rule == "stores" and (store or {}).get("kind") == "records_plus_guidance":
+            dset = domain_set.with_guidance(dset, options)  # the text step also reads the policy side
+            selected = dset.selected
+        context = _context(selected, question, entities, document, kept_mentions, overview, selected_cats,
+                           dset.store_domains)
         context.update({
             "search_term": search_term.value or question,
             "date_window": f"{window.value['from']}..{window.value['to']}" if window else None,
@@ -1223,7 +1324,10 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                    "alternatives": [{"id": k, "p": p} for k, p in intent_result.alternatives]},
         "domains": {"selected": selected, "source": source, "confidence": domain_conf,
                     "candidates": domain_candidates, "coverage": dset.coverage, "set_rule": dset.set_rule,
-                    "named": dset.named, "whole_vault": dset.whole_vault},
+                    "named": dset.named, "whole_vault": dset.whole_vault, "family": dset.family,
+                    "classifier": {"selected": classifier_set.selected, "set_rule": classifier_set.set_rule,
+                                   "coverage": classifier_set.coverage},
+                    "resolution": dset.resolution, "tie_break": dset.tie_break},
         "route": {
             "id": route_id, "confidence": route_conf,
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],
