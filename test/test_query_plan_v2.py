@@ -43,8 +43,9 @@ def test_a_retrieve_plan_carries_every_v1_key_and_the_v2_blocks(world):
 def test_a_view_plan_has_one_run_node_with_the_view_command(world):
     result = _plan(QUESTION)
     assert result["route"]["id"] == "view"
-    assert [n["kind"] for n in result["program"]] == ["run"]
-    assert result["program"][0]["run"] == result["steps"][0]["cmd"]
+    assert [n["kind"] for n in result["program"]] == ["par", "pick"]  # a count question: view + text check
+    assert result["program_kind"] == "view_count"
+    assert result["program"][0]["children"][0]["run"] == result["steps"][0]["cmd"]
     assert result["guards"] == []
 
 
@@ -177,9 +178,9 @@ def test_the_v2_placeholders_render_from_the_context(world, tmp_path):
     real = planner._route_steps
     world_context = {}
 
-    def spy(route, confidence, context, store_kind=None):
+    def spy(route, confidence, context, *args):
         world_context.update(context)
-        return real(route, confidence, context, store_kind)
+        return real(route, confidence, context, *args)
 
     planner._route_steps, saved = spy, planner._route_steps
     try:
@@ -197,9 +198,9 @@ def test_an_empty_search_term_falls_back_to_the_question_in_the_context(world):
     seen = {}
     real = planner._route_steps
 
-    def spy(route, confidence, context, store_kind=None):
+    def spy(route, confidence, context, *args):
         seen.update(context)
-        return real(route, confidence, context, store_kind)
+        return real(route, confidence, context, *args)
 
     planner._route_steps, saved = spy, planner._route_steps
     try:
@@ -366,7 +367,8 @@ def test_replay_grades_intent_and_slots_apart_from_the_route():
                                                    "date_window": "2025-01-01..2026-01-01"}), plan)
     assert (ok["outcome"], ok["intent_ok"], ok["slots_ok"], ok["slot_mismatches"]) == ("correct", True, True, [])
     bad = replay.score(_label(intent="retrieve", slots={"search_term": "visits", "narrator": "diarist"}), plan)
-    assert bad["outcome"] == "correct"  # the route is right; intent and slots are graded on their own
+    # a retrieval label planned as `meta` planned no retrieval: wrong on intent, whatever the route
+    assert bad["outcome"] == "wrong" and "intent" in bad["mismatches"]
     assert (bad["intent_ok"], bad["slots_ok"], bad["slot_mismatches"]) == (False, False, ["search_term"])
     unlabelled = replay.score(_label(), plan)
     assert (unlabelled["intent_ok"], unlabelled["slots_ok"]) == (None, None)

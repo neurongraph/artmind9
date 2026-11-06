@@ -46,6 +46,24 @@ PREDICATE_TYPES: dict[str, str] = {
     "concentration": "num", "level_agreement": "num",
 }
 PREDICATE_NAMES = frozenset(PREDICATE_TYPES)
+#: Plan-time predicate vocabulary (a route's `programs[].when`): evaluated by the planner from the
+#: question and the resolved slots, before any step runs. A separate set from the step predicates
+#: above, and never node-qualified.
+PLAN_FACT_TYPES: dict[str, str] = {
+    "twins": "num", "entities": "num", "negative": "bool", "latest": "bool", "rare_term": "bool",
+    "category": "bool", "date_window": "bool", "document": "bool", "chunks_only": "bool",
+    "view_count": "bool", "occurrence": "bool", "named_class": "num",
+}
+PLAN_FACT_NAMES = frozenset(PLAN_FACT_TYPES)
+#: Program kinds (spec §5.5); `sequence` is a converted v1 route.
+PROGRAM_KINDS = (
+    "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "chunks_cross_document",
+    "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence",
+    "class_listing",
+)
+DEFAULT_KIND = "one_step"
+#: List slots a `map.over` may name (resolved by the planner; see `planner._list_slots`).
+LIST_SLOTS = ("twin_ids", "phrasings", "years", "family_documents")
 OPS = ("==", "!=", "<=", ">=", "<", ">")
 NODE_KINDS = ("run", "par", "map", "pick", "page")
 PICK_HOWS = frozenset({"best_of", "union", "first_ok"})
@@ -126,8 +144,11 @@ def _tokens(text: str, where: str) -> list[tuple[str, str]]:
     return out
 
 
-def parse_predicate(text, where: str) -> Predicate:
-    """`<name> <op> <number|bool|CONSTANT>` or a bare boolean name, joined by `and` / `not`."""
+def parse_predicate(text, where: str, *, types: dict[str, str] | None = None, qualified: bool = True) -> Predicate:
+    """`<name> <op> <number|bool|CONSTANT>` or a bare boolean name, joined by `and` / `not`.
+
+    `types` is the vocabulary (default: the step predicates); `qualified=False` refuses `node.name`."""
+    types = PREDICATE_TYPES if types is None else types
     if not isinstance(text, str) or not text.strip():
         raise ProgramError(f"{where}: a predicate must be a non-empty string")
     tokens = _tokens(text, where)
@@ -161,11 +182,13 @@ def parse_predicate(text, where: str) -> Predicate:
             raise ProgramError(f"{where}: expected a predicate name in {text!r}")
         take()
         node, _, name = word.rpartition(".")
-        if name not in PREDICATE_NAMES:
-            raise ProgramError(f"{where}: unknown predicate name {name!r}; use {sorted(PREDICATE_NAMES)}")
+        if name not in types:
+            raise ProgramError(f"{where}: unknown predicate name {name!r}; use {sorted(types)}")
+        if node and not qualified:
+            raise ProgramError(f"{where}: {word!r} cannot name a node here; use {name!r}")
         if node and not _ID_RE.match(node):
             raise ProgramError(f"{where}: bad node qualifier {node!r} in {text!r}")
-        ptype = PREDICATE_TYPES[name]
+        ptype = types[name]
         kind, op = peek()
         if kind != "op":
             if ptype != "bool":
@@ -202,6 +225,32 @@ def parse_predicate(text, where: str) -> Predicate:
     return Predicate(text.strip(), ast)
 
 
+def parse_when(text, where: str) -> Predicate:
+    """A plan-time `when:` predicate over `PLAN_FACT_TYPES` (names validated here, at load)."""
+    return parse_predicate(text, where, types=PLAN_FACT_TYPES, qualified=False)
+
+
+_OPS = {"==": lambda a, b: a == b, "!=": lambda a, b: a != b, "<=": lambda a, b: a <= b,
+        ">=": lambda a, b: a >= b, "<": lambda a, b: a < b, ">": lambda a, b: a > b}
+
+
+def evaluate_plan_predicate(pred: Predicate, facts: dict) -> bool:
+    """Evaluate a `when:` over plan facts (name -> number or bool); a missing fact reads as 0 / False."""
+    def ev(node) -> bool:
+        if isinstance(node, Cmp):
+            have = facts.get(node.name, False if PLAN_FACT_TYPES.get(node.name) == "bool" else 0)
+            return bool(_OPS[node.op](have, node.value))
+        if isinstance(node, Not):
+            return not ev(node.operand)
+        return all(ev(o) for o in node.operands)
+
+    return ev(pred.ast)
+
+
+def plan_fact_names(pred: Predicate) -> list[str]:
+    return sorted({c.name for c in pred.comparisons()})
+
+
 # ── nodes and guards ─────────────────────────────────────────────────────────
 
 @dataclass(frozen=True)
@@ -236,6 +285,7 @@ class Node:
     pick: PickSpec | None = None
     page: PageSpec | None = None
     when: Predicate | None = None
+    optional: bool = False  # run only: planned only when every placeholder fills; never blocks the plan
 
 
 @dataclass(frozen=True)
@@ -300,13 +350,16 @@ def _parse_node(raw, where: str, check: TemplateCheck, extra: frozenset, depth: 
     if len(kinds) != 1:
         raise ProgramError(f"{where} must have exactly one of {list(NODE_KINDS)}")
     kind = kinds[0]
-    extra_keys = set(raw) - {"id", "when", kind}
+    extra_keys = set(raw) - {"id", "when", kind, "optional"}
     if extra_keys:
         raise ProgramError(f"{where} has unknown key(s) {sorted(extra_keys)}")
     when = parse_predicate(raw["when"], f"{where}.when") if "when" in raw else None
+    optional = raw.get("optional", False)
+    if "optional" in raw and (kind != "run" or optional is not True):
+        raise ProgramError(f"{where}: `optional: true` goes only on a run node")
     body = raw[kind]
     if kind == "run":
-        return Node(nid, kind, run=check(body, f"{where}.run", extra), when=when)
+        return Node(nid, kind, run=check(body, f"{where}.run", extra), when=when, optional=optional)
     if kind == "par":
         if not isinstance(body, list) or not body:
             raise ProgramError(f"{where}.par must be a non-empty list of nodes")
@@ -319,6 +372,8 @@ def _parse_node(raw, where: str, check: TemplateCheck, extra: frozenset, depth: 
         for label, value in (("over", over), ("as", as_)):
             if not isinstance(value, str) or not _SLOT_RE.match(value):
                 raise ProgramError(f"{where}.map.{label} must be a snake_case name")
+        if over not in LIST_SLOTS:
+            raise ProgramError(f"{where}.map.over must be a list slot: one of {list(LIST_SLOTS)}")
         limit = body.get("max", MAP_MAX_DEFAULT)
         if type(limit) is not int or not 1 <= limit <= MAP_MAX_LIMIT:
             raise ProgramError(f"{where}.map.max must be an integer 1-{MAP_MAX_LIMIT}")
@@ -430,6 +485,8 @@ def parse_guards(raw, program, where: str, *, route_ids: frozenset | None = None
     out = []
     for i, g in enumerate(raw):
         loc = f"{where}[{i}]"
+        if isinstance(g, dict) and True in g:  # YAML 1.1 reads an unquoted `on:` key as the boolean True
+            g = {("on" if k is True else k): v for k, v in g.items()}
         if not isinstance(g, dict) or set(g) != {"on", "if", "then"}:
             raise ProgramError(f"{loc} must be {{on, if, then}}")
         on = g["on"]
@@ -477,6 +534,18 @@ def validate_replacements(guards, own_route: str, route_ids: frozenset, where: s
                 raise ProgramError(f"{where}: guard replaces its own route")
             if g.then.route not in route_ids:
                 raise ProgramError(f"{where}: guard replaces unknown route {g.then.route!r}")
+
+
+# ── a route's choice of programs ─────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class ProgramChoice:
+    """One authored program of a route and the plan-time condition that selects it."""
+
+    kind: str
+    when: Predicate | None  # None = the default (only the last choice may omit it)
+    program: tuple[Node, ...]
+    guards: tuple[Guard, ...] = ()
 
 
 # ── v1 routes as programs ────────────────────────────────────────────────────

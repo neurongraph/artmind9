@@ -5,6 +5,9 @@ is scored against the label. `wrong` (a confident plan that is wrong) is the
 number to drive to zero; `abstained` (a low-confidence plan) is reported
 separately, since the agent then falls back to the routing table.
 
+A label whose intent is not `retrieve`/`follow_up_why` is graded on intent only (route, domains, view are
+not compared); the gate also needs every such label's intent right (spec 2026-11-05 §12).
+
 Domain rule: the plan's domains match the label's when the sets are equal, or when
 the plan selected a single parent domain covering every label domain (intentional).
 
@@ -20,7 +23,11 @@ import re
 from datetime import date, datetime
 from pathlib import Path
 
-OUTCOMES = ("correct", "abstained", "correct_abstain", "wrong", "error")
+from artmind.query_plan.labels import is_nonretrieval
+
+#: `planned`: the label names a route that is designed but not built (labels.PLANNED_ROUTES); the plan's
+#: choice is recorded, not graded, and the label stays out of the wrong-rate denominator.
+OUTCOMES = ("correct", "abstained", "correct_abstain", "wrong", "planned", "error")
 WRONG_RATE_GATE = 0.10
 REPEAT_GATE = 4
 ABORT_AFTER = 3  # consecutive identical errors: the backend is down, stop planning
@@ -81,34 +88,54 @@ def slot_ok(name: str, expected, slot: dict | None) -> bool:
 
 
 def score(label, plan: dict) -> dict:
+    """Retrieval labels (no intent, `retrieve`, `follow_up_why`): domains, route, view and params, and an
+    `intent` mismatch if the plan came back with a non-retrieval intent. Any other label is graded on
+    intent alone: its route is the classifier's recorded guess, not a retrieval plan."""
     mismatches = []
-    if not _domains_match(plan["domains"]["selected"], label.domains):
-        mismatches.append("domains")
-    if plan["route"]["id"] != label.route:
-        mismatches.append("route")
+    got_intent = (plan.get("intent") or {}).get("id")
+    nonretrieval = label.nonretrieval
     got_view = (plan.get("view_match") or {}).get("name") if plan["route"]["id"] == "view" else None
-    if got_view != label.view:
-        mismatches.append("view")
-    if label.view and got_view == label.view:
-        params = plan["view_match"]["params"]
-        mismatches += [f"param:{n}" for n, expected in label.params.items() if _param_wrong(expected, params.get(n))]
+    if nonretrieval:
+        if got_intent != label.intent:
+            mismatches.append("intent")
+    else:
+        if not _domains_match(plan["domains"]["selected"], label.domains):
+            mismatches.append("domains")
+        if plan["route"]["id"] != label.route:
+            mismatches.append("route")
+        if got_view != label.view:
+            mismatches.append("view")
+        if label.view and got_view == label.view:
+            params = plan["view_match"]["params"]
+            mismatches += [f"param:{n}" for n, expected in label.params.items()
+                           if _param_wrong(expected, params.get(n))]
+        if got_intent is not None and is_nonretrieval(got_intent):
+            mismatches.append("intent")
     level = plan["confidence"]["level"]
-    if level == "low":
+    if label.planned and "intent" not in mismatches:
+        # No built route can be right for it: record what the planner did instead, grade nothing else.
+        # A planned-route label planned as a non-retrieval intent is still wrong (below).
+        mismatches = [m for m in mismatches if m != "route"]
+        outcome = "planned"
+    elif "intent" in mismatches:
+        outcome = "wrong"
+        if level != "low" and label.expect == "low":
+            mismatches.append("confidence")
+    elif level == "low":
         outcome = "correct_abstain" if label.expect == "low" else "abstained"
     elif label.expect == "low":
         outcome, mismatches = "wrong", [*mismatches, "confidence"]
     else:
         outcome = "wrong" if mismatches else "correct"
     # Intent and slots are graded apart from the route outcome; None = not labelled (or a v1 plan).
-    got_intent = (plan.get("intent") or {}).get("id")
     intent_ok = None if label.intent is None else got_intent == label.intent
     plan_slots = plan.get("slots") or {}
     slot_wrong = sorted(n for n, expected in label.slots.items() if not slot_ok(n, expected, plan_slots.get(n)))
     slots_ok = None if not label.slots else not slot_wrong
     return {"id": label.id, "outcome": outcome, "mismatches": mismatches, "route": plan["route"]["id"],
             "intent": got_intent, "intent_ok": intent_ok, "slots_ok": slots_ok, "slot_mismatches": slot_wrong,
-            "program_kind": label.program_kind,
-            "expected_route": label.route, "view": got_view, "level": level,
+            "program_kind": label.program_kind, "nonretrieval": nonretrieval,
+            "expected_route": f"intent:{label.intent}" if nonretrieval else label.route, "view": got_view, "level": level,
             "latency_ms": plan["classifier"]["latency_ms"], "fell_back": plan["classifier"]["fell_back"],
             "fallback_reason": plan["classifier"].get("reason") if plan["classifier"]["fell_back"] else None}
 
@@ -134,12 +161,16 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         per_route.setdefault(r["expected_route"], {o: 0 for o in OUTCOMES})[r["outcome"]] += 1
     latencies = [r["latency_ms"] for r in results if r.get("latency_ms") is not None]
     view_wrong = sum(1 for r in results if r["expected_route"] == "view" and r["outcome"] == "wrong")
-    wrong_rate = counts["wrong"] / len(results) if results else None
+    graded_count = len(results) - counts["planned"]
+    wrong_rate = counts["wrong"] / graded_count if graded_count else None
     fell_back = [r for r in results if r.get("fell_back")]
     graded = {key: [r for r in results if r.get(f"{key}_ok") is not None] for key in ("intent", "slots")}
     grades = {key: {"labelled": len(rows), "ok": sum(1 for r in rows if r[f"{key}_ok"]),
                     "wrong": [r["id"] for r in rows if not r[f"{key}_ok"]]} for key, rows in graded.items()}
-    passed = (view_wrong == 0 and wrong_rate is not None and wrong_rate < WRONG_RATE_GATE
+    nonret = [r for r in results if r.get("nonretrieval")]
+    nonretrieval = {"labelled": len(nonret), "intent_ok": sum(1 for r in nonret if r.get("intent_ok")),
+                    "wrong": [r["id"] for r in nonret if r["outcome"] != "error" and not r.get("intent_ok")]}
+    passed = (view_wrong == 0 and not nonretrieval["wrong"] and wrong_rate is not None and wrong_rate < WRONG_RATE_GATE
               and counts["error"] == 0 and not unstable and repeat >= REPEAT_GATE
               and not (classifier == "decision" and fell_back))
     return {
@@ -150,6 +181,9 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
         "wrong": [{"id": r["id"], "mismatches": r["mismatches"]} for r in results if r["outcome"] == "wrong"],
         "intent": grades["intent"],
         "slots": grades["slots"],
+        "nonretrieval": nonretrieval,
+        "planned": [{"id": r["id"], "expected_route": r["expected_route"], "route": r["route"], "level": r["level"]}
+                    for r in results if r["outcome"] == "planned"],
         "errors": [{"id": r["id"], "error_type": r.get("error_type"), "error": r.get("error")}
                    for r in results if r["outcome"] == "error"],
         "unstable": unstable,
@@ -164,7 +198,8 @@ def summarise(results: list[dict], unstable: list[str], classifier: str, repeat:
 
 def _error_result(label, error_type: str, message: str) -> dict:
     return {"id": label.id, "outcome": "error", "mismatches": [], "error": message, "error_type": error_type,
-            "route": None, "expected_route": label.route, "view": None, "level": None,
+            "route": None, "nonretrieval": label.nonretrieval,
+            "expected_route": f"intent:{label.intent}" if label.nonretrieval else label.route, "view": None, "level": None,
             "intent": None, "intent_ok": None, "slots_ok": None, "slot_mismatches": [],
             "latency_ms": None, "fell_back": None}
 

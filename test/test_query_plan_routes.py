@@ -29,7 +29,7 @@ def _resolve(template: str):
     """Resolve a template against the Click tree; placeholder values become a sentinel."""
     from artmind.cli import cli
 
-    filled = routes.render(template, {name: _SENTINEL for name in routes.ALL_PLACEHOLDERS})
+    filled = routes.render(template, {name: _SENTINEL for name in (*routes.ALL_PLACEHOLDERS, "phrase", "twin", "doc")})
     tokens = shlex.split(filled)
     assert tokens[0] == "artmind", template
     command, i = cli, 1
@@ -165,7 +165,8 @@ def test_every_placeholder_in_a_route_is_one_the_planner_supplies():
         templates = [*route.steps, *(t for v in route.variants.values() for t in v), *route.optional_steps, *(f.cmd for f in route.fallbacks)]
         for template in templates:
             used |= routes.placeholders(template)
-    assert used <= supplied, sorted(used - supplied)
+    # the v2 placeholders (search_term, ...) come with the planner's slots, not `_context`
+    assert used - routes.V2_PLACEHOLDERS <= supplied, sorted(used - supplied)
     assert routes.PLACEHOLDERS <= supplied, sorted(routes.PLACEHOLDERS - supplied)
 
 
@@ -241,7 +242,7 @@ def test_program_needs_version_two_and_excludes_the_v1_keys():
     for key, value in (("steps", [BRIEF_VECTOR]), ("fallbacks", []), ("variants", {}), ("optional_steps", [])):
         data = _program_route()
         data["routes"][0][key] = value
-        with pytest.raises(routes.RouteError, match="not both"):
+        with pytest.raises(routes.RouteError, match="exactly one|not both"):
             routes.parse_routes(data)
     with pytest.raises(routes.RouteError, match="guards"):
         routes.parse_routes(_one(guards=[]))
@@ -262,7 +263,7 @@ def test_each_node_kind_is_accepted():
     inner = "artmind query graph pattern7 --domain {domains} --searchTerm {twin} --compact"
     program = [
         {"id": "a", "run": BRIEF_VECTOR},
-        {"id": "m", "map": {"over": "twins", "as": "twin", "max": 3, "do": {"id": "mm", "run": inner}}},
+        {"id": "m", "map": {"over": "twin_ids", "as": "twin", "max": 3, "do": {"id": "mm", "run": inner}}},
         {"id": "pk", "pick": {"from": "m", "how": "best_of", "score": ["max_relevance > 0.5", "rows >= 1"]}},
         {"id": "pg", "page": {"from": "a", "until": "rows_total"}, "when": "a.rows_total > 10 and not a.truncated"},
         {"id": "f", "pick": {"from": "m", "how": "first_ok"}},
@@ -305,12 +306,12 @@ def test_map_max_defaults_to_ten():
     ([_run(1), {"id": "g", "page": {"from": "r1", "until": "rows_total", "k": 5}}], "only goes with"),
     ([_run(1), {"id": "g", "page": {"until": "rows_total"}}], "from"),
     ([{"id": "q", "par": [_run(1)]}, {"id": "g", "page": {"from": "q", "until": "rows_total"}}], "run node"),
-    ([_run(1), {"id": "m", "map": {"over": "x", "as": "y"}}], "map must be"),
+    ([_run(1), {"id": "m", "map": {"over": "twin_ids", "as": "y"}}], "map must be"),
     ([{"id": "m", "map": {"over": "X!", "as": "y", "do": _run(1)}}], "snake_case"),
-    ([{"id": "m", "map": {"over": "x", "as": "y", "max": 41, "do": _run(1)}}], "max"),
-    ([{"id": "m", "map": {"over": "x", "as": "y", "max": 0, "do": _run(1)}}], "max"),
-    ([{"id": "m", "map": {"over": "x", "as": "y", "max": True, "do": _run(1)}}], "max"),
-    ([{"id": "m", "map": {"over": "x", "as": "y", "do": _run(1, "artmind query vector-text --domain {domains} {z} --compact")}}], "unknown placeholder"),
+    ([{"id": "m", "map": {"over": "twin_ids", "as": "y", "max": 41, "do": _run(1)}}], "max"),
+    ([{"id": "m", "map": {"over": "twin_ids", "as": "y", "max": 0, "do": _run(1)}}], "max"),
+    ([{"id": "m", "map": {"over": "twin_ids", "as": "y", "max": True, "do": _run(1)}}], "max"),
+    ([{"id": "m", "map": {"over": "twin_ids", "as": "y", "do": _run(1, "artmind query vector-text --domain {domains} {z} --compact")}}], "unknown placeholder"),
 ])
 def test_program_rule_violations_are_named(program, message):
     _bad(program, message)
@@ -343,7 +344,7 @@ def _nested(levels):
 def test_nesting_is_limited_to_three_levels():
     routes.parse_routes(_program_route(_nested(3), guards=[]))
     _bad(_nested(4), "nesting deeper than 3")
-    deep_map = [{"id": "m", "map": {"over": "x", "as": "y", "do": {"id": "p", "par": [{"id": "q", "par": [_run(1)]}]}}}]
+    deep_map = [{"id": "m", "map": {"over": "twin_ids", "as": "y", "do": {"id": "p", "par": [{"id": "q", "par": [_run(1)]}]}}}]
     _bad(deep_map, "nesting deeper than 3")
 
 
@@ -352,10 +353,10 @@ def test_run_node_limits_count_written_nodes_and_map_expansion():
     routes.parse_routes(_program_route(twelve, guards=[]))
     _bad([*twelve, _run(99)], "13 run nodes")
     # a map body is written once however big max is, but executes max times
-    big = [{"id": "m", "map": {"over": "x", "as": "y", "max": 40, "do": _run(1)}}]
+    big = [{"id": "m", "map": {"over": "twin_ids", "as": "y", "max": 40, "do": _run(1)}}]
     (route,) = routes.parse_routes(_program_route(big, guards=[]))
     assert prog.executed_run_calls(route.program) == 40
-    two_inside = [{"id": "m", "map": {"over": "x", "as": "y", "max": 40, "do": {"id": "p", "par": [_run(1), _run(2)]}}}]
+    two_inside = [{"id": "m", "map": {"over": "twin_ids", "as": "y", "max": 40, "do": {"id": "p", "par": [_run(1), _run(2)]}}}]
     _bad(two_inside, "80 run commands")
 
 
@@ -472,13 +473,15 @@ def test_a_v1_route_reads_as_a_program_with_guards():
 def test_every_packaged_route_has_a_program_and_guards_for_its_fallbacks():
     for route in routes.load_routes():
         assert route.program, route.id
-        assert [n.run for n in route.program] == list(route.steps)
+        if route.authored_program:  # authored routes carry their guards in `guards:`, not v1 fallbacks
+            continue
+        assert [n.run for n in prog.run_nodes(route.program)] == list(route.steps)
         assert [(g.v1_when, g.then.run) for g in route.guards] == [(f.when, f.cmd) for f in route.fallbacks]
 
 
 def _all_run_templates(route):
-    templates = [n.run for n in prog.run_nodes(route.program)]
-    templates += [g.then.run for g in route.guards if g.then.kind == "run"]
+    templates = [n.run for choice in route.programs for n in prog.run_nodes(choice.program)]
+    templates += [g.then.run for choice in route.programs for g in choice.guards if g.then.kind == "run"]
     templates += [t for v in route.variants.values() for t in v]
     templates += list(route.optional_steps)
     templates += [f.cmd for f in route.fallbacks]
@@ -489,7 +492,7 @@ def _click_path(template: str) -> str:
     """The Click command path a template invokes, spelled as WRITE_COMMANDS does (e.g. 'ingest sync')."""
     from artmind.cli import cli
 
-    tokens = shlex.split(routes.render(template, {name: _SENTINEL for name in routes.ALL_PLACEHOLDERS}))
+    tokens = shlex.split(routes.render(template, {name: _SENTINEL for name in (*routes.ALL_PLACEHOLDERS, "phrase", "twin", "doc")}))
     command, parts = cli, []
     for token in tokens[1:]:
         if hasattr(command, "commands") and token in command.commands:
@@ -524,3 +527,132 @@ def test_the_survey_example_templates_are_real_commands():
         command, rest = _resolve(template)
         by_name, options, _ = _parse_args(command, rest)
         assert set(options) <= set(by_name), template
+
+
+# ── routes v2: several programs per route (planner v2 P2b) ───────────────────
+
+ONE = "artmind query vector-text --shape brief --domain {domains} {search_term} --compact"
+PHRASE = "artmind query entity-resolve --domain {domains} --topK 25 {phrase} --compact"
+
+
+def _choice(kind="one_step", when=None, program=None, guards=None):
+    entry = {"kind": kind, "program": program or [_run(1, ONE)]}
+    if when is not None:
+        entry["when"] = when
+    if guards is not None:
+        entry["guards"] = guards
+    return entry
+
+
+def _programs_route(*choices):
+    return _v2(programs=list(choices))
+
+
+def test_programs_parse_with_a_default_last_entry():
+    (route,) = routes.parse_routes(_programs_route(
+        _choice("existence_concept", "negative and rare_term",
+                [{"id": "m", "map": {"over": "phrasings", "as": "phrase", "max": 4, "do": _run(1, PHRASE)}}]),
+        _choice("kinship_aggregate", "twins > 0"),
+        _choice("one_step")))
+    assert route.chooses and route.authored_program
+    assert [c.kind for c in route.programs] == ["existence_concept", "kinship_aggregate", "one_step"]
+    assert [c.when.text if c.when else None for c in route.programs] == ["negative and rare_term", "twins > 0", None]
+    # Route.program / guards / kind / steps are the default (last) choice
+    assert route.kind == "one_step" and route.program == route.programs[-1].program
+    assert route.steps == (ONE,) and route.guards == ()
+
+
+def test_single_program_kind_defaults_to_one_step_and_v1_is_sequence():
+    (route,) = routes.parse_routes(_program_route())
+    assert route.kind == "one_step" and not route.chooses and len(route.programs) == 1
+    assert route.programs[0].when is None
+    data = _v2(program=SURVEY_PROGRAM, kind="chunks_cross_document", guards=[])
+    (route,) = routes.parse_routes(data)
+    assert route.kind == "chunks_cross_document"
+    (v1,) = routes.parse_routes({"version": 2, "routes": [{**_v2()["routes"][0], "steps": [BRIEF_VECTOR]}]})
+    assert v1.kind == "sequence" and not v1.chooses and v1.programs[0].kind == "sequence"
+
+
+def test_every_packaged_route_has_one_choice_and_does_not_choose():
+    choosing = {"existence": 3, "enumeration": 3, "aggregate": 2, "entity_profile": 2, "document": 2}
+    for route in routes.load_routes():
+        if route.id == "search":  # chooses chunks_cross_document for chunks-only scopes
+            assert route.chooses and [c.kind for c in route.programs] == ["chunks_cross_document", "one_step"]
+            continue
+        if route.id in choosing:
+            assert route.chooses and len(route.programs) == choosing[route.id], route.id
+            assert route.programs[-1].when is None
+        else:
+            assert len(route.programs) == 1 and not route.chooses, route.id
+
+
+def test_choice_guards_are_parsed_against_their_own_program():
+    (route,) = routes.parse_routes(_programs_route(
+        _choice("one_step", "negative", guards=[{"on": "r1", "if": "rows == 0", "then": "escalate"}]),
+        _choice("one_step", guards=[{"on": "r1", "if": "truncated", "then": {"page": {"until": "rows_total"}}}])))
+    assert [g.then.kind for g in route.programs[0].guards] == ["escalate"]
+    assert route.guards == route.programs[1].guards and route.guards[0].then.kind == "page"
+
+
+def _map_program(over):
+    return [{"id": "m", "map": {"over": over, "as": "phrase", "do": _run(1, PHRASE)}}]
+
+
+@pytest.mark.parametrize("data, message", [
+    (_programs_route(_choice(when="negative"), _choice(when="date_window")), None),  # a `when` on the last is allowed
+    (_programs_route(_choice()), None),
+    (_programs_route(_choice(), _choice(when="negative")), "only the last entry may omit"),
+    (_programs_route(_choice(when="rows > 0"), _choice()), "unknown predicate name"),  # a step predicate
+    (_programs_route(_choice(when="nope"), _choice()), "unknown predicate name"),
+    (_programs_route(_choice(when="needle.twins > 0"), _choice()), "cannot name a node"),
+    (_programs_route(_choice(when="twins"), _choice()), "needs a comparison"),
+    (_programs_route(_choice(when="negative >= true"), _choice()), "only supports"),
+    (_programs_route(_choice(when="twins == true"), _choice()), "not comparable"),
+    (_programs_route(_choice(kind="nonsense", when="negative"), _choice()), "kind"),
+    (_programs_route(_choice(kind="sequence", when="negative"), _choice()), "kind"),
+    (_programs_route({"program": [_run(1, ONE)], "when": "negative"}, _choice()), "must be"),
+    (_programs_route({"kind": "one_step", "program": [_run(1, ONE)], "extra": 1}), "must be"),
+    (_programs_route(), "non-empty"),
+    (_v2(programs=[_choice()], program=[_run(1, ONE)]), "exactly one"),
+    (_v2(programs=[_choice()], steps=[BRIEF_VECTOR]), "exactly one"),
+    ({**_programs_route(_choice()), "version": 1}, "version: 2"),
+    (_v2(programs=[_choice()], guards=[]), "inside each entry"),
+    (_v2(programs=[_choice()], kind="one_step"), "`kind:` only goes with a single"),
+    (_v2(program=[_run(1, ONE)], kind="sequence"), "kind"),
+    (_v2(program=[_run(1, ONE)], kind="nope"), "kind"),
+    (_programs_route(_choice(program=_map_program("twins"))), "list slot"),
+])
+def test_programs_rule_violations_are_named(data, message):
+    if message is None:
+        routes.parse_routes(data)
+        return
+    with pytest.raises(routes.RouteError, match=message):
+        routes.parse_routes(data)
+
+
+def test_every_list_slot_is_a_valid_map_over():
+    for over in prog.LIST_SLOTS:
+        (route,) = routes.parse_routes(_programs_route(_choice(program=_map_program(over))))
+        assert route.program[0].map.over == over
+
+
+def test_the_vocabularies_are_the_documented_ones():
+    assert prog.PLAN_FACT_NAMES == {"twins", "entities", "negative", "latest", "rare_term", "category",
+                                    "date_window", "document", "chunks_only", "view_count", "occurrence", "named_class"}
+    assert set(prog.PROGRAM_KINDS) == {
+        "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "chunks_cross_document",
+        "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence",
+        "class_listing"}
+    assert prog.LIST_SLOTS == ("twin_ids", "phrasings", "years", "family_documents")
+
+
+@pytest.mark.parametrize("text, facts, expected", [
+    ("twins > 0", {"twins": 2}, True), ("twins > 0", {"twins": 0}, False), ("twins > 0", {}, False),
+    ("negative and rare_term", {"negative": True, "rare_term": True}, True),
+    ("negative and rare_term", {"negative": True, "rare_term": False}, False),
+    ("not date_window", {}, True), ("not date_window", {"date_window": True}, False),
+    ("entities >= 2 and not chunks_only", {"entities": 2}, True),
+    ("latest == false", {"latest": False}, True),
+])
+def test_plan_predicates_evaluate_over_facts(text, facts, expected):
+    assert prog.evaluate_plan_predicate(prog.parse_when(text, "t"), facts) is expected

@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import re
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
 from pathlib import Path
 
@@ -22,6 +22,10 @@ from artmind.query_plan.classify.lexical import Facts, answer as lexical_answer,
 INTENTS_FILE = Path(__file__).with_name("intents.yaml")
 INTENT_IDS = ("retrieve", "follow_up_format", "follow_up_why", "curate", "update", "meta", "status", "ops")
 DEFAULT_INTENT = "retrieve"
+# A reply that depends on the previous turn, with none given, stays below the plan's confidence
+# threshold (`config.DEFAULT_THRESHOLD`, 0.7, overridable per domain in `domains/plan/<domain>.yaml`)
+# so the plan reads as low confidence instead of acting on a guess.
+NO_PREVIOUS_CAP = 0.5
 MAX_DESCRIPTION = 300
 PRONOUNS = frozenset({"he", "she", "they", "it", "that", "them", "his", "her", "their", "this"})
 
@@ -191,6 +195,31 @@ def is_context_only(question: str) -> bool:
     return bool(words) and all(w in vocab for w in words)
 
 
+REFERS_MAX_WORDS = 8
+_REFERS_RE = re.compile(
+    r"\bas is\b|\([a-z0-9]\)|\boptions? (?:\d+|[a-z])\b|\byour (?:plan|proposal|suggestion|recommendation)s?\b"
+    r"|\byou(?:'ve| have)? suggested\b|\bthe others\b|\bthat one\b|\bgo ahead\b|\bproceed\b|\bdo it\b"
+    r"|^\W*(?:these|those)\b|\b(?:all|approve|reject|dismiss|merge|keep|drop|run) (?:of )?(?:these|those)\b"
+)
+
+
+def refers_to_previous(question: str) -> bool:
+    """The message only makes sense after the previous answer.
+
+    True for a context-only message, and for a short one (at most `REFERS_MAX_WORDS` words:
+    a longer message usually carries its own subject) that points back with a phrase such
+    as "as is", "(a)", "option 2", "your plan", "you suggested", "the others", "that one",
+    "go ahead", "proceed" or "do it", or that opens with / acts on "these" / "those".
+    A bare "this" or "that" in a standalone question does not count.
+    """
+    if is_context_only(question):
+        return True
+    low = question.casefold().replace("’", "'")
+    if len(_WORD_RE.findall(low)) > REFERS_MAX_WORDS:
+        return False
+    return bool(_REFERS_RE.search(low))
+
+
 def _scores(question: str) -> dict[str, float]:
     return route_scores(load_intents().intents, Facts(question.casefold(), 0, None, False, False))
 
@@ -215,6 +244,7 @@ class IntentResult:
     inherited_offer: str | None = None
     previous_used: bool = False
     alternatives: tuple[tuple[str, float], ...] = ()
+    no_previous_capped: bool = False  # the message needs a previous turn and none was given
 
 
 def _alternatives(probs: dict[str, float], chosen: str) -> tuple[tuple[str, float], ...]:
@@ -232,12 +262,17 @@ def decide_intent(question: str, previous: Previous | None, answer: Answer | Non
             return IntentResult("retrieve", 1.0, "previous_offer", previous.offer, True)
         if previous.intent:
             return IntentResult(previous.intent, 1.0, "previous_intent", None, True)
+    capped = previous is None and refers_to_previous(question)
     if answer is not None:
-        return IntentResult(answer.choice, answer.confidence, "classifier", None, False,
+        base = IntentResult(answer.choice, answer.confidence, "classifier", None, False,
                             _alternatives(answer.probabilities, answer.choice))
-    lex = lexical_answer(intent_decision(question, previous))
-    return IntentResult(lex.choice, lex.confidence, "lexical", None, False,
-                        _alternatives(lex.probabilities, lex.choice))
+    else:
+        lex = lexical_answer(intent_decision(question, previous))
+        base = IntentResult(lex.choice, lex.confidence, "lexical", None, False,
+                            _alternatives(lex.probabilities, lex.choice))
+    if capped:
+        return replace(base, confidence=min(base.confidence, NO_PREVIOUS_CAP), no_previous_capped=True)
+    return base
 
 
 def uses_previous_subjects(question: str, mentions_count: int) -> bool:

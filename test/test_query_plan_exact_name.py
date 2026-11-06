@@ -12,7 +12,8 @@ from test_query_plan_planner import FakeClassifier, _answer, _plan, _use, world 
 TRIPS = {
     "name": "trips_by_year", "version": 1, "domains": ["journal"],
     "summary": "Count the trips a person made to a place in a year",
-    "examples": ["How many times did Ada go to Lakeport in 2025?"],
+    "examples": ["How many trip times did Ada visit Lakeport and stay long?",
+                 "How many visits did Ada make to Lakeport in 2024?"],
     "params": {
         "person": {"type": "entity", "entity_class": "PERSON", "description": "The traveller"},
         "place": {"type": "entity", "entity_class": "LOCATION", "description": "The destination"},
@@ -70,7 +71,8 @@ def test_true_twins_stay_twins(trips_world):
     result = _plan("how many visits did Ada make to Quayside in 2024")
     assert _place(result)["twins"] is True and _place(result)["chosen"] is None
     assert sorted(c["_id"] for c in _place(result)["candidates"]) == ["q1", "q4"]
-    assert [s["cmd"].split("--param place=")[1].split()[0] for s in result["steps"]] == ["@q1", "@q4"]
+    runs = [s["cmd"] for s in result["steps"] if "--param place=" in s["cmd"]]
+    assert [c.split("--param place=")[1].split()[0] for c in runs] == ["@q1", "@q4"]
 
 
 def test_a_fully_filled_view_below_the_threshold_is_lifted_on_the_lexical_path(trips_world):
