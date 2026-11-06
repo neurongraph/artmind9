@@ -957,7 +957,6 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
 
     dset = _choose_domains(question, domains, options, overview, answers)
     selected, source, domain_conf, domain_candidates = dset.selected, dset.source, dset.confidence, dset.candidates
-    coverage = dset.coverage
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
     chunks_only = _chunks_only(selected, overview)
@@ -1000,7 +999,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     route_adjusted: dict | None = None
 
     def selected_scope(route_for_scope: str | None):
-        return slots_mod.scope_slot(list(domains or ()), selected, coverage or 0.0, threshold, cfg, question,
+        return slots_mod.scope_slot(list(domains or ()), selected, dset.stage or 0.0, threshold, cfg, question,
                                     route_for_scope, exclude)
 
     if not retrieving:
@@ -1099,7 +1098,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             "entity_class_list": ",".join(expansion.classes) if expansion and expansion.classes else None,
         })
         if source != "given":  # the mass the selected set covers (fix B1): part of a spread scope is low
-            stages.append(("domain", coverage or 0.0))
+            stages.append(("domain", dset.stage or 0.0))
         lifted_built = None
         if lift_view is not None:
             trial = _view_steps(lift_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
@@ -1223,8 +1222,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                    "inherited_offer": intent_result.inherited_offer,
                    "alternatives": [{"id": k, "p": p} for k, p in intent_result.alternatives]},
         "domains": {"selected": selected, "source": source, "confidence": domain_conf,
-                    "candidates": domain_candidates, "coverage": coverage, "set_rule": dset.set_rule,
-                    "named": dset.named},
+                    "candidates": domain_candidates, "coverage": dset.coverage, "set_rule": dset.set_rule,
+                    "named": dset.named, "whole_vault": dset.whole_vault},
         "route": {
             "id": route_id, "confidence": route_conf,
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],

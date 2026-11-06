@@ -289,7 +289,11 @@ The **domain** stage is the set's **coverage**: the probability mass of the opti
 set covers (a parent covers its children), with the "no single domain" mass counted against it.
 A plan that searches one domain while 40 % of the mass sits elsewhere is at most 0.6, so it is
 low; a margin or family-parent set that covers the spread is not penalised for the spread. A
-named, single-option or chunks-only-all set covers its scope (1.0); `all` is 0. Given domains add
+named, single-option or chunks-only-all set covers its scope (1.0); `all` is 0. A set that covers
+every domain of a vault of graph domains (`domains.whole_vault`, e.g. the family parent of a vault
+whose domains are all `X.*`, or a named `X` there) is no domain decision, like `all`: widening to it
+earns nothing, and the stage is the classifier's confidence in its own top choice. A chunks-only
+vault searched whole keeps 1.0 (with no domain named, all of it is the scope). Given domains add
 no domain stage.
 At or above the domain's `confidence_threshold` (default 0.7) the plan is `high` and its
 commands are `steps`; below, they are `suggested_steps` and the agent reads the routing table

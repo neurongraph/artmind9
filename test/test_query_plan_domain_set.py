@@ -110,6 +110,26 @@ def test_no_single_domain_still_searches_everything_at_zero():
     assert got.selected == ["garden", "travel"]
 
 
+def test_a_set_covering_the_whole_graph_vault_earns_no_confidence_for_widening():
+    rows = _rows("shop.orders", "shop.stock", "shop.staff")
+    got = _decide("q", rows, {"shop.orders": 0.4, "shop.stock": 0.3, "shop.staff": 0.3})
+    assert got.selected == ["shop"] and got.whole_vault is True
+    assert got.coverage == pytest.approx(1.0) and got.stage == pytest.approx(0.4)  # the top choice, like `all`
+    named = _decide("what does the shop sell?", rows, {"shop.orders": 0.5, "shop.stock": 0.5})
+    assert named.set_rule == "named" and named.whole_vault is True and named.stage == pytest.approx(0.5)
+
+
+def test_a_set_covering_part_of_the_vault_takes_its_coverage_as_the_stage():
+    got = _decide("q", _rows("garden", "travel", "kitchen"), {"garden": 0.45, "travel": 0.35, "kitchen": 0.05})
+    assert got.whole_vault is False and got.stage == got.coverage == pytest.approx(0.8)
+
+
+def test_a_chunks_only_vault_searched_whole_keeps_full_confidence():
+    rows = _rows("letters", "replies", chunks=("letters", "replies"))
+    got = _decide("q", rows, {"letters": 0.6, "replies": 0.1})
+    assert got.whole_vault is False and got.stage == 1.0
+
+
 def test_given_domains_are_kept_as_given():
     got = domain_set.decide("q", [], [], None, ALL, given=["garden"])
     assert (got.selected, got.set_rule, got.coverage) == (["garden"], "given", None)
@@ -150,12 +170,13 @@ def test_one_domain_with_mass_elsewhere_is_a_low_domain_stage(world, monkeypatch
 
 
 def test_a_margin_set_covering_the_mass_keeps_the_domain_stage_high(world, monkeypatch):
-    world["overview"][:] = _rows("garden", "travel")
+    world["overview"][:] = _rows("garden", "travel", "kitchen")
     world["views"] = []
-    _use(monkeypatch, FakeClassifier(override={"domain": _domain_answer({"garden": 0.5, "travel": 0.45, ALL: 0.05})}))
+    _use(monkeypatch, FakeClassifier(override={"domain": _domain_answer(
+        {"garden": 0.5, "travel": 0.45, "kitchen": 0.0, ALL: 0.05})}))
     result = _plan("How often did the team meet?", domains=None)
     assert result["domains"]["selected"] == ["garden", "travel"] and result["domains"]["set_rule"] == "margin"
-    assert result["domains"]["coverage"] == pytest.approx(0.95)
+    assert result["domains"]["coverage"] == pytest.approx(0.95) and result["domains"]["whole_vault"] is False
     assert result["confidence"]["weakest"] != "domain"
     assert all("--domain garden,travel" in s["cmd"] for s in result["steps"] + result["suggested_steps"])
 

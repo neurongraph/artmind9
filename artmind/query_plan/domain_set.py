@@ -19,6 +19,12 @@ searches, in code, by these rules (first that applies):
 children), with the classifier's "no single domain" mass in the denominator. It is the `domain`
 stage of plan confidence: a plan that searches one domain while 40 % of the mass sits elsewhere
 comes out below any threshold. A named, single-option or chunks-only-all set covers its scope: 1.0.
+
+`stage` is the value the plan's `domain` stage takes: the coverage, except for a set that covers
+every option of a vault of graph domains (`whole_vault`): searching everything is no domain
+decision, like `all`, so widening to it earns nothing and the stage is the classifier's
+confidence in its own top choice. A chunks-only vault is the exception the user decided: with no
+domain named, all of its domains are the scope (1.0).
 """
 
 from __future__ import annotations
@@ -50,6 +56,12 @@ class DomainSet:
     set_rule: str
     candidates: list[dict] = field(default_factory=list)
     named: list[str] = field(default_factory=list)
+    whole_vault: bool = False   # a graph-domain set covering every option: no domain decision
+    stage: float | None = None  # the `domain` stage; None when given
+
+    def __post_init__(self):
+        if self.stage is None and self.coverage is not None:
+            object.__setattr__(self, "stage", self.confidence if self.whole_vault else self.coverage)
 
 
 def minimal_cover(scope) -> list[str]:
@@ -129,7 +141,8 @@ def decide(question: str, options, overview: list[dict], answer, all_key: str, *
     confidence = answer.confidence if answer is not None else 0.0
     named = named_domains(question, options, aliases)
     if named:
-        return DomainSet(named, _source(named, options), confidence, 1.0, "named", shown, named)
+        return DomainSet(named, _source(named, options), confidence, 1.0, "named", shown, named,
+                         _whole_vault(named, options))
     if all(chunks_only(o.key, overview) for o in options):
         keys = minimal_cover(o.key for o in options)
         return DomainSet(keys, _source(keys, options), confidence, 1.0, "chunks_only_all", shown)
@@ -150,4 +163,10 @@ def decide(question: str, options, overview: list[dict], answer, all_key: str, *
     if rule == "margin" and len(selected) == 1:
         rule = "single"
     coverage = round(covered_mass(selected, options, probabilities), 4)
-    return DomainSet(selected, _source(selected, options), confidence, coverage, rule, shown)
+    return DomainSet(selected, _source(selected, options), confidence, coverage, rule, shown,
+                     whole_vault=len(selected) > 0 and _whole_vault(selected, options))
+
+
+def _whole_vault(selected: list[str], options) -> bool:
+    """The set covers every option, and there was more than one to choose from."""
+    return len(options) > 1 and all(any(candidates.covered_by(o.key, s) for s in selected) for o in options)
