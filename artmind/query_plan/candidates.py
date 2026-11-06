@@ -39,7 +39,7 @@ ME_BLOCKERS = frozenset("tell show give list send remind let help".split())
 _KEYWORD_STOP = frozenset("many much get make say do does to a".split())
 _CONTRACTIONS_WITH_I = frozenset({"i'm", "i've", "i'd", "i'll"})
 _AGGREGATE_RE = re.compile(r"\b(per|total|average|how many|number of|count of|sum of)\b")
-_GUIDANCE_RE = re.compile(r"\b(policy|policies|guidance|should|what to do|rules?|procedures?)\b")
+_GUIDANCE_RE = re.compile(r"\b(policy|policies|guidance|should|what to do|rules?|procedures?|requires?)\b")
 
 _TOKEN_RE = re.compile(r"[^\W_][\w'’&-]*")
 # Two-character minimum: a one-character quote is not a name. fill.py's _QUOTED_RE takes any length.
@@ -557,12 +557,14 @@ def store_facts(domains: list[str], question: str, resolved_classes: set) -> dic
     bridged = sorted({c["entity_class"] for t in surface for c in t.get("entity_classes") or []})
     hit = set(bridged) & {c for c in resolved_classes if c}
     aggregate = _AGGREGATE_RE.search(low) is not None
-    if hit and (aggregate or re.search(r"\d", low)):
+    # Guidance wording first: a question about a bridged class that asks for numbers *and* what the policy
+    # requires needs the policy text beside the SQL (B2 §8.3 reach: hybrid dropped the text step).
+    if hit and _GUIDANCE_RE.search(low):
+        kind = "records_plus_guidance"
+    elif hit and (aggregate or re.search(r"\d", low)):
         kind = "hybrid"
     elif aggregate:
         kind = "analytical"
-    elif hit and _GUIDANCE_RE.search(low):
-        kind = "records_plus_guidance"
     else:
         kind = "graph"
     # matched_values is not populated in v1: routing_surface() carries no cell values.
