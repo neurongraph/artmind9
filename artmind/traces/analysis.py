@@ -21,6 +21,11 @@ _NOT_FOUND = re.compile(
 _RELATIVE = re.compile(r"^(\d+)([dh])$")
 
 
+def top_level(spans: list[dict]) -> list[dict]:
+    """The agent's own calls: spans with no parent. A `query run` step's span is a child of its run."""
+    return [s for s in spans if not s.get("parent_span_id")]
+
+
 def parse_since(value: str | None, *, now: float | None = None) -> float | None:
     """`7d`, `24h` or an ISO date/datetime -> epoch seconds."""
     if not value:
@@ -254,6 +259,20 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
     }
 
 
+def _run_block(turns: list[dict], spans_by_trace: dict[str, list[dict]]) -> dict:
+    """Run turns (a top-level `query run` span) and the share where the agent ran a lookup after it."""
+    runs = after = 0
+    for turn in turns:
+        spans = top_level(spans_by_trace.get(turn["trace_id"], []))
+        run = next((s for s in spans if s.get("command") == "query run"), None)
+        if run is None:
+            continue
+        runs += 1
+        after += any(_is_looked_up(s.get("command")) and s.get("command") not in ("query run", "query page")
+                     and (s.get("started_at") or 0) > (run.get("started_at") or 0) for s in spans)
+    return {"run_turns": runs, "added_after_run": after / runs if runs else None}
+
+
 def _is_unexecuted_plan(span: dict) -> bool:
     """A `query plan` that did not run a view: its zero rows are not a failed retrieval."""
     evidence = span.get("evidence")
@@ -317,7 +336,7 @@ def triage(*, since: float | None = None, limit: int = 20) -> list[dict]:
     items = []
     for turn in turns:
         rating = turn.get("rating")
-        sig = signals(turn, spans_by_trace.get(turn["trace_id"], []), p90, checks[turn["trace_id"]],
+        sig = signals(turn, top_level(spans_by_trace.get(turn["trace_id"], [])), p90, checks[turn["trace_id"]],
                       shadow=shadow_plan(shadows.get(turn["trace_id"], [])))
         score = sum(sig.values())
         if rating == "good" and "graph_miss" not in sig:
@@ -420,6 +439,7 @@ def stats(*, domain: list[str] | None = None, since: float | None = None, by: st
                 statistics.mean(t["graph_attempts"] or 0 for t in fell) if fell else None,
             **_views_rates(turns, checks),
             "plan_shadow": _shadow_rates(turns, shadows, spans_by_trace),
+            "run": _run_block(turns, spans_by_trace),
             **_output_shape([t["trace_id"] for t in turns], spans_by_trace),
         })
     return rows
@@ -434,6 +454,13 @@ def show(trace_id: str) -> dict | None:
     calls = store.list_llm_calls([s["span_id"] for s in spans])
     for span in spans:
         span["llm_calls"] = calls.get(span["span_id"], [])
+    children: dict[str, list[dict]] = {}
+    for span in spans:
+        if span.get("parent_span_id"):
+            children.setdefault(span["parent_span_id"], []).append(span)
+    for span in spans:
+        span["children"] = children.get(span["span_id"], [])
+    spans = top_level(spans)
     by_tool: dict[str, list[dict]] = {}
     for span in spans:
         if span["tool_id"]:
