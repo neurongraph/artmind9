@@ -48,7 +48,7 @@ _KEYS = frozenset({"id", "description", "triggers", "needs", "steps", "optional_
 _CHOICE_KEYS = frozenset({"kind", "when", "program", "guards"})
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _EVIDENCE_RE = re.compile(r"^[SP]\d+$")
-_PLACEHOLDER_RE = re.compile(r"\{([a-z_]+)\}")
+_PLACEHOLDER_RE = re.compile(r"\{([a-z][a-z0-9_]*\.[a-z_]+|[a-z_]+)\}")
 
 
 class RouteError(ValueError):
@@ -88,6 +88,11 @@ def placeholders(template: str) -> set[str]:
     return set(_PLACEHOLDER_RE.findall(template))
 
 
+def bound_placeholders(template: str) -> set[tuple[str, str]]:
+    """`{node.output}` placeholders (step bindings, P3 §4): filled by the executor, never by the planner."""
+    return {tuple(p.split(".", 1)) for p in placeholders(template) if "." in p}
+
+
 def _has_stray_brace(text: str) -> bool:
     return "{" in text or "}" in text
 
@@ -101,10 +106,10 @@ def _strings(value, where: str, *, allow_empty: bool = True) -> tuple[str, ...]:
     return tuple(v.strip() for v in value)
 
 
-def _template(cmd, where: str, allowed: frozenset = PLACEHOLDERS) -> str:
+def _template(cmd, where: str, allowed: frozenset = PLACEHOLDERS, *, bound: bool = False) -> str:
     if not isinstance(cmd, str) or not cmd.startswith("artmind "):
         raise RouteError(f"{where} must be a command starting with 'artmind '")
-    unknown = placeholders(cmd) - allowed
+    unknown = {p for p in placeholders(cmd) if bound is False or "." not in p} - allowed
     if unknown:
         raise RouteError(f"{where} uses unknown placeholder(s) {sorted(unknown)}")
     if _has_stray_brace(_PLACEHOLDER_RE.sub("", cmd)):
@@ -121,7 +126,7 @@ def _kind(value, where: str) -> str:
 
 
 def _parse_program(raw, where: str):
-    return program_mod.parse_program(raw, where, lambda cmd, w, extra: _template(cmd, w, ALL_PLACEHOLDERS | extra))
+    return program_mod.parse_program(raw, where, lambda cmd, w, extra: _template(cmd, w, ALL_PLACEHOLDERS | extra, bound=True))
 
 
 def _parse_choices(raw, where: str) -> tuple[ProgramChoice, ...]:
@@ -273,7 +278,10 @@ def render(template: str, context: dict) -> str | None:
 
     def substitute(match: re.Match) -> str:
         nonlocal missing
-        value = context.get(match.group(1))
+        name = match.group(1)
+        if "." in name:  # a step binding: the executor fills it (P3 §4.3)
+            return match.group(0)
+        value = context.get(name)
         # Blank values are missing; a leading "-" would be parsed by Click as an option.
         if value is None or not str(value).strip() or str(value).startswith("-"):
             missing = True

@@ -73,6 +73,14 @@ PAGE_UNTIL = frozenset({"rows_total", "k"})
 NODE_NEEDS = frozenset({"insights_snapshot"})
 GUARD_ACTIONS = ("escalate", "replace", "retry_with", "widen_domains", "page", "run")
 
+#: Step outputs a later step may bind (P3 spec §4.2): name -> "scalar" | "list". Computed in query_run/facts.py.
+BIND_OUTPUTS: dict[str, str] = {
+    "top_chunk": "scalar", "top_passage": "scalar", "top_doc": "scalar", "top_date": "scalar", "top_entity": "scalar",
+    "chunk_ids": "list", "doc_names": "list", "entity_ids": "list", "window_docs": "list",
+}
+#: Options documented as comma-split, which a list output may feed.
+LIST_OPTIONS = frozenset({"--idList", "--domain", "--entityClass"})
+_BIND_RE = re.compile(r"\{([a-z][a-z0-9_]*)\.([a-z_]+)\}")
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _SLOT_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 
@@ -323,6 +331,13 @@ class Guard:
     v1_when: str | None = None  # the v1 fallback condition this guard came from
 
 
+def node_binds(node) -> tuple[tuple[str, str], ...]:
+    """The (node, output) pairs a run node's template binds, in order of appearance."""
+    if node.kind != "run" or not node.run:
+        return ()
+    return tuple(dict.fromkeys(_BIND_RE.findall(node.run)))
+
+
 # ── parsing ──────────────────────────────────────────────────────────────────
 
 TemplateCheck = Callable[[object, str, frozenset], str]
@@ -395,11 +410,10 @@ def _parse_node(raw, where: str, check: TemplateCheck, extra: frozenset, depth: 
         if not isinstance(body, dict) or set(body) - {"over", "as", "do", "max"} or not {"over", "as", "do"} <= set(body):
             raise ProgramError(f"{where}.map must be {{over, as, do[, max]}}")
         over, as_ = body["over"], body["as"]
-        for label, value in (("over", over), ("as", as_)):
-            if not isinstance(value, str) or not _SLOT_RE.match(value):
-                raise ProgramError(f"{where}.map.{label} must be a snake_case name")
-        if over not in LIST_SLOTS:
-            raise ProgramError(f"{where}.map.over must be a list slot: one of {list(LIST_SLOTS)}")
+        if not isinstance(as_, str) or not _SLOT_RE.match(as_):
+            raise ProgramError(f"{where}.map.as must be a snake_case name")
+        if not isinstance(over, str) or not (over in LIST_SLOTS or re.fullmatch(r"[a-z][a-z0-9_]*\.[a-z_]+", over)):
+            raise ProgramError(f"{where}.map.over must be a snake_case list slot ({list(LIST_SLOTS)}) or a bound list (node.output)")
         limit = body.get("max", MAP_MAX_DEFAULT)
         if type(limit) is not int or not 1 <= limit <= MAP_MAX_LIMIT:
             raise ProgramError(f"{where}.map.max must be an integer 1-{MAP_MAX_LIMIT}")
@@ -472,8 +486,40 @@ def validate_program(program, where: str) -> None:
     calls = executed_run_calls(program)
     if calls > MAX_EXECUTED_RUN_CALLS:
         raise ProgramError(f"{where} can execute {calls} run commands after map expansion; at most {MAX_EXECUTED_RUN_CALLS}")
+    par_of: dict[str, str] = {}
+    for node in order:
+        if node.kind == "par":
+            for child in iter_nodes(node.children):
+                par_of.setdefault(child.id, node.id)
     for i, node in enumerate(order):
         loc = f"{where}: node {node.id!r}"
+        refs = list(node_binds(node))
+        if node.kind == "map" and "." in node.map.over:
+            refs.append(tuple(node.map.over.split(".", 1)) + ("map",))
+        for ref in refs:
+            src, output = ref[0], ref[1]
+            as_map = len(ref) == 3
+            if src not in ids:
+                raise ProgramError(f"{loc}: binding {src}.{output} names unknown node {src!r}")
+            if ids[src] >= i:
+                raise ProgramError(f"{loc}: binding {src}.{output} names node {src!r}, which has not run yet")
+            if par_of.get(src) is not None and par_of.get(src) == par_of.get(node.id):
+                raise ProgramError(f"{loc}: binding {src}.{output} names a node in the same par (siblings have no order)")
+            if kinds[src] not in ("run", "pick"):
+                raise ProgramError(f"{loc}: binding {src}.{output} must name a run or pick node, not {kinds[src]}")
+            kind = BIND_OUTPUTS.get(output)
+            if kind is None:
+                raise ProgramError(f"{loc}: unknown output {output!r}; use {sorted(BIND_OUTPUTS)}")
+            if as_map and kind != "list":
+                raise ProgramError(f"{loc}: map.over {src}.{output} is a scalar output; a map needs a list output")
+            if not as_map:
+                tokens = node.run.split()
+                want = f"{{{src}.{output}}}"
+                if want not in tokens:
+                    raise ProgramError(f"{loc}: binding {want} must be a whole token of the command")
+                before = tokens[tokens.index(want) - 1]
+                if kind == "list" and before not in LIST_OPTIONS:
+                    raise ProgramError(f"{loc}: list output {output!r} may only feed {sorted(LIST_OPTIONS)}")
         preds = [node.when] if node.when else []
         if node.pick:
             preds += list(node.pick.score)
