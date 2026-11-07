@@ -173,7 +173,7 @@ store), one or more programs, and evidence ids.
 | `superlative` | the most, least, top or favourite, inferred | "my favourite café" | — | insights, then generated graph query | — |
 | `entity_profile` | who or what one named thing is | "tell me about Ann" | entity | entity context | `entity_visits` when the question counts occurrences |
 | `entity_history` | how what is known about an entity changed | "how has the project changed?" | entity | entity history | — |
-| `time_history` | which version of a document applied when | "what did the policy say in March?" | document | document at a date + version history | — |
+| `time_history` | which version of a document applied when | "what did the policy say in March?" | document | document at a date + version history; with no document named but a versioned family named by its title words, `topic_history` (pattern10 `--includeHistory` over the family beside a text needle) | — |
 | `conflicts` | whether sources disagree | "do the notes contradict each other?" | — | conflict list + text | — |
 | `hierarchy` | who or what is above or below | "who reports to Ann?" | entity | hierarchy walk; entity context if empty | — |
 | `path` | how two named things are connected | "how are Ann and Ben related?" | two entities | direct link; shortest path, then text if empty | — |
@@ -228,7 +228,7 @@ A slot is a value a command template needs. Every slot carries `value`, `source`
 | `scope` | given domains, the chosen domain set (§3.1), `--exclude` documents, scope rules from plan config | `given`, `chosen` (the set covers at least the threshold), `all` |
 | `date_window` | an explicit date or year, a relative phrase, or a calendar event from plan config | `explicit_date`, `relative`, `calendar` |
 | `must_find` | the items a `follow_up_why` names | `mention` |
-| list slots | `twin_ids`, `phrasings` (term + synonyms + a paraphrase without the person), `years`, `family_documents` | per slot |
+| list slots | `twin_ids`, `phrasings` (term + synonyms + a paraphrase without the person), `years`, `family_documents`, `topic_documents` (the members of up to two versioned families the question names by title words, `candidates.topic_families`; source `topic`, quality 0.8, at most 6; a slot-quality factor `topic`) | per slot |
 
 Private vocabulary (categories, kinship words, synonyms, scope rules, calendar events) lives
 in each vault's `domains/plan/<domain>.yaml`, never in this checkout.
@@ -285,6 +285,7 @@ the default. Plan facts are a separate, fixed vocabulary computed at plan time:
 | `occurrence` | visits, times, occasions, every time |
 | `rare_term` | a content word is in neither the catalogue's names nor its classes |
 | `named_class` | the classes the question names by class name (or a configured category) when it names no other entity; 0 otherwise |
+| `topic_family` | versioned families (same stem after stripping `_v2`, `_2026`, `_2026_02` ...; two or more members) whose stem words the question names: share ≥ 0.5, generic words (`policy`, `sop`, `guide`, `schedule`, `procedure`) counting half; 0 when a document is named |
 | `category`, `date_window`, `document`, `chunks_only`, `view_count` | the slot or scope exists |
 
 ### 6.4 Program kinds
@@ -300,6 +301,8 @@ the default. Plan facts are a separate, fixed vocabulary computed at plan time:
 | `entity_visits` | entity context, page, text check, docs vs cited | occurrences missed by a single hub row (P50, P59) |
 | `cross_document` | needle search beside a survey, merged (always for `survey`, unless the needle answers alone for `search`); formerly `chunks_cross_document`, still read in old traces and labels | one ranking misses either the needle or the breadth (P43) |
 | `latest` | map over the document family, newest first | a later restatement reversed an earlier change (lesson 30) |
+| `topic_history` | map pattern10 `--includeHistory` over the topic family beside a text needle, union (`time_history`, no document named) | a time question naming "the complaints policy" has no `{document}`; the superseded version was never read (B4) |
+| `topic_latest` | map pattern10 over the topic family (`document` route, latest cue, no document named) | same, for "the current X" |
 | `history` | history commands only | generated Cypher could not read history (P12) |
 | `absence` | one exhaustive exact-term sweep | repeated searches proved nothing (P25) |
 | `existence_concept` | map over phrasings, union | a rare or informal word missed its concept (P55, P56) |

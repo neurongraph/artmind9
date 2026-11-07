@@ -47,6 +47,7 @@ class Facts:
     document: str | None
     has_store: bool
     has_date: bool
+    topic_family: bool = False  # the question names a versioned document family (candidates.topic_families)
 
     def __post_init__(self):
         object.__setattr__(self, "question", self.question.casefold())
@@ -146,7 +147,7 @@ def _needs_met(needs: tuple[str, ...], facts: Facts) -> bool:
     checks = {
         "entity": facts.mentions >= 1,
         "two_entities": facts.mentions >= 2,
-        "document": bool(facts.document),
+        "document": bool(facts.document) or facts.topic_family,
         "store": facts.has_store,
         "date": facts.has_date,
     }

@@ -574,7 +574,7 @@ def test_single_program_kind_defaults_to_one_step_and_v1_is_sequence():
 
 
 def test_every_packaged_route_has_one_choice_and_does_not_choose():
-    choosing = {"existence": 3, "enumeration": 3, "aggregate": 2, "entity_profile": 2, "document": 2}
+    choosing = {"existence": 3, "enumeration": 3, "aggregate": 2, "entity_profile": 2, "document": 3, "time_history": 2}
     for route in routes.load_routes():
         if route.id in choosing:
             assert route.chooses and len(route.programs) == choosing[route.id], route.id
@@ -635,12 +635,12 @@ def test_every_list_slot_is_a_valid_map_over():
 
 def test_the_vocabularies_are_the_documented_ones():
     assert prog.PLAN_FACT_NAMES == {"twins", "entities", "negative", "latest", "rare_term", "category",
-                                    "date_window", "document", "chunks_only", "view_count", "occurrence", "named_class"}
+                                    "date_window", "document", "chunks_only", "view_count", "occurrence", "named_class", "topic_family"}
     assert set(prog.PROGRAM_KINDS) == {
         "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "cross_document",
         "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence",
-        "class_listing"}
-    assert prog.LIST_SLOTS == ("twin_ids", "phrasings", "years", "family_documents")
+        "class_listing", "topic_history", "topic_latest"}
+    assert prog.LIST_SLOTS == ("twin_ids", "phrasings", "years", "family_documents", "topic_documents")
 
 
 @pytest.mark.parametrize("text, facts, expected", [

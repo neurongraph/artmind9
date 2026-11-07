@@ -248,7 +248,7 @@ def test_all_domains_and_an_empty_search_term_make_slot_quality_the_weakest(worl
     assert result["slot_quality"]["score"] == 0.48
     # the v1 domain stage is already 0.0 for "all", so it stays the weakest link; the slot factors still say why
     assert result["confidence"]["level"] == "low" and result["confidence"]["weakest"] == "domain"
-    assert result["slot_quality"]["factors"] == {"mention": 1.0, "twins": 1.0, "search_term": 0.6, "scope": 0.8}
+    assert result["slot_quality"]["factors"] == {"mention": 1.0, "twins": 1.0, "search_term": 0.6, "scope": 0.8, "topic": 1.0}
     assert result["slots"]["scope"]["source"] == "all"
 
 

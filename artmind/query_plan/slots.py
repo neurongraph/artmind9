@@ -26,6 +26,7 @@ FUZZY_MENTION = 0.7
 TWINS_SINGLE = 0.5
 EMPTY_SEARCH = 0.6
 ALL_DOMAINS = 0.8
+TOPIC_DOCUMENTS = 0.8  # a time/latest plan whose documents were found by topic words, not named
 # Quality of a slot taken from the user's own words / config.
 FULL = 1.0
 
@@ -660,6 +661,7 @@ def slot_quality(slots: Mapping[str, Slot], *, twins_found: bool = False, twins_
         "twins": TWINS_SINGLE if twins_found and not twins_unioned else 1.0,
         "search_term": EMPTY_SEARCH if search_term_empty or (st is not None and st.value == "") else 1.0,
         "scope": ALL_DOMAINS if all_domains or (sc is not None and sc.source == "all") else 1.0,
+        "topic": TOPIC_DOCUMENTS if "topic_documents" in slots else 1.0,
     }
     score = 1.0
     for f in factors.values():

@@ -52,18 +52,18 @@ PREDICATE_NAMES = frozenset(PREDICATE_TYPES)
 PLAN_FACT_TYPES: dict[str, str] = {
     "twins": "num", "entities": "num", "negative": "bool", "latest": "bool", "rare_term": "bool",
     "category": "bool", "date_window": "bool", "document": "bool", "chunks_only": "bool",
-    "view_count": "bool", "occurrence": "bool", "named_class": "num",
+    "view_count": "bool", "occurrence": "bool", "named_class": "num", "topic_family": "num",
 }
 PLAN_FACT_NAMES = frozenset(PLAN_FACT_TYPES)
 #: Program kinds (spec §5.5); `sequence` is a converted v1 route.
 PROGRAM_KINDS = (
     "one_step", "view_count", "kinship_aggregate", "enumeration", "entity_visits", "cross_document",
     "latest", "history", "absence", "existence_concept", "draw_connected", "batch_claims", "sequence",
-    "class_listing",
+    "class_listing", "topic_history", "topic_latest",
 )
 DEFAULT_KIND = "one_step"
 #: List slots a `map.over` may name (resolved by the planner; see `planner._list_slots`).
-LIST_SLOTS = ("twin_ids", "phrasings", "years", "family_documents")
+LIST_SLOTS = ("twin_ids", "phrasings", "years", "family_documents", "topic_documents")
 OPS = ("==", "!=", "<=", ">=", "<", ">")
 NODE_KINDS = ("run", "par", "map", "pick", "page")
 PICK_HOWS = frozenset({"best_of", "union", "first_ok"})
