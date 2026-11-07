@@ -15,12 +15,17 @@ or insights command:
 1. `artmind query domains-overview --compact` (Route) — once per conversation, even when
    the user named the exact domain(s): it is the only place that says whether a domain is
    chunks-only (below).
-2. `artmind query views list --domain <domain> --compact` (Views), once per domain.
+2. `artmind query views list --domain <domain> --compact` (Views), once per domain —
+   except a domain whose `domains-overview` row shows `"views": 0`: no saved view covers
+   it, so skip `views list` for it. A row without the `views` key (an older build, or the
+   overview warned that the count was unavailable) still gets `views list`. Any other
+   value, `views: 1` or more, means run it.
 
 A saved view is the domain owner's reviewed answer to a recurring question; skipping it
 means re-deriving, often wrongly, what one `views run` call would return. This holds even
 when the question looks like an obvious fit for `entity-context`, a pattern, `text2sql`
-or insights — you cannot know a view does not cover it until you have read the list. If
+or insights — you cannot know a view does not cover it until you have read the list (or the
+overview row said `views: 0`). If
 you are about to run any other query and have not seen this conversation's `views list`
 output for every domain in the set, stop and run it first.
 

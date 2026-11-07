@@ -1811,6 +1811,45 @@ def entity_context(
     }
 
 
+def _add_view_and_insight_counts(overview: dict) -> list[str]:
+    """Add `views` (valid saved views `views list --domain <d>` would return)
+    and `insights` (a latest snapshot exists) to every row. Disk reads only.
+    A failed read omits that key from every row and returns a warning saying so."""
+    warnings: list[str] = []
+    try:
+        from artmind.kg_views import store as views_store
+
+        valid, _invalid = views_store.list_views()
+        counts = {}
+        for entry in overview.values():
+            d = entry.get("domain")
+            if isinstance(d, str):
+                counts[d] = sum(
+                    1 for v in valid if any(views_store.domain_related(d, vd) for vd in v.spec.domains)
+                )
+        for entry in overview.values():
+            if entry.get("domain") in counts:
+                entry["views"] = counts[entry["domain"]]
+    except Exception as exc:
+        warnings.append(
+            f"views count unavailable ({type(exc).__name__}); the rows carry no `views` key, "
+            "so run `views list` per domain"
+        )
+    try:
+        from artmind.insights import store as insights_store
+
+        for entry in overview.values():
+            d = entry.get("domain")
+            if isinstance(d, str):
+                try:
+                    entry["insights"] = (insights_store.domain_dir(d) / insights_store.LATEST).is_file()
+                except Exception:
+                    pass  # invalid domain name: no key
+    except Exception as exc:
+        warnings.append(f"insights flag unavailable ({type(exc).__name__}); the rows carry no `insights` key")
+    return warnings
+
+
 def domains_overview() -> dict:
     """One aggregation grouped by n._domain: doc names/counts, entity counts, top classes.
 
@@ -1898,12 +1937,14 @@ def domains_overview() -> dict:
             entry["graph_extraction"] = False
             stores = ["chunks" if s == "graph" else s for s in stores]
         entry["stores"] = stores
+    warnings = _add_view_and_insight_counts(overview)
 
     return {
         "query_type": "graph",
         "command": "domains_overview",
         "domains": sorted(overview.keys()),
         "rows": [overview[k] for k in sorted(overview.keys())],
+        **({"warnings": warnings} if warnings else {}),
     }
 
 
