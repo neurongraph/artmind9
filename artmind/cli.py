@@ -5293,9 +5293,12 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
 @click.option("--reach", "reach", is_flag=True,
               help="Instead of grading the plans, run each plan's read-only steps (labels with expected_documents) "
                    "and report how many expected documents they reach. Slow; needs Neo4j; first plan only")
+@click.option("--run", "run_programs", is_flag=True,
+              help="Instead of grading the plans, execute each plan (labels with expected_documents) through the "
+                   "executor and report plan/exec latency and bundle reach (P3 gate). Slow; needs Neo4j; first plan only")
 @compact_option
 def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, model: str | None,
-                reach: bool, compact: bool) -> None:
+                reach: bool, run_programs: bool, compact: bool) -> None:
     """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
 
     A label whose intent is not retrieve/follow_up_why is graded on intent only, not route or domains.
@@ -5306,6 +5309,8 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
     With --reach (spec 2026-11-07 §8.3), each label with expected_documents is planned once and the plan's
     `artmind query` steps run in process; the report is expected / reached / reached_all per label and in
     total (counts and label ids only; matched and missed paths go to <ARTMIND_HOME>/logs/plan-reach-*.json).
+    With --run (P3 §9.1), each plan is executed by `query run`'s executor; the report gives plan_ms, exec_ms and
+    bundle reach (counts and label ids only).
     """
     from neo4j.exceptions import DriverError, Neo4jError
 
@@ -5319,6 +5324,8 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
         loaded = plan_labels.load_labels(path)
     except plan_labels.LabelError as exc:
         raise click.ClickException("invalid labels file; run `artmind plan labels validate`: " + str(exc)) from exc
+    if reach and run_programs:
+        raise click.ClickException("--reach and --run are separate measurements; give one")
     backends = ["lexical", "decision"] if classifier == "both" else [classifier]
     if "decision" in backends:
         try:
@@ -5338,6 +5345,15 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
             out[backend] = {**plan_reach_mod.public_report(report),
                             "detail_file": str(plan_reach_mod.write_detail(report))}
         _echo_json({"command": "plan replay", "file": str(path), "reach": True, "reports": out}, compact)
+        return
+    if run_programs:
+        from artmind.query_run import replay_run
+
+        out = {}
+        for backend in backends:
+            report = replay_run.run_labels(loaded, backend, model=model, given_domains=given_domains)
+            out[backend] = {**replay_run.public_report(report), "detail_file": str(replay_run.write_detail(report))}
+        _echo_json({"command": "plan replay", "file": str(path), "run": True, "reports": out}, compact)
         return
     reports = {}
     for backend in backends:
