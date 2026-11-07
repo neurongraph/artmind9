@@ -67,6 +67,8 @@ def _trim(plan):
             for key in ("program", "guards", "gaps"):  # the v2 blocks the reader can do without
                 if key in trimmed:
                     trimmed[key] = []
+            if "replacements" in trimmed:
+                trimmed["replacements"] = {}
         if len(json.dumps(trimmed, default=str)) <= MAX_PAYLOAD_BYTES:
             return trimmed
         # Last resort: keep only what the reader needs to classify the plan.

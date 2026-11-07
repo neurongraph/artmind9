@@ -787,7 +787,8 @@ def _node_json(node, context: dict, lists: dict | None = None) -> dict:
     if len(per_domain) > 1:  # a one-domain command over several domains: run once per domain
         out = {"id": node.id, "kind": "par", "per_domain": True,
                "children": [{"id": f"{node.id}.{i}", "kind": "run", "run": routes_mod.render(node.run, c) or node.run,
-                             "filled": routes_mod.render(node.run, c) is not None}
+                             "filled": routes_mod.render(node.run, c) is not None,
+                             **({"needs_unmet": True} if node.needs and not _needs_met(node.needs, c) else {})}
                             for i, c in enumerate(per_domain, 1)]}
         if node.when is not None:
             out["when"] = node.when.text
@@ -798,6 +799,8 @@ def _node_json(node, context: dict, lists: dict | None = None) -> dict:
     if node.run is not None:
         rendered = routes_mod.render(node.run, context)
         out.update(run=rendered or node.run, filled=rendered is not None)
+        if node.needs and not _needs_met(node.needs, context):
+            out["needs_unmet"] = True
     if node.children:
         out["children"] = [_node_json(c, context, lists) for c in node.children]
     if node.map is not None:
@@ -1162,6 +1165,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     answer_from: str | None = None
     program_json: list[dict] = []
     guards_json: list[dict] = []
+    replacements_json: dict = {}
     program_kind: str | None = None
     plan_facts: dict = {}
     view_count = False
@@ -1406,6 +1410,17 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             program_json = [_node_json(n, context, chosen_lists) for n in used.program]
             guards_json = [_guard_json(g) for g in used.guards]
             program_kind = used.kind
+            by_id = {r.id: r for r in all_routes}
+            wanted = {g.then.route for g in used.guards if g.then.kind == "replace" and g.then.route}
+            if route_obj.id != "search":
+                wanted.add("search")  # an unfilled program runs the search instead (P3 section 3.5)
+            for rid in sorted(wanted):
+                rep = by_id.get(rid)
+                if rep is None:
+                    continue
+                rep_choice = rep.programs[-1]
+                replacements_json[rid] = {"program": [_node_json(n, context, {}) for n in rep_choice.program],
+                                          "guards": [_guard_json(g) for g in rep_choice.guards]}
 
     level = "high" if high else "low"
     executed, rows, rows_total, truncated = None, [], 0, False
@@ -1448,6 +1463,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "program_kind": program_kind,
         "plan_facts": plan_facts,
         "guards": guards_json,
+        "replacements": replacements_json,
         "asset_match": None,  # P2b/P3
         "gaps": [_plain(g) for g in gaps],
         "action": action,
