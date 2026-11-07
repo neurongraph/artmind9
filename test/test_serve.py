@@ -76,3 +76,28 @@ def test_backend_exception_reported_in_stderr():
 
     assert body["exit_code"] != 0
     assert "neo4j down" in body["stderr"]
+
+
+def test_previous_override_applies_to_one_request_only(monkeypatch):
+    import json as _json
+
+    from artmind.query_plan import previous as previous_mod
+
+    seen = []
+
+    def fake_invoke(self, cli_, args):
+        seen.append(previous_mod._context_previous())
+        class R:
+            exit_code = 0
+            stdout = "{}"
+            stderr = ""
+            exception = None
+        return R()
+
+    monkeypatch.setattr("artmind.server.CliRunner.invoke", fake_invoke)
+    monkeypatch.setenv("ARTMIND_PREVIOUS_CONTEXT", "/nonexistent")
+    run_cli_args(["query", "x"], previous=_json.dumps({"question": "earlier"}))
+    run_cli_args(["query", "x"])
+    assert seen[0].question == "earlier"
+    assert seen[1] is None
+    assert previous_mod._previous_override.get() is None

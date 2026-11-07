@@ -32,6 +32,27 @@ QUERY_TIMEOUT = 600
 #: cannot travel in its environment).
 TRACE_ID_ENV = "ARTMIND_TRACE_ID"
 TRACE_CONTEXT_ENV = "ARTMIND_TRACE_CONTEXT"
+#: Per-session file holding the conversation's previous turn as JSON (spec P3 §8.5); forwarded to `serve`.
+PREVIOUS_CONTEXT_ENV = "ARTMIND_PREVIOUS_CONTEXT"
+PREVIOUS_MAX_BYTES = 16 * 1024
+
+
+def _previous_text() -> str | None:
+    """The previous-context file's text for the proxied request, or None. Never raises; over 16 KB is
+    not sent (one `artmind:` line on stderr)."""
+    path = os.environ.get(PREVIOUS_CONTEXT_ENV)
+    if not path:
+        return None
+    try:
+        with open(path, "rb") as f:
+            raw = f.read(PREVIOUS_MAX_BYTES + 1)
+        if len(raw) > PREVIOUS_MAX_BYTES:
+            sys.stderr.write(f"artmind: {PREVIOUS_CONTEXT_ENV} is over {PREVIOUS_MAX_BYTES // 1024} KB; "
+                             "the previous turn is not sent to serve\n")
+            return None
+        return raw.decode("utf-8") or None
+    except (OSError, UnicodeDecodeError):
+        return None
 
 
 def _trace_id() -> str | None:
@@ -94,7 +115,8 @@ def _daemon_alive(base_url: str) -> bool:
 
 def _proxy(base_url: str, args: list[str]) -> int:
     payload = json.dumps(
-        {"args": args, "trace_id": _trace_id(), "output_budget": os.environ.get("ARTMIND_OUTPUT_BUDGET")}
+        {"args": args, "trace_id": _trace_id(), "output_budget": os.environ.get("ARTMIND_OUTPUT_BUDGET"),
+         "previous": _previous_text()}
     ).encode()
     request = urllib.request.Request(
         f"{base_url}/query",
