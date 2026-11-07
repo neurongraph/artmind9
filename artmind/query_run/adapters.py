@@ -153,6 +153,11 @@ def _sql(p, out):
     for r in main_list(p):
         if isinstance(r, dict):
             out.facts.append({"kind": "sql_row", "row": scalars(r), "chunk_ids": []})
+    for t in p.get("source_tables") or []:  # the tables a SQL answer rests on, by their ingested file
+        if isinstance(t, dict) and t.get("source_file"):
+            out.documents.append({"doc_id": t["source_file"], "title": t.get("table"), "domain": t.get("domain"),
+                                  "date": None, "status": "current", "gist": None, "gist_source": None,
+                                  "kind": "table"})
 
 
 def _meta(p, out):

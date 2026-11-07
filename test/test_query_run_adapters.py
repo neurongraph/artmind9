@@ -60,6 +60,8 @@ def test_sql_rows_are_facts():
     rows = adapters.adapt({"command": "query text2sql", "rows": [{"n": 3}],
                            "source_tables": [{"table": "fees", "source_file": "tables/fees.csv"}]})
     assert rows.facts == [{"kind": "sql_row", "row": {"n": 3}, "chunk_ids": []}]
+    # the tables the answer rests on reach the bundle's documents (P3a gate: L032-L036 on banking)
+    assert [(d["doc_id"], d["title"], d["kind"]) for d in rows.documents] == [("tables/fees.csv", "fees", "table")]
 
 
 def test_insights_findings_are_guides():

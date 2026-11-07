@@ -28,7 +28,8 @@ def p90(values):
 def _bundle_docs(printed: dict) -> list[dict]:
     docs = [{"id": (e.get("doc") or {}).get("id"), "title": (e.get("doc") or {}).get("title"), "path": None,
              "source_path": None, "name": None} for e in printed.get("evidence") or []]
-    docs += [{"id": d.get("doc_id"), "title": d.get("title"), "path": None, "source_path": None, "name": None}
+    docs += [{"id": d.get("doc_id"), "title": d.get("title"), "name": None, "source_path": None,
+              "path": d.get("doc_id") if d.get("kind") == "table" else None}  # a table row's id is its source file
              for d in printed.get("documents") or []]
     return docs
 
