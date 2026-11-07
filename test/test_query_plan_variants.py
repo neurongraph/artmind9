@@ -32,7 +32,7 @@ def _route(route_id):
     ("enumeration", ["class_listing", "draw_connected", "enumeration"]),
     ("aggregate", ["kinship_aggregate", "one_step"]),
     ("entity_profile", ["entity_visits", "one_step"]),
-    ("document", ["latest", "one_step"]),
+    ("document", ["topic_latest", "latest", "one_step"]),
 ])
 def test_each_route_loads_with_its_choices(route_id, kinds):
     route = _route(route_id)
@@ -221,7 +221,7 @@ def test_a_latest_question_maps_pattern10_over_the_family_newest_first(world, mo
     monkeypatch.setattr(graph_query, "_run_read_query", reads)
     result = _plan("Summarise the latest CN12_harbour.md")
     assert result["route"]["id"] == "document" and result["program_kind"] == "latest"
-    assert result["plan_facts"] == {"document": True, "latest": True}
+    assert result["plan_facts"] == {"document": True, "latest": True, "topic_family": 0}
     node = result["program"][0]["map"]
     assert node["items"] == ["CN012_harbour_v2.md", "CN12_harbour.md"] and node["max"] == 10
     assert node["expanded"][0]["run"].endswith("--documentName CN012_harbour_v2.md --compact")

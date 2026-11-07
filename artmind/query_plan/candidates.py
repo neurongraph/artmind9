@@ -510,6 +510,80 @@ def family_documents(domains: list[str], document: str, pool: list[str] | tuple[
     return names or [document]
 
 
+TOPIC_FAMILIES_MAX = 2
+TOPIC_SCORE_MIN = 0.5
+TOPIC_MEMBERS_MAX = 6
+#: Stem words that name a kind of document, not its subject: they count half in the title-word share.
+GENERIC_STEM_WORDS = frozenset({"policy", "policies", "sop", "guide", "schedule", "procedure"})
+_VERSION_SUFFIX = re.compile(r"[_\-\s.]+(?:v\d+(?:\.\d+)*|\d{4}(?:[_\-]\d{1,2}){0,2})$", re.IGNORECASE)
+
+
+def _strip_extension(name: str) -> str:
+    for suffix in DOCUMENT_NAME_SUFFIXES:
+        if name.casefold().endswith(suffix):
+            return name[: -len(suffix)]
+    return name
+
+
+def family_stem(name: str) -> tuple[str, tuple[int, ...]]:
+    """(stem, version key) of a document name: the extension and every trailing version or date
+    suffix (`_v2`, `_2026`, `_2026_02`) stripped; the key is the numbers stripped, so a larger key is newer."""
+    stem, nums = _strip_extension(name), []
+    while True:
+        m = _VERSION_SUFFIX.search(stem)
+        if m is None or m.start() == 0:
+            break
+        nums = [int(n) for n in re.findall(r"\d+", m.group(0))] + nums
+        stem = stem[: m.start()]
+    return _norm(stem), tuple(nums)
+
+
+def _topic_words(text: str) -> set[str]:
+    from artmind.query_plan.classify.lexical import _stem
+
+    return {_stem(w) for w in re.findall(r"[a-z0-9]+", text.casefold()) if w not in STOPWORDS and len(w) > 1}
+
+
+def topic_families(question: str, names: Sequence[str], records: Sequence = ()) -> list[list[str]]:
+    """Versioned families (two or more documents sharing a stem once version and date suffixes are
+    stripped) whose stem the question names: the share of the stem's words in the question, generic words
+    (`policy`, `sop`, `schedule` ...) counting half, at least `TOPIC_SCORE_MIN`; at most
+    `TOPIC_FAMILIES_MAX`, best first, each newest first (`valid_from` of `records`, else the suffix).
+    Whole stems only: `sop_account_opening` and `sop_account_closure` are two families. No graph read."""
+    groups: dict[str, list[tuple[str, tuple[int, ...]]]] = {}
+    for name in dict.fromkeys(names):
+        stem, key = family_stem(name)
+        if stem:
+            groups.setdefault(stem, []).append((name, key))
+    valid = {r.name: r.valid_from for r in records if getattr(r, "valid_from", None)}
+    asked = _topic_words(question)
+    scored: list[tuple[float, int, str, list[str]]] = []
+    for stem, members in groups.items():
+        if len(members) < 2:
+            continue
+        words = _topic_words(stem)
+        weights = {w: 0.5 if w in GENERIC_STEM_WORDS or w + "y" == "policy" else 1.0 for w in words}
+        total = sum(weights.values())
+        if not total:
+            continue
+        score = sum(weights[w] for w in words & asked) / total
+        if score < TOPIC_SCORE_MIN:
+            continue
+        ordered = sorted(members, key=lambda m: (valid.get(m[0]) or "", m[1], m[0]), reverse=True)
+        scored.append((score, len(words), stem, [m[0] for m in ordered]))
+    scored.sort(key=lambda s: (-s[0], -s[1], s[2]))
+    return [s[3] for s in scored[:TOPIC_FAMILIES_MAX]]
+
+
+def topic_documents(domains: list[str], families: Sequence[Sequence[str]]) -> list[str]:
+    """The members of the picked families, each widened through `SUPERSEDES` by one bounded read
+    (`family_documents` from the family's newest member), deduped, at most `TOPIC_MEMBERS_MAX`."""
+    out: list[str] = []
+    for members in families:
+        out += [*members, *(family_documents(domains, members[0]) if domains and members else [])]
+    return list(dict.fromkeys(out))[:TOPIC_MEMBERS_MAX]
+
+
 def _norm(text: str) -> str:
     text = re.sub(r"(?:[^\w.]|_)+", " ", unicodedata.normalize("NFC", text).casefold())
     return " ".join(re.sub(r"\.(?![^\W_])", " ", text).split())

@@ -312,7 +312,7 @@ def test_slot_quality_product_and_breakdown():
 
 def test_slot_quality_clean_and_unioned():
     assert slots.slot_quality({}, twins_found=True, twins_unioned=True) == (1.0, {
-        "factors": {"mention": 1.0, "twins": 1.0, "search_term": 1.0, "scope": 1.0}, "weakest": None})
+        "factors": {"mention": 1.0, "twins": 1.0, "search_term": 1.0, "scope": 1.0, "topic": 1.0}, "weakest": None})
 
 
 def test_slot_quality_reads_slots():

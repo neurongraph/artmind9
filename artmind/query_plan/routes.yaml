@@ -171,12 +171,31 @@ routes:
     description: Which version of a document applied on a date, or what an earlier, superseded version of a document said.
     triggers: ["as of {date}", "on {date}", "before {date}", "earlier version", "previous version", "which version", "used to say", "at the time", "in force"]
     needs: [document]
-    kind: history
-    program:
-      - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact"}
-      - {id: s2, run: "artmind query document-history --domain {domains} --documentName {document} --compact"}
-    guards:
-      - {on: s1, if: "rows == 0", then: escalate}
+    programs:
+      # No document is named but the question names a versioned family by its title words ("complaint
+      # compensation approval", "the 2026 interest rate schedule"): read every version of the family
+      # (candidates.topic_families) beside a text needle, instead of falling back to the search.
+      - kind: topic_history
+        when: "not document and topic_family >= 1"
+        program:
+          - id: p
+            par:
+              - id: versions
+                map:
+                  over: topic_documents
+                  as: doc
+                  max: 6
+                  do: {id: version, run: "artmind query graph pattern10 --domain {domains} --documentName {doc} --includeHistory --compact"}
+              - {id: needle, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
+          - {id: u, pick: {from: p, how: union}}
+        guards:
+          - {"on": u, if: "distinct_documents == 0", then: escalate}
+      - kind: history
+        program:
+          - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact"}
+          - {id: s2, run: "artmind query document-history --domain {domains} --documentName {document} --compact"}
+        guards:
+          - {"on": s1, if: "rows == 0", then: escalate}
     read: [references/temporal.md]
     evidence: [S14, S20, P12]
 
@@ -225,6 +244,17 @@ routes:
     programs:
       # "the current / latest X": every document of the family (same document-entity reference or a
       # SUPERSEDES chain, newest first; candidates.family_documents), each read by name.
+      # No document is named but the question names a versioned family (candidates.topic_families): the same
+      # read over the family's documents, found by title words.
+      - kind: topic_latest
+        when: "latest and not document and topic_family >= 1"
+        program:
+          - id: versions
+            map:
+              over: topic_documents
+              as: doc
+              max: 6
+              do: {id: version, run: "artmind query graph pattern10 --domain {domains} --documentName {doc} --compact"}
       - kind: latest
         when: "latest and document"
         program:

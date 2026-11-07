@@ -7,7 +7,7 @@ from artmind.query_plan import planner, program as prog, routes
 from test_query_plan_planner import FakeClassifier, _answer, _plan, _use, world  # noqa: F401
 
 OWNED = {
-    "entity_history": "history", "time_history": "history", "conflicts": "one_step", "hierarchy": "one_step",
+    "entity_history": "history", "conflicts": "one_step", "hierarchy": "one_step",
     "path": "one_step", "superlative": "one_step", "inventory": "one_step",
     "insights": "one_step", "filing": "one_step", "survey": "cross_document",
 }
@@ -28,7 +28,7 @@ def test_each_converted_route_loads_with_its_kind(rid, kind):
 
 def test_history_routes_never_use_text2cypher():
     for rid in ("entity_history", "time_history"):
-        assert not any("text2cypher" in n.run for n in prog.run_nodes(_route(rid).program))
+        assert not any("text2cypher" in n.run for c in _route(rid).programs for n in prog.run_nodes(c.program))
 
 
 def test_only_structured_keeps_v1_steps():
@@ -116,6 +116,7 @@ def test_path_keeps_pattern6_first_and_the_rest_are_guarded_alternatives(world, 
 
 def test_time_history_keeps_both_history_commands():
     route = _route("time_history")
+    assert [c.kind for c in route.programs] == ["topic_history", "history"] and route.kind == "history"
     assert [n.run.split()[2:4] for n in route.program] == [["graph", "pattern10"], ["document-history", "--domain"]]
     assert "--includeHistory" in route.program[0].run
 

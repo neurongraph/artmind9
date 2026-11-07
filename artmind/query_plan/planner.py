@@ -441,7 +441,7 @@ def _choose_domains(question, domains, options, overview, answers) -> domain_set
 
 def _family_rescope(dset: domain_set.DomainSet, route_id: str, *, question: str, answers: dict, options,
                     overview: list[dict], cats: dict, index: dict, mentions: list, document: str | None,
-                    document_pool) -> domain_set.DomainSet:
+                    document_pool, topic_fams=()) -> domain_set.DomainSet:
     """B2 S3 (`domain_set.rescope`) from what the plan already holds: the catalogues' merged name index and
     document records over the cover, the catalogue's `stores` part (through the catalogue cache). No graph query."""
     answer = answers.get("domain")
@@ -484,6 +484,12 @@ def _family_rescope(dset: domain_set.DomainSet, route_id: str, *, question: str,
         return subjects if len(subjects) == wanted else []
 
     def document_groups(root: str) -> list[list[domain_set.Group]]:
+        if not document and topic_fams and (route_id == "time_history" or (
+                route_id == "document" and slots_mod.has_latest_cue(question))):
+            names = {n for fam in topic_fams for n in fam}  # B4: the domains the picked families live in
+            found = {r.domain for c in cats.values() for r in c.doc_records
+                     if r.name in names and domain_set.family_root(r.domain or "") == root}
+            return [[(topic_fams[0][0], tuple(sorted(found)))]] if found else []
         if not document:
             return []
         names = {document}
@@ -518,8 +524,12 @@ def _family_rescope(dset: domain_set.DomainSet, route_id: str, *, question: str,
                 out.append(d)
         return domain_set.minimal_cover(out)
 
-    return domain_set.rescope(dset, route_id, options=options, probabilities=probabilities,
-                              all_domains=all_domains, resolve=resolve, stores=stores)
+    out = domain_set.rescope(dset, route_id, options=options, probabilities=probabilities,
+                             all_domains=all_domains, resolve=resolve, stores=stores)
+    if not document and topic_fams and out.resolution and "document" in out.resolution:
+        out = dataclasses.replace(out, resolution={
+            "topic_family": [n for fam in topic_fams for n in fam], "domains": out.resolution["domains"]})
+    return out
 
 
 def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
@@ -886,7 +896,7 @@ def _fuzzy_entity(entities: list[dict], built, route_obj, program=None) -> bool:
 
 def _list_slots(choice, entities: list[dict], window, question: str, mentions, search_term, cfg,
                 class_table: dict, *, domains: list[str] | None = None, document: str | None = None,
-                document_pool=()) -> dict:
+                document_pool=(), topic_fams=()) -> dict:
     """The list slots a `map.over` may name, as `Slot`s, for the maps of the chosen program.
     `family_documents` is the matched document's family, newest first (`candidates.family_documents`,
     read only when the chosen program maps over it and a document matched; else empty)."""
@@ -900,6 +910,9 @@ def _list_slots(choice, entities: list[dict], window, question: str, mentions, s
             out[name] = slots_mod.phrasings_slot(question, mentions, str(search_term.value or ""), cfg, class_table)
         elif name == "years":
             out[name] = slots_mod.years_slot(window)
+        elif name == "topic_documents":
+            out[name] = slots_mod.Slot("topic_documents", candidates.topic_documents(domains or [], topic_fams),
+                                       "topic", slots_mod.TOPIC_DOCUMENTS)
         elif document and domains:  # family_documents
             out[name] = slots_mod.Slot("family_documents", candidates.family_documents(domains, document, document_pool),
                                        "document_family", 1.0)
@@ -909,7 +922,7 @@ def _list_slots(choice, entities: list[dict], window, question: str, mentions, s
 
 
 def _plan_facts(route, *, question: str, entities: list[dict], expansion, window, document, chunks_only: bool,
-                chosen_view, phrase_words: list[str], index, class_names) -> dict:
+                chosen_view, phrase_words: list[str], index, class_names, topic_fams=()) -> dict:
     """The plan-time facts a route's `programs[].when` predicates name (and only those, so the
     vocabulary check at load is the whole contract). `rare_term` reads the catalogue, so it is built
     only when a predicate uses it."""
@@ -932,6 +945,7 @@ def _plan_facts(route, *, question: str, entities: list[dict], expansion, window
         "view_count": lambda: chosen_view is not None and slots_mod.has_count_cue(question),
         "occurrence": lambda: slots_mod.has_occurrence_cue(question),
         "named_class": lambda: slots_mod.named_class(expansion, entities),
+        "topic_family": lambda: len(topic_fams),
     }
     return {name: values[name]() for name in sorted(wanted)}
 
@@ -1001,6 +1015,10 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     else:
         document_pool = candidates.document_names(scope) if scope else []
     document = candidates.match_document(question, document_pool) if scope else None
+    topic_fams: list[list[str]] = []
+    if scope and document is None:  # no document named: the title words may name a versioned family (B4)
+        topic_fams = candidates.topic_families(
+            question, document_pool, [r for c in cover_cats for r in c.doc_records])
     has_store = any(
         r.get("table_count") for r in overview
         if any(r.get("domain") == d or str(r.get("domain")).startswith(d + ".") for d in scope)
@@ -1009,7 +1027,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     named_mentions = sum(1 for m in mentions if m.via != "first_person")
     narrated = bool(any(m.via == "first_person" for m in mentions) and given_cfg and given_cfg.narrator)
     facts = lexical.Facts(question=question.casefold(), mentions=named_mentions + int(narrated), document=document,
-                          has_store=has_store, has_date=lexical.has_date(question))
+                          has_store=has_store, has_date=lexical.has_date(question),
+                          topic_family=bool(topic_fams))
     views, invalid = views_store.list_views(list(domains) if domains else None)
     for bad in invalid:
         warnings.append(f"view {bad['name']} is invalid and was skipped: {bad['error']}")
@@ -1068,7 +1087,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if not view_pending:  # a view that covers B1's set is used as matched and keeps that set
             dset = _family_rescope(dset, probe, question=question, answers=answers, options=options,
                                    overview=overview, cats=cats, index=all_index, mentions=mentions,
-                                   document=document, document_pool=document_pool)
+                                   document=document, document_pool=document_pool, topic_fams=topic_fams)
     selected, source, domain_conf, domain_candidates = dset.selected, dset.source, dset.confidence, dset.candidates
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
@@ -1270,10 +1289,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                     document=document, chunks_only=chunks_only, chosen_view=None,
                     phrase_words=slots_mod.mention_free_words(question, mentions) or
                     [w for w in re.findall(r"\w+", str(search_term.value).casefold())],
-                    index=selected_index, class_names=list(class_table))
+                    index=selected_index, class_names=list(class_table), topic_fams=topic_fams)
                 choice = _choose_program(route_obj, plan_facts)
                 lists = _list_slots(choice, entities, window, question, mentions, search_term, cfg, class_table,
-                                    domains=selected, document=document, document_pool=document_pool)
+                                    domains=selected, document=document, document_pool=document_pool,
+                                    topic_fams=topic_fams)
                 for name in sorted({n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}):
                     slot_map[name] = lists[name]
                 lists = {name: slot.value for name, slot in lists.items()}
