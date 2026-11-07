@@ -213,3 +213,41 @@ def resolve_previous(previous_file: str | None, *, trace_id: str | None = None) 
         except Exception as exc:  # noqa: BLE001 - a store failure means no previous
             logger.debug("previous from trace failed: %s", exc)
     return None
+
+
+def context_json(turns: list[dict]) -> str:
+    """The text for a previous-context file: the last finished (`done`) turn of a conversation, as the JSON
+    `parse_previous` reads; empty when there is none. `turns` are `conv_store.list_turns` rows."""
+    done = [t for t in turns if t.get("status") == "done" and t.get("user_text")]
+    if not done:
+        return ""
+    last = done[-1]
+    plan = None
+    if last.get("trace_id"):
+        try:
+            plan = shadow_plan(last["trace_id"])
+        except Exception as exc:  # noqa: BLE001 - the plan is optional
+            logger.debug("previous turn's shadow plan unavailable: %s", exc)
+    prev = previous_from_plan(last["user_text"], plan, last.get("answer_text"))
+    documents: tuple[str, ...] = ()
+    if last.get("trace_id"):
+        try:
+            documents = turn_documents(last["trace_id"])
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("previous turn's documents unavailable: %s", exc)
+    return json.dumps({
+        "intent": prev.intent, "route": prev.route, "question": prev.question, "offer": prev.offer,
+        "entities": [{"id": e.id, "name": e.name} for e in prev.entities], "documents": list(documents),
+    }, ensure_ascii=False)
+
+
+def write_context(path, turns: list[dict]) -> None:
+    """Write `context_json(turns)` to `path`. Best effort: logs and returns on any failure."""
+    try:
+        text = context_json(turns)
+        tmp = f"{path}.tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except Exception:  # noqa: BLE001
+        logger.exception("could not write the previous-turn context")

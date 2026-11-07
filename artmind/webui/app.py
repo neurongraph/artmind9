@@ -286,6 +286,17 @@ def create_app(
                         prompt = f"{replay.text}\n\n{payload.prompt}"
                         restored = {"type": "context_restored", "turns": replay.included, "omitted": replay.omitted}
                         yield f"data: {json.dumps(restored)}\n\n"
+                previous_path = getattr(client, "previous_context_path", None)
+                if previous_path is not None:
+                    # The conversation's previous turn for `artmind query plan|run` (spec P3 §8.5);
+                    # best effort, a failure never fails the turn.
+                    try:
+                        from artmind.query_plan.previous import write_context
+
+                        turns = await asyncio.to_thread(functools.partial(conv_store.list_turns, cid, with_blocks=False))
+                        await asyncio.to_thread(write_context, previous_path, turns)
+                    except Exception:
+                        logger.exception("previous-turn context unavailable")
                 context_path = getattr(client, "trace_context_path", None)
                 if trace_turns and context_path is not None:
                     # Query-trace capture (spec 2026-10-11 §5.1): the id goes into

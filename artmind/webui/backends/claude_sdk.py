@@ -68,6 +68,7 @@ class ClaudeSDKBackend:
         fallback_model: str | None = None,
         env: dict[str, str] | None = None,
         trace_context: Path | None = None,
+        previous_context: Path | None = None,
     ) -> None:
         # Remember the profile + current resume target so ``restart`` can
         # rebuild an equivalent client (optionally resuming the same session).
@@ -85,6 +86,7 @@ class ClaudeSDKBackend:
         self._fallback_model = fallback_model
         self._env = env
         self._trace_context = trace_context
+        self._previous_context = previous_context
         # Created once: a restart rebuilds the client but keeps the bindings.
         self._trace_binder = SubagentTraceBinder(trace_context) if trace_context else None
         self._session_id: str | None = resume
@@ -105,6 +107,10 @@ class ClaudeSDKBackend:
     def trace_context_path(self) -> Path | None:
         return self._trace_context
 
+    @property
+    def previous_context_path(self) -> Path | None:
+        return self._previous_context
+
     async def connect(self) -> None:
         await self._client.connect()
 
@@ -112,6 +118,8 @@ class ClaudeSDKBackend:
         await self._client.disconnect()
         if self._trace_context is not None:
             self._trace_context.unlink(missing_ok=True)
+        if self._previous_context is not None:
+            self._previous_context.unlink(missing_ok=True)
 
     async def query(self, prompt: str) -> None:
         await self._client.query(prompt)

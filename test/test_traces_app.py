@@ -280,3 +280,48 @@ def _benchmark_shadow_domains(tmp_path, monkeypatch, hint, expected):
     assert calls[0]["shadow_question"] == "Who?"  # not the "Domain: ..." prefixed prompt
     assert calls[0]["shadow_domains"] == expected
     assert calls[0]["question"] == f"Domain: {hint}\n\nWho?"
+
+
+# --- previous-turn context file (P3 S8) -------------------------------------------------------------
+
+class PrevBackend(TracedFakeBackend):
+    def __init__(self, backend="claude-sdk", context=None, previous=None):
+        super().__init__(backend, context)
+        self.previous_context_path = previous
+        self.seen_previous = []
+
+    async def query(self, prompt):
+        await super().query(prompt)
+        self.seen_previous.append(self.previous_context_path.read_text() if self.previous_context_path else None)
+
+
+def _prev_client(tmp_path):
+    TracedFakeBackend.instances = []
+    ctx = tmp_path / "ctx.id"
+    ctx.write_text("")
+    prev = tmp_path / "prev.json"
+    prev.write_text("")
+    registry = SessionRegistry(client_factory=lambda name: PrevBackend(name, ctx, prev))
+    return TestClient(create_app(registry=registry, admin_routes=True, trace_turns=True)), prev
+
+
+def test_previous_turn_is_written_before_the_agent_is_queried(tmp_path):
+    client, prev = _prev_client(tmp_path)
+    cid = "c-prev"
+    client.post("/api/chat", json={"prompt": "List the trips Ada took", "conversation_id": cid})
+    assert prev.read_text() == ""  # first turn: nothing earlier
+    client.post("/api/chat", json={"prompt": "and Bo?", "conversation_id": cid})
+    seen = TracedFakeBackend.instances[0].seen_previous
+    assert len(TracedFakeBackend.instances) == 1 and seen[0] == ""
+    data = json.loads(seen[1])
+    assert data["question"] == "List the trips Ada took"
+    assert data["entities"] == [] and data["documents"] == []
+
+
+def test_a_failing_previous_write_does_not_fail_the_turn(tmp_path, monkeypatch):
+    client, prev = _prev_client(tmp_path)
+    monkeypatch.setattr(conversation_store, "list_turns", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("db")))
+    resp = client.post("/api/chat", json={"prompt": "hello", "conversation_id": "c-x"})
+    events = _sse(resp.text)
+    assert any(e["type"] == "turn_done" for e in events)
+    assert not any(e["type"] == "error" for e in events)

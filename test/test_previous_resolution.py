@@ -149,3 +149,37 @@ def test_plan_uses_the_trace_id_in_force(monkeypatch):
 def test_bad_previous_file_is_a_click_error(tmp_path):
     result = CliRunner().invoke(cli, ["query", "plan", "--previous", str(tmp_path / "nope.json"), "hello"])
     assert result.exit_code == 1
+
+
+def test_context_json_carries_plan_offer_and_documents():
+    _sessions()
+    store.insert_events(T1, [{"seq": 1, "ts": 1.0, "type": "plan_shadow", "payload": json.dumps({"status": "ok", "plan": {
+        "intent": {"id": "retrieve"}, "route": {"id": "enumeration"},
+        "entities": [{"candidates": [{"_id": "E1", "name": "Ada"}]}]}})}])
+    store.insert_span(_span("a1", ["d1"]), [])
+    turns = [{"status": "done", "user_text": "List trips", "answer_text": "Four. Shall I group them?", "trace_id": T1},
+             {"status": "error", "user_text": "boom", "answer_text": None, "trace_id": None}]
+    got = intents.parse_previous(previous.context_json(turns))
+    assert (got.question, got.intent, got.route, got.offer) == ("List trips", "retrieve", "enumeration",
+                                                                 "Shall I group them?")
+    assert got.entities[0].id == "E1" and got.documents == ("d1",)
+    assert previous.context_json([]) == ""
+
+
+def test_create_backend_passes_the_previous_context_env(monkeypatch, tmp_path):
+    import paths
+
+    from artmind.webui import backends
+
+    monkeypatch.setattr(paths, "LOGS_DIR", tmp_path)
+    path = backends.new_previous_context()
+    assert path.parent == tmp_path / "previous-context" and path.read_text() == ""
+    seen = {}
+
+    class Fake:
+        def __init__(self, *a, **k):
+            seen.update(k)
+
+    monkeypatch.setattr("artmind.webui.backends.claude_sdk.ClaudeSDKBackend", Fake)
+    backends.create_backend("claude-sdk", previous_context=path)
+    assert seen["env"]["ARTMIND_PREVIOUS_CONTEXT"] == str(path) and seen["previous_context"] == path
