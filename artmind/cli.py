@@ -485,6 +485,14 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
         payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
     payload = envelope(payload, ctx)  # command / warnings / next (cli_conventions, spec C1+C4)
     observe_output_full = payload
+    from artmind.query_run import capture as _capture
+
+    box = _capture.active()
+    if box is not None:  # a step of `query run` (P3 §3.3): hand over the whole payload, print nothing
+        text = json.dumps(payload, ensure_ascii=False, default=str, separators=(",", ":"))
+        box["payload"], box["chars"] = json.loads(text), len(text)
+        observe_output(observe_output_full, payload_chars=len(text), shown_chars=None, handle=None)
+        return
     # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set
     # (`db sql`, `query text2sql`) and aren't JSON-serializable. `default=str`
     # renders them rather than crashing the CLI's only output path -- same call
@@ -2985,6 +2993,10 @@ def _warn_if_vault_stale(*_args, **_kwargs) -> None:
     CliRunner captures stderr and `_entry._proxy` writes it back. (A daemon
     started before this code shipped prints nothing: restart it.)"""
     if os.environ.get("ARTMIND_NO_STALENESS_CHECK"):
+        return
+    from artmind.query_run import capture as _capture
+
+    if _capture.active() is not None:  # a step of `query run`: the run itself checks once
         return
     try:
         import paths
