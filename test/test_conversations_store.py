@@ -241,5 +241,6 @@ def test_list_turns_without_blocks_reads_only_what_replay_needs():
     seq = store.begin_turn("c1", "Hi", "claude-sdk")
     store.finish_turn("c1", seq, blocks=[{"type": "text", "md": "A"}], answer_text="A", status="done")
     slim = store.list_turns("c1", with_blocks=False)
-    assert slim == [{"seq": 0, "user_text": "Hi", "answer_text": "A", "status": "done", "blocks": []}]
+    assert slim == [{"seq": 0, "user_text": "Hi", "answer_text": "A", "status": "done", "trace_id": None,
+                     "blocks": []}]
     assert store.list_turns("c1")[0]["blocks"] == [{"type": "text", "md": "A"}]
