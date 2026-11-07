@@ -189,6 +189,19 @@ def new_trace_context() -> Path:
     return path
 
 
+def new_previous_context() -> Path:
+    """A fresh, empty per-session previous-turn file (spec P3 §8.5). The UI writes the conversation's
+    previous turn into it as JSON before each turn; the agent's `artmind query plan|run` find it via
+    ARTMIND_PREVIOUS_CONTEXT. Machine-local (logs/)."""
+    import paths
+
+    directory = paths.LOGS_DIR / "previous-context"
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f"{uuid.uuid4().hex}.json"
+    path.write_text("")
+    return path
+
+
 def create_backend(
     name: str,
     profile: AgentProfile = QA_PROFILE,
@@ -196,6 +209,7 @@ def create_backend(
     mcp_servers: dict | None = None,
     allowed_tools: list[str] | None = None,
     trace_context: Path | None = None,
+    previous_context: Path | None = None,
 ) -> AgentBackend:
     """Build a backend for ``name`` wearing ``profile``'s persona + skills.
 
@@ -213,9 +227,11 @@ def create_backend(
     spawned with ``ARTMIND_TRACE_CONTEXT`` pointing at it, so every
     ``artmind query`` it runs is recorded under the turn's trace.
     """
-    from artmind._entry import TRACE_CONTEXT_ENV
+    from artmind._entry import PREVIOUS_CONTEXT_ENV, TRACE_CONTEXT_ENV
 
     trace_env = {TRACE_CONTEXT_ENV: str(trace_context)} if trace_context else {}
+    if previous_context:
+        trace_env[PREVIOUS_CONTEXT_ENV] = str(previous_context)
 
     if name == "claude-sdk":
         from artmind.webui.backends.claude_sdk import ClaudeSDKBackend
@@ -228,6 +244,7 @@ def create_backend(
             fallback_model=os.environ.get("ARTMIND_SDK_FALLBACK_MODEL") or None,
             env={**_sdk_env_overrides(), **trace_env} or None,
             trace_context=trace_context,
+            previous_context=previous_context,
         )
     if name == "acp":
         from artmind.webui.backends.acp import ACPBackend
@@ -245,6 +262,7 @@ def create_backend(
             preamble_text=profile.system_append,
             extra_env=trace_env or None,
             trace_context=trace_context,
+            previous_context=previous_context,
         )
     raise ValueError(f"unknown chat backend: {name!r}")
 
@@ -263,8 +281,9 @@ def backend_factory(
     console's query-trace capture, spec 2026-10-11 §5.1).
     """
     if not trace:
-        return lambda name: create_backend(name, profile)
-    return lambda name: create_backend(name, profile, trace_context=new_trace_context())
+        return lambda name: create_backend(name, profile, previous_context=new_previous_context())
+    return lambda name: create_backend(
+        name, profile, trace_context=new_trace_context(), previous_context=new_previous_context())
 
 
 __all__ = [
@@ -278,6 +297,7 @@ __all__ = [
     "create_backend",
     "backend_factory",
     "new_trace_context",
+    "new_previous_context",
     "set_acp_agent_cmd",
     "set_sdk_model",
     "set_sdk_base_url",

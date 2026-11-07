@@ -215,9 +215,9 @@ def finish_turn(
 
 def list_turns(conversation_id: str, *, with_blocks: bool = True) -> list[dict]:
     """The conversation's turns in order. `with_blocks=False` reads only what
-    replay needs (`seq`, `user_text`, `answer_text`, `status`) and returns
+    replay needs (`seq`, `user_text`, `answer_text`, `status`, `trace_id`) and returns
     `blocks: []`, skipping the JSON of the stored blocks."""
-    columns = "*" if with_blocks else "seq, user_text, answer_text, status"
+    columns = "*" if with_blocks else "seq, user_text, answer_text, status, trace_id"
     conn = _connect()
     try:
         rows = conn.execute(

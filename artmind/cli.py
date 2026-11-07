@@ -3935,6 +3935,17 @@ def query_views_run(domain: tuple, params: tuple, render: str | None, compact: b
     _echo_json(result, compact)
 
 
+def _resolve_previous(previous_file: str | None):
+    """`--previous`, else the conversation's previous-context file, else the trace store (spec P3 §8.5)."""
+    from artmind.query_plan import previous as previous_mod
+    from artmind.traces.span import current_trace_id
+
+    try:
+        return previous_mod.resolve_previous(previous_file, trace_id=current_trace_id())
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
 @query.command("plan")
 @click.option("--domain", "domain", multiple=True, help="Scope to these domains (repeatable; comma-splittable). Omit and the plan chooses")
 @click.option("--execute", is_flag=True, help="Also run the step when the plan is one high-confidence saved view")
@@ -3959,12 +3970,7 @@ def query_plan_command(domain: tuple, execute: bool, classifier: str, previous_f
     from artmind.query_plan import intents, planner
 
     domains = _parse_domains(domain) if domain else None
-    previous = None
-    if previous_file is not None:
-        try:
-            previous = intents.load_previous(previous_file)
-        except ValueError as exc:
-            raise click.ClickException(str(exc)) from exc
+    previous = _resolve_previous(previous_file)
     try:
         result = planner.plan(question, domains, execute=execute, classifier=classifier, previous=previous,
                               exclude=list(exclude))
@@ -4066,12 +4072,7 @@ def query_run(domain: tuple, exclude: tuple, previous_file: str | None, classifi
     elif question is None:
         raise click.ClickException("give a question, or --plan FILE")
     else:
-        previous = None
-        if previous_file is not None:
-            try:
-                previous = intents.load_previous(previous_file)
-            except ValueError as exc:
-                raise click.ClickException(str(exc)) from exc
+        previous = _resolve_previous(previous_file)
         started = _time.perf_counter()
         try:
             plan = planner.plan(question, _parse_domains(domain) if domain else None, classifier=classifier,

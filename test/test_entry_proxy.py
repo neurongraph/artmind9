@@ -182,3 +182,56 @@ def test_no_proxy_env_skips_daemon(monkeypatch):
         _entry.main()
 
     cli_mock.assert_called_once()
+
+
+# --- previous-turn forwarding (P3 S8) ---------------------------------------------------------------
+
+def _capture_proxy(monkeypatch, argv=("artmind", "query", "plan", "hello")):
+    sent = {}
+
+    def urlopen(req, *a, **k):
+        if (req if isinstance(req, str) else req.full_url).endswith("/health"):
+            return _response({"service": "artmind", "status": "ok", "vault": None, "pid": 1})
+        sent.update(json.loads(req.data))
+        return _response({"exit_code": 0, "output": "{}\n", "stderr": ""})
+
+    monkeypatch.setattr(_entry.urllib.request, "urlopen", urlopen)
+    monkeypatch.setattr(_entry.sys, "argv", list(argv))
+    return sent
+
+
+def test_previous_context_is_forwarded(monkeypatch, tmp_path):
+    ctx = tmp_path / "prev.json"
+    ctx.write_text('{"question": "earlier"}')
+    monkeypatch.setenv("ARTMIND_PREVIOUS_CONTEXT", str(ctx))
+    sent = _capture_proxy(monkeypatch)
+    with pytest.raises(SystemExit):
+        _entry.main()
+    assert json.loads(sent["previous"]) == {"question": "earlier"}
+
+
+def test_no_previous_context_sends_none(monkeypatch):
+    monkeypatch.delenv("ARTMIND_PREVIOUS_CONTEXT", raising=False)
+    sent = _capture_proxy(monkeypatch)
+    with pytest.raises(SystemExit):
+        _entry.main()
+    assert "previous" not in sent
+
+
+def test_oversized_previous_context_is_not_sent(monkeypatch, tmp_path, capsys):
+    ctx = tmp_path / "prev.json"
+    ctx.write_text(json.dumps({"question": "x" * (17 * 1024)}))
+    monkeypatch.setenv("ARTMIND_PREVIOUS_CONTEXT", str(ctx))
+    sent = _capture_proxy(monkeypatch)
+    with pytest.raises(SystemExit):
+        _entry.main()
+    assert "previous" not in sent
+    assert "artmind:" in capsys.readouterr().err
+
+
+def test_unreadable_previous_context_is_ignored(monkeypatch, tmp_path):
+    monkeypatch.setenv("ARTMIND_PREVIOUS_CONTEXT", str(tmp_path / "gone.json"))
+    sent = _capture_proxy(monkeypatch)
+    with pytest.raises(SystemExit):
+        _entry.main()
+    assert "previous" not in sent

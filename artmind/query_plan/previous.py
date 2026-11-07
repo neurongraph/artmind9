@@ -7,7 +7,7 @@ the question of the latest earlier turn in the same session, its intent / route 
 
 `open_job` is always None here: whether an ingestion job was running is not recorded with a turn, and
 guessing it from today's job table would describe the wrong moment.
-`documents` stay empty: a turn's documents live in agent spans, not in the plan.
+`documents` come from the earlier turn's top-level spans (a `query run` span first), capped at 20.
 
 Nothing here raises for a missing row; a store failure propagates so callers decide (shadow logs and plans
 without a previous turn).
@@ -15,11 +15,21 @@ without a previous turn).
 
 from __future__ import annotations
 
+import contextlib
+import contextvars
+import dataclasses
 import json
+import logging
+import os
 import re
 import sqlite3
 
-from artmind.query_plan.intents import INTENT_IDS, Previous, PreviousEntity
+from artmind.query_plan.intents import INTENT_IDS, IntentError, Previous, PreviousEntity, load_previous, parse_previous
+
+logger = logging.getLogger(__name__)
+
+PREVIOUS_CONTEXT_ENV = "ARTMIND_PREVIOUS_CONTEXT"
+MAX_DOCUMENTS = 20
 
 OFFER_TAIL_CHARS = 400
 _OFFER_RE = re.compile(r"\b(shall (i|we)|should i|do you want|would you like|want me to)\b", re.I)
@@ -127,4 +137,117 @@ def previous_from_trace(trace_id: str, *, db=None) -> Previous | None:
     if earlier is None:
         return None
     plan = shadow_plan(earlier["trace_id"], db=db)
-    return previous_from_plan(earlier["question"], plan, earlier.get("answer"))
+    prev = previous_from_plan(earlier["question"], plan, earlier.get("answer"))
+    documents = turn_documents(earlier["trace_id"], db=db)
+    return dataclasses.replace(prev, documents=documents) if documents else prev
+
+
+def turn_documents(trace_id: str, *, db=None) -> tuple[str, ...]:
+    """Document ids the turn's top-level spans returned, `query run` first, deduplicated, at most 20."""
+    def run(conn):
+        rows = conn.execute("SELECT command, evidence FROM trace_spans WHERE trace_id = ?"
+                            " AND parent_span_id IS NULL ORDER BY started_at", (trace_id,)).fetchall()
+        ordered = sorted(rows, key=lambda r: 0 if (r["command"] or "").strip().endswith("query run") else 1)
+        out: dict[str, None] = {}
+        for row in ordered:
+            try:
+                docs = (json.loads(row["evidence"]) if row["evidence"] else {}).get("documents") or []
+            except (TypeError, ValueError, AttributeError):
+                continue
+            for doc in docs:
+                doc_id = doc.get("doc_id") if isinstance(doc, dict) else None
+                if isinstance(doc_id, str) and doc_id:
+                    out.setdefault(doc_id, None)
+        return tuple(list(out)[:MAX_DOCUMENTS])
+    return _with_db(db, run)
+
+
+# --- resolution --------------------------------------------------------------------------
+
+_previous_override: contextvars.ContextVar = contextvars.ContextVar("artmind_previous_override", default=None)
+
+
+@contextlib.contextmanager
+def previous_override(text: str | None):
+    """`serve` sets the caller's previous-context text for one request (it never reads its own env)."""
+    token = _previous_override.set(text)
+    try:
+        yield
+    finally:
+        _previous_override.reset(token)
+
+
+def _context_previous() -> Previous | None:
+    """Source (b): the request's override, else the file named by ARTMIND_PREVIOUS_CONTEXT. Never raises."""
+    text = _previous_override.get()
+    if text is None:
+        path = os.environ.get(PREVIOUS_CONTEXT_ENV)
+        if not path:
+            return None
+        try:
+            with open(path, encoding="utf-8") as f:
+                text = f.read()
+        except OSError as exc:
+            logger.debug("previous context unreadable: %s", exc)
+            return None
+    if not text.strip():
+        return None
+    try:
+        return parse_previous(text)
+    except IntentError as exc:
+        logger.debug("previous context ignored: %s", exc)
+        return None
+
+
+def resolve_previous(previous_file: str | None, *, trace_id: str | None = None) -> Previous | None:
+    """The previous turn from the first source that gives one: `--previous` (errors raise `IntentError`),
+    the previous-context override / file, then the trace store."""
+    if previous_file is not None:
+        return load_previous(previous_file)
+    found = _context_previous()
+    if found is not None:
+        return found
+    if trace_id:
+        try:
+            return previous_from_trace(trace_id)
+        except Exception as exc:  # noqa: BLE001 - a store failure means no previous
+            logger.debug("previous from trace failed: %s", exc)
+    return None
+
+
+def context_json(turns: list[dict]) -> str:
+    """The text for a previous-context file: the last finished (`done`) turn of a conversation, as the JSON
+    `parse_previous` reads; empty when there is none. `turns` are `conv_store.list_turns` rows."""
+    done = [t for t in turns if t.get("status") == "done" and t.get("user_text")]
+    if not done:
+        return ""
+    last = done[-1]
+    plan = None
+    if last.get("trace_id"):
+        try:
+            plan = shadow_plan(last["trace_id"])
+        except Exception as exc:  # noqa: BLE001 - the plan is optional
+            logger.debug("previous turn's shadow plan unavailable: %s", exc)
+    prev = previous_from_plan(last["user_text"], plan, last.get("answer_text"))
+    documents: tuple[str, ...] = ()
+    if last.get("trace_id"):
+        try:
+            documents = turn_documents(last["trace_id"])
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("previous turn's documents unavailable: %s", exc)
+    return json.dumps({
+        "intent": prev.intent, "route": prev.route, "question": prev.question, "offer": prev.offer,
+        "entities": [{"id": e.id, "name": e.name} for e in prev.entities], "documents": list(documents),
+    }, ensure_ascii=False)
+
+
+def write_context(path, turns: list[dict]) -> None:
+    """Write `context_json(turns)` to `path`. Best effort: logs and returns on any failure."""
+    try:
+        text = context_json(turns)
+        tmp = f"{path}.tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except Exception:  # noqa: BLE001
+        logger.exception("could not write the previous-turn context")

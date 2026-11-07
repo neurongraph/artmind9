@@ -41,6 +41,7 @@ class ACPBackend:
         preamble_text: str | None = None,
         extra_env: dict[str, str] | None = None,
         trace_context: Path | None = None,
+        previous_context: Path | None = None,
         connect_timeout_s: float = CONNECT_TIMEOUT_S,
     ) -> None:
         self._agent_cmd = agent_cmd
@@ -53,6 +54,7 @@ class ACPBackend:
         self._preamble_text = preamble_text or QA_PROFILE.system_append
         self._extra_env = extra_env
         self._trace_context = trace_context
+        self._previous_context = previous_context
         self._connect_timeout_s = connect_timeout_s
         self._proc: asyncio.subprocess.Process | None = None
         self._read_task: asyncio.Task | None = None
@@ -159,6 +161,10 @@ class ACPBackend:
     def trace_context_path(self) -> Path | None:
         return self._trace_context
 
+    @property
+    def previous_context_path(self) -> Path | None:
+        return self._previous_context
+
     # ---- durable session lifecycle (ADR 0007 / A7) -----------------------
 
     @property
@@ -195,6 +201,8 @@ class ACPBackend:
         self._fail_pending(RuntimeError("ACP backend disconnected"))
         if self._trace_context is not None:
             self._trace_context.unlink(missing_ok=True)
+        if self._previous_context is not None:
+            self._previous_context.unlink(missing_ok=True)
         if proc is None:
             return
         if proc.stdin is not None:
