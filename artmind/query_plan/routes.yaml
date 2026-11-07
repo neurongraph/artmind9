@@ -133,7 +133,7 @@ routes:
 
   - id: entity_profile
     description: Who or what one specific person, place, organisation or thing is, and what is known about it.
-    triggers: ["tell me about", "who is", "what is", "describe", "what do we know about", "profile of"]
+    triggers: ["tell me about", "~who is", "~what is", "~describe", "what do we know about", "profile of"]
     needs: [entity]
     programs:
       # Visits / occurrences of the entity: the brief context, paged when cut, and a text check. A step
@@ -184,7 +184,7 @@ routes:
   # through `vector-text` / `pattern10 --includeHistory` on the documents the conflicts list names.
   - id: conflicts
     description: Whether documents or sources disagree or contradict each other, or which of two versions applies.
-    triggers: ["conflict", "conflicting", "contradict", "disagree", "inconsistent", "differ", "which applies", "which one applies", "discrepancy"]
+    triggers: ["conflict", "conflicting", "contradict", "disagree", "inconsistent", "differs", "differ from", "differ on", "differ in", "differing", "which applies", "which one applies", "discrepancy"]
     needs: []
     kind: one_step
     program:
