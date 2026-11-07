@@ -78,11 +78,15 @@ Why this rule exists: on the same build, the same agent stopped at search snippe
 
 `escalate` is null when the plan ran clean. Otherwise it has a `reason` and `suggested` steps.
 
-- `reason: limit`: a step hit its row or step limit. Rows are missing. Run a suggested step, or page.
+- `reason: limit`: the run hit its step limit. Later steps never ran. Run a suggested step, or page.
 - `reason: deadline`: the call ran out of time. Later steps never ran. Run them yourself from `suggested`.
-- `reason: step_error`: a step failed. `path` names it. Try the next suggested step. Do not retry the same one.
-- `reason: guard`: the plan switched to another route because the first came back empty or cut. The bundle holds the second route's rows.
-- Any other reason: the plan was unsure. Check the question against the route in `references/routes.md`.
+- `reason: step_error`: no step returned rows without an error. `path` names the failures. Try the next suggested step. Do not retry the same one.
+- `reason: guard`: a check in the plan stopped it, for example no documents found or a list still cut after paging. `predicate` says which. Do not count or list from this bundle; run a suggested step.
+- `reason: no_evidence`: every step ran and returned nothing. Try a suggested step, or a broader `artmind query survey`, before you say nothing was found.
+- `reason: unfilled`: the plan could not fill a step (no entity or document matched the question's words). Find the right name with `artmind query entity-resolve --domain <d> --compact "<name>"`, then look it up.
+- `reason: no_lookup`: the planner read the turn as needing no lookup (`answer_from: previous`, or an `action` for another skill). If you agree, answer from the conversation or hand off. If the user did ask something new, run `artmind query run` again with the question in plain words.
+
+When the plan switched routes because its first step came back empty, `path` shows a `replace` entry and the bundle holds the second route's rows. That is not an escalation.
 
 Run suggested steps one at a time, and read each result before the next. When the plan's route fits poorly, a different command from `references/commands.md` is fine. Keep to read-only commands.
 
