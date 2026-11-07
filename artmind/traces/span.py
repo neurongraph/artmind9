@@ -58,6 +58,13 @@ def _command_path(group: click.Group, ctx: click.Context, tokens: list[str]) -> 
     return " ".join(path)
 
 
+def _child_wanted() -> bool:
+    """A step of `query run` (capture mode) under an open span gets its own child span."""
+    from artmind.query_run import capture
+
+    return capture.active() is not None and _active.get() is not None
+
+
 class TracedGroup(RichGroup):
     """The `query` group. Nested groups (`query graph`, `query views`) are
     plain RichGroups -- RichGroup's `group_class = type` would otherwise make
@@ -77,11 +84,16 @@ class TracedGroup(RichGroup):
         return _command_path(self, ctx, tokens) in self.traced_commands
 
     def invoke(self, ctx: click.Context):
-        if _active.get() is not None:
+        parent = _active.get()
+        try:
+            child_wanted = parent is not None and _child_wanted()
+        except Exception:
+            child_wanted = False
+        if parent is not None and not child_wanted:
             return super().invoke(ctx)
         tokens = [*getattr(ctx, "_protected_args", []), *ctx.args]
         try:
-            trace_id = None if "--help" in tokens else current_trace_id()
+            trace_id = parent["trace_id"] if parent is not None else (None if "--help" in tokens else current_trace_id())
         except Exception:
             trace_id = None
         if not trace_id or not self._eligible(ctx, tokens):
@@ -92,6 +104,7 @@ class TracedGroup(RichGroup):
                 "span_id": uuid.uuid4().hex, "trace_id": trace_id, "argv": list(tokens),
                 "command": _command_path(self, ctx, tokens), "started_at": time.time(),
                 "summary": None, "params": None, "llm_calls": [],
+                "parent_span_id": parent["span_id"] if parent is not None else None,
             }
             token = _active.set(span)
         except Exception:
@@ -122,6 +135,10 @@ def observe_output(payload, *, payload_chars: int | None = None, shown_chars: in
     try:
         span["summary"] = evidence.summarize(payload)
         span["payload_chars"], span["shown_chars"], span["handle"] = payload_chars, shown_chars, handle
+        if isinstance(payload, dict) and "bundle_version" in payload:
+            span["run_mode"] = payload.get("mode")
+            span["escalate_reason"] = (payload.get("escalate") or {}).get("reason")
+            span["bundle_chars"] = payload_chars
         ctx = click.get_current_context(silent=True)
         if ctx is not None:
             span["params"] = dict(ctx.params)
@@ -154,6 +171,8 @@ def _record(span: dict, exit_code: int | None) -> None:
                 "evidence": json.dumps(summary["evidence"], default=str),
                 "started_at": span["started_at"], "payload_chars": span.get("payload_chars"),
                 "shown_chars": span.get("shown_chars"), "handle": span.get("handle"),
+                "parent_span_id": span.get("parent_span_id"), "run_mode": span.get("run_mode"),
+                "escalate_reason": span.get("escalate_reason"), "bundle_chars": span.get("bundle_chars"),
             },
             span["llm_calls"],
         )

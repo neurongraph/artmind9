@@ -141,11 +141,13 @@ def insert_span(span: dict, llm_calls: list[dict]) -> None:
     try:
         conn.execute(
             "INSERT INTO trace_spans (span_id, trace_id, command, args, exit_code, duration_ms, rows,"
-            " rows_total, truncated, evidence, started_at, payload_chars, shown_chars, handle)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            " rows_total, truncated, evidence, started_at, payload_chars, shown_chars, handle,"
+            " parent_span_id, run_mode, escalate_reason, bundle_chars)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (span["span_id"], span["trace_id"], span["command"], span["args"], span["exit_code"],
              span["duration_ms"], span["rows"], span["rows_total"], span["truncated"], span["evidence"],
-             span["started_at"], span.get("payload_chars"), span.get("shown_chars"), span.get("handle")),
+             span["started_at"], span.get("payload_chars"), span.get("shown_chars"), span.get("handle"),
+             span.get("parent_span_id"), span.get("run_mode"), span.get("escalate_reason"), span.get("bundle_chars")),
         )
         conn.executemany(
             "INSERT INTO trace_llm_calls (span_id, seq, call_type, model, prompt, response, duration_ms,"

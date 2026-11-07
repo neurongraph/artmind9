@@ -32,6 +32,8 @@ def summarize(payload: Any) -> dict:
 
 
 def _count(payload: dict) -> int:
+    if "bundle_version" in payload:
+        return len(payload.get("evidence") or [])
     if payload.get("status") in _NOT_AN_ANSWER:
         return 0
     for key in _ROW_KEYS:
@@ -307,7 +309,8 @@ def _provenance(payload: dict) -> dict | None:
     # `--shape brief` rows: `doc {id,title,domain,..}` plus a bare `chunk_id`
     # (vector-text, survey --expand, chunks); survey's `documents[]` rows carry
     # `doc_id` and the best chunk under `best`. None of them holds a path.
-    for row in [*(payload.get("rows") or []), *(payload.get("passages") or [])]:
+    bundle_rows = payload.get("evidence") if "bundle_version" in payload else None
+    for row in [*(payload.get("rows") or []), *(payload.get("passages") or []), *(bundle_rows or [])]:
         if isinstance(row, dict) and isinstance(row.get("doc"), dict) and not isinstance(row.get("document"), dict):
             document = acc.add_document(row["doc"])
             chunk = row.get("chunk") if isinstance(row.get("chunk"), dict) else {"chunk_id": row.get("chunk_id")}

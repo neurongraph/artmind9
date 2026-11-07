@@ -431,10 +431,14 @@ def _init_db() -> None:
         )
     """)
     span_cols = {row[1] for row in cursor.execute("PRAGMA table_info(trace_spans)")}
-    for col, decl in (("payload_chars", "INTEGER"), ("shown_chars", "INTEGER"), ("handle", "TEXT")):
+    for col, decl in (
+        ("payload_chars", "INTEGER"), ("shown_chars", "INTEGER"), ("handle", "TEXT"),
+        ("parent_span_id", "TEXT"), ("run_mode", "TEXT"), ("escalate_reason", "TEXT"), ("bundle_chars", "INTEGER"),
+    ):
         if col not in span_cols:
             cursor.execute(f"ALTER TABLE trace_spans ADD COLUMN {col} {decl}")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_trace_spans_trace ON trace_spans(trace_id)")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_trace_spans_parent ON trace_spans(parent_span_id)")
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS trace_llm_calls (
             id           INTEGER PRIMARY KEY AUTOINCREMENT,

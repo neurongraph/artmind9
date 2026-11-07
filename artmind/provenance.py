@@ -32,6 +32,8 @@ def select_evidence_spans(spans: list[dict]) -> list[dict]:
     newest first (so the first is the final, main evidence)."""
     out = []
     for span in sorted(spans, key=lambda s: s.get("started_at") or 0, reverse=True):
+        if span.get("parent_span_id"):
+            continue
         if span.get("exit_code") != 0 or not (span.get("rows") or 0):
             continue
         command = str(span.get("command") or "")
