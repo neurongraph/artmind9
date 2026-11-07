@@ -27,6 +27,7 @@ def test_run_a_given_plan(tmp_path, monkeypatch):
     assert payload["command"] == "query run"
     assert [p["id"] for p in payload["path"]] == ["s1"] and payload["path"][0]["exit_code"] == 0
     assert payload["escalate"] is None
+    assert payload["bundle_version"] == 1
 
 
 def test_a_question_or_a_plan_is_required():

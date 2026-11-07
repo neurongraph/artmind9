@@ -3581,9 +3581,11 @@ def vector_text(ctx: click.Context, domain: tuple, top_k: int, context: str, as_
               help="First row to show (0-based)")
 @click.option("--rows", "count", type=click.IntRange(min=1), default=None,
               help="Rows to show (default: as many as fit ARTMIND_OUTPUT_BUDGET, else all remaining)")
+@click.option("--list", "list_name", default=None,
+              help="Which list of the stored result to page (default: its main list, e.g. evidence for query run)")
 @compact_option
 @click.argument("handle")
-def query_page(start: int, count: int | None, compact: bool, handle: str) -> None:
+def query_page(start: int, count: int | None, list_name: str | None, compact: bool, handle: str) -> None:
     """Show more rows of a result that ARTMIND_OUTPUT_BUDGET cut (its `handle` and `next` say how).
 
     Reads only <run folder>/logs/results/, where the full result was stored for 24 hours.
@@ -3594,9 +3596,10 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
         stored = result_store.load(LOGS_DIR / "results", handle)
     except result_store.BudgetError as exc:
         raise click.ClickException(str(exc)) from exc
-    key = result_store.list_key(stored, LIST_KEY.get(str(stored.get("command") or "")))
-    if key is None:
-        raise click.ClickException(f"stored result {handle} has no list to page")
+    key = list_name or result_store.list_key(stored, LIST_KEY.get(str(stored.get("command") or "")))
+    if key is None or not isinstance(stored.get(key), list):
+        raise click.ClickException(f"stored result {handle} has no list {key!r} to page" if key else
+                                   f"stored result {handle} has no list to page")
     rows = stored[key]
     end = len(rows) if count is None else min(len(rows), start + count)
     page = {k: v for k, v in stored.items() if k not in ("truncated", "rows_shown", "handle")}
@@ -3605,7 +3608,8 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
     page["rows_from"] = start
     page["rows_shown"] = len(page[key])
     page["truncated"] = end < len(rows)
-    page["next"] = f"artmind query page {handle} --from {end}" if end < len(rows) else None
+    more = f" --list {list_name}" if list_name else ""
+    page["next"] = f"artmind query page {handle}{more} --from {end}" if end < len(rows) else None
     page["warnings"] = []
     # A page is itself budgeted; its own cut carries a new handle.
     _echo_json(page, compact)
@@ -4014,8 +4018,14 @@ def query_run(plan_file: str | None, max_steps: int, deadline: float | None, com
         raise click.ClickException("give a question, or --plan FILE")
     plan = _load_plan_file(plan_file)
     ex = executor.execute(plan, max_steps=max_steps, deadline_s=_run_deadline(deadline))
-    _echo_json({"path": ex.path, "escalate": ex.escalate, "replaced_by": ex.replaced_by,
-                "timing": {"plan_ms": None, "exec_ms": ex.exec_ms}}, compact)
+    from artmind.query_run import bundle as bundle_mod
+
+    try:
+        budget = bundle_mod.bundle_budget()
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    printed, _ = bundle_mod.build(plan, ex, budget=budget)
+    _echo_json(printed, compact)
     if ex.exit_code:
         raise SystemExit(ex.exit_code)
 
