@@ -242,3 +242,34 @@ def test_error_event_without_answer_is_an_error_turn():
     turn = store.get_turn(rec.trace_id)
     assert turn["status"] == "error"
     assert len(turn["error_message"]) == 2000
+
+
+def _child(trace_id, span_id, parent, command, started_at):
+    store.insert_span({
+        "span_id": span_id, "trace_id": trace_id, "command": command, "parent_span_id": parent,
+        "args": json.dumps({"domain": ["b"]}), "exit_code": 0, "duration_ms": 5, "rows": 3,
+        "rows_total": None, "truncated": 0, "evidence": json.dumps({}), "started_at": started_at,
+    }, [])
+
+
+def test_executor_steps_are_not_the_agents_calls():
+    rec = TraceRecorder.start(source="admin", question="q")
+    rec.observe({"type": "tool_call", "id": "t", "name": "Bash", "input": "x",
+                 "_trace": {"input": {"command": "artmind query run 'q' --domain b"}}})
+    rec.observe({"type": "tool_result", "tool_id": "t", "content": "x"})
+    _span(rec.trace_id, "run1", "query run", 1.0, domain=("c",))
+    _child(rec.trace_id, "k1", "run1", "query graph pattern7", 1.1)
+    _child(rec.trace_id, "k2", "run1", "query survey", 1.2)
+    rec.finish()
+    turn = store.get_turn(rec.trace_id)
+    assert turn["graph_attempts"] == 0
+    domains = turn["domains"]
+    assert (json.loads(domains) if isinstance(domains, str) else domains) == ["c"]
+    by_id = {s["span_id"]: s for s in store.list_spans(rec.trace_id)}
+    assert by_id["k1"].get("tool_id") is None and by_id["k2"].get("tool_id") is None
+
+
+def test_match_tool_ids_skips_child_spans():
+    tools = {"a": {"input": {"command": "artmind query survey --domain b q"}, "call_ts": 1.0, "result_ts": 2.0}}
+    spans = [{"span_id": "s1", "command": "query survey", "started_at": 1.5, "parent_span_id": "run"}]
+    assert match_tool_ids(spans, tools) == []

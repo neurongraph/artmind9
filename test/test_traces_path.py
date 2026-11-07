@@ -283,3 +283,22 @@ def test_db_sql_is_a_sql_layer_and_other_db_reads_are_discovery():
     assert path.layer_of("db sql") == "sql"
     assert path.layer_of("db bridge") == "discovery"
     assert path.layer_of("db schema") == "discovery"
+
+
+def test_views_check_treats_query_run_like_query_plan():
+    from artmind.traces.path import views_check
+
+    run = {**_span("query run", started_at=1.0), "args": {"domain": ["b"]}}
+    child = {**_span("query survey", started_at=1.1), "args": {"domain": ["b"]}, "parent_span_id": run["span_id"]}
+    late = {**_span("query vector-text", started_at=2.0), "args": {"domain": ["b"]}}
+    check = views_check([run, child, late])
+    assert check["status"] == "first"
+    child_only = views_check([{**child, "started_at": 0.5}, run])
+    assert child_only["status"] == "n/a"
+
+
+def test_a_run_turn_has_no_graph_attempts_from_its_steps():
+    run = _span("query run", started_at=1.0)
+    step = {**_span("query graph pattern7", started_at=1.1), "parent_span_id": run["span_id"]}
+    assert derive([run], None)["graph_attempts"] == 0
+    assert derive([step], None)["graph_attempts"] == 1  # derive trusts its caller to pass top-level spans

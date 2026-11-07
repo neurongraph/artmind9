@@ -171,11 +171,12 @@ class TraceRecorder:
                     logger.exception("shadow plan not recorded")
             store.insert_events(self.trace_id, self._events)
             spans = store.list_spans(self.trace_id)
+            top = [sp for sp in spans if not sp.get("parent_span_id")]  # a `query run` step is the executor's, not the agent's
             pairs = match_tool_ids(spans, self._tools)
             store.set_span_tool_ids(pairs)
             answer = "".join(self._answer) or self._done.get("result")
-            derived = trace_path.derive(spans, answer)
-            domains = domains_of(spans)
+            derived = trace_path.derive(top, answer)
+            domains = domains_of(top)
             usage = self._done.get("usage") or {}
             input_tokens = sum(usage.get(k) or 0 for k in
                                ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens")) or None
@@ -272,6 +273,8 @@ def match_tool_ids(spans: list[dict], tools: dict[str, dict]) -> list[tuple[str,
     """
     pairs = []
     for span in spans:
+        if span.get("parent_span_id"):  # an executor step, not a tool call of the agent
+            continue
         command = span.get("command") or ""
         leaf = command.split()[-1] if command else ""
         arg_vals = _arg_values(span)

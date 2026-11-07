@@ -247,9 +247,11 @@ def views_check(spans: list[dict], listed_before: set[str] | None = None, *,
     ran = False
     unchecked: set[str] = set()
     for span in sorted(spans, key=lambda s: s.get("started_at") or 0.0):
+        if span.get("parent_span_id"):  # a `query run` step: the run is the agent's call
+            continue
         command = span.get("command") or ""
         domains = span_domains(span)
-        if command == "query plan":
+        if command in ("query plan", "query run"):
             # The plan matches the question against the view catalogue of its
             # domains (all of them when it chose the domain itself).
             if domains is None:
