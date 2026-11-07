@@ -78,6 +78,45 @@ def shadow_plan(events: list[dict]) -> dict | None:
     return None
 
 
+def _plan_dict(payload: dict) -> dict:
+    plan = payload.get("plan")
+    return plan if isinstance(plan, dict) else {}
+
+
+def _intent_id(plan: dict) -> str | None:
+    intent = plan.get("intent")
+    value = intent.get("id") if isinstance(intent, dict) else None
+    return value if isinstance(value, str) and value else None
+
+
+def _slot_score(plan: dict) -> float | None:
+    block = plan.get("slot_quality")
+    value = block.get("score") if isinstance(block, dict) else None
+    return float(value) if isinstance(value, (int, float)) and not isinstance(value, bool) else None
+
+
+def shadow_summary(payload: dict | None) -> dict | None:
+    """The planner v2 fields of one shadow payload for `traces show`. A key is
+    present only when the plan has it (v1 plans have no intent, slot quality or
+    program kind), so an old plan shows just its status."""
+    if not payload:
+        return None
+    plan = _plan_dict(payload)
+    out: dict = {"status": payload.get("status")}
+    intent = plan.get("intent")
+    if _intent_id(plan):
+        out["intent"] = {"id": _intent_id(plan), "source": intent.get("source")}
+    if isinstance(plan.get("program_kind"), str) and plan["program_kind"]:
+        out["program_kind"] = plan["program_kind"]
+    if _slot_score(plan) is not None:
+        out["slot_quality_score"] = _slot_score(plan)
+    return out
+
+
+#: Program kinds renamed since plans were recorded; stats count the old name as the new one.
+_KIND_ALIASES = {"chunks_cross_document": "cross_document"}
+
+
 def _command_key(cmd: str) -> str | None:
     """`artmind query views run v --domain b` -> `query views run v` (words before the first option)."""
     try:
@@ -105,21 +144,59 @@ def _span_key(span: dict) -> str:
     return command
 
 
+#: `artmind db ...` steps that leave spans (span.TracedDbGroup).
+DB_TRACED_STEPS = frozenset({"db list", "db schema", "db sql", "db timeline", "db bridge", "db review"})
+
+
+def _is_looked_up(command: str | None) -> bool:
+    command = command or ""
+    return (command.startswith("query") and command != "query plan") or command in DB_TRACED_STEPS
+
+
 def _is_traced_step(key: str | None) -> bool:
-    return key is not None and (key == "query" or key.startswith("query "))
+    return key is not None and (key == "query" or key.startswith("query ") or key in DB_TRACED_STEPS)
 
 
-def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
-    """Did the agent run the shadow plan's first traced step? Only `query ...`
-    steps leave spans (an `artmind db ...` step is skipped); None when the plan
-    has none. A bare `query plan` span is the plan itself, never an answer."""
-    plan = (shadow or {}).get("plan") or {}
+def _first_node_keys(plan: dict) -> set[str]:
+    """Command keys of the plan's first traced node: the children of a leading `par`, else its first step."""
+    program = plan.get("program") or []
+    if program and isinstance(program[0], dict):
+        first = program[0]
+        runs = [c for c in first.get("children") or [] if isinstance(c, dict)] if first.get("kind") == "par" else [first]
+        keys = {k for k in (_command_key(r.get("run") or r.get("cmd") or "") for r in runs if r.get("kind", "run") == "run")
+                if _is_traced_step(k)}
+        if keys:
+            return keys
     steps = plan.get("steps") or plan.get("suggested_steps") or []
     keys = (_command_key(step.get("cmd") or "") for step in steps)
     key = next((k for k in keys if _is_traced_step(k)), None)
-    if key is None:
+    return {key} if key else set()
+
+
+def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
+    """Did the agent run any command of the shadow plan's first node (the children of a leading `par`,
+    else the first traced step)? `query ...` and read-only `db ...` steps leave spans;
+    None when the plan has none. A bare `query plan` span is the plan itself, never an answer."""
+    plan = (shadow or {}).get("plan") or {}
+    wanted = _first_node_keys(plan)
+    if not wanted:
         return None
-    return key in {_span_key(s) for s in spans if _span_key(s) != "query plan"}
+    return bool(wanted & {_span_key(s) for s in spans if _span_key(s) != "query plan"})
+
+
+def agent_looked_up(spans: list[dict]) -> bool:
+    """The agent ran an `artmind query` command other than `query plan` itself. A turn without one is a turn
+    the agent answered from the conversation (a reshape, a file, a curation hand-off): it needed no lookup,
+    so the shadow plan is not graded on agreement there."""
+    return any(_is_looked_up(s.get("command")) for s in spans)
+
+
+def _confident_lookup(plan: dict) -> bool:
+    """The plan retrieves (no non-retrieval intent) at high confidence."""
+    from artmind.query_plan.labels import is_nonretrieval
+
+    level = (plan.get("confidence") or {}).get("level")
+    return level == "high" and not is_nonretrieval(_intent_id(plan))
 
 
 def _rate(values: list) -> float | None:
@@ -130,7 +207,11 @@ def _rate(values: list) -> float | None:
 def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_trace: dict[str, list[dict]]) -> dict:
     """Shadow-plan block of a stats row; always the same keys. `statuses` counts
     every recorded payload (a failing shadow must be visible); the rates use
-    status `ok` only, and the first/followup/by-rating splits use high plans."""
+    status `ok` only, and the first/followup/by-rating splits use high plans.
+
+    The agent decides whether a turn needs a lookup, so agreement is measured only on turns where it ran
+    an `artmind query` command (`lookup_turns`). On the others (`no_lookup_turns`) the plan is checked for
+    the one harm that matters there: `no_lookup_plan_ok` is the share planned as no confident lookup."""
     statuses: Counter = Counter()
     rows = []
     for turn in turns:
@@ -140,20 +221,36 @@ def _shadow_rates(turns: list[dict], shadows: dict[str, list[dict]], spans_by_tr
         statuses[payload.get("status") or "unknown"] += 1
         if payload.get("status") == "ok":
             level = ((payload.get("plan") or {}).get("confidence") or {}).get("level")
-            rows.append((turn, payload, level, agreement(payload, spans_by_trace.get(turn["trace_id"], []))))
-    high = [r for r in rows if r[2] == "high"]
+            spans = spans_by_trace.get(turn["trace_id"], [])
+            looked = agent_looked_up(spans)
+            rows.append((turn, payload, level, agreement(payload, spans) if looked else None, looked))
+    no_lookup = [r for r in rows if not r[4]]
+    rows4 = [r[:4] for r in rows]
+    high = [r for r in rows4 if r[2] == "high"]
     by_rating: dict[str, list] = {}
     for turn, _, _, agreed in high:
         by_rating.setdefault(turn.get("rating") or "unrated", []).append(agreed)
+    plans = [_plan_dict(p) for _, p, _, _ in rows4]
+    by_intent = Counter(_intent_id(p) or "unknown" for p in plans)
+    by_program = Counter(_KIND_ALIASES.get(p["program_kind"], p["program_kind"])
+                         if isinstance(p.get("program_kind"), str) and p["program_kind"] else "unknown" for p in plans)
+    retrieve_scores = [s for p in plans if _intent_id(p) == "retrieve" for s in [_slot_score(p)] if s is not None]
     return {
         "plans": len(rows),
         "statuses": dict(statuses),
         "high_share": len(high) / len(rows) if rows else None,
-        "agreement_high": _rate([a for *_, lvl, a in rows if lvl == "high"]),
-        "agreement_low": _rate([a for *_, lvl, a in rows if lvl != "high"]),
+        "lookup_turns": len(rows) - len(no_lookup),
+        "no_lookup_turns": len(no_lookup),
+        "no_lookup_plan_ok": (sum(1 for r in no_lookup if not _confident_lookup(_plan_dict(r[1]))) / len(no_lookup)
+                              if no_lookup else None),
+        "agreement_high": _rate([a for *_, lvl, a in rows4 if lvl == "high"]),
+        "agreement_low": _rate([a for *_, lvl, a in rows4 if lvl != "high"]),
         "agreement_first": _rate([a for _, p, _, a in high if not p.get("followup")]),
         "agreement_followup": _rate([a for _, p, _, a in high if p.get("followup")]),
         "agreement_by_rating": {k: _rate(v) for k, v in sorted(by_rating.items())},
+        "by_intent": dict(sorted(by_intent.items())),
+        "by_program_kind": dict(sorted(by_program.items())),
+        "slot_quality_median_retrieve": statistics.median(retrieve_scores) if retrieve_scores else None,
     }
 
 
@@ -197,7 +294,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
     elif status == "late":
         out["views_late"] = 1
     level = (((shadow or {}).get("plan") or {}).get("confidence") or {}).get("level")
-    ran_query = any((s.get("command") or "").startswith("query") and s.get("command") != "query plan" for s in spans)
+    ran_query = any(_is_looked_up(s.get("command")) for s in spans)
     if (shadow or {}).get("status") == "ok" and level == "high" and ran_query and agreement(shadow, spans) is False:
         out["plan_disagreed_high"] = 2
     return out
@@ -353,10 +450,12 @@ def show(trace_id: str) -> dict | None:
             "then `artmind serve` from the vault)."
         )
     tool_call_ids = {e["tool_id"] for e in events if e["type"] == "tool_call"}
+    shadow = shadow_plan(events)
     return {
         "turn": turn,
         "feedback": store.latest_feedback(trace_id),
-        "plan_shadow": shadow_plan(events),
+        "plan_shadow": shadow,
+        "plan_shadow_summary": shadow_summary(shadow),
         "events": [e for e in events if e["type"] != "plan_shadow"],
         "unattributed_spans": [s for s in spans if not s["tool_id"] or s["tool_id"] not in tool_call_ids],
         "graph_layers": sorted(GRAPH_LAYERS),

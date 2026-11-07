@@ -18,8 +18,8 @@ import yaml
 DEFAULT_FIRST_PERSON = ("i", "me", "my", "mine", "myself")
 DEFAULT_THRESHOLD = 0.7
 CLASSIFIERS = ("auto", "lexical", "decision")
-_KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "classifier", "decision_model",
-                   "categories", "kinship", "scope_rules", "calendar"})
+_KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "decision_margin", "classifier", "decision_model",
+                   "categories", "kinship", "scope_rules", "calendar", "synonyms", "domain_aliases"})
 _RULE_ID_RE = re.compile(r"[a-z][a-z0-9_]*")
 _MONTH_DAY_RE = re.compile(r"(\d{2})-(\d{2})")
 _WHEN_KEYS = ("mention", "not_cue", "route")
@@ -97,6 +97,13 @@ class PlanConfig:
     kinship: tuple[tuple[str, tuple[str, ...]], ...] = ()      # (casefolded kin word, variants casefolded)
     scope_rules: tuple[ScopeRule, ...] = ()
     calendar: tuple[CalendarEvent, ...] = ()
+    synonyms: tuple[tuple[str, tuple[str, ...]], ...] = ()     # (casefolded word, synonyms casefolded)
+    domain_aliases: tuple[str, ...] = ()   # words that name this domain in a question (fix B1; own file only)
+    decision_margin: float | None = None   # None: planner.DECISION_MARGIN (B3c)
+
+    def synonym(self, word: str) -> tuple[str, ...] | None:
+        """Configured synonyms of a search-term word (casefold; singular/plural), else None."""
+        return _lookup(self.synonyms, word)
 
     def category(self, word: str) -> tuple[str, ...] | None:
         """Members of the class word (casefold; singular/plural by a trailing s/es), else None."""
@@ -292,6 +299,9 @@ def parse_config(data, source: str) -> PlanConfig:
     threshold = data.get("confidence_threshold", DEFAULT_THRESHOLD)
     if isinstance(threshold, bool) or not isinstance(threshold, (int, float)) or not 0 < threshold <= 1:
         raise PlanConfigError(f"{source}: confidence_threshold must be a number in (0, 1]")
+    margin = data.get("decision_margin")
+    if margin is not None and (isinstance(margin, bool) or not isinstance(margin, (int, float)) or not 0 <= margin < 1):
+        raise PlanConfigError(f"{source}: decision_margin must be a number in [0, 1)")
     classifier = data.get("classifier", "auto")
     if classifier not in CLASSIFIERS:
         raise PlanConfigError(f"{source}: classifier must be one of {list(CLASSIFIERS)}")
@@ -302,7 +312,11 @@ def parse_config(data, source: str) -> PlanConfig:
                       _parse_word_map(data.get("categories"), source, "categories", fold_members=False),
                       _parse_word_map(data.get("kinship"), source, "kinship", fold_members=True),
                       _parse_scope_rules(data.get("scope_rules"), source),
-                      _parse_calendar(data.get("calendar"), source))
+                      _parse_calendar(data.get("calendar"), source),
+                      _parse_word_map(data.get("synonyms"), source, "synonyms", fold_members=True),
+                      _unique(_string_list(data.get("domain_aliases", []), source, "domain_aliases",
+                                           allow_empty=True)),
+                      None if margin is None else float(margin))
 
 
 def load_config(domain: str) -> PlanConfig:
@@ -318,6 +332,19 @@ def load_config(domain: str) -> PlanConfig:
     except yaml.YAMLError as exc:
         raise PlanConfigError(f"{path} is not valid YAML: {exc}") from exc
     return parse_config(data, str(path))
+
+
+def domain_aliases(domain: str) -> tuple[str, ...]:
+    """The `domain_aliases:` of the domain's own file (a parent's file names the parent, not its
+    children); () without one. A file that does not parse names nothing here: `plan config check`
+    reports it, and the plan loads it again for the selected domains."""
+    path = config_file(domain)
+    if path is None or path.stem != domain:
+        return ()
+    try:
+        return load_config(domain).domain_aliases
+    except PlanConfigError:
+        return ()
 
 
 def merge(configs: list[PlanConfig]) -> PlanConfig:
@@ -337,12 +364,14 @@ def merge(configs: list[PlanConfig]) -> PlanConfig:
         kinship=_merge_maps(c.kinship for c in configs),
         scope_rules=tuple(rules.values()),
         calendar=tuple(e for c in configs for e in c.calendar),
+        synonyms=_merge_maps(c.synonyms for c in configs),
         narrator=next((c.narrator for c in configs if c.narrator), None),
         first_person=next((c.first_person for c in configs if c.first_person != DEFAULT_FIRST_PERSON),
                           DEFAULT_FIRST_PERSON),
         confidence_threshold=max(c.confidence_threshold for c in configs),
         classifier=classifiers.pop() if len(classifiers) == 1 else "auto",
         decision_model=next((c.decision_model for c in configs if c.decision_model), None),
+        decision_margin=max((c.decision_margin for c in configs if c.decision_margin is not None), default=None),
     )
 
 

@@ -39,7 +39,7 @@ ME_BLOCKERS = frozenset("tell show give list send remind let help".split())
 _KEYWORD_STOP = frozenset("many much get make say do does to a".split())
 _CONTRACTIONS_WITH_I = frozenset({"i'm", "i've", "i'd", "i'll"})
 _AGGREGATE_RE = re.compile(r"\b(per|total|average|how many|number of|count of|sum of)\b")
-_GUIDANCE_RE = re.compile(r"\b(policy|policies|guidance|should|what to do|rules?|procedures?)\b")
+_GUIDANCE_RE = re.compile(r"\b(policy|policies|guidance|should|what to do|rules?|procedures?|requires?)\b")
 
 _TOKEN_RE = re.compile(r"[^\W_][\w'’&-]*")
 # Two-character minimum: a one-character quote is not a name. fill.py's _QUOTED_RE takes any length.
@@ -480,6 +480,110 @@ def document_names(domains: list[str]) -> list[str]:
     return sorted({r["name"] for r in rows if r.get("name")})
 
 
+FAMILY_LIMIT = 20
+_FAMILY_CYPHER = f"""
+MATCH (f:Document|DocumentHistory)
+WHERE {domain_predicate("f")}
+  AND (f.name IN $names
+       OR EXISTS {{ MATCH (t:Document|DocumentHistory {{name: $name}})-[:SUPERSEDES*1..5]-(f) WHERE {domain_predicate("t")} }})
+RETURN DISTINCT f.name AS name, f._valid_from AS valid_from
+ORDER BY f._valid_from IS NULL, f._valid_from DESC, f.name
+LIMIT $limit
+"""
+
+
+def family_documents(domains: list[str], document: str, pool: list[str] | tuple[str, ...] = ()) -> list[str]:
+    """The target's family, newest first: the documents it shares a document-entity reference with
+    (`document_entity.references` of the file names in `pool`) or reaches through at most five
+    `SUPERSEDES` hops, the target included. One bounded read (LIMIT 20); a read failure leaves the target alone."""
+    from artmind.document_entity import references
+
+    mine = references(document)
+    same = [n for n in pool if n != document and mine and references(n) & mine][:FAMILY_LIMIT]
+    try:
+        rows = graph_query._run_read_query(
+            _FAMILY_CYPHER, {"domains": domains, "name": document, "names": [document, *same], "limit": FAMILY_LIMIT})
+    except Exception as exc:  # the family is optional context: the target alone still plans
+        logger.debug("family documents of {} unavailable: {}", document, exc)
+        return [document]
+    names = list(dict.fromkeys(r["name"] for r in rows if r.get("name")))
+    return names or [document]
+
+
+TOPIC_FAMILIES_MAX = 2
+TOPIC_SCORE_MIN = 0.5
+TOPIC_MEMBERS_MAX = 6
+#: Stem words that name a kind of document, not its subject: they count half in the title-word share.
+GENERIC_STEM_WORDS = frozenset({"policy", "policies", "sop", "guide", "schedule", "procedure"})
+_VERSION_SUFFIX = re.compile(r"[_\-\s.]+(?:v\d+(?:\.\d+)*|\d{4}(?:[_\-]\d{1,2}){0,2})$", re.IGNORECASE)
+
+
+def _strip_extension(name: str) -> str:
+    for suffix in DOCUMENT_NAME_SUFFIXES:
+        if name.casefold().endswith(suffix):
+            return name[: -len(suffix)]
+    return name
+
+
+def family_stem(name: str) -> tuple[str, tuple[int, ...]]:
+    """(stem, version key) of a document name: the extension and every trailing version or date
+    suffix (`_v2`, `_2026`, `_2026_02`) stripped; the key is the numbers stripped, so a larger key is newer."""
+    stem, nums = _strip_extension(name), []
+    while True:
+        m = _VERSION_SUFFIX.search(stem)
+        if m is None or m.start() == 0:
+            break
+        nums = [int(n) for n in re.findall(r"\d+", m.group(0))] + nums
+        stem = stem[: m.start()]
+    return _norm(stem), tuple(nums)
+
+
+def _topic_words(text: str) -> set[str]:
+    from artmind.query_plan.classify.lexical import _stem
+
+    return {_stem(w) for w in re.findall(r"[a-z0-9]+", text.casefold()) if w not in STOPWORDS and len(w) > 1}
+
+
+def topic_families(question: str, names: Sequence[str], records: Sequence = ()) -> list[list[str]]:
+    """Versioned families (two or more documents sharing a stem once version and date suffixes are
+    stripped) whose stem the question names: the share of the stem's words in the question, generic words
+    (`policy`, `sop`, `schedule` ...) counting half, at least `TOPIC_SCORE_MIN`; at most
+    `TOPIC_FAMILIES_MAX`, best first, each newest first (`valid_from` of `records`, else the suffix).
+    Whole stems only: `sop_account_opening` and `sop_account_closure` are two families. No graph read."""
+    groups: dict[str, list[tuple[str, tuple[int, ...]]]] = {}
+    for name in dict.fromkeys(names):
+        stem, key = family_stem(name)
+        if stem:
+            groups.setdefault(stem, []).append((name, key))
+    valid = {r.name: r.valid_from for r in records if getattr(r, "valid_from", None)}
+    asked = _topic_words(question)
+    scored: list[tuple[float, int, str, list[str]]] = []
+    for stem, members in groups.items():
+        if len(members) < 2:
+            continue
+        words = _topic_words(stem)
+        weights = {w: 0.5 if w in GENERIC_STEM_WORDS or w + "y" == "policy" else 1.0 for w in words}
+        total = sum(weights.values())
+        if not total:
+            continue
+        score = sum(weights[w] for w in words & asked) / total
+        if score < TOPIC_SCORE_MIN:
+            continue
+        ordered = sorted(members, key=lambda m: (valid.get(m[0]) or "", m[1], m[0]), reverse=True)
+        scored.append((score, len(words), stem, [m[0] for m in ordered]))
+    scored.sort(key=lambda s: (-s[0], -s[1], s[2]))
+    return [s[3] for s in scored[:TOPIC_FAMILIES_MAX]]
+
+
+def topic_documents(domains: list[str], families: Sequence[Sequence[str]]) -> list[str]:
+    """The members of the picked families, each widened through `SUPERSEDES` by one bounded read
+    (`family_documents` from the family's newest member), deduped, at most `TOPIC_MEMBERS_MAX`."""
+    out: list[str] = []
+    for members in families:
+        out += [*members, *(family_documents(domains, members[0]) if domains and members else [])]
+    return list(dict.fromkeys(out))[:TOPIC_MEMBERS_MAX]
+
+
 def _norm(text: str) -> str:
     text = re.sub(r"(?:[^\w.]|_)+", " ", unicodedata.normalize("NFC", text).casefold())
     return " ".join(re.sub(r"\.(?![^\W_])", " ", text).split())
@@ -527,12 +631,14 @@ def store_facts(domains: list[str], question: str, resolved_classes: set) -> dic
     bridged = sorted({c["entity_class"] for t in surface for c in t.get("entity_classes") or []})
     hit = set(bridged) & {c for c in resolved_classes if c}
     aggregate = _AGGREGATE_RE.search(low) is not None
-    if hit and (aggregate or re.search(r"\d", low)):
+    # Guidance wording first: a question about a bridged class that asks for numbers *and* what the policy
+    # requires needs the policy text beside the SQL (B2 §8.3 reach: hybrid dropped the text step).
+    if hit and _GUIDANCE_RE.search(low):
+        kind = "records_plus_guidance"
+    elif hit and (aggregate or re.search(r"\d", low)):
         kind = "hybrid"
     elif aggregate:
         kind = "analytical"
-    elif hit and _GUIDANCE_RE.search(low):
-        kind = "records_plus_guidance"
     else:
         kind = "graph"
     # matched_values is not populated in v1: routing_surface() carries no cell values.

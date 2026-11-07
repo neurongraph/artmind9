@@ -2,7 +2,9 @@
 
 Date: 2026-11-02, revised 2026-11-05 from round 7 (`docs/query-routing-study/12-round7-lessons.md`;
 revisions are marked "R7" with the lesson number, and the bounded-output mechanism is its own
-design, `2026-11-05-bounded-output-design.md`). Status: **architecture draft for review**. Not an implementation spec: it
+design, `2026-11-05-bounded-output-design.md`); 2026-11-06 adds the assembly pass (§5.10, phase PA,
+D10; its own design `2026-11-06-assembly-pass-episodes-design.md`), and revises §5.5: the agent decides
+whether a turn needs a lookup (4a). Status: **architecture draft for review**. Not an implementation spec: it
 sets the target shape, splits the work into sub-specs (§9), and lists the decisions that need
 the user (§11). Inputs: the query-routing study (`docs/query-routing-study/`, rounds 1–6),
 the specs from 2026-10-09 to 2026-11-01 (views, review loop, insights, query plan, document
@@ -466,7 +468,12 @@ process, applies the guards, and returns one bundle:
 The study's W3 skill diet, retargeted to the executor:
 
 1. `artmind-query` SKILL.md to about 150 lines: grounding contract; **call `query run` for
-   every new question** (follow-ups included, which settles P4/P25); how to read a bundle;
+   every turn that needs a lookup**: a new question, or a follow-up that brings a new subject or
+   asks to check again ("what about X", "check if she went again in December"), which settles P4.
+   The agent decides whether a turn needs a lookup, since it holds the conversation; it handles a
+   reshape, a deliverable (a table, a file), a curation hand-off, a status check or a pipeline run
+   itself, from the conversation and the relevant skill, without `query run` (revised 2026-11-06,
+   below). How to read a bundle;
    evidence vs guides; when `escalate` is set, the generated routing table (from
    `routes.yaml`) and the references; answer style; provenance is appended by the UI.
 2. References keep the deep material (temporal, conflicts, hierarchy, structured store,
@@ -476,6 +483,13 @@ The study's W3 skill diet, retargeted to the executor:
    cover its jobs (D5). `artmind-review` stays out on purpose: it runs from Claude Code in the
    checkout, never from the chat or admin UI (its own rule).
 4. Tests check the skill against data (routes, Click tree), never prose phrases.
+4a. **Who decides that a turn needs a lookup (2026-11-06).** The agent, not the planner. The
+   planner's non-retrieval intents (format, curate, update, meta, status, ops) stay as a safety
+   net: a non-retrieval turn that reaches `query plan`/`query run` is planned as no lookup
+   (`answer_from: previous` or an `action`), never as a confident search. Replay grades those
+   labels on that alone (no confident lookup), and shadow agreement is measured only on turns
+   where the agent ran an `artmind query` command (`traces stats`: `lookup_turns`,
+   `no_lookup_turns`, `no_lookup_plan_ok`). Effort on intent accuracy goes to lookup turns.
 5. **Answer contract (R7, lessons 19, 40, 42).** When sources are dated or superseding, state the
    latest applicable one first. Residual incompleteness is stated with numbers, never hedged
    ("12 of 26 documents read", not "at least"). Separate stated from implied occurrences (an
@@ -661,6 +675,21 @@ escalation rate, plan `wrong` rate on the bank (replay), documents covered @10 (
 eval), rated-good share, p50/p95 turn latency, cost per turn (P33 must be fixed first for ACP
 turns).
 
+### 5.10 Assembly pass: structure across observations (2026-11-06)
+
+Own design: `2026-11-06-assembly-pass-episodes-design.md`. First-pass extraction reads one
+chunk at a time, so a happening told over several chunks or documents comes out as separate
+occurrent observations with no span, and `synthesize` only rewrites one entity's description.
+An explicit, LLM-bounded **assembly pass** (`projection assemble`) builds what no single chunk
+can: first **episodes** (derived `:Episode` nodes grouping one happening's observations, with
+start, end and duration computed in code from the members' dates, stored as an `episodes`
+curation kind so rebuild and `vault sync` reproduce them), later closed intervals (`valid_to`),
+recurrence, cross-document coreference proposals and plan → outcome links. An episode is an
+answer asset (§5.2: kind `episode`, plan fact `episode_count`), not evidence: answers cite its
+members' chunks. The planner gains route `episode` (span questions: when, how long, what
+surrounded it), a graph lookup when episodes exist and an anchor-then-expand text program
+(`event_window`, which needs P3's step bindings) when they do not.
+
 ## 6. CLI changes
 
 ### 6.1 New commands
@@ -749,12 +778,14 @@ traces.
 | P1a | CLI uniformity (`2026-11-02-cli-uniformity-design.md`) | §6.2 C1–C4: JSON + `--compact` everywhere, camelCase with aliases, `--dryRun` + `effect` on every write, the result envelope; contract tests over the Click tree; plugin fixtures regenerated | Contract tests green; plugin tests green; no skill or route template names a removed spelling |
 | P1 | Catalogue + assets (`2026-11-02-catalogue-and-answer-assets-design.md`) | §5.1 parts, generation counter, `query catalogue`, `query assets`, `:TopicPage` index, `topic index` | Plan replay unchanged or better with assets in the catalogue |
 | P1b (R7) | Bounded output + round-7 fixes now (`2026-11-05-bounded-output-design.md`; `12-round7-lessons.md` §5; the lesson-24 instrumentation of §5.9) | Brief row shape, output budget and `query page`, survey default by shape, tool-gate repairs, spans with `payload_chars`/`persisted`, per-turn cost, feedback upsert | Visibility gate before merge (bounded-output design §4.3: brief survey(50) shows answer-bearing text at least as often as full survey(10)); round 8: persisted share of retrieval steps < 5 % (96 % in round 7); instrumentation fields present on every span |
-| P2 | Planner v2 (waits for P0 and P1b; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`, answered in `12-round7-lessons.md` §3) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, intent right on all non-retrieval labels |
+| P2 | Planner v2 (waits for P0 and P1b; what it needs: `docs/query-routing-study/11-p2-evidence-needs.md`, answered in `12-round7-lessons.md` §3) | Intent layer, asset match, programs in `routes.yaml`, coverage/identity guards; shadow only | Replay: zero `wrong` on view/asset labels, `wrong` < 10 %, no non-retrieval label planned as a confident lookup (§5.5 4a) |
 | P3 | Executor + skill diet | `query run`, bundle, skill to ~150 lines, profiles; shadow bundles first, then on in the admin console | Targeted agent runs (study 08 §4) no worse, fewer calls; fast-path share ≥ 50 % of rated-good turns |
 | P4 | Admin UI: Ask + Quality | Plan card, evidence panel, rating reasons; traces, replay, bank views | Ratings on ≥ 70 % of admin turns for two weeks |
 | P5 | Learning loop + Inbox | `gaps`, `proposals`, `preview`, Inbox cards for same-as and conflicts first, then topics/views/labels; plugin Inbox subset | A same-as batch of 100 reviewed in under 15 minutes without the agent; < 20 % of proposals rejected as noise |
 | P6 | Knowledge + Pipeline areas | Catalogue browser, topic reader, Pipeline from `pipeline status`, glossary data file | Plugin and UI read one glossary; checklist parity tests |
 | P7 | Ingest + schema builder | Domain-mode step, ingestion-helper and curate diets | A new vault of each mode set up by the skill with no manual YAML |
+| PA (2026-11-06) | Assembly pass (`2026-11-06-assembly-pass-episodes-design.md`) | PA1 episode records, projection and `query episodes`; PA2 `projection assemble --task episodes`; PA3 route `episode` (`episode_lookup`, then `event_window` after P3); PA4+ intervals, recurrence, coreference, fulfilment | PA2: episode membership precision ≥ 0.9 on a labelled public set; PA3: no labelled span question worse than `search` |
+| B2 (2026-11-07) | Search and scope (`2026-11-07-b2-search-and-scope-design.md`), after B1 (domain decision as a set, on `integration/p2b`) | route `procedure` removed (its triggers move to `search`); `search` runs needle + brief survey in parallel in every domain (needle alone only on a clear winner in few documents); `search` ≡ `survey` in replay; family scope by evidence (text → family root, entity/document → where it resolves, structured → the table domains) | Replay on the three vaults no worse per label; banking document reach of the plans' own steps ≥ 75 of 108 (target 84) |
 
 P0 is the critical path: its evidence gates switching the planner on (P2 onward), and only
 the user can run it, so it starts first. P1a and P1 do not wait for it, because what justifies
@@ -763,7 +794,9 @@ traces would supply. One rule keeps them from spoiling the evidence: **no code t
 CLI output or routing merges during a collection round.** Each round runs on one build
 (recorded in every trace as `graph_state.artmind_version`), and P1a/P1 merge between rounds.
 C7 (merging commands) is the exception: it waits for P0's data. P4 depends only on P2's plan card fields and can
-start as soon as P2 ships in shadow.
+start as soon as P2 ships in shadow. PA is a side track: PA1 and PA2 touch projection and
+curation, not routing, so they can run beside P3; PA3 lands after P2 is in shadow, and its
+`event_window` program after P3's step bindings.
 
 ## 10. What this design does not change
 
@@ -772,7 +805,9 @@ Beyond the uniformity changes in §6.2, which keep every old form as an alias:
 The stores, extraction, projection and curation-record formats; `vector-text`, `survey` and
 pattern semantics (ranking unchanged; the brief row shape and the output budget, R7, change
 only what an agent-facing caller is shown); views' format; topic page format (index only added); the domain-guard
-behaviour; vault sync. The decision-model integration stays as built.
+behaviour; vault sync. The decision-model integration stays as built. The one exception is
+the assembly pass (§5.10, added 2026-11-06), which adds a curation kind (`episodes`) and a
+derived node; it changes no existing record format.
 
 ## 11. Decisions for the user
 
@@ -787,6 +822,7 @@ behaviour; vault sync. The decision-model integration stays as built.
 | D7 | P0 collection before P2 is switched on (P1 can start now) | Yes |
 | D8 | CLI uniformity (§6.2): camelCase `--dryRun` (not `--dry-run`) as the one spelling, old spellings as hidden aliases for one release, then removed | Yes; camelCase is the repo convention and 5 commands already use `--dryRun` |
 | D9 (R7) | Survey depth: keep 50 for the agent as one-line rows (brief shape), revert the full shape's default to 10 | Yes (bounded-output design §6); the revert lands with the brief shape |
+| D10 (2026-11-06) | Assembly pass (§5.10): derived `:Episode` nodes as a new curation kind, beside the observations rather than merged into them | Yes; merging occurrent observations would raise false `:Conflict`s and hide the members |
 
 ## 12. References
 

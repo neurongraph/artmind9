@@ -233,3 +233,21 @@ def test_an_anchored_trigger_still_needs_its_words_and_is_case_insensitive():
     assert not _hits("^did we", "did what we meet")
     regex, needs = lexical.compile_trigger("^did we")
     assert needs == frozenset() and regex.pattern.startswith("^")
+
+
+def test_generic_profile_triggers_only_count_for_a_short_leading_question():
+    profile = next(r for r in routes.load_routes() if r.id == "entity_profile")
+    short = lexical.route_scores([profile], _facts("What is Acme Bank?", mentions=1))
+    assert short["entity_profile"] == 1.5
+    long_q = ("What is the difference between cancelling a direct debit and cancelling a standing order, "
+              "and when does each cancellation take effect?")
+    assert lexical.route_scores([profile], _facts(long_q, mentions=1))["entity_profile"] == 0.0
+    mid = "An account was opened without checks. What is the immediate remediation?"
+    assert lexical.route_scores([profile], _facts(mid, mentions=1))["entity_profile"] == 0.0
+    assert lexical.route_scores([profile], _facts("Tell me about the long history of Acme Bank in the region today", mentions=1))["entity_profile"] > 0
+
+
+def test_difference_between_is_not_a_conflict_cue():
+    conflicts = next(r for r in routes.load_routes() if r.id == "conflicts")
+    assert lexical.route_scores([conflicts], _facts("What is the difference between a direct debit and a standing order?"))["conflicts"] == 0.0
+    assert lexical.route_scores([conflicts], _facts("Where do the two policies differ on notice periods?"))["conflicts"] > 0

@@ -26,6 +26,7 @@ FUZZY_MENTION = 0.7
 TWINS_SINGLE = 0.5
 EMPTY_SEARCH = 0.6
 ALL_DOMAINS = 0.8
+TOPIC_DOCUMENTS = 0.8  # a time/latest plan whose documents were found by topic words, not named
 # Quality of a slot taken from the user's own words / config.
 FULL = 1.0
 
@@ -474,6 +475,178 @@ def follow_up_subjects(previous_entities: Iterable[Any], previous_documents: Ite
     return out
 
 
+# --------------------------------------------------------------------------- phrasings (P2b)
+
+MAX_PHRASINGS = 5
+MAX_SYNONYMS = 3
+MAX_YEARS = 10
+
+
+def mention_free_words(question: str, mentions: Sequence[Mention]) -> list[str]:
+    """The question's content words outside every mention span, filler and stopwords stripped."""
+    chars = list(question)
+    for m in mentions:
+        for i in range(max(0, m.start), min(len(chars), m.end)):
+            chars[i] = " "
+    return _strip_filler("".join(chars))
+
+
+def _class_synonyms(token: str, class_table: Mapping[str, str]) -> list[str]:
+    """Class names (underscores as spaces, casefolded) whose description holds the token."""
+    out: list[str] = []
+    forms = _stems(token)
+    for name, description in class_table.items():
+        if description and forms & {w for t in re.findall(r"[a-z0-9]+", description.casefold()) for w in _stems(t)}:
+            out.append(name.replace("_", " ").casefold())
+    return out
+
+
+def phrasings_slot(question: str, mentions: Sequence[Mention], search_term: str, cfg=None,
+                   class_table: Mapping[str, str] | None = None) -> Slot:
+    """Ways to ask for one concept, no LLM: [the search term] + at most MAX_SYNONYMS synonyms + one
+    paraphrase, deduplicated casefold, at most MAX_PHRASINGS.
+
+    Synonyms: the plan config's `synonyms:` per search-term token first, then the catalogue classes
+    whose description holds the token. Paraphrase: the question with the named mentions' spans removed
+    and filler stripped (so a person's name never narrows the concept). `source` lists what contributed."""
+    term = " ".join((search_term or "").replace('"', " ").split())
+    lookup = getattr(cfg, "synonym", None)
+    paraphrase = " ".join(mention_free_words(question, mentions))
+    # The synonyms are looked up per word of the term and of the paraphrase (the term may be a person's name).
+    tokens = [t for t in dict.fromkeys([*_WORD_RE.findall(term.casefold()), *paraphrase.split()])
+              if t not in STOPWORDS and len(t) > 1]
+    synonyms: list[str] = []
+    configured = False
+    for token in tokens:
+        for syn in (lookup(token) if callable(lookup) else None) or ():
+            if syn.casefold() not in synonyms:
+                synonyms.append(syn.casefold())
+                configured = True
+    classes = False
+    for token in tokens:
+        for syn in _class_synonyms(token, class_table or {}):
+            if syn not in synonyms:
+                synonyms.append(syn)
+                classes = True
+    synonyms = synonyms[:MAX_SYNONYMS]
+    out: list[str] = []
+    seen: set[str] = set()
+    used_paraphrase = False
+    for i, text in enumerate([term, *synonyms, paraphrase]):
+        key = _norm(text)
+        if key and key not in seen and len(out) < MAX_PHRASINGS:
+            seen.add(key)
+            out.append(text)
+            used_paraphrase = i == len(synonyms) + 1
+    parts = ["search_term"] if term else []
+    parts += (["config_synonyms"] if configured else []) + (["catalogue_synonyms"] if classes else [])
+    if used_paraphrase:
+        parts.append("paraphrase")
+    return Slot("phrasings", out, "+".join(parts) or "question", FULL)
+
+
+def years_slot(window: Slot | None) -> Slot:
+    """Each calendar year the date window spans (`to` is exclusive), at most MAX_YEARS."""
+    if window is None:
+        return Slot("years", [], "none", FULL)
+    start = date.fromisoformat(window.value["from"])
+    end = date.fromisoformat(window.value["to"]) - timedelta(days=1)
+    years = list(range(start.year, max(start.year, end.year) + 1))[:MAX_YEARS]
+    return Slot("years", years, "date_window", FULL)
+
+
+def twin_ids_slot(primary: Mapping | None) -> Slot:
+    """The primary entity's id followed by its twins' ids (a resolved `entities[]` item)."""
+    ids: list = []
+    if primary and primary.get("candidates"):
+        ids = [primary["candidates"][0]["_id"], *(t["_id"] for t in primary.get("twins") or ())]
+    return Slot("twin_ids", list(dict.fromkeys(i for i in ids if i is not None)), "twins", FULL)
+
+
+def vocabulary_tokens(names: Iterable[str]) -> set[str]:
+    """Every word (with its plural/singular stems) of a set of names, casefolded."""
+    out: set[str] = set()
+    for name in names:
+        for word in re.findall(r"[a-z0-9]+", str(name).replace("_", " ").casefold()):
+            out |= _stems(word)
+    return out
+
+
+def rare_term(words: Iterable[str], index_names: Iterable[str], class_names: Iterable[str]) -> bool:
+    """True when some word has no stem in the catalogue name index or the class names. False when
+    the catalogue is empty (nothing to compare with)."""
+    vocab = vocabulary_tokens([*index_names, *class_names])
+    if not vocab:
+        return False
+    return any(len(w) > 2 and not (_stems(w) & vocab) for w in words)
+
+
+# Generic English cues for the plan facts `negative`, `latest` and `view_count`.
+NEGATIVE_CUES = ("never", "ever", "at all", "any mention", "any reference", "any record", "no mention",
+                 "no record", "nothing", "none of", "not mentioned", "not recorded", "missing", "without")
+LATEST_CUES = ("latest", "current", "currently", "most recent", "newest", "up to date", "amended",
+               "amendment", "last version", "final version", "updated version")
+OCCURRENCE_CUES = ("visits", "visited", "times", "occasions", "trips to", "every time", "each time")
+COUNT_CUES = ("how many", "number of", "count of", "how often", "total number")
+_CONTRACTION_RE = re.compile(r"\b\w+n['\u2019]t\b")
+
+
+def has_cue(question: str, cues: Iterable[str]) -> bool:
+    return any(_has_word(question, cue) for cue in cues)
+
+
+def has_negative_cue(question: str) -> bool:
+    return has_cue(question, NEGATIVE_CUES) or bool(_CONTRACTION_RE.search(question.casefold()))
+
+
+def has_latest_cue(question: str) -> bool:
+    return has_cue(question, LATEST_CUES)
+
+
+def has_occurrence_cue(question: str) -> bool:
+    return has_cue(question, OCCURRENCE_CUES)
+
+
+def has_count_cue(question: str) -> bool:
+    return has_cue(question, COUNT_CUES)
+
+
+#: A question asking which items of a kind exist (not a count, not one fact): "are there any X",
+#: "list the X", "what X have I". With a named class it lists the class (`named_class`, below).
+#: Not "which": "which fraud alert was raised by X" asks for one item, not the list of a class.
+LIST_CUES = ("are there", "is there", "were there", "was there", "any", "list", "all the", "all my", "every",
+             "what kinds of", "what sort of", "do i have", "did i have", "have i had", "show me", "recorded")
+
+
+def has_list_cue(question: str) -> bool:
+    return has_cue(question, LIST_CUES) and not has_count_cue(question)
+
+
+def named_class(expansion: "Expansion | None", entities: Iterable[dict]) -> int:
+    """How many classes the question names when it names a class by its name (or a configured category)
+    and no other entity (0 otherwise). A description match ("closed" -> ACCOUNT) is too weak to list a
+    class. An entity resolved from the class word itself ("ideas" as a fulltext neighbour) does not
+    count; the narrator does not either."""
+    if expansion is None or not expansion.classes or not exact_class_match(expansion):
+        return 0
+    class_words = [_stems(w) for w in re.findall(r"[a-z0-9]+", expansion.word.casefold())]
+    for entity in entities:
+        if entity.get("via") in ("first_person", "previous") or not entity.get("candidates"):
+            continue
+        if any("narrator" in (ref.get("matched_by") or ()) for ref in entity["candidates"]):
+            continue
+        mention = re.findall(r"[a-z0-9]+", str(entity.get("mention") or "").casefold())
+        if mention and all(any(_stems(w) & s for s in class_words) for w in mention):
+            continue  # the class word itself, resolved as a name
+        return 0
+    return len(expansion.classes)
+
+
+def exact_class_match(expansion: "Expansion | None") -> bool:
+    """The class word is a class name (or a configured category), not a description match."""
+    return expansion is not None and (expansion.source == "category" or expansion.narrowed)
+
+
 # --------------------------------------------------------------------------- quality (§4.8)
 
 def slot_quality(slots: Mapping[str, Slot], *, twins_found: bool = False, twins_unioned: bool = True,
@@ -488,6 +661,7 @@ def slot_quality(slots: Mapping[str, Slot], *, twins_found: bool = False, twins_
         "twins": TWINS_SINGLE if twins_found and not twins_unioned else 1.0,
         "search_term": EMPTY_SEARCH if search_term_empty or (st is not None and st.value == "") else 1.0,
         "scope": ALL_DOMAINS if all_domains or (sc is not None and sc.source == "all") else 1.0,
+        "topic": TOPIC_DOCUMENTS if "topic_documents" in slots else 1.0,
     }
     score = 1.0
     for f in factors.values():

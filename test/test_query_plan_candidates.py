@@ -297,6 +297,20 @@ def test_store_fact_words_match_on_word_boundaries(monkeypatch):
     assert candidates.store_facts(["bank"], "the proceduralist", {"CUSTOMER"})["kind"] == "graph"
 
 
+def test_guidance_wording_keeps_the_text_step_beside_numbers(monkeypatch):
+    """A question about a bridged class that asks for numbers *and* what the policy says needs both the SQL
+    and the policy text: records_plus_guidance runs bridge + text2sql + vector-text, hybrid drops the text."""
+    _surface(monkeypatch)
+    assert candidates.store_facts(["bank"], "the average score per customer, and what the policy requires",
+                                  {"CUSTOMER"})["kind"] == "records_plus_guidance"
+    assert candidates.store_facts(["bank"], "the largest payout and what authority it should need",
+                                  {"CUSTOMER"})["kind"] == "records_plus_guidance"
+    assert candidates.store_facts(["bank"], "the largest payout and the authority it would require",
+                                  {"CUSTOMER"})["kind"] == "records_plus_guidance"
+    assert candidates.store_facts(["bank"], "the average score per customer", {"CUSTOMER"})["kind"] == "hybrid"
+    assert candidates.store_facts(["bank"], "the total and what the policy says", set())["kind"] == "analytical"
+
+
 def test_store_facts_log_the_swallowed_registry_error(monkeypatch):
     from loguru import logger
     from artmind.structured import registry

@@ -64,6 +64,17 @@ class TracedGroup(RichGroup):
     them TracedGroups too -- and run inside this group's span."""
 
     group_class = RichGroup
+    #: When set, only invocations whose command path is in this set open a span
+    #: (the `db` group: read-only subcommands only).
+    traced_commands: frozenset | None = None
+
+    def _eligible(self, ctx: click.Context, tokens: list[str]) -> bool:
+        if self.traced_commands is None:
+            return True
+        # `db bridge --domain x confirm`: options before the subcommand hide it from the path walk.
+        if "bridge" in tokens and {"confirm", "clear"} & set(tokens):
+            return False
+        return _command_path(self, ctx, tokens) in self.traced_commands
 
     def invoke(self, ctx: click.Context):
         if _active.get() is not None:
@@ -73,7 +84,7 @@ class TracedGroup(RichGroup):
             trace_id = None if "--help" in tokens else current_trace_id()
         except Exception:
             trace_id = None
-        if not trace_id:
+        if not trace_id or not self._eligible(ctx, tokens):
             return super().invoke(ctx)
 
         try:
@@ -148,3 +159,12 @@ def _record(span: dict, exit_code: int | None) -> None:
         )
     except Exception:
         pass
+
+
+class TracedDbGroup(TracedGroup):
+    """The `db` group: spans for its read-only subcommands only (B8). `mappings` (its default action
+    writes with --acceptProposed), `grain` (--set), `catalogue` (rebuilds the graph projection),
+    `bridge confirm|clear`, `propose`, `refresh`, `connect`, `backup`, `restore`, `export-text` and
+    `restore-text` are not traced."""
+
+    traced_commands = frozenset({"db list", "db schema", "db sql", "db timeline", "db bridge", "db review"})

@@ -220,3 +220,42 @@ def test_stats_counts_persisted_results_reads_and_page_calls():
     assert row["persisted_share"] == 0.5
     assert row["persisted_reads"] == 1
     assert row["page_calls"] == 1
+
+
+def _shadow(program=None, steps=()):
+    plan = {"steps": [{"cmd": c} for c in steps]}
+    if program is not None:
+        plan["program"] = program
+    return {"plan": plan}
+
+
+_PAR = [{"id": "p", "kind": "par", "children": [
+    {"id": "needle", "kind": "run", "run": "artmind query vector-text --domain d --topK 10 x --compact"},
+    {"id": "wide", "kind": "run", "run": "artmind query survey --domain d x --compact"}]},
+    {"id": "u", "kind": "pick"}]
+_STEPS = ("artmind query vector-text --domain d --topK 10 x --compact", "artmind query survey --domain d x --compact")
+
+
+def test_agreement_holds_when_the_agent_ran_only_the_survey_child():
+    shadow = _shadow(_PAR, _STEPS)
+    assert analysis.agreement(shadow, [{"command": "query survey"}]) is True
+    assert analysis.agreement(shadow, [{"command": "query vector-text"}]) is True
+    assert analysis.agreement(shadow, [{"command": "query chunks"}]) is False
+
+
+def test_agreement_without_a_program_uses_the_first_traced_step():
+    shadow = _shadow(None, _STEPS)
+    assert analysis.agreement(shadow, [{"command": "query vector-text"}]) is True
+    assert analysis.agreement(shadow, [{"command": "query survey"}]) is False
+    assert analysis.agreement(_shadow(None, ()), [{"command": "query survey"}]) is None
+
+
+_DB_STEPS = ("artmind db bridge --domain d --compact", "artmind query survey --domain d x --compact")
+
+
+def test_agreement_counts_a_db_bridge_first_call_for_a_structured_plan():
+    shadow = _shadow(None, _DB_STEPS)
+    assert analysis.agreement(shadow, [{"command": "db bridge"}]) is True
+    assert analysis.agreement(shadow, [{"command": "db sql"}]) is False
+    assert analysis.agreement(shadow, [{"command": "query survey"}]) is False
+    assert analysis.agent_looked_up([{"command": "db sql"}]) is True

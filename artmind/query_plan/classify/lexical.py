@@ -33,6 +33,10 @@ _INFLECTION = r"(?:s|es|ed|ing|ent|ence)?"
 # A fact slot inside a trigger stands for up to a few words (a name, a file name).
 _SLOT_BRIDGE = r"(?:\S+\s+){1,6}?"
 _DATE_RE = re.compile(r"\b" + _DATE_PATTERN + r"\b")
+# A generic trigger (`~text` in routes.yaml: "what is", "who is", "describe") fits any wording, so it
+# counts only for a question that starts with it and is short, the way a profile question is
+# ("What is Acme?"); a long question opening with "What is the difference between ..." is not one.
+GENERIC_MAX_WORDS = 8
 
 
 @dataclass(frozen=True)
@@ -43,6 +47,7 @@ class Facts:
     document: str | None
     has_store: bool
     has_date: bool
+    topic_family: bool = False  # the question names a versioned document family (candidates.topic_families)
 
     def __post_init__(self):
         object.__setattr__(self, "question", self.question.casefold())
@@ -82,6 +87,8 @@ def content_tokens(text: str, *, drop_capitalised: bool = True) -> set[str]:
 def compile_trigger(trigger: str) -> tuple[re.Pattern | None, frozenset[str]]:
     """A trigger's regex (None when it is only a fact slot) and the facts it needs."""
     text = trigger.casefold().strip()
+    if text.startswith("~"):
+        text = "^" + text[1:].lstrip()
     anchored = text.startswith("^")  # `^text`: only at the start of the question
     if anchored:
         text = text[1:].lstrip()
@@ -124,6 +131,8 @@ def compile_trigger(trigger: str) -> tuple[re.Pattern | None, frozenset[str]]:
 def _trigger_hits(route, facts: Facts) -> list[str]:
     hits = []
     for trigger in route.triggers:
+        if trigger.lstrip().startswith("~") and len(facts.question.split()) > GENERIC_MAX_WORDS:
+            continue
         regex, needs = compile_trigger(trigger)
         if "entity" in needs and facts.mentions == 0:
             continue
@@ -138,7 +147,7 @@ def _needs_met(needs: tuple[str, ...], facts: Facts) -> bool:
     checks = {
         "entity": facts.mentions >= 1,
         "two_entities": facts.mentions >= 2,
-        "document": bool(facts.document),
+        "document": bool(facts.document) or facts.topic_family,
         "store": facts.has_store,
         "date": facts.has_date,
     }

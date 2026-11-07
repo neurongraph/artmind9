@@ -9,7 +9,8 @@ slow decision model never holds up the next turn; a process that exits first (a
 benchmark run's last question) records none. Nobody waits on a shadow plan, so its
 decision-model calls get DECISION_TIMEOUT_S (ARTMIND_PLAN_SHADOW_DECISION_TIMEOUT)
 instead of the interactive ARTMIND_DECISION_TIMEOUT. It never fails a turn: every
-failure becomes `status: error`. `followup` means "the session has an earlier traced turn".
+failure becomes `status: error`. The plan is given the session's previous turn, rebuilt from the trace
+store (`previous.previous_from_trace`; the plan's `previous_used` says whether it mattered). `followup` means "the session has an earlier traced turn".
 
 Privacy: with a hosted ARTMIND_DECISION_URL, every traced question is sent
 there for classification. ARTMIND_PLAN_SHADOW=0 stops it. At most MAX_RUNNING
@@ -71,8 +72,9 @@ def _trim(plan):
         # Last resort: keep only what the reader needs to classify the plan.
         minimal = {"confidence": plan.get("confidence"), "route": plan.get("route"),
                    "warnings": list(plan.get("warnings") or [])[:3], "trimmed": True}
-        if plan.get("intent"):
-            minimal["intent"] = plan["intent"]
+        for key in ("intent", "program_kind", "slot_quality"):  # v2 fields the traces CLI reads
+            if plan.get(key):
+                minimal[key] = plan[key]
         for key in ("steps", "suggested_steps"):
             if plan.get(key):
                 minimal[key] = list(plan[key])[:1]
@@ -80,6 +82,19 @@ def _trim(plan):
         return minimal
     except Exception:
         return {"trimmed": True}
+
+
+def _previous_for(trace_id: str | None):
+    """The turn before this one in its session, for a reply like "yes please". Any failure plans without it."""
+    if not trace_id:
+        return None
+    try:
+        from artmind.query_plan import previous
+
+        return previous.previous_from_trace(trace_id)
+    except Exception as exc:
+        logger.warning("shadow plan: previous turn not built: {}", exc)
+        return None
 
 
 class _Skipped:
@@ -94,19 +109,25 @@ class _Skipped:
 
 
 class ShadowPlan:
-    def __init__(self, question: str, domains: list[str] | None, followup: bool):
+    def __init__(self, question: str, domains: list[str] | None, followup: bool, trace_id: str | None = None):
         self.followup = followup
         self._plan: dict | None = None
         self._error: str | None = None
+        self._previous_given = False
         self._started = time.monotonic()
-        self._thread = threading.Thread(target=self._run, args=(question, domains), name=_THREAD_NAME, daemon=True)
+        self._thread = threading.Thread(target=self._run, args=(question, domains, trace_id), name=_THREAD_NAME, daemon=True)
         self._thread.start()
 
-    def _run(self, question: str, domains: list[str] | None) -> None:
+    def _run(self, question: str, domains: list[str] | None, trace_id: str | None = None) -> None:
         try:
             from artmind.query_plan import planner
 
-            self._plan = planner.plan(question, domains, decision_timeout=decision_timeout())
+            kwargs = {"decision_timeout": decision_timeout()}
+            previous = _previous_for(trace_id)
+            self._previous_given = previous is not None
+            if previous is not None:
+                kwargs["previous"] = previous
+            self._plan = planner.plan(question, domains, **kwargs)
         except Exception as exc:
             logger.warning("shadow plan failed: {}", exc)
             self._error = f"{type(exc).__name__}: {exc}"
@@ -123,16 +144,18 @@ class ShadowPlan:
             return {"status": "timeout", "followup": self.followup, "plan": None, "error": None}
         if self._error is not None:
             return {"status": "error", "followup": self.followup, "plan": None, "error": self._error}
-        return {"status": "ok", "followup": self.followup, "plan": _trim(self._plan), "error": None}
+        return {"status": "ok", "followup": self.followup, "plan": _trim(self._plan), "error": None,
+                "previous_given": self._previous_given}
 
 
-def start(question: str | None, domains: list[str] | None = None, followup: bool = False):
+def start(question: str | None, domains: list[str] | None = None, followup: bool = False,
+          trace_id: str | None = None):
     if not enabled() or not (question or "").strip():
         return None
     try:
         if sum(1 for t in threading.enumerate() if t.name == _THREAD_NAME and t.is_alive()) >= MAX_RUNNING:
             return _Skipped(followup)
-        return ShadowPlan(question, domains, followup)
+        return ShadowPlan(question, domains, followup, trace_id)
     except Exception as exc:  # a thread that cannot start must not break the turn
         logger.warning("shadow plan not started: {}", exc)
         return None

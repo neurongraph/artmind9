@@ -18,10 +18,25 @@ import yaml
 from artmind.query_plan import routes as routes_mod
 from artmind.query_plan.intents import INTENT_IDS
 
+#: Intents that plan a retrieval program; a label with any other intent is graded on intent alone.
+RETRIEVAL_INTENTS = ("retrieve", "follow_up_why")
+
+
+#: Routes designed but not yet in routes.yaml, each with the design that defines it. A label may name one
+#: so the question shape is counted before the route exists; replay reports it as `planned`, never as
+#: wrong. Remove an id here when its route lands in routes.yaml (a test fails while both hold it).
+PLANNED_ROUTES = {
+    "episode": "docs/superpowers/specs/2026-11-06-assembly-pass-episodes-design.md §7",
+}
+
+
+def is_nonretrieval(intent: str | None) -> bool:
+    return intent is not None and intent not in RETRIEVAL_INTENTS
+
 _ID_RE = re.compile(r"L\d{3,}")
 _SOURCE_RE = re.compile(r"benchmark|written|trace:[0-9a-f]{8,32}")
 _KEYS = frozenset({"id", "question", "benchmark", "source", "domains", "route", "view", "params", "expect",
-                   "expected_documents", "notes", "intent", "slots", "program_kind"})
+                   "expected_documents", "notes", "intent", "slots", "program_kind", "follows"})
 #: Slot names a label's `slots:` may grade (the keys of the plan's `slots` block).
 SLOT_NAMES = frozenset({"narrator", "search_term", "category", "date_window", "scope", "must_find",
                         "previous_subjects"})
@@ -50,6 +65,17 @@ class Label:
     intent: str | None = None  # one of the eight intents; None = not graded
     slots: dict = field(default_factory=dict)  # slot name -> expected value (see replay.slot_ok)
     program_kind: str | None = None  # recorded only, never graded (spec 2026-11-05 §5.5)
+    follows: str | None = None  # a label id (the previous turn), "none" (plan alone), None = derive from the trace
+
+    @property
+    def nonretrieval(self) -> bool:
+        """Graded on intent only: route and domains (if given) are kept, not graded."""
+        return is_nonretrieval(self.intent)
+
+    @property
+    def planned(self) -> bool:
+        """Names a route that is designed but not built: counted, not graded."""
+        return not self.nonretrieval and self.route in PLANNED_ROUTES
 
 
 def default_path() -> Path | None:
@@ -107,7 +133,7 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
             questions = _benchmark_questions(base_dir, data["benchmark_file"], errors)
         else:
             errors.append("benchmark_file must be a path string")
-    route_ids = {r.id for r in routes_mod.load_routes()} | {"view"}
+    route_ids = {r.id for r in routes_mod.load_routes()} | {"view"} | set(PLANNED_ROUTES)
     view_params = _view_params() if view_params is None else view_params
     out: list[Label] = []
     seen: set[str] = set()
@@ -142,20 +168,32 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
         source = raw.get("source")
         if not isinstance(source, str) or not _SOURCE_RE.fullmatch(source):
             errors.append(f"{where}: source must be benchmark, written or trace:<id>")
+        intent = raw.get("intent")
+        if intent is not None and intent not in INTENT_IDS:
+            errors.append(f"{where}: intent must be one of {', '.join(INTENT_IDS)}")
+            intent = None
+        nonretrieval = is_nonretrieval(intent)
         domains = raw.get("domains")
-        if not isinstance(domains, list) or not domains or not all(isinstance(d, str) and d for d in domains):
+        if nonretrieval and domains is None:
+            domains = []
+        elif not isinstance(domains, list) or not domains or not all(isinstance(d, str) and d for d in domains):
             errors.append(f"{where}: domains must be a non-empty list of names")
             domains = []
         route = raw.get("route")
         route_ok = isinstance(route, str) and route in route_ids
-        if not route_ok:
+        if nonretrieval and route is None:
+            pass
+        elif not route_ok:
             errors.append(f"{where}: unknown route {route!r}")
         view = raw.get("view")
         params = raw.get("params") or {}
         if not isinstance(params, dict):
             errors.append(f"{where}: params must be a mapping")
             params = {}
-        if view is not None and not isinstance(view, str):
+        if nonretrieval and (view is not None or params):
+            errors.append(f"{where}: a {intent} label plans no retrieval, so it takes no view or params")
+            view, params = None, {}
+        elif view is not None and not isinstance(view, str):
             errors.append(f"{where}: view must be a saved view name")
             view = None
         elif view is not None:
@@ -165,17 +203,15 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
                 errors.append(f"{where}: view {view} has no param(s) {sorted(set(params) - view_params[view])}")
         elif params:
             errors.append(f"{where}: params need a view")
-        if route == "view" and view is None:
+        if nonretrieval:
+            pass
+        elif route == "view" and view is None:
             errors.append(f"{where}: route view needs a view")
         elif route_ok and route != "view" and view is not None:
             errors.append(f"{where}: a label with a view must have route view, not {route!r}")
         expect = raw.get("expect", "high")
         if expect not in ("high", "low"):
             errors.append(f"{where}: expect must be high or low")
-        intent = raw.get("intent")
-        if intent is not None and intent not in INTENT_IDS:
-            errors.append(f"{where}: intent must be one of {', '.join(INTENT_IDS)}")
-            intent = None
         slots = raw.get("slots") or {}
         if not isinstance(slots, dict) or set(slots) - SLOT_NAMES:
             errors.append(f"{where}: slots must be a mapping with names from {sorted(SLOT_NAMES)}")
@@ -184,6 +220,10 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
         if program_kind is not None and not (isinstance(program_kind, str) and program_kind.strip()):
             errors.append(f"{where}: program_kind must be a string")
             program_kind = None
+        follows = raw.get("follows")
+        if follows is not None and not (isinstance(follows, str) and (follows == "none" or _ID_RE.fullmatch(follows))):
+            errors.append(f"{where}: follows must be a label id or none")
+            follows = None
         documents = raw.get("expected_documents") or []
         if not isinstance(documents, list) or not all(isinstance(d, str) for d in documents):
             errors.append(f"{where}: expected_documents must be a list of paths")
@@ -192,10 +232,36 @@ def parse_labels(data, base_dir: Path, *, view_params: dict[str, set[str]] | Non
                          source if isinstance(source, str) else "", tuple(domains),
                          route if route_ok else "", view, _iso(dict(params)), expect, tuple(documents), str(raw.get("notes") or ""),
                          raw.get("benchmark"), intent, _iso(dict(slots)),
-                         program_kind.strip() if program_kind else None))
+                         program_kind.strip() if program_kind else None, follows))
+    errors += _check_threads(out)
     if errors:
         raise LabelError(errors)
     return out
+
+
+def _check_threads(labels: list[Label]) -> list[str]:
+    """`follows` names an existing label, never itself, and the chains have no cycle."""
+    errors: list[str] = []
+    ids = {lb.id for lb in labels}
+    edges: dict[str, str] = {}
+    for lb in labels:
+        if lb.follows in (None, "none"):
+            continue
+        if lb.follows not in ids:
+            errors.append(f"label {lb.id}: follows {lb.follows!r} is not a label id")
+        else:
+            edges[lb.id] = lb.follows
+    reported: set[str] = set()
+    for start in edges:
+        path, node = [], start
+        while node in edges and node not in path:
+            path.append(node)
+            node = edges[node]
+        if node in path and node not in reported:
+            cycle = path[path.index(node):]
+            reported.update(cycle)
+            errors.append("follows forms a cycle: " + " -> ".join([*cycle, node]))
+    return errors
 
 
 def _yaml_header(exc: yaml.YAMLError) -> str:

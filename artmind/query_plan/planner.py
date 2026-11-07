@@ -13,6 +13,7 @@ import dataclasses
 import re
 import shlex
 import time
+import unicodedata
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -25,6 +26,7 @@ from artmind.kg_views.model import ViewError, jsonable
 from artmind.kg_views.store import domain_covered
 from artmind.query_plan import candidates, catalogue, fill, intents, slots as slots_mod
 from artmind.query_plan import config as plan_config
+from artmind.query_plan import domain_set
 from artmind.query_plan import program as program_mod
 from artmind.query_plan import routes as routes_mod
 from artmind.query_plan.classify import ClassifierUnavailable, Decision, LexicalClassifier, select_classifier
@@ -35,6 +37,10 @@ MAX_COMBINATIONS = 4
 ALL_DOMAINS = "__all__"
 NO_VIEW = "none"
 ROUTING_TABLE = "SKILL.md"
+VIEW_COUNT_CHECK = "artmind query vector-text --shape brief --domain {domains} {search_term} --topK 10 --compact"
+#: Routes a named class turns into `enumeration` when the question asks which items exist
+#: (`slots.named_class` + `slots.has_list_cue`); other routes keep their shape.
+CLASS_LIST_ROUTES = frozenset({"search", "existence", "enumeration"})
 VIEW_FALLBACK = "artmind query vector-text --domain {domains} {question} --compact"
 
 
@@ -154,8 +160,7 @@ def _get_catalogue(cover: list[str]):
 
 def _minimal_cover(scope: list[str]) -> list[str]:
     """The scope without a domain whose parent is also in it: a parent catalogue unions its leaves."""
-    unique = sorted(set(scope))
-    return [d for d in unique if not any(d != e and candidates.covered_by(d, e) for e in unique)]
+    return domain_set.minimal_cover(scope)
 
 
 def _selected_cats(cats: dict, selected: list[str]) -> list | None:
@@ -233,7 +238,8 @@ def _used_entities(entities: list[dict]):
 
 
 def _context(selected: list[str], question: str, entities: list[dict], document: str | None,
-             mentions: list, overview: list[dict] | None = None, cats: list | None = None) -> dict:
+             mentions: list, overview: list[dict] | None = None, cats: list | None = None,
+             store_domains: tuple[str, ...] | None = None) -> dict:
     """Placeholder values. The narrator never supplies a name, since its name is no search term."""
     named, primary, second = _used_entities(entities)
     entity_name = None
@@ -241,6 +247,9 @@ def _context(selected: list[str], question: str, entities: list[dict], document:
         entity_name = named[0]["candidates"][0]["name"] if named[0]["candidates"] else named[0]["mention"]
     return {
         "domains": ",".join(selected),
+        "domain": selected[0] if len(selected) == 1 else None,  # several: rendered per domain (_per_domain)
+        "domain_list": tuple(selected),
+        "store_domains": ",".join(store_domains or selected),
         "question": question,
         "keywords": " ".join(candidates.keywords(question, mentions)),
         "document": document,
@@ -260,8 +269,42 @@ NAME_EVIDENCE = frozenset({"exact", "catalogue", "narrator"})
 FULLTEXT_WEIGHT = 0.1
 
 
-def _group_weight(group: list[dict]) -> float:
+# A candidate whose whole name is the mention's text outweighs other name matches ("Placeb" over
+# "Placeb Airport"); two such groups (not twins of each other) split the weight as before.
+EXACT_NAME_WEIGHT = 10.0
+# Lexical path only: a view scoring at least this, whose parameters all fill from name evidence and the
+# question, is trusted as if it had reached the threshold (D5b). Below it the view is not tried at all.
+LEXICAL_VIEW_FLOOR = 0.5
+
+
+def _name_key(text) -> str:
+    return " ".join(unicodedata.normalize("NFKC", str(text or "")).casefold().split())
+
+
+def _exact_name(ref: dict, mention: str | None) -> bool:
+    return bool(mention) and _name_key(ref.get("name")) == _name_key(mention)
+
+
+def _group_weight(group: list[dict], mention: str | None = None) -> float:
+    if any(_exact_name(r, mention) for r in group):
+        return EXACT_NAME_WEIGHT
     return 1.0 if any(NAME_EVIDENCE & set(r.get("matched_by") or ()) for r in group) else FULLTEXT_WEIGHT
+
+
+def _names_all_evidenced(view_match: dict, entities: list[dict]) -> bool:
+    """Every entity parameter was filled from a candidate with name evidence (exact name, catalogue,
+    narrator), never from a fulltext neighbour alone."""
+    mention_of = {ref["_id"]: e["mention"] for e in entities for ref in e["candidates"]}
+    for entry in view_match["params"].values():
+        if entry.get("type") != "entity":
+            continue
+        refs = [entry["chosen"]] if entry.get("chosen") else (entry["candidates"] if entry.get("twins") else [])
+        if not refs:
+            return False
+        if not any(NAME_EVIDENCE & set(r.get("matched_by") or ()) or _exact_name(r, mention_of.get(r["_id"]))
+                   for r in refs):
+            return False
+    return True
 
 
 def _pick_group(answer, groups: dict[str, list[dict]]) -> tuple[str | None, float]:
@@ -303,7 +346,8 @@ def _match_view(spec, question: str, entities: list[dict], cfg, threshold: float
                     instructions=f"Which candidate is {pspec.description or name} in the question?",
                     options={**{k: _candidate_text(g[0], cfg.narrator) for k, g in groups.items()},
                              "none": "None of these"},
-                    lexical_scores={k: _group_weight(g) for k, g in groups.items()},
+                    lexical_scores={k: _group_weight(g, mention_of.get(g[0]["_id"], (None,))[0])
+                                    for k, g in groups.items()},
                     default="none", default_confidence=0.0, none_mass=0.0,
                 ))
         elif pspec.type == "enum":
@@ -385,20 +429,107 @@ def _view_cmd(name: str, selected: list[str], raw: dict[str, str]) -> str:
     return " ".join(parts) + " --compact"
 
 
-def _choose_domains(domains, options, overview, answers):
-    """(selected, source, confidence, candidates) from the given domains or the domain decision."""
-    if domains:
-        return list(domains), "given", None, []
-    if len(options) == 1:
-        return [options[0].key], ("parent" if options[0].is_parent else "matched"), 1.0, []
-    if not options:
-        return [], "all", 0.0, []
-    answer = answers["domain"]
-    shown = [{"domain": k, "p": p} for k, p in _top(answer.probabilities, 3, exclude=(ALL_DOMAINS,))]
-    if answer.choice == ALL_DOMAINS:
-        return [r["domain"] for r in overview if r.get("domain")], "all", 0.0, shown
-    chosen = next(o for o in options if o.key == answer.choice)
-    return [chosen.key], ("parent" if chosen.is_parent else "matched"), answer.confidence, shown
+def _choose_domains(question, domains, options, overview, answers) -> domain_set.DomainSet:
+    """The domain set from the given domains or the domain decision (fix B1, `domain_set`)."""
+    answer = answers.get("domain")
+    shown = ([{"domain": k, "p": p} for k, p in _top(answer.probabilities, 3, exclude=(ALL_DOMAINS,))]
+             if answer is not None else [])
+    aliases = {o.key: plan_config.domain_aliases(o.key) for o in options} if not domains and len(options) > 1 else {}
+    return domain_set.decide(question, options, overview, answer, ALL_DOMAINS, given=domains,
+                             aliases=aliases, shown=shown)
+
+
+def _family_rescope(dset: domain_set.DomainSet, route_id: str, *, question: str, answers: dict, options,
+                    overview: list[dict], cats: dict, index: dict, mentions: list, document: str | None,
+                    document_pool, topic_fams=()) -> domain_set.DomainSet:
+    """B2 S3 (`domain_set.rescope`) from what the plan already holds: the catalogues' merged name index and
+    document records over the cover, the catalogue's `stores` part (through the catalogue cache). No graph query."""
+    answer = answers.get("domain")
+    probabilities = dict(answer.probabilities) if answer is not None else {}
+    all_domains = [r["domain"] for r in overview if r.get("domain")]
+    dom_of = {n._id: (n.domain or c.domain) for c in cats.values() for n in c.names if n._id is not None}
+    named = sorted((m for m in mentions if m.via != "first_person"), key=lambda m: m.via == "catalogue")
+    texts = list(dict.fromkeys(m.text for m in named))
+    wanted = 2 if route_id == "path" else 1
+
+    def in_family(root: str, hits) -> list:
+        return [n for n in hits if domain_set.family_root(dom_of.get(n._id) or "") == root]
+
+    def entity_groups(root: str) -> list[list[domain_set.Group]]:
+        try:
+            kin = slots_mod.kin_groups(plan_config.load_config(root))
+        except Exception as exc:  # the kinship file is optional context
+            logger.debug("plan: kinship groups of {} unavailable: {}", root, exc)
+            kin = []
+        subjects: list[list[domain_set.Group]] = []
+        for text in texts:
+            hits = in_family(root, index.get(candidates._norm(text), ()))
+            if not hits:
+                continue
+            groups: dict[tuple, dict] = {}
+            for n in hits:
+                key = (str(n.entity_class or "").casefold(), str(n.name or "").casefold())
+                groups.setdefault(key, {"name": n.name, "domains": set(), "top": n})["domains"].add(dom_of[n._id])
+            out = []
+            for g in groups.values():
+                same_class = [candidates.catalogue_ref(e) for grp in index.values() for e in in_family(root, grp)
+                              if e.entity_class == g["top"].entity_class]
+                for twin in slots_mod.twins_for(candidates.catalogue_ref(g["top"]), same_class, kin):
+                    if twin.get("domain"):
+                        g["domains"].add(twin["domain"])
+                out.append((g["name"], tuple(sorted(g["domains"]))))
+            subjects.append(out)
+            if len(subjects) == wanted:
+                break
+        return subjects if len(subjects) == wanted else []
+
+    def document_groups(root: str) -> list[list[domain_set.Group]]:
+        if not document and topic_fams and (route_id == "time_history" or (
+                route_id == "document" and slots_mod.has_latest_cue(question))):
+            names = {n for fam in topic_fams for n in fam}  # B4: the domains the picked families live in
+            found = {r.domain for c in cats.values() for r in c.doc_records
+                     if r.name in names and domain_set.family_root(r.domain or "") == root}
+            return [[(topic_fams[0][0], tuple(sorted(found)))]] if found else []
+        if not document:
+            return []
+        names = {document}
+        if route_id == "document" and slots_mod.has_latest_cue(question):
+            from artmind.document_entity import references
+
+            mine = references(document)
+            names |= {n for n in document_pool if mine and references(n) & mine}
+        found = {r.domain for c in cats.values() for r in c.doc_records
+                 if r.name in names and domain_set.family_root(r.domain or "") == root}
+        if not found:
+            found = {c.domain for c in cats.values() if names & set(c.documents)
+                     and domain_set.family_root(c.domain) == root}
+        return [[(document, tuple(sorted(found)))]] if found else []
+
+    def resolve(kind: str, root: str) -> list[list[domain_set.Group]]:
+        return entity_groups(root) if kind == "entity" else document_groups(root)
+
+    def stores(root: str) -> list[str]:
+        out = []
+        for d in all_domains:
+            if domain_set.family_root(d) != root:
+                continue
+            cat = cats.get(d)
+            if cat is None or not cat.has("stores"):
+                try:
+                    cat = _get_catalogue([d])[0].get(d)
+                except Exception as exc:  # no catalogue: no evidence of tables here
+                    logger.debug("plan: stores of {} unavailable: {}", d, exc)
+                    cat = None
+            if cat is not None and int((cat.stores or {}).get("structured_tables") or 0) > 0:
+                out.append(d)
+        return domain_set.minimal_cover(out)
+
+    out = domain_set.rescope(dset, route_id, options=options, probabilities=probabilities,
+                             all_domains=all_domains, resolve=resolve, stores=stores)
+    if not document and topic_fams and out.resolution and "document" in out.resolution:
+        out = dataclasses.replace(out, resolution={
+            "topic_family": [n for fam in topic_fams for n in fam], "domains": out.resolution["domains"]})
+    return out
 
 
 def _resolve_entities(mentions, selected: list[str], cfg, warnings: list[str],
@@ -462,27 +593,108 @@ def _view_steps(loaded, view_answer, entities, question, cfg, threshold, today, 
     return out
 
 
-def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None) -> _Steps:
+def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[object, dict]]:
+    """The commands a chosen program issues, in document order, as (node, context) pairs: a `par`
+    contributes its children, a `map` its body once per item (capped at `max`) with the `as` name bound;
+    `pick` and `page` issue nothing of their own."""
+    out: list[tuple[object, dict]] = []
+    for node in nodes:
+        if node.kind == "run":
+            out.append((node, context))
+        elif node.kind == "par":
+            out += _expand_commands(node.children, context, lists)
+        elif node.kind == "map":
+            for item in lists.get(node.map.over, [])[:node.map.max]:
+                out += _expand_commands((node.map.do,), {**context, node.map.as_: item}, lists)
+    return out
+
+
+_ZERO_ROWS = re.compile(r"^s\d+\.rows == 0$|^[a-z][a-z0-9_]*\.rows == 0$")
+
+
+def _per_domain(template: str, context: dict) -> list[dict]:
+    """The contexts a template renders in: one per selected domain when it takes `{domain}` (a
+    command that accepts one domain) and several are selected, else the context itself."""
+    domains = context.get("domain_list") or ()
+    if "domain" in routes_mod.placeholders(template) and len(domains) > 1:
+        return [{**context, "domain": d} for d in domains]
+    return [context]
+
+
+#: A superlative over table rows says so: "recorded", "on record", "cases", "rows", "in the table". Without
+#: one a bridged class word alone ("customer ... risks") would pull a survey into the store (B5).
+RECORDS_CUE = re.compile(r"\b(?:record(?:s|ed)?|cases|rows?|tables?|entries|transactions)\b", re.I)
+
+
+def _needs_met(needs, ctx: dict) -> bool:
+    """Whether the domain(s) a command renders for hold what it `needs:` (program.NODE_NEEDS).
+    `snapshot_domains` None = unknown (an older overview): counts as met, today's behaviour."""
+    if "insights_snapshot" in needs:
+        have = ctx.get("snapshot_domains")
+        if have is not None:
+            domain = ctx.get("domain")
+            scope = [domain] if domain else list(ctx.get("domain_list") or ())
+            if not any(d in have for d in scope):
+                return False
+    return True
+
+
+def _snapshot_domains(selected: list[str], overview: list[dict]) -> frozenset | None:
+    """The selected domains with an insights snapshot, from the overview's `insights` flag; a row without
+    the key (older overview) counts as having one. None when no selected domain has a row at all."""
+    rows = {r.get("domain"): r for r in overview}
+    return frozenset(d for d in selected if rows.get(d, {}).get("insights", True) is not False)
+
+
+def _render_all(template: str, context: dict) -> list[str | None]:
+    return [routes_mod.render(template, c) for c in _per_domain(template, context)]
+
+
+def _route_steps(route, confidence: float, context: dict, store_kind: str | None = None,
+                 choice=None, lists: dict | None = None) -> _Steps:
     out = _Steps(stages=[("route", confidence)])
     missing: set[str] = set()
-    for template in route.steps_for(store_kind):
-        cmd = routes_mod.render(template, context)
-        if cmd is None:
+    if choice is None and route.authored_program:
+        choice = route.programs[-1]
+    if choice is not None:  # an authored program: its commands, maps expanded per item
+        pairs = _expand_commands(choice.program, context, lists or {})
+    else:
+        pairs = [(program_mod.Node(f"s{i}", "run", run=template), context)
+                 for i, template in enumerate(route.steps_for(store_kind), 1)]
+    pairs = [(node, c) for node, ctx in pairs for c in _per_domain(node.run, ctx)]
+    need_skipped = False
+    for node, ctx in pairs:
+        if node.needs and not _needs_met(node.needs, ctx):
+            need_skipped = True  # B5: the domain lacks what the step reads; skipped like an optional step
+            continue
+        template = node.run
+        cmd = routes_mod.render(template, ctx)
+        if node.when is not None:  # a guarded alternative: a fallback in the payload, never a step
+            if cmd:
+                when = "zero_rows" if _ZERO_ROWS.match(node.when.text) else node.when.text
+                out.fallbacks.append({"when": when, "cmd": cmd, "why": f"if {node.when.text}"})
+        elif cmd is None:
+            if node.optional:
+                continue  # skipped silently: never unfilled, never a confidence factor
             out.unfilled = True
-            missing |= {p for p in routes_mod.placeholders(template) if not str(context.get(p) or "").strip()
-                        or str(context.get(p)).startswith("-")}
+            missing |= {p for p in routes_mod.placeholders(template) if not str(ctx.get(p) or "").strip()
+                        or str(ctx.get(p)).startswith("-")}
         else:
-            out.steps.append({"cmd": cmd, "why": f"route {route.id} (p={confidence:.2f})"})
+            out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)" if node.optional
+                              else f"route {route.id} (p={confidence:.2f})"})
     for template in route.optional_steps:  # skipped silently: never unfilled, never a confidence factor
-        cmd = routes_mod.render(template, context)
-        if cmd:
-            out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
-    if out.unfilled:
+        for cmd in _render_all(template, context):
+            if cmd:
+                out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
+    if need_skipped and not out.steps and not out.unfilled:  # the route's whole answer was the missing snapshot
+        out.unfilled = True
+        out.reason = f"route {route.id} needs an insights snapshot, and none exists for {', '.join(context.get('domain_list') or ())}"
+    elif out.unfilled:
         out.reason = f"route {route.id} needs {', '.join(sorted(missing)) or 'a value it could not fill'}"
     for fallback in route.fallbacks:
-        cmd = routes_mod.render(fallback.cmd, context)
-        if cmd:
-            out.fallbacks.append({"when": fallback.when, "cmd": cmd, "why": f"if the first step returns {fallback.when}"})
+        for cmd in _render_all(fallback.cmd, context):
+            if cmd:
+                out.fallbacks.append({"when": fallback.when, "cmd": cmd, "why": f"if the first step returns {fallback.when}"})
     out.read = list(route.read)
     return out
 
@@ -537,6 +749,12 @@ def _configs(domains: list[str]):
 # ── v2: slots, programs and the non-retrieval intents (spec 2026-11-05 §3, §4, §5) ─────────────
 
 RETRIEVING = frozenset({"retrieve", "follow_up_why"})
+#: B3a: a lookup whose message carries an instruction cue (intents.yaml `instructions:`) is capped here,
+#: below every threshold, so the plan reads as low. Route and steps stay (as `suggested_steps`).
+INSTRUCTION_CAP = 0.5
+#: B3c: a plan from an answering decision backend is `high` only at `threshold + DECISION_MARGIN`; decision
+#: scores move about +-0.03 between identical calls. Override per domain with `decision_margin:` in the plan config.
+DECISION_MARGIN = 0.05
 ACTIONS = {
     "curate": {"skill": "artmind-curate", "draft": None},
     "update": {"skill": "artmind-update", "draft": None},
@@ -564,22 +782,39 @@ def _page_json(page) -> dict:
     return {"until": page.until, "k": page.k, "from": page.from_}
 
 
-def _node_json(node, context: dict) -> dict:
+def _node_json(node, context: dict, lists: dict | None = None) -> dict:
+    per_domain = _per_domain(node.run, context) if node.run is not None else [context]
+    if len(per_domain) > 1:  # a one-domain command over several domains: run once per domain
+        out = {"id": node.id, "kind": "par", "per_domain": True,
+               "children": [{"id": f"{node.id}.{i}", "kind": "run", "run": routes_mod.render(node.run, c) or node.run,
+                             "filled": routes_mod.render(node.run, c) is not None}
+                            for i, c in enumerate(per_domain, 1)]}
+        if node.when is not None:
+            out["when"] = node.when.text
+        if node.optional:
+            out["optional"] = True
+        return out
     out: dict = {"id": node.id, "kind": node.kind}
     if node.run is not None:
         rendered = routes_mod.render(node.run, context)
         out.update(run=rendered or node.run, filled=rendered is not None)
     if node.children:
-        out["children"] = [_node_json(c, context) for c in node.children]
+        out["children"] = [_node_json(c, context, lists) for c in node.children]
     if node.map is not None:
+        total = (lists or {}).get(node.map.over, [])
+        items = list(total)[:node.map.max]
         out["map"] = {"over": node.map.over, "as": node.map.as_, "max": node.map.max,
-                      "do": _node_json(node.map.do, context)}
+                      "items": items, "items_total": len(total),
+                      "do": _node_json(node.map.do, context, lists),
+                      "expanded": [_node_json(node.map.do, {**context, node.map.as_: item}, lists) for item in items]}
     if node.pick is not None:
         out["pick"] = {"from": node.pick.from_, "how": node.pick.how, "score": [p.text for p in node.pick.score]}
     if node.page is not None:
         out["page"] = _page_json(node.page)
     if node.when is not None:
         out["when"] = node.when.text
+    if node.optional:
+        out["optional"] = True
     return out
 
 
@@ -667,7 +902,7 @@ def _name_evidence(group: list[dict]) -> bool:
     return any(NAME_EVIDENCE & set(r.get("matched_by") or ()) for r in group)
 
 
-def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
+def _fuzzy_entity(entities: list[dict], built, route_obj, program=None) -> bool:
     """A template's entity slot took the top candidate of a group with no exact, catalogue or narrator
     evidence (a fulltext neighbour). Entities taken from the previous turn are never fuzzy."""
     if built.view_match is not None:
@@ -680,7 +915,7 @@ def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
     if route_obj is None:
         return False
     used: set[str] = set()
-    for node in program_mod.run_nodes(route_obj.program):
+    for node in program_mod.run_nodes(route_obj.program if program is None else program):
         used |= routes_mod.placeholders(node.run or "")
     used &= ENTITY_PLACEHOLDERS
     if not used:
@@ -689,6 +924,72 @@ def _fuzzy_entity(entities: list[dict], built, route_obj) -> bool:
     picked = [primary] + ([second] if used & {"other_entity_id", "other_entity_class"} else [])
     return any(e is not None and e["via"] not in ("first_person", "previous") and e["candidates"]
                and not _name_evidence(e["candidates"]) for e in picked)
+
+
+def _list_slots(choice, entities: list[dict], window, question: str, mentions, search_term, cfg,
+                class_table: dict, *, domains: list[str] | None = None, document: str | None = None,
+                document_pool=(), topic_fams=()) -> dict:
+    """The list slots a `map.over` may name, as `Slot`s, for the maps of the chosen program.
+    `family_documents` is the matched document's family, newest first (`candidates.family_documents`,
+    read only when the chosen program maps over it and a document matched; else empty)."""
+    wanted = {n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}
+    _named, primary, _second = _used_entities(entities)
+    out: dict[str, slots_mod.Slot] = {}
+    for name in sorted(wanted):
+        if name == "twin_ids":
+            out[name] = slots_mod.twin_ids_slot(primary)
+        elif name == "phrasings":
+            out[name] = slots_mod.phrasings_slot(question, mentions, str(search_term.value or ""), cfg, class_table)
+        elif name == "years":
+            out[name] = slots_mod.years_slot(window)
+        elif name == "topic_documents":
+            out[name] = slots_mod.Slot("topic_documents", candidates.topic_documents(domains or [], topic_fams),
+                                       "topic", slots_mod.TOPIC_DOCUMENTS)
+        elif document and domains:  # family_documents
+            out[name] = slots_mod.Slot("family_documents", candidates.family_documents(domains, document, document_pool),
+                                       "document_family", 1.0)
+        else:
+            out[name] = slots_mod.Slot("family_documents", [], "none", 1.0)
+    return out
+
+
+def _plan_facts(route, *, question: str, entities: list[dict], expansion, window, document, chunks_only: bool,
+                chosen_view, phrase_words: list[str], index, class_names, topic_fams=(),
+                snapshots: int = 1) -> dict:
+    """The plan-time facts a route's `programs[].when` predicates name (and only those, so the
+    vocabulary check at load is the whole contract). `rare_term` reads the catalogue, so it is built
+    only when a predicate uses it."""
+    wanted: set[str] = set()
+    for choice in route.programs:
+        if choice.when is not None:
+            wanted |= set(program_mod.plan_fact_names(choice.when))
+    _named, primary, _second = _used_entities(entities)
+    values = {
+        "twins": lambda: len((primary or {}).get("twins") or []),
+        "entities": lambda: sum(1 for e in entities if e["via"] != "first_person" and e["candidates"]),
+        "negative": lambda: slots_mod.has_negative_cue(question),
+        "latest": lambda: slots_mod.has_latest_cue(question),
+        "rare_term": lambda: slots_mod.rare_term(
+            phrase_words, [k for k in (index or {})], class_names),
+        "category": lambda: expansion is not None,
+        "date_window": lambda: window is not None,
+        "document": lambda: document is not None,
+        "chunks_only": lambda: bool(chunks_only),
+        "view_count": lambda: chosen_view is not None and slots_mod.has_count_cue(question),
+        "occurrence": lambda: slots_mod.has_occurrence_cue(question),
+        "named_class": lambda: slots_mod.named_class(expansion, entities),
+        "topic_family": lambda: len(topic_fams),
+        "insights_snapshot": lambda: snapshots,
+    }
+    return {name: values[name]() for name in sorted(wanted)}
+
+
+def _choose_program(route, facts: dict):
+    """The first `programs:` entry whose `when` holds; the last entry is the default."""
+    for choice in route.programs[:-1]:
+        if choice.when is not None and program_mod.evaluate_plan_predicate(choice.when, facts):
+            return choice
+    return route.programs[-1]
 
 
 def plan(question: str, domains: list[str] | None = None, *, execute: bool = False,
@@ -748,6 +1049,10 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     else:
         document_pool = candidates.document_names(scope) if scope else []
     document = candidates.match_document(question, document_pool) if scope else None
+    topic_fams: list[list[str]] = []
+    if scope and document is None:  # no document named: the title words may name a versioned family (B4)
+        topic_fams = candidates.topic_families(
+            question, document_pool, [r for c in cover_cats for r in c.doc_records])
     has_store = any(
         r.get("table_count") for r in overview
         if any(r.get("domain") == d or str(r.get("domain")).startswith(d + ".") for d in scope)
@@ -756,7 +1061,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     named_mentions = sum(1 for m in mentions if m.via != "first_person")
     narrated = bool(any(m.via == "first_person" for m in mentions) and given_cfg and given_cfg.narrator)
     facts = lexical.Facts(question=question.casefold(), mentions=named_mentions + int(narrated), document=document,
-                          has_store=has_store, has_date=lexical.has_date(question))
+                          has_store=has_store, has_date=lexical.has_date(question),
+                          topic_family=bool(topic_fams))
     views, invalid = views_store.list_views(list(domains) if domains else None)
     for bad in invalid:
         warnings.append(f"view {bad['name']} is invalid and was skipped: {bad['error']}")
@@ -793,10 +1099,39 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     intent = intent_result.intent
     retrieving = intent in RETRIEVING
 
-    selected, source, domain_conf, domain_candidates = _choose_domains(domains, options, overview, answers)
+    dset = _choose_domains(question, domains, options, overview, answers)
+    classifier_set = dset  # B1's set, kept in the payload beside B2's
+    # B3b: a non-retrieval intent the classifier is unsure of is planned as a (low) lookup, not as no plan.
+    unsure: dict | None = None
+    # Only when the decision backend answered: a lexical intent tops out near 0.6 by construction, so every
+    # one would count as unsure and lose its action.
+    if (not retrieving and intent_result.source == "classifier"
+            and clf.backend == "decision" and not calls.fell_back
+            and intent_result.confidence < (given_cfg or _configs(dset.selected)).confidence_threshold):
+        unsure = {"id": intent, "p": intent_result.confidence}
+        intent = "retrieve"
+        retrieving = True
+    if retrieving and dset.decided:
+        probe = previous.route if (intent == "follow_up_why" and previous is not None) else None
+        probe = probe or answers["route"].choice
+        view_ans = answers.get("view")
+        view_pending = (probe == answers["route"].choice and view_ans is not None and view_ans.choice in views_by_name
+                        and view_ans.confidence >= LEXICAL_VIEW_FLOOR and not _chunks_only(dset.selected, overview)
+                        and all(domain_covered(d, views_by_name[view_ans.choice].spec.domains) for d in dset.selected))
+        if not view_pending:  # a view that covers B1's set is used as matched and keeps that set
+            dset = _family_rescope(dset, probe, question=question, answers=answers, options=options,
+                                   overview=overview, cats=cats, index=all_index, mentions=mentions,
+                                   document=document, document_pool=document_pool, topic_fams=topic_fams)
+    selected, source, domain_conf, domain_candidates = dset.selected, dset.source, dset.confidence, dset.candidates
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
     chunks_only = _chunks_only(selected, overview)
+    margin = 0.0
+    if clf.backend == "decision" and not calls.fell_back:  # B3c
+        margin = DECISION_MARGIN if cfg.decision_margin is None else cfg.decision_margin
+    instruction = intents.instruction_cues(user_question)
+    if effective_question:
+        instruction = tuple(dict.fromkeys((*instruction, *intents.instruction_cues(effective_question))))
     if chunks_only and retrieving:
         warnings.append(
             f"{', '.join(selected)} builds no graph (graph_extraction: false): planned as a search of the notes or a survey of its documents"
@@ -827,10 +1162,16 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     answer_from: str | None = None
     program_json: list[dict] = []
     guards_json: list[dict] = []
+    program_kind: str | None = None
+    plan_facts: dict = {}
+    view_count = False
+    chosen_choice = None
+    chosen_lists: dict = {}
     route_id, route_conf = route_answer.choice, route_answer.confidence
+    route_adjusted: dict | None = None
 
     def selected_scope(route_for_scope: str | None):
-        return slots_mod.scope_slot(list(domains or ()), selected, domain_conf or 0.0, threshold, cfg, question,
+        return slots_mod.scope_slot(list(domains or ()), selected, dset.stage or 0.0, threshold, cfg, question,
                                     route_for_scope, exclude)
 
     if not retrieving:
@@ -838,7 +1179,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         route_obj = next((r for r in all_routes if r.id == route_id), None)
         stages = [("intent", intent_result.confidence)]
         weakest, score = stages[0]
-        high = score >= threshold
+        high = score >= threshold + margin
         if intent in ACTIONS:
             action = dict(ACTIONS[intent])
         elif intent == "status":
@@ -909,35 +1250,111 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                 chosen_view = loaded
             else:
                 warnings.append(f"view {loaded.spec.name} matched but does not cover {selected}; not used")
+        lift_view = None
+        if (lexical_used and not chunks_only and chosen_view is None and forced_route is None
+                and view_answer is not None and view_answer.choice != NO_VIEW
+                and LEXICAL_VIEW_FLOOR <= view_answer.confidence < threshold):
+            loaded = views_by_name[view_answer.choice]
+            if selected and all(domain_covered(d, loaded.spec.domains) for d in selected):
+                lift_view = loaded
         resolved_classes = {ref.get("entity_class") for e in entities for ref in e["candidates"]}
         if selected:
             try:
                 store = candidates.store_facts(selected, question, resolved_classes)
             except Exception as exc:  # the structured store is optional context (spec §7)
                 warnings.append(f"store facts unavailable: {exc}")
-        context = _context(selected, question, entities, document, kept_mentions, overview, selected_cats)
+        # B5: a superlative over records the structured store holds is a table question. The B2 scope ran
+        # with the classifier's route as probe, so it is run again here for `structured` (the `stores` set).
+        superlative_records = bool(
+            store and retrieving and not chunks_only and chosen_view is None and lift_view is None
+            and forced_route is None and route_answer.choice == "superlative"
+            and set(store.get("bridge_classes") or ()) & {c for c in resolved_classes if c}
+            and RECORDS_CUE.search(question))
+        if superlative_records:
+            moved = _family_rescope(dset, "structured", question=question, answers=answers, options=options,
+                                    overview=overview, cats=cats, index=all_index, mentions=mentions,
+                                    document=document, document_pool=document_pool)
+            if moved.set_rule == "stores" or moved.selected == dset.selected:
+                dset = moved
+                selected = dset.selected
+        if dset.set_rule == "stores" and (store or {}).get("kind") == "records_plus_guidance":
+            dset = domain_set.with_guidance(dset, options)  # the text step also reads the policy side
+            selected = dset.selected
+        context = _context(selected, question, entities, document, kept_mentions, overview, selected_cats,
+                           dset.store_domains)
         context.update({
             "search_term": search_term.value or question,
             "date_window": f"{window.value['from']}..{window.value['to']}" if window else None,
             "entity_class_list": ",".join(expansion.classes) if expansion and expansion.classes else None,
+            "snapshot_domains": _snapshot_domains(selected, overview),
         })
-        if source != "given":
-            stages.append(("domain", domain_conf if source != "all" else 0.0))
-        if view_answer is not None and not chunks_only:
-            stages.append(("view", view_answer.confidence))
-        if chosen_view is not None:
-            built = _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
+        if source != "given":  # the mass the selected set covers (fix B1): part of a spread scope is low
+            stages.append(("domain", dset.stage or 0.0))
+        lifted_built = None
+        if lift_view is not None:
+            trial = _view_steps(lift_view, view_answer, entities, question, cfg, threshold, today, calls, selected,
                                 context)
-            route_id, route_conf = "view", view_answer.confidence
+            if trial.status == "ok" and trial.view_match and _names_all_evidenced(trial.view_match, entities):
+                trial.view_match["confidence_lifted"] = {
+                    "from": view_answer.confidence, "to": threshold,
+                    "reason": "lexical: every parameter filled from name evidence or the question"}
+                trial.view_match["confidence"] = threshold
+                lifted_built, chosen_view = trial, lift_view
+        view_conf = threshold if lifted_built is not None else (view_answer.confidence if view_answer else 0.0)
+        if view_answer is not None and not chunks_only:
+            stages.append(("view", view_conf))
+        if chosen_view is not None:
+            built = lifted_built or _view_steps(chosen_view, view_answer, entities, question, cfg, threshold, today,
+                                                calls, selected, context)
+            view_count = bool(built.steps) and slots_mod.has_count_cue(question)
+            if view_count:  # a count from a view is checked against the text (spec 5.5 view count)
+                check = routes_mod.render(VIEW_COUNT_CHECK, context)
+                if check:
+                    built.steps.append({"cmd": check, "why": "text check of the view's count (view count program)"})
+                else:
+                    view_count = False
+            route_id, route_conf = "view", view_conf
         else:
             # A chunks-only scope has no graph routes; it still tells a survey from a search.
             picked = forced_route.id if forced_route else route_answer.choice
             if chunks_only:
                 picked = "survey" if picked == "survey" else "search"
+            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
+            if superlative_records and picked == "superlative":
+                route_adjusted = {"from": "superlative", "by": "store_records"}
+                picked = "structured"
+            # A named class decides between a search and a listing: "are there any IDEAs" lists the
+            # IDEA entities when IDEA is a class of the scope; the same words over a plain noun stay a search.
+            if (not chunks_only and forced_route is None and picked in CLASS_LIST_ROUTES
+                    and slots_mod.named_class(expansion, entities) and slots_mod.has_list_cue(question)):
+                if picked != "enumeration":
+                    route_adjusted = {"from": picked, "by": "named_class", "classes": list(expansion.classes)}
+                    picked = "enumeration"
+                route_conf = max(route_conf, threshold)  # named_class holds only for an exact class name
             route_obj = next(r for r in all_routes if r.id == picked)
             route_id = route_obj.id
-            route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
-            built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
+            choice, lists = None, {}
+            if route_obj.chooses:
+                class_table = _class_table(selected_cats, overview, selected)
+                plan_facts = _plan_facts(
+                    route_obj, question=question, entities=entities, expansion=expansion, window=window,
+                    document=document, chunks_only=chunks_only, chosen_view=None,
+                    phrase_words=slots_mod.mention_free_words(question, mentions) or
+                    [w for w in re.findall(r"\w+", str(search_term.value).casefold())],
+                    index=selected_index, class_names=list(class_table), topic_fams=topic_fams,
+                    snapshots=len(context["snapshot_domains"]) if context.get("snapshot_domains") is not None else len(selected))
+                choice = _choose_program(route_obj, plan_facts)
+                lists = _list_slots(choice, entities, window, question, mentions, search_term, cfg, class_table,
+                                    domains=selected, document=document, document_pool=document_pool,
+                                    topic_fams=topic_fams)
+                for name in sorted({n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}):
+                    slot_map[name] = lists[name]
+                lists = {name: slot.value for name, slot in lists.items()}
+            chosen_choice, chosen_lists = choice, lists
+            if choice is None:
+                built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"))
+            else:
+                built = _route_steps(route_obj, route_conf, context, (store or {}).get("kind"), choice, lists)
         stages += built.stages
         rendered, fallbacks, read = built.steps, built.fallbacks, built.read
 
@@ -946,17 +1363,22 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         twins_found = any(e.get("twins") for e in entities)
         sq_score, sq_info = slots_mod.slot_quality(
             slot_map, twins_found=twins_found, twins_unioned=view_twins,
-            entity_from_fuzzy=_fuzzy_entity(entities, built, route_obj),
+            entity_from_fuzzy=_fuzzy_entity(entities, built, route_obj,
+                                            chosen_choice.program if chosen_choice is not None else None),
             search_term_empty=search_term.value == "", all_domains=slot_map["scope"].source == "all")
         stages.append(("slot_quality", sq_score))
         slot_quality_block = {"score": sq_score, **sq_info}
 
         # ── confidence ─────────────────────────────────────────────────────
+        if unsure is not None:
+            stages.append(("intent", intent_result.confidence))
+        if instruction:
+            stages.append(("instruction", INSTRUCTION_CAP))
         weakest, score = min(stages, key=lambda s: s[1])
         blocker = built.blocker
         if blocker and score >= threshold:  # a stage below the threshold stays the weakest link
             weakest = blocker
-        high = score >= threshold and not blocker and bool(rendered) and bool(selected)
+        high = score >= threshold + margin and not blocker and bool(rendered) and bool(selected)
         if built.reason:
             warnings.append(built.reason + ("" if rendered else "; suggested search instead"))
         if not high and not rendered:  # a low plan never goes out without guidance
@@ -969,11 +1391,21 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if not high:
             read = [*read, ROUTING_TABLE]
         if chosen_view is not None:
-            program_json = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
-                            for i, step in enumerate(built.steps, 1)]
+            runs = [{"id": f"v{i}", "kind": "run", "run": step["cmd"], "filled": True}
+                    for i, step in enumerate(built.steps, 1)]
+            if view_count:
+                runs[-1]["id"] = "text"
+                program_json = [{"id": "p", "kind": "par", "children": runs},
+                                {"id": "u", "kind": "pick", "pick": {"from": "p", "how": "union", "score": []}}]
+                program_kind = "view_count"
+                plan_facts = {"view_count": True}
+            else:
+                program_json, program_kind = runs, "one_step"
         elif route_obj is not None:
-            program_json = [_node_json(n, context) for n in route_obj.program]
-            guards_json = [_guard_json(g) for g in route_obj.guards]
+            used = chosen_choice or route_obj.programs[-1]
+            program_json = [_node_json(n, context, chosen_lists) for n in used.program]
+            guards_json = [_guard_json(g) for g in used.guards]
+            program_kind = used.kind
 
     level = "high" if high else "low"
     executed, rows, rows_total, truncated = None, [], 0, False
@@ -988,13 +1420,19 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "previous_used": intent_result.previous_used,
         "intent": {"id": intent, "confidence": intent_result.confidence, "source": intent_result.source,
                    "inherited_offer": intent_result.inherited_offer,
+                   "unsure": unsure, "instruction": list(instruction),
                    "alternatives": [{"id": k, "p": p} for k, p in intent_result.alternatives]},
         "domains": {"selected": selected, "source": source, "confidence": domain_conf,
-                    "candidates": domain_candidates},
+                    "candidates": domain_candidates, "coverage": dset.coverage, "set_rule": dset.set_rule,
+                    "named": dset.named, "whole_vault": dset.whole_vault, "family": dset.family,
+                    "classifier": {"selected": classifier_set.selected, "set_rule": classifier_set.set_rule,
+                                   "coverage": classifier_set.coverage},
+                    "resolution": dset.resolution, "tie_break": dset.tie_break},
         "route": {
             "id": route_id, "confidence": route_conf,
             "alternatives": [{"id": k, "p": p} for k, p in _top(route_answer.probabilities, 2, exclude=(route_id,))],
             "triggered_by": lexical.triggered(route_obj, facts) if (route_obj and lexical_used) else [],
+            "adjusted": route_adjusted,
         },
         "view_match": built.view_match,
         "entities": entities,
@@ -1004,8 +1442,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "slots": {name: _slot_json(slot) for name, slot in slot_map.items()},
         "slot_quality": slot_quality_block,
         "scope": _plain(scope_slot.value),
-        "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "weakest": weakest},
+        "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "margin": margin,
+                       "weakest": weakest},
         "program": program_json,
+        "program_kind": program_kind,
+        "plan_facts": plan_facts,
         "guards": guards_json,
         "asset_match": None,  # P2b/P3
         "gaps": [_plain(g) for g in gaps],

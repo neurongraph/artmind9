@@ -72,7 +72,7 @@ from paths import (
     WORKER_PID_FILE,
 )
 from utils.functions import load_env, resolve_llm_model
-from artmind.traces.span import TracedGroup, observe_output
+from artmind.traces.span import TracedDbGroup, TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
 from artmind.cli_conventions import (
     LIST_KEY, Change, Effect, _command_path, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
@@ -2285,7 +2285,7 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 # ── artmind query ──────────────────────────────────────────────────────────────
 
 
-@cli.group()
+@cli.group(cls=TracedDbGroup)
 def db():
     """Manage and read the structured (SQL) store: bridge/list/schema/sql/timeline/grain/propose/mappings/review/catalogue/refresh/connect/backup/restore/export-text/restore-text.
 
@@ -4656,7 +4656,9 @@ def traces_list(source, rating, domain, since, limit, compact) -> None:
 @compact_option
 def traces_show(trace_id, compact) -> None:
     """One turn's full evidence chain: events in order, CLI spans under the
-    Bash call that ran them (with evidence and LLM calls), feedback."""
+    Bash call that ran them (with evidence and LLM calls), feedback. The
+    plan_shadow_summary key gives a shadow plan's intent (and source), program
+    kind and slot quality score, each only when the plan has it."""
     from artmind.traces import analysis
 
     shown = analysis.show(trace_id)
@@ -4713,7 +4715,8 @@ def traces_stats(domain, since, by, compact) -> None:
     views-first compliance (views checked first / late / skipped, views run,
     views listed but unused) and a plan_shadow block (shadow statuses, share of
     high-confidence plans, how often the agent ran the plan's first step: all,
-    high, low, first turn, follow-up, by rating)."""
+    high, low, first turn, follow-up, by rating; planner v2 counts by intent id
+    and program kind (missing = unknown), and the median slot quality of retrieve plans)."""
     from artmind.traces import analysis
 
     try:
@@ -5070,7 +5073,7 @@ def plan_group() -> None:
 @plan_group.group("config")
 def plan_config_group() -> None:
     """Per-domain plan config (`domains/plan/<domain>.yaml`): narrator, threshold, classifier, categories,
-    kinship, scope rules, calendar."""
+    kinship, synonyms, scope rules, calendar."""
 
 
 @plan_config_group.command("check")
@@ -5110,7 +5113,7 @@ def plan_config_check(domain: tuple, compact: bool) -> None:
             results.append(entry)
             continue
         # Counts only: the terms are private.
-        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship),
+        entry["counts"] = {"categories": len(cfg.categories), "kinship": len(cfg.kinship), "synonyms": len(cfg.synonyms),
                            "scope_rules": len(cfg.scope_rules), "calendar": len(cfg.calendar),
                            "narrator_aliases": len(cfg.narrator.aliases) if cfg.narrator else 0}
         if cfg.narrator:
@@ -5178,14 +5181,22 @@ def plan_labels_validate(file_path: Path | None, check_entities: bool, compact: 
               help="Plan each label N times; labels whose plans differ are listed as unstable. The gate needs --repeat 4")
 @click.option("--givenDomains", "given_domains", is_flag=True, help="Pass each label's domains instead of letting the plan choose")
 @click.option("--model", "model", default=None, help="Decision model override (default: ARTMIND_DECISION_MODEL)")
+@click.option("--reach", "reach", is_flag=True,
+              help="Instead of grading the plans, run each plan's read-only steps (labels with expected_documents) "
+                   "and report how many expected documents they reach. Slow; needs Neo4j; first plan only")
 @compact_option
 def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_domains: bool, model: str | None,
-                compact: bool) -> None:
+                reach: bool, compact: bool) -> None:
     """Replay `query plan` over the labelled set and score it. Needs Neo4j; runs no agent.
 
+    A label whose intent is not retrieve/follow_up_why is graded on intent only, not route or domains.
     Prints the summary (label ids, outcomes, mismatches; no question text); per-label
     detail goes to <ARTMIND_HOME>/logs/plan-replay-*.json. Exits 1 when a reported gate
     has not passed (the gate needs --repeat 4, no errors, and for `decision` no fallback).
+
+    With --reach (spec 2026-11-07 §8.3), each label with expected_documents is planned once and the plan's
+    `artmind query` steps run in process; the report is expected / reached / reached_all per label and in
+    total (counts and label ids only; matched and missed paths go to <ARTMIND_HOME>/logs/plan-reach-*.json).
     """
     from neo4j.exceptions import DriverError, Neo4jError
 
@@ -5209,6 +5220,16 @@ def plan_replay(file_path: Path | None, classifier: str, repeat: int, given_doma
         graph_query.domains_overview()
     except (DriverError, Neo4jError) as exc:
         raise click.ClickException(f"Neo4j is unreachable: {exc}") from exc
+    if reach:
+        from artmind.query_plan import reach as plan_reach_mod
+
+        out = {}
+        for backend in backends:
+            report = plan_reach_mod.reach(loaded, backend, model=model, given_domains=given_domains)
+            out[backend] = {**plan_reach_mod.public_report(report),
+                            "detail_file": str(plan_reach_mod.write_detail(report))}
+        _echo_json({"command": "plan replay", "file": str(path), "reach": True, "reports": out}, compact)
+        return
     reports = {}
     for backend in backends:
         report = plan_replay_mod.replay(loaded, backend, repeat, given_domains=given_domains, model=model)
@@ -5325,9 +5346,15 @@ def retrieval_labels_validate(file_path: Path | None, check_ids: bool, compact: 
 def retrieval_eval_cmd(file_path: Path | None, top_k: str,
                        compare_path: Path | None, retriever: str, legs: str, shape: str,
                        compare_shapes: bool, compact: bool) -> None:
-    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered, evidence_visible."""
+    """Run every label through vector-text (or survey labels through query survey) in-process; report recall@K, MRR, documents covered, evidence_visible.
+
+    A vector-text run also records each question's needle `distinct_documents` and `score_drop`
+    (top-10 rows) and prints `needle_spread`: per candidate NEEDLE_SPREAD s in 2..10, the survey
+    labels the needle-alone rule would answer (must be 0) and its precision on needle labels
+    (>= 0.95), with the recommended s. Counts and label ids only.
+    """
     from artmind.retrieval_eval import labels as rl
-    from artmind.retrieval_eval import runner
+    from artmind.retrieval_eval import metrics, runner
 
     path = _retrieval_labels_path(file_path)
     try:
@@ -5371,8 +5398,12 @@ def retrieval_eval_cmd(file_path: Path | None, top_k: str,
     else:
         run = runner.run_eval(loaded, ks=ks, search=runner.default_search_fn(shape), measure_visible=True)
         run["retriever"] = "vector-text"
+        from artmind.query_plan import program as _program
+        run["needle_spread"] = metrics.needle_spread_table(run["questions"], _program.CONSTANTS["NEEDLE_MARGIN"])
     run_path = runner.write_run(run)
     out = {"command": "retrieval eval", "run": str(run_path), "summary": run["summary"]}
+    if "needle_spread" in run:
+        out["needle_spread"] = run["needle_spread"]
     if compare_path:
         out["compare"] = runner.compare_runs(json.loads(compare_path.read_text(encoding="utf-8")), run)
     _echo_json(out, compact)

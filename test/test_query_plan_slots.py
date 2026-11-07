@@ -312,7 +312,7 @@ def test_slot_quality_product_and_breakdown():
 
 def test_slot_quality_clean_and_unioned():
     assert slots.slot_quality({}, twins_found=True, twins_unioned=True) == (1.0, {
-        "factors": {"mention": 1.0, "twins": 1.0, "search_term": 1.0, "scope": 1.0}, "weakest": None})
+        "factors": {"mention": 1.0, "twins": 1.0, "search_term": 1.0, "scope": 1.0, "topic": 1.0}, "weakest": None})
 
 
 def test_slot_quality_reads_slots():
@@ -320,3 +320,102 @@ def test_slot_quality_reads_slots():
           "scope": slots.Slot("scope", None, "all", 0.8)}
     q, info = slots.slot_quality(sl)
     assert q == pytest.approx(0.48) and info["weakest"] == "search_term"
+
+
+# ---- phrasings, list slots and cues (planner v2 P2b)
+
+@dataclass(frozen=True)
+class SynCfg:
+    synonyms: tuple = ()
+
+    def synonym(self, word):
+        w = word.casefold()
+        for key, members in self.synonyms:
+            if w in (key, key + "s", key + "es"):
+                return members
+        return None
+
+
+Q = "Was there a sauna with Ada at the lake?"
+
+
+def _ph(question=Q, mentions=(), term="sauna", cfg=None, classes=None):
+    return slots.phrasings_slot(question, list(mentions), term, cfg, classes or {})
+
+
+def test_phrasings_are_the_term_then_config_synonyms_then_a_paraphrase_without_the_person():
+    mention = Mention("Ada", Q.index("Ada"), Q.index("Ada") + 3, "capitalised")
+    slot = _ph(mentions=[mention], cfg=SynCfg((("sauna", ("steam room", "bathhouse")),)))
+    assert slot.name == "phrasings" and slot.quality == 1.0
+    assert slot.value == ["sauna", "steam room", "bathhouse", "sauna lake"]
+    assert "ada" not in " ".join(slot.value).casefold()
+    assert slot.source == "search_term+config_synonyms+paraphrase"
+
+
+def test_catalogue_class_descriptions_add_synonyms_after_the_configured_ones():
+    classes = {"STEAM_ROOM": "A sauna or hot room", "HOBBY": "Something done for fun", "SPA": "sauna spa"}
+    slot = _ph(term="sauna", cfg=SynCfg((("sauna", ("bathhouse",)),)), classes=classes)
+    assert slot.value[:4] == ["sauna", "bathhouse", "steam room", "spa"]
+    assert "catalogue_synonyms" in slot.source and "config_synonyms" in slot.source
+
+
+def test_synonyms_are_capped_at_three_and_phrasings_at_five():
+    cfg = SynCfg((("sauna", ("a1", "a2", "a3", "a4", "a5")),))
+    slot = _ph(cfg=cfg)
+    assert slot.value[:4] == ["sauna", "a1", "a2", "a3"] and len(slot.value) == 5  # + the paraphrase
+    assert len(slots.phrasings_slot("x " * 9, [], "t", SynCfg((("t", tuple(f"s{i}" for i in range(9))),)), {}).value) <= 5
+
+
+def test_phrasings_dedupe_casefold_and_skip_empty_pieces():
+    slot = slots.phrasings_slot("Sauna?", [], "sauna", SynCfg((("sauna", ("SAUNA", "Steam")),)), {})
+    assert slot.value == ["sauna", "steam"]  # the paraphrase "sauna" repeats the term
+    empty = slots.phrasings_slot("What was there?", [], "", None, {})
+    assert empty.value == [] and empty.quality == 1.0
+
+
+def test_phrasings_work_with_a_config_that_has_no_synonyms():
+    class Plain:
+        pass
+    assert _ph(cfg=Plain()).value[0] == "sauna" and _ph(cfg=None).value[0] == "sauna"
+
+
+def test_years_cover_the_window_and_stop_at_ten():
+    def win(a, b):
+        return slots.Slot("date_window", {"from": a, "to": b, "event": None}, "explicit_date", 1.0)
+    assert slots.years_slot(None).value == []
+    assert slots.years_slot(win("2025-01-01", "2026-01-01")).value == [2025]
+    assert slots.years_slot(win("2023-06-01", "2025-03-01")).value == [2023, 2024, 2025]
+    assert slots.years_slot(win("2023-01-01", "2025-01-01")).value == [2023, 2024]  # `to` is exclusive
+    assert slots.years_slot(win("2000-01-01", "2020-01-01")).value == list(range(2000, 2010))
+
+
+def test_twin_ids_start_with_the_primary_and_dedupe():
+    primary = {"candidates": [{"_id": "p1"}], "twins": [{"_id": "p2"}, {"_id": "p1"}, {"_id": "p3"}]}
+    assert slots.twin_ids_slot(primary).value == ["p1", "p2", "p3"]
+    assert slots.twin_ids_slot({"candidates": [{"_id": "p1"}]}).value == ["p1"]
+    assert slots.twin_ids_slot(None).value == [] and slots.twin_ids_slot({"candidates": []}).value == []
+
+
+def test_rare_term_compares_with_the_name_index_and_class_names():
+    names = ["ada lovelace", "greenhouse", "pier"]
+    assert slots.rare_term(["sauna"], names, ["PERSON", "HOBBY"]) is True
+    assert slots.rare_term(["greenhouses"], names, ["PERSON"]) is False  # plural of a known word
+    assert slots.rare_term(["hobbies"], names, ["HOBBY"]) is False
+    assert slots.rare_term(["sauna"], [], []) is False  # no catalogue: nothing to compare with
+    assert slots.rare_term([], names, []) is False
+
+
+@pytest.mark.parametrize("question, fn, expected", [
+    ("Was it ever mentioned?", slots.has_negative_cue, True),
+    ("Did we never go there?", slots.has_negative_cue, True),
+    ("We didn't go there", slots.has_negative_cue, True),
+    ("Where did we go?", slots.has_negative_cue, False),
+    ("What is the latest version?", slots.has_latest_cue, True),
+    ("Is it currently amended?", slots.has_latest_cue, True),
+    ("What is the first version?", slots.has_latest_cue, False),
+    ("How many visits?", slots.has_count_cue, True),
+    ("What is the number of visits?", slots.has_count_cue, True),
+    ("Which visits?", slots.has_count_cue, False),
+])
+def test_cues(question, fn, expected):
+    assert fn(question) is expected

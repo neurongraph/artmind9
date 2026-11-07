@@ -39,6 +39,22 @@ intents:
       - ^merge
       - should be merged
       - same-as
+      - ^approve
+      - ^reject
+      - ^adjudicate
+      - open conflicts
+      - open same-as
+      - good with dismissing
+      - be dismissed
+      - ^dismissing
+      - are two distinct
+      - are distinct
+      - all these are
+      - are really the same
+      - artmind curate
+      - dismiss that
+      - dismiss it
+      - dismiss them
 
   - id: update
     description: An instruction to store a new fact or note in the knowledge base.
@@ -69,6 +85,9 @@ intents:
       - still running
       - ^progress
       - any progress
+      - ingest done
+      - ingest finished
+      - ingest complete
 
   - id: ops
     description: An instruction to run a pipeline operation such as ingesting, re-extracting or rebuilding.
@@ -77,6 +96,38 @@ intents:
       - re-extract
       - reingest
       - ^rebuild
+      - run the synthesize
+      - run synthesize
+      - run the projection
+      - projection rebuild
+      - vault sync
+      - run the ingest
+      - run ingest
+
+# Cues of an instruction to the assistant (write a file, change a setting, add a column, "just a test").
+# A lookup plan whose message carries one is capped below the threshold (planner.INSTRUCTION_CAP); the
+# intent itself is not changed.
+instructions:
+  - into a file
+  - to a file
+  - as a file
+  - save this
+  - save that
+  - save it
+  - as a topic
+  - write the table
+  - write it to
+  - the parameter
+  - the setting
+  - increase the
+  - decrease the
+  - don't do anything
+  - do not do anything
+  - just a test
+  - add a column
+  - add a description column
+  - remove the column
+  - create a table
 
 affirmatives:
   - "yes"

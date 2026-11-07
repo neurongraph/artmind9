@@ -280,8 +280,47 @@ def test_plan_config_check_reports_counts_only(tmp_path):
     by = {r["domain"]: r for r in json.loads(result.output)["results"]}
     assert result.exit_code == 1
     assert by["journal"]["ok"] is True
-    assert by["journal"]["counts"] == {"categories": 2, "kinship": 1, "scope_rules": 3, "calendar": 2,
-                                       "narrator_aliases": 0}
+    assert by["journal"]["counts"] == {"categories": 2, "kinship": 1, "synonyms": 0, "scope_rules": 3,
+                                       "calendar": 2, "narrator_aliases": 0}
     for term in ("Dentist", "Lantern", "oom", "family"):
         assert term not in result.output
     assert by["bad"]["ok"] is False and "month_day" in by["bad"]["errors"][0]
+
+
+# ── synonyms (planner v2 P2b) ─────────────────────────────────────────────────────────────
+
+def test_synonyms_parse_casefold_and_look_up_by_plural(tmp_path):
+    _write(tmp_path, "d", "synonyms:\n  Sauna: [Steam Room, Bathhouse]\n  trip: [Journey]\n")
+    cfg = config.load_config("d")
+    assert cfg.synonyms == (("sauna", ("steam room", "bathhouse")), ("trip", ("journey",)))
+    assert cfg.synonym("Saunas") == ("steam room", "bathhouse") and cfg.synonym("trips") == ("journey",)
+    assert cfg.synonym("lake") is None
+
+
+@pytest.mark.parametrize("text, message", [
+    ("synonyms: [a]\n", "synonyms must be a mapping"),
+    ("synonyms: {sauna: []}\n", "non-empty list"),
+    ("synonyms: {sauna: [a], Sauna: [b]}\n", "twice"),
+])
+def test_invalid_synonyms_are_named(tmp_path, text, message):
+    _err(tmp_path, text, message)
+
+
+def test_merge_unions_synonyms():
+    a = config.PlanConfig(synonyms=(("sauna", ("steam room",)),))
+    b = config.PlanConfig(synonyms=(("sauna", ("steam room", "bathhouse")), ("trip", ("journey",))))
+    assert config.merge([a, b]).synonyms == (("sauna", ("steam room", "bathhouse")), ("trip", ("journey",)))
+
+
+def test_plan_config_check_counts_synonyms(tmp_path):
+    import json
+
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+
+    _write(tmp_path, "journal", "synonyms:\n  sauna: [steam room]\n  trip: [journey]\n")
+    result = CliRunner().invoke(cli, ["plan", "config", "check", "--compact"])
+    by = {r["domain"]: r for r in json.loads(result.output)["results"]}
+    assert by["journal"]["counts"]["synonyms"] == 2
+    assert "steam room" not in result.output
