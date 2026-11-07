@@ -1,6 +1,6 @@
 # P3: the executor `artmind query run`, its evidence bundle, and the agent contract
 
-Date: 2026-11-07. Status: **spec for review**. Phase P3 of
+Date: 2026-11-07. Status: **spec for review**; open questions decided with the user (§13). Phase P3 of
 `2026-11-02-retrieval-curation-architecture-design.md` (§5.4, §5.5, §9), refining the P3 sketch in
 `2026-11-05-planner-v2-design.md` (§5–§7, §12). P3a is the executor and the bundle; P3b is the agent
 contract. Inputs: round 9 (`docs/query-routing-study/16-round9-shadow-collection.md`), the handover
@@ -52,17 +52,17 @@ Decisions taken with the user for this spec (2026-11-07; do not reopen without e
 | D2 | **Step bindings are named outputs** `{node.output}` from a code-defined vocabulary, checked when `routes.yaml` loads. There are no free expressions and no JSON paths. |
 | D3 | **B11 gets a `subplan` node**, depth 1 and at most 3 clauses, built and tested with a given `clauses` list. The clause splitter (when to split) stays B11's to design and measure. |
 | D4 | **Steps run through a capture mode in `_echo_json`**, invoked as real Click commands in the same thread: no nested `CliRunner` and no second `serve` lock. `par` stays sequential in P3. |
-| D5 | **The contract is a profile setting.** `AgentProfile.contract` (`classic` \| `bundle`) picks the skill. The default comes from `ARTMIND_AGENT_CONTRACT` in the vault's config. A benchmark run carries its own `contract`. Every trace turn records it. One retire slice deletes the losing contract. |
+| D5 | **The contract is a profile setting.** `AgentProfile.contract` (`classic` \| `bundle`) picks the skill. The default comes from `ARTMIND_AGENT_CONTRACT` in the vault's config. A benchmark run carries its own `contract`. Every trace turn records it. One retire slice deletes the losing contract. Classic stays the default in every vault until a paired run passes in both vaults (§13 Q8). |
 
 ## 1. Scope
 
 | In | Out |
 |---|---|
-| `query run` (single question, `--plan`, `--each`), the executor, step facts, guards, limits, deadline, errors | New routes or route changes; B12's guards; B11's clause splitter and its cue |
-| Step bindings (grammar, load checks, runtime binding) and the `subplan` node | The assembly pass and the `episode` route's programs (PA3 uses the bindings built here) |
+| `query run` (single question, `--plan`, `--each`), the executor, step facts, guards, limits, deadline, errors | New routes or route changes (including converting `structured`, §13 Q1); B12's guards; B11's clause splitter and its cue |
+| Step bindings (grammar, load checks, runtime binding) and the `subplan` node | The assembly pass (PA1–PA2, episodes for multi-day happenings; they run beside P3) and the `episode` route's programs, which are PA3's in the assembly-pass spec. P3 supplies the bindings that `event_window` and `episode_lookup` need (§4) |
 | The bundle: adapters per command, evidence ranking, budget, handle, `query page --list` | The admin UI's plan card and evidence panel (P4) |
 | Nested spans; `run` span fields; trace analysis for run turns | Gap classification and proposal files (P5); the bundle only emits `gaps` |
-| Shadow dry execution behind its flag | Dry runs of curation/update actions (§13 Q5) |
+| Shadow dry execution behind its flag | Dry runs of curation/update actions (P5, §13 Q5) |
 | `previous` resolution (flag, `ARTMIND_PREVIOUS_CONTEXT`, trace store) | A learned or LLM classifier |
 | The `artmind-query-bundle` skill, profile `contract`, benchmark `contract`, paired comparison | Parallel `par` (§13 Q3) |
 | Gates for P3a, P3b and the per-route fast path; the retire slice | |
@@ -441,8 +441,9 @@ puts the newest family document first with `latest: true`. `coverage.probes` and
 - **Analysis** (`artmind/traces/analysis.py`):
   - top-level spans are the agent's calls; child spans are the executor's;
   - `agreement` on a run turn is true by construction and is reported separately (`run_turns`);
-  - new per-turn signals: `added_after_run` (top-level spans after the run span) and `overridden` (on a
-    fast-mode bundle, the agent still ran commands);
+  - new per-turn signals: `added_after_run` (top-level spans after the run span), `overridden` (on a
+    fast-mode bundle, the agent still ran commands) and `skill_violation` (a `query plan` span on a
+    bundle-contract turn, §13 Q9);
   - `traces show` indents child spans under their run.
 
 ### 7.2 Shadow dry execution
@@ -590,7 +591,7 @@ brain01's benchmark file (10 questions). The user rates both runs in the admin U
 | Turn latency | median `duration_s` lower than classic |
 | Cost | median `cost_usd` not higher |
 
-When both vaults pass, `ARTMIND_AGENT_CONTRACT` defaults to `bundle` and the retire slice (S13) is due.
+When both vaults pass in one paired run, `ARTMIND_AGENT_CONTRACT` defaults to `bundle` and the retire slice (S13) is due. A pass in one vault only counts as a fail: every vault stays `classic` (§13 Q8).
 This **replaces** the architecture §9 P3 gate's "fast-path share ≥ 50 % of rated-good turns", which round 9
 makes unreachable without risk. The fast path gets its own per-route gate (§9.3).
 
@@ -656,7 +657,7 @@ tests and its gate. The parent session reviews every diff.
 | S10 | **Paired comparison.** `traces stats --compareRuns A B` | `traces/analysis.py`, traces CLI | pairing by `benchmark_seq`, invented runs | **P3b gate** (§9.2) read by the user on banking and brain01 |
 | S11 | **Subplan node.** Grammar, `clauses` list slot (given plans only), executor, bundle `clause` and `subplans` | `program.py`, `planner.py` (slot plumbing), `query_run/` | subplan (§10) | hermetic; `exec_ms` and `plan_ms` for a 3-clause fixture plan on banking reported for B11 |
 | S12 | **Fast path switch.** `ARTMIND_RUN_FAST_ROUTES`, `mode`, `overridden` signal; per-route readings in `traces stats` | `query_run/bundle.py`, `traces/analysis.py` | mode rule (§8.3) | merged off; a route is enabled only by §9.3's reading |
-| S13 | **Retire the losing contract.** Due at the first paired benchmark that passes §9.2 in both vaults, or 30 days after S9 merges, whichever comes first. If bundle wins: its content moves into `artmind-query`, `artmind-query-bundle` and the classic text are deleted, profile `contract` and `ARTMIND_AGENT_CONTRACT` are removed, and `artmind init` drops symlinks to removed artmind skills. If classic wins: the bundle skill and the switch are deleted; the executor stays (used by `--each`, shadow runs, PA3, B11). The `trace_turns.contract` column stays for history | `skills/`, `webui/profiles.py`, `setup.py` (`_symlink_skills` pruning), `benchmark.py` | contract tests updated | full suite; one benchmark run per vault on the single contract |
+| S13 | **Retire the losing contract.** Due at the first paired benchmark that passes §9.2 in both vaults, or when the user decides to drop the bundle contract (§13 Q8). Until then every vault stays `classic`. If bundle wins: its content moves into `artmind-query`, `artmind-query-bundle` and the classic text are deleted, profile `contract` and `ARTMIND_AGENT_CONTRACT` are removed, and `artmind init` drops symlinks to removed artmind skills. If classic wins: the bundle skill and the switch are deleted; the executor stays (used by `--each`, shadow runs, PA3, B11). The `trace_turns.contract` column stays for history | `skills/`, `webui/profiles.py`, `setup.py` (`_symlink_skills` pruning), `benchmark.py` | contract tests updated | full suite; one benchmark run per vault on the single contract |
 
 S1–S4 are strictly sequential. S5, S6 and S7 each need only S4 and touch different files, so they can run
 in parallel. S8 needs S4. S9 needs S3 and S8. S10 needs S9. S11 needs S5. S12 needs S9.
@@ -680,35 +681,22 @@ in parallel. S8 needs S4. S9 needs S3 and S8. S10 needs S9. S11 needs S5. S12 ne
 | `artmind/skills/` | new `artmind-query-bundle`; generated references |
 | `docs/question-routing.md`, `CLAUDE.md` repo-layout table | `query run`, `artmind/query_run/`, the contract switch (with S4 and S9) |
 
-## 13. Open questions (with recommendations)
+## 13. Decided questions
 
-1. **Structured programs and `db` steps.** The executor allows the read-only `db` set, so `structured`
-   can run as a program. Round 9 shows the agent opening with `db schema`, not `db bridge`.
-   *Recommendation:* allow the read-only set (§3.3); convert `structured` to a program in its own route
-   change after S4, choosing `db schema` vs `db bridge` from replay, not in P3.
-2. **Per-step timeout.** The deadline is checked only between steps, so one stuck Neo4j query can
-   outlast it. *Recommendation:* add nothing now. If `run_shadow` shows steps over 10 s, add a transaction
-   timeout contextvar read by the Neo4j session helper (as views do with `VIEW_QUERY_TIMEOUT_S`).
-3. **Parallel `par`.** *Recommendation:* sequential in P3. Measure `exec_ms` in S4/S6; parallelise only if
-   the gate fails on `par` programs, and then with per-thread capture (contextvars already isolate it) and
-   one Neo4j session per thread.
-4. **Agent-given clauses (`query run --clause TEXT`).** It would let the reasoning-path agent split a
-   question itself. *Recommendation:* not now. The agent can call `query run` twice, and B11 should decide
-   whether code or the agent splits, with the subplan node already there.
-5. **Dry runs of `curate` / `update` actions** (planner v2 §8.3). These are write commands outside the
-   `query` group, which `serve` does not serve. *Recommendation:* defer to P5; the bundle carries `action`
-   only.
-6. **Structured offers.** *Recommendation:* keep extracting the offer from the answer text
-   (`extract_offer`). Store a structured `offer` only if S8's follow-up measure stays low because of missed
-   offers.
-7. **Evidence cap** (10 passages + 1 per further document). *Recommendation:* keep it. S6's `covers_agent`
-   and the bundle's `query page` calls per turn decide it, as planner v2 §11 says for `page_calls`.
-8. **Mixed outcome in the paired benchmark** (bundle better in one vault, worse in the other).
-   *Recommendation:* the config key allows a per-vault default for a while, but S13 still runs on its
-   30-day trigger. Either the bundle contract is fixed for the losing vault by then, or classic wins
-   everywhere. Two contracts are not kept indefinitely.
-9. **Does `query plan` stay agent-facing?** *Recommendation:* the bundle skill never calls it. It stays
-   for operators, replay, shadow and the classic skill until S13.
+Each was put to the user with its background and options on 2026-11-07. The answer is recorded here and
+applied in the sections named.
+
+| # | Question | Decision |
+|---|---|---|
+| Q1 | Structured programs and `db` steps | **Allow the read-only `db` set; convert later.** The executor may run the read-only `db` set (§3.3). Converting `structured` to a program, and choosing `db schema` or `db bridge` as its opening step (round 9: the agent opens with `db schema`), is its own route change after S4, decided by replay. |
+| Q2 | Per-step timeout | **Not now; measure first.** Only the between-step deadline (§3.6). If `run_shadow` (S6) shows steps over 10 s, add a Neo4j transaction timeout through a contextvar, as views do with `VIEW_QUERY_TIMEOUT_S`. |
+| Q3 | Parallel `par` | **Sequential.** S4 and S6 measure `exec_ms` per program kind. Parallel children (per-thread capture, one Neo4j session per thread) come as their own slice only if `par` programs miss the 3 s gate. |
+| Q4 | Agent-given clauses (`--clause`) | **No.** The agent may call `query run` once per part itself. B11 weighs code splitting against agent splitting, with the subplan node (S11) already built. |
+| Q5 | Dry runs of `curate` / `update` actions | **Deferred to P5.** The bundle carries `action` and escalates `no_lookup` (§3.7). The skill runs the dry run with the user, as today. The executor stays strictly read-only. |
+| Q6 | Structured offers | **Text extraction; revisit after S8.** Offers stay extracted from the stored answer (`previous.extract_offer`). A structured offer is added only if S8's follow-up measure stays low because of missed offers. |
+| Q7 | Evidence cap | **Keep 10 passages + 1 per further document** (§6.3), as a named setting. S6's `covers_agent` and the `query page` calls per bundle turn decide whether it moves. |
+| Q8 | Mixed outcome in the paired benchmark | **Classic until both vaults pass.** A mixed result counts as a fail: every vault stays `classic` until one paired run passes §9.2 in both banking_corpus and brain01. There is no time limit and no per-vault default. S13 runs at that double pass, or when the user decides to drop the bundle contract (§11). |
+| Q9 | Does `query plan` stay agent-facing? | **No; operators and tooling only.** The bundle skill never calls it (§8.2). It stays for operators, replay, shadow and the classic contract. `traces stats` counts a `query plan` span on a bundle-contract turn as `skill_violation`. |
 
 ## 14. Risks
 
