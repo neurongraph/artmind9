@@ -67,3 +67,48 @@ def test_each_item_is_a_child_span_of_the_run(tmp_path, monkeypatch):
     run = next(s for s in spans if s["command"] == "query run")
     items = [s for s in spans if s["parent_span_id"] == run["span_id"]]
     assert [s["command"] for s in items] == ["query run item", "query run item"]
+
+
+def _claims(tmp_path):
+    claims = tmp_path / "c.jsonl"
+    claims.write_text('{"id": "c1", "claim": "x"}\n')
+    return claims
+
+
+def test_each_exits_3_when_every_step_failed_on_the_store(tmp_path, monkeypatch):
+    monkeypatch.setattr(each, "_default_step", lambda: (lambda argv, sid: StepResult(sid, list(argv), 3, "store", None, 1.0, 0)))
+    out = CliRunner().invoke(cli, ["query", "run", "--each", str(_claims(tmp_path)), "--domain", "b", "--compact"])
+    assert out.exit_code == 3, out.output
+    assert json.loads(out.stdout)["store_failure"] is True
+
+
+@pytest.mark.parametrize("extra", [["--exclude", "doc"], ["--previous", "p.json"], ["--classifier", "lexical"]])
+def test_each_refuses_options_it_ignores(tmp_path, extra):
+    out = CliRunner().invoke(cli, ["query", "run", "--each", str(_claims(tmp_path)), "--domain", "b", *extra])
+    assert out.exit_code == 1 and "--each" in out.output
+
+
+def test_each_accepts_the_default_classifier_spelled_out(tmp_path):
+    out = CliRunner().invoke(cli, ["query", "run", "--each", str(_claims(tmp_path)), "--domain", "b",
+                                   "--classifier", "auto", "--compact"])
+    assert out.exit_code == 0, out.output
+
+
+def test_each_removes_old_run_files_and_traces_prune_removes_them(tmp_path, monkeypatch):
+    monkeypatch.setattr("artmind.cli.LOGS_DIR", tmp_path / "logs")
+    import os
+    import time
+
+    runs = tmp_path / "logs" / "runs"
+    runs.mkdir(parents=True)
+    old = runs / "aaaaaaaaaaaa.jsonl"
+    old.write_text("{}\n")
+    stamp = time.time() - 48 * 3600
+    os.utime(old, (stamp, stamp))
+    out = CliRunner().invoke(cli, ["query", "run", "--each", str(_claims(tmp_path)), "--domain", "b", "--compact"])
+    assert out.exit_code == 0, out.output
+    assert not old.exists()
+    assert len(list(runs.glob("*.jsonl"))) == 1
+    out = CliRunner().invoke(cli, ["traces", "prune", "--compact"])
+    assert out.exit_code == 0, out.output
+    assert not list(runs.glob("*.jsonl"))

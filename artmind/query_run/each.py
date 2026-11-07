@@ -14,6 +14,7 @@ import shlex
 from dataclasses import dataclass
 from pathlib import Path
 
+from artmind import result_store
 from artmind.query_run import bundle as bundle_mod
 from artmind.query_run import executor
 from artmind.query_run.replay_run import p90
@@ -47,7 +48,10 @@ def load_claims(path) -> list[Claim]:
         try:
             raw = yaml.safe_load(text) or []
         except yaml.YAMLError as exc:
-            raise ClaimsError(f"{path} is not valid YAML: {exc}") from exc
+            mark = getattr(exc, "problem_mark", None)
+            where = f" at line {mark.line + 1}, column {mark.column + 1}" if mark is not None else ""
+            problem = getattr(exc, "problem", None) or "syntax error"
+            raise ClaimsError(f"{path} is not valid YAML{where}: {problem}") from None
         if not isinstance(raw, list):
             raise ClaimsError(f"{path}: expected a list of {{id, claim, source_doc?}}")
         items = list(enumerate(raw, 1))
@@ -122,10 +126,11 @@ def run_each(claims: list[Claim], domains: list[str], *, step_fn=None, max_items
     step_fn = step_fn or _default_step()
     runs_dir = Path(paths.LOGS_DIR) / "runs"
     runs_dir.mkdir(parents=True, exist_ok=True)
+    result_store.prune_files(runs_dir)
     handle = secrets.token_hex(6)
     out_path = runs_dir / f"{handle}.jsonl"
     took = claims[:max_items]
-    times, escalated = [], 0
+    times, escalated, store_failures = [], 0, 0
     with out_path.open("w", encoding="utf-8") as fh:
         for claim in took:
             with child_span("query run item", {"id": claim.id}) as span:
@@ -135,6 +140,7 @@ def run_each(claims: list[Claim], domains: list[str], *, step_fn=None, max_items
                 printed = _drop_source(printed, claim.source_doc)
                 times.append(ex.exec_ms)
                 escalated += bool(ex.escalate)
+                store_failures += ex.exit_code == 3
                 fh.write(json.dumps({"id": claim.id, "bundle": printed}, ensure_ascii=False, default=str) + "\n")
                 if span is not None:
                     span["summary"] = {"rows": len(printed.get("evidence") or []),
@@ -142,4 +148,5 @@ def run_each(claims: list[Claim], domains: list[str], *, step_fn=None, max_items
                                        "rows_total": printed.get("rows_total"), "evidence": {}}
     return {"items": len(took), "skipped_items": len(claims) - len(took), "escalated": escalated,
             "exec_ms_p50": sorted(times)[len(times) // 2] if times else None, "exec_ms_p90": p90(times),
-            "handle": handle, "file": str(out_path)}
+            "handle": handle, "file": str(out_path),
+            "store_failure": bool(took) and store_failures == len(took)}

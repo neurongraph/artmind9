@@ -4041,11 +4041,17 @@ def query_run(domain: tuple, exclude: tuple, previous_file: str | None, classifi
             raise click.ClickException("--each runs a claims file; give no question and no --plan")
         if not domain:
             raise click.ClickException("--each needs --domain (the claims are searched in these domains)")
+        if exclude or previous_file is not None or classifier != "auto":
+            raise click.ClickException("--each takes a fixed program: --exclude, --previous and --classifier do not apply "
+                                       "(a claim's own source_doc is left out)")
         try:
             claims = each_mod.load_claims(each_file)
         except each_mod.ClaimsError as exc:
             raise click.ClickException(str(exc)) from exc
-        _echo_json(each_mod.run_each(claims, _parse_domains(domain), max_items=max_items), compact)
+        summary = each_mod.run_each(claims, _parse_domains(domain), max_items=max_items)
+        _echo_json(summary, compact)
+        if summary.get("store_failure"):
+            raise SystemExit(3)
         return
 
     from neo4j.exceptions import DriverError, Neo4jError
@@ -4871,12 +4877,14 @@ def traces_prune(days, compact, dry_run) -> None:
     from artmind import result_store
 
     results = result_store.prune_files(LOGS_DIR / "results", max_age_s=None, dry_run=dry_run)
+    runs = result_store.prune_files(LOGS_DIR / "runs", max_age_s=None, dry_run=dry_run)
     effect = Effect(
         summary=f"delete {count} trace turn(s) older than {retention} days (no feedback, no review)"
-                f" and {results} stored query result file(s)",
+                f" and {results} stored query result file(s) and {runs} query run file(s)",
         changes=[Change("trace_delete", count, [])],
     )
-    _echo_json(with_effect({"pruned": count, "results_pruned": results}, effect, dry_run=dry_run), compact)
+    _echo_json(with_effect({"pruned": count, "results_pruned": results, "runs_pruned": runs}, effect,
+                           dry_run=dry_run), compact)
 
 
 # ── artmind review ────────────────────────────────────────────────────────────

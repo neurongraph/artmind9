@@ -153,7 +153,7 @@ def prune_files(results_dir: Path, max_age_s: float | None = RESULT_TTL_S, dry_r
     """Remove result files older than `max_age_s` (None = all). Never raises."""
     count = 0
     try:
-        files = [p for p in Path(results_dir).glob("*.json") if is_handle(p.stem)]
+        files = [p for pattern in ("*.json", "*.jsonl") for p in Path(results_dir).glob(pattern) if is_handle(p.stem)]
     except OSError:
         return 0
     now = time.time()

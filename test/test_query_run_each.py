@@ -113,3 +113,11 @@ def test_drop_source_matches_ids_titles_and_names_with_or_without_extension():
             printed = {"evidence": [{"doc": doc}, {"doc": {"id": "other"}}], "documents": [{**doc}, {"doc_id": "other"}]}
             out = each._drop_source(printed, source)
             assert len(out["evidence"]) == 1 and len(out["documents"]) == 1, (source, doc)
+
+
+def test_a_yaml_error_does_not_echo_the_claim_text(tmp_path):
+    bad = tmp_path / "claims.yaml"
+    bad.write_text("- id: c1\n  claim: secret invented sentence: [unclosed\n  other: 'x\n")
+    with pytest.raises(each.ClaimsError) as err:
+        each.load_claims(bad)
+    assert "secret invented sentence" not in str(err.value) and "line" in str(err.value)
