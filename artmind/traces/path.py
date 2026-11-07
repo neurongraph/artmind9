@@ -22,6 +22,7 @@ _EXACT = {
     "query chunks": "provenance",   # source text fetched by id for graph results
     "query text2sql": "sql",
     "query resolve-key": "sql",
+    "db sql": "sql",   # raw read-only SQL; db bridge/list/schema/timeline/review are discovery
     "query entity-context": "graph",
     "query entity-history": "graph",
     "query document-history": "graph",

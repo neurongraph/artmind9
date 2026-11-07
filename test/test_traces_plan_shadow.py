@@ -41,12 +41,17 @@ def test_agreement_compares_the_first_step_with_the_agents_spans():
 
 
 def test_agreement_skips_untraced_steps_and_malformed_commands():
-    plan = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db bridge --domain b"},
+    # `db bridge` is traced (B8): it is the first node; an untraced db step (`db grain`) is skipped.
+    plan = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db grain t --set row"},
                                                {"n": 2, "cmd": "artmind query text2sql --domain b"}]}}
     assert analysis.agreement(plan, [_span("query text2sql")]) is True
     assert analysis.agreement(plan, [_span("query vector-text")]) is False
-    only_db = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db bridge --domain b"}]}}
-    assert analysis.agreement(only_db, [_span("query text2sql")]) is None
+    db_first = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db bridge --domain b"},
+                                                   {"n": 2, "cmd": "artmind query text2sql --domain b"}]}}
+    assert analysis.agreement(db_first, [_span("db bridge")]) is True
+    assert analysis.agreement(db_first, [_span("query text2sql")]) is False
+    only_untraced = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db refresh"}]}}
+    assert analysis.agreement(only_untraced, [_span("query text2sql")]) is None
     assert analysis.agreement(_shadow(cmd="artmind query views run 'visits --domain b"), []) is None
 
 
@@ -191,8 +196,8 @@ def test_show_includes_the_shadow_plan():
 def test_a_turn_without_a_lookup_is_not_graded_on_agreement():
     # The agent answered from the conversation (no `artmind query` command): no agreement either way.
     curate = {**_shadow(), "plan": {**_shadow()["plan"], "intent": {"id": "curate"}}}
-    _turn("t1", "s1", curate, "db sql")
-    _turn("t2", "s2", _shadow(), "db sql")  # a confident lookup plan for a turn that needed none
+    _turn("t1", "s1", curate, "db refresh")
+    _turn("t2", "s2", _shadow(), "db refresh")  # a confident lookup plan for a turn that needed none
     _turn("t3", "s3", _shadow(), "query views run", "visits")
     (row,) = [r for r in analysis.stats(by="all") if r["domain"] == "b"]
     block = row["plan_shadow"]
@@ -204,4 +209,5 @@ def test_a_turn_without_a_lookup_is_not_graded_on_agreement():
 def test_agent_looked_up():
     assert analysis.agent_looked_up([_span("query vector-text")])
     assert not analysis.agent_looked_up([_span("query plan")])
-    assert not analysis.agent_looked_up([_span("db sql")]) and not analysis.agent_looked_up([])
+    assert analysis.agent_looked_up([_span("db sql")])  # traced read-only db calls are lookups (B8)
+    assert not analysis.agent_looked_up([_span("db refresh")]) and not analysis.agent_looked_up([])

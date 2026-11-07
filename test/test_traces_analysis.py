@@ -248,3 +248,14 @@ def test_agreement_without_a_program_uses_the_first_traced_step():
     assert analysis.agreement(shadow, [{"command": "query vector-text"}]) is True
     assert analysis.agreement(shadow, [{"command": "query survey"}]) is False
     assert analysis.agreement(_shadow(None, ()), [{"command": "query survey"}]) is None
+
+
+_DB_STEPS = ("artmind db bridge --domain d --compact", "artmind query survey --domain d x --compact")
+
+
+def test_agreement_counts_a_db_bridge_first_call_for_a_structured_plan():
+    shadow = _shadow(None, _DB_STEPS)
+    assert analysis.agreement(shadow, [{"command": "db bridge"}]) is True
+    assert analysis.agreement(shadow, [{"command": "db sql"}]) is False
+    assert analysis.agreement(shadow, [{"command": "query survey"}]) is False
+    assert analysis.agent_looked_up([{"command": "db sql"}]) is True

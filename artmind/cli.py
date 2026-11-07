@@ -72,7 +72,7 @@ from paths import (
     WORKER_PID_FILE,
 )
 from utils.functions import load_env, resolve_llm_model
-from artmind.traces.span import TracedGroup, observe_output
+from artmind.traces.span import TracedDbGroup, TracedGroup, observe_output
 from artmind.reviews.dossier import STAGES, STATUSES
 from artmind.cli_conventions import (
     LIST_KEY, Change, Effect, _command_path, aliased_option, compact_option, dry_run_option, envelope, exit_on_store_failure,
@@ -2285,7 +2285,7 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 # ── artmind query ──────────────────────────────────────────────────────────────
 
 
-@cli.group()
+@cli.group(cls=TracedDbGroup)
 def db():
     """Manage and read the structured (SQL) store: bridge/list/schema/sql/timeline/grain/propose/mappings/review/catalogue/refresh/connect/backup/restore/export-text/restore-text.
 
