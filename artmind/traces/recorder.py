@@ -149,9 +149,30 @@ class TraceRecorder:
                                                 "payload": store.cap(result)}])
             except Exception:
                 logger.exception("late shadow plan not recorded")
+                return
+            try:
+                # result() joined the plan thread, which also ran the dry run: `dry` is set unless it failed
+                dry = getattr(shadow_plan, "dry", None)
+                if isinstance(dry, dict):
+                    self._write_run_shadow(seq + 1, dry)
+                elif result.get("status") == "timeout" and shadow.run_mode() != "0":
+                    self._write_run_shadow(seq + 1, {"status": "timeout"}, covers=False)
+            except Exception:
+                logger.exception("late run shadow not recorded")
 
         self._late_shadow = threading.Thread(target=run, name="plan-shadow-late", daemon=True)
         self._late_shadow.start()
+
+    def _write_run_shadow(self, seq: int, dry: dict, covers: bool = True) -> None:
+        """The shadow dry run beside `plan_shadow`; `covers_agent` is read from the agent's top-level spans
+        (the executor's own child spans would make coverage trivially 1)."""
+        payload = dict(dry)
+        if covers:
+            top = [sp for sp in store.list_spans(self.trace_id) if not sp.get("parent_span_id")]
+            payload["covers_agent"] = shadow.covers_agent(dry.get("documents") or [], top)
+        store.insert_events(self.trace_id, [{"seq": seq, "ts": time.time(), "type": "run_shadow",
+                                             "tool_id": None, "parent_tool_id": None, "name": "query run",
+                                             "payload": store.cap(payload)}])
 
     # ── end of turn ──────────────────────────────────────────────────────
     def finish(self, error: str | None = None) -> None:
@@ -160,6 +181,7 @@ class TraceRecorder:
         try:
             self._flush("thinking")
             self._flush("text")
+            dry = None
             if self._shadow is not None:
                 try:
                     result = self._shadow.result()
@@ -167,11 +189,17 @@ class TraceRecorder:
                         self._record_shadow_late(seq=len(self._events))
                     else:
                         self._add("plan_shadow", result, name="query plan")
+                        dry = getattr(self._shadow, "dry", None)
                 except Exception:
                     logger.exception("shadow plan not recorded")
             store.insert_events(self.trace_id, self._events)
             spans = store.list_spans(self.trace_id)
             top = [sp for sp in spans if not sp.get("parent_span_id")]  # a `query run` step is the executor's, not the agent's
+            if isinstance(dry, dict):
+                try:
+                    self._write_run_shadow(len(self._events), dry)
+                except Exception:
+                    logger.exception("run shadow not recorded")
             pairs = match_tool_ids(spans, self._tools)
             store.set_span_tool_ids(pairs)
             answer = "".join(self._answer) or self._done.get("result")
