@@ -210,6 +210,11 @@ _REFERS_RE = re.compile(
 )
 
 
+AFFIRMATIVE_MAX_WORDS = 20
+_AFFIRM_OPEN_RE = re.compile(r"^\W*(?:yes|yeah|yep|yup|ok|okay|sure|alright)\b")
+_ACTION_RE = re.compile(r"\b(?:do|run|go ahead|proceed|continue|please|try|start)\b")
+
+
 def refers_to_previous(question: str) -> bool:
     """The message only makes sense after the previous answer.
 
@@ -222,7 +227,11 @@ def refers_to_previous(question: str) -> bool:
     if is_context_only(question):
         return True
     low = question.casefold().replace("’", "'")
-    if len(_WORD_RE.findall(low)) > REFERS_MAX_WORDS:
+    words = len(_WORD_RE.findall(low))
+    # B12: "Yes - do run a broader sweep ..." accepts an offer even when it runs on past eight words.
+    if words <= AFFIRMATIVE_MAX_WORDS and _AFFIRM_OPEN_RE.search(low) and _ACTION_RE.search(low):
+        return True
+    if words > REFERS_MAX_WORDS:
         return False
     return bool(_REFERS_RE.search(low))
 

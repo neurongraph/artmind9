@@ -27,6 +27,7 @@ from artmind.kg_views.store import domain_covered
 from artmind.query_plan import candidates, catalogue, fill, intents, slots as slots_mod
 from artmind.query_plan import config as plan_config
 from artmind.query_plan import domain_set
+from artmind.query_plan import guards as guards_mod
 from artmind.query_plan import program as program_mod
 from artmind.query_plan import routes as routes_mod
 from artmind.query_plan.classify import ClassifierUnavailable, Decision, LexicalClassifier, select_classifier
@@ -752,6 +753,8 @@ RETRIEVING = frozenset({"retrieve", "follow_up_why"})
 #: B3a: a lookup whose message carries an instruction cue (intents.yaml `instructions:`) is capped here,
 #: below every threshold, so the plan reads as low. Route and steps stay (as `suggested_steps`).
 INSTRUCTION_CAP = 0.5
+#: B12: a plan whose shape a guard (guards.py) marks as wrongly confident is capped here.
+GUARD_CAP = 0.5
 #: B3c: a plan from an answering decision backend is `high` only at `threshold + DECISION_MARGIN`; decision
 #: scores move about +-0.03 between identical calls. Override per domain with `decision_margin:` in the plan config.
 DECISION_MARGIN = 0.05
@@ -1152,6 +1155,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     fallbacks: list[dict] = []
     read: list[str] = []
     high = False
+    guard_hits: list[dict] = []
     score = 0.0
     weakest = "intent"
     slot_quality_block: dict | None = None
@@ -1169,6 +1173,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     chosen_lists: dict = {}
     route_id, route_conf = route_answer.choice, route_answer.confidence
     route_adjusted: dict | None = None
+    route_forced = False
 
     def selected_scope(route_for_scope: str | None):
         return slots_mod.scope_slot(list(domains or ()), selected, dset.stage or 0.0, threshold, cfg, question,
@@ -1243,6 +1248,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         # ── view match (classifier call 2) or route ─────────────────────────
         forced = previous.route if (intent == "follow_up_why" and previous is not None) else None
         forced_route = next((r for r in all_routes if r.id == forced), None)
+        route_forced = forced_route is not None
         if (not chunks_only and forced_route is None and view_answer is not None and view_answer.choice != NO_VIEW
                 and view_answer.confidence >= threshold):
             loaded = views_by_name[view_answer.choice]
@@ -1374,6 +1380,9 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             stages.append(("intent", intent_result.confidence))
         if instruction:
             stages.append(("instruction", INSTRUCTION_CAP))
+        guard_hits = guards_mod.evaluate(route_id, intent, question, entities)
+        if guard_hits:
+            stages.append(("guard", GUARD_CAP))
         weakest, score = min(stages, key=lambda s: s[1])
         blocker = built.blocker
         if blocker and score >= threshold:  # a stage below the threshold stays the weakest link
@@ -1417,7 +1426,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "plan_version": PLAN_VERSION,
         "question": user_question,
         "effective_question": effective_question,
-        "previous_used": intent_result.previous_used,
+        "previous_used": intent_result.previous_used or route_forced,
         "intent": {"id": intent, "confidence": intent_result.confidence, "source": intent_result.source,
                    "inherited_offer": intent_result.inherited_offer,
                    "unsure": unsure, "instruction": list(instruction),
@@ -1443,7 +1452,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "slot_quality": slot_quality_block,
         "scope": _plain(scope_slot.value),
         "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "margin": margin,
-                       "weakest": weakest},
+                       "weakest": weakest, "guards": guard_hits},
         "program": program_json,
         "program_kind": program_kind,
         "plan_facts": plan_facts,
