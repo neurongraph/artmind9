@@ -27,6 +27,7 @@ from artmind.benchmark import (
     _run_benchmark,
 )
 from artmind.webui.dashboard_routes import _camelize
+from artmind.webui.profiles import BENCHMARK_PROFILE, require_skill, with_contract
 
 
 class BenchmarkPreviewRequest(BaseModel):
@@ -38,6 +39,7 @@ class BenchmarkRunRequest(BaseModel):
     domain_hint: str | None = Field(None, alias="domainHint")
     backend: str = "claude-sdk"
     name: str | None = None
+    contract: str = "classic"
 
     model_config = {"populate_by_name": True}
 
@@ -62,13 +64,18 @@ def register_benchmark_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         questions = _parse_questions_file(path)
         if not questions:
             raise HTTPException(status_code=400, detail=f"No questions parsed from {payload.path}")
-        run_id = _create_benchmark_run(
-            source_path=str(path.resolve()),
-            questions=questions,
-            domain_hint=payload.domain_hint,
-            backend=payload.backend,
-            name=payload.name,
-        )
+        try:
+            require_skill(with_contract(BENCHMARK_PROFILE, payload.contract))
+            run_id = _create_benchmark_run(
+                source_path=str(path.resolve()),
+                questions=questions,
+                domain_hint=payload.domain_hint,
+                backend=payload.backend,
+                name=payload.name,
+                contract=payload.contract,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
         asyncio.create_task(_run_benchmark(run_id))
         return _camelize({"run_id": run_id, "question_count": len(questions)})
 

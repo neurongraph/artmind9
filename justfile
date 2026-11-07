@@ -117,6 +117,10 @@ dev-copy-skills:
     cp -r ./artmind/skills/* ./.claude/skills
     cp -r ./artmind/skills/* ./.pi/skills
 
+# regenerate the artmind-query-bundle skill's references from routes.yaml and the Click tree
+dev-gen-query-refs:
+    uv run python -c "from artmind.query_run import skill_refs; [print(p) for p in skill_refs.write_all('artmind/skills/artmind-query-bundle')]"
+
 # sync artmind/skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
 dev-refresh-skills:
     #!/usr/bin/env bash

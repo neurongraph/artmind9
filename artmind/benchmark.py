@@ -174,16 +174,22 @@ def _create_benchmark_run(
     domain_hint: str | None = None,
     backend: str = "claude-sdk",
     name: str | None = None,
+    contract: str = "classic",
 ) -> str:
     """Create a new benchmark run with per-question rows; return run_id."""
+    from artmind.webui.profiles import CONTRACTS
+
+    if contract not in CONTRACTS:
+        raise ValueError(f"contract must be one of {', '.join(CONTRACTS)}, got {contract!r}")
     run_id = str(uuid.uuid4())
     conn = _get_db()
     try:
         conn.execute(
             "INSERT INTO benchmark_runs"
-            " (run_id, name, domain_hint, source_path, backend, status, question_count, queued_at)"
-            " VALUES (?, ?, ?, ?, ?, 'queued', ?, ?)",
-            (run_id, name, domain_hint, source_path, backend, len(questions), datetime.now().isoformat()),
+            " (run_id, name, domain_hint, source_path, backend, status, question_count, queued_at, contract)"
+            " VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, ?)",
+            (run_id, name, domain_hint, source_path, backend, len(questions), datetime.now().isoformat(),
+             contract),
         )
         conn.executemany(
             "INSERT INTO benchmark_questions"
@@ -276,7 +282,7 @@ def _update_benchmark_question(
 
 _RUN_COLS = (
     "run_id, name, domain_hint, source_path, backend, status,"
-    " question_count, processed_count, queued_at, started_at, completed_at, error_message"
+    " question_count, processed_count, queued_at, started_at, completed_at, error_message, contract"
 )
 
 
@@ -285,6 +291,7 @@ def _row_to_run(row) -> dict:
         "run_id": row[0], "name": row[1], "domain_hint": row[2], "source_path": row[3],
         "backend": row[4], "status": row[5], "question_count": row[6], "processed_count": row[7],
         "queued_at": row[8], "started_at": row[9], "completed_at": row[10], "error_message": row[11],
+        "contract": row[12],
     }
 
 
@@ -458,7 +465,7 @@ async def _run_benchmark(run_id: str) -> None:
     # Lazy import: keeps this module (and its parser/CRUD, which are unit
     # tested on their own) importable without the Claude Agent SDK installed.
     from artmind.webui.backends import create_backend
-    from artmind.webui.profiles import BENCHMARK_PROFILE
+    from artmind.webui.profiles import BENCHMARK_PROFILE, with_contract
     from artmind.traces.recorder import TraceRecorder
     from artmind.webui.backends import new_trace_context
 
@@ -466,6 +473,7 @@ async def _run_benchmark(run_id: str) -> None:
     if run is None:
         return
     _update_benchmark_run(run_id, status="processing", started_at=datetime.now().isoformat())
+    profile = with_contract(BENCHMARK_PROFILE, run.get("contract") or "classic")
 
     for summary in run["questions"]:
         current = _get_benchmark_run(run_id)
@@ -482,10 +490,10 @@ async def _run_benchmark(run_id: str) -> None:
         _update_benchmark_question(run_id, seq, status="processing", started_at=started_at)
 
         context_path = new_trace_context()
-        backend_client = create_backend(run["backend"], BENCHMARK_PROFILE, trace_context=context_path)
+        backend_client = create_backend(run["backend"], profile, trace_context=context_path)
         recorder = await asyncio.to_thread(
             TraceRecorder.start,
-            source="benchmark", question=prompt, profile="benchmark", backend=run["backend"],
+            source="benchmark", question=prompt, profile="benchmark", backend=run["backend"], contract=profile.contract,
             benchmark_run_id=run_id, benchmark_seq=seq, context_path=context_path,
             shadow_question=question["question"],
             shadow_domains=[d.strip() for d in run["domain_hint"].split(",") if d.strip()] or None
