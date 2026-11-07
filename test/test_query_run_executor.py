@@ -189,3 +189,33 @@ def test_a_refused_command_is_recorded_not_run():
 def test_page_limit_matches_the_command():
     from artmind import graph_query
     assert executor.PAGE_LIMITS["query graph pattern7"] == graph_query.PATTERN7_MAX_LIMIT
+
+
+def test_a_planner_shaped_map_runs_its_items_not_the_search():
+    """The planner renders `map.do` without the `as` value, so the template reads unfilled; the expanded
+    items are what runs (review finding: every map program was replaced by search)."""
+    do = {"id": "version", "kind": "run", "run": "artmind query graph pattern10 --documentName {doc} --compact", "filled": False}
+    exp = [{**do, "run": f"artmind query graph pattern10 --documentName d{i} --compact", "filled": True} for i in (1, 2)]
+    plan = {"program": [{"id": "versions", "kind": "map", "map": {"over": "family_documents", "as": "doc", "max": 10,
+                                                                   "items": ["d1", "d2"], "do": do, "expanded": exp}}],
+            "guards": [], "route": {"id": "document"}, "replacements": {"search": _search_plan()}}
+    steps = Steps({"pattern10": {"command": "query graph pattern10", "rows": [{"chunk": {"id": "c", "text": "t", "doc_id": "d"}}]},
+                   "vector-text": _needle((0.51, 0.5)), "survey": SURVEY})
+    ex = executor.execute(plan, step_fn=steps)
+    assert ex.replaced_by is None and [c[0] for c in steps.calls] == ["version.1", "version.2"]
+    assert ex.answer_ids == ["version.1", "version.2"]
+
+
+def test_an_unfilled_expanded_item_still_runs_the_search():
+    do = {"id": "version", "kind": "run", "run": "x {doc}", "filled": False}
+    plan = {"program": [{"id": "versions", "kind": "map", "map": {"over": "family_documents", "as": "doc", "max": 10,
+                                                                   "items": ["d1"], "do": do, "expanded": [dict(do)]}}],
+            "guards": [], "route": {"id": "document"}, "replacements": {"search": _search_plan()}}
+    ex = executor.execute(plan, step_fn=Steps({"vector-text": _needle((0.51, 0.5)), "survey": SURVEY}))
+    assert ex.replaced_by == "search"
+
+
+def test_the_stopping_node_is_recorded():
+    steps = Steps({"vector-text": _needle((0.51, 0.5)), "survey": SURVEY})
+    ex = executor.execute(_search_plan(guards=[]), step_fn=steps, max_steps=1)
+    assert {"id": "wide", "kind": "run", "skipped": "limit"} in ex.path and ex.partial is True

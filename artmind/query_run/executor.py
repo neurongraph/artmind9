@@ -115,8 +115,11 @@ class _Run:
             self.ex.path.append({"id": nid, "kind": "run", "cmd": _cut(node.get("run")), "exit_code": 1, "error": "not_allowed"})
             return
         if self.ex.executed >= self.max_steps:
+            self.ex.path.append({"id": nid, "kind": "run", "skipped": "limit"})
+            self.ex.partial = True
             raise _Stop("limit", node=nid)
         if self.clock() - self.start > self.deadline_s:
+            self.ex.path.append({"id": nid, "kind": "run", "skipped": "deadline"})
             self.ex.partial = True
             raise _Stop("deadline", node=nid)
         result = self.step_fn(argv, nid)
@@ -297,9 +300,19 @@ def _walk(nodes):
             yield from _walk([(n.get("map") or {}).get("do") or {}])
 
 
+def _runnable(nodes):
+    """The nodes that will run: a map contributes its `expanded` items, never its `do` template (the
+    planner renders `do` without the `as` value, so the template always reads unfilled)."""
+    for n in nodes or []:
+        yield n
+        yield from _runnable(n.get("children"))
+        if n.get("kind") == "map":
+            yield from _runnable((n.get("map") or {}).get("expanded"))
+
+
 def _has_unfilled(program) -> bool:
     return any(n.get("kind") == "run" and n.get("filled") is False and not n.get("optional")
-               for n in _walk(program) if n)
+               for n in _runnable(program) if n)
 
 
 def execute(plan: dict, *, step_fn: Callable | None = None, max_steps: int = DEFAULT_MAX_STEPS,
