@@ -137,6 +137,15 @@ def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple
             "plan": _plan_block(plan), "scope": plan.get("scope"), "path": _path(ex),
             "coverage": _coverage(ex, evidence), "gaps": plan.get("gaps") or [], "escalate": ex.escalate, "offer": None,
             "timing": {"plan_ms": plan_ms, "exec_ms": ex.exec_ms}}
+    trimmed: list[str] = []
+    if len(_dumps(base)) + _RESERVE > budget:  # the fixed part alone is over: shrink it, never the evidence first
+        base["path"] = [{k: v for k, v in p.items() if k != "facts"} for p in base["path"]]
+        trimmed.append("step facts left out of path")
+        if len(_dumps(base)) + _RESERVE > budget and isinstance(base["escalate"], dict):
+            sug = base["escalate"].get("suggested")
+            if isinstance(sug, list) and len(sug) > 3:
+                base["escalate"] = {**base["escalate"], "suggested": sug[:3]}
+                trimmed.append("suggested steps cut to 3")
     full = {**base, "evidence": evidence, "documents": documents, "facts": facts, "guides": guides}
     printed = {**base, "evidence": [], "documents": [], "facts": [], "guides": []}
     candidates = {"evidence": _selected_evidence(evidence), "documents": documents, "facts": facts, "guides": guides}
@@ -157,6 +166,8 @@ def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple
         if len(printed[name]) < len(full[name]):
             cut = True
     printed.update(truncated=False, rows_total=len(evidence), handle=None)
+    if trimmed:
+        printed["warnings"] = [f"bundle budget {budget:,} characters: " + "; ".join(trimmed)]
     if cut:
         import paths
         from artmind import result_store
@@ -164,7 +175,7 @@ def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple
         handle = result_store.store(paths.LOGS_DIR / "results", full, _dumps)
         shown = len(printed["evidence"])
         printed.update(truncated=True, handle=handle, next=f"artmind query page {handle} --list evidence --from {shown}")
-        printed["warnings"] = [f"bundle budget {budget:,} characters: showing {shown} of {len(evidence)} evidence rows, "
+        printed["warnings"] = [*printed["warnings"], f"bundle budget {budget:,} characters: showing {shown} of {len(evidence)} evidence rows, "
                                f"{len(printed['documents'])} of {len(documents)} documents, "
                                f"{len(printed['facts'])} of {len(facts)} facts"]
     return printed, full

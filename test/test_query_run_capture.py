@@ -32,6 +32,12 @@ def test_allowed_query_and_read_only_db_only():
     assert not capture.allowed([])
 
 
+def test_a_bare_group_is_not_a_step():
+    assert not capture.allowed(["query", "graph"])
+    assert not capture.allowed(["query", "views"])
+    assert capture.allowed(["query", "graph", "pattern7", "--domain", "b"])
+
+
 def test_a_captured_step_returns_the_payload_and_prints_nothing(monkeypatch, capsys):
     _overview(monkeypatch)
     result = capture.invoke_step(["query", "domains-overview", "--compact"], "s1")

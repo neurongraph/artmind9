@@ -68,12 +68,25 @@ def command_key(argv) -> str:
     return " ".join(words)
 
 
+def _is_leaf(argv) -> bool:
+    """The argv's leading words resolve to a command, not a group (a bare group prints help)."""
+    cmd = _cli()
+    for token in argv:
+        if str(token).startswith("-") or not isinstance(cmd, click.Group):
+            break
+        sub = cmd.commands.get(str(token))
+        if sub is None:
+            break
+        cmd = sub
+    return not isinstance(cmd, click.Group)
+
+
 def allowed(argv) -> bool:
     """A step may be any `query` subcommand except run/plan/page, or a read-only `db` subcommand."""
     if not argv or any(a in ("--help", "-h") for a in argv):
         return False
     if argv[0] == "query":
-        return len(argv) > 1 and argv[1] not in QUERY_REFUSED
+        return len(argv) > 1 and argv[1] not in QUERY_REFUSED and _is_leaf(argv)
     if argv[0] == "db":
         if "bridge" in argv and {"confirm", "clear"} & set(argv):
             return False

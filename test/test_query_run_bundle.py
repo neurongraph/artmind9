@@ -144,3 +144,16 @@ def test_paging_a_bundle_cuts_the_paged_list_not_documents(tmp_path, monkeypatch
     page = json.loads(out.stdout)
     assert page["truncated"] and 0 < len(page["evidence"]) < 20
     assert len(page["documents"]) == 5
+
+
+def test_the_fixed_part_is_bounded_by_the_budget(tmp_path, monkeypatch):
+    monkeypatch.setattr("paths.LOGS_DIR", tmp_path / "logs")
+    ex = _ex({"needle": _passages("p", 5)})
+    ex.path = [{"id": f"s{i}", "cmd": f"artmind query vector-text --domain bank q{i}", "exit_code": 0, "error": None, "rows": 3,
+                "facts": {"rows": 3, "rows_total": 3, "truncated": False, "extra": "f" * 200}} for i in range(40)]
+    ex.escalate = {"reason": "low_confidence", "suggested": [f"artmind query survey --domain bank question number {i}" for i in range(30)]}
+    printed, full = bundle.build(PLAN, ex, budget=6000)
+    assert len(json.dumps(printed, separators=(",", ":"))) <= 6000
+    assert len(printed["evidence"]) >= 1
+    assert any("left out" in w for w in printed["warnings"])
+    assert len(printed["escalate"]["suggested"]) <= 3
