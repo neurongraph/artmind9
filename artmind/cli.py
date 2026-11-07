@@ -4015,10 +4015,15 @@ def _load_plan_file(plan_file: str) -> dict:
               help="Most commands one run executes (pages and replacements included)")
 @click.option("--deadline", "deadline", type=click.FloatRange(1, 120), default=None,
               help="Seconds for the whole run, checked between steps (default ARTMIND_RUN_DEADLINE_S or 20)")
+@click.option("--each", "each_file", default=None, type=click.Path(path_type=Path),
+              help="Run the batch claims program over this JSONL/YAML file ([{id, claim, source_doc?}]): one bundle per item under logs/runs/, a summary printed. In-process; needs --domain")
+@click.option("--maxItems", "max_items", type=click.IntRange(1, 500), default=50, show_default=True,
+              help="Most claims one --each run takes")
 @compact_option
 @click.argument("question", required=False)
 def query_run(domain: tuple, exclude: tuple, previous_file: str | None, classifier: str, plan_file: str | None,
-              max_steps: int, deadline: float | None, compact: bool, question: str | None) -> None:
+              max_steps: int, deadline: float | None, each_file: Path | None, max_items: int, compact: bool,
+              question: str | None) -> None:
     """Plan a question and execute the plan's program in process: one evidence bundle (P3).
 
     Read-only: steps are `artmind query ...` commands and read-only `artmind db ...` commands only.
@@ -4028,6 +4033,20 @@ def query_run(domain: tuple, exclude: tuple, previous_file: str | None, classifi
     `artmind query page <handle> --list evidence|documents|facts|guides`.
     """
     import time as _time
+
+    if each_file is not None:
+        from artmind.query_run import each as each_mod
+
+        if question is not None or plan_file is not None:
+            raise click.ClickException("--each runs a claims file; give no question and no --plan")
+        if not domain:
+            raise click.ClickException("--each needs --domain (the claims are searched in these domains)")
+        try:
+            claims = each_mod.load_claims(each_file)
+        except each_mod.ClaimsError as exc:
+            raise click.ClickException(str(exc)) from exc
+        _echo_json(each_mod.run_each(claims, _parse_domains(domain), max_items=max_items), compact)
+        return
 
     from neo4j.exceptions import DriverError, Neo4jError
 

@@ -108,9 +108,18 @@ def _drop_source(printed: dict, source: str | None) -> dict:
     return printed
 
 
+def _default_step():
+    from artmind.query_run import capture
+
+    return capture.invoke_step
+
+
 def run_each(claims: list[Claim], domains: list[str], *, step_fn=None, max_items: int = MAX_ITEMS_DEFAULT) -> dict:
     import paths
 
+    from artmind.traces.span import child_span
+
+    step_fn = step_fn or _default_step()
     runs_dir = Path(paths.LOGS_DIR) / "runs"
     runs_dir.mkdir(parents=True, exist_ok=True)
     handle = secrets.token_hex(6)
@@ -119,13 +128,18 @@ def run_each(claims: list[Claim], domains: list[str], *, step_fn=None, max_items
     times, escalated = [], 0
     with out_path.open("w", encoding="utf-8") as fh:
         for claim in took:
-            plan = item_plan(claim, domains)
-            ex = executor.execute(plan, step_fn=step_fn)
-            printed, _ = bundle_mod.build(plan, ex, budget=ITEM_BUDGET)
-            printed = _drop_source(printed, claim.source_doc)
-            times.append(ex.exec_ms)
-            escalated += bool(ex.escalate)
-            fh.write(json.dumps({"id": claim.id, "bundle": printed}, ensure_ascii=False, default=str) + "\n")
+            with child_span("query run item", {"id": claim.id}) as span:
+                plan = item_plan(claim, domains)
+                ex = executor.execute(plan, step_fn=step_fn)
+                printed, _ = bundle_mod.build(plan, ex, budget=ITEM_BUDGET)
+                printed = _drop_source(printed, claim.source_doc)
+                times.append(ex.exec_ms)
+                escalated += bool(ex.escalate)
+                fh.write(json.dumps({"id": claim.id, "bundle": printed}, ensure_ascii=False, default=str) + "\n")
+                if span is not None:
+                    span["summary"] = {"rows": len(printed.get("evidence") or []),
+                                       "truncated": printed.get("truncated", False),
+                                       "rows_total": printed.get("rows_total"), "evidence": {}}
     return {"items": len(took), "skipped_items": len(claims) - len(took), "escalated": escalated,
             "exec_ms_p50": sorted(times)[len(times) // 2] if times else None, "exec_ms_p90": p90(times),
             "handle": handle, "file": str(out_path)}

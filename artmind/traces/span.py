@@ -183,6 +183,27 @@ def _record(span: dict, exit_code: int | None) -> None:
         pass
 
 
+@contextmanager
+def child_span(command: str, args: dict):
+    """A span under the active one (a `query run --each` item); a no-op outside a traced span. Never raises."""
+    try:
+        parent = _active.get()
+        span = None
+        if parent is not None:
+            span = {"span_id": uuid.uuid4().hex, "trace_id": parent["trace_id"], "argv": [], "command": command,
+                    "started_at": time.time(), "summary": None, "params": args, "llm_calls": [],
+                    "parent_span_id": parent["span_id"]}
+    except Exception:
+        span = None
+    if span is None:
+        yield None
+        return
+    try:
+        yield span
+    finally:
+        _record(span, 0)
+
+
 class TracedDbGroup(TracedGroup):
     """The `db` group: spans for its read-only subcommands only (B8). `mappings` (its default action
     writes with --acceptProposed), `grain` (--set), `catalogue` (rebuilds the graph projection),
