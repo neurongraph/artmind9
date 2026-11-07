@@ -53,6 +53,7 @@ PLAN_FACT_TYPES: dict[str, str] = {
     "twins": "num", "entities": "num", "negative": "bool", "latest": "bool", "rare_term": "bool",
     "category": "bool", "date_window": "bool", "document": "bool", "chunks_only": "bool",
     "view_count": "bool", "occurrence": "bool", "named_class": "num", "topic_family": "num",
+    "insights_snapshot": "num",  # selected domains that have an insights snapshot (B5)
 }
 PLAN_FACT_NAMES = frozenset(PLAN_FACT_TYPES)
 #: Program kinds (spec §5.5); `sequence` is a converted v1 route.
@@ -68,6 +69,8 @@ OPS = ("==", "!=", "<=", ">=", "<", ">")
 NODE_KINDS = ("run", "par", "map", "pick", "page")
 PICK_HOWS = frozenset({"best_of", "union", "first_ok"})
 PAGE_UNTIL = frozenset({"rows_total", "k"})
+#: What a run node may declare in `needs:`; an unmet need skips the command like `optional` (B5).
+NODE_NEEDS = frozenset({"insights_snapshot"})
 GUARD_ACTIONS = ("escalate", "replace", "retry_with", "widen_domains", "page", "run")
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
@@ -300,6 +303,7 @@ class Node:
     page: PageSpec | None = None
     when: Predicate | None = None
     optional: bool = False  # run only: planned only when every placeholder fills; never blocks the plan
+    needs: tuple[str, ...] = ()  # run only: facts the domain must have (NODE_NEEDS); unmet -> skipped, never unfilled
 
 
 @dataclass(frozen=True)
@@ -364,16 +368,24 @@ def _parse_node(raw, where: str, check: TemplateCheck, extra: frozenset, depth: 
     if len(kinds) != 1:
         raise ProgramError(f"{where} must have exactly one of {list(NODE_KINDS)}")
     kind = kinds[0]
-    extra_keys = set(raw) - {"id", "when", kind, "optional"}
+    extra_keys = set(raw) - {"id", "when", kind, "optional", "needs"}
     if extra_keys:
         raise ProgramError(f"{where} has unknown key(s) {sorted(extra_keys)}")
     when = parse_predicate(raw["when"], f"{where}.when") if "when" in raw else None
     optional = raw.get("optional", False)
     if "optional" in raw and (kind != "run" or optional is not True):
         raise ProgramError(f"{where}: `optional: true` goes only on a run node")
+    needs = raw.get("needs", [])
+    if "needs" in raw:
+        if kind != "run":
+            raise ProgramError(f"{where}: `needs:` goes only on a run node")
+        if (not isinstance(needs, list) or not needs or not all(isinstance(n, str) for n in needs)
+                or set(needs) - NODE_NEEDS):
+            raise ProgramError(f"{where}: `needs:` must be a non-empty list drawn from {sorted(NODE_NEEDS)}")
     body = raw[kind]
     if kind == "run":
-        return Node(nid, kind, run=check(body, f"{where}.run", extra), when=when, optional=optional)
+        return Node(nid, kind, run=check(body, f"{where}.run", extra), when=when, optional=optional,
+                    needs=tuple(needs))
     if kind == "par":
         if not isinstance(body, list) or not body:
             raise ProgramError(f"{where}.par must be a non-empty list of nodes")

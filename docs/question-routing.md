@@ -183,7 +183,7 @@ store), one or more programs, and evidence ids.
 | `existence` | did something happen, or is it mentioned at all | "did I visit the lake again?" | entity | exact-term entity search | `existence_concept` when a rare term sits beside a known entity; `absence` when the question expects a negative |
 | `enumeration` | a complete list of every item of a kind | "list all the trips" | — | entity search paged to the total, with a text check, merged | `class_listing` when the question names one class of the scope and no other entity; `draw_connected` when an entity is named ("everyone linked to X") |
 | `aggregate` | a count, total, average or frequency | "how many times did we eat out?" | — | generated graph query | `kinship_aggregate` when the person has twins |
-| `superlative` | the most, least, top or favourite, inferred | "my favourite café" | — | insights, then generated graph query | — |
+| `superlative` | the most, least, top or favourite, inferred | "my favourite café" | — | insights (only for a domain with a snapshot), then generated graph query; no snapshot in scope: graph query plus the text needle (`insights_snapshot == 0`). Over records the structured store holds (a bridged class and a records cue: "recorded", "on record", "cases", "rows", "table") the route becomes `structured`, `route.adjusted = {from: superlative, by: store_records}`, with the `stores` scope | — |
 | `entity_profile` | who or what one named thing is | "tell me about Ann" | entity | entity context | `entity_visits` when the question counts occurrences |
 | `entity_history` | how what is known about an entity changed | "how has the project changed?" | entity | entity history | — |
 | `time_history` | which version of a document applied when | "what did the policy say in March?" | document | document at a date + version history; with no document named but a versioned family named by its title words, `topic_history` (pattern10 `--includeHistory` over the family beside a text needle) | — |
@@ -268,6 +268,7 @@ in each vault's `domains/plan/<domain>.yaml`, never in this checkout.
 | `page` | follow a cut result's handle until `rows_total` or k rows |
 | `when` | on any node: run only if a step predicate holds |
 | `optional` | on a run node: skip silently when a slot does not fill |
+| `needs` | on a run node: facts the domain must have, from `[insights_snapshot]` (the overview row's `insights` flag; a row without the key counts as having one). An unmet need skips the command like `optional` (no `unfilled`, no confidence factor); a `{domain}` command is rendered per domain, so only domains without a snapshot are skipped. A route whose every step is skipped this way (`insights`) is unfilled and falls back to search. Plan fact `insights_snapshot` = selected domains with a snapshot, for `programs[].when` |
 
 Limits checked at load: at most 12 written run nodes, at most 40 commands after map
 expansion, at most 3 nesting levels; every command must pass `--compact`, the four retrieval

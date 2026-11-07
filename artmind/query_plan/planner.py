@@ -621,6 +621,31 @@ def _per_domain(template: str, context: dict) -> list[dict]:
     return [context]
 
 
+#: A superlative over table rows says so: "recorded", "on record", "cases", "rows", "in the table". Without
+#: one a bridged class word alone ("customer ... risks") would pull a survey into the store (B5).
+RECORDS_CUE = re.compile(r"\b(?:record(?:s|ed)?|cases|rows?|tables?|entries|transactions)\b", re.I)
+
+
+def _needs_met(needs, ctx: dict) -> bool:
+    """Whether the domain(s) a command renders for hold what it `needs:` (program.NODE_NEEDS).
+    `snapshot_domains` None = unknown (an older overview): counts as met, today's behaviour."""
+    if "insights_snapshot" in needs:
+        have = ctx.get("snapshot_domains")
+        if have is not None:
+            domain = ctx.get("domain")
+            scope = [domain] if domain else list(ctx.get("domain_list") or ())
+            if not any(d in have for d in scope):
+                return False
+    return True
+
+
+def _snapshot_domains(selected: list[str], overview: list[dict]) -> frozenset | None:
+    """The selected domains with an insights snapshot, from the overview's `insights` flag; a row without
+    the key (older overview) counts as having one. None when no selected domain has a row at all."""
+    rows = {r.get("domain"): r for r in overview}
+    return frozenset(d for d in selected if rows.get(d, {}).get("insights", True) is not False)
+
+
 def _render_all(template: str, context: dict) -> list[str | None]:
     return [routes_mod.render(template, c) for c in _per_domain(template, context)]
 
@@ -637,7 +662,11 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
         pairs = [(program_mod.Node(f"s{i}", "run", run=template), context)
                  for i, template in enumerate(route.steps_for(store_kind), 1)]
     pairs = [(node, c) for node, ctx in pairs for c in _per_domain(node.run, ctx)]
+    need_skipped = False
     for node, ctx in pairs:
+        if node.needs and not _needs_met(node.needs, ctx):
+            need_skipped = True  # B5: the domain lacks what the step reads; skipped like an optional step
+            continue
         template = node.run
         cmd = routes_mod.render(template, ctx)
         if node.when is not None:  # a guarded alternative: a fallback in the payload, never a step
@@ -657,7 +686,10 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
         for cmd in _render_all(template, context):
             if cmd:
                 out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
-    if out.unfilled:
+    if need_skipped and not out.steps and not out.unfilled:  # the route's whole answer was the missing snapshot
+        out.unfilled = True
+        out.reason = f"route {route.id} needs an insights snapshot, and none exists for {', '.join(context.get('domain_list') or ())}"
+    elif out.unfilled:
         out.reason = f"route {route.id} needs {', '.join(sorted(missing)) or 'a value it could not fill'}"
     for fallback in route.fallbacks:
         for cmd in _render_all(fallback.cmd, context):
@@ -922,7 +954,8 @@ def _list_slots(choice, entities: list[dict], window, question: str, mentions, s
 
 
 def _plan_facts(route, *, question: str, entities: list[dict], expansion, window, document, chunks_only: bool,
-                chosen_view, phrase_words: list[str], index, class_names, topic_fams=()) -> dict:
+                chosen_view, phrase_words: list[str], index, class_names, topic_fams=(),
+                snapshots: int = 1) -> dict:
     """The plan-time facts a route's `programs[].when` predicates name (and only those, so the
     vocabulary check at load is the whole contract). `rare_term` reads the catalogue, so it is built
     only when a predicate uses it."""
@@ -946,6 +979,7 @@ def _plan_facts(route, *, question: str, entities: list[dict], expansion, window
         "occurrence": lambda: slots_mod.has_occurrence_cue(question),
         "named_class": lambda: slots_mod.named_class(expansion, entities),
         "topic_family": lambda: len(topic_fams),
+        "insights_snapshot": lambda: snapshots,
     }
     return {name: values[name]() for name in sorted(wanted)}
 
@@ -1229,6 +1263,20 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                 store = candidates.store_facts(selected, question, resolved_classes)
             except Exception as exc:  # the structured store is optional context (spec §7)
                 warnings.append(f"store facts unavailable: {exc}")
+        # B5: a superlative over records the structured store holds is a table question. The B2 scope ran
+        # with the classifier's route as probe, so it is run again here for `structured` (the `stores` set).
+        superlative_records = bool(
+            store and retrieving and not chunks_only and chosen_view is None and lift_view is None
+            and forced_route is None and route_answer.choice == "superlative"
+            and set(store.get("bridge_classes") or ()) & {c for c in resolved_classes if c}
+            and RECORDS_CUE.search(question))
+        if superlative_records:
+            moved = _family_rescope(dset, "structured", question=question, answers=answers, options=options,
+                                    overview=overview, cats=cats, index=all_index, mentions=mentions,
+                                    document=document, document_pool=document_pool)
+            if moved.set_rule == "stores" or moved.selected == dset.selected:
+                dset = moved
+                selected = dset.selected
         if dset.set_rule == "stores" and (store or {}).get("kind") == "records_plus_guidance":
             dset = domain_set.with_guidance(dset, options)  # the text step also reads the policy side
             selected = dset.selected
@@ -1238,6 +1286,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             "search_term": search_term.value or question,
             "date_window": f"{window.value['from']}..{window.value['to']}" if window else None,
             "entity_class_list": ",".join(expansion.classes) if expansion and expansion.classes else None,
+            "snapshot_domains": _snapshot_domains(selected, overview),
         })
         if source != "given":  # the mass the selected set covers (fix B1): part of a spread scope is low
             stages.append(("domain", dset.stage or 0.0))
@@ -1271,6 +1320,9 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
             if chunks_only:
                 picked = "survey" if picked == "survey" else "search"
             route_conf = 1.0 if (chunks_only or forced_route) else route_answer.confidence
+            if superlative_records and picked == "superlative":
+                route_adjusted = {"from": "superlative", "by": "store_records"}
+                picked = "structured"
             # A named class decides between a search and a listing: "are there any IDEAs" lists the
             # IDEA entities when IDEA is a class of the scope; the same words over a plain noun stay a search.
             if (not chunks_only and forced_route is None and picked in CLASS_LIST_ROUTES
@@ -1289,7 +1341,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                     document=document, chunks_only=chunks_only, chosen_view=None,
                     phrase_words=slots_mod.mention_free_words(question, mentions) or
                     [w for w in re.findall(r"\w+", str(search_term.value).casefold())],
-                    index=selected_index, class_names=list(class_table), topic_fams=topic_fams)
+                    index=selected_index, class_names=list(class_table), topic_fams=topic_fams,
+                    snapshots=len(context["snapshot_domains"]) if context.get("snapshot_domains") is not None else len(selected))
                 choice = _choose_program(route_obj, plan_facts)
                 lists = _list_slots(choice, entities, window, question, mentions, search_term, cfg, class_table,
                                     domains=selected, document=document, document_pool=document_pool,
