@@ -28,7 +28,8 @@ def test_a_retrieve_plan_carries_every_v1_key_and_the_v2_blocks(world):
     result = _plan(QUESTION)
     assert set(result) == PAYLOAD_KEYS | V2_KEYS and result["plan_version"] == 2
     assert result["intent"] == {"id": "retrieve", "confidence": result["intent"]["confidence"],
-                                "source": "classifier", "inherited_offer": None, "alternatives": result["intent"]["alternatives"]}
+                                "source": "classifier", "inherited_offer": None, "unsure": None, "instruction": [],
+                                "alternatives": result["intent"]["alternatives"]}
     assert result["effective_question"] is None and result["previous_used"] is False
     assert result["action"] is None and result["answer_from"] is None and result["asset_match"] is None
     assert set(result["slots"]) >= {"search_term", "scope", "date_window"}

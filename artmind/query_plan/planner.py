@@ -707,6 +707,12 @@ def _configs(domains: list[str]):
 # ── v2: slots, programs and the non-retrieval intents (spec 2026-11-05 §3, §4, §5) ─────────────
 
 RETRIEVING = frozenset({"retrieve", "follow_up_why"})
+#: B3a: a lookup whose message carries an instruction cue (intents.yaml `instructions:`) is capped here,
+#: below every threshold, so the plan reads as low. Route and steps stay (as `suggested_steps`).
+INSTRUCTION_CAP = 0.5
+#: B3c: a plan from an answering decision backend is `high` only at `threshold + DECISION_MARGIN`; decision
+#: scores move about +-0.03 between identical calls. Override per domain with `decision_margin:` in the plan config.
+DECISION_MARGIN = 0.05
 ACTIONS = {
     "curate": {"skill": "artmind-curate", "draft": None},
     "update": {"skill": "artmind-update", "draft": None},
@@ -1042,6 +1048,16 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
 
     dset = _choose_domains(question, domains, options, overview, answers)
     classifier_set = dset  # B1's set, kept in the payload beside B2's
+    # B3b: a non-retrieval intent the classifier is unsure of is planned as a (low) lookup, not as no plan.
+    unsure: dict | None = None
+    # Only when the decision backend answered: a lexical intent tops out near 0.6 by construction, so every
+    # one would count as unsure and lose its action.
+    if (not retrieving and intent_result.source == "classifier"
+            and clf.backend == "decision" and not calls.fell_back
+            and intent_result.confidence < (given_cfg or _configs(dset.selected)).confidence_threshold):
+        unsure = {"id": intent, "p": intent_result.confidence}
+        intent = "retrieve"
+        retrieving = True
     if retrieving and dset.decided:
         probe = previous.route if (intent == "follow_up_why" and previous is not None) else None
         probe = probe or answers["route"].choice
@@ -1057,6 +1073,12 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
     cfg = given_cfg or _configs(selected)
     threshold = cfg.confidence_threshold
     chunks_only = _chunks_only(selected, overview)
+    margin = 0.0
+    if clf.backend == "decision" and not calls.fell_back:  # B3c
+        margin = DECISION_MARGIN if cfg.decision_margin is None else cfg.decision_margin
+    instruction = intents.instruction_cues(user_question)
+    if effective_question:
+        instruction = tuple(dict.fromkeys((*instruction, *intents.instruction_cues(effective_question))))
     if chunks_only and retrieving:
         warnings.append(
             f"{', '.join(selected)} builds no graph (graph_extraction: false): planned as a search of the notes or a survey of its documents"
@@ -1104,7 +1126,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         route_obj = next((r for r in all_routes if r.id == route_id), None)
         stages = [("intent", intent_result.confidence)]
         weakest, score = stages[0]
-        high = score >= threshold
+        high = score >= threshold + margin
         if intent in ACTIONS:
             action = dict(ACTIONS[intent])
         elif intent == "status":
@@ -1275,11 +1297,15 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         slot_quality_block = {"score": sq_score, **sq_info}
 
         # ── confidence ─────────────────────────────────────────────────────
+        if unsure is not None:
+            stages.append(("intent", intent_result.confidence))
+        if instruction:
+            stages.append(("instruction", INSTRUCTION_CAP))
         weakest, score = min(stages, key=lambda s: s[1])
         blocker = built.blocker
         if blocker and score >= threshold:  # a stage below the threshold stays the weakest link
             weakest = blocker
-        high = score >= threshold and not blocker and bool(rendered) and bool(selected)
+        high = score >= threshold + margin and not blocker and bool(rendered) and bool(selected)
         if built.reason:
             warnings.append(built.reason + ("" if rendered else "; suggested search instead"))
         if not high and not rendered:  # a low plan never goes out without guidance
@@ -1321,6 +1347,7 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "previous_used": intent_result.previous_used,
         "intent": {"id": intent, "confidence": intent_result.confidence, "source": intent_result.source,
                    "inherited_offer": intent_result.inherited_offer,
+                   "unsure": unsure, "instruction": list(instruction),
                    "alternatives": [{"id": k, "p": p} for k, p in intent_result.alternatives]},
         "domains": {"selected": selected, "source": source, "confidence": domain_conf,
                     "candidates": domain_candidates, "coverage": dset.coverage, "set_rule": dset.set_rule,
@@ -1342,7 +1369,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         "slots": {name: _slot_json(slot) for name, slot in slot_map.items()},
         "slot_quality": slot_quality_block,
         "scope": _plain(scope_slot.value),
-        "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "weakest": weakest},
+        "confidence": {"level": level, "score": round(score, 4), "threshold": threshold, "margin": margin,
+                       "weakest": weakest},
         "program": program_json,
         "program_kind": program_kind,
         "plan_facts": plan_facts,

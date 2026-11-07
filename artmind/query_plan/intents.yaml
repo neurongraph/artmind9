@@ -104,6 +104,31 @@ intents:
       - run the ingest
       - run ingest
 
+# Cues of an instruction to the assistant (write a file, change a setting, add a column, "just a test").
+# A lookup plan whose message carries one is capped below the threshold (planner.INSTRUCTION_CAP); the
+# intent itself is not changed.
+instructions:
+  - into a file
+  - to a file
+  - as a file
+  - save this
+  - save that
+  - save it
+  - as a topic
+  - write the table
+  - write it to
+  - the parameter
+  - the setting
+  - increase the
+  - decrease the
+  - don't do anything
+  - do not do anything
+  - just a test
+  - add a column
+  - add a description column
+  - remove the column
+  - create a table
+
 affirmatives:
   - "yes"
   - "ok"
