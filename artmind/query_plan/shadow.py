@@ -46,6 +46,57 @@ def decision_timeout() -> float:
         return DECISION_TIMEOUT_S
     return value if math.isfinite(value) and value > 0 else DECISION_TIMEOUT_S
 
+#: Commands that make an LLM call; a dry run skips them unless ARTMIND_PLAN_SHADOW_RUN=all.
+LLM_COMMANDS = frozenset({"query graph text2cypher", "query text2sql"})
+
+
+def run_mode() -> str:
+    """ARTMIND_PLAN_SHADOW_RUN: 0 (default, off), 1 (dry-run the program, LLM steps skipped), all (LLM steps too)."""
+    raw = (os.environ.get("ARTMIND_PLAN_SHADOW_RUN") or "0").strip().casefold()
+    if raw in ("", "0", "false", "no", "off"):
+        return "0"
+    return "all" if raw == "all" else "1"
+
+
+def dry_run(plan: dict, *, mode: str, step_fn=None) -> dict:
+    """Execute a shadow plan with no trace spans; return a `run_shadow` payload of ids and counts only."""
+    try:
+        from artmind.query_run import bundle, capture, executor
+        from artmind.traces.span import trace_override
+
+        real = step_fn or capture.invoke_step
+
+        def step(argv, sid):
+            if mode != "all" and capture.command_key(argv) in LLM_COMMANDS:
+                return capture.StepResult(sid, list(argv), 0, None, None, 0.0, 0, skipped="llm_shadow")
+            return real(argv, sid)
+
+        with trace_override(None):
+            ex = executor.execute(plan, step_fn=step)
+            printed, _ = bundle.build(plan, ex, budget=bundle.DEFAULT_BUDGET)
+        skipped = {sid for sid, r in ex.results.items() if r.skipped}
+        path = [{"id": p.get("id"), "kind": p.get("kind"), "rows": p.get("rows"), "ms": p.get("ms"),
+                 "exit_code": p.get("exit_code"),
+                 "skipped": "llm_shadow" if p.get("id") in skipped else p.get("skipped")} for p in ex.path]
+        docs = [d for d in dict.fromkeys((e.get("doc") or {}).get("id") for e in printed.get("evidence") or []) if d]
+        docs += [d.get("doc_id") for d in printed.get("documents") or [] if d.get("doc_id") and d.get("doc_id") not in docs]
+        return {"status": "ok", "path": path, "timing": {"exec_ms": ex.exec_ms}, "escalate": (ex.escalate or {}).get("reason"),
+                "bundle_chars": len(json.dumps(printed, default=str)), "documents": docs[:200],
+                "route": (plan.get("route") or {}).get("id"), "level": (plan.get("confidence") or {}).get("level"),
+                "program_kind": plan.get("program_kind")}
+    except Exception as exc:
+        logger.warning("shadow dry run failed: {}", exc)
+        return {"status": "error", "error": type(exc).__name__}
+
+
+def covers_agent(bundle_docs: list[str], agent_spans: list[dict]) -> float | None:
+    """Share of the documents the agent's own spans cite that the bundle also holds; None when the agent cited none."""
+    agent = {d.get("doc_id") for s in agent_spans for d in ((s.get("evidence") or {}).get("documents") or [])
+             if isinstance(d, dict) and d.get("doc_id")}
+    if not agent:
+        return None
+    return round(len(agent & set(bundle_docs)) / len(agent), 3)
+
 
 def _trim(plan):
     """Shrink an oversized plan so its event payload stays valid JSON under the store cap."""
@@ -115,6 +166,7 @@ class ShadowPlan:
         self.followup = followup
         self._plan: dict | None = None
         self._error: str | None = None
+        self._dry: dict | None = None
         self._previous_given = False
         self._started = time.monotonic()
         self._thread = threading.Thread(target=self._run, args=(question, domains, trace_id), name=_THREAD_NAME, daemon=True)
@@ -130,9 +182,16 @@ class ShadowPlan:
             if previous is not None:
                 kwargs["previous"] = previous
             self._plan = planner.plan(question, domains, **kwargs)
+            mode = run_mode()
+            if mode != "0" and isinstance(self._plan, dict):
+                self._dry = dry_run(self._plan, mode=mode)
         except Exception as exc:
             logger.warning("shadow plan failed: {}", exc)
             self._error = f"{type(exc).__name__}: {exc}"
+
+    @property
+    def dry(self) -> dict | None:
+        return self._dry
 
     @property
     def running(self) -> bool:
