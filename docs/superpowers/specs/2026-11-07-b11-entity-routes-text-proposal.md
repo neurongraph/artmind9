@@ -1,6 +1,8 @@
 # B11 (proposal): entity routes cite only the entity's own documents
 
-Date: 2026-11-07. Status: **proposed, to be analysed before any design or build.** Found by B2's
+Date: 2026-11-07. Status: **proposed; deferred until after P3** (decided with the user, 2026-11-07: P3's step
+bindings make candidate C possible, so the candidates are weighed then). To be analysed before any
+design or build. Found by B2's
 document-reach measurement (`2026-11-07-b2-search-and-scope-design.md` §8.3, §12). Evidence is from
 banking_corpus, a public sample corpus, so its questions and file names appear here. brain01 and
 nbs_audit_2026 have no entity-route labels, so they add no evidence either way.
