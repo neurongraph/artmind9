@@ -58,6 +58,7 @@ def insert_turn(
     benchmark_run_id: str | None = None,
     benchmark_seq: int | None = None,
     started_at: float | None = None,
+    contract: str = "classic",
 ) -> None:
     conn = _connect()
     try:
@@ -67,10 +68,10 @@ def insert_turn(
                 "SELECT COUNT(*) FROM trace_turns WHERE session_id = ?", (session_id,)).fetchone()[0] + 1
         conn.execute(
             "INSERT INTO trace_turns (trace_id, source, session_id, benchmark_run_id, benchmark_seq,"
-            " question, profile, backend, status, started_at, turn_index)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'running', ?, ?)",
+            " question, profile, backend, status, started_at, turn_index, contract)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'running', ?, ?, ?)",
             (trace_id, source, session_id, benchmark_run_id, benchmark_seq, question, profile, backend,
-             started_at if started_at is not None else time.time(), turn_index),
+             started_at if started_at is not None else time.time(), turn_index, contract),
         )
         conn.commit()
     finally:
