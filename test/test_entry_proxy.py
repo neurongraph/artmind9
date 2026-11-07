@@ -215,7 +215,7 @@ def test_no_previous_context_sends_none(monkeypatch):
     sent = _capture_proxy(monkeypatch)
     with pytest.raises(SystemExit):
         _entry.main()
-    assert sent["previous"] is None
+    assert "previous" not in sent
 
 
 def test_oversized_previous_context_is_not_sent(monkeypatch, tmp_path, capsys):
@@ -225,7 +225,7 @@ def test_oversized_previous_context_is_not_sent(monkeypatch, tmp_path, capsys):
     sent = _capture_proxy(monkeypatch)
     with pytest.raises(SystemExit):
         _entry.main()
-    assert sent["previous"] is None
+    assert "previous" not in sent
     assert "artmind:" in capsys.readouterr().err
 
 
@@ -234,4 +234,4 @@ def test_unreadable_previous_context_is_ignored(monkeypatch, tmp_path):
     sent = _capture_proxy(monkeypatch)
     with pytest.raises(SystemExit):
         _entry.main()
-    assert sent["previous"] is None
+    assert "previous" not in sent
