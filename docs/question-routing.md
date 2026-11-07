@@ -358,6 +358,11 @@ Replay grades this explicitly. Each label says whether the planner should be con
 | low | high | abstained |
 | low | low | correct abstain |
 
+**The executor (P3a, built).** `artmind query run` executes a plan's program in process and returns one evidence
+bundle: every step's rows ranked by reciprocal-rank fusion, bounded by the bundle budget, the rest under a result
+handle. Low plans are executed too: the bundle is the agent's starting evidence, and `mode` stays `reasoning`
+until a route passes the fast-path gate (spec `2026-11-07-p3-executor-design.md` §9.3).
+
 ## 8. How it is measured
 
 | Instrument | What it shows |
