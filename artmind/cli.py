@@ -427,7 +427,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Topic pages", "commands": ["list", "show"]},
     ],
     "artmind query": [
-        {"name": "Planning", "commands": ["plan"]},
+        {"name": "Planning", "commands": ["plan", "run"]},
         {"name": "Graph patterns", "commands": ["graph"]},
         {"name": "Saved views & insights", "commands": ["views", "insights", "topics"]},
         {
@@ -2958,6 +2958,7 @@ def query():
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
 
     `plan` returns a deterministic route, saved-view match and ready-to-run steps for a question.
+    `run` plans a question and executes its program in process, returning one evidence bundle.
     Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
     parameterised queries: list / show / run), `insights` (the latest
     unprompted findings: list / show), and `topics` (read-only topic pages:
@@ -3964,6 +3965,59 @@ def query_plan_command(domain: tuple, execute: bool, classifier: str, previous_f
     except (DriverError, Neo4jError) as exc:
         raise click.ClickException(f"Neo4j is unreachable or failed: {exc}") from exc
     _echo_json(result, compact)
+
+
+def _run_deadline(value: float | None) -> float:
+    from artmind.query_run import executor
+
+    if value is not None:
+        return value
+    raw = os.environ.get("ARTMIND_RUN_DEADLINE_S")
+    if not raw:
+        return executor.DEFAULT_DEADLINE_S
+    try:
+        parsed = float(raw)
+    except ValueError:
+        parsed = -1.0
+    if not 1 <= parsed <= 120:
+        raise click.ClickException(f"ARTMIND_RUN_DEADLINE_S must be seconds between 1 and 120, got {raw!r}")
+    return parsed
+
+
+def _load_plan_file(plan_file: str) -> dict:
+    try:
+        text = sys.stdin.read() if plan_file == "-" else Path(plan_file).read_text(encoding="utf-8")
+        plan = json.loads(text)
+    except (OSError, ValueError) as exc:
+        raise click.ClickException(f"cannot read the plan {plan_file!r}: {exc}") from exc
+    if not isinstance(plan, dict) or not isinstance(plan.get("program", []), list):
+        raise click.ClickException("the plan must be a `query plan` payload (an object with a `program` list)")
+    return plan
+
+
+@query.command("run")
+@click.option("--plan", "plan_file", default=None, help="Execute this plan (a `query plan` payload): a file, or - for stdin. Not proxied to serve")
+@click.option("--maxSteps", "max_steps", type=click.IntRange(1, 40), default=12, show_default=True,
+              help="Most commands one run executes (pages and replacements included)")
+@click.option("--deadline", "deadline", type=click.FloatRange(1, 120), default=None,
+              help="Seconds for the whole run, checked between steps (default ARTMIND_RUN_DEADLINE_S or 20)")
+@compact_option
+@click.argument("question", required=False)
+def query_run(plan_file: str | None, max_steps: int, deadline: float | None, compact: bool, question: str | None) -> None:
+    """Plan a question and execute the plan's program in process: one evidence bundle (P3).
+
+    Read-only: steps are `artmind query ...` commands and read-only `artmind db ...` commands only.
+    """
+    from artmind.query_run import executor
+
+    if plan_file is None:
+        raise click.ClickException("give a question, or --plan FILE")
+    plan = _load_plan_file(plan_file)
+    ex = executor.execute(plan, max_steps=max_steps, deadline_s=_run_deadline(deadline))
+    _echo_json({"path": ex.path, "escalate": ex.escalate, "replaced_by": ex.replaced_by,
+                "timing": {"plan_ms": None, "exec_ms": ex.exec_ms}}, compact)
+    if ex.exit_code:
+        raise SystemExit(ex.exit_code)
 
 
 @query.group("insights")

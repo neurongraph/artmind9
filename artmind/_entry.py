@@ -109,10 +109,17 @@ def _proxy(base_url: str, args: list[str]) -> int:
     return body["exit_code"]
 
 
+#: Options naming a file (or stdin) of the caller's shell, which the daemon cannot see: such calls run in-process.
+_FILE_FLAGS = {("query", "plan"): ("--previous",), ("query", "run"): ("--previous", "--plan", "--each")}
+
+
 def _proxiable(args: list[str]) -> bool:
-    """`query plan --previous FILE|-` reads a file (relative to this shell) or stdin, neither of which
-    the daemon can see: it runs in-process."""
-    return not (args[:2] == ["query", "plan"] and any(a == "--previous" or a.startswith("--previous=") for a in args))
+    """`query plan --previous` and `query run --previous/--plan/--each` read a file (relative to this
+    shell) or stdin, neither of which the daemon can see: they run in-process."""
+    flags = _FILE_FLAGS.get(tuple(args[:2]))
+    if not flags:
+        return True
+    return not any(a == f or a.startswith(f + "=") for a in args for f in flags)
 
 
 def main() -> None:
