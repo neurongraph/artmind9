@@ -465,7 +465,7 @@ async def _run_benchmark(run_id: str) -> None:
     # Lazy import: keeps this module (and its parser/CRUD, which are unit
     # tested on their own) importable without the Claude Agent SDK installed.
     from artmind.webui.backends import create_backend
-    from artmind.webui.profiles import BENCHMARK_PROFILE
+    from artmind.webui.profiles import BENCHMARK_PROFILE, with_contract
     from artmind.traces.recorder import TraceRecorder
     from artmind.webui.backends import new_trace_context
 
@@ -473,6 +473,7 @@ async def _run_benchmark(run_id: str) -> None:
     if run is None:
         return
     _update_benchmark_run(run_id, status="processing", started_at=datetime.now().isoformat())
+    profile = with_contract(BENCHMARK_PROFILE, run.get("contract") or "classic")
 
     for summary in run["questions"]:
         current = _get_benchmark_run(run_id)
@@ -489,10 +490,10 @@ async def _run_benchmark(run_id: str) -> None:
         _update_benchmark_question(run_id, seq, status="processing", started_at=started_at)
 
         context_path = new_trace_context()
-        backend_client = create_backend(run["backend"], BENCHMARK_PROFILE, trace_context=context_path)
+        backend_client = create_backend(run["backend"], profile, trace_context=context_path)
         recorder = await asyncio.to_thread(
             TraceRecorder.start,
-            source="benchmark", question=prompt, profile="benchmark", backend=run["backend"],
+            source="benchmark", question=prompt, profile="benchmark", backend=run["backend"], contract=profile.contract,
             benchmark_run_id=run_id, benchmark_seq=seq, context_path=context_path,
             shadow_question=question["question"],
             shadow_domains=[d.strip() for d in run["domain_hint"].split(",") if d.strip()] or None

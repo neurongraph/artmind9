@@ -64,7 +64,7 @@ def test_create_run_launches_background_run(monkeypatch, tmp_path):
 
     captured = {}
 
-    def fake_create(source_path, questions, domain_hint=None, backend="claude-sdk", name=None):
+    def fake_create(source_path, questions, domain_hint=None, backend="claude-sdk", name=None, contract="classic"):
         captured["source_path"] = source_path
         captured["questions"] = questions
         captured["domain_hint"] = domain_hint

@@ -52,6 +52,7 @@ document.getElementById("benchmark-form").addEventListener("submit", async (even
   }
   const domainHint = document.getElementById("benchmark-domain-hint").value.trim();
   const backend = document.getElementById("benchmark-backend").value;
+  const contract = document.getElementById("benchmark-contract").value;
   const name = document.getElementById("benchmark-name").value.trim();
   benchmarkStartBtn.disabled = true;
   try {
@@ -62,6 +63,7 @@ document.getElementById("benchmark-form").addEventListener("submit", async (even
         path,
         domainHint: domainHint || null,
         backend,
+        contract,
         name: name || null,
       }),
     });

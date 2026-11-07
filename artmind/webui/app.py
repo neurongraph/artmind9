@@ -8,6 +8,7 @@ import math
 import os
 import re
 import subprocess
+import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
@@ -144,6 +145,7 @@ def create_app(
     page_title: str | None = None,
     admin_routes: bool = False,
     trace_turns: bool = False,
+    contract: str = "classic",
 ) -> FastAPI:
     registry = registry or SessionRegistry()
     profile_name = "admin" if admin_routes else "qa"
@@ -295,7 +297,7 @@ def create_app(
                             TraceRecorder.start,
                             source=profile_name, question=payload.prompt, session_id=cid,
                             profile=profile_name, backend=payload.backend, context_path=context_path,
-                            shadow_question=payload.prompt,
+                            shadow_question=payload.prompt, contract=contract,
                         ))
                     if recorder.enabled:
                         yield f"data: {json.dumps({'type': 'trace', 'trace_id': recorder.trace_id})}\n\n"
@@ -489,6 +491,20 @@ def create_app(
     return app
 
 
+def admin_profile():
+    """The admin console's profile under ARTMIND_AGENT_CONTRACT (P3 S9; default classic)."""
+    from artmind.webui.profiles import contract_from_env, with_contract
+
+    return with_contract(ADMIN_PROFILE, contract_from_env())
+
+
+def chat_profile():
+    """The chat UI stays classic until the S10 gate passes (decided 2026-11-07)."""
+    from artmind.webui.backends import QA_PROFILE
+
+    return QA_PROFILE
+
+
 def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
     import uvicorn
 
@@ -496,9 +512,7 @@ def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
 
     refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
 
-    from artmind.webui.backends import QA_PROFILE
-
-    app = create_app(SessionRegistry(client_factory=backend_factory(QA_PROFILE, trace=True)), trace_turns=True)
+    app = create_app(SessionRegistry(client_factory=backend_factory(chat_profile(), trace=True)), trace_turns=True)
     guard_app(app, host, port)
     uvicorn.run(app, host=host, port=port, log_level="warning")
 
@@ -510,11 +524,20 @@ def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> 
 
     refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
 
+    from artmind.webui.profiles import require_skill
+
+    try:
+        profile = admin_profile()
+        require_skill(profile)
+    except ValueError as exc:
+        print(f"artmind: {exc}", file=sys.stderr)
+        raise SystemExit(1) from exc
     app = create_app(
-        SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE, trace=True)),
+        SessionRegistry(client_factory=backend_factory(profile, trace=True)),
         template_name="admin.html",
         admin_routes=True,
         trace_turns=True,
+        contract=profile.contract,
     )
     guard_app(app, host, port)
     uvicorn.run(app, host=host, port=port, log_level="warning")
