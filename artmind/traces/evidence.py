@@ -33,7 +33,7 @@ def summarize(payload: Any) -> dict:
 
 def _count(payload: dict) -> int:
     if "bundle_version" in payload:
-        return len(payload.get("evidence") or [])
+        return sum(len(payload.get(k) or []) for k in ("evidence", "documents", "facts"))
     if payload.get("status") in _NOT_AN_ANSWER:
         return 0
     for key in _ROW_KEYS:
@@ -351,6 +351,14 @@ def _provenance(payload: dict) -> dict | None:
                 continue
             evidence_document = acc.add_document(item.get("document"))
             acc.add_chunk({"chunk_id": item.get("chunk_id"), "doc_id": item.get("doc_id")}, evidence_document)
+    if "bundle_version" in payload:  # a `query run` bundle: SQL / graph-fact runs have documents but no evidence rows
+        for item in payload.get("documents") or []:
+            if not isinstance(item, dict) or not isinstance(item.get("doc_id"), str):
+                continue
+            if item.get("kind") == "table":
+                acc.add_table({"source_file": item["doc_id"], "domain": item.get("domain")})
+            else:
+                acc.add_document({"id": item["doc_id"], "title": item.get("title"), "domain": item.get("domain")})
     # Pattern rows have source_documents/doc_sources inside each row; once the
     # complete payload has been read, orphan chunks are joined by doc id.
     for table in payload.get("source_tables") or []:

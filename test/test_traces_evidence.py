@@ -241,3 +241,21 @@ def test_brief_chunks_rows_give_provenance():
         "doc": {"id": "d1", "title": "Contract One", "domain": "banking"}}]}
     (doc,) = summarize(payload)["evidence"]["provenance"]["documents"]
     assert doc["doc_id"] == "d1" and doc["chunks"][0]["chunk_id"] == "d1_003"
+
+
+def test_a_bundle_without_evidence_rows_still_counts_and_cites():
+    sql = {"command": "query run", "bundle_version": 1, "evidence": [],
+           "documents": [{"doc_id": "tables/loans.csv", "title": "loans", "domain": "bank", "kind": "table"}],
+           "facts": [{"fid": "f1", "kind": "sql_row", "row": {"n": 3}}]}
+    s = summarize(sql)
+    assert s["rows"] == 2
+    assert s["evidence"]["provenance"]["tables"] == [{"source_file": "tables/loans.csv", "domain": "bank"}]
+
+
+def test_a_bundle_of_survey_documents_cites_documents():
+    survey = {"command": "query run", "bundle_version": 1, "evidence": [], "facts": [],
+              "documents": [{"doc_id": "d1", "title": "Doc 1", "domain": "bank"}]}
+    s = summarize(survey)
+    assert s["rows"] == 1
+    docs = s["evidence"]["provenance"]["documents"]
+    assert docs[0]["doc_id"] == "d1" and docs[0]["title"] == "Doc 1" and docs[0]["domain"] == "bank"
