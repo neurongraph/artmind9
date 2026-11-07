@@ -10,6 +10,7 @@ high-confidence view match with one parameter combination.
 from __future__ import annotations
 
 import dataclasses
+import json
 import re
 import shlex
 import time
@@ -604,6 +605,8 @@ def _expand_commands(nodes, context: dict, lists: dict) -> list[tuple[object, di
         elif node.kind == "par":
             out += _expand_commands(node.children, context, lists)
         elif node.kind == "map":
+            if "." in node.map.over:  # bound list: no plan-time command
+                continue
             for item in lists.get(node.map.over, [])[:node.map.max]:
                 out += _expand_commands((node.map.do,), {**context, node.map.as_: item}, lists)
     return out
@@ -796,9 +799,23 @@ def _node_json(node, context: dict, lists: dict | None = None) -> dict:
             out["optional"] = True
         return out
     out: dict = {"id": node.id, "kind": node.kind}
+    if node.map is not None and "." in node.map.over:  # a map over a bound list (P3 §4.3): items come at run time
+        # `do` is rendered with the item name bound to an inert token, then the token goes back to `{as}`:
+        # without a value `render` would give up on the whole command and leave the slots unfilled.
+        token = f"BOUNDITEM{node.map.as_.upper()}"
+        do = json.loads(json.dumps(_node_json(node.map.do, {**context, node.map.as_: token}, lists))
+                        .replace(token, "{" + node.map.as_ + "}"))
+        out["map"] = {"over": node.map.over, "over_bound": node.map.over, "as": node.map.as_, "max": node.map.max,
+                      "items": [], "items_total": 0, "do": do, "expanded": []}
+        if node.when is not None:
+            out["when"] = node.when.text
+        return out
     if node.run is not None:
         rendered = routes_mod.render(node.run, context)
         out.update(run=rendered or node.run, filled=rendered is not None)
+        binds = [f"{a}.{b}" for a, b in program_mod.node_binds(node)]
+        if binds:
+            out["binds"] = binds
         if node.needs and not _needs_met(node.needs, context):
             out["needs_unmet"] = True
     if node.children:
@@ -935,7 +952,7 @@ def _list_slots(choice, entities: list[dict], window, question: str, mentions, s
     """The list slots a `map.over` may name, as `Slot`s, for the maps of the chosen program.
     `family_documents` is the matched document's family, newest first (`candidates.family_documents`,
     read only when the chosen program maps over it and a document matched; else empty)."""
-    wanted = {n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map"}
+    wanted = {n.map.over for n in program_mod.iter_nodes(choice.program) if n.kind == "map" and "." not in n.map.over}
     _named, primary, _second = _used_entities(entities)
     out: dict[str, slots_mod.Slot] = {}
     for name in sorted(wanted):
