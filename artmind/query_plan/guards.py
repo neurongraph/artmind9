@@ -16,6 +16,12 @@ _VERSION_RE = re.compile(
     re.I)
 
 
+#: The plan answers the previous turn's question, which the user's short reply only accepted.
+# A matched saved view is exact, so it is not capped (planner).
+INHERITED = {"id": "inherited.question",
+             "why": "the question was taken from the previous turn; the plan is only as good as that turn's plan"}
+
+
 def _named(entities: list[dict]) -> list[dict]:
     return [e for e in entities if e.get("via") != "first_person" and e.get("candidates")]
 

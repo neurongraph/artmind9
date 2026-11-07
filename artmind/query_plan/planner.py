@@ -1381,6 +1381,8 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
         if instruction:
             stages.append(("instruction", INSTRUCTION_CAP))
         guard_hits = guards_mod.evaluate(route_id, intent, question, entities)
+        if effective_question and chosen_view is None:  # planned from the previous turn's question, not the user's words
+            guard_hits.append(guards_mod.INHERITED)
         if guard_hits:
             stages.append(("guard", GUARD_CAP))
         weakest, score = min(stages, key=lambda s: s[1])

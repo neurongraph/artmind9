@@ -76,3 +76,18 @@ def test_a_forced_route_counts_as_previous_used(world):  # noqa: F811
     prev = intents.parse_previous({"question": "Where did Ada go?", "route": "search", "intent": "retrieve"})
     result = _plan("Why did you miss Lakeport?", previous=prev)
     assert result["intent"]["id"] == "follow_up_why" and result["previous_used"] is True
+
+
+# ── a plan built from an inherited question is never confident ────────────────────────────
+
+def test_a_plan_from_an_inherited_offer_is_capped(world):  # noqa: F811
+    prev = intents.parse_previous({"question": "How often did the team meet?", "offer": "Shall I run a broader sweep?"})
+    result = _plan("yes please", previous=prev)
+    assert result["effective_question"] and result["previous_used"]
+    assert [g["id"] for g in result["confidence"]["guards"]] == ["inherited.question"]
+    assert result["confidence"]["level"] == "low" and result["confidence"]["weakest"] == "guard"
+    assert result["steps"] == [] and result["suggested_steps"]
+
+
+def test_a_standalone_question_is_not_called_inherited(world):  # noqa: F811
+    assert _plan("How often did the team meet?")["confidence"]["guards"] == []

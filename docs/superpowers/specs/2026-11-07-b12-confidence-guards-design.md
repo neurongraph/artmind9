@@ -43,6 +43,9 @@ of its own, counts as pointing back (rule 1 then inherits the previous offer or 
 (b) `previous_used` is also true when a previous turn's route was forced. Not changed: a long standalone question
 that merely starts with "yes" and has no action word keeps its own text.
 
+Addendum: a plan built from an inherited question (`effective_question` set, no saved view) gets guard
+`inherited.question`, same cap. Found by replay: without it, brain01 lexical L046 inherited L045's high plan and was wrong.
+
 ## 4. Gates and tests
 
 TDD with invented text. Per vault, before and after: replay `--classifier both --repeat 4`, route parity
