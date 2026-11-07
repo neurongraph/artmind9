@@ -275,3 +275,11 @@ def test_a_plan_span_is_its_own_layer_and_an_executed_one_is_a_view():
     assert path.derive([empty], answer=None)["graph_attempts"] == 1
     # rows without a view run (candidates only) do not make a plan a view run
     assert path.span_layer({**plan_span, "rows": 2}) == "plan"
+
+
+def test_db_sql_is_a_sql_layer_and_other_db_reads_are_discovery():
+    from artmind.traces import path
+
+    assert path.layer_of("db sql") == "sql"
+    assert path.layer_of("db bridge") == "discovery"
+    assert path.layer_of("db schema") == "discovery"

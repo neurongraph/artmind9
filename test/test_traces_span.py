@@ -142,3 +142,61 @@ def test_override_beats_environment(monkeypatch):
     with trace_override("from-serve"):
         assert current_trace_id() == "from-serve"
     assert current_trace_id() == "from-env"
+
+
+# ── B8: read-only `artmind db` subcommands are traced ─────────────────────────
+
+
+def _db_cli(monkeypatch):
+    from artmind import cli as cli_mod
+    from artmind.traces import store
+
+    store.insert_turn("t1", source="admin", question="q")
+    monkeypatch.setenv("ARTMIND_TRACE_ID", "t1")
+    return cli_mod
+
+
+def test_db_sql_leaves_a_span(monkeypatch):
+    cli_mod = _db_cli(monkeypatch)
+
+    class _DS:
+        def ensure_views(self, tables):
+            pass
+
+        def run_sql(self, sql):
+            return [{"n": 1}, {"n": 2}]
+
+    monkeypatch.setattr(cli_mod, "DuckDBDatasource", _DS)
+    monkeypatch.setattr(cli_mod.structured_registry, "list_tables", lambda *a, **k: [])
+    result = CliRunner().invoke(cli_mod.cli, ["db", "sql", "SELECT 1"])
+    assert result.exit_code == 0, result.output
+    spans = _spans()
+    assert [s["command"] for s in spans] == ["db sql"]
+    assert spans[0]["rows"] == 2 and spans[0]["exit_code"] == 0
+
+
+def test_db_bridge_default_action_leaves_a_span_but_confirm_does_not(monkeypatch):
+    cli_mod = _db_cli(monkeypatch)
+    monkeypatch.setattr(cli_mod.structured_registry, "routing_surface", lambda *a, **k: [])
+    result = CliRunner().invoke(cli_mod.cli, ["db", "bridge", "--domain", "b"])
+    assert result.exit_code == 0, result.output
+    assert [s["command"] for s in _spans()] == ["db bridge"]
+
+    CliRunner().invoke(cli_mod.cli, ["db", "bridge", "confirm", "--table", "t", "--column", "c"])
+    CliRunner().invoke(cli_mod.cli, ["db", "bridge", "--domain", "b", "clear", "--table", "t"])
+    assert [s["command"] for s in _spans()] == ["db bridge"]
+
+
+def test_db_write_commands_leave_no_span(monkeypatch):
+    cli_mod = _db_cli(monkeypatch)
+    for argv in (["db", "backup"], ["db", "grain", "t", "--set", "row"], ["db", "mappings", "t"],
+                 ["db", "refresh"], ["db", "catalogue", "--domain", "b"]):
+        CliRunner().invoke(cli_mod.cli, argv)
+    assert _spans() == []
+
+
+def test_db_sql_error_keeps_exit_code_and_records_it(monkeypatch):
+    cli_mod = _db_cli(monkeypatch)
+    result = CliRunner().invoke(cli_mod.cli, ["db", "sql", "DROP TABLE x"])
+    assert result.exit_code == 1
+    assert [(s["command"], s["exit_code"]) for s in _spans()] == [("db sql", 1)]

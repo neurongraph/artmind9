@@ -41,12 +41,17 @@ def test_agreement_compares_the_first_step_with_the_agents_spans():
 
 
 def test_agreement_skips_untraced_steps_and_malformed_commands():
-    plan = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db bridge --domain b"},
+    # `db bridge` is traced (B8): it is the first node; an untraced db step (`db grain`) is skipped.
+    plan = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db grain t --set row"},
                                                {"n": 2, "cmd": "artmind query text2sql --domain b"}]}}
     assert analysis.agreement(plan, [_span("query text2sql")]) is True
     assert analysis.agreement(plan, [_span("query vector-text")]) is False
-    only_db = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db bridge --domain b"}]}}
-    assert analysis.agreement(only_db, [_span("query text2sql")]) is None
+    db_first = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db bridge --domain b"},
+                                                   {"n": 2, "cmd": "artmind query text2sql --domain b"}]}}
+    assert analysis.agreement(db_first, [_span("db bridge")]) is True
+    assert analysis.agreement(db_first, [_span("query text2sql")]) is False
+    only_untraced = {"status": "ok", "plan": {"steps": [{"n": 1, "cmd": "artmind db refresh"}]}}
+    assert analysis.agreement(only_untraced, [_span("query text2sql")]) is None
     assert analysis.agreement(_shadow(cmd="artmind query views run 'visits --domain b"), []) is None
 
 

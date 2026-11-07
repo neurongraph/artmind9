@@ -105,8 +105,17 @@ def _span_key(span: dict) -> str:
     return command
 
 
+#: `artmind db ...` steps that leave spans (span.TracedDbGroup).
+DB_TRACED_STEPS = frozenset({"db list", "db schema", "db sql", "db timeline", "db bridge", "db review"})
+
+
+def _is_looked_up(command: str | None) -> bool:
+    command = command or ""
+    return (command.startswith("query") and command != "query plan") or command in DB_TRACED_STEPS
+
+
 def _is_traced_step(key: str | None) -> bool:
-    return key is not None and (key == "query" or key.startswith("query "))
+    return key is not None and (key == "query" or key.startswith("query ") or key in DB_TRACED_STEPS)
 
 
 def agreement(shadow: dict | None, spans: list[dict]) -> bool | None:
@@ -197,7 +206,7 @@ def signals(turn: dict, spans: list[dict], turns_p90: float | None,
     elif status == "late":
         out["views_late"] = 1
     level = (((shadow or {}).get("plan") or {}).get("confidence") or {}).get("level")
-    ran_query = any((s.get("command") or "").startswith("query") and s.get("command") != "query plan" for s in spans)
+    ran_query = any(_is_looked_up(s.get("command")) for s in spans)
     if (shadow or {}).get("status") == "ok" and level == "high" and ran_query and agreement(shadow, spans) is False:
         out["plan_disagreed_high"] = 2
     return out
