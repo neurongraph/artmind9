@@ -4000,6 +4000,12 @@ def _load_plan_file(plan_file: str) -> dict:
 
 
 @query.command("run")
+@click.option("--domain", "domain", multiple=True, help="Scope to these domains (repeatable; comma-splittable). Omit and the plan chooses")
+@click.option("--exclude", "exclude", multiple=True, help="Leave this document (id or name) out of the scope (repeatable; comma-splittable)")
+@click.option("--previous", "previous_file", default=None,
+              help="The previous turn as JSON (as for query plan): a file, or - for stdin. Not proxied to serve")
+@click.option("--classifier", type=click.Choice(["auto", "lexical", "decision"]), default="auto", show_default=True,
+              help="auto: the decision model when ARTMIND_DECISION_URL is set, else lexical rules")
 @click.option("--plan", "plan_file", default=None, help="Execute this plan (a `query plan` payload): a file, or - for stdin. Not proxied to serve")
 @click.option("--maxSteps", "max_steps", type=click.IntRange(1, 40), default=12, show_default=True,
               help="Most commands one run executes (pages and replacements included)")
@@ -4007,24 +4013,51 @@ def _load_plan_file(plan_file: str) -> dict:
               help="Seconds for the whole run, checked between steps (default ARTMIND_RUN_DEADLINE_S or 20)")
 @compact_option
 @click.argument("question", required=False)
-def query_run(plan_file: str | None, max_steps: int, deadline: float | None, compact: bool, question: str | None) -> None:
+def query_run(domain: tuple, exclude: tuple, previous_file: str | None, classifier: str, plan_file: str | None,
+              max_steps: int, deadline: float | None, compact: bool, question: str | None) -> None:
     """Plan a question and execute the plan's program in process: one evidence bundle (P3).
 
     Read-only: steps are `artmind query ...` commands and read-only `artmind db ...` commands only.
+    `evidence` is what an answer may cite; `documents`, `facts` and `guides` give coverage and steer.
+    `escalate` says why the bundle may not be enough and `suggested` what to run next. A bundle over
+    the budget (ARTMIND_BUNDLE_BUDGET, else ARTMIND_OUTPUT_BUDGET, else 24,000) carries a `handle`:
+    `artmind query page <handle> --list evidence|documents|facts|guides`.
     """
+    import time as _time
+
+    from neo4j.exceptions import DriverError, Neo4jError
+
+    from artmind.query_plan import intents, planner
+    from artmind.query_run import bundle as bundle_mod
     from artmind.query_run import executor
 
-    if plan_file is None:
+    plan_ms = None
+    if plan_file is not None:
+        plan = _load_plan_file(plan_file)
+    elif question is None:
         raise click.ClickException("give a question, or --plan FILE")
-    plan = _load_plan_file(plan_file)
+    else:
+        previous = None
+        if previous_file is not None:
+            try:
+                previous = intents.load_previous(previous_file)
+            except ValueError as exc:
+                raise click.ClickException(str(exc)) from exc
+        started = _time.perf_counter()
+        try:
+            plan = planner.plan(question, _parse_domains(domain) if domain else None, classifier=classifier,
+                                previous=previous, exclude=list(exclude))
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
+        except (DriverError, Neo4jError) as exc:
+            raise click.ClickException(f"Neo4j is unreachable or failed: {exc}") from exc
+        plan_ms = round((_time.perf_counter() - started) * 1000, 1)
     ex = executor.execute(plan, max_steps=max_steps, deadline_s=_run_deadline(deadline))
-    from artmind.query_run import bundle as bundle_mod
-
     try:
         budget = bundle_mod.bundle_budget()
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
-    printed, _ = bundle_mod.build(plan, ex, budget=budget)
+    printed, _ = bundle_mod.build(plan, ex, budget=budget, plan_ms=plan_ms)
     _echo_json(printed, compact)
     if ex.exit_code:
         raise SystemExit(ex.exit_code)
