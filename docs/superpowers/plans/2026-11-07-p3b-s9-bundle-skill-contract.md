@@ -614,7 +614,7 @@ def test_frontmatter():
 
 
 def test_about_150_lines():
-    assert 100 <= len(_text().splitlines()) <= 190
+    assert 100 <= len(_text().splitlines()) <= 200
 
 
 def test_every_command_named_exists_in_the_click_tree():
@@ -643,6 +643,13 @@ def test_the_one_call_and_the_rules():
     assert "references/routes.md" in text and "references/commands.md" in text
 
 
+def test_the_read_before_you_answer_rule():
+    text = _text().lower()
+    assert "read before you answer" in text
+    assert "--expand" in text and "artmind query chunks" in text
+    assert "never enough to state a fact" in text
+
+
 def test_routes_named_exist():
     from artmind.query_plan import routes
 
@@ -658,7 +665,7 @@ Expected: FAIL (no SKILL.md).
 
 - [ ] **Step 3: Write the skill**
 
-Write `artmind/skills/artmind-query-bundle/SKILL.md` with these sections, in this order. The line budget is a guide, and the total must stay between 100 and 190 lines. Use plain, short sentences.
+Write `artmind/skills/artmind-query-bundle/SKILL.md` with these sections, in this order. The line budget is a guide, and the total must stay between 100 and 200 lines. Use plain, short sentences.
 
 1. **Frontmatter + purpose** (about 10 lines).
    - `name: artmind-query-bundle`.
@@ -686,7 +693,11 @@ Write `artmind/skills/artmind-query-bundle/SKILL.md` with these sections, in thi
    - A bundle whose plan route is `search` or `survey` usually holds what the answer needs. Check that each part of the question is covered, then answer.
    - On other routes the bundle often misses documents. Before answering, check each named part of the question against `evidence` and `documents`. Fill gaps with the commands in `escalate.suggested` or the route's commands in `references/routes.md`, most often `artmind query survey --shape brief --domain <d> --compact "<question>"`.
    - On `mode: fast` (a later build): answer from the bundle. Run a command only if a named part of the question is visibly missing.
-6. **Answer contract** (about 25 lines). Spec §8.4:
+6. **Read before you answer** (about 15 lines). Added 2026-11-07 after the answer comparison: in brain01, the same agent on the same build stopped at search snippets on its second run and lost 6 of 14 questions to its first run.
+   - A `gist`, a survey line row, a `documents` row or a snippet is never enough to state a fact. Open the text first: `artmind query survey --shape brief --domain <d> --expand <doc_id> --compact "<question>"`, `artmind query chunks --domain <d> --idList <chunk ids> --shape brief --compact`, or `artmind query page <handle> --list evidence --compact`.
+   - For a count, an "every", an "each year" or an "all the" question, read every matching entry the bundle lists before you count. Paginate until `truncated` is false.
+   - If you did not read something the question needs, read it now. Only when you cannot (a budget, a missing document) say exactly what was not read and why, with numbers from `coverage`.
+7. **Answer contract** (about 25 lines). Spec §8.4:
    - latest applicable source first;
    - incompleteness stated with `coverage` numbers, never "at least";
    - stated vs implied kept apart;
@@ -696,8 +707,8 @@ Write `artmind/skills/artmind-query-bundle/SKILL.md` with these sections, in thi
    - `gist_source` other than `passage` and `guides` never cited;
    - when your own commands changed the answer, ground it in what they returned;
    - when `escalate.reason` is `limit`, `deadline` or `step_error`, say what was not read.
-7. **References** (about 15 lines). `references/routes.md`, `references/commands.md`, and `references/temporal.md`, `conflicts.md`, `hierarchy.md`, `structured-store.md`, each with when to read it.
-8. **What not to do** (about 10 lines):
+8. **References** (about 15 lines). `references/routes.md`, `references/commands.md`, and `references/temporal.md`, `conflicts.md`, `hierarchy.md`, `structured-store.md`, each with when to read it.
+9. **What not to do** (about 10 lines):
    - no `artmind query plan`;
    - no shell loops over commands (`artmind query run --each` exists for claim batches);
    - no `--previous`;

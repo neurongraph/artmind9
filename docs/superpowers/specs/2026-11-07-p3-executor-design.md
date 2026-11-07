@@ -599,7 +599,21 @@ brain01's benchmark file (10 questions). The user rates both runs in the admin U
 | Turn latency | median `duration_s` lower than classic |
 | Cost | median `cost_usd` not higher |
 
-When both vaults pass in one paired run, `ARTMIND_AGENT_CONTRACT` defaults to `bundle` and the retire slice (S13) is due. A pass in one vault only counts as a fail: every vault stays `classic` (§13 Q8).
+**Variance band (added 2026-11-07).** A judged read of two classic runs on the same build (brain01, 14 questions)
+found 5 of 14 answers materially different and a 6-to-1 better/worse split, from how far the agent read in each run.
+One classic run against one bundle run cannot tell a regression from that noise. So each vault runs **three**
+benchmark runs on one build: classic A, classic B, bundle.
+
+`traces stats --compareRuns` adds a **judged answer comparison**. An LLM judge (Sonnet) pairs answers by question
+and reads them against the question's expected-answer note. Per question it rates them `same` / `minor` /
+`material` and `better` / `worse` / `equal`. The judge is opt-in per vault, because it sends answers to the
+provider. The user's ratings stay the final word.
+
+The gate adds two rows:
+- no question where bundle is materially worse than both classic runs;
+- bundle's worse-minus-better count against classic A is within the classic B-vs-A spread.
+
+When both vaults pass in one set of runs, `ARTMIND_AGENT_CONTRACT` defaults to `bundle` and the retire slice (S13) is due. A pass in one vault only counts as a fail: every vault stays `classic` (§13 Q8).
 This **replaces** the architecture §9 P3 gate's "fast-path share ≥ 50 % of rated-good turns", which round 9
 makes unreachable without risk. The fast path gets its own per-route gate (§9.3).
 
