@@ -165,7 +165,7 @@ def test_routes_without_programs_keep_their_steps_and_report_their_kind(world):
     world["views"] = []
     result = _plan("What is the favourite place of the team?")
     assert result["route"]["id"] == "superlative"
-    assert result["program_kind"] == "one_step" and result["plan_facts"] == {}  # a single authored program
+    assert result["program_kind"] == "one_step" and result["plan_facts"] == {"insights_snapshot": 1}  # B5: no flag counts as a snapshot
     assert [s["cmd"] for s in result["steps"] + result["suggested_steps"]][1] == (
         "artmind query graph text2cypher --domain journal 'What is the favourite place of the team?' --compact")
 

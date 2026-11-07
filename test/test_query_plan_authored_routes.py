@@ -8,7 +8,7 @@ from test_query_plan_planner import FakeClassifier, _answer, _plan, _use, world 
 
 OWNED = {
     "entity_history": "history", "time_history": "history", "conflicts": "one_step", "hierarchy": "one_step",
-    "path": "one_step", "superlative": "one_step", "inventory": "one_step",
+    "path": "one_step", "inventory": "one_step",
     "insights": "one_step", "filing": "one_step", "survey": "cross_document",
 }
 
@@ -24,6 +24,13 @@ def test_each_converted_route_loads_with_its_kind(rid, kind):
     assert route.fallbacks == () and route.optional_steps == () and route.variants == {}
     assert len(prog.run_nodes(route.program)) <= prog.MAX_WRITTEN_RUN_NODES
     assert prog.executed_run_calls(route.program) <= prog.MAX_EXECUTED_RUN_CALLS
+
+
+def test_superlative_chooses_between_snapshot_and_needle_programs():
+    route = _route("superlative")  # B5: `insights_snapshot == 0` swaps the insights step for the text needle
+    assert route.chooses and [c.kind for c in route.programs] == ["one_step", "one_step"]
+    assert route.programs[0].when.text == "insights_snapshot == 0"
+    assert not any("insights list" in n.run for n in prog.run_nodes(route.programs[0].program))
 
 
 def test_history_routes_never_use_text2cypher():

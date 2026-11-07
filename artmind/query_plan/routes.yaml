@@ -124,10 +124,18 @@ routes:
     description: The favourite, most, least, top or best item of a kind; a ranking that has to be inferred, not a stored fact.
     triggers: ["favourite", "favorite", "the most", "the least", "top", "best", "worst", "biggest", "most often"]
     needs: []
-    kind: one_step
-    program:
-      - {id: s1, run: "artmind query insights list --domain {domain} --compact"}
-      - {id: s2, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+    # `insights list` needs a snapshot (B5): a domain without one is skipped. With no snapshot anywhere in
+    # scope the text needle runs beside text2cypher (`insights_snapshot` = selected domains with a snapshot).
+    programs:
+      - kind: one_step
+        when: "insights_snapshot == 0"
+        program:
+          - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+          - {id: s2, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
+      - kind: one_step
+        program:
+          - {id: s1, needs: [insights_snapshot], run: "artmind query insights list --domain {domain} --compact"}
+          - {id: s2, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
     read: []
     evidence: [S22, P22]
 
@@ -283,7 +291,7 @@ routes:
     needs: []
     kind: one_step
     program:
-      - {id: s1, run: "artmind query insights list --domain {domain} --compact"}
+      - {id: s1, needs: [insights_snapshot], run: "artmind query insights list --domain {domain} --compact"}
     read: []
     evidence: [S6, P6]
 
