@@ -210,6 +210,14 @@ most once. Every firing goes into the bundle's `path`.
 | `page` | §3.5 `page` on the `on` node | none |
 | `retry_with`, `widen_domains` | run the guard's pre-rendered `then.cmd` once | the planner renders it (slot changed / all domains); unused by any route today, so this is tested on a fixture only |
 
+**Refinements made while planning S1–S4** (`docs/superpowers/plans/2026-11-07-p3a-executor-s1-s4.md`):
+
+- The guard JSON stays as it is. The rendered replacement programs go into a top-level plan key, `replacements: {route: {program, guards}}`, which holds every route a guard on the chosen program names, plus `search`.
+- A program with a non-optional unfilled node runs `replacements.search` instead (recorded in `path` as `replace`, reason `unfilled`). It escalates `unfilled` only when there is no replacement. This matches the planner, which gives a low unfilled plan the search steps.
+- The guard actions `run`, `retry_with` and `widen_domains` escalate (`reason: guard`, `action`) until a route uses them; no packaged route does today.
+- A run node whose `needs:` is unmet is marked `needs_unmet: true` in the node JSON and is skipped by the executor (`skipped: needs`).
+- Evidence is ranked by RRF over every successful step (§6.3's "answer nodes" are the steps a `pick` kept, which are the same steps on every packaged program).
+
 ### 3.6 Limits and the deadline
 
 - **Steps.** Before each executed call, `executed < --maxSteps`, else `skipped: limit` for this node and
