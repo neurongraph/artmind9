@@ -105,6 +105,9 @@ class TracedGroup(RichGroup):
         except click.ClickException as exc:
             exit_code = exc.exit_code
             raise
+        except SystemExit as exc:
+            exit_code = exc.code if isinstance(exc.code, int) else (0 if exc.code is None else 1)
+            raise
         except BaseException:
             exit_code = 1
             raise
