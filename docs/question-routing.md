@@ -105,6 +105,19 @@ to the start); a decision model can replace them behind the same seam. When the 
 `retrieve`, the route decision is still taken and recorded, so replay can tell an intent
 error from a route error.
 
+**Instruction cues (B3a).** `intents.yaml` lists `instructions:` cues ("into a file", "save it",
+"as a topic", "add a column", "just a test", ...) that mark a request to *do* something with an
+answer, a file or a setting. A cue never changes the intent, but a lookup plan whose message
+(or, when the planner substitutes the previous question, that question) carries one gets a
+confidence stage `instruction` of 0.5 (`INSTRUCTION_CAP`), so the plan is low and its steps are
+`suggested_steps`. The payload lists the cues in `intent.instruction`.
+
+**Unsure intents (B3b).** When the decision model picks a non-retrieval intent below the
+threshold, the plan is a low `retrieve` lookup (routes, slots, steps as suggestions) with an
+`intent` stage at that confidence; `intent.id` is `retrieve` and `intent.unsure` holds
+`{id, p}` of the intent the model picked. A confident non-retrieval intent keeps the no-steps
+plan. Lexical intents are never "unsure" (their scores top out below the threshold by design).
+
 ### 3.1 The domain decision is a set
 
 The answer to a question often sits in several domains. The classifier answers "which domain
@@ -319,10 +332,16 @@ whose domains are all `X.*`, or a named `X` there) is no domain decision, like `
 earns nothing, and the stage is the classifier's confidence in its own top choice. A chunks-only
 vault searched whole keeps 1.0 (with no domain named, all of it is the scope). Given domains add
 no domain stage.
-At or above the domain's `confidence_threshold` (default 0.7) the plan is `high` and its
+At or above the domain's `confidence_threshold` (default 0.7) plus the **margin** the plan is `high` and its
 commands are `steps`; below, they are `suggested_steps` and the agent reads the routing table
 and judges. In P3 a high plan whose bundle does not escalate is the **fast path** (the agent
 writes the answer from the bundle); anything else is the **reasoning path**.
+
+The margin (B3c) is `DECISION_MARGIN` = 0.05 when the decision backend answered (not lexical, not
+after a fallback), else 0: decision scores move about +-0.03 between identical calls, so a plan
+on the threshold would flip between runs. A domain overrides it with `decision_margin:` in
+`domains/plan/<domain>.yaml` (`0 <= x < 1`, the largest of the selected domains wins). The
+payload records `confidence.margin`. The stage logic (weakest link) is unchanged.
 
 Replay grades this explicitly. Each label says whether the planner should be confident
 (`expect: high|low`):

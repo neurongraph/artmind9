@@ -52,6 +52,7 @@ class Intent:
 class IntentSpec:
     intents: tuple[Intent, ...]
     affirmatives: tuple[str, ...]
+    instructions: tuple[str, ...] = ()
 
     def get(self, intent_id: str) -> Intent:
         return next(i for i in self.intents if i.id == intent_id)
@@ -100,9 +101,13 @@ def parse_intents(data) -> IntentSpec:
     aff = data.get("affirmatives")
     if not isinstance(aff, list) or not aff or not all(isinstance(a, str) and a.strip() for a in aff):
         raise IntentError("intents.yaml: 'affirmatives' must be a non-empty list of strings")
+    instr = data.get("instructions")
+    instr = [] if instr is None else instr
+    if not isinstance(instr, list) or not all(isinstance(c, str) and c.strip() for c in instr):
+        raise IntentError("intents.yaml: 'instructions' must be a list of non-empty strings")
     order = {iid: n for n, iid in enumerate(INTENT_IDS)}
     out.sort(key=lambda i: order[i.id])
-    return IntentSpec(tuple(out), tuple(_normalise(a) for a in aff))
+    return IntentSpec(tuple(out), tuple(_normalise(a) for a in aff), tuple(c.strip() for c in instr))
 
 
 @lru_cache(maxsize=1)
@@ -220,6 +225,21 @@ def refers_to_previous(question: str) -> bool:
     if len(_WORD_RE.findall(low)) > REFERS_MAX_WORDS:
         return False
     return bool(_REFERS_RE.search(low))
+
+
+def instruction_cues(question: str) -> tuple[str, ...]:
+    """The `instructions:` cues of intents.yaml that the message carries (B3a), in file order.
+
+    A cue marks a request to do something with an answer, a file or a setting; it does not change the
+    intent. Same trigger syntax as intent cues (`^` anchors a cue to the start)."""
+    from artmind.query_plan.classify.lexical import compile_trigger
+    text = question.casefold().replace("\u2019", "'")
+    hits = []
+    for cue in load_intents().instructions:
+        regex, _ = compile_trigger(cue)
+        if regex is not None and regex.search(text):
+            hits.append(cue)
+    return tuple(hits)
 
 
 def _scores(question: str) -> dict[str, float]:

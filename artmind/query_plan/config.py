@@ -18,7 +18,7 @@ import yaml
 DEFAULT_FIRST_PERSON = ("i", "me", "my", "mine", "myself")
 DEFAULT_THRESHOLD = 0.7
 CLASSIFIERS = ("auto", "lexical", "decision")
-_KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "classifier", "decision_model",
+_KEYS = frozenset({"narrator", "first_person", "confidence_threshold", "decision_margin", "classifier", "decision_model",
                    "categories", "kinship", "scope_rules", "calendar", "synonyms", "domain_aliases"})
 _RULE_ID_RE = re.compile(r"[a-z][a-z0-9_]*")
 _MONTH_DAY_RE = re.compile(r"(\d{2})-(\d{2})")
@@ -99,6 +99,7 @@ class PlanConfig:
     calendar: tuple[CalendarEvent, ...] = ()
     synonyms: tuple[tuple[str, tuple[str, ...]], ...] = ()     # (casefolded word, synonyms casefolded)
     domain_aliases: tuple[str, ...] = ()   # words that name this domain in a question (fix B1; own file only)
+    decision_margin: float | None = None   # None: planner.DECISION_MARGIN (B3c)
 
     def synonym(self, word: str) -> tuple[str, ...] | None:
         """Configured synonyms of a search-term word (casefold; singular/plural), else None."""
@@ -298,6 +299,9 @@ def parse_config(data, source: str) -> PlanConfig:
     threshold = data.get("confidence_threshold", DEFAULT_THRESHOLD)
     if isinstance(threshold, bool) or not isinstance(threshold, (int, float)) or not 0 < threshold <= 1:
         raise PlanConfigError(f"{source}: confidence_threshold must be a number in (0, 1]")
+    margin = data.get("decision_margin")
+    if margin is not None and (isinstance(margin, bool) or not isinstance(margin, (int, float)) or not 0 <= margin < 1):
+        raise PlanConfigError(f"{source}: decision_margin must be a number in [0, 1)")
     classifier = data.get("classifier", "auto")
     if classifier not in CLASSIFIERS:
         raise PlanConfigError(f"{source}: classifier must be one of {list(CLASSIFIERS)}")
@@ -311,7 +315,8 @@ def parse_config(data, source: str) -> PlanConfig:
                       _parse_calendar(data.get("calendar"), source),
                       _parse_word_map(data.get("synonyms"), source, "synonyms", fold_members=True),
                       _unique(_string_list(data.get("domain_aliases", []), source, "domain_aliases",
-                                           allow_empty=True)))
+                                           allow_empty=True)),
+                      None if margin is None else float(margin))
 
 
 def load_config(domain: str) -> PlanConfig:
@@ -366,6 +371,7 @@ def merge(configs: list[PlanConfig]) -> PlanConfig:
         confidence_threshold=max(c.confidence_threshold for c in configs),
         classifier=classifiers.pop() if len(classifiers) == 1 else "auto",
         decision_model=next((c.decision_model for c in configs if c.decision_model), None),
+        decision_margin=max((c.decision_margin for c in configs if c.decision_margin is not None), default=None),
     )
 
 
