@@ -70,8 +70,6 @@ def test_no_dry_run_writes_no_run_shadow():
 
 
 def test_late_path_writes_run_shadow_after_plan_shadow(monkeypatch):
-    from artmind.query_plan import shadow
-
     store.insert_turn("t1", source="admin", question="q")
     store.insert_span(_span("a1", ["d1"]), [])
     release = threading.Event()

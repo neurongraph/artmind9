@@ -412,6 +412,37 @@ def _output_shape(trace_ids: list[str], spans_by_trace: dict[str, list[dict]]) -
     }
 
 
+def _run_shadow_block(turns: list[dict], runs: dict[str, list[dict]]) -> dict:
+    """Shadow dry runs (P3 §7.2): exec time by program kind, escalation by route, covers_agent by route and level."""
+    from collections import defaultdict
+
+    from artmind.query_run import replay_run
+
+    statuses: Counter = Counter()
+    ms, esc, cov = defaultdict(list), defaultdict(list), defaultdict(lambda: defaultdict(list))
+    for turn in turns:
+        for event in runs.get(turn["trace_id"], []):
+            try:
+                p = json.loads(event.get("payload") or "{}")
+            except ValueError:
+                statuses["truncated"] += 1
+                continue
+            statuses[p.get("status") or "unknown"] += 1
+            if p.get("status") != "ok":
+                continue
+            if (p.get("timing") or {}).get("exec_ms") is not None and p.get("program_kind"):
+                ms[p["program_kind"]].append(p["timing"]["exec_ms"])
+            if p.get("route"):
+                esc[p["route"]].append(bool(p.get("escalate")))
+                if p.get("covers_agent") is not None:
+                    cov[p["route"]][p.get("level") or "unknown"].append(p["covers_agent"])
+    return {"count": sum(statuses.values()), "statuses": dict(statuses),
+            "exec_ms_p90": {k: replay_run.p90(v) for k, v in sorted(ms.items())},
+            "escalation_rate": {k: sum(v) / len(v) for k, v in sorted(esc.items())},
+            "covers_agent": {r: {lvl: round(statistics.mean(v), 3) for lvl, v in levels.items()}
+                             for r, levels in sorted(cov.items())}}
+
+
 def stats(*, domain: list[str] | None = None, since: float | None = None, by: str = "week") -> list[dict]:
     buckets: dict[tuple[str, str], list[dict]] = {}
     done = [t for t in store.list_turns(since=since) if t["status"] == "done"]
@@ -419,6 +450,7 @@ def stats(*, domain: list[str] | None = None, since: float | None = None, by: st
     spans_by_trace = store.list_spans_for(ids)
     checks = views_checks(done, spans_by_trace)
     shadows = store.list_events_of_type(ids, "plan_shadow")
+    runs = store.list_events_of_type(ids, "run_shadow")
     for turn in done:
         for d in turn.get("domains") or ["(none)"]:
             if domain and d not in domain:
@@ -440,6 +472,7 @@ def stats(*, domain: list[str] | None = None, since: float | None = None, by: st
             **_views_rates(turns, checks),
             "plan_shadow": _shadow_rates(turns, shadows, spans_by_trace),
             "run": _run_block(turns, spans_by_trace),
+            "run_shadow": _run_shadow_block(turns, runs),
             **_output_shape([t["trace_id"] for t in turns], spans_by_trace),
         })
     return rows
