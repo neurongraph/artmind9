@@ -174,16 +174,22 @@ def _create_benchmark_run(
     domain_hint: str | None = None,
     backend: str = "claude-sdk",
     name: str | None = None,
+    contract: str = "classic",
 ) -> str:
     """Create a new benchmark run with per-question rows; return run_id."""
+    from artmind.webui.profiles import CONTRACTS
+
+    if contract not in CONTRACTS:
+        raise ValueError(f"contract must be one of {', '.join(CONTRACTS)}, got {contract!r}")
     run_id = str(uuid.uuid4())
     conn = _get_db()
     try:
         conn.execute(
             "INSERT INTO benchmark_runs"
-            " (run_id, name, domain_hint, source_path, backend, status, question_count, queued_at)"
-            " VALUES (?, ?, ?, ?, ?, 'queued', ?, ?)",
-            (run_id, name, domain_hint, source_path, backend, len(questions), datetime.now().isoformat()),
+            " (run_id, name, domain_hint, source_path, backend, status, question_count, queued_at, contract)"
+            " VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, ?)",
+            (run_id, name, domain_hint, source_path, backend, len(questions), datetime.now().isoformat(),
+             contract),
         )
         conn.executemany(
             "INSERT INTO benchmark_questions"
@@ -276,7 +282,7 @@ def _update_benchmark_question(
 
 _RUN_COLS = (
     "run_id, name, domain_hint, source_path, backend, status,"
-    " question_count, processed_count, queued_at, started_at, completed_at, error_message"
+    " question_count, processed_count, queued_at, started_at, completed_at, error_message, contract"
 )
 
 
@@ -285,6 +291,7 @@ def _row_to_run(row) -> dict:
         "run_id": row[0], "name": row[1], "domain_hint": row[2], "source_path": row[3],
         "backend": row[4], "status": row[5], "question_count": row[6], "processed_count": row[7],
         "queued_at": row[8], "started_at": row[9], "completed_at": row[10], "error_message": row[11],
+        "contract": row[12],
     }
 
 

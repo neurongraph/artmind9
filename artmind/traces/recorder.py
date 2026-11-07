@@ -58,12 +58,12 @@ class TraceRecorder:
     def start(cls, *, source: str, question: str, session_id: str | None = None, profile: str | None = None,
               backend: str | None = None, benchmark_run_id: str | None = None, benchmark_seq: int | None = None,
               context_path: Path | None = None, shadow_question: str | None = None,
-              shadow_domains: list[str] | None = None) -> "TraceRecorder":
+              shadow_domains: list[str] | None = None, contract: str = "classic") -> "TraceRecorder":
         """`shadow_question` (the user's own text) starts a shadow plan for the turn (spec 2026-10-22 §6)."""
         try:
             trace_id = store.new_trace_id()
             store.insert_turn(trace_id, source=source, question=question, session_id=session_id, profile=profile,
-                              backend=backend, benchmark_run_id=benchmark_run_id, benchmark_seq=benchmark_seq)
+                              backend=backend, benchmark_run_id=benchmark_run_id, benchmark_seq=benchmark_seq, contract=contract)
             if context_path:
                 Path(context_path).write_text(trace_id)
             recorder = cls(trace_id, context_path)

@@ -468,6 +468,11 @@ def _init_db() -> None:
         cursor.execute("ALTER TABLE trace_turns ADD COLUMN cost_cumulative_usd REAL")
     if "turn_index" not in existing:
         cursor.execute("ALTER TABLE trace_turns ADD COLUMN turn_index INTEGER")
+    if "contract" not in existing:
+        cursor.execute("ALTER TABLE trace_turns ADD COLUMN contract TEXT NOT NULL DEFAULT 'classic'")
+    run_cols = {row[1] for row in cursor.execute("PRAGMA table_info(benchmark_runs)")}
+    if "contract" not in run_cols:
+        cursor.execute("ALTER TABLE benchmark_runs ADD COLUMN contract TEXT NOT NULL DEFAULT 'classic'")
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(trace_feedback)")}
     if "note" not in existing:
         cursor.execute("ALTER TABLE trace_feedback ADD COLUMN note TEXT")
