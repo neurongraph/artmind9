@@ -13,6 +13,8 @@ replacement cannot replace again. Guard actions no packaged route uses yet (`run
 
 from __future__ import annotations
 
+import re as _re
+import shlex
 import time
 from dataclasses import dataclass, field
 from typing import Callable
@@ -58,6 +60,9 @@ class _Replace(Exception):
         self.route = route
 
 
+_BIND_TOKEN = _re.compile(r"^\{([a-z][a-z0-9_]*)\.([a-z_]+)\}$")
+
+
 def _pred(text: str):
     return program_mod.parse_predicate(text, "query run")
 
@@ -75,6 +80,7 @@ class _Run:
         self.fired: set[int] = set()
         self.guards: list = []
         self.program: list = []
+        self.outputs: dict = {}
 
     # ── walking ──────────────────────────────────────────────────────────
     def nodes(self, nodes) -> None:
@@ -109,6 +115,11 @@ class _Run:
                 self.ex.unfilled = True
             self.ex.path.append({"id": nid, "kind": "run", "skipped": "unfilled"})
             return
+        if node.get("binds") and argv_override is None:
+            argv_override = self._bind(node.get("run") or "")
+            if argv_override is None:
+                self.ex.path.append({"id": nid, "kind": "run", "skipped": "unbound"})
+                return
         argv = argv_override or capture.argv_of(node.get("run") or "")
         if argv is None or not capture.allowed(argv):
             self.ex.results[nid] = capture.StepResult(nid, argv or [], 1, "not_allowed", None, 0.0, 0)
@@ -149,6 +160,21 @@ class _Run:
 
     def map(self, node) -> None:
         spec = node.get("map") or {}
+        if spec.get("over_bound"):
+            src, output = spec["over_bound"].split(".", 1)
+            items = list(self._outputs(src).get(output) or [])[: int(spec.get("max") or 10)]
+            do = spec.get("do") or {}
+            as_ = spec.get("as")
+            expanded = []
+            for item in items:
+                child = dict(do)
+                child["run"] = (do.get("run") or "").replace("{" + as_ + "}", shlex.quote(str(item)))
+                child["filled"] = True
+                expanded.append(child)
+            if not expanded:
+                self.ex.path.append({"id": node["id"], "kind": "map", "skipped": "unbound"})
+            spec = {**spec, "expanded": expanded}
+            node = {**node, "map": spec}
         ids = []
         for i, child in enumerate(spec.get("expanded") or [], 1):
             unique = {**child, "id": f"{child['id']}.{i}"}
@@ -160,6 +186,36 @@ class _Run:
         if do_id:
             self.ex.facts[do_id] = merged
 
+    def _outputs(self, node_id: str) -> dict:
+        if node_id not in self.outputs:
+            result = self.ex.results.get(node_id)
+            payload = result.payload if result is not None and result.exit_code == 0 else None
+            if payload is None and node_id in self.ex.facts:  # a pick or map: bind over the steps it kept
+                leaves = [i for i in self._leaves(node_id) if i in self.ex.results and self.ex.results[i].exit_code == 0]
+                rows = [r for i in leaves for r in facts_mod.main_list(self.ex.results[i].payload)]
+                payload = {"command": "query vector-text", "rows": rows} if rows else None
+            self.outputs[node_id] = facts_mod.bind_outputs(payload)
+        return self.outputs[node_id]
+
+    def _bind(self, run: str) -> list[str] | None:
+        """argv with each whole-token binding replaced by its value; None when a value is empty."""
+        argv = capture.argv_of(run)
+        if argv is None:
+            return None
+        out = []
+        for token in argv:
+            m = _BIND_TOKEN.match(token)
+            if m is None:
+                out.append(token)
+                continue
+            value = self._outputs(m.group(1)).get(m.group(2))
+            if isinstance(value, list):
+                value = ",".join(str(v) for v in value)
+            if value in (None, ""):
+                return None
+            out.append(str(value))
+        return out
+
     def _leaves(self, node_id) -> list[str]:
         node = next((n for n in _walk(self.program) if n.get("id") == node_id), None)
         if node is None:
@@ -167,8 +223,11 @@ class _Run:
         if node.get("kind") == "par":
             return [i for c in node.get("children") or [] for i in self._leaves(c["id"])]
         if node.get("kind") == "map":
-            n = len((node.get("map") or {}).get("expanded") or [])
-            return [f"{node['map']['do']['id']}.{i}" for i in range(1, n + 1) if f"{node['map']['do']['id']}.{i}" in self.ex.results]
+            do_id = node["map"]["do"]["id"]
+            n = len(node["map"].get("expanded") or [])
+            if node["map"].get("over_bound"):  # expanded at run time: read what ran
+                return [i for i in self.ex.results if _re.fullmatch(_re.escape(do_id) + r"\.\d+", i)]
+            return [f"{do_id}.{i}" for i in range(1, n + 1) if f"{do_id}.{i}" in self.ex.results]
         return [node_id] if node_id in self.ex.results else []
 
     def pick(self, node) -> bool:
