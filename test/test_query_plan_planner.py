@@ -118,7 +118,8 @@ def test_a_route_question_fills_the_route_templates(world):
     assert result["route"]["triggered_by"] == ["how often"]
     assert result["view_match"] is None
     assert [s["cmd"] for s in result["steps"]] == [
-        "artmind query graph text2cypher --domain journal 'How often did the team meet?' --compact"
+        "artmind query graph text2cypher --domain journal 'How often did the team meet?' --compact",
+        "artmind query survey --shape brief --domain journal 'How often did the team meet?' --compact",
     ]
 
 
@@ -276,7 +277,8 @@ def test_the_narrator_is_the_second_entity_beside_one_named_mention(world, tmp_p
     assert result["route"]["id"] == "path"
     assert result["confidence"]["level"] == "high"
     assert [s["cmd"] for s in result["steps"]] == [
-        "artmind query graph pattern6 --domain journal --entityId1 p1 --entityId2 n1 --compact"
+        "artmind query graph pattern6 --domain journal --entityId1 p1 --entityId2 n1 --compact",
+        "artmind query survey --shape brief --domain journal 'How am I related to Ada?' --compact",
     ]
 
 

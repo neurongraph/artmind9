@@ -91,7 +91,7 @@ def test_a_snapshot_keeps_todays_superlative_plan(world, monkeypatch):
     result = _plan("What is the biggest thing?")
     cmds = _cmds(result)
     assert cmds[0] == "artmind query insights list --domain journal --compact"
-    assert "text2cypher" in cmds[1] and len(cmds) == 2
+    assert "text2cypher" in cmds[1] and cmds[2].startswith("artmind query survey --shape brief") and len(cmds) == 3
     assert result["plan_facts"] == {"insights_snapshot": 1}
 
 
@@ -100,7 +100,7 @@ def test_an_overview_without_the_flag_counts_as_a_snapshot(world, monkeypatch):
     world["views"] = []
     _superlative(monkeypatch)
     cmds = _cmds(_plan("What is the biggest thing?"))
-    assert cmds[0] == "artmind query insights list --domain journal --compact" and len(cmds) == 2
+    assert cmds[0] == "artmind query insights list --domain journal --compact" and len(cmds) == 3
 
 
 def test_the_insights_route_is_unfilled_without_a_snapshot(world, monkeypatch):
@@ -119,7 +119,8 @@ def test_the_insights_route_runs_with_a_snapshot(world, monkeypatch):
     world["views"] = []
     _use(monkeypatch, FakeClassifier(override={"route": _answer("insights", 0.95)}))
     result = _plan("What changed lately?")
-    assert [s["cmd"] for s in result["steps"]] == ["artmind query insights list --domain journal --compact"]
+    assert [s["cmd"].split()[2] for s in result["steps"]] == ["insights", "survey"]
+    assert result["steps"][0]["cmd"] == "artmind query insights list --domain journal --compact"
 
 
 # ── superlative over records -> structured ───────────────────────────────────

@@ -40,7 +40,11 @@ routes:
           - {id: found, pick: {from: sweep, how: union}}
       - kind: one_step
         program:
-          - {id: s1, run: "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --shape brief --compact"}
+          - id: p
+            par:
+              - {id: s1, run: "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --shape brief --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+          - {id: u, pick: {from: p, how: union}}
         guards:
           # v1 fallback: no rows -> search the notes for the same question
           - {"on": s1, if: "rows == 0", then: {replace: search}}
@@ -61,6 +65,7 @@ routes:
             par:
               - {id: s1, run: "artmind query graph pattern1 --domain {domains} --entityClass {entity_class_list} --limit 200 --shape brief --compact"}
               - {id: text, run: "artmind query vector-text --shape brief --domain {domains} {search_term} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           - {id: found, pick: {from: both, how: union}}
         guards:
           # No entity of the class in this scope: the notes may still mention it in other words.
@@ -73,6 +78,7 @@ routes:
             par:
               - {id: context, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
               - {id: linked, run: "artmind query graph pattern7 --domain {domains} --searchTerm {entity_name} --limit 50 --shape brief --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           - {id: more, page: {from: linked, until: rows_total}, when: "linked.truncated"}
           - {id: found, pick: {from: gather, how: union}}
         guards:
@@ -84,6 +90,7 @@ routes:
             par:
               - {id: s1, run: "artmind query graph pattern7 --domain {domains} --searchTerm {keywords} --limit 50 --shape brief --compact"}
               - {id: text, run: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           - {id: more, page: {from: s1, until: rows_total}, when: "s1.truncated"}
           - {id: found, pick: {from: both, how: union}}
         guards:
@@ -111,10 +118,15 @@ routes:
                   as: twin
                   max: 5
                   do: {id: twin_ctx, run: "artmind query entity-context --domain {domains} --entityId {twin} --shape brief --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           - {id: found, pick: {from: both, how: union}}
       - kind: one_step
         program:
-          - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+          - id: p
+            par:
+              - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+          - {id: u, pick: {from: p, how: union}}
         guards:
           - {"on": s1, if: "rows == 0", then: {replace: search}}
     read: []
@@ -130,12 +142,20 @@ routes:
       - kind: one_step
         when: "insights_snapshot == 0"
         program:
-          - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
-          - {id: s2, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
+          - id: p
+            par:
+              - {id: s1, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+              - {id: s2, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+          - {id: u, pick: {from: p, how: union}}
       - kind: one_step
         program:
-          - {id: s1, needs: [insights_snapshot], run: "artmind query insights list --domain {domain} --compact"}
-          - {id: s2, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+          - id: p
+            par:
+              - {id: s1, needs: [insights_snapshot], run: "artmind query insights list --domain {domain} --compact"}
+              - {id: s2, run: "artmind query graph text2cypher --domain {domains} {question} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+          - {id: u, pick: {from: p, how: union}}
     read: []
     evidence: [S22, P22]
 
@@ -150,14 +170,22 @@ routes:
       - kind: entity_visits
         when: "occurrence"
         program:
-          - {id: ctx, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+          - id: p
+            par:
+              - {id: ctx, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+              - {id: check, run: "artmind query vector-text --shape brief --domain {domains} {question} --topK 25 --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           - {id: more, page: {from: ctx, until: rows_total}, when: "ctx.truncated"}
-          - {id: check, run: "artmind query vector-text --shape brief --domain {domains} {question} --topK 25 --compact"}
+          - {id: u, pick: {from: p, how: union}}
         guards:
           - {"on": check, if: "docs_cited == 0 and ctx.entity_docs > 0", then: escalate}
       - kind: one_step
         program:
-          - {id: s1, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+          - id: p
+            par:
+              - {id: s1, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+          - {id: u, pick: {from: p, how: union}}
         guards:
           - {"on": s1, if: "rows == 0", then: {replace: search}}
     read: []
@@ -169,7 +197,11 @@ routes:
     needs: [entity]
     kind: history
     program:
-      - {id: s1, run: "artmind query entity-history --domain {domains} --entityId {entity_id} --compact"}
+      - id: p
+        par:
+          - {id: s1, run: "artmind query entity-history --domain {domains} --entityId {entity_id} --compact"}
+          - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+      - {id: u, pick: {from: p, how: union}}
     guards:
       - {on: s1, if: "rows == 0", then: escalate}
     read: [references/temporal.md]
@@ -195,13 +227,18 @@ routes:
                   max: 6
                   do: {id: version, run: "artmind query graph pattern10 --domain {domains} --documentName {doc} --includeHistory --compact"}
               - {id: needle, run: "artmind query vector-text --shape brief --domain {domains} --topK 10 {search_term} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           - {id: u, pick: {from: p, how: union}}
         guards:
           - {"on": u, if: "distinct_documents == 0", then: escalate}
       - kind: history
         program:
-          - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact"}
-          - {id: s2, run: "artmind query document-history --domain {domains} --documentName {document} --compact"}
+          - id: p
+            par:
+              - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact"}
+              - {id: s2, run: "artmind query document-history --domain {domains} --documentName {document} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+          - {id: u, pick: {from: p, how: union}}
         guards:
           - {"on": s1, if: "rows == 0", then: escalate}
     read: [references/temporal.md]
@@ -215,8 +252,12 @@ routes:
     needs: []
     kind: one_step
     program:
-      - {id: s1, run: "artmind query graph conflicts --domain {domains} --status all --compact"}
-      - {id: s2, run: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+      - id: p
+        par:
+          - {id: s1, run: "artmind query graph conflicts --domain {domains} --status all --compact"}
+          - {id: s2, run: "artmind query vector-text --shape brief --domain {domains} {question} --compact"}
+          - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+      - {id: u, pick: {from: p, how: union}}
     read: [references/conflicts.md]
     evidence: [S13, P13]
 
@@ -225,8 +266,12 @@ routes:
     triggers: ["reports to", "report to", "works under", "chain of", "hierarchy", "who manages", "manager of", "part of", "belongs to"]
     needs: [entity]
     kind: one_step
+    # No pick: s2 runs after the par and its evidence must reach the bundle, which a pick over the par would drop.
     program:
-      - {id: s1, run: "artmind query graph hierarchy --domain {domains} --entityId {entity_id} --compact"}
+      - id: p
+        par:
+          - {id: s1, run: "artmind query graph hierarchy --domain {domains} --entityId {entity_id} --compact"}
+          - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
       - {id: s2, run: "artmind query entity-context --domain {domains} --entityId {entity_id} --shape brief --compact", when: "s1.rows == 0"}
     read: [references/hierarchy.md]
     evidence: [S11]
@@ -236,8 +281,12 @@ routes:
     triggers: ["related to", "connection between", "connected to", "relationship between", "link between", "how are", "know each other"]
     needs: [two_entities]
     kind: one_step
+    # No pick (see hierarchy): s2 and s3 run after the par on s1's rows.
     program:
-      - {id: s1, run: "artmind query graph pattern6 --domain {domains} --entityId1 {entity_id} --entityId2 {other_entity_id} --compact"}
+      - id: p
+        par:
+          - {id: s1, run: "artmind query graph pattern6 --domain {domains} --entityId1 {entity_id} --entityId2 {other_entity_id} --compact"}
+          - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
       - {id: s2, run: "artmind query graph pattern5 --domain {domains} --entityClass1 {entity_class} --entityClass2 {other_entity_class} --entityId1 {entity_id} --entityId2 {other_entity_id} --mode shortest --compact", when: "s1.rows == 0"}
       - {id: s3, run: "artmind query vector-text --shape brief --domain {domains} {question} --compact", when: "s1.rows == 0"}
     guards:
@@ -274,7 +323,11 @@ routes:
               do: {id: version, run: "artmind query graph pattern10 --domain {domains} --documentName {doc} --compact"}
       - kind: one_step
         program:
-          - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --compact"}
+          # No pick: `history` runs after the par on s1's rows and must stay in the bundle.
+          - id: p
+            par:
+              - {id: s1, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --compact"}
+              - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
           # v1 fallback: nothing found -> the same document with its history
           - {id: history, run: "artmind query graph pattern10 --domain {domains} --documentName {document} --includeHistory --compact", when: "s1.rows == 0"}
     read: []
@@ -321,7 +374,13 @@ routes:
     needs: []
     kind: one_step
     program:
-      - {id: s1, needs: [insights_snapshot], run: "artmind query insights list --domain {domain} --compact"}
+      - id: p
+        par:
+          - {id: s1, needs: [insights_snapshot], run: "artmind query insights list --domain {domain} --compact"}
+          # needs the snapshot too: with none, the route stays unfilled (low confidence) as before, rather than
+          # becoming a survey-only plan.
+          - {id: wide, needs: [insights_snapshot], run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+      - {id: u, pick: {from: p, how: union}}
     read: []
     evidence: [S6, P6]
 
@@ -332,7 +391,11 @@ routes:
     needs: []
     kind: one_step
     program:
-      - {id: s1, run: "artmind query graph filing-listing --domain {domains} --compact"}
+      - id: p
+        par:
+          - {id: s1, run: "artmind query graph filing-listing --domain {domains} --compact"}
+          - {id: wide, run: "artmind query survey --shape brief --domain {domains} {question} --compact"}
+      - {id: u, pick: {from: p, how: union}}
     read: []
     evidence: [S17]
 

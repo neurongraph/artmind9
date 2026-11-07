@@ -53,8 +53,10 @@ def test_a_view_plan_has_one_run_node_with_the_view_command(world):
 def test_a_route_plan_serialises_its_program_and_guards(world):
     world["views"] = []
     result = _plan("How often did the team meet?")
-    assert [n["run"] for n in result["program"]] == [s["cmd"] for s in result["steps"]]
-    assert result["program"][0]["id"] == "s1" and result["program"][0]["filled"] is True
+    assert [n["kind"] for n in result["program"]] == ["par", "pick"]
+    children = result["program"][0]["children"]
+    assert [n["run"] for n in children] == [s["cmd"] for s in result["steps"]]
+    assert children[0]["id"] == "s1" and children[0]["filled"] is True
 
 
 def test_v1_templates_still_render_with_keywords_not_search_term(world):
