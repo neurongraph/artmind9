@@ -213,3 +213,84 @@ def evaluate(pred, by_node: dict, default_node: str) -> bool:
         return all(ev(o) for o in node.operands)
 
     return ev(pred.ast)
+
+
+# ── bound outputs (P3 spec §4.2) ─────────────────────────────────────────────
+
+BIND_WINDOW_DAYS = 3
+
+
+def _text_rows(payload) -> list[dict]:
+    """Rows carrying text with a document, in rank order (brief `doc` rows, full `document` rows, `chunk` rows)."""
+    out = []
+    for r in main_list(payload):
+        if not isinstance(r, dict):
+            continue
+        chunk = r.get("chunk") if isinstance(r.get("chunk"), dict) else {}
+        if isinstance(r.get("text"), str) or isinstance(chunk.get("text"), str):
+            out.append(r)
+    return out
+
+
+def _doc_of(row: dict) -> dict:
+    return (row.get("doc") if isinstance(row.get("doc"), dict) else None) or \
+           (row.get("document") if isinstance(row.get("document"), dict) else None) or {}
+
+
+def _doc_name(doc: dict) -> str | None:
+    """The form `--documentName` accepts: a full row's `name`, else the brief row's `title`."""
+    return doc.get("name") or doc.get("title")
+
+
+def _chunk_id(row: dict) -> str | None:
+    chunk = row.get("chunk") if isinstance(row.get("chunk"), dict) else {}
+    return row.get("chunk_id") or chunk.get("id")
+
+
+def _entity_id(row: dict) -> str | None:
+    """`entity-resolve` rows nest the node as `{entity: {_id, ...}}`; a bare `id` is a passage/chunk id, not read."""
+    entity = row.get("entity") if isinstance(row.get("entity"), dict) else {}
+    return row.get("_id") or entity.get("_id") or entity.get("id")
+
+
+def _dedup(values) -> list:
+    return [v for v in dict.fromkeys(v for v in values if v)]
+
+
+def _window(rows, days: int) -> list[str]:
+    from datetime import date, timedelta
+
+    dated = []
+    for r in rows:
+        doc = _doc_of(r)
+        raw = doc.get("date") or doc.get("valid_from")
+        try:
+            dated.append((date.fromisoformat(str(raw)[:10]), _doc_name(doc)))
+        except (TypeError, ValueError):
+            continue
+    if not dated:
+        return []
+    start = dated[0][0]
+    end = start + timedelta(days=days)
+    return _dedup(name for d, name in sorted(dated) if start <= d <= end)
+
+
+def bind_outputs(payload, *, window_days: int = BIND_WINDOW_DAYS) -> dict:
+    rows = _text_rows(payload)
+    entities = [r for r in main_list(payload) if isinstance(r, dict) and _entity_id(r)]
+    top = rows[0] if rows else {}
+    top_doc = _doc_of(top)
+    return {
+        "top_chunk": _chunk_id(top) if rows else None,
+        "top_passage": top.get("passage_id") if rows else None,
+        "top_doc": _doc_name(top_doc) if rows else None,
+        "top_date": (top_doc.get("date") or top_doc.get("valid_from")) if rows else None,
+        "top_entity": _entity_id(entities[0]) if entities else None,
+        "chunk_ids": _dedup(_chunk_id(r) for r in rows),
+        "doc_names": _dedup(_doc_name(_doc_of(r)) for r in rows),
+        "entity_ids": _dedup(_entity_id(r) for r in entities),
+        "window_docs": _window(rows, window_days),
+    }
+
+
+OUTPUT_RULES = frozenset(bind_outputs(None))
