@@ -28,40 +28,7 @@ from pathlib import Path
 
 from artmind.query_plan import program as program_mod
 
-DOC_KEYS = ("document", "doc", "documents", "source_documents")
-TABLE_KEY = "source_tables"   # text2sql: [{table, source_file}]
-
-
-# ── documents in a payload ──────────────────────────────────────────────────
-
-def step_documents(payload) -> list[dict]:
-    """Every document dict in a step payload: values under `DOC_KEYS` (a dict or a list of dicts) and any
-    dict with a `doc_id`, at any depth. Each is normalised to {path, source_path, name, id, title}."""
-    found: list[dict] = []
-
-    def add(d: dict) -> None:
-        ref = {"path": d.get("path"), "source_path": d.get("source_path"), "name": d.get("name"),
-               "id": d.get("id") if "id" in d else d.get("doc_id"), "title": d.get("title")}
-        if any(v for v in ref.values()):
-            found.append(ref)
-
-    def walk(node, key=None) -> None:
-        if isinstance(node, dict):
-            if key == TABLE_KEY:
-                if node.get("source_file"):
-                    found.append({"path": node["source_file"], "source_path": None, "name": None,
-                                  "id": None, "title": None})
-                return
-            if key in DOC_KEYS or "doc_id" in node:
-                add(node)
-            for k, v in node.items():
-                walk(v, k)
-        elif isinstance(node, list):
-            for v in node:
-                walk(v, key)
-
-    walk(payload)
-    return found
+from artmind.query_run.facts import DOC_KEYS, TABLE_KEY, step_documents  # noqa: F401  (re-exported)
 
 
 # ── matching ───────────────────────────────────────────────────────────────
@@ -140,13 +107,10 @@ def needle_answers_alone(rule: dict, needle_payload: dict | None) -> bool:
     score_drop (no clear winner) reads as minus infinity, so `score_drop < NEEDLE_MARGIN` holds."""
     if not isinstance(needle_payload, dict):
         return False
-    from artmind.retrieval_eval import metrics
+    from artmind.query_run import facts as facts_mod
 
-    facts = metrics.needle_stats(needle_payload.get("rows") or [])
-    if facts["score_drop"] is None:
-        facts["score_drop"] = float("-inf")
-    facts.update(program_mod.CONSTANTS)
-    return not program_mod.evaluate_plan_predicate(rule["when"], facts)
+    by_node = {"needle": facts_mod.step_facts({**needle_payload, "command": "query vector-text"}, [])}
+    return not facts_mod.evaluate(rule["when"], by_node, "needle")
 
 
 # ── running steps ───────────────────────────────────────────────────────────
