@@ -561,7 +561,7 @@ left (30 documents) sits outside B2:
 | Missed | Documents | Where it belongs |
 |---|---|---|
 | misrouted plans: `superlative` for a survey or structured question (`L022`, `L035`), `aggregate` for an entity question (`L028`) | 8 | B3 (decision-model calibration); `insights list` also exits 1 in a vault with no insights snapshot (B5) |
-| entity routes cite only the entity's own documents (`L004`, `L012`) | 4 | **B11** (proposed, to be analysed): a text step beside `entity-context` / `entity-history`, a route design change after B2 |
+| entity routes cite only the entity's own documents (`L004`, `L012`) | 4 | **B11** (proposed, to be analysed: `2026-11-07-b11-entity-routes-text-proposal.md`): a text step beside `entity-context` / `entity-history`, a route design change after B2 |
 | one to three documents per `search`, `survey` and `time_history` plan | about 13 | retrieval ranking, not routing |
 | `structured`: `db bridge` is not executed by `--reach`; the rest by ranking | 5 | measurement |
 
