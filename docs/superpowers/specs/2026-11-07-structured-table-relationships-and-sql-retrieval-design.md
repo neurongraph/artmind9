@@ -401,37 +401,113 @@ Regardless of whether Option A (CLI) or Option B (Library) is chosen, there is o
 
 ---
 
-### 8.3 Recommended Implementation Path for Independent Evolution
+### 8.3 Actionable Work Plan for Independent Evolution
 
-If you prefer keeping both projects independent:
+To keep both repositories independent, the work plan is structured into two sequential phases:
 
-1. **In `~/projects/sql-browser`:**
-   - **Step 1: DuckDB Inspector.** Add `DuckDBInspector` to `database.py` so `sql-browser` can inspect and query DuckDB databases directly (`sql-browser path/to/data.duckdb`).
-   - **Step 2: Non-Interactive One-Shot CLI Command.** Add a `query` subcommand to `cli.py`:
-     ```bash
-     sql-browser query "Show me total claims by region" path/to/database.duckdb \
-       --metadata domains/metadata/insurance.meta.yaml \
-       --json \
-       [--dry-run] \
-       [--model <model>]
-     ```
-     This executes the full pipeline (relevance pruning, prompt construction, SQL generation, AST qualification, self-repair, value correction, and row capping) and emits clean JSON:
-     ```json
-     {
-       "sql": "SELECT region, SUM(amount) FROM ...",
-       "rows": [...],
-       "corrections": [...],
-       "notes": "..."
-     }
-     ```
-   - **Step 3: Expose Public Python API.** Expose `from sql_browser import run_query, Metadata, SQLGuard` in `__init__.py`.
+```
+┌────────────────────────────────────────────────────────┐
+│   Phase A: In ~/projects/sql-browser (First Priority)  │
+├────────────────────────────────────────────────────────┤
+│  Task A1: DuckDB Engine Support (DuckDBInspector)      │
+│  Task A2: Dialect-Aware SQL Guarding & Profiling       │
+│  Task A3: Headless CLI Command (sql-browser query)     │
+│  Task A4: Metadata Subcommands (init / validate)       │
+│  Task A5: Test Suite & Verification                    │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│          Phase B: In ~/projects/artmind9               │
+├────────────────────────────────────────────────────────┤
+│  Task B1: Vault Metadata Conventions (.artmind/...)    │
+│  Task B2: Ingest Hook & Metadata CLI in artmind        │
+│  Task B3: Delegate text2sql to sql-browser CLI         │
+│  Task B4: Graph Fusion & Citations Hand-off            │
+│  Task B5: End-to-End Benchmark & Acceptance Tests      │
+└────────────────────────────────────────────────────────┘
+```
 
-2. **In `artmind9`:**
-   - Under `artmind/text2sql.py`:
-     - If `sql-browser` is installed / found on PATH: invoke `sql-browser query <question> <duckdb_file> --metadata <meta_yaml> --json` (or import it).
-     - Wire the result directly into `artmind`'s query response and fusion pipeline (`_fusion_hints`, `_source_tables`, `[→ CLASS]`).
-   - In `artmind` CLI:
-     - Keep `artmind query text2sql` and `artmind db sql` as the top-level CLI interface, delegating the SQL retrieval to `sql-browser` under the hood.
+#### Phase A: In `~/projects/sql-browser` (First Priority)
+
+* **Task A1: Implement `DuckDBInspector` in `sql_browser/database.py`**
+  - Add `duckdb` to `pyproject.toml`.
+  - Refactor `DatabaseInspector` into a base class / protocol, with `SQLiteInspector` and `DuckDBInspector`.
+  - Implement DuckDB connection, schema inspection (`information_schema.tables`, `information_schema.columns`), and sample extraction (`SELECT * FROM table LIMIT n`).
+  - Auto-detect backend from file extension: `.duckdb` / `.parquet` uses `DuckDBInspector`, `.db` / `.sqlite` uses `SQLiteInspector`.
+
+* **Task A2: Make SQL Guard & Profiler Dialect-Aware**
+  - In `sql_guard.py`, accept `dialect="sqlite" | "duckdb"`.
+  - Use `sqlglot.transpile(sql, read=None, write=dialect)` so DuckDB-specific functions are validated cleanly.
+  - In `profiler.py`, ensure profile caching works for DuckDB databases (either in-memory or persisted `_sql_browser_profile` table).
+
+* **Task A3: Add Non-Interactive Headless Command (`sql-browser query`)**
+  - Add `query` command to `sql_browser/cli.py`:
+    ```bash
+    sql-browser query <question> <database_path> \
+      [--metadata <metadata_path>] \
+      [--model <model>] \
+      [--json] \
+      [--dry-run]
+    ```
+  - Pipeline executes:
+    1. Connect to inspector + load & reconcile metadata.
+    2. Score `relevant_tables()` and expand 1-hop along join graph.
+    3. Generate prompt in `context.py` with explicit `RELATIONSHIPS`, `GLOSSARY`, `RULES`, and column enums.
+    4. Call LLM (`translate_to_sql`).
+    5. Run AST safety (`is_read_only`), schema qualification (`qualify`), and self-repair loop (`repair_sql`).
+    6. Run AST value correction (`query_corrector`).
+    7. Enforce row limit (`LIMIT 1000`).
+    8. Execute SQL and output clean JSON to stdout:
+       ```json
+       {
+         "sql": "SELECT ...",
+         "rows": [...],
+         "corrections": [...],
+         "notes": "...",
+         "warnings": [...]
+       }
+       ```
+
+* **Task A4: Add Standalone Metadata Management CLI**
+  - Add `sql-browser metadata init <database_path> --out <metadata_path> [--llm-draft]`
+  - Add `sql-browser metadata validate <database_path> --metadata <metadata_path>`
+  - Add `sql-browser metadata regenerate <database_path> --metadata <metadata_path>`
+
+* **Task A5: Test Suite**
+  - Add tests in `sql-browser/tests/` verifying DuckDB inspection, foreign key / YAML relationship resolution, and JSON query output.
+
+---
+
+#### Phase B: In `~/projects/artmind9` (Second Priority)
+
+* **Task B1: Vault Directory Structure & Path Resolution**
+  - In `paths.py`, define `DOMAIN_METADATA_DIR = ARTMIND_HOME / "domains" / "metadata"`.
+  - When resolving a domain (e.g. `retail`), resolve metadata file to `<vault>/.artmind/domains/metadata/retail.meta.yaml` and DuckDB file to `<vault>/.artmind/data/structured/retail.duckdb`.
+
+* **Task B2: Expose Metadata Management in `artmind db`**
+  - Add CLI subcommands:
+    - `artmind db metadata init <domain>` -> calls `sql-browser metadata init <duckdb_path> --out <metadata_path>`
+    - `artmind db metadata validate <domain>` -> calls `sql-browser metadata validate ...`
+    - `artmind db metadata open <domain>` -> opens the YAML file in Obsidian or default editor.
+
+* **Task B3: Delegate `artmind query text2sql` to `sql-browser query`**
+  - In `artmind/text2sql.py`:
+    - Check if `sql-browser` CLI binary is available on PATH (or virtualenv).
+    - Call `sql-browser query <question> <duckdb_path> --metadata <meta_path> --json`.
+    - If `sql-browser` is not installed, gracefully fall back to the legacy single-shot prompt with a diagnostic warning.
+
+* **Task B4: Preserve Graph Fusion & Citations**
+  - Take `sql-browser`'s JSON output (`sql`, `rows`).
+  - Overlay `artmind`'s Knowledge Graph fusion data:
+    - `_fusion_hints(domains)` (identifying `[bridge]` columns that link to document text).
+    - `_source_tables(sql, tables)` (citing the original spreadsheets).
+  - Return complete response payload for CLI and web UI.
+
+* **Task B5: Verification & Benchmarks**
+  - Run multi-table queries (joins across orders and customers).
+  - Test case-insensitive value corrections and business rules.
+  - Verify Obsidian Git commits of `.meta.yaml` files.
 
 ### 8.4 Metadata Creation, Scaffolding & Updation: Zero Replication Needed
 
