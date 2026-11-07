@@ -477,7 +477,7 @@ def cli():
     pass
 
 
-def _echo_json(payload: dict, compact: bool = False) -> None:
+def _echo_json(payload: dict, compact: bool = False, declared_key: str | None = None) -> None:
     ctx = click.get_current_context(silent=True)
     flagged = ctx.find_root().meta.pop(_UNKNOWN_DOMAIN_META, None) if ctx is not None else None
     if flagged and isinstance(payload, dict):
@@ -508,9 +508,13 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
         budget = result_store.current_budget()
     except result_store.BudgetError as exc:
         raise click.ClickException(str(exc)) from exc
-    declared = LIST_KEY.get(_command_path(ctx)) if ctx is not None else None
-    out, payload_chars, shown_chars, handle = result_store.fit(
-        payload, budget, lambda p: json.dumps(p, **kwargs), declared, LOGS_DIR / "results")
+    declared = declared_key or (LIST_KEY.get(_command_path(ctx)) if ctx is not None else None)
+    if isinstance(payload, dict) and "bundle_version" in payload and ctx is not None and _command_path(ctx) == "query run":
+        # `query run` already fitted its bundle to the budget (and stored the whole under one handle)
+        out, payload_chars, shown_chars, handle = payload, len(json.dumps(payload, **kwargs)), len(json.dumps(payload, **kwargs)), None
+    else:
+        out, payload_chars, shown_chars, handle = result_store.fit(
+            payload, budget, lambda p: json.dumps(p, **kwargs), declared, LOGS_DIR / "results")
     # query-trace span evidence (from the full payload); a no-op outside a traced query
     observe_output(observe_output_full, payload_chars=payload_chars, shown_chars=shown_chars, handle=handle)
     click.echo(json.dumps(out, **kwargs))
@@ -3612,7 +3616,7 @@ def query_page(start: int, count: int | None, list_name: str | None, compact: bo
     page["next"] = f"artmind query page {handle}{more} --from {end}" if end < len(rows) else None
     page["warnings"] = []
     # A page is itself budgeted; its own cut carries a new handle.
-    _echo_json(page, compact)
+    _echo_json(page, compact, declared_key=key)
 
 
 @query.command("survey")

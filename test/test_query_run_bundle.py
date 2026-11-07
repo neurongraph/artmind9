@@ -91,3 +91,56 @@ def test_page_list_reads_another_list_of_a_stored_bundle():
     assert page["rows_from"] == 2 and page["rows_shown"] == len(page["documents"]) > 0
     default = json.loads(CliRunner().invoke(cli, ["query", "page", printed["handle"], "--compact"]).stdout)
     assert len(default["evidence"]) == 30  # LIST_KEY["query run"] = evidence
+
+
+def _plan_file(tmp_path):
+    plan = {"program": [{"id": "s1", "kind": "run", "run": "artmind query vector-text --domain bank q", "filled": True}],
+            "guards": [], "route": {"id": "search"}, "suggested_steps": [], "fallbacks": [], "replacements": {}}
+    path = tmp_path / "plan.json"
+    path.write_text(json.dumps(plan))
+    return path
+
+
+def test_the_printed_bundle_is_not_cut_a_second_time(tmp_path, monkeypatch):
+    import artmind.cli as cli_mod
+    from artmind.query_run import capture
+
+    monkeypatch.setattr(cli_mod, "LOGS_DIR", tmp_path / "logs")
+    monkeypatch.setattr("paths.LOGS_DIR", tmp_path / "logs")
+    monkeypatch.setenv("ARTMIND_NO_STALENESS_CHECK", "1")
+    monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "8000")
+    monkeypatch.delenv("ARTMIND_BUNDLE_BUDGET", raising=False)
+    payload = _passages("p", 40, text="y" * 200)
+
+    def fake(argv, step_id=""):
+        return StepResult(step_id, list(argv), 0, None, payload, 1.0, 10)
+
+    monkeypatch.setattr(capture, "invoke_step", fake)
+    out = CliRunner().invoke(cli, ["query", "run", "--plan", str(_plan_file(tmp_path))])  # no --compact
+    assert out.exit_code == 0, out.output
+    printed = json.loads(out.stdout)
+    assert printed["handle"] and "--list evidence" in printed["next"]
+    assert len(list((tmp_path / "logs" / "results").glob("*.json"))) == 1
+    monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET")  # the page itself is budgeted; ask for the lot
+    page = CliRunner().invoke(cli, ["query", "page", printed["handle"], "--list", "evidence", "--from", "0", "--compact"])
+    assert page.exit_code == 0, page.output
+    assert len(json.loads(page.stdout)["evidence"]) == 40
+
+
+def test_paging_a_bundle_cuts_the_paged_list_not_documents(tmp_path, monkeypatch):
+    import artmind.cli as cli_mod
+    from artmind import result_store
+
+    monkeypatch.setattr(cli_mod, "LOGS_DIR", tmp_path / "logs")
+    monkeypatch.setenv("ARTMIND_NO_STALENESS_CHECK", "1")
+    monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "6000")
+    stored = {"command": "query run", "bundle_version": 1, "warnings": [], "next": None,
+              "evidence": [{"passage_id": f"p{i}", "text": "z" * 400} for i in range(30)],
+              "documents": [{"doc_id": f"d{i}", "title": "T"} for i in range(5)]}
+    handle = result_store.store(tmp_path / "logs" / "results", stored, lambda p: json.dumps(p, separators=(",", ":")))
+    out = CliRunner().invoke(cli, ["query", "page", handle, "--list", "evidence", "--from", "10", "--compact"])
+    assert out.exit_code == 0, out.output
+    assert len(out.stdout) <= 6000
+    page = json.loads(out.stdout)
+    assert page["truncated"] and 0 < len(page["evidence"]) < 20
+    assert len(page["documents"]) == 5
