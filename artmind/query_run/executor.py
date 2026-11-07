@@ -166,12 +166,19 @@ class _Run:
             do = spec.get("do") or {}
             as_ = spec.get("as")
             expanded = []
+            if not do.get("filled", True):
+                if not do.get("optional"):
+                    self.ex.unfilled = True
+                self.ex.path.append({"id": node["id"], "kind": "map", "skipped": "unfilled"})
+                items = []
             for item in items:
+                if str(item).startswith("-"):  # same rule as routes.render: never an option
+                    continue
                 child = dict(do)
                 child["run"] = (do.get("run") or "").replace("{" + as_ + "}", shlex.quote(str(item)))
                 child["filled"] = True
                 expanded.append(child)
-            if not expanded:
+            if not expanded and not any(p.get("id") == node["id"] and p.get("skipped") for p in self.ex.path):
                 self.ex.path.append({"id": node["id"], "kind": "map", "skipped": "unbound"})
             spec = {**spec, "expanded": expanded}
             node = {**node, "map": spec}
@@ -191,7 +198,9 @@ class _Run:
             result = self.ex.results.get(node_id)
             payload = result.payload if result is not None and result.exit_code == 0 else None
             if payload is None and node_id in self.ex.facts:  # a pick or map: bind over the steps it kept
-                leaves = [i for i in self._leaves(node_id) if i in self.ex.results and self.ex.results[i].exit_code == 0]
+                pick = next((n for n in _walk(self.program) if n.get("id") == node_id and n.get("kind") == "pick"), None)
+                source = (pick.get("pick") or {}).get("from") if pick else node_id
+                leaves = [i for i in self._leaves(source) if i in self.ex.results and self.ex.results[i].exit_code == 0]
                 rows = [r for i in leaves for r in facts_mod.main_list(self.ex.results[i].payload)]
                 payload = {"command": "query vector-text", "rows": rows} if rows else None
             self.outputs[node_id] = facts_mod.bind_outputs(payload)
@@ -211,7 +220,7 @@ class _Run:
             value = self._outputs(m.group(1)).get(m.group(2))
             if isinstance(value, list):
                 value = ",".join(str(v) for v in value)
-            if value in (None, ""):
+            if value in (None, "") or str(value).startswith("-"):
                 return None
             out.append(str(value))
         return out
@@ -321,6 +330,7 @@ class _Run:
                 self.ex.replaced_by = rep.route
                 self.ex.results.clear()
                 self.ex.facts.clear()
+                self.outputs.clear()
                 self.ex.answer_ids = []
                 self.program, self.guards = found
                 self.fired = set()
@@ -361,12 +371,15 @@ def _walk(nodes):
 
 def _runnable(nodes):
     """The nodes that will run: a map contributes its `expanded` items, never its `do` template (the
-    planner renders `do` without the `as` value, so the template always reads unfilled)."""
+    planner renders `do` without the `as` value, so the template always reads unfilled) — except a
+    bound map, whose `do` the planner renders with an inert item token, so its `filled` is real."""
     for n in nodes or []:
         yield n
         yield from _runnable(n.get("children"))
         if n.get("kind") == "map":
             yield from _runnable((n.get("map") or {}).get("expanded"))
+            if (n.get("map") or {}).get("over_bound"):  # expanded at run time: its `do` is real (item inert)
+                yield from _runnable([(n.get("map") or {}).get("do") or {}])
 
 
 def _has_unfilled(program) -> bool:

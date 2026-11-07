@@ -28,3 +28,11 @@ def test_expand_commands_skips_bound_maps():
     do = prog.Node("day", "run", run=P10)
     node = prog.Node("dated", "map", map=prog.MapSpec("anchor.window_docs", "doc", do, 6))
     assert planner._expand_commands((node,), CTX, {}) == []
+
+
+def test_the_per_domain_branch_keeps_binds():
+    ctx = {"domains": "a,b", "domain_list": ("a", "b"), "search_term": "trip"}
+    run = "artmind query graph pattern10 --domain {domain} --documentName {anchor.top_doc} --compact"
+    out = planner._node_json(prog.Node("day", "run", run=run), ctx)
+    assert out.get("per_domain") and len(out["children"]) == 2
+    assert all(c.get("binds") == ["anchor.top_doc"] for c in out["children"])

@@ -95,3 +95,9 @@ def test_a_binding_inside_a_map_body_may_not_name_a_par_sibling_of_the_map():
         _route([{"id": "p", "par": [{"id": "anchor", "run": VT},
                                     {"id": "each", "map": {"over": "twin_ids", "as": "doc",
                                                            "do": {"id": "day", "run": CHUNKS}}}]}])
+
+
+def test_entity_class_is_not_a_list_option():
+    with pytest.raises(routes.RouteError, match="may only feed"):
+        _route([{"id": "a", "run": VT},
+                {"id": "b", "run": "artmind query graph entity-listing --entityClass {a.entity_ids} --compact"}])

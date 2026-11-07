@@ -79,7 +79,7 @@ BIND_OUTPUTS: dict[str, str] = {
     "chunk_ids": "list", "doc_names": "list", "entity_ids": "list", "window_docs": "list",
 }
 #: Options documented as comma-split, which a list output may feed.
-LIST_OPTIONS = frozenset({"--idList", "--domain", "--entityClass"})
+LIST_OPTIONS = frozenset({"--idList", "--domain"})
 _BIND_RE = re.compile(r"\{([a-z][a-z0-9_]*)\.([a-z_]+)\}")
 _ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 _SLOT_RE = re.compile(r"^[a-z][a-z0-9_]*$")

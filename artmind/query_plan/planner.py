@@ -791,6 +791,8 @@ def _node_json(node, context: dict, lists: dict | None = None) -> dict:
         out = {"id": node.id, "kind": "par", "per_domain": True,
                "children": [{"id": f"{node.id}.{i}", "kind": "run", "run": routes_mod.render(node.run, c) or node.run,
                              "filled": routes_mod.render(node.run, c) is not None,
+                             **({"binds": [f"{a}.{b}" for a, b in program_mod.node_binds(node)]}
+                                if program_mod.node_binds(node) else {}),
                              **({"needs_unmet": True} if node.needs and not _needs_met(node.needs, c) else {})}
                             for i, c in enumerate(per_domain, 1)]}
         if node.when is not None:
