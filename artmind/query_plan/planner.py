@@ -666,6 +666,7 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
                  for i, template in enumerate(route.steps_for(store_kind), 1)]
     pairs = [(node, c) for node, ctx in pairs for c in _per_domain(node.run, ctx)]
     need_skipped = False
+    wide_cmds: list[str] = []  # the survey leg a non-search route carries beside its own steps
     for node, ctx in pairs:
         if node.needs and not _needs_met(node.needs, ctx):
             need_skipped = True  # B5: the domain lacks what the step reads; skipped like an optional step
@@ -685,10 +686,14 @@ def _route_steps(route, confidence: float, context: dict, store_kind: str | None
         else:
             out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)" if node.optional
                               else f"route {route.id} (p={confidence:.2f})"})
+            if node.id == "wide" and route.id not in ("search", "survey"):
+                wide_cmds.append(cmd)
     for template in route.optional_steps:  # skipped silently: never unfilled, never a confidence factor
         for cmd in _render_all(template, context):
             if cmd:
                 out.steps.append({"cmd": cmd, "why": f"route {route.id} (optional)"})
+    if out.unfilled and wide_cmds:  # a route that cannot fill its own step is not left with the survey alone:
+        out.steps = [s for s in out.steps if s["cmd"] not in wide_cmds]  # the caller then suggests the search steps
     if need_skipped and not out.steps and not out.unfilled:  # the route's whole answer was the missing snapshot
         out.unfilled = True
         out.reason = f"route {route.id} needs an insights snapshot, and none exists for {', '.join(context.get('domain_list') or ())}"

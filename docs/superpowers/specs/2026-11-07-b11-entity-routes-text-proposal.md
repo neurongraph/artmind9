@@ -1,6 +1,6 @@
 # B11 (proposal): entity routes cite only the entity's own documents
 
-Date: 2026-11-07. Status: **proposed; deferred until after P3** (decided with the user, 2026-11-07: P3's step
+Date: 2026-11-07. **Update (branch claude/p3-survey-leg): candidate A was built across the non-search routes** (a brief `survey` leg `wide` beside each program's first step(s), unioned; `routes.yaml` only, plus a planner guard that keeps an unfillable route from planning the survey alone). Banking `plan replay --run` bundle_reached: lexical 60 -> 66, decision 76 -> 83 (steps_reached 61 -> 67 and 77 -> 84); no label dropped. Status: **proposed; deferred until after P3** (decided with the user, 2026-11-07: P3's step
 bindings make candidate C possible, so the candidates are weighed then). To be analysed before any
 design or build. Found by B2's
 document-reach measurement (`2026-11-07-b2-search-and-scope-design.md` §8.3, §12). Evidence is from

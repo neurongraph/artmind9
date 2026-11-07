@@ -124,7 +124,8 @@ def test_an_ordinary_count_keeps_text2cypher_with_a_search_fallback(world):
     world["views"] = []
     result = _plan("How often did the team meet?")
     assert result["route"]["id"] == "aggregate" and result["program_kind"] == "one_step"
-    assert _cmds(result) == ["artmind query graph text2cypher --domain journal 'How often did the team meet?' --compact"]
+    assert _cmds(result) == ["artmind query graph text2cypher --domain journal 'How often did the team meet?' --compact",
+                             "artmind query survey --shape brief --domain journal 'How often did the team meet?' --compact"]
     assert [g["then"] for g in result["guards"]] == [{"kind": "replace", "route": "search"}]
 
 
@@ -135,12 +136,13 @@ def test_a_count_over_twins_maps_entity_context_beside_text2cypher(world):
     assert result["route"]["id"] == "aggregate" and result["program_kind"] == "kinship_aggregate"
     assert result["plan_facts"]["twins"] > 0
     par = result["program"][0]
-    assert [c["kind"] for c in par["children"]] == ["run", "map"]
+    assert [c["kind"] for c in par["children"]] == ["run", "map", "run"]  # text2cypher, twin contexts, survey leg
     node = par["children"][1]["map"]
     assert node["items"] == ["l1", "l2"] and node["as"] == "twin" and node["max"] == 5
     cmds = _cmds(result)
     assert "text2cypher" in cmds[0]
-    assert len(cmds) == 3 and all("entity-context" in c and "--shape brief" in c for c in cmds[1:])
+    assert len(cmds) == 4 and all("entity-context" in c and "--shape brief" in c for c in cmds[1:3])
+    assert cmds[3].startswith("artmind query survey --shape brief")
 
 
 # ── entity profile ───────────────────────────────────────────────────────────
@@ -150,7 +152,8 @@ def test_a_plain_profile_keeps_the_default(world):
     result = _plan("Tell me about Lakeport")
     assert result["route"]["id"] == "entity_profile" and result["program_kind"] == "one_step"
     assert result["plan_facts"] == {"occurrence": False}
-    assert _cmds(result) == ["artmind query entity-context --domain journal --entityId l1 --shape brief --compact"]
+    assert _cmds(result) == ["artmind query entity-context --domain journal --entityId l1 --shape brief --compact",
+                             "artmind query survey --shape brief --domain journal 'Tell me about Lakeport' --compact"]
 
 
 def test_a_visits_question_reads_the_context_and_checks_the_text(world):
@@ -160,7 +163,9 @@ def test_a_visits_question_reads_the_context_and_checks_the_text(world):
     assert result["plan_facts"] == {"occurrence": True}
     cmds = _cmds(result)
     assert "entity-context" in cmds[0] and "vector-text --shape brief" in cmds[1] and "--topK 25" in cmds[1]
-    assert [n["kind"] for n in result["program"]] == ["run", "page", "run"]
+    assert cmds[2].startswith("artmind query survey --shape brief")
+    assert [n["kind"] for n in result["program"]] == ["par", "page", "pick"]
+    assert [c["id"] for c in result["program"][0]["children"]] == ["ctx", "check", "wide"]
     guard = result["guards"][0]
     assert guard["on"] == "check" and guard["if"] == "docs_cited == 0 and ctx.entity_docs > 0"
     assert guard["then"]["kind"] == "escalate"
@@ -240,5 +245,6 @@ def test_an_ordinary_document_question_keeps_the_default_and_never_reads_the_fam
     cmds = _cmds(result)
     assert cmds[0] == "artmind query graph pattern10 --domain journal --documentName policy_alpha.md --compact"
     # the v1 fallback, now a conditional node: listed as a fallback, not a step
-    assert len(cmds) == 1 and any("--includeHistory" in f["cmd"] for f in result["fallbacks"])
+    assert len(cmds) == 2 and cmds[1].startswith("artmind query survey --shape brief")
+    assert any("--includeHistory" in f["cmd"] for f in result["fallbacks"])
     assert result["program"][1]["when"] == "s1.rows == 0"

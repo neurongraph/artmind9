@@ -109,23 +109,28 @@ def test_entity_history_is_a_history_program_with_an_escalating_guard(world, mon
     result = _route_plan(world, monkeypatch, "entity_history", "How did Ada change over time?")
     assert result["program_kind"] == "history"
     assert [s["cmd"] for s in result["steps"]] == [
-        "artmind query entity-history --domain journal --entityId p1 --compact"]
+        "artmind query entity-history --domain journal --entityId p1 --compact",
+        "artmind query survey --shape brief --domain journal 'How did Ada change over time?' --compact"]
     assert [(g["on"], g["then"]["kind"]) for g in result["guards"]] == [("s1", "escalate")]
 
 
 def test_path_keeps_pattern6_first_and_the_rest_are_guarded_alternatives(world, monkeypatch):
     result = _route_plan(world, monkeypatch, "path", "How are Ada and Lakeport related?")
     assert result["program_kind"] == "one_step"
-    assert [s["cmd"].split()[3] for s in result["steps"]] == ["pattern6"]
+    assert result["steps"][0]["cmd"].split()[3] == "pattern6"  # still first; the survey leg follows
+    assert [s["cmd"].split()[2] for s in result["steps"]] == ["graph", "survey"]
     assert [n.get("when") for n in result["program"]] == [None, "s1.rows == 0", "s1.rows == 0"]
+    assert [c["id"] for c in result["program"][0]["children"]] == ["s1", "wide"]
     assert [f["when"] for f in result["fallbacks"]] == ["zero_rows", "zero_rows"]
 
 
 def test_time_history_keeps_both_history_commands():
     route = _route("time_history")
     assert [c.kind for c in route.programs] == ["topic_history", "history"] and route.kind == "history"
-    assert [n.run.split()[2:4] for n in route.program] == [["graph", "pattern10"], ["document-history", "--domain"]]
-    assert "--includeHistory" in route.program[0].run
+    first = route.program[0].children  # the history choice: a par of both history commands and the survey leg
+    assert route.program[0].kind == "par" and [c.id for c in first] == ["s1", "s2", "wide"]
+    assert [n.run.split()[2:4] for n in first[:2]] == [["graph", "pattern10"], ["document-history", "--domain"]]
+    assert "--includeHistory" in first[0].run
 
 
 def test_inventory_class_listing_is_an_optional_node(world, monkeypatch):

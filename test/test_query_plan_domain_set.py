@@ -199,19 +199,21 @@ def test_a_one_domain_command_renders_once_per_selected_domain(world, monkeypatc
     result = _plan("what changed recently?", domains=None)
     assert result["route"]["id"] == "insights"
     cmds = [s["cmd"] for s in result["steps"] + result["suggested_steps"]]
-    assert cmds == ["artmind query insights list --domain garden --compact",
-                    "artmind query insights list --domain travel --compact"]
-    node = result["program"][0]
+    assert cmds[:2] == ["artmind query insights list --domain garden --compact",
+                        "artmind query insights list --domain travel --compact"]
+    assert cmds[2].startswith("artmind query survey --shape brief --domain garden,travel ")
+    node = result["program"][0]["children"][0]  # the par's first child: the per-domain par
     assert node["kind"] == "par" and node["per_domain"] is True
-    assert [c["run"] for c in node["children"]] == cmds
+    assert [c["run"] for c in node["children"]] == cmds[:2]
 
 
 def test_a_one_domain_command_over_one_domain_stays_one_run(world, monkeypatch):
     world["views"] = []
     _use(monkeypatch, FakeClassifier(override={"route": Answer("insights", {"insights": 0.95}, 0.95)}))
     result = _plan("what changed recently?")
-    assert result["program"][0]["kind"] == "run"
-    assert result["program"][0]["run"] == "artmind query insights list --domain journal --compact"
+    first = result["program"][0]["children"][0]
+    assert first["kind"] == "run"
+    assert first["run"] == "artmind query insights list --domain journal --compact"
 
 
 def test_every_route_template_takes_several_domains():
