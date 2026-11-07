@@ -1407,6 +1407,11 @@ def plan(question: str, domains: list[str] | None = None, *, execute: bool = Fal
                 program_json, program_kind = runs, "one_step"
         elif route_obj is not None:
             used = chosen_choice or route_obj.programs[-1]
+            variant = route_obj.variants.get((store or {}).get("kind")) if not route_obj.authored_program else None
+            if variant:  # a v1 route's store-kind variant replaces its steps (the program follows the steps)
+                v_program, v_guards = program_mod.program_from_v1(
+                    variant, tuple((f.when, f.cmd) for f in route_obj.fallbacks))
+                used = program_mod.ProgramChoice(kind=used.kind, when=None, program=v_program, guards=v_guards)
             program_json = [_node_json(n, context, chosen_lists) for n in used.program]
             guards_json = [_guard_json(g) for g in used.guards]
             program_kind = used.kind

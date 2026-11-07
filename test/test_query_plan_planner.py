@@ -525,6 +525,8 @@ def test_the_structured_route_follows_the_store_kind(world, monkeypatch, kind, e
     assert result["route"]["id"] == "structured"
     cmds = [s["cmd"] for s in result["steps"]]
     assert [next(e for e in ("db bridge", "text2sql", "vector-text") if e in c) for c in cmds] == expected
+    runs = [n["run"] for n in result["program"]]  # the program follows the variant too (P3: the executor runs it)
+    assert [next(e for e in ("db bridge", "text2sql", "vector-text") if e in c) for c in runs] == expected
     assert len(calls) == 1
 
 
