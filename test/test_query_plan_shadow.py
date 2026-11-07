@@ -2,6 +2,7 @@
 
 import json
 import threading
+import time
 from types import SimpleNamespace
 
 import pytest
@@ -172,7 +173,8 @@ def test_the_wait_is_counted_from_the_plan_start(monkeypatch):
     plan = rec._shadow
     joins = []
     real_join = plan._thread.join
-    plan._thread.join = lambda timeout=None: (joins.append(timeout), real_join(0))[1]
+    real_wait = plan._planned.wait
+    plan._planned.wait = lambda timeout=None: (joins.append(timeout), real_wait(0))[1]
     # the turn itself took longer than the whole budget
     monkeypatch.setattr(shadow, "time", SimpleNamespace(monotonic=lambda: plan._started + shadow.WAIT_S + 1))
     monkeypatch.setattr(shadow, "LATE_WAIT_S", 0.0)
@@ -294,3 +296,23 @@ def test_a_plan_still_oversized_after_trimming_falls_back_to_a_minimum(monkeypat
     plan = json.loads(_shadow_events(rec.trace_id)[0]["payload"])["plan"]
     assert plan == {"confidence": {"level": "high"}, "route": {"id": "view"}, "steps": [big["steps"][0]],
                     "warnings": ["w0", "w1", "w2"], "trimmed": True}
+
+
+def test_result_returns_the_plan_while_the_dry_run_is_still_going(monkeypatch):
+    release = threading.Event()
+    monkeypatch.setattr(planner, "plan", lambda question, domains=None, **kw: {"steps": []})
+    monkeypatch.setattr(shadow, "run_mode", lambda: "1")
+    monkeypatch.setattr(shadow, "dry_run", lambda plan, mode, step_fn=None: (release.wait(5), {"status": "ok"})[1])
+    sp = shadow.ShadowPlan("q", None, False)
+    try:
+        assert sp._planned.wait(2)
+        started = time.monotonic()
+        out = sp.result(timeout=5)
+        assert out["status"] == "ok" and time.monotonic() - started < 1
+        assert sp.running is False and sp.dry is None
+        assert sp.dry_result(0.05) is None  # not finished: timed out
+        release.set()
+        assert sp.dry_result(2) == {"status": "ok"}
+    finally:
+        release.set()
+        sp._thread.join(2)

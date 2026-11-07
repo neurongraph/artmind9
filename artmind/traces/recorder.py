@@ -52,6 +52,7 @@ class TraceRecorder:
         self._first_error: str | None = None
         self._shadow = None
         self._late_shadow: threading.Thread | None = None
+        self._late_dry: threading.Thread | None = None
 
     @classmethod
     def start(cls, *, source: str, question: str, session_id: str | None = None, profile: str | None = None,
@@ -151,17 +152,35 @@ class TraceRecorder:
                 logger.exception("late shadow plan not recorded")
                 return
             try:
-                # result() joined the plan thread, which also ran the dry run: `dry` is set unless it failed
-                dry = getattr(shadow_plan, "dry", None)
+                waiter = getattr(shadow_plan, "dry_result", None)
+                dry = waiter(shadow.LATE_WAIT_S) if waiter else getattr(shadow_plan, "dry", None)
                 if isinstance(dry, dict):
                     self._write_run_shadow(seq + 1, dry)
-                elif result.get("status") == "timeout" and shadow.run_mode() != "0":
+                elif result.get("status") in ("timeout", "ok") and shadow.run_mode() != "0":
                     self._write_run_shadow(seq + 1, {"status": "timeout"}, covers=False)
             except Exception:
                 logger.exception("late run shadow not recorded")
 
         self._late_shadow = threading.Thread(target=run, name="plan-shadow-late", daemon=True)
         self._late_shadow.start()
+
+    def _record_dry_late(self, seq: int) -> None:
+        """The plan is recorded; its dry run is still going. Write `run_shadow` at the reserved `seq`
+        when it ends (or `status: timeout`), so the turn does not wait for it."""
+        shadow_plan = self._shadow
+
+        def run() -> None:
+            try:
+                dry = shadow_plan.dry_result(shadow.LATE_WAIT_S)
+                if isinstance(dry, dict):
+                    self._write_run_shadow(seq, dry)
+                else:
+                    self._write_run_shadow(seq, {"status": "timeout"}, covers=False)
+            except Exception:
+                logger.exception("late run shadow not recorded")
+
+        self._late_dry = threading.Thread(target=run, name="plan-shadow-dry-late", daemon=True)
+        self._late_dry.start()
 
     def _write_run_shadow(self, seq: int, dry: dict, covers: bool = True) -> None:
         """The shadow dry run beside `plan_shadow`; `covers_agent` is read from the agent's top-level spans
@@ -182,6 +201,7 @@ class TraceRecorder:
             self._flush("thinking")
             self._flush("text")
             dry = None
+            late_dry_seq = None
             if self._shadow is not None:
                 try:
                     result = self._shadow.result()
@@ -189,7 +209,10 @@ class TraceRecorder:
                         self._record_shadow_late(seq=len(self._events))
                     else:
                         self._add("plan_shadow", result, name="query plan")
-                        dry = getattr(self._shadow, "dry", None)
+                        if getattr(self._shadow, "dry_pending", False):
+                            late_dry_seq = len(self._events)
+                        else:
+                            dry = getattr(self._shadow, "dry", None)
                 except Exception:
                     logger.exception("shadow plan not recorded")
             store.insert_events(self.trace_id, self._events)
@@ -200,6 +223,8 @@ class TraceRecorder:
                     self._write_run_shadow(len(self._events), dry)
                 except Exception:
                     logger.exception("run shadow not recorded")
+            elif late_dry_seq is not None:
+                self._record_dry_late(late_dry_seq)
             pairs = match_tool_ids(spans, self._tools)
             store.set_span_tool_ids(pairs)
             answer = "".join(self._answer) or self._done.get("result")

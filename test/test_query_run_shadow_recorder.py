@@ -91,3 +91,45 @@ def test_late_path_writes_run_shadow_after_plan_shadow(monkeypatch):
     events = store.list_events("t1")
     assert [(e["seq"], e["type"]) for e in events] == [(0, "plan_shadow"), (1, "run_shadow")]
     assert json.loads(events[1]["payload"])["covers_agent"] == 1.0
+
+
+def test_a_dry_run_still_going_is_written_later_at_the_reserved_seq():
+    store.insert_turn("t1", source="admin", question="q")
+    store.insert_span(_span("a1", ["d1"]), [])
+    release = threading.Event()
+
+    class SlowDry(FakeShadow):
+        dry_pending = True
+        dry = None
+
+        def dry_result(self, timeout=None):
+            release.wait(2)
+            return {"status": "ok", "documents": ["d1"]}
+
+    rec = TraceRecorder("t1", None)
+    rec._shadow = SlowDry(None)
+    rec.finish()  # does not wait for the dry run
+    assert [(e["seq"], e["type"]) for e in store.list_events("t1")] == [(0, "plan_shadow")]
+    release.set()
+    rec._late_dry.join(2)
+    events = store.list_events("t1")
+    assert [(e["seq"], e["type"]) for e in events] == [(0, "plan_shadow"), (1, "run_shadow")]
+    assert json.loads(events[1]["payload"])["covers_agent"] == 1.0
+
+
+def test_a_dry_run_that_never_finishes_is_recorded_as_timeout():
+    store.insert_turn("t1", source="admin", question="q")
+
+    class NeverDry(FakeShadow):
+        dry_pending = True
+        dry = None
+
+        def dry_result(self, timeout=None):
+            return None
+
+    rec = TraceRecorder("t1", None)
+    rec._shadow = NeverDry(None)
+    rec.finish()
+    rec._late_dry.join(2)
+    (event,) = _run_events()
+    assert json.loads(event["payload"]) == {"status": "timeout"} and event["seq"] == 1

@@ -152,6 +152,7 @@ def _previous_for(trace_id: str | None):
 
 class _Skipped:
     running = False
+    dry_pending = False
 
     def __init__(self, followup: bool):
         self.followup = followup
@@ -167,6 +168,9 @@ class ShadowPlan:
         self._plan: dict | None = None
         self._error: str | None = None
         self._dry: dict | None = None
+        self._dry_expected = False
+        self._planned = threading.Event()  # set once the plan (or its failure) is known
+        self._dried = threading.Event()    # set once the dry run is over, whatever its outcome
         self._previous_given = False
         self._started = time.monotonic()
         self._thread = threading.Thread(target=self._run, args=(question, domains, trace_id), name=_THREAD_NAME, daemon=True)
@@ -183,11 +187,17 @@ class ShadowPlan:
                 kwargs["previous"] = previous
             self._plan = planner.plan(question, domains, **kwargs)
             mode = run_mode()
-            if mode != "0" and isinstance(self._plan, dict):
+            self._dry_expected = mode != "0" and isinstance(self._plan, dict)
+            self._planned.set()  # the plan is final: result() no longer waits for the dry run
+            if self._dry_expected:
                 self._dry = dry_run(self._plan, mode=mode)
         except Exception as exc:
             logger.warning("shadow plan failed: {}", exc)
-            self._error = f"{type(exc).__name__}: {exc}"
+            if not self._planned.is_set():
+                self._error = f"{type(exc).__name__}: {exc}"
+        finally:
+            self._planned.set()
+            self._dried.set()
 
     @property
     def dry(self) -> dict | None:
@@ -195,13 +205,23 @@ class ShadowPlan:
 
     @property
     def running(self) -> bool:
-        return self._thread.is_alive()
+        """Is the plan itself still being made (the dry run does not count)?"""
+        return not self._planned.is_set()
+
+    @property
+    def dry_pending(self) -> bool:
+        """Has the plan finished with a dry run still to come?"""
+        return self._planned.is_set() and self._dry_expected and not self._dried.is_set()
+
+    def dry_result(self, timeout: float | None = None) -> dict | None:
+        """The dry run's payload once it is over; None when it timed out or the flag is off."""
+        self._dried.wait(timeout)
+        return self._dry
 
     def result(self, timeout: float | None = None) -> dict:
         if timeout is None:
             timeout = max(0.0, WAIT_S - (time.monotonic() - self._started))
-        self._thread.join(timeout)
-        if self._thread.is_alive():
+        if not self._planned.wait(timeout):
             return {"status": "timeout", "followup": self.followup, "plan": None, "error": None}
         if self._error is not None:
             return {"status": "error", "followup": self.followup, "plan": None, "error": self._error}
