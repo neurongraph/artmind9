@@ -200,3 +200,18 @@ def test_db_sql_error_keeps_exit_code_and_records_it(monkeypatch):
     result = CliRunner().invoke(cli_mod.cli, ["db", "sql", "DROP TABLE x"])
     assert result.exit_code == 1
     assert [(s["command"], s["exit_code"]) for s in _spans()] == [("db sql", 1)]
+
+
+def test_a_system_exit_records_its_own_code(monkeypatch):
+    from artmind import cli as cli_mod
+    from artmind.traces import store
+
+    store.insert_turn("t1", source="admin", question="q")
+
+    def boom(*a, **k):
+        raise SystemExit(3)
+
+    monkeypatch.setattr(cli_mod.vector_query, "vector_text_search", boom)
+    monkeypatch.setenv("ARTMIND_TRACE_ID", "t1")
+    CliRunner().invoke(cli_mod.cli, ["query", "vector-text", "--domain", "b", "who"])
+    assert [(s["command"], s["exit_code"]) for s in _spans()] == [("query vector-text", 3)]
