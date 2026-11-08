@@ -4865,6 +4865,108 @@ def traces_stats(domain, since, by, compact) -> None:
     _echo_json({"command": "traces_stats", "by": by, "rows": rows}, compact)
 
 
+@traces_group.command("compare")
+@click.option("--runs", "runs", required=True, help="Three benchmark run ids (or unique prefixes), comma-separated: classic A, classic B, bundle")
+@click.option("--judge", "use_judge", is_flag=True, help="Also judge each question's answers pairwise with the LLM (needs ARTMIND_COMPARE_JUDGE=1 or --allowJudge)")
+@click.option("--allowJudge", "allow_judge", is_flag=True, help="Allow the judge for this call: it sends questions and answers to the configured LLM provider")
+@click.option("--model", "model", default=None, help="Judge model (default: ARTMIND_KG_LLM_MODEL)")
+@click.option("--labels", "labels_file", type=click.Path(path_type=Path), default=None,
+              help="Plan labels file for answer reach (default: <vault>/benchmarking/plan_labels.yaml when present)")
+@compact_option
+def traces_compare(runs, use_judge, allow_judge, model, labels_file, compact) -> None:
+    """Compare three benchmark runs for the P3b gate: classic A, classic B, bundle (spec P3 section 9.2).
+
+    Prints per-run measures, judged counts per pair, and the gate. Questions, answers and the judge's reasons
+    never reach stdout; with --judge they go to <ARTMIND_HOME>/logs/compare-*.json (private).
+    """
+    from artmind.traces import compare as cmp
+    from artmind.traces import gate as gate_mod
+
+    refs = [r.strip() for r in runs.split(",") if r.strip()]
+    if len(refs) != 3:
+        raise click.ClickException("--runs takes three run ids: classic A, classic B, bundle")
+    try:
+        loaded = cmp.load_runs(refs)
+        if [r.contract for r in loaded] != ["classic", "classic", "bundle"]:
+            raise click.ClickException(
+                f"--runs must be in the order classic, classic, bundle; got {', '.join(r.contract for r in loaded)}")
+        names = ("classic_a", "classic_b", "bundle")
+        pairs = {"classic_a__classic_b": cmp.pair(loaded[0], loaded[1]),
+                 "classic_a__bundle": cmp.pair(loaded[0], loaded[2]),
+                 "classic_b__bundle": cmp.pair(loaded[1], loaded[2])}
+    except cmp.CompareError as exc:
+        raise click.ClickException(str(exc)) from exc
+    labels = _compare_labels(labels_file)
+    measures = []
+    for name, run in zip(names, loaded):
+        m = cmp.measures(run)
+        m["answer_reach"] = cmp.answer_reach(run, labels) if labels else None
+        measures.append({"name": name, **m})
+    out = {"runs": [r.run_id for r in loaded], "measures": measures, "judged": False, "model": None,
+           "pairs": None, "gate": None, "detail_file": None}
+    if use_judge:
+        if not (allow_judge or os.environ.get("ARTMIND_COMPARE_JUDGE") == "1"):
+            raise click.ClickException("--judge sends questions and answers to the LLM provider: set "
+                                       "ARTMIND_COMPARE_JUDGE=1 in this vault's config, or pass --allowJudge")
+        from artmind.traces import judge
+
+        llm, chosen = judge.default_llm(model)
+        judged, detail = {}, {}
+        for key, plist in pairs.items():
+            left_id, right_id = key.split("__")
+            verdicts = {p.seq: judge.cached_judge(loaded[names.index(left_id)].run_id,
+                                                  loaded[names.index(right_id)].run_id, p.seq, p.question,
+                                                  p.expected, p.left.answer, p.right.answer, llm=llm, model=chosen)
+                        for p in plist}
+            counts = {k: sum(1 for v in verdicts.values() if v.verdict == k)
+                      for k in ("same", "minor", "material", "unjudged")}
+            better = {k: sum(1 for v in verdicts.values() if v.better == k) for k in ("left", "right", "equal")}
+            judged[key] = {"counts": counts, "better": better,
+                           "material_qids": [p.qid for p in plist if verdicts[p.seq].verdict == "material"],
+                           "_verdicts": {s: {"verdict": v.verdict, "better": v.better} for s, v in verdicts.items()}}
+            detail[key] = {"questions": [{"seq": p.seq, "qid": p.qid, "verdict": verdicts[p.seq].verdict,
+                                          "better": verdicts[p.seq].better, "reason": verdicts[p.seq].reason}
+                                         for p in plist]}
+        g = gate_mod.evaluate(measures[0], measures[1], measures[2],
+                              judged["classic_a__classic_b"]["_verdicts"], judged["classic_a__bundle"]["_verdicts"],
+                              judged["classic_b__bundle"]["_verdicts"])
+        for v in judged.values():
+            v.pop("_verdicts")
+        out.update(judged=True, model=chosen, pairs=judged, gate=g, detail_file=str(_write_compare_detail(
+            {"runs": out["runs"], "model": chosen, "pairs": detail})))
+    _echo_json(out, compact)
+
+
+def _default_labels_path_if_present() -> Path | None:
+    from artmind.query_plan import labels as plan_labels
+
+    path = plan_labels.default_path()
+    return path if path is not None and path.is_file() else None
+
+
+def _compare_labels(labels_file):
+    from artmind.query_plan import labels as plan_labels
+
+    if labels_file is not None and not labels_file.is_file():
+        raise click.ClickException(f"labels file not found: {labels_file}")
+    path = labels_file or _default_labels_path_if_present()
+    if path is None:
+        return []
+    try:
+        return plan_labels.load_labels(path)
+    except plan_labels.LabelError as exc:
+        raise click.ClickException(f"invalid labels file {path}: {exc}") from exc
+
+
+def _write_compare_detail(report: dict) -> Path:
+    from datetime import datetime
+
+    path = Path(LOGS_DIR) / f"compare-{datetime.now().strftime('%Y%m%dT%H%M%S%f')}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+    return path
+
+
 @traces_group.command("prune")
 @click.option("--days", type=int, default=None, help="Retention in days (default: ARTMIND_TRACE_RETENTION_DAYS or 90)")
 @dry_run_option("Count the turns that would be deleted; delete none")
