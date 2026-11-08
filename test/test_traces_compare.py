@@ -76,12 +76,12 @@ def test_a_run_id_prefix_resolves():
 
 
 def test_answer_reach_uses_labels_linked_to_benchmark_questions():
-    from artmind.query_plan.labels import Label
+    from artmind.benchmark_labels import BenchmarkLabel
 
     a = _run("a", "classic", ["x", "y"], spans={1: [["policies/fees.md"]], 2: [["other.md"]]})
     run = compare.load_runs([a])[0]
-    labels = [Label(id="L1", question="Invented  Question 1?", source="benchmark", domains=("b",), route="search",
-                    view=None, params={}, expected_documents=("policies/fees.md", "rates.md"))]
+    labels = [BenchmarkLabel(id="L1", question="Invented  Question 1?",
+                             expected_documents=("policies/fees.md", "rates.md"))]
     reach = compare.answer_reach(run, labels)
     assert reach == {"labels": 1, "expected": 2, "reached": 1, "by_qid": {"Q01": [1, 2]}}
 
