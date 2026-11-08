@@ -62,3 +62,16 @@ def test_routes_named_exist():
     ids = {r.id for r in routes.load_routes()}
     for rid in set(re.findall(r"`route: ([a-z_]+)`", _text())):
         assert rid in ids, rid
+
+
+def test_open_relevant_pointers_and_search_implied_parts():
+    """From the 2026-11-08 answer reading: open a relevant gist instead of reporting it, and search for the
+    parts a broad subject implies before answering."""
+    text = _text()
+    for rule in ("Rule 1", "Rule 2", "Rule 3", "Rule 4"):
+        assert rule in text, rule
+    assert "a relevant pointer gets opened, never reported" in text
+    assert "search for the parts it implies" in text
+    assert "open_next.command" in text
+    assert "artmind query vector-text --shape brief" in text
+    assert "is never an acceptable gap" in text

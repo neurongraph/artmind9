@@ -64,21 +64,42 @@ Every bundle says `mode: reasoning` today. The fast path is off until a route pa
 
 ## Read before you answer
 
-`query run` has already opened the top documents (see `opened`). Answer from that text. Before you cite a document whose row says `opened: false`, open it with `artmind query survey --expand`.
+`query run` has already opened the top documents (see `opened`). Answer from that text. Everything else in the bundle is a pointer. A `gist`, a survey line row, a `documents` row with `opened: false` or a search snippet is never enough to state a fact.
 
-A `gist`, a survey line row, a `documents` row or a search snippet is never enough to state a fact. It only tells you where to look. Open the text first:
+### Rule 1: a relevant pointer gets opened, never reported
 
-- `artmind query survey --shape brief --domain <d> --expand <doc_id> --compact "<question>"` opens a document.
-- `artmind query chunks --domain <d> --idList <chunk ids> --shape brief --compact` reads chosen chunks.
-- `artmind query page <handle> --list evidence --compact` reads the rest of a cut bundle.
+If you are about to write "I only saw a gist", "from the snippet", "I did not open it" or "not read in full" about something the answer uses, stop and open it instead:
 
-For a count, an "every", an "each year" or an "all the" question, read every matching entry the bundle lists before you count. Page a list while `cut` shows rows left out of it.
+- one or more documents: `artmind query survey --shape brief --domain <d> --expand <doc_id> --expand <doc_id> --compact "<question>"` (up to 5 `--expand` per call);
+- chosen chunks: `artmind query chunks --domain <d> --idList <chunk ids> --shape brief --compact`;
+- the next unopened documents by rank: run `open_next.command` as it is;
+- the rest of a cut list: `artmind query page <handle> --list evidence --compact` (or `documents`, `facts`) while `cut` shows rows left out of it.
 
-When `coverage` shows many listed documents unread and the question asks for a count, "every", a list over time or a history, run `open_next.command` before you answer. Run it again with the new `open_next` until the documents that matter are read or `open_next` is null.
+A document is relevant when its title, date or gist names something the question asks about: a person, a place, an event, a year, a version. Open every relevant one, not only the top ones. Unopened documents that match nothing in the question can stay unopened; you do not need to mention them.
 
-If you did not read something the question needs, read it now. Say what you did not read only when you cannot read it (a budget, a missing document). Then say exactly what was skipped and why, with numbers from `coverage`.
+### Rule 2: a question names more than its words; search for the parts it implies
 
-Why this rule exists: on the same build, the same agent stopped at search snippets on its second run and lost 6 of 14 questions that its first run answered.
+Before you answer, list what the question covers and check each part against the evidence. A broad subject has parts the question does not spell out:
+
+- a festival or holiday has its days and rituals (Diwali: Dhanteras, Lakshmi Puja, Bhai Dooj; Christmas: Christmas Eve, Boxing Day);
+- a trip has its legs, places and dates; a project has its phases and people; a year has its months; a family has its members;
+- a policy has its versions, its exceptions and its approvers.
+
+For each part the bundle does not cover, run a follow-up lookup with the part's own name before you answer:
+- `artmind query vector-text --shape brief --domain <d> --topK 10 --compact "<part and subject, e.g. Lakshmi Puja 2024>"`;
+- or `artmind query survey --shape brief --domain <d> --compact "<part>"` for a part that spans documents.
+
+Open what they find (Rule 1). If you find nothing for a part, say so plainly, with what you searched for.
+
+### Rule 3: counts, "every", lists over time and histories read the whole set
+
+For these questions, read every matching entry before you count or list. Run `open_next.command` again with each new bundle's `open_next` until the matching documents are read or `open_next` is null. Never count from `documents` rows or gists.
+
+### Rule 4: a gap in the answer is a last resort, with numbers
+
+Report a gap only after you tried Rules 1–3, and only for what you could not read (a budget, a missing document, nothing found). Say exactly what was searched and what was not read, with numbers from `coverage`. "I did not open it" is never an acceptable gap for a document you could have opened.
+
+Why these rules exist: the first bundle runs lost to the classic skill mainly because answers said "I only saw a gist" or "I did not open the other 40" about documents that held the answer, and did not search for the parts of a subject the question implied.
 
 ## When the bundle escalates
 
@@ -101,10 +122,11 @@ Run suggested steps one at a time, and read each result before the next. When th
 The user asks: "Which projects did Maria lead, and when did each end?"
 
 1. Run `artmind query run "Which projects did Maria lead, and when did each end?" --compact`.
-2. Read `plan`, `path` and `coverage`. The route is an enumeration over one entity.
-3. List the projects in `evidence` and `facts`. Count them. Look for an end date beside each one.
-4. Two projects have no end date in the bundle. Open their documents with `artmind query survey --shape brief --domain <d> --expand <doc_id> --compact "<question>"`.
-5. Answer with each project, its end date and the source. Say which end date came from a later document.
+2. Read `plan`, `path`, `opened` and `coverage`. The route is an enumeration over one entity.
+3. List the projects in the opened `evidence` and in `facts`. Two more appear only as `documents` rows with `opened: false` and gists naming a project: open them (Rule 1) in one call with two `--expand`.
+4. This is a list over time (Rule 3): run `open_next.command` until no unopened row names a project of Maria's.
+5. One project has no end date anywhere. Search for it by name (Rule 2): `artmind query vector-text --shape brief --domain <d> --topK 10 --compact "<project> end date"`, and open what it finds.
+6. Answer with each project, its end date and the source. Say which end date came from a later document, and name the one still undated with what you searched.
 
 If `truncated` is true at step 3, page first. Do not count a cut list.
 
@@ -120,6 +142,7 @@ If `truncated` is true at step 3, page first. Do not count a cut list.
 - Do not cite `guides`.
 - When your own commands changed the answer, ground it in what they returned, not in the bundle.
 - When `escalate.reason` is `limit`, `deadline` or `step_error`, say what was not read.
+- Never write "I only saw a gist", "from the snippet" or "I did not open it" about a document you could have opened. Open it, then answer.
 - Do not add a Sources section. The UI adds provenance.
 
 ## References
