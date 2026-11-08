@@ -135,7 +135,7 @@ def run_each(claims: list[Claim], domains: list[str], *, step_fn=None, max_items
         for claim in took:
             with child_span("query run item", {"id": claim.id}) as span:
                 plan = item_plan(claim, domains)
-                ex = executor.execute(plan, step_fn=step_fn)
+                ex = executor.execute(plan, step_fn=step_fn, open_documents=False)
                 printed, _ = bundle_mod.build(plan, ex, budget=ITEM_BUDGET)
                 printed = _drop_source(printed, claim.source_doc)
                 times.append(ex.exec_ms)

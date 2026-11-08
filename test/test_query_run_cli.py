@@ -25,7 +25,8 @@ def test_run_a_given_plan(tmp_path, monkeypatch):
     assert out.exit_code == 0, out.output
     payload = json.loads(out.stdout)
     assert payload["command"] == "query run"
-    assert [p["id"] for p in payload["path"]] == ["s1"] and payload["path"][0]["exit_code"] == 0
+    assert [p["id"] for p in payload["path"]] == ["s1", "open"] and payload["path"][0]["exit_code"] == 0
+    assert payload["path"][1]["skipped"] == "no_domains"  # spec 6.5: this invented plan names no domain
     assert payload["escalate"] is None
     assert payload["bundle_version"] == 1
 

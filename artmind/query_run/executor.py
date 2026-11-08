@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from artmind.query_plan import program as program_mod
-from artmind.query_run import capture, facts as facts_mod
+from artmind.query_run import capture, facts as facts_mod, opening
 
 DEFAULT_MAX_STEPS = 12
 DEFAULT_DEADLINE_S = 20.0
@@ -41,6 +41,7 @@ class Execution:
     partial: bool = False
     exec_ms: float = 0.0
     unfilled: bool = False
+    opened: list = field(default_factory=list)     # [{doc_id, why}] the open step asked for (spec 6.5)
 
     @property
     def exit_code(self) -> int:
@@ -81,6 +82,7 @@ class _Run:
         self.guards: list = []
         self.program: list = []
         self.outputs: dict = {}
+        self.open_documents = False
 
     # ── walking ──────────────────────────────────────────────────────────
     def nodes(self, nodes) -> None:
@@ -313,6 +315,8 @@ class _Run:
         if not program:
             self.ex.escalate = {"reason": "no_lookup", "answer_from": self.plan.get("answer_from"),
                                 "action": self.plan.get("action"), "suggested": self.suggested()}
+            if self.open_documents:
+                self.ex.path.append({"id": opening.OPEN_ID, "kind": "run", "skipped": "no_lookup"})
             return self.ex
         self.program, self.guards = program, list(self.plan.get("guards") or [])
         if _has_unfilled(program) and self.replacement("search") and (self.plan.get("route") or {}).get("id") != "search":
@@ -340,7 +344,42 @@ class _Run:
         except _Stop as stop:
             self.ex.escalate = {"reason": stop.reason, **stop.extra, "suggested": self.suggested()}
         self.finish()
+        if self.open_documents:
+            self.open()
         return self.ex
+
+    def open(self) -> None:
+        """The one open step (spec 6.5): read the documents the program only listed. Never raises."""
+        def skip(reason):
+            self.ex.path.append({"id": opening.OPEN_ID, "kind": "run", "skipped": reason})
+
+        if (self.ex.escalate or {}).get("reason") == "no_lookup" or not self.plan.get("program"):
+            return skip("no_lookup")
+        from artmind.query_run import bundle
+
+        evidence, documents, _, _ = bundle._rank(self.ex)
+        question = self.plan.get("effective_question") or self.plan.get("question") or ""
+        domains = _plan_domains(self.plan)
+        if not domains:
+            return skip("no_domains")
+        chosen = opening.select_documents(documents, evidence, question)
+        if not chosen:
+            return skip("no_documents" if not documents else "all_passaged")
+        if self.ex.executed >= self.max_steps:
+            self.ex.partial = True
+            return skip("limit")
+        if self.clock() - self.start > self.deadline_s:
+            self.ex.partial = True
+            return skip("deadline")
+        argv = opening.command([d for d, _ in chosen], domains, question)
+        result = self.step_fn(argv, opening.OPEN_ID)
+        self.ex.executed += 1
+        self.ex.results[opening.OPEN_ID] = result
+        self.ex.opened = [{"doc_id": d, "why": why} for d, why in chosen]
+        self.ex.path.append({"id": opening.OPEN_ID, "kind": "run", "cmd": _cut(" ".join(["artmind", *argv])),
+                             "exit_code": result.exit_code, "error": result.error, "ms": result.ms,
+                             "chars": result.chars, "skipped": None, "opened": len(chosen)})
+        self.ex.exec_ms = round((self.clock() - self.start) * 1000, 1)
 
     def finish(self) -> None:
         ok = [i for i, r in self.ex.results.items() if r.exit_code == 0 and r.error is None]
@@ -359,6 +398,13 @@ class _Run:
         else:
             return
         self.ex.escalate = {"reason": reason, "suggested": self.suggested()}
+
+
+def _plan_domains(plan) -> list[str]:
+    sel = (plan.get("scope") or {}).get("domains")
+    if not sel:
+        sel = (plan.get("domains") or {}).get("selected")
+    return [str(d) for d in sel or [] if d]
 
 
 def _walk(nodes):
@@ -388,5 +434,9 @@ def _has_unfilled(program) -> bool:
 
 
 def execute(plan: dict, *, step_fn: Callable | None = None, max_steps: int = DEFAULT_MAX_STEPS,
-            deadline_s: float = DEFAULT_DEADLINE_S, clock: Callable[[], float] = time.monotonic) -> Execution:
-    return _Run(plan, step_fn or capture.invoke_step, max_steps, deadline_s, clock).execute()
+            deadline_s: float = DEFAULT_DEADLINE_S, clock: Callable[[], float] = time.monotonic,
+            open_documents: bool = True) -> Execution:
+    """Run the plan. `open_documents` adds the spec 6.5 open step; `query run --each` turns it off."""
+    run = _Run(plan, step_fn or capture.invoke_step, max_steps, deadline_s, clock)
+    run.open_documents = open_documents
+    return run.execute()

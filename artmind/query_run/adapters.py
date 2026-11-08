@@ -92,6 +92,10 @@ def _survey(p, out):
         for x in passages:
             out.evidence.append(_evidence("passage", x.get("text"), x.get("passage_id"), x.get("chunk_id"),
                                           x.get("relevance"), doc_ref(d)))
+    for r in p.get("passages") or []:  # `--expand`: passage rows of the named documents
+        if isinstance(r, dict) and isinstance(r.get("text"), str):
+            out.evidence.append(_evidence("passage", r["text"], r.get("passage_id"), r.get("chunk_id"),
+                                          r.get("relevance"), doc_ref(r.get("doc"))))
     for t in p.get("topics") or []:
         if isinstance(t, dict):
             out.guides.append({"kind": "topic_page", "slug": t.get("slug"), "title": t.get("title"), "stale": bool(t.get("stale"))})

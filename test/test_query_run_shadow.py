@@ -29,7 +29,7 @@ def test_the_flag(monkeypatch, value, expected):
 def test_a_dry_run_records_ids_and_counts_only():
     event = shadow.dry_run(PLAN, mode="1", step_fn=_step)
     assert event["status"] == "ok"
-    assert [p["id"] for p in event["path"]] == ["s1", "s2"]
+    assert [p["id"] for p in event["path"]] == ["s1", "s2", "open"]  # spec 6.5: the open step is skipped (no domain in PLAN)
     assert next(p for p in event["path"] if p["id"] == "s2")["skipped"] == "llm_shadow"
     assert event["documents"] == ["d1"] and event["timing"]["exec_ms"] >= 0
     assert event["bundle_chars"] > 0 and event["escalate"] is None
