@@ -6,13 +6,31 @@ from paths import DB_PATH
 
 def _init_db() -> None:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
+    # isolation_level=None: we open the transaction ourselves (below), since
+    # Python's sqlite3 otherwise autocommits every CREATE/ALTER on its own.
+    conn = sqlite3.connect(DB_PATH, timeout=30.0, isolation_level=None)
     # WAL lets concurrent readers/writers coexist without "database is locked":
     # required now that KG extraction fans chunks out across threads, each of
     # which writes its own kg_chunk_status row. Persists on the db file, so
     # setting it here (called on every _get_db) is idempotent and cheap.
+    # Must run outside a transaction.
     conn.execute("PRAGMA journal_mode=WAL")
-    cursor = conn.cursor()
+    # Every migration below reads PRAGMA table_info and then ALTERs. Without
+    # the write lock held across both, two processes opening an older registry
+    # at once (the Obsidian plugin runs several commands in parallel) both see
+    # a column missing and the second ALTER fails with "duplicate column name".
+    conn.execute("BEGIN IMMEDIATE")
+    try:
+        _create_schema(conn.cursor())
+        conn.commit()
+    except BaseException:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def _create_schema(cursor: sqlite3.Cursor) -> None:
     # Phase 2 (docs/document-identity.md): identity is `artmind_id` (a uuid7
     # written into vault frontmatter), not a path/filename derivative, so this
     # is a path <-> id CACHE, not identity storage -- `docs reindex` (Phase 5)
@@ -540,9 +558,6 @@ def _init_db() -> None:
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(benchmark_questions)")}
     if "trace_id" not in existing:
         cursor.execute("ALTER TABLE benchmark_questions ADD COLUMN trace_id TEXT")
-
-    conn.commit()
-    conn.close()
 
 
 def _registry_row_by_artmind_id(artmind_id: str) -> dict | None:
