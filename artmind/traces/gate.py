@@ -25,28 +25,47 @@ def band(baseline_pairs: dict) -> dict:
             "material": max(_material(v) for v in baseline_pairs.values())}
 
 
-def evaluate_variant(band_: dict, variant_pairs: dict, *, baseline_found: dict, variant_found: dict) -> dict:
-    """`variant_pairs`: baseline run id -> verdicts (left = that baseline run, right = the variant).
-    `baseline_found`: run id -> {seq: set of must items found}; `variant_found`: {seq: set}."""
+def evaluate_variant(band_: dict, variant_pairs: dict, *, baseline_found: dict, variant_found: dict | None) -> dict:
+    """`variant_pairs`: baseline run id -> verdicts keyed by question (left = that baseline run, right = the variant).
+    `baseline_found`: run id -> {question key: set of must items found}, only for questions that run asked and
+    that were graded; `variant_found`: the same for the variant, or None when answers were not graded.
+
+    Row details carry counts only. Must-item texts are in `lost_must_items`, for the private detail file;
+    keys are whatever the caller uses (the CLI uses normalised question text and translates to qids)."""
     b = band_["balance"]
     balances = {rid: balance(v) for rid, v in variant_pairs.items()}
-    worse_sets = [{s for s, j in v.items() if j.get("verdict") == "material" and j.get("better") == "left"}
-                  for v in variant_pairs.values()]
-    worse_than_all = sorted(set.intersection(*worse_sets)) if worse_sets else []
-    lost: dict[int, list[str]] = {}
-    seqs = set().union(*(f.keys() for f in baseline_found.values())) if baseline_found else set()
-    for seq in sorted(seqs):
-        everyone = set.intersection(*(baseline_found[r].get(seq, set()) for r in baseline_found))
-        missing = sorted(everyone - variant_found.get(seq, set()))
-        if missing:
-            lost[seq] = missing
+    keys = set().union(*(v.keys() for v in variant_pairs.values())) if variant_pairs else set()
+    worse_than_all = []
+    for k in sorted(keys, key=str):
+        js = [v[k] for v in variant_pairs.values() if k in v]
+        if js and all(j.get("verdict") == "material" and j.get("better") == "left" for j in js):
+            worse_than_all.append(k)
+    graded = variant_found is not None
+    lost: dict = {}
+    variant_missing: list = []
+    if graded:
+        for k in sorted(set().union(*(f.keys() for f in baseline_found.values())) if baseline_found else set(),
+                        key=str):
+            sets = [f[k] for f in baseline_found.values() if k in f]
+            everyone = set.intersection(*sets) if sets else set()
+            if k not in variant_found:
+                if everyone:
+                    variant_missing.append(k)
+                continue
+            missing = sorted(everyone - variant_found[k])
+            if missing:
+                lost[k] = missing
+    lost_n = sum(len(v) for v in lost.values())
     rows = [
         {"row": "within_band", "ok": all(x <= b for x in balances.values()),
          "detail": f"balance against each baseline run {balances}, band {b}"},
-        {"row": "no_lost_must", "ok": not lost, "detail": f"must items every baseline run found, lost: {lost}"},
+        {"row": "no_lost_must", "ok": (not lost) if graded else None,
+         "detail": (f"{lost_n} must item(s) every asking baseline run found are lost, over {len(lost)} question(s)"
+                    if graded else "not graded")},
         {"row": "no_question_worse_than_all", "ok": not worse_than_all,
-         "detail": f"materially worse than every baseline run: {worse_than_all}"},
+         "detail": f"{len(worse_than_all)} question(s) materially worse than every baseline run that asked them"},
     ]
-    return {"passed": all(r["ok"] for r in rows),
+    return {"passed": all(r["ok"] for r in rows if r["ok"] is not None),
             "above_band": bool(balances) and all(x < -b for x in balances.values()),
-            "balances": balances, "worse_than_all": worse_than_all, "lost_must": lost, "rows": rows}
+            "graded": graded, "balances": balances, "worse_than_all": worse_than_all,
+            "lost_must_items": lost, "variant_missing": variant_missing, "rows": rows}

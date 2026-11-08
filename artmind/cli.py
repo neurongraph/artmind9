@@ -4768,74 +4768,110 @@ def traces_compare(baseline, variant, questions_file, use_judge, use_grade, allo
     out = {"runs": [r.run_id for r in runs], "measures": measures, "band": None, "grades": None, "variant": None,
            "flagged": None, "model": None, "detail_file": None}
     detail: dict = {"runs": out["runs"], "pairs": {}, "grades": {}}
+    out["warnings"] = []
     llm = chosen = None
     if use_judge or use_grade:
         from artmind.traces import judge
 
         llm, chosen = judge.default_llm(model)
         out["model"] = chosen
-    # every verdict and grade is keyed by the first baseline run's seq, whatever order each run asked in
-    anchor_seq = {cmp._norm_q(q["question"]): s for s, q in base[0].questions.items()}
+    # Everything is keyed by the normalised question text, so runs that asked other question sets, in another
+    # order or under other seq numbers still line up. A repeated question within a run keeps its first answer.
+    import dataclasses
+
+    def _dedupe(run):
+        seen, keep = set(), {}
+        for s_, q in sorted(run.questions.items()):
+            k = cmp._norm_q(q["question"])
+            if k in seen:
+                out["warnings"].append(f"run {run.run_id[:8]}: question {q['qid'] or s_} repeats an earlier one; "
+                                       "its first answer is used")
+                continue
+            seen.add(k)
+            keep[s_] = q
+        return dataclasses.replace(run, questions=keep, answers={s_: run.answers[s_] for s_ in keep})
+
+    uruns = [_dedupe(r) for r in runs]
+    ubase, uvar = uruns[:len(refs)], (uruns[-1] if variant else None)
+    qid_of: dict[str, str] = {}
+    qtext: dict[str, str] = {}
+    exp_of: dict[str, str | None] = {}
+    over = {cmp._norm_q(k): v for k, v in (expected or {}).items()}
+    for run in uruns:
+        for s_, q in run.questions.items():
+            k = cmp._norm_q(q["question"])
+            qid_of.setdefault(k, q["qid"] or str(s_))
+            qtext.setdefault(k, q["question"])
+            if exp_of.get(k) is None:
+                exp_of[k] = over.get(k) or q["eval_comment"]
+    exp_all = {k: v for k, v in exp_of.items() if v}
 
     def judged(left, right):
-        pairs, only_l, only_r = cmp.pair_by_text(left, right, expected=expected)
-        verdicts = {p.seq: judge.cached_judge(left.run_id, right.run_id, p.seq, p.question, p.expected,
-                                              p.left.answer, p.right.answer, llm=llm, model=chosen) for p in pairs}
+        pairs, only_l, only_r = cmp.pair_by_text(left, right, expected=exp_all)
+        verdicts = {cmp._norm_q(p.question): judge.cached_judge(left.run_id, right.run_id, p.seq, p.question,
+                                                                 p.expected, p.left.answer, p.right.answer,
+                                                                 llm=llm, model=chosen) for p in pairs}
         detail["pairs"][f"{left.run_id}__{right.run_id}"] = {
             "only_left": only_l, "only_right": only_r,
-            "questions": [{"seq": p.seq, "qid": p.qid, "verdict": verdicts[p.seq].verdict,
-                           "better": verdicts[p.seq].better, "reason": verdicts[p.seq].reason} for p in pairs]}
-        keyed, qids = {}, {}
-        for p in pairs:
-            a_seq = anchor_seq.get(cmp._norm_q(p.question))
-            if a_seq is None:
-                continue
-            keyed[a_seq] = {"verdict": verdicts[p.seq].verdict, "better": verdicts[p.seq].better}
-            qids[a_seq] = base[0].questions[a_seq]["qid"]
-        return pairs, keyed, qids
+            "questions": [{"seq": p.seq, "qid": p.qid, "verdict": verdicts[cmp._norm_q(p.question)].verdict,
+                           "better": verdicts[cmp._norm_q(p.question)].better,
+                           "reason": verdicts[cmp._norm_q(p.question)].reason} for p in pairs]}
+        n_unjudged = sum(1 for v in verdicts.values() if v.verdict == "unjudged")
+        out["pairs"].append({"left": left.run_id, "right": right.run_id, "pairs": len(pairs),
+                             "judged": len(pairs) - n_unjudged, "unjudged": n_unjudged})
+        return {k: {"verdict": v.verdict, "better": v.better} for k, v in verdicts.items()}
 
-    found: dict[str, dict[int, set]] = {}
+    out["pairs"] = []
+    found: dict[str, dict[str, set]] = {}
     if use_grade:
         from artmind.traces import grade as grade_mod
 
         out["grades"] = {}
-        anchor = base[0]
-        for run in runs:
-            pairs, _, _ = cmp.pair_by_text(anchor, run, expected=expected)
+        for run in uruns:
             counts = {g: 0 for g in ("correct", "partial", "wrong", "ungraded")}
             got = total = 0
             found[run.run_id] = {}
-            for p in pairs:
-                t = tiers_mod.parse(p.expected)
-                g = grade_mod.cached_grade(run.run_id, p.seq, p.question, t, p.right.answer, llm=llm, model=chosen)
+            for s_, q in sorted(run.questions.items()):
+                k = cmp._norm_q(q["question"])
+                t = tiers_mod.parse(exp_of.get(k))
+                g = grade_mod.cached_grade(run.run_id, s_, q["question"], t, run.answers[s_].answer,
+                                           llm=llm, model=chosen)
                 counts[g.grade] += 1
                 if g.grade != "ungraded":
                     got, total = got + len(g.must_found), total + len(t.must)
-                found[run.run_id][p.seq] = set(g.must_found)
+                if g.grade != "ungraded" or run is uvar:
+                    found[run.run_id][k] = set(g.must_found)
                 detail["grades"].setdefault(run.run_id, []).append(
-                    {"seq": p.seq, "qid": p.qid, "grade": g.grade, "must_missed": list(g.must_missed),
+                    {"seq": s_, "qid": q["qid"], "grade": g.grade, "must_missed": list(g.must_missed),
                      "must_not_hit": list(g.must_not_hit), "reason": g.reason})
-            out["grades"][run.run_id] = {"counts": counts, "must": {"found": got, "total": total}}
+            out["grades"][run.run_id] = {"counts": counts, "must": {"found": got, "total": total},
+                                         "questions": len(run.questions),
+                                         "graded": len(run.questions) - counts["ungraded"],
+                                         "ungraded": counts["ungraded"]}
     flagged: set = set()
     if use_judge:
         baseline_pairs = {}
-        for i, left in enumerate(base):
-            for right in base[i + 1:]:
-                pairs, verdicts, qids = judged(left, right)
+        for i, left in enumerate(ubase):
+            for right in ubase[i + 1:]:
+                verdicts = judged(left, right)
                 baseline_pairs[(left.run_id, right.run_id)] = verdicts
-                flagged |= {qids[s] for s, v in verdicts.items() if v["verdict"] == "material"}
+                flagged |= {qid_of[k] for k, v in verdicts.items() if v["verdict"] == "material"}
         out["band"] = gate_mod.band(baseline_pairs)
-        if var is not None:
-            vpairs, qid_of = {}, {}
-            for left in base:
-                pairs, verdicts, qids = judged(left, var)
-                vpairs[left.run_id] = verdicts
-                qid_of.update(qids)
-            g = gate_mod.evaluate_variant(out["band"], vpairs,
-                                          baseline_found={r.run_id: found.get(r.run_id, {}) for r in base},
-                                          variant_found=found.get(var.run_id, {}))
-            flagged |= {qid_of.get(s) for s in g["worse_than_all"]} | {qid_of.get(s) for s in g["lost_must"]}
-            out["variant"] = {"run": var.run_id, "contract": var.contract, "gate": g}
+        if uvar is not None:
+            vpairs = {left.run_id: judged(left, uvar) for left in ubase}
+            g = gate_mod.evaluate_variant(
+                out["band"], vpairs,
+                baseline_found={r.run_id: found[r.run_id] for r in ubase} if use_grade else {},
+                variant_found=found.get(uvar.run_id) if use_grade else None)
+            worse = sorted(qid_of[k] for k in g["worse_than_all"])
+            lost_items = {qid_of[k]: items for k, items in g["lost_must_items"].items()}
+            gate_out = {x: g[x] for x in ("passed", "above_band", "balances", "rows")}
+            gate_out.update({"worse_than_all": worse, "lost_must": {q: len(i) for q, i in sorted(lost_items.items())},
+                             "variant_missing": sorted(qid_of[k] for k in g["variant_missing"])})
+            flagged |= set(worse) | set(lost_items)
+            detail["gate"] = {"lost_must_items": lost_items}
+            out["variant"] = {"run": uvar.run_id, "contract": uvar.contract, "graded": g["graded"],
+                              "gate": gate_out}
     if use_grade:
         flagged |= {q["qid"] for rows in detail["grades"].values() for q in rows if q["grade"] == "wrong"}
     if use_judge or use_grade:
