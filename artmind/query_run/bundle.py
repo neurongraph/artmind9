@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 import os
 
-from artmind.query_run import adapters
+from artmind.query_run import adapters, opening
 from artmind.query_run import facts as facts_mod
 
 BUNDLE_VERSION = 1
@@ -58,6 +58,8 @@ def _rank(ex) -> tuple[list, list, list, list]:
     facts: list = []
     guides: list = []
     for sid in ex.answer_ids or ex.results:
+        if sid == opening.OPEN_ID:
+            continue
         result = ex.results.get(sid)
         if result is None or result.exit_code != 0 or result.payload is None:
             continue
@@ -98,6 +100,52 @@ def _rank(ex) -> tuple[list, list, list, list]:
     return evidence, documents, facts, guides
 
 
+def _apply_open(ex, evidence: list, documents: list) -> tuple[list, list, list]:
+    """Spec 6.5: opened passages first (`from: ["open"]`), `opened` flags on documents, the `opened` list.
+
+    Returns (evidence, opened rows, opened list). Evidence ids are renumbered, opened rows first. A failed
+    open step changes nothing.
+    """
+    for d in documents:
+        d["opened"] = False
+    result = ex.results.get(opening.OPEN_ID)
+    if result is None:
+        return evidence, [], []
+    if result.exit_code != 0 or result.error or result.payload is None:
+        return evidence, [], []
+    rows = adapters.adapt(result.payload).evidence
+    merged: dict[str, dict] = {}
+    for row in rows:
+        k = _key(row)
+        merged.setdefault(k, {**row, "from": ["open"], "clause": None})
+    rest = []
+    for row in evidence:
+        k = _key(row)
+        if k in merged:
+            merged[k]["from"] = ["open", *[f for f in row["from"] if f != "open"]]
+        else:
+            rest.append(row)
+    opened_rows = list(merged.values())
+    evidence = [*opened_rows, *rest]
+    for i, row in enumerate(evidence, 1):
+        row["eid"], row["rank"] = f"e{i}", i
+    by_doc: dict[str, list] = {}
+    for row in evidence:
+        by_doc.setdefault((row.get("doc") or {}).get("id"), []).append(row["eid"])
+    titles = {d["doc_id"]: d.get("title") for d in documents}
+    opened = []
+    for item in ex.opened:
+        eids = [r["eid"] for r in opened_rows if (r.get("doc") or {}).get("id") == item["doc_id"]]
+        opened.append({"doc_id": item["doc_id"], "title": titles.get(item["doc_id"]) or next(
+            ((r.get("doc") or {}).get("title") for r in opened_rows if (r.get("doc") or {}).get("id") == item["doc_id"]), None),
+            "why": item["why"], "passages": eids})
+    got = {o["doc_id"] for o in opened if o["passages"]}
+    for d in documents:
+        d["opened"] = d["doc_id"] in got
+        d["evidence"] = by_doc.get(d["doc_id"], [])
+    return evidence, opened_rows, opened
+
+
 def _selected_evidence(evidence: list) -> list:
     out, seen = list(evidence[:EVIDENCE_TOP]), {(e.get("doc") or {}).get("id") for e in evidence[:EVIDENCE_TOP]}
     for row in evidence[EVIDENCE_TOP:]:
@@ -133,11 +181,18 @@ def _path(ex) -> list:
 def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple[dict, dict]:
     """(printed bundle, full bundle). The printed one fits `budget` characters as compact JSON."""
     evidence, documents, facts, guides = _rank(ex)
+    evidence, opened_rows, opened = _apply_open(ex, evidence, documents)
+    open_result = ex.results.get(opening.OPEN_ID)
+    open_failed = open_result is not None and (open_result.exit_code != 0 or bool(open_result.error) or open_result.payload is None)
     base = {"command": "query run", "warnings": [], "next": None, "bundle_version": BUNDLE_VERSION, "mode": "reasoning",
             "plan": _plan_block(plan), "scope": plan.get("scope"), "path": _path(ex),
             "coverage": _coverage(ex, evidence), "gaps": plan.get("gaps") or [], "escalate": ex.escalate, "offer": None,
-            "timing": {"plan_ms": plan_ms, "exec_ms": ex.exec_ms}}
+            "timing": {"plan_ms": plan_ms, "exec_ms": ex.exec_ms}, "opened": opened}
     trimmed: list[str] = []
+    extra_warnings: list[str] = []
+    if open_failed:
+        extra_warnings.append("opening documents failed; the bundle lists documents it did not read "
+                              f"(open step: {open_result.error or 'exit ' + str(open_result.exit_code)})")
     if len(_dumps(base)) + _RESERVE > budget:  # the fixed part alone is over: shrink it, never the evidence first
         base["path"] = [{k: v for k, v in p.items() if k != "facts"} for p in base["path"]]
         trimmed.append("step facts left out of path")
@@ -148,9 +203,16 @@ def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple
                 trimmed.append("suggested steps cut to 3")
     full = {**base, "evidence": evidence, "documents": documents, "facts": facts, "guides": guides}
     printed = {**base, "evidence": [], "documents": [], "facts": [], "guides": []}
-    candidates = {"evidence": _selected_evidence(evidence), "documents": documents, "facts": facts, "guides": guides}
+    candidates = {"evidence": _selected_evidence(evidence[len(opened_rows):]), "documents": documents,
+                  "facts": facts, "guides": guides}
     size = len(_dumps(printed)) + _RESERVE
-    cut = len(candidates["evidence"]) < len(evidence)
+    cut = len(candidates["evidence"]) < len(evidence) - len(opened_rows)
+    for row in opened_rows:  # opened passages are placed first and never cut
+        printed["evidence"].append(row)
+        size += len(_dumps(row)) + 1
+    if size > budget:
+        extra_warnings.append(f"opened passages alone ({len(opened_rows)} rows) exceed the bundle budget "
+                              f"{budget:,} characters; they are kept and nothing else is placed")
     for name in _LISTS:
         for row in candidates[name]:
             n = len(_dumps(row)) + 1
@@ -166,8 +228,9 @@ def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple
         if len(printed[name]) < len(full[name]):
             cut = True
     printed.update(truncated=False, rows_total=len(evidence), handle=None)
+    printed["warnings"] = list(extra_warnings)
     if trimmed:
-        printed["warnings"] = [f"bundle budget {budget:,} characters: " + "; ".join(trimmed)]
+        printed["warnings"].append(f"bundle budget {budget:,} characters: " + "; ".join(trimmed))
     if cut:
         import paths
         from artmind import result_store
