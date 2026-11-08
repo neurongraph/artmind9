@@ -134,8 +134,8 @@ skill on this branch. Their build differed only in code the classic agent never 
 1. **Pairwise** (existing judge): for each pair of runs, per question, `same` / `minor` / `material` and which is
    better, read from the two answers against the expected answer.
 2. **Absolute** (new): one judge call per answer against its tiers: each must item found or missing, each
-   must-not item present or absent, and `correct` / `partial` / `wrong`. Cached like the pairwise verdicts
-   (`trace_judgements`, keyed by model, prompt version, question, tiers and answer).
+   must-not item present or absent, and `correct` / `partial` / `wrong`. Cached in its own table,
+   `trace_grades`, keyed by model, prompt version, question, tiers and answer.
 
 Answers are judged whole: the 8,000-character cut is replaced by a ceiling of 40,000, and an answer over it is
 reported as unjudged, never cut.
@@ -154,7 +154,8 @@ A step runs its skill variant once per vault, judged against each baseline run. 
 - it loses no must item that every baseline run found;
 - no question is materially worse than all baseline runs, or each such question has a dossier.
 
-**Above the band** means a balance better than the band by more than the band's width.
+**Above the band** means its balance against every baseline run is outside the band on the better side
+(below −band).
 
 ### 3.5 The user reads the flagged answers
 
