@@ -357,14 +357,15 @@ class _Run:
             return skip("no_lookup")
         from artmind.query_run import bundle
 
-        evidence, documents, _, _ = bundle._rank(self.ex)
+        evidence, documents, facts, _ = bundle._rank(self.ex)
         question = self.plan.get("effective_question") or self.plan.get("question") or ""
         domains = _plan_domains(self.plan)
         if not domains:
             return skip("no_domains")
-        chosen = opening.select_documents(documents, evidence, question)
+        behind = opening.fact_documents(facts, evidence)
+        chosen = opening.select_documents(documents, evidence, question, fact_docs=behind)
         if not chosen:
-            return skip("no_documents" if not documents else "all_passaged")
+            return skip("no_documents" if not documents and not behind else "all_passaged")
         if self.ex.executed >= self.max_steps:
             self.ex.partial = True
             return skip("limit")

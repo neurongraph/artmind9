@@ -66,21 +66,52 @@ def _passaged(evidence) -> set:
     return {(e.get("doc") or {}).get("id") for e in evidence or [] if e.get("kind") == "passage"}
 
 
-def skip_reason(ranked_documents, evidence, question) -> str | None:
+def skip_reason(ranked_documents, evidence, question, fact_docs=None) -> str | None:
     """Why nothing is opened, or None when something qualifies."""
-    if not [d for d in ranked_documents or [] if d.get("doc_id")]:
+    if not [d for d in ranked_documents or [] if d.get("doc_id")] and not fact_docs:
         return "no_documents"
-    if not select_documents(ranked_documents, evidence, question):
+    if not select_documents(ranked_documents, evidence, question, fact_docs=fact_docs):
         return "all_passaged"
     return None
 
 
+FACT_TOP = 20   # facts, in rank order, whose source documents may take a rank slot
+
+
+def fact_documents(facts, evidence=(), *, top: int = FACT_TOP) -> list[str]:
+    """Source document ids of the first `top` facts, in fact order, deduplicated (spec 6.5 rule 4).
+
+    A fact's own `doc_ids` come first; its `chunk_ids` are mapped through the evidence rows that know them.
+    """
+    by_chunk = {e.get("chunk_id"): (e.get("doc") or {}).get("id") for e in evidence or [] if e.get("chunk_id")}
+    out: list[str] = []
+    for f in list(facts or [])[:top]:
+        for doc_id in [*(f.get("doc_ids") or []), *(by_chunk.get(c) for c in f.get("chunk_ids") or [])]:
+            if doc_id and doc_id not in out:
+                out.append(doc_id)
+    return out
+
+
+def _interleave(first: list[str], second: list[str], top: int) -> list[str]:
+    out: list[str] = []
+    for i in range(max(len(first), len(second))):
+        for lst in (first, second):
+            if i < len(lst) and lst[i] not in out:
+                out.append(lst[i])
+    return out[:top]
+
+
 def select_documents(ranked_documents, evidence, question, *, top: int = OPEN_TOP,
-                     title: int = OPEN_TITLE) -> list[tuple[str, str]]:
-    """[(doc_id, "rank" | "title")]. `ranked_documents` are best first, rows with `doc_id` and `title`."""
+                     title: int = OPEN_TITLE, fact_docs=None) -> list[tuple[str, str]]:
+    """[(doc_id, "rank" | "title")]. `ranked_documents` are best first, rows with `doc_id` and `title`.
+
+    `fact_docs` (ids behind the top facts) alternate with the ranked documents in the rank slots.
+    """
     docs = [d for d in ranked_documents or [] if d.get("doc_id")]
     have = _passaged(evidence)
-    chosen: list[tuple[str, str]] = [(d["doc_id"], "rank") for d in docs if d["doc_id"] not in have][:top]
+    ranked = [d["doc_id"] for d in docs if d["doc_id"] not in have]
+    behind = [i for i in fact_docs or [] if i not in have]
+    chosen: list[tuple[str, str]] = [(i, "rank") for i in _interleave(ranked, behind, top)]
     taken = {d for d, _ in chosen}
     terms = title_terms(question)
     if terms and title > 0:
@@ -106,3 +137,8 @@ def command(doc_ids, domains, question) -> list[str]:
         argv.append("--")
     argv.append(str(question))
     return argv
+
+
+def next_unopened(documents, *, limit: int = OPEN_TOP) -> list[str]:
+    """Ids of the next `limit` listed documents by rank that were not opened."""
+    return [d["doc_id"] for d in documents or [] if d.get("doc_id") and not d.get("opened")][:limit]

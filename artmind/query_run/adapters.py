@@ -101,6 +101,17 @@ def _survey(p, out):
             out.guides.append({"kind": "topic_page", "slug": t.get("slug"), "title": t.get("title"), "stale": bool(t.get("stale"))})
 
 
+def _ids(*groups) -> list:
+    """Document ids from rows (`id`/`doc_id`) or bare strings, deduplicated, in order."""
+    out: list = []
+    for group in groups:
+        for item in group or []:
+            doc_id = item.get("doc_id") or item.get("id") if isinstance(item, dict) else item
+            if doc_id and isinstance(doc_id, str) and doc_id not in out:
+                out.append(doc_id)
+    return out
+
+
 def _entity_context(p, out):
     for r in main_list(p):
         if not isinstance(r, dict):
@@ -110,7 +121,8 @@ def _entity_context(p, out):
         out.facts.append({"kind": "entity", "row": {"entity": entity,
                                                    "connections": list(r.get("connections") or [])[:CONNECTIONS],
                                                    "connections_total": r.get("connections_total")},
-                          "chunk_ids": [c.get("chunk_id") or c.get("id") for c in chunks]})
+                          "chunk_ids": [c.get("chunk_id") or c.get("id") for c in chunks],
+                          "doc_ids": _ids([c.get("doc") or c.get("document") for c in chunks], r.get("source_documents"))})
         _passage_rows(chunks, out)
         for d in r.get("source_documents") or []:
             if isinstance(d, dict):
@@ -121,7 +133,8 @@ def _entity_rows(p, out):
     for r in main_list(p):
         if not isinstance(r, dict):
             continue
-        out.facts.append({"kind": "entity", "row": scalars(r), "chunk_ids": list(r.get("chunk_ids") or [])})
+        out.facts.append({"kind": "entity", "row": scalars(r), "chunk_ids": list(r.get("chunk_ids") or []),
+                          "doc_ids": _ids([r.get("doc_id")], r.get("documents"), r.get("source_documents"))})
         for d in r.get("documents") or []:
             if isinstance(d, dict):
                 out.documents.append(_document_row(d))
@@ -141,7 +154,8 @@ def _observations(p, out):
     for r in main_list(p):
         if isinstance(r, dict):
             row = r.get("observation") if isinstance(r.get("observation"), dict) else r
-            out.facts.append({"kind": "observation", "row": scalars(row), "chunk_ids": [row.get("chunk_id")] if row.get("chunk_id") else []})
+            out.facts.append({"kind": "observation", "row": scalars(row), "chunk_ids": [row.get("chunk_id")] if row.get("chunk_id") else [],
+                              "doc_ids": _ids([row.get("doc_id")])})
 
 
 def _document_history(p, out):
