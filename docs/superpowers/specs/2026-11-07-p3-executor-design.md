@@ -435,6 +435,40 @@ not page to `rows_total` sets `coverage.exhaustive = false`, and the bundle carr
 puts the newest family document first with `latest: true`. `coverage.probes` and `depth` are set by the
 `existence_concept` and `absence` programs.
 
+### 6.5 Opened documents (added 2026-11-08, after the first P3b gate)
+
+**Why.** In the first P3b gate reading, a Sonnet 5.5 judge found bundle answers materially worse than both classic
+runs on 14 of 36 banking and 7 of 14 brain01 questions. The repeated reason: the agent answered from what the bundle
+showed (gists, line rows, a passage or two) and did not open the documents that carried the specifics. Banking Q04's
+bundle listed both 2026 rate schedules, the agent ran nothing after `query run`, and it gave stale FAQ rates. The
+`read before you answer` rule in the skill did not change that. So `query run` opens the documents itself.
+
+**What it opens.** After the program has run, and before the bundle is assembled:
+1. **By rank:** the top `OPEN_TOP` (5) documents by fused rank (§6.3) that have no full passage in the evidence yet.
+2. **By title:** up to `OPEN_TITLE` (2) more listed documents whose title carries a term the question names: a
+   year or date, a version tag (`v3`, `_2026_03`), or a distinctive question word of 5+ letters that is not a
+   stopword. Ties go by rank.
+3. The selected ids go into **one extra executor step**, `artmind query survey --shape brief --domain {domains}
+   --expand <id> ... --compact "<question>"`. It counts against `--maxSteps` and `--deadline` like any step. It is
+   skipped (recorded in `path`) when no document qualifies, when the program escalated with `no_lookup`, or when the
+   plan's scope is structured only. A failed open step leaves the bundle as it was and adds a warning.
+
+**What the bundle carries.**
+- `opened`: the list of opened documents: `{doc_id, title, why: rank|title, passages: [eid...]}`.
+- Each `documents` row gets `opened: true|false`. A row with `opened: false` says the document was listed, not read.
+- Opened passages join `evidence` with `from: ["open"]` and the kind `passage`.
+
+**Budget.** Opened passages are placed **first**, before the ranked evidence, and are never cut. Seven opened rows
+take about 13,000 of the 24,000 characters. The rest of the budget goes to the ranked evidence, then `documents`,
+`facts` and `guides`, as in §6.3. Everything cut stays under the handle. The bundle budget stays at 24,000, because
+the agent's harness swaps any tool output over 30,000 characters for a file path (bounded-output design §1, §3).
+
+**Skill.** `artmind-query-bundle` says: answer from opened text (`opened` and its evidence rows); a listed document
+with `opened: false` is a pointer, never a source; open it with `artmind query survey --expand` before citing it.
+
+**Cost and gate.** One more survey step per plan (about 150–300 ms measured on banking). The P3a gate still holds:
+exec p90 ≤ 3 s for plans without LLM steps. The P3b gate is re-run with the same three-run design (§9.2).
+
 ## 7. Nested spans and shadow dry execution
 
 ### 7.1 Spans
