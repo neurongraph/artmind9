@@ -617,6 +617,9 @@ When both vaults pass in one set of runs, `ARTMIND_AGENT_CONTRACT` defaults to `
 This **replaces** the architecture §9 P3 gate's "fast-path share ≥ 50 % of rated-good turns", which round 9
 makes unreachable without risk. The fast path gets its own per-route gate (§9.3).
 
+
+**As built (S10):** the command is `artmind traces compare --runs A,B,BUNDLE [--judge]`, not `traces stats --compareRuns`. `stats` aggregates over turns by domain and period; the gate needs three specific runs paired by question, a judge and a pass/fail verdict, which is a different input and output. Answer reach reads document paths from each span's `documents`, `provenance.documents` and `chunks`, since brief rows carry only ids.
+
 ### 9.3 Fast-path gate (per route)
 
 A route joins `ARTMIND_RUN_FAST_ROUTES` when all of these hold:
