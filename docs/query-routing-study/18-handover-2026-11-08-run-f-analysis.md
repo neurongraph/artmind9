@@ -12,8 +12,9 @@ The user stopped the fix work on purpose: "we seem to be going into a band-aid o
 
 | What | Where |
 |---|---|
-| Branch | `claude/p3-design-a9f633`, checkout `~/projects/artmind9`. Last commit `828b89fc`. **Nothing from this session is committed.** |
-| Uncommitted | 16 modified files (section 5). Full suite last passed: 7,044 passed, 14 skipped, after both changes. |
+| Branch | `claude/p3-design-a9f633`, checkout `~/projects/artmind9`. **Not pushed, not merged.** |
+| Commits from this session | `b63aee3a` changes A and B together (16 files, section 5); this note was first committed as `ede82cf8` and amended by the commit after `b63aee3a`. Before them: `828b89fc` (handover 17). To judge the code changes alone: `git show b63aee3a`. To undo them: `git revert b63aee3a`. |
+| Tests | Full suite last passed: 7,044 passed, 14 skipped, after both changes. |
 | Daemons | `admin-ui` and `serve` import code once at start. Restart them before any run that should use these changes. |
 | Not done | No benchmark run after either change. No agent-level check of any change. |
 
