@@ -365,7 +365,7 @@ class _Run:
         behind = opening.fact_documents(facts, evidence)
         chosen = opening.select_documents(documents, evidence, question, fact_docs=behind)
         if not chosen:
-            return skip("no_documents" if not documents and not behind else "all_passaged")
+            return skip("no_documents")
         if self.ex.executed >= self.max_steps:
             self.ex.partial = True
             return skip("limit")

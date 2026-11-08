@@ -74,7 +74,7 @@ def test_the_fixed_parts_and_documents_are_present():
 def test_the_bundle_budget_setting(monkeypatch):
     monkeypatch.delenv("ARTMIND_BUNDLE_BUDGET", raising=False)
     monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
-    assert bundle.bundle_budget() == 24_000
+    assert bundle.bundle_budget() == 28_000
     monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "9000")
     assert bundle.bundle_budget() == 9000
     monkeypatch.setenv("ARTMIND_BUNDLE_BUDGET", "12000")

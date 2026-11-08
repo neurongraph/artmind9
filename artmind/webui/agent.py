@@ -52,7 +52,7 @@ def _budget_env(env: dict[str, str] | None) -> dict[str, str]:
     Defaults only: an explicit value in ``env`` or the operator's environment wins.
     """
     out = dict(env or {})
-    for key, value in (("BASH_MAX_OUTPUT_LENGTH", "40000"), ("ARTMIND_OUTPUT_BUDGET", "24000")):
+    for key, value in (("BASH_MAX_OUTPUT_LENGTH", "40000"), ("ARTMIND_OUTPUT_BUDGET", "28000")):
         if key not in out and key not in os.environ:
             out[key] = value
     return out

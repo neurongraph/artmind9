@@ -419,7 +419,7 @@ spirit):
    passage text capped at 1,200 characters.
 3. `documents` rows, then `facts` (brief rows; a hub entity's context never placed whole), then `guides`.
 4. The budget is `ARTMIND_BUNDLE_BUDGET`, else the caller's output budget (`ARTMIND_OUTPUT_BUDGET`, as
-   `serve` receives it), else **24,000**. A bundle is always bounded, even in a terminal with no output
+   `serve` receives it), else **28,000** (raised from 24,000 on 2026-11-08, see §6.5 Budget). A bundle is always bounded, even in a terminal with no output
    budget, because it is made for the agent.
 5. What does not fit goes to `logs/results/<handle>.json` as the **full** bundle (every evidence,
    document and fact row). The printed bundle sets `truncated`, `rows_total` (evidence rows) and `handle`,
@@ -444,13 +444,18 @@ bundle listed both 2026 rate schedules, the agent ran nothing after `query run`,
 `read before you answer` rule in the skill did not change that. So `query run` opens the documents itself.
 
 **What it opens.** After the program has run, and before the bundle is assembled:
-1. **By rank:** the top `OPEN_TOP` (5) documents by fused rank (§6.3) that have no full passage in the evidence yet.
+1. **By rank:** the top `OPEN_TOP` (5) documents by fused rank (§6.3). A document that already arrived with a search
+   snippet is opened too (2026-11-08, run F: banking 18's closure SOP ranked 5th, carried one snippet, was skipped, and the
+   sentence the answer needed sat in another passage of it).
 2. **By title:** up to `OPEN_TITLE` (2) more listed documents whose title carries a term the question names: a
    year or date, a version tag (`v3`, `_2026_03`), or a distinctive question word of 5+ letters that is not a
    stopword. Ties go by rank.
 3. The selected ids go into **one extra executor step**, `artmind query survey --shape brief --domain {domains}
-   --expand <id> ... --compact "<question>"`. It counts against `--maxSteps` and `--deadline` like any step. It is
-   skipped (recorded in `path`) when no document qualifies, when the program escalated with `no_lookup`, or when the
+   --passages 8 --expand <id> ... --compact "<question>"`. Each opened document returns up to `OPEN_FETCH` (8) ranked
+   passages, one per matching DocChunk, best first (retrieval's own ranking; nothing reads text). The bundle places the
+   best of every opened document, then the best of the rest, `OPEN_KEEP` (12) in all, first and never cut
+   (`opening.top_passages`); the others are ranked evidence (`from: ["open_more"]`) and stay whole under the handle. It counts against `--maxSteps` and `--deadline` like any step. It is
+   skipped (recorded in `path`) when no document is listed, when the program escalated with `no_lookup`, or when the
    plan's scope is structured only. A failed open step leaves the bundle as it was and adds a warning.
 
 **What the bundle carries.**
@@ -459,7 +464,9 @@ bundle listed both 2026 rate schedules, the agent ran nothing after `query run`,
 - Opened passages join `evidence` with `from: ["open"]` and the kind `passage`.
 
 **Budget.** Opened passages are placed **first**, before the ranked evidence, and are never cut. Seven opened rows
-take about 13,000 of the 24,000 characters. A live banking replay showed that when full document rows followed, the
+take about 13,000 of the budget (12 opened passages with 8 fetched per document, from 2026-11-08, take about 13,000 too, and
+squeezed the document line rows to 0-2 of 9-50 on three banking questions at 24,000; the budget is now **28,000**, a
+2,000-character margin under the 30,000 inline limit instead of 6,000). A live banking replay showed that when full document rows followed, the
 `documents` list fell from 36 of 50 rows to 11 of 50 and listed-document reach dropped (60 to 58 of 101). So the
 printed bundle follows four rules. Everything cut stays under the handle, and the stored bundle keeps full rows.
 1. **Compact document rows.** Every `documents` row is first placed as a line row of about 80 characters,
@@ -480,8 +487,9 @@ printed bundle follows four rules. Everything cut stays under the handle, and th
    `graph pattern1/2/7`, via `doc_ids` on the adapter's fact rows, and `chunk_ids` mapped through evidence), the open
    selection also takes the source documents of the first `FACT_TOP` (20) facts in rank order. They share the rank
    slots (still 5 in total, plus 2 by title): the top survey document, then the top fact document, alternating,
-   deduplicated. The bundle budget stays at 24,000, because
-the agent's harness swaps any tool output over 30,000 characters for a file path (bounded-output design §1, §3).
+   deduplicated. The bundle budget is 28,000
+(was 24,000), and stays under 30,000 because the agent's harness swaps any tool output over 30,000 characters for a file
+path (bounded-output design §1, §3). The fixed part of the bundle plus the never-cut opened passages must stay below it.
 
 **Skill.** `artmind-query-bundle` says: answer from opened text (`opened` and its evidence rows); a listed document
 with `opened: false` is a pointer, never a source; open it with `artmind query survey --expand` before citing it.

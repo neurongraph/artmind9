@@ -3623,8 +3623,8 @@ def query_page(start: int, count: int | None, list_name: str | None, compact: bo
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topDocs", "top_docs", type=click.IntRange(1, 50), default=None, show_default=False,
               help="Documents to return (default 50 for --shape brief, 10 for full; overridden by ARTMIND_SURVEY_TOP_DOCS)")
-@click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
-              help="Best passages shown per document")
+@click.option("--passages", type=click.IntRange(1, 8), default=1, show_default=True,
+              help="Best passages shown per document (one per matching chunk, best first)")
 @shape_option
 @click.option("--passageDocs", "passage_docs", type=click.IntRange(0, 10), default=3, show_default=True,
               help="--shape brief: documents that get their best passage at least (plus any within 0.03 relevance of the top)")
@@ -4035,7 +4035,7 @@ def query_run(domain: tuple, exclude: tuple, previous_file: str | None, classifi
     Read-only: steps are `artmind query ...` commands and read-only `artmind db ...` commands only.
     `evidence` is what an answer may cite; `documents`, `facts` and `guides` give coverage and steer.
     `escalate` says why the bundle may not be enough and `suggested` what to run next. A bundle over
-    the budget (ARTMIND_BUNDLE_BUDGET, else ARTMIND_OUTPUT_BUDGET, else 24,000) carries a `handle`:
+    the budget (ARTMIND_BUNDLE_BUDGET, else ARTMIND_OUTPUT_BUDGET, else 28,000) carries a `handle`:
     `artmind query page <handle> --list evidence|documents|facts|guides`.
     """
     import time as _time

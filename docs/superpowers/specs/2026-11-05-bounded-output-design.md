@@ -77,8 +77,8 @@ limit is a cost control as much as a visibility one.
 
 | Budget | Value | Why |
 |---|---|---|
-| **Step budget** (one command, agent-facing) | 24,000 characters | 6,000 under the inline limit (30,000). Measured 2026-11-05 on the contracts domain: brief survey(50) is ~23,000 (3 passage, ~10 gist, ~37 line rows; passage rows ~1,900, gist ~650, line ~250, `topics` ~1,200) and brief `vector-text`(10) ~16,500. A 16,000 budget left survey with 1 gist and 49 line rows |
-| **Bundle budget** (`query run`, P3) | 24,000 characters | one result per question, same ceiling as a step |
+| **Step budget** (one command, agent-facing) | 28,000 characters (24,000 until 2026-11-08) | 2,000 under the inline limit (30,000); was 6,000. Raised with the bundle budget because `ARTMIND_OUTPUT_BUDGET` is one value for both (P3 spec §6.5). Measured 2026-11-05 on the contracts domain: brief survey(50) is ~23,000 (3 passage, ~10 gist, ~37 line rows; passage rows ~1,900, gist ~650, line ~250, `topics` ~1,200) and brief `vector-text`(10) ~16,500. A 16,000 budget left survey with 1 gist and 49 line rows |
+| **Bundle budget** (`query run`, P3) | 28,000 characters (24,000 until 2026-11-08) | one result per question, same ceiling as a step |
 | **Error budget** | 2,000 characters | a failed command gets only head+tail; the message must name the fix in its first line |
 
 Budgets are in **characters**, the unit the harness counts. They are set by one env var,
@@ -237,7 +237,7 @@ One mechanism in `_echo_json`, so every command inherits it, rather than per-com
      fits;
    - the envelope gains `truncated: true`, `rows_total`, `rows_shown`, `handle`, and `next`
      is set to the paging command (`artmind query page <handle> --from <rows_shown>`);
-   - one `warnings` line says what was cut and why ("output budget 24,000 characters:
+   - one `warnings` line says what was cut and why ("output budget 28,000 characters:
      showing 31 of 50 documents").
    A payload with no list key that is still over budget (a huge single row) is cut field by
    field: string values over 2,000 characters are shortened with `…` and named in `warnings`.
@@ -299,7 +299,7 @@ In the claude-sdk backend's `agent_options`:
 
 - `env["BASH_MAX_OUTPUT_LENGTH"] = "40000"`: works with the bundled CLI 2.1.218; gives the
   budgeted outputs a margin and catches commands that have no budget yet.
-- `env["ARTMIND_OUTPUT_BUDGET"] = "24000"`: the budget of §3, read by every `artmind` the
+- `env["ARTMIND_OUTPUT_BUDGET"] = "28000"` (24000 until 2026-11-08): the budget of §3, read by every `artmind` the
   agent runs.
 - `bashOutputMaxChars`: not set while the bundled CLI lacks it; when the bundled CLI gains it,
   set it to the same value and drop the env var (it would be ignored then anyway).

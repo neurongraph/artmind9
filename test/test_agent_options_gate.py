@@ -316,7 +316,7 @@ def test_budget_env_defaults_without_overriding(monkeypatch):
     monkeypatch.delenv("BASH_MAX_OUTPUT_LENGTH", raising=False)
     monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
     env = agent_options(QA_PROFILE).env
-    assert env["BASH_MAX_OUTPUT_LENGTH"] == "40000" and env["ARTMIND_OUTPUT_BUDGET"] == "24000"
+    assert env["BASH_MAX_OUTPUT_LENGTH"] == "40000" and env["ARTMIND_OUTPUT_BUDGET"] == "28000"
     assert agent_options(QA_PROFILE, env={"ARTMIND_OUTPUT_BUDGET": "9"}).env["ARTMIND_OUTPUT_BUDGET"] == "9"
     monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "5000")
     assert "ARTMIND_OUTPUT_BUDGET" not in agent_options(QA_PROFILE).env

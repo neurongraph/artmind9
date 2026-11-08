@@ -19,7 +19,7 @@ from artmind.query_run import facts as facts_mod
 BUNDLE_VERSION = 1
 RRF_K = 60
 EVIDENCE_TOP = 10
-DEFAULT_BUDGET = 24_000
+DEFAULT_BUDGET = 28_000
 CMD_CHARS = 300
 _RESERVE = 400   # truncated / rows_total / handle / next / a warning line
 _LISTS = ("evidence", "documents", "facts", "guides")
@@ -114,7 +114,7 @@ def _apply_open(ex, evidence: list, documents: list) -> tuple[list, list, list]:
         return evidence, [], []
     if result.exit_code != 0 or result.error or result.payload is None:
         return evidence, [], []
-    rows = adapters.adapt(result.payload).evidence
+    rows, more = opening.top_passages(adapters.adapt(result.payload).evidence)
     merged: dict[str, dict] = {}
     for row in rows:
         k = _key(row)
@@ -126,6 +126,12 @@ def _apply_open(ex, evidence: list, documents: list) -> tuple[list, list, list]:
             merged[k]["from"] = ["open", *[f for f in row["from"] if f != "open"]]
         else:
             rest.append(row)
+    seen = set(merged) | {_key(r) for r in rest}
+    for row in more:  # opened passages beyond the cap: ranked evidence, cuttable, whole under the handle
+        k = _key(row)
+        if k not in seen:
+            seen.add(k)
+            rest.append({**row, "from": ["open_more"], "clause": None})
     opened_rows = list(merged.values())
     evidence = [*opened_rows, *rest]
     for i, row in enumerate(evidence, 1):

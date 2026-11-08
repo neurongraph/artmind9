@@ -21,11 +21,12 @@ def test_top_five_by_rank():
     assert chosen == [(f"d{i}", "rank") for i in range(5)]
 
 
-def test_documents_with_a_full_passage_are_skipped_and_the_next_one_takes_the_slot():
+def test_documents_with_a_passage_already_are_still_opened_by_rank():
+    # Banking 18: ranks 3-5 arrived with a search snippet, were skipped, and the closure SOP never got read.
     docs = _docs(*[f"Doc {i}" for i in range(8)])
     evidence = [{"kind": "passage", "doc": {"id": "d0"}}, {"kind": "chunk", "doc": {"id": "d1"}}]
     chosen = opening.select_documents(docs, evidence, "x")
-    assert _ids(chosen) == ["d1", "d2", "d3", "d4", "d5"]  # a chunk row is not a full passage
+    assert _ids(chosen) == ["d0", "d1", "d2", "d3", "d4"]
 
 
 def test_title_match_by_year_version_and_word():
@@ -52,16 +53,29 @@ def test_title_cap_and_a_rank_pick_is_not_picked_twice():
 
 def test_nothing_to_open():
     assert opening.select_documents([], [], "q") == []
-    docs = _docs("A")
-    assert opening.select_documents(docs, [{"kind": "passage", "doc": {"id": "d0"}}], "q") == []
+
+
+def test_top_passages_keep_one_per_document_then_the_best_overall():
+    rows = [{"passage_id": f"p{d}{i}", "relevance": r, "doc": {"id": f"d{d}"}}
+            for d, rels in enumerate([[0.9, 0.5, 0.4], [0.3, 0.29, 0.28], [0.8, 0.7, None]]) for i, r in enumerate(rels)]
+    kept, left = opening.top_passages(rows, keep=5)
+    assert [r["passage_id"] for r in kept] == ["p00", "p20", "p21", "p01", "p10"]   # best relevance first
+    assert len(left) == 4 and {r["passage_id"] for r in kept} | {r["passage_id"] for r in left} == {r["passage_id"] for r in rows}
+    kept, _ = opening.top_passages(rows, keep=1)
+    assert [r["passage_id"] for r in kept] == ["p00", "p20", "p10"]                # never fewer than one per document
+    kept, left = opening.top_passages(rows, keep=99)
+    assert len(kept) == 9 and left == []
+    assert opening.top_passages([], keep=5) == ([], [])
 
 
 def test_command_is_a_real_survey_expand():
     argv = opening.command(["d1", "d2"], ["bank", "hr"], "what rate?")
-    assert argv == ["query", "survey", "--shape", "brief", "--domain", "bank,hr", "--expand", "d1", "--expand", "d2",
-                    "--compact", "what rate?"]
+    assert argv == ["query", "survey", "--shape", "brief", "--domain", "bank,hr", "--passages", str(opening.OPEN_FETCH),
+                    "--expand", "d1", "--expand", "d2", "--compact", "what rate?"]
     from artmind.query_run import capture
     assert capture.allowed(argv)
+    assert "--passages" in opening.command(["d1"], ["bank"], "q", passages=3)
+    assert opening.command(["d1"], ["bank"], "q", passages=3)[opening.command(["d1"], ["bank"], "q", passages=3).index("--passages") + 1] == "3"
 
 
 # ── executor ─────────────────────────────────────────────────────────────
@@ -143,12 +157,12 @@ def test_skips_are_recorded_with_a_reason():
     assert ex.path[-1] == {"id": "open", "kind": "run", "skipped": "no_documents"}
 
 
-def test_every_row_already_a_passage_skips():
+def test_rows_that_are_already_passages_do_not_skip_the_open_step():
     full = {"command": "query vector-text", "rows": [
         {"passage_id": f"p{i}", "chunk_id": f"c{i}", "text": "t", "relevance": 0.5, "doc": _doc(i)} for i in range(3)]}
     calls = []
     ex = executor.execute(PLAN, step_fn=lambda argv, sid: (calls.append(sid), StepResult(sid, list(argv), 0, None, full, 1.0, 1))[1])
-    assert calls == ["s1"] and ex.path[-1]["skipped"] == "all_passaged"
+    assert calls == ["s1", "open"] and ex.path[-1]["skipped"] is None
 
 
 # ── bundle ───────────────────────────────────────────────────────────────
@@ -207,3 +221,24 @@ def test_exit_code_ignores_a_failed_open_step():
     failing = lambda sid, argv: StepResult(sid, list(argv), 3, "store", None, 1.0, 0)
     ex = executor.execute(PLAN, step_fn=_runner([], failing))
     assert ex.exit_code == 0
+
+
+def test_opened_passages_are_trimmed_to_the_best_overall_with_every_document_kept():
+    def deep(sid, argv):
+        ids = [argv[i + 1] for i, a in enumerate(argv) if a == "--expand"]
+        rows = []
+        for n, d in enumerate(ids):
+            for k in range(opening.OPEN_FETCH):
+                rows.append({"passage_id": f"{d}p{k}", "chunk_id": f"{d}c{k}", "text": f"t {d} {k}",
+                             "relevance": round(0.9 - 0.01 * n - 0.05 * k, 4), "doc": _doc(int(d[1:]))})
+        return StepResult(sid, list(argv), 0, None, {"command": "query survey", "documents": [], "passages": rows}, 1.0, 1)
+
+    ex = executor.execute(PLAN, step_fn=_runner([], deep))
+    printed, full = bundle.build(PLAN, ex, budget=100_000)
+    placed = [e["from"] for e in printed["evidence"]]
+    assert placed[:opening.OPEN_KEEP] == [["open"]] * opening.OPEN_KEEP          # these come first and are never cut
+    assert all(f == ["open_more"] for f in placed[opening.OPEN_KEEP:])          # the rest is ordinary ranked evidence
+    assert len(full["evidence"]) == 5 * opening.OPEN_FETCH     # the rest stay in the stored bundle
+    assert sum(1 for e in full["evidence"] if e["from"] == ["open_more"]) == 5 * opening.OPEN_FETCH - opening.OPEN_KEEP
+    assert {e["doc"]["id"] for e in printed["evidence"][:opening.OPEN_KEEP]} == {"d0", "d1", "d2", "d3", "d4"}
+    assert all(o["passages"] for o in printed["opened"])

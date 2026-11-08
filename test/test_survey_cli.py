@@ -20,9 +20,11 @@ def test_query_survey_passes_options_through():
     assert kwargs["top_docs"] == 5 and kwargs["passages"] == 2
 
 
-def test_query_survey_limits_passages_to_three():
-    result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--passages", "4", "q"])
-    assert result.exit_code != 0
+def test_query_survey_limits_passages_to_eight():
+    assert CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--passages", "9", "q"]).exit_code != 0
+    with patch("artmind.survey.survey_search", return_value={"query_type": "survey", "documents": [], "topics": [], "warnings": []}) as search:
+        assert CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--passages", "8", "q"]).exit_code == 0
+    assert search.call_args.kwargs["passages"] == 8
 
 
 def test_a_value_error_is_a_click_error():

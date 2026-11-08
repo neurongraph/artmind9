@@ -12,6 +12,8 @@ import re
 
 OPEN_TOP = 5
 OPEN_TITLE = 2
+OPEN_FETCH = 8   # ranked passages asked of each opened document (one per matching DocChunk, best first)
+OPEN_KEEP = 12   # opened passages the bundle places first and never cuts; the rest wait under the handle
 OPEN_ID = "open"
 WORD_MIN = 5
 
@@ -62,16 +64,10 @@ def _matches(term: str, title: str) -> bool:
     return re.search(r"(?<![a-z0-9])" + re.escape(term) + r"(?![a-z0-9])", title) is not None
 
 
-def _passaged(evidence) -> set:
-    return {(e.get("doc") or {}).get("id") for e in evidence or [] if e.get("kind") == "passage"}
-
-
 def skip_reason(ranked_documents, evidence, question, fact_docs=None) -> str | None:
     """Why nothing is opened, or None when something qualifies."""
     if not [d for d in ranked_documents or [] if d.get("doc_id")] and not fact_docs:
         return "no_documents"
-    if not select_documents(ranked_documents, evidence, question, fact_docs=fact_docs):
-        return "all_passaged"
     return None
 
 
@@ -105,12 +101,13 @@ def select_documents(ranked_documents, evidence, question, *, top: int = OPEN_TO
                      title: int = OPEN_TITLE, fact_docs=None) -> list[tuple[str, str]]:
     """[(doc_id, "rank" | "title")]. `ranked_documents` are best first, rows with `doc_id` and `title`.
 
-    `fact_docs` (ids behind the top facts) alternate with the ranked documents in the rank slots.
+    `fact_docs` (ids behind the top facts) alternate with the ranked documents in the rank slots. A document
+    that already arrived with a search snippet is opened too: a snippet is one passage, and the sentence the
+    answer needs is often in another passage of the same document (banking 18).
     """
     docs = [d for d in ranked_documents or [] if d.get("doc_id")]
-    have = _passaged(evidence)
-    ranked = [d["doc_id"] for d in docs if d["doc_id"] not in have]
-    behind = [i for i in fact_docs or [] if i not in have]
+    ranked = [d["doc_id"] for d in docs]
+    behind = [i for i in fact_docs or []]
     chosen: list[tuple[str, str]] = [(i, "rank") for i in _interleave(ranked, behind, top)]
     taken = {d for d, _ in chosen}
     terms = title_terms(question)
@@ -127,9 +124,9 @@ def select_documents(ranked_documents, evidence, question, *, top: int = OPEN_TO
     return chosen
 
 
-def command(doc_ids, domains, question) -> list[str]:
+def command(doc_ids, domains, question, *, passages: int = OPEN_FETCH) -> list[str]:
     """argv of the one open step."""
-    argv = ["query", "survey", "--shape", "brief", "--domain", ",".join(domains)]
+    argv = ["query", "survey", "--shape", "brief", "--domain", ",".join(domains), "--passages", str(passages)]
     for doc_id in doc_ids:
         argv += ["--expand", str(doc_id)]
     argv.append("--compact")
@@ -137,6 +134,28 @@ def command(doc_ids, domains, question) -> list[str]:
         argv.append("--")
     argv.append(str(question))
     return argv
+
+
+def top_passages(rows, keep: int = OPEN_KEEP):
+    """The opened passages to place: the best of every document, then the best of the rest, `keep` in all
+    (never fewer than one per document), best relevance first. Retrieval's own ranking decides; nothing here
+    reads text. Returns (kept, left_out)."""
+    rows = list(rows or [])
+    order = sorted(range(len(rows)), key=lambda i: (-(rows[i].get("relevance") if rows[i].get("relevance") is not None else -1.0), i))
+    chosen: list[int] = []
+    seen_docs: set = set()
+    for i in order:
+        doc = (rows[i].get("doc") or {}).get("id")
+        if doc not in seen_docs:
+            seen_docs.add(doc)
+            chosen.append(i)
+    for i in order:
+        if len(chosen) >= keep:
+            break
+        if i not in chosen:
+            chosen.append(i)
+    kept = set(chosen)
+    return ([rows[i] for i in order if i in kept], [rows[i] for i in order if i not in kept])
 
 
 def next_unopened(documents, *, limit: int = OPEN_TOP) -> list[str]:

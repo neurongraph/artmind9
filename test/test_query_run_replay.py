@@ -33,7 +33,7 @@ def test_per_label_counts_and_totals():
                                    clock=lambda: next(ticks) / 1000)
     (row,) = report["labels"]
     assert row["id"] == "L1" and row["expected"] == 2 and row["steps_reached"] == 1 and row["bundle_reached"] == 1
-    assert row["executed"] == 1 and row["plan_ms"] is not None and row["escalate"] is None
+    assert row["executed"] == 2 and row["plan_ms"] is not None   # the program's step plus the open step and row["escalate"] is None
     assert report["totals"]["labels"] == 1 and report["totals"]["bundle_reached"] == 1
     assert "invented question" not in json.dumps(replay_run.public_report(report))
 

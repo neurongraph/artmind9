@@ -127,7 +127,7 @@ def test_open_next_is_present_never_cut_and_built_like_the_open_command():
     printed, _ = bundle.build(plan, _run(_listing(50), plan=plan), budget=1_500)
     on = printed["open_next"]
     assert on["doc_ids"] == ["d5", "d6", "d7", "d8", "d9"]
-    assert on["command"] == ("artmind query survey --shape brief --domain bank --expand d5 --expand d6 --expand d7 "
+    assert on["command"] == ("artmind query survey --shape brief --domain bank --passages 8 --expand d5 --expand d6 --expand d7 "
                              "--expand d8 --expand d9 --compact -- '-what rate?'")
     assert printed["truncated"] is True
 

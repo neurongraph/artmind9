@@ -154,7 +154,7 @@ def test_subprocess_env_without_model_is_unset(tmp_path, monkeypatch):
 def test_subprocess_env_sets_output_budget_unless_operator_did(tmp_path, monkeypatch):
     backend = ACPBackend(agent_cmd=["opencode", "acp"], cwd=str(tmp_path))
     monkeypatch.delenv("ARTMIND_OUTPUT_BUDGET", raising=False)
-    assert backend._subprocess_env()["ARTMIND_OUTPUT_BUDGET"] == "24000"
+    assert backend._subprocess_env()["ARTMIND_OUTPUT_BUDGET"] == "28000"
     monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "7000")
     assert (backend._subprocess_env() or {}).get("ARTMIND_OUTPUT_BUDGET", "7000") == "7000"
 
