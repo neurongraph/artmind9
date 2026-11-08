@@ -459,8 +459,28 @@ bundle listed both 2026 rate schedules, the agent ran nothing after `query run`,
 - Opened passages join `evidence` with `from: ["open"]` and the kind `passage`.
 
 **Budget.** Opened passages are placed **first**, before the ranked evidence, and are never cut. Seven opened rows
-take about 13,000 of the 24,000 characters. The rest of the budget goes to the ranked evidence, then `documents`,
-`facts` and `guides`, as in §6.3. Everything cut stays under the handle. The bundle budget stays at 24,000, because
+take about 13,000 of the 24,000 characters. A live banking replay showed that when full document rows followed, the
+`documents` list fell from 36 of 50 rows to 11 of 50 and listed-document reach dropped (60 to 58 of 101). So the
+printed bundle follows four rules. Everything cut stays under the handle, and the stored bundle keeps full rows.
+1. **Compact document rows.** Every `documents` row is first placed as a line row of about 80 characters,
+   `{doc_id, title, date, opened, rank}` (50 rows are about 4,000 characters, so every listed document fits).
+   Opened rows keep `opened: true` and need no gist (their passages are in `evidence`). `gist` and `gist_source` are
+   added back to unopened rows, in rank order, only while budget remains after evidence and facts.
+   Assembly order: opened evidence (never cut), ranked evidence, all document line rows, facts, gists, guides.
+2. **Truthful `truncated` and `next`.** `truncated` is true when any list was cut. `cut` is
+   `{evidence, documents, facts, guides, gists}`, the rows left out per list. `next` is
+   `artmind query page <handle> --list <L> --from <n>` for the first list that lost rows, in the order evidence,
+   documents, facts, guides; it is null when nothing was cut or only gists were (paging adds nothing then: the
+   stored `documents` rows hold the gists). The warning line names exactly what was cut.
+3. **`open_next`.** `{doc_ids: [up to 5 next unopened documents by rank], command: "artmind query survey --shape brief
+   --domain <D> --expand <id> ... --compact \"<question>\""}`, built by the same builder as the open step
+   (`opening.command`, so the `--` before a question starting with `-` is kept). It is null when no unopened document
+   remains. It is printed always and never cut.
+4. **Documents behind facts.** For graph commands whose facts carry document ids (`entity-history`, `entity-context`,
+   `graph pattern1/2/7`, via `doc_ids` on the adapter's fact rows, and `chunk_ids` mapped through evidence), the open
+   selection also takes the source documents of the first `FACT_TOP` (20) facts in rank order. They share the rank
+   slots (still 5 in total, plus 2 by title): the top survey document, then the top fact document, alternating,
+   deduplicated. The bundle budget stays at 24,000, because
 the agent's harness swaps any tool output over 30,000 characters for a file path (bounded-output design §1, §3).
 
 **Skill.** `artmind-query-bundle` says: answer from opened text (`opened` and its evidence rows); a listed document

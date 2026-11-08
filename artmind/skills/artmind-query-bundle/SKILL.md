@@ -42,13 +42,14 @@ Each key has one job:
 
 - `evidence`: passages, each with a `doc`. This is the only thing you cite. Rows with `from: ["open"]` are text `query run` opened for you; they come first.
 - `opened`: the documents `query run` read for you (`doc_id`, `title`, `why` rank or title, `passages` as evidence ids). Answer from this text.
-- `documents`: brief rows of the documents found. Use them for coverage and depth. A row is not evidence. `opened: false` means the document was listed, not read; it is a pointer, never a source.
+- `documents`: one short line row per document found (`doc_id`, `title`, `date`, `opened`, `rank`), plus a `gist` on unopened rows when there was room. Use them for coverage and depth. A row is not evidence. `opened: false` means the document was listed, not read; it is a pointer, never a source.
+- `open_next`: the next unopened documents by rank (`doc_ids`) and `command`, the exact call that opens them. Null when none remain.
 - `facts`: rows from the graph or the SQL store. Each links to evidence by `evidence` ids.
 - `guides`: topic pages and insights. They steer you to the right documents. Never cite them.
 - `coverage`: counts of what ran and what was cut. Quote the numbers when the answer is incomplete.
 - `path`: which steps ran, and which failed.
 - `escalate`: why the bundle may not be enough, with `suggested` commands to run next.
-- `truncated`, `handle`, `next`: the printed bundle was cut. The whole is stored under the `handle`.
+- `truncated`, `cut`, `handle`, `next`: the printed bundle was cut. `cut` counts the rows left out per list. The whole is stored under the `handle`. Follow `next` only when it names a list; `next: null` with `truncated: true` means only gists were left out and paging adds nothing.
 
 To page a cut list, run `artmind query page <handle> --list evidence --compact`. Use `--list documents` or `--list facts` for the others, and `--from <n>` to continue.
 
@@ -71,7 +72,9 @@ A `gist`, a survey line row, a `documents` row or a search snippet is never enou
 - `artmind query chunks --domain <d> --idList <chunk ids> --shape brief --compact` reads chosen chunks.
 - `artmind query page <handle> --list evidence --compact` reads the rest of a cut bundle.
 
-For a count, an "every", an "each year" or an "all the" question, read every matching entry the bundle lists before you count. Page until `truncated` is false.
+For a count, an "every", an "each year" or an "all the" question, read every matching entry the bundle lists before you count. Page a list while `cut` shows rows left out of it.
+
+When `coverage` shows many listed documents unread and the question asks for a count, "every", a list over time or a history, run `open_next.command` before you answer. Run it again with the new `open_next` until the documents that matter are read or `open_next` is null.
 
 If you did not read something the question needs, read it now. Say what you did not read only when you cannot read it (a budget, a missing document). Then say exactly what was skipped and why, with numbers from `coverage`.
 
@@ -136,5 +139,6 @@ Read a reference only when the question needs it.
 - Do not run shell loops over commands. For a batch of claims, `artmind query run --each` exists.
 - Do not pass `--previous`.
 - Do not answer a count or a list from `documents` rows alone.
+- Do not follow `next` when it is null.
 - Do not run a command twice with the same arguments.
 - Do not write to the graph, the vault or the store from a query turn.
