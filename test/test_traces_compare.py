@@ -99,3 +99,22 @@ def test_answer_reach_uses_labels_linked_to_benchmark_questions():
 def test_answer_reach_without_labels_is_none():
     a = _run("a", "classic", ["x"])
     assert compare.answer_reach(compare.load_runs([a])[0], []) is None
+
+
+def test_answer_reach_reads_paths_from_provenance_when_documents_hold_only_ids():
+    from types import SimpleNamespace
+
+    rid = _run("r", "classic", ["ans"])
+    conn = store._connect()
+    ev = {"documents": [{"doc_id": "u-1", "path": None}],
+          "chunks": [{"chunk_id": "c-9", "doc_id": "u-2"}],
+          "provenance": {"documents": [{"doc_id": "u-1", "path": None, "source_path": "notes/alpha.md",
+                                        "title": "Alpha"}]}}
+    conn.execute("UPDATE trace_spans SET evidence = ? WHERE trace_id = 'r-1'", (json.dumps(ev),))
+    conn.commit()
+    conn.close()
+    run = compare.load_runs([rid])[0]
+    assert run.answers[1].documents == ("u-1", "u-2")
+    labels = [SimpleNamespace(question="invented question 1?", expected_documents=["alpha.md", "notes/missing.md"])]
+    reach = compare.answer_reach(run, labels)
+    assert (reach["reached"], reach["expected"]) == (1, 2)

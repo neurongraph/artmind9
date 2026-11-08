@@ -84,17 +84,39 @@ def load_runs(refs) -> list[Run]:
                     spans = conn.execute("SELECT evidence FROM trace_spans WHERE trace_id = ? AND parent_span_id IS NULL",
                                          (tid,)).fetchall()
                     commands = len(spans)
-                    found: dict[tuple, dict] = {}
+                    found: dict[str, dict] = {}
+                    anon: dict[str, dict] = {}
+
+                    def note(doc_id, **forms):
+                        forms = {k: v for k, v in forms.items() if isinstance(v, str) and v}
+                        if not doc_id and not forms.get("path") and not forms.get("source_path"):
+                            return
+                        if doc_id:
+                            target = found.setdefault(doc_id, {"id": doc_id})
+                        else:
+                            target = anon.setdefault(forms.get("path") or forms["source_path"], {"id": None})
+                        for k, v in forms.items():
+                            target.setdefault(k, v)
+
                     for (ev,) in spans:
                         try:
-                            listed = json.loads(ev or "{}").get("documents") or []
+                            ev_d = json.loads(ev or "{}")
                         except ValueError:
                             continue
-                        for d in listed:
-                            if isinstance(d, dict) and (d.get("doc_id") or d.get("path")):
-                                ref = {"id": d.get("doc_id"), "path": d.get("path")}
-                                found.setdefault((ref["id"], ref["path"]), ref)
-                    refs = tuple(found.values())
+                        if not isinstance(ev_d, dict):
+                            continue
+                        for d in ev_d.get("documents") or []:
+                            if isinstance(d, dict):
+                                note(d.get("doc_id"), path=d.get("path"))
+                        prov = ev_d.get("provenance")
+                        for d in (prov.get("documents") if isinstance(prov, dict) else None) or []:
+                            if isinstance(d, dict):
+                                note(d.get("doc_id"), path=d.get("path"), source_path=d.get("source_path"),
+                                     title=d.get("title"))
+                        for c in ev_d.get("chunks") or []:
+                            if isinstance(c, dict):
+                                note(c.get("doc_id"))
+                    refs = tuple([*found.values(), *anon.values()])
                     docs = tuple(dict.fromkeys(r["id"] for r in refs if r["id"]))
                 run.answers[seq] = Answer(seq, q[5], tid, q[7], q[8], rating, commands, docs, refs)
             out.append(run)
@@ -143,8 +165,8 @@ def answer_reach(run: Run, labels) -> dict | None:
             continue
         qid = run.questions[seq].get("qid") or str(seq)
         ans = run.answers[seq]
-        docs = [{"id": r.get("id"), "path": r.get("path"), "source_path": None, "name": None, "title": None}
-                for r in ans.doc_refs]
+        docs = [{"id": r.get("id"), "path": r.get("path"), "source_path": r.get("source_path"), "name": None,
+                 "title": r.get("title")} for r in ans.doc_refs]
         matched, _ = reach_mod.reached_documents(list(lb.expected_documents), docs)
         rows[qid] = [len(matched), len(lb.expected_documents)]
     if not rows:
