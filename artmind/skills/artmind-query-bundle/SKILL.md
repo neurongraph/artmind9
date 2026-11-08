@@ -40,8 +40,9 @@ Run `artmind query run "<question>" --compact`. Use the user's own words as the 
 
 Each key has one job:
 
-- `evidence`: passages, each with a `doc`. This is the only thing you cite.
-- `documents`: brief rows of the documents found. Use them for coverage and depth. A row is not evidence.
+- `evidence`: passages, each with a `doc`. This is the only thing you cite. Rows with `from: ["open"]` are text `query run` opened for you; they come first.
+- `opened`: the documents `query run` read for you (`doc_id`, `title`, `why` rank or title, `passages` as evidence ids). Answer from this text.
+- `documents`: brief rows of the documents found. Use them for coverage and depth. A row is not evidence. `opened: false` means the document was listed, not read; it is a pointer, never a source.
 - `facts`: rows from the graph or the SQL store. Each links to evidence by `evidence` ids.
 - `guides`: topic pages and insights. They steer you to the right documents. Never cite them.
 - `coverage`: counts of what ran and what was cut. Quote the numbers when the answer is incomplete.
@@ -61,6 +62,8 @@ Every bundle says `mode: reasoning` today. The fast path is off until a route pa
 - If a later bundle says `mode: fast`, answer from it. Run a command only when a named part of the question is visibly missing.
 
 ## Read before you answer
+
+`query run` has already opened the top documents (see `opened`). Answer from that text. Before you cite a document whose row says `opened: false`, open it with `artmind query survey --expand`.
 
 A `gist`, a survey line row, a `documents` row or a search snippet is never enough to state a fact. It only tells you where to look. Open the text first:
 
@@ -110,7 +113,7 @@ If `truncated` is true at step 3, page first. Do not count a cut list.
 - Count a relation by its direction: who did it to whom.
 - Answer at the widest granularity the evidence supports, then narrow.
 - If the plan narrowed the scope (the `scope` key), say which scope you answered in.
-- Do not cite a row whose `gist_source` is anything other than `passage`. Open the text and cite that.
+- Do not cite a row whose `gist_source` is anything other than `passage`, and do not cite a `documents` row with `opened: false`. Open the text and cite that.
 - Do not cite `guides`.
 - When your own commands changed the answer, ground it in what they returned, not in the bundle.
 - When `escalate.reason` is `limit`, `deadline` or `step_error`, say what was not read.
