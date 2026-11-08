@@ -479,6 +479,17 @@ def _create_schema(cursor: sqlite3.Cursor) -> None:
             created_at   REAL NOT NULL
         )
     """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trace_grades (
+            key          TEXT PRIMARY KEY,
+            run_id       TEXT NOT NULL,
+            seq          INTEGER NOT NULL,
+            model        TEXT,
+            grade        TEXT NOT NULL,
+            detail       TEXT NOT NULL,
+            created_at   REAL NOT NULL
+        )
+    """)
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_trace_llm_calls_span ON trace_llm_calls(span_id)")
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS trace_feedback (
