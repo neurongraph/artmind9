@@ -127,3 +127,27 @@ def measures(run: Run) -> dict:
             "duration_s_median": _median(a.duration_s for a in answers),
             "cost_usd_median": _median(a.cost_usd for a in answers),
             "commands_median": _median(a.commands for a in answers)}
+
+
+def answer_reach(run: Run, labels) -> dict | None:
+    """Expected documents (plan labels whose question text is this benchmark question's text) found in the
+    agent's own spans for that question. None when no label links to the run's questions."""
+    from artmind.query_plan import reach as reach_mod
+
+    norm = lambda t: " ".join(str(t or "").casefold().split())  # noqa: E731
+    by_text = {norm(q["question"]): seq for seq, q in run.questions.items()}
+    rows = {}
+    for lb in labels:
+        seq = by_text.get(norm(lb.question))
+        if seq is None or not lb.expected_documents:
+            continue
+        qid = run.questions[seq].get("qid") or str(seq)
+        ans = run.answers[seq]
+        docs = [{"id": r.get("id"), "path": r.get("path"), "source_path": None, "name": None, "title": None}
+                for r in ans.doc_refs]
+        matched, _ = reach_mod.reached_documents(list(lb.expected_documents), docs)
+        rows[qid] = [len(matched), len(lb.expected_documents)]
+    if not rows:
+        return None
+    return {"labels": len(rows), "expected": sum(v[1] for v in rows.values()),
+            "reached": sum(v[0] for v in rows.values()), "by_qid": dict(sorted(rows.items()))}
