@@ -16,8 +16,8 @@ def _isolated_db(tmp_path, monkeypatch):
 
 
 def test_a_turn_records_its_contract():
-    rec = TraceRecorder.start(source="admin", question="q", contract="bundle")
-    assert store.get_turn(rec.trace_id)["contract"] == "bundle"
+    rec = TraceRecorder.start(source="admin", question="q", contract="p2-1")
+    assert store.get_turn(rec.trace_id)["contract"] == "p2-1"
 
 
 def test_the_default_contract_is_classic():
@@ -27,12 +27,12 @@ def test_the_default_contract_is_classic():
 
 def test_a_benchmark_run_carries_its_contract(tmp_path):
     questions = [{"seq": 1, "qid": "Q1", "title": "t", "question": "invented?", "eval_comment": None}]
-    run_id = benchmark._create_benchmark_run(str(tmp_path / "q.md"), questions, contract="bundle")
-    assert benchmark._get_benchmark_run(run_id)["contract"] == "bundle"
+    run_id = benchmark._create_benchmark_run(str(tmp_path / "q.md"), questions, contract="p2-1")
+    assert benchmark._get_benchmark_run(run_id)["contract"] == "p2-1"
     other = benchmark._create_benchmark_run(str(tmp_path / "q.md"), questions)
     assert benchmark._get_benchmark_run(other)["contract"] == "classic"
 
 
 def test_a_bad_contract_is_refused(tmp_path):
     with pytest.raises(ValueError):
-        benchmark._create_benchmark_run(str(tmp_path / "q.md"), [], contract="fast")
+        benchmark._create_benchmark_run(str(tmp_path / "q.md"), [], contract="Not Valid")

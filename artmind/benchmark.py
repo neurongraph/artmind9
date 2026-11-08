@@ -177,10 +177,9 @@ def _create_benchmark_run(
     contract: str = "classic",
 ) -> str:
     """Create a new benchmark run with per-question rows; return run_id."""
-    from artmind.webui.profiles import CONTRACTS
+    from artmind.webui.profiles import skill_for
 
-    if contract not in CONTRACTS:
-        raise ValueError(f"contract must be one of {', '.join(CONTRACTS)}, got {contract!r}")
+    skill_for(contract)  # raises ValueError for a name that is not a skill variant
     run_id = str(uuid.uuid4())
     conn = _get_db()
     try:

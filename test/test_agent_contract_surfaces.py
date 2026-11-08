@@ -16,11 +16,11 @@ def _isolated_db(tmp_path, monkeypatch):
     monkeypatch.setenv("ARTMIND_PLAN_SHADOW", "0")
 
 
-def _install_bundle_skill(tmp_path, monkeypatch):
+def _install_variant_skill(tmp_path, monkeypatch):
     import paths
 
     monkeypatch.setattr(paths, "ARTMIND_AGENT_CWD", tmp_path / "vault")
-    skill = tmp_path / "vault" / ".claude" / "skills" / "artmind-query-bundle"
+    skill = tmp_path / "vault" / ".claude" / "skills" / "artmind-query-p2-1"
     skill.mkdir(parents=True)
     (skill / "SKILL.md").write_text("invented\n")
 
@@ -28,8 +28,8 @@ def _install_bundle_skill(tmp_path, monkeypatch):
 def test_admin_profile_follows_the_env(monkeypatch):
     from artmind.webui import app as app_mod
 
-    monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "bundle")
-    assert app_mod.admin_profile().contract == "bundle"
+    monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "p2-1")
+    assert app_mod.admin_profile().contract == "p2-1"
     monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "classic")
     assert app_mod.admin_profile() is profiles.ADMIN_PROFILE
 
@@ -37,7 +37,7 @@ def test_admin_profile_follows_the_env(monkeypatch):
 def test_chat_ui_ignores_the_env(monkeypatch):
     from artmind.webui import app as app_mod
 
-    monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "bundle")
+    monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "p2-1")
     assert app_mod.chat_profile() is profiles.QA_PROFILE
 
 
@@ -69,18 +69,18 @@ def test_a_bundle_benchmark_run_uses_the_bundle_profile_and_records_it(tmp_path,
 
     monkeypatch.setattr("artmind.webui.backends.create_backend", fake_create)
     q = [{"seq": 1, "qid": "Q1", "title": "t", "question": "invented?", "eval_comment": None}]
-    run_id = benchmark._create_benchmark_run(str(tmp_path / "q.md"), q, contract="bundle")
+    run_id = benchmark._create_benchmark_run(str(tmp_path / "q.md"), q, contract="p2-1")
     asyncio.run(benchmark._run_benchmark(run_id))
-    assert "artmind-query-bundle" in seen["skills"] and "artmind-query" not in seen["skills"]
+    assert "artmind-query-p2-1" in seen["skills"] and "artmind-query" not in seen["skills"]
     turns = [t for t in store.list_turns() if t.get("benchmark_run_id") == run_id]
-    assert len(turns) == 1 and turns[0]["contract"] == "bundle"
+    assert len(turns) == 1 and turns[0]["contract"] == "p2-1"
 
 
 def test_the_run_route_passes_the_contract_through(tmp_path, monkeypatch):
     from artmind.webui import benchmark_routes
     from artmind.webui.app import create_app
 
-    _install_bundle_skill(tmp_path, monkeypatch)
+    _install_variant_skill(tmp_path, monkeypatch)
     qfile = tmp_path / "q.md"
     qfile.write_text("x", encoding="utf-8")
     monkeypatch.setattr(benchmark_routes, "_parse_questions_file",
@@ -97,9 +97,9 @@ def test_the_run_route_passes_the_contract_through(tmp_path, monkeypatch):
     monkeypatch.setattr(benchmark_routes, "_create_benchmark_run", fake_create)
     monkeypatch.setattr(benchmark_routes, "_run_benchmark", fake_run)
     r = TestClient(create_app(admin_routes=True)).post(
-        "/api/benchmark/runs", json={"path": str(qfile), "contract": "bundle"})
+        "/api/benchmark/runs", json={"path": str(qfile), "contract": "p2-1"})
     assert r.status_code == 200
-    assert captured["contract"] == "bundle"
+    assert captured["contract"] == "p2-1"
 
 
 def test_the_run_route_refuses_a_bundle_run_without_the_skill(tmp_path, monkeypatch):
@@ -114,8 +114,8 @@ def test_the_run_route_refuses_a_bundle_run_without_the_skill(tmp_path, monkeypa
     monkeypatch.setattr(benchmark_routes, "_parse_questions_file",
                         lambda path: [{"seq": 1, "qid": "Q1", "title": "t", "question": "q?", "eval_comment": None}])
     r = TestClient(create_app(admin_routes=True)).post(
-        "/api/benchmark/runs", json={"path": str(qfile), "contract": "bundle"})
-    assert r.status_code == 400 and "artmind init" in r.json()["detail"]
+        "/api/benchmark/runs", json={"path": str(qfile), "contract": "p2-1"})
+    assert r.status_code == 400 and "artmind-query-p2-1" in r.json()["detail"]
 
 
 def test_the_run_route_refuses_an_unknown_contract(tmp_path, monkeypatch):
@@ -124,7 +124,7 @@ def test_the_run_route_refuses_an_unknown_contract(tmp_path, monkeypatch):
     qfile = tmp_path / "q.md"
     qfile.write_text("x", encoding="utf-8")
     r = TestClient(create_app(admin_routes=True)).post(
-        "/api/benchmark/runs", json={"path": str(qfile), "contract": "fast"})
+        "/api/benchmark/runs", json={"path": str(qfile), "contract": "Not Valid"})
     assert r.status_code == 400
 
 
@@ -149,10 +149,10 @@ def test_a_streamed_admin_turn_records_the_app_contract(tmp_path):
     ctx = tmp_path / "ctx.id"
     ctx.write_text("")
     registry = SessionRegistry(client_factory=lambda name: Fake(ctx))
-    client = TestClient(create_app(registry=registry, admin_routes=True, trace_turns=True, contract="bundle"))
+    client = TestClient(create_app(registry=registry, admin_routes=True, trace_turns=True, contract="p2-1"))
     client.post("/api/chat", json={"conversation_id": "s1", "prompt": "Who?"})
     (turn,) = store.list_turns()
-    assert turn["contract"] == "bundle"
+    assert turn["contract"] == "p2-1"
 
 
 def test_run_admin_ui_exits_when_the_bundle_skill_is_missing(tmp_path, monkeypatch, capsys):
@@ -163,7 +163,7 @@ def test_run_admin_ui_exits_when_the_bundle_skill_is_missing(tmp_path, monkeypat
 
     monkeypatch.setattr(paths, "ARTMIND_AGENT_CWD", tmp_path / "empty")
     monkeypatch.setattr(refresh, "enable_background", lambda: None)
-    monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "bundle")
+    monkeypatch.setenv("ARTMIND_AGENT_CONTRACT", "p2-1")
     with pytest.raises(SystemExit) as e:
         app_mod.run_admin_ui()
-    assert e.value.code == 1 and "artmind init" in capsys.readouterr().err
+    assert e.value.code == 1 and "artmind-query-p2-1" in capsys.readouterr().err

@@ -28,6 +28,7 @@ backend can import it without dragging in unrelated machinery.
 
 import dataclasses
 import os
+import re
 from dataclasses import dataclass
 
 QA_SYSTEM_APPEND = """\
@@ -88,8 +89,8 @@ class AgentProfile:
     # and provenance (docs/vault.md). True is for OPERATOR surfaces, where
     # inspecting a failed conversion or a log is the job.
     filesystem_access: bool = False
-    # Which query skill answers questions: classic (artmind-query) or bundle
-    # (artmind-query-bundle, calls `artmind query run`). See with_contract.
+    # The skill variant answering questions: classic (artmind-query), or X for
+    # the artmind-query-X skill. See with_variant.
     contract: str = "classic"
 
 
@@ -135,52 +136,49 @@ PROFILES: dict[str, AgentProfile] = {
 }
 
 
-CONTRACTS = ("classic", "bundle")
 CONTRACT_ENV = "ARTMIND_AGENT_CONTRACT"
-QUERY_SKILL = {"classic": "artmind-query", "bundle": "artmind-query-bundle"}
-
-#: Appended to a profile's system prompt under the bundle contract (P3 spec §8.1).
-BUNDLE_SENTENCE = (
-    "\nFor every question that needs a lookup, use the artmind-query-bundle skill: it calls "
-    "`artmind query run \"<question>\" --compact` once and reads the evidence bundle; do not call "
-    "`artmind query plan` yourself."
-)
+CLASSIC = "classic"
+_VARIANT_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,39}")
 
 
-def contract_from_env() -> str:
-    raw = (os.environ.get(CONTRACT_ENV) or "").strip().casefold()
+def skill_for(variant: str) -> str:
+    """The query skill folder of a skill variant: classic is artmind-query, X is artmind-query-X."""
+    if not isinstance(variant, str) or not _VARIANT_RE.fullmatch(variant):
+        raise ValueError(f"a skill variant is lowercase letters, digits and dashes (max 40), got {variant!r}")
+    return "artmind-query" if variant == CLASSIC else f"artmind-query-{variant}"
+
+
+def variant_from_env() -> str:
+    raw = (os.environ.get(CONTRACT_ENV) or "").strip()
     if not raw:
-        return "classic"
-    if raw not in CONTRACTS:
-        raise ValueError(f"{CONTRACT_ENV} must be one of {', '.join(CONTRACTS)}, got {raw!r}")
+        return CLASSIC
+    skill_for(raw)  # validates
     return raw
 
 
-def with_contract(profile: AgentProfile, contract: str) -> AgentProfile:
-    """`profile` under `contract`: the query skill swapped in place, the bundle sentence appended.
-
-    Only classic -> bundle is supported; asking for the profile's own contract returns it unchanged.
-    """
-    if contract not in CONTRACTS:
-        raise ValueError(f"contract must be one of {', '.join(CONTRACTS)}, got {contract!r}")
-    if contract == profile.contract:
+def with_variant(profile: AgentProfile, variant: str) -> AgentProfile:
+    """`profile` answering with the query skill of `variant` (spec 2026-11-08 section 2.2)."""
+    new = skill_for(variant)
+    if variant == profile.contract:
         return profile
-    old, new = QUERY_SKILL[profile.contract], QUERY_SKILL[contract]
+    old = skill_for(profile.contract)
     skills = tuple(new if s == old else s for s in profile.skills)
-    append = profile.system_append
-    if contract == "bundle":
-        append = append.replace("artmind-query for", "artmind-query-bundle for") + BUNDLE_SENTENCE
-    return dataclasses.replace(profile, skills=skills, system_append=append, contract=contract)
+    # Every mention of the old skill name in the prompt (not a longer skill name sharing its prefix).
+    append = re.sub(rf"{re.escape(old)}(?![\w-])", new, profile.system_append)
+    return dataclasses.replace(profile, skills=skills, system_append=append, contract=variant)
 
 
 def require_skill(profile: AgentProfile) -> None:
-    """Raise ValueError when a bundle profile's skill is not installed where agents look for skills."""
-    if profile.contract != "bundle":
+    """Raise ValueError when a non-classic variant's skill is not installed where agents look for skills."""
+    if profile.contract == CLASSIC:
         return
     import paths
 
-    skill = paths.ARTMIND_AGENT_CWD / ".claude" / "skills" / QUERY_SKILL["bundle"] / "SKILL.md"
-    if not skill.exists():
-        raise ValueError(
-            "the bundle contract needs the artmind-query-bundle skill: run `artmind init` in this vault"
-        )
+    name = skill_for(profile.contract)
+    if not (paths.ARTMIND_AGENT_CWD / ".claude" / "skills" / name / "SKILL.md").exists():
+        raise ValueError(f"skill variant {profile.contract!r} needs the {name} skill in this vault's .claude/skills")
+
+
+# Kept names for the cherry-picked callers in app.py and benchmark_routes.py.
+contract_from_env = variant_from_env
+with_contract = with_variant
