@@ -13,7 +13,7 @@ from pathlib import Path
 
 import yaml
 
-from artmind.query_plan.labels import vault_dir
+from artmind.benchmark_labels import vault_dir
 
 KINDS = ("needle", "survey")
 SOURCES = ("synthetic", "hand")
