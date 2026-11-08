@@ -4723,6 +4723,150 @@ def traces_stats(domain, since, by, compact) -> None:
     _echo_json({"command": "traces_stats", "by": by, "rows": rows}, compact)
 
 
+@traces_group.command("compare")
+@click.option("--baseline", "baseline", required=True,
+              help="Two or more classic benchmark run ids (or unique prefixes), comma-separated")
+@click.option("--variant", "variant", default=None, help="A run to judge against every baseline run")
+@click.option("--questions", "questions_file", type=click.Path(path_type=Path, exists=True), default=None,
+              help="Questions file whose evaluation comments (tiered expected answers) replace the ones stored with the runs")
+@click.option("--judge", "use_judge", is_flag=True, help="Judge answers pairwise with the LLM (needs ARTMIND_COMPARE_JUDGE=1 or --allowJudge)")
+@click.option("--grade", "use_grade", is_flag=True, help="Grade every answer against its tiered expected answer with the LLM (same consent)")
+@click.option("--allowJudge", "allow_judge", is_flag=True, help="Allow judge and grader for this call: they send questions and answers to the configured LLM provider")
+@click.option("--model", "model", default=None, help="Judge model (default: ARTMIND_KG_LLM_MODEL)")
+@click.option("--labels", "labels_file", type=click.Path(path_type=Path), default=None,
+              help="Labels file for answer reach (default: <vault>/benchmarking/plan_labels.yaml when present)")
+@compact_option
+def traces_compare(baseline, variant, questions_file, use_judge, use_grade, allow_judge, model, labels_file,
+                   compact) -> None:
+    """Compare classic baseline runs, and optionally a variant, on the same questions (spec 2026-11-08 §3).
+
+    Prints measures, the band, grades and the variant gate. Questions, answers and reasons never reach stdout;
+    they go to <ARTMIND_HOME>/logs/compare-*.json (private).
+    """
+    from artmind import benchmark
+    from artmind.traces import compare as cmp
+    from artmind.traces import gate as gate_mod
+    from artmind.traces import tiers as tiers_mod
+
+    refs = [r.strip() for r in baseline.split(",") if r.strip()]
+    if len(refs) < 2:
+        raise click.ClickException("--baseline takes at least two run ids")
+    if (use_judge or use_grade) and not (allow_judge or os.environ.get("ARTMIND_COMPARE_JUDGE") == "1"):
+        raise click.ClickException("--judge and --grade send questions and answers to the LLM provider: set "
+                                   "ARTMIND_COMPARE_JUDGE=1 in this vault's config, or pass --allowJudge")
+    expected = None
+    if questions_file is not None:
+        expected = {q["question"]: q["eval_comment"] for q in benchmark._parse_questions_file(questions_file)
+                    if q.get("eval_comment")}
+    try:
+        runs = cmp.load_runs(refs + ([variant] if variant else []))
+    except cmp.CompareError as exc:
+        raise click.ClickException(str(exc)) from exc
+    base, var = runs[:len(refs)], (runs[-1] if variant else None)
+    labels = _compare_labels(labels_file)
+    measures = [{**cmp.measures(r), "answer_reach": cmp.answer_reach(r, labels) if labels else None} for r in runs]
+    out = {"runs": [r.run_id for r in runs], "measures": measures, "band": None, "grades": None, "variant": None,
+           "flagged": None, "model": None, "detail_file": None}
+    detail: dict = {"runs": out["runs"], "pairs": {}, "grades": {}}
+    llm = chosen = None
+    if use_judge or use_grade:
+        from artmind.traces import judge
+
+        llm, chosen = judge.default_llm(model)
+        out["model"] = chosen
+    # every verdict and grade is keyed by the first baseline run's seq, whatever order each run asked in
+    anchor_seq = {cmp._norm_q(q["question"]): s for s, q in base[0].questions.items()}
+
+    def judged(left, right):
+        pairs, only_l, only_r = cmp.pair_by_text(left, right, expected=expected)
+        verdicts = {p.seq: judge.cached_judge(left.run_id, right.run_id, p.seq, p.question, p.expected,
+                                              p.left.answer, p.right.answer, llm=llm, model=chosen) for p in pairs}
+        detail["pairs"][f"{left.run_id}__{right.run_id}"] = {
+            "only_left": only_l, "only_right": only_r,
+            "questions": [{"seq": p.seq, "qid": p.qid, "verdict": verdicts[p.seq].verdict,
+                           "better": verdicts[p.seq].better, "reason": verdicts[p.seq].reason} for p in pairs]}
+        keyed, qids = {}, {}
+        for p in pairs:
+            a_seq = anchor_seq.get(cmp._norm_q(p.question))
+            if a_seq is None:
+                continue
+            keyed[a_seq] = {"verdict": verdicts[p.seq].verdict, "better": verdicts[p.seq].better}
+            qids[a_seq] = base[0].questions[a_seq]["qid"]
+        return pairs, keyed, qids
+
+    found: dict[str, dict[int, set]] = {}
+    if use_grade:
+        from artmind.traces import grade as grade_mod
+
+        out["grades"] = {}
+        anchor = base[0]
+        for run in runs:
+            pairs, _, _ = cmp.pair_by_text(anchor, run, expected=expected)
+            counts = {g: 0 for g in ("correct", "partial", "wrong", "ungraded")}
+            got = total = 0
+            found[run.run_id] = {}
+            for p in pairs:
+                t = tiers_mod.parse(p.expected)
+                g = grade_mod.cached_grade(run.run_id, p.seq, p.question, t, p.right.answer, llm=llm, model=chosen)
+                counts[g.grade] += 1
+                if g.grade != "ungraded":
+                    got, total = got + len(g.must_found), total + len(t.must)
+                found[run.run_id][p.seq] = set(g.must_found)
+                detail["grades"].setdefault(run.run_id, []).append(
+                    {"seq": p.seq, "qid": p.qid, "grade": g.grade, "must_missed": list(g.must_missed),
+                     "must_not_hit": list(g.must_not_hit), "reason": g.reason})
+            out["grades"][run.run_id] = {"counts": counts, "must": {"found": got, "total": total}}
+    flagged: set = set()
+    if use_judge:
+        baseline_pairs = {}
+        for i, left in enumerate(base):
+            for right in base[i + 1:]:
+                pairs, verdicts, qids = judged(left, right)
+                baseline_pairs[(left.run_id, right.run_id)] = verdicts
+                flagged |= {qids[s] for s, v in verdicts.items() if v["verdict"] == "material"}
+        out["band"] = gate_mod.band(baseline_pairs)
+        if var is not None:
+            vpairs, qid_of = {}, {}
+            for left in base:
+                pairs, verdicts, qids = judged(left, var)
+                vpairs[left.run_id] = verdicts
+                qid_of.update(qids)
+            g = gate_mod.evaluate_variant(out["band"], vpairs,
+                                          baseline_found={r.run_id: found.get(r.run_id, {}) for r in base},
+                                          variant_found=found.get(var.run_id, {}))
+            flagged |= {qid_of.get(s) for s in g["worse_than_all"]} | {qid_of.get(s) for s in g["lost_must"]}
+            out["variant"] = {"run": var.run_id, "contract": var.contract, "gate": g}
+    if use_grade:
+        flagged |= {q["qid"] for rows in detail["grades"].values() for q in rows if q["grade"] == "wrong"}
+    if use_judge or use_grade:
+        out["flagged"] = sorted(q for q in flagged if q)
+        out["detail_file"] = str(_write_compare_detail(detail))
+    _echo_json(out, compact)
+
+
+def _compare_labels(labels_file):
+    from artmind import benchmark_labels
+
+    if labels_file is not None and not labels_file.is_file():
+        raise click.ClickException(f"labels file not found: {labels_file}")
+    path = labels_file or benchmark_labels.default_path()
+    if path is None or not path.is_file():
+        return []
+    try:
+        return benchmark_labels.load_labels(path)
+    except benchmark_labels.LabelError as exc:
+        raise click.ClickException(f"invalid labels file {path}: {exc}") from exc
+
+
+def _write_compare_detail(report: dict) -> Path:
+    from datetime import datetime
+
+    path = Path(LOGS_DIR) / f"compare-{datetime.now().strftime('%Y%m%dT%H%M%S%f')}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=1, default=list), encoding="utf-8")
+    return path
+
+
 @traces_group.command("prune")
 @click.option("--days", type=int, default=None, help="Retention in days (default: ARTMIND_TRACE_RETENTION_DAYS or 90)")
 @dry_run_option("Count the turns that would be deleted; delete none")
