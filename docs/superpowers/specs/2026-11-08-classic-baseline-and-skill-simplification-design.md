@@ -90,8 +90,8 @@ decision, measured.
    here from `query_plan/labels.py`, taken from the **archive's** version: the vaults' `plan_labels.yaml` were
    written by later builds and may carry keys (`follows`, planned routes) that the `v0.11.0` loader rejects.
    Document matching (`match_kind`, `reached_documents`) is taken from the archive's `query_plan/reach.py`, which
-   `v0.11.0` does not have. `traces compare` imports only this module; `query_plan/labels.py` re-imports from it,
-   so behaviour there is unchanged.
+   `v0.11.0` does not have. `traces compare` and `retrieval_eval/labels.py` import only this module; the
+   frozen `query_plan/labels.py` keeps its own loader unchanged (it is deleted in phase 3).
 2. **`ARTMIND_PLAN_SHADOW` defaults to off in code.** A vault that forgets the setting no longer plans in shadow.
 3. **`test/test_no_planner_entanglement.py`** (new). It parses every module under `artmind/` and fails when
    one outside `artmind/query_plan/` imports from it, except the seams that existed at `v0.11.0`, pinned by name:
