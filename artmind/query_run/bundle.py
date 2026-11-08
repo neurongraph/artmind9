@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import shlex
 
 from artmind.query_run import adapters, opening
 from artmind.query_run import facts as facts_mod
@@ -146,6 +147,25 @@ def _apply_open(ex, evidence: list, documents: list) -> tuple[list, list, list]:
     return evidence, opened_rows, opened
 
 
+def _line(d: dict) -> dict:
+    """The short document row of the printed bundle (spec 6.5): about 80 characters."""
+    return {"doc_id": d["doc_id"], "title": d.get("title"), "date": d.get("date"),
+            "opened": bool(d.get("opened")), "rank": d.get("rank")}
+
+
+def _open_next(plan: dict, documents: list) -> dict | None:
+    """The command that opens the next unopened documents by rank (spec 6.5), or None."""
+    from artmind.query_run import executor
+
+    ids = opening.next_unopened(documents)
+    domains = executor._plan_domains(plan)
+    if not ids or not domains:
+        return None
+    question = plan.get("effective_question") or plan.get("question") or ""
+    argv = opening.command(ids, domains, question)
+    return {"doc_ids": ids, "command": "artmind " + " ".join(shlex.quote(a) for a in argv)}
+
+
 def _selected_evidence(evidence: list) -> list:
     out, seen = list(evidence[:EVIDENCE_TOP]), {(e.get("doc") or {}).get("id") for e in evidence[:EVIDENCE_TOP]}
     for row in evidence[EVIDENCE_TOP:]:
@@ -203,42 +223,54 @@ def build(plan: dict, ex, *, budget: int, plan_ms: float | None = None) -> tuple
                 trimmed.append("suggested steps cut to 3")
     full = {**base, "evidence": evidence, "documents": documents, "facts": facts, "guides": guides}
     printed = {**base, "evidence": [], "documents": [], "facts": [], "guides": []}
-    candidates = {"evidence": _selected_evidence(evidence[len(opened_rows):]), "documents": documents,
+    printed["open_next"] = _open_next(plan, documents)  # never cut: its size is counted before anything is placed
+    lines = [_line(d) for d in documents]
+    candidates = {"evidence": _selected_evidence(evidence[len(opened_rows):]), "documents": lines,
                   "facts": facts, "guides": guides}
     size = len(_dumps(printed)) + _RESERVE
-    cut = len(candidates["evidence"]) < len(evidence) - len(opened_rows)
     for row in opened_rows:  # opened passages are placed first and never cut
         printed["evidence"].append(row)
         size += len(_dumps(row)) + 1
     if size > budget:
         extra_warnings.append(f"opened passages alone ({len(opened_rows)} rows) exceed the bundle budget "
                               f"{budget:,} characters; they are kept and nothing else is placed")
-    for name in _LISTS:
+    stop = False
+    for name in _LISTS:  # evidence, document line rows, facts, guides: once one list is cut the rest are not started
         for row in candidates[name]:
             n = len(_dumps(row)) + 1
-            if size + n > budget:
-                cut = True
+            if stop or size + n > budget:
+                stop = True
                 break
             printed[name].append(row)
             size += n
-        else:
-            continue
-        break
-    for name in _LISTS:
-        if len(printed[name]) < len(full[name]):
-            cut = True
-    printed.update(truncated=False, rows_total=len(evidence), handle=None)
+    gisted = 0
+    with_gist = [d for d in documents if not d.get("opened") and d.get("gist")]
+    if not stop and len(printed["documents"]) == len(documents):  # gists last, in rank order, while budget remains
+        by_id = {d["doc_id"]: d for d in printed["documents"]}
+        for d in with_gist:
+            extra = len(_dumps({"gist": d["gist"], "gist_source": d.get("gist_source")})) + 1
+            if size + extra > budget:
+                break
+            by_id[d["doc_id"]].update(gist=d["gist"], gist_source=d.get("gist_source"))
+            size += extra
+            gisted += 1
+    cut = {"evidence": len(evidence) - len(printed["evidence"]), "documents": len(documents) - len(printed["documents"]),
+           "facts": len(facts) - len(printed["facts"]), "guides": len(guides) - len(printed["guides"]),
+           "gists": len(with_gist) - gisted}
+    printed.update(truncated=False, rows_total=len(evidence), handle=None, cut=cut)
     printed["warnings"] = list(extra_warnings)
     if trimmed:
         printed["warnings"].append(f"bundle budget {budget:,} characters: " + "; ".join(trimmed))
-    if cut:
+    if any(cut.values()):
         import paths
         from artmind import result_store
 
         handle = result_store.store(paths.LOGS_DIR / "results", full, _dumps)
-        shown = len(printed["evidence"])
-        printed.update(truncated=True, handle=handle, next=f"artmind query page {handle} --list evidence --from {shown}")
-        printed["warnings"] = [*printed["warnings"], f"bundle budget {budget:,} characters: showing {shown} of {len(evidence)} evidence rows, "
-                               f"{len(printed['documents'])} of {len(documents)} documents, "
-                               f"{len(printed['facts'])} of {len(facts)} facts"]
+        first = next((n for n in _LISTS if cut[n]), None)  # gists only: no list lost a row, so paging adds nothing
+        printed.update(truncated=True, handle=handle,
+                       next=f"artmind query page {handle} --list {first} --from {len(printed[first])}" if first else None)
+        totals = {"evidence": len(evidence), "documents": len(documents), "facts": len(facts), "guides": len(guides),
+                  "gists": len(with_gist)}
+        left = [f"{cut[n]} of {totals[n]} {n if n != 'gists' else 'document gists'}" for n in (*_LISTS, "gists") if cut[n]]
+        printed["warnings"] = [*printed["warnings"], f"bundle budget {budget:,} characters: left out " + ", ".join(left)]
     return printed, full

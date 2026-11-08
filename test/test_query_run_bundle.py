@@ -66,7 +66,8 @@ def test_the_fixed_parts_and_documents_are_present():
                 "coverage", "gaps", "escalate", "offer", "timing"):
         assert key in printed
     assert printed["mode"] == "reasoning" and printed["plan"]["route"] == "search"
-    assert printed["documents"][0]["evidence"] == ["e2"]  # d1 is the document of the second passage
+    assert printed["documents"][0]["doc_id"] == "d1" and printed["documents"][0]["rank"] == 1  # a line row (spec 6.5)
+    assert printed["documents"][0]["opened"] is False
     assert printed["coverage"]["found"] == 2
 
 
