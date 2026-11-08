@@ -17,7 +17,7 @@ def _isolated_db(tmp_path, monkeypatch):
 
     monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
     monkeypatch.setattr("artmind.traces.recorder.graph_state", lambda domains: {})
-    monkeypatch.delenv("ARTMIND_PLAN_SHADOW", raising=False)
+    monkeypatch.setenv("ARTMIND_PLAN_SHADOW", "1")
 
 
 def _shadow_events(trace_id):
@@ -281,3 +281,10 @@ def test_a_plan_still_oversized_after_trimming_falls_back_to_a_minimum(monkeypat
     plan = json.loads(_shadow_events(rec.trace_id)[0]["payload"])["plan"]
     assert plan == {"confidence": {"level": "high"}, "route": {"id": "view"}, "steps": [big["steps"][0]],
                     "warnings": ["w0", "w1", "w2"], "trimmed": True}
+
+
+def test_shadow_is_off_unless_asked(monkeypatch):
+    monkeypatch.delenv("ARTMIND_PLAN_SHADOW", raising=False)
+    assert shadow.enabled() is False
+    monkeypatch.setenv("ARTMIND_PLAN_SHADOW", "1")
+    assert shadow.enabled() is True

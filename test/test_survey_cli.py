@@ -20,8 +20,8 @@ def test_query_survey_passes_options_through():
     assert kwargs["top_docs"] == 5 and kwargs["passages"] == 2
 
 
-def test_query_survey_limits_passages_to_three():
-    result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--passages", "4", "q"])
+def test_query_survey_limits_passages_to_eight():
+    result = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--passages", "9", "q"])
     assert result.exit_code != 0
 
 
@@ -34,3 +34,10 @@ def test_a_value_error_is_a_click_error():
 def test_survey_spans_have_their_own_layer_and_count_documents():
     assert path.layer_of("query survey") == "survey"
     assert evidence.summarize({"documents": [{"doc_id": "A"}, {"doc_id": "B"}]})["rows"] == 2
+
+
+def test_passages_accepts_up_to_eight():
+    from artmind.cli import cli
+
+    opt = next(p for p in cli.commands["query"].commands["survey"].params if p.name == "passages")
+    assert opt.type.max == 8

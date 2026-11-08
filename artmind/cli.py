@@ -3602,7 +3602,7 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topDocs", "top_docs", type=click.IntRange(1, 50), default=None, show_default=False,
               help="Documents to return (default 50 for --shape brief, 10 for full; overridden by ARTMIND_SURVEY_TOP_DOCS)")
-@click.option("--passages", type=click.IntRange(1, 3), default=1, show_default=True,
+@click.option("--passages", type=click.IntRange(1, 8), default=1, show_default=True,
               help="Best passages shown per document")
 @shape_option
 @click.option("--passageDocs", "passage_docs", type=click.IntRange(0, 10), default=3, show_default=True,

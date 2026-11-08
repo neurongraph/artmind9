@@ -12,7 +12,7 @@ instead of the interactive ARTMIND_DECISION_TIMEOUT. It never fails a turn: ever
 failure becomes `status: error`. `followup` means "the session has an earlier traced turn".
 
 Privacy: with a hosted ARTMIND_DECISION_URL, every traced question is sent
-there for classification. ARTMIND_PLAN_SHADOW=0 stops it. At most MAX_RUNNING
+there for classification. It runs only with ARTMIND_PLAN_SHADOW=1. At most MAX_RUNNING
 plans run at once; further turns record `status: skipped`.
 """
 
@@ -35,7 +35,8 @@ _THREAD_NAME = "plan-shadow"
 
 
 def enabled() -> bool:
-    return (os.environ.get("ARTMIND_PLAN_SHADOW") or "1").strip().casefold() not in ("0", "false", "no", "off")
+    """Off unless ARTMIND_PLAN_SHADOW is 1/true/yes/on: the planner is frozen (spec 2026-11-08 §2.3)."""
+    return (os.environ.get("ARTMIND_PLAN_SHADOW") or "0").strip().casefold() in ("1", "true", "yes", "on")
 
 
 def decision_timeout() -> float:
