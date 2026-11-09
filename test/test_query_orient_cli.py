@@ -159,3 +159,35 @@ def test_graph_down_while_discovering_domains_is_warned(monkeypatch):
     monkeypatch.setattr(domain_guard, "_graph_domains", lambda: (_ for _ in ()).throw(KeyError("bug")))
     with pytest.raises(KeyError):
         orient._known_domains([])
+
+
+def test_coverage_gap_is_one_warning_not_one_per_domain(wired):
+    out = _run()
+    assert [w for w in out["warnings"] if w.startswith("coverage not computed")] == [
+        "coverage not computed for 2 domains: health not cached"]
+    assert len([w for w in _run("--domain", "journal")["warnings"] if w.startswith("coverage not")]) == 1
+
+
+def test_corpus_generation_sums_top_level_domains_only(wired):
+    wired["fp"] = {"journal": (10, 2, 1, 0, ""), "journal.work": (4, 2, 1, 0, "")}
+    assert _run()["corpus"]["generation"] == 10
+
+
+def test_table_store_failure_is_warned_and_a_bug_propagates(monkeypatch):
+    from neo4j.exceptions import ServiceUnavailable
+
+    from artmind import domain_guard
+
+    monkeypatch.setattr(domain_guard, "_schema_domains", lambda: {"a"})
+    monkeypatch.setattr(domain_guard, "_graph_domains", lambda: set())
+
+    def down():
+        raise ServiceUnavailable("refused")
+
+    monkeypatch.setattr(domain_guard, "_table_domains", down)
+    w = []
+    assert orient._known_domains(w) == ["a"]
+    assert w == ["structured store unreachable: domains with only tables are not listed"]
+    monkeypatch.setattr(domain_guard, "_table_domains", lambda: (_ for _ in ()).throw(KeyError("bug")))
+    with pytest.raises(KeyError):
+        orient._known_domains([])

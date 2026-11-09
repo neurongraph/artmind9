@@ -93,7 +93,7 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
         if facts is not None:
             time_block["rule"] = facts.get("time_rule") or {}
         if cat.has("versions"):
-            time_block["versions"] = {"with_successor": sum(1 for v in cat.versions if v.get("replaces")),
+            time_block["versions"] = {"with_successor": sum(1 for v in cat.versions if v.get("successor")),
                                       "retired": sum(1 for v in cat.versions if v["status"] == "retired")}
         else:
             _missing(warnings, d, "versions")

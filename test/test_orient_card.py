@@ -111,3 +111,13 @@ def test_span_needs_both_ends():
     t = {**_cat().time, "content_latest": None}
     c = card.build_card(_cat(time=t), FACTS, None, ("bank", 1))
     assert c["time"]["span"] is None
+
+
+def test_with_successor_counts_the_retired_side():
+    vs = ({"name": "a", "status": "retired", "valid_from": "2026-01-01", "successor": "b"},
+          {"name": "b", "status": "current", "valid_from": "2026-06-01", "successor": None, "replaces": 1})
+    c = card.build_card(_cat(versions=vs), FACTS, narrator=None, family=("bank", 1))
+    assert c["time"]["versions"] == {"with_successor": 1, "retired": 1}
+    vs += ({"name": "c", "status": "retired", "valid_from": "2026-01-01", "successor": None},)
+    c = card.build_card(_cat(versions=vs), FACTS, narrator=None, family=("bank", 1))
+    assert c["time"]["versions"] == {"with_successor": 1, "retired": 2}

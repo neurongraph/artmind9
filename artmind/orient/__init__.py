@@ -23,7 +23,13 @@ def _known_domains(warnings: list | None = None) -> list:
     try:
         names |= domain_guard._table_domains()
     except Exception as exc:
+        from artmind.cli_conventions import store_failure
+
+        if store_failure(exc) is None:
+            raise  # a bug (a registry that does not exist yet lists no tables, it does not raise)
         logger.debug("orient: no table domains: {}", exc)
+        if warnings is not None:
+            warnings.append("structured store unreachable: domains with only tables are not listed")
     try:
         graph = domain_guard._graph_domains()
     except Exception as exc:
@@ -46,6 +52,12 @@ def _catalogues(domains):
 
     cats, _ = cache.get_detailed(domains, PARTS)
     return cats
+
+
+def _coverage_gap(cats, warnings: list) -> None:
+    n = sum(1 for c in cats.values() if not c.has("health"))
+    if n:
+        warnings.append(f"coverage not computed for {_plural(n, 'domain', 'domains')}: health not cached")
 
 
 def _facts(d: str, warnings: list):
@@ -97,7 +109,10 @@ def corpus() -> dict:
         else:
             cards.append(card.build_card(cats[d], facts, narrator, family,
                                          children=len(tree.get(d, [])), warnings=warnings))
-    gens = [c.fingerprint[0] for c in (cats or {}).values() if c.fingerprint]
+    if cats is not None:
+        _coverage_gap(cats, warnings)
+    gens = [c.fingerprint[0] for d, c in (cats or {}).items()
+            if c.fingerprint and not any(d.startswith(o + ".") for o in names)]
     built = min((c.built_at for c in (cats or {}).values()), default=None)
     rows, cuts = budget.fit_corpus(cards)
     return {"warnings": warnings, "next": NEXT_PEEL, "peel": 1,
@@ -141,6 +156,7 @@ def domains(requested) -> dict:
     roots = [r for r in requested if r not in names]
     cats = _catalogues(list(dict.fromkeys(names + roots)))
     _root_data(requested, names, cats, warnings)
+    _coverage_gap(cats, warnings)
     blocks = []
     for d in names:
         facts, narrator = _facts(d, warnings), _narrator(d, warnings)
