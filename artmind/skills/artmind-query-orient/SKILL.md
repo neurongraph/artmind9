@@ -26,7 +26,14 @@ question against what it says.
 4. A saved view whose `summary` or `examples` fit the question → `views show` / `views run`
    (Views below). Otherwise choose the command from the classes, types, relation shapes and
    stores, and spell `--entityClass`, type values and relation names exactly as orient
-   listed them. A `chunks-only` card has no entities: use `vector-text` / `survey` only.
+   listed them. A `chunks-only` card has documents and chunks but no entities, so skip views, insights,
+   entity and pattern commands there:
+   - a fact → `artmind query vector-text --shape brief --domain <d> --topK 10 --compact "<question>"`;
+   - a question across documents → `artmind query survey --shape brief --domain <d> --compact "<question>"`;
+   - a whole document → `artmind query graph pattern10 --documentName "<name>"`; more context
+     around a hit → `artmind query chunks --shape brief --idList <id> --expand 1`;
+   - in a mixed set, leave chunks-only domains out of graph commands but keep them in the
+     shared `vector-text` call. Tables listed under `structured` still apply.
 5. Orient again only when the user moves to a new area. A part named in `warnings` was not
    read: never treat it as empty. `null` means declared absent (no narrator, no snapshot).
 6. `next` and `cuts[].rest` are facts about this result; follow them when they serve the
