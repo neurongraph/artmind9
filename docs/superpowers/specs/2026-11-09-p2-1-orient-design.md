@@ -140,14 +140,14 @@ two health facts that change what the agent should believe ("not in the graph ye
 
 | Layer | Contents | Cap / cut |
 |---|---|---|
-| L2 classes | name, count, kind, definition, measured types, dated share, schema `relates_to` (§4.1) | all up to 25; past that name + count only |
+| L2 classes | name, count, kind, definition, measured types, dated share (§4.1) | all up to 25; past that name + count only |
 | L2 relations | `FROM -REL-> TO` with counts, **measured from the data** (decided: the catalogue relations part gains endpoint classes) | top 20, then `{shown, total, rest: "artmind query graph metadata"}` |
 | L2 stores | structured: tables, grain, bridge classes (what `db bridge` returns) | 10 tables, then names |
 | L3 views | name, summary, params (name, type, required), 2 examples; `presentation_format` / `skill_md` stay in `views show` | 8 full, then name + summary |
 | L3 other assets | topic page titles, insights snapshot date + detector names, summaries state | 10 titles, then a count |
 | documents | only what the card omits: retired / superseded documents (name, `valid_from`, successor) | 20, then count + `structural-metadata` |
 
-Budget ~12,000 characters per domain, ~24,000 per call (§5.1). Cut order when over: schema `relates_to` → relations past 20 → topic titles (count kept) → types past 5 → view examples → documents past 10 → definitions of the smallest classes, last. Every cut is listed
+Budget ~12,000 characters per domain, ~24,000 per call (§5.1). Cut order when over: relations past 20 → topic titles (count kept) → types past 5 → view examples → documents past 10 → definitions of the smallest classes, last. Every cut is listed
 in a `cuts` block.
 
 **L4 health is dropped as a layer** (decided). Most health counts are operator work the agent cannot act on;
@@ -167,8 +167,7 @@ Illustrative (type values from the packaged journal schema's `type_examples`; co
 {"class": "EVENT", "count": 2648, "kind": "occurrent",
  "definition": "<the schema description, whole>",
  "types": [["social_gathering", 400], ["appointment", 300], "..."],
- "dated": 0.99,
- "relates_to": {"LOCATION": ["occurs_at"], "EMOTION": ["evokes", "results_in"]}}
+ "dated": 0.99}
 ```
 
 - `definition`: the whole schema description (it carries scope rules such as "not routine background actions").
@@ -178,7 +177,9 @@ Illustrative (type values from the packaged journal schema's `type_examples`; co
   class; the long tail is singletons.
 - `dated`: share of the class's entities with their own date property (`date_or_time` / declared temporal key);
   decides entity-date vs document-date filtering. The one property fact kept.
-- `relates_to`: as declared in the schema; the measured relations sit beside it at domain level (§4).
+- No `relates_to`: the schema's declared relations are **dropped** (decided 2026-11-09). The measured relation
+  shapes at domain level (§4) show what extraction actually produced, with counts; the declared list can name
+  relations that were never extracted, and the live run cut it first in every domain anyway.
 - Classes with no entities are omitted; a class with entities but no schema entry appears with `definition:
   null`.
 
@@ -214,12 +215,12 @@ rate, plus undeclared keys above a threshold) was dropped in favour of §4.1: de
 - Peel 1: ~9,000 characters for the whole call. Over budget, a family collapses to one row (parent, child
   count, summed documents and entities, union of stores, child names) and `orient --domain <parent>` expands
   it. Largest families collapse first.
-- Peel 2: ~12,000 per domain, ~24,000 per call. Cut order: schema `relates_to` → relations past 20 → topic titles (count kept) → types past 5 → view examples → documents past 10 → definitions of the smallest classes, last.
+- Peel 2: ~12,000 per domain, ~24,000 per call. Cut order: relations past 20 → topic titles (count kept) → types past 5 → view examples → documents past 10 → definitions of the smallest classes, last.
   **Revised 2026-11-09 after a live run** of the plan's code: with definitions cut first, every definition
   went in both vaults (banking.policy 19/19, journal 10/10), undoing §4.1. With definitions last and 12,000
   per domain, banking.policy keeps 19/19 at ~12,400 characters and the journal keeps all 10 schema definitions (its eleventh class has no schema entry), cutting only
-  `relates_to` and relations (~7,700). Banking peel 1 is ~8,400 for 10 cards. `relates_to` goes first because the measured
-  relations carry the real shapes. Opening a whole family (`--domain banking`, 8 children) still exceeds the
+  relations (~7,700). Banking peel 1 is ~8,400 for 10 cards. (`relates_to`, then first in the cut order, was
+  dropped from peel 2 altogether: §4.1.) Opening a whole family (`--domain banking`, 8 children) still exceeds the
   call budget and cuts definitions: the agent opens the children the question needs.
 - Every cut appears in `cuts: [{part, domain, shown, total, rest}]`, where `rest` is the existing command that
   shows the remainder. Nothing is dropped without a `cuts` entry. Character budgets apply to compact JSON.
@@ -244,7 +245,7 @@ rate, plus undeclared keys above a threshold) was dropped in favour of §4.1: de
   bumps to 4 (older cache files are discarded, as today).
 - `health` is never built here. `coverage` (§3.1) reads `behind_vault` / `summaries_missing` only when the
   health part is already cached; otherwise the field is absent and `warnings` says "coverage not computed".
-- Schema facts (purpose, definitions, time rule, kind, `relates_to`) are read from the run folder's schema files
+- Schema facts (purpose, definitions, time rule, kind) are read from the run folder's schema files
   on each call (cheap; `stamps` already covers them).
 - Read-only; proxied by `serve`; traced as its own span layer (`orient`); envelope per CLI conventions;
   `domains-overview` unchanged.
