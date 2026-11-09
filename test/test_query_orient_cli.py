@@ -44,6 +44,11 @@ def wired(monkeypatch):
                                                                 "filename_pattern": None, "classes": {}})
     monkeypatch.setattr(orient.domain_config, "narrator", lambda d: None)
     monkeypatch.setattr(store, "list_views", lambda domains: ([], []))
+    from artmind.structured import registry
+
+    monkeypatch.setattr(registry, "routing_surface", lambda domains=None: calls.get(
+        "tables", [{"table": "t1", "domain": "journal", "row_count": 4,
+                    "entity_classes": [{"entity_class": "PERSON"}]}]))
     return calls
 
 
@@ -191,3 +196,29 @@ def test_table_store_failure_is_warned_and_a_bug_propagates(monkeypatch):
     monkeypatch.setattr(domain_guard, "_table_domains", lambda: (_ for _ in ()).throw(KeyError("bug")))
     with pytest.raises(KeyError):
         orient._known_domains([])
+
+
+def test_cards_say_where_tables_live(wired):
+    root, child = _run()["domains"]
+    assert root["tables"] == [{"table": "t1", "rows": 4, "bridge_classes": ["PERSON"]}]
+    assert "structured" in root["stores"] and "tables" not in child
+    assert child["tables_at"] == "journal" and "structured" not in child["stores"]
+    peel2 = _run("--domain", "journal.work")["domains"][0]["card"]
+    assert peel2["tables_at"] == "journal"
+
+
+def test_unreachable_table_store_warns_once_and_a_bug_propagates(wired, monkeypatch):
+    from neo4j.exceptions import ServiceUnavailable
+
+    from artmind.structured import registry
+
+    def down(domains=None):
+        raise ServiceUnavailable("refused")
+
+    monkeypatch.setattr(registry, "routing_surface", down)
+    out = _run()
+    assert out["warnings"].count("structured store unreachable: card tables not shown") == 1
+    assert all("tables" not in c and "tables_at" not in c for c in out["domains"])
+    monkeypatch.setattr(registry, "routing_surface", lambda domains=None: (_ for _ in ()).throw(KeyError("bug")))
+    r = _run(code=1)
+    assert isinstance(r.exception, KeyError)

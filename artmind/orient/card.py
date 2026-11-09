@@ -44,9 +44,9 @@ def _insights_as_of(assets) -> str | None:
     return max(dates) if dates else None
 
 
-def _stores(stores: dict) -> list:
+def _stores(stores: dict, tables_here) -> list:
     out = ["graph" if stores.get("graph_extraction", True) else "chunks"]
-    if stores.get("structured_tables"):
+    if tables_here:
         out.append("structured")
     return out
 
@@ -57,7 +57,7 @@ def _missing(warnings, domain: str, part: str) -> None:
 
 
 def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *, children: int = 0,
-               warnings: list | None = None) -> dict:
+               tables_here: list | None = None, tables_at: str | None = None, warnings: list | None = None) -> dict:
     d = cat.domain
     root, siblings = family
     c: dict = {"domain": d, "family": root, "siblings": siblings}
@@ -70,9 +70,15 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
         c["purpose"] = facts["purpose"]
     if cat.has("stores") and cat.stores is not None:
         c["kind"] = "graph" if cat.stores.get("graph_extraction", True) else "chunks-only"
-        c["stores"] = _stores(cat.stores)
+        c["stores"] = _stores(cat.stores, tables_here)
     else:
         _missing(warnings, d, "stores")
+    if tables_here:
+        c["tables"] = sorted(({"table": r["table"], "rows": r.get("row_count"),
+                               "bridge_classes": [e["entity_class"] for e in r.get("entity_classes") or []]}
+                              for r in tables_here), key=lambda t: t["table"])
+    if tables_here is not None and tables_at:
+        c["tables_at"] = tables_at
     if cat.has("documents"):
         records = sorted(cat.doc_records, key=lambda r: r.name)
         c["unit"] = {"documents": len(records), "example": records[0].name if records else None}

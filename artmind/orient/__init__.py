@@ -60,6 +60,33 @@ def _coverage_gap(cats, warnings: list) -> None:
         warnings.append(f"coverage not computed for {_plural(n, 'domain', 'domains')}: health not cached")
 
 
+def _read_tables(warnings: list):
+    """Every registered structured table, read once; None when the store is unreachable."""
+    from artmind.structured import registry
+
+    try:
+        return registry.routing_surface(None)
+    except Exception as exc:
+        from artmind.cli_conventions import store_failure
+
+        if store_failure(exc) is None:
+            raise
+        logger.debug("orient: no structured tables: {}", exc)
+        warnings.append("structured store unreachable: card tables not shown")
+        return None
+
+
+def _table_scope(d: str, rows):
+    """(tables registered exactly at `d`, nearest ancestor with tables); (None, None) when unread."""
+    if rows is None:
+        return None, None
+    here = [r for r in rows if r.get("domain") == d]
+    parts = d.split(".")
+    at = next((a for a in (".".join(parts[:i]) for i in range(len(parts) - 1, 0, -1))
+               if any(r.get("domain") == a for r in rows)), None)
+    return here, at
+
+
 def _facts(d: str, warnings: list):
     try:
         return schema_facts.read(d)
@@ -101,14 +128,17 @@ def corpus() -> dict:
             raise  # a bug, not an unreachable store
         warnings.append("graph unreachable: cards carry schema facts only")
         cats = None
+    table_rows = _read_tables(warnings)
     cards = []
     for d in names:
+        here, at = _table_scope(d, table_rows)
         facts, narrator, family = _facts(d, warnings), _narrator(d, warnings), card.family_of(d, tree)
         if cats is None:
             cards.append(_offline_card(d, facts, narrator, family))
         else:
             cards.append(card.build_card(cats[d], facts, narrator, family,
-                                         children=len(tree.get(d, [])), warnings=warnings))
+                                         children=len(tree.get(d, [])), tables_here=here, tables_at=at,
+                                         warnings=warnings))
     if cats is not None:
         _coverage_gap(cats, warnings)
     gens = [c.fingerprint[0] for d, c in (cats or {}).items()
@@ -158,9 +188,12 @@ def domains(requested) -> dict:
     _root_data(requested, names, cats, warnings)
     _coverage_gap(cats, warnings)
     blocks = []
+    table_rows = _read_tables(warnings)
     for d in names:
         facts, narrator = _facts(d, warnings), _narrator(d, warnings)
-        c = card.build_card(cats[d], facts, narrator, card.family_of(d, tree), warnings=warnings)
+        here, at = _table_scope(d, table_rows)
+        c = card.build_card(cats[d], facts, narrator, card.family_of(d, tree), tables_here=here, tables_at=at,
+                            warnings=warnings)
         blocks.append(domain.build_block(cats[d], facts, card=c, warnings=warnings))
     blocks, cuts = budget.fit_domains(blocks)
     return {"warnings": warnings, "next": None, "peel": 2, "domains": blocks, "cuts": cuts}

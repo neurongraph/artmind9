@@ -29,7 +29,7 @@ FACTS = {"purpose": "Formal policy documents.", "time_rule": {"valid_from": "doc
 
 
 def test_card_fields_from_catalogue_schema_and_narrator():
-    c = card.build_card(_cat(), FACTS, narrator=None, family=("bank", 1))
+    c = card.build_card(_cat(), FACTS, narrator=None, family=("bank", 1), tables_here=[{"table": "t", "row_count": 1}])
     assert c["domain"] == "bank.policy" and c["family"] == "bank" and c["siblings"] == 1
     assert c["purpose"] == "Formal policy documents." and c["kind"] == "graph"
     assert c["stores"] == ["graph", "structured"]
@@ -121,3 +121,27 @@ def test_with_successor_counts_the_retired_side():
     vs += ({"name": "c", "status": "retired", "valid_from": "2026-01-01", "successor": None},)
     c = card.build_card(_cat(versions=vs), FACTS, narrator=None, family=("bank", 1))
     assert c["time"]["versions"] == {"with_successor": 1, "retired": 2}
+
+
+TABLES = [{"table": "zeta", "row_count": 9, "entity_classes": [{"entity_class": "CUSTOMER"}]},
+          {"table": "alpha", "row_count": 3, "entity_classes": []}]
+
+
+def test_root_card_lists_its_tables_sorted():
+    c = card.build_card(_cat("bank"), FACTS, None, (None, 0), tables_here=TABLES)
+    assert "structured" in c["stores"]
+    assert c["tables"] == [{"table": "alpha", "rows": 3, "bridge_classes": []},
+                           {"table": "zeta", "rows": 9, "bridge_classes": ["CUSTOMER"]}]
+    assert "tables_at" not in c
+
+
+def test_child_card_points_at_the_ancestor_with_tables():
+    c = card.build_card(_cat(), FACTS, None, ("bank", 1), tables_here=[], tables_at="bank")
+    assert c["stores"] == ["graph"] and c["tables_at"] == "bank" and "tables" not in c
+
+
+def test_unread_tables_add_no_keys_and_no_warning():
+    warnings: list = []
+    c = card.build_card(_cat(), FACTS, None, ("bank", 1), warnings=warnings)
+    assert "tables" not in c and "tables_at" not in c and c["stores"] == ["graph"]
+    assert not any("table" in w for w in warnings)
