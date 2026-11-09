@@ -15,6 +15,10 @@ question against what it says.
 1. `artmind query orient --compact` once per conversation. Each card says what a domain
    is (`purpose`), what one document is (`unit`), whose voice it is (`voice`: "I" is the
    narrator), how documents are dated (`time`), its stores and its `vocabulary` (top classes).
+   `tables` lists the structured tables registered at that domain (rows, bridge classes);
+   a card with `tables_at: <domain>` has none of its own but that domain's tables apply to it.
+   A question about specific records (a customer, a case, a count, "which/how many") goes to
+   those tables (`references/structured-store.md`), even when the wording does not name a table.
 2. Pick the domains the question touches from `purpose`, `vocabulary` and `family`. A
    collapsed family row opens with `--domain <family>`; in peel 2 open only the children the
    question needs (a whole family is cut hard). Policies and the SOPs about the same subject
