@@ -66,3 +66,15 @@ def test_prose_before_the_object_is_still_graded():
            '{"must": [true, false], "must_not": [], "grade": "partial", "reason": "B missing."}')
     got = g.grade_answer("q?", tiers, "some answer", llm=lambda p: raw)
     assert got.grade == "partial" and got.must_found == ("A",) and got.must_missed == ("B",)
+
+
+def test_a_missing_grade_key_is_derived_from_the_item_verdicts():
+    from artmind.traces import grade as g
+    from artmind.traces.tiers import Tiers
+
+    tiers = Tiers(must=("A", "B"), optional=(), must_not=("X",), notes="")
+    raw = '{"must": [true, false], "must_not": [false], "reason": "B missing."}'
+    got = g.grade_answer("q?", tiers, "some answer", llm=lambda p: raw)
+    assert got.grade == "partial" and got.must_missed == ("B",)
+    raw_all = '{"must": [true, true], "must_not": [true], "reason": "X stated."}'
+    assert g.grade_answer("q?", tiers, "a", llm=lambda p: raw_all).grade == "partial"

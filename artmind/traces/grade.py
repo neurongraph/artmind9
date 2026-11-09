@@ -104,6 +104,10 @@ def grade_answer(question: str, tiers: Tiers, answer: str | None, *, llm) -> Gra
         return _ungraded("the grader returned no object")
     must, must_not = data.get("must"), data.get("must_not") or []
     g = str(data.get("grade") or "").strip().casefold()
+    if not g and isinstance(must, list) and must and all(isinstance(x, bool) for x in must):
+        # The grader sometimes omits `grade`; derive it by the prompt's own definitions.
+        hit_any = isinstance(must_not, list) and any(x is True for x in must_not)
+        g = "correct" if all(must) and not hit_any else ("partial" if any(must) else "wrong")
     if (not isinstance(must, list) or len(must) != len(tiers.must) or g not in GRADES
             or not isinstance(must_not, list) or len(must_not) != len(tiers.must_not)):
         return _ungraded("the grader's answer was not in the expected form")
