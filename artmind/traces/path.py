@@ -195,8 +195,8 @@ def is_graph_miss(turn: dict) -> bool:
 
 
 #: Commands that may run before the Views check: Route picks the domain set
-#: the check needs (artmind-query, "The first two commands, every time").
-_BEFORE_VIEWS_OK = frozenset({"query domains-overview"})
+#: (domains-overview, orient without --domain).
+_BEFORE_VIEWS_OK = frozenset({"query domains-overview", "query orient"})
 
 
 def span_domains(span: dict) -> set[str] | None:
@@ -271,6 +271,9 @@ def views_check(spans: list[dict], listed_before: set[str] | None = None, *,
             if command == "query views run":
                 applicable = True  # a view answering the question is the check working
                 ran = ran or span.get("exit_code") == 0
+            continue
+        if command == "query orient" and domains:
+            listed |= domains  # peel 2 carries the domain's saved views (spec 2026-11-09 §4)
             continue
         if command in _BEFORE_VIEWS_OK or not command.startswith("query"):
             continue

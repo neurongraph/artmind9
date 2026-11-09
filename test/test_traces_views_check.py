@@ -188,3 +188,17 @@ def test_an_executed_plan_is_a_view_run():
     plain = {**plan, "evidence": {}}
     check = views_check([plain])
     assert check["view_ran"] is False and check["status"] == "n/a"
+
+
+def test_orient_peel_two_counts_as_the_views_check():
+    spans = [
+        s("query orient", at=1),
+        s("query orient", ["journal"], at=2),
+        s("query entity-context", ["journal"], at=3),
+    ]
+    assert views_check(spans)["status"] == "first"
+
+
+def test_orient_peel_one_alone_is_not_a_check():
+    spans = [s("query orient", at=1), s("query entity-context", ["journal"], at=2)]
+    assert views_check(spans)["status"] == "skipped"
