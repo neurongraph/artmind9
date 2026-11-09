@@ -9,13 +9,16 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-CATALOGUE_FORMAT = 3
+CATALOGUE_FORMAT = 4
 
 #: The parts, in display order, and the DomainCatalogue fields each one fills.
 PART_FIELDS: dict[str, tuple[str, ...]] = {
     "classes": ("classes",),
     "relations": ("relations",),
+    "shapes": ("shapes",),
+    "types": ("types",),
     "documents": ("documents", "doc_records"),
+    "versions": ("versions",),
     "names": ("names", "truncated"),
     "stores": ("stores",),
     "time": ("time",),
@@ -52,6 +55,9 @@ class DomainCatalogue:
     built_at: str
     classes: tuple = ()  # (name, count, description)
     relations: tuple = ()  # (rel_type, count)
+    shapes: tuple = ()  # (src_class, rel_type, dst_class, count)
+    types: tuple = ()  # (class, {total, distinct, dated, top: [[value, n], ...]})
+    versions: tuple = ()  # {name, status, valid_from, successor[, replaces]} per retired/replacing document
     documents: tuple = ()  # every live and retired document name, sorted
     names: tuple = ()
     truncated: bool = False
@@ -74,6 +80,9 @@ class DomainCatalogue:
             "built_at": self.built_at,
             "classes": [list(c) for c in self.classes],
             "relations": [list(r) for r in self.relations],
+            "shapes": [list(s) for s in self.shapes],
+            "types": [[c, dict(v)] for c, v in self.types],
+            "versions": [dict(v) for v in self.versions],
             "documents": list(self.documents),
             "names": [
                 {"_id": n._id, "name": n.name, "aliases": list(n.aliases),
@@ -107,6 +116,9 @@ class DomainCatalogue:
             built_at=str(data["built_at"]),
             classes=tuple((str(c[0]), int(c[1]), str(c[2] or "")) for c in data["classes"]),
             relations=tuple((str(r[0]), int(r[1])) for r in data["relations"]),
+            shapes=tuple((str(s[0]), str(s[1]), str(s[2]), int(s[3])) for s in data.get("shapes") or ()),
+            types=tuple((str(c), dict(v)) for c, v in data.get("types") or ()),
+            versions=tuple(dict(v) for v in data.get("versions") or ()),
             documents=tuple(str(d) for d in data["documents"]),
             names=tuple(
                 NameEntry(

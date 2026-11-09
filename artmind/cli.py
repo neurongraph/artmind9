@@ -3470,7 +3470,7 @@ def graph_hierarchy_cmd(
 
 @query.command("catalogue")
 @click.option("--domain", "domain", multiple=True, required=True, help="Domain (repeatable; comma-splittable; rolls up sub-domains)")
-@click.option("--part", "part", multiple=True, help="Only this part (repeatable): classes, relations, documents, names, stores, time, health")
+@click.option("--part", "part", multiple=True, help="Only this part (repeatable): classes, relations, shapes, types, documents, versions, names, stores, time, health")
 @click.option("--names", "names", is_flag=True, help="List the name index (otherwise only its size)")
 @compact_option
 def query_catalogue(domain: tuple, part: tuple, names: bool, compact: bool) -> None:

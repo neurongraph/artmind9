@@ -318,7 +318,8 @@ def test_the_age_limit_is_an_hour():
 def test_the_time_part_reports_the_dated_share(graph):
     cat = catalogue.build("journal", (5, 3, 2, 1, "x"), parts=("time",))
     assert cat.time == {"documents": 4, "with_valid_from": 3, "share": 0.75,
-                        "earliest": "2026-01-01", "latest": "2026-03-01"}
+                        "earliest": "2026-01-01", "latest": "2026-03-01",
+                        "from_content": 0, "content_earliest": None, "content_latest": None}
 
 
 def test_the_stores_part_reads_the_schema_flag_and_the_registry(graph, monkeypatch):
@@ -338,8 +339,8 @@ def test_an_empty_domain_has_a_zero_share(graph, monkeypatch):
     assert cat.time["share"] == 0.0 and cat.time["earliest"] is None and cat.doc_records == ()
 
 
-def test_the_format_changed_from_two_to_three(graph):
-    assert catalogue.CATALOGUE_FORMAT == 3
+def test_the_format_is_four(graph):
+    assert catalogue.CATALOGUE_FORMAT == 4
 
 
 def test_document_dates_are_read_from_the_stored_property(graph):

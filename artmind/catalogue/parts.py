@@ -19,6 +19,9 @@ from artmind.graph_query import domain_predicate
 
 NAME_INDEX_MAX = 20_000
 RELATIONS_MAX = 50
+SHAPES_MAX = 60
+TYPES_TOP = 8
+TYPE_MIN_ENTITIES = 2
 
 _CLASSES_CYPHER = f"""
 MATCH (e:Entity)
@@ -56,8 +59,47 @@ LIMIT $limit
 _TIME_CYPHER = f"""
 MATCH (d:Document)
 WHERE {domain_predicate("d")}
+WITH d, coalesce(d._valid_time_source, '') <> 'default_ingestion' AND d._valid_from IS NOT NULL AS from_content
 RETURN count(d) AS documents, count(d._valid_from) AS with_valid_from,
-       min(d._valid_from) AS earliest, max(d._valid_from) AS latest
+       min(d._valid_from) AS earliest, max(d._valid_from) AS latest,
+       count(CASE WHEN from_content THEN 1 END) AS from_content,
+       min(CASE WHEN from_content THEN d._valid_from END) AS content_earliest,
+       max(CASE WHEN from_content THEN d._valid_from END) AS content_latest
+"""
+
+_SHAPES_CYPHER = f"""
+MATCH (a:Entity)-[r:RELATES_TO]->(b:Entity)
+WHERE {domain_predicate("a")} AND r.rel_type IS NOT NULL
+  AND a.entity_class IS NOT NULL AND b.entity_class IS NOT NULL
+RETURN a.entity_class AS src, r.rel_type AS rel, b.entity_class AS dst, count(r) AS n
+ORDER BY n DESC, rel, src, dst
+LIMIT $limit
+"""
+
+_TYPES_CYPHER = f"""
+MATCH (e:Entity)
+WHERE {domain_predicate("e")} AND e.entity_class IS NOT NULL
+WITH e.entity_class AS cls,
+     CASE WHEN e.type IS NULL THEN null ELSE toLower(trim(toString(e.type))) END AS t,
+     coalesce(e._valid_time_source = 'property', false) AS dated
+WITH cls, t, count(*) AS n, sum(CASE WHEN dated THEN 1 ELSE 0 END) AS d
+RETURN cls, collect({{type: t, n: n}}) AS types, sum(n) AS total, sum(d) AS dated
+"""
+
+_VERSIONS_CYPHER = f"""
+CALL () {{
+  MATCH (d:Document) WHERE {domain_predicate("d")}
+  RETURN d.name AS name, 'current' AS status, d._valid_from AS valid_from,
+         d.superseded_by AS successor_id, COUNT {{ (d)-[:SUPERSEDES]->() }} AS replaces
+  UNION ALL
+  MATCH (d:DocumentHistory) WHERE {domain_predicate("d")}
+  RETURN d.name AS name, 'retired' AS status, d._valid_from AS valid_from,
+         d.superseded_by AS successor_id, 0 AS replaces
+}}
+WITH * WHERE status = 'retired' OR successor_id IS NOT NULL OR replaces > 0
+OPTIONAL MATCH (s:Document|DocumentHistory {{id: successor_id}})
+RETURN name, status, valid_from, s.name AS successor, replaces
+ORDER BY name, status
 """
 
 
@@ -146,12 +188,50 @@ def build_time(domain: str) -> dict:
     row = rows[0] if rows else {}
     total = int(row.get("documents") or 0)
     dated = int(row.get("with_valid_from") or 0)
+
+    def day(v):
+        return None if v is None else str(v)
+
     return {"time": {
         "documents": total, "with_valid_from": dated,
         "share": round(dated / total, 4) if total else 0.0,
-        "earliest": None if row.get("earliest") is None else str(row["earliest"]),
-        "latest": None if row.get("latest") is None else str(row["latest"]),
+        "earliest": day(row.get("earliest")), "latest": day(row.get("latest")),
+        "from_content": int(row.get("from_content") or 0),
+        "content_earliest": day(row.get("content_earliest")), "content_latest": day(row.get("content_latest")),
     }}
+
+
+def build_shapes(domain: str) -> dict:
+    return {"shapes": tuple(
+        (r["src"], r["rel"], r["dst"], int(r["n"]))
+        for r in _run(_SHAPES_CYPHER, {"domains": [domain], "limit": SHAPES_MAX})
+    )}
+
+
+def build_types(domain: str) -> dict:
+    """Per class: entity total, how many carry their own date, and the `type` values held by at
+    least TYPE_MIN_ENTITIES entities (top TYPES_TOP); `distinct` counts every non-null value."""
+    out = []
+    for r in _run(_TYPES_CYPHER, {"domains": [domain]}):
+        values = sorted(((str(t["type"]), int(t["n"])) for t in r["types"] if t.get("type")),
+                        key=lambda tv: (-tv[1], tv[0]))
+        top = [[t, n] for t, n in values if n >= TYPE_MIN_ENTITIES][:TYPES_TOP]
+        out.append((str(r["cls"]), {"total": int(r["total"]), "distinct": len(values),
+                                    "dated": int(r["dated"]), "top": top}))
+    return {"types": tuple(sorted(out, key=lambda cv: (-cv[1]["total"], cv[0])))}
+
+
+def build_versions(domain: str) -> dict:
+    """Retired documents and the live documents that replaced one: name, status, date, successor."""
+    out = []
+    for r in _run(_VERSIONS_CYPHER, {"domains": [domain]}):
+        rec = {"name": r["name"], "status": r["status"],
+               "valid_from": None if r.get("valid_from") is None else str(r["valid_from"]),
+               "successor": r.get("successor")}
+        if int(r.get("replaces") or 0):
+            rec["replaces"] = int(r["replaces"])
+        out.append(rec)
+    return {"versions": tuple(out)}
 
 
 #: The parts a builder exists for. `assets` and `health` register theirs when their
@@ -163,6 +243,9 @@ BUILDERS: dict[str, Callable[[str], dict]] = {
     "names": build_names,
     "stores": build_stores,
     "time": build_time,
+    "shapes": build_shapes,
+    "types": build_types,
+    "versions": build_versions,
 }
 
 
@@ -200,7 +283,7 @@ def part_key(part: str, fingerprint: tuple) -> list:
     and its three disk stores."""
     graph = list(fingerprint[:4])
     disk = fingerprint[4] if len(fingerprint) > 4 else ""
-    if part in ("relations", "documents", "names", "time"):
+    if part in ("relations", "documents", "names", "time", "shapes", "types", "versions"):
         return graph
     if part == "classes":
         return [*graph, stamps.part(disk, "schemas")]
