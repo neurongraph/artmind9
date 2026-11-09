@@ -230,7 +230,9 @@ def build_versions(domain: str) -> dict:
                "successor": r.get("successor")}
         if int(r.get("replaces") or 0):
             rec["replaces"] = int(r["replaces"])
-        out.append(rec)
+        if rec not in out:
+            out.append(rec)
+    out.sort(key=lambda r: (r["name"] or "", r["status"], r["valid_from"] or "", r["successor"] or ""))
     return {"versions": tuple(out)}
 
 

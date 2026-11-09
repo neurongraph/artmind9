@@ -97,3 +97,48 @@ def test_report_marks_new_parts_as_graph_parts():
     from artmind.catalogue import report
 
     assert {"shapes", "types", "versions"} <= report.GRAPH_PARTS
+
+
+def _fake(monkeypatch, marker, rows):
+    calls = []
+
+    def run(cypher, params):
+        calls.append((cypher, params))
+        return rows
+
+    monkeypatch.setattr(graph_query, "_run_read_query", run)
+    return calls
+
+
+def test_params_sent_for_types_versions_and_time(graph):
+    parts.build_types("d1")
+    parts.build_versions("d1")
+    parts.build_time("d1")
+    assert [p for _, p in graph.calls] == [{"domains": ["d1"]}] * 3
+
+
+def test_types_output_is_sorted(monkeypatch):
+    rows = [{"cls": "B", "total": 2, "dated": 0, "types": [{"type": "y", "n": 2}]},
+            {"cls": "A", "total": 2, "dated": 0, "types": [{"type": "z", "n": 2}, {"type": "x", "n": 2},
+                                                           {"type": "w", "n": 5}]},
+            {"cls": "C", "total": 9, "dated": 0, "types": []}]
+    _fake(monkeypatch, "types", rows)
+    out = parts.build_types("d")["types"]
+    assert [c for c, _ in out] == ["C", "A", "B"]
+    assert dict(out)["A"]["top"] == [["w", 5], ["x", 2], ["z", 2]]
+
+
+def test_versions_sorted_and_deduplicated(monkeypatch):
+    a = {"name": "b.md", "status": "retired", "valid_from": "2026-01-01", "successor": "c.md", "replaces": 0}
+    b = {"name": "a.md", "status": "current", "valid_from": None, "successor": None, "replaces": 1}
+    _fake(monkeypatch, "versions", [a, b, dict(a)])
+    out = parts.build_versions("d")["versions"]
+    assert [r["name"] for r in out] == ["a.md", "b.md"]
+
+
+def test_time_without_content_dated_documents(monkeypatch):
+    _fake(monkeypatch, "time", [{"documents": 2, "with_valid_from": 2, "from_content": 0,
+                                 "earliest": "2026-01-01", "latest": "2026-02-01",
+                                 "content_earliest": None, "content_latest": None}])
+    t = parts.build_time("d")["time"]
+    assert t["from_content"] == 0 and t["content_earliest"] is None and t["content_latest"] is None
