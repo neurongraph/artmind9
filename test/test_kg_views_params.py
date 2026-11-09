@@ -289,3 +289,11 @@ def test_exact_name_in_two_classes_is_resolved_by_the_param_class():
     with patched_resolve(rows):
         res = resolve_params(make_spec("Product"), {"product": "Mortgage"}, ["finance"])
     assert res.status == "ok" and res.bindings["product"] == "p"
+
+
+def test_alias_only_hit_resolves_an_entity_param():
+    rows = [hit("e1", "Retail Mortgage", matched_by=("alias",))]
+    with patched_resolve(rows):
+        res = resolve_params(make_spec(), {"product": "RM"}, ["finance"])
+    assert res.status == "ok"
+    assert res.bindings["product"] == "e1"

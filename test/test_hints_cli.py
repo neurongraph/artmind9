@@ -144,3 +144,12 @@ def test_nonempty_results_keep_next_null(runner):
     with patch("artmind.cli.text2sql.execute_text2sql", return_value={"rows": [{"a": 1}]}):
         out = _json(runner.invoke(cli, ["query", "text2sql", "--domain", "bank", "--compact", "q"]))
     assert out["next"] is None
+
+
+def test_pattern6_fills_classes_from_alias_only_hits(runner):
+    found = {"rows": [{"entity": {"entity_class": "PERSON"}, "matched_by": ["alias"]}]}
+    with patch("artmind.cli.graph_query.execute_pattern", return_value={"rows": []}), \
+         patch("artmind.cli.vector_query.entity_name_candidates", return_value=found):
+        out = _json(runner.invoke(cli, ["query", "graph", "pattern6", "--domain", "bank",
+                                        "--entityName1", "Ann", "--entityName2", "Bob", "--compact"]))
+    assert "--entityClass1 PERSON --entityClass2 PERSON" in out["next"]

@@ -3342,7 +3342,7 @@ def _exact_entity_classes(domains: list[str], names: list) -> list:
                 continue
             found = vector_query.entity_name_candidates(domains, name, 1)
             for row in found.get("rows") or []:
-                if "exact" in (row.get("matched_by") or []):
+                if {"exact", "alias"} & set(row.get("matched_by") or []):
                     classes[i] = (row.get("entity") or {}).get("entity_class")
                     break
     except Exception:
@@ -3351,7 +3351,7 @@ def _exact_entity_classes(domains: list[str], names: list) -> list:
     try:
         found = vector_query.entity_name_candidates(domains, name, 1)
         for row in found.get("rows") or []:
-            if "exact" in (row.get("matched_by") or []):
+            if {"exact", "alias"} & set(row.get("matched_by") or []):
                 return (row.get("entity") or {}).get("entity_class")
     except Exception:
         pass
