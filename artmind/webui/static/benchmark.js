@@ -133,7 +133,14 @@ async function refreshCompletedBenchmarkRuns() {
   tbody.innerHTML = "";
   for (const run of runs) {
     const tr = document.createElement("tr");
-    tr.appendChild(el("td", null, run.name || `${run.runId.slice(0, 10)}…`));
+    tr.appendChild(el("td", null, run.name || "—"));
+    // The id is what `artmind traces compare --baseline` takes; names need not be unique.
+    // Shown as the 8-character prefix compare accepts; the full id is the tooltip.
+    const idCell = el("td");
+    const idCode = el("code", "bm-run-id", run.runId.slice(0, 8));
+    idCode.title = run.runId;
+    idCell.appendChild(idCode);
+    tr.appendChild(idCell);
     tr.appendChild(el("td", null, run.domainHint || "—"));
     tr.appendChild(el("td", null, `${run.processedCount}/${run.questionCount}`));
     tr.appendChild(el("td", `status-${run.status}`, run.status));
