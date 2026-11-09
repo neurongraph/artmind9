@@ -248,6 +248,12 @@ Rules:
 
 P2-2 to P2-5 may be measured in pairs; a failed pair is bisected.
 
+**Revised 2026-11-09 (user decision, after variant run H):** P2-2, P2-2b, P2-3, P2-4, P2-4b and P2-5 are built
+as **one batch** on top of P2-1 and measured with **one** benchmark run per vault; a benchmark per fix is too
+slow. Each slice still has its hermetic tests and a live check in banking_corpus, and deletes its skill text in
+the `artmind-query-orient` variant. A failed batch is bisected by switching slices off. P2-4b builds only the
+`survey --by` candidate. Composites and P2b stay separate measured steps.
+
 ### 4.3a Additions from the baseline (2026-11-09, study note 20)
 
 The baseline's shared misses named five gaps the slices above did not cover.
