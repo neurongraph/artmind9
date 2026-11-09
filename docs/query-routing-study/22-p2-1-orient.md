@@ -84,10 +84,76 @@ prefers G1 on nine more questions than D; the other five pairs are within 4.
 **Gate floors for the orient variant (Sonnet, lowest baseline run):** banking 67 %; brain01 Q01–Q14 55 %,
 Q15–Q29 76 %. Judge and grade the variant with `--model claude-sonnet-5-5`.
 
-## Still to do before the variant gate
+## Variant run H (skill variant `orient`), judged and graded with Sonnet
 
-1. ~~Gate model~~: Sonnet, all baseline runs re-judged and re-graded (above).
-2. Restart the admin consoles; the user runs one benchmark per vault with Skill variant `orient`
-   (banking_corpus first).
-3. `traces compare --baseline <all> --variant <id> --questions <file> --judge --grade --model claude-sonnet-5-5` and
-   `traces misses --run <id>`.
+Runs: banking `34d38b0b` (36/36), brain01 `42bf7363` (29/29). Admin consoles restarted after the last code
+commit; every turn recorded contract `orient`.
+
+### Must items (primary gate)
+
+| Vault / group | Floor (lowest baseline) | Baseline range | H |
+|---|---|---|---|
+| banking (214) | 67 % | 67–71 % | 149 (70 %) |
+| brain01 Q01–Q14 (101) | 55 % | 55–61 % | 64 (63 %) |
+| brain01 Q15–Q29 (75) | 76 % | 76–79 % | 58 (77 %) |
+
+H is at or above every floor; on brain01 Q01–Q14 it is above every baseline run. Correct / partial / wrong:
+banking 9/27/0 (baselines 7–8 correct); brain01 Q01–Q14 2/12/0, Q15–Q29 6/8/1. Must-not hits: banking —;
+brain01 Q01–Q14 4 (baselines 5–8), Q15–Q29 1 (baselines 2–3).
+
+### Gate rows (`traces compare`)
+
+| Row | banking | brain01 |
+|---|---|---|
+| balance within band (3 / 9) | ok: +1, 0, +1 | ok: −2, −6, −3, −8 (H better on balance against every run) |
+| no must item lost that every baseline found | **fail**: 8 items over 6 q (Q02, Q13, Q14, Q16, Q19, Q32×3) | **fail**: 4 items over 4 q (Q02, Q03, Q15, Q16) |
+| no question materially worse than all baselines | **fail**: Q01, Q15, Q18, Q32 | ok: none |
+
+**The two failing rows fail every baseline run too.** Applied to each baseline run against the other baselines
+only (H left out): banking A loses 14 items / 9 q and is worse-than-all on 3 q, D 9 / 8 and 6, G 11 / 8 and 4;
+brain01 A 5 / 4 and 1, D 0 / 0 and 2, G1 4 / 3 and 1, G2 7 / 6 and 2. H's banking 8 / 6 and 4, and brain01 4 / 4
+and 0, sit inside those ranges. With three or four runs at ~70 % per item, "every other run found it" is common
+noise, so these rows cannot separate a variant from a baseline as written. The spec's rule is that each
+worse-than-all question needs a dossier or the user's reading; the flagged lists below are for that.
+
+### Behaviour
+
+- Orient was the first call in 65 of 65 turns. banking: peel 1 then straight to retrieval in 29 of 36 turns,
+  peel 2 in 7 (5 of them for two domains); brain01: peel 1 + peel 2 in 28 of 29.
+- Orientation calls replaced: no `domains-overview`, `views list` or `db bridge`; `structural-metadata` twice in
+  banking.
+- Payload sizes: banking peel 1 8,428 characters, peel 2 median 19,914 (two domains); brain01 peel 1 1,093,
+  peel 2 10,273.
+- Median commands per turn unchanged (banking 4, brain01 5); median latency banking 25.5 s (G 28.1 s), brain01
+  27.7 s (G1 23.5 s).
+- Miss records: banking 36 turns, 31 with misses, vocabulary 35, scope 3 (outside the first scope; G had 1),
+  answer 1; brain01 29 turns, 23 with misses, vocabulary 23, identity 17 (12 low score, 5 twins; G1 17).
+
+### What the banking losses share
+
+Three of the four worse-than-all questions point at a specific cause, read from the grades (public corpus) and
+the spans:
+
+- **Q32** (who is the open-complaint vulnerable customer): every baseline run used the structured store
+  (`db bridge` → `db schema` → `db sql`); H never touched it and said no customer can be named. The variant
+  dropped `db bridge`, and peel 1 shows `structured` on every banking card (the tables sit at the `banking`
+  root and every child inherits them), so it no longer tells which question needs the tables. H still used
+  the store for Q33–Q36, whose wording names records.
+- **Q01, Q15, Q18** (multi-document procedures): H searched the same domains as the baselines but dropped
+  specifics (thresholds, SOP ids, retention periods), the "depth for broad multi-document questions" gap of
+  study note 20, not an orientation change. Q15's grade also notes H asserting no rule blocks closure.
+
+## Reading for the user
+
+Flagged by `traces compare` (material vs some baseline, worse than all, or a lost must item), ids only:
+
+- banking: Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q11, Q13, Q14, Q15, Q16, Q18, Q19, Q20, Q21, Q22, Q24, Q26, Q32,
+  Q33, Q36 — first Q32, Q01, Q15, Q18 (worse than all).
+- brain01: Q02, Q03, Q05, Q06, Q07, Q08, Q09, Q10, Q11, Q12, Q15, Q16, Q18, Q21, Q27, Q28 — first Q02, Q03, Q15,
+  Q16 (lost must items).
+
+## Next
+
+1. The user reads the flagged answers (first the worse-than-all and lost-must questions above).
+2. Decide what P2-1 needs before it replaces the classic text: the structured-store signal on cards (Q32), and
+   whether the gate's lost-must / worse-than-all rows need a noise allowance (they fail every baseline run).
