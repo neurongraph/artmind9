@@ -104,3 +104,17 @@ Failure groups:
   wait for the extraction wave.
 - Tier edits before the next grading: document-id items to Optional (banking); Q11 trimmed
   (brain01).
+
+## Miss records (P2-0)
+
+`artmind traces misses --run <id>` (no LLM call; records in each vault's private `logs/misses/`).
+
+| Run | Turns | Turns with misses | vocabulary | reformulation | identity | scope | structure | answer | user-stated |
+|---|---|---|---|---|---|---|---|---|---|
+| G (banking) | 36 | 29 | 32 | 0 | 0 | 1 (widened) | 0 | 65 | 0 |
+| G1 (brain01) | 29 | 28 | 27 | 0 | 17 (15 low score, 2 twins) | 0 | 0 | 84 | 0 |
+
+`answer` equals each run's missed must items plus must-not hits from the grades. Reformulation is 0: the
+classic agent's first search already returned a document it cited. User-stated is 0 by construction for
+benchmark turns (one fresh agent per question, no feedback). Answers carry no `### Sources` section; citations
+are matched inline by file stem or title.
