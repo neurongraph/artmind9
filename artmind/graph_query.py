@@ -1741,6 +1741,24 @@ def _entity_chunk(chunk: dict, shape: str, rank: int) -> dict:
     return chunk
 
 
+def entity_context_cut(row: dict, max_connections: int) -> dict | None:
+    """What a hub's cut hides, for a full or brief entity-context row: only the parts that
+    were cut ({connections|chunks: {shown, total}, properties: [names]}); None when nothing was."""
+    cut: dict = {}
+    conns_total = row.get("connections_total") or 0
+    shown_conns = len(row.get("connections") or [])
+    if conns_total > max_connections and conns_total > shown_conns:
+        cut["connections"] = {"shown": shown_conns, "total": conns_total}
+    chunks_total = row.get("chunks_total") or 0
+    shown_chunks = len(row.get("chunks") or [])
+    if chunks_total > shown_chunks:
+        cut["chunks"] = {"shown": shown_chunks, "total": chunks_total}
+    truncated = row.get("truncated_properties")
+    if truncated:
+        cut["properties"] = list(truncated)
+    return cut or None
+
+
 def entity_context(
     domains: "str | Sequence[str]",
     entity_id: str,

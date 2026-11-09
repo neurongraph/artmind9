@@ -3869,9 +3869,11 @@ def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, 
 @click.option("--relType", "rel_types", multiple=True, help="Only return connections of this rel_type (repeatable; comma-splittable). connection_summary still covers all")
 @click.option("--maxConnections", "max_connections", type=int, default=graph_query.ENTITY_CONTEXT_MAX_CONNECTIONS, show_default=True, help="Connections returned (connection_summary counts every edge)")
 @click.option("--maxListItems", "max_list_items", type=int, default=graph_query.ENTITY_CONTEXT_MAX_LIST_ITEMS, show_default=True, help="Newest items kept per list property (full lengths in truncated_properties)")
+@click.argument("question", required=False)
 @shape_option
 @compact_option
 def query_entity_context(
+    question: str | None,
     domain: tuple,
     entity_id: str,
     include_chunks: int,
@@ -3893,9 +3895,16 @@ def query_entity_context(
     Bounded for hub entities: every edge is counted in connection_summary, but
     only the top --maxConnections are listed. Pass --query with the question to
     rank chunks and connections by relevance, and --relType to drill into one
-    kind of relationship.
+    kind of relationship. A positional QUESTION does the same as --query (--query wins
+    when both are given). A row whose connections, chunks or list properties were cut
+    carries `cut` (what was shown of how many) and `hub: true`.
     """
     domains = _parse_domains(domain)
+    warnings: list[str] = []
+    if question and query_text:
+        warnings.append("both --query and a QUESTION were given; using --query")
+    elif question:
+        query_text = question
     rel_type_list = [t.strip() for value in rel_types for t in value.split(",") if t.strip()]
     try:
         result = graph_query.entity_context(
@@ -3911,6 +3920,13 @@ def query_entity_context(
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     rows = result.get("rows") or []
+    for row in rows:
+        cut = graph_query.entity_context_cut(row, max_connections)
+        if cut:
+            row["cut"] = cut
+            row["hub"] = True
+    if warnings:
+        result["warnings"] = [*(result.get("warnings") or []), *warnings]
     if len(rows) == 1:
         extra = hints.join_next(
             hints.entity_context_thin(rows[0], domains),
