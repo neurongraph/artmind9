@@ -64,6 +64,21 @@ def prompt(question: str, tiers: Tiers, answer: str) -> str:
                            must_not=_numbered(tiers.must_not), notes=tiers.notes or "(none)", answer=answer)
 
 
+def _last_object(text: str):
+    """The last top-level `{...}` in `text` that parses as a JSON object, else None."""
+    import json
+
+    text = text or ""
+    for start in reversed([i for i, ch in enumerate(text) if ch == "{"]):
+        try:
+            obj, _ = json.JSONDecoder().raw_decode(text[start:])
+        except ValueError:
+            continue
+        if isinstance(obj, dict) and "grade" in obj:
+            return obj
+    return None
+
+
 def _ungraded(reason: str) -> Grade:
     return Grade("ungraded", (), (), (), reason)
 
@@ -79,7 +94,10 @@ def grade_answer(question: str, tiers: Tiers, answer: str | None, *, llm) -> Gra
     try:
         from artmind.extraction import parse_json_response
 
-        data = parse_json_response(llm(prompt(question, tiers, answer)))
+        raw = llm(prompt(question, tiers, answer))
+        data = parse_json_response(raw)
+        if not isinstance(data, dict):
+            data = _last_object(raw)  # prose before the JSON makes the repair parser return a list
     except Exception:
         return _ungraded("the grader call failed")
     if not isinstance(data, dict):

@@ -55,3 +55,14 @@ def test_cached_grade_calls_once():
     g1 = grade.cached_grade("run1", 1, "q?", T, "a", llm=llm, model="m")
     g2 = grade.cached_grade("run1", 1, "q?", T, "a", llm=llm, model="m")
     assert g1 == g2 and g1.grade == "correct" and len(calls) == 1
+
+
+def test_prose_before_the_object_is_still_graded():
+    from artmind.traces import grade as g
+    from artmind.traces.tiers import Tiers
+
+    tiers = Tiers(must=("A", "B"), optional=(), must_not=(), notes="")
+    raw = ('Checking the must items: [1] found, [2] missing.\n'
+           '{"must": [true, false], "must_not": [], "grade": "partial", "reason": "B missing."}')
+    got = g.grade_answer("q?", tiers, "some answer", llm=lambda p: raw)
+    assert got.grade == "partial" and got.must_found == ("A",) and got.must_missed == ("B",)
