@@ -127,6 +127,8 @@ def predecessor_next(payload: dict) -> str | None:
     Reads vector-text rows (`doc.replaced` brief, `document.supersedes` full) and survey
     rows (`replaced` brief, `supersedes` full); `None` when no document replaced another.
     """
+    domains = payload.get("domains") or ([payload["domain"]] if payload.get("domain") else [])
+    fallback = domains[0] if len(domains) == 1 else None  # a brief survey line row carries no domain
     for row in (payload.get("rows") or []) + (payload.get("documents") or []):
         if not isinstance(row, dict):
             continue
@@ -134,7 +136,7 @@ def predecessor_next(payload: dict) -> str | None:
         doc = doc if isinstance(doc, dict) else row
         if not (doc.get("replaced") or doc.get("supersedes")):
             continue
-        domain = doc.get("domain") or doc.get("_domain")
+        domain = doc.get("domain") or doc.get("_domain") or fallback
         ident = doc.get("name") or doc.get("title")  # never the raw id; history matches a missing extension
         if domain and ident:
             return f"artmind query document-history --domain {quote(domain)} --documentName {quote(ident)} --compact"

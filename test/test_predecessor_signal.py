@@ -86,3 +86,20 @@ def test_survey_next_names_document_history():
 def test_predecessor_next_never_emits_raw_id():
     payload = {"rows": [{"doc": {"id": "01a15747-b8b6", "domain": "dom", "replaced": [{"name": "o"}]}}]}
     assert hints.predecessor_next(payload) is None
+
+
+def test_a_survey_line_row_without_domain_uses_the_single_queried_domain():
+    from artmind import hints
+
+    payload = {"domains": ["bank.policy"],
+               "documents": [{"rank": 1, "doc_id": "d1", "title": "policy_a_v2", "replaced": [{"name": "policy_a.md"}]}]}
+    assert hints.predecessor_next(payload) == (
+        "artmind query document-history --domain bank.policy --documentName policy_a_v2 --compact")
+
+
+def test_a_line_row_without_domain_is_skipped_when_several_domains_were_queried():
+    from artmind import hints
+
+    payload = {"domains": ["bank.policy", "bank.sop"],
+               "documents": [{"rank": 1, "doc_id": "d1", "title": "policy_a_v2", "replaced": [{"name": "policy_a.md"}]}]}
+    assert hints.predecessor_next(payload) is None
