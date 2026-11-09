@@ -74,6 +74,12 @@ def contradictory(a: dict, b: dict) -> bool:
     return a_newer and b_newer
 
 
+def _declares_no_successor(side: dict) -> bool:
+    """True when the document's metadata has a `Superseded By` row that names nothing."""
+    raw = (side.get("meta") or {}).get("Superseded By")
+    return raw is not None and not _targets(raw) and str(raw).strip().casefold() in {"none", "n/a", "-", ""}
+
+
 def decide(a: dict, b: dict) -> tuple[dict, dict] | None:
     """`(newer, older)` or `None` when the direction is unknown or contradictory."""
     # 1. explicit links
@@ -86,6 +92,13 @@ def decide(a: dict, b: dict) -> tuple[dict, dict] | None:
         return a, b
     # 2. explicit status
     stat_a, stat_b = _status(a), _status(b)
+    # A document whose own metadata names no successor ("Superseded By: None") while the
+    # other document does name its own successor (someone else) declares a different
+    # lineage: the two are unrelated, whatever their statuses and dates say.
+    if _declares_no_successor(a) and _names(b, "Superseded By") and not b_newer:
+        return None
+    if _declares_no_successor(b) and _names(a, "Superseded By") and not a_newer:
+        return None
     if stat_a == "superseded" and stat_b in _ACTIVE:
         return b, a
     if stat_b == "superseded" and stat_a in _ACTIVE:

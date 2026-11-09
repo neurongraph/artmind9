@@ -226,3 +226,24 @@ def test_detect_conflicts_report_surfaces_undecided_verdicts(monkeypatch, tmp_pa
     report = c.detect_conflicts(["d"], from_file=str(f))
     assert report["skipped"] == [{"skipped": "supersession direction undecided", "a": "x", "b": "y"}]
     assert report["conflicts"] == [] and report["stats"] == {"materialized": 0}
+
+
+def _side(name, vf, status, supersedes, superseded_by):
+    return {"id": name, "name": name, "_valid_from": vf,
+            "meta": {"Status": status, "Supersedes": supersedes, "Superseded By": superseded_by}}
+
+
+def test_an_active_document_naming_no_successor_is_not_retired_by_an_unrelated_superseded_one():
+    # banking: interest_rate_schedule_2026_02 (Superseded, by _03) vs welcome_pack (Active, by None)
+    schedule = _side("interest_rate_schedule_2026_02.md", "2026-02-01", "Superseded",
+                     "[[interest_rate_schedule_2026]]", "[[interest_rate_schedule_2026_03]] from 2026-03-01")
+    welcome = _side("welcome_pack.md", "2026-01-15", "Active", "None", "None")
+    assert decide(schedule, welcome) is None
+    assert decide(welcome, schedule) is None
+
+
+def test_no_successor_rule_does_not_block_an_explicit_link():
+    old = _side("sop.md", "2026-01-15", "Superseded", "None", "[[sop_v3]] from 2026-03-01")
+    new = _side("sop_v3.md", "2026-03-01", "Active", "Version 2.1, [[sop]]", "None")
+    newer, older = decide(old, new)
+    assert (newer["name"], older["name"]) == ("sop_v3.md", "sop.md")
