@@ -139,8 +139,10 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
     """
     return (
         f"(${param} IS NULL OR "
-        f"(({var}.valid_from IS NULL OR {var}.valid_from <= ${param}) "
-        f"AND ({var}.valid_to IS NULL OR {var}.valid_to > ${param})))"
+        f"((coalesce({var}._valid_from, {var}.valid_from) IS NULL "
+        f"OR coalesce({var}._valid_from, {var}.valid_from) <= ${param}) "
+        f"AND (coalesce({var}.valid_to, {var}._valid_to) IS NULL "
+        f"OR coalesce({var}.valid_to, {var}._valid_to) > ${param})))"
     )
 
 
@@ -1078,7 +1080,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         # rather than implied.
         include_history = bool(parameters.get("includeHistory") or parameters.get("asOf"))
         doc_return = (
-            "d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, "
+            "d { .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by, "
             + supersedes_field("d") + " } AS document"
         )
         chunk_return = "c { .id, .name, .doc_id, ._domain, .valid_to, .text } AS chunk"
@@ -1322,8 +1324,8 @@ def _chunks_query(expand: int, as_of: str | None, scoped: bool = True) -> str:
     WHERE c.id IN $chunkIds{domain_c}{asof_c}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, ._domain, .header_path, .valid_from, .valid_to, .text }} AS chunk,
-           d {{ .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by, {supersedes_field("d")},
-                title: coalesce(d.title, d.name), date: d.valid_from,
+           d {{ .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by, {supersedes_field("d")},
+                title: coalesce(d.title, d.name), date: coalesce(d._valid_from, d.valid_from),
                 superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(d) }} }} AS document{neighbor_return}
     ORDER BY c.id
     """
@@ -1489,8 +1491,8 @@ def _entity_context_queries() -> dict[str, str]:
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
     RETURN c {
       .id, .name, .doc_id, ._domain, .header_path, .valid_to, .text,
-      document: d { .id, .name, .path, .source_path, ._domain, .valid_from, .valid_to, .superseded_by,
-                    title: coalesce(d.title, d.name), date: d.valid_from,
+      document: d { .id, .name, .path, .source_path, ._domain, valid_from: coalesce(d._valid_from, d.valid_from), valid_to: coalesce(d.valid_to, d._valid_to), .superseded_by,
+                    title: coalesce(d.title, d.name), date: coalesce(d._valid_from, d.valid_from),
                     superseded: EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } }
     } AS chunk
     """,
@@ -1499,7 +1501,7 @@ def _entity_context_queries() -> dict[str, str]:
     MATCH (e)-[:AGGREGATES]->(so:Observation)
     WITH DISTINCT so.doc_id AS did
     MATCH (sd:Document {{id: did}})
-    RETURN sd {{ .id, .name, .path, .source_path, ._domain, .valid_from }} AS document
+    RETURN sd {{ .id, .name, .path, .source_path, ._domain, valid_from: coalesce(sd._valid_from, sd.valid_from) }} AS document
     """,
     }
 
@@ -2105,16 +2107,16 @@ def timeline(
     window = ""
     if from_:
         params["from_"] = from_
-        window += "\n      AND (e.valid_from IS NULL OR e.valid_from >= $from_)"
+        window += "\n      AND (coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) >= $from_)"
     if to:
         params["to"] = to
-        window += "\n      AND (e.valid_from IS NULL OR e.valid_from <= $to)"
+        window += "\n      AND (coalesce(e._valid_from, e.valid_from) IS NULL OR coalesce(e._valid_from, e.valid_from) <= $to)"
     cypher = f"""
     MATCH (e:Entity)
     WHERE {domain_predicate("e")}
       AND any(l IN labels(e) WHERE l IN $labels){window}
-    RETURN e {{ ._id, .name, .entity_class, label: labels(e), .valid_from, .valid_to }} AS entity
-    ORDER BY e.valid_from
+    RETURN e {{ ._id, .name, .entity_class, label: labels(e), valid_from: coalesce(e._valid_from, e.valid_from), valid_to: coalesce(e.valid_to, e._valid_to) }} AS entity
+    ORDER BY coalesce(e._valid_from, e.valid_from)
     """
     return {
         **_domain_output(domains),

@@ -404,7 +404,7 @@ def _chunk_fetch_cypher() -> str:
     OPTIONAL MATCH (c)-[:PART_OF]->(document:Document)
     RETURN c {{ .id, .name, .doc_id, .header_path, .text }} AS chunk,
            document {{ .id, .name, .path, .source_path, ._domain, {supersedes_field("document")},
-                      title: coalesce(document.title, document.name), date: document.valid_from,
+                      title: coalesce(document.title, document.name), date: coalesce(document._valid_from, document.valid_from),
                       superseded: EXISTS {{ MATCH (:Document)-[:SUPERSEDES]->(document) }} }} AS document
     """
 

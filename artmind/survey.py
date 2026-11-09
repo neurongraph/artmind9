@@ -61,7 +61,7 @@ UNWIND $docIds AS did
 MATCH (d:Document {id: did})
 OPTIONAL MATCH (s:DocSummary {id: did + ':summary'})
 RETURN d.id AS doc_id, coalesce(d.title, d.name) AS title, d.name AS name, d._domain AS domain,
-       s.text AS summary, d.valid_from AS date,
+       s.text AS summary, coalesce(d._valid_from, d.valid_from) AS date,
        EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } AS superseded,
        """ + supersedes_list("d") + """ AS supersedes
 """

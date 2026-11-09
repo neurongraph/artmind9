@@ -204,7 +204,7 @@ def test_survey_full_rows_gain_title_date_status_and_keep_keys(monkeypatch):
     assert {"summary", "ranks", "passages", "chunk_summary", "name", "title"} <= set(d)
     assert d["date"] == "2018-06-01" and d["status"] == "current"
     cypher = s.queries_containing("UNWIND $docIds")[0][0]
-    assert "d.valid_from AS date" in cypher and "SUPERSEDES" in cypher
+    assert "coalesce(d._valid_from, d.valid_from) AS date" in cypher and "SUPERSEDES" in cypher
 
 
 def test_survey_expand_returns_passage_rows_without_reranking(monkeypatch):
