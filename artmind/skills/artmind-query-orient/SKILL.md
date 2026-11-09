@@ -339,7 +339,7 @@ Routing notes:
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
   --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
-- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`.
+- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. A set taken from an entity's graph links ("which X did Y …", "how many X …") can miss members extraction never linked: before giving a total, also search for the class by name or description (`pattern7` on the class word, or `survey`) and add any member the text ties to Y.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
   "get the next page" — rephrase the question to be more selective (name the entity/date
