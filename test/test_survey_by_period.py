@@ -45,7 +45,7 @@ def test_best_two_per_year_in_chronological_order(monkeypatch):
     assert [(p["period"], [d["doc_id"] for d in p["documents"]]) for p in out["periods"]] == [
         ("2023", ["A", "B"]), ("2024", ["D", "E"]), ("2025", ["F"]), ("undated", ["U"])]
     assert [d["doc_id"] for d in out["documents"]] == ["A", "B", "D", "E", "F", "U"]
-    assert out["periods"][0]["hits"] == 3
+    assert out["periods"][0]["keyword_hits"] == 3 and out["periods"][0]["ranked"] == 3 and "hits" not in out["periods"][0]
     assert out["documents"][0]["date"] == "2023-02-01"
     cypher, params = [c for c in s.calls if "hit_limit" in c[1]][0]
     assert "passage_text_ft" in cypher and "$domains" in cypher
@@ -56,8 +56,8 @@ def test_period_with_hits_but_no_document_is_listed_and_signposted(monkeypatch):
     _patch(monkeypatch, Recorder(_responder([{"date": "2021-06-15", "hits": 4}, {"date": "2023-02-01", "hits": 1}])))
     out = survey.survey_search(["notes"], "it's alpha", by="year")
     first = out["periods"][0]
-    assert first == {"period": "2021", "hits": 4, "documents": []}
-    assert out["next"] == "artmind query vector-text --domain notes --asOf 2021-12-31 --topK 10 --compact 'it'\"'\"'s alpha'"
+    assert first == {"period": "2021", "keyword_hits": 4, "ranked": 0, "documents": []}
+    assert out["next"] == "artmind query graph timeline --domain notes --from 2021-01-01 --to 2021-12-31 --compact"
 
 
 def test_month_signpost_uses_last_day_of_month(monkeypatch):
@@ -65,8 +65,8 @@ def test_month_signpost_uses_last_day_of_month(monkeypatch):
     out = survey.survey_search(["notes"], "alpha", by="month")
     assert [p["period"] for p in out["periods"]][:2] == ["2023-02", "2023-05"]
     empty = [p for p in out["periods"] if p["period"] == "2024-02"][0]
-    assert empty["documents"] == [] and empty["hits"] == 2
-    assert "--asOf 2024-02-29" in out["next"]
+    assert empty["documents"] == [] and empty["keyword_hits"] == 2
+    assert out["next"] == "artmind query graph timeline --domain notes --from 2024-02-01 --to 2024-02-29 --compact"
 
 
 def test_cap_at_fifty_warns(monkeypatch):
@@ -87,7 +87,7 @@ def test_cap_at_fifty_warns(monkeypatch):
     monkeypatch.setattr(survey, "read_session", lambda: s)
     out = survey.survey_search(["notes"], "alpha", by="year", per_period=1)
     assert len(out["documents"]) == 50
-    assert any("showing the best 50" in w for w in out["warnings"])
+    assert any("showing 50" in w for w in out["warnings"])
 
 
 def test_without_by_payload_is_unchanged(monkeypatch):
@@ -120,3 +120,66 @@ def test_cli_by_option(monkeypatch):
     assert r.exit_code == 0, r.output
     assert seen["by"] == "month" and seen["per_period"] == 3
     json.loads(r.stdout)
+
+
+def _many(monkeypatch, n_docs, date_of, hit_rows=(), per_period=2):
+    ids = [f"d{i:03d}" for i in range(n_docs)]
+    dates = {d: date_of(i) for i, d in enumerate(ids)}
+
+    def respond(cypher, params):
+        if "passage_embedding" in cypher:
+            return [{"row": {"kind": "passage", "id": f"{d}_p", "chunk_id": f"{d}_c", "doc_id": d, "text": "t",
+                             "cosine": 0.99 - i * 0.001}} for i, d in enumerate(ids)]
+        if "hit_limit" in params:
+            return list(hit_rows)
+        if "AS date" in cypher and "OPTIONAL MATCH" not in cypher and "UNWIND $docIds" in cypher:
+            return [{"doc_id": d, "date": dates[d]} for d in params["docIds"]]
+        if "UNWIND $docIds" in cypher:
+            return [{"doc_id": d, "title": d, "name": d, "domain": "notes", "summary": None, "date": dates[d]}
+                    for d in params["docIds"]]
+        return []
+
+    _patch(monkeypatch, Recorder(respond))
+    return survey.survey_search(["notes"], "alpha", by="year", per_period=per_period)
+
+
+def test_cap_keeps_the_top_document_of_every_period(monkeypatch):
+    # 30 years x 3 docs; perPeriod 3 = 90 > 50: every year keeps its best, 20 extra by score.
+    out = _many(monkeypatch, 90, lambda i: f"{1990 + i % 30}-01-01", per_period=3)
+    assert len(out["documents"]) == 50
+    assert [p["period"] for p in out["periods"]] == [str(y) for y in range(1990, 2020)]
+    assert all(len(p["documents"]) >= 1 for p in out["periods"])
+    warning = [w for w in out["warnings"] if "showing 50" in w][0]
+    assert "periods that lost rows" in warning and "periods dropped" not in warning
+
+
+def test_more_than_fifty_periods_keeps_those_with_most_hits(monkeypatch):
+    hit_rows = [{"date": f"{1960 + i}-01-01", "hits": 100 if i < 5 else 1} for i in range(60)]
+    out = _many(monkeypatch, 60, lambda i: f"{1960 + i}-01-01", hit_rows=hit_rows, per_period=1)
+    assert len(out["documents"]) == 50
+    kept = {p["period"] for p in out["periods"]}
+    assert {str(1960 + i) for i in range(5)} <= kept
+    warning = [w for w in out["warnings"] if "showing 50" in w][0]
+    assert "periods dropped" in warning
+
+
+def test_hit_limit_reached_warns_lower_bound(monkeypatch):
+    monkeypatch.setattr(survey, "HIT_LIMIT", 5)
+    out = _many(monkeypatch, 2, lambda i: "2023-01-01", hit_rows=[{"date": "2023-01-01", "hits": 5}])
+    assert "keyword_hits are a lower bound (more than 5 matching passages)" in out["warnings"]
+
+
+def test_undated_empty_period_is_warned_not_signposted(monkeypatch):
+    _patch(monkeypatch, Recorder(_responder([{"date": None, "hits": 3}], order=("A",))))
+    out = survey.survey_search(["notes"], "alpha", by="year")
+    und = [p for p in out["periods"] if p["period"] == "undated"][0]
+    assert und["documents"] == [] and und["keyword_hits"] == 3
+    assert out.get("next") is None
+    assert any("undated" in w for w in out["warnings"])
+
+
+def test_next_is_joined_not_overwritten(monkeypatch):
+    _patch(monkeypatch, Recorder(_responder([{"date": "2021-06-15", "hits": 4}])))
+    out = survey.survey_search(["notes"], "alpha", by="year")
+    from artmind import hints
+    assert hints.join_next("artmind query page h --from 3", out["next"]).startswith("artmind query page h --from 3; artmind query graph timeline")

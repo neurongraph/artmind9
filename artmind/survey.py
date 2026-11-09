@@ -304,7 +304,7 @@ def _periods(session, fused_all, by: str, per_period: int, ft_query: str, expand
     hits: dict[str, int] = {}
     if ft_query:
         try:
-            rows = session.run(_PERIOD_HITS, ft_query=ft_query, domains=expanded, hit_limit=HIT_LIMIT)
+            rows = list(session.run(_PERIOD_HITS, ft_query=ft_query, domains=expanded, hit_limit=HIT_LIMIT))
             for r in (serialize_record(x) for x in rows):
                 period = _period_of(r.get("date"), by)
                 hits[period] = hits.get(period, 0) + int(r.get("hits") or 0)
@@ -312,32 +312,52 @@ def _periods(session, fused_all, by: str, per_period: int, ft_query: str, expand
             if vector_query._is_missing_index(e):
                 raise ValueError(vector_query.MISSING_INDEX) from e
             raise
+        if sum(hits.values()) >= HIT_LIMIT:
+            warnings.append(f"keyword_hits are a lower bound (more than {HIT_LIMIT} matching passages)")
     chosen = {p: items[:per_period] for p, items in ranked.items()}
     total = sum(len(v) for v in chosen.values())
     if total > MAX_TOP_DOCS:
-        best = {d for d, _, _ in sorted((i for v in chosen.values() for i in v), key=lambda t: (-t[1], t[0]))[:MAX_TOP_DOCS]}
-        chosen = {p: [i for i in v if i[0] in best] for p, v in chosen.items()}
-        warnings.append(f"--by {by}: {total} documents across {len(chosen)} periods; showing the best "
-                        f"{MAX_TOP_DOCS}. Narrow with --perPeriod or a tighter question.")
+        # Fair cut: the top document of every period first (chronological), then fill by fused score.
+        order = sorted(chosen, key=_period_key)
+        kept_periods = order
+        if len(order) > MAX_TOP_DOCS:
+            kept_periods = sorted(sorted(order, key=lambda p: (-hits.get(p, 0), _period_key(p)))[:MAX_TOP_DOCS],
+                                  key=_period_key)
+        keep = {chosen[p][0][0] for p in kept_periods}
+        rest = sorted((i for p in kept_periods for i in chosen[p][1:]), key=lambda t: (-t[1], t[0]))
+        keep |= {i[0] for i in rest[:MAX_TOP_DOCS - len(keep)]}
+        lost = [p for p in order if p not in kept_periods or len([i for i in chosen[p] if i[0] in keep]) < len(chosen[p])]
+        chosen = {p: [i for i in v if i[0] in keep] for p, v in chosen.items() if p in kept_periods}
+        dropped = [p for p in order if p not in kept_periods]
+        msg = f"--by {by}: {total} documents across {len(order)} periods; showing {MAX_TOP_DOCS}"
+        if dropped:
+            msg += f"; periods dropped (fewest keyword hits): {', '.join(dropped)}"
+        trimmed = [p for p in lost if p not in dropped]
+        if trimmed:
+            msg += f"; periods that lost rows: {', '.join(trimmed)}"
+        warnings.append(msg + ". Narrow with --perPeriod or a tighter question.")
+    shown = set(chosen)
     periods = []
-    for period in sorted(set(ranked) | set(hits), key=_period_key):
+    for period in sorted(shown | set(hits), key=_period_key):
         docs = chosen.get(period, [])
-        periods.append({"period": period, "hits": max(hits.get(period, 0), len(ranked.get(period, []))),
-                        "ids": [d for d, _, _ in docs], "items": docs})
+        periods.append({"period": period, "keyword_hits": hits.get(period, 0), "ranked": len(ranked.get(period, [])),
+                        "ids": [d for d, _, _ in docs], "items": docs,
+                        "dropped": period in ranked and period not in chosen})
+    periods = [p for p in periods if not p["dropped"]]
     picked = [item for p in periods for item in p["items"]]
     return {"picked": picked, "periods": periods, "warnings": warnings,
             "dates": {d: v for d, v in dates.items() if v}}
 
 
-def _period_last_day(period: str) -> str | None:
+def _period_bounds(period: str) -> tuple[str, str] | None:
     import calendar
 
     if period == "undated":
         return None
     if len(period) == 4:
-        return f"{period}-12-31"
+        return f"{period}-01-01", f"{period}-12-31"
     year, month = int(period[:4]), int(period[5:7])
-    return f"{period}-{calendar.monthrange(year, month)[1]:02d}"
+    return f"{period}-01", f"{period}-{calendar.monthrange(year, month)[1]:02d}"
 
 
 def _attach_periods(out: dict, info: dict, by: str, per_period: int, domains, question: str) -> None:
@@ -345,20 +365,28 @@ def _attach_periods(out: dict, info: dict, by: str, per_period: int, domains, qu
     from artmind import hints
 
     rows, at = out["documents"], 0
-    periods, nxt = [], None
+    periods, nxt, undated_empty = [], None, False
     for p in info["periods"]:
         n = len(p["ids"])
-        periods.append({"period": p["period"], "hits": p["hits"], "documents": rows[at:at + n]})
+        periods.append({"period": p["period"], "keyword_hits": p["keyword_hits"], "ranked": p["ranked"],
+                        "documents": rows[at:at + n]})
         at += n
-        last = _period_last_day(p["period"])
-        if nxt is None and not n and p["hits"] and last:
-            nxt = (f"artmind query vector-text {hints.domain_flags(domains)} --asOf {last} --topK 10 "
-                   f"--compact {hints.quote(question)}")
+        if n or not p["keyword_hits"]:
+            continue
+        bounds = _period_bounds(p["period"])
+        if bounds is None:
+            undated_empty = True
+        elif nxt is None:
+            nxt = (f"artmind query graph timeline {hints.domain_flags(domains)} "
+                   f"--from {bounds[0]} --to {bounds[1]} --compact")
+    if undated_empty:
+        out["warnings"].append("undated documents match the question (keyword_hits) but none is ranked; "
+                               "they have no date to narrow by")
     out["by"] = by
     out["periods"] = periods
     out["parameters"]["by"] = by
     out["parameters"]["perPeriod"] = per_period
-    out["next"] = nxt
+    out["next"] = hints.join_next(out.get("next"), nxt)
 
 
 def _passage(unit) -> dict:
