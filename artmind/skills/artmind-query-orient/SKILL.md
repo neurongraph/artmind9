@@ -319,8 +319,8 @@ Routing notes:
   --query "<question>"` replaces the pattern4 + Ground sequence — it returns
   properties, one-hop relationships, and the text of the entity's source chunks most
   relevant to the question (the first `--includeChunks` with full text, the next ids
-  in `more_chunks`, fetchable via `chunks --idList`). Always pass `--query` with the
-  user's question: without it, chunks come newest-first and connections by evidence
+  in `more_chunks`, fetchable via `chunks --idList`). Always pass the user's question
+  (as the last argument, or `--query`): without it, chunks come newest-first and connections by evidence
   weight, which for a busy entity rarely includes the one that answers. Its output is
   bounded — see "Hub entities" below. Use pattern4 when you only need structure, or
   patterns 2/3 for several entities at once.
