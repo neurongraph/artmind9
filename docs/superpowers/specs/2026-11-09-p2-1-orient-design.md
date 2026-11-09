@@ -42,17 +42,18 @@ Consequences:
 | Layer | Holds |
 |---|---|
 | L0 corpus (meta-meta) | vault, generation and built-at (freshness), the domain tree by family, totals (documents, entities, tables, time span) |
-| L1 domain identity (meta) | purpose (from the schema's `description` / `subject`), the unit of knowledge (what one document is, naming pattern), the voice (narrator or none), the time model (what dates a document, versions and successors, documents per period), kind and stores |
-| L2 domain contents (metadata) | classes with counts and a short definition; relation types as `CLASS -REL-> CLASS` with counts; stores, and for structured: tables and bridge classes |
+| L1 domain identity (meta) | purpose (from the schema's `description` / `subject`), the unit of knowledge (document count, declared filename pattern, one example name), the voice (narrator or none), the time model (the declared dating rule, how many documents are dated from content, the content-dated span, version counts), kind and stores, coverage (§3.1) |
+| L2 domain contents (metadata) | classes with counts, kind, full definition, measured types and dated share (§4.1); relation types as `CLASS -REL-> CLASS` with counts; stores, and for structured: tables and bridge classes |
 | L3 already answered (assets) | views (name, summary, params), topic pages, latest insights snapshot date, summaries present or missing |
-| L4 trust (health) | open conflicts, twins, drift, documents behind the vault, missing summaries; counts only |
+
+No health layer: see §4 (dropped). The two health facts that change an answer are the card's `coverage`.
 
 ### 2.2 Peels (how the agent opens them) — decided: two peels by scope
 
 1. `artmind query orient`: L0 plus one card per domain drawn from L1 (with asset counts). Small by
    construction; families collapse past the budget. Enough to choose the domain set and see whether a view or a
    chunks-only rule applies.
-2. `artmind query orient --domain d[,d2]`: L2–L4 for those domains. Enough to choose a command and spell its
+2. `artmind query orient --domain d[,d2]`: L2–L3 for those domains. Enough to choose a command and spell its
    arguments.
 3. Below that: existing commands (`views show`, `entity-listing`, `structural-metadata`, `query catalogue`),
    named by peel 2 per part where it cut.
