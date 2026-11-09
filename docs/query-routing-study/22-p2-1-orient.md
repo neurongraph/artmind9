@@ -259,3 +259,22 @@ turns, 25 with misses, identity 21 (17 low score, 4 twins).
   Q32, Q33, Q36 — first **Q14** (worse than all) and **Q25** (lost must items).
 - brain01: Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q08, Q09, Q10, Q11, Q12, Q14, Q15, Q16, Q18, Q20, Q21, Q25, Q27,
   Q28 — first **Q01, Q14, Q28** (worse than all).
+
+## Supersession data repaired after run I (banking_corpus)
+
+`ingest detect-supersession --dryRun` over every banking domain proposed two pairs, both matching the documents'
+own `Supersedes` / `Superseded By` / `Status` rows; applied:
+- `sop_account_opening_v3.md` supersedes `sop_account_opening.md` (v2.1, effective 2026-03-01) — the Q25 gap.
+- `interest_rate_schedule_2026_03.md` supersedes `interest_rate_schedule_2026_02.md`.
+
+One wrong old adjudicator edge found and removed: `interest_rate_schedule_2026_02.md` "superseded"
+`welcome_pack.md` (Active, `Superseded By: None`), which had retired the welcome pack. `decide` now refuses a
+pair where one document names no successor and the other names a different one (`0b7e24ab`, test fails on the
+old code); `ingest unsupersede` restored the welcome pack (dry run first); 23 passages and 24 summaries
+re-embedded. Audit: all 5 remaining banking SUPERSEDES edges agree with `decide`. Vault curation files changed
+(uncommitted, for the user).
+
+Q25 rerun alone (`b1a99a90`, orient variant, Sonnet): partial, 2 must items missed (run I: 3), no must-not hit;
+judged materially better than A and about equal to D and G. It still omits the version numbers and the
+DOC-AUTH-001 policy-over-SOP rule: the agent's path (`orient → survey → orient → chunks`) did not open the
+authority register — a depth / retrieval issue, not a data one.
