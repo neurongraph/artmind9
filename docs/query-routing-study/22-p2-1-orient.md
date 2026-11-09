@@ -33,10 +33,26 @@ G2 2/27/0. Must-not hits on Q01–Q14: A 5, D 9, G1 8, G2 5; on Q15–Q29: G1 3,
 **Gate floors for the orient variant** (spec §3.4, lowest baseline run): banking 71 %; brain01 Q01–Q14 61 %,
 Q15–Q29 67 %.
 
+## Sonnet re-judge of one baseline pair (spec §3.4)
+
+banking D `15837ded` vs G `f03056a8`, 36 questions, same tiers:
+
+| Judge | Pair balance | Materially different | D must found | G must found | D c/p/w | G c/p/w |
+|---|---|---|---|---|---|---|
+| `claude-haiku-5-5` | 4 | 19 | 162 (76 %) | 157 (73 %) | 8/28/0 | 9/26/1 |
+| `claude-sonnet-5-5` | 0 | 14 | 151 (71 %) | 150 (70 %) | 8/28/0 | 8/27/1 |
+
+Sonnet calls 5 fewer questions material on this pair and sees no direction between two runs of the same skill;
+it also grades stricter (about 3–5 points lower) and the two runs' rates sit closer (1 point against 3). By the
+spec rule (§3.4: "if the band narrows, every gate uses that model") the gate model becomes Sonnet, which means
+re-judging and re-grading every baseline run in both vaults with it before the first variant gate; the Haiku
+floors above then stop being the floors.
+
 ## Still to do before the variant gate
 
-1. One Sonnet re-judge of a banking baseline pair (`--model claude-sonnet-5-5`), to see whether the pairwise
-   band narrows.
+1. Decide on the gate model; if Sonnet, re-judge and re-grade all baseline runs with `--model claude-sonnet-5-5`
+   in both vaults and replace the floors above.
 2. Restart the admin consoles; the user runs one benchmark per vault with Skill variant `orient`
    (banking_corpus first).
-3. `traces compare --baseline <all> --variant <id> --questions <file> --judge --grade` and `traces misses --run <id>`.
+3. `traces compare --baseline <all> --variant <id> --questions <file> --judge --grade [--model ...]` and
+   `traces misses --run <id>`.
