@@ -10,7 +10,6 @@ SEAMS = {
     "artmind/server.py",
     "artmind/webui/app.py",
     "artmind/traces/recorder.py",
-    "artmind/catalogue/cache.py",
 }
 
 

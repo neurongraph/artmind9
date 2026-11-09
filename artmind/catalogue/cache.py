@@ -25,7 +25,7 @@ from artmind.catalogue import parts as parts_mod
 from artmind.catalogue import stamp as stamps
 from artmind.catalogue.model import CATALOGUE_FORMAT, PART_FIELDS, DomainCatalogue
 from artmind.graph_query import normalize_domains
-from artmind.query_plan.config import is_domain_name
+from artmind.domain_config import is_domain_name
 
 FINGERPRINT_TTL_S = 10.0
 MAX_AGE_S = 3600.0  # the safety net: the generation and disk stamp are the freshness check
