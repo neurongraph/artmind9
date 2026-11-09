@@ -109,6 +109,7 @@ def cut(payload: dict, budget: int, dumps: Callable[[Any], str], declared: str |
         else:
             out["next"] = f"artmind query page {handle}"
         out["truncated"] = True
+        out["complete"] = False
         out["handle"] = handle
         return out
 

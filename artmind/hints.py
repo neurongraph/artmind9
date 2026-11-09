@@ -141,3 +141,27 @@ def predecessor_next(payload: dict) -> str | None:
         if domain and ident:
             return f"artmind query document-history --domain {quote(domain)} --documentName {quote(ident)} --compact"
     return None
+
+
+def _all_command(payload: dict, command: str, domains, options: str, question=None) -> str | None:
+    """The same command with `--all`, when the result says it is not complete."""
+    if payload.get("complete") is not False:
+        return None
+    tail = f" {quote(question)}" if question else ""
+    return f"artmind query graph {command} {domain_flags(domains)} {options} --all --compact{tail}".replace("  ", " ")
+
+
+def pattern7_all(payload: dict, domains, search_term, shape: str = "full", question=None) -> str | None:
+    shape_part = " --shape brief" if shape == "brief" else ""
+    return _all_command(payload, "pattern7", domains, f"--searchTerm {quote(search_term)}{shape_part}", question)
+
+
+def pattern8_all(payload: dict, domains, entity_class, entity_name=None, entity_id=None, question=None) -> str | None:
+    who = f"--entityId {quote(entity_id)}" if entity_id else f"--entityName {quote(entity_name)}"
+    return _all_command(payload, "pattern8", domains, f"--entityClass {quote(entity_class)} {who}", question)
+
+
+def entity_listing_all(payload: dict, domains, name_filter=None, count_all: bool = False) -> str | None:
+    opts = (f"--nameFilter {quote(name_filter)}" if name_filter is not None else "")
+    opts += " --countAll" if count_all else ""
+    return _all_command(payload, "entity-listing", domains, opts.strip())

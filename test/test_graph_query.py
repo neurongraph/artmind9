@@ -1075,7 +1075,8 @@ def test_execute_pattern7_lifts_totals_and_says_next(monkeypatch):
     assert result["rows_total"] == 44
     assert result["truncated"] is True
     assert result["rows_total_capped"] is False
-    assert result["next"] == "raise --limit (rows_total=44)"
+    assert result["complete"] is False
+    assert "next" not in result  # the runnable --all command is added by the CLI
     assert result["rows"][0]["documents"][0]["path"] == "n.md"
     assert "_rawHits" not in result["rows"][0]
 

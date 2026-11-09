@@ -229,6 +229,8 @@ PATTERN4_MAX_LIST_ITEMS = 10
 # -- unbounded for a long document. Both get a LIMIT with an exact
 # `rows_total` (see the `_rowsTotal` sentinel execute_pattern lifts out).
 PATTERN8_DEFAULT_LIMIT = 50
+#: `pattern8 --all` stops paging at this many rows (`complete` is then false).
+ALL_CAP = 2000
 PATTERN10_DEFAULT_LIMIT = 300
 # pattern7 counts fulltext hits up to this many (spec 2026-10-22 §5.3); beyond
 # it `rows_total_capped` says the true total is larger.
@@ -591,9 +593,9 @@ def entity_listing(
     domains: "str | Sequence[str]",
     name_filter: str | None = None,
     count_all: bool = False,
-    max_names: int = ENTITY_LISTING_MAX_NAMES,
+    max_names: int | None = ENTITY_LISTING_MAX_NAMES,
 ) -> dict:
-    """No `--asOf` (Phase 4) — the projection is current by construction, and
+    """`max_names=None` (`--all`) keeps every name. No `--asOf` (Phase 4) — the projection is current by construction, and
     there is nothing left in force "by a date" to filter to: an Entity is
     either asserted right now (it exists) or it isn't (the rebuild deleted
     it).
@@ -603,9 +605,10 @@ def entity_listing(
     of names under one label/type.
     """
     domains = normalize_domains(domains)
-    max_names = int(max_names)
-    if max_names < 0:
-        raise ValueError("--maxNames must be >= 0")
+    if max_names is not None:
+        max_names = int(max_names)
+        if max_names < 0:
+            raise ValueError("--maxNames must be >= 0")
     cypher = f"""
     MATCH (n:Entity)
     WHERE {domain_predicate("n")} AND n.name IS NOT NULL
@@ -616,16 +619,20 @@ def entity_listing(
     ORDER BY label
     """
     rows = _run_read_query(cypher, {"domains": domains, "nameFilter": name_filter})
+    complete = True
     for row in rows:
         for group in row.get("typeGroups", []):
             names = sorted(group.get("names") or [])
             group["names_total"] = len(names)
-            group["names"] = names[:max_names]
+            group["names"] = names if max_names is None else names[:max_names]
+            group["complete"] = len(group["names"]) == len(names)
+            complete = complete and group["complete"]
     result: dict = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_listing",
         "rows": rows,
+        "complete": complete,
     }
     if name_filter is not None:
         result["name_filter"] = name_filter
@@ -1208,17 +1215,43 @@ def execute_pattern(
     if rows_total is not None:
         result["rows_total"] = rows_total
         result["truncated"] = rows_total > len(rows)
+    if pattern in ("pattern7", "pattern8"):
+        result["complete"] = rows_total is not None and rows_total <= len(rows)
     if pattern == "pattern7":
         # When rows_total_capped is true, rows_total is a lower bound, so
         # truncated/next can be silent even though more matches exist.
         result["rows_total_capped"] = raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP
-        if result["truncated"]:
-            result["next"] = f"raise --limit (rows_total={rows_total})"
+        if result["rows_total_capped"]:
+            result["complete"] = False
     if shape == "brief":
         from artmind import brief
 
         hint = brief.entity_hint(domains, rows)
         result["next"] = f"{result['next']}; {hint}" if result.get("next") else hint
+    return result
+
+
+def execute_pattern8_all(domains, question=None, **parameters) -> dict:
+    """pattern8 paged by `limit` until `rows_total`, at most ALL_CAP rows."""
+    limit = int(parameters.pop("limit", None) or PATTERN8_DEFAULT_LIMIT)
+    parameters.pop("offset", None)
+    rows: list = []
+    result: dict = {}
+    offset = 0
+    while True:
+        page = execute_pattern(domains, "pattern8", question=question, limit=limit, offset=offset, **parameters)
+        if not result:
+            result = page
+        rows.extend(page["rows"])
+        total = page.get("rows_total") or 0
+        offset += limit
+        if not page["rows"] or len(rows) >= min(total, ALL_CAP):
+            break
+    rows = rows[:ALL_CAP]
+    result["rows"] = rows
+    result["parameters"]["limit"] = limit
+    result["truncated"] = result.get("rows_total", 0) > len(rows)
+    result["complete"] = len(rows) == result.get("rows_total", 0)
     return result
 
 

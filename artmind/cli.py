@@ -3076,6 +3076,7 @@ def graph():
 def _run_graph_pattern(
     pattern: str, domains: list[str], compact: bool, question: str | None, as_of: str | None = None, **kwargs
 ) -> None:
+    all_next = kwargs.pop("_all_next", None)
     try:
         result = graph_query.execute_pattern(
             domains=domains, pattern=pattern, question=question, as_of=as_of, **kwargs
@@ -3084,6 +3085,8 @@ def _run_graph_pattern(
         raise click.ClickException(str(exc)) from exc
     if pattern == "pattern1":
         result["next"] = hints.join_next(result.get("next"), hints.pattern1_empty(result, domains))
+    if all_next is not None:
+        result["next"] = hints.join_next(all_next(result), result.get("next"))
     _echo_json(result, compact)
 
 
@@ -3119,18 +3122,22 @@ def graph_structural_metadata_cmd(domain: tuple, max_names: int, compact: bool) 
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
 @click.option("--maxNames", "max_names", type=int, default=graph_query.ENTITY_LISTING_MAX_NAMES, show_default=True, help="Max names returned per type group (sorted first); names_total carries the full count")
+@click.option("--all", "all_rows", is_flag=True, help="Every name in every type group (ignores --maxNames); `complete` says whether the list is whole")
 @compact_option
 def graph_entity_listing_cmd(
-    domain: tuple, name_filter: str | None, count_all: bool, max_names: int, compact: bool
+    domain: tuple, name_filter: str | None, count_all: bool, max_names: int, all_rows: bool, compact: bool
 ) -> None:
     """Return entity names grouped by label/type."""
     domains = _parse_domains(domain)
     try:
         result = graph_query.entity_listing(
-            domains, name_filter=name_filter, count_all=count_all, max_names=max_names
+            domains, name_filter=name_filter, count_all=count_all,
+            max_names=None if all_rows else max_names,
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    if not all_rows:
+        result["next"] = hints.join_next(result.get("next"), hints.entity_listing_all(result, domains, name_filter, count_all))
     _echo_json(result, compact)
 
 
@@ -3353,14 +3360,19 @@ def _exact_entity_classes(domains: list[str], names: list) -> list:
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
 @click.option("--limit", type=click.IntRange(1, graph_query.PATTERN7_MAX_LIMIT), default=10, show_default=True, help="Max results")
+@click.option("--all", "all_rows", is_flag=True, help=f"Return up to {graph_query.PATTERN7_MAX_LIMIT} rows (the --limit maximum); `complete` says whether that is every match")
 @shape_option
 @compact_option
 @click.argument("question", required=False)
-def graph_pattern7(domain: tuple, search_term: str, limit: int, shape: str, compact: bool,
+def graph_pattern7(domain: tuple, search_term: str, limit: int, all_rows: bool, shape: str, compact: bool,
                    question: str | None) -> None:
     """Search entities by name or description fragment. `--shape brief`: id, name, class, one-line description, documents."""
     domains = _parse_domains(domain)
-    _run_graph_pattern("pattern7", domains, compact, question, shape=shape, searchTerm=search_term, limit=limit)
+    _run_graph_pattern(
+        "pattern7", domains, compact, question, shape=shape, searchTerm=search_term,
+        limit=graph_query.PATTERN7_MAX_LIMIT if all_rows else limit,
+        _all_next=None if all_rows else lambda r: hints.pattern7_all(r, domains, search_term, shape, question),
+    )
 
 
 @graph.command("pattern8")
@@ -3370,17 +3382,31 @@ def graph_pattern7(domain: tuple, search_term: str, limit: int, shape: str, comp
 @click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
 @click.option("--limit", type=int, default=graph_query.PATTERN8_DEFAULT_LIMIT, show_default=True, help="Max rows; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many rows before --limit; page past a truncated result with offset += limit")
+@click.option("--all", "all_rows", is_flag=True, help=f"Page through every row (steps of --limit, at most {graph_query.ALL_CAP}); `complete` says whether all arrived")
 @compact_option
 @click.argument("question", required=False)
 def graph_pattern8(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
-    limit: int, offset: int, compact: bool, question: str | None
+    limit: int, offset: int, all_rows: bool, compact: bool, question: str | None
 ) -> None:
     """Entities of class X connected to entity Y."""
     domains = _parse_domains(domain)
+    if all_rows and offset:
+        raise click.ClickException("--all pages from the start; drop --offset")
+    if all_rows:
+        try:
+            result = graph_query.execute_pattern8_all(
+                domains, question=question, entityClass=entity_class, entityName=entity_name,
+                entityId=entity_id, limit=limit,
+            )
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
+        _echo_json(result, compact)
+        return
     _run_graph_pattern(
         "pattern8", domains, compact, question,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id, limit=limit, offset=offset,
+        _all_next=lambda r: hints.pattern8_all(r, domains, entity_class, entity_name, entity_id, question),
     )
 
 

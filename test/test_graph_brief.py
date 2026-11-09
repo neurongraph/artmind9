@@ -98,7 +98,8 @@ def test_pattern7_brief_keeps_documents_and_next(monkeypatch):
     assert out["rows"][0]["documents"] == [{"id": "d1", "title": "a", "date": None}]
     assert out["rows"][0]["documents_total"] == 7
     assert out["rows_total"] == 12 and out["truncated"] is True
-    assert out["next"].startswith("raise --limit") and "--shape full" in out["next"]
+    assert out["next"].startswith("artmind query graph pattern7 --domain d --searchTerm alpha --shape brief --all --compact; ")
+    assert "--shape full" in out["next"]
 
 
 def test_pattern7_empty_brief_has_no_rows(monkeypatch):
