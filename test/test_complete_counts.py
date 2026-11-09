@@ -128,3 +128,52 @@ def test_budget_cut_sets_complete_false(monkeypatch, tmp_path):
     monkeypatch.setenv("ARTMIND_OUTPUT_BUDGET", "1500")
     out = _run(["pattern7", "--searchTerm", "n", "--limit", "8"])
     assert out["truncated"] is True and out["complete"] is False and out["handle"]
+
+
+# --- review fixes ---------------------------------------------------------------------
+
+
+def test_pattern8_order_by_is_a_total_order():
+    cypher, _ = gq._pattern_query("pattern8", {"domains": ["d"], "entityClass": "ORG", "entityName": "A"})
+    order = cypher.split("ORDER BY", 1)[1].split("SKIP", 1)[0]
+    assert "e._id" in order and "elementId(r)" in order
+
+
+def test_pattern7_at_max_limit_has_no_all_next(monkeypatch):
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: _p7_rows(p["limit"], 600, 600))
+    out = _run(["pattern7", "--searchTerm", "h", "--limit", "500"])
+    assert out["complete"] is False and out["next"] is None
+
+
+def test_pattern7_all_capped_warns_and_has_no_next(monkeypatch):
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: _p7_rows(p["limit"], 1000, 1000))
+    out = _run(["pattern7", "--searchTerm", "h", "--all"])
+    assert out["next"] is None
+    assert "pattern7 matched more than 1000 entities; narrow --searchTerm or --domain" in out["warnings"]
+
+
+def test_pattern8_all_at_cap_warns(monkeypatch):
+    _paged(monkeypatch, 5000)
+    out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "A", "--all", "--limit", "500"])
+    assert ("showing 2000 of 5000; narrow with --entityName/--entityId or another --entityClass"
+            in out["warnings"])
+
+
+def test_pattern8_all_total_change_is_incomplete(monkeypatch):
+    def fake(cypher, params):
+        total = 120 if params["offset"] == 0 else 110
+        lo = params["offset"]
+        return [_p8_row(i, total) for i in range(lo, min(total, lo + params["limit"]))]
+
+    monkeypatch.setattr(gq, "_run_read_query", fake)
+    out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "A", "--all"])
+    assert out["rows_total"] == 120 and out["complete"] is False
+    assert "the graph changed while paging" in out["warnings"]
+
+
+@pytest.mark.parametrize("limit", ["0", "-5"])
+def test_pattern8_all_rejects_non_positive_limit(monkeypatch, limit):
+    _paged(monkeypatch, 10)
+    r = CliRunner().invoke(cli, ["query", "graph", "pattern8", "--domain", "d", "--entityClass", "ORG",
+                                 "--entityName", "A", "--all", "--limit", limit])
+    assert r.exit_code == 1

@@ -6,6 +6,7 @@ import subprocess
 import sys
 import time
 import json
+from collections.abc import Callable
 from datetime import date, datetime
 from pathlib import Path
 
@@ -3074,9 +3075,10 @@ def graph():
 
 
 def _run_graph_pattern(
-    pattern: str, domains: list[str], compact: bool, question: str | None, as_of: str | None = None, **kwargs
+    pattern: str, domains: list[str], compact: bool, question: str | None, as_of: str | None = None,
+    *, next_hint: "Callable[[dict], str | None] | None" = None, **kwargs
 ) -> None:
-    all_next = kwargs.pop("_all_next", None)
+    all_next = next_hint
     try:
         result = graph_query.execute_pattern(
             domains=domains, pattern=pattern, question=question, as_of=as_of, **kwargs
@@ -3371,7 +3373,8 @@ def graph_pattern7(domain: tuple, search_term: str, limit: int, all_rows: bool, 
     _run_graph_pattern(
         "pattern7", domains, compact, question, shape=shape, searchTerm=search_term,
         limit=graph_query.PATTERN7_MAX_LIMIT if all_rows else limit,
-        _all_next=None if all_rows else lambda r: hints.pattern7_all(r, domains, search_term, shape, question),
+        next_hint=(None if all_rows or limit >= graph_query.PATTERN7_MAX_LIMIT
+                   else lambda r: hints.pattern7_all(r, domains, search_term, shape, question)),
     )
 
 
@@ -3406,7 +3409,7 @@ def graph_pattern8(
     _run_graph_pattern(
         "pattern8", domains, compact, question,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id, limit=limit, offset=offset,
-        _all_next=lambda r: hints.pattern8_all(r, domains, entity_class, entity_name, entity_id, question),
+        next_hint=lambda r: hints.pattern8_all(r, domains, entity_class, entity_name, entity_id, question),
     )
 
 

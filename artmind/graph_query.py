@@ -1025,7 +1025,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                    r.rel_type AS relType,
                    r {{.rel_type, .observation_count, doc_count: size(coalesce(r.doc_ids, []))}} AS relProps,
                    total AS _rowsTotal
-            ORDER BY e.name, relType
+            ORDER BY e.name, relType, e._id, elementId(r)
             SKIP $offset
             LIMIT $limit
             """,
@@ -1223,6 +1223,10 @@ def execute_pattern(
         result["rows_total_capped"] = raw_hits is not None and raw_hits >= PATTERN7_COUNT_CAP
         if result["rows_total_capped"]:
             result["complete"] = False
+            result["warnings"] = [
+                *(result.get("warnings") or []),
+                f"pattern7 matched more than {PATTERN7_COUNT_CAP} entities; narrow --searchTerm or --domain",
+            ]
     if shape == "brief":
         from artmind import brief
 
@@ -1233,25 +1237,37 @@ def execute_pattern(
 
 def execute_pattern8_all(domains, question=None, **parameters) -> dict:
     """pattern8 paged by `limit` until `rows_total`, at most ALL_CAP rows."""
-    limit = int(parameters.pop("limit", None) or PATTERN8_DEFAULT_LIMIT)
+    limit = int(parameters.pop("limit", PATTERN8_DEFAULT_LIMIT))
+    if limit <= 0:
+        raise ValueError("--limit must be positive with --all")
     parameters.pop("offset", None)
     rows: list = []
     result: dict = {}
+    warnings: list[str] = []
     offset = 0
     while True:
         page = execute_pattern(domains, "pattern8", question=question, limit=limit, offset=offset, **parameters)
         if not result:
             result = page
+        elif page.get("rows_total") != result.get("rows_total") and "the graph changed while paging" not in warnings:
+            warnings.append("the graph changed while paging")
         rows.extend(page["rows"])
-        total = page.get("rows_total") or 0
+        total = result.get("rows_total") or 0
         offset += limit
         if not page["rows"] or len(rows) >= min(total, ALL_CAP):
             break
+    total = result.get("rows_total") or 0
     rows = rows[:ALL_CAP]
+    if total > ALL_CAP:
+        warnings.append(
+            f"showing {ALL_CAP} of {total}; narrow with --entityName/--entityId or another --entityClass"
+        )
     result["rows"] = rows
     result["parameters"]["limit"] = limit
-    result["truncated"] = result.get("rows_total", 0) > len(rows)
-    result["complete"] = len(rows) == result.get("rows_total", 0)
+    result["truncated"] = total > len(rows)
+    result["complete"] = len(rows) == total and not any("changed" in w for w in warnings)
+    if warnings:
+        result["warnings"] = [*(result.get("warnings") or []), *warnings]
     return result
 
 
