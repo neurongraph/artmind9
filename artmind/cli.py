@@ -397,6 +397,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "detect-conflicts",
                 "resolve-conflict",
                 "supersede",
+                "unsupersede",
                 "detect-supersession",
             ],
         },
@@ -2205,6 +2206,57 @@ def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, d
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json({**result, "dry_run": True} if dry_run else result, compact)
+
+
+@ingest.command("unsupersede")
+@click.option("--domain", required=True, help="Domain of both documents")
+@click.option("--newer", "newer_name", required=True, help="Name of the document that was asserted newer")
+@click.option("--older", "older_name", required=True, help="Name of the document that was asserted superseded")
+@click.option("--scope", type=click.Choice(["document", "section", "clause"]), default="document", show_default=True)
+@dry_run_option("Resolve both documents and report the effect; remove no record, edge or retirement")
+@compact_option
+def ingest_unsupersede(
+    domain: str, newer_name: str, older_name: str, scope: str, dry_run: bool, compact: bool,
+) -> None:
+    """Remove a supersession assertion (the inverse of `ingest supersede`).
+
+    Deletes the SUPERSEDES edge and its vault file
+    (.artmind/data/curation/supersessions/), recomputes the older document's
+    valid_to / superseded_by from the edges that remain, and restores the older
+    document when no other supersession points at it. Use it to correct an edge
+    written the wrong way round, then assert the right one with `ingest supersede`.
+    """
+    _setup_logger()
+    from artmind.graph_query import neo4j_session
+    from artmind.temporal import unapply_supersession, unsupersede_effect
+
+    with neo4j_session() as session:
+        rows = session.run(
+            "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d._domain=$domain AND d.name IN [$n,$o] "
+            "RETURN d.name AS name, d.id AS id",
+            domain=domain, n=newer_name, o=older_name,
+        ).data()
+    by_name: dict[str, list[str]] = {}
+    for r in rows:
+        by_name.setdefault(r["name"], []).append(r["id"])
+    missing = [n for n in (newer_name, older_name) if n not in by_name]
+    if missing:
+        raise click.ClickException(
+            f"Could not resolve document(s) {missing} in domain {domain} (found: {list(by_name)})"
+        )
+    ambiguous = {n: ids for n, ids in by_name.items() if len(ids) > 1}
+    if ambiguous:
+        raise click.ClickException(
+            f"Ambiguous document name(s) in domain {domain} -- multiple Document nodes share the same name: "
+            f"{ambiguous}. Resolve manually first."
+        )
+    newer_id, older_id = by_name[newer_name][0], by_name[older_name][0]
+    effect = unsupersede_effect(newer_id, older_id, scope)
+    if dry_run:
+        result = {"newer": newer_id, "older": older_id, "scope": scope, "effect": effect, "dry_run": True}
+    else:
+        result = {**unapply_supersession(newer_id, older_id, scope), "effect": effect}
+    _echo_json(result, compact)
 
 
 @ingest.command("supersede")

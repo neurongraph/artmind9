@@ -604,6 +604,115 @@ def apply_supersession(
     logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 
+def _unsupersede_state(newer_doc_id: str, older_doc_id: str, scope: str) -> dict:
+    """Reads only: does the edge exist, how many other `SUPERSEDES` edges point
+    at the older document, is it retired, and both names."""
+    from artmind.graph_query import read_session
+
+    with read_session() as session:
+        edge = session.run(
+            "MATCH (a)-[s:SUPERSEDES {scope: $scope}]->(b) WHERE a.id = $newer AND b.id = $older "
+            "RETURN count(s) AS n", newer=newer_doc_id, older=older_doc_id, scope=scope,
+        ).single()
+        others = session.run(
+            "MATCH (a)-[s:SUPERSEDES]->(b) WHERE b.id = $older AND NOT (a.id = $newer AND s.scope = $scope) "
+            "RETURN count(s) AS n", newer=newer_doc_id, older=older_doc_id, scope=scope,
+        ).single()
+        docs = session.run(
+            "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id IN $ids "
+            "RETURN d.id AS id, d.name AS name, d:DocumentHistory AS retired", ids=[newer_doc_id, older_doc_id],
+        ).data()
+    by_id = {r["id"]: r for r in docs}
+    return {
+        "edge": bool(edge and edge.get("n")),
+        "others": int((others or {}).get("n") or 0),
+        "retired": bool((by_id.get(older_doc_id) or {}).get("retired")),
+        "names": {i: (r.get("name") or i) for i, r in by_id.items()},
+    }
+
+
+def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "document", state: dict | None = None) -> dict:
+    """The `effect` block of `unapply_supersession`, from reads alone."""
+    from artmind import supersession_records
+    from artmind.cli_conventions import Change, Effect
+    from artmind.effects import topics_touching
+    from artmind.lifecycle import plan_transition
+    from artmind.observations import key_string
+
+    state = state or _unsupersede_state(newer_doc_id, older_doc_id, scope)
+    names = state["names"]
+    newer, older = names.get(newer_doc_id, newer_doc_id), names.get(older_doc_id, older_doc_id)
+    rid = supersession_records.record_id(newer_doc_id, older_doc_id, scope)
+    restores = state["edge"] and state["retired"] and state["others"] == 0
+    changes = [Change("document_unsupersede", 1 if state["edge"] else 0, [{"newer": newer, "older": older, "scope": scope}])]
+    records = [f".artmind/data/curation/supersessions/{rid}.json"]
+    keys: list = []
+    observations = 0
+    if restores:
+        plan = plan_transition(older_doc_id, to_history=False)
+        keys, observations = plan["keys"], plan["observations"]
+        changes += [
+            Change("document_restore", 1, [{"doc_id": older_doc_id, "name": older}]),
+            Change("observation_move", observations, []),
+            Change("entity_change", len(keys), [{"key": key_string(tuple(k))} for k in keys]),
+        ]
+        from artmind import lifecycle_records
+
+        records.append(f".artmind/data/curation/lifecycle/{lifecycle_records.record_id(older_doc_id)}.json")
+    if not state["edge"]:
+        summary = f"No supersession of {older!r} by {newer!r} to remove."
+    else:
+        summary = f"Remove the assertion that {newer!r} supersedes {older!r}" + (
+            f"; {older!r} is restored: {observations} observation(s) move to latest, {len(keys)} aggregate key(s) are rebuilt."
+            if restores else
+            ("; it stays retired because another supersession still points at it." if state["retired"] and state["others"] else "."))
+    return Effect(
+        summary=summary,
+        changes=changes,
+        stale_topics=topics_touching(
+            entity_keys=[key_string(tuple(k)) for k in keys], doc_ids=[newer_doc_id, older_doc_id],
+            doc_names=[n for n in names.values() if n]),
+        reversible=True,
+        undo=f"artmind ingest supersede --newer {newer} --older {older}",
+        travels=True, records=records,
+    ).to_json()
+
+
+def unapply_supersession(newer_doc_id: str, older_doc_id: str, scope: str = "document") -> dict:
+    """Reverse `apply_supersession`: delete the record file, delete the edge and
+    recompute the older document's `valid_to`/`superseded_by` in one transaction
+    that also bumps the catalogue generation, then restore the older document
+    when nothing else supersedes it. Idempotent."""
+    from artmind import curation_records, supersession_records
+    from artmind.catalogue import state as catalogue_state
+
+    state = _unsupersede_state(newer_doc_id, older_doc_id, scope)
+    if not state["edge"]:
+        curation_records.delete_record(
+            supersession_records.NAME, supersession_records.record_id(newer_doc_id, older_doc_id, scope))
+        return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "removed": False, "restored": False}
+    restore = state["retired"] and state["others"] == 0
+
+    def _tx(tx):
+        record = supersession_records.record_for(tx, newer_doc_id, older_doc_id, scope, None, "manual")
+        supersession_records.remove(tx, record)
+        catalogue_state.bump(tx, record["domains"])
+        return record["domains"]
+
+    with neo4j_session() as session:
+        # The record file first, as `restore_document` does with lifecycle records:
+        # if the graph write fails, `vault sync` removes the edge from the missing file.
+        curation_records.delete_record(
+            supersession_records.NAME, supersession_records.record_id(newer_doc_id, older_doc_id, scope))
+        domains = session.execute_write(_tx)
+    if restore:
+        from artmind.lifecycle import restore_document
+
+        restore_document(older_doc_id, domains[0] if len(domains) == 1 else None)
+    logger.info("unsupersede: {} no longer supersedes {} (scope={}, restored={})", newer_doc_id, older_doc_id, scope, restore)
+    return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "removed": True, "restored": restore}
+
+
 
 
 

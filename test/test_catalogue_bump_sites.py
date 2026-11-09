@@ -92,6 +92,7 @@ _SITES = [
     (projection, "rebuild"),
     (synthesize, "synthesize_key"),
     ("artmind.conflicts", "resolve_conflict"),
+    ("artmind.temporal", "unapply_supersession"),
     ("artmind.topics.index", "upsert_page"),
     ("artmind.topics.index", "delete_page"),
 ]

@@ -60,7 +60,7 @@ INTERACTIVE_COMMANDS = frozenset({"db connect"})
 WRITE_COMMANDS: dict[str, int] = {
     **{p: 1 for p in (
         "sameas approve", "sameas reject",
-        "ingest resolve-conflict", "ingest supersede", "ingest sync", "ingest table2graph",
+        "ingest resolve-conflict", "ingest supersede", "ingest unsupersede", "ingest sync", "ingest table2graph",
         "ingest retime", "ingest summarise",
         "docs retire", "docs restore", "docs archive",
         "projection rebuild", "projection synthesize",
@@ -326,7 +326,7 @@ def envelope(payload: Any, ctx: click.Context | None = None) -> Any:
 EFFECT_KINDS = frozenset({
     "entity_create", "entity_merge", "entity_unmerge", "entity_delete", "entity_change",
     "observation_move", "document_ingest", "document_reextract", "document_retire",
-    "document_restore", "document_supersede", "conflict_resolve", "conflict_dismiss",
+    "document_restore", "document_supersede", "document_unsupersede", "conflict_resolve", "conflict_dismiss",
     "summary_write", "description_write", "view_save", "view_delete", "topic_write",
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
     "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh", "topic_index",
