@@ -83,3 +83,50 @@ def test_reformulation_counts_attempts_before_the_winning_phrase():
 def test_no_reformulation_when_the_first_search_won():
     spans = [span("s1", "query vector-text", args={"question": "fee"}, docs=["notes/fees.md"])]
     assert misses.reformulation(Q, ANSWER, spans) == []
+
+
+def test_identity_records_no_match_and_disambiguation():
+    spans = [span("s1", "query entity-resolve", args={"name": "Person A"}, rows=0, status="no_match"),
+             span("s2", "query entity-resolve", args={"name": "Person B"}, status="needs_disambiguation")]
+    out = misses.identity(spans)
+    assert [(m.span_id, m.detail["reason"]) for m in out] == [("s1", "no_match"), ("s2", "ambiguous")]
+    assert out[0].detail["name"] == "Person A"
+
+
+def test_identity_records_twins_before_a_low_score():
+    resolved = [{"id": "e1", "name": "Org X", "entity_class": "ORG", "score": 0.5},
+                {"id": "e2", "name": "org x", "entity_class": "ORG", "score": 0.2}]
+    out = misses.identity([span("s1", "query entity-resolve", args={"name": "Org X"}, resolved=resolved)])
+    assert out[0].detail == {"reason": "twins", "name": "Org X", "ids": ["e1", "e2"]}
+
+
+def test_identity_records_a_low_top_score():
+    resolved = [{"id": "e1", "name": "Place C", "score": 0.4}]
+    out = misses.identity([span("s1", "query entity-resolve", args={"name": "Plac"}, resolved=resolved)])
+    assert out[0].detail["reason"] == "low_score" and out[0].detail["score"] == 0.4
+
+
+def test_a_confident_resolution_is_not_a_miss():
+    resolved = [{"id": "e1", "name": "Place C", "score": 0.95}, {"id": "e2", "name": "Place D", "score": 0.3}]
+    assert misses.identity([span("s1", "query entity-resolve", resolved=resolved)]) == []
+
+
+def test_scope_records_an_unknown_domain_warning():
+    out = misses.scope(None, [span("s1", "query vector-text", args={"domain": ["nope"]},
+                                   warnings=["unknown domain 'nope': no schema"])])
+    assert out[0].detail["reason"] == "unknown_domain"
+
+
+def test_scope_records_a_widened_rerun():
+    spans = [span("s1", "query vector-text", args={"domain": ["fam.a"], "question": "q"}, t=1),
+             span("s2", "query vector-text", args={"domain": ["fam.a", "fam.b"], "question": "q"}, t=2)]
+    out = misses.scope(None, spans)
+    assert [m.detail for m in out] == [{"reason": "widened", "command": "query vector-text",
+                                        "from": ["fam.a"], "to": ["fam.a", "fam.b"]}]
+
+
+def test_scope_records_a_cited_source_outside_the_first_search_scope():
+    spans = [span("s1", "query vector-text", args={"domain": ["fam.a"], "question": "q"}, docs=["x.md"], t=1),
+             span("s2", "query graph pattern1", args={"domain": ["fam.b"]}, docs=["notes/fees.md"], t=2)]
+    out = [m for m in misses.scope(ANSWER, spans) if m.detail["reason"] == "outside_first_scope"]
+    assert out[0].detail["source"] == "notes/fees.md" and out[0].span_id == "s2"

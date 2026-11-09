@@ -10,6 +10,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
+from artmind.traces import analysis
 from artmind.traces import path as path_mod
 
 KINDS = ("vocabulary", "reformulation", "identity", "scope", "structure", "answer", "user-stated")
@@ -130,3 +131,77 @@ def reformulation(question: str, answer: str | None, spans: list[dict], *, trace
                                                      "winning_phrase": search_phrase(s)},
                          span_id=s.get("span_id"))]
     return []
+
+
+LOW_SCORE = 0.6
+IDENTITY_COMMANDS = frozenset({"query entity-resolve", "query resolve-key"})
+
+
+def _identity_reason(span: dict) -> dict | None:
+    ev = span.get("evidence") or {}
+    args = span.get("args") if isinstance(span.get("args"), dict) else {}
+    name = args.get("name") or args.get("question")
+    if ev.get("status") == "no_match":
+        return {"reason": "no_match", "name": name}
+    if ev.get("status") == "needs_disambiguation":
+        return {"reason": "ambiguous", "name": name}
+    resolved = [r for r in ev.get("resolved") or [] if isinstance(r, dict)]
+    if not resolved:
+        return None
+    by_name: dict[str, list[str]] = {}
+    for r in resolved:
+        if isinstance(r.get("name"), str) and r.get("id"):
+            by_name.setdefault(r["name"].casefold(), []).append(r["id"])
+    twins = next((ids for ids in by_name.values() if len(set(ids)) > 1), None)
+    if twins:
+        return {"reason": "twins", "name": name, "ids": twins}
+    top = resolved[0].get("score")
+    if isinstance(top, (int, float)) and top < LOW_SCORE:
+        return {"reason": "low_score", "name": name, "score": top}
+    if analysis._ambiguous(span):
+        return {"reason": "ambiguous", "name": name}
+    return None
+
+
+def identity(spans: list[dict], *, trace_id: str = "") -> list[Miss]:
+    out = []
+    for s in sorted(spans, key=lambda s: s.get("started_at") or 0.0):
+        if s.get("command") in IDENTITY_COMMANDS:
+            reason = _identity_reason(s)
+            if reason:
+                out.append(Miss("identity", trace_id, reason, span_id=s.get("span_id")))
+    return out
+
+
+def scope(answer: str | None, spans: list[dict], *, trace_id: str = "") -> list[Miss]:
+    ordered = sorted(spans, key=lambda s: s.get("started_at") or 0.0)
+    out = []
+    for s in ordered:
+        for w in (s.get("evidence") or {}).get("warnings") or []:
+            if isinstance(w, str) and w.startswith("unknown domain"):
+                out.append(Miss("scope", trace_id, {"reason": "unknown_domain", "warning": w},
+                                span_id=s.get("span_id")))
+    first_by_command: dict[str, set[str]] = {}
+    widened: set[str] = set()
+    for s in ordered:
+        domains = path_mod.span_domains(s)
+        command = s.get("command") or ""
+        if not domains or path_mod.layer_of(command) == "discovery":
+            continue
+        first = first_by_command.setdefault(command, domains)
+        if domains > first and command not in widened:
+            widened.add(command)
+            out.append(Miss("scope", trace_id, {"reason": "widened", "command": command,
+                                                "from": sorted(first), "to": sorted(domains)},
+                            span_id=s.get("span_id")))
+    searches = _search_spans(ordered)
+    first_scope = path_mod.span_domains(searches[0]) if searches else None
+    if first_scope:
+        by_id = {s.get("span_id"): s for s in ordered}
+        for cited, sid in cited_spans(answer, ordered).items():
+            held = path_mod.span_domains(by_id[sid]) if sid else None
+            if held and not any(path_mod._covers(f, d) for d in held for f in first_scope):
+                out.append(Miss("scope", trace_id, {"reason": "outside_first_scope", "source": cited,
+                                                    "first_scope": sorted(first_scope), "span_scope": sorted(held)},
+                                span_id=sid))
+    return out
