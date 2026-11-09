@@ -84,3 +84,31 @@ def text2_failure(kind: str, domains, question, dry_run: bool) -> str:
         return f"\nnext: artmind query orient {d} --compact"
     cmd = "graph text2cypher" if kind == "text2cypher" else "text2sql"
     return f"\nnext: artmind query {cmd} {d} --dryRun --compact {quote(question)}"
+
+
+def entity_context_thin(row: dict, domains) -> str | None:
+    """A row with fewer than two chunks but source documents: open the chunk or the document."""
+    if (row.get("chunks_total") or 0) >= 2 or not (row.get("source_documents_total") or 0) > 0:
+        return None
+    ids = [c.get("chunk_id") or c.get("id") for c in (row.get("chunks") or [])]
+    ids = [i for i in ids if i]
+    if ids:
+        return f"artmind query chunks --shape brief --idList {','.join(ids)} --expand 1 --compact"
+    docs = row.get("source_documents") or []
+    name = (docs[0].get("name") or docs[0].get("title")) if docs and isinstance(docs[0], dict) else None
+    return f"artmind query graph pattern10 {domain_flags(domains)} --documentName {quote(name or '<document>')} --compact"
+
+
+def entity_context_cut(row: dict, domains, max_connections: int) -> str | None:
+    """Connections were cut by --maxConnections: list them all with pattern8."""
+    total = row.get("connections_total") or 0
+    if total <= max_connections:
+        return None
+    entity = row.get("entityData") or row.get("entity") or {}
+    eid = entity.get("_id") or entity.get("id")
+    if not eid:
+        return None
+    return (
+        f"artmind query graph pattern8 {domain_flags(domains)} --entityId {eid} "
+        f"--entityClass <CLASS> --all --compact"
+    )

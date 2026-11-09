@@ -3791,6 +3791,13 @@ def query_entity_context(
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    rows = result.get("rows") or []
+    if len(rows) == 1:
+        extra = hints.join_next(
+            hints.entity_context_thin(rows[0], domains),
+            hints.entity_context_cut(rows[0], domains, max_connections),
+        )
+        result["next"] = hints.join_next(result.get("next"), extra)
     _echo_json(result, compact)
 
 

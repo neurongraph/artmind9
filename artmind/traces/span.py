@@ -68,6 +68,28 @@ class TracedGroup(RichGroup):
     #: (the `db` group: read-only subcommands only).
     traced_commands: frozenset | None = None
 
+    def resolve_command(self, ctx: click.Context, args: list[str]):
+        """Stock resolution, except that a top-level group named in the wrong place
+        (`artmind query db schema`) is answered with the command that works."""
+        try:
+            return super().resolve_command(ctx, args)
+        except click.UsageError as exc:
+            name = args[0] if args else ""
+            root = ctx.find_root().command
+            if (
+                str(exc.message).startswith("No such command")
+                and name
+                and not name.startswith("-")
+                and isinstance(root, click.Group)
+                and isinstance(root.commands.get(name), click.Group)
+            ):
+                rest = " ".join(args[1:])
+                fixed = f"artmind {name} {rest}".rstrip()
+                raise click.UsageError(
+                    f"No such command '{name}' under `{self.name}`. It is a top-level group: {fixed}", ctx
+                ) from exc
+            raise
+
     def _eligible(self, ctx: click.Context, tokens: list[str]) -> bool:
         if self.traced_commands is None:
             return True
