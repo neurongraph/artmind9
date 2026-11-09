@@ -15,6 +15,8 @@ from typing import Any
 CAP = 200
 _ROW_KEYS = ("rows", "candidates", "edge_candidates", "views", "findings", "documents", "pages")
 _NOT_AN_ANSWER = ("needs_disambiguation", "no_match")
+_WARNINGS_KEPT = 10
+_WARNING_CHARS = 300
 
 
 def summarize(payload: Any) -> dict:
@@ -290,6 +292,11 @@ def _evidence(payload: dict) -> dict:
         ev["topics"] = list(acc.topics)
     if acc.entities:
         ev["entities"] = list(acc.entities)
+    if payload.get("status") in _NOT_AN_ANSWER:
+        ev["status"] = payload["status"]
+    warnings = [w[:_WARNING_CHARS] for w in payload.get("warnings") or [] if isinstance(w, str)]
+    if warnings:
+        ev["warnings"] = warnings[:_WARNINGS_KEPT]
     provenance = _provenance(payload)
     if provenance is not None:
         ev["provenance"] = provenance

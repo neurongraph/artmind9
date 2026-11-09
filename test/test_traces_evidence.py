@@ -241,3 +241,41 @@ def test_brief_chunks_rows_give_provenance():
         "doc": {"id": "d1", "title": "Contract One", "domain": "banking"}}]}
     (doc,) = summarize(payload)["evidence"]["provenance"]["documents"]
     assert doc["doc_id"] == "d1" and doc["chunks"][0]["chunk_id"] == "d1_003"
+
+
+def test_a_no_match_status_is_kept_in_evidence():
+    from artmind.traces.evidence import summarize
+
+    out = summarize({"query_type": "entity_resolve", "status": "no_match", "rows": []})
+    assert out["rows"] == 0
+    assert out["evidence"]["status"] == "no_match"
+
+
+def test_needs_disambiguation_status_is_kept():
+    from artmind.traces.evidence import summarize
+
+    out = summarize({"query_type": "entity_resolve", "status": "needs_disambiguation", "rows": [{"x": 1}]})
+    assert out["evidence"]["status"] == "needs_disambiguation"
+
+
+def test_an_ordinary_status_is_not_recorded():
+    from artmind.traces.evidence import summarize
+
+    assert "status" not in summarize({"status": "ok", "rows": [{"x": 1}]})["evidence"]
+
+
+def test_warnings_are_kept_capped_and_trimmed():
+    from artmind.traces.evidence import summarize
+
+    long = "unknown domain 'zz': " + "x" * 600
+    out = summarize({"rows": [], "warnings": [long, 7, "second"] + ["w"] * 30})
+    ws = out["evidence"]["warnings"]
+    assert ws[0].startswith("unknown domain 'zz'") and len(ws[0]) <= 300
+    assert "second" in ws and 7 not in ws
+    assert len(ws) <= 10
+
+
+def test_no_warnings_key_when_the_list_is_empty():
+    from artmind.traces.evidence import summarize
+
+    assert "warnings" not in summarize({"rows": [], "warnings": []})["evidence"]
