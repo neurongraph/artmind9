@@ -33,19 +33,42 @@ class Miss:
                 "qid": self.qid, "span_id": self.span_id, "detail": self.detail}
 
 
-def _span_documents(span: dict) -> list[tuple[str | None, str | None]]:
-    """(path, title) pairs a span returned: evidence documents plus provenance documents."""
+MIN_INLINE = 6
+
+
+def _doc_entries(span: dict) -> list[dict]:
     ev = span.get("evidence") or {}
-    out = [(d.get("path"), None) for d in ev.get("documents") or [] if isinstance(d, dict)]
+    out = [d for d in ev.get("documents") or [] if isinstance(d, dict)]
     prov = ev.get("provenance") if isinstance(ev.get("provenance"), dict) else {}
-    for d in prov.get("documents") or []:
-        if isinstance(d, dict):
-            out.append((d.get("source_path") or d.get("path"), d.get("title")))
+    out += [d for d in prov.get("documents") or [] if isinstance(d, dict)]
     return out
 
 
-def _returned(span: dict, cited: str) -> bool:
-    for held, title in _span_documents(span):
+def _doc_map(spans: list[dict]) -> dict[str, tuple[str | None, str | None]]:
+    """doc_id -> (path, title) from every span's documents that names one (brief-shape spans carry ids only)."""
+    out: dict[str, tuple[str | None, str | None]] = {}
+    for s in spans:
+        for d in _doc_entries(s):
+            path, title = d.get("source_path") or d.get("path"), d.get("title")
+            if d.get("doc_id") and (path or title):
+                old = out.get(d["doc_id"], (None, None))
+                out[d["doc_id"]] = (old[0] or path, old[1] or title)
+    return out
+
+
+def _span_documents(span: dict, idmap: dict | None = None) -> list[tuple[str | None, str | None]]:
+    """(path, title) pairs a span returned; a document with only a doc_id resolves through `idmap`."""
+    out = []
+    for d in _doc_entries(span):
+        path, title = d.get("source_path") or d.get("path"), d.get("title")
+        if not (path or title) and idmap and d.get("doc_id") in idmap:
+            path, title = idmap[d["doc_id"]]
+        out.append((path, title))
+    return out
+
+
+def _returned(span: dict, cited: str, idmap: dict | None = None) -> bool:
+    for held, title in _span_documents(span, idmap):
         if isinstance(held, str) and held and path_mod._same_document(cited, held):
             return True
         if isinstance(title, str) and title and title.casefold() == cited.casefold():
@@ -53,12 +76,34 @@ def _returned(span: dict, cited: str) -> bool:
     return False
 
 
+def _mentioned(answer: str, path: str | None, title: str | None) -> bool:
+    low = answer.casefold()
+    if isinstance(path, str) and path:
+        stem = path.replace("\\", "/").rsplit("/", 1)[-1].rsplit(".", 1)[0].casefold()
+        if len(stem) >= MIN_INLINE and (stem in low or stem.replace("_", " ").replace("-", " ") in low):
+            return True
+    return isinstance(title, str) and len(title) >= MIN_INLINE and title.casefold() in low
+
+
 def cited_spans(answer: str | None, spans: list[dict]) -> dict[str, str | None]:
-    """{cited source: span_id of the first span (by start time) that returned it, or None}."""
+    """{cited source: span_id of the first span (by start time) that returned it, or None}.
+
+    Sources-section links when the answer has them; otherwise every document any span held whose file stem or
+    title the answer names inline (keys are then the document paths)."""
     ordered = sorted(spans, key=lambda s: s.get("started_at") or 0.0)
+    idmap = _doc_map(ordered)
     links: dict[str, str | None] = {}
-    for cited in path_mod.parse_sources(answer):
-        links[cited] = next((s.get("span_id") for s in ordered if _returned(s, cited)), None)
+    sources = path_mod.parse_sources(answer)
+    if sources:
+        for cited in sources:
+            links[cited] = next((s.get("span_id") for s in ordered if _returned(s, cited, idmap)), None)
+        return links
+    if not answer:
+        return links
+    for s in ordered:
+        for path, title in _span_documents(s, idmap):
+            if isinstance(path, str) and path and path not in links and _mentioned(answer, path, title):
+                links[path] = next((x.get("span_id") for x in ordered if _returned(x, path, idmap)), None)
     return links
 
 

@@ -168,3 +168,40 @@ def test_user_stated_from_feedback_and_a_follow_up():
 
 def test_good_feedback_and_an_ordinary_follow_up_are_not_misses():
     assert misses.user_stated({"rating": "good", "expected": "x", "note": None}, "Thanks. And for 2025?") == []
+
+
+# inline citations and brief-shape documents
+
+INLINE = "The `fee_schedule` note lists ten."
+
+
+def test_inline_citation_by_file_stem_links_to_the_first_span():
+    spans = [span("s1", "query vector-text", docs=["other.md"], t=1),
+             span("s2", "query vector-text", docs=["notes/fee_schedule.md"], t=2)]
+    assert misses.cited_spans(INLINE, spans) == {"notes/fee_schedule.md": "s2"}
+
+
+def test_brief_span_with_only_a_doc_id_is_linked_through_a_later_span():
+    brief = span("s1", "query survey", t=1)
+    brief["evidence"]["provenance"] = {"documents": [{"doc_id": "d9", "path": None, "source_path": None,
+                                                      "title": None}]}
+    later = span("s2", "query graph pattern10", t=2)
+    later["evidence"]["documents"] = [{"doc_id": "d9", "path": "notes/fee_schedule.md"}]
+    assert misses.cited_spans(INLINE, [later, brief]) == {"notes/fee_schedule.md": "s1"}
+
+
+def test_journal_stem_is_cited_by_its_date():
+    spans = [span("s1", "query vector-text", docs=["journal/2025-10-04.md"])]
+    assert misses.cited_spans("On 2025-10-04 it rained.", spans) == {"journal/2025-10-04.md": "s1"}
+
+
+def test_a_short_stem_is_never_matched_inline():
+    spans = [span("s1", "query vector-text", docs=["a.md", "notes/fee.md"])]
+    assert misses.cited_spans("a fee applies; see a and fee", spans) == {}
+
+
+def test_vocabulary_works_with_an_inline_citation():
+    spans = [span("s1", "query vector-text", args={"question": "returned direct debit charge"},
+                  docs=["notes/fee_schedule.md"])]
+    out = misses.vocabulary(Q, INLINE, spans)
+    assert len(out) == 1 and out[0].detail["sources"] == ["notes/fee_schedule.md"]
