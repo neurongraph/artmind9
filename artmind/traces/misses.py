@@ -89,7 +89,7 @@ def cited_spans(answer: str | None, spans: list[dict]) -> dict[str, str | None]:
     """{cited source: span_id of the first span (by start time) that returned it, or None}.
 
     Sources-section links when the answer has them; otherwise every document any span held whose file stem or
-    title the answer names inline (keys are then the document paths)."""
+    title the answer names inline (keys are then the document paths, or the title when a row has no path)."""
     ordered = sorted(spans, key=lambda s: s.get("started_at") or 0.0)
     idmap = _doc_map(ordered)
     links: dict[str, str | None] = {}
@@ -102,8 +102,11 @@ def cited_spans(answer: str | None, spans: list[dict]) -> dict[str, str | None]:
         return links
     for s in ordered:
         for path, title in _span_documents(s, idmap):
-            if isinstance(path, str) and path and path not in links and _mentioned(answer, path, title):
-                links[path] = next((x.get("span_id") for x in ordered if _returned(x, path, idmap)), None)
+            # `--shape brief` rows often carry a title and no path (a journal entry titled by its date): key by
+            # the title then; `_returned` matches a title key too.
+            key = path if isinstance(path, str) and path else title if isinstance(title, str) and title else None
+            if key and key not in links and _mentioned(answer, path, title):
+                links[key] = next((x.get("span_id") for x in ordered if _returned(x, key, idmap)), None)
     return links
 
 

@@ -205,3 +205,11 @@ def test_vocabulary_works_with_an_inline_citation():
                   docs=["notes/fee_schedule.md"])]
     out = misses.vocabulary(Q, INLINE, spans)
     assert len(out) == 1 and out[0].detail["sources"] == ["notes/fee_schedule.md"]
+
+
+def test_a_brief_row_with_only_a_title_is_cited_inline_by_its_title():
+    s = span("s1", "query vector-text", args={"question": "outing"})
+    s["evidence"]["provenance"] = {"documents": [{"doc_id": "d1", "path": None, "source_path": None,
+                                                  "title": "2025-03-07"}]}
+    links = misses.cited_spans("On 2025-03-07 the family went out.", [s])
+    assert links == {"2025-03-07": "s1"}
