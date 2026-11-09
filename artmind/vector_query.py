@@ -84,23 +84,33 @@ def _rrf_combine(
     ]
 
 
-def _put_exact_first(exact_rows: list, combined_rows: list, top_k: int, k: int = 60) -> list:
+def _exact_leg(row: dict, reference: str) -> str:
+    """`exact` when the entity's name is the reference, `alias` when only an alias is."""
+    name = str((row.get("entity") or {}).get("name") or "").strip().lower()
+    return "exact" if name == (reference or "").strip().lower() else "alias"
+
+
+def _put_exact_first(exact_rows: list, combined_rows: list, top_k: int, k: int = 60,
+                     reference: str | None = None) -> list:
     """Put exact-name hits ahead of the fused rows, tagged `exact` in `matched_by`.
 
     An entity that is also in the fused rows keeps its own legs and RRF score;
     one that only the exact leg found gets the score of a rank-1 hit. Never
     shorter than the exact hits, so every one of them survives the top-k cut.
+    With `reference`, a hit matched only through an alias is tagged `alias`
+    instead (the exact leg lists name hits before alias hits).
     """
     if not exact_rows:
         return combined_rows
     by_id = {r["entity"]["_id"]: r for r in combined_rows if r.get("entity")}
     head: list = []
     for row in exact_rows:
+        leg = _exact_leg(row, reference) if reference is not None else "exact"
         found = by_id.get(row["entity"]["_id"])
         if found is not None:
-            head.append({**found, "matched_by": ["exact", *found["matched_by"]]})
+            head.append({**found, "matched_by": [leg, *found["matched_by"]]})
         else:
-            head.append({**row, "score": round(1.0 / (k + 1), 6), "matched_by": ["exact"]})
+            head.append({**row, "score": round(1.0 / (k + 1), 6), "matched_by": [leg]})
     exact_ids = {r["entity"]["_id"] for r in head}
     tail = [r for r in combined_rows if r.get("entity") and r["entity"]["_id"] not in exact_ids]
     return (head + tail)[: max(top_k, len(head))]
@@ -134,7 +144,7 @@ def _entity_ft_cypher() -> str:
     YIELD node AS e, score
     WHERE {domain_predicate("e")}
     RETURN score,
-           e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
+           e {{ ._id, .name, .entity_class, .type, .description, .aliases, ._domain, label: labels(e),
                 observation_count: e._observation_count,
                 connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
     ORDER BY score DESC
@@ -147,11 +157,13 @@ def _entity_exact_cypher() -> str:
 
     return f"""
     MATCH (e:Entity)
-    WHERE {domain_predicate("e")} AND toLower(e.name) = toLower($reference)
-    RETURN e {{ ._id, .name, .entity_class, .type, .description, ._domain, label: labels(e),
+    WHERE {domain_predicate("e")}
+      AND (toLower(e.name) = toLower($reference)
+           OR any(a IN coalesce(e.aliases, []) WHERE toLower(a) = toLower($reference)))
+    RETURN e {{ ._id, .name, .entity_class, .type, .description, .aliases, ._domain, label: labels(e),
                 observation_count: e._observation_count,
                 connection_count: COUNT {{ (e)-[:RELATES_TO]-(:Entity) }} }} AS entity
-    ORDER BY e._observation_count DESC
+    ORDER BY toLower(e.name) = toLower($reference) DESC, e._observation_count DESC
     LIMIT $topK
     """
 
@@ -176,13 +188,14 @@ def entity_name_candidates(domains, reference: str, topK: int = 10) -> dict:
             entity = row.get("entity")
             if not entity:
                 continue
+            row_leg = _exact_leg(row, reference) if leg == "exact" else leg
             found = by_id.get(entity.get("_id"))
             if found is None:
                 by_id[entity.get("_id")] = {
-                    **row, "score": row.get("score", 1.0), "matched_by": [leg],
+                    **row, "score": row.get("score", 1.0), "matched_by": [row_leg],
                 }
-            elif leg not in found["matched_by"]:
-                found["matched_by"].append(leg)
+            elif row_leg not in found["matched_by"]:
+                found["matched_by"].append(row_leg)
 
     with read_session() as session:
         if reference.strip():
@@ -192,7 +205,7 @@ def entity_name_candidates(domains, reference: str, topK: int = 10) -> dict:
             add([strip_internal_props(serialize_record(r)) for r in session.run(
                 _entity_ft_cypher(), domains=domains, ft_query=ft_query, topK=top_k)], "fulltext")
     rows = list(by_id.values())
-    n_exact = sum(1 for r in rows if "exact" in r["matched_by"])
+    n_exact = sum(1 for r in rows if "exact" in r["matched_by"] or "alias" in r["matched_by"])
     return {
         **_domain_output(domains),
         "query_type": "entity_name_candidates",
@@ -295,7 +308,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
             vec_rows = []
 
     combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK), annotate=True)
-    combined_rows = _put_exact_first(exact_rows, combined_rows, int(topK))
+    combined_rows = _put_exact_first(exact_rows, combined_rows, int(topK), reference=reference.strip())
 
     return {
         **_domain_output(domains),

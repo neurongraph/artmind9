@@ -393,3 +393,26 @@ def test_vector_text_keeps_relevance_order_within_one_document(monkeypatch):
     assert [r["chunk"]["id"] for r in out["rows"]] == ["c1", "c2"]
     (cypher, _), = s.queries_containing("VECTOR INDEX passage_embedding")
     assert "p.embedding }}" not in cypher and "vector:" not in cypher     # vectors stay in Neo4j
+
+
+def test_exact_leg_cypher_matches_aliases_and_projects_them():
+    cypher = vector_query._entity_exact_cypher()
+    assert "any(a IN coalesce(e.aliases, []) WHERE toLower(a) = toLower($reference))" in cypher
+    assert ".aliases" in cypher
+    assert ".aliases" in vector_query._entity_ft_cypher()
+
+
+def test_entity_resolve_alias_only_match_is_first_and_tagged_alias(monkeypatch):
+    merged = {"score": 1.0, "entity": {"_id": "sp", "name": "Satish Pillai", "entity_class": "PERSON",
+                                       "aliases": ["Satish"]}}
+    noise = [_hit(f"n{i}", f"Noise {i}", 1.0 - i / 10) for i in range(5)]
+    result, _ = _resolve_with(monkeypatch, exact=[merged], ft=noise, vec=noise, reference="Satish")
+    assert result["rows"][0]["entity"]["_id"] == "sp"
+    assert result["rows"][0]["matched_by"] == ["alias"]
+    assert len(result["rows"]) == 5
+
+
+def test_entity_resolve_name_hit_stays_tagged_exact(monkeypatch):
+    named = {"score": 1.0, "entity": {"_id": "s", "name": "satish", "entity_class": "PERSON"}}
+    result, _ = _resolve_with(monkeypatch, exact=[named], ft=[], vec=[], reference="Satish")
+    assert result["rows"][0]["matched_by"] == ["exact"]

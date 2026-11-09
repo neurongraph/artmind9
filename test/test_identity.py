@@ -55,3 +55,19 @@ def test_narrator_for_error(monkeypatch):
     monkeypatch.setattr(identity.domain_config, "narrator", boom)
     n, w = identity.narrator_for(["a"])
     assert n is None and "bad" in w[0]
+
+
+def arow(i, name, aliases, cls="Person"):
+    return {"entity": {"_id": i, "name": name, "entity_class": cls, "aliases": aliases}}
+
+
+def test_twin_groups_name_vs_alias():
+    groups = identity.twin_groups([row("a", "Satish"), arow("b", "Satish Pillai", ["Satish"])])
+    assert [g["ids"] for g in groups] == [["a", "b"]]
+    assert identity.twin_warning(groups[0]) == (
+        '"Satish" and "Satish Pillai" (Person) share the name "Satish": '
+        "treat them as one unless the text distinguishes them")
+
+
+def test_twin_groups_alias_across_classes_is_not_a_twin():
+    assert identity.twin_groups([row("a", "Satish", "Org"), arow("b", "Satish Pillai", ["Satish"])]) == []

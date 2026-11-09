@@ -48,7 +48,10 @@ def narrator_names(narrator: dict) -> set[str]:
 
 
 def twin_groups(rows: list[dict]) -> list[dict]:
-    """Groups of >= 2 rows with the same entity_class and normalised name but different ids."""
+    """Groups of >= 2 rows with the same entity_class and normalised name but different ids.
+
+    Also groups same-class rows where one row's name equals another's alias (`alias_of` names
+    the shared alias). Rows are never merged or reordered."""
     groups: dict[tuple, dict] = {}
     for row in rows:
         entity = row.get("entity") or {}
@@ -58,9 +61,36 @@ def twin_groups(rows: list[dict]) -> list[dict]:
         group = groups.setdefault(key, {"name": entity.get("name"), "entity_class": key[0], "ids": []})
         if entity.get("_id") not in group["ids"]:
             group["ids"].append(entity.get("_id"))
-    return [g for g in groups.values() if len(g["ids"]) >= 2]
+    out = [g for g in groups.values() if len(g["ids"]) >= 2]
+    seen_pairs: set = set()
+    entities = [r.get("entity") or {} for r in rows]
+    for a in entities:
+        a_name = normalise(a.get("name"))
+        if not a_name:
+            continue
+        for b in entities:
+            if b is a or b.get("_id") == a.get("_id") or b.get("entity_class") != a.get("entity_class"):
+                continue
+            if b.get("_id") is None or a.get("_id") is None:
+                continue
+            if normalise(b.get("name")) == a_name:
+                continue  # same-name twins are already grouped
+            for alias in b.get("aliases") or []:
+                if normalise(alias) == a_name:
+                    pair = (a.get("_id"), b.get("_id"))
+                    if pair in seen_pairs:
+                        break
+                    seen_pairs.add(pair)
+                    out.append({"name": a.get("name"), "entity_class": a.get("entity_class"),
+                                "ids": [a.get("_id"), b.get("_id")], "alias": alias,
+                                "other_name": b.get("name")})
+                    break
+    return out
 
 
 def twin_warning(group: dict) -> str:
+    if group.get("alias"):
+        return (f"\"{group['name']}\" and \"{group['other_name']}\" ({group['entity_class']}) "
+                f"share the name \"{group['alias']}\": treat them as one unless the text distinguishes them")
     return (f"{len(group['ids'])} entities share the name '{group['name']}' ({group['entity_class']}): "
             "treat them as one unless the text distinguishes them")
