@@ -32,7 +32,7 @@ Order of work:
 |---|---|
 | 0 | Freeze the P3 branch; shadow planning off |
 | 1 | New baseline: carry-over list, the no-entanglement rule, 15 new brain01 questions, tiered expected answers, the measured classic band |
-| 2 | P2-0 miss records → P2-1 `orient` → P2-2 `next` hints → P2-3 identity in `entity-resolve` → P2-4 complete counts → P2-5 `entity-context` hubs → **composites (episode)** → P2b skill restructure |
+| 2 | P2-0 miss records → P2-1 `orient` → P2-2 `next` hints → P2-2b superseded history (graph-first) → P2-3 identity in `entity-resolve` → P2-4 complete counts → P2-4b enumeration across documents → P2-5 `entity-context` hubs → **composites (episode)** → P2b skill restructure (§4.3a) |
 | 3 | Planner removal |
 | 4 | Answerability audit, schema and extraction guidance, the second composite kind |
 | 5 | DSL thinking (a design note only) |
@@ -149,7 +149,16 @@ questions, median commands, latency and cost.
 
 ### 3.4 Judging a variant
 
+**Revised 2026-11-09 after the baseline (study note 20).** Three classic runs of the same skill differed
+"materially" on 19–21 questions per pair with no direction, while their must-item rates agreed within 5 points
+(banking 69–74 %; brain01 original 55–58 %, new 67–71 %). So the **must-item rate is the primary gate**, per vault
+and per question group, against the range the baseline runs span; the pairwise judgement flags answers for the
+user to read and supplies the balance check below. Before the first variant gate one baseline pair is re-judged
+and re-graded with a Sonnet model; if the band narrows, every gate uses that model. The baseline runs are
+re-graded whenever the tiers change, so variant and baseline are always graded against the same tiers.
+
 A step runs its skill variant once per vault, judged against each baseline run. It **passes** when:
+- its must-item rate, per vault and per question group, is at or above the lowest baseline run's rate;
 - its balance against every baseline run is within the band;
 - it loses no must item that every baseline run found;
 - no question is materially worse than all baseline runs, or each such question has a dossier.
@@ -161,6 +170,13 @@ A step runs its skill variant once per vault, judged against each baseline run. 
 
 Each judging run lists the questions marked material, worse than all, or with a lost must item. The user reads
 those answers. The user's rating overrides the judge; disagreements adjust the judge prompt (a version bump).
+
+### 3.6 What the benchmark cannot measure
+
+Each benchmark question runs in a fresh agent, so follow-ups, corrections ("you missed X") and multi-turn
+context are not measured; questions that need them are written as self-contained multi-part questions. The
+user-stated miss kind (§4.1) therefore comes from admin-console turns only. Multi-turn benchmark entries
+(a scripted follow-up after an answer) are a later item, not part of any phase-2 gate.
 
 ## 4. Phase 2: tools absorb rules
 
@@ -231,6 +247,21 @@ Rules:
 | P2-5 | `entity-context` ranks by the question by default and says when a hub's cut hides parts | the Hub entities section |
 
 P2-2 to P2-5 may be measured in pairs; a failed pair is bisected.
+
+### 4.3a Additions from the baseline (2026-11-09, study note 20)
+
+The baseline's shared misses named five gaps the slices above did not cover.
+
+| Item | Where | What changes |
+|---|---|---|
+| **P2-2b superseded history, graph-first** | own slice after P2-2 | A dated or "what changed" question is answered through the graph: supersession edges, `document-history`, `pattern10 --includeHistory`, `entity-history`, valid-time filters. Retired documents stay out of vector search by design; a `vector-text` / `survey` result whose topic has a superseded predecessor may *signal* it (`next`: the graph command for the dated version), never return retired text. The slice also checks how supersession reaches the graph: a document the authority register marks superseded but that is still current (KYC v1, runs D and G applied it) is a data defect the slice reports and fixes in ingestion, not in the skill. Evidence: banking Q07, Q09, Q10 (wrong in every run), Q11, Q13, Q25. |
+| **"Connected to" routing** | P2-2 `next` hint + P2b routing table | `entity-context` on an entity, when the question lists a class connected to it, hints `pattern8 --entityClass <CLASS>`; the routing table names the shape "CLASS connected to ENTITY → `pattern8`". Evidence: brain01 Q15 (3/9, 2/9 without `pattern8`) against Q16 (7/7, 6/7 with it). |
+| **P2-4b enumeration across documents** | after P2-4, measured | "Every year" / "each time" questions answered from text need one result per period, not a sample. Two candidates, measured against each other: `survey --by year\|month` (best documents per period, every period with a hit reported) and routing such questions to the graph's `timeline`. Evidence: brain01 Q01, Q12, Q20. |
+| **Depth for broad multi-document questions** | a measured setting, not a slice | Answers keep the shape and drop thresholds, timings and roles. Variables: `survey --passages` (up to 8) and `--expand` of the top documents; one variant per setting. Evidence: banking Q16, Q18, Q22, Q23, Q24. |
+| **Near-miss inclusion** | P2b judgement rule; composites | "An event counts for a person only when the notes put them in it" as a judgement rule; episodes give the attendee a member role so the graph answers it. Evidence: brain01 Q01, Q05 must-not hits. |
+
+Order in phase 2: P2-0 → P2-1 → P2-2 (with the `pattern8` hint) → P2-2b → P2-3 → P2-4 → P2-4b → P2-5 →
+composites → P2b. The depth setting is measured whenever a variant run is due anyway.
 
 ### 4.4 Composites (first kind: episode)
 
@@ -328,3 +359,4 @@ commitment to build.
 | D7 | Composites generalise episodes; one kind first; sequential, after P2-5 and before P2b; no route |
 | D8 | Miss records (P2-0) collected from the start of phase 2 for the DSL |
 | D9 | Order: freeze → baseline → phase 2 → planner removal → audit and schema → DSL |
+| D10 | (2026-11-09) Must-item rate is the primary gate; pairwise flags answers. Superseded history is answered through the graph, vector output only signals it. Five baseline gaps added as §4.3a |
