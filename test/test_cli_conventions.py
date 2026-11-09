@@ -87,6 +87,7 @@ _READ_ONLY: dict[str, str] = {
     "insights same-as": "--export writes one review file the operator names; the graph is only read",
     "sameas list": "reads the review queue",
     "sameas propose": "writes the proposal queue file only; no graph, staging or vault note",
+    "traces misses": "writes only its own private log under logs/misses, like traces compare",
 }
 
 

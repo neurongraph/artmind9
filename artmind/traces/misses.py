@@ -7,6 +7,7 @@ no graph. Records hold private corpus text: write them only under `<ARTMIND_HOME
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass, field
 
@@ -254,3 +255,69 @@ def user_stated(feedback: dict | None, next_question: str | None, *, trace_id: s
         out.append(Miss("user-stated", trace_id, {"source": "follow_up",
                                                   "item": match.group(1).strip()[:ITEM_CHARS]}))
     return out
+
+
+def derive_turn(turn: dict, spans: list[dict], *, grade: dict | None = None, feedback: dict | None = None,
+                next_question: str | None = None, qid: str | None = None) -> list[Miss]:
+    tid = turn["trace_id"]
+    q, a = turn.get("question") or "", turn.get("answer")
+    found = [*vocabulary(q, a, spans, trace_id=tid), *reformulation(q, a, spans, trace_id=tid),
+             *identity(spans, trace_id=tid), *scope(a, spans, trace_id=tid), *structure(a, spans, trace_id=tid),
+             *answer(grade, trace_id=tid), *user_stated(feedback, next_question, trace_id=tid)]
+    stamp = {"run_id": turn.get("benchmark_run_id"), "seq": turn.get("benchmark_seq"), "qid": qid}
+    return [Miss(m.kind, m.trace_id, m.detail, m.span_id, **stamp) for m in found]
+
+
+def _latest_grade(conn, run_id: str | None, seq: int | None) -> dict | None:
+    if not run_id or seq is None:
+        return None
+    row = conn.execute("SELECT detail FROM trace_grades WHERE run_id = ? AND seq = ? ORDER BY created_at DESC"
+                       " LIMIT 1", (run_id, seq)).fetchone()
+    return json.loads(row[0]) if row else None
+
+
+def load_and_derive(*, since: float | None = None, run_refs=(), source: str | None = None
+                    ) -> tuple[list[Miss], list[dict]]:
+    from artmind.traces import compare, store
+
+    conn = store._connect()
+    try:
+        run_ids = {compare._resolve(conn, ref) for ref in run_refs}
+    finally:
+        conn.close()
+    turns = store.list_turns(source=source, since=since)
+    if run_ids:
+        turns = [t for t in turns if t.get("benchmark_run_id") in run_ids]
+    spans_by = store.list_spans_for([t["trace_id"] for t in turns])
+    records: list[Miss] = []
+    conn = store._connect()
+    try:
+        for t in turns:
+            nxt = None
+            if t.get("session_id") and t.get("turn_index"):
+                row = conn.execute("SELECT question FROM trace_turns WHERE session_id = ? AND turn_index = ?",
+                                   (t["session_id"], t["turn_index"] + 1)).fetchone()
+                nxt = row[0] if row else None
+            qid = None
+            if t.get("benchmark_run_id"):
+                row = conn.execute("SELECT qid FROM benchmark_questions WHERE run_id = ? AND seq = ?",
+                                   (t["benchmark_run_id"], t.get("benchmark_seq"))).fetchone()
+                qid = row[0] if row else None
+            records += derive_turn(t, spans_by.get(t["trace_id"], []),
+                                   grade=_latest_grade(conn, t.get("benchmark_run_id"), t.get("benchmark_seq")),
+                                   feedback=store.latest_feedback(t["trace_id"]), next_question=nxt, qid=qid)
+    finally:
+        conn.close()
+    return records, turns
+
+
+def summarise(records: list[Miss], turns: list[dict]) -> dict:
+    by_kind = {k: 0 for k in KINDS}
+    by_reason: dict[str, dict[str, int]] = {"identity": {}, "scope": {}, "structure": {}}
+    for m in records:
+        by_kind[m.kind] = by_kind.get(m.kind, 0) + 1
+        if m.kind in by_reason:
+            reason = m.detail.get("reason", "other")
+            by_reason[m.kind][reason] = by_reason[m.kind].get(reason, 0) + 1
+    return {"turns": len(turns), "turns_with_misses": len({m.trace_id for m in records}),
+            "misses": len(records), "by_kind": by_kind, "by_reason": by_reason}

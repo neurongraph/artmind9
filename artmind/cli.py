@@ -4903,6 +4903,34 @@ def _write_compare_detail(report: dict) -> Path:
     return path
 
 
+@traces_group.command("misses")
+@_since_option
+@click.option("--run", "run_refs", multiple=True,
+              help="Only turns of this benchmark run (id or unique prefix; repeatable; comma-splittable)")
+@click.option("--source", type=click.Choice(["admin", "benchmark"]), default=None)
+@compact_option
+def traces_misses(since, run_refs, source, compact) -> None:
+    """Derive miss records from stored turns (spec 2026-11-08 §4.1): vocabulary, reformulation, identity, scope,
+    structure, answer, user-stated. No LLM call. Records hold questions, phrases and names, so they go to
+    <ARTMIND_HOME>/logs/misses/ (private); stdout carries counts only."""
+    from datetime import datetime
+
+    from artmind.traces import analysis, compare
+    from artmind.traces import misses as misses_mod
+
+    try:
+        since_ts = analysis.parse_since(since)
+        records, turns = misses_mod.load_and_derive(since=since_ts, run_refs=_parse_repeatable(run_refs),
+                                                    source=source)
+    except (ValueError, compare.CompareError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    path = Path(LOGS_DIR) / "misses" / f"misses-{datetime.now().strftime('%Y%m%dT%H%M%S%f')}.jsonl"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("".join(json.dumps(m.to_dict(), ensure_ascii=False) + "\n" for m in records),
+                    encoding="utf-8")
+    _echo_json({**misses_mod.summarise(records, turns), "records_file": str(path)}, compact)
+
+
 @traces_group.command("prune")
 @click.option("--days", type=int, default=None, help="Retention in days (default: ARTMIND_TRACE_RETENTION_DAYS or 90)")
 @dry_run_option("Count the turns that would be deleted; delete none")
