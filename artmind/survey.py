@@ -66,6 +66,25 @@ RETURN d.id AS doc_id, coalesce(d.title, d.name) AS title, d.name AS name, d._do
        """ + supersedes_list("d") + """ AS supersedes
 """
 
+#: `--by`: the date of every fused document (documents store `_valid_from`; `valid_from` is the fallback).
+_PERIOD_DATES = """
+UNWIND $docIds AS did
+MATCH (d:Document {id: did})
+RETURN d.id AS doc_id, coalesce(d._valid_from, d.valid_from) AS date
+"""
+
+#: `--by`: keyword hits per document date over the whole passage index, not just the ranked pool.
+_PERIOD_HITS = """
+CALL db.index.fulltext.queryNodes('passage_text_ft', $ft_query, {limit: $hit_limit})
+YIELD node AS p
+WHERE p._domain IN $domains
+MATCH (d:Document {id: p.doc_id})
+RETURN coalesce(d._valid_from, d.valid_from) AS date, count(DISTINCT d) AS hits
+"""
+
+HIT_LIMIT = 5000
+BY_PERIODS = ("year", "month")
+
 _COVERAGE = """
 MATCH (d:Document) WHERE d._domain IN $domains
 RETURN d._domain AS domain, count(d) AS total,
@@ -99,6 +118,8 @@ def survey_search(
     passage_docs: int = 3,
     gist_docs: int = 10,
     expand: Sequence[str] | None = None,
+    by: str | None = None,
+    per_period: int = 2,
 ) -> dict:
     from artmind.graph_query import _domain_output, normalize_domains
 
@@ -111,6 +132,13 @@ def survey_search(
     if not 0 <= gist_docs <= 50:
         raise ValueError("--gistDocs must be between 0 and 50")
     expand = [e for e in (expand or []) if e]
+    if by is not None and by not in BY_PERIODS:
+        raise ValueError(f"--by must be one of {', '.join(BY_PERIODS)}")
+    if by and expand:
+        raise ValueError("--by and --expand cannot be combined")
+    per_period = int(per_period)
+    if not 1 <= per_period <= 5:
+        raise ValueError("--perPeriod must be between 1 and 5")
     if not 1 <= top_docs <= MAX_TOP_DOCS:
         raise ValueError(f"--topDocs must be between 1 and {MAX_TOP_DOCS}")
     if not 1 <= passages <= MAX_PASSAGES:
@@ -171,7 +199,13 @@ def survey_search(
             if _is_missing_summary_index(e):
                 raise ValueError(MISSING_SUMMARY_INDEX) from e
             raise
-        picked = retrieval_rank.survey_fuse(rankings, weights=retrieval_rank.survey_leg_weights())[:top_docs]
+        fused_all = retrieval_rank.survey_fuse(rankings, weights=retrieval_rank.survey_leg_weights())
+        picked = fused_all[:top_docs]
+        by_info = None
+        if by:
+            by_info = _periods(session, fused_all, by, per_period, ft_query, expanded)
+            picked = by_info["picked"]
+            warnings.extend(by_info["warnings"])
         if expand:
             # Same question, no re-ranking: the named documents in the order asked.
             fused_order = {doc_id: (score, ranks, i) for i, (doc_id, score, ranks) in enumerate(picked, 1)}
@@ -187,6 +221,9 @@ def survey_search(
             warnings.append(f"summaries missing for {missing} of {row['total']} documents in {row['domain']}; "
                             f"run artmind ingest summarise --domain {row['domain']}")
 
+    if by_info:
+        for m in meta.values():
+            m["date"] = by_info["dates"].get(m["doc_id"]) or m.get("date")
     if expand:
         return _expanded(domains, question, picked, meta, doc_units, passages, warnings, top_docs, legs)
     if shape == "brief":
@@ -207,6 +244,8 @@ def survey_search(
         envelope = brief.size(out) + brief.ENVELOPE_CHARS
         out["documents"] = _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_hits,
                                             chunk_summary_hits, passage_docs, gist_docs, envelope)
+        if by_info:
+            _attach_periods(out, by_info, by, per_period, domains, question)
         return out
 
     documents = []
@@ -228,7 +267,7 @@ def survey_search(
         })
     found = topics(ids, domains) if topics else []
     warnings.extend(getattr(found, "warnings", ()))
-    return {
+    out = {
         **_domain_output(domains),
         "query_type": "survey",
         "question": question,
@@ -237,6 +276,89 @@ def survey_search(
         "documents": documents,
         "topics": list(found),
     }
+    if by_info:
+        _attach_periods(out, by_info, by, per_period, domains, question)
+    return out
+
+
+def _period_of(date, by: str) -> str:
+    text = str(date or "")
+    if len(text) < (4 if by == "year" else 7) or not text[:4].isdigit():
+        return "undated"
+    return text[:4] if by == "year" else text[:7]
+
+
+def _period_key(period: str) -> tuple:
+    return (period == "undated", period)
+
+
+def _periods(session, fused_all, by: str, per_period: int, ft_query: str, expanded) -> dict:
+    """Group the whole fused list by period and add the keyword hit counts per period."""
+    warnings: list[str] = []
+    ids = [d for d, _, _ in fused_all]
+    dates = ({r["doc_id"]: r.get("date") for r in (serialize_record(x) for x in session.run(_PERIOD_DATES, docIds=ids))}
+             if ids else {})
+    ranked: dict[str, list[tuple]] = {}
+    for item in fused_all:
+        ranked.setdefault(_period_of(dates.get(item[0]), by), []).append(item)
+    hits: dict[str, int] = {}
+    if ft_query:
+        try:
+            rows = session.run(_PERIOD_HITS, ft_query=ft_query, domains=expanded, hit_limit=HIT_LIMIT)
+            for r in (serialize_record(x) for x in rows):
+                period = _period_of(r.get("date"), by)
+                hits[period] = hits.get(period, 0) + int(r.get("hits") or 0)
+        except ClientError as e:
+            if vector_query._is_missing_index(e):
+                raise ValueError(vector_query.MISSING_INDEX) from e
+            raise
+    chosen = {p: items[:per_period] for p, items in ranked.items()}
+    total = sum(len(v) for v in chosen.values())
+    if total > MAX_TOP_DOCS:
+        best = {d for d, _, _ in sorted((i for v in chosen.values() for i in v), key=lambda t: (-t[1], t[0]))[:MAX_TOP_DOCS]}
+        chosen = {p: [i for i in v if i[0] in best] for p, v in chosen.items()}
+        warnings.append(f"--by {by}: {total} documents across {len(chosen)} periods; showing the best "
+                        f"{MAX_TOP_DOCS}. Narrow with --perPeriod or a tighter question.")
+    periods = []
+    for period in sorted(set(ranked) | set(hits), key=_period_key):
+        docs = chosen.get(period, [])
+        periods.append({"period": period, "hits": max(hits.get(period, 0), len(ranked.get(period, []))),
+                        "ids": [d for d, _, _ in docs], "items": docs})
+    picked = [item for p in periods for item in p["items"]]
+    return {"picked": picked, "periods": periods, "warnings": warnings,
+            "dates": {d: v for d, v in dates.items() if v}}
+
+
+def _period_last_day(period: str) -> str | None:
+    import calendar
+
+    if period == "undated":
+        return None
+    if len(period) == 4:
+        return f"{period}-12-31"
+    year, month = int(period[:4]), int(period[5:7])
+    return f"{period}-{calendar.monthrange(year, month)[1]:02d}"
+
+
+def _attach_periods(out: dict, info: dict, by: str, per_period: int, domains, question: str) -> None:
+    """Split the flat `documents` (kept, in period order) into `periods` and sign-post empty ones."""
+    from artmind import hints
+
+    rows, at = out["documents"], 0
+    periods, nxt = [], None
+    for p in info["periods"]:
+        n = len(p["ids"])
+        periods.append({"period": p["period"], "hits": p["hits"], "documents": rows[at:at + n]})
+        at += n
+        last = _period_last_day(p["period"])
+        if nxt is None and not n and p["hits"] and last:
+            nxt = (f"artmind query vector-text {hints.domain_flags(domains)} --asOf {last} --topK 10 "
+                   f"--compact {hints.quote(question)}")
+    out["by"] = by
+    out["periods"] = periods
+    out["parameters"]["by"] = by
+    out["parameters"]["perPeriod"] = per_period
+    out["next"] = nxt
 
 
 def _passage(unit) -> dict:
