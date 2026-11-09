@@ -192,3 +192,70 @@ brain01 (counts and key names only):
 
 Next: restart both admin consoles; the user runs one benchmark per vault with Skill variant `orient` (run `I`),
 judged and graded with Sonnet against the same baseline runs and floors.
+
+## Batch run I (orient + P2-2 … P2-5), judged and graded with Sonnet
+
+Runs: banking `7fe027c0` (36/36), brain01 `343e5203` (29/29); consoles restarted after the last code commit;
+every turn contract `orient`. Two brain01 answers came back ungraded on two attempts: the grader wrote bracketed
+reasoning (`[1] found`) before its JSON and `json_repair` returned a list. Fixed in `99414bda` (regression test
+fails on the old code); all 65 answers graded.
+
+### Must items
+
+| Vault / group | Floor | Baselines | H | **I** |
+|---|---|---|---|---|
+| banking (214) | 67 % | 67–71 % | 70 % | **152 (71 %)** |
+| brain01 Q01–Q14 (101) | 55 % | 55–61 % | 63 % | **66 (65 %)** |
+| brain01 Q15–Q29 (75) | 76 % | 76–79 % | 77 % | **61 (81 %)** |
+
+I is at the top of the banking range and above every baseline run in both brain01 groups. Correct / partial /
+wrong: banking 8/27/1 (baselines 7–8 correct); brain01 Q01–Q14 1/12/1, Q15–Q29 7/8/0 (baselines at most 6
+correct on Q15–Q29). Must-not hits brain01: Q01–Q14 2 (baselines 5–8), Q15–Q29 1 (baselines 2–3).
+
+### Gate rows
+
+| Row | banking | brain01 |
+|---|---|---|
+| balance within band (3 / 9) | ok: 0, −5, −1 (H: +1, 0, +1) | ok: 0, −4, +1, −5 |
+| lost must items | 6 over 5 q (Q02, Q08, Q14, Q25×2, Q32) — baselines lose 9–14 against each other | 9 over 8 q (Q02, Q03, Q05, Q14×2, Q16, Q20, Q25, Q28) — baselines 0–7 |
+| worse than all | Q14 (H: 4 questions) — baselines 3–6 | Q01, Q14, Q28 — baselines 1–2 |
+
+On the two noise rows I sits inside the baseline range in banking (fewer losses and fewer worse-than-all
+questions than any baseline run, and than H). In brain01 it loses more must items than the baselines lose
+against each other (9 vs 0–7) and has one more worse-than-all question than the worst baseline, while its
+must-item rate is above every baseline: it finds more items in total but not always the same ones.
+
+### Superseded history (banking, the P2-2b target)
+
+Grade as `<c|p|w><missed>/<must-not hits>` per run A, D, G, H, I:
+
+| q | A | D | G | H | I | I's path |
+|---|---|---|---|---|---|---|
+| Q07 | p3/2 | p3/2 | w5/1 | p4/1 | p3/1 | orient → survey → pattern10 |
+| Q09 | p3 | p4 | p2 | p3 | p2 | … → vector-text → document-history |
+| Q10 | p2 | p2 | p2 | c0 | **c0** | survey → chunks → pattern10 |
+| Q11 | p3 | p3 | p2 | p3 | p3 | orient → survey |
+| Q13 | p4 | p1 | p1 | p3 | **c0** | orient ×2 → pattern10 |
+| Q25 | p1 | c0 | p2/1 | p1 | p3 | orient → survey → chunks |
+
+Q10 (wrong in every baseline in note 20, before tier edits) and Q13 are now correct; the agent reached history
+through `pattern10` and `document-history`. **Q25 regressed** (3 must items missed): with KYC v1 now correctly
+retired, the answer did not cite the controlling CID-POL-001 v2.0 / ACCT-OPEN-SOP-001 v3.0 versions or the
+document-authority register, and said it did not check whether SOP v3.0 supersedes v2.1. `ACCT-OPEN-SOP` v2.1 →
+v3.0 is a supersession detection never ran for (signal 2 only, study note 22 P2-2b mapping) — a data gap, not a
+tool gap. Q32 (structured tables) reached `db bridge → db schema → db sql` again.
+
+### Behaviour and cost
+
+Median commands per turn unchanged (banking 4, brain01 5). Median latency banking 28.4 s (H 25.3), brain01
+29.7 s (H 27.5); run cost banking $4.40 (H $4.55), brain01 $4.04 (H $3.85). Failed spans banking 2 (H 6),
+brain01 3 (H 2). Miss records: banking 36 turns, 32 with misses, scope 0 (H 3), reformulation 1; brain01 29
+turns, 25 with misses, identity 21 (17 low score, 4 twins).
+
+## Reading for the user
+
+`traces compare` flags (material vs some baseline, worse than all, or a lost must item), ids only:
+- banking: Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q08, Q11, Q13, Q14, Q15, Q18, Q19, Q20, Q21, Q22, Q24, Q25, Q26,
+  Q32, Q33, Q36 — first **Q14** (worse than all) and **Q25** (lost must items).
+- brain01: Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q08, Q09, Q10, Q11, Q12, Q14, Q15, Q16, Q18, Q20, Q21, Q25, Q27,
+  Q28 — first **Q01, Q14, Q28** (worse than all).
