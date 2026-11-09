@@ -26,7 +26,8 @@ Opened 2026-10-19.
 | [13-pickup-2026-11-05.md](13-pickup-2026-11-05.md) | **Pick-up point (2026-11-05)** for a session on another machine: redesign state, next steps (bounded-output design, fixes-now branch, P2 spec, round 8), laptop setup and the gateway trap, where the private material is. |
 | [14-handover-2026-11-05.md](14-handover-2026-11-05.md) | **Handover (2026-11-05, evening).** P1b built and fixed from round 8, round 8 analysed, P2 spec checked against it; next is P2a. Mac setup, private material, how the build was run with sub-agents, and a restart prompt. |
 | [19-retrospective-2026-11-08.md](19-retrospective-2026-11-08.md) | **Retrospective (2026-11-08).** Classic vs bundle, what to keep or revert, why the planner and bundle were frozen (notes 15–18 stay on tag `archive/p3-bundle`). |
-| [20-classic-baseline.md](20-classic-baseline.md) | **Classic baseline (2026-11-09), the current reference.** Runs G (banking) and G1/G2 (brain01) graded against tiered expected answers with the 2026-11-08 classic runs; bands, shared misses, phase-2 targets. |
+| [20-classic-baseline.md](20-classic-baseline.md) | **Classic baseline (2026-11-09), the current reference.** Runs G (banking) and G1/G2 (brain01) graded against tiered expected answers with the 2026-11-08 classic runs; bands, shared misses, phase-2 targets, P2-0 miss counts. |
+| [21-handover-2026-11-09.md](21-handover-2026-11-09.md) | **Handover (2026-11-09), the current resume point.** P2-0 done; how to run P2-1 to P2-5 (plan, build, variant, benchmark, measure), what a different inference provider changes for the judge, P2-1 `orient` as the pressure point, standing decisions, restart prompt. |
 
 ## How a later session uses this
 
