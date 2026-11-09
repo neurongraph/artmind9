@@ -24,7 +24,9 @@ Opened 2026-10-19.
 | [11-p2-evidence-needs.md](11-p2-evidence-needs.md) | The P2 (planner v2) decisions that wait on the collection round, each with the evidence and SOP shapes that settle it. |
 | [12-round7-lessons.md](12-round7-lessons.md) | **Round 7 lessons (2026-11-04).** 181 turns from laptop B and the desktop, judged per turn for struggle; lessons by design component, answers to N1–N9, changes to the architecture design, and fixes worth doing now. |
 | [13-pickup-2026-11-05.md](13-pickup-2026-11-05.md) | **Pick-up point (2026-11-05)** for a session on another machine: redesign state, next steps (bounded-output design, fixes-now branch, P2 spec, round 8), laptop setup and the gateway trap, where the private material is. |
-| [14-handover-2026-11-05.md](14-handover-2026-11-05.md) | **Handover (2026-11-05, evening), the current resume point.** P1b built and fixed from round 8, round 8 analysed, P2 spec checked against it; next is P2a. Mac setup, private material, how the build was run with sub-agents, and a restart prompt. |
+| [14-handover-2026-11-05.md](14-handover-2026-11-05.md) | **Handover (2026-11-05, evening).** P1b built and fixed from round 8, round 8 analysed, P2 spec checked against it; next is P2a. Mac setup, private material, how the build was run with sub-agents, and a restart prompt. |
+| [19-retrospective-2026-11-08.md](19-retrospective-2026-11-08.md) | **Retrospective (2026-11-08).** Classic vs bundle, what to keep or revert, why the planner and bundle were frozen (notes 15–18 stay on tag `archive/p3-bundle`). |
+| [20-classic-baseline.md](20-classic-baseline.md) | **Classic baseline (2026-11-09), the current reference.** Runs G (banking) and G1/G2 (brain01) graded against tiered expected answers with the 2026-11-08 classic runs; bands, shared misses, phase-2 targets. |
 
 ## How a later session uses this
 
