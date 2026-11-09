@@ -48,11 +48,46 @@ spec rule (§3.4: "if the band narrows, every gate uses that model") the gate mo
 re-judging and re-grading every baseline run in both vaults with it before the first variant gate; the Haiku
 floors above then stop being the floors.
 
+## Every baseline run under Sonnet (the gate model from here on)
+
+The narrower band on the one pair above made Sonnet the gate model (spec §3.4). Every baseline run in both vaults
+was re-judged pairwise and re-graded with `claude-sonnet-5-5` (via `ibm_ica`), same tiers. **These replace the
+Haiku floors above.**
+
+| Vault / group | Must items | A | D | G / G1 | G2 |
+|---|---|---|---|---|---|
+| banking (36) | 214 | 143 (67 %) | 151 (71 %) | 150 (70 %) | — |
+| brain01 Q01–Q14 | 101 | 56 (55 %) | 62 (61 %) | 61 (60 %) | 59 (58 %) |
+| brain01 Q15–Q29 | 75 | — | — | 59 (79 %) | 57 (76 %) |
+
+Correct / partial / wrong: banking A 7/29/0, D 8/28/0, G 8/27/1; brain01 A 2/11/1, D 1/13/0, G1 8/20/1, G2 5/23/1.
+Must-not hits Q01–Q14: A 5, D 8, G1 6, G2 5; Q15–Q29: G1 2, G2 3.
+
+Pairwise (balance = left-better minus right-better over every judged question, minor included; `traces/gate.py`):
+
+| Pair | Balance | Material |
+|---|---|---|
+| banking A–D | −3 | 16 |
+| banking A–G | +1 | 14 |
+| banking D–G | 0 | 14 |
+| brain01 A–D | −4 | 7 |
+| brain01 A–G1 | −3 | 10 |
+| brain01 A–G2 | 0 | 8 |
+| brain01 D–G1 | −9 | 8 |
+| brain01 D–G2 | −2 | 9 |
+| brain01 G1–G2 (29 q) | +1 | 12 |
+
+**Bands (Sonnet):** banking balance 3, material 16 (Haiku: 2, 21); brain01 balance 9, material 12 (Haiku: 4, 19).
+Material narrows in both vaults. brain01's balance widens only because of one pair, D–G1 on Q01–Q14, where Sonnet
+prefers G1 on nine more questions than D; the other five pairs are within 4.
+
+**Gate floors for the orient variant (Sonnet, lowest baseline run):** banking 67 %; brain01 Q01–Q14 55 %,
+Q15–Q29 76 %. Judge and grade the variant with `--model claude-sonnet-5-5`.
+
 ## Still to do before the variant gate
 
-1. Decide on the gate model; if Sonnet, re-judge and re-grade all baseline runs with `--model claude-sonnet-5-5`
-   in both vaults and replace the floors above.
+1. ~~Gate model~~: Sonnet, all baseline runs re-judged and re-graded (above).
 2. Restart the admin consoles; the user runs one benchmark per vault with Skill variant `orient`
    (banking_corpus first).
-3. `traces compare --baseline <all> --variant <id> --questions <file> --judge --grade [--model ...]` and
+3. `traces compare --baseline <all> --variant <id> --questions <file> --judge --grade --model claude-sonnet-5-5` and
    `traces misses --run <id>`.
