@@ -35,6 +35,35 @@ Consequences:
 - Supersession, versioning and similar concerns are not special cases. They appear as instances of general
   layers (here, the domain's time model).
 
+### 1.1 Interaction contract: skill, CLI output, CLI reference
+
+The agent learns from three channels. Phase 2 slices after this one (P2-2 `next` hints, P2b restructure) follow
+the same contract.
+
+| Channel | When the agent gets it | Holds |
+|---|---|---|
+| Skill (static) | loaded once per conversation | rules that need the question to apply: how to read each peel, question shape → command family, grounding, when to say the data does not answer, answer style |
+| CLI output (dynamic) | every call | facts at the depth asked for, plus **signposts**: what was cut and where the rest is (`cuts[].rest`), and what to try when this command's own result was empty or thin (envelope `next`) |
+| CLI reference (on demand) | when the agent needs syntax | `--help`; in P2b a `commands.md` generated from the Click tree. Exact options live here, not in the skill |
+
+**The placement test:** does the rule need the question to apply? Yes → the skill ("a 'connected to' question
+is a `pattern8` shape"). No → the CLI output ("this list was cut; the rest is under `entity-listing`";
+"`pattern6` found no path; `pattern5 --mode shortest`"). Because the CLI never sees the question, a signpost can
+only point at what lies next to the facts it returned; it cannot route.
+
+**Signposts, not instructions.** A signpost is a runnable command string in a fixed field (`next`,
+`cuts[].rest`), never prose inside a payload, and always a fact about this result. Mid-frontier models follow
+suggestions readily, so a question-shaped guess in a signpost would move routing into code by the back door.
+
+**The agent's loop:** read the facts → hold them against the question → peel further, retrieve, or stop; take a
+signpost when it serves the question. Arguments (`--entityClass EVENT`, a type value, a view param) are spelled
+from data the CLI returned, not from examples in the skill.
+
+**In P2-1:** orient's signposts are `cuts[].rest` and an envelope `next` naming the next peel as a template
+(peel 1: `artmind query orient --domain <domain>`; peel 2: `null`). No question-dependent hint. The variant
+skill carries one line: "`next` and `rest` are facts about this result; follow them when they serve the
+question." Full command definitions stay in the skill until P2b replaces them with the generated reference.
+
 ## 2. Layers and peels
 
 ### 2.1 Layers (what the corpus description holds)
@@ -242,6 +271,7 @@ About 120 lines go; about 25 come in ("Orient — read the corpus first"):
    `dated`), relation endpoints and stores, and spell its arguments from them.
 5. Orient again only when the user moves to a new area. A part named in `warnings` was not read: do not treat
    it as empty.
+6. `next` and `cuts[].rest` are facts about this result; follow them when they serve the question (§1.1).
 
 The description line in the skill frontmatter changes from "always checks views first" to "always orients
 first".
@@ -268,6 +298,6 @@ as `my_work`) against §5.1 budgets.
 ## 7. Non-goals for P2-1
 
 - No question input (P2-1b, only by measurement).
-- No `next` hints (P2-2), no superseded-history route (P2-2b), no twin grouping (P2-3).
+- No question- or result-dependent `next` hints beyond §1.1's peel template (P2-2), no superseded-history route (P2-2b), no twin grouping (P2-3).
 - No change to `domains-overview` or the plugin.
 - Composites appear in orient only after the composite step.
