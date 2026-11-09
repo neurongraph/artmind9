@@ -147,8 +147,8 @@ two health facts that change what the agent should believe ("not in the graph ye
 | L3 other assets | topic page titles, insights snapshot date + detector names, summaries state | 10 titles, then a count |
 | documents | only what the card omits: retired / superseded documents (name, `valid_from`, successor) | 20, then count + `structural-metadata` |
 
-Budget ~8,000 characters per domain, ~20,000 per call. Cut order when over: smallest classes' definitions → types past 5 → view examples →
-relations past 10 → topic titles. Every cut is listed in a `cuts` block.
+Budget ~12,000 characters per domain, ~24,000 per call (§5.1). Cut order when over: schema `relates_to` → relations past 20 → topic titles (count kept) → types past 5 → view examples → documents past 10 → definitions of the smallest classes, last. Every cut is listed
+in a `cuts` block.
 
 **L4 health is dropped as a layer** (decided). Most health counts are operator work the agent cannot act on;
 conflicts are handled per entity by Adjudicate / `graph conflicts`, twins by `entity-resolve` (P2-3); health is
@@ -182,7 +182,7 @@ Illustrative (type values from the packaged journal schema's `type_examples`; co
 - Classes with no entities are omitted; a class with entities but no schema entry appears with `definition:
   null`.
 
-~450 characters per class. Cut order inside a domain: definitions of the smallest classes, then `types` past 5.
+~450 characters per class. Definitions are cut last (§5.1).
 
 <details><summary>Evidence behind dropping properties</summary>
 
@@ -211,11 +211,16 @@ rate, plus undeclared keys above a threshold) was dropped in favour of §4.1: de
 
 ### 5.1 Budgets and cuts
 
-- Peel 1: ~8,000 characters for the whole call. Over budget, a family collapses to one row (parent, child
+- Peel 1: ~9,000 characters for the whole call. Over budget, a family collapses to one row (parent, child
   count, summed documents and entities, union of stores, child names) and `orient --domain <parent>` expands
   it. Largest families collapse first.
-- Peel 2: ~8,000 per domain, ~20,000 per call. Cut order: smallest classes' definitions → types past 5 → view
-  examples → relations past 10 → topic titles → documents past 10.
+- Peel 2: ~12,000 per domain, ~24,000 per call. Cut order: schema `relates_to` → relations past 20 → topic titles (count kept) → types past 5 → view examples → documents past 10 → definitions of the smallest classes, last.
+  **Revised 2026-11-09 after a live run** of the plan's code: with definitions cut first, every definition
+  went in both vaults (banking.policy 19/19, journal 10/10), undoing §4.1. With definitions last and 12,000
+  per domain, banking.policy keeps 19/19 at ~12,400 characters and the journal keeps all 10 schema definitions (its eleventh class has no schema entry), cutting only
+  `relates_to` and relations (~7,700). Banking peel 1 is ~8,400 for 10 cards. `relates_to` goes first because the measured
+  relations carry the real shapes. Opening a whole family (`--domain banking`, 8 children) still exceeds the
+  call budget and cuts definitions: the agent opens the children the question needs.
 - Every cut appears in `cuts: [{part, domain, shown, total, rest}]`, where `rest` is the existing command that
   shows the remainder. Nothing is dropped without a `cuts` entry. Character budgets apply to compact JSON.
 - `orient`'s budget is its own: it is fitted before `_echo_json`, so `ARTMIND_OUTPUT_BUDGET` never stores an
