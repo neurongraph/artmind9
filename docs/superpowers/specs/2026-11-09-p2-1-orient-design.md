@@ -307,3 +307,20 @@ as `my_work`) against §5.1 budgets.
 - No question- or result-dependent `next` hints beyond §1.1's peel template (P2-2), no superseded-history route (P2-2b), no twin grouping (P2-3).
 - No change to `domains-overview` or the plugin.
 - Composites appear in orient only after the composite step.
+
+## 8. As built (2026-11-09): accepted deviations
+
+Recorded after the whole-feature review; each is a choice, not an omission.
+
+- **Span layer.** `query orient` spans count as `discovery` (traces/path.py), not a new `orient` layer; with
+  `--domain` they also count as the views check. A separate layer adds nothing the miss records or views check
+  need.
+- **Per-part caps (§4 table).** Not built as fixed caps: the budget's cut order (§5.1) decides what is cut, and a
+  topics cut drops titles to 0 (count kept) rather than 10.
+- **L0.** The corpus block carries domains, families, documents, entities, span, generation (top-level domains
+  only) and the oldest build time; no vault name or table total (the cards carry stores).
+- **Offline cards** (graph unreachable) carry purpose, voice and the time rule only; declared stores are left
+  to the full card.
+- **Per-class `types`** is `{top, distinct}`; when a cut shortens it, the domain's `cuts` record names the rest.
+- **A family root with data of its own** opens its children in peel 2 and warns how many documents and
+  entities sit at the root.
