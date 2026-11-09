@@ -275,10 +275,7 @@ artmind query entity-resolve --domain <domain> --topK 5 --compact "<name fragmen
 
 This combines Lucene full-text over entity names/descriptions with vector similarity over entity embeddings (RRF), so it handles both name fragments ("Holmes") and purely descriptive references ("the detective"). Each row's `entity` carries `_id`, `name`, `entity_class`, `description`, plus `observation_count` and `connection_count` — how much the entity has aggregated. `score` is the fused RRF score (rows from both legs rank highest; `matched_by` names the legs), comparable across rows. (Alternatives: `entity-listing --nameFilter` for plain fragments, `pattern7 --searchTerm` for fulltext-only.)
 
-2. Pick the canonical entity. If several are plausible, prefer the best name/description match and note the ambiguity in your answer; ask the user only if the choices change the answer materially. A person's name also matches events named after them ("Irene Adler's Wedding") — when the question is about such an event, that hit can answer it outright.
-3. Use the entity's exact `_id` in retrieval via `--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`. Ids never fan out; names can. Fall back to `--entityName` only when resolution was skipped because the name is unambiguous.
-
-If entity-resolve returns nothing for an old graph, embeddings may be missing — `artmind ingest embed-entities --domain <domain>` backfills them.
+`entity-resolve` maps I/me to the narrator and groups same-class twins (`twins`): treat a twin group as one entity unless the text distinguishes them. Use the chosen entity's exact `_id` in retrieval (`--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`).
 
 ### 4. Retrieve — run the right pattern
 
@@ -309,8 +306,8 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --shape brief --idList <id>[,<id>…] [--expand 1]` (repeat the flag or comma-join ids; `--domain <d>` is optional and only scopes the lookup, the output's domains come from the chunks) |
 | Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
-| Search entities by name/description fragment | `artmind query graph pattern7 --shape brief --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). It returns `rows_total`/`truncated`: raise `--limit` (max 500) until `truncated` is false for a complete list; when `rows_total_capped` is true the total is a lower bound. Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
-| Entities of class X connected to entity Y | `artmind query graph pattern8 --entityClass <LABEL> --entityId <id> [--limit N] [--offset N]` |
+| Search entities by name/description fragment | `artmind query graph pattern7 --shape brief --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
+| Entities of class X connected to entity Y ("CLASS connected to ENTITY") | `artmind query graph pattern8 --entityClass CLASS --entityId <id> --all` |
 | All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>" [--limit N] [--offset N]` — add `--includeHistory` for retired/superseded versions; zero rows with `history_matches` means only a retired version matches |
 | Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dryRun` first to inspect the Cypher, then run it without `--dryRun` (a dry run executes nothing and returns no rows); rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
 
@@ -327,7 +324,7 @@ Routing notes:
   weight, which for a busy entity rarely includes the one that answers. Its output is
   bounded — see "Hub entities" below. Use pattern4 when you only need structure, or
   patterns 2/3 for several entities at once.
-- **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
+- **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence.
 - **pattern4 vs hierarchy**: pattern4 is one hop only. For a transitive walk — everyone under X, X's whole reporting line, chain of command — use `hierarchy` instead; see `references/hierarchy.md`.
 - Patterns 2/3/4 return `doc_sources` (chunk ids) and `source_documents` (the documents those chunks belong to, with `path`/`source_path` for the Sources list) — use the ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --shape brief --idList <chunk_id> [--expand 1]` (`--domain <d>` optional; never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - **Patterns 2/3/4 are bounded like entity-context, without its ranking.** `doc_sources`/
@@ -342,13 +339,7 @@ Routing notes:
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
   --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
-- **pattern8/pattern10 paginate with `--offset`.** Both cap output (`--limit`, defaults
-  50/300) and report `rows_total`/`truncated`. Unlike the commands above, neither has a
-  ranked alternative to narrow toward instead — "entities of class X connected to Y" and
-  "chunk N of document D" have no relevance signal to sort by — so when `truncated` is
-  true and the row you need might be past the cut, re-run with `--offset <previous
-  offset + limit>` to walk the rest (pattern10 orders chunks by `c.id`, so offsets are
-  stable across calls).
+- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
   "get the next page" — rephrase the question to be more selective (name the entity/date
@@ -370,6 +361,8 @@ Routing notes:
   `:DocChunkHistory` — or chains a second `MATCH` after a `count()` — returns nothing
   and reads as "no history" when there is plenty.
 
+**Superseded history.** Retired documents are not in search results. A result whose `doc.replaced` lists an older version, or a dated / 'what changed' question, goes to the graph: `document-history`, `pattern10 --includeHistory`, `entity-history`.
+
 #### Hub entities
 
 Some entities aggregate a lot — the protagonist of a novel series, the bank in a
@@ -388,24 +381,7 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
 - List properties keep their newest `--maxListItems` (default 10) entries;
   `truncated_properties` gives each cut list's full length.
 
-How to work with it:
-
-1. **Pass `--query "<the question>"`.** It ranks connections (question words matched
-   against target names and rel_types, then embedding similarity) and chunks (vector +
-   keyword, fused) toward the question. "When did Holmes first meet Watson" then puts
-   the `PARTICIPATES_IN → First Meeting of Holmes and Watson` edge and its source chunk
-   on top, where the unranked dossier buried them under hundreds of other edges.
-2. **Drill in with `--relType`** (repeatable): when `connection_summary` shows the
-   relevant kind of edge (e.g. `PARTICIPATES_IN` × 130 for "which cases did he work on"),
-   re-run with `--relType PARTICIPATES_IN --maxConnections 50`. The summary still covers
-   everything, so you can see what you filtered out.
-3. **A specific fact may be better served by search.** A single dated fact about X is
-   often answered directly by `vector-text "<question>"` — a few KB of the
-   matching chunks — or by `entity-resolve` hitting the event entity itself. Use
-   `entity-context` for questions *about the entity as a whole* (role, relationships,
-   characteristics), search for a single dated fact.
-4. A list cut in `truncated_properties` keeps only the newest entries. For an older value
-   use `entity-history --entityId <id> --property <p>`, not a larger `--maxListItems`.
+Pass the question to `entity-context`; its `cut` block says what a hub's cut hides, and `next` names the command for the rest.
 
 ### 5. Ground — pull source text when narrative evidence is needed
 
@@ -437,21 +413,16 @@ history, not a live disagreement).
 
 The ladder starts after the Views check: a view that fits is tried before any rung below.
 
-1. Thin results in the chosen domain → re-run with sibling domains from orient before concluding data is absent. (Same fix as Adjudicate's "only one side retrieved" case — apply it as soon as results look thin, not only after a disagreement surfaces.)
-2. pattern6 empty → pattern5 `--mode shortest`.
-3. entity-context/pattern chunks too thin → re-run entity-context with `--query` (if you didn't) or a narrower `--relType`, or pull `chunks --idList <more_chunk ids> --expand 1`, before falling back to search.
-4. Pattern output empty or too thin → vector-text.
-5. A question that spans documents, whose `vector-text` rows come from one or two documents → re-run it as `query survey`.
-6. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dryRun` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
-7. text2cypher generates invalid Cypher → vector-text.
-8. vector-text sparse or weak (few rows, every `relevance` low, or rows matched by `fulltext` alone on a conceptual question) → state that the available artmind data does not answer the question.
-9. `text2sql` returns no rows but data should exist → re-run with `--dryRun` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
-10. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
-11. `hierarchy` returns empty rows/edge_candidates → re-run discovery mode to confirm no edges exist at all → if still empty, the relationship may only be stored as a property (e.g. `reports_to` on the class) — fall back to `pattern1` on that class; see `references/hierarchy.md`.
+1. Thin results → re-run with sibling domains from orient before concluding data is absent.
+2. Pattern output empty or too thin → vector-text.
+3. A question that spans documents, whose `vector-text` rows come from one or two documents → `query survey`.
+4. vector-text sparse or weak → state that the available artmind data does not answer the question.
+
+Empty or thin results carry `next`: run it when it serves the question.
 
 ## Answer Style
 
-Answer directly and naturally. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
+Answer directly and naturally. An event counts for a person only when the notes put them in it. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
 
 If an answer came from reading a note directly (possible on the admin console)
 rather than from `artmind query` output, say plainly that the graph does not hold
