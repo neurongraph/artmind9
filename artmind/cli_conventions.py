@@ -243,7 +243,8 @@ def compact_option(func):
 #: Commands that must take `--shape brief|full` (contract test walks these).
 SHAPE_COMMANDS = frozenset({
     "query survey", "query vector-text", "query chunks", "query entity-context",
-    "query graph pattern1", "query graph pattern2", "query graph pattern7", "query insights show",
+    "query graph pattern1", "query graph pattern2", "query graph pattern7", "query graph pattern8",
+    "query insights show",
 })
 
 SHAPE_HELP = ("brief: short rows (id, title, domain, date, status, extractive gist) for an agent; "

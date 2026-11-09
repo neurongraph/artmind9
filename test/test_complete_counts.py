@@ -177,3 +177,28 @@ def test_pattern8_all_rejects_non_positive_limit(monkeypatch, limit):
     r = CliRunner().invoke(cli, ["query", "graph", "pattern8", "--domain", "d", "--entityClass", "ORG",
                                  "--entityName", "A", "--all", "--limit", limit])
     assert r.exit_code == 1
+
+
+def test_pattern8_brief_rows_and_params(monkeypatch):
+    calls = _paged(monkeypatch, 3)
+    out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "Acme", "--shape", "brief", "--limit", "2"])
+    assert [(c["offset"], c["limit"]) for c in calls] == [(0, 2)]
+    assert out["parameters"]["shape"] == "brief"
+    assert set(out["rows"][0]) == {"id", "name", "class", "description", "rel_type", "observations", "documents"}
+    assert out["rows"][0]["id"] == "e0" and out["rows"][0]["rel_type"] == "R"
+    assert out["rows_total"] == 3 and out["truncated"] is True and out["complete"] is False
+    assert "--shape brief --all" in out["next"] and "--shape full" in out["next"]
+
+
+def test_pattern8_all_brief_pages_in_steps_of_limit(monkeypatch):
+    calls = _paged(monkeypatch, 120)
+    out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "Acme", "--all", "--shape", "brief"])
+    assert [(c["offset"], c["limit"]) for c in calls] == [(0, 50), (50, 50), (100, 50)]
+    assert len(out["rows"]) == 120 and out["complete"] is True and out["truncated"] is False
+    assert all("rel_type" in r and "entityData" not in r for r in out["rows"])
+
+
+def test_pattern8_full_shape_unchanged(monkeypatch):
+    _paged(monkeypatch, 2)
+    out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "Acme"])
+    assert "entityData" in out["rows"][0] and "shape" not in out["parameters"]

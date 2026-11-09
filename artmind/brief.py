@@ -342,7 +342,7 @@ def _doc_line(doc: dict) -> dict:
 
 
 def pattern_row(pattern: str, row: dict) -> dict:
-    """One brief row of pattern1 / pattern2 / pattern7: the entity line plus evidence ids and
+    """One brief row of pattern1 / pattern2 / pattern7 / pattern8: the entity line plus evidence ids and
     the totals the full row carried, never its property bag or nested lists."""
     out = entity_line(row.get("entityData") or {})
     if pattern == "pattern2":
@@ -355,6 +355,11 @@ def pattern_row(pattern: str, row: dict) -> dict:
     elif pattern == "pattern7":
         out["documents"] = [_doc_line(d) for d in (row.get("documents") or []) if isinstance(d, dict)]
         out["documents_total"] = row.get("document_count") or len(out["documents"])
+    elif pattern == "pattern8":
+        props = row.get("relProps") or {}
+        out["rel_type"] = row.get("relType")
+        out["observations"] = props.get("observation_count")
+        out["documents"] = props.get("doc_count")
     return out
 
 

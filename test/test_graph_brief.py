@@ -110,7 +110,8 @@ def test_pattern7_empty_brief_has_no_rows(monkeypatch):
 
 @pytest.mark.parametrize("pattern,extra", [("pattern1", ["--entityClass", "ORG"]),
                                            ("pattern2", ["--entityIdList", "e1"]),
-                                           ("pattern7", ["--searchTerm", "a"])])
+                                           ("pattern7", ["--searchTerm", "a"]),
+                                           ("pattern8", ["--entityClass", "ORG", "--entityName", "A"])])
 def test_patterns_pass_shape_to_the_query_layer(pattern, extra):
     with patch("artmind.graph_query.execute_pattern", return_value={"rows": []}) as fn:
         _invoke(["query", "graph", pattern, "--domain", "d", *extra, "--shape", "brief", "--compact"])

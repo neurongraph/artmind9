@@ -1139,7 +1139,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
 
 
 #: Patterns that take `--shape brief` (entity rows; the others return relationship rows).
-BRIEF_PATTERNS = frozenset({"pattern1", "pattern2", "pattern7"})
+BRIEF_PATTERNS = frozenset({"pattern1", "pattern2", "pattern7", "pattern8"})
 
 
 def execute_pattern(
