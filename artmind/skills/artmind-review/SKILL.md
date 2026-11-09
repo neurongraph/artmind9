@@ -112,6 +112,7 @@ finding a real question would hit; otherwise note it in the report to the user.
 | `artmind traces triage [--since 7d]` | turns worth reviewing |
 | `artmind traces show <trace_id>` | one turn's full evidence chain |
 | `artmind traces stats --by week` | fall-through and graph-miss trends per domain |
+| `artmind traces misses --since 7d` (or `--run <id>`) | miss records by kind (vocabulary, reformulation, identity, scope, structure, answer, user-stated); stdout has counts only, the records are in the private `records_file` it names |
 | `artmind review new <trace_id> [--stage …] [--element …]` | scaffold a dossier |
 | `artmind review list [--status] [--stage] [--element]` | dossiers in the vault |
 | `artmind review show <review_id> [--markdown]` | one dossier |
