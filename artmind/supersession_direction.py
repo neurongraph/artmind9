@@ -11,7 +11,6 @@ parsed header table (`Status`, `Supersedes`, `Superseded By`).
 from __future__ import annotations
 
 import re
-from pathlib import Path
 
 META_LABELS = ("Status", "Supersedes", "Superseded By")
 _LINK_RE = re.compile(r"\[\[([^\]|#]+)")
@@ -38,7 +37,12 @@ def meta_for(doc_row: dict) -> dict:
 
 
 def _stem(name: str) -> str:
-    return Path(str(name).strip()).stem.casefold()
+    """The document's name without folder and a trailing `.md`, casefolded.
+    Other dots belong to the name (`policy_v2.0`)."""
+    base = str(name).strip().replace("\\", "/").rsplit("/", 1)[-1]
+    if base.lower().endswith(".md"):
+        base = base[:-3]
+    return base.casefold()
 
 
 def _targets(raw: str | None) -> set[str]:
@@ -87,7 +91,7 @@ def decide(a: dict, b: dict) -> tuple[dict, dict] | None:
     if stat_b == "superseded" and stat_a in _ACTIVE:
         return a, b
     # 3. dates
-    da, db = str(a.get("_valid_from") or ""), str(b.get("_valid_from") or "")
+    da, db = str(a.get("_valid_from") or "")[:10], str(b.get("_valid_from") or "")[:10]
     if da and db and da != db:
         return (a, b) if da > db else (b, a)
     return None

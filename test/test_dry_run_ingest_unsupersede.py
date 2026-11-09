@@ -71,15 +71,22 @@ def test_dry_run_sends_no_write_cypher_and_keeps_the_record(world):
     assert len(effect["records"]) == 2 and effect["travels"] is True
 
 
-def test_dry_run_reports_nothing_to_remove_when_no_edge(world):
+def test_dry_run_reports_nothing_to_remove_when_no_edge_and_not_retired(world):
     recorder, _ = world
     base = recorder._respond
-    recorder._respond = lambda cy, p: [{"n": 0}] if "RETURN count(s) AS n" in " ".join(cy.split()) else base(cy, p)
+
+    def respond(cy, p):
+        c = " ".join(cy.split())
+        if "RETURN count(s) AS n" in c:
+            return [{"n": 0}]
+        if "d:DocumentHistory AS retired" in c:
+            return [{"id": "new-1", "name": "policy v2", "retired": False}, {"id": "old-1", "name": "policy v1", "retired": False}]
+        return base(cy, p)
+    recorder._respond = respond
 
     payload = _run("--dryRun")
 
     assert payload["effect"]["changes"][0]["count"] == 0
-    assert len(payload["effect"]["changes"]) == 1
 
 
 def test_dry_run_refuses_an_unknown_document(world):
@@ -90,3 +97,16 @@ def test_dry_run_refuses_an_unknown_document(world):
                                       "--older", "b", "--dryRun"])
 
     assert result.exit_code == 1 and "Could not resolve" in result.output
+
+
+def test_dry_run_lists_the_restore_when_the_edge_is_gone_but_the_document_is_still_retired(world):
+    recorder, _ = world
+    base = recorder._respond
+    recorder._respond = lambda cy, p: [{"n": 0}] if "RETURN count(s) AS n" in " ".join(cy.split()) else base(cy, p)
+
+    payload = _run("--dryRun")
+
+    kinds = [c["kind"] for c in payload["effect"]["changes"]]
+    assert kinds == ["document_unsupersede", "document_restore", "observation_move", "entity_change"]
+    assert payload["effect"]["changes"][0]["count"] == 0
+    assert_no_write_cypher(recorder)

@@ -620,7 +620,8 @@ def _unsupersede_state(newer_doc_id: str, older_doc_id: str, scope: str) -> dict
         ).single()
         docs = session.run(
             "MATCH (d) WHERE (d:Document OR d:DocumentHistory) AND d.id IN $ids "
-            "RETURN d.id AS id, d.name AS name, d:DocumentHistory AS retired", ids=[newer_doc_id, older_doc_id],
+            "RETURN d.id AS id, d.name AS name, d:DocumentHistory AS retired, d._domain AS domain",
+            ids=[newer_doc_id, older_doc_id],
         ).data()
     by_id = {r["id"]: r for r in docs}
     return {
@@ -628,6 +629,7 @@ def _unsupersede_state(newer_doc_id: str, older_doc_id: str, scope: str) -> dict
         "others": int((others or {}).get("n") or 0),
         "retired": bool((by_id.get(older_doc_id) or {}).get("retired")),
         "names": {i: (r.get("name") or i) for i, r in by_id.items()},
+        "domains": sorted({r["domain"] for r in by_id.values() if isinstance(r.get("domain"), str)}),
     }
 
 
@@ -643,7 +645,9 @@ def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docum
     names = state["names"]
     newer, older = names.get(newer_doc_id, newer_doc_id), names.get(older_doc_id, older_doc_id)
     rid = supersession_records.record_id(newer_doc_id, older_doc_id, scope)
-    restores = state["edge"] and state["retired"] and state["others"] == 0
+    # An older document still retired with nothing superseding it is restored even when the edge is
+    # already gone, so a rerun after a failed restore finishes the job.
+    restores = state["retired"] and state["others"] == 0
     changes = [Change("document_unsupersede", 1 if state["edge"] else 0, [{"newer": newer, "older": older, "scope": scope}])]
     records = [f".artmind/data/curation/supersessions/{rid}.json"]
     keys: list = []
@@ -659,13 +663,21 @@ def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docum
         from artmind import lifecycle_records
 
         records.append(f".artmind/data/curation/lifecycle/{lifecycle_records.record_id(older_doc_id)}.json")
-    if not state["edge"]:
+    domains = state.get("domains") or []
+    if not state["edge"] and restores:
+        summary = (f"No supersession of {older!r} by {newer!r} to remove; {older!r} is still retired and nothing "
+                   f"supersedes it, so it is restored: {observations} observation(s) move to latest, "
+                   f"{len(keys)} aggregate key(s) are rebuilt.")
+    elif not state["edge"]:
         summary = f"No supersession of {older!r} by {newer!r} to remove."
     else:
         summary = f"Remove the assertion that {newer!r} supersedes {older!r}" + (
             f"; {older!r} is restored: {observations} observation(s) move to latest, {len(keys)} aggregate key(s) are rebuilt."
             if restores else
             ("; it stays retired because another supersession still points at it." if state["retired"] and state["others"] else "."))
+    if len(domains) > 1 and restores:
+        summary += (f" Warning: the documents span several domains ({', '.join(domains)}), so the embedding "
+                    "sweep after the restore is skipped; run `artmind ingest embed-passages` afterwards.")
     return Effect(
         summary=summary,
         changes=changes,
@@ -673,7 +685,8 @@ def unsupersede_effect(newer_doc_id: str, older_doc_id: str, scope: str = "docum
             entity_keys=[key_string(tuple(k)) for k in keys], doc_ids=[newer_doc_id, older_doc_id],
             doc_names=[n for n in names.values() if n]),
         reversible=True,
-        undo=f"artmind ingest supersede --newer {newer} --older {older}",
+        undo=("artmind ingest supersede" + (f" --domain {domains[0]}" if domains else "")
+              + f" --newer {newer} --older {older}"),
         travels=True, records=records,
     ).to_json()
 
@@ -687,11 +700,16 @@ def unapply_supersession(newer_doc_id: str, older_doc_id: str, scope: str = "doc
     from artmind.catalogue import state as catalogue_state
 
     state = _unsupersede_state(newer_doc_id, older_doc_id, scope)
+    restore = state["retired"] and state["others"] == 0
     if not state["edge"]:
         curation_records.delete_record(
             supersession_records.NAME, supersession_records.record_id(newer_doc_id, older_doc_id, scope))
-        return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "removed": False, "restored": False}
-    restore = state["retired"] and state["others"] == 0
+        if restore:
+            from artmind.lifecycle import restore_document
+
+            domains = state.get("domains") or []
+            restore_document(older_doc_id, domains[0] if len(domains) == 1 else None)
+        return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "removed": False, "restored": restore}
 
     def _tx(tx):
         record = supersession_records.record_for(tx, newer_doc_id, older_doc_id, scope, None, "manual")
@@ -920,6 +938,17 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
             if pair in applied_pairs:
                 continue
             applied_pairs.add(pair)
+            from artmind import supersession_direction as sd
+
+            side_n = {**newer, "_valid_from": newer.get("valid_from"), "meta": sd.meta_for(newer)}
+            side_o = {**older, "_valid_from": older.get("valid_from"), "meta": sd.meta_for(older)}
+            decided = sd.decide(side_n, side_o)
+            if (decided is not None and decided[0]["id"] != newer["id"]) or sd.contradictory(side_n, side_o):
+                report.setdefault("skipped", []).append(
+                    {"skipped": {"newer": newer["id"], "older": older["id"]},
+                     "reason": "direction contradicts metadata"}
+                )
+                continue
             report["applied"].append(
                 {"newer": newer["id"], "older": older["id"],
                  "effective": effective, "detected_by": "title_family"}

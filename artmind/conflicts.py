@@ -220,7 +220,7 @@ def llm_adjudicate(session, pair: dict, evidence_a: list[dict], evidence_b: list
     return _verdict_from_raw(raw)
 
 
-def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evidence_b: list[dict], model: str) -> str | None:
+def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evidence_b: list[dict], model: str) -> str | dict | None:
     """MERGE-only write of a Conflict, a SameAsProposal, or nothing — the
     "two outcomes" of one proposer's judgment. Returns the id written, if any.
 
@@ -280,6 +280,7 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
                     "is not decided by their metadata or effective dates",
                     pair.get("name_a"), pair.get("name_b"), side_a["name"] or side_a["id"], side_b["name"] or side_b["id"],
                 )
+                return {"skipped": "supersession direction undecided", "a": side_a["id"], "b": side_b["id"]}
             else:
                 newer, older = decided
                 apply_supersession(newer["id"], older["id"], "document", newer.get("_valid_from"), detected_by="adjudicator")
@@ -341,8 +342,11 @@ def detect_conflicts(
                     "candidate_seconds": 0.0, "llm_seconds": 0.0}
     report["domains_requested"] = requested
 
-    def _record(item: dict, materialized_id: str) -> None:
-        if item["verdict"]["verdict"] == "same_entity_consistent":
+    def _record(item: dict, materialized_id) -> None:
+        if isinstance(materialized_id, dict):
+            # a superseded verdict whose direction no metadata or date decided
+            report.setdefault("skipped", []).append(materialized_id)
+        elif item["verdict"]["verdict"] == "same_entity_consistent":
             report["same_as_proposals"].append(materialized_id)
         else:
             report["conflicts"].append(materialized_id)

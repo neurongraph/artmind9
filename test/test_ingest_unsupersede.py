@@ -10,7 +10,7 @@ from artmind import curation_records, supersession_records
 from artmind.cli import cli
 
 
-def _responder(retired=True, others=0):
+def _responder(retired=True, others=0, edge=1, domains=("demo.one",)):
     def respond(cypher, params):
         cy = " ".join(cypher.split())
         if "d.name IN [$n,$o]" in cy:
@@ -18,9 +18,10 @@ def _responder(retired=True, others=0):
         if "NOT (a.id" in cy:
             return [{"n": others}]
         if "RETURN count(s) AS n" in cy:
-            return [{"n": 1}]
+            return [{"n": edge}]
         if "d:DocumentHistory AS retired" in cy:
-            return [{"id": "new-1", "name": "v2", "retired": False}, {"id": "old-1", "name": "v1", "retired": retired}]
+            return [{"id": "new-1", "name": "v2", "retired": False, "domain": domains[0]},
+                    {"id": "old-1", "name": "v1", "retired": retired, "domain": domains[-1]}]
         if "RETURN DISTINCT d._domain AS domain" in cy:
             return [{"domain": "demo.one"}]
         if "RETURN DISTINCT o.key AS key" in cy:
@@ -93,3 +94,31 @@ def test_live_older_document_is_not_restored(world):
     payload, _ = run(retired=False)
 
     assert payload["restored"] is False and restored == []
+
+
+def test_rerun_after_a_failed_restore_still_restores(world):
+    run, restored, record_file = world
+
+    payload, recorder = run(edge=0)
+
+    assert payload["removed"] is False and payload["restored"] is True
+    assert restored == [(("old-1", "demo.one"), {})]
+    assert not [1 for c, _ in recorder.calls if "DELETE s" in c]
+
+
+def test_no_edge_and_not_retired_does_nothing(world):
+    run, restored, _ = world
+
+    payload, _ = run(edge=0, retired=False)
+
+    assert payload["restored"] is False and restored == []
+
+
+def test_multi_domain_effect_warns_and_undo_names_the_domain():
+    from artmind.temporal import unsupersede_effect
+
+    state = {"edge": True, "others": 0, "retired": True, "names": {"n": "v2", "o": "v1"}, "domains": ["a.one", "b.two"]}
+    with patch("artmind.lifecycle.plan_transition", return_value={"keys": [], "observations": 0}):
+        effect = unsupersede_effect("n", "o", "document", state)
+    assert "embedding sweep" in effect["summary"]
+    assert "--domain a.one" in effect["undo"]

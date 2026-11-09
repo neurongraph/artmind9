@@ -145,3 +145,84 @@ def test_detect_supersession_reads_underscore_valid_from_and_skips_contradicting
     report = t.detect_supersession("d", dry_run=False)
     assert applied == []
     assert report["skipped"][0]["reason"] == "direction contradicts metadata"
+
+
+def test_dotted_version_stem_matches_exactly():
+    a = {"id": "a", "name": "policy_v2.0.md", "meta": {}}
+    b = {"id": "b", "name": "policy_v1.md", "meta": {"Supersedes": "[[policy_v2.0]]"}}
+    assert decide(a, b) == (b, a)
+    c = {"id": "c", "name": "policy_v2.md", "meta": {}}
+    assert decide(c, b) is None  # [[policy_v2.0]] must not match policy_v2.md
+
+
+def test_link_case_and_md_suffix_are_ignored():
+    a = {"id": "a", "name": "policy_x.md", "meta": {}}
+    b = {"id": "b", "name": "other.md", "meta": {"Supersedes": "[[Policy_X]]"}}
+    assert decide(a, b) == (b, a)
+
+
+def test_dates_compare_the_iso_date_only():
+    a = {"id": "a", "name": "a.md", "_valid_from": "2026-03-01T00:00:00", "meta": {}}
+    b = {"id": "b", "name": "b.md", "_valid_from": "2026-03-01", "meta": {}}
+    assert decide(a, b) is None
+
+
+def _family_session(docs):
+    class S:
+        def run(self, cypher, **k):
+            return type("R", (), {"data": lambda self: docs})()
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+    return S()
+
+
+def _family(monkeypatch, bodies):
+    docs = [
+        {"id": "jan", "name": "report_2026_01.md", "version": None, "valid_from": "2026-01-01"},
+        {"id": "mar", "name": "report_2026_03.md", "version": None, "valid_from": "2026-03-01"},
+    ]
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _family_session(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: bodies.get(name, ""), raising=False)
+    monkeypatch.setattr(t, "load_schema", lambda d: {"temporal": {"defaults": {"supersede_on_title_family": True}}})
+    monkeypatch.setattr(t, "_infer_family_supersessions", lambda docs, only: [(docs[1], docs[0], "2026-03-01")])
+    monkeypatch.setattr(t, "apply_supersession", lambda *a, **k: applied.append(a))
+    return applied
+
+
+def test_title_family_pair_applied_when_metadata_absent_and_dates_differ(monkeypatch):
+    applied = _family(monkeypatch, {})
+    report = t.detect_supersession("d", dry_run=False)
+    assert applied and applied[0][:2] == ("mar", "jan")
+    assert "skipped" not in report
+
+
+def test_title_family_pair_skipped_when_metadata_picks_the_opposite_direction(monkeypatch):
+    applied = _family(monkeypatch, {"report_2026_01.md": "| Status | Active |\n", "report_2026_03.md": "| Status | Superseded |\n"})
+    report = t.detect_supersession("d", dry_run=False)
+    assert applied == []
+    assert report["applied"] == []
+    assert report["skipped"][0]["reason"] == "direction contradicts metadata"
+
+
+def test_adjudicator_returns_skip_report_when_direction_undecided(monkeypatch):
+    monkeypatch.setattr(c, "apply_supersession", lambda *a, **k: None)
+    with patch("artmind.supersession_direction.meta_for", return_value={}):
+        out = c.materialize(_Session(_row(None, None)), PAIR, VERDICT, [], [], "m")
+    assert out == {"skipped": "supersession direction undecided", "a": "docA", "b": "docB"}
+
+
+def test_detect_conflicts_report_surfaces_undecided_verdicts(monkeypatch, tmp_path):
+    import json
+    item = {"pair": PAIR, "verdict": VERDICT, "evidence_a": [], "evidence_b": []}
+    f = tmp_path / "in.json"
+    f.write_text(json.dumps({"conflicts": [item]}))
+    monkeypatch.setattr(c, "materialize", lambda *a, **k: {"skipped": "supersession direction undecided", "a": "x", "b": "y"})
+    monkeypatch.setattr(c, "neo4j_session", lambda: _family_session([]))
+    report = c.detect_conflicts(["d"], from_file=str(f))
+    assert report["skipped"] == [{"skipped": "supersession direction undecided", "a": "x", "b": "y"}]
+    assert report["conflicts"] == [] and report["stats"] == {"materialized": 0}
