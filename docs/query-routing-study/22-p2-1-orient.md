@@ -163,3 +163,32 @@ Flagged by `traces compare` (material vs some baseline, worse than all, or a los
    than D and G and equal to A. Q32 is no longer worse than all baselines. A full H2 run is still the measure.
 3. Decide whether the gate's lost-must / worse-than-all rows need a noise allowance (they fail every baseline
    run).
+
+## P2 batch built (P2-2 … P2-5), 2026-11-09
+
+Plan `docs/superpowers/plans/2026-11-09-p2-batch.md`; built on top of P2-1 and measured as one batch (parent spec
+§4.3 revision). Full suite 6,654 passed. Live checks in banking_corpus through a temporary `serve`, and
+brain01 (counts and key names only):
+
+- `next` signposts on empty / thin / cut results (`artmind/hints.py`, shell-safe); `artmind query db …` names
+  `artmind db …`.
+- Supersession direction from document metadata, then `_valid_from` (`artmind/supersession_direction.py`). Root
+  cause of the banking KYC inversion: the adjudicator compared `valid_from`, which Document nodes never carry.
+  Repaired live with the new `ingest unsupersede` (dry runs first); `policy_customer_identification_v2.md` is
+  current, v1 retired; restored passages re-embedded. The vault's curation files changed (uncommitted, for the
+  user).
+- Retrieval rows show `doc.replaced` for a document that replaced an older version; `next` → `document-history`.
+- **Dates were null in every retrieval payload** (vector-text, survey, pattern10, entity-context source
+  documents): queries read `valid_from`, nodes store `_valid_from`. Fixed; graph `--asOf` and timeline windows
+  now filter. The baseline runs and H answered with no document dates. Known gap left: passages and chunks
+  carry no date, so `vector-text --asOf` still cannot narrow.
+- `entity-resolve`: first person → narrator; same-class twins grouped.
+- `pattern7` / `pattern8` / `entity-listing`: `complete` everywhere, `--all` (pattern8 in a total order, cap
+  2000 with a warning).
+- `survey --by year|month`: every period with a hit, fair cap, `keyword_hits` vs `ranked`.
+- `entity-context`: positional question ranks by default; `hub` / `cut` say what a cut hides (brain01 narrator:
+  25 of 8,290 connections, 5 of 2,011 chunks, 18 properties).
+- Skill variant `artmind-query-orient`: 440 lines (from 469 after P2-1's fixes; classic 550).
+
+Next: restart both admin consoles; the user runs one benchmark per vault with Skill variant `orient` (run `I`),
+judged and graded with Sonnet against the same baseline runs and floors.
