@@ -18,9 +18,10 @@ def _classes(cat, facts: dict | None) -> list:
         spec = declared.get(name) or {}
         row = {"class": name, "count": count, "kind": spec.get("kind"), "definition": spec.get("definition")}
         if types is not None:
-            t = types.get(name) or {"total": count, "distinct": 0, "dated": 0, "top": []}
-            row["types"] = {"top": t["top"], "distinct": t["distinct"]}
-            row["dated"] = round(t["dated"] / t["total"], 2) if t["total"] else 0.0
+            t = types.get(name)
+            if t is not None:
+                row["types"] = {"top": t["top"], "distinct": t["distinct"]}
+                row["dated"] = round(t["dated"] / t["total"], 2) if t["total"] else 0.0
         out.append(row)
     return out
 
@@ -80,7 +81,7 @@ def build_block(cat, facts: dict | None, *, card: dict, warnings: list) -> dict:
     if views is not None:
         out["views"] = views
     if cat.has("assets") and cat.assets is not None:
-        out["topics"] = [a.get("title") for a in cat.assets if a.get("kind") == "topic"]
+        out["topics"] = [a["title"] for a in cat.assets if a.get("kind") == "topic" and a.get("title")]
         detectors = sorted(a["id"] for a in cat.assets if a.get("kind") == "insight")
         as_of = max((str(a["detail"]["as_of"]) for a in cat.assets
                      if a.get("kind") == "insight" and a.get("detail", {}).get("as_of")), default=None)

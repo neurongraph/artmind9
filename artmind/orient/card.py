@@ -75,8 +75,9 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
         _missing(warnings, d, "stores")
     if cat.has("documents"):
         records = sorted(cat.doc_records, key=lambda r: r.name)
-        c["unit"] = {"documents": len(records), "pattern": (facts or {}).get("filename_pattern"),
-                     "example": records[0].name if records else None}
+        c["unit"] = {"documents": len(records), "example": records[0].name if records else None}
+        if facts is not None:
+            c["unit"]["pattern"] = facts.get("filename_pattern")
     else:
         _missing(warnings, d, "documents")
     c["voice"] = (None if narrator is None else
@@ -84,11 +85,13 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
     if cat.has("time") and cat.time is not None:
         t = cat.time
         time_block = {
-            "rule": (facts or {}).get("time_rule") or {},
             "dated": {"from_content": int(t.get("from_content", 0)),
                       "defaulted_to_ingestion": int(t.get("documents", 0)) - int(t.get("from_content", 0))},
-            "span": ([t["content_earliest"], t["content_latest"]] if t.get("content_earliest") else None),
+            "span": ([t["content_earliest"], t["content_latest"]]
+                     if t.get("content_earliest") and t.get("content_latest") else None),
         }
+        if facts is not None:
+            time_block["rule"] = facts.get("time_rule") or {}
         if cat.has("versions"):
             time_block["versions"] = {"with_successor": sum(1 for v in cat.versions if v.get("replaces")),
                                       "retired": sum(1 for v in cat.versions if v["status"] == "retired")}
@@ -103,6 +106,8 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
         _missing(warnings, d, "classes")
     if len(cat.fingerprint) > 1:
         c["entities"] = int(cat.fingerprint[1])
+    else:
+        _missing(warnings, d, "entity count")
     if cat.has("assets") and cat.assets is not None:
         kinds = [a.get("kind") for a in cat.assets]
         c["assets"] = {"views": kinds.count("view"), "topic_pages": kinds.count("topic"),
@@ -123,7 +128,8 @@ def corpus_block(cards: list, tree: dict, *, generation: int, built_at: str) -> 
     names = {c["domain"] for c in cards}
     top = [c for c in cards if not any(c["domain"].startswith(n + ".") for n in names)]
     spans = [c["time"]["span"] for c in top if (c.get("time") or {}).get("span")]
-    return {
+    partial = [c["domain"] for c in top if not all(k in c for k in ("unit", "time", "entities"))]
+    out = {
         "domains": len(cards),
         "families": tree,
         "documents": sum((c.get("unit") or {}).get("documents", 0) for c in top),
@@ -132,3 +138,6 @@ def corpus_block(cards: list, tree: dict, *, generation: int, built_at: str) -> 
         "generation": generation,
         "built_at": built_at,
     }
+    if partial:
+        out["partial"] = partial
+    return out

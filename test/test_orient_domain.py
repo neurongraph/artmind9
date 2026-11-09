@@ -98,3 +98,16 @@ def test_unread_parts_and_failures_are_warnings(monkeypatch):
     assert out["classes"][0]["definition"] is None and "types" not in out["classes"][0]
     assert any("journal: views unreadable" in w for w in warnings)
     assert any("journal: shapes not read" in w for w in warnings)
+
+
+def test_a_class_missing_from_types_has_no_invented_types(no_views):
+    cat = _cat(types=(("EVENT", {"total": 6, "distinct": 3, "dated": 5, "top": []}),))
+    person = next(c for c in block.build_block(cat, FACTS, card={}, warnings=[])["classes"]
+                  if c["class"] == "PERSON")
+    assert "types" not in person and "dated" not in person
+
+
+def test_topic_titles_skip_none(no_views):
+    cat = _cat(assets=({"kind": "topic", "id": "a", "title": None, "detail": {}},
+                       {"kind": "topic", "id": "b", "title": "Kept", "detail": {}}))
+    assert block.build_block(cat, FACTS, card={}, warnings=[])["topics"] == ["Kept"]

@@ -13,6 +13,9 @@ RELATIONS_KEEP = 20
 TYPES_KEEP = 5
 DOCUMENTS_KEEP = 10
 
+# Cut records: `shown`/`total` per part. definitions: classes keeping a definition / classes with one;
+# relations, documents: rows kept / rows; topics: titles kept / titles; types: values kept per class /
+# classes shortened; view_examples: examples kept (0) / views stripped.
 CUT_ORDER = ["relations", "topics", "types", "view_examples", "documents", "definitions"]
 
 
@@ -36,13 +39,13 @@ def _cut(block: dict, part: str, limit: int) -> dict | None:
     d = block.get("domain")
     classes = block.get("classes") or []
     if part == "types":
-        hit = False
+        hit = 0
         for c in classes:
             top = (c.get("types") or {}).get("top")
             if top and len(top) > TYPES_KEEP:
                 c["types"]["top"] = top[:TYPES_KEEP]
-                hit = True
-        return {"part": part, "domain": d, "shown": TYPES_KEEP, "total": None} if hit else None
+                hit += 1
+        return {"part": part, "domain": d, "shown": TYPES_KEEP, "total": hit} if hit else None
     if part == "view_examples":
         views = [v for v in block.get("views") or [] if v.get("examples")]
         for v in views:
@@ -86,17 +89,23 @@ def fit_domains(blocks: list, *, domain_budget: int = DOMAIN_BUDGET, call_budget
     cuts: list = []
     for b in blocks:
         cuts += _fit_block(b, domain_budget)
+    exhausted: set = set()
     while size(blocks) > call_budget:
-        largest = max(blocks, key=size)
+        live = [b for b in blocks if id(b) not in exhausted]
+        if not live:
+            break  # nothing left to cut: the payload stays over budget and `cuts` says what was cut
+        largest = max(live, key=size)
         before = size(largest)
         target = max(1, before - (size(blocks) - call_budget))
         new = _fit_block(largest, target)
         if not new or size(largest) >= before:
-            break  # nothing left to cut: the payload stays over budget and `cuts` says what was cut
+            exhausted.add(id(largest))
+            continue
         cuts += new
     merged: dict = {}
-    for c in cuts:  # one record per (domain, part): a later pass on the same part replaces the earlier
-        merged[(c["domain"], c["part"])] = c
+    for c in cuts:  # one record per (domain, part): the first pass's total, the latest pass's shown
+        key = (c["domain"], c["part"])
+        merged[key] = {**c, "total": merged[key]["total"]} if key in merged else c
     out = sorted(merged.values(), key=lambda c: (c["domain"], CUT_ORDER.index(c["part"])))
     return blocks, out
 

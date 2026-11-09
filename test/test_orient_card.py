@@ -85,3 +85,29 @@ def test_family_tree_and_corpus_block():
     assert corpus == {"domains": 2, "families": {"bank": ["bank.cases", "bank.policy"], "journal": []},
                       "documents": 4, "entities": 3814, "span": ["2026-01-01", "2026-06-01"],
                       "generation": 16, "built_at": "2026-11-09T00:00:00+00:00"}
+
+
+def test_missing_entity_count_warns():
+    warnings: list = []
+    c = card.build_card(_cat(fingerprint=(8,)), FACTS, None, ("bank", 1), warnings=warnings)
+    assert "entities" not in c and "bank.policy: entity count not read" in warnings
+
+
+def test_corpus_block_lists_partial_cards():
+    full = card.build_card(_cat(), FACTS, None, (None, 0))
+    thin = card.build_card(_cat("journal", part_keys={"classes": [8], "stores": [8]}), FACTS, None, (None, 0))
+    corpus = card.corpus_block([full, thin], card.family_tree(["bank.policy", "journal"]), generation=1, built_at="t")
+    assert corpus["partial"] == ["journal"]
+    ok = card.corpus_block([full], {}, generation=1, built_at="t")
+    assert "partial" not in ok
+
+
+def test_unknown_schema_leaves_rule_and_pattern_absent():
+    c = card.build_card(_cat(), None, None, ("bank", 1), warnings=[])
+    assert "rule" not in c["time"] and "pattern" not in c["unit"]
+
+
+def test_span_needs_both_ends():
+    t = {**_cat().time, "content_latest": None}
+    c = card.build_card(_cat(time=t), FACTS, None, ("bank", 1))
+    assert c["time"]["span"] is None

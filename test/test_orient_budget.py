@@ -67,3 +67,32 @@ def test_corpus_collapses_largest_family_first():
     assert any(r.get("domain") == "journal" for r in out)
     assert cuts == [{"part": "cards", "domain": "bank", "shown": 0, "total": 30,
                      "rest": "artmind query orient --domain bank"}]
+
+
+def test_definitions_cut_over_two_passes_keeps_the_original_total():
+    a = _block(n_classes=30, n_rel=0, n_docs=0)
+    a["topics"], a["views"] = [], []
+    for c in a["classes"]:
+        c["types"]["top"] = c["types"]["top"][:2]
+    out, cuts = budget.fit_domains([a], domain_budget=9000, call_budget=4000)
+    d = [c for c in cuts if c["part"] == "definitions"]
+    assert len(d) == 1 and d[0]["total"] == 30 and d[0]["shown"] < d[0]["total"]
+    assert d[0]["shown"] == sum(1 for c in out[0]["classes"] if c["definition"])
+
+
+def test_an_uncuttable_largest_block_does_not_stop_the_call_budget():
+    huge = {"domain": "huge", "card": {"domain": "huge", "purpose": "p" * 8000}}
+    small = _block()
+    small["domain"] = "small"
+    out, cuts = budget.fit_domains([huge, small], domain_budget=50_000, call_budget=16000)
+    assert size(out) <= 16000
+    assert {c["domain"] for c in cuts} == {"small"}
+
+
+def test_types_cut_counts_classes_shortened():
+    b = _block(n_classes=4, n_rel=0, n_docs=0)
+    b["topics"], b["views"] = [], []
+    target = size(b) - 100
+    _, cuts = budget.fit_domains([b], domain_budget=target)
+    t = next(c for c in cuts if c["part"] == "types")
+    assert (t["shown"], t["total"]) == (budget.TYPES_KEEP, 4)
