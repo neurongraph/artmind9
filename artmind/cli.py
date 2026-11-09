@@ -14,7 +14,7 @@ import rich_click as click
 import yaml
 from loguru import logger
 
-from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
+from artmind import graph_query, hints, resolve_key, text2cypher, text2sql, vector_query
 from artmind.kg_views import params as views_params
 from artmind.kg_views import runner as views_runner
 from artmind.kg_views import store as views_store
@@ -3030,6 +3030,8 @@ def _run_graph_pattern(
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    if pattern == "pattern1":
+        result["next"] = hints.join_next(result.get("next"), hints.pattern1_empty(result, domains))
     _echo_json(result, compact)
 
 
@@ -3252,11 +3254,35 @@ def graph_pattern6(
 ) -> None:
     """Direct relationships between two entities."""
     domains = _parse_domains(domain)
-    _run_graph_pattern(
-        "pattern6", domains, compact, question,
-        entityName1=entity_name1, entityName2=entity_name2,
-        entityId1=entity_id1, entityId2=entity_id2,
-    )
+    try:
+        result = graph_query.execute_pattern(
+            domains=domains, pattern="pattern6", question=question, as_of=None,
+            entityName1=entity_name1, entityName2=entity_name2,
+            entityId1=entity_id1, entityId2=entity_id2,
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if result.get("rows") == []:
+        classes = [_exact_entity_class(domains, n) for n in (entity_name1, entity_name2)]
+        result["next"] = hints.join_next(
+            result.get("next"),
+            hints.pattern6_empty(result, domains, entity_name1, entity_name2, *classes),
+        )
+    _echo_json(result, compact)
+
+
+def _exact_entity_class(domains: list[str], name: str | None) -> str | None:
+    """The class of the entity a name exactly matches, else None (hint only; never raises)."""
+    if not name:
+        return None
+    try:
+        found = vector_query.entity_name_candidates(domains, name, 1)
+        for row in found.get("rows") or []:
+            if "exact" in (row.get("matched_by") or []):
+                return (row.get("entity") or {}).get("entity_class")
+    except Exception:
+        pass
+    return None
 
 
 @graph.command("pattern7")
@@ -3375,7 +3401,11 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, max_rows: int
             question=question, domains=domains, dry_run=dry_run, max_rows=max_rows
         )
     except ValueError as exc:
-        raise click.ClickException(str(exc)) from exc
+        raise click.ClickException(
+            str(exc) + hints.text2_failure("text2cypher", domains, question, dry_run)
+        ) from exc
+    if not dry_run:
+        result["next"] = hints.join_next(result.get("next"), hints.text2cypher_empty(result, domains, question))
     if dry_run:
         max_rows_arg = (
             "" if max_rows == text2cypher.TEXT2CYPHER_MAX_ROWS else f" --maxRows {int(max_rows)}"
@@ -3468,6 +3498,7 @@ def graph_hierarchy_cmd(
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    result["next"] = hints.join_next(result.get("next"), hints.hierarchy_empty(result, domains, question))
     _echo_json(result, compact)
 
 
@@ -3839,7 +3870,11 @@ def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: boo
     try:
         result = text2sql.execute_text2sql(question, domains, dry_run=dry_run, as_of=as_of)
     except ValueError as exc:
-        raise click.ClickException(str(exc)) from exc
+        raise click.ClickException(
+            str(exc) + hints.text2_failure("text2sql", domains, question, dry_run)
+        ) from exc
+    if not dry_run:
+        result["next"] = hints.join_next(result.get("next"), hints.text2sql_empty(result, domains, question))
     if dry_run:
         as_of_arg = f" --asOf {shlex.quote(as_of)}" if as_of else ""
         result["next"] = (
@@ -3863,6 +3898,7 @@ def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_
         result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    result["next"] = hints.join_next(result.get("next"), hints.resolve_key_empty(result, domains, phrase, top_k))
     _echo_json(result, compact)
 
 
