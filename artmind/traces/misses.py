@@ -205,3 +205,52 @@ def scope(answer: str | None, spans: list[dict], *, trace_id: str = "") -> list[
                                                     "first_scope": sorted(first_scope), "span_scope": sorted(held)},
                                 span_id=sid))
     return out
+
+
+FOLLOW_UP = re.compile(
+    r"\b(?:you (?:missed|forgot|left out|did ?n[o']t (?:mention|include))|what about|"
+    r"(?:also|please) (?:include|add|mention)|(?:is|was|are|were) missing)\b[:,]?\s*(.*)",
+    re.IGNORECASE | re.DOTALL)
+ITEM_CHARS = 200
+
+
+def structure(answer: str | None, spans: list[dict], *, trace_id: str = "") -> list[Miss]:
+    out = []
+    for s in spans:
+        if (s.get("evidence") or {}).get("complete") is False:
+            out.append(Miss("structure", trace_id, {"reason": "incomplete_count", "command": s.get("command")},
+                            span_id=s.get("span_id")))
+    graph_ran = any(path_mod.span_layer(s) in path_mod.GRAPH_LAYERS for s in spans)
+    if not graph_ran and path_mod.answer_basis(answer, spans) == "vector":
+        names = []
+        for s in spans:
+            if s.get("command") in IDENTITY_COMMANDS and _identity_reason(s) is None:
+                top = ((s.get("evidence") or {}).get("resolved") or [{}])[0]
+                if isinstance(top.get("name"), str):
+                    names.append(top["name"])
+        if names:
+            out.append(Miss("structure", trace_id, {"reason": "text_despite_entity", "entities": names}))
+    return out
+
+
+def answer(grade: dict | None, *, trace_id: str = "") -> list[Miss]:
+    if not isinstance(grade, dict):
+        return []
+    g = grade.get("grade")
+    out = [Miss("answer", trace_id, {"item": item, "grade": g}) for item in grade.get("must_missed") or []]
+    out += [Miss("answer", trace_id, {"must_not": item, "grade": g}) for item in grade.get("must_not_hit") or []]
+    return out
+
+
+def user_stated(feedback: dict | None, next_question: str | None, *, trace_id: str = "") -> list[Miss]:
+    out = []
+    if isinstance(feedback, dict) and feedback.get("rating") in ("partial", "wrong"):
+        item = feedback.get("expected") or feedback.get("note")
+        if item:
+            out.append(Miss("user-stated", trace_id, {"source": "feedback", "rating": feedback["rating"],
+                                                      "item": item}))
+    match = FOLLOW_UP.search(next_question or "")
+    if match and match.group(1).strip():
+        out.append(Miss("user-stated", trace_id, {"source": "follow_up",
+                                                  "item": match.group(1).strip()[:ITEM_CHARS]}))
+    return out

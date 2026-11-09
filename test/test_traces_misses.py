@@ -130,3 +130,41 @@ def test_scope_records_a_cited_source_outside_the_first_search_scope():
              span("s2", "query graph pattern1", args={"domain": ["fam.b"]}, docs=["notes/fees.md"], t=2)]
     out = [m for m in misses.scope(ANSWER, spans) if m.detail["reason"] == "outside_first_scope"]
     assert out[0].detail["source"] == "notes/fees.md" and out[0].span_id == "s2"
+
+
+def test_structure_flags_a_text_answer_when_an_entity_resolved():
+    spans = [span("s1", "query entity-resolve", resolved=[{"id": "e1", "name": "Person A", "score": 0.97}], t=1),
+             span("s2", "query vector-text", args={"question": "q"}, docs=["notes/fees.md"], t=2)]
+    out = misses.structure(ANSWER, spans)
+    assert out[0].detail == {"reason": "text_despite_entity", "entities": ["Person A"]}
+
+
+def test_structure_is_quiet_when_the_graph_was_asked():
+    spans = [span("s1", "query entity-resolve", resolved=[{"id": "e1", "name": "Person A", "score": 0.97}], t=1),
+             span("s2", "query graph pattern3", docs=["notes/fees.md"], t=2)]
+    assert misses.structure(ANSWER, spans) == []
+
+
+def test_structure_flags_an_incomplete_count():
+    s = span("s1", "query graph pattern1")
+    s["evidence"]["complete"] = False
+    assert misses.structure(None, [s])[0].detail["reason"] == "incomplete_count"
+
+
+def test_answer_misses_come_from_the_grade():
+    grade = {"grade": "partial", "must_missed": ["item one", "item two"], "must_not_hit": ["bad thing"]}
+    out = misses.answer(grade)
+    assert [m.detail for m in out] == [{"item": "item one", "grade": "partial"},
+                                      {"item": "item two", "grade": "partial"},
+                                      {"must_not": "bad thing", "grade": "partial"}]
+
+
+def test_user_stated_from_feedback_and_a_follow_up():
+    fb = {"rating": "partial", "expected": "should list the third option", "note": None}
+    out = misses.user_stated(fb, "You missed: the weekend charge, and the cap.")
+    assert out[0].detail == {"source": "feedback", "rating": "partial", "item": "should list the third option"}
+    assert out[1].detail == {"source": "follow_up", "item": "the weekend charge, and the cap."}
+
+
+def test_good_feedback_and_an_ordinary_follow_up_are_not_misses():
+    assert misses.user_stated({"rating": "good", "expected": "x", "note": None}, "Thanks. And for 2025?") == []
