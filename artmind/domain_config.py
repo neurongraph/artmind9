@@ -63,11 +63,16 @@ def narrator(domain: str) -> dict | None:
     raw = data.get("narrator") if isinstance(data, dict) else None
     if raw is None:
         return None
-    if (not isinstance(raw, dict) or not {"entity_class", "name"} <= set(raw)
-            or not all(isinstance(raw[k], str) and raw[k].strip() for k in ("entity_class", "name"))):
-        raise DomainConfigError(f"{path}: narrator must be {{entity_class, name, aliases?}}")
-    aliases = raw.get("aliases") or []
-    if not isinstance(aliases, list) or not all(isinstance(a, str) for a in aliases):
-        raise DomainConfigError(f"{path}: narrator aliases must be a list of strings")
+    if (not isinstance(raw, dict) or not {"entity_class", "name"} <= set(raw) <= {"entity_class", "name", "aliases"}
+            or not all(isinstance(raw[k], str) and raw[k].strip() for k in raw if k != "aliases")):
+        raise DomainConfigError(f"{path}: narrator must be {{entity_class, name, aliases?}} (strings; aliases a list)")
+    aliases = raw.get("aliases", [])
+    if not isinstance(aliases, list) or not all(isinstance(a, str) and a.strip() for a in aliases):
+        raise DomainConfigError(f"{path}: narrator aliases must be a list of non-empty strings")
+    seen, unique = set(), []
+    for alias in (a.strip() for a in aliases):
+        if alias.casefold() not in seen:
+            seen.add(alias.casefold())
+            unique.append(alias)
     return {"entity_class": _class_name(raw["entity_class"], str(path)), "name": raw["name"].strip(),
-            "aliases": list(dict.fromkeys(a.strip() for a in aliases if a.strip()))}
+            "aliases": unique}
