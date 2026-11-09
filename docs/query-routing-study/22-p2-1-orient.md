@@ -155,5 +155,8 @@ Flagged by `traces compare` (material vs some baseline, worse than all, or a los
 ## Next
 
 1. The user reads the flagged answers (first the worse-than-all and lost-must questions above).
-2. Decide what P2-1 needs before it replaces the classic text: the structured-store signal on cards (Q32), and
-   whether the gate's lost-must / worse-than-all rows need a noise allowance (they fail every baseline run).
+2. ~~Structured-store signal on cards~~: done after H (commits a15350c9 and the skill line): the `banking` root
+   card lists its 5 tables (rows, bridge classes), each child says `tables_at: banking`, and the skill sends
+   record questions to them. Needs a second variant run (H2) to measure.
+3. Decide whether the gate's lost-must / worse-than-all rows need a noise allowance (they fail every baseline
+   run).

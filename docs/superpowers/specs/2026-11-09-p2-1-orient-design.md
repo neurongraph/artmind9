@@ -324,3 +324,8 @@ Recorded after the whole-feature review; each is a choice, not an omission.
 - **Per-class `types`** is `{top, distinct}`; when a cut shortens it, the domain's `cuts` record names the rest.
 - **A family root with data of its own** opens its children in peel 2 and warns how many documents and
   entities sit at the root.
+- **Structured tables on cards** (added after variant run H, study note 22): a card lists `tables`
+  (table, rows, bridge classes) only where tables are registered, and `stores` includes `structured` only there;
+  a child of such a domain carries `tables_at: <domain>` instead. Before this, every banking child showed
+  `structured` (tables are matched with their ancestors), so the cards gave no signal for record questions and
+  run H skipped the tables on banking Q32. Peel 1 for banking: 8,855 characters.
