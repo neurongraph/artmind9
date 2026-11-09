@@ -433,6 +433,7 @@ click.rich_click.COMMAND_GROUPS = {
         {
             "name": "Lookups",
             "commands": [
+                "orient",
                 "domains-overview",
                 "catalogue",
                 "assets",
@@ -2950,6 +2951,8 @@ def query():
     ARTMIND_NO_STALENESS_CHECK=1 to skip it.
 
     `plan` returns a deterministic route, saved-view match and ready-to-run steps for a question.
+    `orient` describes the corpus in two peels: without --domain, one card per domain; with
+    --domain, its classes, types, relation shapes, stores, views and assets (facts, no question).
     Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
     parameterised queries: list / show / run), `insights` (the latest
     unprompted findings: list / show), and `topics` (read-only topic pages:
@@ -3527,6 +3530,29 @@ def query_assets(domain: tuple, kind: tuple, like_text: str | None, only_stale: 
 def query_domains_overview(compact: bool) -> None:
     """Per-domain routing summary: doc names/counts, entity counts, top classes."""
     _echo_json(graph_query.domains_overview(), compact)
+
+
+@query.command("orient")
+@click.option("--domain", "domain", multiple=True,
+              help="Open these domains (repeatable; comma-splittable; a family root opens its children)")
+@compact_option
+def query_orient(domain: tuple, compact: bool) -> None:
+    """What the corpus is and how it is organised: facts, not a plan.
+
+    Without --domain (peel 1): the corpus and one card per domain — purpose, unit of
+    knowledge, voice, how documents are dated, stores, vocabulary, asset counts.
+    With --domain (peel 2): classes with definitions, measured types and dated share,
+    relation shapes (CLASS -REL-> CLASS), structured tables, saved views, topic pages,
+    insights and superseded documents. It never sees the question. A part that could
+    not be read is absent and named in `warnings`; `null` means declared absent. Every
+    cut is listed in `cuts` with the command that shows the rest. Read-only.
+    """
+    from artmind import orient as orient_mod
+    from artmind import result_store
+
+    payload = orient_mod.domains(_parse_domains(domain)) if domain else orient_mod.corpus()
+    with result_store.budget_override("0"):  # orient fits its own budget (spec 2026-11-09 §5.1)
+        _echo_json(payload, compact)
 
 
 @query.command("vector-text")
