@@ -28,7 +28,7 @@ def test_thin_brief_chunk_rows_use_chunk_id():
 def test_thin_without_chunks_names_first_document():
     row = _row(chunks_total=0, source_documents=[{"id": "d1", "name": "policy.md"}])
     assert hints.entity_context_thin(row, ["bank"]) == (
-        'artmind query graph pattern10 --domain bank --documentName "policy.md" --compact'
+        'artmind query graph pattern10 --domain bank --documentName policy.md --compact'
     )
 
 

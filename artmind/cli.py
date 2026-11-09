@@ -3263,7 +3263,7 @@ def graph_pattern6(
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     if result.get("rows") == []:
-        classes = [_exact_entity_class(domains, n) for n in (entity_name1, entity_name2)]
+        classes = _exact_entity_classes(domains, [entity_name1, entity_name2])
         result["next"] = hints.join_next(
             result.get("next"),
             hints.pattern6_empty(result, domains, entity_name1, entity_name2, *classes),
@@ -3271,10 +3271,22 @@ def graph_pattern6(
     _echo_json(result, compact)
 
 
-def _exact_entity_class(domains: list[str], name: str | None) -> str | None:
-    """The class of the entity a name exactly matches, else None (hint only; never raises)."""
-    if not name:
-        return None
+def _exact_entity_classes(domains: list[str], names: list) -> list:
+    """The class of the entity each name exactly matches (None when unresolved). Hint only:
+    one try around both lookups, so a down graph costs one failure and never raises."""
+    classes: list = [None] * len(names)
+    try:
+        for i, name in enumerate(names):
+            if not name:
+                continue
+            found = vector_query.entity_name_candidates(domains, name, 1)
+            for row in found.get("rows") or []:
+                if "exact" in (row.get("matched_by") or []):
+                    classes[i] = (row.get("entity") or {}).get("entity_class")
+                    break
+    except Exception:
+        return [None] * len(names)
+    return classes
     try:
         found = vector_query.entity_name_candidates(domains, name, 1)
         for row in found.get("rows") or []:

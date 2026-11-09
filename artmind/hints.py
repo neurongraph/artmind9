@@ -6,6 +6,8 @@ or `None` when the result is not empty/thin. Pure: no I/O, no graph, no LLM.
 """
 from __future__ import annotations
 
+import shlex
+
 
 def join_next(first: str | None, second: str | None) -> str | None:
     """Join two `next` strings with "; " (as `execute_pattern` does); either may be None."""
@@ -20,8 +22,13 @@ def domain_flags(domains) -> str:
 
 
 def quote(text) -> str:
-    """Double-quoted, inner double quotes escaped."""
-    return '"' + str(text if text is not None else "").replace('"', '\\"') + '"'
+    """POSIX-shell-safe (`shlex.quote`): single quotes, `'` as `'"'"'`."""
+    return shlex.quote(str(text if text is not None else ""))
+
+
+def value_or(text, placeholder: str) -> str:
+    """A quoted real value, or the `"<placeholder>"` the agent is to fill in."""
+    return quote(text) if text else f'"{placeholder}"'
 
 
 def pattern6_empty(payload: dict, domains, name1, name2, class1=None, class2=None) -> str | None:
@@ -30,7 +37,7 @@ def pattern6_empty(payload: dict, domains, name1, name2, class1=None, class2=Non
     return (
         f"artmind query graph pattern5 {domain_flags(domains)} "
         f"--entityClass1 {class1 or '<CLASS1>'} --entityClass2 {class2 or '<CLASS2>'} "
-        f"--entityName1 {quote(name1 or '<name1>')} --entityName2 {quote(name2 or '<name2>')} "
+        f"--entityName1 {value_or(name1, '<name1>')} --entityName2 {value_or(name2, '<name2>')} "
         f"--mode shortest --compact"
     )
 
@@ -48,7 +55,7 @@ def hierarchy_empty(payload: dict, domains, question) -> str | None:
     entity_class = (payload.get("root") or {}).get("entity_class") or "<CLASS>"
     return (
         f"artmind query graph pattern1 {domain_flags(domains)} --entityClass {entity_class} "
-        f"--compact {quote(question or '<question>')}"
+        f"--compact {value_or(question, '<question>')}"
     )
 
 
@@ -96,7 +103,7 @@ def entity_context_thin(row: dict, domains) -> str | None:
         return f"artmind query chunks --shape brief --idList {','.join(ids)} --expand 1 --compact"
     docs = row.get("source_documents") or []
     name = (docs[0].get("name") or docs[0].get("title")) if docs and isinstance(docs[0], dict) else None
-    return f"artmind query graph pattern10 {domain_flags(domains)} --documentName {quote(name or '<document>')} --compact"
+    return f"artmind query graph pattern10 {domain_flags(domains)} --documentName {value_or(name, '<document>')} --compact"
 
 
 def entity_context_cut(row: dict, domains, max_connections: int) -> str | None:

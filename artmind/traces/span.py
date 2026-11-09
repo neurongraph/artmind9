@@ -11,6 +11,7 @@ capture must never change a query's output or exit code.
 
 import contextvars
 import json
+import shlex
 import time
 import uuid
 from contextlib import contextmanager
@@ -83,8 +84,7 @@ class TracedGroup(RichGroup):
                 and isinstance(root, click.Group)
                 and isinstance(root.commands.get(name), click.Group)
             ):
-                rest = " ".join(args[1:])
-                fixed = f"artmind {name} {rest}".rstrip()
+                fixed = shlex.join(["artmind", name, *args[1:]])
                 raise click.UsageError(
                     f"No such command '{name}' under `{self.name}`. It is a top-level group: {fixed}", ctx
                 ) from exc
