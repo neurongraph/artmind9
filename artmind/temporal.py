@@ -726,7 +726,7 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
     with neo4j_session() as session:
         docs = session.run(
             "MATCH (d:Document) WHERE d._domain=$domain "
-            "RETURN d.id AS id, d.name AS name, d.version AS version, d.valid_from AS valid_from, d.path AS path",
+            "RETURN d.id AS id, d.name AS name, d.version AS version, coalesce(d._valid_from, d.valid_from) AS valid_from, d.path AS path",
             domain=domain,
         ).data()
     by_version_group: dict = {}
@@ -774,6 +774,16 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
                 if candidate and candidate["id"] != d["id"]:
                     older, effective = candidate, table_notice["effective"]
         if older is None:
+            continue
+        from artmind import supersession_direction as sd
+
+        side_d = {**d, "_valid_from": d.get("valid_from"), "meta": sd.meta_for(d)}
+        side_o = {**older, "_valid_from": older.get("valid_from"), "meta": sd.meta_for(older)}
+        decided = sd.decide(side_d, side_o)
+        if (decided is not None and decided[0]["id"] != d["id"]) or sd.contradictory(side_d, side_o):
+            report.setdefault("skipped", []).append(
+                {"skipped": {"newer": d["id"], "older": older["id"]}, "reason": "direction contradicts metadata"}
+            )
             continue
         # Guarantee an effective date whenever we can: without one,
         # apply_supersession never sets older.valid_to and the old version

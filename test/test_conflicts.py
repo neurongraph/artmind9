@@ -136,7 +136,7 @@ def test_materialize_superseded_creates_supersedes_not_conflict(monkeypatch):
     class FakeSession:
         def run(self, *a, **k):
             class R:
-                def single(self_inner): return {"a": "docA", "b": "docB"}
+                def single(self_inner): return {"a": "docA", "b": "docB", "af": "2026-01-01", "bf": "2026-02-01"}
                 def data(self_inner): return [{"a": "docA", "b": "docB"}]
             return R()
     pair = {"id_a": "eA", "id_b": "eB", "domain_a": "d", "domain_b": "d", "entity_class": "POLICY",

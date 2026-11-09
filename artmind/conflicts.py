@@ -191,7 +191,7 @@ def _doc_validity(session, evidence: list[dict]) -> tuple[str, str]:
         return "", ""
     try:
         rec = session.run(
-            "MATCH (d:Document {id:$id}) RETURN d.valid_from AS valid_from, d.version AS version",
+            "MATCH (d:Document {id:$id}) RETURN coalesce(d._valid_from, d.valid_from) AS valid_from, d.version AS version",
             id=doc_id,
         ).single()
         if not rec:
@@ -258,17 +258,31 @@ def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evid
             """
             MATCH (a:Entity {_id:$idA})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(da:Document)
             MATCH (b:Entity {_id:$idB})-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(db:Document)
-            RETURN da.id AS a, da.valid_from AS af, db.id AS b, db.valid_from AS bf
+            RETURN da.id AS a, da.name AS an, da.path AS ap, coalesce(da._valid_from, da.valid_from) AS af, da.version AS av,
+                   db.id AS b, db.name AS bn, db.path AS bp, coalesce(db._valid_from, db.valid_from) AS bf, db.version AS bv
             LIMIT 1
             """,
             idA=pair["id_a"], idB=pair["id_b"],
         ).single()
         if rec and rec["a"] and rec["b"]:
-            # newer = later valid_from
-            if (rec.get("bf") or "") >= (rec.get("af") or ""):
-                apply_supersession(rec["b"], rec["a"], "document", rec.get("bf"), detected_by="adjudicator")
+            from artmind import supersession_direction as sd
+
+            side_a = {"id": rec["a"], "name": rec.get("an") or "", "path": rec.get("ap"),
+                      "_valid_from": rec.get("af"), "version": rec.get("av")}
+            side_b = {"id": rec["b"], "name": rec.get("bn") or "", "path": rec.get("bp"),
+                      "_valid_from": rec.get("bf"), "version": rec.get("bv")}
+            side_a["meta"] = sd.meta_for(side_a) if side_a["name"] else {}
+            side_b["meta"] = sd.meta_for(side_b) if side_b["name"] else {}
+            decided = sd.decide(side_a, side_b)
+            if decided is None:
+                logger.warning(
+                    "superseded verdict for {} <-> {} applies nothing: the direction of {!r} vs {!r} "
+                    "is not decided by their metadata or effective dates",
+                    pair.get("name_a"), pair.get("name_b"), side_a["name"] or side_a["id"], side_b["name"] or side_b["id"],
+                )
             else:
-                apply_supersession(rec["a"], rec["b"], "document", rec.get("af"), detected_by="adjudicator")
+                newer, older = decided
+                apply_supersession(newer["id"], older["id"], "document", newer.get("_valid_from"), detected_by="adjudicator")
         return None
     if verdict["verdict"] != "conflicting_claims":
         return None
