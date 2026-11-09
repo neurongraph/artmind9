@@ -135,7 +135,7 @@ def predecessor_next(payload: dict) -> str | None:
         if not (doc.get("replaced") or doc.get("supersedes")):
             continue
         domain = doc.get("domain") or doc.get("_domain")
-        ident = doc.get("name") or doc.get("id") or doc.get("doc_id")
+        ident = doc.get("name") or doc.get("title")  # never the raw id; history matches a missing extension
         if domain and ident:
             return f"artmind query document-history --domain {quote(domain)} --documentName {quote(ident)} --compact"
     return None

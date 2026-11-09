@@ -45,7 +45,7 @@ def test_predecessor_next_picks_first_and_quotes():
         {"doc": {"id": "a", "domain": "dom", "title": "A"}},
         {"doc": {"id": "b", "domain": "dom", "title": "B", "replaced": [{"name": "o", "valid_from": None}]}},
         {"doc": {"id": "c", "domain": "dom", "title": "C", "replaced": [{"name": "o2"}]}}]}
-    assert hints.predecessor_next(payload) == "artmind query document-history --domain dom --documentName b --compact"
+    assert hints.predecessor_next(payload) == "artmind query document-history --domain dom --documentName B --compact"
     full = {"rows": [{"document": {"_domain": "dom", "name": "my doc.md", "supersedes": [OLD]}}]}
     assert hints.predecessor_next(full) == (
         "artmind query document-history --domain dom --documentName 'my doc.md' --compact")
@@ -64,7 +64,7 @@ def test_vector_text_next_names_document_history():
                                 "replaced": [{"name": "old.md", "valid_from": "2026-01-15"}]}}], "warnings": []}
     out = _run(["query", "vector-text", "--domain", "dom", "--shape", "brief", "--compact", "q"],
                "artmind.vector_query.vector_text_search", result)
-    assert out["next"] == "artmind query document-history --domain dom --documentName b --compact"
+    assert out["next"] == "artmind query document-history --domain dom --documentName B --compact"
 
 
 def test_vector_text_without_predecessors_keeps_next():
@@ -80,4 +80,9 @@ def test_survey_next_names_document_history():
                             {"doc_id": "d2", "domain": "dom", "title": "U",
                              "replaced": [{"name": "old.md", "valid_from": None}]}], "warnings": []}
     out = _run(["query", "survey", "--domain", "dom", "--compact", "q"], "artmind.survey.survey_search", result)
-    assert out["next"] == "artmind query document-history --domain dom --documentName d2 --compact"
+    assert out["next"] == "artmind query document-history --domain dom --documentName U --compact"
+
+
+def test_predecessor_next_never_emits_raw_id():
+    payload = {"rows": [{"doc": {"id": "01a15747-b8b6", "domain": "dom", "replaced": [{"name": "o"}]}}]}
+    assert hints.predecessor_next(payload) is None
