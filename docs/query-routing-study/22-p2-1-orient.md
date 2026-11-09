@@ -157,6 +157,9 @@ Flagged by `traces compare` (material vs some baseline, worse than all, or a los
 1. The user reads the flagged answers (first the worse-than-all and lost-must questions above).
 2. ~~Structured-store signal on cards~~: done after H (commits a15350c9 and the skill line): the `banking` root
    card lists its 5 tables (rows, bridge classes), each child says `tables_at: banking`, and the skill sends
-   record questions to them. Needs a second variant run (H2) to measure.
+   record questions to them. One-question check on banking Q32 (run `6ece7ab9`, restarted console, Sonnet):
+   the agent now reaches the tables (`db schema` → `db sql`) and names the customer and complaint; graded
+   partial with 2 must items missed (same as every baseline: A, D, G each missed 2), judged materially better
+   than D and G and equal to A. Q32 is no longer worse than all baselines. A full H2 run is still the measure.
 3. Decide whether the gate's lost-must / worse-than-all rows need a noise allowance (they fail every baseline
    run).
