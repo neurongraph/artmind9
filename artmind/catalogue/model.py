@@ -55,9 +55,6 @@ class DomainCatalogue:
     built_at: str
     classes: tuple = ()  # (name, count, description)
     relations: tuple = ()  # (rel_type, count)
-    shapes: tuple = ()  # (src_class, rel_type, dst_class, count)
-    types: tuple = ()  # (class, {total, distinct, dated, top: [[value, n], ...]})
-    versions: tuple = ()  # {name, status, valid_from, successor[, replaces]} per retired/replacing document
     documents: tuple = ()  # every live and retired document name, sorted
     names: tuple = ()
     truncated: bool = False
@@ -66,6 +63,10 @@ class DomainCatalogue:
     time: dict | None = None
     assets: tuple | None = None
     health: dict | None = None
+    # orient's parts (spec 2026-11-09), last so positional construction keeps the older fields' order
+    shapes: tuple = ()  # (src_class, rel_type, dst_class, count)
+    types: tuple = ()  # (class, {total, distinct, dated, top: [[value, n], ...]})
+    versions: tuple = ()  # {name, status, valid_from, successor[, replaces]} per retired/replacing document
     part_keys: dict = field(default_factory=dict)  # part -> what it was built from
     part_built: dict = field(default_factory=dict)  # part -> ISO build time
 
