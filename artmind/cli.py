@@ -3778,11 +3778,30 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
 @click.argument("reference")
 def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: str) -> None:
     """Resolve a name fragment or description to canonical graph entities (exact name first, then fulltext + vector via RRF)."""
+    from artmind import identity
+
     domains = _parse_domains(domain)
+    person = identity.first_person(reference)
+    narrator, extra_warnings = identity.narrator_for(domains) if person else (None, [])
+    lookup = narrator["name"] if narrator and person == "whole" else reference
     try:
-        result = vector_query.entity_resolve(domains, reference, top_k)
+        result = vector_query.entity_resolve(domains, lookup, top_k)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    warnings = list(extra_warnings)
+    if narrator:
+        result["narrator"] = {"name": narrator["name"], "entity_class": narrator["entity_class"]}
+        if person == "whole":
+            names = identity.narrator_names(narrator)
+            for row in result.get("rows", []):
+                if identity.normalise((row.get("entity") or {}).get("name")) in names:
+                    row["matched_by"] = [*(row.get("matched_by") or []), "narrator"]
+    twins = identity.twin_groups(result.get("rows", []))
+    if twins:
+        result["twins"] = twins
+        warnings += [identity.twin_warning(g) for g in twins]
+    if warnings:
+        result["warnings"] = [*(result.get("warnings") or []), *warnings]
     _echo_json(result, compact)
 
 
