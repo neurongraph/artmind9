@@ -144,11 +144,18 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
     )
 
 
+def supersedes_list(var: str) -> str:
+    """Cypher list expression naming the documents `var` replaced, with each one's date
+    (`valid_from`: the stored `_valid_from`, else `valid_from`)."""
+    return (f"[({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path, "
+            f"valid_from: coalesce(older._valid_from, older.valid_from) }}]")
+
+
 def supersedes_field(var: str) -> str:
     """Map-projection entry naming the documents `var` replaced (its outgoing
     SUPERSEDES edges, to live or retired documents). Derived at query time, like
     `superseded_by` is derived by supersession_records (spec 2026-10-22 §5.4 item 1)."""
-    return f"supersedes: [({var})-[:SUPERSEDES]->(older) | older {{ .id, .name, .path }}]"
+    return f"supersedes: {supersedes_list(var)}"
 
 
 # ISO date at year, month, or day precision (optionally with a time suffix).

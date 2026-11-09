@@ -16,7 +16,7 @@ from collections.abc import Callable, Sequence
 from neo4j.exceptions import ClientError
 
 from artmind import brief, retrieval_rank, vector_query
-from artmind.graph_query import read_session, sanitize_lucene_query, serialize_record
+from artmind.graph_query import read_session, sanitize_lucene_query, serialize_record, supersedes_list
 
 LEGS = ("D", "C", "P")
 POOL = 300
@@ -62,7 +62,8 @@ MATCH (d:Document {id: did})
 OPTIONAL MATCH (s:DocSummary {id: did + ':summary'})
 RETURN d.id AS doc_id, coalesce(d.title, d.name) AS title, d.name AS name, d._domain AS domain,
        s.text AS summary, d.valid_from AS date,
-       EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } AS superseded
+       EXISTS { MATCH (:Document)-[:SUPERSEDES]->(d) } AS superseded,
+       """ + supersedes_list("d") + """ AS supersedes
 """
 
 _COVERAGE = """
@@ -215,6 +216,7 @@ def survey_search(
         documents.append({
             "doc_id": doc_id, "title": m.get("title"), "name": m.get("name"), "domain": m.get("domain"),
             "date": m.get("date") or None, "status": brief.doc_status(m.get("superseded")),
+            "supersedes": m.get("supersedes") or [],
             "summary": m.get("summary"), "score": round(score, 6), "ranks": ranks,
             "hits": {"passages": passage_hits.get(doc_id, 0), "chunk_summaries": chunk_summary_hits.get(doc_id, 0)},
             "passages": [
@@ -262,6 +264,7 @@ def _brief_documents(question, picked, meta, doc_units, chunk_summary, passage_h
         facts[doc_id] = {
             "rank": rank, "doc_id": doc_id, "title": title, "domain": m.get("domain"), "date": m.get("date") or None,
             "status": brief.doc_status(m.get("superseded")), "score": round(score, 6),
+            "replaced": brief.replaced_refs(m.get("supersedes")),
             "hits": {"passages": passage_hits.get(doc_id, 0), "chunk_summaries": chunk_summary_hits.get(doc_id, 0)},
             "best": {"passage_id": units[0].best["id"] if units else None,
                      "chunk_id": units[0].best["chunk_id"] if units else (cs or {}).get("chunk_id")},
@@ -293,7 +296,8 @@ def _expanded(domains, question, picked, meta, doc_units, passages, warnings, to
             warnings.append(f"--expand: no document {doc_id} found")
         elif not units:
             warnings.append(f"--expand: no passage of {doc_id} matched this question")
-        ref = brief.doc_ref(doc_id, m.get("title"), m.get("name"), m.get("domain"), m.get("date"), m.get("superseded"))
+        ref = brief.doc_ref(doc_id, m.get("title"), m.get("name"), m.get("domain"), m.get("date"), m.get("superseded"),
+                        m.get("supersedes"))
         for u in units:
             rows.append(brief.passage_row(len(rows) + 1, u.best["id"], u.best["chunk_id"], u.best.get("text"),
                                           None if u.relevance is None else round(u.relevance, 4), ref))

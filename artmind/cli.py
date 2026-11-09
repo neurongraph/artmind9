@@ -3681,6 +3681,7 @@ def vector_text(ctx: click.Context, domain: tuple, top_k: int, context: str, as_
             and ctx.get_parameter_source("context") == click.core.ParameterSource.COMMANDLINE):
         result["warnings"] = [*(result.get("warnings") or []),
                               "--shape brief uses --context passage; --context chunk was ignored"]
+    result["next"] = hints.join_next(result.get("next"), hints.predecessor_next(result))
     _echo_json(result, compact)
 
 
@@ -3766,6 +3767,7 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
                                       gist_docs=gist_docs, expand=_parse_repeatable(expand))
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    result["next"] = hints.join_next(result.get("next"), hints.predecessor_next(result))
     _echo_json(result, compact)
 
 

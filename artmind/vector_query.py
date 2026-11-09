@@ -533,7 +533,8 @@ def vector_text_search(
         if shape == "brief":
             ref = brief.doc_ref((document or {}).get("id"), (document or {}).get("title"), (document or {}).get("name"),
                                 (document or {}).get("_domain"),
-                                (document or {}).get("date"), (document or {}).get("status") == "superseded")
+                                (document or {}).get("date"), (document or {}).get("status") == "superseded",
+                                (document or {}).get("supersedes"))
             row = brief.passage_row(len(rows) + 1, u.best["id"], chunk.get("id"), u.best.get("text"),
                                     common["relevance"], ref,
                                     second=second_text.get(u.best["chunk_id"]) if u.passages_matched >= 2 else None)

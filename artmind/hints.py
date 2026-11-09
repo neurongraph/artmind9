@@ -119,3 +119,23 @@ def entity_context_cut(row: dict, domains, max_connections: int) -> str | None:
         f"artmind query graph pattern8 {domain_flags(domains)} --entityId {eid} "
         f"--entityClass <CLASS> --all --compact"
     )
+
+
+def predecessor_next(payload: dict) -> str | None:
+    """document-history for the highest-ranked returned document that replaced older versions.
+
+    Reads vector-text rows (`doc.replaced` brief, `document.supersedes` full) and survey
+    rows (`replaced` brief, `supersedes` full); `None` when no document replaced another.
+    """
+    for row in (payload.get("rows") or []) + (payload.get("documents") or []):
+        if not isinstance(row, dict):
+            continue
+        doc = row.get("doc") if isinstance(row.get("doc"), dict) else row.get("document")
+        doc = doc if isinstance(doc, dict) else row
+        if not (doc.get("replaced") or doc.get("supersedes")):
+            continue
+        domain = doc.get("domain") or doc.get("_domain")
+        ident = doc.get("name") or doc.get("id") or doc.get("doc_id")
+        if domain and ident:
+            return f"artmind query document-history --domain {quote(domain)} --documentName {quote(ident)} --compact"
+    return None

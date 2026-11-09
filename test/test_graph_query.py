@@ -1140,7 +1140,8 @@ def test_pattern7_rejects_out_of_range_limit(bad_limit):
 # ── H4a: supersedes on document rows (spec 2026-10-22 §5.4.1) ────────────────
 
 def test_document_rows_carry_supersedes():
-    field = "supersedes: [(d)-[:SUPERSEDES]->(older) | older { .id, .name, .path }]"
+    field = graph_query.supersedes_field("d")
+    assert "valid_from: coalesce(older._valid_from, older.valid_from)" in field
     for params in ({"domains": ["f"], "documentName": "a.md"},
                    {"domains": ["f"], "documentName": "a.md", "includeHistory": True},
                    {"domains": ["f"], "documentName": "a.md", "asOf": "2026-01-01"}):

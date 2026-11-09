@@ -81,10 +81,19 @@ def doc_status(superseded) -> str:
     return "superseded" if superseded else "current"
 
 
-def doc_ref(doc_id, title, name, domain, date, superseded) -> dict:
-    """The `doc` object of a brief passage row."""
-    return {"id": doc_id, "title": doc_title(title, name), "domain": domain, "date": date or None,
-            "status": doc_status(superseded)}
+def replaced_refs(supersedes) -> list[dict]:
+    """`[{name, valid_from}]` for the older documents a document replaced (empty when none)."""
+    return [{"name": s.get("name"), "valid_from": s.get("valid_from")}
+            for s in (supersedes or []) if isinstance(s, dict)]
+
+
+def doc_ref(doc_id, title, name, domain, date, superseded, supersedes=None) -> dict:
+    """The `doc` object of a brief passage row (`replaced` only when it replaced older versions)."""
+    ref = {"id": doc_id, "title": doc_title(title, name), "domain": domain, "date": date or None,
+           "status": doc_status(superseded)}
+    if supersedes:
+        ref["replaced"] = replaced_refs(supersedes)
+    return ref
 
 
 def passage_row(rank: int, passage_id, chunk_id, text, relevance, doc: dict, *, second: str | None = None) -> dict:
@@ -281,11 +290,15 @@ def survey_row(kind: str, d: dict) -> dict:
     """One brief survey row of `kind` from the document facts `d` (see survey.py)."""
     line = {"rank": d["rank"], "doc_id": d["doc_id"], "title": d["title"], "date": d["date"],
             "status": d["status"], "score": d["score"], "matched": d["matched"], "hits": d["hits"]}
+    if d.get("replaced"):
+        line["replaced"] = d["replaced"]
     if kind == "line":
         return line
     row = {"rank": d["rank"], "doc_id": d["doc_id"], "title": d["title"], "domain": d["domain"], "date": d["date"],
            "status": d["status"], "score": d["score"], "gist": d["gist"], "gist_source": d["gist_source"],
            "matched": d["matched"], "hits": d["hits"], "best": d["best"]}
+    if d.get("replaced"):
+        row["replaced"] = d["replaced"]
     if kind == "passage":
         row["passage"] = d["passage"]
     return row
