@@ -5230,6 +5230,18 @@ def traces_compare(baseline, variant, questions_file, use_judge, use_grade, allo
                               "gate": gate_out}
     if use_grade:
         flagged |= {q["qid"] for rows in detail["grades"].values() for q in rows if q["grade"] == "wrong"}
+    # Spec 2026-11-10 §10: a turn that ran a topic plan matching its question is flagged (a fact).
+    from artmind.traces import topic_flags
+
+    with_plan = topic_flags.flags(uruns)
+    out["topic_plan_turns"] = [{"run": f["run"], "qid": f["qid"]} for f in with_plan]  # slugs: detail file only
+    detail["topic_plan_turns"] = with_plan
+    for f in with_plan:
+        for rows in [detail["grades"].get(f["run"]) or []]:
+            for q in rows:
+                if q["seq"] == f["seq"]:
+                    q["topic_plan"] = f["slug"]
+    flagged |= {f["qid"] for f in with_plan}
     if use_judge or use_grade:
         out["flagged"] = sorted(q for q in flagged if q)
         out["detail_file"] = str(_write_compare_detail(detail))
