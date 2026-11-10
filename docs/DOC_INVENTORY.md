@@ -22,6 +22,7 @@ stay accurate and maintained. Read these first when onboarding.
 | [docs/INSTALL.md](INSTALL.md) | 2026-08-15 | Authoritative install/runtime reference (per CLAUDE.md). |
 | [docs/document-identity.md](document-identity.md) | 2026-08-24 | Current identity/versioning mechanism. Post-redesign. |
 | [docs/projection-pipeline.md](projection-pipeline.md) | 2026-08-25 | Current observation→projection mechanism. Post-redesign. |
+| [docs/survey-and-topic-pages.md](survey-and-topic-pages.md) | 2026-11-10 | Reference: `query survey` vs `topic build` — search mechanism, output, staleness, when to use which. |
 | [docs/stores-and-repos.md](stores-and-repos.md) | 2026-08-30 | **Revised for the vault model; not yet implemented.** Store/repo topology — the vault absorbs the run folder, data dir and archive root. |
 | [docs/vault.md](vault.md) | 2026-08-30 | **Specification; partially implemented.** Vault-anchored resolution and the ownership rule: `.artmind/` is artmind-owned, derived output is committed. |
 | [docs/CAPABILITIES.md](CAPABILITIES.md) | 2026-08-27 | Actively-maintained capability map / scoring checklist. |
