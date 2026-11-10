@@ -327,6 +327,8 @@ Store routing and then Discover as normal. Never invent a view name; only run na
 
 `orient --domain` lists the domain's structured tables and their bridge classes. No `structured` key means a pure-graph domain. If tables are listed, read `references/structured-store.md` before classifying the question.
 
+For a question over records (a count, an average, a comparison between groups, anything joining tables), ask `artmind query text2sql "<question>" --domain <d> --compact` first: it knows the tables' joins and how values are spelled, and repairs its own SQL. Use `db sql` only to refine or check the SQL it returned (`generated_sql`).
+
 ### 2. Discover — only when orient was cut
 
 `orient --domain` already holds what Discover used to fetch. Run `graph metadata`,

@@ -55,7 +55,7 @@ def test_every_artmind_command_in_the_skill_exists():
 CLASSIC = SKILL.parent.parent / "artmind-query" / "SKILL.md"
 LINES_BEFORE_P2_BATCH = 469
 # The "Plan the parts" step (2026-11-10, banking Q24) is allowed on top of the P2-batch size.
-LINES_ALLOWED = LINES_BEFORE_P2_BATCH + 40
+LINES_ALLOWED = LINES_BEFORE_P2_BATCH + 60  # + plan rule, text2sql-first line
 
 # Two distinctive phrases per deleted rung / section, taken from the classic skill.
 _DELETED = {
