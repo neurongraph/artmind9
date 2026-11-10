@@ -414,3 +414,11 @@ Q32–Q36 rerun alone (`8aa968a7`, console restarted): Q32 and Q35 ran `text2sql
 and their remaining misses are policy items, not SQL. Q33, Q34 and Q36 wrote their own SQL with `db sql`, so the new
 engine was not used; Q36 is still partial with 3 missed (the open group and the non-open comparison), the same as J2.
 Must items missed (I / J / J2 / rerun): Q32 3/1/2/2, Q33 4/1/1/1, Q34 1/2/1/2, Q35 1/1/1/1, Q36 1/4/3/3.
+
+After the text2sql-first skill line (`a1cefb88`), Q32–Q36 again (`5e3b41ff`): Q33, Q34, Q35 and Q36 now ask
+`text2sql` (all answered by sql-browser); Q32 still wrote `db sql`. Must items missed (I / J / J2 / before the line /
+after): Q32 3/1/2/2/2, Q33 4/1/1/1/1, Q34 1/2/1/2/4, Q35 1/1/1/1/**0** (correct), Q36 1/4/3/3/3. Q34's answer gave the
+average without the customers and survey rows behind it; Q36 compared open complaints against everyone else
+(including customers with no complaint) instead of against non-open complaints, and did not name the two open
+customers. One run each; the SQL layer now does what it is asked, and the remaining misses are what the agent asks and
+reports.
