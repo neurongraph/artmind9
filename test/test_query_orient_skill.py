@@ -132,3 +132,13 @@ def test_plan_the_parts_comes_right_after_orient():
     for phrase in ("Parts:", "in the corpus's terms", "Choose the command per part", "its own loop",
                    "never\n  two parts", "`gist`", "its own evidence", "Follow-up turns"):
         assert phrase in section, phrase
+
+
+def test_every_turn_order_is_first_and_in_the_description():
+    text = _text()
+    head = text.split("---")[1]
+    assert "Parts:" in head and "one retrieval loop per part" in head
+    first = text.split("\n## ", 2)[1]
+    assert first.startswith("Every turn, in this order")
+    for phrase in ("**Orient**", "**Write the parts**", "**One loop per part**", "**Answer part by part**"):
+        assert phrase in first, phrase

@@ -1,11 +1,21 @@
 ---
 name: artmind-query-orient
-description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Always orients first (`artmind query orient`): it describes each domain, its classes, types, relations, stores and saved views before any retrieval.
+description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Every turn: orient first (`artmind query orient`), then write the question's parts in the corpus's terms (a `Parts:` list), then run one retrieval loop per part, never one search for the whole question.
 ---
 
 # artmind Query
 
 Use this skill to answer user questions over an artmind domain through the deterministic query CLI. The skill provides the reasoning layer; the CLI provides saved views, templated graph/vector retrieval and JSON output.
+
+## Every turn, in this order
+
+1. **Orient** — `artmind query orient --compact` (and `--domain` for the domains you pick). See below.
+2. **Write the parts** — before any retrieval command, write a `Parts:` list in your reply: one
+   line per thing the answer must state, each restated in the corpus's terms from orient, with
+   its domains and first command. A one-part question gets one line. See "Plan the parts".
+3. **One loop per part** — each part gets its own searches, with only that part's terms in the
+   query text. Never put two parts, or a guessed answer, into one `survey` or `vector-text` call.
+4. **Answer part by part** — every part from its own evidence; say which part has none.
 
 ## Orient — read the corpus first
 
