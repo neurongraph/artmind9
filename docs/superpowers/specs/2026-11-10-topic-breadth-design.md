@@ -168,8 +168,14 @@ encodes its decomposition; §10 handles that at grading time.
 | **subject** | `--facet "<question>"` (repeatable); default the topic text | always (at least one) |
 | **period** | `--by year\|month\|none\|auto` | the scope is dated by content over a long enough span |
 | **domain** | `--split domain\|none\|auto` | the scope is a family root whose children hold matches |
+| **member** | `--member "<name>"` (repeatable), usually chosen from `--discover members` (§6.4) | the question asks for a set of distinct things (places, people, companies), not a theme |
 
-Subjects are judgement (the agent's parts, the user's words, or anchor entities, §9.3). Slices are mechanical.
+Subjects and members are judgement (the agent's parts, the user's words, anchor entities §9.3, discovered
+candidates §6.4). Slices are mechanical.
+
+Two shapes of breadth question, measured on brain01 (§11): a **series** (one theme over time: subject × period
+covers it) and a **set** (distinct members: a theme search does not name them, so they are discovered first,
+then gathered one by one).
 
 ### 6.2 `auto`: the shape rule (code, deterministic)
 
@@ -197,6 +203,34 @@ documents over 6 months, mostly one date) → no period, domain split.
 
 `matching` per cell is the corpus's shape for this topic; a subject with 0 everywhere is a wrong facet, visible
 before any cost.
+
+### 6.4 Members: discover, choose, gather (added 2026-11-10; build after §12 steps 1–5)
+
+A set question ("which places have I visited in country X", "which client companies") is answered by members the
+question does not name. A theme search misses them: on brain01 Q05 the notes of a visit name the place, not the
+set it belongs to. Measured (no LLM): subjects × year gather 6–9 of 16 dated visits; one subject per member, 11 of 16 with
+the members discovery found, 14 of 16 with all of them.
+
+1. **Discover (code, no LLM).** `topic build --dryRun --discover members --anchor "<entity>" [--anchor …]
+   --entityClass <CLASS>` resolves each anchor (`entity-resolve`, exact or alias first) and lists the entities of
+   that class co-mentioned with any anchor (`pattern8 --via mentions --all`), each with its mention count, first
+   and last dated mention, and its domain. brain01 Q05: three anchor entities, class LOCATION → 125 candidates,
+   5 of the 8 expected places among them.
+2. **Choose (judgement).** Candidates mix in-set and out-of-set entities (the graph has no "located in" links), so
+   code does not filter them. The build skill shows the list; the agent proposes the in-set ones with a reason,
+   the user keeps, drops or adds members (an added member need not be an entity).
+3. **Gather (code).** Each kept member is a subject `"<member>"` with its aliases from the graph, gathered
+   without a period slice (`take` per member, default `--perCell`), and a plan-level cell for the anchors
+   themselves (the parent set: places inside the anchor itself). The grid reports `matching` per member, so a member with 0
+   is visible before any cost.
+4. **Store.** The plan records `members: [{name, entity_key?, aliases}]` and the discovery that produced the
+   candidates (`discover: {anchors, entity_class}`). A freshness check (§8) also re-runs discovery and reports
+   **new candidates** (co-mentioned since the build, not yet kept or dropped), never adding them on its own;
+   dropped candidates are remembered (`dropped: […]`) so they are not offered again.
+5. **Page.** One section per member (or a table: member, dates, what happened), plus `## Timeline`.
+
+Not in scope: deciding set membership from world knowledge in code (a place lies inside a country), or extracting
+containment links (the extraction wave, item G, may add `LOCATED_IN`; discovery would then read it).
 
 ## 7. Part D — the faceted gather and the page
 
@@ -314,7 +348,10 @@ Pages are not on any agent surface (§5.2), which removes the page leak. Plans r
 5. **Second shape:** banking Q15 (domain split), steps 1–3.
 6. **The offer:** Q08 rerun with no plan in the vault after Part B; the answer carries the offer with sensible
    subjects and span; nothing is built.
-7. **Freshness:** after adding a journal day that matches a subject, the check reports `stale` with
+7. **Members (§6.4), brain01 Q05:** discovery lists the candidates; with the members the user keeps, the gather
+   covers ≥ 14 of 16 dated visits; then the Q05 plan run and a Q05 rerun with the plan, as in item 3. Also check
+   Q11 (client companies) and Q16 (people at one employer), which share the shape.
+8. **Freshness:** after adding a journal day that matches a subject, the check reports `stale` with
    `new_documents: 1` and the cell; an incremental refresh makes one map call plus the reduces for that subject.
 
 brain01 plans, pages and grades stay in the vault or the scratchpad; only counts reach the repo.
@@ -330,6 +367,8 @@ brain01 plans, pages and grades stay in the vault or the scratchpad; only counts
    explicit yes → build → run the plan). Measure §11.3, 11.5, 11.6.
 4. Part E: freshness check, incremental refresh, background schedule, Topics tab. Measure §11.7.
 5. Part G: the `traces compare` flag.
+6. Members (§6.4): discovery in the dry run, member subjects, plan fields, new-candidate freshness, the
+   build skill's choose step. Measure §11.7.
 
 ## 13. Risks and open questions
 
