@@ -202,6 +202,9 @@ DOMAIN_TOPIC_PLANS_DIR = ARTMIND_HOME / "domains" / "topic_plans"
 # <domain>.meta.yaml per domain, user-authored and committed; never seeded. Generated
 # files (e.g. the mart's <domain>.mart.meta.yaml) sit beside it and are merged per call.
 DOMAIN_METADATA_DIR = ARTMIND_HOME / "domains" / "metadata"
+# The mart (spec 2026-11-10-mart-design §5): one <domain>.yaml declaration per domain,
+# versioned like views. Committed with the vault; never seeded.
+DOMAIN_MART_DIR = ARTMIND_HOME / "domains" / "mart"
 
 # Insights tuning (spec 2026-10-17 §4.3): one <domain>.yaml per domain. User
 # data like views -- never seeded -- and outside schemas/ so tuning a detector
