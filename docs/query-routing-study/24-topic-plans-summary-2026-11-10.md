@@ -27,14 +27,12 @@ cell slots (map calls), not distinct documents; the page nests child domains as 
 | 4 Page text, Q08 | 3 / 7 must found |
 | 5 Banking Q15 | gather 5 / 5 key documents; run 4 / 5 (5 / 5 per subject); agent with plan 3 / 6 missed (= best baseline) |
 | 6 The offer, Q08 without a plan | not met: 2 reruns reported match counts but made no offer (rule sharpened once) |
-| 7 Members, Q05 (no LLM) | 94 candidates hold 6 of 8 expected places; gather 9 / 16 visits (discovered members), 13 / 16 (all) — target ≥ 14 not met |
-| 8 Freshness | hermetic tests only; live check reports `fresh` on both plans |
+| 7 Members, Q05 | 94 candidates hold 6 of 8 expected places. With the 19 members kept (16 from discovery, 3 added): gather 16 / 16 visits; agent with the plan **correct**, 0 must missed (baselines 3–7). Q11 / Q16 discovery: 2 of 3 and 6 of 6 named must members among the candidates |
+| 8 Freshness | live, a synthetic test day: `stale`, `new_documents: 1`, one grown cell; refresh 2 map + 3 reduce (spec expected 1 map: the vector leg also ranked the day into the second subject's cell), then `fresh` |
 
 ## What is left
 
-- Measurements that need an LLM build or a new note in brain01 (waiting on a yes): the Q05 members plan, its
-  plan run and a Q05 rerun with the plan; Q11 and Q16 (same shape); §11 freshness live (add a matching journal
-  day, expect `stale`, `new_documents: 1`, one map call plus that subject's reduces).
+- The synthetic test day `2026-11-11.md` is still in brain01 (ingested); remove it and re-sync when wanted.
 - The offer rule does not fire; it needs a different trigger than skill wording (e.g. making `coverage` part of
   the "Read every result" checklist), decided with the user.
 - Keyword counts drive cell depth and undercount entries that use other words (§13): Q08 and Q05 both stop

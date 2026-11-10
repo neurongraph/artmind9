@@ -325,3 +325,13 @@ Spec `2026-11-10-topic-breadth-design.md`, steps 1–6. Counts only; plans, page
   expected places besides the anchor city; the gather covers 9 of 16 dated visits with the 5 discovered members
   and 13 of 16 with all 8 (target ≥ 14 not met; the 3 misses are follow-on days that do not name the place).
 - The `:TopicPage` graph copy is dropped in both graphs (banking: 5 nodes); pages no longer reach agents.
+
+Follow-up runs the same day (brain01, approved):
+
+| Measure | Result |
+|---|---|
+| Members plan, Q05 (19 members: 16 kept from 94 candidates, 3 added) | gather 16 of 16 dated visits (108 documents, 170 LLM calls); plan run first page 8 of 16 in 34 of 108 rows |
+| Agent with the members plan, Q05 | **correct**, 0 of 9 must missed, no must-not (baselines miss 3–7, each with a must-not) |
+| Discovery, Q11 (4 anchors, ORGANIZATION) | 60 candidates: 2 of the 3 non-anchor must clients, 7 of 20 optional |
+| Discovery, Q16 (1 anchor, PERSON) | 171 candidates: 6 of 6 must people, 9 of 10 optional |
+| Freshness, a synthetic test day added for Q08 | `stale`, `new_documents: 1`, one grown cell; refresh 2 map + 3 reduce calls (the vector leg ranked the day into the second subject's cell too), then `fresh` |
