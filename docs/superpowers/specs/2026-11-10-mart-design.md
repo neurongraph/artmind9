@@ -1,6 +1,6 @@
 # The mart: facts, dimensions and wholes over the corpus
 
-Date: 2026-11-10. Status: **design agreed in brainstorming, written for review**. Parent spec:
+Date: 2026-11-10. Status: **approved 2026-11-10** (storage details corrected to the structured store's real layout). Parent spec:
 `2026-11-08-classic-baseline-and-skill-simplification-design.md` (work plan §0.1; this replaces item D's
 "composites (episode)" framing). Related: `2026-11-10-topic-breadth-design.md` (topic plans, breadth over text);
 `2026-11-07-structured-table-relationships-and-sql-retrieval-design.md` (on `master` / `sql-browser-enhancement`:
@@ -156,8 +156,9 @@ No gazetteer in v1; the country level comes from the LLM (on brain01, about 60 c
 
 ### 6.3 Records (the durable source of truth)
 
-`.artmind/data/curation/dimensions/<domain>.jsonl`, one line per decision: dimension, member key, level values,
-source (`user` | `rule` | `seed` | `llm`), confidence, model, decided_at. `calendar/<domain>.jsonl` holds named
+`CURATION_DIR/mart_dimension/<id>.json` (`artmind/curation_records.py`, one JSON file per decision, committed),
+holding: dimension, member key, level values,
+source (`user` | `rule` | `seed` | `llm`), confidence, model, decided_at. `CURATION_DIR/mart_calendar/<id>.json` holds named
 periods per year (from the user, or proposed by `enrich` from `celebration` events whose names carry a period
 name, then reviewed). Records travel with the vault like `same_as.yaml`; a member merged by same-as follows its
 canonical key. The mart tables are derived from them and can be dropped at any time; `projection rebuild` never
@@ -170,14 +171,17 @@ calls the LLM, it replays the records.
 
 ## 7. Facts, bridges and wholes
 
-One schema per domain in the structured store (`mart` inside the domain's DuckDB file; see §9.2 for the fallback).
+Tables in the structured store as the store already works: one parquet file per table under
+`STRUCTURED_DIR/<domain>/mart_<table>.parquet`, registered in the registry (`structured/registry.register_table`,
+`source_file = "mart:<domain>"`) and exposed as the DuckDB view `<domain>__mart_<table>` by `ensure_views`. The
+store has no DuckDB schemas; the `mart_` prefix is the namespace.
 
 | Table | Grain | Columns beyond keys |
 |---|---|---|
 | `fact_happening` | one occurrent entity | name, class, date, type, type_family, place_key, home_away, outcome, first/last mention date, mention count |
 | `fact_mention` | one observation of a declared class | entity_key, class, date, type, type_family, place_key, home_away, doc_id, chunk_id, source sentence |
-| `bridge_person` | fact × person | person_key, role from the edge (participant, affected, witness, with) |
-| `bridge_place` | fact × place | place_key, role (occurs at, visits, went to) |
+| `bridge_person` | happening entity × person (joins both fact tables by `entity_key`) | person_key, role from the edge (participant, affected, witness, with) |
+| `bridge_place` | happening entity × place (joins both fact tables by `entity_key`) | place_key, role (occurs at, visits, went to) |
 | `dim_time`, `dim_person`, `dim_place`, `dim_type` | one member | level columns and attributes (§6.1) |
 | `whole_<kind>` | one whole | whole_id, start, end, days, member count, places, countries, participants |
 | `fact_whole` | whole × fact | kind, whole_id, entity_key, role |
@@ -198,7 +202,8 @@ LLM confirmation of groups (the archived design's step) is left out until measur
 
 ## 8. Build and freshness
 
-- `mart build` builds into a temporary schema and swaps it in when complete, then writes the generated metadata
+- `mart build` writes every table's parquet to a temporary file, renames them all into place when every table is
+  written, then upserts the registry rows, then writes the generated metadata
   (§9.1). It runs automatically at the end of `projection rebuild` and `vault sync` (after the passage sweep) for
   domains with a declaration. Tier-1 `--dryRun`: rows per table, members without a record (`run artmind mart
   enrich`), whole counts.
@@ -226,8 +231,8 @@ reads them (authored wins), unless `sql-browser` accepts several metadata files.
 - **Mart first:** `db schema` / `db sql` and today's `text2sql` work on the mart tables; the generated metadata is
   data waiting for the enhancement.
 - **Enhancement first:** the mart writes the enhancement's format exactly and is validated by its validator; mart
-  tables sit in the domain's DuckDB file under schema `mart` (checked early that `sql-browser`'s introspection and
-  `qualify()` handle a second schema; otherwise prefixed names `mart_<table>` in the main schema). The enhancement's
+  tables are ordinary registered tables named `<domain>__mart_<table>`, which the enhancement introspects like any
+  other (no second DuckDB schema). The enhancement's
   artmind layer (its Task B4, citations) also keeps the evidence columns, including under its automatic `LIMIT`.
 - The two branches meet by merge (`master` / `sql-browser-enhancement` and `baseline/v0.11-classic`); the user
   decides when.
