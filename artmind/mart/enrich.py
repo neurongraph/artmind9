@@ -7,7 +7,9 @@ from artmind.mart import records, rules, words
 
 
 def _undecided(existing, dimension, key):
-    return (dimension, key) not in existing
+    """Rules and seeds are recomputed on every run (deterministic); user and LLM records stay."""
+    rec = existing.get((dimension, key))
+    return rec is None or rec.get("source") in ("rule", "seed")
 
 
 def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int | None = None) -> dict:
@@ -30,10 +32,13 @@ def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int 
                 records.put_dimension(decl.domain, "person", m["key"], levels, source="rule", confidence=1.0)
         else:
             pending.append({"dimension": "person", **m})
-    for m in mart_graph.members(domains, decl.place.entity_class):
+    places = mart_graph.members(domains, decl.place.entity_class)
+    seeded = {m["key"]: rules.decide_place(m["props"] or {}, decl.place.seed_property) for m in places}
+    seeded = rules.chain_places(seeded, {m["key"]: (m["props"] or {}).get("name") for m in places})
+    for m in places:
         if not _undecided(existing, "place", m["key"]):
             continue
-        levels = rules.decide_place(m["props"] or {}, decl.place.seed_property)
+        levels = seeded.get(m["key"])
         if levels:
             note("place", "seed")
             if not dry_run:

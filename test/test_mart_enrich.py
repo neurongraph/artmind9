@@ -32,3 +32,12 @@ def test_real_run_writes_rule_and_seed_records(monkeypatch):
     enrich.enrich(DECL, ["j"], dry_run=False, use_llm=False)
     sources = sorted(k["source"] for _, k in written)
     assert sources == ["rule", "rule", "seed"]
+
+
+def test_rule_records_are_recomputed_but_llm_records_stay(monkeypatch):
+    written = []
+    _fake(monkeypatch, written)
+    monkeypatch.setattr(enrich.records, "load_dimensions", lambda d, **k: {
+        ("person", "a|PERSON|j"): {"source": "rule"}, ("place", "d|LOCATION|j"): {"source": "llm"}})
+    plan = enrich.enrich(DECL, ["j"], dry_run=True, use_llm=False)
+    assert plan["decided"]["person"] == {"rule": 1} and plan["undecided"].get("place", 0) == 0

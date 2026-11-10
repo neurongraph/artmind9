@@ -38,3 +38,12 @@ def test_home_away():
     assert rules.home_away({"city": "Elsewhere"}, "Hometown") == "away"
     assert rules.home_away({}, "Hometown") is None
     assert rules.home_away({"city": "X"}, None) == "away"
+
+
+def test_chain_places_turns_a_parent_locality_into_locality_and_city():
+    seeded = {"cafe": {"venue": "Cafe", "city": "Uptown"}, "uptown": {"venue": "Uptown", "city": "Metro"},
+              "metro": {"city": "Metro"}}
+    names = {"cafe": "Cafe", "uptown": "Uptown", "metro": "Metro"}
+    out = rules.chain_places(seeded, names)
+    assert out["cafe"] == {"venue": "Cafe", "locality": "Uptown", "city": "Metro"}
+    assert out["uptown"] == {"venue": "Uptown", "city": "Metro"} and out["metro"] == {"city": "Metro"}

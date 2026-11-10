@@ -54,3 +54,19 @@ def home_away(place_levels: dict, home_city: str | None) -> str | None:
     if not home_city:
         return "away"
     return "home" if city.strip().lower() == home_city.strip().lower() else "away"
+
+
+def chain_places(seeded: dict, names: dict) -> dict:
+    """Second seed pass: a place whose parent `city` is itself a place with a parent city of
+    its own is in a locality of that city (venue -> locality -> city)."""
+    by_name = {str(n).strip().lower(): k for k, n in names.items() if n}
+    out = dict(seeded)
+    for key, levels in seeded.items():
+        if not levels or "venue" not in levels:
+            continue
+        parent_key = by_name.get(str(levels.get("city") or "").strip().lower())
+        parent = seeded.get(parent_key) if parent_key and parent_key != key else None
+        if parent and parent.get("venue") and parent.get("city") and \
+                parent["city"].strip().lower() != str(levels["city"]).strip().lower():
+            out[key] = {"venue": levels["venue"], "locality": levels["city"], "city": parent["city"]}
+    return out

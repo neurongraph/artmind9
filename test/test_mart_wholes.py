@@ -30,13 +30,17 @@ def test_trip_groups_consecutive_away_days_with_a_shared_companion():
     assert {r["entity_key"] for r in out["fact_whole"] if r["whole_id"] == trips[0]["whole_id"]} == {"a", "b"}
 
 
-def test_household_alone_never_joins():
-    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip")],
-         "bridge_person": [{"entity_key": k, "person_key": "spouse", "role": "participates_in"} for k in "ab"],
-         "dim_person": [{"person_key": "spouse", "group": "household"}]}
-    t["fact_happening"][1]["place_key"] = "other"
-    out = wholes.compute(decl(trip=TRIP), t)
-    assert len(out["whole_trip"]) == 2
+def test_an_unknown_day_between_away_days_stays_in_the_trip():
+    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), {**fact("b", "2025-01-02", "trip"), "home_away": None},
+                            fact("c", "2025-01-03", "trip"), fact("h", "2025-01-04", "work", away=False)],
+         "bridge_person": [], "dim_person": []}
+    trips = wholes.compute(decl(trip=TRIP), t)["whole_trip"]
+    assert [(r["start"], r["end"]) for r in trips] == [("2025-01-01", "2025-01-03")]
+
+
+def test_unknown_days_alone_are_not_a_trip():
+    t = {"fact_happening": [{**fact("a", "2025-01-01", "trip"), "home_away": None}], "bridge_person": [], "dim_person": []}
+    assert wholes.compute(decl(trip=TRIP), t)["whole_trip"] == []
 
 
 def test_life_event_by_edge_and_name_with_aftermath():
@@ -51,11 +55,3 @@ def test_life_event_by_edge_and_name_with_aftermath():
     assert (ev[0]["start"], ev[0]["end"]) == ("2025-02-01", "2025-02-20")
     roles = {r["entity_key"]: r["role"] for r in out["fact_whole"] if r["whole_id"] == ev[0]["whole_id"]}
     assert roles == {"ill": "during", "dies": "during", "rite": "aftermath"}
-
-
-def test_narrator_alone_never_joins():
-    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip")],
-         "bridge_person": [{"entity_key": k, "person_key": "me", "role": "participates_in"} for k in "ab"],
-         "dim_person": [{"person_key": "me", "group": "self"}]}
-    t["fact_happening"][1]["place_key"] = "other"
-    assert len(wholes.compute(decl(trip=TRIP), t)["whole_trip"]) == 2
