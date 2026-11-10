@@ -1,6 +1,6 @@
 # Topic plans for breadth: coverage, saved plans, faceted gather, freshness
 
-Date: 2026-11-10 (revised the same day after review). Status: **design for review**. Parent spec:
+Date: 2026-11-10 (revised twice the same day after review: plan-only agents; plans shaped like views, no graph copy of pages). Status: **design for review**. Parent spec:
 `2026-11-08-classic-baseline-and-skill-simplification-design.md` (work plan §0.1 item D0). Builds on topic pages
 from `2026-11-01-summaries-survey-topics-design.md` §3. Public checkout: counts, ids and generic examples only;
 brain01 questions are named by id, never by content.
@@ -94,7 +94,9 @@ catalogue and reported by orient (§9.2).
 
 ### 5.1 What a plan holds
 
-`<vault>/.artmind/domains/topic_plans/<slug>.yaml` (beside `views/`; committed with the vault; never seeded):
+`<vault>/.artmind/domains/topic_plans/<slug>/{plan.yaml,SKILL.md}`, the same shape as a saved view
+(`domains/views/<name>/{view.yaml,SKILL.md}`): committed with the vault, read from disk on every call, never
+seeded by `setup`. `plan.yaml`:
 
 ```yaml
 format: 1
@@ -117,12 +119,18 @@ built:                          # the last build, for freshness (§8)
 refresh: manual                 # manual | on_stale | weekly
 ```
 
+`SKILL.md` is the agent guidance, as for a view: when the plan applies, which subject answers which kind of
+question, what it does not cover. `topic build` writes a first version from the topic and subjects (no LLM);
+the operator edits it. As with views, a changed `plan.yaml` or `SKILL.md` without a `version` bump is refused,
+and so is a version downgrade; saves are atomic. `artmind topic plan validate <slug>` checks both files (the
+`views validate` counterpart).
+
 The plan holds no corpus text, but its subjects are written in the user's words (for brain01, private: the
 plan stays in the vault, like views and dossiers).
 
 ### 5.2 Commands (read-only, proxied, traced)
 
-- `artmind query topics plan <slug>`: the plan, its freshness (§8) and, per cell, `matching` at build vs now.
+- `artmind query topics plan <slug>`: the plan, its `SKILL.md`, its freshness (§8) and, per cell, `matching` at build vs now.
 - `artmind query topics plan --list [--domain d]`: every plan in scope (slug, topic, subjects, freshness).
 - `artmind query topics run <slug> [--subject N] [--cell <period|domain>] [--shape brief]`: runs the plan's
   surveys **live** with the plan's domains, subjects, slices and depth; returns brief rows grouped by cell under the
@@ -131,6 +139,12 @@ plan stays in the vault, like views and dossiers).
 - `query topics list|show` (pages) are removed from the agent's surfaces: the query skill no longer names them,
   and `survey`'s `topics` block (pages citing returned documents) is dropped. The page files stay for people;
   `assets` lists plans, not pages.
+- **The graph copy of pages goes.** `:TopicPage` nodes (with `CITES`, `CITES_PASSAGE`, `ABOUT`, the embedding,
+  `topic_embedding` / `topic_text_ft` and the slug constraint) existed only so that `survey`'s `topics` block and
+  `assets` could find pages; with plan-only agents nothing reads them. Removed: `artmind/topics/index.py`, `artmind
+  topic index`, its sweeps in `vault sync` and `projection rebuild --sweep`, the index/unindex calls after `topic
+  build|refresh|delete`, the constraint and indexes in `setup` (a migration drops existing nodes and indexes), and
+  their tests. The admin console's Topics tab reads the page files and the plans from disk.
 
 ### 5.3 How the agent uses a plan
 
@@ -211,8 +225,8 @@ run` uses the same function, so the agent sees what the build saw.
   claim that carries a date); `## Where sources differ`. The page's frontmatter repeats the plan's `built` block.
   `check` is unchanged.
 
-The page is written to `<vault>/_Topics/<slug>.md` (still `NEVER_INGESTED`) and is not indexed for agents
-(§5.2); `:TopicPage` nodes remain only if `assets`/people-facing tooling needs them (open question §12).
+The page is written to `<vault>/_Topics/<slug>.md` (still `NEVER_INGESTED`), never mirrored into the graph
+(§5.2); the plan's folder is written beside it in the same build.
 
 ## 8. Part E — freshness and refresh
 
@@ -307,8 +321,8 @@ brain01 plans, pages and grades stay in the vault or the scratchpad; only counts
 
 ## 12. Order of work
 
-1. Part A (`coverage`) and the plan file format + `query topics plan|run` (§5), with tests on the parameters
-   sent; runs live.
+1. Part A (`coverage`) and the plan folder format + `query topics plan|run` + `topic plan validate` (§5), with
+   tests on the parameters sent; runs live. Remove the `:TopicPage` graph copy (§5.2) with its migration.
 2. Part C–D: the grid, faceted gather, dry run, concurrency, map cache, facet reduce; `topic build` writes plan +
    page. Measure §11.1–11.2, 11.4.
 3. Agent surfaces: the skill rule (§5.3), page surfaces removed (§5.2), orient `levels` (§9.2), suggested subjects
@@ -325,5 +339,4 @@ brain01 plans, pages and grades stay in the vault or the scratchpad; only counts
   each cell, but the grid's counts can understate a subject described in other words.
 - **Plan output vs budget**: Q08's grid is 144 documents; `topics run` must page well (brief rows, per-cell runs).
   §11.2 measures what fits.
-- **Open:** keep `:TopicPage` nodes and their index for the people-facing Topics tab, or derive the tab from files.
 - **Open:** month slices inside a long dated span when a subject is dense in most years.
