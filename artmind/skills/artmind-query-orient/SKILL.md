@@ -41,7 +41,10 @@ question against what it says.
 5. Orient again only when the user moves to a new area. A part named in `warnings` was not
    read: never treat it as empty. `null` means declared absent (no narrator, no snapshot).
 6. `next` and `cuts[].rest` are facts about this result; follow them when they serve the
-   question.
+   question. `next` lists the commands that act on this result first (`; `-separated):
+   when a result says `hub: true` or `complete: false` and the question asks "which",
+   "how many" or "every", run the first `next` before answering — do not count from the
+   shown rows.
 
 ## Running commands
 
