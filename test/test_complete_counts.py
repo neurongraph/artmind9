@@ -218,6 +218,43 @@ def test_pattern8_mentions_aggregates_across_anchors_in_cypher():
     assert "collect(t) AS anchors" in cypher and "UNWIND anchors AS t" in cypher
     assert "NOT e IN anchors" in cypher and "a IN anchors" in cypher
     assert "chunk_ids" in cypher and "documents_total" in cypher and "[0..5]" in cypher
+    assert "NOT e IN anchors" in cypher
+
+
+def test_pattern8_mentions_pages_before_collecting_per_row_lists():
+    cypher, _ = gq._pattern_query(
+        "pattern8", {"domains": ["d"], "entityClass": "PERSON", "entityName": "Sam", "via": "mentions"})
+    assert "[0..5000]" in cypher
+    head, tail = cypher.split("LIMIT $limit", 1)[0], cypher
+    page_at = cypher.index("SKIP $offset")
+    # chunk / document lists are built only after paging, per row
+    assert cypher.index("CALL (e, chunkSet)") > page_at
+    assert "collect(c.id)" not in cypher[:page_at] and "collect(DISTINCT d.name)" not in cypher[:page_at]
+
+
+def test_pattern8_mentions_chunk_cap_marks_incomplete(monkeypatch):
+    row = {**_mention_row(0, 1, False), "_chunksTotal": 7000}
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(row)])
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions"])
+    assert out["complete"] is False
+    assert "anchor appears in 7000 chunks; listed co-mentions from the first 5000" in out["warnings"]
+    assert "_chunksTotal" not in out["rows"][0]
+    row["_chunksTotal"] = 5000
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions"])
+    assert out["complete"] is True
+
+
+def test_pattern8_mentions_memory_error_is_clean_failure(monkeypatch):
+    from neo4j.exceptions import TransientError
+
+    def boom(c, p):
+        raise TransientError("Neo.TransientError.General.MemoryPoolOutOfMemoryError: pool exhausted")
+
+    monkeypatch.setattr(gq, "_run_read_query", boom)
+    r = CliRunner().invoke(cli, ["query", "graph", "pattern8", "--domain", "d", "--entityClass", "PERSON",
+                                 "--entityId", "x1", "--via", "mentions"])
+    assert r.exit_code == 1 and "too many mentions to list in one query" in r.output
+    assert "Traceback" not in r.output
 
 
 def test_pattern8_mentions_multi_anchor_warns(monkeypatch):
@@ -257,7 +294,7 @@ def test_pattern8_mentions_cypher_shape():
     assert "(c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:PERSON)" in cypher
     assert "NOT e IN anchors" in cypher
     assert "EXISTS { MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors } AS linked" in cypher
-    assert "size(chunks) AS shared_chunks" in cypher
+    assert "count(DISTINCT c) AS shared" in cypher
     assert "ORDER BY linked DESC, shared_chunks DESC, e.name, e._id" in cypher
     assert "SKIP $offset" in cypher and "LIMIT $limit" in cypher and "_rowsTotal" in cypher
     assert params["entityId"] == "x1" and params["offset"] == 0

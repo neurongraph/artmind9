@@ -4,8 +4,9 @@ from contextlib import contextmanager
 from datetime import date
 from typing import Any, Sequence
 
+import click
 from neo4j import READ_ACCESS, GraphDatabase, NotificationMinimumSeverity
-from neo4j.exceptions import ClientError
+from neo4j.exceptions import ClientError, TransientError
 from neo4j.graph import Node, Path, Relationship
 
 from utils.functions import load_env
@@ -230,6 +231,8 @@ PATTERN4_MAX_LIST_ITEMS = 10
 # -- unbounded for a hub. Pattern10 returns one row per chunk in a document
 # -- unbounded for a long document. Both get a LIMIT with an exact
 # `rows_total` (see the `_rowsTotal` sentinel execute_pattern lifts out).
+#: `pattern8 --via mentions` lists co-mentions from at most this many of the anchor's chunks.
+PATTERN8_MENTIONS_CHUNK_CAP = 5000
 PATTERN8_DEFAULT_LIMIT = 50
 #: `pattern8 --all` stops paging at this many rows (`complete` is then false).
 ALL_CAP = 2000
@@ -1025,37 +1028,47 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             CALL (anchors) {{
               UNWIND anchors AS t
               MATCH (t)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+              WITH DISTINCT c
+              RETURN collect(c) AS allChunks
+            }}
+            WITH anchors, allChunks[0..{PATTERN8_MENTIONS_CHUNK_CAP}] AS chunkSet, size(allChunks) AS chunksTotal
+            CALL (anchors, chunkSet) {{
+              UNWIND chunkSet AS c
               MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:{label})
               WHERE NOT e IN anchors
                 AND {domain_predicate("e")}
-              OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
-              RETURN e, collect(DISTINCT c.id) AS chunks, collect(DISTINCT d.name) AS docs
+              WITH e, count(DISTINCT c) AS shared
+              RETURN collect({{e: e, shared: shared}}) AS found
             }}
-            WITH anchors, collect({{e: e, chunks: chunks, docs: docs}}) AS found
-            WITH anchors, found, size(found) AS total
+            WITH anchors, chunkSet, chunksTotal, found, size(found) AS total
             UNWIND found AS f
-            WITH anchors, total, f.e AS e, f.chunks AS chunks, f.docs AS docs
-            CALL (chunks) {{
-              UNWIND chunks AS x
-              WITH x ORDER BY x
-              RETURN collect(x)[0..5] AS chunk_ids
-            }}
-            CALL (docs) {{
-              UNWIND docs AS x
-              WITH x ORDER BY x
-              RETURN collect(x)[0..5] AS documents
-            }}
-            RETURN e {{.*, label: labels(e)}} AS entityData,
-                   EXISTS {{ MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors }} AS linked,
-                   size(chunks) AS shared_chunks,
-                   chunk_ids,
-                   documents,
-                   size(docs) AS documents_total,
-                   size(anchors) AS _anchors,
-                   total AS _rowsTotal
+            WITH anchors, chunkSet, chunksTotal, total, f.e AS e, f.shared AS shared_chunks
+            WITH anchors, chunkSet, chunksTotal, total, e, shared_chunks,
+                 EXISTS {{ MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors }} AS linked
             ORDER BY linked DESC, shared_chunks DESC, e.name, e._id
             SKIP $offset
             LIMIT $limit
+            CALL (e, chunkSet) {{
+              MATCH (e)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+              WHERE c IN chunkSet
+              OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+              WITH collect(DISTINCT c.id) AS cids, collect(DISTINCT d.name) AS dnames
+              CALL (cids) {{
+                UNWIND cids AS x
+                WITH x ORDER BY x
+                RETURN collect(x)[0..5] AS chunk_ids
+              }}
+              CALL (dnames) {{
+                UNWIND dnames AS x
+                WITH x ORDER BY x
+                RETURN collect(x)[0..5] AS documents
+              }}
+              RETURN chunk_ids, documents, size(dnames) AS documents_total
+            }}
+            RETURN e {{.*, label: labels(e)}} AS entityData,
+                   linked, shared_chunks, chunk_ids, documents, documents_total,
+                   size(anchors) AS _anchors, chunksTotal AS _chunksTotal, total AS _rowsTotal
+            ORDER BY linked DESC, shared_chunks DESC, e.name, e._id
             """,
                 cypher_params,
             )
@@ -1212,7 +1225,16 @@ def execute_pattern(
         for key, value in params.items()
         if key != "domains" and value is not None
     }
-    rows = strip_internal_props(_run_read_query(cypher, cypher_params))
+    try:
+        raw_rows = _run_read_query(cypher, cypher_params)
+    except TransientError as exc:
+        if "Memory" in str(exc) or "memory" in str(exc):
+            raise click.ClickException(
+                "the anchor has too many mentions to list in one query; narrow with --entityClass "
+                "or use entity-context"
+            ) from exc
+        raise
+    rows = strip_internal_props(raw_rows)
     # pattern8/pattern10 ride an exact total count along on every row (as
     # `_rowsTotal`, computed in the same Cypher pass as the capped rows, so
     # getting it costs no second full fetch) -- lifted here to a top-level
@@ -1220,11 +1242,14 @@ def execute_pattern(
     rows_total = None
     raw_hits = None
     anchors_matched = None
+    chunks_total = None
     for row in rows:
         if isinstance(row, dict) and "_rowsTotal" in row:
             rows_total = row.pop("_rowsTotal")
         if isinstance(row, dict) and "_rawHits" in row:
             raw_hits = row.pop("_rawHits")
+        if isinstance(row, dict) and "_chunksTotal" in row:
+            chunks_total = row.pop("_chunksTotal")
         if isinstance(row, dict) and "_anchors" in row:
             anchors_matched = row.pop("_anchors")
     if pattern == "pattern1" and rows_total is None:
@@ -1280,6 +1305,13 @@ def execute_pattern(
                 *(result.get("warnings") or []),
                 f"pattern7 matched more than {PATTERN7_COUNT_CAP} entities; narrow --searchTerm or --domain",
             ]
+    if chunks_total is not None and chunks_total > PATTERN8_MENTIONS_CHUNK_CAP:
+        result["complete"] = False
+        result["warnings"] = [
+            *(result.get("warnings") or []),
+            f"anchor appears in {chunks_total} chunks; listed co-mentions from the first "
+            f"{PATTERN8_MENTIONS_CHUNK_CAP}",
+        ]
     if pattern == "pattern8" and anchors_matched and anchors_matched > 1 and not params.get("entityId"):
         result["warnings"] = [
             *(result.get("warnings") or []),
