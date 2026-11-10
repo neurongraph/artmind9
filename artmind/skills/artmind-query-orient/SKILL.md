@@ -307,7 +307,7 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
 | Search entities by name/description fragment | `artmind query graph pattern7 --shape brief --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
-| Entities of class X connected to entity Y ("CLASS connected to ENTITY") | `artmind query graph pattern8 --entityClass CLASS --entityId <id> --all` |
+| Entities of class X connected to entity Y ("CLASS connected to ENTITY") | `artmind query graph pattern8 --entityClass CLASS --entityId <id> --all` (add `--via mentions` for everyone named alongside it) |
 | All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>" [--limit N] [--offset N]` — add `--includeHistory` for retired/superseded versions; zero rows with `history_matches` means only a retired version matches |
 | Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dryRun` first to inspect the Cypher, then run it without `--dryRun` (a dry run executes nothing and returns no rows); rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
 
@@ -339,7 +339,7 @@ Routing notes:
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
   --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
-- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. A set taken from an entity's graph links ("which X did Y …", "how many X …") can miss members extraction never linked: before giving a total, also search for the class by name or description (`pattern7` on the class word, or `survey`) and add any member the text ties to Y.
+- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows are certain; `linked: false` rows were only named in the same notes, so confirm each from the text (`chunks` / `vector-text`) before counting it.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
   "get the next page" — rephrase the question to be more selective (name the entity/date
