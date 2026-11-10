@@ -57,18 +57,18 @@ def _invoke(row, *extra):
 def test_cli_thin_and_cut_joined():
     out = _invoke(_row(chunks_total=1, chunks=[{"id": "c1"}], connections_total=40))
     assert out["next"] == (
-        "artmind query chunks --shape brief --idList c1 --expand 1 --compact; "
-        "artmind query graph pattern8 --domain bank --entityId e1 --entityClass <CLASS> --via mentions --all --shape brief --compact"
+        "artmind query graph pattern8 --domain bank --entityId e1 --entityClass <CLASS> --via mentions --all --shape brief --compact; "
+        "artmind query chunks --shape brief --idList c1 --expand 1 --compact"
     )
 
 
-def test_cli_keeps_existing_next_first():
+def test_cli_puts_result_signposts_before_the_generic_shape_hint():
     payload = {"rows": [_row(chunks_total=1, chunks=[{"id": "c1"}])], "next": "rerun with --shape full"}
     with patch("artmind.cli.graph_query.entity_context", return_value=payload):
         res = CliRunner().invoke(cli, ["query", "entity-context", "--domain", "bank",
                                        "--entityId", "e1", "--compact"])
     assert json.loads(res.stdout)["next"] == (
-        "rerun with --shape full; artmind query chunks --shape brief --idList c1 --expand 1 --compact"
+        "artmind query chunks --shape brief --idList c1 --expand 1 --compact; rerun with --shape full"
     )
 
 

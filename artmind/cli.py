@@ -3935,11 +3935,13 @@ def query_entity_context(
     if warnings:
         result["warnings"] = [*(result.get("warnings") or []), *warnings]
     if len(rows) == 1:
+        # Signposts that act on this result come first; the generic shape hint the
+        # backend sets ("rerun with --shape full") goes last, so it is not read first.
         extra = hints.join_next(
-            hints.entity_context_thin(rows[0], domains),
             hints.entity_context_cut(rows[0], domains, max_connections),
+            hints.entity_context_thin(rows[0], domains),
         )
-        result["next"] = hints.join_next(result.get("next"), extra)
+        result["next"] = hints.join_next(extra, result.get("next"))
     _echo_json(result, compact)
 
 
