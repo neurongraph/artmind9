@@ -302,3 +302,26 @@ cpd-r057 … r060 match no benchmark question and stay. Must-item rates without 
 
 The banking floor on the clean set is 64 % (was 67 % over 36). Run J should re-run the baselines with the pages
 gone, or gate banking on the clean 30-question set. brain01 has no topic pages.
+
+## Topic plans for breadth (2026-11-10, code at `5f80e4b8`)
+
+Spec `2026-11-10-topic-breadth-design.md`, steps 1–6. Counts only; plans, pages and grades stay in the vaults.
+"With plan" runs are not like-for-like baseline comparisons: the plan was built in the vault before the rerun.
+
+| Measure (§11) | brain01 Q08 | banking Q15 |
+|---|---|---|
+| Gather, default grid, no LLM | 16 of 22 dated events (68 documents; target ≥ 19 not met) | 5 of 5 key documents (51 documents, 8 child-domain cells) |
+| Plan run under the 24k output budget | 10 of 22 events in 37 of 68 rows (rest via `query page`) | 4 of 5 key documents; 5 of 5 over per-subject runs |
+| Agent with the plan, Sonnet grade | partial, 3 of 7 must missed (run I 5; baselines 6–7) | partial, 3 of 6 missed (baselines 3–6) |
+| Page text alone, Sonnet grade | 3 of 7 found | not graded (150k characters, above the 40k ceiling) |
+| No plan: the offer | absent in 2 reruns (counts reported, no offer) | — |
+| Build cost | 71 map + 3 reduce calls | 150 map + 41 reduce; refresh: 0 map, 40 reduce |
+
+- Q08's gather misses are journal entries that do not use the subjects' words (§13 keyword undercount). Keyword
+  counts depend on wording: one-word subjects matched 23 documents, question-style subjects nearly all of them.
+- `query topics run` orders rows by rank across cells so a budget cut keeps every cell's top documents; that kept
+  the account-closure SOP visible in Q15 (it was cut when rows were grouped by cell) and cost Q08 two events.
+- Members (§6.4), brain01 Q05, no LLM: discovery from three anchors lists 94 candidates holding 6 of the 8
+  expected places besides the anchor city; the gather covers 9 of 16 dated visits with the 5 discovered members
+  and 13 of 16 with all 8 (target ≥ 14 not met; the 3 misses are follow-on days that do not name the place).
+- The `:TopicPage` graph copy is dropped in both graphs (banking: 5 nodes); pages no longer reach agents.
