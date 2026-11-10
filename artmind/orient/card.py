@@ -73,6 +73,12 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
         c["stores"] = _stores(cat.stores, tables_here)
     else:
         _missing(warnings, d, "stores")
+    mart_rows = [r for r in (tables_here or []) if str(r.get("table", "")).startswith("mart_")]
+    if mart_rows:  # the mart's tables fold into one line (spec 2026-11-10-mart-design §9.3)
+        rows = {r["table"][len("mart_"):]: r.get("row_count") for r in mart_rows}
+        c["mart"] = {"facts": rows.get("fact_happening"), "mentions": rows.get("fact_mention"),
+                     "wholes": {k[len("whole_"):]: v for k, v in sorted(rows.items()) if k.startswith("whole_")}}
+        tables_here = [r for r in tables_here if r not in mart_rows]
     if tables_here:
         c["tables"] = sorted(({"table": r["table"], "rows": r.get("row_count"),
                                "bridge_classes": [e["entity_class"] for e in r.get("entity_classes") or []]}
