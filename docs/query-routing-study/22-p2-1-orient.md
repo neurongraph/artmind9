@@ -278,3 +278,27 @@ Q25 rerun alone (`b1a99a90`, orient variant, Sonnet): partial, 2 must items miss
 judged materially better than A and about equal to D and G. It still omits the version numbers and the
 DOC-AUTH-001 policy-over-SOP rule: the agent's path (`orient → survey → orient → chunks`) did not open the
 authority register — a depth / retrieval issue, not a data one.
+
+## Topic pages built from benchmark questions (banking_corpus, found 2026-11-10)
+
+Ten banking topic pages (`_Topics/cpd-r051` … `cpd-r060`, built 2026-11-01) were built from the survey questions
+in `benchmarking/retrieval_labels.yaml`. Six of those questions are, word for word, benchmark questions:
+cpd-r051 Q01, cpd-r052 Q25, cpd-r053 Q16, cpd-r054 Q17, cpd-r055 Q20, cpd-r056 Q23. A page is never evidence
+(no `:TopicPage` in any retrieval index), but `survey`'s `topics` block lists it as a lead, and a page written
+for the exact question names its sources. Reads: baselines A, D, G and run H each opened the page for Q16, Q23
+and Q25 (two of them also Q01's); run I opened Q17's and Q23's. Banking Q25's correct baseline answer (D) went
+through cpd-r052.
+
+Deleted the six with `artmind topic delete` (vault git keeps them); the topic index agrees (5 pages left).
+cpd-r057 … r060 match no benchmark question and stay. Must-item rates without the six questions (30 questions,
+174 must items, Sonnet, cached grades):
+
+| Run | Must found |
+|---|---|
+| A `61cf661f` | 112 (64 %) |
+| D `15837ded` | 118 (68 %) |
+| G `f03056a8` | 120 (69 %) |
+| I `7fe027c0` | 122 (70 %) |
+
+The banking floor on the clean set is 64 % (was 67 % over 36). Run J should re-run the baselines with the pages
+gone, or gate banking on the clean 30-question set. brain01 has no topic pages.
