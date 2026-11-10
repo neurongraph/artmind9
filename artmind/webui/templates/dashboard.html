@@ -39,6 +39,7 @@
       <button type="button" class="tab" data-tab="cli-guide">CLI guide</button>
       <button type="button" class="tab" data-tab="schemas">Schemas</button>
       <button type="button" class="tab" data-tab="views">Views</button>
+      <button type="button" class="tab" data-tab="topics">Topics</button>
     </div>
 
     <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
@@ -465,6 +466,17 @@
     </section>
     </div>
 
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="topics">
+    <section class="dash-panel dash-zone-wide" id="topics-panel">
+      <h2>Topics</h2>
+      <p class="dash-hint">Topic plans (what agents run) with their freshness, and the topic pages (for people). Build and refresh with the artmind-build-topic skill or <code>artmind topic</code>.</p>
+      <div id="topics-plans" class="ins-grid"></div>
+      <h3>Pages</h3>
+      <div id="topics-pages" class="ins-grid"></div>
+      <div id="topics-detail"></div>
+    </section>
+    </div>
+
 </main>
 
   <aside id="job-drawer" class="drawer" aria-hidden="true">
@@ -486,5 +498,6 @@
   <script src="{{ static_url('mermaid-render.js') }}" data-mermaid-src="{{ static_url('vendor/mermaid.min.js') }}"></script>
   <script src="{{ static_url('insights.js') }}"></script>
   <script src="{{ static_url('views.js') }}"></script>
+  <script src="{{ static_url('topics.js') }}"></script>
 </body>
 </html>

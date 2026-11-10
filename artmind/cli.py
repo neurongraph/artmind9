@@ -4297,7 +4297,11 @@ def _plan_error(exc) -> "click.ClickException":
 @compact_option
 @click.argument("slug", required=False)
 def query_topics_plan(list_all: bool, domain: tuple, compact: bool, slug: "str | None") -> None:
-    """One topic plan: plan.yaml, its SKILL.md and, per cell, `matching` at build vs now."""
+    """One topic plan: plan.yaml, its SKILL.md, its `freshness` and, per cell, `matching` at build vs now.
+
+    `freshness.status` is fresh (no domain generation moved since the build), stale (new
+    matching documents, changed or retired sources, a grown cell, or an edited plan) or
+    unknown (graph unreachable). No LLM."""
     from artmind.topics import plan_store
     from artmind.topics import run as topic_run
     from artmind.topics.plan import PlanError
@@ -4825,6 +4829,24 @@ def _suggest_subjects(topic, domains, session):
     return suggest.suggested_subjects(topic, domains, session)
 
 
+def _stale_slugs(pages) -> list:
+    """Pages to rebuild for `--stale`: a plan's freshness check (spec 2026-11-10 §8.1), else
+    (a page built before plans) its sources' staleness."""
+    from artmind.topics import freshness, plan_store
+
+    plans, _ = plan_store.list_plans()
+    by_slug = {p.spec.slug: p for p in plans}
+    out, legacy = [], []
+    for page in pages:
+        loaded = by_slug.get(page.slug)
+        if loaded is None:
+            legacy.append(page)
+        elif freshness.check(loaded)["status"] == "stale":
+            out.append(page.slug)
+    reasons = _page_reasons(legacy)
+    return out + [p.slug for p in legacy if reasons.get(p.slug)]
+
+
 def _plan_build_args(slug: str, directory: Path) -> dict:
     """Build arguments for SLUG from its plan, else (a page built before plans) from its page."""
     from artmind.topics import build, plan_store, store
@@ -4867,9 +4889,9 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, full: bool,
         slugs = [slug]
     else:
         if only_stale:
-            reasons = _page_reasons(pages)
-            pages = [p for p in pages if reasons.get(p.slug)]
-        slugs = [p.slug for p in pages]
+            slugs = _stale_slugs(pages)
+        else:
+            slugs = [p.slug for p in pages]
     results = []
     for s in slugs:
         args = _plan_build_args(s, directory)

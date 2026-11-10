@@ -78,3 +78,34 @@ def schedule_health(domains) -> list:
         else:
             threading.Thread(target=_job, args=(d,), name=f"catalogue-health-{d}", daemon=True).start()
     return started
+
+
+# ── the daily topic plan check (spec 2026-11-10 §8.3) ─────────────────────────
+
+TOPIC_CHECK_INTERVAL_S = 24 * 3600.0
+TOPIC_CHECK_FIRST_S = 120.0
+_topic_thread: threading.Thread | None = None
+
+
+def start_topic_checks(auto_refresh: bool = False) -> bool:
+    """Start the daily freshness check of every topic plan (no LLM); `auto_refresh` (the admin
+    console only) also refreshes plans that opted in. Once per process; False if running."""
+    global _topic_thread
+    with _lock:
+        if _topic_thread is not None and _topic_thread.is_alive():
+            return False
+
+        def loop():
+            from artmind.topics import schedule
+
+            time.sleep(TOPIC_CHECK_FIRST_S)
+            while True:
+                try:
+                    schedule.run_once(auto_refresh=auto_refresh)
+                except Exception:
+                    logger.exception("topics: daily plan check failed")
+                time.sleep(TOPIC_CHECK_INTERVAL_S)
+
+        _topic_thread = threading.Thread(target=loop, name="topic-plan-checks", daemon=True)
+        _topic_thread.start()
+    return True

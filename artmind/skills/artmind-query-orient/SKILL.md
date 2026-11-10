@@ -273,8 +273,8 @@ artmind query topics run <slug> --shape brief --compact    # add --subject N or 
 > run `query topics run <slug>` (one subject or cell at a time if the question needs only
 > part), and answer from those rows. When none fits and `survey`'s `coverage` shows the
 > answer rests on a small share of `matching_documents` for an overview or trend question,
-> answer from what you read, say how many more documents match, and offer to build a plan,
-> naming its subjects and span. Never build it yourself.
+> answer from what you read, say how many more documents match, and end with one line: `Offer: a topic plan on
+> <topic> (subjects: <s1>; <s2>; span <from>–<to>) would cover all <N> matching documents.` Never build it yourself.
 
 - Each row is ordinary survey evidence: cite its passage and document as usual. A cell
   marked `partial` has more matching documents than it shows; say so.

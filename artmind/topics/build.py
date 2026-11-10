@@ -9,6 +9,7 @@ writes nothing.
 """
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import replace
 from datetime import datetime, timezone
@@ -130,7 +131,21 @@ def plan_build(topic: str, domains: list[str], *, facets=None, by: str = "auto",
     to_map = [(m, c) for m, c in pairs if full or mapcache.get(keys[(m.doc_id, c.subject)]) is None]
     groups = sorted({(c.subject, c.domain if split == "domain" else None) for _, c in pairs},
                     key=lambda g: (g[0], g[1] or ""))
-    reduce_calls = len(groups) + 1 if pairs else 0
+    # Incremental reduce (spec §8.2): a group whose notes all come from cached maps and whose
+    # section is in the reduce cache is not reduced again; the overview always is.
+    mapped = {(m.doc_id, c.subject) for m, c in to_map}
+    cached_answers = {} if full else {k: mapcache.get(v) for k, v in keys.items() if k not in mapped}
+    stub = _Plan(subjects=subjects, topic=" ".join(topic.split()), split=split, model=model, pairs=pairs)
+    reduce_needed = []
+    for g in groups:
+        if full or any((m.doc_id, c.subject) in mapped for m, c in pairs
+                       if (c.subject, c.domain if split == "domain" else None) == g):
+            reduce_needed.append(g)
+            continue
+        rows = _notes(stub, cached_answers).get(g)
+        if rows and mapcache.get(_reduce_key(stub, g, rows)) is None:
+            reduce_needed.append(g)
+    reduce_calls = len(reduce_needed) + 1 if pairs else 0
     if cut["cut"]:
         warnings.append(f"the cells want {cut['wanted']} documents; cut fairly to {cut['max_docs']} (--maxDocs)")
     for i, docs in enumerate(counted, 1):
@@ -296,20 +311,38 @@ def _map_all(p: _Plan, map_llm) -> tuple[dict, int]:
     return answers, len(p.to_map)
 
 
-def _write_body(p: _Plan, map_llm, reduce_llm):
-    answers, made = _map_all(p, map_llm)
-    by_doc = {m.doc_id: m for m in p.materials}
-    notes: dict = {}          # group -> [(title, note, date, period)]
-    used_ids: list[str] = []
+def _notes(p, answers: dict, used_ids: list | None = None) -> dict:
+    """group -> [(title, note, date, period)] from the map answers, in pair order."""
+    notes: dict = {}
     for m, c in p.pairs:
+        if (m.doc_id, c.subject) not in answers:
+            continue
         parsed = prompts.parse_map(answers.get((m.doc_id, c.subject)), {s.id for s in m.sources})
         if not parsed or not parsed["relevant"]:
             continue
         group = (c.subject, c.domain if p.split == "domain" else None)
         for n in parsed["notes"]:
             notes.setdefault(group, []).append((m.title or m.name or m.doc_id, n, m.date, c.period))
-        if m.doc_id not in used_ids:
+        if used_ids is not None and m.doc_id not in used_ids:
             used_ids.append(m.doc_id)
+    return notes
+
+
+def _reduce_key(p, group, rows) -> str:
+    """The reduce cache key of one section: its notes, subject, page prompt version and model."""
+    import hashlib
+
+    lines = "\n".join(prompts.notes_text([(t, n)]) for t, n, _, _ in rows)
+    text = json.dumps(["section", p.topic, p.subjects[group[0] - 1], group[1], lines,
+                       prompts.FACET_PROMPT_VERSION, p.model or ""], ensure_ascii=False)
+    return "r" + hashlib.sha256(text.encode("utf-8")).hexdigest()[:31]
+
+
+def _write_body(p: _Plan, map_llm, reduce_llm):
+    answers, made = _map_all(p, map_llm)
+    by_doc = {m.doc_id: m for m in p.materials}
+    used_ids: list[str] = []
+    notes = _notes(p, answers, used_ids)
     if not notes:
         return None, [], made
     # One section per subject; with a domain split, one `###` part per child domain inside it.
@@ -319,8 +352,14 @@ def _write_body(p: _Plan, map_llm, reduce_llm):
         if not rows:
             continue
         subject = p.subjects[group[0] - 1]
-        sections.setdefault(group[0], []).append((group[1], _section(p, subject, rows, reduce_llm)))
-        made += 1
+        key = _reduce_key(p, group, rows)
+        cached = None if p.full else mapcache.get(key)
+        text = cached.get("text") if isinstance(cached, dict) else None
+        if text is None:
+            text = _section(p, subject, rows, reduce_llm)
+            mapcache.put(key, {"text": text})
+            made += 1
+        sections.setdefault(group[0], []).append((group[1], text))
     texts = [(p.subjects[i - 1] + (f" ({dom})" if dom else ""), text)
              for i, parts_ in sorted(sections.items()) for dom, text in parts_]
     overview, differ = prompts.split_overview(reduce_llm(prompts.overview_prompt(p.topic, texts)))

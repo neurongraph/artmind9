@@ -110,6 +110,9 @@ def plan_payload(loaded: LoadedPlan, *, session=None, live: bool = True) -> dict
              if isinstance(g, dict)}
     if not live:
         return out
+    from artmind.topics import freshness
+
+    out["freshness"] = freshness.check(loaded, session)
     try:
         _, cells, _ = plan_cells(loaded, session=session)
     except PlanError:
@@ -126,6 +129,14 @@ def plan_payload(loaded: LoadedPlan, *, session=None, live: bool = True) -> dict
     return out
 
 
-def list_payload(plans: list[LoadedPlan], invalid: list[dict]) -> dict:
-    return {"plans": [p.spec.summary() for p in plans], "invalid": invalid, "rows_total": len(plans),
-            "truncated": False}
+def list_payload(plans: list[LoadedPlan], invalid: list[dict], *, session=None, live: bool = True) -> dict:
+    from artmind.topics import freshness
+
+    rows = []
+    for p in plans:
+        row = p.spec.summary()
+        if live:
+            f = freshness.check(p, session)
+            row["freshness"] = {k: f.get(k) for k in ("status", "new_documents", "changed", "retired", "checked_at")}
+        rows.append(row)
+    return {"plans": rows, "invalid": invalid, "rows_total": len(plans), "truncated": False}

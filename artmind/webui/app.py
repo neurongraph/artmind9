@@ -29,6 +29,7 @@ from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
 from artmind.webui.hosts import guard_app
 from artmind.webui.insights_routes import register_insights_routes
+from artmind.webui.topics_routes import register_topics_routes
 from artmind.webui.sessions import SessionRegistry
 from artmind.webui.source_links import SourceLinkError, obsidian_uri, open_uri, vault_relative
 
@@ -487,6 +488,7 @@ def create_app(
         register_dashboard_routes(app, templates)
         register_benchmark_routes(app, templates)
         register_insights_routes(app)
+        register_topics_routes(app)
 
     return app
 
@@ -511,6 +513,7 @@ def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
     from artmind.catalogue import refresh
 
     refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
+    refresh.start_topic_checks(auto_refresh=False)  # daily topic plan freshness, no LLM
 
     app = create_app(SessionRegistry(client_factory=backend_factory(chat_profile(), trace=True)), trace_turns=True)
     guard_app(app, host, port)
@@ -523,6 +526,8 @@ def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> 
     from artmind.catalogue import refresh
 
     refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
+    # daily topic plan freshness; plans that opted in (refresh: on_stale|weekly) refresh only here
+    refresh.start_topic_checks(auto_refresh=True)
 
     from artmind.webui.profiles import require_skill
 

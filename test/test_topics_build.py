@@ -74,11 +74,17 @@ def test_build_writes_a_faceted_page_and_its_plan(world):
     assert out["plan_path"] == str(world / "plans" / "garden-work") and out["version"] == 1
 
 
-def test_a_rebuild_maps_only_what_the_cache_lacks_and_keeps_the_version(world):
+def test_a_rebuild_maps_only_what_the_cache_lacks_and_keeps_the_version(world, monkeypatch):
     _build(world)
+    out, llms, _ = _build(world)  # nothing changed: only the overview is reduced again
+    assert out["calls"] == {"map": 0, "map_cached": 4, "reduce": 1, "made": 1} and llms.maps == []
+    monkeypatch.setitem(w.DOCS, "D3", ("2024-05-02", "j", "New compost bin built from pallets and wire."))
     out, llms, _ = _build(world, versions={"D3": "v-new"})  # D3 changed since the first build
     assert out["calls"]["map"] == 1 and out["calls"]["map_cached"] == 3 and len(llms.maps) == 1
     assert "New compost bin" in llms.maps[0]
+    # D3 is only under subject 2: its section and the overview are reduced, subject 1's is reused
+    assert out["calls"]["reduce"] == 2 and len(llms.reduces) == 2
+    assert "Section subject: compost heap" in llms.reduces[0]
     assert plan_store.load_plan("garden-work").spec.version == 1  # same definition
     out, llms, _ = _build(world, full=True)
     assert len(llms.maps) == 4
@@ -106,7 +112,8 @@ def test_the_map_cache_key_is_sha_subject_prompt_and_model():
 
 def test_cache_lives_under_logs(world):
     _build(world)
-    assert len(list((world / "logs" / "topic-map-cache").glob("*.json"))) == 4
+    files = sorted(p.name for p in (world / "logs" / "topic-map-cache").glob("*.json"))
+    assert len(files) == 6 and sum(f.startswith("r") for f in files) == 2  # 4 maps + 2 section reduces
 
 
 def test_nothing_matching_writes_nothing(world, monkeypatch):

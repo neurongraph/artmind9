@@ -60,6 +60,7 @@ async def _lifespan(app: FastAPI):
     from artmind.catalogue import refresh
 
     refresh.enable_background()  # catalogue health rebuilds in the background, only in this long-lived process
+    refresh.start_topic_checks(auto_refresh=False)  # daily topic plan freshness, no LLM
     yield
 
 

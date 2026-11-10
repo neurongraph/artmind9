@@ -49,9 +49,9 @@ def test_dry_run_rebuilds_nothing_and_matches_the_real_effect(world, monkeypatch
     assert llms.maps == [] and (world / "_Topics" / "garden-work.md").read_bytes() == before
     assert all(not _WRITE.search(c) for c, _ in session.calls)
     assert dry["dry_run"] is True
-    # only D3 changed: one map call (the cache holds the rest) plus three reduces
-    assert dry["refreshed"][0]["calls"] == {"map": 1, "map_cached": 3, "reduce": 3}
-    assert_effect_shape(dry["effect"], llm_calls=4)
+    # only D3 changed: one map call (the cache holds the rest), its subject's reduce and the overview
+    assert dry["refreshed"][0]["calls"] == {"map": 1, "map_cached": 3, "reduce": 2}
+    assert_effect_shape(dry["effect"], llm_calls=3)
     assert dry["effect"]["changes"] == [{"kind": "topic_write", "count": 2, "sample": ["garden-work"]}]
     real, llms, _ = _invoke(world, monkeypatch)
     assert len(llms.maps) == 1 and real["effect"] == dry["effect"]
