@@ -54,8 +54,8 @@ def test_every_artmind_command_in_the_skill_exists():
 
 CLASSIC = SKILL.parent.parent / "artmind-query" / "SKILL.md"
 LINES_BEFORE_P2_BATCH = 469
-# The "Plan the parts" step (2026-11-10, banking Q24) is allowed on top of the P2-batch size.
-LINES_ALLOWED = LINES_BEFORE_P2_BATCH + 40
+# The turn order and "Plan the parts" step (2026-11-10, banking Q24, Q25) are allowed on top of the P2-batch size.
+LINES_ALLOWED = LINES_BEFORE_P2_BATCH + 60
 
 # Two distinctive phrases per deleted rung / section, taken from the classic skill.
 _DELETED = {
@@ -130,7 +130,8 @@ def test_plan_the_parts_comes_right_after_orient():
     assert order == sorted(order)
     section = text.split("## Plan the parts", 1)[1].split("\n## ", 1)[0]
     for phrase in ("Parts:", "in the corpus's terms", "Choose the command per part", "its own loop",
-                   "never\n  two parts", "`gist`", "its own evidence", "Follow-up turns"):
+                   "never\n  two parts", "`gist`", "its own evidence", "Follow-up turns",
+                   "evidence for your plan, not for your answer", "`--domain <domain root>`"):
         assert phrase in section, phrase
 
 
