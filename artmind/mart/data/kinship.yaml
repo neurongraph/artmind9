@@ -1,0 +1,42 @@
+# Person-dimension words (spec §6.2). Each entry: a lower-case pattern matched as a whole
+# word inside the relationship text, and the levels it decides. Longer patterns win.
+exact:
+  self: {group: self}
+  colleague: {group: colleague}
+  coworker: {group: colleague}
+  manager: {group: colleague}
+  client: {group: professional}
+  doctor: {group: professional}
+  friend: {group: friend}
+  acquaintance: {group: acquaintance}
+  neighbour: {group: acquaintance}
+  father: {group: family, relation: parent}
+  mother: {group: family, relation: parent}
+  wife: {group: family, relation: spouse}
+  husband: {group: family, relation: spouse}
+  son: {group: family, relation: child}
+  daughter: {group: family, relation: child}
+  brother: {group: family, relation: sibling}
+  sister: {group: family, relation: sibling}
+  cousin: {group: family, relation: cousin}
+  grandfather: {group: family, relation: grandparent}
+  grandmother: {group: family, relation: grandparent}
+  uncle: {group: family, relation: uncle}
+  aunt: {group: family, relation: aunt}
+  nephew: {group: family, relation: nephew}
+  niece: {group: family, relation: niece}
+patterns:
+  "-in-law": {group: family, relation: in-law, side: marital}
+  "mama": {group: family, relation: uncle, side: maternal}
+  "mami": {group: family, relation: aunt, side: maternal}
+  "masi": {group: family, relation: aunt, side: maternal}
+  "maasi": {group: family, relation: aunt, side: maternal}
+  "mausi": {group: family, relation: aunt, side: maternal}
+  "kaka": {group: family, relation: uncle, side: paternal}
+  "chacha": {group: family, relation: uncle, side: paternal}
+  "kaki": {group: family, relation: aunt, side: paternal}
+  "pishi": {group: family, relation: aunt, side: paternal}
+  "bua": {group: family, relation: aunt, side: paternal}
+  "didi": {group: family, relation: sibling}
+  "dada": {group: family, relation: sibling}
+  "bhaiya": {group: family, relation: sibling}
