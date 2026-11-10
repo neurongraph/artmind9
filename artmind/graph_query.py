@@ -670,6 +670,8 @@ def validate_pattern_parameters(pattern: str, parameters: dict) -> None:
         )
     if parameters.get("mode") not in {None, "shortest", "all"}:
         raise ValueError("--mode must be 'shortest' or 'all'")
+    if parameters.get("via") not in {None, "links", "mentions"}:
+        raise ValueError("--via must be 'links' or 'mentions'")
     if parameters.get("degreeMode") not in {None, "relations", "mentions", "all"}:
         raise ValueError("--degreeMode must be 'relations', 'mentions', or 'all'")
 
@@ -1011,6 +1013,37 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         selector = _entity_selector(parameters, cypher_params, "t")
         cypher_params["limit"] = parameters.get("limit", PATTERN8_DEFAULT_LIMIT)
         cypher_params["offset"] = parameters.get("offset", 0)
+        if parameters.get("via") == "mentions":
+            # Co-mention: entities whose observations came from the same chunks as
+            # the anchor's, whether or not a RELATES_TO edge joins them.
+            mention_match = f"""
+            MATCH (t)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+            MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:{label})
+            WHERE e <> t
+              AND {domain_predicate("e")}"""
+            return (
+                f"""
+            MATCH (t:Entity)
+            WHERE {domain_predicate("t")}
+              AND {selector}
+            CALL (t) {{
+            {mention_match}
+              RETURN count(DISTINCT e) AS total
+            }}
+            {mention_match}
+            OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+            WITH e, t, total, count(DISTINCT c) AS sharedChunks, collect(DISTINCT d.name) AS docNames
+            RETURN e {{.*, label: labels(e)}} AS entityData,
+                   EXISTS {{ (e)-[:RELATES_TO]-(t) }} AS linked,
+                   sharedChunks AS shared_chunks,
+                   docNames[0..5] AS documents,
+                   total AS _rowsTotal
+            ORDER BY linked DESC, sharedChunks DESC, e.name, e._id
+            SKIP $offset
+            LIMIT $limit
+            """,
+                cypher_params,
+            )
         match_clause = f"""
             MATCH (e:{label})-[r:RELATES_TO]-(t:Entity)
             WHERE {domain_predicate("e")}

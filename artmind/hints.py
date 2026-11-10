@@ -157,10 +157,12 @@ def pattern7_all(payload: dict, domains, search_term, shape: str = "full", quest
 
 
 def pattern8_all(payload: dict, domains, entity_class, entity_name=None, entity_id=None, question=None,
-                 shape: str = "full") -> str | None:
+                 shape: str = "full", via: str = "links") -> str | None:
     who = f"--entityId {quote(entity_id)}" if entity_id else f"--entityName {quote(entity_name)}"
     shape_part = " --shape brief" if shape == "brief" else ""
-    return _all_command(payload, "pattern8", domains, f"--entityClass {quote(entity_class)} {who}{shape_part}", question)
+    via_part = " --via mentions" if via == "mentions" else ""
+    return _all_command(payload, "pattern8", domains,
+                        f"--entityClass {quote(entity_class)} {who}{via_part}{shape_part}", question)
 
 
 def entity_listing_all(payload: dict, domains, name_filter=None, count_all: bool = False) -> str | None:

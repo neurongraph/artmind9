@@ -202,3 +202,76 @@ def test_pattern8_full_shape_unchanged(monkeypatch):
     _paged(monkeypatch, 2)
     out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "Acme"])
     assert "entityData" in out["rows"][0] and "shape" not in out["parameters"]
+
+
+# --- pattern8 --via mentions ----------------------------------------------------------
+
+
+def _mention_row(i, total, linked):
+    return {"entityData": {"_id": f"m{i}", "name": f"M{i}"}, "linked": linked, "shared_chunks": 3 - i,
+            "documents": ["n.md"], "_rowsTotal": total}
+
+
+def test_pattern8_mentions_cypher_shape():
+    cypher, params = gq._pattern_query(
+        "pattern8", {"domains": ["d"], "entityClass": "PERSON", "entityId": "x1", "via": "mentions"})
+    assert "-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)" in cypher
+    assert "(c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:PERSON)" in cypher
+    assert "e <> t" in cypher
+    assert "EXISTS { (e)-[:RELATES_TO]-(t) } AS linked" in cypher
+    assert "count(DISTINCT c) AS sharedChunks" in cypher and "[0..5]" in cypher
+    assert "ORDER BY linked DESC, sharedChunks DESC, e.name, e._id" in cypher
+    assert "SKIP $offset" in cypher and "LIMIT $limit" in cypher and "_rowsTotal" in cypher
+    assert params["entityId"] == "x1" and params["offset"] == 0
+
+
+def test_pattern8_links_cypher_unchanged_by_default():
+    base = {"domains": ["d"], "entityClass": "ORG", "entityName": "A"}
+    default, _ = gq._pattern_query("pattern8", base)
+    explicit, _ = gq._pattern_query("pattern8", {**base, "via": "links"})
+    assert default == explicit
+    assert "MATCH (e:ORG)-[r:RELATES_TO]-(t:Entity)" in default and "AGGREGATES" not in default
+
+
+def test_pattern8_mentions_cli_rows(monkeypatch):
+    rows = [_mention_row(0, 2, True), _mention_row(1, 2, False)]
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(r) for r in rows])
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions"])
+    assert out["parameters"]["via"] == "mentions"
+    assert [(r["linked"], r["shared_chunks"], r["documents"]) for r in out["rows"]] == [
+        (True, 3, ["n.md"]), (False, 2, ["n.md"])]
+    assert out["complete"] is True
+
+
+def test_pattern8_default_payload_has_no_via(monkeypatch):
+    _paged(monkeypatch, 1)
+    out = _run(["pattern8", "--entityClass", "ORG", "--entityName", "Acme"])
+    assert "via" not in out["parameters"]
+
+
+def test_pattern8_mentions_all_pages_and_next(monkeypatch):
+    calls = []
+
+    def fake(cypher, params):
+        calls.append(dict(params))
+        lo = params["offset"]
+        return [_mention_row(i % 3, 120, i % 2 == 0) for i in range(lo, min(120, lo + params["limit"]))]
+
+    monkeypatch.setattr(gq, "_run_read_query", fake)
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions", "--all"])
+    assert [(c["offset"], c["limit"]) for c in calls] == [(0, 50), (50, 50), (100, 50)]
+    assert len(out["rows"]) == 120 and out["complete"] is True
+
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [_mention_row(0, 120, True)])
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions"])
+    assert out["complete"] is False
+    assert "--via mentions" in out["next"] and "--all" in out["next"]
+
+
+def test_pattern8_mentions_brief_rows(monkeypatch):
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [_mention_row(0, 1, False)])
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions",
+                "--shape", "brief"])
+    row = out["rows"][0]
+    assert row["linked"] is False and row["shared_chunks"] == 3 and row["documents"] == ["n.md"]
+    assert "rel_type" not in row

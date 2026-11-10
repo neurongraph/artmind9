@@ -3386,14 +3386,20 @@ def graph_pattern7(domain: tuple, search_term: str, limit: int, all_rows: bool, 
 @click.option("--limit", type=int, default=graph_query.PATTERN8_DEFAULT_LIMIT, show_default=True, help="Max rows; rows_total carries the full count")
 @click.option("--offset", type=int, default=0, show_default=True, help="Skip this many rows before --limit; page past a truncated result with offset += limit")
 @click.option("--all", "all_rows", is_flag=True, help=f"Page through every row (steps of --limit, at most {graph_query.ALL_CAP}); `complete` says whether all arrived")
+@click.option("--via", type=click.Choice(["links", "mentions"]), default="links", show_default=True,
+              help="links: entities with a relation to Y. mentions: entities named in the same notes as Y")
 @shape_option
 @compact_option
 @click.argument("question", required=False)
 def graph_pattern8(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
-    limit: int, offset: int, all_rows: bool, shape: str, compact: bool, question: str | None
+    limit: int, offset: int, all_rows: bool, via: str, shape: str, compact: bool, question: str | None
 ) -> None:
-    """Entities of class X connected to entity Y. `--shape brief`: id, name, class, one-line description, rel_type per row."""
+    """Entities of class X connected to entity Y. `--shape brief`: id, name, class, one-line description, rel_type per row.
+
+    `--via mentions`: entities named in the same notes as the anchor; `linked` says whether a relation exists
+    -- unlinked rows need the text to confirm."""
+    via_kw = {"via": via} if via == "mentions" else {}
     domains = _parse_domains(domain)
     if all_rows and offset:
         raise click.ClickException("--all pages from the start; drop --offset")
@@ -3401,7 +3407,7 @@ def graph_pattern8(
         try:
             result = graph_query.execute_pattern8_all(
                 domains, question=question, entityClass=entity_class, entityName=entity_name,
-                entityId=entity_id, limit=limit, shape=shape,
+                entityId=entity_id, limit=limit, shape=shape, **via_kw,
             )
         except ValueError as exc:
             raise click.ClickException(str(exc)) from exc
@@ -3409,8 +3415,8 @@ def graph_pattern8(
         return
     _run_graph_pattern(
         "pattern8", domains, compact, question, shape=shape,
-        entityClass=entity_class, entityName=entity_name, entityId=entity_id, limit=limit, offset=offset,
-        next_hint=lambda r: hints.pattern8_all(r, domains, entity_class, entity_name, entity_id, question, shape),
+        entityClass=entity_class, entityName=entity_name, entityId=entity_id, limit=limit, offset=offset, **via_kw,
+        next_hint=lambda r: hints.pattern8_all(r, domains, entity_class, entity_name, entity_id, question, shape, via),
     )
 
 

@@ -357,9 +357,14 @@ def pattern_row(pattern: str, row: dict) -> dict:
         out["documents_total"] = row.get("document_count") or len(out["documents"])
     elif pattern == "pattern8":
         props = row.get("relProps") or {}
-        out["rel_type"] = row.get("relType")
-        out["observations"] = props.get("observation_count")
-        out["documents"] = props.get("doc_count")
+        if "linked" in row:  # --via mentions
+            out["linked"] = row.get("linked")
+            out["shared_chunks"] = row.get("shared_chunks")
+            out["documents"] = row.get("documents") or []
+        else:
+            out["rel_type"] = row.get("relType")
+            out["observations"] = props.get("observation_count")
+            out["documents"] = props.get("doc_count")
     return out
 
 
