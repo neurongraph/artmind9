@@ -119,3 +119,12 @@ def test_result_reading_section_comes_early_and_covers_the_envelope():
     section = text.split("## Read every result before you answer", 1)[1].split("\n## ", 1)[0]
     for word in ("complete: false", "truncated: true", "hub: true", "cuts[]", "warnings", "run the first `next`", "Stop"):
         assert word in section, word
+
+
+def test_several_parts_rule_comes_before_retrieval():
+    text = _text()
+    head = text.split("## Survey — questions that span documents", 1)[0]
+    assert "## A question with several parts" in head
+    section = text.split("## A question with several parts", 1)[1].split("\n## ", 1)[0]
+    for phrase in ("its own short question", "one long query listing every part", "`gist`", "its own evidence"):
+        assert phrase in section, phrase

@@ -28,10 +28,9 @@ question against what it says.
    (`from -rel-> to`), structured tables, saved views, topic pages, insights and superseded
    documents.
 4. A saved view whose `summary` or `examples` fit the question → `views show` / `views run`
-   (Views below). Otherwise choose the command from the classes, types, relation shapes and
-   stores, and spell `--entityClass`, type values and relation names exactly as orient
-   listed them. A `chunks-only` card has documents and chunks but no entities, so skip views, insights,
-   entity and pattern commands there:
+   (Views below). Otherwise choose the command from the classes, types, relation shapes and stores,
+   and spell `--entityClass`, type values and relation names exactly as orient listed them. A
+   `chunks-only` card has documents and chunks but no entities: skip views, insights, entity and pattern commands there:
    - a fact → `artmind query vector-text --shape brief --domain <d> --topK 10 --compact "<question>"`;
    - a question across documents → `artmind query survey --shape brief --domain <d> --compact "<question>"`;
    - a whole document → `artmind query graph pattern10 --documentName "<name>"`; more context
@@ -70,6 +69,13 @@ evidence, after every call:
 `next` is a fact about this result, never a guess about your question: it is safe to follow
 and safe to skip when the question does not need what it offers.
 
+## A question with several parts
+
+When the question asks several things ("who owns the fix, who handles the customer, who must be told"),
+list the parts and search each with its own short question naming that part's subject in the user's words:
+one long query listing every part buries the passage each needs. A `survey` row whose `gist` speaks to a
+part not yet covered is the next document to open. Answer each part from its own evidence; name a part that has none.
+
 ## Running commands
 
 On the grounded Q&A surfaces a shell command is allowed only as a single `artmind ...` invocation with nothing before or after it: no `cd`, `&&`, `;`, pipes, redirects or `$(...)`. The working directory is already the vault, so never `cd` into it. A refused command is not a reason to stop: re-run it bare.
@@ -83,7 +89,6 @@ Any stderr line starting `artmind: ` about a store being behind, unreachable, no
 ## Required Inputs
 
 - `domain`: Ask for it if the user did not provide one.
-- `question`: The natural-language question to answer. If the user asks multiple questions, break them down and answer each.
 
 ## Fixed Structural Schema
 
@@ -444,15 +449,13 @@ The ladder starts after the Views check: a view that fits is tried before any ru
 3. A question that spans documents, whose `vector-text` rows come from one or two documents → `query survey`.
 4. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
-
 ## Answer Style
 
 Answer directly and naturally. An event counts for a person only when the notes put them in it. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
 
-If an answer came from reading a note directly (possible on the admin console)
-rather than from `artmind query` output, say plainly that the graph does not hold
-it, and suggest the operator check `artmind ingest empty-extractions` and
-re-extract the note — a fact only the note holds is missed by every later query.
+If an answer came from reading a note directly (possible on the admin console) rather than from
+`artmind query` output, say plainly that the graph does not hold it, and suggest the operator check
+`artmind ingest empty-extractions` and re-extract the note — a fact only the note holds is missed by every later query.
 
 ### Provenance in web UIs
 
