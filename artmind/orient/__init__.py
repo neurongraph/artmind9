@@ -10,7 +10,7 @@ from loguru import logger
 from artmind import domain_config
 from artmind.orient import budget, card, domain, schema_facts
 
-PARTS = ("classes", "shapes", "types", "documents", "versions", "stores", "time", "assets", "health")
+PARTS = ("classes", "shapes", "types", "documents", "versions", "stores", "time", "assets", "health", "levels")
 NEXT_PEEL = "artmind query orient --domain <domain> --compact"
 
 

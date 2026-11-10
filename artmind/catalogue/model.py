@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-CATALOGUE_FORMAT = 4
+CATALOGUE_FORMAT = 5
 
 #: The parts, in display order, and the DomainCatalogue fields each one fills.
 PART_FIELDS: dict[str, tuple[str, ...]] = {
@@ -24,6 +24,7 @@ PART_FIELDS: dict[str, tuple[str, ...]] = {
     "time": ("time",),
     "assets": ("assets",),
     "health": ("health",),
+    "levels": ("levels",),
 }
 
 
@@ -67,6 +68,8 @@ class DomainCatalogue:
     shapes: tuple = ()  # (src_class, rel_type, dst_class, count)
     types: tuple = ()  # (class, {total, distinct, dated, top: [[value, n], ...]})
     versions: tuple = ()  # {name, status, valid_from, successor[, replaces]} per retired/replacing document
+    # the granularity ladder (spec 2026-11-10 §2, §9.2): n, focused/anchor entities, passages, summaries
+    levels: dict | None = None
     part_keys: dict = field(default_factory=dict)  # part -> what it was built from
     part_built: dict = field(default_factory=dict)  # part -> ISO build time
 
@@ -101,6 +104,7 @@ class DomainCatalogue:
             "time": self.time,
             "assets": None if self.assets is None else list(self.assets),
             "health": self.health,
+            "levels": self.levels,
             "parts": {p: {"key": self.part_keys[p], "built_at": self.part_built.get(p, self.built_at)}
                       for p in self.part_keys},
         }
@@ -120,6 +124,7 @@ class DomainCatalogue:
             shapes=tuple((str(s[0]), str(s[1]), str(s[2]), int(s[3])) for s in data.get("shapes") or ()),
             types=tuple((str(c), dict(v)) for c, v in data.get("types") or ()),
             versions=tuple(dict(v) for v in data.get("versions") or ()),
+            levels=data.get("levels"),
             documents=tuple(str(d) for d in data["documents"]),
             names=tuple(
                 NameEntry(

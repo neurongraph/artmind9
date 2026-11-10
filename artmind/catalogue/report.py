@@ -9,7 +9,7 @@ from artmind.catalogue import cache, parts as parts_mod
 from artmind.catalogue.model import PART_FIELDS
 
 #: Parts that are built from the graph, so they carry the generation they were built at.
-GRAPH_PARTS = frozenset({"classes", "relations", "documents", "names", "time", "assets",
+GRAPH_PARTS = frozenset({"classes", "relations", "documents", "names", "time", "assets", "levels",
                          "shapes", "types", "versions"})
 
 

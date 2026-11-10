@@ -62,13 +62,14 @@ def _cut(block: dict, part: str, limit: int) -> dict | None:
         return {"part": part, "domain": d, "shown": len(defined) - removed, "total": len(defined)} if removed else None
     key, keep = {"relations": ("relations", RELATIONS_KEEP), "topic_plans": ("topic_plans", 0),
                  "documents": ("documents", DOCUMENTS_KEEP)}[part]
-    rows = block.get(key)
+    holder = block.get("levels") if part == "topic_plans" else block
+    rows = holder.get(key) if isinstance(holder, dict) else None
     if not isinstance(rows, list) or len(rows) <= keep:
         return None
     total = len(rows)
-    block[key] = rows[:keep]
+    holder[key] = rows[:keep]
     if part == "topic_plans":
-        block["topic_plans_total"] = total
+        holder["topic_plans_total"] = total
     return {"part": part, "domain": d, "shown": keep, "total": total}
 
 

@@ -90,13 +90,25 @@ def test_parts_are_registered_keyed_on_the_graph_and_round_trip(graph):
         assert parts.part_key(p, fp) == [5, 3, 2, 1]
     cat = cache.build("journal", fp, ("shapes", "types", "versions", "time"))
     again = DomainCatalogue.from_json(json.loads(json.dumps(cat.to_json())))
-    assert again == cat and CATALOGUE_FORMAT == 4
+    assert again == cat and CATALOGUE_FORMAT == 5
+
+
+def test_levels_part_counts_the_ladder_and_round_trips(graph, monkeypatch):
+    calls = _fake(monkeypatch, "levels", [{"n": 7, "entities": 100, "anchors": 9, "passages": 400,
+                                           "document_summaries": 20, "chunk_summaries": 80}])
+    out = parts.build_levels("journal")
+    assert out == {"levels": {"n": 7, "anchor_entities": 9, "focused_entities": 91, "passages": 400,
+                              "document_summaries": 20, "chunk_summaries": 80}}
+    cypher, params = calls[0]
+    assert params == {"domains": ["journal"], "min_n": 5}
+    assert "percentileDisc(e._observation_count, 0.9)" in cypher and "e._observation_count >= n" in cypher
+    assert parts.part_key("levels", (5, 3, 2, 1, "x")) == [5, 3, 2, 1]
 
 
 def test_report_marks_new_parts_as_graph_parts():
     from artmind.catalogue import report
 
-    assert {"shapes", "types", "versions"} <= report.GRAPH_PARTS
+    assert {"shapes", "types", "versions", "levels"} <= report.GRAPH_PARTS
 
 
 def _fake(monkeypatch, marker, rows):

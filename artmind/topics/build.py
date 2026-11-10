@@ -1,14 +1,38 @@
-"""`artmind topic build` (spec 2026-11-01 §3.2): anchor → gather → map → reduce
-→ check → render → write. The LLM seams (`map_llm(prompt) -> dict | None`,
-`reduce_llm(prompt) -> str`) and the anchor/gather results are injectable for
-tests; by default they come from `extraction` and the graph."""
+"""`artmind topic build` (spec 2026-11-10 §6–§7): plan the grid from orient's facts, gather
+per cell, map per (document, subject) concurrently through the map cache, reduce per facet,
+check, render, and write the topic plan beside the page.
+
+The LLM seams (`map_llm(prompt) -> dict | None`, `reduce_llm(prompt) -> str`), the orient
+cards, the graph session and the survey are injectable for tests; by default they come from
+`extraction`, `orient` and the graph. `--dryRun` runs the counts and the gather (no LLM) and
+writes nothing.
+"""
 from __future__ import annotations
 
+import os
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from artmind.topics import anchor as anchor_mod
-from artmind.topics import check, gather, prompts, render, store
+from artmind.topics import check, grid, mapcache, prompts, render, shape, store
+from artmind.topics import plan as plan_model
+from artmind.topics import plan_store
+
+MAP_CONCURRENCY_ENV = "ARTMIND_TOPIC_MAP_CONCURRENCY"
+DEFAULT_MAP_CONCURRENCY = 8
+
+
+def map_concurrency() -> int:
+    raw = os.environ.get(MAP_CONCURRENCY_ENV)
+    if raw is None:
+        return DEFAULT_MAP_CONCURRENCY
+    try:
+        value = int(raw)
+    except ValueError:
+        raise ValueError(f"{MAP_CONCURRENCY_ENV} must be an integer between 1 and 32, got {raw!r}") from None
+    if not 1 <= value <= 32:
+        raise ValueError(f"{MAP_CONCURRENCY_ENV} must be an integer between 1 and 32, got {raw!r}")
+    return value
 
 
 def _default_llms(model: str):
@@ -27,12 +51,6 @@ def _default_llms(model: str):
     return map_llm, reduce_llm
 
 
-def _graph_domains(domains: list[str]) -> list[str]:
-    from artmind.schema_validate import domain_graph_extraction
-
-    return [d for d in domains if domain_graph_extraction(d)]
-
-
 def _groups(lines: list[str], limit: int) -> list[list[str]]:
     groups: list[list[str]] = []
     size = 0
@@ -46,101 +64,309 @@ def _groups(lines: list[str], limit: int) -> list[list[str]]:
     return groups
 
 
-def page_effect(slug: str, path: Path, calls: int, model: str, documents: int) -> "Effect":
-    """The `effect` of building one page: one file written, `calls` LLM calls.
+def _now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    Computed from the gathered documents before any call, so a dry run and the
-    real run report the same plan (`calls` is the one-reduce minimum; a long
-    reduce adds partial-merge calls, which the payload's own `calls` counts).
-    """
+
+def _effect(slug: str, page_path: Path, plan_path: Path, calls: int, model: str, documents: int, cost: float):
     from artmind.cli_conventions import Change, Effect
 
     return Effect(
-        summary=(f"Write the topic page {slug!r} from {documents} document(s) "
+        summary=(f"Write the topic page {slug!r} and its plan from {documents} document(s) "
                  f"({calls} LLM call(s)); a hand-written `## My notes` section is kept."),
-        changes=[Change("topic_write", 1, [slug])],
-        llm_calls=calls,
-        llm_model=model,
-        reversible=False,
-        travels=True,
-        records=[str(path)],
+        changes=[Change("topic_write", 2, [str(page_path.name), f"topic_plans/{slug}"])],
+        llm_calls=calls, llm_model=model, est_cost_usd=cost,
+        reversible=False, travels=True, records=[str(page_path), str(plan_path)],
     )
 
 
-def _no_page_effect(effect: dict) -> dict:
-    """The effect of a build that found nothing to say: the calls were made, no page was written."""
-    return {**effect, "summary": "No page written: no document said anything about the topic.",
-            "changes": [], "travels": False, "records": []}
+class _Plan:
+    """Everything the dry run reports and the real run executes."""
+
+    def __init__(self, **kw):
+        self.__dict__.update(kw)
 
 
-def build_page(topic: str, domains: list[str], *, max_docs: int = 12, slug: str | None = None,
-               out: Path | None = None, model: str | None = None, dry_run: bool = False,
-               anchor: dict | None = None, gathered=None, map_llm=None, reduce_llm=None,
-               now: str | None = None) -> dict:
+def plan_build(topic: str, domains: list[str], *, facets=None, by: str = "auto", split: str = "auto",
+               per_cell: int = plan_model.DEFAULT_PER_CELL, max_docs: int = plan_model.DEFAULT_MAX_DOCS,
+               model: str | None = None, full: bool = False, cards=None, session_factory=None, search=None,
+               suggest=None) -> _Plan:
+    from artmind.graph_query import read_session
+
+    subjects = [" ".join(s.split()) for s in (facets or []) if s and s.strip()] or [" ".join(topic.split())]
+    if len(subjects) > plan_model.MAX_SUBJECTS:
+        raise ValueError(f"at most {plan_model.MAX_SUBJECTS} --facet subjects")
+    if len(set(subjects)) != len(subjects):
+        raise ValueError("a --facet is given twice")
+    warnings: list[str] = []
+    facts = None
+    if by == "auto" or split == "auto":
+        try:
+            facts = shape.facts(domains, cards)
+        except Exception as exc:  # orient unreadable: the rule falls back to no slices
+            warnings.append(f"shape facts unavailable ({exc}); --by auto resolved to none")
+            facts = {}
+    by = shape.resolve_by(by, facts or {})
+    with (session_factory or read_session)() as session:
+        counted, floors = grid.count_all(subjects, domains, session=session)
+        split = shape.split_from_counts(split, domains, counted)
+        cells, cut = grid.cells_from(counted, floors, domains, by, split, per_cell, max_docs)
+        materials, _ = grid.gather(subjects, cells, domains, search=search)
+        links = _links(materials, session)
+        suggested = suggest(topic, domains, session) if suggest else []
+    label_cell = {c.label(): c for c in cells}
+    pairs = []
+    for m in materials:
+        seen = set()
+        for label in m.cells:
+            c = label_cell.get(label)
+            if c is not None and c.subject not in seen:
+                seen.add(c.subject)
+                pairs.append((m, c))
+    version = {m.doc_id: _version(m, links) for m in materials}
+    keys = {(m.doc_id, c.subject): mapcache.key(version[m.doc_id], subjects[c.subject - 1],
+                                                 prompts.MAP_PROMPT_VERSION, model)
+            for m, c in pairs}
+    to_map = [(m, c) for m, c in pairs if full or mapcache.get(keys[(m.doc_id, c.subject)]) is None]
+    groups = sorted({(c.subject, c.domain if split == "domain" else None) for _, c in pairs},
+                    key=lambda g: (g[0], g[1] or ""))
+    reduce_calls = len(groups) + 1 if pairs else 0
+    if cut["cut"]:
+        warnings.append(f"the cells want {cut['wanted']} documents; cut fairly to {cut['max_docs']} (--maxDocs)")
+    for i, docs in enumerate(counted, 1):
+        if not docs:
+            warnings.append(f"subject {i} matches no document's words: a wrong facet?")
+    cost = shape.estimate_cost([m.size() for m, _ in to_map], reduce_calls)
+    return _Plan(topic=" ".join(topic.split()), domains=list(domains), subjects=subjects, by=by, split=split,
+                 per_cell=per_cell, max_docs=max_docs, model=model, facts=facts, cells=cells, cut=cut,
+                 materials=materials, links=links, pairs=pairs, keys=keys, to_map=to_map, groups=groups,
+                 reduce_calls=reduce_calls, cost=cost, warnings=warnings, suggested=suggested, full=full)
+
+
+def _links(materials, session):
+    from artmind.topics.gather import links_for
+
+    return links_for(materials, session)
+
+
+def _version(material, links) -> str | None:
+    for s in material.sources:
+        v = (links.get(s.id) or {}).get("version")
+        if v:
+            return str(v)
+    return None
+
+
+def grid_payload(p: _Plan) -> dict:
+    return {"slices": {"by": p.by, "split": p.split if p.split != "none" else None},
+            "cells": [c.to_json(gathered=True) for c in p.cells], "cut": p.cut["cut"],
+            **({"facts": p.facts} if p.facts else {})}
+
+
+def build_topic(topic: str, domains: list[str], *, facets=None, by: str = "auto", split: str = "auto",
+                per_cell: int = plan_model.DEFAULT_PER_CELL, max_docs: int = plan_model.DEFAULT_MAX_DOCS,
+                slug: str | None = None, out: Path | None = None, model: str | None = None,
+                dry_run: bool = False, refresh: str = "manual", full: bool = False, cards=None,
+                session_factory=None, search=None, map_llm=None, reduce_llm=None, now: str | None = None,
+                generations=None, suggest=None) -> dict:
     if model is None:
         from utils.functions import load_env, resolve_llm_model
 
         model = resolve_llm_model(load_env())
     directory = store.topics_dir(out)
     slug = slug or store.slugify(topic)
-    anchor = anchor if anchor is not None else anchor_mod.choose_anchor(topic, graph_domains=_graph_domains(domains))
-    materials, links = gathered if gathered is not None else gather.gather(topic, domains, anchor, max_docs)
-    result = {"slug": slug, "path": None, "dry_run": dry_run,
-              "anchor": {k: anchor.get(k) for k in ("kind", "name") if anchor.get(k)},
-              "documents": [m.name or m.doc_id for m in materials], "calls": len(materials) + 1}
-    result["effect"] = page_effect(slug, directory / f"{slug}.md", len(materials) + 1, model,
-                                   len(materials)).to_json()
+    plan_store.check_slug(slug)
+    if refresh not in plan_model.REFRESH:
+        raise ValueError(f"--refresh must be one of {', '.join(plan_model.REFRESH)}")
+    p = plan_build(topic, domains, facets=facets, by=by, split=split, per_cell=per_cell, max_docs=max_docs,
+                   model=model, full=full, cards=cards, session_factory=session_factory, search=search,
+                   suggest=suggest)
+    page_path, plan_path = directory / f"{slug}.md", plan_store.plans_dir() / slug
+    calls = len(p.to_map) + p.reduce_calls
+    result = {
+        "slug": slug, "path": None, "plan_path": None, "topic": p.topic,
+        "subjects": [{"n": i, "text": s} for i, s in enumerate(p.subjects, 1)],
+        "grid": grid_payload(p), "documents": len(p.materials),
+        "calls": {"map": len(p.to_map), "map_cached": len(p.pairs) - len(p.to_map), "reduce": p.reduce_calls},
+        "warnings": list(p.warnings),
+    }
+    if p.suggested:
+        result["suggested_subjects"] = p.suggested
+    result["effect"] = _effect(slug, page_path, plan_path, calls, model, len(p.materials), p.cost).to_json()
     if dry_run:
+        result["dry_run"] = True
+        return result
+    if not p.pairs:
+        result["error"] = "no document matched any subject; nothing written"
+        result["effect"] = {**result["effect"], "summary": "Nothing written: no document matched.",
+                            "changes": [], "travels": False, "records": [], "llm": {**result["effect"]["llm"],
+                                                                                      "calls": 0}}
         return result
     if map_llm is None or reduce_llm is None:
         default_map, default_reduce = _default_llms(model)
         map_llm, reduce_llm = map_llm or default_map, reduce_llm or default_reduce
-
-    noted: list[tuple[str, dict]] = []
-    used: list = []
-    for m in materials:
-        parsed = prompts.parse_map(map_llm(prompts.map_prompt(topic, anchor, m)), {s.id for s in m.sources})
-        if parsed and parsed["relevant"]:
-            used.append(m)
-            noted += [(m.title or m.name or m.doc_id, n) for n in parsed["notes"]]
-    if not noted:
-        result["error"] = "no document said anything about the topic; no page written"
-        result["documents"] = []
-        result["effect"] = _no_page_effect(result["effect"])
+    body, used, made = _write_body(p, map_llm, reduce_llm)
+    if body is None:
+        result["error"] = "no document said anything about the subjects; no page written"
+        result["effect"] = {**result["effect"], "summary": "No page written: no document said anything.",
+                            "changes": [], "travels": False, "records": []}
         return result
-
-    lines = prompts.notes_text(noted).splitlines()
-    calls = len(materials)
-    if sum(len(l) for l in lines) > prompts.REDUCE_INPUT_CHARS:
-        partials = []
-        for group in _groups(lines, prompts.REDUCE_INPUT_CHARS):
-            partials.append(prompts.strip_fences(reduce_llm(prompts.reduce_prompt(topic, anchor, "\n".join(group)))))
-            calls += 1
-        body = prompts.strip_fences(reduce_llm(prompts.merge_prompt(topic, anchor, partials)))
-    else:
-        body = prompts.strip_fences(reduce_llm(prompts.reduce_prompt(topic, anchor, "\n".join(lines))))
-    calls += 1
-
     texts = {s.id: s.text for m in used for s in m.sources}
-    # Map each passage id to its source document's title for the identifier check.
-    titles = {s.id: (links.get(s.id, {}).get("title") or links.get(s.id, {}).get("name") or "")
+    titles = {s.id: ((p.links.get(s.id) or {}).get("title") or (p.links.get(s.id) or {}).get("name") or "")
               for m in used for s in m.sources}
-    body, checks = check.check(body, texts, titles=titles, topic=topic)
-    rendered, cited = render.render_body(body, links)
+    body, checks = check.check(body, texts, titles=titles, topic=p.topic)
+    rendered, cited = render.render_body(body, p.links)
     cited_set = set(cited)
     sources = []
     for m in used:
         ids = [s.id for s in m.sources if s.id in cited_set]
         if ids:
-            info = links.get(ids[0], {})
-            sources.append({"doc_id": m.doc_id, "name": m.name, "content_sha": info.get("version"), "passages": ids})
-    anchor_meta = ({"kind": "entity", "key": anchor.get("key"), "name": anchor.get("name"),
-                    "observation_set_hash": anchor.get("observation_set_hash")}
-                   if anchor.get("kind") == "entity" else {"kind": "topic"})
-    meta = {"artmind_topic": store.FORMAT, "topic": topic, "slug": slug, "domains": list(domains),
-            "anchor": anchor_meta, "built": now or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "model": model, "prompt_version": prompts.PROMPT_VERSION, "max_docs": max_docs,
-            "sources": sources, "checks": checks}
+            sources.append({"doc_id": m.doc_id, "name": m.name, "content_sha": _version(m, p.links),
+                            "passages": ids, "cells": list(m.cells)})
+    if generations is None:
+        generations = _generations(p.domains, session_factory)
+    spec = plan_model.PlanSpec(slug=slug, topic=p.topic, version=1, domains=tuple(p.domains),
+                               subjects=tuple(p.subjects), by=p.by, split=p.split, per_cell=p.per_cell,
+                               max_docs=p.max_docs, refresh=refresh)
+    old = plan_store.existing(slug)
+    skill_md = old.skill_md if old is not None and not _unedited(old) else plan_model.default_skill_md(spec)
+    spec = replace(spec, version=plan_store.next_version(spec, old, skill_md))
+    built = {"at": now or _now(), "generations": generations,
+             "grid": [{"subject": c.subject, "period": c.period, "domain": c.domain, "matching": c.matching,
+                       "taken": len(c.doc_ids)} for c in p.cells],
+             "documents": sorted(m.doc_id for m in p.materials),
+             "model": model, "prompt_version": prompts.FACET_PROMPT_VERSION,
+             "version": spec.version, "fingerprint": plan_model.fingerprint(spec, skill_md)}
+    spec = replace(spec, built=built)
+    meta = {"artmind_topic": store.FORMAT, "topic": p.topic, "slug": slug, "domains": list(p.domains),
+            "subjects": list(p.subjects), "anchor": {"kind": "topic"}, "built": built, "model": model,
+            "prompt_version": prompts.FACET_PROMPT_VERSION, "max_docs": p.max_docs, "sources": sources,
+            "checks": checks}
     path = store.write_page(directory, slug, meta, rendered)
-    result.update(path=str(path), calls=calls, checks=checks, documents=[s["name"] for s in sources])
+    folder = plan_store.write_plan(spec, skill_md)
+    result.update(path=str(path), plan_path=str(folder), version=spec.version, checks=checks,
+                  calls={**result["calls"], "made": made}, documents=len(sources))
     return result
+
+
+def _unedited(old) -> bool:
+    """A SKILL.md the operator never touched is regenerated for a changed definition."""
+    return old.skill_md == plan_model.default_skill_md(old.spec)
+
+
+def _generations(domains, session_factory) -> dict:
+    from artmind.catalogue import state
+    from artmind.graph_query import read_session
+
+    try:
+        with (session_factory or read_session)() as session:
+            return state.generations(session, domains)
+    except Exception:
+        return {}
+
+
+def _map_all(p: _Plan, map_llm) -> tuple[dict, int]:
+    """Map answers per (doc_id, subject): from the cache, else one LLM call each (concurrent)."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    answers: dict = {}
+    todo = set((m.doc_id, c.subject) for m, c in p.to_map)
+    for m, c in p.pairs:
+        if (m.doc_id, c.subject) not in todo:
+            answers[(m.doc_id, c.subject)] = mapcache.get(p.keys[(m.doc_id, c.subject)])
+
+    def one(pair):
+        m, c = pair
+        subject = p.subjects[c.subject - 1]
+        focus = subject if subject == p.topic else f"{subject} (part of: {p.topic})"
+        answer = map_llm(prompts.map_prompt(focus, None, m))
+        if isinstance(answer, dict):
+            mapcache.put(p.keys[(m.doc_id, c.subject)], answer)
+        return (m.doc_id, c.subject), answer
+
+    workers = map_concurrency()
+    if workers > 1 and len(p.to_map) > 1:
+        with ThreadPoolExecutor(max_workers=min(workers, len(p.to_map))) as pool:
+            for k, a in pool.map(one, p.to_map):
+                answers[k] = a
+    else:
+        for pair in p.to_map:
+            k, a = one(pair)
+            answers[k] = a
+    return answers, len(p.to_map)
+
+
+def _write_body(p: _Plan, map_llm, reduce_llm):
+    answers, made = _map_all(p, map_llm)
+    by_doc = {m.doc_id: m for m in p.materials}
+    notes: dict = {}          # group -> [(title, note, date, period)]
+    used_ids: list[str] = []
+    for m, c in p.pairs:
+        parsed = prompts.parse_map(answers.get((m.doc_id, c.subject)), {s.id for s in m.sources})
+        if not parsed or not parsed["relevant"]:
+            continue
+        group = (c.subject, c.domain if p.split == "domain" else None)
+        for n in parsed["notes"]:
+            notes.setdefault(group, []).append((m.title or m.name or m.doc_id, n, m.date, c.period))
+        if m.doc_id not in used_ids:
+            used_ids.append(m.doc_id)
+    if not notes:
+        return None, [], made
+    # One section per subject; with a domain split, one `###` part per child domain inside it.
+    sections: dict[int, list[tuple[str | None, str]]] = {}
+    for group in p.groups:
+        rows = notes.get(group)
+        if not rows:
+            continue
+        subject = p.subjects[group[0] - 1]
+        sections.setdefault(group[0], []).append((group[1], _section(p, subject, rows, reduce_llm)))
+        made += 1
+    texts = [(p.subjects[i - 1] + (f" ({dom})" if dom else ""), text)
+             for i, parts_ in sorted(sections.items()) for dom, text in parts_]
+    overview, differ = prompts.split_overview(reduce_llm(prompts.overview_prompt(p.topic, texts)))
+    made += 1
+    parts = ["## Overview", "", overview, ""]
+    for i, parts_ in sorted(sections.items()):
+        parts += [f"## {p.subjects[i - 1]}", ""]
+        for dom, text in parts_:
+            parts += ([f"### {dom}", ""] if dom else []) + [text, ""]
+    timeline = _timeline(notes) if p.by != "none" else []
+    if timeline:
+        parts += ["## Timeline", "", *timeline, ""]
+    parts += ["## Where sources differ", "", differ]
+    return "\n".join(parts).strip() + "\n", [by_doc[d] for d in used_ids], made
+
+
+def _section(p: _Plan, subject: str, rows, reduce_llm) -> str:
+    lines = [prompts.notes_text([(t, n)]) for t, n, _, _ in rows]
+    if sum(len(line) for line in lines) <= prompts.REDUCE_INPUT_CHARS:
+        return prompts.strip_fences(reduce_llm(prompts.section_prompt(p.topic, subject, "\n".join(lines))))
+    # Too long for one call: reduce per period first, then merge (spec §7.3).
+    by_period: dict = {}
+    for line, (_, _, _, period) in zip(lines, rows):
+        by_period.setdefault(period or "", []).append(line)
+    partials = []
+    for period in sorted(by_period):
+        for group in _groups(by_period[period], prompts.REDUCE_INPUT_CHARS):
+            partials.append(prompts.strip_fences(reduce_llm(prompts.section_prompt(p.topic, subject, "\n".join(group)))))
+    return prompts.strip_fences(reduce_llm(prompts.merge_section_prompt(p.topic, subject, partials)))
+
+
+def _timeline(notes: dict) -> list[str]:
+    """One dated line per claim whose document carries a date, oldest first, each claim once."""
+    seen, rows = set(), []
+    for group_rows in notes.values():
+        for _, n, date, _ in group_rows:
+            if not date or n["claim"] in seen:
+                continue
+            seen.add(n["claim"])
+            rows.append((str(date)[:10], n["claim"], n["passages"]))
+    return [f"- {d}: {claim} " + "".join(f"[#{i}]" for i in ids) for d, claim, ids in sorted(rows)]
+
+
+def plan_from_page(page) -> dict:
+    """Build arguments for a page built before plans existed: its topic as the one subject."""
+    meta = page.meta
+    return {"topic": str(meta.get("topic") or page.slug), "domains": list(meta.get("domains") or []),
+            "facets": list(meta.get("subjects") or []) or None, "by": "auto", "split": "auto",
+            "max_docs": int(meta.get("max_docs") or plan_model.DEFAULT_MAX_DOCS)}

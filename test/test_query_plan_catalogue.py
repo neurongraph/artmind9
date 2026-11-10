@@ -339,8 +339,8 @@ def test_an_empty_domain_has_a_zero_share(graph, monkeypatch):
     assert cat.time["share"] == 0.0 and cat.time["earliest"] is None and cat.doc_records == ()
 
 
-def test_the_format_is_four(graph):
-    assert catalogue.CATALOGUE_FORMAT == 4
+def test_the_format_is_five(graph):
+    assert catalogue.CATALOGUE_FORMAT == 5  # 5: the levels part (spec 2026-11-10 §9.2)
 
 
 def test_document_dates_are_read_from_the_stored_property(graph):

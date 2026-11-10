@@ -267,11 +267,18 @@ artmind query topics plan --list --domain <d> --compact    # slug, topic, subjec
 artmind query topics run <slug> --shape brief --compact    # add --subject N or --cell <period|domain> for part
 ```
 
-- A plan whose topic and subjects fit the question is a reviewed way to cover it: run it
-  (one subject or cell at a time if the question needs only part) and answer from its
-  rows. Each row is ordinary survey evidence: cite its passage and document as usual.
-- A cell marked `partial` has more matching documents than it shows; say so.
-- Never run `artmind topic build` or `refresh` yourself: they cost LLM calls.
+`orient --domain`'s `levels` block lists the domain's plans (slug, topic, subjects). One rule:
+
+> A topic plan whose topic and subjects fit the question is a reviewed way to cover it:
+> run `query topics run <slug>` (one subject or cell at a time if the question needs only
+> part), and answer from those rows. When none fits and `survey`'s `coverage` shows the
+> answer rests on a small share of `matching_documents` for an overview or trend question,
+> answer from what you read, say how many more documents match, and offer to build a plan,
+> naming its subjects and span. Never build it yourself.
+
+- Each row is ordinary survey evidence: cite its passage and document as usual. A cell
+  marked `partial` has more matching documents than it shows; say so.
+- `topic build` / `refresh` cost LLM calls: the owner's (admin console, `artmind-build-topic`), never yours.
 
 ## The Query Protocol: Orient → Views → Resolve → Retrieve → Ground → Adjudicate
 

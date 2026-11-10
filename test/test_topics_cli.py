@@ -12,13 +12,18 @@ META = {"artmind_topic": 1, "topic": "Notice", "slug": "notice", "domains": ["j"
 
 
 def test_topic_build_passes_options(tmp_path):
-    with patch("artmind.topics.build.build_page", return_value={"slug": "notice", "path": "x"}) as b:
+    with patch("artmind.topics.build.build_topic", return_value={"slug": "notice", "path": "x"}) as b:
         r = CliRunner().invoke(cli, ["topic", "build", "Notice periods", "--domain", "j", "--maxDocs", "5",
+                                     "--facet", "notice, in days", "--facet", "who may end it", "--by", "year",
+                                     "--split", "none", "--perCell", "7", "--refresh", "on_stale",
                                      "--out", str(tmp_path), "--dryRun", "--compact"])
     assert r.exit_code == 0, r.output
     args, kwargs = b.call_args
     assert args == ("Notice periods", ["j"])
     assert kwargs["max_docs"] == 5 and kwargs["out"] == tmp_path and kwargs["dry_run"] is True
+    # a facet is never comma-split
+    assert kwargs["facets"] == ["notice, in days", "who may end it"]
+    assert (kwargs["by"], kwargs["split"], kwargs["per_cell"], kwargs["refresh"]) == ("year", "none", 7, "on_stale")
 
 
 def test_topic_list_and_show(tmp_path, monkeypatch):
@@ -67,11 +72,12 @@ def test_topic_refresh_stale_rebuilds_only_stale_pages(tmp_path):
     store.write_page(tmp_path, "fresh", {**META, "slug": "fresh", "topic": "Fresh"}, "x")
     with patch("artmind.topics.stale.staleness", return_value={"notice": ["source changed: a.md"], "fresh": []}), \
          patch("artmind.cli.read_session_for_topics", return_value=_null()), \
-         patch("artmind.topics.build.build_page", return_value={"slug": "notice"}) as b:
+         patch("artmind.topics.build.build_topic", return_value={"slug": "notice"}) as b:
         r = CliRunner().invoke(cli, ["topic", "refresh", "--stale", "--out", str(tmp_path), "--compact"])
     assert r.exit_code == 0, r.output
     args, kwargs = b.call_args
     assert args == ("Notice", ["j"]) and kwargs["slug"] == "notice" and b.call_count == 1
+    assert kwargs["facets"] is None and kwargs["by"] == "auto"  # a page without a plan: its topic
 
 
 def test_survey_cli_no_longer_asks_for_topic_pages():

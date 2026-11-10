@@ -60,6 +60,24 @@ def _structured(domain: str, warnings: list):
              "bridge_classes": [e["entity_class"] for e in r.get("entity_classes") or []]} for r in rows]
 
 
+def _levels(cat, out: dict, warnings: list) -> dict | None:
+    """The granularity ladder for the domain (spec 2026-11-10 §9.2): what answers at each level."""
+    if not cat.has("levels") or not cat.levels:
+        warnings.append(f"{cat.domain}: levels not read")
+        return None
+    plans = []
+    if cat.has("assets") and cat.assets is not None:
+        plans = [{"slug": a["id"], "topic": a["title"], "subjects": (a.get("detail") or {}).get("subjects") or [],
+                  "freshness": (a.get("detail") or {}).get("freshness")}
+                 for a in cat.assets if a.get("kind") == "topic_plan" and a.get("status", "ok") == "ok"
+                 and a.get("title")]
+    lv = dict(cat.levels)
+    return {"n": lv.get("n"), "focused_entities": lv.get("focused_entities"), "anchor_entities": lv.get("anchor_entities"),
+            "views": len(out["views"]) if isinstance(out.get("views"), list) else None,
+            "passages": lv.get("passages"), "document_summaries": lv.get("document_summaries"),
+            "chunk_summaries": lv.get("chunk_summaries"), "topic_plans": plans}
+
+
 def build_block(cat, facts: dict | None, *, card: dict, warnings: list) -> dict:
     d = cat.domain
     out: dict = {"domain": d, "card": card}
@@ -81,15 +99,15 @@ def build_block(cat, facts: dict | None, *, card: dict, warnings: list) -> dict:
     if views is not None:
         out["views"] = views
     if cat.has("assets") and cat.assets is not None:
-        out["topic_plans"] = [{"slug": a["id"], "topic": a["title"], "subjects": a["detail"].get("subjects") or []}
-                              for a in cat.assets if a.get("kind") == "topic_plan" and a.get("status", "ok") == "ok"
-                              and a.get("title")]
         detectors = sorted(a["id"] for a in cat.assets if a.get("kind") == "insight")
         as_of = max((str(a["detail"]["as_of"]) for a in cat.assets
                      if a.get("kind") == "insight" and a.get("detail", {}).get("as_of")), default=None)
         out["insights"] = {"as_of": as_of, "detectors": detectors} if detectors else None
     else:
         warnings.append(f"{d}: assets not read")
+    levels = _levels(cat, out, warnings)
+    if levels is not None:
+        out["levels"] = levels
     if cat.has("versions"):
         out["documents"] = [dict(v) for v in cat.versions]
     else:

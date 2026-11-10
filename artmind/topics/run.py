@@ -1,5 +1,5 @@
 """`artmind query topics plan|run` (spec 2026-11-10 §5.2): show a saved topic plan, and run
-its surveys live. Read-only, no LLM. Rows are ordinary survey evidence grouped by cell;
+its surveys live. Read-only, no LLM. Rows are ordinary survey evidence, each naming its cell, ordered by rank across cells;
 the main list is `rows`, so `ARTMIND_OUTPUT_BUDGET` cuts it and `query page` reads on."""
 from __future__ import annotations
 
@@ -10,6 +10,9 @@ from artmind.topics.plan_store import LoadedPlan
 
 #: Passages per document a full-shape run row carries.
 FULL_PASSAGES = 3
+#: A brief row's passage: shorter than survey's lead passages, so a plan's many cells fit the
+#: output budget (spec 2026-11-10 §13 "plan output vs budget"); `--shape full` has the whole text.
+BRIEF_PASSAGE_CHARS = 500
 
 
 def _select(cells: list[grid.Cell], subject: int | None, cell: str | None) -> list[grid.Cell]:
@@ -45,7 +48,7 @@ def _doc_row(cell: grid.Cell, rank: int, doc: dict, shape: str, seen: dict) -> d
     if shape == "brief":
         p = passages[0] if passages else None
         row["passage"] = ({"passage_id": p.get("id"), "chunk_id": p.get("chunk_id"),
-                           "text": brief.cut_keep(p.get("text"), brief.PASSAGE_CHARS),
+                           "text": brief.cut_keep(p.get("text"), BRIEF_PASSAGE_CHARS),
                            "relevance": p.get("relevance")} if p else None)
     else:
         row["summary"] = doc.get("summary")
@@ -66,10 +69,15 @@ def run_plan(loaded: LoadedPlan, *, subject: int | None = None, cell: str | None
                         f"see `artmind query topics plan {spec.slug}`")
     passages = 1 if shape == "brief" else FULL_PASSAGES
     materials, per_cell = grid.gather(subjects, cells, list(spec.domains), passages=passages, search=search)
+    # Round-robin by rank across cells (every cell's rank 1, then rank 2, ...): an output-budget
+    # cut keeps the top documents of every cell instead of dropping the last cells whole.
     rows, seen = [], {}
-    for c in cells:
-        for rank, doc_id in enumerate(c.doc_ids, 1):
-            rows.append(_doc_row(c, rank, per_cell[(c.label(), doc_id)], shape, seen))
+    depth = max((len(c.doc_ids) for c in cells), default=0)
+    for rank in range(1, depth + 1):
+        for c in cells:
+            if rank <= len(c.doc_ids):
+                doc_id = c.doc_ids[rank - 1]
+                rows.append(_doc_row(c, rank, per_cell[(c.label(), doc_id)], shape, seen))
     warnings = []
     if report["cut"]:
         warnings.append(f"the plan's cells want {report['wanted']} documents; cut fairly to {report['max_docs']} "

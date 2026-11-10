@@ -260,16 +260,17 @@ def _patch_graph(monkeypatch, by_subject):
     monkeypatch.setattr("artmind.vector_query._expand", lambda d: list(d))
 
 
-def test_run_groups_rows_by_cell_and_lists_a_repeat_once(plans, monkeypatch):
+def test_run_orders_rows_by_rank_across_cells_and_lists_a_repeat_once(plans, monkeypatch):
     _save(_spec())
     _patch_graph(monkeypatch, {_ft("tomato planting"): [("a", "2023-04-01", "journal"), ("b", "2023-05-01", "journal")],
                                _ft("compost heap"): [("a", "2023-04-01", "journal")]})
     search, _ = _survey({("tomato planting", "2023-01-01"): ["a", "b"], ("compost heap", "2023-01-01"): ["a"]})
     out = topic_run.run_plan(plan_store.load_plan("garden-years"), shape="brief", search=search)
-    assert [(r["cell"], r["doc_id"]) for r in out["rows"]] == [
-        ("subject 1 / 2023", "a"), ("subject 1 / 2023", "b"), ("subject 2 / 2023", "a")]
+    # by rank across cells: each cell's rank 1 first
+    assert [(r["cell"], r["rank"], r["doc_id"]) for r in out["rows"]] == [
+        ("subject 1 / 2023", 1, "a"), ("subject 2 / 2023", 1, "a"), ("subject 1 / 2023", 2, "b")]
     assert out["rows"][0]["passage"]["passage_id"] == "a_p01"
-    assert out["rows"][2]["seen_in"] == "subject 1 / 2023" and "passage" not in out["rows"][2]
+    assert out["rows"][1]["seen_in"] == "subject 1 / 2023" and "passage" not in out["rows"][1]
     assert out["cells"][0] == {"label": "subject 1 / 2023", "subject": 1, "period": "2023", "domain": None,
                                "matching": 2, "take": 2, "taken": 2, "partial": False}
     assert out["documents"] == 2 and out["complete"] is True
@@ -336,3 +337,39 @@ def test_a_run_is_a_survey_layer_span_and_its_rows_are_the_budgeted_list():
     from artmind.traces.path import layer_of
 
     assert layer_of("query topics run") == "survey" and LIST_KEY["query topics run"] == "rows"
+
+
+# ── the climb-one-level signposts (§9.1) ───────────────────────────────────────
+
+
+def test_survey_points_to_a_matching_plan_only_when_coverage_is_partial():
+    from artmind import hints
+
+    plans = [("garden-years", "Garden work over the years", ["tomato planting", "compost heap"]),
+             ("bank-rules", "Bank fee rules", ["overdraft fees"])]
+    low = {"coverage": {"matching_documents": 40, "shown": 10}}
+    assert hints.survey_plan_next(low, plans, "when did I do tomato planting in the garden") == \
+        "artmind query topics run garden-years --shape brief --compact"
+    assert hints.survey_plan_next({"coverage": {"matching_documents": 10, "shown": 10}}, plans,
+                                  "tomato planting garden") is None
+    assert hints.survey_plan_next(low, plans, "what is the weather") is None  # shares no two words
+    assert hints.survey_plan_next({}, plans, "tomato planting garden") is None
+
+
+def test_entity_context_evidence_cut_points_to_a_survey_on_the_name():
+    from artmind import hints
+
+    row = {"entityData": {"name": "Compost Club"}, "cut": {"chunks": {"shown": 8, "total": 30}}}
+    assert hints.entity_context_evidence_cut(row, ["j"]) == \
+        "artmind query survey --domain j --shape brief --compact 'Compost Club'"
+    assert hints.entity_context_evidence_cut({**row, "cut": {"chunks": {"shown": 8, "total": 8}}}, ["j"]) is None
+    assert hints.entity_context_evidence_cut({"entityData": {"name": "x"}}, ["j"]) is None
+
+
+def test_the_tool_gate_refuses_page_reads_and_names_the_plan():
+    from artmind.webui import tool_gate
+
+    assert not tool_gate.is_allowed_bash("artmind topic show garden-years --compact")
+    assert not tool_gate.is_allowed_bash("artmind topic list")
+    assert tool_gate.is_allowed_bash("artmind query topics run garden-years --shape brief --compact")
+    assert "artmind query topics run <slug>" in tool_gate.denial_message("artmind topic show x")

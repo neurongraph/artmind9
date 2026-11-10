@@ -89,3 +89,53 @@ def strip_fences(text: str) -> str:
         if text.rstrip().endswith("```"):
             text = text.rstrip()[:-3]
     return text.strip()
+
+
+# ── faceted pages (spec 2026-11-10 §7.3) ──────────────────────────────────────
+
+#: The map prompt's own version (the map cache key); `PROMPT_VERSION` covers the page prompts.
+MAP_PROMPT_VERSION = 1
+FACET_PROMPT_VERSION = 2
+
+_SECTION_RULES = [
+    "Write the body of one section of a wiki page, in Markdown, with no heading line: what the",
+    "claims below say about this subject, in chronological order when they carry dates.",
+    "End every sentence with the citation markers of the claims it uses, exactly as given,",
+    "for example [#abc_p01]. Use only the claims given. Keep names, numbers and dates exactly as",
+    "written. Answer with the Markdown only.",
+]
+
+
+def section_prompt(topic: str, subject: str, notes: str) -> str:
+    return "\n".join([f"Page topic: {topic}", f"Section subject: {subject}", *_SECTION_RULES, "", "Claims:",
+                      "<sources>", _defuse(notes), "</sources>"])
+
+
+def merge_section_prompt(topic: str, subject: str, partials: list[str]) -> str:
+    joined = "\n\n---\n\n".join(partials)
+    return "\n".join([f"Page topic: {topic}", f"Section subject: {subject}",
+                      "Merge these partial section bodies (one per period) into one, keeping every citation marker.",
+                      *_SECTION_RULES, "", "<sources>", _defuse(joined), "</sources>"])
+
+
+def overview_prompt(topic: str, sections: list[tuple[str, str]]) -> str:
+    body = "\n\n".join(f"### {subject}\n{text}" for subject, text in sections)
+    return "\n".join([
+        f"Topic: {topic}",
+        "Below are the sections of a wiki page, one per subject. Write exactly two parts, in Markdown:",
+        "## Overview (one paragraph over the whole topic), then",
+        "## Where sources differ (use exactly this heading; list conflicting claims side by side, never",
+        "blending them; write 'No disagreements found.' if none).",
+        "End every sentence with the citation markers it uses, copied exactly from the sections.",
+        "Use only what the sections say. Answer with the Markdown only.",
+        "", "<sources>", _defuse(body), "</sources>",
+    ])
+
+
+def split_overview(text: str) -> tuple[str, str]:
+    """(overview paragraph, disagreements) from an overview answer; tolerant of a missing heading."""
+    text = strip_fences(text)
+    marker = re.search(r"^##\s*Where sources differ\s*$", text, re.MULTILINE | re.IGNORECASE)
+    head, differ = (text[: marker.start()], text[marker.end():]) if marker else (text, "")
+    head = re.sub(r"^##\s*Overview\s*$", "", head, count=1, flags=re.MULTILINE | re.IGNORECASE)
+    return head.strip(), differ.strip() or "No disagreements found."

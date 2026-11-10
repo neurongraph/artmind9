@@ -16,7 +16,9 @@ def _cat(**kw):
         stores={"graph_extraction": True, "kind": "graph", "structured_tables": 0},
         assets=({"kind": "topic_plan", "id": "t", "title": "Lakeport visits", "detail": {"subjects": ["s1"]}},
                 {"kind": "insight", "id": "dormancy", "title": "dormancy", "detail": {"as_of": "2026-11-07"}}),
-        part_keys={p: [5] for p in ("classes", "shapes", "types", "versions", "stores", "assets")},
+        levels={"n": 6, "anchor_entities": 2, "focused_entities": 6, "passages": 30, "document_summaries": 3,
+                "chunk_summaries": 9},
+        part_keys={p: [5] for p in ("classes", "shapes", "types", "versions", "stores", "assets", "levels")},
     )
     base.update(kw)
     return DomainCatalogue(**base)
@@ -47,7 +49,10 @@ def test_classes_merge_schema_and_measured_types(no_views):
 def test_relations_topic_plans_insights_and_no_structured_key(no_views):
     out = block.build_block(_cat(), FACTS, card={}, warnings=[])
     assert out["relations"] == [{"from": "PERSON", "rel": "VISITED", "to": "PLACE", "count": 7}]
-    assert out["topic_plans"] == [{"slug": "t", "topic": "Lakeport visits", "subjects": ["s1"]}]
+    assert out["levels"] == {"n": 6, "focused_entities": 6, "anchor_entities": 2, "views": 0, "passages": 30,
+                             "document_summaries": 3, "chunk_summaries": 9,
+                             "topic_plans": [{"slug": "t", "topic": "Lakeport visits", "subjects": ["s1"],
+                                              "freshness": None}]}
     assert out["insights"] == {"as_of": "2026-11-07", "detectors": ["dormancy"]}
     assert "structured" not in out and out["documents"] == [] and out["views"] == []
 
@@ -111,5 +116,5 @@ def test_topic_plans_skip_untitled_and_invalid(no_views):
     cat = _cat(assets=({"kind": "topic_plan", "id": "a", "title": None, "detail": {}},
                        {"kind": "topic_plan", "id": "x", "title": "Broken", "status": "invalid", "detail": {}},
                        {"kind": "topic_plan", "id": "b", "title": "Kept", "detail": {}}))
-    assert block.build_block(cat, FACTS, card={}, warnings=[])["topic_plans"] == [
-        {"slug": "b", "topic": "Kept", "subjects": []}]
+    assert block.build_block(cat, FACTS, card={}, warnings=[])["levels"]["topic_plans"] == [
+        {"slug": "b", "topic": "Kept", "subjects": [], "freshness": None}]

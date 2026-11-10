@@ -113,17 +113,15 @@ def count_subject(session, subject: str, domains: list[str]) -> tuple[list[dict]
     return docs, int(row.get("scanned") or 0) >= HIT_LIMIT
 
 
-def plan_cells(subjects: list[str], domains: list[str], by: str, split: str, per_cell: int, max_docs: int,
-               *, session=None, expand=None) -> tuple[list[Cell], dict]:
-    """Every cell of the grid with `matching` and a fair `take`; also a report:
-    `{cut: bool, slots: int, max_docs}`."""
+def count_all(subjects: list[str], domains: list[str], *, session=None, expand=None
+              ) -> tuple[list[list[dict]], list[bool]]:
+    """Per subject: (matching documents, at_least). One keyword query each."""
     from artmind.graph_query import read_session
 
     if expand is None:
         from artmind.vector_query import _expand as expand
     scoped = expand(list(domains))
-    counted: list[list[dict]] = []
-    floors: list[bool] = []
+    counted, floors = [], []
     own = session is None
     ctx = read_session() if own else None
     session = ctx.__enter__() if own else session
@@ -135,7 +133,11 @@ def plan_cells(subjects: list[str], domains: list[str], by: str, split: str, per
     finally:
         if own:
             ctx.__exit__(None, None, None)
+    return counted, floors
 
+
+def cells_from(counted: list[list[dict]], floors: list[bool], domains: list[str], by: str, split: str,
+               per_cell: int, max_docs: int) -> tuple[list[Cell], dict]:
     def key_of(doc) -> tuple:
         period = period_of(doc.get("date"), by) if by != "none" else None
         dom = cell_domain(doc.get("domain"), list(domains)) if split == "domain" else None
@@ -155,8 +157,15 @@ def plan_cells(subjects: list[str], domains: list[str], by: str, split: str, per
             # An undated cell cannot be windowed by date: counted, never gathered.
             want = 0 if period == "undated" else min(n, per_cell)
             cells.append(Cell(i, period, dom, n, want, floors[i - 1]))
-    report = fair_cut(cells, max_docs)
-    return cells, report
+    return cells, fair_cut(cells, max_docs)
+
+
+def plan_cells(subjects: list[str], domains: list[str], by: str, split: str, per_cell: int, max_docs: int,
+               *, session=None, expand=None) -> tuple[list[Cell], dict]:
+    """Every cell of the grid with `matching` and a fair `take`; also a report:
+    `{cut, slots, wanted, max_docs}`."""
+    counted, floors = count_all(subjects, domains, session=session, expand=expand)
+    return cells_from(counted, floors, domains, by, split, per_cell, max_docs)
 
 
 def fair_cut(cells: list[Cell], max_docs: int) -> dict:

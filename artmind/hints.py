@@ -121,6 +121,42 @@ def entity_context_cut(row: dict, domains, max_connections: int) -> str | None:
     )
 
 
+def entity_context_evidence_cut(row: dict, domains) -> str | None:
+    """The entity's evidence chunks were cut: one rung up the ladder, a survey on its name
+    (spec 2026-11-10 §9.1)."""
+    chunks = (row.get("cut") or {}).get("chunks") if isinstance(row.get("cut"), dict) else None
+    # shown 0: chunks were not asked for (no evidence was cut, none was read)
+    if not chunks or not chunks.get("shown") or (chunks.get("total") or 0) <= chunks["shown"]:
+        return None
+    entity = row.get("entityData") or row.get("entity") or {}
+    name = entity.get("name")
+    if not name:
+        return None
+    return f"artmind query survey {domain_flags(domains)} --shape brief --compact {quote(name)}"
+
+
+def _terms(text) -> set:
+    import re
+
+    return {w for w in re.findall(r"[a-z0-9]+", str(text or "").casefold()) if len(w) >= 4}
+
+
+def survey_plan_next(payload: dict, plans, question) -> str | None:
+    """`coverage` shows fewer documents than match, and a saved topic plan in scope shares
+    at least two of the question's words in its topic or a subject: run that plan
+    (spec 2026-11-10 §9.1). `plans`: (slug, topic, subjects) in scope."""
+    cov = payload.get("coverage") or {}
+    if not cov or (cov.get("shown") or 0) >= (cov.get("matching_documents") or 0):
+        return None
+    words = _terms(question)
+    best, score = None, 1
+    for slug, topic, subjects in plans or ():
+        hit = max(len(words & _terms(t)) for t in [topic, *subjects])
+        if hit > score:
+            best, score = slug, hit
+    return f"artmind query topics run {best} --shape brief --compact" if best else None
+
+
 def predecessor_next(payload: dict) -> str | None:
     """document-history for the highest-ranked returned document that replaced older versions.
 

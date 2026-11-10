@@ -43,6 +43,10 @@ _SHELL_METACHARACTERS = (";", "&", "|", ">", "<", "$(", "`", "\n", "\r")
 # `artmind` as a whole word, so `artmindfoo` and `artmind-query` do not pass.
 _ARTMIND_INVOCATION = re.compile(r"^artmind(\s|$)")
 
+# Topic pages are for people, never agent evidence (spec 2026-11-10 §5.2): their readers
+# are refused like a file read; agents run the topic plan instead.
+_TOPIC_PAGE_READ = re.compile(r"^artmind\s+topic\s+(show|list)(\s|$)")
+
 # `artmind <sub>` as a command word anywhere: used only on a command already
 # refused, to tell "wrapped in `cd ... &&`" from "no artmind in it at all".
 _WRAPPED_ARTMIND = re.compile(r"(^|[\s;&|(])artmind\s+\S")
@@ -60,6 +64,8 @@ def is_allowed_bash(command: str) -> bool:
     if not stripped:
         return False
     if any(meta in stripped for meta in _SHELL_METACHARACTERS):
+        return False
+    if _TOPIC_PAGE_READ.match(stripped):
         return False
     return bool(_ARTMIND_INVOCATION.match(stripped))
 
@@ -153,6 +159,11 @@ def denial_message(command: str) -> str:
     the right tool redirects it, while a bare refusal invites another attempt.
     """
     stripped = command.strip()
+    if _TOPIC_PAGE_READ.match(stripped):
+        return ("Topic pages are written for people and are not evidence on this surface.\n"
+                f"Refused: {stripped[:120]}\n"
+                "Run the topic plan instead: `artmind query topics plan --list --domain <d> --compact`, then "
+                "`artmind query topics run <slug> --shape brief --compact`, and cite its rows.")
     shape_hint = ""
     if _WRAPPED_ARTMIND.search(stripped):
         # The agent did try to query the graph, but wrapped the command (a `cd`

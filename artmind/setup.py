@@ -433,9 +433,11 @@ ARTMIND_KG_NEO4J_DATABASE={neo4j_database}
 # ARTMIND_SURVEY_LEG_WEIGHTS=D=1,C=1,P=1
 
 # ── topic build ───────────────────────────────────────────────────────────────
-# Default number of documents gathered by `artmind topic build` (1-50).
+# Default number of documents gathered by `artmind topic build` (1-300).
 # An explicit --maxDocs flag wins over this value.
-# ARTMIND_TOPIC_MAX_DOCS=12
+# ARTMIND_TOPIC_MAX_DOCS=150
+# Concurrent map calls of `artmind topic build` / `refresh` (1-32, default 8).
+# ARTMIND_TOPIC_MAP_CONCURRENCY=8
 """
 
 

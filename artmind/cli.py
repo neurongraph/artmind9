@@ -127,9 +127,9 @@ _SURVEY_TOP_DOCS_DEFAULT_FULL = 10     # --shape full (reverts 1294fbd, spec 202
 _SURVEY_TOP_DOCS_MIN = 1
 _SURVEY_TOP_DOCS_MAX = 50
 
-_TOPIC_MAX_DOCS_DEFAULT = 12
+_TOPIC_MAX_DOCS_DEFAULT = 150
 _TOPIC_MAX_DOCS_MIN = 1
-_TOPIC_MAX_DOCS_MAX = 50
+_TOPIC_MAX_DOCS_MAX = 300
 
 
 def _resolve_survey_top_docs(shape: str = "full") -> int:
@@ -137,7 +137,7 @@ def _resolve_survey_top_docs(shape: str = "full") -> int:
 
     ``ARTMIND_SURVEY_TOP_DOCS`` overrides the built-in default (50 brief, 10 full).  A
     non-integer or out-of-range value raises ``click.ClickException`` naming
-    the variable and the allowed range (1–50).
+    the variable and the allowed range (1–300).
     """
     raw = os.environ.get("ARTMIND_SURVEY_TOP_DOCS")
     if raw is None:
@@ -160,9 +160,9 @@ def _resolve_survey_top_docs(shape: str = "full") -> int:
 def _resolve_topic_max_docs() -> int:
     """Return the effective ``--maxDocs`` default for ``topic build``.
 
-    ``ARTMIND_TOPIC_MAX_DOCS`` overrides the built-in default of 12.  A
+    ``ARTMIND_TOPIC_MAX_DOCS`` overrides the built-in default of 150.  A
     non-integer or out-of-range value raises ``click.ClickException`` naming
-    the variable and the allowed range (1–50).
+    the variable and the allowed range (1–300).
     """
     raw = os.environ.get("ARTMIND_TOPIC_MAX_DOCS")
     if raw is None:
@@ -3818,7 +3818,20 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
     result["next"] = hints.join_next(result.get("next"), hints.predecessor_next(result))
     result["next"] = hints.join_next(hints.outside_scope_next(result, "survey", question, shape=shape),
                                      result.get("next"))
+    result["next"] = hints.join_next(result.get("next"), hints.survey_plan_next(result, _plans_in_scope(domains),
+                                                                               question))
     _echo_json(result, compact)
+
+
+def _plans_in_scope(domains) -> list:
+    """(slug, topic, subjects) of every valid topic plan over `domains`; [] when unreadable."""
+    from artmind.topics import plan_store
+
+    try:
+        plans, _ = plan_store.list_plans(list(domains))
+    except Exception:
+        return []
+    return [(p.spec.slug, p.spec.topic, list(p.spec.subjects)) for p in plans]
 
 
 @query.command("entity-resolve")
@@ -3946,8 +3959,9 @@ def query_entity_context(
     if len(rows) == 1:
         # Signposts that act on this result come first; the generic shape hint the
         # backend sets ("rerun with --shape full") goes last, so it is not read first.
-        extra = hints.join_next(
+        extra = hints.join_next(hints.join_next(
             hints.entity_context_cut(rows[0], domains, max_connections),
+            hints.entity_context_evidence_cut(rows[0], domains)),
             hints.entity_context_thin(rows[0], domains),
         )
         result["next"] = hints.join_next(extra, result.get("next"))
@@ -4308,12 +4322,13 @@ def query_topics_plan(list_all: bool, domain: tuple, compact: bool, slug: "str |
 @compact_option
 @click.argument("slug")
 def query_topics_run(subject: "int | None", cell: "str | None", shape: str, compact: bool, slug: str) -> None:
-    """Run a topic plan's surveys live: one per cell, rows grouped by cell (no LLM).
+    """Run a topic plan's surveys live: one per cell, each row naming its cell (no LLM).
 
     `cells` lists every cell with `matching` (keyword-matching documents), `take` and
     `taken`; a cell with more matches than it shows is `partial`. A document found by
-    several cells is shown under its first and listed (`seen_in`) under the others.
-    Over ARTMIND_OUTPUT_BUDGET the rows are cut; `artmind query page <handle>` reads on.
+    several cells is shown under its first and listed (`seen_in`) under the others. Rows
+    come by rank across cells (every cell's best first), so a cut over ARTMIND_OUTPUT_BUDGET
+    keeps the top of every cell; `artmind query page <handle>` reads on.
     """
     from artmind.topics import plan_store
     from artmind.topics import run as topic_run
@@ -4758,39 +4773,90 @@ def topic_plan_validate(path: "Path | None", compact: bool, slug: "str | None") 
 @click.argument("topic")
 @click.option("--domain", "domain", required=True, multiple=True,
               help="Domain to build over (repeatable; comma-splittable)")
-@click.option("--maxDocs", "max_docs", type=click.IntRange(1, 50), default=None, show_default=False,
-              help="Documents to gather (default 12; overridden by ARTMIND_TOPIC_MAX_DOCS)")
-@click.option("--slug", default=None, help="File name (default: from the topic)")
-@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
+@click.option("--facet", "facets", multiple=True,
+              help="A subject question (repeatable, not comma-split; default: the topic itself)")
+@click.option("--by", "by", type=click.Choice(["year", "month", "none", "auto"]), default="auto", show_default=True,
+              help="Period slices; auto reads orient's facts (year for a long content-dated span)")
+@click.option("--split", "split", type=click.Choice(["domain", "none", "auto"]), default="auto", show_default=True,
+              help="Child-domain slices; auto when matches fall in two or more children of a family root")
+@click.option("--perCell", "per_cell", type=click.IntRange(1, 50), default=15, show_default=True,
+              help="Documents gathered per cell")
+@click.option("--maxDocs", "max_docs", type=click.IntRange(1, 300), default=None, show_default=False,
+              help="Documents in all (default 150; ARTMIND_TOPIC_MAX_DOCS); cells are cut fairly above it")
+@click.option("--refresh", "refresh", type=click.Choice(["manual", "on_stale", "weekly"]), default="manual",
+              show_default=True, help="The plan's refresh mode (on_stale/weekly run only in the admin console)")
+@click.option("--full", "full", is_flag=True, help="Ignore the map cache: map every document again")
+@click.option("--slug", default=None, help="File and plan name (default: from the topic)")
+@click.option("--out", type=click.Path(path_type=Path), default=None, help="Page folder (default: <vault>/_Topics)")
 @click.option("--model", default=None, help="LLM model (default: env)")
-@dry_run_option("Show the anchor, documents and call count; write nothing")
+@dry_run_option("Show the grid (cells, matching, take), documents, calls and cost; no LLM, write nothing")
 @compact_option
-def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | None", out: "Path | None",
+def topic_build(topic: str, domain: tuple, facets: tuple, by: str, split: str, per_cell: int,
+                max_docs: "int | None", refresh: str, full: bool, slug: "str | None", out: "Path | None",
                 model: "str | None", dry_run: bool, compact: bool) -> None:
-    """Build (or rebuild) one topic page."""
+    """Build (or rebuild) one topic page and its plan: gather per facet cell, map, reduce.
+
+    Subjects are the caller's (`--facet`); slices come from `--by` / `--split` (auto:
+    the corpus's shape). Each cell is one survey of its subject in its domain and period,
+    `--perCell` deep. Every (document, subject) pair is one map call unless the map cache
+    holds it; then one reduce per subject (and child domain) and one for the overview.
+    Sends the gathered passages to the configured LLM provider.
+    """
     _setup_logger()
     from artmind.topics import build
 
     if max_docs is None:
         max_docs = _resolve_topic_max_docs()
     try:
-        result = build.build_page(topic, _parse_domains(domain), max_docs=max_docs, slug=slug, out=out,
-                                  model=model, dry_run=dry_run)
+        result = build.build_topic(topic, _parse_domains(domain), facets=list(facets), by=by, split=split,
+                                   per_cell=per_cell, max_docs=max_docs, slug=slug, out=out, model=model,
+                                   dry_run=dry_run, refresh=refresh, full=full, suggest=_suggest_subjects)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+def _suggest_subjects(topic, domains, session):
+    """Anchor entities whose names match the topic's words (spec §9.3); [] until built."""
+    try:
+        from artmind.topics import suggest
+    except ImportError:
+        return []
+    return suggest.suggested_subjects(topic, domains, session)
+
+
+def _plan_build_args(slug: str, directory: Path) -> dict:
+    """Build arguments for SLUG from its plan, else (a page built before plans) from its page."""
+    from artmind.topics import build, plan_store, store
+    from artmind.topics.plan import PlanError
+
+    try:
+        loaded = plan_store.load_plan(slug)
+    except PlanError as exc:
+        if (plan_store.plans_dir() / slug).is_dir():
+            raise click.ClickException(str(exc)) from exc
+        page = store.read_page(directory, slug)
+        if page is None:
+            raise click.ClickException(f"no topic plan or page {slug!r}") from exc
+        return build.plan_from_page(page)
+    spec = loaded.spec
+    return {"topic": spec.topic, "domains": list(spec.domains), "facets": list(spec.subjects), "by": spec.by,
+            "split": spec.split, "per_cell": spec.per_cell, "max_docs": spec.max_docs, "refresh": spec.refresh,
+            # the model of the last build keys the map cache: refresh with it
+            "model": (spec.built or {}).get("model")}
 
 
 @topic_group.command("refresh")
 @click.argument("slug", required=False)
 @click.option("--stale", "only_stale", is_flag=True, help="Rebuild every stale page")
 @click.option("--all", "every", is_flag=True, help="Rebuild every page")
+@click.option("--full", "full", is_flag=True, help="Ignore the map cache: map every document again")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
-@dry_run_option("Show what would be rebuilt; write nothing")
+@dry_run_option("Show what would be rebuilt (grid, calls, cost); write nothing")
 @compact_option
-def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path | None", dry_run: bool,
+def topic_refresh(slug: "str | None", only_stale: bool, every: bool, full: bool, out: "Path | None", dry_run: bool,
                   compact: bool) -> None:
-    """Rebuild pages from their recorded topic and domains (the survey runs again)."""
+    """Rebuild pages from their plan (the gather runs again; cached map answers are reused)."""
     if sum(bool(x) for x in (slug, only_stale, every)) != 1:
         raise click.UsageError("give one of SLUG, --stale or --all")
     _setup_logger()
@@ -4798,24 +4864,30 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
 
     directory, pages = _topic_pages(out)
     if slug:
-        pages = [p for p in pages if p.slug == slug]
-        if not pages:
-            raise click.ClickException(f"no topic page {slug!r} in {directory}")
-    elif only_stale:
-        reasons = _page_reasons(pages)
-        pages = [p for p in pages if reasons.get(p.slug)]
-    results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
-                                max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
-                                dry_run=dry_run) for p in pages]
+        slugs = [slug]
+    else:
+        if only_stale:
+            reasons = _page_reasons(pages)
+            pages = [p for p in pages if reasons.get(p.slug)]
+        slugs = [p.slug for p in pages]
+    results = []
+    for s in slugs:
+        args = _plan_build_args(s, directory)
+        try:
+            results.append(build.build_topic(args.pop("topic"), args.pop("domains"), slug=s, out=directory,
+                                             dry_run=dry_run, full=full, **args))
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
     payload = {"refreshed": results}
     effects = [r["effect"] for r in results if r.get("effect")]
     if effects:
         written = [r["slug"] for r in results if r.get("effect", {}).get("changes")]
         calls = sum(e["llm"]["calls"] for e in effects)
+        cost = round(sum(e["llm"].get("est_cost_usd") or 0 for e in effects), 4)
         effect = Effect(
-            summary=f"Rebuild {len(written)} topic page(s) ({calls} LLM call(s)).",
-            changes=[Change("topic_write", len(written), written)] if written else [],
-            llm_calls=calls,
+            summary=f"Rebuild {len(written)} topic page(s) and plan(s) ({calls} LLM call(s)).",
+            changes=[Change("topic_write", 2 * len(written), written)] if written else [],
+            llm_calls=calls, est_cost_usd=cost,
             llm_model=next((e["llm"]["model"] for e in effects if e["llm"]["model"]), None),
             reversible=False,
             travels=True,

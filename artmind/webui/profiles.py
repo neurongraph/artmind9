@@ -51,7 +51,9 @@ and assist with document ingestion. Route requests through the artmind skills:
 artmind-curate for graph maintenance (same-as review, conflict adjudication,
 synthesis), artmind-update for adding, retracting, and correcting facts,
 artmind-create-schema for new domains and schemas, artmind-create-view for
-saved graph views (reusable parameterised queries), artmind-ingestion-helper for
+saved graph views (reusable parameterised queries), artmind-build-topic for topic
+plans on broad questions (dry run first; build only after the user's explicit yes),
+artmind-ingestion-helper for
 guiding and troubleshooting ingestion, and artmind-query for inspecting the
 graph. Routine bulk ingestion and job monitoring run through the dashboard
 widgets — reach for artmind-ingestion-helper when an operator needs guidance
@@ -114,6 +116,7 @@ ADMIN_PROFILE = AgentProfile(
         "artmind-curate",
         "artmind-create-schema",
         "artmind-create-view",
+        "artmind-build-topic",
         "artmind-ingestion-helper",
     ),
     system_append=ADMIN_SYSTEM_APPEND,

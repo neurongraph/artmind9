@@ -236,6 +236,42 @@ def build_versions(domain: str) -> dict:
     return {"versions": tuple(out)}
 
 
+#: The granularity ladder (spec 2026-11-10 §2): n is the 90th percentile of `_observation_count`
+#: (at least LEVELS_MIN_N); an entity at or above n is an anchor, below it a focused entity.
+LEVELS_MIN_N = 5
+_LEVELS_CYPHER = f"""
+CALL () {{
+  MATCH (e:Entity) WHERE {domain_predicate("e")} AND e._observation_count IS NOT NULL
+  RETURN percentileDisc(e._observation_count, 0.9) AS p90, count(e) AS entities
+}}
+WITH entities, CASE WHEN p90 IS NULL OR p90 < $min_n THEN $min_n ELSE p90 END AS n
+CALL (n) {{
+  MATCH (e:Entity) WHERE {domain_predicate("e")} AND e._observation_count >= n
+  RETURN count(e) AS anchors
+}}
+CALL () {{
+  MATCH (p:DocPassage) WHERE {domain_predicate("p")}
+  RETURN count(p) AS passages
+}}
+CALL () {{
+  MATCH (s:DocSummary) WHERE {domain_predicate("s")}
+  RETURN count(CASE WHEN s.level = 'document' THEN 1 END) AS document_summaries,
+         count(CASE WHEN s.level = 'chunk' THEN 1 END) AS chunk_summaries
+}}
+RETURN n, entities, anchors, passages, document_summaries, chunk_summaries
+"""
+
+
+def build_levels(domain: str) -> dict:
+    rows = _run(_LEVELS_CYPHER, {"domains": [domain], "min_n": LEVELS_MIN_N})
+    r = rows[0] if rows else {}
+    entities, anchors = int(r.get("entities") or 0), int(r.get("anchors") or 0)
+    return {"levels": {"n": int(r.get("n") or LEVELS_MIN_N), "anchor_entities": anchors,
+                       "focused_entities": max(0, entities - anchors), "passages": int(r.get("passages") or 0),
+                       "document_summaries": int(r.get("document_summaries") or 0),
+                       "chunk_summaries": int(r.get("chunk_summaries") or 0)}}
+
+
 #: The parts a builder exists for. `assets` and `health` register theirs when their
 #: modules land; a part without a builder is not offered.
 BUILDERS: dict[str, Callable[[str], dict]] = {
@@ -248,6 +284,7 @@ BUILDERS: dict[str, Callable[[str], dict]] = {
     "shapes": build_shapes,
     "types": build_types,
     "versions": build_versions,
+    "levels": build_levels,
 }
 
 
@@ -285,7 +322,7 @@ def part_key(part: str, fingerprint: tuple) -> list:
     and its three disk stores."""
     graph = list(fingerprint[:4])
     disk = fingerprint[4] if len(fingerprint) > 4 else ""
-    if part in ("relations", "documents", "names", "time", "shapes", "types", "versions"):
+    if part in ("relations", "documents", "names", "time", "shapes", "types", "versions", "levels"):
         return graph
     if part == "classes":
         return [*graph, stamps.part(disk, "schemas")]

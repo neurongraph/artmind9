@@ -87,11 +87,17 @@ def gather(topic: str, domains: list[str], anchor: dict, max_docs: int, *, searc
             m = materials.get(chunk.get("doc_id"))
             if m is not None:
                 m.add(Source(chunk["id"], chunk["id"], chunk.get("text") or ""))
-        chunk_ids = sorted({s.chunk_id for m in materials.values() for s in m.sources})
-        by_chunk = {r["chunk_id"]: dict(r) for r in session.run(_LINKS, chunkIds=chunk_ids)} if chunk_ids else {}
-    links = {s.id: by_chunk.get(s.chunk_id, {}) for m in materials.values() for s in m.sources}
+        links = links_for(list(materials.values()), session)
+    return list(materials.values()), links
+
+
+def links_for(materials: list[Material], session) -> dict[str, dict]:
+    """Footnote metadata per source id (title, paths, the document's version), one query."""
+    chunk_ids = sorted({s.chunk_id for m in materials for s in m.sources})
+    by_chunk = {r["chunk_id"]: dict(r) for r in session.run(_LINKS, chunkIds=chunk_ids)} if chunk_ids else {}
+    links = {s.id: dict(by_chunk.get(s.chunk_id, {})) for m in materials for s in m.sources}
     vault = paths.ARTMIND_VAULT_DIR
     for info in links.values():
         if info.get("chunk_id") and info.get("doc_id"):
             info["chunk_file"] = topic_links.chunk_file(info["doc_id"], info["chunk_id"], vault)
-    return list(materials.values()), links
+    return links
