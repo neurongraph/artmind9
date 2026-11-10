@@ -40,7 +40,7 @@ def test_thin_silent_when_enough_chunks_or_no_documents():
 def test_cut_names_pattern8_all():
     row = _row(connections_total=40)
     assert hints.entity_context_cut(row, ["bank"], 25) == (
-        "artmind query graph pattern8 --domain bank --entityId e1 --entityClass <CLASS> --all --compact"
+        "artmind query graph pattern8 --domain bank --entityId e1 --entityClass <CLASS> --via mentions --all --shape brief --compact"
     )
     assert hints.entity_context_cut(row, ["bank"], 40) is None
 
@@ -58,7 +58,7 @@ def test_cli_thin_and_cut_joined():
     out = _invoke(_row(chunks_total=1, chunks=[{"id": "c1"}], connections_total=40))
     assert out["next"] == (
         "artmind query chunks --shape brief --idList c1 --expand 1 --compact; "
-        "artmind query graph pattern8 --domain bank --entityId e1 --entityClass <CLASS> --all --compact"
+        "artmind query graph pattern8 --domain bank --entityId e1 --entityClass <CLASS> --via mentions --all --shape brief --compact"
     )
 
 

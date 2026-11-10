@@ -117,7 +117,7 @@ def entity_context_cut(row: dict, domains, max_connections: int) -> str | None:
         return None
     return (
         f"artmind query graph pattern8 {domain_flags(domains)} --entityId {eid} "
-        f"--entityClass <CLASS> --all --compact"
+        f"--entityClass <CLASS> --via mentions --all --shape brief --compact"
     )
 
 
