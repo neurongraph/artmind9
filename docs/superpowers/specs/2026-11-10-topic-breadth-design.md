@@ -1,235 +1,329 @@
-# Topic pages for breadth: coverage fact, offer, faceted gather
+# Topic plans for breadth: coverage, saved plans, faceted gather, freshness
 
-Date: 2026-11-10. Status: **design for review**. Parent spec:
-`2026-11-08-classic-baseline-and-skill-simplification-design.md` (work plan §0.1; this is new work beside item D,
-composites). Builds on topic pages from `2026-11-01-summaries-survey-topics-design.md` §3. Public checkout:
-counts, ids and generic examples only; brain01 questions are named by id, never by content.
+Date: 2026-11-10 (revised the same day after review). Status: **design for review**. Parent spec:
+`2026-11-08-classic-baseline-and-skill-simplification-design.md` (work plan §0.1 item D0). Builds on topic pages
+from `2026-11-01-summaries-survey-topics-design.md` §3. Public checkout: counts, ids and generic examples only;
+brain01 questions are named by id, never by content.
 
 ## 1. Problem
 
-Some questions are answered by many documents, not a few. An overview or trend question ("what do I do in
-this hobby and how has it changed", "what do our policies say about X across the bank") needs every matching
-document read, and an agent turn reads ten or twenty of them.
+Some questions are answered by many documents. An overview or trend question ("what do I do in this hobby and
+how has it changed", "what do our policies say about X across the bank") needs every matching document, and an
+agent turn reads ten or twenty.
 
-Evidence, brain01 Q08 (an overview of two subjects over five years; run I and the 2026-11-10 rerun):
+Evidence, brain01 Q08 (an overview of two subjects over five years):
 
-- Every run, every baseline included, misses 5–7 of its 7 must items. The tier asks for about 22 dated events.
-- `survey --by year` for one of the two subjects reports 90 keyword-matching documents over five years and
-  shows 10 (2 per year). The agent read those, noted in its answer that the years were partial, and stopped.
-- An agent cannot read 90 documents in one turn, and should not try.
+- Every run, every baseline included, misses 5–7 of its 7 must items; the tier asks for about 22 dated events.
+- `survey --by year` for one of the two subjects reports 90 keyword-matching documents and shows 10 (2 per
+  year). The agent read those, said the years were partial, and stopped.
 
-Banking shows the same gap differently: "depth for broad multi-document questions" (parent §4.3a; banking
-Q15, Q18, Q25), where the matching documents sit across eight sibling domains, not across years.
+Banking shows the same gap across domains instead of years: "depth for broad multi-document questions" (parent
+§4.3a; banking Q15, Q18, Q25).
 
-Topic pages exist for exactly this (map per document, reduce, cited page), but two things stop them helping:
+Topic pages were built for this, but nothing suggests one, and `topic build` gathers with **one** survey capped at
+50 documents. Measured on Q08 (dry runs and survey calls, no LLM; "covered" = the event's journal day is among
+the gathered documents, which is necessary for any answer to carry it, not sufficient):
 
-1. **Nothing suggests one.** The agent never runs `topic build` (skill rule: LLM cost), and nothing tells the
-   user a page would answer better.
-2. **The gather is one survey.** `topic build` runs one `survey` of the topic text, capped at 50 documents.
-   Measured on Q08 (dry runs and survey calls, no LLM; "covered" = the event's journal day is among the
-   gathered documents, necessary for the page to carry it, not sufficient):
+| Gather | Documents | Dated events covered |
+|---|---|---|
+| `topic build`, the question as topic, `--maxDocs 50` | 50 | 11 of 22 |
+| the same, first subject only | 50 | 13 of 22 |
+| the same, second subject only | 50 | 7 of 22 |
+| 2 subjects × each year, top 15 per year | 144 | 19 of 22 |
+| 2 subjects × each year, top 25 per year | 230 | 21 of 22 |
 
-   | Gather | Documents | Dated events covered |
-   |---|---|---|
-   | `topic build`, the question as topic, `--maxDocs 50` | 50 | 11 of 22 |
-   | the same, first subject only | 50 | 13 of 22 |
-   | the same, second subject only | 50 | 7 of 22 |
-   | 2 subjects × each year, top 15 per year | 144 | 19 of 22 |
-   | 2 subjects × each year, top 25 per year | 230 | 21 of 22 |
+Breadth comes from gathering **per facet**, not from a bigger single pass.
 
-   Breadth comes from gathering **per facet**, not from a bigger single pass.
+A second problem: the banking `cpd-r051…056` pages were built from benchmark questions verbatim and read by
+baseline runs (study note 22). Pages are answer sheets for the question they were built from.
 
-A third problem appeared on the way: the banking `cpd-r051…056` pages were built from benchmark questions
-verbatim and read by baseline runs (study note 22, "Topic pages built from benchmark questions"). A feature
-that invites question-shaped topics must not recreate that leak.
+## 2. The granularity ladder
 
-## 2. Who does what
+The corpus answers at six levels of breadth:
 
-The parent spec's principle holds: code decides what is mechanical, the agent decides what to look for, the
-user decides what costs money.
+| # | Unit | Breadth | Made by | Fresh |
+|---|---|---|---|---|
+| 1 | Focused entity (`observation_count` < n) | one fact | extraction | always (recomputed at commit) |
+| 2 | Anchor entity (`observation_count` ≥ n) | one subject, many mentions | extraction + aggregation | always |
+| 3 | Saved view | many entities, one shape | operator (saved Cypher) | always (a query) |
+| 4 | Passage | one span of text | split + embedding | always |
+| 5 | Survey | many passages over many documents | a query | always |
+| 6 | Topic page | many surveys, synthesised | LLM, once | **no: a snapshot** |
+
+Levels 1–5 are corpus data or queries over it. Level 6 is the only derived, stored result: it costs time and
+money and goes stale. A view is the model to copy: a saved **query** stays fresh because the query is saved, not
+its result. So a topic is saved twice:
+
+- the **topic plan**: the retrieval program (subjects, slices, cells, depth), saved like a view, **available to
+  agents**, run live;
+- the **topic page**: the synthesis, for people (Obsidian), and the cache a refresh starts from; **never shown to
+  agents** (decision 2026-11-10: plan only).
+
+**n** is not fixed: per domain it is the 90th percentile of `observation_count` (at least 5), computed with the
+catalogue and reported by orient (§9.2).
+
+## 3. Who does what
 
 | Part | Does | Never does |
 |---|---|---|
-| `survey` | Reports how many documents match and how many the result shows (`coverage`) | Suggest a topic, or judge whether the question needs more |
-| Agent (query skill) | Reads `coverage`; for an overview or trend question offers a page, naming its facets | Run `topic build` |
-| User | Says yes or no, after seeing the dry run (documents, calls, cost, what leaves the machine) | — |
-| Agent (build skill, admin console only) | Proposes subjects; runs the dry run and, after the yes, the build; answers from the page's cited passages | Build without an explicit yes in this conversation |
-| `topic build` | Plans the facet grid from orient's facts, gathers per cell, maps, reduces, checks, reports coverage | Guess subjects (it takes them from the caller), or build from a benchmark question |
+| `survey` | Reports how many documents match and how many it shows (`coverage`) | Suggest a topic, or judge what the question needs |
+| `query topics plan` / `run` | Shows a saved plan; runs its surveys live | Show the page, call an LLM |
+| Agent (query skill) | Runs a plan that fits; when none fits and `coverage` is low, offers one | Build or refresh |
+| User | Says yes or no after the dry run (documents, calls, cost, what leaves the machine) | — |
+| Agent (build skill, admin console only) | Proposes subjects; dry run; after the yes, builds | Build without an explicit yes in this conversation |
+| `topic build` | Plans the grid from orient's facts, gathers per cell, maps, reduces, checks, writes plan + page | Guess subjects (the caller gives them) |
+| Background job | Checks each plan's freshness (no LLM) | Refresh unless the plan says so |
 
-## 3. Part A — the `coverage` fact
+## 4. Part A — the `coverage` fact
 
-`survey` (both shapes) adds one block:
+`survey` (both shapes) adds:
 
 ```json
 "coverage": {"matching_documents": 90, "shown": 10, "by": "year"}
 ```
 
-- `matching_documents`: distinct documents with a keyword hit in the searched scope (the keyword passage leg
-  already computes them, `POOL` 300 deep; with `--by`, the sum of the periods' `keyword_hits`). When the pool is
-  exhausted, the value is a floor and the block says `"at_least": true`.
+- `matching_documents`: distinct documents with a keyword hit in scope (the keyword passage leg, `POOL` 300
+  deep; with `--by`, the sum of the periods' `keyword_hits`). When the pool is exhausted it is a floor:
+  `"at_least": true`.
 - `shown`: documents the payload gives evidence for (passage or gist rows in brief; `documents` in full).
-- `by`: the period when `--by` was used, else absent.
-- Always present when `matching_documents > 0`. No threshold in code; the field is a fact.
+- Present whenever `matching_documents > 0`. No threshold in code.
 
-`vector-text` gets no `coverage`: it ranks passages for a fact, and its keyword leg counts passages, not
-documents. A question that needs breadth goes through `survey` already (skill: "a topic across documents").
+`vector-text` gets none: its keyword leg counts passages, and breadth questions already go through `survey`.
 
-## 4. Part B — offering a page (skill, one rule)
+## 5. Part B — the topic plan
 
-One rule in the orient variant's "Read every result" list (and in classic `artmind-query` at promotion):
+### 5.1 What a plan holds
 
-> **`coverage`:** when the answer rests on a small share of `matching_documents` and the question asks for an
-> overview, a trend or "everything about", answer from what you read, say how many more documents match, and
-> offer a topic page: name the topic, its subjects (your parts) and its span. Do not build it.
+`<vault>/.artmind/domains/topic_plans/<slug>.yaml` (beside `views/`; committed with the vault; never seeded):
 
-- Chat-ui: the offer names the command for the vault owner (`artmind topic build …`); end users cannot build.
-- Admin console: the user can answer "yes" and the build skill (Part F) takes over.
-- Benchmarks: the run cannot answer, so no page is built; the answer still carries the offer, which the grader
-  sees as text. A run never builds a page.
+```yaml
+format: 1
+slug: <slug>
+topic: "<topic in plain words>"
+version: 1                      # bumped by an edit; refused on downgrade (as views)
+domains: [<domain>, …]
+subjects:                       # facets the caller gave
+  - "<subject question 1>"
+  - "<subject question 2>"
+slices: {by: year, split: none} # resolved from `auto` at build (§6.2); stored resolved
+per_cell: 15
+max_docs: 150
+built:                          # the last build, for freshness (§8)
+  at: "<UTC timestamp>"
+  generations: {<domain>: <catalogue generation>}
+  grid: [{subject: 1, period: "2023", domain: null, matching: 16, taken: 15}, …]
+  model: <model>
+  prompt_version: <n>
+refresh: manual                 # manual | on_stale | weekly
+```
 
-## 5. Part C — facets and the corpus's shape
+The plan holds no corpus text, but its subjects are written in the user's words (for brain01, private: the
+plan stays in the vault, like views and dossiers).
 
-A page's gather is a grid: **subjects × slices**. Subjects come from the caller; slices come from the corpus's
-shape, read from orient peel 1 by code.
+### 5.2 Commands (read-only, proxied, traced)
 
-### 5.1 Facet kinds
+- `artmind query topics plan <slug>`: the plan, its freshness (§8) and, per cell, `matching` at build vs now.
+- `artmind query topics plan --list [--domain d]`: every plan in scope (slug, topic, subjects, freshness).
+- `artmind query topics run <slug> [--subject N] [--cell <period|domain>] [--shape brief]`: runs the plan's
+  surveys **live** with the plan's domains, subjects, slices and depth; returns brief rows grouped by cell under the
+  output budget (`ARTMIND_OUTPUT_BUDGET`; the rest via `query page <handle>`). No LLM. Each row is ordinary survey
+  evidence, cited as such.
+- `query topics list|show` (pages) are removed from the agent's surfaces: the query skill no longer names them,
+  and `survey`'s `topics` block (pages citing returned documents) is dropped. The page files stay for people;
+  `assets` lists plans, not pages.
+
+### 5.3 How the agent uses a plan
+
+Orient peel 2 lists a domain's plans (slug, topic, subjects; §9.2). The query skill, one rule:
+
+> A topic plan whose topic and subjects fit the question is a reviewed way to cover it: run
+> `query topics run <slug>` (one subject or cell at a time if the question needs only part), and answer from those
+> rows. When none fits and `survey`'s `coverage` shows the answer rests on a small share of `matching_documents`
+> for an overview or trend question, answer from what you read, say how many more documents match, and offer to
+> build a plan, naming its subjects and span. Never build it yourself.
+
+Benchmarks: a run may run a plan (it is retrieval, done live). A plan built *from* a benchmark question still
+encodes its decomposition; §10 handles that at grading time.
+
+## 6. Part C — facets and the corpus's shape
+
+### 6.1 Facet kinds
 
 | Kind | From | Used when |
 |---|---|---|
-| **subject** | `--facet "<question>"` (repeatable); default: the topic text alone | always (at least one) |
-| **period** | `--by year\|month\|none\|auto` | the scope's documents are dated by content and span long enough |
-| **domain** | `--split domain\|none\|auto` | the scope is a family root whose children hold matching documents |
+| **subject** | `--facet "<question>"` (repeatable); default the topic text | always (at least one) |
+| **period** | `--by year\|month\|none\|auto` | the scope is dated by content over a long enough span |
+| **domain** | `--split domain\|none\|auto` | the scope is a family root whose children hold matches |
 
-Subjects are judgement (the agent's parts, or the user's words). Period and domain slices are mechanical.
+Subjects are judgement (the agent's parts, the user's words, or anchor entities, §9.3). Slices are mechanical.
 
-### 5.2 `auto`: the shape rule (code, deterministic)
+### 6.2 `auto`: the shape rule (code, deterministic)
 
-Read from orient peel 1's card for each scoped domain (`time.dated.from_content`, `time.span`, `unit.documents`,
-`family` / `corpus.families`):
+From orient peel 1 for each scoped domain (`time.dated.from_content`, `time.span`, `unit.documents`, family):
 
-- **period = year** when at least 80 % of documents are dated from content and the span exceeds 24 months;
-  **month** when the span is 3–24 months and documents number at least 60; otherwise **none**.
-- **domain split** when the scope is a family root with two or more children holding at least one keyword
-  match for some subject; otherwise **none**.
-- Period and domain may both apply (a dated multi-domain family); the grid is then subject × domain × period,
-  bounded by §6.2.
+- **year** when at least 80 % of documents are dated from content and the span exceeds 24 months; **month**
+  when the span is 3–24 months and there are at least 60 documents; otherwise **none**.
+- **domain split** when the scope is a family root with two or more children holding a keyword match for some
+  subject; otherwise **none**.
+- Both may apply; the grid is then subject × domain × period, bounded by §7.2.
 
-On the two vaults: brain01 (one domain, 1,710 of 1,711 dated, 59 months) → year, no split. banking (a family of
-eight children, 58 documents, 6 months, mostly one date) → no period, domain split.
+brain01 (one domain, 1,710 of 1,711 dated, 59 months) → year, no split. banking (a family of eight children, 58
+documents over 6 months, mostly one date) → no period, domain split.
 
-### 5.3 The dry run shows the grid
+### 6.3 The dry run shows the grid
 
-`topic build --dryRun` reports the plan before any call:
+`topic build --dryRun` writes nothing and calls no LLM:
 
 ```json
-"grid": {"subjects": 2, "slices": {"by": "year", "split": null},
+"grid": {"slices": {"by": "year", "split": null},
          "cells": [{"subject": 1, "period": "2023", "matching": 16, "take": 15}, …]},
-"documents": 144, "calls": {"map": 144, "reduce": 4}, "effect": {…, "llm": {"calls": 148, "est_cost_usd": …}}
+"documents": 144, "calls": {"map": 144, "reduce": 4},
+"effect": {…, "llm": {"calls": 148, "model": "…", "est_cost_usd": …}}
 ```
 
-`matching` per cell is the corpus's shape for this topic: the user sees where the material is before paying,
-and an empty subject (0 matches everywhere) is visible as a wrong facet.
+`matching` per cell is the corpus's shape for this topic; a subject with 0 everywhere is a wrong facet, visible
+before any cost.
 
-## 6. Part D — the faceted gather
+## 7. Part D — the faceted gather and the page
 
-### 6.1 Per cell
+### 7.1 Per cell
 
 For each cell: `survey_search(domains=<cell domain or scope>, question=<subject>, top_docs=<take>,
-passages=MAX_PASSAGES_PER_DOC, date_from/date_to=<period bounds>)`. Documents are merged across cells by
-`doc_id`; a document found by several cells keeps every cell's passages (still capped at `MAP_INPUT_CHARS`) and
-records the cells it came from (for the reduce, §7).
+passages=MAX_PASSAGES_PER_DOC, date_from/date_to=<period bounds>)`. Documents merge by `doc_id`; a document found
+by several cells keeps each cell's passages (capped at `MAP_INPUT_CHARS`) and records its cells. `query topics
+run` uses the same function, so the agent sees what the build saw.
 
-### 6.2 Depth and caps
+### 7.2 Depth and caps
 
-- `take` per cell: `min(matching, --perCell)`, default `--perCell 15`; a cell whose `matching` is larger than
-  `take` is marked `partial` in the report.
-- Document cap `--maxDocs`, default 150, maximum 300 (`ARTMIND_TOPIC_MAX_DOCS` keeps its role; the old 1–50 range
-  widens). When the grid asks for more, cells are cut fairly (round-robin by rank), and the dry run says so.
-- No cell is skipped silently: the report lists every cell with `matching`, `taken`, `partial`.
+- `take` per cell = `min(matching, per_cell)`, default 15; a cell with more matches is `partial` in the report.
+- `--maxDocs` default 150, maximum 300 (`ARTMIND_TOPIC_MAX_DOCS` widens to 1–300). Over the cap, cells are cut
+  fairly (round-robin by rank); the dry run says so. Every cell is listed with `matching`, `taken`, `partial`.
 
-### 6.3 Cost and time
+### 7.3 Map, cache, reduce
 
-One map call per document. The map step runs concurrently (`ARTMIND_TOPIC_MAP_CONCURRENCY`, default 8), as
-extraction's chunk fan-out does; 150 documents at about 3 s per call then take about a minute. The model is
-the configured topic model (`--model`, else the KG model).
+- **Map** per document, prompt unchanged (claims with names and dates exactly as written, cited), run concurrently
+  (`ARTMIND_TOPIC_MAP_CONCURRENCY`, default 8).
+- **Map cache**: each result is cached by (document content sha, subject text, map prompt version, model) under
+  `logs/topic-map-cache/` (private, gitignored). A refresh maps only new or changed documents (§8.2).
+- **Reduce by facet**: notes are grouped per subject (and domain when split), reduced per group into a section,
+  then merged; a group over `REDUCE_INPUT_CHARS` is reduced per period first.
+- **Page shape**: `## Overview`; one section per subject; `## Timeline` when cells are dated (one dated line per
+  claim that carries a date); `## Where sources differ`. The page's frontmatter repeats the plan's `built` block.
+  `check` is unchanged.
 
-## 7. Part E — map and reduce keep the specifics
+The page is written to `<vault>/_Topics/<slug>.md` (still `NEVER_INGESTED`) and is not indexed for agents
+(§5.2); `:TopicPage` nodes remain only if `assets`/people-facing tooling needs them (open question §12).
 
-The map prompt is unchanged (claims with dates and names exactly as written, cited). The reduce changes:
+## 8. Part E — freshness and refresh
 
-- **Hierarchical reduce by facet:** notes are grouped by subject (and domain when split), reduced per group into
-  a section, then merged. A group above `REDUCE_INPUT_CHARS` is reduced per period first. This replaces the
-  size-only grouping, so related claims meet in the same call.
-- **Page shape:** `## Overview`; one section per subject (heading = the subject in plain words); `## Timeline`
-  required when the cells are dated (one dated line per claim that carries a date, ordered); `## Where sources
-  differ` as now. The "up to 6 sections" cap goes; the per-subject sections replace it.
-- **Coverage in the page's frontmatter:** the grid, per-cell `matching` / `taken` / `partial`, documents
-  gathered, documents the map found relevant, documents cited. `topic stale` and `query topics show` report it;
-  a later `topic refresh` re-plans the grid (new documents in a period count).
+### 8.1 The freshness check (no LLM)
 
-`check` (uncited paragraphs, unsupported numbers, removed citations) is unchanged.
+For each plan:
 
-## 8. Part F — building from the admin console
+1. **Short-circuit:** if every scoped domain's catalogue generation (`:DomainState.generation`, bumped by every
+   write path) equals `built.generations`, the plan is **fresh**.
+2. Otherwise re-count the grid (each cell's keyword `matching`, the same query as the dry run) and compare the
+   gathered documents' content sha with the page's sources:
 
-New skill **`artmind-build-topic`**, loaded only by the admin console's agent (not chat-ui, not benchmarks; the
-web UI loads it by profile). Steps:
+```json
+"freshness": {"status": "stale", "new_documents": 12, "changed": 3, "retired": 1,
+              "cells_grown": ["subject 1 / 2026"], "checked_at": "…"}
+```
 
-1. **Propose.** From the conversation: the topic, the subjects (the parts of the question that need breadth),
-   the domains. Slices default to `auto`.
-2. **Dry run.** `artmind topic build "<topic>" --domain <d> --facet "<s1>" --facet "<s2>" --dryRun --compact`.
-   Show the user: the grid (where the matches are), documents, LLM calls, estimated cost, the model, and that
-   the gathered text is sent to that provider.
-3. **Wait for an explicit yes** in this conversation. Changing facets means a new dry run.
-4. **Build** the same command without `--dryRun`. The page is written to `<vault>/_Topics/` and indexed.
-5. **Answer** from the page as the query skill says for topic pages: a guide, not evidence; cite its footnoted
-   passages (`query chunks --idList …`), and report the page's coverage (partial cells).
+`status`: `fresh`, `stale` (any new, changed or retired document, or a grown cell), or `unknown` (the graph was
+not reachable). `topic stale` (today: retired and changed sources only) is replaced by this check.
 
-The query skill's "never run `topic build`" stays for every other surface.
+### 8.2 Incremental refresh
 
-## 9. Part G — the benchmark leak guard
+`artmind topic refresh <slug>` (tier-1 dry run, LLM calls): re-runs the gather; maps only documents not in the map
+cache; re-reduces only subjects whose cells changed; rewrites the page and the plan's `built` block. Cost follows
+how much changed. `--full` ignores the cache.
 
-`topic build` refuses (exit 1, nothing written, no LLM call) when the topic or any facet matches a question in
-the vault's benchmark material: `benchmarking/*.md` question lines, `plan_labels.yaml`, `retrieval_labels.yaml`.
-Match = equal after normalising case, punctuation and whitespace, or one contains the other when both are at
-least 40 characters. The message names the file, never the question text. No override flag: a benchmark
-question's page belongs in a scratch `--out` folder (never indexed, §10).
+### 8.3 Schedule
 
-## 10. Measurement
+- The freshness check runs in the background job that serve, chat-ui and admin-ui already run for catalogue health
+  (`catalogue/refresh.py`), daily, no LLM, and stores its result beside the plan under `logs/` (private).
+- The admin console's Topics tab lists plans with their freshness and what changed.
+- `refresh: manual` (default) never refreshes on its own. `on_stale` refreshes after a check finds the plan stale;
+  `weekly` refreshes at most once a week when stale. Both are opt-in per plan, run only in the admin console
+  process, and respect `ARTMIND_TOPIC_MAX_COST_USD` per refresh (no refresh above it; the tab says why). For
+  brain01 a refresh sends journal text to the configured provider, as ingestion does; opting in is that consent.
 
-Benchmarks cannot measure a page by reading it (that is the leak). Measure the page itself:
+## 9. Part F — using the ladder elsewhere
 
-1. **Gather coverage (no LLM):** for Q08, the share of the tier's dated events whose documents are gathered, as in
-   §1's table; target ≥ 19 of 22 with the defaults.
-2. **Page coverage (LLM, scratch folder):** build the Q08 page with `--out <scratchpad>` (not indexed, not in the
-   vault), then grade the page text as an answer against Q08's tiers with the Sonnet grader. Compare with the
-   best baseline answer (6 of 7 missed) and run I (5 of 7).
-3. **Second shape:** banking Q15 (domain split, no period), the same two checks; the page goes to scratch too.
-4. **The offer:** rerun Q08 alone (orient variant) after Part B; check the answer carries the offer with sensible
-   subjects and span, and that no build ran.
+### 9.1 Signposts that climb one level
 
-brain01 pages and their grades stay in the vault or the scratchpad (private); only counts reach the repo.
+The existing `next` hints (facts about the result) gain one rung each, never routing:
 
-## 11. Order of work
+- a focused entity's co-mentions are cut → `entity-context` (exists: `hub`, `cut`);
+- an anchor entity's evidence is cut → `survey` on its name (new hint in `entity-context`);
+- `survey`'s `coverage` is low and a plan in scope matches its question terms → `query topics run <slug>`.
 
-1. Part G (guard) and Part A (`coverage`), with tests: small, and the guard must exist before any page is built.
-2. Parts C–E (grid, faceted gather, reduce): `topic build --facet/--by/--split/--perCell`, dry-run grid,
-   concurrency. Measure §10.1–10.3.
-3. Part B (one skill rule) and Part F (build skill). Measure §10.4; a live admin-console build by the user.
+### 9.2 Orient
 
-Each step is tested hermetically (gather calls asserted on the parameters sent, `test/_neo4j_recorder.py`), then
-run live; new Cypher is run live before a step is called done.
+Peel 2 adds, per domain, a `levels` block: `n`, focused and anchor entity counts, views, passages, document and
+chunk summaries, topic plans (slug, topic, subjects, freshness). Peel 1's card adds `topic_plans: <count>` beside
+`views`.
 
-## 12. Risks and open questions
+### 9.3 Proposing subjects
 
-- **Cost on large corpora.** A 300-document page is about 300 map calls. The dry run is the guard; the default
-  cap is 150. Open: should the admin console show a cost ceiling (`ARTMIND_TOPIC_MAX_COST_USD`)?
-- **Subject quality.** A subject the corpus does not use (0 matches) produces an empty section; the dry-run grid
-  shows it first. Subjects stay the agent's and user's judgement.
-- **Keyword counts undercount meaning.** `matching` comes from the keyword leg; a subject the documents describe in
-  other words shows low counts. The vector leg ranks within each cell, so gathering is not limited to keyword
-  matches, but the grid's `matching` is.
-- **Pages go stale** as new journal days arrive; `topic stale` already reports retired sources; the grid gives a
-  second reason (a period gained documents).
-- **Open: month slices for a dated corpus over more than 24 months** when a subject is dense (more than
-  `--perCell` matches in most years). `auto` could step down to months per subject; left out until a question
-  needs it.
+`topic build --dryRun` lists anchor entities in scope whose names or aliases match the topic's terms (level 2)
+as **suggested subjects**, with their `observation_count`; the build skill shows them and the user keeps or drops
+them. The caller's `--facet` list is still what is built.
+
+### 9.4 Answerability (phase 4 input)
+
+For each must item in a benchmark tier, the lowest level that holds it says what a miss needs: a fact the graph
+lacks → extraction; an item only a survey reaches → depth; only a plan reaches → breadth. The phase-4 audit
+records this level per item.
+
+## 10. Part G — benchmarks and topic material
+
+Pages are not on any agent surface (§5.2), which removes the page leak. Plans remain, so:
+
+- **At grading time:** `traces compare` flags a benchmark turn that ran `query topics run` for a plan whose topic
+  or subjects match the turn's question (normalised equality or containment for texts of 40+ characters), in the
+  per-question detail and in the flagged list. A fact about the run; no refusal anywhere.
+- **At run time:** none. Building a plan from a question is legitimate use; the flag tells the reader which runs
+  had that help.
+
+## 11. Measurement
+
+1. **Gather coverage (no LLM):** Q08's dated events whose documents the default grid gathers; target ≥ 19 of 22.
+2. **Plan-run coverage (no LLM):** the same count over the rows `query topics run` returns within the output budget
+   (what the agent can actually read), per subject.
+3. **Agent with the plan:** a Q08 plan built in the vault, then Q08 rerun alone (orient variant): grade with
+   Sonnet; compare with run I (5 of 7 missed) and the best baseline (6 of 7). The turn is flagged by §10, and the
+   result is reported as "with plan" (it is not a like-for-like baseline comparison).
+4. **Page coverage (LLM, people-facing):** grade the page text against Q08's tiers, to see what the synthesis
+   keeps.
+5. **Second shape:** banking Q15 (domain split), steps 1–3.
+6. **The offer:** Q08 rerun with no plan in the vault after Part B; the answer carries the offer with sensible
+   subjects and span; nothing is built.
+7. **Freshness:** after adding a journal day that matches a subject, the check reports `stale` with
+   `new_documents: 1` and the cell; an incremental refresh makes one map call plus the reduces for that subject.
+
+brain01 plans, pages and grades stay in the vault or the scratchpad; only counts reach the repo.
+
+## 12. Order of work
+
+1. Part A (`coverage`) and the plan file format + `query topics plan|run` (§5), with tests on the parameters
+   sent; runs live.
+2. Part C–D: the grid, faceted gather, dry run, concurrency, map cache, facet reduce; `topic build` writes plan +
+   page. Measure §11.1–11.2, 11.4.
+3. Agent surfaces: the skill rule (§5.3), page surfaces removed (§5.2), orient `levels` (§9.2), suggested subjects
+   (§9.3), the climb hints (§9.1), the build skill (`artmind-build-topic`, admin console only: propose → dry run →
+   explicit yes → build → run the plan). Measure §11.3, 11.5, 11.6.
+4. Part E: freshness check, incremental refresh, background schedule, Topics tab. Measure §11.7.
+5. Part G: the `traces compare` flag.
+
+## 13. Risks and open questions
+
+- **Cost on large corpora**: 300 documents ≈ 300 map calls; the dry run and `ARTMIND_TOPIC_MAX_COST_USD` guard it.
+- **Subject quality**: a subject the corpus never uses shows 0 in the grid before any cost.
+- **Keyword counts undercount meaning**: `matching` comes from the keyword leg; the vector leg still ranks inside
+  each cell, but the grid's counts can understate a subject described in other words.
+- **Plan output vs budget**: Q08's grid is 144 documents; `topics run` must page well (brief rows, per-cell runs).
+  §11.2 measures what fits.
+- **Open:** keep `:TopicPage` nodes and their index for the people-facing Topics tab, or derive the tab from files.
+- **Open:** month slices inside a long dated span when a subject is dense in most years.

@@ -62,7 +62,7 @@ remaining planned enhancements, then benchmark.
 | A | Defect backlog (run I) | banking 28 open, brain01 18 open + Q04 investigating; Q14, Q28 fixed. Vault files `benchmarking/defect_backlog_runI.md` |
 | B | Benchmark run J (both vaults) | after the backlog pass or a natural break; judged with Sonnet against the same baselines and floors (note 22) |
 | C | Promote the orient variant | after a passing run: variant text replaces classic `artmind-query`; classic kept as archive text |
-| D0 | Topic pages for breadth | spec `2026-11-10-topic-breadth-design.md`: `survey` `coverage` fact, the agent offers a page, faceted gather (subject × period/domain from orient's shape), admin-console build skill, benchmark leak guard. Evidence: brain01 Q08, banking Q15 |
+| D0 | Topic plans for breadth | spec `2026-11-10-topic-breadth-design.md`: the granularity ladder; `survey` `coverage`; saved topic plans (agents run the plan live, never see the page); faceted gather (subject × period/domain from orient's shape); freshness check + incremental refresh on a schedule; benchmark flag at grading time. Evidence: brain01 Q08, banking Q15 |
 | D | Composites (episode) — §4.4 | own design pass, LLM consent (brain01 private); evidence: enumeration/near-miss questions |
 | E | P2b skill restructure — §4.5 | skill to ~150 lines, references on demand, `commands.md` from the Click tree; measured alone |
 | F | Phase 3 planner removal — §5 | unchanged |
