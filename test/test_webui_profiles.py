@@ -206,6 +206,20 @@ def test_sdk_base_url_override_rescues_the_original_anthropic_base_url(monkeypat
     assert backend._env["ARTMIND_KG_ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica/v1"
 
 
+def test_an_explicit_kg_base_url_is_never_clobbered_by_the_rescue(monkeypatch):
+    """A console started from a Claude Code shell inherits that shell's
+    ANTHROPIC_BASE_URL (e.g. api.anthropic.com). The rescue must not copy it
+    over an ARTMIND_KG_ANTHROPIC_BASE_URL the operator configured: the agent's
+    text2sql / text2cypher calls then 404'd (banking Q33 rerun, 2026-11-10)."""
+    monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com")
+    monkeypatch.setenv("ARTMIND_KG_ANTHROPIC_BASE_URL", "https://gateway.example.com/ica/v1")
+    monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")
+    backend = create_backend("claude-sdk")
+    assert backend._env["ANTHROPIC_BASE_URL"] == "https://gateway.example.com/ica"
+    assert backend._env.get("ARTMIND_KG_ANTHROPIC_BASE_URL", "https://gateway.example.com/ica/v1") == \
+        "https://gateway.example.com/ica/v1"
+
+
 def test_no_rescue_needed_when_anthropic_base_url_was_never_set(monkeypatch):
     monkeypatch.delenv("ANTHROPIC_BASE_URL", raising=False)
     monkeypatch.setenv("ARTMIND_SDK_BASE_URL", "https://gateway.example.com/ica")

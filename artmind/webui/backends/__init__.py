@@ -166,7 +166,11 @@ def _sdk_env_overrides() -> dict[str, str]:
 
     overrides = {}
     original_base = os.environ.get("ANTHROPIC_BASE_URL")
-    if original_base and original_base != base_url:
+    # An explicitly configured KG endpoint wins: a console started from a shell
+    # that exports its own ANTHROPIC_BASE_URL (Claude Code does) must not copy
+    # that value over it, or every ibm_ica call the agent's Bash makes 404s.
+    if (original_base and original_base != base_url
+            and not os.environ.get("ARTMIND_KG_ANTHROPIC_BASE_URL")):
         overrides["ARTMIND_KG_ANTHROPIC_BASE_URL"] = original_base
 
     return {
