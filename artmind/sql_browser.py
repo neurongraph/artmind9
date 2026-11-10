@@ -133,3 +133,34 @@ def run(question: str, db: Path, metadata: Path | None, model: str, env: dict, *
     if proc.returncode != 0 or payload.get("error"):
         raise SqlBrowserError(payload.get("error") or proc.stderr.strip()[-300:] or f"exit {proc.returncode}")
     return payload
+
+
+def metadata_path(domain: str) -> Path:
+    return Path(paths.DOMAIN_METADATA_DIR) / f"{domain}.meta.yaml"
+
+
+def metadata_command(sub: str, domain: str, tables: list[dict], env: dict, *, model: str | None = None,
+                     llm_draft: bool = False) -> dict:
+    """Run `sql-browser metadata init|validate|regenerate` on the domain's tables and its sidecar."""
+    exe = executable()
+    if not exe:
+        raise SqlBrowserError("sql-browser is not installed (uv tool install --editable <sql-browser checkout>)")
+    if not tables:
+        raise SqlBrowserError(f"no structured tables in {domain!r}")
+    target = metadata_path(domain)
+    cmd = [exe, "metadata", sub, str(scoped_db(tables))]
+    if sub == "init":
+        target.parent.mkdir(parents=True, exist_ok=True)
+        cmd += ["--out", str(target)] + (["--llm-draft"] if llm_draft else [])
+    else:
+        if not target.is_file():
+            raise SqlBrowserError(f"no metadata file yet: {target} (run artmind db metadata init --domain {domain})")
+        cmd += ["--metadata", str(target)]
+    if model and (sub == "regenerate" or llm_draft):
+        cmd += ["--model", model]
+    child_env = {k: v for k, v in os.environ.items() if not k.startswith("SQL_BROWSER_")}
+    child_env.update(llm_env(env))
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=TIMEOUT_S * 4, env=child_env,
+                          cwd=str(_work_dir()))
+    return {"path": str(target), "exit_code": proc.returncode,
+            "output": (proc.stdout + proc.stderr).strip()[-2000:], "ok": proc.returncode == 0}

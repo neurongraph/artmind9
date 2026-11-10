@@ -405,9 +405,12 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind db": [
         {"name": "Explore", "commands": ["bridge", "list", "schema", "catalogue"]},
-        {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain", "review"]},
+        {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain", "review", "metadata"]},
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
+    ],
+    "artmind db metadata": [
+        {"name": "text2sql metadata", "commands": ["init", "validate", "regenerate"]},
     ],
     "artmind plan": [
         {"name": "Plan", "commands": ["config", "labels", "replay"]},
@@ -2354,6 +2357,72 @@ def db():
     confirm` / `db bridge confirm` record those rulings.
     """
     pass
+
+
+@db.group("metadata")
+def db_metadata() -> None:
+    """text2sql metadata for a domain (sql-browser's sidecar format, spec 2026-11-07):
+    `domains/metadata/<domain>.meta.yaml`, user-authored and committed. Needs `sql-browser`."""
+
+
+@db_metadata.command("init")
+@click.option("--domain", "domain", required=True, help="Domain whose structured tables to describe")
+@click.option("--llmDraft", "llm_draft", is_flag=True, help="Have the LLM draft table descriptions (sends table samples to the provider)")
+@dry_run_option("Show the file and tables that would be scaffolded; write nothing, call nothing")
+@compact_option
+def db_metadata_init(domain, llm_draft, dry_run, compact):
+    """Scaffold the domain's metadata file from its tables (refuses to overwrite one)."""
+    from artmind import sql_browser
+    from artmind.cli_conventions import Change, Effect, with_effect
+
+    tables = structured_registry.list_tables(_parse_domains((domain,)))
+    target = sql_browser.metadata_path(domain)
+    result = {"domain": domain, "path": str(target), "tables": [t["table_name"] for t in tables],
+              "exists": target.is_file()}
+    effect = Effect(summary=f"Write {target.name} describing {len(tables)} table(s).",
+                    changes=[Change("table_change", 1, [target.name])], llm_calls=len(tables) if llm_draft else 0,
+                    reversible=True, undo=f"delete {target}", travels=True, records=[str(target)])
+    if not dry_run:
+        if target.is_file():
+            raise click.ClickException(f"{target} exists; edit it, or delete it to scaffold again")
+        try:
+            result.update(sql_browser.metadata_command("init", domain, tables, load_env(), llm_draft=llm_draft,
+                                                       model=resolve_llm_model(load_env())))
+        except sql_browser.SqlBrowserError as exc:
+            raise click.ClickException(str(exc)) from exc
+    _echo_json(with_effect(result, effect, dry_run=dry_run), compact)
+
+
+@db_metadata.command("validate")
+@click.option("--domain", "domain", required=True)
+@compact_option
+def db_metadata_validate(domain, compact):
+    """Check the domain's metadata file against its tables (read-only)."""
+    from artmind import sql_browser
+
+    tables = structured_registry.list_tables(_parse_domains((domain,)))
+    try:
+        result = sql_browser.metadata_command("validate", domain, tables, load_env())
+    except sql_browser.SqlBrowserError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"domain": domain, **result}, compact)
+
+
+@db_metadata.command("regenerate")
+@click.option("--domain", "domain", required=True)
+@unbuilt_dry_run_option
+@compact_option
+def db_metadata_regenerate(domain, dry_run, compact):
+    """Regenerate the structured blocks from the file's `prose:` (LLM call; edits the file in place)."""
+    from artmind import sql_browser
+
+    tables = structured_registry.list_tables(_parse_domains((domain,)))
+    try:
+        result = sql_browser.metadata_command("regenerate", domain, tables, load_env(),
+                                              model=resolve_llm_model(load_env()))
+    except sql_browser.SqlBrowserError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json({"domain": domain, **result}, compact)
 
 
 @db.command("list")
