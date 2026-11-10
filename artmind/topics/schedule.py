@@ -76,9 +76,9 @@ def run_once(*, auto_refresh: bool = False, now: datetime | None = None, build_f
 
 def _refresh(spec, reason: str, build_fn, now: datetime) -> dict:
     at = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    args = dict(topic=spec.topic, domains=list(spec.domains), facets=list(spec.subjects), by=spec.by,
-                split=spec.split, per_cell=spec.per_cell, max_docs=spec.max_docs, slug=spec.slug,
-                refresh=spec.refresh, model=(spec.built or {}).get("model"))
+    from artmind.topics.build import args_from_plan
+
+    args = {**args_from_plan(spec), "slug": spec.slug}
     try:
         plan = build_fn(dry_run=True, **args)
         cost = (plan.get("effect") or {}).get("llm", {}).get("est_cost_usd") or 0.0

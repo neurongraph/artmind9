@@ -28,6 +28,29 @@ lists existing plans: if one fits, run it instead and stop here):
 - **Slices**: leave `--by auto --split auto` (year for a long dated journal, per child
   domain for a family of document types) unless the user wants otherwise.
 
+### Set questions: members
+
+"Which places have I visited in X", "which client companies": the answer is members the
+question does not name. Discover them first (no LLM, writes nothing):
+
+```bash
+artmind topic build "<topic>" --domain <d> --discover members --anchor "<entity>" [--anchor "<entity>"] \
+  --entityClass <CLASS> --dryRun --compact
+```
+
+`discover.candidates` lists entities of that class co-mentioned with the anchors (mentions,
+first and last date). The graph has no "located in" links, so the list mixes in-set and
+out-of-set entities: propose the in-set ones with a reason; the user keeps, drops or adds
+members (an added member need not be an entity). Then dry-run with the choice, which makes
+one subject per member (name and graph aliases, no period slice) plus a cell for the anchors:
+
+```bash
+artmind topic build "<topic>" --domain <d> --anchor "<entity>" --entityClass <CLASS> \
+  --member "<kept 1>" --member "<kept 2>" --drop "<dropped 1>" --dryRun --compact
+```
+
+A member whose cell shows `matching: 0` is spelled differently in the documents: fix or drop it.
+
 ## 2. Dry run (no LLM, writes nothing)
 
 ```bash

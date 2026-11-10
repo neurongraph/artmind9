@@ -4790,14 +4790,22 @@ def topic_plan_validate(path: "Path | None", compact: bool, slug: "str | None") 
 @click.option("--refresh", "refresh", type=click.Choice(["manual", "on_stale", "weekly"]), default="manual",
               show_default=True, help="The plan's refresh mode (on_stale/weekly run only in the admin console)")
 @click.option("--full", "full", is_flag=True, help="Ignore the map cache: map every document again")
+@click.option("--discover", "discover", type=click.Choice(["members"]), default=None,
+              help="members: list entities of --entityClass co-mentioned with the --anchor entities (dry run)")
+@click.option("--anchor", "anchors", multiple=True, help="An entity the set belongs to (repeatable, not comma-split)")
+@click.option("--entityClass", "entity_class", default=None, help="--discover members: the class of the members")
+@click.option("--member", "members", multiple=True,
+              help="A kept member: one subject searched by its name and graph aliases (repeatable, not comma-split)")
+@click.option("--drop", "dropped", multiple=True, help="A candidate the user dropped: never offered again (repeatable)")
 @click.option("--slug", default=None, help="File and plan name (default: from the topic)")
 @click.option("--out", type=click.Path(path_type=Path), default=None, help="Page folder (default: <vault>/_Topics)")
 @click.option("--model", default=None, help="LLM model (default: env)")
 @dry_run_option("Show the grid (cells, matching, take), documents, calls and cost; no LLM, write nothing")
 @compact_option
 def topic_build(topic: str, domain: tuple, facets: tuple, by: str, split: str, per_cell: int,
-                max_docs: "int | None", refresh: str, full: bool, slug: "str | None", out: "Path | None",
-                model: "str | None", dry_run: bool, compact: bool) -> None:
+                max_docs: "int | None", refresh: str, full: bool, discover: "str | None", anchors: tuple,
+                entity_class: "str | None", members: tuple, dropped: tuple, slug: "str | None",
+                out: "Path | None", model: "str | None", dry_run: bool, compact: bool) -> None:
     """Build (or rebuild) one topic page and its plan: gather per facet cell, map, reduce.
 
     Subjects are the caller's (`--facet`); slices come from `--by` / `--split` (auto:
@@ -4805,16 +4813,27 @@ def topic_build(topic: str, domain: tuple, facets: tuple, by: str, split: str, p
     `--perCell` deep. Every (document, subject) pair is one map call unless the map cache
     holds it; then one reduce per subject (and child domain) and one for the overview.
     Sends the gathered passages to the configured LLM provider.
+
+    Set questions (spec §6.4): `--discover members --anchor <entity> --entityClass <CLASS>
+    --dryRun` lists co-mentioned candidates (mentions, first/last date); keep members with
+    `--member` (one subject each, no period slice, plus a cell for the anchors) and record the
+    rest with `--drop`.
     """
     _setup_logger()
     from artmind.topics import build
 
+    if discover and not (anchors and entity_class):
+        raise click.UsageError("--discover members needs --anchor and --entityClass")
+    if anchors and not discover and not members:
+        raise click.UsageError("--anchor is for --discover members (or with --member)")
     if max_docs is None:
         max_docs = _resolve_topic_max_docs()
     try:
         result = build.build_topic(topic, _parse_domains(domain), facets=list(facets), by=by, split=split,
                                    per_cell=per_cell, max_docs=max_docs, slug=slug, out=out, model=model,
-                                   dry_run=dry_run, refresh=refresh, full=full, suggest=_suggest_subjects)
+                                   dry_run=dry_run, refresh=refresh, full=full, suggest=_suggest_subjects,
+                                   members=list(members) or None, anchors=list(anchors) or None,
+                                   entity_class=entity_class, dropped=tuple(dropped))
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -4861,11 +4880,7 @@ def _plan_build_args(slug: str, directory: Path) -> dict:
         if page is None:
             raise click.ClickException(f"no topic plan or page {slug!r}") from exc
         return build.plan_from_page(page)
-    spec = loaded.spec
-    return {"topic": spec.topic, "domains": list(spec.domains), "facets": list(spec.subjects), "by": spec.by,
-            "split": spec.split, "per_cell": spec.per_cell, "max_docs": spec.max_docs, "refresh": spec.refresh,
-            # the model of the last build keys the map cache: refresh with it
-            "model": (spec.built or {}).get("model")}
+    return build.args_from_plan(loaded.spec)
 
 
 @topic_group.command("refresh")

@@ -23,13 +23,15 @@ BY = ("year", "month", "none")
 SPLIT = ("domain", "none")
 REFRESH = ("manual", "on_stale", "weekly")
 MAX_SUBJECTS = 8
+#: A members plan (spec §6.4) has one subject per kept member plus the anchors' cell.
+MAX_MEMBERS = 40
 MAX_PER_CELL = 50
 DEFAULT_PER_CELL = 15
 DEFAULT_MAX_DOCS = 150
 MAX_DOCS_CAP = 300
 
 _TOP_KEYS = {"format", "slug", "topic", "version", "domains", "subjects", "slices", "per_cell", "max_docs",
-             "built", "refresh"}
+             "built", "refresh", "members", "discover", "dropped"}
 #: What a version bump covers: everything but the `built` record.
 _DEFINITION = ("format", "slug", "topic", "domains", "subjects", "slices", "per_cell", "max_docs", "refresh")
 _FRONTMATTER_RE = re.compile(r"\A---\r?\n(.*?)\r?\n---\s*(\r?\n|\Z)", re.S)
@@ -52,11 +54,28 @@ class PlanSpec:
     max_docs: int = DEFAULT_MAX_DOCS
     refresh: str = "manual"
     built: dict = field(default_factory=dict, compare=False)
+    # members (spec §6.4): [{name, entity_key?, aliases}], the discovery behind them, and the
+    # candidates the user dropped (never offered again)
+    members: tuple = ()
+    discover: dict | None = None
+    dropped: tuple = ()
 
     def definition(self) -> dict:
-        return {"format": FORMAT, "slug": self.slug, "topic": self.topic, "domains": list(self.domains),
-                "subjects": list(self.subjects), "slices": {"by": self.by, "split": self.split},
-                "per_cell": self.per_cell, "max_docs": self.max_docs, "refresh": self.refresh}
+        d = {"format": FORMAT, "slug": self.slug, "topic": self.topic, "domains": list(self.domains),
+             "subjects": list(self.subjects), "slices": {"by": self.by, "split": self.split},
+             "per_cell": self.per_cell, "max_docs": self.max_docs, "refresh": self.refresh}
+        if self.members:
+            d["members"] = [dict(m) for m in self.members]
+        if self.discover:
+            d["discover"] = dict(self.discover)
+        if self.dropped:
+            d["dropped"] = list(self.dropped)
+        return d
+
+    def queries(self) -> list[str]:
+        """What each subject's cells search for: a member's name and aliases, else the subject."""
+        by_name = {m["name"]: m for m in self.members}
+        return [" ".join([s, *(by_name[s].get("aliases") or [])]) if s in by_name else s for s in self.subjects]
 
     def to_yaml_dict(self) -> dict:
         """plan.yaml's mapping, keys in the documented order."""
@@ -64,6 +83,9 @@ class PlanSpec:
         out = {"format": d["format"], "slug": d["slug"], "topic": d["topic"], "version": self.version,
                "domains": d["domains"], "subjects": d["subjects"], "slices": d["slices"],
                "per_cell": d["per_cell"], "max_docs": d["max_docs"]}
+        for key in ("members", "discover", "dropped"):
+            if key in d:
+                out[key] = d[key]
         if self.built:
             out["built"] = dict(self.built)
         out["refresh"] = self.refresh
@@ -74,7 +96,8 @@ class PlanSpec:
                 "subjects": [{"n": i, "text": s} for i, s in enumerate(self.subjects, 1)],
                 "slices": {"by": self.by, "split": self.split}, "per_cell": self.per_cell,
                 "max_docs": self.max_docs, "refresh": self.refresh,
-                "built_at": (self.built or {}).get("at")}
+                "built_at": (self.built or {}).get("at"),
+                **({"members": len(self.members)} if self.members else {})}
 
 
 def fingerprint(spec: PlanSpec, skill_md: str) -> str:
@@ -139,15 +162,43 @@ def parse_plan(data, folder_name: str | None = None) -> PlanSpec:
     built = data.get("built") or {}
     if not isinstance(built, dict):
         raise PlanError("built must be a mapping")
+    members = _members(data.get("members"))
+    discover = data.get("discover")
+    if discover is not None and (not isinstance(discover, dict) or not isinstance(discover.get("anchors"), list)
+                                 or not isinstance(discover.get("entity_class"), str)):
+        raise PlanError("discover must be a mapping with `anchors` (a list) and `entity_class`")
+    dropped = data.get("dropped") or []
+    if not isinstance(dropped, list) or not all(isinstance(x, str) for x in dropped):
+        raise PlanError("dropped must be a list of names")
     return PlanSpec(
         slug=slug, topic=" ".join(topic.split()), version=version,
         domains=_strings(data.get("domains"), "domains"),
-        subjects=_strings(data.get("subjects"), "subjects", MAX_SUBJECTS),
+        subjects=_strings(data.get("subjects"), "subjects", MAX_MEMBERS + 1 if members else MAX_SUBJECTS),
         by=by, split=split,
         per_cell=_int(data, "per_cell", DEFAULT_PER_CELL, 1, MAX_PER_CELL),
         max_docs=_int(data, "max_docs", DEFAULT_MAX_DOCS, 1, MAX_DOCS_CAP),
-        refresh=refresh, built=built,
+        refresh=refresh, built=built, members=members, discover=dict(discover) if discover else None,
+        dropped=tuple(dropped),
     )
+
+
+def _members(value) -> tuple:
+    if value is None:
+        return ()
+    if not isinstance(value, list):
+        raise PlanError("members must be a list of {name, entity_key?, aliases}")
+    out = []
+    for m in value:
+        if not isinstance(m, dict) or not isinstance(m.get("name"), str) or not m["name"].strip() \
+                or set(m) - {"name", "entity_key", "aliases"}:
+            raise PlanError("every member needs a `name` (and only `entity_key`, `aliases` besides)")
+        aliases = m.get("aliases") or []
+        if not isinstance(aliases, list) or not all(isinstance(a, str) for a in aliases):
+            raise PlanError(f"member {m['name']!r}: aliases must be a list of strings")
+        out.append({k: v for k, v in m.items()})
+    if len(out) > MAX_MEMBERS:
+        raise PlanError(f"members holds at most {MAX_MEMBERS} entries")
+    return tuple(out)
 
 
 def check_version(spec: PlanSpec, skill_md: str) -> None:

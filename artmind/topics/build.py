@@ -91,12 +91,21 @@ class _Plan:
 def plan_build(topic: str, domains: list[str], *, facets=None, by: str = "auto", split: str = "auto",
                per_cell: int = plan_model.DEFAULT_PER_CELL, max_docs: int = plan_model.DEFAULT_MAX_DOCS,
                model: str | None = None, full: bool = False, cards=None, session_factory=None, search=None,
-               suggest=None) -> _Plan:
+               suggest=None, members=None, anchors=None, entity_class=None, dropped=(), resolve=None) -> _Plan:
     from artmind.graph_query import read_session
 
-    subjects = [" ".join(s.split()) for s in (facets or []) if s and s.strip()] or [" ".join(topic.split())]
-    if len(subjects) > plan_model.MAX_SUBJECTS:
+    subjects = [" ".join(s.split()) for s in (facets or []) if s and s.strip()]
+    member_names = [" ".join(m.split()) for m in (members or []) if m and m.strip()]
+    if anchors and not entity_class:
+        raise ValueError("--anchor needs --entityClass (the class of the members to discover)")
+    if member_names or anchors:
+        by, split = "none", "none"  # members are gathered without a period slice (spec §6.4)
+        if len(member_names) > plan_model.MAX_MEMBERS:
+            raise ValueError(f"at most {plan_model.MAX_MEMBERS} --member entries")
+    elif len(subjects) > plan_model.MAX_SUBJECTS:
         raise ValueError(f"at most {plan_model.MAX_SUBJECTS} --facet subjects")
+    if not subjects and not member_names:
+        subjects = [" ".join(topic.split())]
     if len(set(subjects)) != len(subjects):
         raise ValueError("a --facet is given twice")
     warnings: list[str] = []
@@ -108,11 +117,29 @@ def plan_build(topic: str, domains: list[str], *, facets=None, by: str = "auto",
             warnings.append(f"shape facts unavailable ({exc}); --by auto resolved to none")
             facts = {}
     by = shape.resolve_by(by, facts or {})
+    member_records, discovered = [], None
     with (session_factory or read_session)() as session:
-        counted, floors = grid.count_all(subjects, domains, session=session)
+        if anchors:
+            from artmind.topics import members as members_mod
+
+            discovered = members_mod.discover(list(anchors), entity_class, domains, session, kept=member_names,
+                                              dropped=list(dropped), resolve=resolve)
+        if member_names:
+            from artmind.topics import members as members_mod
+
+            member_records = members_mod.member_records(member_names, domains, session)
+            subjects = [m["name"] for m in member_records] + [s for s in subjects if s not in member_names]
+            if anchors:
+                subjects.append(members_mod.anchors_subject(anchors))
+        if len(set(subjects)) != len(subjects):
+            raise ValueError("a --facet or --member is given twice")
+        by_name = {m["name"]: m for m in member_records}
+        queries = [" ".join([s, *(by_name[s].get("aliases") or [])]) if s in by_name
+                   else (s.replace(";", " ") if anchors and s == subjects[-1] and member_names else s) for s in subjects]
+        counted, floors = grid.count_all(queries, domains, session=session)
         split = shape.split_from_counts(split, domains, counted)
         cells, cut = grid.cells_from(counted, floors, domains, by, split, per_cell, max_docs)
-        materials, _ = grid.gather(subjects, cells, domains, search=search)
+        materials, _ = grid.gather(queries, cells, domains, search=search)
         links = _links(materials, session)
         suggested = suggest(topic, domains, session) if suggest else []
     label_cell = {c.label(): c for c in cells}
@@ -152,7 +179,9 @@ def plan_build(topic: str, domains: list[str], *, facets=None, by: str = "auto",
         if not docs:
             warnings.append(f"subject {i} matches no document's words: a wrong facet?")
     cost = shape.estimate_cost([m.size() for m, _ in to_map], reduce_calls)
-    return _Plan(topic=" ".join(topic.split()), domains=list(domains), subjects=subjects, by=by, split=split,
+    return _Plan(member_records=member_records, discovered=discovered, dropped=tuple(dropped),
+                 anchors=list(anchors or []), entity_class=entity_class,
+                 topic=" ".join(topic.split()), domains=list(domains), subjects=subjects, by=by, split=split,
                  per_cell=per_cell, max_docs=max_docs, model=model, facts=facts, cells=cells, cut=cut,
                  materials=materials, links=links, pairs=pairs, keys=keys, to_map=to_map, groups=groups,
                  reduce_calls=reduce_calls, cost=cost, warnings=warnings, suggested=suggested, full=full)
@@ -183,7 +212,8 @@ def build_topic(topic: str, domains: list[str], *, facets=None, by: str = "auto"
                 slug: str | None = None, out: Path | None = None, model: str | None = None,
                 dry_run: bool = False, refresh: str = "manual", full: bool = False, cards=None,
                 session_factory=None, search=None, map_llm=None, reduce_llm=None, now: str | None = None,
-                generations=None, suggest=None) -> dict:
+                generations=None, suggest=None, members=None, anchors=None, entity_class=None, dropped=(),
+                resolve=None) -> dict:
     if model is None:
         from utils.functions import load_env, resolve_llm_model
 
@@ -195,7 +225,8 @@ def build_topic(topic: str, domains: list[str], *, facets=None, by: str = "auto"
         raise ValueError(f"--refresh must be one of {', '.join(plan_model.REFRESH)}")
     p = plan_build(topic, domains, facets=facets, by=by, split=split, per_cell=per_cell, max_docs=max_docs,
                    model=model, full=full, cards=cards, session_factory=session_factory, search=search,
-                   suggest=suggest)
+                   suggest=suggest, members=members, anchors=anchors, entity_class=entity_class, dropped=dropped,
+                   resolve=resolve)
     page_path, plan_path = directory / f"{slug}.md", plan_store.plans_dir() / slug
     calls = len(p.to_map) + p.reduce_calls
     result = {
@@ -207,9 +238,20 @@ def build_topic(topic: str, domains: list[str], *, facets=None, by: str = "auto"
     }
     if p.suggested:
         result["suggested_subjects"] = p.suggested
+    if p.discovered is not None:
+        result["discover"] = p.discovered
+    if p.member_records:
+        result["members"] = p.member_records
     result["effect"] = _effect(slug, page_path, plan_path, calls, model, len(p.materials), p.cost).to_json()
-    if dry_run:
-        result["dry_run"] = True
+    if dry_run or (p.discovered is not None and not p.member_records):
+        # discovery without kept members is a proposal only: nothing to build yet (spec §6.4 step 2)
+        if not dry_run:
+            result["error"] = "discovery lists candidates; keep members with --member, then build"
+            result["effect"] = {**result["effect"], "summary": "Nothing written: no members kept yet.",
+                                "changes": [], "travels": False, "records": [],
+                                "llm": {**result["effect"]["llm"], "calls": 0}}
+        else:
+            result["dry_run"] = True
         return result
     if not p.pairs:
         result["error"] = "no document matched any subject; nothing written"
@@ -242,7 +284,9 @@ def build_topic(topic: str, domains: list[str], *, facets=None, by: str = "auto"
         generations = _generations(p.domains, session_factory)
     spec = plan_model.PlanSpec(slug=slug, topic=p.topic, version=1, domains=tuple(p.domains),
                                subjects=tuple(p.subjects), by=p.by, split=p.split, per_cell=p.per_cell,
-                               max_docs=p.max_docs, refresh=refresh)
+                               max_docs=p.max_docs, refresh=refresh, members=tuple(p.member_records),
+                               discover=({"anchors": p.anchors, "entity_class": p.entity_class}
+                                         if p.anchors else None), dropped=tuple(p.dropped))
     old = plan_store.existing(slug)
     skill_md = old.skill_md if old is not None and not _unedited(old) else plan_model.default_skill_md(spec)
     spec = replace(spec, version=plan_store.next_version(spec, old, skill_md))
@@ -369,7 +413,7 @@ def _write_body(p: _Plan, map_llm, reduce_llm):
         parts += [f"## {p.subjects[i - 1]}", ""]
         for dom, text in parts_:
             parts += ([f"### {dom}", ""] if dom else []) + [text, ""]
-    timeline = _timeline(notes) if p.by != "none" else []
+    timeline = _timeline(notes) if p.by != "none" or p.member_records else []
     if timeline:
         parts += ["## Timeline", "", *timeline, ""]
     parts += ["## Where sources differ", "", differ]
@@ -409,3 +453,21 @@ def plan_from_page(page) -> dict:
     return {"topic": str(meta.get("topic") or page.slug), "domains": list(meta.get("domains") or []),
             "facets": list(meta.get("subjects") or []) or None, "by": "auto", "split": "auto",
             "max_docs": int(meta.get("max_docs") or plan_model.DEFAULT_MAX_DOCS)}
+
+
+def args_from_plan(spec) -> dict:
+    """`build_topic` keyword arguments that rebuild a saved plan (refresh, the daily job)."""
+    from artmind.topics import members as members_mod
+
+    names = [m["name"] for m in spec.members]
+    anchors = list((spec.discover or {}).get("anchors") or [])
+    anchor_subject = members_mod.anchors_subject(anchors) if anchors and names else None
+    facets = [s for s in spec.subjects if s not in names and s != anchor_subject]
+    out = {"topic": spec.topic, "domains": list(spec.domains), "facets": facets or None, "by": spec.by,
+           "split": spec.split, "per_cell": spec.per_cell, "max_docs": spec.max_docs, "refresh": spec.refresh,
+           # the model of the last build keys the map cache: refresh with it
+           "model": (spec.built or {}).get("model")}
+    if names:
+        out.update(members=names, anchors=anchors or None,
+                   entity_class=(spec.discover or {}).get("entity_class"), dropped=tuple(spec.dropped))
+    return out

@@ -24,7 +24,7 @@ def _select(cells: list[grid.Cell], subject: int | None, cell: str | None) -> li
 
 def plan_cells(loaded: LoadedPlan, subject: int | None = None, *, session=None):
     spec = loaded.spec
-    subjects = list(spec.subjects)
+    subjects = spec.queries()  # what each subject's cells search for (a member: name + aliases)
     if subject is not None and not 1 <= subject <= len(subjects):
         raise PlanError(f"--subject must be between 1 and {len(subjects)} (plan {spec.slug!r} has "
                         f"{len(subjects)} subject(s))")
@@ -89,7 +89,7 @@ def run_plan(loaded: LoadedPlan, *, subject: int | None = None, cell: str | None
     partial = [c.label() for c in cells if c.matching > len(c.doc_ids) and c.period != "undated"]
     return {
         "slug": spec.slug, "topic": spec.topic, "version": spec.version, "domains": list(spec.domains),
-        "subjects": [{"n": i, "text": s} for i, s in enumerate(subjects, 1)],
+        "subjects": [{"n": i, "text": s} for i, s in enumerate(spec.subjects, 1)],
         "slices": {"by": spec.by, "split": spec.split},
         "parameters": {"perCell": spec.per_cell, "maxDocs": spec.max_docs, "shape": shape,
                        "subject": subject, "cell": cell},

@@ -117,7 +117,7 @@ def _check(spec, built: dict, session) -> dict:
     generations = state.generations(session, spec.domains)
     if not edited and generations == built.get("generations"):
         return {"status": "fresh", "generations": generations, "reasons": []}
-    counted, floors = grid.count_all(list(spec.subjects), list(spec.domains), session=session)
+    counted, floors = grid.count_all(spec.queries(), list(spec.domains), session=session)
     cells, _ = grid.cells_from(counted, floors, list(spec.domains), spec.by, spec.split, spec.per_cell, spec.max_docs)
     before = {(g.get("subject"), g.get("period"), g.get("domain")): int(g.get("matching") or 0)
               for g in built.get("grid") or [] if isinstance(g, dict)}
@@ -144,5 +144,18 @@ def _check(spec, built: dict, session) -> dict:
     if retired:
         reasons.append(f"{retired} gathered document(s) retired")
     stale = bool(new or changed or retired or edited)
-    return {"status": "stale" if stale else "fresh", "new_documents": new, "changed": changed, "retired": retired,
-            "cells_grown": grown, "generations": generations, "reasons": reasons}
+    out = {"status": "stale" if stale else "fresh", "new_documents": new, "changed": changed, "retired": retired,
+           "cells_grown": grown, "generations": generations, "reasons": reasons}
+    if spec.discover:
+        # Members (spec §6.4): discovery runs again; new candidates are reported, never added.
+        from artmind.topics import members as members_mod
+
+        block = members_mod.discover(list(spec.discover.get("anchors") or []), spec.discover.get("entity_class"),
+                                     list(spec.domains), session, kept=[m["name"] for m in spec.members],
+                                     dropped=list(spec.dropped))
+        fresh_names = members_mod.new_candidates(block)
+        out["new_candidates"] = len(fresh_names)
+        out["new_candidate_names"] = fresh_names[:50]
+        if fresh_names:
+            reasons.append(f"{len(fresh_names)} co-mentioned candidate(s) neither kept nor dropped")
+    return out
