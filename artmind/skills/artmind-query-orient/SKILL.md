@@ -78,14 +78,6 @@ Parts:
   corpus's terms if the result is thin, and stop when the part has evidence. A result that also
   answers another part counts for that part too: note it and do not search that part again. A
   `survey` row whose `gist` speaks to an open part is the next document to open.
-- **Orient is evidence for your plan, not for your answer.** Its effective dates, superseded
-  documents and class definitions describe the corpus: use them to choose the parts, domains,
-  terms and commands. When orient seems to answer a part already ("which version applies",
-  "which document controls"), still run that part's search, and answer from what it returns.
-- **Widen a part to the domain root when it may sit elsewhere.** The domains you pick before
-  searching are a guess. When a part is about how documents or roles relate (authority,
-  ownership, oversight, precedence), or its search in your picked domains comes back thin, run
-  that part's search on the domain root (`--domain <domain root>`), not only on its children.
 - **Before answering,** check that every part has its own evidence. Answer in the parts' order,
   and for a part with none, say what you searched.
 - **Follow-up turns:** rewrite the new question with what the conversation already settled
