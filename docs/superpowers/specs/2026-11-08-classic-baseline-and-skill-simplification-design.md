@@ -63,7 +63,7 @@ remaining planned enhancements, then benchmark.
 | B | Benchmark run J (both vaults) | after the backlog pass or a natural break; judged with Sonnet against the same baselines and floors (note 22) |
 | C | Promote the orient variant | after a passing run: variant text replaces classic `artmind-query`; classic kept as archive text |
 | D0 | Topic plans for breadth | spec `2026-11-10-topic-breadth-design.md`: the granularity ladder; `survey` `coverage`; saved topic plans (agents run the plan live, never see the page); faceted gather (subject × period/domain from orient's shape); freshness check + incremental refresh on a schedule; benchmark flag at grading time. Evidence: brain01 Q08, banking Q15 |
-| D | Composites (episode) — §4.4 | own design pass, LLM consent (brain01 private); evidence: enumeration/near-miss questions |
+| D | The mart (replaces "composites (episode)") | spec `2026-11-10-mart-design.md`: facts (happening and mention grain), conformed dimensions (time, person, place, type) enriched by rules then LLM into curation records, wholes (trip, life event) by rule, built into the structured store and queried by SQL / text2sql with evidence columns; brain01 built, banking declared. Interface with the structured-table text2sql spec (2026-11-07) via generated metadata |
 | E | P2b skill restructure — §4.5 | skill to ~150 lines, references on demand, `commands.md` from the Click tree; measured alone |
 | F | Phase 3 planner removal — §5 | unchanged |
 | G | Phase 4 extraction wave — §6 | now with concrete inputs: relationship-type inference not stated in text (brain01 "colleague"), missing person-to-person treatment links (eye doctor/dentist), entity fragmentation, date property projection; plus the answerability audit |
