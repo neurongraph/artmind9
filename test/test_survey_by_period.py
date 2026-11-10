@@ -56,7 +56,7 @@ def test_period_with_hits_but_no_document_is_listed_and_signposted(monkeypatch):
     _patch(monkeypatch, Recorder(_responder([{"date": "2021-06-15", "hits": 4}, {"date": "2023-02-01", "hits": 1}])))
     out = survey.survey_search(["notes"], "it's alpha", by="year")
     first = out["periods"][0]
-    assert first == {"period": "2021", "keyword_hits": 4, "ranked": 0, "documents": []}
+    assert first == {"period": "2021", "keyword_hits": 4, "ranked": 0, "shown": 0, "documents": []}
     assert out["next"] == "artmind query graph timeline --domain notes --from 2021-01-01 --to 2021-12-31 --compact"
 
 
@@ -183,3 +183,90 @@ def test_next_is_joined_not_overwritten(monkeypatch):
     out = survey.survey_search(["notes"], "alpha", by="year")
     from artmind import hints
     assert hints.join_next("artmind query page h --from 3", out["next"]).startswith("artmind query page h --from 3; artmind query graph timeline")
+
+
+def test_partial_period_is_flagged_with_a_next_into_that_period(monkeypatch):
+    _patch(monkeypatch, Recorder(_responder([{"date": "2023-02-01", "hits": 2}, {"date": "2024-03-01", "hits": 2},
+                                             {"date": "2025-01-01", "hits": 21}])))
+    out = survey.survey_search(["notes"], "what's alpha", by="year", per_period=2)
+    p = {x["period"]: x for x in out["periods"]}
+    assert p["2025"]["shown"] == 1 and p["2025"]["partial"] is True
+    assert p["2023"]["shown"] == 2 and "partial" not in p["2023"]   # 2 hits, 2 shown
+    assert "partial" not in p["2024"]
+    assert out["complete"] is False and out["partial_periods"] == ["2025"]
+    assert out["next"] == ("artmind query survey --domain notes --from 2025-01-01 --to 2025-12-31 "
+                           "--shape brief --compact 'what'\"'\"'s alpha'")
+
+
+def test_partial_next_comes_before_the_empty_period_next_and_picks_the_widest_gap(monkeypatch):
+    _patch(monkeypatch, Recorder(_responder([{"date": "2021-06-15", "hits": 4}, {"date": "2023-02-01", "hits": 9},
+                                             {"date": "2024-03-01", "hits": 30}])))
+    out = survey.survey_search(["notes", "other"], "alpha", by="year")
+    assert out["partial_periods"] == ["2023", "2024"]
+    first, second = out["next"].split("; ")
+    assert first == ("artmind query survey --domain notes --domain other --from 2024-01-01 --to 2024-12-31 "
+                     "--shape brief --compact alpha")
+    assert second.startswith("artmind query graph timeline") and "2021-01-01" in second
+
+
+def test_month_partial_uses_month_bounds(monkeypatch):
+    _patch(monkeypatch, Recorder(_responder([{"date": "2023-02-01", "hits": 5}])))
+    out = survey.survey_search(["notes"], "alpha", by="month")
+    assert out["partial_periods"] == ["2023-02"]
+    assert "--from 2023-02-01 --to 2023-02-28 " in out["next"]
+
+
+def test_no_partial_period_adds_no_keys(monkeypatch):
+    _patch(monkeypatch, Recorder(_responder([{"date": "2023-02-01", "hits": 2}, {"date": "2025-01-01", "hits": 1}])))
+    out = survey.survey_search(["notes"], "alpha", by="year", per_period=2)
+    assert "complete" not in out and "partial_periods" not in out and out.get("next") is None
+    assert all("partial" not in p for p in out["periods"])
+    assert all("shown" in p for p in out["periods"])
+
+
+def test_window_filters_every_leg_on_the_coalesced_date(monkeypatch):
+    s = Recorder(_responder([]))
+    _patch(monkeypatch, s)
+    survey.survey_search(["notes"], "alpha", date_from="2025-01-01", date_to="2025-12-31")
+    legs = [(c, p) for c, p in s.calls if "passage_embedding" in c or "passage_text_ft" in c
+            or "summary_embedding" in c or "summary_text_ft" in c]
+    assert len(legs) == 6   # P vec+text, D vec+text, C vec+text
+    for cypher, params in legs:
+        assert "coalesce(d._valid_from, d.valid_from)" in cypher and "$date_from" in cypher and "$date_to" in cypher
+        assert params["date_from"] == "2025-01-01" and params["date_to"] == "2025-12-31"
+
+
+def test_without_a_window_the_leg_queries_are_unchanged(monkeypatch):
+    s = Recorder(_responder([]))
+    _patch(monkeypatch, s)
+    survey.survey_search(["notes"], "alpha")
+    for cypher, params in s.calls:
+        assert "date_from" not in cypher and "date_from" not in params
+
+
+def test_window_is_validated():
+    import pytest
+
+    with pytest.raises(ValueError, match="YYYY-MM-DD"):
+        survey.survey_search(["notes"], "q", date_from="2025")
+    with pytest.raises(ValueError, match="before"):
+        survey.survey_search(["notes"], "q", date_from="2025-02-01", date_to="2025-01-01")
+
+
+def test_cli_from_to_options(monkeypatch):
+    from click.testing import CliRunner
+
+    from artmind.cli import cli
+
+    seen = {}
+
+    def fake(domains, question, **kw):
+        seen.update(kw)
+        return {"query_type": "survey", "documents": [], "warnings": []}
+
+    monkeypatch.setattr(survey, "survey_search", fake)
+    monkeypatch.setattr("artmind.cli._parse_domains", lambda d: list(d))
+    r = CliRunner().invoke(cli, ["query", "survey", "--domain", "notes", "--from", "2025-01-01",
+                                 "--to", "2025-12-31", "q"])
+    assert r.exit_code == 0, r.output
+    assert seen["date_from"] == "2025-01-01" and seen["date_to"] == "2025-12-31"

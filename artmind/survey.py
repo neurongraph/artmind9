@@ -98,10 +98,26 @@ def _is_missing_summary_index(e: ClientError) -> bool:
     return "summary_embedding" in text or "summary_text_ft" in text
 
 
+_WINDOW = ("MATCH (d:Document {{id: {var}.doc_id}}) "
+           "WHERE ($date_from IS NULL OR coalesce(d._valid_from, d.valid_from) >= $date_from) "
+           "AND ($date_to IS NULL OR coalesce(d._valid_from, d.valid_from) <= $date_to)\n    ")
+
+
+def _windowed(cypher: str, var: str, params: dict) -> str:
+    """Restrict a leg to documents dated inside --from/--to, before fusion (a leg's pool is cut first, then
+    filtered). Without a window the query is returned untouched."""
+    if "date_from" not in params:
+        return cypher
+    marker = f"RETURN {var} {{"
+    return cypher.replace(marker, _WINDOW.format(var=var) + marker, 1)
+
+
 def _summary_leg(session, level: str, embedding, ft_query: str, params: dict) -> list[dict]:
-    vec = (vector_query._rows(session, _SUMMARY_VECTOR, {**params, "level": level, "embedding": embedding})
+    vec = (vector_query._rows(session, _windowed(_SUMMARY_VECTOR, "s", params),
+                              {**params, "level": level, "embedding": embedding})
            if embedding is not None else [])
-    text = (vector_query._rows(session, _SUMMARY_TEXT, {**params, "level": level, "ft_query": ft_query})
+    text = (vector_query._rows(session, _windowed(_SUMMARY_TEXT, "s", params),
+                               {**params, "level": level, "ft_query": ft_query})
             if ft_query else [])
     return retrieval_rank.fuse_ids(vec, text)
 
@@ -120,6 +136,8 @@ def survey_search(
     expand: Sequence[str] | None = None,
     by: str | None = None,
     per_period: int = 2,
+    date_from: str | None = None,
+    date_to: str | None = None,
 ) -> dict:
     from artmind.graph_query import _domain_output, normalize_domains
 
@@ -146,6 +164,11 @@ def survey_search(
     legs = tuple(leg for leg in LEGS if leg in set(legs))
     if not legs:
         raise ValueError("--legs needs at least one of D, C, P")
+    for label, value in (("--from", date_from), ("--to", date_to)):
+        if value is not None and not _is_iso_date(value):
+            raise ValueError(f"{label} must be a date as YYYY-MM-DD")
+    if date_from and date_to and date_from > date_to:
+        raise ValueError("--from must not be after --to ('from' is before 'to')")
     domains = normalize_domains(domains)
     expanded = vector_query._expand(domains)
     warnings: list[str] = []
@@ -156,6 +179,8 @@ def survey_search(
     except Exception as e:
         warnings.append(f"vector leg unavailable: {e}")
     params = {"domains": expanded, "pool": POOL}
+    if date_from or date_to:
+        params.update(date_from=date_from, date_to=date_to)
 
     rankings: dict[str, list[str]] = {}
     doc_units: dict[str, list] = {}
@@ -165,9 +190,9 @@ def survey_search(
     with read_session() as session:
         if "P" in legs:
             try:
-                vec = (vector_query._rows(session, vector_query._passage_vector_cypher(None),
+                vec = (vector_query._rows(session, _windowed(vector_query._passage_vector_cypher(None), "p", params),
                                           {**params, "embedding": embedding}) if embedding is not None else [])
-                text = (vector_query._rows(session, vector_query._passage_text_cypher(None),
+                text = (vector_query._rows(session, _windowed(vector_query._passage_text_cypher(None), "p", params),
                                            {**params, "ft_query": ft_query}) if ft_query else [])
             except ClientError as e:
                 if vector_query._is_missing_index(e):
@@ -281,6 +306,16 @@ def survey_search(
     return out
 
 
+def _is_iso_date(value: str) -> bool:
+    import datetime
+
+    try:
+        datetime.date.fromisoformat(value)
+    except ValueError:
+        return False
+    return len(value) == 10
+
+
 def _period_of(date, by: str) -> str:
     text = str(date or "")
     if len(text) < (4 if by == "year" else 7) or not text[:4].isdigit():
@@ -366,10 +401,17 @@ def _attach_periods(out: dict, info: dict, by: str, per_period: int, domains, qu
 
     rows, at = out["documents"], 0
     periods, nxt, undated_empty = [], None, False
+    partial: list[tuple[int, str]] = []
     for p in info["periods"]:
         n = len(p["ids"])
-        periods.append({"period": p["period"], "keyword_hits": p["keyword_hits"], "ranked": p["ranked"],
-                        "documents": rows[at:at + n]})
+        row = {"period": p["period"], "keyword_hits": p["keyword_hits"], "ranked": p["ranked"], "shown": n,
+               "documents": rows[at:at + n]}
+        # An empty period has its own signpost below (graph timeline); partial is for a period shown in part.
+        if p["keyword_hits"] > n > 0:
+            row["partial"] = True
+            if _period_bounds(p["period"]):
+                partial.append((p["keyword_hits"] - n, p["period"]))
+        periods.append(row)
         at += n
         if n or not p["keyword_hits"]:
             continue
@@ -382,11 +424,21 @@ def _attach_periods(out: dict, info: dict, by: str, per_period: int, domains, qu
     if undated_empty:
         out["warnings"].append("undated documents match the question (keyword_hits) but none is ranked; "
                                "they have no date to narrow by")
+    partial_periods = [r["period"] for r in periods if r.get("partial")]
+    lead = None
+    if partial_periods:
+        out["complete"] = False
+        out["partial_periods"] = partial_periods
+        if partial:
+            gap, widest = max(partial, key=lambda t: (t[0], [-ord(c) for c in t[1]]))
+            start, end = _period_bounds(widest)
+            lead = (f"artmind query survey {hints.domain_flags(domains)} --from {start} --to {end} "
+                    f"--shape brief --compact {hints.quote(question)}")
     out["by"] = by
     out["periods"] = periods
     out["parameters"]["by"] = by
     out["parameters"]["perPeriod"] = per_period
-    out["next"] = hints.join_next(out.get("next"), nxt)
+    out["next"] = hints.join_next(hints.join_next(lead, out.get("next")), nxt)
 
 
 def _passage(unit) -> dict:

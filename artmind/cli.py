@@ -3773,10 +3773,13 @@ def query_page(start: int, count: int | None, compact: bool, handle: str) -> Non
               help="One group per period of the document date (`periods`, with keyword `hits` over the whole index); ignores --topDocs, max 50 documents")
 @click.option("--perPeriod", "per_period", type=click.IntRange(1, 5), default=2, show_default=True,
               help="--by: best documents kept per period")
+@click.option("--from", "date_from", default=None, help="YYYY-MM-DD: only documents dated on or after this (all legs, before fusion)")
+@click.option("--to", "date_to", default=None, help="YYYY-MM-DD: only documents dated on or before this")
 @compact_option
 @click.argument("question")
 def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str, passage_docs: int,
-                 gist_docs: int, expand: tuple, by: str | None, per_period: int, compact: bool, question: str) -> None:
+                 gist_docs: int, expand: tuple, by: str | None, per_period: int, date_from: str | None,
+                 date_to: str | None, compact: bool, question: str) -> None:
     """Documents for a question that spans documents: document summaries, chunk summaries and passages, fused.
 
     Each document comes with its summary, its best passages and its best chunk summary;
@@ -3805,7 +3808,7 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
         result = survey.survey_search(domains, question, top_docs=top_docs, passages=passages,
                                       topics=stale.survey_topics, shape=shape, passage_docs=passage_docs,
                                       gist_docs=gist_docs, expand=_parse_repeatable(expand),
-                                      by=by, per_period=per_period)
+                                      by=by, per_period=per_period, date_from=date_from, date_to=date_to)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     result["next"] = hints.join_next(result.get("next"), hints.predecessor_next(result))
