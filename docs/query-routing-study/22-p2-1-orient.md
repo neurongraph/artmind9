@@ -372,3 +372,27 @@ I: the questions fixed in the backlog pass improved, while a different set regre
 used `db sql` and got the aggregation wrong; Q05, Q22, Q21 split into several narrower surveys and dropped
 specifics. One run per vault; I and every baseline differ from each other by about 4 points, so a second banking run
 is needed before calling the regression real.
+
+### Banking J2 (same code as J)
+
+Run `182a3564` (36/36, started by the user), Sonnet: **163 / 214 must items (76 %)**, 11/25/0 correct / partial /
+wrong; balance −4, −4, −2 against A, D, G (within band, J2 better on balance against every run). One answer came
+back ungraded on the first pass and was graded on a retry.
+
+| Run | Must found | Correct |
+|---|---|---|
+| baselines A / D / G | 143 / 151 / 150 | 7 / 8 / 8 |
+| I | 152 (71 %) | 8 |
+| J | 144 (67 %) | 7 |
+| **J2** | **163 (76 %)** | **11** |
+
+J and J2 ran the same code and differ by 19 must items (9 points), more than the spread across the three baselines
+(8 items). The mean of J and J2 (153.5) is level with I. Per question against I:
+- worse in both J and J2: Q05 (1 → 5, 3), Q09 (2 → 3, 3), Q13 (0 → 2, 1), Q22 (1 → 4, 3), Q36 (1 → 4, 3);
+- better in both: Q03, Q24 (5 → 4, 1), Q25 (3 → 1, 1), Q32 (3 → 1, 2), Q33 (4 → 1, 1), the backlog-pass questions;
+- J's other regressions (Q12, Q16, Q21, Q23, Q34) recovered in J2: run-to-run noise.
+
+Reading: banking did not regress overall; one run of 36 questions moves by up to 9 points with unchanged code, so a
+variant needs at least two runs before a gate reading means anything (work plan item H, "gate noise allowance").
+Five questions are worse in both runs and go back to the backlog (Q05, Q09, Q13, Q22, Q36; Q36 is a `text2sql`
+aggregation error, a case for the structured-table enhancement).
