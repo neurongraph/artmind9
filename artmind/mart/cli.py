@@ -131,3 +131,13 @@ def mart_build_cmd(domain, dry_run, compact):
                     reversible=True, undo="artmind mart build again, or delete the mart_* parquet files",
                     travels=False, records=[])
     _echo(with_effect(result, effect, dry_run=dry_run), compact)
+
+
+@mart_group.command("status")
+@click.option("--domain", "domain", required=True)
+@compact_option
+def mart_status_cmd(domain, compact):
+    """Enrichment coverage and unreviewed proposals (read-only)."""
+    from artmind.mart import status as status_mod
+
+    _echo(status_mod.report(_declaration(domain), _domains((domain,))), compact)

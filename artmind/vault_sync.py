@@ -1699,6 +1699,9 @@ def sync(
         from artmind.update import embed_user_chats
 
         embed_user_chats(domain=d)
+    from artmind.mart import hooks as mart_hooks
+
+    mart_result = mart_hooks.build_after(touched_domains)
 
     # artmind never commits (spec 2026-09-26, D1): track B's regenerated
     # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)
@@ -1732,6 +1735,7 @@ def sync(
         "curation_unchanged": curation_unchanged,
         "projection": projection_summary,
         "domains_swept": touched_domains,
+        **({"mart": mart_result} if mart_result else {}),
         "effect": effect,
     }
     if not cursor_advanced:

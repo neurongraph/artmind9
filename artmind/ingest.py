@@ -5149,6 +5149,11 @@ def rebuild_projection(domain: str | None = None, keys: list | None = None) -> d
             swept_keys = sorted(session.execute_read(lambda tx: projection.all_keys(tx, domains)))
     if domain:
         summary.update(_sweep_domain(domain, swept_keys))
+    from artmind.mart import hooks as mart_hooks
+
+    mart = mart_hooks.build_after([domain] if domain else sorted({k[2] for k in swept_keys}))
+    if mart:
+        summary["mart"] = mart
     return summary
 
 
@@ -5191,4 +5196,9 @@ def rebuild_and_sweep_all() -> dict:
         domains_swept=sorted(by_domain), embedded=embedded, passages_embedded=chunks, sweep_errors=errors,
     )
     summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
+    from artmind.mart import hooks as mart_hooks
+
+    mart = mart_hooks.build_after(sorted(by_domain))
+    if mart:
+        summary["mart"] = mart
     return summary
