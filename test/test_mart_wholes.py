@@ -1,0 +1,61 @@
+from artmind.mart import wholes
+from artmind.mart.declaration import MartDeclaration, PersonDim, PlaceDim, TypeDim, Whole
+
+
+def decl(**w):
+    return MartDeclaration("j", 1, "Home", ["EVENT"], ["EVENT"], False, PersonDim(), PlaceDim(),
+                           TypeDim(["EVENT"], "type", {"trip": ["outing"], "health": ["illness"], "ritual": ["rite"]}),
+                           w, {})
+
+
+def fact(k, day, fam, away=True, name=None):
+    return {"entity_key": k, "name": name or k, "date": day, "type_family": fam, "home_away": "away" if away else "home",
+            "place_key": f"pl-{k}"}
+
+
+TRIP = Whole("trip", families=["trip"], place="away", consecutive_days=1, share=["participant", "place"],
+             alone_never_joins=["narrator", "household"])
+LIFE = Whole("life_event", families=["health", "ritual"], anchor="person", match=["edge", "name", "participants"],
+             window_gap_days=21)
+
+
+def test_trip_groups_consecutive_away_days_with_a_shared_companion():
+    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip"),
+                            fact("c", "2025-01-09", "trip"), fact("d", "2025-01-03", "trip", away=False)],
+         "bridge_person": [{"entity_key": k, "person_key": "kid", "role": "participates_in"} for k in "abcd"],
+         "dim_person": [{"person_key": "kid", "group": "family"}]}
+    out = wholes.compute(decl(trip=TRIP), t)
+    trips = sorted(out["whole_trip"], key=lambda r: r["start"])
+    assert [(r["start"], r["end"]) for r in trips] == [("2025-01-01", "2025-01-02"), ("2025-01-09", "2025-01-09")]
+    assert {r["entity_key"] for r in out["fact_whole"] if r["whole_id"] == trips[0]["whole_id"]} == {"a", "b"}
+
+
+def test_household_alone_never_joins():
+    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip")],
+         "bridge_person": [{"entity_key": k, "person_key": "spouse", "role": "participates_in"} for k in "ab"],
+         "dim_person": [{"person_key": "spouse", "group": "household"}]}
+    t["fact_happening"][1]["place_key"] = "other"
+    out = wholes.compute(decl(trip=TRIP), t)
+    assert len(out["whole_trip"]) == 2
+
+
+def test_life_event_by_edge_and_name_with_aftermath():
+    t = {"fact_happening": [fact("ill", "2025-02-01", "health"), fact("dies", "2025-02-10", "health"),
+                            fact("rite", "2025-02-20", "ritual", name="Uncle's rite"),
+                            fact("late", "2025-05-01", "ritual", name="Uncle's anniversary")],
+         "bridge_person": [{"entity_key": "ill", "person_key": "u", "role": "is_affected_by"},
+                           {"entity_key": "dies", "person_key": "u", "role": "is_affected_by"}],
+         "dim_person": [{"person_key": "u", "name": "Uncle", "group": "family"}]}
+    out = wholes.compute(decl(life_event=LIFE), t)
+    ev = sorted(out["whole_life_event"], key=lambda r: r["start"])
+    assert (ev[0]["start"], ev[0]["end"]) == ("2025-02-01", "2025-02-20")
+    roles = {r["entity_key"]: r["role"] for r in out["fact_whole"] if r["whole_id"] == ev[0]["whole_id"]}
+    assert roles == {"ill": "during", "dies": "during", "rite": "aftermath"}
+
+
+def test_narrator_alone_never_joins():
+    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip")],
+         "bridge_person": [{"entity_key": k, "person_key": "me", "role": "participates_in"} for k in "ab"],
+         "dim_person": [{"person_key": "me", "group": "self"}]}
+    t["fact_happening"][1]["place_key"] = "other"
+    assert len(wholes.compute(decl(trip=TRIP), t)["whole_trip"]) == 2
