@@ -6,9 +6,20 @@ from artmind.mart.declaration import MartDeclarationError, load_declaration, val
 
 
 def _schema(domain: str) -> dict:
+    """The domain's schema, with a family root's children merged in (a declaration on
+    `banking` may name classes declared by `banking.policy` and its siblings)."""
     from artmind.temporal import load_schema
 
-    return load_schema(domain)
+    merged = dict(load_schema(domain) or {})
+    types = dict(merged.get("entity_types") or {})
+    directory = paths.DOMAIN_SCHEMAS_DIR
+    if directory.is_dir():
+        for f in sorted(directory.glob(f"{domain}.*_schema.yaml")):
+            child = f.name[: -len("_schema.yaml")]
+            for name, spec in ((load_schema(child) or {}).get("entity_types") or {}).items():
+                types.setdefault(name, spec)
+    merged["entity_types"] = types
+    return merged
 
 
 def validate_all() -> dict[str, dict]:

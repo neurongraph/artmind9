@@ -23,3 +23,13 @@ def test_domains_validate_includes_mart(tmp_path, monkeypatch):
     payload = json.loads(next(l for l in r.output.splitlines() if l.startswith("{")))
     assert payload["mart"] == {"journal": {"errors": ["boom"], "warnings": []}}
     assert r.exit_code != 0
+
+
+def test_family_root_schema_includes_children(tmp_path, monkeypatch):
+    monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    (tmp_path / "bank_schema.yaml").write_text("x: 1\n")
+    (tmp_path / "bank.policy_schema.yaml").write_text("x: 1\n")
+    fake = {"bank": {"entity_types": {"CUSTOMER": {}}}, "bank.policy": {"entity_types": {"POLICY_PROVISION": {}}}}
+    import artmind.temporal as temporal
+    monkeypatch.setattr(temporal, "load_schema", lambda d, schemas_dir=None: fake.get(d, {}))
+    assert set(mv._schema("bank")["entity_types"]) == {"CUSTOMER", "POLICY_PROVISION"}
