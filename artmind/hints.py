@@ -169,3 +169,19 @@ def entity_listing_all(payload: dict, domains, name_filter=None, count_all: bool
     opts = (f"--nameFilter {quote(name_filter)}" if name_filter is not None else "")
     opts += " --countAll" if count_all else ""
     return _all_command(payload, "entity-listing", domains, opts.strip())
+
+
+def outside_scope_next(payload: dict, command: str, question, *, shape: str = "full",
+                       options: str = "") -> str | None:
+    """The same search on the domain root, when `outside_scope` names stronger matches
+    outside the searched domains (`artmind/scope_check.py`)."""
+    found = payload.get("outside_scope") or []
+    if not found:
+        return None
+    from artmind.scope_check import roots
+
+    domains = payload.get("domains") or ([payload["domain"]] if payload.get("domain") else [])
+    shape_part = " --shape brief" if shape == "brief" else ""
+    opts = f" {options.strip()}" if options.strip() else ""
+    return (f"artmind query {command}{shape_part} {domain_flags(roots(domains))}{opts} --compact "
+            f"{quote(question)}")

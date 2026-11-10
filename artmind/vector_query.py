@@ -480,6 +480,7 @@ def vector_text_search(
     """Hybrid search over passages (spec 2026-10-31 §4.2): vector (domain-filtered
     inside SEARCH) + BM25, each over a deep pool; RRF per passage; MaxP into parent
     chunks; the top K parent chunks (or passages) with the matching span."""
+    from artmind import scope_check
     from artmind.graph_query import _domain_output, normalize_domains
 
     top_k = int(topK)
@@ -529,6 +530,8 @@ def vector_text_search(
             for r in session.run(_chunk_fetch_cypher(), chunkIds=chunk_ids):
                 rec = serialize_record(r)
                 fetched[rec["chunk"]["id"]] = rec
+        best_relevance = max((u.relevance for u in picked if u.relevance is not None), default=None)
+        outside = scope_check.outside_scope(session, domains, embedding, best_relevance, as_of)
 
     rows = []
     second_text = _second_passages(picked, vector_rows, text_rows) if shape == "brief" else {}
@@ -571,6 +574,7 @@ def vector_text_search(
         "parameters": {"topK": top_k, "pool": pool, "context": context,
                        **({"shape": "brief"} if shape == "brief" else {}),
                        **({"asOf": as_of} if as_of else {})},
-        "warnings": warnings,
+        "warnings": warnings + ([scope_check.warning(outside, best_relevance)] if outside else []),
         "rows": rows,
+        **({"outside_scope": outside} if outside else {}),
     }

@@ -15,7 +15,7 @@ from collections.abc import Callable, Sequence
 
 from neo4j.exceptions import ClientError
 
-from artmind import brief, retrieval_rank, vector_query
+from artmind import brief, retrieval_rank, scope_check, vector_query
 from artmind.graph_query import read_session, sanitize_lucene_query, serialize_record, supersedes_list
 
 LEGS = ("D", "C", "P")
@@ -236,6 +236,14 @@ def survey_search(
             fused_order = {doc_id: (score, ranks, i) for i, (doc_id, score, ranks) in enumerate(picked, 1)}
             picked = [(d, *fused_order.get(d, (0.0, {}, 0))[:2]) for d in expand]
         ids = [doc_id for doc_id, _, _ in picked]
+        outside, best_relevance = [], None
+        if not expand and not (date_from or date_to):
+            # Named documents or a date window: an out-of-scope match would not be comparable.
+            best_relevance = max((u.relevance for d in ids for u in doc_units.get(d, []) if u.relevance is not None),
+                                 default=None)
+            outside = scope_check.outside_scope(session, domains, embedding, best_relevance)
+            if outside:
+                warnings.append(scope_check.warning(outside, best_relevance))
         meta = ({r["doc_id"]: r for r in (serialize_record(x) for x in session.run(_DOCUMENTS, docIds=ids))}
                 if ids else {})
         coverage = [serialize_record(r) for r in session.run(_COVERAGE, domains=expanded)]
@@ -263,6 +271,7 @@ def survey_search(
             "warnings": warnings,
             "documents": [],
             "topics": list(found),
+            **({"outside_scope": outside} if outside else {}),
         }
         # The rows get what the rest of the payload leaves (measured, plus room for the
         # envelope keys `_echo_json` adds and the indentation of a non-compact print).
@@ -300,6 +309,7 @@ def survey_search(
         "warnings": warnings,
         "documents": documents,
         "topics": list(found),
+        **({"outside_scope": outside} if outside else {}),
     }
     if by_info:
         _attach_periods(out, by_info, by, per_period, domains, question)

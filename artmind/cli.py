@@ -3718,6 +3718,10 @@ def vector_text(ctx: click.Context, domain: tuple, top_k: int, context: str, as_
         result["warnings"] = [*(result.get("warnings") or []),
                               "--shape brief uses --context passage; --context chunk was ignored"]
     result["next"] = hints.join_next(result.get("next"), hints.predecessor_next(result))
+    # Stronger matches outside the searched domains come first: the rows above may be the wrong set.
+    result["next"] = hints.join_next(hints.outside_scope_next(
+        result, "vector-text", question, shape=shape,
+        options=f"--topK {top_k}" + (f" --asOf {hints.quote(as_of)}" if as_of else "")), result.get("next"))
     _echo_json(result, compact)
 
 
@@ -3812,6 +3816,8 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     result["next"] = hints.join_next(result.get("next"), hints.predecessor_next(result))
+    result["next"] = hints.join_next(hints.outside_scope_next(result, "survey", question, shape=shape),
+                                     result.get("next"))
     _echo_json(result, compact)
 
 
