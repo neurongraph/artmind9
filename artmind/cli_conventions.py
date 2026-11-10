@@ -69,6 +69,7 @@ WRITE_COMMANDS: dict[str, int] = {
         "views save", "views delete",
         "topic build", "topic refresh", "topic delete",
         "vault sync", "traces prune", "catalogue refresh", "db metadata init",
+        "mart enrich", "mart review set", "mart calendar set",
     )},
     **{p: 2 for p in (
         "db grain", "db mappings set", "db mappings confirm", "db mappings clear",
@@ -332,6 +333,7 @@ EFFECT_KINDS = frozenset({
     "summary_write", "description_write", "view_save", "view_delete", "topic_write",
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
     "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
+    "mart_record", "mart_build",
 })
 
 SAMPLE_CAP = 10

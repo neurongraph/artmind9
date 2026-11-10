@@ -370,7 +370,7 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind": [
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
-        {"name": "Structured store", "commands": ["db"]},
+        {"name": "Structured store", "commands": ["db", "mart"]},
         {"name": "Query", "commands": ["query", "catalogue", "plan", "retrieval", "views", "insights", "topic", "traces", "review"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Projection", "commands": ["projection"]},
@@ -409,6 +409,9 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore", "export-text", "restore-text"]},
     ],
+    "artmind mart": [{"name": "Mart", "commands": ["build", "enrich", "status", "review", "calendar"]}],
+    "artmind mart review": [{"name": "Review", "commands": ["list", "set"]}],
+    "artmind mart calendar": [{"name": "Calendar", "commands": ["set"]}],
     "artmind db metadata": [
         {"name": "text2sql metadata", "commands": ["init", "validate", "regenerate"]},
     ],
@@ -4739,6 +4742,11 @@ def insights_config_check(domain: tuple, compact: bool) -> None:
 
 
 # ── artmind topic ──────────────────────────────────────────────────────────────
+
+
+from artmind.mart.cli import mart_group  # noqa: E402
+
+cli.add_command(mart_group)
 
 
 @cli.group("catalogue")

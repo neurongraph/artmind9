@@ -119,7 +119,7 @@ def test_constants() -> None:
     assert (cc.EXIT_OK, cc.EXIT_INPUT, cc.EXIT_USAGE, cc.EXIT_STORE) == (0, 1, 2, 3)
     assert cc.SERVER_COMMANDS == {"serve", "chat-ui", "admin-ui"}
     assert cc.WRITE_COMMANDS["sameas approve"] == 1 and cc.WRITE_COMMANDS["db grain"] == 2
-    assert sum(1 for t in cc.WRITE_COMMANDS.values() if t == 1) == 25  # + ingest unsupersede, - topic index, + db metadata init
+    assert sum(1 for t in cc.WRITE_COMMANDS.values() if t == 1) == 28  # + ingest unsupersede, - topic index, + db metadata init, + mart enrich/review set/calendar set
 
 
 # ── _echo_json applies the envelope ─────────────────────────────────────────
