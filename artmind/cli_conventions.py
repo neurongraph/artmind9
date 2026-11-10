@@ -69,7 +69,7 @@ WRITE_COMMANDS: dict[str, int] = {
         "views save", "views delete",
         "topic build", "topic refresh", "topic delete",
         "vault sync", "traces prune", "catalogue refresh", "db metadata init",
-        "mart enrich", "mart review set", "mart calendar set",
+        "mart enrich", "mart review set", "mart calendar set", "mart build",
     )},
     **{p: 2 for p in (
         "db grain", "db mappings set", "db mappings confirm", "db mappings clear",

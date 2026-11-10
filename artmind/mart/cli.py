@@ -114,3 +114,20 @@ def mart_calendar_set(domain, name, start, end, dry_run, compact):
     if not dry_run:
         result["id"] = records.put_period(domain, name, start, end, source="user")
     _echo(with_effect(result, effect, dry_run=dry_run), compact)
+
+
+@mart_group.command("build")
+@click.option("--domain", "domain", required=True, help="Domain with a mart declaration")
+@dry_run_option("Count rows per table from the current graph and records; write nothing")
+@compact_option
+def mart_build_cmd(domain, dry_run, compact):
+    """Build the mart tables into the structured store (no LLM)."""
+    from artmind.mart import build as build_mod
+
+    decl = _declaration(domain)
+    result = build_mod.build(decl, _domains((domain,)), dry_run=dry_run)
+    effect = Effect(summary=f"Write {len(result['rows'])} mart table(s) for {domain}.",
+                    changes=[Change("mart_build", sum(result["rows"].values()), sorted(result["rows"]))],
+                    reversible=True, undo="artmind mart build again, or delete the mart_* parquet files",
+                    travels=False, records=[])
+    _echo(with_effect(result, effect, dry_run=dry_run), compact)
