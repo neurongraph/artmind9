@@ -39,6 +39,37 @@ Order of work:
 
 Every step is sequential and measured against the classic band (§3) before the next starts.
 
+### 0.1 Work plan as of 2026-11-10 (revised; supersedes the order above where they differ)
+
+**Done:** phases 0–1; P2-0; P2-1 `orient`; the P2 batch (P2-2 hints, P2-2b superseded history incl. the
+supersession-direction fix, P2-3 identity, P2-4 complete counts, P2-4b `survey --by`, P2-5 hubs), measured as
+batch run I (study note 22: floors met in both vaults; brain01 above every baseline). Since run I, fixes made
+while working the defect backlog (study note 23): alias-aware resolution, `pattern8 --shape brief` and
+`--via mentions`, signposts ordered result-first, one general "read every result" skill rule, `survey --by`
+partial periods + `--from/--to`, grader robustness; data: banking supersession repaired, brain01 curation
+completed (separate session).
+
+**How work proceeds now (user decision 2026-11-10):** work the defect backlog one question at a time —
+diagnose to the failing stage, fix at the right layer (tier, data/curation, tool, or skill; prefer tool over
+skill), rerun that question alone, record it in the vault's backlog. When a fix needs an enhancement that is on
+this plan, build it then (in plan order where possible) instead of a one-off. After the backlog, finish the
+remaining planned enhancements, then benchmark.
+
+**Remaining, in order:**
+
+| # | Item | Notes |
+|---|---|---|
+| A | Defect backlog (run I) | banking 28 open, brain01 18 open + Q04 investigating; Q14, Q28 fixed. Vault files `benchmarking/defect_backlog_runI.md` |
+| B | Benchmark run J (both vaults) | after the backlog pass or a natural break; judged with Sonnet against the same baselines and floors (note 22) |
+| C | Promote the orient variant | after a passing run: variant text replaces classic `artmind-query`; classic kept as archive text |
+| D | Composites (episode) — §4.4 | own design pass, LLM consent (brain01 private); evidence: enumeration/near-miss questions |
+| E | P2b skill restructure — §4.5 | skill to ~150 lines, references on demand, `commands.md` from the Click tree; measured alone |
+| F | Phase 3 planner removal — §5 | unchanged |
+| G | Phase 4 extraction wave — §6 | now with concrete inputs: relationship-type inference not stated in text (brain01 "colleague"), missing person-to-person treatment links (eye doctor/dentist), entity fragmentation, date property projection; plus the answerability audit |
+| H | Known gaps to schedule | `vector-text --asOf` cannot narrow (passages/chunks carry no date; write document dates at commit); "depth for broad multi-document questions" (§4.3a, banking Q15/Q18/Q25); gate noise allowance for the lost-must / worse-than-all rows (they fail every baseline run) |
+| I | Phase 5 DSL note — §7 | unchanged |
+
+
 ## 1. Goals and non-goals
 
 **Goals**
