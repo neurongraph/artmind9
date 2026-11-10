@@ -339,7 +339,7 @@ Routing notes:
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
   --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
-- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows are certain; `linked: false` rows were only named in the same notes, so confirm each from the text (`chunks` / `vector-text`) before counting it.
+- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows have a relation to Y (check it is the relation the question asks about); `linked: false` rows were only named in the same notes — confirm each with `artmind query chunks --idList <its chunk_ids>` before counting it.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
   "get the next page" — rephrase the question to be more selective (name the entity/date

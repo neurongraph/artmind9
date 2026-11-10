@@ -212,15 +212,53 @@ def _mention_row(i, total, linked):
             "documents": ["n.md"], "_rowsTotal": total}
 
 
+def test_pattern8_mentions_aggregates_across_anchors_in_cypher():
+    cypher, _ = gq._pattern_query(
+        "pattern8", {"domains": ["d"], "entityClass": "PERSON", "entityName": "Sam", "via": "mentions"})
+    assert "collect(t) AS anchors" in cypher and "UNWIND anchors AS t" in cypher
+    assert "NOT e IN anchors" in cypher and "a IN anchors" in cypher
+    assert "chunk_ids" in cypher and "documents_total" in cypher and "[0..5]" in cypher
+
+
+def test_pattern8_mentions_multi_anchor_warns(monkeypatch):
+    row = {**_mention_row(0, 1, True), "_anchors": 2}
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(row)])
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityName", "Sam", "--via", "mentions"])
+    assert "--entityName matched 2 entities; using all of them \u2014 pass --entityId for one" in out["warnings"]
+    assert "_anchors" not in out["rows"][0]
+    row["_anchors"] = 1
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityName", "Sam", "--via", "mentions"])
+    assert not [w for w in out["warnings"] if "matched" in w]
+    row["_anchors"] = 2
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions"])
+    assert not [w for w in out["warnings"] if "matched" in w]
+
+
+def test_pattern8_mentions_rows_carry_chunk_ids_and_documents_total(monkeypatch):
+    row = {**_mention_row(0, 1, False), "chunk_ids": ["c1", "c2"], "documents_total": 7}
+    monkeypatch.setattr(gq, "_run_read_query", lambda c, p: [dict(row)])
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions"])
+    assert out["rows"][0]["chunk_ids"] == ["c1", "c2"] and out["rows"][0]["documents_total"] == 7
+    out = _run(["pattern8", "--entityClass", "PERSON", "--entityId", "x1", "--via", "mentions", "--shape", "brief"])
+    b = out["rows"][0]
+    assert b["chunk_ids"] == ["c1", "c2"] and b["documents_total"] == 7 and isinstance(b["documents"], list)
+
+
+def test_pattern8_invalid_via_is_usage_error():
+    r = CliRunner().invoke(cli, ["query", "graph", "pattern8", "--domain", "d", "--entityClass", "ORG",
+                                 "--entityName", "A", "--via", "bogus"])
+    assert r.exit_code == 2
+
+
 def test_pattern8_mentions_cypher_shape():
     cypher, params = gq._pattern_query(
         "pattern8", {"domains": ["d"], "entityClass": "PERSON", "entityId": "x1", "via": "mentions"})
     assert "-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)" in cypher
     assert "(c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:PERSON)" in cypher
-    assert "e <> t" in cypher
-    assert "EXISTS { (e)-[:RELATES_TO]-(t) } AS linked" in cypher
-    assert "count(DISTINCT c) AS sharedChunks" in cypher and "[0..5]" in cypher
-    assert "ORDER BY linked DESC, sharedChunks DESC, e.name, e._id" in cypher
+    assert "NOT e IN anchors" in cypher
+    assert "EXISTS { MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors } AS linked" in cypher
+    assert "size(chunks) AS shared_chunks" in cypher
+    assert "ORDER BY linked DESC, shared_chunks DESC, e.name, e._id" in cypher
     assert "SKIP $offset" in cypher and "LIMIT $limit" in cypher and "_rowsTotal" in cypher
     assert params["entityId"] == "x1" and params["offset"] == 0
 

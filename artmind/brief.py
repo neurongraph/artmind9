@@ -361,6 +361,8 @@ def pattern_row(pattern: str, row: dict) -> dict:
             out["linked"] = row.get("linked")
             out["shared_chunks"] = row.get("shared_chunks")
             out["documents"] = row.get("documents") or []
+            out["documents_total"] = row.get("documents_total", len(out["documents"]))
+            out["chunk_ids"] = row.get("chunk_ids") or []
         else:
             out["rel_type"] = row.get("relType")
             out["observations"] = props.get("observation_count")

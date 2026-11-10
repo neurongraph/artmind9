@@ -1015,30 +1015,45 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         cypher_params["offset"] = parameters.get("offset", 0)
         if parameters.get("via") == "mentions":
             # Co-mention: entities whose observations came from the same chunks as
-            # the anchor's, whether or not a RELATES_TO edge joins them.
-            mention_match = f"""
-            MATCH (t)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
-            MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:{label})
-            WHERE e <> t
-              AND {domain_predicate("e")}"""
+            # any matched anchor's, whether or not a RELATES_TO edge joins them.
             return (
                 f"""
             MATCH (t:Entity)
             WHERE {domain_predicate("t")}
               AND {selector}
-            CALL (t) {{
-            {mention_match}
-              RETURN count(DISTINCT e) AS total
+            WITH collect(t) AS anchors
+            CALL (anchors) {{
+              UNWIND anchors AS t
+              MATCH (t)-[:AGGREGATES]->(:Observation)-[:EXTRACTED_FROM]->(c:DocChunk)
+              MATCH (c)<-[:EXTRACTED_FROM]-(:Observation)<-[:AGGREGATES]-(e:{label})
+              WHERE NOT e IN anchors
+                AND {domain_predicate("e")}
+              OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+              RETURN e, collect(DISTINCT c.id) AS chunks, collect(DISTINCT d.name) AS docs
             }}
-            {mention_match}
-            OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
-            WITH e, t, total, count(DISTINCT c) AS sharedChunks, collect(DISTINCT d.name) AS docNames
+            WITH anchors, collect({{e: e, chunks: chunks, docs: docs}}) AS found
+            WITH anchors, found, size(found) AS total
+            UNWIND found AS f
+            WITH anchors, total, f.e AS e, f.chunks AS chunks, f.docs AS docs
+            CALL (chunks) {{
+              UNWIND chunks AS x
+              WITH x ORDER BY x
+              RETURN collect(x)[0..5] AS chunk_ids
+            }}
+            CALL (docs) {{
+              UNWIND docs AS x
+              WITH x ORDER BY x
+              RETURN collect(x)[0..5] AS documents
+            }}
             RETURN e {{.*, label: labels(e)}} AS entityData,
-                   EXISTS {{ (e)-[:RELATES_TO]-(t) }} AS linked,
-                   sharedChunks AS shared_chunks,
-                   docNames[0..5] AS documents,
+                   EXISTS {{ MATCH (e)-[:RELATES_TO]-(a) WHERE a IN anchors }} AS linked,
+                   size(chunks) AS shared_chunks,
+                   chunk_ids,
+                   documents,
+                   size(docs) AS documents_total,
+                   size(anchors) AS _anchors,
                    total AS _rowsTotal
-            ORDER BY linked DESC, sharedChunks DESC, e.name, e._id
+            ORDER BY linked DESC, shared_chunks DESC, e.name, e._id
             SKIP $offset
             LIMIT $limit
             """,
@@ -1204,11 +1219,14 @@ def execute_pattern(
     # `rows_total` rather than left duplicated on each row.
     rows_total = None
     raw_hits = None
+    anchors_matched = None
     for row in rows:
         if isinstance(row, dict) and "_rowsTotal" in row:
             rows_total = row.pop("_rowsTotal")
         if isinstance(row, dict) and "_rawHits" in row:
             raw_hits = row.pop("_rawHits")
+        if isinstance(row, dict) and "_anchors" in row:
+            anchors_matched = row.pop("_anchors")
     if pattern == "pattern1" and rows_total is None:
         rows_total = 0  # an empty UNWIND returns no row, so no total rides along
     if pattern == "pattern7":
@@ -1262,6 +1280,11 @@ def execute_pattern(
                 *(result.get("warnings") or []),
                 f"pattern7 matched more than {PATTERN7_COUNT_CAP} entities; narrow --searchTerm or --domain",
             ]
+    if pattern == "pattern8" and anchors_matched and anchors_matched > 1 and not params.get("entityId"):
+        result["warnings"] = [
+            *(result.get("warnings") or []),
+            f"--entityName matched {anchors_matched} entities; using all of them \u2014 pass --entityId for one",
+        ]
     if shape == "brief":
         from artmind import brief
 
