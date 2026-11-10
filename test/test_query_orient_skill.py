@@ -32,7 +32,7 @@ def test_orient_section_has_the_six_rules():
     section = text.split("## Orient — read the corpus first", 1)[1].split("\n## ", 1)[0]
     assert "artmind query orient --compact" in section
     assert "artmind query orient --domain" in section
-    assert "`next` and `cuts[].rest`" in section
+    assert "Read every result before you answer" in section
     assert len([ln for ln in section.splitlines() if re.match(r"^\d\. ", ln)]) == 6
 
 
@@ -70,7 +70,7 @@ _DELETED = {
 }
 
 _NEW_LINES = (
-    "Empty or thin results carry `next`: run it when it serves the question.",
+    "## Read every result before you answer",
     "`entity-resolve` maps I/me to the narrator and groups same-class twins (`twins`): treat a twin group as one entity unless the text distinguishes them.",
     "Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For \"every year / each time\" questions use `survey --by year` (or `month`): it reports every period with a hit.",
     "Pass the question to `entity-context`; its `cut` block says what a hub's cut hides, and `next` names the command for the rest.",
@@ -110,3 +110,12 @@ def test_named_options_exist():
     assert "--documentName" in opts(q.commands["document-history"])
     assert any(p.name == "question" and isinstance(p, click.Argument)
                for p in q.commands["entity-context"].params)
+
+
+def test_result_reading_section_comes_early_and_covers_the_envelope():
+    text = _text()
+    head = text.split("## Grounding Rule", 1)[0]
+    assert "## Read every result before you answer" in head  # before grounding, retrieval and patterns
+    section = text.split("## Read every result before you answer", 1)[1].split("\n## ", 1)[0]
+    for word in ("complete: false", "truncated: true", "hub: true", "cuts[]", "warnings", "run the first `next`", "Stop"):
+        assert word in section, word

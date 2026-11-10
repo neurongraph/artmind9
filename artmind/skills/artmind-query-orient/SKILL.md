@@ -40,11 +40,35 @@ question against what it says.
      shared `vector-text` call. Tables listed under `structured` still apply.
 5. Orient again only when the user moves to a new area. A part named in `warnings` was not
    read: never treat it as empty. `null` means declared absent (no narrator, no snapshot).
-6. `next` and `cuts[].rest` are facts about this result; follow them when they serve the
-   question. `next` lists the commands that act on this result first (`; `-separated):
-   when a result says `hub: true` or `complete: false` and the question asks "which",
-   "how many" or "every", run the first `next` before answering — do not count from the
-   shown rows.
+6. Every result's `next`, `cuts` and `warnings` matter as much as its rows: see "Read every
+   result before you answer".
+
+## Read every result before you answer
+
+Every `artmind` command returns the same envelope: `command`, `warnings`, `next`, then the
+data. The command knows things about its own result that you cannot see from the rows: what
+it cut, what it could not read, what is incomplete. Treat those fields as part of the
+evidence, after every call:
+
+1. **Is the result whole?** Look for `complete: false`, `truncated: true`, `hub: true`,
+   a `cut` block, `cuts[]`, or `rows_total` above the rows shown. Any of these means the
+   rows are a sample, not the set.
+2. **Does the question need the whole set?** "Which", "how many", "every", "all", "list",
+   "each year", a total or a comparison across members all do. A single fact usually does not.
+3. **If the set is partial and the question needs all of it, run the first `next` (or the
+   cut's `rest`) before answering.** `next` holds runnable commands separated by `; `, the
+   ones that act on this result first. Run them as written (copy ids, handles and flags
+   verbatim; fill only a `<placeholder>`, from orient or the question). Do not count, rank
+   or say "none" from a partial set.
+4. **Empty or thin result:** run `next` when it names a different command for the same
+   question; otherwise follow the Fallback Ladder.
+5. **`warnings`:** a part named there was not read. Never treat it as empty, and say so in
+   the answer if it limits what you can claim.
+6. **Stop** when the result is whole for what the question needs, or `next` is null, or the
+   same `next` comes back twice. Then say what you could not cover, and why.
+
+`next` is a fact about this result, never a guess about your question: it is safe to follow
+and safe to skip when the question does not need what it offers.
 
 ## Running commands
 
@@ -176,8 +200,7 @@ survey lists every document: full passages for the strongest matches, a question
 `gist` for the next ones, and one line for the rest. `gist_source: passage` is evidence;
 a summary gist is only a guide. Open a document with `artmind query survey --domain <d>
 --shape brief --expand <doc_id> "<question>"` or `artmind query chunks --shape brief
---idList <chunk_id>`. When a result says `truncated: true`, run the command in its `next`
-field (`artmind query page <handle> --from N`) instead of guessing. Copy that `next` command verbatim: `query page` takes no `--domain`.
+--idList <chunk_id>`. A `truncated: true` result's `next` is `artmind query page <handle> --from N` (no `--domain`).
 
 | The question asks for | Command |
 |---|---|
@@ -342,7 +365,7 @@ Routing notes:
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
   --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
-- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows have a relation to Y (check it is the relation the question asks about); `linked: false` rows were only named in the same notes — confirm each with `artmind query chunks --idList <its chunk_ids>` before counting it.
+- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M. For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows have a relation to Y (check it is the relation the question asks about); `linked: false` rows were only named in the same notes — confirm each with `artmind query chunks --idList <its chunk_ids>` before counting it.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
   "get the next page" — rephrase the question to be more selective (name the entity/date
@@ -384,7 +407,7 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
 - List properties keep their newest `--maxListItems` (default 10) entries;
   `truncated_properties` gives each cut list's full length.
 
-Pass the question to `entity-context`; its `cut` block says what a hub's cut hides, and `next` names the command for the rest.
+Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.
 
 ### 5. Ground — pull source text when narrative evidence is needed
 
@@ -421,7 +444,6 @@ The ladder starts after the Views check: a view that fits is tried before any ru
 3. A question that spans documents, whose `vector-text` rows come from one or two documents → `query survey`.
 4. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
-Empty or thin results carry `next`: run it when it serves the question.
 
 ## Answer Style
 
