@@ -335,3 +335,40 @@ Follow-up runs the same day (brain01, approved):
 | Discovery, Q11 (4 anchors, ORGANIZATION) | 60 candidates: 2 of the 3 non-anchor must clients, 7 of 20 optional |
 | Discovery, Q16 (1 anchor, PERSON) | 171 candidates: 6 of 6 must people, 9 of 10 optional |
 | Freshness, a synthetic test day added for Q08 | `stale`, `new_documents: 1`, one grown cell; refresh 2 map + 3 reduce calls (the vector leg ranked the day into the second subject's cell too), then `fresh` |
+
+## Run J (2026-11-10): every enhancement since run I, judged and graded with Sonnet
+
+Code at `fdf3f842` (orient variant with the turn order and "Plan the parts", `outside_scope` with passages,
+survey `coverage`, topic plans and their surfaces, the console endpoint fix; data: banking supersession repaired,
+leaked banking pages removed, brain01 curation and one alias fixed). Consoles restarted with a clean environment;
+contract `orient`. Topic plans built during the topic-breadth measurements (brain01 Q05, Q08; banking Q15) were left
+in; no J turn ran `query topics run` (`topic_plan_turns` empty). Banking is compared on all 36 questions; baseline
+answers to Q01, Q16, Q17, Q20, Q23, Q25 had read leaked pages.
+
+Runs: banking `27ad936d` (36/36, median 29.5 s, $5.02); brain01 `94d5e851` (29/29, median 31.9 s, $4.35).
+
+| Vault / group | Baselines | I | **J** |
+|---|---|---|---|
+| banking (214 must) | 143–151 (67–71 %) | 152 (71 %) | **144 (67 %)** |
+| brain01 Q01–Q14 (101) | 56–62 (55–61 %) | 66 (65 %) | **75 (74 %)** |
+| brain01 Q15–Q29 (75) | 57–59 (76–79 %) | 61 (81 %) | **56 (75 %)** |
+| brain01 all (176) | 116–120 (66–68 %) | 127 (72 %) | **131 (74 %)** |
+
+Correct / partial / wrong: banking 7/29/0 (I 8/27/1); brain01 11/18/0 (I 8/20/1). Must-not hits: banking 4 (I 4),
+brain01 4 (I 3).
+
+Against run I, per question (must items missed):
+- banking: better on 8 (Q03, Q14, Q18, Q19, Q24, Q25, Q32, Q33: the backlog fixes held), worse on 10 (largest:
+  Q05 1→5, Q22 1→4, Q36 1→4, Q21 2→4, Q12 0→2, Q13 0→2).
+- brain01: better on 8 (Q04, Q05 4→0, Q06, Q08 5→3, Q11, Q14, Q25, Q28), worse on 6 (Q01, Q10, Q15 4→6, Q16, Q20
+  1→4, Q27).
+
+Gate rows: banking balance +8, +4, +3 against A, D, G (band 3: out of band, the baselines better on balance);
+brain01 −2, −2, −7, −10 (within band, J better on balance against every run). Lost-must and worse-than-all fail in
+both, as they do for every baseline run (worse than all: banking Q05, Q06, Q22, Q23, Q36; brain01 Q01, Q09, Q20).
+
+Reading: brain01 J is the best run so far. banking J sits at the bottom of the baseline range and 8 must items below
+I: the questions fixed in the backlog pass improved, while a different set regressed. Q36 used `text2sql` where I
+used `db sql` and got the aggregation wrong; Q05, Q22, Q21 split into several narrower surveys and dropped
+specifics. One run per vault; I and every baseline differ from each other by about 4 points, so a second banking run
+is needed before calling the regression real.
