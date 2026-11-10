@@ -272,6 +272,17 @@ def execute_text2sql(
     # the literal string 'today' reaches the LLM prompt and DuckDB rejects a
     # bare 'today'::DATE cast at execution time.
     as_of = resolve_as_of(as_of)
+    from artmind import sql_browser
+
+    fallback_warning = None
+    chosen = sql_browser.engine()
+    if chosen == "sql-browser" or (chosen == "auto" and sql_browser.executable()):
+        try:
+            return _execute_via_sql_browser(question, domains, model, dry_run, as_of)
+        except sql_browser.SqlBrowserError as exc:
+            if chosen == "sql-browser":
+                raise ValueError(f"sql-browser failed: {exc}") from exc
+            fallback_warning = f"sql-browser failed ({exc}); used the built-in text2sql"
     result = generate_sql(question, domains, model, as_of=as_of)
     sql = result["sql"]
 
@@ -285,6 +296,9 @@ def execute_text2sql(
     }
     if as_of:
         output["asOf"] = as_of
+    output["engine"] = "builtin"
+    if fallback_warning:
+        output["warnings"] = [fallback_warning]
 
     # Fusion hand-off. There is no fusion *command* — the caller composes SQL and
     # graph retrieval itself — so the bridge and the quarantine rule are surfaced
@@ -316,4 +330,42 @@ def execute_text2sql(
             f"Generated SQL failed ({exc.__class__.__name__}): {exc}\n"
             f"SQL: {sql}"
         ) from exc
+    return output
+
+
+def _execute_via_sql_browser(question: str, domains: list[str], model: str | None, dry_run: bool,
+                             as_of: str | None) -> dict:
+    """The same payload as the built-in path, produced by sql-browser (spec 2026-11-07 §8)."""
+    from artmind import sql_browser
+    from artmind.graph_query import _domain_output
+
+    env = load_env()
+    tables = structured_registry.list_tables(domains)
+    if not tables:
+        raise sql_browser.SqlBrowserError("no structured tables in scope")
+    asked = f"As of {as_of}: {question}" if as_of else question
+    payload = sql_browser.run(asked, sql_browser.scoped_db(tables), sql_browser.metadata_for(domains),
+                              resolve_llm_model(env, model), env, dry_run=dry_run)
+    sql = payload.get("sql") or ""
+    if not sql:
+        raise sql_browser.SqlBrowserError("sql-browser returned no SQL")
+    output: dict = {
+        **_domain_output(domains),
+        "query_type": "sql",
+        "command": "text2sql",
+        "question": question,
+        "generated_sql": sql,
+        "notes": payload.get("notes") or "",
+        "engine": "sql-browser",
+        "corrections": payload.get("corrections") or [],
+        "warnings": [str(w) for w in (payload.get("warnings") or [])],
+    }
+    if as_of:
+        output["asOf"] = as_of
+    output.update(_fusion_hints(domains))
+    output["source_tables"] = _source_tables(sql, tables)
+    if dry_run:
+        output["dry_run"] = True
+        return output
+    output["rows"] = payload.get("rows") or []
     return output

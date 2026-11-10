@@ -438,3 +438,10 @@ def _stub_summary_llm(request, monkeypatch):
 @pytest.fixture()
 def real_summary_llm():
     return None
+
+
+@pytest.fixture(autouse=True)
+def _builtin_text2sql(monkeypatch):
+    """Hermetic text2sql: never delegate to an installed sql-browser (artmind/sql_browser.py).
+    Tests that exercise the delegation set ARTMIND_TEXT2SQL_ENGINE themselves."""
+    monkeypatch.setenv("ARTMIND_TEXT2SQL_ENGINE", "builtin")

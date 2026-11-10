@@ -198,6 +198,10 @@ DOMAIN_VIEWS_DIR = ARTMIND_HOME / "domains" / "views"
 # Topic plans (spec 2026-11-10 §5.1): one folder each, {plan.yaml, SKILL.md},
 # shaped like a saved view. Committed with the vault; never seeded.
 DOMAIN_TOPIC_PLANS_DIR = ARTMIND_HOME / "domains" / "topic_plans"
+# text2sql metadata (spec 2026-11-07 Feature 2), in sql-browser's sidecar format: one
+# <domain>.meta.yaml per domain, user-authored and committed; never seeded. Generated
+# files (e.g. the mart's <domain>.mart.meta.yaml) sit beside it and are merged per call.
+DOMAIN_METADATA_DIR = ARTMIND_HOME / "domains" / "metadata"
 
 # Insights tuning (spec 2026-10-17 §4.3): one <domain>.yaml per domain. User
 # data like views -- never seeded -- and outside schemas/ so tuning a detector
