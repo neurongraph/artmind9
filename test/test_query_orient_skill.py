@@ -32,7 +32,7 @@ def test_orient_section_has_the_six_rules():
     section = text.split("## Orient — read the corpus first", 1)[1].split("\n## ", 1)[0]
     assert "artmind query orient --compact" in section
     assert "artmind query orient --domain" in section
-    assert "Read every result before you answer" in section
+    assert "Read every\n   result before you answer" in section
     assert len([ln for ln in section.splitlines() if re.match(r"^\d\. ", ln)]) == 6
 
 
@@ -72,8 +72,8 @@ _DELETED = {
 _NEW_LINES = (
     "## Read every result before you answer",
     "`entity-resolve` maps I/me to the narrator and groups same-class twins (`twins`): treat a twin group as one entity unless the text distinguishes them.",
-    "Answer a count only from `complete: true`; otherwise say N of M, or rerun with `--all` (the `next`). For \"every year / each time\" questions use `survey --by year` (or `month`): it reports every period with a hit.",
-    "Pass the question to `entity-context`; its `cut` block says what a hub's cut hides, and `next` names the command for the rest.",
+    "Answer a count only from `complete: true`; otherwise say N of M. For \"every year / each time\" questions use `survey --by year` (or `month`): it reports every period with a hit.",
+    "Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.",
     "Retired documents are not in search results. A result whose `doc.replaced` lists an older version, or a dated / 'what changed' question, goes to the graph: `document-history`, `pattern10 --includeHistory`, `entity-history`.",
     "`artmind query graph pattern8 --entityClass CLASS --entityId <id> --all`",
     "An event counts for a person only when the notes put them in it.",
