@@ -396,3 +396,21 @@ Reading: banking did not regress overall; one run of 36 questions moves by up to
 variant needs at least two runs before a gate reading means anything (work plan item H, "gate noise allowance").
 Five questions are worse in both runs and go back to the backlog (Q05, Q09, Q13, Q22, Q36; Q36 is a `text2sql`
 aggregation error, a case for the structured-table enhancement).
+
+## text2sql delegated to sql-browser (2026-11-10)
+
+sql-browser `94643f4` adds an OpenAI-compatible provider (artmind's ibm_ica endpoint and model through
+`SQL_BROWSER_*` environment variables); artmind `46ddb05b` delegates `text2sql` to `sql-browser query --json`
+(`ARTMIND_TEXT2SQL_ENGINE=auto`, a per-call scoped DuckDB file, merged `domains/metadata/<domain>.meta.yaml`,
+built-in fallback), and `3bf2d074` adds `artmind db metadata init|validate|regenerate`. banking's metadata file was
+scaffolded with five joins (complaints, CSAT and vulnerable customers to customers; CSAT and complaints to agents)
+and validates. Full suite 6,761 passed.
+
+Live, direct calls (banking): the open-complaint CSAT question now selects `status = 'Open'` (2 customers, 1 survey);
+the built-in path had treated every non-Resolved status as open (13 customers). The largest Account Takeover payout
+and the Fee Dispute average agree between engines.
+
+Q32–Q36 rerun alone (`8aa968a7`, console restarted): Q32 and Q35 ran `text2sql` through sql-browser (2 calls each),
+and their remaining misses are policy items, not SQL. Q33, Q34 and Q36 wrote their own SQL with `db sql`, so the new
+engine was not used; Q36 is still partial with 3 missed (the open group and the non-open comparison), the same as J2.
+Must items missed (I / J / J2 / rerun): Q32 3/1/2/2, Q33 4/1/1/1, Q34 1/2/1/2, Q35 1/1/1/1, Q36 1/4/3/3.
