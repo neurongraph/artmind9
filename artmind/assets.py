@@ -1,11 +1,11 @@
 """Answer assets: everything precomputed that can answer, or steer the answer to, a question
 (spec 2026-11-02 §5). Read-only.
 
-One record shape for four kinds: `view` (saved graph queries), `topic` (topic pages),
+One record shape for four kinds: `view` (saved graph queries), `topic_plan` (saved topic plans),
 `insight` (a detector's findings in the latest snapshot) and `summary_set` (a domain's
 document-summary coverage). `build_assets(domain)` is the catalogue's `assets` part;
 `list_assets` merges the parts of several domains; `like` ranks by meaning.
-Topic pages and insight snapshots hold private corpus text, so the records live only in
+Topic plans hold the user's words and insight snapshots private corpus text, so the records live only in
 the catalogue cache under `logs/`.
 """
 from __future__ import annotations
@@ -16,9 +16,9 @@ from pathlib import Path
 
 from loguru import logger
 
-KINDS = ("view", "topic", "insight", "summary_set")
+KINDS = ("view", "topic_plan", "insight", "summary_set")
 ANSWERS_MAX = 600  # characters of a record's `answers` text
-_EVIDENCE = {"view": "rows", "topic": "passages", "insight": "subjects", "summary_set": "documents"}
+_EVIDENCE = {"view": "rows", "topic_plan": "documents", "insight": "subjects", "summary_set": "documents"}
 
 
 def _record(kind: str, id: str, domains, title: str, answers: str, *, built_at: str | None, open: str,
@@ -66,47 +66,30 @@ def view_assets(domain: str) -> list[dict]:
     return out
 
 
-# ---------------------------------------------------------------- topics
+# ---------------------------------------------------------------- topic plans
 
-def _overview(body: str) -> str:
-    for block in body.split("\n\n"):
-        block = block.strip()
-        if block and not block.startswith(("#", ">", "---")):
-            return " ".join(block.split())
-    return ""
+def plan_assets(domain: str) -> list[dict]:
+    """Topic plans over `domain` (spec 2026-11-10 §5.2), from the plan files; a folder that
+    fails to load is listed `status: invalid`. Pages are never assets: agents run plans."""
+    from artmind.topics import freshness, plan_store
 
-
-def topic_assets(domain: str) -> list[dict]:
-    """Topic pages over `domain`, from the page files. Staleness is checked in one read."""
-    from artmind.topics import stale, store
-
-    try:
-        pages = store.list_pages(store.topics_dir())
-    except ValueError:  # not inside a vault: no topic folder
-        return []
-    pages = [p for p in pages if any(store._related(str(d), domain) for d in p.meta.get("domains") or [])]
-    reasons: dict = {}
-    if pages:
-        try:
-            from artmind.graph_query import read_session
-
-            with read_session() as session:
-                reasons = stale.staleness(pages, session)
-        except Exception as exc:  # an unreachable graph leaves staleness unknown, not the list empty
-            logger.warning("assets: topic staleness not checked for {}: {}", domain, exc)
+    good, invalid = plan_store.list_plans([domain])
     out = []
-    for page in pages:
-        anchor = page.meta.get("anchor") or {}
-        topic = str(page.meta.get("topic") or page.slug)
+    for loaded in good:
+        spec = loaded.spec
+        fresh = freshness.stored(spec.slug) or {}
+        status = fresh.get("status")
         out.append(_record(
-            "topic", page.slug, [str(d) for d in page.meta.get("domains") or []], topic,
-            f"{topic}. {_overview(page.body)}", built_at=page.meta.get("built") and str(page.meta["built"]),
-            open=f"artmind query topics show {page.slug} --compact",
-            anchor={k: anchor[k] for k in ("kind", "_id", "key", "name") if anchor.get(k)} or None,
-            stale=bool(reasons.get(page.slug)), stale_reasons=reasons.get(page.slug) or [],
-            detail={"sources": len([s for s in page.meta.get("sources") or [] if isinstance(s, dict)]),
-                    "checks": page.meta.get("checks") or {}},
+            "topic_plan", spec.slug, spec.domains, spec.topic, " ".join([spec.topic, *spec.subjects]),
+            built_at=(spec.built or {}).get("at"), open=f"artmind query topics plan {spec.slug} --compact",
+            stale=status == "stale", stale_reasons=fresh.get("reasons") or [],
+            detail={"version": spec.version, "subjects": list(spec.subjects),
+                    "slices": {"by": spec.by, "split": spec.split}, "freshness": status},
         ))
+    for bad in invalid:
+        out.append(_record("topic_plan", bad["slug"], [], bad["slug"], "", built_at=None,
+                           open=f"artmind topic plan validate {bad['slug']} --compact", status="invalid",
+                           detail={"error": bad["error"]}))
     return out
 
 
@@ -179,7 +162,7 @@ def build_assets(domain: str) -> dict:
         counts = {"entities": fp[1], "documents": fp[2]}
     except Exception as exc:
         logger.warning("assets: graph counts unavailable for {}: {}", domain, exc)
-    records = [*view_assets(domain), *topic_assets(domain), *insight_assets(domain, counts),
+    records = [*view_assets(domain), *plan_assets(domain), *insight_assets(domain, counts),
                *summary_set_assets(domain)]
     return {"assets": tuple(records)}
 

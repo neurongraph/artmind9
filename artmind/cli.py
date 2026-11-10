@@ -423,10 +423,11 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Curation & config", "commands": ["same-as", "config"]},
     ],
     "artmind topic": [
-        {"name": "Topic pages", "commands": ["build", "refresh", "delete", "index"]},
+        {"name": "Topic pages", "commands": ["build", "refresh", "list", "show", "delete"]},
+        {"name": "Topic plans", "commands": ["plan"]},
     ],
     "artmind query topics": [
-        {"name": "Topic pages", "commands": ["list", "show"]},
+        {"name": "Topic plans", "commands": ["plan", "run"]},
     ],
     "artmind query": [
         {"name": "Planning", "commands": ["plan"]},
@@ -3008,11 +3009,11 @@ def query():
     --domain, its classes, types, relation shapes, stores, views and assets (facts, no question).
     Groups: `graph` (patterns, metadata, text2cypher, ...), `views` (saved,
     parameterised queries: list / show / run), `insights` (the latest
-    unprompted findings: list / show), and `topics` (read-only topic pages:
-    list / show). `survey` ranks documents for cross-document questions
+    unprompted findings: list / show), and `topics` (saved topic plans:
+    plan / run). `survey` ranks documents for cross-document questions
     (summaries + passages). `catalogue` says what the system knows about a domain
     (classes, relations, documents, stores, time, health) and `assets` what it
-    already answers (views, topic pages, insights, summaries). `page` reads the rest of a result
+    already answers (views, topic plans, insights, summaries). `page` reads the rest of a result
     that ARTMIND_OUTPUT_BUDGET cut (by its handle). The rest are lookup commands.
 
     `survey`, `vector-text`, `chunks` and `entity-context` take `--shape brief|full`
@@ -3787,8 +3788,8 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
     """Documents for a question that spans documents: document summaries, chunk summaries and passages, fused.
 
     Each document comes with its summary, its best passages and its best chunk summary;
-    `topics` lists topic pages that cite the returned documents. Use vector-text when one
-    passage could answer the question.
+    `coverage` says how many documents have a keyword hit in scope and how many the
+    payload shows evidence for. Use vector-text when one passage could answer the question.
 
     Every document carries `title`, `date` (valid_from) and `status` (current or
     superseded). `--shape brief` lists every document, showing a passage row (best
@@ -3803,14 +3804,13 @@ def query_survey(domain: tuple, top_docs: int | None, passages: int, shape: str,
     are weighted when fusing.
     """
     from artmind import survey
-    from artmind.topics import stale
 
     if top_docs is None:
         top_docs = _resolve_survey_top_docs(shape)
     domains = _parse_domains(domain)
     try:
         result = survey.survey_search(domains, question, top_docs=top_docs, passages=passages,
-                                      topics=stale.survey_topics, shape=shape, passage_docs=passage_docs,
+                                      shape=shape, passage_docs=passage_docs,
                                       gist_docs=gist_docs, expand=_parse_repeatable(expand),
                                       by=by, per_period=per_period, date_from=date_from, date_to=date_to)
     except ValueError as exc:
@@ -4263,48 +4263,67 @@ def _page_reasons(pages) -> dict:
 
 @query.group("topics")
 def query_topics() -> None:
-    """Topic pages built by `artmind topic build` (read-only): `list` them, `show` one.
+    """Saved topic plans (read-only, no LLM): `plan` shows one (or `--list`), `run` runs it live.
 
-    A page summarises what several documents say about a topic, with citations to
-    passages. Use it to find and organise sources; cite the passages, not the page.
-    `stale` says a cited document or the anchored entity changed since the build.
+    A topic plan is a reviewed retrieval program for an overview or trend question: its
+    subjects, its slices (per year or month, per child domain) and how many documents each
+    cell reads. `run` runs one survey per cell and returns brief rows grouped by cell; each
+    row is ordinary survey evidence, cited as such. Plans are built with `artmind topic build`.
     """
     pass
 
 
-@query_topics.command("list")
-@click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
-@click.option("--stale", "only_stale", is_flag=True, help="Only stale pages")
+def _plan_error(exc) -> "click.ClickException":
+    return click.ClickException(str(exc))
+
+
+@query_topics.command("plan")
+@click.option("--list", "list_all", is_flag=True, help="Every plan in scope (slug, topic, subjects, freshness)")
+@click.option("--domain", "domain", multiple=True, help="--list: only plans over this domain (repeatable; comma-splittable)")
 @compact_option
-def query_topics_list(domain: tuple, only_stale: bool, compact: bool) -> None:
-    """Every topic page with its domains, build date, anchor, source count and staleness."""
-    from artmind.topics import store
+@click.argument("slug", required=False)
+def query_topics_plan(list_all: bool, domain: tuple, compact: bool, slug: "str | None") -> None:
+    """One topic plan: plan.yaml, its SKILL.md and, per cell, `matching` at build vs now."""
+    from artmind.topics import plan_store
+    from artmind.topics import run as topic_run
+    from artmind.topics.plan import PlanError
 
-    _, pages = _topic_pages(None)
-    if domain:
-        wanted = _parse_domains(domain)
-        pages = [p for p in pages if any(store._related(str(d), w) for d in p.meta.get("domains") or [] for w in wanted)]
-    reasons = _page_reasons(pages)
-    rows = [_stale_page_summary(p, reasons.get(p.slug, [])) for p in pages]
-    if only_stale:
-        rows = [r for r in rows if r["stale"]]
-    _echo_json({"pages": rows}, compact)
+    if bool(slug) == bool(list_all):
+        raise click.UsageError("give SLUG or --list")
+    if list_all:
+        plans, invalid = plan_store.list_plans(_parse_domains(domain) if domain else None)
+        _echo_json(topic_run.list_payload(plans, invalid), compact)
+        return
+    try:
+        _echo_json(topic_run.plan_payload(plan_store.load_plan(slug)), compact)
+    except PlanError as exc:
+        raise _plan_error(exc) from exc
 
 
-@query_topics.command("show")
+@query_topics.command("run")
+@click.option("--subject", "subject", type=int, default=None, help="Only this subject (1-based, as `plan` lists them)")
+@click.option("--cell", "cell", default=None, help="Only cells of this period (e.g. 2023) or domain, or one cell label")
+@click.option("--shape", type=click.Choice(["brief", "full"]), default="full", show_default=True,
+              help="brief: one passage per document, cut; full: up to 3 passages and the summary")
 @compact_option
 @click.argument("slug")
-def query_topics_show(compact: bool, slug: str) -> None:
-    """One topic page: its body (with footnotes), sources, checks and staleness."""
-    from artmind.topics import store
+def query_topics_run(subject: "int | None", cell: "str | None", shape: str, compact: bool, slug: str) -> None:
+    """Run a topic plan's surveys live: one per cell, rows grouped by cell (no LLM).
 
-    directory, _ = _topic_pages(None)
-    page = store.read_page(directory, slug)
-    if page is None:
-        raise click.ClickException(f"no topic page {slug!r} in {directory}")
-    reasons = _page_reasons([page]).get(slug, [])
-    _echo_json({"page": {**_stale_page_summary(page, reasons), "body": page.body,
-                         "sources": page.meta.get("sources") or []}}, compact)
+    `cells` lists every cell with `matching` (keyword-matching documents), `take` and
+    `taken`; a cell with more matches than it shows is `partial`. A document found by
+    several cells is shown under its first and listed (`seen_in`) under the others.
+    Over ARTMIND_OUTPUT_BUDGET the rows are cut; `artmind query page <handle>` reads on.
+    """
+    from artmind.topics import plan_store
+    from artmind.topics import run as topic_run
+    from artmind.topics.plan import PlanError
+
+    try:
+        result = topic_run.run_plan(plan_store.load_plan(slug), subject=subject, cell=cell, shape=shape)
+    except (PlanError, ValueError) as exc:
+        raise _plan_error(exc) from exc
+    _echo_json(result, compact)
 
 
 def _stale_page_summary(page, reasons: list) -> dict:
@@ -4648,16 +4667,91 @@ def catalogue_refresh(domain: tuple, part: tuple, dry_run: bool, compact: bool) 
 
 @cli.group("topic")
 def topic_group() -> None:
-    """Build, refresh, delete and index cited topic pages in <vault>/_Topics/ (never ingested).
+    """Build, refresh, list, show and delete topic pages in <vault>/_Topics/ (never ingested), and their plans.
 
     `build` sends the matched passages to the configured LLM provider (one call per
-    document plus one or two to write the page) and logs them in llm_calls.log.
-    Read pages with `artmind query topics list|show`. `index` mirrors the pages into
-    the graph as `:TopicPage` nodes (never evidence; `build`, `refresh`, `delete` and
-    `vault sync` keep it current). Pages hold private corpus content and are
-    committed with the vault.
+    document plus the reduces) and logs them in llm_calls.log. It writes the page and
+    its topic plan (`<vault>/.artmind/domains/topic_plans/<slug>/`); agents run the plan
+    with `artmind query topics run`, never the page. Pages are for people (Obsidian),
+    hold private corpus content and are committed with the vault.
     """
     pass
+
+
+@topic_group.command("list")
+@click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
+@click.option("--stale", "only_stale", is_flag=True, help="Only stale pages")
+@compact_option
+def topic_list(domain: tuple, only_stale: bool, compact: bool) -> None:
+    """Every topic page with its domains, build date, anchor, source count and staleness."""
+    from artmind.topics import store
+
+    _, pages = _topic_pages(None)
+    if domain:
+        wanted = _parse_domains(domain)
+        pages = [p for p in pages if any(store._related(str(d), w) for d in p.meta.get("domains") or [] for w in wanted)]
+    reasons = _page_reasons(pages)
+    rows = [_stale_page_summary(p, reasons.get(p.slug, [])) for p in pages]
+    if only_stale:
+        rows = [r for r in rows if r["stale"]]
+    _echo_json({"pages": rows}, compact)
+
+
+@topic_group.command("show")
+@compact_option
+@click.argument("slug")
+def topic_show(compact: bool, slug: str) -> None:
+    """One topic page: its body (with footnotes), sources, checks and staleness."""
+    from artmind.topics import store
+
+    directory, _ = _topic_pages(None)
+    page = store.read_page(directory, slug)
+    if page is None:
+        raise click.ClickException(f"no topic page {slug!r} in {directory}")
+    reasons = _page_reasons([page]).get(slug, [])
+    _echo_json({"page": {**_stale_page_summary(page, reasons), "body": page.body,
+                         "sources": page.meta.get("sources") or []}}, compact)
+
+
+@topic_group.group("plan")
+def topic_plan_group() -> None:
+    """Topic plan files (`<vault>/.artmind/domains/topic_plans/<slug>/`): `validate`."""
+    pass
+
+
+@topic_plan_group.command("validate")
+@click.option("--path", "path", type=click.Path(exists=True, file_okay=False, path_type=Path), default=None,
+              help="A plan folder (plan.yaml + SKILL.md) instead of a saved plan")
+@compact_option
+@click.argument("slug", required=False)
+def topic_plan_validate(path: "Path | None", compact: bool, slug: "str | None") -> None:
+    """Static checks only (no Neo4j): format, version guard, SKILL.md. No SLUG/--path: every plan. Exit 1 if any fails."""
+    from artmind.topics import plan_store
+    from artmind.topics.plan import PlanError
+
+    if slug and path:
+        raise click.UsageError("give SLUG or --path, not both")
+    if path:
+        folders = [path]
+    elif slug:
+        try:
+            plan_store.check_slug(slug)
+        except PlanError as exc:
+            raise click.ClickException(str(exc)) from exc
+        folders = [plan_store.plans_dir() / slug]
+    else:
+        folders = plan_store.plan_folders()
+    results = []
+    for folder in folders:
+        try:
+            loaded = plan_store.load_plan_dir(folder)
+        except (PlanError, OSError) as exc:
+            results.append({"slug": folder.name, "path": str(folder), "valid": False, "error": str(exc)})
+            continue
+        results.append({"slug": loaded.spec.slug, "path": str(folder), "valid": True, "version": loaded.spec.version})
+    _echo_json({"results": results}, compact)
+    if not all(r["valid"] for r in results):
+        raise click.exceptions.Exit(1)
 
 
 @topic_group.command("build")
@@ -4684,7 +4778,6 @@ def topic_build(topic: str, domain: tuple, max_docs: "int | None", slug: "str | 
                                   model=model, dry_run=dry_run)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
-    _index_written_pages(result, out, dry_run)
     _echo_json(result, compact)
 
 
@@ -4714,8 +4807,6 @@ def topic_refresh(slug: "str | None", only_stale: bool, every: bool, out: "Path 
     results = [build.build_page(p.meta["topic"], list(p.meta.get("domains") or []), slug=p.slug, out=directory,
                                 max_docs=int(p.meta.get("max_docs") or _resolve_topic_max_docs()),
                                 dry_run=dry_run) for p in pages]
-    for r in results:
-        _index_written_pages(r, out, dry_run)
     payload = {"refreshed": results}
     effects = [r["effect"] for r in results if r.get("effect")]
     if effects:
@@ -4761,58 +4852,7 @@ def topic_delete(slug: str, out: "Path | None", compact: bool, dry_run: bool) ->
         return
     store.delete_page(directory, slug)
     click.echo(f"deleted {path}", err=True)
-    if out is None:
-        from artmind.topics import index as topic_index
-
-        indexed = topic_index.unindex_page(slug)
-        if indexed["status"] == "not removed":
-            click.echo(f"artmind: topic index not updated ({indexed['error']}); run `{indexed['next']}`", err=True)
     _echo_json(with_effect(payload, effect), compact)
-
-
-def _index_written_pages(result: dict, out: "Path | None", dry_run: bool) -> None:
-    """After `topic build` / `refresh` wrote a page, put it in the topic index. The file is the
-    source of truth: a graph that is down leaves a note on stderr, and `topic index` repairs it."""
-    if dry_run or out is not None or not result.get("path"):
-        return  # a page written to an `--out` folder elsewhere is not the vault's
-    from artmind.topics import index as topic_index
-
-    outcome = topic_index.index_page(result["slug"])
-    result["indexed"] = outcome
-    if outcome["status"] == "not indexed":
-        click.echo(f"artmind: topic index not updated ({outcome['error']}); run `{outcome['next']}`", err=True)
-
-
-@topic_group.command("index")
-@click.option("--domain", "domain", multiple=True, help="Only pages over this domain (repeatable; comma-splittable)")
-@click.option("--out", type=click.Path(path_type=Path), default=None, help="Folder (default: <vault>/_Topics)")
-@dry_run_option("Report what the sweep would index, delete and embed; write nothing")
-@compact_option
-def topic_index_command(domain: tuple, out: "Path | None", dry_run: bool, compact: bool) -> None:
-    """Rebuild the topic index in the graph from the page files (repair; idempotent).
-
-    Upserts a node for every page in `_Topics/`, deletes nodes whose file is gone and
-    embeds what has no vector. The files stay the source of truth; the index is read
-    by `query assets` and `query survey` and is never retrieval evidence.
-    """
-    _setup_logger()
-    from artmind.topics import index as topic_index
-
-    directory, _ = _topic_pages(out)
-    domains = _parse_domains(domain) if domain else []
-    try:
-        counts = topic_index.sweep(domains, dry_run, directory=directory)
-    except Exception as exc:
-        raise click.ClickException(f"topic index: {exc}") from exc
-    touched = counts["updated"] + counts["deleted"]
-    effect = Effect(
-        summary=(f"Index {counts['indexed']} topic page(s): {counts['updated']} to write, "
-                 f"{counts['deleted']} to delete, {counts['embedded']} to embed."),
-        changes=[Change("topic_index", touched, [])] if touched else [],
-        reversible=True,
-        records=["graph :TopicPage nodes"] if touched or counts["embedded"] else [],
-    )
-    _echo_json(with_effect(counts, effect, dry_run=dry_run), compact)
 
 
 # ── artmind traces ─────────────────────────────────────────────────────────────
@@ -7205,6 +7245,8 @@ def setup(compact: bool):
         click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])), err=True)
         if result.get("legacy_chunk_vectors"):
             click.echo("Legacy chunk vectors: " + result["legacy_chunk_vectors"]["report"].removeprefix("legacy chunk vectors: "), err=True)
+        if result.get("topic_page_graph_copy"):
+            click.echo("Topic page graph copy: " + result["topic_page_graph_copy"]["report"].removeprefix("topic page graph copy: "), err=True)
         click.echo("\nSetup complete.", err=True)
     except Exception as e:
         raise click.ClickException(str(e))
@@ -7216,4 +7258,6 @@ def setup(compact: bool):
         "neo4j_vector_indexes": list(result["neo4j_vector_indexes"]),
         "neo4j_fulltext_indexes": list(result.get("neo4j_fulltext_indexes", [])),
         "legacy_chunk_vectors": legacy["report"].removeprefix("legacy chunk vectors: ") if legacy else None,
+        "topic_page_graph_copy": (result["topic_page_graph_copy"]["report"].removeprefix("topic page graph copy: ")
+                                  if result.get("topic_page_graph_copy") else None),
     }, compact)

@@ -47,6 +47,8 @@ def test_best_two_per_year_in_chronological_order(monkeypatch):
     assert [d["doc_id"] for d in out["documents"]] == ["A", "B", "D", "E", "F", "U"]
     assert out["periods"][0]["keyword_hits"] == 3 and out["periods"][0]["ranked"] == 3 and "hits" not in out["periods"][0]
     assert out["documents"][0]["date"] == "2023-02-01"
+    # coverage with --by: the sum of the periods' keyword hits (3 + 2 + 1), what the full payload shows (6)
+    assert out["coverage"] == {"matching_documents": 6, "shown": 6, "by": "year"}
     cypher, params = [c for c in s.calls if "hit_limit" in c[1]][0]
     assert "passage_text_ft" in cypher and "$domains" in cypher
     assert params["hit_limit"] == 5000 and params["domains"] == ["notes"]
@@ -93,8 +95,8 @@ def test_cap_at_fifty_warns(monkeypatch):
 def test_without_by_payload_is_unchanged(monkeypatch):
     _patch(monkeypatch, Recorder(_responder([])))
     out = survey.survey_search(["notes"], "alpha", top_docs=3)
-    assert list(out)[-5:] == ["query_type", "question", "parameters", "warnings", "documents", "topics"][-5:]
-    assert set(out) - {"domain", "domains"} == {"query_type", "question", "parameters", "warnings", "documents", "topics"}
+    assert set(out) - {"domain", "domains", "coverage"} == {"query_type", "question", "parameters", "warnings",
+                                                            "documents"}
     assert "by" not in out and "periods" not in out and "next" not in out
     assert out["parameters"] == {"topDocs": 3, "passages": 1, "pool": 300, "legs": ["D", "C", "P"]}
     s = Recorder(_responder([]))
@@ -167,6 +169,7 @@ def test_hit_limit_reached_warns_lower_bound(monkeypatch):
     monkeypatch.setattr(survey, "HIT_LIMIT", 5)
     out = _many(monkeypatch, 2, lambda i: "2023-01-01", hit_rows=[{"date": "2023-01-01", "hits": 5}])
     assert "keyword_hits are a lower bound (more than 5 matching passages)" in out["warnings"]
+    assert out["coverage"]["at_least"] is True
 
 
 def test_undated_empty_period_is_warned_not_signposted(monkeypatch):

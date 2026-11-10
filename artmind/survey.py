@@ -11,7 +11,7 @@ documents in scope lack one. `vector-text` is unchanged: it is the needle tool.
 """
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 
 from neo4j.exceptions import ClientError
 
@@ -27,9 +27,6 @@ MISSING_SUMMARY_INDEX = (
     "the summary index is missing: run `artmind setup` inside the vault, then "
     "`artmind ingest summarise` to build summaries."
 )
-
-#: `topics(doc_ids, domains)`: pages that cite the returned documents (slice 3).
-Topics = Callable[[list[str], list[str]], list[dict]]
 
 _SUMMARY_ROW = "kind: 'summary', id: s.id, doc_id: s.doc_id, chunk_id: s.chunk_id, text: s.text"
 
@@ -129,7 +126,6 @@ def survey_search(
     passages: int = 1,
     *,
     legs: Sequence[str] = LEGS,
-    topics: Topics | None = None,
     shape: str = "full",
     passage_docs: int = 3,
     gist_docs: int = 10,
@@ -182,6 +178,8 @@ def survey_search(
     if date_from or date_to:
         params.update(date_from=date_from, date_to=date_to)
 
+    keyword_docs: set = set()
+    keyword_floor = False
     rankings: dict[str, list[str]] = {}
     doc_units: dict[str, list] = {}
     passage_hits: dict[str, int] = {}
@@ -194,6 +192,8 @@ def survey_search(
                                           {**params, "embedding": embedding}) if embedding is not None else [])
                 text = (vector_query._rows(session, _windowed(vector_query._passage_text_cypher(None), "p", params),
                                            {**params, "ft_query": ft_query}) if ft_query else [])
+                keyword_docs = {r.get("doc_id") for r in text if r.get("doc_id")}
+                keyword_floor = len(text) >= POOL
             except ClientError as e:
                 if vector_query._is_missing_index(e):
                     raise ValueError(vector_query.MISSING_INDEX) from e
@@ -260,8 +260,6 @@ def survey_search(
     if expand:
         return _expanded(domains, question, picked, meta, doc_units, passages, warnings, top_docs, legs)
     if shape == "brief":
-        found = topics(ids, domains) if topics else []
-        warnings.extend(getattr(found, "warnings", ()))
         out = {
             **_domain_output(domains),
             "query_type": "survey",
@@ -270,7 +268,6 @@ def survey_search(
                            "shape": "brief", "passageDocs": passage_docs, "gistDocs": gist_docs},
             "warnings": warnings,
             "documents": [],
-            "topics": list(found),
             **({"outside_scope": outside} if outside else {}),
         }
         # The rows get what the rest of the payload leaves (measured, plus room for the
@@ -280,6 +277,8 @@ def survey_search(
                                             chunk_summary_hits, passage_docs, gist_docs, envelope)
         if by_info:
             _attach_periods(out, by_info, by, per_period, domains, question)
+        _attach_coverage(out, keyword_docs, keyword_floor, by,
+                         sum(1 for d in out["documents"] if "gist" in d or "passage" in d))
         return out
 
     documents = []
@@ -299,8 +298,6 @@ def survey_search(
             ],
             "chunk_summary": {"chunk_id": best.get("chunk_id"), "text": best.get("text")} if best else None,
         })
-    found = topics(ids, domains) if topics else []
-    warnings.extend(getattr(found, "warnings", ()))
     out = {
         **_domain_output(domains),
         "query_type": "survey",
@@ -308,12 +305,32 @@ def survey_search(
         "parameters": {"topDocs": top_docs, "passages": passages, "pool": POOL, "legs": list(legs)},
         "warnings": warnings,
         "documents": documents,
-        "topics": list(found),
         **({"outside_scope": outside} if outside else {}),
     }
     if by_info:
         _attach_periods(out, by_info, by, per_period, domains, question)
+    _attach_coverage(out, keyword_docs, keyword_floor, by, len(documents))
     return out
+
+
+def _attach_coverage(out: dict, keyword_docs: set, floor: bool, by: str | None, shown: int) -> None:
+    """Spec 2026-11-10 §4: how many documents match the question's words in scope, and how
+    many the payload gives evidence for. A fact, no threshold: present whenever any match.
+
+    `matching_documents` is the distinct documents of the keyword passage leg (POOL deep; at
+    POOL it is a floor), or with `--by` the sum of the periods' keyword hits (over the whole
+    index, HIT_LIMIT passages deep)."""
+    if by and out.get("periods") is not None:
+        matching = sum(int(p.get("keyword_hits") or 0) for p in out["periods"])
+        floor = any("lower bound" in w for w in out.get("warnings") or [])
+    else:
+        matching = len(keyword_docs)
+    if matching <= 0:
+        return
+    cov = {"matching_documents": matching, "shown": shown, "by": by}
+    if floor:
+        cov["at_least"] = True
+    out["coverage"] = cov
 
 
 def _is_iso_date(value: str) -> bool:
@@ -517,5 +534,5 @@ def _expanded(domains, question, picked, meta, doc_units, passages, warnings, to
         **_domain_output(domains), "query_type": "survey", "question": question,
         "parameters": {"topDocs": top_docs, "passages": passages, "pool": POOL, "legs": list(legs),
                        "shape": "brief", "expand": [d for d, _, _ in picked]},
-        "warnings": warnings, "documents": [], "passages": rows, "topics": [],
+        "warnings": warnings, "documents": [], "passages": rows,
     }

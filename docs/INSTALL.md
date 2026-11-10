@@ -297,7 +297,7 @@ generation, `:DomainState`, that `artmind setup` makes room for); `ARTMIND_PLAN_
 The catalogue's `health` part (twins, same-as, isolated entities, missing summaries) is never built during a plan:
 `serve`, `chat-ui` and `admin-ui` refresh it in the background, `artmind catalogue refresh --domain D` builds it
 on demand, and `ARTMIND_CATALOGUE_HEALTH_TTL_S` (default 3600) sets how long a built one stays fresh. `artmind setup`
-also creates the `:TopicPage` constraint and indexes; run `artmind topic index` once per vault with topic pages. `artmind plan config check` validates
+also drops the old `:TopicPage` graph copy of topic pages (nodes, constraint, indexes) if a graph still has it. `artmind plan config check` validates
 `domains/plan/<domain>.yaml`, and `artmind plan replay` scores the labelled set
 (needs Neo4j; see the `plan` group in `artmind --help`).
 

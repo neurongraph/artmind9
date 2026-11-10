@@ -17,7 +17,7 @@ def _cat(domain="bank.policy", **kw):
                    "successor": "policy_a_v2.md"},
                   {"name": "policy_a_v2.md", "status": "current", "valid_from": "2026-06-01", "successor": None,
                    "replaces": 1}),
-        assets=({"kind": "topic", "id": "t1", "detail": {}}, {"kind": "topic", "id": "t2", "detail": {}}),
+        assets=({"kind": "topic_plan", "id": "t1", "detail": {}}, {"kind": "topic_plan", "id": "t2", "detail": {}}),
         part_keys={p: [8] for p in ("classes", "documents", "stores", "time", "versions", "assets")},
     )
     base.update(kw)
@@ -41,7 +41,7 @@ def test_card_fields_from_catalogue_schema_and_narrator():
                          "versions": {"with_successor": 1, "retired": 1}}
     assert c["vocabulary"] == ["POLICY_PROVISION", "CONTROL_MEASURE", "RISK", "POLICY", "ROLE"]
     assert c["entities"] == 1907
-    assert c["assets"] == {"views": 0, "topic_pages": 2, "insights": None, "summaries": "1 of 2"}
+    assert c["assets"] == {"views": 0, "topic_plans": 2, "insights": None, "summaries": "1 of 2"}
     assert "coverage" not in c  # health not cached
 
 

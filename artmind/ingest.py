@@ -5191,10 +5191,4 @@ def rebuild_and_sweep_all() -> dict:
         domains_swept=sorted(by_domain), embedded=embedded, passages_embedded=chunks, sweep_errors=errors,
     )
     summary["finalize_resolved"] = [] if errors else _resolve_failed_finalizes()
-    # "Repair everything" includes the topic index (spec 2026-11-02 §6); best effort.
-    from artmind.topics import index as topic_index
-
-    topic_swept = topic_index.best_effort_sweep()
-    if topic_swept is not None:
-        summary["topic_index"] = topic_swept
     return summary

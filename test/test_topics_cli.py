@@ -21,26 +21,26 @@ def test_topic_build_passes_options(tmp_path):
     assert kwargs["max_docs"] == 5 and kwargs["out"] == tmp_path and kwargs["dry_run"] is True
 
 
-def test_query_topics_list_and_show(tmp_path, monkeypatch):
+def test_topic_list_and_show(tmp_path, monkeypatch):
     import paths
 
     store.write_page(tmp_path, "notice", META, "## Overview\n\nBody [^1].")
     monkeypatch.setattr(paths, "TOPICS_DIR", tmp_path)
     with patch("artmind.topics.stale.staleness", return_value={"notice": ["source changed: a.md"]}), \
          patch("artmind.cli.read_session_for_topics", return_value=_null()):
-        r = CliRunner().invoke(cli, ["query", "topics", "list", "--compact"])
+        r = CliRunner().invoke(cli, ["topic", "list", "--compact"])
         assert r.exit_code == 0, r.output
         pages = json.loads(r.output)["pages"]
         assert pages[0]["slug"] == "notice" and pages[0]["stale"] is True
-        r = CliRunner().invoke(cli, ["query", "topics", "show", "notice", "--compact"])
+        r = CliRunner().invoke(cli, ["topic", "show", "notice", "--compact"])
         page = json.loads(r.output)["page"]
         assert page["body"].startswith("## Overview") and page["stale_reasons"] == ["source changed: a.md"]
         assert page["sources"] == META["sources"]
-        r = CliRunner().invoke(cli, ["query", "topics", "show", "missing"])
+        r = CliRunner().invoke(cli, ["topic", "show", "missing"])
         assert r.exit_code == 1 and "no topic page" in r.output
 
 
-def test_query_topics_list_filters_by_domain_and_staleness(tmp_path, monkeypatch):
+def test_topic_list_filters_by_domain_and_staleness(tmp_path, monkeypatch):
     import paths
 
     store.write_page(tmp_path, "notice", META, "x")
@@ -48,9 +48,9 @@ def test_query_topics_list_filters_by_domain_and_staleness(tmp_path, monkeypatch
     monkeypatch.setattr(paths, "TOPICS_DIR", tmp_path)
     with patch("artmind.topics.stale.staleness", return_value={"notice": [], "other": []}), \
          patch("artmind.cli.read_session_for_topics", return_value=_null()):
-        r = CliRunner().invoke(cli, ["query", "topics", "list", "--domain", "j", "--compact"])
+        r = CliRunner().invoke(cli, ["topic", "list", "--domain", "j", "--compact"])
         assert [p["slug"] for p in json.loads(r.output)["pages"]] == ["notice"]
-        r = CliRunner().invoke(cli, ["query", "topics", "list", "--stale", "--compact"])
+        r = CliRunner().invoke(cli, ["topic", "list", "--stale", "--compact"])
         assert json.loads(r.output)["pages"] == []
 
 
@@ -74,11 +74,15 @@ def test_topic_refresh_stale_rebuilds_only_stale_pages(tmp_path):
     assert args == ("Notice", ["j"]) and kwargs["slug"] == "notice" and b.call_count == 1
 
 
-def test_survey_cli_asks_for_topics():
+def test_survey_cli_no_longer_asks_for_topic_pages():
     with patch("artmind.survey.survey_search", return_value={"documents": []}) as s:
         CliRunner().invoke(cli, ["query", "survey", "--domain", "j", "q"])
-    from artmind.topics import stale
-    assert s.call_args.kwargs["topics"] is stale.survey_topics
+    assert "topics" not in s.call_args.kwargs
+
+
+def test_query_topics_no_longer_shows_pages():
+    for sub in ("list", "show"):
+        assert CliRunner().invoke(cli, ["query", "topics", sub, "--help"]).exit_code != 0
 
 
 def test_a_shown_page_counts_as_one_row():

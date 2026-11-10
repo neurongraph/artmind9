@@ -41,6 +41,7 @@ EXIT_STORE = 3
 #: documents / results / rows present in its payload.
 LIST_KEY: dict[str, str] = {
     "query survey": "documents",
+    "query topics run": "rows",
     "query vector-text": "rows",
     "query entity-resolve": "rows",
     "query page": "rows",
@@ -66,7 +67,7 @@ WRITE_COMMANDS: dict[str, int] = {
         "projection rebuild", "projection synthesize",
         "update confirm", "update retract",
         "views save", "views delete",
-        "topic build", "topic refresh", "topic delete", "topic index",
+        "topic build", "topic refresh", "topic delete",
         "vault sync", "traces prune", "catalogue refresh",
     )},
     **{p: 2 for p in (
@@ -330,7 +331,7 @@ EFFECT_KINDS = frozenset({
     "document_restore", "document_supersede", "document_unsupersede", "conflict_resolve", "conflict_dismiss",
     "summary_write", "description_write", "view_save", "view_delete", "topic_write",
     "topic_delete", "table_change", "trace_delete", "fact_write", "fact_retract",
-    "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh", "topic_index",
+    "proposal_reject", "projection_rebuild", "document_archive", "catalogue_refresh",
 })
 
 SAMPLE_CAP = 10

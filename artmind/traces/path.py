@@ -19,6 +19,7 @@ _EXACT = {
     "query graph text2cypher": "text2cypher",
     "query vector-text": "vector",
     "query survey": "survey",
+    "query topics run": "survey",   # a saved plan's surveys, run live
     "query chunks": "provenance",   # source text fetched by id for graph results
     "query text2sql": "sql",
     "query resolve-key": "sql",

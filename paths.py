@@ -195,6 +195,9 @@ TABLE_MAPPINGS_DIR = ARTMIND_HOME / "domains" / "table_mappings"
 # kg_views: saved queries, one folder each. User-authored and committed; never
 # seeded or overwritten by `init`/`setup`.
 DOMAIN_VIEWS_DIR = ARTMIND_HOME / "domains" / "views"
+# Topic plans (spec 2026-11-10 §5.1): one folder each, {plan.yaml, SKILL.md},
+# shaped like a saved view. Committed with the vault; never seeded.
+DOMAIN_TOPIC_PLANS_DIR = ARTMIND_HOME / "domains" / "topic_plans"
 
 # Insights tuning (spec 2026-10-17 §4.3): one <domain>.yaml per domain. User
 # data like views -- never seeded -- and outside schemas/ so tuning a detector

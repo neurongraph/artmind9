@@ -1,4 +1,4 @@
-"""Answer assets (spec 2026-11-02 §5): one record shape over views, topics, insights, summary sets."""
+"""Answer assets (spec 2026-11-02 §5): one record shape over views, topic plans, insights, summary sets."""
 import json
 import sys
 from pathlib import Path
@@ -15,7 +15,8 @@ from artmind.catalogue.model import DocRecord
 from artmind.cli import cli
 from artmind.insights import store as insights_store
 from artmind.insights.model import Finding, Run
-from artmind.topics import store as topics_store
+from artmind.topics import plan as plan_model
+from artmind.topics import plan_store
 
 RECORD_KEYS = {"kind", "id", "domains", "title", "answers", "anchor", "built_at", "stale", "stale_reasons",
                "evidence_kind", "open", "status", "detail"}
@@ -37,9 +38,9 @@ def _write_view(root: Path, name, domains=("journal",), summary="Trips by year",
 @pytest.fixture
 def world(tmp_path, monkeypatch):
     views = tmp_path / "views"
-    topics = tmp_path / "_Topics"
+    topics = tmp_path / "topic_plans"
     insights = tmp_path / "insights"
-    for attr, value in (("DOMAIN_VIEWS_DIR", views), ("TOPICS_DIR", topics), ("INSIGHTS_DIR", insights),
+    for attr, value in (("DOMAIN_VIEWS_DIR", views), ("DOMAIN_TOPIC_PLANS_DIR", topics), ("INSIGHTS_DIR", insights),
                         ("LOGS_DIR", tmp_path / "logs")):
         monkeypatch.setattr(paths, attr, value)
     state = {"docs": [("d1", "a.md", True), ("d2", "b.md", False)], "entities": 5, "documents": 2}
@@ -70,12 +71,11 @@ def world(tmp_path, monkeypatch):
     cache.reset()
 
 
-def _topic(root, slug="termination", domains=("journal",), sha="v1"):
-    topics_store.write_page(root, slug, {
-        "artmind_topic": 1, "topic": "Termination rights", "slug": slug, "domains": list(domains),
-        "anchor": {"kind": "entity", "key": "k1", "name": "Ada", "_id": "e1", "observation_set_hash": "h"},
-        "built": "2026-11-02", "sources": [{"doc_id": "d1", "name": "a.md", "content_sha": sha}], "checks": {"ok": True},
-    }, "# Termination rights\n\nEither side may end the agreement with notice.\n")
+def _topic(root, slug="termination", domains=("journal",)):
+    spec = plan_model.PlanSpec(slug=slug, topic="Termination rights", version=1, domains=tuple(domains),
+                               subjects=("notice before termination", "who may end the agreement"),
+                               by="year", built={"at": "2026-11-02T00:00:00Z"})
+    plan_store.write_plan(spec, plan_model.default_skill_md(spec))
 
 
 def _snapshot(domain="journal", entities=5, documents=2):
@@ -93,15 +93,17 @@ def test_each_kind_has_the_one_record_shape(world):
     _topic(world["topics"])
     _snapshot()
     rows, total = assets.list_assets(["journal"])
-    assert total == 4 and [r["kind"] for r in rows] == ["view", "topic", "insight", "summary_set"]
+    assert total == 4 and [r["kind"] for r in rows] == ["view", "topic_plan", "insight", "summary_set"]
     assert all(set(r) == RECORD_KEYS for r in rows)
     view, topic, insight, summary = rows
     assert view["id"] == "trips_by_year" and view["open"] == "artmind query views show trips_by_year --compact"
     assert view["answers"] == "Trips by year which trips last year?" and view["evidence_kind"] == "rows"
     assert view["detail"] == {"version": 2, "params": {"person": {"type": "entity", "entity_class": "PERSON"}}}
-    assert topic["id"] == "termination" and topic["answers"].startswith("Termination rights. Either side may end")
-    assert topic["anchor"] == {"kind": "entity", "_id": "e1", "key": "k1", "name": "Ada"}
-    assert topic["detail"] == {"sources": 1, "checks": {"ok": True}} and topic["stale"] is False
+    assert topic["id"] == "termination" and topic["answers"].startswith("Termination rights notice before")
+    assert topic["open"] == "artmind query topics plan termination --compact" and topic["evidence_kind"] == "documents"
+    assert topic["detail"] == {"version": 1, "subjects": ["notice before termination", "who may end the agreement"],
+                               "slices": {"by": "year", "split": "none"}, "freshness": None}
+    assert topic["stale"] is False and topic["built_at"] == "2026-11-02T00:00:00Z"
     assert insight["id"] == "outcome_lift" and insight["detail"]["findings"] == 2  # the gone finding is not counted
     assert "Calls lift renewals" in insight["answers"] and insight["stale"] is False
     assert summary["id"] == "journal" and summary["detail"] == {"documents": 2, "with_summary": 1}
@@ -121,16 +123,23 @@ def test_a_view_of_another_domain_family_is_not_listed(world):
     assert assets.list_assets(["journal"], ["view"]) == ([], 0)
 
 
-def test_a_topic_whose_source_changed_is_stale(world):
-    _topic(world["topics"], sha="v0")  # the graph says version v1
-    row = assets.list_assets(["journal"], ["topic"])[0][0]
-    assert row["stale"] and row["stale_reasons"] == ["source changed: a.md"]
-    assert world["session"].queries_containing("UNWIND $docIds")[0][1]["docIds"] == ["d1"]
+def test_a_plan_whose_stored_check_says_stale_is_stale(world, tmp_path):
+    import json
+
+    _topic(world["topics"])
+    (tmp_path / "logs" / "topic-freshness").mkdir(parents=True)
+    (tmp_path / "logs" / "topic-freshness" / "termination.json").write_text(
+        json.dumps({"status": "stale", "reasons": ["1 new document(s)"]}))
+    row = assets.list_assets(["journal"], ["topic_plan"])[0][0]
+    assert row["stale"] and row["stale_reasons"] == ["1 new document(s)"] and row["detail"]["freshness"] == "stale"
 
 
-def test_without_a_topics_folder_there_are_no_topic_assets(world, monkeypatch):
-    monkeypatch.setattr(paths, "TOPICS_DIR", None)
-    assert assets.list_assets(["journal"], ["topic"]) == ([], 0)
+def test_a_plan_of_another_domain_is_not_listed_and_no_folder_means_none(world, monkeypatch, tmp_path):
+    _topic(world["topics"], domains=("finance",))
+    assert assets.list_assets(["journal"], ["topic_plan"]) == ([], 0)
+    monkeypatch.setattr(paths, "DOMAIN_TOPIC_PLANS_DIR", tmp_path / "absent")
+    cache.reset()
+    assert assets.list_assets(["journal"], ["topic_plan"]) == ([], 0)
 
 
 def test_an_insight_snapshot_is_stale_once_the_graph_moved(world):
@@ -204,12 +213,12 @@ def test_like_ranks_by_meaning_and_the_second_call_hits_the_cache(world, embedde
     _write_view(world["views"], "trips_by_year")
     _write_view(world["views"], "renewals", summary="Renewals", examples=("which renewals lapsed?",))
     _topic(world["topics"])
-    first = assets.like("notice before termination", ["journal"], ["view", "topic"], k=3, cache=embedder.cache)
+    first = assets.like("notice before termination", ["journal"], ["view", "topic_plan"], k=3, cache=embedder.cache)
     assert [a["id"] for a, _ in first][0] == "termination"
     assert first[0][1] > first[1][1] >= first[2][1]
     docs = embedder.documents
     assert docs == 3  # views and the topic, each embedded once
-    again = assets.like("which trips happen each year", ["journal"], ["view", "topic"], k=2, cache=embedder.cache)
+    again = assets.like("which trips happen each year", ["journal"], ["view", "topic_plan"], k=2, cache=embedder.cache)
     assert embedder.documents == docs and embedder.queries == 2  # only the question was embedded
     assert again[0][0]["id"] == "trips_by_year" and len(again) == 2
 

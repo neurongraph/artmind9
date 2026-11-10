@@ -738,9 +738,6 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT summary_history_id IF NOT EXISTS FOR (n:DocSummaryHistory) REQUIRE n.id IS UNIQUE"
     )
     session.run(
-        "CREATE CONSTRAINT topic_page_slug IF NOT EXISTS FOR (n:TopicPage) REQUIRE n.slug IS UNIQUE"
-    )
-    session.run(
         "CREATE CONSTRAINT observation_history_id IF NOT EXISTS FOR (n:ObservationHistory) REQUIRE n.id IS UNIQUE"
     )
     # A retracted `artmind update` (its `update__*` staging folder deleted):
@@ -958,12 +955,6 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         f"`vector.similarity_function`: 'cosine'}}}}"
     )
     session.run(
-        f"CREATE VECTOR INDEX topic_embedding IF NOT EXISTS "
-        f"FOR (t:TopicPage) ON t.embedding WITH [t._domain] "
-        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
-        f"`vector.similarity_function`: 'cosine'}}}}"
-    )
-    session.run(
         f"CREATE VECTOR INDEX user_chat_embedding IF NOT EXISTS "
         f"FOR (c:UserChat) ON (c.embedding) "
         f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
@@ -983,9 +974,6 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         )
         session.run(
             "CREATE FULLTEXT INDEX summary_text_ft IF NOT EXISTS FOR (s:DocSummary) ON EACH [s.text]"
-        )
-        session.run(
-            "CREATE FULLTEXT INDEX topic_text_ft IF NOT EXISTS FOR (t:TopicPage) ON EACH [t.topic, t.text]"
         )
         session.run(
             "CREATE FULLTEXT INDEX user_chat_text_ft IF NOT EXISTS FOR (c:UserChat) ON EACH [c.raw_text]"
@@ -1095,11 +1083,16 @@ def setup_all() -> dict:
         from artmind.migrations import chunk_vectors_to_passages
 
         legacy = chunk_vectors_to_passages.run(session)
+        # Temporary (spec 2026-11-10 §5.2): delete with artmind/migrations/drop_topic_page_graph_copy.py.
+        from artmind.migrations import drop_topic_page_graph_copy
+
+        topic_copy = drop_topic_page_graph_copy.run(session)
 
     return {
         "scaffold": scaffold,
         "sqlite": "ok",
         "legacy_chunk_vectors": legacy,
+        "topic_page_graph_copy": topic_copy,
         "neo4j_constraints": [
             "document_id",
             "chunk_id",
@@ -1107,7 +1100,6 @@ def setup_all() -> dict:
             "passage_history_id",
             "summary_id",
             "summary_history_id",
-            "topic_page_slug",
             "user_chat_id",
             "conflict_id",
             "document_history_id",
@@ -1177,9 +1169,8 @@ def setup_all() -> dict:
         "neo4j_vector_indexes": [
             f"passage_embedding (dim={embedding_dim}, filter: _domain)",
             f"summary_embedding (dim={embedding_dim}, filter: _domain, level)",
-            f"topic_embedding (dim={embedding_dim}, filter: _domain)",
             f"user_chat_embedding (dim={embedding_dim})",
             f"entity_embedding (dim={embedding_dim})",
         ],
-        "neo4j_fulltext_indexes": ["passage_text_ft", "summary_text_ft", "topic_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
+        "neo4j_fulltext_indexes": ["passage_text_ft", "summary_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
     }

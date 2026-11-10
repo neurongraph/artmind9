@@ -14,7 +14,7 @@ def _cat(**kw):
                ("PERSON", {"total": 2, "distinct": 0, "dated": 0, "top": []})),
         versions=(),
         stores={"graph_extraction": True, "kind": "graph", "structured_tables": 0},
-        assets=({"kind": "topic", "id": "t", "title": "Lakeport visits", "detail": {}},
+        assets=({"kind": "topic_plan", "id": "t", "title": "Lakeport visits", "detail": {"subjects": ["s1"]}},
                 {"kind": "insight", "id": "dormancy", "title": "dormancy", "detail": {"as_of": "2026-11-07"}}),
         part_keys={p: [5] for p in ("classes", "shapes", "types", "versions", "stores", "assets")},
     )
@@ -44,10 +44,10 @@ def test_classes_merge_schema_and_measured_types(no_views):
     ]  # UNUSED (no entities) omitted; PERSON (no schema entry) has nulls
 
 
-def test_relations_topics_insights_and_no_structured_key(no_views):
+def test_relations_topic_plans_insights_and_no_structured_key(no_views):
     out = block.build_block(_cat(), FACTS, card={}, warnings=[])
     assert out["relations"] == [{"from": "PERSON", "rel": "VISITED", "to": "PLACE", "count": 7}]
-    assert out["topics"] == ["Lakeport visits"]
+    assert out["topic_plans"] == [{"slug": "t", "topic": "Lakeport visits", "subjects": ["s1"]}]
     assert out["insights"] == {"as_of": "2026-11-07", "detectors": ["dormancy"]}
     assert "structured" not in out and out["documents"] == [] and out["views"] == []
 
@@ -107,7 +107,9 @@ def test_a_class_missing_from_types_has_no_invented_types(no_views):
     assert "types" not in person and "dated" not in person
 
 
-def test_topic_titles_skip_none(no_views):
-    cat = _cat(assets=({"kind": "topic", "id": "a", "title": None, "detail": {}},
-                       {"kind": "topic", "id": "b", "title": "Kept", "detail": {}}))
-    assert block.build_block(cat, FACTS, card={}, warnings=[])["topics"] == ["Kept"]
+def test_topic_plans_skip_untitled_and_invalid(no_views):
+    cat = _cat(assets=({"kind": "topic_plan", "id": "a", "title": None, "detail": {}},
+                       {"kind": "topic_plan", "id": "x", "title": "Broken", "status": "invalid", "detail": {}},
+                       {"kind": "topic_plan", "id": "b", "title": "Kept", "detail": {}}))
+    assert block.build_block(cat, FACTS, card={}, warnings=[])["topic_plans"] == [
+        {"slug": "b", "topic": "Kept", "subjects": []}]

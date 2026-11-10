@@ -14,9 +14,9 @@ TYPES_KEEP = 5
 DOCUMENTS_KEEP = 10
 
 # Cut records: `shown`/`total` per part. definitions: classes keeping a definition / classes with one;
-# relations, documents: rows kept / rows; topics: titles kept / titles; types: values kept per class /
+# relations, documents: rows kept / rows; topic_plans: plans kept / plans; types: values kept per class /
 # classes shortened; view_examples: examples kept (0) / views stripped.
-CUT_ORDER = ["relations", "topics", "types", "view_examples", "documents", "definitions"]
+CUT_ORDER = ["relations", "topic_plans", "types", "view_examples", "documents", "definitions"]
 
 
 def size(x) -> int:
@@ -26,7 +26,7 @@ def size(x) -> int:
 def _rest(part: str, d: str) -> str:
     return {
         "relations": f"artmind query graph metadata --domain {d}",
-        "topics": f"artmind query topics list --domain {d}",
+        "topic_plans": f"artmind query topics plan --list --domain {d}",
         "types": f"artmind query graph entity-listing --domain {d} --countAll",
         "view_examples": "artmind query views show <name>",
         "documents": f"artmind query graph structural-metadata --domain {d}",
@@ -60,15 +60,15 @@ def _cut(block: dict, part: str, limit: int) -> dict | None:
             c["definition"] = None
             removed += 1
         return {"part": part, "domain": d, "shown": len(defined) - removed, "total": len(defined)} if removed else None
-    key, keep = {"relations": ("relations", RELATIONS_KEEP), "topics": ("topics", 0),
+    key, keep = {"relations": ("relations", RELATIONS_KEEP), "topic_plans": ("topic_plans", 0),
                  "documents": ("documents", DOCUMENTS_KEEP)}[part]
     rows = block.get(key)
     if not isinstance(rows, list) or len(rows) <= keep:
         return None
     total = len(rows)
     block[key] = rows[:keep]
-    if part == "topics":
-        block["topics_total"] = total
+    if part == "topic_plans":
+        block["topic_plans_total"] = total
     return {"part": part, "domain": d, "shown": keep, "total": total}
 
 

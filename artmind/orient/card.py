@@ -116,7 +116,7 @@ def build_card(cat, facts: dict | None, narrator: dict | None, family: tuple, *,
         _missing(warnings, d, "entity count")
     if cat.has("assets") and cat.assets is not None:
         kinds = [a.get("kind") for a in cat.assets]
-        c["assets"] = {"views": kinds.count("view"), "topic_pages": kinds.count("topic"),
+        c["assets"] = {"views": kinds.count("view"), "topic_plans": kinds.count("topic_plan"),
                        "insights": _insights_as_of(cat.assets),
                        "summaries": _summaries(cat.doc_records) if cat.has("documents") else None}
     else:

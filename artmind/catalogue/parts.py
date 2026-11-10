@@ -292,7 +292,7 @@ def part_key(part: str, fingerprint: tuple) -> list:
     if part == "stores":
         return [stamps.part(disk, "schemas"), _registry_stamp()]
     if part == "assets":
-        return [*graph, *(stamps.part(disk, p) for p in ("views", "topics", "insights"))]
+        return [*graph, *(stamps.part(disk, p) for p in ("views", "plans", "insights"))]
     if part == "health":
         return ["ttl"]  # follows its TTL only; a changed generation schedules a background refresh
     raise KeyError(part)

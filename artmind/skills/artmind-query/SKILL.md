@@ -161,7 +161,7 @@ artmind query assets --domain <domain> --like "<the question>" --compact
 artmind query catalogue --domain <domain> --compact
 ```
 
-`assets` lists saved views, topic pages, insight findings and summary coverage, each with an `open` command and a `stale` flag. A topic page or insight is a lead to the cited sources, never evidence itself: ground what you take from it as usual. `catalogue` reports the domain's classes, stores, time coverage and `health`; `health` may be `absent`, and you must not run `artmind catalogue refresh` yourself.
+`assets` lists saved views, topic plans, insight findings and summary coverage, each with an `open` command and a `stale` flag. An insight is a lead to the cited sources, never evidence itself: ground what you take from it as usual. `catalogue` reports the domain's classes, stores, time coverage and `health`; `health` may be `absent`, and you must not run `artmind catalogue refresh` yourself.
 
 ## Survey — questions that span documents
 
@@ -175,8 +175,9 @@ artmind query survey --shape brief --domain <d1> --domain <d2> --compact "<quest
 
 It ranks documents by their summaries and passages and returns, per document, its
 `summary`, its best `passages` (with `id` and `chunk_id`) and its best `chunk_summary`;
-`warnings` says when documents in scope have no summaries yet. `topics` lists topic
-pages that cite the returned documents.
+`warnings` says when documents in scope have no summaries yet. `coverage` says how many
+documents match the question's words in scope (`matching_documents`) and how many the
+payload shows evidence for (`shown`).
 
 Use `--shape brief` for these retrieval commands: rows carry title, date and status. A
 survey lists every document: full passages for the strongest matches, a question-matched
@@ -190,8 +191,8 @@ field (`artmind query page <handle> --from N`) instead of guessing. Copy that `n
 |---|---|
 | A fact (who, when, a figure, a quote) | the graph steps below, or `vector-text --topK 10` in a chunks-only domain |
 | One document ("summarise X", "what does X say about Y") | `query graph pattern10 --documentName X`: its `summaries` holds the stored summary; read chunks only for detail |
-| One entity broadly ("tell me about Acme") | `entity-context` (graph domains); if `query topics list` has a page for it, use it to organise the answer |
-| A topic across documents | `query survey`, then `query chunks --shape brief --idList <chunk_id>` for the passages you cite |
+| One entity broadly ("tell me about Acme") | `entity-context` (graph domains) |
+| A topic across documents | a fitting topic plan (`query topics run`), else `query survey`, then `query chunks --shape brief --idList <chunk_id>` for the passages you cite |
 | Patterns over time | insights |
 
 Rules:
@@ -200,24 +201,22 @@ Rules:
   stored summary may be the answer, labelled as artmind's summary of X, with X cited.
 - One `query survey` call covers every domain in the set, as with `vector-text`.
 
-### Topic pages
+### Topic plans
 
-`query survey`'s `topics` lists pages that cite its documents. A page is a cited
-write-up of one topic, built by the domain owner with `artmind topic build`.
+A topic plan is a reviewed retrieval program for an overview or trend question: its
+subjects, its slices (per year or month, per child domain) and how many documents each
+cell reads. Plans are built by the domain owner.
 
 ```bash
-artmind query topics show <slug> --compact
-artmind query topics list --domain <d> --compact     # when the user asks what pages exist
+artmind query topics plan --list --domain <d> --compact    # slug, topic, subjects
+artmind query topics run <slug> --shape brief --compact    # add --subject N or --cell <period|domain> for part
 ```
 
-- Read a page when `query survey` lists it or the user asks for "the page on X". It is
-  a guide, not evidence: use it to find the right documents and to organise the
-  answer, then fetch the passages it cites (`query chunks --shape brief --idList <chunk_id>`; a
-  passage id `<chunk_id>_pNN` names its chunk) and cite those.
-- If `stale` is true, say so and name `stale_reasons`; check what changed with
-  `query survey`.
-- Never run `artmind topic build` or `refresh` yourself: they cost LLM calls. If no page
-  exists, answer from `query survey`; the owner can build one.
+- A plan whose topic and subjects fit the question is a reviewed way to cover it: run it
+  (one subject or cell at a time if the question needs only part) and answer from its
+  rows. Each row is ordinary survey evidence: cite its passage and document as usual.
+- A cell marked `partial` has more matching documents than it shows; say so.
+- Never run `artmind topic build` or `refresh` yourself: they cost LLM calls.
 
 ## The Query Protocol: Route → Views → Discover → Resolve → Retrieve → Ground → Adjudicate
 

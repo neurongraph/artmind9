@@ -81,7 +81,9 @@ def build_block(cat, facts: dict | None, *, card: dict, warnings: list) -> dict:
     if views is not None:
         out["views"] = views
     if cat.has("assets") and cat.assets is not None:
-        out["topics"] = [a["title"] for a in cat.assets if a.get("kind") == "topic" and a.get("title")]
+        out["topic_plans"] = [{"slug": a["id"], "topic": a["title"], "subjects": a["detail"].get("subjects") or []}
+                              for a in cat.assets if a.get("kind") == "topic_plan" and a.get("status", "ok") == "ok"
+                              and a.get("title")]
         detectors = sorted(a["id"] for a in cat.assets if a.get("kind") == "insight")
         as_of = max((str(a["detail"]["as_of"]) for a in cat.assets
                      if a.get("kind") == "insight" and a.get("detail", {}).get("as_of")), default=None)

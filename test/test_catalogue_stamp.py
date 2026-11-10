@@ -54,20 +54,21 @@ def test_suffix_filter_and_hidden_files(tmp_path):
     assert stamp.stamp(tmp_path, suffix=".md") == before
 
 
-def test_disk_stamps_cover_views_topics_insights_and_schemas(tmp_path, monkeypatch):
+def test_disk_stamps_cover_views_plans_insights_and_schemas(tmp_path, monkeypatch):
     import paths
 
     views, topics, insights, schemas = (tmp_path / n for n in ("views", "topics", "insights", "schemas"))
     for d in (views, topics, insights / "journal", schemas):
         d.mkdir(parents=True)
     monkeypatch.setattr(paths, "DOMAIN_VIEWS_DIR", views)
-    monkeypatch.setattr(paths, "TOPICS_DIR", topics)
+    monkeypatch.setattr(paths, "DOMAIN_TOPIC_PLANS_DIR", topics)
     monkeypatch.setattr(paths, "INSIGHTS_DIR", insights)
     monkeypatch.setattr(paths, "DOMAIN_SCHEMAS_DIR", schemas)
     base = stamp.disk_stamp("journal")
-    assert set(stamp.disk_stamps("journal")) == {"views", "topics", "insights", "schemas"}
+    assert set(stamp.disk_stamps("journal")) == {"views", "plans", "insights", "schemas"}
 
-    (topics / "p.md").write_text("x")
+    (topics / "p").mkdir()
+    (topics / "p" / "plan.yaml").write_text("x")
     after_topic = stamp.disk_stamp("journal")
     assert after_topic != base
     (insights / "other").mkdir()

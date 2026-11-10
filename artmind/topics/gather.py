@@ -45,6 +45,9 @@ class Material:
     domain: str | None
     summary: str | None
     sources: list[Source] = field(default_factory=list)
+    date: str | None = None
+    status: str | None = None
+    cells: list[str] = field(default_factory=list)   # faceted gather: the cells that found it
 
     def size(self) -> int:
         return sum(len(s.text) for s in self.sources)

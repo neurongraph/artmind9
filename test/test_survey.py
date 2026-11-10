@@ -43,7 +43,7 @@ def test_three_legs_rank_documents(monkeypatch):
     assert b["passages"] == [{"id": "b1_p01", "chunk_id": "b1", "text": "beta", "relevance": 0.8}]
     assert b["title"] == "Doc B" and b["summary"] == "sum B"
     assert out["documents"][2]["summary"] is None
-    assert out["query_type"] == "survey" and out["topics"] == []
+    assert out["query_type"] == "survey" and "topics" not in out
     assert out["parameters"] == {"topDocs": 10, "passages": 1, "pool": 300, "legs": ["D", "C", "P"]}
 
 
@@ -72,28 +72,44 @@ def test_legs_can_be_switched_off_for_the_eval(monkeypatch):
     assert not s.queries_containing("summary_embedding")
 
 
-def test_top_docs_cuts_and_topics_are_asked_for_the_returned_ids(monkeypatch):
+def test_top_docs_cuts(monkeypatch):
     _patch(monkeypatch, Recorder(respond))
-    seen = {}
-
-    def topics(doc_ids, domains):
-        seen["args"] = (doc_ids, domains)
-        return [{"slug": "beta", "overlap": 2}]
-
-    out = survey.survey_search(["notes"], "q", top_docs=2, topics=topics)
+    out = survey.survey_search(["notes"], "q", top_docs=2)
     assert [d["doc_id"] for d in out["documents"]] == ["B", "C"]
-    assert seen["args"] == (["B", "C"], ["notes"]) and out["topics"] == [{"slug": "beta", "overlap": 2}]
 
 
-def test_topic_warnings_join_the_survey_warnings(monkeypatch):
+def test_coverage_counts_keyword_documents_and_what_is_shown(monkeypatch):
     _patch(monkeypatch, Recorder(respond))
+    out = survey.survey_search(["notes"], "q", top_docs=2)
+    # the keyword passage leg matched one document (B); full shape shows both picked documents
+    assert out["coverage"] == {"matching_documents": 1, "shown": 2, "by": None}
 
-    class Found(list):
-        warnings = ["topic index is empty; run `artmind topic index`"]
 
-    out = survey.survey_search(["notes"], "q", topics=lambda ids, domains: Found([{"slug": "beta"}]))
-    assert out["topics"] == [{"slug": "beta"}]
-    assert out["warnings"][-1] == "topic index is empty; run `artmind topic index`"
+def test_coverage_is_a_floor_when_the_keyword_pool_is_full(monkeypatch):
+    def full_pool(cypher, params):
+        if "passage_text_ft" in cypher and "hit_limit" not in params:
+            return [{"row": {"kind": "passage", "id": f"x{i}_p01", "chunk_id": f"x{i}", "doc_id": f"D{i % 40}",
+                             "text": "t"}} for i in range(params["pool"])]
+        return respond(cypher, params)
+
+    _patch(monkeypatch, Recorder(full_pool))
+    out = survey.survey_search(["notes"], "q", top_docs=5)
+    assert out["coverage"]["matching_documents"] == 40 and out["coverage"]["at_least"] is True
+
+
+def test_no_coverage_without_a_keyword_match(monkeypatch):
+    def no_text(cypher, params):
+        return [] if "passage_text_ft" in cypher else respond(cypher, params)
+
+    _patch(monkeypatch, Recorder(no_text))
+    assert "coverage" not in survey.survey_search(["notes"], "q")
+
+
+def test_brief_coverage_counts_passage_and_gist_rows(monkeypatch):
+    _patch(monkeypatch, Recorder(respond))
+    out = survey.survey_search(["notes"], "q", shape="brief", passage_docs=1, gist_docs=0)
+    shown = sum(1 for d in out["documents"] if "gist" in d or "passage" in d)
+    assert out["coverage"] == {"matching_documents": 1, "shown": shown, "by": None}
 
 
 def test_embedding_down_keeps_the_keyword_legs(monkeypatch):

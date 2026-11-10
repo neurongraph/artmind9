@@ -49,14 +49,15 @@ def _text(value: Stamp) -> str:
 
 
 def disk_stamps(domain: str) -> dict[str, Stamp]:
-    """The stamp of each disk-side input, for `domain`: saved views, topic pages,
+    """The stamp of each disk-side input, for `domain`: saved views, topic plans,
     the domain's insight snapshots and the schema files. Read at call time so
     tests can repoint `paths`."""
     import paths
 
     out = {
         "views": stamp(getattr(paths, "DOMAIN_VIEWS_DIR", None)),
-        "topics": stamp(getattr(paths, "TOPICS_DIR", None), suffix=".md"),
+        # `p`lans: the first letter keys a stamp (`part`), so not `t`opic_plans beside nothing else.
+        "plans": stamp(getattr(paths, "DOMAIN_TOPIC_PLANS_DIR", None)),
         "schemas": stamp(getattr(paths, "DOMAIN_SCHEMAS_DIR", None)),
     }
     insights = getattr(paths, "INSIGHTS_DIR", None)

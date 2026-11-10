@@ -613,6 +613,10 @@ def test_setup_all_inside_a_vault_leaves_its_schemas_and_meta_alone(tmp_path, mo
     monkeypatch.setattr("artmind.migrations.chunk_vectors_to_passages.run",
                         lambda s: {"status": "none", "report": "legacy chunk vectors: none"})
 
+    monkeypatch.setattr("artmind.migrations.drop_topic_page_graph_copy.run",
+
+                        lambda s, dry_run=False: {"status": "none", "report": "topic page graph copy: none"})
+
     setup.setup_all()
 
     assert (home / "domains" / "schemas" / "general_schema.yaml").read_text() == "my edited general"

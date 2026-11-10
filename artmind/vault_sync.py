@@ -1700,15 +1700,6 @@ def sync(
 
         embed_user_chats(domain=d)
 
-    # ── the topic index (spec 2026-11-02 §6): pulled page files reach the graph ──
-    #    Best effort and idempotent: the page files are the source of truth, and
-    #    `artmind topic index` repairs a sweep that failed. Never holds the bookmark back.
-    topic_index = None
-    if "graph" in stores:
-        from artmind.topics import index as topic_index_mod
-
-        topic_index = topic_index_mod.best_effort_sweep(domains)
-
     # artmind never commits (spec 2026-09-26, D1): track B's regenerated
     # table__* folders stay in the working tree. (gitignored: spec 2026-09-26 R4)
 
@@ -1743,8 +1734,6 @@ def sync(
         "domains_swept": touched_domains,
         "effect": effect,
     }
-    if topic_index is not None:
-        result["topic_index"] = topic_index
     if not cursor_advanced:
         # A store with no bookmark at the START of this run only got past the
         # "no bookmark recorded yet" check because --bootstrapEmpty was
