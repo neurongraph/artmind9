@@ -42,6 +42,37 @@ question against what it says.
 6. Every result's `next`, `cuts` and `warnings` matter as much as its rows: see "Read every
    result before you answer".
 
+## Plan the parts — after orient, before any retrieval
+
+Rewrite the question before the first retrieval command. Write the plan in your reply, one
+line per part:
+
+```
+Parts:
+1. <the part in the user's words> → <the same part in the corpus's terms> · <domains> · <first command>
+2. ...
+```
+
+- **A part is one thing the answer must state:** one who / what / when / which, one side of a
+  comparison, one condition. "Who owns the fix, who handles the customer, who must be told" is
+  three parts. A one-part question gets a one-line plan; do not invent parts.
+- **Restate each part in the corpus's terms.** Take class names, type values, definitions and
+  `vocabulary` from the orient cards and peel 2. When the user's word is not the corpus's, use
+  the corpus's ("online banking" → the platform or system the cards list; "kept informed" →
+  notification, escalation, oversight). Keep names the user gave verbatim for `entity-resolve`.
+- **Choose the command per part**, from orient rule 4 and the Query Protocol: a record part goes
+  to the tables, a fact part to the graph or `vector-text`, a part spread over documents to
+  `survey`. Parts of one question often need different commands.
+- **Run each part as its own loop:** a search whose question holds only that part's terms (never
+  two parts, never a guessed answer), then read every result, follow `next`, rephrase once in the
+  corpus's terms if the result is thin, and stop when the part has evidence. A result that also
+  answers another part counts for that part too: note it and do not search that part again. A
+  `survey` row whose `gist` speaks to an open part is the next document to open.
+- **Before answering,** check that every part has its own evidence. Answer in the parts' order,
+  and for a part with none, say what you searched.
+- **Follow-up turns:** rewrite the new question with what the conversation already settled
+  (resolved names, domains, dates) before planning its parts.
+
 ## Read every result before you answer
 
 Every `artmind` command returns the same envelope: `command`, `warnings`, `next`, then the
@@ -68,13 +99,6 @@ evidence, after every call:
 
 `next` is a fact about this result, never a guess about your question: it is safe to follow
 and safe to skip when the question does not need what it offers.
-
-## A question with several parts
-
-When the question asks several things ("who owns the fix, who handles the customer, who must be told"),
-list the parts and search each with its own short question naming that part's subject in the user's words:
-one long query listing every part buries the passage each needs. A `survey` row whose `gist` speaks to a
-part not yet covered is the next document to open. Answer each part from its own evidence; name a part that has none.
 
 ## Running commands
 

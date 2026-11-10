@@ -54,6 +54,8 @@ def test_every_artmind_command_in_the_skill_exists():
 
 CLASSIC = SKILL.parent.parent / "artmind-query" / "SKILL.md"
 LINES_BEFORE_P2_BATCH = 469
+# The "Plan the parts" step (2026-11-10, banking Q24) is allowed on top of the P2-batch size.
+LINES_ALLOWED = LINES_BEFORE_P2_BATCH + 40
 
 # Two distinctive phrases per deleted rung / section, taken from the classic skill.
 _DELETED = {
@@ -95,7 +97,7 @@ def test_new_command_absorbed_lines_present():
 
 
 def test_variant_shrank():
-    assert len(_text().splitlines()) < LINES_BEFORE_P2_BATCH
+    assert len(_text().splitlines()) < LINES_ALLOWED
 
 
 def test_named_options_exist():
@@ -121,10 +123,12 @@ def test_result_reading_section_comes_early_and_covers_the_envelope():
         assert word in section, word
 
 
-def test_several_parts_rule_comes_before_retrieval():
+def test_plan_the_parts_comes_right_after_orient():
     text = _text()
-    head = text.split("## Survey — questions that span documents", 1)[0]
-    assert "## A question with several parts" in head
-    section = text.split("## A question with several parts", 1)[1].split("\n## ", 1)[0]
-    for phrase in ("its own short question", "one long query listing every part", "`gist`", "its own evidence"):
+    order = [text.index(h) for h in ("## Orient — read the corpus first", "## Plan the parts",
+                                     "## Read every result before you answer", "## Survey — questions that span documents")]
+    assert order == sorted(order)
+    section = text.split("## Plan the parts", 1)[1].split("\n## ", 1)[0]
+    for phrase in ("Parts:", "in the corpus's terms", "Choose the command per part", "its own loop",
+                   "never\n  two parts", "`gist`", "its own evidence", "Follow-up turns"):
         assert phrase in section, phrase
