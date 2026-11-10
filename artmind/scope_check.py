@@ -3,7 +3,8 @@
 When a search names domains narrower than their domain root, the same question's
 vector leg also runs over the rest of that root (the query embedding is reused).
 Documents there whose best passage is closer to the question than the best row the
-search returned are reported as `outside_scope`, with a warning; the CLI adds a
+search returned are reported as `outside_scope` (with that best passage, so the
+evidence is in the result), with a warning; the CLI adds a
 `next` that reruns the search on the domain root. Nothing is reported when the
 search already covers its roots, when the embedding is unavailable, or when nothing
 outside beats what was returned. No routing: the agent decides whether to widen.
@@ -14,6 +15,7 @@ from artmind import vector_query
 
 OUTSIDE_POOL = 50
 OUTSIDE_LIMIT = 3
+PASSAGE_CHARS = 600
 
 _DOCUMENTS = """
 UNWIND $docIds AS id
@@ -50,18 +52,28 @@ def outside_scope(session, domains, embedding, best_relevance, as_of=None,
         return []
     params = {"domains": outside, "pool": OUTSIDE_POOL, "embedding": embedding,
               **({"asOf": as_of} if as_of else {})}
-    best: dict[str, float] = {}
+    best: dict[str, dict] = {}
     for row in vector_query._rows(session, vector_query._passage_vector_cypher(as_of), params):
         doc_id, cosine = row.get("doc_id"), row.get("cosine")
-        if doc_id and cosine is not None and cosine > best.get(doc_id, float("-inf")):
-            best[doc_id] = cosine
-    stronger = sorted(((c, d) for d, c in best.items() if best_relevance is None or c > best_relevance),
-                      reverse=True)[:limit]
+        if doc_id and cosine is not None and cosine > (best.get(doc_id) or {}).get("cosine", float("-inf")):
+            best[doc_id] = row
+    stronger = sorted((r for r in best.values() if best_relevance is None or r["cosine"] > best_relevance),
+                      key=lambda r: -r["cosine"])[:limit]
     if not stronger:
         return []
-    meta = {r["doc_id"]: r for r in (dict(x) for x in session.run(_DOCUMENTS, docIds=[d for _, d in stronger]))}
-    return [{"doc_id": d, "title": (meta.get(d) or {}).get("title"), "domain": (meta.get(d) or {}).get("domain"),
-             "relevance": round(c, 4)} for c, d in stronger]
+    meta = {r["doc_id"]: r for r in (dict(x) for x in session.run(_DOCUMENTS, docIds=[r["doc_id"] for r in stronger]))}
+    return [{"doc_id": r["doc_id"], "title": (meta.get(r["doc_id"]) or {}).get("title"),
+             "domain": (meta.get(r["doc_id"]) or {}).get("domain"), "relevance": round(r["cosine"], 4),
+             "passage_id": r.get("id"), "chunk_id": r.get("chunk_id"), "passage": _clip(r.get("text"))}
+            for r in stronger]
+
+
+def _clip(text, limit: int = PASSAGE_CHARS):
+    """The passage text, cut at a word boundary to `limit` characters (marked with an ellipsis)."""
+    if not text or len(text) <= limit:
+        return text
+    cut = text[:limit].rsplit(" ", 1)[0]
+    return cut + " …"
 
 
 def warning(found: list[dict], best_relevance) -> str:

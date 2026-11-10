@@ -47,7 +47,8 @@ def test_only_documents_beating_the_best_returned_row_are_reported(monkeypatch):
     _family(monkeypatch)
     s = Recorder(respond)
     found = scope_check.outside_scope(s, ["bank.sop"], [1.0, 0.0], best_relevance=0.875)
-    assert found == [{"doc_id": "POL", "title": "policy_complaints_v3", "domain": "bank.policy", "relevance": 0.896}]
+    assert found == [{"doc_id": "POL", "title": "policy_complaints_v3", "domain": "bank.policy", "relevance": 0.896,
+                      "passage_id": "p1_p01", "chunk_id": "p1", "passage": "policy matrix"}]
     (_, params), = s.queries_containing("passage_embedding")
     assert params["domains"] == ["bank", "bank.policy", "bank.governance"]
     assert params["pool"] == scope_check.OUTSIDE_POOL and params["embedding"] == [1.0, 0.0]
@@ -132,3 +133,10 @@ def test_cli_puts_the_outside_scope_next_first(monkeypatch):
     nxt = json.loads(out.output)["next"]
     assert nxt.startswith("artmind query survey --shape brief --domain bank --compact q")
     assert "document-history" in nxt
+
+
+def test_a_long_passage_is_clipped_at_a_word():
+    text = "word " * 200
+    clipped = scope_check._clip(text)
+    assert len(clipped) <= scope_check.PASSAGE_CHARS + 2 and clipped.endswith(" …")
+    assert scope_check._clip("short") == "short" and scope_check._clip(None) is None
