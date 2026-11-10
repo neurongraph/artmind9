@@ -779,20 +779,33 @@ def domains_validate(domain: str | None, compact: bool):
 
     # `warnings` is the envelope's own key, so the schema warnings keep their
     # per-domain shape under `schema_warnings`.
+    from artmind.mart import validate as mart_validate
+
+    mart_report = mart_validate.validate_all()
+    if domain:
+        mart_report = {k: v for k, v in mart_report.items() if k == domain}
+    for name, rep in mart_report.items():
+        for w in rep["warnings"]:
+            click.echo(f"WARN   mart/{name}: {w}", err=True)
+    mart_failed = {name: rep for name, rep in mart_report.items() if rep["errors"]}
     result = {
-        "ok": not violations,
+        "ok": not violations and not mart_failed,
         "violations": {name: list(errors) for name, errors in violations.items()},
         "schema_warnings": {name: list(found) for name, found in warnings.items() if found},
+        "mart": mart_report,
     }
-    if not violations:
+    if not violations and not mart_failed:
         click.echo("All schemas valid.", err=True)
         _echo_json(result, compact)
         return
     for name, errors in violations.items():
         for e in errors:
             click.echo(f"ERROR  {e}", err=True)
+    for name, rep in mart_failed.items():
+        for e in rep["errors"]:
+            click.echo(f"ERROR  mart/{name}: {e}", err=True)
     _echo_json(result, compact)
-    raise click.ClickException(f"{len(violations)} schema(s) failed validation")
+    raise click.ClickException(f"{len(violations) + len(mart_failed)} schema(s) or mart declaration(s) failed validation")
 
 
 @domains.command("harmonize")
