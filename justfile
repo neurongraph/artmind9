@@ -69,11 +69,16 @@ dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_U
     # The three listeners are handled by _free-port above. The ingestion worker
     # binds no port, so it's the one daemon that must be matched by script path
     # instead — and we must never match ourselves.
-    for pid in $(pgrep -f "artmind/worker\.py" 2>/dev/null || true); do
+    # Only the default ports are freed above; extra instances on other ports
+    # (several vaults, --port N) are found by command line instead: the
+    # `artmind` entry point followed by serve / chat-ui / admin-ui.
+    for pid in $(pgrep -f "artmind(\.py)? +(serve|chat-ui|admin-ui)( |$)" 2>/dev/null || true) \
+               $(pgrep -f "artmind/worker\.py" 2>/dev/null || true); do
         if [ "$pid" = "$$" ] || [ "$pid" = "${PPID:-0}" ]; then
             continue
         fi
-        echo "stopping artmind ingestion worker (pid $pid)"
+        kill -0 "$pid" 2>/dev/null || continue
+        echo "stopping artmind daemon (pid $pid): $(ps -o command= -p "$pid" 2>/dev/null | cut -c1-100)"
         kill "$pid" 2>/dev/null || true
         for _ in 1 2 3 4 5 6 7 8; do
             kill -0 "$pid" 2>/dev/null || break
