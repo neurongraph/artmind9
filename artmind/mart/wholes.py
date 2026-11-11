@@ -14,9 +14,22 @@ def _wid(kind, key):
 
 
 def _people(tables):
+    """Fact -> person keys, from graph edges and from the fact's `participants` names
+    matched against each person's name and aliases (names of 4+ characters)."""
     by_fact: dict[str, set] = {}
     for b in tables.get("bridge_person") or []:
         by_fact.setdefault(b["entity_key"], set()).add(b["person_key"])
+    names: dict[str, set] = {}
+    for p in tables.get("dim_person") or []:
+        for n in [p.get("name"), *(p.get("aliases") or [])]:
+            n = str(n or "").strip().lower()
+            if len(n) >= 4:
+                names.setdefault(n, set()).add(p["person_key"])
+    for f in tables.get("fact_happening") or []:
+        for who in f.get("participants") or []:
+            keys = names.get(str(who).strip().lower())
+            if keys and len(keys) == 1:  # an ambiguous name links nobody
+                by_fact.setdefault(f["entity_key"], set()).update(keys)
     return by_fact
 
 

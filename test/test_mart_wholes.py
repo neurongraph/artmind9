@@ -68,3 +68,9 @@ def test_life_event_rows_carry_the_anchor_and_trips_their_companions():
           "bridge_person": [{"entity_key": "ill", "person_key": "u", "role": "is_affected_by"}],
           "dim_person": [{"person_key": "u", "name": "Uncle", "group": "family"}]}
     assert wholes.compute(decl(life_event=LIFE), t2)["whole_life_event"][0]["anchor_key"] == "u"
+
+
+def test_trip_companions_come_from_participant_names_too():
+    t = {"fact_happening": [{**fact("a", "2025-01-01", "trip"), "participants": ["Kiddo"]}],
+         "bridge_person": [], "dim_person": [{"person_key": "kid", "name": "Kid Person", "aliases": ["Kiddo"], "group": "family"}]}
+    assert wholes.compute(decl(trip=TRIP), t)["whole_trip"][0]["participant_keys"] == ["kid"]

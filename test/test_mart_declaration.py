@@ -71,3 +71,14 @@ def test_bad_yaml_raises(tmp_path, monkeypatch):
     (tmp_path / "journal.yaml").write_text("format: [")
     with pytest.raises(dec.MartDeclarationError):
         dec.load_declaration("journal")
+
+
+def test_families_by_name_and_away_place_types(tmp_path, monkeypatch):
+    data = yaml.safe_load(yaml.safe_dump(GOOD))
+    data["dimensions"]["type"]["families_by_name"] = {"ritual": ["shraddha"], "nope": ["x"]}
+    data["home"]["away_place_types"] = ["Resort"]
+    _write(tmp_path, monkeypatch, data)
+    d = dec.load_declaration("journal")
+    assert d.type.family_by_name("Father's Shraddha function") == "ritual" and d.away_place_types == ["resort"]
+    errors, _ = dec.validate_declaration(d, SCHEMA)
+    assert any("'nope'" in e for e in errors)

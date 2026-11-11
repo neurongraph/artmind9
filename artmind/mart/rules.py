@@ -58,10 +58,12 @@ def decide_place(props: dict, seed_property: str | None, cities: set | None = No
     return {"venue": name, "locality": text}
 
 
-def home_away(place_levels: dict, home_city: str | None) -> str | None:
+def home_away(place_levels: dict, home_city: str | None, place_type: str | None = None,
+              away_types: list | None = None) -> str | None:
     city = (place_levels or {}).get("city")
     if not city:
-        return None
+        # a stay somewhere with no known city (a resort, villa, hotel) is itself evidence of being away
+        return "away" if place_type and str(place_type).lower() in set(away_types or []) else None
     if not home_city:
         return "away"
     return "home" if city.strip().lower() == home_city.strip().lower() else "away"

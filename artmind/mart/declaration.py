@@ -31,6 +31,15 @@ class TypeDim:
     classes: list[str] = field(default_factory=list)
     property: str = "type"
     families: dict[str, list[str]] = field(default_factory=dict)
+    families_by_name: dict[str, list[str]] = field(default_factory=dict)
+
+    def family_by_name(self, name) -> str | None:
+        """A family named by a keyword in the fact's name (e.g. a rite typed `celebration`)."""
+        low = str(name or "").lower()
+        for family, words in self.families_by_name.items():
+            if any(str(w).lower() in low for w in words):
+                return family
+        return None
 
     def family_of(self, value) -> str | None:
         v = str(value or "").strip().lower()
@@ -67,6 +76,7 @@ class MartDeclaration:
     type: TypeDim
     wholes: dict[str, Whole]
     raw: dict
+    away_place_types: list[str] = field(default_factory=list)
 
 
 def declaration_path(domain: str):
@@ -107,8 +117,10 @@ def load_declaration(domain: str) -> MartDeclaration | None:
         place=PlaceDim(place.get("class", "LOCATION"), (place.get("seed") or {}).get("property"),
                        list((place.get("seed") or {}).get("edges") or [])),
         type=TypeDim(list(typ.get("classes") or []), typ.get("property", "type"),
-                     {k: list(v or []) for k, v in (typ.get("families") or {}).items()}),
-        wholes=wholes, raw=data)
+                     {k: list(v or []) for k, v in (typ.get("families") or {}).items()},
+                     {k: list(v or []) for k, v in (typ.get("families_by_name") or {}).items()}),
+        wholes=wholes, raw=data,
+        away_place_types=[str(x).lower() for x in ((data.get("home") or {}).get("away_place_types") or [])])
 
 
 def validate_declaration(decl: MartDeclaration, schema: dict) -> tuple[list[str], list[str]]:
@@ -125,6 +137,9 @@ def validate_declaration(decl: MartDeclaration, schema: dict) -> tuple[list[str]
                      ("dimensions.place.class", decl.place.entity_class)):
         if c not in classes:
             errors.append(f"{label}: class {c!r} is not in the domain schema")
+    for fam in decl.type.families_by_name:
+        if fam not in decl.type.families:
+            errors.append(f"dimensions.type.families_by_name: {fam!r} is not declared under dimensions.type.families")
     for kind, w in decl.wholes.items():
         for fam in w.families:
             if fam not in decl.type.families:

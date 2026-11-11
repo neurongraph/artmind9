@@ -49,3 +49,9 @@ def test_chain_places_takes_the_city_of_a_locality_that_is_a_place():
     seeded = {"cafe": {"venue": "Cafe", "locality": "Uptown"}, "uptown": {"venue": "Uptown", "city": "Metro"}}
     out = rules.chain_places(seeded, {"cafe": "Cafe", "uptown": "Uptown"})
     assert out["cafe"] == {"venue": "Cafe", "locality": "Uptown", "city": "Metro"}
+
+
+def test_home_away_counts_a_stay_without_a_city_as_away():
+    assert rules.home_away({}, "Hometown", "resort", ["resort", "villa"]) == "away"
+    assert rules.home_away({}, "Hometown", "restaurant", ["resort", "villa"]) is None
+    assert rules.home_away({"city": "Hometown"}, "Hometown", "resort", ["resort"]) == "home"

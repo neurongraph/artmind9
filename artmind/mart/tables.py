@@ -40,17 +40,25 @@ def assemble(decl, happenings, mentions, bridges, recs, periods, *, members) -> 
     def place_levels(key):
         return (recs.get(("place", key)) or {}).get("levels") or {}
 
-    def family(value):
+    def family(value, name=None):
+        by_name = decl.type.family_by_name(name) if name else None
+        if by_name:
+            return by_name
         rec = recs.get(("type", f"type:{str(value or '').lower()}"))
         return (rec or {}).get("levels", {}).get("family") or decl.type.family_of(value)
+
+    place_types = {p["key"]: (p.get("props") or {}).get("place_type") for p in members.get(decl.place.entity_class, [])}
+
+    def ha(pk):
+        return rules.home_away(place_levels(pk), decl.home_city, place_types.get(pk), decl.away_place_types) if pk else None
 
     fact_happening = []
     for h in happenings:
         pk = place_of.get(h["key"])
         fact_happening.append({
             "entity_key": h["key"], "name": h.get("name"), "class": h.get("class"), "date": _day(h.get("date")),
-            "type": h.get("type"), "type_family": family(h.get("type")), "place_key": pk,
-            "home_away": rules.home_away(place_levels(pk), decl.home_city) if pk else None,
+            "type": h.get("type"), "type_family": family(h.get("type"), h.get("name")), "place_key": pk,
+            "home_away": ha(pk), "participants": [str(x) for x in (h.get("participants") or [])],
             "outcome": h.get("outcome"), "first_mention": _day(h.get("first")), "last_mention": _day(h.get("last")),
             "mention_count": len(h.get("obs") or []), "observation_ids": list(h.get("obs") or []),
             "chunk_ids": list(h.get("chunks") or []), "doc_ids": list(h.get("docs") or [])})
@@ -60,17 +68,18 @@ def assemble(decl, happenings, mentions, bridges, recs, periods, *, members) -> 
         fact_mention.append({
             "observation_id": m["id"], "entity_key": m["entity_key"], "class": m.get("class"),
             "date": _day(m.get("date")), "type": m.get("type"), "type_family": family(m.get("type")),
-            "place_key": pk, "home_away": rules.home_away(place_levels(pk), decl.home_city) if pk else None,
+            "place_key": pk, "home_away": ha(pk),
             "doc_id": m.get("doc_id"), "chunk_id": m.get("chunk_id"), "sentence": m.get("sentence")})
     dim_person = [{"person_key": p["key"], "name": (p.get("props") or {}).get("name"),
+                   "aliases": [str(a) for a in ((p.get("props") or {}).get("aliases") or [])],
                    **{lv: ((recs.get(("person", p["key"])) or {}).get("levels") or {}).get(lv) for lv in PERSON_LEVELS}}
                   for p in members.get(decl.person.entity_class, [])]
     dim_place = []
     for p in members.get(decl.place.entity_class, []):
         lv = place_levels(p["key"])
         dim_place.append({"place_key": p["key"], "name": (p.get("props") or {}).get("name"),
-                          **{k: lv.get(k) for k in PLACE_LEVELS},
-                          "home_away": rules.home_away(lv, decl.home_city)})
+                          "place_type": place_types.get(p["key"]), **{k: lv.get(k) for k in PLACE_LEVELS},
+                          "home_away": ha(p["key"])})
     days = sorted({r["date"] for r in fact_happening + fact_mention if r["date"]})
     dim_time = [_time_row(d, periods) for d in days]
     types = sorted({str(r["type"]) for r in fact_happening + fact_mention if r.get("type")})
