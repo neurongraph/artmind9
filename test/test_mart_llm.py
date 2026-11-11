@@ -22,3 +22,9 @@ def test_run_applies_or_proposes(monkeypatch):
         domain = "j"
     out = llm.run(D(), [{"dimension": "place", "key": "x", "props": {"name": "R"}}], threshold=0.9)
     assert out == {"applied": 1, "proposed": 0, "rejected": 0} and written == ["applied"]
+
+
+def test_type_family_must_be_declared():
+    assert llm.parse("type", '{"levels": {"family": "invented"}, "confidence": 0.9}', ["trip", "work"]) == (None, 0.0)
+    assert llm.parse("type", '{"levels": {"family": "trip"}, "confidence": 0.9}', ["trip", "work"]) == ({"family": "trip"}, 0.9)
+    assert "trip, work" in llm.prompt("type", {"key": "type:x", "props": {"name": "x"}}, ["trip", "work"])

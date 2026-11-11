@@ -13,12 +13,14 @@ SIDES = {"maternal", "paternal", "marital", None}
 DEFAULT_THRESHOLD = 0.8
 
 
-def prompt(dimension: str, member: dict) -> str:
+def prompt(dimension: str, member: dict, families: list[str] | None = None) -> str:
     props = member.get("props") or {}
     context = [str(c) for c in (props.get("context") or [])][:3]
     allowed = ", ".join(LEVELS[dimension])
     extra = (f"`group` must be one of: {', '.join(sorted(GROUPS))}. `side` is maternal, paternal, marital or null."
              if dimension == "person" else "")
+    if dimension == "type":
+        extra = f"`family` must be one of: {', '.join(families or [])}; omit it if none fits."
     return "\n".join([
         f"Place this {dimension} in its hierarchy. Levels: {allowed}. {extra}",
         "Use only what the name, description and sentences say, plus common knowledge of places.",
@@ -31,7 +33,7 @@ def prompt(dimension: str, member: dict) -> str:
         "</member>"])
 
 
-def parse(dimension: str, text: str):
+def parse(dimension: str, text: str, families: list[str] | None = None):
     from artmind.extraction import parse_json_response
 
     try:
@@ -42,6 +44,8 @@ def parse(dimension: str, text: str):
         return None, 0.0
     levels = {k: v for k, v in data["levels"].items() if k in LEVELS[dimension] and v}
     if dimension == "person" and (levels.get("group") not in GROUPS or levels.get("side") not in SIDES):
+        return None, 0.0
+    if dimension == "type" and levels.get("family") not in set(families or []):
         return None, 0.0
     try:
         conf = float(data.get("confidence") or 0)
@@ -54,21 +58,35 @@ def _call(text: str) -> str:
     from artmind.extraction import call_llm
     from utils.functions import load_env, resolve_llm_model
 
-    return call_llm(resolve_llm_model(load_env()), text, call_type="mart_enrich")
+    return call_llm(resolve_llm_model(load_env()), text, call_type="mart_enrich", timeout=60, max_retries=1)
 
 
 def run(decl, pending: list[dict], *, threshold: float = DEFAULT_THRESHOLD) -> dict:
-    out = {"applied": 0, "proposed": 0, "rejected": 0}
+    """One call per member, `ARTMIND_MART_LLM_CONCURRENCY` (default 8) at a time; a failed call
+    counts as rejected and leaves the member undecided for the next run."""
+    import os
+    from concurrent.futures import ThreadPoolExecutor
+
     from utils.functions import load_env, resolve_llm_model
 
     model = resolve_llm_model(load_env())
-    for m in pending:
-        levels, conf = parse(m["dimension"], _call(prompt(m["dimension"], m)))
-        if not levels:
-            out["rejected"] += 1
-            continue
-        status = "applied" if conf >= threshold else "proposed"
-        records.put_dimension(decl.domain, m["dimension"], m["key"], levels, source="llm", confidence=conf,
-                              model=model, status=status)
-        out[status] += 1
+    families = list(getattr(getattr(decl, "type", None), "families", None) or [])
+    workers = max(1, int(os.environ.get("ARTMIND_MART_LLM_CONCURRENCY") or 8))
+
+    def ask(m):
+        try:
+            return m, parse(m["dimension"], _call(prompt(m["dimension"], m, families)), families)
+        except Exception:
+            return m, (None, 0.0)
+
+    out = {"applied": 0, "proposed": 0, "rejected": 0}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for m, (levels, conf) in pool.map(ask, pending):
+            if not levels:
+                out["rejected"] += 1
+                continue
+            status = "applied" if conf >= threshold else "proposed"
+            records.put_dimension(decl.domain, m["dimension"], m["key"], levels, source="llm", confidence=conf,
+                                  model=model, status=status)
+            out[status] += 1
     return out
