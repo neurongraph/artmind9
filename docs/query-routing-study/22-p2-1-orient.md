@@ -567,3 +567,27 @@ every baseline ran with is archived at `docs/archive/artmind-query-classic/`. Th
 instead of `domains-overview`, and the opencode persona describes Orient → Parts → Views. From here a benchmark with
 contract `classic` runs the orient text; runs A–N keep their recorded contracts. Live check: banking Q11 through the
 restarted console, contract `classic`, loaded `artmind-query`, ran `orient` then `survey`.
+
+## Run P2b (2026-11-11): artmind-query-p2b, references on demand (work plan item E)
+
+Spec `2026-11-11-skill-progressive-disclosure-design.md`, contract `p2b`, two runs per vault. Banking run 1
+(`660e1526`) ran before the fix `d27dc28f` (survey results carried no `guide`, their list is `documents`); every
+other run has it. Gate measures from `scripts/p2b_gate.py`; must items missed from the graded compare files.
+
+| Group | Baselines (missed) | P2b (missed) | Median commands | Partial → followed | Turns with survey |
+|---|---|---|---|---|---|
+| banking (214) | M 59, 65; N 59 | `660e1526` 59, `b6d360a3` 60 | 5 (M 5, N 4.5) | no partial results | 21/36, 18/36 (M 63/72, N 32/36) |
+| brain01 Q01–Q14 (101) | M 23, 34; N 33 | `cf9d73ac` 34, `50e0fba6` 36 | 6 (M, N 5.5) | 3/7 (M 1/5, N 0/0) | 26/28 (M 25/28, N 13/14) |
+| brain01 Q15–Q29 (75) | L 16, 13; M 12, 14; N 17 | 11, 15 | 5 (L 5, M 5.5, N 5) | 6/15 (L 1/5, M 0/8, N 0/2) | 21/30 (L 22/30, M 21/30, N 11/15) |
+
+Time and cost per turn fell: banking 39.1 s / $0.117 and 38.6 s / $0.112 (N 44.7 s / $0.143); brain01 42.9 s /
+$0.114 and 33.5 s / $0.124 (N 51.4 s / $0.133).
+
+`guide` reached the agent and was almost never acted on: banking showed it 112 times (temporal 61, survey 32,
+graph-model 19) and the agent read a reference after it 5 times (all temporal); brain01 showed it 125 times and no
+reference was read.
+
+Gate (spec §7): scores hold (banking 72 %, brain01 Q01–Q14 64–66 %, Q15–Q29 80–85 %, every group above its floor;
+brain01 Q01–Q14 run 2 is two items below the band). Two checks fail: banking's survey rate halved (the fix did not
+restore it, so the cause is the skill text: survey went from a section to one routing row), and brain01 Q01–Q14's
+median commands rose from 5.5 to 6. Not promoted.
