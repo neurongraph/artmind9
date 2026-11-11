@@ -29,7 +29,9 @@ _GRAIN = {"fact_happening": "one thing that happened (one graph entity)",
           "dim_person": "one person", "dim_place": "one place", "dim_type": "one happening type",
           "dim_time": "one day"}
 _WHOLE_DESCRIPTION = {
-    "trip": "Every row is already one trip away from home, assembled from its days; its parts are in {fw}.",
+    "trip": "Every row is already one trip away from home, assembled from its days: home days are never in it, "
+            "so never filter trips by city to exclude home (many trip places have no city and would be lost). "
+            "Its parts are in {fw}.",
     "life_event": "Every row is already one life event (a death, a wedding, a birth and its rites); "
                   "its parts are in {fw}."}
 _SYNONYMS = {"family": ["relative", "relatives", "kin"], "away": ["trip", "travel", "outside home"]}
@@ -77,6 +79,10 @@ def write(domain: str, tables: dict[str, list[dict]]):
                                               "people use for one event (died, passed away, death, funeral, "
                                               "cremation, last rites)"},
                 "families": {"description": "type families of its parts (health, ritual, trip, ...)"},
+                "place_names": {"description": "names of its places in date order; select this instead of joining "
+                                               "place_keys"},
+                "cities": {"description": "the known cities of its places; often empty when its places have no "
+                                          "city, so never filter on it to exclude home"},
                 "start": {"description": "first day, YYYY-MM-DD"}, "end": {"description": "last day, YYYY-MM-DD"}}}
     data = {
         "generated": "mart", "domain": domain, "relationships": rels, "tables": out_tables,

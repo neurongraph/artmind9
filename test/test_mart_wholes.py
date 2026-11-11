@@ -139,3 +139,11 @@ def test_an_unknown_edge_day_that_is_not_an_outing_stays_out():
          "bridge_person": [{"entity_key": k, "person_key": "kid", "role": "x"} for k in "ea"],
          "dim_person": [{"person_key": "kid", "group": "family"}]}
     assert [(r["start"], r["end"]) for r in wholes.compute(decl(trip=TRIP), t)["whole_trip"]] == [("2025-01-02", "2025-01-02")]
+
+
+def test_trip_rows_carry_place_names_and_cities():
+    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip")],
+         "bridge_person": [], "dim_person": [],
+         "dim_place": [{"place_key": "pl-a", "name": "Fort", "city": "Jodhpur"}, {"place_key": "pl-b", "name": "Villa", "city": None}]}
+    row = wholes.compute(decl(trip=TRIP), t)["whole_trip"][0]
+    assert row["place_names"] == ["Fort", "Villa"] and row["cities"] == ["Jodhpur"]

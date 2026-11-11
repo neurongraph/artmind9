@@ -34,6 +34,7 @@ def test_wholes_columns_and_rule_are_described(tmp_path, monkeypatch):
     assert data["tables"]["j__mart_fact_happening"]["grain"]
     rule = next(r for r in data["rules"] if "j__mart_whole_trip" in r)
     assert "already" in rule and "city" in rule
+    assert "never filter" in cols["cities"]["description"] and "never filter" in trip["description"]
 
 
 def test_person_aliases_are_described(tmp_path, monkeypatch):
