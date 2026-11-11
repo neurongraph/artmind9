@@ -76,3 +76,49 @@ def test_with_guide_adds_only_when_something_fires_and_keeps_a_set_guide():
     assert guides.with_guide("query survey", own)["guide"] == ["hubs"]
     assert guides.with_guide(None, {"rows": [{"doc_id": "d"}]}) == {"rows": [{"doc_id": "d"}]}
     assert guides.with_guide("query survey", ["not", "a", "dict"]) == ["not", "a", "dict"]
+
+
+import json
+
+import click
+from click.testing import CliRunner
+
+
+def _run_echo(command_name: str, payload: dict) -> dict:
+    from artmind.cli import _echo_json
+
+    @click.group()
+    def root():
+        pass
+
+    @root.group(name="query")
+    def query():
+        pass
+
+    @query.command(name=command_name)
+    def cmd():
+        _echo_json(payload, compact=True)
+
+    result = CliRunner().invoke(root, ["query", command_name])
+    assert result.exit_code == 0, result.output
+    return json.loads(result.output)
+
+
+def test_echo_json_adds_guide_after_the_envelope():
+    out = _run_echo("survey", {"rows": [{"doc_id": "d"}]})
+    assert list(out)[:3] == ["command", "warnings", "next"]
+    assert out["guide"] == ["survey"]
+    assert set(out["guide"]) <= set(guides.GUIDES)
+
+
+def test_echo_json_adds_no_guide_when_nothing_fires():
+    assert "guide" not in _run_echo("survey", {"rows": []})
+
+
+def test_text2sql_mart_hint_uses_the_shared_mart_test(monkeypatch):
+    from artmind import hints
+
+    calls = []
+    monkeypatch.setattr(guides, "reads_mart", lambda sql: calls.append(sql) or True)
+    assert hints.text2sql_mart({"rows": [{"n": 1}], "generated_sql": "x"}, ["d"], "q")
+    assert calls == ["x"]

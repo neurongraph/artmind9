@@ -493,6 +493,9 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
     if flagged and isinstance(payload, dict):
         existing = payload.get("warnings")
         payload = {**payload, "warnings": [*(existing if isinstance(existing, list) else []), *flagged]}
+    from artmind import guides
+
+    payload = guides.with_guide(_command_path(ctx) if ctx is not None else None, payload)  # P2b §5.2
     payload = envelope(payload, ctx)  # command / warnings / next (cli_conventions, spec C1+C4)
     observe_output_full = payload
     # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set

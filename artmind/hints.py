@@ -91,7 +91,9 @@ MART_LOWER_BOUND = (
 
 def text2sql_mart(payload: dict, domains, question) -> str | None:
     """A survey on the question after text2sql answered from the mart (study 22, run K)."""
-    if payload.get("dry_run") or not payload.get("rows") or "__mart_" not in (payload.get("generated_sql") or ""):
+    from artmind import guides
+
+    if payload.get("dry_run") or not payload.get("rows") or not guides.reads_mart(payload.get("generated_sql")):
         return None
     return f"artmind query survey {domain_flags(domains)} --shape brief --compact {quote(question)}"
 
