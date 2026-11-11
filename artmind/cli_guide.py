@@ -383,3 +383,63 @@ def find_undocumented_commands(sections: list[dict] | None = None) -> list[str]:
     """Commands click can run but that COMMAND_GROUPS doesn't route into the guide."""
     sections = build_sections() if sections is None else sections
     return sorted(collect_leaf_paths(cli, "artmind") - collect_documented_paths(sections))
+
+
+# ---------------------------------------------------------------------------
+# Markdown for the query skill's references/commands.md (P2b, spec 2026-11-11 §5.4).
+# Same walk and parameter data as the HTML guide, so the two cannot disagree.
+# ---------------------------------------------------------------------------
+
+#: Read-only `db` commands the Q&A agent may run (the ones traces count as discovery or sql).
+AGENT_DB_COMMANDS = frozenset({
+    "artmind db bridge", "artmind db list", "artmind db schema", "artmind db sql", "artmind db timeline",
+    "artmind db review",
+})
+#: `query` commands left out: the frozen planner (spec 2026-11-08).
+AGENT_EXCLUDED = frozenset({"artmind query plan"})
+
+COMMANDS_MD_HEADER = (
+    "# artmind commands\n\n"
+    "Generated from the CLI by `just dev-skill-commands`; do not edit. Every `query` command and the read-only\n"
+    "`db` commands, with every option. Each also takes `--domain` (repeatable) and `--compact` where listed.\n")
+
+
+def agent_command(path: str) -> bool:
+    return (path.startswith("artmind query ") and path not in AGENT_EXCLUDED) or path in AGENT_DB_COMMANDS
+
+
+def _md_cell(text: str | None) -> str:
+    return " ".join((text or "").split()).replace("|", "\\|")
+
+
+def _md_command(path: str, cmd, examples_data: dict) -> str:
+    params = collect_params(cmd)
+    brief = cmd.short_help or (cmd.help or "").strip().split("\n")[0]
+    args = " ".join(p["name"].upper() if p["required"] else f"[{p['name'].upper()}]"
+                    for p in params if p["kind"] == "argument")
+    out = [f"## {path}", "", _md_cell(brief), "", f"`{path}{' ' + args if args else ''} [OPTIONS]`", ""]
+    if params:
+        out += ["| Flag | Type | Default | Help |", "|---|---|---|---|"]
+        for p in params:
+            flag = p["flags"] if p["kind"] == "option" else p["name"].upper()
+            flag = f"`{flag}`" + (" (required)" if p["required"] else "")
+            default = f"`{p['default']}`" if p["default"] not in (None, "", "False") else ""
+            out.append(f"| {flag} | {p['type']} | {default} | {_md_cell(p['help'])} |")
+        out.append("")
+    for snippet in examples_data.get(path, {}).get("examples", []):
+        out += ["```bash", snippet, "```", ""]
+    return "\n".join(out)
+
+
+def render_markdown(include=agent_command, examples_path: Path | None = None) -> str:
+    """commands.md for the query skill: the commands `include` keeps, in the CLI guide's order."""
+    examples_data = load_examples(examples_path)
+    seen: set[str] = set()
+    parts = [COMMANDS_MD_HEADER]
+    for section in build_sections():
+        for _title, items in section["panels"]:
+            for path, cmd in items:
+                if include(path) and path not in seen:
+                    seen.add(path)
+                    parts.append(_md_command(path, cmd, examples_data))
+    return "\n".join(parts).rstrip() + "\n"
