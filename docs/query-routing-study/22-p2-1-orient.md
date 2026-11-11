@@ -422,3 +422,21 @@ average without the customers and survey rows behind it; Q36 compared open compl
 (including customers with no complaint) instead of against non-open complaints, and did not name the two open
 customers. One run each; the SQL layer now does what it is asked, and the remaining misses are what the agent asks and
 reports.
+
+## The mart, first build on brain01 (2026-11-11)
+
+Built per `docs/superpowers/plans/2026-11-10-mart.md` (tasks 1–14). brain01 mart: 2,728 happenings, 6,180 mentions,
+about 130 trips and 390 life events. Enrichment: rules decide 810 of 1,085 people and 14 type values; `location`
+seeds 317 places (only when the text names a known city); the LLM (Haiku via ibm_ica, about 1,000 calls in all,
+8 at a time) and 34 user records from the vault owner place the most-mentioned places. 2,048 of 2,728 happenings still
+have no home/away, mostly because they link to no place.
+
+Wholes scored against the Q09 and Q15 expected answers (hand-written tiers used as labels):
+- Q09 life events: 6 of 6 deaths found, each anchored on the right person, rites included where the tier lists them.
+- Q15 trips with one family member: 6 of 9 trips found, 4 with exact start and end days. Of the 25 trips the mart links
+  to that person, 6 match a labelled trip (the others are not all wrong: the tier lists trips outside the home city
+  only). The three misses have no place with a city and no mention of the person on those days.
+
+Changes made while measuring, each generic and set per domain in the declaration: trips at day level; seeds set a city
+only from a known city name; type families by name keyword; away by place type; trip companions from participant
+names and collective names; a trip run splits where companions change.
