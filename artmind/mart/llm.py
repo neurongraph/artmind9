@@ -11,6 +11,11 @@ LEVELS = {"place": ["venue", "locality", "city", "region", "country"],
 GROUPS = {"self", "household", "family", "friend", "colleague", "professional", "acquaintance", "other"}
 SIDES = {"maternal", "paternal", "marital", None}
 DEFAULT_THRESHOLD = 0.8
+#: Places are applied only at higher confidence: a wrong city or country moves a fact between
+#: home and away (brain01 sample, 2026-11-11: a lounge placed in another country at 0.9).
+THRESHOLDS = {"place": 0.9}
+RELATIONS = {"parent", "spouse", "child", "sibling", "in-law", "uncle", "aunt", "cousin", "grandparent",
+             "nephew", "niece"}
 
 
 def prompt(dimension: str, member: dict, families: list[str] | None = None) -> str:
@@ -19,6 +24,13 @@ def prompt(dimension: str, member: dict, families: list[str] | None = None) -> s
     allowed = ", ".join(LEVELS[dimension])
     extra = (f"`group` must be one of: {', '.join(sorted(GROUPS))}. `side` is maternal, paternal, marital or null."
              if dimension == "person" else "")
+    if dimension == "person":
+        extra += (" Give `relation` only for family or household, as one of: "
+                  f"{', '.join(sorted(RELATIONS))}; otherwise omit it.")
+    if dimension == "place":
+        extra = ("Give a level only when the name or the sentences state it or make it plain; never guess a "
+                 "city, region or country from the name alone, and never expand an abbreviation you cannot "
+                 "confirm. Omit what you cannot tell.")
     if dimension == "type":
         extra = f"`family` must be one of: {', '.join(families or [])}; omit it if none fits."
     return "\n".join([
@@ -45,6 +57,8 @@ def parse(dimension: str, text: str, families: list[str] | None = None):
     levels = {k: v for k, v in data["levels"].items() if k in LEVELS[dimension] and v}
     if dimension == "person" and (levels.get("group") not in GROUPS or levels.get("side") not in SIDES):
         return None, 0.0
+    if dimension == "person" and levels.get("relation") not in RELATIONS | {None}:
+        levels.pop("relation", None)
     if dimension == "type" and levels.get("family") not in set(families or []):
         return None, 0.0
     try:
@@ -85,7 +99,7 @@ def run(decl, pending: list[dict], *, threshold: float = DEFAULT_THRESHOLD) -> d
             if not levels:
                 out["rejected"] += 1
                 continue
-            status = "applied" if conf >= threshold else "proposed"
+            status = "applied" if conf >= THRESHOLDS.get(m["dimension"], threshold) else "proposed"
             records.put_dimension(decl.domain, m["dimension"], m["key"], levels, source="llm", confidence=conf,
                                   model=model, status=status)
             out[status] += 1

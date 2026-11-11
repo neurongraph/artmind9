@@ -28,3 +28,17 @@ def test_type_family_must_be_declared():
     assert llm.parse("type", '{"levels": {"family": "invented"}, "confidence": 0.9}', ["trip", "work"]) == (None, 0.0)
     assert llm.parse("type", '{"levels": {"family": "trip"}, "confidence": 0.9}', ["trip", "work"]) == ({"family": "trip"}, 0.9)
     assert "trip, work" in llm.prompt("type", {"key": "type:x", "props": {"name": "x"}}, ["trip", "work"])
+
+
+def test_person_relation_outside_kinship_is_dropped():
+    levels, conf = llm.parse("person", '{"levels": {"group": "professional", "relation": "insurance agent"}, "confidence": 0.9}')
+    assert levels == {"group": "professional"} and conf == 0.9
+
+
+def test_place_prompt_forbids_guessing_and_place_threshold_is_higher(monkeypatch):
+    assert "never guess" in llm.prompt("place", {"key": "x", "props": {"name": "Lounge"}})
+    monkeypatch.setattr(llm, "_call", lambda prompt: '{"levels": {"city": "C"}, "confidence": 0.85}')
+    seen = []
+    monkeypatch.setattr(llm.records, "put_dimension", lambda *a, **k: seen.append(k["status"]))
+    llm.run(type("D", (), {"domain": "j"})(), [{"dimension": "place", "key": "x", "props": {"name": "L"}}])
+    assert seen == ["proposed"]
