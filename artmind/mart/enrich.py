@@ -49,6 +49,8 @@ def enrich(decl, domains, *, dry_run: bool, use_llm: bool, llm=None, limit: int 
             if not dry_run:
                 records.put_dimension(decl.domain, "place", m["key"], levels, source="seed", confidence=1.0)
         else:  # no city from the graph: the LLM decides, seeing the locality text in the member's props
+            if (existing.get(("place", m["key"])) or {}).get("source") == "seed" and not dry_run:
+                records.drop_dimension(decl.domain, "place", m["key"], source="seed")
             pending.append({"dimension": "place", **m})
     seen_types = sorted({str(h.get("type")) for h in mart_graph.happenings(domains, decl.type.classes)
                          if h.get("type")})

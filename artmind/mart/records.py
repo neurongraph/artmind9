@@ -69,3 +69,11 @@ def load_periods(domain) -> list[dict]:
 
 def periods_on(domain, day: str) -> list[str]:
     return [p["name"] for p in load_periods(domain) if p["start"] <= day <= p["end"]]
+
+
+def drop_dimension(domain, dimension, member_key, *, source) -> None:
+    """Remove a machine record the current rules no longer support (rule/seed only)."""
+    if source not in ("rule", "seed"):
+        raise ValueError("only rule and seed records are dropped automatically")
+    path = curation_records.record_path(DIMENSION_KIND, _id(domain, dimension, member_key, source))
+    path.unlink(missing_ok=True)

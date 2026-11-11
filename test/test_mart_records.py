@@ -34,3 +34,10 @@ def test_calendar(monkeypatch, tmp_path):
     records.put_period("journal", "Festival", "2025-10-01", "2025-10-05", source="user")
     assert records.periods_on("journal", "2025-10-03") == ["Festival"]
     assert records.periods_on("journal", "2025-10-09") == []
+
+
+def test_drop_seed_record(monkeypatch, tmp_path):
+    _iso(monkeypatch, tmp_path)
+    records.put_dimension("journal", "place", "x|LOCATION|journal", {"city": "bogus"}, source="seed", confidence=1)
+    records.drop_dimension("journal", "place", "x|LOCATION|journal", source="seed")
+    assert records.load_dimensions("journal") == {}
