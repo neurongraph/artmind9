@@ -73,24 +73,28 @@ def _life_events(w, tables):
         group: list[dict] = []
         for f in mine:
             if group and (_d(f["date"]) - _d(group[-1]["date"])).days > (w.window_gap_days or 0):
-                out.append(group)
+                out.append((pk, group))
                 group = []
             group.append(f)
         if group:
-            out.append(group)
+            out.append((pk, group))
     return out
 
 
 def compute(decl, tables) -> dict[str, list[dict]]:
     result: dict[str, list[dict]] = {"fact_whole": []}
     for kind, w in decl.wholes.items():
-        groups = _trips(w, tables) if w.anchor is None else _life_events(w, tables)
+        groups = [(None, g) for g in _trips(w, tables)] if w.anchor is None else _life_events(w, tables)
+        people = _people(tables)
+        selfish = {p["person_key"] for p in tables.get("dim_person") or [] if p.get("group") == "self"}
         rows = []
-        for g in groups:
-            wid = _wid(kind, g[0]["entity_key"])
+        for anchor, g in groups:
+            wid = _wid(kind, f"{anchor or ''}|{g[0]['entity_key']}")
             start, end = g[0]["date"], g[-1]["date"]
             rows.append({"whole_id": wid, "start": start, "end": end, "days": (_d(end) - _d(start)).days + 1,
-                         "member_count": len(g), "place_keys": sorted({f["place_key"] for f in g if f.get("place_key")})})
+                         "member_count": len(g), "anchor_key": anchor,
+                         "participant_keys": sorted(set().union(*(people.get(f["entity_key"], set()) for f in g)) - selfish),
+                         "place_keys": sorted({f["place_key"] for f in g if f.get("place_key")})})
             last_health = max((f["date"] for f in g if f.get("type_family") == "health"), default=None)
             for i, f in enumerate(g):
                 if kind == "life_event" or w.anchor:

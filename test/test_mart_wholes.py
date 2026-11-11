@@ -55,3 +55,16 @@ def test_life_event_by_edge_and_name_with_aftermath():
     assert (ev[0]["start"], ev[0]["end"]) == ("2025-02-01", "2025-02-20")
     roles = {r["entity_key"]: r["role"] for r in out["fact_whole"] if r["whole_id"] == ev[0]["whole_id"]}
     assert roles == {"ill": "during", "dies": "during", "rite": "aftermath"}
+
+
+def test_life_event_rows_carry_the_anchor_and_trips_their_companions():
+    t = {"fact_happening": [fact("a", "2025-01-01", "trip"), fact("b", "2025-01-02", "trip")],
+         "bridge_person": [{"entity_key": "a", "person_key": "kid", "role": "participates_in"},
+                           {"entity_key": "b", "person_key": "me", "role": "participates_in"}],
+         "dim_person": [{"person_key": "kid", "group": "family"}, {"person_key": "me", "group": "self"}]}
+    trip = wholes.compute(decl(trip=TRIP), t)["whole_trip"][0]
+    assert trip["participant_keys"] == ["kid"] and trip["anchor_key"] is None
+    t2 = {"fact_happening": [fact("ill", "2025-02-01", "health")],
+          "bridge_person": [{"entity_key": "ill", "person_key": "u", "role": "is_affected_by"}],
+          "dim_person": [{"person_key": "u", "name": "Uncle", "group": "family"}]}
+    assert wholes.compute(decl(life_event=LIFE), t2)["whole_life_event"][0]["anchor_key"] == "u"
