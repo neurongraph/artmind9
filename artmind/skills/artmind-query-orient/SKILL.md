@@ -329,7 +329,7 @@ Store routing and then Discover as normal. Never invent a view name; only run na
 
 For a question over records (a count, an average, a comparison between groups, anything joining tables), ask `artmind query text2sql "<question>" --domain <d> --compact` first: it knows the tables' joins and how values are spelled, and repairs its own SQL. Use `db sql` only to refine or check the SQL it returned (`generated_sql`).
 
-A card with `mart` has the domain's facts, dimensions and wholes as tables (`<d>__mart_*`: happenings, dated mentions, people, places, event types, dates, and wholes such as trips). Questions about counts, sets or groups over people, places, event types or periods (how many, which places, trips with someone, every year) go there through `text2sql`; cite the evidence columns (`chunk_ids`, `doc_ids`) of the rows you use.
+A card with `mart` has the domain's facts, dimensions and wholes as tables (`<d>__mart_*`: happenings, dated mentions, people, places, event types, dates, and wholes such as trips). Questions about counts, sets or groups over people, places, event types or periods (how many, which places, trips with someone, every year) go there through `text2sql`; cite the evidence columns (`chunk_ids`, `doc_ids`) of the rows you use. Mart rows hold only what extraction found, so a count, a ranking or a list from them is a starting point: run the survey its `next` gives, then answer from both, adding what the notes show and dropping rows they don't support.
 
 ### 2. Discover — only when orient was cut
 

@@ -4134,6 +4134,10 @@ def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: boo
         ) from exc
     if not dry_run:
         result["next"] = hints.join_next(result.get("next"), hints.text2sql_empty(result, domains, question))
+        mart_next = hints.text2sql_mart(result, domains, question)
+        if mart_next:
+            result["warnings"] = [*(result.get("warnings") or []), hints.MART_LOWER_BOUND]
+            result["next"] = hints.join_next(result.get("next"), mart_next)
     if dry_run:
         as_of_arg = f" --asOf {shlex.quote(as_of)}" if as_of else ""
         result["next"] = (

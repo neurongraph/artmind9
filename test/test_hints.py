@@ -69,6 +69,15 @@ def test_text2sql_empty():
     assert hints.text2sql_empty({"rows": [{"a": 1}]}, ["bank"], "q") is None
 
 
+def test_text2sql_mart_points_at_a_survey():
+    mart = {"rows": [{"n": 2}], "generated_sql": "SELECT count(*) FROM j__mart_fact_happening"}
+    assert hints.text2sql_mart(mart, ["j"], "how often?") == (
+        "artmind query survey --domain j --shape brief --compact 'how often?'")
+    assert hints.text2sql_mart({**mart, "rows": []}, ["j"], "q") is None
+    assert hints.text2sql_mart({"rows": [{"n": 1}], "generated_sql": "SELECT * FROM j__trips"}, ["j"], "q") is None
+    assert hints.text2sql_mart({**mart, "dry_run": True}, ["j"], "q") is None
+
+
 def test_text2_failure():
     assert hints.text2_failure("text2sql", ["bank"], "q", False) == (
         "\nnext: artmind query text2sql --domain bank --dryRun --compact q"

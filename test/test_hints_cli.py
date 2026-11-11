@@ -92,6 +92,14 @@ def test_text2sql_empty(runner):
     )
 
 
+def test_text2sql_over_the_mart_warns_and_points_at_a_survey(runner):
+    payload = {"rows": [{"n": 2}], "warnings": [], "generated_sql": "SELECT count(*) FROM j__mart_fact_happening"}
+    with patch("artmind.cli.text2sql.execute_text2sql", return_value=payload):
+        out = _json(runner.invoke(cli, ["query", "text2sql", "--domain", "j", "--compact", "how often?"]))
+    assert out["next"] == "artmind query survey --domain j --shape brief --compact 'how often?'"
+    assert any("lower bound" in w for w in out["warnings"])
+
+
 def test_text2sql_failure_appends_next(runner):
     with patch("artmind.cli.text2sql.execute_text2sql", side_effect=ValueError("bad sql")):
         result = runner.invoke(cli, ["query", "text2sql", "--domain", "bank", "q?"])

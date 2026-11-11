@@ -84,6 +84,18 @@ def text2sql_empty(payload: dict, domains, question) -> str | None:
     return f"artmind query text2sql {d} --dryRun --compact {quote(question)}; artmind db schema {d} --compact"
 
 
+MART_LOWER_BOUND = (
+    "mart rows are built from the facts extraction found, so a count, a ranking or a list from them is a lower "
+    "bound and can miss or misplace what the notes say; check it against the notes (next) before answering")
+
+
+def text2sql_mart(payload: dict, domains, question) -> str | None:
+    """A survey on the question after text2sql answered from the mart (study 22, run K)."""
+    if payload.get("dry_run") or not payload.get("rows") or "__mart_" not in (payload.get("generated_sql") or ""):
+        return None
+    return f"artmind query survey {domain_flags(domains)} --shape brief --compact {quote(question)}"
+
+
 def text2_failure(kind: str, domains, question, dry_run: bool) -> str:
     """Text appended to a text2cypher / text2sql error message."""
     d = domain_flags(domains)
