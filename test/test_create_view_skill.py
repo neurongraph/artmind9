@@ -38,6 +38,8 @@ def test_admin_only():
 
 
 def test_opencode_personas_know_about_views():
-    assert "artmind query views list" in (OPENCODE / "artmind.md").read_text()
+    # The end-user persona learns of views through orient (skill promoted 2026-11-11), not `views list`.
+    user = (OPENCODE / "artmind.md").read_text()
+    assert "Views" in user and "artmind query orient" in user
     admin = (OPENCODE / "artmind-admin.md").read_text()
     assert "artmind-create-view" in admin and "artmind query views list" in admin

@@ -35,9 +35,7 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
 - `artmind query text2sql "<question>" --domain <d> --compact` — natural language
   to read-only DuckDB SQL against the structured store, then executes it (add
   `--dryRun` to see the generated SQL without running it). The SQL/graph analogue
-  of `query graph text2cypher`. The first choice for record questions: it uses the domain's metadata
-  (`domains/metadata/<d>.meta.yaml`: joins, value labels, rules) and repairs a failing query;
-  its payload's `engine` says whether sql-browser or the built-in path answered.
+  of `query graph text2cypher`.
 - `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact` —
   resolve a free-text value (e.g. from a user question or a structured row) to a
   canonical column value and/or graph entity name, via exact/fuzzy matching.

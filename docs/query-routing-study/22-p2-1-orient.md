@@ -559,3 +559,11 @@ Reading across K–N: since the mart lower-bound fix, brain01 Q15–Q29 is above
 60.6; K 54 and 50). Brain01 Q01–Q14 (67–78) and banking (145–155) did not change with it and stay above their floors
 in every run. Every group of every run since L passes the floors, which is the condition for work plan item C
 (promote the orient variant).
+
+## Orient promoted (work plan item C, 2026-11-11)
+
+The orient text is now `artmind/skills/artmind-query/SKILL.md` (frontmatter `name: artmind-query`); the classic text
+every baseline ran with is archived at `docs/archive/artmind-query-classic/`. The benchmark prompt names `orient`
+instead of `domains-overview`, and the opencode persona describes Orient → Parts → Views. From here a benchmark with
+contract `classic` runs the orient text; runs A–N keep their recorded contracts. Live check: banking Q11 through the
+restarted console, contract `classic`, loaded `artmind-query`, ran `orient` then `survey`.

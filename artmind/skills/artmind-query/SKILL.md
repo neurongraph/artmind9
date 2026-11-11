@@ -1,57 +1,114 @@
 ---
 name: artmind-query
-description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Always checks the domain's saved views (`artmind query views list`) before any other retrieval, except for chunks-only domains (`graph_extraction: false`), which go straight to `vector-text`.
+description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind. Every turn: orient first (`artmind query orient`), then write the question's parts in the corpus's terms (a `Parts:` list), then run one retrieval loop per part, never one search for the whole question.
 ---
 
 # artmind Query
 
 Use this skill to answer user questions over an artmind domain through the deterministic query CLI. The skill provides the reasoning layer; the CLI provides saved views, templated graph/vector retrieval and JSON output.
 
-## The first two commands, every time
+## Every turn, in this order
 
-For each new domain set in a conversation, before any other `artmind query`, `artmind db`
-or insights command:
+1. **Orient** — `artmind query orient --compact` (and `--domain` for the domains you pick). See below.
+2. **Write the parts** — before any retrieval command, write a `Parts:` list in your reply: one
+   line per thing the answer must state, each restated in the corpus's terms from orient, with
+   its domains and first command. A one-part question gets one line. See "Plan the parts".
+3. **One loop per part** — each part gets its own searches, with only that part's terms in the
+   query text. Never put two parts, or a guessed answer, into one `survey` or `vector-text` call.
+4. **Answer part by part** — every part from its own evidence; say which part has none.
 
-1. `artmind query domains-overview --compact` (Route) — once per conversation, even when
-   the user named the exact domain(s): it is the only place that says whether a domain is
-   chunks-only (below).
-2. `artmind query views list --domain <domain> --compact` (Views), once per domain —
-   except a domain whose `domains-overview` row shows `"views": 0`: no saved view covers
-   it, so skip `views list` for it. A row without the `views` key (an older build, or the
-   overview warned that the count was unavailable) still gets `views list`. Any other
-   value, `views: 1` or more, means run it.
+## Orient — read the corpus first
 
-A saved view is the domain owner's reviewed answer to a recurring question; skipping it
-means re-deriving, often wrongly, what one `views run` call would return. This holds even
-when the question looks like an obvious fit for `entity-context`, a pattern, `text2sql`
-or insights — you cannot know a view does not cover it until you have read the list (or the
-overview row said `views: 0`). If
-you are about to run any other query and have not seen this conversation's `views list`
-output for every domain in the set, stop and run it first.
+`orient` describes the corpus in two peels. It never sees the question: you match the
+question against what it says.
 
-### Exception: chunks-only domains
+1. `artmind query orient --compact` once per conversation. Each card says what a domain
+   is (`purpose`), what one document is (`unit`), whose voice it is (`voice`: "I" is the
+   narrator), how documents are dated (`time`), its stores and its `vocabulary` (top classes).
+   `tables` lists the structured tables registered at that domain (rows, bridge classes);
+   a card with `tables_at: <domain>` has none of its own but that domain's tables apply to it.
+   A question about specific records (a customer, a case, a count, "which/how many") goes to
+   those tables (`references/structured-store.md`), even when the wording does not name a table.
+2. Pick the domains the question touches from `purpose`, `vocabulary` and `family`. A
+   collapsed family row opens with `--domain <family>`; in peel 2 open only the children the
+   question needs (a whole family is cut hard). Policies and the SOPs about the same subject
+   often sit in sibling domains: take both when the question spans them.
+3. `artmind query orient --domain <d> [--domain <d2>] --compact` for those domains. It lists
+   classes (definition, `types` with counts, `dated` share), relation shapes
+   (`from -rel-> to`), structured tables, saved views, topic plans, insights and superseded
+   documents.
+4. A saved view whose `summary` or `examples` fit the question → `views show` / `views run`
+   (Views below). Otherwise choose the command from the classes, types, relation shapes and stores,
+   and spell `--entityClass`, type values and relation names exactly as orient listed them. A
+   `chunks-only` card has documents and chunks but no entities: skip views, insights, entity and pattern commands there:
+   - a fact → `artmind query vector-text --shape brief --domain <d> --topK 10 --compact "<question>"`;
+   - a question across documents → `artmind query survey --shape brief --domain <d> --compact "<question>"`;
+   - a whole document → `artmind query graph pattern10 --documentName "<name>"`; more context
+     around a hit → `artmind query chunks --shape brief --idList <id> --expand 1`;
+   - in a mixed set, leave chunks-only domains out of graph commands but keep them in the
+     shared `vector-text` call. Tables listed under `structured` still apply.
+5. Orient again only when the user moves to a new area. A part named in `warnings` was not
+   read: never treat it as empty. `null` means declared absent (no narrator, no snapshot).
+6. Every result's `next`, `cuts` and `warnings` matter as much as its rows: see "Read every
+   result before you answer".
 
-A domain that `domains-overview` shows with `"graph_extraction": false` (its `stores`
-list has `chunks` in place of `graph`) holds documents and their chunks but no entities
-or relationships. For such a domain:
+## Plan the parts — after orient, before any retrieval
 
-- Skip `views list`, insights, `graph metadata`, `entity-listing`, `entity-resolve`,
-  `entity-context`, `pattern1`–`pattern9` and `text2cypher`: they return nothing there.
-- Answer a fact from `artmind query vector-text --shape brief --domain <domain> --topK 10 --compact "<question>"`.
-  A question that spans documents ("what do the papers say about X", "compare", "overview")
-  goes to `artmind query survey --shape brief --domain <domain> --compact "<question>"` instead (see
-  "Survey — questions that span documents").
-- For a whole document ("summarise X") use `artmind query graph pattern10 --documentName
-  "<name>"`; for more context around a hit, `artmind query chunks --shape brief --idList <id> --expand 1`;
-  for which documents exist or how many, `artmind query graph structural-metadata`. These
-  read documents and chunks, which a chunks-only domain has.
-- If its `stores` also lists `structured`, Store routing still applies: tables are not
-  affected by the flag.
-- In a domain set that mixes chunks-only and graph domains, leave the chunks-only ones out
-  of the graph steps but keep them in the shared `vector-text` call.
+Rewrite the question before the first retrieval command. Write the plan in your reply, one
+line per part:
 
-The flag comes from this machine's schema files; a domain without its schema here shows
-no flag and goes through the normal steps, ending at `vector-text` when the graph is empty.
+```
+Parts:
+1. <the part in the user's words> → <the same part in the corpus's terms> · <domains> · <first command>
+2. ...
+```
+
+- **A part is one thing the answer must state:** one who / what / when / which, one side of a
+  comparison, one condition. "Who owns the fix, who handles the customer, who must be told" is
+  three parts. A one-part question gets a one-line plan; do not invent parts.
+- **Restate each part in the corpus's terms.** Take class names, type values, definitions and
+  `vocabulary` from the orient cards and peel 2. When the user's word is not the corpus's, use
+  the corpus's ("online banking" → the platform or system the cards list; "kept informed" →
+  notification, escalation, oversight). Keep names the user gave verbatim for `entity-resolve`.
+- **Choose the command per part**, from orient rule 4 and the Query Protocol: a record part goes
+  to the tables, a fact part to the graph or `vector-text`, a part spread over documents to
+  `survey`. Parts of one question often need different commands.
+- **Run each part as its own loop:** a search whose question holds only that part's terms (never
+  two parts, never a guessed answer), then read every result, follow `next`, rephrase once in the
+  corpus's terms if the result is thin, and stop when the part has evidence. A result that also
+  answers another part counts for that part too: note it and do not search that part again. A
+  `survey` row whose `gist` speaks to an open part is the next document to open.
+- **Before answering,** check that every part has its own evidence. Answer in the parts' order,
+  and for a part with none, say what you searched.
+- **Follow-up turns:** rewrite the new question with what the conversation already settled
+  (resolved names, domains, dates) before planning its parts.
+
+## Read every result before you answer
+
+Every `artmind` command returns the same envelope: `command`, `warnings`, `next`, then the
+data. The command knows things about its own result that you cannot see from the rows: what
+it cut, what it could not read, what is incomplete. Treat those fields as part of the
+evidence, after every call:
+
+1. **Is the result whole?** Look for `complete: false`, `truncated: true`, `hub: true`,
+   a `cut` block, `cuts[]`, or `rows_total` above the rows shown. Any of these means the
+   rows are a sample, not the set.
+2. **Does the question need the whole set?** "Which", "how many", "every", "all", "list",
+   "each year", a total or a comparison across members all do. A single fact usually does not.
+3. **If the set is partial and the question needs all of it, run the first `next` (or the
+   cut's `rest`) before answering.** `next` holds runnable commands separated by `; `, the
+   ones that act on this result first. Run them as written (copy ids, handles and flags
+   verbatim; fill only a `<placeholder>`, from orient or the question). Do not count, rank
+   or say "none" from a partial set.
+4. **Empty or thin result:** run `next` when it names a different command for the same
+   question; otherwise follow the Fallback Ladder.
+5. **`warnings`:** a part named there was not read. Never treat it as empty, and say so in
+   the answer if it limits what you can claim.
+6. **Stop** when the result is whole for what the question needs, or `next` is null, or the
+   same `next` comes back twice. Then say what you could not cover, and why.
+
+`next` is a fact about this result, never a guess about your question: it is safe to follow
+and safe to skip when the question does not need what it offers.
 
 ## Running commands
 
@@ -66,7 +123,6 @@ Any stderr line starting `artmind: ` about a store being behind, unreachable, no
 ## Required Inputs
 
 - `domain`: Ask for it if the user did not provide one.
-- `question`: The natural-language question to answer. If the user asks multiple questions, break them down and answer each.
 
 ## Fixed Structural Schema
 
@@ -135,7 +191,7 @@ Some questions are about patterns rather than facts. Examples:
 - "what tends to go with bad days";
 - "who have I lost touch with".
 
-The domain owner's insights snapshot already answers those. Check it after Route and Views (a saved view still comes first), before Discover:
+The domain owner's insights snapshot already answers those. Check it after Orient and Views (a saved view still comes first), before Discover:
 
 ```bash
 artmind query insights list --domain <domain> --compact
@@ -184,8 +240,7 @@ survey lists every document: full passages for the strongest matches, a question
 `gist` for the next ones, and one line for the rest. `gist_source: passage` is evidence;
 a summary gist is only a guide. Open a document with `artmind query survey --domain <d>
 --shape brief --expand <doc_id> "<question>"` or `artmind query chunks --shape brief
---idList <chunk_id>`. When a result says `truncated: true`, run the command in its `next`
-field (`artmind query page <handle> --from N`) instead of guessing. Copy that `next` command verbatim: `query page` takes no `--domain`.
+--idList <chunk_id>`. A `truncated: true` result's `next` is `artmind query page <handle> --from N` (no `--domain`).
 
 | The question asks for | Command |
 |---|---|
@@ -212,41 +267,20 @@ artmind query topics plan --list --domain <d> --compact    # slug, topic, subjec
 artmind query topics run <slug> --shape brief --compact    # add --subject N or --cell <period|domain> for part
 ```
 
-- A plan whose topic and subjects fit the question is a reviewed way to cover it: run it
-  (one subject or cell at a time if the question needs only part) and answer from its
-  rows. Each row is ordinary survey evidence: cite its passage and document as usual.
-- A cell marked `partial` has more matching documents than it shows; say so.
-- Never run `artmind topic build` or `refresh` yourself: they cost LLM calls.
+`orient --domain`'s `levels` block lists the domain's plans (slug, topic, subjects). One rule:
 
-## The Query Protocol: Route → Views → Discover → Resolve → Retrieve → Ground → Adjudicate
+> A topic plan whose topic and subjects fit the question is a reviewed way to cover it:
+> run `query topics run <slug>` (one subject or cell at a time if the question needs only
+> part), and answer from those rows. When none fits and `survey`'s `coverage` shows the
+> answer rests on a small share of `matching_documents` for an overview or trend question,
+> answer from what you read, say how many more documents match, and end with one line: `Offer: a topic plan on
+> <topic> (subjects: <s1>; <s2>; span <from>–<to>) would cover all <N> matching documents.` Never build it yourself.
 
-### 0. Route — pick the domain set
+- Each row is ordinary survey evidence: cite its passage and document as usual. A cell
+  marked `partial` has more matching documents than it shows; say so.
+- `topic build` / `refresh` cost LLM calls: the owner's (admin console, `artmind-build-topic`), never yours.
 
-Policies and the SOPs/matrices about the same subject live in DIFFERENT sibling
-domains by design (e.g. `banking_policy` vs `banking_sop_guides`). Before answering:
-
-```bash
-artmind query domains-overview --compact
-```
-
-- If the user names an exact single small domain, use it and go on to Views — or, if
-  the overview shows it with `"graph_extraction": false`, follow "Exception: chunks-only
-  domains" above instead.
-- If the user names two or more SPECIFIC domains directly (e.g. "compare banking_policy
-  and banking_sop_guides"), use exactly those domains and go on to Views — no
-  sub-agent needed, since routing is already resolved. Chunks-only domains among them
-  follow the exception.
-- If the user names an AREA ("banking", "our policies"), or it's unclear which
-  domain(s) hold the answer, or listings look large, launch ONE sub-agent that runs
-  `domains-overview` + per-domain `views list --compact` + `structural-metadata --compact`
-  + `entity-resolve` (skipping `views list` and `entity-resolve` for any domain the
-  overview shows with `"graph_extraction": false`), and returns ONLY a compact routing report:
-  `{domains, chunks_only:[domain], views:[{domain,name,summary,params}], resolved_entities:[{_id,name,class,domain,observation_count}], relevant_classes, relevant_rel_types}`.
-  Main context never sees the raw listings. Its `views` list is the Views step's
-  catalogue: you still go on to Views and match the question against it. Domains in
-  `chunks_only` follow the exception.
-- Pass `--domain` once per selected domain on every subsequent command; a single
-  command call now spans all of them.
+## The Query Protocol: Orient → Views → Resolve → Retrieve → Ground → Adjudicate
 
 ### 1. Views — check for a saved view first
 
@@ -254,18 +288,7 @@ A **view** is a reviewed, parameterised, read-only graph query that a domain own
 for a question that keeps coming up, together with guidance on how to present it. A
 matching view replaces Discover, Resolve and Retrieve: one call instead of several.
 
-List the catalogue **once per domain per conversation** (it needs the domain set from
-Route), and reuse that listing for later questions in the same conversation — but match
-**every** new question against it, not only the first:
-
-```bash
-artmind query views list --domain <domain> --compact
-```
-
-This is not optional and not skipped for "simple" questions. Re-list only if the user
-says they just added or changed a view. An empty `views` list means this domain has none:
-go on to Store routing below. `invalid` entries are broken views; ignore them (mention
-them only if the user asks about views).
+The views come from `orient --domain`: match **every** new question against them, not only the first.
 
 A question **matches** a view when the view's `summary` or `examples` describe the same
 kind of question, even in different words or about a different entity: the `params` are
@@ -283,7 +306,7 @@ If the question matches a view:
    artmind query views run <name> --domain <domain> --param <p>=<value> --render markdown --compact
    ```
 
-   If Route already returned `resolved_entities`, pass the id as `--param <p>=@<_id>`:
+   If you already resolved the entity, pass the id as `--param <p>=@<_id>`:
    an `@` value skips name resolution. Otherwise give the name as the user said it; the
    view resolves it.
 3. Read `status`:
@@ -298,54 +321,26 @@ If the question matches a view:
      `--param <param>=@<_id>`. Otherwise continue with Discover.
 
 If no view fits, or the result is empty or does not answer the question, continue with
-Store routing and then Discover as normal. Never invent a view name; only run names
-returned by `views list`.
+Store routing and then Discover as normal. Never invent a view name; only run names `orient --domain` listed.
 
 #### Store routing — once no view fits
 
-Check whether a structured store is even in play:
+`orient --domain` lists the domain's structured tables and their bridge classes. No `structured` key means a pure-graph domain. If tables are listed, read `references/structured-store.md` before classifying the question.
 
-```bash
-artmind db bridge --domain <d> --compact
-```
+For a question over records (a count, an average, a comparison between groups, anything joining tables), ask `artmind query text2sql "<question>" --domain <d> --compact` first: it knows the tables' joins and how values are spelled, and repairs its own SQL. Use `db sql` only to refine or check the SQL it returned (`generated_sql`).
 
-An empty `tables` list means the domain is genuinely pure-graph — go on to
-Discover below, no further `db` calls. If it returns any tables, read
-`references/structured-store.md` before classifying the question — it covers
-store routing (narrative vs analytical vs hybrid vs records-plus-guidance),
-worked examples, and how `--asOf` threads through the hybrid chain.
+A card with `mart` has the domain's facts, dimensions and wholes as tables (`<d>__mart_*`: happenings, dated mentions, people, places, event types, dates, and wholes such as trips). Questions about counts, sets or groups over people, places, event types or periods (how many, which places, trips with someone, every year) go there through `text2sql`; cite the evidence columns (`chunk_ids`, `doc_ids`) of the rows you use. Mart rows hold only what extraction found, so a count, a ranking or a list from them is a starting point: run the survey its `next` gives, then answer from both, adding what the notes show and dropping rows they don't support.
 
-### 2. Discover — learn the domain's shape
+### 2. Discover — only when orient was cut
 
-Only after the Views check found no fitting view, start the domain/question session with:
-
-```bash
-artmind query graph metadata --domain <domain> --compact
-artmind query graph entity-listing --domain <domain> --countAll --compact
-```
-
-For document/chunk/count questions, use the compact alternative instead of the two commands above:
-
-```bash
-artmind query graph structural-metadata --domain <domain> --compact
-```
-
-It returns Document names plus structural counts (Document/DocChunk/UserChat/Entity) without the full class/relationship breakdown — cheaper when you only need document names or counts, not the entity-class/relationship schema. From metadata identify: stored class labels (derived from `entity_class`, uppercased, non-alphanumerics → `_`), relationship types and directions, and whether the question needs graph facts, text evidence, or both.
-
-`structural-metadata`'s `names` and `entity-listing`'s per-class `typeGroups[].names` are
-each capped (`--maxNames`, default 50) with a `names_total` count alongside — a vault with
-1000+ documents or a hub-heavy domain would otherwise exceed what agent harnesses show
-before truncating. If `names_total` exceeds what came back, raise `--maxNames`, but
-prefer narrowing instead (below) — a bigger page is rarely the fix for "I need the
-count/names of a *specific* thing."
-
-If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `artmind query graph pattern7`. For a specific document's content rather than the list of document names, go straight to `pattern10 --documentName "<name>"` instead of scanning `structural-metadata`'s capped `names`.
-
-Document/chunk rows and `metadata` carry `valid_from`/`valid_to`/`superseded_by` — use them to judge document currency.
+`orient --domain` already holds what Discover used to fetch. Run `graph metadata`,
+`entity-listing --countAll` or `structural-metadata` only when a `cuts` entry names them
+as the `rest`, or for a document list (`structural-metadata`) — never as an opener.
+Document/chunk rows carry `valid_from`/`valid_to`/`superseded_by`; use them to judge currency.
 
 ### 3. Resolve — map question names to exact graph nodes
 
-Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and go on to Retrieve — don't re-resolve (you have already done the Views check by now; those ids also feed a view's `--param <p>=@<_id>`). Otherwise, before running retrieval patterns:
+Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. Before running retrieval patterns:
 
 1. Resolve every entity reference in the question:
 
@@ -355,10 +350,7 @@ artmind query entity-resolve --domain <domain> --topK 5 --compact "<name fragmen
 
 This combines Lucene full-text over entity names/descriptions with vector similarity over entity embeddings (RRF), so it handles both name fragments ("Holmes") and purely descriptive references ("the detective"). Each row's `entity` carries `_id`, `name`, `entity_class`, `description`, plus `observation_count` and `connection_count` — how much the entity has aggregated. `score` is the fused RRF score (rows from both legs rank highest; `matched_by` names the legs), comparable across rows. (Alternatives: `entity-listing --nameFilter` for plain fragments, `pattern7 --searchTerm` for fulltext-only.)
 
-2. Pick the canonical entity. If several are plausible, prefer the best name/description match and note the ambiguity in your answer; ask the user only if the choices change the answer materially. A person's name also matches events named after them ("Irene Adler's Wedding") — when the question is about such an event, that hit can answer it outright.
-3. Use the entity's exact `_id` in retrieval via `--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`. Ids never fan out; names can. Fall back to `--entityName` only when resolution was skipped because the name is unambiguous.
-
-If entity-resolve returns nothing for an old graph, embeddings may be missing — `artmind ingest embed-entities --domain <domain>` backfills them.
+`entity-resolve` maps I/me to the narrator and groups same-class twins (`twins`): treat a twin group as one entity unless the text distinguishes them. Use the chosen entity's exact `_id` in retrieval (`--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`).
 
 ### 4. Retrieve — run the right pattern
 
@@ -366,7 +358,7 @@ Every command below is written in full. The `pattern*` commands, `text2cypher`,
 `timeline`, `conflicts`, `metadata`, `structural-metadata` and
 `entity-listing` all live under the `graph` sub-group (`artmind query graph <cmd>`);
 `views`, `entity-context`, `entity-history`, `document-history`, `chunks`, `vector-text`, `entity-resolve` and
-`domains-overview` sit directly under `query` (`artmind query <cmd>`). Copy the prefix
+`orient` sit directly under `query` (`artmind query <cmd>`). Copy the prefix
 as written — do not infer it.
 
 This table is for questions the Views check found no view for. A question a saved view
@@ -389,8 +381,8 @@ covers is answered by `artmind query views run <name>` (see Views), not by a row
 | Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --shape brief --idList <id>[,<id>…] [--expand 1]` (repeat the flag or comma-join ids; `--domain <d>` is optional and only scopes the lookup, the output's domains come from the chunks) |
 | Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
-| Search entities by name/description fragment | `artmind query graph pattern7 --shape brief --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). It returns `rows_total`/`truncated`: raise `--limit` (max 500) until `truncated` is false for a complete list; when `rows_total_capped` is true the total is a lower bound. Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
-| Entities of class X connected to entity Y | `artmind query graph pattern8 --entityClass <LABEL> --entityId <id> [--limit N] [--offset N]` |
+| Search entities by name/description fragment | `artmind query graph pattern7 --shape brief --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically). Each row's `documents` (up to 3 source documents, empty for entities built from tables) feed the Sources list |
+| Entities of class X connected to entity Y ("CLASS connected to ENTITY") | `artmind query graph pattern8 --entityClass CLASS --entityId <id> --all` (add `--via mentions` for everyone named alongside it) |
 | All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>" [--limit N] [--offset N]` — add `--includeHistory` for retired/superseded versions; zero rows with `history_matches` means only a retired version matches |
 | Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dryRun` first to inspect the Cypher, then run it without `--dryRun` (a dry run executes nothing and returns no rows); rows are capped (`--maxRows`, default 200, `rows_total`/`truncated` alongside) since the generated Cypher carries no LIMIT of its own |
 
@@ -402,12 +394,12 @@ Routing notes:
   --query "<question>"` replaces the pattern4 + Ground sequence — it returns
   properties, one-hop relationships, and the text of the entity's source chunks most
   relevant to the question (the first `--includeChunks` with full text, the next ids
-  in `more_chunks`, fetchable via `chunks --idList`). Always pass `--query` with the
-  user's question: without it, chunks come newest-first and connections by evidence
+  in `more_chunks`, fetchable via `chunks --idList`). Always pass the user's question
+  (as the last argument, or `--query`): without it, chunks come newest-first and connections by evidence
   weight, which for a busy entity rarely includes the one that answers. Its output is
   bounded — see "Hub entities" below. Use pattern4 when you only need structure, or
   patterns 2/3 for several entities at once.
-- **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
+- **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence.
 - **pattern4 vs hierarchy**: pattern4 is one hop only. For a transitive walk — everyone under X, X's whole reporting line, chain of command — use `hierarchy` instead; see `references/hierarchy.md`.
 - Patterns 2/3/4 return `doc_sources` (chunk ids) and `source_documents` (the documents those chunks belong to, with `path`/`source_path` for the Sources list) — use the ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --shape brief --idList <chunk_id> [--expand 1]` (`--domain <d>` optional; never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - **Patterns 2/3/4 are bounded like entity-context, without its ranking.** `doc_sources`/
@@ -422,13 +414,7 @@ Routing notes:
   option is a blunt instrument: for a genuine hub entity, route to `entity-context
   --relType <type> --query "<question>"` instead (see "Hub entities" below) so the edge
   that answers the question sorts to the top rather than needing a bigger page.
-- **pattern8/pattern10 paginate with `--offset`.** Both cap output (`--limit`, defaults
-  50/300) and report `rows_total`/`truncated`. Unlike the commands above, neither has a
-  ranked alternative to narrow toward instead — "entities of class X connected to Y" and
-  "chunk N of document D" have no relevance signal to sort by — so when `truncated` is
-  true and the row you need might be past the cut, re-run with `--offset <previous
-  offset + limit>` to walk the rest (pattern10 orders chunks by `c.id`, so offsets are
-  stable across calls).
+- **Counts and lists.** Answer a count only from `complete: true`; otherwise say N of M. For "every year / each time" questions use `survey --by year` (or `month`): it reports every period with a hit. `pattern10` pages with `--offset` when `truncated`. For "which / how many X did Y …", list the set with `pattern8 --entityId <Y> --entityClass X --via mentions --all`: `linked: true` rows have a relation to Y (check it is the relation the question asks about); `linked: false` rows were only named in the same notes — confirm each with `artmind query chunks --idList <its chunk_ids>` before counting it.
 - **text2cypher has no `--offset`.** The generated Cypher is LLM-written per call, so
   there's no generic way to inject a `SKIP`. If `truncated` is true, don't ask it to
   "get the next page" — rephrase the question to be more selective (name the entity/date
@@ -450,6 +436,8 @@ Routing notes:
   `:DocChunkHistory` — or chains a second `MATCH` after a `count()` — returns nothing
   and reads as "no history" when there is plenty.
 
+**Superseded history.** Retired documents are not in search results. A result whose `doc.replaced` lists an older version, or a dated / 'what changed' question, goes to the graph: `document-history`, `pattern10 --includeHistory`, `entity-history`.
+
 #### Hub entities
 
 Some entities aggregate a lot — the protagonist of a novel series, the bank in a
@@ -468,24 +456,7 @@ you never saw the part that answers), so `entity-context` returns a bounded one:
 - List properties keep their newest `--maxListItems` (default 10) entries;
   `truncated_properties` gives each cut list's full length.
 
-How to work with it:
-
-1. **Pass `--query "<the question>"`.** It ranks connections (question words matched
-   against target names and rel_types, then embedding similarity) and chunks (vector +
-   keyword, fused) toward the question. "When did Holmes first meet Watson" then puts
-   the `PARTICIPATES_IN → First Meeting of Holmes and Watson` edge and its source chunk
-   on top, where the unranked dossier buried them under hundreds of other edges.
-2. **Drill in with `--relType`** (repeatable): when `connection_summary` shows the
-   relevant kind of edge (e.g. `PARTICIPATES_IN` × 130 for "which cases did he work on"),
-   re-run with `--relType PARTICIPATES_IN --maxConnections 50`. The summary still covers
-   everything, so you can see what you filtered out.
-3. **A specific fact may be better served by search.** A single dated fact about X is
-   often answered directly by `vector-text "<question>"` — a few KB of the
-   matching chunks — or by `entity-resolve` hitting the event entity itself. Use
-   `entity-context` for questions *about the entity as a whole* (role, relationships,
-   characteristics), search for a single dated fact.
-4. A list cut in `truncated_properties` keeps only the newest entries. For an older value
-   use `entity-history --entityId <id> --property <p>`, not a larger `--maxListItems`.
+Pass the question to `entity-context`; on a hub its `cut` block says what is hidden.
 
 ### 5. Ground — pull source text when narrative evidence is needed
 
@@ -501,7 +472,7 @@ Grounding has a deterministic path and a search path — prefer the deterministi
 artmind query vector-text --shape brief --domain <d1> --domain <d2> --topK 10 --compact "<question>"
 ```
 
-vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and returns them in relevance order. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). Ask for 10 rows: the right chunk is often just below the top 5. `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
+vector-text searches passages (~1200-char spans of the source text) by meaning and by keyword, fuses both rankings, groups hits into their parent chunk and returns them in relevance order. Each row is a parent chunk: `chunk.text` (the whole chunk), `passage` (`char_start`/`char_end` of the span that matched, inside `chunk.text` — quote from there), `relevance` (0-1, how close the best passage is to the question; comparable across questions; `null` when only keywords matched), `matched_by` (`vector`, `fulltext` or both) and `score` (rank order only — never compare it across calls). Ask for 10 rows: the right chunk is often just below the top 5. `--context passage` returns only the matching passages (smaller, for scanning many hits). Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When you picked several domains, Ground should query all of them together in one call so results can be compared side by side.
 
 ### 6. Adjudicate — surface disagreements, never blend
 
@@ -517,26 +488,18 @@ history, not a live disagreement).
 
 The ladder starts after the Views check: a view that fits is tried before any rung below.
 
-1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent. (Same fix as Adjudicate's "only one side retrieved" case — apply it as soon as results look thin, not only after a disagreement surfaces.)
-2. pattern6 empty → pattern5 `--mode shortest`.
-3. entity-context/pattern chunks too thin → re-run entity-context with `--query` (if you didn't) or a narrower `--relType`, or pull `chunks --idList <more_chunk ids> --expand 1`, before falling back to search.
-4. Pattern output empty or too thin → vector-text.
-5. A question that spans documents, whose `vector-text` rows come from one or two documents → re-run it as `query survey`.
-6. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dryRun` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
-7. text2cypher generates invalid Cypher → vector-text.
-8. vector-text sparse or weak (few rows, every `relevance` low, or rows matched by `fulltext` alone on a conceptual question) → state that the available artmind data does not answer the question.
-9. `text2sql` returns no rows but data should exist → re-run with `--dryRun` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
-10. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
-11. `hierarchy` returns empty rows/edge_candidates → re-run discovery mode to confirm no edges exist at all → if still empty, the relationship may only be stored as a property (e.g. `reports_to` on the class) — fall back to `pattern1` on that class; see `references/hierarchy.md`.
+1. Thin results → re-run with sibling domains from orient before concluding data is absent.
+2. Pattern output empty or too thin → vector-text.
+3. A question that spans documents, whose `vector-text` rows come from one or two documents → `query survey`.
+4. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
 ## Answer Style
 
-Answer directly and naturally. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
+Answer directly and naturally. An event counts for a person only when the notes put them in it. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.
 
-If an answer came from reading a note directly (possible on the admin console)
-rather than from `artmind query` output, say plainly that the graph does not hold
-it, and suggest the operator check `artmind ingest empty-extractions` and
-re-extract the note — a fact only the note holds is missed by every later query.
+If an answer came from reading a note directly (possible on the admin console) rather than from
+`artmind query` output, say plainly that the graph does not hold it, and suggest the operator check
+`artmind ingest empty-extractions` and re-extract the note — a fact only the note holds is missed by every later query.
 
 ### Provenance in web UIs
 

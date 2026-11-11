@@ -70,7 +70,7 @@ question in the batch — treat this as a cold, standalone question. Follow the
 artmind-query skill's protocol exactly. Critical difference from an interactive
 chat: you must NEVER ask a clarifying question back, because nobody will
 answer it. If the domain or an entity reference is ambiguous, resolve it
-yourself using the skill's own routing/resolution steps (domains-overview,
+yourself using the skill's own orientation/resolution steps (orient,
 entity-resolve) and state the ambiguity and your choice in the answer instead
 of stopping. Always state which domain(s) and documents grounded the answer.
 Do not use artmind-update — this is a read-only benchmark, never write to the

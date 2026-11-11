@@ -1,19 +1,21 @@
-"""The orient skill variant (spec 2026-11-09 §6.1): orientation text replaced, commands real."""
+"""artmind-query, the orient text promoted 2026-11-11 (spec 2026-11-09 §6.1; work plan item C).
+
+The classic text it replaced is archived at docs/archive/artmind-query-classic/."""
 import re
 from pathlib import Path
 
 from artmind.cli import cli
 
-SKILL = Path(__file__).resolve().parent.parent / "artmind" / "skills" / "artmind-query-orient" / "SKILL.md"
+SKILL = Path(__file__).resolve().parent.parent / "artmind" / "skills" / "artmind-query" / "SKILL.md"
 
 
 def _text():
     return SKILL.read_text(encoding="utf-8")
 
 
-def test_frontmatter_names_the_variant_and_orient_first():
+def test_frontmatter_names_the_skill_and_orient_first():
     head = _text().split("---")[1]
-    assert re.search(r"^name: artmind-query-orient$", head, re.M)
+    assert re.search(r"^name: artmind-query$", head, re.M)
     assert "orient" in head and "views list" not in head
 
 
@@ -52,7 +54,7 @@ def test_every_artmind_command_in_the_skill_exists():
         assert any(resolve(words[:n]) for n in range(len(words), 0, -1)), match.group(0)
 
 
-CLASSIC = SKILL.parent.parent / "artmind-query" / "SKILL.md"
+CLASSIC = SKILL.parents[3] / "docs" / "archive" / "artmind-query-classic" / "SKILL.md"
 LINES_BEFORE_P2_BATCH = 469
 # The "Plan the parts" step (2026-11-10, banking Q24) is allowed on top of the P2-batch size.
 LINES_ALLOWED = LINES_BEFORE_P2_BATCH + 60  # + plan rule, text2sql-first line
