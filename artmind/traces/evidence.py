@@ -297,6 +297,12 @@ def _evidence(payload: dict) -> dict:
     warnings = [w[:_WARNING_CHARS] for w in payload.get("warnings") or [] if isinstance(w, str)]
     if warnings:
         ev["warnings"] = warnings[:_WARNINGS_KEPT]
+    guide = payload.get("guide")
+    if isinstance(guide, list) and guide:
+        ev["guide"] = [g for g in guide if isinstance(g, str)][:2]
+    nxt = payload.get("next")
+    if isinstance(nxt, str) and nxt.strip():
+        ev["next"] = nxt.split("; ")[0].strip()[:_WARNING_CHARS]
     provenance = _provenance(payload)
     if provenance is not None:
         ev["provenance"] = provenance
