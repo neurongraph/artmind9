@@ -440,3 +440,21 @@ Wholes scored against the Q09 and Q15 expected answers (hand-written tiers used 
 Changes made while measuring, each generic and set per domain in the declaration: trips at day level; seeds set a city
 only from a known city name; type families by name keyword; away by place type; trip companions from participant
 names and collective names; a trip run splits where companions change.
+
+### Target-question reruns through the agent (2026-11-11)
+
+Ten brain01 questions the mart should help (Q02, Q05, Q09, Q11, Q15, Q16, Q17, Q20, Q25, Q26), graded with Sonnet 5.5
+against tiered answers. Correct / must items missed in all: run I 0 / 22, run J 2 / 22, rerun 1 (`32284021`) 3 / 23,
+rerun 2 (`056b22f9`) 3 / 19. One run each; run-to-run variance is about this size.
+
+Rerun 1 used the mart on 5 turns, but its SQL ignored the wholes: trips were rebuilt through the bridges with a
+`city <> home` filter (dropping places with no city), and deaths were looked for in happening types, which never hold
+them. The generated metadata named only joins. Fixed in `db9d6635` and `7ff72aea`: every mart table has its grain,
+the wholes columns are described (anchor, participants with `list_contains`, places, part names matched with `ILIKE`),
+whole rows carry `part_names` and `families`, a rule says a whole row is already the answer, and `dim_person.aliases`
+is described so a person whose display name is a relation is matched and named by a merged alias. Live: trips with
+the family member 25 rows straight from the trip table; family deaths 0 → 19 rows.
+
+Rerun 2 (mart on 5 turns): Q15 missed 7 → 5 (two more trips named), Q02 3 → 2, Q11 2 → 1; Q09 still misses 2 — one
+rite links to another family member, not the deceased, and a rite's place is not in the answer. Q15's remaining misses
+are trips whose days link to no place with a city or do not mention the family member (data, not SQL).
