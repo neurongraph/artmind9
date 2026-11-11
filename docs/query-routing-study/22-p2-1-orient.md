@@ -513,3 +513,29 @@ Correct: L1 8, L2 7 of 15 (K 7 and 8 on these questions). Per question, missed (
 3, 2; Q18 0, 2, 5 → 1, 0; Q21 0, 1, 2 → 0, 0; Q24 1, 3, 3 → 2, 2; Q20 stays at 3–4 in every run. A survey followed
 the mart answer on 4 of 7 `text2sql` turns in L1 and 3 of 5 in L2. Both runs above the floor; L2 is the best run on
 this group so far. Q24's count is still short of J's in both runs.
+
+## Run M (2026-11-11): the check-off list, two runs per vault
+
+Skill `0af992d5`: before answering, the agent writes `Parts:` again with a status per line and ticks a part only
+with its own evidence, every `next` run or rejected, no partial result relied on, mart counts checked against the
+notes and nothing unread. Code otherwise as L (mart lower-bound fix). Runs: banking `9a027799`, `ca13f53b`; brain01
+`c3ffa221`, `fc8862be`. Sonnet, same tiers and baselines.
+
+| Vault / group | Floor | K1 | K2 | L1 | L2 | **M1** | **M2** |
+|---|---|---|---|---|---|---|---|
+| banking (214) | 67 % | 152 | 145 | — | — | **155 (72 %)** | **149 (70 %)** |
+| brain01 Q01–Q14 (101) | 55 % | 68 | 77 | — | — | **78 (77 %)** | **67 (66 %)** |
+| brain01 Q15–Q29 (75) | 76 % | 54 | 50 | 59 | 62 | **63 (84 %)** | **61 (81 %)** |
+| brain01 all (176) | — | 122 | 127 | — | — | **141 (80 %)** | **128 (73 %)** |
+
+Correct: banking 9 and 7 (K 10, 9); brain01 12 and 11 (K 9, 10). Every group is above its floor in both runs; brain01
+M1 is the best brain01 run so far. Against K the brain01 gain is on Q15–Q29, which L (no checklist) already showed;
+means against the run before the checklist: banking 152 vs 148.5, brain01 Q01–Q14 72.5 vs 72.5, Q15–Q29 62 vs 60.5
+(L). Within the run-to-run spread (brain01 M1 vs M2 differ by 13 items; M2's Q07 alone lost 5).
+
+Behaviour: the status lines reach the final answer in 17 and 19 of 36 banking turns and 8 and 15 of 29 brain01 turns
+(never before). Mean turn time banking 44.9 / 43.8 s (K 40.6 / 37.0), brain01 63.1 / 49.9 s (K 60.7 / 53.5); cost
+about the same.
+
+Reading: the mart lower-bound fix is the measured gain. The check-off list moves no group beyond noise, adds about
+5 s a turn in banking and shows its status lines to the user in about half the answers.
